@@ -35,7 +35,7 @@ export function dedupeIssues(values: string[]): string[] {
  */
 export function smokeCheckAssetPacks(
   assetPacks: any[],
-  forcedExclusions: string[],
+  impermissibleSources: string[],
   obfuscatedPaths: string[],
 ): string[] {
   const issues: string[] = [];
@@ -43,7 +43,7 @@ export function smokeCheckAssetPacks(
     issues.push('No AssetPacks were synthesized to validate.');
     return issues;
   }
-  const forbidden = [...forcedExclusions, ...obfuscatedPaths];
+  const forbidden = [...impermissibleSources, ...obfuscatedPaths];
   const seenTitles = new Map<string, number>();
 
   assetPacks.forEach((pack: any, index: number) => {

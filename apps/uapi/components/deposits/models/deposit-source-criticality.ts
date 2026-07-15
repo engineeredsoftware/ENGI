@@ -16,7 +16,7 @@ const SENSITIVE_PATH_PATTERN =
  * Permissible source paths look operationally sensitive.
  */
 export function buildDepositSourceCriticalitySignals(
-  forcedInclusions: readonly string[],
+  permissibleSources: readonly string[],
 ): DepositOptionCriticalitySignal[] {
   const signals: DepositOptionCriticalitySignal[] = [
     {
@@ -27,7 +27,7 @@ export function buildDepositSourceCriticalitySignals(
       weight: 0.74,
     },
   ];
-  if (forcedInclusions.some((path) => SENSITIVE_PATH_PATTERN.test(path))) {
+  if (permissibleSources.some((path) => SENSITIVE_PATH_PATTERN.test(path))) {
     signals.push({
       id: "source-path-sensitive-scope-warning",
       label:

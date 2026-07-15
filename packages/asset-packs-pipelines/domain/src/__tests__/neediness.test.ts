@@ -71,7 +71,7 @@ describe('neediness (deposit preview of read Need-fit, v0)', () => {
     ];
     const context = {
       inventoryPaths: ['src/auth.ts'],
-      forcedExclusions: [],
+      impermissibleSources: [],
       candidateKinds: ['capability-slice', 'implementation-pattern', 'proof-operations-slice'],
     };
 

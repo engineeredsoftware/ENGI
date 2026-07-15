@@ -1,6 +1,6 @@
 /**
  * Relevant / Irrelevant path pickers for read Need synthesis (deposit twin).
- * Mirrors Forced Inclusion / Forced Exclusion trees on deposit Obfuscations.
+ * Mirrors Permissible sources / Impermissible sources trees on deposit Obfuscations.
  */
 "use client";
 

@@ -71,12 +71,12 @@ export async function POST(request: Request) {
           .map((entry) => entry.trim())
           .filter(Boolean)
       : [];
-  // Deposit twin: relevant/irrelevant paths (also accept forcedInclusions/Exclusions).
+  // Deposit twin: relevant/irrelevant paths (also accept permissibleSources/Exclusions).
   const relevantPaths = normalizePathList(
-    body.relevantPaths ?? body.forcedInclusions ?? body.relevants,
+    body.relevantPaths ?? body.permissibleSources ?? body.relevants,
   );
   const irrelevantPaths = normalizePathList(
-    body.irrelevantPaths ?? body.forcedExclusions ?? body.irrelevants,
+    body.irrelevantPaths ?? body.impermissibleSources ?? body.irrelevants,
   );
   const requestedRunId =
     typeof body.runId === 'string' && UUID_PATTERN.test(body.runId) ? body.runId : randomUUID();

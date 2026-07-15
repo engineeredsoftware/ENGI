@@ -78,8 +78,9 @@ export default async function runDepositValidationAgent(input: any, execution: a
     [];
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
-  const forcedExclusions = asPathList(
-    input?.forcedExclusions ??
+  const impermissibleSources = asPathList(
+    input?.impermissibleSources ??
+      findValue(execution, 'deposit', 'impermissibleSources') ??
       findValue(execution, 'deposit', 'forcedExclusions') ??
       findValue(execution, 'deposit', 'protectedIpExclusions') ??
       [],
@@ -110,7 +111,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
       inventory: catalogForPrompt, // dual-write for legacy stream filters
       inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
       obfuscationGuidance,
-      forcedExclusions,
+      impermissibleSources,
     },
     execution,
   );
@@ -118,7 +119,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
   // unwrap to the agent's typed validation output (F27).
   const agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
-  const smokeIssues = smokeCheckAssetPacks(packs, forcedExclusions, obfuscatedPaths);
+  const smokeIssues = smokeCheckAssetPacks(packs, impermissibleSources, obfuscatedPaths);
   const result = mergeDepositValidationVerdict(agentOutput, smokeIssues);
 
   // Cross-phase artifacts: ReadyToFinish + /deposit surface read these keys.

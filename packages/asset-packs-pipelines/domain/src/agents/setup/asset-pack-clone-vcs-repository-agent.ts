@@ -387,8 +387,8 @@ async function recordDepositCatalogFromRunWorkspace(
 ): Promise<void> {
   const paths = await workspace.listFiles();
   const samples = await pickSamplesFromWorkspace(workspace, paths);
-  const inclusions = findExecutionValue(execution, 'deposit', 'forcedInclusions') ?? [];
-  const exclusions = findExecutionValue(execution, 'deposit', 'forcedExclusions') ?? [];
+  const inclusions = findExecutionValue(execution, 'deposit', 'permissibleSources') ?? [];
+  const exclusions = findExecutionValue(execution, 'deposit', 'impermissibleSources') ?? [];
   const catalog = applyInventoryScope(
     { paths, samples, sources: [] },
     {
@@ -512,17 +512,38 @@ export default async function runAssetPackCloneVCSRepositoryAgent(input: any, ex
     out = await AssetPackCloneVCSRepositoryAgent(input, execution);
   }
 
-  if (out?.workspacePath) safeStore('repository', 'workspacePath', out.workspacePath);
-  if (out?.repository?.owner) safeStore('repository', 'owner', out.repository.owner);
-  if (out?.repository?.name) safeStore('repository', 'name', out.repository.name);
-  if (out?.repository?.ref) safeStore('repository', 'branch', out.repository.ref);
+  // Cross-phase store (shared root): Validation/Finish findUp must see workspacePath
+  // after Setup ends. Plain execution.store only lands on the agent child node.
+  const { storeCrossPhaseArtifact } = await import('../../synthesize-asset-packs');
+  if (out?.workspacePath) {
+    storeCrossPhaseArtifact(execution, 'repository', 'workspacePath', out.workspacePath);
+    safeStore('repository', 'workspacePath', out.workspacePath);
+  }
+  if (out?.repository?.owner) {
+    storeCrossPhaseArtifact(execution, 'repository', 'owner', out.repository.owner);
+    safeStore('repository', 'owner', out.repository.owner);
+  }
+  if (out?.repository?.name) {
+    storeCrossPhaseArtifact(execution, 'repository', 'name', out.repository.name);
+    safeStore('repository', 'name', out.repository.name);
+  }
+  if (out?.repository?.ref) {
+    storeCrossPhaseArtifact(execution, 'repository', 'branch', out.repository.ref);
+    safeStore('repository', 'branch', out.repository.ref);
+  }
   if ((input as any)?.provider || normalized?.provider) {
-    safeStore('repository', 'provider', (input as any)?.provider ?? normalized?.provider);
+    const provider = (input as any)?.provider ?? normalized?.provider;
+    storeCrossPhaseArtifact(execution, 'repository', 'provider', provider);
+    safeStore('repository', 'provider', provider);
   }
   if ((input as any)?.connectionId) {
+    storeCrossPhaseArtifact(execution, 'repository', 'connectionId', String((input as any).connectionId));
     safeStore('repository', 'connectionId', String((input as any).connectionId));
   }
-  if (normalized?.commit) safeStore('repository', 'commit', normalized.commit);
+  if (normalized?.commit) {
+    storeCrossPhaseArtifact(execution, 'repository', 'commit', normalized.commit);
+    safeStore('repository', 'commit', normalized.commit);
+  }
 
   return out;
 }

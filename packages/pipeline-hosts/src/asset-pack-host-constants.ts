@@ -3,7 +3,7 @@
  * Shared by host plan builder and in-box runner templates.
  */
 
-export const HOST_RUN_DIRECTORY = '.bitcode/pipeline-host';
+export const HOST_RUN_DIRECTORY = '.proofs/pipeline-host';
 export const MANIFEST_PATH = `${HOST_RUN_DIRECTORY}/manifest.json`;
 export const HOST_SMOKE_RUNNER_PATH = `${HOST_RUN_DIRECTORY}/run-host-smoke.mjs`;
 export const LIVE_PIPELINE_RUNNER_PATH = `${HOST_RUN_DIRECTORY}/run-live-asset-pack-pipeline.ts`;

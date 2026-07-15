@@ -292,7 +292,8 @@ export async function runDepositInBoxHost(input: {
   commit: string | null;
   token?: string;
   obfuscations: string | null;
-  forcedExclusions: string[];
+  permissibleSources: string[];
+  impermissibleSources: string[];
   demandContext: string[];
   onEvent?: (event: PipelineHostEvent) => void;
   shouldAbort?: () => boolean | Promise<boolean>;
@@ -334,7 +335,8 @@ export async function runDepositInBoxHost(input: {
     commandEnvironment: hostCloneEnv,
     depositSteering: {
       obfuscations: input.obfuscations,
-      forcedExclusions: input.forcedExclusions,
+      permissibleSources: input.permissibleSources,
+      impermissibleSources: input.impermissibleSources,
       demandContext: input.demandContext,
     },
   });

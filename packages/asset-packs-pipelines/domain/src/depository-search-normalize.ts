@@ -271,12 +271,12 @@ export function normalizePipelineDepositoryAssets(input: unknown): DepositoryAss
       metadata: {
         summary: promptSummary,
         sourceRepo: repositoryFullName,
-        sourcePaths: ['.bitcode/depositing-surface.json', '.bitcode/deposit-to-read-surface.json'],
+        sourcePaths: ['.proofs/_shared/depositing-surface.json', '.proofs/_shared/deposit-to-read-surface.json'],
       },
       sourceMaterialBinding: {
         mode: 'source-bound-repository-revision',
         mutableInBranch: false,
-        materializationRoot: `.bitcode/source-material/${assetId}`,
+        materializationRoot: `.proofs/source-material/${assetId}`,
       },
       verificationEvidence: {
         proofRoot: firstString(depositRecord.proofRoot),

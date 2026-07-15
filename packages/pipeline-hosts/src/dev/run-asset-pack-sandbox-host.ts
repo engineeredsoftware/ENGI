@@ -359,7 +359,7 @@ function persistLocalArtifacts(result: {
 }): string | null {
   const outputRoot =
     process.env.BITCODE_PIPELINE_HOST_LOCAL_ARTIFACT_DIR ||
-    resolve(findRepositoryRoot(), '.bitcode/pipeline-host-runs');
+    resolve(findRepositoryRoot(), '.proofs/pipeline-host-runs');
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
   const sandboxId = result.sandboxId || 'unknown-sandbox';
   const dir = resolve(outputRoot, `${stamp}-${sandboxId}`);

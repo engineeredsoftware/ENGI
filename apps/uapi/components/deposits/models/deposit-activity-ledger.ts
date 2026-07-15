@@ -19,8 +19,8 @@ export type DepositObfuscationsAnchor = {
   id: string;
   name: string | null;
   text: string;
-  forcedInclusions: string[];
-  forcedExclusions: string[];
+  permissibleSources: string[];
+  impermissibleSources: string[];
   repositoryFullName: string | null;
   createdAt: string;
 };
@@ -100,27 +100,27 @@ export function deriveObfuscationsAnchors(
       run.obfuscationsAnchorName.trim()
         ? run.obfuscationsAnchorName.trim()
         : null;
-    const forcedInclusions = Array.isArray(run.obfuscationsAnchorForcedInclusions)
-      ? run.obfuscationsAnchorForcedInclusions.filter(
+    const permissibleSources = Array.isArray(run.obfuscationsAnchorPermissibleSources)
+      ? run.obfuscationsAnchorPermissibleSources.filter(
           (path): path is string =>
             typeof path === "string" && path.trim().length > 0,
         )
       : [];
-    const forcedExclusions = Array.isArray(run.obfuscationsAnchorForcedExclusions)
-      ? run.obfuscationsAnchorForcedExclusions.filter(
+    const impermissibleSources = Array.isArray(run.obfuscationsAnchorImpermissibleSources)
+      ? run.obfuscationsAnchorImpermissibleSources.filter(
           (path): path is string =>
             typeof path === "string" && path.trim().length > 0,
         )
       : [];
-    const dedupeKey = `${name || ""}\u0000${run.obfuscationsAnchorText}\u0000${forcedInclusions.join(",")}\u0000${forcedExclusions.join(",")}`;
+    const dedupeKey = `${name || ""}\u0000${run.obfuscationsAnchorText}\u0000${permissibleSources.join(",")}\u0000${impermissibleSources.join(",")}`;
     if (seen.has(dedupeKey)) continue;
     seen.add(dedupeKey);
     anchors.push({
       id: run.id,
       name,
       text: run.obfuscationsAnchorText,
-      forcedInclusions,
-      forcedExclusions,
+      permissibleSources,
+      impermissibleSources,
       repositoryFullName: run.repository || null,
       createdAt: run.created_at,
     });

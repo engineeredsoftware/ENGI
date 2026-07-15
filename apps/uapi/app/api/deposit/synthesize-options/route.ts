@@ -85,8 +85,8 @@ export async function POST(request: Request) {
 
   // Fire-and-forget orphan sweep (V48-Gate3-F31: waitUntil keeps instance alive).
   waitUntil(sweepOrphanedExecutions(supabaseAdmin).catch(() => {}));
-  const forcedInclusions = normalizeForcedPathList(steering.forcedInclusionsRaw);
-  const forcedExclusions = normalizeForcedPathList(steering.forcedExclusionsRaw);
+  const permissibleSources = normalizeForcedPathList(steering.permissibleSourcesRaw);
+  const impermissibleSources = normalizeForcedPathList(steering.impermissibleSourcesRaw);
 
   const { data: ownedRepository, error: repositoryError } = await supabaseAdmin
     .from('vcs_repositories')
@@ -159,8 +159,8 @@ export async function POST(request: Request) {
         repositoryFullName,
         sourceBranch,
         sourceCommit,
-        forcedInclusionCount: forcedInclusions.length,
-        forcedExclusionCount: forcedExclusions.length,
+        permissibleSourceCount: permissibleSources.length,
+        impermissibleSourceCount: impermissibleSources.length,
         hasObfuscations: Boolean(obfuscations),
       },
     },
@@ -190,8 +190,8 @@ export async function POST(request: Request) {
       sourceBranch,
       sourceCommit,
       obfuscations,
-      forcedInclusions,
-      forcedExclusions,
+      permissibleSources,
+      impermissibleSources,
       demandContext,
       depositoryDemandSignals,
       readingDemandSignals,

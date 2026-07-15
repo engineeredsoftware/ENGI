@@ -49,7 +49,7 @@ const INPUT = {
     paths: ['src/auth/session.ts', 'src/auth/token.ts', 'src/net/retry.ts'],
     samples: [],
   },
-  forcedExclusions: ['src/protected'],
+  impermissibleSources: ['src/protected'],
 };
 
 describe('runDepositAssetPackSynthesisAgent (boundary-mocked PTRR)', () => {

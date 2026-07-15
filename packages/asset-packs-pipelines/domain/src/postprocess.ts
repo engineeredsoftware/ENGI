@@ -185,6 +185,24 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     enhanced.shippable = { ...enhanced.deliveryMechanism };
   }
 
+  // Deposit synthesis: lift measured options for depositor selection surfaces.
+  const depositOptions =
+    (enhanced as any).options ||
+    (enhanced as any).depositOptions ||
+    (enhanced as any).selectionEnvelope?.options ||
+    findStoredExecutionValue(execution, 'implementation', 'options') ||
+    findStoredExecutionValue(execution, 'implementation', 'assetPacks') ||
+    findStoredExecutionValue(execution, 'finish', 'selectionEnvelope')?.options ||
+    null;
+  if (Array.isArray(depositOptions) && depositOptions.length > 0) {
+    (enhanced as any).options = depositOptions;
+    (enhanced as any).depositOptions = depositOptions;
+    if (!(enhanced as any).selectionEnvelope) {
+      (enhanced as any).selectionEnvelope =
+        findStoredExecutionValue(execution, 'finish', 'selectionEnvelope') || null;
+    }
+  }
+
   return enhanced;
 }
 

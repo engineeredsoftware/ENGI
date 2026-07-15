@@ -47,8 +47,8 @@ export type DepositSynthesisTelemetryProps = {
   setSynthesisLogScrolled: (value: boolean) => void;
   repositoryContext: ProductRepositoryContextState | null;
   obfuscations: string;
-  forcedInclusions: string[];
-  forcedExclusions: string[];
+  permissibleSources: string[];
+  impermissibleSources: string[];
   synthesisEvents: unknown[] | unknown;
 };
 
@@ -71,8 +71,8 @@ export function DepositSynthesisTelemetry({
   setSynthesisLogScrolled,
   repositoryContext,
   obfuscations,
-  forcedInclusions,
-  forcedExclusions,
+  permissibleSources,
+  impermissibleSources,
   synthesisEvents,
 }: DepositSynthesisTelemetryProps) {
   return (
@@ -263,8 +263,8 @@ export function DepositSynthesisTelemetry({
                         sourceBranch: repositoryContext?.selectedBranch ?? null,
                         sourceCommit: repositoryContext?.selectedCommit ?? null,
                         obfuscations,
-                        forcedInclusions,
-                        forcedExclusions,
+                        permissibleSources,
+                        impermissibleSources,
                       },
                       outputDetails: synthesisActivity.outputDetails,
                       events: synthesisEvents,

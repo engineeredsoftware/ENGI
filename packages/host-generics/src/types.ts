@@ -4,9 +4,22 @@ export type VercelSandboxRuntime = 'node24' | 'node22' | 'python3.13';
 
 export type PipelineHostMode = 'host_smoke' | 'asset_pack_pipeline';
 
+/**
+ * Pipeline host / evidence result states.
+ *
+ * - Fit (`worthy_fit` / `no_worthy_fit`): **read, post-read** depository fit only.
+ * - Deposit synthesis: `worthy_deposit_candidates` / `no_worthy_deposit_candidates`.
+ * - Read synthesis (options for a Need, pre/alongside fit): `worthy_read_candidates` /
+ *   `no_worthy_read_candidates`.
+ * - `blocked_readiness`: shared terminal blocked posture.
+ */
 export type BitcodePipelineResultState =
   | 'worthy_fit'
   | 'no_worthy_fit'
+  | 'worthy_deposit_candidates'
+  | 'no_worthy_deposit_candidates'
+  | 'worthy_read_candidates'
+  | 'no_worthy_read_candidates'
   | 'blocked_readiness';
 
 export type PipelineHostStage =
@@ -107,7 +120,8 @@ export interface PipelineHostManifest {
   /** Deposit steering for the in-box deposit synthesis (source-safe). */
   depositSteering?: {
     obfuscations?: string | null;
-    forcedExclusions?: string[];
+    permissibleSources?: string[];
+    impermissibleSources?: string[];
     demandContext?: string[];
   };
   host: Pick<

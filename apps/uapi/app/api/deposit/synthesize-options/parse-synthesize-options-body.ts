@@ -9,8 +9,12 @@ export type SynthesizeOptionsBody = {
   sourceBranch?: unknown;
   sourceCommit?: unknown;
   obfuscations?: unknown;
-  /** Forced Inclusion roots — when non-empty, inventory is scoped to these paths. */
+  /** Permissible sources roots — when non-empty, inventory is scoped to these paths. */
+  permissibleSources?: unknown;
+  impermissibleSources?: unknown;
+  /** @deprecated Prefer permissibleSources. Accepted for dual-read. */
   forcedInclusions?: unknown;
+  /** @deprecated Prefer impermissibleSources. Accepted for dual-read. */
   forcedExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
@@ -60,8 +64,8 @@ export type ParsedSynthesizeOptionsSteering = {
   sourceBranch: string | null;
   sourceCommit: string | null;
   obfuscations: string | null;
-  forcedInclusionsRaw: string[];
-  forcedExclusionsRaw: string[];
+  permissibleSourcesRaw: string[];
+  impermissibleSourcesRaw: string[];
   demandContext: string[];
   depositoryDemandSignals: ReturnType<typeof readSignals>;
   readingDemandSignals: ReturnType<typeof readSignals>;
@@ -88,8 +92,12 @@ export function parseSynthesizeOptionsSteering(
     sourceBranch: readString(body.sourceBranch),
     sourceCommit: readString(body.sourceCommit),
     obfuscations: readString(body.obfuscations),
-    forcedInclusionsRaw: readStringList(body.forcedInclusions),
-    forcedExclusionsRaw: readStringList(body.forcedExclusions),
+    permissibleSourcesRaw: readStringList(
+      body.permissibleSources ?? body.forcedInclusions,
+    ),
+    impermissibleSourcesRaw: readStringList(
+      body.impermissibleSources ?? body.forcedExclusions,
+    ),
     demandContext: readStringList(body.demandContext),
     depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
     readingDemandSignals: readSignals(body.readingDemandSignals),

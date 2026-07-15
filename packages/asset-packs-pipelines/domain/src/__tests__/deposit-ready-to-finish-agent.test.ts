@@ -5,6 +5,31 @@
  * Heavy PTRR / measure / catalog graph is mocked so A/B/C merge logic is isolated.
  */
 jest.mock('../agents/validation/agent-measure-absolutes', () => ({
+  analyzeStaticSource: jest.fn(() => ({
+    measuredFromSamples: true,
+    estimatedFunctionCount: 4,
+    estimatedTypeCount: 1,
+    targetFileCount: 1,
+    estimatedSymbolCount: 8,
+    symbolCount: 8,
+    configKeyCount: 0,
+    lineCount: 20,
+    tokenCount: 80,
+    coverageRatio: 1,
+    targetLanguageBreakdown: { ts: 1 },
+    moduleCount: 1,
+  })),
+  computeAbsolutesFromReport: jest.fn(() => [
+    {
+      measurementKind: 'function-count',
+      label: 'Functions',
+      weight: 0.12,
+      volume: 0.4,
+      category: 'absolute',
+      magnitude: 4,
+      unit: 'functions',
+    },
+  ]),
   measureAssetPackAbsolutes: jest.fn(async () => [
     {
       measurementKind: 'function-count',
@@ -76,7 +101,7 @@ describe('deposit-ready-to-finish-agent', () => {
           samples: [],
           sources: [{ path: 'src/auth.ts', content: 'export function login() {}' }],
         },
-        forcedExclusions: [],
+        impermissibleSources: [],
       },
       discovery: {
         codebaseComprehension: { summary: 'ok' },
@@ -113,7 +138,7 @@ describe('deposit-ready-to-finish-agent', () => {
       },
       deposit: {
         sourceCheckoutCatalog: { paths: ['secret/keys.ts', 'src/app.ts'], samples: [], sources: [] },
-        forcedExclusions: [],
+        impermissibleSources: [],
       },
       discovery: {
         codebaseComprehension: { summary: 'ok' },

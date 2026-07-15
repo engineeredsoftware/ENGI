@@ -14,7 +14,7 @@
  * neediness, and fail-closed validation; owns synthesizeAssetPackCandidates
  * (formal pipeline registration + post-inference admission).
  *
- * Protected-IP exclusions are honored fail-closed at BOTH ends: excluded
+ * Impermissible sources are honored fail-closed at BOTH ends: excluded
  * paths are removed from the inventory before any prompt is built, and any
  * candidate whose covered paths violate the exclusions (or reference paths
  * outside the real inventory) is dropped after inference.
@@ -109,7 +109,7 @@ export async function synthesizeAssetPackCandidates(
     );
   }
   if (request.inventory.paths.length === 0) {
-    throw new Error('Repository inventory is empty after protected-IP exclusions; nothing to synthesize.');
+    throw new Error('Repository inventory is empty after impermissible sources; nothing to synthesize.');
   }
 
   const catalog = measurementCatalogForLens(request.lens);
@@ -155,7 +155,7 @@ export async function synthesizeAssetPackCandidates(
     const coveredSourcePaths = [...new Set(option.coveredSourcePaths.map((path) => path.trim()).filter(Boolean))];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
-      isPathExcluded(path, request.steering.forcedExclusions),
+      isPathExcluded(path, request.steering.impermissibleSources),
     );
     if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
       exclusionViolations.push(

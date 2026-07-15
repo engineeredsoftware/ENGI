@@ -20,7 +20,7 @@ export type BuildDepositRouteInputArgs = {
   depositStage: DepositRouteStepId | null | undefined;
   repositoryContext: ProductRepositoryContextState | null;
   obfuscations: string;
-  forcedInclusions: string[];
+  permissibleSources: string[];
   settledDemandSignals: DepositSettledDemandSignals;
   settledDemandEstimate: DepositSettledDemandEstimate | null;
   sourceCriticalitySignals: DepositOptionCriticalitySignal[];
@@ -47,7 +47,7 @@ export function buildDepositRouteInput(args: BuildDepositRouteInputArgs) {
     depositStage,
     repositoryContext,
     obfuscations,
-    forcedInclusions,
+    permissibleSources,
     settledDemandSignals,
     settledDemandEstimate,
     sourceCriticalitySignals,
@@ -71,7 +71,7 @@ export function buildDepositRouteInput(args: BuildDepositRouteInputArgs) {
     sourceBranch: repositoryContext?.selectedBranch || null,
     sourceCommit: repositoryContext?.selectedCommit || null,
     obfuscations,
-    forcedInclusions,
+    permissibleSources,
     depositoryDemandSignals: settledDemandSignals.depositoryDemandSignals,
     readingDemandSignals: settledDemandSignals.readingDemandSignals,
     existingDepositorySignals: settledDemandSignals.existingDepositorySignals,
@@ -94,7 +94,7 @@ export function buildDepositRouteInput(args: BuildDepositRouteInputArgs) {
             "Unestimatable: settled Depository demand has not been measured yet.",
         },
     sourceCriticalitySignals,
-    developmentCostSats: Math.max(1600, 1200 + forcedInclusions.length * 240),
+    developmentCostSats: Math.max(1600, 1200 + permissibleSources.length * 240),
     expectedSettlementSats:
       settledDemandEstimate?.estimatable &&
       typeof settledDemandEstimate.demand === "number"
@@ -103,13 +103,13 @@ export function buildDepositRouteInput(args: BuildDepositRouteInputArgs) {
             Math.round(
               1800 +
                 settledDemandEstimate.demand * 4200 +
-                forcedInclusions.length * 240 +
+                permissibleSources.length * 240 +
                 liveRunsLength * 40,
             ),
           )
         : Math.max(
             2000,
-            1200 + forcedInclusions.length * 240 + liveRunsLength * 40,
+            1200 + permissibleSources.length * 240 + liveRunsLength * 40,
           ),
     depositorWalletId: preferredSignerAddress
       ? "connected-depositor-wallet"

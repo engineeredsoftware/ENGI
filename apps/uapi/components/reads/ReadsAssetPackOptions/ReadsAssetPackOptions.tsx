@@ -57,7 +57,7 @@ export function ReadsAssetPackOptions(props: {
           and SHA, describe the Need, set Relevant / Irrelevant paths, then Synthesize.
         </div>
       ) : (
-        <div className="mt-3 grid gap-3 xl:grid-cols-2">
+        <div className="mt-3 grid min-w-0 gap-3 tablet:grid-cols-2">
           {options.map((opt) => (
             <ReadsOptionCard
               key={opt.index}

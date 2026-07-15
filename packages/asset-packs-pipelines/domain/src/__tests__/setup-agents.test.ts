@@ -156,7 +156,7 @@ describe('AssetPack setup agents', () => {
       dispose: async () => undefined,
     }));
     execution.store('deposit', 'cloneRepositoryForRun', cloneForRun);
-    execution.store('deposit', 'forcedExclusions', ['secret/']);
+    execution.store('deposit', 'impermissibleSources', ['secret/']);
 
     const result = await cloneRepositoryAgent(
       {

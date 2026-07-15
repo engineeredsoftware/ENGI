@@ -4,7 +4,7 @@
  * Runs alone after parallel Setup bootstrap (LSP, MCP, obfuscations comprehension).
  * Fail-closed when comprehension is missing or ill-formed after Obfuscations text
  * was provided. Empty Obfuscations with explicit empty guidance is admitted
- * (Forced Exclusions remain authoritative).
+ * (Impermissible sources remain authoritative).
  */
 
 import { ShortCircuitError, type ShortCircuitSignal } from '@bitcode/execution-generics';
@@ -61,7 +61,7 @@ export default async function runDepositDangerWallAgent(input: any, execution: a
     flags.push('obfuscations-guidance-empty');
   } else if (!hasText) {
     reason =
-      'No Obfuscations declared; Forced Exclusions remain authoritative. Safe to synthesize.';
+      'No Obfuscations declared; Impermissible sources remain authoritative. Safe to synthesize.';
     flags.push('obfuscations-none-declared');
   }
 

@@ -11,7 +11,7 @@ describe("buildDepositSourceCriticalitySignals", () => {
     expect(signals[0].id).toBe("depositor-sub-critical-intent");
   });
 
-  it("adds a warning when forced inclusions look sensitive", () => {
+  it("adds a warning when permissible sources look sensitive", () => {
     const signals = buildDepositSourceCriticalitySignals([
       "src/wallet/keys.ts",
     ]);

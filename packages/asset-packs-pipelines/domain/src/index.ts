@@ -195,13 +195,18 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
   storeCrossPhaseArtifact(execution, 'pipeline', 'synthesizeMode', 'deposit');
   storeCrossPhaseArtifact(execution, 'deposit', 'repository', repository);
   storeCrossPhaseArtifact(execution, 'deposit', 'obfuscations', processedInput?.obfuscations || null);
-  storeCrossPhaseArtifact(
-    execution,
-    'deposit',
-    'forcedInclusions',
-    processedInput?.forcedInclusions || [],
-  );
-  storeCrossPhaseArtifact(execution, 'deposit', 'forcedExclusions', processedInput?.forcedExclusions || []);
+  // Product law: permissible/impermissible sources. Dual-read legacy forced* keys.
+  const permissibleSources =
+    processedInput?.permissibleSources ||
+    processedInput?.forcedInclusions ||
+    [];
+  const impermissibleSources =
+    processedInput?.impermissibleSources ||
+    processedInput?.forcedExclusions ||
+    processedInput?.protectedIpExclusions ||
+    [];
+  storeCrossPhaseArtifact(execution, 'deposit', 'permissibleSources', permissibleSources);
+  storeCrossPhaseArtifact(execution, 'deposit', 'impermissibleSources', impermissibleSources);
   storeCrossPhaseArtifact(execution, 'deposit', 'demandContext', processedInput?.demandContext || []);
   if (catalog) {
     storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);

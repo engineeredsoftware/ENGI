@@ -114,8 +114,8 @@ export default function DepositPageClient() {
   const [obfuscationsAnchorName, setObfuscationsAnchorName] = useState("");
   const [isObfuscationsAnchorPopoverOpen, setIsObfuscationsAnchorPopoverOpen] =
     useState(false);
-  const [forcedInclusions, setForcedInclusions] = useState<string[]>([]);
-  const [forcedExclusions, setForcedExclusions] = useState<string[]>([]);
+  const [permissibleSources, setPermissibleSources] = useState<string[]>([]);
+  const [impermissibleSources, setImpermissibleSources] = useState<string[]>([]);
   const { settledDemandEstimate, settledDemandSignals } =
     useDepositSettledDemand(
       repositoryContext?.selectedRepository?.fullName,
@@ -148,7 +148,7 @@ export default function DepositPageClient() {
         durationMs: number | null;
       };
       exclusionPosture?: {
-        forcedExclusionCount: number;
+        impermissibleSourceCount: number;
         excludedPathCount: number;
         droppedCandidateCount: number;
       };
@@ -239,8 +239,8 @@ export default function DepositPageClient() {
     [profileRecord, walletConnectionStatus],
   );
   const sourceCriticalitySignals = useMemo(
-    () => buildDepositSourceCriticalitySignals(forcedInclusions),
-    [forcedInclusions],
+    () => buildDepositSourceCriticalitySignals(permissibleSources),
+    [permissibleSources],
   );
   const hasSubmittedDeposit = useMemo(() => {
     const selectedRepository = repositoryContext?.selectedRepository || null;
@@ -283,7 +283,7 @@ export default function DepositPageClient() {
         depositStage: routeDepositStage,
         repositoryContext,
         obfuscations,
-        forcedInclusions,
+        permissibleSources,
         settledDemandSignals,
         settledDemandEstimate,
         sourceCriticalitySignals,
@@ -299,7 +299,7 @@ export default function DepositPageClient() {
         liveRunsLength: liveRuns.length,
       }),
     [
-      forcedInclusions,
+      permissibleSources,
       hasDepositoryReadback,
       hasSubmittedDeposit,
       hasValidGitHubConnection,
@@ -377,8 +377,8 @@ export default function DepositPageClient() {
     replaceDepositRouteTransaction: openDepositRouteTransaction,
     refreshLiveRuns,
     obfuscations,
-    forcedInclusions,
-    forcedExclusions,
+    permissibleSources,
+    impermissibleSources,
     repositoryContext,
     depositoryDemandSignals: depositRouteInput.depositoryDemandSignals,
     readingDemandSignals: depositRouteInput.readingDemandSignals,
@@ -425,8 +425,8 @@ export default function DepositPageClient() {
     synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
-    forcedInclusions,
-    forcedExclusions,
+    permissibleSources,
+    impermissibleSources,
     setIsAnchoringObfuscations,
     setObfuscationsAnchorMessage,
     setIsObfuscationsAnchorPopoverOpen,
@@ -533,7 +533,7 @@ export default function DepositPageClient() {
               : synthesisRunId || "deposit-detail"
           }
           testId="deposit-run-configuration"
-          className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+          className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
           dataAttrs={{
             "data-locked": isConfigLocked ? "true" : "false",
             "data-compose":
@@ -541,7 +541,7 @@ export default function DepositPageClient() {
           }}
         >
           <div className="grid min-w-0 gap-5">
-            <div className="grid gap-5 xl:grid-cols-2">
+            <div className="grid min-w-0 gap-4 phone:gap-5 tablet:grid-cols-2">
               <div id="deposit-section-source" className="min-w-0">
                 <DepositSourceSelection
                   preferredRepository={selectedRun?.repository || null}
@@ -578,10 +578,10 @@ export default function DepositPageClient() {
                 onDeleteObfuscationsAnchor={(id) => {
                   void handleDeleteObfuscationsAnchor(id);
                 }}
-                forcedInclusions={forcedInclusions}
-                onForcedInclusionsChange={setForcedInclusions}
-                forcedExclusions={forcedExclusions}
-                onForcedExclusionsChange={setForcedExclusions}
+                permissibleSources={permissibleSources}
+                onPermissibleSourcesChange={setPermissibleSources}
+                impermissibleSources={impermissibleSources}
+                onImpermissibleSourcesChange={setImpermissibleSources}
                 repositoryContext={repositoryContext}
                 repositoryFullName={
                   depositRouteSession.routeState.repositoryFullName
@@ -636,8 +636,8 @@ export default function DepositPageClient() {
                 setSynthesisLogScrolled={setSynthesisLogScrolled}
                 repositoryContext={repositoryContext}
                 obfuscations={obfuscations}
-                forcedInclusions={forcedInclusions}
-                forcedExclusions={forcedExclusions}
+                permissibleSources={permissibleSources}
+                impermissibleSources={impermissibleSources}
                 synthesisEvents={synthesisEvents}
               />
             ) : null}

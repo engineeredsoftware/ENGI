@@ -94,5 +94,13 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
     success: true,
     completion,
     selectionEnvelope,
+    // Top-level carriers for host evidence / depositor selection UI.
+    options: selectionEnvelope.options,
+    depositOptions: selectionEnvelope.options,
+    // Deposit synthesis options — not fit (fit is exclusively post-read).
+    resultState:
+      selectionEnvelope.options.length > 0
+        ? 'worthy_deposit_candidates'
+        : 'no_worthy_deposit_candidates',
   };
 }

@@ -38,7 +38,7 @@ export interface DepositOptionSynthesisRequest {
   sourceBranch?: string | null;
   sourceCommit?: string | null;
   obfuscations?: string | null;
-  forcedInclusions?: string[] | null;
+  permissibleSources?: string[] | null;
   depositoryDemandSignals?: DepositOptionDemandSignal[] | null;
   readingDemandSignals?: DepositOptionDemandSignal[] | null;
   existingDepositorySignals?: DepositOptionDemandSignal[] | null;

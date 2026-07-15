@@ -298,7 +298,7 @@ function buildDeliveryContext(input: any, execution: any, repository: ReturnType
     Date.now().toString(36);
   const safeRunId = slug(String(runId)).slice(0, 48) || Date.now().toString(36);
   const sourceBranch = `bitcode/asset-pack-${safeRunId}`;
-  const path = `.bitcode/asset-packs/${safeRunId}.md`;
+  const path = `.proofs/asset-packs/${safeRunId}.md`;
   const read = resolveRead(input, execution);
   const title = `Bitcode AssetPack delivery ${safeRunId.slice(0, 12)}`;
 

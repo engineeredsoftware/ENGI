@@ -52,7 +52,7 @@ const PIPELINE_IDENTITY = part(
 const PIPELINE_SOURCE_SAFETY = part(
   'Source-safety law (mandatory): never quote source code, secrets, or file contents in any ' +
     'title, summary, or rationale. Describe knowledge and capability, never raw text. Honor the ' +
-    'protected-IP exclusions absolutely — never cover, reference, or describe excluded material.',
+    'impermissible sources absolutely — never cover, reference, or describe excluded material.',
 );
 
 const LENS_ROLE: Record<AssetPacksSynthesisLens, PromptPart> = {
@@ -274,7 +274,11 @@ export async function synthesizeAssetPackCandidatesFormal(
         inventory = await tool.execute({
           paths: request.inventory.paths,
           samples: request.inventory.samples,
-          exclusions: request.steering.forcedExclusions,
+          permissibleSources: request.steering.permissibleSources ?? [],
+          impermissibleSources: request.steering.impermissibleSources,
+          // Dual-read aliases for inventory tool scope.
+          inclusions: request.steering.permissibleSources ?? [],
+          exclusions: request.steering.impermissibleSources,
         });
       }
     } catch {}
@@ -301,7 +305,8 @@ export async function synthesizeAssetPackCandidatesFormal(
       branch: request.sourceBranch ?? 'unknown',
       commit: request.sourceCommit ?? 'unknown',
       steeringInstructions: request.steering.instructions,
-      forcedExclusions: request.steering.forcedExclusions,
+      permissibleSources: request.steering.permissibleSources ?? [],
+      impermissibleSources: request.steering.impermissibleSources,
       demandContext: request.steering.demandContext,
       inventoryPaths: inventory.paths,
       excerpts: inventory.samples,

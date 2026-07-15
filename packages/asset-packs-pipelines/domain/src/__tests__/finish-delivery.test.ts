@@ -24,7 +24,7 @@ describe('finish pull-request delivery', () => {
     delete process.env.BITCODE_VCS_ALLOW_ENV_TOKEN_FALLBACK;
     delete process.env.GITHUB_TOKEN;
     createBranchUse.mockResolvedValue({ name: 'bitcode/asset-pack-run-123' });
-    createOrUpdateFileUse.mockResolvedValue({ path: '.bitcode/asset-packs/run-123.md', content: 'written' });
+    createOrUpdateFileUse.mockResolvedValue({ path: '.proofs/asset-packs/run-123.md', content: 'written' });
     createPullRequestUse.mockResolvedValue({
       url: 'https://github.com/engineeredsoftware/ENGI/pull/123',
       number: 123,
@@ -74,7 +74,7 @@ describe('finish pull-request delivery', () => {
       userId: '18eb2a4c-503f-49f2-ae65-b00b1f9b7fcb',
     }));
     expect(createOrUpdateFileUse).toHaveBeenCalledWith(expect.objectContaining({
-      path: '.bitcode/asset-packs/run-123.md',
+      path: '.proofs/asset-packs/run-123.md',
       branch: 'bitcode/asset-pack-run-123',
     }));
     expect(createOrUpdateFileUse.mock.calls[0][0].content).toContain('# Bitcode AssetPack');
@@ -88,9 +88,9 @@ describe('finish pull-request delivery', () => {
       status: 'delivered',
       prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/123',
       branch: 'bitcode/asset-pack-run-123',
-      path: '.bitcode/asset-packs/run-123.md',
+      path: '.proofs/asset-packs/run-123.md',
     });
-    expect(exec.get('finish', 'deliveryPath')).toBe('.bitcode/asset-packs/run-123.md');
+    expect(exec.get('finish', 'deliveryPath')).toBe('.proofs/asset-packs/run-123.md');
     expect(exec.get('tools', 'vcs_create_branch:0')).toMatchObject({
       tool: 'vcs_create_branch',
       ok: true,
@@ -111,7 +111,7 @@ describe('finish pull-request delivery', () => {
     });
     expect(emitToolUsage).toHaveBeenCalledTimes(3);
     expect(emitToolUsage.mock.calls[1][3]).toMatchObject({
-      path: '.bitcode/asset-packs/run-123.md',
+      path: '.proofs/asset-packs/run-123.md',
       content: {
         root: expect.stringMatching(/^sha256:/),
         bytes: expect.any(Number),

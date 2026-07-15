@@ -102,6 +102,8 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
     await runLedgerize({}, exec);
     const out = await runFinish({}, exec);
     expect(out.success).toBe(true);
+    // Fit is post-read only; deposit synthesis uses deposit-candidate states.
+    expect(out.resultState).toBe('worthy_deposit_candidates');
     const envelope = exec.get('finish', 'selectionEnvelope');
     expect(envelope.options).toHaveLength(1);
     expect(envelope.options[0].patch).toBeTruthy();

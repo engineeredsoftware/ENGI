@@ -236,7 +236,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
       canon: DEPOSIT_CANON_REFS,
     },
   }),
-  forcedInclusions: buildExplainer({
+  permissibleSources: buildExplainer({
     kicker: 'Option synthesis',
     title: 'Permissible sources',
     summary:
@@ -250,7 +250,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     ],
     references: { source: DEPOSIT_SOURCE_REFS, canon: DEPOSIT_CANON_REFS },
   }),
-  forcedExclusions: buildExplainer({
+  impermissibleSources: buildExplainer({
     kicker: 'Option synthesis',
     title: 'Impermissible sources',
     summary:

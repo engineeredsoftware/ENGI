@@ -126,7 +126,7 @@ describe('validateDepositSynthesisOptions absolutes wiring', () => {
   const context = {
     lens: 'deposit' as const,
     inventoryPaths: ['src/auth.ts'],
-    forcedExclusions: [],
+    impermissibleSources: [],
     candidateKinds: ['capability-slice', 'implementation-pattern', 'proof-operations-slice'],
   };
 

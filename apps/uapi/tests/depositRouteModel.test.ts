@@ -25,7 +25,7 @@ describe('deposit-route-model', () => {
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       obfuscations: 'Create bounded source-safe AssetPack options for review.',
-      forcedInclusions: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
+      permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [
         {
           id: 'sub-critical-route-test',
@@ -113,7 +113,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      forcedInclusions: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts'],
+      permissibleSources: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts'],
       sourceCriticalitySignals: [{ id: 'warning', severity: 'warning', weight: 0.5 }],
       optionsRequested: true,
       hasReviewedOption: false,
@@ -134,7 +134,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      forcedInclusions: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts'],
+      permissibleSources: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts'],
       sourceCriticalitySignals: [{ id: 'critical', severity: 'critical', weight: 1 }],
       settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
       developmentCostSats: 9000,
@@ -160,7 +160,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      forcedInclusions: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
+      permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
       // Demand must be grounded in settled Depository search — provide an estimatable corpus signal.
       settledDemandEstimate: {
@@ -220,7 +220,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      forcedInclusions: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
+      permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
       settledDemandEstimate: {
         estimatable: false,
@@ -263,7 +263,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      forcedInclusions: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
+      permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
       expectedSettlementSats: 5200,
@@ -274,7 +274,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      forcedInclusions: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
+      permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       settledDemandEstimate: SETTLED_DEMAND_ESTIMATABLE,
       expectedSettlementSats: 5200,

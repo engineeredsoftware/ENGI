@@ -52,7 +52,7 @@ export interface AssetPacksSynthesisSourceFile {
  * Not the GitHub “connected repositories” list (externals inventory).
  * Setup clones the **complete working tree at the SHA** (all files on disk).
  * This catalog is metadata + optional in-memory bodies for that same tree:
- * - `paths` — tracked paths after Forced Inclusion / Exclusion scope
+ * - `paths` — tracked paths after Permissible sources / Exclusion scope
  * - `samples` — bounded excerpts for LLM prompts
  * - `sources` — optional full file contents for measurement tools; loaded from
  *   the live checkout in Discovery (codebase comprehension), not a second clone
@@ -72,7 +72,10 @@ export interface AssetPacksSynthesisSourceInventory {
 
 export interface AssetPacksSynthesisSteering {
   instructions: string | null;
-  forcedExclusions: string[];
+  /** When non-empty, inventory is scoped to these roots (permissible sources). */
+  permissibleSources?: string[];
+  /** Fail-closed path removals (impermissible sources). */
+  impermissibleSources: string[];
   demandContext: string[];
 }
 

@@ -40,6 +40,10 @@ describe('pipeline host manifest', () => {
     expect(manifest.resultStates).toEqual([
       'worthy_fit',
       'no_worthy_fit',
+      'worthy_deposit_candidates',
+      'no_worthy_deposit_candidates',
+      'worthy_read_candidates',
+      'no_worthy_read_candidates',
       'blocked_readiness',
     ]);
     expect(manifest.commandEnvironment).toContainEqual({

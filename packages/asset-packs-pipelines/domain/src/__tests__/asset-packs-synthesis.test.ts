@@ -75,7 +75,7 @@ describe('AssetPacksSynthesis core', () => {
     expect(isPathExcluded('src/app.py', exclusions)).toBe(false);
   });
 
-  it('scopes inventory by Forced Inclusion roots then Forced Exclusions', () => {
+  it('scopes inventory by Permissible sources roots then Impermissible sources', () => {
     const scoped = applyInventoryScope(INVENTORY, {
       inclusions: ['src/'],
       exclusions: ['src/utils.py'],
@@ -108,7 +108,7 @@ describe('AssetPacksSynthesis core', () => {
     expect(JSON.stringify(forPrompt)).not.toContain('SECRET-');
   });
 
-  it('re-samples prompt excerpts after Forced Inclusion empties pre-scope samples', () => {
+  it('re-samples prompt excerpts after Permissible sources empties pre-scope samples', () => {
     // Pre-scope samples only from out-of-root paths (the monorepo case).
     const provisioned = {
       paths: ['README.md', 'apps/uapi/app.ts', 'apps/uapi/lib.ts', 'secret/keys.py'],
@@ -137,7 +137,7 @@ describe('AssetPacksSynthesis core', () => {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      steering: { instructions: 'demo', forcedExclusions: [], demandContext: ['demand'] },
+      steering: { instructions: 'demo', impermissibleSources: [], demandContext: ['demand'] },
       inventory: { ...INVENTORY, totalPathCount: 4, excludedPathCount: 0 },
       candidateKinds: ['capability-slice', 'implementation-pattern', 'proof-operations-slice'],
     });
@@ -166,7 +166,7 @@ describe('AssetPacksSynthesis core', () => {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      steering: { instructions: null, forcedExclusions: ['secret/'], demandContext: [] },
+      steering: { instructions: null, impermissibleSources: ['secret/'], demandContext: [] },
       inventory: { ...INVENTORY, totalPathCount: 4, excludedPathCount: 0 },
       candidateKinds: ['capability-slice'],
     });
@@ -187,7 +187,7 @@ describe('AssetPacksSynthesis core', () => {
         repositoryFullName: 'engineeredsoftware/demo-python',
         sourceBranch: 'main',
         sourceCommit: 'abc123',
-        steering: { instructions: null, forcedExclusions: ['secret/'], demandContext: [] },
+        steering: { instructions: null, impermissibleSources: ['secret/'], demandContext: [] },
         inventory: { ...INVENTORY, totalPathCount: 4, excludedPathCount: 0 },
         candidateKinds: ['capability-slice'],
       }),
@@ -208,7 +208,7 @@ describe('deposit lens adapter', () => {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      steering: { instructions: 'demo', forcedExclusions: ['secret/'], demandContext: [] },
+      steering: { instructions: 'demo', impermissibleSources: ['secret/'], demandContext: [] },
       inventory,
       candidateKinds: ['capability-slice'],
     });
@@ -219,7 +219,7 @@ describe('deposit lens adapter', () => {
         sourceBranch: 'main',
         sourceCommit: 'abc123',
         obfuscations: 'demo',
-        forcedExclusions: ['secret/'],
+        impermissibleSources: ['secret/'],
         createdAt: '2026-06-12T22:00:00.000Z',
       },
       result,
@@ -233,7 +233,7 @@ describe('deposit lens adapter', () => {
     expect(synthesis.optionCount).toBe(1);
     expect(synthesis.options[0].measurements.map((m) => m.volume)).toEqual([0.6, 0.7, 0.5]);
     expect(synthesis.options[0].roots.optionRoot).toMatch(/^deposit-asset-pack-option:[0-9a-f]{8}$/);
-    expect(synthesis.exclusionPosture.forcedExclusionCount).toBe(1);
+    expect(synthesis.exclusionPosture.impermissibleSourceCount).toBe(1);
     expect(synthesis.exclusionPosture.excludedPathCount).toBe(1);
     expect(reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
     // The deposit-decision payload: provenant source becomes available to Bitcode.
@@ -289,7 +289,7 @@ describe('deposit lens adapter', () => {
       {
         lens: 'deposit',
         inventoryPaths: ['README.md', 'src/app.py'],
-        forcedExclusions: [],
+        impermissibleSources: [],
         candidateKinds: ['capability-slice'],
       },
     );

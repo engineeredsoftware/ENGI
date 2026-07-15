@@ -458,8 +458,8 @@ describe('POST /api/pipeline-host/asset-pack', () => {
       files: [],
       commands: [],
       artifactPaths: {
-        evidence: '.bitcode/pipeline-host/evidence.json',
-        telemetry: '.bitcode/pipeline-host/telemetry.jsonl',
+        evidence: '.proofs/pipeline-host/evidence.json',
+        telemetry: '.proofs/pipeline-host/telemetry.jsonl',
       },
     }));
     mockLoadVercelSandboxFactory.mockResolvedValue({ create: jest.fn() });

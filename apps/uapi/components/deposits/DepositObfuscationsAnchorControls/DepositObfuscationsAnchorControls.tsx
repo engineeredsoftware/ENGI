@@ -30,8 +30,8 @@ export type DepositObfuscationsAnchorControlsProps = {
   onDeleteObfuscationsAnchor: (id: string) => void | Promise<void>;
   onLoadAnchor: (anchor: DepositObfuscationsAnchor) => void;
   onClear: () => void;
-  forcedInclusionsLength: number;
-  forcedExclusionsLength: number;
+  permissibleSourcesLength: number;
+  impermissibleSourcesLength: number;
 };
 
 export function DepositObfuscationsAnchorControls(
@@ -50,8 +50,8 @@ export function DepositObfuscationsAnchorControls(
     onDeleteObfuscationsAnchor,
     onLoadAnchor,
     onClear,
-    forcedInclusionsLength,
-    forcedExclusionsLength,
+    permissibleSourcesLength,
+    impermissibleSourcesLength,
   } = props;
 
   return (
@@ -71,8 +71,8 @@ export function DepositObfuscationsAnchorControls(
               description: (
                 <ObfuscationsAnchorDescription
                   text={anchor.text}
-                  forcedInclusions={anchor.forcedInclusions}
-                  forcedExclusions={anchor.forcedExclusions}
+                  permissibleSources={anchor.permissibleSources}
+                  impermissibleSources={anchor.impermissibleSources}
                 />
               ),
               searchText: [
@@ -80,8 +80,8 @@ export function DepositObfuscationsAnchorControls(
                 anchor.repositoryFullName,
                 formatObfuscationsAnchorDescription({
                   text: anchor.text,
-                  forcedInclusions: anchor.forcedInclusions,
-                  forcedExclusions: anchor.forcedExclusions,
+                  permissibleSources: anchor.permissibleSources,
+                  impermissibleSources: anchor.impermissibleSources,
                 }),
               ]
                 .filter(Boolean)
@@ -123,8 +123,8 @@ export function DepositObfuscationsAnchorControls(
           isConfigLocked ||
           (!obfuscations &&
             !obfuscationsAnchorName &&
-            forcedInclusionsLength === 0 &&
-            forcedExclusionsLength === 0)
+            permissibleSourcesLength === 0 &&
+            impermissibleSourcesLength === 0)
         }
         onClick={onClear}
         className="border border-white/10 px-2.5 py-1.5 text-[0.66rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-rose-300/35 hover:text-rose-100 disabled:cursor-not-allowed disabled:opacity-40"

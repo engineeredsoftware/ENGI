@@ -140,7 +140,7 @@ prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
 private material, or private settlement payloads.
 
 V42 Gate 4 binds this runtime into product closure through
-`.bitcode/v42-readneed-review-resynthesis-product-closure.json` and
+`.proofs/v42/readneed-review-resynthesis-product-closure.json` and
 `check:v42-gate4`. That proof requires all four review actions
 (`synthesize_read_need`, `resynthesize_read_need`, `accept_read_need`,
 `reject_read_need`), PTRR/Failsafe/Thricified telemetry receipts, source-safe
@@ -186,7 +186,7 @@ source-bearing AssetPack content. Pull-request delivery remains withheld until
 BTC settlement, BTD rights transfer, and ledger/database/storage readback agree.
 
 V42 Gate 5 binds this boundary into product closure through
-`.bitcode/v42-readfitsfinding-preview-quote.json` and `check:v42-gate5`.
+`.proofs/v42/readfitsfinding-preview-quote.json` and `check:v42-gate5`.
 That proof requires accepted-Need admission, many-channel Depository search,
 candidate ranking, selected-fit provenance, deterministic quote receipts,
 source-safe disclosure review, settlement instructions, delivery lock, harness
@@ -213,7 +213,7 @@ private settlement payloads, credentials, or unpaid source-bearing AssetPack
 content.
 
 V42 Gate 6 binds Settlement Rights Delivery into product closure through
-`.bitcode/v42-settlement-rights-delivery.json` and `check:v42-gate6`.
+`.proofs/v42/settlement-rights-delivery.json` and `check:v42-gate6`.
 That proof requires paid BTC observation, finality gating, BTD rights transfer,
 source-to-shares conservation, repository delivery unlock,
 ledger/database/object-storage reconciliation, live harness materialization,
@@ -258,7 +258,7 @@ The parity rows are persisted under `reading/interfaces` with `productParity`,
 source-safe preview, settlement unlock, BTD rights, authorized delivery, no
 parallel authority, and source-bearing delivery locked before settlement and
 rights transfer. The source-safe artifact is
-`.bitcode/v39-interface-conversation-product-parity.json`, checked by
+`.proofs/v39/interface-conversation-product-parity.json`, checked by
 `pnpm run check:v39-gate9`.
 
 ## Reading Local/Staging Rehearsal
@@ -281,12 +281,12 @@ evidence is metadata only: protected source, raw protected prompts, raw
 interpolated prompts, raw provider responses, unpaid AssetPack source, wallet
 private material, private settlement payloads, credentials, and live log
 payloads are not serialized. Value-bearing mainnet admission remains blocked.
-The source-safe artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`,
+The source-safe artifact is `.proofs/v39/local-staging-reading-rehearsal.json`,
 checked by `pnpm run check:v39-gate10`.
 
 V42 Gate 8 reuses `ReadingLocalStagingRehearsal` as the package proof body for
 the reliable MVP local/staging full rehearsal. The V42 artifact
-`.bitcode/v42-local-staging-mvp-rehearsal.json` binds that package model to
+`.proofs/v42/local-staging-mvp-rehearsal.json` binds that package model to
 the closed V42 Depositing, Reading state, ReadNeed review/resynthesis, Finding
 Fits preview/quote, settlement rights delivery, and AI-reading demonstration
 artifacts. Use `pnpm run rehearse:v42-local-staging` for source-safe operator

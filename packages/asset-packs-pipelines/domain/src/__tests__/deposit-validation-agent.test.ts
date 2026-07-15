@@ -204,7 +204,7 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
     const result = await runDepositValidationAgent(
       {
         assetPacks: packs,
-        forcedExclusions: ['src/protected'],
+        impermissibleSources: ['src/protected'],
         obfuscationGuidance: { obfuscatedPaths: ['src/hidden/keys.ts'] },
       },
       exec,

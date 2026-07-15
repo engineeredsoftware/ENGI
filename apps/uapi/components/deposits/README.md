@@ -44,7 +44,7 @@ deposits/
   DepositSourceFieldGrid/              # provider/repo/branch/commit columns
   DepositObfuscationsPanel/            # shell: textarea + synthesize CTA
   DepositObfuscationsAnchorControls/   # load/clear/name-anchor toolbar
-  DepositObfuscationsPathPickers/      # Forced Inclusion / Exclusion trees
+  DepositObfuscationsPathPickers/      # Permissible sources / Exclusion trees
   DepositObfuscationsPathIcons/
   DepositAssetPackOptions/             # list shell + batch deposit footer
     DepositAssetPackOptions.tsx

@@ -220,7 +220,7 @@ describe('runDepositInBoxHost (#25)', () => {
       commit: 'abc123def456',
       token: 'ghs_tok',
       obfuscations: 'hide internal names',
-      forcedExclusions: ['secret/'],
+      impermissibleSources: ['secret/'],
       demandContext: ['auth'],
       hostFactory: async () => fakeHost,
     });
@@ -229,7 +229,7 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(result.sandboxId).toBe('sbx_test_1');
     expect(result.outcome).toBe('completed');
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
-    expect(receivedPlan.manifest.depositSteering).toMatchObject({ forcedExclusions: ['secret/'] });
+    expect(receivedPlan.manifest.depositSteering).toMatchObject({ impermissibleSources: ['secret/'] });
     // Host law: no create-time customer git source (that was the 400 git clone path).
     expect(receivedPlan.createOptions.source).toBeUndefined();
     // Clone specs for Setup in-box multi-step git (not serverless process clone).
@@ -280,7 +280,7 @@ describe('runDepositInBoxHost (#25)', () => {
         branch: 'main',
         commit: null,
         obfuscations: null,
-        forcedExclusions: [],
+        impermissibleSources: [],
         demandContext: [],
         hostFactory: async () => fakeHost,
       }),
@@ -305,7 +305,7 @@ describe('runDepositInBoxHost (#25)', () => {
         branch: 'main',
         commit: null,
         obfuscations: null,
-        forcedExclusions: [],
+        impermissibleSources: [],
         demandContext: [],
         hostFactory: async () => fakeHost,
       }),

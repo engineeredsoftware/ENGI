@@ -44,8 +44,8 @@ export function useDepositSynthesisLifecycle(input: {
   replaceDepositRouteTransaction: (id: string) => void;
   refreshLiveRuns: () => void | Promise<unknown>;
   obfuscations: string;
-  forcedInclusions: string[];
-  forcedExclusions: string[];
+  permissibleSources: string[];
+  impermissibleSources: string[];
   repositoryContext: ProductRepositoryContextState | null;
   depositoryDemandSignals: Array<{ label: string }>;
   readingDemandSignals: Array<{ label: string }>;
@@ -78,8 +78,8 @@ export function useDepositSynthesisLifecycle(input: {
     replaceDepositRouteTransaction,
     refreshLiveRuns,
     obfuscations,
-    forcedInclusions,
-    forcedExclusions,
+    permissibleSources,
+    impermissibleSources,
     repositoryContext,
     depositoryDemandSignals,
     readingDemandSignals,
@@ -315,8 +315,8 @@ export function useDepositSynthesisLifecycle(input: {
             sourceBranch: repositoryContext?.selectedBranch || null,
             sourceCommit: repositoryContext?.selectedCommit || null,
             obfuscations: effectiveInstructions,
-            forcedInclusions,
-            forcedExclusions,
+            permissibleSources,
+            impermissibleSources,
             demandContext: [
               ...depositoryDemandSignals.map((signal) => signal.label),
               ...readingDemandSignals.map((signal) => signal.label),
@@ -338,8 +338,8 @@ export function useDepositSynthesisLifecycle(input: {
           name: "deposit_synthesis_dispatched",
           data: {
             hasObfuscations: Boolean(effectiveInstructions.trim()),
-            forcedInclusionCount: forcedInclusions.length,
-            forcedExclusionCount: forcedExclusions.length,
+            permissibleSourceCount: permissibleSources.length,
+            impermissibleSourceCount: impermissibleSources.length,
             demandSignalCount:
               depositoryDemandSignals.length + readingDemandSignals.length,
           },
@@ -363,8 +363,8 @@ export function useDepositSynthesisLifecycle(input: {
     [
       depositoryDemandSignals,
       existingDepositorySignals,
-      forcedExclusions,
-      forcedInclusions,
+      impermissibleSources,
+      permissibleSources,
       obfuscations,
       readingDemandSignals,
       refreshLiveRuns,

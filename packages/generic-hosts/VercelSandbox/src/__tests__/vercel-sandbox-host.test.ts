@@ -73,13 +73,13 @@ class DetachedFakeSandbox extends FakeSandbox {
   }
 
   async readFileToBuffer(file: { path: string }): Promise<Buffer | null> {
-    if (file.path === '.bitcode/pipeline-host/pipeline.exit-code') {
+    if (file.path === '.proofs/pipeline-host/pipeline.exit-code') {
       return Buffer.from('0');
     }
-    if (file.path === '.bitcode/pipeline-host/pipeline.stdout.log') {
+    if (file.path === '.proofs/pipeline-host/pipeline.stdout.log') {
       return Buffer.from('detached stdout');
     }
-    if (file.path === '.bitcode/pipeline-host/pipeline.stderr.log') {
+    if (file.path === '.proofs/pipeline-host/pipeline.stderr.log') {
       return Buffer.from('');
     }
     return super.readFileToBuffer(file);
@@ -121,9 +121,9 @@ describe('VercelSandboxPipelineHost', () => {
         cmd: 'sh',
         args: ['-lc', 'long command'],
         detached: true,
-        exitCodePath: '.bitcode/pipeline-host/pipeline.exit-code',
-        stdoutPath: '.bitcode/pipeline-host/pipeline.stdout.log',
-        stderrPath: '.bitcode/pipeline-host/pipeline.stderr.log',
+        exitCodePath: '.proofs/pipeline-host/pipeline.exit-code',
+        stdoutPath: '.proofs/pipeline-host/pipeline.stdout.log',
+        stderrPath: '.proofs/pipeline-host/pipeline.stderr.log',
         pollIntervalMs: 5,
         maxWaitMs: 5_000,
       },
@@ -255,9 +255,9 @@ describe('VercelSandboxPipelineHost', () => {
         cmd: 'sh',
         args: ['-lc', 'long command'],
         detached: true,
-        exitCodePath: '.bitcode/pipeline-host/pipeline.exit-code',
-        stdoutPath: '.bitcode/pipeline-host/pipeline.stdout.log',
-        stderrPath: '.bitcode/pipeline-host/pipeline.stderr.log',
+        exitCodePath: '.proofs/pipeline-host/pipeline.exit-code',
+        stdoutPath: '.proofs/pipeline-host/pipeline.stdout.log',
+        stderrPath: '.proofs/pipeline-host/pipeline.stderr.log',
         pollIntervalMs: 1,
         maxWaitMs: 50,
       },

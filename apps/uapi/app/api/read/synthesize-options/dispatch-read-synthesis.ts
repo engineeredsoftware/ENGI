@@ -16,9 +16,9 @@ export type ReadSynthesisDispatchInput = {
   sourceBranch: string;
   sourceCommit: string | null;
   need: string;
-  /** Deposit forcedInclusions twin. */
+  /** Deposit permissibleSources twin. */
   relevantPaths?: string[];
-  /** Deposit forcedExclusions twin. */
+  /** Deposit impermissibleSources twin. */
   irrelevantPaths?: string[];
 };
 
@@ -31,8 +31,8 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
   storeCrossPhaseArtifact(exec, 'read', 'relevantPaths', input.relevantPaths || []);
   storeCrossPhaseArtifact(exec, 'read', 'irrelevantPaths', input.irrelevantPaths || []);
   // Deposit steering keys so shared discovery filters can reuse exclusion law.
-  storeCrossPhaseArtifact(exec, 'deposit', 'forcedInclusions', input.relevantPaths || []);
-  storeCrossPhaseArtifact(exec, 'deposit', 'forcedExclusions', input.irrelevantPaths || []);
+  storeCrossPhaseArtifact(exec, 'deposit', 'permissibleSources', input.relevantPaths || []);
+  storeCrossPhaseArtifact(exec, 'deposit', 'impermissibleSources', input.irrelevantPaths || []);
 
   const [owner, name] = input.repositoryFullName.split('/');
   const pipelineInput = {
@@ -44,8 +44,8 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
     sourceCommit: input.sourceCommit,
     relevantPaths: input.relevantPaths || [],
     irrelevantPaths: input.irrelevantPaths || [],
-    forcedInclusions: input.relevantPaths || [],
-    forcedExclusions: input.irrelevantPaths || [],
+    permissibleSources: input.relevantPaths || [],
+    impermissibleSources: input.irrelevantPaths || [],
     repository: {
       owner,
       name,

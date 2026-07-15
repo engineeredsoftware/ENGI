@@ -82,7 +82,8 @@ export interface BuildAssetPackSandboxHostPlanOptions {
   /** Deposit steering for the in-box deposit synthesis (source-safe). */
   depositSteering?: {
     obfuscations?: string | null;
-    forcedExclusions?: string[];
+    permissibleSources?: string[];
+    impermissibleSources?: string[];
     demandContext?: string[];
   };
   /**
@@ -302,7 +303,7 @@ function buildPipelineImageCommands(
       `  npm install -g tsx@4.19.3 || npm install --no-save --prefix ${shellQuote(monorepoRoot)} tsx@4.19.3`,
       `fi`,
       `RUNNER=${shellQuote(sandboxLiveRunner)}`,
-      `if [ ! -f "$RUNNER" ]; then RUNNER=${shellQuote(`${monorepoRoot}/.bitcode/pipeline-host/run-live-asset-pack-pipeline.mjs`)}; fi`,
+      `if [ ! -f "$RUNNER" ]; then RUNNER=${shellQuote(`${monorepoRoot}/.proofs/pipeline-host/run-live-asset-pack-pipeline.mjs`)}; fi`,
       `if [ ! -f "$RUNNER" ]; then echo "live runner missing; falling back to image dispatcher" >&2; node ${shellQuote(pipelineImageEntry)}; else node --import tsx "$RUNNER"; fi`,
     ].join(' && ');
     commands.push({

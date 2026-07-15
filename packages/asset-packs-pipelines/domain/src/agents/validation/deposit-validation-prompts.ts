@@ -4,7 +4,7 @@
  * Single Validation gate (A/B/C):
  *   A) Prior phase / agent / tool sanity (also enforced deterministically)
  *   B) Synthesized AssetPack quality — each pack is patch + measurements + metadata
- *   C) Obfuscations / Forced Exclusions vs covered paths and patch fileChanges
+ *   C) Obfuscations / Impermissible sources vs covered paths and patch fileChanges
  *
  * Absolute measurements are required on every AssetPack before Finish; they are
  * attached by Implementation (host), not invented here. Source-safe: never ask
@@ -21,8 +21,7 @@ const IDENTITY = part(
   'You are the SynthesizeAssetPacks Validation ready-to-finish agent for deposit. ' +
     'You gate whether synthesized AssetPacks may Finish. Each AssetPack must be ' +
     'patch + measurements + metadata. You reason only over source-safe AssetPack ' +
-    'descriptors, sourceCheckoutCatalog paths, Setup obfuscation guidance, Forced ' +
-    'Exclusions, and prior-phase signals. Never quote, reconstruct, or expose raw ' +
+    'descriptors, sourceCheckoutCatalog paths, Setup obfuscation guidance, Impermissible ' + 'sources, and prior-phase signals. Never quote, reconstruct, or expose raw ' +
     'source, code, secrets, or file contents. Your verdict drives iterate-vs-complete.',
 );
 
@@ -43,13 +42,15 @@ const REQUIREMENTS = part(
     '  Absolutes kinds: ' +
       ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => spec.measurementKind).join(', ') +
       '. Each absolute reading requires magnitude AND volume (0..1). Needinesses are READ-ONLY — flag if present on deposit.',
+    '- Host dual-write is legal: pack.measurements.absolutes[] is canonical; a sibling pack.absolutes[]',
+    '  array mirroring the same readings is expected migration dual-write — NOT a schema violation.',
     '- Metadata: title, summary, kind, confidence in [0,1], coveredSourcePaths from sourceCheckoutCatalog only.',
     '- Distinctness: packs are complementary knowledge slices, not near-duplicates.',
     '- Source-safety: no raw source, secrets, or file contents in titles/summaries/patchSummary.',
     '',
-    'C) Obfuscations / Forced Exclusions compliance:',
+    'C) Obfuscations / Impermissible sources compliance:',
     '- No coveredSourcePaths and no patch fileChanges path touches an obfuscated path/concept',
-    '  or a Forced Exclusion; flag violations by path.',
+    '  or an impermissible source; flag violations by path.',
     '',
     'Coverage: packs adequately cover distinct, buyer-legible knowledge represented by the',
     'sourceCheckoutCatalog; list notable uncovered areas in coverageGaps.',

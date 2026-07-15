@@ -127,6 +127,8 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
   };
 
   storeCrossPhaseArtifact(execution, 'finish', 'storedArtifacts', artifactBundle);
+  // Review-admission upload only — not SettleAssetPacks destination delivery
+  // (PR/settlement deliver agents run during settlement procedures).
   storeCrossPhaseArtifact(execution, 'finish', 'uploadForReview', {
     success: true,
     deliveryMechanism: 'bitcode-review-upload',

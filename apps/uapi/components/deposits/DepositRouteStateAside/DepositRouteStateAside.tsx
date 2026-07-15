@@ -44,7 +44,7 @@ export function DepositRouteStateAside({
 }: DepositRouteStateAsideProps) {
   return (
     <aside
-      className="grid h-fit items-start gap-5 tablet:grid-cols-3 xl:grid-cols-1"
+      className="grid h-fit min-w-0 items-start gap-4 phone:gap-5 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-1"
       aria-label="Deposit route state"
     >
       <DepositAsideEarningsPanel

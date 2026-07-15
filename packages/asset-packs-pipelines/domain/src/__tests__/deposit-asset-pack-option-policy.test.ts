@@ -10,7 +10,7 @@ function reviewableSynthesis() {
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     obfuscations: 'Prepare source-safe deposit AssetPack options for non-critical reusable proof infrastructure.',
-    forcedInclusions: [
+    permissibleSources: [
       'apps/uapi/app/deposits/DepositPageClient.tsx',
       'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts',
     ],

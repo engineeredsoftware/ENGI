@@ -15,7 +15,7 @@ import {
 import { buildReadingPipelineObservabilityInventory } from '../src/reading-pipeline-observability';
 
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
-const RELATIVE_ARTIFACT_PATH = '.bitcode/v32-reading-pipeline-proof-coverage.json';
+const RELATIVE_ARTIFACT_PATH = '.proofs/v32/reading-pipeline-proof-coverage.json';
 const repoRoot = path.resolve(__dirname, '../../../..');
 const artifactPath = path.join(repoRoot, RELATIVE_ARTIFACT_PATH);
 

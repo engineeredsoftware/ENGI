@@ -29,10 +29,10 @@ export type DepositObfuscationsPanelProps = {
   obfuscationsAnchorMessage: string | null;
   onAnchorObfuscations: () => void | Promise<void>;
   onDeleteObfuscationsAnchor: (id: string) => void | Promise<void>;
-  forcedInclusions: string[];
-  onForcedInclusionsChange: (paths: string[]) => void;
-  forcedExclusions: string[];
-  onForcedExclusionsChange: (paths: string[]) => void;
+  permissibleSources: string[];
+  onPermissibleSourcesChange: (paths: string[]) => void;
+  impermissibleSources: string[];
+  onImpermissibleSourcesChange: (paths: string[]) => void;
   repositoryContext: ProductRepositoryContextState | null;
   /** Selected repository full name (enables synthesize when set). */
   repositoryFullName: string | null | undefined;
@@ -57,10 +57,10 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
     obfuscationsAnchorMessage,
     onAnchorObfuscations,
     onDeleteObfuscationsAnchor,
-    forcedInclusions,
-    onForcedInclusionsChange,
-    forcedExclusions,
-    onForcedExclusionsChange,
+    permissibleSources,
+    onPermissibleSourcesChange,
+    impermissibleSources,
+    onImpermissibleSourcesChange,
     repositoryContext,
     repositoryFullName,
     onSynthesize,
@@ -104,18 +104,18 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
           onLoadAnchor={(anchor) => {
             onObfuscationsChange(anchor.text);
             onObfuscationsAnchorNameChange(anchor.name || "");
-            onForcedInclusionsChange(anchor.forcedInclusions);
-            onForcedExclusionsChange(anchor.forcedExclusions);
+            onPermissibleSourcesChange(anchor.permissibleSources);
+            onImpermissibleSourcesChange(anchor.impermissibleSources);
           }}
           onClear={() => {
             onObfuscationsChange("");
             onObfuscationsAnchorNameChange("");
-            onForcedInclusionsChange([]);
-            onForcedExclusionsChange([]);
+            onPermissibleSourcesChange([]);
+            onImpermissibleSourcesChange([]);
             onObfuscationsAnchorPopoverOpenChange(false);
           }}
-          forcedInclusionsLength={forcedInclusions.length}
-          forcedExclusionsLength={forcedExclusions.length}
+          permissibleSourcesLength={permissibleSources.length}
+          impermissibleSourcesLength={impermissibleSources.length}
         />
       </div>
       <div className="mt-4 block">
@@ -147,10 +147,10 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
       </div>
       <DepositObfuscationsPathPickers
         isConfigLocked={isConfigLocked}
-        forcedInclusions={forcedInclusions}
-        onForcedInclusionsChange={onForcedInclusionsChange}
-        forcedExclusions={forcedExclusions}
-        onForcedExclusionsChange={onForcedExclusionsChange}
+        permissibleSources={permissibleSources}
+        onPermissibleSourcesChange={onPermissibleSourcesChange}
+        impermissibleSources={impermissibleSources}
+        onImpermissibleSourcesChange={onImpermissibleSourcesChange}
         repositoryContext={repositoryContext}
       />
       {isRunReviewLocked ? (

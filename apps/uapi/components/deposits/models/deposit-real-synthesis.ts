@@ -18,7 +18,7 @@ export type DepositRealSynthesis = {
       durationMs: number | null;
     };
     exclusionPosture?: {
-      forcedExclusionCount: number;
+      impermissibleSourceCount: number;
       excludedPathCount: number;
       droppedCandidateCount: number;
     };

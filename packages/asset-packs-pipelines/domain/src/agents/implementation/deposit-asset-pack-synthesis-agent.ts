@@ -59,10 +59,18 @@ function findValue(execution: any, namespace: string, key: string): any {
 export default async function runDepositAssetPackSynthesisAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const obfuscations = input?.instructions ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
-  const forcedExclusions =
+  const impermissibleSources =
+    input?.impermissibleSources ??
     input?.forcedExclusions ??
+    findValue(execution, 'deposit', 'impermissibleSources') ??
     findValue(execution, 'deposit', 'forcedExclusions') ??
     findValue(execution, 'deposit', 'protectedIpExclusions') ??
+    [];
+  const permissibleSources =
+    input?.permissibleSources ??
+    input?.forcedInclusions ??
+    findValue(execution, 'deposit', 'permissibleSources') ??
+    findValue(execution, 'deposit', 'forcedInclusions') ??
     [];
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
 
@@ -92,7 +100,8 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       ...input,
       repository,
       instructions: obfuscations,
-      forcedExclusions,
+      permissibleSources,
+      impermissibleSources,
       demandContext,
       // Paths + samples only for PTRR prompts; file bodies on deposit:sourceCheckoutCatalog.
       sourceCheckoutCatalog: catalogForPrompt,
@@ -125,7 +134,14 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
         .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
         .map((s: any) => ({ path: s.path as string, content: s.content as string }))
     : [];
-  const { measureAssetPackAbsolutes } = await import('../validation/agent-measure-absolutes');
+  // Path-scoped static analysis for deposit pack absolutes (full catalog).
+  // Avoids N× measure-agent PTRR per option after discovery already measured the repo;
+  // quantities are tool-authoritative; quality volumes use report-derived defaults.
+  const {
+    analyzeStaticSource,
+    computeAbsolutesFromReport,
+    computeDeterministicAbsolutes,
+  } = await import('../validation/agent-measure-absolutes');
 
   const { attachNestedAbsolutes, resolvePackAbsolutes } = await import(
     '../../asset-pack-measurements'
@@ -150,40 +166,59 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     delete (option as any).neediness;
 
     // Required nested measurements.absolutes (deposit needinesses always []).
-    if (resolvePackAbsolutes(option).length === 0) {
+    // Measure each option against its covered paths — never re-use whole-repo
+    // discovery.sourceMeasurements (those make every pack look identical).
+    const coveredSourcePaths = Array.isArray((option as any)?.coveredSourcePaths)
+      ? ((option as any).coveredSourcePaths as string[])
+      : [];
+    const optionFileChanges = Array.isArray((option as any)?.patch?.fileChanges)
+      ? ((option as any).patch.fileChanges as Array<{ path?: string; op?: string }>)
+      : [];
+    const pathScope = new Set<string>(
+      [
+        ...coveredSourcePaths,
+        ...optionFileChanges.map((c) => (typeof c?.path === 'string' ? c.path : '')),
+      ].filter(Boolean),
+    );
+    const scopedBodies =
+      pathScope.size > 0 ? bodies.filter((b) => pathScope.has(b.path)) : bodies;
+
+    const patchDescriptor = {
+      title: String((option as any)?.title ?? ''),
+      summary: String((option as any)?.summary ?? ''),
+      coveredSourcePaths,
+      fileChanges: optionFileChanges as any,
+      confidence:
+        typeof (option as any)?.confidence === 'number'
+          ? (option as any).confidence
+          : undefined,
+      patchSummary:
+        typeof (option as any)?.patch?.patchSummary === 'string'
+          ? (option as any).patch.patchSummary
+          : undefined,
+    };
+
+    // Always host-authoritative absolute catalog (path-scoped static analysis).
+    // Model-emitted absolutes are incomplete/shape-noisy; overwrite with full set.
+    try {
+      const report = analyzeStaticSource({
+        files: scopedBodies,
+        targetPaths: coveredSourcePaths,
+      });
+      const absolutes = computeAbsolutesFromReport(report, patchDescriptor);
+      attachNestedAbsolutes(
+        option as any,
+        Array.isArray(absolutes) && absolutes.length > 0
+          ? absolutes
+          : computeDeterministicAbsolutes(patchDescriptor),
+      );
+    } catch {
       try {
-        let absolutes: any[];
-        if (Array.isArray(sourceMeasurements) && sourceMeasurements.length > 0) {
-          absolutes = sourceMeasurements;
-        } else {
-          absolutes = await measureAssetPackAbsolutes(
-            {
-              title: String((option as any)?.title ?? ''),
-              summary: String((option as any)?.summary ?? ''),
-              coveredSourcePaths: Array.isArray((option as any)?.coveredSourcePaths)
-                ? (option as any).coveredSourcePaths
-                : [],
-              fileChanges: Array.isArray((option as any)?.patch?.fileChanges)
-                ? (option as any).patch.fileChanges
-                : undefined,
-              confidence:
-                typeof (option as any)?.confidence === 'number'
-                  ? (option as any).confidence
-                  : undefined,
-              patchSummary:
-                typeof (option as any)?.patch?.patchSummary === 'string'
-                  ? (option as any).patch.patchSummary
-                  : undefined,
-            },
-            { lens: 'deposit', execution, sources: bodies },
-          );
-        }
-        attachNestedAbsolutes(option as any, absolutes);
+        attachNestedAbsolutes(option as any, computeDeterministicAbsolutes(patchDescriptor));
       } catch {
-        attachNestedAbsolutes(option as any, []);
+        // Preserve any prior readings only as last resort.
+        attachNestedAbsolutes(option as any, resolvePackAbsolutes(option));
       }
-    } else {
-      attachNestedAbsolutes(option as any, resolvePackAbsolutes(option));
     }
   }
 

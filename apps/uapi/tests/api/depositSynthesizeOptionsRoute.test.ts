@@ -245,7 +245,7 @@ function createRequest(overrides: Record<string, unknown> = {}) {
       sourceBranch: 'main',
       sourceCommit: 'abc123',
       obfuscations: 'demo instructions',
-      forcedExclusions: 'secret/',
+      impermissibleSources: 'secret/',
       ...overrides,
     }),
   });
@@ -334,8 +334,8 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(pipelineInput.mode).toBe('deposit');
     expect(pipelineInput.inventory.paths).toEqual([]);
     expect(pipelineInput.inventory.sources).toEqual([]);
-    expect(pipelineInput.forcedExclusions).toEqual(['secret/']);
-    expect(pipelineInput.forcedInclusions).toEqual([]);
+    expect(pipelineInput.impermissibleSources).toEqual(['secret/']);
+    expect(pipelineInput.permissibleSources).toEqual([]);
 
     const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
     expect(completed.context.pipelineCore).toBe('AssetPacksSynthesis');
@@ -347,7 +347,7 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(completed.output.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
   });
 
-  it('passes Forced Inclusion roots into the pipeline for Setup-scoped catalog', async () => {
+  it('passes Permissible sources roots into the pipeline for Setup-scoped catalog', async () => {
     const { executionRow } = installSupabaseMocks({});
     // Options must only cover in-scope paths so Validation admits them.
     mockPipeline.mockResolvedValueOnce(undefined);
@@ -363,7 +363,7 @@ describe('POST /api/deposit/synthesize-options', () => {
                 coveredSourcePaths: ['src/app.py'],
                 patch: {
                   fileChanges: [{ path: 'src/app.py', op: 'modify' }],
-                  patchSummary: 'Scoped capability under Forced Inclusion.',
+                  patchSummary: 'Scoped capability under Permissible sources.',
                 },
               },
             ]
@@ -375,8 +375,8 @@ describe('POST /api/deposit/synthesize-options', () => {
 
     const response = await POST(
       createRequest({
-        forcedInclusions: ['src/'],
-        forcedExclusions: [],
+        permissibleSources: ['src/'],
+        impermissibleSources: [],
       }),
     );
     expect(response.status).toBe(200);
@@ -384,7 +384,7 @@ describe('POST /api/deposit/synthesize-options', () => {
       executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
     const pipelineInput = mockPipeline.mock.calls[0][0];
-    expect(pipelineInput.forcedInclusions).toEqual(['src/']);
+    expect(pipelineInput.permissibleSources).toEqual(['src/']);
     // Catalog paths are empty at init; Setup clone scopes after this-run clone.
     expect(pipelineInput.inventory.paths).toEqual([]);
     expect(pipelineInput.inventory.sources).toEqual([]);

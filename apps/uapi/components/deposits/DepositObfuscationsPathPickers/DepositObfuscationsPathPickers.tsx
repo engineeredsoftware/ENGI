@@ -3,7 +3,6 @@
 /**
  * Permissible sources / Impermissible sources file-tree pickers for deposit synthesis.
  * Paths are mutually exclusive; concept-level withholding stays in Obfuscations.
- * Internal state still uses forcedInclusions / forcedExclusions field names.
  */
 
 import React from "react";
@@ -18,19 +17,19 @@ import type { ProductRepositoryContextState } from "@/components/bitcode/pipelin
 
 export type DepositObfuscationsPathPickersProps = {
   isConfigLocked: boolean;
-  forcedInclusions: string[];
-  onForcedInclusionsChange: (paths: string[]) => void;
-  forcedExclusions: string[];
-  onForcedExclusionsChange: (paths: string[]) => void;
+  permissibleSources: string[];
+  onPermissibleSourcesChange: (paths: string[]) => void;
+  impermissibleSources: string[];
+  onImpermissibleSourcesChange: (paths: string[]) => void;
   repositoryContext: ProductRepositoryContextState | null;
 };
 
 export function DepositObfuscationsPathPickers({
   isConfigLocked,
-  forcedInclusions,
-  onForcedInclusionsChange,
-  forcedExclusions,
-  onForcedExclusionsChange,
+  permissibleSources,
+  onPermissibleSourcesChange,
+  impermissibleSources,
+  onImpermissibleSourcesChange,
   repositoryContext,
 }: DepositObfuscationsPathPickersProps) {
   const provider = repositoryContext?.provider ?? "github";
@@ -49,7 +48,7 @@ export function DepositObfuscationsPathPickers({
           <span>Permissible sources</span>
           <span onClick={(event) => event.stopPropagation()}>
             <BitcodeInlineExplainer
-              explainer={DEPOSIT_SECTION_EXPLAINERS.forcedInclusions}
+              explainer={DEPOSIT_SECTION_EXPLAINERS.permissibleSources}
               triggerAriaLabel="More info about permissible sources"
             />
           </span>
@@ -60,9 +59,9 @@ export function DepositObfuscationsPathPickers({
             provider={provider}
             repositoryFullName={repositoryFullName}
             treeRef={treeRef}
-            selectedPaths={forcedInclusions}
-            onChange={onForcedInclusionsChange}
-            conflictingPaths={forcedExclusions}
+            selectedPaths={permissibleSources}
+            onChange={onPermissibleSourcesChange}
+            conflictingPaths={impermissibleSources}
             conflictLabel="Already in impermissible sources"
             disabled={isConfigLocked}
           />
@@ -74,7 +73,7 @@ export function DepositObfuscationsPathPickers({
           <span>Impermissible sources</span>
           <span onClick={(event) => event.stopPropagation()}>
             <BitcodeInlineExplainer
-              explainer={DEPOSIT_SECTION_EXPLAINERS.forcedExclusions}
+              explainer={DEPOSIT_SECTION_EXPLAINERS.impermissibleSources}
               triggerAriaLabel="More info about impermissible sources"
             />
           </span>
@@ -85,9 +84,9 @@ export function DepositObfuscationsPathPickers({
             provider={provider}
             repositoryFullName={repositoryFullName}
             treeRef={treeRef}
-            selectedPaths={forcedExclusions}
-            onChange={onForcedExclusionsChange}
-            conflictingPaths={forcedInclusions}
+            selectedPaths={impermissibleSources}
+            onChange={onImpermissibleSourcesChange}
+            conflictingPaths={permissibleSources}
             conflictLabel="Already in permissible sources"
             disabled={isConfigLocked}
           />

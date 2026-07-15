@@ -49,7 +49,7 @@ function seedDepositExecution(): Execution {
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   });
   exec.store('deposit', 'obfuscations', 'Withhold the payments engine internals.');
-  exec.store('deposit', 'forcedExclusions', ['packages/payments/']);
+  exec.store('deposit', 'impermissibleSources', ['packages/payments/']);
   const catalog = {
     paths: ['src/telemetry/index.ts', 'src/telemetry/stream.ts', 'src/index.ts'],
     samples: [{ path: 'src/telemetry/index.ts', excerpt: 'export const telemetry = {};' }],

@@ -10,11 +10,11 @@ import {
 
 function obfuscationComplianceIssues(
   packs: any[],
-  forcedExclusions: string[],
+  impermissibleSources: string[],
   obfuscatedPaths: string[],
 ): string[] {
   const issues: string[] = [];
-  const blocked = [...forcedExclusions, ...obfuscatedPaths].map((p) => p.toLowerCase());
+  const blocked = [...impermissibleSources, ...obfuscatedPaths].map((p) => p.toLowerCase());
   for (const pack of packs) {
     const paths = [
       ...asPathList(pack?.coveredSourcePaths),

@@ -73,7 +73,7 @@ export function DepositAssetPackOptions(props: DepositAssetPackOptionsProps) {
             ? ` · ${(realSynthesis.synthesis.inference.durationMs / 1000).toFixed(1)}s`
             : ""}
           {realSynthesis.synthesis.exclusionPosture
-            ? ` · ${realSynthesis.synthesis.exclusionPosture.forcedExclusionCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
+            ? ` · ${realSynthesis.synthesis.exclusionPosture.impermissibleSourceCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
             : ""}
         </p>
       ) : null}
@@ -88,7 +88,7 @@ export function DepositAssetPackOptions(props: DepositAssetPackOptionsProps) {
         </div>
       ) : null}
 
-      <div className="mt-5 grid gap-3 xl:grid-cols-3">
+      <div className="mt-5 grid min-w-0 gap-3 phone:grid-cols-2 laptop:grid-cols-3">
         {realSynthesis
           ? options.map((option) => {
               const reviewDecision =

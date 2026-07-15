@@ -95,5 +95,12 @@ export default async function runReadFinishSynthesizeRunAgent(input: any, execut
     success: true,
     completion,
     selectionEnvelope,
+    // Top-level carriers for host evidence / reader selection UI.
+    options: selectionEnvelope.options,
+    // Read synthesis options — not fit (fit is exclusively post-read depository search).
+    resultState:
+      selectionEnvelope.options.length > 0
+        ? 'worthy_read_candidates'
+        : 'no_worthy_read_candidates',
   };
 }

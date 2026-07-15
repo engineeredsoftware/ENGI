@@ -23,14 +23,14 @@ const DEPOSIT_IDENTITY = part(
     'host after your output as measurements.absolutes — do NOT invent absolute volumes ' +
     'or needinesses. Synthesize 2-4 DISTINCT AssetPack candidates. Describe knowledge ' +
     'and the SHAPE of the patch — never quote raw source, code, secrets, or file contents. ' +
-    'Honor obfuscations and Forced Exclusions absolutely.',
+    'Honor obfuscations and Impermissible sources absolutely.',
 );
 
 const DEPOSIT_REQUIREMENTS = part(
   [
     'Ground every candidate in Discovery comprehension (codebase analysis + knowledge map,',
     'depository-search demand guidance, inherent regurgitation) and honor obfuscation',
-    'guidance + Forced Exclusions.',
+    'guidance + Impermissible sources.',
     'Each candidate is a distinct commercially-legible knowledge slice:',
     `- kind: one of ${DEPOSIT_OPTION_KINDS.join(', ')}.`,
     '- title + source-safe summary (knowledge/capability, never raw text).',

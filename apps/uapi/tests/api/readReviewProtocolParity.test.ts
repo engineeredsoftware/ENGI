@@ -327,12 +327,12 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
       status: 'accepted',
     });
 
-    const routeReadReview = parseBranchArtifact(payload.latestRun, '.bitcode/read-review.json');
-    const routeSourceToShares = parseBranchArtifact(payload.latestRun, '.bitcode/source-to-shares.json');
-    const routeSettlementPreview = parseBranchArtifact(payload.latestRun, '.bitcode/settlement-preview.json');
-    const routeSettlementProof = parseBranchArtifact(payload.latestRun, '.bitcode/settlement-source-to-shares-proof.json');
-    const directSourceToShares = parseBranchArtifact(directProtocolRun, '.bitcode/source-to-shares.json');
-    const directSettlementPreview = parseBranchArtifact(directProtocolRun, '.bitcode/settlement-preview.json');
+    const routeReadReview = parseBranchArtifact(payload.latestRun, '.proofs/_shared/read-review.json');
+    const routeSourceToShares = parseBranchArtifact(payload.latestRun, '.proofs/_shared/source-to-shares.json');
+    const routeSettlementPreview = parseBranchArtifact(payload.latestRun, '.proofs/_shared/settlement-preview.json');
+    const routeSettlementProof = parseBranchArtifact(payload.latestRun, '.proofs/_shared/settlement-source-to-shares-proof.json');
+    const directSourceToShares = parseBranchArtifact(directProtocolRun, '.proofs/_shared/source-to-shares.json');
+    const directSettlementPreview = parseBranchArtifact(directProtocolRun, '.proofs/_shared/settlement-preview.json');
 
     expect(routeReadReview).toMatchObject({
       artifactKind: 'bitcode-reviewable-read',
@@ -405,8 +405,8 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
       }),
     );
     const branchPayload = await branchResponse.json();
-    const branchSourceToShares = parseBranchArtifact(branchPayload.latestRun, '.bitcode/source-to-shares.json');
-    const branchSettlementPreview = parseBranchArtifact(branchPayload.latestRun, '.bitcode/settlement-preview.json');
+    const branchSourceToShares = parseBranchArtifact(branchPayload.latestRun, '.proofs/_shared/source-to-shares.json');
+    const branchSettlementPreview = parseBranchArtifact(branchPayload.latestRun, '.proofs/_shared/settlement-preview.json');
 
     expect(branchResponse.status).toBe(200);
 
@@ -436,10 +436,10 @@ describe('V26 Read-review SPEC-IMPL parity across protocol and commercial API', 
     );
     expect(statePayload.latestRun.branchArtifacts.visibleFileInventory).toEqual(
       expect.arrayContaining([
-        '.bitcode/read-review.json',
-        '.bitcode/source-to-shares.json',
-        '.bitcode/settlement-preview.json',
-        '.bitcode/settlement-source-to-shares-proof.json',
+        '.proofs/_shared/read-review.json',
+        '.proofs/_shared/source-to-shares.json',
+        '.proofs/_shared/settlement-preview.json',
+        '.proofs/_shared/settlement-source-to-shares-proof.json',
       ]),
     );
     expect(statePayload.latestRun.branchArtifacts.files).toBeUndefined();

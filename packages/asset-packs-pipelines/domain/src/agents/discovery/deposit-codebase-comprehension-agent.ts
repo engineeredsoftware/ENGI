@@ -232,23 +232,38 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
   // 2) Key file full/bounded reads
   const keyFileReads = pickKeySourceFiles(bodies, samples, paths);
 
-  // 3) Absolute measurements (tool/objective of this agent)
+  // 3) Absolute measurements of the Host checkout (static analysis — full catalog).
+  // Discovery must not burn host budget on measure-agent PTRR; Implementation
+  // attaches per-option path-scoped absolutes for depositor selection.
   let sourceMeasurements: unknown[] = [];
   try {
-    const { measureAssetPackAbsolutes } = await import('../validation/agent-measure-absolutes');
-    if (bodies.length > 0) {
-      const measurePaths = bodies.slice(0, 40).map((f) => f.path);
-      sourceMeasurements = await measureAssetPackAbsolutes(
-        {
-          title: 'Host checkout source measurement',
-          summary:
-            'Absolute measurements of the depositor Host checkout for codebase comprehension.',
-          coveredSourcePaths: measurePaths,
-          fileChanges: measurePaths.map((path) => ({ path, op: 'modify' as const })),
-          patchSummary: 'Discovery codebase absolute measurements.',
-        },
-        { lens: 'deposit', execution, sources: bodies },
-      );
+    const {
+      analyzeStaticSource,
+      computeAbsolutesFromReport,
+      computeDeterministicAbsolutes,
+    } = await import('../validation/agent-measure-absolutes');
+    const measurePaths =
+      bodies.length > 0
+        ? bodies.slice(0, 40).map((f) => f.path)
+        : paths.slice(0, 40);
+    const patchDescriptor = {
+      title: 'Host checkout source measurement',
+      summary:
+        'Absolute measurements of the depositor Host checkout for codebase comprehension.',
+      coveredSourcePaths: measurePaths,
+      fileChanges: measurePaths.map((path) => ({ path, op: 'modify' as const })),
+      patchSummary: 'Discovery codebase absolute measurements.',
+    };
+    if (measurePaths.length > 0) {
+      const report = analyzeStaticSource({
+        files: bodies.slice(0, 40),
+        targetPaths: measurePaths,
+      });
+      const measured = computeAbsolutesFromReport(report, patchDescriptor);
+      sourceMeasurements =
+        Array.isArray(measured) && measured.length > 0
+          ? measured
+          : computeDeterministicAbsolutes(patchDescriptor);
     }
   } catch {
     sourceMeasurements = [];

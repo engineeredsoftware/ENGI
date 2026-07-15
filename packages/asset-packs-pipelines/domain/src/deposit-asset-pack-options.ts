@@ -45,11 +45,11 @@ export function buildDepositAssetPackOptionSynthesis(
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
   const obfuscations = normalizedText(request.obfuscations);
-  const forcedInclusions = normalizedList(request.forcedInclusions);
+  const permissibleSources = normalizedList(request.permissibleSources);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
   const existingDepositorySignals = normalizedSignals(request.existingDepositorySignals);
-  const sourcePathRoots = forcedInclusions.map((path) => root('deposit-option-source-path', path));
+  const sourcePathRoots = permissibleSources.map((path) => root('deposit-option-source-path', path));
   const hasRepository = Boolean(repositoryFullName);
   const hasRevision = Boolean(sourceBranch && sourceCommit);
   const signalCount =

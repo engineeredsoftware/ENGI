@@ -79,8 +79,8 @@ describe("deposit-activity-ledger", () => {
         contextSource: "deposit-obfuscations-anchor",
         obfuscationsAnchorText: "hide secrets",
         obfuscationsAnchorName: "Alpha",
-        obfuscationsAnchorForcedInclusions: ["src/a.ts"],
-        obfuscationsAnchorForcedExclusions: ["secrets/"],
+        obfuscationsAnchorPermissibleSources: ["src/a.ts"],
+        obfuscationsAnchorImpermissibleSources: ["secrets/"],
         repository: "acme/app",
         created_at: "2026-07-02T00:00:00.000Z",
       }),
@@ -89,8 +89,8 @@ describe("deposit-activity-ledger", () => {
         contextSource: "deposit-obfuscations-anchor",
         obfuscationsAnchorText: "hide secrets",
         obfuscationsAnchorName: "Alpha",
-        obfuscationsAnchorForcedInclusions: ["src/a.ts"],
-        obfuscationsAnchorForcedExclusions: ["secrets/"],
+        obfuscationsAnchorPermissibleSources: ["src/a.ts"],
+        obfuscationsAnchorImpermissibleSources: ["secrets/"],
         created_at: "2026-07-01T00:00:00.000Z",
       }),
     ];
@@ -100,8 +100,8 @@ describe("deposit-activity-ledger", () => {
       id: "a1",
       name: "Alpha",
       text: "hide secrets",
-      forcedInclusions: ["src/a.ts"],
-      forcedExclusions: ["secrets/"],
+      permissibleSources: ["src/a.ts"],
+      impermissibleSources: ["secrets/"],
     });
   });
 

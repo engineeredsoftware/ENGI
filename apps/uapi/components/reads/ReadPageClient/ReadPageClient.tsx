@@ -286,14 +286,14 @@ export default function ReadPageClient() {
               : selectedPipelineRunId || "reads-detail"
           }
           testId="reads-run-configuration"
-          className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]"
+          className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
           dataAttrs={{
             "data-compose": isComposeOpen ? "true" : "false",
             "data-locked": isConfigLocked ? "true" : "false",
           }}
         >
           <div className="grid min-w-0 gap-5">
-            <div className="grid gap-5 xl:grid-cols-2">
+            <div className="grid min-w-0 gap-4 phone:gap-5 tablet:grid-cols-2">
               <div id="reads-section-source" className="min-w-0">
                 <DepositSourceSelection
                   preferredRepository={selectedRun?.repository || null}

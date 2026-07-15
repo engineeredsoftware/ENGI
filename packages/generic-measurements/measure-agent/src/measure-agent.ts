@@ -85,6 +85,8 @@ function buildMeasureRequirements(config: MeasureAgentConfig): PromptPart {
       (spec) => `  ${spec.measurementKind} [${spec.unit}]: ${spec.guidance}`,
     ),
     'Measure honestly — an empty or trivial artifact reads low; do not inflate.',
+    'summary: at most 700 characters (one short paragraph).',
+    'rationale: at most 700 characters each; prefer one sentence.',
     'Return ONLY {"measurements":[ ... ],"summary":string}.',
   ];
   return part(lines.join('\n'));

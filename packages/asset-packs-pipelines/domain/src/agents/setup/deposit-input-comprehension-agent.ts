@@ -4,11 +4,11 @@
  * Comprehends the depositor's OBFUSCATIONS — free-text declaration of what to
  * obfuscate/withhold — against the Host sourceCheckoutCatalog, producing
  * structured obfuscation guidance that downstream phases honor (alongside
- * Forced Exclusions) so synthesized AssetPacks never expose obfuscated material.
+ * Impermissible sources) so synthesized AssetPacks never expose obfuscated material.
  *
  * Setup sequencing: clone alone → parallel {LSP, MCP, this agent} → danger-wall.
  * Runs on formal PTRR machinery. Empty Obfuscations skip the LLM (guidance is
- * empty; Forced Exclusions remain authoritative).
+ * empty; Impermissible sources remain authoritative).
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -55,7 +55,7 @@ const REQUIREMENTS = part(
     'sourceCheckoutCatalog paths), obfuscatedConcepts (knowledge/topics to obfuscate), ' +
     'and honorNotes (how synthesis must honor them). Be conservative — when in doubt, ' +
     'obfuscate. If no obfuscations are declared, return empty guidance with a summary ' +
-    'noting Forced Exclusions remain authoritative. Return ONLY {"comprehension": {...}}.',
+    'noting Impermissible sources remain authoritative. Return ONLY {"comprehension": {...}}.',
 );
 
 const PLAN = part('Plan: parse the Obfuscations into the dimensions of what to withhold.');
@@ -111,7 +111,7 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 const EMPTY_OBFUSCATION_COMPREHENSION: DepositObfuscationComprehension = {
   summary:
-    'No explicit obfuscations declared; synthesis honors Forced Exclusions as authoritative.',
+    'No explicit obfuscations declared; synthesis honors Impermissible sources as authoritative.',
   obfuscatedPaths: [],
   obfuscatedConcepts: [],
   honorNotes: [],
@@ -132,7 +132,7 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
 
   // Empty Obfuscations: no LLM work. Full monorepo catalog + PTRR plan/try
   // against blank text was burning minutes and timing out (90s per call) with
-  // nothing to map. Forced Exclusions remain authoritative downstream.
+  // nothing to map. Impermissible sources remain authoritative downstream.
   if (!hasDeclaredObfuscations(obfuscations)) {
     storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', EMPTY_OBFUSCATION_COMPREHENSION);
     storeCrossPhaseArtifact(

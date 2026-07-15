@@ -27,8 +27,8 @@ export function useDepositActivityRecording(input: {
   synthesizeOptionsRef: MutableRefObject<(() => Promise<void>) | null>;
   obfuscations: string;
   obfuscationsAnchorName: string;
-  forcedInclusions: string[];
-  forcedExclusions: string[];
+  permissibleSources: string[];
+  impermissibleSources: string[];
   setIsAnchoringObfuscations: (v: boolean) => void;
   setObfuscationsAnchorMessage: (v: string | null) => void;
   setIsObfuscationsAnchorPopoverOpen: (v: boolean) => void;
@@ -43,8 +43,8 @@ export function useDepositActivityRecording(input: {
     synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
-    forcedInclusions,
-    forcedExclusions,
+    permissibleSources,
+    impermissibleSources,
     setIsAnchoringObfuscations,
     setObfuscationsAnchorMessage,
     setIsObfuscationsAnchorPopoverOpen,
@@ -116,8 +116,8 @@ export function useDepositActivityRecording(input: {
           name: obfuscationsAnchorName,
           repositoryFullName:
             repositoryContext?.selectedRepository?.fullName || null,
-          forcedInclusions,
-          forcedExclusions,
+          permissibleSources,
+          impermissibleSources,
         }),
       );
       setObfuscationsAnchorMessage(
@@ -136,8 +136,8 @@ export function useDepositActivityRecording(input: {
       setIsAnchoringObfuscations(false);
     }
   }, [
-    forcedExclusions,
-    forcedInclusions,
+    impermissibleSources,
+    permissibleSources,
     handleRecordActivity,
     obfuscations,
     obfuscationsAnchorName,

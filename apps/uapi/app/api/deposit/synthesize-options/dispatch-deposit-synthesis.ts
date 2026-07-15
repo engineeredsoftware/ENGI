@@ -55,8 +55,8 @@ export type DepositSynthesisDispatchInput = {
   sourceBranch: string | null;
   sourceCommit: string | null;
   obfuscations: string | null;
-  forcedInclusions: string[];
-  forcedExclusions: string[];
+  permissibleSources: string[];
+  impermissibleSources: string[];
   demandContext: string[];
   depositoryDemandSignals: Array<Record<string, unknown>>;
   readingDemandSignals: Array<Record<string, unknown>>;
@@ -82,8 +82,8 @@ export async function runDepositOptionSynthesis(
     sourceBranch,
     sourceCommit,
     obfuscations,
-    forcedInclusions,
-    forcedExclusions,
+    permissibleSources,
+    impermissibleSources,
     demandContext,
     depositoryDemandSignals,
     readingDemandSignals,
@@ -194,7 +194,8 @@ export async function runDepositOptionSynthesis(
           commit: sourceCommit,
           token: auth.accessToken,
           obfuscations,
-          forcedExclusions,
+          permissibleSources,
+          impermissibleSources,
           demandContext,
           shouldAbort: () => isExecutionCancelled(supabaseAdmin, runId),
           onEvent: (event) => {
@@ -358,8 +359,8 @@ export async function runDepositOptionSynthesis(
               url: `https://github.com/${repositoryFullName}`,
             },
             obfuscations,
-            forcedInclusions,
-            forcedExclusions,
+            permissibleSources,
+            impermissibleSources,
             demandContext,
             // Paths/samples/fileBodies filled by Setup clone, then Discovery.
             sourceCheckoutCatalog: sourceCatalog,
@@ -405,7 +406,7 @@ export async function runDepositOptionSynthesis(
     const validated = validateDepositSynthesisOptions(rawOptions, {
       lens: 'deposit',
       inventoryPaths,
-      forcedExclusions,
+      impermissibleSources,
       candidateKinds: [...DEPOSIT_OPTION_KINDS],
     });
     const rolledTokens = sumLlmTokensFromExecutionTree(execution as never);
@@ -440,8 +441,8 @@ export async function runDepositOptionSynthesis(
         sourceBranch,
         sourceCommit,
         obfuscations,
-        forcedInclusions,
-        forcedExclusions,
+        permissibleSources,
+        impermissibleSources,
         depositoryDemandSignals,
         readingDemandSignals,
         existingDepositorySignals,
@@ -483,8 +484,8 @@ export async function runDepositOptionSynthesis(
         sourceCommit,
         optionCount: synthesis.optionCount,
         synthesisRoot: synthesis.roots.synthesisRoot,
-        forcedInclusionCount: forcedInclusions.length,
-        exclusionCount: synthesis.exclusionPosture.forcedExclusionCount,
+        permissibleSourceCount: permissibleSources.length,
+        exclusionCount: synthesis.exclusionPosture.impermissibleSourceCount,
         excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
         droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
         inventoryPathCount: sourceCatalog.paths.length,

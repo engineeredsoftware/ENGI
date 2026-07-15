@@ -43,9 +43,9 @@ export type ReadSelectionEnvelope = {
 export function useReadOptionSynthesis(input: {
   repositoryContext: ProductRepositoryContextState | null;
   need: string;
-  /** Deposit forcedInclusions twin — paths that should steer need comprehension. */
+  /** Deposit permissibleSources twin — paths that should steer need comprehension. */
   relevantPaths?: string[];
-  /** Deposit forcedExclusions twin — paths to de-emphasize / exclude from fit. */
+  /** Deposit impermissibleSources twin — paths to de-emphasize / exclude from fit. */
   irrelevantPaths?: string[];
   onRunDispatched?: (runId: string) => void;
   refreshLiveRuns?: () => void | Promise<unknown>;
@@ -160,8 +160,8 @@ export function useReadOptionSynthesis(input: {
           // Deposit twin path steering (obfuscations inclusions/exclusions).
           relevantPaths,
           irrelevantPaths,
-          forcedInclusions: relevantPaths,
-          forcedExclusions: irrelevantPaths,
+          permissibleSources: relevantPaths,
+          impermissibleSources: irrelevantPaths,
         }),
       });
       const payload = await response.json().catch(() => null);

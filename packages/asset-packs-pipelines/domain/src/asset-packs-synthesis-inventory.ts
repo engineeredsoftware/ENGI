@@ -2,7 +2,7 @@
  * Checkout source-catalog path scoping and prompt-safe projection for
  * AssetPacksSynthesis (depositor working-tree paths — not GitHub repo inventory).
  *
- * Forced Inclusion + Forced Exclusion bound the checkout before measurement
+ * Permissible sources + Impermissible sources bound the checkout before measurement
  * or prompting. `sources` (verbatim file bodies) never enter prompt projections.
  */
 
@@ -12,10 +12,13 @@ import type {
   AssetPacksSynthesisSourceSample,
 } from './asset-packs-synthesis-types';
 
-export function normalizeForcedPathList(value: string[] | string | null | undefined): string[] {
+export function normalizeSourcePathList(value: string[] | string | null | undefined): string[] {
   const entries = Array.isArray(value) ? value : typeof value === 'string' ? value.split(/\r?\n/) : [];
   return [...new Set(entries.map((entry) => entry.trim()).filter(Boolean))].sort();
 }
+
+/** @deprecated Prefer normalizeSourcePathList */
+export const normalizeForcedPathList = normalizeSourcePathList;
 
 export function isPathExcluded(path: string, exclusions: string[]): boolean {
   const normalizedPath = path.trim().toLowerCase();
@@ -29,16 +32,16 @@ export function isPathExcluded(path: string, exclusions: string[]): boolean {
 }
 
 /**
- * Forced Inclusion: when non-empty, a path is in-scope only if it equals or sits
- * under one of the inclusion roots (prefix match). Empty inclusions leave the
- * full inventory in-scope (minus exclusions).
+ * Permissible sources: when non-empty, a path is in-scope only if it equals or sits
+ * under one of the permissible roots (prefix match). Empty list leaves the full
+ * inventory in-scope (minus impermissible sources).
  */
-export function isPathForcedIncluded(path: string, inclusions: string[]): boolean {
-  if (!Array.isArray(inclusions) || inclusions.length === 0) return true;
+export function isPathPermissible(path: string, permissibleSources: string[]): boolean {
+  if (!Array.isArray(permissibleSources) || permissibleSources.length === 0) return true;
   const normalizedPath = path.trim().replace(/^\.\//, '').toLowerCase();
   if (!normalizedPath) return false;
-  return inclusions.some((inclusion) => {
-    const normalized = inclusion
+  return permissibleSources.some((entry) => {
+    const normalized = entry
       .trim()
       .replace(/^\.\//, '')
       .toLowerCase()
@@ -49,6 +52,9 @@ export function isPathForcedIncluded(path: string, inclusions: string[]): boolea
     return normalizedPath === root || normalizedPath.startsWith(`${root}/`);
   });
 }
+
+/** @deprecated Prefer isPathPermissible */
+export const isPathForcedIncluded = isPathPermissible;
 
 export function applyExclusionsToInventory(
   inventory: {
@@ -129,21 +135,30 @@ export function applyInventoryScope(
     sources?: AssetPacksSynthesisSourceFile[];
   },
   scope: {
+    /** @deprecated Prefer permissibleSources */
     inclusions?: string[] | null;
+    /** @deprecated Prefer impermissibleSources */
     exclusions?: string[] | null;
+    permissibleSources?: string[] | null;
+    impermissibleSources?: string[] | null;
   } = {},
 ): AssetPacksSynthesisSourceInventory {
-  const inclusions = normalizeForcedPathList(scope.inclusions ?? []);
-  const exclusions = normalizeForcedPathList(scope.exclusions ?? []);
+  const permissibleSources = normalizeSourcePathList(
+    scope.permissibleSources ?? scope.inclusions ?? [],
+  );
+  const impermissibleSources = normalizeSourcePathList(
+    scope.impermissibleSources ?? scope.exclusions ?? [],
+  );
   const inScope = (path: string) =>
-    isPathForcedIncluded(path, inclusions) && !isPathExcluded(path, exclusions);
+    isPathPermissible(path, permissibleSources) &&
+    !isPathExcluded(path, impermissibleSources);
   const keptPaths = inventory.paths.filter(inScope);
   let keptSamples = inventory.samples.filter((sample) => inScope(sample.path));
   // Out-of-scope files are never measured, sampled, or carried forward.
   const keptSources = Array.isArray(inventory.sources)
     ? inventory.sources.filter((file) => inScope(file.path))
     : undefined;
-  // After Forced Inclusion, pre-scope samples often drop to zero — re-sample
+  // After Permissible sources, pre-scope samples often drop to zero — re-sample
   // from kept sources so deposit agents always get prompt excerpts.
   if (keptSources && keptSources.length > 0 && keptSamples.length === 0) {
     keptSamples = pickInventorySamples(keptSources);

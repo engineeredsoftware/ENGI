@@ -13,7 +13,7 @@ export interface RealDepositAssetPackOptionSynthesis extends DepositAssetPackOpt
   pipelineCore: 'AssetPacksSynthesis';
   inference: AssetPacksSynthesisInferenceAccounting;
   exclusionPosture: {
-    forcedExclusionCount: number;
+    impermissibleSourceCount: number;
     exclusionRoots: string[];
     excludedPathCount: number;
     droppedCandidateCount: number;

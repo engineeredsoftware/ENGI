@@ -57,7 +57,7 @@ export function validateDepositSynthesisOptions(
   context: {
     lens: AssetPacksSynthesisLens;
     inventoryPaths: string[];
-    forcedExclusions: string[];
+    impermissibleSources: string[];
     candidateKinds: string[];
   },
 ): { candidates: AssetPackCandidate[]; droppedCandidateCount: number; exclusionViolations: string[] } {
@@ -71,7 +71,7 @@ export function validateDepositSynthesisOptions(
     ];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
-      isPathExcluded(path, context.forcedExclusions),
+      isPathExcluded(path, context.impermissibleSources),
     );
     if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
       exclusionViolations.push(

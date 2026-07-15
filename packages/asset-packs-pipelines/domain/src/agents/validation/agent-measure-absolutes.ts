@@ -96,6 +96,9 @@ export function factoryAssetPackMeasureAbsolutesAgent(
 /** Hierarchy-encoded product factory (re-export). */
 export { factorySynthesizeAssetPacksAbsolutesMeasureAgent };
 
+/** Static-analysis helpers used by deposit attach paths (re-export). */
+export { analyzeStaticSource } from './source-static-analysis-tool';
+
 /** Build the source-safe descriptor the measure-agent reasons over (counts only). */
 function toDescriptor(patch: MeasurableAssetPackPatch, report: StaticAnalysisReport) {
   const fileChanges = (patch.fileChanges || []).map((change) => ({

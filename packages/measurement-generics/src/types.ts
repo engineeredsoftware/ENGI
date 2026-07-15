@@ -37,6 +37,13 @@ export interface MeasurementSpec {
   hasMagnitude?: boolean;
 }
 
+/** Soft-trim free text so LLM verbose rationales/summaries still parse. */
+function clampMeasurementText(value: unknown, max = 700): string {
+  const text = typeof value === 'string' ? value.trim() : String(value ?? '').trim();
+  if (!text) return text;
+  return text.length <= max ? text : `${text.slice(0, max - 1)}…`;
+}
+
 /**
  * One measure-agent reading (intermediate). volume required; magnitude optional
  * until host buildMeasurement normalizes product absolutes (always magnitude+volume).
@@ -48,7 +55,14 @@ export const MeasurementReadingSchema = z.object({
   /** Normalized 0..1 — the value the weighted composite uses. */
   volume: z.coerce.number().min(0).max(1),
   /** Source-safe justification for the reading. */
-  rationale: z.string().min(1).max(700).optional(),
+  rationale: z.preprocess(
+    (value) => {
+      if (value === undefined || value === null || value === '') return undefined;
+      const clamped = clampMeasurementText(value, 700);
+      return clamped.length > 0 ? clamped : undefined;
+    },
+    z.string().min(1).max(700).optional(),
+  ),
 });
 export type MeasurementReading = z.infer<typeof MeasurementReadingSchema>;
 
@@ -67,7 +81,10 @@ export function emptyAssetPackMeasurements(): AssetPackMeasurements {
 /** Canonical measure-agent output shape (flat readings; host nests by kind). */
 export const MeasurementOutputSchema = z.object({
   measurements: z.array(MeasurementReadingSchema).min(1),
-  summary: z.string().min(1).max(700),
+  summary: z.preprocess(
+    (value) => clampMeasurementText(value, 700),
+    z.string().min(1).max(700),
+  ),
 });
 export type MeasurementOutput = z.infer<typeof MeasurementOutputSchema>;
 

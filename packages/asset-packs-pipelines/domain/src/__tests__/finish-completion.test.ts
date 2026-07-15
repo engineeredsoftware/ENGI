@@ -15,7 +15,7 @@ describe('finish AssetPack completion evidence', () => {
     exec.store('finish', 'deliveryReadiness', {
       status: 'delivered',
       branch: 'bitcode/asset-pack-run-123',
-      path: '.bitcode/asset-packs/run-123.md',
+      path: '.proofs/asset-packs/run-123.md',
       prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/123',
     });
     exec.store('finish', 'pullRequestUrl', 'https://github.com/engineeredsoftware/ENGI/pull/123');

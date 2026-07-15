@@ -125,7 +125,16 @@ let buildBtdReadReceiptFn = null;
 let buildBtdRightsTransferReceiptFn = null;
 
 function normalizeResultState(candidate) {
-  return ['worthy_fit', 'no_worthy_fit', 'blocked_readiness'].includes(candidate)
+  // Fit states are read/post-read only. Synthesis uses deposit/read candidate states.
+  return [
+    'worthy_fit',
+    'no_worthy_fit',
+    'worthy_deposit_candidates',
+    'no_worthy_deposit_candidates',
+    'worthy_read_candidates',
+    'no_worthy_read_candidates',
+    'blocked_readiness',
+  ].includes(candidate)
     ? candidate
     : 'blocked_readiness';
 }
@@ -352,7 +361,7 @@ function buildManifestDepositoryAsset(manifest) {
     sourceMaterialBinding: {
       mode: 'source-bound-repository-revision',
       mutableInBranch: false,
-      materializationRoot: \`.bitcode/source-material/\${assetId}\`,
+      materializationRoot: \`.proofs/source-material/\${assetId}\`,
     },
     hasWalletOrAttestationProof: manifest.deposit?.hasWalletOrAttestationProof === true,
     hasAssetMeasurementEvidence: manifest.deposit?.hasAssetMeasurementEvidence === true,
@@ -1398,49 +1407,55 @@ try {
   manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   manifestRoot = createHash('sha256').update(JSON.stringify(manifest)).digest('hex');
   userId = process.env.BITCODE_PIPELINE_USER_ID || manifest.deposit?.userId || DEFAULT_USER_ID;
+  const synthesizeMode = manifest.synthesizeMode === 'deposit' ? 'deposit' : 'read';
+  const isDepositMode = synthesizeMode === 'deposit';
   const [
-    {
-      assetPackPipeline,
-      acceptReadNeed,
-      buildAssetPackDisclosureReview,
-      buildAssetPackPreviewBoundary,
-      buildAssetPackSettlementRightsDeliveryBoundary,
-      buildAssetPackSourceSafePreview,
-      buildReadingPipelineObservabilityInventory,
-      assertAssetPackDisclosureSourceSafe,
-      isAcceptedReadNeed,
-      persistAssetPackPreviewBoundary,
-      persistAssetPackSettlementRightsDeliveryBoundary,
-      resolveReadingPipelineTelemetryProjection,
-      summarizeReadingPipelineObservabilityCoverage,
-      synthesizeReadNeedForPipelineInput,
-	    },
-	    { enablePipelineStreaming, factoryPipelineExecution },
-	    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
-	    { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
-	    { evaluateBtdOrganizationInterfaceAuthority },
-      btdReceiptBuilders,
-	  ] = await Promise.all([
-	    // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
-	    // Relative extensionless imports fail under plain node in the Pipeliner image.
-	    import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
-	    import(pkgImport('packages/pipelines-generics/src/index.ts')),
-	    import(pkgImport('packages/btd/src/settlement.ts')),
-	    import(pkgImport('packages/btd/src/reconciliation.ts')),
-	    import(pkgImport('packages/btd/src/authority.ts')),
-	    import(pkgImport('packages/btd/src/receipts.ts')),
-	  ]);
+    domainExports,
+    depositPipelineExports,
+    { enablePipelineStreaming, factoryPipelineExecution },
+    { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
+    { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
+    { evaluateBtdOrganizationInterfaceAuthority },
+    btdReceiptBuilders,
+  ] = await Promise.all([
+    // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
+    // Relative extensionless imports fail under plain node in the Pipeliner image.
+    import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
+    import(pkgImport('packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline/src/index.ts')),
+    import(pkgImport('packages/pipelines-generics/src/index.ts')),
+    import(pkgImport('packages/btd/src/settlement.ts')),
+    import(pkgImport('packages/btd/src/reconciliation.ts')),
+    import(pkgImport('packages/btd/src/authority.ts')),
+    import(pkgImport('packages/btd/src/receipts.ts')),
+  ]);
+  const {
+    assetPackPipeline,
+    acceptReadNeed,
+    buildAssetPackDisclosureReview,
+    buildAssetPackPreviewBoundary,
+    buildAssetPackSettlementRightsDeliveryBoundary,
+    buildAssetPackSourceSafePreview,
+    buildReadingPipelineObservabilityInventory,
+    assertAssetPackDisclosureSourceSafe,
+    isAcceptedReadNeed,
+    persistAssetPackPreviewBoundary,
+    persistAssetPackSettlementRightsDeliveryBoundary,
+    resolveReadingPipelineTelemetryProjection,
+    summarizeReadingPipelineObservabilityCoverage,
+    synthesizeReadNeedForPipelineInput,
+  } = domainExports;
+  const { factorySynthesizeDepositAssetPacksSDIVFPipeline } = depositPipelineExports;
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
   buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;
   buildBtdRightsTransferReceiptFn = btdReceiptBuilders.buildBtdRightsTransferReceipt;
   readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
   resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
   summarizeReadingPipelineObservabilityCoverageFn = summarizeReadingPipelineObservabilityCoverage;
-  execution = factoryPipelineExecution('asset_pack', undefined, {
-    pipelineName: 'asset_pack',
+  execution = factoryPipelineExecution(isDepositMode ? 'synthesize_deposit_asset_packs' : 'asset_pack', undefined, {
+    pipelineName: isDepositMode ? 'synthesize-deposits-asset-packs-pipeline' : 'asset_pack',
     family: 'asset_pack',
     posture: 'live',
-    admittedSurface: 'terminal_read_fit',
+    admittedSurface: isDepositMode ? 'deposit_synthesize' : 'terminal_read_fit',
   });
 
   execution.store('host', 'manifestRoot', manifestRoot);
@@ -1448,6 +1463,7 @@ try {
   execution.store('host', 'runId', runId);
   execution.store('host', 'userId', userId);
   execution.store('pipeline', 'userId', userId);
+  execution.store('pipeline', 'synthesizeMode', synthesizeMode);
   execution.store('read', 'request', manifest.read);
   execution.store('deposit', 'reference', manifest.deposit);
 
@@ -1476,29 +1492,33 @@ try {
     record({ type: 'artifact-streaming-enabled', stage: 'telemetry-readback' });
   }
 
-  const readNeed = isAcceptedReadNeed(manifest.readNeed)
-    ? manifest.readNeed
-    : acceptReadNeed(synthesizeReadNeedForPipelineInput({
-        read: manifest.read,
-        readRequest: manifest.read,
-        sourceRevision: manifest.sourceRevision,
-        repository: {
-          fullName: manifest.sourceRevision.repositoryFullName,
-          branch: manifest.sourceRevision.branch,
-          commit: manifest.sourceRevision.commit,
-        },
-      }));
-  execution.store('read/need', 'accepted', readNeed);
-  execution.store('read/need', 'needId', readNeed.needId);
-  execution.store('read/need', 'measurementRoot', readNeed.measurementRoot);
-  execution.store('read/need', 'reviewState', readNeed.reviewState);
+  // Read-mode needs an accepted ReadNeed; deposit synthesis is depositor-driven.
+  let readNeed = null;
+  if (!isDepositMode) {
+    readNeed = isAcceptedReadNeed(manifest.readNeed)
+      ? manifest.readNeed
+      : acceptReadNeed(synthesizeReadNeedForPipelineInput({
+          read: manifest.read,
+          readRequest: manifest.read,
+          sourceRevision: manifest.sourceRevision,
+          repository: {
+            fullName: manifest.sourceRevision.repositoryFullName,
+            branch: manifest.sourceRevision.branch,
+            commit: manifest.sourceRevision.commit,
+          },
+        }));
+    execution.store('read/need', 'accepted', readNeed);
+    execution.store('read/need', 'needId', readNeed.needId);
+    execution.store('read/need', 'measurementRoot', readNeed.measurementRoot);
+    execution.store('read/need', 'reviewState', readNeed.reviewState);
+  }
 
   const input = {
-    read: manifest.read.prompt,
-    definitionOfRead: manifest.read.prompt,
+    read: manifest.read?.prompt || (isDepositMode ? 'Deposit measured AssetPack options.' : ''),
+    definitionOfRead: manifest.read?.prompt || null,
     readNeed,
     acceptedReadNeed: readNeed,
-    requireAcceptedReadNeed: manifest.requireAcceptedReadNeed !== false,
+    requireAcceptedReadNeed: isDepositMode ? false : manifest.requireAcceptedReadNeed !== false,
     repository: {
       fullName: manifest.sourceRevision.repositoryFullName,
       branch: manifest.sourceRevision.branch,
@@ -1508,15 +1528,29 @@ try {
     deposit: manifest.deposit,
     depositoryAssets: [buildManifestDepositoryAsset(manifest)],
     writtenAssetType: 'asset_pack',
-    deliveryMechanismTemplate: 'pull-request',
+    // Pull-request / destination delivery is SettleAssetPacks (settlement
+    // procedures) — not synthesize-deposits. Deposit Finish only stores options
+    // for /deposits review admission. Read-mode still stamps the preprocess
+    // written-asset snapshot with the formal PR template default.
+    ...(isDepositMode ? {} : { deliveryMechanismTemplate: 'pull-request' }),
     host: manifest,
-    synthesizeMode: manifest.synthesizeMode || 'read',
+    synthesizeMode,
+    mode: synthesizeMode,
+    instructions: (manifest.depositSteering && manifest.depositSteering.obfuscations) || null,
     obfuscations: (manifest.depositSteering && manifest.depositSteering.obfuscations) || null,
-    forcedExclusions: (manifest.depositSteering && manifest.depositSteering.forcedExclusions) || [],
+    permissibleSources:
+      (manifest.depositSteering && manifest.depositSteering.permissibleSources) || [],
+    impermissibleSources:
+      (manifest.depositSteering && manifest.depositSteering.impermissibleSources) || [],
     demandContext: (manifest.depositSteering && manifest.depositSteering.demandContext) || [],
   };
 
-  record({ type: 'pipeline-start', stage: 'read-comprehension', sourceRevision: manifest.sourceRevision });
+  record({
+    type: 'pipeline-start',
+    stage: isDepositMode ? 'deposit-setup' : 'read-comprehension',
+    sourceRevision: manifest.sourceRevision,
+    synthesizeMode,
+  });
   if (manifest.sourceOverlay) {
     record({
       type: 'source-overlay-applied',
@@ -1524,7 +1558,10 @@ try {
       sourceOverlay: manifest.sourceOverlay,
     });
   }
-  const rawOutput = await withHostTimeout(assetPackPipeline(input, execution), hostMaxRuntimeMs);
+  const pipelineEntrypoint = isDepositMode
+    ? factorySynthesizeDepositAssetPacksSDIVFPipeline()
+    : assetPackPipeline;
+  const rawOutput = await withHostTimeout(pipelineEntrypoint(input, execution), hostMaxRuntimeMs);
   const postprocessedOutput = findExecutionValueDown(execution, 'postprocessed', 'result');
   output = postprocessedOutput && typeof postprocessedOutput === 'object' && !Array.isArray(postprocessedOutput)
     ? {
@@ -1533,6 +1570,78 @@ try {
       }
     : rawOutput;
   await pipelineStreamer.flushStructuredWrites?.();
+
+  // Deposit synthesis: present measured AssetPack options to the depositor.
+  // Skip read-mode fee/preview/settlement (those require ReadNeed + PR delivery).
+  if (isDepositMode) {
+    const depositOptions =
+      findExecutionValueDown(execution, 'implementation', 'options') ||
+      findExecutionValueDown(execution, 'implementation', 'assetPacks') ||
+      output?.depositOptions ||
+      output?.options ||
+      output?.selectionEnvelope?.options ||
+      [];
+    const selectionEnvelope =
+      findExecutionValueDown(execution, 'finish', 'selectionEnvelope') ||
+      output?.selectionEnvelope ||
+      null;
+    const optionCount = Array.isArray(depositOptions) ? depositOptions.length : 0;
+    // Deposit synthesis presents measured options — never "fit" (fit is post-read only).
+    const depositResultState =
+      optionCount > 0 ? 'worthy_deposit_candidates' : 'no_worthy_deposit_candidates';
+    output = {
+      ...(output && typeof output === 'object' && !Array.isArray(output) ? output : {}),
+      success: optionCount > 0,
+      options: depositOptions,
+      depositOptions,
+      selectionEnvelope,
+      resultState: depositResultState,
+    };
+    resultState = manifest.sourceOverlay ? 'blocked_readiness' : depositResultState;
+    const resultReasons = [
+      'Deposit synthesize-asset-packs pipeline entrypoint returned without throwing.',
+      optionCount > 0
+        ? 'Synthesized ' + optionCount + ' measured AssetPack option(s) for depositor selection.'
+        : 'Deposit pipeline completed without measurable AssetPack options.',
+      manifest.sourceOverlay
+        ? 'Source overlay patch was applied for QA; this run cannot serve as source-revision settlement evidence.'
+        : null,
+    ].filter(Boolean);
+    record({ type: 'pipeline-complete', stage: 'finish', optionCount, synthesizeMode: 'deposit' });
+    stopHeartbeat();
+    await checkpointInFlight.catch(() => {});
+    const readingPipelineObservabilityCoverage = summarizeReadingPipelineObservabilityCoverageFn
+      ? summarizeReadingPipelineObservabilityCoverageFn(events)
+      : null;
+    const evidence = {
+      schema: 'bitcode.pipeline-host.evidence',
+      hostMode: manifest.hostMode,
+      resultState,
+      pipelineResultState: resultState,
+      resultReasons,
+      runId,
+      userId,
+      manifestRoot,
+      manifest,
+      output,
+      depositOptions,
+      selectionEnvelope,
+      execution: summarizeExecution(execution),
+      readingPipelineObservabilityInventory,
+      readingPipelineObservabilityCoverage,
+      events,
+      startedAt,
+      completedAt: new Date().toISOString(),
+    };
+    await updatePipelineRun('completed', {
+      output,
+      resultState,
+      resultReasons,
+    });
+    await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null, 2));
+    return;
+  }
+
   const pipelineResultState = normalizeResultState(
     output?.resultState || output?.fitResult?.resultState || output?.fit?.resultState
   );
@@ -1922,19 +2031,57 @@ try {
   stopHeartbeat();
   await checkpointInFlight.catch(() => {});
 
+  // Preserve partial deposit options even on timeout so depositor surfaces can
+  // still inspect measured packs synthesized before the host budget expired.
+  const partialDepositOptions = execution
+    ? (findExecutionValueDown(execution, 'implementation', 'options') ||
+        findExecutionValueDown(execution, 'implementation', 'assetPacks') ||
+        null)
+    : null;
+  const isDepositHost = manifest?.synthesizeMode === 'deposit';
+  const partialDepositComplete =
+    isDepositHost &&
+    Array.isArray(partialDepositOptions) &&
+    partialDepositOptions.length > 0 &&
+    partialDepositOptions.every((pack) => {
+      const abs = pack?.measurements?.absolutes || pack?.absolutes;
+      return Array.isArray(abs) && abs.length >= 8;
+    });
+  if (Array.isArray(partialDepositOptions) && partialDepositOptions.length > 0) {
+    output = {
+      ...(output && typeof output === 'object' && !Array.isArray(output) ? output : {}),
+      options: partialDepositOptions,
+      depositOptions: partialDepositOptions,
+      partial: !partialDepositComplete,
+      resultState: partialDepositComplete ? 'worthy_deposit_candidates' : 'blocked_readiness',
+    };
+  }
+
+  // Deposit recovery never claims "fit" — fit is exclusive to post-read depository search.
+  const recoveredResultState = partialDepositComplete
+    ? 'worthy_deposit_candidates'
+    : 'blocked_readiness';
   const evidence = {
     schema: 'bitcode.pipeline-host.evidence',
     hostMode: manifest?.hostMode || 'asset_pack_pipeline',
-    resultState: 'blocked_readiness',
+    resultState: recoveredResultState,
     resultReasons: [
-      'AssetPack pipeline execution did not produce admissible result evidence.',
+      partialDepositComplete
+        ? 'Deposit AssetPack options with full absolute measurements were recovered after host budget pressure.'
+        : 'AssetPack pipeline execution did not produce admissible result evidence.',
       error.message,
-    ],
+      Array.isArray(partialDepositOptions) && partialDepositOptions.length > 0
+        ? 'Partial deposit options were recovered from implementation store (' +
+          partialDepositOptions.length +
+          ').'
+        : null,
+    ].filter(Boolean),
     runId,
     userId,
     manifestRoot,
     manifest,
     output,
+    depositOptions: partialDepositOptions,
     error,
     execution: execution ? summarizeExecution(execution) : null,
     readingPipelineObservabilityInventory,
@@ -1946,21 +2093,24 @@ try {
     completedAt: new Date().toISOString(),
   };
 
-  await updatePipelineRun('failed', {
+  await updatePipelineRun(partialDepositComplete ? 'completed' : 'failed', {
     output,
     error,
-    resultState: 'blocked_readiness',
+    resultState: recoveredResultState,
     resultReasons: evidence.resultReasons,
   });
   await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null, 2));
-  process.exitCode = 1;
+  process.exitCode = partialDepositComplete ? 0 : 1;
+  if (partialDepositComplete) {
+    forceExitAfterFinally = true;
+  }
 } finally {
   stopHeartbeat();
   await checkpointInFlight.catch(() => {});
   await insertHostStreamLog(process.exitCode ? 'failed' : 'completed');
   await writeFile(\`\${artifactDir}/telemetry.jsonl\`, events.map((event) => JSON.stringify(event)).join('\\n') + '\\n');
   if (forceExitAfterFinally) {
-    process.exit(1);
+    process.exit(process.exitCode ? 1 : 0);
   }
 }
 

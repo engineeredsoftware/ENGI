@@ -28,14 +28,14 @@ describe('asset-pack sandbox host plan', () => {
       'host-smoke-run',
     ]);
     expect(plan.files.map((file) => file.path)).toEqual([
-      '.bitcode/pipeline-host/manifest.json',
-      '.bitcode/pipeline-host/run-live-asset-pack-pipeline.mjs',
-      '.bitcode/pipeline-host/run-host-smoke.mjs',
-      '.bitcode/pipeline-host/run-live-asset-pack-pipeline.ts',
+      '.proofs/pipeline-host/manifest.json',
+      '.proofs/pipeline-host/run-live-asset-pack-pipeline.mjs',
+      '.proofs/pipeline-host/run-host-smoke.mjs',
+      '.proofs/pipeline-host/run-live-asset-pack-pipeline.ts',
     ]);
     expect(plan.artifactPaths).toEqual({
-      evidence: '.bitcode/pipeline-host/evidence.json',
-      telemetry: '.bitcode/pipeline-host/telemetry.jsonl',
+      evidence: '.proofs/pipeline-host/evidence.json',
+      telemetry: '.proofs/pipeline-host/telemetry.jsonl',
     });
     expect(plan.manifest.expectedEvidenceTables).toContain('deliverable_pipeline_events');
   });
@@ -53,14 +53,14 @@ describe('asset-pack sandbox host plan', () => {
       synthesizeMode: 'deposit',
       depositSteering: {
         obfuscations: 'hide internal names',
-        forcedExclusions: ['secret/'],
+        impermissibleSources: ['secret/'],
         demandContext: ['auth'],
       },
     });
     expect(plan.manifest.synthesizeMode).toBe('deposit');
     expect(plan.manifest.depositSteering).toEqual({
       obfuscations: 'hide internal names',
-      forcedExclusions: ['secret/'],
+      impermissibleSources: ['secret/'],
       demandContext: ['auth'],
     });
   });
@@ -98,8 +98,8 @@ describe('asset-pack sandbox host plan', () => {
     expect(plan.createOptions.runtime).toBeUndefined();
     expect(plan.createOptions.persistent).toBe(false);
     expect(plan.files.map((file) => file.path)).toEqual([
-      '.bitcode/pipeline-host/manifest.json',
-      '.bitcode/pipeline-host/run-live-asset-pack-pipeline.mjs',
+      '.proofs/pipeline-host/manifest.json',
+      '.proofs/pipeline-host/run-live-asset-pack-pipeline.mjs',
     ]);
     expect(plan.commands.map((command) => command.label)).toEqual([
       'runtime-readiness',
@@ -146,9 +146,9 @@ describe('asset-pack sandbox host plan', () => {
     expect(plan.commands.find((command) => command.label === 'asset-pack-pipeline-run')).toMatchObject({
       cmd: 'sh',
       detached: true,
-      exitCodePath: '.bitcode/pipeline-host/pipeline.exit-code',
-      stdoutPath: '.bitcode/pipeline-host/pipeline.stdout.log',
-      stderrPath: '.bitcode/pipeline-host/pipeline.stderr.log',
+      exitCodePath: '.proofs/pipeline-host/pipeline.exit-code',
+      stdoutPath: '.proofs/pipeline-host/pipeline.stdout.log',
+      stderrPath: '.proofs/pipeline-host/pipeline.stderr.log',
     });
   });
 
@@ -166,12 +166,12 @@ describe('asset-pack sandbox host plan', () => {
     });
 
     expect(plan.sourceOverlay).toEqual({
-      path: '.bitcode/pipeline-host/source-overlay.patch',
+      path: '.proofs/pipeline-host/source-overlay.patch',
       patchRoot: '/vercel/sandbox',
       admissibility: 'qa-only-not-source-revision-evidence',
     });
     expect(plan.files.map((file) => file.path)).toContain(
-      '.bitcode/pipeline-host/source-overlay.patch'
+      '.proofs/pipeline-host/source-overlay.patch'
     );
     expect(plan.commands.map((command) => command.label)).toEqual([
       'runtime-readiness',
@@ -183,7 +183,7 @@ describe('asset-pack sandbox host plan', () => {
     ]);
     expect(plan.commands.find((command) => command.label === 'apply-source-overlay')).toMatchObject({
       cmd: 'git',
-      args: ['apply', '--whitespace=nowarn', '.bitcode/pipeline-host/source-overlay.patch'],
+      args: ['apply', '--whitespace=nowarn', '.proofs/pipeline-host/source-overlay.patch'],
     });
   });
 
