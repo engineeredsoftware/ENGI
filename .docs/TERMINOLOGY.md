@@ -74,15 +74,15 @@ Full guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
 | Legacy | Prefer |
 | --- | --- |
-| `FailsafeGeneration` | `FailsafeGeneration` |
-| `ThinkingsGeneration` | `ThinkingsGeneration` |
+| `ThricifiedGeneration` | `ThinkingsGeneration` |
 | `SubStep` / `GenerationExecution` | `Generation` / `GenerationExecution` |
 | `FailsafeExecution` | `FailsafeGenerationExecution` |
 | `PTRRSubStepArchitecture` | `PTRRStepGenerationArchitecture` |
-| `FailsafeGenerationPrompt` | `FailsafeGenerationPrompt` |
 | `AgentGenerationSubStepPrompt` | `ThinkingsGenerationPrompt` |
 
-"SubStep" was the old term for Generation within a Step. "Meta" is not a term.
+`FailsafeGeneration` and `FailsafeGenerationPrompt` are already the modern
+names (no rename). "SubStep" was the old term for Generation within a Step.
+"Meta" is not a term.
 
 ## Prompt System
 

@@ -28,9 +28,9 @@ PTRRAgent steps # each step: 3 FailsafeGenerations × Thinkings + tools
 product # specialized agents (no reimplementation)
 ```
 
-**Legacy naming (do not use in new code):** `FailsafeGeneration`, `ThinkingsGeneration`,
-`SubStep` — SubStep was the old term for Generation within a Step; Meta is not a term.
-Canonical names only on the enums for existing imports.
+**Legacy naming (do not use in new code):** `ThricifiedGeneration` → prefer
+`ThinkingsGeneration`; `SubStep` was the old term for Generation within a Step.
+`FailsafeGeneration` is already modern. Meta is not a term.
 
 ## Packages
 

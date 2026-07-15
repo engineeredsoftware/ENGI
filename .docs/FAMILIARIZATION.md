@@ -187,9 +187,9 @@ Package paths: `packages/generic-generations/{failsafes,thinkings}/`,
 Each FailsafeGeneration runs **ThinkingsGeneration**: Reason → Judge → StructuredOutput.
 Tools run after failsafes (postprocess).
 
-**Legacy naming :** `FailsafeGeneration`, `ThinkingsGeneration`, `SubStep` —
-SubStep was the old term for Generation within a Step; Meta is not a term. Prefer
-`FailsafeGeneration` / `ThinkingsGeneration`.
+**Legacy naming:** `ThricifiedGeneration` → prefer `ThinkingsGeneration`;
+`SubStep` was the old term for Generation within a Step. `FailsafeGeneration`
+is already modern. Meta is not a term.
 
 Prepared-context types (`PreparedContext`, `prepareConciseContext`, …) live with
 **failsafes** (`@bitcode/generic-generations-failsafes`) — they select Execution
