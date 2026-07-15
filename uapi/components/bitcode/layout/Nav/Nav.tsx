@@ -546,7 +546,7 @@ export default function Nav() {
             ) : publicGuestActions ? (
               publicGuestActions
             ) : hasChromeWalletIdentity ? (
-              <div className={`${controlsEntranceClassName} flex items-center space-x-3.5`}>
+              <div className={`${controlsEntranceClassName} flex h-8 items-center gap-3.5`}>
                 {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
                   <MemoBTDTracker
                     btdBalance={btdBalance}
@@ -590,7 +590,7 @@ export default function Nav() {
                     type="button"
                     onMouseEnter={() => prefetchAuxillaries()}
                     onClick={() => openAuxillaries('auxillaries', 'profile')}
-                    className="inline-flex h-8 items-center justify-center rounded-none border border-white/12 bg-white/5 px-4 text-[0.68rem] font-medium uppercase leading-none tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+                    className="box-border inline-flex h-8 max-h-8 min-h-8 shrink-0 items-center justify-center rounded-none border border-white/12 bg-white/5 px-4 py-0 text-[0.68rem] font-medium uppercase leading-none tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
                   >
                     Profile
                   </button>

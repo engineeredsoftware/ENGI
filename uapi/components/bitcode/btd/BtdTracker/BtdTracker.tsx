@@ -299,7 +299,7 @@ export function BTDTracker({
 
   return (
     <motion.div
-      className={`relative group inline-block ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
+      className={`relative group inline-flex h-8 max-h-8 min-h-8 shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       onClick={canOpenBtdWallet ? handleOpenBtdWallet : undefined}
@@ -307,8 +307,12 @@ export function BTDTracker({
       aria-label={`${balanceLabel}. Open BTD wallet auxillary${walletProvider ? ` for ${walletProvider}` : ''}.`}
       title={recentAssetPackTitle}
     >
+      {/*
+        Fixed 32px chrome box (matches Profile / Connect Wallet nav siblings).
+        Glow layers stay absolute so they do not inflate layout height.
+      */}
       <motion.div
-        className="relative inline-flex items-center justify-between gap-x-2.5 px-6 h-8 border rounded-none border-emerald-500/30 shadow-[0_0_12px_rgba(103,254,183,0.15)] bg-emerald-500/5 transition-colors transition-shadow duration-500 ease-out overflow-hidden group-hover:border-emerald-400/50 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)] group-hover:bg-emerald-500/10"
+        className="relative box-border inline-flex h-8 max-h-8 min-h-8 items-center justify-between gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-6 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
         style={{ backfaceVisibility: 'hidden', minWidth: `${minWidth}px` }}
       >
         {/* Quantum field effect */}
