@@ -1,5 +1,6 @@
 /**
- * Docs content module: sections auxillaries.
+ * Docs: Auxillaries — Wallet, Externals, Profile, Interfaces.
+ * Adjacent to product routes; not a replacement for Packs / Deposit / Read.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 
@@ -7,21 +8,19 @@ export const auxillariesSections = [
   {
     id: 'auxillary-model',
     eyebrow: 'Auxillaries',
-    title: 'Auxillaries are the wallet, externals, profile, and interface layer',
+    title: 'Auxillaries hold wallet, externals, profile, and interface readiness',
     summary:
-      'Auxillaries hold the context that changes how Terminal can operate: signed Bitcoin wallet identity, connected repositories, optional profile metadata, interface defaults, and BTD preferences.',
+      'Auxillaries is the configuration shell beside the product routes: Bitcoin wallet identity, GitHub and future source providers, optional profile metadata, interface defaults, and BTD posture.',
     detail:
-      'The auxillary shell should feel adjacent to Terminal, not detached from it. Opening Auxillaries changes readiness and configuration while the selected Terminal activity remains recoverable.',
+      'Opening Auxillaries should feel adjacent to Packs, Deposit, and Read — not a separate product. It changes readiness and defaults while activity you selected on a product route remains recoverable. Connect Wallet is the guest entry; after identity is bound, Auxillaries opens from signed-in chrome.',
     reason:
-      'Configuration is commercially important only when users can understand which operational capability it unlocks or blocks.',
+      'Configuration only matters commercially when operators know which capability it unlocks or blocks.',
     points: [
-      'Wallet owns the first identity step: a Bitcoin wallet proof that can back a Supabase session.',
-      'Leather support uses its documented Bitcoin provider methods: getAddresses, signMessage, signPsbt, sendTransfer, and open.',
-      'Leather Taproot p2tr is preferred for Bitcode auth when present; Native SegWit p2wpkh remains the payment-address read.',
-      'Externals owns GitHub and future source-provider bindings after wallet identity exists.',
-      'Profile owns optional email, display identity, account role, and organization metadata.',
-      'Interfaces owns default behavior and visual/product posture.',
-      'Wallet also owns BTD balances, range posture, and share-specific settings.',
+      'Wallet is the first identity step: a Bitcoin wallet proof that can back a session and fee readiness.',
+      'Externals owns GitHub App install and repository scope after wallet identity exists.',
+      'Profile owns optional email, display identity, roles, and organization metadata.',
+      'Interfaces owns defaults for how product detail, conversations, and proofs open.',
+      'Wallet also surfaces BTD balances and related share posture without inventing a second ledger.',
     ],
   },
   {
@@ -29,51 +28,49 @@ export const auxillariesSections = [
     eyebrow: 'Readiness',
     title: 'Wallet, Externals, Profile, and Interfaces are readiness surfaces',
     summary:
-      'Wallet identity, repository scope, profile roles, interface defaults, and $BTD controls determine which writes can move from review to signed or connected execution.',
+      'Wallet identity, repository scope, profile roles, interface defaults, and BTD controls determine which writes can leave review and enter signed or connected execution.',
     detail:
-      'A user may still learn or draft in launch mode, but production execution must keep blockers clear before deposit, branch, settlement, delivery, or connected-interface writes proceed.',
+      'You can still learn the product with incomplete readiness, but live deposit, read settlement, and delivery must keep blockers visible. Production execution fails closed until required wallet and source posture is complete.',
     reason:
-      'This lets Bitcode ship a strong Terminal experience with mocked data while preserving the production direction toward real connectivity.',
+      'Honest readiness language lets operators learn without confusing launch blockers for product bugs.',
     steps: [
-      'Connect and sign with a Bitcoin wallet first.',
-      'For Leather, unlock the extension, use its testnet lane, approve the Bitcode message signature, and expect Bitcode to keep auth and payment addresses distinct.',
-      'Install the GitHub App or connect a source provider second.',
-      'Add optional email/contact settings only after wallet and source readiness are clear.',
-      'Set profile identity, organization, and role posture only after required wallet and repository prerequisites are visible.',
-      'Choose interface defaults for Terminal and connected surfaces.',
-      'Review BTD and wallet-adjacent controls before settlement.',
+      'Connect and sign with a Bitcoin wallet first (testnet lane for commercial testnet).',
+      'Install the Bitcode GitHub App and authorize repositories second.',
+      'Add optional email and profile settings after wallet and source readiness are clear.',
+      'Set interface defaults for how Packs detail, conversations, and proofs open.',
+      'Review BTD and wallet-adjacent controls before settlement-sensitive work.',
     ],
   },
   {
     id: 'third-party-connections',
     eyebrow: 'Externals',
-    title: 'Third-party connections are source-bearing ingress, not hidden account settings',
+    title: 'Externals is source-bearing ingress — not a buried account setting',
     summary:
-      'Externals owns GitHub and future provider bindings because repository scope becomes source-bearing input for Read measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
+      'Externals owns GitHub (and future providers) because repository scope becomes permitted source for measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
     detail:
-      'A healthy connection read tells the user whether the provider is pending, connected, reconnect-required, or available only from stored inventory. It also explains that wallet identity stays in Wallet, while repository attachment and provider scope stay in Externals.',
+      'A healthy connection read shows pending, connected, reconnect-required, or inventory-only posture. Wallet identity stays in Wallet; repository attachment and provider scope stay in Externals. Read-space knowledge sharing is a separate opt-in after repositories are approved.',
     reason:
-      'New users read to understand why a missing GitHub or wallet connection blocks live writes without blocking learning-mode Terminal review.',
+      'Operators need to know why missing GitHub or wallet state blocks live writes without blocking learning and review.',
     points: [
-      'GitHub scope defines which repositories Bitcode can read for source supply.',
-      'Stored inventory can support reread, but live write admission fails closed until the provider is restored.',
-      'Bitcoin wallet posture plus GitHub scope are the minimum live prerequisites before settlement or signed delivery.',
+      'GitHub scope defines which repositories Bitcode may read as permitted source.',
+      'Stored inventory can support reread; live write admission fails closed until the provider is healthy.',
+      'Bitcoin wallet plus authorized GitHub repositories are the minimum live prerequisites for source-bearing work.',
     ],
   },
   {
     id: 'interface-defaults',
     eyebrow: 'Interfaces',
-    title: 'Interface defaults shape how Terminal, conversations, and proofs open',
+    title: 'Interface defaults shape how product detail, chat, and proofs open',
     summary:
-      'Interfaces owns Terminal detail density, non-ledgerized instruction posture, conversation return behavior, proof read mode, instruction tone, and execution bias.',
+      'Interfaces owns detail density, conversation return behavior, proof read mode, and related product posture — not a second protocol.',
     detail:
-      'These are not cosmetic preferences. They change how much detail Terminal opens with, how conversations re-enter the product, and whether proof readers see visual, mixed, or raw evidence first. Ledgerized Reading keeps protocol-owned model configuration.',
+      'These preferences change how much detail opens by default, how conversations re-enter the product, and whether proof readers see visual, mixed, or raw evidence first. Ledgerized Reading still keeps protocol-owned model configuration.',
     reason:
-      'Configuration becomes teachable when every preference says what operational consequence it has.',
+      'Every preference should state an operational consequence, not only a visual one.',
     points: [
       'Packs detail density controls how much selected activity detail opens by default.',
-      'Conversation launch controls whether chat appears as overlay, focused work, or continuity-preserving mode.',
-      'Proof mode controls whether evidence opens visually, mixed with structured payloads, or raw first.',
+      'Conversation launch controls overlay vs focused continuity when chat re-enters.',
+      'Proof mode controls visual, mixed, or raw-first evidence presentation.',
     ],
   },
 ] as const satisfies readonly DocsGuideCard[];

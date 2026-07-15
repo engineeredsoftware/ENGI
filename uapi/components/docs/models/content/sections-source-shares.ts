@@ -1,5 +1,5 @@
 /**
- * Docs content module: sections source shares.
+ * Docs: AssetPacks, BTD, and the activity ledger.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers';
@@ -8,17 +8,17 @@ export const sourceSharesSections = [
   {
     id: 'share-object',
     eyebrow: 'AssetPacks',
-    title: 'What Bitcode is measuring',
+    title: 'What Bitcode measures and what it withholds',
     summary:
-      'Bitcode turns source material into tradable, measured technical intelligence rather than treating files as inert attachments.',
+      'Bitcode turns permitted technical source into tradable, measured intelligence — not inert file attachments and not unprotected source dumps.',
     detail:
-      'Code, docs, diagrams, PDFs, notes, commits, citations, authorship, and metadata enter as source supply. Bitcode measures that supply against Need, fit, quality, provenance, and proof posture so useful technical intelligence can become source-safe AssetPack commodity.',
+      'Code, files, designs, data, notes, and repository context enter as supply. Bitcode synthesizes AssetPacks, scores needs-fits, and exposes measurements and proof roots on the market path. Protected IP stays behind obfuscation and rights gates until settlement unlocks delivery. Seller view: permitted source, obfuscations, synthesized pack. Buyer view: measurements, needs-fits scores, knowledge volume.',
     reason:
-      'The AssetPack is only credible when source, demand, proof, BTD scalar volume and rights, and BTC settlement can be reread together.',
+      'An AssetPack is only credible when source posture, demand measurement, proof, BTD volume/rights, and BTC settlement can be reread together without leaking unpaid source.',
     points: [
-      'Supply is deposited as deposit-side source.',
-      'Demand is expressed as a measured Read.',
-      'Fit, proof, BTC finality, and BTD rights decide whether source can move toward delivery.',
+      'Supply is deposited as measured, listed IP you approve.',
+      'Demand is a Reading that becomes needs-fits scores and quotes.',
+      'Settlement finality and BTD rights decide whether pack contents may deliver.',
     ],
   },
   {
@@ -28,23 +28,23 @@ export const sourceSharesSections = [
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
     detail: BITCODE_PUBLIC_EXPLAINERS.network.detail ?? '',
     reason:
-      'The public Packs view introduces the activity ledger without forcing a first-time reader into proof detail too early.',
+      'The Packs ledger introduces network activity without forcing a first-time reader into raw proof artifacts.',
     points: BITCODE_PUBLIC_EXPLAINERS.network.points,
   },
   {
     id: 'value-flow',
     eyebrow: 'Value flow',
-    title: 'Deposit -> Read -> Fit -> Prove -> Settle -> Deliver',
+    title: 'Deposit → Read → Fit → Prove → Settle → Deliver',
     summary:
-      'The market path is intentionally linear for a new reader: source is given, Need is measured, fits are reviewed, proofs are produced, BTC settlement is read, BTD rights transfer, and repository delivery completes.',
+      'For a new reader the market path is linear: list supply, measure need, compare fits, produce proofs, settle in BTC, transfer BTD rights, deliver knowledge.',
     detail:
-      '/deposits, /reads, and /packs expose each stage so an operator can see both the write action that changes state and the read surface that proves what happened next.',
+      '/deposits, /reads, and /packs each expose stages of that chain so operators can see both the write that changes state and the read surface that proves what happened next. Interfaces must preserve the same chain.',
     reason:
-      'The linear path is a teaching model. The under-the-hood system remains richer, but every advanced interface still has to preserve this chain.',
+      'The linear path is the teaching model. The underlying system is richer, but every advanced interface still has to honor this order of truth.',
     points: [
-      'Deposit writes searchable supply.',
-      'Read writes measured demand.',
-      'Settlement reads proof-backed BTC finality, BTD rights, compensation, and delivery posture.',
+      'Deposit writes searchable, source-safe supply.',
+      'Read writes measured demand and settlement for delivery.',
+      'Packs rereads proof-backed BTC finality, BTD rights, compensation, and delivery posture.',
     ],
   },
 ] as const satisfies readonly DocsGuideCard[];

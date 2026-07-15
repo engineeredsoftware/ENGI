@@ -1,34 +1,34 @@
 /**
- * Docs content module: sections settlement.
+ * Docs: Settlement, BTD volume/rights, BTC finality.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 
 export const settlementSections = [
   {
     id: 'btd-accounting',
-    eyebrow: '$BTD',
-    title: 'Settlement converts accepted AssetPack evidence into exact accounting',
+    eyebrow: 'BTD and BTC',
+    title: 'Settlement turns accepted AssetPack evidence into exact, rereadable accounting',
     summary:
-      'Bitcode computes BTD scalar volume and rights from contribution, Need-fit measurement, participation, and proof posture. BTC settlement money then pays the quote and unlocks rights transfer only after finality.',
+      'BTD records knowledge volume and rights from contribution, needs-fits measurement, participation, and proof posture. Bitcoin is settlement money: it pays the quote and unlocks rights transfer only after finality.',
     detail:
-      'The user-facing idea is simple: useful measured source can become attributable AssetPack value. The protocol detail is strict: scalar-volume conservation, quantized fit-quality receipting, journals, receipts, finality, rights transfer, and policy-bound execution all have to agree.',
+      'User-facing truth is simple: measured knowledge can become attributable pack value. Protocol truth is strict: volume conservation, fit-quality receipts, journals, finality, rights transfer, and policy-bound execution must agree. Settlement is proven on a fully open-source, decentralized, and auditable ledger — not by a UI success state alone.',
     reason:
-      'Settlement is where AssetPacks become economically meaningful instead of just technically interesting.',
+      'Settlement is where AssetPacks become economically meaningful instead of only technically interesting.',
     points: [
-      'Fit quality affects BTD scalar volume and BTC quote posture.',
-      'Journals and receipts make allocation rereadable.',
-      'Wallet, signer readiness, BTC finality, and BTD rights decide whether settlement can move beyond staged review.',
+      'Needs-fits quality affects BTD volume posture and BTC quote posture.',
+      'Journals and receipts make allocation rereadable on /packs.',
+      'Wallet readiness, BTC finality, and BTD rights decide whether delivery may unlock.',
     ],
   },
   {
     id: 'payment-modes',
     eyebrow: 'Payment modes',
-    title: 'Base-layer, repeated-read, and sidechain modes are interface postures',
+    title: 'Base-layer, repeated-read, and sidechain modes are interface responsibilities',
     summary:
-      'The active Protocol records bitcoin mainchain execution, repeated-read payment execution, and sidechain execution as hardened interface responsibilities, not marketing labels.',
+      'Protocol records mainchain execution, repeated-read payment execution, and sidechain execution as hardened interface duties — not marketing labels.',
     detail:
-      'In launch mode these may be mocked or boundary-only. The product must still teach what the modes mean, which receipts would prove them, and which blockers prevent live settlement.',
+      'In commercial testnet, BTC amounts are free testnet units while ordering and proof rules still follow production-intended law. Value-bearing mainnet remains blocked until a promoted version authorizes it. Docs teach what each mode would prove and which blockers keep it staged.',
     reason:
-      'Commercial credibility depends on users seeing the difference between modeled readiness and live execution.',
+      'Commercial credibility depends on distinguishing rehearsal money from live value-bearing execution.',
   },
 ] as const satisfies readonly DocsGuideCard[];

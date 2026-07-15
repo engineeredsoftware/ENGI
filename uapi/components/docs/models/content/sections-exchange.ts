@@ -1,5 +1,5 @@
 /**
- * Docs content module: sections exchange.
+ * Docs: /exchange compatibility and /packs activity ledger.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 
@@ -9,11 +9,11 @@ export const exchangeSections = [
     eyebrow: 'Compatibility',
     title: '/exchange redirects to /packs',
     summary:
-      '/exchange is retained only as a compatibility redirect. /packs is the current master-detail activity surface for repository scope, Need measurement, fit review, AssetPack evidence, proof rows, settlement receipts, and interface admissions.',
+      '/exchange is retained only as a compatibility redirect. /packs is the durable master-detail surface for AssetPack activity, proof roots, settlement, compensation, delivery, and repair.',
     detail:
-      'The compatibility path must not become a parallel product. Connected apps, MCP, ChatGPT App, Bitcode Chat, and future commercial surfaces must reread the same proof-backed activity exposed through /packs.',
+      'The compatibility path must not become a parallel product. MCP, ChatGPT App, Bitcode Chat, GitHub, and future interfaces must reread the same proof-backed activity exposed through /packs.',
     reason:
-      'This separation lets Bitcode preserve old links while preventing multiple inconsistent product centers.',
+      'Old links can survive without inventing a second center of product truth.',
     points: [
       'Activity and selected detail must survive navigation and reread through /packs.',
       'Write paths must create durable source-safe records.',
@@ -25,15 +25,15 @@ export const exchangeSections = [
     eyebrow: 'Ledger',
     title: 'The activity ledger is the main /packs read window',
     summary:
-      '/packs activity records deposit-side deposits, measured Reads, AssetPack executions, proof posture, settlement, and history in one searchable ledger.',
+      '/packs records deposits, measured Reads, AssetPack executions, proof posture, settlement, and history in one searchable ledger.',
     detail:
-      'The ledger is not just a table. It is the readable index of what happened, why it happened, and which exact detail surface should be opened next.',
+      'The ledger is not only a table. It is the readable index of what happened, why it happened, and which detail panel to open next — seller and buyer views of the same commercial object.',
     reason:
-      'If a write cannot be reread from the ledger, the product cannot prove an AssetPack path to a user.',
+      'If a write cannot be reread from the ledger, the product cannot prove an AssetPack path to an operator.',
     points: [
       'Search and filters keep large activity sets usable.',
-      'Selected detail carries proofs, branch artifacts, settlement, and history.',
-      'Route-owned query state makes activity review shareable and recoverable.',
+      'Selected detail carries proofs, settlement, BTD/BTC posture, and history.',
+      'Route-owned query state makes review shareable and recoverable.',
     ],
   },
   {
@@ -41,14 +41,14 @@ export const exchangeSections = [
     eyebrow: 'Persistence',
     title: '/packs reread is what turns actions into evidence',
     summary:
-      'A write is not trusted merely because a button returned success. The expected result is durable /packs reread with the right proof, readiness, and state posture.',
+      'A write is not trusted merely because a control returned success. The expected result is durable /packs reread with the right proof, readiness, and state posture.',
     detail:
-      'The active Protocol treats persistence, schema, route-owned state, execution history, and final work summaries as part of the product truth rather than incidental backend storage.',
+      'Protocol treats persistence, schema, route-owned state, execution history, and work summaries as product truth — not incidental backend storage.',
     reason:
-      'AssetPacks require state that can be audited later by a different surface, not just local UI continuity.',
+      'AssetPacks require state that a different surface can audit later, not only local UI continuity.',
     steps: [
       'Write through /deposits, /reads, Bitcode Chat, MCP, or another admitted interface.',
-      'Persist normalized evidence and activity context into source-safe activity state.',
+      'Persist normalized, source-safe activity evidence.',
       'Reread the activity and selected detail in /packs before trusting fit, proof, or settlement.',
     ],
   },

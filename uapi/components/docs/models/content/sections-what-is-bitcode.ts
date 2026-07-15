@@ -1,5 +1,6 @@
 /**
- * Docs content module: sections what is bitcode.
+ * Docs: What Bitcode is — first public chapter.
+ * V48 product language: Packs / Reads / Deposits; AssetPacks; BTD volume & rights; BTC settlement.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 
@@ -7,66 +8,66 @@ export const whatIsBitcodeSections = [
   {
     id: 'plain-model',
     eyebrow: 'Plain model',
-    title: 'Bitcode is a market system for source-backed technical intelligence',
+    title: 'Bitcode is a market for measured technical knowledge',
     summary:
-      'An AssetPack is not a file upload, a tokenized repo, or a generic AI answer. It is a measured technical-knowledge commodity that can satisfy a reviewed Need under auditable proof and settlement rules.',
+      'An AssetPack is not a raw file upload, a tokenized repository, or a free-form AI answer. It is a measured, source-safe knowledge commodity that can satisfy a reviewed Need under auditable proof and settlement rules.',
     detail:
-      'Bitcode starts with source: code, docs, diagrams, architecture notes, issue context, commits, proofs, and metadata. The product routes measure that source into AssetPack supply, BTD scalar volume and rights, BTC settlement posture, and proof readback before any source-bearing delivery is trusted.',
+      'Bitcode starts with permitted source: code, files, designs, data, notes, commits, and metadata. Product routes synthesize that source into AssetPack supply, score needs-fits, hold protected IP behind obfuscation and measurement surfaces, then prove settlement on a fully open-source, decentralized, and auditable ledger. Buyers pay with Bitcoin; BTD records volume and rights — not a second payment currency.',
     reason:
-      'This framing keeps first-time readers from thinking Bitcode is only a developer tool. The product is the measured market path from source to accepted AssetPack commodity.',
+      'First-time readers should leave with the market object (the AssetPack) and the safety rule (measurements visible; IP not) before learning any control surface.',
     points: [
-      'Deposit means placing source-backed supply into the Bitcode operating chain.',
-      'Read means making demand measurable before source is selected or settled.',
-      'Proof, BTC settlement, and BTD rights decide whether source-bearing AssetPack delivery can unlock.',
+      'Deposit lists AssetPacks synthesized from source you approve — not unrestricted repo dumps.',
+      'Read measures demand, compares needs-fits scores, and settles for knowledge delivery.',
+      'Packs rereads network activity: proofs, BTD volume/rights, BTC finality, delivery, and repair.',
     ],
   },
   {
     id: 'product-map',
     eyebrow: 'Product map',
-    title: '/deposits, /reads, /packs, Protocol, and interfaces are one system',
+    title: '/deposits, /reads, and /packs are one system — interfaces ride the same law',
     summary:
-      '/deposits prepares AssetPack supply, /reads expresses demand and receives paid delivery, and /packs rereads activity. Protocol is the rulebook and proof contract. Interfaces such as MCP, ChatGPT App, Bitcode Chat, GitHub, and webhooks are admitted ways to read or write against that same system.',
+      'Deposit prepares supply, Read expresses demand and receives paid delivery, and Packs is the durable activity ledger. Protocol is the rulebook. MCP, ChatGPT App, Bitcode Chat, GitHub, and webhooks are admitted ways to read or write that same state.',
     detail:
-      'The important rule is that none of the interfaces become separate products. They must read and write the same source-safe route state, follow the same Protocol boundaries, and leave proof readback authority that /packs and authorized delivery can reread.',
+      'No interface is a separate product. Every write must leave source-safe activity that /packs can reread. Every delivery of protected contents depends on settlement finality and BTD rights transfer, not on which surface initiated the work.',
     reason:
-      'New users read one map before learning details. Otherwise routes, MCP, ChatGPT App, Bitcode Chat, and Auxillaries can look like separate products instead of coordinated surfaces over AssetPacks.',
+      'Without one map, routes and integrations look like separate apps. With one map, operators know where to write, where to buy, and where to audit.',
     points: [
-      '/packs owns activity reread, proof roots, settlement posture, compensation state, delivery state, and repair state.',
-      '/deposits and /reads own the shortest current user paths for supply and demand.',
+      '/packs owns searchable activity and expandable proof, settlement, compensation, delivery, and repair detail.',
+      '/deposits and /reads are the shortest seller and buyer paths.',
       'Protocol owns semantics, proof families, fail-closed rules, and promotion truth.',
     ],
   },
   {
     id: 'operator-path',
     eyebrow: 'Operator path',
-    title: 'The simplest path is deposit, read, fit, prove, settle, issue',
+    title: 'Deposit → Read → Fit → Prove → Settle → Deliver',
     summary:
-      'A first-time operator should understand Bitcode as a short path: deposit source, measure Read, inspect fit, produce proof, settle in BTC, transfer BTD rights, and deliver the AssetPack.',
+      'Treat Bitcode as a short commercial chain: attach permitted source, synthesize packs, measure need and needs-fits, produce proofs, settle in BTC, transfer BTD rights, deliver knowledge.',
     detail:
-      '/deposits, /reads, and /packs keep the path visible as focused product loops. You write only when a bounded state change is intended, then read the result before moving deeper into proof, settlement, rights transfer, or connected-interface delivery.',
+      'Each product surface exposes one part of the chain. You write only when a bounded state change is intended, then reread /packs (or the route’s own proof panel) before trusting fit, settlement, or delivery.',
     reason:
-      'The product becomes easier to learn when every button is read as part of the value path rather than as miscellaneous dashboard furniture.',
+      'Learning is faster when every control is part of the value path rather than miscellaneous chrome.',
     steps: [
       'Start with AssetPacks so the market object is clear.',
-      'Open /deposits, /reads, and /packs so the product surfaces are familiar.',
-      'Read the action guide before trusting write controls.',
-      'Use the proof and interface chapters when operating against real integrations.',
+      'Open /deposits, /reads, and /packs so the three product loops are familiar.',
+      'Use the action and read guides before treating live writes as final.',
+      'Open proof, settlement, and interface chapters when operating against real integrations.',
     ],
   },
   {
     id: 'testnet-meaning',
     eyebrow: 'Commercial testnet',
-    title: 'Testnet means free BTC amounts with production-intended behavior',
+    title: 'Testnet BTC is free; protocol state is not simulated',
     summary:
-      'The commercial launch runs on BTC testnet: payment amounts are testnet and free, while measurements, quotes, settlement ordering, BTD rights, compensation routing, and repository delivery behave exactly as the production protocol intends.',
+      'Launch uses Bitcoin testnet amounts so operators can rehearse settlement without value-bearing mainnet risk. Measurements, quotes, ordering, BTD rights, compensation, and delivery follow production-intended protocol law.',
     detail:
-      'Testnet does not weaken identity, rights, authority, source safety, or delivery boundaries. Source-bearing AssetPack contents stay withheld until BTC-testnet finality and BTD rights transfer, every state advance is proof-backed, and value-bearing mainnet settlement remains blocked until a later promoted version authorizes it.',
+      'Testnet does not weaken identity, source safety, or delivery boundaries. Source-bearing AssetPack contents stay withheld until testnet finality and rights transfer. Value-bearing mainnet settlement remains blocked until a promoted version authorizes it.',
     reason:
-      'Buyers and depositors should understand exactly which part of the exchange is rehearsal money and which part is real protocol state before they trust the launch surfaces.',
+      'Buyers and depositors must know which part is rehearsal money and which part is real protocol state.',
     points: [
-      'BTC amounts are testnet and free; nothing else is simulated.',
-      'Quotes, settlement finality, BTD rights, and delivery follow production protocol law.',
-      'Value-bearing mainnet stays blocked; proof readback decides every state.',
+      'BTC amounts are testnet; identity, proofs, and rights rules are not “demo mode.”',
+      'Quotes, finality, BTD rights, and delivery follow production protocol law.',
+      'Proof readback — not a success toast — decides commercial state.',
     ],
   },
 ] as const satisfies readonly DocsGuideCard[];

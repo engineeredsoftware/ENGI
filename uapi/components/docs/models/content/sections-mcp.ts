@@ -9,15 +9,15 @@ export const mcpSections = [
     eyebrow: 'MCP',
     title: 'Bitcode MCP is a connected proof-readback interface',
     summary:
-      'MCP tools should expose current Bitcode actions and reads: attach source, express Read, admit AssetPack intent, read activity, inspect proof posture, and return write-admission evidence.',
+      'MCP tools expose programmable Bitcode actions: attach permitted source, express a Reading, admit AssetPack intent, read activity, inspect proof posture, and return write-admission evidence.',
     detail:
-      'The MCP surface should be narrow and explicit. Non-admitted generic tools are support or reference surfaces until the Protocol and /packs can read their effects.',
+      'Keep the MCP surface narrow and explicit. Generic tools that are not admitted remain support or reference until Protocol and /packs can reread their effects.',
     reason:
-      'MCP makes Bitcode programmable, but programmability is only valuable if it keeps AssetPack proof parity.',
+      'Programmability only helps when it preserves AssetPack proof parity with product routes.',
     points: [
-      'Tool calls must be confirmation-gated when they write.',
-      'Tool results must point back to /packs-readable activity.',
-      'PromptPart and attachment structures preserve source and Read context.',
+      'Writes are confirmation-gated.',
+      'Results point back to /packs-readable activity.',
+      'Attachments preserve source and Read context for later audit.',
     ],
   },
   {

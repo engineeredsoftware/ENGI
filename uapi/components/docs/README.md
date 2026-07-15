@@ -3,6 +3,11 @@
 Public documentation surfaces. Imports Bitcode only.
 Page shell: `uapi/app/docs/`.
 
+**Voice:** customer-facing technical prose aligned to V48 product routes
+(`/packs`, `/reads`, `/deposits`), AssetPacks, BTD volume/rights, BTC settlement,
+and source safety. Public docs teach; Protocol canon legislates. Prefer Packs /
+Deposit / Read language over legacy Terminal product naming in new copy.
+
 ## Layout
 
 ```

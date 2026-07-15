@@ -14,7 +14,7 @@ export const terminalActionSections = [
     summary: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.summary,
     detail: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.detail ?? '',
     reason:
-      'Controls are not generic preferences. Scenario, projection, branch mode, and guide state decide what Bitcode will measure, materialize, and prove.',
+      'Controls are not generic preferences. Scenario, projection, branch mode, and guide state decide what Bitcode will measure, materialize, and prove on product routes.',
     points: TERMINAL_SURFACE_EXPLAINERS_ALIAS.controls.points,
   },
   {
@@ -24,7 +24,7 @@ export const terminalActionSections = [
     summary: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.summary,
     detail: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.detail ?? '',
     reason:
-      'Supply search is the first filter on what source can become share-bearing intelligence.',
+      'Supply search is the first filter on what permitted source can become AssetPack commodity.',
     points: TERMINAL_WORKSPACE_EXPLAINERS.supplyInventory.points,
   },
   {
@@ -34,7 +34,7 @@ export const terminalActionSections = [
     summary: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.summary,
     detail: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.detail ?? '',
     reason:
-      'Deposit provenance is what prevents useful source from becoming anonymous or unauditable.',
+      'Deposit provenance keeps useful source attributable and auditable after listing.',
     points: TERMINAL_WORKSPACE_EXPLAINERS.depositComposer.points,
   },
   {
@@ -44,7 +44,7 @@ export const terminalActionSections = [
     summary: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.summary,
     detail: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.detail ?? '',
     reason:
-      'Closure is where reviewable Read, verification, branch materialization, proof, and settlement become one consequence chain.',
+      'Closure is where reviewable Reading, verification, materialization, proof, and settlement become one consequence chain rereadable on /packs.',
     points: TERMINAL_WORKSPACE_EXPLAINERS.closureControls.points,
   },
 ] as const satisfies readonly DocsGuideCard[];

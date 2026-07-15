@@ -179,16 +179,16 @@ export const BITCODE_PUBLIC_COPY = {
     eyebrow: 'Bitcode docs',
     heading: 'Learn Bitcode from AssetPacks to proof.',
     body:
-      'Docs teaches the complete system in user order: AssetPacks, BTD scalar volume and rights, BTC settlement money, proof readback authority, /deposits, /reads, /packs, MCP/API, ChatGPT App, Bitcode Chat, and connected interfaces.',
+      'Docs teach the system in operator order: AssetPacks, BTD volume and rights, Bitcoin settlement, proof readback, /deposits, /reads, /packs, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',
     cardTitle: 'Recorded operator walkthrough',
     cardBody:
-      'Use the walkthrough when you want the Bitcode flow narrated before you move into Deposit, Read, and Packs.',
+      'Use the walkthrough when you want the commercial flow narrated before you open Deposit, Read, or Packs.',
     missingVideoTitle: 'Walkthrough',
     missingVideoBody:
-      'The recorded walkthrough is being refreshed. Use the docs panels and the Packs activity route while the next capture is published.',
+      'The recorded walkthrough is being refreshed. Use the docs chapters and the Packs activity ledger while the next capture is published.',
     missingVideoCta: 'Open Packs',
   },
 } as const;

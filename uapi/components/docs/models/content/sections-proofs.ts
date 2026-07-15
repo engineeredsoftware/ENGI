@@ -1,5 +1,5 @@
 /**
- * Docs content module: sections proofs.
+ * Docs: proofs, witnesses, disclosure.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 
@@ -9,11 +9,11 @@ export const proofSections = [
     eyebrow: 'Proof families',
     title: 'Proof families are the replayable evidence contracts behind AssetPacks',
     summary:
-      'The active Protocol carries proof-family canon for inference synthesis, prompt completeness, static code analysis, verification decisions, selection and materialization, authorization and sensitive flow, AssetPack settlement, disclosure boundary, and proof contract closure.',
+      'Protocol carries proof families for synthesis, analysis, verification, selection, authorization, settlement, disclosure, and contract closure — each with witnesses and fail-closed conditions.',
     detail:
-      'Each family has members, theorem IDs, replay step IDs, witness artifact paths, artifact bindings, and fail-closed conditions. The product hides most of that detail until the user needs an exact read.',
+      'Each family has members, theorem IDs, replay steps, and witness artifact bindings. Product surfaces hide most of that detail until an operator needs an exact audit. Settlement and delivery never rest on a UI success state alone.',
     reason:
-      'The docs read enough proof vocabulary that users understand why proof readback authority is stronger than a UI success state.',
+      'Operators need enough proof vocabulary to understand why proof readback is stronger than a button result.',
     points: [
       'Families explain what kind of claim was proven.',
       'Witness artifacts explain what evidence backs the claim.',
@@ -23,11 +23,11 @@ export const proofSections = [
   {
     id: 'projection-redaction',
     eyebrow: 'Disclosure',
-    title: 'Projection and redaction keep proof useful without leaking private source',
+    title: 'Projection keeps proof useful without leaking private source',
     summary:
-      'Public, reviewer, buyer, and internal projections can expose different proof views while preserving a single underlying artifact set.',
+      'Public, reviewer, buyer, and internal projections can expose different proof views while preserving one underlying artifact set.',
     detail:
-      'Docs and product copy must never imply that public proofs contain licensed source by default. Bounded-public proof is a separate projection from private proof payloads.',
+      'Docs and product copy must never imply that public proofs contain licensed source by default. Measurements and needs-fits scores can be visible while protected IP stays withheld until rights transfer.',
     reason:
       'An AssetPack market only works if value is measurable without casually disclosing the source that gives it value.',
   },
@@ -36,10 +36,10 @@ export const proofSections = [
     eyebrow: 'Generated evidence',
     title: 'Generated appendices and proof artifacts are part of the system',
     summary:
-      'Generated evidence includes spec-family reports, canonical input reports, gate checkpoints, proof appendices, application composition proof, conversations continuity, persistence/schema totality, retained package admissibility, and later closure witnesses.',
+      'Generated evidence includes version reports, gate checkpoints, proof appendices, composition proof, persistence totality, and closure witnesses.',
     detail:
       'When evidence is stale, missing, or inconsistent, Bitcode must fail closed rather than letting product language outrun proof truth.',
     reason:
-      'This keeps commercial claims auditable as the repository moves from launch-mode demonstration state toward production readiness.',
+      'This keeps commercial claims auditable as the system moves from testnet launch posture toward production readiness.',
   },
 ] as const satisfies readonly DocsGuideCard[];

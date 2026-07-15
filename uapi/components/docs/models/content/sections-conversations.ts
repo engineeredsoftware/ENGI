@@ -9,14 +9,14 @@ export const conversationsSections = [
     eyebrow: 'Conversations',
     title: 'Conversations are the rich write surface, not a separate product',
     summary:
-      'The conversational workspace lets users draft Reads, attach source context, reference AssetPacks, choose destinations, and coordinate outputs while still writing back into source-safe route state.',
+      'Conversations let operators draft Readings, attach permitted source, reference AssetPacks, choose destinations, and coordinate outputs while writing back into source-safe route state.',
     detail:
-      'The active Protocol treats conversations as a first-class interface because many high-quality technical Reads begin in natural language. The important boundary is that messages must normalize into proof readback evidence rather than remaining unstructured chat history.',
+      'Protocol treats conversations as a first-class interface because strong technical demand often starts in natural language. Messages must normalize into proof-readback evidence rather than remaining unstructured chat history.',
     reason:
-      'This is how Bitcode can support ChatGPT-like workflows without losing protocol-grade auditability.',
+      'Bitcode can feel conversational without losing auditability or inventing a second product ledger.',
     points: [
-      'Source attachments, output destinations, AssetPack references, and Read-measurement intent should be structured.',
-      'Conversation-started executions should become /packs-readable rows.',
+      'Source attachments, destinations, AssetPack references, and Read intent should be structured.',
+      'Conversation-started work should become /packs-readable activity.',
       'Branching should preserve attachments and execution references.',
     ],
   },

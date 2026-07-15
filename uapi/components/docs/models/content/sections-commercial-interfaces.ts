@@ -9,15 +9,15 @@ export const commercialInterfaceSections = [
     eyebrow: 'Interfaces',
     title: 'Commercial interfaces read and write route state under Protocol rules',
     summary:
-      'GitHub, webhooks, ChatGPT App, Bitcode MCP, storage, compute, and future partner surfaces can admit inputs or deliver outputs, but they must not become parallel product owners.',
+      'GitHub, webhooks, ChatGPT App, MCP, storage, compute, and partner surfaces may admit inputs or deliver outputs — they must not become parallel product owners.',
     detail:
-      'An interface is healthy when its write admission is explicit, its read result can be found in /packs, and its boundary posture is source-safe before settlement, BTD rights transfer, and repository delivery.',
+      'An interface is healthy when write admission is explicit, results are rereadable in /packs, and boundary posture stays source-safe before settlement, BTD rights transfer, and delivery.',
     reason:
-      'This prevents interface sprawl from diluting the Bitcode AssetPack contract.',
+      'Interface sprawl must not dilute the AssetPack contract or invent a second ledger.',
     points: [
-      'Ingress surfaces attach source, Read, or destination context.',
-      'Delivery surfaces provide Shippables backed by AssetPack evidence.',
-      'Every interface must preserve proof, disclosure, and fail-closed boundaries.',
+      'Ingress attaches permitted source, Reading, or destination context.',
+      'Delivery surfaces ship knowledge backed by AssetPack evidence.',
+      'Every interface preserves proof, disclosure, and fail-closed boundaries.',
     ],
   },
   {

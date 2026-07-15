@@ -60,11 +60,11 @@ export function DocsEmbeddedUiSection({ specimens }: { specimens: readonly DocsE
       <div className="rounded-none border border-cyan-300/10 bg-cyan-400/[0.035] p-5">
         <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">Interface preview</p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white">
-          Learn with the same UI grammar used in Terminal
+          Learn with the same UI grammar used in the product
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-7 text-cyan-50/72">
-          These embedded specimens reuse the Terminal card and explainer pattern so docs readers
-          become familiar with the real product surfaces before they operate against them.
+          These embedded specimens reuse product card and explainer patterns so docs readers
+          become familiar with Packs, Deposit, and Read before they operate against them.
         </p>
       </div>
       {specimens.map((specimen) => (

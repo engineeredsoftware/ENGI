@@ -30,11 +30,11 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Start here',
     title: 'What Bitcode is',
     summary:
-      'Begin with the zero-to-hero map: what AssetPack commodities are, how BTD scalar volume and rights work, why BTC settlement money matters, and where Protocol and interfaces fit.',
+      'Begin with the map: what AssetPacks are, how BTD volume and rights work, why Bitcoin settles value, and where Packs, Deposit, Read, Protocol, and interfaces fit.',
     detail:
-      'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before introducing /deposits, /reads, /packs, proof, and interface pages.',
+      'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before /deposits, /reads, /packs, proof, and interface pages.',
     learningOutcome:
-      'You can explain Bitcode as knowledge-commoditization infrastructure and name the major product surfaces without reading implementation history.',
+      'You can explain Bitcode as a market for measured technical knowledge and name the major product surfaces without reading implementation history.',
     primaryCta: { href: '/docs/source-shares', label: 'Continue to AssetPacks' },
     sections: whatIsBitcodeSections,
     embeddedUi: [
@@ -74,10 +74,10 @@ export const BITCODE_DOCS_PAGES = [
     embeddedUi: [
       {
         id: 'source-share-flow',
-        eyebrow: 'Terminal specimen',
+        eyebrow: 'Product specimen',
         title: 'AssetPack status card',
         summary:
-          'This mirrors the compact status cards used around product routes: a reader should see supply, Read, fit, and proof as related signals.',
+          'This mirrors the compact status cards used on product routes: supply, Read, fit, and proof as related signals.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.supplyFit,
         signals: [
           { label: 'Supply', value: 'Repository-backed', tone: 'emerald' },
@@ -119,14 +119,14 @@ export const BITCODE_DOCS_PAGES = [
   docsPage({
     slug: 'terminal',
     chapterId: 'experiences',
-    eyebrow: 'Terminal map',
-    title: 'Orient inside the Bitcode Terminal',
+    eyebrow: 'Operator map',
+    title: 'Orient on Packs, Deposit, and Read',
     summary:
-      'Understand the Terminal as one focused Deposit/Read operator surface with recent activity results, support rails, and exact proof follow-through.',
+      'Understand the commercial product as three focused routes: Deposit for supply, Read for demand and delivery, Packs for durable activity and proof readback.',
     detail:
-      'Use this page when you read to know where to read, where to write, and when to open deeper modes such as Conversations or Auxillaries.',
+      'Use this page when you need to know where to write, where to buy, where to audit, and when to open Auxillaries or Conversations as supporting modes.',
     learningOutcome:
-      'You can open Terminal and identify the read window, write posture, repository supply, support rail, and deeper modes.',
+      'You can identify deposit write posture, read demand posture, packs activity reread, and when to open Auxillaries.',
     primaryCta: { href: '/docs/terminal-actions', label: 'Read action guide' },
     sections: terminalSections,
     embeddedUi: [
@@ -214,11 +214,11 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Auxillaries',
     title: 'Configure Auxillaries for wallet, externals, profile, and interfaces',
     summary:
-      'Auxillaries explain the commercially important configuration layer around Terminal: Wallet, Externals, Profile, and Interfaces.',
+      'Auxillaries explain the configuration layer beside product routes: Wallet, Externals, Profile, and Interfaces.',
     detail:
-      'Use this page to understand what each auxillary pane changes and why Terminal may stay fail-closed until wallet, repository, or profile posture is complete.',
+      'Use this page to understand what each auxillary pane changes and why Deposit, Read, or settlement may stay fail-closed until wallet, repository, or profile posture is complete.',
     learningOutcome:
-      'You can identify each auxillary pane and understand which Terminal capability it unlocks.',
+      'You can identify each auxillary pane and which product capability it unlocks or blocks.',
     primaryCta: { href: '/docs/configuration', label: 'Read configuration guide' },
     sections: auxillariesSections,
     embeddedUi: [
@@ -227,7 +227,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Auxillary shell',
         title: 'Wallet, Externals, Profile, Interfaces',
         summary:
-          'The auxillary rail is configuration with product consequences: each pane changes readiness or defaults for Terminal.',
+          'The auxillary rail is configuration with product consequences: each pane changes readiness or defaults for Packs, Deposit, and Read.',
         explainer: BITCODE_PUBLIC_EXPLAINERS.openOrbitals,
         signals: [
           { label: 'Wallet', value: 'Bitcoin identity + BTD posture', tone: 'amber' },
@@ -256,7 +256,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Rich input',
         title: 'Conversation input should become proof readback evidence',
         summary:
-          'Chat can be expressive, but Bitcode reads normalized context so Terminal can reread the outcome.',
+          'Chat can be expressive, but Bitcode normalizes context so /packs can reread the outcome.',
         explainer: TERMINAL_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Source', value: 'Attachment tokens', tone: 'emerald' },
@@ -286,11 +286,11 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Protocol',
     title: 'Map the active Protocol canon',
     summary:
-      'A guided version of the active Protocol canon: AssetPack commodity flow, BTD scalar volume and rights, BTC settlement, claim authority, validation, and promotion posture.',
+      'A guided map of protocol truth: AssetPack flow, BTD volume and rights, BTC settlement, claim authority, validation, and promotion posture.',
     detail:
-      'Use this page to connect product docs to the canonical specification without reading every formal section first. V45 is active canon while V46 is draft target; Public docs are not protocol law.',
+      'Use this page to connect product docs to the specification without reading every formal section first. V48 is the commercial draft-target family; public docs teach and do not legislate.',
     learningOutcome:
-      'You can navigate from public docs into active Protocol canon and understand which areas remain open by design under the V46 claim boundary.',
+      'You can navigate from public docs into protocol canon and know which claims stay blocked until proof and promotion allow them.',
     primaryCta: { href: '/docs/proofs', label: 'Read proof system' },
     sections: protocolSections,
     embeddedUi: [
@@ -328,7 +328,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Proof runtime',
         title: 'Proof families become readable product signals',
         summary:
-          'Terminal can keep dense proof detail available without forcing every user to start in raw artifacts.',
+          'Product routes keep dense proof detail available without forcing every reader to start in raw artifacts.',
         explainer: TERMINAL_WORKSPACE_EXPLAINERS.sourcePath,
         signals: [
           { label: 'Witness', value: 'Artifact-bound', tone: 'emerald' },
@@ -344,11 +344,11 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: '$BTD',
     title: 'Read settlement, $BTD, and exact accounting',
     summary:
-      'Settlement docs connect AssetPacks to BTD scalar volume and rights, BTC settlement money, fit-quality receipts, journal completeness, wallet readiness, finality, and delivery posture.',
+      'Settlement docs connect AssetPacks to BTD volume and rights, Bitcoin settlement money, needs-fits receipts, journals, wallet readiness, finality, and delivery posture.',
     detail:
-      'Use this page when you read to understand how accepted AssetPack evidence becomes attributable settlement rather than just a successful analysis run.',
+      'Use this page to understand how accepted AssetPack evidence becomes attributable settlement rather than only a successful analysis run.',
     learningOutcome:
-      'You can explain how Bitcode moves from measured source and fit into exact accounting, BTC finality, BTD rights transfer, and staged or live payment posture.',
+      'You can explain how Bitcode moves from measured source and fits into exact accounting, BTC finality, BTD rights transfer, and staged or live payment posture.',
     primaryCta: { href: '/docs/commercial-interfaces', label: 'Read interface guide' },
     sections: settlementSections,
   }),
