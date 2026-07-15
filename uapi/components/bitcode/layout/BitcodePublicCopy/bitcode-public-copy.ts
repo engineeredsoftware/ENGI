@@ -94,7 +94,7 @@ export const BITCODE_PUBLIC_COPY = {
         href: '/docs',
         status: 'live' as const,
         detail:
-          "Bitcode's API consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported with more on the way.",
+          "Bitcode's API is consumable virtually everywhere, whether it be via scripting or within your own applications. Most core experiences are supported with more on the way.",
       },
       {
         id: 'extensions',
