@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V47_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v47-promotion-readiness-report.json';
+  '.proofs/v47/promotion-readiness-report.json';
 export const V47_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v47.promotionReadinessReport.v1';
 export const V47_PROMOTION_READINESS_REPORT_VERSION = 'V47';
@@ -18,21 +18,21 @@ export const V47_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-v47-commercial-website-testnet-launch-promotion-metadata';
 
 export const V47_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v47-feature-excess-alignment-audit.json',
-  '.bitcode/v47-seller-buyer-state-machine-law.json',
-  '.bitcode/v47-depositor-website-completion.json',
-  '.bitcode/v47-reader-website-completion.json',
-  '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
-  '.bitcode/v47-e2e-ip-selling-buying-tests.json',
-  '.bitcode/v47-landing-public-launch-messaging.json',
-  '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v47/feature-excess-alignment-audit.json',
+  '.proofs/v47/seller-buyer-state-machine-law.json',
+  '.proofs/v47/depositor-website-completion.json',
+  '.proofs/v47/reader-website-completion.json',
+  '.proofs/v47/packs-auxillaries-commercial-dashboard.json',
+  '.proofs/v47/e2e-ip-selling-buying-tests.json',
+  '.proofs/v47/landing-public-launch-messaging.json',
+  '.proofs/v47/staging-testnet-deployment-rehearsal.json',
 ]);
 
 export const V47_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V47_PROVEN.md',
-  '.bitcode/v47-spec-family-report.json',
-  '.bitcode/v47-canonical-input-report.json',
-  '.bitcode/v47-canon-posture-drift-report.json',
+  '.proofs/v47/spec-family-report.json',
+  '.proofs/v47/canonical-input-report.json',
+  '.proofs/v47/canon-posture-drift-report.json',
   V47_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -403,7 +403,7 @@ export function buildV47PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V47_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v47-',
+      generatedArtifactPrefix: '.proofs/v47/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

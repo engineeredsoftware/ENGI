@@ -53,7 +53,7 @@ test('builds source-safe V46 PromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^v46-protocol-comprehension-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     V46_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v46-promotion-readiness-report.json',
+    '.proofs/v46/promotion-readiness-report.json',
   );
 
   for (const artifactPath of V46_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -76,6 +76,6 @@ test('supports V46 promotion readiness with source-safe protocol comprehension a
   assert.equal(result.data.v46.promotionReadinessReport.postPromotionPosture, 'V46 active / V47 draft');
   assert.equal(result.data.v46.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V46 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v46-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v46-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v46/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v46/canon-posture-drift-report.json']);
 });

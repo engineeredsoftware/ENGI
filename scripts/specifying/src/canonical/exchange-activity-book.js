@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_ACTIVITY_BOOK_ARTIFACT_PATH = '.bitcode/v36-exchange-activity-book.json';
+export const EXCHANGE_ACTIVITY_BOOK_ARTIFACT_PATH = '.proofs/v36/exchange-activity-book.json';
 export const EXCHANGE_ACTIVITY_BOOK_SCHEMA_ID = 'bitcode.v36.exchangeActivityBook.v1';
 export const EXCHANGE_ACTIVITY_BOOK_VERSION = 'V36';
 export const EXCHANGE_ACTIVITY_BOOK_CURRENT_TARGET = 'V35';

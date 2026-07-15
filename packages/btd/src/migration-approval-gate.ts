@@ -249,7 +249,7 @@ export function buildMigrationApprovalGateRows(): MigrationApprovalGateInput[] {
       workflowBinding: 'bitcode-gate-quality draft canon posture checks',
       blockingFailureMode: 'block deployment when generated artifacts are stale, source-unsafe, or missing from canonical allowlist',
       auditEventName: 'migration_cicd_approval.generated_artifact_freshness',
-      proofRootBasis: ['.bitcode', 'scripts/specifying/src/canonical/v21-specifying.js', 'check:spec-family'],
+      proofRootBasis: ['.proofs', 'scripts/specifying/src/canonical/v21-specifying.js', 'check:spec-family'],
     },
     {
       gateId: 'vercel_lane_check',

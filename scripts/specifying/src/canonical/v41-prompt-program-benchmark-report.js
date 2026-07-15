@@ -23,7 +23,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ARTIFACT_PATH =
-  '.bitcode/v41-prompt-program-benchmark-report.json';
+  '.proofs/v41/prompt-program-benchmark-report.json';
 export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_SCHEMA_ID =
   'bitcode.v41.promptProgramBenchmarkReport.v1';
 export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_VERSION = 'V41';
@@ -101,27 +101,27 @@ const SOURCE_ROOTS = Object.freeze({
   pipelineLogTest: 'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
   pipelineLogHeaderTest: 'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
   v38PromptBenchmarkSource: 'scripts/specifying/src/canonical/prompt-benchmark-report.js',
-  v38PromptBenchmarkArtifact: '.bitcode/v38-prompt-benchmark-report.json',
+  v38PromptBenchmarkArtifact: '.proofs/v38/prompt-benchmark-report.json',
   v38InferenceTelemetrySource: 'scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js',
-  v38InferenceTelemetryArtifact: '.bitcode/v38-disclosure-boundary-report.json',
+  v38InferenceTelemetryArtifact: '.proofs/v38/disclosure-boundary-report.json',
   v38PtrrStackSource: 'scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',
   v38ReadFitsSearchEmbeddingsSource: 'scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js',
   v39OperationalTelemetrySource: 'scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js',
-  v39OperationalTelemetryArtifact: '.bitcode/v39-operational-telemetry-repair-readback.json',
+  v39OperationalTelemetryArtifact: '.proofs/v39/operational-telemetry-repair-readback.json',
   v40PromptBenchmarkSmokeSource: 'scripts/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js',
-  v40PromptBenchmarkSmokeArtifact: '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
+  v40PromptBenchmarkSmokeArtifact: '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json',
   gate2InventorySource: 'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
-  gate2InventoryArtifact: '.bitcode/v41-promptpart-prompt-inventory.json',
+  gate2InventoryArtifact: '.proofs/v41/promptpart-prompt-inventory.json',
   gate3ContractsSource: 'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',
-  gate3ContractsArtifact: '.bitcode/v41-registry-interpolation-contracts.json',
+  gate3ContractsArtifact: '.proofs/v41/registry-interpolation-contracts.json',
   gate4BaselinesSource: 'scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js',
-  gate4BaselinesArtifact: '.bitcode/v41-reading-prompt-benchmark-baselines.json',
+  gate4BaselinesArtifact: '.proofs/v41/reading-prompt-benchmark-baselines.json',
   gate5ReadNeedSource: 'scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js',
-  gate5ReadNeedArtifact: '.bitcode/v41-readneed-prompt-hardening.json',
+  gate5ReadNeedArtifact: '.proofs/v41/readneed-prompt-hardening.json',
   gate6ReadFitsSource: 'scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js',
-  gate6ReadFitsArtifact: '.bitcode/v41-readfitsfinding-prompt-hardening.json',
+  gate6ReadFitsArtifact: '.proofs/v41/readfitsfinding-prompt-hardening.json',
   gate7ConversationSource: 'scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
-  gate7ConversationArtifact: '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
+  gate7ConversationArtifact: '.proofs/v41/conversation-tool-interface-prompt-rewrite.json',
   packageSource: 'scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js',
   packageTest: 'scripts/specifying/test/v41-prompt-program-benchmark-report.test.js',
   generator: 'scripts/generate-v41-prompt-program-benchmark-report.mjs',
@@ -588,7 +588,7 @@ function buildPredicateResults(repoRoot, context) {
     predicate(
       'post-rewrite-artifacts-present',
       'post-rewrite-prompt-inventory-delta',
-      '.bitcode',
+      '.proofs',
       [
         SOURCE_ROOTS.gate2InventoryArtifact,
         SOURCE_ROOTS.gate5ReadNeedArtifact,

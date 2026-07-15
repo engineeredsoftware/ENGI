@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V38_READ_NEED_COMPREHENSION_HARDENING_ARTIFACT_PATH =
-  '.bitcode/v38-read-need-comprehension-inference-hardening.json';
+  '.proofs/v38/read-need-comprehension-inference-hardening.json';
 export const V38_READ_NEED_COMPREHENSION_HARDENING_SCHEMA_ID =
   'bitcode.v38.readNeedComprehensionInferenceHardening.v1';
 export const V38_READ_NEED_COMPREHENSION_HARDENING_VERSION = 'V38';
@@ -230,10 +230,10 @@ export function buildV38ReadNeedComprehensionInferenceHardening(options = {}) {
     .filter((predicate) => !predicate.passed)
     .map((predicate) => predicate.id);
 
-  const gate2 = readJson(repoRoot, '.bitcode/v38-inference-surface-inventory.json');
-  const gate3 = readJson(repoRoot, '.bitcode/v38-ptrr-failsafe-thricified-stack.json');
-  const gate4 = readJson(repoRoot, '.bitcode/v38-prompt-benchmark-report.json');
-  const gate5 = readJson(repoRoot, '.bitcode/v38-disclosure-boundary-report.json');
+  const gate2 = readJson(repoRoot, '.proofs/v38/inference-surface-inventory.json');
+  const gate3 = readJson(repoRoot, '.proofs/v38/ptrr-failsafe-thricified-stack.json');
+  const gate4 = readJson(repoRoot, '.proofs/v38/prompt-benchmark-report.json');
+  const gate5 = readJson(repoRoot, '.proofs/v38/disclosure-boundary-report.json');
   const rowRoots = V38_READ_NEED_COMPREHENSION_HARDENING_ROWS.map((item) => item.rowRoot);
   const artifactRoot = `v38-read-need-comprehension-hardening:${digest(JSON.stringify({
     rowRoots,

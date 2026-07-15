@@ -96,5 +96,5 @@ test('binds runbooks to telemetry taxonomy dashboards alerts and incidents', () 
     catalog.disclosureBoundary.operatorRule.includes('source-safe metadata'),
     true,
   );
-  assert.equal(OPERATOR_RUNBOOK_CATALOG_ARTIFACT_PATH, '.bitcode/v35-operator-runbook-catalog.json');
+  assert.equal(OPERATOR_RUNBOOK_CATALOG_ARTIFACT_PATH, '.proofs/v35/operator-runbook-catalog.json');
 });

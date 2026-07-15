@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_READ_FITS_FINDING_RUNTIME_ARTIFACT_PATH =
-  '.bitcode/v39-read-fits-finding-runtime.json';
+  '.proofs/v39/read-fits-finding-runtime.json';
 export const V39_READ_FITS_FINDING_RUNTIME_SCHEMA_ID =
   'bitcode.v39.readFitsFindingRuntime.v1';
 export const V39_READ_FITS_FINDING_RUNTIME_VERSION = 'V39';

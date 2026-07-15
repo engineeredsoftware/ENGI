@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v45-source-safe-e2e-rehearsal.json';
+  '.proofs/v45/source-safe-e2e-rehearsal.json';
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_SCHEMA_ID =
   'bitcode.v45.sourceSafeEndToEndRehearsal.v1';
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_VERSION = 'V45';
@@ -123,18 +123,18 @@ const SOURCE_ROOTS = Object.freeze({
   operatorScript: 'scripts/rehearse-v45-source-safe-e2e.mjs',
   protocolIndex: 'scripts/specifying/src/index.js',
   protocolTypes: 'scripts/specifying/src/index.d.ts',
-  v39ReadingRehearsal: '.bitcode/v39-local-staging-reading-rehearsal.json',
-  v42MvpRehearsal: '.bitcode/v42-local-staging-mvp-rehearsal.json',
-  v44ScaledRehearsal: '.bitcode/v44-scaled-network-rehearsal.json',
-  v45InferenceProof: '.bitcode/v45-inference-synthesis-proof.json',
-  v45PromptProof: '.bitcode/v45-prompt-completeness-proof.json',
-  v45StaticProof: '.bitcode/v45-static-code-analysis-proof.json',
-  v45VerificationProof: '.bitcode/v45-verification-decisions-proof.json',
-  v45SelectionProof: '.bitcode/v45-selection-materialization-proof.json',
-  v45AuthorizationProof: '.bitcode/v45-authorization-sensitive-flow-proof.json',
-  v45SettlementProof: '.bitcode/v45-settlement-source-to-shares-proof.json',
-  v45DisclosureProof: '.bitcode/v45-disclosure-boundary-proof.json',
-  v45ProofContract: '.bitcode/v45-proof-contract-proof.json',
+  v39ReadingRehearsal: '.proofs/v39/local-staging-reading-rehearsal.json',
+  v42MvpRehearsal: '.proofs/v42/local-staging-mvp-rehearsal.json',
+  v44ScaledRehearsal: '.proofs/v44/scaled-network-rehearsal.json',
+  v45InferenceProof: '.proofs/v45/inference-synthesis-proof.json',
+  v45PromptProof: '.proofs/v45/prompt-completeness-proof.json',
+  v45StaticProof: '.proofs/v45/static-code-analysis-proof.json',
+  v45VerificationProof: '.proofs/v45/verification-decisions-proof.json',
+  v45SelectionProof: '.proofs/v45/selection-materialization-proof.json',
+  v45AuthorizationProof: '.proofs/v45/authorization-sensitive-flow-proof.json',
+  v45SettlementProof: '.proofs/v45/settlement-source-to-shares-proof.json',
+  v45DisclosureProof: '.proofs/v45/disclosure-boundary-proof.json',
+  v45ProofContract: '.proofs/v45/proof-contract-proof.json',
 });
 
 function digest(value) {

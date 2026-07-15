@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const PUBLIC_DOCS_USAGE_GUIDE_CATALOG_ARTIFACT_PATH = '.bitcode/v35-public-docs-usage-guides.json';
+export const PUBLIC_DOCS_USAGE_GUIDE_CATALOG_ARTIFACT_PATH = '.proofs/v35/public-docs-usage-guides.json';
 export const PUBLIC_DOCS_USAGE_GUIDE_CATALOG_SCHEMA_ID = 'bitcode.v35.publicDocsUsageGuideCatalog.v1';
 export const PUBLIC_DOCS_USAGE_GUIDE_CATALOG_VERSION = 'V35';
 export const PUBLIC_DOCS_USAGE_GUIDE_CATALOG_CURRENT_TARGET = 'V34';

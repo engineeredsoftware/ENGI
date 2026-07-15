@@ -10,7 +10,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V38.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V38`
-- Generated structured artifact inventory: active canonical `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, `.bitcode/v39-promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v39/spec-family-report.json`, `.proofs/v39/canonical-input-report.json`, `.proofs/v39/canon-posture-drift-report.json`, `.proofs/v39/depository-supply-indexing.json`, `.proofs/v39/enterprise-reading-ux-state.json`, `.proofs/v39/read-need-review-resynthesis.json`, `.proofs/v39/read-fits-finding-runtime.json`, `.proofs/v39/assetpack-preview-quote-boundary.json`, `.proofs/v39/settlement-rights-delivery.json`, `.proofs/v39/operational-telemetry-repair-readback.json`, `.proofs/v39/interface-conversation-product-parity.json`, `.proofs/v39/local-staging-reading-rehearsal.json`, `.proofs/v39/promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
 - Source parity state: V39 source-side Depository supply indexing, enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry repair readback, interface parity, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V39 file family
 - Notes companion: `BITCODE_SPEC_V39_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V39_DELTA.md`
@@ -113,7 +113,7 @@ steps: `request-read`, `review-synthesized-need`, `request-fit`,
 Conversation handoffs may carry only source-safe stage intent through the
 `readingStage` query parameter and `terminalEnterpriseReadingStage` metadata;
 Terminal remains the transaction authority. The generated source-safe proof
-artifact is `.bitcode/v39-enterprise-reading-ux-state.json`, checked by
+artifact is `.proofs/v39/enterprise-reading-ux-state.json`, checked by
 `pnpm run check:v39-gate3`.
 
 ### Gate 4: ReadNeed Review, Resynthesis, And Admission Runtime
@@ -126,7 +126,7 @@ The implementation basis is `ReadNeedReviewResynthesisRuntime`, exported from
 source-safe storage records for `read_request`, `synthesized_need`, `feedback`,
 `resynthesis_attempt`, `need_measurement`, `accepted_need_admission`,
 `rejected_need_posture`, and `telemetry_receipt`. The generated source-safe
-proof artifact is `.bitcode/v39-read-need-review-resynthesis.json`, checked by
+proof artifact is `.proofs/v39/read-need-review-resynthesis.json`, checked by
 `pnpm run check:v39-gate4`. Rejected or unaccepted Needs must emit Finding Fits
 blockers; only `acceptReadNeed` may produce Finding Fits admission.
 
@@ -143,7 +143,7 @@ the depository search result with `ReadFitsFindingReplayReceipt`,
 source-safe query plan, ranking root, selected-fit provenance root, embedding
 policy, and candidate counts without exposing protected source or unpaid
 AssetPack source. The generated source-safe proof artifact is
-`.bitcode/v39-read-fits-finding-runtime.json`, checked by
+`.proofs/v39/read-fits-finding-runtime.json`, checked by
 `pnpm run check:v39-gate5`.
 
 ### Gate 6: AssetPack Preview, Quote, And Disclosure Boundary
@@ -159,7 +159,7 @@ The implementation basis is `AssetPackPreviewBoundary`, exported from
 without exposing protected source, raw protected prompts, raw provider
 responses, credentials, wallet private material, private settlement payloads,
 or unpaid AssetPack source. The deterministic proof artifact is
-`.bitcode/v39-assetpack-preview-quote-boundary.json`, checked by
+`.proofs/v39/assetpack-preview-quote-boundary.json`, checked by
 `pnpm run check:v39-gate6`.
 
 ### Gate 7: Settlement, BTD Rights Transfer, And Delivery
@@ -180,7 +180,7 @@ into a source-safe paid-boundary receipt. It emits
 without serializing protected source, private wallet material, private
 settlement payloads, credentials, raw protected prompts, or raw provider
 responses. The deterministic source-safe proof artifact is
-`.bitcode/v39-settlement-rights-delivery.json`, checked by
+`.proofs/v39/settlement-rights-delivery.json`, checked by
 `pnpm run check:v39-gate7`.
 
 ### Gate 8: Operational Telemetry, Repair, And Operator Readback
@@ -211,7 +211,7 @@ with expandable details. No operational artifact may serialize protected
 source, raw protected prompts, raw interpolated prompts, raw provider
 responses, unpaid AssetPack source, wallet private material, private
 settlement payloads, or credentials. The deterministic source-safe proof
-artifact is `.bitcode/v39-operational-telemetry-repair-readback.json`,
+artifact is `.proofs/v39/operational-telemetry-repair-readback.json`,
 checked by `pnpm run check:v39-gate8`.
 
 ### Gate 9: Interface And Conversation Product Parity
@@ -230,7 +230,7 @@ Every `ReadingInterfaceProductParityRow` proves accepted-Need gating,
 Finding Fits admission, source-safe preview, settlement unlock, BTD rights,
 authorized delivery, no parallel authority, and locked source-bearing delivery
 before settlement and rights transfer. The deterministic source-safe proof
-artifact is `.bitcode/v39-interface-conversation-product-parity.json`,
+artifact is `.proofs/v39/interface-conversation-product-parity.json`,
 checked by `pnpm run check:v39-gate9`.
 
 ### Gate 10: Local And Staging Commercial Reading Rehearsal
@@ -260,14 +260,14 @@ private material, private settlement payloads, or live log payloads.
 Source-bearing pull-request delivery remains visible only after settlement
 and BTD rights transfer; value-bearing mainnet admission remains false. The
 deterministic source-safe proof artifact is
-`.bitcode/v39-local-staging-reading-rehearsal.json`, checked by
+`.proofs/v39/local-staging-reading-rehearsal.json`, checked by
 `pnpm run check:v39-gate10`.
 
 ### Gate 11: V39 Promotion Readiness
 
 Gate 11 closes V39 with promotion readiness.
 It must generate V39 proof support, validate every V39 artifact, update promotion workflows, preserve V38 active / V39 draft to V39 active / draft V40 posture, and block promotion if Depository supply, Reading UX, Need review, Finding Fits, preview/quote, settlement/delivery, telemetry/repair, interface parity, local/staging rehearsal, or source-safety evidence is incomplete.
-The package-owned closure type is `V39CommercialReadingPromotionReadinessReport`; the deterministic source-safe artifact is `.bitcode/v39-promotion-readiness-report.json`, checked by `pnpm run check:v39-gate11`.
+The package-owned closure type is `V39CommercialReadingPromotionReadinessReport`; the deterministic source-safe artifact is `.proofs/v39/promotion-readiness-report.json`, checked by `pnpm run check:v39-gate11`.
 
 ## V39 non-goals
 
@@ -288,7 +288,7 @@ The source-of-truth hierarchy for V39 is:
 1. `BITCODE_SPEC.txt` points to active V38 until V39 promotion.
 2. `BITCODE_SPEC_V38.md` and `BITCODE_SPEC_V38_PROVEN.md` remain active canon.
 3. `BITCODE_SPEC_V39.md`, `BITCODE_SPEC_V39_DELTA.md`, `BITCODE_SPEC_V39_NOTES.md`, and `BITCODE_SPEC_V39_PARITY_MATRIX.md` are the draft target family during V39 gates.
-4. Package source, tests, scripts, workflows, generated `.bitcode/*` artifacts, local/staging rehearsal evidence, and promotion checks must converge before V39 promotion.
+4. Package source, tests, scripts, workflows, generated `.proofs/*` artifacts, local/staging rehearsal evidence, and promotion checks must converge before V39 promotion.
 
 ## full-system, re-implementation, and audit rule
 
@@ -326,7 +326,7 @@ The whole operator chain is deposit source, measure deposited material, request 
 
 ### Depositing and asset supply
 
-Current canonical objects and emitted artifacts: deposits, deposited source metadata, BTD range identity, source-safe proofs, and inherited `.bitcode/asset-pack.lock.json` style artifact roots.
+Current canonical objects and emitted artifacts: deposits, deposited source metadata, BTD range identity, source-safe proofs, and inherited `.proofs/_shared/asset-pack.lock.json` style artifact roots.
 Current algorithms and derivation rules: source measurement, source-to-shares accounting, deposit admissibility, and proof-root derivation remain inherited from V38 and prior canon.
 Current invariants and fail-closed conditions: deposits cannot expose secrets or protected source beyond permitted tiers, and invalid deposit fails closed.
 Current proof obligations: source measurement, disclosure boundary, static analysis, and proof contract evidence remain required.
@@ -334,7 +334,7 @@ Current source-bearing implementation basis: package source and route contracts 
 Current validating commands and parity basis: active V38 promoted checks plus V39 gate checks.
 Current accepted boundaries: V39 only changes inference/search surfaces that consume deposits.
 
-Gate 2 implementation basis: `packages/pipelines/asset-pack/src/depository-supply-index.ts` owns `DepositorySupplyIndex`, `DepositorySupplyRecord`, `DepositorySupplySearchDocument`, `DepositorySupplyVectorProjection`, and `DepositorySupplyStorageProjection`. The deterministic source-safe proof artifact is `.bitcode/v39-depository-supply-indexing.json`, generated by `pnpm run generate:v39-depository-supply-indexing` and checked by `pnpm run check:v39-gate2`.
+Gate 2 implementation basis: `packages/pipelines/asset-pack/src/depository-supply-index.ts` owns `DepositorySupplyIndex`, `DepositorySupplyRecord`, `DepositorySupplySearchDocument`, `DepositorySupplyVectorProjection`, and `DepositorySupplyStorageProjection`. The deterministic source-safe proof artifact is `.proofs/v39/depository-supply-indexing.json`, generated by `pnpm run generate:v39-depository-supply-indexing` and checked by `pnpm run check:v39-gate2`.
 
 ### Reading and prompt/inference ownership
 
@@ -402,7 +402,7 @@ Current canonical objects and emitted artifacts: generated proof appendix, spec-
 Current algorithms and derivation rules: proof roots derive from deterministic artifacts and replayable command evidence.
 Current invariants and fail-closed conditions: stale promoted status truth and missing generated proof evidence fail closed.
 Current proof obligations: all nine proof families.
-Current source-bearing implementation basis: `packages/protocol`, scripts, workflows, tests, and generated `.bitcode/*` artifacts.
+Current source-bearing implementation basis: `packages/protocol`, scripts, workflows, tests, and generated `.proofs/*` artifacts.
 Current validating commands and parity basis: V39 Gate 1 through Gate 11 checks.
 Current accepted boundaries: generated proof cannot serialize credentials, protected source, unpaid AssetPack source, or private wallet material.
 
@@ -412,7 +412,7 @@ The V39 proof-family canon inherits all nine proof families and adds inference-f
 
 ### Inference-synthesis
 
-proofArtifactPath: `.bitcode/v39-inference-surface-inventory.json` and `.bitcode/v39-ptrr-failsafe-thricified-stack.json`
+proofArtifactPath: `.proofs/v39/inference-surface-inventory.json` and `.proofs/v39/ptrr-failsafe-thricified-stack.json`
 members: pipeline phases, PTRR agents, Plan/Try/Refine/Retry steps, Failsafe chains, ThricifiedGeneration calls, provider calls
 theoremIds: commercial-reading-totality, typed-output-admissibility
 replayStepIds: run V39 Gate 2 and Gate 3 checks
@@ -428,7 +428,7 @@ fail-closed conditions: missing prompt, missing schema, invalid typed output
 
 ### Prompt-completeness
 
-proofArtifactPath: `.bitcode/v39-prompt-benchmark-report.json`
+proofArtifactPath: `.proofs/v39/prompt-benchmark-report.json`
 members: PromptParts, Prompts, templates, interpolation bindings, tool documentation
 theoremIds: prompt-registry-totality, prompt-benchmark-coverage
 replayStepIds: run V39 Gate 4 checks
@@ -444,7 +444,7 @@ fail-closed conditions: missing prompt identity or unbound interpolation
 
 ### Static-code-analysis
 
-proofArtifactPath: `.bitcode/v39-static-inference-boundary-report.json`
+proofArtifactPath: `.proofs/v39/static-inference-boundary-report.json`
 members: imports, source casing, route versioning, secret scans, raw prompt boundaries
 theoremIds: source-boundary-conformance, no-versioned-route-drift
 replayStepIds: run gate-quality static checks
@@ -460,7 +460,7 @@ fail-closed conditions: versioned route, secret leak, unsupported import
 
 ### Verification-decisions
 
-proofArtifactPath: `.bitcode/v39-verification-decision-report.json`
+proofArtifactPath: `.proofs/v39/verification-decision-report.json`
 members: search verification, Need adequacy, fit quality, AssetPack preview quality
 theoremIds: verification-is-typed, no-unverified-fit-selection
 replayStepIds: run V39 Gate 6 through Gate 8 checks
@@ -476,7 +476,7 @@ fail-closed conditions: unsupported evidence, below-threshold fit, unverifiable 
 
 ### Selection-and-materialization
 
-proofArtifactPath: `.bitcode/v39-read-fits-finding-runtime.json`; `.bitcode/v39-settlement-rights-delivery.json`
+proofArtifactPath: `.proofs/v39/read-fits-finding-runtime.json`; `.proofs/v39/settlement-rights-delivery.json`
 members: candidate deposits, selected fits, AssetPack synthesis handoff, PR delivery
 theoremIds: selected-fits-traceable, materialization-source-safe
 replayStepIds: run V39 Gate 7 and Gate 8 checks
@@ -492,7 +492,7 @@ fail-closed conditions: no-survivor asset pack, untraceable fit, unpaid source e
 
 ### Authorization-and-sensitive-flow
 
-proofArtifactPath: `.bitcode/v39-sensitive-flow-report.json`
+proofArtifactPath: `.proofs/v39/sensitive-flow-report.json`
 members: source visibility, prompt visibility, wallet material, settlement payloads, credentials
 theoremIds: sensitive-flow-redacted, authority-boundary-preserved
 replayStepIds: run V39 Gate 5, Gate 8, and Gate 9 checks
@@ -508,7 +508,7 @@ fail-closed conditions: authorization denial, credential exposure, private walle
 
 ### Settlement-source-to-shares
 
-proofArtifactPath: `.bitcode/v39-assetpack-synthesis-economic-traceability.json`
+proofArtifactPath: `.proofs/v39/assetpack-synthesis-economic-traceability.json`
 members: measurement volume, BTC price posture, fit contributor route, ledger/database roots
 theoremIds: settlement-traceable-to-fits, compensation-conserved
 replayStepIds: run V39 Gate 8 and Gate 10 checks
@@ -524,7 +524,7 @@ fail-closed conditions: settlement conservation drift, projection mismatch, stal
 
 ### Disclosure-boundary
 
-proofArtifactPath: `.bitcode/v39-disclosure-boundary-report.json`
+proofArtifactPath: `.proofs/v39/disclosure-boundary-report.json`
 members: source-safe preview, public telemetry, buyer telemetry, reviewer telemetry, operator telemetry
 theoremIds: preview-does-not-leak-source, telemetry-tier-correct
 replayStepIds: run V39 Gate 5 through Gate 10 checks
@@ -544,7 +544,7 @@ proofArtifactPath: `BITCODE_SPEC_V39_PROVEN.md`
 members: spec family, generated artifacts, checks, workflows, promotion evidence
 theoremIds: promotion-proof-complete, generated-appendix-current
 replayStepIds: run V39 Gate 11 promotion readiness checks
-witnessArtifactPaths: V39 generated proof appendix and `.bitcode/v39-*` artifacts
+witnessArtifactPaths: V39 generated proof appendix and `.proofs/v39/*` artifacts
 current member closure criteria: every closed gate has generated, tested, source-safe proof
 current member verdict shape: promoted, draft, blocked, or stale
 current theorem-by-theorem closure reading: promotion is accepted only with complete proof
@@ -556,11 +556,11 @@ fail-closed conditions: stale promoted status truth, missing proof, unsafe gener
 
 ## generated canon
 
-Generated canon for V39 includes source-safe `.bitcode/v39-*` artifacts, generated reports, benchmark reports, rehearsal evidence, and the eventual `BITCODE_SPEC_V39_PROVEN.md`.
+Generated canon for V39 includes source-safe `.proofs/v39/*` artifacts, generated reports, benchmark reports, rehearsal evidence, and the eventual `BITCODE_SPEC_V39_PROVEN.md`.
 Generated artifacts must be reproducible, deterministic where possible, and blocked when source-safe payload rules fail.
 Inherited V19 reproducible-canon artifacts remain the baseline for deterministic generated proof.
 Inherited V20 operator-quality artifacts remain the baseline for operator-visible quality.
-Exact generated-artifact inventory matrix includes `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, and `.bitcode/v39-promotion-readiness-report.json`.
+Exact generated-artifact inventory matrix includes `.proofs/v39/spec-family-report.json`, `.proofs/v39/canonical-input-report.json`, `.proofs/v39/canon-posture-drift-report.json`, `.proofs/v39/depository-supply-indexing.json`, `.proofs/v39/enterprise-reading-ux-state.json`, `.proofs/v39/read-need-review-resynthesis.json`, `.proofs/v39/read-fits-finding-runtime.json`, `.proofs/v39/assetpack-preview-quote-boundary.json`, `.proofs/v39/settlement-rights-delivery.json`, `.proofs/v39/operational-telemetry-repair-readback.json`, `.proofs/v39/interface-conversation-product-parity.json`, `.proofs/v39/local-staging-reading-rehearsal.json`, and `.proofs/v39/promotion-readiness-report.json`.
 V39 specifying generated artifacts include Depository supply indexing, enterprise Reading UX state, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry/repair readback, interface parity, local/staging rehearsal, and promotion readiness reports.
 Shared generated-artifact fields: version, currentTarget, artifactRoot, sourceRoots, proofRoots, disclosureTier, generatedAt, and command.
 Artifact-specific generated payload fields: prompt ids, PromptPart ids, phase ids, agent ids, step ids, Failsafe ids, ThricifiedGeneration ids, tool ids, fit ids, ranking roots, and settlement roots.
@@ -573,7 +573,7 @@ Validation canon includes `pnpm run check:v39-gate1`, `pnpm run check:v39-gate2`
 ## promotion canon
 
 Promotion canon requires all V39 gates to close, V39 proof support to exist, a V39 promotion workflow to pass, and the promotion commit to change only accepted canon artifacts and the `BITCODE_SPEC.txt` pointer from V38 to V39.
-The V39 promotion readiness canon is `.bitcode/v39-promotion-readiness-report.json`, `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, `check:v39-gate11`, `node scripts/promote-bitcode-canon.mjs --version V39 --commit HEAD --dry-run`, and the V39 active / draft V40 posture checks.
+The V39 promotion readiness canon is `.proofs/v39/promotion-readiness-report.json`, `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, `check:v39-gate11`, `node scripts/promote-bitcode-canon.mjs --version V39 --commit HEAD --dry-run`, and the V39 active / draft V40 posture checks.
 `V39CommercialReadingPromotionReadinessReport` is package-backed in `packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js`.
 It proves all Gate 2 through Gate 10 artifacts are present, parseable, source-safe, workflow-wired, and covered by generated proof support; it blocks value-bearing mainnet admission and preserves protected source, raw protected prompts, raw provider responses, unpaid AssetPack source, credentials, wallet private material, and private settlement payloads.
 
@@ -594,14 +594,14 @@ Each family must close with proofArtifactPath, members, theoremIds, replayStepId
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v39-read-need-review-resynthesis.json`; `.bitcode/v39-read-fits-finding-runtime.json` | phases, agents, steps, failsafes, generations | commercial-reading-totality | v39-gate4, v39-gate5 | prompt receipts, generation receipts | `packages/agent-generics`, `packages/pipelines/asset-pack` |
-| Prompt-completeness | `.bitcode/v39-read-need-review-resynthesis.json`; `.bitcode/v39-read-fits-finding-runtime.json` | PromptParts, Prompts | prompt-registry-totality | v39-gate4, v39-gate5 | benchmark fixtures | `packages/prompts` |
-| Static-code-analysis | `.bitcode/v39-static-inference-boundary-report.json` | imports, routes, scans | source-boundary-conformance | gate-quality | workflow logs | scripts and workflows |
-| Verification-decisions | `.bitcode/v39-read-need-review-resynthesis.json`; `.bitcode/v39-assetpack-preview-quote-boundary.json` | Need, fits, previews | verification-is-typed | v39-gate4, v39-gate6 | verification reports | Reading pipeline packages |
-| Selection-and-materialization | `.bitcode/v39-read-fits-finding-runtime.json`; `.bitcode/v39-settlement-rights-delivery.json` | candidates, selected fits, AssetPack handoff | selected-fits-traceable | v39-gate5, v39-gate7 | selected-source material | depository search and synthesis packages |
-| Authorization-and-sensitive-flow | `.bitcode/v39-sensitive-flow-report.json` | visibility tiers, redaction | sensitive-flow-redacted | v39-gate5, v39-gate9 | redaction receipts | API and UI redaction paths |
-| Settlement-source-to-shares | `.bitcode/v39-settlement-rights-delivery.json` | fees, contributors, rights | settlement-traceable-to-fits | v39-gate7, v39-gate10 | settlement receipts | BTD and Reading packages |
-| Disclosure-boundary | `.bitcode/v39-assetpack-preview-quote-boundary.json`; `.bitcode/v39-operational-telemetry-repair.json` | prompt, result, preview tiers | preview-does-not-leak-source | v39-gate6, v39-gate8 | telemetry events | V35/V38/V39 telemetry surfaces |
+| Inference-synthesis | `.proofs/v39/read-need-review-resynthesis.json`; `.proofs/v39/read-fits-finding-runtime.json` | phases, agents, steps, failsafes, generations | commercial-reading-totality | v39-gate4, v39-gate5 | prompt receipts, generation receipts | `packages/agent-generics`, `packages/pipelines/asset-pack` |
+| Prompt-completeness | `.proofs/v39/read-need-review-resynthesis.json`; `.proofs/v39/read-fits-finding-runtime.json` | PromptParts, Prompts | prompt-registry-totality | v39-gate4, v39-gate5 | benchmark fixtures | `packages/prompts` |
+| Static-code-analysis | `.proofs/v39/static-inference-boundary-report.json` | imports, routes, scans | source-boundary-conformance | gate-quality | workflow logs | scripts and workflows |
+| Verification-decisions | `.proofs/v39/read-need-review-resynthesis.json`; `.proofs/v39/assetpack-preview-quote-boundary.json` | Need, fits, previews | verification-is-typed | v39-gate4, v39-gate6 | verification reports | Reading pipeline packages |
+| Selection-and-materialization | `.proofs/v39/read-fits-finding-runtime.json`; `.proofs/v39/settlement-rights-delivery.json` | candidates, selected fits, AssetPack handoff | selected-fits-traceable | v39-gate5, v39-gate7 | selected-source material | depository search and synthesis packages |
+| Authorization-and-sensitive-flow | `.proofs/v39/sensitive-flow-report.json` | visibility tiers, redaction | sensitive-flow-redacted | v39-gate5, v39-gate9 | redaction receipts | API and UI redaction paths |
+| Settlement-source-to-shares | `.proofs/v39/settlement-rights-delivery.json` | fees, contributors, rights | settlement-traceable-to-fits | v39-gate7, v39-gate10 | settlement receipts | BTD and Reading packages |
+| Disclosure-boundary | `.proofs/v39/assetpack-preview-quote-boundary.json`; `.proofs/v39/operational-telemetry-repair.json` | prompt, result, preview tiers | preview-does-not-leak-source | v39-gate6, v39-gate8 | telemetry events | V35/V38/V39 telemetry surfaces |
 | Proof-contract | `BITCODE_SPEC_V39_PROVEN.md` | spec, artifacts, workflows | promotion-proof-complete | v39-gate11 | generated proof appendix | `packages/protocol` |
 
 ## Appendix C. Generated artifact contract catalog
@@ -616,7 +616,7 @@ Inherited V20 operator-quality artifacts remain the baseline for operator-visibl
 
 ### Exact generated-artifact inventory matrix
 
-Exact generated-artifact inventory matrix includes `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair.json`, `.bitcode/v39-interface-conversation-parity.json`, `.bitcode/v39-local-staging-commercial-reading-rehearsal.json`, and `.bitcode/v39-promotion-readiness-report.json`.
+Exact generated-artifact inventory matrix includes `.proofs/v39/spec-family-report.json`, `.proofs/v39/canonical-input-report.json`, `.proofs/v39/canon-posture-drift-report.json`, `.proofs/v39/depository-supply-indexing.json`, `.proofs/v39/enterprise-reading-ux-state.json`, `.proofs/v39/read-need-review-resynthesis.json`, `.proofs/v39/read-fits-finding-runtime.json`, `.proofs/v39/assetpack-preview-quote-boundary.json`, `.proofs/v39/settlement-rights-delivery.json`, `.proofs/v39/operational-telemetry-repair.json`, `.proofs/v39/interface-conversation-parity.json`, `.proofs/v39/local-staging-commercial-reading-rehearsal.json`, and `.proofs/v39/promotion-readiness-report.json`.
 
 ### V39 specifying generated artifacts
 
@@ -675,7 +675,7 @@ Fail-closed conditions include invalid deposit, prompt contract incompleteness, 
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing AssetPack and artifact contracts include `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V39_PROVEN.md`.
+Source-bearing AssetPack and artifact contracts include `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V39_PROVEN.md`.
 V39 may expose only source-safe preview metadata before settlement.
 
 ## accepted boundaries and reopen conditions

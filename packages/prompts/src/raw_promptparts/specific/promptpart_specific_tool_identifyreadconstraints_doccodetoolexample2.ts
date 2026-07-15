@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYREADCONSTRAINTS_DOCCODETOOLEXAMPLE2: PromptPart =
-  "Example 2 - Proof constraint: identifyReadConstraints({ proofContext: { requiredArtifacts: [\".bitcode/prompt-system-totality-proof.json\"] }, severityModel: \"audit\" }) -> marks generated proof refresh and spec-family checks as required validation constraints." as PromptPart;
+  "Example 2 - Proof constraint: identifyReadConstraints({ proofContext: { requiredArtifacts: [\".proofs/_shared/prompt-system-totality-proof.json\"] }, severityModel: \"audit\" }) -> marks generated proof refresh and spec-family checks as required validation constraints." as PromptPart;

@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V41_PROMPTPART_PROMPT_INVENTORY_ARTIFACT_PATH =
-  '.bitcode/v41-promptpart-prompt-inventory.json';
+  '.proofs/v41/promptpart-prompt-inventory.json';
 export const V41_PROMPTPART_PROMPT_INVENTORY_SCHEMA_ID =
   'bitcode.v41.promptpartPromptInventory.v1';
 export const V41_PROMPTPART_PROMPT_INVENTORY_VERSION = 'V41';

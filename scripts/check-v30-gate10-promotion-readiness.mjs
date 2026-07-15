@@ -187,7 +187,7 @@ function main() {
     promotionWorkflow.includes("head.ref == 'version/v30'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V30') &&
       promotionWorkflow.includes('.specifications/BITCODE_SPEC_V30_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V30 canon files'),
     'V30 promotion workflow must validate version/v30 and commit V30 promotion artifacts.',
   );
@@ -237,8 +237,8 @@ function main() {
     failures,
     provenGenerator.includes('buildV30ProvenPackage') &&
       provenGenerator.includes('v30-protocol-telemetry-proof-hooks') &&
-      v21Specifying.includes('.bitcode/v30-canon-posture-drift-report.json') &&
-      v21Specifying.includes('.bitcode/v30-protocol-telemetry-proof-hooks.json'),
+      v21Specifying.includes('.proofs/v30/canon-posture-drift-report.json') &&
+      v21Specifying.includes('.proofs/v30/protocol-telemetry-proof-hooks.json'),
     'Generated appendix support must include V30 proof artifacts.',
   );
 
@@ -268,10 +268,10 @@ function main() {
     'README must document the Gate 10 command and V30 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v30-spec-family-report.json', ['"version": "V30"', '"reportId": "v30-spec-family-report"']);
-  assertJsonArtifact(failures, root, '.bitcode/v30-canonical-input-report.json', ['"checkedTargetVersion": "V30"', 'v30-protocol-telemetry-proof-hooks.json']);
-  assertJsonArtifact(failures, root, '.bitcode/v30-canon-posture-drift-report.json', ['"checkedActiveCanonVersion": "V30"', '"checkedDraftTargetVersion": "V31"']);
-  assertJsonArtifact(failures, root, '.bitcode/v30-protocol-telemetry-proof-hooks.json', ['"reportId": "v30-protocol-telemetry-proof-hooks"', '"sourceSafe": true']);
+  assertJsonArtifact(failures, root, '.proofs/v30/spec-family-report.json', ['"version": "V30"', '"reportId": "v30-spec-family-report"']);
+  assertJsonArtifact(failures, root, '.proofs/v30/canonical-input-report.json', ['"checkedTargetVersion": "V30"', 'v30-protocol-telemetry-proof-hooks.json']);
+  assertJsonArtifact(failures, root, '.proofs/v30/canon-posture-drift-report.json', ['"checkedActiveCanonVersion": "V30"', '"checkedDraftTargetVersion": "V31"']);
+  assertJsonArtifact(failures, root, '.proofs/v30/protocol-telemetry-proof-hooks.json', ['"reportId": "v30-protocol-telemetry-proof-hooks"', '"sourceSafe": true']);
 
   if (fileExists(root, '.specifications/BITCODE_SPEC_V30_PROVEN.md')) {
     const proven = read(root, '.specifications/BITCODE_SPEC_V30_PROVEN.md');

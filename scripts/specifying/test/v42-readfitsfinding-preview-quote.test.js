@@ -15,7 +15,7 @@ test('V42 ReadFitsFinding preview and quote closure binds search, provenance, pr
 
   assert.equal(
     V42_READFITSFINDING_PREVIEW_QUOTE_ARTIFACT_PATH,
-    '.bitcode/v42-readfitsfinding-preview-quote.json',
+    '.proofs/v42/readfitsfinding-preview-quote.json',
   );
   assert.equal(report.artifactId, 'v42-readfitsfinding-preview-quote');
   assert.equal(report.schemaId, V42_READFITSFINDING_PREVIEW_QUOTE_SCHEMA_ID);

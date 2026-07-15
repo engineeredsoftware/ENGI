@@ -13,7 +13,7 @@ import {
 test('V43 route UX product excellence artifact binds shared route polish contracts', () => {
   const report = buildV43RouteUxProductExcellence();
 
-  assert.equal(V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH, '.bitcode/v43-route-ux-product-excellence.json');
+  assert.equal(V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH, '.proofs/v43/route-ux-product-excellence.json');
   assert.equal(report.artifactId, 'v43-route-ux-product-excellence');
   assert.equal(report.schemaId, V43_ROUTE_UX_PRODUCT_EXCELLENCE_SCHEMA_ID);
   assert.equal(report.version, 'V43');

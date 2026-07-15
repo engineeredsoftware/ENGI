@@ -20,7 +20,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH =
-  '.bitcode/v46-public-operator-claim-boundaries.json';
+  '.proofs/v46/public-operator-claim-boundaries.json';
 export const V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_SCHEMA_ID =
   'bitcode.v46.publicOperatorClaimBoundaries.v1';
 export const V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_VERSION = 'V46';

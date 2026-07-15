@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_UNIT_COVERAGE_INVENTORY_ARTIFACT_PATH =
-  '.bitcode/v40-unit-coverage-inventory.json';
+  '.proofs/v40/unit-coverage-inventory.json';
 export const V40_UNIT_COVERAGE_INVENTORY_SCHEMA_ID =
   'bitcode.v40.unitCoverageInventory.v1';
 export const V40_UNIT_COVERAGE_INVENTORY_VERSION = 'V40';

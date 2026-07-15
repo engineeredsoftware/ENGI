@@ -76,7 +76,7 @@ test('builds source-safe V36 ExchangeRightsTransferPreview rows', () => {
     }
   }
 
-  assert.equal(EXCHANGE_RIGHTS_TRANSFER_REVIEW_ARTIFACT_PATH, '.bitcode/v36-exchange-rights-transfer-review.json');
+  assert.equal(EXCHANGE_RIGHTS_TRANSFER_REVIEW_ARTIFACT_PATH, '.proofs/v36/exchange-rights-transfer-review.json');
 });
 
 test('distinguishes owner-read licensed-read and blocked transfer preview states', () => {

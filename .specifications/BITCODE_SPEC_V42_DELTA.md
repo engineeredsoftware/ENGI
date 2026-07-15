@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `5c9c0270b9d864fe13b7e0a429700e1c9a7689d9`
 - Prior canonical anchor: `BITCODE_SPEC_V41.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, `.bitcode/v42-depositing-shortest-path.json`, `.bitcode/v42-reading-shortest-path-state-machine.json`, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `.bitcode/v42-readfitsfinding-preview-quote.json`, `.bitcode/v42-settlement-rights-delivery.json`, `.bitcode/v42-ai-reading-demonstration.json`, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `.bitcode/v42-promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v42/spec-family-report.json`, `.proofs/v42/canonical-input-report.json`, `.proofs/v42/canon-posture-drift-report.json`, `.proofs/v42/depositing-shortest-path.json`, `.proofs/v42/reading-shortest-path-state-machine.json`, `.proofs/v42/readneed-review-resynthesis-product-closure.json`, `.proofs/v42/readfitsfinding-preview-quote.json`, `.proofs/v42/settlement-rights-delivery.json`, `.proofs/v42/ai-reading-demonstration.json`, `.proofs/v42/local-staging-mvp-rehearsal.json`, `.proofs/v42/promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
 - Source parity state: V42 source-side Depositing shortest path, Reading shortest path state machine, ReadNeed review/resynthesis closure, ReadFitsFinding preview and quote closure, settlement rights delivery, AI-reading demonstration, local/staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V42 file family
 - Scope: V42 canonical delta for reliable MVP experience over promoted V41 prompt-program excellence canon
 
@@ -36,45 +36,45 @@ Open the V42 full specification family, roadmap, package script, workflow postur
 ### Gate 2: Depositing Shortest Path And Compensation Visibility
 
 Implement and prove the shortest path from source material to Depository admission proof and later compensation readback.
-Gate 2 now binds Depository admission proof to a source-safe compensation route preview, route/API readiness, Depository search documents, vector/storage projection, source-to-shares readback keys, Terminal activity/history/readback fields, and `.bitcode/v42-depositing-shortest-path.json`.
+Gate 2 now binds Depository admission proof to a source-safe compensation route preview, route/API readiness, Depository search documents, vector/storage projection, source-to-shares readback keys, Terminal activity/history/readback fields, and `.proofs/v42/depositing-shortest-path.json`.
 The compensation preview is deliberately pre-mint: it records BTC/source-to-shares eligibility if the deposit is selected into a later paid AssetPack, but it does not mint BTD, transfer rights, expose source, or allocate BTC before accepted Need-Fit and settlement.
 
 ### Gate 3: Reading Shortest Path State Machine
 
 Implement and prove the five-step Reading product state machine with low-detail defaults and expandable proof/telemetry detail.
-Gate 3 now binds route-owned Reading state to transaction recovery, `readingStage` route hydration, retry/restart posture, source-safe failure repair, accepted-Need blockers, source-safe preview blockers, rich execution stream readback, and `.bitcode/v42-reading-shortest-path-state-machine.json`.
+Gate 3 now binds route-owned Reading state to transaction recovery, `readingStage` route hydration, retry/restart posture, source-safe failure repair, accepted-Need blockers, source-safe preview blockers, rich execution stream readback, and `.proofs/v42/reading-shortest-path-state-machine.json`.
 The state machine keeps Terminal guided by default while preserving proof-on-expand detail for operators.
 
 ### Gate 4: ReadNeed Review And Resynthesis Product Closure
 
 Implement and prove reviewed synthesized Need flow, feedback/resynthesis, accepted-Need admission, storage projection, telemetry, and UI readback.
-Gate 4 now binds `ReadNeedReviewResynthesisRuntime` (`readNeedReviewRuntime` route payloads), all four ReadNeed actions, source-safe storage projection, accepted and rejected review states, PTRR/Failsafe/Thricified telemetry receipts, Terminal runtime/storage/telemetry readback, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and `check:v42-gate4`.
+Gate 4 now binds `ReadNeedReviewResynthesisRuntime` (`readNeedReviewRuntime` route payloads), all four ReadNeed actions, source-safe storage projection, accepted and rejected review states, PTRR/Failsafe/Thricified telemetry receipts, Terminal runtime/storage/telemetry readback, `.proofs/v42/readneed-review-resynthesis-product-closure.json`, and `check:v42-gate4`.
 
 ### Gate 5: ReadFitsFinding AssetPack Preview And Quote Closure
 
 Implement and prove many-candidate Depository search, selected-fit provenance, source-safe AssetPack preview, deterministic BTD/BTC quote, and no pre-settlement source leakage.
-Gate 5 now binds `ReadFitsFindingRuntime`, many-channel Depository search, `AssetPackPreviewBoundary`, quote receipt readback, selected-fit provenance, settlement instructions, delivery posture, harness evidence summaries, Terminal preview/quote/provenance rows, `.bitcode/v42-readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
+Gate 5 now binds `ReadFitsFindingRuntime`, many-channel Depository search, `AssetPackPreviewBoundary`, quote receipt readback, selected-fit provenance, settlement instructions, delivery posture, harness evidence summaries, Terminal preview/quote/provenance rows, `.proofs/v42/readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
 
 ### Gate 6: Settlement Rights Transfer And Repository Delivery Closure
 
 Implement and prove purchase, settlement observation, BTD rights transfer, source unlock, repository pull request delivery, compensation accounting, and repair posture.
-Gate 6 now binds settlement rights transfer through `AssetPackSettlementRightsDeliveryBoundary` to the live harness, route summary, Terminal readback, source-to-shares conservation, BTD read/right receipts, and ledger/database/object-storage reconciliation through `.bitcode/v42-settlement-rights-delivery.json`.
+Gate 6 now binds settlement rights transfer through `AssetPackSettlementRightsDeliveryBoundary` to the live harness, route summary, Terminal readback, source-to-shares conservation, BTD read/right receipts, and ledger/database/object-storage reconciliation through `.proofs/v42/settlement-rights-delivery.json`.
 
 ### Gate 7: AI-Reading Dominant Demonstration MVP
 
 Implement and prove the standalone demonstration where deposited technical intelligence improves an AI system beyond a public-data-only baseline.
-Gate 7 now binds the local AI-reading demonstration runtime, public-data-only baseline, reviewed Need, local Depository fit selection, source-safe AssetPack preview, AssetPack-enhanced answer, deterministic basis-point uplift, settlement-gated source boundary, `.bitcode/v42-ai-reading-demonstration.json`, and `check:v42-gate7`.
+Gate 7 now binds the local AI-reading demonstration runtime, public-data-only baseline, reviewed Need, local Depository fit selection, source-safe AssetPack preview, AssetPack-enhanced answer, deterministic basis-point uplift, settlement-gated source boundary, `.proofs/v42/ai-reading-demonstration.json`, and `check:v42-gate7`.
 
 ### Gate 8: Local And Staging-Testnet Full MVP Rehearsal
 
 Run and prove the complete MVP path locally and in staging-testnet with value-bearing mainnet blocked.
-Gate 8 now binds staging-testnet full MVP rehearsal to the local lane, Vercel Sandbox operator receipt posture, Supabase project `tkpyosihuouusyaxtbau`, Gates 2 through 7 generated artifacts, `ReadingLocalStagingRehearsal`, source-safe telemetry/database readback, ledger/database/storage reconciliation, post-settlement repository delivery, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `rehearse:v42-local-staging`, and `check:v42-gate8`.
+Gate 8 now binds staging-testnet full MVP rehearsal to the local lane, Vercel Sandbox operator receipt posture, Supabase project `tkpyosihuouusyaxtbau`, Gates 2 through 7 generated artifacts, `ReadingLocalStagingRehearsal`, source-safe telemetry/database readback, ledger/database/storage reconciliation, post-settlement repository delivery, `.proofs/v42/local-staging-mvp-rehearsal.json`, `rehearse:v42-local-staging`, and `check:v42-gate8`.
 The rehearsal artifact is metadata only and does not serialize secrets, protected source, raw prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or live rehearsal logs.
 
 ### Gate 9: V42 Promotion Readiness
 
 Bind every V42 product artifact, workflow, generated proof, promotion command, source-safety result, and active V42 / draft V43 runtime posture.
-Gate 9 now closes through `.bitcode/v42-promotion-readiness-report.json`.
+Gate 9 now closes through `.proofs/v42/promotion-readiness-report.json`.
 The report proves all V42 gate artifacts are covered, parseable, source-safe, workflow-bound, generated-proof-bound, and blocked from value-bearing mainnet admission.
 The promotion scripts support V42 through `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, and `.github/workflows/v42-canon-promotion.yml`.
 After promotion, the maintained runtime posture is V42 active / draft V43.

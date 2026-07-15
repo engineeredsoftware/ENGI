@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v42-promotion-readiness-report.json';
+  '.proofs/v42/promotion-readiness-report.json';
 export const V42_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v42.promotionReadinessReport.v1';
 export const V42_PROMOTION_READINESS_REPORT_VERSION = 'V42';
@@ -18,20 +18,20 @@ export const V42_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-v42-reliable-mvp-promotion-readiness-metadata';
 
 export const V42_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v42-depositing-shortest-path.json',
-  '.bitcode/v42-reading-shortest-path-state-machine.json',
-  '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
-  '.bitcode/v42-readfitsfinding-preview-quote.json',
-  '.bitcode/v42-settlement-rights-delivery.json',
-  '.bitcode/v42-ai-reading-demonstration.json',
-  '.bitcode/v42-local-staging-mvp-rehearsal.json',
+  '.proofs/v42/depositing-shortest-path.json',
+  '.proofs/v42/reading-shortest-path-state-machine.json',
+  '.proofs/v42/readneed-review-resynthesis-product-closure.json',
+  '.proofs/v42/readfitsfinding-preview-quote.json',
+  '.proofs/v42/settlement-rights-delivery.json',
+  '.proofs/v42/ai-reading-demonstration.json',
+  '.proofs/v42/local-staging-mvp-rehearsal.json',
 ]);
 
 export const V42_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V42_PROVEN.md',
-  '.bitcode/v42-spec-family-report.json',
-  '.bitcode/v42-canonical-input-report.json',
-  '.bitcode/v42-canon-posture-drift-report.json',
+  '.proofs/v42/spec-family-report.json',
+  '.proofs/v42/canonical-input-report.json',
+  '.proofs/v42/canon-posture-drift-report.json',
   V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -399,7 +399,7 @@ export function buildV42PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V42_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v42-',
+      generatedArtifactPrefix: '.proofs/v42/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

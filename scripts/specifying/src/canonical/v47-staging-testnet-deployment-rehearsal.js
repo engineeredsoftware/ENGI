@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v47-staging-testnet-deployment-rehearsal.json';
+  '.proofs/v47/staging-testnet-deployment-rehearsal.json';
 export const V47_STAGING_TESTNET_REHEARSAL_SCHEMA_ID =
   'bitcode.v47.stagingTestnetDeploymentRehearsal.v1';
 export const V47_STAGING_TESTNET_REHEARSAL_VERSION = 'V47';

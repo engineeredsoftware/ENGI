@@ -9,7 +9,7 @@ import { buildV33ChatGptAppActionContractsArtifact } from './generate-v33-chatgp
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-chatgpt-app-action-contracts.json';
+const ARTIFACT = '.proofs/v33/chatgpt-app-action-contracts.json';
 
 const REQUIRED_ACTION_IDS = [
   'bitcode_request_read',

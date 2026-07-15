@@ -8,18 +8,18 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v39-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v39/promotion-readiness-report.json';
 
 const V39_GATE_ARTIFACTS = [
-  '.bitcode/v39-depository-supply-indexing.json',
-  '.bitcode/v39-enterprise-reading-ux-state.json',
-  '.bitcode/v39-read-need-review-resynthesis.json',
-  '.bitcode/v39-read-fits-finding-runtime.json',
-  '.bitcode/v39-assetpack-preview-quote-boundary.json',
-  '.bitcode/v39-settlement-rights-delivery.json',
-  '.bitcode/v39-operational-telemetry-repair-readback.json',
-  '.bitcode/v39-interface-conversation-product-parity.json',
-  '.bitcode/v39-local-staging-reading-rehearsal.json',
+  '.proofs/v39/depository-supply-indexing.json',
+  '.proofs/v39/enterprise-reading-ux-state.json',
+  '.proofs/v39/read-need-review-resynthesis.json',
+  '.proofs/v39/read-fits-finding-runtime.json',
+  '.proofs/v39/assetpack-preview-quote-boundary.json',
+  '.proofs/v39/settlement-rights-delivery.json',
+  '.proofs/v39/operational-telemetry-repair-readback.json',
+  '.proofs/v39/interface-conversation-product-parity.json',
+  '.proofs/v39/local-staging-reading-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

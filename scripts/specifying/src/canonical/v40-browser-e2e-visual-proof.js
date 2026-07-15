@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH =
-  '.bitcode/v40-browser-e2e-visual-proof.json';
+  '.proofs/v40/browser-e2e-visual-proof.json';
 export const V40_BROWSER_E2E_VISUAL_PROOF_SCHEMA_ID =
   'bitcode.v40.browserE2eVisualProof.v1';
 export const V40_BROWSER_E2E_VISUAL_PROOF_VERSION = 'V40';

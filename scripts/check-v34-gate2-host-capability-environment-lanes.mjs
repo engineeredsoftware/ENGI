@@ -8,8 +8,8 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const HOST_ARTIFACT = '.bitcode/v34-deployment-host-capability-catalog.json';
-const LANE_ARTIFACT = '.bitcode/v34-environment-lane-contracts.json';
+const HOST_ARTIFACT = '.proofs/v34/deployment-host-capability-catalog.json';
+const LANE_ARTIFACT = '.proofs/v34/environment-lane-contracts.json';
 
 const REQUIRED_HOST_IDS = [
   'website',

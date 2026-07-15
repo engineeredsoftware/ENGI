@@ -17,7 +17,7 @@ test('V40 Conversation and product integration coverage closes cross-surface han
 
   assert.equal(
     V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH,
-    '.bitcode/v40-conversation-terminal-integration.json',
+    '.proofs/v40/conversation-terminal-integration.json',
   );
   assert.equal(report.artifactId, 'v40-conversation-terminal-integration');
   assert.equal(report.schemaId, V40_CONVERSATION_TERMINAL_INTEGRATION_SCHEMA_ID);

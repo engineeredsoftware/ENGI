@@ -5,8 +5,8 @@ import {
   stableStringify
 } from './v32-proof-coverage-matrix.mjs';
 
-export const V32_DETERMINISTIC_REPLAY_REPORT_ARTIFACT = '.bitcode/v32-deterministic-replay-report.json';
-export const V32_ARTIFACT_VOLATILITY_INVENTORY_ARTIFACT = '.bitcode/v32-artifact-volatility-inventory.json';
+export const V32_DETERMINISTIC_REPLAY_REPORT_ARTIFACT = '.proofs/v32/deterministic-replay-report.json';
+export const V32_ARTIFACT_VOLATILITY_INVENTORY_ARTIFACT = '.proofs/v32/artifact-volatility-inventory.json';
 export const V32_REPLAY_GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 export const V32_DETERMINISTIC_REPLAY_ARTIFACT_PATHS = Object.freeze([

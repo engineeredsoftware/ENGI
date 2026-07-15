@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `2b08d07590269150d7a8ad658fe97dd99c05616d`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v44-spec-family-report.json`, `.bitcode/v44-canonical-input-report.json`, `.bitcode/v44-canon-posture-drift-report.json`, `.bitcode/v44-economic-domain-model.json`, `.bitcode/v44-packs-portfolio-market-intelligence.json`, `.bitcode/v44-reading-budget-quote-policy.json`, `.bitcode/v44-depositor-earnings-supply-opportunities.json`, `.bitcode/v44-btd-btc-compensation-statements.json`, `.bitcode/v44-organization-policy-wallet-authority.json`, `.bitcode/v44-enterprise-product-ux.json`, `.bitcode/v44-scaled-network-rehearsal.json`, `.bitcode/v44-promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v44/spec-family-report.json`, `.proofs/v44/canonical-input-report.json`, `.proofs/v44/canon-posture-drift-report.json`, `.proofs/v44/economic-domain-model.json`, `.proofs/v44/packs-portfolio-market-intelligence.json`, `.proofs/v44/reading-budget-quote-policy.json`, `.proofs/v44/depositor-earnings-supply-opportunities.json`, `.proofs/v44/btd-btc-compensation-statements.json`, `.proofs/v44/organization-policy-wallet-authority.json`, `.proofs/v44/enterprise-product-ux.json`, `.proofs/v44/scaled-network-rehearsal.json`, `.proofs/v44/promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
 - Source parity state: V44 source-side economic domain, Packs portfolio market intelligence, Reading budget/quote policy, depositor earnings opportunity, BTD/BTC compensation statements, organization policy and wallet authority, enterprise UX, scaled rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V44 file family
 - Scope: V44 canonical notes for scaled engineering economy over promoted V43 product-route canon
 - Last fully realized canonical target preserved in source: `V44`
@@ -180,7 +180,7 @@ value-bearing mainnet authority.
 ## Gate 10: V44 Promotion Readiness
 
 Gate 10 makes V44 promotion explicit and source-safe. The promotion readiness
-report proves every V44 package artifact, generated `.bitcode` artifact,
+report proves every V44 package artifact, generated `.proofs` artifact,
 workflow, script, PROVEN generator hook, test, and document clause is present
 before `version/v44` can request canonical promotion into `main`. After
 promotion, the expected runtime posture is active V44 / draft V45. The report

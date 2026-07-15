@@ -16,7 +16,7 @@ test('V42 Reading shortest path state machine binds five route-recoverable steps
 
   assert.equal(
     V42_READING_SHORTEST_PATH_STATE_MACHINE_ARTIFACT_PATH,
-    '.bitcode/v42-reading-shortest-path-state-machine.json',
+    '.proofs/v42/reading-shortest-path-state-machine.json',
   );
   assert.equal(report.artifactId, 'v42-reading-shortest-path-state-machine');
   assert.equal(report.schemaId, V42_READING_SHORTEST_PATH_SCHEMA_ID);

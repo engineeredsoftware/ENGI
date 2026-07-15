@@ -97,10 +97,14 @@ apps/uapi/tailwind.config.js
 .tmp/
 .vercel
 .env*.local
-.bitcode/pipeline-harness-runs/
+.proofs/pipeline-harness-runs/
 scripts/.env.staging-testnet
 .aider**
 .env*
 
 # Local fundraising materials (not product source)
 .fundraising/
+
+# Runtime pipeline-host working directories (sandbox/local)
+.proofs/pipeline-host/
+.proofs/pipeline-host-runs/

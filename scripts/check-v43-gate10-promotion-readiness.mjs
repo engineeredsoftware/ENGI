@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v43-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v43/promotion-readiness-report.json';
 
 const V43_GATE_ARTIFACTS = [
-  '.bitcode/v43-route-vocabulary-inventory.json',
-  '.bitcode/v43-packs-activity-master-detail.json',
-  '.bitcode/v43-read-route-five-step-ux.json',
-  '.bitcode/v43-deposit-route-options.json',
-  '.bitcode/v43-deposit-policy-compensation.json',
-  '.bitcode/v43-deposit-option-admission.json',
-  '.bitcode/v43-route-ux-product-excellence.json',
-  '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json',
+  '.proofs/v43/route-vocabulary-inventory.json',
+  '.proofs/v43/packs-activity-master-detail.json',
+  '.proofs/v43/read-route-five-step-ux.json',
+  '.proofs/v43/deposit-route-options.json',
+  '.proofs/v43/deposit-policy-compensation.json',
+  '.proofs/v43/deposit-option-admission.json',
+  '.proofs/v43/route-ux-product-excellence.json',
+  '.proofs/v43/cross-route-rehearsal-telemetry-repair.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

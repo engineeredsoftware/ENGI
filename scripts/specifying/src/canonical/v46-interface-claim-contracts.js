@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH =
-  '.bitcode/v46-interface-claim-contracts.json';
+  '.proofs/v46/interface-claim-contracts.json';
 export const V46_INTERFACE_CLAIM_CONTRACTS_SCHEMA_ID =
   'bitcode.v46.interfaceClaimContracts.v1';
 export const V46_INTERFACE_CLAIM_CONTRACTS_VERSION = 'V46';

@@ -1,0 +1,647 @@
+{
+  "artifactId": "v40-ledger-storage-sync",
+  "schemaId": "bitcode.v40.ledgerStorageSync.v1",
+  "version": "V40",
+  "currentTarget": "V39",
+  "generatedAt": "2026-05-25T00:00:00.000Z",
+  "artifactPath": ".proofs/v40/ledger-storage-sync.json",
+  "passed": true,
+  "sourceSafetyVerdict": "source-safe-ledger-database-storage-wallet-delivery-sync",
+  "expectedTotals": {
+    "rowCount": 10,
+    "synchronizationSurfaceCount": 6,
+    "failClosedStateCount": 4,
+    "storageRecordKindCount": 10,
+    "requiredReadbackCount": 5,
+    "walletAuthorityBoundaryCount": 4,
+    "deliveryUnlockConditionCount": 5
+  },
+  "requiredReadbacksBeforeUnlock": [
+    "btc_payment_observation",
+    "settlement_finality",
+    "source_to_shares_compensation",
+    "btd_rights_transfer",
+    "ledger_database_storage_reconciliation"
+  ],
+  "synchronizedSystems": [
+    "btc-fee",
+    "btd-rights",
+    "ledger",
+    "database",
+    "object-storage",
+    "wallet",
+    "pull-request-delivery"
+  ],
+  "failClosedStates": [
+    "blocked_until_payment_finality",
+    "blocked_until_compensation_conservation",
+    "blocked_until_projection_repair",
+    "blocked_until_pull_request_delivery"
+  ],
+  "rows": [
+    {
+      "rowId": "settlement:btc-fee-finality-wallet-authority",
+      "surfaceKind": "settlement",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/btc-fee-operation.ts",
+        "packages/btd/src/wallet.ts"
+      ],
+      "testPaths": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+        "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts tests/api/transactionWriteReadinessRoutes.test.ts --runInBand"
+      ],
+      "requiredEvidence": [
+        "confirmed finality",
+        "reader wallet session",
+        "server custody rejected",
+        "payment observation root"
+      ],
+      "closureRequirement": "BTC settlement can advance only with reader wallet authority, non-custodial signing posture, expected sats, and confirmed finality.",
+      "rowRoot": "v40-ledger-storage-sync-row:63162abc90b7b66cf8bd74c1",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "rights:btd-read-right-transfer-projection",
+      "surfaceKind": "rights-transfer",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/receipts.ts",
+        "packages/btd/src/settlement.ts"
+      ],
+      "testPaths": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "apps/uapi/tests/terminalTransactionDetailCards.test.tsx"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+      ],
+      "requiredEvidence": [
+        "BtdReadReceipt",
+        "BtdRightsTransferReceipt",
+        "delivery admission state",
+        "read license id"
+      ],
+      "closureRequirement": "BTD read rights and delivery admission project together after settlement, and source-bearing delivery remains withheld without rights.",
+      "rowRoot": "v40-ledger-storage-sync-row:f4568ae1d9ffcd22cd2309d7",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "compensation:source-to-shares-conservation",
+      "surfaceKind": "compensation",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/source-to-shares.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "testPaths": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+      ],
+      "requiredEvidence": [
+        "SourceToSharesProof",
+        "settlementConservation",
+        "balanced allocation",
+        "selected fit deposits"
+      ],
+      "closureRequirement": "Settlement sats route to selected fit deposits with source-to-shares conservation before paid delivery is admissible.",
+      "rowRoot": "v40-ledger-storage-sync-row:8d69b6c060bb87916dd00328",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "ledger:database-storage-reconciliation",
+      "surfaceKind": "reconciliation",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/reconciliation.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts"
+      ],
+      "testPaths": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/reconciliation.test.ts --runInBand --forceExit",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand"
+      ],
+      "requiredEvidence": [
+        "ledger observed fact",
+        "database projected fact",
+        "object storage artifact fact",
+        "reconciliation root"
+      ],
+      "closureRequirement": "Ledger, database, and object-storage projections must agree or produce repair posture before source-bearing delivery unlocks.",
+      "rowRoot": "v40-ledger-storage-sync-row:1a014cebe3873a44e703a1c3",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "storage:artifact-lock-and-source-safe-projection",
+      "surfaceKind": "storage",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
+      ],
+      "testPaths": [
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/bitcodeLedgerStorageSync.test.ts --runInBand"
+      ],
+      "requiredEvidence": [
+        "source-safe projection",
+        "storage root",
+        "artifact lock",
+        "unpaid source absent"
+      ],
+      "closureRequirement": "Storage projections expose source-safe receipts and locks while withholding unpaid AssetPack source, raw prompts, and private settlement payloads.",
+      "rowRoot": "v40-ledger-storage-sync-row:2d0848c5be788c3a4bb5237b",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "delivery:post-settlement-pull-request-unlock",
+      "surfaceKind": "delivery",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
+      ],
+      "testPaths": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+      ],
+      "requiredEvidence": [
+        "pull_request_after_settlement",
+        "source_bearing_pull_request_ready",
+        "rights transfer root",
+        "delivery root"
+      ],
+      "closureRequirement": "Source-bearing pull-request delivery becomes visible to the Reader only after payment, finality, BTD rights transfer, compensation, and reconciliation all pass.",
+      "rowRoot": "v40-ledger-storage-sync-row:7faccf182555f1264957817a",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "repair:drift-finality-delivery-recovery",
+      "surfaceKind": "repair",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+        "packages/btd/src/reconciliation.ts",
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
+      ],
+      "testPaths": [
+        "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
+      ],
+      "requiredEvidence": [
+        "underpayment blocker",
+        "finality blocker",
+        "projection repair",
+        "delivery recovery action"
+      ],
+      "closureRequirement": "Underpayment, missing finality, reconciliation drift, and delivery failure remain auditable repair states instead of partial success.",
+      "rowRoot": "v40-ledger-storage-sync-row:58d649498e09b1e17489e0a6",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "wallet:no-custody-no-private-material",
+      "surfaceKind": "wallet-boundary",
+      "sourceRoots": [
+        "packages/btd/src/wallet.ts",
+        "packages/btd/src/btc-fee-operation.ts",
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
+      ],
+      "testPaths": [
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btc-fee-operation.test.ts --runInBand --forceExit"
+      ],
+      "requiredEvidence": [
+        "wallet provider session",
+        "private keys absent",
+        "server custody rejected",
+        "provider tokens absent"
+      ],
+      "closureRequirement": "Wallet authority is represented through provider sessions and signatures only; private key material and server custody are never admitted.",
+      "rowRoot": "v40-ledger-storage-sync-row:0f1e360c0db3750c857e4161",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "terminal:route-and-interface-readback",
+      "surfaceKind": "interface-readback",
+      "sourceRoots": [
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts",
+        "apps/uapi/tests/terminalTransactionDetailCards.test.tsx",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
+      ],
+      "testPaths": [
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts",
+        "apps/uapi/tests/terminalTransactionDetailCards.test.tsx",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
+      ],
+      "commandIds": [
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand"
+      ],
+      "requiredEvidence": [
+        "Terminal settlement status",
+        "journal reconciliation state",
+        "delivery posture",
+        "source-safe detail card"
+      ],
+      "closureRequirement": "Terminal and interface readbacks show synchronized settlement/delivery state with expandable source-safe detail and no source-bearing leakage before payment.",
+      "rowRoot": "v40-ledger-storage-sync-row:dca9415d1015cf4137dbd5e3",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "rowId": "proof:artifact-tests-workflows-docs",
+      "surfaceKind": "proof-system",
+      "sourceRoots": [
+        "BITCODE_SPEC_V40.md",
+        "BITCODE_SPEC_V40_DELTA.md",
+        "BITCODE_SPEC_V40_NOTES.md",
+        "BITCODE_SPEC_V40_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "testPaths": [
+        "scripts/specifying/test/v40-ledger-storage-sync.test.js"
+      ],
+      "commandIds": [
+        "pnpm run check:v40-gate8"
+      ],
+      "requiredEvidence": [
+        "generated artifact",
+        "protocol exports",
+        "workflow wiring",
+        "spec closure text"
+      ],
+      "closureRequirement": "Gate 8 proof is generated, tested, documented, workflow-wired, source-safe, and replayable through check:v40-gate8.",
+      "rowRoot": "v40-ledger-storage-sync-row:4a15dcd2cf8ad6eab11edfe3",
+      "verdict": "covered",
+      "sourceSafetyClass": "source_safe_ledger_database_storage_wallet_delivery_sync_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourcePayloadSerialized": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "rawModelResponseWithProtectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "privateSettlementPayloadVisible": false,
+      "valueBearingMainnetRequired": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-provider-responses",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "settlement-boundary-defines-sync-types",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "settlement-boundary-composes-btd-primitives",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
+      "passed": true
+    },
+    {
+      "id": "wallet-no-custody-boundary",
+      "sourcePath": "packages/btd/src/wallet.ts",
+      "passed": true
+    },
+    {
+      "id": "rights-transfer-finality-gated",
+      "sourcePath": "packages/btd/src/receipts.ts",
+      "passed": true
+    },
+    {
+      "id": "source-to-shares-conservation-covered",
+      "sourcePath": "packages/btd/src/source-to-shares.ts",
+      "passed": true
+    },
+    {
+      "id": "ledger-database-object-storage-reconciliation-covered",
+      "sourcePath": "packages/btd/src/reconciliation.ts",
+      "passed": true
+    },
+    {
+      "id": "delivery-unlock-readbacks-required",
+      "sourcePath": "packages/btd/src/settlement.ts",
+      "passed": true
+    },
+    {
+      "id": "settlement-fail-closed-tests-covered",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
+      "passed": true
+    },
+    {
+      "id": "local-staging-sync-readback-covered",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
+      "passed": true
+    },
+    {
+      "id": "uapi-contract-covers-ledger-storage-sync",
+      "sourcePath": "apps/uapi/app/bitcode-ledger-storage-sync.ts",
+      "passed": true
+    },
+    {
+      "id": "uapi-tests-cover-interface-sync-contract",
+      "sourcePath": "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts",
+      "passed": true
+    },
+    {
+      "id": "spec-docs-close-gate8",
+      "sourcePath": "BITCODE_SPEC_V40.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate8",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "scripts-and-workflows-run-gate8",
+      "sourcePath": "package.json",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 10,
+    "coveredRowCount": 10,
+    "expectedTotals": {
+      "rowCount": 10,
+      "synchronizationSurfaceCount": 6,
+      "failClosedStateCount": 4,
+      "storageRecordKindCount": 10,
+      "requiredReadbackCount": 5,
+      "walletAuthorityBoundaryCount": 4,
+      "deliveryUnlockConditionCount": 5
+    },
+    "synchronizationSurfaceCount": 10,
+    "focusedTestPathCount": 7,
+    "commandCount": 8,
+    "failedPredicateIds": [],
+    "allCriticalSurfacesClosed": true,
+    "settlementFinalityWalletAuthorityCovered": true,
+    "btdRightsProjectionCovered": true,
+    "sourceToSharesConservationCovered": true,
+    "ledgerDatabaseStorageReconciliationCovered": true,
+    "storageLocksAndSourceSafeProjectionCovered": true,
+    "postSettlementDeliveryUnlockCovered": true,
+    "repairRecoveryCovered": true,
+    "walletNoCustodyCovered": true,
+    "terminalReadbackCovered": true,
+    "noForbiddenPayloadsSerialized": true
+  },
+  "proofRoots": {
+    "rowSetRoot": "sha256:bb6d02003baa62525f760c53",
+    "predicateRoot": "sha256:f4ca6728fac60849d7140424",
+    "coverageRoot": "sha256:a15ad35380e94dcf91814adc",
+    "artifactRoot": "sha256:a68d8a8ea5ff7c19827537d5"
+  },
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "protectedSourcePayloadSerialized": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "rawModelResponseWithProtectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "privateSettlementPayloadVisible": false,
+    "forbiddenPayloadClasses": [
+      "secret-values",
+      "provider-tokens",
+      "wallet-private-material",
+      "protected-source-payloads",
+      "raw-protected-prompts",
+      "raw-provider-responses",
+      "raw-model-responses-with-protected-source",
+      "unpaid-assetpack-source",
+      "settlement-private-payloads"
+    ]
+  }
+}

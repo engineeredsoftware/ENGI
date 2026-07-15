@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json';
+  '.proofs/v38/local-staging-inference-depository-search-rehearsal.json';
 export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_SCHEMA_ID =
   'bitcode.v38.localStagingInferenceDepositorySearchRehearsal.v1';
 export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_VERSION = 'V38';
@@ -34,14 +34,14 @@ export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_LANE_IDS =
 
 export const V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_REQUIRED_PROOF_ARTIFACTS =
   Object.freeze([
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-    '.bitcode/v38-prompt-benchmark-report.json',
-    '.bitcode/v38-disclosure-boundary-report.json',
-    '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-    '.bitcode/v38-read-fits-finding-search-embeddings.json',
-    '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
-    '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+    '.proofs/v38/prompt-benchmark-report.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    '.proofs/v38/read-need-comprehension-inference-hardening.json',
+    '.proofs/v38/read-fits-finding-search-embeddings.json',
+    '.proofs/v38/assetpack-synthesis-economic-traceability.json',
+    '.proofs/v38/conversation-tool-prompt-inference-parity.json',
   ]);
 
 const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
@@ -231,7 +231,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('dev-runner-requires-explicit-live-opt-in', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('BITCODE_RUN_VERCEL_SANDBOX_HARNESS') && harnessDevRunner.includes('Set BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1')),
     predicateResult('dev-runner-requires-sandbox-auth', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('VERCEL_OIDC_TOKEN') && harnessDevRunner.includes('VERCEL_TOKEN') && harnessDevRunner.includes('Missing Vercel Sandbox auth')),
     predicateResult('dev-runner-redacts-known-secrets', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('redactKnownSecrets') && harnessDevRunner.includes('[redacted]')),
-    predicateResult('dev-runner-persists-local-artifacts', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('.bitcode/pipeline-host-runs') && harnessDevRunner.includes('evidence.json')),
+    predicateResult('dev-runner-persists-local-artifacts', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('.proofs/pipeline-host-runs') && harnessDevRunner.includes('evidence.json')),
     predicateResult('harness-streams-inference-audit-events', SOURCE_ROOTS.harness, harness.includes("type: 'pipeline-stream-event'") && harness.includes('inferenceAudit') && harness.includes('readingPipelineTelemetry')),
     predicateResult('harness-streams-prompt-and-output-presence', SOURCE_ROOTS.harness, harness.includes('promptTemplatePresent') && harness.includes('interpolatedPromptPresent') && harness.includes('rawModelResponsePresent') && harness.includes('parsedTypedOutputPresent')),
     predicateResult('harness-binds-reading-pipelines', SOURCE_ROOTS.harness, harness.includes('synthesizeReadNeedForPipelineInput') && harness.includes('acceptedReadNeed: readNeed')),

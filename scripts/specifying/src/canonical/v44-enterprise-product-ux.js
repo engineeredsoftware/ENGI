@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH =
-  '.bitcode/v44-enterprise-product-ux.json';
+  '.proofs/v44/enterprise-product-ux.json';
 export const V44_ENTERPRISE_PRODUCT_UX_SCHEMA_ID =
   'bitcode.v44.enterpriseProductUx.v1';
 export const V44_ENTERPRISE_PRODUCT_UX_VERSION = 'V44';

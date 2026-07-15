@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `70be3860a54ff3dd3da5c0cac2c5b854a12910e1`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v41-spec-family-report.json`, `.bitcode/v41-canonical-input-report.json`, `.bitcode/v41-canon-posture-drift-report.json`, `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-registry-interpolation-contracts.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`, `.bitcode/v41-readneed-prompt-hardening.json`, `.bitcode/v41-readfitsfinding-prompt-hardening.json`, `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, `.bitcode/v41-prompt-program-benchmark-report.json`, `.bitcode/v41-promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v41/spec-family-report.json`, `.proofs/v41/canonical-input-report.json`, `.proofs/v41/canon-posture-drift-report.json`, `.proofs/v41/promptpart-prompt-inventory.json`, `.proofs/v41/registry-interpolation-contracts.json`, `.proofs/v41/reading-prompt-benchmark-baselines.json`, `.proofs/v41/readneed-prompt-hardening.json`, `.proofs/v41/readfitsfinding-prompt-hardening.json`, `.proofs/v41/conversation-tool-interface-prompt-rewrite.json`, `.proofs/v41/prompt-program-benchmark-report.json`, `.proofs/v41/promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
 - Source parity state: V41 source-side PromptPart and Prompt inventory, registry interpolation contracts, Reading baselines, ReadNeedComprehensionSynthesis prompt hardening, ReadFitsFindingSynthesis prompt hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry report, workflow, and promotion surfaces are canonicalized in the promoted V41 file family
 - Scope: V41 canonical parity ledger for prompt-program excellence over promoted V40 exhaustive commercial application testing canon
 - Last fully realized canonical target preserved in source: `V41`
@@ -35,14 +35,14 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Roadmap truth | Roadmap states V40 active, V41 draft, prompt-program Gate 1 active | `SPECIFICATIONS_ROADMAP.md` | closed |
 | Gate workflow | Gate quality knows active V40 / draft V41 and promoted V41 / draft V42 posture | `.github/workflows/bitcode-gate-quality.yml` | implemented |
 | Canon workflow | Canon quality knows active V40 / draft V41 and promoted V41 / draft V42 posture | `.github/workflows/bitcode-canon-quality.yml` | implemented |
-| Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.bitcode/v41-promptpart-prompt-inventory.json` | implemented |
-| Registry/interpolation | Registry composition and interpolation contracts proven | `.bitcode/v41-registry-interpolation-contracts.json` | implemented |
-| Reading baselines | Reading prompt benchmarks captured before rewrites | `.bitcode/v41-reading-prompt-benchmark-baselines.json` | implemented |
-| ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | `.bitcode/v41-readneed-prompt-hardening.json` | implemented |
-| Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | implemented |
-| Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` | implemented |
-| Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | `.bitcode/v41-prompt-program-benchmark-report.json` | implemented |
-| Promotion readiness | V41 prompt-program proof and workflow promotion ready | `.bitcode/v41-promotion-readiness-report.json` | implemented |
+| Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.proofs/v41/promptpart-prompt-inventory.json` | implemented |
+| Registry/interpolation | Registry composition and interpolation contracts proven | `.proofs/v41/registry-interpolation-contracts.json` | implemented |
+| Reading baselines | Reading prompt benchmarks captured before rewrites | `.proofs/v41/reading-prompt-benchmark-baselines.json` | implemented |
+| ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | `.proofs/v41/readneed-prompt-hardening.json` | implemented |
+| Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | `.proofs/v41/readfitsfinding-prompt-hardening.json` | implemented |
+| Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | `.proofs/v41/conversation-tool-interface-prompt-rewrite.json` | implemented |
+| Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | `.proofs/v41/prompt-program-benchmark-report.json` | implemented |
+| Promotion readiness | V41 prompt-program proof and workflow promotion ready | `.proofs/v41/promotion-readiness-report.json` | implemented |
 
 ## V41 implementation checklist
 
@@ -62,7 +62,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 
 | Area | Required V41 result | Source evidence | Judgment |
 | --- | --- | --- | --- |
-| Promotion artifact | Source-safe V41 prompt-program promotion report generated | `.bitcode/v41-promotion-readiness-report.json` | closed |
+| Promotion artifact | Source-safe V41 prompt-program promotion report generated | `.proofs/v41/promotion-readiness-report.json` | closed |
 | Promotion workflow | Version branch PR into `main` validates and promotes V41 only after checks pass | `.github/workflows/v41-canon-promotion.yml` | closed |
 | Promotion scripts | Canon promotion, spec-family promotion, runtime posture, and proven generation support V41 | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js` | closed |
 | Post-promotion posture | Promotion rewrites runtime state to V41 active / draft V42 | `scripts/prepare-bitcode-runtime-canon-promotion.mjs` | closed |

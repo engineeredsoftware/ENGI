@@ -8,8 +8,8 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const HOST_ARTIFACT_PATH = '.bitcode/v34-deployment-host-capability-catalog.json';
-const LANE_ARTIFACT_PATH = '.bitcode/v34-environment-lane-contracts.json';
+const HOST_ARTIFACT_PATH = '.proofs/v34/deployment-host-capability-catalog.json';
+const LANE_ARTIFACT_PATH = '.proofs/v34/environment-lane-contracts.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -83,7 +83,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'mcp-server-process',
     outboundNetworkPosture: 'outbound_restricted',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v33-mcp-api-tool-contracts.json'],
+    proofOutputPaths: ['.proofs/v33/mcp-api-tool-contracts.json'],
     validationCommand:
       'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     supportedLaneIds: ['local', 'staging-testnet', 'public-testnet'],
@@ -96,7 +96,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'chatgpt-action-service',
     outboundNetworkPosture: 'outbound_restricted',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v33-chatgpt-app-action-contracts.json'],
+    proofOutputPaths: ['.proofs/v33/chatgpt-app-action-contracts.json'],
     validationCommand:
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     supportedLaneIds: ['local', 'staging-testnet', 'public-testnet'],
@@ -109,7 +109,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'vercel-sandbox-worker',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v34-distributed-execution-runtime-receipts.json'],
+    proofOutputPaths: ['.proofs/v34/distributed-execution-runtime-receipts.json'],
     validationCommand: 'pnpm --filter @bitcode/pipeline-hosts typecheck',
     supportedLaneIds: ['local', 'regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
     telemetryProofHookId: 'deployment.telemetry.pipeline-worker',
@@ -121,7 +121,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'scheduled-observer-job',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json'],
+    proofOutputPaths: ['.proofs/v34/runtime-observers-broadcasters-repair-jobs.json'],
     validationCommand:
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts',
     supportedLaneIds: ['regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
@@ -134,7 +134,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'ledger-broadcaster-job',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json'],
+    proofOutputPaths: ['.proofs/v34/runtime-observers-broadcasters-repair-jobs.json'],
     validationCommand:
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts',
     supportedLaneIds: ['regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
@@ -147,7 +147,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'proof-generation-job',
     outboundNetworkPosture: 'none',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v34-promotion-readiness-report.json'],
+    proofOutputPaths: ['.proofs/v34/promotion-readiness-report.json'],
     validationCommand: 'pnpm --filter @bitcode/specifying test',
     supportedLaneIds: ['local', 'regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
     telemetryProofHookId: 'deployment.telemetry.proof-service',
@@ -159,7 +159,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'operator-repair-command',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_non_value_lanes',
-    proofOutputPaths: ['.bitcode/v34-rollback-upgrade-data-repair-playbooks.json'],
+    proofOutputPaths: ['.proofs/v34/rollback-upgrade-data-repair-playbooks.json'],
     validationCommand:
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/reconciliation.test.ts',
     supportedLaneIds: ['local', 'regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
@@ -172,7 +172,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'durable-object-storage',
     outboundNetworkPosture: 'egress_locked',
     admissionStatus: 'admitted_projection_carrier',
-    proofOutputPaths: ['.bitcode/v34-deployment-storage-posture.json'],
+    proofOutputPaths: ['.proofs/v34/deployment-storage-posture.json'],
     validationCommand: 'pnpm --filter @bitcode/pipeline-hosts typecheck',
     supportedLaneIds: ['local', 'regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
     telemetryProofHookId: 'deployment.telemetry.object-storage',
@@ -184,7 +184,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'supabase-postgres-projection',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_projection_carrier',
-    proofOutputPaths: ['.bitcode/v34-deployment-storage-posture.json'],
+    proofOutputPaths: ['.proofs/v34/deployment-storage-posture.json'],
     validationCommand: 'pnpm --filter @bitcode/btd typecheck',
     supportedLaneIds: ['local', 'regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
     telemetryProofHookId: 'deployment.telemetry.database-projection',
@@ -196,7 +196,7 @@ const hostRows = Object.freeze([
     runtimeCarrier: 'ledger-projection-store',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_projection_carrier',
-    proofOutputPaths: ['.bitcode/v34-deployment-storage-posture.json'],
+    proofOutputPaths: ['.proofs/v34/deployment-storage-posture.json'],
     validationCommand:
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/reconciliation.test.ts',
     supportedLaneIds: ['regtest', 'signet', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],

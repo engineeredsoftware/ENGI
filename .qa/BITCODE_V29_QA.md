@@ -39,7 +39,7 @@ Promotion workflow evidence:
   requests into `main`;
 - the workflow validates V29 while `BITCODE_SPEC.txt` is `V28`;
 - the workflow commits `BITCODE_SPEC.txt -> V29`, `BITCODE_SPEC_V29_PROVEN.md`,
-  `.bitcode/v29-*`, runtime canon posture, and package posture/data updates;
+  `.proofs/v29/*`, runtime canon posture, and package posture/data updates;
 - after the workflow commit, canon-quality and gate-quality checks validate V29
   promoted posture rather than stale V28/V29 draft posture.
 

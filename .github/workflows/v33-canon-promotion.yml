@@ -151,6 +151,6 @@ jobs:
             scripts/specifying/src/canon-posture.js \
             scripts/specifying/data/state.json \
             scripts/specifying/README.md \
-            .bitcode
+            .proofs
           git commit -m "Promote Bitcode canon to V33"
           git push origin "HEAD:$HEAD_BRANCH"

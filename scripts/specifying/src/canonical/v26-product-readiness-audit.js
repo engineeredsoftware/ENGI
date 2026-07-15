@@ -123,7 +123,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['packages/api/src/conversations/conversations.ts', 'copiedAttachmentCount'],
       ['packages/api/src/conversations/__tests__/branch-conversation.test.ts', 'copiedAttachmentCount'],
       ['apps/uapi/tests/api/conversationBranchRoute.test.ts', 'copiedAttachmentCount'],
-      ['.bitcode/conversations-continuity-proof.json', 'rich_input'],
+      ['.proofs/_shared/conversations-continuity-proof.json', 'rich_input'],
       ['.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Conversations and rich-input continuity']
     ],
     closureNotes: [
@@ -198,8 +198,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     requiredEvidence: [
       ['scripts/generate-bitcode-proven.mjs', 'generateCanonicalProvenMarkdown'],
       ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26FifthGateClosureDeepeningProof'],
-      ['.bitcode/source-to-shares-fifth-gate-proof.json', 'v26-source-to-shares-fifth-gate-proof'],
-      ['.bitcode/fifth-gate-closure-deepening-proof.json', 'v26-fifth-gate-closure-deepening-proof'],
+      ['.proofs/_shared/source-to-shares-fifth-gate-proof.json', 'v26-source-to-shares-fifth-gate-proof'],
+      ['.proofs/_shared/fifth-gate-closure-deepening-proof.json', 'v26-fifth-gate-closure-deepening-proof'],
       ['.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
     ],
     closureNotes: [

@@ -8,16 +8,16 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v41/promotion-readiness-report.json';
 
 const V41_GATE_ARTIFACTS = [
-  '.bitcode/v41-promptpart-prompt-inventory.json',
-  '.bitcode/v41-registry-interpolation-contracts.json',
-  '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-  '.bitcode/v41-readneed-prompt-hardening.json',
-  '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-  '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
-  '.bitcode/v41-prompt-program-benchmark-report.json',
+  '.proofs/v41/promptpart-prompt-inventory.json',
+  '.proofs/v41/registry-interpolation-contracts.json',
+  '.proofs/v41/reading-prompt-benchmark-baselines.json',
+  '.proofs/v41/readneed-prompt-hardening.json',
+  '.proofs/v41/readfitsfinding-prompt-hardening.json',
+  '.proofs/v41/conversation-tool-interface-prompt-rewrite.json',
+  '.proofs/v41/prompt-program-benchmark-report.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

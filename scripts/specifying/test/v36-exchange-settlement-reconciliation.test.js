@@ -75,7 +75,7 @@ test('builds source-safe V36 ExchangeSettlementReceipt rows', () => {
     }
   }
 
-  assert.equal(EXCHANGE_SETTLEMENT_RECONCILIATION_ARTIFACT_PATH, '.bitcode/v36-exchange-settlement-reconciliation.json');
+  assert.equal(EXCHANGE_SETTLEMENT_RECONCILIATION_ARTIFACT_PATH, '.proofs/v36/exchange-settlement-reconciliation.json');
 });
 
 test('reconciles projections to ledger truth and audits delivery finality', () => {

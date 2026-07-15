@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-inference-surface-inventory.json';
+const ARTIFACT_PATH = '.proofs/v38/inference-surface-inventory.json';
 
 const REQUIRED_FAMILY_IDS = [
   'reading_pipeline',

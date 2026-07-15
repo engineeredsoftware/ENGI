@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-public-docs-usage-guides.json';
+const ARTIFACT_PATH = '.proofs/v35/public-docs-usage-guides.json';
 
 const REQUIRED_GUIDE_IDS = [
   'terminal_usage',

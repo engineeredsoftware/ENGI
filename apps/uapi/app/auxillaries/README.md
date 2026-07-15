@@ -132,7 +132,7 @@ The V28 staging Testnet4 lane currently calls Leather with `testnet` because tha
 Auxillaries consumes the package-owned
 `TelemetryDocumentationInterfaceIntegration` contract through the same
 source-safe surface documented by
-`.bitcode/v35-telemetry-documentation-interface-integration.json`.
+`.proofs/v35/telemetry-documentation-interface-integration.json`.
 Wallet, Externals, Interfaces, and Profile panels may show event ids, proof
 roots, docs links, runbook links, and redaction posture when that helps an
 operator repair readiness without opening raw network payloads.

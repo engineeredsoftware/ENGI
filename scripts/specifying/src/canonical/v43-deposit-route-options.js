@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-export const V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH = '.bitcode/v43-deposit-route-options.json';
+export const V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH = '.proofs/v43/deposit-route-options.json';
 export const V43_DEPOSIT_ROUTE_OPTIONS_SCHEMA_ID = 'bitcode.v43.depositRouteOptions.v1';
 export const V43_DEPOSIT_ROUTE_OPTIONS_VERSION = 'V43';
 export const V43_DEPOSIT_ROUTE_OPTIONS_CURRENT_TARGET = 'V42';

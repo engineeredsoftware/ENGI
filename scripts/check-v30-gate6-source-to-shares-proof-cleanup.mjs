@@ -124,7 +124,7 @@ function main() {
     'ancestryEvidence',
     'largest_remainder',
     'settlementAdmissible',
-    '.bitcode/v30-settlement-source-to-shares-proof.json',
+    '.proofs/v30/settlement-source-to-shares-proof.json',
   ]) {
     assertCheck(failures, sourceToShares.includes(symbol), `BTD source-to-shares primitive is missing ${symbol}.`);
   }

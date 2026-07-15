@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3df6b2cae755336067da920abbe8142df487a221`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, `.bitcode/v37-promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v37/spec-family-report.json`, `.proofs/v37/canonical-input-report.json`, `.proofs/v37/canon-posture-drift-report.json`, `.proofs/v37/conversation-session-route-history.json`, `.proofs/v37/conversation-stream-event-contract.json`, `.proofs/v37/conversation-writing-workspace.json`, `.proofs/v37/conversation-source-selector.json`, `.proofs/v37/conversation-terminal-handoff.json`, `.proofs/v37/conversation-persistence-privacy-redaction.json`, `.proofs/v37/conversation-telemetry-proof-hooks.json`, `.proofs/v37/conversation-rehearsal.json`, `.proofs/v37/promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
 - Source parity state: V37 source-side ConversationSession route history, ConversationStreamEvent contracts, ConversationWritingWorkspace contracts, ConversationSourceSelector contracts, ConversationTerminalHandoff contracts, ConversationPersistencePrivacyRedaction contracts, ConversationTelemetryProofHooks contracts, ConversationRehearsal evidence, workflow, and promotion surfaces are canonicalized in the promoted V37 file family
 - Spec companion: `BITCODE_SPEC_V37.md`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
@@ -78,7 +78,7 @@ Closure acceptance:
 
 - `ConversationSession` owns route-local identity, user/account posture, source context, policy decision, stream state, history references, and proof roots;
 - route-local history supports restore, branch, retry, and redaction without becoming global ledger truth;
-- generated source-safe artifact coverage exists in `.bitcode/v37-conversation-session-route-history.json` with `source-safe-conversation-session-route-history-metadata` only after package-owned builders, package tests, and route tests exist;
+- generated source-safe artifact coverage exists in `.proofs/v37/conversation-session-route-history.json` with `source-safe-conversation-session-route-history-metadata` only after package-owned builders, package tests, and route tests exist;
 - `pnpm run check:v37-gate2` validates package source, artifact freshness, route contracts, docs, workflow wiring, source safety, proof roots, event ids, route ids, history operations, and persistence boundaries;
 - route contracts cover create, restore, branch, retry, redact, and stream without exposing protected source, raw protected prompts, protected model responses with source, provider tokens, wallet private material, secrets, unpaid AssetPack source, settlement private payloads, or global ledger authority claims.
 
@@ -94,7 +94,7 @@ Closure acceptance:
 - `pnpm run check:v37-gate3` validates stream contracts, route tests, UI tests, telemetry binding, source-safety, and workflow wiring.
 
 Gate 3 closure adds package-backed `ConversationStreamEvent` source,
-`.bitcode/v37-conversation-stream-event-contract.json`,
+`.proofs/v37/conversation-stream-event-contract.json`,
 `source-safe-conversation-stream-event-metadata`, route-attached SSE event
 metadata, rich execution log collapsed/expanded UI binding, package tests,
 route tests, UI tests, workflow wiring, and `check:v37-gate3`.
@@ -111,7 +111,7 @@ Closure acceptance:
 - `pnpm run check:v37-gate4` validates workspace contracts, UI tests, docs, telemetry, source-safety, and workflow wiring.
 
 Gate 4 closure adds package-backed `ConversationWritingWorkspace` source,
-`.bitcode/v37-conversation-writing-workspace.json`,
+`.proofs/v37/conversation-writing-workspace.json`,
 `source-safe-conversation-writing-workspace-metadata`, fullscreen workspace UI
 binding, Read Request, Need feedback, AssetPack review note, and Terminal
 handoff summary modes, save/restore/summarize/handoff actions, route-local
@@ -130,7 +130,7 @@ Closure acceptance:
 - `pnpm run check:v37-gate5` validates selector contracts, rights checks, route tests, UI tests, docs, telemetry, and workflow wiring.
 
 Gate 5 closure adds package-backed `ConversationSourceSelector` source,
-`.bitcode/v37-conversation-source-selector.json`,
+`.proofs/v37/conversation-source-selector.json`,
 `source-safe-conversation-source-selector-metadata`, repository, branch,
 commit, deposit, BTD range, AssetPack preview, document, and prior
 conversation selector kinds, account, organization, wallet, rights,
@@ -150,7 +150,7 @@ Closure acceptance:
 - `pnpm run check:v37-gate6` validates handoff contracts, route tests, Terminal integration tests, docs, telemetry, and workflow wiring.
 
 Gate 6 closure adds package-backed `ConversationTerminalHandoff` source,
-`.bitcode/v37-conversation-terminal-handoff.json`,
+`.proofs/v37/conversation-terminal-handoff.json`,
 `source-safe-conversation-terminal-handoff-metadata`, Depositing, Reading,
 Finding Fits, Exchange, settlement, and delivery handoff workflow rows,
 Terminal route context parsing, source-safe handoff UI binding, package tests,
@@ -161,7 +161,7 @@ UI tests, Terminal route tests, workflow wiring, and `check:v37-gate6`.
 Gate 7 defines durable storage and privacy controls.
 
 Gate 7 closure adds package-backed `ConversationPersistencePrivacyRedaction`
-source, `.bitcode/v37-conversation-persistence-privacy-redaction.json`,
+source, `.proofs/v37/conversation-persistence-privacy-redaction.json`,
 `source-safe-conversation-persistence-privacy-redaction-metadata`, public,
 user-visible, organization-visible, buyer-visible, reviewer-visible, and
 operator-only visibility tier separation, persist/restore/export/delete/
@@ -182,7 +182,7 @@ Closure acceptance:
 Gate 8 binds Conversations to telemetry, proof, dashboards, and public/internal docs.
 
 Gate 8 closure adds package-backed `ConversationTelemetryProofHooks` source,
-`.bitcode/v37-conversation-telemetry-proof-hooks.json`,
+`.proofs/v37/conversation-telemetry-proof-hooks.json`,
 `source-safe-conversation-telemetry-proof-hooks-metadata`, session/message/
 stream/tool/source selector/Terminal handoff/retry/error/completion event
 families, source-safe dashboard panels, runbook ids, proof roots, telemetry
@@ -202,7 +202,7 @@ Closure acceptance:
 Gate 9 proves Conversations locally and in staging-testnet.
 
 Gate 9 closure adds package-backed `ConversationRehearsal` source,
-`.bitcode/v37-conversation-rehearsal.json`,
+`.proofs/v37/conversation-rehearsal.json`,
 `source-safe-conversation-rehearsal-metadata`, local/staging/value-bearing
 mainnet blocked lanes, chat/streaming/writing/source selector/Terminal handoff/
 restore/retry/redaction/error flow rows, route/UI check roots, telemetry roots,
@@ -221,7 +221,7 @@ Closure acceptance:
 Gate 10 owns final generated proof, promotion workflow support, source-safe V37 promotion readiness reporting, and V37 closure.
 
 Gate 10 closure adds package-backed `ConversationPromotionReadinessReport`
-source, `.bitcode/v37-promotion-readiness-report.json`,
+source, `.proofs/v37/promotion-readiness-report.json`,
 `source-safe-conversation-promotion-readiness-metadata`, source-safe coverage
 for all V37 Conversation artifacts, `BITCODE_SPEC_V37_PROVEN.md` generation
 support, promotion command dry-run support, `v37-canon-promotion.yml`, active
@@ -256,7 +256,7 @@ Closure acceptance:
 - `ExchangeActivityBook` owns market-wide activity rows, filters, detail payloads, proof roots, event ids, and redaction posture;
 - activity rows cover listings, bids, asks, cancellations, acceptances, settlements, repairs, revenue routes, and history entries;
 - activity detail never exposes protected source or unpaid AssetPack content;
-- `.bitcode/v36-exchange-activity-book.json` is generated from the package-owned builder with `source-safe-exchange-activity-book-metadata`;
+- `.proofs/v36/exchange-activity-book.json` is generated from the package-owned builder with `source-safe-exchange-activity-book-metadata`;
 - `pnpm run check:v36-gate2` validates package source, artifact freshness, package tests, docs, workflow wiring, source-safety, proof roots, event ids, filters, details, and ledger/database projection posture.
 
 ### Gate 3: Buy Sell Bid Ask Cancel Accept Intent Contracts
@@ -268,7 +268,7 @@ Closure acceptance:
 - `ExchangeIntent` and `ExchangeOrder` own buy, sell, bid, ask, cancel, accept, settle, and history transition contracts;
 - each transition names actor, organization role, wallet posture, authority proof, idempotency key, policy decision, and fail-closed result;
 - order history is replayable without private wallet material or secrets;
-- `.bitcode/v36-exchange-intent-order-contracts.json` is generated from the package-owned builder with `source-safe-exchange-intent-order-contract-metadata`;
+- `.proofs/v36/exchange-intent-order-contracts.json` is generated from the package-owned builder with `source-safe-exchange-intent-order-contract-metadata`;
 - `pnpm run check:v36-gate3` validates package source, artifact freshness, package tests, docs, workflow wiring, action-kind coverage, transition coverage, authority, idempotency, policy, fail-closed, replay, source-safety, and ledger/database projection posture.
 
 ### Gate 4: AssetPack Range Trading And Rights Transfer Review
@@ -280,7 +280,7 @@ Closure acceptance:
 - `ExchangeRightsTransferPreview` names BTD range identity, current owner, requested buyer, rights scope, settlement unlock condition, and disclosure limit;
 - AssetPack source is hidden until paid settlement and rights transfer are complete;
 - previews distinguish owner-read, licensed-read, and blocked transfer states;
-- `.bitcode/v36-exchange-rights-transfer-review.json` is generated from the package-owned builder with `source-safe-exchange-rights-transfer-review-metadata`;
+- `.proofs/v36/exchange-rights-transfer-review.json` is generated from the package-owned builder with `source-safe-exchange-rights-transfer-review-metadata`;
 - `pnpm run check:v36-gate4` validates package source, artifact freshness, package tests, docs, workflow wiring, BTD range identity, current owner, requested buyer, rights scope, settlement unlock, disclosure limits, source-safety, owner-read, licensed-read, blocked transfer, proof roots, event ids, and ledger/database projection posture.
 
 ### Gate 5: Pricing Liquidity Fee Quote And Wrapper Analysis
@@ -292,7 +292,7 @@ Closure acceptance:
 - `ExchangePricingQuote` includes BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and quote root;
 - wrapper analysis cannot make BTD range cells fungible chain-of-record assets;
 - underpayment, overpayment, stale quote, or unsupported network posture fails closed;
-- `.bitcode/v36-pricing-liquidity-fee-quote.json` is generated from the package-owned builder with `source-safe-exchange-pricing-quote-metadata`;
+- `.proofs/v36/pricing-liquidity-fee-quote.json` is generated from the package-owned builder with `source-safe-exchange-pricing-quote-metadata`;
 - `pnpm run check:v36-gate5` validates package source, artifact freshness, package tests, docs, workflow wiring, BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury/depositor/reader routes, quote roots, wrapper non-fungibility, payment mismatch closure, stale quote closure, unsupported network closure, source-safety, proof roots, event ids, and ledger/database projection posture.
 
 ### Gate 6: Exchange Settlement Ledger Database Reconciliation
@@ -304,7 +304,7 @@ Closure acceptance:
 - `ExchangeSettlementReceipt` binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id;
 - observers and repair jobs reconcile database projections to ledger truth;
 - settlement finality and delivery are auditable;
-- `.bitcode/v36-exchange-settlement-reconciliation.json` is generated from the package-owned builder with `source-safe-exchange-settlement-reconciliation-metadata`;
+- `.proofs/v36/exchange-settlement-reconciliation.json` is generated from the package-owned builder with `source-safe-exchange-settlement-reconciliation-metadata`;
 - `pnpm run check:v36-gate6` validates package source, artifact freshness, package tests, docs, workflow wiring, payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, repair id, observer jobs, repair jobs, projection reconciliation to ledger truth, delivery auditability, source-safety, proof roots, and event ids.
 
 ### Gate 7: Dispute Repair Revenue Route Operations
@@ -316,7 +316,7 @@ Closure acceptance:
 - `ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch;
 - `ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof;
 - runbooks and repair commands are source-safe and proof-rooted.
-- `.bitcode/v36-exchange-dispute-repair-revenue-route.json` is generated from the package-owned builder with `source-safe-exchange-dispute-repair-revenue-route-metadata`;
+- `.proofs/v36/exchange-dispute-repair-revenue-route.json` is generated from the package-owned builder with `source-safe-exchange-dispute-repair-revenue-route-metadata`;
 - `pnpm run check:v36-gate7` validates package source, artifact freshness, package tests, docs, workflow wiring, dispute coverage, revenue route coverage, repair commands, verification commands, proof-rooted runbooks, escalation paths, conservation proofs, source-safety, proof roots, and event ids.
 
 ### Gate 8: Exchange UX And Terminal Navigation Integration
@@ -329,7 +329,7 @@ Closure acceptance:
 - Terminal can hand off to Exchange without losing transaction context;
 - collapsed UI gives readable status and expanded UI exposes source-safe detail.
 - Exchange telemetry dashboards remain source-safe and proof-rooted.
-- `.bitcode/v36-exchange-ux-proof.json` is generated from the package-owned `ExchangeUxProof` builder with `source-safe-exchange-ux-proof-metadata`;
+- `.proofs/v36/exchange-ux-proof.json` is generated from the package-owned `ExchangeUxProof` builder with `source-safe-exchange-ux-proof-metadata`;
 - `pnpm run check:v36-gate8` validates package source, artifact freshness, package tests, route handoff tests, docs, workflow wiring, master-detail UX, filters, order history, rights-transfer review, pricing quote, settlement state, repair state, Terminal handoff, collapsed/expanded disclosure, telemetry binding, proof roots, and event ids.
 
 ### Gate 9: Local Staging Exchange Rehearsal And Proof Coverage
@@ -342,17 +342,17 @@ Closure acceptance:
 - local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows;
 - rehearsal logs/screenshots are source-safe;
 - ledger/database synchronization and value-bearing mainnet blocking are visible;
-- `.bitcode/v36-exchange-rehearsal.json` is generated from the package-owned `ExchangeRehearsal` builder with `source-safe-exchange-rehearsal-metadata`;
+- `.proofs/v36/exchange-rehearsal.json` is generated from the package-owned `ExchangeRehearsal` builder with `source-safe-exchange-rehearsal-metadata`;
 - `pnpm run check:v36-gate9` validates package source, artifact freshness, package tests, docs, workflow wiring, local lane flow coverage, staging-testnet lane flow coverage, source-safe logs/screenshots, ledger/database synchronization checks, proof roots, and blocked value-bearing mainnet posture.
 
 ### Gate 10: V36 Promotion Readiness
 
-Gate 10 owns final generated proof, promotion workflow support, source-safe `.bitcode/v36-promotion-readiness-report.json`, and V36 closure.
+Gate 10 owns final generated proof, promotion workflow support, source-safe `.proofs/v36/promotion-readiness-report.json`, and V36 closure.
 
 Closure acceptance:
 
 - V36 promotion checks validate all Exchange artifacts, contracts, UI proof, telemetry/docs/runbook bindings, settlement/reconciliation evidence, repair evidence, rehearsal proof, and generated proof appendix support;
-- `.bitcode/v36-promotion-readiness-report.json` is generated from the package-owned `ExchangePromotionReadinessReport` builder with `source-safe-exchange-promotion-readiness-metadata`;
+- `.proofs/v36/promotion-readiness-report.json` is generated from the package-owned `ExchangePromotionReadinessReport` builder with `source-safe-exchange-promotion-readiness-metadata`;
 - promotion scripts support V36 command planning, dry-run, generated proof output, and derived promotion commit body generation;
 - promotion rewrites runtime posture to active V36 / draft V37 only after validations pass.
 

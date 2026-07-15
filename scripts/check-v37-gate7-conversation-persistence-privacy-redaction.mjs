@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-persistence-privacy-redaction.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-persistence-privacy-redaction.json';
 
 const REQUIRED_OPERATION_IDS = [
   'persist_message',

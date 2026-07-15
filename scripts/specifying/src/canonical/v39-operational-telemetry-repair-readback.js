@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_ARTIFACT_PATH =
-  '.bitcode/v39-operational-telemetry-repair-readback.json';
+  '.proofs/v39/operational-telemetry-repair-readback.json';
 export const V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_SCHEMA_ID =
   'bitcode.v39.operationalTelemetryRepairReadback.v1';
 export const V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_VERSION = 'V39';

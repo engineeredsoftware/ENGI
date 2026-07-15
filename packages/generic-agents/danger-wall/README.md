@@ -39,5 +39,5 @@ The V26 proof family checks this package through:
 
 - `protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js`
 - `protocol-demonstration/test/v26-inference-implementation-records.test.js`
-- `.bitcode/prompt-system-totality-proof.json`
-- `.bitcode/inference-implementation-records-proof.json`
+- `.proofs/_shared/prompt-system-totality-proof.json`
+- `.proofs/_shared/inference-implementation-records-proof.json`

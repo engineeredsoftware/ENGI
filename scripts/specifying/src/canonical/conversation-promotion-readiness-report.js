@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v37-promotion-readiness-report.json';
+  '.proofs/v37/promotion-readiness-report.json';
 export const CONVERSATION_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v37.conversationPromotionReadinessReport.v1';
 export const CONVERSATION_PROMOTION_READINESS_REPORT_VERSION = 'V37';
@@ -18,21 +18,21 @@ export const CONVERSATION_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-conversation-promotion-readiness-metadata';
 
 export const CONVERSATION_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v37-conversation-session-route-history.json',
-  '.bitcode/v37-conversation-stream-event-contract.json',
-  '.bitcode/v37-conversation-writing-workspace.json',
-  '.bitcode/v37-conversation-source-selector.json',
-  '.bitcode/v37-conversation-product-handoff.json',
-  '.bitcode/v37-conversation-persistence-privacy-redaction.json',
-  '.bitcode/v37-conversation-telemetry-proof-hooks.json',
-  '.bitcode/v37-conversation-rehearsal.json',
+  '.proofs/v37/conversation-session-route-history.json',
+  '.proofs/v37/conversation-stream-event-contract.json',
+  '.proofs/v37/conversation-writing-workspace.json',
+  '.proofs/v37/conversation-source-selector.json',
+  '.proofs/v37/conversation-product-handoff.json',
+  '.proofs/v37/conversation-persistence-privacy-redaction.json',
+  '.proofs/v37/conversation-telemetry-proof-hooks.json',
+  '.proofs/v37/conversation-rehearsal.json',
 ]);
 
 export const CONVERSATION_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V37_PROVEN.md',
-  '.bitcode/v37-spec-family-report.json',
-  '.bitcode/v37-canonical-input-report.json',
-  '.bitcode/v37-canon-posture-drift-report.json',
+  '.proofs/v37/spec-family-report.json',
+  '.proofs/v37/canonical-input-report.json',
+  '.proofs/v37/canon-posture-drift-report.json',
   CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -354,7 +354,7 @@ export function buildConversationPromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V37_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v37-',
+      generatedArtifactPrefix: '.proofs/v37/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

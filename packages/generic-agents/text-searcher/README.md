@@ -39,5 +39,5 @@ The V26 proof family checks this package through:
 - `protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js`
 - `protocol-demonstration/test/v26-prompt-system-boundary.test.js`
 - `protocol-demonstration/test/v26-inference-implementation-records.test.js`
-- `.bitcode/prompt-space-completeness-proof.json`
-- `.bitcode/inference-implementation-records-proof.json`
+- `.proofs/_shared/prompt-space-completeness-proof.json`
+- `.proofs/_shared/inference-implementation-records-proof.json`

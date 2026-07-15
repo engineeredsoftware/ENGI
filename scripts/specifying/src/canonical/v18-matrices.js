@@ -15,8 +15,8 @@ export const V18_PROJECTION_PRINCIPALS = ['internal', 'reviewer', 'buyer', 'publ
 export const V18_BRANCH_MODES = ['patch', 'context'];
 
 const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = new Set([
-  '.bitcode/system-proof-bundle.json',
-  '.bitcode/proof-witness-manifest.json'
+  '.proofs/_shared/system-proof-bundle.json',
+  '.proofs/_shared/proof-witness-manifest.json'
 ]);
 
 const MEMBER_TRUE_FIELDS_BY_FAMILY = {

@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `5c9c0270b9d864fe13b7e0a429700e1c9a7689d9`
 - Prior canonical anchor: `BITCODE_SPEC_V41.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, `.bitcode/v42-depositing-shortest-path.json`, `.bitcode/v42-reading-shortest-path-state-machine.json`, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `.bitcode/v42-readfitsfinding-preview-quote.json`, `.bitcode/v42-settlement-rights-delivery.json`, `.bitcode/v42-ai-reading-demonstration.json`, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `.bitcode/v42-promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v42/spec-family-report.json`, `.proofs/v42/canonical-input-report.json`, `.proofs/v42/canon-posture-drift-report.json`, `.proofs/v42/depositing-shortest-path.json`, `.proofs/v42/reading-shortest-path-state-machine.json`, `.proofs/v42/readneed-review-resynthesis-product-closure.json`, `.proofs/v42/readfitsfinding-preview-quote.json`, `.proofs/v42/settlement-rights-delivery.json`, `.proofs/v42/ai-reading-demonstration.json`, `.proofs/v42/local-staging-mvp-rehearsal.json`, `.proofs/v42/promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
 - Source parity state: V42 source-side Depositing shortest path, Reading shortest path state machine, ReadNeed review/resynthesis closure, ReadFitsFinding preview and quote closure, settlement rights delivery, AI-reading demonstration, local/staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V42 file family
 - Scope: V42 canonical notes for reliable MVP experience over promoted V41 prompt-program excellence canon
 - Last fully realized canonical target preserved in source: `V42`
@@ -29,7 +29,7 @@ It opens the reliable MVP experience version after V41 prompt-program promotion 
 The V42 Depositing path should minimize the journey from source material to Depository admission proof.
 The user needs to know that the source is admitted, searchable for future Need-Fit work, and eligible for BTC compensation if it contributes to a synthesized AssetPack.
 The UX can stay simple, but expandable details must show source authority, admission proof, storage projection, search-document posture, compensation route, and repair state.
-Gate 2 implements that note through `DepositorySupplyCompensationPreview`, deposit route `depositoryEvidence.compensationPreview`, Terminal compensation readback rows, and `.bitcode/v42-depositing-shortest-path.json`.
+Gate 2 implements that note through `DepositorySupplyCompensationPreview`, deposit route `depositoryEvidence.compensationPreview`, Terminal compensation readback rows, and `.proofs/v42/depositing-shortest-path.json`.
 Local/staging rehearsal for this gate means the deposit route, source-safe evidence projection, generated artifact, package test, and protocol route test can run without value-bearing mainnet behavior.
 The staging-testnet lane may read the same source-safe roots and ledger keys, but secrets and private source remain outside generated artifacts.
 
@@ -97,7 +97,7 @@ Gate 8 does not implement the V43+ route vocabulary, but it keeps the future pro
 ## Gate 9: V42 Promotion Readiness
 
 Gate 9 records the V42 promotion-readiness closure state.
-The generated artifact `.bitcode/v42-promotion-readiness-report.json` binds every V42 product proof from Gates 2 through 8, the V42 promotion workflow, generated proof appendix support, promotion dry-run support, source-safety checks, and value-bearing mainnet blocking.
+The generated artifact `.proofs/v42/promotion-readiness-report.json` binds every V42 product proof from Gates 2 through 8, the V42 promotion workflow, generated proof appendix support, promotion dry-run support, source-safety checks, and value-bearing mainnet blocking.
 The intended post-promotion runtime posture is active V42 / draft V43, so V43 can start from the reliable MVP experience canon and focus on the next product vocabulary and deposit-side evolution.
 
 ## V43+ agentic depositing roadmap note

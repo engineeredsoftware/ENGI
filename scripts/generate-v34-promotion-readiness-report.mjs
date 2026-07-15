@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v34/promotion-readiness-report.json';
 const GENERATED_AT = '2026-05-23T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -24,15 +24,15 @@ const SECRET_MARKERS = Object.freeze([
 const SECRET_PATTERN = new RegExp(SECRET_MARKERS.map(escapeRegex).join('|'), 'u');
 
 const V34_GATE_ARTIFACTS = Object.freeze([
-  '.bitcode/v34-deployment-host-capability-catalog.json',
-  '.bitcode/v34-environment-lane-contracts.json',
-  '.bitcode/v34-distributed-execution-runtime-receipts.json',
-  '.bitcode/v34-deployment-storage-posture.json',
-  '.bitcode/v34-secret-rotation-boundary-operations.json',
-  '.bitcode/v34-migration-cicd-approval-gates.json',
-  '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-  '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-  '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v34/deployment-host-capability-catalog.json',
+  '.proofs/v34/environment-lane-contracts.json',
+  '.proofs/v34/distributed-execution-runtime-receipts.json',
+  '.proofs/v34/deployment-storage-posture.json',
+  '.proofs/v34/secret-rotation-boundary-operations.json',
+  '.proofs/v34/migration-cicd-approval-gates.json',
+  '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+  '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
+  '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
 ]);
 
 function escapeRegex(value) {
@@ -113,7 +113,7 @@ export function buildV34PromotionReadinessReport() {
     scanTokens('scripts/check-v34-gate10-promotion-readiness.mjs', [
       'V34 Gate 10 promotion readiness',
       '--promotion-mode',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/generate-v34-promotion-readiness-report.mjs', [
       'buildV34PromotionReadinessReport',
@@ -130,7 +130,7 @@ export function buildV34PromotionReadinessReport() {
       "if (version === 'V34')",
       'V34 canonical system specification for deployment depth',
       '.specifications/BITCODE_SPEC_V34_PROVEN.md',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
       '--next-draft',
@@ -159,7 +159,7 @@ export function buildV34PromotionReadinessReport() {
     scanTokens('scripts/specifying/src/canonical/proven-generator.js', [
       'buildV34ProvenPackage',
       'buildV34PromotionReadinessReport',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ]),
     scanTokens('scripts/specifying/test/v34-promotion-readiness.test.js', [
       'supports V34 promotion readiness with source-safe deployment artifacts',
@@ -167,7 +167,7 @@ export function buildV34PromotionReadinessReport() {
       'V34 Promotion Readiness',
     ]),
     scanTokens('scripts/specifying/src/canonical/v21-specifying.js', [
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ]),
     scanTokens('package.json', [
       'generate:v34-promotion-readiness',
@@ -178,22 +178,22 @@ export function buildV34PromotionReadinessReport() {
   const documentationEvidence = [
     scanTokens('.specifications/BITCODE_SPEC_V34.md', [
       'V34 promotion readiness canon',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
       'V34 active / V35 draft',
     ]),
     scanTokens('.specifications/BITCODE_SPEC_V34_DELTA.md', [
       'Gate 10: V34 Promotion Readiness',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
       'promotion scripts support V34',
     ]),
     scanTokens('.specifications/BITCODE_SPEC_V34_NOTES.md', [
       'Gate 10: V34 Promotion Readiness',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
       'active V34 / draft V35',
     ]),
     scanTokens('.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', [
       '## Gate 10 Parity',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/promotion-readiness-report.json',
       'closed',
     ]),
     scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', [
@@ -259,7 +259,7 @@ export function buildV34PromotionReadinessReport() {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v34-',
+      generatedArtifactPrefix: '.proofs/v34/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

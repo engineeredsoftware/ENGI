@@ -7,7 +7,7 @@ import path from 'node:path';
 
 export const V43_CROSS_ROUTE_REHEARSAL_LANES = ['local', 'staging-testnet'];
 
-const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-host-runs/v43-cross-route-rehearsal-receipts';
+const DEFAULT_RECEIPT_DIR = '.proofs/pipeline-host-runs/v43-cross-route-rehearsal-receipts';
 const STAGING_PROJECT_REF = 'tkpyosihuouusyaxtbau';
 const STAGING_REST_HOST = 'https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/';
 

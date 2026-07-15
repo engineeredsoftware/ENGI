@@ -1,0 +1,50 @@
+{
+  "allReplayArtifactsByteEqual": true,
+  "artifactComparisons": [
+    {
+      "artifactPath": ".proofs/v32/artifact-volatility-inventory.json",
+      "byteEqual": true,
+      "byteLength": 3276,
+      "firstDigest": "sha256:d31f4689ff0f08afa8044dbb394e117adb9f9a74ee6e78c3c4ae31c24624f278",
+      "secondDigest": "sha256:d31f4689ff0f08afa8044dbb394e117adb9f9a74ee6e78c3c4ae31c24624f278"
+    },
+    {
+      "artifactPath": ".proofs/v32/proof-coverage-matrix.json",
+      "byteEqual": true,
+      "byteLength": 22455,
+      "firstDigest": "sha256:06e55f802ea41d13a35d481ad76d55b1090fb317b9f07e52043c2d1113a065a4",
+      "secondDigest": "sha256:06e55f802ea41d13a35d481ad76d55b1090fb317b9f07e52043c2d1113a065a4"
+    }
+  ],
+  "artifactId": "v32-deterministic-replay-report",
+  "command": "pnpm run generate:v32-deterministic-replay-artifacts",
+  "currentTarget": "V31",
+  "failureModeCoverage": [
+    "missing-path",
+    "stale-source-commit",
+    "malformed-schema",
+    "source-safety-violation",
+    "unstable-json-order"
+  ],
+  "generatedArtifactPaths": [
+    ".proofs/v32/proof-coverage-matrix.json",
+    ".proofs/v32/artifact-volatility-inventory.json",
+    ".proofs/v32/deterministic-replay-report.json"
+  ],
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "replayCommands": [
+    "pnpm run generate:v32-proof-coverage-matrix",
+    "pnpm run generate:v32-deterministic-replay-artifacts"
+  ],
+  "replaySourceArtifacts": [
+    ".proofs/v32/proof-coverage-matrix.json"
+  ],
+  "runCount": 2,
+  "schemaId": "bitcode.v32.deterministicReplayReport.v1",
+  "sourceCommit": "draft-gate-3-source-derived",
+  "sourceSafetyVerdict": "source-safe",
+  "version": "V32",
+  "volatilityBlockingFindingCount": 0,
+  "volatilityInventoryArtifact": ".proofs/v32/artifact-volatility-inventory.json"
+}

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v34-migration-cicd-approval-gates.json';
+const ARTIFACT_PATH = '.proofs/v34/migration-cicd-approval-gates.json';
 const GENERATED_AT = '2026-05-23T00:00:00.000Z';
 
 const requiredGateIds = Object.freeze([
@@ -142,7 +142,7 @@ const gateRows = Object.freeze([
     workflowBinding: 'bitcode-gate-quality draft canon posture checks',
     blockingFailureMode: 'block deployment when generated artifacts are stale, source-unsafe, or missing from canonical allowlist',
     auditEventName: 'migration_cicd_approval.generated_artifact_freshness',
-    proofRootBasis: ['.bitcode', 'scripts/specifying/src/canonical/v21-specifying.js', 'check:spec-family'],
+    proofRootBasis: ['.proofs', 'scripts/specifying/src/canonical/v21-specifying.js', 'check:spec-family'],
   },
   {
     gateId: 'vercel_lane_check',

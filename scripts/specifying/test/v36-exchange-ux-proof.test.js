@@ -54,7 +54,7 @@ test('builds the source-safe V36 Exchange UX proof', () => {
   assert.equal(report.coverage.unpaidAssetPackSourceVisible, false);
   assert.equal(report.coverage.legacySourceRoots, false);
   assert.equal(report.coverage.allSourceRootsPresent, true);
-  assert.equal(EXCHANGE_UX_PROOF_ARTIFACT_PATH, '.bitcode/v36-exchange-ux-proof.json');
+  assert.equal(EXCHANGE_UX_PROOF_ARTIFACT_PATH, '.proofs/v36/exchange-ux-proof.json');
   assert.match(report.artifactRoot, /^exchange-ux-proof:[a-f0-9]{24}$/u);
 });
 

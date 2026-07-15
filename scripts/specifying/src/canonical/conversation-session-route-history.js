@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const CONVERSATION_SESSION_ROUTE_HISTORY_ARTIFACT_PATH = '.bitcode/v37-conversation-session-route-history.json';
+export const CONVERSATION_SESSION_ROUTE_HISTORY_ARTIFACT_PATH = '.proofs/v37/conversation-session-route-history.json';
 export const CONVERSATION_SESSION_ROUTE_HISTORY_SCHEMA_ID = 'bitcode.v37.conversationSessionRouteHistory.v1';
 export const CONVERSATION_SESSION_ROUTE_HISTORY_VERSION = 'V37';
 export const CONVERSATION_SESSION_ROUTE_HISTORY_CURRENT_TARGET = 'V36';

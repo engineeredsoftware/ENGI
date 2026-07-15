@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH =
-  '.bitcode/v44-depositor-earnings-supply-opportunities.json';
+  '.proofs/v44/depositor-earnings-supply-opportunities.json';
 export const V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_SCHEMA_ID =
   'bitcode.v44.depositorEarningsSupplyOpportunities.v1';
 export const V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_VERSION = 'V44';

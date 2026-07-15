@@ -54,5 +54,5 @@ test('V44 Reading budget quote policy rows remain source-safe', () => {
   assert.equal(artifact.rows.every((row) => row.protectedSourceVisible === false), true);
   assert.equal(artifact.rows.every((row) => row.unpaidAssetPackSourceVisible === false), true);
   assert.equal(artifact.sourceSafetyVerdict, 'source-safe-reading-budget-quote-policy-metadata');
-  assert.equal(V44_READING_BUDGET_QUOTE_POLICY_ARTIFACT_PATH, '.bitcode/v44-reading-budget-quote-policy.json');
+  assert.equal(V44_READING_BUDGET_QUOTE_POLICY_ARTIFACT_PATH, '.proofs/v44/reading-budget-quote-policy.json');
 });

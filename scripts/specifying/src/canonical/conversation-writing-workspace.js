@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const CONVERSATION_WRITING_WORKSPACE_ARTIFACT_PATH = '.bitcode/v37-conversation-writing-workspace.json';
+export const CONVERSATION_WRITING_WORKSPACE_ARTIFACT_PATH = '.proofs/v37/conversation-writing-workspace.json';
 export const CONVERSATION_WRITING_WORKSPACE_SCHEMA_ID = 'bitcode.v37.conversationWritingWorkspace.v1';
 export const CONVERSATION_WRITING_WORKSPACE_VERSION = 'V37';
 export const CONVERSATION_WRITING_WORKSPACE_CURRENT_TARGET = 'V36';

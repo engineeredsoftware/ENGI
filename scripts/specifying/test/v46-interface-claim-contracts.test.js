@@ -13,7 +13,7 @@ import {
 test('V46 interface claim contracts bind API/MCP, ChatGPT App, Bitcode Chat, and package consumers', () => {
   const report = buildV46InterfaceClaimContracts();
 
-  assert.equal(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH, '.bitcode/v46-interface-claim-contracts.json');
+  assert.equal(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH, '.proofs/v46/interface-claim-contracts.json');
   assert.equal(report.artifactId, 'v46-interface-claim-contracts');
   assert.equal(report.schemaId, V46_INTERFACE_CLAIM_CONTRACTS_SCHEMA_ID);
   assert.equal(report.version, 'V46');

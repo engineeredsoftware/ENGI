@@ -111,5 +111,5 @@ test('keeps restore, branch, retry, and redaction route history local to Convers
   assert.equal(routeHistory.disclosureBoundary.conversationRoutesMustNotExpose.includes('wallet_private_material'), true);
   assert.equal(routeHistory.sourceEvidence.every((entry) => entry.allSourceRootsPresent), true);
   assert.equal(routeHistory.requiredRouteIds.includes('api.conversations.shared_contracts'), true);
-  assert.equal(CONVERSATION_SESSION_ROUTE_HISTORY_ARTIFACT_PATH, '.bitcode/v37-conversation-session-route-history.json');
+  assert.equal(CONVERSATION_SESSION_ROUTE_HISTORY_ARTIFACT_PATH, '.proofs/v37/conversation-session-route-history.json');
 });

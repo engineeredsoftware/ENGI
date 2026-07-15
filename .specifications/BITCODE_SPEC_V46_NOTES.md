@@ -10,7 +10,7 @@
 - Canonical proof-source commit: `40a32e9d61a64130c958eda1498812e25a682653`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v46/spec-family-report.json`, `.proofs/v46/canonical-input-report.json`, `.proofs/v46/canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.proofs/v46/promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion
 - Source parity state: V46 source-side protocol comprehension object model, public/operator claim boundaries, route readback, interface claim contracts, proof readback, local rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V46 file family
 - V46 state: canonical promotion complete; V46 notes record accepted protocol object-model, public/operator claim boundary, route readback, interface contract, proof explanation, local rehearsal, and promotion-readiness evidence
 - Scope: V46 canonical notes for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon
@@ -166,7 +166,7 @@ surface ids, all required claim ids, claim categories, authority ids,
 capability ids, source roots, proof-root projection, denied-state repair,
 source-safe disclosure exclusions, package exports, generated artifact
 freshness, workflow wiring, and focused protocol tests. The artifact path is
-`.bitcode/v46-interface-claim-contracts.json`.
+`.proofs/v46/interface-claim-contracts.json`.
 
 ## Gate 6: Proof Readback And Source-Safe Operator Explanation
 
@@ -208,7 +208,7 @@ evidence class ids, Gate 2 authority ids and claim ids, required operator
 question ids, source roots, stronger-evidence requirements, conflict behavior,
 repair states, source-safe disclosure exclusions, package exports, generated
 artifact freshness, workflow wiring, and focused protocol tests. The artifact
-path is `.bitcode/v46-proof-readback-operator-explanation.json`.
+path is `.proofs/v46/proof-readback-operator-explanation.json`.
 
 ## V46 local interface comprehension rehearsal atom: local surface readback rehearsal
 
@@ -231,12 +231,12 @@ all local surface ids, required local step ids, Gate 2 claim ids, claim
 categories, authority ids, source roots, prior V46 artifact pass states,
 source-safe disclosure exclusions, package exports, generated artifact
 freshness, workflow wiring, and focused protocol tests. The artifact path is
-`.bitcode/v46-local-interface-comprehension-rehearsal.json`.
+`.proofs/v46/local-interface-comprehension-rehearsal.json`.
 
 ## Gate 8: V46 Promotion Readiness
 
 Gate 8 records the promotion-readiness atom. It creates
-`.bitcode/v46-promotion-readiness-report.json`, binds the six accepted V46
+`.proofs/v46/promotion-readiness-report.json`, binds the six accepted V46
 protocol comprehension artifacts, adds generated `BITCODE_SPEC_V46_PROVEN.md`
 support, wires `v46-canon-promotion.yml`, and prepares active V46 / draft V47
 posture after promotion. It remains source-safe promotion metadata over active
@@ -292,7 +292,7 @@ Acceptance for this atom: `V46ProductRouteComprehensionReadback` must bind
 route-owned state, search/filter/sort, Reading and Depositing five-step flows,
 expandable proof readback, source-safe disclosure exclusions, package exports,
 generated artifact freshness, workflow wiring, and focused protocol tests. The
-artifact path is `.bitcode/v46-product-route-comprehension-readback.json`.
+artifact path is `.proofs/v46/product-route-comprehension-readback.json`.
 
 ## V46 public/operator claim-boundary atom: public/operator claim boundaries
 
@@ -325,7 +325,7 @@ Acceptance for this atom: `V46PublicOperatorClaimBoundaries` must bind public
 docs, landing, operator docs, README surfaces, required copy anchors, forbidden
 overclaim scans, source-safety exclusions, package exports, generated artifact
 freshness, workflow wiring, and focused protocol tests. The artifact path is
-`.bitcode/v46-public-operator-claim-boundaries.json`.
+`.proofs/v46/public-operator-claim-boundaries.json`.
 
 ## V46 protocol atom 6: protocol comprehension object model and claim taxonomy
 

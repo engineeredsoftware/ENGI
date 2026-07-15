@@ -13,7 +13,7 @@ import {
 test('V39 AssetPack preview quote boundary report binds source-safe preview, quote, settlement, and delivery lock', () => {
   const report = buildV39AssetPackPreviewQuoteBoundary();
 
-  assert.equal(V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_ARTIFACT_PATH, '.bitcode/v39-assetpack-preview-quote-boundary.json');
+  assert.equal(V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_ARTIFACT_PATH, '.proofs/v39/assetpack-preview-quote-boundary.json');
   assert.equal(report.artifactId, 'v39-assetpack-preview-quote-boundary');
   assert.equal(report.schemaId, V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_SCHEMA_ID);
   assert.equal(report.version, 'V39');

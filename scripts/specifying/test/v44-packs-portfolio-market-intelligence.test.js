@@ -15,7 +15,7 @@ test('V44 Packs portfolio market intelligence binds source-safe route operation'
 
   assert.equal(
     V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_ARTIFACT_PATH,
-    '.bitcode/v44-packs-portfolio-market-intelligence.json',
+    '.proofs/v44/packs-portfolio-market-intelligence.json',
   );
   assert.equal(report.artifactId, 'v44-packs-portfolio-market-intelligence');
   assert.equal(report.schemaId, V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_SCHEMA_ID);

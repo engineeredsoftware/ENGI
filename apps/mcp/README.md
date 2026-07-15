@@ -31,7 +31,7 @@ Protocol telemetry objects rather than route-local BTD policy copies.
 
 The V35 MCP API surface also consumes
 `TelemetryDocumentationInterfaceIntegration` through the generated source-safe
-artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`.
+artifact `.proofs/v35/telemetry-documentation-interface-integration.json`.
 Tool responses may expose event ids, proof roots, docs links, runbook links,
 redaction posture, correlation ids, and source-safe state labels so MCP clients
 can correlate a run with product-visible documentation and repair guidance.

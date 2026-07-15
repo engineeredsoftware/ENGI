@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v29/spec-family-report.json`, `.proofs/v29/canonical-input-report.json`, `.proofs/v29/canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
 - Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
 - Scope: V29 canonical notes for Terminal transaction depth, local/staging readiness, and promotion automation over V28
 - Last fully realized canonical target preserved in source: `V29`

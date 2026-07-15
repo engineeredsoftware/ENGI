@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_REHEARSAL_ARTIFACT_PATH = '.bitcode/v36-exchange-rehearsal.json';
+export const EXCHANGE_REHEARSAL_ARTIFACT_PATH = '.proofs/v36/exchange-rehearsal.json';
 export const EXCHANGE_REHEARSAL_SCHEMA_ID = 'bitcode.v36.exchangeRehearsal.v1';
 export const EXCHANGE_REHEARSAL_VERSION = 'V36';
 export const EXCHANGE_REHEARSAL_CURRENT_TARGET = 'V35';
@@ -91,13 +91,13 @@ const SHARED_SOURCE_ROOTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V36_NOTES.md',
   '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
   '.specifications/SPECIFICATIONS_ROADMAP.md',
-  '.bitcode/v36-exchange-activity-book.json',
-  '.bitcode/v36-exchange-intent-order-contracts.json',
-  '.bitcode/v36-exchange-rights-transfer-review.json',
-  '.bitcode/v36-pricing-liquidity-fee-quote.json',
-  '.bitcode/v36-exchange-settlement-reconciliation.json',
-  '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
-  '.bitcode/v36-exchange-ux-proof.json',
+  '.proofs/v36/exchange-activity-book.json',
+  '.proofs/v36/exchange-intent-order-contracts.json',
+  '.proofs/v36/exchange-rights-transfer-review.json',
+  '.proofs/v36/pricing-liquidity-fee-quote.json',
+  '.proofs/v36/exchange-settlement-reconciliation.json',
+  '.proofs/v36/exchange-dispute-repair-revenue-route.json',
+  '.proofs/v36/exchange-ux-proof.json',
 ]);
 
 const rehearsalRows = Object.freeze([

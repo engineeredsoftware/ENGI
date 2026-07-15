@@ -14,37 +14,37 @@ export const V24_EXTERNAL_INTERFACE_IDS = [
 ];
 const V24_INTERFACE_ARTIFACT_REFS = {
   'bitcoin-mainchain-execution': [
-    '.bitcode/bitcoin-settlement-intent.json',
-    '.bitcode/bitcoin-settlement-observation.json',
-    '.bitcode/bitcoin-anchor.json',
-    '.bitcode/bitcoin-bounded-public-anchor.json'
+    '.proofs/_shared/bitcoin-settlement-intent.json',
+    '.proofs/_shared/bitcoin-settlement-observation.json',
+    '.proofs/_shared/bitcoin-anchor.json',
+    '.proofs/_shared/bitcoin-bounded-public-anchor.json'
   ],
   'repeated-read-payment-execution': [
-    '.bitcode/repeated-read-payment-intent.json',
-    '.bitcode/repeated-read-payment-execution.json',
-    '.bitcode/repeated-read-payment-observation.json',
-    '.bitcode/bitcoin-settlement-intent.json',
-    '.bitcode/bitcoin-settlement-observation.json'
+    '.proofs/_shared/repeated-read-payment-intent.json',
+    '.proofs/_shared/repeated-read-payment-execution.json',
+    '.proofs/_shared/repeated-read-payment-observation.json',
+    '.proofs/_shared/bitcoin-settlement-intent.json',
+    '.proofs/_shared/bitcoin-settlement-observation.json'
   ],
   'sidechain-execution': [
-    '.bitcode/external-boundary-manifest.json',
-    '.bitcode/external-execution-policy.json',
-    '.bitcode/network-capability-manifest.json'
+    '.proofs/_shared/external-boundary-manifest.json',
+    '.proofs/_shared/external-execution-policy.json',
+    '.proofs/_shared/network-capability-manifest.json'
   ],
   'compute-container-execution': [
-    '.bitcode/compute-reality-manifest.json',
-    '.bitcode/external-environment-profile.json',
-    '.bitcode/external-telemetry-summary.json'
+    '.proofs/_shared/compute-reality-manifest.json',
+    '.proofs/_shared/external-environment-profile.json',
+    '.proofs/_shared/external-telemetry-summary.json'
   ],
   'storage-container-execution': [
-    '.bitcode/storage-reality-manifest.json',
-    '.bitcode/external-environment-profile.json',
-    '.bitcode/external-telemetry-summary.json'
+    '.proofs/_shared/storage-reality-manifest.json',
+    '.proofs/_shared/external-environment-profile.json',
+    '.proofs/_shared/external-telemetry-summary.json'
   ],
   'github-live-interface': [
-    '.bitcode/github-app-binding.json',
-    '.bitcode/external-environment-profile.json',
-    '.bitcode/external-telemetry-summary.json'
+    '.proofs/_shared/github-app-binding.json',
+    '.proofs/_shared/external-environment-profile.json',
+    '.proofs/_shared/external-telemetry-summary.json'
   ]
 };
 
@@ -930,7 +930,7 @@ export function buildV24ExternalRealizationArtifacts(input = {}) {
     branchMode: branchMode || null,
     scenarioId: scenarioId || null,
     paymentMode: input.paymentMode || null,
-    coreTelemetryRefs: ['.bitcode/pipeline-telemetry.json'],
+    coreTelemetryRefs: ['.proofs/_shared/pipeline-telemetry.json'],
     surfacedAcross: ['core', 'demonstration', 'api', 'branch-artifacts'],
     pipelineStageIds: pipelineStages,
     interfaceSummaries: V24_EXTERNAL_INTERFACE_IDS.map((interfaceId) => {

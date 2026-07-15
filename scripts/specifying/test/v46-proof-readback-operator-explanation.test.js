@@ -16,7 +16,7 @@ test('V46 proof readback operator explanation binds all evidence classes', () =>
 
   assert.equal(
     V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH,
-    '.bitcode/v46-proof-readback-operator-explanation.json',
+    '.proofs/v46/proof-readback-operator-explanation.json',
   );
   assert.equal(report.artifactId, 'v46-proof-readback-operator-explanation');
   assert.equal(report.schemaId, V46_PROOF_READBACK_OPERATOR_EXPLANATION_SCHEMA_ID);

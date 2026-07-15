@@ -62,7 +62,7 @@ Product routes are `/packs`, `/deposits`, `/reads`, and `/docs`.
 | [`.docs/ASSET_PACKS.md`](.docs/ASSET_PACKS.md) | **Non-canonical** AssetPack orientation |
 
 **Canonical truth** is only the `.specifications/BITCODE_SPEC_*` family (plus
-generated PROVEN / `.bitcode/vN-*` when part of that family). README,
+generated PROVEN / `.proofs/vN/` when part of that family). README,
 FAMILIARIZATION, ASSET_PACKS, and AGENTS **orient** — they must not be required
 to rebuild the system. If any guide conflicts with the active/draft SPEC, the
 **SPEC wins**.

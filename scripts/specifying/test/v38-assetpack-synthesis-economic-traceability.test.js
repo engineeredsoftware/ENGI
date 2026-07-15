@@ -16,7 +16,7 @@ test('V38 AssetPack synthesis economic traceability report binds handoff, previe
 
   assert.equal(
     V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ARTIFACT_PATH,
-    '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
+    '.proofs/v38/assetpack-synthesis-economic-traceability.json',
   );
   assert.equal(report.artifactId, 'v38-assetpack-synthesis-economic-traceability');
   assert.equal(report.schemaId, V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_SCHEMA_ID);

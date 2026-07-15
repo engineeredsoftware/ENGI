@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_ARTIFACT_PATH =
-  '.bitcode/v38-ptrr-failsafe-thricified-stack.json';
+  '.proofs/v38/ptrr-failsafe-thricified-stack.json';
 export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_SCHEMA_ID =
   'bitcode.v38.ptrrFailsafeThricifiedStack.v1';
 export const V38_PTRR_FAILSAFE_THRICIFIED_STACK_VERSION = 'V38';

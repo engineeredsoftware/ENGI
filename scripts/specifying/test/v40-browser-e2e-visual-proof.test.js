@@ -15,7 +15,7 @@ import {
 test('V40 browser E2E visual proof closes product surface browser coverage', () => {
   const report = buildV40BrowserE2eVisualProof();
 
-  assert.equal(V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH, '.bitcode/v40-browser-e2e-visual-proof.json');
+  assert.equal(V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH, '.proofs/v40/browser-e2e-visual-proof.json');
   assert.equal(report.artifactId, 'v40-browser-e2e-visual-proof');
   assert.equal(report.schemaId, V40_BROWSER_E2E_VISUAL_PROOF_SCHEMA_ID);
   assert.equal(report.version, 'V40');

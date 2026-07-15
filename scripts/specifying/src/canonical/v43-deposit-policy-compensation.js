@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-export const V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH = '.bitcode/v43-deposit-policy-compensation.json';
+export const V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH = '.proofs/v43/deposit-policy-compensation.json';
 export const V43_DEPOSIT_POLICY_COMPENSATION_SCHEMA_ID = 'bitcode.v43.depositPolicyCompensation.v1';
 export const V43_DEPOSIT_POLICY_COMPENSATION_VERSION = 'V43';
 export const V43_DEPOSIT_POLICY_COMPENSATION_CURRENT_TARGET = 'V42';

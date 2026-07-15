@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `0d594d117e7d9f2065c3622dd51c0e5e5456757e`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-canon-posture-drift-report.json`, V47 launch artifacts (`.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, `.bitcode/v47-e2e-ip-selling-buying-tests.json`, `.bitcode/v47-landing-public-launch-messaging.json`, `.bitcode/v47-staging-testnet-deployment-rehearsal.json`), `.bitcode/v47-promotion-readiness-report.json`, V47 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V47_PROVEN.md` as the generated proof appendix for V47 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v47/spec-family-report.json`, `.proofs/v47/canonical-input-report.json`, `.proofs/v47/canon-posture-drift-report.json`, V47 launch artifacts (`.proofs/v47/feature-excess-alignment-audit.json`, `.proofs/v47/seller-buyer-state-machine-law.json`, `.proofs/v47/depositor-website-completion.json`, `.proofs/v47/reader-website-completion.json`, `.proofs/v47/packs-auxillaries-commercial-dashboard.json`, `.proofs/v47/e2e-ip-selling-buying-tests.json`, `.proofs/v47/landing-public-launch-messaging.json`, `.proofs/v47/staging-testnet-deployment-rehearsal.json`), `.proofs/v47/promotion-readiness-report.json`, V47 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V47_PROVEN.md` as the generated proof appendix for V47 promotion
 - Source parity state: V47 source-side measurement law, seller/buyer state machines, depositor and reader route completions, packs/Auxillaries dashboard, E2E IP exchange browser proof, landing/public launch messaging, staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V47 file family
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
@@ -424,19 +424,19 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v47-spec-family-report.json` | `measurement-prompt`, `need-synthesis`, `fit-synthesis` | `typed-measurement-output` | `v47-inference-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V46 inference and V47 measurement law |
-| Prompt-completeness | `.bitcode/v47-spec-family-report.json` | `measurement-prompts`, `visualization-prompts` | `prompt-identity-bound` | `v47-prompt-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Prompt registry and V41/V46 canon |
-| Static-code-analysis | `.bitcode/v47-canonical-input-report.json` | `route-static-contracts`, `workflow-hooks` | `source-safety-static` | `v47-static-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Current website source and workflows |
-| Verification-decisions | `.bitcode/v47-spec-family-report.json` | `seller-decision`, `buyer-decision` | `measurement-before-price` | `v47-decision-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V47 state machine law |
-| Selection-and-materialization | `.bitcode/v47-spec-family-report.json` | `fit-selection`, `delivery-materialization` | `settlement-before-source` | `v47-materialization-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Reading and delivery packages |
-| Authorization-and-sensitive-flow | `.bitcode/v47-canonical-input-report.json` | `identity`, `wallet`, `source-connection` | `authority-required` | `v47-authority-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Auxillaries and route authority |
-| Settlement-source-to-shares | `.bitcode/v47-spec-family-report.json` | `quote`, `settlement`, `compensation` | `btctestnet-conservation` | `v47-settlement-readback` | `BITCODE_SPEC_V47_PROVEN.md` | BTD/BTC accounting canon |
-| Disclosure-boundary | `.bitcode/v47-canonical-input-report.json` | `preview`, `measurement-visualization` | `no-unpaid-source` | `v47-disclosure-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V45/V46 source-safety canon |
-| Proof-contract | `.bitcode/v47-spec-family-report.json` | `proof-root`, `replay`, `repair` | `proof-readback-decides` | `v47-proof-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Generated proof and workflow canon |
+| Inference-synthesis | `.proofs/v47/spec-family-report.json` | `measurement-prompt`, `need-synthesis`, `fit-synthesis` | `typed-measurement-output` | `v47-inference-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V46 inference and V47 measurement law |
+| Prompt-completeness | `.proofs/v47/spec-family-report.json` | `measurement-prompts`, `visualization-prompts` | `prompt-identity-bound` | `v47-prompt-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Prompt registry and V41/V46 canon |
+| Static-code-analysis | `.proofs/v47/canonical-input-report.json` | `route-static-contracts`, `workflow-hooks` | `source-safety-static` | `v47-static-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Current website source and workflows |
+| Verification-decisions | `.proofs/v47/spec-family-report.json` | `seller-decision`, `buyer-decision` | `measurement-before-price` | `v47-decision-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V47 state machine law |
+| Selection-and-materialization | `.proofs/v47/spec-family-report.json` | `fit-selection`, `delivery-materialization` | `settlement-before-source` | `v47-materialization-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Reading and delivery packages |
+| Authorization-and-sensitive-flow | `.proofs/v47/canonical-input-report.json` | `identity`, `wallet`, `source-connection` | `authority-required` | `v47-authority-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Auxillaries and route authority |
+| Settlement-source-to-shares | `.proofs/v47/spec-family-report.json` | `quote`, `settlement`, `compensation` | `btctestnet-conservation` | `v47-settlement-readback` | `BITCODE_SPEC_V47_PROVEN.md` | BTD/BTC accounting canon |
+| Disclosure-boundary | `.proofs/v47/canonical-input-report.json` | `preview`, `measurement-visualization` | `no-unpaid-source` | `v47-disclosure-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V45/V46 source-safety canon |
+| Proof-contract | `.proofs/v47/spec-family-report.json` | `proof-root`, `replay`, `repair` | `proof-readback-decides` | `v47-proof-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Generated proof and workflow canon |
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- proofArtifactPath: `.proofs/v47/spec-family-report.json`
 - members: measurement prompts, Need synthesis, deposit option synthesis, Finding Fits, AssetPack synthesis
 - theoremIds: typed-measurement-output, inference-source-safety, measurement-before-price
 - replayStepIds: v47-inference-readback
@@ -452,7 +452,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- proofArtifactPath: `.proofs/v47/spec-family-report.json`
 - members: measurement PromptParts, seller visualization prompts, buyer visualization prompts
 - theoremIds: prompt-identity-bound, prompt-output-typed
 - replayStepIds: v47-prompt-readback
@@ -468,7 +468,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v47-canonical-input-report.json`
+- proofArtifactPath: `.proofs/v47/canonical-input-report.json`
 - members: route contracts, workflow hooks, no-source scans
 - theoremIds: source-safety-static, route-state-static
 - replayStepIds: v47-static-readback
@@ -484,7 +484,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- proofArtifactPath: `.proofs/v47/spec-family-report.json`
 - members: seller approval, buyer payment, operator repair
 - theoremIds: measurement-before-price, proof-before-state
 - replayStepIds: v47-decision-readback
@@ -500,7 +500,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- proofArtifactPath: `.proofs/v47/spec-family-report.json`
 - members: Fit selection, AssetPack preview, repository delivery
 - theoremIds: settlement-before-source, selected-fit-proof
 - replayStepIds: v47-materialization-readback
@@ -516,7 +516,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v47-canonical-input-report.json`
+- proofArtifactPath: `.proofs/v47/canonical-input-report.json`
 - members: identity, organization, wallet, source connection, repository connection
 - theoremIds: authority-required, secrets-never-projected
 - replayStepIds: v47-authority-readback
@@ -532,7 +532,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- proofArtifactPath: `.proofs/v47/spec-family-report.json`
 - members: quote, BTC-testnet observation, finality, BTD rights, compensation
 - theoremIds: btctestnet-conservation, source-to-shares-conservation
 - replayStepIds: v47-settlement-readback
@@ -548,7 +548,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v47-canonical-input-report.json`
+- proofArtifactPath: `.proofs/v47/canonical-input-report.json`
 - members: preview, measurement visualization, proof projection
 - theoremIds: no-unpaid-source, measurement-visible-source-hidden
 - replayStepIds: v47-disclosure-readback
@@ -564,7 +564,7 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- proofArtifactPath: `.proofs/v47/spec-family-report.json`
 - members: proof root, workflow receipt, replay receipt, repair receipt
 - theoremIds: proof-readback-decides, stale-truth-fails
 - replayStepIds: v47-proof-readback
@@ -584,37 +584,37 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 #### Inherited V19 reproducible-canon artifacts
 
-`.bitcode/v19-contract-change-ledger.json`,
-`.bitcode/v19-negative-proof-mutation-matrix.json`,
-`.bitcode/v19-proof-member-semantic-matrix.json`,
-`.bitcode/v19-theorem-evidence-matrix.json`,
-`.bitcode/v19-state-machine-matrix.json`,
-`.bitcode/v19-deterministic-replay-report.json`, and
-`.bitcode/v19-volatility-inventory.json` remain historical reproducibility
+`.proofs/v19/contract-change-ledger.json`,
+`.proofs/v19/negative-proof-mutation-matrix.json`,
+`.proofs/v19/proof-member-semantic-matrix.json`,
+`.proofs/v19/theorem-evidence-matrix.json`,
+`.proofs/v19/state-machine-matrix.json`,
+`.proofs/v19/deterministic-replay-report.json`, and
+`.proofs/v19/volatility-inventory.json` remain historical reproducibility
 inputs.
 
 #### Inherited V20 operator-quality artifacts
 
-`.bitcode/v20-operator-acceptance-transcript.json`,
-`.bitcode/v20-visual-regression-report.json`,
-`.bitcode/v20-accessibility-report.json`,
-`.bitcode/v20-performance-budget-report.json`,
-`.bitcode/v20-projection-quality-smoke-matrix.json`,
-`.bitcode/v20-quality-summary.json`, and `ENGI_SPEC_V20_PROVEN.md` remain
+`.proofs/v20/operator-acceptance-transcript.json`,
+`.proofs/v20/visual-regression-report.json`,
+`.proofs/v20/accessibility-report.json`,
+`.proofs/v20/performance-budget-report.json`,
+`.proofs/v20/projection-quality-smoke-matrix.json`,
+`.proofs/v20/quality-summary.json`, and `ENGI_SPEC_V20_PROVEN.md` remain
 historical operator-quality inputs.
 
 #### Exact generated-artifact inventory matrix
 
 | artifactPath | role | disclosability |
 | --- | --- | --- |
-| `.bitcode/v47-spec-family-report.json` | V47 spec-family validation report | source-safe |
-| `.bitcode/v47-canonical-input-report.json` | V47 canonical-input validation report | source-safe |
+| `.proofs/v47/spec-family-report.json` | V47 spec-family validation report | source-safe |
+| `.proofs/v47/canonical-input-report.json` | V47 canonical-input validation report | source-safe |
 | `BITCODE_SPEC_V47_PROVEN.md` | V47 generated proof appendix after promotion readiness | source-safe |
 
 #### V47 specifying generated artifacts
 
-V47 Gate 1 reserves `.bitcode/v47-spec-family-report.json` and
-`.bitcode/v47-canonical-input-report.json`. Later gates may add launch,
+V47 Gate 1 reserves `.proofs/v47/spec-family-report.json` and
+`.proofs/v47/canonical-input-report.json`. Later gates may add launch,
 measurement, route, and E2E rehearsal artifacts.
 
 #### Shared generated-artifact fields
@@ -669,7 +669,7 @@ seller and buyer E2E flows, and the maintained promotion workflow advances
 `BITCODE_SPEC.txt` to `V47`.
 
 V47 promotion readiness canon: Gate 10 owns
-`.bitcode/v47-promotion-readiness-report.json`, the
+`.proofs/v47/promotion-readiness-report.json`, the
 `buildV47PromotionReadinessReport` package object, and `check:v47-gate10`
 (with `--promotion-mode` accepting V46 pre-promotion or V47 post-promotion
 pointer truth). The readiness report binds every accepted V47 launch artifact
@@ -703,39 +703,39 @@ V47 gates:
 
 1. Scope, Testnet Semantics, Measurement Law, And Launch Freeze.
 2. Feature Excess And Gate Alignment Audit. Gate 2 owns
-   `.bitcode/v47-feature-excess-alignment-audit.json`, the
+   `.proofs/v47/feature-excess-alignment-audit.json`, the
    `buildV47FeatureExcessAlignmentAudit` package object, and
    `check:v47-gate2`.
 3. Seller And Buyer State Machine Law. Gate 3 owns
-   `.bitcode/v47-seller-buyer-state-machine-law.json`, the
+   `.proofs/v47/seller-buyer-state-machine-law.json`, the
    `buildV47SellerBuyerStateMachineLaw` package object, and
    `check:v47-gate3`.
 4. Depositor Website Completion. Gate 4 owns
-   `.bitcode/v47-depositor-website-completion.json`, the
+   `.proofs/v47/depositor-website-completion.json`, the
    `buildV47DepositorWebsiteCompletion` package object, and
    `check:v47-gate4`.
 5. Reader Website Completion. Gate 5 owns
-   `.bitcode/v47-reader-website-completion.json`, the
+   `.proofs/v47/reader-website-completion.json`, the
    `buildV47ReaderWebsiteCompletion` package object, and
    `check:v47-gate5`.
 6. Packs And Auxillaries Commercial Dashboard. Gate 6 owns
-   `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, the
+   `.proofs/v47/packs-auxillaries-commercial-dashboard.json`, the
    `buildV47PacksAuxillariesCommercialDashboard` package object, and
    `check:v47-gate6`.
 7. E2E IP Selling And Buying Tests. Gate 7 owns
-   `.bitcode/v47-e2e-ip-selling-buying-tests.json`, the
+   `.proofs/v47/e2e-ip-selling-buying-tests.json`, the
    `buildV47E2eIpSellingBuyingTests` package object, and
    `check:v47-gate7`.
 8. Landing Page And Public Launch Messaging. Gate 8 owns
-   `.bitcode/v47-landing-public-launch-messaging.json`, the
+   `.proofs/v47/landing-public-launch-messaging.json`, the
    `buildV47LandingPublicLaunchMessaging` package object, and
    `check:v47-gate8`.
 9. Staging-Testnet Deployment Rehearsal. Gate 9 owns
-   `.bitcode/v47-staging-testnet-deployment-rehearsal.json`, the
+   `.proofs/v47/staging-testnet-deployment-rehearsal.json`, the
    `buildV47StagingTestnetDeploymentRehearsal` package object, and
    `check:v47-gate9`.
 10. Promotion Readiness. Gate 10 owns
-    `.bitcode/v47-promotion-readiness-report.json`, the
+    `.proofs/v47/promotion-readiness-report.json`, the
     `buildV47PromotionReadinessReport` package object, and
     `check:v47-gate10`.
 
@@ -745,17 +745,17 @@ Current source map roots include `uapi`, `packages/btd`,
 `packages/pipeline-asset-pack`, `packages/pipeline-hosts`,
 `packages/protocol`, `packages/prompts`, `packages/executions-mcp`,
 `packages/chatgptapp`, `protocol-demonstration`, `.github/workflows`, and
-`.bitcode` generated artifacts.
+`.proofs` generated artifacts.
 
 V47 Gate 2 source-safe generated artifact:
-`.bitcode/v47-feature-excess-alignment-audit.json`. It records launch routes,
+`.proofs/v47/feature-excess-alignment-audit.json`. It records launch routes,
 supporting surfaces, deferred surfaces, feature policies, forbidden launch
 entry targets, source-safe payload boundaries, source-root digests, and
 predicate results without serializing source, prompt payloads, wallet private
 material, settlement private payloads, or mainnet value-bearing authority.
 
 V47 Gate 3 source-safe generated artifact:
-`.bitcode/v47-seller-buyer-state-machine-law.json`. It records IP seller
+`.proofs/v47/seller-buyer-state-machine-law.json`. It records IP seller
 states, IP buyer states, transition guards, measurement ids, source-safe field
 ids, forbidden payload classes, source-root digests, and predicate results.
 The law requires measurement-before-price, proof-before-state, accepted Need
@@ -764,7 +764,7 @@ BTD rights before source delivery, `/packs` history projection after each
 transition, and fail-closed repair on missing evidence.
 
 V47 Gate 4 source-safe generated artifact:
-`.bitcode/v47-depositor-website-completion.json`. It records the five-step
+`.proofs/v47/depositor-website-completion.json`. It records the five-step
 `/deposit` route session steps, journaled pipeline and event ids, visible
 seller decision ids (measurement catalog, criticality, demand, ROI, BTD
 potential, BTC source-to-shares preview, admission, `/packs` activity sync,
@@ -776,7 +776,7 @@ serializing protected source, unpaid AssetPack source, raw prompts, raw
 provider responses, wallet private material, or settlement private payloads.
 
 V47 Gate 5 source-safe generated artifact:
-`.bitcode/v47-reader-website-completion.json`. It records the five-step
+`.proofs/v47/reader-website-completion.json`. It records the five-step
 `/read` route session steps, owned pipeline ids, source-safe readback ids
 (fit measurement review, quote basis, payment observation, settlement
 finality, BTD rights receipt, delivery receipt), visible buyer decision ids
@@ -791,7 +791,7 @@ serializing protected source, unpaid AssetPack source, raw prompts, raw
 provider responses, wallet private material, or settlement private payloads.
 
 V47 Gate 6 source-safe generated artifact:
-`.bitcode/v47-packs-auxillaries-commercial-dashboard.json`. It records the
+`.proofs/v47/packs-auxillaries-commercial-dashboard.json`. It records the
 `/packs` master-detail dashboard contract (searchable activity table,
 type/state facets, saved market-intelligence filters, and a row-owned detail
 surface covering overview, measurements, state readback, repair surface,
@@ -806,7 +806,7 @@ protected source, unpaid AssetPack source, raw prompts, raw provider
 responses, wallet private material, or settlement private payloads.
 
 V47 Gate 7 source-safe generated artifact:
-`.bitcode/v47-e2e-ip-selling-buying-tests.json`. It records the browser-proof
+`.proofs/v47/e2e-ip-selling-buying-tests.json`. It records the browser-proof
 scenarios (IP seller deposits an AssetPack on `/deposit`; IP buyer reviews
 fit measurements, quote basis, settlement finality, BTD rights, and
 repository delivery on `/read`; `/packs` reads back settlement, rights,
@@ -821,7 +821,7 @@ settlement private payloads. The browser proof runs on BTC-testnet semantics
 only.
 
 V47 Gate 8 source-safe generated artifact:
-`.bitcode/v47-landing-public-launch-messaging.json`. It records the public
+`.proofs/v47/landing-public-launch-messaging.json`. It records the public
 launch narrative law: the landing testnet section stating the meaning of
 commercial testnet (BTC amounts are testnet and free; measurements, quotes,
 settlement ordering, BTD rights, and repository delivery stay
@@ -835,7 +835,7 @@ AssetPack source, raw prompts, raw provider responses, wallet private
 material, or settlement private payloads.
 
 V47 Gate 9 source-safe generated artifact:
-`.bitcode/v47-staging-testnet-deployment-rehearsal.json`. It records the
+`.proofs/v47/staging-testnet-deployment-rehearsal.json`. It records the
 staging-testnet rehearsal law: dry-run lane receipts for the full-stack
 deployment (Vercel website host, Supabase database/ledger projections,
 object-storage roots, long-runner pipeline host, BTC-testnet settlement
@@ -899,10 +899,10 @@ repository delivery failure.
 
 ### Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing artifacts include `.bitcode/asset-pack.lock.json`,
-`.bitcode/selected-source-material.json`,
-`.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`,
-`.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and
+Source-bearing artifacts include `.proofs/_shared/asset-pack.lock.json`,
+`.proofs/_shared/selected-source-material.json`,
+`.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`,
+`.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and
 `BITCODE_SPEC_V47_PROVEN.md`. Source-bearing payloads remain protected until
 entitlement; source-safe receipts may be projected.
 
@@ -935,7 +935,7 @@ or rewritten into `/packs`; BTD acquisition and detail paths no longer send
 users to `/terminal` or `/exchange`; `/terminal` and `/conversations` direct
 entry are retained or flaggable rather than launch CTAs; API/MCP, ChatGPT App,
 Bitcode Chat, value-bearing mainnet, source-bearing previews, and advanced
-market mechanics are explicitly deferred; `.bitcode/v47-feature-excess-
+market mechanics are explicitly deferred; `.proofs/v47/feature-excess-
 alignment-audit.json` is generated; `check:v47-gate2` validates the audit; and
 gate/canon workflows run the Gate 2 checker under promoted V47 canon.
 
@@ -947,7 +947,7 @@ AssetPack preview, BTC-testnet settlement, BTD rights, and repository delivery;
 the guards enforce measurement-before-price, proof-before-state, accepted Need
 before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
 BTD rights before source delivery, `/packs` history projection, and
-fail-closed repair; `.bitcode/v47-seller-buyer-state-machine-law.json` is
+fail-closed repair; `.proofs/v47/seller-buyer-state-machine-law.json` is
 generated; `check:v47-gate3` validates the law; and gate/canon workflows run
 the Gate 3 checker under promoted V47 canon.
 
@@ -958,7 +958,7 @@ criticality, demand, ROI, BTD potential, BTC source-to-shares preview, and
 option roots before approval; approved policy-eligible options emit admission
 readback synchronized to `/packs`; compensation estimates, supply
 recommendations, and organization/wallet authority state are visible as
-source-safe metadata; `.bitcode/v47-depositor-website-completion.json` is
+source-safe metadata; `.proofs/v47/depositor-website-completion.json` is
 generated; `check:v47-gate4` validates the completion; and gate/canon
 workflows run the Gate 4 checker under promoted V47 canon.
 
@@ -971,7 +971,7 @@ contributions; payment observation, BTC-testnet finality, BTD rights transfer
 receipt, and repository PR delivery render as ordered fail-closed readback
 with delivery locked until rights transfer; Reading activity and settled
 AssetPacks remain reachable through `/packs`;
-`.bitcode/v47-reader-website-completion.json` is generated; `check:v47-gate5`
+`.proofs/v47/reader-website-completion.json` is generated; `check:v47-gate5`
 validates the completion; and gate/canon workflows run the Gate 5 checker
 under promoted V47 canon.
 
@@ -985,7 +985,7 @@ activity exposes a fail-closed repair surface listing commodity-state
 blockers; Auxillaries panes cover identity profile, external source
 connections, interfaces, wallet authority with BTD history readback, and
 organization team and treasury settings;
-`.bitcode/v47-packs-auxillaries-commercial-dashboard.json` is generated;
+`.proofs/v47/packs-auxillaries-commercial-dashboard.json` is generated;
 `check:v47-gate6` validates the completion; and gate/canon workflows run the
 Gate 6 checker under promoted V47 canon.
 
@@ -999,7 +999,7 @@ payment observation, finality, BTD rights receipt, and repository PR delivery
 read back in order; auditing settlement, rights, compensation, delivery, and
 the fail-closed repair surface on `/packs`; the browser error trap stays
 clean; `uapi` exposes `test:e2e:ip-exchange`;
-`.bitcode/v47-e2e-ip-selling-buying-tests.json` is generated;
+`.proofs/v47/e2e-ip-selling-buying-tests.json` is generated;
 `check:v47-gate7` validates the coverage; and gate/canon workflows run the
 Gate 7 checker under promoted V47 canon.
 
@@ -1010,7 +1010,7 @@ documented with launch-route links; proof-backed trust and source-safe IP
 exchange positioning are stated; public docs carry the testnet-meaning card
 with blocked value-bearing mainnet posture; promoted V46 claim-boundary
 tokens and launch navigation remain intact;
-`.bitcode/v47-landing-public-launch-messaging.json` is generated;
+`.proofs/v47/landing-public-launch-messaging.json` is generated;
 `check:v47-gate8` validates the messaging; and gate/canon workflows run the
 Gate 8 checker under promoted V47 canon.
 
@@ -1020,7 +1020,7 @@ contract minimums are satisfied by the rehearsed population; the BTC-testnet
 settlement observation lane preserves the production ordering law; the
 value-bearing mainnet lane rehearses as blocked; lane receipts remain dry-run
 with live execution operator opt-in and no serialized live credentials;
-`.bitcode/v47-staging-testnet-deployment-rehearsal.json` is generated;
+`.proofs/v47/staging-testnet-deployment-rehearsal.json` is generated;
 `check:v47-gate9` validates the rehearsal; and gate/canon workflows run the
 Gate 9 checker under promoted V47 canon.
 
@@ -1030,7 +1030,7 @@ scripts, spec-family and runtime promotion preparation, proven generation, and
 `v47-canon-promotion.yml` support V47; gate/canon workflows validate both the
 V46 pre-promotion and V47 post-promotion pointer postures; a draft-preview
 `BITCODE_SPEC_V47_PROVEN.md` is generated; the V47 promotion dry-run passes;
-`.bitcode/v47-promotion-readiness-report.json` is generated; `check:v47-gate10`
+`.proofs/v47/promotion-readiness-report.json` is generated; `check:v47-gate10`
 validates the readiness; and the prepared post-promotion posture is
 V47 active / draft V48 under promoted V47 canon until the promotion
 workflow advances `BITCODE_SPEC.txt`.

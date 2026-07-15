@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `c5b238b9958430c4611ef396ac8cea248c1aecf4`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v30/spec-family-report.json`, `.proofs/v30/canonical-input-report.json`, `.proofs/v30/canon-posture-drift-report.json`, `.proofs/v30/protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
 - Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
@@ -292,7 +292,7 @@ Gate 8 implementation centers:
 - `packages/btd/__tests__/telemetry.test.ts` and the BTD crypto route tests
   prove typed emission, source/secret rejection, proof-hook replay facts, and
   route JSON safety.
-- `.bitcode/v30-protocol-telemetry-proof-hooks.json` is reserved as a
+- `.proofs/v30/protocol-telemetry-proof-hooks.json` is reserved as a
   generated source-safe inventory artifact for promotion proof; it is not a
   protected-source carrier.
 
@@ -327,7 +327,7 @@ Gate 10 owns final local/staging proof, generated artifacts, and V30 promotion w
 Closure acceptance:
 
 - `check:v30-gate10` validates promoted-readiness posture;
-- V30 promotion workflow validates source branch, local proof commands, staging-testnet readback evidence, generated `.bitcode/v30-*` reports, and `BITCODE_SPEC_V30_PROVEN.md`;
+- V30 promotion workflow validates source branch, local proof commands, staging-testnet readback evidence, generated `.proofs/v30/*` reports, and `BITCODE_SPEC_V30_PROVEN.md`;
 - promotion scripts support V30 and rewrite post-promotion active V30 / draft V31 posture;
 - `version/v30` can be requested into `main` only after all V30 gates close.
 
@@ -338,4 +338,4 @@ Gate 10 implementation centers:
 - V30 support in `scripts/promote-bitcode-canon.mjs`;
 - V30 status rewriting in `scripts/prepare-bitcode-spec-family-promotion.mjs`;
 - V30 generated appendix/artifact support in `packages/protocol/src/canonical/proven-generator.js`;
-- generated `.bitcode/v30-*` artifacts and source-safe `BITCODE_V30_QA.md`.
+- generated `.proofs/v30/*` artifacts and source-safe `BITCODE_V30_QA.md`.

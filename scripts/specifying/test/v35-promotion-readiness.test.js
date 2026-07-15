@@ -52,7 +52,7 @@ test('builds source-safe V35 DocumentationTelemetryPromotionReadinessReport', ()
   assert.match(report.artifactRoot, /^documentation-telemetry-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json',
+    '.proofs/v35/documentation-telemetry-promotion-readiness-report.json',
   );
 
   for (const artifactPath of DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -75,6 +75,6 @@ test('supports V35 promotion readiness with source-safe telemetry documentation 
   assert.equal(result.data.v35.promotionReadinessReport.postPromotionPosture, 'V35 active / V36 draft');
   assert.equal(result.data.v35.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V35 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v35-documentation-telemetry-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v35-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v35/documentation-telemetry-promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v35/canon-posture-drift-report.json']);
 });

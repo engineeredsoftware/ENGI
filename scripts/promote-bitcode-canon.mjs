@@ -170,7 +170,7 @@ function normalizeActivePromotionLanguage(value) {
     .replaceAll('generate-engi-proven.mjs', 'generate-bitcode-proven.mjs')
     .replaceAll('engi-demo/src/', 'protocol-demonstration/src/')
     .replaceAll('engi-demo/', 'protocol-demonstration/')
-    .replaceAll('.engi/', '.bitcode/');
+    .replaceAll('.engi/', '.proofs/');
 }
 
 /**
@@ -1966,7 +1966,7 @@ async function buildDerivedV30CommitMessageBody(commit) {
     if (!row) continue;
     const closureSignal = trimTrailingPeriod(
       stripMarkdown(row['Required V30 result'] || row['Closure signal'] || row['Source evidence'] || '')
-        .replace('.bitcode/v30-,', '.bitcode/v30-*,')
+        .replace('.proofs/v30/,', '.proofs/v30/*,')
     );
     if (!closureSignal) continue;
     bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);

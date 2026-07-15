@@ -17,7 +17,7 @@ import {
 test('V44 BTD/BTC compensation statements artifact is source-safe and complete', () => {
   const artifact = buildV44BtdBtcCompensationStatements();
 
-  assert.equal(V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH, '.bitcode/v44-btd-btc-compensation-statements.json');
+  assert.equal(V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH, '.proofs/v44/btd-btc-compensation-statements.json');
   assert.equal(artifact.artifactId, 'v44-btd-btc-compensation-statements');
   assert.equal(artifact.schemaId, V44_BTD_BTC_COMPENSATION_STATEMENTS_SCHEMA_ID);
   assert.equal(artifact.version, 'V44');

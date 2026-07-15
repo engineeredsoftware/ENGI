@@ -9,7 +9,7 @@
 - Draft proof-source commit: unbound until V39 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V38.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, `.bitcode/v39-promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v39/spec-family-report.json`, `.proofs/v39/canonical-input-report.json`, `.proofs/v39/canon-posture-drift-report.json`, `.proofs/v39/depository-supply-indexing.json`, `.proofs/v39/enterprise-reading-ux-state.json`, `.proofs/v39/read-need-review-resynthesis.json`, `.proofs/v39/read-fits-finding-runtime.json`, `.proofs/v39/assetpack-preview-quote-boundary.json`, `.proofs/v39/settlement-rights-delivery.json`, `.proofs/v39/operational-telemetry-repair-readback.json`, `.proofs/v39/interface-conversation-product-parity.json`, `.proofs/v39/local-staging-reading-rehearsal.json`, `.proofs/v39/promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
 - Source parity state: V39 source-side Depository supply indexing, enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry repair readback, interface parity, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V39 file family
 - Spec companion: `BITCODE_SPEC_V39.md`
 - Notes companion: `BITCODE_SPEC_V39_NOTES.md`
@@ -88,7 +88,7 @@ Closure implementation:
 - Vector projection preserves OpenAI `text-embedding-3-small`, 1536 dimensions, cosine `match_deliverable_vectors`; pending or invalid vector rows emit repair actions.
 - Storage projection binds the retained physical `deliverables` and `deliverable_vectors` tables to the active AssetPack evidence semantics.
 - `ReadFitsFindingSynthesis` consumes `DepositorySupplyIndex` through `depositorySupplyAssetsFromIndex`, preserving source-safe handoff into candidate recall and ranking.
-- The deterministic artifact path is `.bitcode/v39-depository-supply-indexing.json`; `pnpm run check:v39-gate2` validates artifact freshness, protocol tests, package tests, source-safety markers, docs, and workflow wiring.
+- The deterministic artifact path is `.proofs/v39/depository-supply-indexing.json`; `pnpm run check:v39-gate2` validates artifact freshness, protocol tests, package tests, source-safety markers, docs, and workflow wiring.
 
 ### Gate 3: Enterprise Reading UX State Machine
 
@@ -114,7 +114,7 @@ Closure implementation:
   execution log with pipeline phase, PTRR, Failsafe, ThricifiedGeneration, tool,
   prompt, and schema metadata.
 - The deterministic proof artifact is
-  `.bitcode/v39-enterprise-reading-ux-state.json`; `pnpm run check:v39-gate3`
+  `.proofs/v39/enterprise-reading-ux-state.json`; `pnpm run check:v39-gate3`
   validates artifact freshness, protocol tests, focused UAPI tests, source-safe
   disclosure, route contracts, stream-log integration, docs, and workflow
   wiring.
@@ -130,7 +130,7 @@ Closure acceptance:
 Closure implementation:
 
 - Gate 4 defines package-backed `ReadNeedReviewResynthesisRuntime` source,
-  deterministic `.bitcode/v39-read-need-review-resynthesis.json`, pipeline
+  deterministic `.proofs/v39/read-need-review-resynthesis.json`, pipeline
   runtime tests, route tests for `synthesize_read_need`,
   `resynthesize_read_need`, `accept_read_need`, and `reject_read_need`, and
   accepted-Need admission tests. Route payloads include `readNeedReviewRuntime`,
@@ -147,7 +147,7 @@ Closure acceptance:
 Closure implementation:
 
 - Gate 5 defines package-backed `ReadFitsFindingRuntime` source,
-  deterministic `.bitcode/v39-read-fits-finding-runtime.json`, package tests
+  deterministic `.proofs/v39/read-fits-finding-runtime.json`, package tests
   for many-fit search, blocked admission, storage projection, replay, and
   source-safe summaries, and protocol tests for the generated proof artifact.
   Runtime payloads include `ReadFitsFindingReplayReceipt`,
@@ -171,7 +171,7 @@ Closure implementation:
 - `AssetPackPreviewBoundary` persists source-safe preview, fit measurement, selected-fit provenance, deterministic BTC quote, disclosure review, settlement instructions, delivery posture, replay receipt, and repair posture records.
 - `AssetPackPreviewQuoteReceipt` preserves the deterministic `sum(measurement.weight * measurement.volume * admitted_fit_quality)` share-to-fee formula with minimum sats, dust floor, quote root, and reader-wallet-before-broadcast posture.
 - Focused package tests cover deterministic quote replay, blocked no-worthy-fit repair posture, protected-source leak fail-closed review, and postprocess storage projection.
-- The generated proof artifact is `.bitcode/v39-assetpack-preview-quote-boundary.json`; `pnpm run check:v39-gate6` validates artifact freshness, protocol tests, package tests, source safety, docs, and workflow wiring.
+- The generated proof artifact is `.proofs/v39/assetpack-preview-quote-boundary.json`; `pnpm run check:v39-gate6` validates artifact freshness, protocol tests, package tests, source safety, docs, and workflow wiring.
 
 ### Gate 7: Settlement, BTD Rights Transfer, And Delivery
 
@@ -188,7 +188,7 @@ Closure implementation:
 - BTC payment observation, finality, source-to-shares conservation, BTD rights transfer, read receipt, delivery unlock, ledger/database/object-storage reconciliation, replay, repair, and storage projection records are persisted under `asset-pack/settlement`.
 - Delivery unlock emits only proof and pull-request posture before source-bearing delivery is admitted to the paid Reader; the boundary never serializes protected source, private wallet material, private settlement payloads, credentials, raw protected prompts, raw provider responses, or unpaid AssetPack source.
 - Focused package tests cover confirmed settlement delivery, underpayment blocking, missing finality blocking, projection drift repair, and persistence.
-- The generated proof artifact is `.bitcode/v39-settlement-rights-delivery.json`; `pnpm run check:v39-gate7` validates artifact freshness, protocol tests, package tests, source safety, docs, staging-testnet project ref, and workflow wiring.
+- The generated proof artifact is `.proofs/v39/settlement-rights-delivery.json`; `pnpm run check:v39-gate7` validates artifact freshness, protocol tests, package tests, source safety, docs, staging-testnet project ref, and workflow wiring.
 
 ### Gate 8: Operational Telemetry, Repair, And Operator Readback
 
@@ -205,7 +205,7 @@ Closure implementation:
 - Event kinds are phase, PTRR agent, PTRR step, Failsafe, ThricifiedGeneration, ToolExecution, storage, ledger, wallet, delivery, UI, and repair; each event carries proof roots plus prompt/result disclosure posture.
 - The rich execution log and header accept direct Reading operational telemetry payloads and render pipeline, phase, agent, step, Failsafe, generation, tool, schema, event, proof, redaction, prompt disclosure, result disclosure, and fail-closed posture.
 - Focused package tests cover complete settled stream coverage, BTC-finality repair, and persistence; focused UI tests cover direct Reading telemetry rendering.
-- The generated proof artifact is `.bitcode/v39-operational-telemetry-repair-readback.json`; `pnpm run check:v39-gate8` validates artifact freshness, protocol tests, package tests, UI tests, docs, source safety, and workflow wiring.
+- The generated proof artifact is `.proofs/v39/operational-telemetry-repair-readback.json`; `pnpm run check:v39-gate8` validates artifact freshness, protocol tests, package tests, UI tests, docs, source safety, and workflow wiring.
 
 ### Gate 9: Interface And Conversation Product Parity
 
@@ -221,7 +221,7 @@ Closure implementation:
 - Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers have parity rows with `sameAuthorityAsTerminal: true`, `parallelAuthorityCreated: false`, accepted-Need gating, source-safe preview, settlement unlock, BTD rights, and delivery-boundary checks.
 - The parity primitive composes BTD interface catalog, read-license/AssetPack-rights contracts, telemetry proof hooks, and interface consumer UX proof roots.
 - Focused package, Conversation, MCP, ChatGPT App, protocol, and checker tests cover no-bypass posture.
-- The generated proof artifact is `.bitcode/v39-interface-conversation-product-parity.json`; `pnpm run check:v39-gate9` validates artifact freshness, protocol tests, package tests, interface tests, docs, source safety, and workflow wiring.
+- The generated proof artifact is `.proofs/v39/interface-conversation-product-parity.json`; `pnpm run check:v39-gate9` validates artifact freshness, protocol tests, package tests, interface tests, docs, source safety, and workflow wiring.
 
 ### Gate 10: Local And Staging Commercial Reading Rehearsal
 
@@ -234,7 +234,7 @@ Closure acceptance:
 Closure implementation:
 
 - Gate 10 defines package-backed `ReadingLocalStagingRehearsal` source,
-  deterministic `.bitcode/v39-local-staging-reading-rehearsal.json`, package
+  deterministic `.proofs/v39/local-staging-reading-rehearsal.json`, package
   tests, protocol tests, workflow wiring, and `check:v39-gate10`.
 - The rehearsal binds local and staging-testnet lanes, the five Reading
   stages, many-fit Depository search, source-safe preview, deterministic BTC
@@ -262,6 +262,6 @@ Closure acceptance:
 Closure implementation:
 
 - Pending Gate 11 work must define the package-backed commercial Reading promotion readiness report, V39 promotion workflow, promotion command support, generated proof appendix support, active V39 / draft V40 post-promotion posture, and blocked value-bearing mainnet evidence.
-- `V39CommercialReadingPromotionReadinessReport` is implemented in `packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js` and generates `.bitcode/v39-promotion-readiness-report.json`.
+- `V39CommercialReadingPromotionReadinessReport` is implemented in `packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js` and generates `.proofs/v39/promotion-readiness-report.json`.
 - The generated artifact is `source-safe-commercial-reading-promotion-readiness-metadata` and covers all V39 Gate 2 through Gate 10 artifacts, `BITCODE_SPEC_V39_PROVEN.md` generation support, `v39-canon-promotion.yml`, gate/canon workflow posture, promotion dry-run support, source-safety checks, and value-bearing mainnet blocking.
 - promotion scripts support V39 through `node scripts/promote-bitcode-canon.mjs --version V39 --commit HEAD --dry-run`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V39 --next-draft V40`, `packages/protocol/src/canonical/proven-generator.js`, and `pnpm run check:v39-gate11`.

@@ -138,7 +138,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_enterprise-auth-migration-rollback-playbook_0c53ca5874"
+        "materializationRoot": ".proofs/source-material/asset_enterprise-auth-migration-rollback-playbook_0c53ca5874"
       },
       "contentRoot": "sha256:0ec19a8e5cdf8720dccceb012348063622ada898009193107a12455f7b8f1e51",
       "contentUnits": [
@@ -2728,7 +2728,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_proof-carrying-session-validator-patch-kit_535567adae"
+        "materializationRoot": ".proofs/source-material/asset_proof-carrying-session-validator-patch-kit_535567adae"
       },
       "contentRoot": "sha256:02ff670aa3d3d18e5ab05b87d738702d690eb9a56e29c9dd50033036ab23ce07",
       "contentUnits": [
@@ -5260,7 +5260,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_formal-replay-window-validator-proof-bundle_ebe682fd49"
+        "materializationRoot": ".proofs/source-material/asset_formal-replay-window-validator-proof-bundle_ebe682fd49"
       },
       "contentRoot": "sha256:822f59eaccb5475f5459209801d1c2c6582ff4c32000ef539d897c085ec6a842",
       "contentUnits": [
@@ -7388,7 +7388,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_token-issuer-incident-escalation-notes_4665bb5c15"
+        "materializationRoot": ".proofs/source-material/asset_token-issuer-incident-escalation-notes_4665bb5c15"
       },
       "contentRoot": "sha256:7213e672ab58f980eaa8cb6753a54cc3358c644fe61ce14fa5632ae3afe732c6",
       "contentUnits": [
@@ -9225,7 +9225,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_policy-precedence-incident-governor-fixpack_24fd6bb39b"
+        "materializationRoot": ".proofs/source-material/asset_policy-precedence-incident-governor-fixpack_24fd6bb39b"
       },
       "contentRoot": "sha256:52c0ba30d6b3a9704516a8b6f544f0be0db1823373035a9e1db279186ce04532",
       "contentUnits": [
@@ -11299,7 +11299,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_unsafe-patch-review-containment-checklist_d755cefe57"
+        "materializationRoot": ".proofs/source-material/asset_unsafe-patch-review-containment-checklist_d755cefe57"
       },
       "contentRoot": "sha256:03a86093f6c9514f3993a48d79ab915f8097c6c7aac9acd6121a2b1f04915ee6",
       "contentUnits": [
@@ -13421,7 +13421,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_deployment-drift-rollback-release-playbook_06609384ae"
+        "materializationRoot": ".proofs/source-material/asset_deployment-drift-rollback-release-playbook_06609384ae"
       },
       "contentRoot": "sha256:6d4e1c166d15ccab3335888635c488ccdeaf06a09610f75795c27df881b33eea",
       "contentUnits": [
@@ -15540,7 +15540,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_projection-safe-bounded-proof-export-notes_a74e682378"
+        "materializationRoot": ".proofs/source-material/asset_projection-safe-bounded-proof-export-notes_a74e682378"
       },
       "contentRoot": "sha256:5644701f286b778c298232364547a0532583b6fa8efe43fded4a6057e402e983",
       "contentUnits": [
@@ -17211,7 +17211,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_session-validator-compatibility-witness-dossier_b262bc6896"
+        "materializationRoot": ".proofs/source-material/asset_session-validator-compatibility-witness-dossier_b262bc6896"
       },
       "contentRoot": "sha256:c958fac3b45d59a71d29f0b44be0426b856512110404e876c3058e59c1b99f97",
       "contentUnits": [
@@ -19505,7 +19505,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99"
+        "materializationRoot": ".proofs/source-material/asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99"
       },
       "contentRoot": "sha256:8c5e81df1b8a494222088965f0898f813c2934e5ccfd9998aa2cc1c90abf47b2",
       "contentUnits": [
@@ -21613,7 +21613,7 @@
         "mode": "read-only-mounted-copy",
         "confidentiality": "private-required",
         "mutableInBranch": false,
-        "materializationRoot": ".bitcode/source-material/asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7"
+        "materializationRoot": ".proofs/source-material/asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7"
       },
       "contentRoot": "sha256:5c2e3f277b958aedc2031d9b47efb24558bea01dd661feb8694c53e69d0ea587",
       "contentUnits": [
@@ -28483,7 +28483,7 @@
           "allow": true,
           "policyRef": "policy://bitcode/spec-v26-active-v27-system-draft/current",
           "reasons": [
-            "Bitcode branch materializer may stage selected source material under .bitcode/source-material/."
+            "Bitcode branch materializer may stage selected source material under .proofs/source-material/."
           ]
         },
         "settle:journal-event": {

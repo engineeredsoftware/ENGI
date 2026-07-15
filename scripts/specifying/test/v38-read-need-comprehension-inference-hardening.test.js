@@ -15,7 +15,7 @@ import {
 test('V38 ReadNeedComprehensionSynthesis hardening report binds phases, receipts, and source-safe disclosure', () => {
   const report = buildV38ReadNeedComprehensionInferenceHardening();
 
-  assert.equal(V38_READ_NEED_COMPREHENSION_HARDENING_ARTIFACT_PATH, '.bitcode/v38-read-need-comprehension-inference-hardening.json');
+  assert.equal(V38_READ_NEED_COMPREHENSION_HARDENING_ARTIFACT_PATH, '.proofs/v38/read-need-comprehension-inference-hardening.json');
   assert.equal(report.artifactId, 'v38-read-need-comprehension-inference-hardening');
   assert.equal(report.schemaId, V38_READ_NEED_COMPREHENSION_HARDENING_SCHEMA_ID);
   assert.equal(report.version, 'V38');

@@ -14,7 +14,7 @@ import {
 test('V46 public/operator claim boundaries bind public docs, landing, and operator surfaces', () => {
   const report = buildV46PublicOperatorClaimBoundaries();
 
-  assert.equal(V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH, '.bitcode/v46-public-operator-claim-boundaries.json');
+  assert.equal(V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH, '.proofs/v46/public-operator-claim-boundaries.json');
   assert.equal(report.artifactId, 'v46-public-operator-claim-boundaries');
   assert.equal(report.schemaId, V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_SCHEMA_ID);
   assert.equal(report.version, 'V46');

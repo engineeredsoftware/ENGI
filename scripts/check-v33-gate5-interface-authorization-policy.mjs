@@ -9,7 +9,7 @@ import { buildV33InterfaceAuthorizationPolicyArtifact } from './generate-v33-int
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-interface-authorization-policy.json';
+const ARTIFACT = '.proofs/v33/interface-authorization-policy.json';
 
 const REQUIRED_SURFACES = ['api', 'mcp', 'chatgpt_app', 'terminal'];
 const REQUIRED_DENIAL_CODES = [

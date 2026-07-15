@@ -14,7 +14,7 @@ import {
 test('V44 enterprise product UX artifact binds route polish and proof contracts', () => {
   const report = buildV44EnterpriseProductUx();
 
-  assert.equal(V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH, '.bitcode/v44-enterprise-product-ux.json');
+  assert.equal(V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH, '.proofs/v44/enterprise-product-ux.json');
   assert.equal(report.artifactId, 'v44-enterprise-product-ux');
   assert.equal(report.schemaId, V44_ENTERPRISE_PRODUCT_UX_SCHEMA_ID);
   assert.equal(report.version, 'V44');

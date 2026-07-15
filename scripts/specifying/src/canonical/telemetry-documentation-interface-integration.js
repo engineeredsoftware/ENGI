@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_ARTIFACT_PATH =
-  '.bitcode/v35-telemetry-documentation-interface-integration.json';
+  '.proofs/v35/telemetry-documentation-interface-integration.json';
 export const TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_SCHEMA_ID =
   'bitcode.v35.telemetryDocumentationInterfaceIntegration.v1';
 export const TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_VERSION = 'V35';
@@ -78,12 +78,12 @@ const SHARED_SOURCE_ROOTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V35.md',
   '.specifications/BITCODE_SPEC_V35_DELTA.md',
   '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
-  '.bitcode/v35-documentation-surface-catalog.json',
-  '.bitcode/v35-telemetry-taxonomy-catalog.json',
-  '.bitcode/v35-public-docs-usage-guides.json',
-  '.bitcode/v35-operator-runbook-catalog.json',
-  '.bitcode/v35-docs-qa-alignment-report.json',
-  '.bitcode/v35-testnet-rollout-readiness-guide.json',
+  '.proofs/v35/documentation-surface-catalog.json',
+  '.proofs/v35/telemetry-taxonomy-catalog.json',
+  '.proofs/v35/public-docs-usage-guides.json',
+  '.proofs/v35/operator-runbook-catalog.json',
+  '.proofs/v35/docs-qa-alignment-report.json',
+  '.proofs/v35/testnet-rollout-readiness-guide.json',
 ]);
 
 const integrationRows = Object.freeze([

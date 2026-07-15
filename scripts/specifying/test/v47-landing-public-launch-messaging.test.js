@@ -17,7 +17,7 @@ test('V47 landing/public launch messaging binds the launch narrative surfaces', 
 
   assert.equal(
     V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH,
-    '.bitcode/v47-landing-public-launch-messaging.json',
+    '.proofs/v47/landing-public-launch-messaging.json',
   );
   assert.equal(report.artifactId, 'v47-landing-public-launch-messaging');
   assert.equal(report.schemaId, V47_LANDING_PUBLIC_LAUNCH_MESSAGING_SCHEMA_ID);

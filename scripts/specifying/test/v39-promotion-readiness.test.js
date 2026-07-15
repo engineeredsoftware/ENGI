@@ -53,7 +53,7 @@ test('builds source-safe V39 CommercialReadingPromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^commercial-reading-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v39-promotion-readiness-report.json',
+    '.proofs/v39/promotion-readiness-report.json',
   );
 
   for (const artifactPath of V39_COMMERCIAL_READING_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -76,6 +76,6 @@ test('supports V39 promotion readiness with source-safe commercial Reading artif
   assert.equal(result.data.v39.promotionReadinessReport.postPromotionPosture, 'V39 active / V40 draft');
   assert.equal(result.data.v39.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V39 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v39-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v39-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v39/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v39/canon-posture-drift-report.json']);
 });

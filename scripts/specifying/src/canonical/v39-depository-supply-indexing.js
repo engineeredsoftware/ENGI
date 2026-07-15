@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_DEPOSITORY_SUPPLY_INDEXING_ARTIFACT_PATH =
-  '.bitcode/v39-depository-supply-indexing.json';
+  '.proofs/v39/depository-supply-indexing.json';
 export const V39_DEPOSITORY_SUPPLY_INDEXING_SCHEMA_ID =
   'bitcode.v39.depositorySupplyIndexing.v1';
 export const V39_DEPOSITORY_SUPPLY_INDEXING_VERSION = 'V39';

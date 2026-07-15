@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json';
+const ARTIFACT_PATH = '.proofs/v41/conversation-tool-interface-prompt-rewrite.json';
 
 const REQUIRED_REWRITE_IDS = [
   'conversation-ptrr-promptpart-rewrite-boundary',
@@ -133,12 +133,12 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
-    '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-    '.bitcode/v41-readneed-prompt-hardening.json',
-    '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-    '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
+    '.proofs/v41/reading-prompt-benchmark-baselines.json',
+    '.proofs/v41/readneed-prompt-hardening.json',
+    '.proofs/v41/readfitsfinding-prompt-hardening.json',
+    '.proofs/v38/conversation-tool-prompt-inference-parity.json',
     'scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
     'scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
     'scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs',

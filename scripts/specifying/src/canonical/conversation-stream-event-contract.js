@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const CONVERSATION_STREAM_EVENT_CONTRACT_ARTIFACT_PATH = '.bitcode/v37-conversation-stream-event-contract.json';
+export const CONVERSATION_STREAM_EVENT_CONTRACT_ARTIFACT_PATH = '.proofs/v37/conversation-stream-event-contract.json';
 export const CONVERSATION_STREAM_EVENT_CONTRACT_SCHEMA_ID = 'bitcode.v37.conversationStreamEventContract.v1';
 export const CONVERSATION_STREAM_EVENT_CONTRACT_VERSION = 'V37';
 export const CONVERSATION_STREAM_EVENT_CONTRACT_CURRENT_TARGET = 'V36';

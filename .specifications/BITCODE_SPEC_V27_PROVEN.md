@@ -22,7 +22,7 @@ V27 closes the `$BTD` tokenomics and cryptographic implementation gate set:
 
 ## Proof Family Map
 
-The accepted proof family mapping is recorded in `.bitcode/v27-total-closure-proof.json`.
+The accepted proof family mapping is recorded in `.proofs/v27/total-closure-proof.json`.
 
 Required V27 proof families are satisfied by the gate proof artifacts or accepted equivalents:
 

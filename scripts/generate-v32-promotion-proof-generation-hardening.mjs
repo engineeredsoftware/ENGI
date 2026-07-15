@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v32-promotion-proof-generation-hardening.json';
+const ARTIFACT_PATH = '.proofs/v32/promotion-proof-generation-hardening.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -82,11 +82,11 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
     scanTokens('scripts/specifying/src/canonical/proven-generator.js', [
       'buildV32ProvenPackage',
       'buildV32PromotionProofGenerationHardening',
-      '.bitcode/v32-promotion-proof-generation-hardening.json',
+      '.proofs/v32/promotion-proof-generation-hardening.json',
     ]),
     scanTokens('scripts/specifying/src/canonical/v21-specifying.js', [
-      '.bitcode/v32-promotion-proof-generation-hardening.json',
-      '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json',
+      '.proofs/v32/promotion-proof-generation-hardening.json',
+      '.proofs/v32/testnet-mainnet-readiness-rehearsal.json',
     ]),
     scanTokens('scripts/promote-bitcode-canon.mjs', [
       '--dry-run',
@@ -113,20 +113,20 @@ export function buildV32PromotionProofGenerationHardeningArtifact() {
   const documentationEvidence = [
     scanTokens('.specifications/BITCODE_SPEC_V32.md', [
       'Gate 9 promotion proof precision',
-      '.bitcode/v32-promotion-proof-generation-hardening.json',
+      '.proofs/v32/promotion-proof-generation-hardening.json',
       'source-safe generated artifact diffs',
     ]),
     scanTokens('.specifications/BITCODE_SPEC_V32_DELTA.md', [
       'Gate 9 hardens V32 promotion proof generation',
-      '.bitcode/v32-promotion-proof-generation-hardening.json',
+      '.proofs/v32/promotion-proof-generation-hardening.json',
     ]),
     scanTokens('.specifications/BITCODE_SPEC_V32_NOTES.md', [
       'dry-run and check modes',
-      '.bitcode/v32-promotion-proof-generation-hardening.json',
+      '.proofs/v32/promotion-proof-generation-hardening.json',
     ]),
     scanTokens('.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md', [
       'V32 proof generation supports dry-run/check modes',
-      '.bitcode/v32-promotion-proof-generation-hardening.json',
+      '.proofs/v32/promotion-proof-generation-hardening.json',
       'drafted',
     ]),
     scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', [

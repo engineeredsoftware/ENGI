@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const CONVERSATION_SOURCE_SELECTOR_ARTIFACT_PATH = '.bitcode/v37-conversation-source-selector.json';
+export const CONVERSATION_SOURCE_SELECTOR_ARTIFACT_PATH = '.proofs/v37/conversation-source-selector.json';
 export const CONVERSATION_SOURCE_SELECTOR_SCHEMA_ID = 'bitcode.v37.conversationSourceSelector.v1';
 export const CONVERSATION_SOURCE_SELECTOR_VERSION = 'V37';
 export const CONVERSATION_SOURCE_SELECTOR_CURRENT_TARGET = 'V36';

@@ -11,7 +11,7 @@ import {
 test('V42 settlement rights delivery proof is source-safe and complete', () => {
   const report = buildV42SettlementRightsDelivery();
 
-  assert.equal(V42_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH, '.bitcode/v42-settlement-rights-delivery.json');
+  assert.equal(V42_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH, '.proofs/v42/settlement-rights-delivery.json');
   assert.equal(report.artifactId, 'v42-settlement-rights-delivery');
   assert.equal(report.schemaId, V42_SETTLEMENT_RIGHTS_DELIVERY_SCHEMA_ID);
   assert.equal(report.version, 'V42');

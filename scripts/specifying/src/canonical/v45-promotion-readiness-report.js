@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v45-promotion-readiness-report.json';
+  '.proofs/v45/promotion-readiness-report.json';
 export const V45_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v45.promotionReadinessReport.v1';
 export const V45_PROMOTION_READINESS_REPORT_VERSION = 'V45';
@@ -18,23 +18,23 @@ export const V45_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-v45-knowledge-commoditization-promotion-metadata';
 
 export const V45_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v45-inference-synthesis-proof.json',
-  '.bitcode/v45-prompt-completeness-proof.json',
-  '.bitcode/v45-static-code-analysis-proof.json',
-  '.bitcode/v45-verification-decisions-proof.json',
-  '.bitcode/v45-selection-materialization-proof.json',
-  '.bitcode/v45-authorization-sensitive-flow-proof.json',
-  '.bitcode/v45-settlement-source-to-shares-proof.json',
-  '.bitcode/v45-disclosure-boundary-proof.json',
-  '.bitcode/v45-proof-contract-proof.json',
-  '.bitcode/v45-source-safe-e2e-rehearsal.json',
+  '.proofs/v45/inference-synthesis-proof.json',
+  '.proofs/v45/prompt-completeness-proof.json',
+  '.proofs/v45/static-code-analysis-proof.json',
+  '.proofs/v45/verification-decisions-proof.json',
+  '.proofs/v45/selection-materialization-proof.json',
+  '.proofs/v45/authorization-sensitive-flow-proof.json',
+  '.proofs/v45/settlement-source-to-shares-proof.json',
+  '.proofs/v45/disclosure-boundary-proof.json',
+  '.proofs/v45/proof-contract-proof.json',
+  '.proofs/v45/source-safe-e2e-rehearsal.json',
 ]);
 
 export const V45_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V45_PROVEN.md',
-  '.bitcode/v45-spec-family-report.json',
-  '.bitcode/v45-canonical-input-report.json',
-  '.bitcode/v45-canon-posture-drift-report.json',
+  '.proofs/v45/spec-family-report.json',
+  '.proofs/v45/canonical-input-report.json',
+  '.proofs/v45/canon-posture-drift-report.json',
   V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -410,7 +410,7 @@ export function buildV45PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V45_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v45-',
+      generatedArtifactPrefix: '.proofs/v45/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

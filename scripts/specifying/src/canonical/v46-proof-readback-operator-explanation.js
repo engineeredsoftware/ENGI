@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH =
-  '.bitcode/v46-proof-readback-operator-explanation.json';
+  '.proofs/v46/proof-readback-operator-explanation.json';
 export const V46_PROOF_READBACK_OPERATOR_EXPLANATION_SCHEMA_ID =
   'bitcode.v46.proofReadbackOperatorExplanation.v1';
 export const V46_PROOF_READBACK_OPERATOR_EXPLANATION_VERSION = 'V46';

@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_SELLER_BUYER_STATE_MACHINE_LAW_ARTIFACT_PATH =
-  '.bitcode/v47-seller-buyer-state-machine-law.json';
+  '.proofs/v47/seller-buyer-state-machine-law.json';
 export const V47_SELLER_BUYER_STATE_MACHINE_LAW_SCHEMA_ID =
   'bitcode.v47.sellerBuyerStateMachineLaw.v1';
 export const V47_SELLER_BUYER_STATE_MACHINE_LAW_VERSION = 'V47';

@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3c7a9f998656635cc28c8b4584ae964ac04154fa`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, `.bitcode/v43-route-vocabulary-inventory.json`, `.bitcode/v43-packs-activity-master-detail.json`, `.bitcode/v43-read-route-five-step-ux.json`, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, `.bitcode/v43-deposit-option-admission.json`, `.bitcode/v43-route-ux-product-excellence.json`, `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`, `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v43/spec-family-report.json`, `.proofs/v43/canonical-input-report.json`, `.proofs/v43/canon-posture-drift-report.json`, `.proofs/v43/route-vocabulary-inventory.json`, `.proofs/v43/packs-activity-master-detail.json`, `.proofs/v43/read-route-five-step-ux.json`, `.proofs/v43/deposit-route-options.json`, `.proofs/v43/deposit-policy-compensation.json`, `.proofs/v43/deposit-option-admission.json`, `.proofs/v43/route-ux-product-excellence.json`, `.proofs/v43/cross-route-rehearsal-telemetry-repair.json`, `.proofs/v43/promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
 - Source parity state: V43 source-side route vocabulary, Packs master-detail, Read five-step UX, deposit option synthesis, deposit policy/compensation, deposit option admission, route UX, cross-route rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V43 file family
 - Scope: V43 canonical notes for product routes and agentic depositing over promoted V42 reliable MVP canon
 - Last fully realized canonical target preserved in source: `V43`
@@ -125,7 +125,7 @@ Outside public docs, avoid self-referential copy such as text explaining that a 
 ## Gate 2 route vocabulary inventory note
 
 Gate 2 closes by proving the current vocabulary surface before renaming it. The
-source-safe `.bitcode/v43-route-vocabulary-inventory.json` artifact records
+source-safe `.proofs/v43/route-vocabulary-inventory.json` artifact records
 file/token counts for `/exchange`, Exchange, `/terminal`, Terminal, `/packs`,
 `/read`, `/deposit`, Reading, Depositing, PackActivity,
 DepositAssetPackOption, and self-referential copy references. Its migration

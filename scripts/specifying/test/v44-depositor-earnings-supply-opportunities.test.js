@@ -55,5 +55,5 @@ test('V44 Depositor earnings supply opportunities rows remain source-safe', () =
   assert.equal(artifact.rows.every((row) => row.protectedSourceVisible === false), true);
   assert.equal(artifact.rows.every((row) => row.unpaidAssetPackSourceVisible === false), true);
   assert.equal(artifact.sourceSafetyVerdict, 'source-safe-depositor-earnings-supply-opportunity-metadata');
-  assert.equal(V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH, '.bitcode/v44-depositor-earnings-supply-opportunities.json');
+  assert.equal(V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH, '.proofs/v44/depositor-earnings-supply-opportunities.json');
 });

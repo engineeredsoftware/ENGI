@@ -943,7 +943,7 @@ Every admitted UI/API/interface surface must disclose:
 ### Gate 1: Draft Opening And Source Audit
 
 Status: closed as a draft-target audit gate.
-Closure proof: `.bitcode/v27-gate-1-source-audit-proof.json`.
+Closure proof: `.proofs/v27/gate-1-source-audit-proof.json`.
 This closure kept `BITCODE_SPEC.txt` on `V26` and did not create `BITCODE_SPEC_V27_PROVEN.md` at Gate 1.
 
 Acceptance:
@@ -956,7 +956,7 @@ Acceptance:
 ### Gate 2: Ontology And Hard Cap
 
 Status: closed as a draft-target ontology and hard-cap gate.
-Closure proof: `.bitcode/v27-gate-2-ontology-cap-proof.json`.
+Closure proof: `.proofs/v27/gate-2-ontology-cap-proof.json`.
 This closure proves the ontology/cap baseline; later gates still own registry persistence, range proof, access policy UI, and generated proof-family promotion.
 
 Acceptance:
@@ -969,7 +969,7 @@ Acceptance:
 ### Gate 3: Supply And Range Primitives
 
 Status: closed as a draft-target package primitive gate.
-Closure proof: `.bitcode/v27-gate-3-supply-range-proof.json`.
+Closure proof: `.proofs/v27/gate-3-supply-range-proof.json`.
 This closure proves package-level supply/range behavior; DB persistence, generated no-overlap proofs, and persisted Exchange write paths remain later-gate work.
 
 Acceptance:
@@ -980,8 +980,8 @@ Acceptance:
 ### Gate 4: Read-Fit Mint Admission
 
 Status: closed as a draft-target package/API admission gate.
-Closure proof: `.bitcode/v27-gate-4-mint-admission-proof.json`.
-Source-to-shares range binding proof: `.bitcode/v27-source-to-shares-mint-admission-proof.json`.
+Closure proof: `.proofs/v27/gate-4-mint-admission-proof.json`.
+Source-to-shares range binding proof: `.proofs/v27/source-to-shares-mint-admission-proof.json`.
 This closure proves the mint-admission boundary for package allocation and authenticated mint drafts; persisted Exchange write finality and generated V27 proof-family closure remain later-gate work.
 
 Acceptance:
@@ -994,8 +994,8 @@ Acceptance:
 ### Gate 5: Receipt And Replay
 
 Status: closed as a draft-target package and demonstration replay gate.
-Closure proof: `.bitcode/v27-gate-5-receipt-replay-proof.json`.
-Receipt replay proof slice: `.bitcode/v27-receipt-replay-proof.json`.
+Closure proof: `.proofs/v27/gate-5-receipt-replay-proof.json`.
+Receipt replay proof slice: `.proofs/v27/receipt-replay-proof.json`.
 This closure proves receipt and replay exactness for package primitives and the demonstration witness; persisted Exchange receipt writes, database projection replay, ledger finality, and generated total proof-family closure remain later-gate work.
 
 Acceptance:
@@ -1007,7 +1007,7 @@ Acceptance:
 ### Gate 6: Exchange Persistence
 
 Status: closed as a draft-target migration and ORM boundary gate.
-Closure proof: `.bitcode/v27-gate-6-exchange-persistence-proof.json`.
+Closure proof: `.proofs/v27/gate-6-exchange-persistence-proof.json`.
 This closure proves the V27 registry/projection migration plan, SQL constraints, ORM boundary, and noncanonical compatibility-table posture; live Supabase migration execution, generated DB type refresh, and value-bearing operational rollout remain later work.
 
 Acceptance:
@@ -1020,7 +1020,7 @@ Acceptance:
 ### Gate 7: Access And Legal Policy
 
 Status: closed as a draft-target access and policy gate.
-Closure proof: `.bitcode/v27-gate-7-access-policy-proof.json`.
+Closure proof: `.proofs/v27/gate-7-access-policy-proof.json`.
 This closure proves owner-read/licensed-read policy evaluation, read-access route behavior, registry-derived license/policy projection, UAPI policy disclosure, and public-copy overclaim scanning; live value-bearing access operations and legal template finalization remain later work.
 
 Acceptance:
@@ -1033,7 +1033,7 @@ Acceptance:
 ### Gate 8: Settlement Allocation And Revenue Routing
 
 Status: closed as a draft-target allocation and revenue gate.
-Closure proof: `.bitcode/v27-gate-8-allocation-revenue-proof.json`.
+Closure proof: `.proofs/v27/gate-8-allocation-revenue-proof.json`.
 This closure proves deterministic contributor allocation, licensed-read BTC revenue receipts, explicit direct/ancestor/treasury/dispute-holdback conservation, pending/failed route metadata, and an unversioned API settlement boundary; live wallet settlement, broadcaster finality, and generated proof-family promotion remain later work.
 
 Acceptance:
@@ -1045,7 +1045,7 @@ Acceptance:
 ### Gate 9: Ancestry And Anti-Game
 
 Status: closed as a draft-target ancestry and anti-game gate.
-Closure proof: `.bitcode/v27-gate-9-ancestry-antigame-proof.json`.
+Closure proof: `.proofs/v27/gate-9-ancestry-antigame-proof.json`.
 This closure proves late-bound non-supply ancestry reviews, weak/citation/conflicted edge unpaid handling, loop/cycle/duplicate-source/reviewer-conflict rejection, persisted ancestry review rows, and an unversioned API settlement boundary; generated proof-family promotion and full live revenue settlement remain later work.
 
 Acceptance:
@@ -1057,7 +1057,7 @@ Acceptance:
 ### Gate 10: Wallet And BTC Fee Settlement
 
 Status: closed as a draft-target wallet and BTC fee settlement gate.
-Closure proof: `.bitcode/v27-gate-10-wallet-btc-fee-proof.json`.
+Closure proof: `.proofs/v27/gate-10-wallet-btc-fee-proof.json`.
 This closure proves signer-session authorization proof, fail-closed unauthorised sessions, BTC-only PSBT-style fee receipt lifecycle, signed/broadcast/confirmed handoff, signet provider observation harness, Terminal journal binding, and unversioned API persistence; live wallet adapters and value-bearing broadcast credentials remain later operational work.
 
 Acceptance:
@@ -1070,7 +1070,7 @@ Acceptance:
 ### Gate 11: Ledgerized AssetPack Anchoring
 
 Status: closed as a draft-target ledgerized AssetPack anchor gate.
-Closure proof: `.bitcode/v27-gate-11-ledger-anchor-proof.json`.
+Closure proof: `.proofs/v27/gate-11-ledger-anchor-proof.json`.
 This closure proves AssetPack range/root/policy anchor receipts, Taproot as the selected Bitcoin primary commitment method, signet/local-compatible anchor lifecycle, explicit secondary Ethereum registry/event anchoring, unversioned API persistence, and modeled prepared/broadcast/confirmed/reorged/failed states; live value-bearing Bitcoin/Ethereum broadcaster credentials remain later operational work.
 
 Acceptance:
@@ -1085,7 +1085,7 @@ Acceptance:
 ### Gate 12: Minimal AssetPack Exchange
 
 Status: closed as a draft-target minimal Exchange gate.
-Closure proof: `.bitcode/v27-gate-12-minimal-exchange-proof.json`.
+Closure proof: `.proofs/v27/gate-12-minimal-exchange-proof.json`.
 This closure proves BTC-priced buy/sell/bid/ask order primitives, cancel/accept/settle transitions, rights-transfer receipts, ledger-anchor/policy/fee guards, unversioned API persistence, and the demonstration rights-transfer witness; V28+ market depth, full order-book UX, and live value-bearing settlement remain later work.
 
 Acceptance:
@@ -1098,7 +1098,7 @@ Acceptance:
 ### Gate 13: Terminal Transactions And Journal Diffing
 
 Status: closed as a draft-target Terminal journal and diff gate.
-Closure proof: `.bitcode/v27-gate-13-terminal-journal-proof.json`.
+Closure proof: `.proofs/v27/gate-13-terminal-journal-proof.json`.
 This closure proves required V27 Terminal transaction-family coverage, journal entry validation, persisted journal constraints, unversioned route commit/diff/coverage actions, and blocking projection drift; broader V28 Terminal product workflows and live value-bearing UX remain later work.
 
 Acceptance:
@@ -1110,7 +1110,7 @@ Acceptance:
 ### Gate 14: Ledger/Database Reconciliation
 
 Status: closed as a draft-target ledger/database reconciliation gate.
-Closure proof: `.bitcode/v27-gate-14-ledger-database-reconciliation-proof.json`.
+Closure proof: `.proofs/v27/gate-14-ledger-database-reconciliation-proof.json`.
 This closure proves ledger-observed finality precedence, blocking confirmed/reorged/failed repair receipts, private/metaphysical canonical database fact binding, idempotent repair ids, and unversioned reconciliation route persistence; production ledger observer rollout remains later work.
 
 Acceptance:
@@ -1124,7 +1124,7 @@ Acceptance:
 ### Gate 15: Testnet, Mainnet, Telemetry, And Upgrades
 
 Status: closed as a draft-target readiness, telemetry, and upgrade gate.
-Closure proof: `.bitcode/v27-gate-15-testnet-mainnet-telemetry-upgrade-proof.json`.
+Closure proof: `.proofs/v27/gate-15-testnet-mainnet-telemetry-upgrade-proof.json`.
 This closure proves deployment-lane guards, environment readiness receipts, signet/mainnet-ready posture, crypto telemetry classification, upgrade receipt persistence, and value-bearing mainnet approval gating; it does not approve value-bearing mainnet launch.
 
 Acceptance:
@@ -1139,8 +1139,8 @@ Acceptance:
 ### Gate 16: Product Surfaces, Research Rebinding, And Promotion Proof
 
 Status: closed as V27 promotion gate.
-Closure proof: `.bitcode/v27-gate-16-promotion-proof.json`.
-Total closure proof: `.bitcode/v27-total-closure-proof.json`.
+Closure proof: `.proofs/v27/gate-16-promotion-proof.json`.
+Total closure proof: `.proofs/v27/total-closure-proof.json`.
 Proven appendix: `BITCODE_SPEC_V27_PROVEN.md`.
 
 Acceptance:
@@ -1148,7 +1148,7 @@ Acceptance:
 - Terminal/Exchange/acquire surfaces reflect V27 tokenomics and minimal crypto functionality without claiming V28 market depth.
 - web research agenda for cryptographic concepts and library optionality is complete and rebound before normative dependency choices are finalized.
 - `BITCODE_SPEC_V27_PROVEN.md` is generated.
-- `.bitcode/v27-*` proof artifacts exist.
+- `.proofs/v27/*` proof artifacts exist.
 - parity matrix has no blocking rows.
 - `BITCODE_SPEC.txt` is promoted only after proof closure.
 
@@ -1157,8 +1157,8 @@ Closure evidence:
 - `BTDPrices.tsx`, `MarketingPricingSection.tsx`, and `btd-tracker.tsx` treat Terminal Read minting and minimal Exchange range acquisition as V27 functionality while reserving broader market depth for later-version work.
 - `apps/uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range disclosure route for AssetPack range, access policy id/hash, owner-read/licensed-read branch, proof root, and source manifest root.
 - the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`, and no `apps/uapi/app/api/v*` route remains.
-- `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind official-source crypto and library research into V27 without turning candidate libraries into protocol law.
-- `BITCODE_SPEC_V27_PROVEN.md` and `.bitcode/v27-total-closure-proof.json` map all required V27 proof families to gate artifacts or accepted equivalents.
+- `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.proofs/v27/crypto-library-research-proof.json` bind official-source crypto and library research into V27 without turning candidate libraries into protocol law.
+- `BITCODE_SPEC_V27_PROVEN.md` and `.proofs/v27/total-closure-proof.json` map all required V27 proof families to gate artifacts or accepted equivalents.
 
 ## V27 Proof Expectations
 

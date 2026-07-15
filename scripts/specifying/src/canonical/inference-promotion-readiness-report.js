@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v38-promotion-readiness-report.json';
+  '.proofs/v38/promotion-readiness-report.json';
 export const V38_INFERENCE_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v38.inferencePromotionReadinessReport.v1';
 export const V38_INFERENCE_PROMOTION_READINESS_REPORT_VERSION = 'V38';
@@ -18,22 +18,22 @@ export const V38_INFERENCE_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-inference-promotion-readiness-metadata';
 
 export const V38_INFERENCE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v38-inference-surface-inventory.json',
-  '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-  '.bitcode/v38-prompt-benchmark-report.json',
-  '.bitcode/v38-disclosure-boundary-report.json',
-  '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-  '.bitcode/v38-read-fits-finding-search-embeddings.json',
-  '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
-  '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
-  '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json',
+  '.proofs/v38/inference-surface-inventory.json',
+  '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+  '.proofs/v38/prompt-benchmark-report.json',
+  '.proofs/v38/disclosure-boundary-report.json',
+  '.proofs/v38/read-need-comprehension-inference-hardening.json',
+  '.proofs/v38/read-fits-finding-search-embeddings.json',
+  '.proofs/v38/assetpack-synthesis-economic-traceability.json',
+  '.proofs/v38/conversation-tool-prompt-inference-parity.json',
+  '.proofs/v38/local-staging-inference-depository-search-rehearsal.json',
 ]);
 
 export const V38_INFERENCE_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V38_PROVEN.md',
-  '.bitcode/v38-spec-family-report.json',
-  '.bitcode/v38-canonical-input-report.json',
-  '.bitcode/v38-canon-posture-drift-report.json',
+  '.proofs/v38/spec-family-report.json',
+  '.proofs/v38/canonical-input-report.json',
+  '.proofs/v38/canon-posture-drift-report.json',
   V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -360,7 +360,7 @@ export function buildV38InferencePromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V38_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v38-',
+      generatedArtifactPrefix: '.proofs/v38/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

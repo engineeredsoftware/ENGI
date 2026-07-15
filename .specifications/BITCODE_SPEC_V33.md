@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `6c3cc76c4a41bdbaf02c78334b3cd9c6fa3554b6`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, `.bitcode/v33-interface-contract-catalog.json`, `.bitcode/v33-mcp-api-tool-contracts.json`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `.bitcode/v33-interface-authorization-policy.json`, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `.bitcode/v33-api-schema-compatibility-matrix.json`, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `.bitcode/v33-promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v33/spec-family-report.json`, `.proofs/v33/canonical-input-report.json`, `.proofs/v33/canon-posture-drift-report.json`, `.proofs/v33/interface-contract-catalog.json`, `.proofs/v33/mcp-api-tool-contracts.json`, `.proofs/v33/chatgpt-app-action-contracts.json`, `.proofs/v33/interface-authorization-policy.json`, `.proofs/v33/read-license-assetpack-rights-contracts.json`, `.proofs/v33/api-schema-compatibility-matrix.json`, `.proofs/v33/interface-telemetry-proof-hooks.json`, `.proofs/v33/interface-consumer-ux-regression-proof.json`, `.proofs/v33/promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion
 - Source parity state: V33 source-side interface contract catalog, MCP tool contracts, ChatGPT App action contracts, authorization policy, Read license and AssetPack rights contracts, API schema compatibility matrix, interface telemetry proof hooks, consumer UX regression proof, workflow, and promotion surfaces are canonicalized in the promoted V33 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V32`
 - Notes companion: `BITCODE_SPEC_V33_NOTES.md`
@@ -60,7 +60,7 @@ The V33 source-of-truth hierarchy is:
 3. `BITCODE_SPEC_V33_NOTES.md`.
 4. `BITCODE_SPEC_V33_DELTA.md`.
 5. `BITCODE_SPEC_V33_PARITY_MATRIX.md`.
-6. generated V33 artifacts under `.bitcode/` when produced.
+6. generated V33 artifacts under `.proofs/` when produced.
 7. `BITCODE_SPEC_V33_PROVEN.md` only after promotion.
 8. source implementation, tests, examples, public docs, internal docs, and QA evidence that realize this family.
 
@@ -194,7 +194,7 @@ V33 closes through ten gates:
 
 1. **Gate 1: V33 Interface Roadmap And Spec Opening** opens the V33 family, makes `SPECIFICATIONS_ROADMAP.md` truthful after V32 promotion, and wires V33 Gate 1 checks.
 2. **Gate 2: Interface Inventory And Contract Catalog** inventories active and deferred interface surfaces and creates the package-owned `InterfaceContractCatalog`.
-3. **Gate 3: MCP API Tool And Registry Contracts** hardens MCP tool schemas, action discovery, policy denial, proof-root surfacing, and example replay through `McpToolContract` and `.bitcode/v33-mcp-api-tool-contracts.json`.
+3. **Gate 3: MCP API Tool And Registry Contracts** hardens MCP tool schemas, action discovery, policy denial, proof-root surfacing, and example replay through `McpToolContract` and `.proofs/v33/mcp-api-tool-contracts.json`.
 4. **Gate 4: ChatGPT App Action And Tool Contracts** hardens ChatGPT App action schemas, source-safe response rendering, denial readability, and examples.
 5. **Gate 5: Interface Authorization Policy Fail-Closed** centralizes auth, organization, wallet, read-license, rights, and protected-source policy denials.
 6. **Gate 6: Read License And AssetPack Rights Interface Contracts** proves source-safe preview, paid settlement, BTD rights, and delivery contracts across interfaces.
@@ -283,7 +283,7 @@ confirmation and paid rights exist. The package-consumer row proves downstream
 consumers can replay package-owned hook metadata without importing surface
 implementation internals.
 
-The generated artifact `.bitcode/v33-interface-telemetry-proof-hooks.json`
+The generated artifact `.proofs/v33/interface-telemetry-proof-hooks.json`
 serializes coverage over the required interface ids, postures, replay commands,
 root kinds, surface test joins, and source-safety verdict. `check:v33-gate8`
 fails closed when a required interface or posture is absent, generated output is
@@ -315,7 +315,7 @@ row depends on brittle demonstration-only fixtures. The source-safe summary,
 proof roots, repair steps, and fee/rights preview are readable without
 overexposure.
 
-The generated artifact `.bitcode/v33-interface-consumer-ux-regression-proof.json`
+The generated artifact `.proofs/v33/interface-consumer-ux-regression-proof.json`
 serializes the required consumer rows, readability coverage, source/test/docs
 evidence, replay commands, and source-safety verdict. `check:v33-gate9` fails
 closed when the generated artifact is stale, surface tests stop consuming the
@@ -346,7 +346,7 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 - Current invariants and fail-closed conditions: invalid deposit, missing source proof, unsupported provider, policy denial, or protected-source leakage blocks interface projection.
 - Current proof obligations: deposit measurement proof, source-safety class, and interface projection test.
 - Current source-bearing implementation basis: commercial package and `uapi` routes, not `protocol-demonstration`.
-- Current validating commands and parity basis: V32 canonical proofs plus V33 Gate 2 interface catalog checks, including `.bitcode/v33-interface-contract-catalog.json`.
+- Current validating commands and parity basis: V32 canonical proofs plus V33 Gate 2 interface catalog checks, including `.proofs/v33/interface-contract-catalog.json`.
 - Current accepted boundaries: V33 does not change deposit ownership law.
 
 ### Reading and prompt/inference ownership
@@ -415,7 +415,7 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 - Current algorithms and derivation rules: request root, response root, event root, proof binding, replay command generation, and fail-closed stale-artifact detection.
 - Current invariants and fail-closed conditions: stale promoted status truth, missing replay hook, source-unsafe proof artifact, or drift blocks promotion.
 - Current proof obligations: generated artifact rows, command rows, proof roots, and compatibility rows.
-- Current source-bearing implementation basis: protocol package helpers, `.bitcode/` artifacts, workflows, and V33 gate checkers.
+- Current source-bearing implementation basis: protocol package helpers, `.proofs/` artifacts, workflows, and V33 gate checkers.
 - Current validating commands and parity basis: V32 promotion proof plus V33 Gate 8 and Gate 10 checks.
 - Current accepted boundaries: generated artifacts are source-safe and do not print secrets or protected source.
 
@@ -423,27 +423,27 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v33-interface-inference-synthesis-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-inference-synthesis-proof.json`
 - members: interface request synthesis, ReadNeed interface projection, AssetPack preview interface projection.
 - theoremIds: interface-inference-typed-output, interface-inference-source-safe-response.
 - replayStepIds: render schema, run fixture, parse result, compare proof roots.
-- witnessArtifactPaths: `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v33/spec-family-report.json`, `.proofs/v33/canonical-input-report.json`
 - current member closure criteria: every inference-adjacent interface action names its pipeline, PTRR agent, step, sub-step, and typed result.
 - current member verdict shape: pass, fail, blocked, or deferred with repair posture.
 - current theorem-by-theorem closure reading: interface consumers never own inference law; they expose replayable typed projections.
 - current theorem-to-replay grouping: request, response, telemetry, and proof-root replay.
 - minimum artifact/replay binding set: spec-family report, canonical-input report, compatibility matrix, and interface telemetry hook.
 - current proof-object fields: interfaceId, actionId, requestRoot, responseRoot, sourceSafetyClass, replayCommand.
-- generated-artifact and test bindings: V33 source-safe interface artifacts through Gate 10, including `.bitcode/v33-promotion-readiness-report.json`.
+- generated-artifact and test bindings: V33 source-safe interface artifacts through Gate 10, including `.proofs/v33/promotion-readiness-report.json`.
 - fail-closed conditions: missing schema, raw protected prompt, protected source, untyped output, or stale proof root.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v33-interface-prompt-completeness-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-prompt-completeness-proof.json`
 - members: ReadNeed prompt projection, Finding Fits prompt projection, denial prompt summary.
 - theoremIds: interface-prompts-redacted, interface-prompt-contract-complete.
 - replayStepIds: prompt registry digest, context key inventory, redaction check, response fixture check.
-- witnessArtifactPaths: `.bitcode/v33-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v33/spec-family-report.json`
 - current member closure criteria: prompt templates and interpolated prompts are represented by source-safe digests and context keys where interfaces need auditability.
 - current member verdict shape: pass, fail, blocked, or deferred.
 - current theorem-by-theorem closure reading: interface observability does not mean prompt leakage.
@@ -455,11 +455,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v33-interface-static-code-analysis-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-static-code-analysis-proof.json`
 - members: versionless routes, package-owned schemas, no demonstration imports, no secret literals.
 - theoremIds: interface-routes-unversioned, interface-contracts-package-owned.
 - replayStepIds: route scan, import scan, secret scan, schema export scan.
-- witnessArtifactPaths: `.bitcode/v33-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v33/canonical-input-report.json`
 - current member closure criteria: source keeps interface contracts package-owned and versionless.
 - current member verdict shape: pass, fail, blocked, or deferred.
 - current theorem-by-theorem closure reading: static checks enforce architecture before runtime tests.
@@ -471,11 +471,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v33-interface-verification-decisions-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-verification-decisions-proof.json`
 - members: policy denial, source-safe preview, paid unlock, compatibility verdict.
 - theoremIds: interface-denial-readable, interface-unlock-verified.
 - replayStepIds: denied fixture, allowed fixture, paid fixture, stale fixture.
-- witnessArtifactPaths: `.bitcode/v33-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v33/spec-family-report.json`
 - current member closure criteria: every decision has machine-readable result plus operator-readable repair posture.
 - current member verdict shape: allowed, denied, blocked, deferred, or repaired.
 - current theorem-by-theorem closure reading: denial is a first-class interface result, not an exception-shaped accident.
@@ -487,11 +487,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v33-interface-selection-materialization-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-selection-materialization-proof.json`
 - members: selected fits, AssetPack preview, protected source lock, delivery admission.
 - theoremIds: interface-preview-source-safe, interface-delivery-paid-only.
 - replayStepIds: preview fixture, settlement fixture, delivery fixture.
-- witnessArtifactPaths: `.bitcode/v33-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v33/canonical-input-report.json`
 - current member closure criteria: interfaces expose preview metadata before payment and source delivery only after settlement.
 - current member verdict shape: pass, fail, blocked, or deferred.
 - current theorem-by-theorem closure reading: interface convenience never crosses the protected-source boundary.
@@ -503,11 +503,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v33-interface-authorization-sensitive-flow-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-authorization-sensitive-flow-proof.json`
 - members: API auth, MCP auth, ChatGPT App auth, organization authority, wallet capability, read-license policy.
 - theoremIds: interface-auth-fail-closed, interface-secrets-not-serialized.
 - replayStepIds: unauthenticated fixture, unauthorized fixture, authorized fixture, secret scan.
-- witnessArtifactPaths: `.bitcode/v33-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v33/spec-family-report.json`
 - current member closure criteria: every interface action has an `InterfaceAuthorizationPolicy`.
 - current member verdict shape: allowed, denied, blocked, or deferred.
 - current theorem-by-theorem closure reading: sensitive flow is governed by policy, not per-interface custom logic.
@@ -519,11 +519,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v33-interface-settlement-source-to-shares-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-settlement-source-to-shares-proof.json`
 - members: fee quote, BTD right transfer, source-to-shares projection, interface payment state.
 - theoremIds: interface-settlement-root-stable, interface-rights-transfer-visible-after-finality.
 - replayStepIds: quote fixture, payment fixture, finality fixture, drift fixture.
-- witnessArtifactPaths: `.bitcode/v33-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v33/canonical-input-report.json`
 - current member closure criteria: interface state matches ledger truth and repair posture.
 - current member verdict shape: quoted, pending, final, drifted, repaired, or blocked.
 - current theorem-by-theorem closure reading: interface payment status is a projection of ledger truth.
@@ -535,11 +535,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v33-interface-disclosure-boundary-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-disclosure-boundary-proof.json`
 - members: source-safe preview, unpaid denial, paid unlock, redacted examples.
 - theoremIds: interface-preview-not-source, interface-paid-unlock-source.
 - replayStepIds: preview render, unpaid source request, paid delivery request, redaction scan.
-- witnessArtifactPaths: `.bitcode/v33-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v33/spec-family-report.json`
 - current member closure criteria: protected source cannot appear before settlement.
 - current member verdict shape: source-safe, denied, unlocked, or violation.
 - current theorem-by-theorem closure reading: all interface consumers share one disclosure boundary.
@@ -551,11 +551,11 @@ The V33 operator chain keeps V32 behavior and adds interface consistency:
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v33-interface-proof-contract-proof.json`
+- proofArtifactPath: `.proofs/v33/interface-proof-contract-proof.json`
 - members: spec-family report, canonical-input report, interface catalog, compatibility matrix, telemetry proof hooks.
 - theoremIds: interface-proof-replayable, interface-promotion-source-safe.
 - replayStepIds: generate, check, replay, compare, promote.
-- witnessArtifactPaths: `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v33/spec-family-report.json`, `.proofs/v33/canonical-input-report.json`
 - current member closure criteria: every active interface row has a replayable proof contract by V33 promotion.
 - current member verdict shape: pass, fail, blocked, deferred, or promoted.
 - current theorem-by-theorem closure reading: promotion depends on generated source-safe proof, not prose.
@@ -572,7 +572,7 @@ Generated artifacts must be stable, source-safe, and explicitly tied to validati
 
 ## V33 promotion readiness canon
 
-V33 Gate 10 closes when `version/v33` can promote to active V33 without direct `main` writes. The readiness report `.bitcode/v33-promotion-readiness-report.json` proves that all V33 interface artifacts are present, source-safe, parseable, and wired into gate checks, promotion checks, generated proof appendix support, and workflow validation. Promotion rewrites runtime posture from `V32` active / `V33` draft to `V33` active / `V34` draft and generates `BITCODE_SPEC_V33_PROVEN.md`; the resulting posture is V33 active / V34 draft.
+V33 Gate 10 closes when `version/v33` can promote to active V33 without direct `main` writes. The readiness report `.proofs/v33/promotion-readiness-report.json` proves that all V33 interface artifacts are present, source-safe, parseable, and wired into gate checks, promotion checks, generated proof appendix support, and workflow validation. Promotion rewrites runtime posture from `V32` active / `V33` draft to `V33` active / `V34` draft and generates `BITCODE_SPEC_V33_PROVEN.md`; the resulting posture is V33 active / V34 draft.
 
 Interface authorization promotion readiness also requires credential identifiers to stay outside BTD proof-root hashing. Interface adapters may retain API key record ids in adapter-local audit context, but BTD roots bind the authenticated principal, organization authority, wallet/license/rights state, protected-source visibility, and repair posture.
 
@@ -584,7 +584,7 @@ Every gate must name the command that proves closure.
 ## V33 promotion canon
 
 V33 promotion may occur only after all V33 gates are closed and `version/v33` is requested into `main`.
-Promotion rewrites `BITCODE_SPEC.txt` from `V32` to `V33`, generates `BITCODE_SPEC_V33_PROVEN.md`, records source-safe `.bitcode/v33-*` evidence, and prepares active V33 / draft V34 posture.
+Promotion rewrites `BITCODE_SPEC.txt` from `V32` to `V33`, generates `BITCODE_SPEC_V33_PROVEN.md`, records source-safe `.proofs/v33/*` evidence, and prepares active V33 / draft V34 posture.
 
 ## V33 appendices and canonical supporting material
 
@@ -644,15 +644,15 @@ The V33 proof-family catalog is the nine-family catalog in `V33 proof-family can
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v33-interface-inference-synthesis-proof.json` | interface request synthesis | interface-inference-typed-output | render-schema, run-fixture | `.bitcode/v33-spec-family-report.json` | V33 draft interface contracts |
-| Prompt-completeness | `.bitcode/v33-interface-prompt-completeness-proof.json` | prompt projection | interface-prompts-redacted | digest, redact, compare | `.bitcode/v33-spec-family-report.json` | V32 Reading proof |
-| Static-code-analysis | `.bitcode/v33-interface-static-code-analysis-proof.json` | routes, imports, schemas | interface-routes-unversioned | route-scan, import-scan | `.bitcode/v33-canonical-input-report.json` | source tree |
-| Verification-decisions | `.bitcode/v33-interface-verification-decisions-proof.json` | policy decisions | interface-denial-readable | denied-fixture, allowed-fixture | `.bitcode/v33-spec-family-report.json` | V33 policy contract |
-| Selection-and-materialization | `.bitcode/v33-interface-selection-materialization-proof.json` | preview, delivery | interface-preview-source-safe | preview, settlement, delivery | `.bitcode/v33-canonical-input-report.json` | V32 AssetPack proof |
-| Authorization-and-sensitive-flow | `.bitcode/v33-interface-authorization-sensitive-flow-proof.json` | auth and license | interface-auth-fail-closed | unauth, denied, allowed | `.bitcode/v33-spec-family-report.json` | V33 auth policy |
-| Settlement-source-to-shares | `.bitcode/v33-interface-settlement-source-to-shares-proof.json` | fee and rights | interface-settlement-root-stable | quote, finality, rights | `.bitcode/v33-canonical-input-report.json` | V32 BTD proof |
-| Disclosure-boundary | `.bitcode/v33-interface-disclosure-boundary-proof.json` | preview and unlock | interface-preview-not-source | preview, unpaid, paid | `.bitcode/v33-spec-family-report.json` | V33 rights contracts |
-| Proof-contract | `.bitcode/v33-interface-proof-contract-proof.json` | generated artifacts | interface-proof-replayable | generate, check, replay | `.bitcode/v33-spec-family-report.json` | V33 gates |
+| Inference-synthesis | `.proofs/v33/interface-inference-synthesis-proof.json` | interface request synthesis | interface-inference-typed-output | render-schema, run-fixture | `.proofs/v33/spec-family-report.json` | V33 draft interface contracts |
+| Prompt-completeness | `.proofs/v33/interface-prompt-completeness-proof.json` | prompt projection | interface-prompts-redacted | digest, redact, compare | `.proofs/v33/spec-family-report.json` | V32 Reading proof |
+| Static-code-analysis | `.proofs/v33/interface-static-code-analysis-proof.json` | routes, imports, schemas | interface-routes-unversioned | route-scan, import-scan | `.proofs/v33/canonical-input-report.json` | source tree |
+| Verification-decisions | `.proofs/v33/interface-verification-decisions-proof.json` | policy decisions | interface-denial-readable | denied-fixture, allowed-fixture | `.proofs/v33/spec-family-report.json` | V33 policy contract |
+| Selection-and-materialization | `.proofs/v33/interface-selection-materialization-proof.json` | preview, delivery | interface-preview-source-safe | preview, settlement, delivery | `.proofs/v33/canonical-input-report.json` | V32 AssetPack proof |
+| Authorization-and-sensitive-flow | `.proofs/v33/interface-authorization-sensitive-flow-proof.json` | auth and license | interface-auth-fail-closed | unauth, denied, allowed | `.proofs/v33/spec-family-report.json` | V33 auth policy |
+| Settlement-source-to-shares | `.proofs/v33/interface-settlement-source-to-shares-proof.json` | fee and rights | interface-settlement-root-stable | quote, finality, rights | `.proofs/v33/canonical-input-report.json` | V32 BTD proof |
+| Disclosure-boundary | `.proofs/v33/interface-disclosure-boundary-proof.json` | preview and unlock | interface-preview-not-source | preview, unpaid, paid | `.proofs/v33/spec-family-report.json` | V33 rights contracts |
+| Proof-contract | `.proofs/v33/interface-proof-contract-proof.json` | generated artifacts | interface-proof-replayable | generate, check, replay | `.proofs/v33/spec-family-report.json` | V33 gates |
 
 ## Appendix C. Generated artifact contract catalog
 
@@ -668,28 +668,28 @@ V33 inherits the V20 operator-quality expectation that interface-facing proof is
 
 | Artifact | Producer | Checker | Source-safety class | Status |
 | --- | --- | --- | --- | --- |
-| `.bitcode/v33-spec-family-report.json` | spec-family report builder | `check-bitcode-spec-family` | source-safe-generated-proof | draft-required |
-| `.bitcode/v33-canonical-input-report.json` | canonical-input report builder | `check-bitcode-canonical-inputs` | source-safe-generated-proof | draft-required |
-| `.bitcode/v33-interface-contract-catalog.json` | `scripts/generate-v33-interface-contract-catalog.mjs` | `check:v33-interface-contract-catalog` and `check:v33-gate2` | source-safe-interface-contract-catalog-metadata | Gate 2 required |
-| `.bitcode/v33-mcp-api-tool-contracts.json` | `scripts/generate-v33-mcp-api-tool-contracts.mjs` | `check:v33-mcp-api-tool-contracts` and `check:v33-gate3` | source-safe-mcp-api-tool-contract-metadata | Gate 3 required |
-| `.bitcode/v33-chatgpt-app-action-contracts.json` | `scripts/generate-v33-chatgpt-app-action-contracts.mjs` | `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4` | source-safe-chatgpt-app-action-contract-metadata | Gate 4 required |
-| `.bitcode/v33-interface-authorization-policy.json` | `scripts/generate-v33-interface-authorization-policy.mjs` | `check:v33-interface-authorization-policy` and `check:v33-gate5` | source-safe-interface-authorization-policy-metadata | Gate 5 required |
-| `.bitcode/v33-read-license-assetpack-rights-contracts.json` | `scripts/generate-v33-read-license-assetpack-rights-contracts.mjs` | `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6` | source-safe-read-license-assetpack-rights-metadata | Gate 6 required |
-| `.bitcode/v33-api-schema-compatibility-matrix.json` | `scripts/generate-v33-api-schema-compatibility-matrix.mjs` | `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7` | source-safe-api-schema-compatibility-metadata | Gate 7 required |
-| `.bitcode/v33-interface-telemetry-proof-hooks.json` | `scripts/generate-v33-interface-telemetry-proof-hooks.mjs` | `check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8` | source-safe-interface-telemetry-proof-hook-metadata | Gate 8 required |
-| `.bitcode/v33-interface-consumer-ux-regression-proof.json` | `scripts/generate-v33-interface-consumer-ux-regression-proof.mjs` | `check:v33-interface-consumer-ux-regression-proof` and `check:v33-gate9` | source-safe-interface-consumer-ux-regression-metadata | Gate 9 required |
+| `.proofs/v33/spec-family-report.json` | spec-family report builder | `check-bitcode-spec-family` | source-safe-generated-proof | draft-required |
+| `.proofs/v33/canonical-input-report.json` | canonical-input report builder | `check-bitcode-canonical-inputs` | source-safe-generated-proof | draft-required |
+| `.proofs/v33/interface-contract-catalog.json` | `scripts/generate-v33-interface-contract-catalog.mjs` | `check:v33-interface-contract-catalog` and `check:v33-gate2` | source-safe-interface-contract-catalog-metadata | Gate 2 required |
+| `.proofs/v33/mcp-api-tool-contracts.json` | `scripts/generate-v33-mcp-api-tool-contracts.mjs` | `check:v33-mcp-api-tool-contracts` and `check:v33-gate3` | source-safe-mcp-api-tool-contract-metadata | Gate 3 required |
+| `.proofs/v33/chatgpt-app-action-contracts.json` | `scripts/generate-v33-chatgpt-app-action-contracts.mjs` | `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4` | source-safe-chatgpt-app-action-contract-metadata | Gate 4 required |
+| `.proofs/v33/interface-authorization-policy.json` | `scripts/generate-v33-interface-authorization-policy.mjs` | `check:v33-interface-authorization-policy` and `check:v33-gate5` | source-safe-interface-authorization-policy-metadata | Gate 5 required |
+| `.proofs/v33/read-license-assetpack-rights-contracts.json` | `scripts/generate-v33-read-license-assetpack-rights-contracts.mjs` | `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6` | source-safe-read-license-assetpack-rights-metadata | Gate 6 required |
+| `.proofs/v33/api-schema-compatibility-matrix.json` | `scripts/generate-v33-api-schema-compatibility-matrix.mjs` | `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7` | source-safe-api-schema-compatibility-metadata | Gate 7 required |
+| `.proofs/v33/interface-telemetry-proof-hooks.json` | `scripts/generate-v33-interface-telemetry-proof-hooks.mjs` | `check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8` | source-safe-interface-telemetry-proof-hook-metadata | Gate 8 required |
+| `.proofs/v33/interface-consumer-ux-regression-proof.json` | `scripts/generate-v33-interface-consumer-ux-regression-proof.mjs` | `check:v33-interface-consumer-ux-regression-proof` and `check:v33-gate9` | source-safe-interface-consumer-ux-regression-metadata | Gate 9 required |
 
 ### V33 specifying generated artifacts
 
-V33 starts with `.bitcode/v33-spec-family-report.json` and `.bitcode/v33-canonical-input-report.json`.
-Gate 2 adds `.bitcode/v33-interface-contract-catalog.json`, which serializes source-safe `InterfaceContractCatalog` metadata for `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook` with deferred hooks marked `deferred_not_admitted`.
-Gate 3 adds `.bitcode/v33-mcp-api-tool-contracts.json`, which serializes source-safe `McpToolContract` metadata for `bitcode://pipelines/asset-pack/create`, including schema ids, denied states, proof-root fields, examples, package-derived discovery posture, and protected-source invisibility.
-Gate 4 adds `.bitcode/v33-chatgpt-app-action-contracts.json`, which serializes source-safe `ChatGptAppActionContract` metadata for `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`, including package-owned schemas, source-safe response renderers, proof-root projection, readable denial states such as `READ_LICENSE_REQUIRED`, and repair actions.
-Gate 5 adds `.bitcode/v33-interface-authorization-policy.json`, which serializes source-safe `InterfaceAuthorizationPolicy` metadata for API, MCP, ChatGPT App, and Terminal handoff fixtures, including auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and missing/stale authority fail-closed coverage.
-Gate 6 adds `.bitcode/v33-read-license-assetpack-rights-contracts.json`, which serializes source-safe `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` metadata for API, MCP, ChatGPT App, and Terminal fixtures, including Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, paid/unpaid denial, and protected-source non-serialization.
-Gate 7 adds `.bitcode/v33-api-schema-compatibility-matrix.json`, which serializes source-safe `APISchemaCompatibilityMatrix` metadata for public API, MCP API, ChatGPT App, Terminal handoff, and package consumer rows, including schema ids, request/response schema ids, success/denied/blocked/stale/deferred examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless path discipline.
-Gate 8 adds `.bitcode/v33-interface-telemetry-proof-hooks.json`, which serializes source-safe `InterfaceTelemetryProofHook` metadata for Terminal handoff, public API, MCP API, ChatGPT App, and package consumer replay hooks, including interface ids, action ids, execution ids, success/denied/blocked posture, request/response roots, ledger/database/object-storage/generated-proof/root-set roots, replay commands, theorem labels, witness facts, source evidence, test evidence, and source-safety verdicts.
-Gate 9 adds `.bitcode/v33-interface-consumer-ux-regression-proof.json`, which serializes source-safe `InterfaceConsumerUxRegressionProof` metadata for public API denied states, MCP API Finding Fits readability, ChatGPT App blocked delivery, Terminal preview handoff, and package-consumer readback, including action labels, source-safe summaries, proof roots, repair steps, fee/rights previews, replay commands, and demonstration-independent fixture proof.
+V33 starts with `.proofs/v33/spec-family-report.json` and `.proofs/v33/canonical-input-report.json`.
+Gate 2 adds `.proofs/v33/interface-contract-catalog.json`, which serializes source-safe `InterfaceContractCatalog` metadata for `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook` with deferred hooks marked `deferred_not_admitted`.
+Gate 3 adds `.proofs/v33/mcp-api-tool-contracts.json`, which serializes source-safe `McpToolContract` metadata for `bitcode://pipelines/asset-pack/create`, including schema ids, denied states, proof-root fields, examples, package-derived discovery posture, and protected-source invisibility.
+Gate 4 adds `.proofs/v33/chatgpt-app-action-contracts.json`, which serializes source-safe `ChatGptAppActionContract` metadata for `bitcode_request_read`, `bitcode_review_read_need`, `bitcode_request_finding_fits`, `bitcode_review_asset_pack_preview`, `bitcode_quote_asset_pack_fee`, `bitcode_settle_asset_pack`, and `bitcode_deliver_asset_pack`, including package-owned schemas, source-safe response renderers, proof-root projection, readable denial states such as `READ_LICENSE_REQUIRED`, and repair actions.
+Gate 5 adds `.proofs/v33/interface-authorization-policy.json`, which serializes source-safe `InterfaceAuthorizationPolicy` metadata for API, MCP, ChatGPT App, and Terminal handoff fixtures, including auth issuer freshness, organization/team/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial, and missing/stale authority fail-closed coverage.
+Gate 6 adds `.proofs/v33/read-license-assetpack-rights-contracts.json`, which serializes source-safe `ReadLicenseInterfaceContract` and `AssetPackRightsInterfaceContract` metadata for API, MCP, ChatGPT App, and Terminal fixtures, including Read request roots, reviewed Need roots, Finding Fits admission, source-safe preview, fee quote, BTD range, read-right state, BTC settlement finality, delivery admission, rights transfer projection, paid/unpaid denial, and protected-source non-serialization.
+Gate 7 adds `.proofs/v33/api-schema-compatibility-matrix.json`, which serializes source-safe `APISchemaCompatibilityMatrix` metadata for public API, MCP API, ChatGPT App, Terminal handoff, and package consumer rows, including schema ids, request/response schema ids, success/denied/blocked/stale/deferred examples, compatibility status, breaking-change policy, fixture paths, validation commands, and versionless path discipline.
+Gate 8 adds `.proofs/v33/interface-telemetry-proof-hooks.json`, which serializes source-safe `InterfaceTelemetryProofHook` metadata for Terminal handoff, public API, MCP API, ChatGPT App, and package consumer replay hooks, including interface ids, action ids, execution ids, success/denied/blocked posture, request/response roots, ledger/database/object-storage/generated-proof/root-set roots, replay commands, theorem labels, witness facts, source evidence, test evidence, and source-safety verdicts.
+Gate 9 adds `.proofs/v33/interface-consumer-ux-regression-proof.json`, which serializes source-safe `InterfaceConsumerUxRegressionProof` metadata for public API denied states, MCP API Finding Fits readability, ChatGPT App blocked delivery, Terminal preview handoff, and package-consumer readback, including action labels, source-safe summaries, proof roots, repair steps, fee/rights previews, replay commands, and demonstration-independent fixture proof.
 Later gates may add promotion readiness artifacts.
 
 ### Shared generated-artifact fields
@@ -736,7 +736,7 @@ V33 keeps these subsystem coverage phrases active: repo supply and depositing; r
 
 ## Appendix G. Canonical file-family and promotion contract catalog
 
-The V33 family is `BITCODE_SPEC_V33.md`, `BITCODE_SPEC_V33_DELTA.md`, `BITCODE_SPEC_V33_NOTES.md`, `BITCODE_SPEC_V33_PARITY_MATRIX.md`, `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, and eventual `BITCODE_SPEC_V33_PROVEN.md`.
+The V33 family is `BITCODE_SPEC_V33.md`, `BITCODE_SPEC_V33_DELTA.md`, `BITCODE_SPEC_V33_NOTES.md`, `BITCODE_SPEC_V33_PARITY_MATRIX.md`, `.proofs/v33/spec-family-report.json`, `.proofs/v33/canonical-input-report.json`, and eventual `BITCODE_SPEC_V33_PROVEN.md`.
 
 ## Appendix H. Operator surface and quality contract catalog
 
@@ -752,5 +752,5 @@ V33 interfaces fail closed for invalid deposit, prompt contract incompleteness, 
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing artifacts remain controlled by `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and eventual `BITCODE_SPEC_V33_PROVEN.md`.
+Source-bearing artifacts remain controlled by `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and eventual `BITCODE_SPEC_V33_PROVEN.md`.
 V33 interface previews must expose source-safe measurements and rights posture while protected source remains locked until settlement.

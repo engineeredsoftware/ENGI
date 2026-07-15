@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v46-local-interface-comprehension-rehearsal.json';
+  '.proofs/v46/local-interface-comprehension-rehearsal.json';
 export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_SCHEMA_ID =
   'bitcode.v46.localInterfaceComprehensionRehearsal.v1';
 export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_VERSION = 'V46';
@@ -72,11 +72,11 @@ const SOURCE_PATHS = Object.freeze({
   checker: 'scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs',
   gateWorkflow: '.github/workflows/bitcode-gate-quality.yml',
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
-  v46ProtocolArtifact: '.bitcode/v46-protocol-comprehension-object-model.json',
-  v46PublicArtifact: '.bitcode/v46-public-operator-claim-boundaries.json',
-  v46ProductArtifact: '.bitcode/v46-product-route-comprehension-readback.json',
-  v46InterfaceArtifact: '.bitcode/v46-interface-claim-contracts.json',
-  v46ProofArtifact: '.bitcode/v46-proof-readback-operator-explanation.json',
+  v46ProtocolArtifact: '.proofs/v46/protocol-comprehension-object-model.json',
+  v46PublicArtifact: '.proofs/v46/public-operator-claim-boundaries.json',
+  v46ProductArtifact: '.proofs/v46/product-route-comprehension-readback.json',
+  v46InterfaceArtifact: '.proofs/v46/interface-claim-contracts.json',
+  v46ProofArtifact: '.proofs/v46/proof-readback-operator-explanation.json',
   landingPage: 'apps/uapi/app/page.tsx',
   docsPage: 'apps/uapi/app/docs/page.tsx',
   docsContent: 'apps/uapi/components/marketing/PublicDocsPageContent/PublicDocsPageContent.tsx',

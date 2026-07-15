@@ -1408,7 +1408,7 @@ Observed staging-testnet harness evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3` completed all six
   host commands and exported artifacts to
-  `.bitcode/pipeline-host-runs/2026-05-17T16-37-38-466Z-sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3/`.
+  `.proofs/pipeline-host-runs/2026-05-17T16-37-38-466Z-sbx_ktb5Z6VnP5A16m9k4a0FkBcJg1d3/`.
 - Pipeline run `d21240bd-ebc7-41ae-b082-06d7beb244a7` returned
   `pipelineResultState='worthy_fit'` and final `resultState='blocked_readiness'`
   because the run used `BITCODE_SANDBOX_APPLY_LOCAL_PATCH=1`.
@@ -1471,7 +1471,7 @@ Later staging-testnet evidence on 2026-05-17 after the no-overlay deployment:
 Follow-up local Vercel Sandbox overlay evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_GLXzpbkAjP6sIceauReWGdp0GWTE` exported artifacts to
-  `.bitcode/pipeline-host-runs/2026-05-17T20-08-16-548Z-sbx_GLXzpbkAjP6sIceauReWGdp0GWTE/`.
+  `.proofs/pipeline-host-runs/2026-05-17T20-08-16-548Z-sbx_GLXzpbkAjP6sIceauReWGdp0GWTE/`.
 - The run progressed past setup risk admission and into real model-backed
   discovery, exporting 3237 telemetry lines with prompt/context, response,
   usage, phase, agent, step, failsafe, and generation correlation.
@@ -1489,7 +1489,7 @@ Follow-up local Vercel Sandbox overlay evidence on 2026-05-17:
 Second local overlay evidence on 2026-05-17:
 
 - Vercel Sandbox run `sbx_XO602gYd3F57rYSyc8NzkPsXIDb7` exported artifacts to
-  `.bitcode/pipeline-host-runs/2026-05-17T20-34-37-584Z-sbx_XO602gYd3F57rYSyc8NzkPsXIDb7/`.
+  `.proofs/pipeline-host-runs/2026-05-17T20-34-37-584Z-sbx_XO602gYd3F57rYSyc8NzkPsXIDb7/`.
 - The run found and ranked the deposited repository candidate with real
   OpenAI-backed setup and discovery telemetry, 3565 stream lines, prompt/context
   input, raw responses, parsed output, usage, phase, agent, step, failsafe, and
@@ -1516,7 +1516,7 @@ Third local overlay evidence on 2026-05-17 after bounded real-inference and
 manifest-bound Deposit evidence root fixes:
 
 - Vercel Sandbox run `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO` exported artifacts to
-  `.bitcode/pipeline-host-runs/2026-05-17T21-19-26-275Z-sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO/`.
+  `.proofs/pipeline-host-runs/2026-05-17T21-19-26-275Z-sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO/`.
 - The run intentionally passed only the UI-shaped Deposit proof and measurement
   flags, with no manual `BITCODE_SANDBOX_DEPOSIT_*_ROOT` overrides. The harness
   materialized manifest-bound `proofRoot`, `measurementRoot`, and
@@ -1695,7 +1695,7 @@ manifest-bound Deposit evidence root fixes:
   no-overlay source revision
   `engineeredsoftware/ENGI@main@dc641f9ffd0f68caece9ed24ede30d7a5d947976`
   and exported local artifacts to
-  `.bitcode/pipeline-host-runs/2026-05-18T15-44-08-076Z-sbx_gsVSO3LCl4JvX3IT9elA2aBofg02/`.
+  `.proofs/pipeline-host-runs/2026-05-18T15-44-08-076Z-sbx_gsVSO3LCl4JvX3IT9elA2aBofg02/`.
 - The run completed source-bound, with no source overlay, and wrote umbrella
   pipeline row `13bc9a38-0f94-446f-98d7-14474d13467a` plus deliverable
   stream run `c38a98cf-403e-4fc7-9c9e-ba615d4af024`. The pipeline result was
@@ -1719,7 +1719,7 @@ manifest-bound Deposit evidence root fixes:
 - Finish shipped the synthesized AssetPack as GitHub PR #6:
   `https://github.com/engineeredsoftware/ENGI/pull/6`, branch
   `bitcode/asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024`, path
-  `.bitcode/asset-packs/c38a98cf-403e-4fc7-9c9e-ba615d4af024.md`.
+  `.proofs/asset-packs/c38a98cf-403e-4fc7-9c9e-ba615d4af024.md`.
 - Ledger/database readback settled asset pack
   `asset-pack-c38a98cf-403e-4fc7-9c9e-ba615d4af024`: one BTD range
   `[5, 6)`, one reader BTC fee row with `546` sats, `finality_state='prepared'`

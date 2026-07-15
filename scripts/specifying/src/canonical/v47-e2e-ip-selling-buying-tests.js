@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH =
-  '.bitcode/v47-e2e-ip-selling-buying-tests.json';
+  '.proofs/v47/e2e-ip-selling-buying-tests.json';
 export const V47_E2E_IP_EXCHANGE_TESTS_SCHEMA_ID =
   'bitcode.v47.e2eIpSellingBuyingTests.v1';
 export const V47_E2E_IP_EXCHANGE_TESTS_VERSION = 'V47';

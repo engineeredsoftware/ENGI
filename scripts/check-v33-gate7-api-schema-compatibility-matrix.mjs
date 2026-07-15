@@ -9,7 +9,7 @@ import { buildV33ApiSchemaCompatibilityMatrixArtifact } from './generate-v33-api
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-api-schema-compatibility-matrix.json';
+const ARTIFACT = '.proofs/v33/api-schema-compatibility-matrix.json';
 
 const REQUIRED_CONSUMER_SURFACES = ['public_api', 'mcp_api', 'chatgpt_app', 'terminal_handoff', 'package_consumer'];
 const REQUIRED_EXAMPLE_POSTURES = ['success', 'denied', 'blocked', 'stale', 'deferred'];

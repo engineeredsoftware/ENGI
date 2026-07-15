@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v36-promotion-readiness-report.json';
+  '.proofs/v36/promotion-readiness-report.json';
 export const EXCHANGE_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v36.exchangePromotionReadinessReport.v1';
 export const EXCHANGE_PROMOTION_READINESS_REPORT_VERSION = 'V36';
@@ -18,21 +18,21 @@ export const EXCHANGE_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-exchange-promotion-readiness-metadata';
 
 export const EXCHANGE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v36-exchange-activity-book.json',
-  '.bitcode/v36-exchange-intent-order-contracts.json',
-  '.bitcode/v36-exchange-rights-transfer-review.json',
-  '.bitcode/v36-pricing-liquidity-fee-quote.json',
-  '.bitcode/v36-exchange-settlement-reconciliation.json',
-  '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
-  '.bitcode/v36-exchange-ux-proof.json',
-  '.bitcode/v36-exchange-rehearsal.json',
+  '.proofs/v36/exchange-activity-book.json',
+  '.proofs/v36/exchange-intent-order-contracts.json',
+  '.proofs/v36/exchange-rights-transfer-review.json',
+  '.proofs/v36/pricing-liquidity-fee-quote.json',
+  '.proofs/v36/exchange-settlement-reconciliation.json',
+  '.proofs/v36/exchange-dispute-repair-revenue-route.json',
+  '.proofs/v36/exchange-ux-proof.json',
+  '.proofs/v36/exchange-rehearsal.json',
 ]);
 
 export const EXCHANGE_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V36_PROVEN.md',
-  '.bitcode/v36-spec-family-report.json',
-  '.bitcode/v36-canonical-input-report.json',
-  '.bitcode/v36-canon-posture-drift-report.json',
+  '.proofs/v36/spec-family-report.json',
+  '.proofs/v36/canonical-input-report.json',
+  '.proofs/v36/canon-posture-drift-report.json',
   EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -354,7 +354,7 @@ export function buildExchangePromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V36_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v36-',
+      generatedArtifactPrefix: '.proofs/v36/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

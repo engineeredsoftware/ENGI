@@ -35,7 +35,7 @@ is Setup’s job inside the sandbox.
 |------|------|
 | `/opt/bitcode` | Bitcode monorepo root (`BITCODE_MONOREPO_ROOT`) |
 | `/opt/bitcode/pipeline/run-pipeline.mjs` | Dispatcher (`host_smoke` \| `asset_pack_pipeline`) |
-| `/opt/bitcode/.bitcode/pipeline-host/*.mjs` | Host-smoke + live runners |
+| `/opt/bitcode/.proofs/pipeline-host/*.mjs` | Host-smoke + live runners |
 | `/vercel/sandbox` | Customer git checkout + run artifacts |
 
 ## Production env

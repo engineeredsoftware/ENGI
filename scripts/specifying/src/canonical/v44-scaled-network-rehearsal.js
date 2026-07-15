@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v44-scaled-network-rehearsal.json';
+  '.proofs/v44/scaled-network-rehearsal.json';
 export const V44_SCALED_NETWORK_REHEARSAL_SCHEMA_ID =
   'bitcode.v44.scaledNetworkRehearsal.v1';
 export const V44_SCALED_NETWORK_REHEARSAL_VERSION = 'V44';
@@ -95,13 +95,13 @@ const SOURCE_ROOTS = Object.freeze({
   packageJson: 'package.json',
   gateWorkflow: '.github/workflows/bitcode-gate-quality.yml',
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
-  gate2Artifact: '.bitcode/v44-economic-domain-model.json',
-  gate3Artifact: '.bitcode/v44-packs-portfolio-market-intelligence.json',
-  gate4Artifact: '.bitcode/v44-reading-budget-quote-policy.json',
-  gate5Artifact: '.bitcode/v44-depositor-earnings-supply-opportunities.json',
-  gate6Artifact: '.bitcode/v44-btd-btc-compensation-statements.json',
-  gate7Artifact: '.bitcode/v44-organization-policy-wallet-authority.json',
-  gate8Artifact: '.bitcode/v44-enterprise-product-ux.json',
+  gate2Artifact: '.proofs/v44/economic-domain-model.json',
+  gate3Artifact: '.proofs/v44/packs-portfolio-market-intelligence.json',
+  gate4Artifact: '.proofs/v44/reading-budget-quote-policy.json',
+  gate5Artifact: '.proofs/v44/depositor-earnings-supply-opportunities.json',
+  gate6Artifact: '.proofs/v44/btd-btc-compensation-statements.json',
+  gate7Artifact: '.proofs/v44/organization-policy-wallet-authority.json',
+  gate8Artifact: '.proofs/v44/enterprise-product-ux.json',
   packsClient: 'apps/uapi/app/packs/PacksPageClient.tsx',
   readClient: 'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
   depositClient: 'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',

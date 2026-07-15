@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH =
-  '.bitcode/v47-depositor-website-completion.json';
+  '.proofs/v47/depositor-website-completion.json';
 export const V47_DEPOSITOR_WEBSITE_COMPLETION_SCHEMA_ID =
   'bitcode.v47.depositorWebsiteCompletion.v1';
 export const V47_DEPOSITOR_WEBSITE_COMPLETION_VERSION = 'V47';

@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V38_INFERENCE_TELEMETRY_DISCLOSURE_REPORT_ARTIFACT_PATH =
-  '.bitcode/v38-disclosure-boundary-report.json';
+  '.proofs/v38/disclosure-boundary-report.json';
 export const V38_INFERENCE_TELEMETRY_DISCLOSURE_REPORT_SCHEMA_ID =
   'bitcode.v38.inferenceTelemetryDisclosureReport.v1';
 export const V38_INFERENCE_TELEMETRY_DISCLOSURE_REPORT_VERSION = 'V38';

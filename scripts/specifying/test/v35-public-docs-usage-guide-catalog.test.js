@@ -88,5 +88,5 @@ test('binds public docs to Bitcode usage domains and deferred boundaries', () =>
     catalog.disclosureBoundary.settlementBoundary.includes('source-bearing AssetPack contents cross to the reader only after settlement'),
     true,
   );
-  assert.equal(PUBLIC_DOCS_USAGE_GUIDE_CATALOG_ARTIFACT_PATH, '.bitcode/v35-public-docs-usage-guides.json');
+  assert.equal(PUBLIC_DOCS_USAGE_GUIDE_CATALOG_ARTIFACT_PATH, '.proofs/v35/public-docs-usage-guides.json');
 });

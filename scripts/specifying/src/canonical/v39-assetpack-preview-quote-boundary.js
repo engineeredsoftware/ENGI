@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_ARTIFACT_PATH =
-  '.bitcode/v39-assetpack-preview-quote-boundary.json';
+  '.proofs/v39/assetpack-preview-quote-boundary.json';
 export const V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_SCHEMA_ID =
   'bitcode.v39.assetPackPreviewQuoteBoundary.v1';
 export const V39_ASSETPACK_PREVIEW_QUOTE_BOUNDARY_VERSION = 'V39';

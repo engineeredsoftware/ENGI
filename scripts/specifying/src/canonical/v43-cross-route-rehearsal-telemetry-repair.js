@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V43_CROSS_ROUTE_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json';
+  '.proofs/v43/cross-route-rehearsal-telemetry-repair.json';
 export const V43_CROSS_ROUTE_REHEARSAL_SCHEMA_ID =
   'bitcode.v43.crossRouteRehearsalTelemetryRepair.v1';
 export const V43_CROSS_ROUTE_REHEARSAL_VERSION = 'V43';
@@ -57,12 +57,12 @@ export const V43_CROSS_ROUTE_REHEARSAL_ROW_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  gate3Artifact: '.bitcode/v43-packs-activity-master-detail.json',
-  gate4Artifact: '.bitcode/v43-read-route-five-step-ux.json',
-  gate5Artifact: '.bitcode/v43-deposit-route-options.json',
-  gate6Artifact: '.bitcode/v43-deposit-policy-compensation.json',
-  gate7Artifact: '.bitcode/v43-deposit-option-admission.json',
-  gate8Artifact: '.bitcode/v43-route-ux-product-excellence.json',
+  gate3Artifact: '.proofs/v43/packs-activity-master-detail.json',
+  gate4Artifact: '.proofs/v43/read-route-five-step-ux.json',
+  gate5Artifact: '.proofs/v43/deposit-route-options.json',
+  gate6Artifact: '.proofs/v43/deposit-policy-compensation.json',
+  gate7Artifact: '.proofs/v43/deposit-option-admission.json',
+  gate8Artifact: '.proofs/v43/route-ux-product-excellence.json',
   depositClient: 'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',
   depositModel: 'apps/uapi/components/deposits/models/deposit-route-model.ts',
   readClient: 'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',

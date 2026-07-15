@@ -13,7 +13,7 @@ import {
 test('V43 deposit option admission artifact binds source-safe admission contracts', () => {
   const report = buildV43DepositOptionAdmission();
 
-  assert.equal(V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH, '.bitcode/v43-deposit-option-admission.json');
+  assert.equal(V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH, '.proofs/v43/deposit-option-admission.json');
   assert.equal(report.artifactId, 'v43-deposit-option-admission');
   assert.equal(report.schemaId, V43_DEPOSIT_OPTION_ADMISSION_SCHEMA_ID);
   assert.equal(report.version, 'V43');

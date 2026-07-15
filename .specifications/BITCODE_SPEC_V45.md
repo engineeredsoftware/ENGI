@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `23294cc578dcb2148a6b602c3463b3ca01f1fef1`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `.bitcode/v45-canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v45/spec-family-report.json`, `.proofs/v45/canonical-input-report.json`, `.proofs/v45/canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.proofs/v45/source-safe-e2e-rehearsal.json`, `.proofs/v45/promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
 - Source parity state: V45 source-side AssetPack commodity lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, source-safe rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V45 file family
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V45_DELTA.md`
@@ -432,7 +432,7 @@ human inspection remain aligned.
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v45-inference-synthesis-proof.json`.
+- proofArtifactPath: `.proofs/v45/inference-synthesis-proof.json`.
 - members: ReadNeedComprehension, ReadFitsFinding, deposit option synthesis,
   AssetPack synthesis, conversation guidance.
 - theoremIds: source-safe inference, typed output, prompt registry closure.
@@ -456,7 +456,7 @@ human inspection remain aligned.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v45-prompt-completeness-proof.json`.
+- proofArtifactPath: `.proofs/v45/prompt-completeness-proof.json`.
 - members: prompt parts, prompts, registries, templates, interpolation.
 - theoremIds: total prompt catalog, no raw prompt leakage, benchmarkable parts.
 - replayStepIds: registry resolution, interpolation, redaction, benchmark run.
@@ -475,7 +475,7 @@ human inspection remain aligned.
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v45-static-code-analysis-proof.json`.
+- proofArtifactPath: `.proofs/v45/static-code-analysis-proof.json`.
 - members: packages, routes, scripts, workflows, tests, docs.
 - theoremIds: source names align with protocol, no forbidden source exposure,
   no versioned source identifiers.
@@ -495,7 +495,7 @@ human inspection remain aligned.
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v45-verification-decisions-proof.json`.
+- proofArtifactPath: `.proofs/v45/verification-decisions-proof.json`.
 - members: Need review, Fit thresholding, quote acceptance, payment finality,
   rights transfer, delivery.
 - theoremIds: explicit decision root, actor authority, no collapsed states.
@@ -516,7 +516,7 @@ human inspection remain aligned.
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v45-selection-materialization-proof.json`.
+- proofArtifactPath: `.proofs/v45/selection-materialization-proof.json`.
 - members: candidate recall, selected Fit set, withheld bundle, source-safe
   preview, repository delivery.
 - theoremIds: selected Fits above threshold, source withheld, delivery after
@@ -538,7 +538,7 @@ human inspection remain aligned.
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v45-authorization-sensitive-flow-proof.json`.
+- proofArtifactPath: `.proofs/v45/authorization-sensitive-flow-proof.json`.
 - members: organization policy, wallet authority, depositor approval, buyer
   entitlement, API/MCP, conversations.
 - theoremIds: no secret leakage, no server custody, actor entitlement.
@@ -559,7 +559,7 @@ human inspection remain aligned.
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v45-settlement-source-to-shares-proof.json`.
+- proofArtifactPath: `.proofs/v45/settlement-source-to-shares-proof.json`.
 - members: BTD scalar-volume, BTC quote, PSBT, finality, rights transfer,
   source-to-shares, compensation.
 - theoremIds: deterministic quote, finality-before-rights, conservation,
@@ -582,7 +582,7 @@ human inspection remain aligned.
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v45-disclosure-boundary-proof.json`.
+- proofArtifactPath: `.proofs/v45/disclosure-boundary-proof.json`.
 - members: `/deposit`, `/read`, `/packs`, API/MCP, ChatGPT App, Bitcode Chat,
   public docs, landing page.
 - theoremIds: source-safe before entitlement, non-final labels, boundary
@@ -603,7 +603,7 @@ human inspection remain aligned.
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v45-proof-contract-proof.json`.
+- proofArtifactPath: `.proofs/v45/proof-contract-proof.json`.
 - members: generated spec proof, workflow receipts, ledger journals, database
   projections, storage roots, telemetry, provider receipts, repository
   receipts.
@@ -649,27 +649,27 @@ and quality summary.
 
 | artifactPath | role | V45 posture |
 | --- | --- | --- |
-| `.bitcode/v45-spec-family-report.json` | promoted spec-family validation report | active required |
-| `.bitcode/v45-canonical-input-report.json` | promoted canonical input report | active required |
-| `.bitcode/v45-inference-synthesis-proof.json` | inference proof-family artifact | active required |
-| `.bitcode/v45-prompt-completeness-proof.json` | prompt proof-family artifact | active required |
-| `.bitcode/v45-static-code-analysis-proof.json` | static-code proof-family artifact | active required |
-| `.bitcode/v45-verification-decisions-proof.json` | verification-decision proof-family artifact | active required |
-| `.bitcode/v45-selection-materialization-proof.json` | selection and materialization proof-family artifact | active required |
-| `.bitcode/v45-authorization-sensitive-flow-proof.json` | authorization and sensitive-flow proof-family artifact | active required |
-| `.bitcode/v45-settlement-source-to-shares-proof.json` | settlement and allocation proof-family artifact | active required |
-| `.bitcode/v45-disclosure-boundary-proof.json` | disclosure-boundary proof-family artifact | active required |
-| `.bitcode/v45-proof-contract-proof.json` | proof-contract proof-family artifact | active required |
-| `.bitcode/v45-source-safe-e2e-rehearsal.json` | source-safe end-to-end rehearsal artifact | active required |
-| `.bitcode/v45-promotion-readiness-report.json` | promotion-readiness artifact | active required |
+| `.proofs/v45/spec-family-report.json` | promoted spec-family validation report | active required |
+| `.proofs/v45/canonical-input-report.json` | promoted canonical input report | active required |
+| `.proofs/v45/inference-synthesis-proof.json` | inference proof-family artifact | active required |
+| `.proofs/v45/prompt-completeness-proof.json` | prompt proof-family artifact | active required |
+| `.proofs/v45/static-code-analysis-proof.json` | static-code proof-family artifact | active required |
+| `.proofs/v45/verification-decisions-proof.json` | verification-decision proof-family artifact | active required |
+| `.proofs/v45/selection-materialization-proof.json` | selection and materialization proof-family artifact | active required |
+| `.proofs/v45/authorization-sensitive-flow-proof.json` | authorization and sensitive-flow proof-family artifact | active required |
+| `.proofs/v45/settlement-source-to-shares-proof.json` | settlement and allocation proof-family artifact | active required |
+| `.proofs/v45/disclosure-boundary-proof.json` | disclosure-boundary proof-family artifact | active required |
+| `.proofs/v45/proof-contract-proof.json` | proof-contract proof-family artifact | active required |
+| `.proofs/v45/source-safe-e2e-rehearsal.json` | source-safe end-to-end rehearsal artifact | active required |
+| `.proofs/v45/promotion-readiness-report.json` | promotion-readiness artifact | active required |
 | `BITCODE_SPEC_V45_PROVEN.md` | generated proof appendix | active required |
 
 ### V45 specifying generated artifacts
 
-V45 specifying generated artifacts must include `.bitcode/v45-spec-family-report.json`,
-`.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
-artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`,
-`.bitcode/v45-promotion-readiness-report.json`, and active
+V45 specifying generated artifacts must include `.proofs/v45/spec-family-report.json`,
+`.proofs/v45/canonical-input-report.json`, all nine V45 proof-family
+artifacts, `.proofs/v45/source-safe-e2e-rehearsal.json`,
+`.proofs/v45/promotion-readiness-report.json`, and active
 `BITCODE_SPEC_V45_PROVEN.md`; promotion readiness binds the promoted proof
 outputs to the proof-source commit.
 
@@ -725,7 +725,7 @@ validate before committing the standalone `BITCODE_SPEC.txt` pointer change to
 ### V45 promotion readiness canon
 
 V45 promotion readiness is represented by
-`.bitcode/v45-promotion-readiness-report.json`, `check:v45-gate18`, and
+`.proofs/v45/promotion-readiness-report.json`, `check:v45-gate18`, and
 `v45-canon-promotion.yml`. The readiness proof binds all V45 proof-family
 artifacts, the source-safe end-to-end rehearsal artifact, active
 `BITCODE_SPEC_V45_PROVEN.md`, promotion script support, gate/canon workflow
@@ -739,7 +739,7 @@ V45 supporting material consists of `BITCODE_SPEC_V45.md`,
 `BITCODE_SPEC_V45_DELTA.md`, `BITCODE_SPEC_V45_NOTES.md`,
 `BITCODE_SPEC_V45_PARITY_MATRIX.md`, active `BITCODE_SPEC_V45_PROVEN.md`,
 `BITCODE_SPECIFYING.md`, `BITCODE_SPEC_TEMPLATEGUIDE.md`, V45 checkers, and
-future generated `.bitcode` reports.
+future generated `.proofs` reports.
 
 ## V45 accepted boundaries and reopen conditions
 
@@ -788,24 +788,24 @@ contracts to generated artifacts and replay.
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v45-inference-synthesis-proof.json` | Reading, deposit, conversation | typed inference, source safety | synthesize, search, preview | execution receipts | formal V45 law |
-| Prompt-completeness | `.bitcode/v45-prompt-completeness-proof.json` | prompts, registries | total prompt catalog | resolve, interpolate | prompt inventory | formal V45 law |
-| Static-code-analysis | `.bitcode/v45-static-code-analysis-proof.json` | packages, routes, workflows | source alignment | lint, typecheck | CI logs | formal V45 law |
-| Verification-decisions | `.bitcode/v45-verification-decisions-proof.json` | review, quote, finality | actor authority | approve, select, settle | decision roots | formal V45 law |
-| Selection-and-materialization | `.bitcode/v45-selection-materialization-proof.json` | Fits, bundle, preview, delivery | source withheld | search, synthesize, deliver | storage roots | formal V45 law |
-| Authorization-and-sensitive-flow | `.bitcode/v45-authorization-sensitive-flow-proof.json` | policy, wallet, entitlement | no secret leakage | authorize, redact | policy roots | formal V45 law |
-| Settlement-source-to-shares | `.bitcode/v45-settlement-source-to-shares-proof.json` | BTD, BTC, allocation | finality before rights | quote, observe, allocate | ledger roots | formal V45 law |
-| Disclosure-boundary | `.bitcode/v45-disclosure-boundary-proof.json` | interfaces | source-safe boundary | preview, quote, delivery | interface roots | formal V45 law |
-| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | evidence classes | proof-backed readback | readback, repair | proof roots | formal V45 law |
+| Inference-synthesis | `.proofs/v45/inference-synthesis-proof.json` | Reading, deposit, conversation | typed inference, source safety | synthesize, search, preview | execution receipts | formal V45 law |
+| Prompt-completeness | `.proofs/v45/prompt-completeness-proof.json` | prompts, registries | total prompt catalog | resolve, interpolate | prompt inventory | formal V45 law |
+| Static-code-analysis | `.proofs/v45/static-code-analysis-proof.json` | packages, routes, workflows | source alignment | lint, typecheck | CI logs | formal V45 law |
+| Verification-decisions | `.proofs/v45/verification-decisions-proof.json` | review, quote, finality | actor authority | approve, select, settle | decision roots | formal V45 law |
+| Selection-and-materialization | `.proofs/v45/selection-materialization-proof.json` | Fits, bundle, preview, delivery | source withheld | search, synthesize, deliver | storage roots | formal V45 law |
+| Authorization-and-sensitive-flow | `.proofs/v45/authorization-sensitive-flow-proof.json` | policy, wallet, entitlement | no secret leakage | authorize, redact | policy roots | formal V45 law |
+| Settlement-source-to-shares | `.proofs/v45/settlement-source-to-shares-proof.json` | BTD, BTC, allocation | finality before rights | quote, observe, allocate | ledger roots | formal V45 law |
+| Disclosure-boundary | `.proofs/v45/disclosure-boundary-proof.json` | interfaces | source-safe boundary | preview, quote, delivery | interface roots | formal V45 law |
+| Proof-contract | `.proofs/v45/proof-contract-proof.json` | evidence classes | proof-backed readback | readback, repair | proof roots | formal V45 law |
 
 ## Appendix C. Generated artifact contract catalog
 
 Generated artifacts must be deterministic, source-safe by default, explicit
 about confidentiality, and fail closed when proof roots or readback evidence
-are missing. The draft generated artifacts are `.bitcode/v45-spec-family-report.json`,
-`.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
-artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, and
-`.bitcode/v45-promotion-readiness-report.json`, and
+are missing. The draft generated artifacts are `.proofs/v45/spec-family-report.json`,
+`.proofs/v45/canonical-input-report.json`, all nine V45 proof-family
+artifacts, `.proofs/v45/source-safe-e2e-rehearsal.json`, and
+`.proofs/v45/promotion-readiness-report.json`, and
 `BITCODE_SPEC_V45_PROVEN.md`; promotion later refreshes promotion-readiness
 proof outputs.
 
@@ -882,12 +882,12 @@ wallet custody drift, or delivery mismatch.
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing AssetPack artifacts include `.bitcode/asset-pack.lock.json`,
-`.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`,
-`.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`,
-`.bitcode/system-proof-bundle.json`,
-`.bitcode/v45-source-safe-e2e-rehearsal.json`,
-`.bitcode/v45-promotion-readiness-report.json`, and
+Source-bearing AssetPack artifacts include `.proofs/_shared/asset-pack.lock.json`,
+`.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`,
+`.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`,
+`.proofs/_shared/system-proof-bundle.json`,
+`.proofs/v45/source-safe-e2e-rehearsal.json`,
+`.proofs/v45/promotion-readiness-report.json`, and
 `BITCODE_SPEC_V45_PROVEN.md`. V45 requires protected source custody,
 source-safe preview, entitlement-based unlock, and repository delivery receipt
 before Reader-visible source.

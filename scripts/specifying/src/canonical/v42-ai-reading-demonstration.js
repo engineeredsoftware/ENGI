@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V42_AI_READING_DEMONSTRATION_ARTIFACT_PATH =
-  '.bitcode/v42-ai-reading-demonstration.json';
+  '.proofs/v42/ai-reading-demonstration.json';
 export const V42_AI_READING_DEMONSTRATION_SCHEMA_ID =
   'bitcode.v42.aiReadingDemonstration.v1';
 export const V42_AI_READING_DEMONSTRATION_VERSION = 'V42';

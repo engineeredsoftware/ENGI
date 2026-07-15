@@ -410,47 +410,47 @@ export function buildPromptCompletenessProof(promptContracts = [], options = {})
     .filter((entry) => !entry.explicitlyExcluded)
     .every((entry) => entry.provenanceAnnotationsTruthful);
   const witnessArtifactPaths = summarizeStrings([
-    promptFamilyRegistry ? '.bitcode/prompt-family-registry.json' : null,
-    '.bitcode/prompt-contracts.json',
-    '.bitcode/prompt-surfaces.json',
-    '.bitcode/parsed-completion-envelopes.json',
-    '.bitcode/prompt-completeness-proof.json'
+    promptFamilyRegistry ? '.proofs/_shared/prompt-family-registry.json' : null,
+    '.proofs/_shared/prompt-contracts.json',
+    '.proofs/_shared/prompt-surfaces.json',
+    '.proofs/_shared/parsed-completion-envelopes.json',
+    '.proofs/_shared/prompt-completeness-proof.json'
   ]);
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'prompt-completeness.member-set-reconciliation',
       theoremIds: ['prompt_completeness.coverage_totality', 'prompt_completeness.no_ghost_coverage', 'prompt_completeness.explicit_exclusion_closure'],
-      requiredArtifactPaths: summarizeStrings([promptFamilyRegistry ? '.bitcode/prompt-family-registry.json' : null, '.bitcode/prompt-contracts.json', '.bitcode/prompt-surfaces.json']),
+      requiredArtifactPaths: summarizeStrings([promptFamilyRegistry ? '.proofs/_shared/prompt-family-registry.json' : null, '.proofs/_shared/prompt-contracts.json', '.proofs/_shared/prompt-surfaces.json']),
       instruction: 'Reconcile classified, registered, and excluded prompt-owned fields.'
     }),
     buildReplayStep({
       stepId: 'prompt-completeness.parse-admissibility',
       theoremIds: ['prompt_completeness.contract_closure', 'prompt_completeness.parsed_envelope_admissibility'],
-      requiredArtifactPaths: ['.bitcode/prompt-contracts.json', '.bitcode/parsed-completion-envelopes.json'],
+      requiredArtifactPaths: ['.proofs/_shared/prompt-contracts.json', '.proofs/_shared/parsed-completion-envelopes.json'],
       instruction: 'Recompute prompt contract completeness and parsed-envelope admissibility.'
     }),
     buildReplayStep({
       stepId: 'prompt-completeness.consumer-closure',
       theoremIds: ['prompt_completeness.downstream_consumer_closure'],
-      requiredArtifactPaths: ['.bitcode/prompt-surfaces.json'],
+      requiredArtifactPaths: ['.proofs/_shared/prompt-surfaces.json'],
       instruction: 'Compare declared downstream consumers to the expected semantic consumer graph.'
     }),
     buildReplayStep({
       stepId: 'prompt-completeness.provenance-truth',
       theoremIds: ['prompt_completeness.provenance_truth'],
-      requiredArtifactPaths: ['.bitcode/prompt-surfaces.json', '.bitcode/prompt-contracts.json'],
+      requiredArtifactPaths: ['.proofs/_shared/prompt-surfaces.json', '.proofs/_shared/prompt-contracts.json'],
       instruction: 'Verify prompt-owned outputs remain truthfully represented by their prompt surfaces and contracts.'
     })
   ];
   const artifactBindings = summarizeStrings([
-    promptFamilyRegistry ? '.bitcode/prompt-family-registry.json' : null
+    promptFamilyRegistry ? '.proofs/_shared/prompt-family-registry.json' : null
   ]).map((artifactPath) => buildArtifactBinding({ artifactPath, role: 'registry', theoremIds: ['prompt_completeness.coverage_totality', 'prompt_completeness.no_ghost_coverage', 'prompt_completeness.explicit_exclusion_closure'], requiredForWitness: true, requiredForReplay: true }))
     .concat([
-    buildArtifactBinding({ artifactPath: '.bitcode/prompt-contracts.json', role: 'contract', theoremIds: ['prompt_completeness.contract_closure'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['prompt_completeness.coverage_totality', 'prompt_completeness.downstream_consumer_closure', 'prompt_completeness.provenance_truth'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['prompt_completeness.parsed_envelope_admissibility'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/prompt-completeness-proof.json', role: 'primary-proof', theoremIds: ['prompt_completeness.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/prompt-contracts.json', role: 'contract', theoremIds: ['prompt_completeness.contract_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['prompt_completeness.coverage_totality', 'prompt_completeness.downstream_consumer_closure', 'prompt_completeness.provenance_truth'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['prompt_completeness.parsed_envelope_admissibility'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/prompt-completeness-proof.json', role: 'primary-proof', theoremIds: ['prompt_completeness.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
   ]);
   const theoremIds = [
     'prompt_completeness.coverage_totality',

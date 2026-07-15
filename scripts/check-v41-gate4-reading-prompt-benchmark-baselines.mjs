@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-reading-prompt-benchmark-baselines.json';
+const ARTIFACT_PATH = '.proofs/v41/reading-prompt-benchmark-baselines.json';
 
 const REQUIRED_BASELINE_IDS = [
   'readneed-request-to-need-baseline',
@@ -156,8 +156,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
     'scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js',
     'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
     'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',

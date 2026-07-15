@@ -362,7 +362,7 @@ export const downloadRepository = async (
   // VCS abstraction doesn't cover file downloads
   const downloadUrl = `https://api.github.com/repos/${repository.owner.login}/${repository.name}/zipball/main`;
   
-  const zipDirPath = path.join(os.homedir(), `.bitcode/memory/${repository.name}`);
+  const zipDirPath = path.join(os.homedir(), `.proofs/memory/${repository.name}`);
   fs.mkdirSync(zipDirPath, { recursive: true });
   
   const zipPath = path.join(zipDirPath, `${repository.name}.zip`);
@@ -379,7 +379,7 @@ export const downloadRepository = async (
   
   fs.writeFileSync(zipPath, Buffer.from(await response.arrayBuffer()));
   
-  const unzipPath = path.join(os.homedir(), `.bitcode/memory/${repository.name}/${repository.name}`);
+  const unzipPath = path.join(os.homedir(), `.proofs/memory/${repository.name}/${repository.name}`);
   await decompress(zipPath, unzipPath);
   
   return unzipPath;

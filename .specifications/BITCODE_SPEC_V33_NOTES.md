@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `6c3cc76c4a41bdbaf02c78334b3cd9c6fa3554b6`
 - Prior canonical anchor: `BITCODE_SPEC_V32.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V32_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v33-spec-family-report.json`, `.bitcode/v33-canonical-input-report.json`, `.bitcode/v33-canon-posture-drift-report.json`, `.bitcode/v33-interface-contract-catalog.json`, `.bitcode/v33-mcp-api-tool-contracts.json`, `.bitcode/v33-chatgpt-app-action-contracts.json`, `.bitcode/v33-interface-authorization-policy.json`, `.bitcode/v33-read-license-assetpack-rights-contracts.json`, `.bitcode/v33-api-schema-compatibility-matrix.json`, `.bitcode/v33-interface-telemetry-proof-hooks.json`, `.bitcode/v33-interface-consumer-ux-regression-proof.json`, `.bitcode/v33-promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v33/spec-family-report.json`, `.proofs/v33/canonical-input-report.json`, `.proofs/v33/canon-posture-drift-report.json`, `.proofs/v33/interface-contract-catalog.json`, `.proofs/v33/mcp-api-tool-contracts.json`, `.proofs/v33/chatgpt-app-action-contracts.json`, `.proofs/v33/interface-authorization-policy.json`, `.proofs/v33/read-license-assetpack-rights-contracts.json`, `.proofs/v33/api-schema-compatibility-matrix.json`, `.proofs/v33/interface-telemetry-proof-hooks.json`, `.proofs/v33/interface-consumer-ux-regression-proof.json`, `.proofs/v33/promotion-readiness-report.json`, V33 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V33_PROVEN.md` as the generated proof appendix for V33 promotion
 - Source parity state: V33 source-side interface contract catalog, MCP tool contracts, ChatGPT App action contracts, authorization policy, Read license and AssetPack rights contracts, API schema compatibility matrix, interface telemetry proof hooks, consumer UX regression proof, workflow, and promotion surfaces are canonicalized in the promoted V33 file family
 - Scope: V33 canonical notes for commercial interface depth over promoted V32 proof/testing canon
 - Last fully realized canonical target preserved in source: `V33`
@@ -95,7 +95,7 @@ Gate 2 introduces `InterfaceContractCatalog` in `packages/btd/src/interface-cont
 The catalog rows are `terminal_handoff`, `public_api`, `mcp_api`, `chatgpt_app`, `package_consumer`, `exchange_hook`, and `conversations_hook`.
 The first five rows are active contracts; `exchange_hook` and `conversations_hook` remain visible as `deferred_not_admitted` rows.
 Every row names the package owner, action/tool/route id, schema id, auth policy id, source-safety class, example fixture path, validation command, compatibility status, failure mode, repair posture, telemetry proof hook id, and deterministic proof root.
-The generated source-safe artifact is `.bitcode/v33-interface-contract-catalog.json`, checked by `check:v33-interface-contract-catalog` and `check:v33-gate2`.
+The generated source-safe artifact is `.proofs/v33/interface-contract-catalog.json`, checked by `check:v33-interface-contract-catalog` and `check:v33-gate2`.
 
 ## Gate 3 closure note
 
@@ -104,7 +104,7 @@ The first required MCP API tool id is `bitcode://pipelines/asset-pack/create`.
 The contract binds `bitcode.mcp.assetPackCreate.input.v1`, `bitcode.mcp.assetPackCreate.output.v1`, `interface.authorization.pipeline-permission`, `pipelines.create`, source-safety class `protected-source-locked`, and policy `source-safe-preview-and-metadata-before-settlement`.
 Denied states are explicit and include `SCHEMA_VALIDATION_FAILED`, `PROVIDER_BINDING_REQUIRED`, `INSUFFICIENT_PERMISSIONS`, `MISSING_API_KEY`, `RATE_LIMITED`, and `UNKNOWN_TOOL`.
 The MCP server consumes the package-owned contract through `getBtdMcpToolContract` for tool discovery, including tool id and description, while pre-settlement protected source remains invisible.
-The generated source-safe artifact is `.bitcode/v33-mcp-api-tool-contracts.json`, checked by `check:v33-mcp-api-tool-contracts` and `check:v33-gate3`.
+The generated source-safe artifact is `.proofs/v33/mcp-api-tool-contracts.json`, checked by `check:v33-mcp-api-tool-contracts` and `check:v33-gate3`.
 
 ## Gate 4 closure note
 
@@ -113,7 +113,7 @@ The required ChatGPT App Reading action ids are `bitcode_request_read`, `bitcode
 Each action binds package-owned input/output schemas, `interface.authorization.chatgpt-reading-action`, `chatgpt.reading.invoke`, a source-safe response renderer, proof-root projection, and readable repair posture.
 Denied states include `SCHEMA_VALIDATION_FAILED`, `READ_NEED_REQUIRED`, `FINDING_FITS_REQUIRED`, `ASSET_PACK_PREVIEW_REQUIRED`, `FEE_QUOTE_REQUIRED`, `SETTLEMENT_REQUIRED`, `READ_LICENSE_REQUIRED`, `ORGANIZATION_AUTHORITY_REQUIRED`, and `CONFIRMATION_REQUIRED`.
 The ChatGPT App tool registry consumes the package-owned contracts through `buildBtdChatGptAppActionContractRegistry`, while `renderBtdChatGptAppSourceSafeResponse` keeps locked AssetPack contents invisible.
-The generated source-safe artifact is `.bitcode/v33-chatgpt-app-action-contracts.json`, checked by `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4`.
+The generated source-safe artifact is `.proofs/v33/chatgpt-app-action-contracts.json`, checked by `check:v33-chatgpt-app-action-contracts` and `check:v33-gate4`.
 
 ## Gate 5 closure note
 
@@ -121,7 +121,7 @@ Gate 5 introduces `InterfaceAuthorizationPolicy` in `packages/btd/src/interface-
 The shared fixtures cover API request admission, MCP Finding Fits admission, ChatGPT App locked AssetPack delivery, Terminal BTC fee admission, stale authority denial, and unpaid delivery denial.
 The policy records auth issuer freshness, organization/team/member/role posture, wallet capability, read-license posture, AssetPack rights, locked-source disclosure, repair posture, readable denial messages, repair actions, and deterministic policy roots.
 MCP pipeline writes and ChatGPT App connected-interface writes carry `interfaceAuthorizationPolicy` metadata in write-admission output.
-The generated source-safe artifact is `.bitcode/v33-interface-authorization-policy.json`, checked by `check:v33-interface-authorization-policy` and `check:v33-gate5`.
+The generated source-safe artifact is `.proofs/v33/interface-authorization-policy.json`, checked by `check:v33-interface-authorization-policy` and `check:v33-gate5`.
 
 ## Gate 6 closure note
 
@@ -135,7 +135,7 @@ roots, Finding Fits admission roots, source-safe preview roots, fee quote roots,
 license posture, BTD range, read-right state, BTC settlement finality, delivery
 admission, rights transfer projection, denial codes, source-safety posture, and
 deterministic proof roots. The generated source-safe artifact is
-`.bitcode/v33-read-license-assetpack-rights-contracts.json`, checked by
+`.proofs/v33/read-license-assetpack-rights-contracts.json`, checked by
 `check:v33-read-license-assetpack-rights-contracts` and `check:v33-gate6`.
 
 ## Gate 7 working notes
@@ -163,7 +163,7 @@ organization authority denial, MCP API AssetPack creation success, ChatGPT App
 blocked delivery, Terminal blocked preview handoff, and a deferred
 package-consumer Exchange hook. API, MCP, ChatGPT App, and Terminal tests
 consume the shared rows. The generated source-safe artifact is
-`.bitcode/v33-api-schema-compatibility-matrix.json`, checked by
+`.proofs/v33/api-schema-compatibility-matrix.json`, checked by
 `check:v33-api-schema-compatibility-matrix` and `check:v33-gate7`.
 
 ## Gate 8 working notes
@@ -192,7 +192,7 @@ Terminal blocked preview handoff, public API denied readback, MCP API successful
 Reading pipeline ingress, ChatGPT App blocked protected-source delivery, and
 package-consumer contract replay. API, MCP, ChatGPT App, Terminal, and BTD
 tests consume the shared registry. The generated source-safe artifact is
-`.bitcode/v33-interface-telemetry-proof-hooks.json`, checked by
+`.proofs/v33/interface-telemetry-proof-hooks.json`, checked by
 `check:v33-interface-telemetry-proof-hooks` and `check:v33-gate8`.
 
 ## Gate 9 working notes
@@ -217,13 +217,13 @@ V33 Gate 9 Interface Consumer UX Regression Proof introduces
 `packages/btd/src/interface-consumer-ux-regression-proof.ts`. API, MCP,
 ChatGPT App, Terminal, and BTD tests consume the shared proof rows. The
 generated source-safe artifact is
-`.bitcode/v33-interface-consumer-ux-regression-proof.json`, checked by
+`.proofs/v33/interface-consumer-ux-regression-proof.json`, checked by
 `check:v33-interface-consumer-ux-regression-proof` and `check:v33-gate9`.
 
 ## Gate 10: V33 Promotion Readiness
 
 Gate 10 owns the final V33 readiness proof, not new interface product law. The
-source-safe `.bitcode/v33-promotion-readiness-report.json` must prove that all
+source-safe `.proofs/v33/promotion-readiness-report.json` must prove that all
 V33 interface artifacts are present, parseable, source-safe, and wired into
 gate checks, generated appendix support, `v33-canon-promotion.yml`, and
 promotion command planning. The promotion boundary rewrites package runtime

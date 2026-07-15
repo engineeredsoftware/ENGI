@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ARTIFACT_PATH =
-  '.bitcode/v39-interface-conversation-product-parity.json';
+  '.proofs/v39/interface-conversation-product-parity.json';
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_SCHEMA_ID =
   'bitcode.v39.interfaceConversationProductParity.v1';
 export const V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_VERSION = 'V39';

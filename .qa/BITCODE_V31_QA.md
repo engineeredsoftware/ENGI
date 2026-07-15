@@ -15,7 +15,7 @@ The QA surface is source-safe and includes:
 - V31 gate checks 1 through 10 in Gate Quality CI;
 - V31 promotion workflow validation for `version/v31` pull requests into `main`;
 - `node scripts/promote-bitcode-canon.mjs --version V31 --commit HEAD --dry-run`;
-- generated `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, and `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`;
+- generated `.proofs/v31/spec-family-report.json`, `.proofs/v31/canonical-input-report.json`, `.proofs/v31/canon-posture-drift-report.json`, and `.proofs/v31/auxillaries-telemetry-proof-hooks.json`;
 - `BITCODE_SPEC_V31_PROVEN.md` generation and check-mode replay during promotion;
 - runtime posture rewrite from V30 active / V31 draft to V31 active / V32 draft;
 - staging-testnet readback posture named without committed credentials, provider tokens, wallet secrets, database secrets, OpenAI keys, private prompts, or protected AssetPack source.

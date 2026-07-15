@@ -14,7 +14,7 @@ Required proof areas:
 - Read review and fit review tests,
 - prompt-system and prompt-space proof generation,
 - schema/ORM/persistence proof generation,
-- generated `.bitcode/*` proof artifacts.
+- generated `.proofs/*` proof artifacts.
 
 ## Representative Commands
 

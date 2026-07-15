@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v40-promotion-readiness-report.json';
+  '.proofs/v40/promotion-readiness-report.json';
 export const V40_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v40.promotionReadinessReport.v1';
 export const V40_PROMOTION_READINESS_REPORT_VERSION = 'V40';
@@ -18,22 +18,22 @@ export const V40_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-exhaustive-testing-promotion-readiness-metadata';
 
 export const V40_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v40-test-inventory-coverage-matrix.json',
-  '.bitcode/v40-unit-coverage-inventory.json',
-  '.bitcode/v40-api-integration-contracts.json',
-  '.bitcode/v40-reading-pipeline-integration-coverage.json',
-  '.bitcode/v40-conversation-terminal-integration.json',
-  '.bitcode/v40-browser-e2e-visual-proof.json',
-  '.bitcode/v40-ledger-storage-sync.json',
-  '.bitcode/v40-local-staging-rehearsal-automation.json',
-  '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
+  '.proofs/v40/test-inventory-coverage-matrix.json',
+  '.proofs/v40/unit-coverage-inventory.json',
+  '.proofs/v40/api-integration-contracts.json',
+  '.proofs/v40/reading-pipeline-integration-coverage.json',
+  '.proofs/v40/conversation-terminal-integration.json',
+  '.proofs/v40/browser-e2e-visual-proof.json',
+  '.proofs/v40/ledger-storage-sync.json',
+  '.proofs/v40/local-staging-rehearsal-automation.json',
+  '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json',
 ]);
 
 export const V40_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V40_PROVEN.md',
-  '.bitcode/v40-spec-family-report.json',
-  '.bitcode/v40-canonical-input-report.json',
-  '.bitcode/v40-canon-posture-drift-report.json',
+  '.proofs/v40/spec-family-report.json',
+  '.proofs/v40/canonical-input-report.json',
+  '.proofs/v40/canon-posture-drift-report.json',
   V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -400,7 +400,7 @@ export function buildV40PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V40_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v40-',
+      generatedArtifactPrefix: '.proofs/v40/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

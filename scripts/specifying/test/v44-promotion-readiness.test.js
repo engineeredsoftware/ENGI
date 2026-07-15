@@ -53,7 +53,7 @@ test('builds source-safe V44 PromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^v44-scaled-engineering-economy-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     V44_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v44-promotion-readiness-report.json',
+    '.proofs/v44/promotion-readiness-report.json',
   );
 
   for (const artifactPath of V44_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -76,6 +76,6 @@ test('supports V44 promotion readiness with source-safe scaled engineering econo
   assert.equal(result.data.v44.promotionReadinessReport.postPromotionPosture, 'V44 active / V45 draft');
   assert.equal(result.data.v44.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V44 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v44-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v44-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v44/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v44/canon-posture-drift-report.json']);
 });

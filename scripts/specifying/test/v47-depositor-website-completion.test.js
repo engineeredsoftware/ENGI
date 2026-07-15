@@ -16,7 +16,7 @@ import {
 test('V47 depositor website completion binds the seller launch path', () => {
   const report = buildV47DepositorWebsiteCompletion();
 
-  assert.equal(V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH, '.bitcode/v47-depositor-website-completion.json');
+  assert.equal(V47_DEPOSITOR_WEBSITE_COMPLETION_ARTIFACT_PATH, '.proofs/v47/depositor-website-completion.json');
   assert.equal(report.artifactId, 'v47-depositor-website-completion');
   assert.equal(report.schemaId, V47_DEPOSITOR_WEBSITE_COMPLETION_SCHEMA_ID);
   assert.equal(report.version, 'V47');

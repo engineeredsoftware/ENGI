@@ -1,0 +1,275 @@
+{
+  "artifactId": "v34-environment-lane-contracts",
+  "closureCommand": "pnpm run check:v34-gate2",
+  "coverage": {
+    "credentialsSerialized": false,
+    "laneCount": 7,
+    "mainnetReadyDryRunAdmission": "dry_run_only",
+    "missingLaneIds": [],
+    "observedLaneIds": [
+      "local",
+      "regtest",
+      "signet",
+      "staging-testnet",
+      "public-testnet",
+      "mainnet-ready-dry-run",
+      "value-bearing-mainnet"
+    ],
+    "protectedSourceVisible": false,
+    "valueBearingMainnetAdmission": "blocked_future_canon_required",
+    "valueBearingMainnetAdmittedHostCount": 0,
+    "valueBearingMainnetHidden": false
+  },
+  "currentTarget": "V33",
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "laneContractRoot": "v34-environment-lane-contracts:4c4874984efa54e0eac959a7",
+  "lanes": [
+    {
+      "admittedHostIds": [
+        "website",
+        "api",
+        "mcp_api",
+        "chatgpt_app",
+        "pipeline_workers",
+        "proof_services",
+        "repair_jobs",
+        "object_storage",
+        "database_projection"
+      ],
+      "bitcoinNetworkPosture": "none",
+      "laneId": "local",
+      "laneRoot": "v34-environment-lane-contract:74296544dca9b29e341ea7c8",
+      "supabaseProjectPosture": "local_process",
+      "telemetryProofHookId": "deployment.telemetry.lane.local",
+      "valueBearingAdmission": "not_value_bearing",
+      "vercelProjectPosture": "local_process",
+      "walletPolicy": "no_wallet"
+    },
+    {
+      "admittedHostIds": [
+        "api",
+        "pipeline_workers",
+        "runtime_observers",
+        "ledger_broadcasters",
+        "proof_services",
+        "repair_jobs",
+        "object_storage",
+        "database_projection",
+        "ledger_projection"
+      ],
+      "bitcoinNetworkPosture": "regtest",
+      "laneId": "regtest",
+      "laneRoot": "v34-environment-lane-contract:7d91c2c69a9939b4e6aca64c",
+      "supabaseProjectPosture": "local_project",
+      "telemetryProofHookId": "deployment.telemetry.lane.regtest",
+      "valueBearingAdmission": "not_value_bearing",
+      "vercelProjectPosture": "local_project",
+      "walletPolicy": "regtest_wallet"
+    },
+    {
+      "admittedHostIds": [
+        "api",
+        "pipeline_workers",
+        "runtime_observers",
+        "ledger_broadcasters",
+        "proof_services",
+        "repair_jobs",
+        "object_storage",
+        "database_projection",
+        "ledger_projection"
+      ],
+      "bitcoinNetworkPosture": "signet",
+      "laneId": "signet",
+      "laneRoot": "v34-environment-lane-contract:e438d47a5e32d600ef07e9cb",
+      "supabaseProjectPosture": "staging_testnet_project",
+      "telemetryProofHookId": "deployment.telemetry.lane.signet",
+      "valueBearingAdmission": "not_value_bearing",
+      "vercelProjectPosture": "staging_testnet_project",
+      "walletPolicy": "signet_wallet"
+    },
+    {
+      "admittedHostIds": [
+        "website",
+        "api",
+        "mcp_api",
+        "chatgpt_app",
+        "pipeline_workers",
+        "runtime_observers",
+        "ledger_broadcasters",
+        "proof_services",
+        "repair_jobs",
+        "object_storage",
+        "database_projection",
+        "ledger_projection"
+      ],
+      "bitcoinNetworkPosture": "signet",
+      "laneId": "staging-testnet",
+      "laneRoot": "v34-environment-lane-contract:6653d398e7f72c5c09b73c25",
+      "supabaseProjectPosture": "staging_testnet_project",
+      "telemetryProofHookId": "deployment.telemetry.lane.staging-testnet",
+      "valueBearingAdmission": "not_value_bearing",
+      "vercelProjectPosture": "staging_testnet_project",
+      "walletPolicy": "signet_wallet"
+    },
+    {
+      "admittedHostIds": [
+        "website",
+        "api",
+        "mcp_api",
+        "chatgpt_app",
+        "pipeline_workers",
+        "runtime_observers",
+        "ledger_broadcasters",
+        "proof_services",
+        "repair_jobs",
+        "object_storage",
+        "database_projection",
+        "ledger_projection"
+      ],
+      "bitcoinNetworkPosture": "testnet",
+      "laneId": "public-testnet",
+      "laneRoot": "v34-environment-lane-contract:25ca918cccc58f2b320c2235",
+      "supabaseProjectPosture": "public_testnet_project",
+      "telemetryProofHookId": "deployment.telemetry.lane.public-testnet",
+      "valueBearingAdmission": "not_value_bearing",
+      "vercelProjectPosture": "public_testnet_project",
+      "walletPolicy": "testnet_wallet"
+    },
+    {
+      "admittedHostIds": [
+        "website",
+        "api",
+        "mcp_api",
+        "chatgpt_app",
+        "pipeline_workers",
+        "runtime_observers",
+        "proof_services",
+        "repair_jobs",
+        "object_storage",
+        "database_projection",
+        "ledger_projection"
+      ],
+      "bitcoinNetworkPosture": "mainnet",
+      "laneId": "mainnet-ready-dry-run",
+      "laneRoot": "v34-environment-lane-contract:097dee47502a17c5611d5c9c",
+      "supabaseProjectPosture": "production_project_dry_run",
+      "telemetryProofHookId": "deployment.telemetry.lane.mainnet-ready-dry-run",
+      "valueBearingAdmission": "dry_run_only",
+      "vercelProjectPosture": "production_project_dry_run",
+      "walletPolicy": "mainnet_watch_only"
+    },
+    {
+      "admittedHostIds": [],
+      "bitcoinNetworkPosture": "mainnet",
+      "laneId": "value-bearing-mainnet",
+      "laneRoot": "v34-environment-lane-contract:c08b11a2a29dbe2e4c20a035",
+      "supabaseProjectPosture": "production_project_blocked",
+      "telemetryProofHookId": "deployment.telemetry.lane.value-bearing-mainnet",
+      "valueBearingAdmission": "blocked_future_canon_required",
+      "vercelProjectPosture": "production_project_blocked",
+      "walletPolicy": "mainnet_value_blocked"
+    }
+  ],
+  "passed": true,
+  "requiredLaneIds": [
+    "local",
+    "regtest",
+    "signet",
+    "staging-testnet",
+    "public-testnet",
+    "mainnet-ready-dry-run",
+    "value-bearing-mainnet"
+  ],
+  "schemaId": "bitcode.v34.environmentLaneContracts.v1",
+  "sharedFixtureFiles": [
+    "packages/btd/src/deployment-host-capability-catalog.ts",
+    "packages/btd/src/index.ts",
+    "BITCODE_SPEC_V34.md",
+    "BITCODE_SPEC_V34_DELTA.md",
+    "BITCODE_SPEC_V34_PARITY_MATRIX.md",
+    "packages/btd/__tests__/deployment-host-capability-catalog.test.ts",
+    "scripts/check-v34-gate2-host-capability-environment-lanes.mjs"
+  ],
+  "sourceEvidence": [
+    {
+      "digest": "sha256:b4e7d2ef3b7ee2ce09922527aa88a5796ae4093c1bd77ff926f822bf13038a5a",
+      "relativePath": "packages/btd/src/deployment-host-capability-catalog.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "ENVIRONMENT_LANE_CONTRACT_IDS"
+        },
+        {
+          "present": true,
+          "token": "mainnet-ready-dry-run"
+        },
+        {
+          "present": true,
+          "token": "value-bearing-mainnet"
+        },
+        {
+          "present": true,
+          "token": "blocked_future_canon_required"
+        },
+        {
+          "present": true,
+          "token": "buildEnvironmentLaneContracts"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:5d8f6f0e30ebf031fa361ce9792593d2da8b22090174c6b86d9b0e462b904319",
+      "relativePath": "BITCODE_SPEC_V34_DELTA.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "local, regtest, signet, staging-testnet, public testnet, mainnet-ready dry run, and value-bearing mainnet lanes are represented"
+        },
+        {
+          "present": true,
+          "token": ".proofs/v34/environment-lane-contracts.json"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-environment-lane-contract-metadata",
+  "testEvidence": [
+    {
+      "digest": "sha256:3f620773822bfd97dde2617fd166318991d1d454bf624c17baff96b0d2bc3532",
+      "relativePath": "packages/btd/__tests__/deployment-host-capability-catalog.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "catalogs local, regtest, signet, staging-testnet, public testnet, mainnet dry run, and blocked value-bearing mainnet lanes"
+        },
+        {
+          "present": true,
+          "token": "fails closed when value-bearing mainnet admits hosts or stops being blocked"
+        },
+        {
+          "present": true,
+          "token": "fails closed when mainnet-ready dry run is made value-bearing"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:da4dbd254c1804bb44eb3bd6e32d37f51715bf77bdacfe57c7af4ec8d1bcd8ff",
+      "relativePath": "scripts/check-v34-gate2-host-capability-environment-lanes.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "value-bearing-mainnet"
+        },
+        {
+          "present": true,
+          "token": "blocked_future_canon_required"
+        },
+        {
+          "present": true,
+          "token": "environment-lane-contracts"
+        }
+      ]
+    }
+  ],
+  "version": "V34"
+}

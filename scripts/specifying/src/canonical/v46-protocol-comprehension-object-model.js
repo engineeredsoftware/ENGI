@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_ARTIFACT_PATH =
-  '.bitcode/v46-protocol-comprehension-object-model.json';
+  '.proofs/v46/protocol-comprehension-object-model.json';
 export const V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_SCHEMA_ID =
   'bitcode.v46.protocolComprehensionObjectModel.v1';
 export const V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_VERSION = 'V46';

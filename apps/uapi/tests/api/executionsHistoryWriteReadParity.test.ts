@@ -173,7 +173,7 @@ describe('Bitcode execution-history write/read parity', () => {
       proofFamilies: [
         {
           label: 'selection-materialization',
-          artifactPath: '.bitcode/selection-and-materialization-proof.json',
+          artifactPath: '.proofs/_shared/selection-and-materialization-proof.json',
           theoremStatus: 'passed',
           replayArtifacts: '3',
         },

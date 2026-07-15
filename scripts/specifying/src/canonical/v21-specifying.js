@@ -344,255 +344,255 @@ function buildV21LikeProfile(version) {
     ],
     requiredGeneratedAppendixContractPhrases: COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
     requiredGeneratedArtifactPaths: [
-      `.bitcode/${versionLower}-spec-family-report.json`,
-      `.bitcode/${versionLower}-canonical-input-report.json`,
+      `.proofs/${versionLower}/spec-family-report.json`,
+      `.proofs/${versionLower}/canonical-input-report.json`,
       ...(version === 'V30'
         ? [
-          '.bitcode/v30-canon-posture-drift-report.json',
-          '.bitcode/v30-protocol-telemetry-proof-hooks.json'
+          '.proofs/v30/canon-posture-drift-report.json',
+          '.proofs/v30/protocol-telemetry-proof-hooks.json'
         ]
         : []),
       ...(version === 'V31'
         ? [
-          '.bitcode/v31-canon-posture-drift-report.json',
-          '.bitcode/v31-auxillaries-telemetry-proof-hooks.json'
+          '.proofs/v31/canon-posture-drift-report.json',
+          '.proofs/v31/auxillaries-telemetry-proof-hooks.json'
         ]
         : []),
       ...(version === 'V32'
         ? [
-          '.bitcode/v32-canon-posture-drift-report.json',
-          '.bitcode/v32-proof-coverage-matrix.json',
-          '.bitcode/v32-artifact-volatility-inventory.json',
-          '.bitcode/v32-deterministic-replay-report.json',
-          '.bitcode/v32-reading-pipeline-proof-coverage.json',
-          '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json',
-          '.bitcode/v32-interface-contract-regression-suite.json',
-          '.bitcode/v32-browser-accessibility-responsive-visual-proof.json',
-          '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json',
-          '.bitcode/v32-promotion-proof-generation-hardening.json',
-          '.bitcode/v32-promotion-readiness-report.json'
+          '.proofs/v32/canon-posture-drift-report.json',
+          '.proofs/v32/proof-coverage-matrix.json',
+          '.proofs/v32/artifact-volatility-inventory.json',
+          '.proofs/v32/deterministic-replay-report.json',
+          '.proofs/v32/reading-pipeline-proof-coverage.json',
+          '.proofs/v32/ledger-btd-settlement-failure-state-coverage.json',
+          '.proofs/v32/interface-contract-regression-suite.json',
+          '.proofs/v32/browser-accessibility-responsive-visual-proof.json',
+          '.proofs/v32/testnet-mainnet-readiness-rehearsal.json',
+          '.proofs/v32/promotion-proof-generation-hardening.json',
+          '.proofs/v32/promotion-readiness-report.json'
         ]
         : []),
       ...(version === 'V33'
         ? [
-          '.bitcode/v33-canon-posture-drift-report.json',
-          '.bitcode/v33-interface-contract-catalog.json',
-          '.bitcode/v33-mcp-api-tool-contracts.json',
-          '.bitcode/v33-chatgpt-app-action-contracts.json',
-          '.bitcode/v33-interface-authorization-policy.json',
-          '.bitcode/v33-read-license-assetpack-rights-contracts.json',
-          '.bitcode/v33-api-schema-compatibility-matrix.json',
-          '.bitcode/v33-interface-telemetry-proof-hooks.json',
-          '.bitcode/v33-interface-consumer-ux-regression-proof.json',
-          '.bitcode/v33-promotion-readiness-report.json'
+          '.proofs/v33/canon-posture-drift-report.json',
+          '.proofs/v33/interface-contract-catalog.json',
+          '.proofs/v33/mcp-api-tool-contracts.json',
+          '.proofs/v33/chatgpt-app-action-contracts.json',
+          '.proofs/v33/interface-authorization-policy.json',
+          '.proofs/v33/read-license-assetpack-rights-contracts.json',
+          '.proofs/v33/api-schema-compatibility-matrix.json',
+          '.proofs/v33/interface-telemetry-proof-hooks.json',
+          '.proofs/v33/interface-consumer-ux-regression-proof.json',
+          '.proofs/v33/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V34'
         ? [
-          '.bitcode/v34-deployment-host-capability-catalog.json',
-          '.bitcode/v34-environment-lane-contracts.json',
-          '.bitcode/v34-distributed-execution-runtime-receipts.json',
-          '.bitcode/v34-deployment-storage-posture.json',
-          '.bitcode/v34-secret-rotation-boundary-operations.json',
-          '.bitcode/v34-migration-cicd-approval-gates.json',
-          '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-          '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-          '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-          '.bitcode/v34-promotion-readiness-report.json'
+          '.proofs/v34/deployment-host-capability-catalog.json',
+          '.proofs/v34/environment-lane-contracts.json',
+          '.proofs/v34/distributed-execution-runtime-receipts.json',
+          '.proofs/v34/deployment-storage-posture.json',
+          '.proofs/v34/secret-rotation-boundary-operations.json',
+          '.proofs/v34/migration-cicd-approval-gates.json',
+          '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+          '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
+          '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+          '.proofs/v34/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V35'
         ? [
-          '.bitcode/v35-documentation-surface-catalog.json',
-          '.bitcode/v35-telemetry-taxonomy-catalog.json',
-          '.bitcode/v35-public-docs-usage-guides.json',
-          '.bitcode/v35-operator-runbook-catalog.json',
-          '.bitcode/v35-docs-qa-alignment-report.json',
-          '.bitcode/v35-testnet-rollout-readiness-guide.json',
-          '.bitcode/v35-telemetry-documentation-interface-integration.json',
-          '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
-          '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json'
+          '.proofs/v35/documentation-surface-catalog.json',
+          '.proofs/v35/telemetry-taxonomy-catalog.json',
+          '.proofs/v35/public-docs-usage-guides.json',
+          '.proofs/v35/operator-runbook-catalog.json',
+          '.proofs/v35/docs-qa-alignment-report.json',
+          '.proofs/v35/testnet-rollout-readiness-guide.json',
+          '.proofs/v35/telemetry-documentation-interface-integration.json',
+          '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json',
+          '.proofs/v35/documentation-telemetry-promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V36'
         ? [
-          '.bitcode/v36-exchange-activity-book.json',
-          '.bitcode/v36-exchange-intent-order-contracts.json',
-          '.bitcode/v36-exchange-rights-transfer-review.json',
-          '.bitcode/v36-pricing-liquidity-fee-quote.json',
-          '.bitcode/v36-exchange-settlement-reconciliation.json',
-          '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
-          '.bitcode/v36-exchange-ux-proof.json',
-          '.bitcode/v36-exchange-rehearsal.json',
-          '.bitcode/v36-promotion-readiness-report.json'
+          '.proofs/v36/exchange-activity-book.json',
+          '.proofs/v36/exchange-intent-order-contracts.json',
+          '.proofs/v36/exchange-rights-transfer-review.json',
+          '.proofs/v36/pricing-liquidity-fee-quote.json',
+          '.proofs/v36/exchange-settlement-reconciliation.json',
+          '.proofs/v36/exchange-dispute-repair-revenue-route.json',
+          '.proofs/v36/exchange-ux-proof.json',
+          '.proofs/v36/exchange-rehearsal.json',
+          '.proofs/v36/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V37'
         ? [
-          '.bitcode/v37-conversation-session-route-history.json',
-          '.bitcode/v37-conversation-stream-event-contract.json',
-          '.bitcode/v37-conversation-writing-workspace.json',
-          '.bitcode/v37-conversation-source-selector.json',
-          '.bitcode/v37-conversation-product-handoff.json',
-          '.bitcode/v37-conversation-persistence-privacy-redaction.json',
-          '.bitcode/v37-conversation-telemetry-proof-hooks.json',
-          '.bitcode/v37-conversation-rehearsal.json',
-          '.bitcode/v37-promotion-readiness-report.json'
+          '.proofs/v37/conversation-session-route-history.json',
+          '.proofs/v37/conversation-stream-event-contract.json',
+          '.proofs/v37/conversation-writing-workspace.json',
+          '.proofs/v37/conversation-source-selector.json',
+          '.proofs/v37/conversation-product-handoff.json',
+          '.proofs/v37/conversation-persistence-privacy-redaction.json',
+          '.proofs/v37/conversation-telemetry-proof-hooks.json',
+          '.proofs/v37/conversation-rehearsal.json',
+          '.proofs/v37/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V38'
         ? [
-          '.bitcode/v38-inference-surface-inventory.json',
-          '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-          '.bitcode/v38-prompt-benchmark-report.json',
-          '.bitcode/v38-disclosure-boundary-report.json',
-          '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-          '.bitcode/v38-read-fits-finding-search-embeddings.json',
-          '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
-          '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
-          '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json',
-          '.bitcode/v38-promotion-readiness-report.json'
+          '.proofs/v38/inference-surface-inventory.json',
+          '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+          '.proofs/v38/prompt-benchmark-report.json',
+          '.proofs/v38/disclosure-boundary-report.json',
+          '.proofs/v38/read-need-comprehension-inference-hardening.json',
+          '.proofs/v38/read-fits-finding-search-embeddings.json',
+          '.proofs/v38/assetpack-synthesis-economic-traceability.json',
+          '.proofs/v38/conversation-tool-prompt-inference-parity.json',
+          '.proofs/v38/local-staging-inference-depository-search-rehearsal.json',
+          '.proofs/v38/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V39'
         ? [
-          '.bitcode/v39-depository-supply-indexing.json',
-          '.bitcode/v39-enterprise-reading-ux-state.json',
-          '.bitcode/v39-read-need-review-resynthesis.json',
-          '.bitcode/v39-read-fits-finding-runtime.json',
-          '.bitcode/v39-assetpack-preview-quote-boundary.json',
-          '.bitcode/v39-settlement-rights-delivery.json',
-          '.bitcode/v39-operational-telemetry-repair-readback.json',
-          '.bitcode/v39-interface-conversation-product-parity.json',
-          '.bitcode/v39-local-staging-reading-rehearsal.json',
-          '.bitcode/v39-promotion-readiness-report.json'
+          '.proofs/v39/depository-supply-indexing.json',
+          '.proofs/v39/enterprise-reading-ux-state.json',
+          '.proofs/v39/read-need-review-resynthesis.json',
+          '.proofs/v39/read-fits-finding-runtime.json',
+          '.proofs/v39/assetpack-preview-quote-boundary.json',
+          '.proofs/v39/settlement-rights-delivery.json',
+          '.proofs/v39/operational-telemetry-repair-readback.json',
+          '.proofs/v39/interface-conversation-product-parity.json',
+          '.proofs/v39/local-staging-reading-rehearsal.json',
+          '.proofs/v39/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V40'
         ? [
-          '.bitcode/v40-test-inventory-coverage-matrix.json',
-          '.bitcode/v40-unit-coverage-inventory.json',
-          '.bitcode/v40-api-integration-contracts.json',
-          '.bitcode/v40-reading-pipeline-integration-coverage.json',
-          '.bitcode/v40-conversation-terminal-integration.json',
-          '.bitcode/v40-browser-e2e-visual-proof.json',
-          '.bitcode/v40-ledger-storage-sync.json',
-          '.bitcode/v40-local-staging-rehearsal-automation.json',
-          '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
-          '.bitcode/v40-promotion-readiness-report.json'
+          '.proofs/v40/test-inventory-coverage-matrix.json',
+          '.proofs/v40/unit-coverage-inventory.json',
+          '.proofs/v40/api-integration-contracts.json',
+          '.proofs/v40/reading-pipeline-integration-coverage.json',
+          '.proofs/v40/conversation-terminal-integration.json',
+          '.proofs/v40/browser-e2e-visual-proof.json',
+          '.proofs/v40/ledger-storage-sync.json',
+          '.proofs/v40/local-staging-rehearsal-automation.json',
+          '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json',
+          '.proofs/v40/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V41'
         ? [
-          '.bitcode/v41-promptpart-prompt-inventory.json',
-          '.bitcode/v41-registry-interpolation-contracts.json',
-          '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-          '.bitcode/v41-readneed-prompt-hardening.json',
-          '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-          '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
-          '.bitcode/v41-prompt-program-benchmark-report.json',
-          '.bitcode/v41-promotion-readiness-report.json'
+          '.proofs/v41/promptpart-prompt-inventory.json',
+          '.proofs/v41/registry-interpolation-contracts.json',
+          '.proofs/v41/reading-prompt-benchmark-baselines.json',
+          '.proofs/v41/readneed-prompt-hardening.json',
+          '.proofs/v41/readfitsfinding-prompt-hardening.json',
+          '.proofs/v41/conversation-tool-interface-prompt-rewrite.json',
+          '.proofs/v41/prompt-program-benchmark-report.json',
+          '.proofs/v41/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V42'
         ? [
-          '.bitcode/v42-depositing-shortest-path.json',
-          '.bitcode/v42-reading-shortest-path-state-machine.json',
-          '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
-          '.bitcode/v42-readfitsfinding-preview-quote.json',
-          '.bitcode/v42-settlement-rights-delivery.json',
-          '.bitcode/v42-ai-reading-demonstration.json',
-          '.bitcode/v42-local-staging-mvp-rehearsal.json',
-          '.bitcode/v42-promotion-readiness-report.json'
+          '.proofs/v42/depositing-shortest-path.json',
+          '.proofs/v42/reading-shortest-path-state-machine.json',
+          '.proofs/v42/readneed-review-resynthesis-product-closure.json',
+          '.proofs/v42/readfitsfinding-preview-quote.json',
+          '.proofs/v42/settlement-rights-delivery.json',
+          '.proofs/v42/ai-reading-demonstration.json',
+          '.proofs/v42/local-staging-mvp-rehearsal.json',
+          '.proofs/v42/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V43'
         ? [
-          '.bitcode/v43-route-vocabulary-inventory.json',
-          '.bitcode/v43-packs-activity-master-detail.json',
-          '.bitcode/v43-read-route-five-step-ux.json',
-          '.bitcode/v43-deposit-route-options.json',
-          '.bitcode/v43-deposit-policy-compensation.json',
-          '.bitcode/v43-deposit-option-admission.json',
-          '.bitcode/v43-route-ux-product-excellence.json',
-          '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json',
-          '.bitcode/v43-promotion-readiness-report.json'
+          '.proofs/v43/route-vocabulary-inventory.json',
+          '.proofs/v43/packs-activity-master-detail.json',
+          '.proofs/v43/read-route-five-step-ux.json',
+          '.proofs/v43/deposit-route-options.json',
+          '.proofs/v43/deposit-policy-compensation.json',
+          '.proofs/v43/deposit-option-admission.json',
+          '.proofs/v43/route-ux-product-excellence.json',
+          '.proofs/v43/cross-route-rehearsal-telemetry-repair.json',
+          '.proofs/v43/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V44'
         ? [
-          '.bitcode/v44-economic-domain-model.json',
-          '.bitcode/v44-packs-portfolio-market-intelligence.json',
-          '.bitcode/v44-reading-budget-quote-policy.json',
-          '.bitcode/v44-depositor-earnings-supply-opportunities.json',
-          '.bitcode/v44-btd-btc-compensation-statements.json',
-          '.bitcode/v44-organization-policy-wallet-authority.json',
-          '.bitcode/v44-enterprise-product-ux.json',
-          '.bitcode/v44-scaled-network-rehearsal.json',
-          '.bitcode/v44-promotion-readiness-report.json'
+          '.proofs/v44/economic-domain-model.json',
+          '.proofs/v44/packs-portfolio-market-intelligence.json',
+          '.proofs/v44/reading-budget-quote-policy.json',
+          '.proofs/v44/depositor-earnings-supply-opportunities.json',
+          '.proofs/v44/btd-btc-compensation-statements.json',
+          '.proofs/v44/organization-policy-wallet-authority.json',
+          '.proofs/v44/enterprise-product-ux.json',
+          '.proofs/v44/scaled-network-rehearsal.json',
+          '.proofs/v44/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V45'
         ? [
-          '.bitcode/v45-inference-synthesis-proof.json',
-          '.bitcode/v45-prompt-completeness-proof.json',
-          '.bitcode/v45-static-code-analysis-proof.json',
-          '.bitcode/v45-verification-decisions-proof.json',
-          '.bitcode/v45-selection-materialization-proof.json',
-          '.bitcode/v45-authorization-sensitive-flow-proof.json',
-          '.bitcode/v45-settlement-source-to-shares-proof.json',
-          '.bitcode/v45-disclosure-boundary-proof.json',
-          '.bitcode/v45-proof-contract-proof.json',
-          '.bitcode/v45-source-safe-e2e-rehearsal.json',
-          '.bitcode/v45-promotion-readiness-report.json'
+          '.proofs/v45/inference-synthesis-proof.json',
+          '.proofs/v45/prompt-completeness-proof.json',
+          '.proofs/v45/static-code-analysis-proof.json',
+          '.proofs/v45/verification-decisions-proof.json',
+          '.proofs/v45/selection-materialization-proof.json',
+          '.proofs/v45/authorization-sensitive-flow-proof.json',
+          '.proofs/v45/settlement-source-to-shares-proof.json',
+          '.proofs/v45/disclosure-boundary-proof.json',
+          '.proofs/v45/proof-contract-proof.json',
+          '.proofs/v45/source-safe-e2e-rehearsal.json',
+          '.proofs/v45/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V46'
         ? [
-          '.bitcode/v46-protocol-comprehension-object-model.json',
-          '.bitcode/v46-public-operator-claim-boundaries.json',
-          '.bitcode/v46-product-route-comprehension-readback.json',
-          '.bitcode/v46-interface-claim-contracts.json',
-          '.bitcode/v46-proof-readback-operator-explanation.json',
-          '.bitcode/v46-local-interface-comprehension-rehearsal.json',
-          '.bitcode/v46-promotion-readiness-report.json'
+          '.proofs/v46/protocol-comprehension-object-model.json',
+          '.proofs/v46/public-operator-claim-boundaries.json',
+          '.proofs/v46/product-route-comprehension-readback.json',
+          '.proofs/v46/interface-claim-contracts.json',
+          '.proofs/v46/proof-readback-operator-explanation.json',
+          '.proofs/v46/local-interface-comprehension-rehearsal.json',
+          '.proofs/v46/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V47'
         ? [
-          '.bitcode/v47-feature-excess-alignment-audit.json',
-          '.bitcode/v47-seller-buyer-state-machine-law.json',
-          '.bitcode/v47-depositor-website-completion.json',
-          '.bitcode/v47-reader-website-completion.json',
-          '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
-          '.bitcode/v47-e2e-ip-selling-buying-tests.json',
-          '.bitcode/v47-landing-public-launch-messaging.json',
-          '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
-          '.bitcode/v47-promotion-readiness-report.json'
+          '.proofs/v47/feature-excess-alignment-audit.json',
+          '.proofs/v47/seller-buyer-state-machine-law.json',
+          '.proofs/v47/depositor-website-completion.json',
+          '.proofs/v47/reader-website-completion.json',
+          '.proofs/v47/packs-auxillaries-commercial-dashboard.json',
+          '.proofs/v47/e2e-ip-selling-buying-tests.json',
+          '.proofs/v47/landing-public-launch-messaging.json',
+          '.proofs/v47/staging-testnet-deployment-rehearsal.json',
+          '.proofs/v47/promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V26'
         ? [
-          '.bitcode/terminal-composition-proof.json',
-          '.bitcode/conversations-continuity-proof.json',
-          '.bitcode/environment-mode-coherence-proof.json',
-          '.bitcode/v26-gate-checkpoint-report.json',
-          '.bitcode/runs-pipelines-totality-proof.json',
-          '.bitcode/persistence-schema-totality-proof.json',
-          '.bitcode/prompt-system-totality-proof.json',
-          '.bitcode/inference-implementation-records-proof.json',
-          '.bitcode/fourth-gate-reclosure-review-proof.json',
-          '.bitcode/source-to-shares-fifth-gate-proof.json',
-          '.bitcode/v26-product-readiness-audit.json',
-          '.bitcode/fifth-gate-closure-deepening-proof.json',
-          '.bitcode/fifth-gate-closure-proof.json',
-          '.bitcode/sixth-gate-mvp-closure-proof.json',
-          '.bitcode/seventh-gate-commercial-testnet-launch-proof.json',
-          '.bitcode/prompt-space-completeness-proof.json',
-          '.bitcode/retained-package-admissibility-proof.json',
-          '.bitcode/system-reform-admissibility-proof.json',
-          '.bitcode/whole-repository-production-satisfaction-proof.json',
-          '.bitcode/v26-total-closure-proof.json'
+          '.proofs/_shared/terminal-composition-proof.json',
+          '.proofs/_shared/conversations-continuity-proof.json',
+          '.proofs/_shared/environment-mode-coherence-proof.json',
+          '.proofs/v26/gate-checkpoint-report.json',
+          '.proofs/_shared/runs-pipelines-totality-proof.json',
+          '.proofs/_shared/persistence-schema-totality-proof.json',
+          '.proofs/_shared/prompt-system-totality-proof.json',
+          '.proofs/_shared/inference-implementation-records-proof.json',
+          '.proofs/_shared/fourth-gate-reclosure-review-proof.json',
+          '.proofs/_shared/source-to-shares-fifth-gate-proof.json',
+          '.proofs/v26/product-readiness-audit.json',
+          '.proofs/_shared/fifth-gate-closure-deepening-proof.json',
+          '.proofs/_shared/fifth-gate-closure-proof.json',
+          '.proofs/_shared/sixth-gate-mvp-closure-proof.json',
+          '.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json',
+          '.proofs/_shared/prompt-space-completeness-proof.json',
+          '.proofs/_shared/retained-package-admissibility-proof.json',
+          '.proofs/_shared/system-reform-admissibility-proof.json',
+          '.proofs/_shared/whole-repository-production-satisfaction-proof.json',
+          '.proofs/v26/total-closure-proof.json'
         ]
         : [])
     ],
@@ -605,12 +605,12 @@ function buildV21LikeProfile(version) {
     requiredFailClosedAppendixPhrases: COMMON_REQUIRED_FAIL_CLOSED_APPENDIX_PHRASES,
     assetPackAppendixHeading: 'Appendix K. Source-bearing AssetPack and artifact contract catalog',
     requiredAssetPackAppendixPhrases: [
-      '.bitcode/asset-pack.lock.json',
-      '.bitcode/selected-source-material.json',
-      '.bitcode/verification-report.json',
-      '.bitcode/source-to-shares.json',
-      '.bitcode/projection-policy.json',
-      '.bitcode/system-proof-bundle.json',
+      '.proofs/_shared/asset-pack.lock.json',
+      '.proofs/_shared/selected-source-material.json',
+      '.proofs/_shared/verification-report.json',
+      '.proofs/_shared/source-to-shares.json',
+      '.proofs/_shared/projection-policy.json',
+      '.proofs/_shared/system-proof-bundle.json',
       // Document prose cites basename; filesystem path is under .specifications/.
       specMarkdownFilename(version, '_PROVEN')
     ],
@@ -666,11 +666,11 @@ function buildV22Profile() {
     ],
     requiredGeneratedArtifactPaths: [
       ...base.requiredGeneratedArtifactPaths,
-      '.bitcode/v22-canon-posture-drift-report.json'
+      '.proofs/v22/canon-posture-drift-report.json'
     ],
     requiredAssetPackAppendixPhrases: [
       ...base.requiredAssetPackAppendixPhrases,
-      '.bitcode/v22-canon-posture-drift-report.json'
+      '.proofs/v22/canon-posture-drift-report.json'
     ]
   };
 }
@@ -725,9 +725,9 @@ function buildV23Profile() {
       'V23 BTC artifact projection matrix'
     ],
     requiredGeneratedAppendixContractPhrases: [
-      '.bitcode/v23-spec-family-report.json',
-      '.bitcode/v23-canonical-input-report.json',
-      '.bitcode/v23-canon-posture-drift-report.json',
+      '.proofs/v23/spec-family-report.json',
+      '.proofs/v23/canonical-input-report.json',
+      '.proofs/v23/canon-posture-drift-report.json',
       'ENGI_SPEC_V23_PROVEN.md',
       'compute-reality-manifest',
       'storage-reality-manifest',
@@ -736,9 +736,9 @@ function buildV23Profile() {
       'bitcoin-settlement-observation'
     ],
     requiredGeneratedArtifactPaths: [
-      '.bitcode/v23-spec-family-report.json',
-      '.bitcode/v23-canonical-input-report.json',
-      '.bitcode/v23-canon-posture-drift-report.json'
+      '.proofs/v23/spec-family-report.json',
+      '.proofs/v23/canonical-input-report.json',
+      '.proofs/v23/canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       'authenticated repo supply',
@@ -763,16 +763,16 @@ function buildV23Profile() {
     ],
     assetPackAppendixHeading: 'V23 artifact family additions',
     requiredAssetPackAppendixPhrases: [
-      '.bitcode/compute-reality-manifest.json',
-      '.bitcode/storage-reality-manifest.json',
-      '.bitcode/bitcoin-commitment-manifest.json',
-      '.bitcode/bitcoin-treasury-policy.json',
-      '.bitcode/bitcoin-anchor.json',
-      '.bitcode/bitcoin-bounded-public-anchor.json',
-      '.bitcode/bitcoin-settlement-intent.json',
-      '.bitcode/bitcoin-settlement-observation.json',
-      '.bitcode/bitcoin-audit-anchor-proof.json',
-      '.bitcode/bitcoin-settlement-interface-proof.json'
+      '.proofs/_shared/compute-reality-manifest.json',
+      '.proofs/_shared/storage-reality-manifest.json',
+      '.proofs/_shared/bitcoin-commitment-manifest.json',
+      '.proofs/_shared/bitcoin-treasury-policy.json',
+      '.proofs/_shared/bitcoin-anchor.json',
+      '.proofs/_shared/bitcoin-bounded-public-anchor.json',
+      '.proofs/_shared/bitcoin-settlement-intent.json',
+      '.proofs/_shared/bitcoin-settlement-observation.json',
+      '.proofs/_shared/bitcoin-audit-anchor-proof.json',
+      '.proofs/_shared/bitcoin-settlement-interface-proof.json'
     ],
     requiredDeltaSections: [
       'Status',
@@ -843,9 +843,9 @@ function buildV24Profile() {
     ],
     requiredGeneratedAppendixContractPhrases: [
       ...COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
-      '.bitcode/v24-spec-family-report.json',
-      '.bitcode/v24-canonical-input-report.json',
-      '.bitcode/v24-canon-posture-drift-report.json',
+      '.proofs/v24/spec-family-report.json',
+      '.proofs/v24/canonical-input-report.json',
+      '.proofs/v24/canon-posture-drift-report.json',
       'ENGI_SPEC_V24_PROVEN.md',
       'external-environment-profile',
       'external-telemetry-summary',
@@ -858,9 +858,9 @@ function buildV24Profile() {
       'github-live-session'
     ],
     requiredGeneratedArtifactPaths: [
-      '.bitcode/v24-spec-family-report.json',
-      '.bitcode/v24-canonical-input-report.json',
-      '.bitcode/v24-canon-posture-drift-report.json'
+      '.proofs/v24/spec-family-report.json',
+      '.proofs/v24/canonical-input-report.json',
+      '.proofs/v24/canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       ...COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES,
@@ -883,34 +883,34 @@ function buildV24Profile() {
     ],
     requiredAssetPackAppendixPhrases: [
       ...base.requiredAssetPackAppendixPhrases,
-      '.bitcode/external-environment-profile.json',
-      '.bitcode/external-execution-policy.json',
-      '.bitcode/external-telemetry-policy.json',
-      '.bitcode/external-telemetry-summary.json',
-      '.bitcode/external-execution-ledger.json',
-      '.bitcode/external-reconciliation-log.json',
-      '.bitcode/bitcoin-network-intent.json',
-      '.bitcode/bitcoin-network-execution.json',
-      '.bitcode/bitcoin-network-observation.json',
-      '.bitcode/repeated-read-payment-intent.json',
-      '.bitcode/repeated-read-payment-execution.json',
-      '.bitcode/repeated-read-payment-observation.json',
-      '.bitcode/sidechain-execution-receipt.json',
-      '.bitcode/compute-container-manifest.json',
-      '.bitcode/compute-container-execution.json',
-      '.bitcode/storage-container-manifest.json',
-      '.bitcode/storage-publication-receipt.json',
-      '.bitcode/storage-retrieval-receipt.json',
-      '.bitcode/github-app-binding.json',
-      '.bitcode/github-live-session.json',
-      '.bitcode/github-inventory-fetch-receipt.json',
-      '.bitcode/github-artifact-fetch-receipt.json',
-      '.bitcode/github-branch-publication-receipt.json',
-      '.bitcode/github-pr-update-receipt.json',
-      '.bitcode/external-realization-proof.json',
-      '.bitcode/container-reality-proof.json',
-      '.bitcode/github-live-interface-proof.json',
-      '.bitcode/v24-canon-posture-drift-report.json',
+      '.proofs/_shared/external-environment-profile.json',
+      '.proofs/_shared/external-execution-policy.json',
+      '.proofs/_shared/external-telemetry-policy.json',
+      '.proofs/_shared/external-telemetry-summary.json',
+      '.proofs/_shared/external-execution-ledger.json',
+      '.proofs/_shared/external-reconciliation-log.json',
+      '.proofs/_shared/bitcoin-network-intent.json',
+      '.proofs/_shared/bitcoin-network-execution.json',
+      '.proofs/_shared/bitcoin-network-observation.json',
+      '.proofs/_shared/repeated-read-payment-intent.json',
+      '.proofs/_shared/repeated-read-payment-execution.json',
+      '.proofs/_shared/repeated-read-payment-observation.json',
+      '.proofs/_shared/sidechain-execution-receipt.json',
+      '.proofs/_shared/compute-container-manifest.json',
+      '.proofs/_shared/compute-container-execution.json',
+      '.proofs/_shared/storage-container-manifest.json',
+      '.proofs/_shared/storage-publication-receipt.json',
+      '.proofs/_shared/storage-retrieval-receipt.json',
+      '.proofs/_shared/github-app-binding.json',
+      '.proofs/_shared/github-live-session.json',
+      '.proofs/_shared/github-inventory-fetch-receipt.json',
+      '.proofs/_shared/github-artifact-fetch-receipt.json',
+      '.proofs/_shared/github-branch-publication-receipt.json',
+      '.proofs/_shared/github-pr-update-receipt.json',
+      '.proofs/_shared/external-realization-proof.json',
+      '.proofs/_shared/container-reality-proof.json',
+      '.proofs/_shared/github-live-interface-proof.json',
+      '.proofs/v24/canon-posture-drift-report.json',
       'ENGI_SPEC_V24_PROVEN.md'
     ],
     requiredDeltaSections: [
@@ -963,22 +963,22 @@ function buildV25Profile() {
     requiredProofFamilyMatrixHeaders: [],
     requiredGeneratedArtifactCatalogSections: [],
     requiredGeneratedAppendixContractPhrases: [
-      '.bitcode/v25-spec-family-report.json',
-      '.bitcode/v25-canonical-input-report.json',
-      '.bitcode/v25-canon-posture-drift-report.json',
+      '.proofs/v25/spec-family-report.json',
+      '.proofs/v25/canonical-input-report.json',
+      '.proofs/v25/canon-posture-drift-report.json',
       '_legacy/ENGI_SPEC_V25_PROVEN.md',
       'Bitcode',
       'BTD'
     ],
     requiredGeneratedArtifactPaths: [
-      '.bitcode/v25-spec-family-report.json',
-      '.bitcode/v25-canonical-input-report.json',
-      '.bitcode/v25-canon-posture-drift-report.json'
+      '.proofs/v25/spec-family-report.json',
+      '.proofs/v25/canonical-input-report.json',
+      '.proofs/v25/canon-posture-drift-report.json'
     ],
     requiredSubsystemCoveragePhrases: [
       'Bitcode',
       'BTD',
-      '.bitcode/*',
+      '.proofs/*',
       'ENGI_SPEC_V25*',
       'runtime',
       'API',
@@ -1000,7 +1000,7 @@ function buildV25Profile() {
     ],
     assetPackAppendixHeading: 'V25 rename surface catalog',
     requiredAssetPackAppendixPhrases: [
-      '.bitcode/*',
+      '.proofs/*',
       'generated proof/report titles',
       'runtime posture strings',
       'API summary labels',
@@ -1054,19 +1054,19 @@ function buildV20ProperProfile() {
     ],
     requiredGeneratedAppendixContractPhrases: COMMON_REQUIRED_GENERATED_APPENDIX_CONTRACT_PHRASES,
     requiredGeneratedArtifactPaths: [
-      '.bitcode/v19-contract-change-ledger.json',
-      '.bitcode/v19-negative-proof-mutation-matrix.json',
-      '.bitcode/v19-proof-member-semantic-matrix.json',
-      '.bitcode/v19-theorem-evidence-matrix.json',
-      '.bitcode/v19-state-machine-matrix.json',
-      '.bitcode/v19-deterministic-replay-report.json',
-      '.bitcode/v19-volatility-inventory.json',
-      '.bitcode/v20-operator-acceptance-transcript.json',
-      '.bitcode/v20-visual-regression-report.json',
-      '.bitcode/v20-accessibility-report.json',
-      '.bitcode/v20-performance-budget-report.json',
-      '.bitcode/v20-projection-quality-smoke-matrix.json',
-      '.bitcode/v20-quality-summary.json',
+      '.proofs/v19/contract-change-ledger.json',
+      '.proofs/v19/negative-proof-mutation-matrix.json',
+      '.proofs/v19/proof-member-semantic-matrix.json',
+      '.proofs/v19/theorem-evidence-matrix.json',
+      '.proofs/v19/state-machine-matrix.json',
+      '.proofs/v19/deterministic-replay-report.json',
+      '.proofs/v19/volatility-inventory.json',
+      '.proofs/v20/operator-acceptance-transcript.json',
+      '.proofs/v20/visual-regression-report.json',
+      '.proofs/v20/accessibility-report.json',
+      '.proofs/v20/performance-budget-report.json',
+      '.proofs/v20/projection-quality-smoke-matrix.json',
+      '.proofs/v20/quality-summary.json',
       'ENGI_SPEC_V20_PROVEN.md'
     ],
     requiredSubsystemCoveragePhrases: COMMON_REQUIRED_SUBSYSTEM_COVERAGE_PHRASES,
@@ -1101,12 +1101,12 @@ function buildV20ProperProfile() {
     ],
     assetPackAppendixHeading: 'Appendix K. Source-bearing AssetPack and artifact contract catalog',
     requiredAssetPackAppendixPhrases: [
-      '.bitcode/asset-pack.lock.json',
-      '.bitcode/selected-source-material.json',
-      '.bitcode/verification-report.json',
-      '.bitcode/source-to-shares.json',
-      '.bitcode/projection-policy.json',
-      '.bitcode/system-proof-bundle.json',
+      '.proofs/_shared/asset-pack.lock.json',
+      '.proofs/_shared/selected-source-material.json',
+      '.proofs/_shared/verification-report.json',
+      '.proofs/_shared/source-to-shares.json',
+      '.proofs/_shared/projection-policy.json',
+      '.proofs/_shared/system-proof-bundle.json',
       'ENGI_SPEC_V20_PROVEN.md'
     ],
     requiredDeltaSections: [
@@ -1126,8 +1126,8 @@ function buildV20ProperProfile() {
       'completion condition'
     ],
     forbiddenPhrases: [
-      '.bitcode/v21-spec-family-report.json',
-      '.bitcode/v21-canonical-input-report.json',
+      '.proofs/v21/spec-family-report.json',
+      '.proofs/v21/canonical-input-report.json',
       'ENGI_SPEC_V21_PROVEN.md'
     ]
   };
@@ -1739,23 +1739,23 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   const artifacts = [];
   if (currentTarget === 'V19') {
     artifacts.push(
-      '.bitcode/v19-contract-change-ledger.json',
-      '.bitcode/v19-deterministic-replay-report.json',
-      '.bitcode/v19-negative-proof-mutation-matrix.json',
-      '.bitcode/v19-proof-member-semantic-matrix.json',
-      '.bitcode/v19-state-machine-matrix.json',
-      '.bitcode/v19-theorem-evidence-matrix.json',
-      '.bitcode/v19-volatility-inventory.json'
+      '.proofs/v19/contract-change-ledger.json',
+      '.proofs/v19/deterministic-replay-report.json',
+      '.proofs/v19/negative-proof-mutation-matrix.json',
+      '.proofs/v19/proof-member-semantic-matrix.json',
+      '.proofs/v19/state-machine-matrix.json',
+      '.proofs/v19/theorem-evidence-matrix.json',
+      '.proofs/v19/volatility-inventory.json'
     );
   }
   if (currentTarget === 'V20') {
     artifacts.push(
-      '.bitcode/v20-operator-acceptance-transcript.json',
-      '.bitcode/v20-visual-regression-report.json',
-      '.bitcode/v20-accessibility-report.json',
-      '.bitcode/v20-performance-budget-report.json',
-      '.bitcode/v20-projection-quality-smoke-matrix.json',
-      '.bitcode/v20-quality-summary.json'
+      '.proofs/v20/operator-acceptance-transcript.json',
+      '.proofs/v20/visual-regression-report.json',
+      '.proofs/v20/accessibility-report.json',
+      '.proofs/v20/performance-budget-report.json',
+      '.proofs/v20/projection-quality-smoke-matrix.json',
+      '.proofs/v20/quality-summary.json'
     );
   }
   if (currentTarget === 'V21') {
@@ -1986,7 +1986,7 @@ export function buildV21GeneratedArtifactContents({
   };
 
   return {
-    [`.bitcode/${versionLower}-spec-family-report.json`]: `${JSON.stringify(specFamilyArtifact, null, 2)}\n`,
-    [`.bitcode/${versionLower}-canonical-input-report.json`]: `${JSON.stringify(canonicalInputArtifact, null, 2)}\n`
+    [`.proofs/${versionLower}/spec-family-report.json`]: `${JSON.stringify(specFamilyArtifact, null, 2)}\n`,
+    [`.proofs/${versionLower}/canonical-input-report.json`]: `${JSON.stringify(canonicalInputArtifact, null, 2)}\n`
   };
 }

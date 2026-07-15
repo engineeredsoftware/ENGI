@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json';
+const ARTIFACT_PATH = '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json';
 
 const REQUIRED_REHEARSAL_IDS = [
   'local_telemetry_documentation_rehearsal',

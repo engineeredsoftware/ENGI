@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-operator-runbook-catalog.json';
+const ARTIFACT_PATH = '.proofs/v35/operator-runbook-catalog.json';
 
 const REQUIRED_RUNBOOK_IDS = [
   'runbook.pipeline.execution-repair',

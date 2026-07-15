@@ -95,5 +95,5 @@ test('keeps market activity detail source-safe across settlement and repair rows
   assert.equal(activityBook.sourceEvidence.every((entry) => entry.allSourceRootsPresent), true);
   assert.equal(activityBook.requiredFilterIds.includes('activity_kind'), true);
   assert.equal(activityBook.requiredDetailSectionIds.includes('proof_roots'), true);
-  assert.equal(EXCHANGE_ACTIVITY_BOOK_ARTIFACT_PATH, '.bitcode/v36-exchange-activity-book.json');
+  assert.equal(EXCHANGE_ACTIVITY_BOOK_ARTIFACT_PATH, '.proofs/v36/exchange-activity-book.json');
 });

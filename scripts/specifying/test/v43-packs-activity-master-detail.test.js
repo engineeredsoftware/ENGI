@@ -15,7 +15,7 @@ import {
 test('V43 packs activity master-detail artifact binds source-safe route/API/UI contracts', () => {
   const report = buildV43PacksActivityMasterDetail();
 
-  assert.equal(V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH, '.bitcode/v43-packs-activity-master-detail.json');
+  assert.equal(V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH, '.proofs/v43/packs-activity-master-detail.json');
   assert.equal(report.artifactId, 'v43-packs-activity-master-detail');
   assert.equal(report.schemaId, V43_PACKS_ACTIVITY_MASTER_DETAIL_SCHEMA_ID);
   assert.equal(report.version, 'V43');

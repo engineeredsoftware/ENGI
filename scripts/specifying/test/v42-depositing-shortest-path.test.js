@@ -13,7 +13,7 @@ import {
 test('V42 Depositing shortest path report binds admission proof and compensation visibility', () => {
   const report = buildV42DepositingShortestPath();
 
-  assert.equal(V42_DEPOSITING_SHORTEST_PATH_ARTIFACT_PATH, '.bitcode/v42-depositing-shortest-path.json');
+  assert.equal(V42_DEPOSITING_SHORTEST_PATH_ARTIFACT_PATH, '.proofs/v42/depositing-shortest-path.json');
   assert.equal(report.artifactId, 'v42-depositing-shortest-path');
   assert.equal(report.schemaId, V42_DEPOSITING_SHORTEST_PATH_SCHEMA_ID);
   assert.equal(report.version, 'V42');

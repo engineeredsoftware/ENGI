@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH =
-  '.bitcode/v43-packs-activity-master-detail.json';
+  '.proofs/v43/packs-activity-master-detail.json';
 export const V43_PACKS_ACTIVITY_MASTER_DETAIL_SCHEMA_ID =
   'bitcode.v43.packsActivityMasterDetail.v1';
 export const V43_PACKS_ACTIVITY_MASTER_DETAIL_VERSION = 'V43';

@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v39-promotion-readiness-report.json';
+  '.proofs/v39/promotion-readiness-report.json';
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v39.commercialReadingPromotionReadinessReport.v1';
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_VERSION = 'V39';
@@ -18,22 +18,22 @@ export const V39_COMMERCIAL_READING_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-commercial-reading-promotion-readiness-metadata';
 
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v39-depository-supply-indexing.json',
-  '.bitcode/v39-enterprise-reading-ux-state.json',
-  '.bitcode/v39-read-need-review-resynthesis.json',
-  '.bitcode/v39-read-fits-finding-runtime.json',
-  '.bitcode/v39-assetpack-preview-quote-boundary.json',
-  '.bitcode/v39-settlement-rights-delivery.json',
-  '.bitcode/v39-operational-telemetry-repair-readback.json',
-  '.bitcode/v39-interface-conversation-product-parity.json',
-  '.bitcode/v39-local-staging-reading-rehearsal.json',
+  '.proofs/v39/depository-supply-indexing.json',
+  '.proofs/v39/enterprise-reading-ux-state.json',
+  '.proofs/v39/read-need-review-resynthesis.json',
+  '.proofs/v39/read-fits-finding-runtime.json',
+  '.proofs/v39/assetpack-preview-quote-boundary.json',
+  '.proofs/v39/settlement-rights-delivery.json',
+  '.proofs/v39/operational-telemetry-repair-readback.json',
+  '.proofs/v39/interface-conversation-product-parity.json',
+  '.proofs/v39/local-staging-reading-rehearsal.json',
 ]);
 
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V39_PROVEN.md',
-  '.bitcode/v39-spec-family-report.json',
-  '.bitcode/v39-canonical-input-report.json',
-  '.bitcode/v39-canon-posture-drift-report.json',
+  '.proofs/v39/spec-family-report.json',
+  '.proofs/v39/canonical-input-report.json',
+  '.proofs/v39/canon-posture-drift-report.json',
   V39_COMMERCIAL_READING_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -399,7 +399,7 @@ export function buildV39CommercialReadingPromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V39_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v39-',
+      generatedArtifactPrefix: '.proofs/v39/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

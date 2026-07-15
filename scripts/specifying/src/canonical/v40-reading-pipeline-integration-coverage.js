@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_READING_PIPELINE_INTEGRATION_COVERAGE_ARTIFACT_PATH =
-  '.bitcode/v40-reading-pipeline-integration-coverage.json';
+  '.proofs/v40/reading-pipeline-integration-coverage.json';
 export const V40_READING_PIPELINE_INTEGRATION_COVERAGE_SCHEMA_ID =
   'bitcode.v40.readingPipelineIntegrationCoverage.v1';
 export const V40_READING_PIPELINE_INTEGRATION_COVERAGE_VERSION = 'V40';

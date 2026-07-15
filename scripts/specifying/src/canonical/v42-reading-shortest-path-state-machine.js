@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V42_READING_SHORTEST_PATH_STATE_MACHINE_ARTIFACT_PATH =
-  '.bitcode/v42-reading-shortest-path-state-machine.json';
+  '.proofs/v42/reading-shortest-path-state-machine.json';
 export const V42_READING_SHORTEST_PATH_STATE_MACHINE_SCHEMA_ID =
   'bitcode.v42.readingShortestPathStateMachine.v1';
 export const V42_READING_SHORTEST_PATH_SCHEMA_ID =

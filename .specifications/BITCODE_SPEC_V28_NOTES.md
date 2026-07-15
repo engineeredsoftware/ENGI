@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `1153286d0785b0d760ea392918575f0083cd570f`
 - Prior canonical anchor: `BITCODE_SPEC_V27.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v28/spec-family-report.json`, `.proofs/v28/canonical-input-report.json`, `.proofs/v28/canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
 - Source parity state: V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family
 - Scope: V28 canonical notes for commercial Protocol implementation, Terminal MVP QA, MCP API and ChatGPT App MVP readiness, Reading pipeline product gates, and promotion-proof metadevelopment
 - Active canonical pointer: `BITCODE_SPEC.txt` -> `V27`.
@@ -441,7 +441,7 @@ The V28 handoff is grounded in:
 
 - `BITCODE_SPEC.txt` now pointing to `V27`.
 - V27 promoted family: `BITCODE_SPEC_V27.md`, `BITCODE_SPEC_V27_DELTA.md`, `BITCODE_SPEC_V27_NOTES.md`, `BITCODE_SPEC_V27_PARITY_MATRIX.md`, and `BITCODE_SPEC_V27_PROVEN.md`.
-- V27 closure proofs under `.bitcode/v27-*`.
+- V27 closure proofs under `.proofs/v27/*`.
 - V26 promoted family: `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_DELTA.md`, `BITCODE_SPEC_V26_NOTES.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, and `BITCODE_SPEC_V26_PROVEN.md`.
 - V26 supplementary protocol-demonstration docs such as `V26_APPLICATION_SYSTEMS.md`, `V26_PROOF_SURFACES.md`, and `V26_REFORM_STRATEGY.md`.
 - Active source excluding `_legacy/**`.

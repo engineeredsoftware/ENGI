@@ -15,7 +15,7 @@ import {
 test('V39 local/staging Reading rehearsal binds lanes, stages, and source-safe proof posture', () => {
   const report = buildV39LocalStagingReadingRehearsal();
 
-  assert.equal(V39_LOCAL_STAGING_READING_REHEARSAL_ARTIFACT_PATH, '.bitcode/v39-local-staging-reading-rehearsal.json');
+  assert.equal(V39_LOCAL_STAGING_READING_REHEARSAL_ARTIFACT_PATH, '.proofs/v39/local-staging-reading-rehearsal.json');
   assert.equal(report.artifactId, 'v39-local-staging-reading-rehearsal');
   assert.equal(report.schemaId, V39_LOCAL_STAGING_READING_REHEARSAL_SCHEMA_ID);
   assert.equal(report.version, 'V39');

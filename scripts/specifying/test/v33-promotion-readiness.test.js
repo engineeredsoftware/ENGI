@@ -32,8 +32,8 @@ test('supports V33 promotion readiness with source-safe interface artifacts', ()
   assert.equal(result.data.v33.promotionReadinessReport.passed, result.data.v33.draftPreview ? false : true);
   assert.equal(result.data.v33.promotionReadinessReport.sourceSafe, true);
   assert.equal(result.data.v33.promotionReadinessReport.postPromotionPosture, 'V33 active / V34 draft');
-  assert.equal(result.data.v33.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.bitcode/v33-promotion-readiness-report.json'), true);
-  assert.equal(Object.hasOwn(result.artifacts, '.bitcode/v33-promotion-readiness-report.json'), true);
+  assert.equal(result.data.v33.canonicalInputReport.requiredGeneratedArtifactPaths.includes('.proofs/v33/promotion-readiness-report.json'), true);
+  assert.equal(Object.hasOwn(result.artifacts, '.proofs/v33/promotion-readiness-report.json'), true);
   assert.match(result.markdown, /V33 Promotion Readiness/);
-  assert.match(result.artifacts['.bitcode/v33-promotion-readiness-report.json'], /sourceSafe/);
+  assert.match(result.artifacts['.proofs/v33/promotion-readiness-report.json'], /sourceSafe/);
 });

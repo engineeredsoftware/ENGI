@@ -53,7 +53,7 @@ test('builds source-safe V43 PromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^v43-product-route-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     V43_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v43-promotion-readiness-report.json',
+    '.proofs/v43/promotion-readiness-report.json',
   );
 
   for (const artifactPath of V43_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -76,6 +76,6 @@ test('supports V43 promotion readiness with source-safe product routes and agent
   assert.equal(result.data.v43.promotionReadinessReport.postPromotionPosture, 'V43 active / V44 draft');
   assert.equal(result.data.v43.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V43 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v43-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v43-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v43/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v43/canon-posture-drift-report.json']);
 });

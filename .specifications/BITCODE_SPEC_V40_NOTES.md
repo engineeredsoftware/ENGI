@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `a5d169eda05cceb66b78f268e888b10c42542aaa`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, V40 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V40_PROVEN.md` as the generated proof appendix for V40 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v40/spec-family-report.json`, `.proofs/v40/canonical-input-report.json`, `.proofs/v40/canon-posture-drift-report.json`, `.proofs/v40/test-inventory-coverage-matrix.json`, `.proofs/v40/unit-coverage-inventory.json`, `.proofs/v40/api-integration-contracts.json`, `.proofs/v40/reading-pipeline-integration-coverage.json`, `.proofs/v40/conversation-terminal-integration.json`, `.proofs/v40/browser-e2e-visual-proof.json`, `.proofs/v40/ledger-storage-sync.json`, `.proofs/v40/local-staging-rehearsal-automation.json`, `.proofs/v40/prompt-benchmark-smoke-v41-readiness.json`, `.proofs/v40/promotion-readiness-report.json`, V40 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V40_PROVEN.md` as the generated proof appendix for V40 promotion
 - Source parity state: V40 source-side test inventory, unit coverage, API integration contracts, Reading pipeline integration, Conversation/Terminal integration, browser E2E visual proof, ledger/database/storage synchronization, local/staging rehearsal automation, prompt benchmark smoke, workflow, and promotion surfaces are canonicalized in the promoted V40 file family
 - Scope: V40 canonical notes for exhaustive commercial application testing over promoted V39 commercial Reading readiness canon
 - Last fully realized canonical target preserved in source: `V40`
@@ -69,27 +69,27 @@ V41 must therefore treat prompt improvement as implementation work, not copy edi
 ## Gate 2 implementation notes
 
 Gate 2 is closed by `V40TestInventoryCoverageMatrix`.
-Its generated `.bitcode/v40-test-inventory-coverage-matrix.json` artifact names every major V40 testing surface, owner gate, source roots, command ids, generated artifact target, coverage tier, and missing-coverage closure gate.
+Its generated `.proofs/v40/test-inventory-coverage-matrix.json` artifact names every major V40 testing surface, owner gate, source roots, command ids, generated artifact target, coverage tier, and missing-coverage closure gate.
 This is an inventory and planning proof, not a substitute for the later Gate 3 through Gate 10 implementations.
 
 ## Gate 3 implementation notes
 
 Gate 3 is closed by `V40UnitCoverageInventory`.
-Its generated `.bitcode/v40-unit-coverage-inventory.json` artifact binds critical unit surfaces to package names, source roots, test paths, commands, and covered verdicts.
+Its generated `.proofs/v40/unit-coverage-inventory.json` artifact binds critical unit surfaces to package names, source roots, test paths, commands, and covered verdicts.
 The covered surfaces include protocol report builders, BTD ledger/settlement/right primitives, prompt composition, PTRR agents, registry-backed tools, execution lineage, generic pipelines, Reading AssetPack units, pipeline hosts, isolated interface helpers, utility packages, and the demonstration/commercial boundary.
 No missing, blocked, or exempt critical unit surface is allowed in the Gate 3 artifact.
 
 ## Gate 4 implementation notes
 
 Gate 4 is closed by `V40ApiIntegrationContracts`.
-Its generated `.bitcode/v40-api-integration-contracts.json` artifact binds critical API route integration contracts to route families, source roots, test paths, command ids, and covered verdicts.
+Its generated `.proofs/v40/api-integration-contracts.json` artifact binds critical API route integration contracts to route families, source roots, test paths, command ids, and covered verdicts.
 The covered surfaces include UAPI Reading/pipeline routes, execution stream routes, Conversation routes, Auxillaries/Orbitals routes, VCS/wallet/webhook routes, public activity/template routes, package API route orchestration, package API Conversation/pipeline routes, MCP execution interface contracts, and ChatGPT App action contracts.
 No missing, blocked, or exempt critical API route integration contract surface is allowed in the Gate 4 artifact.
 
 ## Gate 5 implementation notes
 
 Gate 5 is closed by `V40ReadingPipelineIntegrationCoverage`.
-Its generated `.bitcode/v40-reading-pipeline-integration-coverage.json` artifact binds Reading pipeline integration coverage to nine source-safe rows: pipeline contract topology, `ReadNeedComprehensionSynthesis` runtime, `ReadFitsFindingSynthesis` search runtime, PTRR agent implementation integration, preview/settlement/delivery boundaries, telemetry/repair readback, Terminal API harness integration, primitive/host integration, and local/staging rehearsal integration.
+Its generated `.proofs/v40/reading-pipeline-integration-coverage.json` artifact binds Reading pipeline integration coverage to nine source-safe rows: pipeline contract topology, `ReadNeedComprehensionSynthesis` runtime, `ReadFitsFindingSynthesis` search runtime, PTRR agent implementation integration, preview/settlement/delivery boundaries, telemetry/repair readback, Terminal API harness integration, primitive/host integration, and local/staging rehearsal integration.
 The focused asset-pack package test runs a deterministic Reading path through accepted Need synthesis, many-fit Depository search, `worthy_fit` runtime evidence, source-safe AssetPack preview, settlement/right-transfer delivery boundary, and source-safe observability coverage.
 The artifact records expected totals of two Reading pipelines, eleven phases, twelve PTRR agents, forty-eight PTRR steps, one hundred forty-four ThricifiedGeneration records, and four tool surfaces.
 No missing, blocked, or exempt critical Reading integration row is allowed in the Gate 5 artifact, and prompt content rewriting remains deferred to V41.
@@ -97,7 +97,7 @@ No missing, blocked, or exempt critical Reading integration row is allowed in th
 ## Gate 6 implementation notes
 
 Gate 6 is closed by `V40ConversationTerminalIntegration`.
-Its generated `.bitcode/v40-conversation-terminal-integration.json` artifact binds Conversation and Terminal integration coverage to eight source-safe rows: Terminal handoff route contracts, Conversation stream events projected into rich execution logs, route/API persistence and branch contracts, writing/source selector handoff, Terminal Reading state readback, Terminal harness log streaming, transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
+Its generated `.proofs/v40/conversation-terminal-integration.json` artifact binds Conversation and Terminal integration coverage to eight source-safe rows: Terminal handoff route contracts, Conversation stream events projected into rich execution logs, route/API persistence and branch contracts, writing/source selector handoff, Terminal Reading state readback, Terminal harness log streaming, transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
 The focused UAPI test executes the cross-surface path from a Conversation `finding_fits` handoff into Terminal query parsing, enterprise Reading `request-fit` state, Conversation stream tool-call log metadata, and Terminal harness stream projection.
 No missing, blocked, or exempt critical Conversation/Terminal integration row is allowed in the Gate 6 artifact; Conversation may carry source-safe intent only, while Terminal remains the transaction, wallet, ledger, settlement, and delivery cockpit.
 Prompt and PromptPart rewriting remains deferred to V41.
@@ -105,7 +105,7 @@ Prompt and PromptPart rewriting remains deferred to V41.
 ## Gate 7 implementation notes
 
 Gate 7 is closed by `V40BrowserE2eVisualProof`.
-Its generated `.bitcode/v40-browser-e2e-visual-proof.json` artifact binds browser E2E, visual, accessibility, and responsive proof to eight source-safe rows: Terminal enterprise Reading and transaction flow, Conversations writing/stream-log flow, Auxillaries contained-pane accessibility flow, Exchange BTD market and rights flow, Docs public learning routes, canonical viewport overflow proof, screenshot/trace baseline proof, and keyboard/landmark/status accessibility proof.
+Its generated `.proofs/v40/browser-e2e-visual-proof.json` artifact binds browser E2E, visual, accessibility, and responsive proof to eight source-safe rows: Terminal enterprise Reading and transaction flow, Conversations writing/stream-log flow, Auxillaries contained-pane accessibility flow, Exchange BTD market and rights flow, Docs public learning routes, canonical viewport overflow proof, screenshot/trace baseline proof, and keyboard/landmark/status accessibility proof.
 The app-owned `BITCODE_BROWSER_PROOF_CONTRACT` summarizes five product surfaces, thirteen route states, eighteen interaction states, four canonical viewports, eight accessibility assertions, and five visual proof strategies.
 The focused browser spec covers five-stage Reading, selected activity detail, Conversation source-safe handoff, Exchange rights review, Docs navigation, Auxillaries live regions, reduced motion, and horizontal overflow limits under local mock data.
 No missing, blocked, or exempt critical browser proof row is allowed in the Gate 7 artifact, and screenshot-only approval is explicitly rejected.
@@ -113,7 +113,7 @@ No missing, blocked, or exempt critical browser proof row is allowed in the Gate
 ## Gate 8 implementation notes
 
 Gate 8 is closed by `V40LedgerStorageSync`.
-Its generated `.bitcode/v40-ledger-storage-sync.json` artifact binds ledger, database, object-storage, wallet, settlement, BTD rights, source-to-shares compensation, repair, and delivery synchronization to ten source-safe rows.
+Its generated `.proofs/v40/ledger-storage-sync.json` artifact binds ledger, database, object-storage, wallet, settlement, BTD rights, source-to-shares compensation, repair, and delivery synchronization to ten source-safe rows.
 The app-owned `BITCODE_LEDGER_STORAGE_SYNC_CONTRACT` summarizes settlement source-to-shares, no-custody wallet authority, and post-settlement pull-request delivery surfaces with explicit delivery visibility boundaries.
 The focused tests prove the existing AssetPack settlement delivery boundary, BTD BTC fee/wallet/reconciliation/source-to-shares primitives, Terminal wallet/journal/detail readbacks, and source-safe UAPI contract.
 No missing, blocked, or lane-skipped critical synchronization row is allowed in the Gate 8 artifact; source-bearing delivery stays locked until payment, finality, compensation, BTD rights, and projection reconciliation agree.
@@ -121,7 +121,7 @@ No missing, blocked, or lane-skipped critical synchronization row is allowed in 
 ## Gate 9 implementation notes
 
 Gate 9 is closed by `V40LocalStagingRehearsalAutomation`.
-Its generated `.bitcode/v40-local-staging-rehearsal-automation.json` artifact binds local and staging-testnet rehearsal automation to ten source-safe rows covering operator lane receipts, lane-bound secret-family checks, Vercel Sandbox harness execution, database stream/readback, five-stage Reading rehearsal, ledger/storage/wallet/delivery continuity, value-bearing mainnet blocking, and proof/workflow wiring.
+Its generated `.proofs/v40/local-staging-rehearsal-automation.json` artifact binds local and staging-testnet rehearsal automation to ten source-safe rows covering operator lane receipts, lane-bound secret-family checks, Vercel Sandbox harness execution, database stream/readback, five-stage Reading rehearsal, ledger/storage/wallet/delivery continuity, value-bearing mainnet blocking, and proof/workflow wiring.
 The operator command `rehearse:v40-local-staging` emits receipts from environment presence only; secret values, protected source, raw prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, and live log payloads are absent from the generated artifact and receipts.
 Live execution remains dry-run by default and requires `BITCODE_V40_REHEARSAL_EXECUTE=1` before delegating to the Vercel Sandbox AssetPack harness.
 Staging-testnet receipts bind Supabase project `tkpyosihuouusyaxtbau`, REST host `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`, real inference, and database event streaming/readback.
@@ -129,13 +129,13 @@ Staging-testnet receipts bind Supabase project `tkpyosihuouusyaxtbau`, REST host
 ## Gate 10 implementation notes
 
 Gate 10 is closed by `V40PromptBenchmarkSmokeV41Readiness`.
-Its generated `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` artifact binds prompt benchmark smoke coverage to ten source-safe rows: benchmark report command execution, deterministic PromptPart smoke execution, deterministic composed Prompt smoke execution, V38 benchmark inventory binding, Reading prompt fixtures, Conversation and tool prompt fixtures, source-safe no-rewrite boundary, V41 prompt-program worklist, workflow wiring, and proof-system wiring.
+Its generated `.proofs/v40/prompt-benchmark-smoke-v41-readiness.json` artifact binds prompt benchmark smoke coverage to ten source-safe rows: benchmark report command execution, deterministic PromptPart smoke execution, deterministic composed Prompt smoke execution, V38 benchmark inventory binding, Reading prompt fixtures, Conversation and tool prompt fixtures, source-safe no-rewrite boundary, V41 prompt-program worklist, workflow wiring, and proof-system wiring.
 The `prompt-benchmark:smoke` command uses a local source-safe mock provider and records benchmark scores, fixture roots, and package benchmark report counts without serializing raw prompt text, protected PromptPart source, raw provider responses, credentials, wallet private material, private settlement payloads, or unpaid AssetPack source.
 Gate 10 exists to make prompt and PromptPart benchmarking runnable and auditable before V41; every prompt semantic repartition, retitle, rewrite, catalogue improvement, interpolation binding review, and callsite-quality benchmark remains V41 work.
 
 ## Gate 11: V40 Promotion Readiness
 
 Gate 11 is closed by `V40PromotionReadinessReport`.
-Its generated `.bitcode/v40-promotion-readiness-report.json` artifact binds every V40 testing gate artifact, `BITCODE_SPEC_V40_PROVEN.md`, `v40-canon-promotion.yml`, gate-quality and canon-quality workflow posture, V40 promotion script support, spec-family promotion rewriting, runtime posture rewriting, and the active V40 / draft V41 post-promotion state.
+Its generated `.proofs/v40/promotion-readiness-report.json` artifact binds every V40 testing gate artifact, `BITCODE_SPEC_V40_PROVEN.md`, `v40-canon-promotion.yml`, gate-quality and canon-quality workflow posture, V40 promotion script support, spec-family promotion rewriting, runtime posture rewriting, and the active V40 / draft V41 post-promotion state.
 The report is source-safe metadata only: it names artifact paths, digests, evidence tokens, validation commands, and pass/fail posture, but it does not serialize secrets, protected source, raw protected prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or value-bearing mainnet admission.
 Gate 11 makes V40 promotable only through the version branch pull request into `main`; direct `main` pushes remain inadmissible.

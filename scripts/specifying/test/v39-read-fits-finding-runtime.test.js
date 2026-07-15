@@ -13,7 +13,7 @@ import {
 test('V39 ReadFitsFinding runtime report binds many-fit search, replay, storage, and repair', () => {
   const report = buildV39ReadFitsFindingRuntime();
 
-  assert.equal(V39_READ_FITS_FINDING_RUNTIME_ARTIFACT_PATH, '.bitcode/v39-read-fits-finding-runtime.json');
+  assert.equal(V39_READ_FITS_FINDING_RUNTIME_ARTIFACT_PATH, '.proofs/v39/read-fits-finding-runtime.json');
   assert.equal(report.artifactId, 'v39-read-fits-finding-runtime');
   assert.equal(report.schemaId, V39_READ_FITS_FINDING_RUNTIME_SCHEMA_ID);
   assert.equal(report.version, 'V39');

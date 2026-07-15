@@ -7,7 +7,7 @@ import { spawnSync } from 'node:child_process';
 
 export const V40_REHEARSAL_LANES = ['local', 'staging-testnet'];
 
-const DEFAULT_RECEIPT_DIR = '.bitcode/pipeline-host-runs/v40-rehearsal-receipts';
+const DEFAULT_RECEIPT_DIR = '.proofs/pipeline-host-runs/v40-rehearsal-receipts';
 const STAGING_PROJECT_REF = 'tkpyosihuouusyaxtbau';
 const STAGING_REST_HOST = 'https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/';
 

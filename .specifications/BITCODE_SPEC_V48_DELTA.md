@@ -120,7 +120,7 @@ Gate 2 audits all website features and protocol surfaces for launch relevance.
 It removes wrong features, feature-flags post-V48 behavior, and records
 deferrals so the first generally available MVP is focused.
 
-Gate 2 owns `.bitcode/v48-feature-excess-alignment-audit.json`,
+Gate 2 owns `.proofs/v48/feature-excess-alignment-audit.json`,
 `buildV48FeatureExcessAlignmentAudit`, and `check:v48-gate2`. The audit
 classifies `/deposits`, `/reads`, and `/packs` as launch routes; `/docs`,
 Auxillaries, `/btd/[assetPackId]`, execution readback, and required APIs as
@@ -135,7 +135,7 @@ advanced market mechanics as deferred or compatibility-only.
 Gate 3 specifies exact IP seller and IP buyer state machines, including
 measurement, proof, repair, settlement, delivery, and `/packs` history.
 
-Gate 3 owns `.bitcode/v48-seller-buyer-state-machine-law.json`,
+Gate 3 owns `.proofs/v48/seller-buyer-state-machine-law.json`,
 `buildV48SellerBuyerStateMachineLaw`, and `check:v48-gate3`. The state-machine
 law names seller states from source connection through compensation/repair
 tracking; buyer states from Read request through delivery; guards for
@@ -149,7 +149,7 @@ source-safe fields that may be projected without source leakage.
 Gate 4 completes source connection, deposit AssetPack option synthesis,
 source-safe review, Depository admission, and compensation visibility.
 
-Gate 4 owns `.bitcode/v48-depositor-website-completion.json`,
+Gate 4 owns `.proofs/v48/depositor-website-completion.json`,
 `buildV48DepositorWebsiteCompletion`, and `check:v48-gate4`. The completion
 binds the five-step `/deposits` route session (`connect-source`,
 `synthesize-options`, `review-options`, `submit-deposit`,
@@ -169,7 +169,7 @@ responses, wallet private material, or value-bearing mainnet authority.
 Gate 5 completes Read Request, Need synthesis/review, Finding Fits, preview,
 quote, BTC-testnet settlement, BTD rights transfer, and PR delivery.
 
-Gate 5 owns `.bitcode/v48-reader-website-completion.json`,
+Gate 5 owns `.proofs/v48/reader-website-completion.json`,
 `buildV48ReaderWebsiteCompletion`, and `check:v48-gate5`. The completion
 binds the five-step `/reads` route session (`request-read`,
 `review-synthesized-need`, `request-fit`, `review-synthesized-asset-pack`,
@@ -190,7 +190,7 @@ authority.
 Gate 6 completes identity, teams, wallets, histories, PackActivity
 master-detail, filters/search, proof readback, and repair surfaces.
 
-Gate 6 owns `.bitcode/v48-packs-auxillaries-commercial-dashboard.json`,
+Gate 6 owns `.proofs/v48/packs-auxillaries-commercial-dashboard.json`,
 `buildV48PacksAuxillariesCommercialDashboard`, and `check:v48-gate6`. The
 dashboard law binds `/packs` to a searchable master-detail PackActivity
 surface with type/state facets and saved market-intelligence filters; the
@@ -211,7 +211,7 @@ Gate 7 adds browser-level tests proving both sides of Bitcode: deposit IP into
 Bitcode, buy synthesized IP from Bitcode, and verify ledger/database/storage,
 proof, settlement, rights, compensation, and delivery.
 
-Gate 7 owns `.bitcode/v48-e2e-ip-selling-buying-tests.json`,
+Gate 7 owns `.proofs/v48/e2e-ip-selling-buying-tests.json`,
 `buildV48E2eIpSellingBuyingTests`, and `check:v48-gate7`. The browser proof
 (`apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts`, run by
 `test:e2e:ip-exchange`) drives `/deposits` from source connection through
@@ -231,7 +231,7 @@ Gate 8 refurbishes landing and public docs for V48 commercial testnet
 readiness, core flows, proof-backed trust, source-safe IP exchange, and the
 meaning of testnet.
 
-Gate 8 owns `.bitcode/v48-landing-public-launch-messaging.json`,
+Gate 8 owns `.proofs/v48/landing-public-launch-messaging.json`,
 `buildV48LandingPublicLaunchMessaging`, and `check:v48-gate8`. The landing
 gains a commercial-testnet section (`MarketingLandingTestnetSection` over
 `BITCODE_PUBLIC_COPY.testnetLaunch`) stating that BTC amounts are testnet and
@@ -250,7 +250,7 @@ Gate 9 validates the canonical staging-testnet deployment with realistic data,
 real routes, real storage/database/ledger projections, and BTC-testnet
 settlement.
 
-Gate 9 owns `.bitcode/v48-staging-testnet-deployment-rehearsal.json`,
+Gate 9 owns `.proofs/v48/staging-testnet-deployment-rehearsal.json`,
 `buildV48StagingTestnetDeploymentRehearsal`, and `check:v48-gate9`. The
 rehearsal law binds four dry-run lanes — staging-testnet full stack,
 realistic-data population, BTC-testnet settlement observation, and blocked
@@ -270,7 +270,7 @@ protected source, or value-bearing mainnet authority are serialized.
 Gate 10 closes parity matrix, generated proof artifacts, CI/promotion workflow,
 commercial website readiness, and canonical promotion.
 
-Gate 10 owns `.bitcode/v48-promotion-readiness-report.json`,
+Gate 10 owns `.proofs/v48/promotion-readiness-report.json`,
 `buildV48PromotionReadinessReport`, and `check:v48-gate10`. The
 promotion scripts support V48: `promote-bitcode-canon.mjs` gains the V48 command plan
 and derived commit-message body, `prepare-bitcode-spec-family-promotion.mjs`

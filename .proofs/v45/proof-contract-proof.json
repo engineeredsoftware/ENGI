@@ -1,0 +1,444 @@
+{
+  "artifactId": "v45-proof-contract-proof",
+  "schemaId": "bitcode.v45.proofFamilyArtifact.v1",
+  "version": "V45",
+  "currentTarget": "V44",
+  "generatedAt": "2026-05-31T00:00:00.000Z",
+  "proofSourceCommit": "draft-v45-gate16-proof-source-snapshot",
+  "sourceSafetyVerdict": "source-safe-v45-proof-family-generated-metadata",
+  "proofFamilyId": "proof-contract",
+  "proofFamily": "Proof-contract",
+  "artifactPath": ".proofs/v45/proof-contract-proof.json",
+  "status": "pass",
+  "proofFamilyInventory": {
+    "proofFamilyId": "proof-contract",
+    "proofFamily": "Proof-contract",
+    "proofArtifactPath": ".proofs/v45/proof-contract-proof.json",
+    "memberIds": [
+      "generated spec proof",
+      "workflow receipts",
+      "ledger journals",
+      "database projections",
+      "storage roots",
+      "telemetry",
+      "provider receipts",
+      "repository receipts"
+    ],
+    "theoremIds": [
+      "proof-backed readback",
+      "evidence precedence",
+      "repair on conflict"
+    ],
+    "replayStepIds": [
+      "readback join",
+      "contradiction",
+      "repair",
+      "replay"
+    ],
+    "witnessArtifactPaths": [
+      ".proofs/v44/promotion-readiness-report.json",
+      ".proofs/v44/canonical-input-report.json",
+      ".proofs/v44/spec-family-report.json"
+    ]
+  },
+  "memberInventory": [
+    {
+      "memberId": "generated spec proof",
+      "closureCriteria": "generated spec proof must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "workflow receipts",
+      "closureCriteria": "workflow receipts must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "ledger journals",
+      "closureCriteria": "ledger journals must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "database projections",
+      "closureCriteria": "database projections must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "storage roots",
+      "closureCriteria": "storage roots must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "telemetry",
+      "closureCriteria": "telemetry must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "provider receipts",
+      "closureCriteria": "provider receipts must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    },
+    {
+      "memberId": "repository receipts",
+      "closureCriteria": "repository receipts must be typed, source-safe, replayable, and bound to V45 proof-family law.",
+      "verdictShape": "pass | repair-required | blocked"
+    }
+  ],
+  "theoremInventory": [
+    {
+      "theoremId": "proof-backed readback",
+      "memberBindings": [
+        "generated spec proof",
+        "workflow receipts",
+        "ledger journals",
+        "database projections",
+        "storage roots",
+        "telemetry",
+        "provider receipts",
+        "repository receipts"
+      ],
+      "replayStepBindings": [
+        "readback join",
+        "replay"
+      ],
+      "closureReading": "The Proof-contract theorem \"proof-backed readback\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "evidence precedence",
+      "memberBindings": [
+        "generated spec proof",
+        "workflow receipts",
+        "ledger journals",
+        "database projections",
+        "storage roots",
+        "telemetry",
+        "provider receipts",
+        "repository receipts"
+      ],
+      "replayStepBindings": [
+        "contradiction"
+      ],
+      "closureReading": "The Proof-contract theorem \"evidence precedence\" binds source-safe evidence, typed state, and replayable proof roots."
+    },
+    {
+      "theoremId": "repair on conflict",
+      "memberBindings": [
+        "generated spec proof",
+        "workflow receipts",
+        "ledger journals",
+        "database projections",
+        "storage roots",
+        "telemetry",
+        "provider receipts",
+        "repository receipts"
+      ],
+      "replayStepBindings": [
+        "repair"
+      ],
+      "closureReading": "The Proof-contract theorem \"repair on conflict\" binds source-safe evidence, typed state, and replayable proof roots."
+    }
+  ],
+  "replayStepInventory": [
+    {
+      "replayStepId": "readback join",
+      "theoremBindings": [
+        "proof-backed readback"
+      ],
+      "witnessBindings": [
+        ".proofs/v44/promotion-readiness-report.json",
+        ".proofs/v44/canonical-input-report.json",
+        ".proofs/v44/spec-family-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "contradiction",
+      "theoremBindings": [
+        "evidence precedence"
+      ],
+      "witnessBindings": [
+        ".proofs/v44/promotion-readiness-report.json",
+        ".proofs/v44/canonical-input-report.json",
+        ".proofs/v44/spec-family-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "repair",
+      "theoremBindings": [
+        "repair on conflict"
+      ],
+      "witnessBindings": [
+        ".proofs/v44/promotion-readiness-report.json",
+        ".proofs/v44/canonical-input-report.json",
+        ".proofs/v44/spec-family-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    },
+    {
+      "replayStepId": "replay",
+      "theoremBindings": [
+        "proof-backed readback"
+      ],
+      "witnessBindings": [
+        ".proofs/v44/promotion-readiness-report.json",
+        ".proofs/v44/canonical-input-report.json",
+        ".proofs/v44/spec-family-report.json"
+      ],
+      "expectedResult": "pass, repair-required, or blocked"
+    }
+  ],
+  "witnessArtifactInventory": [
+    {
+      "relativePath": ".proofs/v44/promotion-readiness-report.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:0532c745e589857519827cfb88fe74f795a73291f40298f305ced23ce50cce7a",
+      "byteLength": 18123,
+      "sourceSafe": true,
+      "artifactId": "v44-promotion-readiness-report",
+      "sourceSafetyVerdict": "source-safe-v44-scaled-engineering-economy-promotion-metadata"
+    },
+    {
+      "relativePath": ".proofs/v44/canonical-input-report.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:e0de2d474aaa5711a792e0c59e359fc973684e9898d623412a4396bc7768875c",
+      "byteLength": 1221,
+      "sourceSafe": true,
+      "artifactId": "v44-canonical-input-report",
+      "sourceSafetyVerdict": null
+    },
+    {
+      "relativePath": ".proofs/v44/spec-family-report.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:02ea96591fb8d5b443e1a0056c4526392fc76d52bcba91df4d35c31df2723679",
+      "byteLength": 1010,
+      "sourceSafe": true,
+      "artifactId": "v44-spec-family-report",
+      "sourceSafetyVerdict": null
+    }
+  ],
+  "generatedArtifactInventory": [
+    ".proofs/v45/inference-synthesis-proof.json",
+    ".proofs/v45/prompt-completeness-proof.json",
+    ".proofs/v45/static-code-analysis-proof.json",
+    ".proofs/v45/verification-decisions-proof.json",
+    ".proofs/v45/selection-materialization-proof.json",
+    ".proofs/v45/authorization-sensitive-flow-proof.json",
+    ".proofs/v45/settlement-source-to-shares-proof.json",
+    ".proofs/v45/disclosure-boundary-proof.json",
+    ".proofs/v45/proof-contract-proof.json",
+    ".proofs/v45/spec-family-report.json",
+    ".proofs/v45/canonical-input-report.json",
+    "BITCODE_SPEC_V45_PROVEN.md"
+  ],
+  "scenarioRunCoverageMatrix": [
+    {
+      "scenarioId": "v45-proof-contract-source-safe-replay",
+      "family": "Proof-contract",
+      "memberCount": 8,
+      "theoremCount": 3,
+      "replayStepCount": 4,
+      "expectedVerdict": "pass"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "relativePath": "BITCODE_SPEC_V45.md",
+      "present": true,
+      "digest": "sha256:a15581cd77c3425f73ed1026976f85909d121609f4869bc0075c2e1520d5888d",
+      "byteLength": 47940,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "## V45 proof-family canon",
+          "present": true
+        },
+        {
+          "token": "## V45 generated canon",
+          "present": true
+        },
+        {
+          "token": "Minimum generated appendix rendered contents",
+          "present": true
+        },
+        {
+          "token": "proof-backed readback",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V45_PARITY_MATRIX.md",
+      "present": true,
+      "digest": "sha256:7a06feb42a1976657ec927143fe2ccca4e67163ad47c6ba8159e64af11fcbf5c",
+      "byteLength": 28763,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "Gate 16: V45 Proof Families And Generated Artifacts",
+          "present": true
+        },
+        {
+          "token": "check:v45-gate16",
+          "present": true
+        },
+        {
+          "token": "V45 proof-family artifacts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/src/canonical/v21-specifying.js",
+      "present": true,
+      "digest": "sha256:fe0067ebcf5151993122a48e11181c8e6ab46c8d4ff66495e836e7910bf97af8",
+      "byteLength": 71680,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": ".proofs/v45/proof-contract-proof.json",
+          "present": true
+        },
+        {
+          "token": "buildV21CanonicalInputReport",
+          "present": true
+        },
+        {
+          "token": "buildV21GeneratedArtifactContents",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/generate-v45-proof-family-artifacts.mjs",
+      "present": true,
+      "digest": "sha256:be49cea7d2c0867e6d801352a64f0da9d3b20a9f3ab790706922d5316cff427d",
+      "byteLength": 4678,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "buildV45ProofFamilyArtifacts",
+          "present": true
+        },
+        {
+          "token": "V45_PROOF_FAMILY_PROVEN_PATH",
+          "present": true
+        },
+        {
+          "token": "buildV21GeneratedArtifactContents",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/check-v45-gate16-proof-families-generated-artifacts.mjs",
+      "present": true,
+      "digest": "sha256:45b80cc7bfaf122d135cad6a1bef1b636e6c71dae9e7d40fb271c90f5ebf820f",
+      "byteLength": 13457,
+      "sourceSafeDigestOnly": true,
+      "forbiddenMarkerDetected": false,
+      "requiredTokens": [
+        {
+          "token": "V45 Gate 16",
+          "present": true
+        },
+        {
+          "token": "check:v45-gate16",
+          "present": true
+        },
+        {
+          "token": "generate-v45-proof-family-artifacts.mjs",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "inputRoots": {
+    "specRoot": "sha256:2e964cd47c97ea4ac5b893756ee3d3d0bdc6e78d8a4b91db256be91ef64df37f",
+    "sourceEvidenceRoot": "sha256:59b68e319e889a14a2fed88f3b924ffdc40bc2ccb5284f5993e1e8b45df159b8",
+    "witnessArtifactRoot": "sha256:74c40acc322c9e1db38ac71c8cb4d67097ccbbb777491fc922b515c11a2d0d9e"
+  },
+  "artifactRoots": {
+    "proofFamilyInventoryRoot": "sha256:4c7ec957f9ac0e9b50227139a98b36d6ebaaaa5ef8c9f2d7d019b33d6f4e782b",
+    "replayBindingRoot": "sha256:84787609b3fb5d9f7fd7c2c2d519206acca02ad8b35f0c9ae89ab3053c849d70"
+  },
+  "artifactRoot": "v45-proof-contract-proof:3a5dccbe34efe2d9ac375207",
+  "minimumArtifactReplayBindingSet": [
+    "proof root",
+    "ledger root",
+    "database root",
+    "storage root",
+    "external receipt when relevant"
+  ],
+  "proofObjectFields": [
+    "evidence class",
+    "authority",
+    "limit",
+    "readback",
+    "conflict policy"
+  ],
+  "generatedArtifactAndTestBindings": [
+    "scripts/generate-v45-proof-family-artifacts.mjs",
+    "scripts/check-v45-gate16-proof-families-generated-artifacts.mjs",
+    "scripts/specifying/test/v45-proof-family-artifacts.test.js",
+    ".github/workflows/bitcode-gate-quality.yml",
+    ".github/workflows/bitcode-canon-quality.yml"
+  ],
+  "failClosedConditions": [
+    "missing evidence",
+    "stale evidence",
+    "contradictory evidence",
+    "out-of-boundary evidence"
+  ],
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawInterpolatedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false,
+    "forbiddenSerializedPayloadClasses": [
+      "protected-source",
+      "unpaid-assetpack-source",
+      "raw-prompt",
+      "raw-provider-response",
+      "wallet-private-material",
+      "credentials",
+      "private-settlement-payload"
+    ]
+  },
+  "coverage": {
+    "sourceEvidenceComplete": true,
+    "witnessArtifactsComplete": true,
+    "memberCount": 8,
+    "theoremCount": 3,
+    "replayStepCount": 4,
+    "witnessArtifactCount": 3,
+    "generatedArtifactBindingCount": 5,
+    "failClosedConditionCount": 4,
+    "protectedSourceSerialized": false,
+    "rawPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "walletPrivateMaterialSerialized": false,
+    "credentialsSerialized": false,
+    "privateSettlementPayloadSerialized": false,
+    "unpaidAssetPackSourceSerialized": false
+  },
+  "repairInstructions": [
+    "Regenerate .proofs/v45/proof-contract-proof.json with pnpm run generate:v45-proof-families.",
+    "Repair missing source evidence, witness artifacts, tests, or workflow bindings before claiming V45 proof-family closure."
+  ],
+  "passed": true,
+  "failures": [],
+  "warnings": [],
+  "validationCommand": "pnpm run check:v45-gate16"
+}

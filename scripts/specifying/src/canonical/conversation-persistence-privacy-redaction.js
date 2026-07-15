@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const CONVERSATION_PERSISTENCE_PRIVACY_ARTIFACT_PATH =
-  '.bitcode/v37-conversation-persistence-privacy-redaction.json';
+  '.proofs/v37/conversation-persistence-privacy-redaction.json';
 export const CONVERSATION_PERSISTENCE_PRIVACY_SCHEMA_ID =
   'bitcode.v37.conversationPersistencePrivacyRedaction.v1';
 export const CONVERSATION_PERSISTENCE_PRIVACY_VERSION = 'V37';

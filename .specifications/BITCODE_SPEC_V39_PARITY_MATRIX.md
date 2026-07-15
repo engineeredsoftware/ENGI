@@ -9,7 +9,7 @@
 - Draft proof-source commit: unbound until V39 promotion
 - Prior canonical anchor: `BITCODE_SPEC_V38.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, `.bitcode/v39-promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v39/spec-family-report.json`, `.proofs/v39/canonical-input-report.json`, `.proofs/v39/canon-posture-drift-report.json`, `.proofs/v39/depository-supply-indexing.json`, `.proofs/v39/enterprise-reading-ux-state.json`, `.proofs/v39/read-need-review-resynthesis.json`, `.proofs/v39/read-fits-finding-runtime.json`, `.proofs/v39/assetpack-preview-quote-boundary.json`, `.proofs/v39/settlement-rights-delivery.json`, `.proofs/v39/operational-telemetry-repair-readback.json`, `.proofs/v39/interface-conversation-product-parity.json`, `.proofs/v39/local-staging-reading-rehearsal.json`, `.proofs/v39/promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
 - Source parity state: V39 source-side Depository supply indexing, enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry repair readback, interface parity, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V39 file family
 - Spec companion: `BITCODE_SPEC_V39.md`
 - Notes companion: `BITCODE_SPEC_V39_NOTES.md`
@@ -71,16 +71,16 @@ No `_legacy/` source is active source truth.
 | Inference vocabulary | Gate 1 | `PipelineExecution`, PTRR Plan/Try/Refine/Retry, `FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`, `DocCodeToolPrompt` | closed | V38 inference law remains binding on V39 product implementation. |
 | Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | closed | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
 | Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | closed | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
-| Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.bitcode/v39-depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
-| Enterprise Reading UX state machine | Gate 3 | `apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
-| ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.bitcode/v39-read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
-| ReadFitsFinding runtime and replay | Gate 5 | `packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`, `depository-search.ts`, `.bitcode/v39-read-fits-finding-runtime.json`, package tests, protocol tests | implemented | Finding Fits searches the whole available Depository for many above-threshold candidates and persists source-safe replay, storage, telemetry, and repair receipts. |
-| AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
-| Settlement, BTD rights, and delivery | Gate 7 | `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`, `.bitcode/v39-settlement-rights-delivery.json`, BTD receipt/source-to-shares/reconciliation primitives, package tests, protocol tests | implemented | Payment unlocks rights and delivery only when finality, source-to-shares, BTD rights, reconciliation, and pull-request delivery agree; repair paths are auditable. |
-| Operational telemetry and repair | Gate 8 | `ReadingOperationalTelemetryRepairReadback`, `.bitcode/v39-operational-telemetry-repair-readback.json`, package tests, UI tests, protocol tests | implemented | Reading is observable and repairable end to end through source-safe stream events, operator readback, runbook hooks, proof roots, and repair commands. |
-| Interface and Conversation parity | Gate 9 | `ReadingInterfaceProductParity`, `.bitcode/v39-interface-conversation-product-parity.json`, package/Conversation/MCP/ChatGPT/protocol tests | implemented | Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers share Terminal Reading authority; accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries cannot be bypassed. |
-| Local and staging rehearsal | Gate 10 | `ReadingLocalStagingRehearsal`, `.bitcode/v39-local-staging-reading-rehearsal.json`, package/protocol tests | implemented | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
-| Promotion readiness | Gate 11 | `V39CommercialReadingPromotionReadinessReport`, `.bitcode/v39-promotion-readiness-report.json`, `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, `check:v39-gate11`, promotion dry-run | closed | V39 promotes only after all commercial Reading gates, source-safety evidence, workflow posture, generated proof support, active V39 / draft V40 posture, and value-bearing mainnet blocking close. |
+| Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.proofs/v39/depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
+| Enterprise Reading UX state machine | Gate 3 | `apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.proofs/v39/enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
+| ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.proofs/v39/read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
+| ReadFitsFinding runtime and replay | Gate 5 | `packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`, `depository-search.ts`, `.proofs/v39/read-fits-finding-runtime.json`, package tests, protocol tests | implemented | Finding Fits searches the whole available Depository for many above-threshold candidates and persists source-safe replay, storage, telemetry, and repair receipts. |
+| AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.proofs/v39/assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
+| Settlement, BTD rights, and delivery | Gate 7 | `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`, `.proofs/v39/settlement-rights-delivery.json`, BTD receipt/source-to-shares/reconciliation primitives, package tests, protocol tests | implemented | Payment unlocks rights and delivery only when finality, source-to-shares, BTD rights, reconciliation, and pull-request delivery agree; repair paths are auditable. |
+| Operational telemetry and repair | Gate 8 | `ReadingOperationalTelemetryRepairReadback`, `.proofs/v39/operational-telemetry-repair-readback.json`, package tests, UI tests, protocol tests | implemented | Reading is observable and repairable end to end through source-safe stream events, operator readback, runbook hooks, proof roots, and repair commands. |
+| Interface and Conversation parity | Gate 9 | `ReadingInterfaceProductParity`, `.proofs/v39/interface-conversation-product-parity.json`, package/Conversation/MCP/ChatGPT/protocol tests | implemented | Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers share Terminal Reading authority; accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries cannot be bypassed. |
+| Local and staging rehearsal | Gate 10 | `ReadingLocalStagingRehearsal`, `.proofs/v39/local-staging-reading-rehearsal.json`, package/protocol tests | implemented | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
+| Promotion readiness | Gate 11 | `V39CommercialReadingPromotionReadinessReport`, `.proofs/v39/promotion-readiness-report.json`, `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, `check:v39-gate11`, promotion dry-run | closed | V39 promotes only after all commercial Reading gates, source-safety evidence, workflow posture, generated proof support, active V39 / draft V40 posture, and value-bearing mainnet blocking close. |
 
 ## V39 implementation checklist
 
@@ -137,7 +137,7 @@ No `_legacy/` source is active source truth.
 | Depositor and Reader rights boundary is explicit | `DepositorySupplyRecord.rightsBoundary`, BTD range, depositor wallet, settlement-required source-bearing unlock | implemented |
 | Repair posture is deterministic | lifecycle blockers, warnings, and `repairActions` including `sync-active-embedding-vector-rows` | implemented |
 | Finding Fits handoff is source-safe | `depositorySupplyAssetsFromIndex`, `depository-search.ts`, package tests returning `worthy_fit` without raw source text | implemented |
-| Gate 2 proof artifact is source-safe | `.bitcode/v39-depository-supply-indexing.json`, `packages/protocol/src/canonical/v39-depository-supply-indexing.js`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented |
+| Gate 2 proof artifact is source-safe | `.proofs/v39/depository-supply-indexing.json`, `packages/protocol/src/canonical/v39-depository-supply-indexing.js`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented |
 | Gate 2 checker is wired | `scripts/check-v39-gate2-depository-supply-indexing.mjs`, `package.json`, canon/gate workflows | implemented |
 
 ## Gate 3 Parity
@@ -148,7 +148,7 @@ No `_legacy/` source is active source truth.
 | Terminal renders low-detail and expandable source-safe detail | `apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx`, `apps/uapi/tests/terminalDepositReadWorkbench.test.ts` | implemented |
 | Conversation handoff carries source-safe Reading stage intent | `apps/uapi/app/conversations/conversation-terminal-handoff.ts`, `apps/uapi/app/terminal/terminal-transaction-query.ts`, `apps/uapi/tests/conversationTerminalHandoff.test.tsx`, `apps/uapi/tests/terminalTransactionQuery.test.ts` | implemented |
 | Rich execution log remains the live Reading pipeline stream | `apps/uapi/app/terminal/terminal-pipeline-harness-client.ts`, `apps/uapi/tests/pipelineExecutionLogHeader.test.tsx` | implemented |
-| Proof artifact and checker exist | `.bitcode/v39-enterprise-reading-ux-state.json`, `packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js`, `packages/protocol/test/v39-enterprise-reading-ux-state.test.js`, `scripts/check-v39-gate3-enterprise-reading-ux-state.mjs` | implemented |
+| Proof artifact and checker exist | `.proofs/v39/enterprise-reading-ux-state.json`, `packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js`, `packages/protocol/test/v39-enterprise-reading-ux-state.test.js`, `scripts/check-v39-gate3-enterprise-reading-ux-state.mjs` | implemented |
 | Browser proof remains wired as opt-in gate-quality evidence | `.github/workflows/bitcode-gate-quality.yml`, `apps/uapi/tests/terminalUxBrowserProof.test.tsx`, `apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` | implemented |
 
 ## Gate 4 Parity
@@ -162,7 +162,7 @@ No `_legacy/` source is active source truth.
 | Rejected Needs block Finding Fits and retain feedback | `rejectReadNeed`, `rejected_need_posture`, route rejection tests | implemented |
 | Telemetry receipts count the ReadNeed pipeline stack | `ReadNeedReviewTelemetryReceipt`, 4 phases, 16 PTRR steps, 48 ThricifiedGeneration ids | implemented |
 | Read review route exposes all review actions | `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/tests/api/readReviewRoute.test.ts` | implemented |
-| Proof artifact and checker exist | `.bitcode/v39-read-need-review-resynthesis.json`, `packages/protocol/src/canonical/v39-read-need-review-resynthesis.js`, `packages/protocol/test/v39-read-need-review-resynthesis.test.js`, `scripts/check-v39-gate4-read-need-review-resynthesis.mjs` | implemented |
+| Proof artifact and checker exist | `.proofs/v39/read-need-review-resynthesis.json`, `packages/protocol/src/canonical/v39-read-need-review-resynthesis.js`, `packages/protocol/test/v39-read-need-review-resynthesis.test.js`, `scripts/check-v39-gate4-read-need-review-resynthesis.mjs` | implemented |
 | Workflow wiring includes Gate 4 source-safe proof | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | implemented |
 
 ## Later Gate Parity
@@ -189,7 +189,7 @@ repair records. The parity source is
 expose protected source, raw protected prompts, raw provider responses,
 credentials, wallet private material, settlement private payloads, or unpaid
 AssetPack source. The generated proof artifact is
-`.bitcode/v39-read-fits-finding-runtime.json` and the gate check is
+`.proofs/v39/read-fits-finding-runtime.json` and the gate check is
 `pnpm run check:v39-gate5`.
 
 ## Gate 6 Parity
@@ -202,7 +202,7 @@ projection, replay receipt, and repair posture. The parity source is
 expose protected source, raw protected prompts, raw provider responses,
 credentials, wallet private material, settlement private payloads, or unpaid
 AssetPack source. The generated proof artifact is
-`.bitcode/v39-assetpack-preview-quote-boundary.json` and the gate check is
+`.proofs/v39/assetpack-preview-quote-boundary.json` and the gate check is
 `pnpm run check:v39-gate6`.
 
 ## Gate 7 Parity
@@ -217,7 +217,7 @@ parity source is
 it must not serialize protected source, raw protected prompts, raw provider
 responses, credentials, wallet private material, private settlement payloads,
 or unpaid AssetPack source. The generated proof artifact is
-`.bitcode/v39-settlement-rights-delivery.json` and the gate check is
+`.proofs/v39/settlement-rights-delivery.json` and the gate check is
 `pnpm run check:v39-gate7`.
 
 ## Gate 8 Parity
@@ -234,7 +234,7 @@ storage, ledger, wallet, delivery, UI, and repair. It persists
 repair root, and readback root. The shared execution log accepts direct
 Reading telemetry payloads and renders event/proof/disclosure metadata without
 source leakage. The generated proof artifact is
-`.bitcode/v39-operational-telemetry-repair-readback.json` and the gate check
+`.proofs/v39/operational-telemetry-repair-readback.json` and the gate check
 is `pnpm run check:v39-gate8`.
 
 ## Gate 9 Parity
@@ -251,7 +251,7 @@ delivery locked before settlement and rights transfer. The parity source is
 `packages/pipelines/asset-pack/src/reading-interface-product-parity.ts`; it
 persists `reading/interfaces` productParity, parityRows, noBypassReadback,
 interfaceRoots, sourceSafety, and parityRoot. The generated proof artifact is
-`.bitcode/v39-interface-conversation-product-parity.json` and the gate check
+`.proofs/v39/interface-conversation-product-parity.json` and the gate check
 is `pnpm run check:v39-gate9`.
 
 ## Gate 10 Parity
@@ -269,7 +269,7 @@ It composes `ReadNeedReviewResynthesisRuntime`, `ReadFitsFindingRuntime`,
 proof roots. Staging-testnet is bound to Supabase project
 `tkpyosihuouusyaxtbau` and REST host
 `https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`. The generated proof
-artifact is `.bitcode/v39-local-staging-reading-rehearsal.json` and the gate
+artifact is `.proofs/v39/local-staging-reading-rehearsal.json` and the gate
 check is `pnpm run check:v39-gate10`.
 
 ## completion condition
@@ -288,18 +288,18 @@ promotion workflow posture, promotion command dry-run support, and active V39 /
 draft V40 runtime posture into one source-safe promotion-readiness contract.
 The parity source is
 `packages/protocol/src/canonical/v39-commercial-reading-promotion-readiness-report.js`.
-It covers `.bitcode/v39-depository-supply-indexing.json`,
-`.bitcode/v39-enterprise-reading-ux-state.json`,
-`.bitcode/v39-read-need-review-resynthesis.json`,
-`.bitcode/v39-read-fits-finding-runtime.json`,
-`.bitcode/v39-assetpack-preview-quote-boundary.json`,
-`.bitcode/v39-settlement-rights-delivery.json`,
-`.bitcode/v39-operational-telemetry-repair-readback.json`,
-`.bitcode/v39-interface-conversation-product-parity.json`,
-`.bitcode/v39-local-staging-reading-rehearsal.json`,
+It covers `.proofs/v39/depository-supply-indexing.json`,
+`.proofs/v39/enterprise-reading-ux-state.json`,
+`.proofs/v39/read-need-review-resynthesis.json`,
+`.proofs/v39/read-fits-finding-runtime.json`,
+`.proofs/v39/assetpack-preview-quote-boundary.json`,
+`.proofs/v39/settlement-rights-delivery.json`,
+`.proofs/v39/operational-telemetry-repair-readback.json`,
+`.proofs/v39/interface-conversation-product-parity.json`,
+`.proofs/v39/local-staging-reading-rehearsal.json`,
 `BITCODE_SPEC_V39_PROVEN.md`, `v39-canon-promotion.yml`, and
 `check:v39-gate11`. The generated proof artifact is
-`.bitcode/v39-promotion-readiness-report.json` and its judgment is closed only
+`.proofs/v39/promotion-readiness-report.json` and its judgment is closed only
 when every artifact is present, parseable, source-safe, workflow-wired,
 promotion-script-wired, and value-bearing mainnet admission remains blocked.
 

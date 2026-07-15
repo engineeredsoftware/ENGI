@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `c5b238b9958430c4611ef396ac8cea248c1aecf4`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v30/spec-family-report.json`, `.proofs/v30/canonical-input-report.json`, `.proofs/v30/canon-posture-drift-report.json`, `.proofs/v30/protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
 - Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
@@ -64,7 +64,7 @@ No `_legacy/` source is active source truth.
 | Bridge-readiness research boundaries | Gate 7 | `packages/btd/src/bridge-readiness.ts`, BTD/API tests, route boundary, docs, gate checker | closed | Bridge paths are typed research-only records until admitted by explicit future proof and policy. |
 | Protocol telemetry/proof hooks | Gate 8 | `packages/btd/src/telemetry.ts`, API route boundary, focused BTD/API tests, gate checker | closed | Receipts, fee states, projections, source-to-shares proofs, and bridge-readiness posture emit source-safe telemetry and proof hooks. |
 | Interface integration regression | Gate 9 | `packages/btd/src/interface-integration.ts`, `packages/api/src/routes/btd-crypto.ts`, Terminal/MCP/ChatGPT adapters and tests, gate checker | closed | Existing interfaces consume package-owned objects without regressing V29 behavior. |
-| Promotion readiness | Gate 10 | V30 promotion workflow, generated `.bitcode/v30-*`, `BITCODE_SPEC_V30_PROVEN.md` | closed | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
+| Promotion readiness | Gate 10 | V30 promotion workflow, generated `.proofs/v30/*`, `BITCODE_SPEC_V30_PROVEN.md` | closed | `version/v30` can promote to `main` only after all V30 checks pass and promotion automation can commit generated canon. |
 
 ## V30 implementation checklist
 
@@ -226,7 +226,7 @@ No `_legacy/` source is active source truth.
 
 - Gate 8 does not expose protected source, prompt bodies, private source text, private keys, service-role keys, OpenAI keys, JWT-looking secrets, or database passwords in telemetry.
 - Gate 8 does not replace deployment-readiness crypto telemetry persistence; it adds Protocol/BTD source-safe proof hooks that later V32 and V35 work can consume.
-- Gate 8 does not generate promotion artifacts yet; it reserves `.bitcode/v30-protocol-telemetry-proof-hooks.json` as a source-safe generated inventory.
+- Gate 8 does not generate promotion artifacts yet; it reserves `.proofs/v30/protocol-telemetry-proof-hooks.json` as a source-safe generated inventory.
 - Gate 8 may expose telemetry/proof hooks to Terminal/API callers for operator review.
 - Gate 8 does not promote V30 or change the active canon pointer.
 
@@ -250,7 +250,7 @@ No `_legacy/` source is active source truth.
 | Promotion command support | `scripts/promote-bitcode-canon.mjs` | drafted | `--version V30` plans all V30 gate checks, package proof, UAPI/browser proof, generated appendix, and post-promotion validations. |
 | Hand-authored status rewriting | `scripts/prepare-bitcode-spec-family-promotion.mjs` | drafted | V30 SPEC, DELTA, NOTES, and PARITY status lines are rewritten to promoted truth with proof-source commit. |
 | Runtime posture rewriting | `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, `packages/protocol/src/canon-posture.js`, `packages/protocol/data/state.json` | drafted | Promotion rewrites runtime posture from V29/V30 to V30/V31. |
-| Generated artifact support | `packages/protocol/src/canonical/proven-generator.js`, `packages/protocol/src/canonical/v21-specifying.js`, `.bitcode/v30-*` | drafted | Spec-family, canonical-input, canon-posture, and Protocol telemetry proof-hook reports are generated and source-safe. |
+| Generated artifact support | `packages/protocol/src/canonical/proven-generator.js`, `packages/protocol/src/canonical/v21-specifying.js`, `.proofs/v30/*` | drafted | Spec-family, canonical-input, canon-posture, and Protocol telemetry proof-hook reports are generated and source-safe. |
 | Source-safe QA ledger | `BITCODE_V30_QA.md` | drafted | Local and staging-testnet readiness evidence is recorded without secrets or protected source. |
 
 ## Gate 10 completion condition

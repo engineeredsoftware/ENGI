@@ -53,7 +53,7 @@ test('builds source-safe V38 InferencePromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^inference-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     V38_INFERENCE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v38-promotion-readiness-report.json',
+    '.proofs/v38/promotion-readiness-report.json',
   );
 
   for (const artifactPath of V38_INFERENCE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -76,6 +76,6 @@ test('supports V38 promotion readiness with source-safe inference artifacts', ()
   assert.equal(result.data.v38.promotionReadinessReport.postPromotionPosture, 'V38 active / V39 draft');
   assert.equal(result.data.v38.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V38 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v38-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v38-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v38/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v38/canon-posture-drift-report.json']);
 });

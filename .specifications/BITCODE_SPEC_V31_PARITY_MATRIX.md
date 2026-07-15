@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `8c711604600afe1d1e477d3c180d653602203d0f`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v31/spec-family-report.json`, `.proofs/v31/canonical-input-report.json`, `.proofs/v31/canon-posture-drift-report.json`, `.proofs/v31/auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
 - Source parity state: V31 source-side Auxillaries package contracts, route data, client hooks, panes, organization authority, recovery runs, telemetry/proof hooks, UX/accessibility, workflow, and promotion surfaces are canonicalized in the promoted V31 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
@@ -66,7 +66,7 @@ No `_legacy/` source is active source truth.
 | Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | closed | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
 | Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | closed | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
 | Auxillaries telemetry proof and recovery runs | Gate 9 | `packages/api/src/routes/auxillaries-contract.ts`, `/api/auxillaries/data`, `useUserData`, Externals UI, route/API/UI tests, Gate 9 checker | closed | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
-| Promotion readiness | Gate 10 | V31 promotion workflow, generated `.bitcode/v31-*`, `BITCODE_SPEC_V31_PROVEN.md` | closed | `version/v31` can promote to `main` only after all V31 gates pass and promotion automation commits generated canon. |
+| Promotion readiness | Gate 10 | V31 promotion workflow, generated `.proofs/v31/*`, `BITCODE_SPEC_V31_PROVEN.md` | closed | `version/v31` can promote to `main` only after all V31 gates pass and promotion automation commits generated canon. |
 
 ## V31 implementation checklist
 
@@ -166,7 +166,7 @@ No `_legacy/` source is active source truth.
 | V31 promotion checker exists | `scripts/check-v31-gate10-promotion-readiness.mjs` | closed |
 | V31 promotion workflow exists | `.github/workflows/v31-canon-promotion.yml` | closed |
 | Promotion command supports V31 generated artifacts and runtime posture rewriting | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js` | closed |
-| `BITCODE_SPEC_V31_PROVEN.md` is generated during promotion only | `scripts/generate-bitcode-proven.mjs`, V31 promotion workflow, generated `.bitcode/v31-*` proof artifacts | closed |
+| `BITCODE_SPEC_V31_PROVEN.md` is generated during promotion only | `scripts/generate-bitcode-proven.mjs`, V31 promotion workflow, generated `.proofs/v31/*` proof artifacts | closed |
 
 ## accepted boundaries
 
@@ -186,6 +186,6 @@ draft and promotion modes, Gate Quality invokes V31 Gates 1 through 10,
 Canon Quality accepts promoted V31 / draft V32 posture, `v31-canon-promotion.yml`
 validates `version/v31` pull requests into `main`, the canonical promotion
 script supports `--version V31`, the generated V31 appendix writes
-`.bitcode/v31-*` artifacts, and no source-safe QA ledger or generated artifact
+`.proofs/v31/*` artifacts, and no source-safe QA ledger or generated artifact
 contains credentials, protected source, private prompts, or pre-settlement
 AssetPack contents.

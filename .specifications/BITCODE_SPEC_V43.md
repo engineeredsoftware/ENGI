@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3c7a9f998656635cc28c8b4584ae964ac04154fa`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, `.bitcode/v43-route-vocabulary-inventory.json`, `.bitcode/v43-packs-activity-master-detail.json`, `.bitcode/v43-read-route-five-step-ux.json`, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, `.bitcode/v43-deposit-option-admission.json`, `.bitcode/v43-route-ux-product-excellence.json`, `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`, `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v43/spec-family-report.json`, `.proofs/v43/canonical-input-report.json`, `.proofs/v43/canon-posture-drift-report.json`, `.proofs/v43/route-vocabulary-inventory.json`, `.proofs/v43/packs-activity-master-detail.json`, `.proofs/v43/read-route-five-step-ux.json`, `.proofs/v43/deposit-route-options.json`, `.proofs/v43/deposit-policy-compensation.json`, `.proofs/v43/deposit-option-admission.json`, `.proofs/v43/route-ux-product-excellence.json`, `.proofs/v43/cross-route-rehearsal-telemetry-repair.json`, `.proofs/v43/promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
 - Source parity state: V43 source-side route vocabulary, Packs master-detail, Read five-step UX, deposit option synthesis, deposit policy/compensation, deposit option admission, route UX, cross-route rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V43 file family
 - Notes companion: `BITCODE_SPEC_V43_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V43_DELTA.md`
@@ -110,7 +110,7 @@ Gate 2 must inventory every `/exchange`, Exchange, `/terminal`, Terminal, Readin
 
 Gate 2 closes with the package-backed route vocabulary inventory
 `V43RouteVocabularyInventory` and deterministic generated artifact
-`.bitcode/v43-route-vocabulary-inventory.json`. The artifact records only
+`.proofs/v43/route-vocabulary-inventory.json`. The artifact records only
 source-safe file/token counts, token totals, category totals, migration rows,
 and proof roots. It does not serialize source snippets, raw prompts, protected
 source, unpaid AssetPack source, provider responses, wallet private material,
@@ -141,7 +141,7 @@ Gate 3 must implement PackActivity data contracts, route APIs, table search, col
 
 Gate 3 closes with the package-backed `V43PacksActivityMasterDetail`
 artifact and deterministic generated proof
-`.bitcode/v43-packs-activity-master-detail.json`. The implementation adds the
+`.proofs/v43/packs-activity-master-detail.json`. The implementation adds the
 `PackActivityRecord` and `PacksActivityDetail` data contracts,
 `/api/packs/activity`, the `/packs` master-detail route, and `/exchange` to
 `/packs` compatibility redirection. Pack activity search covers synthesized
@@ -188,7 +188,7 @@ Gate 6 formalizes how Bitcode estimates sub-critical source posture, likely dema
 
 Gate 6 closes with `DepositAssetPackOptionPolicy`,
 `DepositAssetPackOptionPolicyReport`, and the generated
-`.bitcode/v43-deposit-policy-compensation.json` proof. The policy consumes the
+`.proofs/v43/deposit-policy-compensation.json` proof. The policy consumes the
 source-safe `DepositAssetPackOptionSynthesis` output plus source-safe
 criticality signals, estimated development cost, expected future settlement,
 and depositor wallet posture. It emits per-option policy evaluations for source
@@ -204,7 +204,7 @@ Gate 7 must implement option accept/reject/resynthesize decisions, admission rec
 
 Gate 7 closes with `DepositAssetPackOptionAdmissionReport`,
 `DepositOptionAdmissionReceipt`, `DepositOptionReviewDecision`, and the
-generated `.bitcode/v43-deposit-option-admission.json` proof. The admission
+generated `.proofs/v43/deposit-option-admission.json` proof. The admission
 report consumes source-safe Gate 5 option synthesis plus Gate 6 policy scoring
 and emits per-option receipts for pending review, depositor approval, depositor
 rejection, depositor-requested resynthesis, and policy-blocked outcomes. Only
@@ -223,7 +223,7 @@ Gate 8 must improve route layout, visual hierarchy, copy, progressive disclosure
 
 Gate 8 closes with `ProductRouteShell`, `ProductRouteStepGrid`,
 `ProductRouteStatePanel`, `ProductRouteDisclosure`, and the generated
-`.bitcode/v43-route-ux-product-excellence.json` proof. `/packs`, `/read`, and
+`.proofs/v43/route-ux-product-excellence.json` proof. `/packs`, `/read`, and
 `/deposit` must share a consistent themed route frame, concise route summaries,
 source-safe metrics, keyboard-accessible step buttons, loading/empty/error
 states, and expandable proof/source-safety detail. Product copy must be route
@@ -238,7 +238,7 @@ Gate 9 must rehearse the full path across `/deposit`, `/read`, and `/packs`: syn
 
 Gate 9 closes with `V43CrossRouteRehearsalTelemetryRepair`, the dry-run
 operator receipt script `rehearse:v43-cross-route`, and generated
-`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`. The artifact binds
+`.proofs/v43/cross-route-rehearsal-telemetry-repair.json`. The artifact binds
 local and staging-testnet lanes, `/deposit`, `/read`, and `/packs`, and the
 cross-route stages: deposit option synthesis, deposit option review/admission,
 Read request, Need review, Finding Fits request, source-safe AssetPack preview,
@@ -255,7 +255,7 @@ source. Value-bearing mainnet remains blocked.
 Gate 10 must bind every V43 artifact, workflow, generated proof, docs update, route migration, source-safety proof, test suite, and active V43 / draft V44 runtime posture before canonical promotion.
 
 Gate 10 closes with `V43PromotionReadinessReport`, the deterministic
-`.bitcode/v43-promotion-readiness-report.json` artifact, `check:v43-gate10`,
+`.proofs/v43/promotion-readiness-report.json` artifact, `check:v43-gate10`,
 `generate:v43-promotion-readiness`, `v43-canon-promotion.yml`, V43 promotion
 support in `promote-bitcode-canon.mjs`, V43 hand-authored spec-family promotion
 rewriting, V43 generated PROVEN support, and post-promotion workflow posture for
@@ -273,7 +273,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, DepositAssetPackOptionPolicy, DepositAssetPackOptionPolicyReport, DepositAssetPackOptionAdmissionReport, DepositOptionAdmissionReceipt, DepositOptionReviewDecision, Depository record projection, source admission proof, compensation preview, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, and `.bitcode/v43-deposit-option-admission.json`.
+- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, DepositAssetPackOptionPolicy, DepositAssetPackOptionPolicyReport, DepositAssetPackOptionAdmissionReport, DepositOptionAdmissionReceipt, DepositOptionReviewDecision, Depository record projection, source admission proof, compensation preview, `.proofs/v43/deposit-route-options.json`, `.proofs/v43/deposit-policy-compensation.json`, and `.proofs/v43/deposit-option-admission.json`.
 - Current algorithms and derivation rules: connected-source selection, depositor instruction rooting, source path rooting, Depository demand signal roots, Reading demand signal roots, existing supply signal roots, option grouping, measurement projection, source-safe review posture, source criticality scoring, weighted demand scoring, deterministic gross-minus-cost ROI scoring, estimate-only BTD potential, future-reader BTC source-to-shares compensation route preview, depositor approve/reject/resynthesis decisions, approved-policy-eligible admission, Depository index projection, storage metadata projection, and `/packs` activity synchronization.
 - Current invariants and fail-closed conditions: invalid repository binding, missing source hints, critical-source block, negative expected value warning/block, missing wallet compensation repair posture, missing depositor review, rejected option, resynthesis request, policy-blocked option, and protected-source leak.
 - Current proof obligations: source-safe option synthesis, option policy report, option review boundary, admission receipts, compensation route preview, Depository index/storage projections, BTD mint boundary, telemetry, and activity synchronization.
@@ -355,7 +355,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v43-inference-synthesis.json`
+- proofArtifactPath: `.proofs/v43/inference-synthesis.json`
 - members: deposit-option-synthesis, read-need, read-fits, pack-preview
 - theoremIds: source-safe-option-synthesis, accepted-need-gated-fits, no-unpaid-source
 - replayStepIds: synthesize-deposit-options, synthesize-need, search-depository, preview-pack
@@ -371,7 +371,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v43-prompt-completeness.json`
+- proofArtifactPath: `.proofs/v43/prompt-completeness.json`
 - members: depositor instructions, source criticality, demand posture, Reading pipelines
 - theoremIds: no-missing-route-prompt, no-raw-prompt-ui-leak
 - replayStepIds: prepare-context, run-failsafe, run-thricified, parse-output
@@ -387,7 +387,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v43-static-code-analysis.json`
+- proofArtifactPath: `.proofs/v43/static-code-analysis.json`
 - members: route rename, component prefix, import casing, dead Exchange references
 - theoremIds: packs-name-totality, read-deposit-route-totality
 - replayStepIds: scan-routes, scan-components, scan-docs, scan-tests
@@ -403,7 +403,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v43-verification-decisions.json`
+- proofArtifactPath: `.proofs/v43/verification-decisions.json`
 - members: deposit option review, Need review, fit selection, settlement review
 - theoremIds: human-approval-boundary, no-source-leak-before-pay
 - replayStepIds: review-option, accept-need, select-fits, settle-pack
@@ -419,7 +419,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v43-selection-materialization.json`
+- proofArtifactPath: `.proofs/v43/selection-materialization.json`
 - members: deposit option groups, selected fit set, AssetPack preview, delivery PR
 - theoremIds: source-pack-boundary, paid-delivery-only
 - replayStepIds: group-source, rank-fits, generate-preview, deliver-pr
@@ -435,7 +435,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v43-authorization-sensitive-flow.json`
+- proofArtifactPath: `.proofs/v43/authorization-sensitive-flow.json`
 - members: account, organization, repository, wallet, source visibility
 - theoremIds: principal-boundary, no-private-key-route
 - replayStepIds: authorize-deposit, authorize-read, authorize-settlement, authorize-detail
@@ -451,7 +451,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v43-settlement-source-to-shares.json`
+- proofArtifactPath: `.proofs/v43/settlement-source-to-shares.json`
 - members: quote, finality, rights transfer, depositor compensation
 - theoremIds: btc-conservation, source-share-allocation
 - replayStepIds: quote, observe-payment, transfer-rights, allocate-compensation
@@ -467,7 +467,7 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v43-disclosure-boundary.json`
+- proofArtifactPath: `.proofs/v43/disclosure-boundary.json`
 - members: product copy, preview metadata, expanded proof, pack detail
 - theoremIds: self-explanatory-without-overdisclosure, unpaid-source-hidden
 - replayStepIds: render-collapsed, expand-detail, leak-scan, export-proof
@@ -483,11 +483,11 @@ and advance runtime posture to V43 active / draft V44.
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v43-proof-contract.json`
+- proofArtifactPath: `.proofs/v43/proof-contract.json`
 - members: generated artifacts, workflows, promotion readiness
 - theoremIds: deterministic-artifact, promotion-readiness
 - replayStepIds: generate, check, promote
-- witnessArtifactPaths: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v43/spec-family-report.json`, `.proofs/v43/canonical-input-report.json`
 - current member closure criteria: deterministic source-safe artifact generation
 - current member verdict shape: passed, failed
 - current theorem-by-theorem closure reading: promotion is blocked until every gate is closed
@@ -511,12 +511,12 @@ Inherited operator-quality truth remains binding.
 
 | artifact | owner | status |
 | --- | --- | --- |
-| `.bitcode/v43-spec-family-report.json` | spec family | draft-required |
-| `.bitcode/v43-canonical-input-report.json` | canonical inputs | draft-required |
+| `.proofs/v43/spec-family-report.json` | spec family | draft-required |
+| `.proofs/v43/canonical-input-report.json` | canonical inputs | draft-required |
 
 ### V43 specifying generated artifacts
 
-V43 starts with `.bitcode/v43-spec-family-report.json` and `.bitcode/v43-canonical-input-report.json`; later gates add route, pack, deposit, read, UX, rehearsal, and promotion artifacts.
+V43 starts with `.proofs/v43/spec-family-report.json` and `.proofs/v43/canonical-input-report.json`; later gates add route, pack, deposit, read, UX, rehearsal, and promotion artifacts.
 
 ### Shared generated-artifact fields
 
@@ -545,7 +545,7 @@ Gate 1 validates with `pnpm run check:v43-gate1`, `node scripts/check-bitcode-sp
 ## V43 promotion canon
 
 V43 promotion readiness canon is represented by
-`.bitcode/v43-promotion-readiness-report.json`. It binds Gate 1 through Gate 10
+`.proofs/v43/promotion-readiness-report.json`. It binds Gate 1 through Gate 10
 artifact coverage, source-safety coverage, workflow coverage, promotion-script
 coverage, generated proof support, documentation evidence, and post-promotion
 runtime posture. Its accepted post-promotion posture is V43 active / draft V44,
@@ -569,15 +569,15 @@ The proof family closure catalog binds the families above to route, pipeline, st
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v43-inference-synthesis.json` | deposit-option-synthesis/read-need/read-fits | source-safe-option-synthesis | synthesize-deposit-options/search-depository | V43 gate artifacts | pipeline packages |
-| Prompt-completeness | `.bitcode/v43-prompt-completeness.json` | prompts | no-missing-route-prompt | prepare-context | V41 prompt artifacts | prompt registries |
-| Static-code-analysis | `.bitcode/v43-static-code-analysis.json` | route tokens | packs-name-totality | scan-routes | route inventory | source tree |
-| Verification-decisions | `.bitcode/v43-verification-decisions.json` | reviews | human-approval-boundary | review-option | decision receipts | route APIs |
-| Selection-and-materialization | `.bitcode/v43-selection-materialization.json` | pack lifecycle | paid-delivery-only | deliver-pr | pack activity | asset-pack pipeline |
-| Authorization-and-sensitive-flow | `.bitcode/v43-authorization-sensitive-flow.json` | principals | principal-boundary | authorize-read | policy receipts | auth packages |
-| Settlement-source-to-shares | `.bitcode/v43-settlement-source-to-shares.json` | settlement | btc-conservation | allocate-compensation | settlement receipts | BTD package |
-| Disclosure-boundary | `.bitcode/v43-disclosure-boundary.json` | disclosure | unpaid-source-hidden | leak-scan | browser artifacts | route serializers |
-| Proof-contract | `.bitcode/v43-proof-contract.json` | artifacts | deterministic-artifact | promote | spec reports | scripts |
+| Inference-synthesis | `.proofs/v43/inference-synthesis.json` | deposit-option-synthesis/read-need/read-fits | source-safe-option-synthesis | synthesize-deposit-options/search-depository | V43 gate artifacts | pipeline packages |
+| Prompt-completeness | `.proofs/v43/prompt-completeness.json` | prompts | no-missing-route-prompt | prepare-context | V41 prompt artifacts | prompt registries |
+| Static-code-analysis | `.proofs/v43/static-code-analysis.json` | route tokens | packs-name-totality | scan-routes | route inventory | source tree |
+| Verification-decisions | `.proofs/v43/verification-decisions.json` | reviews | human-approval-boundary | review-option | decision receipts | route APIs |
+| Selection-and-materialization | `.proofs/v43/selection-materialization.json` | pack lifecycle | paid-delivery-only | deliver-pr | pack activity | asset-pack pipeline |
+| Authorization-and-sensitive-flow | `.proofs/v43/authorization-sensitive-flow.json` | principals | principal-boundary | authorize-read | policy receipts | auth packages |
+| Settlement-source-to-shares | `.proofs/v43/settlement-source-to-shares.json` | settlement | btc-conservation | allocate-compensation | settlement receipts | BTD package |
+| Disclosure-boundary | `.proofs/v43/disclosure-boundary.json` | disclosure | unpaid-source-hidden | leak-scan | browser artifacts | route serializers |
+| Proof-contract | `.proofs/v43/proof-contract.json` | artifacts | deterministic-artifact | promote | spec reports | scripts |
 
 ## Appendix C. Generated artifact contract catalog
 
@@ -593,22 +593,22 @@ Inherited.
 
 | artifact | field | verdict |
 | --- | --- | --- |
-| `.bitcode/v43-spec-family-report.json` | aggregate proof verdict | draft-required |
-| `.bitcode/v43-canonical-input-report.json` | generated artifact inventories | draft-required |
-| `.bitcode/v43-canon-posture-drift-report.json` | active/draft posture | draft-required |
-| `.bitcode/v43-route-vocabulary-inventory.json` | route vocabulary inventory | closed |
-| `.bitcode/v43-packs-activity-master-detail.json` | pack activity master-detail | closed |
-| `.bitcode/v43-read-route-five-step-ux.json` | Reading route UX | closed |
-| `.bitcode/v43-deposit-route-options.json` | deposit option synthesis route | closed |
-| `.bitcode/v43-deposit-policy-compensation.json` | deposit policy and compensation | closed |
-| `.bitcode/v43-deposit-option-admission.json` | deposit option admission | closed |
-| `.bitcode/v43-route-ux-product-excellence.json` | shared product route UX | closed |
-| `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json` | cross-route rehearsal and repair | closed |
-| `.bitcode/v43-promotion-readiness-report.json` | promotion readiness | closed |
+| `.proofs/v43/spec-family-report.json` | aggregate proof verdict | draft-required |
+| `.proofs/v43/canonical-input-report.json` | generated artifact inventories | draft-required |
+| `.proofs/v43/canon-posture-drift-report.json` | active/draft posture | draft-required |
+| `.proofs/v43/route-vocabulary-inventory.json` | route vocabulary inventory | closed |
+| `.proofs/v43/packs-activity-master-detail.json` | pack activity master-detail | closed |
+| `.proofs/v43/read-route-five-step-ux.json` | Reading route UX | closed |
+| `.proofs/v43/deposit-route-options.json` | deposit option synthesis route | closed |
+| `.proofs/v43/deposit-policy-compensation.json` | deposit policy and compensation | closed |
+| `.proofs/v43/deposit-option-admission.json` | deposit option admission | closed |
+| `.proofs/v43/route-ux-product-excellence.json` | shared product route UX | closed |
+| `.proofs/v43/cross-route-rehearsal-telemetry-repair.json` | cross-route rehearsal and repair | closed |
+| `.proofs/v43/promotion-readiness-report.json` | promotion readiness | closed |
 
 ### V43 specifying generated artifacts
 
-`.bitcode/v43-spec-family-report.json` and `.bitcode/v43-canonical-input-report.json` are the opening artifacts.
+`.proofs/v43/spec-family-report.json` and `.proofs/v43/canonical-input-report.json` are the opening artifacts.
 
 ### Shared generated-artifact fields
 
@@ -660,7 +660,7 @@ V43 fails closed on invalid deposit, prompt contract incompleteness, parsed-enve
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing artifacts include `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V43_PROVEN.md`.
+Source-bearing artifacts include `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V43_PROVEN.md`.
 
 ## V43 accepted boundaries and reopen conditions
 

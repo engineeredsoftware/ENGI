@@ -88,7 +88,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'pnpm -C packages/prompts exec jest --runInBand src/__tests__/prompt.test.ts',
       'node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
-      '.bitcode/prompt-system-totality-proof.json'
+      '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/prompts/package.json',
@@ -198,7 +198,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'pnpm -C packages/agent-generics run typecheck',
       'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      '.bitcode/prompt-system-totality-proof.json'
+      '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/agent-generics/src/prompts/AgentPrompt.ts',
@@ -251,7 +251,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'pnpm -C packages/execution-generics run typecheck',
       'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      '.bitcode/runs-pipelines-totality-proof.json'
+      '.proofs/_shared/runs-pipelines-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/execution-generics/package.json',
@@ -306,7 +306,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'pnpm -C packages/pipelines-generics run typecheck',
       'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      '.bitcode/runs-pipelines-totality-proof.json'
+      '.proofs/_shared/runs-pipelines-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
@@ -355,7 +355,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'apps/uapi/tests/api/conversationsRoute.test.ts',
       'apps/uapi/tests/api/chatStreamRoute.test.ts',
-      '.bitcode/conversations-continuity-proof.json'
+      '.proofs/_shared/conversations-continuity-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
@@ -430,8 +430,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'node --test protocol-demonstration/test/v26-shippable-reform.test.js',
       'node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
-      '.bitcode/runs-pipelines-totality-proof.json',
-      '.bitcode/prompt-system-totality-proof.json'
+      '.proofs/_shared/runs-pipelines-totality-proof.json',
+      '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
@@ -610,7 +610,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'protocol-demonstration/src/canonical/evaluation-materialization.js',
         'protocol-demonstration/src/canonical/run-artifacts.js'
       ],
-      carriers: ['.bitcode/read-review.json', 'pipeline-telemetry.read-review', 'branch-artifact-required-path']
+      carriers: ['.proofs/_shared/read-review.json', 'pipeline-telemetry.read-review', 'branch-artifact-required-path']
     },
     assetPackImplementation: {
       outputKind: 'pre-fit Read review artifact',
@@ -619,7 +619,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     boundaryPosture: 'active',
     verificationSet: [
       'node --test protocol-demonstration/test/v26-read-review-source-to-shares.test.js',
-      '.bitcode/inference-implementation-records-proof.json'
+      '.proofs/_shared/inference-implementation-records-proof.json'
     ],
     sourceEvidenceRefs: [
       'protocol-demonstration/src/canonical/read-measurement.js',
@@ -685,8 +685,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js',
       'node --test protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
       'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
-      '.bitcode/inference-implementation-records-proof.json',
-      '.bitcode/prompt-system-totality-proof.json'
+      '.proofs/_shared/inference-implementation-records-proof.json',
+      '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/generic-agents/web-researcher/README.md',
@@ -782,8 +782,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'node --test protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js',
       'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
-      '.bitcode/inference-implementation-records-proof.json',
-      '.bitcode/prompt-system-totality-proof.json'
+      '.proofs/_shared/inference-implementation-records-proof.json',
+      '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/generic-agents/danger-wall/README.md',
@@ -844,8 +844,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'ingress',
     verificationSet: [
-      '.bitcode/retained-package-admissibility-proof.json',
-      '.bitcode/system-reform-admissibility-proof.json',
+      '.proofs/_shared/retained-package-admissibility-proof.json',
+      '.proofs/_shared/system-reform-admissibility-proof.json',
       'pnpm -C packages/mcp-generics run typecheck'
     ],
     sourceEvidenceRefs: [
@@ -874,7 +874,7 @@ function hasMeaningfulValue(value) {
 function classifyVerificationEvidence(value) {
   const normalizedValue = value.trim();
 
-  if (normalizedValue.startsWith('.bitcode/')) return 'generated-artifact';
+  if (normalizedValue.startsWith('.proofs/')) return 'generated-artifact';
   if (/^(node|npm|pnpm|yarn|bun)\s/u.test(normalizedValue)) return 'executable-command';
   if (/(\.test\.(js|ts|tsx)$|\/__tests__\/)/u.test(normalizedValue)) return 'source-test';
 

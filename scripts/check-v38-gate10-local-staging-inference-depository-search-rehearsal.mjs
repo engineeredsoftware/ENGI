@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json';
+const ARTIFACT_PATH = '.proofs/v38/local-staging-inference-depository-search-rehearsal.json';
 
 const REQUIRED_ROW_IDS = [
   'lane:local-reading-inference-rehearsal',
@@ -24,14 +24,14 @@ const REQUIRED_ROW_IDS = [
 const REQUIRED_LANE_IDS = ['local', 'staging-testnet'];
 
 const REQUIRED_PROOF_ARTIFACTS = [
-  '.bitcode/v38-inference-surface-inventory.json',
-  '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-  '.bitcode/v38-prompt-benchmark-report.json',
-  '.bitcode/v38-disclosure-boundary-report.json',
-  '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-  '.bitcode/v38-read-fits-finding-search-embeddings.json',
-  '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
-  '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
+  '.proofs/v38/inference-surface-inventory.json',
+  '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+  '.proofs/v38/prompt-benchmark-report.json',
+  '.proofs/v38/disclosure-boundary-report.json',
+  '.proofs/v38/read-need-comprehension-inference-hardening.json',
+  '.proofs/v38/read-fits-finding-search-embeddings.json',
+  '.proofs/v38/assetpack-synthesis-economic-traceability.json',
+  '.proofs/v38/conversation-tool-prompt-inference-parity.json',
 ];
 
 const SECRET_MARKERS = [

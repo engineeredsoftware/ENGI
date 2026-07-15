@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V41_REGISTRY_INTERPOLATION_CONTRACTS_ARTIFACT_PATH =
-  '.bitcode/v41-registry-interpolation-contracts.json';
+  '.proofs/v41/registry-interpolation-contracts.json';
 export const V41_REGISTRY_INTERPOLATION_CONTRACTS_SCHEMA_ID =
   'bitcode.v41.registryInterpolationContracts.v1';
 export const V41_REGISTRY_INTERPOLATION_CONTRACTS_VERSION = 'V41';
@@ -105,7 +105,7 @@ const SOURCE_ROOTS = Object.freeze({
   generator: 'scripts/generate-v41-registry-interpolation-contracts.mjs',
   checker: 'scripts/check-v41-gate3-registry-interpolation-contracts.mjs',
   gate2InventorySource: 'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
-  gate2InventoryArtifact: '.bitcode/v41-promptpart-prompt-inventory.json',
+  gate2InventoryArtifact: '.proofs/v41/promptpart-prompt-inventory.json',
   spec: '.specifications/BITCODE_SPEC_V41.md',
   delta: '.specifications/BITCODE_SPEC_V41_DELTA.md',
   notes: '.specifications/BITCODE_SPEC_V41_NOTES.md',

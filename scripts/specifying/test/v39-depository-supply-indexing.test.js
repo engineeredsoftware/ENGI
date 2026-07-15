@@ -13,7 +13,7 @@ import {
 test('V39 Depository supply indexing report binds source-safe lifecycle, vectors, rights, and search handoff', () => {
   const report = buildV39DepositorySupplyIndexing();
 
-  assert.equal(V39_DEPOSITORY_SUPPLY_INDEXING_ARTIFACT_PATH, '.bitcode/v39-depository-supply-indexing.json');
+  assert.equal(V39_DEPOSITORY_SUPPLY_INDEXING_ARTIFACT_PATH, '.proofs/v39/depository-supply-indexing.json');
   assert.equal(report.artifactId, 'v39-depository-supply-indexing');
   assert.equal(report.schemaId, V39_DEPOSITORY_SUPPLY_INDEXING_SCHEMA_ID);
   assert.equal(report.version, 'V39');

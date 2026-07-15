@@ -9,7 +9,7 @@
 - Current active draft target: `V37`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, `.bitcode/v37-promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v37/spec-family-report.json`, `.proofs/v37/canonical-input-report.json`, `.proofs/v37/canon-posture-drift-report.json`, `.proofs/v37/conversation-session-route-history.json`, `.proofs/v37/conversation-stream-event-contract.json`, `.proofs/v37/conversation-writing-workspace.json`, `.proofs/v37/conversation-source-selector.json`, `.proofs/v37/conversation-terminal-handoff.json`, `.proofs/v37/conversation-persistence-privacy-redaction.json`, `.proofs/v37/conversation-telemetry-proof-hooks.json`, `.proofs/v37/conversation-rehearsal.json`, `.proofs/v37/promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
 - Source parity state: V37 source-side ConversationSession route history, ConversationStreamEvent contracts, ConversationWritingWorkspace contracts, ConversationSourceSelector contracts, ConversationTerminalHandoff contracts, ConversationPersistencePrivacyRedaction contracts, ConversationTelemetryProofHooks contracts, ConversationRehearsal evidence, workflow, and promotion surfaces are canonicalized in the promoted V37 file family
 - Scope: V37 canonical notes for Website Conversations over promoted V36 Exchange canon
 - Last fully realized canonical target preserved in source: `V37`
@@ -53,7 +53,7 @@ It must use the same Protocol/Terminal/BTD registry and access-policy truth rath
 ## Gate 2 implementation notes
 
 ConversationSession route-history contracts are source-safe route contracts, not a new ledger.
-Gate 2 adds `.bitcode/v37-conversation-session-route-history.json`, `buildConversationSessionRouteHistory`, route contract helpers, package tests, route tests, and `check:v37-gate2`.
+Gate 2 adds `.proofs/v37/conversation-session-route-history.json`, `buildConversationSessionRouteHistory`, route contract helpers, package tests, route tests, and `check:v37-gate2`.
 The required operations are create, restore, branch, retry, redact, and stream.
 Restore, branch, retry, and redaction preserve route-local history and proof roots without exposing protected source, raw protected prompts, protected model responses with source, wallet private material, provider tokens, secrets, settlement private payloads, unpaid AssetPack source, or any global ledger authority claim.
 
@@ -61,7 +61,7 @@ Restore, branch, retry, and redaction preserve route-local history and proof roo
 
 ConversationStreamEvent stream contracts are source-safe SSE metadata
 contracts, not a transcript of raw model or tool payloads. Gate 3 adds
-`.bitcode/v37-conversation-stream-event-contract.json`,
+`.proofs/v37/conversation-stream-event-contract.json`,
 `buildConversationStreamEventContract`, the route-facing stream event adapter,
 package tests, route tests, UI tests, and `check:v37-gate3`.
 The required event rows are model deltas, tool calls, retrieval summaries,
@@ -77,7 +77,7 @@ running maintained targeted package tests inside the gate job.
 
 ConversationWritingWorkspace contracts are source-safe fullscreen composer
 contracts, not protected source storage or Terminal authority. Gate 4 adds
-`.bitcode/v37-conversation-writing-workspace.json`,
+`.proofs/v37/conversation-writing-workspace.json`,
 `buildConversationWritingWorkspace`, the route-facing writing workspace helper,
 the fullscreen workspace component, package tests, UI tests, and
 `check:v37-gate4`.
@@ -92,7 +92,7 @@ settlement private payloads, or global ledger authority claims.
 
 ConversationSourceSelector contracts are source-safe context-policy
 contracts, not source disclosure or rights transfer. Gate 5 adds
-`.bitcode/v37-conversation-source-selector.json`,
+`.proofs/v37/conversation-source-selector.json`,
 `buildConversationSourceSelector`, the route-facing source selector helper,
 the source selector component, package tests, UI tests, and
 `check:v37-gate5`.
@@ -109,7 +109,7 @@ global ledger authority claims remain outside Conversations.
 
 ConversationTerminalHandoff contracts are source-safe transaction-intent
 contracts, not Terminal execution, ledger writes, or wallet signing. Gate 6
-adds `.bitcode/v37-conversation-terminal-handoff.json`,
+adds `.proofs/v37/conversation-terminal-handoff.json`,
 `buildConversationTerminalHandoff`, the route-facing handoff helper, the
 handoff component, Terminal route context parsing, package tests, UI tests,
 Terminal route tests, and `check:v37-gate6`.
@@ -144,7 +144,7 @@ is redacted without polynomial multiline regular-expression behavior.
 Gate 8 adds `ConversationTelemetryProofHooks` so conversation sessions,
 messages, streams, tools, source selectors, Terminal handoffs, retries,
 errors, and completions have source-safe dashboard/runbook telemetry. The
-package source emits `.bitcode/v37-conversation-telemetry-proof-hooks.json`,
+package source emits `.proofs/v37/conversation-telemetry-proof-hooks.json`,
 the API attaches telemetry proof hooks to conversation stream execution rows,
 and the UI exposes a fullscreen telemetry proof panel. Telemetry proof hooks
 may expose event ids, conversation ids, message ids, run ids, source selector
@@ -158,7 +158,7 @@ large secret-shaped metadata cannot survive as a preview artifact.
 
 Gate 9 closure adds `ConversationRehearsal` so local and staging-testnet
 Conversations are rehearsed before promotion readiness. The package source
-emits `.bitcode/v37-conversation-rehearsal.json` with
+emits `.proofs/v37/conversation-rehearsal.json` with
 `source-safe-conversation-rehearsal-metadata`. Local and staging-testnet
 rehearsals exercise chat, streaming, writing, source selector, Terminal
 handoff, restore, retry, redaction, and error flows. Rehearsal
@@ -174,7 +174,7 @@ Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise 
 
 Gate 10: V37 Promotion Readiness closes the Website Conversations draft with
 package-owned `ConversationPromotionReadinessReport` source and
-`.bitcode/v37-promotion-readiness-report.json`. The readiness report proves
+`.proofs/v37/promotion-readiness-report.json`. The readiness report proves
 source-safe coverage for all V37 Conversation artifacts, generated
 `BITCODE_SPEC_V37_PROVEN.md` support, `v37-canon-promotion.yml`, V37 promotion
 dry-run support, and runtime posture preparation from V36 active / V37 draft

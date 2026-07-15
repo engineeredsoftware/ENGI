@@ -127,12 +127,12 @@ export const downloadRepository = async (installationId: number, repository: any
     }
   })).url
 
-  const zipDirPath = path.join(os.homedir(), `.bitcode/memory/${repository.name}`)
+  const zipDirPath = path.join(os.homedir(), `.proofs/memory/${repository.name}`)
   fs.mkdirSync(zipDirPath, { recursive: true })
   console.log(`🐲 Writing zip...`)
   const zipPath = path.join(zipDirPath, `${repository.name}.zip`)
   fs.writeFileSync(zipPath, Buffer.from(await (await fetch(downloadUrl)).arrayBuffer()))
-  const unzipPath = path.join(os.homedir(), `.bitcode/memory/${repository.name}/${repository.name}`)
+  const unzipPath = path.join(os.homedir(), `.proofs/memory/${repository.name}/${repository.name}`)
   console.log(`🐲 Decompressing zip...`)
   await decompress(zipPath, unzipPath)
   return unzipPath

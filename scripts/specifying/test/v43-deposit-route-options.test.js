@@ -15,7 +15,7 @@ import {
 test('V43 deposit route options artifact binds source-safe Deposit route contracts', () => {
   const report = buildV43DepositRouteOptions();
 
-  assert.equal(V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH, '.bitcode/v43-deposit-route-options.json');
+  assert.equal(V43_DEPOSIT_ROUTE_OPTIONS_ARTIFACT_PATH, '.proofs/v43/deposit-route-options.json');
   assert.equal(report.artifactId, 'v43-deposit-route-options');
   assert.equal(report.schemaId, V43_DEPOSIT_ROUTE_OPTIONS_SCHEMA_ID);
   assert.equal(report.version, 'V43');

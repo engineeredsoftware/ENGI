@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-export const V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH = '.bitcode/v43-route-ux-product-excellence.json';
+export const V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH = '.proofs/v43/route-ux-product-excellence.json';
 export const V43_ROUTE_UX_PRODUCT_EXCELLENCE_SCHEMA_ID = 'bitcode.v43.routeUxProductExcellence.v1';
 export const V43_ROUTE_UX_PRODUCT_EXCELLENCE_VERSION = 'V43';
 export const V43_ROUTE_UX_PRODUCT_EXCELLENCE_CURRENT_TARGET = 'V42';

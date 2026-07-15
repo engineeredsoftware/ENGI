@@ -15,7 +15,7 @@ import {
 test('V43 route vocabulary inventory binds source-safe route migration metadata', () => {
   const report = buildV43RouteVocabularyInventory();
 
-  assert.equal(V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH, '.bitcode/v43-route-vocabulary-inventory.json');
+  assert.equal(V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH, '.proofs/v43/route-vocabulary-inventory.json');
   assert.equal(report.artifactId, 'v43-route-vocabulary-inventory');
   assert.equal(report.schemaId, V43_ROUTE_VOCABULARY_INVENTORY_SCHEMA_ID);
   assert.equal(report.version, 'V43');

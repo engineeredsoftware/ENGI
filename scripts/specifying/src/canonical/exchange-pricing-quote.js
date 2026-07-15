@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_PRICING_QUOTE_ARTIFACT_PATH = '.bitcode/v36-pricing-liquidity-fee-quote.json';
+export const EXCHANGE_PRICING_QUOTE_ARTIFACT_PATH = '.proofs/v36/pricing-liquidity-fee-quote.json';
 export const EXCHANGE_PRICING_QUOTE_SCHEMA_ID = 'bitcode.v36.exchangePricingQuote.v1';
 export const EXCHANGE_PRICING_QUOTE_VERSION = 'V36';
 export const EXCHANGE_PRICING_QUOTE_CURRENT_TARGET = 'V35';

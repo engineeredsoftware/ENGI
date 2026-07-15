@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-ptrr-failsafe-thricified-stack.json';
+const ARTIFACT_PATH = '.proofs/v38/ptrr-failsafe-thricified-stack.json';
 
 const REQUIRED_STEP_IDS = ['plan', 'try', 'refine', 'retry'];
 const REQUIRED_FAILSAFE_IDS = ['prepare-concise-context', 'chunk-then-sum', 'stitch-until-complete'];
@@ -121,7 +121,7 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-inference-surface-inventory.json',
+    '.proofs/v38/inference-surface-inventory.json',
     'scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',
     'scripts/specifying/src/canonical/inference-surface-inventory.js',
     'scripts/specifying/src/index.js',

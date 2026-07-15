@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v32-promotion-readiness-report.json';
+const ARTIFACT = '.proofs/v32/promotion-readiness-report.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -225,7 +225,7 @@ function main() {
     promotionWorkflow.includes("head.ref == 'version/v32'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V32') &&
       promotionWorkflow.includes('.specifications/BITCODE_SPEC_V32_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V32 canon files'),
     'V32 promotion workflow must validate version/v32 and commit V32 promotion artifacts.',
   );
@@ -260,7 +260,7 @@ function main() {
     prepareSpecScript.includes("if (version === 'V32')") &&
       prepareSpecScript.includes('V32 canonical system specification for provation/testing') &&
       prepareSpecScript.includes('.specifications/BITCODE_SPEC_V32_PROVEN.md') &&
-      prepareSpecScript.includes('.bitcode/v32-promotion-readiness-report.json') &&
+      prepareSpecScript.includes('.proofs/v32/promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V32 hand-authored status truth and promoted parity judgments.',
   );
@@ -306,14 +306,14 @@ function main() {
     'README must document the Gate 10 command and V32 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v32-proof-coverage-matrix.json', ['"artifactId": "v32-proof-coverage-matrix"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-deterministic-replay-report.json', ['"artifactId": "v32-deterministic-replay-report"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-reading-pipeline-proof-coverage.json', ['"artifactId": "v32-reading-pipeline-proof-coverage"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json', ['"artifactId": "v32-ledger-btd-settlement-failure-state-coverage"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-interface-contract-regression-suite.json', ['"artifactId": "v32-interface-contract-regression-suite"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-browser-accessibility-responsive-visual-proof.json', ['"artifactId": "v32-browser-accessibility-responsive-visual-proof"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json', ['"artifactId": "v32-testnet-mainnet-readiness-rehearsal"', '"version": "V32"']);
-  assertJsonArtifact(failures, root, '.bitcode/v32-promotion-proof-generation-hardening.json', ['"artifactId": "v32-promotion-proof-generation-hardening"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/proof-coverage-matrix.json', ['"artifactId": "v32-proof-coverage-matrix"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/deterministic-replay-report.json', ['"artifactId": "v32-deterministic-replay-report"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/reading-pipeline-proof-coverage.json', ['"artifactId": "v32-reading-pipeline-proof-coverage"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/ledger-btd-settlement-failure-state-coverage.json', ['"artifactId": "v32-ledger-btd-settlement-failure-state-coverage"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/interface-contract-regression-suite.json', ['"artifactId": "v32-interface-contract-regression-suite"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/browser-accessibility-responsive-visual-proof.json', ['"artifactId": "v32-browser-accessibility-responsive-visual-proof"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/testnet-mainnet-readiness-rehearsal.json', ['"artifactId": "v32-testnet-mainnet-readiness-rehearsal"', '"version": "V32"']);
+  assertJsonArtifact(failures, root, '.proofs/v32/promotion-proof-generation-hardening.json', ['"artifactId": "v32-promotion-proof-generation-hardening"', '"version": "V32"']);
   const readinessArtifact = assertJsonArtifact(failures, root, ARTIFACT, ['v32-promotion-readiness-report', '"version": "V32"']);
 
   if (readinessArtifact) {

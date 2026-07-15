@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v35/documentation-telemetry-promotion-readiness-report.json';
 
 const V35_GATE_ARTIFACTS = [
-  '.bitcode/v35-documentation-surface-catalog.json',
-  '.bitcode/v35-telemetry-taxonomy-catalog.json',
-  '.bitcode/v35-public-docs-usage-guides.json',
-  '.bitcode/v35-operator-runbook-catalog.json',
-  '.bitcode/v35-docs-qa-alignment-report.json',
-  '.bitcode/v35-testnet-rollout-readiness-guide.json',
-  '.bitcode/v35-telemetry-documentation-interface-integration.json',
-  '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
+  '.proofs/v35/documentation-surface-catalog.json',
+  '.proofs/v35/telemetry-taxonomy-catalog.json',
+  '.proofs/v35/public-docs-usage-guides.json',
+  '.proofs/v35/operator-runbook-catalog.json',
+  '.proofs/v35/docs-qa-alignment-report.json',
+  '.proofs/v35/testnet-rollout-readiness-guide.json',
+  '.proofs/v35/telemetry-documentation-interface-integration.json',
+  '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json',
 ];
 
 const SECRET_MARKERS = [

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const CONVERSATION_REHEARSAL_ARTIFACT_PATH = '.bitcode/v37-conversation-rehearsal.json';
+export const CONVERSATION_REHEARSAL_ARTIFACT_PATH = '.proofs/v37/conversation-rehearsal.json';
 export const CONVERSATION_REHEARSAL_SCHEMA_ID = 'bitcode.v37.conversationRehearsal.v1';
 export const CONVERSATION_REHEARSAL_VERSION = 'V37';
 export const CONVERSATION_REHEARSAL_CURRENT_TARGET = 'V36';
@@ -98,13 +98,13 @@ const SHARED_SOURCE_ROOTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V37_NOTES.md',
   '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
   '.specifications/SPECIFICATIONS_ROADMAP.md',
-  '.bitcode/v37-conversation-session-route-history.json',
-  '.bitcode/v37-conversation-stream-event-contract.json',
-  '.bitcode/v37-conversation-writing-workspace.json',
-  '.bitcode/v37-conversation-source-selector.json',
-  '.bitcode/v37-conversation-product-handoff.json',
-  '.bitcode/v37-conversation-persistence-privacy-redaction.json',
-  '.bitcode/v37-conversation-telemetry-proof-hooks.json',
+  '.proofs/v37/conversation-session-route-history.json',
+  '.proofs/v37/conversation-stream-event-contract.json',
+  '.proofs/v37/conversation-writing-workspace.json',
+  '.proofs/v37/conversation-source-selector.json',
+  '.proofs/v37/conversation-product-handoff.json',
+  '.proofs/v37/conversation-persistence-privacy-redaction.json',
+  '.proofs/v37/conversation-telemetry-proof-hooks.json',
 ]);
 
 const rehearsalRows = Object.freeze([

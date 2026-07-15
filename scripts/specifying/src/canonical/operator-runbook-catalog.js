@@ -13,7 +13,7 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const OPERATOR_RUNBOOK_CATALOG_ARTIFACT_PATH = '.bitcode/v35-operator-runbook-catalog.json';
+export const OPERATOR_RUNBOOK_CATALOG_ARTIFACT_PATH = '.proofs/v35/operator-runbook-catalog.json';
 export const OPERATOR_RUNBOOK_CATALOG_SCHEMA_ID = 'bitcode.v35.operatorRunbookCatalog.v1';
 export const OPERATOR_RUNBOOK_CATALOG_VERSION = 'V35';
 export const OPERATOR_RUNBOOK_CATALOG_CURRENT_TARGET = 'V34';
@@ -263,7 +263,7 @@ function row(eventFamily, config) {
     sourceRoots: [
       '.specifications/BITCODE_SPEC_V35.md',
       '.specifications/BITCODE_SPEC_V35_DELTA.md',
-      '.bitcode/v35-telemetry-taxonomy-catalog.json',
+      '.proofs/v35/telemetry-taxonomy-catalog.json',
       ...telemetry.sourceRoots,
     ],
   };

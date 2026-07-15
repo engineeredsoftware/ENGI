@@ -13,7 +13,7 @@ import {
 test('V42 local/staging MVP rehearsal artifact is source-safe and complete', () => {
   const artifact = buildV42LocalStagingMvpRehearsal();
 
-  assert.equal(V42_LOCAL_STAGING_MVP_REHEARSAL_ARTIFACT_PATH, '.bitcode/v42-local-staging-mvp-rehearsal.json');
+  assert.equal(V42_LOCAL_STAGING_MVP_REHEARSAL_ARTIFACT_PATH, '.proofs/v42/local-staging-mvp-rehearsal.json');
   assert.equal(artifact.artifactId, 'v42-local-staging-mvp-rehearsal');
   assert.equal(artifact.schemaId, V42_LOCAL_STAGING_MVP_REHEARSAL_SCHEMA_ID);
   assert.equal(artifact.version, 'V42');

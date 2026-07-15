@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_API_INTEGRATION_CONTRACTS_ARTIFACT_PATH =
-  '.bitcode/v40-api-integration-contracts.json';
+  '.proofs/v40/api-integration-contracts.json';
 export const V40_API_INTEGRATION_CONTRACTS_SCHEMA_ID =
   'bitcode.v40.apiIntegrationContracts.v1';
 export const V40_API_INTEGRATION_CONTRACTS_VERSION = 'V40';

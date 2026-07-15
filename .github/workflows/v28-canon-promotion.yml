@@ -122,6 +122,6 @@ jobs:
             .specifications/BITCODE_SPEC_V28_NOTES.md \
             .specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md \
             .specifications/BITCODE_SPEC_V28_PROVEN.md \
-            .bitcode
+            .proofs
           git commit -m "Promote Bitcode canon to V28"
           git push origin "HEAD:$HEAD_BRANCH"

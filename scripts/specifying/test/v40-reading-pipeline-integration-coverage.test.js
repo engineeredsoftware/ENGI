@@ -18,7 +18,7 @@ test('V40 Reading pipeline integration coverage closes both commercial Reading p
 
   assert.equal(
     V40_READING_PIPELINE_INTEGRATION_COVERAGE_ARTIFACT_PATH,
-    '.bitcode/v40-reading-pipeline-integration-coverage.json',
+    '.proofs/v40/reading-pipeline-integration-coverage.json',
   );
   assert.equal(report.artifactId, 'v40-reading-pipeline-integration-coverage');
   assert.equal(report.schemaId, V40_READING_PIPELINE_INTEGRATION_COVERAGE_SCHEMA_ID);

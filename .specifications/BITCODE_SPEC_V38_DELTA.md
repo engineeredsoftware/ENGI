@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `57173a81fc05a70b6b4b922ebe88add8bfa7f64e`
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `.bitcode/v38-promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` as the generated proof appendix for V38 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v38/spec-family-report.json`, `.proofs/v38/canonical-input-report.json`, `.proofs/v38/canon-posture-drift-report.json`, `.proofs/v38/inference-surface-inventory.json`, `.proofs/v38/ptrr-failsafe-thricified-stack.json`, `.proofs/v38/prompt-benchmark-report.json`, `.proofs/v38/disclosure-boundary-report.json`, `.proofs/v38/read-need-comprehension-inference-hardening.json`, `.proofs/v38/read-fits-finding-search-embeddings.json`, `.proofs/v38/assetpack-synthesis-economic-traceability.json`, `.proofs/v38/conversation-tool-prompt-inference-parity.json`, `.proofs/v38/local-staging-inference-depository-search-rehearsal.json`, `.proofs/v38/promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` as the generated proof appendix for V38 promotion
 - Source parity state: V38 source-side inference inventory, PTRR Failsafe Thricified stack, prompt benchmark report, inference telemetry disclosure law, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search embeddings, AssetPack synthesis economic traceability, Conversation/tool prompt parity, local/staging inference rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V38 file family
 - Spec companion: `BITCODE_SPEC_V38.md`
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
@@ -82,7 +82,7 @@ Closure acceptance:
 
 Closure implementation:
 
-- `V38InferenceSurfaceInventory` is now package-backed in `packages/protocol/src/canonical/inference-surface-inventory.js` and generated to `.bitcode/v38-inference-surface-inventory.json`.
+- `V38InferenceSurfaceInventory` is now package-backed in `packages/protocol/src/canonical/inference-surface-inventory.js` and generated to `.proofs/v38/inference-surface-inventory.json`.
 - The generated artifact is `source-safe-inference-surface-metadata` and covers `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts, interface entrypoints, prompt registry coverage, and execution primitive rows.
 - The current inventory count is 52 PTRR steps, 156 Failsafe/Thricified chains, 468 provider-call slots, and 9 tool/tool-definition surfaces, with known follow-on gaps carried to later V38 gates.
 
@@ -97,7 +97,7 @@ Closure acceptance:
 
 Closure implementation:
 
-- `V38PtrrFailsafeThricifiedStack` is now package-backed in `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js` and generated to `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+- `V38PtrrFailsafeThricifiedStack` is now package-backed in `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js` and generated to `.proofs/v38/ptrr-failsafe-thricified-stack.json`.
 - The generated artifact is `source-safe-ptrr-failsafe-thricified-stack-metadata` and proves `factoryAgentWithPTRR`, all four PTRR step factories, `FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context/telemetry storage, step-owned tool postprocess boundaries, and Gate 2 count binding.
 - The current stack contract passes 69 source predicates and binds 52 PTRR steps to 156 Failsafe sequences, 156 ThricifiedGeneration chains, and 468 provider-call slots without serializing protected source, credentials, raw protected prompts, or unpaid AssetPack source.
 
@@ -113,7 +113,7 @@ Closure acceptance:
 
 Closure implementation:
 
-- `V38PromptBenchmarkReport` is now package-backed in `packages/protocol/src/canonical/prompt-benchmark-report.js` and generated to `.bitcode/v38-prompt-benchmark-report.json`.
+- `V38PromptBenchmarkReport` is now package-backed in `packages/protocol/src/canonical/prompt-benchmark-report.js` and generated to `.proofs/v38/prompt-benchmark-report.json`.
 - The generated artifact is `source-safe-prompt-benchmark-metadata` and covers benchmark infrastructure, generic PTRR/Failsafe/ThricifiedGeneration PromptParts, `ReadNeedComprehensionSynthesis` PromptParts, `ReadFitsFindingSynthesis` PromptParts, complete Reading Prompt registries, Website Conversation Prompts, and DocCodeToolPrompt surfaces.
 - The current benchmark report records 7 rows, 13 source-safe fixtures, 24 typed-output quality expectations, 38 passed source predicates, 443 active PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions without serializing raw prompt text, protected source, raw provider responses, credentials, or unpaid AssetPack source.
 
@@ -128,7 +128,7 @@ Closure acceptance:
 
 Closure implementation:
 
-- `V38InferenceTelemetryDisclosureReport` is now package-backed in `packages/protocol/src/canonical/inference-telemetry-disclosure-report.js` and generated to `.bitcode/v38-disclosure-boundary-report.json`.
+- `V38InferenceTelemetryDisclosureReport` is now package-backed in `packages/protocol/src/canonical/inference-telemetry-disclosure-report.js` and generated to `.proofs/v38/disclosure-boundary-report.json`.
 - The generated artifact is `source-safe-inference-telemetry-disclosure-metadata` and covers pipeline phase, PTRR agent step, Failsafe sequence, ThricifiedGeneration, tool execution, prompt template interpolation, raw response to parsed output schema, and stream UI/storage projection rows.
 - The report binds 13 required telemetry levels and 12 disclosure tier ids to allowed payload fields, forbidden payload classes, proof roots, fail-closed states, V35 telemetry taxonomy roots, V37 stream-event roots, V38 Gate 2 inventory roots, V38 Gate 3 PTRR/Failsafe/Thricified roots, and V38 Gate 4 prompt benchmark roots.
 - The raw provider response boundary is private or root-only: public rows can expose raw response presence, roots, typed output shape, schema verdict, retry/repair posture, and source-safe inference audit shapes, but not raw provider response content, raw protected prompts, protected source, unpaid AssetPack source, credentials, private wallet material, or private settlement payloads.
@@ -140,7 +140,7 @@ Closure acceptance:
 - Read Request to Need synthesis uses the V38 inference stack and emits a `ReadNeedComprehensionSynthesisInferenceReceipt` on the produced Need;
 - synthesized Needs are reviewable, resynthesizable with feedback, measurement-backed, and bounded to the original request;
 - storage and telemetry are source-safe and typed, including phase ids, agent ids, PTRR step ids, Failsafe sequence ids, ThricifiedGeneration ids, prompt template ids, interpolation keys, output schema ids, telemetry ids, and proof roots;
-- `V38ReadNeedComprehensionInferenceHardening` is now package-backed in `packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js` and generated to `.bitcode/v38-read-need-comprehension-inference-hardening.json`;
+- `V38ReadNeedComprehensionInferenceHardening` is now package-backed in `packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js` and generated to `.proofs/v38/read-need-comprehension-inference-hardening.json`;
 - the generated artifact is `source-safe-read-need-comprehension-inference-hardening-metadata` and covers request normalization, Need comprehension, Need measurement, Need review, source-safe inference receipts, route/UI resynthesis support, accepted-Need admission boundary, and V38 Gates 2 through 5 roots;
 - the current count contract is 5 rows, 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, 22 passed source predicates, and no protected source, raw provider response content, credentials, unpaid AssetPack source, private wallet material, private settlement payload, or `_legacy/` source roots;
 - `pnpm run check:v38-gate6` validates pipeline contracts, agents, prompts, outputs, tests, docs, artifact freshness, and workflow wiring.
@@ -152,7 +152,7 @@ Closure acceptance:
 - Finding Fits uses inference-derived queries and depository search tools across lexical, symbolic, path, metadata, measurement, embedding/vector, and provider-specific channels;
 - candidate deposits above threshold are ranked, verified, and traceable;
 - embedding policy, vector dimensions, similarity metric, storage, credentials, and telemetry are explicit;
-- `V38ReadFitsFindingSearchEmbeddings` is now package-backed in `packages/protocol/src/canonical/read-fits-finding-search-embeddings.js` and generated to `.bitcode/v38-read-fits-finding-search-embeddings.json`;
+- `V38ReadFitsFindingSearchEmbeddings` is now package-backed in `packages/protocol/src/canonical/read-fits-finding-search-embeddings.js` and generated to `.proofs/v38/read-fits-finding-search-embeddings.json`;
 - the generated artifact is `source-safe-read-fits-finding-search-embeddings-metadata` and covers accepted-Need admission, source-safe query planning, many-fit discovery, embedding/vector policy, threshold ranking, selected-fit provenance, and the source-safe search receipt;
 - the current count contract is 7 rows, 7 phases, 8 PTRR agents, 32 PTRR steps, 96 Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4 tool contracts, 7 search channels, default 12 above-threshold selected-candidate slots, active OpenAI `text-embedding-3-small` / 1536 dimensions / cosine / `match_deliverable_vectors`, 23 passed source predicates, and no protected source, raw provider response content, credentials, unpaid AssetPack source, private wallet material, private settlement payload, or `_legacy/` source roots;
 - `pnpm run check:v38-gate7` validates search tools, embeddings, ranking, thresholding, tests, and generated evidence.
@@ -164,7 +164,7 @@ Closure acceptance:
 - selected fits remain traceable into AssetPack synthesis;
 - source-safe preview and post-settlement delivery preserve visibility boundaries;
 - contributor compensation, ledger/database synchronization, proof receipts, and repair paths are specified and tested;
-- `V38AssetPackSynthesisEconomicTraceability` is now package-backed in `packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js` and generated to `.bitcode/v38-assetpack-synthesis-economic-traceability.json`;
+- `V38AssetPackSynthesisEconomicTraceability` is now package-backed in `packages/protocol/src/canonical/assetpack-synthesis-economic-traceability.js` and generated to `.proofs/v38/assetpack-synthesis-economic-traceability.json`;
 - the generated artifact is `source-safe-assetpack-synthesis-economic-traceability-metadata` and covers selected-fit handoff, source-safe preview, disclosure leak scanning, deterministic BTC quote, BTD receipts, source-to-shares compensation, settlement unlock, post-settlement delivery, ledger/database reconciliation, repair paths, and harness evidence projection;
 - the current closure contract is 9 rows, 18 required receipt fields, BTD/AssetPack/harness package tests, and no protected source, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payload, or `_legacy/` source roots;
 - `pnpm run check:v38-gate8` validates fit-to-AssetPack receipts, settlement traceability, source-safety, and repair posture.
@@ -175,7 +175,7 @@ Closure acceptance:
 
 - Website Conversations and tool-definition prompts use V38 prompt registry, Failsafe, Thricified, tool prompt, telemetry, and disclosure posture;
 - interface-specific inference entrypoints do not bypass the stack;
-- `V38ConversationToolPromptInferenceParity` is package-backed in `packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js` and generated to `.bitcode/v38-conversation-tool-prompt-inference-parity.json`;
+- `V38ConversationToolPromptInferenceParity` is package-backed in `packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js` and generated to `.proofs/v38/conversation-tool-prompt-inference-parity.json`;
 - the generated artifact is `source-safe-conversation-tool-prompt-inference-parity-metadata` and covers comprehensive and quick-response Conversation PTRR variations, prompt registries, typed output schemas, source-safe stream telemetry, rich execution-log rendering, DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App doc-code prompt carriers, and interface no-bypass posture;
 - the current closure contract is 8 rows, 34 passed source predicates, Conversation/API/uapi/ChatGPT App tests, no protected source, raw prompt text, raw provider response content, unpaid AssetPack source, credentials, private wallet material, private settlement payload, global ledger authority claim, or `_legacy/` source roots;
 - `pnpm run check:v38-gate9` validates Conversation/tool parity, route contracts, UI surfaces, prompt disclosure rules, package tests, artifact freshness, and workflow wiring.
@@ -191,7 +191,7 @@ Closure acceptance:
 
 Closure implementation:
 
-- `V38LocalStagingInferenceDepositorySearchRehearsal` is now package-backed in `packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js` and generated to `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+- `V38LocalStagingInferenceDepositorySearchRehearsal` is now package-backed in `packages/protocol/src/canonical/local-staging-inference-depository-search-rehearsal.js` and generated to `.proofs/v38/local-staging-inference-depository-search-rehearsal.json`.
 - The generated artifact is `source-safe-local-staging-inference-depository-search-rehearsal-metadata` and covers local Vercel Sandbox harness opt-in, staging-testnet bounded real-inference preflight, ReadNeedComprehensionSynthesis plus ReadFitsFindingSynthesis exercise, many-fit depository search, source-safe AssetPack preview, telemetry streaming and database readback, live credential gates, ledger/database synchronization posture, and blocked value-bearing mainnet posture.
 - The current closure contract is 8 rehearsal rows, 2 lanes, V38 Gates 2 through 9 proof roots, harness/search/route/UI package tests, and no protected source, raw prompt text, raw provider response content, live rehearsal log payload, unpaid AssetPack source, credentials, wallet private material, private settlement payload, production-mainnet value-bearing admission, or `_legacy/` source roots.
 
@@ -206,7 +206,7 @@ Closure acceptance:
 
 Closure implementation:
 
-- `V38InferencePromotionReadinessReport` is now package-backed in `packages/protocol/src/canonical/inference-promotion-readiness-report.js` and generated to `.bitcode/v38-promotion-readiness-report.json`.
+- `V38InferencePromotionReadinessReport` is now package-backed in `packages/protocol/src/canonical/inference-promotion-readiness-report.js` and generated to `.proofs/v38/promotion-readiness-report.json`.
 - The generated artifact is `source-safe-inference-promotion-readiness-metadata` and covers all V38 Gate 2 through Gate 10 artifacts, `BITCODE_SPEC_V38_PROVEN.md` support, V38 promotion command dry-run support, `v38-canon-promotion.yml`, gate/canon workflow postures, spec-family/runtime promotion support, proven-generator support, active V38 / draft V39 post-promotion readiness, and blocked value-bearing mainnet posture.
 - promotion scripts support V38 through `node scripts/promote-bitcode-canon.mjs --version V38 --commit HEAD --dry-run`, `scripts/prepare-bitcode-spec-family-promotion.mjs --version V38`, and `scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V38 --next-draft V39`.
 - draft-mode Gate 11 freshness validates the standalone readiness artifact, while promoted-mode Gate 11 accepts the proof-wrapped readiness artifact emitted by the V38 canonical promotion generator.

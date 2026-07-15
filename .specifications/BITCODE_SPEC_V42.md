@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `5c9c0270b9d864fe13b7e0a429700e1c9a7689d9`
 - Prior canonical anchor: `BITCODE_SPEC_V41.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, `.bitcode/v42-depositing-shortest-path.json`, `.bitcode/v42-reading-shortest-path-state-machine.json`, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `.bitcode/v42-readfitsfinding-preview-quote.json`, `.bitcode/v42-settlement-rights-delivery.json`, `.bitcode/v42-ai-reading-demonstration.json`, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `.bitcode/v42-promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v42/spec-family-report.json`, `.proofs/v42/canonical-input-report.json`, `.proofs/v42/canon-posture-drift-report.json`, `.proofs/v42/depositing-shortest-path.json`, `.proofs/v42/reading-shortest-path-state-machine.json`, `.proofs/v42/readneed-review-resynthesis-product-closure.json`, `.proofs/v42/readfitsfinding-preview-quote.json`, `.proofs/v42/settlement-rights-delivery.json`, `.proofs/v42/ai-reading-demonstration.json`, `.proofs/v42/local-staging-mvp-rehearsal.json`, `.proofs/v42/promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
 - Source parity state: V42 source-side Depositing shortest path, Reading shortest path state machine, ReadNeed review/resynthesis closure, ReadFitsFinding preview and quote closure, settlement rights delivery, AI-reading demonstration, local/staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V42 file family
 - Notes companion: `BITCODE_SPEC_V42_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V42_DELTA.md`
@@ -126,7 +126,7 @@ Gate 2 introduces source-safe compensation visibility as a first-class Depositor
 The compensation route preview is not a BTD mint and not a rights transfer.
 It states that source-to-shares proof, BTC allocation, BTD rights transfer, and source-bearing AssetPack delivery occur only after an accepted Need-Fit creates a paid AssetPack and settlement finality is observed.
 
-Gate 2 proof artifact: `.bitcode/v42-depositing-shortest-path.json`.
+Gate 2 proof artifact: `.proofs/v42/depositing-shortest-path.json`.
 The artifact must prove eight source-safe rows: source-to-admission path, deposit route readiness contract, Depository record compensation preview, source-safe search/vector projection, storage readback projection, source-to-shares compensation ledger readback, Terminal compensation visibility readback, and local/staging deposit readback posture.
 Validating command: `pnpm run check:v42-gate2`.
 
@@ -140,7 +140,7 @@ Gate 3 implements that state machine through `TerminalEnterpriseReadingUxState` 
 The route-owned state carries a recoverable transaction id, `readingStage` stage intent, retry and restart posture, source-safe failure kind, and repair action metadata.
 Route state may hydrate the active stage on refresh or Conversation handoff, but it does not waive blockers: Finding Fits still requires accepted Need, source-safe AssetPack preview still gates settlement, and delivery still requires settlement readback.
 
-Gate 3 proof artifact: `.bitcode/v42-reading-shortest-path-state-machine.json`.
+Gate 3 proof artifact: `.proofs/v42/reading-shortest-path-state-machine.json`.
 This is the canonical V42 reading shortest path state machine artifact for the MVP Reading route contract.
 The artifact must prove nine source-safe rows: five-step Reading path, transaction/stage route persistence, accepted-Need transition, restart/retry/failure repair, low-detail proof-on-expand UI, rich Reading pipeline telemetry, activity/workbench readback, route/component/stream tests, and SPEC/DELTA/NOTES/PARITY/README/workflow closure.
 Validating command: `pnpm run check:v42-gate3`.
@@ -150,7 +150,7 @@ Validating command: `pnpm run check:v42-gate3`.
 Gate 4 must make `ReadNeedComprehensionSynthesis` product-ready in the MVP flow.
 The pipeline must synthesize exactly the user's Need from the Read Request, store source-safe Need data, allow user feedback and resynthesis, preserve lineage, and admit Finding Fits only after the Need is accepted.
 It must cover PTRR agents, FailsafeGenerationSequence, ThricifiedGeneration, prompts, parser return types, telemetry rows, database projection, tests, and UI readback.
-Gate 4 is implemented by `.bitcode/v42-readneed-review-resynthesis-product-closure.json`.
+Gate 4 is implemented by `.proofs/v42/readneed-review-resynthesis-product-closure.json`.
 The artifact binds `ReadNeedReviewResynthesisRuntime`, all four review actions, source-safe storage projection, rejection posture, accepted-Need admission into `ReadFitsFindingSynthesis`, Terminal runtime/storage/telemetry readback, and the package/API/protocol tests that prove the path.
 
 ## V42 Gate 5 ReadFitsFinding AssetPack Preview And Quote Closure
@@ -158,7 +158,7 @@ The artifact binds `ReadNeedReviewResynthesisRuntime`, all four review actions, 
 Gate 5 must make `ReadFitsFindingSynthesis` product-ready in the MVP flow.
 The pipeline must search the Depository for many candidates above threshold, rank candidates, select fits, synthesize source-safe AssetPack measurements and preview metadata, keep source-bearing content withheld, calculate deterministic BTD/BTC quote posture, and expose a reviewable preview.
 It must cover vector search and provider search tooling, selected-fit provenance, prompt/tool return types, telemetry, quote formula readback, source-safe UI, and failure/repair states.
-Gate 5 is implemented by `.bitcode/v42-readfitsfinding-preview-quote.json`.
+Gate 5 is implemented by `.proofs/v42/readfitsfinding-preview-quote.json`.
 The artifact binds the accepted-Need gate, many-channel Depository search, candidate ranking, selected-fit provenance, `AssetPackPreviewBoundary`, deterministic share-to-fee quote receipt, disclosure review, settlement instructions, delivery lock, harness route summary, Terminal preview/quote/provenance readback, and the package/API/protocol tests that prove no protected source or unpaid AssetPack source crosses the pre-settlement boundary.
 
 ## V42 Gate 6 Settlement Rights Transfer And Repository Delivery Closure
@@ -166,7 +166,7 @@ The artifact binds the accepted-Need gate, many-channel Depository search, candi
 Gate 6 must make purchase and delivery reliable.
 The accepted user path is: review the AssetPack preview, choose to buy, receive settlement instructions, observe BTC/testnet settlement in the admitted lane, transfer BTD rights to the Reader, unlock source-bearing AssetPack delivery, and create the repository pull request.
 It must prove ledger/database/object-storage synchronization, delivery locks, no pre-settlement source leakage, compensation accounting, repair actions, and operator readback.
-Gate 6 is implemented by `.bitcode/v42-settlement-rights-delivery.json`.
+Gate 6 is implemented by `.proofs/v42/settlement-rights-delivery.json`.
 The artifact binds `AssetPackSettlementRightsDeliveryBoundary`, `AssetPackSettlementPaymentObservation`, confirmed BTC/testnet finality, `BtdRightsTransferReceipt`, `BtdReadReceipt`, `SourceToSharesProof`, `AssetPackDeliveryUnlockReceipt`, ledger/database/object-storage reconciliation, live harness materialization, source-safe route summaries, and Terminal settlement rights readback.
 Source-bearing AssetPack delivery remains withheld until payment, finality, BTD rights transfer, source-to-shares compensation conservation, reconciliation readback, and pull-request delivery all agree.
 
@@ -175,7 +175,7 @@ Source-bearing AssetPack delivery remains withheld until payment, finality, BTD 
 Gate 7 must update the standalone demonstration so it proves Bitcode's AI-reading value.
 The demonstration should show deposited non-public technical intelligence becoming an AssetPack that measurably improves an AI system's training, prompt/context, or evaluation performance beyond a public-data-only baseline.
 It must remain minimal, self-contained inside `protocol-demonstration/`, and independent from commercial product code.
-Gate 7 is implemented by `.bitcode/v42-ai-reading-demonstration.json`.
+Gate 7 is implemented by `.proofs/v42/ai-reading-demonstration.json`.
 The artifact binds the local public-data-only baseline, reviewed ReadNeed synthesis, local Depository Finding Fits, selected AssetPack preview, AssetPack-enhanced AI-reading answer, basis-point benchmark uplift, settlement-gated source-safety boundary, self-contained demonstration import boundary, demonstration tests, protocol tests, docs, package scripts, and workflow wiring.
 The accepted proof is an AI-reading AssetPack improvement: public-only assistance scores below the AssetPack-enhanced result, selected deposit provenance is explicit, protected source remains withheld before settlement, and the demonstration can run locally without product runtime imports.
 
@@ -184,7 +184,7 @@ The accepted proof is an AI-reading AssetPack improvement: public-only assistanc
 Gate 8 must rehearse the full MVP path locally and in staging-testnet without value-bearing mainnet behavior.
 It must exercise deposit, Read Request, Need synthesis/review/resynthesis, Finding Fits, AssetPack preview, quote, settlement simulation or testnet observation, BTD rights projection, repository delivery, telemetry, proof artifacts, and repair readback.
 Gate 8 implements the local/staging full MVP rehearsal proof.
-The generated artifact `.bitcode/v42-local-staging-mvp-rehearsal.json` binds the closed V42 product artifacts from Gates 2 through 7 to the package `ReadingLocalStagingRehearsal`, the Vercel Sandbox harness, staging-testnet Supabase project `tkpyosihuouusyaxtbau`, rich execution-log readback, ledger/database/object-storage reconciliation, post-settlement pull-request delivery, source-safe operator receipts, and blocked value-bearing mainnet posture.
+The generated artifact `.proofs/v42/local-staging-mvp-rehearsal.json` binds the closed V42 product artifacts from Gates 2 through 7 to the package `ReadingLocalStagingRehearsal`, the Vercel Sandbox harness, staging-testnet Supabase project `tkpyosihuouusyaxtbau`, rich execution-log readback, ledger/database/object-storage reconciliation, post-settlement pull-request delivery, source-safe operator receipts, and blocked value-bearing mainnet posture.
 Gate 8 does not promote mainnet, does not split `/terminal`, and does not rename `/exchange`.
 It proves the current MVP path is rehearseable under local and staging-testnet lanes while preserving V43+ as the route-vocabulary cleanup and agentic deposit AssetPack option work.
 The validating command is `pnpm run check:v42-gate8`.
@@ -194,7 +194,7 @@ The validating command is `pnpm run check:v42-gate8`.
 Gate 9 closes V42 promotion readiness.
 It must bind every V42 artifact, test, workflow, generated proof support, promotion command, active V42 / draft V43 runtime preparation, source-safe generated appendix output, and value-bearing mainnet blocking where relevant.
 It closes only when V42 can be promoted as the reliable MVP experience canon.
-The V42 promotion readiness canon is the generated artifact `.bitcode/v42-promotion-readiness-report.json`, the `BITCODE_SPEC_V42_PROVEN.md` generation path, `.github/workflows/v42-canon-promotion.yml`, package scripts, and promotion dry-run support.
+The V42 promotion readiness canon is the generated artifact `.proofs/v42/promotion-readiness-report.json`, the `BITCODE_SPEC_V42_PROVEN.md` generation path, `.github/workflows/v42-canon-promotion.yml`, package scripts, and promotion dry-run support.
 The accepted post-promotion posture is V42 active / draft V43, with value-bearing mainnet still blocked unless a later promoted canon admits it.
 
 ## V42 canonical subsystem surfaces
@@ -275,7 +275,7 @@ Current canonical objects and emitted artifacts: proof family, member, theorem, 
 Current algorithms and derivation rules: every V42 gate emits or checks source-safe proof roots sufficient to replay the product path and detect stale promoted status truth.
 Current invariants and fail-closed conditions: stale promoted status truth, missing witness, failed replay, and source-safety violation fail closed.
 Current proof obligations: deterministic generated artifacts, workflow binding, local/staging rehearsal receipts, promotion dry-run, and generated `BITCODE_SPEC_V42_PROVEN.md`.
-Current source-bearing implementation basis: `packages/protocol`, `.bitcode/`, `.github/workflows`, `scripts/`, and `protocol-demonstration/`.
+Current source-bearing implementation basis: `packages/protocol`, `.proofs/`, `.github/workflows`, `scripts/`, and `protocol-demonstration/`.
 Current validating commands and parity basis: V42 check scripts, V41 promotion readiness, V40 proof/test coverage, and canon-quality workflows.
 Current accepted boundaries: demonstration evidence stays within demonstration boundaries and does not become commercial runtime dependency.
 
@@ -285,19 +285,19 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v42-inference-synthesis.json` | read-need, finding-fits, asset-pack-preview | need-exactness, many-fit-search, typed-output | synthesize-need, search-depository, preview-pack | pipeline receipts, prompt receipts | V41 prompt-program canon and V42 Reading gates |
-| Prompt-completeness | `.bitcode/v42-prompt-completeness.json` | prompt-registry, tool-prompts, parser-prompts | registry-totality, interpolation-totality | resolve-prompt, parse-output | prompt catalogue reports | V41 PromptPart and Prompt artifacts |
-| Static-code-analysis | `.bitcode/v42-static-code-analysis.json` | routes, packages, workflows | no-versioned-routes, no-demo-import, no-secret-values | lint, typecheck, import-scan | CI logs | scripts and workflows |
-| Verification-decisions | `.bitcode/v42-verification-decisions.json` | deposit-admission, need-review, fit-selection | authority-checked, source-safe, replayable | admit-deposit, accept-need, rank-fits | route/API receipts | V42 Gates 2 through 5 |
-| Selection-and-materialization | `.bitcode/v42-selection-materialization.json` | selected-fits, preview, withheld-source | no-source-before-settlement, delivery-lock | synthesize-preview, lock-source | storage and preview receipts | V39/V42 preview and delivery law |
-| Authorization-and-sensitive-flow | `.bitcode/v42-authorization-sensitive-flow.json` | account, org, wallet, repo | authority-preserved, policy-fail-closed | check-policy, check-wallet, check-repo | policy receipts | Auxillaries, auth, BTD packages |
-| Settlement-source-to-shares | `.bitcode/v42-settlement-source-to-shares.json` | quote, settlement, rights, compensation | conservation, finality, rights-transfer | quote, observe, transfer, allocate | ledger receipts | BTD and ledger packages |
-| Disclosure-boundary | `.bitcode/v42-disclosure-boundary.json` | source-safe-preview, telemetry-redaction, generated-artifacts | no-protected-payload, source-safe-public | render-preview, stream-telemetry, generate-report | redaction receipts | V38/V41/V42 source-safe rules |
-| Proof-contract | `.bitcode/v42-proof-contract.json` | generated-reports, workflows, promotion | deterministic, workflow-bound, promotion-ready | generate, check, promote-dry-run | `.bitcode/*`, CI logs | protocol package and workflows |
+| Inference-synthesis | `.proofs/v42/inference-synthesis.json` | read-need, finding-fits, asset-pack-preview | need-exactness, many-fit-search, typed-output | synthesize-need, search-depository, preview-pack | pipeline receipts, prompt receipts | V41 prompt-program canon and V42 Reading gates |
+| Prompt-completeness | `.proofs/v42/prompt-completeness.json` | prompt-registry, tool-prompts, parser-prompts | registry-totality, interpolation-totality | resolve-prompt, parse-output | prompt catalogue reports | V41 PromptPart and Prompt artifacts |
+| Static-code-analysis | `.proofs/v42/static-code-analysis.json` | routes, packages, workflows | no-versioned-routes, no-demo-import, no-secret-values | lint, typecheck, import-scan | CI logs | scripts and workflows |
+| Verification-decisions | `.proofs/v42/verification-decisions.json` | deposit-admission, need-review, fit-selection | authority-checked, source-safe, replayable | admit-deposit, accept-need, rank-fits | route/API receipts | V42 Gates 2 through 5 |
+| Selection-and-materialization | `.proofs/v42/selection-materialization.json` | selected-fits, preview, withheld-source | no-source-before-settlement, delivery-lock | synthesize-preview, lock-source | storage and preview receipts | V39/V42 preview and delivery law |
+| Authorization-and-sensitive-flow | `.proofs/v42/authorization-sensitive-flow.json` | account, org, wallet, repo | authority-preserved, policy-fail-closed | check-policy, check-wallet, check-repo | policy receipts | Auxillaries, auth, BTD packages |
+| Settlement-source-to-shares | `.proofs/v42/settlement-source-to-shares.json` | quote, settlement, rights, compensation | conservation, finality, rights-transfer | quote, observe, transfer, allocate | ledger receipts | BTD and ledger packages |
+| Disclosure-boundary | `.proofs/v42/disclosure-boundary.json` | source-safe-preview, telemetry-redaction, generated-artifacts | no-protected-payload, source-safe-public | render-preview, stream-telemetry, generate-report | redaction receipts | V38/V41/V42 source-safe rules |
+| Proof-contract | `.proofs/v42/proof-contract.json` | generated-reports, workflows, promotion | deterministic, workflow-bound, promotion-ready | generate, check, promote-dry-run | `.proofs/*`, CI logs | protocol package and workflows |
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v42-inference-synthesis.json`
+- proofArtifactPath: `.proofs/v42/inference-synthesis.json`
 - members: read-need, finding-fits, asset-pack-preview
 - theoremIds: need-exactness, many-fit-search, typed-output
 - replayStepIds: synthesize-need, search-depository, preview-pack
@@ -313,7 +313,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v42-prompt-completeness.json`
+- proofArtifactPath: `.proofs/v42/prompt-completeness.json`
 - members: prompt-registry, tool-prompts, parser-prompts
 - theoremIds: registry-totality, interpolation-totality
 - replayStepIds: resolve-prompt, parse-output
@@ -329,7 +329,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v42-static-code-analysis.json`
+- proofArtifactPath: `.proofs/v42/static-code-analysis.json`
 - members: routes, packages, workflows
 - theoremIds: no-versioned-routes, no-demo-import, no-secret-values
 - replayStepIds: lint, typecheck, import-scan
@@ -345,7 +345,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v42-verification-decisions.json`
+- proofArtifactPath: `.proofs/v42/verification-decisions.json`
 - members: deposit-admission, need-review, fit-selection
 - theoremIds: authority-checked, source-safe, replayable
 - replayStepIds: admit-deposit, accept-need, rank-fits
@@ -361,7 +361,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v42-selection-materialization.json`
+- proofArtifactPath: `.proofs/v42/selection-materialization.json`
 - members: selected-fits, preview, withheld-source
 - theoremIds: no-source-before-settlement, delivery-lock
 - replayStepIds: synthesize-preview, lock-source
@@ -377,7 +377,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v42-authorization-sensitive-flow.json`
+- proofArtifactPath: `.proofs/v42/authorization-sensitive-flow.json`
 - members: account, org, wallet, repo
 - theoremIds: authority-preserved, policy-fail-closed
 - replayStepIds: check-policy, check-wallet, check-repo
@@ -393,7 +393,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v42-settlement-source-to-shares.json`
+- proofArtifactPath: `.proofs/v42/settlement-source-to-shares.json`
 - members: quote, settlement, rights, compensation
 - theoremIds: conservation, finality, rights-transfer
 - replayStepIds: quote, observe, transfer, allocate
@@ -409,7 +409,7 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v42-disclosure-boundary.json`
+- proofArtifactPath: `.proofs/v42/disclosure-boundary.json`
 - members: source-safe-preview, telemetry-redaction, generated-artifacts
 - theoremIds: no-protected-payload, source-safe-public
 - replayStepIds: render-preview, stream-telemetry, generate-report
@@ -425,11 +425,11 @@ Current accepted boundaries: demonstration evidence stays within demonstration b
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v42-proof-contract.json`
+- proofArtifactPath: `.proofs/v42/proof-contract.json`
 - members: generated-reports, workflows, promotion
 - theoremIds: deterministic, workflow-bound, promotion-ready
 - replayStepIds: generate, check, promote-dry-run
-- witnessArtifactPaths: `.bitcode/*`, workflow logs, `BITCODE_SPEC_V42_PROVEN.md`
+- witnessArtifactPaths: `.proofs/*`, workflow logs, `BITCODE_SPEC_V42_PROVEN.md`
 - current member closure criteria: every V42 gate artifact is deterministic, checked, documented, and workflow-bound.
 - current member verdict shape: pass, fail, blocked, or repair-required.
 - current theorem-by-theorem closure reading: generated proof, workflow proof, and promotion proof must all pass.
@@ -453,17 +453,17 @@ V42 inherits operator-quality expectations for browser proof, accessibility, vis
 
 | Artifact path | Producer | Disclosure posture | V42 role |
 | --- | --- | --- | --- |
-| `.bitcode/v42-spec-family-report.json` | `check-bitcode-spec-family` | source-safe metadata | draft/promotion spec family proof |
-| `.bitcode/v42-canonical-input-report.json` | `check-bitcode-canonical-inputs` | source-safe metadata | canonical input proof |
-| `.bitcode/v42-canon-posture-drift-report.json` | `check-bitcode-canon-posture-drift` | source-safe metadata | active V41 / draft V42 posture proof |
-| `.bitcode/v42-depositing-shortest-path.json` | V42 Gate 2 | source-safe metadata | deposit MVP proof |
-| `.bitcode/v42-reading-shortest-path-state-machine.json` | V42 Gate 3 | source-safe metadata | Reading product state proof |
-| `.bitcode/v42-readneed-review-resynthesis-product-closure.json` | V42 Gate 4 | source-safe metadata | Need review proof |
-| `.bitcode/v42-readfitsfinding-preview-quote.json` | V42 Gate 5 | source-safe metadata | Finding Fits, preview, and quote proof |
-| `.bitcode/v42-settlement-rights-delivery.json` | V42 Gate 6 | source-safe metadata | settlement/delivery proof |
-| `.bitcode/v42-ai-reading-demonstration.json` | V42 Gate 7 | source-safe metadata | demonstration value proof |
-| `.bitcode/v42-local-staging-mvp-rehearsal.json` | V42 Gate 8 | source-safe metadata | local/staging rehearsal proof |
-| `.bitcode/v42-promotion-readiness-report.json` | V42 Gate 9 | source-safe metadata | promotion readiness proof |
+| `.proofs/v42/spec-family-report.json` | `check-bitcode-spec-family` | source-safe metadata | draft/promotion spec family proof |
+| `.proofs/v42/canonical-input-report.json` | `check-bitcode-canonical-inputs` | source-safe metadata | canonical input proof |
+| `.proofs/v42/canon-posture-drift-report.json` | `check-bitcode-canon-posture-drift` | source-safe metadata | active V41 / draft V42 posture proof |
+| `.proofs/v42/depositing-shortest-path.json` | V42 Gate 2 | source-safe metadata | deposit MVP proof |
+| `.proofs/v42/reading-shortest-path-state-machine.json` | V42 Gate 3 | source-safe metadata | Reading product state proof |
+| `.proofs/v42/readneed-review-resynthesis-product-closure.json` | V42 Gate 4 | source-safe metadata | Need review proof |
+| `.proofs/v42/readfitsfinding-preview-quote.json` | V42 Gate 5 | source-safe metadata | Finding Fits, preview, and quote proof |
+| `.proofs/v42/settlement-rights-delivery.json` | V42 Gate 6 | source-safe metadata | settlement/delivery proof |
+| `.proofs/v42/ai-reading-demonstration.json` | V42 Gate 7 | source-safe metadata | demonstration value proof |
+| `.proofs/v42/local-staging-mvp-rehearsal.json` | V42 Gate 8 | source-safe metadata | local/staging rehearsal proof |
+| `.proofs/v42/promotion-readiness-report.json` | V42 Gate 9 | source-safe metadata | promotion readiness proof |
 
 ### V42 specifying generated artifacts
 
@@ -506,7 +506,7 @@ V42 promotion requires all V42 gates closed, all generated artifacts determinist
 
 ## V42 appendices and canonical supporting material
 
-Supporting material includes `BITCODE_SPEC_V42_DELTA.md`, `BITCODE_SPEC_V42_NOTES.md`, `BITCODE_SPEC_V42_PARITY_MATRIX.md`, package READMEs, root README, `SPECIFICATIONS_ROADMAP.md`, workflow files, generated `.bitcode/` artifacts, and protocol-demonstration documents.
+Supporting material includes `BITCODE_SPEC_V42_DELTA.md`, `BITCODE_SPEC_V42_NOTES.md`, `BITCODE_SPEC_V42_PARITY_MATRIX.md`, package READMEs, root README, `SPECIFICATIONS_ROADMAP.md`, workflow files, generated `.proofs/` artifacts, and protocol-demonstration documents.
 
 ## V42 accepted boundaries and reopen conditions
 
@@ -571,5 +571,5 @@ V42 fails closed on invalid deposit, prompt contract incompleteness, parsed-enve
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing contracts include `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V42_PROVEN.md`.
+Source-bearing contracts include `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V42_PROVEN.md`.
 These contracts keep full AssetPack source withheld until settlement, BTD rights transfer, and delivery unlock.

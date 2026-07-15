@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v37/promotion-readiness-report.json';
 
 const V37_GATE_ARTIFACTS = [
-  '.bitcode/v37-conversation-session-route-history.json',
-  '.bitcode/v37-conversation-stream-event-contract.json',
-  '.bitcode/v37-conversation-writing-workspace.json',
-  '.bitcode/v37-conversation-source-selector.json',
-  '.bitcode/v37-conversation-product-handoff.json',
-  '.bitcode/v37-conversation-persistence-privacy-redaction.json',
-  '.bitcode/v37-conversation-telemetry-proof-hooks.json',
-  '.bitcode/v37-conversation-rehearsal.json',
+  '.proofs/v37/conversation-session-route-history.json',
+  '.proofs/v37/conversation-stream-event-contract.json',
+  '.proofs/v37/conversation-writing-workspace.json',
+  '.proofs/v37/conversation-source-selector.json',
+  '.proofs/v37/conversation-product-handoff.json',
+  '.proofs/v37/conversation-persistence-privacy-redaction.json',
+  '.proofs/v37/conversation-telemetry-proof-hooks.json',
+  '.proofs/v37/conversation-rehearsal.json',
 ];
 
 const SECRET_MARKERS = [

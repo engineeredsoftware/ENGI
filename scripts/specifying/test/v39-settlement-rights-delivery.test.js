@@ -13,7 +13,7 @@ import {
 test('V39 settlement rights delivery report binds payment, rights, compensation, sync, and delivery', () => {
   const report = buildV39SettlementRightsDelivery();
 
-  assert.equal(V39_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH, '.bitcode/v39-settlement-rights-delivery.json');
+  assert.equal(V39_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH, '.proofs/v39/settlement-rights-delivery.json');
   assert.equal(report.artifactId, 'v39-settlement-rights-delivery');
   assert.equal(report.schemaId, V39_SETTLEMENT_RIGHTS_DELIVERY_SCHEMA_ID);
   assert.equal(report.version, 'V39');

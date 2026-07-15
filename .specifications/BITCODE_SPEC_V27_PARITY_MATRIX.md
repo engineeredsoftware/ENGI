@@ -90,15 +90,15 @@ Fresh audit inputs:
 - `apps/uapi/app/(root)/components/MarketingFaqSection.tsx`
 - `packages/executions-mcp/src/mcp-server/ARCHITECTURE.md`
 - `packages/executions-mcp/src/mcp-server/src/auth/middleware.ts`
-- `.bitcode/v27-crypto-primitives-proof.json`
-- `.bitcode/v27-gate-1-source-audit-proof.json`
-- `.bitcode/v27-gate-2-ontology-cap-proof.json`
-- `.bitcode/v27-gate-3-supply-range-proof.json`
-- `.bitcode/v27-source-to-shares-mint-admission-proof.json`
-- `.bitcode/v27-gate-4-mint-admission-proof.json`
-- `.bitcode/v27-receipt-replay-proof.json`
-- `.bitcode/v27-gate-5-receipt-replay-proof.json`
-- `.bitcode/v27-gate-6-exchange-persistence-proof.json`
+- `.proofs/v27/crypto-primitives-proof.json`
+- `.proofs/v27/gate-1-source-audit-proof.json`
+- `.proofs/v27/gate-2-ontology-cap-proof.json`
+- `.proofs/v27/gate-3-supply-range-proof.json`
+- `.proofs/v27/source-to-shares-mint-admission-proof.json`
+- `.proofs/v27/gate-4-mint-admission-proof.json`
+- `.proofs/v27/receipt-replay-proof.json`
+- `.proofs/v27/gate-5-receipt-replay-proof.json`
+- `.proofs/v27/gate-6-exchange-persistence-proof.json`
 
 No `_legacy/` source was used as active source truth.
 
@@ -142,7 +142,7 @@ Audit query classes:
 | Organization treasury | organization can aggregate holdings | `OrganizationBtdTreasuryModel` aggregates member `user_credits` balances | partial | treasury must read registry holdings and never mint |
 | Organization usage | organization BTD usage remains outside V27 core tokenomics | `OrganizationBtdUsageModel` is placeholder and does not mint, transfer, or settle `$BTD` | deferred | broader organization usage/read-license productization is later-version work |
 | AssetPack evidence | stored AssetPack evidence layer exists | `AssetPackEvidenceModel` wraps physical `deliverables` storage | partial | bind minted ranges to AssetPack evidence roots |
-| Source-to-shares settlement | settlement fit-quality exists | `settlement.js` quantizes source-to-shares fit qualities and settlement accounting; `.bitcode/v27-source-to-shares-mint-admission-proof.json` binds V27 minted range roots to the source-to-shares admission proof trail | partial | Gate 4 source-to-shares mint-admission binding is proved; full settlement output integration and generated proof artifacts remain later-gate work |
+| Source-to-shares settlement | settlement fit-quality exists | `settlement.js` quantizes source-to-shares fit qualities and settlement accounting; `.proofs/v27/source-to-shares-mint-admission-proof.json` binds V27 minted range roots to the source-to-shares admission proof trail | partial | Gate 4 source-to-shares mint-admission binding is proved; full settlement output integration and generated proof artifacts remain later-gate work |
 | Normalized Bitcode volume | mint quantity uses proof-addressable semantic units | `packages/btd/src/semantic-volume.ts` and `protocol-demonstration/src/v27-crypto-primitives.js` implement semantic-volume receipts; V27 proof map binds accepted proof equivalents | closed | deeper production measurement expansion is later-version work |
 | Measureminting decay | primary issuance decays against cumulative admitted measurement | `packages/btd/src/measuremint.ts` and demo witness implement hyperbolic fixed-supply measureminting; gate proofs bind tail behavior | closed | further anti-fragmentation telemetry can expand later |
 | Receipt schemas | receipts exist for deposit, licensed bundle, allocation, settlement fit quality, V27 crypto primitives | `packages/btd/src/receipts.ts`, `packages/btd/src/allocation.ts`, and `protocol-demonstration/src/receipt-schemas.js` now cover V27 mint and contributor allocation receipts with replay validation | partial | Gate 5 package/demonstration receipt replay closure is proved; add persisted receipt coverage and generated total proof families later |
@@ -184,12 +184,12 @@ Audit query classes:
 | Mainnet-ready lane | mainnet controls exist without automatic launch | `packages/btd/src/deployment-lanes.ts` models local/regtest/signet/testnet/mainnet-ready/value-bearing lanes, environment keys, rollback roots, and approval roots; tests reject value-bearing mainnet without approval | closed for Gate 15 | value-bearing launch still requires separate operational approval |
 | Crypto telemetry | wallet/chain/reconciler failures are observable | `packages/btd/src/telemetry.ts` and `/api/btd/deployment-readiness` classify and optionally persist wallet, fee, ledger, provider, journal, database, access, settlement, and upgrade telemetry | closed for Gate 15 | production alert sinks remain operational rollout work |
 | Upgrade receipts | ledgerized migrations/upgrades are versioned | `packages/btd/src/upgrade.ts`, migration table, ORM boundary, API route, and demo schema model planned/applied/verified/rolled-back/failed upgrade receipts with rollback posture | closed for Gate 15 | generated proof-family promotion remains later |
-| Library selection proof | external crypto dependencies are researched and rebound | `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.bitcode/v27-crypto-library-research-proof.json` bind primary/official sources | closed | library candidates remain adapter-level, not protocol law |
+| Library selection proof | external crypto dependencies are researched and rebound | `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` and `.proofs/v27/crypto-library-research-proof.json` bind primary/official sources | closed | library candidates remain adapter-level, not protocol law |
 | Marketplace royalty posture | recurring economics are local Exchange settlement, not third-party royalty signaling | `packages/btd/src/revenue.ts`, rights-transfer receipts, and minimal Exchange routes route BTC locally; no third-party royalty dependency is introduced | closed | external marketplace depth is later-version work |
 | Threat model | knowledge-market distortion and crypto-finality failures are specified | SPEC/NOTES, telemetry, ancestry anti-game tests, journal diffing, reconciliation repairs, and gate proofs map threats to source behavior | closed | production anomaly analytics can deepen later |
 | Demonstration state | draft target points to V27 files | `protocol-demonstration/data/state.json` lists draft V27 paths | implemented baseline | ensure files now exist and tests stay green |
-| Crypto primitive proof slice | first V27 package/demo/db proof artifact exists | `.bitcode/v27-crypto-primitives-proof.json` records source surfaces and focused validation commands; `.bitcode/v27-total-closure-proof.json` binds accepted proof-family equivalents | closed | future generated tooling can replace accepted equivalents |
-| Generated proof appendix | V27 PROVEN generated | `BITCODE_SPEC_V27_PROVEN.md` exists and points to `.bitcode/v27-total-closure-proof.json` | closed | appendices for later versions remain future work |
+| Crypto primitive proof slice | first V27 package/demo/db proof artifact exists | `.proofs/v27/crypto-primitives-proof.json` records source surfaces and focused validation commands; `.proofs/v27/total-closure-proof.json` binds accepted proof-family equivalents | closed | future generated tooling can replace accepted equivalents |
+| Generated proof appendix | V27 PROVEN generated | `BITCODE_SPEC_V27_PROVEN.md` exists and points to `.proofs/v27/total-closure-proof.json` | closed | appendices for later versions remain future work |
 
 ## Gate 1 Closure Evidence
 
@@ -202,7 +202,7 @@ Promotion later closed in Gate 16.
 | V26 remained the active canonical pointer at Gate 1 | `BITCODE_SPEC.txt` contained `V26` during Gate 1 | closed |
 | audited surfaces are listed in the parity matrix | Audit basis and source map list the V27 spec family, package, API, ORM, migration, UAPI, MCP, demonstration, and proof-slice surfaces used for the baseline | closed |
 | parity rows classify source truth | matrix rows used `implemented baseline`, `partial`, `gap`, `deferred`, and `blocking` judgments during draft audit | closed |
-| no generated proof claim is made before proof artifacts exist | `.bitcode/v27-gate-1-source-audit-proof.json` records only source-audit closure; generated proof appendix is a Gate 16 artifact | closed |
+| no generated proof claim is made before proof artifacts exist | `.proofs/v27/gate-1-source-audit-proof.json` records only source-audit closure; generated proof appendix is a Gate 16 artifact | closed |
 
 ## Gate 2 Closure Evidence
 
@@ -240,7 +240,7 @@ This does not close persisted Exchange writes, generated V27 proof-family closur
 | --- | --- | --- |
 | mint request requires accepted Read, accepted Fit, proof root, source root, dedupe root, settlement root, access policy, and Exchange sequence | `packages/btd/src/range.ts` and `packages/api/src/routes/btd-crypto.ts` validate the admission roots before range allocation or mint-draft return | closed |
 | negative tests prove no mint before settlement | package tests reject absent Read, absent Fit, missing proof root, missing settlement root, and non-positive Exchange sequence; API route tests reject absent Read, absent Fit, missing proof root, and non-positive Exchange sequence | closed |
-| source-to-shares proof artifacts include minted range roots | `.bitcode/v27-source-to-shares-mint-admission-proof.json` carries `mintedRangeRoot`, range boundaries, source root, proof root, settlement root, Exchange root, policy hash, supply replay root, and Terminal receipt roots | closed |
+| source-to-shares proof artifacts include minted range roots | `.proofs/v27/source-to-shares-mint-admission-proof.json` carries `mintedRangeRoot`, range boundaries, source root, proof root, settlement root, Exchange root, policy hash, supply replay root, and Terminal receipt roots | closed |
 | Terminal intent can point to the path without bypassing it | `buildBtdMintDraft` emits Terminal journal entries only after admission, measurement, measureminting, range allocation, mint receipt, and optional contributor allocation; API tests assert exchange sequence and receipt roots | closed |
 
 ## Gate 5 Closure Evidence
@@ -253,7 +253,7 @@ This does not close persisted Exchange receipt writes, database projection repla
 | `BtdMintReceipt` schema exists | `packages/btd/src/receipts.ts` defines and validates the V27 mint receipt; `protocol-demonstration/src/receipt-schemas.js` exposes `btd_asset_pack_mint` with the V27 receipt family posture | closed |
 | replay reconstructs prior supply, range, allocation, and next supply | `packages/btd/src/replay.ts` reconstructs supply checkpoints, AssetPack ranges, contributor allocation receipts, total minted supply, and `nextTokenId`; package tests prove the exact reconstructed state | closed |
 | mutation tests reject altered cap, altered range, missing root, missing policy, and non-conserved allocation | package tests block missing proof root, altered range boundary, altered max supply, missing access policy hash, and non-conserved allocation; demonstration tests block missing proof root | closed |
-| proof generator includes V27 receipt replay | `.bitcode/v27-receipt-replay-proof.json` records the proof slice and `protocol-demonstration/test/v27-crypto-primitives.test.js` includes the V27 demonstration receipt replay assertion | closed |
+| proof generator includes V27 receipt replay | `.proofs/v27/receipt-replay-proof.json` records the proof slice and `protocol-demonstration/test/v27-crypto-primitives.test.js` includes the V27 demonstration receipt replay assertion | closed |
 
 ## Gate 6 Closure Evidence
 
@@ -362,7 +362,7 @@ Completed implementation seeds:
 - `packages/api/src/routes/__tests__/btd-crypto.test.ts`
 - `apps/uapi/app/api/btd/registry/route.ts`
 - `apps/uapi/app/api/btd/mint-draft/route.ts`
-- `.bitcode/v27-crypto-primitives-proof.json`
+- `.proofs/v27/crypto-primitives-proof.json`
 
 Remaining queue:
 

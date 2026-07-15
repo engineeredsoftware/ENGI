@@ -1,0 +1,448 @@
+{
+  "artifactId": "v34-distributed-execution-runtime-receipts",
+  "closureCommand": "pnpm run check:v34-gate3",
+  "coverage": {
+    "credentialsSerialized": false,
+    "databaseProjectionRootsCovered": true,
+    "inputRootsCovered": true,
+    "ledgerProjectionRootsCovered": true,
+    "logRootsCovered": true,
+    "missingWorkKinds": [],
+    "objectStorageRootsCovered": true,
+    "observedWorkKinds": [
+      "ledger_operation",
+      "object_storage_write",
+      "pipeline_run",
+      "proof_generation",
+      "ptrr_agent",
+      "repair_job",
+      "thricified_generation",
+      "tool_call",
+      "wallet_operation"
+    ],
+    "outputRootsCovered": true,
+    "proofRootsCovered": true,
+    "protectedSourceVisible": false,
+    "ptrrAgentReceiptCovered": true,
+    "repairPostureCovered": true,
+    "requestResponseCompletionRequired": false,
+    "routeHandlerRequiresSynchronousCompletion": false,
+    "thricifiedGenerationReceiptCovered": true,
+    "toolCallReceiptCovered": true,
+    "walletOperationRootsCovered": true,
+    "workKindCount": 9
+  },
+  "currentTarget": "V33",
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "receiptCatalogRoot": "v34-distributed-execution-runtime-receipts:42ecee4ea50c8e788ea07f34",
+  "receipts": [
+    {
+      "commandOrPipelineId": "ReadFitsFindingSynthesis",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-read-fits-finding-synthesis",
+      "hostId": "pipeline_workers",
+      "inputRoot": "sha256:pipeline-input-root",
+      "laneId": "staging-testnet",
+      "ledgerProjectionRoot": "sha256:pipeline-ledger-projection-root",
+      "logRoot": "sha256:runtime-log-root",
+      "objectStorageRoot": "sha256:pipeline-object-storage-root",
+      "outputRoot": "sha256:pipeline-output-root",
+      "phaseId": "discovery",
+      "proofRoot": "sha256:pipeline-proof-root",
+      "protectedSourceVisible": false,
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:430ccd2b514dfc142a520af3",
+      "repairPosture": "retry-detached-pipeline-from-input-root",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "workKind": "pipeline_run"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesisDiscoveryAgent",
+      "commandOrPipelineId": "ReadFitsFindingSynthesisDiscoveryAgent",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-read-fits-agent",
+      "hostId": "pipeline_workers",
+      "inputRoot": "sha256:agent-input-root",
+      "laneId": "staging-testnet",
+      "logRoot": "sha256:runtime-log-root",
+      "outputRoot": "sha256:agent-output-root",
+      "parentReceiptRoot": "receipt:pipeline-run-root",
+      "phaseId": "discovery",
+      "proofRoot": "sha256:agent-proof-root",
+      "protectedSourceVisible": false,
+      "ptrrStep": "plan",
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:d12c0609544a666b7fd39d56",
+      "repairPosture": "resume-ptrr-agent-from-step-root",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "workKind": "ptrr_agent"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesisDiscoveryAgent",
+      "commandOrPipelineId": "ReadFitsFindingSynthesisDiscoveryAgent.plan.reason",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-thricified-generation",
+      "hostId": "pipeline_workers",
+      "inputRoot": "sha256:generation-input-root",
+      "laneId": "staging-testnet",
+      "logRoot": "sha256:runtime-log-root",
+      "outputRoot": "sha256:generation-output-root",
+      "parentReceiptRoot": "receipt:ptrr-agent-root",
+      "phaseId": "discovery",
+      "proofRoot": "sha256:generation-proof-root",
+      "protectedSourceVisible": false,
+      "ptrrStep": "plan",
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:659242c128b93f08f0575ff2",
+      "repairPosture": "regenerate-from-redacted-prompt-and-context-root",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "thricifiedGenerationStep": "reason",
+      "workKind": "thricified_generation"
+    },
+    {
+      "agentId": "ReadFitsFindingSynthesisDiscoveryAgent",
+      "commandOrPipelineId": "AssetPackLexicalDepositorySearchTool",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-depository-search-tool",
+      "hostId": "pipeline_workers",
+      "inputRoot": "sha256:tool-input-root",
+      "laneId": "staging-testnet",
+      "logRoot": "sha256:runtime-log-root",
+      "outputRoot": "sha256:tool-output-root",
+      "parentReceiptRoot": "receipt:thricified-generation-root",
+      "phaseId": "discovery",
+      "proofRoot": "sha256:tool-proof-root",
+      "protectedSourceVisible": false,
+      "ptrrStep": "try",
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:995d39060db5d4e6fcad326c",
+      "repairPosture": "rerun-tool-from-input-root-with-source-safe-query",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "toolId": "AssetPackLexicalDepositorySearchTool",
+      "workKind": "tool_call"
+    },
+    {
+      "commandOrPipelineId": "ledger.project.read-rights",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-ledger-operation",
+      "hostId": "ledger_projection",
+      "inputRoot": "sha256:ledger-input-root",
+      "laneId": "staging-testnet",
+      "ledgerProjectionRoot": "sha256:ledger-projection-root",
+      "logRoot": "sha256:runtime-log-root",
+      "outputRoot": "sha256:ledger-output-root",
+      "proofRoot": "sha256:ledger-proof-root",
+      "protectedSourceVisible": false,
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:5f244afaf444fee8c8519e65",
+      "repairPosture": "hold-unlock-and-replay-ledger-projection",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "workKind": "ledger_operation"
+    },
+    {
+      "commandOrPipelineId": "btc.fee.sign-and-broadcast",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-wallet-operation",
+      "hostId": "ledger_broadcasters",
+      "inputRoot": "sha256:wallet-input-root",
+      "laneId": "signet",
+      "logRoot": "sha256:runtime-log-root",
+      "outputRoot": "sha256:wallet-output-root",
+      "proofRoot": "sha256:wallet-proof-root",
+      "protectedSourceVisible": false,
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:02f8b9a62a3bb6b09423c448",
+      "repairPosture": "deny-broadcast-until-wallet-policy-repaired",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "walletOperationRoot": "sha256:wallet-operation-root",
+      "workKind": "wallet_operation"
+    },
+    {
+      "commandOrPipelineId": "deployment.proof.generate",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-proof-generation",
+      "hostId": "proof_services",
+      "inputRoot": "sha256:proof-input-root",
+      "laneId": "staging-testnet",
+      "logRoot": "sha256:runtime-log-root",
+      "outputRoot": "sha256:proof-output-root",
+      "proofRoot": "sha256:proof-generation-root",
+      "protectedSourceVisible": false,
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:1acfe1bd40c8186af4bda502",
+      "repairPosture": "regenerate-proof-from-canonical-inputs",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "workKind": "proof_generation"
+    },
+    {
+      "commandOrPipelineId": "assetpack.preview.persist",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-object-storage-write",
+      "hostId": "object_storage",
+      "inputRoot": "sha256:object-storage-input-root",
+      "laneId": "staging-testnet",
+      "logRoot": "sha256:runtime-log-root",
+      "objectStorageRoot": "sha256:object-storage-root",
+      "outputRoot": "sha256:object-storage-output-root",
+      "proofRoot": "sha256:object-storage-proof-root",
+      "protectedSourceVisible": false,
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:878d86f70a8e0d7afd9e0578",
+      "repairPosture": "lock-delivery-and-rewrite-from-authorized-artifact-root",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "succeeded",
+      "workKind": "object_storage_write"
+    },
+    {
+      "commandOrPipelineId": "projection.repair",
+      "completedAt": "2026-05-22T00:00:01.000Z",
+      "credentialsSerialized": false,
+      "databaseProjectionRoot": "sha256:database-projection-root",
+      "executionId": "execution-repair-job",
+      "hostId": "repair_jobs",
+      "inputRoot": "sha256:repair-input-root",
+      "laneId": "staging-testnet",
+      "ledgerProjectionRoot": "sha256:repair-ledger-projection-root",
+      "logRoot": "sha256:runtime-log-root",
+      "objectStorageRoot": "sha256:repair-object-storage-root",
+      "outputRoot": "sha256:repair-output-root",
+      "proofRoot": "sha256:repair-proof-root",
+      "protectedSourceVisible": false,
+      "receiptRoot": "v34-distributed-execution-runtime-receipt:720dd7faab2534cd345af2cb",
+      "repairPosture": "repair-complete-with-replayable-proof-root",
+      "replayCommand": "pnpm run check:v34-gate3",
+      "routeHandlerBoundary": "request_response_not_required",
+      "sourceSafety": {
+        "containsProtectedSource": false,
+        "containsSecret": false,
+        "credentialsSerialized": false,
+        "protectedSourceVisible": false,
+        "sourceSafe": true
+      },
+      "startedAt": "2026-05-22T00:00:00.000Z",
+      "status": "repaired",
+      "workKind": "repair_job"
+    }
+  ],
+  "requiredWorkKinds": [
+    "pipeline_run",
+    "ptrr_agent",
+    "thricified_generation",
+    "tool_call",
+    "ledger_operation",
+    "wallet_operation",
+    "proof_generation",
+    "object_storage_write",
+    "repair_job"
+  ],
+  "schemaId": "bitcode.v34.distributedExecutionRuntimeReceipts.v1",
+  "sharedFixtureFiles": [
+    "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts",
+    "packages/pipeline-hosts/src/index.ts",
+    "BITCODE_SPEC_V34.md",
+    "BITCODE_SPEC_V34_DELTA.md",
+    "BITCODE_SPEC_V34_PARITY_MATRIX.md",
+    "packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts",
+    "scripts/check-v34-gate3-distributed-execution-runtime-contracts.mjs"
+  ],
+  "sourceEvidence": [
+    {
+      "digest": "sha256:40ed8d6b9d92e1d7f69fcca037b0b8c419e3d7ca045c1cb4669e52e1b6b0cdbb",
+      "relativePath": "packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "DistributedExecutionRuntimeReceipt"
+        },
+        {
+          "present": true,
+          "token": "DISTRIBUTED_EXECUTION_RUNTIME_WORK_KINDS"
+        },
+        {
+          "present": true,
+          "token": "request_response_not_required"
+        },
+        {
+          "present": true,
+          "token": "ptrr_agent"
+        },
+        {
+          "present": true,
+          "token": "thricified_generation"
+        },
+        {
+          "present": true,
+          "token": "object_storage_write"
+        },
+        {
+          "present": true,
+          "token": "repair_job"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:baad6be2b6f92cdf9f5b23bfba513bff837d4c6ab7f86d57336fab6cda6be455",
+      "relativePath": "packages/pipeline-hosts/src/index.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "distributed-execution-runtime-receipt"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:d1c7a70eff5d82d72ff081150ce10e1117a117d33044b2985ed9a5bff30e1e92",
+      "relativePath": "BITCODE_SPEC_V34.md",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": ".proofs/v34/distributed-execution-runtime-receipts.json"
+        },
+        {
+          "present": true,
+          "token": "DistributedExecutionRuntimeReceipt"
+        },
+        {
+          "present": true,
+          "token": "request_response_not_required"
+        }
+      ]
+    }
+  ],
+  "sourceSafetyVerdict": "source-safe-distributed-execution-runtime-receipts",
+  "testEvidence": [
+    {
+      "digest": "sha256:63733d5998d39900f7296ed25e183c42d715f4787a2d6cd47781c71bfa0fb3f9",
+      "relativePath": "packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "catalogs pipeline runs, PTRR agents, ThricifiedGenerations, tool calls, ledger operations, wallet operations, proof generation, object-storage writes, and repair jobs"
+        },
+        {
+          "present": true,
+          "token": "keeps long-running runtime work detached from request/response route handler completion"
+        },
+        {
+          "present": true,
+          "token": "covers required roots for pipeline, tool, ledger, wallet, proof, storage, and repair receipts"
+        },
+        {
+          "present": true,
+          "token": "fails closed when successful runtime receipts omit output roots"
+        },
+        {
+          "present": true,
+          "token": "fails closed on secret-shaped or protected-source receipt text"
+        }
+      ]
+    },
+    {
+      "digest": "sha256:1377b7006e67291bfaf6d03997a886a384ca3a0721cc27ebb721828ea13a7fd9",
+      "relativePath": "scripts/check-v34-gate3-distributed-execution-runtime-contracts.mjs",
+      "requiredTokens": [
+        {
+          "present": true,
+          "token": "check:v34-distributed-execution-runtime-receipts"
+        },
+        {
+          "present": true,
+          "token": "distributed-execution-runtime-receipt.test.ts"
+        },
+        {
+          "present": true,
+          "token": "Distributed Execution Runtime Contracts"
+        }
+      ]
+    }
+  ],
+  "version": "V34"
+}

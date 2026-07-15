@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-session-route-history.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-session-route-history.json';
 
 const REQUIRED_SESSION_FIELD_IDS = [
   'route_local_session_id',
@@ -289,7 +289,7 @@ function main() {
     'branch',
     'retry',
     'redaction',
-    '.bitcode/v37-conversation-session-route-history.json',
+    '.proofs/v37/conversation-session-route-history.json',
     'source-safe-conversation-session-route-history-metadata',
     'check:v37-gate2',
   ]) {

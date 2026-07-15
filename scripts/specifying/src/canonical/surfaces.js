@@ -484,8 +484,8 @@ function buildRepoToSettlementSurface({
   settlementPreview
 }) {
   const selectedArtifactKindCounts = countValues(selectedCandidates.map((candidate) => candidate.asset.artifactKind));
-  const visibleBranchFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => !path.startsWith('.bitcode/source-material/'));
-  const selectedSourceFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => path.startsWith('.bitcode/source-material/'));
+  const visibleBranchFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => !path.startsWith('.proofs/source-material/'));
+  const selectedSourceFiles = Object.keys(branchArtifacts?.files || {}).filter((path) => path.startsWith('.proofs/source-material/'));
   const proofFamilyCount = proofWitnessManifest?.proofFamilies?.length || 0;
   const settlementParticipantCount = settlementPreview?.settlementParticipatingAssetIds?.length || 0;
   const creditedAssetCount = settlementPreview?.creditedAssetIds?.length || 0;
@@ -686,7 +686,7 @@ function buildIdentityAuthSpineSurface({
         label: 'Bitcode branch authority',
         principalRefs: ['bitcode-system:branch-materializer'],
         authoritySummary: 'Bitcode materializes the private remediation branch and mounted source material under policy release controls.',
-        stageRefs: [branchName, `${branchName}/.bitcode/source-material`].filter(Boolean),
+        stageRefs: [branchName, `${branchName}/.proofs/source-material`].filter(Boolean),
         rootRefs: identityBindings.filter((binding) => binding.principalId === 'bitcode-system:branch-materializer').map((binding) => binding.bindingRoot),
         boundaryClass: ExecutionReality.EXECUTED_LOCAL
       },

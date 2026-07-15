@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3df6b2cae755336067da920abbe8142df487a221`
 - Prior canonical anchor: `BITCODE_SPEC_V36.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V36_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, `.bitcode/v37-canon-posture-drift-report.json`, `.bitcode/v37-conversation-session-route-history.json`, `.bitcode/v37-conversation-stream-event-contract.json`, `.bitcode/v37-conversation-writing-workspace.json`, `.bitcode/v37-conversation-source-selector.json`, `.bitcode/v37-conversation-terminal-handoff.json`, `.bitcode/v37-conversation-persistence-privacy-redaction.json`, `.bitcode/v37-conversation-telemetry-proof-hooks.json`, `.bitcode/v37-conversation-rehearsal.json`, `.bitcode/v37-promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v37/spec-family-report.json`, `.proofs/v37/canonical-input-report.json`, `.proofs/v37/canon-posture-drift-report.json`, `.proofs/v37/conversation-session-route-history.json`, `.proofs/v37/conversation-stream-event-contract.json`, `.proofs/v37/conversation-writing-workspace.json`, `.proofs/v37/conversation-source-selector.json`, `.proofs/v37/conversation-terminal-handoff.json`, `.proofs/v37/conversation-persistence-privacy-redaction.json`, `.proofs/v37/conversation-telemetry-proof-hooks.json`, `.proofs/v37/conversation-rehearsal.json`, `.proofs/v37/promotion-readiness-report.json`, V37 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V37_PROVEN.md` as the generated proof appendix for V37 promotion
 - Source parity state: V37 source-side ConversationSession route history, ConversationStreamEvent contracts, ConversationWritingWorkspace contracts, ConversationSourceSelector contracts, ConversationTerminalHandoff contracts, ConversationPersistencePrivacyRedaction contracts, ConversationTelemetryProofHooks contracts, ConversationRehearsal evidence, workflow, and promotion surfaces are canonicalized in the promoted V37 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V36`
 - Notes companion: `BITCODE_SPEC_V37_NOTES.md`
@@ -59,7 +59,7 @@ contracts as package-owned source for Website Conversations.
 `ConversationSession` owns route-local session identity, user/account posture,
 source context reference, policy decision, stream state, history references,
 proof roots, event ids, redaction posture, and persistence boundary.
-It emits `.bitcode/v37-conversation-session-route-history.json` with
+It emits `.proofs/v37/conversation-session-route-history.json` with
 `source-safe-conversation-session-route-history-metadata`, deterministic row
 roots, deterministic detail roots, route contract ids, required history
 operation ids, source evidence roots, and source-safe disclosure limits.
@@ -90,7 +90,7 @@ Gate 3 implements `ConversationStreamEvent` as the package-owned stream event
 contract for Website Conversations. `ConversationStreamEvent` owns model
 deltas, tool calls, retrieval summaries, proof roots, retry states, completion
 decisions, and error rows. It emits
-`.bitcode/v37-conversation-stream-event-contract.json` with
+`.proofs/v37/conversation-stream-event-contract.json` with
 `source-safe-conversation-stream-event-metadata`, deterministic row roots,
 deterministic detail roots, event kind ids, required telemetry fields, source
 evidence roots, and source-safe disclosure limits.
@@ -115,7 +115,7 @@ fail-closed states.
 Gate 4 implements `ConversationWritingWorkspace` as the package-owned
 fullscreen writing contract for Website Conversations. It owns Read Request,
 Need feedback, AssetPack review note, and Terminal handoff summary drafting
-modes. It emits `.bitcode/v37-conversation-writing-workspace.json` with
+modes. It emits `.proofs/v37/conversation-writing-workspace.json` with
 `source-safe-conversation-writing-workspace-metadata`, deterministic row roots,
 deterministic detail roots, mode ids, action ids, required field ids, proof
 roots, event ids, route-local draft keys, source evidence roots, and
@@ -141,7 +141,7 @@ Gate 5 implements `ConversationSourceSelector` as the package-owned source
 selection and context-policy contract for Website Conversations. It owns
 repository, branch, commit, deposit, BTD range, AssetPack preview, document,
 and prior conversation selectors. It emits
-`.bitcode/v37-conversation-source-selector.json` with
+`.proofs/v37/conversation-source-selector.json` with
 `source-safe-conversation-source-selector-metadata`, deterministic row roots,
 deterministic detail roots, selector kind ids, governance ids, preview states,
 required field ids, proof roots, event ids, source evidence roots, and
@@ -167,7 +167,7 @@ Gate 6 implements `ConversationTerminalHandoff` as the package-owned
 transaction handoff contract from Website Conversations into the Bitcode
 Terminal. It owns source-safe handoff envelopes for Depositing, Reading,
 Finding Fits, Exchange, settlement, and delivery workflows. It emits
-`.bitcode/v37-conversation-terminal-handoff.json` with
+`.proofs/v37/conversation-terminal-handoff.json` with
 `source-safe-conversation-terminal-handoff-metadata`, deterministic row roots,
 deterministic detail roots, workflow ids, field ids, authority boundary ids,
 policy states, proof roots, event ids, source evidence roots, and source-safe
@@ -199,7 +199,7 @@ package-owned durable storage privacy and redaction contract for Website
 Conversations. It owns the visibility tier separation for public,
 user-visible, organization-visible, buyer-visible, reviewer-visible, and
 operator-only data. It emits
-`.bitcode/v37-conversation-persistence-privacy-redaction.json` with
+`.proofs/v37/conversation-persistence-privacy-redaction.json` with
 `source-safe-conversation-persistence-privacy-redaction-metadata`,
 deterministic row roots, deterministic detail roots, operation ids, visibility
 tier ids, retention postures, required field ids, proof roots, event ids,
@@ -242,7 +242,7 @@ telemetry, dashboard, runbook, and documentation contract for Website
 Conversations. It owns source-safe event families for sessions, messages,
 streams, tools, source selectors, Terminal handoffs, retries, errors, and
 completions. It emits
-`.bitcode/v37-conversation-telemetry-proof-hooks.json` with
+`.proofs/v37/conversation-telemetry-proof-hooks.json` with
 `source-safe-conversation-telemetry-proof-hooks-metadata`, deterministic row
 roots, hook roots, dashboard panel ids, runbook ids, required telemetry field
 ids, proof root fields, source evidence roots, replay expectations, and
@@ -275,7 +275,7 @@ Gate 9 implements `ConversationRehearsal` as the package-owned local and
 staging-testnet proof contract for Website Conversations. It owns the
 non-value rehearsal rows for chat, streaming, writing, source selector,
 Terminal handoff, restore, retry, redaction, and error flows. It emits
-`.bitcode/v37-conversation-rehearsal.json` with
+`.proofs/v37/conversation-rehearsal.json` with
 `source-safe-conversation-rehearsal-metadata`, deterministic rehearsal roots,
 flow roots, route/UI roots, telemetry roots, screenshot/log roots, source
 evidence roots, validation commands, lane posture, and fail-closed value-bearing
@@ -308,7 +308,7 @@ roots, source evidence roots, and `source-safe-conversation-rehearsal-metadata`.
 
 V37 promotion readiness canon is carried by
 `ConversationPromotionReadinessReport` and
-`.bitcode/v37-promotion-readiness-report.json`.
+`.proofs/v37/promotion-readiness-report.json`.
 
 Gate 10 implements `ConversationPromotionReadinessReport` as the package-owned
 promotion readiness contract for Website Conversations. It binds the eight V37
@@ -316,7 +316,7 @@ Conversation artifacts, generated proof outputs, gate-quality workflow,
 canon-quality workflow, V37 promotion workflow, promotion script, spec-family
 promotion script, runtime posture promotion script, and proven generator into a
 single source-safe readiness artifact:
-`.bitcode/v37-promotion-readiness-report.json`.
+`.proofs/v37/promotion-readiness-report.json`.
 
 The readiness report is source-safe promotion metadata. It records
 `source-safe-conversation-promotion-readiness-metadata`, V36 active / V37 draft
@@ -352,7 +352,7 @@ V37 Conversations may surface Exchange summaries and handoffs only through sourc
 
 Gate 2 implements `ExchangeActivityBook` as the package-owned source of market
 activity truth for Exchange master-detail surfaces.
-`ExchangeActivityBook` emits `.bitcode/v36-exchange-activity-book.json` with
+`ExchangeActivityBook` emits `.proofs/v36/exchange-activity-book.json` with
 `source-safe-exchange-activity-book-metadata`, deterministic activity row roots,
 deterministic activity detail roots, required filter ids, event ids, proof
 roots, ledger/database projection references, and redaction posture.
@@ -381,7 +381,7 @@ id, BTD range id, rights scope, current owner, order state, transition id,
 history root, ledger journal reference, database projection reference, and
 repair posture.
 
-Gate 3 emits `.bitcode/v36-exchange-intent-order-contracts.json` with
+Gate 3 emits `.proofs/v36/exchange-intent-order-contracts.json` with
 `source-safe-exchange-intent-order-contract-metadata`.
 Each transition names actor, organization role, wallet posture, authority proof,
 idempotency key, policy decision, and fail-closed result before order mutation.
@@ -405,7 +405,7 @@ source visibility, authority posture, proof roots, ledger/database projection
 references, and fail-closed conditions before any source-bearing transfer can
 be shown or settled.
 
-Gate 4 emits `.bitcode/v36-exchange-rights-transfer-review.json` with
+Gate 4 emits `.proofs/v36/exchange-rights-transfer-review.json` with
 `source-safe-exchange-rights-transfer-review-metadata`.
 AssetPack source is hidden until paid settlement and rights transfer are complete.
 The preview may expose source-safe preview identity, AssetPack id, BTD
@@ -436,7 +436,7 @@ root, network posture, settlement window, fail-closed conditions, proof roots,
 event ids, and ledger/database projection references before settlement can
 continue.
 
-Gate 5 emits `.bitcode/v36-pricing-liquidity-fee-quote.json` with
+Gate 5 emits `.proofs/v36/pricing-liquidity-fee-quote.json` with
 `source-safe-exchange-pricing-quote-metadata`.
 The deterministic quote basis includes measurement weight, measurement volume, liquidity band, wrapper analysis, BTC amount, treasury route, depositor route, reader route, and quote root.
 The source-safe quote may expose quote identity, AssetPack id, BTD range
@@ -465,7 +465,7 @@ transfer receipt, ledger root, database projection root, object storage root,
 delivery state, repair id, observer jobs, reconciliation decision, proof roots,
 and event ids before source-bearing delivery can be trusted.
 
-Gate 6 emits `.bitcode/v36-exchange-settlement-reconciliation.json` with
+Gate 6 emits `.proofs/v36/exchange-settlement-reconciliation.json` with
 `source-safe-exchange-settlement-reconciliation-metadata`.
 The settlement binding is payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
 The source-safe receipt may expose settlement identity, payment observation,
@@ -500,7 +500,7 @@ identity, rights-transfer receipt identity, source-to-shares proof root, and a
 conservation proof that reader debit equals depositor credit plus treasury
 credit plus fee credit plus reader refund.
 
-Gate 7 emits `.bitcode/v36-exchange-dispute-repair-revenue-route.json` with
+Gate 7 emits `.proofs/v36/exchange-dispute-repair-revenue-route.json` with
 `source-safe-exchange-dispute-repair-revenue-route-metadata`.
 runbooks and repair commands are source-safe and proof-rooted.
 The artifact may expose dispute identities, incident classes, affected order and
@@ -523,7 +523,7 @@ It proves that Terminal can hand off to Exchange without losing transaction cont
 It also proves that collapsed UI gives readable status and expanded UI exposes source-safe detail.
 Exchange telemetry dashboards remain source-safe and proof-rooted.
 
-Gate 8 emits `.bitcode/v36-exchange-ux-proof.json` with
+Gate 8 emits `.proofs/v36/exchange-ux-proof.json` with
 `source-safe-exchange-ux-proof-metadata`.
 The artifact may expose route ids, transaction ids, filter ids, order state,
 rights-transfer preview state, quote roots, settlement state, repair state,
@@ -541,7 +541,7 @@ local and staging-testnet Exchange rehearsals to generated proof.
 It proves that rehearsal logs/screenshots are source-safe.
 It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
 
-Gate 9 emits `.bitcode/v36-exchange-rehearsal.json` with
+Gate 9 emits `.proofs/v36/exchange-rehearsal.json` with
 `source-safe-exchange-rehearsal-metadata`.
 The artifact may expose rehearsal ids, lane ids, flow ids, event ids, proof
 roots, ledger/database synchronization checks, validation commands, redacted
@@ -562,7 +562,7 @@ the V36 promotion workflow, gate-quality and canon-quality workflow posture,
 promotion command planning, dry-run support, generated proof appendix support,
 runtime posture rewriting, and source-safe generated promotion evidence.
 
-Gate 10 emits `.bitcode/v36-promotion-readiness-report.json` with
+Gate 10 emits `.proofs/v36/promotion-readiness-report.json` with
 `source-safe-exchange-promotion-readiness-metadata`.
 The artifact may expose artifact ids, proof roots, checksums, source-safe source
 evidence, documentation evidence, validation commands, promotion workflow
@@ -598,7 +598,7 @@ The V36 source-of-truth hierarchy is:
 3. `BITCODE_SPEC_V36_NOTES.md`.
 4. `BITCODE_SPEC_V36_DELTA.md`.
 5. `BITCODE_SPEC_V36_PARITY_MATRIX.md`.
-6. generated V36 artifacts under `.bitcode/` when produced.
+6. generated V36 artifacts under `.proofs/` when produced.
 7. `BITCODE_SPEC_V36_PROVEN.md` only after promotion.
 8. source implementation, tests, public docs, internal docs, telemetry definitions, and QA evidence that realize this family.
 
@@ -835,7 +835,7 @@ The V36 whole-system operator chain is:
 - Current algorithms and derivation rules: V36 generated artifacts derive from package-owned builders and fail closed on stale or source-unsafe payloads.
 - Current invariants and fail-closed conditions: stale promoted status truth, missing generated artifact, stale proof root, unsupported disclosure, or replay mismatch blocks gate closure.
 - Current proof obligations: proof family root, generated artifact root, workflow root, rehearsal root, and promotion root.
-- Current source-bearing implementation basis: `packages/protocol`, scripts, workflows, and generated `.bitcode/` artifacts.
+- Current source-bearing implementation basis: `packages/protocol`, scripts, workflows, and generated `.proofs/` artifacts.
 - Current validating commands and parity basis: `check:v36-gate1` through `check:v36-gate10`, spec-family checks, canonical-input checks, and canon-posture drift checks.
 - Current accepted boundaries: proof artifacts are source-safe unless explicitly private and access-controlled.
 
@@ -845,11 +845,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v36-exchange-inference-synthesis-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-inference-synthesis-proof.json`
 - members: market analysis, pricing reasoning, rights-transfer review, dispute classification.
 - theoremIds: exchange-inference-source-safe, exchange-pricing-reasoning-rooted.
 - replayStepIds: exchange-intent-fixture, pricing-fixture, dispute-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-activity-book.json`, `.bitcode/v36-pricing-liquidity-fee-quote.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-activity-book.json`, `.proofs/v36/pricing-liquidity-fee-quote.json`.
 - current member closure criteria: inference-derived Exchange conclusions must be source-safe and typed.
 - current member verdict shape: passed, failed, blocked, with proof root and redaction posture.
 - current theorem-by-theorem closure reading: each theorem binds prompt/output roots where inference is used.
@@ -861,11 +861,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v36-exchange-prompt-completeness-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-prompt-completeness-proof.json`
 - members: prompt-part registry coverage, prompt-template coverage, context interpolation, output schema.
 - theoremIds: exchange-prompt-context-complete, exchange-output-schema-enforced.
 - replayStepIds: quote-prompt-fixture, rights-review-prompt-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-rehearsal.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-rehearsal.json`.
 - current member closure criteria: prompts name allowed market context and forbidden source-bearing fields.
 - current member verdict shape: complete, incomplete, blocked with missing prompt parts.
 - current theorem-by-theorem closure reading: every inference point has reason, judge, and final typed output.
@@ -877,11 +877,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v36-exchange-static-code-analysis-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-static-code-analysis-proof.json`
 - members: route scan, import boundary scan, source-safety scan, secret scan.
 - theoremIds: exchange-routes-unversioned, exchange-no-demo-imports.
 - replayStepIds: route-scan, import-scan, secret-scan.
-- witnessArtifactPaths: `.bitcode/v36-exchange-promotion-readiness-report.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-promotion-readiness-report.json`.
 - current member closure criteria: Exchange implementation follows current source names and package boundaries.
 - current member verdict shape: passed, failed, blocked with file roots.
 - current theorem-by-theorem closure reading: every source boundary theorem has a scan witness.
@@ -893,11 +893,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v36-exchange-verification-decisions-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-verification-decisions-proof.json`
 - members: ownership verification, order authority, payment verification, finality verification.
 - theoremIds: exchange-owner-authorized, exchange-payment-finalized.
 - replayStepIds: owner-fixture, payment-fixture, cancel-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-settlement-reconciliation.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-settlement-reconciliation.json`.
 - current member closure criteria: every market transition has an authority and verification result.
 - current member verdict shape: accepted, denied, blocked with denial reason.
 - current theorem-by-theorem closure reading: verification decisions are explicit before settlement.
@@ -909,11 +909,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v36-exchange-selection-materialization-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-selection-materialization-proof.json`
 - members: market selection, order detail projection, post-settlement delivery, history materialization.
 - theoremIds: exchange-source-hidden-before-settlement, exchange-history-rooted.
 - replayStepIds: preview-fixture, settlement-fixture, delivery-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-rights-transfer-review.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-rights-transfer-review.json`.
 - current member closure criteria: market detail can be rendered without protected source and delivery occurs only after settlement.
 - current member verdict shape: previewed, delivered, blocked.
 - current theorem-by-theorem closure reading: preview and source delivery are distinct.
@@ -925,11 +925,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v36-exchange-authorization-sensitive-flow-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-authorization-sensitive-flow-proof.json`
 - members: wallet authorization, organization role, rights owner, secret redaction.
 - theoremIds: exchange-wallet-private-material-absent, exchange-role-authorized.
 - replayStepIds: wallet-fixture, role-fixture, secret-redaction-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-activity-book.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-activity-book.json`.
 - current member closure criteria: Exchange payloads include proof roots but never private wallet or secret values.
 - current member verdict shape: passed, denied, blocked.
 - current theorem-by-theorem closure reading: every sensitive field is either absent or redacted.
@@ -941,11 +941,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v36-exchange-settlement-source-to-shares-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-settlement-source-to-shares-proof.json`
 - members: BTC fee settlement, BTD rights transfer, revenue route, source-to-shares conservation.
 - theoremIds: exchange-settlement-conserved, exchange-rights-transfer-ledgered.
 - replayStepIds: payment-fixture, rights-transfer-fixture, revenue-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-settlement-reconciliation.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-settlement-reconciliation.json`.
 - current member closure criteria: BTC and BTD movements are separate, correlated, and conserved.
 - current member verdict shape: settled, pending, blocked, repaired.
 - current theorem-by-theorem closure reading: ledger roots and database roots reconcile.
@@ -957,11 +957,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v36-exchange-disclosure-boundary-proof.json`
+- proofArtifactPath: `.proofs/v36/exchange-disclosure-boundary-proof.json`
 - members: public market preview, buyer-visible preview, operator evidence, post-settlement source.
 - theoremIds: exchange-public-preview-source-safe, exchange-source-unlocks-after-payment.
 - replayStepIds: public-preview-fixture, buyer-preview-fixture, unlock-fixture.
-- witnessArtifactPaths: `.bitcode/v36-exchange-ux-proof.json`.
+- witnessArtifactPaths: `.proofs/v36/exchange-ux-proof.json`.
 - current member closure criteria: every preview names allowed and forbidden fields.
 - current member verdict shape: source-safe, blocked, delivered.
 - current theorem-by-theorem closure reading: disclosure limit is preserved across UI, API, docs, and logs.
@@ -973,11 +973,11 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v36-exchange-proof-contract.json`
+- proofArtifactPath: `.proofs/v36/exchange-proof-contract.json`
 - members: generated artifacts, workflow checks, promotion readiness, replay evidence.
 - theoremIds: exchange-proof-generated, exchange-promotion-safe.
 - replayStepIds: gate1-check, gate10-check, promotion-dry-run.
-- witnessArtifactPaths: `.bitcode/v36-promotion-readiness-report.json`.
+- witnessArtifactPaths: `.proofs/v36/promotion-readiness-report.json`.
 - current member closure criteria: each Exchange gate has generated evidence and validation commands.
 - current member verdict shape: passed, failed, blocked.
 - current theorem-by-theorem closure reading: proof-source commit and generated artifacts match source.
@@ -989,7 +989,7 @@ V36 extends the inherited proof-family set with Exchange-specific evidence.
 
 ## V36 generated canon
 
-V36 generated canon consists of source-safe `.bitcode/` artifacts generated by package-owned builders and checked by scripts.
+V36 generated canon consists of source-safe `.proofs/` artifacts generated by package-owned builders and checked by scripts.
 
 ### Inherited V19 reproducible-canon artifacts
 
@@ -1003,42 +1003,42 @@ V36 inherits operator quality, visual/accessibility/performance posture, project
 
 | artifactPath | owning gate | disclosure posture | source basis |
 | --- | --- | --- | --- |
-| `.bitcode/v36-spec-family-report.json` | Gate 1 | source-safe | spec-family checker |
-| `.bitcode/v36-canonical-input-report.json` | Gate 1 | source-safe | canonical-input checker |
-| `.bitcode/v36-exchange-activity-book.json` | Gate 2 | source-safe | Exchange activity contracts |
-| `.bitcode/v36-exchange-intent-order-contracts.json` | Gate 3 | source-safe | Exchange intent/order contracts |
-| `.bitcode/v36-exchange-rights-transfer-review.json` | Gate 4 | source-safe | BTD rights-transfer preview |
-| `.bitcode/v36-pricing-liquidity-fee-quote.json` | Gate 5 | source-safe | deterministic pricing |
-| `.bitcode/v36-exchange-settlement-reconciliation.json` | Gate 6 | source-safe | ledger/database reconciliation |
-| `.bitcode/v36-exchange-dispute-repair-revenue-route.json` | Gate 7 | source-safe | repair and revenue routes |
-| `.bitcode/v36-exchange-ux-proof.json` | Gate 8 | source-safe | UI/API/docs integration |
-| `.bitcode/v36-exchange-rehearsal.json` | Gate 9 | source-safe | local/staging rehearsal |
-| `.bitcode/v36-promotion-readiness-report.json` | Gate 10 | source-safe | promotion readiness |
-| `.bitcode/v37-spec-family-report.json` | Gate 1 | source-safe | V37 spec-family checker |
-| `.bitcode/v37-canonical-input-report.json` | Gate 1 | source-safe | V37 canonical-input checker |
-| `.bitcode/v37-canon-posture-drift-report.json` | Gate 1 | source-safe | V36 active / V37 draft posture checker |
-| `.bitcode/v37-conversation-session-route-history.json` | Gate 2 | source-safe | ConversationSession route-local history contracts |
-| `.bitcode/v37-conversation-stream-event-contract.json` | Gate 3 | source-safe | ConversationStreamEvent stream UI/event contracts |
-| `.bitcode/v37-conversation-writing-workspace.json` | Gate 4 | source-safe | ConversationWritingWorkspace fullscreen composer contracts |
-| `.bitcode/v37-conversation-source-selector.json` | Gate 5 | source-safe | ConversationSourceSelector source/context policy contracts |
-| `.bitcode/v37-conversation-terminal-handoff.json` | Gate 6 | source-safe | ConversationTerminalHandoff transaction handoff contracts |
-| `.bitcode/v37-conversation-persistence-privacy-redaction.json` | Gate 7 | source-safe | ConversationPersistencePrivacyRedaction durable storage privacy contracts |
-| `.bitcode/v37-conversation-telemetry-proof-hooks.json` | Gate 8 | source-safe | ConversationTelemetryProofHooks dashboard/runbook contracts |
-| `.bitcode/v37-conversation-rehearsal.json` | Gate 9 | source-safe | ConversationRehearsal local/staging proof contracts |
-| `.bitcode/v37-promotion-readiness-report.json` | Gate 10 | source-safe | ConversationPromotionReadinessReport promotion readiness |
+| `.proofs/v36/spec-family-report.json` | Gate 1 | source-safe | spec-family checker |
+| `.proofs/v36/canonical-input-report.json` | Gate 1 | source-safe | canonical-input checker |
+| `.proofs/v36/exchange-activity-book.json` | Gate 2 | source-safe | Exchange activity contracts |
+| `.proofs/v36/exchange-intent-order-contracts.json` | Gate 3 | source-safe | Exchange intent/order contracts |
+| `.proofs/v36/exchange-rights-transfer-review.json` | Gate 4 | source-safe | BTD rights-transfer preview |
+| `.proofs/v36/pricing-liquidity-fee-quote.json` | Gate 5 | source-safe | deterministic pricing |
+| `.proofs/v36/exchange-settlement-reconciliation.json` | Gate 6 | source-safe | ledger/database reconciliation |
+| `.proofs/v36/exchange-dispute-repair-revenue-route.json` | Gate 7 | source-safe | repair and revenue routes |
+| `.proofs/v36/exchange-ux-proof.json` | Gate 8 | source-safe | UI/API/docs integration |
+| `.proofs/v36/exchange-rehearsal.json` | Gate 9 | source-safe | local/staging rehearsal |
+| `.proofs/v36/promotion-readiness-report.json` | Gate 10 | source-safe | promotion readiness |
+| `.proofs/v37/spec-family-report.json` | Gate 1 | source-safe | V37 spec-family checker |
+| `.proofs/v37/canonical-input-report.json` | Gate 1 | source-safe | V37 canonical-input checker |
+| `.proofs/v37/canon-posture-drift-report.json` | Gate 1 | source-safe | V36 active / V37 draft posture checker |
+| `.proofs/v37/conversation-session-route-history.json` | Gate 2 | source-safe | ConversationSession route-local history contracts |
+| `.proofs/v37/conversation-stream-event-contract.json` | Gate 3 | source-safe | ConversationStreamEvent stream UI/event contracts |
+| `.proofs/v37/conversation-writing-workspace.json` | Gate 4 | source-safe | ConversationWritingWorkspace fullscreen composer contracts |
+| `.proofs/v37/conversation-source-selector.json` | Gate 5 | source-safe | ConversationSourceSelector source/context policy contracts |
+| `.proofs/v37/conversation-terminal-handoff.json` | Gate 6 | source-safe | ConversationTerminalHandoff transaction handoff contracts |
+| `.proofs/v37/conversation-persistence-privacy-redaction.json` | Gate 7 | source-safe | ConversationPersistencePrivacyRedaction durable storage privacy contracts |
+| `.proofs/v37/conversation-telemetry-proof-hooks.json` | Gate 8 | source-safe | ConversationTelemetryProofHooks dashboard/runbook contracts |
+| `.proofs/v37/conversation-rehearsal.json` | Gate 9 | source-safe | ConversationRehearsal local/staging proof contracts |
+| `.proofs/v37/promotion-readiness-report.json` | Gate 10 | source-safe | ConversationPromotionReadinessReport promotion readiness |
 
 ### V37 specifying generated artifacts
 
-Gate 1 requires `.bitcode/v37-spec-family-report.json`, `.bitcode/v37-canonical-input-report.json`, and `.bitcode/v37-canon-posture-drift-report.json` readiness.
-Gate 2 adds `.bitcode/v37-conversation-session-route-history.json` from the package-owned ConversationSession route-history builder with package tests, route tests, workflow checks, and source-safety checks.
-Gate 3 adds `.bitcode/v37-conversation-stream-event-contract.json` from the package-owned ConversationStreamEvent builder with package tests, route/UI tests, workflow checks, and source-safety checks.
-Gate 4 adds `.bitcode/v37-conversation-writing-workspace.json` from the package-owned ConversationWritingWorkspace builder with package tests, fullscreen workspace UI tests, workflow checks, and source-safety checks.
-Gate 5 adds `.bitcode/v37-conversation-source-selector.json` from the package-owned ConversationSourceSelector builder with package tests, source selector UI tests, workflow checks, and source-safety checks.
-Gate 6 adds `.bitcode/v37-conversation-terminal-handoff.json` from the package-owned ConversationTerminalHandoff builder with package tests, Terminal handoff UI tests, workflow checks, and source-safety checks.
-Gate 7 adds `.bitcode/v37-conversation-persistence-privacy-redaction.json` from the package-owned ConversationPersistencePrivacyRedaction builder with package tests, API storage redaction tests, UI tests, workflow checks, and source-safety checks.
-Gate 8 adds `.bitcode/v37-conversation-telemetry-proof-hooks.json` from the package-owned ConversationTelemetryProofHooks builder with package tests, API telemetry tests, UI tests, docs, runbooks, workflow checks, and source-safety checks.
-Gate 9 adds `.bitcode/v37-conversation-rehearsal.json` from the package-owned ConversationRehearsal builder with package tests, UI tests, local/staging rehearsal proof, route/UI checks, telemetry roots, source-safe screenshot/log roots, workflow checks, and source-safety checks.
-Gate 10 adds `.bitcode/v37-promotion-readiness-report.json` from the package-owned ConversationPromotionReadinessReport builder with package tests, generated proof support, promotion workflow support, V37 active / draft V38 posture coverage, promotion dry-run support, and source-safety checks.
+Gate 1 requires `.proofs/v37/spec-family-report.json`, `.proofs/v37/canonical-input-report.json`, and `.proofs/v37/canon-posture-drift-report.json` readiness.
+Gate 2 adds `.proofs/v37/conversation-session-route-history.json` from the package-owned ConversationSession route-history builder with package tests, route tests, workflow checks, and source-safety checks.
+Gate 3 adds `.proofs/v37/conversation-stream-event-contract.json` from the package-owned ConversationStreamEvent builder with package tests, route/UI tests, workflow checks, and source-safety checks.
+Gate 4 adds `.proofs/v37/conversation-writing-workspace.json` from the package-owned ConversationWritingWorkspace builder with package tests, fullscreen workspace UI tests, workflow checks, and source-safety checks.
+Gate 5 adds `.proofs/v37/conversation-source-selector.json` from the package-owned ConversationSourceSelector builder with package tests, source selector UI tests, workflow checks, and source-safety checks.
+Gate 6 adds `.proofs/v37/conversation-terminal-handoff.json` from the package-owned ConversationTerminalHandoff builder with package tests, Terminal handoff UI tests, workflow checks, and source-safety checks.
+Gate 7 adds `.proofs/v37/conversation-persistence-privacy-redaction.json` from the package-owned ConversationPersistencePrivacyRedaction builder with package tests, API storage redaction tests, UI tests, workflow checks, and source-safety checks.
+Gate 8 adds `.proofs/v37/conversation-telemetry-proof-hooks.json` from the package-owned ConversationTelemetryProofHooks builder with package tests, API telemetry tests, UI tests, docs, runbooks, workflow checks, and source-safety checks.
+Gate 9 adds `.proofs/v37/conversation-rehearsal.json` from the package-owned ConversationRehearsal builder with package tests, UI tests, local/staging rehearsal proof, route/UI checks, telemetry roots, source-safe screenshot/log roots, workflow checks, and source-safety checks.
+Gate 10 adds `.proofs/v37/promotion-readiness-report.json` from the package-owned ConversationPromotionReadinessReport builder with package tests, generated proof support, promotion workflow support, V37 active / draft V38 posture coverage, promotion dry-run support, and source-safety checks.
 
 ### Shared generated-artifact fields
 
@@ -1079,7 +1079,7 @@ V36 validation consists of:
 ## V36 promotion readiness canon
 
 V36 promotion readiness canon is carried by `ExchangePromotionReadinessReport`
-and `.bitcode/v36-promotion-readiness-report.json`.
+and `.proofs/v36/promotion-readiness-report.json`.
 
 ## V36 promotion canon
 
@@ -1108,19 +1108,19 @@ Public surfaces include `/exchange`, Terminal handoff panels, source-safe API pa
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v36-exchange-inference-synthesis-proof.json` | market-analysis, pricing-reasoning | exchange-inference-source-safe | exchange-intent-fixture | `.bitcode/v36-exchange-activity-book.json` | package builders and tests |
-| Prompt-completeness | `.bitcode/v36-exchange-prompt-completeness-proof.json` | prompt-parts, schemas | exchange-prompt-context-complete | quote-prompt-fixture | `.bitcode/v36-exchange-rehearsal.json` | prompt registries |
-| Static-code-analysis | `.bitcode/v36-exchange-static-code-analysis-proof.json` | route-scan, import-scan | exchange-routes-unversioned | route-scan | `.bitcode/v36-promotion-readiness-report.json` | scripts and workflows |
-| Verification-decisions | `.bitcode/v36-exchange-verification-decisions-proof.json` | ownership, finality | exchange-owner-authorized | owner-fixture | `.bitcode/v36-exchange-settlement-reconciliation.json` | BTD and ledger |
-| Selection-and-materialization | `.bitcode/v36-exchange-selection-materialization-proof.json` | preview, delivery | exchange-source-hidden-before-settlement | delivery-fixture | `.bitcode/v36-exchange-rights-transfer-review.json` | UAPI and storage |
-| Authorization-and-sensitive-flow | `.bitcode/v36-exchange-authorization-sensitive-flow-proof.json` | wallet, role | exchange-role-authorized | wallet-fixture | `.bitcode/v36-exchange-activity-book.json` | auth and wallet |
-| Settlement-source-to-shares | `.bitcode/v36-exchange-settlement-source-to-shares-proof.json` | payment, transfer | exchange-settlement-conserved | payment-fixture | `.bitcode/v36-exchange-settlement-reconciliation.json` | ledger and BTD |
-| Disclosure-boundary | `.bitcode/v36-exchange-disclosure-boundary-proof.json` | preview, unlock | exchange-public-preview-source-safe | public-preview-fixture | `.bitcode/v36-exchange-ux-proof.json` | UI/API/docs |
-| Proof-contract | `.bitcode/v36-exchange-proof-contract.json` | artifacts, workflows | exchange-proof-generated | promotion-dry-run | `.bitcode/v36-promotion-readiness-report.json` | protocol package |
+| Inference-synthesis | `.proofs/v36/exchange-inference-synthesis-proof.json` | market-analysis, pricing-reasoning | exchange-inference-source-safe | exchange-intent-fixture | `.proofs/v36/exchange-activity-book.json` | package builders and tests |
+| Prompt-completeness | `.proofs/v36/exchange-prompt-completeness-proof.json` | prompt-parts, schemas | exchange-prompt-context-complete | quote-prompt-fixture | `.proofs/v36/exchange-rehearsal.json` | prompt registries |
+| Static-code-analysis | `.proofs/v36/exchange-static-code-analysis-proof.json` | route-scan, import-scan | exchange-routes-unversioned | route-scan | `.proofs/v36/promotion-readiness-report.json` | scripts and workflows |
+| Verification-decisions | `.proofs/v36/exchange-verification-decisions-proof.json` | ownership, finality | exchange-owner-authorized | owner-fixture | `.proofs/v36/exchange-settlement-reconciliation.json` | BTD and ledger |
+| Selection-and-materialization | `.proofs/v36/exchange-selection-materialization-proof.json` | preview, delivery | exchange-source-hidden-before-settlement | delivery-fixture | `.proofs/v36/exchange-rights-transfer-review.json` | UAPI and storage |
+| Authorization-and-sensitive-flow | `.proofs/v36/exchange-authorization-sensitive-flow-proof.json` | wallet, role | exchange-role-authorized | wallet-fixture | `.proofs/v36/exchange-activity-book.json` | auth and wallet |
+| Settlement-source-to-shares | `.proofs/v36/exchange-settlement-source-to-shares-proof.json` | payment, transfer | exchange-settlement-conserved | payment-fixture | `.proofs/v36/exchange-settlement-reconciliation.json` | ledger and BTD |
+| Disclosure-boundary | `.proofs/v36/exchange-disclosure-boundary-proof.json` | preview, unlock | exchange-public-preview-source-safe | public-preview-fixture | `.proofs/v36/exchange-ux-proof.json` | UI/API/docs |
+| Proof-contract | `.proofs/v36/exchange-proof-contract.json` | artifacts, workflows | exchange-proof-generated | promotion-dry-run | `.proofs/v36/promotion-readiness-report.json` | protocol package |
 
 ### Appendix C. Generated artifact contract catalog
 
-The V36 generated artifact contract catalog is defined in the generated canon section and includes `.bitcode/v36-spec-family-report.json`, `.bitcode/v36-canonical-input-report.json`, and all Exchange gate artifacts.
+The V36 generated artifact contract catalog is defined in the generated canon section and includes `.proofs/v36/spec-family-report.json`, `.proofs/v36/canonical-input-report.json`, and all Exchange gate artifacts.
 
 ### Appendix D. Validation and checking gate catalog
 
@@ -1139,7 +1139,7 @@ The V36 generated artifact contract catalog is defined in the generated canon se
 
 ### Appendix E. Current canonical source map
 
-V36 source map roots include `packages/protocol`, `packages/btd`, `packages/api`, `packages/pipelines/asset-pack`, `apps/uapi/app/exchange`, `apps/uapi/app/terminal`, `apps/uapi/app/api`, public docs, workflows, scripts, and generated `.bitcode/` artifacts.
+V36 source map roots include `packages/protocol`, `packages/btd`, `packages/api`, `packages/pipelines/asset-pack`, `apps/uapi/app/exchange`, `apps/uapi/app/terminal`, `apps/uapi/app/api`, public docs, workflows, scripts, and generated `.proofs/` artifacts.
 `_legacy/` is historical only.
 
 ### Appendix F. Subsystem totality and derivability matrix
@@ -1167,7 +1167,7 @@ V36 preserves existing fail-closed causes: invalid deposit, prompt contract inco
 
 ### Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing material includes `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, `BITCODE_SPEC_V36_PROVEN.md`, and `BITCODE_SPEC_V37_PROVEN.md`.
+Source-bearing material includes `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, `BITCODE_SPEC_V36_PROVEN.md`, and `BITCODE_SPEC_V37_PROVEN.md`.
 Conversations may reference those roots through source-safe summaries and handoffs but must not disclose protected source before settlement, rights, and policy admit it.
 
 ## V37 accepted boundaries and reopen conditions

@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V44_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v44-promotion-readiness-report.json';
+  '.proofs/v44/promotion-readiness-report.json';
 export const V44_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v44.promotionReadinessReport.v1';
 export const V44_PROMOTION_READINESS_REPORT_VERSION = 'V44';
@@ -18,21 +18,21 @@ export const V44_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-v44-scaled-engineering-economy-promotion-metadata';
 
 export const V44_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v44-economic-domain-model.json',
-  '.bitcode/v44-packs-portfolio-market-intelligence.json',
-  '.bitcode/v44-reading-budget-quote-policy.json',
-  '.bitcode/v44-depositor-earnings-supply-opportunities.json',
-  '.bitcode/v44-btd-btc-compensation-statements.json',
-  '.bitcode/v44-organization-policy-wallet-authority.json',
-  '.bitcode/v44-enterprise-product-ux.json',
-  '.bitcode/v44-scaled-network-rehearsal.json',
+  '.proofs/v44/economic-domain-model.json',
+  '.proofs/v44/packs-portfolio-market-intelligence.json',
+  '.proofs/v44/reading-budget-quote-policy.json',
+  '.proofs/v44/depositor-earnings-supply-opportunities.json',
+  '.proofs/v44/btd-btc-compensation-statements.json',
+  '.proofs/v44/organization-policy-wallet-authority.json',
+  '.proofs/v44/enterprise-product-ux.json',
+  '.proofs/v44/scaled-network-rehearsal.json',
 ]);
 
 export const V44_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V44_PROVEN.md',
-  '.bitcode/v44-spec-family-report.json',
-  '.bitcode/v44-canonical-input-report.json',
-  '.bitcode/v44-canon-posture-drift-report.json',
+  '.proofs/v44/spec-family-report.json',
+  '.proofs/v44/canonical-input-report.json',
+  '.proofs/v44/canon-posture-drift-report.json',
   V44_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -401,7 +401,7 @@ export function buildV44PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V44_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v44-',
+      generatedArtifactPrefix: '.proofs/v44/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

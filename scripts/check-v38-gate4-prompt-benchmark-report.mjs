@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-prompt-benchmark-report.json';
+const ARTIFACT_PATH = '.proofs/v38/prompt-benchmark-report.json';
 
 const REQUIRED_ROW_IDS = [
   'benchmark:runner-and-doc-comment-infrastructure',
@@ -127,8 +127,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/ptrr-failsafe-thricified-stack.json',
     'scripts/specifying/src/canonical/prompt-benchmark-report.js',
     'scripts/specifying/src/canonical/inference-surface-inventory.js',
     'scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js',

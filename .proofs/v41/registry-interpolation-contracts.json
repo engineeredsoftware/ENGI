@@ -1,0 +1,1511 @@
+{
+  "artifactId": "v41-registry-interpolation-contracts",
+  "schemaId": "bitcode.v41.registryInterpolationContracts.v1",
+  "version": "V41",
+  "currentTarget": "V40",
+  "generatedAt": "2026-05-26T00:00:00.000Z",
+  "artifactPath": ".proofs/v41/registry-interpolation-contracts.json",
+  "sourceSafetyVerdict": "source-safe-registry-interpolation-contract-metadata",
+  "requiredFieldIds": [
+    "contractId",
+    "sourceRoots",
+    "registryIds",
+    "compositionLevelIds",
+    "interpolationKeyIds",
+    "missingKeyBehaviorIds",
+    "toolPromptInjectionIds",
+    "contextHandlingIds",
+    "parserTargetIds",
+    "executionAncestryFrameIds",
+    "validationCommand",
+    "disclosureTier"
+  ],
+  "compositionLevelIds": [
+    "pipeline-or-phase-context",
+    "ptrr-agent",
+    "ptrr-step",
+    "failsafe-generation-sequence",
+    "failsafe-substep",
+    "thricified-generation",
+    "tool-doc-code-prompt",
+    "parser-target"
+  ],
+  "disclosureTiers": [
+    "registry_id_source_safe",
+    "interpolation_key_source_safe",
+    "execution_ancestry_frame_source_safe",
+    "parser_target_id_source_safe",
+    "source_hash_source_safe",
+    "raw_prompt_text_private",
+    "raw_provider_response_private",
+    "private_context_private",
+    "unpaid_assetpack_source_private"
+  ],
+  "forbiddenPayloadClasses": [
+    "secret-values",
+    "provider-tokens",
+    "wallet-private-material",
+    "protected-source-payloads",
+    "raw-protected-prompts",
+    "raw-prompt-text",
+    "raw-provider-responses",
+    "private-context",
+    "settlement-private-payloads",
+    "unpaid-assetpack-source"
+  ],
+  "rows": [
+    {
+      "contractId": "prompt-registry-totality",
+      "label": "Prompt registry hierarchy, required paths, patterns, and missing-path failures",
+      "sourceRoots": [
+        "packages/prompts/src/prompt.ts",
+        "packages/execution-generics/src/prompts/ExecutionPrompt.ts"
+      ],
+      "registryIds": [
+        "Prompt",
+        "ExecutionPrompt",
+        "RegistryImpl<PromptPart>"
+      ],
+      "compositionLevelIds": [
+        "pipeline-or-phase-context",
+        "parser-target"
+      ],
+      "interpolationKeyIds": [],
+      "missingKeyBehaviorIds": [
+        "required-path-missing-throws",
+        "required-pattern-missing-throws",
+        "required-hierarchy-missing-throws",
+        "executionprompt-invalid-root-throws"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [],
+      "parserTargetIds": [],
+      "executionAncestryFrameIds": [],
+      "requiredPredicateIds": [
+        "prompt.extends-registry",
+        "prompt.validates-required-paths",
+        "prompt.validates-required-patterns",
+        "prompt.validates-required-hierarchy",
+        "executionprompt.enforces-root-paths"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "registry_id_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:13b17e2135e7cebbdb0094ad",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "templated-promptpart-interpolation",
+      "label": "Templated PromptPart placeholder extraction, defaults, validation, and missing-key behavior",
+      "sourceRoots": [
+        "packages/prompts/src/parts/TemplatedPromptPart.ts"
+      ],
+      "registryIds": [
+        "TemplatedPromptPart",
+        "PromptPart"
+      ],
+      "compositionLevelIds": [
+        "pipeline-or-phase-context"
+      ],
+      "interpolationKeyIds": [
+        "template",
+        "variables",
+        "defaults",
+        "validate",
+        "{{variable}}"
+      ],
+      "missingKeyBehaviorIds": [
+        "missing-required-template-variable-throws",
+        "template-validation-failure-throws"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "resolved-template-values"
+      ],
+      "parserTargetIds": [],
+      "executionAncestryFrameIds": [],
+      "requiredPredicateIds": [
+        "templated.extracts-placeholders",
+        "templated.merges-defaults",
+        "templated.validates-values",
+        "templated.throws-missing-variable",
+        "templated.returns-promptpart"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "interpolation_key_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:599fb216bfe1277a4627fda7",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "ptrr-agent-prompt-composition",
+      "label": "PTRR agent prompt carrier attaches agent name and identity through execution prompt paths",
+      "sourceRoots": [
+        "packages/agent-generics/src/prompts/AgentPrompt.ts",
+        "packages/agent-generics/src/agents/factories.ts",
+        "packages/agent-generics/src/execution/AgentExecution.ts"
+      ],
+      "registryIds": [
+        "AgentPrompt",
+        "AgentExecution",
+        "ExecutionPrompt"
+      ],
+      "compositionLevelIds": [
+        "ptrr-agent"
+      ],
+      "interpolationKeyIds": [
+        "agent:name",
+        "agent:identity"
+      ],
+      "missingKeyBehaviorIds": [
+        "agent-prompt-carrier-required"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "agent-store:name",
+        "agent-store:startTime",
+        "agent-store:output"
+      ],
+      "parserTargetIds": [],
+      "executionAncestryFrameIds": [
+        "root-execution",
+        "agent-execution"
+      ],
+      "requiredPredicateIds": [
+        "agentprompt.defines-name-identity",
+        "agentfactory.attaches-agent-prompt",
+        "agentfactory.stores-agent-metadata",
+        "agentexecution.owns-prompt-and-registries"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "execution_ancestry_frame_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:27474b4c2d09faf9f93e8081",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "ptrr-step-prompt-composition",
+      "label": "PTRR step prompt carrier attaches Plan/Try/Refine/Retry purpose through step execution paths",
+      "sourceRoots": [
+        "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
+        "packages/agent-generics/src/steps/factories.ts",
+        "packages/agent-generics/src/execution/index.ts"
+      ],
+      "registryIds": [
+        "AgentStepPrompt",
+        "StepExecution",
+        "ExecutionPrompt"
+      ],
+      "compositionLevelIds": [
+        "ptrr-step"
+      ],
+      "interpolationKeyIds": [
+        "step:purpose"
+      ],
+      "missingKeyBehaviorIds": [
+        "step-prompt-required-for-ptrr-step"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "step-store:name",
+        "tools-store:usable",
+        "tools-store:use",
+        "tools-store:used"
+      ],
+      "parserTargetIds": [],
+      "executionAncestryFrameIds": [
+        "agent-execution",
+        "step-execution"
+      ],
+      "requiredPredicateIds": [
+        "stepprompt.defines-purpose",
+        "stepfactory.creates-step-executions",
+        "stepfactory.attaches-step-purpose",
+        "stepexecution.proxies-registries",
+        "stepfactory.stores-tool-state"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "execution_ancestry_frame_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:de11b8934f52ca629662ff28",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "failsafe-sequence-context-handling",
+      "label": "FailsafeGenerationSequence selects concise context, chunks oversized composed requests, and stitches typed outputs",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/failsafe-sequence.ts",
+        "packages/agent-generics/src/substeps/factories.ts",
+        "packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts"
+      ],
+      "registryIds": [
+        "FailsafeGenerationSequence",
+        "FailsafeMetaSubStepPrompt",
+        "FailsafeExecution"
+      ],
+      "compositionLevelIds": [
+        "failsafe-generation-sequence",
+        "failsafe-substep"
+      ],
+      "interpolationKeyIds": [
+        "selectedKeys",
+        "selectedContext",
+        "chunkResults"
+      ],
+      "missingKeyBehaviorIds": [
+        "no-default-llm-throws",
+        "stitch-schema-parse-fails-closed"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete",
+        "context.keys",
+        "context.selectedKeys",
+        "context.selectedContext",
+        "maxRequestTokens"
+      ],
+      "parserTargetIds": [
+        "outputSchema"
+      ],
+      "executionAncestryFrameIds": [
+        "step-execution",
+        "failsafe-execution",
+        "generation-execution"
+      ],
+      "requiredPredicateIds": [
+        "failsafe.delegates-to-thricified",
+        "failsafe.includes-context-chunk-stitch",
+        "failsafe.stores-selected-context",
+        "failsafe.stores-ptrr-failsafe",
+        "failsafe.prompt-has-handle",
+        "failsafe.uses-output-schema"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "execution_ancestry_frame_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:43839077dee930d0259fcd07",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "thricified-generation-final-resolution",
+      "label": "ThricifiedGeneration resolves final Reason, Judge, and StructuredOutput call chain and typed parser target",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/thinkings-generation.ts",
+        "packages/agent-generics/src/substeps/factories.ts",
+        "packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts"
+      ],
+      "registryIds": [
+        "ThricifiedGeneration",
+        "AgentGenerationSubStepPrompt",
+        "GenerationExecution"
+      ],
+      "compositionLevelIds": [
+        "thricified-generation"
+      ],
+      "interpolationKeyIds": [
+        "substep:generate",
+        "auto:output_schema"
+      ],
+      "missingKeyBehaviorIds": [
+        "no-default-llm-throws",
+        "parsed-output-required-when-parser-present"
+      ],
+      "toolPromptInjectionIds": [
+        "auto:tools_doc_code_tools",
+        "auto:output_schema"
+      ],
+      "contextHandlingIds": [
+        "systemPrompt",
+        "userPrompt",
+        "finalPrompt",
+        "llm.input",
+        "llm.prompt",
+        "llm.output"
+      ],
+      "parserTargetIds": [
+        "ReasoningSchema",
+        "JudgmentSchema",
+        "outputSchema.parse"
+      ],
+      "executionAncestryFrameIds": [
+        "failsafe-execution",
+        "generation-execution"
+      ],
+      "requiredPredicateIds": [
+        "thricified.sequences-reason-judge-structured-output",
+        "substep.builds-hierarchical-prompt",
+        "substep.stores-final-prompt-and-output",
+        "substep.stores-parsed-output",
+        "generationprompt.injects-tool-docs-and-schema",
+        "substep.enforces-json-generation-hints"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "parser_target_id_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:4c3aa5cba85f9541751cd0f8",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "execution-ancestry-context-overlays",
+      "label": "Execution ancestry, prompt overlays, storage, and stream metadata bind context into prompt resolution",
+      "sourceRoots": [
+        "packages/execution-generics/src/Execution.ts",
+        "packages/prompts/src/execution/PromptExecution.ts",
+        "packages/agent-generics/src/execution/prompt-overlays.ts",
+        "packages/agent-generics/src/substeps/factories.ts"
+      ],
+      "registryIds": [
+        "Execution",
+        "PromptExecution",
+        "ExecutionStreamAdapter",
+        "PromptOverlay"
+      ],
+      "compositionLevelIds": [
+        "pipeline-or-phase-context",
+        "failsafe-substep",
+        "thricified-generation"
+      ],
+      "interpolationKeyIds": [
+        "preprocess:evidence_documents:list",
+        "preprocess:evidence_documents:details",
+        "preprocess:otf:list"
+      ],
+      "missingKeyBehaviorIds": [
+        "findup-returns-undefined-when-absent",
+        "stream-errors-do-not-break-execution"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "store",
+        "findUp",
+        "getRoot",
+        "getPath",
+        "children",
+        "parent"
+      ],
+      "parserTargetIds": [],
+      "executionAncestryFrameIds": [
+        "root-execution",
+        "pipeline-execution",
+        "agent-execution",
+        "step-execution",
+        "substep-execution"
+      ],
+      "requiredPredicateIds": [
+        "execution.stores-and-streams-state",
+        "execution.finds-up-ancestry",
+        "execution.exposes-path-and-root",
+        "promptexecution.inherits-requirements",
+        "promptoverlays.inject-evidence-and-otf"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "execution_ancestry_frame_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:48a6da42fb636b4354c8f4fe",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "tool-doc-code-prompt-injection",
+      "label": "Tool doc-code prompts register, attach, format, and inject source-safe usable tool descriptions",
+      "sourceRoots": [
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts",
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+        "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+        "packages/agent-generics/src/substeps/factories.ts"
+      ],
+      "registryIds": [
+        "DocCodeToolPrompt",
+        "DocCodeTool",
+        "ToolExecutionPrompt"
+      ],
+      "compositionLevelIds": [
+        "tool-doc-code-prompt"
+      ],
+      "interpolationKeyIds": [
+        "metadata:*",
+        "sections:purpose:*",
+        "sections:capabilities:*",
+        "sections:parameters:*",
+        "sections:output:*"
+      ],
+      "missingKeyBehaviorIds": [
+        "tool-without-doc-code-falls-back",
+        "no-tools-available-falls-back"
+      ],
+      "toolPromptInjectionIds": [
+        "registerDocCodeToolPrompt",
+        "attachDocCodeToolPrompt",
+        "__docCodePrompt",
+        "formatToolsWithDocCodeToolsIntoUsableTools",
+        "auto:tool_doc_*"
+      ],
+      "contextHandlingIds": [
+        "tools.usable",
+        "tools.use",
+        "tools.used"
+      ],
+      "parserTargetIds": [],
+      "executionAncestryFrameIds": [
+        "step-execution",
+        "tool-substep"
+      ],
+      "requiredPredicateIds": [
+        "doccodetool.registry-registers-and-gets-prompts",
+        "doccodetool.decorator-attaches-prompt",
+        "doccodetoolprompt.composes-required-sections",
+        "usabletools.formats-doc-code-prompts",
+        "toolexecutionprompt.injects-available-tool-docs"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "registry_id_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:b78fe62758cec308093e5842",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "readneed-comprehension-return-type-contract",
+      "label": "ReadNeedComprehensionSynthesis prompt registry, interpolation, telemetry, and parsed return type contract",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
+      ],
+      "registryIds": [
+        "ReadNeedComprehensionSynthesis",
+        "READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT"
+      ],
+      "compositionLevelIds": [
+        "pipeline-or-phase-context",
+        "ptrr-agent",
+        "ptrr-step",
+        "parser-target"
+      ],
+      "interpolationKeyIds": [
+        "promptTemplateIds",
+        "interpolationContextKeys",
+        "phaseIds",
+        "agentIds"
+      ],
+      "missingKeyBehaviorIds": [
+        "accepted-need-required-for-finding-fits",
+        "review-resynthesis-feedback-required"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "read-request",
+        "read-measurement",
+        "feedback-history",
+        "review-boundary"
+      ],
+      "parserTargetIds": [
+        "ReadNeedComprehensionSynthesisSchema",
+        "outputSchemaIds"
+      ],
+      "executionAncestryFrameIds": [
+        "pipeline-execution",
+        "phase-execution",
+        "agent-execution",
+        "ptrr-step-execution"
+      ],
+      "requiredPredicateIds": [
+        "readneed.schema-is-zod-object",
+        "readneed.collects-prompt-template-ids",
+        "readneed.collects-interpolation-keys",
+        "readneed.collects-output-schema-ids",
+        "readneed.source-safety-receipt-present",
+        "readneed-review.supports-resynthesis"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "parser_target_id_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:50e36a7262b58b55606a6c71",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "readfits-finding-search-return-type-contract",
+      "label": "ReadFitsFindingSynthesis many-fit search prompt, embedding, ranking, and typed result contract",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts"
+      ],
+      "registryIds": [
+        "ReadFitsFindingSynthesis",
+        "READ_FITS_FINDING_SYNTHESIS_CONTRACT"
+      ],
+      "compositionLevelIds": [
+        "pipeline-or-phase-context",
+        "ptrr-agent",
+        "ptrr-step",
+        "parser-target"
+      ],
+      "interpolationKeyIds": [
+        "queryPlan",
+        "embeddingPolicy",
+        "rankingEvidence",
+        "selectedFitEvidence"
+      ],
+      "missingKeyBehaviorIds": [
+        "accepted-need-admission-required",
+        "blocked-readiness-when-no-quality-fit"
+      ],
+      "toolPromptInjectionIds": [
+        "provider-specific-search-channel"
+      ],
+      "contextHandlingIds": [
+        "accepted_need_admission",
+        "query_plan",
+        "search_channel",
+        "candidate_ranking",
+        "selected_fit_provenance",
+        "fit_result"
+      ],
+      "parserTargetIds": [
+        "DepositorySearchQueryPlan",
+        "DepositorySearchResult",
+        "outputSchemaIds"
+      ],
+      "executionAncestryFrameIds": [
+        "pipeline-execution",
+        "phase-execution",
+        "agent-execution",
+        "tool-execution"
+      ],
+      "requiredPredicateIds": [
+        "readfits.runtime-names-storage-record-kinds",
+        "readfits.runtime-collects-telemetry-output-schemas",
+        "depository.search-has-seven-channel-ids",
+        "depository.search-has-embedding-policy",
+        "depository.search-has-provider-interface",
+        "depository.search-builds-fit-evidence"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "parser_target_id_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:31f08e03738a00c494d88edd",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "assetpack-synthesis-parser-delivery-contract",
+      "label": "AssetPack synthesis and finishing parser targets remain withheld-source until settlement delivery",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts"
+      ],
+      "registryIds": [
+        "ReadFitsFindingSynthesisAssetPackSynthesisAgent",
+        "AssetPackCompletionAgent"
+      ],
+      "compositionLevelIds": [
+        "ptrr-agent",
+        "ptrr-step",
+        "parser-target"
+      ],
+      "interpolationKeyIds": [
+        "read",
+        "definitionOfRead",
+        "requirements",
+        "discovery",
+        "deliveryMechanismTemplate"
+      ],
+      "missingKeyBehaviorIds": [
+        "always-real-ptrr-no-deterministic-fallback",
+        "completion-schema-parse-fails-closed"
+      ],
+      "toolPromptInjectionIds": [],
+      "contextHandlingIds": [
+        "assetPackSynthesisArtifacts",
+        "writtenAssets",
+        "deliveryMechanism",
+        "processingStats"
+      ],
+      "parserTargetIds": [
+        "AssetPackSynthesisOutputSchema",
+        "AssetPackCompletionOutputSchema"
+      ],
+      "executionAncestryFrameIds": [
+        "pipeline-execution",
+        "implementation-agent-execution",
+        "finish-agent-execution"
+      ],
+      "requiredPredicateIds": [
+        "assetpack-synthesis.uses-ptrr-agent",
+        "assetpack-synthesis.has-output-schema",
+        "assetpack-synthesis.always-real-ptrr-unwraps-envelope",
+        "assetpack-completion.has-output-schema",
+        "assetpack-completion.parses-output",
+        "assetpack-completion.records-btc-fee-fields"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "parser_target_id_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:02ef37f815b663a88e3a694c",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "contractId": "gate2-inventory-registry-coverage-binding",
+      "label": "Gate 2 PromptPart and Prompt inventory binds prompt registry coverage before Gate 3 contract closure",
+      "sourceRoots": [
+        "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+        ".proofs/v41/promptpart-prompt-inventory.json"
+      ],
+      "registryIds": [
+        "V41PromptPartPromptInventory"
+      ],
+      "compositionLevelIds": [
+        "pipeline-or-phase-context",
+        "ptrr-agent",
+        "ptrr-step",
+        "tool-doc-code-prompt"
+      ],
+      "interpolationKeyIds": [
+        "templateVariableNames",
+        "registryPathCount",
+        "benchmarkFixtureIds"
+      ],
+      "missingKeyBehaviorIds": [
+        "prompt-inventory-artifact-stale-fails"
+      ],
+      "toolPromptInjectionIds": [
+        "tool-definition-prompts"
+      ],
+      "contextHandlingIds": [
+        "promptFamilyIds",
+        "semanticPurposeId",
+        "validationCommand"
+      ],
+      "parserTargetIds": [
+        "inventory-row"
+      ],
+      "executionAncestryFrameIds": [],
+      "requiredPredicateIds": [
+        "gate2.inventory-passed",
+        "gate2.inventory-has-registry-paths",
+        "gate2.inventory-has-template-variables",
+        "gate2.inventory-has-reading-prompts",
+        "gate2.inventory-has-tool-prompts",
+        "gate2.inventory-prepares-v42-roadmap"
+      ],
+      "validationCommand": "pnpm run check:v41-gate3",
+      "disclosureTier": "source_hash_source_safe",
+      "rowRoot": "v41-registry-interpolation-row:7ac8264df3484bc1218481af",
+      "sourceSafetyClass": "source_safe_registry_interpolation_contract_metadata",
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "protectedSourceVisible": false,
+      "privateContextSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-prompt-text",
+        "raw-provider-responses",
+        "private-context",
+        "settlement-private-payloads",
+        "unpaid-assetpack-source"
+      ],
+      "sourceRootsPresent": true
+    }
+  ],
+  "sourcePredicateResults": [
+    {
+      "id": "prompt.extends-registry",
+      "sourcePath": "packages/prompts/src/prompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.validates-required-paths",
+      "sourcePath": "packages/prompts/src/prompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.validates-required-patterns",
+      "sourcePath": "packages/prompts/src/prompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.validates-required-hierarchy",
+      "sourcePath": "packages/prompts/src/prompt.ts",
+      "passed": true
+    },
+    {
+      "id": "executionprompt.enforces-root-paths",
+      "sourcePath": "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "templated.extracts-placeholders",
+      "sourcePath": "packages/prompts/src/parts/TemplatedPromptPart.ts",
+      "passed": true
+    },
+    {
+      "id": "templated.merges-defaults",
+      "sourcePath": "packages/prompts/src/parts/TemplatedPromptPart.ts",
+      "passed": true
+    },
+    {
+      "id": "templated.validates-values",
+      "sourcePath": "packages/prompts/src/parts/TemplatedPromptPart.ts",
+      "passed": true
+    },
+    {
+      "id": "templated.throws-missing-variable",
+      "sourcePath": "packages/prompts/src/parts/TemplatedPromptPart.ts",
+      "passed": true
+    },
+    {
+      "id": "templated.returns-promptpart",
+      "sourcePath": "packages/prompts/src/parts/TemplatedPromptPart.ts",
+      "passed": true
+    },
+    {
+      "id": "agentprompt.defines-name-identity",
+      "sourcePath": "packages/agent-generics/src/prompts/AgentPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "agentfactory.attaches-agent-prompt",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agentfactory.stores-agent-metadata",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agentexecution.owns-prompt-and-registries",
+      "sourcePath": "packages/agent-generics/src/execution/AgentExecution.ts",
+      "passed": true
+    },
+    {
+      "id": "stepprompt.defines-purpose",
+      "sourcePath": "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "stepfactory.creates-step-executions",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "stepfactory.attaches-step-purpose",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "stepexecution.proxies-registries",
+      "sourcePath": "packages/agent-generics/src/execution/index.ts",
+      "passed": true
+    },
+    {
+      "id": "stepfactory.stores-tool-state",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.delegates-to-thricified",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.includes-context-chunk-stitch",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.stores-selected-context",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.stores-ptrr-failsafe",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.prompt-has-handle",
+      "sourcePath": "packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.uses-output-schema",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "thricified.sequences-reason-judge-structured-output",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.builds-hierarchical-prompt",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.stores-final-prompt-and-output",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.stores-parsed-output",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "generationprompt.injects-tool-docs-and-schema",
+      "sourcePath": "packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.enforces-json-generation-hints",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "execution.stores-and-streams-state",
+      "sourcePath": "packages/execution-generics/src/Execution.ts",
+      "passed": true
+    },
+    {
+      "id": "execution.finds-up-ancestry",
+      "sourcePath": "packages/execution-generics/src/Execution.ts",
+      "passed": true
+    },
+    {
+      "id": "execution.exposes-path-and-root",
+      "sourcePath": "packages/execution-generics/src/Execution.ts",
+      "passed": true
+    },
+    {
+      "id": "promptexecution.inherits-requirements",
+      "sourcePath": "packages/prompts/src/execution/PromptExecution.ts",
+      "passed": true
+    },
+    {
+      "id": "promptoverlays.inject-evidence-and-otf",
+      "sourcePath": "packages/agent-generics/src/execution/prompt-overlays.ts",
+      "passed": true
+    },
+    {
+      "id": "doccodetool.registry-registers-and-gets-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts",
+      "passed": true
+    },
+    {
+      "id": "doccodetool.decorator-attaches-prompt",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts",
+      "passed": true
+    },
+    {
+      "id": "doccodetoolprompt.composes-required-sections",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "usabletools.formats-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+      "passed": true
+    },
+    {
+      "id": "toolexecutionprompt.injects-available-tool-docs",
+      "sourcePath": "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed.schema-is-zod-object",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed.collects-prompt-template-ids",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed.collects-interpolation-keys",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed.collects-output-schema-ids",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed.source-safety-receipt-present",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "readneed-review.supports-resynthesis",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+      "passed": true
+    },
+    {
+      "id": "readfits.runtime-names-storage-record-kinds",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "passed": true
+    },
+    {
+      "id": "readfits.runtime-collects-telemetry-output-schemas",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "passed": true
+    },
+    {
+      "id": "depository.search-has-seven-channel-ids",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "depository.search-has-embedding-policy",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "depository.search-has-provider-interface",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "depository.search-builds-fit-evidence",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-synthesis.uses-ptrr-agent",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-synthesis.has-output-schema",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-synthesis.always-real-ptrr-unwraps-envelope",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-completion.has-output-schema",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-completion.parses-output",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts",
+      "passed": true
+    },
+    {
+      "id": "assetpack-completion.records-btc-fee-fields",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts",
+      "passed": true
+    },
+    {
+      "id": "gate2.inventory-passed",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.inventory-has-registry-paths",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.inventory-has-template-variables",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.inventory-has-reading-prompts",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.inventory-has-tool-prompts",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.inventory-prepares-v42-roadmap",
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "passed": true
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "sourcePath": ".proofs/v41/promptpart-prompt-inventory.json",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "807e7d7d8b39786e32cd51e1"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "f3d2188f5224df1e7b099120"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/execution/AgentExecution.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "31add0c2cf526e7d60a57cd4"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/execution/index.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "8eac27a4b02a97da712f9941"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/execution/prompt-overlays.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "64bbfadfa5ff6573c2bbf224"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/prompts/AgentGenerationSubStepPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "28ce483f797ade731db15a1a"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/prompts/AgentPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "411a4ee56ab5100a6c281ec2"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/prompts/AgentStepPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "5b4384c1967b5505258791f1"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/prompts/FailsafeMetaSubStepPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "31d4e49672fc92cda8babfe2"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "0a1f0025946b1a169c2e7f09"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "0f2ec3ad52b4b146fc7a2403"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "9dd996b3f76448fbd8b9305e"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "5e0f26f6d071b2df5a651cfd"
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "5121e06c61bf851307d8e781"
+    },
+    {
+      "sourcePath": "packages/execution-generics/src/Execution.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "0636285dafa99a6e33ee5049"
+    },
+    {
+      "sourcePath": "packages/execution-generics/src/prompts/ExecutionPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "956500ea4690f74a744dd228"
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "ddab56f12157a37b75c46008"
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "32df0b609f8f9c1f7796fa2b"
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "8c79c6f9c479ba664206175d"
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "6b91862fe0c4c802b9a19e15"
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "c6556bcccf75a5465c0d25c5"
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "3d827283d8dc1234cc31d348"
+    },
+    {
+      "sourcePath": "packages/prompts/src/execution/PromptExecution.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "eb7b57e5b7d285b2a12b844e"
+    },
+    {
+      "sourcePath": "packages/prompts/src/parts/TemplatedPromptPart.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "e3e167f3d299765abb2880e2"
+    },
+    {
+      "sourcePath": "packages/prompts/src/prompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "6f2f0890c8756555fedee525"
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "75952a25cc72ee8b58d5a956"
+    },
+    {
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "bda5ad3cf23abcce80878240"
+    },
+    {
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "f18057b2ff7e48683f12f63b"
+    },
+    {
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+      "exists": true,
+      "legacy": false,
+      "sourceHash": "f0afc94ef8b5082eda3c950c"
+    }
+  ],
+  "coverage": {
+    "rowCount": 12,
+    "requiredFieldIds": [
+      "contractId",
+      "sourceRoots",
+      "registryIds",
+      "compositionLevelIds",
+      "interpolationKeyIds",
+      "missingKeyBehaviorIds",
+      "toolPromptInjectionIds",
+      "contextHandlingIds",
+      "parserTargetIds",
+      "executionAncestryFrameIds",
+      "validationCommand",
+      "disclosureTier"
+    ],
+    "compositionLevelIds": [
+      "pipeline-or-phase-context",
+      "ptrr-agent",
+      "ptrr-step",
+      "failsafe-generation-sequence",
+      "failsafe-substep",
+      "thricified-generation",
+      "tool-doc-code-prompt",
+      "parser-target"
+    ],
+    "disclosureTiers": [
+      "registry_id_source_safe",
+      "interpolation_key_source_safe",
+      "execution_ancestry_frame_source_safe",
+      "parser_target_id_source_safe",
+      "source_hash_source_safe",
+      "raw_prompt_text_private",
+      "raw_provider_response_private",
+      "private_context_private",
+      "unpaid_assetpack_source_private"
+    ],
+    "registryIdCount": 29,
+    "interpolationKeyCount": 37,
+    "missingKeyBehaviorCount": 22,
+    "toolPromptInjectionCount": 9,
+    "parserTargetCount": 11,
+    "executionAncestryFrameCount": 13,
+    "requiredPredicateCount": 65,
+    "passedPredicateCount": 65,
+    "failedPredicateIds": [],
+    "sourceRootCount": 29,
+    "sourceRootPresentCount": 29,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:8aece439328cf037058d3dfb",
+    "gate2PromptPartRowCount": 1459,
+    "gate2PromptRowCount": 110,
+    "gate2PromptRowsWithRegistryPaths": 92,
+    "gate2RegistryPathCount": 1163,
+    "gate2V42RoadmapPrepared": true,
+    "sourceSafeMetadataOnly": true,
+    "rawPromptTextSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "privateContextSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false
+  },
+  "sourceSafety": {
+    "sourceSafeMetadataOnly": true,
+    "rawPromptTextSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "privateContextSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "allowedPayloadClasses": [
+      "registry-ids",
+      "interpolation-key-ids",
+      "execution-ancestry-frame-ids",
+      "parser-target-ids",
+      "source-paths",
+      "source-hashes",
+      "predicate-verdicts"
+    ],
+    "forbiddenPayloadClasses": [
+      "secret-values",
+      "provider-tokens",
+      "wallet-private-material",
+      "protected-source-payloads",
+      "raw-protected-prompts",
+      "raw-prompt-text",
+      "raw-provider-responses",
+      "private-context",
+      "settlement-private-payloads",
+      "unpaid-assetpack-source"
+    ]
+  },
+  "failures": [],
+  "passed": true,
+  "artifactRoot": "v41-registry-interpolation-contract:d185ffe16ec5a0b46e809b54"
+}

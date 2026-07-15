@@ -6126,10 +6126,10 @@ function buildProjectionVisibilitySummary(state) {
   const privateArtifactPaths = /** @type {string[]} */ (run.projectionPolicy?.privateArtifactPaths || []);
   const visiblePathSet = new Set(visibleArtifactPaths);
   const hiddenPrivateArtifactPaths = privateArtifactPaths.filter((/** @type {string} */ path) => !visiblePathSet.has(path));
-  const hiddenSourceMaterialPathCount = hiddenPrivateArtifactPaths.filter((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')).length;
+  const hiddenSourceMaterialPathCount = hiddenPrivateArtifactPaths.filter((/** @type {string} */ path) => path.startsWith('.proofs/source-material/')).length;
   const exposedHiddenPrivateArtifactPaths = projectionPrincipal === 'internal'
     ? hiddenPrivateArtifactPaths
-    : hiddenPrivateArtifactPaths.filter((/** @type {string} */ path) => !path.startsWith('.bitcode/source-material/'));
+    : hiddenPrivateArtifactPaths.filter((/** @type {string} */ path) => !path.startsWith('.proofs/source-material/'));
   return {
     projectionPrincipal,
     visibleArtifactPathCount: visibleArtifactPaths.length,
@@ -6137,7 +6137,7 @@ function buildProjectionVisibilitySummary(state) {
     privateArtifactPathCount: privateArtifactPaths.length,
     hiddenPrivateArtifactCount: hiddenPrivateArtifactPaths.length,
     hiddenSourceMaterialPathCount,
-    sourceMaterialVisible: visibleArtifactPaths.some((/** @type {string} */ path) => path.startsWith('.bitcode/source-material/')),
+    sourceMaterialVisible: visibleArtifactPaths.some((/** @type {string} */ path) => path.startsWith('.proofs/source-material/')),
     rawBranchFilesAvailable: Boolean(run.branchArtifacts?.files),
     proofFamilyCount: (run.systemProofBundle?.proofFamilies || []).length,
     replayArtifactCount: (run.systemProofBundle?.verifierEntrypoint?.replayArtifacts || []).length,
@@ -6851,317 +6851,317 @@ function renderBranchArtifacts(state) {
     },
     {
       title: 'Depositing surface',
-      subtitle: '.bitcode/depositing-surface.json',
+      subtitle: '.proofs/_shared/depositing-surface.json',
       explainerKey: 'depositing',
       data: run.depositingSurface,
-      raw: branchFiles['.bitcode/depositing-surface.json'],
+      raw: branchFiles['.proofs/_shared/depositing-surface.json'],
       visual: renderDepositingSurfaceVisual,
       accent: 'accent-green'
     },
     {
       title: 'Reading surface',
-      subtitle: '.bitcode/reading-surface.json',
+      subtitle: '.proofs/_shared/reading-surface.json',
       explainerKey: 'reading',
       data: run.readingSurface,
-      raw: branchFiles['.bitcode/reading-surface.json'],
+      raw: branchFiles['.proofs/_shared/reading-surface.json'],
       visual: renderReadingSurfaceVisual,
       accent: 'accent-blue'
     },
     {
       title: 'Depositing-to-reading surface',
-      subtitle: '.bitcode/deposit-to-read-surface.json',
+      subtitle: '.proofs/_shared/deposit-to-read-surface.json',
       explainerKey: 'deposit-fit',
       data: run.depositingToReadingSurface,
-      raw: branchFiles['.bitcode/deposit-to-read-surface.json'],
+      raw: branchFiles['.proofs/_shared/deposit-to-read-surface.json'],
       visual: renderDepositingToReadingVisual,
       accent: 'accent-orange'
     },
     {
       title: 'Asset pack lock',
-      subtitle: '.bitcode/asset-pack.lock.json',
+      subtitle: '.proofs/_shared/asset-pack.lock.json',
       explainerKey: 'asset-pack',
       data: run.assetPackLock,
-      raw: branchFiles['.bitcode/asset-pack.lock.json'],
+      raw: branchFiles['.proofs/_shared/asset-pack.lock.json'],
       visual: renderAssetPackVisual,
       accent: 'accent-green'
     },
     {
       title: 'Authorization decisions',
-      subtitle: '.bitcode/authorization-decisions.json',
+      subtitle: '.proofs/_shared/authorization-decisions.json',
       explainerKey: 'verification-rights',
       data: run.authorizationDecisions,
-      raw: branchFiles['.bitcode/authorization-decisions.json'],
+      raw: branchFiles['.proofs/_shared/authorization-decisions.json'],
       visual: renderAuthorizationVisual,
       accent: 'accent-orange'
     },
     {
       title: 'Sensitive data flow',
-      subtitle: '.bitcode/sensitive-data-flow.json',
+      subtitle: '.proofs/_shared/sensitive-data-flow.json',
       data: run.sensitiveDataFlowRecords,
-      raw: branchFiles['.bitcode/sensitive-data-flow.json'],
+      raw: branchFiles['.proofs/_shared/sensitive-data-flow.json'],
       visual: renderSensitiveFlowVisual,
       accent: 'accent-orange'
     },
     {
       title: 'Policy release',
-      subtitle: '.bitcode/policy-release.json',
+      subtitle: '.proofs/_shared/policy-release.json',
       explainerKey: 'ledger-policy',
       data: run.policyRelease,
-      raw: branchFiles['.bitcode/policy-release.json'],
+      raw: branchFiles['.proofs/_shared/policy-release.json'],
       visual: renderPolicyReleaseVisual,
       accent: 'accent-purple'
     },
     {
       title: 'Identity bindings',
-      subtitle: '.bitcode/identity-bindings.json',
+      subtitle: '.proofs/_shared/identity-bindings.json',
       explainerKey: 'identity-auth-spine',
       data: run.identityBindings,
-      raw: branchFiles['.bitcode/identity-bindings.json'],
+      raw: branchFiles['.proofs/_shared/identity-bindings.json'],
       visual: renderIdentityBindingsVisual,
       accent: 'accent-orange'
     },
     {
       title: 'GitHub boundary surface',
-      subtitle: '.bitcode/github-boundary.json',
+      subtitle: '.proofs/_shared/github-boundary.json',
       explainerKey: 'github-app-auth',
       data: run.githubBoundarySurface,
-      raw: branchFiles['.bitcode/github-boundary.json'],
+      raw: branchFiles['.proofs/_shared/github-boundary.json'],
       visual: renderGitHubBoundaryVisual,
       accent: 'accent-slate'
     },
     {
       title: 'Artifact upload manifest',
-      subtitle: '.bitcode/artifact-upload-manifest.json',
+      subtitle: '.proofs/_shared/artifact-upload-manifest.json',
       data: run.artifactUploadManifest,
-      raw: branchFiles['.bitcode/artifact-upload-manifest.json'],
+      raw: branchFiles['.proofs/_shared/artifact-upload-manifest.json'],
       visual: renderArtifactUploadManifestVisual,
       accent: 'accent-slate'
     },
     {
       title: 'Profile composition surface',
-      subtitle: '.bitcode/profile-composition.json',
+      subtitle: '.proofs/_shared/profile-composition.json',
       explainerKey: run.realizationProfile?.profileId === 'B' ? 'profile-b' : 'profile-a',
       data: run.profileCompositionSurface,
-      raw: branchFiles['.bitcode/profile-composition.json'],
+      raw: branchFiles['.proofs/_shared/profile-composition.json'],
       visual: renderProfileCompositionVisual,
       accent: 'accent-orange'
     },
     {
       title: 'Prompt surfaces',
-      subtitle: '.bitcode/prompt-surfaces.json',
+      subtitle: '.proofs/_shared/prompt-surfaces.json',
       data: run.promptSurfaces,
-      raw: branchFiles['.bitcode/prompt-surfaces.json'],
+      raw: branchFiles['.proofs/_shared/prompt-surfaces.json'],
       visual: renderPromptSurfaceCollectionVisual,
       accent: 'accent-purple'
     },
     {
       title: 'Prompt family registry',
-      subtitle: '.bitcode/prompt-family-registry.json',
+      subtitle: '.proofs/_shared/prompt-family-registry.json',
       explainerKey: 'proof-closure',
       data: run.promptFamilyRegistry,
-      raw: branchFiles['.bitcode/prompt-family-registry.json'],
+      raw: branchFiles['.proofs/_shared/prompt-family-registry.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Prompt contracts',
-      subtitle: '.bitcode/prompt-contracts.json',
+      subtitle: '.proofs/_shared/prompt-contracts.json',
       explainerKey: 'proof-closure',
       data: run.promptContracts,
-      raw: branchFiles['.bitcode/prompt-contracts.json'],
+      raw: branchFiles['.proofs/_shared/prompt-contracts.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Inference moment contracts',
-      subtitle: '.bitcode/inference-moment-contracts.json',
+      subtitle: '.proofs/_shared/inference-moment-contracts.json',
       explainerKey: 'proof-closure',
       data: run.inferenceMomentContracts,
-      raw: branchFiles['.bitcode/inference-moment-contracts.json'],
+      raw: branchFiles['.proofs/_shared/inference-moment-contracts.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Inference proofs',
-      subtitle: '.bitcode/inference-proofs.json',
+      subtitle: '.proofs/_shared/inference-proofs.json',
       explainerKey: 'proof-closure',
       data: run.inferenceProofs,
-      raw: branchFiles['.bitcode/inference-proofs.json'],
+      raw: branchFiles['.proofs/_shared/inference-proofs.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Parsed completion envelopes',
-      subtitle: '.bitcode/parsed-completion-envelopes.json',
+      subtitle: '.proofs/_shared/parsed-completion-envelopes.json',
       explainerKey: 'proof-closure',
       data: run.parsedCompletionEnvelopeArtifact || run.parsedCompletionEnvelopes,
-      raw: branchFiles['.bitcode/parsed-completion-envelopes.json'],
+      raw: branchFiles['.proofs/_shared/parsed-completion-envelopes.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Prompt implementation surface',
-      subtitle: '.bitcode/prompt-implementation-surface.json',
+      subtitle: '.proofs/_shared/prompt-implementation-surface.json',
       explainerKey: 'proof-closure',
       data: run.promptImplementationSurface,
-      raw: branchFiles['.bitcode/prompt-implementation-surface.json'],
+      raw: branchFiles['.proofs/_shared/prompt-implementation-surface.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Prompt completeness family proof',
-      subtitle: '.bitcode/prompt-completeness-proof.json',
+      subtitle: '.proofs/_shared/prompt-completeness-proof.json',
       explainerKey: 'proof-closure',
       data: run.promptCompletenessProof,
-      raw: branchFiles['.bitcode/prompt-completeness-proof.json'],
+      raw: branchFiles['.proofs/_shared/prompt-completeness-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Inference synthesis family proof',
-      subtitle: '.bitcode/inference-synthesis-proof.json',
+      subtitle: '.proofs/_shared/inference-synthesis-proof.json',
       explainerKey: 'proof-closure',
       data: run.inferenceSynthesisProof,
-      raw: branchFiles['.bitcode/inference-synthesis-proof.json'],
+      raw: branchFiles['.proofs/_shared/inference-synthesis-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Code analysis / static heuristics registry',
-      subtitle: '.bitcode/static-heuristics-registry.json',
+      subtitle: '.proofs/_shared/static-heuristics-registry.json',
       data: run.staticHeuristicsRegistry || run.codeAnalysisFactRegistry,
-      raw: branchFiles['.bitcode/static-heuristics-registry.json'] || branchFiles['.bitcode/code-analysis-fact-registry.json'],
+      raw: branchFiles['.proofs/_shared/static-heuristics-registry.json'] || branchFiles['.proofs/_shared/code-analysis-fact-registry.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-blue'
     },
     {
       title: 'Static measurement report',
-      subtitle: '.bitcode/static-measurement-report.json',
+      subtitle: '.proofs/_shared/static-measurement-report.json',
       explainerKey: 'proof-closure',
       data: run.staticMeasurementReport,
-      raw: branchFiles['.bitcode/static-measurement-report.json'],
+      raw: branchFiles['.proofs/_shared/static-measurement-report.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-blue'
     },
     {
       title: 'Verification receipts',
-      subtitle: '.bitcode/verification-receipts.json',
+      subtitle: '.proofs/_shared/verification-receipts.json',
       data: run.verificationReceipts,
-      raw: branchFiles['.bitcode/verification-receipts.json'],
+      raw: branchFiles['.proofs/_shared/verification-receipts.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-orange'
     },
     {
       title: 'Static code-analysis closure proof',
-      subtitle: '.bitcode/static-measurement-proof.json',
+      subtitle: '.proofs/_shared/static-measurement-proof.json',
       data: run.staticMeasurementProof,
-      raw: branchFiles['.bitcode/static-measurement-proof.json'],
+      raw: branchFiles['.proofs/_shared/static-measurement-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Verification decisions family proof',
-      subtitle: '.bitcode/verification-decisions-proof.json',
+      subtitle: '.proofs/_shared/verification-decisions-proof.json',
       explainerKey: 'proof-closure',
       data: run.verificationDecisionsProof,
-      raw: branchFiles['.bitcode/verification-decisions-proof.json'],
+      raw: branchFiles['.proofs/_shared/verification-decisions-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Materialization proof',
-      subtitle: '.bitcode/materialization-proof.json',
+      subtitle: '.proofs/_shared/materialization-proof.json',
       explainerKey: 'branch-materialization',
       data: run.materializationProof,
-      raw: branchFiles['.bitcode/materialization-proof.json'],
+      raw: branchFiles['.proofs/_shared/materialization-proof.json'],
       visual: renderMaterializationProofVisual,
       accent: 'accent-purple'
     },
     {
       title: 'Materialization visibility proof',
-      subtitle: '.bitcode/materialization-visibility-proof.json',
+      subtitle: '.proofs/_shared/materialization-visibility-proof.json',
       explainerKey: 'branch-materialization',
       data: run.materializationVisibilityProof,
-      raw: branchFiles['.bitcode/materialization-visibility-proof.json'],
+      raw: branchFiles['.proofs/_shared/materialization-visibility-proof.json'],
       visual: renderMaterializationVisibilityVisual,
       accent: 'accent-purple'
     },
     {
       title: 'Selection consistency proof',
-      subtitle: '.bitcode/selection-consistency-proof.json',
+      subtitle: '.proofs/_shared/selection-consistency-proof.json',
       explainerKey: 'branch-materialization',
       data: run.selectionConsistencyProof,
-      raw: branchFiles['.bitcode/selection-consistency-proof.json'],
+      raw: branchFiles['.proofs/_shared/selection-consistency-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Materialization exclusions',
-      subtitle: '.bitcode/materialization-exclusions.json',
+      subtitle: '.proofs/_shared/materialization-exclusions.json',
       explainerKey: 'branch-materialization',
       data: run.materializationExclusions,
-      raw: branchFiles['.bitcode/materialization-exclusions.json'],
+      raw: branchFiles['.proofs/_shared/materialization-exclusions.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-slate'
     },
     {
       title: 'Selection and materialization family proof',
-      subtitle: '.bitcode/selection-and-materialization-proof.json',
+      subtitle: '.proofs/_shared/selection-and-materialization-proof.json',
       explainerKey: 'proof-closure',
       data: run.selectionAndMaterializationProof,
-      raw: branchFiles['.bitcode/selection-and-materialization-proof.json'],
+      raw: branchFiles['.proofs/_shared/selection-and-materialization-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Authorization and sensitive-flow family proof',
-      subtitle: '.bitcode/authorization-and-sensitive-flow-proof.json',
+      subtitle: '.proofs/_shared/authorization-and-sensitive-flow-proof.json',
       explainerKey: 'proof-closure',
       data: run.authorizationAndSensitiveFlowProof,
-      raw: branchFiles['.bitcode/authorization-and-sensitive-flow-proof.json'],
+      raw: branchFiles['.proofs/_shared/authorization-and-sensitive-flow-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Projection policy',
-      subtitle: '.bitcode/projection-policy.json',
+      subtitle: '.proofs/_shared/projection-policy.json',
       explainerKey: 'projection',
       data: run.projectionPolicy,
-      raw: branchFiles['.bitcode/projection-policy.json'],
+      raw: branchFiles['.proofs/_shared/projection-policy.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-slate'
     },
     {
       title: 'Proof witness manifest',
-      subtitle: '.bitcode/proof-witness-manifest.json',
+      subtitle: '.proofs/_shared/proof-witness-manifest.json',
       explainerKey: 'proof-closure',
       data: run.proofWitnessManifest,
-      raw: branchFiles['.bitcode/proof-witness-manifest.json'],
+      raw: branchFiles['.proofs/_shared/proof-witness-manifest.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Scenario corpus manifest',
-      subtitle: '.bitcode/scenario-fixture-manifest.json',
+      subtitle: '.proofs/_shared/scenario-fixture-manifest.json',
       data: run.scenarioFixtureManifest,
-      raw: branchFiles['.bitcode/scenario-fixture-manifest.json'],
+      raw: branchFiles['.proofs/_shared/scenario-fixture-manifest.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-green'
     },
     {
       title: 'Test coverage report',
-      subtitle: '.bitcode/test-coverage-report.json',
+      subtitle: '.proofs/_shared/test-coverage-report.json',
       data: run.testCoverageReport,
-      raw: branchFiles['.bitcode/test-coverage-report.json'],
+      raw: branchFiles['.proofs/_shared/test-coverage-report.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-green'
     },
     {
       title: 'External boundary manifest',
-      subtitle: '.bitcode/external-boundary-manifest.json',
+      subtitle: '.proofs/_shared/external-boundary-manifest.json',
       explainerKey: 'boundary-reality',
       data: run.externalBoundaryManifest,
-      raw: branchFiles['.bitcode/external-boundary-manifest.json'],
+      raw: branchFiles['.proofs/_shared/external-boundary-manifest.json'],
       visual: renderExternalBoundaryManifestVisual,
       accent: 'accent-slate'
     },
@@ -7176,34 +7176,34 @@ function renderBranchArtifacts(state) {
     },
     {
       title: 'Unit catalog',
-      subtitle: '.bitcode/unit-catalog.json',
+      subtitle: '.proofs/_shared/unit-catalog.json',
       data: run.unitCatalog,
-      raw: branchFiles['.bitcode/unit-catalog.json'],
+      raw: branchFiles['.proofs/_shared/unit-catalog.json'],
       visual: renderUnitCatalogVisual,
       accent: 'accent-slate'
     },
     {
       title: 'Pipeline telemetry',
-      subtitle: '.bitcode/pipeline-telemetry.json',
+      subtitle: '.proofs/_shared/pipeline-telemetry.json',
       data: run.pipelineTelemetry,
-      raw: branchFiles['.bitcode/pipeline-telemetry.json'],
+      raw: branchFiles['.proofs/_shared/pipeline-telemetry.json'],
       visual: renderTelemetryVisual,
       accent: 'accent-slate'
     },
     {
       title: 'Selected source material manifest',
-      subtitle: '.bitcode/selected-source-material.json',
+      subtitle: '.proofs/_shared/selected-source-material.json',
       explainerKey: 'selected-source-material',
-      data: tryParseJson(branchFiles['.bitcode/selected-source-material.json']) || run.selectedSourceMaterialManifest || {},
-      raw: branchFiles['.bitcode/selected-source-material.json'],
+      data: tryParseJson(branchFiles['.proofs/_shared/selected-source-material.json']) || run.selectedSourceMaterialManifest || {},
+      raw: branchFiles['.proofs/_shared/selected-source-material.json'],
       visual: renderSelectedSourceMaterialManifestVisual
     },
     {
       title: 'AssetPack evidence manifest',
-      subtitle: '.bitcode/asset-pack-evidence.json',
+      subtitle: '.proofs/_shared/asset-pack-evidence.json',
       explainerKey: 'branch-artifacts',
       data: run.assetPackEvidenceManifest,
-      raw: branchFiles['.bitcode/asset-pack-evidence.json'],
+      raw: branchFiles['.proofs/_shared/asset-pack-evidence.json'],
       visual: surfaceVisualFallback
     },
     {
@@ -7245,10 +7245,10 @@ function renderBranchArtifacts(state) {
       visual: artifact.visual,
       accent: artifact.accent || ''
     })).join('')}
-    ${(branchFiles['BITCODE_READ.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.bitcode/source-material/'))) ? `<div class="card">
+    ${(branchFiles['BITCODE_READ.md'] || Object.keys(branchFiles).some((path) => path.startsWith('.proofs/source-material/'))) ? `<div class="card">
       <div class="section-head"><h3>Materialized markdown artifacts</h3><span class="badge">Non-JSON reference</span></div>
       ${detailsSection('BITCODE_READ.md', `<pre>${escapeHtml(branchFiles['BITCODE_READ.md'] || '')}</pre>`, true)}
-      ${Object.entries(branchFiles).filter(([path]) => path.startsWith('.bitcode/source-material/')).map(([path, content]) => detailsSection(path, `<pre>${escapeHtml(content)}</pre>`)).join('')}
+      ${Object.entries(branchFiles).filter(([path]) => path.startsWith('.proofs/source-material/')).map(([path, content]) => detailsSection(path, `<pre>${escapeHtml(content)}</pre>`)).join('')}
     </div>` : ''}
   `;
 }
@@ -7269,66 +7269,66 @@ function renderSettlement(state) {
   const settlementSurfaces = [
     {
       title: 'Settlement preview',
-      subtitle: '.bitcode/settlement-preview.json',
+      subtitle: '.proofs/_shared/settlement-preview.json',
       eyebrow: 'Settlement artifact',
       help: 'Visual mode calls out bundle identity, lock binding, participating assets, and allocation preview.',
       explainerKey: 'settlement',
       data: run.settlementPreview,
-      raw: branchFiles['.bitcode/settlement-preview.json'],
+      raw: branchFiles['.proofs/_shared/settlement-preview.json'],
       visual: renderSettlementPreviewVisual,
       accent: 'accent-green'
     },
     {
       title: 'Source-to-shares chain',
-      subtitle: '.bitcode/source-to-shares.json',
+      subtitle: '.proofs/_shared/source-to-shares.json',
       eyebrow: 'Accounting artifact',
       help: 'This is the explicit path from source contribution basis to raw share basis points, including clipping receipts and normalization order.',
       explainerKey: 'source-to-shares',
       data: run.sourceToSharesArtifact,
-      raw: branchFiles['.bitcode/source-to-shares.json'],
+      raw: branchFiles['.proofs/_shared/source-to-shares.json'],
       visual: renderSourceToSharesVisual,
       accent: 'accent-green'
     },
     {
       title: 'Settlement participation',
-      subtitle: '.bitcode/settlement-participation.json',
+      subtitle: '.proofs/_shared/settlement-participation.json',
       eyebrow: 'Accounting artifact',
       help: 'Every evaluated asset is classified as selected, settlement-participating, credited, zero-credit participating, or excluded.',
       explainerKey: 'settlement-participation',
       data: run.settlementParticipationArtifact,
-      raw: branchFiles['.bitcode/settlement-participation.json'],
+      raw: branchFiles['.proofs/_shared/settlement-participation.json'],
       visual: renderSettlementParticipationVisual,
       accent: 'accent-green'
     },
     {
       title: 'Journal diff',
-      subtitle: '.bitcode/journal-diff.json',
+      subtitle: '.proofs/_shared/journal-diff.json',
       eyebrow: 'Accounting artifact',
       help: 'The visual read emphasizes exact accounting invariants and the debit/credit structure before you dive into raw JSON.',
       explainerKey: 'journal-diff',
       data: run.journalDiff,
-      raw: branchFiles['.bitcode/journal-diff.json'],
+      raw: branchFiles['.proofs/_shared/journal-diff.json'],
       visual: renderJournalDiffVisual,
       accent: 'accent-green'
     },
     {
       title: 'Accounting precision report',
-      subtitle: '.bitcode/accounting-precision-report.json',
+      subtitle: '.proofs/_shared/accounting-precision-report.json',
       eyebrow: 'Accounting artifact',
       help: 'Exact accounting stays replayable here while settlement still reads as the final operating stage rather than a side artifact.',
       explainerKey: 'exact-accounting',
       data: run.accountingPrecisionReport,
-      raw: branchFiles['.bitcode/accounting-precision-report.json'],
+      raw: branchFiles['.proofs/_shared/accounting-precision-report.json'],
       visual: renderAccountingPrecisionVisual,
       accent: 'accent-purple'
     },
     {
       title: 'Settlement proof',
-      subtitle: '.bitcode/settlement-proof.json',
+      subtitle: '.proofs/_shared/settlement-proof.json',
       eyebrow: 'Proof artifact',
       explainerKey: 'proof-closure',
-      data: tryParseJson(branchFiles['.bitcode/settlement-proof.json']) || run.systemProofBundle?.settlementProof || {},
-      raw: branchFiles['.bitcode/settlement-proof.json'],
+      data: tryParseJson(branchFiles['.proofs/_shared/settlement-proof.json']) || run.systemProofBundle?.settlementProof || {},
+      raw: branchFiles['.proofs/_shared/settlement-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
@@ -7344,22 +7344,22 @@ function renderSettlement(state) {
     },
     {
       title: 'Proof contract',
-      subtitle: '.bitcode/proof-contract.json',
+      subtitle: '.proofs/_shared/proof-contract.json',
       eyebrow: 'Proof artifact',
       explainerKey: 'proof-closure',
       data: run.proofContract,
-      raw: branchFiles['.bitcode/proof-contract.json'],
+      raw: branchFiles['.proofs/_shared/proof-contract.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'System proof bundle',
-      subtitle: '.bitcode/system-proof-bundle.json',
+      subtitle: '.proofs/_shared/system-proof-bundle.json',
       eyebrow: 'Proof bundle',
       help: 'Visual mode summarizes selection, authorization, disclosure, and settlement closure without hiding the exact proof graph.',
       explainerKey: 'proof-closure',
       data: run.systemProofBundle,
-      raw: branchFiles['.bitcode/system-proof-bundle.json'],
+      raw: branchFiles['.proofs/_shared/system-proof-bundle.json'],
       visual: renderSystemProofBundleVisual,
       accent: 'accent-purple'
     },
@@ -7374,41 +7374,41 @@ function renderSettlement(state) {
     },
     {
       title: 'Redaction proof',
-      subtitle: '.bitcode/redaction-proof.json',
+      subtitle: '.proofs/_shared/redaction-proof.json',
       eyebrow: 'Proof artifact',
       explainerKey: 'bounded-public-proof',
       data: run.redactionProof,
-      raw: branchFiles['.bitcode/redaction-proof.json'],
+      raw: branchFiles['.proofs/_shared/redaction-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Disclosure proof',
-      subtitle: '.bitcode/disclosure-proof.json',
+      subtitle: '.proofs/_shared/disclosure-proof.json',
       eyebrow: 'Proof artifact',
       explainerKey: 'bounded-public-proof',
       data: run.disclosureProof,
-      raw: branchFiles['.bitcode/disclosure-proof.json'],
+      raw: branchFiles['.proofs/_shared/disclosure-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Settlement source-to-shares family proof',
-      subtitle: '.bitcode/settlement-source-to-shares-proof.json',
+      subtitle: '.proofs/_shared/settlement-source-to-shares-proof.json',
       eyebrow: 'Proof artifact',
       explainerKey: 'proof-closure',
       data: run.settlementSourceToSharesProof,
-      raw: branchFiles['.bitcode/settlement-source-to-shares-proof.json'],
+      raw: branchFiles['.proofs/_shared/settlement-source-to-shares-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     },
     {
       title: 'Disclosure boundary family proof',
-      subtitle: '.bitcode/disclosure-boundary-proof.json',
+      subtitle: '.proofs/_shared/disclosure-boundary-proof.json',
       eyebrow: 'Proof artifact',
       explainerKey: 'proof-closure',
       data: run.disclosureBoundaryProof,
-      raw: branchFiles['.bitcode/disclosure-boundary-proof.json'],
+      raw: branchFiles['.proofs/_shared/disclosure-boundary-proof.json'],
       visual: surfaceVisualFallback,
       accent: 'accent-purple'
     }

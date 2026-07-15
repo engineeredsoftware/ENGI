@@ -10,7 +10,7 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: recorded in `BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
 - Prior generated proof appendix: recorded in `BITCODE_SPEC_V26_NOTES.md` only; it is not active V26 truth
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/fifth-gate-closure-proof.json`, `.bitcode/sixth-gate-mvp-closure-proof.json`, `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, `.bitcode/system-reform-admissibility-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, `.bitcode/v26-total-closure-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.proofs/v19/*` reproducible reports, `.proofs/v20/*` operator-quality reports, `.proofs/v26/spec-family-report.json`, `.proofs/v26/canonical-input-report.json`, `.proofs/v26/gate-checkpoint-report.json`, `.proofs/_shared/conversations-continuity-proof.json`, `.proofs/_shared/runs-pipelines-totality-proof.json`, `.proofs/_shared/persistence-schema-totality-proof.json`, `.proofs/_shared/prompt-system-totality-proof.json`, `.proofs/_shared/inference-implementation-records-proof.json`, `.proofs/_shared/fourth-gate-reclosure-review-proof.json`, `.proofs/_shared/source-to-shares-fifth-gate-proof.json`, `.proofs/v26/product-readiness-audit.json`, `.proofs/_shared/fifth-gate-closure-deepening-proof.json`, `.proofs/_shared/fifth-gate-closure-proof.json`, `.proofs/_shared/sixth-gate-mvp-closure-proof.json`, `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`, `.proofs/_shared/prompt-space-completeness-proof.json`, `.proofs/_shared/retained-package-admissibility-proof.json`, `.proofs/_shared/system-reform-admissibility-proof.json`, `.proofs/_shared/whole-repository-production-satisfaction-proof.json`, `.proofs/v26/total-closure-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Canonical companion delta: `BITCODE_SPEC_V26_DELTA.md`
 - Canonical companion notes file: `BITCODE_SPEC_V26_NOTES.md`
 - Canonical companion parity ledger: `BITCODE_SPEC_V26_PARITY_MATRIX.md`
@@ -18,7 +18,7 @@
 - Canonical companion LSP measurement reform supplement: `protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md`
 - Draft posture source: `protocol-demonstration/src/canon-posture.js` keeps `ACTIVE_CANON_VERSION = 'V26'` and `DRAFT_TARGET_VERSION = 'V27'`
 - Source parity state: first-, second-, third-, fourth-, fifth-, sixth-, seventh-, and eighth-gate source work is materially present; fourth-gate retained-system convergence is promoted closed after explicit reopening review; fifth-gate minimum-functional closure, sixth-gate MVP closure, seventh-gate commercial testnet launch closure, prompt-space completeness, whole-repository production satisfaction, and V26 total closure are accepted by explicit generated verdicts
-- V26 state: V26 is the singular active Bitcode canon and current productization target, with earlier through-fourth-gate promotion claims treated as overstated and effectively false, fourth gate promoted closed only through generated re-review/checkpoint proof, fifth gate closed by `.bitcode/fifth-gate-closure-proof.json`, sixth gate closed by `.bitcode/sixth-gate-mvp-closure-proof.json`, seventh gate closed by `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, and eighth gate closed by `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, and `.bitcode/v26-total-closure-proof.json`
+- V26 state: V26 is the singular active Bitcode canon and current productization target, with earlier through-fourth-gate promotion claims treated as overstated and effectively false, fourth gate promoted closed only through generated re-review/checkpoint proof, fifth gate closed by `.proofs/_shared/fifth-gate-closure-proof.json`, sixth gate closed by `.proofs/_shared/sixth-gate-mvp-closure-proof.json`, seventh gate closed by `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`, and eighth gate closed by `.proofs/_shared/prompt-space-completeness-proof.json`, `.proofs/_shared/whole-repository-production-satisfaction-proof.json`, and `.proofs/v26/total-closure-proof.json`
 
 ## Acceptance and remaining-open state
 
@@ -28,12 +28,12 @@ V26 is the productionizing hardening version that reorganizes Bitcode from a tra
 With V26 active as the singular canon after fourth-gate promoted closure:
 - V26 is active canonical truth,
 - fourth-gate retained-system convergence has passing material proof-family evidence across conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, retained-package, and reclosure-review proof surfaces,
-- earlier through-fourth-gate promotion claims remain recorded as overstated and effectively false, but the reopened fourth gate is now promoted closed only by `.bitcode/fourth-gate-reclosure-review-proof.json` and `.bitcode/v26-gate-checkpoint-report.json`,
-- fifth-gate source-to-shares, closure-deepening, and closure evidence now exists through `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, and `.bitcode/fifth-gate-closure-proof.json`,
+- earlier through-fourth-gate promotion claims remain recorded as overstated and effectively false, but the reopened fourth gate is now promoted closed only by `.proofs/_shared/fourth-gate-reclosure-review-proof.json` and `.proofs/v26/gate-checkpoint-report.json`,
+- fifth-gate source-to-shares, closure-deepening, and closure evidence now exists through `.proofs/_shared/source-to-shares-fifth-gate-proof.json`, `.proofs/_shared/fifth-gate-closure-deepening-proof.json`, and `.proofs/_shared/fifth-gate-closure-proof.json`,
 - fifth-gate minimum-functional Bitcode Exchange and Bitcode Terminal closure plus retained-system Bitcode purification are accepted at the V26 baseline and remain distinct from the separately proven MVP gate,
-- sixth-gate minimal viable product elevation is accepted by `.bitcode/sixth-gate-mvp-closure-proof.json`,
-- seventh-gate initial commercially-viable testnet live-launch refinement is accepted by `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`,
-- eighth-gate whole-repository provation and final closure are accepted by `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, and `.bitcode/v26-total-closure-proof.json`,
+- sixth-gate minimal viable product elevation is accepted by `.proofs/_shared/sixth-gate-mvp-closure-proof.json`,
+- seventh-gate initial commercially-viable testnet live-launch refinement is accepted by `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`,
+- eighth-gate whole-repository provation and final closure are accepted by `.proofs/_shared/prompt-space-completeness-proof.json`, `.proofs/_shared/whole-repository-production-satisfaction-proof.json`, and `.proofs/v26/total-closure-proof.json`,
 - the current source-bearing implementation basis now includes the landed package/app migration and retained-system material-proof surfaces cited below,
 - and the V26 main spec remains full-system and re-implementation-grade even while later version work may reopen ownership after later-gate promotion.
 - the retained active repository systems outside first-gate Bitcode ownership must be elevated to Bitcode-grade auditability, proof-bearing precision, and knowability rather than pulling Bitcode down to older application looseness.
@@ -631,7 +631,7 @@ Second-gate is accepted only when all of the following hold:
    - the active second-gate markdown set includes the root, package, route, and shared-component README carriers and is treated as required implementation scope rather than optional cleanup,
    - supplementary modular docs are identified wherever the canon is not the right long-form carrier,
    - active supplementary carriers such as `protocol-demonstration/V26_APPLICATION_SYSTEMS.md` and `protocol-demonstration/V26_PROOF_SURFACES.md` stay synchronized to the converged source topology,
-   - `.bitcode/v26-gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,
+   - `.proofs/v26/gate-checkpoint-report.json` exists and records first-gate closure, second-gate closure readiness, and explicit third-gate preparation before final V26 promotion,
    - the active internal module namespace is `@bitcode/*` across package manifests, path aliases, and active source imports,
    - and new second-gate code systems are assigned proof/test/spec coverage rather than being treated as unproven incidental glue.
 
@@ -709,7 +709,7 @@ Fourth-gate material evidence is sufficient only when:
 14. retained `/executions` and `/orbitals` compatibility routes visibly teach `executions` and `auxillaries` as the merged-world target, with `/orbitals/*` reduced to redirect-only compatibility that no longer renders canonical HTML,
 15. retained transaction, execution-event, and notification surfaces share one typed Bitcode activity vocabulary rather than drifting into separate activity semantics,
 16. fourth-gate proof obligations are assigned to generated proof families rather than left informal,
-17. and generated checkpoint/proven/promotion artifacts close fourth-gate procedural acceptance only after `.bitcode/fourth-gate-reclosure-review-proof.json` maps all criteria to generated proof-family evidence and records no blocking fourth-gate deviance, because passing material evidence alone is not the same thing as procedural closure.
+17. and generated checkpoint/proven/promotion artifacts close fourth-gate procedural acceptance only after `.proofs/_shared/fourth-gate-reclosure-review-proof.json` maps all criteria to generated proof-family evidence and records no blocking fourth-gate deviance, because passing material evidence alone is not the same thing as procedural closure.
 
 ## V26 fifth-through-eighth-gate closure contract
 
@@ -760,14 +760,14 @@ The commercial implementation is an extension of the demonstrated Bitcode protoc
 When `protocol-demonstration/` defines low-level source-to-shares behavior, the commercial Exchange, Terminal, API, MCP, ChatGPT App, and package-owned surfaces must lift that behavior into production owners with parity tests and proof witnesses rather than rephrasing it as independent application logic.
 
 Fifth-, sixth-, and seventh-gate readiness auditing must remain product-specific and honest.
-`.bitcode/v26-product-readiness-audit.json` derives the current readiness map from the protocol-demonstration Exchange-lite implementation, the protocol-demonstration Terminal-lite shell UI, commercial `uapi` Exchange/Terminal surfaces, and `BITCODE_SPEC_V26_PARITY_MATRIX.md`.
+`.proofs/v26/product-readiness-audit.json` derives the current readiness map from the protocol-demonstration Exchange-lite implementation, the protocol-demonstration Terminal-lite shell UI, commercial `uapi` Exchange/Terminal surfaces, and `BITCODE_SPEC_V26_PARITY_MATRIX.md`.
 That audit may prove the fifth-gate product baseline, sixth-gate MVP elevation, and seventh-gate commercial testnet launch posture as source-backed only when the explicit fifth-, sixth-, and seventh-gate closure proofs exist; final eighth-gate V26 closure remains owned by prompt-space completeness, whole-repository production satisfaction, and total-closure proofs rather than by product readiness alone.
 
 The following are required for fifth-gate minimum functionality:
 - activity-ledger master-detail read posture is searchable, filterable, paginatable, and stable,
 - `/application` write surfaces for deposit, read, deposit, branch, and closure round-trip back into that same activity ledger through the app-owned `/api/executions/history` route family rather than leaving the Bitcode Terminal for a separate write/read model,
 - when live protocol posture exists before retained execution-history persistence catches up, the Bitcode Terminal may project that posture into the same activity ledger as a protocol-owned live row rather than dropping back to review-only or mock-only state,
-- measured Reads are reviewable after synthesis and before find-fit/settlement search; the accepted/rejected/remeasure-with-feedback state is emitted as `.bitcode/read-review.json`, `/api/read-review` returns an Exchange `readFittingReview` payload for the Terminal, and fit search is not admitted until review accepts the Read,
+- measured Reads are reviewable after synthesis and before find-fit/settlement search; the accepted/rejected/remeasure-with-feedback state is emitted as `.proofs/_shared/read-review.json`, `/api/read-review` returns an Exchange `readFittingReview` payload for the Terminal, and fit search is not admitted until review accepts the Read,
 - conversations are a real rich-input write surface with source attachments, execution intent, and output destinations,
 - Evidence Documents are the active V26 name for evidence-bearing context documents used by conversations, prompt overlays, template preferences, MCP resources, and product surfaces; `ai_document*` storage identifiers survive only as bounded physical Exchange persistence carriers where the current schema still requires them,
 - auxillaries hold the real preconditions for transacting and settling,
@@ -829,7 +829,7 @@ Each row names:
 | Bitcode Terminal activity ledger | `/application` exposes one dominant searchable, filterable, paginatable activity ledger with stable selected-detail posture | list, filters, selection, and reread are one Bitcode-owned read model even when retained persistence lags | `apps/uapi/app/application/*`, retained execution-history readers, application transaction projection helpers | stable browser/read verification plus activity-ledger proof artifact coverage |
 | Selected activity detail | selected activity exposes identity, stored AssetPack evidence, Finish-delivered Shippables, proofs, history, closure follow-through, and settlement posture without forcing a second primary product surface | selected-detail fallback can reread both persisted and projected protocol posture; no shell-only detail dependency remains | `apps/uapi/app/application/{ApplicationTransaction*,application-transaction-detail*,application-protocol-projection*}` | selected-detail proof coverage and deterministic detail snapshot tests |
 | Deposit/read/write surfaces | `deposit`, `read`, `fit`, `deposit`, `branch`, and `closure` controls all write through the Bitcode Terminal rather than redirecting to a separate product model | every write materializes back into the same ledger with immediate rereadability | `apps/uapi/app/application/{ApplicationCommandDeck,ApplicationDepositReadWorkbench,ApplicationDepositComposer,ApplicationClosureControlDeck,ApplicationPageClient,application-activity-history}.tsx` | write-through proof, targeted route/browser checks, and ledger reread tests |
-| Read review before fit search | synthesized Reads are presented for review after measurement and before fitting, with accept, reject, and remeasure-with-feedback outcomes plus a Terminal-readable Read-fitting admission surface | `.bitcode/read-review.json` records the reviewable Read, applied decision, source-to-shares focus, and fit-search admission state; candidate recall/ranking starts only after accepted review; the Bitcode Terminal closure map and native read-scenario controls must surface the review boundary before verification, fit search, and settlement reads; `/api/read-review` must expose the same reviewable Read, return `readFittingReview` with blocked/admitted fit stages and the present-fit settlement objective contract, and persist explicit accept/reject/remeasure decisions before `/api/make-bitcode-branch` can continue fitting; protocol-demonstration SPEC-IMPL and commercial repository SPEC-IMPL must be parity-tested at the route boundary so low-level Bitcode behavior, not route-local copy, drives production behavior; accepted commercial branch materialization must carry the same `.bitcode/read-review.json`, `.bitcode/source-to-shares.json`, `.bitcode/settlement-preview.json`, and `settlement-source-to-shares` fit-quality receipt evidence that the protocol implementation produces | `protocol-demonstration/src/canonical/read-measurement.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/bitcode-runtime.js`, `protocol-demonstration/server.js`, `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/public/app.js`, `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/app/api/make-bitcode-branch/route.ts`, `apps/uapi/app/application/{ApplicationReadScenarioPanel.tsx,application-read-scenarios.ts,application-closure-state.ts,ApplicationClosureNativeSections.tsx,application-section-atlas.ts}` | `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `apps/uapi/tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}`, `apps/uapi/tests/applicationReadScenarios.test.ts`, branch-artifact required-path checks, proof-witness digest coverage, and `apps/uapi/tests/applicationClosureState.test.ts` / `apps/uapi/tests/applicationSectionAtlas.test.ts` |
+| Read review before fit search | synthesized Reads are presented for review after measurement and before fitting, with accept, reject, and remeasure-with-feedback outcomes plus a Terminal-readable Read-fitting admission surface | `.proofs/_shared/read-review.json` records the reviewable Read, applied decision, source-to-shares focus, and fit-search admission state; candidate recall/ranking starts only after accepted review; the Bitcode Terminal closure map and native read-scenario controls must surface the review boundary before verification, fit search, and settlement reads; `/api/read-review` must expose the same reviewable Read, return `readFittingReview` with blocked/admitted fit stages and the present-fit settlement objective contract, and persist explicit accept/reject/remeasure decisions before `/api/make-bitcode-branch` can continue fitting; protocol-demonstration SPEC-IMPL and commercial repository SPEC-IMPL must be parity-tested at the route boundary so low-level Bitcode behavior, not route-local copy, drives production behavior; accepted commercial branch materialization must carry the same `.proofs/_shared/read-review.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/settlement-preview.json`, and `settlement-source-to-shares` fit-quality receipt evidence that the protocol implementation produces | `protocol-demonstration/src/canonical/read-measurement.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/bitcode-runtime.js`, `protocol-demonstration/server.js`, `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/public/app.js`, `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/app/api/make-bitcode-branch/route.ts`, `apps/uapi/app/application/{ApplicationReadScenarioPanel.tsx,application-read-scenarios.ts,application-closure-state.ts,ApplicationClosureNativeSections.tsx,application-section-atlas.ts}` | `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `apps/uapi/tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}`, `apps/uapi/tests/applicationReadScenarios.test.ts`, branch-artifact required-path checks, proof-witness digest coverage, and `apps/uapi/tests/applicationClosureState.test.ts` / `apps/uapi/tests/applicationSectionAtlas.test.ts` |
 | Operator guidance and explainer adjacency | the Bitcode Terminal exposes protocol-demonstration-style explainers adjacent to the fields and actions that matter, especially around read/write posture, repository anchoring, read/deposit controls, readiness, deposit provenance, and closure follow-through | inline and card-level explainers carry Bitcode-only semantics plus `Current source` and `Current canon` references so the operator can validate usage, provenance, and parity reality without leaving the active control | `apps/uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`, `apps/uapi/app/application/{application-workspace-explainers.ts,ApplicationExperienceFrame.tsx,ApplicationCommandDeck.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationReadScenarioPanel.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx}`, `protocol-demonstration/public/app.js` | explainer-reference tests, focused browser/usability verification, and proof-surface coverage for field/action adjacency |
 | Conversations as Bitcode rich input | conversations are a first-class fullscreen and popup-capable Bitcode write surface with attachments, execution intent, destinations, and persisted reread | conversation routes no longer stop at mock-only or local-only state; first write, reread, destination roundtrip, and branched attachment continuity behave as one system | `apps/uapi/app/conversations/*`, `packages/api/src/conversations/*`, `packages/api/src/routes/conversations.ts`, `packages/conversations-generics/*` | conversations continuity proof family, route tests, and persisted overlay/readback checks |
 | Auxillaries transactional readiness | `Profile`, `Connects`, `Interfaces`, and `$BTD` remain the real readiness carriers for wallet, repository, provider, and transactional posture | readiness state is not ornamental; it gates or informs transacting and settling behavior through shared state, active product controls carry repository-provider precision into the write route boundary, `/api/auxillaries/data` rereads repository scope with explicit `repositoryInventorySource` and `repositoryConnectionStatus`, and that same reread surface now carries `walletConnectionStatus` so `Connects` and `$BTD` distinguish saved verified signer posture from live wallet-provider signing access rather than teaching soft connection-only copy | `apps/uapi/app/auxillaries/*`, relevant `apps/uapi/app/api/auxillaries/*`, wallet/repository/VCS integration carriers | readiness proof and route/browser validation on the live auxillary pane owners |
@@ -844,7 +844,7 @@ Each row names:
 | Persistence/schema convergence | schema, ORM, migrations, Supabase carriers, and generated types form one coherent Bitcode storage interpretation | active persistence carriers cannot preserve null-key drift, stale naming, or separate demo/app meanings on the same records | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, retained storage-facing route carriers | persistence and schema totality proof family plus filtered compile health on active storage corridors |
 | Prompt-system explicitness | prompts, prompt parts, prompt execution, and retained prompt ports remain explicit infrastructure, not silent string debt | prompt space must be Bitcode-owned and compile/admissible even where old prompt reservoirs survive as references, and those retained reservoirs must stay off the live execution primitive path unless explicitly repurposed; retained PTRR agents on the active corridor must provide explicit Registry-backed `prompt` / `stepPrompts` carriers rather than relying on description strings alone | `packages/prompts/*`, prompt carriers in executions/agents/conversations/AssetPack corridors, `packages/pipelines/asset-pack/src/agents/{design/iterate-product-md-agent,digest/capture-learnings-agent,validation/asset-pack-ready-to-instruct-agent}.ts` | prompt-system totality, prompt-space completeness, and active `uapi` typecheck proofs |
 | Active-source health | the active fifth-gate claim is invalid if the live Bitcode corridor still fails compile or runtime checks in admitted systems | targeted compile/runtime seams across application, conversations, executions, VCS, ORM, prompts, and retained package callers are brought to stable health | active `uapi` program, retained package corridors admitted by V26 | compile-health witness rows in parity/proof surfaces and required route/test checks |
-| Environment/debug/proof closure | environment posture is explicit inside the application and proof generation is part of the gate, not a post-hoc narrative | debug controls, environment-mode truth, and required proof families are generated without unresolved blockers | debug widget, environment toggles, proof-generation scripts, `.bitcode/*` artifacts | environment-mode coherence plus fifth-gate proof-family generation |
+| Environment/debug/proof closure | environment posture is explicit inside the application and proof generation is part of the gate, not a post-hoc narrative | debug controls, environment-mode truth, and required proof families are generated without unresolved blockers | debug widget, environment toggles, proof-generation scripts, `.proofs/*` artifacts | environment-mode coherence plus fifth-gate proof-family generation |
 
 ### Fifth-gate commercial infrastructure and production architecture
 
@@ -862,7 +862,7 @@ The production architecture is therefore fixed as the following joined system:
 | Execution, conversation, and prompt substrate | conversations, `ad hoc` execution, execution primitives, prompt parts, prompt execution, attachments, templates, tool calling, and pipeline compatibility carriers remain explicit infrastructure for Bitcode activity | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}/*` | primitives may survive, but retained orchestration reservoirs must not silently define the live product model, prompt-bearing inference carriers must compose through the public `@bitcode/prompts` boundary, and the Bitcode MCP corridor must remain auditable |
 | External realization and settlement runtime | bitcoin, sidechain, repeated-read, compute, GitHub realization, storage publication, and settlement observation remain explicit production architecture rather than invisible demo substrate | `protocol-demonstration/src/canonical/{v23-bitcoin.js,v23-bitcoin-demonstration-service.js,v24-external-realization.js,v24-external-execution.js,v24-live-execution.js,v24-local-executors.js,v24-remote-adapters.js,settlement.js}`, `packages/github/*` | external realization, execution observation, and settlement proof must remain fail-closed even while ownership refits from demo-local reservoirs toward packages and app routes |
 | Observability, error intake, and runtime health | runtime failures, telemetry, repository-health, logger, and operator-visible diagnostics remain part of the production contract rather than incidental engineering residue | `apps/uapi/app/api/client-error/route.ts`, `packages/{observability,logger,repository-health,testing}/*`, retained telemetry carriers in `protocol-demonstration` | the live Bitcode path must accept, classify, and audit errors and health posture without reverting to non-Bitcode diagnostics or silent client failures |
-| Proof, generated evidence, and promotion control | generated proof families, spec-family reports, canonical-input reports, `_PROVEN_`, and promotion scripts are first-class production architecture because Bitcode requires a provable static codebase and deployed financial system | `.bitcode/*`, `BITCODE_SPEC_V26_PROVEN.md`, `scripts/{check-bitcode-canonical-inputs.mjs,check-bitcode-spec-family.mjs,generate-bitcode-proven.mjs}`, proof generators under `protocol-demonstration/src/canonical/*` | fifth-gate is invalid if the product architecture is not described, generated, and replayable as one witness-bearing system |
+| Proof, generated evidence, and promotion control | generated proof families, spec-family reports, canonical-input reports, `_PROVEN_`, and promotion scripts are first-class production architecture because Bitcode requires a provable static codebase and deployed financial system | `.proofs/*`, `BITCODE_SPEC_V26_PROVEN.md`, `scripts/{check-bitcode-canonical-inputs.mjs,check-bitcode-spec-family.mjs,generate-bitcode-proven.mjs}`, proof generators under `protocol-demonstration/src/canonical/*` | fifth-gate is invalid if the product architecture is not described, generated, and replayable as one witness-bearing system |
 
 The production architecture above is constrained by the following fifth-gate rules:
 - no write-bearing interface may rely on client-only readiness judgment when the server can determine readiness from auth, wallet, provider, and repository state;
@@ -875,7 +875,7 @@ The production architecture above is constrained by the following fifth-gate rul
 - admitted `Bitcode MCP` runtime registration for fifth-gate is the narrowed Exchange-facing tool set (`pipeline`, `analysis`, `intelligence`, `enterprise`, `lsp`, `observability`); `field-intelligence` is removed from Bitcode and documented only under `_legacy/field-intelligence`, while `monitoring`, `orchestration`, and Jira-specific tool carriers remain non-admitted/reference-only until they are rebuilt against the active package/runtime contracts;
 - admitted commercial-infrastructure packages must also hold honest package-local typecheck boundaries; `executions-mcp` may traverse retained corridors like `vcs`, `notion`, `supabase`, and deliverable-tool wrappers, but those dependencies must resolve without Next-only runtime leakage, stale deep-import seams, or missing workspace dependencies;
 - persistence/schema convergence requires explicit Bitcode ORM ownership for execution-storage tables that used to sit in the unresolved schema backlog: AssetPack vectors, phase execution, queued run jobs, on-the-fly instructions, stream logs, generated assets, activity events, error logs, and token costs must be represented by source-backed ORM model owners, public declaration surfaces, package-local tests, and generated proof rather than only appearing in Supabase migrations or generated database types;
-- retained LSP infrastructure is admitted as static Read/AssetPack measurement evidence, not as a generic code-navigation product; `bitcode.lsp.measure-read-static.v26` is the canonical V26 role that feeds `ReadDescriptor.staticMeasurements`, measurement provenance, `.bitcode/measurement-receipts.json`, candidate ranking, AssetPack fit, and proof replay, and `protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md` fixes this repurposing rule for fifth-gate;
+- retained LSP infrastructure is admitted as static Read/AssetPack measurement evidence, not as a generic code-navigation product; `bitcode.lsp.measure-read-static.v26` is the canonical V26 role that feeds `ReadDescriptor.staticMeasurements`, measurement provenance, `.proofs/_shared/measurement-receipts.json`, candidate ranking, AssetPack fit, and proof replay, and `protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md` fixes this repurposing rule for fifth-gate;
 - `PromptPart`, `Prompt`, `PromptExecution`, and shared formatters are public Bitcode prompt infrastructure; active and admitted-support inference packages may consume them through the public `@bitcode/prompts` boundary and its stable narrow subpaths, may import raw prompt content through the explicit `@bitcode/prompts/raw_promptparts/*` subpath, but may not reach into `packages/prompts/src/*` internals or replace prompt-owned behavior with route-local ad hoc strings, and the active/support/reference prompt consumer map must stay explicit package-by-package rather than implicit in search results alone; reference-only prompt consumers and their test/build configs must also prefer the narrow public subpaths for `Prompt` and `PromptPart` so they do not silently couple themselves to the full root prompt barrel or preserve broad `@bitcode/prompts/* -> packages/prompts/src/*` catchalls when prompt execution ownership is not actually needed; admitted AssetPack prompt ports plus prompt-primitive support carriers in `tools-generics`, `llm-generics`, and `time` must likewise keep `Prompt`, `PromptPart`, and `PromptFormatter` on `@bitcode/prompts/{prompt,parts/PromptPart,formatters}` whenever they are not actually using the full root prompt barrel; execution-aware prompt carriers and broader active execution-bearing runtime carriers that only read prompt hierarchy, execution ancestry, or the base execution tree must likewise prefer `@bitcode/execution-generics/Execution` and `@bitcode/execution-generics/prompts/ExecutionPrompt` rather than a broad execution barrel when executor/combinator exports are not actually needed; prompt-bearing runtime carriers and adjacent execution/phase/diagnostic carriers that only read the base execution tree must stay loadable without transitively pulling storage, artifact, or logging reservoirs through a full execution barrel; the support primitives that those carriers rely on, including `@bitcode/execution-generics/{Execution,prompts/ExecutionPrompt}`, `@bitcode/registry`, `@bitcode/doc-comment/{base-plugin,types}`, `@bitcode/doc-code`, and `@bitcode/tools-generics`, must expose honest source-backed public package subpaths and direct dependency declarations rather than relying on repo-relative cross-package imports; the base `doc-comment` abstraction and `doc-code` tool-injection path may remain admitted support/compatibility infrastructure for build-time attachment of tool prompt descriptions into Bitcode agentic runs, while `generic-doc-comment-plugins`, `doc-comment` examples, and prompt-package developing experiments remain bounded under `protocol-demonstration/V26_DOC_COMMENT_REFORM.md`;
 - the `packages/pipelines/asset-pack/*` corridor is the live AssetPack package owner and must carry semantic `definitionOfRead` / `read` / canonical `writtenAssetType = read-satisfaction-asset-pack` / `writtenAssetRequest` / `deliveryMechanismTemplate` / asset-pack snapshots at execution-store and postprocess boundaries so later-gate reform does not have to recover protocol meaning from old naming;
 - package-owned AssetPack primitives must name current Bitcode concepts directly: written-asset type ownership is `AssetPackWrittenAssetType.ReadSatisfactionAssetPack`, not a live `DeliverableType` export or a four-label PR/review/issue/comment taxonomy, and discovery support searches prior run evidence through `searchRelevantAssetPackEvidence` with Bitcode-owned environment flags while any `deliverableType` or vector-RPC naming remains compatibility payload/storage detail only;
@@ -951,24 +951,24 @@ Later-gate polish, commercialization, and `mainnet` posture are not allowed to b
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
 | --- | --- | --- | --- |
-| second-gate application composition | `.bitcode/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `apps/uapi/app/application/*`, `protocol-demonstration/public/app.js` |
-| conversations continuity | `.bitcode/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics, including persisted rich-input execution evidence for source attachments, output destinations, asset-pack references, and Read-measurement intent | `apps/uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
-| runs and pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including Shippable/AssetPack meaning, Bitcode MCP write admission, third-party MCP ingress as input context, and the compatibility selectors still required to keep retained execution reads healthy without reintroducing active deliverables routes | `apps/uapi/app/executions/*`, `apps/uapi/app/api/vcs/route.ts`, active `apps/uapi/app/api/templates/shippables/route.ts`, `apps/uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/shippables.ts`, absence witnesses for removed `/api/templates/deliverables` and `packages/api/src/routes/deliverables.ts`, `packages/executions-mcp/src/mcp-server/src/{types/index.ts,tools/pipeline-tools.ts,pipeline-execution/adapter.ts,__tests__/unit/pipeline-ingress-contract.test.ts}`, `packages/pipelines/*`, `packages/execution-generics/*` |
-| persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
-| prompt system totality | `.bitcode/prompt-system-totality-proof.json` | prove that retained `PromptPart`/`Prompt`/`PromptExecution` carriers and non-Bitcode prompt ports remain explicit Bitcode-owned prompt infrastructure, that active inference packages consume those carriers through the public `@bitcode/prompts` boundary, and that the active/support/reference prompt consumer map remains explicit before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, `protocol-demonstration/V26_PROMPT_SURFACES.md`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
-| inference implementation records | `.bitcode/inference-implementation-records-proof.json` | prove that prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP/external ingress systems are represented by structurally checked source-visible V26 inference implementation records with canonical read, nested implementation fields, source-backed implementation owners, boundary posture, typed verification evidence, and executable/generated verification footing | `protocol-demonstration/src/canonical/inference-implementation-records.js`, `protocol-demonstration/test/v26-inference-implementation-records.test.js`, and `protocol-demonstration/V26_INFERENCE_SYSTEMS.md` |
-| fourth-gate reclosure review | `.bitcode/fourth-gate-reclosure-review-proof.json` | prove that the procedurally reopened fourth-gate claim has been re-reviewed against every material acceptance criterion, that earlier through-fourth-gate closure claims remain recorded as overstated, and that no blocking fourth-gate deviance remains before fifth-gate work resumes | generated proof-family evidence across application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference records, retained packages, and the V26 checkpoint |
-| source-to-shares fifth-gate proof | `.bitcode/source-to-shares-fifth-gate-proof.json` | prove the fifth-gate make-shares/use-shares baseline around reviewable Reads, accepted-fit admission, app-owned route-level reread, Terminal selected-detail persistence, quantized source-to-shares fit qualities, settlement AssetPack receipts, private-file redaction in buyer state projection, and dual protocol/commercial SPEC-IMPL parity without itself claiming fourth-gate or fifth-gate procedural closure | `protocol-demonstration/src/canonical/{read-measurement,settlement,run-artifacts}.js`, `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `apps/uapi/app/api/{read-review,state,make-bitcode-branch}/route.ts`, `apps/uapi/tests/api/readReviewProtocolParity.test.ts`, `apps/uapi/app/application/{application-closure-state,application-transaction-detail-snapshot}.ts`, `apps/uapi/tests/{applicationClosureState,applicationTransactionDetailSnapshot}.test.ts`, and pipeline Finish/Delivering reform carriers |
-| fifth-gate closure deepening proof | `.bitcode/fifth-gate-closure-deepening-proof.json` | prove that fifth-gate closure evidence has deepened after fourth-gate promoted closure across Terminal read/write, conversations/execution continuity, repository scope, persistence/schema, retained-system reform, and proof/environment axes | source-to-shares proof, application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, prompt-space baseline, retained-package, system-reform, and environment-mode proof families |
-| fifth-gate closure proof | `.bitcode/fifth-gate-closure-proof.json` | prove that every fifth-gate closure queue row has source-level checks, generated proof artifacts, executable tests, and specification text aligned for minimum-functional Bitcode closure without claiming launch or total V26 completion | source-to-shares proof, fifth-gate closure deepening proof, product readiness audit, application composition, conversations, runs/pipelines, persistence/schema, environment-mode, retained-package, system-reform, and active naming proof carriers |
-| sixth-gate MVP closure proof | `.bitcode/sixth-gate-mvp-closure-proof.json` | prove that fifth-gate acceptance holds and the post-fifth-gate product map, activity/transactions operator loop, conversations/ChatGPT-style interface, auxillaries readiness, admitted API/MCP/app interface parity, and MVP-quality architecture are source-checked and product-ready as the prerequisite proof for the separately generated seventh- and eighth-gate proof families | product readiness audit, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `apps/uapi/app/application/application-experience-architecture.ts`, and MVP source/test carriers |
-| seventh-gate commercial testnet launch proof | `.bitcode/seventh-gate-commercial-testnet-launch-proof.json` | prove that fifth- and sixth-gate acceptance hold and that the product is refined into an initial commercially viable, testnet-first launch posture across Exchange, Terminal, Protocol, Proofs, API, MCP, admitted app surfaces, wallet/BTC/`$BTD`, repository scope, proof/state reread, operator flows, and no non-Bitcode compatibility fallback for core journeys | product readiness audit, sixth-gate MVP proof, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `apps/uapi/app/application/application-commercial-launch-readiness.ts`, and commercial launch source/test carriers |
-| prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | close the eighth-gate prompt-space verdict over prompt primitives, active carriers, doc-code injection, asset-pack/read-comprehension compatibility, raw PromptPart runtime carry-through, app/MCP ingress, proof/spec tests, and final completeness dimensions | `packages/prompts/src/*`, `packages/{execution-generics,pipelines-generics,agent-generics,conversations-generics,tools-generics,doc-comment,doc-code}/*`, `packages/pipelines/asset-pack/*`, `packages/generic-tools/read-comprehension/*`, `packages/executions-mcp/*`, `apps/uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/V26_{PROMPT_SURFACES,INFERENCE_SYSTEMS}.md`, and prompt proof tests |
-| retained package admissibility | `.bitcode/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, primary role class, write boundary, proof obligation, justification, required source witness set, and retained port scope where applicable, while active-cut corridors such as field-intelligence remain outside live Bitcode source | retained `packages/*` admitted by V26 |
-| environment mode coherence | `.bitcode/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
-| fifth-gate system reform admissibility | `.bitcode/system-reform-admissibility-proof.json` | prove that retained agentic systems are already cut, isolated, or repurposed enough to satisfy the fifth-gate Bitcode-native baseline rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other retained infrastructure still admitted after fourth-gate |
-| whole-repository production satisfaction | `.bitcode/whole-repository-production-satisfaction-proof.json` | close the eighth-gate whole-repository production verdict across retained V26 routes, packages, components, proofs, docs, generated artifacts, connected interfaces, and reform evidence | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
-| v26 total closure | `.bitcode/v26-total-closure-proof.json` | close the final eighth-gate definition-of-done so V26 promotion no longer depends on interpretive notes | all promoted V26 systems and generated artifacts |
+| second-gate application composition | `.proofs/_shared/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `apps/uapi/app/application/*`, `protocol-demonstration/public/app.js` |
+| conversations continuity | `.proofs/_shared/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics, including persisted rich-input execution evidence for source attachments, output destinations, asset-pack references, and Read-measurement intent | `apps/uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
+| runs and pipelines totality | `.proofs/_shared/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including Shippable/AssetPack meaning, Bitcode MCP write admission, third-party MCP ingress as input context, and the compatibility selectors still required to keep retained execution reads healthy without reintroducing active deliverables routes | `apps/uapi/app/executions/*`, `apps/uapi/app/api/vcs/route.ts`, active `apps/uapi/app/api/templates/shippables/route.ts`, `apps/uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/shippables.ts`, absence witnesses for removed `/api/templates/deliverables` and `packages/api/src/routes/deliverables.ts`, `packages/executions-mcp/src/mcp-server/src/{types/index.ts,tools/pipeline-tools.ts,pipeline-execution/adapter.ts,__tests__/unit/pipeline-ingress-contract.test.ts}`, `packages/pipelines/*`, `packages/execution-generics/*` |
+| persistence and schema totality | `.proofs/_shared/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
+| prompt system totality | `.proofs/_shared/prompt-system-totality-proof.json` | prove that retained `PromptPart`/`Prompt`/`PromptExecution` carriers and non-Bitcode prompt ports remain explicit Bitcode-owned prompt infrastructure, that active inference packages consume those carriers through the public `@bitcode/prompts` boundary, and that the active/support/reference prompt consumer map remains explicit before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, `protocol-demonstration/V26_PROMPT_SURFACES.md`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
+| inference implementation records | `.proofs/_shared/inference-implementation-records-proof.json` | prove that prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP/external ingress systems are represented by structurally checked source-visible V26 inference implementation records with canonical read, nested implementation fields, source-backed implementation owners, boundary posture, typed verification evidence, and executable/generated verification footing | `protocol-demonstration/src/canonical/inference-implementation-records.js`, `protocol-demonstration/test/v26-inference-implementation-records.test.js`, and `protocol-demonstration/V26_INFERENCE_SYSTEMS.md` |
+| fourth-gate reclosure review | `.proofs/_shared/fourth-gate-reclosure-review-proof.json` | prove that the procedurally reopened fourth-gate claim has been re-reviewed against every material acceptance criterion, that earlier through-fourth-gate closure claims remain recorded as overstated, and that no blocking fourth-gate deviance remains before fifth-gate work resumes | generated proof-family evidence across application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference records, retained packages, and the V26 checkpoint |
+| source-to-shares fifth-gate proof | `.proofs/_shared/source-to-shares-fifth-gate-proof.json` | prove the fifth-gate make-shares/use-shares baseline around reviewable Reads, accepted-fit admission, app-owned route-level reread, Terminal selected-detail persistence, quantized source-to-shares fit qualities, settlement AssetPack receipts, private-file redaction in buyer state projection, and dual protocol/commercial SPEC-IMPL parity without itself claiming fourth-gate or fifth-gate procedural closure | `protocol-demonstration/src/canonical/{read-measurement,settlement,run-artifacts}.js`, `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `apps/uapi/app/api/{read-review,state,make-bitcode-branch}/route.ts`, `apps/uapi/tests/api/readReviewProtocolParity.test.ts`, `apps/uapi/app/application/{application-closure-state,application-transaction-detail-snapshot}.ts`, `apps/uapi/tests/{applicationClosureState,applicationTransactionDetailSnapshot}.test.ts`, and pipeline Finish/Delivering reform carriers |
+| fifth-gate closure deepening proof | `.proofs/_shared/fifth-gate-closure-deepening-proof.json` | prove that fifth-gate closure evidence has deepened after fourth-gate promoted closure across Terminal read/write, conversations/execution continuity, repository scope, persistence/schema, retained-system reform, and proof/environment axes | source-to-shares proof, application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, prompt-space baseline, retained-package, system-reform, and environment-mode proof families |
+| fifth-gate closure proof | `.proofs/_shared/fifth-gate-closure-proof.json` | prove that every fifth-gate closure queue row has source-level checks, generated proof artifacts, executable tests, and specification text aligned for minimum-functional Bitcode closure without claiming launch or total V26 completion | source-to-shares proof, fifth-gate closure deepening proof, product readiness audit, application composition, conversations, runs/pipelines, persistence/schema, environment-mode, retained-package, system-reform, and active naming proof carriers |
+| sixth-gate MVP closure proof | `.proofs/_shared/sixth-gate-mvp-closure-proof.json` | prove that fifth-gate acceptance holds and the post-fifth-gate product map, activity/transactions operator loop, conversations/ChatGPT-style interface, auxillaries readiness, admitted API/MCP/app interface parity, and MVP-quality architecture are source-checked and product-ready as the prerequisite proof for the separately generated seventh- and eighth-gate proof families | product readiness audit, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `apps/uapi/app/application/application-experience-architecture.ts`, and MVP source/test carriers |
+| seventh-gate commercial testnet launch proof | `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json` | prove that fifth- and sixth-gate acceptance hold and that the product is refined into an initial commercially viable, testnet-first launch posture across Exchange, Terminal, Protocol, Proofs, API, MCP, admitted app surfaces, wallet/BTC/`$BTD`, repository scope, proof/state reread, operator flows, and no non-Bitcode compatibility fallback for core journeys | product readiness audit, sixth-gate MVP proof, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `apps/uapi/app/application/application-commercial-launch-readiness.ts`, and commercial launch source/test carriers |
+| prompt space completeness | `.proofs/_shared/prompt-space-completeness-proof.json` | close the eighth-gate prompt-space verdict over prompt primitives, active carriers, doc-code injection, asset-pack/read-comprehension compatibility, raw PromptPart runtime carry-through, app/MCP ingress, proof/spec tests, and final completeness dimensions | `packages/prompts/src/*`, `packages/{execution-generics,pipelines-generics,agent-generics,conversations-generics,tools-generics,doc-comment,doc-code}/*`, `packages/pipelines/asset-pack/*`, `packages/generic-tools/read-comprehension/*`, `packages/executions-mcp/*`, `apps/uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/V26_{PROMPT_SURFACES,INFERENCE_SYSTEMS}.md`, and prompt proof tests |
+| retained package admissibility | `.proofs/_shared/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, primary role class, write boundary, proof obligation, justification, required source witness set, and retained port scope where applicable, while active-cut corridors such as field-intelligence remain outside live Bitcode source | retained `packages/*` admitted by V26 |
+| environment mode coherence | `.proofs/_shared/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
+| fifth-gate system reform admissibility | `.proofs/_shared/system-reform-admissibility-proof.json` | prove that retained agentic systems are already cut, isolated, or repurposed enough to satisfy the fifth-gate Bitcode-native baseline rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other retained infrastructure still admitted after fourth-gate |
+| whole-repository production satisfaction | `.proofs/_shared/whole-repository-production-satisfaction-proof.json` | close the eighth-gate whole-repository production verdict across retained V26 routes, packages, components, proofs, docs, generated artifacts, connected interfaces, and reform evidence | all retained V26 routes, packages, components, proofs, docs, and generated artifacts |
+| v26 total closure | `.proofs/v26/total-closure-proof.json` | close the final eighth-gate definition-of-done so V26 promotion no longer depends on interpretive notes | all promoted V26 systems and generated artifacts |
 
 ### Fifth-gate formal acceptance rule
 
@@ -989,7 +989,7 @@ Fifth-gate is closed only when:
 14. retained systems are already cut, isolated, or Bitcode-repurposed enough that the live path reads as a new-world Bitcode product rather than a renamed compatibility stack,
 15. and fifth-gate closure is not being falsely claimed by importing sixth-/seventh-/eighth-gate polish or post-V26 mainnet work into the acceptance boundary.
 
-The current generated fifth-gate evidence includes an explicit closure verdict in `.bitcode/fifth-gate-closure-proof.json`.
+The current generated fifth-gate evidence includes an explicit closure verdict in `.proofs/_shared/fifth-gate-closure-proof.json`.
 Fifth gate is accepted at the minimum-functional Bitcode baseline.
 
 ### Sixth-gate formal acceptance rule
@@ -1007,7 +1007,7 @@ Sixth-gate is closed only when:
 6. quality, reliability, and operator usability are high enough that Bitcode can be presented as a minimal viable product rather than a canonical bring-up baseline,
 7. and the repository-level architecture remains cleaner after MVP elevation, not broader or more compatibility-heavy.
 
-The current generated sixth-gate evidence includes an explicit closure verdict in `.bitcode/sixth-gate-mvp-closure-proof.json`.
+The current generated sixth-gate evidence includes an explicit closure verdict in `.proofs/_shared/sixth-gate-mvp-closure-proof.json`.
 Sixth gate is accepted at the minimal viable product baseline.
 
 ### Seventh-gate formal acceptance rule
@@ -1020,7 +1020,7 @@ Seventh-gate is closed only when:
 5. launch-critical readiness around wallet, settlement, repository scope, proof/state reread, and operator flows is refined beyond bare MVP sufficiency,
 6. and the kept repository is ready for an initial commercial testnet launch without falling back to non-Bitcode compatibility explanations for core user journeys.
 
-The current generated seventh-gate evidence includes an explicit closure verdict in `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`.
+The current generated seventh-gate evidence includes an explicit closure verdict in `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`.
 Seventh gate is accepted at the initial commercially viable testnet launch baseline and is a prerequisite for the generated eighth-gate closure verdicts.
 
 ### Eighth-gate formal acceptance rule
@@ -1034,7 +1034,7 @@ V26 is fully proven only when:
 6. the kept repository is application-ready Bitcode canon without legacy product naming or silent compatibility ownership,
 7. and V26 total closure is explicit enough that promotion no longer depends on interpretive notes.
 
-The current generated eighth-gate evidence includes explicit closure verdicts in `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, and `.bitcode/v26-total-closure-proof.json`.
+The current generated eighth-gate evidence includes explicit closure verdicts in `.proofs/_shared/prompt-space-completeness-proof.json`, `.proofs/_shared/whole-repository-production-satisfaction-proof.json`, and `.proofs/v26/total-closure-proof.json`.
 Eighth gate is accepted as whole-repository Bitcode provation and final V26 closure.
 
 ## Canonical Bitcode executive summary
@@ -1060,7 +1060,7 @@ Current truth order for the active V26 canon is:
 4. `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 5. `BITCODE_SPEC_V26_NOTES.md`
 6. `BITCODE_SPEC_V26_PROVEN.md`
-7. active canonical `.bitcode/v19-*`, `.bitcode/v20-*`, and `.bitcode/v26-*` artifacts
+7. active canonical `.proofs/v19/*`, `.proofs/v20/*`, and `.proofs/v26/*` artifacts
 8. current source and tests explicitly referenced by active V26 canon
 9. historical prior specs
 
@@ -1216,7 +1216,7 @@ The V26 canonical domain model includes the following object and surface classes
 - recall and ranking: retrieval candidates, ranking receipts, use-tier signals, and candidate ordering stability.
 - verification decisions: issuance, provenance, sufficiency, and issuer-policy decisions plus supporting receipts.
 - selection and materialization: asset-pack locks, selected-source manifests, materialization proofs, branch artifact outputs, and application-visible operator artifacts.
-- branch artifacts and assetPackEvidence/stored AssetPack evidence plus Shippables: `.bitcode/` outputs, witness manifests, generated reports, route-facing views, stored AssetPack evidence, and PR publication receipts.
+- branch artifacts and assetPackEvidence/stored AssetPack evidence plus Shippables: `.proofs/` outputs, witness manifests, generated reports, route-facing views, stored AssetPack evidence, and PR publication receipts.
 - identity, authority, signing, and policy: identity bindings, authorization decisions, wallet connection, signer or treasury policy, GitHub App binding, and external execution policy.
 - sensitive data and confidentiality flows: sensitive-data flow maps, disclosure classifications, retention policies, and publication controls.
 - projection, disclosure, and redaction: principal-scoped views over public, reviewer, buyer, and internal surfaces.
@@ -1263,7 +1263,7 @@ The workflow stages remain:
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: repo supply and depositing are represented by authenticated repository bindings, deposit envelopes, `.bitcode/depositing-surface.json`, `.bitcode/github-boundary.json`, `.bitcode/github-live-session.json`, `.bitcode/github-inventory-fetch-receipt.json`, and `.bitcode/asset-pack.lock.json`.
+- Current canonical objects and emitted artifacts: repo supply and depositing are represented by authenticated repository bindings, deposit envelopes, `.proofs/_shared/depositing-surface.json`, `.proofs/_shared/github-boundary.json`, `.proofs/_shared/github-live-session.json`, `.proofs/_shared/github-inventory-fetch-receipt.json`, and `.proofs/_shared/asset-pack.lock.json`.
 - Current algorithms and derivation rules: Bitcode admits repo-addressable deposits, normalizes deposit identity against repo-authenticated supply, and carries deposit lineage forward into fit, verification, materialization, proof, and GitHub live mutation surfaces. V26 adds the requirement that the primary operator route consume those surfaces through package-owned and app-owned composition rather than directly through demo-local owners.
 - Current invariants and fail-closed conditions: invalid deposit, stale repo addressing, missing GitHub inventory receipt, broken deposit lineage, or route-layer presentation that obscures deposit provenance fail closed.
 - Current proof obligations: deposit provenance, asset identity stability, repo-authenticated supply closure, and deposit-to-asset-pack continuity must be replayable.
@@ -1273,7 +1273,7 @@ The workflow stages remain:
 
 ### Reading and prompt/inference ownership
 
-- Current canonical objects and emitted artifacts: reading and prompt/inference/evaluator ownership are represented by `.bitcode/reading-surface.json`, `.bitcode/prompt-family-registry.json`, `.bitcode/prompt-contracts.json`, `.bitcode/prompt-surfaces.json`, `.bitcode/inference-moment-contracts.json`, `.bitcode/parsed-completion-envelopes.json`, and `.bitcode/eval-manifest.json`.
+- Current canonical objects and emitted artifacts: reading and prompt/inference/evaluator ownership are represented by `.proofs/_shared/reading-surface.json`, `.proofs/_shared/prompt-family-registry.json`, `.proofs/_shared/prompt-contracts.json`, `.proofs/_shared/prompt-surfaces.json`, `.proofs/_shared/inference-moment-contracts.json`, `.proofs/_shared/parsed-completion-envelopes.json`, and `.proofs/_shared/eval-manifest.json`.
 - Current algorithms and derivation rules: Bitcode measures read from benchmark, parser, and repo reality, maps prompts and inference moments to that read, and binds evaluator ownership to replayable contracts. V26 preserves those semantics while moving ownership toward package-backed canon and app/API composition.
 - Current invariants and fail-closed conditions: prompt contract incompleteness, parsed-envelope inadmissibility, evaluator ambiguity, read drift, or route/UI layers that detach prompt lineage from read lineage fail closed.
 - Current proof obligations: prompt family completeness, inference synthesis closure, and evaluator provenance must stay witness-bound and replayable.
@@ -1283,7 +1283,7 @@ The workflow stages remain:
 
 ### Fit, recall, ranking, and verification
 
-- Current canonical objects and emitted artifacts: fit, recall, ranking, and verification are represented by `.bitcode/deposit-to-read-surface.json`, `.bitcode/match-report.json`, `.bitcode/verification-report.json`, `.bitcode/verification-receipts.json`, and `.bitcode/verification-decisions-proof.json`.
+- Current canonical objects and emitted artifacts: fit, recall, ranking, and verification are represented by `.proofs/_shared/deposit-to-read-surface.json`, `.proofs/_shared/match-report.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/verification-receipts.json`, and `.proofs/_shared/verification-decisions-proof.json`.
 - Current algorithms and derivation rules: Bitcode computes deposit-to-read fit before deeper proof closure, then performs recall and ranking, and only then resolves verification decisions and use-tiering. V26 preserves that ordering and requires the app-native surface to present it without depending on demo-owned UI.
 - Current invariants and fail-closed conditions: no-survivor asset pack, ranking inconsistency, verification decision drift, non-replayable verification receipts, or UI-layer loss of verification provenance fail closed.
 - Current proof obligations: fit continuity, verification issuance/provenance/sufficiency closure, and ranked-candidate determinism must remain auditable.
@@ -1293,7 +1293,7 @@ The workflow stages remain:
 
 ### Selection and materialization
 
-- Current canonical objects and emitted artifacts: selection and materialization are represented by `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/selection-consistency-proof.json`, `.bitcode/materialization-proof.json`, `.bitcode/materialization-exclusions.json`, and `.bitcode/selection-and-materialization-proof.json`.
+- Current canonical objects and emitted artifacts: selection and materialization are represented by `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/selection-consistency-proof.json`, `.proofs/_shared/materialization-proof.json`, `.proofs/_shared/materialization-exclusions.json`, and `.proofs/_shared/selection-and-materialization-proof.json`.
 - Current algorithms and derivation rules: Bitcode materializes only selected assets, preserves exclusion reasons, binds materialized artifacts to bundle, branch, and proof identities, and in V26 must expose those outcomes through application-facing components rather than the demo-local UI shell.
 - Current invariants and fail-closed conditions: materialization without selection closure, hidden exclusions, non-replayable selected-source lineage, or route/application drift from materialized truth fail closed.
 - Current proof obligations: selected-set closure, materialized-source closure, visibility closure, and exclusion closure must all be witness-bound.
@@ -1303,7 +1303,7 @@ The workflow stages remain:
 
 ### Identity, authorization, and sensitive flow
 
-- Current canonical objects and emitted artifacts: identity, authorization, and sensitive flow are represented by `.bitcode/identity-bindings.json`, `.bitcode/authorization-decisions.json`, `.bitcode/sensitive-data-flow.json`, `.bitcode/identity-authorization-proof.json`, `.bitcode/sensitive-data-flow-proof.json`, `.bitcode/authorization-and-sensitive-flow-proof.json`, `.bitcode/github-app-binding.json`, wallet-auth carriers in `packages/auth` and `packages/api`, and execution policy surfaces.
+- Current canonical objects and emitted artifacts: identity, authorization, and sensitive flow are represented by `.proofs/_shared/identity-bindings.json`, `.proofs/_shared/authorization-decisions.json`, `.proofs/_shared/sensitive-data-flow.json`, `.proofs/_shared/identity-authorization-proof.json`, `.proofs/_shared/sensitive-data-flow-proof.json`, `.proofs/_shared/authorization-and-sensitive-flow-proof.json`, `.proofs/_shared/github-app-binding.json`, wallet-auth carriers in `packages/auth` and `packages/api`, and execution policy surfaces.
 - Current algorithms and derivation rules: Bitcode derives authorization from issuer, signer, wallet, and policy roots, binds external execution to those roots, and routes sensitive data only through classified surfaces. V26 strengthens wallet connection and production auth posture and requires that the application-native Bitcode page operate inside that auth model.
 - Current invariants and fail-closed conditions: authorization denial, stale signing roots, stale wallet verification, mis-bound GitHub App identities, or sensitive-flow leakage fail closed.
 - Current proof obligations: identity closure, authorization closure, policy closure, wallet verification closure, and sensitive-flow closure must remain replayable across live interfaces.
@@ -1313,7 +1313,7 @@ The workflow stages remain:
 
 ### Disclosure and projection
 
-- Current canonical objects and emitted artifacts: disclosure and projection are represented by `.bitcode/projection-policy.json`, `.bitcode/bounded-public-proof.json`, `.bitcode/redaction-proof.json`, `.bitcode/disclosure-proof.json`, `.bitcode/disclosure-boundary-proof.json`, public/reviewer/buyer/internal projection views, and storage publication and retrieval receipts.
+- Current canonical objects and emitted artifacts: disclosure and projection are represented by `.proofs/_shared/projection-policy.json`, `.proofs/_shared/bounded-public-proof.json`, `.proofs/_shared/redaction-proof.json`, `.proofs/_shared/disclosure-proof.json`, `.proofs/_shared/disclosure-boundary-proof.json`, public/reviewer/buyer/internal projection views, and storage publication and retrieval receipts.
 - Current algorithms and derivation rules: Bitcode projects public, reviewer, buyer, and internal surfaces from the same underlying artifact set and preserves bounded-public proof as the only public-safe external projection. V26 additionally requires that the application-native operator surface and refurbished marketing surfaces present these boundaries clearly.
 - Current invariants and fail-closed conditions: public projection overexposure, mismatched redaction, storage publication beyond principal rights, retrieval without disclosure authorization, or product-surface copy that implies broader disclosure than policy allows fail closed.
 - Current proof obligations: projection policy closure, bounded-public closure, redaction alignment, disclosure verdict alignment, and storage-publication alignment must remain auditable.
@@ -1323,7 +1323,7 @@ The workflow stages remain:
 
 ### Settlement and exact accounting
 
-- Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json`, repeated-read payment receipts, bitcoin-network execution receipts, and sidechain execution receipts.
+- Current canonical objects and emitted artifacts: settlement and exact accounting are represented by `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/settlement-participation.json`, `.proofs/_shared/accounting-precision-report.json`, `.proofs/_shared/journal-diff.json`, `.proofs/_shared/journal-completeness-proof.json`, `.proofs/_shared/settlement-proof.json`, `.proofs/_shared/settlement-source-to-shares-proof.json`, repeated-read payment receipts, bitcoin-network execution receipts, and sidechain execution receipts.
 - Current algorithms and derivation rules: Bitcode allocates exact BTD base units, normalizes basis points deterministically, binds payment intent and observation to bundle and settlement identities, and finalizes journals only under policy-bound execution observation. V26 preserves that accounting core while moving runtime ownership out of demo-local concentration.
 - Current terminology boundary: journal `debits` and `credits` inside settlement are exact accounting-entry semantics, not product denomination; live product balances, user-facing spend, route payloads, MCP metrics, and application language must distinguish BTC fee liquidity from non-fungible `$BTD` share/read-right holdings and measured content amount.
 - Current invariants and fail-closed conditions: settlement conservation drift, missing execution receipt, journal finalization without observation, stale reconciliation, or cross-mode treasury drift fail closed.
@@ -1334,7 +1334,7 @@ The workflow stages remain:
 
 ### Proof contract, witnesses, and replay
 
-- Current canonical objects and emitted artifacts: proof contract, witnesses, and replay are represented by `.bitcode/proof-contract.json`, `.bitcode/system-proof-bundle.json`, `.bitcode/proof-witness-manifest.json`, all proof-family artifacts, `.bitcode/external-realization-proof.json`, `.bitcode/container-reality-proof.json`, `.bitcode/github-live-interface-proof.json`, `.bitcode/external-telemetry-summary.json`, and the future V26 `_PROVEN_` appendix.
+- Current canonical objects and emitted artifacts: proof contract, witnesses, and replay are represented by `.proofs/_shared/proof-contract.json`, `.proofs/_shared/system-proof-bundle.json`, `.proofs/_shared/proof-witness-manifest.json`, all proof-family artifacts, `.proofs/_shared/external-realization-proof.json`, `.proofs/_shared/container-reality-proof.json`, `.proofs/_shared/github-live-interface-proof.json`, `.proofs/_shared/external-telemetry-summary.json`, and the future V26 `_PROVEN_` appendix.
 - Current algorithms and derivation rules: Bitcode binds every proof family to witnessArtifactPaths, theoremIds, replayStepIds, and artifact digests, then carries them into the system proof bundle and witness manifest for replay. V26 adds the requirement that the proof contract remain coherent while ownership moves from demo-local concentration to package and app layers.
 - Current invariants and fail-closed conditions: missing witness artifacts, replay-step drift, container attestation drift, GitHub observation drift, stale generated appendix truth, or proof-family omission fail closed.
 - Current proof obligations: proof-family closure, theorem closure, replay closure, witness manifest coherence, and proof-contract bundle coherence must remain exact.
@@ -1411,23 +1411,23 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| inference-synthesis | `.bitcode/inference-synthesis-proof.json` | moment-contract-closure, inference-payload-closure, implementation-surface-closure, parsed-envelope-consistency | inference_synthesis.contract_closure, inference_synthesis.payload_closure, inference_synthesis.parsed_envelope_consistency | inference-synthesis.moment-contracts, inference-synthesis.payload-replay, inference-synthesis.parsed-envelope-replay | `.bitcode/inference-moment-contracts.json`, `.bitcode/inference-proofs.json`, `.bitcode/prompt-implementation-surface.json`, `.bitcode/parsed-completion-envelopes.json`, `.bitcode/inference-synthesis-proof.json` | `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| prompt-completeness | `.bitcode/prompt-completeness-proof.json` | member-set-reconciliation, parse-admissibility, consumer-closure, provenance-truth | prompt_completeness.member_set_reconciliation, prompt_completeness.consumer_closure, prompt_completeness.provenance_truth | prompt-completeness.member-set-reconciliation, prompt-completeness.parse-admissibility, prompt-completeness.consumer-closure, prompt-completeness.provenance-truth | `.bitcode/prompt-family-registry.json`, `.bitcode/prompt-contracts.json`, `.bitcode/prompt-surfaces.json`, `.bitcode/prompt-completeness-proof.json` | `protocol-demonstration/src/canonical/prompting.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| static-code-analysis | `.bitcode/static-measurement-proof.json` | stage-domain, stage-mapping, receipt-report-proof | static_code_analysis.stage_domain_purity, static_code_analysis.stage_mapping_closure, static_code_analysis.receipt_report_proof | static-code-analysis.stage-domain, static-code-analysis.stage-mapping, static-code-analysis.receipt-report-proof | `.bitcode/code-analysis-fact-registry.json`, `.bitcode/static-heuristics-registry.json`, `.bitcode/measurement-receipts.json`, `.bitcode/static-measurement-report.json`, `.bitcode/static-measurement-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| verification-decisions | `.bitcode/verification-decisions-proof.json` | issuance-closure, provenance-closure, sufficiency-closure, issuer-policy-closure | verification_decisions.issuance_closure, verification_decisions.provenance_closure, verification_decisions.sufficiency_closure, verification_decisions.issuer_policy_closure | verification-decisions.stage-mapping, verification-decisions.use-tier-consequence | `.bitcode/verification-report.json`, `.bitcode/verification-receipts.json`, `.bitcode/verification-decisions-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| selection-and-materialization | `.bitcode/selection-and-materialization-proof.json` | selected-asset-closure, lock-closure, materialized-source-closure, exclusion-closure, visibility-closure | selection_and_materialization.selected_asset_closure, selection_and_materialization.lock_closure, selection_and_materialization.materialized_source_closure, selection_and_materialization.exclusion_closure, selection_and_materialization.visibility_closure | selection-and-materialization.selected-set, selection-and-materialization.visibility | `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/selection-consistency-proof.json`, `.bitcode/materialization-proof.json`, `.bitcode/materialization-exclusions.json`, `.bitcode/materialization-visibility-proof.json`, `.bitcode/selection-and-materialization-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| authorization-and-sensitive-flow | `.bitcode/authorization-and-sensitive-flow-proof.json` | identity-closure, authorization-closure, sensitive-flow-closure, policy-release-closure | authorization_and_sensitive_flow.identity_closure, authorization_and_sensitive_flow.authorization_closure, authorization_and_sensitive_flow.sensitive_flow_closure, authorization_and_sensitive_flow.policy_release_closure | authorization-and-sensitive-flow.identity-bindings, authorization-and-sensitive-flow.sensitive-flow | `.bitcode/identity-bindings.json`, `.bitcode/authorization-decisions.json`, `.bitcode/sensitive-data-flow.json`, `.bitcode/identity-authorization-proof.json`, `.bitcode/sensitive-data-flow-proof.json`, `.bitcode/authorization-and-sensitive-flow-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `packages/auth` |
-| settlement-source-to-shares | `.bitcode/settlement-source-to-shares-proof.json` | contribution-totality, clipping-determinism, normalization-exactness, participation-totality, allocation-conservation, quantized-fit-quality-receipting, journal-completeness | settlement_source_to_shares.contribution_totality, settlement_source_to_shares.normalization_exactness, settlement_source_to_shares.allocation_conservation, settlement_source_to_shares.quantized_fit_quality_receipting, settlement_source_to_shares.journal_completeness | settlement-source-to-shares.contribution-allocation, settlement-source-to-shares.journal-theorem | `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/settlement-preview.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json` | `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
-| disclosure-boundary | `.bitcode/disclosure-boundary-proof.json` | projection-policy-closure, bounded-public-closure, redaction-alignment, disclosure-verdict-alignment | disclosure_boundary.projection_policy_closure, disclosure_boundary.redaction_alignment, disclosure_boundary.disclosure_verdict_alignment | disclosure-boundary.policy-bounded-public, disclosure-boundary.redaction-disclosure | `.bitcode/projection-policy.json`, `.bitcode/bounded-public-proof.json`, `.bitcode/redaction-proof.json`, `.bitcode/disclosure-proof.json`, `.bitcode/disclosure-boundary-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/projections.js` |
-| proof-contract | `.bitcode/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness, family-closure | proof_contract.contract_materialization, proof_contract.evidence_chain_closure, proof_contract.bundle_witness, proof_contract.family_closure | proof-contract.contract-materialization, proof-contract.evidence-chain, proof-contract.bundle-witness | `.bitcode/proof-contract.json`, `.bitcode/system-proof-bundle.json`, `.bitcode/proof-witness-manifest.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| inference-synthesis | `.proofs/_shared/inference-synthesis-proof.json` | moment-contract-closure, inference-payload-closure, implementation-surface-closure, parsed-envelope-consistency | inference_synthesis.contract_closure, inference_synthesis.payload_closure, inference_synthesis.parsed_envelope_consistency | inference-synthesis.moment-contracts, inference-synthesis.payload-replay, inference-synthesis.parsed-envelope-replay | `.proofs/_shared/inference-moment-contracts.json`, `.proofs/_shared/inference-proofs.json`, `.proofs/_shared/prompt-implementation-surface.json`, `.proofs/_shared/parsed-completion-envelopes.json`, `.proofs/_shared/inference-synthesis-proof.json` | `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| prompt-completeness | `.proofs/_shared/prompt-completeness-proof.json` | member-set-reconciliation, parse-admissibility, consumer-closure, provenance-truth | prompt_completeness.member_set_reconciliation, prompt_completeness.consumer_closure, prompt_completeness.provenance_truth | prompt-completeness.member-set-reconciliation, prompt-completeness.parse-admissibility, prompt-completeness.consumer-closure, prompt-completeness.provenance-truth | `.proofs/_shared/prompt-family-registry.json`, `.proofs/_shared/prompt-contracts.json`, `.proofs/_shared/prompt-surfaces.json`, `.proofs/_shared/prompt-completeness-proof.json` | `protocol-demonstration/src/canonical/prompting.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| static-code-analysis | `.proofs/_shared/static-measurement-proof.json` | stage-domain, stage-mapping, receipt-report-proof | static_code_analysis.stage_domain_purity, static_code_analysis.stage_mapping_closure, static_code_analysis.receipt_report_proof | static-code-analysis.stage-domain, static-code-analysis.stage-mapping, static-code-analysis.receipt-report-proof | `.proofs/_shared/code-analysis-fact-registry.json`, `.proofs/_shared/static-heuristics-registry.json`, `.proofs/_shared/measurement-receipts.json`, `.proofs/_shared/static-measurement-report.json`, `.proofs/_shared/static-measurement-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| verification-decisions | `.proofs/_shared/verification-decisions-proof.json` | issuance-closure, provenance-closure, sufficiency-closure, issuer-policy-closure | verification_decisions.issuance_closure, verification_decisions.provenance_closure, verification_decisions.sufficiency_closure, verification_decisions.issuer_policy_closure | verification-decisions.stage-mapping, verification-decisions.use-tier-consequence | `.proofs/_shared/verification-report.json`, `.proofs/_shared/verification-receipts.json`, `.proofs/_shared/verification-decisions-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| selection-and-materialization | `.proofs/_shared/selection-and-materialization-proof.json` | selected-asset-closure, lock-closure, materialized-source-closure, exclusion-closure, visibility-closure | selection_and_materialization.selected_asset_closure, selection_and_materialization.lock_closure, selection_and_materialization.materialized_source_closure, selection_and_materialization.exclusion_closure, selection_and_materialization.visibility_closure | selection-and-materialization.selected-set, selection-and-materialization.visibility | `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/selection-consistency-proof.json`, `.proofs/_shared/materialization-proof.json`, `.proofs/_shared/materialization-exclusions.json`, `.proofs/_shared/materialization-visibility-proof.json`, `.proofs/_shared/selection-and-materialization-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| authorization-and-sensitive-flow | `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | identity-closure, authorization-closure, sensitive-flow-closure, policy-release-closure | authorization_and_sensitive_flow.identity_closure, authorization_and_sensitive_flow.authorization_closure, authorization_and_sensitive_flow.sensitive_flow_closure, authorization_and_sensitive_flow.policy_release_closure | authorization-and-sensitive-flow.identity-bindings, authorization-and-sensitive-flow.sensitive-flow | `.proofs/_shared/identity-bindings.json`, `.proofs/_shared/authorization-decisions.json`, `.proofs/_shared/sensitive-data-flow.json`, `.proofs/_shared/identity-authorization-proof.json`, `.proofs/_shared/sensitive-data-flow-proof.json`, `.proofs/_shared/authorization-and-sensitive-flow-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `packages/auth` |
+| settlement-source-to-shares | `.proofs/_shared/settlement-source-to-shares-proof.json` | contribution-totality, clipping-determinism, normalization-exactness, participation-totality, allocation-conservation, quantized-fit-quality-receipting, journal-completeness | settlement_source_to_shares.contribution_totality, settlement_source_to_shares.normalization_exactness, settlement_source_to_shares.allocation_conservation, settlement_source_to_shares.quantized_fit_quality_receipting, settlement_source_to_shares.journal_completeness | settlement-source-to-shares.contribution-allocation, settlement-source-to-shares.journal-theorem | `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/settlement-participation.json`, `.proofs/_shared/settlement-preview.json`, `.proofs/_shared/accounting-precision-report.json`, `.proofs/_shared/journal-diff.json`, `.proofs/_shared/journal-completeness-proof.json`, `.proofs/_shared/settlement-proof.json`, `.proofs/_shared/settlement-source-to-shares-proof.json` | `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
+| disclosure-boundary | `.proofs/_shared/disclosure-boundary-proof.json` | projection-policy-closure, bounded-public-closure, redaction-alignment, disclosure-verdict-alignment | disclosure_boundary.projection_policy_closure, disclosure_boundary.redaction_alignment, disclosure_boundary.disclosure_verdict_alignment | disclosure-boundary.policy-bounded-public, disclosure-boundary.redaction-disclosure | `.proofs/_shared/projection-policy.json`, `.proofs/_shared/bounded-public-proof.json`, `.proofs/_shared/redaction-proof.json`, `.proofs/_shared/disclosure-proof.json`, `.proofs/_shared/disclosure-boundary-proof.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/proof-materialization.js`, `protocol-demonstration/src/canonical/projections.js` |
+| proof-contract | `.proofs/_shared/proof-contract.json` | contract-materialization, evidence-chain, bundle-witness, family-closure | proof_contract.contract_materialization, proof_contract.evidence_chain_closure, proof_contract.bundle_witness, proof_contract.family_closure | proof-contract.contract-materialization, proof-contract.evidence-chain, proof-contract.bundle-witness | `.proofs/_shared/proof-contract.json`, `.proofs/_shared/system-proof-bundle.json`, `.proofs/_shared/proof-witness-manifest.json` | `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/run-artifacts.js`, `protocol-demonstration/src/canonical/proof-materialization.js` |
 
 ### Inference-synthesis
 
-- `proofArtifactPath:` `.bitcode/inference-synthesis-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/inference-synthesis-proof.json`
 - `members:` `moment-contract-closure`, `inference-payload-closure`, `implementation-surface-closure`, `parsed-envelope-consistency`
 - `theoremIds:` `inference_synthesis.contract_closure`, `inference_synthesis.payload_closure`, `inference_synthesis.parsed_envelope_consistency`
 - `replayStepIds:` `inference-synthesis.moment-contracts`, `inference-synthesis.payload-replay`, `inference-synthesis.parsed-envelope-replay`
-- `witnessArtifactPaths:` `.bitcode/inference-moment-contracts.json`, `.bitcode/inference-proofs.json`, `.bitcode/prompt-implementation-surface.json`, `.bitcode/parsed-completion-envelopes.json`, `.bitcode/inference-synthesis-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/inference-moment-contracts.json`, `.proofs/_shared/inference-proofs.json`, `.proofs/_shared/prompt-implementation-surface.json`, `.proofs/_shared/parsed-completion-envelopes.json`, `.proofs/_shared/inference-synthesis-proof.json`
 - `current member closure criteria:` all moment contracts, inference payloads, implementation surfaces, and parsed envelopes resolve to the same read and prompt lineage even when the application owner changes.
 - `current member verdict shape:` per-member pass/fail verdict with witness artifact refs, replay step refs, and failure reasons.
 - `current theorem-by-theorem closure reading:` each theorem closes only when the same witness set supports contract, payload, and parsed-envelope coherence.
@@ -1439,11 +1439,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Prompt-completeness
 
-- `proofArtifactPath:` `.bitcode/prompt-completeness-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/prompt-completeness-proof.json`
 - `members:` `member-set-reconciliation`, `parse-admissibility`, `consumer-closure`, `provenance-truth`
 - `theoremIds:` `prompt_completeness.member_set_reconciliation`, `prompt_completeness.consumer_closure`, `prompt_completeness.provenance_truth`
 - `replayStepIds:` `prompt-completeness.member-set-reconciliation`, `prompt-completeness.parse-admissibility`, `prompt-completeness.consumer-closure`, `prompt-completeness.provenance-truth`
-- `witnessArtifactPaths:` `.bitcode/prompt-family-registry.json`, `.bitcode/prompt-contracts.json`, `.bitcode/prompt-surfaces.json`, `.bitcode/prompt-completeness-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/prompt-family-registry.json`, `.proofs/_shared/prompt-contracts.json`, `.proofs/_shared/prompt-surfaces.json`, `.proofs/_shared/prompt-completeness-proof.json`
 - `current member closure criteria:` every prompt family declared for the run is registered, surfaced, consumed, provenance-bound, and exposed through the application-native operator experience without semantic loss.
 - `current member verdict shape:` per-member pass/fail verdict with artifact refs, replay refs, and completeness failure reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires family registry, contract, surface, and consumer closure to agree.
@@ -1455,11 +1455,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Static-code-analysis
 
-- `proofArtifactPath:` `.bitcode/static-measurement-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/static-measurement-proof.json`
 - `members:` `stage-domain`, `stage-mapping`, `receipt-report-proof`
 - `theoremIds:` `static_code_analysis.stage_domain_purity`, `static_code_analysis.stage_mapping_closure`, `static_code_analysis.receipt_report_proof`
 - `replayStepIds:` `static-code-analysis.stage-domain`, `static-code-analysis.stage-mapping`, `static-code-analysis.receipt-report-proof`
-- `witnessArtifactPaths:` `.bitcode/code-analysis-fact-registry.json`, `.bitcode/static-heuristics-registry.json`, `.bitcode/measurement-receipts.json`, `.bitcode/static-measurement-report.json`, `.bitcode/static-measurement-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/code-analysis-fact-registry.json`, `.proofs/_shared/static-heuristics-registry.json`, `.proofs/_shared/measurement-receipts.json`, `.proofs/_shared/static-measurement-report.json`, `.proofs/_shared/static-measurement-proof.json`
 - `current member closure criteria:` static facts, heuristics, receipts, and reports must reconcile to the same extracted code analysis domain regardless of whether the owner is still demo-local or has moved to packages.
 - `current member verdict shape:` per-member pass/fail verdict with receipt refs, report refs, and failure reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires domain purity, stage mapping coherence, and report proof coherence.
@@ -1471,11 +1471,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Verification-decisions
 
-- `proofArtifactPath:` `.bitcode/verification-decisions-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/verification-decisions-proof.json`
 - `members:` `issuance-closure`, `provenance-closure`, `sufficiency-closure`, `issuer-policy-closure`
 - `theoremIds:` `verification_decisions.issuance_closure`, `verification_decisions.provenance_closure`, `verification_decisions.sufficiency_closure`, `verification_decisions.issuer_policy_closure`
 - `replayStepIds:` `verification-decisions.stage-mapping`, `verification-decisions.use-tier-consequence`
-- `witnessArtifactPaths:` `.bitcode/verification-report.json`, `.bitcode/verification-receipts.json`, `.bitcode/verification-decisions-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/verification-report.json`, `.proofs/_shared/verification-receipts.json`, `.proofs/_shared/verification-decisions-proof.json`
 - `current member closure criteria:` verification report, receipts, and issued decision families must reconcile to the same selected candidates and use-tier outcomes across package, API, and application layers.
 - `current member verdict shape:` per-member pass/fail verdict with receipt refs and theorem refs.
 - `current theorem-by-theorem closure reading:` issuance, provenance, sufficiency, and issuer-policy all require coherent receipt-backed verification results.
@@ -1487,11 +1487,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Selection-and-materialization
 
-- `proofArtifactPath:` `.bitcode/selection-and-materialization-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/selection-and-materialization-proof.json`
 - `members:` `selected-asset-closure`, `lock-closure`, `materialized-source-closure`, `exclusion-closure`, `visibility-closure`
 - `theoremIds:` `selection_and_materialization.selected_asset_closure`, `selection_and_materialization.lock_closure`, `selection_and_materialization.materialized_source_closure`, `selection_and_materialization.exclusion_closure`, `selection_and_materialization.visibility_closure`
 - `replayStepIds:` `selection-and-materialization.selected-set`, `selection-and-materialization.visibility`
-- `witnessArtifactPaths:` `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/selection-consistency-proof.json`, `.bitcode/materialization-proof.json`, `.bitcode/materialization-exclusions.json`, `.bitcode/materialization-visibility-proof.json`, `.bitcode/selection-and-materialization-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/selection-consistency-proof.json`, `.proofs/_shared/materialization-proof.json`, `.proofs/_shared/materialization-exclusions.json`, `.proofs/_shared/materialization-visibility-proof.json`, `.proofs/_shared/selection-and-materialization-proof.json`
 - `current member closure criteria:` selected assets, locked pack, materialized sources, exclusions, and visibility summaries must all agree and remain faithfully exposed through the application-native operator route.
 - `current member verdict shape:` per-member pass/fail verdict with witness refs and selection consistency reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires both selected-set and visibility replay to agree with materialized outputs.
@@ -1503,11 +1503,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Authorization-and-sensitive-flow
 
-- `proofArtifactPath:` `.bitcode/authorization-and-sensitive-flow-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/authorization-and-sensitive-flow-proof.json`
 - `members:` `identity-closure`, `authorization-closure`, `sensitive-flow-closure`, `policy-release-closure`
 - `theoremIds:` `authorization_and_sensitive_flow.identity_closure`, `authorization_and_sensitive_flow.authorization_closure`, `authorization_and_sensitive_flow.sensitive_flow_closure`, `authorization_and_sensitive_flow.policy_release_closure`
 - `replayStepIds:` `authorization-and-sensitive-flow.identity-bindings`, `authorization-and-sensitive-flow.sensitive-flow`
-- `witnessArtifactPaths:` `.bitcode/identity-bindings.json`, `.bitcode/authorization-decisions.json`, `.bitcode/sensitive-data-flow.json`, `.bitcode/identity-authorization-proof.json`, `.bitcode/sensitive-data-flow-proof.json`, `.bitcode/authorization-and-sensitive-flow-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/identity-bindings.json`, `.proofs/_shared/authorization-decisions.json`, `.proofs/_shared/sensitive-data-flow.json`, `.proofs/_shared/identity-authorization-proof.json`, `.proofs/_shared/sensitive-data-flow-proof.json`, `.proofs/_shared/authorization-and-sensitive-flow-proof.json`
 - `current member closure criteria:` identity, authorization, wallet, and sensitive-flow artifacts must reconcile to the same policy and addressing roots.
 - `current member verdict shape:` per-member pass/fail verdict with policy refs and witness refs.
 - `current theorem-by-theorem closure reading:` theorem closure requires identity, authorization, wallet verification, and sensitive-data flow to agree without leakage.
@@ -1519,11 +1519,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Settlement-source-to-shares
 
-- `proofArtifactPath:` `.bitcode/settlement-source-to-shares-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/settlement-source-to-shares-proof.json`
 - `members:` `contribution-totality`, `clipping-determinism`, `normalization-exactness`, `participation-totality`, `allocation-conservation`, `quantized-fit-quality-receipting`, `journal-completeness`
 - `theoremIds:` `settlement_source_to_shares.contribution_totality`, `settlement_source_to_shares.normalization_exactness`, `settlement_source_to_shares.allocation_conservation`, `settlement_source_to_shares.quantized_fit_quality_receipting`, `settlement_source_to_shares.journal_completeness`
 - `replayStepIds:` `settlement-source-to-shares.contribution-allocation`, `settlement-source-to-shares.journal-theorem`
-- `witnessArtifactPaths:` `.bitcode/source-to-shares.json`, `.bitcode/settlement-participation.json`, `.bitcode/settlement-preview.json`, `.bitcode/accounting-precision-report.json`, `.bitcode/journal-diff.json`, `.bitcode/journal-completeness-proof.json`, `.bitcode/settlement-proof.json`, `.bitcode/settlement-source-to-shares-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/settlement-participation.json`, `.proofs/_shared/settlement-preview.json`, `.proofs/_shared/accounting-precision-report.json`, `.proofs/_shared/journal-diff.json`, `.proofs/_shared/journal-completeness-proof.json`, `.proofs/_shared/settlement-proof.json`, `.proofs/_shared/settlement-source-to-shares-proof.json`
 - `current member closure criteria:` contributions, participation, quantized fit-quality presentation, receipt carry-through, exact BTD allocation, journals, and settlement proof must reconcile.
 - `current member verdict shape:` per-member pass/fail verdict with artifact refs, theorem refs, and conservation failure reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires contribution totality, normalization exactness, conservation, quantized fit-quality receipting, and journal completeness to agree.
@@ -1535,11 +1535,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Disclosure-boundary
 
-- `proofArtifactPath:` `.bitcode/disclosure-boundary-proof.json`
+- `proofArtifactPath:` `.proofs/_shared/disclosure-boundary-proof.json`
 - `members:` `projection-policy-closure`, `bounded-public-closure`, `redaction-alignment`, `disclosure-verdict-alignment`
 - `theoremIds:` `disclosure_boundary.projection_policy_closure`, `disclosure_boundary.redaction_alignment`, `disclosure_boundary.disclosure_verdict_alignment`
 - `replayStepIds:` `disclosure-boundary.policy-bounded-public`, `disclosure-boundary.redaction-disclosure`
-- `witnessArtifactPaths:` `.bitcode/projection-policy.json`, `.bitcode/bounded-public-proof.json`, `.bitcode/redaction-proof.json`, `.bitcode/disclosure-proof.json`, `.bitcode/disclosure-boundary-proof.json`
+- `witnessArtifactPaths:` `.proofs/_shared/projection-policy.json`, `.proofs/_shared/bounded-public-proof.json`, `.proofs/_shared/redaction-proof.json`, `.proofs/_shared/disclosure-proof.json`, `.proofs/_shared/disclosure-boundary-proof.json`
 - `current member closure criteria:` projection policy, bounded-public proof, redaction, and disclosure verdicts must remain coherent per principal across packages, API, app, and marketing-facing surfaces.
 - `current member verdict shape:` per-member pass/fail verdict with witness refs and leakage reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires policy, redaction, and disclosure surfaces to agree without public overexposure.
@@ -1551,11 +1551,11 @@ The family names below are the minimum V26 full-canon carriers even before promo
 
 ### Proof-contract
 
-- `proofArtifactPath:` `.bitcode/proof-contract.json`
+- `proofArtifactPath:` `.proofs/_shared/proof-contract.json`
 - `members:` `contract-materialization`, `evidence-chain`, `bundle-witness`, `family-closure`
 - `theoremIds:` `proof_contract.contract_materialization`, `proof_contract.evidence_chain_closure`, `proof_contract.bundle_witness`, `proof_contract.family_closure`
 - `replayStepIds:` `proof-contract.contract-materialization`, `proof-contract.evidence-chain`, `proof-contract.bundle-witness`
-- `witnessArtifactPaths:` `.bitcode/proof-contract.json`, `.bitcode/system-proof-bundle.json`, `.bitcode/proof-witness-manifest.json`
+- `witnessArtifactPaths:` `.proofs/_shared/proof-contract.json`, `.proofs/_shared/system-proof-bundle.json`, `.proofs/_shared/proof-witness-manifest.json`
 - `current member closure criteria:` proof contract, bundle, and witness manifest must agree over all included proof families while owners move from demo-local to package and app surfaces.
 - `current member verdict shape:` per-member pass/fail verdict with witness refs and missing-family reasons.
 - `current theorem-by-theorem closure reading:` theorem closure requires contract materialization, evidence chain integrity, and witness manifest coherence.
@@ -1579,43 +1579,43 @@ V26 inherits the V20 operator-quality baseline as active generated evidence requ
 
 Current V26 generated artifact inventories must cover:
 - active inherited reproducible and operator-quality reports,
-- `.bitcode/v26-spec-family-report.json`,
-- `.bitcode/v26-canonical-input-report.json`,
-- `.bitcode/v26-gate-checkpoint-report.json`,
-- `.bitcode/application-composition-proof.json`,
-- `.bitcode/conversations-continuity-proof.json`,
-- `.bitcode/runs-pipelines-totality-proof.json`,
-- `.bitcode/persistence-schema-totality-proof.json`,
-- `.bitcode/prompt-system-totality-proof.json`,
-- `.bitcode/inference-implementation-records-proof.json`,
-- `.bitcode/fourth-gate-reclosure-review-proof.json`,
-- `.bitcode/source-to-shares-fifth-gate-proof.json`,
-- `.bitcode/v26-product-readiness-audit.json`,
-- `.bitcode/fifth-gate-closure-deepening-proof.json`,
-- `.bitcode/fifth-gate-closure-proof.json`,
-- `.bitcode/sixth-gate-mvp-closure-proof.json`,
-- `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`,
-- `.bitcode/prompt-space-completeness-proof.json`,
-- `.bitcode/retained-package-admissibility-proof.json`,
-- `.bitcode/environment-mode-coherence-proof.json`,
-- `.bitcode/system-reform-admissibility-proof.json`,
-- `.bitcode/whole-repository-production-satisfaction-proof.json`,
-- `.bitcode/v26-total-closure-proof.json`,
+- `.proofs/v26/spec-family-report.json`,
+- `.proofs/v26/canonical-input-report.json`,
+- `.proofs/v26/gate-checkpoint-report.json`,
+- `.proofs/_shared/application-composition-proof.json`,
+- `.proofs/_shared/conversations-continuity-proof.json`,
+- `.proofs/_shared/runs-pipelines-totality-proof.json`,
+- `.proofs/_shared/persistence-schema-totality-proof.json`,
+- `.proofs/_shared/prompt-system-totality-proof.json`,
+- `.proofs/_shared/inference-implementation-records-proof.json`,
+- `.proofs/_shared/fourth-gate-reclosure-review-proof.json`,
+- `.proofs/_shared/source-to-shares-fifth-gate-proof.json`,
+- `.proofs/v26/product-readiness-audit.json`,
+- `.proofs/_shared/fifth-gate-closure-deepening-proof.json`,
+- `.proofs/_shared/fifth-gate-closure-proof.json`,
+- `.proofs/_shared/sixth-gate-mvp-closure-proof.json`,
+- `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`,
+- `.proofs/_shared/prompt-space-completeness-proof.json`,
+- `.proofs/_shared/retained-package-admissibility-proof.json`,
+- `.proofs/_shared/environment-mode-coherence-proof.json`,
+- `.proofs/_shared/system-reform-admissibility-proof.json`,
+- `.proofs/_shared/whole-repository-production-satisfaction-proof.json`,
+- `.proofs/v26/total-closure-proof.json`,
 - and `BITCODE_SPEC_V26_PROVEN.md`.
 
 ### V26 specifying generated artifacts
 
 V26 specifying artifacts are:
-- `.bitcode/v26-spec-family-report.json`
-- `.bitcode/v26-canonical-input-report.json`
-- `.bitcode/v26-gate-checkpoint-report.json`
-- `.bitcode/fourth-gate-reclosure-review-proof.json`
-- `.bitcode/source-to-shares-fifth-gate-proof.json`
-- `.bitcode/v26-product-readiness-audit.json`
-- `.bitcode/fifth-gate-closure-deepening-proof.json`
-- `.bitcode/fifth-gate-closure-proof.json`
-- `.bitcode/sixth-gate-mvp-closure-proof.json`
-- `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`
+- `.proofs/v26/spec-family-report.json`
+- `.proofs/v26/canonical-input-report.json`
+- `.proofs/v26/gate-checkpoint-report.json`
+- `.proofs/_shared/fourth-gate-reclosure-review-proof.json`
+- `.proofs/_shared/source-to-shares-fifth-gate-proof.json`
+- `.proofs/v26/product-readiness-audit.json`
+- `.proofs/_shared/fifth-gate-closure-deepening-proof.json`
+- `.proofs/_shared/fifth-gate-closure-proof.json`
+- `.proofs/_shared/sixth-gate-mvp-closure-proof.json`
+- `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`
 - `BITCODE_SPEC_V26_PROVEN.md`
 
 ### Shared generated-artifact fields
@@ -1681,7 +1681,7 @@ Current validating commands and parity basis include:
 V26 promotion requires all of the following:
 - `BITCODE_SPEC.txt` advancing deliberately and only when V26 is the chosen active canon,
 - `BITCODE_SPEC_V26.md`, `BITCODE_SPEC_V26_DELTA.md`, `BITCODE_SPEC_V26_PARITY_MATRIX.md`, and `BITCODE_SPEC_V26_PROVEN.md` agreeing,
-- `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, and `.bitcode/v26-gate-checkpoint-report.json` existing and matching the promoted V26 structure,
+- `.proofs/v26/spec-family-report.json`, `.proofs/v26/canonical-input-report.json`, and `.proofs/v26/gate-checkpoint-report.json` existing and matching the promoted V26 structure,
 - Bitcode application-native routing existing as source truth rather than as draft-target-only prose,
 - package extraction and existing-package convergence being reflected in source sufficiently to satisfy the parity ledger,
 - and no fail-closed condition remaining open for any interface V26 claims as hardened.
@@ -1726,8 +1726,8 @@ Each family closes only when its witnessArtifactPaths, theoremIds, replayStepIds
 
 The generated artifact contract catalog covers:
 - inherited reproducible-canon and operator-quality reports,
-- `.bitcode/v26-spec-family-report.json`,
-- `.bitcode/v26-canonical-input-report.json`,
+- `.proofs/v26/spec-family-report.json`,
+- `.proofs/v26/canonical-input-report.json`,
 - and `BITCODE_SPEC_V26_PROVEN.md`.
 
 These generated artifact inventories must include generated artifact inventories and scenario and run coverage matrices and must fail closed when regeneration is stale.
@@ -1833,8 +1833,8 @@ The canonical file-family and promotion contract catalog includes:
 - `BITCODE_SPEC_V26_PARITY_MATRIX.md`
 - `BITCODE_SPEC_V26_NOTES.md`
 - `BITCODE_SPEC_V26_PROVEN.md`
-- `.bitcode/v26-spec-family-report.json`
-- `.bitcode/v26-canonical-input-report.json`
+- `.proofs/v26/spec-family-report.json`
+- `.proofs/v26/canonical-input-report.json`
 
 Promotion requires the pointer, posture, generated reports, `_PROVEN_` appendix, and source parity state to agree.
 
@@ -1897,26 +1897,26 @@ Every named failure class is blocking for promotion when it applies to a claimed
 ## Appendix K. Source-Bearing AssetPack And Artifact Contract Catalog
 
 The source-bearing AssetPack and artifact contract catalog includes:
-- `.bitcode/asset-pack.lock.json`
-- `.bitcode/selected-source-material.json`
-- `.bitcode/verification-report.json`
-- `.bitcode/read-review.json`
-- `.bitcode/source-to-shares.json`
-- `.bitcode/settlement-preview.json`
-- `.bitcode/projection-policy.json`
-- `.bitcode/system-proof-bundle.json`
-- `.bitcode/proof-contract.json`
-- `.bitcode/proof-witness-manifest.json`
-- `.bitcode/inference-synthesis-proof.json`
-- `.bitcode/prompt-completeness-proof.json`
-- `.bitcode/static-measurement-proof.json`
-- `.bitcode/verification-decisions-proof.json`
-- `.bitcode/selection-and-materialization-proof.json`
-- `.bitcode/authorization-and-sensitive-flow-proof.json`
-- `.bitcode/settlement-source-to-shares-proof.json`
-- `.bitcode/disclosure-boundary-proof.json`
-- `.bitcode/v26-spec-family-report.json`
-- `.bitcode/v26-canonical-input-report.json`
+- `.proofs/_shared/asset-pack.lock.json`
+- `.proofs/_shared/selected-source-material.json`
+- `.proofs/_shared/verification-report.json`
+- `.proofs/_shared/read-review.json`
+- `.proofs/_shared/source-to-shares.json`
+- `.proofs/_shared/settlement-preview.json`
+- `.proofs/_shared/projection-policy.json`
+- `.proofs/_shared/system-proof-bundle.json`
+- `.proofs/_shared/proof-contract.json`
+- `.proofs/_shared/proof-witness-manifest.json`
+- `.proofs/_shared/inference-synthesis-proof.json`
+- `.proofs/_shared/prompt-completeness-proof.json`
+- `.proofs/_shared/static-measurement-proof.json`
+- `.proofs/_shared/verification-decisions-proof.json`
+- `.proofs/_shared/selection-and-materialization-proof.json`
+- `.proofs/_shared/authorization-and-sensitive-flow-proof.json`
+- `.proofs/_shared/settlement-source-to-shares-proof.json`
+- `.proofs/_shared/disclosure-boundary-proof.json`
+- `.proofs/v26/spec-family-report.json`
+- `.proofs/v26/canonical-input-report.json`
 - `BITCODE_SPEC_V26_PROVEN.md`
 
 ## accepted boundaries and reopen conditions
@@ -1945,5 +1945,5 @@ V26 is complete only when:
 4. Demonstration UX is preserved while demonstration UI is replaced by application-facing components.
 5. Bitcode system ownership is materially re-homed into packages and app/API owners rather than remaining concentrated in the former top-level demo owner.
 6. GitHub, auth, wallet, bitcoin, sidechain, repeated-read, compute, storage, telemetry, and reconciliation hardening are explicit, fail-closed, and test-backed.
-7. `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, and `BITCODE_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
+7. `.proofs/v26/spec-family-report.json`, `.proofs/v26/canonical-input-report.json`, `.proofs/v26/gate-checkpoint-report.json`, and `BITCODE_SPEC_V26_PROVEN.md` exist and agree with the promoted V26 main spec.
 8. The promoted V26 main spec stands alone for re-implementation, audit, operator comprehension, and promotion without semantic dependence on prior versions.

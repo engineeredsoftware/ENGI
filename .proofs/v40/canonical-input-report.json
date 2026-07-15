@@ -1,0 +1,32 @@
+{
+  "reportId": "v40-canonical-input-report",
+  "version": "V40",
+  "proofSourceCommit": "09e5c96f8f923936b62c44c92d161551fdb6f808",
+  "generatedAt": "2026-05-25T20:37:16-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedTargetVersion": "V40",
+  "pointerVersion": "V40",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "BITCODE_SPEC_V40.md",
+  "notesPath": "BITCODE_SPEC_V40_NOTES.md",
+  "provenPath": "BITCODE_SPEC_V40_PROVEN.md",
+  "parityPath": "BITCODE_SPEC_V40_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [
+    ".proofs/v40/spec-family-report.json",
+    ".proofs/v40/canonical-input-report.json",
+    ".proofs/v40/test-inventory-coverage-matrix.json",
+    ".proofs/v40/unit-coverage-inventory.json",
+    ".proofs/v40/api-integration-contracts.json",
+    ".proofs/v40/reading-pipeline-integration-coverage.json",
+    ".proofs/v40/conversation-terminal-integration.json",
+    ".proofs/v40/browser-e2e-visual-proof.json",
+    ".proofs/v40/ledger-storage-sync.json",
+    ".proofs/v40/local-staging-rehearsal-automation.json",
+    ".proofs/v40/prompt-benchmark-smoke-v41-readiness.json",
+    ".proofs/v40/promotion-readiness-report.json"
+  ],
+  "requiredGeneratedArtifactCount": 12
+}

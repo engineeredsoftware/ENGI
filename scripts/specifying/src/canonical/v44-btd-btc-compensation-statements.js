@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH =
-  '.bitcode/v44-btd-btc-compensation-statements.json';
+  '.proofs/v44/btd-btc-compensation-statements.json';
 export const V44_BTD_BTC_COMPENSATION_STATEMENTS_SCHEMA_ID =
   'bitcode.v44.btdBtcCompensationStatements.v1';
 export const V44_BTD_BTC_COMPENSATION_STATEMENTS_VERSION = 'V44';

@@ -31,7 +31,7 @@ Related orientation (also non-canonical):
 | Sellable unit | **AssetPack** = synthesized patch + measurements + metadata — never raw unpaid source as the product unit |
 | Source-safety | First-class: no protected/raw source, unpaid pack source, raw prompts/provider responses, credentials, wallet private material, or private settlement payloads on product surfaces or proof artifacts |
 | Pipeline host | **Serverless (Vercel) always sandbox** (`VERCEL=1` / Preview / Production). Local machine may use LocalHost; explicit `BITCODE_PIPELINE_HOST=local` is ignored on serverless |
-| Proof / QA artifacts | `.bitcode/*` and PROVEN outputs are **source-safe metadata only** — never real secrets |
+| Proof / QA artifacts | `.proofs/*` and PROVEN outputs are **source-safe metadata only** — never real secrets |
 
 ---
 
@@ -40,7 +40,7 @@ Related orientation (also non-canonical):
 1. **Never commit secrets** — service-role keys, GitHub App private keys, OAuth client secrets, wallet material, provider API keys, webhook secrets.
 2. **Never put service-role (or admin) keys in `NEXT_PUBLIC_*` or browser bundles.**
 3. **Never product-expose protected or unpaid source**, raw LLM prompts/responses, or private settlement payloads.
-4. **Never serialize real secrets into** `.bitcode/` proofs, gate reports, or marketing/docs fixtures.
+4. **Never serialize real secrets into** `.proofs/` proofs, gate reports, or marketing/docs fixtures.
 5. **Never enable value-bearing mainnet** until canon + BTD gates admit it.
 6. **Never treat `window.ethereum` as a Bitcoin wallet** (see `.docs/ETHEREUM.md`).
 7. **Never log full tokens, private keys, or full webhook secrets** — prefixes for debug only if unavoidable.
@@ -154,7 +154,7 @@ Source-safety is **not** optional polish; it is commercial law (SPEC + CONTRIBUT
 - Prefer **Unestimatable** over invented demand or revenue numbers.
 - Keep deposit synthesis (SDIVF), option review, and read preview paths on source-safe contracts (`packages/asset-packs-pipelines`, measurement packages).
 
-Proof generators and gate scripts must remain source-safe: no secret values, no raw repo bodies in `.bitcode/*`.
+Proof generators and gate scripts must remain source-safe: no secret values, no raw repo bodies in `.proofs/*`.
 
 ---
 

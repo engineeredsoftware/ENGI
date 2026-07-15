@@ -247,7 +247,7 @@ export async function writePromptIO(opts: {
 // directory, so it survives past /tmp getting cleared and is easy to find.
 // ------------------------------------------------------------
 
-const RAW_LLM_LOG_BASE_DIR = joinPath(os.homedir(), '.bitcode', 'logs', 'executions');
+const RAW_LLM_LOG_BASE_DIR = joinPath(os.homedir(), '.proofs', 'logs', 'executions');
 let __rawLLMIOSeq = 0;
 
 export async function writeRawLLMIO(opts: {

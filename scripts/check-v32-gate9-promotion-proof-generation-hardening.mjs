@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v32-promotion-proof-generation-hardening.json';
+const ARTIFACT = '.proofs/v32/promotion-proof-generation-hardening.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,

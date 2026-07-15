@@ -9,7 +9,7 @@ import { buildV33ReadLicenseAssetPackRightsContractsArtifact } from './generate-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-read-license-assetpack-rights-contracts.json';
+const ARTIFACT = '.proofs/v33/read-license-assetpack-rights-contracts.json';
 
 const REQUIRED_SURFACES = ['api', 'mcp', 'chatgpt_app', 'terminal'];
 const SECRET_MARKERS = [

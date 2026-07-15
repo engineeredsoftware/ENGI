@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 
-import conversationTelemetryProofHooksArtifact from '../../../../.bitcode/v37-conversation-telemetry-proof-hooks.json';
+import conversationTelemetryProofHooksArtifact from '../../../../.proofs/v37/conversation-telemetry-proof-hooks.json';
 import { redactPemPrivateKeyBlocks } from './secret-redaction';
 
 export type ConversationTelemetryEventFamily =

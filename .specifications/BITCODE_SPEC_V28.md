@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `1153286d0785b0d760ea392918575f0083cd570f`
 - Prior canonical anchor: `BITCODE_SPEC_V27.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, `.bitcode/v28-canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v28/spec-family-report.json`, `.proofs/v28/canonical-input-report.json`, `.proofs/v28/canon-posture-drift-report.json`, V28 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V28_PROVEN.md` as the generated proof appendix for V28 promotion
 - Source parity state: V28 source-side Protocol, Terminal, Reading pipeline, MCP/ChatGPT App, proof, workflow, and promotion surfaces are canonicalized in the promoted V28 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V27`
@@ -1358,7 +1358,7 @@ source-bound Read/Fit -> AssetPack -> Finish -> ledger readback gate.
 
 ### Depositing and asset supply
 
-Current canonical objects and emitted artifacts: source roots, source manifests, AssetPack evidence, `.bitcode/selected-source-material.json`.
+Current canonical objects and emitted artifacts: source roots, source manifests, AssetPack evidence, `.proofs/_shared/selected-source-material.json`.
 Current algorithms and derivation rules: source is admitted only through Read/Fit/proof and does not mint by deposit alone.
 Current invariants and fail-closed conditions: invalid deposit blocks downstream commitment.
 Current proof obligations: show repository/source scope and manifest roots.
@@ -1388,7 +1388,7 @@ Current accepted boundaries: V28 does not add broad market discovery.
 
 ### Selection and materialization
 
-Current canonical objects and emitted artifacts: selected AssetPack material, branch artifacts and assetPackEvidence, `.bitcode/asset-pack.lock.json`.
+Current canonical objects and emitted artifacts: selected AssetPack material, branch artifacts and assetPackEvidence, `.proofs/_shared/asset-pack.lock.json`.
 Current algorithms and derivation rules: selected source material must be replayable and materialized through admitted paths.
 Current invariants and fail-closed conditions: unverified materialization cannot imply settlement.
 Current proof obligations: selection and materialization must bind source roots, proof roots, and output contents.
@@ -1408,7 +1408,7 @@ Current accepted boundaries: value-bearing mainnet requires approval.
 
 ### Disclosure and projection
 
-Current canonical objects and emitted artifacts: public projection, private/metaphysical canonical facts, redaction policy, `.bitcode/projection-policy.json`.
+Current canonical objects and emitted artifacts: public projection, private/metaphysical canonical facts, redaction policy, `.proofs/_shared/projection-policy.json`.
 Current algorithms and derivation rules: projection, disclosure, and redaction separate public proof from private licensed reads.
 Current invariants and fail-closed conditions: public projection overexposure blocks disclosure.
 Current proof obligations: prove read-right branch and policy hash.
@@ -1418,7 +1418,7 @@ Current accepted boundaries: legal template finality is staged.
 
 ### Settlement and exact accounting
 
-Current canonical objects and emitted artifacts: measuremint receipt, allocation receipt, revenue route, Terminal journal, `.bitcode/source-to-shares.json`.
+Current canonical objects and emitted artifacts: measuremint receipt, allocation receipt, revenue route, Terminal journal, `.proofs/_shared/source-to-shares.json`.
 Current algorithms and derivation rules: settlement, source-to-shares, journals, and exact accounting conserve cells and sats.
 Current invariants and fail-closed conditions: settlement conservation drift blocks commitment.
 Current proof obligations: prove allocation totals, BTC fee asset, ledger finality, and reconciliation repair.
@@ -1428,11 +1428,11 @@ Current accepted boundaries: V29 owns broader market depth.
 
 ### Proof contract, witnesses, and replay
 
-Current canonical objects and emitted artifacts: proof families, members, theorems, witnesses, and replay; `.bitcode/system-proof-bundle.json`.
+Current canonical objects and emitted artifacts: proof families, members, theorems, witnesses, and replay; `.proofs/_shared/system-proof-bundle.json`.
 Current algorithms and derivation rules: proof replay must reconstruct the same visible Terminal state.
 Current invariants and fail-closed conditions: stale promoted status truth blocks promotion.
 Current proof obligations: bind V28 proof artifacts to implementation, tests, and operator surfaces.
-Current source-bearing implementation basis: protocol-demonstration proof generator and `.bitcode/v28-*` artifacts.
+Current source-bearing implementation basis: protocol-demonstration proof generator and `.proofs/v28/*` artifacts.
 Current validating commands and parity basis: spec-family, canon-posture, test, build, route, and diff checks.
 Current accepted boundaries: V28 PROVEN is generated only at promotion.
 
@@ -1442,8 +1442,8 @@ V28 inherits the Bitcode proof-family canon and adds commercial Protocol/Termina
 
 ## generated canon
 
-V28 generated canon begins with `.bitcode/v28-gate-1-draft-opening-proof.json`.
-Promotion must add `.bitcode/v28-spec-family-report.json`, `.bitcode/v28-canonical-input-report.json`, and `BITCODE_SPEC_V28_PROVEN.md`.
+V28 generated canon begins with `.proofs/v28/gate-1-draft-opening-proof.json`.
+Promotion must add `.proofs/v28/spec-family-report.json`, `.proofs/v28/canonical-input-report.json`, and `BITCODE_SPEC_V28_PROVEN.md`.
 
 ## validation canon
 
@@ -1495,19 +1495,19 @@ Canonical V28 surfaces include `/terminal`, `/auxillaries/*`, `/btd/[assetPackId
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v28-inference-synthesis-proof.json` | terminal-read-measurement | v28-terminal-read-proof | replay-terminal-read | prompt traces, source roots | Terminal Read/Fit reads |
-| Prompt-completeness | `.bitcode/v28-prompt-completeness-proof.json` | terminal-prompt-contract | v28-prompt-contract-proof | replay-prompt-contract | prompt inventory | prompt system and Read measurement |
-| Static-code-analysis | `.bitcode/v28-static-code-analysis-proof.json` | terminal-source-scan | v28-source-scan-proof | replay-source-scan | source manifests | source and package audits |
-| Verification-decisions | `.bitcode/v28-verification-decisions-proof.json` | fit-review-quality | v28-fit-quality-proof | replay-fit-quality | verification reports | Fit/verification routes |
-| Selection-and-materialization | `.bitcode/v28-selection-materialization-proof.json` | assetpack-range-detail | v28-range-detail-proof | replay-range-detail | AssetPack evidence | range and evidence surfaces |
-| Authorization-and-sensitive-flow | `.bitcode/v28-authorization-sensitive-flow-proof.json` | wallet-fee-access | v28-wallet-fee-proof | replay-wallet-fee | wallet and fee receipts | wallet, BTC fee, access routes |
-| Settlement-source-to-shares | `.bitcode/v28-settlement-source-to-shares-proof.json` | measuremint-journal-reconcile | v28-settlement-proof | replay-settlement | source-to-shares receipts | measuremint, allocation, journal, reconciliation |
-| Disclosure-boundary | `.bitcode/v28-disclosure-boundary-proof.json` | read-right-policy | v28-disclosure-proof | replay-disclosure | projection policies | access, policy, public/private reads |
-| Proof-contract | `.bitcode/v28-proof-contract-proof.json` | v28-proven-closure | v28-proof-contract | replay-proof-contract | V28 proof bundle | spec/proven generation |
+| Inference-synthesis | `.proofs/v28/inference-synthesis-proof.json` | terminal-read-measurement | v28-terminal-read-proof | replay-terminal-read | prompt traces, source roots | Terminal Read/Fit reads |
+| Prompt-completeness | `.proofs/v28/prompt-completeness-proof.json` | terminal-prompt-contract | v28-prompt-contract-proof | replay-prompt-contract | prompt inventory | prompt system and Read measurement |
+| Static-code-analysis | `.proofs/v28/static-code-analysis-proof.json` | terminal-source-scan | v28-source-scan-proof | replay-source-scan | source manifests | source and package audits |
+| Verification-decisions | `.proofs/v28/verification-decisions-proof.json` | fit-review-quality | v28-fit-quality-proof | replay-fit-quality | verification reports | Fit/verification routes |
+| Selection-and-materialization | `.proofs/v28/selection-materialization-proof.json` | assetpack-range-detail | v28-range-detail-proof | replay-range-detail | AssetPack evidence | range and evidence surfaces |
+| Authorization-and-sensitive-flow | `.proofs/v28/authorization-sensitive-flow-proof.json` | wallet-fee-access | v28-wallet-fee-proof | replay-wallet-fee | wallet and fee receipts | wallet, BTC fee, access routes |
+| Settlement-source-to-shares | `.proofs/v28/settlement-source-to-shares-proof.json` | measuremint-journal-reconcile | v28-settlement-proof | replay-settlement | source-to-shares receipts | measuremint, allocation, journal, reconciliation |
+| Disclosure-boundary | `.proofs/v28/disclosure-boundary-proof.json` | read-right-policy | v28-disclosure-proof | replay-disclosure | projection policies | access, policy, public/private reads |
+| Proof-contract | `.proofs/v28/proof-contract-proof.json` | v28-proven-closure | v28-proof-contract | replay-proof-contract | V28 proof bundle | spec/proven generation |
 
 ### Inference-synthesis
 
-proofArtifactPath: `.bitcode/v28-inference-synthesis-proof.json`
+proofArtifactPath: `.proofs/v28/inference-synthesis-proof.json`
 members: terminal Read measurement, Fit read, operator synthesis context.
 theoremIds: v28-terminal-read-proof.
 replayStepIds: replay-terminal-read.
@@ -1523,7 +1523,7 @@ fail-closed conditions: prompt contract incompleteness or missing source root.
 
 ### Prompt-completeness
 
-proofArtifactPath: `.bitcode/v28-prompt-completeness-proof.json`
+proofArtifactPath: `.proofs/v28/prompt-completeness-proof.json`
 members: Read prompts, Fit prompts, operator review prompts.
 theoremIds: v28-prompt-contract-proof.
 replayStepIds: replay-prompt-contract.
@@ -1539,7 +1539,7 @@ fail-closed conditions: missing parser contract.
 
 ### Static-code-analysis
 
-proofArtifactPath: `.bitcode/v28-static-code-analysis-proof.json`
+proofArtifactPath: `.proofs/v28/static-code-analysis-proof.json`
 members: source scan, route scan, residue scan.
 theoremIds: v28-source-scan-proof.
 replayStepIds: replay-source-scan.
@@ -1555,11 +1555,11 @@ fail-closed conditions: versioned route or active stale canon pointer.
 
 ### Verification-decisions
 
-proofArtifactPath: `.bitcode/v28-verification-decisions-proof.json`
+proofArtifactPath: `.proofs/v28/verification-decisions-proof.json`
 members: Fit review, validation decision, repair decision.
 theoremIds: v28-fit-quality-proof.
 replayStepIds: replay-fit-quality.
-witnessArtifactPaths: `.bitcode/verification-report.json`.
+witnessArtifactPaths: `.proofs/_shared/verification-report.json`.
 current member closure criteria: verification decisions are visible before settlement.
 current member verdict shape: accepted, rejected, remeasure, repair.
 current theorem-by-theorem closure reading: every accepted Fit has reviewable quality.
@@ -1571,11 +1571,11 @@ fail-closed conditions: no-survivor asset pack.
 
 ### Selection-and-materialization
 
-proofArtifactPath: `.bitcode/v28-selection-materialization-proof.json`
+proofArtifactPath: `.proofs/v28/selection-materialization-proof.json`
 members: AssetPack selection, range detail, materialized output.
 theoremIds: v28-range-detail-proof.
 replayStepIds: replay-range-detail.
-witnessArtifactPaths: `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`.
+witnessArtifactPaths: `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`.
 current member closure criteria: Terminal reads AssetPack range and materialized evidence.
 current member verdict shape: materialized, pending, blocked.
 current theorem-by-theorem closure reading: selected material binds to range proof.
@@ -1587,7 +1587,7 @@ fail-closed conditions: missing AssetPack evidence.
 
 ### Authorization-and-sensitive-flow
 
-proofArtifactPath: `.bitcode/v28-authorization-sensitive-flow-proof.json`
+proofArtifactPath: `.proofs/v28/authorization-sensitive-flow-proof.json`
 members: wallet, fee, policy, read-right.
 theoremIds: v28-wallet-fee-proof.
 replayStepIds: replay-wallet-fee.
@@ -1603,11 +1603,11 @@ fail-closed conditions: authorization denial.
 
 ### Settlement-source-to-shares
 
-proofArtifactPath: `.bitcode/v28-settlement-source-to-shares-proof.json`
+proofArtifactPath: `.proofs/v28/settlement-source-to-shares-proof.json`
 members: measuremint, allocation, revenue, journal, reconciliation.
 theoremIds: v28-settlement-proof.
 replayStepIds: replay-settlement.
-witnessArtifactPaths: `.bitcode/source-to-shares.json`.
+witnessArtifactPaths: `.proofs/_shared/source-to-shares.json`.
 current member closure criteria: Terminal reads exact accounting and drift status.
 current member verdict shape: conserved, drift, repaired, blocked.
 current theorem-by-theorem closure reading: cells and sats are conserved.
@@ -1619,11 +1619,11 @@ fail-closed conditions: settlement conservation drift.
 
 ### Disclosure-boundary
 
-proofArtifactPath: `.bitcode/v28-disclosure-boundary-proof.json`
+proofArtifactPath: `.proofs/v28/disclosure-boundary-proof.json`
 members: public proof, private read, licensed read, policy display.
 theoremIds: v28-disclosure-proof.
 replayStepIds: replay-disclosure.
-witnessArtifactPaths: `.bitcode/projection-policy.json`.
+witnessArtifactPaths: `.proofs/_shared/projection-policy.json`.
 current member closure criteria: Terminal separates public proof from private licensed reads.
 current member verdict shape: public, owner-read, licensed-read, denied, redacted.
 current theorem-by-theorem closure reading: access policy controls disclosure.
@@ -1635,11 +1635,11 @@ fail-closed conditions: public projection overexposure.
 
 ### Proof-contract
 
-proofArtifactPath: `.bitcode/v28-proof-contract-proof.json`
+proofArtifactPath: `.proofs/v28/proof-contract-proof.json`
 members: V28 SPEC family, proof appendix, promotion artifacts.
 theoremIds: v28-proof-contract.
 replayStepIds: replay-proof-contract.
-witnessArtifactPaths: `.bitcode/system-proof-bundle.json`.
+witnessArtifactPaths: `.proofs/_shared/system-proof-bundle.json`.
 current member closure criteria: V28 PROVEN binds all required proof families.
 current member verdict shape: draft, generated, promoted, failed.
 current theorem-by-theorem closure reading: every V28 theorem has replay and witness binding.
@@ -1663,14 +1663,14 @@ V28 continues to recognize inherited operator-quality artifacts as quality proof
 
 | artifact | status | role |
 | --- | --- | --- |
-| `.bitcode/v28-gate-1-draft-opening-proof.json` | present | draft-opening proof |
-| `.bitcode/v28-spec-family-report.json` | planned | spec-family validation |
-| `.bitcode/v28-canonical-input-report.json` | planned | canonical input validation |
+| `.proofs/v28/gate-1-draft-opening-proof.json` | present | draft-opening proof |
+| `.proofs/v28/spec-family-report.json` | planned | spec-family validation |
+| `.proofs/v28/canonical-input-report.json` | planned | canonical input validation |
 | `BITCODE_SPEC_V28_PROVEN.md` | planned | promotion appendix |
 
 ### V28 specifying generated artifacts
 
-V28 specifying generated artifacts include `.bitcode/v28-spec-family-report.json` and `.bitcode/v28-canonical-input-report.json`.
+V28 specifying generated artifacts include `.proofs/v28/spec-family-report.json` and `.proofs/v28/canonical-input-report.json`.
 
 ### Shared generated-artifact fields
 
@@ -1699,7 +1699,7 @@ Required validation includes:
 - `node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27`
 - `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28`
 - `find apps/uapi/app/api -path '*v[0-9]*' -print | sort`
-- `jq empty .bitcode/v28-*.json`
+- `jq empty .proofs/v28/*.json`
 - package/API/ORM/protocol-demonstration tests
 - Terminal UI and browser checks
 - `pnpm -C apps/uapi build`
@@ -1744,4 +1744,4 @@ Fail-closed cases include invalid deposit, prompt contract incompleteness, parse
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing AssetPack artifacts include `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V28_PROVEN.md`.
+Source-bearing AssetPack artifacts include `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V28_PROVEN.md`.

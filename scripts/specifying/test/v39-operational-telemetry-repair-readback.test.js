@@ -14,7 +14,7 @@ import {
 test('V39 operational telemetry repair readback report binds stream, repair, UI, and proof roots', () => {
   const report = buildV39OperationalTelemetryRepairReadback();
 
-  assert.equal(V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_ARTIFACT_PATH, '.bitcode/v39-operational-telemetry-repair-readback.json');
+  assert.equal(V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_ARTIFACT_PATH, '.proofs/v39/operational-telemetry-repair-readback.json');
   assert.equal(report.artifactId, 'v39-operational-telemetry-repair-readback');
   assert.equal(report.schemaId, V39_OPERATIONAL_TELEMETRY_REPAIR_READBACK_SCHEMA_ID);
   assert.equal(report.version, 'V39');

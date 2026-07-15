@@ -15,7 +15,7 @@ import {
 test('V44 economic domain model binds source-safe objects, receipts, and value labels', () => {
   const report = buildV44EconomicDomainModel();
 
-  assert.equal(V44_ECONOMIC_DOMAIN_MODEL_ARTIFACT_PATH, '.bitcode/v44-economic-domain-model.json');
+  assert.equal(V44_ECONOMIC_DOMAIN_MODEL_ARTIFACT_PATH, '.proofs/v44/economic-domain-model.json');
   assert.equal(report.artifactId, 'v44-economic-domain-model');
   assert.equal(report.schemaId, V44_ECONOMIC_DOMAIN_MODEL_SCHEMA_ID);
   assert.equal(report.version, 'V44');

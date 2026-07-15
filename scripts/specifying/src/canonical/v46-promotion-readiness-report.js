@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V46_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v46-promotion-readiness-report.json';
+  '.proofs/v46/promotion-readiness-report.json';
 export const V46_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v46.promotionReadinessReport.v1';
 export const V46_PROMOTION_READINESS_REPORT_VERSION = 'V46';
@@ -18,19 +18,19 @@ export const V46_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-v46-protocol-comprehension-promotion-metadata';
 
 export const V46_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v46-protocol-comprehension-object-model.json',
-  '.bitcode/v46-public-operator-claim-boundaries.json',
-  '.bitcode/v46-product-route-comprehension-readback.json',
-  '.bitcode/v46-interface-claim-contracts.json',
-  '.bitcode/v46-proof-readback-operator-explanation.json',
-  '.bitcode/v46-local-interface-comprehension-rehearsal.json',
+  '.proofs/v46/protocol-comprehension-object-model.json',
+  '.proofs/v46/public-operator-claim-boundaries.json',
+  '.proofs/v46/product-route-comprehension-readback.json',
+  '.proofs/v46/interface-claim-contracts.json',
+  '.proofs/v46/proof-readback-operator-explanation.json',
+  '.proofs/v46/local-interface-comprehension-rehearsal.json',
 ]);
 
 export const V46_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V46_PROVEN.md',
-  '.bitcode/v46-spec-family-report.json',
-  '.bitcode/v46-canonical-input-report.json',
-  '.bitcode/v46-canon-posture-drift-report.json',
+  '.proofs/v46/spec-family-report.json',
+  '.proofs/v46/canonical-input-report.json',
+  '.proofs/v46/canon-posture-drift-report.json',
   V46_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -396,7 +396,7 @@ export function buildV46PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V46_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v46-',
+      generatedArtifactPrefix: '.proofs/v46/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

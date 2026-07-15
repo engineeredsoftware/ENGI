@@ -1,0 +1,1377 @@
+{
+  "artifactId": "v35-documentation-surface-catalog",
+  "schemaId": "bitcode.v35.documentationSurfaceCatalog.v1",
+  "version": "V35",
+  "currentTarget": "V34",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-documentation-surface-metadata",
+  "disclosureBoundary": {
+    "publicDocsMayExpose": [
+      "guidance",
+      "measurements",
+      "proof_roots",
+      "fee_right_boundaries",
+      "source_safe_previews"
+    ],
+    "publicDocsMustNotExpose": [
+      "secret_values",
+      "wallet_private_material",
+      "provider_tokens",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "unpaid_assetpack_source"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredSurfaceIds": [
+      "canonical_spec_family",
+      "roadmap_contributor_governance",
+      "internal_codebase_docs",
+      "public_docs_surface",
+      "package_readmes",
+      "route_api_docs",
+      "api_interface_docs",
+      "generated_artifact_docs",
+      "deployment_operations_docs",
+      "telemetry_observability_docs",
+      "demonstration_docs",
+      "security_boundary_docs"
+    ],
+    "observedSurfaceIds": [
+      "canonical_spec_family",
+      "roadmap_contributor_governance",
+      "internal_codebase_docs",
+      "public_docs_surface",
+      "package_readmes",
+      "route_api_docs",
+      "api_interface_docs",
+      "generated_artifact_docs",
+      "deployment_operations_docs",
+      "telemetry_observability_docs",
+      "demonstration_docs",
+      "security_boundary_docs"
+    ],
+    "missingRequiredSurfaceIds": [],
+    "surfaceCount": 12,
+    "allRequiredSurfacesCovered": true,
+    "publicDocsRepresented": true,
+    "internalDocsRepresented": true,
+    "routeDocsRepresented": true,
+    "packageDocsRepresented": true,
+    "generatedArtifactsRepresented": true,
+    "apiInterfaceDocsRepresented": true,
+    "freshnessCheckCount": 12,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false
+  },
+  "requiredSurfaceIds": [
+    "canonical_spec_family",
+    "roadmap_contributor_governance",
+    "internal_codebase_docs",
+    "public_docs_surface",
+    "package_readmes",
+    "route_api_docs",
+    "api_interface_docs",
+    "generated_artifact_docs",
+    "deployment_operations_docs",
+    "telemetry_observability_docs",
+    "demonstration_docs",
+    "security_boundary_docs"
+  ],
+  "rows": [
+    {
+      "surfaceId": "canonical_spec_family",
+      "surfaceKind": "spec_family",
+      "audience": [
+        "contributors",
+        "operators",
+        "protocol_reviewers"
+      ],
+      "owner": "scripts/specifying",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "BITCODE_SPEC.txt",
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "BITCODE_SPECIFYING.md",
+        "BITCODE_SPEC_TEMPLATEGUIDE.md"
+      ],
+      "linkedSpecSections": [
+        "V35 source-of-truth hierarchy",
+        "V35 generated canon",
+        "V35 validation canon"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/spec-family-report.json",
+        ".proofs/v35/canonical-input-report.json",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "scripts/specifying/src/canonical/v21-specifying.js"
+      ],
+      "proofCoverage": [
+        "spec-family-check",
+        "canonical-input-check",
+        "canon-posture-drift-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "canonical_spec_family.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC.txt",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPECIFYING.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_TEMPLATEGUIDE.md",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:fa8906994c22dbfca63868e2"
+    },
+    {
+      "surfaceId": "roadmap_contributor_governance",
+      "surfaceKind": "governance_docs",
+      "audience": [
+        "contributors",
+        "reviewers"
+      ],
+      "owner": "repository-governance",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "SPECIFICATIONS_ROADMAP.md",
+        "AGENTS.md",
+        "README.md",
+        ".github/pull_request_template.md",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "linkedSpecSections": [
+        "V35 gate plan",
+        "V35 promotion canon"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "package.json",
+        "scripts/check-v35-gate2-documentation-surface-catalog.mjs"
+      ],
+      "proofCoverage": [
+        "gate-title-check",
+        "branch-posture-check",
+        "workflow-posture-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "roadmap_contributor_governance.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "AGENTS.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/pull_request_template.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:32d08e59b53900dd368bcf90"
+    },
+    {
+      "surfaceId": "internal_codebase_docs",
+      "surfaceKind": "internal_docs",
+      "audience": [
+        "contributors",
+        "operators",
+        "incident_responders"
+      ],
+      "owner": "internal-docs",
+      "disclosureClass": "internal_source_safe",
+      "sourceRoots": [
+        ".docs/README.md",
+        ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+        ".docs/BITCODE_AGENTIC_EXECUTION.md",
+        ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+        ".docs/DEPLOYMENT.md"
+      ],
+      "linkedSpecSections": [
+        "V35 system architecture and layer boundaries",
+        "V35 whole Bitcode operator chain"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "packages/agent-generics/README.md",
+        "packages/pipelines-generics/README.md"
+      ],
+      "proofCoverage": [
+        "internal-docs-source-root-check",
+        "operator-docs-freshness-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "internal_codebase_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:150e374b3b18ec6505c2673f"
+    },
+    {
+      "surfaceId": "public_docs_surface",
+      "surfaceKind": "public_docs",
+      "audience": [
+        "enterprise_readers",
+        "depositors",
+        "interface_consumers"
+      ],
+      "owner": "apps/uapi",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/DocsArticlePage.tsx",
+        "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx"
+      ],
+      "linkedSpecSections": [
+        "V35 accepted boundaries and reopen conditions",
+        "Appendix A. Canonical type and surface catalog"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "apps/uapi/app/docs/[slug]/page.tsx",
+        ".docs/api/conversations-openapi.yaml"
+      ],
+      "proofCoverage": [
+        "public-docs-disclosure-check",
+        "route-rendering-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "public_docs_surface.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/DocsArticlePage.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:35a355f812a41e6cb9764972"
+    },
+    {
+      "surfaceId": "package_readmes",
+      "surfaceKind": "package_docs",
+      "audience": [
+        "contributors",
+        "package_owners"
+      ],
+      "owner": "package-workspaces",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "scripts/specifying/README.md",
+        "packages/btd/README.md",
+        "packages/api/README.md",
+        "packages/asset-packs-pipelines/domain/README.md",
+        "packages/pipeline-hosts/README.md"
+      ],
+      "linkedSpecSections": [
+        "V35 proof/test package API and inherited support canon"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "scripts/specifying/src/index.js",
+        "packages/btd/src/index.ts",
+        "packages/api/src",
+        "packages/asset-packs-pipelines/domain/src"
+      ],
+      "proofCoverage": [
+        "package-boundary-test",
+        "workspace-typecheck"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "package_readmes.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/pipeline-hosts/README.md",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:d83aaaea4fa5b3e75f4e8775"
+    },
+    {
+      "surfaceId": "route_api_docs",
+      "surfaceKind": "route_docs",
+      "audience": [
+        "interface_consumers",
+        "operators"
+      ],
+      "owner": "apps/uapi",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/executions/stream/route.ts",
+        ".docs/api/conversations-openapi.yaml"
+      ],
+      "linkedSpecSections": [
+        "V35 system architecture and layer boundaries",
+        "V35 whole Bitcode operator chain"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/readReviewRoute.test.ts"
+      ],
+      "proofCoverage": [
+        "route-contract-test",
+        "terminal-harness-test"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "route_api_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:a074e7243557a2f39aae0715"
+    },
+    {
+      "surfaceId": "api_interface_docs",
+      "surfaceKind": "interface_docs",
+      "audience": [
+        "api_consumers",
+        "mcp_consumers",
+        "chatgpt_app_consumers"
+      ],
+      "owner": "interface-packages",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "packages/api/README.md",
+        "packages/mcp-generics/README.md",
+        "apps/chatgpt/README.md",
+        "apps/uapi/README.md",
+        ".docs/api/conversations-openapi.yaml"
+      ],
+      "linkedSpecSections": [
+        "V35 system architecture and layer boundaries",
+        "V35 proof/test package API and inherited support canon"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v33/interface-contract-catalog.json",
+        ".proofs/v33/mcp-api-tool-contracts.json",
+        ".proofs/v33/chatgpt-app-action-contracts.json",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "packages/mcp-generics/src/mcp-server",
+        "apps/chatgpt/src"
+      ],
+      "proofCoverage": [
+        "interface-contract-test",
+        "schema-compatibility-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "api_interface_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:3287d843cd852eea20a6c404"
+    },
+    {
+      "surfaceId": "generated_artifact_docs",
+      "surfaceKind": "generated_artifact_docs",
+      "audience": [
+        "protocol_reviewers",
+        "operators"
+      ],
+      "owner": "scripts/specifying",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        ".proofs/v34/deployment-host-capability-catalog.json",
+        ".proofs/v34/distributed-execution-runtime-receipts.json",
+        ".proofs/v34/deployment-storage-posture.json",
+        "scripts/specifying/src/canonical/v21-specifying.js",
+        "scripts/generate-bitcode-proven.mjs"
+      ],
+      "linkedSpecSections": [
+        "Appendix C. Generated artifact contract catalog",
+        "V35 generated canon"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/spec-family-report.json",
+        ".proofs/v35/canonical-input-report.json",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "scripts/check-bitcode-spec-family.mjs",
+        "scripts/check-bitcode-canonical-inputs.mjs"
+      ],
+      "proofCoverage": [
+        "generated-artifact-stability-check",
+        "diff-hygiene-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "generated_artifact_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".proofs/v34/deployment-host-capability-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/distributed-execution-runtime-receipts.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/deployment-storage-posture.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-bitcode-proven.mjs",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:a81d8b2dd30da92bf8d68bb7"
+    },
+    {
+      "surfaceId": "deployment_operations_docs",
+      "surfaceKind": "operator_docs",
+      "audience": [
+        "operators",
+        "incident_responders"
+      ],
+      "owner": "deployment-operations",
+      "disclosureClass": "internal_source_safe",
+      "sourceRoots": [
+        "infra/README.md",
+        ".docs/DEPLOYMENT.md",
+        "packages/externals/vercel/README.md",
+        "packages/supabase/README.md",
+        "packages/pipeline-hosts/README.md"
+      ],
+      "linkedSpecSections": [
+        "V35 whole Bitcode operator chain",
+        "V35 inherited deployment-depth notes"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v34/local-staging-testnet-deployment-rehearsal.json",
+        ".proofs/v34/rollback-upgrade-data-repair-playbooks.json",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "proofCoverage": [
+        "deployment-rehearsal-check",
+        "rollback-playbook-check"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "deployment_operations_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "infra/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/externals/vercel/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/supabase/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/pipeline-hosts/README.md",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:87f597ebe306ed7f5a0c3460"
+    },
+    {
+      "surfaceId": "telemetry_observability_docs",
+      "surfaceKind": "telemetry_docs",
+      "audience": [
+        "operators",
+        "pipeline_owners",
+        "incident_responders"
+      ],
+      "owner": "observability-packages",
+      "disclosureClass": "internal_source_safe",
+      "sourceRoots": [
+        "scripts/specifying/src/telemetry.js",
+        ".docs/BITCODE_EXECUTIONS.md",
+        ".docs/BITCODE_PROMPT_TRACE.md",
+        "packages/observability/README.md",
+        "packages/api/src/streams/README.md"
+      ],
+      "linkedSpecSections": [
+        "V35 proof-family canon",
+        "V35 validation canon"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v30/protocol-telemetry-proof-hooks.json",
+        ".proofs/v31/auxillaries-telemetry-proof-hooks.json",
+        ".proofs/v33/interface-telemetry-proof-hooks.json",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "apps/uapi/app/api/executions/stream/route.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
+      ],
+      "proofCoverage": [
+        "telemetry-proof-hook-check",
+        "stream-contract-test"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "telemetry_observability_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_EXECUTIONS.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_PROMPT_TRACE.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/observability/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/streams/README.md",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:8e5047963296cdc9c83f7ffd"
+    },
+    {
+      "surfaceId": "demonstration_docs",
+      "surfaceKind": "demonstration_docs",
+      "audience": [
+        "protocol_reviewers",
+        "contributors"
+      ],
+      "owner": "protocol-demonstration",
+      "disclosureClass": "public_source_safe",
+      "sourceRoots": [
+        "protocol-demonstration/README.md",
+        "protocol-demonstration/src/canon-posture.js",
+        "protocol-demonstration/test/v21-specifying.test.js",
+        "protocol-demonstration/test/v28-mvp-qa.test.js"
+      ],
+      "linkedSpecSections": [
+        "V35 accepted boundaries and reopen conditions"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "scripts/specifying/test/protocol-package-boundary.test.js"
+      ],
+      "proofCoverage": [
+        "demonstration-boundary-test",
+        "standalone-mvp-test"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "demonstration_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": "protocol-demonstration/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "protocol-demonstration/src/canon-posture.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "protocol-demonstration/test/v21-specifying.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "protocol-demonstration/test/v28-mvp-qa.test.js",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:c2a95644bde4e18df10d7f37"
+    },
+    {
+      "surfaceId": "security_boundary_docs",
+      "surfaceKind": "security_docs",
+      "audience": [
+        "operators",
+        "security_reviewers",
+        "contributors"
+      ],
+      "owner": "security-boundary",
+      "disclosureClass": "internal_source_safe",
+      "sourceRoots": [
+        ".docs/SECURITY.md",
+        "packages/security/README.md",
+        "packages/auth/README.md",
+        "packages/btd/README.md",
+        ".docs/AGENTS.md"
+      ],
+      "linkedSpecSections": [
+        "Identity, authorization, and sensitive flow",
+        "Disclosure and projection"
+      ],
+      "linkedGeneratedArtifacts": [
+        ".proofs/v34/secret-rotation-boundary-operations.json",
+        ".proofs/v33/interface-authorization-policy.json",
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "routePackageBindings": [
+        "apps/uapi/tests/protocolCommercialBoundary.test.ts",
+        "packages/btd/__tests__/interface-authorization-policy.test.ts"
+      ],
+      "proofCoverage": [
+        "secret-boundary-check",
+        "authorization-policy-test"
+      ],
+      "sourceSafetyClass": "source_safe_documentation_metadata",
+      "forbiddenContent": [
+        "secret_values",
+        "wallet_private_material",
+        "provider_tokens",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "unpaid_assetpack_source"
+      ],
+      "freshnessChecks": [
+        {
+          "checkId": "security_boundary_docs.source-roots-present",
+          "command": "pnpm run check:v35-documentation-surface-catalog",
+          "cadence": "per_gate",
+          "failClosedOn": [
+            "missing_source_root",
+            "stale_spec_token",
+            "missing_generated_artifact_binding",
+            "unsupported_disclosure_claim",
+            "source_unsafe_payload"
+          ]
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".docs/SECURITY.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/security/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/auth/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/AGENTS.md",
+          "present": true
+        }
+      ],
+      "rowRoot": "documentation-surface-row:29d4cb52da0e54a5aa447000"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "surfaceId": "canonical_spec_family",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC.txt",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPECIFYING.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_TEMPLATEGUIDE.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "roadmap_contributor_governance",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "AGENTS.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/pull_request_template.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-canon-quality.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "internal_codebase_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_ARCHITECTURE_PATTERNS.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "public_docs_surface",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/DocsArticlePage.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "package_readmes",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/asset-packs-pipelines/domain/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/pipeline-hosts/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "route_api_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "api_interface_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/api/conversations-openapi.yaml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "generated_artifact_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".proofs/v34/deployment-host-capability-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/distributed-execution-runtime-receipts.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/deployment-storage-posture.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-bitcode-proven.mjs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "deployment_operations_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "infra/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/externals/vercel/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/supabase/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/pipeline-hosts/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "telemetry_observability_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "scripts/specifying/src/telemetry.js",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_EXECUTIONS.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_PROMPT_TRACE.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/observability/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/src/streams/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "demonstration_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "protocol-demonstration/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "protocol-demonstration/src/canon-posture.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "protocol-demonstration/test/v21-specifying.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "protocol-demonstration/test/v28-mvp-qa.test.js",
+          "present": true
+        }
+      ]
+    },
+    {
+      "surfaceId": "security_boundary_docs",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".docs/SECURITY.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/security/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/auth/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/btd/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/AGENTS.md",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "documentation-surface-catalog:f308116aae6dd9fac99c8432"
+}

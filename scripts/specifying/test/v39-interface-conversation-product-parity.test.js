@@ -23,5 +23,5 @@ test('V39 interface and Conversation product parity artifact covers source-safe 
   assert.equal(artifact.coverage.rawProviderResponseVisible, false);
   assert.equal(artifact.coverage.unpaidAssetPackSourceVisible, false);
   assert.equal(artifact.coverage.credentialsSerialized, false);
-  assert.equal(V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ARTIFACT_PATH, '.bitcode/v39-interface-conversation-product-parity.json');
+  assert.equal(V39_INTERFACE_CONVERSATION_PRODUCT_PARITY_ARTIFACT_PATH, '.proofs/v39/interface-conversation-product-parity.json');
 });

@@ -189,8 +189,8 @@ function main() {
       );
       assertCheck(
         failures,
-        String(row.expectedArtifact || '').startsWith('.bitcode/v32-'),
-        `Row ${row.surfaceId} expectedArtifact must be a V32 .bitcode artifact path.`
+        String(row.expectedArtifact || '').startsWith('.proofs/v32/'),
+        `Row ${row.surfaceId} expectedArtifact must be a V32 .proofs/v32/ artifact path.`
       );
       assertCheck(
         failures,

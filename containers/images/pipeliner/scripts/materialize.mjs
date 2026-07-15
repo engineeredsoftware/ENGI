@@ -23,7 +23,7 @@ function buildDispatcherSource() {
  *   BITCODE_MONOREPO_ROOT (default /opt/bitcode)
  *
  * Live runners resolve monorepo packages via ../../packages from
- * /opt/bitcode/.bitcode/pipeline-host/ (see IMAGE_LAYOUT.txt).
+ * /opt/bitcode/.proofs/pipeline-host/ (see IMAGE_LAYOUT.txt).
  */
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
@@ -35,8 +35,8 @@ const mode = (process.env.BITCODE_PIPELINE_HOST_MODE || 'host_smoke').trim();
 const monorepoRoot = (process.env.BITCODE_MONOREPO_ROOT || '/opt/bitcode').trim();
 
 // Prefer sandbox-uploaded runners (hot-fixed by host plan), then image-baked.
-const sandboxRunnerDir = '/vercel/sandbox/.bitcode/pipeline-host';
-const imageRunnerDir = path.join(monorepoRoot, '.bitcode', 'pipeline-host');
+const sandboxRunnerDir = '/vercel/sandbox/.proofs/pipeline-host';
+const imageRunnerDir = path.join(monorepoRoot, '.proofs', 'pipeline-host');
 const localRunnerDir = __dirname;
 
 async function resolveRunner(name) {
@@ -100,11 +100,11 @@ async function main() {
     path.join(distDir, 'IMAGE_LAYOUT.txt'),
     [
       'Monorepo root in image: /opt/bitcode',
-      'Copy dist runners to: /opt/bitcode/.bitcode/pipeline-host/',
+      'Copy dist runners to: /opt/bitcode/.proofs/pipeline-host/',
       '  (so live runner ../../packages/* resolves)',
       'Dispatcher: /opt/bitcode/pipeline/run-pipeline.mjs',
       'Customer workspace: /vercel/sandbox (git source)',
-      'Manifest/artifacts: /vercel/sandbox/.bitcode/pipeline-host/',
+      'Manifest/artifacts: /vercel/sandbox/.proofs/pipeline-host/',
       '',
     ].join('\n'),
     'utf8',

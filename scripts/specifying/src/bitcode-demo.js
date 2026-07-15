@@ -202,15 +202,15 @@ const REQUIRED_SENSITIVE_DATA_CLASSES = [
   'bounded-public-proof-metadata'
 ];
 const V23_PRIVATE_ROOT_EXCLUSION_PATHS = new Set([
-  '.bitcode/proof-witness-manifest.json',
-  '.bitcode/system-proof-bundle.json',
-  '.bitcode/bitcoin-commitment-manifest.json',
-  '.bitcode/bitcoin-anchor.json',
-  '.bitcode/bitcoin-bounded-public-anchor.json',
-  '.bitcode/bitcoin-audit-anchor-proof.json',
-  '.bitcode/bitcoin-settlement-interface-proof.json',
-  '.bitcode/asset-pack-evidence.json',
-  '.bitcode/pipeline-telemetry.json'
+  '.proofs/_shared/proof-witness-manifest.json',
+  '.proofs/_shared/system-proof-bundle.json',
+  '.proofs/_shared/bitcoin-commitment-manifest.json',
+  '.proofs/_shared/bitcoin-anchor.json',
+  '.proofs/_shared/bitcoin-bounded-public-anchor.json',
+  '.proofs/_shared/bitcoin-audit-anchor-proof.json',
+  '.proofs/_shared/bitcoin-settlement-interface-proof.json',
+  '.proofs/_shared/asset-pack-evidence.json',
+  '.proofs/_shared/pipeline-telemetry.json'
 ]);
 
 /**
@@ -851,36 +851,36 @@ function buildStaticMeasurementProof(receipts = [], readMeasurement = null, eval
     'measurement-stages': summarizeStrings(coveredStageIds.filter((stageId) => stageId.includes('asset.measurement')))
   };
   const witnessArtifactPaths = [
-    '.bitcode/code-analysis-fact-registry.json',
-    '.bitcode/static-heuristics-registry.json',
-    '.bitcode/measurement-receipts.json',
-    '.bitcode/static-measurement-report.json',
-    '.bitcode/static-measurement-proof.json'
+    '.proofs/_shared/code-analysis-fact-registry.json',
+    '.proofs/_shared/static-heuristics-registry.json',
+    '.proofs/_shared/measurement-receipts.json',
+    '.proofs/_shared/static-measurement-report.json',
+    '.proofs/_shared/static-measurement-proof.json'
   ];
   const replayArtifacts = [
-    '.bitcode/code-analysis-fact-registry.json',
-    '.bitcode/static-heuristics-registry.json',
-    '.bitcode/measurement-receipts.json',
-    '.bitcode/static-measurement-report.json',
-    '.bitcode/static-measurement-proof.json'
+    '.proofs/_shared/code-analysis-fact-registry.json',
+    '.proofs/_shared/static-heuristics-registry.json',
+    '.proofs/_shared/measurement-receipts.json',
+    '.proofs/_shared/static-measurement-report.json',
+    '.proofs/_shared/static-measurement-proof.json'
   ];
   const replaySteps = [
     buildReplayStep({
       stepId: 'static-code-analysis.stage-domain',
       theoremIds: ['static_code_analysis.stage_domain_purity'],
-      requiredArtifactPaths: ['.bitcode/measurement-receipts.json', '.bitcode/static-measurement-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/measurement-receipts.json', '.proofs/_shared/static-measurement-proof.json'],
       instruction: 'Replay static-analysis stage coverage and fail on out-of-family verification stages.'
     }),
     buildReplayStep({
       stepId: 'static-code-analysis.stage-mapping',
       theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'],
-      requiredArtifactPaths: ['.bitcode/measurement-receipts.json', '.bitcode/code-analysis-fact-registry.json', '.bitcode/static-heuristics-registry.json'],
+      requiredArtifactPaths: ['.proofs/_shared/measurement-receipts.json', '.proofs/_shared/code-analysis-fact-registry.json', '.proofs/_shared/static-heuristics-registry.json'],
       instruction: 'Reconcile abstract static-analysis members to concrete receipt stages.'
     }),
     buildReplayStep({
       stepId: 'static-code-analysis.receipt-report-proof',
       theoremIds: ['static_code_analysis.receipt_report_proof_agreement', 'static_code_analysis.witness_replay_closure'],
-      requiredArtifactPaths: ['.bitcode/measurement-receipts.json', '.bitcode/static-measurement-report.json', '.bitcode/static-measurement-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/measurement-receipts.json', '.proofs/_shared/static-measurement-report.json', '.proofs/_shared/static-measurement-proof.json'],
       instruction: 'Recompute receipt resolution and compare report/proof agreement.'
     })
   ];
@@ -915,16 +915,16 @@ function buildStaticMeasurementProof(receipts = [], readMeasurement = null, eval
     'static_code_analysis.witness_replay_closure'
   ];
   const artifactBindings = [
-    buildArtifactBinding({ artifactPath: '.bitcode/code-analysis-fact-registry.json', role: 'registry', theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/measurement-receipts.json', role: 'receipt-log', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.receipt_report_proof_agreement', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/static-measurement-report.json', role: 'report', theoremIds: ['static_code_analysis.receipt_report_proof_agreement'], requiredForWitness: true, requiredForReplay: true }),
-    buildArtifactBinding({ artifactPath: '.bitcode/static-measurement-proof.json', role: 'primary-proof', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/code-analysis-fact-registry.json', role: 'registry', theoremIds: ['static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/static-heuristics-registry.json', role: 'registry', theoremIds: ['static_code_analysis.registry_role_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/measurement-receipts.json', role: 'receipt-log', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.abstract_to_concrete_stage_mapping', 'static_code_analysis.receipt_report_proof_agreement', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/static-measurement-report.json', role: 'report', theoremIds: ['static_code_analysis.receipt_report_proof_agreement'], requiredForWitness: true, requiredForReplay: true }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/static-measurement-proof.json', role: 'primary-proof', theoremIds: ['static_code_analysis.stage_domain_purity', 'static_code_analysis.witness_replay_closure'], requiredForWitness: true, requiredForReplay: true })
   ];
   const registryRoleClosed =
-    artifactBindings.some((binding) => binding.artifactPath === '.bitcode/code-analysis-fact-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
-    && artifactBindings.some((binding) => binding.artifactPath === '.bitcode/static-heuristics-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
-    && artifactBindings.some((binding) => binding.artifactPath === '.bitcode/measurement-receipts.json' && binding.role === 'receipt-log' && binding.requiredForWitness === true && binding.requiredForReplay === true);
+    artifactBindings.some((binding) => binding.artifactPath === '.proofs/_shared/code-analysis-fact-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
+    && artifactBindings.some((binding) => binding.artifactPath === '.proofs/_shared/static-heuristics-registry.json' && binding.role === 'registry' && binding.requiredForWitness === true && binding.requiredForReplay === true)
+    && artifactBindings.some((binding) => binding.artifactPath === '.proofs/_shared/measurement-receipts.json' && binding.role === 'receipt-log' && binding.requiredForWitness === true && binding.requiredForReplay === true);
   const proofClosure = computeProofClosure({
     artifactBindings,
     witnessArtifactPaths,
@@ -1080,7 +1080,7 @@ function buildCodeAnalysisFactRegistry({ read, evaluatedCandidates = [] }) {
     conformanceProfile: PROFILE_A,
     productionIntentProfile: PROFILE_B,
     registrySemantics: 'code-analysis-fact-registry',
-    specArtifactAliases: ['.bitcode/static-heuristics-registry.json'],
+    specArtifactAliases: ['.proofs/_shared/static-heuristics-registry.json'],
     registeredFactCount: registeredFacts.length,
     consumedFactCount: consumedFactIds.length,
     registeredFacts,
@@ -2679,10 +2679,10 @@ function buildExternalBoundaryManifest({
             reconciliationState: interfaceSummaryById['bitcoin-mainchain-execution']?.reconciliationState || null,
             telemetryCoverageState: interfaceSummaryById['bitcoin-mainchain-execution']?.telemetryCoverageState || null,
             artifactRefs: [
-              '.bitcode/bitcoin-network-intent.json',
-              '.bitcode/bitcoin-network-execution.json',
-              '.bitcode/bitcoin-network-observation.json',
-              '.bitcode/external-realization-proof.json'
+              '.proofs/_shared/bitcoin-network-intent.json',
+              '.proofs/_shared/bitcoin-network-execution.json',
+              '.proofs/_shared/bitcoin-network-observation.json',
+              '.proofs/_shared/external-realization-proof.json'
             ]
           },
           externalBoundary: {
@@ -2705,10 +2705,10 @@ function buildExternalBoundaryManifest({
             reconciliationState: interfaceSummaryById['repeated-read-payment-execution']?.reconciliationState || null,
             telemetryCoverageState: interfaceSummaryById['repeated-read-payment-execution']?.telemetryCoverageState || null,
             artifactRefs: [
-              '.bitcode/repeated-read-payment-intent.json',
-              '.bitcode/repeated-read-payment-execution.json',
-              '.bitcode/repeated-read-payment-observation.json',
-              '.bitcode/external-realization-proof.json'
+              '.proofs/_shared/repeated-read-payment-intent.json',
+              '.proofs/_shared/repeated-read-payment-execution.json',
+              '.proofs/_shared/repeated-read-payment-observation.json',
+              '.proofs/_shared/external-realization-proof.json'
             ]
           },
           externalBoundary: {
@@ -2731,8 +2731,8 @@ function buildExternalBoundaryManifest({
             reconciliationState: interfaceSummaryById['sidechain-execution']?.reconciliationState || null,
             telemetryCoverageState: interfaceSummaryById['sidechain-execution']?.telemetryCoverageState || null,
             artifactRefs: [
-              '.bitcode/sidechain-execution-receipt.json',
-              '.bitcode/external-realization-proof.json'
+              '.proofs/_shared/sidechain-execution-receipt.json',
+              '.proofs/_shared/external-realization-proof.json'
             ]
           },
           externalBoundary: {
@@ -2755,9 +2755,9 @@ function buildExternalBoundaryManifest({
             reconciliationState: interfaceSummaryById['compute-container-execution']?.reconciliationState || null,
             telemetryCoverageState: interfaceSummaryById['compute-container-execution']?.telemetryCoverageState || null,
             artifactRefs: [
-              '.bitcode/compute-container-manifest.json',
-              '.bitcode/compute-container-execution.json',
-              '.bitcode/container-reality-proof.json'
+              '.proofs/_shared/compute-container-manifest.json',
+              '.proofs/_shared/compute-container-execution.json',
+              '.proofs/_shared/container-reality-proof.json'
             ]
           },
           externalBoundary: {
@@ -2780,10 +2780,10 @@ function buildExternalBoundaryManifest({
             reconciliationState: interfaceSummaryById['storage-container-execution']?.reconciliationState || null,
             telemetryCoverageState: interfaceSummaryById['storage-container-execution']?.telemetryCoverageState || null,
             artifactRefs: [
-              '.bitcode/storage-container-manifest.json',
-              '.bitcode/storage-publication-receipt.json',
-              '.bitcode/storage-retrieval-receipt.json',
-              '.bitcode/container-reality-proof.json'
+              '.proofs/_shared/storage-container-manifest.json',
+              '.proofs/_shared/storage-publication-receipt.json',
+              '.proofs/_shared/storage-retrieval-receipt.json',
+              '.proofs/_shared/container-reality-proof.json'
             ]
           },
           externalBoundary: {
@@ -2807,12 +2807,12 @@ function buildExternalBoundaryManifest({
             reconciliationState: interfaceSummaryById['github-live-interface']?.reconciliationState || null,
             telemetryCoverageState: interfaceSummaryById['github-live-interface']?.telemetryCoverageState || null,
             artifactRefs: [
-              '.bitcode/github-live-session.json',
-              '.bitcode/github-inventory-fetch-receipt.json',
-              '.bitcode/github-artifact-fetch-receipt.json',
-              '.bitcode/github-branch-publication-receipt.json',
-              '.bitcode/github-pr-update-receipt.json',
-              '.bitcode/github-live-interface-proof.json'
+              '.proofs/_shared/github-live-session.json',
+              '.proofs/_shared/github-inventory-fetch-receipt.json',
+              '.proofs/_shared/github-artifact-fetch-receipt.json',
+              '.proofs/_shared/github-branch-publication-receipt.json',
+              '.proofs/_shared/github-pr-update-receipt.json',
+              '.proofs/_shared/github-live-interface-proof.json'
             ]
           },
           externalBoundary: {
@@ -2835,7 +2835,7 @@ function buildExternalBoundaryManifest({
             surface: `deterministic stubbed-testnet service assembles spend carriers and observation receipts bound to ${ACTIVE_PROJECT_LABEL} settlement refs`,
             serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
             serviceCapabilities: bitcoinDemonstrationService,
-            artifactRefs: ['.bitcode/bitcoin-settlement-intent.json', '.bitcode/bitcoin-settlement-observation.json', '.bitcode/bitcoin-treasury-policy.json']
+            artifactRefs: ['.proofs/_shared/bitcoin-settlement-intent.json', '.proofs/_shared/bitcoin-settlement-observation.json', '.proofs/_shared/bitcoin-treasury-policy.json']
           },
           externalBoundary: {
             implemented: false,
@@ -2853,7 +2853,7 @@ function buildExternalBoundaryManifest({
             surface: 'deterministic stubbed-testnet service assembles commitment publication envelopes and anchor receipts',
             serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
             serviceCapabilities: bitcoinDemonstrationService,
-            artifactRefs: ['.bitcode/bitcoin-commitment-manifest.json', '.bitcode/bitcoin-anchor.json', '.bitcode/bitcoin-bounded-public-anchor.json']
+            artifactRefs: ['.proofs/_shared/bitcoin-commitment-manifest.json', '.proofs/_shared/bitcoin-anchor.json', '.proofs/_shared/bitcoin-bounded-public-anchor.json']
           },
           externalBoundary: {
             implemented: false,
@@ -2872,7 +2872,7 @@ function buildExternalBoundaryManifest({
                 surface: 'deterministic stubbed-testnet service assembles sidechain checkpoint receipts and mainchain anchor requirements',
                 serviceMode: BITCOIN_DEMONSTRATION_SERVICE_MODE,
                 serviceCapabilities: bitcoinDemonstrationService,
-                artifactRefs: ['.bitcode/bitcoin-settlement-observation.json', '.bitcode/bitcoin-treasury-policy.json', '.bitcode/bitcoin-anchor.json']
+                artifactRefs: ['.proofs/_shared/bitcoin-settlement-observation.json', '.proofs/_shared/bitcoin-treasury-policy.json', '.proofs/_shared/bitcoin-anchor.json']
               },
               externalBoundary: {
                 implemented: false,
@@ -2902,49 +2902,49 @@ function buildExternalBoundaryManifest({
         interfaceId: 'github-app-auth',
         label: 'GitHub App auth + installation context',
         status: 'modeled-local-boundary',
-        localPrototype: { implemented: true, surface: 'modeled installation ID + repo binding only', artifactRefs: ['.bitcode/github-boundary.json', '.bitcode/external-boundary-manifest.json'] },
+        localPrototype: { implemented: true, surface: 'modeled installation ID + repo binding only', artifactRefs: ['.proofs/_shared/github-boundary.json', '.proofs/_shared/external-boundary-manifest.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['exchange app JWT for installation token', 'bind installation to buyer repo + branch permissions', 'record token expiry + scope envelope'], boundaryArtifacts: ['github.installation-binding', 'github.installation-token-envelope'] }
       }),
       buildExternalBoundaryInterface({
         interfaceId: 'workflow-artifact-fetch',
         label: 'Workflow artifact fetch + benchmark evidence',
         status: 'partially-localized',
-        localPrototype: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to read measurement', artifactRefs: ['.bitcode/read-measurement.json', '.bitcode/benchmark-target.json'] },
+        localPrototype: { implemented: true, surface: 'canonical run evidence is seeded locally and bound to read measurement', artifactRefs: ['.proofs/_shared/read-measurement.json', '.proofs/_shared/benchmark-target.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['fetch workflow artifacts by run ID', 'verify artifact media type + digest', 'normalize benchmark outputs fail-closed'], boundaryArtifacts: ['github.workflow-fetch-request', 'github.workflow-fetch-response', 'benchmark.canonical-output-manifest'] }
       }),
       buildExternalBoundaryInterface({
         interfaceId: 'branch-pr-actions',
         label: 'Branch / PR / comment / review actions',
         status: 'modeled-local-boundary',
-        localPrototype: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.bitcode/asset-pack-evidence.json', '.bitcode/profile-composition.json'] },
+        localPrototype: { implemented: true, surface: 'artifacts specify intended branch outputs without live writes', artifactRefs: ['.proofs/_shared/asset-pack-evidence.json', '.proofs/_shared/profile-composition.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['create/update branch', 'push materialized artifacts', 'open or update PR', 'publish comments / review annotations'], boundaryArtifacts: ['github.branch-action-request', 'github.pr-action-request', 'github.review-action-request'] }
       }),
       buildExternalBoundaryInterface({
         interfaceId: 'model-execution',
         label: 'Prompt execution + evaluator routing',
         status: 'implemented-as-stand-in',
-        localPrototype: { implemented: true, surface: 'deterministic stand-in evaluator and prompt replay metadata', artifactRefs: ['.bitcode/eval-manifest.json', '.bitcode/prompt-surfaces.json', '.bitcode/system-proof-bundle.json'] },
+        localPrototype: { implemented: true, surface: 'deterministic stand-in evaluator and prompt replay metadata', artifactRefs: ['.proofs/_shared/eval-manifest.json', '.proofs/_shared/prompt-surfaces.json', '.proofs/_shared/system-proof-bundle.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['select model/provider', 'execute prompt with trace capture', 'bind output to evaluator receipt + prompt hash'], boundaryArtifacts: ['model.execution-request', 'model.execution-receipt', 'model.trace-manifest'] }
       }),
       buildExternalBoundaryInterface({
         interfaceId: 'vector-store',
         label: 'Embedding + vector retrieval substrate',
         status: 'implemented-as-local-stand-in',
-        localPrototype: { implemented: true, surface: 'local deterministic vectors and recall contracts', artifactRefs: ['.bitcode/unit-catalog.json', '.bitcode/eval-manifest.json'] },
+        localPrototype: { implemented: true, surface: 'local deterministic vectors and recall contracts', artifactRefs: ['.proofs/_shared/unit-catalog.json', '.proofs/_shared/eval-manifest.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['upsert embedding documents', 'execute filtered similarity search', 'bind vector space/version metadata'], boundaryArtifacts: ['vector.upsert-manifest', 'vector.search-request', 'vector.search-response'] }
       }),
       buildExternalBoundaryInterface({
         interfaceId: 'signer-verification',
         label: 'Signer / identity verification',
         status: 'modeled-local-boundary',
-        localPrototype: { implemented: true, surface: 'modeled signer bindings, attestation checks, and policy gates', artifactRefs: ['.bitcode/identity-bindings.json', '.bitcode/verification-report.json'] },
+        localPrototype: { implemented: true, surface: 'modeled signer bindings, attestation checks, and policy gates', artifactRefs: ['.proofs/_shared/identity-bindings.json', '.proofs/_shared/verification-report.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['resolve signer identity', 'verify attestation chain', 'bind signer to org / repo authority'], boundaryArtifacts: ['identity.resolve-request', 'identity.verification-receipt', 'signer.authority-binding'] }
       }),
       buildExternalBoundaryInterface({
         interfaceId: 'settlement-network-effects',
         label: 'Settlement execution + network effects',
         status: 'implemented-as-local-accounting-only',
-        localPrototype: { implemented: true, surface: 'deterministic journal diff + exact accounting invariants', artifactRefs: ['.bitcode/settlement-preview.json', '.bitcode/settlement-proof.json', '.bitcode/journal-diff.json'] },
+        localPrototype: { implemented: true, surface: 'deterministic journal diff + exact accounting invariants', artifactRefs: ['.proofs/_shared/settlement-preview.json', '.proofs/_shared/settlement-proof.json', '.proofs/_shared/journal-diff.json'] },
         externalBoundary: { implemented: false, requiredForLive: true, contract: ['submit settlement transaction', 'wait for network confirmation', 'publish claim / redemption events'], boundaryArtifacts: ['settlement.execution-request', 'settlement.execution-receipt', 'settlement.network-observation'] }
       }),
       ...draftRealizationInterfaces,
@@ -3088,7 +3088,7 @@ function buildPolicyState() {
       },
       'bitcode-system-principal': {
         'read:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal materializes private artifacts.`] },
-        'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} branch materializer may stage selected source material under .bitcode/source-material/.`] },
+        'materialize:selected-source-material': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} branch materializer may stage selected source material under .proofs/source-material/.`] },
         'settle:journal-event': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} settlement engine executes deterministic journal settlement.`] },
         'review:measured-read': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} read-review gate may accept, reject, or request remeasurement before fit search.`] },
         'write:private-branch': { allow: true, policyRef: DEFAULT_POLICY_REF, reasons: [`${ACTIVE_PROJECT_LABEL} system principal stages remediation artifacts.`] },
@@ -3303,7 +3303,7 @@ export function makeCandidateAsset(input) {
       mode: input.bindingMode || 'read-only-mounted-copy',
       confidentiality: 'private-required',
       mutableInBranch: !!input.mutableInBranch,
-      materializationRoot: `.bitcode/source-material/${assetId}`
+      materializationRoot: `.proofs/source-material/${assetId}`
     },
     contentRoot,
     contentUnits,
@@ -4744,11 +4744,11 @@ function buildAuthorizationDecisions(policyState, bindings, buyer, branchName, a
   return [
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `github-app-installation:${buyer.installationId}`), 'read:repo-artifact-inventory', buyer.repo, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'read:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.bitcode/source-material`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'materialize:selected-source-material', `${branchName}/.proofs/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === `buyer:${buyer.buyerId}`), 'settle:journal-event', assetPack.assetPackId, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:read-review'), 'review:measured-read', `${assetPack.assetPackId}#read-review`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'write:private-branch', branchName, policyState),
-    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.bitcode/source-material`, policyState),
+    makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:branch-materializer'), 'materialize:selected-source-material', `${branchName}/.proofs/source-material`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:settlement-engine'), 'settle:journal-event', assetPack.assetPackId, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'bitcode-system:proof-publisher'), 'derive:bounded-public-proof-metadata', `${branchName}#bounded-proof`, policyState),
     makeAuthorizationDecision(bindings.find((/** @type {any} */ binding) => binding.principalId === 'reviewer:security'), 'read:private-branch', branchName, policyState),
@@ -4782,7 +4782,7 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       recordId: `flow_${sha256(`${branchName}:verification`).slice(0, 10)}`,
       dataClass: 'verification-evidence',
       fromSurface: `${buyer.repo}@${buyer.buyerBranch}`,
-      toSurface: `${branchName}/.bitcode/verification-report.json`,
+      toSurface: `${branchName}/.proofs/_shared/verification-report.json`,
       transformation: 'verification-report-materialization',
       authorizedPrincipals: ['bitcode-system:read-measurement', 'bitcode-system:branch-materializer'],
       retentionPolicyId: 'retention/private-remediation-30d',
@@ -4792,8 +4792,8 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
     {
       recordId: `flow_${sha256(`${branchName}:read-review`).slice(0, 10)}`,
       dataClass: 'private-proof-artifact',
-      fromSurface: `${branchName}/.bitcode/read-measurement.json`,
-      toSurface: `${branchName}/.bitcode/read-review.json`,
+      fromSurface: `${branchName}/.proofs/_shared/read-measurement.json`,
+      toSurface: `${branchName}/.proofs/_shared/read-review.json`,
       transformation: 'post-measurement-pre-fit-read-review',
       authorizedPrincipals: ['bitcode-system:read-review'],
       retentionPolicyId: 'retention/private-remediation-30d',
@@ -4804,7 +4804,7 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
       recordId: `flow_${sha256(`${branchName}:licensed-source`).slice(0, 10)}`,
       dataClass: 'licensed-source-material',
       fromSurface: assetPack.assetPackId,
-      toSurface: `${branchName}/.bitcode/source-material/`,
+      toSurface: `${branchName}/.proofs/source-material/`,
       transformation: 'source-material-mount',
       authorizedPrincipals: [`buyer:${buyer.buyerId}`, 'bitcode-system:branch-materializer'],
       retentionPolicyId: 'retention/private-remediation-30d',
@@ -4825,8 +4825,8 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
     {
       recordId: `flow_${sha256(`${branchName}:settlement-preview`).slice(0, 10)}`,
       dataClass: 'settlement-preview',
-      fromSurface: `${branchName}/.bitcode/asset-pack.lock.json`,
-      toSurface: `${branchName}/.bitcode/settlement-preview.json`,
+      fromSurface: `${branchName}/.proofs/_shared/asset-pack.lock.json`,
+      toSurface: `${branchName}/.proofs/_shared/settlement-preview.json`,
       transformation: 'settlement-preview-derivation',
       authorizedPrincipals: ['bitcode-system:settlement-engine'],
       retentionPolicyId: 'retention/private-remediation-30d',
@@ -4836,8 +4836,8 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
     {
       recordId: `flow_${sha256(`${branchName}:private-proof`).slice(0, 10)}`,
       dataClass: 'private-proof-artifact',
-      fromSurface: `${branchName}/.bitcode/journal-diff.json`,
-      toSurface: `${branchName}/.bitcode/system-proof-bundle.json`,
+      fromSurface: `${branchName}/.proofs/_shared/journal-diff.json`,
+      toSurface: `${branchName}/.proofs/_shared/system-proof-bundle.json`,
       transformation: 'cross-proof-bundle-assembly',
       authorizedPrincipals: ['bitcode-system:settlement-engine', 'bitcode-system:proof-publisher'],
       retentionPolicyId: 'retention/private-remediation-30d',
@@ -4847,7 +4847,7 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
     {
       recordId: `flow_${sha256(`${branchName}:bounded-proof`).slice(0, 10)}`,
       dataClass: 'bounded-public-proof-metadata',
-      fromSurface: `${branchName}/.bitcode/system-proof-bundle.json`,
+      fromSurface: `${branchName}/.proofs/_shared/system-proof-bundle.json`,
       toSurface: 'bounded-public-proof-surface',
       transformation: 'bounded-proof-summary-projection',
       authorizedPrincipals: ['bitcode-system:proof-publisher'],
@@ -4871,16 +4871,16 @@ function buildSensitiveDataFlowRecords(policyState, buyer, branchName, assetPack
 function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCandidates, { v23BitcoinEnabled = false } = {}) {
   const v23ArtifactClasses = v23BitcoinEnabled
     ? [
-        { path: '.bitcode/compute-reality-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/storage-reality-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-commitment-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-treasury-policy.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-anchor.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-bounded-public-anchor.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-        { path: '.bitcode/bitcoin-settlement-intent.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-settlement-observation.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-audit-anchor-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-        { path: '.bitcode/bitcoin-settlement-interface-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false }
+        { path: '.proofs/_shared/compute-reality-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/storage-reality-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-commitment-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-treasury-policy.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-anchor.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-bounded-public-anchor.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+        { path: '.proofs/_shared/bitcoin-settlement-intent.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-settlement-observation.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-audit-anchor-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+        { path: '.proofs/_shared/bitcoin-settlement-interface-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false }
       ]
     : [];
   return {
@@ -4893,64 +4893,64 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
     productionIntentProfile: PROFILE_B,
     confidentialityDefault: 'private-required',
     artifactClasses: [
-      { path: '.bitcode/read.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
-      { path: '.bitcode/read-review.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/depositing-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/reading-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/deposit-to-read-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/match-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/verification-report.json', sensitiveDataClass: 'verification-evidence', disclosable: false },
-      { path: '.bitcode/authorization-decisions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/sensitive-data-flow.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/policy-release.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/identity-bindings.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/asset-pack.lock.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/selected-source-material.json', sensitiveDataClass: 'licensed-source-material', disclosable: false },
-      { path: '.bitcode/prompt-family-registry.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/prompt-surfaces.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/prompt-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/inference-moment-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/inference-proofs.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/inference-synthesis-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/prompt-implementation-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/prompt-completeness-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/parsed-completion-envelopes.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/eval-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/external-boundary-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/measurement-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/static-measurement-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/static-measurement-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/verification-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/verification-decisions-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/selection-consistency-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/selection-and-materialization-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/materialization-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/materialization-exclusions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/proof-witness-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/materialization-visibility-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/identity-authorization-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/sensitive-data-flow-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/authorization-and-sensitive-flow-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/projection-policy.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/bounded-public-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/redaction-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/disclosure-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/disclosure-boundary-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/source-to-shares.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/settlement-participation.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
-      { path: '.bitcode/accounting-precision-report.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/journal-diff.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/journal-completeness-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/settlement-source-to-shares-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/scenario-fixture-manifest.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/test-coverage-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
-      { path: '.bitcode/source-material/', sensitiveDataClass: 'licensed-source-material', disclosable: false },
-      { path: '.bitcode/settlement-preview.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
-      { path: '.bitcode/settlement-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/proof-contract.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
-      { path: '.bitcode/system-proof-bundle.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/read.json', sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false },
+      { path: '.proofs/_shared/read-review.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/depositing-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/reading-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/deposit-to-read-surface.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/match-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/verification-report.json', sensitiveDataClass: 'verification-evidence', disclosable: false },
+      { path: '.proofs/_shared/authorization-decisions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/sensitive-data-flow.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/policy-release.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/identity-bindings.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/asset-pack.lock.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/selected-source-material.json', sensitiveDataClass: 'licensed-source-material', disclosable: false },
+      { path: '.proofs/_shared/prompt-family-registry.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/prompt-surfaces.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/prompt-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/inference-moment-contracts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/inference-proofs.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/inference-synthesis-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/prompt-implementation-surface.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/prompt-completeness-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/parsed-completion-envelopes.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/code-analysis-fact-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/static-heuristics-registry.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/eval-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/external-boundary-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/measurement-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/static-measurement-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/static-measurement-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/verification-receipts.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/verification-decisions-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/selection-consistency-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/selection-and-materialization-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/materialization-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/materialization-exclusions.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/proof-witness-manifest.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/materialization-visibility-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/identity-authorization-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/sensitive-data-flow-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/authorization-and-sensitive-flow-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/projection-policy.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/bounded-public-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/redaction-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/disclosure-proof.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/disclosure-boundary-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/source-to-shares.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/settlement-participation.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
+      { path: '.proofs/_shared/accounting-precision-report.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/journal-diff.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/journal-completeness-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/settlement-source-to-shares-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/scenario-fixture-manifest.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/_shared/test-coverage-report.json', sensitiveDataClass: 'bounded-public-proof-metadata', disclosable: true },
+      { path: '.proofs/source-material/', sensitiveDataClass: 'licensed-source-material', disclosable: false },
+      { path: '.proofs/_shared/settlement-preview.json', sensitiveDataClass: 'settlement-preview', disclosable: false },
+      { path: '.proofs/_shared/settlement-proof.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/proof-contract.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
+      { path: '.proofs/_shared/system-proof-bundle.json', sensitiveDataClass: 'private-proof-artifact', disclosable: false },
       ...v23ArtifactClasses,
       { path: BRANCH_READ_PATH, sensitiveDataClass: 'private-branch-derived-artifact', disclosable: false }
     ],
@@ -4958,24 +4958,24 @@ function buildBranchPolicyRelease(policyState, branchName, assetPack, selectedCa
       {
         retentionPolicyId: 'retention/private-remediation-30d',
         appliesTo: [
-          '.bitcode/source-material/',
-          '.bitcode/read-review.json',
-          '.bitcode/settlement-preview.json',
-          '.bitcode/settlement-proof.json',
-          '.bitcode/compute-reality-manifest.json',
-          '.bitcode/storage-reality-manifest.json',
-          '.bitcode/bitcoin-commitment-manifest.json',
-          '.bitcode/bitcoin-treasury-policy.json',
-          '.bitcode/bitcoin-anchor.json',
-          '.bitcode/bitcoin-settlement-intent.json',
-          '.bitcode/bitcoin-settlement-observation.json',
-          '.bitcode/bitcoin-audit-anchor-proof.json',
-          '.bitcode/bitcoin-settlement-interface-proof.json',
+          '.proofs/source-material/',
+          '.proofs/_shared/read-review.json',
+          '.proofs/_shared/settlement-preview.json',
+          '.proofs/_shared/settlement-proof.json',
+          '.proofs/_shared/compute-reality-manifest.json',
+          '.proofs/_shared/storage-reality-manifest.json',
+          '.proofs/_shared/bitcoin-commitment-manifest.json',
+          '.proofs/_shared/bitcoin-treasury-policy.json',
+          '.proofs/_shared/bitcoin-anchor.json',
+          '.proofs/_shared/bitcoin-settlement-intent.json',
+          '.proofs/_shared/bitcoin-settlement-observation.json',
+          '.proofs/_shared/bitcoin-audit-anchor-proof.json',
+          '.proofs/_shared/bitcoin-settlement-interface-proof.json',
           BRANCH_READ_PATH
         ],
         ttlDays: 30
       },
-      { retentionPolicyId: 'retention/bounded-public-365d', appliesTo: ['bounded-public-proof-surface', '.bitcode/bitcoin-bounded-public-anchor.json'], ttlDays: 365 }
+      { retentionPolicyId: 'retention/bounded-public-365d', appliesTo: ['bounded-public-proof-surface', '.proofs/_shared/bitcoin-bounded-public-anchor.json'], ttlDays: 365 }
     ],
     revocationRules: {
       revokedIssuerBlocksNewSettlement: true,
@@ -5011,19 +5011,19 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
   const inventoryBackedCandidates = selectedCandidates.filter((/** @type {any} */ candidate) => (candidate.asset.artifactSelectionSurface?.selectedInventoryEntryIds || []).length > 0);
   const allAccessBoundToKnownPrincipals = authorizationDecisions.every((/** @type {any} */ decision) => bindings.some((/** @type {any} */ binding) => binding.principalId === decision.principalId));
   const allStateChangingActionsAuthorized = authorizationDecisions.filter((/** @type {any} */ decision) => decision.action === 'settle:journal-event' || decision.action === 'write:private-branch' || decision.action === 'materialize:selected-source-material' || decision.action === 'review:measured-read').every((/** @type {any} */ decision) => decision.decision === 'allow');
-  const witnessArtifactPaths = ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/identity-authorization-proof.json'];
+  const witnessArtifactPaths = ['.proofs/_shared/identity-bindings.json', '.proofs/_shared/authorization-decisions.json', '.proofs/_shared/identity-authorization-proof.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'identity-authorization.principal-bindings',
       theoremIds: ['authorization_and_sensitive_flow.principal_authority_totality'],
-      requiredArtifactPaths: ['.bitcode/identity-bindings.json', '.bitcode/identity-authorization-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/identity-bindings.json', '.proofs/_shared/identity-authorization-proof.json'],
       instruction: 'Replay principal binding closure against identity bindings and authorization decisions.'
     }),
     buildReplayStep({
       stepId: 'identity-authorization.state-actions',
       theoremIds: ['authorization_and_sensitive_flow.authorization_decision_closure'],
-      requiredArtifactPaths: ['.bitcode/authorization-decisions.json', '.bitcode/identity-authorization-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/authorization-decisions.json', '.proofs/_shared/identity-authorization-proof.json'],
       instruction: 'Replay state-changing authorization and asset-signing closure.'
     })
   ];
@@ -5086,9 +5086,9 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
     },
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.bitcode/identity-bindings.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/authorization-decisions.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/identity-authorization-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/identity-bindings.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/authorization-decisions.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/identity-authorization-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,
@@ -5119,13 +5119,13 @@ function buildIdentityAuthorizationProof(branchName, authorizationDecisions, bin
  */
 function buildSensitiveDataFlowProof(records) {
   const coveredClasses = new Set(records.map((/** @type {any} */ record) => record.dataClass));
-  const witnessArtifactPaths = ['.bitcode/sensitive-data-flow.json', '.bitcode/sensitive-data-flow-proof.json'];
+  const witnessArtifactPaths = ['.proofs/_shared/sensitive-data-flow.json', '.proofs/_shared/sensitive-data-flow-proof.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'authorization-sensitive-flow.sensitive-flow-replay',
       theoremIds: ['authorization_and_sensitive_flow.classification_closure', 'authorization_and_sensitive_flow.policy_assignment_closure', 'authorization_and_sensitive_flow.no_unauthorized_public_flow'],
-      requiredArtifactPaths: ['.bitcode/sensitive-data-flow.json', '.bitcode/sensitive-data-flow-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/sensitive-data-flow.json', '.proofs/_shared/sensitive-data-flow-proof.json'],
       instruction: 'Replay sensitive-data-flow classification, policy assignment, and unauthorized-public-flow checks.'
     })
   ];
@@ -5168,8 +5168,8 @@ function buildSensitiveDataFlowProof(records) {
     },
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.bitcode/sensitive-data-flow.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.bitcode/sensitive-data-flow-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/sensitive-data-flow.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/sensitive-data-flow-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
     ],
     replaySteps,
     witnessArtifactPaths,
@@ -5204,19 +5204,19 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
     { memberId: 'issuer-policy', stageIds: memberStageMap['issuer-policy'], passed: verificationFamilies.includes('issuer-policy') },
     { memberId: 'use-tier-consequence', stageIds: memberStageMap['use-tier-consequence'], passed: (verificationReport?.assetVerification || []).every((/** @type {any} */ entry) => !!entry.useTier && !!entry.verificationDecisionSurface?.finalUseTier) }
   ];
-  const witnessArtifactPaths = ['.bitcode/verification-report.json', '.bitcode/verification-receipts.json', '.bitcode/verification-decisions-proof.json'];
+  const witnessArtifactPaths = ['.proofs/_shared/verification-report.json', '.proofs/_shared/verification-receipts.json', '.proofs/_shared/verification-decisions-proof.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'verification-decisions.stage-mapping',
       theoremIds: ['verification_decisions.issuance_closure', 'verification_decisions.provenance_closure', 'verification_decisions.sufficiency_closure', 'verification_decisions.issuer_policy_closure'],
-      requiredArtifactPaths: ['.bitcode/verification-receipts.json', '.bitcode/verification-report.json'],
+      requiredArtifactPaths: ['.proofs/_shared/verification-receipts.json', '.proofs/_shared/verification-report.json'],
       instruction: 'Replay verification decision stages against verification report entries.'
     }),
     buildReplayStep({
       stepId: 'verification-decisions.use-tier-consequence',
       theoremIds: ['verification_decisions.use_tier_consequence_closure', 'verification_decisions.receipt_report_role_closure'],
-      requiredArtifactPaths: ['.bitcode/verification-receipts.json', '.bitcode/verification-report.json', '.bitcode/verification-decisions-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/verification-receipts.json', '.proofs/_shared/verification-report.json', '.proofs/_shared/verification-decisions-proof.json'],
       instruction: 'Replay use-tier consequence closure from raw receipts into report-facing rights.'
     })
   ];
@@ -5230,9 +5230,9 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
     'verification_decisions.witness_replay_closure'
   ];
   const artifactBindings = [
-    buildArtifactBinding({ artifactPath: '.bitcode/verification-report.json', role: 'report', theoremIds }),
-    buildArtifactBinding({ artifactPath: '.bitcode/verification-receipts.json', role: 'receipt-log', theoremIds }),
-    buildArtifactBinding({ artifactPath: '.bitcode/verification-decisions-proof.json', role: 'primary-proof', theoremIds })
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/verification-report.json', role: 'report', theoremIds }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/verification-receipts.json', role: 'receipt-log', theoremIds }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/verification-decisions-proof.json', role: 'primary-proof', theoremIds })
   ];
   const proofClosure = computeProofClosure({
     artifactBindings,
@@ -5305,26 +5305,26 @@ function buildVerificationDecisionsProof(verificationReport, verificationReceipt
  */
 function buildSelectionAndMaterializationProof(selectionConsistencyProof, materializationProof, materializationExclusions, materializationVisibilityProof) {
   const witnessArtifactPaths = [
-    '.bitcode/asset-pack.lock.json',
-    '.bitcode/selected-source-material.json',
-    '.bitcode/materialization-exclusions.json',
-    '.bitcode/materialization-visibility-proof.json',
-    '.bitcode/selection-consistency-proof.json',
-    '.bitcode/materialization-proof.json',
-    '.bitcode/selection-and-materialization-proof.json'
+    '.proofs/_shared/asset-pack.lock.json',
+    '.proofs/_shared/selected-source-material.json',
+    '.proofs/_shared/materialization-exclusions.json',
+    '.proofs/_shared/materialization-visibility-proof.json',
+    '.proofs/_shared/selection-consistency-proof.json',
+    '.proofs/_shared/materialization-proof.json',
+    '.proofs/_shared/selection-and-materialization-proof.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'selection-and-materialization.selected-set',
       theoremIds: ['selection_and_materialization.selected_asset_closure', 'selection_and_materialization.lock_closure', 'selection_and_materialization.materialized_source_closure', 'selection_and_materialization.selection_consistency_closure'],
-      requiredArtifactPaths: ['.bitcode/asset-pack.lock.json', '.bitcode/selected-source-material.json', '.bitcode/selection-consistency-proof.json', '.bitcode/materialization-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/asset-pack.lock.json', '.proofs/_shared/selected-source-material.json', '.proofs/_shared/selection-consistency-proof.json', '.proofs/_shared/materialization-proof.json'],
       instruction: 'Replay selected asset consistency across asset pack, selection consistency, and materialization proof.'
     }),
     buildReplayStep({
       stepId: 'selection-and-materialization.visibility',
       theoremIds: ['selection_and_materialization.visibility_closure', 'selection_and_materialization.exclusion_closure'],
-      requiredArtifactPaths: ['.bitcode/materialization-exclusions.json', '.bitcode/materialization-visibility-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/materialization-exclusions.json', '.proofs/_shared/materialization-visibility-proof.json'],
       instruction: 'Replay exclusions and visibility closure for materialized source.'
     })
   ];
@@ -5403,25 +5403,25 @@ function buildSelectionAndMaterializationProof(selectionConsistencyProof, materi
  */
 function buildAuthorizationAndSensitiveFlowProof(identityAuthorizationProof, sensitiveDataFlowProof) {
   const witnessArtifactPaths = [
-    '.bitcode/identity-bindings.json',
-    '.bitcode/authorization-decisions.json',
-    '.bitcode/sensitive-data-flow.json',
-    '.bitcode/identity-authorization-proof.json',
-    '.bitcode/sensitive-data-flow-proof.json',
-    '.bitcode/authorization-and-sensitive-flow-proof.json'
+    '.proofs/_shared/identity-bindings.json',
+    '.proofs/_shared/authorization-decisions.json',
+    '.proofs/_shared/sensitive-data-flow.json',
+    '.proofs/_shared/identity-authorization-proof.json',
+    '.proofs/_shared/sensitive-data-flow-proof.json',
+    '.proofs/_shared/authorization-and-sensitive-flow-proof.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'authorization-sensitive-flow.identity',
       theoremIds: ['authorization_and_sensitive_flow.principal_authority_totality', 'authorization_and_sensitive_flow.authorization_decision_closure'],
-      requiredArtifactPaths: ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/identity-authorization-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/identity-bindings.json', '.proofs/_shared/authorization-decisions.json', '.proofs/_shared/identity-authorization-proof.json'],
       instruction: 'Replay principal binding and authorization-decision closure.'
     }),
     buildReplayStep({
       stepId: 'authorization-sensitive-flow.flows',
       theoremIds: ['authorization_and_sensitive_flow.classification_closure', 'authorization_and_sensitive_flow.policy_assignment_closure', 'authorization_and_sensitive_flow.no_unauthorized_public_flow'],
-      requiredArtifactPaths: ['.bitcode/sensitive-data-flow.json', '.bitcode/sensitive-data-flow-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/sensitive-data-flow.json', '.proofs/_shared/sensitive-data-flow-proof.json'],
       instruction: 'Replay sensitive-data classification, policy assignment, and no-unauthorized-public-flow closure.'
     })
   ];
@@ -5540,15 +5540,15 @@ export function buildProofContract({
     ...(v23BitcoinEnabled ? ['bitcoin-audit-anchor', 'bitcoin-settlement-interface'] : [])
   ];
   const evidenceChain = [
-    { stage: 'read-measurement-and-review', artifactRefs: ['.bitcode/read.json', '.bitcode/read-measurement.json', '.bitcode/read-review.json', '.bitcode/benchmark-target.json'], claim: 'The engineering read is derived fail-closed from canonical benchmark evidence and accepted before any fit search begins.' },
-    { stage: 'ranking-and-verification', artifactRefs: ['.bitcode/match-report.json', '.bitcode/verification-report.json', '.bitcode/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
-    { stage: 'identity-and-boundaries', artifactRefs: ['.bitcode/identity-bindings.json', '.bitcode/authorization-decisions.json', '.bitcode/github-boundary.json', '.bitcode/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
-    { stage: 'materialization', artifactRefs: ['.bitcode/asset-pack.lock.json', '.bitcode/selected-source-material.json', '.bitcode/materialization-visibility-proof.json', BRANCH_READ_PATH], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
-    { stage: 'settlement-and-proof', artifactRefs: ['.bitcode/settlement-preview.json', '.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/accounting-precision-report.json', '.bitcode/settlement-proof.json', '.bitcode/journal-diff.json', '.bitcode/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable from source contribution to journal entry.' },
+    { stage: 'read-measurement-and-review', artifactRefs: ['.proofs/_shared/read.json', '.proofs/_shared/read-measurement.json', '.proofs/_shared/read-review.json', '.proofs/_shared/benchmark-target.json'], claim: 'The engineering read is derived fail-closed from canonical benchmark evidence and accepted before any fit search begins.' },
+    { stage: 'ranking-and-verification', artifactRefs: ['.proofs/_shared/match-report.json', '.proofs/_shared/verification-report.json', '.proofs/_shared/prompt-surfaces.json'], claim: 'Candidate ranking, prompt lineage, and verification tiers are all inspectable.' },
+    { stage: 'identity-and-boundaries', artifactRefs: ['.proofs/_shared/identity-bindings.json', '.proofs/_shared/authorization-decisions.json', '.proofs/_shared/github-boundary.json', '.proofs/_shared/external-boundary-manifest.json'], claim: 'Identity, signer, auth, and external boundaries are distinct and bound.' },
+    { stage: 'materialization', artifactRefs: ['.proofs/_shared/asset-pack.lock.json', '.proofs/_shared/selected-source-material.json', '.proofs/_shared/materialization-visibility-proof.json', BRANCH_READ_PATH], claim: 'Only allowed assets and units are materialized into the private remediation branch.' },
+    { stage: 'settlement-and-proof', artifactRefs: ['.proofs/_shared/settlement-preview.json', '.proofs/_shared/source-to-shares.json', '.proofs/_shared/settlement-participation.json', '.proofs/_shared/accounting-precision-report.json', '.proofs/_shared/settlement-proof.json', '.proofs/_shared/journal-diff.json', '.proofs/_shared/system-proof-bundle.json'], claim: 'Settlement and proof closure are exact-accounting, theorem-checked, and replayable from source contribution to journal entry.' },
     ...(v23BitcoinEnabled
       ? [{
           stage: 'deployment-and-anchor',
-          artifactRefs: ['.bitcode/compute-reality-manifest.json', '.bitcode/storage-reality-manifest.json', '.bitcode/bitcoin-settlement-intent.json', '.bitcode/bitcoin-settlement-observation.json', '.bitcode/bitcoin-commitment-manifest.json', '.bitcode/bitcoin-anchor.json'],
+          artifactRefs: ['.proofs/_shared/compute-reality-manifest.json', '.proofs/_shared/storage-reality-manifest.json', '.proofs/_shared/bitcoin-settlement-intent.json', '.proofs/_shared/bitcoin-settlement-observation.json', '.proofs/_shared/bitcoin-commitment-manifest.json', '.proofs/_shared/bitcoin-anchor.json'],
           claim: `Deployment-facing compute, storage, spend, and audit-anchor realities are explicit, typed, and bound to the same ${ACTIVE_PROJECT_LABEL} proof and settlement closure.`
         }]
       : []),
@@ -5556,11 +5556,11 @@ export function buildProofContract({
       ? [{
           stage: 'external-execution-continuity',
           artifactRefs: [
-            '.bitcode/external-environment-profile.json',
-            '.bitcode/external-telemetry-summary.json',
-            '.bitcode/external-execution-ledger.json',
-            '.bitcode/external-reconciliation-log.json',
-            '.bitcode/external-realization-proof.json'
+            '.proofs/_shared/external-environment-profile.json',
+            '.proofs/_shared/external-telemetry-summary.json',
+            '.proofs/_shared/external-execution-ledger.json',
+            '.proofs/_shared/external-reconciliation-log.json',
+            '.proofs/_shared/external-realization-proof.json'
           ],
           claim: 'Realized external execution remains mode-isolated, continuity-tracked, and fail-closed across consecutive observed runs.'
         }]
@@ -5576,28 +5576,28 @@ export function buildProofContract({
     ...(v23BitcoinEnabled ? [`bitcoin-facing spend and anchor surfaces bind back to the same ${ACTIVE_PROJECT_LABEL} proof and settlement identifiers`] : []),
     ...(v24ExternalEnabled ? ['external execution continuity remains mode-isolated and replayable across consecutive runs'] : [])
   ];
-  const witnessArtifactPaths = ['.bitcode/proof-contract.json', '.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json'];
+  const witnessArtifactPaths = ['.proofs/_shared/proof-contract.json', '.proofs/_shared/system-proof-bundle.json', '.proofs/_shared/proof-witness-manifest.json'];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'proof-contract.contract-materialization',
       theoremIds: ['proof_contract.contract_materialization'],
-      requiredArtifactPaths: ['.bitcode/proof-contract.json'],
+      requiredArtifactPaths: ['.proofs/_shared/proof-contract.json'],
       instruction: 'Replay proof-contract materialization from read, asset pack, and branch identity.'
     }),
     buildReplayStep({
       stepId: 'proof-contract.evidence-chain',
       theoremIds: ['proof_contract.evidence_chain_closure', 'proof_contract.theorem_check_binding'],
       requiredArtifactPaths: [
-        '.bitcode/proof-contract.json',
-        '.bitcode/system-proof-bundle.json',
+        '.proofs/_shared/proof-contract.json',
+        '.proofs/_shared/system-proof-bundle.json',
         ...(v24ExternalEnabled
           ? [
-              '.bitcode/external-environment-profile.json',
-              '.bitcode/external-telemetry-summary.json',
-              '.bitcode/external-execution-ledger.json',
-              '.bitcode/external-reconciliation-log.json',
-              '.bitcode/external-realization-proof.json'
+              '.proofs/_shared/external-environment-profile.json',
+              '.proofs/_shared/external-telemetry-summary.json',
+              '.proofs/_shared/external-execution-ledger.json',
+              '.proofs/_shared/external-reconciliation-log.json',
+              '.proofs/_shared/external-realization-proof.json'
             ]
           : [])
       ],
@@ -5606,7 +5606,7 @@ export function buildProofContract({
     buildReplayStep({
       stepId: 'proof-contract.bundle-witness',
       theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'],
-      requiredArtifactPaths: ['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json', '.bitcode/proof-contract.json'],
+      requiredArtifactPaths: ['.proofs/_shared/system-proof-bundle.json', '.proofs/_shared/proof-witness-manifest.json', '.proofs/_shared/proof-contract.json'],
       instruction: 'Replay bundle coherence and witness-manifest coherence against the proof contract.'
     })
   ];
@@ -5619,16 +5619,16 @@ export function buildProofContract({
     'proof_contract.replay_closure'
   ];
   const artifactBindings = [
-    buildArtifactBinding({ artifactPath: '.bitcode/proof-contract.json', role: 'primary-proof', theoremIds }),
-    buildArtifactBinding({ artifactPath: '.bitcode/system-proof-bundle.json', role: 'bundle', theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.replay_closure'] }),
-    buildArtifactBinding({ artifactPath: '.bitcode/proof-witness-manifest.json', role: 'witness-manifest', theoremIds: ['proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'] })
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/proof-contract.json', role: 'primary-proof', theoremIds }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/system-proof-bundle.json', role: 'bundle', theoremIds: ['proof_contract.bundle_coherence', 'proof_contract.replay_closure'] }),
+    buildArtifactBinding({ artifactPath: '.proofs/_shared/proof-witness-manifest.json', role: 'witness-manifest', theoremIds: ['proof_contract.witness_manifest_coherence', 'proof_contract.replay_closure'] })
   ];
   const contractMaterializationClosed = !!readId && !!assetPackId && !!branchName;
   const evidenceChainClosed = evidenceChain.length === (v23BitcoinEnabled ? 6 : 5) && evidenceChain.every((entry) => (entry.artifactRefs || []).length > 0 && !!entry.claim);
   const theoremCheckBindingClosed = theoremChecks.length >= 6
-    && artifactBindings.some((binding) => binding.artifactPath === '.bitcode/proof-contract.json' && binding.role === 'primary-proof')
-    && artifactBindings.some((binding) => binding.artifactPath === '.bitcode/system-proof-bundle.json' && binding.role === 'bundle')
-    && artifactBindings.some((binding) => binding.artifactPath === '.bitcode/proof-witness-manifest.json' && binding.role === 'witness-manifest');
+    && artifactBindings.some((binding) => binding.artifactPath === '.proofs/_shared/proof-contract.json' && binding.role === 'primary-proof')
+    && artifactBindings.some((binding) => binding.artifactPath === '.proofs/_shared/system-proof-bundle.json' && binding.role === 'bundle')
+    && artifactBindings.some((binding) => binding.artifactPath === '.proofs/_shared/proof-witness-manifest.json' && binding.role === 'witness-manifest');
   const bundleProofFamilies = summarizeAnnotationStrings(systemProofBundleSummary?.proofFamilies || []);
   const witnessProofFamilies = summarizeAnnotationStrings(proofWitnessManifestSummary?.proofFamilies || []);
   const bundleCoherenceClosed = !!systemProofBundleSummary
@@ -5766,27 +5766,27 @@ export function buildProofContract({
  */
 function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementParticipationArtifact, settlementPreview, accountingPrecisionReport, journalCompletenessProof, settlementProof) {
   const witnessArtifactPaths = [
-    '.bitcode/source-to-shares.json',
-    '.bitcode/settlement-participation.json',
-    '.bitcode/settlement-preview.json',
-    '.bitcode/accounting-precision-report.json',
-    '.bitcode/journal-diff.json',
-    '.bitcode/journal-completeness-proof.json',
-    '.bitcode/settlement-proof.json',
-    '.bitcode/settlement-source-to-shares-proof.json'
+    '.proofs/_shared/source-to-shares.json',
+    '.proofs/_shared/settlement-participation.json',
+    '.proofs/_shared/settlement-preview.json',
+    '.proofs/_shared/accounting-precision-report.json',
+    '.proofs/_shared/journal-diff.json',
+    '.proofs/_shared/journal-completeness-proof.json',
+    '.proofs/_shared/settlement-proof.json',
+    '.proofs/_shared/settlement-source-to-shares-proof.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'settlement-source-to-shares.contribution-allocation',
       theoremIds: ['settlement_source_to_shares.contribution_totality', 'settlement_source_to_shares.clipping_determinism', 'settlement_source_to_shares.normalization_exactness', 'settlement_source_to_shares.participation_totality', 'settlement_source_to_shares.allocation_conservation', 'settlement_source_to_shares.quantized_fit_quality_receipting'],
-      requiredArtifactPaths: ['.bitcode/source-to-shares.json', '.bitcode/settlement-participation.json', '.bitcode/settlement-preview.json', '.bitcode/accounting-precision-report.json'],
+      requiredArtifactPaths: ['.proofs/_shared/source-to-shares.json', '.proofs/_shared/settlement-participation.json', '.proofs/_shared/settlement-preview.json', '.proofs/_shared/accounting-precision-report.json'],
       instruction: 'Replay contribution, clipping, normalization, participation, quantized fit-quality presentation, receipting, and exact allocation closure.'
     }),
     buildReplayStep({
       stepId: 'settlement-source-to-shares.journal-theorem',
       theoremIds: ['settlement_source_to_shares.journal_completeness', 'settlement_source_to_shares.settlement_theorem_integrity'],
-      requiredArtifactPaths: ['.bitcode/journal-diff.json', '.bitcode/journal-completeness-proof.json', '.bitcode/settlement-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/journal-diff.json', '.proofs/_shared/journal-completeness-proof.json', '.proofs/_shared/settlement-proof.json'],
       instruction: 'Replay journal completeness and theorem-bearing settlement closure separately.'
     })
   ];
@@ -5843,24 +5843,24 @@ function buildSettlementSourceToSharesProof(sourceToSharesArtifact, settlementPa
  */
 function buildDisclosureBoundaryProof(projectionPolicy, boundedPublicProof, redactionProof, disclosureProof) {
   const witnessArtifactPaths = [
-    '.bitcode/projection-policy.json',
-    '.bitcode/bounded-public-proof.json',
-    '.bitcode/redaction-proof.json',
-    '.bitcode/disclosure-proof.json',
-    '.bitcode/disclosure-boundary-proof.json'
+    '.proofs/_shared/projection-policy.json',
+    '.proofs/_shared/bounded-public-proof.json',
+    '.proofs/_shared/redaction-proof.json',
+    '.proofs/_shared/disclosure-proof.json',
+    '.proofs/_shared/disclosure-boundary-proof.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'disclosure-boundary.policy-bounded-public',
       theoremIds: ['disclosure_boundary.projection_policy_closure', 'disclosure_boundary.bounded_public_metadata_only'],
-      requiredArtifactPaths: ['.bitcode/projection-policy.json', '.bitcode/bounded-public-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/projection-policy.json', '.proofs/_shared/bounded-public-proof.json'],
       instruction: 'Replay projection policy and bounded-public closure.'
     }),
     buildReplayStep({
       stepId: 'disclosure-boundary.redaction-disclosure',
       theoremIds: ['disclosure_boundary.redaction_alignment', 'disclosure_boundary.disclosure_verdict_alignment', 'disclosure_boundary.witness_replay_closure'],
-      requiredArtifactPaths: ['.bitcode/redaction-proof.json', '.bitcode/disclosure-proof.json', '.bitcode/disclosure-boundary-proof.json'],
+      requiredArtifactPaths: ['.proofs/_shared/redaction-proof.json', '.proofs/_shared/disclosure-proof.json', '.proofs/_shared/disclosure-boundary-proof.json'],
       instruction: 'Replay redaction and disclosure alignment against policy and bounded-public truth.'
     })
   ];
@@ -6737,19 +6737,19 @@ export function runMakeBitcodeBranch(state, input = {}) {
       paymentMode,
       externalBoundaryManifest,
       proofArtifactRefs: [
-        '.bitcode/system-proof-bundle.json',
-        '.bitcode/proof-witness-manifest.json',
-        '.bitcode/proof-contract.json',
-        '.bitcode/disclosure-boundary-proof.json',
-        '.bitcode/settlement-proof.json'
+        '.proofs/_shared/system-proof-bundle.json',
+        '.proofs/_shared/proof-witness-manifest.json',
+        '.proofs/_shared/proof-contract.json',
+        '.proofs/_shared/disclosure-boundary-proof.json',
+        '.proofs/_shared/settlement-proof.json'
       ],
       settlementArtifactRefs: [
-        '.bitcode/settlement-preview.json',
-        '.bitcode/source-to-shares.json',
-        '.bitcode/settlement-participation.json',
-        '.bitcode/accounting-precision-report.json',
-        '.bitcode/journal-diff.json',
-        '.bitcode/settlement-proof.json'
+        '.proofs/_shared/settlement-preview.json',
+        '.proofs/_shared/source-to-shares.json',
+        '.proofs/_shared/settlement-participation.json',
+        '.proofs/_shared/accounting-precision-report.json',
+        '.proofs/_shared/journal-diff.json',
+        '.proofs/_shared/settlement-proof.json'
       ]
     });
     storageRealityManifest = buildStorageRealityManifest({
@@ -6781,11 +6781,11 @@ export function runMakeBitcodeBranch(state, input = {}) {
     );
     const artifactPayloadByPath = {
       ...existingArtifactPayloadByPath,
-      '.bitcode/compute-reality-manifest.json': computeRealityManifest,
-      '.bitcode/storage-reality-manifest.json': storageRealityManifest,
-      '.bitcode/bitcoin-treasury-policy.json': bitcoinTreasuryPolicy,
-      '.bitcode/bitcoin-settlement-intent.json': bitcoinSettlementIntent,
-      '.bitcode/bitcoin-settlement-observation.json': bitcoinSettlementObservation
+      '.proofs/_shared/compute-reality-manifest.json': computeRealityManifest,
+      '.proofs/_shared/storage-reality-manifest.json': storageRealityManifest,
+      '.proofs/_shared/bitcoin-treasury-policy.json': bitcoinTreasuryPolicy,
+      '.proofs/_shared/bitcoin-settlement-intent.json': bitcoinSettlementIntent,
+      '.proofs/_shared/bitcoin-settlement-observation.json': bitcoinSettlementObservation
     };
     const existingProofFamiliesByPath = Object.fromEntries(
       Object.entries(proofWitnessManifest?.artifactDigestByPath || {}).map(([path, entry]) => [
@@ -6795,11 +6795,11 @@ export function runMakeBitcodeBranch(state, input = {}) {
     );
     const proofFamiliesByPath = {
       ...existingProofFamiliesByPath,
-      '.bitcode/compute-reality-manifest.json': ['bitcoin-settlement-interface'],
-      '.bitcode/storage-reality-manifest.json': ['bitcoin-audit-anchor'],
-      '.bitcode/bitcoin-treasury-policy.json': ['bitcoin-audit-anchor', 'bitcoin-settlement-interface'],
-      '.bitcode/bitcoin-settlement-intent.json': ['bitcoin-settlement-interface'],
-      '.bitcode/bitcoin-settlement-observation.json': ['bitcoin-settlement-interface']
+      '.proofs/_shared/compute-reality-manifest.json': ['bitcoin-settlement-interface'],
+      '.proofs/_shared/storage-reality-manifest.json': ['bitcoin-audit-anchor'],
+      '.proofs/_shared/bitcoin-treasury-policy.json': ['bitcoin-audit-anchor', 'bitcoin-settlement-interface'],
+      '.proofs/_shared/bitcoin-settlement-intent.json': ['bitcoin-settlement-interface'],
+      '.proofs/_shared/bitcoin-settlement-observation.json': ['bitcoin-settlement-interface']
     };
     const assetPackEvidenceByPath = Object.fromEntries(
       (assetPackEvidenceManifest?.assetPackEvidence || []).map((entry) => [entry.path, entry])

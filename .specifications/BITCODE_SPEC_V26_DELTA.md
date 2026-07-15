@@ -11,7 +11,7 @@
 - Canonical proof-source commit: `9d0733fed5f63d2f977900384d4103f9fd887f03`
 - Prior canonical anchor: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25.md`
 - Prior generated proof appendix: `/Users/garrettmaring/Developer/ENGI/_legacy/ENGI_SPEC_V25_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v26-spec-family-report.json`, `.bitcode/v26-canonical-input-report.json`, `.bitcode/v26-gate-checkpoint-report.json`, `.bitcode/conversations-continuity-proof.json`, `.bitcode/runs-pipelines-totality-proof.json`, `.bitcode/persistence-schema-totality-proof.json`, `.bitcode/prompt-system-totality-proof.json`, `.bitcode/inference-implementation-records-proof.json`, `.bitcode/fourth-gate-reclosure-review-proof.json`, `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/v26-product-readiness-audit.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, `.bitcode/fifth-gate-closure-proof.json`, `.bitcode/sixth-gate-mvp-closure-proof.json`, `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/retained-package-admissibility-proof.json`, `.bitcode/system-reform-admissibility-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, `.bitcode/v26-total-closure-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
+- Generated structured artifact inventory: active canonical `.proofs/v19/*` reproducible reports, `.proofs/v20/*` operator-quality reports, `.proofs/v26/spec-family-report.json`, `.proofs/v26/canonical-input-report.json`, `.proofs/v26/gate-checkpoint-report.json`, `.proofs/_shared/conversations-continuity-proof.json`, `.proofs/_shared/runs-pipelines-totality-proof.json`, `.proofs/_shared/persistence-schema-totality-proof.json`, `.proofs/_shared/prompt-system-totality-proof.json`, `.proofs/_shared/inference-implementation-records-proof.json`, `.proofs/_shared/fourth-gate-reclosure-review-proof.json`, `.proofs/_shared/source-to-shares-fifth-gate-proof.json`, `.proofs/v26/product-readiness-audit.json`, `.proofs/_shared/fifth-gate-closure-deepening-proof.json`, `.proofs/_shared/fifth-gate-closure-proof.json`, `.proofs/_shared/sixth-gate-mvp-closure-proof.json`, `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`, `.proofs/_shared/prompt-space-completeness-proof.json`, `.proofs/_shared/retained-package-admissibility-proof.json`, `.proofs/_shared/system-reform-admissibility-proof.json`, `.proofs/_shared/whole-repository-production-satisfaction-proof.json`, `.proofs/v26/total-closure-proof.json`, and `BITCODE_SPEC_V26_PROVEN.md`
 - Spec companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26.md`
 - Notes companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_NOTES.md`
 - Parity companion: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC_V26_PARITY_MATRIX.md`
@@ -127,7 +127,7 @@ The following examples define how DELTA color should be read:
 | commercial Terminal/Exchange application | `apps/uapi/app/application/*`, `apps/uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
 | execution-history ledger write/read loop | `apps/uapi/app/application/application-activity-history.ts`, `apps/uapi/app/api/executions/history/route.ts`, `packages/api/src/routes/executions.ts` | converts retained execution-history storage from a generic run log into the Bitcode Terminal activity ledger write/read seam, where deposit/read/closure writes persist as completed Bitcode activity and reread through the same Exchange route family |
 | Read-fitting Exchange/Terminal review seam | `protocol-demonstration/server.js`, `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/app/application/ApplicationReadScenarioPanel.tsx` | promotes the post-measurement/pre-fit review from a raw branch artifact into an Exchange `readFittingReview` payload that Terminal renders before candidate recall, fit search, AssetPack assembly, and present-fit settlement review |
-| product readiness auditing | `.bitcode/v26-product-readiness-audit.json`, `protocol-demonstration/src/canonical/v26-product-readiness-audit.js` | converts the parity matrix plus Exchange-lite/Terminal-lite/commercial source evidence into an explicit readiness map that proves fifth-gate closure and sixth-gate MVP readiness while refusing launch or V26 definition-of-read overclaims |
+| product readiness auditing | `.proofs/v26/product-readiness-audit.json`, `protocol-demonstration/src/canonical/v26-product-readiness-audit.js` | converts the parity matrix plus Exchange-lite/Terminal-lite/commercial source evidence into an explicit readiness map that proves fifth-gate closure and sixth-gate MVP readiness while refusing launch or V26 definition-of-read overclaims |
 | AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Reads, synthesize AssetPack contents, store Exchange evidence, Finish results, and use the GitHub pull-request delivery mechanism; old public route/payload wrappers are cut from active V26 |
 | retained execution composer and template path | Shippable template selection plus AssetPack execution submission | active component, hook, style, streaming, `/api/templates/shippables`, and route-log names move to Shippable/AssetPack; retained database table/column names are translated at the storage edge only, and `/api/templates/deliverables` plus `/api/deliverables` are not active V26 mounts |
 | retained delivery/output wording across support rails | Shippable noun plus AssetPack execution owner | streams, MCP schemas/tools, branch execution, sidebars, Storybook, mock data, dry-run tests, and drymock scenarios now use AssetPack/Shippable source names first, while `deliver` stays only the Finish verb for connected-interface provision |
@@ -186,7 +186,7 @@ Its rule is:
 - and keep public product language aligned to Deposit, Read, transactions, conversations, and Auxillaries rather than demo or gate narration.
 
 The current V26 near-term checkpoint is explicitly earlier than third-gate closure:
-- first-gate and second-gate closure are carried by `.bitcode/v26-gate-checkpoint-report.json`,
+- first-gate and second-gate closure are carried by `.proofs/v26/gate-checkpoint-report.json`,
 - that checkpoint must leave third-gate preparation explicit,
 - and third-gate promotion work must remain separate from second-gate application acceptance.
 
@@ -570,9 +570,9 @@ Fifth-gate is now specified as:
 - full production/staging/development mode completeness,
 - retained-package admissibility proof plus generated whole-`packages/` census coverage with zero unclassified active package owners,
 - post-fourth-gate-promotion proof-bearing cleanup of any still-kept system,
-- source-to-shares, closure-deepening, and explicit closure evidence through `.bitcode/source-to-shares-fifth-gate-proof.json`, `.bitcode/fifth-gate-closure-deepening-proof.json`, and `.bitcode/fifth-gate-closure-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization, Terminal selected-detail persistence, and generated source-content checks for the route-reread and Terminal-read assertions,
-- sixth-gate MVP closure through `.bitcode/sixth-gate-mvp-closure-proof.json`,
-- seventh-gate commercial testnet launch closure through `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`,
+- source-to-shares, closure-deepening, and explicit closure evidence through `.proofs/_shared/source-to-shares-fifth-gate-proof.json`, `.proofs/_shared/fifth-gate-closure-deepening-proof.json`, and `.proofs/_shared/fifth-gate-closure-proof.json`, including app-owned state-route reread after accepted source-to-shares branch materialization, Terminal selected-detail persistence, and generated source-content checks for the route-reread and Terminal-read assertions,
+- sixth-gate MVP closure through `.proofs/_shared/sixth-gate-mvp-closure-proof.json`,
+- seventh-gate commercial testnet launch closure through `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`,
 - and no eighth-gate total-closure claim until its acceptance set is fully proven.
 
 Fifth-gate acceptance is reached only when:
@@ -608,7 +608,7 @@ Sixth-gate acceptance is reached only when:
 - the dominant product paths are stable enough for repeated real operator use on testnet,
 - and repository architecture is simpler and more legible after MVP elevation.
 
-Sixth-gate acceptance is now represented by `.bitcode/sixth-gate-mvp-closure-proof.json`, which accepts every MVP closure row as the prerequisite for the separately generated seventh-gate launch proof and eighth-gate whole-repository provation.
+Sixth-gate acceptance is now represented by `.proofs/_shared/sixth-gate-mvp-closure-proof.json`, which accepts every MVP closure row as the prerequisite for the separately generated seventh-gate launch proof and eighth-gate whole-repository provation.
 
 ## Precise seventh-gate specification targets
 
@@ -623,7 +623,7 @@ Seventh-gate acceptance is reached only when:
 - the kept repository is ready for an initial commercial testnet launch,
 - and Bitcode reads as a commercially-credible product while still remaining inside the V26 testnet boundary.
 
-Seventh-gate acceptance is now represented by `.bitcode/seventh-gate-commercial-testnet-launch-proof.json`, which accepts every commercial testnet launch row as the prerequisite for final eighth-gate provation.
+Seventh-gate acceptance is now represented by `.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json`, which accepts every commercial testnet launch row as the prerequisite for final eighth-gate provation.
 
 ## Precise eighth-gate specification targets
 
@@ -639,7 +639,7 @@ Eighth-gate acceptance is reached only when:
 - total-repository proof families have explicit closure verdicts,
 - and V26 is now fully proven Bitcode canon rather than a through-seventh-gate checkpoint.
 
-Eighth-gate acceptance is now represented by `.bitcode/prompt-space-completeness-proof.json`, `.bitcode/whole-repository-production-satisfaction-proof.json`, and `.bitcode/v26-total-closure-proof.json`.
+Eighth-gate acceptance is now represented by `.proofs/_shared/prompt-space-completeness-proof.json`, `.proofs/_shared/whole-repository-production-satisfaction-proof.json`, and `.proofs/v26/total-closure-proof.json`.
 V26 is now fully proven Bitcode canon because those final proof families carry explicit closure verdicts.
 
 ## Explicitly deferred

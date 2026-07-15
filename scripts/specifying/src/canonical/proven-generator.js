@@ -58,26 +58,26 @@ export const DEFAULT_V24_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const DEFAULT_V25_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const DEFAULT_V26_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
 export const PROVEN_GENERATOR_ID = 'bitcode.proven-generator.v1';
-const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json'];
+const NON_DIGESTED_RECURSIVE_ARTIFACT_PATHS = ['.proofs/_shared/system-proof-bundle.json', '.proofs/_shared/proof-witness-manifest.json'];
 const PROVEN_PROFILE_ENABLED = process.env.BITCODE_PROVEN_PROFILE === '1';
 const COLLECTED_PROVEN_RUN_CACHE = new Map();
 const BASE_PROVEN_DATA_CACHE = new Map();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '../../../..');
-const V35_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json';
-const V36_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v36-promotion-readiness-report.json';
-const V37_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v37-promotion-readiness-report.json';
-const V38_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v38-promotion-readiness-report.json';
-const V39_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v39-promotion-readiness-report.json';
-const V40_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v40-promotion-readiness-report.json';
-const V41_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v41-promotion-readiness-report.json';
-const V42_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v42-promotion-readiness-report.json';
-const V43_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v43-promotion-readiness-report.json';
-const V44_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v44-promotion-readiness-report.json';
-const V45_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v45-promotion-readiness-report.json';
-const V46_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v46-promotion-readiness-report.json';
-const V47_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v47-promotion-readiness-report.json';
+const V35_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v35/documentation-telemetry-promotion-readiness-report.json';
+const V36_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v36/promotion-readiness-report.json';
+const V37_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v37/promotion-readiness-report.json';
+const V38_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v38/promotion-readiness-report.json';
+const V39_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v39/promotion-readiness-report.json';
+const V40_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v40/promotion-readiness-report.json';
+const V41_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v41/promotion-readiness-report.json';
+const V42_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v42/promotion-readiness-report.json';
+const V43_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v43/promotion-readiness-report.json';
+const V44_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v44/promotion-readiness-report.json';
+const V45_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v45/promotion-readiness-report.json';
+const V46_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v46/promotion-readiness-report.json';
+const V47_PROMOTION_READINESS_ARTIFACT_PATH = '.proofs/v47/promotion-readiness-report.json';
 
 /**
  * @param {string} version
@@ -1105,37 +1105,37 @@ function buildV26FourthGateReclosureReviewProof({
   const materialProofs = [
     {
       proofId: 'terminal-composition',
-      artifactPath: '.bitcode/terminal-composition-proof.json',
+      artifactPath: '.proofs/_shared/terminal-composition-proof.json',
       passed: terminalCompositionProof?.passed === true
     },
     {
       proofId: 'conversations-continuity',
-      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      artifactPath: '.proofs/_shared/conversations-continuity-proof.json',
       passed: conversationsContinuityProof?.passed === true
     },
     {
       proofId: 'runs-pipelines-totality',
-      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      artifactPath: '.proofs/_shared/runs-pipelines-totality-proof.json',
       passed: runsPipelinesTotalityProof?.passed === true
     },
     {
       proofId: 'persistence-schema-totality',
-      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      artifactPath: '.proofs/_shared/persistence-schema-totality-proof.json',
       passed: persistenceSchemaTotalityProof?.passed === true
     },
     {
       proofId: 'prompt-system-totality',
-      artifactPath: '.bitcode/prompt-system-totality-proof.json',
+      artifactPath: '.proofs/_shared/prompt-system-totality-proof.json',
       passed: promptSystemTotalityProof?.passed === true
     },
     {
       proofId: 'inference-implementation-records',
-      artifactPath: '.bitcode/inference-implementation-records-proof.json',
+      artifactPath: '.proofs/_shared/inference-implementation-records-proof.json',
       passed: inferenceImplementationRecordsProof?.passed === true
     },
     {
       proofId: 'retained-package-admissibility',
-      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/retained-package-admissibility-proof.json',
       passed: retainedPackageAdmissibilityProof?.passed === true
     }
   ];
@@ -1260,8 +1260,8 @@ function buildV26FourthGateReclosureReviewProof({
       ? 'The reopened fourth-gate acceptance claim has been re-reviewed against every material criterion and no blocking fourth-gate deviance is detected.'
       : 'The reopened fourth-gate acceptance claim cannot close until every material criterion and proof family passes.',
     evidenceArtifactPaths: [
-      '.bitcode/fourth-gate-reclosure-review-proof.json',
-      '.bitcode/v26-gate-checkpoint-report.json'
+      '.proofs/_shared/fourth-gate-reclosure-review-proof.json',
+      '.proofs/v26/gate-checkpoint-report.json'
     ]
   });
 
@@ -2834,62 +2834,62 @@ function buildV26FifthGateClosureDeepeningProof({
   const proofInputs = [
     {
       proofId: 'terminal-composition',
-      artifactPath: '.bitcode/terminal-composition-proof.json',
+      artifactPath: '.proofs/_shared/terminal-composition-proof.json',
       passed: terminalCompositionProof?.passed === true
     },
     {
       proofId: 'conversations-continuity',
-      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      artifactPath: '.proofs/_shared/conversations-continuity-proof.json',
       passed: conversationsContinuityProof?.passed === true
     },
     {
       proofId: 'environment-mode-coherence',
-      artifactPath: '.bitcode/environment-mode-coherence-proof.json',
+      artifactPath: '.proofs/_shared/environment-mode-coherence-proof.json',
       passed: environmentModeCoherenceProof?.passed === true
     },
     {
       proofId: 'runs-pipelines-totality',
-      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      artifactPath: '.proofs/_shared/runs-pipelines-totality-proof.json',
       passed: runsPipelinesTotalityProof?.passed === true
     },
     {
       proofId: 'persistence-schema-totality',
-      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      artifactPath: '.proofs/_shared/persistence-schema-totality-proof.json',
       passed: persistenceSchemaTotalityProof?.passed === true
     },
     {
       proofId: 'prompt-system-totality',
-      artifactPath: '.bitcode/prompt-system-totality-proof.json',
+      artifactPath: '.proofs/_shared/prompt-system-totality-proof.json',
       passed: promptSystemTotalityProof?.passed === true
     },
     {
       proofId: 'inference-implementation-records',
-      artifactPath: '.bitcode/inference-implementation-records-proof.json',
+      artifactPath: '.proofs/_shared/inference-implementation-records-proof.json',
       passed: inferenceImplementationRecordsProof?.passed === true
     },
     {
       proofId: 'source-to-shares',
-      artifactPath: '.bitcode/source-to-shares-fifth-gate-proof.json',
+      artifactPath: '.proofs/_shared/source-to-shares-fifth-gate-proof.json',
       passed: sourceToSharesFifthGateProof?.passed === true
     },
     {
       proofId: 'product-readiness-audit',
-      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      artifactPath: '.proofs/v26/product-readiness-audit.json',
       passed: productReadinessAudit?.baselinePassed === true
     },
     {
       proofId: 'prompt-space-baseline',
-      artifactPath: '.bitcode/prompt-space-completeness-proof.json',
+      artifactPath: '.proofs/_shared/prompt-space-completeness-proof.json',
       passed: promptSpaceCompletenessProof?.baselinePassed === true
     },
     {
       proofId: 'retained-package-admissibility',
-      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/retained-package-admissibility-proof.json',
       passed: retainedPackageAdmissibilityProof?.passed === true
     },
     {
       proofId: 'system-reform-admissibility',
-      artifactPath: '.bitcode/system-reform-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/system-reform-admissibility-proof.json',
       passed: systemReformAdmissibilityProof?.passed === true
     }
   ];
@@ -3016,48 +3016,48 @@ function buildV26FifthGateClosureProof({
   const proofInputs = [
     {
       proofId: 'terminal-composition',
-      artifactPath: '.bitcode/terminal-composition-proof.json',
+      artifactPath: '.proofs/_shared/terminal-composition-proof.json',
       passed: terminalCompositionProof?.passed === true
     },
     {
       proofId: 'conversations-continuity',
-      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      artifactPath: '.proofs/_shared/conversations-continuity-proof.json',
       passed: conversationsContinuityProof?.passed === true
     },
     {
       proofId: 'environment-mode-coherence',
-      artifactPath: '.bitcode/environment-mode-coherence-proof.json',
+      artifactPath: '.proofs/_shared/environment-mode-coherence-proof.json',
       passed: environmentModeCoherenceProof?.passed === true
     },
     {
       proofId: 'runs-pipelines-totality',
-      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      artifactPath: '.proofs/_shared/runs-pipelines-totality-proof.json',
       passed: runsPipelinesTotalityProof?.passed === true
     },
     {
       proofId: 'persistence-schema-totality',
-      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      artifactPath: '.proofs/_shared/persistence-schema-totality-proof.json',
       passed: persistenceSchemaTotalityProof?.passed === true
     },
     {
       proofId: 'prompt-system-totality',
-      artifactPath: '.bitcode/prompt-system-totality-proof.json',
+      artifactPath: '.proofs/_shared/prompt-system-totality-proof.json',
       passed: promptSystemTotalityProof?.passed === true
     },
     {
       proofId: 'inference-implementation-records',
-      artifactPath: '.bitcode/inference-implementation-records-proof.json',
+      artifactPath: '.proofs/_shared/inference-implementation-records-proof.json',
       passed: inferenceImplementationRecordsProof?.passed === true
     },
     {
       proofId: 'source-to-shares',
-      artifactPath: '.bitcode/source-to-shares-fifth-gate-proof.json',
+      artifactPath: '.proofs/_shared/source-to-shares-fifth-gate-proof.json',
       passed: sourceToSharesFifthGateProof?.passed === true
         && sourceToSharesFifthGateProof?.focus === 'source-to-shares'
     },
     {
       proofId: 'product-readiness-audit',
-      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      artifactPath: '.proofs/v26/product-readiness-audit.json',
       passed: productReadinessAudit?.baselinePassed === true
         && productReadinessAudit?.closureClaim === true
         && productReadinessAudit?.openProductCount === 0
@@ -3065,25 +3065,25 @@ function buildV26FifthGateClosureProof({
     },
     {
       proofId: 'fifth-gate-closure-deepening',
-      artifactPath: '.bitcode/fifth-gate-closure-deepening-proof.json',
+      artifactPath: '.proofs/_shared/fifth-gate-closure-deepening-proof.json',
       passed: fifthGateClosureDeepeningProof?.passed === true
         && fifthGateClosureDeepeningProof?.closureDeepened === true
         && fifthGateClosureDeepeningProof?.openAxisCount === 0
     },
     {
       proofId: 'prompt-space-baseline',
-      artifactPath: '.bitcode/prompt-space-completeness-proof.json',
+      artifactPath: '.proofs/_shared/prompt-space-completeness-proof.json',
       passed: promptSpaceCompletenessProof?.baselinePassed === true
     },
     {
       proofId: 'retained-package-admissibility',
-      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/retained-package-admissibility-proof.json',
       passed: retainedPackageAdmissibilityProof?.passed === true
         && retainedPackageAdmissibilityProof?.unclassifiedPackageCount === 0
     },
     {
       proofId: 'system-reform-admissibility',
-      artifactPath: '.bitcode/system-reform-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/system-reform-admissibility-proof.json',
       passed: systemReformAdmissibilityProof?.passed === true
     }
   ];
@@ -3367,13 +3367,13 @@ function buildV26SixthGateMvpClosureProof({
   const proofInputs = [
     {
       proofId: 'fifth-gate-closure',
-      artifactPath: '.bitcode/fifth-gate-closure-proof.json',
+      artifactPath: '.proofs/_shared/fifth-gate-closure-proof.json',
       passed: fifthGateClosureProof?.passed === true
         && fifthGateClosureProof?.proceduralGateClosure === true
     },
     {
       proofId: 'product-readiness-mvp',
-      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      artifactPath: '.proofs/v26/product-readiness-audit.json',
       passed: productReadinessAudit?.mvpPassed === true
         && productReadinessAudit?.sixthGateMvpClaim === true
         && productReadinessAudit?.mvpReadyProductCount === productReadinessAudit?.productCount
@@ -3381,43 +3381,43 @@ function buildV26SixthGateMvpClosureProof({
     },
     {
       proofId: 'terminal-composition',
-      artifactPath: '.bitcode/terminal-composition-proof.json',
+      artifactPath: '.proofs/_shared/terminal-composition-proof.json',
       passed: terminalCompositionProof?.passed === true
     },
     {
       proofId: 'source-to-shares',
-      artifactPath: '.bitcode/source-to-shares-fifth-gate-proof.json',
+      artifactPath: '.proofs/_shared/source-to-shares-fifth-gate-proof.json',
       passed: sourceToSharesFifthGateProof?.passed === true
     },
     {
       proofId: 'conversations-continuity',
-      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      artifactPath: '.proofs/_shared/conversations-continuity-proof.json',
       passed: conversationsContinuityProof?.passed === true
     },
     {
       proofId: 'runs-pipelines-totality',
-      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      artifactPath: '.proofs/_shared/runs-pipelines-totality-proof.json',
       passed: runsPipelinesTotalityProof?.passed === true
     },
     {
       proofId: 'persistence-schema-totality',
-      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      artifactPath: '.proofs/_shared/persistence-schema-totality-proof.json',
       passed: persistenceSchemaTotalityProof?.passed === true
     },
     {
       proofId: 'environment-mode-coherence',
-      artifactPath: '.bitcode/environment-mode-coherence-proof.json',
+      artifactPath: '.proofs/_shared/environment-mode-coherence-proof.json',
       passed: environmentModeCoherenceProof?.passed === true
     },
     {
       proofId: 'retained-package-admissibility',
-      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/retained-package-admissibility-proof.json',
       passed: retainedPackageAdmissibilityProof?.passed === true
         && retainedPackageAdmissibilityProof?.unclassifiedPackageCount === 0
     },
     {
       proofId: 'system-reform-admissibility',
-      artifactPath: '.bitcode/system-reform-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/system-reform-admissibility-proof.json',
       passed: systemReformAdmissibilityProof?.passed === true
     }
   ];
@@ -3455,7 +3455,7 @@ function buildV26SixthGateMvpClosureProof({
             description: 'canonical spec records accepted fifth-gate baseline'
           },
           {
-            file: '.bitcode/fifth-gate-closure-proof.json',
+            file: '.proofs/_shared/fifth-gate-closure-proof.json',
             evidence: '"proceduralGateClosure": true',
             description: 'generated fifth-gate artifact carries procedural closure'
           }
@@ -3741,13 +3741,13 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
   const proofInputs = [
     {
       proofId: 'sixth-gate-mvp-closure',
-      artifactPath: '.bitcode/sixth-gate-mvp-closure-proof.json',
+      artifactPath: '.proofs/_shared/sixth-gate-mvp-closure-proof.json',
       passed: sixthGateMvpClosureProof?.passed === true
         && sixthGateMvpClosureProof?.proceduralGateClosure === true
     },
     {
       proofId: 'product-readiness-launch',
-      artifactPath: '.bitcode/v26-product-readiness-audit.json',
+      artifactPath: '.proofs/v26/product-readiness-audit.json',
       passed: productReadinessAudit?.launchPassed === true
         && productReadinessAudit?.seventhGateCommercialTestnetLaunchClaim === true
         && productReadinessAudit?.launchReadyProductCount === productReadinessAudit?.productCount
@@ -3755,43 +3755,43 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
     },
     {
       proofId: 'terminal-composition',
-      artifactPath: '.bitcode/terminal-composition-proof.json',
+      artifactPath: '.proofs/_shared/terminal-composition-proof.json',
       passed: terminalCompositionProof?.passed === true
     },
     {
       proofId: 'conversations-continuity',
-      artifactPath: '.bitcode/conversations-continuity-proof.json',
+      artifactPath: '.proofs/_shared/conversations-continuity-proof.json',
       passed: conversationsContinuityProof?.passed === true
     },
     {
       proofId: 'runs-pipelines-totality',
-      artifactPath: '.bitcode/runs-pipelines-totality-proof.json',
+      artifactPath: '.proofs/_shared/runs-pipelines-totality-proof.json',
       passed: runsPipelinesTotalityProof?.passed === true
     },
     {
       proofId: 'persistence-schema-totality',
-      artifactPath: '.bitcode/persistence-schema-totality-proof.json',
+      artifactPath: '.proofs/_shared/persistence-schema-totality-proof.json',
       passed: persistenceSchemaTotalityProof?.passed === true
     },
     {
       proofId: 'source-to-shares',
-      artifactPath: '.bitcode/source-to-shares-fifth-gate-proof.json',
+      artifactPath: '.proofs/_shared/source-to-shares-fifth-gate-proof.json',
       passed: sourceToSharesFifthGateProof?.passed === true
     },
     {
       proofId: 'environment-mode-coherence',
-      artifactPath: '.bitcode/environment-mode-coherence-proof.json',
+      artifactPath: '.proofs/_shared/environment-mode-coherence-proof.json',
       passed: environmentModeCoherenceProof?.passed === true
     },
     {
       proofId: 'retained-package-admissibility',
-      artifactPath: '.bitcode/retained-package-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/retained-package-admissibility-proof.json',
       passed: retainedPackageAdmissibilityProof?.passed === true
         && retainedPackageAdmissibilityProof?.unclassifiedPackageCount === 0
     },
     {
       proofId: 'system-reform-admissibility',
-      artifactPath: '.bitcode/system-reform-admissibility-proof.json',
+      artifactPath: '.proofs/_shared/system-reform-admissibility-proof.json',
       passed: systemReformAdmissibilityProof?.passed === true
     }
   ];
@@ -3829,7 +3829,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'canonical spec records sixth-gate closure'
           },
           {
-            file: '.bitcode/sixth-gate-mvp-closure-proof.json',
+            file: '.proofs/_shared/sixth-gate-mvp-closure-proof.json',
             evidence: '"proceduralGateClosure": true',
             description: 'generated sixth-gate proof carries procedural closure'
           }
@@ -5382,11 +5382,11 @@ export function collectCanonicalProvenRuns({
         const { latestRun } = runMakeBitcodeBranchFn(buildInitialStateFn(), branchInput);
         invariant(latestRun?.branchArtifacts?.files, `Run ${formatRunId({ scenarioId, branchMode, paymentMode })} did not produce branch artifacts.`);
         const files = /** @type {Record<string, string>} */ (latestRun.branchArtifacts.files);
-        const bundle = parseArtifactJson(files, '.bitcode/system-proof-bundle.json');
-        const witnessManifest = parseArtifactJson(files, '.bitcode/proof-witness-manifest.json');
-        const assetPackEvidenceManifest = parseArtifactJson(files, '.bitcode/asset-pack-evidence.json');
-        const policyRelease = parseArtifactJson(files, '.bitcode/policy-release.json');
-        const read = parseArtifactJson(files, '.bitcode/read.json');
+        const bundle = parseArtifactJson(files, '.proofs/_shared/system-proof-bundle.json');
+        const witnessManifest = parseArtifactJson(files, '.proofs/_shared/proof-witness-manifest.json');
+        const assetPackEvidenceManifest = parseArtifactJson(files, '.proofs/_shared/asset-pack-evidence.json');
+        const policyRelease = parseArtifactJson(files, '.proofs/_shared/policy-release.json');
+        const read = parseArtifactJson(files, '.proofs/_shared/read.json');
 
         /** @type {Record<string, any>} */
         const familyProofsByName = {};
@@ -7832,8 +7832,8 @@ function buildV21ProvenPackage(baseData, {
     currentTarget: 'V21',
     assumeExistingRelativePaths: [
       '.specifications/BITCODE_SPEC_V21_PROVEN.md',
-      '.bitcode/v21-spec-family-report.json',
-      '.bitcode/v21-canonical-input-report.json'
+      '.proofs/v21/spec-family-report.json',
+      '.proofs/v21/canonical-input-report.json'
     ]
   });
   const artifacts = buildV21GeneratedArtifactContents({
@@ -7897,9 +7897,9 @@ function buildV22ProvenPackage(baseData, {
     reportVersion: 'V22',
     assumeExistingRelativePaths: [
       '.specifications/BITCODE_SPEC_V22_PROVEN.md',
-      '.bitcode/v22-spec-family-report.json',
-      '.bitcode/v22-canonical-input-report.json',
-      '.bitcode/v22-canon-posture-drift-report.json'
+      '.proofs/v22/spec-family-report.json',
+      '.proofs/v22/canonical-input-report.json',
+      '.proofs/v22/canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV22CanonPostureDriftReport({
@@ -7975,9 +7975,9 @@ function buildV23ProvenPackage(baseData, {
     reportVersion: 'V23',
     assumeExistingRelativePaths: [
       '.specifications/BITCODE_SPEC_V23_PROVEN.md',
-      '.bitcode/v23-spec-family-report.json',
-      '.bitcode/v23-canonical-input-report.json',
-      '.bitcode/v23-canon-posture-drift-report.json'
+      '.proofs/v23/spec-family-report.json',
+      '.proofs/v23/canonical-input-report.json',
+      '.proofs/v23/canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV23CanonPostureDriftReport({
@@ -8053,9 +8053,9 @@ function buildV24ProvenPackage(baseData, {
     reportVersion: 'V24',
     assumeExistingRelativePaths: [
       '.specifications/BITCODE_SPEC_V24_PROVEN.md',
-      '.bitcode/v24-spec-family-report.json',
-      '.bitcode/v24-canonical-input-report.json',
-      '.bitcode/v24-canon-posture-drift-report.json'
+      '.proofs/v24/spec-family-report.json',
+      '.proofs/v24/canonical-input-report.json',
+      '.proofs/v24/canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV24CanonPostureDriftReport({
@@ -8130,9 +8130,9 @@ function buildV25ProvenPackage(baseData, {
     reportVersion: 'V25',
     assumeExistingRelativePaths: [
       '.specifications/BITCODE_SPEC_V25_PROVEN.md',
-      '.bitcode/v25-spec-family-report.json',
-      '.bitcode/v25-canonical-input-report.json',
-      '.bitcode/v25-canon-posture-drift-report.json'
+      '.proofs/v25/spec-family-report.json',
+      '.proofs/v25/canonical-input-report.json',
+      '.proofs/v25/canon-posture-drift-report.json'
     ]
   });
   const canonPostureDriftReport = buildV25CanonPostureDriftReport({
@@ -8212,26 +8212,26 @@ function buildV26ProvenPackage(baseData, {
           skipPointerCheck: true,
           assumeExistingRelativePaths: [
             '.specifications/BITCODE_SPEC_V26_PROVEN.md',
-            '.bitcode/terminal-composition-proof.json',
-            '.bitcode/environment-mode-coherence-proof.json',
-            '.bitcode/v26-spec-family-report.json',
-            '.bitcode/v26-canonical-input-report.json',
-            '.bitcode/v26-gate-checkpoint-report.json',
-            '.bitcode/conversations-continuity-proof.json',
-            '.bitcode/runs-pipelines-totality-proof.json',
-            '.bitcode/persistence-schema-totality-proof.json',
-            '.bitcode/prompt-system-totality-proof.json',
-            '.bitcode/inference-implementation-records-proof.json',
-            '.bitcode/fourth-gate-reclosure-review-proof.json',
-            '.bitcode/source-to-shares-fifth-gate-proof.json',
-            '.bitcode/v26-product-readiness-audit.json',
-            '.bitcode/fifth-gate-closure-deepening-proof.json',
-            '.bitcode/fifth-gate-closure-proof.json',
-            '.bitcode/prompt-space-completeness-proof.json',
-            '.bitcode/retained-package-admissibility-proof.json',
-            '.bitcode/system-reform-admissibility-proof.json',
-            '.bitcode/whole-repository-production-satisfaction-proof.json',
-            '.bitcode/v26-total-closure-proof.json'
+            '.proofs/_shared/terminal-composition-proof.json',
+            '.proofs/_shared/environment-mode-coherence-proof.json',
+            '.proofs/v26/spec-family-report.json',
+            '.proofs/v26/canonical-input-report.json',
+            '.proofs/v26/gate-checkpoint-report.json',
+            '.proofs/_shared/conversations-continuity-proof.json',
+            '.proofs/_shared/runs-pipelines-totality-proof.json',
+            '.proofs/_shared/persistence-schema-totality-proof.json',
+            '.proofs/_shared/prompt-system-totality-proof.json',
+            '.proofs/_shared/inference-implementation-records-proof.json',
+            '.proofs/_shared/fourth-gate-reclosure-review-proof.json',
+            '.proofs/_shared/source-to-shares-fifth-gate-proof.json',
+            '.proofs/v26/product-readiness-audit.json',
+            '.proofs/_shared/fifth-gate-closure-deepening-proof.json',
+            '.proofs/_shared/fifth-gate-closure-proof.json',
+            '.proofs/_shared/prompt-space-completeness-proof.json',
+            '.proofs/_shared/retained-package-admissibility-proof.json',
+            '.proofs/_shared/system-reform-admissibility-proof.json',
+            '.proofs/_shared/whole-repository-production-satisfaction-proof.json',
+            '.proofs/v26/total-closure-proof.json'
           ]
         }
       : {})
@@ -8423,26 +8423,26 @@ function buildV26ProvenPackage(baseData, {
       specFamilyReport,
       canonicalInputReport
     }),
-    '.bitcode/terminal-composition-proof.json': `${JSON.stringify(terminalCompositionProof, null, 2)}\n`,
-    '.bitcode/environment-mode-coherence-proof.json': `${JSON.stringify(environmentModeCoherenceProof, null, 2)}\n`,
-    '.bitcode/v26-gate-checkpoint-report.json': `${JSON.stringify(gateCheckpointReport, null, 2)}\n`,
-    '.bitcode/conversations-continuity-proof.json': `${JSON.stringify(conversationsContinuityProof, null, 2)}\n`,
-    '.bitcode/runs-pipelines-totality-proof.json': `${JSON.stringify(runsPipelinesTotalityProof, null, 2)}\n`,
-    '.bitcode/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
-    '.bitcode/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
-    '.bitcode/inference-implementation-records-proof.json': `${JSON.stringify(inferenceImplementationRecordsProof, null, 2)}\n`,
-    '.bitcode/fourth-gate-reclosure-review-proof.json': `${JSON.stringify(fourthGateReclosureReviewProof, null, 2)}\n`,
-    '.bitcode/source-to-shares-fifth-gate-proof.json': `${JSON.stringify(sourceToSharesFifthGateProof, null, 2)}\n`,
-    '.bitcode/v26-product-readiness-audit.json': `${JSON.stringify(productReadinessAudit, null, 2)}\n`,
-    '.bitcode/fifth-gate-closure-deepening-proof.json': `${JSON.stringify(fifthGateClosureDeepeningProof, null, 2)}\n`,
-    '.bitcode/fifth-gate-closure-proof.json': `${JSON.stringify(fifthGateClosureProof, null, 2)}\n`,
-    '.bitcode/sixth-gate-mvp-closure-proof.json': `${JSON.stringify(sixthGateMvpClosureProof, null, 2)}\n`,
-    '.bitcode/seventh-gate-commercial-testnet-launch-proof.json': `${JSON.stringify(seventhGateCommercialTestnetLaunchProof, null, 2)}\n`,
-    '.bitcode/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
-    '.bitcode/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
-    '.bitcode/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
-    '.bitcode/whole-repository-production-satisfaction-proof.json': `${JSON.stringify(wholeRepositoryProductionSatisfactionProof, null, 2)}\n`,
-    '.bitcode/v26-total-closure-proof.json': `${JSON.stringify(v26TotalClosureProof, null, 2)}\n`
+    '.proofs/_shared/terminal-composition-proof.json': `${JSON.stringify(terminalCompositionProof, null, 2)}\n`,
+    '.proofs/_shared/environment-mode-coherence-proof.json': `${JSON.stringify(environmentModeCoherenceProof, null, 2)}\n`,
+    '.proofs/v26/gate-checkpoint-report.json': `${JSON.stringify(gateCheckpointReport, null, 2)}\n`,
+    '.proofs/_shared/conversations-continuity-proof.json': `${JSON.stringify(conversationsContinuityProof, null, 2)}\n`,
+    '.proofs/_shared/runs-pipelines-totality-proof.json': `${JSON.stringify(runsPipelinesTotalityProof, null, 2)}\n`,
+    '.proofs/_shared/persistence-schema-totality-proof.json': `${JSON.stringify(persistenceSchemaTotalityProof, null, 2)}\n`,
+    '.proofs/_shared/prompt-system-totality-proof.json': `${JSON.stringify(promptSystemTotalityProof, null, 2)}\n`,
+    '.proofs/_shared/inference-implementation-records-proof.json': `${JSON.stringify(inferenceImplementationRecordsProof, null, 2)}\n`,
+    '.proofs/_shared/fourth-gate-reclosure-review-proof.json': `${JSON.stringify(fourthGateReclosureReviewProof, null, 2)}\n`,
+    '.proofs/_shared/source-to-shares-fifth-gate-proof.json': `${JSON.stringify(sourceToSharesFifthGateProof, null, 2)}\n`,
+    '.proofs/v26/product-readiness-audit.json': `${JSON.stringify(productReadinessAudit, null, 2)}\n`,
+    '.proofs/_shared/fifth-gate-closure-deepening-proof.json': `${JSON.stringify(fifthGateClosureDeepeningProof, null, 2)}\n`,
+    '.proofs/_shared/fifth-gate-closure-proof.json': `${JSON.stringify(fifthGateClosureProof, null, 2)}\n`,
+    '.proofs/_shared/sixth-gate-mvp-closure-proof.json': `${JSON.stringify(sixthGateMvpClosureProof, null, 2)}\n`,
+    '.proofs/_shared/seventh-gate-commercial-testnet-launch-proof.json': `${JSON.stringify(seventhGateCommercialTestnetLaunchProof, null, 2)}\n`,
+    '.proofs/_shared/prompt-space-completeness-proof.json': `${JSON.stringify(promptSpaceCompletenessProof, null, 2)}\n`,
+    '.proofs/_shared/retained-package-admissibility-proof.json': `${JSON.stringify(retainedPackageAdmissibilityProof, null, 2)}\n`,
+    '.proofs/_shared/system-reform-admissibility-proof.json': `${JSON.stringify(systemReformAdmissibilityProof, null, 2)}\n`,
+    '.proofs/_shared/whole-repository-production-satisfaction-proof.json': `${JSON.stringify(wholeRepositoryProductionSatisfactionProof, null, 2)}\n`,
+    '.proofs/v26/total-closure-proof.json': `${JSON.stringify(v26TotalClosureProof, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const checkpointReady = gateCheckpointReport.firstGate?.passed === true
@@ -8653,10 +8653,10 @@ function buildV30ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V30_PROVEN.md',
-    '.bitcode/v30-spec-family-report.json',
-    '.bitcode/v30-canonical-input-report.json',
-    '.bitcode/v30-canon-posture-drift-report.json',
-    '.bitcode/v30-protocol-telemetry-proof-hooks.json'
+    '.proofs/v30/spec-family-report.json',
+    '.proofs/v30/canonical-input-report.json',
+    '.proofs/v30/canon-posture-drift-report.json',
+    '.proofs/v30/protocol-telemetry-proof-hooks.json'
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V30',
@@ -8692,7 +8692,7 @@ function buildV30ProvenPackage(baseData, {
       canonicalInputReport,
       canonPostureDriftReport
     }),
-    '.bitcode/v30-protocol-telemetry-proof-hooks.json': `${JSON.stringify(protocolTelemetryProofHooks, null, 2)}\n`
+    '.proofs/v30/protocol-telemetry-proof-hooks.json': `${JSON.stringify(protocolTelemetryProofHooks, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const promotionReady = specFamilyReport.passed === true
@@ -8870,10 +8870,10 @@ function buildV31ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V31_PROVEN.md',
-    '.bitcode/v31-spec-family-report.json',
-    '.bitcode/v31-canonical-input-report.json',
-    '.bitcode/v31-canon-posture-drift-report.json',
-    '.bitcode/v31-auxillaries-telemetry-proof-hooks.json'
+    '.proofs/v31/spec-family-report.json',
+    '.proofs/v31/canonical-input-report.json',
+    '.proofs/v31/canon-posture-drift-report.json',
+    '.proofs/v31/auxillaries-telemetry-proof-hooks.json'
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V31',
@@ -8909,7 +8909,7 @@ function buildV31ProvenPackage(baseData, {
       canonicalInputReport,
       canonPostureDriftReport
     }),
-    '.bitcode/v31-auxillaries-telemetry-proof-hooks.json': `${JSON.stringify(auxillariesTelemetryProofHooks, null, 2)}\n`
+    '.proofs/v31/auxillaries-telemetry-proof-hooks.json': `${JSON.stringify(auxillariesTelemetryProofHooks, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const promotionReady = specFamilyReport.passed === true
@@ -8981,13 +8981,13 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       tokens: [
         'buildV32ProvenPackage',
         'buildV32PromotionProofGenerationHardening',
-        '.bitcode/v32-promotion-proof-generation-hardening.json'
+        '.proofs/v32/promotion-proof-generation-hardening.json'
       ]
     },
     {
       relativePath: 'scripts/specifying/src/canonical/v21-specifying.js',
       tokens: [
-        '.bitcode/v32-promotion-proof-generation-hardening.json'
+        '.proofs/v32/promotion-proof-generation-hardening.json'
       ]
     },
     {
@@ -9018,7 +9018,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V32.md',
       tokens: [
         'Gate 9 promotion proof precision',
-        '.bitcode/v32-promotion-proof-generation-hardening.json',
+        '.proofs/v32/promotion-proof-generation-hardening.json',
         'source-safe generated artifact diffs'
       ]
     },
@@ -9026,7 +9026,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
       tokens: [
         'V32 proof generation supports dry-run/check modes',
-        '.bitcode/v32-promotion-proof-generation-hardening.json',
+        '.proofs/v32/promotion-proof-generation-hardening.json',
         'drafted'
       ]
     },
@@ -9146,7 +9146,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         'V32 Gate 10 promotion readiness',
         '--promotion-mode',
-        '.bitcode/v32-promotion-readiness-report.json'
+        '.proofs/v32/promotion-readiness-report.json'
       ]
     },
     {
@@ -9172,7 +9172,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
         "if (version === 'V32')",
         'V32 canonical system specification for provation/testing',
         'BITCODE_SPEC_V32_PROVEN.md',
-        '.bitcode/v32-promotion-readiness-report.json'
+        '.proofs/v32/promotion-readiness-report.json'
       ]
     },
     {
@@ -9202,7 +9202,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V32.md',
       tokens: [
         'V32 local and staging promotion readiness canon',
-        '.bitcode/v32-promotion-readiness-report.json',
+        '.proofs/v32/promotion-readiness-report.json',
         'V32 active / V33 draft'
       ]
     },
@@ -9210,7 +9210,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
       tokens: [
         '## Gate 10 Parity',
-        '.bitcode/v32-promotion-readiness-report.json',
+        '.proofs/v32/promotion-readiness-report.json',
         'closed'
       ]
     },
@@ -9290,7 +9290,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V32_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v32-',
+      generatedArtifactPrefix: '.proofs/v32/',
       secretValuesSerialized: false,
       protectedSourceSerialized: false
     },
@@ -9320,19 +9320,19 @@ function buildV32ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V32_PROVEN.md',
-    '.bitcode/v32-spec-family-report.json',
-    '.bitcode/v32-canonical-input-report.json',
-    '.bitcode/v32-canon-posture-drift-report.json',
-    '.bitcode/v32-proof-coverage-matrix.json',
-    '.bitcode/v32-artifact-volatility-inventory.json',
-    '.bitcode/v32-deterministic-replay-report.json',
-    '.bitcode/v32-reading-pipeline-proof-coverage.json',
-    '.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json',
-    '.bitcode/v32-interface-contract-regression-suite.json',
-    '.bitcode/v32-browser-accessibility-responsive-visual-proof.json',
-    '.bitcode/v32-testnet-mainnet-readiness-rehearsal.json',
-    '.bitcode/v32-promotion-proof-generation-hardening.json',
-    '.bitcode/v32-promotion-readiness-report.json'
+    '.proofs/v32/spec-family-report.json',
+    '.proofs/v32/canonical-input-report.json',
+    '.proofs/v32/canon-posture-drift-report.json',
+    '.proofs/v32/proof-coverage-matrix.json',
+    '.proofs/v32/artifact-volatility-inventory.json',
+    '.proofs/v32/deterministic-replay-report.json',
+    '.proofs/v32/reading-pipeline-proof-coverage.json',
+    '.proofs/v32/ledger-btd-settlement-failure-state-coverage.json',
+    '.proofs/v32/interface-contract-regression-suite.json',
+    '.proofs/v32/browser-accessibility-responsive-visual-proof.json',
+    '.proofs/v32/testnet-mainnet-readiness-rehearsal.json',
+    '.proofs/v32/promotion-proof-generation-hardening.json',
+    '.proofs/v32/promotion-readiness-report.json'
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V32',
@@ -9372,8 +9372,8 @@ function buildV32ProvenPackage(baseData, {
       canonicalInputReport,
       canonPostureDriftReport
     }),
-    '.bitcode/v32-promotion-proof-generation-hardening.json': `${JSON.stringify(promotionProofGenerationHardening, null, 2)}\n`,
-    '.bitcode/v32-promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
+    '.proofs/v32/promotion-proof-generation-hardening.json': `${JSON.stringify(promotionProofGenerationHardening, null, 2)}\n`,
+    '.proofs/v32/promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const promotionReady = specFamilyReport.passed === true
@@ -9428,7 +9428,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         'V33 Gate 10 promotion readiness',
         '--promotion-mode',
-        '.bitcode/v33-promotion-readiness-report.json'
+        '.proofs/v33/promotion-readiness-report.json'
       ]
     },
     {
@@ -9454,7 +9454,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
         "if (version === 'V33')",
         'V33 canonical system specification for commercial interface depth',
         'BITCODE_SPEC_V33_PROVEN.md',
-        '.bitcode/v33-promotion-readiness-report.json'
+        '.proofs/v33/promotion-readiness-report.json'
       ]
     },
     {
@@ -9484,7 +9484,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V33.md',
       tokens: [
         'V33 promotion readiness canon',
-        '.bitcode/v33-promotion-readiness-report.json',
+        '.proofs/v33/promotion-readiness-report.json',
         'V33 active / V34 draft'
       ]
     },
@@ -9492,7 +9492,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
       tokens: [
         '## Gate 10 Parity',
-        '.bitcode/v33-promotion-readiness-report.json',
+        '.proofs/v33/promotion-readiness-report.json',
         'closed'
       ]
     },
@@ -9564,7 +9564,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V33_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v33-',
+      generatedArtifactPrefix: '.proofs/v33/',
       secretValuesSerialized: false,
       protectedSourceSerialized: false
     },
@@ -9594,18 +9594,18 @@ function buildV33ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V33_PROVEN.md',
-    '.bitcode/v33-spec-family-report.json',
-    '.bitcode/v33-canonical-input-report.json',
-    '.bitcode/v33-canon-posture-drift-report.json',
-    '.bitcode/v33-interface-contract-catalog.json',
-    '.bitcode/v33-mcp-api-tool-contracts.json',
-    '.bitcode/v33-chatgpt-app-action-contracts.json',
-    '.bitcode/v33-interface-authorization-policy.json',
-    '.bitcode/v33-read-license-assetpack-rights-contracts.json',
-    '.bitcode/v33-api-schema-compatibility-matrix.json',
-    '.bitcode/v33-interface-telemetry-proof-hooks.json',
-    '.bitcode/v33-interface-consumer-ux-regression-proof.json',
-    '.bitcode/v33-promotion-readiness-report.json'
+    '.proofs/v33/spec-family-report.json',
+    '.proofs/v33/canonical-input-report.json',
+    '.proofs/v33/canon-posture-drift-report.json',
+    '.proofs/v33/interface-contract-catalog.json',
+    '.proofs/v33/mcp-api-tool-contracts.json',
+    '.proofs/v33/chatgpt-app-action-contracts.json',
+    '.proofs/v33/interface-authorization-policy.json',
+    '.proofs/v33/read-license-assetpack-rights-contracts.json',
+    '.proofs/v33/api-schema-compatibility-matrix.json',
+    '.proofs/v33/interface-telemetry-proof-hooks.json',
+    '.proofs/v33/interface-consumer-ux-regression-proof.json',
+    '.proofs/v33/promotion-readiness-report.json'
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V33',
@@ -9641,7 +9641,7 @@ function buildV33ProvenPackage(baseData, {
       canonicalInputReport,
       canonPostureDriftReport
     }),
-    '.bitcode/v33-promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
+    '.proofs/v33/promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const promotionReady = specFamilyReport.passed === true
@@ -9694,7 +9694,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       tokens: [
         'V34 Gate 10 promotion readiness',
         '--promotion-mode',
-        '.bitcode/v34-promotion-readiness-report.json'
+        '.proofs/v34/promotion-readiness-report.json'
       ]
     },
     {
@@ -9720,7 +9720,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
         "if (version === 'V34')",
         'V34 canonical system specification for deployment depth',
         'BITCODE_SPEC_V34_PROVEN.md',
-        '.bitcode/v34-promotion-readiness-report.json'
+        '.proofs/v34/promotion-readiness-report.json'
       ]
     },
     {
@@ -9766,7 +9766,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V34.md',
       tokens: [
         'V34 promotion readiness canon',
-        '.bitcode/v34-promotion-readiness-report.json',
+        '.proofs/v34/promotion-readiness-report.json',
         'V34 active / V35 draft'
       ]
     },
@@ -9774,7 +9774,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       relativePath: '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
       tokens: [
         '## Gate 10 Parity',
-        '.bitcode/v34-promotion-readiness-report.json',
+        '.proofs/v34/promotion-readiness-report.json',
         'closed'
       ]
     },
@@ -9846,7 +9846,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v34-',
+      generatedArtifactPrefix: '.proofs/v34/',
       secretValuesSerialized: false,
       protectedSourceSerialized: false
     },
@@ -9876,19 +9876,19 @@ function buildV34ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V34_PROVEN.md',
-    '.bitcode/v34-spec-family-report.json',
-    '.bitcode/v34-canonical-input-report.json',
-    '.bitcode/v34-canon-posture-drift-report.json',
-    '.bitcode/v34-deployment-host-capability-catalog.json',
-    '.bitcode/v34-environment-lane-contracts.json',
-    '.bitcode/v34-distributed-execution-runtime-receipts.json',
-    '.bitcode/v34-deployment-storage-posture.json',
-    '.bitcode/v34-secret-rotation-boundary-operations.json',
-    '.bitcode/v34-migration-cicd-approval-gates.json',
-    '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-    '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-    '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-    '.bitcode/v34-promotion-readiness-report.json'
+    '.proofs/v34/spec-family-report.json',
+    '.proofs/v34/canonical-input-report.json',
+    '.proofs/v34/canon-posture-drift-report.json',
+    '.proofs/v34/deployment-host-capability-catalog.json',
+    '.proofs/v34/environment-lane-contracts.json',
+    '.proofs/v34/distributed-execution-runtime-receipts.json',
+    '.proofs/v34/deployment-storage-posture.json',
+    '.proofs/v34/secret-rotation-boundary-operations.json',
+    '.proofs/v34/migration-cicd-approval-gates.json',
+    '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+    '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
+    '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+    '.proofs/v34/promotion-readiness-report.json'
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V34',
@@ -9924,7 +9924,7 @@ function buildV34ProvenPackage(baseData, {
       canonicalInputReport,
       canonPostureDriftReport
     }),
-    '.bitcode/v34-promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
+    '.proofs/v34/promotion-readiness-report.json': `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
   };
   const artifactSummaries = summarizeArtifactContents(artifacts);
   const promotionReady = specFamilyReport.passed === true
@@ -10006,17 +10006,17 @@ function buildV35ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V35_PROVEN.md',
-    '.bitcode/v35-spec-family-report.json',
-    '.bitcode/v35-canonical-input-report.json',
-    '.bitcode/v35-canon-posture-drift-report.json',
-    '.bitcode/v35-documentation-surface-catalog.json',
-    '.bitcode/v35-telemetry-taxonomy-catalog.json',
-    '.bitcode/v35-public-docs-usage-guides.json',
-    '.bitcode/v35-operator-runbook-catalog.json',
-    '.bitcode/v35-docs-qa-alignment-report.json',
-    '.bitcode/v35-testnet-rollout-readiness-guide.json',
-    '.bitcode/v35-telemetry-documentation-interface-integration.json',
-    '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
+    '.proofs/v35/spec-family-report.json',
+    '.proofs/v35/canonical-input-report.json',
+    '.proofs/v35/canon-posture-drift-report.json',
+    '.proofs/v35/documentation-surface-catalog.json',
+    '.proofs/v35/telemetry-taxonomy-catalog.json',
+    '.proofs/v35/public-docs-usage-guides.json',
+    '.proofs/v35/operator-runbook-catalog.json',
+    '.proofs/v35/docs-qa-alignment-report.json',
+    '.proofs/v35/testnet-rollout-readiness-guide.json',
+    '.proofs/v35/telemetry-documentation-interface-integration.json',
+    '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json',
     V35_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10135,17 +10135,17 @@ function buildV36ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V36_PROVEN.md',
-    '.bitcode/v36-spec-family-report.json',
-    '.bitcode/v36-canonical-input-report.json',
-    '.bitcode/v36-canon-posture-drift-report.json',
-    '.bitcode/v36-exchange-activity-book.json',
-    '.bitcode/v36-exchange-intent-order-contracts.json',
-    '.bitcode/v36-exchange-rights-transfer-review.json',
-    '.bitcode/v36-pricing-liquidity-fee-quote.json',
-    '.bitcode/v36-exchange-settlement-reconciliation.json',
-    '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
-    '.bitcode/v36-exchange-ux-proof.json',
-    '.bitcode/v36-exchange-rehearsal.json',
+    '.proofs/v36/spec-family-report.json',
+    '.proofs/v36/canonical-input-report.json',
+    '.proofs/v36/canon-posture-drift-report.json',
+    '.proofs/v36/exchange-activity-book.json',
+    '.proofs/v36/exchange-intent-order-contracts.json',
+    '.proofs/v36/exchange-rights-transfer-review.json',
+    '.proofs/v36/pricing-liquidity-fee-quote.json',
+    '.proofs/v36/exchange-settlement-reconciliation.json',
+    '.proofs/v36/exchange-dispute-repair-revenue-route.json',
+    '.proofs/v36/exchange-ux-proof.json',
+    '.proofs/v36/exchange-rehearsal.json',
     V36_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10264,17 +10264,17 @@ function buildV37ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V37_PROVEN.md',
-    '.bitcode/v37-spec-family-report.json',
-    '.bitcode/v37-canonical-input-report.json',
-    '.bitcode/v37-canon-posture-drift-report.json',
-    '.bitcode/v37-conversation-session-route-history.json',
-    '.bitcode/v37-conversation-stream-event-contract.json',
-    '.bitcode/v37-conversation-writing-workspace.json',
-    '.bitcode/v37-conversation-source-selector.json',
-    '.bitcode/v37-conversation-product-handoff.json',
-    '.bitcode/v37-conversation-persistence-privacy-redaction.json',
-    '.bitcode/v37-conversation-telemetry-proof-hooks.json',
-    '.bitcode/v37-conversation-rehearsal.json',
+    '.proofs/v37/spec-family-report.json',
+    '.proofs/v37/canonical-input-report.json',
+    '.proofs/v37/canon-posture-drift-report.json',
+    '.proofs/v37/conversation-session-route-history.json',
+    '.proofs/v37/conversation-stream-event-contract.json',
+    '.proofs/v37/conversation-writing-workspace.json',
+    '.proofs/v37/conversation-source-selector.json',
+    '.proofs/v37/conversation-product-handoff.json',
+    '.proofs/v37/conversation-persistence-privacy-redaction.json',
+    '.proofs/v37/conversation-telemetry-proof-hooks.json',
+    '.proofs/v37/conversation-rehearsal.json',
     V37_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10393,18 +10393,18 @@ function buildV38ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V38_PROVEN.md',
-    '.bitcode/v38-spec-family-report.json',
-    '.bitcode/v38-canonical-input-report.json',
-    '.bitcode/v38-canon-posture-drift-report.json',
-    '.bitcode/v38-inference-surface-inventory.json',
-    '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-    '.bitcode/v38-prompt-benchmark-report.json',
-    '.bitcode/v38-disclosure-boundary-report.json',
-    '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-    '.bitcode/v38-read-fits-finding-search-embeddings.json',
-    '.bitcode/v38-assetpack-synthesis-economic-traceability.json',
-    '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
-    '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json',
+    '.proofs/v38/spec-family-report.json',
+    '.proofs/v38/canonical-input-report.json',
+    '.proofs/v38/canon-posture-drift-report.json',
+    '.proofs/v38/inference-surface-inventory.json',
+    '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+    '.proofs/v38/prompt-benchmark-report.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    '.proofs/v38/read-need-comprehension-inference-hardening.json',
+    '.proofs/v38/read-fits-finding-search-embeddings.json',
+    '.proofs/v38/assetpack-synthesis-economic-traceability.json',
+    '.proofs/v38/conversation-tool-prompt-inference-parity.json',
+    '.proofs/v38/local-staging-inference-depository-search-rehearsal.json',
     V38_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10523,18 +10523,18 @@ function buildV39ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V39_PROVEN.md',
-    '.bitcode/v39-spec-family-report.json',
-    '.bitcode/v39-canonical-input-report.json',
-    '.bitcode/v39-canon-posture-drift-report.json',
-    '.bitcode/v39-depository-supply-indexing.json',
-    '.bitcode/v39-enterprise-reading-ux-state.json',
-    '.bitcode/v39-read-need-review-resynthesis.json',
-    '.bitcode/v39-read-fits-finding-runtime.json',
-    '.bitcode/v39-assetpack-preview-quote-boundary.json',
-    '.bitcode/v39-settlement-rights-delivery.json',
-    '.bitcode/v39-operational-telemetry-repair-readback.json',
-    '.bitcode/v39-interface-conversation-product-parity.json',
-    '.bitcode/v39-local-staging-reading-rehearsal.json',
+    '.proofs/v39/spec-family-report.json',
+    '.proofs/v39/canonical-input-report.json',
+    '.proofs/v39/canon-posture-drift-report.json',
+    '.proofs/v39/depository-supply-indexing.json',
+    '.proofs/v39/enterprise-reading-ux-state.json',
+    '.proofs/v39/read-need-review-resynthesis.json',
+    '.proofs/v39/read-fits-finding-runtime.json',
+    '.proofs/v39/assetpack-preview-quote-boundary.json',
+    '.proofs/v39/settlement-rights-delivery.json',
+    '.proofs/v39/operational-telemetry-repair-readback.json',
+    '.proofs/v39/interface-conversation-product-parity.json',
+    '.proofs/v39/local-staging-reading-rehearsal.json',
     V39_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10653,18 +10653,18 @@ function buildV40ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V40_PROVEN.md',
-    '.bitcode/v40-spec-family-report.json',
-    '.bitcode/v40-canonical-input-report.json',
-    '.bitcode/v40-canon-posture-drift-report.json',
-    '.bitcode/v40-test-inventory-coverage-matrix.json',
-    '.bitcode/v40-unit-coverage-inventory.json',
-    '.bitcode/v40-api-integration-contracts.json',
-    '.bitcode/v40-reading-pipeline-integration-coverage.json',
-    '.bitcode/v40-conversation-terminal-integration.json',
-    '.bitcode/v40-browser-e2e-visual-proof.json',
-    '.bitcode/v40-ledger-storage-sync.json',
-    '.bitcode/v40-local-staging-rehearsal-automation.json',
-    '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
+    '.proofs/v40/spec-family-report.json',
+    '.proofs/v40/canonical-input-report.json',
+    '.proofs/v40/canon-posture-drift-report.json',
+    '.proofs/v40/test-inventory-coverage-matrix.json',
+    '.proofs/v40/unit-coverage-inventory.json',
+    '.proofs/v40/api-integration-contracts.json',
+    '.proofs/v40/reading-pipeline-integration-coverage.json',
+    '.proofs/v40/conversation-terminal-integration.json',
+    '.proofs/v40/browser-e2e-visual-proof.json',
+    '.proofs/v40/ledger-storage-sync.json',
+    '.proofs/v40/local-staging-rehearsal-automation.json',
+    '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json',
     V40_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10783,16 +10783,16 @@ function buildV41ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V41_PROVEN.md',
-    '.bitcode/v41-spec-family-report.json',
-    '.bitcode/v41-canonical-input-report.json',
-    '.bitcode/v41-canon-posture-drift-report.json',
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
-    '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-    '.bitcode/v41-readneed-prompt-hardening.json',
-    '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-    '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
-    '.bitcode/v41-prompt-program-benchmark-report.json',
+    '.proofs/v41/spec-family-report.json',
+    '.proofs/v41/canonical-input-report.json',
+    '.proofs/v41/canon-posture-drift-report.json',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
+    '.proofs/v41/reading-prompt-benchmark-baselines.json',
+    '.proofs/v41/readneed-prompt-hardening.json',
+    '.proofs/v41/readfitsfinding-prompt-hardening.json',
+    '.proofs/v41/conversation-tool-interface-prompt-rewrite.json',
+    '.proofs/v41/prompt-program-benchmark-report.json',
     V41_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -10911,16 +10911,16 @@ function buildV42ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V42_PROVEN.md',
-    '.bitcode/v42-spec-family-report.json',
-    '.bitcode/v42-canonical-input-report.json',
-    '.bitcode/v42-canon-posture-drift-report.json',
-    '.bitcode/v42-depositing-shortest-path.json',
-    '.bitcode/v42-reading-shortest-path-state-machine.json',
-    '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
-    '.bitcode/v42-readfitsfinding-preview-quote.json',
-    '.bitcode/v42-settlement-rights-delivery.json',
-    '.bitcode/v42-ai-reading-demonstration.json',
-    '.bitcode/v42-local-staging-mvp-rehearsal.json',
+    '.proofs/v42/spec-family-report.json',
+    '.proofs/v42/canonical-input-report.json',
+    '.proofs/v42/canon-posture-drift-report.json',
+    '.proofs/v42/depositing-shortest-path.json',
+    '.proofs/v42/reading-shortest-path-state-machine.json',
+    '.proofs/v42/readneed-review-resynthesis-product-closure.json',
+    '.proofs/v42/readfitsfinding-preview-quote.json',
+    '.proofs/v42/settlement-rights-delivery.json',
+    '.proofs/v42/ai-reading-demonstration.json',
+    '.proofs/v42/local-staging-mvp-rehearsal.json',
     V42_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -11039,17 +11039,17 @@ function buildV43ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V43_PROVEN.md',
-    '.bitcode/v43-spec-family-report.json',
-    '.bitcode/v43-canonical-input-report.json',
-    '.bitcode/v43-canon-posture-drift-report.json',
-    '.bitcode/v43-route-vocabulary-inventory.json',
-    '.bitcode/v43-packs-activity-master-detail.json',
-    '.bitcode/v43-read-route-five-step-ux.json',
-    '.bitcode/v43-deposit-route-options.json',
-    '.bitcode/v43-deposit-policy-compensation.json',
-    '.bitcode/v43-deposit-option-admission.json',
-    '.bitcode/v43-route-ux-product-excellence.json',
-    '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json',
+    '.proofs/v43/spec-family-report.json',
+    '.proofs/v43/canonical-input-report.json',
+    '.proofs/v43/canon-posture-drift-report.json',
+    '.proofs/v43/route-vocabulary-inventory.json',
+    '.proofs/v43/packs-activity-master-detail.json',
+    '.proofs/v43/read-route-five-step-ux.json',
+    '.proofs/v43/deposit-route-options.json',
+    '.proofs/v43/deposit-policy-compensation.json',
+    '.proofs/v43/deposit-option-admission.json',
+    '.proofs/v43/route-ux-product-excellence.json',
+    '.proofs/v43/cross-route-rehearsal-telemetry-repair.json',
     V43_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -11168,17 +11168,17 @@ function buildV44ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V44_PROVEN.md',
-    '.bitcode/v44-spec-family-report.json',
-    '.bitcode/v44-canonical-input-report.json',
-    '.bitcode/v44-canon-posture-drift-report.json',
-    '.bitcode/v44-economic-domain-model.json',
-    '.bitcode/v44-packs-portfolio-market-intelligence.json',
-    '.bitcode/v44-reading-budget-quote-policy.json',
-    '.bitcode/v44-depositor-earnings-supply-opportunities.json',
-    '.bitcode/v44-btd-btc-compensation-statements.json',
-    '.bitcode/v44-organization-policy-wallet-authority.json',
-    '.bitcode/v44-enterprise-product-ux.json',
-    '.bitcode/v44-scaled-network-rehearsal.json',
+    '.proofs/v44/spec-family-report.json',
+    '.proofs/v44/canonical-input-report.json',
+    '.proofs/v44/canon-posture-drift-report.json',
+    '.proofs/v44/economic-domain-model.json',
+    '.proofs/v44/packs-portfolio-market-intelligence.json',
+    '.proofs/v44/reading-budget-quote-policy.json',
+    '.proofs/v44/depositor-earnings-supply-opportunities.json',
+    '.proofs/v44/btd-btc-compensation-statements.json',
+    '.proofs/v44/organization-policy-wallet-authority.json',
+    '.proofs/v44/enterprise-product-ux.json',
+    '.proofs/v44/scaled-network-rehearsal.json',
     V44_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -11297,19 +11297,19 @@ function buildV45ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V45_PROVEN.md',
-    '.bitcode/v45-spec-family-report.json',
-    '.bitcode/v45-canonical-input-report.json',
-    '.bitcode/v45-canon-posture-drift-report.json',
-    '.bitcode/v45-inference-synthesis-proof.json',
-    '.bitcode/v45-prompt-completeness-proof.json',
-    '.bitcode/v45-static-code-analysis-proof.json',
-    '.bitcode/v45-verification-decisions-proof.json',
-    '.bitcode/v45-selection-materialization-proof.json',
-    '.bitcode/v45-authorization-sensitive-flow-proof.json',
-    '.bitcode/v45-settlement-source-to-shares-proof.json',
-    '.bitcode/v45-disclosure-boundary-proof.json',
-    '.bitcode/v45-proof-contract-proof.json',
-    '.bitcode/v45-source-safe-e2e-rehearsal.json',
+    '.proofs/v45/spec-family-report.json',
+    '.proofs/v45/canonical-input-report.json',
+    '.proofs/v45/canon-posture-drift-report.json',
+    '.proofs/v45/inference-synthesis-proof.json',
+    '.proofs/v45/prompt-completeness-proof.json',
+    '.proofs/v45/static-code-analysis-proof.json',
+    '.proofs/v45/verification-decisions-proof.json',
+    '.proofs/v45/selection-materialization-proof.json',
+    '.proofs/v45/authorization-sensitive-flow-proof.json',
+    '.proofs/v45/settlement-source-to-shares-proof.json',
+    '.proofs/v45/disclosure-boundary-proof.json',
+    '.proofs/v45/proof-contract-proof.json',
+    '.proofs/v45/source-safe-e2e-rehearsal.json',
     V45_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -11419,15 +11419,15 @@ function buildV46ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V46_PROVEN.md',
-    '.bitcode/v46-spec-family-report.json',
-    '.bitcode/v46-canonical-input-report.json',
-    '.bitcode/v46-canon-posture-drift-report.json',
-    '.bitcode/v46-protocol-comprehension-object-model.json',
-    '.bitcode/v46-public-operator-claim-boundaries.json',
-    '.bitcode/v46-product-route-comprehension-readback.json',
-    '.bitcode/v46-interface-claim-contracts.json',
-    '.bitcode/v46-proof-readback-operator-explanation.json',
-    '.bitcode/v46-local-interface-comprehension-rehearsal.json',
+    '.proofs/v46/spec-family-report.json',
+    '.proofs/v46/canonical-input-report.json',
+    '.proofs/v46/canon-posture-drift-report.json',
+    '.proofs/v46/protocol-comprehension-object-model.json',
+    '.proofs/v46/public-operator-claim-boundaries.json',
+    '.proofs/v46/product-route-comprehension-readback.json',
+    '.proofs/v46/interface-claim-contracts.json',
+    '.proofs/v46/proof-readback-operator-explanation.json',
+    '.proofs/v46/local-interface-comprehension-rehearsal.json',
     V46_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({
@@ -11536,17 +11536,17 @@ function buildV47ProvenPackage(baseData, {
   });
   const assumedArtifactPaths = [
     '.specifications/BITCODE_SPEC_V47_PROVEN.md',
-    '.bitcode/v47-spec-family-report.json',
-    '.bitcode/v47-canonical-input-report.json',
-    '.bitcode/v47-canon-posture-drift-report.json',
-    '.bitcode/v47-feature-excess-alignment-audit.json',
-    '.bitcode/v47-seller-buyer-state-machine-law.json',
-    '.bitcode/v47-depositor-website-completion.json',
-    '.bitcode/v47-reader-website-completion.json',
-    '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
-    '.bitcode/v47-e2e-ip-selling-buying-tests.json',
-    '.bitcode/v47-landing-public-launch-messaging.json',
-    '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
+    '.proofs/v47/spec-family-report.json',
+    '.proofs/v47/canonical-input-report.json',
+    '.proofs/v47/canon-posture-drift-report.json',
+    '.proofs/v47/feature-excess-alignment-audit.json',
+    '.proofs/v47/seller-buyer-state-machine-law.json',
+    '.proofs/v47/depositor-website-completion.json',
+    '.proofs/v47/reader-website-completion.json',
+    '.proofs/v47/packs-auxillaries-commercial-dashboard.json',
+    '.proofs/v47/e2e-ip-selling-buying-tests.json',
+    '.proofs/v47/landing-public-launch-messaging.json',
+    '.proofs/v47/staging-testnet-deployment-rehearsal.json',
     V47_PROMOTION_READINESS_ARTIFACT_PATH
   ];
   const canonicalInputReport = buildV21CanonicalInputReport({

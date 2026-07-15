@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_LEDGER_STORAGE_SYNC_ARTIFACT_PATH =
-  '.bitcode/v40-ledger-storage-sync.json';
+  '.proofs/v40/ledger-storage-sync.json';
 export const V40_LEDGER_STORAGE_SYNC_SCHEMA_ID =
   'bitcode.v40.ledgerStorageSync.v1';
 export const V40_LEDGER_STORAGE_SYNC_VERSION = 'V40';

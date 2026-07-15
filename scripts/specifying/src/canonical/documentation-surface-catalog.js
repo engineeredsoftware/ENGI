@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH = '.bitcode/v35-documentation-surface-catalog.json';
+export const DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH = '.proofs/v35/documentation-surface-catalog.json';
 export const DOCUMENTATION_SURFACE_CATALOG_SCHEMA_ID = 'bitcode.v35.documentationSurfaceCatalog.v1';
 export const DOCUMENTATION_SURFACE_CATALOG_VERSION = 'V35';
 export const DOCUMENTATION_SURFACE_CATALOG_CURRENT_TARGET = 'V34';
@@ -76,8 +76,8 @@ const catalogRows = Object.freeze([
     ],
     linkedSpecSections: ['V35 source-of-truth hierarchy', 'V35 generated canon', 'V35 validation canon'],
     linkedGeneratedArtifacts: [
-      '.bitcode/v35-spec-family-report.json',
-      '.bitcode/v35-canonical-input-report.json',
+      '.proofs/v35/spec-family-report.json',
+      '.proofs/v35/canonical-input-report.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
     routePackageBindings: ['scripts/specifying/src/canonical/v21-specifying.js'],
@@ -194,9 +194,9 @@ const catalogRows = Object.freeze([
     ],
     linkedSpecSections: ['V35 system architecture and layer boundaries', 'V35 proof/test package API and inherited support canon'],
     linkedGeneratedArtifacts: [
-      '.bitcode/v33-interface-contract-catalog.json',
-      '.bitcode/v33-mcp-api-tool-contracts.json',
-      '.bitcode/v33-chatgpt-app-action-contracts.json',
+      '.proofs/v33/interface-contract-catalog.json',
+      '.proofs/v33/mcp-api-tool-contracts.json',
+      '.proofs/v33/chatgpt-app-action-contracts.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
     routePackageBindings: ['apps/mcp', 'apps/chatgpt/src'],
@@ -209,16 +209,16 @@ const catalogRows = Object.freeze([
     owner: 'scripts/specifying',
     disclosureClass: 'public_source_safe',
     sourceRoots: [
-      '.bitcode/v34-deployment-host-capability-catalog.json',
-      '.bitcode/v34-distributed-execution-runtime-receipts.json',
-      '.bitcode/v34-deployment-storage-posture.json',
+      '.proofs/v34/deployment-host-capability-catalog.json',
+      '.proofs/v34/distributed-execution-runtime-receipts.json',
+      '.proofs/v34/deployment-storage-posture.json',
       'scripts/specifying/src/canonical/v21-specifying.js',
       'scripts/generate-bitcode-proven.mjs',
     ],
     linkedSpecSections: ['Appendix C. Generated artifact contract catalog', 'V35 generated canon'],
     linkedGeneratedArtifacts: [
-      '.bitcode/v35-spec-family-report.json',
-      '.bitcode/v35-canonical-input-report.json',
+      '.proofs/v35/spec-family-report.json',
+      '.proofs/v35/canonical-input-report.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
     routePackageBindings: ['scripts/check-bitcode-spec-family.mjs', 'scripts/check-bitcode-canonical-inputs.mjs'],
@@ -241,8 +241,8 @@ const catalogRows = Object.freeze([
     ],
     linkedSpecSections: ['V35 whole Bitcode operator chain', 'V35 inherited deployment-depth notes'],
     linkedGeneratedArtifacts: [
-      '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-      '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
+      '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+      '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
     routePackageBindings: ['.github/workflows/bitcode-gate-quality.yml', '.github/workflows/bitcode-canon-quality.yml'],
@@ -263,9 +263,9 @@ const catalogRows = Object.freeze([
     ],
     linkedSpecSections: ['V35 proof-family canon', 'V35 validation canon'],
     linkedGeneratedArtifacts: [
-      '.bitcode/v30-protocol-telemetry-proof-hooks.json',
-      '.bitcode/v31-auxillaries-telemetry-proof-hooks.json',
-      '.bitcode/v33-interface-telemetry-proof-hooks.json',
+      '.proofs/v30/protocol-telemetry-proof-hooks.json',
+      '.proofs/v31/auxillaries-telemetry-proof-hooks.json',
+      '.proofs/v33/interface-telemetry-proof-hooks.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
     routePackageBindings: ['apps/uapi/app/api/executions/stream/route.ts', 'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx'],
@@ -303,8 +303,8 @@ const catalogRows = Object.freeze([
     ],
     linkedSpecSections: ['Identity, authorization, and sensitive flow', 'Disclosure and projection'],
     linkedGeneratedArtifacts: [
-      '.bitcode/v34-secret-rotation-boundary-operations.json',
-      '.bitcode/v33-interface-authorization-policy.json',
+      '.proofs/v34/secret-rotation-boundary-operations.json',
+      '.proofs/v33/interface-authorization-policy.json',
       DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH,
     ],
     routePackageBindings: ['apps/uapi/tests/protocolCommercialBoundary.test.ts', 'packages/btd/__tests__/interface-authorization-policy.test.ts'],

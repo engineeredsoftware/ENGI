@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V41_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v41-promotion-readiness-report.json';
+  '.proofs/v41/promotion-readiness-report.json';
 export const V41_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v41.promotionReadinessReport.v1';
 export const V41_PROMOTION_READINESS_REPORT_VERSION = 'V41';
@@ -18,20 +18,20 @@ export const V41_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-prompt-program-promotion-readiness-metadata';
 
 export const V41_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v41-promptpart-prompt-inventory.json',
-  '.bitcode/v41-registry-interpolation-contracts.json',
-  '.bitcode/v41-reading-prompt-benchmark-baselines.json',
-  '.bitcode/v41-readneed-prompt-hardening.json',
-  '.bitcode/v41-readfitsfinding-prompt-hardening.json',
-  '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
-  '.bitcode/v41-prompt-program-benchmark-report.json',
+  '.proofs/v41/promptpart-prompt-inventory.json',
+  '.proofs/v41/registry-interpolation-contracts.json',
+  '.proofs/v41/reading-prompt-benchmark-baselines.json',
+  '.proofs/v41/readneed-prompt-hardening.json',
+  '.proofs/v41/readfitsfinding-prompt-hardening.json',
+  '.proofs/v41/conversation-tool-interface-prompt-rewrite.json',
+  '.proofs/v41/prompt-program-benchmark-report.json',
 ]);
 
 export const V41_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V41_PROVEN.md',
-  '.bitcode/v41-spec-family-report.json',
-  '.bitcode/v41-canonical-input-report.json',
-  '.bitcode/v41-canon-posture-drift-report.json',
+  '.proofs/v41/spec-family-report.json',
+  '.proofs/v41/canonical-input-report.json',
+  '.proofs/v41/canon-posture-drift-report.json',
   V41_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -396,7 +396,7 @@ export function buildV41PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V41_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v41-',
+      generatedArtifactPrefix: '.proofs/v41/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

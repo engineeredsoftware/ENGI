@@ -35,9 +35,9 @@ RUN pnpm install --frozen-lockfile \
 
 # Pre-materialized runners (built on host/CI before docker build).
 # Layout preserves live-runner relative imports: ../../packages → monorepo packages.
-RUN mkdir -p /opt/bitcode/.bitcode/pipeline-host /opt/bitcode/pipeline \
-  && cp containers/images/pipeliner/dist/run-host-smoke.mjs /opt/bitcode/.bitcode/pipeline-host/ \
-  && cp containers/images/pipeliner/dist/run-live-asset-pack-pipeline.mjs /opt/bitcode/.bitcode/pipeline-host/ \
+RUN mkdir -p /opt/bitcode/.proofs/pipeline-host /opt/bitcode/pipeline \
+  && cp containers/images/pipeliner/dist/run-host-smoke.mjs /opt/bitcode/.proofs/pipeline-host/ \
+  && cp containers/images/pipeliner/dist/run-live-asset-pack-pipeline.mjs /opt/bitcode/.proofs/pipeline-host/ \
   && cp containers/images/pipeliner/dist/run-pipeline.mjs /opt/bitcode/pipeline/run-pipeline.mjs
 
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode

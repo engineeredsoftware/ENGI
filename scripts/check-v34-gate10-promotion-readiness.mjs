@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v34-promotion-readiness-report.json';
+const ARTIFACT = '.proofs/v34/promotion-readiness-report.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -22,15 +22,15 @@ const SECRET_MARKERS = [
 ];
 
 const V34_GATE_ARTIFACTS = [
-  '.bitcode/v34-deployment-host-capability-catalog.json',
-  '.bitcode/v34-environment-lane-contracts.json',
-  '.bitcode/v34-distributed-execution-runtime-receipts.json',
-  '.bitcode/v34-deployment-storage-posture.json',
-  '.bitcode/v34-secret-rotation-boundary-operations.json',
-  '.bitcode/v34-migration-cicd-approval-gates.json',
-  '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-  '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
-  '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v34/deployment-host-capability-catalog.json',
+  '.proofs/v34/environment-lane-contracts.json',
+  '.proofs/v34/distributed-execution-runtime-receipts.json',
+  '.proofs/v34/deployment-storage-posture.json',
+  '.proofs/v34/secret-rotation-boundary-operations.json',
+  '.proofs/v34/migration-cicd-approval-gates.json',
+  '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+  '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
+  '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
 ];
 
 function read(root, relativePath) {
@@ -244,7 +244,7 @@ function main() {
     promotionWorkflow.includes("head.ref == 'version/v34'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V34') &&
       promotionWorkflow.includes('.specifications/BITCODE_SPEC_V34_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V34 canon files'),
     'V34 promotion workflow must validate version/v34 and commit V34 promotion artifacts.',
   );
@@ -279,7 +279,7 @@ function main() {
     prepareSpecScript.includes("if (version === 'V34')") &&
       prepareSpecScript.includes('V34 canonical system specification for deployment depth') &&
       prepareSpecScript.includes('.specifications/BITCODE_SPEC_V34_PROVEN.md') &&
-      prepareSpecScript.includes('.bitcode/v34-promotion-readiness-report.json') &&
+      prepareSpecScript.includes('.proofs/v34/promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V34 hand-authored status truth and promoted parity judgments.',
   );
@@ -326,15 +326,15 @@ function main() {
     'README must document the Gate 10 command and V34 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v34-deployment-host-capability-catalog.json', ['"artifactId": "v34-deployment-host-capability-catalog"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-environment-lane-contracts.json', ['"artifactId": "v34-environment-lane-contracts"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-distributed-execution-runtime-receipts.json', ['"artifactId": "v34-distributed-execution-runtime-receipts"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-deployment-storage-posture.json', ['"artifactId": "v34-deployment-storage-posture"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-secret-rotation-boundary-operations.json', ['"artifactId": "v34-secret-rotation-boundary-operations"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-migration-cicd-approval-gates.json', ['"artifactId": "v34-migration-cicd-approval-gates"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json', ['"artifactId": "v34-runtime-observers-broadcasters-repair-jobs"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json', ['"artifactId": "v34-rollback-upgrade-data-repair-playbooks"', '"version": "V34"']);
-  assertJsonArtifact(failures, root, '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json', ['"artifactId": "v34-local-staging-testnet-deployment-rehearsal"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/deployment-host-capability-catalog.json', ['"artifactId": "v34-deployment-host-capability-catalog"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/environment-lane-contracts.json', ['"artifactId": "v34-environment-lane-contracts"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/distributed-execution-runtime-receipts.json', ['"artifactId": "v34-distributed-execution-runtime-receipts"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/deployment-storage-posture.json', ['"artifactId": "v34-deployment-storage-posture"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/secret-rotation-boundary-operations.json', ['"artifactId": "v34-secret-rotation-boundary-operations"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/migration-cicd-approval-gates.json', ['"artifactId": "v34-migration-cicd-approval-gates"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json', ['"artifactId": "v34-runtime-observers-broadcasters-repair-jobs"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/rollback-upgrade-data-repair-playbooks.json', ['"artifactId": "v34-rollback-upgrade-data-repair-playbooks"', '"version": "V34"']);
+  assertJsonArtifact(failures, root, '.proofs/v34/local-staging-testnet-deployment-rehearsal.json', ['"artifactId": "v34-local-staging-testnet-deployment-rehearsal"', '"version": "V34"']);
   const readinessArtifact = assertJsonArtifact(failures, root, ARTIFACT, ['v34-promotion-readiness-report', '"version": "V34"']);
 
   if (readinessArtifact) {

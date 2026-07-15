@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v29/spec-family-report.json`, `.proofs/v29/canonical-input-report.json`, `.proofs/v29/canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
 - Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
 - State: draft target parity matrix opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V28`
@@ -59,7 +59,7 @@ No `_legacy/` source is active source truth.
 | Organization permission authority | Gate 7 | `packages/btd/src/authority.ts`, BTD/API/MCP/ChatGPT App tests, sandbox harness authority evidence, Terminal Authority section, Gate 7 checker | closed | Registry-derived roles, holdings, read-license authority, settlement, confirmation, and interface admission govern actions. |
 | Commercial formalization | Gate 8 | `packages/protocol/src/index.js`, `packages/protocol/src/canon-posture.js`, root scripts, protocol package tests, import scans, docs, Gate 8 checker | closed | Demonstration-origin commercial internals are package-native and no direct demonstration-source imports remain in commercial/runtime sources. |
 | Terminal UX quality | Gate 9 | Terminal UX contract, Playwright/Jest/a11y/responsive/browser QA | closed | Complete transaction cockpit is usable by default and inspectable in detail. |
-| Promotion readiness | Gate 10 | promotion workflow, promotion command plan, V29 QA ledger, runtime posture preparation, `.bitcode/v29-*`, `BITCODE_SPEC_V29_PROVEN.md` | closed | `version/v29` can promote to `main` only after all V29 checks pass and promotion automation can commit generated canon. |
+| Promotion readiness | Gate 10 | promotion workflow, promotion command plan, V29 QA ledger, runtime posture preparation, `.proofs/v29/*`, `BITCODE_SPEC_V29_PROVEN.md` | closed | `version/v29` can promote to `main` only after all V29 checks pass and promotion automation can commit generated canon. |
 
 ## V29 implementation checklist
 
@@ -321,7 +321,7 @@ Accepted surfaces:
   draft and V29 active / V30 draft states.
 - `.github/workflows/v29-canon-promotion.yml` is the version promotion workflow
   for `version/v29` pull requests into `main`; it validates, promotes,
-  generates `BITCODE_SPEC_V29_PROVEN.md`, writes `.bitcode/v29-*`, and commits
+  generates `BITCODE_SPEC_V29_PROVEN.md`, writes `.proofs/v29/*`, and commits
   the pointer update back to the version branch.
 - `scripts/promote-bitcode-canon.mjs` supports `--version V29`, includes every
   V29 gate check, local proof suites, staging-testnet readback verifier,

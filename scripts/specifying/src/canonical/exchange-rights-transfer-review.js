@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_RIGHTS_TRANSFER_REVIEW_ARTIFACT_PATH = '.bitcode/v36-exchange-rights-transfer-review.json';
+export const EXCHANGE_RIGHTS_TRANSFER_REVIEW_ARTIFACT_PATH = '.proofs/v36/exchange-rights-transfer-review.json';
 export const EXCHANGE_RIGHTS_TRANSFER_REVIEW_SCHEMA_ID = 'bitcode.v36.exchangeRightsTransferReview.v1';
 export const EXCHANGE_RIGHTS_TRANSFER_REVIEW_VERSION = 'V36';
 export const EXCHANGE_RIGHTS_TRANSFER_REVIEW_CURRENT_TARGET = 'V35';

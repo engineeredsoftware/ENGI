@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_ARTIFACT_PATH =
-  '.bitcode/v40-local-staging-rehearsal-automation.json';
+  '.proofs/v40/local-staging-rehearsal-automation.json';
 export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_SCHEMA_ID =
   'bitcode.v40.localStagingRehearsalAutomation.v1';
 export const V40_LOCAL_STAGING_REHEARSAL_AUTOMATION_VERSION = 'V40';
@@ -326,7 +326,7 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.pipelineHostDevRunner,
       sources.pipelineHostDevRunner.includes('redactKnownSecrets') &&
         sources.pipelineHostDevRunner.includes('persistLocalArtifacts') &&
-        sources.pipelineHostDevRunner.includes('.bitcode/pipeline-host-runs') &&
+        sources.pipelineHostDevRunner.includes('.proofs/pipeline-host-runs') &&
         sources.pipelineHostDevRunner.includes('summary.json'),
     ),
     predicateResult(
@@ -455,7 +455,7 @@ export function buildV40LocalStagingRehearsalAutomation(input = {}) {
       'node scripts/rehearse-v40-local-staging-testnet.mjs --lane staging-testnet --dry-run --json',
       'BITCODE_V40_REHEARSAL_EXECUTE=1 node scripts/rehearse-v40-local-staging-testnet.mjs --lane staging-testnet --execute --write-receipt',
     ],
-    receiptArtifactRoot: '.bitcode/pipeline-host-runs/v40-rehearsal-receipts',
+    receiptArtifactRoot: '.proofs/pipeline-host-runs/v40-rehearsal-receipts',
     rows,
     predicateResults,
     coverage,

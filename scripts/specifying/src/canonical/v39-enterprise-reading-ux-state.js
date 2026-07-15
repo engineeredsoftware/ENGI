@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_ENTERPRISE_READING_UX_STATE_ARTIFACT_PATH =
-  '.bitcode/v39-enterprise-reading-ux-state.json';
+  '.proofs/v39/enterprise-reading-ux-state.json';
 export const V39_ENTERPRISE_READING_UX_STATE_SCHEMA_ID =
   'bitcode.v39.enterpriseReadingUxState.v1';
 export const V39_ENTERPRISE_READING_UX_STATE_VERSION = 'V39';

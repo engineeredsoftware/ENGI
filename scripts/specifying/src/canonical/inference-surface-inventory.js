@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-export const V38_INFERENCE_SURFACE_INVENTORY_ARTIFACT_PATH = '.bitcode/v38-inference-surface-inventory.json';
+export const V38_INFERENCE_SURFACE_INVENTORY_ARTIFACT_PATH = '.proofs/v38/inference-surface-inventory.json';
 export const V38_INFERENCE_SURFACE_INVENTORY_SCHEMA_ID = 'bitcode.v38.inferenceSurfaceInventory.v1';
 export const V38_INFERENCE_SURFACE_INVENTORY_VERSION = 'V38';
 export const V38_INFERENCE_SURFACE_INVENTORY_CURRENT_TARGET = 'V37';

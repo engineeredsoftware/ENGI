@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-promotion-readiness-report.json';
+const ARTIFACT = '.proofs/v33/promotion-readiness-report.json';
 
 const SECRET_MARKERS = [
   `${['sk', 'proj'].join('-')}-`,
@@ -22,14 +22,14 @@ const SECRET_MARKERS = [
 ];
 
 const V33_GATE_ARTIFACTS = [
-  '.bitcode/v33-interface-contract-catalog.json',
-  '.bitcode/v33-mcp-api-tool-contracts.json',
-  '.bitcode/v33-chatgpt-app-action-contracts.json',
-  '.bitcode/v33-interface-authorization-policy.json',
-  '.bitcode/v33-read-license-assetpack-rights-contracts.json',
-  '.bitcode/v33-api-schema-compatibility-matrix.json',
-  '.bitcode/v33-interface-telemetry-proof-hooks.json',
-  '.bitcode/v33-interface-consumer-ux-regression-proof.json',
+  '.proofs/v33/interface-contract-catalog.json',
+  '.proofs/v33/mcp-api-tool-contracts.json',
+  '.proofs/v33/chatgpt-app-action-contracts.json',
+  '.proofs/v33/interface-authorization-policy.json',
+  '.proofs/v33/read-license-assetpack-rights-contracts.json',
+  '.proofs/v33/api-schema-compatibility-matrix.json',
+  '.proofs/v33/interface-telemetry-proof-hooks.json',
+  '.proofs/v33/interface-consumer-ux-regression-proof.json',
 ];
 
 function read(root, relativePath) {
@@ -238,7 +238,7 @@ function main() {
     promotionWorkflow.includes("head.ref == 'version/v33'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V33') &&
       promotionWorkflow.includes('.specifications/BITCODE_SPEC_V33_PROVEN.md') &&
-      promotionWorkflow.includes('.bitcode') &&
+      promotionWorkflow.includes('.proofs') &&
       promotionWorkflow.includes('Promote V33 canon files'),
     'V33 promotion workflow must validate version/v33 and commit V33 promotion artifacts.',
   );
@@ -273,7 +273,7 @@ function main() {
     prepareSpecScript.includes("if (version === 'V33')") &&
       prepareSpecScript.includes('V33 canonical system specification for commercial interface depth') &&
       prepareSpecScript.includes('.specifications/BITCODE_SPEC_V33_PROVEN.md') &&
-      prepareSpecScript.includes('.bitcode/v33-promotion-readiness-report.json') &&
+      prepareSpecScript.includes('.proofs/v33/promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V33 hand-authored status truth and promoted parity judgments.',
   );
@@ -319,14 +319,14 @@ function main() {
     'README must document the Gate 10 command and V33 promotion workflow.',
   );
 
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-contract-catalog.json', ['"artifactId": "v33-interface-contract-catalog"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-mcp-api-tool-contracts.json', ['"artifactId": "v33-mcp-api-tool-contracts"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-chatgpt-app-action-contracts.json', ['"artifactId": "v33-chatgpt-app-action-contracts"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-authorization-policy.json', ['"artifactId": "v33-interface-authorization-policy"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-read-license-assetpack-rights-contracts.json', ['"artifactId": "v33-read-license-assetpack-rights-contracts"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-api-schema-compatibility-matrix.json', ['"artifactId": "v33-api-schema-compatibility-matrix"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-telemetry-proof-hooks.json', ['"artifactId": "v33-interface-telemetry-proof-hooks"', '"version": "V33"']);
-  assertJsonArtifact(failures, root, '.bitcode/v33-interface-consumer-ux-regression-proof.json', ['"artifactId": "v33-interface-consumer-ux-regression-proof"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-contract-catalog.json', ['"artifactId": "v33-interface-contract-catalog"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/mcp-api-tool-contracts.json', ['"artifactId": "v33-mcp-api-tool-contracts"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/chatgpt-app-action-contracts.json', ['"artifactId": "v33-chatgpt-app-action-contracts"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-authorization-policy.json', ['"artifactId": "v33-interface-authorization-policy"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/read-license-assetpack-rights-contracts.json', ['"artifactId": "v33-read-license-assetpack-rights-contracts"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/api-schema-compatibility-matrix.json', ['"artifactId": "v33-api-schema-compatibility-matrix"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-telemetry-proof-hooks.json', ['"artifactId": "v33-interface-telemetry-proof-hooks"', '"version": "V33"']);
+  assertJsonArtifact(failures, root, '.proofs/v33/interface-consumer-ux-regression-proof.json', ['"artifactId": "v33-interface-consumer-ux-regression-proof"', '"version": "V33"']);
   const readinessArtifact = assertJsonArtifact(failures, root, ARTIFACT, ['v33-promotion-readiness-report', '"version": "V33"']);
 
   if (readinessArtifact) {

@@ -12,7 +12,7 @@
 - Active generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v30/spec-family-report.json`, `.proofs/v30/canonical-input-report.json`, `.proofs/v30/canon-posture-drift-report.json`, `.proofs/v30/protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
 - Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - Scope: V30 canonical notes for Protocol/BTD hardening, local/staging readiness, and promotion automation over V29
 - Last fully realized canonical target preserved in source: `V30`
@@ -265,10 +265,10 @@ The promotion-readiness implementation must validate four layers:
 - local proof: every V30 gate checker, Protocol package checks, BTD package
   checks, pipeline package checks, UAPI route/Terminal tests, browser cockpit
   proof, pipeline readback, and protocol demonstration QA;
-- generated proof: `.bitcode/v30-spec-family-report.json`,
-  `.bitcode/v30-canonical-input-report.json`,
-  `.bitcode/v30-canon-posture-drift-report.json`,
-  `.bitcode/v30-protocol-telemetry-proof-hooks.json`, and
+- generated proof: `.proofs/v30/spec-family-report.json`,
+  `.proofs/v30/canonical-input-report.json`,
+  `.proofs/v30/canon-posture-drift-report.json`,
+  `.proofs/v30/protocol-telemetry-proof-hooks.json`, and
   `BITCODE_SPEC_V30_PROVEN.md`;
 - workflow proof: gate-quality accepts V29/V30 draft state and V30/V31 promoted
   state, canon-quality accepts V30 after promotion, and

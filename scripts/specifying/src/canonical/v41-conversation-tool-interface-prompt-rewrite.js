@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ARTIFACT_PATH =
-  '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json';
+  '.proofs/v41/conversation-tool-interface-prompt-rewrite.json';
 export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_SCHEMA_ID =
   'bitcode.v41.conversationToolInterfacePromptRewrite.v1';
 export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_VERSION = 'V41';
@@ -101,17 +101,17 @@ const SOURCE_ROOTS = Object.freeze({
   publicDocs: 'apps/uapi/app/docs/bitcode-docs-content.ts',
   terminalReadiness: 'apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts',
   gate2InventorySource: 'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
-  gate2InventoryArtifact: '.bitcode/v41-promptpart-prompt-inventory.json',
+  gate2InventoryArtifact: '.proofs/v41/promptpart-prompt-inventory.json',
   gate3ContractsSource: 'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',
-  gate3ContractsArtifact: '.bitcode/v41-registry-interpolation-contracts.json',
+  gate3ContractsArtifact: '.proofs/v41/registry-interpolation-contracts.json',
   gate4BaselinesSource: 'scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js',
-  gate4BaselinesArtifact: '.bitcode/v41-reading-prompt-benchmark-baselines.json',
+  gate4BaselinesArtifact: '.proofs/v41/reading-prompt-benchmark-baselines.json',
   gate5ReadNeedSource: 'scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js',
-  gate5ReadNeedArtifact: '.bitcode/v41-readneed-prompt-hardening.json',
+  gate5ReadNeedArtifact: '.proofs/v41/readneed-prompt-hardening.json',
   gate6ReadFitsSource: 'scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js',
-  gate6ReadFitsArtifact: '.bitcode/v41-readfitsfinding-prompt-hardening.json',
+  gate6ReadFitsArtifact: '.proofs/v41/readfitsfinding-prompt-hardening.json',
   v38ConversationToolParitySource: 'scripts/specifying/src/canonical/conversation-tool-prompt-inference-parity.js',
-  v38ConversationToolParityArtifact: '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
+  v38ConversationToolParityArtifact: '.proofs/v38/conversation-tool-prompt-inference-parity.json',
   packageSource: 'scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js',
   packageTest: 'scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js',
   generator: 'scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs',

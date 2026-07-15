@@ -15,7 +15,7 @@ import {
 test('V47 feature excess alignment audit binds launch scope and deferred surfaces', () => {
   const report = buildV47FeatureExcessAlignmentAudit();
 
-  assert.equal(V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH, '.bitcode/v47-feature-excess-alignment-audit.json');
+  assert.equal(V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH, '.proofs/v47/feature-excess-alignment-audit.json');
   assert.equal(report.artifactId, 'v47-feature-excess-alignment-audit');
   assert.equal(report.schemaId, V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_SCHEMA_ID);
   assert.equal(report.version, 'V47');

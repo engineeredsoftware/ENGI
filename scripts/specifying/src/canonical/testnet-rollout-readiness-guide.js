@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const TESTNET_ROLLOUT_READINESS_GUIDE_ARTIFACT_PATH = '.bitcode/v35-testnet-rollout-readiness-guide.json';
+export const TESTNET_ROLLOUT_READINESS_GUIDE_ARTIFACT_PATH = '.proofs/v35/testnet-rollout-readiness-guide.json';
 export const TESTNET_ROLLOUT_READINESS_GUIDE_SCHEMA_ID = 'bitcode.v35.testnetRolloutReadinessGuide.v1';
 export const TESTNET_ROLLOUT_READINESS_GUIDE_VERSION = 'V35';
 export const TESTNET_ROLLOUT_READINESS_GUIDE_CURRENT_TARGET = 'V34';
@@ -77,13 +77,13 @@ const SHARED_SOURCE_ROOTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
   '.specifications/SPECIFICATIONS_ROADMAP.md',
   'README.md',
-  '.bitcode/v34-environment-lane-contracts.json',
-  '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-  '.bitcode/v35-documentation-surface-catalog.json',
-  '.bitcode/v35-telemetry-taxonomy-catalog.json',
-  '.bitcode/v35-public-docs-usage-guides.json',
-  '.bitcode/v35-operator-runbook-catalog.json',
-  '.bitcode/v35-docs-qa-alignment-report.json',
+  '.proofs/v34/environment-lane-contracts.json',
+  '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v35/documentation-surface-catalog.json',
+  '.proofs/v35/telemetry-taxonomy-catalog.json',
+  '.proofs/v35/public-docs-usage-guides.json',
+  '.proofs/v35/operator-runbook-catalog.json',
+  '.proofs/v35/docs-qa-alignment-report.json',
 ]);
 
 const guideRows = Object.freeze([
@@ -111,7 +111,7 @@ const guideRows = Object.freeze([
       'direct main push attempt',
     ],
     rehearsalEvidence: [
-      '.bitcode/v35-docs-qa-alignment-report.json',
+      '.proofs/v35/docs-qa-alignment-report.json',
       '.github/workflows/bitcode-gate-quality.yml',
     ],
     validationCommands: ['pnpm run check:v35-gate7'],
@@ -140,7 +140,7 @@ const guideRows = Object.freeze([
       'protocol demonstration dependency imported into package source',
     ],
     rehearsalEvidence: [
-      '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+      '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
       'scripts/specifying/test/specifying-package-boundary.test.js',
     ],
     validationCommands: ['pnpm --filter @bitcode/specifying test', 'pnpm run check:v35-gate7'],
@@ -169,8 +169,8 @@ const guideRows = Object.freeze([
       'staging-testnet proof root missing',
     ],
     rehearsalEvidence: [
-      '.bitcode/v35-telemetry-taxonomy-catalog.json',
-      '.bitcode/v35-operator-runbook-catalog.json',
+      '.proofs/v35/telemetry-taxonomy-catalog.json',
+      '.proofs/v35/operator-runbook-catalog.json',
     ],
     validationCommands: ['pnpm run check:v35-gate5', 'pnpm run check:v35-gate7'],
   }),
@@ -197,8 +197,8 @@ const guideRows = Object.freeze([
       'ledger and database receipt roots disagree',
     ],
     rehearsalEvidence: [
-      '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-      '.bitcode/v35-public-docs-usage-guides.json',
+      '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+      '.proofs/v35/public-docs-usage-guides.json',
     ],
     validationCommands: ['pnpm run check:v35-gate4', 'pnpm run check:v35-gate7'],
   }),
@@ -225,8 +225,8 @@ const guideRows = Object.freeze([
       'protected source visible in rollout docs',
     ],
     rehearsalEvidence: [
-      '.bitcode/v34-deployment-host-capability-catalog.json',
-      '.bitcode/v35-docs-qa-alignment-report.json',
+      '.proofs/v34/deployment-host-capability-catalog.json',
+      '.proofs/v35/docs-qa-alignment-report.json',
     ],
     validationCommands: ['pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand'],
   }),
@@ -258,8 +258,8 @@ const guideRows = Object.freeze([
       'tool contract not bound to telemetry proof hook',
     ],
     rehearsalEvidence: [
-      '.bitcode/v35-documentation-surface-catalog.json',
-      '.bitcode/v35-telemetry-taxonomy-catalog.json',
+      '.proofs/v35/documentation-surface-catalog.json',
+      '.proofs/v35/telemetry-taxonomy-catalog.json',
     ],
     validationCommands: ['pnpm run check:v35-gate7'],
   }),
@@ -273,7 +273,7 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'packages/btd/src/deployment-host-capability-catalog.ts',
       'packages/btd/src/secret-rotation-plan.ts',
-      '.bitcode/v34-environment-lane-contracts.json',
+      '.proofs/v34/environment-lane-contracts.json',
     ],
     reproducibleCommands: [
       'pnpm run check:v34-deployment-host-capability-catalog',
@@ -291,8 +291,8 @@ const guideRows = Object.freeze([
       'secret scope not bound to lane',
     ],
     rehearsalEvidence: [
-      '.bitcode/v34-environment-lane-contracts.json',
-      '.bitcode/v34-secret-rotation-boundary-operations.json',
+      '.proofs/v34/environment-lane-contracts.json',
+      '.proofs/v34/secret-rotation-boundary-operations.json',
     ],
     validationCommands: ['pnpm run check:v34-gate2', 'pnpm run check:v35-gate7'],
   }),
@@ -306,7 +306,7 @@ const guideRows = Object.freeze([
     sourceRoots: [
       'packages/btd/src/runtime-observer-repair-job.ts',
       'packages/btd/src/rollback-upgrade-repair-playbook.ts',
-      '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
+      '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
     ],
     reproducibleCommands: [
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts',
@@ -324,8 +324,8 @@ const guideRows = Object.freeze([
       'source unlock attempted before paid rights transfer',
     ],
     rehearsalEvidence: [
-      '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-      '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
+      '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
+      '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
     ],
     validationCommands: ['pnpm run check:v34-gate7', 'pnpm run check:v35-gate7'],
   }),
@@ -336,7 +336,7 @@ const guideRows = Object.freeze([
     purpose: 'Make rollout blockers auditable, source-safe, and fail-closed before public testnet or mainnet dry-run claims.',
     laneIds: ['staging-testnet', 'public-testnet', 'mainnet-ready-dry-run', 'value-bearing-mainnet'],
     workflowStages: ['blocker-inventory', 'docs-qa-check', 'runbook-check', 'rehearsal-check', 'promotion-decision'],
-    sourceRoots: ['.specifications/SPECIFICATIONS_ROADMAP.md', '.docs/README.md', '.bitcode/v35-docs-qa-alignment-report.json'],
+    sourceRoots: ['.specifications/SPECIFICATIONS_ROADMAP.md', '.docs/README.md', '.proofs/v35/docs-qa-alignment-report.json'],
     reproducibleCommands: [
       'pnpm run check:v35-gate6',
       'pnpm run check:v35-gate7',
@@ -353,8 +353,8 @@ const guideRows = Object.freeze([
       'mainnet value-bearing admission requested before future canon',
     ],
     rehearsalEvidence: [
-      '.bitcode/v35-docs-qa-alignment-report.json',
-      '.bitcode/v35-operator-runbook-catalog.json',
+      '.proofs/v35/docs-qa-alignment-report.json',
+      '.proofs/v35/operator-runbook-catalog.json',
     ],
     validationCommands: ['pnpm run check:v35-gate6', 'pnpm run check:v35-gate7'],
   }),
@@ -366,8 +366,8 @@ const guideRows = Object.freeze([
     laneIds: ['local', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run', 'value-bearing-mainnet'],
     workflowStages: ['local-rehearsal-readback', 'staging-testnet-readback', 'public-testnet-posture-check', 'mainnet-dry-run-check', 'blocked-mainnet-proof'],
     sourceRoots: [
-      '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+      '.proofs/v34/promotion-readiness-report.json',
       '.specifications/BITCODE_SPEC_V34_PROVEN.md',
     ],
     reproducibleCommands: [
@@ -386,8 +386,8 @@ const guideRows = Object.freeze([
       'blocked value-bearing mainnet evidence missing',
     ],
     rehearsalEvidence: [
-      '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
-      '.bitcode/v34-promotion-readiness-report.json',
+      '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
+      '.proofs/v34/promotion-readiness-report.json',
     ],
     validationCommands: ['pnpm run check:v34-gate9', 'pnpm run check:v35-gate7'],
   }),

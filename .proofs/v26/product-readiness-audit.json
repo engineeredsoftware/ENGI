@@ -1,0 +1,1283 @@
+{
+  "reportId": "v26-product-readiness-audit",
+  "version": "V26",
+  "proofSourceCommit": "bdccd937bbd9ae0997a3d8d1248a157c00574d46",
+  "generatedAt": "2026-05-06T06:30:53-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "dirty-preview",
+  "gate": "gate-5",
+  "promotedThroughGate": "gate-7",
+  "auditBasis": [
+    "protocol-demonstration Exchange-lite implementation",
+    "protocol-demonstration Terminal-lite shell UI",
+    "uapi commercial Exchange and Terminal product surfaces",
+    "BITCODE_SPEC_V26_PARITY_MATRIX.md acceptance rows"
+  ],
+  "baselinePassed": true,
+  "mvpPassed": true,
+  "launchPassed": true,
+  "closureClaim": true,
+  "sixthGateMvpClaim": true,
+  "seventhGateCommercialTestnetLaunchClaim": true,
+  "productCount": 9,
+  "baselineReadyProductCount": 9,
+  "closureReadyProductCount": 9,
+  "openProductCount": 0,
+  "mvpReadyProductCount": 9,
+  "mvpOpenProductCount": 0,
+  "launchReadyProductCount": 9,
+  "launchOpenProductCount": 0,
+  "notReadyFor": [],
+  "products": [
+    {
+      "productId": "bitcode-protocol",
+      "productName": "Bitcode Protocol",
+      "baselineReadiness": "deterministic-protocol-witness-backed",
+      "parityMatrixAnchor": "Source-to-shares fifth-gate proof",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "eighth-gate whole-repository provation is closed by the generated V26 total-closure proof"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/src/bitcode-demo.js",
+          "requiredText": "runMakeBitcodeBranch",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/read-measurement.js",
+          "requiredText": "reviewReadForFitSearch",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/settlement.js",
+          "requiredText": "quantizedFitQualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
+          "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Source-to-shares fifth-gate proof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "BITCODE_SPEC_V26.md",
+          "requiredText": "Sixth-gate is closed only when:",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/V26_PROOF_SURFACES.md",
+          "requiredText": "Gate 6: minimal viable product elevation",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26SixthGateMvpClosureProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "BITCODE_SPEC_V26.md",
+          "requiredText": "Seventh-gate is closed only when:",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/V26_PROOF_SURFACES.md",
+          "requiredText": "Gate 7: initial commercially-viable testnet live-launch refinement",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26SeventhGateCommercialTestnetLaunchProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "bitcode-exchange",
+      "productName": "Bitcode Exchange",
+      "baselineReadiness": "exchange-lite-route-and-state-backed",
+      "parityMatrixAnchor": "App-owned protocol/API ownership",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "broader Exchange marketplace breadth remains V28-style expansion work",
+        "eighth-gate whole-repository provation is closed for the V26 minimum commercial implementation"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/server.js",
+          "requiredText": "createAppContext",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/server.js",
+          "requiredText": "readFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/api/state/route.ts",
+          "requiredText": "getBitcodeAppContext().getState(principal)",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/api/read-review/route.ts",
+          "requiredText": "getBitcodeAppContext().getReadReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/api/make-bitcode-branch/route.ts",
+          "requiredText": "makeBitcodeBranch",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "App-owned protocol/API ownership",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/activityRoute.test.ts",
+          "requiredText": "returns live activity with persisted execution reread and notification aggregation",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/activityRoute.test.ts",
+          "requiredText": "returns live activity with persisted execution reread and notification aggregation",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "bitcode-terminal",
+      "productName": "Bitcode Terminal",
+      "baselineReadiness": "terminal-lite-and-application-read-backed",
+      "parityMatrixAnchor": "Bitcode Terminal read/write loop",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "clean promotion and whole-flow browser provation are represented by the Gate 8 proof family",
+        "eighth-gate whole-repository provation is closed for the V26 Terminal baseline"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/public/app.js",
+          "requiredText": "__BITCODE_APPLICATION_SHELL_SNAPSHOT__",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js",
+          "requiredText": "TypeScript-only",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationPageClient.tsx",
+          "requiredText": "ApplicationReadScenarioPanel",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationPageClient.tsx",
+          "requiredText": "ApplicationLiveSummaryStrip",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/application-transaction-readiness-source.ts",
+          "requiredText": "route_repository_context",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+          "requiredText": "Inventory source",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+          "requiredText": "Reconnect Connects to restore live write admission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx",
+          "requiredText": "Settlement posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx",
+          "requiredText": "Repository posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationFlowGuideCard.tsx",
+          "requiredText": "repository-reconnect-required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationFlowGuideCard.tsx",
+          "requiredText": "wallet-reconnect-required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/application-activity-history.ts",
+          "requiredText": "status: draft.status || 'completed'",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationReadScenarioPanel.tsx",
+          "requiredText": "Read-fitting Exchange review",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/ApplicationClosureNativeSections.tsx",
+          "requiredText": "Read closure as one sequence from reviewable Read admission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/application-transaction-detail-snapshot.ts",
+          "requiredText": "fitQualities: coerceFitQualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/vcsRepositoriesInventoryParity.test.ts",
+          "requiredText": "stored repository inventory and skips live provider reads",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationLiveSummaryStrip.test.tsx",
+          "requiredText": "GitHub reconnect required · stored Exchange inventory",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationFlowGuideCard.test.tsx",
+          "requiredText": "repository-reconnect-required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationTransactionReadinessSource.test.ts",
+          "requiredText": "route_repository_context",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationRepositoryContextPanel.test.tsx",
+          "requiredText": "Saved GitHub attachment found, but the live provider session must reconnect",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationReadScenarios.test.ts",
+          "requiredText": "normalizes Exchange Read-fitting review state for Terminal review controls",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "`Bitcode Terminal` read/write loop",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "apps/uapi/app/application/application-experience-architecture.ts",
+          "requiredText": "SIXTH_GATE_MVP_APPLICATION_MAP",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationExperienceArchitecture.test.ts",
+          "requiredText": "locks the post-fifth-gate application map to activity, transactions, conversations, and auxillaries",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/e2e/application.terminal.flow.spec.ts",
+          "requiredText": "application route keeps read, selection, and repository-anchor write-through in one master-detail surface",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
+          "requiredText": "SEVENTH_GATE_COMMERCIAL_TESTNET_LAUNCH_MAP",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationCommercialLaunchReadiness.test.ts",
+          "requiredText": "locks the launch-readiness rows required after MVP closure",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/e2e/application.terminal.flow.spec.ts",
+          "requiredText": "application route keeps read, selection, and repository-anchor write-through in one master-detail surface",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "source-to-shares-read-fitting",
+      "productName": "Read-fitting and settlement review",
+      "baselineReadiness": "implemented-fifth-gate-slice",
+      "parityMatrixAnchor": "Read review before fit search",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "fit-candidate marketplace UX remains V28-style Exchange expansion work",
+        "eighth-gate total provation is closed for the V26 Read-fitting and settlement baseline"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "protocol-demonstration/server.js",
+          "requiredText": "bitcode-read-fitting-review",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/application-read-scenarios.ts",
+          "requiredText": "normalizeApplicationReadFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewRoute.test.ts",
+          "requiredText": "presents a reviewable Read before fit search",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "readFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Read review before fit search",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "apps/uapi/tests/api/readReviewRoute.test.ts",
+          "requiredText": "presents a reviewable Read before fit search",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "readFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
+          "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/test/v26-read-review-source-to-shares.test.js",
+          "requiredText": "V26 settlement review and receipts show quantized source-to-shares fit qualities",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "readFittingReview",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+          "requiredText": "source-to-shares settlement artifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "assetpack-execution",
+      "productName": "AssetPack execution and Finish/Delivering",
+      "baselineReadiness": "materially-implemented-open",
+      "parityMatrixAnchor": "AssetPack pipeline corridor",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "broader asset-pack marketplace delivery breadth remains later-gate expansion work",
+        "eighth-gate total provation closes the V26 AssetPack execution and PR Finish baseline"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+          "requiredText": "assetPackSynthesisArtifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
+          "requiredText": "finish:asset-pack",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/pipelines-generics/src/phases/sdivf-factory.ts",
+          "requiredText": "SDIVF",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-pipeline-finish-reform.test.js",
+          "requiredText": "SDIVF",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "retained execution/AssetPack readers no longer teach generic developer-platform meaning",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+          "requiredText": "assetPackSynthesisArtifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
+          "requiredText": "finish:asset-pack",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-shippable-reform.test.js",
+          "requiredText": "implementation, validation, and Finish carriers separate AssetPack kind from delivery templates",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/test/v26-shippable-reform.test.js",
+          "requiredText": "implementation, validation, and Finish carriers separate AssetPack kind from delivery templates",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/asset-packs-pipelines/domain/src/postprocess.ts",
+          "requiredText": "assetPackSynthesisArtifacts",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts",
+          "requiredText": "finish:asset-pack-create-pull-request-delivery-agent",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "conversations-rich-input",
+      "productName": "Conversations rich-input write surface",
+      "baselineReadiness": "implemented-active-slices-open",
+      "parityMatrixAnchor": "Conversations as Bitcode rich input",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "whole-repository interface provation is closed by the Gate 8 prompt and repository proof family"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "packages/api/src/routes/conversations.ts",
+          "requiredText": "rich_input",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/api/src/conversations/conversations.ts",
+          "requiredText": "copiedAttachmentCount",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/api/src/conversations/__tests__/branch-conversation.test.ts",
+          "requiredText": "copiedAttachmentCount",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/conversationBranchRoute.test.ts",
+          "requiredText": "copiedAttachmentCount",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": ".proofs/_shared/conversations-continuity-proof.json",
+          "requiredText": "rich_input",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Conversations and rich-input continuity",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "requiredText": "Multiple view modes (floating, sidebar, fullscreen, split-screen)",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/conversationsRouteClient.test.tsx",
+          "requiredText": "forceFullscreen=true",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/server.ts",
+          "requiredText": "connected-interface Bitcode Terminal companion",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "requiredText": "Multiple view modes (floating, sidebar, fullscreen, split-screen)",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/conversationsRouteClient.test.tsx",
+          "requiredText": "forceFullscreen=true",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/server.ts",
+          "requiredText": "connected-interface Bitcode Terminal companion",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "auxillaries-readiness",
+      "productName": "Auxillaries readiness and transactional admission",
+      "baselineReadiness": "materially-implemented-open",
+      "parityMatrixAnchor": "Transactional readiness and signed-settlement admission",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "provider-backed wallet signing breadth remains V27+ Terminal/Exchange expansion work",
+        "manual wallet identity is not equivalent to signed settlement",
+        "stored repository inventory does not by itself prove a still-valid live provider session",
+        "saved verified wallet signer posture does not by itself prove a still-live wallet-provider signing session"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "apps/uapi/app/application/bitcode-transaction-readiness.ts",
+          "requiredText": "canSettle",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/bitcode-transaction-readiness.ts",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/bitcode-transaction-readiness.ts",
+          "requiredText": "wallet reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "requiredText": "requireBitcodeSignedTransactionReadiness",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "requiredText": "repository inventory",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "requiredText": "readBitcodeWalletConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/api/auxillaries/data/route.ts",
+          "requiredText": "repositoryConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/api/auxillaries/data/route.ts",
+          "requiredText": "repositoryInventorySource",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/api/auxillaries/data/route.ts",
+          "requiredText": "resolveWalletConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "requiredText": "Connects",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "requiredText": "Reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "requiredText": "stored-first or live-fallback inventory contract",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "requiredText": "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx",
+          "requiredText": "Profile",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/bitcodeTransactionReadiness.test.ts",
+          "requiredText": "signed settlement remains staged",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/bitcodeTransactionReadiness.test.ts",
+          "requiredText": "wallet reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
+          "requiredText": "repositoryConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
+          "requiredText": "repositoryInventorySource",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
+          "requiredText": "walletConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/auxillariesConnectsPane.test.tsx",
+          "requiredText": "stored Exchange inventory",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/auxillariesConnectsPane.test.tsx",
+          "requiredText": "Reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationCommandDeck.test.tsx",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationClosureControlDeck.test.tsx",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/applicationDepositComposerCard.test.tsx",
+          "requiredText": "repository reconnect required",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
+          "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "Reconnect GitHub",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "live wallet-provider signing session is no longer available",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "outside the connected provider inventory",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Transactional readiness and signed-settlement admission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "requiredText": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
+          "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
+          "requiredText": "walletConnectionStatus",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "requiredText": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
+          "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "requiredText": "live wallet-provider signing session is no longer available",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "connected-interfaces",
+      "productName": "Connected interfaces: MCP and ChatGPT App",
+      "baselineReadiness": "materially-implemented-open",
+      "parityMatrixAnchor": "API / MCP / third-party parity",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "broader third-party ingress breadth remains later-gate expansion work",
+        "eighth-gate whole-interface provation is closed for the admitted V26 connected interfaces"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "requiredText": "writeAdmission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/types/index.ts",
+          "requiredText": "RepositoryContextSchema",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/tools.ts",
+          "requiredText": "confirmed",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "requiredText": "rejects ChatGPT App connected-interface writes without explicit confirmation",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "API / MCP / third-party parity",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "requiredText": "writeAdmission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/server.ts",
+          "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts",
+          "requiredText": "writeAdmission",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
+          "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "apps/chatgpt/src/server.ts",
+          "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    },
+    {
+      "productId": "proof-and-promotion",
+      "productName": "Proof and promotion controls",
+      "baselineReadiness": "proof-backed-open",
+      "parityMatrixAnchor": "Proof and generated-evidence parity matrix",
+      "baselineEvidencePassed": true,
+      "mvpEvidencePassed": true,
+      "readyForFifthGateBaseline": true,
+      "readyForFifthGateClosure": true,
+      "readyForSixthGateMvp": true,
+      "readyForSeventhGateCommercialTestnetLaunch": true,
+      "closureClaim": true,
+      "sixthGateMvpClaim": true,
+      "seventhGateCommercialTestnetLaunchClaim": true,
+      "openReadiness": [],
+      "closureNotes": [
+        "clean canonical regeneration is represented by the generated V26 total-closure artifact and promoted spec-family report"
+      ],
+      "evidenceChecks": [
+        {
+          "file": "scripts/generate-bitcode-proven.mjs",
+          "requiredText": "generateCanonicalProvenMarkdown",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26FifthGateClosureDeepeningProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": ".proofs/_shared/source-to-shares-fifth-gate-proof.json",
+          "requiredText": "v26-source-to-shares-fifth-gate-proof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": ".proofs/_shared/fifth-gate-closure-deepening-proof.json",
+          "requiredText": "v26-fifth-gate-closure-deepening-proof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "BITCODE_SPEC_V26_PARITY_MATRIX.md",
+          "requiredText": "Proof and generated-evidence parity matrix",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "mvpEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26SixthGateMvpClosureProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/proven-generator.test.js",
+          "requiredText": "sixthGateClosurePassed, true",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-gate-acceptance-criteria.test.js",
+          "requiredText": "V26 generated proofs close fifth, sixth, seventh, and eighth gates",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidenceChecks": [
+        {
+          "file": "protocol-demonstration/src/canonical/proven-generator.js",
+          "requiredText": "buildV26SeventhGateCommercialTestnetLaunchProof",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/proven-generator.test.js",
+          "requiredText": "seventhGateClosurePassed, true",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        },
+        {
+          "file": "protocol-demonstration/test/v26-gate-acceptance-criteria.test.js",
+          "requiredText": "V26 generated proofs close fifth, sixth, seventh, and eighth gates",
+          "filePresent": true,
+          "evidencePresent": true,
+          "passed": true
+        }
+      ],
+      "launchEvidencePassed": true
+    }
+  ]
+}

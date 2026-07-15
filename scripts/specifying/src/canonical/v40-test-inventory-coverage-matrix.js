@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_TEST_INVENTORY_COVERAGE_MATRIX_ARTIFACT_PATH =
-  '.bitcode/v40-test-inventory-coverage-matrix.json';
+  '.proofs/v40/test-inventory-coverage-matrix.json';
 export const V40_TEST_INVENTORY_COVERAGE_MATRIX_SCHEMA_ID =
   'bitcode.v40.testInventoryCoverageMatrix.v1';
 export const V40_TEST_INVENTORY_COVERAGE_MATRIX_VERSION = 'V40';
@@ -133,7 +133,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.btdTests, SOURCE_ROOTS.assetPackTests, SOURCE_ROOTS.protocolTests],
     commandIds: ['pnpm --filter @bitcode/btd test', 'pnpm --filter @bitcode/asset-packs-pipelines-domain test', 'pnpm --filter @bitcode/specifying test'],
-    generatedArtifactPath: '.bitcode/v40-unit-coverage-inventory.json',
+    generatedArtifactPath: '.proofs/v40/unit-coverage-inventory.json',
     missingCoverageClosesInGate: 3,
   }),
   row({
@@ -144,7 +144,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.apiTests, SOURCE_ROOTS.uapiTests, 'apps/mcp/src/__tests__', 'apps/chatgpt/src/__tests__'],
     commandIds: ['pnpm --dir apps/uapi exec jest', 'pnpm --filter @bitcode/api exec jest', 'pnpm --dir apps/mcp run test:mcp', 'pnpm --dir packages/chatgptapp exec jest'],
-    generatedArtifactPath: '.bitcode/v40-api-integration-contracts.json',
+    generatedArtifactPath: '.proofs/v40/api-integration-contracts.json',
     missingCoverageClosesInGate: 4,
   }),
   row({
@@ -155,7 +155,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.pipelineTests, SOURCE_ROOTS.readNeedHardeningTest, SOURCE_ROOTS.readFitsSearchTest],
     commandIds: ['pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest', 'pnpm --dir scripts/specifying exec node --test'],
-    generatedArtifactPath: '.bitcode/v40-pipeline-integration-coverage.json',
+    generatedArtifactPath: '.proofs/v40/pipeline-integration-coverage.json',
     missingCoverageClosesInGate: 5,
   }),
   row({
@@ -166,7 +166,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.conversationTests, SOURCE_ROOTS.uapiTests],
     commandIds: ['pnpm --dir apps/uapi exec jest'],
-    generatedArtifactPath: '.bitcode/v40-conversation-terminal-integration.json',
+    generatedArtifactPath: '.proofs/v40/conversation-terminal-integration.json',
     missingCoverageClosesInGate: 6,
   }),
   row({
@@ -177,7 +177,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'opt-in-lane',
     sourceRoots: [SOURCE_ROOTS.gateWorkflow, SOURCE_ROOTS.uapiTests],
     commandIds: ['pnpm --dir apps/uapi run test:e2e:terminal-ux', 'pnpm --dir apps/uapi run test:e2e:v32-browser-proof'],
-    generatedArtifactPath: '.bitcode/v40-browser-e2e-visual-proof.json',
+    generatedArtifactPath: '.proofs/v40/browser-e2e-visual-proof.json',
     missingCoverageClosesInGate: 7,
   }),
   row({
@@ -188,7 +188,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.v39PreviewTest, SOURCE_ROOTS.v39SettlementTest, SOURCE_ROOTS.v39TelemetryTest],
     commandIds: ['pnpm --filter @bitcode/btd exec jest', 'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest', 'pnpm --dir scripts/specifying exec node --test'],
-    generatedArtifactPath: '.bitcode/v40-ledger-storage-sync.json',
+    generatedArtifactPath: '.proofs/v40/ledger-storage-sync.json',
     missingCoverageClosesInGate: 8,
   }),
   row({
@@ -199,7 +199,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'opt-in-lane',
     sourceRoots: [SOURCE_ROOTS.v39LocalStagingTest, SOURCE_ROOTS.gateWorkflow, SOURCE_ROOTS.canonWorkflow],
     commandIds: ['pnpm run check:v39-gate10', 'future pnpm run check:v40-rehearsal'],
-    generatedArtifactPath: '.bitcode/v40-local-staging-rehearsal.json',
+    generatedArtifactPath: '.proofs/v40/local-staging-rehearsal.json',
     missingCoverageClosesInGate: 9,
   }),
   row({
@@ -210,7 +210,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'needs-new-v40-artifact',
     sourceRoots: [SOURCE_ROOTS.promptBenchmarkReport, SOURCE_ROOTS.v38PromptBenchmarkTest],
     commandIds: ['future pnpm run check:v40-prompt-benchmark-smoke', 'pnpm --dir scripts/specifying exec node --test test/v38-prompt-benchmark-report.test.js'],
-    generatedArtifactPath: '.bitcode/v40-prompt-benchmark-smoke.json',
+    generatedArtifactPath: '.proofs/v40/prompt-benchmark-smoke.json',
     missingCoverageClosesInGate: 10,
   }),
   row({
@@ -221,7 +221,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'existing-greenable',
     sourceRoots: [SOURCE_ROOTS.demonstrationReadme, SOURCE_ROOTS.demonstrationPackage, SOURCE_ROOTS.protocolBoundaryTest],
     commandIds: ['npm --prefix protocol-demonstration run test:v28-mvp-qa', 'node --test scripts/specifying/test/protocol-package-boundary.test.js'],
-    generatedArtifactPath: '.bitcode/v40-demonstration-test-parity.json',
+    generatedArtifactPath: '.proofs/v40/demonstration-test-parity.json',
     missingCoverageClosesInGate: 7,
   }),
   row({
@@ -232,7 +232,7 @@ export const V40_TEST_INVENTORY_COVERAGE_ROWS = Object.freeze([
     coverageTier: 'promotion-required',
     sourceRoots: [SOURCE_ROOTS.gateWorkflow, SOURCE_ROOTS.canonWorkflow, SOURCE_ROOTS.mainCiWorkflow],
     commandIds: ['pnpm run check:v40-gate1', 'pnpm run check:v40-gate2', 'future V40 promotion workflow'],
-    generatedArtifactPath: '.bitcode/v40-promotion-readiness-report.json',
+    generatedArtifactPath: '.proofs/v40/promotion-readiness-report.json',
     missingCoverageClosesInGate: 11,
   }),
 ]);
@@ -252,7 +252,7 @@ function buildPredicateResults(repoRoot) {
   const protocolTypes = readSource(repoRoot, SOURCE_ROOTS.protocolTypes);
 
   return [
-    predicateResult('v40-spec-names-test-inventory', SOURCE_ROOTS.v40Spec, spec.includes('Test Inventory And Coverage Matrix') && spec.includes('.bitcode/v40-test-inventory-coverage-matrix.json')),
+    predicateResult('v40-spec-names-test-inventory', SOURCE_ROOTS.v40Spec, spec.includes('Test Inventory And Coverage Matrix') && spec.includes('.proofs/v40/test-inventory-coverage-matrix.json')),
     predicateResult('v40-delta-names-gate2', SOURCE_ROOTS.v40Delta, delta.includes('Gate 2: Test Inventory And Coverage Matrix')),
     predicateResult('v40-notes-names-test-inventory', SOURCE_ROOTS.v40Notes, notes.includes('Gate 2 inventories the whole test surface')),
     predicateResult('v40-parity-names-gate2-artifact', SOURCE_ROOTS.v40Parity, parity.includes('Gate 2') && parity.includes('v40-test-inventory-coverage-matrix')),

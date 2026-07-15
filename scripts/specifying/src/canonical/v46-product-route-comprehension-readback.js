@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_ARTIFACT_PATH =
-  '.bitcode/v46-product-route-comprehension-readback.json';
+  '.proofs/v46/product-route-comprehension-readback.json';
 export const V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_SCHEMA_ID =
   'bitcode.v46.productRouteComprehensionReadback.v1';
 export const V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_VERSION = 'V46';

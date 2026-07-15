@@ -16,7 +16,7 @@ test('V43 cross-route rehearsal telemetry repair artifact is source-safe and com
 
   assert.equal(
     V43_CROSS_ROUTE_REHEARSAL_ARTIFACT_PATH,
-    '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json',
+    '.proofs/v43/cross-route-rehearsal-telemetry-repair.json',
   );
   assert.equal(artifact.artifactId, 'v43-cross-route-rehearsal-telemetry-repair');
   assert.equal(artifact.schemaId, V43_CROSS_ROUTE_REHEARSAL_SCHEMA_ID);

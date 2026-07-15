@@ -16,7 +16,7 @@ test('V46 local interface comprehension rehearsal binds every local surface', ()
 
   assert.equal(
     V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH,
-    '.bitcode/v46-local-interface-comprehension-rehearsal.json',
+    '.proofs/v46/local-interface-comprehension-rehearsal.json',
   );
   assert.equal(report.artifactId, 'v46-local-interface-comprehension-rehearsal');
   assert.equal(report.schemaId, V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_SCHEMA_ID);

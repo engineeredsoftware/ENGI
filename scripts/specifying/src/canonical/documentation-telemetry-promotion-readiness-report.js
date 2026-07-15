@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v35-documentation-telemetry-promotion-readiness-report.json';
+  '.proofs/v35/documentation-telemetry-promotion-readiness-report.json';
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v35.documentationTelemetryPromotionReadinessReport.v1';
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_VERSION = 'V35';
@@ -18,21 +18,21 @@ export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-promotion-readiness-metadata';
 
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v35-documentation-surface-catalog.json',
-  '.bitcode/v35-telemetry-taxonomy-catalog.json',
-  '.bitcode/v35-public-docs-usage-guides.json',
-  '.bitcode/v35-operator-runbook-catalog.json',
-  '.bitcode/v35-docs-qa-alignment-report.json',
-  '.bitcode/v35-testnet-rollout-readiness-guide.json',
-  '.bitcode/v35-telemetry-documentation-interface-integration.json',
-  '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
+  '.proofs/v35/documentation-surface-catalog.json',
+  '.proofs/v35/telemetry-taxonomy-catalog.json',
+  '.proofs/v35/public-docs-usage-guides.json',
+  '.proofs/v35/operator-runbook-catalog.json',
+  '.proofs/v35/docs-qa-alignment-report.json',
+  '.proofs/v35/testnet-rollout-readiness-guide.json',
+  '.proofs/v35/telemetry-documentation-interface-integration.json',
+  '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json',
 ]);
 
 export const DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V35_PROVEN.md',
-  '.bitcode/v35-spec-family-report.json',
-  '.bitcode/v35-canonical-input-report.json',
-  '.bitcode/v35-canon-posture-drift-report.json',
+  '.proofs/v35/spec-family-report.json',
+  '.proofs/v35/canonical-input-report.json',
+  '.proofs/v35/canon-posture-drift-report.json',
   DOCUMENTATION_TELEMETRY_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -354,7 +354,7 @@ export function buildDocumentationTelemetryPromotionReadinessReport(input = {}) 
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V35_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v35-',
+      generatedArtifactPrefix: '.proofs/v35/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

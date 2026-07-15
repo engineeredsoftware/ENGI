@@ -12,13 +12,13 @@ export const V19_VOLATILITY_INVENTORY_ID = 'v19-volatility-inventory';
 export const V19_CONTRACT_CHANGE_LEDGER_ID = 'v19-contract-change-ledger';
 
 export const V19_ARTIFACT_PATHS = {
-  proofMemberSemanticMatrix: '.bitcode/v19-proof-member-semantic-matrix.json',
-  theoremEvidenceMatrix: '.bitcode/v19-theorem-evidence-matrix.json',
-  stateMachineMatrix: '.bitcode/v19-state-machine-matrix.json',
-  negativeProofMutationMatrix: '.bitcode/v19-negative-proof-mutation-matrix.json',
-  deterministicReplayReport: '.bitcode/v19-deterministic-replay-report.json',
-  volatilityInventory: '.bitcode/v19-volatility-inventory.json',
-  contractChangeLedger: '.bitcode/v19-contract-change-ledger.json'
+  proofMemberSemanticMatrix: '.proofs/v19/proof-member-semantic-matrix.json',
+  theoremEvidenceMatrix: '.proofs/v19/theorem-evidence-matrix.json',
+  stateMachineMatrix: '.proofs/v19/state-machine-matrix.json',
+  negativeProofMutationMatrix: '.proofs/v19/negative-proof-mutation-matrix.json',
+  deterministicReplayReport: '.proofs/v19/deterministic-replay-report.json',
+  volatilityInventory: '.proofs/v19/volatility-inventory.json',
+  contractChangeLedger: '.proofs/v19/contract-change-ledger.json'
 };
 
 const V19_REQUIRED_MUTATION_CLASSES = [
@@ -314,7 +314,7 @@ function selectRepresentativeProofSurface(data) {
   const family = run?.families?.find((/** @type {any} */ entry) => (entry.memberVerdicts || []).length && (entry.theoremVerdicts || []).length) || run?.families?.[0];
   const member = family?.memberVerdicts?.[0];
   const theorem = family?.theoremVerdicts?.[0];
-  const witnessPath = String(family?.witnessArtifactPaths?.find((/** @type {string} */ path) => !['.bitcode/system-proof-bundle.json', '.bitcode/proof-witness-manifest.json'].includes(path)) || family?.witnessArtifactPaths?.[0] || '');
+  const witnessPath = String(family?.witnessArtifactPaths?.find((/** @type {string} */ path) => !['.proofs/_shared/system-proof-bundle.json', '.proofs/_shared/proof-witness-manifest.json'].includes(path)) || family?.witnessArtifactPaths?.[0] || '');
   const digestPath = String(run?.artifactDigestEntries?.find((/** @type {any} */ entry) => entry.path === witnessPath)?.path || run?.artifactDigestEntries?.[0]?.path || '');
   const artifact = run?.proofArtifacts?.find((/** @type {any} */ entry) => entry.classification && entry.assetPackEvidence) || run?.proofArtifacts?.[0];
   return { run, family, member, theorem, witnessPath, digestPath, artifact };

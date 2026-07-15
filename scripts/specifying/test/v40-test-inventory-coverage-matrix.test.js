@@ -14,7 +14,7 @@ import {
 test('V40 test inventory coverage matrix binds every planned testing surface source-safely', () => {
   const report = buildV40TestInventoryCoverageMatrix();
 
-  assert.equal(V40_TEST_INVENTORY_COVERAGE_MATRIX_ARTIFACT_PATH, '.bitcode/v40-test-inventory-coverage-matrix.json');
+  assert.equal(V40_TEST_INVENTORY_COVERAGE_MATRIX_ARTIFACT_PATH, '.proofs/v40/test-inventory-coverage-matrix.json');
   assert.equal(report.artifactId, 'v40-test-inventory-coverage-matrix');
   assert.equal(report.schemaId, V40_TEST_INVENTORY_COVERAGE_MATRIX_SCHEMA_ID);
   assert.equal(report.version, 'V40');

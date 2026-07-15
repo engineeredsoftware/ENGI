@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ARTIFACT_PATH =
-  '.bitcode/v38-assetpack-synthesis-economic-traceability.json';
+  '.proofs/v38/assetpack-synthesis-economic-traceability.json';
 export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_SCHEMA_ID =
   'bitcode.v38.assetPackSynthesisEconomicTraceability.v1';
 export const V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_VERSION = 'V38';
@@ -307,9 +307,9 @@ export function buildV38AssetPackSynthesisEconomicTraceability(options = {}) {
     .filter((predicate) => !predicate.passed)
     .map((predicate) => predicate.id);
 
-  const gate5 = readJson(repoRoot, '.bitcode/v38-disclosure-boundary-report.json');
-  const gate6 = readJson(repoRoot, '.bitcode/v38-read-need-comprehension-inference-hardening.json');
-  const gate7 = readJson(repoRoot, '.bitcode/v38-read-fits-finding-search-embeddings.json');
+  const gate5 = readJson(repoRoot, '.proofs/v38/disclosure-boundary-report.json');
+  const gate6 = readJson(repoRoot, '.proofs/v38/read-need-comprehension-inference-hardening.json');
+  const gate7 = readJson(repoRoot, '.proofs/v38/read-fits-finding-search-embeddings.json');
   const rowRoots = V38_ASSETPACK_SYNTHESIS_ECONOMIC_TRACEABILITY_ROWS.map((item) => item.rowRoot);
   const artifactRoot = `v38-assetpack-synthesis-economic-traceability:${digest(JSON.stringify({
     rowRoots,

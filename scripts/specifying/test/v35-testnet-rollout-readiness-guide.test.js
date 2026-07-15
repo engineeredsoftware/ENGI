@@ -83,18 +83,18 @@ test('distinguishes rollout audiences lanes caveats blockers and rehearsal evide
         'pnpm --filter @bitcode/specifying test -- --test-name-pattern specifying-package-boundary',
       ),
   );
-  assert.ok(byGuideId.get('operator_use')?.rehearsalEvidence.includes('.bitcode/v35-operator-runbook-catalog.json'));
+  assert.ok(byGuideId.get('operator_use')?.rehearsalEvidence.includes('.proofs/v35/operator-runbook-catalog.json'));
   assert.ok(byGuideId.get('enterprise_reader_flow')?.workflowStages.includes('review-assetpack-preview'));
   assert.ok(byGuideId.get('depositor_flow')?.knownBlockers.includes('protected source visible in rollout docs'));
   assert.ok(byGuideId.get('interface_consumer_flow')?.sourceRoots.includes('apps/chatgpt/README.md'));
   assert.deepEqual(byGuideId.get('environment_lane_posture')?.laneIds, TESTNET_ROLLOUT_LANE_IDS);
   assert.ok(byGuideId.get('wallet_settlement_caveats')?.workflowStages.includes('rights-transfer-readback'));
   assert.ok(byGuideId.get('known_blockers')?.knownBlockers.includes('mainnet value-bearing admission requested before future canon'));
-  assert.ok(byGuideId.get('rehearsal_evidence')?.rehearsalEvidence.includes('.bitcode/v34-promotion-readiness-report.json'));
+  assert.ok(byGuideId.get('rehearsal_evidence')?.rehearsalEvidence.includes('.proofs/v34/promotion-readiness-report.json'));
   assert.equal(guide.lanePosture.valueBearingMainnet, 'blocked_future_canon_required');
   assert.equal(
     guide.disclosureBoundary.forbiddenRolloutData.includes('wallet_private_material'),
     true,
   );
-  assert.equal(TESTNET_ROLLOUT_READINESS_GUIDE_ARTIFACT_PATH, '.bitcode/v35-testnet-rollout-readiness-guide.json');
+  assert.equal(TESTNET_ROLLOUT_READINESS_GUIDE_ARTIFACT_PATH, '.proofs/v35/testnet-rollout-readiness-guide.json');
 });

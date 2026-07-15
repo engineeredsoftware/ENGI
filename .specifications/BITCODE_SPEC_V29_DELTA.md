@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3cfa3e71ef553ecb25221ed7116e29eccbc4df24`
 - Prior canonical anchor: `BITCODE_SPEC_V28.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V28_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v29-spec-family-report.json`, `.bitcode/v29-canonical-input-report.json`, `.bitcode/v29-canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v29/spec-family-report.json`, `.proofs/v29/canonical-input-report.json`, `.proofs/v29/canon-posture-drift-report.json`, V29 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V29_PROVEN.md` as the generated proof appendix for V29 promotion
 - Source parity state: V29 source-side Terminal transaction, wallet/BTC, Reading observability, AssetPack disclosure, settlement repair, organization authority, UX proof, workflow, and promotion surfaces are canonicalized in the promoted V29 file family
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V28`
@@ -212,7 +212,7 @@ Closure acceptance:
   promotion automation commits generated canon.
 - `promote:canon -- --version V29 --commit <sha> --dry-run` renders a V29
   command plan naming all local proof suites, staging-testnet readback
-  verifier, Terminal browser proof, generated `.bitcode/v29-*` reports,
+  verifier, Terminal browser proof, generated `.proofs/v29/*` reports,
   `BITCODE_SPEC_V29_PROVEN.md`, and promoted-family checks.
 - `.github/workflows/v29-canon-promotion.yml` runs only for `version/v29`
   pull requests into `main`, validates the source branch, runs promotion-grade

@@ -316,7 +316,7 @@ export function buildCanonPostureGeneratedArtifactContents({
       specFamilyReport,
       canonicalInputReport
     }),
-    [`.bitcode/${version.toLowerCase()}-canon-posture-drift-report.json`]: `${JSON.stringify(canonPostureDriftReport, null, 2)}\n`
+    [`.proofs/${version.toLowerCase()}-canon-posture-drift-report.json`]: `${JSON.stringify(canonPostureDriftReport, null, 2)}\n`
   };
 }
 

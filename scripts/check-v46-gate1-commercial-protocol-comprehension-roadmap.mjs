@@ -121,7 +121,7 @@ function main() {
   ];
   const gate8PromotionReadinessAccepted =
     exists(root, 'scripts/check-v46-gate8-promotion-readiness.mjs') &&
-    exists(root, '.bitcode/v46-promotion-readiness-report.json');
+    exists(root, '.proofs/v46/promotion-readiness-report.json');
   const stalePromotedPhrases = gate8PromotionReadinessAccepted
     ? STALE_PROMOTED_PHRASES
     : [...STALE_PROMOTED_PHRASES, ...GATE8_PROMOTION_READINESS_PHRASES];

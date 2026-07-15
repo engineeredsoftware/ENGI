@@ -9,7 +9,7 @@ Format: `path -- <1 sentence TL;DR>`.
 ---
 
 ./ -- Bitcode monorepo root (uapi Next app + packages + specs).
- .bitcode/ -- Local Bitcode tooling state (not product source).
+ .proofs/ -- Local Bitcode tooling state (not product source).
  application-composition-proof.json -- Configuration file.
  conversations-continuity-proof.json -- Configuration file.
  environment-mode-coherence-proof.json -- Configuration file.

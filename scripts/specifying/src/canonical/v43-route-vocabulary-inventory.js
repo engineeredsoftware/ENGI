@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH =
-  '.bitcode/v43-route-vocabulary-inventory.json';
+  '.proofs/v43/route-vocabulary-inventory.json';
 export const V43_ROUTE_VOCABULARY_INVENTORY_SCHEMA_ID =
   'bitcode.v43.routeVocabularyInventory.v1';
 export const V43_ROUTE_VOCABULARY_INVENTORY_VERSION = 'V43';
@@ -98,7 +98,7 @@ const TEXT_FILE_EXTENSIONS = new Set([
 
 const EXCLUDED_DIRECTORIES = new Set([
   '.git',
-  '.bitcode',
+  '.proofs',
   '.next',
   '.pnpm-store',
   '.supabase',

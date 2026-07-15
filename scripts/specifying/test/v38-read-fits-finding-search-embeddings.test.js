@@ -16,7 +16,7 @@ import {
 test('V38 ReadFitsFindingSynthesis search report binds many-fit search, embeddings, and source-safe receipts', () => {
   const report = buildV38ReadFitsFindingSearchEmbeddings();
 
-  assert.equal(V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_ARTIFACT_PATH, '.bitcode/v38-read-fits-finding-search-embeddings.json');
+  assert.equal(V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_ARTIFACT_PATH, '.proofs/v38/read-fits-finding-search-embeddings.json');
   assert.equal(report.artifactId, 'v38-read-fits-finding-search-embeddings');
   assert.equal(report.schemaId, V38_READ_FITS_FINDING_SEARCH_EMBEDDINGS_SCHEMA_ID);
   assert.equal(report.version, 'V38');

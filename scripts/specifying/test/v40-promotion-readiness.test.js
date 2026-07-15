@@ -53,7 +53,7 @@ test('builds source-safe V40 PromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^exhaustive-testing-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v40-promotion-readiness-report.json',
+    '.proofs/v40/promotion-readiness-report.json',
   );
 
   for (const artifactPath of V40_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -76,6 +76,6 @@ test('supports V40 promotion readiness with source-safe exhaustive testing artif
   assert.equal(result.data.v40.promotionReadinessReport.postPromotionPosture, 'V40 active / V41 draft');
   assert.equal(result.data.v40.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V40 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v40-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v40-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v40/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v40/canon-posture-drift-report.json']);
 });

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v38-assetpack-synthesis-economic-traceability.json';
+const ARTIFACT_PATH = '.proofs/v38/assetpack-synthesis-economic-traceability.json';
 
 const REQUIRED_ROW_IDS = [
   'handoff:selected-fits-to-assetpack-synthesis',
@@ -143,9 +143,9 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v38-disclosure-boundary-report.json',
-    '.bitcode/v38-read-need-comprehension-inference-hardening.json',
-    '.bitcode/v38-read-fits-finding-search-embeddings.json',
+    '.proofs/v38/disclosure-boundary-report.json',
+    '.proofs/v38/read-need-comprehension-inference-hardening.json',
+    '.proofs/v38/read-fits-finding-search-embeddings.json',
     'scripts/specifying/src/canonical/assetpack-synthesis-economic-traceability.js',
     'scripts/specifying/test/v38-assetpack-synthesis-economic-traceability.test.js',
     'scripts/generate-v38-assetpack-synthesis-economic-traceability.mjs',

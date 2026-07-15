@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_SETTLEMENT_RECONCILIATION_ARTIFACT_PATH = '.bitcode/v36-exchange-settlement-reconciliation.json';
+export const EXCHANGE_SETTLEMENT_RECONCILIATION_ARTIFACT_PATH = '.proofs/v36/exchange-settlement-reconciliation.json';
 export const EXCHANGE_SETTLEMENT_RECONCILIATION_SCHEMA_ID = 'bitcode.v36.exchangeSettlementReconciliation.v1';
 export const EXCHANGE_SETTLEMENT_RECONCILIATION_VERSION = 'V36';
 export const EXCHANGE_SETTLEMENT_RECONCILIATION_CURRENT_TARGET = 'V35';

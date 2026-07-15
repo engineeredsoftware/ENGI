@@ -14,7 +14,7 @@ import {
 test('V39 enterprise Reading UX state report binds five stages, route state, stream logs, and proofs', () => {
   const report = buildV39EnterpriseReadingUxState();
 
-  assert.equal(V39_ENTERPRISE_READING_UX_STATE_ARTIFACT_PATH, '.bitcode/v39-enterprise-reading-ux-state.json');
+  assert.equal(V39_ENTERPRISE_READING_UX_STATE_ARTIFACT_PATH, '.proofs/v39/enterprise-reading-ux-state.json');
   assert.equal(report.artifactId, 'v39-enterprise-reading-ux-state');
   assert.equal(report.schemaId, V39_ENTERPRISE_READING_UX_STATE_SCHEMA_ID);
   assert.equal(report.version, 'V39');

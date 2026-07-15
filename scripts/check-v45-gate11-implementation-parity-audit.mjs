@@ -148,15 +148,15 @@ function main() {
   }
 
   for (const proofArtifact of [
-    '.bitcode/v45-inference-synthesis-proof.json',
-    '.bitcode/v45-prompt-completeness-proof.json',
-    '.bitcode/v45-static-code-analysis-proof.json',
-    '.bitcode/v45-verification-decisions-proof.json',
-    '.bitcode/v45-selection-materialization-proof.json',
-    '.bitcode/v45-authorization-sensitive-flow-proof.json',
-    '.bitcode/v45-settlement-source-to-shares-proof.json',
-    '.bitcode/v45-disclosure-boundary-proof.json',
-    '.bitcode/v45-proof-contract-proof.json',
+    '.proofs/v45/inference-synthesis-proof.json',
+    '.proofs/v45/prompt-completeness-proof.json',
+    '.proofs/v45/static-code-analysis-proof.json',
+    '.proofs/v45/verification-decisions-proof.json',
+    '.proofs/v45/selection-materialization-proof.json',
+    '.proofs/v45/authorization-sensitive-flow-proof.json',
+    '.proofs/v45/settlement-source-to-shares-proof.json',
+    '.proofs/v45/disclosure-boundary-proof.json',
+    '.proofs/v45/proof-contract-proof.json',
     '.specifications/BITCODE_SPEC_V45_PROVEN.md',
   ]) {
     assertCheck(failures, combined.includes(proofArtifact), `V45 formal family must cite proof artifact or appendix: ${proofArtifact}`);

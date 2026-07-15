@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ARTIFACT_PATH =
-  '.bitcode/v42-readneed-review-resynthesis-product-closure.json';
+  '.proofs/v42/readneed-review-resynthesis-product-closure.json';
 export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_SCHEMA_ID =
   'bitcode.v42.readNeedReviewResynthesisProductClosure.v1';
 export const V42_READNEED_REVIEW_RESYNTHESIS_SCHEMA_ID =

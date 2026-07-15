@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v33-interface-contract-catalog.json';
+const ARTIFACT_PATH = '.proofs/v33/interface-contract-catalog.json';
 const GENERATED_AT = '2026-05-22T00:00:00.000Z';
 
 const SECRET_MARKERS = Object.freeze([
@@ -282,7 +282,7 @@ export function buildV33InterfaceContractCatalogArtifact() {
     scanTokens('packages/btd/src/index.ts', ['interface-contract-catalog']),
     scanTokens('.specifications/BITCODE_SPEC_V33.md', [
       'InterfaceContractCatalog',
-      '.bitcode/v33-interface-contract-catalog.json',
+      '.proofs/v33/interface-contract-catalog.json',
     ]),
   ];
   const testEvidence = [

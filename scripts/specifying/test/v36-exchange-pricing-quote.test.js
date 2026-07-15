@@ -80,7 +80,7 @@ test('builds source-safe V36 ExchangePricingQuote rows', () => {
     }
   }
 
-  assert.equal(EXCHANGE_PRICING_QUOTE_ARTIFACT_PATH, '.bitcode/v36-pricing-liquidity-fee-quote.json');
+  assert.equal(EXCHANGE_PRICING_QUOTE_ARTIFACT_PATH, '.proofs/v36/pricing-liquidity-fee-quote.json');
 });
 
 test('fails closed for payment mismatch, stale quotes, and unsupported network posture', () => {

@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `db74a494377c1f68d5354c3c2f24fb29c38906bb`
 - Prior canonical anchor: `BITCODE_SPEC_V34.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V34_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v35-spec-family-report.json`, `.bitcode/v35-canonical-input-report.json`, `.bitcode/v35-canon-posture-drift-report.json`, `.bitcode/v35-documentation-surface-catalog.json`, `.bitcode/v35-telemetry-taxonomy-catalog.json`, `.bitcode/v35-public-docs-usage-guides.json`, `.bitcode/v35-operator-runbook-catalog.json`, `.bitcode/v35-docs-qa-alignment-report.json`, `.bitcode/v35-testnet-rollout-readiness-guide.json`, `.bitcode/v35-telemetry-documentation-interface-integration.json`, `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`, `.bitcode/v35-documentation-telemetry-promotion-readiness-report.json`, V35 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V35_PROVEN.md` as the generated proof appendix for V35 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v35/spec-family-report.json`, `.proofs/v35/canonical-input-report.json`, `.proofs/v35/canon-posture-drift-report.json`, `.proofs/v35/documentation-surface-catalog.json`, `.proofs/v35/telemetry-taxonomy-catalog.json`, `.proofs/v35/public-docs-usage-guides.json`, `.proofs/v35/operator-runbook-catalog.json`, `.proofs/v35/docs-qa-alignment-report.json`, `.proofs/v35/testnet-rollout-readiness-guide.json`, `.proofs/v35/telemetry-documentation-interface-integration.json`, `.proofs/v35/local-staging-telemetry-documentation-rehearsal.json`, `.proofs/v35/documentation-telemetry-promotion-readiness-report.json`, V35 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V35_PROVEN.md` as the generated proof appendix for V35 promotion
 - Source parity state: V35 source-side documentation surface catalog, telemetry taxonomy catalog, public docs usage guides, operator runbook catalog, docs QA report, testnet rollout guide, telemetry documentation interface integration, local staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V35 file family
 - Spec companion: `BITCODE_SPEC_V35.md`
 - Notes companion: `BITCODE_SPEC_V35_NOTES.md`
@@ -86,7 +86,7 @@ Closure acceptance:
 Gate 2 closure implementation:
 
 - `@bitcode/protocol` exports `DocumentationSurfaceCatalog` support through `buildDocumentationSurfaceCatalog`;
-- `.bitcode/v35-documentation-surface-catalog.json` records twelve source-safe documentation rows under `source-safe-documentation-surface-metadata`;
+- `.proofs/v35/documentation-surface-catalog.json` records twelve source-safe documentation rows under `source-safe-documentation-surface-metadata`;
 - `pnpm run check:v35-documentation-surface-catalog` verifies artifact freshness and source roots;
 - `pnpm run check:v35-gate2` verifies package source, generated artifact, package tests, workflows, docs, parity, and roadmap advancement.
 
@@ -103,7 +103,7 @@ Closure acceptance:
 Gate 3 closure implementation:
 
 - `@bitcode/protocol` exports `TelemetryTaxonomyCatalog` support through `buildTelemetryTaxonomyCatalog`;
-- `.bitcode/v35-telemetry-taxonomy-catalog.json` records fourteen source-safe telemetry rows under `source-safe-telemetry-taxonomy-metadata`;
+- `.proofs/v35/telemetry-taxonomy-catalog.json` records fourteen source-safe telemetry rows under `source-safe-telemetry-taxonomy-metadata`;
 - the catalog covers pipeline, execution, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, storage, interface, deployment, observer, repair, docs QA, and promotion event families;
 - every row binds redaction posture, source-safety class, correlation ids, proof root fields, storage target, dashboard panel, alert threshold, runbook link, source roots, replay expectation, forbidden payload classes, and deterministic row root;
 - `pnpm run check:v35-telemetry-taxonomy-catalog` verifies artifact freshness, source roots, event-family coverage, and source-safe redaction posture;
@@ -118,7 +118,7 @@ Closure acceptance:
 - public `/docs` pages exist or are explicitly cataloged for Terminal, Protocol, Auxillaries, MCP API, ChatGPT App, BTD, AssetPack ranges, Reads, fees, proof posture, and deferred Exchange/Conversations boundaries;
 - every public page derives from package/SPEC truth and names disclosure limits;
 - protected source, raw protected prompts, secrets, wallet private material, and unpaid AssetPack contents remain blocked.
-- `PublicDocsUsageGuideCatalog` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-public-docs-usage-guides.json` with `source-safe-public-docs-metadata`, and checked by `pnpm run check:v35-gate4`;
+- `PublicDocsUsageGuideCatalog` is exported by `@bitcode/protocol`, generated into `.proofs/v35/public-docs-usage-guides.json` with `source-safe-public-docs-metadata`, and checked by `pnpm run check:v35-gate4`;
 - public docs append a disclosure-limit section that allows usage guidance, source-safe measurements, proof roots, fee/right boundaries, readiness states, and route links while blocking protected source payloads, raw protected prompts, secret values, provider tokens, wallet private material, and unpaid AssetPack source.
 
 ### Gate 5: Dashboards Alerts Runbooks Incident Escalation
@@ -130,7 +130,7 @@ Closure acceptance:
 - `OperatorRunbookCatalog` rows bind telemetry events to dashboard panels, alert thresholds, incident classes, escalation paths, safe commands, forbidden data, and post-incident docs updates;
 - dashboard and alert definitions derive from `TelemetryTaxonomyCatalog`;
 - incident evidence is source-safe and proof-rooted.
-- `OperatorRunbookCatalog` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-operator-runbook-catalog.json` with `source-safe-runbook-metadata`, and checked by `pnpm run check:v35-gate5`;
+- `OperatorRunbookCatalog` is exported by `@bitcode/protocol`, generated into `.proofs/v35/operator-runbook-catalog.json` with `source-safe-runbook-metadata`, and checked by `pnpm run check:v35-gate5`;
 - every runbook row binds one telemetry event family to dashboard panel id, alert id, threshold, incident class, escalation path, command sequence, verification command, proof root basis, repair reference, post-incident docs update, source roots, and deterministic runbook root;
 - operator payloads allow source-safe event ids, correlation ids, proof roots, state enums, policy ids, dashboard panel ids, runbook ids, and redacted error classes while blocking secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.
 
@@ -143,7 +143,7 @@ Closure acceptance:
 - `DocsQaAlignmentReport` checks code, SPEC, DELTA, NOTES, PARITY, generated proof, generated artifacts, public docs, internal docs, route docs, and interface docs;
 - stale tokens, missing source roots, missing generated artifacts, and unsupported disclosure claims fail closed;
 - package scripts and workflows run the docs QA checks.
-- `DocsQaAlignmentReport` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-docs-qa-alignment-report.json` with `source-safe-docs-qa-metadata`, and checked by `pnpm run check:v35-gate6`;
+- `DocsQaAlignmentReport` is exported by `@bitcode/protocol`, generated into `.proofs/v35/docs-qa-alignment-report.json` with `source-safe-docs-qa-metadata`, and checked by `pnpm run check:v35-gate6`;
 - rows cover spec family, roadmap/README, generated artifact inventory, package catalog implementations, public docs disclosure, internal docs, route docs, interface docs, generated proof appendix posture, and workflow/checker wiring;
 - docs QA payloads allow file paths, expected token names, observed token names, missing token names, generated artifact paths, proof roots, and failure codes while blocking secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, and unpaid AssetPack source.
 
@@ -156,7 +156,7 @@ Closure acceptance:
 - `TestnetRolloutReadinessGuide` covers contributor onboarding, local development, operator use, enterprise reader flows, depositor flows, interface consumers, environment lanes, wallet/settlement caveats, known blockers, and rehearsal evidence;
 - guides distinguish local, staging-testnet, public testnet, mainnet-ready dry run, and blocked value-bearing mainnet posture;
 - guide examples are source-safe and reproducible.
-- `TestnetRolloutReadinessGuide` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-testnet-rollout-readiness-guide.json` with `source-safe-rollout-guide-metadata`, and checked by `pnpm run check:v35-gate7`;
+- `TestnetRolloutReadinessGuide` is exported by `@bitcode/protocol`, generated into `.proofs/v35/testnet-rollout-readiness-guide.json` with `source-safe-rollout-guide-metadata`, and checked by `pnpm run check:v35-gate7`;
 - rows cover contributor onboarding, local development, operator use, enterprise reader flow, depositor flow, interface consumer flow, environment lane posture, wallet/settlement caveats, known blockers, and rehearsal evidence;
 - rollout guide payloads allow lane ids, guide ids, validation commands, proof roots, dashboard panel ids, runbook ids, redacted failure classes, public docs slugs, source-safe examples, known blocker names, and rehearsal evidence paths while blocking secrets, provider tokens, wallet private material, raw protected prompts, protected source payloads, buyer repository private data, raw protected model responses, and unpaid AssetPack source.
 
@@ -169,7 +169,7 @@ Closure acceptance:
 - Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs, internal docs, and public docs consume package-owned documentation and telemetry contracts;
 - interface payloads expose event ids, proof roots, docs links, runbook links, and redaction posture where useful;
 - interface integration never exposes protected source, secrets, wallet private material, or unpaid AssetPack contents.
-- `TelemetryDocumentationInterfaceIntegration` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-telemetry-documentation-interface-integration.json` with `source-safe-interface-integration-metadata`, and checked by `pnpm run check:v35-gate8`;
+- `TelemetryDocumentationInterfaceIntegration` is exported by `@bitcode/protocol`, generated into `.proofs/v35/telemetry-documentation-interface-integration.json` with `source-safe-interface-integration-metadata`, and checked by `pnpm run check:v35-gate8`;
 - rows cover Terminal, Auxillaries, API, MCP API, ChatGPT App, package READMEs, internal docs, and public docs;
 - interface integration payloads allow event ids, proof roots, docs links, runbook links, redaction posture, correlation ids, state labels, summary counts, and source-safety class while blocking secrets, provider tokens, wallet private material, protected source payloads, raw protected prompts, raw protected model responses with source, buyer repository private data, and unpaid AssetPack source.
 
@@ -182,13 +182,13 @@ Closure acceptance:
 - local and staging-testnet rehearsals exercise documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, and source-safe proof-root review;
 - rehearsal logs/screenshots are source-safe;
 - value-bearing mainnet remains blocked.
-- `LocalStagingTelemetryDocumentationRehearsal` is exported by `@bitcode/protocol`, generated into `.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json` with `source-safe-rehearsal-metadata`, and checked by `pnpm run check:v35-gate9`;
+- `LocalStagingTelemetryDocumentationRehearsal` is exported by `@bitcode/protocol`, generated into `.proofs/v35/local-staging-telemetry-documentation-rehearsal.json` with `source-safe-rehearsal-metadata`, and checked by `pnpm run check:v35-gate9`;
 - rows cover local rehearsal, staging-testnet rehearsal, dashboard/runbook lookup, docs QA incident drill, proof-root review, and visible value-bearing mainnet blocking;
 - rehearsal payloads allow lane ids, event ids, proof roots, docs links, runbook ids, dashboard panel ids, incident classes, redaction posture, source-safety class, and summary counts while blocking secrets, provider tokens, wallet private material, protected source payloads, raw protected prompts, raw protected model responses with source, buyer repository private data, and unpaid AssetPack source.
 
 ### Gate 10: V35 Promotion Readiness
 
-Gate 10 owns final generated proof, promotion workflow support, source-safe `.bitcode/v35-documentation-telemetry-promotion-readiness-report.json`, and V35 closure.
+Gate 10 owns final generated proof, promotion workflow support, source-safe `.proofs/v35/documentation-telemetry-promotion-readiness-report.json`, and V35 closure.
 
 Closure acceptance:
 

@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `cb339f0407231855043dcf7174c384f1ab6bd16c`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, `.bitcode/v34-canon-posture-drift-report.json`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `.bitcode/v34-deployment-storage-posture.json`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `.bitcode/v34-migration-cicd-approval-gates.json`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, `.bitcode/v34-promotion-readiness-report.json`, V34 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V34_PROVEN.md` as the generated proof appendix for V34 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v34/spec-family-report.json`, `.proofs/v34/canonical-input-report.json`, `.proofs/v34/canon-posture-drift-report.json`, `.proofs/v34/deployment-host-capability-catalog.json`, `.proofs/v34/environment-lane-contracts.json`, `.proofs/v34/distributed-execution-runtime-receipts.json`, `.proofs/v34/deployment-storage-posture.json`, `.proofs/v34/secret-rotation-boundary-operations.json`, `.proofs/v34/migration-cicd-approval-gates.json`, `.proofs/v34/runtime-observers-broadcasters-repair-jobs.json`, `.proofs/v34/rollback-upgrade-data-repair-playbooks.json`, `.proofs/v34/local-staging-testnet-deployment-rehearsal.json`, `.proofs/v34/promotion-readiness-report.json`, V34 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V34_PROVEN.md` as the generated proof appendix for V34 promotion
 - Source parity state: V34 source-side deployment host capability catalog, environment lane contracts, distributed execution runtime receipts, storage posture, secret rotation, migration CI/CD approval gates, runtime observer and repair jobs, rollback/upgrade/data repair playbooks, local/staging-testnet deployment rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V34 file family
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V33`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
@@ -60,7 +60,7 @@ The V34 source-of-truth hierarchy is:
 3. `BITCODE_SPEC_V34_NOTES.md`.
 4. `BITCODE_SPEC_V34_DELTA.md`.
 5. `BITCODE_SPEC_V34_PARITY_MATRIX.md`.
-6. generated V34 artifacts under `.bitcode/` when produced.
+6. generated V34 artifacts under `.proofs/` when produced.
 7. `BITCODE_SPEC_V34_PROVEN.md` only after promotion.
 8. source implementation, tests, examples, public docs, internal docs, and QA evidence that realize this family.
 
@@ -195,13 +195,13 @@ Inherited V33 objects remain active: `Deposit`, `ReadRequest`, `ReadNeed`, `Find
 V34 closes through ten gates:
 
 1. **Gate 1: V34 Deployment Roadmap And Spec Opening** opens the V34 family over V33 canon, updates `SPECIFICATIONS_ROADMAP.md`, documents V33 active / V34 draft posture, and wires `check:v34-gate1`.
-2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`. It is closed by `packages/btd/src/deployment-host-capability-catalog.ts`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `pnpm run check:v34-gate2`.
-3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work. It is closed by `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `pnpm run check:v34-gate3`.
-4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material. It is closed by `packages/btd/src/deployment-storage-posture.ts`, `.bitcode/v34-deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
-5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks. It is closed by `packages/btd/src/secret-rotation-plan.ts`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `pnpm run check:v34-gate5`; OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families are cataloged with no secret values in tracked artifacts or logs.
-6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, promotion commit checks, Vercel/Supabase lane checks, and deployment blockers. It is closed by `packages/btd/src/migration-approval-gate.ts`, `.bitcode/v34-migration-cicd-approval-gates.json`, `packages/btd/__tests__/migration-approval-gate.test.ts`, `scripts/check-v34-gate6-migration-cicd-approval-gates.mjs`, and `pnpm run check:v34-gate6`; every row carries dry-run, reviewer approval, rollback, proof-root, workflow-binding, lane-admission, and no secret values serialization posture.
-7. **Gate 7: Runtime Observers Broadcasters Repair Jobs** makes settlement observers, ledger broadcasters, finality watchers, database projection repair jobs, object-storage repair jobs, generated proof jobs, and queue consumers explicit deployment jobs with receipts. It is closed by `packages/btd/src/runtime-observer-repair-job.ts`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `packages/btd/__tests__/runtime-observer-repair-job.test.ts`, `scripts/check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs`, and `pnpm run check:v34-gate7`; every row carries host capability ids, non-value lane contracts, runtime receipt work kinds, replay command, repair command, proof roots, and unsafe drift blocking posture.
-8. **Gate 8: Rollback Upgrade Data Repair Playbooks** defines operator playbooks for rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, and generated artifact repair. It is closed by `packages/btd/src/rollback-upgrade-repair-playbook.ts`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts`, `scripts/check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs`, and `pnpm run check:v34-gate8`; every playbook names entry condition, operator approval, commands, verification commands, proof roots, fail-closed result, state carriers, recovery boundary, and non-value lane admission.
+2. **Gate 2: Host Capability And Environment Lane Catalog** inventories runtime hosts, services, queues, observers, broadcasters, storage carriers, and lanes through `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract`. It is closed by `packages/btd/src/deployment-host-capability-catalog.ts`, `.proofs/v34/deployment-host-capability-catalog.json`, `.proofs/v34/environment-lane-contracts.json`, `packages/btd/__tests__/deployment-host-capability-catalog.test.ts`, and `pnpm run check:v34-gate2`.
+3. **Gate 3: Distributed Execution Runtime Contracts** defines `DistributedExecutionRuntimeReceipt` for long-running pipeline, PTRR agent, ThricifiedGeneration, tool, ledger, wallet, proof, object-storage, and repair work. It is closed by `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts`, `.proofs/v34/distributed-execution-runtime-receipts.json`, `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts`, and `pnpm run check:v34-gate3`.
+4. **Gate 4: Ledger Database Object Storage Deployment Posture** hardens ledger-derived state, database projection, object storage, generated proof artifacts, audit logs, backup, retention, and rollback material. It is closed by `packages/btd/src/deployment-storage-posture.ts`, `.proofs/v34/deployment-storage-posture.json`, `packages/btd/__tests__/deployment-storage-posture.test.ts`, and `pnpm run check:v34-gate4`; source-bearing AssetPack storage remains locked before settlement.
+5. **Gate 5: Secret Rotation And Credential Boundary Operations** defines secret families, storage owners, rotation commands, leak-response posture, CI masking, and runtime availability checks. It is closed by `packages/btd/src/secret-rotation-plan.ts`, `.proofs/v34/secret-rotation-boundary-operations.json`, `packages/btd/__tests__/secret-rotation-plan.test.ts`, and `pnpm run check:v34-gate5`; OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App families are cataloged with no secret values in tracked artifacts or logs.
+6. **Gate 6: Migration CI/CD Deployment Approval Gates** hardens schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, promotion commit checks, Vercel/Supabase lane checks, and deployment blockers. It is closed by `packages/btd/src/migration-approval-gate.ts`, `.proofs/v34/migration-cicd-approval-gates.json`, `packages/btd/__tests__/migration-approval-gate.test.ts`, `scripts/check-v34-gate6-migration-cicd-approval-gates.mjs`, and `pnpm run check:v34-gate6`; every row carries dry-run, reviewer approval, rollback, proof-root, workflow-binding, lane-admission, and no secret values serialization posture.
+7. **Gate 7: Runtime Observers Broadcasters Repair Jobs** makes settlement observers, ledger broadcasters, finality watchers, database projection repair jobs, object-storage repair jobs, generated proof jobs, and queue consumers explicit deployment jobs with receipts. It is closed by `packages/btd/src/runtime-observer-repair-job.ts`, `.proofs/v34/runtime-observers-broadcasters-repair-jobs.json`, `packages/btd/__tests__/runtime-observer-repair-job.test.ts`, `scripts/check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs`, and `pnpm run check:v34-gate7`; every row carries host capability ids, non-value lane contracts, runtime receipt work kinds, replay command, repair command, proof roots, and unsafe drift blocking posture.
+8. **Gate 8: Rollback Upgrade Data Repair Playbooks** defines operator playbooks for rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, and generated artifact repair. It is closed by `packages/btd/src/rollback-upgrade-repair-playbook.ts`, `.proofs/v34/rollback-upgrade-data-repair-playbooks.json`, `packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts`, `scripts/check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs`, and `pnpm run check:v34-gate8`; every playbook names entry condition, operator approval, commands, verification commands, proof roots, fail-closed result, state carriers, recovery boundary, and non-value lane admission.
 9. **Gate 9: Local Staging Testnet Deployment Rehearsal** proves local and staging-testnet deployment readiness using source-safe rehearsal logs, runtime receipts, and UI/API validation without value-bearing mainnet admission.
 10. **Gate 10: V34 Promotion Readiness** generates V34 proof artifacts, promotion readiness, active V34 / draft V35 posture, and canonical promotion support.
 
@@ -304,7 +304,7 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 - Current algorithms and derivation rules: request root, response root, event root, proof binding, replay command generation, rehearsal comparison, and fail-closed stale-artifact detection.
 - Current invariants and fail-closed conditions: stale promoted status truth, missing replay hook, source-unsafe proof artifact, missing runtime receipt, or drift blocks promotion.
 - Current proof obligations: generated artifact rows, command rows, proof roots, deployment receipt roots, and compatibility rows.
-- Current source-bearing implementation basis: protocol package helpers, `.bitcode/` artifacts, workflows, V34 gate checkers, and deployment playbooks.
+- Current source-bearing implementation basis: protocol package helpers, `.proofs/` artifacts, workflows, V34 gate checkers, and deployment playbooks.
 - Current validating commands and parity basis: V33 promotion proof plus V34 Gate 1 through Gate 10 checks.
 - Current accepted boundaries: generated artifacts are source-safe and do not print secrets or protected source.
 
@@ -312,27 +312,27 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v34-deployment-inference-synthesis-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-inference-synthesis-proof.json`
 - members: Reading pipeline deployment, AssetPack preview deployment, post-settlement delivery deployment.
 - theoremIds: deployment-inference-runtime-receipted, deployment-inference-source-safe-response.
 - replayStepIds: render schema, run fixture, parse result, compare proof roots.
-- witnessArtifactPaths: `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v34/spec-family-report.json`, `.proofs/v34/canonical-input-report.json`
 - current member closure criteria: every inference-adjacent deployed action names its pipeline, PTRR agent, step, sub-step, typed result, host id, lane id, and runtime receipt.
 - current member verdict shape: pass, fail, blocked, or deferred with repair posture.
 - current theorem-by-theorem closure reading: deployment hosts run inference law; they do not own inference law.
 - current theorem-to-replay grouping: request, response, telemetry, runtime receipt, and proof-root replay.
 - minimum artifact/replay binding set: spec-family report, canonical-input report, runtime receipt, and rehearsal log.
 - current proof-object fields: hostId, laneId, executionId, actionId, requestRoot, responseRoot, sourceSafetyClass, replayCommand.
-- generated-artifact and test bindings: V34 deployment artifacts through Gate 10, including `.bitcode/v34-promotion-readiness-report.json`.
+- generated-artifact and test bindings: V34 deployment artifacts through Gate 10, including `.proofs/v34/promotion-readiness-report.json`.
 - fail-closed conditions: missing schema, raw protected prompt, protected source, untyped output, missing runtime receipt, or stale proof root.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v34-deployment-prompt-completeness-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-prompt-completeness-proof.json`
 - members: ReadNeed prompt projection, Finding Fits prompt projection, delivery prompt projection.
 - theoremIds: deployment-prompts-redacted, deployment-prompt-contract-complete.
 - replayStepIds: prompt registry digest, context key inventory, redaction check, response fixture check.
-- witnessArtifactPaths: `.bitcode/v34-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v34/spec-family-report.json`
 - current member closure criteria: prompt templates and interpolated prompts are represented by source-safe digests and context keys where deployment receipts need auditability.
 - current member verdict shape: pass, fail, blocked, or deferred.
 - current theorem-by-theorem closure reading: runtime observability does not mean prompt leakage.
@@ -344,11 +344,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v34-deployment-static-code-analysis-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-static-code-analysis-proof.json`
 - members: versionless routes, deployment contract ownership, no demonstration imports, no secret literals.
 - theoremIds: deployment-routes-unversioned, deployment-contracts-package-owned.
 - replayStepIds: route scan, import scan, secret scan, schema export scan.
-- witnessArtifactPaths: `.bitcode/v34-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v34/canonical-input-report.json`
 - current member closure criteria: source keeps deployment contracts package-owned and versionless.
 - current member verdict shape: pass, fail, blocked, or deferred.
 - current theorem-by-theorem closure reading: static checks enforce architecture before runtime tests.
@@ -360,11 +360,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v34-deployment-verification-decisions-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-verification-decisions-proof.json`
 - members: lane admission, migration approval, secret availability, rehearsal verdict.
 - theoremIds: deployment-denial-readable, deployment-approval-verified.
 - replayStepIds: denied fixture, allowed fixture, stale fixture, repaired fixture.
-- witnessArtifactPaths: `.bitcode/v34-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v34/spec-family-report.json`
 - current member closure criteria: every deployment decision has machine-readable result plus operator-readable repair posture.
 - current member verdict shape: allowed, denied, blocked, deferred, or repaired.
 - current theorem-by-theorem closure reading: denial is a first-class deployment result, not an exception-shaped accident.
@@ -376,11 +376,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v34-deployment-selection-materialization-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-selection-materialization-proof.json`
 - members: selected fits, AssetPack preview, protected source lock, delivery admission, storage carrier.
 - theoremIds: deployment-preview-source-safe, deployment-delivery-paid-only.
 - replayStepIds: preview fixture, settlement fixture, delivery fixture, storage fixture.
-- witnessArtifactPaths: `.bitcode/v34-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v34/canonical-input-report.json`
 - current member closure criteria: deployed interfaces expose preview metadata before payment and source delivery only after settlement and storage admission.
 - current member verdict shape: pass, fail, blocked, or deferred.
 - current theorem-by-theorem closure reading: deployment convenience never crosses the protected-source boundary.
@@ -392,11 +392,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v34-deployment-authorization-sensitive-flow-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-authorization-sensitive-flow-proof.json`
 - members: API auth, MCP auth, ChatGPT App auth, organization authority, wallet capability, secret rotation, read-license policy.
 - theoremIds: deployment-auth-fail-closed, deployment-secrets-not-serialized.
 - replayStepIds: unauthenticated fixture, unauthorized fixture, authorized fixture, secret scan.
-- witnessArtifactPaths: `.bitcode/v34-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v34/spec-family-report.json`
 - current member closure criteria: every deployed action has an auth policy, lane policy, and secret boundary.
 - current member verdict shape: allowed, denied, blocked, or deferred.
 - current theorem-by-theorem closure reading: sensitive flow is governed by policy and rotation, not per-host custom logic.
@@ -408,11 +408,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v34-deployment-settlement-source-to-shares-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-settlement-source-to-shares-proof.json`
 - members: fee quote, BTD right transfer, source-to-shares projection, observer receipt, broadcaster receipt.
 - theoremIds: deployment-settlement-root-stable, deployment-rights-transfer-visible-after-finality.
 - replayStepIds: quote fixture, payment fixture, finality fixture, drift fixture.
-- witnessArtifactPaths: `.bitcode/v34-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v34/canonical-input-report.json`
 - current member closure criteria: deployed payment state matches ledger truth and repair posture.
 - current member verdict shape: quoted, pending, final, drifted, repaired, or blocked.
 - current theorem-by-theorem closure reading: deployment payment status is a projection of ledger truth.
@@ -424,11 +424,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v34-deployment-disclosure-boundary-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-disclosure-boundary-proof.json`
 - members: source-safe preview, unpaid denial, paid unlock, redacted examples, storage access.
 - theoremIds: deployment-preview-not-source, deployment-paid-unlock-source.
 - replayStepIds: preview render, unpaid source request, paid delivery request, redaction scan.
-- witnessArtifactPaths: `.bitcode/v34-spec-family-report.json`
+- witnessArtifactPaths: `.proofs/v34/spec-family-report.json`
 - current member closure criteria: protected source cannot appear before settlement in logs, storage carriers, generated proofs, or interface responses.
 - current member verdict shape: source-safe, denied, unlocked, or violation.
 - current theorem-by-theorem closure reading: all deployment carriers share one disclosure boundary.
@@ -440,11 +440,11 @@ The V34 subsystem coverage is total across repo supply and depositing, reading a
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v34-deployment-proof-contract-proof.json`
+- proofArtifactPath: `.proofs/v34/deployment-proof-contract-proof.json`
 - members: spec-family report, canonical-input report, host capability catalog, runtime receipts, storage posture, rehearsal proof.
 - theoremIds: deployment-proof-replayable, deployment-promotion-source-safe.
 - replayStepIds: generate, check, replay, compare, promote.
-- witnessArtifactPaths: `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`
+- witnessArtifactPaths: `.proofs/v34/spec-family-report.json`, `.proofs/v34/canonical-input-report.json`
 - current member closure criteria: every active deployment row has a replayable proof contract by V34 promotion.
 - current member verdict shape: pass, fail, blocked, deferred, or promoted.
 - current theorem-by-theorem closure reading: promotion depends on generated source-safe proof, not prose.
@@ -462,7 +462,7 @@ Generated artifacts must be stable, source-safe, and explicitly tied to validati
 ## V34 promotion readiness canon
 
 V34 Gate 10 closes when `version/v34` can promote to active V34 without direct `main` writes.
-The readiness report `.bitcode/v34-promotion-readiness-report.json` proves that all V34 deployment artifacts are present, source-safe, parseable, wired into gate checks, wired into promotion checks, generated proof appendix support, and workflow validation.
+The readiness report `.proofs/v34/promotion-readiness-report.json` proves that all V34 deployment artifacts are present, source-safe, parseable, wired into gate checks, wired into promotion checks, generated proof appendix support, and workflow validation.
 Promotion rewrites runtime posture from `V33` active / `V34` draft to `V34` active / `V35` draft and generates `BITCODE_SPEC_V34_PROVEN.md`.
 The exact post-promotion readiness posture token is V34 active / V35 draft.
 
@@ -474,7 +474,7 @@ Every gate must name the command that proves closure.
 ## V34 promotion canon
 
 V34 promotion may occur only after all V34 gates are closed and `version/v34` is requested into `main`.
-Promotion rewrites `BITCODE_SPEC.txt` from `V33` to `V34`, generates `BITCODE_SPEC_V34_PROVEN.md`, records source-safe `.bitcode/v34-*` evidence, and prepares active V34 / draft V35 posture.
+Promotion rewrites `BITCODE_SPEC.txt` from `V33` to `V34`, generates `BITCODE_SPEC_V34_PROVEN.md`, records source-safe `.proofs/v34/*` evidence, and prepares active V34 / draft V35 posture.
 
 ## V34 appendices and canonical supporting material
 
@@ -526,15 +526,15 @@ Every V34 proof family is replayable from generated artifacts and source-safe fi
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v34-deployment-inference-synthesis-proof.json` | runtime inference receipts | deployment-inference-runtime-receipted | run fixture | `.bitcode/v34-spec-family-report.json` | V33 Reading plus V34 runtime receipts |
-| Prompt-completeness | `.bitcode/v34-deployment-prompt-completeness-proof.json` | prompt digest receipts | deployment-prompts-redacted | redaction check | `.bitcode/v34-spec-family-report.json` | V33 prompt registry plus V34 lane receipts |
-| Static-code-analysis | `.bitcode/v34-deployment-static-code-analysis-proof.json` | route and import scans | deployment-routes-unversioned | route scan | `.bitcode/v34-canonical-input-report.json` | source tree |
-| Verification-decisions | `.bitcode/v34-deployment-verification-decisions-proof.json` | lane decisions | deployment-approval-verified | denied fixture | `.bitcode/v34-spec-family-report.json` | V34 lane and approval contracts |
-| Selection-and-materialization | `.bitcode/v34-deployment-selection-materialization-proof.json` | storage materialization | deployment-delivery-paid-only | storage fixture | `.bitcode/v34-canonical-input-report.json` | V33 AssetPack plus V34 storage posture |
-| Authorization-and-sensitive-flow | `.bitcode/v34-deployment-authorization-sensitive-flow-proof.json` | secret and auth rows | deployment-secrets-not-serialized | secret scan | `.bitcode/v34-spec-family-report.json` | V33 auth plus V34 rotation contracts |
-| Settlement-source-to-shares | `.bitcode/v34-deployment-settlement-source-to-shares-proof.json` | settlement observers | deployment-settlement-root-stable | finality fixture | `.bitcode/v34-canonical-input-report.json` | V33 BTD settlement plus V34 observers |
-| Disclosure-boundary | `.bitcode/v34-deployment-disclosure-boundary-proof.json` | storage disclosure | deployment-preview-not-source | redaction scan | `.bitcode/v34-spec-family-report.json` | V33 disclosure plus V34 storage |
-| Proof-contract | `.bitcode/v34-deployment-proof-contract-proof.json` | promotion proof | deployment-proof-replayable | promote | `.bitcode/v34-spec-family-report.json` | V34 generated artifacts |
+| Inference-synthesis | `.proofs/v34/deployment-inference-synthesis-proof.json` | runtime inference receipts | deployment-inference-runtime-receipted | run fixture | `.proofs/v34/spec-family-report.json` | V33 Reading plus V34 runtime receipts |
+| Prompt-completeness | `.proofs/v34/deployment-prompt-completeness-proof.json` | prompt digest receipts | deployment-prompts-redacted | redaction check | `.proofs/v34/spec-family-report.json` | V33 prompt registry plus V34 lane receipts |
+| Static-code-analysis | `.proofs/v34/deployment-static-code-analysis-proof.json` | route and import scans | deployment-routes-unversioned | route scan | `.proofs/v34/canonical-input-report.json` | source tree |
+| Verification-decisions | `.proofs/v34/deployment-verification-decisions-proof.json` | lane decisions | deployment-approval-verified | denied fixture | `.proofs/v34/spec-family-report.json` | V34 lane and approval contracts |
+| Selection-and-materialization | `.proofs/v34/deployment-selection-materialization-proof.json` | storage materialization | deployment-delivery-paid-only | storage fixture | `.proofs/v34/canonical-input-report.json` | V33 AssetPack plus V34 storage posture |
+| Authorization-and-sensitive-flow | `.proofs/v34/deployment-authorization-sensitive-flow-proof.json` | secret and auth rows | deployment-secrets-not-serialized | secret scan | `.proofs/v34/spec-family-report.json` | V33 auth plus V34 rotation contracts |
+| Settlement-source-to-shares | `.proofs/v34/deployment-settlement-source-to-shares-proof.json` | settlement observers | deployment-settlement-root-stable | finality fixture | `.proofs/v34/canonical-input-report.json` | V33 BTD settlement plus V34 observers |
+| Disclosure-boundary | `.proofs/v34/deployment-disclosure-boundary-proof.json` | storage disclosure | deployment-preview-not-source | redaction scan | `.proofs/v34/spec-family-report.json` | V33 disclosure plus V34 storage |
+| Proof-contract | `.proofs/v34/deployment-proof-contract-proof.json` | promotion proof | deployment-proof-replayable | promote | `.proofs/v34/spec-family-report.json` | V34 generated artifacts |
 
 ## Appendix C. Generated artifact contract catalog
 
@@ -550,31 +550,31 @@ V34 preserves operator-quality proof output expectations and extends them to dep
 
 | artifactPath | owner | sourceSafety | validation |
 | --- | --- | --- | --- |
-| `.bitcode/v34-spec-family-report.json` | protocol | source-safe | `node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33` |
-| `.bitcode/v34-canonical-input-report.json` | protocol | source-safe | `node scripts/check-bitcode-canonical-inputs.mjs --current-target V33` |
-| `.bitcode/v34-deployment-host-capability-catalog.json` | btd | source-safe-deployment-host-capability-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
-| `.bitcode/v34-environment-lane-contracts.json` | btd | source-safe-environment-lane-contract-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
-| `.bitcode/v34-distributed-execution-runtime-receipts.json` | pipeline-hosts | source-safe-distributed-execution-runtime-receipts | `pnpm run check:v34-distributed-execution-runtime-receipts` |
-| `.bitcode/v34-deployment-storage-posture.json` | btd | source-safe-deployment-storage-posture-metadata | `pnpm run check:v34-deployment-storage-posture` |
-| `.bitcode/v34-secret-rotation-boundary-operations.json` | btd | source-safe-secret-rotation-boundary-metadata | `pnpm run check:v34-secret-rotation-boundary-operations` |
-| `.bitcode/v34-migration-cicd-approval-gates.json` | btd | source-safe-migration-cicd-approval-gate-metadata | `pnpm run check:v34-migration-cicd-approval-gates` |
-| `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` | btd | source-safe-runtime-observer-repair-job-metadata | `pnpm run check:v34-runtime-observers-broadcasters-repair-jobs` |
-| `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` | btd | source-safe-rollback-upgrade-repair-playbook-metadata | `pnpm run check:v34-rollback-upgrade-data-repair-playbooks` |
-| `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` | btd | source-safe-deployment-readiness-rehearsal-metadata | `pnpm run check:v34-local-staging-testnet-deployment-rehearsal` |
-| `.bitcode/v34-promotion-readiness-report.json` | protocol | source-safe-deployment-promotion-readiness-metadata | `pnpm run check:v34-gate10` |
+| `.proofs/v34/spec-family-report.json` | protocol | source-safe | `node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33` |
+| `.proofs/v34/canonical-input-report.json` | protocol | source-safe | `node scripts/check-bitcode-canonical-inputs.mjs --current-target V33` |
+| `.proofs/v34/deployment-host-capability-catalog.json` | btd | source-safe-deployment-host-capability-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
+| `.proofs/v34/environment-lane-contracts.json` | btd | source-safe-environment-lane-contract-metadata | `pnpm run check:v34-host-capability-environment-lanes` |
+| `.proofs/v34/distributed-execution-runtime-receipts.json` | pipeline-hosts | source-safe-distributed-execution-runtime-receipts | `pnpm run check:v34-distributed-execution-runtime-receipts` |
+| `.proofs/v34/deployment-storage-posture.json` | btd | source-safe-deployment-storage-posture-metadata | `pnpm run check:v34-deployment-storage-posture` |
+| `.proofs/v34/secret-rotation-boundary-operations.json` | btd | source-safe-secret-rotation-boundary-metadata | `pnpm run check:v34-secret-rotation-boundary-operations` |
+| `.proofs/v34/migration-cicd-approval-gates.json` | btd | source-safe-migration-cicd-approval-gate-metadata | `pnpm run check:v34-migration-cicd-approval-gates` |
+| `.proofs/v34/runtime-observers-broadcasters-repair-jobs.json` | btd | source-safe-runtime-observer-repair-job-metadata | `pnpm run check:v34-runtime-observers-broadcasters-repair-jobs` |
+| `.proofs/v34/rollback-upgrade-data-repair-playbooks.json` | btd | source-safe-rollback-upgrade-repair-playbook-metadata | `pnpm run check:v34-rollback-upgrade-data-repair-playbooks` |
+| `.proofs/v34/local-staging-testnet-deployment-rehearsal.json` | btd | source-safe-deployment-readiness-rehearsal-metadata | `pnpm run check:v34-local-staging-testnet-deployment-rehearsal` |
+| `.proofs/v34/promotion-readiness-report.json` | protocol | source-safe-deployment-promotion-readiness-metadata | `pnpm run check:v34-gate10` |
 
 ### V34 specifying generated artifacts
 
-Gate 1 requires `.bitcode/v34-spec-family-report.json` and `.bitcode/v34-canonical-input-report.json` to be declared.
-Gate 2 requires `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate2`.
-Gate 3 requires `.bitcode/v34-distributed-execution-runtime-receipts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate3`, with receipt coverage for `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`.
-Gate 4 requires `.bitcode/v34-deployment-storage-posture.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate4`, with ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, rollback material, retention, encryption, and source-bearing AssetPack lock coverage.
-Gate 5 requires `.bitcode/v34-secret-rotation-boundary-operations.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate5`, with OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App secret-family coverage and no secret values in generated artifacts or logs.
-Gate 6 requires `.bitcode/v34-migration-cicd-approval-gates.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate6`, with schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel/Supabase lane checks, promotion commit approval, reviewer approval, rollback, dry-run, proof-root, workflow-binding, and no secret values coverage.
-Gate 7 requires `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate7`, with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipt, replay command, repair command, and unsafe drift coverage.
-Gate 8 requires `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate8`, with rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, generated artifact repair, operator approval, command, verification, proof-root, fail-closed, and non-value lane coverage.
-Gate 9 requires `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate9`, with `DeploymentReadinessRehearsal` rows for local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, and value-bearing mainnet blocked rehearsal. The rehearsal covers Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe logs, proof-rooted screenshots or logs, validation commands, proof roots, and value-bearing mainnet blocking.
-Gate 10 requires `.bitcode/v34-promotion-readiness-report.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate10`, with coverage for every V34 deployment artifact, V34 promotion command planning, generated appendix support, workflow support, source-safe report metadata, and active V34 / draft V35 post-promotion posture.
+Gate 1 requires `.proofs/v34/spec-family-report.json` and `.proofs/v34/canonical-input-report.json` to be declared.
+Gate 2 requires `.proofs/v34/deployment-host-capability-catalog.json` and `.proofs/v34/environment-lane-contracts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate2`.
+Gate 3 requires `.proofs/v34/distributed-execution-runtime-receipts.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate3`, with receipt coverage for `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`.
+Gate 4 requires `.proofs/v34/deployment-storage-posture.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate4`, with ledger-derived state, database projection, object storage, proof artifacts, audit logs, backups, rollback material, retention, encryption, and source-bearing AssetPack lock coverage.
+Gate 5 requires `.proofs/v34/secret-rotation-boundary-operations.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate5`, with OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App secret-family coverage and no secret values in generated artifacts or logs.
+Gate 6 requires `.proofs/v34/migration-cicd-approval-gates.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate6`, with schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel/Supabase lane checks, promotion commit approval, reviewer approval, rollback, dry-run, proof-root, workflow-binding, and no secret values coverage.
+Gate 7 requires `.proofs/v34/runtime-observers-broadcasters-repair-jobs.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate7`, with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipt, replay command, repair command, and unsafe drift coverage.
+Gate 8 requires `.proofs/v34/rollback-upgrade-data-repair-playbooks.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate8`, with rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, generated artifact repair, operator approval, command, verification, proof-root, fail-closed, and non-value lane coverage.
+Gate 9 requires `.proofs/v34/local-staging-testnet-deployment-rehearsal.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate9`, with `DeploymentReadinessRehearsal` rows for local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, and value-bearing mainnet blocked rehearsal. The rehearsal covers Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe logs, proof-rooted screenshots or logs, validation commands, proof roots, and value-bearing mainnet blocking.
+Gate 10 requires `.proofs/v34/promotion-readiness-report.json` to be generated, source-safe, deterministic, and checked by `pnpm run check:v34-gate10`, with coverage for every V34 deployment artifact, V34 promotion command planning, generated appendix support, workflow support, source-safe report metadata, and active V34 / draft V35 post-promotion posture.
 
 ### Shared generated-artifact fields
 
@@ -641,5 +641,5 @@ V34 adds deployment-specific causes: missing host capability, missing environmen
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing AssetPack artifacts remain governed by `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V34_PROVEN.md`.
+Source-bearing AssetPack artifacts remain governed by `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V34_PROVEN.md`.
 V34 adds deployment storage posture and runtime receipt proof around those artifacts; it does not make protected source visible before settlement.

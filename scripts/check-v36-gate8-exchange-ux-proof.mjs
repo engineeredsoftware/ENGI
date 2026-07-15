@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-exchange-ux-proof.json';
+const ARTIFACT_PATH = '.proofs/v36/exchange-ux-proof.json';
 const REQUIRED_CAPABILITY_IDS = [
   'market_wide_master_detail',
   'market_filters',

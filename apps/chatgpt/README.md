@@ -90,7 +90,7 @@ product and API expose.
 
 V35 additionally binds ChatGPT App tool metadata to
 `TelemetryDocumentationInterfaceIntegration` and the source-safe generated
-artifact `.bitcode/v35-telemetry-documentation-interface-integration.json`.
+artifact `.proofs/v35/telemetry-documentation-interface-integration.json`.
 Tool results may include event ids, proof roots, docs links, runbook links,
 redaction posture, correlation ids, and safe state labels so a ChatGPT thread
 can hand the operator back to product, docs, or a runbook without leaking

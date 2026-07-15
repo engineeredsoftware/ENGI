@@ -16,7 +16,7 @@ test('V42 ReadNeed review and resynthesis product closure binds the accepted Nee
 
   assert.equal(
     V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ARTIFACT_PATH,
-    '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
+    '.proofs/v42/readneed-review-resynthesis-product-closure.json',
   );
   assert.equal(report.artifactId, 'v42-readneed-review-resynthesis-product-closure');
   assert.equal(report.schemaId, V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_SCHEMA_ID);

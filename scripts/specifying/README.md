@@ -7,7 +7,7 @@
 > canon posture, promotion helpers, and a transitional demo-engine bridge still
 > used by a few UAPI routes. It is **not** a product package named “protocol.”
 > Specifying *law* lives in root `BITCODE_SPECIFYING.md`; this package is the
-> commercial *machine* that generates/checks `.bitcode/*` artifacts and gate proofs.
+> commercial *machine* that generates/checks `.proofs/*` artifacts and gate proofs.
 
 Bitcode specifying tooling package (gate generators, canon posture, transitional demo-engine bridge). The monorepo itself is protocol canon.
 
@@ -98,7 +98,7 @@ UX cleanup through `check:v43-gate1`.
 V43 Gate 2 adds `V43RouteVocabularyInventory` through
 `scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js`,
 `scripts/specifying/test/v43-route-vocabulary-inventory.test.js`,
-`.bitcode/v43-route-vocabulary-inventory.json`,
+`.proofs/v43/route-vocabulary-inventory.json`,
 `generate:v43-route-vocabulary-inventory`,
 `check:v43-route-vocabulary-inventory`, and `check:v43-gate2`.
 The artifact is source-safe metadata only: it records file paths, token counts,
@@ -109,7 +109,7 @@ credentials, wallet private material, or private settlement payloads.
 V43 Gate 3 adds `V43PacksActivityMasterDetail` through
 `scripts/specifying/src/canonical/v43-packs-activity-master-detail.js`,
 `scripts/specifying/test/v43-packs-activity-master-detail.test.js`,
-`.bitcode/v43-packs-activity-master-detail.json`,
+`.proofs/v43/packs-activity-master-detail.json`,
 `generate:v43-packs-activity-master-detail`,
 `check:v43-packs-activity-master-detail`, and `check:v43-gate3`. It binds
 `PackActivityRecord`, `PacksActivityDetail`, `/api/packs/activity`, `/packs`,
@@ -120,7 +120,7 @@ metadata expansion, and no-source leak tests.
 V43 Gate 4 adds `V43ReadRouteFiveStepUx` through
 `scripts/specifying/src/canonical/v43-read-route-five-step-ux.js`,
 `scripts/specifying/test/v43-read-route-five-step-ux.test.js`,
-`.bitcode/v43-read-route-five-step-ux.json`,
+`.proofs/v43/read-route-five-step-ux.json`,
 `generate:v43-read-route-five-step-ux`,
 `check:v43-read-route-five-step-ux`, and `check:v43-gate4`. It binds
 `ReadRouteSession`, `/read`, five-step Reading UX, Need review,
@@ -131,7 +131,7 @@ navigation, and no-source leak tests.
 V43 Gate 5 adds `V43DepositRouteOptions` through
 `scripts/specifying/src/canonical/v43-deposit-route-options.js`,
 `scripts/specifying/test/v43-deposit-route-options.test.js`,
-`.bitcode/v43-deposit-route-options.json`,
+`.proofs/v43/deposit-route-options.json`,
 `generate:v43-deposit-route-options`,
 `check:v43-deposit-route-options`, and `check:v43-gate5`. It binds
 `DepositRouteSession`, `/deposit`, five-step Depositing UX,
@@ -143,7 +143,7 @@ route navigation, and no-source leak tests while leaving Gate 6 policy and Gate
 V43 Gate 6 adds `DepositAssetPackOptionPolicyReport` through
 `scripts/specifying/src/canonical/v43-deposit-policy-compensation.js`,
 `scripts/specifying/test/v43-deposit-policy-compensation.test.js`,
-`.bitcode/v43-deposit-policy-compensation.json`,
+`.proofs/v43/deposit-policy-compensation.json`,
 `generate:v43-deposit-policy-compensation`,
 `check:v43-deposit-policy-compensation`, and `check:v43-gate6`. It binds
 source criticality, likely demand, deterministic ROI, estimate-only BTD
@@ -155,7 +155,7 @@ activity synchronization.
 V43 Gate 7 adds `DepositAssetPackOptionAdmissionReport` through
 `scripts/specifying/src/canonical/v43-deposit-option-admission.js`,
 `scripts/specifying/test/v43-deposit-option-admission.test.js`,
-`.bitcode/v43-deposit-option-admission.json`,
+`.proofs/v43/deposit-option-admission.json`,
 `generate:v43-deposit-option-admission`,
 `check:v43-deposit-option-admission`, and `check:v43-gate7`. It binds
 depositor approve/reject/resynthesis decisions, source-safe admission receipts,
@@ -167,7 +167,7 @@ and unpaid AssetPack source disclosure outside deposit-side admission.
 V43 Gate 8 adds `V43RouteUxProductExcellence` through
 `scripts/specifying/src/canonical/v43-route-ux-product-excellence.js`,
 `scripts/specifying/test/v43-route-ux-product-excellence.test.js`,
-`.bitcode/v43-route-ux-product-excellence.json`,
+`.proofs/v43/route-ux-product-excellence.json`,
 `generate:v43-route-ux-product-excellence`,
 `check:v43-route-ux-product-excellence`, and `check:v43-gate8`. It binds the
 shared product route shell, Reading/Depositing step grid, loading/empty/error
@@ -179,7 +179,7 @@ private material, or private settlement payloads.
 V43 Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair` through
 `scripts/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js`,
 `scripts/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js`,
-`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`,
+`.proofs/v43/cross-route-rehearsal-telemetry-repair.json`,
 `scripts/rehearse-v43-cross-route-product-flow.mjs`,
 `generate:v43-cross-route-rehearsal`, `check:v43-cross-route-rehearsal`, and
 `check:v43-gate9`. It binds local/staging-testnet rehearsal rows for
@@ -191,7 +191,7 @@ mainnet execution blocked.
 V43 Gate 10 adds `V43PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v43-promotion-readiness-report.js`,
 `scripts/specifying/test/v43-promotion-readiness.test.js`,
-`.bitcode/v43-promotion-readiness-report.json`,
+`.proofs/v43/promotion-readiness-report.json`,
 `generate:v43-promotion-readiness`, `check:v43-promotion-readiness`,
 `check:v43-gate10`, and `v43-canon-promotion.yml`. It binds all V43 product
 route artifacts, workflows, generated PROVEN support, promotion scripts,
@@ -210,7 +210,7 @@ operation. Gate 1 is specification/documentation/workflow posture only.
 V44 Gate 2 adds `V44EconomicDomainModel` through
 `scripts/specifying/src/canonical/v44-economic-domain-model.js`,
 `scripts/specifying/test/v44-economic-domain-model.test.js`,
-`.bitcode/v44-economic-domain-model.json`,
+`.proofs/v44/economic-domain-model.json`,
 `generate:v44-economic-domain-model`, `check:v44-economic-domain-model`, and
 `check:v44-gate2`. It binds source-safe economic object contracts, receipt
 taxonomy ids, value labels, forbidden payload ids, package exports, workflow
@@ -220,7 +220,7 @@ checks, and generated artifact freshness for later `/packs`, `/read`, and
 V44 Gate 3 adds `V44PacksPortfolioMarketIntelligence` through
 `scripts/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js`,
 `scripts/specifying/test/v44-packs-portfolio-market-intelligence.test.js`,
-`.bitcode/v44-packs-portfolio-market-intelligence.json`,
+`.proofs/v44/packs-portfolio-market-intelligence.json`,
 `generate:v44-packs-portfolio-market-intelligence`,
 `check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`. It
 binds `/api/packs/activity` and `/packs` to source-safe portfolio positions,
@@ -231,7 +231,7 @@ tests.
 V44 Gate 4 adds `V44ReadingBudgetQuotePolicy` through
 `scripts/specifying/src/canonical/v44-reading-budget-quote-policy.js`,
 `scripts/specifying/test/v44-reading-budget-quote-policy.test.js`,
-`.bitcode/v44-reading-budget-quote-policy.json`,
+`.proofs/v44/reading-budget-quote-policy.json`,
 `generate:v44-reading-budget-quote-policy`,
 `check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. It binds
 `/read` to source-safe Reading procurement governance: budget envelopes,
@@ -243,7 +243,7 @@ readback, BTD fee/source-to-shares prerequisites, and source-safety tests.
 V44 Gate 5 adds `V44DepositorEarningsSupplyOpportunities` through
 `scripts/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js`,
 `scripts/specifying/test/v44-depositor-earnings-supply-opportunities.test.js`,
-`.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+`.proofs/v44/depositor-earnings-supply-opportunities.json`,
 `generate:v44-depositor-earnings-supply-opportunities`,
 `check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
 It binds `/deposit` to source-safe Depositor earning supply intelligence:
@@ -255,7 +255,7 @@ source-safety tests.
 V44 Gate 6 adds `V44BtdBtcCompensationStatements` through
 `scripts/specifying/src/canonical/v44-btd-btc-compensation-statements.js`,
 `scripts/specifying/test/v44-btd-btc-compensation-statements.test.js`,
-`.bitcode/v44-btd-btc-compensation-statements.json`,
+`.proofs/v44/btd-btc-compensation-statements.json`,
 `generate:v44-btd-btc-compensation-statements`,
 `check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`. It binds
 settlement rights delivery boundaries to source-safe BTD range accounting, BTC
@@ -267,7 +267,7 @@ exports, workflow wiring, and source-safety tests.
 V44 Gate 7 adds `V44OrganizationPolicyWalletAuthority` through
 `scripts/specifying/src/canonical/v44-organization-policy-wallet-authority.js`,
 `scripts/specifying/test/v44-organization-policy-wallet-authority.test.js`,
-`.bitcode/v44-organization-policy-wallet-authority.json`,
+`.proofs/v44/organization-policy-wallet-authority.json`,
 `generate:v44-organization-policy-wallet-authority`,
 `check:v44-organization-policy-wallet-authority`, and `check:v44-gate7`. It
 binds BTD Reading and deposit authority actions to source-safe organization
@@ -278,7 +278,7 @@ governance readback, package exports, workflow wiring, and source-safety tests.
 V44 Gate 8 adds `V44EnterpriseProductUx` through
 `scripts/specifying/src/canonical/v44-enterprise-product-ux.js`,
 `scripts/specifying/test/v44-enterprise-product-ux.test.js`,
-`.bitcode/v44-enterprise-product-ux.json`,
+`.proofs/v44/enterprise-product-ux.json`,
 `generate:v44-enterprise-product-ux`,
 `check:v44-enterprise-product-ux`, and `check:v44-gate8`. It binds shared
 enterprise UX primitives, `/packs` dense economic operation, `/read`
@@ -290,7 +290,7 @@ surface.
 V44 Gate 9 adds `V44ScaledNetworkRehearsal` through
 `scripts/specifying/src/canonical/v44-scaled-network-rehearsal.js`,
 `scripts/specifying/test/v44-scaled-network-rehearsal.test.js`,
-`.bitcode/v44-scaled-network-rehearsal.json`,
+`.proofs/v44/scaled-network-rehearsal.json`,
 `generate:v44-scaled-network-rehearsal`,
 `check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
 `check:v44-gate9`. It binds source-safe local and staging-testnet rehearsal
@@ -304,7 +304,7 @@ without secret serialization or value-bearing mainnet admission.
 V44 Gate 10 adds `V44PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v44-promotion-readiness-report.js`,
 `scripts/specifying/test/v44-promotion-readiness.test.js`,
-`.bitcode/v44-promotion-readiness-report.json`,
+`.proofs/v44/promotion-readiness-report.json`,
 `generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
 `check:v44-gate10`, and `v44-canon-promotion.yml`. It binds all V44 gate
 artifacts, source-safe promotion metadata, generated PROVEN support, promotion
@@ -317,7 +317,7 @@ admission.
 V45 Gate 17 adds `V45SourceSafeEndToEndRehearsal` through
 `scripts/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js`,
 `scripts/specifying/test/v45-source-safe-e2e-rehearsal.test.js`,
-`.bitcode/v45-source-safe-e2e-rehearsal.json`,
+`.proofs/v45/source-safe-e2e-rehearsal.json`,
 `generate:v45-source-safe-e2e-rehearsal`,
 `check:v45-source-safe-e2e-rehearsal`, `rehearse:v45-source-safe-e2e`, and
 `check:v45-gate17`. It binds source-safe local deterministic,
@@ -334,7 +334,7 @@ withheld.
 V45 Gate 18 adds `V45PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v45-promotion-readiness-report.js`,
 `scripts/specifying/test/v45-promotion-readiness.test.js`,
-`.bitcode/v45-promotion-readiness-report.json`,
+`.proofs/v45/promotion-readiness-report.json`,
 `generate:v45-promotion-readiness`, `check:v45-promotion-readiness`, and
 `check:v45-gate18`. It binds V45 proof-family artifacts, source-safe rehearsal,
 draft `BITCODE_SPEC_V45_PROVEN.md` generation support,
@@ -350,7 +350,7 @@ material while naming the public/operator/interface explanation scope.
 V46 Gate 2 adds `V46ProtocolComprehensionObjectModel` through
 `scripts/specifying/src/canonical/v46-protocol-comprehension-object-model.js`,
 `scripts/specifying/test/v46-protocol-comprehension-object-model.test.js`,
-`.bitcode/v46-protocol-comprehension-object-model.json`,
+`.proofs/v46/protocol-comprehension-object-model.json`,
 `generate:v46-protocol-comprehension-object-model`,
 `check:v46-protocol-comprehension-object-model`, and `check:v46-gate2`. It
 binds the source-safe object model, claim categories, authority classes,
@@ -362,7 +362,7 @@ work.
 V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
 `scripts/specifying/src/canonical/v46-public-operator-claim-boundaries.js`,
 `scripts/specifying/test/v46-public-operator-claim-boundaries.test.js`,
-`.bitcode/v46-public-operator-claim-boundaries.json`,
+`.proofs/v46/public-operator-claim-boundaries.json`,
 `generate:v46-public-operator-claim-boundaries`,
 `check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`.
 Package consumers can call `buildV46PublicOperatorClaimBoundaries` to produce
@@ -375,7 +375,7 @@ private material, or value-bearing mainnet authority.
 V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
 `scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js`,
 `scripts/specifying/test/v46-product-route-comprehension-readback.test.js`,
-`.bitcode/v46-product-route-comprehension-readback.json`,
+`.proofs/v46/product-route-comprehension-readback.json`,
 `generate:v46-product-route-comprehension-readback`,
 `check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
 binds `/packs`, `/read`, and `/deposit` to source-safe low-detail defaults,
@@ -387,7 +387,7 @@ route scans.
 V46 Gate 5 adds `V46InterfaceClaimContracts` through
 `scripts/specifying/src/canonical/v46-interface-claim-contracts.js`,
 `scripts/specifying/test/v46-interface-claim-contracts.test.js`,
-`.bitcode/v46-interface-claim-contracts.json`,
+`.proofs/v46/interface-claim-contracts.json`,
 `generate:v46-interface-claim-contracts`,
 `check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
 API schema compatibility, MCP tool contracts, ChatGPT App action contracts,
@@ -399,7 +399,7 @@ no-source/no-secret interface scans.
 V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
 `scripts/specifying/src/canonical/v46-proof-readback-operator-explanation.js`,
 `scripts/specifying/test/v46-proof-readback-operator-explanation.test.js`,
-`.bitcode/v46-proof-readback-operator-explanation.json`,
+`.proofs/v46/proof-readback-operator-explanation.json`,
 `generate:v46-proof-readback-operator-explanation`,
 `check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
 distinguishes canonical/generated proof, execution/workflow receipts, ledger
@@ -411,7 +411,7 @@ private payloads.
 V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
 `scripts/specifying/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
 `scripts/specifying/test/v46-local-interface-comprehension-rehearsal.test.js`,
-`.bitcode/v46-local-interface-comprehension-rehearsal.json`,
+`.proofs/v46/local-interface-comprehension-rehearsal.json`,
 `generate:v46-local-interface-comprehension-rehearsal`,
 `check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
 It rehearses local .docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
@@ -422,7 +422,7 @@ source-safe.
 V46 Gate 8 adds `V46PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v46-promotion-readiness-report.js`,
 `scripts/specifying/test/v46-promotion-readiness.test.js`,
-`.bitcode/v46-promotion-readiness-report.json`,
+`.proofs/v46/promotion-readiness-report.json`,
 `generate:v46-promotion-readiness`, `check:v46-promotion-readiness`, and
 `check:v46-gate8`. It binds the accepted V46 protocol comprehension artifacts,
 generated `BITCODE_SPEC_V46_PROVEN.md` support, `v46-canon-promotion.yml`,
@@ -435,7 +435,7 @@ value-bearing mainnet authority.
 V47 Gate 10 adds `V47PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v47-promotion-readiness-report.js`,
 `scripts/specifying/test/v47-promotion-readiness.test.js`,
-`.bitcode/v47-promotion-readiness-report.json`,
+`.proofs/v47/promotion-readiness-report.json`,
 `generate:v47-promotion-readiness`, `check:v47-promotion-readiness`, and
 `check:v47-gate10`. It binds the accepted V47 commercial website testnet
 launch artifacts, generated `BITCODE_SPEC_V47_PROVEN.md` support,
@@ -466,7 +466,7 @@ V41 gates rewrite Reading, Conversation, tool-definition, or interface prompts.
 V41 Gate 2 adds `V41PromptPartPromptInventory` through
 `scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js`,
 `scripts/specifying/test/v41-promptpart-prompt-inventory.test.js`,
-`.bitcode/v41-promptpart-prompt-inventory.json`,
+`.proofs/v41/promptpart-prompt-inventory.json`,
 `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`, and
 `check:v41-gate2`.
 The artifact is source-safe metadata only and currently catalogues 1,459 raw
@@ -477,7 +477,7 @@ shortest-path Reading, and the AI-reading dominant demonstration.
 V41 Gate 3 adds `V41RegistryInterpolationContracts` through
 `scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js`,
 `scripts/specifying/test/v41-registry-interpolation-contracts.test.js`,
-`.bitcode/v41-registry-interpolation-contracts.json`,
+`.proofs/v41/registry-interpolation-contracts.json`,
 `generate:v41-registry-interpolation-contracts`,
 `check:v41-registry-interpolation-contracts`, and `check:v41-gate3`.
 The artifact is source-safe metadata only and currently covers 12
@@ -490,7 +490,7 @@ synthesis/finishing parser targets, and Gate 2 inventory binding.
 V41 Gate 4 adds `V41ReadingPromptBenchmarkBaselines` through
 `scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js`,
 `scripts/specifying/test/v41-reading-prompt-benchmark-baselines.test.js`,
-`.bitcode/v41-reading-prompt-benchmark-baselines.json`,
+`.proofs/v41/reading-prompt-benchmark-baselines.json`,
 `generate:v41-reading-prompt-benchmark-baselines`,
 `check:v41-reading-prompt-benchmark-baselines`, and `check:v41-gate4`.
 The artifact is source-safe metadata only and currently covers 10 Reading
@@ -500,7 +500,7 @@ pre-rewrite disclosure tiers.
 V41 Gate 5 adds `V41ReadNeedPromptHardening` through
 `scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js`,
 `scripts/specifying/test/v41-readneed-prompt-hardening.test.js`,
-`.bitcode/v41-readneed-prompt-hardening.json`,
+`.proofs/v41/readneed-prompt-hardening.json`,
 `generate:v41-readneed-prompt-hardening`,
 `check:v41-readneed-prompt-hardening`, and `check:v41-gate5`.
 The artifact is source-safe metadata only and currently covers 7
@@ -512,7 +512,7 @@ composition, read-comprehension tool prompt alignment, and Gate 2 through Gate
 V41 Gate 6 adds `V41ReadFitsFindingPromptHardening` through
 `scripts/specifying/src/canonical/v41-readfitsfinding-prompt-hardening.js`,
 `scripts/specifying/test/v41-readfitsfinding-prompt-hardening.test.js`,
-`.bitcode/v41-readfitsfinding-prompt-hardening.json`,
+`.proofs/v41/readfitsfinding-prompt-hardening.json`,
 `generate:v41-readfitsfinding-prompt-hardening`,
 `check:v41-readfitsfinding-prompt-hardening`, and `check:v41-gate6`.
 The artifact is source-safe metadata only and currently covers 8
@@ -524,7 +524,7 @@ boundaries, telemetry redaction, and Gate 2 through Gate 5 dependency roots.
 V41 Gate 7 adds `V41ConversationToolInterfacePromptRewrite` through
 `scripts/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js`,
 `scripts/specifying/test/v41-conversation-tool-interface-prompt-rewrite.test.js`,
-`.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`,
+`.proofs/v41/conversation-tool-interface-prompt-rewrite.json`,
 `generate:v41-conversation-tool-interface-prompt-rewrite`,
 `check:v41-conversation-tool-interface-prompt-rewrite`, and `check:v41-gate7`.
 The artifact is source-safe metadata only and currently covers 9 rewrite rows
@@ -537,7 +537,7 @@ dependency roots.
 V41 Gate 8 adds `V41PromptProgramBenchmarkReport` through
 `scripts/specifying/src/canonical/v41-prompt-program-benchmark-report.js`,
 `scripts/specifying/test/v41-prompt-program-benchmark-report.test.js`,
-`.bitcode/v41-prompt-program-benchmark-report.json`,
+`.proofs/v41/prompt-program-benchmark-report.json`,
 `generate:v41-prompt-program-benchmark-report`,
 `check:v41-prompt-program-benchmark-report`, and `check:v41-gate8`.
 The artifact is source-safe metadata only and currently binds 9 benchmark
@@ -549,7 +549,7 @@ dependency roots.
 V41 Gate 9 adds `V41PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v41-promotion-readiness-report.js`,
 `scripts/specifying/test/v41-promotion-readiness.test.js`,
-`.bitcode/v41-promotion-readiness-report.json`,
+`.proofs/v41/promotion-readiness-report.json`,
 `generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
 `check:v41-gate9`.
 The report closes promotion readiness for the `V41` active, `V42` draft posture
@@ -570,7 +570,7 @@ public-data-only baseline.
 V42 Gate 2 adds `V42DepositingShortestPath` through
 `scripts/specifying/src/canonical/v42-depositing-shortest-path.js`,
 `scripts/specifying/test/v42-depositing-shortest-path.test.js`,
-`.bitcode/v42-depositing-shortest-path.json`, and `check:v42-gate2`.
+`.proofs/v42/depositing-shortest-path.json`, and `check:v42-gate2`.
 It proves deposit route readiness, Depository search/vector/storage projection,
 source-safe compensation preview roots, source-to-shares ledger readback keys,
 product compensation visibility, and the pre-mint/no-pre-settlement-source
@@ -579,7 +579,7 @@ V42 Gate 3 adds the V42 Reading shortest path state machine,
 `V42ReadingShortestPathStateMachine`, through
 `scripts/specifying/src/canonical/v42-reading-shortest-path-state-machine.js`,
 `scripts/specifying/test/v42-reading-shortest-path-state-machine.test.js`,
-`.bitcode/v42-reading-shortest-path-state-machine.json`, and
+`.proofs/v42/reading-shortest-path-state-machine.json`, and
 `check:v42-gate3`. It proves the five-step Reading path, transaction/stage
 route persistence, accepted-Need gating, restart/retry/failure repair,
 low-detail proof-on-expand UI posture, rich Reading pipeline telemetry
@@ -587,7 +587,7 @@ readback, activity/workbench readback, and source-safe disclosure boundaries.
 V42 Gate 4 adds `V42ReadNeedReviewResynthesisProductClosure` through
 `scripts/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js`,
 `scripts/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js`,
-`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and
+`.proofs/v42/readneed-review-resynthesis-product-closure.json`, and
 `check:v42-gate4`. It proves ReadNeed review/resynthesis product closure:
 source-safe Read Request and Need storage, feedback lineage, Need measurement,
 accepted-Need admission, rejected Need blockers, PTRR/Failsafe/Thricified
@@ -596,7 +596,7 @@ readback, and source-safe disclosure boundaries.
 V42 Gate 5 adds `V42ReadFitsFindingPreviewQuote` through
 `scripts/specifying/src/canonical/v42-readfitsfinding-preview-quote.js`,
 `scripts/specifying/test/v42-readfitsfinding-preview-quote.test.js`,
-`.bitcode/v42-readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
+`.proofs/v42/readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
 It proves accepted-Need-gated Finding Fits, many-channel Depository search,
 candidate ranking, selected-fit provenance, source-safe AssetPack preview,
 deterministic share-to-fee quote receipts, disclosure review, settlement
@@ -606,7 +606,7 @@ unpaid AssetPack source exposure.
 V42 Gate 6 adds `V42SettlementRightsDelivery` through
 `scripts/specifying/src/canonical/v42-settlement-rights-delivery.js`,
 `scripts/specifying/test/v42-settlement-rights-delivery.test.js`,
-`.bitcode/v42-settlement-rights-delivery.json`,
+`.proofs/v42/settlement-rights-delivery.json`,
 `generate:v42-settlement-rights-delivery`,
 `check:v42-settlement-rights-delivery`, and `check:v42-gate6`.
 The artifact is source-safe metadata only and covers paid quote observation,
@@ -620,7 +620,7 @@ protected prompts, or raw provider responses.
 V42 Gate 7 adds `V42AiReadingDemonstration` through
 `scripts/specifying/src/canonical/v42-ai-reading-demonstration.js`,
 `scripts/specifying/test/v42-ai-reading-demonstration.test.js`,
-`.bitcode/v42-ai-reading-demonstration.json`,
+`.proofs/v42/ai-reading-demonstration.json`,
 `generate:v42-ai-reading-demonstration`,
 `check:v42-ai-reading-demonstration`, and `check:v42-gate7`.
 The artifact is source-safe metadata only and covers the self-contained
@@ -631,7 +631,7 @@ visibility, and workflow proof wiring.
 V42 Gate 8 adds `V42LocalStagingMvpRehearsal` through
 `scripts/specifying/src/canonical/v42-local-staging-mvp-rehearsal.js`,
 `scripts/specifying/test/v42-local-staging-mvp-rehearsal.test.js`,
-`.bitcode/v42-local-staging-mvp-rehearsal.json`,
+`.proofs/v42/local-staging-mvp-rehearsal.json`,
 `rehearse:v42-local-staging`,
 `generate:v42-local-staging-mvp-rehearsal`,
 `check:v42-local-staging-mvp-rehearsal`, and `check:v42-gate8`.
@@ -643,7 +643,7 @@ readback, and keep value-bearing mainnet blocked.
 V42 Gate 9 adds `V42PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v42-promotion-readiness-report.js`,
 `scripts/specifying/test/v42-promotion-readiness.test.js`,
-`.bitcode/v42-promotion-readiness-report.json`,
+`.proofs/v42/promotion-readiness-report.json`,
 `generate:v42-promotion-readiness`, `check:v42-promotion-readiness`, and
 `check:v42-gate9`.
 The report closes the reliable MVP promotion path by binding all V42 gate
@@ -656,28 +656,28 @@ AssetPack source.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `scripts/specifying/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `scripts/specifying/test/v40-test-inventory-coverage-matrix.test.js`,
-`.bitcode/v40-test-inventory-coverage-matrix.json`, and `check:v40-gate2`.
+`.proofs/v40/test-inventory-coverage-matrix.json`, and `check:v40-gate2`.
 The artifact is source-safe metadata only and inventories owners, commands,
 source roots, generated artifact targets, and closure gates for each V40 testing
 surface before the later gates implement deeper coverage.
 V40 Gate 3 adds `V40UnitCoverageInventory` through
 `scripts/specifying/src/canonical/v40-unit-coverage-inventory.js`,
 `scripts/specifying/test/v40-unit-coverage-inventory.test.js`,
-`.bitcode/v40-unit-coverage-inventory.json`, and `check:v40-gate3`.
+`.proofs/v40/unit-coverage-inventory.json`, and `check:v40-gate3`.
 The artifact is source-safe metadata only and closes the unit layer for critical
 packages, primitives, isolated implementations, Reading AssetPack units,
 interface helpers, and the demonstration boundary.
 V40 Gate 4 adds `V40ApiIntegrationContracts` through
 `scripts/specifying/src/canonical/v40-api-integration-contracts.js`,
 `scripts/specifying/test/v40-api-integration-contracts.test.js`,
-`.bitcode/v40-api-integration-contracts.json`, and `check:v40-gate4`.
+`.proofs/v40/api-integration-contracts.json`, and `check:v40-gate4`.
 The artifact is source-safe metadata only and closes API, UAPI, MCP, ChatGPT
 App, persistence, authorization, and response-schema integration contract
 coverage.
 V40 Gate 5 adds `V40ReadingPipelineIntegrationCoverage` through
 `scripts/specifying/src/canonical/v40-reading-pipeline-integration-coverage.js`,
 `scripts/specifying/test/v40-reading-pipeline-integration-coverage.test.js`,
-`.bitcode/v40-reading-pipeline-integration-coverage.json`, and
+`.proofs/v40/reading-pipeline-integration-coverage.json`, and
 `check:v40-gate5`.
 The artifact is source-safe metadata only and closes integration coverage for
 the real Reading pipeline topology, Need runtime, Finding Fits search runtime,
@@ -687,7 +687,7 @@ rehearsal linkage.
 V40 Gate 6 adds `V40ConversationTerminalIntegration` through
 `scripts/specifying/src/canonical/v40-conversation-terminal-integration.js`,
 `scripts/specifying/test/v40-conversation-terminal-integration.test.js`,
-`.bitcode/v40-conversation-terminal-integration.json`, and
+`.proofs/v40/conversation-terminal-integration.json`, and
 `check:v40-gate6`.
 The artifact is source-safe metadata only and closes integration coverage for
 Conversation handoff route contracts, Conversation stream-to-rich-log
@@ -697,14 +697,14 @@ transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
 V40 Gate 7 adds `V40BrowserE2eVisualProof` through
 `scripts/specifying/src/canonical/v40-browser-e2e-visual-proof.js`,
 `scripts/specifying/test/v40-browser-e2e-visual-proof.test.js`,
-`.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7`.
+`.proofs/v40/browser-e2e-visual-proof.json`, and `check:v40-gate7`.
 The artifact is source-safe metadata only and closes browser E2E, visual,
 accessibility, responsive, interaction-state, screenshot/trace, and overflow
 coverage for product, Conversations, Auxillaries, Exchange, and Docs.
 V40 Gate 8 adds `V40LedgerStorageSync` through
 `scripts/specifying/src/canonical/v40-ledger-storage-sync.js`,
 `scripts/specifying/test/v40-ledger-storage-sync.test.js`,
-`.bitcode/v40-ledger-storage-sync.json`, and `check:v40-gate8`.
+`.proofs/v40/ledger-storage-sync.json`, and `check:v40-gate8`.
 The artifact is source-safe metadata only and closes ledger, database,
 object-storage, wallet, settlement, BTD rights, source-to-shares compensation,
 repair, product readback, and post-settlement pull-request delivery
@@ -712,7 +712,7 @@ synchronization coverage.
 V40 Gate 9 adds `V40LocalStagingRehearsalAutomation` through
 `scripts/specifying/src/canonical/v40-local-staging-rehearsal-automation.js`,
 `scripts/specifying/test/v40-local-staging-rehearsal-automation.test.js`,
-`.bitcode/v40-local-staging-rehearsal-automation.json`, and `check:v40-gate9`.
+`.proofs/v40/local-staging-rehearsal-automation.json`, and `check:v40-gate9`.
 The artifact is source-safe metadata only and closes local/staging-testnet
 operator receipts, lane-bound secret-family checks, explicit live-execution
 opt-in, Vercel Sandbox harness evidence and telemetry capture, staging-testnet
@@ -721,7 +721,7 @@ continuity, and value-bearing mainnet blocking.
 V40 Gate 10 adds `V40PromptBenchmarkSmokeV41Readiness` through
 `scripts/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js`,
 `scripts/specifying/test/v40-prompt-benchmark-smoke-v41-readiness.test.js`,
-`.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and
+`.proofs/v40/prompt-benchmark-smoke-v41-readiness.json`, and
 `check:v40-gate10`.
 The artifact is source-safe metadata only and closes PromptPart and composed
 Prompt benchmark smoke coverage before V41 by binding deterministic local smoke
@@ -731,7 +731,7 @@ rewriting prompt content or serializing raw prompt/provider payloads.
 V40 Gate 11 adds `V40PromotionReadinessReport` through
 `scripts/specifying/src/canonical/v40-promotion-readiness-report.js`,
 `scripts/specifying/test/v40-promotion-readiness.test.js`,
-`.bitcode/v40-promotion-readiness-report.json`, `v40-canon-promotion.yml`, and
+`.proofs/v40/promotion-readiness-report.json`, `v40-canon-promotion.yml`, and
 `check:v40-gate11`.
 The report closes promotion readiness for the `V40` active, `V41` draft posture
 by binding every V40 testing artifact, generated proof support, gate/canon
@@ -745,7 +745,7 @@ operational telemetry/repair, interface parity, and local/staging rehearsal
 scope that later V39 gates must implement.
 V39 Gate 2 adds `V39DepositorySupplyIndexing` through
 `scripts/specifying/src/canonical/v39-depository-supply-indexing.js` and the
-source-safe generated artifact `.bitcode/v39-depository-supply-indexing.json`.
+source-safe generated artifact `.proofs/v39/depository-supply-indexing.json`.
 The supply indexing report proves `DepositorySupplyIndex` lifecycle receipts,
 source-safe search documents, active embedding/vector projection, retained
 Supabase storage readback posture, depositor/Reader settlement boundary,
@@ -754,7 +754,7 @@ maintained commands are `pnpm run generate:v39-depository-supply-indexing` and
 `pnpm run check:v39-gate2`.
 V39 Gate 3 adds `V39EnterpriseReadingUxState` through
 `scripts/specifying/src/canonical/v39-enterprise-reading-ux-state.js` and the
-source-safe generated artifact `.bitcode/v39-enterprise-reading-ux-state.json`.
+source-safe generated artifact `.proofs/v39/enterprise-reading-ux-state.json`.
 The UX state report proves five Reading stages, source-safe disclosure
 defaults, Conversation `readingStage` handoff/readback, rich execution stream
 integration, component tests, and opt-in browser proof workflow wiring. The
@@ -762,7 +762,7 @@ maintained commands are `pnpm run generate:v39-enterprise-reading-ux-state` and
 `pnpm run check:v39-gate3`.
 V39 Gate 4 adds `V39ReadNeedReviewResynthesis` through
 `scripts/specifying/src/canonical/v39-read-need-review-resynthesis.js` and the
-source-safe generated artifact `.bitcode/v39-read-need-review-resynthesis.json`.
+source-safe generated artifact `.proofs/v39/read-need-review-resynthesis.json`.
 The report proves Read Request persistence, synthesized Need storage, feedback
 and resynthesis lineage, Need measurement storage, accepted-Need admission,
 rejected-Need posture, source-safe telemetry receipts, route/runtime storage
@@ -771,7 +771,7 @@ projection tests, and workflow wiring. The maintained commands are
 `pnpm run check:v39-gate4`.
 V39 Gate 5 adds `V39ReadFitsFindingRuntime` through
 `scripts/specifying/src/canonical/v39-read-fits-finding-runtime.js` and the
-source-safe generated artifact `.bitcode/v39-read-fits-finding-runtime.json`.
+source-safe generated artifact `.proofs/v39/read-fits-finding-runtime.json`.
 The report proves accepted-Need-only Finding Fits admission, source-safe query
 plans, seven search channels, many-candidate ranking, selected-fit provenance,
 active OpenAI embedding policy, replay receipts, repair posture, runtime
@@ -781,7 +781,7 @@ maintained commands are `pnpm run generate:v39-read-fits-finding-runtime` and
 V39 Gate 6 adds `V39AssetPackPreviewQuoteBoundary` through
 `scripts/specifying/src/canonical/v39-assetpack-preview-quote-boundary.js` and
 the source-safe generated artifact
-`.bitcode/v39-assetpack-preview-quote-boundary.json`. The report proves
+`.proofs/v39/assetpack-preview-quote-boundary.json`. The report proves
 source-safe AssetPack preview measurements, selected-fit provenance,
 deterministic share-to-fee BTC quote, disclosure leak scanning, reader payment
 settlement instructions, withheld pull-request delivery posture, replay
@@ -791,7 +791,7 @@ The maintained commands are
 `pnpm run check:v39-gate6`.
 V39 Gate 7 adds `V39SettlementRightsDelivery` through
 `scripts/specifying/src/canonical/v39-settlement-rights-delivery.js` and the
-source-safe generated artifact `.bitcode/v39-settlement-rights-delivery.json`.
+source-safe generated artifact `.proofs/v39/settlement-rights-delivery.json`.
 The report proves BTC payment observation/finality, source-to-shares
 compensation, BTD rights transfer/read receipts, settlement unlock,
 ledger/database/object-storage reconciliation, post-settlement pull-request
@@ -802,7 +802,7 @@ workflow wiring. The maintained commands are
 V39 Gate 8 adds `V39OperationalTelemetryRepairReadback` through
 `scripts/specifying/src/canonical/v39-operational-telemetry-repair-readback.js`
 and the source-safe generated artifact
-`.bitcode/v39-operational-telemetry-repair-readback.json`. The report proves
+`.proofs/v39/operational-telemetry-repair-readback.json`. The report proves
 Reading operational stream events, operator readback, proof roots, runbook
 hooks, source-safe disclosure posture, rich execution-log rendering, package
 tests, UI tests, protocol tests, and workflow wiring. The maintained commands
@@ -811,7 +811,7 @@ are `pnpm run generate:v39-operational-telemetry-repair-readback` and
 V39 Gate 9 adds `V39InterfaceConversationProductParity` through
 `scripts/specifying/src/canonical/v39-interface-conversation-product-parity.js`
 and the source-safe generated artifact
-`.bitcode/v39-interface-conversation-product-parity.json`. The report proves
+`.proofs/v39/interface-conversation-product-parity.json`. The report proves
 product authority, Conversation handoff, public API, MCP API, ChatGPT App,
 and package-consumer parity rows, accepted-Need gating, source-safe preview,
 settlement unlock, BTD rights, delivery boundaries, package tests, interface
@@ -821,7 +821,7 @@ tests, protocol tests, and workflow wiring. The maintained commands are
 V39 Gate 10 adds `V39LocalStagingReadingRehearsal` through
 `scripts/specifying/src/canonical/v39-local-staging-reading-rehearsal.js` and
 the source-safe generated artifact
-`.bitcode/v39-local-staging-reading-rehearsal.json`. The report proves local
+`.proofs/v39/local-staging-reading-rehearsal.json`. The report proves local
 and staging-testnet lane readback, all five Reading stages, many-fit
 Depository search, source-safe preview, settlement rights delivery, rich
 telemetry readback, interface no-bypass posture, ledger/database/storage
@@ -836,7 +836,7 @@ depository-search, embedding policy, prompt benchmarking, and source-safe
 telemetry scope that later V38 gates must implement.
 V38 Gate 2 adds `V38InferenceSurfaceInventory` through
 `scripts/specifying/src/canonical/inference-surface-inventory.js` and the
-source-safe generated artifact `.bitcode/v38-inference-surface-inventory.json`.
+source-safe generated artifact `.proofs/v38/inference-surface-inventory.json`.
 The inventory covers `ReadNeedComprehensionSynthesis`,
 `ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts,
 interface entrypoints, prompt registry coverage, and execution primitives as
@@ -847,7 +847,7 @@ are `pnpm run generate:v38-inference-surface-inventory`,
 `pnpm run check:v38-gate2`.
 V38 Gate 3 adds `V38PtrrFailsafeThricifiedStack` through
 `scripts/specifying/src/canonical/ptrr-failsafe-thricified-stack.js` and the
-source-safe generated artifact `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+source-safe generated artifact `.proofs/v38/ptrr-failsafe-thricified-stack.json`.
 The stack contract covers `factoryPTRRAgent`, Plan/Try/Refine/Retry,
 `FailsafeGenerationSequence`, `ThricifiedGeneration`, substep prompt/context
 telemetry, step-owned tool postprocess boundaries, and Gate 2's 52 PTRR steps /
@@ -858,7 +858,7 @@ commands are `pnpm run generate:v38-ptrr-failsafe-thricified-stack`,
 `pnpm run check:v38-gate3`.
 V38 Gate 4 adds `V38PromptBenchmarkReport` through
 `scripts/specifying/src/canonical/prompt-benchmark-report.js` and the
-source-safe generated artifact `.bitcode/v38-prompt-benchmark-report.json`.
+source-safe generated artifact `.proofs/v38/prompt-benchmark-report.json`.
 The Prompt benchmarking report covers benchmark infrastructure, generic
 PTRR/Failsafe/ThricifiedGeneration PromptParts,
 `ReadNeedComprehensionSynthesis` PromptParts, `ReadFitsFindingSynthesis`
@@ -868,7 +868,7 @@ The maintained commands are `pnpm run generate:v38-prompt-benchmark-report`,
 `pnpm run check:v38-prompt-benchmark-report`, and `pnpm run check:v38-gate4`.
 V38 Gate 5 adds `V38InferenceTelemetryDisclosureReport` through
 `scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js` and
-the source-safe generated artifact `.bitcode/v38-disclosure-boundary-report.json`.
+the source-safe generated artifact `.proofs/v38/disclosure-boundary-report.json`.
 The telemetry disclosure report covers phase, agent, PTRR step, Failsafe,
 ThricifiedGeneration, tool, prompt template, interpolated prompt, raw provider
 response root, parsed output shape, schema verdict, retry, repair, and stream UI
@@ -884,7 +884,7 @@ The maintained commands are
 V38 Gate 6 adds `V38ReadNeedComprehensionInferenceHardening` through
 `scripts/specifying/src/canonical/read-need-comprehension-inference-hardening.js`
 and the source-safe generated artifact
-`.bitcode/v38-read-need-comprehension-inference-hardening.json`.
+`.proofs/v38/read-need-comprehension-inference-hardening.json`.
 The hardening report proves ReadNeedComprehensionSynthesis request
 normalization, Need comprehension, Need measurement, Need review, and
 source-safe inference receipt coverage. The receipt binds 4 phases, 4 PTRR
@@ -899,7 +899,7 @@ The maintained commands are
 V38 Gate 7 adds `V38ReadFitsFindingSearchEmbeddings` through
 `scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js` and
 the source-safe generated artifact
-`.bitcode/v38-read-fits-finding-search-embeddings.json`.
+`.proofs/v38/read-fits-finding-search-embeddings.json`.
 The search report proves accepted-Need admission, source-safe query planning,
 many-fit depository discovery, active OpenAI embedding/vector policy,
 threshold verification, selected-fit provenance, and source-safe search
@@ -915,7 +915,7 @@ The maintained commands are
 V38 Gate 8 adds `V38AssetPackSynthesisEconomicTraceability` through
 `scripts/specifying/src/canonical/assetpack-synthesis-economic-traceability.js`
 and the source-safe generated artifact
-`.bitcode/v38-assetpack-synthesis-economic-traceability.json`.
+`.proofs/v38/assetpack-synthesis-economic-traceability.json`.
 The economic traceability report proves selected-fit handoff into AssetPack
 synthesis, source-safe preview, deterministic BTC quote, BTD mint/read/rights
 receipts, source-to-shares contributor allocation, settlement unlock,
@@ -929,7 +929,7 @@ The maintained commands are
 V38 Gate 9 adds `V38ConversationToolPromptInferenceParity` through
 `scripts/specifying/src/canonical/conversation-tool-prompt-inference-parity.js`
 and the source-safe generated artifact
-`.bitcode/v38-conversation-tool-prompt-inference-parity.json`.
+`.proofs/v38/conversation-tool-prompt-inference-parity.json`.
 The parity report proves comprehensive and quick-response Conversation PTRR
 variations, Conversation agent/step prompt registries, typed output schemas,
 source-safe stream telemetry, rich execution-log UI rendering,
@@ -945,7 +945,7 @@ The maintained commands are
 V38 Gate 10 adds `V38LocalStagingInferenceDepositorySearchRehearsal` through
 `scripts/specifying/src/canonical/local-staging-inference-depository-search-rehearsal.js`
 and the source-safe generated artifact
-`.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`.
+`.proofs/v38/local-staging-inference-depository-search-rehearsal.json`.
 The rehearsal report proves local and staging-testnet lanes for Vercel Sandbox
 harness opt-in, bounded real-inference route preflight, Supabase readback,
 ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, many-fit depository
@@ -961,7 +961,7 @@ The maintained commands are
 V38 Gate 11 adds `V38InferencePromotionReadinessReport` through
 `scripts/specifying/src/canonical/inference-promotion-readiness-report.js`
 and the source-safe generated artifact
-`.bitcode/v38-promotion-readiness-report.json`.
+`.proofs/v38/promotion-readiness-report.json`.
 The promotion readiness report proves every V38 inference artifact is covered,
 parseable, and source-safe; binds `BITCODE_SPEC_V38_PROVEN.md` generation
 support, `v38-canon-promotion.yml`, promotion command dry-run support,
@@ -974,7 +974,7 @@ The maintained commands are
 `pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`.
 V39 Gate 11 adds `V39CommercialReadingPromotionReadinessReport` through
 `scripts/specifying/src/canonical/v39-commercial-reading-promotion-readiness-report.js`
-and the generated source-safe artifact `.bitcode/v39-promotion-readiness-report.json`.
+and the generated source-safe artifact `.proofs/v39/promotion-readiness-report.json`.
 The report verifies all V39 commercial Reading artifacts are covered, parseable,
 and source-safe; binds `BITCODE_SPEC_V39_PROVEN.md` generation support,
 `v39-canon-promotion.yml`, promotion command dry-run support, gate/canon
@@ -986,41 +986,41 @@ and unpaid AssetPack privacy. Use `pnpm run generate:v39-promotion-readiness`,
 V37 Gate 1 opens the Website Conversations spec family and `check:v37-gate1`.
 V37 Gate 2 adds source-safe `ConversationSession` route-history contracts
 through `buildConversationSessionRouteHistory` and
-`.bitcode/v37-conversation-session-route-history.json`.
+`.proofs/v37/conversation-session-route-history.json`.
 The route-history artifact covers create, restore, branch, retry, redact, and
 stream operations while keeping conversation state route-local rather than
 global ledger truth.
 V37 Gate 3 adds source-safe `ConversationStreamEvent` stream UI/event contracts
 through `buildConversationStreamEventContract` and
-`.bitcode/v37-conversation-stream-event-contract.json`.
+`.proofs/v37/conversation-stream-event-contract.json`.
 The stream event artifact covers model delta, tool call, retrieval summary,
 proof root, retry state, completion decision, and error row events while
 keeping stream telemetry source-safe and compatible with the shared rich
 execution log UI.
 V37 Gate 4 adds source-safe `ConversationWritingWorkspace` fullscreen composer
 contracts through `buildConversationWritingWorkspace` and
-`.bitcode/v37-conversation-writing-workspace.json`.
+`.proofs/v37/conversation-writing-workspace.json`.
 The writing workspace artifact covers Read Request, Need feedback, AssetPack
 review note, and product handoff summary modes with save, restore, summarize,
 and handoff actions while keeping emitted summaries source-safe and keeping
 product as transaction authority.
 V37 Gate 5 adds source-safe `ConversationSourceSelector` context-policy
 contracts through `buildConversationSourceSelector` and
-`.bitcode/v37-conversation-source-selector.json`. The source selector artifact
+`.proofs/v37/conversation-source-selector.json`. The source selector artifact
 covers repository, branch, commit, deposit, BTD range, AssetPack preview,
 document, and prior conversation selectors with account, organization, wallet,
 rights, settlement, disclosure, and policy governance while keeping protected
 source and unpaid AssetPack source outside Conversations.
 V37 Gate 6 adds source-safe `ConversationProductHandoff` transaction handoff
 contracts through `buildConversationProductHandoff` and
-`.bitcode/v37-conversation-product-handoff.json`. The handoff artifact covers
+`.proofs/v37/conversation-product-handoff.json`. The handoff artifact covers
 Depositing, Reading, Finding Fits, Exchange, settlement, and delivery
 workflows while preserving route context and keeping ledger writes, wallet
 signing, protected source, and unpaid AssetPack source outside Conversations.
 V37 Gate 7 adds source-safe `ConversationPersistencePrivacyRedaction` durable
 storage privacy contracts through
 `buildConversationPersistencePrivacyRedaction` and
-`.bitcode/v37-conversation-persistence-privacy-redaction.json`. The
+`.proofs/v37/conversation-persistence-privacy-redaction.json`. The
 persistence privacy artifact covers every visibility tier, persist message,
 restore history, export history, delete history, retain history, replay
 history, and incident repair while redacting protected prompts, protected model
@@ -1028,7 +1028,7 @@ responses, protected source, secrets, wallet private material, and unpaid
 AssetPack source before storage or source-safe export.
 V37 Gate 8 adds source-safe `ConversationTelemetryProofHooks` dashboard and
 runbook contracts through `buildConversationTelemetryProofHooks` and
-`.bitcode/v37-conversation-telemetry-proof-hooks.json`. The telemetry proof
+`.proofs/v37/conversation-telemetry-proof-hooks.json`. The telemetry proof
 artifact covers session, message, stream, tool, source selector, product
 handoff, retry, error, and completion families while keeping raw protected
 prompts, protected source, protected model responses, provider tokens, wallet
@@ -1036,14 +1036,14 @@ private material, settlement private payloads, ledger authority, wallet
 signing authority, and unpaid AssetPack source out of telemetry.
 V37 Gate 9 adds source-safe `ConversationRehearsal` local/staging proof
 contracts through `buildConversationRehearsal` and
-`.bitcode/v37-conversation-rehearsal.json`. Local and staging-testnet
+`.proofs/v37/conversation-rehearsal.json`. Local and staging-testnet
 rehearsals exercise chat, streaming, writing, source selector, product
 handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots
 are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet
 blocking are visible through `source-safe-conversation-rehearsal-metadata`.
 V37 Gate 10 adds source-safe `ConversationPromotionReadinessReport`
 promotion readiness contracts through `buildConversationPromotionReadinessReport`
-and `.bitcode/v37-promotion-readiness-report.json`. The readiness report
+and `.proofs/v37/promotion-readiness-report.json`. The readiness report
 covers all V37 Conversation artifacts, generated `BITCODE_SPEC_V37_PROVEN.md`
 support, `v37-canon-promotion.yml`, promotion dry-run support, and runtime
 posture preparation from `V36` active, `V37` draft to `V37` active, `V38`
@@ -1054,17 +1054,17 @@ This Gate 10 posture is `V37` active, `V38` draft after V37 promotion.
 
 Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.
 V36 Gate 2 adds the source-safe Exchange activity book through
-`buildExchangeActivityBook` and `.bitcode/v36-exchange-activity-book.json`.
+`buildExchangeActivityBook` and `.proofs/v36/exchange-activity-book.json`.
 The activity detail never exposes protected source or unpaid AssetPack content.
 V36 Gate 3 adds source-safe Exchange intent/order contracts through
 `buildExchangeIntentOrderContracts` and
-`.bitcode/v36-exchange-intent-order-contracts.json`.
+`.proofs/v36/exchange-intent-order-contracts.json`.
 Each transition names actor principal, organization role, wallet posture,
 authority proof, idempotency key, policy decision, and fail-closed result.
 The order history is replayable without private wallet material or secrets.
 V36 Gate 4 adds source-safe Exchange rights-transfer review through
 `buildExchangeRightsTransferReview` and
-`.bitcode/v36-exchange-rights-transfer-review.json`.
+`.proofs/v36/exchange-rights-transfer-review.json`.
 `ExchangeRightsTransferPreview` names BTD range identity, current owner,
 requested buyer, rights scope, settlement unlock condition, and disclosure
 limit while distinguishing owner-read, licensed-read, and blocked transfer.
@@ -1072,27 +1072,27 @@ AssetPack source is hidden until paid settlement and rights transfer are
 complete.
 V36 Gate 5 adds source-safe Exchange pricing through
 `buildExchangePricingQuote` and
-`.bitcode/v36-pricing-liquidity-fee-quote.json`.
+`.proofs/v36/pricing-liquidity-fee-quote.json`.
 `ExchangePricingQuote` names BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, and quote root.
 The source-safe verdict is `source-safe-exchange-pricing-quote-metadata`;
 wrapper analysis cannot make BTD range cells fungible chain-of-record assets,
 and underpayment, overpayment, stale quote, or unsupported network posture fails closed.
 V36 Gate 6 adds source-safe Exchange settlement reconciliation through
 `buildExchangeSettlementReconciliation` and
-`.bitcode/v36-exchange-settlement-reconciliation.json`.
+`.proofs/v36/exchange-settlement-reconciliation.json`.
 `ExchangeSettlementReceipt` binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
 The source-safe verdict is
 `source-safe-exchange-settlement-reconciliation-metadata`; observers and repair jobs reconcile database projections to ledger truth, and settlement finality and delivery are auditable.
 V36 Gate 7 adds source-safe Exchange dispute repair and revenue routing through
 `buildExchangeDisputeRepairRevenueRoute` and
-`.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
+`.proofs/v36/exchange-dispute-repair-revenue-route.json`.
 `ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
 `ExchangeRevenueRoute` covers depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof.
 The source-safe verdict is
 `source-safe-exchange-dispute-repair-revenue-route-metadata`; runbooks and repair commands are source-safe and proof-rooted.
 
 V36 Gate 8 adds source-safe Exchange UX proof through `buildExchangeUxProof`
-and `.bitcode/v36-exchange-ux-proof.json`.
+and `.proofs/v36/exchange-ux-proof.json`.
 `ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
 product can hand off to Exchange without losing transaction context.
 collapsed UI gives readable status and expanded UI exposes source-safe detail.
@@ -1100,7 +1100,7 @@ Exchange telemetry dashboards remain source-safe and proof-rooted.
 The source-safe verdict is `source-safe-exchange-ux-proof-metadata`.
 
 V36 Gate 9 adds source-safe Exchange rehearsal through
-`buildExchangeRehearsal` and `.bitcode/v36-exchange-rehearsal.json`.
+`buildExchangeRehearsal` and `.proofs/v36/exchange-rehearsal.json`.
 `ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
 It proves that rehearsal logs/screenshots are source-safe.
 It also proves that ledger/database synchronization and value-bearing mainnet blocking are visible.
@@ -1113,28 +1113,28 @@ history.
 
 V35 Gate 2 adds the source-safe documentation surface catalog through
 `buildDocumentationSurfaceCatalog` and
-`.bitcode/v35-documentation-surface-catalog.json`.
+`.proofs/v35/documentation-surface-catalog.json`.
 V35 Gate 3 adds the source-safe telemetry taxonomy catalog through
 `buildTelemetryTaxonomyCatalog` and
-`.bitcode/v35-telemetry-taxonomy-catalog.json`.
+`.proofs/v35/telemetry-taxonomy-catalog.json`.
 V35 Gate 4 adds the source-safe public docs usage guide catalog through
 `buildPublicDocsUsageGuideCatalog` and
-`.bitcode/v35-public-docs-usage-guides.json`.
+`.proofs/v35/public-docs-usage-guides.json`.
 V35 Gate 5 adds the source-safe operator runbook catalog through
 `buildOperatorRunbookCatalog` and
-`.bitcode/v35-operator-runbook-catalog.json`.
+`.proofs/v35/operator-runbook-catalog.json`.
 V35 Gate 6 adds the source-safe docs QA alignment report through
 `buildDocsQaAlignmentReport` and
-`.bitcode/v35-docs-qa-alignment-report.json`.
+`.proofs/v35/docs-qa-alignment-report.json`.
 V35 Gate 7 adds the source-safe testnet rollout readiness guide through
 `buildTestnetRolloutReadinessGuide` and
-`.bitcode/v35-testnet-rollout-readiness-guide.json`.
+`.proofs/v35/testnet-rollout-readiness-guide.json`.
 V35 Gate 8 adds the source-safe telemetry documentation interface integration
 report through `buildTelemetryDocumentationInterfaceIntegration` and
-`.bitcode/v35-telemetry-documentation-interface-integration.json`.
+`.proofs/v35/telemetry-documentation-interface-integration.json`.
 V35 Gate 9 adds the source-safe local/staging telemetry documentation rehearsal
 through `buildLocalStagingTelemetryDocumentationRehearsal` and
-`.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json`.
+`.proofs/v35/local-staging-telemetry-documentation-rehearsal.json`.
 V37 gates add Conversations helpers without importing
 `protocol-demonstration/src/*`.
 
@@ -1143,7 +1143,7 @@ workflow rewrote the package posture to `V35` active, `V36` draft after
 promotion validations and generated proof output passed. V36 promotion rewrote
 this package to `V36` active, `V37` draft only after all Exchange gates closed.
 V36 Gate 10 closes that Exchange promotion boundary through package-owned
-`ExchangePromotionReadinessReport`, `.bitcode/v36-promotion-readiness-report.json`,
+`ExchangePromotionReadinessReport`, `.proofs/v36/promotion-readiness-report.json`,
 `check:v36-gate10`, and `v36-canon-promotion.yml`. The post-promotion posture is
 `V36` active, `V37` draft, and the generated evidence remains source-safe.
 V37 promotion will eventually rewrite this package to `V37` active, `V38` draft

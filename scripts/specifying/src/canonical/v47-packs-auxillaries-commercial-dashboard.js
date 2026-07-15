@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_PACKS_AUXILLARIES_DASHBOARD_ARTIFACT_PATH =
-  '.bitcode/v47-packs-auxillaries-commercial-dashboard.json';
+  '.proofs/v47/packs-auxillaries-commercial-dashboard.json';
 export const V47_PACKS_AUXILLARIES_DASHBOARD_SCHEMA_ID =
   'bitcode.v47.packsAuxillariesCommercialDashboard.v1';
 export const V47_PACKS_AUXILLARIES_DASHBOARD_VERSION = 'V47';

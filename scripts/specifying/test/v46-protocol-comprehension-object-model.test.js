@@ -19,7 +19,7 @@ import {
 test('V46 protocol comprehension object model binds source-safe objects and claim taxonomy', () => {
   const report = buildV46ProtocolComprehensionObjectModel();
 
-  assert.equal(V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_ARTIFACT_PATH, '.bitcode/v46-protocol-comprehension-object-model.json');
+  assert.equal(V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_ARTIFACT_PATH, '.proofs/v46/protocol-comprehension-object-model.json');
   assert.equal(report.artifactId, 'v46-protocol-comprehension-object-model');
   assert.equal(report.schemaId, V46_PROTOCOL_COMPREHENSION_OBJECT_MODEL_SCHEMA_ID);
   assert.equal(report.version, 'V46');

@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `cb339f0407231855043dcf7174c384f1ab6bd16c`
 - Prior canonical anchor: `BITCODE_SPEC_V33.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V33_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v34-spec-family-report.json`, `.bitcode/v34-canonical-input-report.json`, `.bitcode/v34-canon-posture-drift-report.json`, `.bitcode/v34-deployment-host-capability-catalog.json`, `.bitcode/v34-environment-lane-contracts.json`, `.bitcode/v34-distributed-execution-runtime-receipts.json`, `.bitcode/v34-deployment-storage-posture.json`, `.bitcode/v34-secret-rotation-boundary-operations.json`, `.bitcode/v34-migration-cicd-approval-gates.json`, `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json`, `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json`, `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json`, `.bitcode/v34-promotion-readiness-report.json`, V34 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V34_PROVEN.md` as the generated proof appendix for V34 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v34/spec-family-report.json`, `.proofs/v34/canonical-input-report.json`, `.proofs/v34/canon-posture-drift-report.json`, `.proofs/v34/deployment-host-capability-catalog.json`, `.proofs/v34/environment-lane-contracts.json`, `.proofs/v34/distributed-execution-runtime-receipts.json`, `.proofs/v34/deployment-storage-posture.json`, `.proofs/v34/secret-rotation-boundary-operations.json`, `.proofs/v34/migration-cicd-approval-gates.json`, `.proofs/v34/runtime-observers-broadcasters-repair-jobs.json`, `.proofs/v34/rollback-upgrade-data-repair-playbooks.json`, `.proofs/v34/local-staging-testnet-deployment-rehearsal.json`, `.proofs/v34/promotion-readiness-report.json`, V34 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V34_PROVEN.md` as the generated proof appendix for V34 promotion
 - Source parity state: V34 source-side deployment host capability catalog, environment lane contracts, distributed execution runtime receipts, storage posture, secret rotation, migration CI/CD approval gates, runtime observer and repair jobs, rollback/upgrade/data repair playbooks, local/staging-testnet deployment rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V34 file family
 - Spec companion: `BITCODE_SPEC_V34.md`
 - Notes companion: `BITCODE_SPEC_V34_NOTES.md`
@@ -82,13 +82,13 @@ Closure acceptance:
 - website, API, MCP API, ChatGPT App, pipeline workers, observers, broadcasters, proof services, repair jobs, object storage, database projection, and ledger projection are enumerated;
 - local, regtest, signet, staging-testnet, public testnet, mainnet-ready dry run, and value-bearing mainnet lanes are represented;
 - `value-bearing-mainnet` is visible as `blocked_future_canon_required`, not hidden confidence;
-- `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json` are source-safe generated artifacts.
+- `.proofs/v34/deployment-host-capability-catalog.json` and `.proofs/v34/environment-lane-contracts.json` are source-safe generated artifacts.
 
 Closure evidence:
 
 - `packages/btd/src/deployment-host-capability-catalog.ts` owns `DeploymentHostCapabilityCatalog` and `EnvironmentLaneContract` builders.
 - `packages/btd/__tests__/deployment-host-capability-catalog.test.ts` proves required hosts, lanes, value-bearing mainnet blocking, duplicate/missing failures, and source-safety rejection.
-- `scripts/generate-v34-host-capability-environment-lanes.mjs` emits deterministic `.bitcode/v34-deployment-host-capability-catalog.json` and `.bitcode/v34-environment-lane-contracts.json`.
+- `scripts/generate-v34-host-capability-environment-lanes.mjs` emits deterministic `.proofs/v34/deployment-host-capability-catalog.json` and `.proofs/v34/environment-lane-contracts.json`.
 - `scripts/check-v34-gate2-host-capability-environment-lanes.mjs` and `pnpm run check:v34-gate2` fail closed on stale artifacts, hidden value-bearing mainnet, missing rows, docs drift, package-script drift, and workflow drift.
 
 ### Gate 3: Distributed Execution Runtime Contracts
@@ -105,7 +105,7 @@ Closure evidence:
 
 - `packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts` owns `DistributedExecutionRuntimeReceipt` and catalog builders for `pipeline_run`, `ptrr_agent`, `thricified_generation`, `tool_call`, `ledger_operation`, `wallet_operation`, `proof_generation`, `object_storage_write`, and `repair_job`.
 - `packages/pipeline-hosts/src/__tests__/distributed-execution-runtime-receipt.test.ts` proves root coverage, `request_response_not_required`, PTRR/ThricifiedGeneration step data, tool ids, ledger/wallet/proof/object-storage roots, terminal completion/output roots, and source-safety rejection.
-- `scripts/generate-v34-distributed-execution-runtime-receipts.mjs` emits deterministic `.bitcode/v34-distributed-execution-runtime-receipts.json`.
+- `scripts/generate-v34-distributed-execution-runtime-receipts.mjs` emits deterministic `.proofs/v34/distributed-execution-runtime-receipts.json`.
 - `scripts/check-v34-gate3-distributed-execution-runtime-contracts.mjs` and `pnpm run check:v34-gate3` fail closed on stale artifacts, missing work kinds, request/response completion assumptions, missing roots, source-safety drift, docs drift, package-script drift, and workflow drift.
 
 ### Gate 4: Ledger Database Object Storage Deployment Posture
@@ -117,7 +117,7 @@ Closure acceptance:
 - ledger-derived state, canonical database projection, object storage, proof artifacts, audit logs, rollback material, backups, retention, encryption posture, and repair commands are specified and tested through `DeploymentStoragePosture`;
 - source-bearing AssetPack storage remains locked before settlement;
 - database and ledger projection drift has a repair posture;
-- generated storage posture proof is source-safe in `.bitcode/v34-deployment-storage-posture.json`.
+- generated storage posture proof is source-safe in `.proofs/v34/deployment-storage-posture.json`.
 
 ### Gate 5: Secret Rotation And Credential Boundary Operations
 
@@ -133,7 +133,7 @@ Closure evidence:
 
 - `packages/btd/src/secret-rotation-plan.ts` owns `SecretRotationPlan`, required secret family ids, family builders, value-bearing mainnet blocking, no secret values serialization checks, CI masking posture, leak response, runtime availability, and audit event coverage.
 - `packages/btd/__tests__/secret-rotation-plan.test.ts` proves all nine required families, required operational fields, CI masking failure, missing/duplicate families, value-bearing mainnet blocking, and serialized secret-shaped value rejection.
-- `scripts/generate-v34-secret-rotation-boundary-operations.mjs` emits deterministic `.bitcode/v34-secret-rotation-boundary-operations.json` with OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App coverage and no secret values.
+- `scripts/generate-v34-secret-rotation-boundary-operations.mjs` emits deterministic `.proofs/v34/secret-rotation-boundary-operations.json` with OpenAI, Supabase, Vercel, GitHub, wallet, object storage, webhook, MCP, and ChatGPT App coverage and no secret values.
 - `scripts/check-v34-gate5-secret-rotation-boundary-operations.mjs` and `pnpm run check:v34-gate5` fail closed on stale artifacts, missing families, unmasked CI posture, missing leak response, secret-shaped artifact text, docs drift, package-script drift, and workflow drift.
 
 ### Gate 6: Migration CI/CD Deployment Approval Gates
@@ -150,7 +150,7 @@ Closure evidence:
 
 - `packages/btd/src/migration-approval-gate.ts` owns `MigrationApprovalGate`, required approval gate ids, builders, validators, value-bearing mainnet blocking, no secret values serialization checks, reviewer approval posture, rollback plan requirements, dry-run requirements, workflow bindings, and proof-root coverage.
 - `packages/btd/__tests__/migration-approval-gate.test.ts` proves all eight approval gates, required operational fields, reviewer approval failure, rollback failure, missing/duplicate gates, value-bearing mainnet blocking, and serialized secret-shaped value rejection.
-- `scripts/generate-v34-migration-cicd-approval-gates.mjs` emits deterministic `.bitcode/v34-migration-cicd-approval-gates.json` with schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel lane checks, Supabase lane checks, and promotion commit approval coverage.
+- `scripts/generate-v34-migration-cicd-approval-gates.mjs` emits deterministic `.proofs/v34/migration-cicd-approval-gates.json` with schema migration approval, generated type refresh, route scans, build/test gates, generated artifact freshness, Vercel lane checks, Supabase lane checks, and promotion commit approval coverage.
 - `scripts/check-v34-gate6-migration-cicd-approval-gates.mjs` and `pnpm run check:v34-gate6` fail closed on stale artifacts, missing approval gates, reviewer approval drift, rollback drift, dry-run drift, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
 
 ### Gate 7: Runtime Observers Broadcasters Repair Jobs
@@ -166,7 +166,7 @@ Closure evidence:
 
 - `packages/btd/src/runtime-observer-repair-job.ts` owns `RuntimeObserverRepairJob`, required runtime job ids, builders, validators, runtime receipt work kinds, non-value lane contracts, replay commands, repair commands, unsafe drift blockers, proof roots, value-bearing mainnet blocking, and no secret values serialization checks.
 - `packages/btd/__tests__/runtime-observer-repair-job.test.ts` proves all seven runtime jobs, lane and receipt coverage, missing/duplicate failures, value-bearing mainnet blocking, replay and repair command failure, unsafe drift failure, and serialized secret-shaped value rejection.
-- `scripts/generate-v34-runtime-observers-broadcasters-repair-jobs.mjs` emits deterministic `.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json` with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipts, replay commands, repair commands, and unsafe drift coverage.
+- `scripts/generate-v34-runtime-observers-broadcasters-repair-jobs.mjs` emits deterministic `.proofs/v34/runtime-observers-broadcasters-repair-jobs.json` with settlement observers, ledger broadcasters, finality watchers, database projection repair, object-storage repair, generated proof jobs, queue consumers, runtime receipts, replay commands, repair commands, and unsafe drift coverage.
 - `scripts/check-v34-gate7-runtime-observers-broadcasters-repair-jobs.mjs` and `pnpm run check:v34-gate7` fail closed on stale artifacts, missing runtime jobs, missing runtime receipts, lane drift, replay/repair command drift, unsafe drift posture drift, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
 
 ### Gate 8: Rollback Upgrade Data Repair Playbooks
@@ -182,7 +182,7 @@ Closure evidence:
 
 - `packages/btd/src/rollback-upgrade-repair-playbook.ts` owns `RollbackUpgradeRepairPlaybook`, required playbook ids, builders, validators, non-value lane admission, operator approval requirements, command requirements, verification command requirements, proof-root requirements, fail-closed result requirements, and source-safe metadata checks.
 - `packages/btd/__tests__/rollback-upgrade-repair-playbook.test.ts` proves all eight playbooks, commandability, proof roots, missing/duplicate failures, value-bearing mainnet blocking, operator approval failure, missing command failure, missing proof-root failure, and serialized secret-shaped value rejection.
-- `scripts/generate-v34-rollback-upgrade-data-repair-playbooks.mjs` emits deterministic `.bitcode/v34-rollback-upgrade-data-repair-playbooks.json` with rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, generated artifact repair, operator approval, command, verification, proof-root, and fail-closed coverage.
+- `scripts/generate-v34-rollback-upgrade-data-repair-playbooks.mjs` emits deterministic `.proofs/v34/rollback-upgrade-data-repair-playbooks.json` with rollback, upgrade, migration rollback, object-storage repair, database repair, ledger projection repair, secret rotation incident response, generated artifact repair, operator approval, command, verification, proof-root, and fail-closed coverage.
 - `scripts/check-v34-gate8-rollback-upgrade-data-repair-playbooks.mjs` and `pnpm run check:v34-gate8` fail closed on stale artifacts, missing playbooks, value-bearing mainnet admission, missing operator approval, missing command sequence, missing verification command, missing proof roots, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
 
 ### Gate 9: Local Staging Testnet Deployment Rehearsal
@@ -199,12 +199,12 @@ Closure evidence:
 
 - `packages/btd/src/deployment-readiness-rehearsal.ts` owns `DeploymentReadinessRehearsal`, required rehearsal ids, builders, validators, local and staging-testnet surface coverage, runtime receipt ids, source-safe logs, proof-rooted screenshots or logs, validation command requirements, proof-root requirements, fail-closed result requirements, and value-bearing mainnet blocked rehearsal.
 - `packages/btd/__tests__/deployment-readiness-rehearsal.test.ts` proves local full-stack deployment rehearsal, staging-testnet full-stack deployment rehearsal, Terminal, public API, MCP API, ChatGPT App, Reading pipeline execution receipts, settlement/finality simulation, storage posture, repair posture, source-safe log roots, proof-rooted screenshots or logs, missing/duplicate failures, missing surface failure, missing proof-rooted log failure, value-bearing mainnet blocking, and serialized secret-shaped value rejection.
-- `scripts/generate-v34-local-staging-testnet-deployment-rehearsal.mjs` emits deterministic `.bitcode/v34-local-staging-testnet-deployment-rehearsal.json` with local/staging-testnet rehearsal coverage, source-safe logs, proof bundle roots, runtime receipts, validation commands, and blocked value-bearing mainnet admission.
+- `scripts/generate-v34-local-staging-testnet-deployment-rehearsal.mjs` emits deterministic `.proofs/v34/local-staging-testnet-deployment-rehearsal.json` with local/staging-testnet rehearsal coverage, source-safe logs, proof bundle roots, runtime receipts, validation commands, and blocked value-bearing mainnet admission.
 - `scripts/check-v34-gate9-local-staging-testnet-deployment-rehearsal.mjs` and `pnpm run check:v34-gate9` fail closed on stale artifacts, missing rehearsals, missing local/staging coverage, missing Terminal/public API/MCP API/ChatGPT App/Reading pipeline execution receipt/settlement/finality/storage/repair coverage, missing source-safe logs, missing proof-rooted screenshots or logs, value-bearing mainnet admission, source-unsafe artifact text, docs drift, package-script drift, workflow drift, and generated-artifact allowlist drift.
 
 ### Gate 10: V34 Promotion Readiness
 
-Gate 10 owns final generated proof, promotion workflow support, source-safe `.bitcode/v34-promotion-readiness-report.json`, and V34 closure.
+Gate 10 owns final generated proof, promotion workflow support, source-safe `.proofs/v34/promotion-readiness-report.json`, and V34 closure.
 
 Closure acceptance:
 
@@ -216,7 +216,7 @@ Closure evidence:
 
 - `packages/btd/src/deployment-promotion-readiness-report.ts` owns `DeploymentPromotionReadinessReport`, the V34 deployment artifact allowlist, pre-promotion V33 active / V34 draft posture, post-promotion V34 active / V35 draft posture, workflow paths, generated proof outputs, value-bearing mainnet blocking, protected-source blocking, secret-value blocking, and fail-closed result text.
 - `packages/btd/__tests__/deployment-promotion-readiness-report.test.ts` proves full artifact coverage, promotion command coverage, workflow/proof output coverage, value-bearing mainnet denial, protected-source denial, secret-value denial, duplicate/missing artifact failure, and secret-shaped metadata rejection.
-- `scripts/generate-v34-promotion-readiness-report.mjs` emits deterministic source-safe `.bitcode/v34-promotion-readiness-report.json` covering source evidence, documentation evidence, gate artifact evidence, pre/post-promotion posture, branch protection, generated artifact policy, and closure command.
+- `scripts/generate-v34-promotion-readiness-report.mjs` emits deterministic source-safe `.proofs/v34/promotion-readiness-report.json` covering source evidence, documentation evidence, gate artifact evidence, pre/post-promotion posture, branch protection, generated artifact policy, and closure command.
 - `scripts/check-v34-gate10-promotion-readiness.mjs` and `pnpm run check:v34-gate10` fail closed on stale artifacts, missing deployment artifacts, incomplete source evidence, incomplete documentation evidence, missing promotion command support, missing generated appendix support, missing workflow support, source-unsafe generated JSON, runtime posture drift, and branch-pattern drift.
 - `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js`, `.github/workflows/v34-canon-promotion.yml`, gate-quality, and canon-quality all support V34 promotion and post-promotion V34 active / V35 draft validation.
 

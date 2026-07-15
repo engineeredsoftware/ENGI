@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `3c7a9f998656635cc28c8b4584ae964ac04154fa`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, `.bitcode/v43-route-vocabulary-inventory.json`, `.bitcode/v43-packs-activity-master-detail.json`, `.bitcode/v43-read-route-five-step-ux.json`, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, `.bitcode/v43-deposit-option-admission.json`, `.bitcode/v43-route-ux-product-excellence.json`, `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`, `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v43/spec-family-report.json`, `.proofs/v43/canonical-input-report.json`, `.proofs/v43/canon-posture-drift-report.json`, `.proofs/v43/route-vocabulary-inventory.json`, `.proofs/v43/packs-activity-master-detail.json`, `.proofs/v43/read-route-five-step-ux.json`, `.proofs/v43/deposit-route-options.json`, `.proofs/v43/deposit-policy-compensation.json`, `.proofs/v43/deposit-option-admission.json`, `.proofs/v43/route-ux-product-excellence.json`, `.proofs/v43/cross-route-rehearsal-telemetry-repair.json`, `.proofs/v43/promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
 - Source parity state: V43 source-side route vocabulary, Packs master-detail, Read five-step UX, deposit option synthesis, deposit policy/compensation, deposit option admission, route UX, cross-route rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V43 file family
 - Scope: V43 canonical delta for product routes and agentic depositing over promoted V42 reliable MVP canon
 
@@ -25,14 +25,14 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
 5. Deposit options must expose source-safe measurements, sub-criticality, demand, likely ROI, BTD potential, compensation posture, and admission blockers before approval.
 6. `/read` remains the five-step Reading path: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, settle/buy/deliver.
 7. Product UX outside public documentation must be self-explanatory through structure, labels, progressive detail, rich components, and visual quality, not self-referential copy.
-8. Gate 2 records the route vocabulary inventory in `.bitcode/v43-route-vocabulary-inventory.json` as source-safe file/token counts and a migration matrix only; the actual route rename and split remain owned by later gates.
+8. Gate 2 records the route vocabulary inventory in `.proofs/v43/route-vocabulary-inventory.json` as source-safe file/token counts and a migration matrix only; the actual route rename and split remain owned by later gates.
 9. Gate 3 implements the first route migration slice: `/packs` becomes the pack-activity master-detail surface, `/api/packs/activity` projects source-safe PackActivity records, and `/exchange` redirects to `/packs`.
 10. Gate 9 binds the local and staging-testnet route path across `/deposit`,
     `/read`, and `/packs` with source-safe rehearsal receipts, telemetry
     readback, ledger/database/storage synchronization checks, repair posture,
     and no value-bearing mainnet admission.
 11. Gate 10 binds V43 promotion readiness through
-    `.bitcode/v43-promotion-readiness-report.json`, `v43-canon-promotion.yml`,
+    `.proofs/v43/promotion-readiness-report.json`, `v43-canon-promotion.yml`,
     V43 PROVEN generation support, promotion scripts support V43, and the
     V43 active / draft V44 post-promotion posture.
 
@@ -58,7 +58,7 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
 ## Gate 2 delta closure
 
 Gate 2 adds `V43RouteVocabularyInventory`, the generated
-`.bitcode/v43-route-vocabulary-inventory.json` artifact, package exports,
+`.proofs/v43/route-vocabulary-inventory.json` artifact, package exports,
 protocol tests, workflow checks, and `check:v43-gate2`. The artifact inventories
 `/exchange`, Exchange, `/terminal`, Terminal, `/packs`, `/read`, `/deposit`,
 Reading, Depositing, PackActivity, DepositAssetPackOption, and self-referential
@@ -70,7 +70,7 @@ snippets or source-bearing payloads.
 ## Gate 3 delta closure
 
 Gate 3 adds `V43PacksActivityMasterDetail`, the generated
-`.bitcode/v43-packs-activity-master-detail.json` artifact, package exports,
+`.proofs/v43/packs-activity-master-detail.json` artifact, package exports,
 protocol tests, workflow checks, the `PackActivityRecord` source-safe model,
 `/api/packs/activity`, the `/packs` route, compatibility redirect from
 `/exchange`, and no-source leak tests. The route supports search, filtering,
@@ -82,7 +82,7 @@ credentials, wallet private material, or private settlement payloads.
 ## Gate 4 delta closure
 
 Gate 4 adds `V43ReadRouteFiveStepUx`, the generated
-`.bitcode/v43-read-route-five-step-ux.json` artifact, package exports,
+`.proofs/v43/read-route-five-step-ux.json` artifact, package exports,
 protocol tests, workflow checks, `ReadRouteSession`, `/read`, and focused route
 tests. `/read` is now the default Reading path: request Read, review
 synthesized Need, request Finding Fits, review source-safe AssetPack preview,
@@ -94,7 +94,7 @@ debug-compatible and continues to provide execution stream readback.
 ## Gate 5 delta closure
 
 Gate 5 adds `V43DepositRouteOptions`, the generated
-`.bitcode/v43-deposit-route-options.json` artifact, package exports, protocol
+`.proofs/v43/deposit-route-options.json` artifact, package exports, protocol
 tests, workflow checks, `DepositRouteSession`, `/deposit`, and focused route
 and asset-pack package tests. `/deposit` is now the default Depositing path:
 connect source, synthesize source-safe AssetPack options, review measurements,
@@ -107,7 +107,7 @@ remain source-safe metadata only.
 
 Gate 6 adds `DepositAssetPackOptionPolicy`,
 `DepositAssetPackOptionPolicyReport`, the generated
-`.bitcode/v43-deposit-policy-compensation.json` artifact, package exports,
+`.proofs/v43/deposit-policy-compensation.json` artifact, package exports,
 protocol tests, workflow checks, `/deposit` policy readback, and focused
 route/package tests. The policy scores each source-safe deposit option for
 criticality, likely demand, estimated gross BTC value, development-cost ROI,
@@ -122,7 +122,7 @@ decisions remain Gate 7 boundaries.
 
 Gate 7 adds `DepositAssetPackOptionAdmissionReport`,
 `DepositOptionAdmissionReceipt`, `DepositOptionReviewDecision`, the generated
-`.bitcode/v43-deposit-option-admission.json` artifact, package exports,
+`.proofs/v43/deposit-option-admission.json` artifact, package exports,
 protocol tests, workflow checks, `/deposit` approve/reject/resynthesize controls,
 admission readback, and `/packs` activity synchronization. Admission consumes
 source-safe option synthesis and policy reports; only depositor-approved,
@@ -137,7 +137,7 @@ Need-Fit settlement.
 
 Gate 8 adds `ProductRouteShell`, `ProductRouteStepGrid`,
 `ProductRouteStatePanel`, `ProductRouteDisclosure`, the generated
-`.bitcode/v43-route-ux-product-excellence.json` artifact, package exports,
+`.proofs/v43/route-ux-product-excellence.json` artifact, package exports,
 protocol tests, workflow checks, route shell assertions, and focused
 `/packs`/`/read`/`/deposit` tests. The route clients now share a themed product
 frame, source-safe metrics, concise route summaries, keyboard-accessible step
@@ -149,7 +149,7 @@ existing V43 state machine and source-safety boundary intact.
 ## Gate 9 delta closure
 
 Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair`, the generated
-`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json` artifact, package
+`.proofs/v43/cross-route-rehearsal-telemetry-repair.json` artifact, package
 exports, protocol tests, workflow checks,
 `scripts/rehearse-v43-cross-route-product-flow.mjs`, and `check:v43-gate9`.
 The cross-route rehearsal covers local and staging-testnet lanes for
@@ -166,7 +166,7 @@ private settlement payloads, or live rehearsal logs.
 ## Gate 10: V43 Promotion Readiness
 
 Gate 10 adds `V43PromotionReadinessReport`, the generated
-`.bitcode/v43-promotion-readiness-report.json` artifact, package exports,
+`.proofs/v43/promotion-readiness-report.json` artifact, package exports,
 protocol tests, `generate:v43-promotion-readiness`,
 `check:v43-promotion-readiness`, `check:v43-gate10`, V43 support in
 `promote-bitcode-canon.mjs`, V43 support in

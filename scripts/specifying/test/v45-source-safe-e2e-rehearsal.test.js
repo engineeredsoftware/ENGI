@@ -17,7 +17,7 @@ import {
 test('V45 source-safe end-to-end rehearsal binds all lanes, stages, evidence, and readback', () => {
   const artifact = buildV45SourceSafeEndToEndRehearsal();
 
-  assert.equal(V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH, '.bitcode/v45-source-safe-e2e-rehearsal.json');
+  assert.equal(V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH, '.proofs/v45/source-safe-e2e-rehearsal.json');
   assert.equal(artifact.artifactId, 'v45-source-safe-e2e-rehearsal');
   assert.equal(artifact.schemaId, V45_SOURCE_SAFE_E2E_REHEARSAL_SCHEMA_ID);
   assert.equal(artifact.version, 'V45');

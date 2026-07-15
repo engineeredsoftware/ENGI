@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_ARTIFACT_PATH =
-  '.bitcode/v47-feature-excess-alignment-audit.json';
+  '.proofs/v47/feature-excess-alignment-audit.json';
 export const V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_SCHEMA_ID =
   'bitcode.v47.featureExcessAlignmentAudit.v1';
 export const V47_FEATURE_EXCESS_ALIGNMENT_AUDIT_VERSION = 'V47';

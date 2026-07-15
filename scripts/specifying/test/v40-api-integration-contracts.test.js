@@ -14,7 +14,7 @@ import {
 test('V40 API integration contracts close route and interface contract surfaces', () => {
   const report = buildV40ApiIntegrationContracts();
 
-  assert.equal(V40_API_INTEGRATION_CONTRACTS_ARTIFACT_PATH, '.bitcode/v40-api-integration-contracts.json');
+  assert.equal(V40_API_INTEGRATION_CONTRACTS_ARTIFACT_PATH, '.proofs/v40/api-integration-contracts.json');
   assert.equal(report.artifactId, 'v40-api-integration-contracts');
   assert.equal(report.schemaId, V40_API_INTEGRATION_CONTRACTS_SCHEMA_ID);
   assert.equal(report.version, 'V40');

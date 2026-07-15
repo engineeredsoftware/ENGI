@@ -8,19 +8,19 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v45-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v45/promotion-readiness-report.json';
 
 const V45_GATE_ARTIFACTS = [
-  '.bitcode/v45-inference-synthesis-proof.json',
-  '.bitcode/v45-prompt-completeness-proof.json',
-  '.bitcode/v45-static-code-analysis-proof.json',
-  '.bitcode/v45-verification-decisions-proof.json',
-  '.bitcode/v45-selection-materialization-proof.json',
-  '.bitcode/v45-authorization-sensitive-flow-proof.json',
-  '.bitcode/v45-settlement-source-to-shares-proof.json',
-  '.bitcode/v45-disclosure-boundary-proof.json',
-  '.bitcode/v45-proof-contract-proof.json',
-  '.bitcode/v45-source-safe-e2e-rehearsal.json',
+  '.proofs/v45/inference-synthesis-proof.json',
+  '.proofs/v45/prompt-completeness-proof.json',
+  '.proofs/v45/static-code-analysis-proof.json',
+  '.proofs/v45/verification-decisions-proof.json',
+  '.proofs/v45/selection-materialization-proof.json',
+  '.proofs/v45/authorization-sensitive-flow-proof.json',
+  '.proofs/v45/settlement-source-to-shares-proof.json',
+  '.proofs/v45/disclosure-boundary-proof.json',
+  '.proofs/v45/proof-contract-proof.json',
+  '.proofs/v45/source-safe-e2e-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

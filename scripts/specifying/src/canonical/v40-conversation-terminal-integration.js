@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH =
-  '.bitcode/v40-conversation-terminal-integration.json';
+  '.proofs/v40/conversation-terminal-integration.json';
 export const V40_CONVERSATION_TERMINAL_INTEGRATION_SCHEMA_ID =
   'bitcode.v40.conversationTerminalIntegration.v1';
 export const V40_CONVERSATION_TERMINAL_INTEGRATION_VERSION = 'V40';

@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V42_READFITSFINDING_PREVIEW_QUOTE_ARTIFACT_PATH =
-  '.bitcode/v42-readfitsfinding-preview-quote.json';
+  '.proofs/v42/readfitsfinding-preview-quote.json';
 export const V42_READFITSFINDING_PREVIEW_QUOTE_SCHEMA_ID =
   'bitcode.v42.readFitsFindingPreviewQuote.v1';
 export const V42_READFITSFINDING_PREVIEW_QUOTE_VERSION = 'V42';

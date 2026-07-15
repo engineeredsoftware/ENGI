@@ -55,7 +55,7 @@ test('builds the source-safe V37 Conversations rehearsal report', () => {
   assert.equal(report.coverage.ledgerWriteAuthorityVisible, false);
   assert.equal(report.coverage.walletSigningAuthorityVisible, false);
   assert.match(report.artifactRoot, /^conversation-rehearsal:[a-f0-9]{24}$/u);
-  assert.equal(CONVERSATION_REHEARSAL_ARTIFACT_PATH, '.bitcode/v37-conversation-rehearsal.json');
+  assert.equal(CONVERSATION_REHEARSAL_ARTIFACT_PATH, '.proofs/v37/conversation-rehearsal.json');
 });
 
 test('rehearses local and staging-testnet Conversations flows with blocked mainnet posture', () => {

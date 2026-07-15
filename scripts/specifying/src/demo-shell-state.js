@@ -391,23 +391,23 @@ function buildPublicProjection(latestRun) {
       publicFiles: Object.fromEntries(Object.entries(latestRun.branchArtifacts?.files || {}).filter(([path]) => latestRun.projectionPolicy?.publicArtifactPaths?.includes(path)))
     },
     publicArtifacts: {
-      '.bitcode/bounded-public-proof.json': latestRun.boundedPublicProof,
-      ...(latestRun.bitcoinBoundedPublicAnchor ? { '.bitcode/bitcoin-bounded-public-anchor.json': latestRun.bitcoinBoundedPublicAnchor } : {}),
-      '.bitcode/reading-surface.json': latestRun.readingSurface,
-      '.bitcode/deposit-to-read-surface.json': latestRun.depositingToReadingSurface,
-      '.bitcode/match-report.json': latestRun.matchReport,
-      '.bitcode/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
-      '.bitcode/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
-      '.bitcode/static-heuristics-registry.json': latestRun.staticHeuristicsRegistry,
-      '.bitcode/static-measurement-report.json': latestRun.staticMeasurementReport,
-      '.bitcode/static-measurement-proof.json': latestRun.staticMeasurementProof,
-      '.bitcode/materialization-proof.json': latestRun.materializationProof,
-      '.bitcode/materialization-visibility-proof.json': latestRun.materializationVisibilityProof,
-      '.bitcode/scenario-fixture-manifest.json': latestRun.scenarioFixtureManifest,
-      '.bitcode/test-coverage-report.json': latestRun.testCoverageReport,
-      '.bitcode/projection-policy.json': latestRun.projectionPolicy,
-      '.bitcode/redaction-proof.json': latestRun.redactionProof,
-      '.bitcode/disclosure-proof.json': latestRun.disclosureProof
+      '.proofs/_shared/bounded-public-proof.json': latestRun.boundedPublicProof,
+      ...(latestRun.bitcoinBoundedPublicAnchor ? { '.proofs/_shared/bitcoin-bounded-public-anchor.json': latestRun.bitcoinBoundedPublicAnchor } : {}),
+      '.proofs/_shared/reading-surface.json': latestRun.readingSurface,
+      '.proofs/_shared/deposit-to-read-surface.json': latestRun.depositingToReadingSurface,
+      '.proofs/_shared/match-report.json': latestRun.matchReport,
+      '.proofs/_shared/prompt-completeness-proof.json': latestRun.promptCompletenessProof,
+      '.proofs/_shared/code-analysis-fact-registry.json': latestRun.codeAnalysisFactRegistry,
+      '.proofs/_shared/static-heuristics-registry.json': latestRun.staticHeuristicsRegistry,
+      '.proofs/_shared/static-measurement-report.json': latestRun.staticMeasurementReport,
+      '.proofs/_shared/static-measurement-proof.json': latestRun.staticMeasurementProof,
+      '.proofs/_shared/materialization-proof.json': latestRun.materializationProof,
+      '.proofs/_shared/materialization-visibility-proof.json': latestRun.materializationVisibilityProof,
+      '.proofs/_shared/scenario-fixture-manifest.json': latestRun.scenarioFixtureManifest,
+      '.proofs/_shared/test-coverage-report.json': latestRun.testCoverageReport,
+      '.proofs/_shared/projection-policy.json': latestRun.projectionPolicy,
+      '.proofs/_shared/redaction-proof.json': latestRun.redactionProof,
+      '.proofs/_shared/disclosure-proof.json': latestRun.disclosureProof
     }
   };
 }
@@ -580,7 +580,7 @@ function buildBuyerProjection(latestRun) {
       branchName: latestRun.branchArtifacts?.branchName,
       branchMode: latestRun.branchArtifacts?.branchMode,
       confidentiality: latestRun.branchArtifacts?.confidentiality,
-      visibleFileInventory: Object.keys(latestRun.branchArtifacts?.files || {}).filter((path) => !path.startsWith('.bitcode/source-material/'))
+      visibleFileInventory: Object.keys(latestRun.branchArtifacts?.files || {}).filter((path) => !path.startsWith('.proofs/source-material/'))
     }
   };
 }
@@ -680,7 +680,7 @@ function buildReviewerProjection(latestRun) {
       visibleFileInventory: [...new Set([
         ...(latestRun.projectionPolicy?.publicArtifactPaths || []),
         ...(latestRun.projectionPolicy?.privateArtifactPaths || [])
-      ])].filter((path) => !path.startsWith('.bitcode/source-material/'))
+      ])].filter((path) => !path.startsWith('.proofs/source-material/'))
     }
   };
 }

@@ -15,7 +15,7 @@ import {
 test('V43 read route five-step UX artifact binds source-safe Reading route contracts', () => {
   const report = buildV43ReadRouteFiveStepUx();
 
-  assert.equal(V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH, '.bitcode/v43-read-route-five-step-ux.json');
+  assert.equal(V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH, '.proofs/v43/read-route-five-step-ux.json');
   assert.equal(report.artifactId, 'v43-read-route-five-step-ux');
   assert.equal(report.schemaId, V43_READ_ROUTE_FIVE_STEP_UX_SCHEMA_ID);
   assert.equal(report.version, 'V43');

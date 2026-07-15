@@ -9,7 +9,7 @@ import { buildV33InterfaceTelemetryProofHooksArtifact } from './generate-v33-int
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v33-interface-telemetry-proof-hooks.json';
+const ARTIFACT = '.proofs/v33/interface-telemetry-proof-hooks.json';
 
 const REQUIRED_INTERFACE_IDS = [
   'terminal_handoff',

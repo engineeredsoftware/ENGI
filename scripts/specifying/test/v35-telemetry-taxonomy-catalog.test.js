@@ -89,12 +89,12 @@ test('binds inference, value, storage, docs QA, and promotion telemetry boundari
   assert.equal(ledger.alertThreshold, 'projection_drift_critical');
 
   assert.ok(docsQa);
-  assert.equal(docsQa.sourceRoots.includes('.bitcode/v35-documentation-surface-catalog.json'), true);
+  assert.equal(docsQa.sourceRoots.includes('.proofs/v35/documentation-surface-catalog.json'), true);
   assert.equal(docsQa.runbookLink, 'runbook.docs.qa-repair');
 
   assert.ok(promotion);
   assert.equal(promotion.proofRootFields.includes('provenRoot'), true);
   assert.equal(promotion.sourceRoots.includes('.github/workflows/bitcode-canon-quality.yml'), true);
   assert.equal(catalog.requiredEventFamilies.includes('promotion'), true);
-  assert.equal(TELEMETRY_TAXONOMY_CATALOG_ARTIFACT_PATH, '.bitcode/v35-telemetry-taxonomy-catalog.json');
+  assert.equal(TELEMETRY_TAXONOMY_CATALOG_ARTIFACT_PATH, '.proofs/v35/telemetry-taxonomy-catalog.json');
 });

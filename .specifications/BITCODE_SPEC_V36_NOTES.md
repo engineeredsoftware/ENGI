@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `8c3eddff851c79ceac5230974e7e1e757093fa37`
 - Prior canonical anchor: `BITCODE_SPEC_V35.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V35_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v36-spec-family-report.json`, `.bitcode/v36-canonical-input-report.json`, `.bitcode/v36-canon-posture-drift-report.json`, `.bitcode/v36-exchange-activity-book.json`, `.bitcode/v36-exchange-intent-order-contracts.json`, `.bitcode/v36-exchange-rights-transfer-review.json`, `.bitcode/v36-pricing-liquidity-fee-quote.json`, `.bitcode/v36-exchange-settlement-reconciliation.json`, `.bitcode/v36-exchange-dispute-repair-revenue-route.json`, `.bitcode/v36-exchange-ux-proof.json`, `.bitcode/v36-exchange-rehearsal.json`, `.bitcode/v36-promotion-readiness-report.json`, V36 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V36_PROVEN.md` as the generated proof appendix for V36 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v36/spec-family-report.json`, `.proofs/v36/canonical-input-report.json`, `.proofs/v36/canon-posture-drift-report.json`, `.proofs/v36/exchange-activity-book.json`, `.proofs/v36/exchange-intent-order-contracts.json`, `.proofs/v36/exchange-rights-transfer-review.json`, `.proofs/v36/pricing-liquidity-fee-quote.json`, `.proofs/v36/exchange-settlement-reconciliation.json`, `.proofs/v36/exchange-dispute-repair-revenue-route.json`, `.proofs/v36/exchange-ux-proof.json`, `.proofs/v36/exchange-rehearsal.json`, `.proofs/v36/promotion-readiness-report.json`, V36 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V36_PROVEN.md` as the generated proof appendix for V36 promotion
 - Source parity state: V36 source-side Exchange activity book, intent/order contracts, rights-transfer preview, pricing quote, settlement reconciliation, dispute repair and revenue route, UX proof, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V36 file family
 - Spec companion: `BITCODE_SPEC_V36.md`
 - Delta companion: `BITCODE_SPEC_V36_DELTA.md`
@@ -66,7 +66,7 @@ Read V36 as:
 ## Gate 10 closure notes
 
 Gate 10 closes when `ExchangePromotionReadinessReport` is package-owned and
-generated through `.bitcode/v36-promotion-readiness-report.json`.
+generated through `.proofs/v36/promotion-readiness-report.json`.
 The generated artifact carries
 `source-safe-exchange-promotion-readiness-metadata`, covers every V36 Exchange
 artifact, proves promotion workflow and proof appendix support, and records that
@@ -87,7 +87,7 @@ Gate 1 closes when:
 ## Gate 2 closure notes
 
 Gate 2 closes when `ExchangeActivityBook` is package-owned and generated
-through `.bitcode/v36-exchange-activity-book.json`.
+through `.proofs/v36/exchange-activity-book.json`.
 The generated artifact carries `source-safe-exchange-activity-book-metadata`,
 listing/bid/ask/cancellation/acceptance/settlement/repair/revenue route/history
 coverage, filter ids, detail sections, proof roots, event ids, source-safe
@@ -100,7 +100,7 @@ consumers.
 ## Gate 3 closure notes
 
 Gate 3 closes when `ExchangeIntent` and `ExchangeOrder` are package-owned and
-generated through `.bitcode/v36-exchange-intent-order-contracts.json`.
+generated through `.proofs/v36/exchange-intent-order-contracts.json`.
 The generated artifact carries
 `source-safe-exchange-intent-order-contract-metadata`, buy/sell/bid/ask/cancel/
 accept/settle/history coverage, required intent fields, required order fields,
@@ -115,7 +115,7 @@ model responses, private buyer repository payloads, or secret values.
 ## Gate 4 closure notes
 
 Gate 4 closes when `ExchangeRightsTransferPreview` is package-owned and
-generated through `.bitcode/v36-exchange-rights-transfer-review.json`.
+generated through `.proofs/v36/exchange-rights-transfer-review.json`.
 The generated artifact carries
 `source-safe-exchange-rights-transfer-review-metadata`, BTD range identity,
 current owner, requested buyer, rights scope, settlement unlock condition,
@@ -129,7 +129,7 @@ or missing transfer receipts.
 ## Gate 5 closure notes
 
 Gate 5 closes when `ExchangePricingQuote` is package-owned and generated
-through `.bitcode/v36-pricing-liquidity-fee-quote.json`.
+through `.proofs/v36/pricing-liquidity-fee-quote.json`.
 The generated artifact carries `source-safe-exchange-pricing-quote-metadata`,
 BTC amount, measurement weight, measurement volume, liquidity band, wrapper analysis, treasury route, depositor route, reader route, quote root, proof
 roots, event ids, ledger/database projection refs, and fail-closed conditions.
@@ -141,7 +141,7 @@ or unsupported network state.
 ## Gate 6 closure notes
 
 Gate 6 closes when `ExchangeSettlementReceipt` is package-owned and generated
-through `.bitcode/v36-exchange-settlement-reconciliation.json`.
+through `.proofs/v36/exchange-settlement-reconciliation.json`.
 The generated artifact carries
 `source-safe-exchange-settlement-reconciliation-metadata` and binds payment observation, finality state, rights transfer receipt, ledger root, database projection root, object storage root, delivery state, and repair id.
 observers and repair jobs reconcile database projections to ledger truth.
@@ -154,7 +154,7 @@ all source-safe and proof-rooted.
 
 Gate 7 closes when `ExchangeDisputeRepairCase` and `ExchangeRevenueRoute` are
 package-owned and generated through
-`.bitcode/v36-exchange-dispute-repair-revenue-route.json`.
+`.proofs/v36/exchange-dispute-repair-revenue-route.json`.
 The generated artifact carries
 `source-safe-exchange-dispute-repair-revenue-route-metadata`.
 `ExchangeDisputeRepairCase` covers stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch.
@@ -168,7 +168,7 @@ material.
 ## Gate 8 closure notes
 
 Gate 8 closes when `ExchangeUxProof` is package-owned and generated through
-`.bitcode/v36-exchange-ux-proof.json`.
+`.proofs/v36/exchange-ux-proof.json`.
 The generated artifact carries `source-safe-exchange-ux-proof-metadata`.
 `ExchangeUxProof` covers market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state.
 Terminal can hand off to Exchange without losing transaction context.
@@ -184,7 +184,7 @@ payloads, or secret values.
 ## Gate 9 closure notes
 
 Gate 9 closes when `ExchangeRehearsal` is package-owned and generated through
-`.bitcode/v36-exchange-rehearsal.json`.
+`.proofs/v36/exchange-rehearsal.json`.
 The generated artifact carries `source-safe-exchange-rehearsal-metadata`.
 `ExchangeRehearsal` proves that local and staging-testnet rehearsals exercise list, bid, ask, cancel, accept, settle, repair, and history flows.
 It proves that rehearsal logs/screenshots are source-safe.

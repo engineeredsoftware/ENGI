@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ARTIFACT_PATH =
-  '.bitcode/v38-conversation-tool-prompt-inference-parity.json';
+  '.proofs/v38/conversation-tool-prompt-inference-parity.json';
 export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_SCHEMA_ID =
   'bitcode.v38.conversationToolPromptInferenceParity.v1';
 export const V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_VERSION = 'V38';
@@ -276,9 +276,9 @@ export function buildV38ConversationToolPromptInferenceParity(options = {}) {
     .filter((predicate) => !predicate.passed)
     .map((predicate) => predicate.id);
 
-  const gate2 = readJson(repoRoot, '.bitcode/v38-inference-surface-inventory.json');
-  const gate4 = readJson(repoRoot, '.bitcode/v38-prompt-benchmark-report.json');
-  const gate5 = readJson(repoRoot, '.bitcode/v38-disclosure-boundary-report.json');
+  const gate2 = readJson(repoRoot, '.proofs/v38/inference-surface-inventory.json');
+  const gate4 = readJson(repoRoot, '.proofs/v38/prompt-benchmark-report.json');
+  const gate5 = readJson(repoRoot, '.proofs/v38/disclosure-boundary-report.json');
   const rowRoots = V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ROWS.map((item) => item.rowRoot);
   const sourceRoots = [...new Set(V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ROWS.flatMap((item) => item.sourceRoots))];
   const missingSourceRoots = sourceRoots.filter((sourcePath) => !existsSync(path.join(repoRoot, sourcePath)));

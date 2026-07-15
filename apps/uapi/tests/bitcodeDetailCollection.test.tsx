@@ -12,7 +12,7 @@ describe('BitcodeDetailCollection', () => {
             id: 'selection-materialization',
             title: 'selection-materialization',
             summary: 'passed · replay 3',
-            supportingText: '.bitcode/selection-and-materialization-proof.json',
+            supportingText: '.proofs/_shared/selection-and-materialization-proof.json',
           },
         ]}
       />,
@@ -20,7 +20,7 @@ describe('BitcodeDetailCollection', () => {
 
     expect(screen.getByText('selection-materialization')).toBeTruthy();
     expect(screen.getByText('passed · replay 3')).toBeTruthy();
-    expect(screen.getByText('.bitcode/selection-and-materialization-proof.json')).toBeTruthy();
+    expect(screen.getByText('.proofs/_shared/selection-and-materialization-proof.json')).toBeTruthy();
   });
 
   it('renders an empty message when there are no items', () => {

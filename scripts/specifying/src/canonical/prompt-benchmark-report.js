@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
-export const V38_PROMPT_BENCHMARK_REPORT_ARTIFACT_PATH = '.bitcode/v38-prompt-benchmark-report.json';
+export const V38_PROMPT_BENCHMARK_REPORT_ARTIFACT_PATH = '.proofs/v38/prompt-benchmark-report.json';
 export const V38_PROMPT_BENCHMARK_REPORT_SCHEMA_ID = 'bitcode.v38.promptBenchmarkReport.v1';
 export const V38_PROMPT_BENCHMARK_REPORT_VERSION = 'V38';
 export const V38_PROMPT_BENCHMARK_REPORT_CURRENT_TARGET = 'V37';

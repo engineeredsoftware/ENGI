@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V47_LANDING_PUBLIC_LAUNCH_MESSAGING_ARTIFACT_PATH =
-  '.bitcode/v47-landing-public-launch-messaging.json';
+  '.proofs/v47/landing-public-launch-messaging.json';
 export const V47_LANDING_PUBLIC_LAUNCH_MESSAGING_SCHEMA_ID =
   'bitcode.v47.landingPublicLaunchMessaging.v1';
 export const V47_LANDING_PUBLIC_LAUNCH_MESSAGING_VERSION = 'V47';

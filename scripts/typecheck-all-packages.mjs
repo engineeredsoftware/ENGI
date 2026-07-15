@@ -79,7 +79,7 @@ const summary = {
   failures: failed,
 };
 
-const outPath = path.join(repoRoot, '.bitcode', 'typecheck-all-report.json');
+const outPath = path.join(repoRoot, '.proofs', 'typecheck-all-report.json');
 try {
   if (!existsSync(path.dirname(outPath))) {
     // best-effort; report is optional

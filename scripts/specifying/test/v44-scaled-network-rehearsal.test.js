@@ -17,7 +17,7 @@ import {
 test('V44 scaled network rehearsal binds many-pack local and staging-testnet coverage', () => {
   const report = buildV44ScaledNetworkRehearsal();
 
-  assert.equal(V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH, '.bitcode/v44-scaled-network-rehearsal.json');
+  assert.equal(V44_SCALED_NETWORK_REHEARSAL_ARTIFACT_PATH, '.proofs/v44/scaled-network-rehearsal.json');
   assert.equal(report.artifactId, 'v44-scaled-network-rehearsal');
   assert.equal(report.schemaId, V44_SCALED_NETWORK_REHEARSAL_SCHEMA_ID);
   assert.equal(report.version, 'V44');

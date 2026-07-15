@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `c5b238b9958430c4611ef396ac8cea248c1aecf4`
 - Prior canonical anchor: `BITCODE_SPEC_V29.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V29_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `.bitcode/v30-canon-posture-drift-report.json`, `.bitcode/v30-protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v30/spec-family-report.json`, `.proofs/v30/canonical-input-report.json`, `.proofs/v30/canon-posture-drift-report.json`, `.proofs/v30/protocol-telemetry-proof-hooks.json`, V30 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V30_PROVEN.md` as the generated proof appendix for V30 promotion
 - Source parity state: V30 source-side Protocol/BTD package APIs, Bitcoin/PSBT, receipts, ledger projection, source-to-shares, bridge-readiness, telemetry/proof hooks, interface regression, workflow, and promotion surfaces are canonicalized in the promoted V30 file family
 - State: draft target opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V29`
@@ -68,7 +68,7 @@ The V30 source-of-truth hierarchy is:
 3. `BITCODE_SPEC_V30_NOTES.md`.
 4. `BITCODE_SPEC_V30_DELTA.md`.
 5. `BITCODE_SPEC_V30_PARITY_MATRIX.md`.
-6. generated V30 artifacts under `.bitcode/` when produced.
+6. generated V30 artifacts under `.proofs/` when produced.
 7. `BITCODE_SPEC_V30_PROVEN.md` only after promotion.
 8. source implementation, tests, internal docs, public docs, and QA evidence that realize this file family.
 
@@ -285,7 +285,7 @@ Gate 8 Protocol telemetry proof hooks:
   these records. It returns a Terminal journal `proof_admission` entry and does
   not commit generated proof artifacts or source-bearing material.
 - Gate 8 creates the generated-artifact inventory slot
-  `.bitcode/v30-protocol-telemetry-proof-hooks.json`; promotion may generate
+  `.proofs/v30/protocol-telemetry-proof-hooks.json`; promotion may generate
   it only from source-safe telemetry/proof-hook facts.
 
 ## V30 whole Bitcode operator chain
@@ -387,7 +387,7 @@ The promotion-readiness contract has five parts:
 - the canonical promotion command supports `--version V30`, validates the V30
   draft family, runs local proof suites, prepares V30 hand-authored status
   truth, prepares runtime canon posture for V30 active / V30 draft, generates
-  `BITCODE_SPEC_V30_PROVEN.md`, writes `.bitcode/v30-*` proof artifacts, and
+  `BITCODE_SPEC_V30_PROVEN.md`, writes `.proofs/v30/*` proof artifacts, and
   then validates the promoted V30 family;
 - the version-promotion workflow runs only for a `version/v30` pull request into
   `main`, validates the same proof surface, and commits the generated promotion
@@ -416,7 +416,7 @@ Gate 10's source implementation is the V30 promotion-readiness control surface:
 `scripts/prepare-bitcode-spec-family-promotion.mjs`,
 `scripts/prepare-bitcode-runtime-canon-promotion.mjs`,
 `.github/workflows/v30-canon-promotion.yml`, and the generated
-`.bitcode/v30-*` artifacts must agree on the same V29 draft / V30 promoted
+`.proofs/v30/*` artifacts must agree on the same V29 draft / V30 promoted
 transition. The generated telemetry artifact is source-safe and exists to bind
 Gate 8 Protocol telemetry/proof hooks into promotion proof without exposing
 protected source or secrets.
@@ -671,19 +671,19 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v30-inference-synthesis-proof.json` | prompt, model, parsed-output | prompt-complete, typed-output | render, infer, parse, persist | pipeline telemetry, route tests | Reading pipeline contracts |
-| Prompt-completeness | `.bitcode/v30-prompt-completeness-proof.json` | prompt parts, templates, interpolations | no-hidden-prompt, context-bound | compose, render, record | prompt render outputs | prompt registry and tests |
-| Static-code-analysis | `.bitcode/v30-static-code-analysis-proof.json` | source scans, route scans, import scans | no-versioned-routes, no-demo-import | scan, report | lint/typecheck outputs | scripts and CI |
-| Verification-decisions | `.bitcode/v30-verification-decisions-proof.json` | Fit verification, preview verification | threshold, blocker, no-worthy-fit | search, rank, decide | depository search reports | asset-pack pipeline |
-| Selection-and-materialization | `.bitcode/v30-selection-and-materialization-proof.json` | selected fits, delivery branch | paid-before-source, pr-delivery | synthesize, settle, deliver | AssetPack evidence, PR receipt | pipeline host and VCS routes |
-| Authorization-and-sensitive-flow | `.bitcode/v30-authorization-and-sensitive-flow-proof.json` | wallet, org, license, policy | authorized-action, redaction | sign, authorize, project | wallet/access readbacks | BTD and UAPI |
-| Settlement-source-to-shares | `.bitcode/v30-settlement-source-to-shares-proof.json` | fee, range, license, source shares | conservation, right-transfer | quote, pay, mint, reconcile | source-to-shares, fee receipt | BTD settlement primitives |
-| Disclosure-boundary | `.bitcode/v30-disclosure-boundary-proof.json` | preview, paid unlock, denied state | no-prepay-source, paid-source | preview, unlock, read | projection-policy, leakage scans | access/projection code |
-| Proof-contract | `.bitcode/v30-proof-contract.json` | families, theorems, witnesses | complete-family, replayable | generate, validate, promote | spec/proven artifacts | spec-family tools |
+| Inference-synthesis | `.proofs/v30/inference-synthesis-proof.json` | prompt, model, parsed-output | prompt-complete, typed-output | render, infer, parse, persist | pipeline telemetry, route tests | Reading pipeline contracts |
+| Prompt-completeness | `.proofs/v30/prompt-completeness-proof.json` | prompt parts, templates, interpolations | no-hidden-prompt, context-bound | compose, render, record | prompt render outputs | prompt registry and tests |
+| Static-code-analysis | `.proofs/v30/static-code-analysis-proof.json` | source scans, route scans, import scans | no-versioned-routes, no-demo-import | scan, report | lint/typecheck outputs | scripts and CI |
+| Verification-decisions | `.proofs/v30/verification-decisions-proof.json` | Fit verification, preview verification | threshold, blocker, no-worthy-fit | search, rank, decide | depository search reports | asset-pack pipeline |
+| Selection-and-materialization | `.proofs/v30/selection-and-materialization-proof.json` | selected fits, delivery branch | paid-before-source, pr-delivery | synthesize, settle, deliver | AssetPack evidence, PR receipt | pipeline host and VCS routes |
+| Authorization-and-sensitive-flow | `.proofs/v30/authorization-and-sensitive-flow-proof.json` | wallet, org, license, policy | authorized-action, redaction | sign, authorize, project | wallet/access readbacks | BTD and UAPI |
+| Settlement-source-to-shares | `.proofs/v30/settlement-source-to-shares-proof.json` | fee, range, license, source shares | conservation, right-transfer | quote, pay, mint, reconcile | source-to-shares, fee receipt | BTD settlement primitives |
+| Disclosure-boundary | `.proofs/v30/disclosure-boundary-proof.json` | preview, paid unlock, denied state | no-prepay-source, paid-source | preview, unlock, read | projection-policy, leakage scans | access/projection code |
+| Proof-contract | `.proofs/v30/proof-contract.json` | families, theorems, witnesses | complete-family, replayable | generate, validate, promote | spec/proven artifacts | spec-family tools |
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v30-inference-synthesis-proof.json`
+- proofArtifactPath: `.proofs/v30/inference-synthesis-proof.json`
 - members: Reading Need synthesis, Finding Fits discovery, AssetPack synthesis, preview validation, settlement unlock inference.
 - theoremIds: prompt-complete, typed-output, model-bound, telemetry-persisted.
 - replayStepIds: render prompts, call model or mock, parse type, persist execution telemetry.
@@ -694,12 +694,12 @@ Terminal renders those roots with blockers and decision rows so operators can un
 - current theorem-to-replay grouping: prompt composition, model call, parse, persist, and UI projection.
 - minimum artifact/replay binding set: execution id, pipeline id, phase id, PTRR agent id, PTRR step id, ThricifiedGeneration id, prompt id, model id, output schema id.
 - current proof-object fields: proofFamily, memberId, theoremId, replayStepId, evidencePath, verdict, blocker.
-- generated-artifact and test bindings: `.bitcode/v30-spec-family-report.json`, pipeline tests, route tests, and Terminal stream tests.
+- generated-artifact and test bindings: `.proofs/v30/spec-family-report.json`, pipeline tests, route tests, and Terminal stream tests.
 - fail-closed conditions: missing prompt, missing typed parse, hidden model id, or missing telemetry blocks promotion.
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v30-prompt-completeness-proof.json`
+- proofArtifactPath: `.proofs/v30/prompt-completeness-proof.json`
 - members: prompt part registry, prompt template registry, agent prompt registry, step prompt registry, sub-step prompt composition.
 - theoremIds: every inference has a prompt template; every interpolated prompt is recorded; every schema is named.
 - replayStepIds: collect prompt parts, compose prompt, interpolate context, record prompt payload.
@@ -715,11 +715,11 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v30-static-code-analysis-proof.json`
+- proofArtifactPath: `.proofs/v30/static-code-analysis-proof.json`
 - members: route version scan, import boundary scan, source casing scan, lint, typecheck.
 - theoremIds: no versioned active source, no demonstration runtime import, no casing drift.
 - replayStepIds: scan files, compare rules, emit report.
-- witnessArtifactPaths: CI logs, local command output, `.bitcode` reports.
+- witnessArtifactPaths: CI logs, local command output, `.proofs` reports.
 - current member closure criteria: all required scans pass or name accepted compatibility exceptions.
 - current member verdict shape: pass, fail, blocked.
 - current theorem-by-theorem closure reading: source shape must match active canon posture.
@@ -731,7 +731,7 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v30-verification-decisions-proof.json`
+- proofArtifactPath: `.proofs/v30/verification-decisions-proof.json`
 - members: candidate fit verification, preview verification, settlement readiness verification.
 - theoremIds: threshold-admitted, no-worthy-fit-is-honest, blocked-readiness-is-explained.
 - replayStepIds: search, rank, verify, decide.
@@ -747,7 +747,7 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v30-selection-and-materialization-proof.json`
+- proofArtifactPath: `.proofs/v30/selection-and-materialization-proof.json`
 - members: selected deposits, AssetPack synthesis, branch artifact, delivery PR.
 - theoremIds: context-bound-synthesis, paid-before-source, delivery-target-matches-read.
 - replayStepIds: select, synthesize, preview, unlock, deliver.
@@ -763,7 +763,7 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v30-authorization-and-sensitive-flow-proof.json`
+- proofArtifactPath: `.proofs/v30/authorization-and-sensitive-flow-proof.json`
 - members: wallet identity, signer session, provider connection, org role, read-license, policy decision.
 - theoremIds: action-authorized, secret-not-projected, redaction-applied.
 - replayStepIds: authenticate, authorize, project, redact.
@@ -779,11 +779,11 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v30-settlement-source-to-shares-proof.json`
+- proofArtifactPath: `.proofs/v30/settlement-source-to-shares-proof.json`
 - members: fee quote, payment observation, BTD range, source-to-shares, read-license, journal.
 - theoremIds: fee-conservation, range-conservation, license-transfer.
 - replayStepIds: quote, prepare PSBT, observe payment, mint/transfer, reconcile.
-- witnessArtifactPaths: `.bitcode/source-to-shares.json`, fee receipt, journal rows, ledger anchors.
+- witnessArtifactPaths: `.proofs/_shared/source-to-shares.json`, fee receipt, journal rows, ledger anchors.
 - current member closure criteria: settlement must conserve BTC fee, BTD range, source shares, and right transfer.
 - current member verdict shape: prepared, signed, broadcast, confirmed, blocked, reconciled.
 - current theorem-by-theorem closure reading: no paid source unlock without fee and right-transfer readback.
@@ -795,11 +795,11 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v30-disclosure-boundary-proof.json`
+- proofArtifactPath: `.proofs/v30/disclosure-boundary-proof.json`
 - members: preview, projection policy, redaction, paid unlock, denied state.
 - theoremIds: no-prepay-source, paid-reader-source, denied-state-no-source.
 - replayStepIds: project preview, redact source, evaluate unlock, read source.
-- witnessArtifactPaths: `.bitcode/projection-policy.json`, preview payloads, leakage scan reports.
+- witnessArtifactPaths: `.proofs/_shared/projection-policy.json`, preview payloads, leakage scan reports.
 - current member closure criteria: source-bearing content crosses visibility boundary only after paid unlock.
 - current member verdict shape: preview, locked, unlocked, denied, blocked.
 - current theorem-by-theorem closure reading: disclosure posture must be explainable from policy, payment, and license state.
@@ -811,11 +811,11 @@ Terminal renders those roots with blockers and decision rows so operators can un
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v30-proof-contract.json`
+- proofArtifactPath: `.proofs/v30/proof-contract.json`
 - members: spec-family report, canonical input report, canon-posture drift report, promotion proof appendix.
 - theoremIds: complete-family, valid-draft, valid-promotion.
 - replayStepIds: validate family, validate inputs, validate posture, generate proven, promote.
-- witnessArtifactPaths: `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, `BITCODE_SPEC_V30_PROVEN.md`.
+- witnessArtifactPaths: `.proofs/v30/spec-family-report.json`, `.proofs/v30/canonical-input-report.json`, `BITCODE_SPEC_V30_PROVEN.md`.
 - current member closure criteria: promotion cannot run unless all gate checks and generated proof inputs are green.
 - current member verdict shape: draft-valid, promotion-ready, promoted, blocked.
 - current theorem-by-theorem closure reading: generated canon must match the hand-authored spec family and source posture.
@@ -839,15 +839,15 @@ V30 continues operator-quality proof: Terminal workflow claims must be backed by
 
 | artifact | required in draft | required at promotion | purpose |
 | --- | --- | --- | --- |
-| `.bitcode/v30-spec-family-report.json` | yes | yes | validates the hand-authored V30 family shape |
-| `.bitcode/v30-canonical-input-report.json` | yes | yes | records canonical input closure for active V29 plus V30 draft |
-| `.bitcode/v30-canon-posture-drift-report.json` | gate-dependent | yes | proves runtime/docs active/draft posture |
-| `.bitcode/v30-protocol-telemetry-proof-hooks.json` | gate-dependent | yes | records source-safe Protocol telemetry and proof-hook inventory for provation/documentation |
+| `.proofs/v30/spec-family-report.json` | yes | yes | validates the hand-authored V30 family shape |
+| `.proofs/v30/canonical-input-report.json` | yes | yes | records canonical input closure for active V29 plus V30 draft |
+| `.proofs/v30/canon-posture-drift-report.json` | gate-dependent | yes | proves runtime/docs active/draft posture |
+| `.proofs/v30/protocol-telemetry-proof-hooks.json` | gate-dependent | yes | records source-safe Protocol telemetry and proof-hook inventory for provation/documentation |
 | `BITCODE_SPEC_V30_PROVEN.md` | no | yes | generated proof appendix for promoted V30 |
 
 ### V30 specifying generated artifacts
 
-The minimum V30 generated set is `.bitcode/v30-spec-family-report.json`, `.bitcode/v30-canonical-input-report.json`, future `.bitcode/v30-canon-posture-drift-report.json`, and `BITCODE_SPEC_V30_PROVEN.md`.
+The minimum V30 generated set is `.proofs/v30/spec-family-report.json`, `.proofs/v30/canonical-input-report.json`, future `.proofs/v30/canon-posture-drift-report.json`, and `BITCODE_SPEC_V30_PROVEN.md`.
 
 ### Shared generated-artifact fields
 
@@ -893,7 +893,7 @@ Promotion must:
 
 1. pass every V30 gate check;
 2. pass active V29 and draft V30 posture checks before promotion;
-3. generate `.bitcode/v30-*` canonical reports;
+3. generate `.proofs/v30/*` canonical reports;
 4. generate `BITCODE_SPEC_V30_PROVEN.md`;
 5. update runtime posture carriers from active V29/draft V30 to active V30/next draft;
 6. commit `BITCODE_SPEC.txt` changing from `V29` to `V30`;
@@ -956,9 +956,9 @@ V30 file family:
 - `BITCODE_SPEC_V30_NOTES.md`
 - `BITCODE_SPEC_V30_PARITY_MATRIX.md`
 - future `BITCODE_SPEC_V30_PROVEN.md`
-- `.bitcode/v30-spec-family-report.json`
-- `.bitcode/v30-canonical-input-report.json`
-- future `.bitcode/v30-canon-posture-drift-report.json`
+- `.proofs/v30/spec-family-report.json`
+- `.proofs/v30/canonical-input-report.json`
+- future `.proofs/v30/canon-posture-drift-report.json`
 
 ## Appendix H. Operator surface and quality contract catalog
 
@@ -997,12 +997,12 @@ Every fail-closed state must carry a readable Terminal blocker and a repair or r
 
 Source-bearing AssetPack artifacts include:
 
-- `.bitcode/asset-pack.lock.json`
-- `.bitcode/selected-source-material.json`
-- `.bitcode/verification-report.json`
-- `.bitcode/source-to-shares.json`
-- `.bitcode/projection-policy.json`
-- `.bitcode/system-proof-bundle.json`
+- `.proofs/_shared/asset-pack.lock.json`
+- `.proofs/_shared/selected-source-material.json`
+- `.proofs/_shared/verification-report.json`
+- `.proofs/_shared/source-to-shares.json`
+- `.proofs/_shared/projection-policy.json`
+- `.proofs/_shared/system-proof-bundle.json`
 - `BITCODE_SPEC_V30_PROVEN.md`
 
 Before settlement, the Reader may see only source-safe preview metadata.

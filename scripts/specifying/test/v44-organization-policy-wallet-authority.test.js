@@ -15,7 +15,7 @@ import {
 test('V44 organization policy wallet authority artifact is source-safe and complete', () => {
   const artifact = buildV44OrganizationPolicyWalletAuthority();
 
-  assert.equal(V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH, '.bitcode/v44-organization-policy-wallet-authority.json');
+  assert.equal(V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH, '.proofs/v44/organization-policy-wallet-authority.json');
   assert.equal(artifact.artifactId, 'v44-organization-policy-wallet-authority');
   assert.equal(artifact.schemaId, V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_SCHEMA_ID);
   assert.equal(artifact.version, 'V44');

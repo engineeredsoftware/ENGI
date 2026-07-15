@@ -17,7 +17,7 @@ import {
 test('V47 seller/buyer state-machine law binds both commercial profiles', () => {
   const report = buildV47SellerBuyerStateMachineLaw();
 
-  assert.equal(V47_SELLER_BUYER_STATE_MACHINE_LAW_ARTIFACT_PATH, '.bitcode/v47-seller-buyer-state-machine-law.json');
+  assert.equal(V47_SELLER_BUYER_STATE_MACHINE_LAW_ARTIFACT_PATH, '.proofs/v47/seller-buyer-state-machine-law.json');
   assert.equal(report.artifactId, 'v47-seller-buyer-state-machine-law');
   assert.equal(report.schemaId, V47_SELLER_BUYER_STATE_MACHINE_LAW_SCHEMA_ID);
   assert.equal(report.version, 'V47');

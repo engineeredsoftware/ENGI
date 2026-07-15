@@ -1,0 +1,1890 @@
+{
+  "artifactId": "v38-prompt-benchmark-report",
+  "schemaId": "bitcode.v38.promptBenchmarkReport.v1",
+  "version": "V38",
+  "currentTarget": "V37",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "artifactPath": ".proofs/v38/prompt-benchmark-report.json",
+  "sourceSafetyVerdict": "source-safe-prompt-benchmark-metadata",
+  "subjectKindIds": [
+    "benchmark-infrastructure",
+    "PromptPart",
+    "Prompt",
+    "DocCodeToolPrompt"
+  ],
+  "metricIds": [
+    "intent_alignment",
+    "semantic_clarity",
+    "token_efficiency",
+    "model_stability",
+    "task_success",
+    "response_quality",
+    "schema_conformance",
+    "source_boundary_preservation"
+  ],
+  "disclosureTierIds": [
+    "prompt_identity_source_safe",
+    "promptpart_identity_source_safe",
+    "benchmark_fixture_source_safe",
+    "expected_typed_output_quality_source_safe",
+    "benchmark_score_source_safe",
+    "raw_prompt_text_private",
+    "raw_provider_response_private"
+  ],
+  "forbiddenPayloadClasses": [
+    "secret_values",
+    "provider_tokens",
+    "wallet_private_material",
+    "protected_source_payloads",
+    "raw_protected_prompts",
+    "raw_prompt_text",
+    "raw_model_responses_with_protected_source",
+    "unpaid_assetpack_source",
+    "settlement_private_payloads"
+  ],
+  "rows": [
+    {
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "familyId": "benchmark_infrastructure",
+      "subjectKindId": "benchmark-infrastructure",
+      "label": "Prompt benchmark runner, suite types, and doc-comment metadata parser",
+      "surfaceIds": [
+        "PromptPartBenchmarkSuite",
+        "PromptBenchmarkSuite",
+        "BenchmarkRunner"
+      ],
+      "sourceRoots": [
+        "packages/prompts/src/benchmarking/runner.ts",
+        "packages/prompts/src/benchmarking/types.ts",
+        "packages/prompts/src/benchmarking/README.md",
+        "packages/prompts/src/developing/doc-comment-developing.ts"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "token_efficiency",
+        "model_stability",
+        "task_success",
+        "response_quality",
+        "schema_conformance",
+        "source_boundary_preservation"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.promptpart.intent-alignment",
+          "label": "PromptPart intent-alignment scoring fixture",
+          "contextBindingIds": [
+            "promptPartId",
+            "intent",
+            "benchmarkDefinitions"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "numeric_score_0_to_1",
+            "benchmark_model_identity",
+            "timestamp"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:67ed53ff3467b5329405d9e7",
+          "sourceSafe": true
+        },
+        {
+          "fixtureId": "fixture.prompt.task-success",
+          "label": "Complete Prompt task-success scoring fixture",
+          "contextBindingIds": [
+            "promptId",
+            "formattedPromptIdentity",
+            "fixtureScenario",
+            "expectedOutputSchemaId"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "numeric_score_0_to_1",
+            "task_success_reason",
+            "response_quality_reason"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:58d1a36792fc1b9658806f16",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "PromptPartBenchmarkResult",
+        "PromptBenchmarkResult",
+        "DevelopingBenchmarkResults"
+      ],
+      "requiredPredicateIds": [
+        "benchmark.runner-defines-promptpart-benchmark",
+        "benchmark.runner-defines-complete-prompt-benchmark",
+        "benchmark.types-define-promptpart-suite",
+        "benchmark.types-define-complete-prompt-suite",
+        "benchmark.doc-comments-parse-benchmarks",
+        "benchmark.readme-documents-pbv"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:26c3d662702bcc6e06d91e18",
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "familyId": "promptpart_suite",
+      "subjectKindId": "PromptPart",
+      "label": "Generic PTRR, Failsafe, ThricifiedGeneration, formatting, and DocCode PromptParts",
+      "surfaceIds": [
+        "PTRR agent generic PromptParts",
+        "FailsafeGenerationSequence generic PromptParts",
+        "ThricifiedGeneration generic PromptParts",
+        "DocCodeToolPrompt generic labels"
+      ],
+      "sourceRoots": [
+        "packages/prompts/src/raw_promptparts/generic"
+      ],
+      "filePathIncludes": [
+        "promptpart_generic_agent_",
+        "promptpart_generic_ptrr_",
+        "promptpart_generic_doccode_",
+        "promptpart_generic_formatting_"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "token_efficiency",
+        "model_stability"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.generic-ptrr.reason-judge-structured-output",
+          "label": "Generic Reason/Judge/StructuredOutput PromptPart stability fixture",
+          "contextBindingIds": [
+            "ptrrStepName",
+            "failsafeStageId",
+            "thricifiedGenerationStageId",
+            "schemaId"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "reasoning_clear",
+            "judgment_constrained",
+            "structured_output_json_only"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:56f775122e24bf32aac13f9e",
+          "sourceSafe": true
+        },
+        {
+          "fixtureId": "fixture.generic-doccode.section-labels",
+          "label": "Generic DocCode section PromptPart fixture",
+          "contextBindingIds": [
+            "toolName",
+            "toolPurpose",
+            "toolParameters",
+            "toolOutput"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "section_label_clear",
+            "tool_documentation_composable"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:abd404e2227bab8912506774",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "reason_prompt_clarity",
+        "judge_prompt_constraint",
+        "structured_output_schema_focus",
+        "tool_prompt_section_composability"
+      ],
+      "requiredPredicateIds": [
+        "promptpart.generic-has-doc-comments",
+        "promptpart.generic-has-benchmark-definitions",
+        "promptpart.generic-exports-promptparts",
+        "promptpart.generic-semantic-division-present",
+        "promptpart.generic-current-version-present"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:24a0a239664d3ebbd1cf9b7f",
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "familyId": "promptpart_suite",
+      "subjectKindId": "PromptPart",
+      "label": "ReadNeedComprehensionSynthesis specific PromptParts",
+      "surfaceIds": [
+        "ReadNeedComprehensionSynthesis",
+        "ReadNeedComprehensionSynthesis.prompt.need-synthesis"
+      ],
+      "sourceRoots": [
+        "packages/prompts/src/raw_promptparts/specific",
+        "packages/asset-packs-pipelines/domain/src/read-need.ts"
+      ],
+      "filePathIncludes": [
+        "promptpart_specific_agent_comprehendread",
+        "read-need.ts"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "model_stability",
+        "schema_conformance",
+        "source_boundary_preservation"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.read-need.enterprise-request-to-need",
+          "label": "Enterprise Read Request to reviewable Need fixture",
+          "contextBindingIds": [
+            "read.prompt",
+            "sourceConstraints",
+            "targetArtifactKinds",
+            "closureCriteria",
+            "feedbackHistory"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "need_exactly_matches_request",
+            "need_no_overreach",
+            "need_no_underreach",
+            "source_constraints_preserved"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:1ef8810fea10aecdf9e5b9bc",
+          "sourceSafe": true
+        },
+        {
+          "fixtureId": "fixture.read-need.resynthesis-feedback",
+          "label": "Need resynthesis feedback fixture",
+          "contextBindingIds": [
+            "previousNeed",
+            "readerFeedback",
+            "sourceRevision",
+            "measurementRoot"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "feedback_applied",
+            "measurement_inputs_preserved",
+            "reviewable_need_shape"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:c434bfdcbb7e7282b2f23dd5",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "ReadNeed",
+        "ReadNeedPricingMeasurementInputs",
+        "AcceptedReadNeed",
+        "ResynthesisRequestedReadNeed"
+      ],
+      "requiredPredicateIds": [
+        "promptpart.read-need-has-doc-comments",
+        "promptpart.read-need-has-benchmark-definitions",
+        "promptpart.read-need-exports-promptparts",
+        "promptpart.read-need-contract-names-pipeline",
+        "promptpart.read-need-schema-names-output"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:ad9b5e04d006f7ec61ba84fd",
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "promptpart:read-fits-finding-specific",
+      "familyId": "promptpart_suite",
+      "subjectKindId": "PromptPart",
+      "label": "ReadFitsFindingSynthesis specific PromptParts for Finding Fits and AssetPack synthesis",
+      "surfaceIds": [
+        "ReadFitsFindingSynthesis",
+        "ReadFitsFindingSynthesis.discovery.finding-fits",
+        "ReadFitsFindingSynthesis.implementation.asset-pack"
+      ],
+      "sourceRoots": [
+        "packages/prompts/src/raw_promptparts/specific",
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts"
+      ],
+      "filePathIncludes": [
+        "promptpart_specific_agent_assetpack",
+        "promptpart_specific_agent_planimplementation",
+        "promptpart_specific_agent_readiness",
+        "promptpart_specific_agent_createpullrequest",
+        "promptpart_specific_tool_websearch",
+        "depository-search.ts"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "model_stability",
+        "schema_conformance",
+        "source_boundary_preservation"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.read-fits.find-many-candidates",
+          "label": "Find many above-threshold depository candidates fixture",
+          "contextBindingIds": [
+            "acceptedReadNeed",
+            "searchChannels",
+            "embeddingPolicy",
+            "rankingThreshold"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "many_candidate_fit_ids",
+            "ranking_root_present",
+            "threshold_verdicts_present",
+            "selected_fit_provenance_present"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:126191d958fece025c06ab93",
+          "sourceSafe": true
+        },
+        {
+          "fixtureId": "fixture.read-fits.assetpack-synthesis-preview",
+          "label": "Source-safe AssetPack synthesis preview fixture",
+          "contextBindingIds": [
+            "fitDeposits",
+            "acceptedReadNeed",
+            "deliveryMechanismTemplate",
+            "sourceSafePreview"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "assetpack_source_hidden_before_settlement",
+            "preview_measurements_present",
+            "settlement_posture_separated"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:33829f65f93cdbaad9afb971",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "DepositoryFitsResult",
+        "AssetPackSynthesisOutput",
+        "ReadyToFinishOutput",
+        "AssetPackSourceSafePreview"
+      ],
+      "requiredPredicateIds": [
+        "promptpart.read-fits-has-doc-comments",
+        "promptpart.read-fits-has-benchmark-definitions",
+        "promptpart.read-fits-exports-promptparts",
+        "promptpart.read-fits-contract-names-pipeline",
+        "promptpart.read-fits-depository-search-names-tools"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:820ad672dfe5adbb2aee4953",
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "familyId": "complete_prompt_suite",
+      "subjectKindId": "Prompt",
+      "label": "Complete Reading pipeline agent Prompt registries",
+      "surfaceIds": [
+        "ReadNeedComprehensionSynthesis.prompts",
+        "ReadFitsFindingSynthesis.prompts"
+      ],
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/agents/prompts",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "task_success",
+        "response_quality",
+        "schema_conformance",
+        "source_boundary_preservation"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.reading.prompt-registry-composition",
+          "label": "Reading prompt registry composition fixture",
+          "contextBindingIds": [
+            "agentPromptId",
+            "ptrrStepPromptId",
+            "promptPartNamespaces",
+            "interpolatedContextKeys"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "agent_prompt_composes",
+            "plan_try_refine_retry_prompts_present",
+            "generation_promptparts_present"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:9259dfb4acc0a6915b4a6396",
+          "sourceSafe": true
+        },
+        {
+          "fixtureId": "fixture.reading.schema-bound-return-types",
+          "label": "Reading schema-bound output fixture",
+          "contextBindingIds": [
+            "returnType",
+            "inputType",
+            "outputSchemaId",
+            "telemetryTargetId"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "typed_output_matches_schema",
+            "schema_verdict_available",
+            "repair_path_named"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:e2dbb69b7aca564be1a17308",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "ReadNeed",
+        "DepositoryFitsResult",
+        "AssetPackSynthesisOutput",
+        "ReadyToFinishOutput",
+        "AssetPackCompletionOutput"
+      ],
+      "requiredPredicateIds": [
+        "prompt.reading-has-doc-comments",
+        "prompt.reading-has-benchmark-definitions",
+        "prompt.reading-constructs-prompts",
+        "prompt.reading-sets-promptparts",
+        "prompt.reading-requires-promptparts",
+        "prompt.reading-contract-has-template-ids"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:42411c8f180ffd8b1ecab3bf",
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "prompt:conversation-system-prompt",
+      "familyId": "complete_prompt_suite",
+      "subjectKindId": "Prompt",
+      "label": "Website Conversation system Prompt",
+      "surfaceIds": [
+        "WebsiteConversations",
+        "BitcodeTerminalConversationSystemPrompt"
+      ],
+      "sourceRoots": [
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "task_success",
+        "response_quality",
+        "source_boundary_preservation"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.conversation.system-prompt-route-local",
+          "label": "Conversation route-local system behavior fixture",
+          "contextBindingIds": [
+            "conversationId",
+            "sourceSelectorRefs",
+            "terminalHandoffContext"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "route_local_history_preserved",
+            "source_selector_boundary_named",
+            "handoff_summary_source_safe"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:b627473df50823bc00d026f6",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "conversation_response_source_safe",
+        "conversation_tool_call_posture",
+        "terminal_handoff_summary"
+      ],
+      "requiredPredicateIds": [
+        "prompt.conversation-has-doc-comments",
+        "prompt.conversation-has-benchmark-definitions",
+        "prompt.conversation-extends-prompt",
+        "prompt.conversation-requires-hierarchy",
+        "prompt.conversation-sets-specific-promptparts"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:6db8a4c22bd4e71c396a5ce9",
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "familyId": "complete_prompt_suite",
+      "subjectKindId": "DocCodeToolPrompt",
+      "label": "Doc-comment-backed tool-definition Prompts",
+      "surfaceIds": [
+        "DocCodeToolPrompt",
+        "formatUsableTools",
+        "WebSearchDocCodeToolPrompt",
+        "BitcodeRepositoryEvidenceSearchDocCodeToolPrompt",
+        "CreatePullRequestDocCodeToolPrompt"
+      ],
+      "sourceRoots": [
+        "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+        "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+        "packages/generic-tools/web-search/src/prompts",
+        "packages/generic-tools/vcs/src/prompts",
+        "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts"
+      ],
+      "requiredMetricIds": [
+        "intent_alignment",
+        "semantic_clarity",
+        "task_success",
+        "response_quality",
+        "source_boundary_preservation"
+      ],
+      "fixtureInputs": [
+        {
+          "fixtureId": "fixture.tool-definition.final-prompt-injection",
+          "label": "DocCode tool documentation final prompt injection fixture",
+          "contextBindingIds": [
+            "toolName",
+            "toolPurpose",
+            "toolCapabilities",
+            "toolParameters",
+            "toolOutput"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "tool_sections_present",
+            "doc_comment_prompt_attached",
+            "usable_tools_format_source_safe"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:1d58dcdf2bfcf2a4fb8c317d",
+          "sourceSafe": true
+        },
+        {
+          "fixtureId": "fixture.tool-definition.delivery-tool-source-boundary",
+          "label": "Delivery and search tool source-boundary fixture",
+          "contextBindingIds": [
+            "searchQuery",
+            "pullRequestDeliveryInput",
+            "disclosureTier"
+          ],
+          "expectedTypedOutputQualityIds": [
+            "protected_source_not_serialized",
+            "tool_output_receipt_source_safe"
+          ],
+          "fixtureRoot": "v38-prompt-benchmark-fixture:6bbab1064f19d28d6f7c2425",
+          "sourceSafe": true
+        }
+      ],
+      "expectedTypedOutputQualityIds": [
+        "ToolExecutionPrompt",
+        "ToolDefinitionPrompt",
+        "DocCodeToolPrompt",
+        "formatUsableToolsOutput",
+        "ToolPromptDefinitionSchemaVerdict"
+      ],
+      "requiredPredicateIds": [
+        "prompt.tool-has-doc-comments",
+        "prompt.tool-has-benchmark-definitions",
+        "prompt.tool-extends-doccode-prompt",
+        "prompt.tool-format-usable-tools-present",
+        "prompt.tool-sets-promptparts",
+        "prompt.tool-source-boundary-fixtures-present"
+      ],
+      "disclosureTierIds": [
+        "prompt_identity_source_safe",
+        "promptpart_identity_source_safe",
+        "benchmark_fixture_source_safe",
+        "expected_typed_output_quality_source_safe",
+        "benchmark_score_source_safe",
+        "raw_prompt_text_private",
+        "raw_provider_response_private"
+      ],
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_prompt_text",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "protectedSourceVisible": false,
+      "rawPromptTextSerialized": false,
+      "rawProviderResponseSerialized": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "sourceSafetyClass": "source_safe_prompt_benchmark_metadata",
+      "rowRoot": "v38-prompt-benchmark-row:61a3698c778d6d3c6a99c6c3",
+      "sourceRootsPresent": true
+    }
+  ],
+  "fixtureInputs": [
+    {
+      "fixtureId": "fixture.promptpart.intent-alignment",
+      "label": "PromptPart intent-alignment scoring fixture",
+      "contextBindingIds": [
+        "promptPartId",
+        "intent",
+        "benchmarkDefinitions"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "numeric_score_0_to_1",
+        "benchmark_model_identity",
+        "timestamp"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:67ed53ff3467b5329405d9e7",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.prompt.task-success",
+      "label": "Complete Prompt task-success scoring fixture",
+      "contextBindingIds": [
+        "promptId",
+        "formattedPromptIdentity",
+        "fixtureScenario",
+        "expectedOutputSchemaId"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "numeric_score_0_to_1",
+        "task_success_reason",
+        "response_quality_reason"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:58d1a36792fc1b9658806f16",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.generic-ptrr.reason-judge-structured-output",
+      "label": "Generic Reason/Judge/StructuredOutput PromptPart stability fixture",
+      "contextBindingIds": [
+        "ptrrStepName",
+        "failsafeStageId",
+        "thricifiedGenerationStageId",
+        "schemaId"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "reasoning_clear",
+        "judgment_constrained",
+        "structured_output_json_only"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:56f775122e24bf32aac13f9e",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.generic-doccode.section-labels",
+      "label": "Generic DocCode section PromptPart fixture",
+      "contextBindingIds": [
+        "toolName",
+        "toolPurpose",
+        "toolParameters",
+        "toolOutput"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "section_label_clear",
+        "tool_documentation_composable"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:abd404e2227bab8912506774",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.read-need.enterprise-request-to-need",
+      "label": "Enterprise Read Request to reviewable Need fixture",
+      "contextBindingIds": [
+        "read.prompt",
+        "sourceConstraints",
+        "targetArtifactKinds",
+        "closureCriteria",
+        "feedbackHistory"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "need_exactly_matches_request",
+        "need_no_overreach",
+        "need_no_underreach",
+        "source_constraints_preserved"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:1ef8810fea10aecdf9e5b9bc",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.read-need.resynthesis-feedback",
+      "label": "Need resynthesis feedback fixture",
+      "contextBindingIds": [
+        "previousNeed",
+        "readerFeedback",
+        "sourceRevision",
+        "measurementRoot"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "feedback_applied",
+        "measurement_inputs_preserved",
+        "reviewable_need_shape"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:c434bfdcbb7e7282b2f23dd5",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.read-fits.find-many-candidates",
+      "label": "Find many above-threshold depository candidates fixture",
+      "contextBindingIds": [
+        "acceptedReadNeed",
+        "searchChannels",
+        "embeddingPolicy",
+        "rankingThreshold"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "many_candidate_fit_ids",
+        "ranking_root_present",
+        "threshold_verdicts_present",
+        "selected_fit_provenance_present"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:126191d958fece025c06ab93",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.read-fits.assetpack-synthesis-preview",
+      "label": "Source-safe AssetPack synthesis preview fixture",
+      "contextBindingIds": [
+        "fitDeposits",
+        "acceptedReadNeed",
+        "deliveryMechanismTemplate",
+        "sourceSafePreview"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "assetpack_source_hidden_before_settlement",
+        "preview_measurements_present",
+        "settlement_posture_separated"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:33829f65f93cdbaad9afb971",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.reading.prompt-registry-composition",
+      "label": "Reading prompt registry composition fixture",
+      "contextBindingIds": [
+        "agentPromptId",
+        "ptrrStepPromptId",
+        "promptPartNamespaces",
+        "interpolatedContextKeys"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "agent_prompt_composes",
+        "plan_try_refine_retry_prompts_present",
+        "generation_promptparts_present"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:9259dfb4acc0a6915b4a6396",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.reading.schema-bound-return-types",
+      "label": "Reading schema-bound output fixture",
+      "contextBindingIds": [
+        "returnType",
+        "inputType",
+        "outputSchemaId",
+        "telemetryTargetId"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "typed_output_matches_schema",
+        "schema_verdict_available",
+        "repair_path_named"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:e2dbb69b7aca564be1a17308",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.conversation.system-prompt-route-local",
+      "label": "Conversation route-local system behavior fixture",
+      "contextBindingIds": [
+        "conversationId",
+        "sourceSelectorRefs",
+        "terminalHandoffContext"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "route_local_history_preserved",
+        "source_selector_boundary_named",
+        "handoff_summary_source_safe"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:b627473df50823bc00d026f6",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.tool-definition.final-prompt-injection",
+      "label": "DocCode tool documentation final prompt injection fixture",
+      "contextBindingIds": [
+        "toolName",
+        "toolPurpose",
+        "toolCapabilities",
+        "toolParameters",
+        "toolOutput"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "tool_sections_present",
+        "doc_comment_prompt_attached",
+        "usable_tools_format_source_safe"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:1d58dcdf2bfcf2a4fb8c317d",
+      "sourceSafe": true
+    },
+    {
+      "fixtureId": "fixture.tool-definition.delivery-tool-source-boundary",
+      "label": "Delivery and search tool source-boundary fixture",
+      "contextBindingIds": [
+        "searchQuery",
+        "pullRequestDeliveryInput",
+        "disclosureTier"
+      ],
+      "expectedTypedOutputQualityIds": [
+        "protected_source_not_serialized",
+        "tool_output_receipt_source_safe"
+      ],
+      "fixtureRoot": "v38-prompt-benchmark-fixture:6bbab1064f19d28d6f7c2425",
+      "sourceSafe": true
+    }
+  ],
+  "expectedTypedOutputQualityIds": [
+    "AcceptedReadNeed",
+    "AssetPackCompletionOutput",
+    "AssetPackSourceSafePreview",
+    "AssetPackSynthesisOutput",
+    "DepositoryFitsResult",
+    "DevelopingBenchmarkResults",
+    "DocCodeToolPrompt",
+    "PromptBenchmarkResult",
+    "PromptPartBenchmarkResult",
+    "ReadNeed",
+    "ReadNeedPricingMeasurementInputs",
+    "ReadyToFinishOutput",
+    "ResynthesisRequestedReadNeed",
+    "ToolDefinitionPrompt",
+    "ToolExecutionPrompt",
+    "ToolPromptDefinitionSchemaVerdict",
+    "conversation_response_source_safe",
+    "conversation_tool_call_posture",
+    "formatUsableToolsOutput",
+    "judge_prompt_constraint",
+    "reason_prompt_clarity",
+    "structured_output_schema_focus",
+    "terminal_handoff_summary",
+    "tool_prompt_section_composability"
+  ],
+  "sourcePredicateResults": [
+    {
+      "id": "benchmark:runner-and-doc-comment-infrastructure.source-roots-present",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/runner.ts,packages/prompts/src/benchmarking/types.ts,packages/prompts/src/benchmarking/README.md,packages/prompts/src/developing/doc-comment-developing.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark:runner-and-doc-comment-infrastructure.source-files-present",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/runner.ts,packages/prompts/src/benchmarking/types.ts,packages/prompts/src/benchmarking/README.md,packages/prompts/src/developing/doc-comment-developing.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark:runner-and-doc-comment-infrastructure.fixtures-source-safe",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "benchmark:runner-and-doc-comment-infrastructure.expected-typed-output-qualities-present",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "benchmark:runner-and-doc-comment-infrastructure.disclosure-tiers-present",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "benchmark.runner-defines-promptpart-benchmark",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/runner.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark.runner-defines-complete-prompt-benchmark",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/runner.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark.types-define-promptpart-suite",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/types.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark.types-define-complete-prompt-suite",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/types.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark.doc-comments-parse-benchmarks",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/developing/doc-comment-developing.ts",
+      "passed": true
+    },
+    {
+      "id": "benchmark.readme-documents-pbv",
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourcePath": "packages/prompts/src/benchmarking/README.md",
+      "passed": true
+    },
+    {
+      "id": "promptpart:generic-ptrr-failsafe-thricified-foundation.source-roots-present",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart:generic-ptrr-failsafe-thricified-foundation.source-files-present",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart:generic-ptrr-failsafe-thricified-foundation.fixtures-source-safe",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "promptpart:generic-ptrr-failsafe-thricified-foundation.expected-typed-output-qualities-present",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "promptpart:generic-ptrr-failsafe-thricified-foundation.disclosure-tiers-present",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "promptpart.generic-has-doc-comments",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart.generic-has-benchmark-definitions",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart.generic-exports-promptparts",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart.generic-semantic-division-present",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart.generic-current-version-present",
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-need-comprehension-specific.source-roots-present",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-need-comprehension-specific.source-files-present",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-need-comprehension-specific.fixtures-source-safe",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-need-comprehension-specific.expected-typed-output-qualities-present",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-need-comprehension-specific.disclosure-tiers-present",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-has-doc-comments",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-has-benchmark-definitions",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-exports-promptparts",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-semantic-division-present",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-current-version-present",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-contract-names-pipeline",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-need-schema-names-output",
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-fits-finding-specific.source-roots-present",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-fits-finding-specific.source-files-present",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-fits-finding-specific.fixtures-source-safe",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-fits-finding-specific.expected-typed-output-qualities-present",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "promptpart:read-fits-finding-specific.disclosure-tiers-present",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-has-doc-comments",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-has-benchmark-definitions",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-exports-promptparts",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-semantic-division-present",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-current-version-present",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific,packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-contract-names-pipeline",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "promptpart.read-fits-depository-search-names-tools",
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:reading-pipeline-agent-prompts.source-roots-present",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts,packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:reading-pipeline-agent-prompts.source-files-present",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts,packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:reading-pipeline-agent-prompts.fixtures-source-safe",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "prompt:reading-pipeline-agent-prompts.expected-typed-output-qualities-present",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "prompt:reading-pipeline-agent-prompts.disclosure-tiers-present",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "prompt.reading-has-doc-comments",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "passed": true
+    },
+    {
+      "id": "prompt.reading-has-benchmark-definitions",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "passed": true
+    },
+    {
+      "id": "prompt.reading-constructs-prompts",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "passed": true
+    },
+    {
+      "id": "prompt.reading-sets-promptparts",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "passed": true
+    },
+    {
+      "id": "prompt.reading-requires-promptparts",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "passed": true
+    },
+    {
+      "id": "prompt.reading-contract-has-template-ids",
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:conversation-system-prompt.source-roots-present",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:conversation-system-prompt.source-files-present",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:conversation-system-prompt.fixtures-source-safe",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "prompt:conversation-system-prompt.expected-typed-output-qualities-present",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "prompt:conversation-system-prompt.disclosure-tiers-present",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "prompt.conversation-has-doc-comments",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.conversation-has-benchmark-definitions",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.conversation-extends-prompt",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.conversation-requires-hierarchy",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.conversation-sets-specific-promptparts",
+      "rowId": "prompt:conversation-system-prompt",
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:tool-definition-doc-code-prompts.source-roots-present",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts,packages/tools-generics/src/doc-code-tool/formatUsableTools.ts,packages/generic-tools/web-search/src/prompts,packages/generic-tools/vcs/src/prompts,packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:tool-definition-doc-code-prompts.source-files-present",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts,packages/tools-generics/src/doc-code-tool/formatUsableTools.ts,packages/generic-tools/web-search/src/prompts,packages/generic-tools/vcs/src/prompts,packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt:tool-definition-doc-code-prompts.fixtures-source-safe",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    },
+    {
+      "id": "prompt:tool-definition-doc-code-prompts.expected-typed-output-qualities-present",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "expectedTypedOutputQualityIds",
+      "passed": true
+    },
+    {
+      "id": "prompt:tool-definition-doc-code-prompts.disclosure-tiers-present",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "disclosureTierIds",
+      "passed": true
+    },
+    {
+      "id": "prompt.tool-has-doc-comments",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts,packages/tools-generics/src/doc-code-tool/formatUsableTools.ts,packages/generic-tools/web-search/src/prompts,packages/generic-tools/vcs/src/prompts,packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.tool-has-benchmark-definitions",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts,packages/tools-generics/src/doc-code-tool/formatUsableTools.ts,packages/generic-tools/web-search/src/prompts,packages/generic-tools/vcs/src/prompts,packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.tool-extends-doccode-prompt",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts,packages/tools-generics/src/doc-code-tool/formatUsableTools.ts,packages/generic-tools/web-search/src/prompts,packages/generic-tools/vcs/src/prompts,packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.tool-format-usable-tools-present",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.tool-sets-promptparts",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts,packages/tools-generics/src/doc-code-tool/formatUsableTools.ts,packages/generic-tools/web-search/src/prompts,packages/generic-tools/vcs/src/prompts,packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "passed": true
+    },
+    {
+      "id": "prompt.tool-source-boundary-fixtures-present",
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourcePath": "fixtureInputs",
+      "passed": true
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "sourcePath": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/generic-tools/vcs/src/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/generic-tools/web-search/src/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/agents/prompts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/read-need.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/prompts/src/benchmarking/README.md",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/prompts/src/benchmarking/runner.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/prompts/src/benchmarking/types.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/prompts/src/developing/doc-comment-developing.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/prompts/src/raw_promptparts/generic",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/prompts/src/raw_promptparts/specific",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
+      "exists": true,
+      "legacy": false
+    }
+  ],
+  "sourceStatsByRow": {
+    "benchmark:runner-and-doc-comment-infrastructure": {
+      "rowId": "benchmark:runner-and-doc-comment-infrastructure",
+      "sourceRootExists": true,
+      "sourceFileCount": 4,
+      "sourceFileSample": [
+        "packages/prompts/src/benchmarking/README.md",
+        "packages/prompts/src/benchmarking/runner.ts",
+        "packages/prompts/src/benchmarking/types.ts",
+        "packages/prompts/src/developing/doc-comment-developing.ts"
+      ],
+      "promptPartDocCommentCount": 4,
+      "promptDocCommentCount": 4,
+      "benchmarkDefinitionCount": 2,
+      "intentMetadataCount": 2,
+      "currentVersionMetadataCount": 0,
+      "versionsMetadataCount": 2,
+      "promptPartExportCount": 1,
+      "promptConstructionCount": 0,
+      "promptSetCallCount": 0,
+      "promptRequireCallCount": 0,
+      "promptRequiresHierarchyCount": 0,
+      "extendsPromptCount": 2,
+      "extendsDocCodeToolPromptCount": 0,
+      "docCodeToolPromptCount": 0,
+      "formatUsableToolsCount": 0,
+      "readNeedComprehensionNamesCount": 0,
+      "readFitsFindingNamesCount": 0,
+      "depositorySearchToolNamesCount": 0,
+      "promptTemplateIdCount": 0,
+      "benchmarkRunnerPromptPartMethodsCount": 1,
+      "benchmarkRunnerPromptMethodsCount": 1,
+      "promptPartSuiteTypeCount": 1,
+      "promptSuiteTypeCount": 1,
+      "extractBenchmarksCount": 3,
+      "pbvDocumentationCount": 31
+    },
+    "promptpart:generic-ptrr-failsafe-thricified-foundation": {
+      "rowId": "promptpart:generic-ptrr-failsafe-thricified-foundation",
+      "sourceRootExists": true,
+      "sourceFileCount": 59,
+      "sourceFileSample": [
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_failsafe_chunk.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_failsafe_sum.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_single_object.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_judge.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_reason.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_top_level_keys_hint.ts",
+        "packages/prompts/src/raw_promptparts/generic/promptpart_generic_agent_generation_use_this_structured_schema.ts"
+      ],
+      "promptPartDocCommentCount": 87,
+      "promptDocCommentCount": 0,
+      "benchmarkDefinitionCount": 87,
+      "intentMetadataCount": 87,
+      "currentVersionMetadataCount": 87,
+      "versionsMetadataCount": 87,
+      "promptPartExportCount": 59,
+      "promptConstructionCount": 0,
+      "promptSetCallCount": 0,
+      "promptRequireCallCount": 0,
+      "promptRequiresHierarchyCount": 0,
+      "extendsPromptCount": 0,
+      "extendsDocCodeToolPromptCount": 0,
+      "docCodeToolPromptCount": 0,
+      "formatUsableToolsCount": 0,
+      "readNeedComprehensionNamesCount": 0,
+      "readFitsFindingNamesCount": 0,
+      "depositorySearchToolNamesCount": 0,
+      "promptTemplateIdCount": 0,
+      "benchmarkRunnerPromptPartMethodsCount": 0,
+      "benchmarkRunnerPromptMethodsCount": 0,
+      "promptPartSuiteTypeCount": 0,
+      "promptSuiteTypeCount": 0,
+      "extractBenchmarksCount": 0,
+      "pbvDocumentationCount": 0
+    },
+    "promptpart:read-need-comprehension-specific": {
+      "rowId": "promptpart:read-need-comprehension-specific",
+      "sourceRootExists": true,
+      "sourceFileCount": 16,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/read-need.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_context_awareness_detailcontent.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_phase_plan_label.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_phase_refine_label.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_phase_retry_label.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_phase_try_label.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_plan_analysis.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_plan_strategy.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_refine_assessment.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_refine_optimization.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_retry_errorhandling.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_retry_strategy.ts"
+      ],
+      "promptPartDocCommentCount": 15,
+      "promptDocCommentCount": 0,
+      "benchmarkDefinitionCount": 15,
+      "intentMetadataCount": 15,
+      "currentVersionMetadataCount": 15,
+      "versionsMetadataCount": 15,
+      "promptPartExportCount": 15,
+      "promptConstructionCount": 0,
+      "promptSetCallCount": 0,
+      "promptRequireCallCount": 0,
+      "promptRequiresHierarchyCount": 0,
+      "extendsPromptCount": 0,
+      "extendsDocCodeToolPromptCount": 0,
+      "docCodeToolPromptCount": 0,
+      "formatUsableToolsCount": 0,
+      "readNeedComprehensionNamesCount": 17,
+      "readFitsFindingNamesCount": 1,
+      "depositorySearchToolNamesCount": 0,
+      "promptTemplateIdCount": 1,
+      "benchmarkRunnerPromptPartMethodsCount": 0,
+      "benchmarkRunnerPromptMethodsCount": 0,
+      "promptPartSuiteTypeCount": 0,
+      "promptSuiteTypeCount": 0,
+      "extractBenchmarksCount": 0,
+      "pbvDocumentationCount": 0
+    },
+    "promptpart:read-fits-finding-specific": {
+      "rowId": "promptpart:read-fits-finding-specific",
+      "sourceRootExists": true,
+      "sourceFileCount": 201,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/depository-search.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_identity_definition.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_ptrrplan_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_ptrrrefine_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_ptrrretry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_ptrrtry_purpose.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_purpose_corestatement.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_requirements_context.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryanalyzeparallel_tools_available.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryassesscomplexity_capabilities_list.ts",
+        "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_assetpackdiscoveryassesscomplexity_identity_definition.ts"
+      ],
+      "promptPartDocCommentCount": 337,
+      "promptDocCommentCount": 0,
+      "benchmarkDefinitionCount": 337,
+      "intentMetadataCount": 337,
+      "currentVersionMetadataCount": 337,
+      "versionsMetadataCount": 337,
+      "promptPartExportCount": 200,
+      "promptConstructionCount": 0,
+      "promptSetCallCount": 1,
+      "promptRequireCallCount": 0,
+      "promptRequiresHierarchyCount": 0,
+      "extendsPromptCount": 0,
+      "extendsDocCodeToolPromptCount": 0,
+      "docCodeToolPromptCount": 0,
+      "formatUsableToolsCount": 0,
+      "readNeedComprehensionNamesCount": 0,
+      "readFitsFindingNamesCount": 15,
+      "depositorySearchToolNamesCount": 7,
+      "promptTemplateIdCount": 0,
+      "benchmarkRunnerPromptPartMethodsCount": 0,
+      "benchmarkRunnerPromptMethodsCount": 0,
+      "promptPartSuiteTypeCount": 0,
+      "promptSuiteTypeCount": 0,
+      "extractBenchmarksCount": 0,
+      "pbvDocumentationCount": 0
+    },
+    "prompt:reading-pipeline-agent-prompts": {
+      "rowId": "prompt:reading-pipeline-agent-prompts",
+      "sourceRootExists": true,
+      "sourceFileCount": 18,
+      "sourceFileSample": [
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-codebase-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/analyze-parallel-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/assess-complexity-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-validation-ready-to-finish-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-vcs-clone-repository-agent-prompts.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/clone-vcs-repository-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-attachments-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/create-pull-request-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/danger-wall-prompt.ts",
+        "packages/asset-packs-pipelines/domain/src/agents/prompts/finalize-delivery-evidence-prompt.ts"
+      ],
+      "promptPartDocCommentCount": 0,
+      "promptDocCommentCount": 21,
+      "benchmarkDefinitionCount": 21,
+      "intentMetadataCount": 21,
+      "currentVersionMetadataCount": 21,
+      "versionsMetadataCount": 0,
+      "promptPartExportCount": 0,
+      "promptConstructionCount": 85,
+      "promptSetCallCount": 764,
+      "promptRequireCallCount": 46,
+      "promptRequiresHierarchyCount": 0,
+      "extendsPromptCount": 0,
+      "extendsDocCodeToolPromptCount": 0,
+      "docCodeToolPromptCount": 0,
+      "formatUsableToolsCount": 0,
+      "readNeedComprehensionNamesCount": 11,
+      "readFitsFindingNamesCount": 26,
+      "depositorySearchToolNamesCount": 2,
+      "promptTemplateIdCount": 6,
+      "benchmarkRunnerPromptPartMethodsCount": 0,
+      "benchmarkRunnerPromptMethodsCount": 0,
+      "promptPartSuiteTypeCount": 0,
+      "promptSuiteTypeCount": 0,
+      "extractBenchmarksCount": 0,
+      "pbvDocumentationCount": 0
+    },
+    "prompt:conversation-system-prompt": {
+      "rowId": "prompt:conversation-system-prompt",
+      "sourceRootExists": true,
+      "sourceFileCount": 1,
+      "sourceFileSample": [
+        "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts"
+      ],
+      "promptPartDocCommentCount": 0,
+      "promptDocCommentCount": 1,
+      "benchmarkDefinitionCount": 1,
+      "intentMetadataCount": 1,
+      "currentVersionMetadataCount": 1,
+      "versionsMetadataCount": 1,
+      "promptPartExportCount": 0,
+      "promptConstructionCount": 0,
+      "promptSetCallCount": 3,
+      "promptRequireCallCount": 3,
+      "promptRequiresHierarchyCount": 1,
+      "extendsPromptCount": 1,
+      "extendsDocCodeToolPromptCount": 0,
+      "docCodeToolPromptCount": 0,
+      "formatUsableToolsCount": 0,
+      "readNeedComprehensionNamesCount": 0,
+      "readFitsFindingNamesCount": 0,
+      "depositorySearchToolNamesCount": 0,
+      "promptTemplateIdCount": 0,
+      "benchmarkRunnerPromptPartMethodsCount": 0,
+      "benchmarkRunnerPromptMethodsCount": 0,
+      "promptPartSuiteTypeCount": 0,
+      "promptSuiteTypeCount": 0,
+      "extractBenchmarksCount": 0,
+      "pbvDocumentationCount": 0
+    },
+    "prompt:tool-definition-doc-code-prompts": {
+      "rowId": "prompt:tool-definition-doc-code-prompts",
+      "sourceRootExists": true,
+      "sourceFileCount": 14,
+      "sourceFileSample": [
+        "packages/generic-tools/simple-system-text-search/src/prompts/BitcodeRepositoryEvidenceSearchDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateCommentDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateIssueDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreateOrUpdateFileDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/CreatePullRequestDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/GetFileContentDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/ListBranchesDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts",
+        "packages/generic-tools/vcs/src/prompts/index.ts",
+        "packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts",
+        "packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts",
+        "packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts"
+      ],
+      "promptPartDocCommentCount": 0,
+      "promptDocCommentCount": 13,
+      "benchmarkDefinitionCount": 2,
+      "intentMetadataCount": 13,
+      "currentVersionMetadataCount": 2,
+      "versionsMetadataCount": 12,
+      "promptPartExportCount": 0,
+      "promptConstructionCount": 0,
+      "promptSetCallCount": 164,
+      "promptRequireCallCount": 0,
+      "promptRequiresHierarchyCount": 0,
+      "extendsPromptCount": 1,
+      "extendsDocCodeToolPromptCount": 11,
+      "docCodeToolPromptCount": 87,
+      "formatUsableToolsCount": 1,
+      "readNeedComprehensionNamesCount": 0,
+      "readFitsFindingNamesCount": 0,
+      "depositorySearchToolNamesCount": 0,
+      "promptTemplateIdCount": 0,
+      "benchmarkRunnerPromptPartMethodsCount": 0,
+      "benchmarkRunnerPromptMethodsCount": 0,
+      "promptPartSuiteTypeCount": 0,
+      "promptSuiteTypeCount": 0,
+      "extractBenchmarksCount": 0,
+      "pbvDocumentationCount": 0
+    }
+  },
+  "coverage": {
+    "rowCount": 7,
+    "subjectKindIds": [
+      "benchmark-infrastructure",
+      "PromptPart",
+      "Prompt",
+      "DocCodeToolPrompt"
+    ],
+    "metricIds": [
+      "intent_alignment",
+      "semantic_clarity",
+      "token_efficiency",
+      "model_stability",
+      "task_success",
+      "response_quality",
+      "schema_conformance",
+      "source_boundary_preservation"
+    ],
+    "disclosureTierIds": [
+      "prompt_identity_source_safe",
+      "promptpart_identity_source_safe",
+      "benchmark_fixture_source_safe",
+      "expected_typed_output_quality_source_safe",
+      "benchmark_score_source_safe",
+      "raw_prompt_text_private",
+      "raw_provider_response_private"
+    ],
+    "promptPartSuiteCount": 3,
+    "completePromptSuiteCount": 3,
+    "benchmarkInfrastructureSuiteCount": 1,
+    "fixtureCount": 13,
+    "expectedTypedOutputQualityCount": 24,
+    "requiredPredicateCount": 38,
+    "passedPredicateCount": 38,
+    "failedPredicateIds": [],
+    "sourceRootCount": 16,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "sourceFileCount": 313,
+    "promptPartDocCommentCount": 443,
+    "promptDocCommentCount": 39,
+    "benchmarkDefinitionCount": 465,
+    "promptPartExportCount": 275,
+    "promptConstructionCount": 85,
+    "gate2InventoryRoot": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
+    "gate3StackRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130",
+    "sourceSafeMetadataOnly": true,
+    "knownCarryForwardGapIds": [
+      "gate5-streams-benchmark-linked-inference-telemetry-with-disclosure-tiers",
+      "gate6-hardens-read-need-comprehension-prompt-return-types",
+      "gate7-hardens-read-fits-finding-query-prompt-benchmarking"
+    ]
+  },
+  "failures": [],
+  "passed": true,
+  "artifactRoot": "v38-prompt-benchmark-report:7c34a5c11c25c490aedf413d"
+}

@@ -1,0 +1,568 @@
+{
+  "artifactId": "v46-product-route-comprehension-readback",
+  "artifactPath": ".proofs/v46/product-route-comprehension-readback.json",
+  "artifactRoot": "v46-product-route-comprehension-readback:1a9dfdc235b05d80712615d4",
+  "schemaId": "bitcode.v46.productRouteComprehensionReadback.v1",
+  "version": "V46",
+  "currentTarget": "V45",
+  "sourceSafetyVerdict": "source-safe-product-route-comprehension-readback",
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V46.md:48121ff59f812f15a1b3b1f7",
+    "delta": "BITCODE_SPEC_V46_DELTA.md:a16a16db40d4eeae612a0657",
+    "notes": "BITCODE_SPEC_V46_NOTES.md:cca70aca3566132e7026351c",
+    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "packageIndex": "scripts/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
+    "packageTypes": "scripts/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
+    "packageSource": "scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js:60188997415ab45c06df5168",
+    "packageTest": "scripts/specifying/test/v46-product-route-comprehension-readback.test.js:3118d40ad600a9fb1d025bf6",
+    "generator": "scripts/generate-v46-product-route-comprehension-readback.mjs:131473a8dcd0d665f74f56a7",
+    "checker": "scripts/check-v46-gate4-product-route-comprehension-readback.mjs:483822ed6cd2809c20ee8fe5",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd",
+    "productRouteShell": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx:2d7125f4da681fe3b0365cdc",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
+    "packsModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "packsApi": "apps/uapi/app/api/packs/activity/route.ts:31a4c4c8731c857c1442cea0",
+    "packsTest": "apps/uapi/tests/packsPageClient.test.tsx:65fdbfca8be6f0b11ed59576",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "readModel": "apps/uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
+    "readStepModel": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts:fb152fb0cc1d0799d1d616d6",
+    "readClientTest": "apps/uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
+    "readModelTest": "apps/uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
+    "depositModel": "apps/uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
+    "depositClientTest": "apps/uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
+    "depositModelTest": "apps/uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad"
+  },
+  "routeIds": [
+    "packs",
+    "read",
+    "deposit"
+  ],
+  "routePaths": [
+    "/packs",
+    "/read",
+    "/deposit"
+  ],
+  "capabilityIds": [
+    "low-detail-default",
+    "route-owned-state",
+    "search-filter-sort",
+    "five-step-reading",
+    "five-step-depositing",
+    "source-safe-preview",
+    "expandable-proof-readback",
+    "keyboard-navigation",
+    "proof-root-readback",
+    "settlement-rights-delivery-boundary",
+    "compensation-readback",
+    "terminal-debug-compatibility"
+  ],
+  "privatePayloadIdsNeverSerialized": [
+    "protected-source-payloads",
+    "unpaid-assetpack-source",
+    "source-snippets",
+    "raw-prompts",
+    "interpolated-prompts",
+    "raw-provider-responses",
+    "credentials",
+    "wallet-private-material",
+    "private-settlement-payloads",
+    "private-read-context",
+    "value-bearing-mainnet-admission"
+  ],
+  "routeRows": [
+    {
+      "routeId": "packs",
+      "routePath": "/packs",
+      "routeRole": "searchable source-safe PackActivity master-detail and market activity readback",
+      "sourcePaths": [
+        "apps/uapi/app/packs/PacksPageClient.tsx",
+        "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+        "apps/uapi/app/api/packs/activity/route.ts",
+        "apps/uapi/tests/packsPageClient.test.tsx",
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx"
+      ],
+      "claimIds": [
+        "assetpack-is-commodity",
+        "operator-evidence-is-source-safe-readback",
+        "preview-is-source-safe-measurement",
+        "finality-authorizes-rights-and-delivery",
+        "compensation-follows-source-to-shares",
+        "repair-fails-closed",
+        "telemetry-is-observability-only"
+      ],
+      "claimCategoryIds": [
+        "protocol-law",
+        "product-guidance",
+        "operator-evidence",
+        "preview-claim",
+        "rights-claim",
+        "compensation-claim",
+        "repair-claim",
+        "telemetry-observability"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "ledger-readback",
+        "database-projection",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "low-detail-default",
+        "route-owned-state",
+        "search-filter-sort",
+        "source-safe-preview",
+        "expandable-proof-readback",
+        "keyboard-navigation",
+        "proof-root-readback",
+        "settlement-rights-delivery-boundary",
+        "compensation-readback"
+      ],
+      "requiredCopyTokens": [
+        "Pack activity",
+        "Portfolio positions, market signals, proof roots, settlement, compensation, delivery, repair.",
+        "Search titles, measurements, values, proof roots",
+        "Source-safe detail",
+        "Expandable proof detail",
+        "packs-enterprise-activity-grid",
+        "PackActivityRecord"
+      ],
+      "readbackRoots": [
+        "proofRoots",
+        "accounting.statementRoot",
+        "governance.authorityRoot",
+        "commodityState"
+      ],
+      "operatorReading": "/packs is the source-safe master-detail readback for PackActivity, not a source disclosure surface or ledger source of truth.",
+      "lowDetailDefault": true,
+      "expandableSourceSafeDetail": true,
+      "routeOwnedState": true,
+      "proofReadbackVisible": true,
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-product-route-row:223c20737781d34d6384de98"
+    },
+    {
+      "routeId": "read",
+      "routePath": "/read",
+      "routeRole": "five-step Reading procurement route from Read Request to settled delivery",
+      "sourcePaths": [
+        "apps/uapi/app/read/ReadPageClient.tsx",
+        "apps/uapi/app/read/read-route-model.ts",
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/tests/readPageClient.test.tsx",
+        "apps/uapi/tests/readRouteModel.test.ts",
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx"
+      ],
+      "claimIds": [
+        "assetpack-is-commodity",
+        "btd-is-weighted-scalar-volume-and-settled-rights",
+        "preview-is-source-safe-measurement",
+        "quote-is-source-safe-offer",
+        "payment-observation-is-not-finality",
+        "finality-authorizes-rights-and-delivery",
+        "delivery-is-entitled-source-unlock",
+        "operator-evidence-is-source-safe-readback"
+      ],
+      "claimCategoryIds": [
+        "protocol-law",
+        "product-guidance",
+        "preview-claim",
+        "quote-claim",
+        "settlement-claim",
+        "rights-claim",
+        "delivery-claim",
+        "operator-evidence"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "ledger-readback",
+        "wallet-provider-receipt",
+        "repository-delivery-receipt",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "low-detail-default",
+        "route-owned-state",
+        "five-step-reading",
+        "source-safe-preview",
+        "expandable-proof-readback",
+        "keyboard-navigation",
+        "proof-root-readback",
+        "settlement-rights-delivery-boundary",
+        "terminal-debug-compatibility"
+      ],
+      "requiredCopyTokens": [
+        "Read request -> Need -> Finding Fits -> Preview -> Settlement.",
+        "ReadNeedComprehensionSynthesis",
+        "ReadFitsFindingSynthesis",
+        "Withheld until paid rights: source-bearing AssetPack contents",
+        "read-route-step-request-read",
+        "read-expandable-proof-detail",
+        "measurement-weight-volume"
+      ],
+      "readbackRoots": [
+        "readRouteSession.proofRoot",
+        "budgetPolicy.policyRoot",
+        "quotePolicy.quoteRoot",
+        "settlement.readinessRoot",
+        "authorityRoot"
+      ],
+      "operatorReading": "/read keeps the buyer path in five steps and withholds source-bearing AssetPack contents until BTC finality, BTD rights transfer, and entitled delivery readback.",
+      "lowDetailDefault": true,
+      "expandableSourceSafeDetail": true,
+      "routeOwnedState": true,
+      "proofReadbackVisible": true,
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-product-route-row:a4fe186278d1ba2c719c18b6"
+    },
+    {
+      "routeId": "deposit",
+      "routePath": "/deposit",
+      "routeRole": "five-step Depositing route from connected source to Depository admission",
+      "sourcePaths": [
+        "apps/uapi/app/deposit/DepositPageClient.tsx",
+        "apps/uapi/app/deposit/deposit-route-model.ts",
+        "apps/uapi/tests/depositPageClient.test.tsx",
+        "apps/uapi/tests/depositRouteModel.test.ts",
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx"
+      ],
+      "claimIds": [
+        "assetpack-is-commodity",
+        "deposit-option-is-potential-supply",
+        "operator-evidence-is-source-safe-readback",
+        "compensation-follows-source-to-shares",
+        "repair-fails-closed",
+        "telemetry-is-observability-only"
+      ],
+      "claimCategoryIds": [
+        "protocol-law",
+        "product-guidance",
+        "operator-evidence",
+        "compensation-claim",
+        "repair-claim",
+        "telemetry-observability"
+      ],
+      "authorityIds": [
+        "canonical-specification",
+        "generated-proof",
+        "database-projection",
+        "object-storage-root",
+        "interface-guidance-only"
+      ],
+      "capabilityIds": [
+        "low-detail-default",
+        "route-owned-state",
+        "five-step-depositing",
+        "source-safe-preview",
+        "expandable-proof-readback",
+        "keyboard-navigation",
+        "proof-root-readback",
+        "compensation-readback",
+        "terminal-debug-compatibility"
+      ],
+      "requiredCopyTokens": [
+        "Connect source",
+        "Synthesize AssetPack options",
+        "Review source-safe options",
+        "Submit deposit",
+        "Read depository state",
+        "DepositAssetPackOptionSynthesis",
+        "reviewable source-safe AssetPack supply options.",
+        "Withheld: raw source",
+        "deposit-route-step-connect-source",
+        "deposit-expandable-proof-detail",
+        "Expected compensation"
+      ],
+      "readbackRoots": [
+        "depositRouteSession.proofRoot",
+        "synthesis.roots.synthesisRoot",
+        "policy.roots.policyReportRoot",
+        "admission.roots.admissionReportRoot",
+        "earningSupplyIntelligence.roots.intelligenceRoot"
+      ],
+      "operatorReading": "/deposit is the source-safe supply route; it forms reviewable options and admission readback without exposing protected source or claiming final Need-relative BTD at option time.",
+      "lowDetailDefault": true,
+      "expandableSourceSafeDetail": true,
+      "routeOwnedState": true,
+      "proofReadbackVisible": true,
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetAdmitted": false,
+      "privatePayloadIdsNeverSerialized": [
+        "protected-source-payloads",
+        "unpaid-assetpack-source",
+        "source-snippets",
+        "raw-prompts",
+        "interpolated-prompts",
+        "raw-provider-responses",
+        "credentials",
+        "wallet-private-material",
+        "private-settlement-payloads",
+        "private-read-context",
+        "value-bearing-mainnet-admission"
+      ],
+      "rowRoot": "v46-product-route-row:d29d236288eb4794e4699d3f"
+    }
+  ],
+  "coverage": {
+    "routeCount": 3,
+    "routeIds": [
+      "packs",
+      "read",
+      "deposit"
+    ],
+    "routePaths": [
+      "/packs",
+      "/read",
+      "/deposit"
+    ],
+    "capabilityIds": [
+      "low-detail-default",
+      "route-owned-state",
+      "search-filter-sort",
+      "five-step-reading",
+      "five-step-depositing",
+      "source-safe-preview",
+      "expandable-proof-readback",
+      "keyboard-navigation",
+      "proof-root-readback",
+      "settlement-rights-delivery-boundary",
+      "compensation-readback",
+      "terminal-debug-compatibility"
+    ],
+    "capabilityIdsUsed": [
+      "low-detail-default",
+      "route-owned-state",
+      "search-filter-sort",
+      "source-safe-preview",
+      "expandable-proof-readback",
+      "keyboard-navigation",
+      "proof-root-readback",
+      "settlement-rights-delivery-boundary",
+      "compensation-readback",
+      "five-step-reading",
+      "terminal-debug-compatibility",
+      "five-step-depositing"
+    ],
+    "claimIdsUsed": [
+      "assetpack-is-commodity",
+      "operator-evidence-is-source-safe-readback",
+      "preview-is-source-safe-measurement",
+      "finality-authorizes-rights-and-delivery",
+      "compensation-follows-source-to-shares",
+      "repair-fails-closed",
+      "telemetry-is-observability-only",
+      "btd-is-weighted-scalar-volume-and-settled-rights",
+      "quote-is-source-safe-offer",
+      "payment-observation-is-not-finality",
+      "delivery-is-entitled-source-unlock",
+      "deposit-option-is-potential-supply"
+    ],
+    "categoryIdsUsed": [
+      "protocol-law",
+      "product-guidance",
+      "operator-evidence",
+      "preview-claim",
+      "rights-claim",
+      "compensation-claim",
+      "repair-claim",
+      "telemetry-observability",
+      "quote-claim",
+      "settlement-claim",
+      "delivery-claim"
+    ],
+    "authorityIdsUsed": [
+      "canonical-specification",
+      "generated-proof",
+      "ledger-readback",
+      "database-projection",
+      "interface-guidance-only",
+      "wallet-provider-receipt",
+      "repository-delivery-receipt",
+      "object-storage-root"
+    ],
+    "privatePayloadIds": [
+      "protected-source-payloads",
+      "unpaid-assetpack-source",
+      "source-snippets",
+      "raw-prompts",
+      "interpolated-prompts",
+      "raw-provider-responses",
+      "credentials",
+      "wallet-private-material",
+      "private-settlement-payloads",
+      "private-read-context",
+      "value-bearing-mainnet-admission"
+    ],
+    "allRoutesCovered": true,
+    "allRoutePathsCovered": true,
+    "lowDetailDefaultsCovered": true,
+    "expandableProofReadbackCovered": true,
+    "routeOwnedStateCovered": true,
+    "requiredCapabilitiesCovered": true,
+    "routeSpecificCapabilitiesCovered": true,
+    "allClaimIdsKnown": true,
+    "allCategoryIdsKnown": true,
+    "allAuthorityIdsKnown": true,
+    "sourcePredicates": [
+      {
+        "id": "active-pointer-supports-v46-draft-or-later",
+        "sourcePath": "BITCODE_SPEC.txt",
+        "passed": true
+      },
+      {
+        "id": "spec-records-route-readback-law",
+        "sourcePath": "BITCODE_SPEC_V46.md",
+        "passed": true
+      },
+      {
+        "id": "delta-records-gate4",
+        "sourcePath": "BITCODE_SPEC_V46_DELTA.md",
+        "passed": true
+      },
+      {
+        "id": "notes-record-gate4",
+        "sourcePath": "BITCODE_SPEC_V46_NOTES.md",
+        "passed": true
+      },
+      {
+        "id": "parity-records-gate4",
+        "sourcePath": "BITCODE_SPEC_V46_PARITY_MATRIX.md",
+        "passed": true
+      },
+      {
+        "id": "roadmap-records-gate4-closure",
+        "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+        "passed": true
+      },
+      {
+        "id": "package-source-exists",
+        "sourcePath": "scripts/specifying/src/canonical/v46-product-route-comprehension-readback.js",
+        "passed": true
+      },
+      {
+        "id": "package-test-exists",
+        "sourcePath": "scripts/specifying/test/v46-product-route-comprehension-readback.test.js",
+        "passed": true
+      },
+      {
+        "id": "generator-exists",
+        "sourcePath": "scripts/generate-v46-product-route-comprehension-readback.mjs",
+        "passed": true
+      },
+      {
+        "id": "checker-exists",
+        "sourcePath": "scripts/check-v46-gate4-product-route-comprehension-readback.mjs",
+        "passed": true
+      },
+      {
+        "id": "package-json-exposes-gate4",
+        "sourcePath": "package.json",
+        "passed": true
+      },
+      {
+        "id": "package-exports-gate4",
+        "sourcePath": "scripts/specifying/src/index.js",
+        "passed": true
+      },
+      {
+        "id": "package-types-export-gate4",
+        "sourcePath": "scripts/specifying/src/index.d.ts",
+        "passed": true
+      },
+      {
+        "id": "gate-and-canon-workflows-run-gate4",
+        "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+        "passed": true
+      },
+      {
+        "id": "packs-route-uses-shared-shell",
+        "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
+        "passed": true
+      },
+      {
+        "id": "read-route-uses-five-step-shell",
+        "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
+        "passed": true
+      },
+      {
+        "id": "deposit-route-uses-five-step-shell",
+        "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
+        "passed": true
+      }
+    ],
+    "failedPredicateIds": [],
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetAdmitted": false,
+    "forbiddenPhraseHits": [],
+    "secretMarkerHits": [],
+    "rowsMissingRequiredCopy": []
+  },
+  "passed": true,
+  "closureReading": "V46 Gate 4 closes source-safe route comprehension readback for /packs, /read, and /deposit without changing active V45 canon or admitting value-bearing mainnet operation."
+}

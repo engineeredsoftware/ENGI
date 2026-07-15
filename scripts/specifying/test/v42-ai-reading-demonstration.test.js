@@ -11,7 +11,7 @@ import {
 test('V42 AI-reading demonstration artifact is source-safe and complete', () => {
   const artifact = buildV42AiReadingDemonstration();
 
-  assert.equal(V42_AI_READING_DEMONSTRATION_ARTIFACT_PATH, '.bitcode/v42-ai-reading-demonstration.json');
+  assert.equal(V42_AI_READING_DEMONSTRATION_ARTIFACT_PATH, '.proofs/v42/ai-reading-demonstration.json');
   assert.equal(artifact.artifactId, 'v42-ai-reading-demonstration');
   assert.equal(artifact.schemaId, V42_AI_READING_DEMONSTRATION_SCHEMA_ID);
   assert.equal(artifact.version, 'V42');

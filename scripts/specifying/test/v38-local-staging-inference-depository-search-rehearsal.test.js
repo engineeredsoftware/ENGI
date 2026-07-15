@@ -17,7 +17,7 @@ test('V38 local/staging inference rehearsal binds Reading, search, preview, tele
 
   assert.equal(
     V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_ARTIFACT_PATH,
-    '.bitcode/v38-local-staging-inference-depository-search-rehearsal.json',
+    '.proofs/v38/local-staging-inference-depository-search-rehearsal.json',
   );
   assert.equal(report.artifactId, 'v38-local-staging-inference-depository-search-rehearsal');
   assert.equal(report.schemaId, V38_LOCAL_STAGING_INFERENCE_DEPOSITORY_SEARCH_REHEARSAL_SCHEMA_ID);

@@ -1,0 +1,85 @@
+{
+  "acceptedVolatileFields": [
+    {
+      "artifactPath": ".proofs/v32/proof-coverage-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "normalizedValue": "2026-05-22T00:00:00.000Z",
+      "reason": "V32 generated artifacts use a fixed replay context timestamp so byte equality remains meaningful."
+    },
+    {
+      "artifactPath": ".proofs/v32/artifact-volatility-inventory.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "normalizedValue": "2026-05-22T00:00:00.000Z",
+      "reason": "V32 generated artifacts use a fixed replay context timestamp so byte equality remains meaningful."
+    },
+    {
+      "artifactPath": ".proofs/v32/deterministic-replay-report.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "normalizedValue": "2026-05-22T00:00:00.000Z",
+      "reason": "V32 generated artifacts use a fixed replay context timestamp so byte equality remains meaningful."
+    }
+  ],
+  "artifactId": "v32-artifact-volatility-inventory",
+  "blockingFindings": [],
+  "classificationCounts": {
+    "canonical-stable": 1,
+    "context-bound": 4
+  },
+  "command": "pnpm run generate:v32-deterministic-replay-artifacts",
+  "currentTarget": "V31",
+  "findingCount": 5,
+  "findings": [
+    {
+      "artifactPath": ".proofs/v32/proof-coverage-matrix.json",
+      "classification": "canonical-stable",
+      "fieldPath": "$",
+      "reason": "artifact bytes match stable sorted JSON serialization",
+      "value": "stable-json-order"
+    },
+    {
+      "artifactPath": ".proofs/v32/proof-coverage-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "generatedAt is fixed by V32 replay context",
+      "value": "2026-05-22T00:00:00.000Z"
+    },
+    {
+      "artifactPath": ".proofs/v32/proof-coverage-matrix.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "V32 generated artifacts use a fixed replay context timestamp so byte equality remains meaningful.",
+      "value": "2026-05-22T00:00:00.000Z"
+    },
+    {
+      "artifactPath": ".proofs/v32/artifact-volatility-inventory.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "V32 generated artifacts use a fixed replay context timestamp so byte equality remains meaningful.",
+      "value": "2026-05-22T00:00:00.000Z"
+    },
+    {
+      "artifactPath": ".proofs/v32/deterministic-replay-report.json",
+      "classification": "context-bound",
+      "fieldPath": "generatedAt",
+      "reason": "V32 generated artifacts use a fixed replay context timestamp so byte equality remains meaningful.",
+      "value": "2026-05-22T00:00:00.000Z"
+    }
+  ],
+  "generatedArtifactPaths": [
+    ".proofs/v32/proof-coverage-matrix.json",
+    ".proofs/v32/artifact-volatility-inventory.json",
+    ".proofs/v32/deterministic-replay-report.json"
+  ],
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "passed": true,
+  "scannedArtifactPaths": [
+    ".proofs/v32/proof-coverage-matrix.json"
+  ],
+  "schemaId": "bitcode.v32.artifactVolatilityInventory.v1",
+  "sourceCommit": "draft-gate-3-source-derived",
+  "sourceSafetyVerdict": "source-safe",
+  "version": "V32"
+}

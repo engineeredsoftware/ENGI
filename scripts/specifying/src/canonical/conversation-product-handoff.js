@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const CONVERSATION_PRODUCT_HANDOFF_ARTIFACT_PATH = '.bitcode/v37-conversation-product-handoff.json';
+export const CONVERSATION_PRODUCT_HANDOFF_ARTIFACT_PATH = '.proofs/v37/conversation-product-handoff.json';
 export const CONVERSATION_PRODUCT_HANDOFF_SCHEMA_ID = 'bitcode.v37.conversationTerminalHandoff.v1';
 export const CONVERSATION_PRODUCT_HANDOFF_VERSION = 'V37';
 export const CONVERSATION_PRODUCT_HANDOFF_CURRENT_TARGET = 'V36';

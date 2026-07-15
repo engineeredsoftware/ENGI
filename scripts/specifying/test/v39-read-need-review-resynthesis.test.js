@@ -13,7 +13,7 @@ import {
 test('V39 ReadNeed review resynthesis report binds review loop, storage, telemetry, and admission', () => {
   const report = buildV39ReadNeedReviewResynthesis();
 
-  assert.equal(V39_READ_NEED_REVIEW_RESYNTHESIS_ARTIFACT_PATH, '.bitcode/v39-read-need-review-resynthesis.json');
+  assert.equal(V39_READ_NEED_REVIEW_RESYNTHESIS_ARTIFACT_PATH, '.proofs/v39/read-need-review-resynthesis.json');
   assert.equal(report.artifactId, 'v39-read-need-review-resynthesis');
   assert.equal(report.schemaId, V39_READ_NEED_REVIEW_RESYNTHESIS_SCHEMA_ID);
   assert.equal(report.version, 'V39');

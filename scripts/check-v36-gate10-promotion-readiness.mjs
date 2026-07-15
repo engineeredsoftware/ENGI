@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v36/promotion-readiness-report.json';
 
 const V36_GATE_ARTIFACTS = [
-  '.bitcode/v36-exchange-activity-book.json',
-  '.bitcode/v36-exchange-intent-order-contracts.json',
-  '.bitcode/v36-exchange-rights-transfer-review.json',
-  '.bitcode/v36-pricing-liquidity-fee-quote.json',
-  '.bitcode/v36-exchange-settlement-reconciliation.json',
-  '.bitcode/v36-exchange-dispute-repair-revenue-route.json',
-  '.bitcode/v36-exchange-ux-proof.json',
-  '.bitcode/v36-exchange-rehearsal.json',
+  '.proofs/v36/exchange-activity-book.json',
+  '.proofs/v36/exchange-intent-order-contracts.json',
+  '.proofs/v36/exchange-rights-transfer-review.json',
+  '.proofs/v36/pricing-liquidity-fee-quote.json',
+  '.proofs/v36/exchange-settlement-reconciliation.json',
+  '.proofs/v36/exchange-dispute-repair-revenue-route.json',
+  '.proofs/v36/exchange-ux-proof.json',
+  '.proofs/v36/exchange-rehearsal.json',
 ];
 
 const SECRET_MARKERS = [

@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `8c711604600afe1d1e477d3c180d653602203d0f`
 - Prior canonical anchor: `BITCODE_SPEC_V30.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V30_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v31-spec-family-report.json`, `.bitcode/v31-canonical-input-report.json`, `.bitcode/v31-canon-posture-drift-report.json`, `.bitcode/v31-auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v31/spec-family-report.json`, `.proofs/v31/canonical-input-report.json`, `.proofs/v31/canon-posture-drift-report.json`, `.proofs/v31/auxillaries-telemetry-proof-hooks.json`, V31 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V31_PROVEN.md` as the generated proof appendix for V31 promotion
 - Source parity state: V31 source-side Auxillaries package contracts, route data, client hooks, panes, organization authority, recovery runs, telemetry/proof hooks, UX/accessibility, workflow, and promotion surfaces are canonicalized in the promoted V31 file family
 - State: draft target delta opened
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V30`
@@ -229,7 +229,7 @@ Gate 10 owns final local/staging proof, generated artifacts, and V31 promotion w
 Closure acceptance:
 
 - `check:v31-gate10` validates promoted-readiness posture;
-- V31 promotion workflow validates source branch, local proof commands, Auxillaries evidence, generated `.bitcode/v31-*` reports, and `BITCODE_SPEC_V31_PROVEN.md`;
+- V31 promotion workflow validates source branch, local proof commands, Auxillaries evidence, generated `.proofs/v31/*` reports, and `BITCODE_SPEC_V31_PROVEN.md`;
 - promotion scripts support V31 and rewrite post-promotion active V31 / draft V32 posture;
 - `version/v31` can be requested into `main` only after all V31 gates close.
 
@@ -240,4 +240,4 @@ Gate 10 implementation centers:
 - V31 support in `scripts/promote-bitcode-canon.mjs`;
 - V31 status rewriting in `scripts/prepare-bitcode-spec-family-promotion.mjs`;
 - V31 generated appendix/artifact support in `packages/protocol/src/canonical/proven-generator.js`;
-- generated `.bitcode/v31-*` artifacts and source-safe `BITCODE_V31_QA.md`.
+- generated `.proofs/v31/*` artifacts and source-safe `BITCODE_V31_QA.md`.

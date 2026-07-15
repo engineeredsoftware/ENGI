@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const READING_ARTIFACT = '.bitcode/v32-reading-pipeline-proof-coverage.json';
+const READING_ARTIFACT = '.proofs/v32/reading-pipeline-proof-coverage.json';
 
 function read(root, relativePath) {
   return readFileSync(path.join(root, relativePath), 'utf8');

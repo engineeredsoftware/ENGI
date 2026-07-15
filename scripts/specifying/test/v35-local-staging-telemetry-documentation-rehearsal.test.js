@@ -107,6 +107,6 @@ test('binds local and staging rehearsals to docs telemetry runbooks and blocked 
   );
   assert.equal(
     LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ARTIFACT_PATH,
-    '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json',
+    '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json',
   );
 });

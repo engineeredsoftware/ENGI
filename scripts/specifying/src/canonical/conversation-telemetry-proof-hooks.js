@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const CONVERSATION_TELEMETRY_PROOF_HOOKS_ARTIFACT_PATH =
-  '.bitcode/v37-conversation-telemetry-proof-hooks.json';
+  '.proofs/v37/conversation-telemetry-proof-hooks.json';
 export const CONVERSATION_TELEMETRY_PROOF_HOOKS_SCHEMA_ID =
   'bitcode.v37.conversationTelemetryProofHooks.v1';
 export const CONVERSATION_TELEMETRY_PROOF_HOOKS_VERSION = 'V37';

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT = '.bitcode/v34-deployment-storage-posture.json';
+const ARTIFACT = '.proofs/v34/deployment-storage-posture.json';
 
 const REQUIRED_CARRIER_IDS = [
   'ledger_derived_state',

@@ -412,17 +412,17 @@ function buildSystemProofBundle(
   bitcoinSettlementInterfaceProof = null
 ) {
   const proofFamilies = [
-    buildProofFamilyCatalogEntry('inference-synthesis', '.bitcode/inference-synthesis-proof.json', /** @type {any} */ (inferenceSynthesisProof)),
-    buildProofFamilyCatalogEntry('prompt-completeness', '.bitcode/prompt-completeness-proof.json', /** @type {any} */ (promptCompletenessProof)),
-    buildProofFamilyCatalogEntry('static-code-analysis', '.bitcode/static-measurement-proof.json', /** @type {any} */ (staticMeasurementProof)),
-    buildProofFamilyCatalogEntry('verification-decisions', '.bitcode/verification-decisions-proof.json', /** @type {any} */ (verificationDecisionsProof)),
-    buildProofFamilyCatalogEntry('selection-and-materialization', '.bitcode/selection-and-materialization-proof.json', /** @type {any} */ (selectionAndMaterializationProof)),
-    buildProofFamilyCatalogEntry('authorization-and-sensitive-flow', '.bitcode/authorization-and-sensitive-flow-proof.json', /** @type {any} */ (authorizationAndSensitiveFlowProof)),
-    buildProofFamilyCatalogEntry('settlement-source-to-shares', '.bitcode/settlement-source-to-shares-proof.json', /** @type {any} */ (settlementSourceToSharesProof)),
-    buildProofFamilyCatalogEntry('disclosure-boundary', '.bitcode/disclosure-boundary-proof.json', /** @type {any} */ (disclosureBoundaryProof)),
-    buildProofFamilyCatalogEntry('proof-contract', '.bitcode/proof-contract.json', /** @type {any} */ (proofContract)),
-    ...(bitcoinAuditAnchorProof ? [buildProofFamilyCatalogEntry('bitcoin-audit-anchor', '.bitcode/bitcoin-audit-anchor-proof.json', /** @type {any} */ (bitcoinAuditAnchorProof))] : []),
-    ...(bitcoinSettlementInterfaceProof ? [buildProofFamilyCatalogEntry('bitcoin-settlement-interface', '.bitcode/bitcoin-settlement-interface-proof.json', /** @type {any} */ (bitcoinSettlementInterfaceProof))] : [])
+    buildProofFamilyCatalogEntry('inference-synthesis', '.proofs/_shared/inference-synthesis-proof.json', /** @type {any} */ (inferenceSynthesisProof)),
+    buildProofFamilyCatalogEntry('prompt-completeness', '.proofs/_shared/prompt-completeness-proof.json', /** @type {any} */ (promptCompletenessProof)),
+    buildProofFamilyCatalogEntry('static-code-analysis', '.proofs/_shared/static-measurement-proof.json', /** @type {any} */ (staticMeasurementProof)),
+    buildProofFamilyCatalogEntry('verification-decisions', '.proofs/_shared/verification-decisions-proof.json', /** @type {any} */ (verificationDecisionsProof)),
+    buildProofFamilyCatalogEntry('selection-and-materialization', '.proofs/_shared/selection-and-materialization-proof.json', /** @type {any} */ (selectionAndMaterializationProof)),
+    buildProofFamilyCatalogEntry('authorization-and-sensitive-flow', '.proofs/_shared/authorization-and-sensitive-flow-proof.json', /** @type {any} */ (authorizationAndSensitiveFlowProof)),
+    buildProofFamilyCatalogEntry('settlement-source-to-shares', '.proofs/_shared/settlement-source-to-shares-proof.json', /** @type {any} */ (settlementSourceToSharesProof)),
+    buildProofFamilyCatalogEntry('disclosure-boundary', '.proofs/_shared/disclosure-boundary-proof.json', /** @type {any} */ (disclosureBoundaryProof)),
+    buildProofFamilyCatalogEntry('proof-contract', '.proofs/_shared/proof-contract.json', /** @type {any} */ (proofContract)),
+    ...(bitcoinAuditAnchorProof ? [buildProofFamilyCatalogEntry('bitcoin-audit-anchor', '.proofs/_shared/bitcoin-audit-anchor-proof.json', /** @type {any} */ (bitcoinAuditAnchorProof))] : []),
+    ...(bitcoinSettlementInterfaceProof ? [buildProofFamilyCatalogEntry('bitcoin-settlement-interface', '.proofs/_shared/bitcoin-settlement-interface-proof.json', /** @type {any} */ (bitcoinSettlementInterfaceProof))] : [])
   ];
   const verifierReplayArtifacts = summarizeStrings(proofFamilies.flatMap((entry) => entry.replayArtifacts || []));
   const verifierRequiredArtifactPaths = summarizeStrings(proofFamilies.flatMap((entry) => [
@@ -596,70 +596,70 @@ function buildAssetPackEvidenceManifest({
   const v23AssetPackEvidence = v23BitcoinEnabled
     ? [
         {
-          path: '.bitcode/compute-reality-manifest.json',
+          path: '.proofs/_shared/compute-reality-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-boundaries', 'proof-bundle', 'settlement-proof']
         },
         {
-          path: '.bitcode/storage-reality-manifest.json',
+          path: '.proofs/_shared/storage-reality-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['asset-pack-evidence-manifest', 'external-boundaries', 'bounded-public-proof']
         },
         {
-          path: '.bitcode/bitcoin-commitment-manifest.json',
+          path: '.proofs/_shared/bitcoin-commitment-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['asset-pack-evidence-manifest', 'disclosure-boundary', 'proof-contract']
         },
         {
-          path: '.bitcode/bitcoin-treasury-policy.json',
+          path: '.proofs/_shared/bitcoin-treasury-policy.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-boundaries', 'policy-release']
         },
         {
-          path: '.bitcode/bitcoin-anchor.json',
+          path: '.proofs/_shared/bitcoin-anchor.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-commitment-manifest', 'bitcoin-treasury-policy']
         },
         {
-          path: '.bitcode/bitcoin-bounded-public-anchor.json',
+          path: '.proofs/_shared/bitcoin-bounded-public-anchor.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'bounded-public-proof-metadata',
           potentiallyDisclosable: true,
           dependsOn: ['bitcoin-anchor', 'bounded-public-proof']
         },
         {
-          path: '.bitcode/bitcoin-settlement-intent.json',
+          path: '.proofs/_shared/bitcoin-settlement-intent.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['settlement-preview', 'source-to-shares', 'bitcoin-treasury-policy']
         },
         {
-          path: '.bitcode/bitcoin-settlement-observation.json',
+          path: '.proofs/_shared/bitcoin-settlement-observation.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-settlement-intent', 'bitcoin-treasury-policy']
         },
         {
-          path: '.bitcode/bitcoin-audit-anchor-proof.json',
+          path: '.proofs/_shared/bitcoin-audit-anchor-proof.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-commitment-manifest', 'bitcoin-anchor', 'bitcoin-bounded-public-anchor']
         },
         {
-          path: '.bitcode/bitcoin-settlement-interface-proof.json',
+          path: '.proofs/_shared/bitcoin-settlement-interface-proof.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
@@ -670,161 +670,161 @@ function buildAssetPackEvidenceManifest({
   const v24AssetPackEvidence = v24ExternalRealizationEnabled
     ? [
         {
-          path: '.bitcode/external-environment-profile.json',
+          path: '.proofs/_shared/external-environment-profile.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-boundaries', 'policy-release', 'asset-pack-evidence-manifest']
         },
         {
-          path: '.bitcode/external-execution-policy.json',
+          path: '.proofs/_shared/external-execution-policy.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-boundaries', 'policy-release']
         },
         {
-          path: '.bitcode/external-telemetry-policy.json',
+          path: '.proofs/_shared/external-telemetry-policy.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['asset-pack-evidence-manifest', 'external-execution-policy']
         },
         {
-          path: '.bitcode/external-telemetry-summary.json',
+          path: '.proofs/_shared/external-telemetry-summary.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['pipeline-telemetry', 'external-telemetry-policy', 'external-environment-profile']
         },
         {
-          path: '.bitcode/network-capability-manifest.json',
+          path: '.proofs/_shared/network-capability-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-boundaries', 'external-environment-profile']
         },
         {
-          path: '.bitcode/github-app-binding.json',
+          path: '.proofs/_shared/github-app-binding.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['github-binding', 'external-environment-profile']
         },
         {
-          path: '.bitcode/bitcoin-network-intent.json',
+          path: '.proofs/_shared/bitcoin-network-intent.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-environment-profile', 'bitcoin-settlement-intent', 'external-telemetry-summary']
         },
         {
-          path: '.bitcode/bitcoin-network-execution.json',
+          path: '.proofs/_shared/bitcoin-network-execution.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-network-intent', 'external-execution-policy', 'external-telemetry-summary']
         },
         {
-          path: '.bitcode/bitcoin-network-observation.json',
+          path: '.proofs/_shared/bitcoin-network-observation.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-network-execution', 'bitcoin-settlement-observation', 'bitcoin-anchor']
         },
         {
-          path: '.bitcode/sidechain-execution-receipt.json',
+          path: '.proofs/_shared/sidechain-execution-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-network-observation', 'external-telemetry-summary']
         },
         {
-          path: '.bitcode/compute-container-manifest.json',
+          path: '.proofs/_shared/compute-container-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-environment-profile', 'compute-reality-manifest']
         },
         {
-          path: '.bitcode/compute-container-execution.json',
+          path: '.proofs/_shared/compute-container-execution.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['compute-container-manifest', 'external-telemetry-summary']
         },
         {
-          path: '.bitcode/storage-container-manifest.json',
+          path: '.proofs/_shared/storage-container-manifest.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['external-environment-profile', 'storage-reality-manifest']
         },
         {
-          path: '.bitcode/storage-publication-receipt.json',
+          path: '.proofs/_shared/storage-publication-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['storage-container-manifest', 'external-telemetry-summary']
         },
         {
-          path: '.bitcode/storage-retrieval-receipt.json',
+          path: '.proofs/_shared/storage-retrieval-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['storage-container-manifest', 'storage-publication-receipt']
         },
         {
-          path: '.bitcode/github-live-session.json',
+          path: '.proofs/_shared/github-live-session.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['github-app-binding', 'external-telemetry-summary']
         },
         {
-          path: '.bitcode/github-inventory-fetch-receipt.json',
+          path: '.proofs/_shared/github-inventory-fetch-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['github-live-session', 'github-boundary']
         },
         {
-          path: '.bitcode/github-artifact-fetch-receipt.json',
+          path: '.proofs/_shared/github-artifact-fetch-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['github-live-session', 'artifact-upload']
         },
         {
-          path: '.bitcode/github-branch-publication-receipt.json',
+          path: '.proofs/_shared/github-branch-publication-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['github-live-session', 'asset-pack-evidence-manifest']
         },
         {
-          path: '.bitcode/github-pr-update-receipt.json',
+          path: '.proofs/_shared/github-pr-update-receipt.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['github-live-session', 'github-branch-publication-receipt']
         },
         {
-          path: '.bitcode/external-realization-proof.json',
+          path: '.proofs/_shared/external-realization-proof.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['bitcoin-network-intent', 'bitcoin-network-execution', 'bitcoin-network-observation', 'sidechain-execution-receipt']
         },
         {
-          path: '.bitcode/container-reality-proof.json',
+          path: '.proofs/_shared/container-reality-proof.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
           dependsOn: ['compute-container-manifest', 'compute-container-execution', 'storage-container-manifest', 'storage-publication-receipt', 'storage-retrieval-receipt']
         },
         {
-          path: '.bitcode/github-live-interface-proof.json',
+          path: '.proofs/_shared/github-live-interface-proof.json',
           useTiersContributed: ['settlement-eligible'],
           confidentialityClass: 'private-proof-artifact',
           potentiallyDisclosable: false,
@@ -839,434 +839,434 @@ function buildAssetPackEvidenceManifest({
     productionIntentProfile: PROFILE_B,
     assetPackEvidence: [
       {
-        path: '.bitcode/read.json',
+        path: '.proofs/_shared/read.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-branch-derived-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['read-measurement', 'benchmark-parser']
       },
       {
-        path: '.bitcode/read-measurement.json',
+        path: '.proofs/_shared/read-measurement.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['read-measurement', 'prompt-lineage', 'static-measurement']
       },
       {
-        path: '.bitcode/read-review.json',
+        path: '.proofs/_shared/read-review.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['read-measurement', 'read-review', 'pre-fit-admission']
       },
       {
-        path: '.bitcode/depositing-surface.json',
+        path: '.proofs/_shared/depositing-surface.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['repo-supply-selection', 'github-binding']
       },
       {
-        path: '.bitcode/reading-surface.json',
+        path: '.proofs/_shared/reading-surface.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['read-measurement', 'benchmark-parser']
       },
       {
-        path: '.bitcode/deposit-to-read-surface.json',
+        path: '.proofs/_shared/deposit-to-read-surface.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['repo-supply-selection', 'read-measurement', 'asset-pack-assembly']
       },
       {
-        path: '.bitcode/benchmark-target.json',
+        path: '.proofs/_shared/benchmark-target.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'verification-evidence',
         potentiallyDisclosable: false,
         dependsOn: ['benchmark-parser']
       },
       {
-        path: '.bitcode/match-report.json',
+        path: '.proofs/_shared/match-report.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['ranking', 'candidate-recall']
       },
       {
-        path: '.bitcode/verification-report.json',
+        path: '.proofs/_shared/verification-report.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'verification-evidence',
         potentiallyDisclosable: false,
         dependsOn: ['verification-determinisms', 'issuer-policy']
       },
       {
-        path: '.bitcode/eval-manifest.json',
+        path: '.proofs/_shared/eval-manifest.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['candidate-recall', 'ranking', 'verification-determinisms', 'prompt-lineage']
       },
       {
-        path: '.bitcode/asset-pack.lock.json',
+        path: '.proofs/_shared/asset-pack.lock.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['asset-pack-assembly']
       },
       {
-        path: '.bitcode/selected-source-material.json',
+        path: '.proofs/_shared/selected-source-material.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'licensed-source-material',
         potentiallyDisclosable: false,
         dependsOn: ['asset-pack-assembly', 'source-material-binding']
       },
       {
-        path: '.bitcode/authorization-decisions.json',
+        path: '.proofs/_shared/authorization-decisions.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['identity-authorization', 'policy-release']
       },
       {
-        path: '.bitcode/sensitive-data-flow.json',
+        path: '.proofs/_shared/sensitive-data-flow.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['sensitive-data-flow', 'policy-release']
       },
       {
-        path: '.bitcode/policy-release.json',
+        path: '.proofs/_shared/policy-release.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['policy-release']
       },
       {
-        path: '.bitcode/identity-bindings.json',
+        path: '.proofs/_shared/identity-bindings.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['identity-authorization']
       },
       {
-        path: '.bitcode/github-boundary.json',
+        path: '.proofs/_shared/github-boundary.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['benchmark-parser', 'github-binding']
       },
       {
-        path: '.bitcode/artifact-upload-manifest.json',
+        path: '.proofs/_shared/artifact-upload-manifest.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'licensed-source-material',
         potentiallyDisclosable: false,
         dependsOn: ['artifact-upload', 'content-unit-semantics']
       },
       {
-        path: '.bitcode/profile-composition.json',
+        path: '.proofs/_shared/profile-composition.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['profile-semantics']
       },
       {
-        path: '.bitcode/prompt-family-registry.json',
+        path: '.proofs/_shared/prompt-family-registry.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'prompt-completeness']
       },
       {
-        path: '.bitcode/prompt-surfaces.json',
+        path: '.proofs/_shared/prompt-surfaces.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'model-execution']
       },
       {
-        path: '.bitcode/prompt-contracts.json',
+        path: '.proofs/_shared/prompt-contracts.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'prompt-completeness']
       },
       {
-        path: '.bitcode/inference-moment-contracts.json',
+        path: '.proofs/_shared/inference-moment-contracts.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'inference-synthesis']
       },
       {
-        path: '.bitcode/inference-proofs.json',
+        path: '.proofs/_shared/inference-proofs.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'inference-synthesis']
       },
       {
-        path: '.bitcode/inference-synthesis-proof.json',
+        path: '.proofs/_shared/inference-synthesis-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'inference-synthesis']
       },
       {
-        path: '.bitcode/prompt-implementation-surface.json',
+        path: '.proofs/_shared/prompt-implementation-surface.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'inference-synthesis', 'prompt-completeness']
       },
       {
-        path: '.bitcode/prompt-completeness-proof.json',
+        path: '.proofs/_shared/prompt-completeness-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['prompt-lineage', 'prompt-completeness']
       },
       {
-        path: '.bitcode/parsed-completion-envelopes.json',
+        path: '.proofs/_shared/parsed-completion-envelopes.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['prompt-lineage', 'prompt-completeness']
       },
       {
-        path: '.bitcode/code-analysis-fact-registry.json',
+        path: '.proofs/_shared/code-analysis-fact-registry.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['read-measurement', 'ranking', 'verification']
       },
       {
-        path: '.bitcode/static-heuristics-registry.json',
+        path: '.proofs/_shared/static-heuristics-registry.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['read-measurement', 'ranking', 'verification']
       },
       {
-        path: '.bitcode/external-boundary-manifest.json',
+        path: '.proofs/_shared/external-boundary-manifest.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['github-binding', 'profile-semantics', 'external-boundaries']
       },
       {
-        path: '.bitcode/measurement-receipts.json',
+        path: '.proofs/_shared/measurement-receipts.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['static-measurement', 'verification-determinisms']
       },
       {
-        path: '.bitcode/static-measurement-report.json',
+        path: '.proofs/_shared/static-measurement-report.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['static-measurement', 'verification-determinisms']
       },
       {
-        path: '.bitcode/static-measurement-proof.json',
+        path: '.proofs/_shared/static-measurement-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['measurement-receipts', 'static-measurement-report']
       },
       {
-        path: '.bitcode/verification-receipts.json',
+        path: '.proofs/_shared/verification-receipts.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['verification-determinisms', 'issuer-policy']
       },
       {
-        path: '.bitcode/verification-decisions-proof.json',
+        path: '.proofs/_shared/verification-decisions-proof.json',
         useTiersContributed: ['rank-only', 'context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['verification-report', 'verification-receipts']
       },
       {
-        path: '.bitcode/selection-consistency-proof.json',
+        path: '.proofs/_shared/selection-consistency-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['asset-pack-assembly', 'selected-source-material']
       },
       {
-        path: '.bitcode/materialization-proof.json',
+        path: '.proofs/_shared/materialization-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['asset-pack.lock', 'selected-source-material', 'materialization-visibility-proof']
       },
       {
-        path: '.bitcode/selection-and-materialization-proof.json',
+        path: '.proofs/_shared/selection-and-materialization-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['selection-consistency-proof', 'materialization-proof']
       },
       {
-        path: '.bitcode/materialization-exclusions.json',
+        path: '.proofs/_shared/materialization-exclusions.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['ranking', 'asset-pack-assembly', 'materialization-proof']
       },
       {
-        path: '.bitcode/proof-witness-manifest.json',
+        path: '.proofs/_shared/proof-witness-manifest.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['proof-bundle', 'prompt-completeness', 'verification-determinisms', 'projection-policy']
       },
       {
-        path: '.bitcode/materialization-visibility-proof.json',
+        path: '.proofs/_shared/materialization-visibility-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['asset-pack.lock', 'selected-source-material', 'projection-policy']
       },
       {
-        path: '.bitcode/identity-authorization-proof.json',
+        path: '.proofs/_shared/identity-authorization-proof.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['identity-bindings', 'authorization-decisions']
       },
       {
-        path: '.bitcode/sensitive-data-flow-proof.json',
+        path: '.proofs/_shared/sensitive-data-flow-proof.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['sensitive-data-flow', 'policy-release']
       },
       {
-        path: '.bitcode/authorization-and-sensitive-flow-proof.json',
+        path: '.proofs/_shared/authorization-and-sensitive-flow-proof.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['identity-authorization-proof', 'sensitive-data-flow-proof']
       },
       {
-        path: '.bitcode/settlement-preview.json',
+        path: '.proofs/_shared/settlement-preview.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
         potentiallyDisclosable: false,
         dependsOn: ['asset-shares', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/source-to-shares.json',
+        path: '.proofs/_shared/source-to-shares.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['ranking', 'asset-pack.lock', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/settlement-participation.json',
+        path: '.proofs/_shared/settlement-participation.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'settlement-preview',
         potentiallyDisclosable: false,
         dependsOn: ['source-to-shares', 'asset-pack.lock', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/accounting-precision-report.json',
+        path: '.proofs/_shared/accounting-precision-report.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['source-to-shares', 'settlement-participation', 'journal-diff']
       },
       {
-        path: '.bitcode/journal-completeness-proof.json',
+        path: '.proofs/_shared/journal-completeness-proof.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['journal-diff', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/settlement-proof.json',
+        path: '.proofs/_shared/settlement-proof.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['journal-diff', 'asset-pack.lock']
       },
       {
-        path: '.bitcode/settlement-source-to-shares-proof.json',
+        path: '.proofs/_shared/settlement-source-to-shares-proof.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['source-to-shares', 'settlement-participation', 'journal-completeness-proof', 'settlement-proof']
       },
       {
-        path: '.bitcode/journal-diff.json',
+        path: '.proofs/_shared/journal-diff.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: [RealizationStage.SETTLEMENT, 'asset-pack.lock']
       },
       {
-        path: '.bitcode/system-proof-bundle.json',
+        path: '.proofs/_shared/system-proof-bundle.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['selection-proof', 'identity-authorization', 'sensitive-data-flow', 'settlement-proof']
       },
       {
-        path: '.bitcode/unit-catalog.json',
+        path: '.proofs/_shared/unit-catalog.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['content-unit-semantics', 'asset-measurement']
       },
       {
-        path: '.bitcode/pipeline-telemetry.json',
+        path: '.proofs/_shared/pipeline-telemetry.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['read-measurement', 'candidate-recall', 'ranking', 'verification', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/projection-policy.json',
+        path: '.proofs/_shared/projection-policy.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['policy-release', 'bounded-public-proof']
       },
       {
-        path: '.bitcode/bounded-public-proof.json',
+        path: '.proofs/_shared/bounded-public-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['proof-bundle', 'bounded-public-proof']
       },
       {
-        path: '.bitcode/redaction-proof.json',
+        path: '.proofs/_shared/redaction-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['projection-policy', 'bounded-public-proof']
       },
       {
-        path: '.bitcode/disclosure-proof.json',
+        path: '.proofs/_shared/disclosure-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['projection-policy', 'bounded-public-proof']
       },
       {
-        path: '.bitcode/disclosure-boundary-proof.json',
+        path: '.proofs/_shared/disclosure-boundary-proof.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
         dependsOn: ['projection-policy', 'bounded-public-proof', 'redaction-proof', 'disclosure-proof']
       },
       {
-        path: '.bitcode/proof-contract.json',
+        path: '.proofs/_shared/proof-contract.json',
         useTiersContributed: ['settlement-eligible'],
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,
@@ -1275,21 +1275,21 @@ function buildAssetPackEvidenceManifest({
       ...v23AssetPackEvidence,
       ...v24AssetPackEvidence,
       {
-        path: '.bitcode/scenario-fixture-manifest.json',
+        path: '.proofs/_shared/scenario-fixture-manifest.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['read-measurement', 'profile-semantics']
       },
       {
-        path: '.bitcode/test-coverage-report.json',
+        path: '.proofs/_shared/test-coverage-report.json',
         useTiersContributed: ['context-only', 'patch-eligible', 'settlement-eligible'],
         confidentialityClass: 'bounded-public-proof-metadata',
         potentiallyDisclosable: true,
         dependsOn: ['scenario-fixture-manifest', 'proof-bundle', RealizationStage.SETTLEMENT]
       },
       {
-        path: '.bitcode/asset-pack-evidence.json',
+        path: '.proofs/_shared/asset-pack-evidence.json',
         useTiersContributed: assetPack.acceptedUseTiers,
         confidentialityClass: 'private-proof-artifact',
         potentiallyDisclosable: false,

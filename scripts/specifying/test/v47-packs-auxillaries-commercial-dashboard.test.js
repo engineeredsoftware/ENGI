@@ -18,7 +18,7 @@ test('V47 packs/auxillaries commercial dashboard binds the operator launch surfa
 
   assert.equal(
     V47_PACKS_AUXILLARIES_DASHBOARD_ARTIFACT_PATH,
-    '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
+    '.proofs/v47/packs-auxillaries-commercial-dashboard.json',
   );
   assert.equal(report.artifactId, 'v47-packs-auxillaries-commercial-dashboard');
   assert.equal(report.schemaId, V47_PACKS_AUXILLARIES_DASHBOARD_SCHEMA_ID);

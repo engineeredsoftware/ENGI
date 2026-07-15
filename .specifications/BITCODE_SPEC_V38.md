@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V37.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V37_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V37`
-- Generated structured artifact inventory: active canonical `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json`, `.bitcode/v38-promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` as the generated proof appendix for V38 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v38/spec-family-report.json`, `.proofs/v38/canonical-input-report.json`, `.proofs/v38/canon-posture-drift-report.json`, `.proofs/v38/inference-surface-inventory.json`, `.proofs/v38/ptrr-failsafe-thricified-stack.json`, `.proofs/v38/prompt-benchmark-report.json`, `.proofs/v38/disclosure-boundary-report.json`, `.proofs/v38/read-need-comprehension-inference-hardening.json`, `.proofs/v38/read-fits-finding-search-embeddings.json`, `.proofs/v38/assetpack-synthesis-economic-traceability.json`, `.proofs/v38/conversation-tool-prompt-inference-parity.json`, `.proofs/v38/local-staging-inference-depository-search-rehearsal.json`, `.proofs/v38/promotion-readiness-report.json`, V38 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V38_PROVEN.md` as the generated proof appendix for V38 promotion
 - Source parity state: V38 source-side inference inventory, PTRR Failsafe Thricified stack, prompt benchmark report, inference telemetry disclosure law, ReadNeedComprehensionSynthesis hardening, ReadFitsFindingSynthesis search embeddings, AssetPack synthesis economic traceability, Conversation/tool prompt parity, local/staging inference rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V38 file family
 - Notes companion: `BITCODE_SPEC_V38_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V38_DELTA.md`
@@ -74,14 +74,14 @@ Gate 1 opens V38 correctly:
 Gate 2 inventories every active inference surface.
 It must count Reading pipeline phases, PTRR agents, Plan/Try/Refine/Retry steps, Failsafe chains, ThricifiedGeneration calls, tool definitions, prompt templates, PromptParts, interpolation bindings, expected context fields, raw outputs, parsed typed outputs, failure surfaces, and storage/streaming destinations.
 The inventory must cover `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversations, tool-definition prompts, and interface-specific inference entrypoints.
-Gate 2 is closed by the package-backed `V38InferenceSurfaceInventory` source and the deterministic `.bitcode/v38-inference-surface-inventory.json` artifact.
+Gate 2 is closed by the package-backed `V38InferenceSurfaceInventory` source and the deterministic `.proofs/v38/inference-surface-inventory.json` artifact.
 The artifact has `source-safe-inference-surface-metadata` disclosure posture and records 7 inventory rows, 13 phase or surface groups, 13 PTRR agents, 52 PTRR steps, 156 Failsafe/Thricified chains, 468 provider-call slots, and 9 tool or tool-definition surfaces without serializing protected prompts, protected source, credentials, raw provider payloads, or unpaid AssetPack source.
 
 ### Gate 3: PTRR Failsafe And Thricified Execution Stack
 
 Gate 3 makes practical PTRR steps use `FailsafeGenerationSequence` above `ThricifiedGeneration` unless a source-backed exception is specified and tested.
 It must validate prompt registry composition from phase to agent to step to Failsafe to Thricified generation and provider call, including execution ancestry state preparation and typed-output repair.
-Gate 3 is closed by the package-backed `V38PtrrFailsafeThricifiedStack` source and deterministic `.bitcode/v38-ptrr-failsafe-thricified-stack.json` artifact.
+Gate 3 is closed by the package-backed `V38PtrrFailsafeThricifiedStack` source and deterministic `.proofs/v38/ptrr-failsafe-thricified-stack.json` artifact.
 The artifact has `source-safe-ptrr-failsafe-thricified-stack-metadata` disclosure posture and proves the current practical call stack with 9 source-backed rows, 69 passed source predicates, all 4 PTRR steps, all 3 Failsafe stages, all 3 ThricifiedGeneration stages, and Gate 2's 52 PTRR steps / 156 Failsafe sequences / 156 ThricifiedGeneration chains / 468 provider-call slots.
 Gate 3 confirms tools remain step-owned postprocess capabilities while `FailsafeGenerationSequence` delegates final Reason, Judge, and StructuredOutput production to `ThricifiedGeneration`.
 
@@ -91,14 +91,14 @@ Gate 4 completes prompt and PromptPart benchmarking.
 Prompt benchmarking is the source-safe measurement contract for complete Prompt registries and their composed PromptParts.
 Semantically divided PromptParts and complete Prompts must be benchmarkable with initial benchmark suites for active Reading, Conversation, and tool-definition inference surfaces.
 Benchmarks must preserve prompt identity, fixture inputs, expected typed-output qualities, disclosure tiers, and stable report artifacts.
-Gate 4 is closed by the package-backed `V38PromptBenchmarkReport` source and deterministic `.bitcode/v38-prompt-benchmark-report.json` artifact.
+Gate 4 is closed by the package-backed `V38PromptBenchmarkReport` source and deterministic `.proofs/v38/prompt-benchmark-report.json` artifact.
 The artifact has `source-safe-prompt-benchmark-metadata` disclosure posture and records 7 benchmark rows, 13 source-safe fixtures, 24 typed-output quality expectations, 38 passed source predicates, 443 active PromptPart doc-comments, 39 complete Prompt doc-comments, 465 benchmark definitions, 275 PromptPart exports, and 85 Prompt constructions across Reading, Conversation, and tool-definition inference surfaces without serializing raw prompt text, protected source, credentials, raw provider responses, or unpaid AssetPack source.
 
 ### Gate 5: Inference Telemetry And Disclosure Tiers
 
 Gate 5 binds inference execution to source-safe telemetry.
 It must stream phase, agent, step, Failsafe, ThricifiedGeneration, tool, prompt-template, interpolated-prompt, raw-response, parsed-output, schema-verdict, retry, repair, and failure evidence at the correct disclosure tier without leaking protected source, credentials, unpaid AssetPack contents, wallet private material, or settlement private payloads.
-Gate 5 is closed by the package-backed `V38InferenceTelemetryDisclosureReport` source and deterministic `.bitcode/v38-disclosure-boundary-report.json` artifact.
+Gate 5 is closed by the package-backed `V38InferenceTelemetryDisclosureReport` source and deterministic `.proofs/v38/disclosure-boundary-report.json` artifact.
 The artifact has `source-safe-inference-telemetry-disclosure-metadata` disclosure posture and records 8 telemetry/disclosure rows, 13 required telemetry levels, 12 disclosure tier ids, 66 passed source predicates, and upstream proof roots for V35 telemetry taxonomy, V37 stream events, V38 inference inventory, V38 PTRR/Failsafe/Thricified stack, and V38 prompt benchmarking.
 The raw provider response boundary is private or root-only: public and reader-visible streams may show raw-response presence, roots, typed output shape, schema verdicts, retry/repair posture, and prompt/template identities, but never raw provider response content, raw protected prompt text, protected source, unpaid AssetPack source, credentials, wallet private material, or private settlement payloads.
 
@@ -106,7 +106,7 @@ The raw provider response boundary is private or root-only: public and reader-vi
 
 Gate 6 hardens Read Request to Need synthesis.
 It must implement PTRR/Failsafe/Thricified parity for the pipeline, store reviewable Need outputs, support resynthesis with feedback, define Need measurements, and prove that the Need is neither under-specified nor over-broad relative to the Read Request.
-Gate 6 is closed by the package-backed `V38ReadNeedComprehensionInferenceHardening` source, deterministic `.bitcode/v38-read-need-comprehension-inference-hardening.json` artifact, ReadNeedComprehensionSynthesis inference receipt, and package tests.
+Gate 6 is closed by the package-backed `V38ReadNeedComprehensionInferenceHardening` source, deterministic `.proofs/v38/read-need-comprehension-inference-hardening.json` artifact, ReadNeedComprehensionSynthesis inference receipt, and package tests.
 The artifact has `source-safe-read-need-comprehension-inference-hardening-metadata` disclosure posture and records 5 lifecycle/receipt rows, 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, and 22 passed source predicates.
 The produced `ReadNeed` now carries a source-safe inference receipt binding phase ids, agent ids, PTRR step ids, Failsafe sequence ids, ThricifiedGeneration ids, prompt template ids, interpolation keys, output schema ids, telemetry ids, and roots without exposing protected source, raw provider response content, unpaid AssetPack source, credentials, wallet private material, or private settlement data.
 
@@ -115,7 +115,7 @@ The produced `ReadNeed` now carries a source-safe inference receipt binding phas
 Gate 7 hardens Finding Fits.
 It must use inference-derived search queries, depository-search tools, vector embeddings, metadata and measurement channels, lexical and symbolic channels, ranking, verification, thresholding, and selected-fit provenance.
 It must maintain the active `text-embedding-3-small`, 1536 dimension, cosine `match_deliverable_vectors` policy unless a replacement is specified, tested, and migrated.
-Gate 7 is closed by the package-backed `V38ReadFitsFindingSearchEmbeddings` source, deterministic `.bitcode/v38-read-fits-finding-search-embeddings.json` artifact, `ReadFitsFindingSynthesisSearchReceipt`, and package tests.
+Gate 7 is closed by the package-backed `V38ReadFitsFindingSearchEmbeddings` source, deterministic `.proofs/v38/read-fits-finding-search-embeddings.json` artifact, `ReadFitsFindingSynthesisSearchReceipt`, and package tests.
 The artifact has `source-safe-read-fits-finding-search-embeddings-metadata` disclosure posture and records 7 lifecycle/search rows, 7 phases, 8 PTRR agents, 32 PTRR steps, 96 Failsafe sequences, 96 ThricifiedGeneration chains, 288 provider-call slots, 4 tool contracts, 7 search channels, 12 default above-threshold selected-candidate carryforward slots, and 23 passed source predicates.
 `ReadFitsFindingSynthesis` now emits source-safe query-plan and search receipts binding lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific channels to query roots, ranking roots, selected-fit provenance roots, threshold posture, candidate counts, and the active OpenAI embedding/vector-store policy without exposing protected source, raw provider responses, unpaid AssetPack source, credentials, wallet private material, or private settlement data.
 
@@ -123,21 +123,21 @@ The artifact has `source-safe-read-fits-finding-search-embeddings-metadata` disc
 
 Gate 8 verifies found fits flow into AssetPack synthesis and settlement posture.
 Selected fit deposits must remain traceable into source-safe preview, post-settlement delivery, contributor compensation, exact ledger/database synchronization, proof receipts, and repair paths.
-Gate 8 is closed by the package-backed `V38AssetPackSynthesisEconomicTraceability` source, deterministic `.bitcode/v38-assetpack-synthesis-economic-traceability.json` artifact, AssetPack source-safe preview tests, BTD receipt/source-to-shares/reconciliation tests, and pipeline harness tests.
+Gate 8 is closed by the package-backed `V38AssetPackSynthesisEconomicTraceability` source, deterministic `.proofs/v38/assetpack-synthesis-economic-traceability.json` artifact, AssetPack source-safe preview tests, BTD receipt/source-to-shares/reconciliation tests, and pipeline harness tests.
 The artifact has `source-safe-assetpack-synthesis-economic-traceability-metadata` disclosure posture and records 9 handoff/economic rows, 18 required receipt fields, selected-fit handoff, source-safe preview before settlement, protected-source leak scanning, deterministic share-to-fee BTC quote, BTD mint/read/rights receipts, contributor compensation, settlement unlock, post-settlement delivery boundary, ledger/database synchronization, proof receipts, repair paths, source-to-shares conservation, and harness evidence projection without exposing protected source, raw provider response content, unpaid AssetPack source, credentials, wallet private material, or private settlement payloads.
 
 ### Gate 9: Conversation And Tool-Prompt Inference Parity
 
 Gate 9 brings Website Conversations, tool-definition prompts, and interface-specific inference entrypoints to the same registry, Failsafe, Thricified, tool prompt, telemetry, and disclosure posture as Reading.
 Conversation inference must reuse the inference primitives without becoming a parallel Protocol authority.
-Gate 9 is closed by the package-backed `V38ConversationToolPromptInferenceParity` source, deterministic `.bitcode/v38-conversation-tool-prompt-inference-parity.json` artifact, Conversation stream/telemetry tests, Terminal execution-log rendering test, ChatGPT App tool prompt/admission tests, generator, checker, and workflow wiring.
+Gate 9 is closed by the package-backed `V38ConversationToolPromptInferenceParity` source, deterministic `.proofs/v38/conversation-tool-prompt-inference-parity.json` artifact, Conversation stream/telemetry tests, Terminal execution-log rendering test, ChatGPT App tool prompt/admission tests, generator, checker, and workflow wiring.
 The artifact has `source-safe-conversation-tool-prompt-inference-parity-metadata` disclosure posture and records 8 parity rows, 34 source predicates, PTRR coverage for comprehensive and quick-response Conversation variations, prompt registry and step prompt coverage, typed output schemas, source-safe stream telemetry, rich execution-log UI projection, DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App doc-code prompt carriers, and interface entrypoint no-bypass posture without exposing protected source, raw prompt text, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, or global ledger authority.
 
 ### Gate 10: Local Staging Inference And Depository Search Rehearsal
 
 Gate 10 proves the V38 inference stack locally and in staging-testnet.
 It must rehearse ReadNeedComprehensionSynthesis, ReadFitsFindingSynthesis, depository search, AssetPack preview, source-safe telemetry, and blocked value-bearing mainnet posture with real non-mocked inference where credentials are available.
-Gate 10 is closed by the package-backed `V38LocalStagingInferenceDepositorySearchRehearsal` source, deterministic `.bitcode/v38-local-staging-inference-depository-search-rehearsal.json` artifact, protocol test, harness/search/route/UI package tests, generator, checker, and workflow wiring.
+Gate 10 is closed by the package-backed `V38LocalStagingInferenceDepositorySearchRehearsal` source, deterministic `.proofs/v38/local-staging-inference-depository-search-rehearsal.json` artifact, protocol test, harness/search/route/UI package tests, generator, checker, and workflow wiring.
 The artifact has `source-safe-local-staging-inference-depository-search-rehearsal-metadata` disclosure posture and records 8 rehearsal rows across local and staging-testnet lanes: local sandbox harness opt-in, staging-testnet bounded real-inference preflight, ReadNeedComprehensionSynthesis plus ReadFitsFindingSynthesis pipeline exercise, many-fit depository search, source-safe AssetPack preview, rich telemetry streaming and readback, credential-gated live inference, and blocked value-bearing mainnet posture.
 Gate 10 binds prior V38 Gates 2 through 9 artifact roots while preserving protected source, raw prompt text, raw provider response content, live rehearsal log payloads, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, and production-mainnet value-bearing admission as unavailable in source-safe evidence.
 
@@ -145,7 +145,7 @@ Gate 10 binds prior V38 Gates 2 through 9 artifact roots while preserving protec
 
 Gate 11 closes V38 with promotion readiness.
 It must generate V38 proof support, validate every V38 artifact, update promotion workflows, preserve V37 active / V38 draft to V38 active / V39 draft posture, and block promotion if inference, prompt benchmarking, search, telemetry, source-safety, or settlement traceability evidence is incomplete.
-Gate 11 is closed by the package-backed `V38InferencePromotionReadinessReport` source, deterministic `.bitcode/v38-promotion-readiness-report.json` artifact, V38 promotion workflow, promotion command dry-run support, generated proof appendix support, protocol test, generator, checker, and workflow wiring.
+Gate 11 is closed by the package-backed `V38InferencePromotionReadinessReport` source, deterministic `.proofs/v38/promotion-readiness-report.json` artifact, V38 promotion workflow, promotion command dry-run support, generated proof appendix support, protocol test, generator, checker, and workflow wiring.
 The artifact has `source-safe-inference-promotion-readiness-metadata` disclosure posture and records all V38 gate artifacts, V38 generated proof outputs, promotion workflow coverage, gate/canon workflow coverage, promotion-script coverage, spec-family/runtime promotion support, V37 active / V38 draft pre-promotion posture, V38 active / draft V39 post-promotion posture, direct-main push denial, and blocked value-bearing mainnet posture without exposing protected source, raw protected prompts, raw provider response content, unpaid AssetPack source, credentials, wallet private material, or private settlement payloads.
 Draft-mode Gate 11 freshness checks validate the standalone readiness artifact; promoted-mode Gate 11 checks accept the proof-wrapped readiness artifact generated during canonical promotion while continuing to validate source-safety, posture, and generated-proof coverage.
 
@@ -168,7 +168,7 @@ The source-of-truth hierarchy for V38 is:
 1. `BITCODE_SPEC.txt` points to active V37 until V38 promotion.
 2. `BITCODE_SPEC_V37.md` and `BITCODE_SPEC_V37_PROVEN.md` remain active canon.
 3. `BITCODE_SPEC_V38.md`, `BITCODE_SPEC_V38_DELTA.md`, `BITCODE_SPEC_V38_NOTES.md`, and `BITCODE_SPEC_V38_PARITY_MATRIX.md` are the draft target family during V38 gates.
-4. Package source, tests, scripts, workflows, generated `.bitcode/*` artifacts, local/staging rehearsal evidence, and promotion checks must converge before V38 promotion.
+4. Package source, tests, scripts, workflows, generated `.proofs/*` artifacts, local/staging rehearsal evidence, and promotion checks must converge before V38 promotion.
 
 ## full-system, re-implementation, and audit rule
 
@@ -206,7 +206,7 @@ The whole operator chain is deposit source, measure deposited material, request 
 
 ### Depositing and asset supply
 
-Current canonical objects and emitted artifacts: deposits, deposited source metadata, BTD range identity, source-safe proofs, and inherited `.bitcode/asset-pack.lock.json` style artifact roots.
+Current canonical objects and emitted artifacts: deposits, deposited source metadata, BTD range identity, source-safe proofs, and inherited `.proofs/_shared/asset-pack.lock.json` style artifact roots.
 Current algorithms and derivation rules: source measurement, source-to-shares accounting, deposit admissibility, and proof-root derivation remain inherited from V37 and prior canon.
 Current invariants and fail-closed conditions: deposits cannot expose secrets or protected source beyond permitted tiers, and invalid deposit fails closed.
 Current proof obligations: source measurement, disclosure boundary, static analysis, and proof contract evidence remain required.
@@ -280,7 +280,7 @@ Current canonical objects and emitted artifacts: generated proof appendix, spec-
 Current algorithms and derivation rules: proof roots derive from deterministic artifacts and replayable command evidence.
 Current invariants and fail-closed conditions: stale promoted status truth and missing generated proof evidence fail closed.
 Current proof obligations: all nine proof families.
-Current source-bearing implementation basis: `packages/protocol`, scripts, workflows, tests, and generated `.bitcode/*` artifacts.
+Current source-bearing implementation basis: `packages/protocol`, scripts, workflows, tests, and generated `.proofs/*` artifacts.
 Current validating commands and parity basis: V38 Gate 1 through Gate 11 checks.
 Current accepted boundaries: generated proof cannot serialize credentials, protected source, unpaid AssetPack source, or private wallet material.
 
@@ -290,7 +290,7 @@ The V38 proof-family canon inherits all nine proof families and adds inference-f
 
 ### Inference-synthesis
 
-proofArtifactPath: `.bitcode/v38-inference-surface-inventory.json` and `.bitcode/v38-ptrr-failsafe-thricified-stack.json`
+proofArtifactPath: `.proofs/v38/inference-surface-inventory.json` and `.proofs/v38/ptrr-failsafe-thricified-stack.json`
 members: pipeline phases, PTRR agents, Plan/Try/Refine/Retry steps, Failsafe chains, ThricifiedGeneration calls, provider calls
 theoremIds: inference-stack-totality, typed-output-admissibility
 replayStepIds: run V38 Gate 2 and Gate 3 checks
@@ -306,7 +306,7 @@ fail-closed conditions: missing prompt, missing schema, invalid typed output
 
 ### Prompt-completeness
 
-proofArtifactPath: `.bitcode/v38-prompt-benchmark-report.json`
+proofArtifactPath: `.proofs/v38/prompt-benchmark-report.json`
 members: PromptParts, Prompts, templates, interpolation bindings, tool documentation
 theoremIds: prompt-registry-totality, prompt-benchmark-coverage
 replayStepIds: run V38 Gate 4 checks
@@ -322,7 +322,7 @@ fail-closed conditions: missing prompt identity or unbound interpolation
 
 ### Static-code-analysis
 
-proofArtifactPath: `.bitcode/v38-static-inference-boundary-report.json`
+proofArtifactPath: `.proofs/v38/static-inference-boundary-report.json`
 members: imports, source casing, route versioning, secret scans, raw prompt boundaries
 theoremIds: source-boundary-conformance, no-versioned-route-drift
 replayStepIds: run gate-quality static checks
@@ -338,7 +338,7 @@ fail-closed conditions: versioned route, secret leak, unsupported import
 
 ### Verification-decisions
 
-proofArtifactPath: `.bitcode/v38-verification-decision-report.json`
+proofArtifactPath: `.proofs/v38/verification-decision-report.json`
 members: search verification, Need adequacy, fit quality, AssetPack preview quality
 theoremIds: verification-is-typed, no-unverified-fit-selection
 replayStepIds: run V38 Gate 6 through Gate 8 checks
@@ -354,7 +354,7 @@ fail-closed conditions: unsupported evidence, below-threshold fit, unverifiable 
 
 ### Selection-and-materialization
 
-proofArtifactPath: `.bitcode/v38-read-fits-finding-search-embeddings.json`; `.bitcode/v38-assetpack-synthesis-economic-traceability.json`
+proofArtifactPath: `.proofs/v38/read-fits-finding-search-embeddings.json`; `.proofs/v38/assetpack-synthesis-economic-traceability.json`
 members: candidate deposits, selected fits, AssetPack synthesis handoff, PR delivery
 theoremIds: selected-fits-traceable, materialization-source-safe
 replayStepIds: run V38 Gate 7 and Gate 8 checks
@@ -370,7 +370,7 @@ fail-closed conditions: no-survivor asset pack, untraceable fit, unpaid source e
 
 ### Authorization-and-sensitive-flow
 
-proofArtifactPath: `.bitcode/v38-sensitive-flow-report.json`
+proofArtifactPath: `.proofs/v38/sensitive-flow-report.json`
 members: source visibility, prompt visibility, wallet material, settlement payloads, credentials
 theoremIds: sensitive-flow-redacted, authority-boundary-preserved
 replayStepIds: run V38 Gate 5, Gate 8, and Gate 9 checks
@@ -386,7 +386,7 @@ fail-closed conditions: authorization denial, credential exposure, private walle
 
 ### Settlement-source-to-shares
 
-proofArtifactPath: `.bitcode/v38-assetpack-synthesis-economic-traceability.json`
+proofArtifactPath: `.proofs/v38/assetpack-synthesis-economic-traceability.json`
 members: measurement volume, BTC price posture, fit contributor route, ledger/database roots
 theoremIds: settlement-traceable-to-fits, compensation-conserved
 replayStepIds: run V38 Gate 8 and Gate 10 checks
@@ -402,7 +402,7 @@ fail-closed conditions: settlement conservation drift, projection mismatch, stal
 
 ### Disclosure-boundary
 
-proofArtifactPath: `.bitcode/v38-disclosure-boundary-report.json`
+proofArtifactPath: `.proofs/v38/disclosure-boundary-report.json`
 members: source-safe preview, public telemetry, buyer telemetry, reviewer telemetry, operator telemetry
 theoremIds: preview-does-not-leak-source, telemetry-tier-correct
 replayStepIds: run V38 Gate 5 through Gate 10 checks
@@ -422,7 +422,7 @@ proofArtifactPath: `BITCODE_SPEC_V38_PROVEN.md`
 members: spec family, generated artifacts, checks, workflows, promotion evidence
 theoremIds: promotion-proof-complete, generated-appendix-current
 replayStepIds: run V38 Gate 11 promotion readiness checks
-witnessArtifactPaths: V38 generated proof appendix and `.bitcode/v38-*` artifacts
+witnessArtifactPaths: V38 generated proof appendix and `.proofs/v38/*` artifacts
 current member closure criteria: every closed gate has generated, tested, source-safe proof
 current member verdict shape: promoted, draft, blocked, or stale
 current theorem-by-theorem closure reading: promotion is accepted only with complete proof
@@ -434,11 +434,11 @@ fail-closed conditions: stale promoted status truth, missing proof, unsafe gener
 
 ## generated canon
 
-Generated canon for V38 includes source-safe `.bitcode/v38-*` artifacts, generated reports, benchmark reports, rehearsal evidence, and the eventual `BITCODE_SPEC_V38_PROVEN.md`.
+Generated canon for V38 includes source-safe `.proofs/v38/*` artifacts, generated reports, benchmark reports, rehearsal evidence, and the eventual `BITCODE_SPEC_V38_PROVEN.md`.
 Generated artifacts must be reproducible, deterministic where possible, and blocked when source-safe payload rules fail.
 Inherited V19 reproducible-canon artifacts remain the baseline for deterministic generated proof.
 Inherited V20 operator-quality artifacts remain the baseline for operator-visible quality.
-Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, and later `.bitcode/v38-*` gate artifacts.
+Exact generated-artifact inventory matrix includes `.proofs/v38/spec-family-report.json`, `.proofs/v38/canonical-input-report.json`, `.proofs/v38/canon-posture-drift-report.json`, `.proofs/v38/inference-surface-inventory.json`, `.proofs/v38/ptrr-failsafe-thricified-stack.json`, `.proofs/v38/prompt-benchmark-report.json`, `.proofs/v38/disclosure-boundary-report.json`, and later `.proofs/v38/*` gate artifacts.
 V38 specifying generated artifacts include inference inventory, prompt benchmark, telemetry disclosure, depository search, AssetPack handoff, rehearsal, and promotion readiness reports.
 Shared generated-artifact fields: version, currentTarget, artifactRoot, sourceRoots, proofRoots, disclosureTier, generatedAt, and command.
 Artifact-specific generated payload fields: prompt ids, PromptPart ids, phase ids, agent ids, step ids, Failsafe ids, ThricifiedGeneration ids, tool ids, fit ids, ranking roots, and settlement roots.
@@ -451,7 +451,7 @@ Validation canon includes `pnpm run check:v38-gate1`, `pnpm run check:v38-gate2`
 ## promotion canon
 
 Promotion canon requires all V38 gates to close, V38 proof support to exist, a V38 promotion workflow to pass, and the promotion commit to change only accepted canon artifacts and the `BITCODE_SPEC.txt` pointer from V37 to V38.
-The V38 promotion readiness canon is `.bitcode/v38-promotion-readiness-report.json`, `BITCODE_SPEC_V38_PROVEN.md`, `v38-canon-promotion.yml`, `check:v38-gate11`, `node scripts/promote-bitcode-canon.mjs --version V38 --commit HEAD --dry-run`, and the V38 active / draft V39 posture checks.
+The V38 promotion readiness canon is `.proofs/v38/promotion-readiness-report.json`, `BITCODE_SPEC_V38_PROVEN.md`, `v38-canon-promotion.yml`, `check:v38-gate11`, `node scripts/promote-bitcode-canon.mjs --version V38 --commit HEAD --dry-run`, and the V38 active / draft V39 posture checks.
 
 ## appendices and canonical supporting material
 
@@ -470,14 +470,14 @@ Each family must close with proofArtifactPath, members, theoremIds, replayStepId
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v38-inference-surface-inventory.json`; `.bitcode/v38-ptrr-failsafe-thricified-stack.json` | phases, agents, steps, failsafes, generations | inference-stack-totality | v38-gate2, v38-gate3 | prompt receipts, generation receipts | `packages/agent-generics`, `packages/pipelines/asset-pack` |
-| Prompt-completeness | `.bitcode/v38-prompt-benchmark-report.json` | PromptParts, Prompts | prompt-registry-totality | v38-gate4 | benchmark fixtures | `packages/prompts` |
-| Static-code-analysis | `.bitcode/v38-static-inference-boundary-report.json` | imports, routes, scans | source-boundary-conformance | gate-quality | workflow logs | scripts and workflows |
-| Verification-decisions | `.bitcode/v38-verification-decision-report.json` | Need, fits, previews | verification-is-typed | v38-gate6, v38-gate7, v38-gate8 | verification reports | Reading pipeline packages |
-| Selection-and-materialization | `.bitcode/v38-read-fits-finding-search-embeddings.json`; `.bitcode/v38-assetpack-synthesis-economic-traceability.json` | candidates, selected fits, AssetPack handoff | selected-fits-traceable | v38-gate7, v38-gate8 | selected-source material | depository search and synthesis packages |
-| Authorization-and-sensitive-flow | `.bitcode/v38-sensitive-flow-report.json` | visibility tiers, redaction | sensitive-flow-redacted | v38-gate5, v38-gate9 | redaction receipts | API and UI redaction paths |
-| Settlement-source-to-shares | `.bitcode/v38-assetpack-synthesis-economic-traceability.json` | fees, contributors, rights | settlement-traceable-to-fits | v38-gate8, v38-gate10 | settlement receipts | BTD and Reading packages |
-| Disclosure-boundary | `.bitcode/v38-disclosure-boundary-report.json` | prompt, result, preview tiers | preview-does-not-leak-source | v38-gate5, v38-gate9 | telemetry events | V35/V37/V38 telemetry surfaces |
+| Inference-synthesis | `.proofs/v38/inference-surface-inventory.json`; `.proofs/v38/ptrr-failsafe-thricified-stack.json` | phases, agents, steps, failsafes, generations | inference-stack-totality | v38-gate2, v38-gate3 | prompt receipts, generation receipts | `packages/agent-generics`, `packages/pipelines/asset-pack` |
+| Prompt-completeness | `.proofs/v38/prompt-benchmark-report.json` | PromptParts, Prompts | prompt-registry-totality | v38-gate4 | benchmark fixtures | `packages/prompts` |
+| Static-code-analysis | `.proofs/v38/static-inference-boundary-report.json` | imports, routes, scans | source-boundary-conformance | gate-quality | workflow logs | scripts and workflows |
+| Verification-decisions | `.proofs/v38/verification-decision-report.json` | Need, fits, previews | verification-is-typed | v38-gate6, v38-gate7, v38-gate8 | verification reports | Reading pipeline packages |
+| Selection-and-materialization | `.proofs/v38/read-fits-finding-search-embeddings.json`; `.proofs/v38/assetpack-synthesis-economic-traceability.json` | candidates, selected fits, AssetPack handoff | selected-fits-traceable | v38-gate7, v38-gate8 | selected-source material | depository search and synthesis packages |
+| Authorization-and-sensitive-flow | `.proofs/v38/sensitive-flow-report.json` | visibility tiers, redaction | sensitive-flow-redacted | v38-gate5, v38-gate9 | redaction receipts | API and UI redaction paths |
+| Settlement-source-to-shares | `.proofs/v38/assetpack-synthesis-economic-traceability.json` | fees, contributors, rights | settlement-traceable-to-fits | v38-gate8, v38-gate10 | settlement receipts | BTD and Reading packages |
+| Disclosure-boundary | `.proofs/v38/disclosure-boundary-report.json` | prompt, result, preview tiers | preview-does-not-leak-source | v38-gate5, v38-gate9 | telemetry events | V35/V37/V38 telemetry surfaces |
 | Proof-contract | `BITCODE_SPEC_V38_PROVEN.md` | spec, artifacts, workflows | promotion-proof-complete | v38-gate11 | generated proof appendix | `packages/protocol` |
 
 ## Appendix C. Generated artifact contract catalog
@@ -492,19 +492,19 @@ Inherited V20 operator-quality artifacts remain the baseline for operator-visibl
 
 ### Exact generated-artifact inventory matrix
 
-Exact generated-artifact inventory matrix includes `.bitcode/v38-spec-family-report.json`, `.bitcode/v38-canonical-input-report.json`, `.bitcode/v38-canon-posture-drift-report.json`, `.bitcode/v38-inference-surface-inventory.json`, `.bitcode/v38-ptrr-failsafe-thricified-stack.json`, `.bitcode/v38-prompt-benchmark-report.json`, `.bitcode/v38-disclosure-boundary-report.json`, `.bitcode/v38-read-need-comprehension-inference-hardening.json`, `.bitcode/v38-read-fits-finding-search-embeddings.json`, `.bitcode/v38-assetpack-synthesis-economic-traceability.json`, `.bitcode/v38-conversation-tool-prompt-inference-parity.json`, and later `.bitcode/v38-*` gate artifacts.
+Exact generated-artifact inventory matrix includes `.proofs/v38/spec-family-report.json`, `.proofs/v38/canonical-input-report.json`, `.proofs/v38/canon-posture-drift-report.json`, `.proofs/v38/inference-surface-inventory.json`, `.proofs/v38/ptrr-failsafe-thricified-stack.json`, `.proofs/v38/prompt-benchmark-report.json`, `.proofs/v38/disclosure-boundary-report.json`, `.proofs/v38/read-need-comprehension-inference-hardening.json`, `.proofs/v38/read-fits-finding-search-embeddings.json`, `.proofs/v38/assetpack-synthesis-economic-traceability.json`, `.proofs/v38/conversation-tool-prompt-inference-parity.json`, and later `.proofs/v38/*` gate artifacts.
 
 ### V38InferenceSurfaceInventory
 
 `V38InferenceSurfaceInventory` is the Gate 2 source-safe inference surface inventory.
-It is owned by `packages/protocol/src/canonical/inference-surface-inventory.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-inference-surface-inventory.test.js`, generated by `scripts/generate-v38-inference-surface-inventory.mjs`, checked by `scripts/check-v38-gate2-inference-surface-inventory.mjs`, and serialized to `.bitcode/v38-inference-surface-inventory.json`.
+It is owned by `packages/protocol/src/canonical/inference-surface-inventory.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-inference-surface-inventory.test.js`, generated by `scripts/generate-v38-inference-surface-inventory.mjs`, checked by `scripts/check-v38-gate2-inference-surface-inventory.mjs`, and serialized to `.proofs/v38/inference-surface-inventory.json`.
 It records the current active Reading and Conversation inference surface map as source-safe metadata: `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Website Conversation inference, stream-event interface entrypoints, doc-comment-backed tool prompt definitions, prompt registry and benchmark coverage, and the execution primitive stack.
 Its current count contract is 52 PTRR steps across 156 FailsafeGenerationSequence / ThricifiedGeneration chains and 468 provider-call slots. Gate 9 removes the quick-response Conversation single-step repair marker by routing that variation through the same PTRR/Failsafe/Thricified stack while preserving the inventory row as source-safe metadata.
 
 ### V38PtrrFailsafeThricifiedStack
 
 `V38PtrrFailsafeThricifiedStack` is the Gate 3 source-safe stack contract for practical PTRR agents.
-It is owned by `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js`, generated by `scripts/generate-v38-ptrr-failsafe-thricified-stack.mjs`, checked by `scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs`, and serialized to `.bitcode/v38-ptrr-failsafe-thricified-stack.json`.
+It is owned by `packages/protocol/src/canonical/ptrr-failsafe-thricified-stack.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-ptrr-failsafe-thricified-stack.test.js`, generated by `scripts/generate-v38-ptrr-failsafe-thricified-stack.mjs`, checked by `scripts/check-v38-gate3-ptrr-failsafe-thricified-stack.mjs`, and serialized to `.proofs/v38/ptrr-failsafe-thricified-stack.json`.
 It records `source-safe-ptrr-failsafe-thricified-stack-metadata`: the `factoryAgentWithPTRR` prompt carrier, Plan/Try/Refine/Retry step factories, `FailsafeGenerationSequence`, `ThricifiedGeneration`, prompt/context/telemetry substeps, step-owned tool postprocess boundaries, and the Gate 2 count binding.
 Its current source-predicate contract is 69/69 passed predicates, 9 rows, 52 PTRR steps, 156 Failsafe sequences, 156 ThricifiedGeneration chains, 468 provider-call slots, and no protected source, credentials, unpaid AssetPack source, or `_legacy/` source roots.
 
@@ -515,28 +515,28 @@ V38 specifying generated artifacts include inference inventory, prompt benchmark
 ### V38InferencePromotionReadinessReport
 
 `V38InferencePromotionReadinessReport` is the Gate 11 source-safe V38 promotion readiness contract.
-It is owned by `packages/protocol/src/canonical/inference-promotion-readiness-report.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-promotion-readiness.test.js`, generated by `scripts/generate-v38-promotion-readiness-report.mjs`, checked by `scripts/check-v38-gate11-promotion-readiness.mjs`, and serialized to `.bitcode/v38-promotion-readiness-report.json`.
+It is owned by `packages/protocol/src/canonical/inference-promotion-readiness-report.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-promotion-readiness.test.js`, generated by `scripts/generate-v38-promotion-readiness-report.mjs`, checked by `scripts/check-v38-gate11-promotion-readiness.mjs`, and serialized to `.proofs/v38/promotion-readiness-report.json`.
 It records `source-safe-inference-promotion-readiness-metadata`: all V38 gate artifacts, V38 generated proof outputs, promotion workflow coverage, gate/canon workflow coverage, promotion command support, spec-family/runtime promotion support, proven-generator support, V37 active / V38 draft pre-promotion posture, V38 active / draft V39 post-promotion posture, direct-main push denial, and blocked value-bearing mainnet posture.
 Its current source-predicate contract is all V38 Gate 2 through Gate 10 artifacts parseable and source-safe, documentation/source evidence complete, V38 promotion workflow wired, `BITCODE_SPEC_V38_PROVEN.md` generation supported, and no protected source, raw protected prompt, raw provider response content, unpaid AssetPack source, credentials, private wallet material, private settlement payload, or `_legacy/` source roots.
 
 ### V38ConversationToolPromptInferenceParity
 
 `V38ConversationToolPromptInferenceParity` is the Gate 9 source-safe Conversation and tool-definition prompt parity contract.
-It is owned by `packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js`, generated by `scripts/generate-v38-conversation-tool-prompt-inference-parity.mjs`, checked by `scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs`, and serialized to `.bitcode/v38-conversation-tool-prompt-inference-parity.json`.
+It is owned by `packages/protocol/src/canonical/conversation-tool-prompt-inference-parity.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-conversation-tool-prompt-inference-parity.test.js`, generated by `scripts/generate-v38-conversation-tool-prompt-inference-parity.mjs`, checked by `scripts/check-v38-gate9-conversation-tool-prompt-inference-parity.mjs`, and serialized to `.proofs/v38/conversation-tool-prompt-inference-parity.json`.
 It records `source-safe-conversation-tool-prompt-inference-parity-metadata`: comprehensive and quick-response Conversation PTRR variations, Conversation agent and step prompt registries, typed output schemas, stream events, telemetry proof hooks, execution-log rendering, DocCodeToolPrompt formatting, ToolPromptRegistry hierarchy, ChatGPT App doc-code prompt carriers, read-access and organization-authority checks, and interface entrypoint no-bypass posture.
 Its current source-predicate contract is 34/34 passed predicates, 8 rows, upstream roots from V38 Gates 2, 4, and 5, and no protected source, raw prompt text, raw provider response content, unpaid AssetPack source, credentials, wallet private material, private settlement payloads, global ledger authority claim, or `_legacy/` source roots.
 
 ### V38InferenceTelemetryDisclosureReport
 
 `V38InferenceTelemetryDisclosureReport` is the Gate 5 source-safe inference telemetry and disclosure tier contract.
-It is generated to `.bitcode/v38-disclosure-boundary-report.json` as `source-safe-inference-telemetry-disclosure-metadata`.
+It is generated to `.proofs/v38/disclosure-boundary-report.json` as `source-safe-inference-telemetry-disclosure-metadata`.
 It binds phase, agent, PTRR step, Failsafe, ThricifiedGeneration, tool, prompt template, interpolated prompt, raw response, parsed output, schema verdict, retry, repair, and stream UI projection rows to allowed payload fields, forbidden payload classes, proof roots, storage targets, stream event kinds, fail-closed states, and source predicates.
 Its current count contract is 8 rows, 13 required telemetry levels, 12 disclosure tier ids, 66 passed predicates, no legacy source roots, and no public raw provider response, protected source, credential, wallet private material, private settlement payload, or unpaid AssetPack source visibility.
 
 ### V38ReadNeedComprehensionInferenceHardening
 
 `V38ReadNeedComprehensionInferenceHardening` is the Gate 6 source-safe ReadNeedComprehensionSynthesis inference-hardening contract.
-It is owned by `packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js`, generated by `scripts/generate-v38-read-need-comprehension-inference-hardening.mjs`, checked by `scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs`, and serialized to `.bitcode/v38-read-need-comprehension-inference-hardening.json`.
+It is owned by `packages/protocol/src/canonical/read-need-comprehension-inference-hardening.js`, exported by `packages/protocol/src/index.js`, type-declared by `packages/protocol/src/index.d.ts`, tested by `packages/protocol/test/v38-read-need-comprehension-inference-hardening.test.js`, generated by `scripts/generate-v38-read-need-comprehension-inference-hardening.mjs`, checked by `scripts/check-v38-gate6-read-need-comprehension-inference-hardening.mjs`, and serialized to `.proofs/v38/read-need-comprehension-inference-hardening.json`.
 It records `source-safe-read-need-comprehension-inference-hardening-metadata`: request normalization, Need comprehension, Need measurement, Need review, source-safe inference receipt fields, route/UI resynthesis support, accepted-Need admission boundary, and upstream roots from V38 Gates 2 through 5.
 Its current source-predicate contract is 22/22 passed predicates, 5 rows, 4 phases, 4 PTRR agents, 16 PTRR steps, 48 Failsafe sequences, 48 ThricifiedGeneration chains, 144 provider-call slots, and no protected source, raw provider response content, credentials, unpaid AssetPack source, private wallet material, private settlement payload, or `_legacy/` source roots.
 
@@ -593,7 +593,7 @@ Fail-closed conditions include invalid deposit, prompt contract incompleteness, 
 
 ## Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-Source-bearing AssetPack and artifact contracts include `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V38_PROVEN.md`.
+Source-bearing AssetPack and artifact contracts include `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V38_PROVEN.md`.
 V38 may expose only source-safe preview metadata before settlement.
 
 ## accepted boundaries and reopen conditions

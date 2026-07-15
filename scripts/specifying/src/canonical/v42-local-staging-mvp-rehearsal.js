@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V42_LOCAL_STAGING_MVP_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v42-local-staging-mvp-rehearsal.json';
+  '.proofs/v42/local-staging-mvp-rehearsal.json';
 export const V42_LOCAL_STAGING_MVP_REHEARSAL_SCHEMA_ID =
   'bitcode.v42.localStagingMvpRehearsal.v1';
 export const V42_LOCAL_STAGING_MVP_REHEARSAL_VERSION = 'V42';
@@ -51,12 +51,12 @@ export const V42_LOCAL_STAGING_MVP_REHEARSAL_ROW_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  gate2Artifact: '.bitcode/v42-depositing-shortest-path.json',
-  gate3Artifact: '.bitcode/v42-reading-shortest-path-state-machine.json',
-  gate4Artifact: '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
-  gate5Artifact: '.bitcode/v42-readfitsfinding-preview-quote.json',
-  gate6Artifact: '.bitcode/v42-settlement-rights-delivery.json',
-  gate7Artifact: '.bitcode/v42-ai-reading-demonstration.json',
+  gate2Artifact: '.proofs/v42/depositing-shortest-path.json',
+  gate3Artifact: '.proofs/v42/reading-shortest-path-state-machine.json',
+  gate4Artifact: '.proofs/v42/readneed-review-resynthesis-product-closure.json',
+  gate5Artifact: '.proofs/v42/readfitsfinding-preview-quote.json',
+  gate6Artifact: '.proofs/v42/settlement-rights-delivery.json',
+  gate7Artifact: '.proofs/v42/ai-reading-demonstration.json',
   rehearsalModel: 'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
   rehearsalTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
   postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',

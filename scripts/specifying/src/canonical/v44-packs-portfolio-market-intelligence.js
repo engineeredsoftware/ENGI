@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_ARTIFACT_PATH =
-  '.bitcode/v44-packs-portfolio-market-intelligence.json';
+  '.proofs/v44/packs-portfolio-market-intelligence.json';
 export const V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_SCHEMA_ID =
   'bitcode.v44.packsPortfolioMarketIntelligence.v1';
 export const V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_VERSION = 'V44';

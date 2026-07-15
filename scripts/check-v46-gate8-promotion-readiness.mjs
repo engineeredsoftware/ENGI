@@ -8,15 +8,15 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v46-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v46/promotion-readiness-report.json';
 
 const V46_GATE_ARTIFACTS = [
-  '.bitcode/v46-protocol-comprehension-object-model.json',
-  '.bitcode/v46-public-operator-claim-boundaries.json',
-  '.bitcode/v46-product-route-comprehension-readback.json',
-  '.bitcode/v46-interface-claim-contracts.json',
-  '.bitcode/v46-proof-readback-operator-explanation.json',
-  '.bitcode/v46-local-interface-comprehension-rehearsal.json',
+  '.proofs/v46/protocol-comprehension-object-model.json',
+  '.proofs/v46/public-operator-claim-boundaries.json',
+  '.proofs/v46/product-route-comprehension-readback.json',
+  '.proofs/v46/interface-claim-contracts.json',
+  '.proofs/v46/proof-readback-operator-explanation.json',
+  '.proofs/v46/local-interface-comprehension-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

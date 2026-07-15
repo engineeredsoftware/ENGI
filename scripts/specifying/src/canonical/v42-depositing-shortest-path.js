@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V42_DEPOSITING_SHORTEST_PATH_ARTIFACT_PATH =
-  '.bitcode/v42-depositing-shortest-path.json';
+  '.proofs/v42/depositing-shortest-path.json';
 export const V42_DEPOSITING_SHORTEST_PATH_SCHEMA_ID =
   'bitcode.v42.depositingShortestPath.v1';
 export const V42_DEPOSITING_SHORTEST_PATH_VERSION = 'V42';

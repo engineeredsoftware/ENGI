@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_LOCAL_STAGING_READING_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v39-local-staging-reading-rehearsal.json';
+  '.proofs/v39/local-staging-reading-rehearsal.json';
 export const V39_LOCAL_STAGING_READING_REHEARSAL_SCHEMA_ID =
   'bitcode.v39.localStagingReadingRehearsal.v1';
 export const V39_LOCAL_STAGING_READING_REHEARSAL_VERSION = 'V39';

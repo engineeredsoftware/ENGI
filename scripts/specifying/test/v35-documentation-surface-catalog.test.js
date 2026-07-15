@@ -67,7 +67,7 @@ test('binds public docs and generated artifacts without protected source exposur
   assert.equal(publicDocs.forbiddenContent.includes('protected_source_payloads'), true);
 
   assert.ok(generatedArtifacts);
-  assert.equal(generatedArtifacts.linkedGeneratedArtifacts.includes('.bitcode/v35-spec-family-report.json'), true);
+  assert.equal(generatedArtifacts.linkedGeneratedArtifacts.includes('.proofs/v35/spec-family-report.json'), true);
   assert.equal(generatedArtifacts.linkedGeneratedArtifacts.includes(DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH), true);
   assert.equal(generatedArtifacts.proofCoverage.includes('generated-artifact-stability-check'), true);
 });

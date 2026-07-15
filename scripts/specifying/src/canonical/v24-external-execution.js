@@ -623,41 +623,41 @@ export function buildV24ExternalRealizationProof({
   sidechainExecutionReceipt
 }) {
   const witnessArtifactPaths = [
-    '.bitcode/external-environment-profile.json',
-    '.bitcode/external-execution-policy.json',
-    '.bitcode/external-telemetry-summary.json',
-    '.bitcode/bitcoin-network-intent.json',
-    '.bitcode/bitcoin-network-execution.json',
-    '.bitcode/bitcoin-network-observation.json',
-    '.bitcode/repeated-read-payment-intent.json',
-    '.bitcode/repeated-read-payment-execution.json',
-    '.bitcode/repeated-read-payment-observation.json',
-    '.bitcode/sidechain-execution-receipt.json'
+    '.proofs/_shared/external-environment-profile.json',
+    '.proofs/_shared/external-execution-policy.json',
+    '.proofs/_shared/external-telemetry-summary.json',
+    '.proofs/_shared/bitcoin-network-intent.json',
+    '.proofs/_shared/bitcoin-network-execution.json',
+    '.proofs/_shared/bitcoin-network-observation.json',
+    '.proofs/_shared/repeated-read-payment-intent.json',
+    '.proofs/_shared/repeated-read-payment-execution.json',
+    '.proofs/_shared/repeated-read-payment-observation.json',
+    '.proofs/_shared/sidechain-execution-receipt.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'external-realization-execution.intent',
       theoremIds: ['external_realization_execution.intent_binding', 'external_realization_execution.mode_isolation_closure'],
-      requiredArtifactPaths: ['.bitcode/external-environment-profile.json', '.bitcode/bitcoin-network-intent.json', '.bitcode/external-telemetry-summary.json'],
+      requiredArtifactPaths: ['.proofs/_shared/external-environment-profile.json', '.proofs/_shared/bitcoin-network-intent.json', '.proofs/_shared/external-telemetry-summary.json'],
       instruction: 'Replay the external environment and mainchain intent against mode and identity bindings.'
     }),
     buildReplayStep({
       stepId: 'external-realization-execution.execution',
       theoremIds: ['external_realization_execution.execution_closure'],
-      requiredArtifactPaths: ['.bitcode/bitcoin-network-intent.json', '.bitcode/bitcoin-network-execution.json', '.bitcode/external-execution-policy.json'],
+      requiredArtifactPaths: ['.proofs/_shared/bitcoin-network-intent.json', '.proofs/_shared/bitcoin-network-execution.json', '.proofs/_shared/external-execution-policy.json'],
       instruction: 'Replay execution closure between declared intent, execution carrier, and execution policy.'
     }),
     buildReplayStep({
       stepId: 'external-realization-execution.observation',
       theoremIds: ['external_realization_execution.observation_closure'],
-      requiredArtifactPaths: ['.bitcode/bitcoin-network-observation.json', '.bitcode/sidechain-execution-receipt.json', '.bitcode/external-telemetry-summary.json'],
+      requiredArtifactPaths: ['.proofs/_shared/bitcoin-network-observation.json', '.proofs/_shared/sidechain-execution-receipt.json', '.proofs/_shared/external-telemetry-summary.json'],
       instruction: 'Replay observation closure across mainchain observation, sidechain receipt, and telemetry summaries.'
     }),
     buildReplayStep({
       stepId: 'external-realization-execution.repeated-read',
       theoremIds: ['external_realization_execution.repeated_read_closure'],
-      requiredArtifactPaths: ['.bitcode/repeated-read-payment-intent.json', '.bitcode/repeated-read-payment-execution.json', '.bitcode/repeated-read-payment-observation.json'],
+      requiredArtifactPaths: ['.proofs/_shared/repeated-read-payment-intent.json', '.proofs/_shared/repeated-read-payment-execution.json', '.proofs/_shared/repeated-read-payment-observation.json'],
       instruction: 'Replay repeated-read payment closure across invoice intent, processor execution, and payment observation.'
     })
   ];
@@ -751,16 +751,16 @@ export function buildV24ExternalRealizationProof({
     ],
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.bitcode/external-environment-profile.json', role: 'environment-profile', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/external-execution-policy.json', role: 'execution-policy', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/external-telemetry-summary.json', role: 'telemetry-summary', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-network-intent.json', role: 'mainchain-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-network-execution.json', role: 'mainchain-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/bitcoin-network-observation.json', role: 'mainchain-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/repeated-read-payment-intent.json', role: 'repeated-read-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/repeated-read-payment-execution.json', role: 'repeated-read-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/repeated-read-payment-observation.json', role: 'repeated-read-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/sidechain-execution-receipt.json', role: 'sidechain-receipt', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/external-environment-profile.json', role: 'environment-profile', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/external-execution-policy.json', role: 'execution-policy', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/external-telemetry-summary.json', role: 'telemetry-summary', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/bitcoin-network-intent.json', role: 'mainchain-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/bitcoin-network-execution.json', role: 'mainchain-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/bitcoin-network-observation.json', role: 'mainchain-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/repeated-read-payment-intent.json', role: 'repeated-read-intent', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/repeated-read-payment-execution.json', role: 'repeated-read-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/repeated-read-payment-observation.json', role: 'repeated-read-observation', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/sidechain-execution-receipt.json', role: 'sidechain-receipt', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,
@@ -798,31 +798,31 @@ export function buildV24ContainerRealityProof({
   storageRetrievalReceipt
 }) {
   const witnessArtifactPaths = [
-    '.bitcode/external-environment-profile.json',
-    '.bitcode/compute-container-manifest.json',
-    '.bitcode/compute-container-execution.json',
-    '.bitcode/storage-container-manifest.json',
-    '.bitcode/storage-publication-receipt.json',
-    '.bitcode/storage-retrieval-receipt.json'
+    '.proofs/_shared/external-environment-profile.json',
+    '.proofs/_shared/compute-container-manifest.json',
+    '.proofs/_shared/compute-container-execution.json',
+    '.proofs/_shared/storage-container-manifest.json',
+    '.proofs/_shared/storage-publication-receipt.json',
+    '.proofs/_shared/storage-retrieval-receipt.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'containerized-reality.compute-execution',
       theoremIds: ['containerized_reality.compute_manifest_closure', 'containerized_reality.compute_attestation_closure'],
-      requiredArtifactPaths: ['.bitcode/external-environment-profile.json', '.bitcode/compute-container-manifest.json', '.bitcode/compute-container-execution.json'],
+      requiredArtifactPaths: ['.proofs/_shared/external-environment-profile.json', '.proofs/_shared/compute-container-manifest.json', '.proofs/_shared/compute-container-execution.json'],
       instruction: 'Replay compute container manifest closure and attestation binding.'
     }),
     buildReplayStep({
       stepId: 'containerized-reality.storage-publication',
       theoremIds: ['containerized_reality.storage_publication_closure'],
-      requiredArtifactPaths: ['.bitcode/storage-container-manifest.json', '.bitcode/storage-publication-receipt.json'],
+      requiredArtifactPaths: ['.proofs/_shared/storage-container-manifest.json', '.proofs/_shared/storage-publication-receipt.json'],
       instruction: 'Replay storage publication closure against the declared storage manifest.'
     }),
     buildReplayStep({
       stepId: 'containerized-reality.storage-retrieval',
       theoremIds: ['containerized_reality.storage_policy_closure'],
-      requiredArtifactPaths: ['.bitcode/storage-container-manifest.json', '.bitcode/storage-retrieval-receipt.json'],
+      requiredArtifactPaths: ['.proofs/_shared/storage-container-manifest.json', '.proofs/_shared/storage-retrieval-receipt.json'],
       instruction: 'Replay storage retrieval closure against the declared storage manifest.'
     })
   ];
@@ -883,12 +883,12 @@ export function buildV24ContainerRealityProof({
     ],
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.bitcode/external-environment-profile.json', role: 'environment-profile', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/compute-container-manifest.json', role: 'compute-manifest', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/compute-container-execution.json', role: 'compute-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/storage-container-manifest.json', role: 'storage-manifest', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/storage-publication-receipt.json', role: 'storage-publication', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/storage-retrieval-receipt.json', role: 'storage-retrieval', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/external-environment-profile.json', role: 'environment-profile', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/compute-container-manifest.json', role: 'compute-manifest', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/compute-container-execution.json', role: 'compute-execution', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/storage-container-manifest.json', role: 'storage-manifest', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/storage-publication-receipt.json', role: 'storage-publication', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/storage-retrieval-receipt.json', role: 'storage-retrieval', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,
@@ -927,32 +927,32 @@ export function buildV24GithubLiveInterfaceProof({
   githubPrUpdateReceipt
 }) {
   const witnessArtifactPaths = [
-    '.bitcode/external-environment-profile.json',
-    '.bitcode/github-app-binding.json',
-    '.bitcode/github-live-session.json',
-    '.bitcode/github-inventory-fetch-receipt.json',
-    '.bitcode/github-artifact-fetch-receipt.json',
-    '.bitcode/github-branch-publication-receipt.json',
-    '.bitcode/github-pr-update-receipt.json'
+    '.proofs/_shared/external-environment-profile.json',
+    '.proofs/_shared/github-app-binding.json',
+    '.proofs/_shared/github-live-session.json',
+    '.proofs/_shared/github-inventory-fetch-receipt.json',
+    '.proofs/_shared/github-artifact-fetch-receipt.json',
+    '.proofs/_shared/github-branch-publication-receipt.json',
+    '.proofs/_shared/github-pr-update-receipt.json'
   ];
   const replayArtifacts = witnessArtifactPaths.slice();
   const replaySteps = [
     buildReplayStep({
       stepId: 'github-live-interface.session',
       theoremIds: ['github_live_interface.app_binding_closure', 'github_live_interface.session_closure', 'github_live_interface.mode_isolation_closure'],
-      requiredArtifactPaths: ['.bitcode/external-environment-profile.json', '.bitcode/github-app-binding.json', '.bitcode/github-live-session.json'],
+      requiredArtifactPaths: ['.proofs/_shared/external-environment-profile.json', '.proofs/_shared/github-app-binding.json', '.proofs/_shared/github-live-session.json'],
       instruction: 'Replay GitHub app binding and live session closure against the environment profile.'
     }),
     buildReplayStep({
       stepId: 'github-live-interface.fetch',
       theoremIds: ['github_live_interface.fetch_closure'],
-      requiredArtifactPaths: ['.bitcode/github-live-session.json', '.bitcode/github-inventory-fetch-receipt.json', '.bitcode/github-artifact-fetch-receipt.json'],
+      requiredArtifactPaths: ['.proofs/_shared/github-live-session.json', '.proofs/_shared/github-inventory-fetch-receipt.json', '.proofs/_shared/github-artifact-fetch-receipt.json'],
       instruction: 'Replay GitHub inventory and artifact fetch closure against the live session.'
     }),
     buildReplayStep({
       stepId: 'github-live-interface.branch-publication',
       theoremIds: ['github_live_interface.mutation_closure'],
-      requiredArtifactPaths: ['.bitcode/github-branch-publication-receipt.json', '.bitcode/github-pr-update-receipt.json'],
+      requiredArtifactPaths: ['.proofs/_shared/github-branch-publication-receipt.json', '.proofs/_shared/github-pr-update-receipt.json'],
       instruction: 'Replay branch publication and PR update closure against the live session and bound repo.'
     })
   ];
@@ -1022,13 +1022,13 @@ export function buildV24GithubLiveInterfaceProof({
     ],
     theoremVerdicts,
     artifactBindings: [
-      buildArtifactBinding({ artifactPath: '.bitcode/external-environment-profile.json', role: 'environment-profile', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/github-app-binding.json', role: 'github-app-binding', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/github-live-session.json', role: 'github-live-session', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/github-inventory-fetch-receipt.json', role: 'github-inventory-fetch', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/github-artifact-fetch-receipt.json', role: 'github-artifact-fetch', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/github-branch-publication-receipt.json', role: 'github-branch-publication', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
-      buildArtifactBinding({ artifactPath: '.bitcode/github-pr-update-receipt.json', role: 'github-pr-update', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/external-environment-profile.json', role: 'environment-profile', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/github-app-binding.json', role: 'github-app-binding', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/github-live-session.json', role: 'github-live-session', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/github-inventory-fetch-receipt.json', role: 'github-inventory-fetch', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/github-artifact-fetch-receipt.json', role: 'github-artifact-fetch', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/github-branch-publication-receipt.json', role: 'github-branch-publication', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/github-pr-update-receipt.json', role: 'github-pr-update', theoremIds: theoremVerdicts.map((entry) => entry.theoremId) })
     ],
     replaySteps,
     witnessArtifactPaths,

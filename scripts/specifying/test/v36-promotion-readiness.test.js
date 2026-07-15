@@ -52,7 +52,7 @@ test('builds source-safe V36 ExchangePromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^exchange-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     EXCHANGE_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v36-promotion-readiness-report.json',
+    '.proofs/v36/promotion-readiness-report.json',
   );
 
   for (const artifactPath of EXCHANGE_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -75,6 +75,6 @@ test('supports V36 promotion readiness with source-safe Exchange artifacts', () 
   assert.equal(result.data.v36.promotionReadinessReport.postPromotionPosture, 'V36 active / V37 draft');
   assert.equal(result.data.v36.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V36 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v36-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v36-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v36/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v36/canon-posture-drift-report.json']);
 });

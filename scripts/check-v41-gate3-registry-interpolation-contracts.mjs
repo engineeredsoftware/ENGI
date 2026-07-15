@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-registry-interpolation-contracts.json';
+const ARTIFACT_PATH = '.proofs/v41/registry-interpolation-contracts.json';
 
 const REQUIRED_FIELD_IDS = [
   'contractId',
@@ -158,7 +158,7 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
+    '.proofs/v41/promptpart-prompt-inventory.json',
     'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',
     'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
     'scripts/specifying/test/v41-registry-interpolation-contracts.test.js',

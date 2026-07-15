@@ -1,0 +1,1124 @@
+{
+  "artifactId": "v35-docs-qa-alignment-report",
+  "schemaId": "bitcode.v35.docsQaAlignmentReport.v1",
+  "version": "V35",
+  "currentTarget": "V34",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-docs-qa-metadata",
+  "disclosureBoundary": {
+    "allowedDocsQaData": [
+      "file_paths",
+      "expected_tokens",
+      "observed_token_names",
+      "missing_token_names",
+      "generated_artifact_paths",
+      "proof_roots",
+      "failure_codes"
+    ],
+    "forbiddenDocsQaData": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "raw_protected_prompts",
+      "protected_source_payloads",
+      "unpaid_assetpack_source"
+    ]
+  },
+  "passed": true,
+  "failures": [],
+  "coverage": {
+    "requiredAlignmentIds": [
+      "spec_family_alignment",
+      "roadmap_readme_alignment",
+      "generated_artifact_inventory_alignment",
+      "catalog_implementation_alignment",
+      "public_docs_disclosure_alignment",
+      "internal_docs_alignment",
+      "route_docs_alignment",
+      "interface_docs_alignment",
+      "generated_proof_appendix_alignment",
+      "workflow_checker_alignment"
+    ],
+    "observedAlignmentIds": [
+      "spec_family_alignment",
+      "roadmap_readme_alignment",
+      "generated_artifact_inventory_alignment",
+      "catalog_implementation_alignment",
+      "public_docs_disclosure_alignment",
+      "internal_docs_alignment",
+      "route_docs_alignment",
+      "interface_docs_alignment",
+      "generated_proof_appendix_alignment",
+      "workflow_checker_alignment"
+    ],
+    "missingAlignmentIds": [],
+    "alignmentCount": 10,
+    "allRequiredAlignmentsCovered": true,
+    "specFamilyRepresented": true,
+    "roadmapReadmeRepresented": true,
+    "generatedArtifactInventoryRepresented": true,
+    "catalogImplementationRepresented": true,
+    "publicDocsRepresented": true,
+    "internalDocsRepresented": true,
+    "routeDocsRepresented": true,
+    "interfaceDocsRepresented": true,
+    "generatedProofRepresented": true,
+    "workflowCheckerRepresented": true,
+    "missingSourceRoots": [],
+    "staleTokenBlockers": [],
+    "missingGeneratedArtifacts": [],
+    "unsupportedDisclosureClaims": [],
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false
+  },
+  "requiredAlignmentIds": [
+    "spec_family_alignment",
+    "roadmap_readme_alignment",
+    "generated_artifact_inventory_alignment",
+    "catalog_implementation_alignment",
+    "public_docs_disclosure_alignment",
+    "internal_docs_alignment",
+    "route_docs_alignment",
+    "interface_docs_alignment",
+    "generated_proof_appendix_alignment",
+    "workflow_checker_alignment"
+  ],
+  "rows": [
+    {
+      "alignmentId": "spec_family_alignment",
+      "alignmentClass": "spec_family",
+      "owner": "scripts/specifying",
+      "checkedSources": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md"
+      ],
+      "expectedTokens": [
+        "DocsQaAlignmentReport",
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "TestnetRolloutReadinessGuide",
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
+      ],
+      "generatedArtifacts": [],
+      "repairCommand": "edit V35 SPEC, DELTA, NOTES, and PARITY together, then rerun pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "DocsQaAlignmentReport",
+        "DocumentationSurfaceCatalog",
+        "TelemetryTaxonomyCatalog",
+        "PublicDocsUsageGuideCatalog",
+        "OperatorRunbookCatalog",
+        "TestnetRolloutReadinessGuide",
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:0f643b43fd69eb383a4387bf"
+    },
+    {
+      "alignmentId": "roadmap_readme_alignment",
+      "alignmentClass": "roadmap_and_readme",
+      "owner": "root-workspace",
+      "checkedSources": [
+        "SPECIFICATIONS_ROADMAP.md",
+        "README.md",
+        "scripts/specifying/README.md"
+      ],
+      "expectedTokens": [
+        "V35 Gate 5 closure anchor",
+        "V35 Gate 6 closure anchor",
+        "V35 Gate 7 closure anchor",
+        "V35 Gate 8 closure anchor",
+        "V35 Gate 9 closure anchor",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide",
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
+      ],
+      "generatedArtifacts": [],
+      "repairCommand": "refresh roadmap and README posture after gate closure and rerun pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "V35 Gate 5 closure anchor",
+        "V35 Gate 6 closure anchor",
+        "V35 Gate 7 closure anchor",
+        "V35 Gate 8 closure anchor",
+        "V35 Gate 9 closure anchor",
+        "OperatorRunbookCatalog",
+        "DocsQaAlignmentReport",
+        "TestnetRolloutReadinessGuide",
+        "TelemetryDocumentationInterfaceIntegration",
+        "LocalStagingTelemetryDocumentationRehearsal"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:788cadaddb4bc6bc919f6294"
+    },
+    {
+      "alignmentId": "generated_artifact_inventory_alignment",
+      "alignmentClass": "generated_artifact_inventory",
+      "owner": "scripts/specifying",
+      "checkedSources": [
+        "BITCODE_SPEC_V35.md",
+        "scripts/specifying/src/canonical/v21-specifying.js",
+        "package.json",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".proofs/v35/local-staging-telemetry-documentation-rehearsal.json"
+      ],
+      "expectedTokens": [
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".proofs/v35/local-staging-telemetry-documentation-rehearsal.json",
+        "check:v35-gate7",
+        "check:v35-gate8",
+        "check:v35-gate9",
+        "check:v35-gate6"
+      ],
+      "generatedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".proofs/v35/local-staging-telemetry-documentation-rehearsal.json"
+      ],
+      "repairCommand": "regenerate stale V35 artifacts and rerun pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "package.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/local-staging-telemetry-documentation-rehearsal.json",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".proofs/v35/local-staging-telemetry-documentation-rehearsal.json",
+        "check:v35-gate7",
+        "check:v35-gate8",
+        "check:v35-gate9",
+        "check:v35-gate6"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:450d513f495dcaf8c6c26e0e"
+    },
+    {
+      "alignmentId": "catalog_implementation_alignment",
+      "alignmentClass": "package_catalog_implementation",
+      "owner": "scripts/specifying",
+      "checkedSources": [
+        "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+        "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+        "scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js",
+        "scripts/specifying/src/canonical/operator-runbook-catalog.js",
+        "scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js",
+        "scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js",
+        "scripts/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+        "scripts/specifying/src/index.js",
+        "scripts/specifying/src/index.d.ts"
+      ],
+      "expectedTokens": [
+        "buildDocumentationSurfaceCatalog",
+        "buildTelemetryTaxonomyCatalog",
+        "buildPublicDocsUsageGuideCatalog",
+        "buildOperatorRunbookCatalog",
+        "buildTestnetRolloutReadinessGuide",
+        "buildTelemetryDocumentationInterfaceIntegration",
+        "buildLocalStagingTelemetryDocumentationRehearsal",
+        "source-safe"
+      ],
+      "generatedArtifacts": [],
+      "repairCommand": "restore package exports and catalog builders, then rerun package tests and pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/operator-runbook-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/index.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/index.d.ts",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "buildDocumentationSurfaceCatalog",
+        "buildTelemetryTaxonomyCatalog",
+        "buildPublicDocsUsageGuideCatalog",
+        "buildOperatorRunbookCatalog",
+        "buildTestnetRolloutReadinessGuide",
+        "buildTelemetryDocumentationInterfaceIntegration",
+        "buildLocalStagingTelemetryDocumentationRehearsal",
+        "source-safe"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:aa6aedc28ba5d79c569e2503"
+    },
+    {
+      "alignmentId": "public_docs_disclosure_alignment",
+      "alignmentClass": "public_docs_disclosure",
+      "owner": "apps/uapi",
+      "checkedSources": [
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx",
+        ".proofs/v35/public-docs-usage-guides.json"
+      ],
+      "expectedTokens": [
+        "public-disclosure-limits",
+        "dashboard/runbook ids",
+        "protected source",
+        "unpaid AssetPack source",
+        "public-docs-usage-guides"
+      ],
+      "generatedArtifacts": [
+        ".proofs/v35/public-docs-usage-guides.json"
+      ],
+      "repairCommand": "repair public docs disclosure limits and rerun pnpm run check:v35-gate4 and pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "public-disclosure-limits",
+        "dashboard/runbook ids",
+        "protected source",
+        "unpaid AssetPack source",
+        "public-docs-usage-guides"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:614b1916faa30fd8b2400ec0"
+    },
+    {
+      "alignmentId": "internal_docs_alignment",
+      "alignmentClass": "internal_docs",
+      "owner": "internal-docs",
+      "checkedSources": [
+        ".docs/README.md",
+        ".docs/BITCODE_AGENTIC_EXECUTION.md",
+        ".docs/DEPLOYMENT.md",
+        ".docs/BITCODE_VERIFICATION.md"
+      ],
+      "expectedTokens": [
+        "Bitcode",
+        "Terminal",
+        "Deployment",
+        "proof",
+        "DocumentationSurfaceCatalog"
+      ],
+      "generatedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "repairCommand": "refresh internal docs source ownership and rerun pnpm run check:v35-gate2 and pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "Bitcode",
+        "Terminal",
+        "Deployment",
+        "proof",
+        "DocumentationSurfaceCatalog"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:106a004f0229208d65e4aaba"
+    },
+    {
+      "alignmentId": "route_docs_alignment",
+      "alignmentClass": "route_docs",
+      "owner": "packages/api",
+      "checkedSources": [
+        "packages/api/README.md",
+        ".docs/BITCODE_API.md",
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts"
+      ],
+      "expectedTokens": [
+        "route",
+        "source-safe",
+        "protected source",
+        "read",
+        "pipeline"
+      ],
+      "generatedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "repairCommand": "repair route documentation and route contract references, then rerun route tests and pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_API.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "route",
+        "source-safe",
+        "protected source",
+        "read",
+        "pipeline"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:d51bc13d07afe6ed75817194"
+    },
+    {
+      "alignmentId": "interface_docs_alignment",
+      "alignmentClass": "interface_docs",
+      "owner": "interface-packages",
+      "checkedSources": [
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+        "apps/chatgpt/README.md",
+        ".docs/BITCODE_CHATGPT_APP_INTERFACE.md"
+      ],
+      "expectedTokens": [
+        "MCP",
+        "ChatGPT",
+        "source-safe",
+        "tool",
+        "interface"
+      ],
+      "generatedArtifacts": [
+        ".proofs/v35/documentation-surface-catalog.json"
+      ],
+      "repairCommand": "repair interface package docs and rerun MCP/ChatGPT App contract tests plus pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "MCP",
+        "ChatGPT",
+        "source-safe",
+        "tool",
+        "interface"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:effcd6af43a23fd17487a564"
+    },
+    {
+      "alignmentId": "generated_proof_appendix_alignment",
+      "alignmentClass": "generated_proof_appendix",
+      "owner": "scripts/specifying",
+      "checkedSources": [
+        "BITCODE_SPEC_V35.md",
+        "scripts/specifying/src/canonical/proven-generator.js",
+        "BITCODE_SPEC_V34_PROVEN.md"
+      ],
+      "expectedTokens": [
+        "BITCODE_SPEC_V35_PROVEN.md",
+        "Generated proof appendix",
+        "generateCanonicalProvenMarkdown",
+        "generated artifact"
+      ],
+      "generatedArtifacts": [],
+      "repairCommand": "repair generated proof appendix support before promotion and rerun spec family checks plus pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/proven-generator.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V34_PROVEN.md",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "BITCODE_SPEC_V35_PROVEN.md",
+        "Generated proof appendix",
+        "generateCanonicalProvenMarkdown",
+        "generated artifact"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:23a029a63a0ac21f2f0a8734"
+    },
+    {
+      "alignmentId": "workflow_checker_alignment",
+      "alignmentClass": "workflow_checker",
+      "owner": "root-workspace",
+      "checkedSources": [
+        ".github/workflows/bitcode-gate-quality.yml",
+        "package.json",
+        "scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs",
+        "scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+        "scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+        "scripts/generate-v35-docs-qa-alignment-report.mjs",
+        "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
+        "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
+        "scripts/specifying/test/v35-docs-qa-alignment-report.test.js",
+        "scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
+        "scripts/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
+      ],
+      "expectedTokens": [
+        "check-v35-gate6-documentation-qa-alignment-proofs.mjs",
+        "check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+        "check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+        "generate:v35-docs-qa-alignment-report",
+        "generate:v35-telemetry-documentation-interface-integration",
+        "generate:v35-local-staging-telemetry-documentation-rehearsal",
+        "check:v35-gate6",
+        "check:v35-gate8",
+        "check:v35-gate9",
+        "test/v35-docs-qa-alignment-report.test.js",
+        "test/v35-telemetry-documentation-interface-integration.test.js",
+        "test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
+      ],
+      "generatedArtifacts": [
+        ".proofs/v35/docs-qa-alignment-report.json"
+      ],
+      "repairCommand": "repair package scripts, workflow wiring, and focused tests, then rerun pnpm run check:v35-gate6",
+      "sourceEvidence": [
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "package.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-docs-qa-alignment-report.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v35-docs-qa-alignment-report.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
+          "present": true
+        }
+      ],
+      "observedTokens": [
+        "check-v35-gate6-documentation-qa-alignment-proofs.mjs",
+        "check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+        "check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+        "generate:v35-docs-qa-alignment-report",
+        "generate:v35-telemetry-documentation-interface-integration",
+        "generate:v35-local-staging-telemetry-documentation-rehearsal",
+        "check:v35-gate6",
+        "check:v35-gate8",
+        "check:v35-gate9",
+        "test/v35-docs-qa-alignment-report.test.js",
+        "test/v35-telemetry-documentation-interface-integration.test.js",
+        "test/v35-local-staging-telemetry-documentation-rehearsal.test.js"
+      ],
+      "missingTokens": [],
+      "missingGeneratedArtifacts": [],
+      "unsupportedDisclosureClaims": [],
+      "forbiddenPayload": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "raw_protected_prompts",
+        "protected_source_payloads",
+        "unpaid_assetpack_source"
+      ],
+      "validationCommand": "pnpm run check:v35-gate6",
+      "failClosedResult": "documentation, route, interface, generated artifact, or promotion use stays blocked until missing sources, stale tokens, or unsupported disclosure claims are repaired",
+      "alignmentRoot": "docs-qa-alignment-row:281bc01f1a0dff11abc67643"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "alignmentId": "spec_family_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "roadmap_readme_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "generated_artifact_inventory_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "package.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/local-staging-telemetry-documentation-rehearsal.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "catalog_implementation_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/documentation-surface-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/public-docs-usage-guide-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/operator-runbook-catalog.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/testnet-rollout-readiness-guide.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/telemetry-documentation-interface-integration.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/local-staging-telemetry-documentation-rehearsal.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/index.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/index.d.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "public_docs_disclosure_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "internal_docs_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_AGENTIC_EXECUTION.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "route_docs_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_API.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "interface_docs_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_CHATGPT_APP_INTERFACE.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "generated_proof_appendix_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/proven-generator.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V34_PROVEN.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "alignmentId": "workflow_checker_alignment",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "package.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate6-documentation-qa-alignment-proofs.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate8-telemetry-documentation-interface-integration.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/check-v35-gate9-local-staging-telemetry-documentation-rehearsal.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-docs-qa-alignment-report.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-telemetry-documentation-interface-integration.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/generate-v35-local-staging-telemetry-documentation-rehearsal.mjs",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v35-docs-qa-alignment-report.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v35-telemetry-documentation-interface-integration.test.js",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/test/v35-local-staging-telemetry-documentation-rehearsal.test.js",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "docs-qa-alignment-report:1933f201e340a36e6adcd1b4"
+}

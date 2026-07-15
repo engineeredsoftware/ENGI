@@ -1,0 +1,1037 @@
+{
+  "artifactId": "v38-ptrr-failsafe-thricified-stack",
+  "schemaId": "bitcode.v38.ptrrFailsafeThricifiedStack.v1",
+  "version": "V38",
+  "currentTarget": "V37",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "artifactPath": ".proofs/v38/ptrr-failsafe-thricified-stack.json",
+  "sourceSafetyVerdict": "source-safe-ptrr-failsafe-thricified-stack-metadata",
+  "ptrrStepIds": [
+    "plan",
+    "try",
+    "refine",
+    "retry"
+  ],
+  "failsafeStageIds": [
+    "prepare-concise-context",
+    "chunk-then-sum",
+    "stitch-until-complete"
+  ],
+  "thricifiedGenerationStageIds": [
+    "reason",
+    "judge",
+    "structured-output"
+  ],
+  "forbiddenPayloadClasses": [
+    "secret_values",
+    "provider_tokens",
+    "wallet_private_material",
+    "protected_source_payloads",
+    "raw_protected_prompts",
+    "raw_model_responses_with_protected_source",
+    "unpaid_assetpack_source",
+    "settlement_private_payloads"
+  ],
+  "rows": [
+    {
+      "rowId": "agent:factoryAgentWithPTRR",
+      "familyId": "ptrr_agent_factory",
+      "label": "factoryAgentWithPTRR prompt and step carrier",
+      "sourceRoots": [
+        "packages/agent-generics/src/agents/factories.ts"
+      ],
+      "ptrrStepIds": [
+        "plan",
+        "try",
+        "refine",
+        "retry"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "step-owned-tools",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "agent.requires-one-prompt-carrier",
+        "agent.requires-complete-step-prompts",
+        "agent.resolves-agent-prompt",
+        "agent.resolves-step-prompts",
+        "agent.constructs-four-ptrr-steps",
+        "agent.attaches-agent-prompt",
+        "agent.stores-agent-metadata"
+      ],
+      "storageTargetIds": [
+        "agent.name",
+        "agent.startTime",
+        "agent.endTime",
+        "agent.output"
+      ],
+      "streamTargetIds": [
+        "agent-start",
+        "agent-complete",
+        "agent-output"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:c8585cd2e0a5c5b577565ad9",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "step:plan",
+      "familyId": "ptrr_step",
+      "label": "Plan PTRR step",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/factories.ts"
+      ],
+      "ptrrStepIds": [
+        "plan"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "conditional-postprocess-after-failsafe",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "step.plan.creates-step-execution",
+        "step.plan.sets-step-name",
+        "step.plan.creates-failsafe-sequence",
+        "step.plan.attaches-step-prompt",
+        "step.plan.stores-agent-start",
+        "step.plan.stores-agent-complete",
+        "step.plan.publishes-work-update",
+        "step.plan.logs-start-trace-error",
+        "step.plan.runs-tools-after-failsafe"
+      ],
+      "storageTargetIds": [
+        "step.name",
+        "agent.start",
+        "agent.complete",
+        "tools.usable",
+        "tools.use",
+        "tools.used"
+      ],
+      "streamTargetIds": [
+        "agent-start",
+        "agent-complete",
+        "tool-use",
+        "schema-verdict",
+        "llm-substep"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:73e4c57ba33f6fe1a7c2c0f5",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "step:try",
+      "familyId": "ptrr_step",
+      "label": "Try PTRR step",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/factories.ts"
+      ],
+      "ptrrStepIds": [
+        "try"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "conditional-postprocess-after-failsafe",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "step.try.creates-step-execution",
+        "step.try.sets-step-name",
+        "step.try.creates-failsafe-sequence",
+        "step.try.attaches-step-prompt",
+        "step.try.stores-agent-start",
+        "step.try.stores-agent-complete",
+        "step.try.publishes-work-update",
+        "step.try.logs-start-trace-error",
+        "step.try.runs-tools-after-failsafe"
+      ],
+      "storageTargetIds": [
+        "step.name",
+        "agent.start",
+        "agent.complete",
+        "tools.usable",
+        "tools.use",
+        "tools.used"
+      ],
+      "streamTargetIds": [
+        "agent-start",
+        "agent-complete",
+        "tool-use",
+        "schema-verdict",
+        "llm-substep"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:ac70a0b195f02ec7ad07bf83",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "step:refine",
+      "familyId": "ptrr_step",
+      "label": "Refine PTRR step",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/factories.ts"
+      ],
+      "ptrrStepIds": [
+        "refine"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "conditional-postprocess-after-failsafe",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "step.refine.creates-step-execution",
+        "step.refine.sets-step-name",
+        "step.refine.creates-failsafe-sequence",
+        "step.refine.attaches-step-prompt",
+        "step.refine.stores-agent-start",
+        "step.refine.stores-agent-complete",
+        "step.refine.publishes-work-update",
+        "step.refine.logs-start-trace-error",
+        "step.refine.runs-tools-after-failsafe"
+      ],
+      "storageTargetIds": [
+        "step.name",
+        "agent.start",
+        "agent.complete",
+        "tools.usable",
+        "tools.use",
+        "tools.used"
+      ],
+      "streamTargetIds": [
+        "agent-start",
+        "agent-complete",
+        "tool-use",
+        "schema-verdict",
+        "llm-substep"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:3ca7ab9fe433ef0da07f7028",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "step:retry",
+      "familyId": "ptrr_step",
+      "label": "Retry PTRR step",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/factories.ts"
+      ],
+      "ptrrStepIds": [
+        "retry"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "after-retry-final-attempt",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "step.retry.creates-step-execution",
+        "step.retry.sets-step-name",
+        "step.retry.creates-failsafe-sequence",
+        "step.retry.attaches-step-prompt",
+        "step.retry.stores-agent-start",
+        "step.retry.stores-agent-complete",
+        "step.retry.publishes-work-update",
+        "step.retry.logs-start-trace-error",
+        "step.retry.runs-tools-after-failsafe"
+      ],
+      "storageTargetIds": [
+        "step.name",
+        "agent.start",
+        "agent.complete",
+        "tools.usable",
+        "tools.use",
+        "tools.used"
+      ],
+      "streamTargetIds": [
+        "agent-start",
+        "agent-complete",
+        "tool-use",
+        "schema-verdict",
+        "llm-substep"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:ec4160d519d78a22ae36f921",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "failsafe:createFailsafeGenerationSequence",
+      "familyId": "failsafe_sequence",
+      "label": "FailsafeGenerationSequence over ThricifiedGeneration",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/failsafe-sequence.ts"
+      ],
+      "ptrrStepIds": [
+        "plan",
+        "try",
+        "refine",
+        "retry"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "outside-failsafe-sequence",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "failsafe.delegates-to-thricified",
+        "failsafe.includes-prepare",
+        "failsafe.includes-chunk",
+        "failsafe.includes-stitch",
+        "failsafe.sequences-failsafes",
+        "failsafe.preserves-debug-slicing"
+      ],
+      "storageTargetIds": [
+        "ptrr.failsafe",
+        "context.full",
+        "context.selectors",
+        "chunking.required"
+      ],
+      "streamTargetIds": [
+        "failsafe-start",
+        "failsafe-complete",
+        "context-prepared",
+        "chunking-state"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:f7c47736346febec10d7b430",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "generation:createThricifiedGeneration",
+      "familyId": "thricified_generation",
+      "label": "ThricifiedGeneration Reason/Judge/StructuredOutput chain",
+      "sourceRoots": [
+        "packages/agent-generics/src/steps/thinkings-generation.ts"
+      ],
+      "ptrrStepIds": [
+        "plan",
+        "try",
+        "refine",
+        "retry"
+      ],
+      "failsafeStageIds": [],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "tools-not-owned-here",
+      "providerCallSlotsPerThricified": 3,
+      "requiredPredicateIds": [
+        "generation.constructs-reason",
+        "generation.constructs-judge",
+        "generation.constructs-structured-output",
+        "generation.sequences-in-order",
+        "generation.fallbacks-to-all-stages",
+        "generation.marks-introspection"
+      ],
+      "storageTargetIds": [
+        "llm.input",
+        "llm.prompt",
+        "llm.output",
+        "llm.parsedOutput",
+        "llm.usage"
+      ],
+      "streamTargetIds": [
+        "llm-substep-start",
+        "llm-substep-success",
+        "llm-substep-error"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:b974b766ddf00e9d8c197eeb",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "substep:prompt-context-telemetry",
+      "familyId": "substep_execution",
+      "label": "Failsafe and Generation execution ancestry, prompt composition, and telemetry",
+      "sourceRoots": [
+        "packages/agent-generics/src/substeps/factories.ts"
+      ],
+      "ptrrStepIds": [
+        "plan",
+        "try",
+        "refine",
+        "retry"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "tool-substep-separate-from-generation-substeps",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "substep.creates-failsafe-execution",
+        "substep.creates-generation-execution",
+        "substep.stores-ptrr-failsafe",
+        "substep.stores-ptrr-generation",
+        "substep.applies-prompt-overlays",
+        "substep.builds-hierarchical-prompt",
+        "substep.executes-default-llm",
+        "substep.stores-llm-input-prompt-output",
+        "substep.stores-parsed-output",
+        "substep.maps-sequence-prompts"
+      ],
+      "storageTargetIds": [
+        "ptrr.failsafe",
+        "ptrr.generation",
+        "llm.input",
+        "llm.prompt",
+        "llm.output",
+        "llm.parsedOutput"
+      ],
+      "streamTargetIds": [
+        "prompt-template",
+        "interpolated-prompt",
+        "raw-response",
+        "parsed-output",
+        "schema-verdict"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:0b2b76cf85310d5c3486f8e7",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    },
+    {
+      "rowId": "reading:gate2-counts-bound-to-stack",
+      "familyId": "reading_stack_totals",
+      "label": "Gate 2 Reading and Conversation counts bound to Gate 3 stack law",
+      "sourceRoots": [
+        "scripts/specifying/src/canonical/inference-surface-inventory.js",
+        "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "ptrrStepIds": [
+        "plan",
+        "try",
+        "refine",
+        "retry"
+      ],
+      "failsafeStageIds": [
+        "prepare-concise-context",
+        "chunk-then-sum",
+        "stitch-until-complete"
+      ],
+      "thricifiedGenerationStageIds": [
+        "reason",
+        "judge",
+        "structured-output"
+      ],
+      "toolBoundary": "selected-tools-remain-step-owned",
+      "providerCallSlotsPerStep": 9,
+      "requiredPredicateIds": [
+        "gate2.counts-52-ptrr-steps",
+        "gate2.counts-156-thricified-chains",
+        "gate2.counts-468-provider-call-slots",
+        "reading.contract-names-both-pipelines"
+      ],
+      "storageTargetIds": [
+        "pipeline.phase",
+        "agent.step",
+        "failsafe.receipt",
+        "generation.receipt"
+      ],
+      "streamTargetIds": [
+        "pipeline-event",
+        "agent-step",
+        "failsafe-event",
+        "generation-event"
+      ],
+      "rowRoot": "v38-ptrr-stack-row:618a5433d8c0f122e0e999ad",
+      "sourceSafetyClass": "source_safe_ptrr_failsafe_thricified_stack_metadata",
+      "protectedSourceVisible": false,
+      "credentialsSerialized": false,
+      "unpaidAssetPackSourceVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "unpaid_assetpack_source",
+        "settlement_private_payloads"
+      ],
+      "sourceRootsPresent": true
+    }
+  ],
+  "sourcePredicateResults": [
+    {
+      "id": "agent.requires-one-prompt-carrier",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agent.requires-complete-step-prompts",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agent.resolves-agent-prompt",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agent.resolves-step-prompts",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agent.constructs-four-ptrr-steps",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agent.attaches-agent-prompt",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "agent.stores-agent-metadata",
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.creates-step-execution",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.sets-step-name",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.creates-failsafe-sequence",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.attaches-step-prompt",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.stores-agent-start",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.stores-agent-complete",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.publishes-work-update",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.logs-start-trace-error",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.plan.runs-tools-after-failsafe",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.creates-step-execution",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.sets-step-name",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.creates-failsafe-sequence",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.attaches-step-prompt",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.stores-agent-start",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.stores-agent-complete",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.publishes-work-update",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.logs-start-trace-error",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.try.runs-tools-after-failsafe",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.creates-step-execution",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.sets-step-name",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.creates-failsafe-sequence",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.attaches-step-prompt",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.stores-agent-start",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.stores-agent-complete",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.publishes-work-update",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.logs-start-trace-error",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.refine.runs-tools-after-failsafe",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.creates-step-execution",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.sets-step-name",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.creates-failsafe-sequence",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.attaches-step-prompt",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.stores-agent-start",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.stores-agent-complete",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.publishes-work-update",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.logs-start-trace-error",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "step.retry.runs-tools-after-failsafe",
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.delegates-to-thricified",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.includes-prepare",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.includes-chunk",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.includes-stitch",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.sequences-failsafes",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "failsafe.preserves-debug-slicing",
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.constructs-reason",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.constructs-judge",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.constructs-structured-output",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.sequences-in-order",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.fallbacks-to-all-stages",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "generation.marks-introspection",
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.creates-failsafe-execution",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.creates-generation-execution",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.stores-ptrr-failsafe",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.stores-ptrr-generation",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.applies-prompt-overlays",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.builds-hierarchical-prompt",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.executes-default-llm",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.stores-llm-input-prompt-output",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.stores-parsed-output",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "substep.maps-sequence-prompts",
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "passed": true
+    },
+    {
+      "id": "gate2.counts-52-ptrr-steps",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.counts-156-thricified-chains",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "gate2.counts-468-provider-call-slots",
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+      "passed": true
+    },
+    {
+      "id": "reading.contract-names-both-pipelines",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "passed": true
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "sourcePath": "packages/agent-generics/src/agents/factories.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/factories.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/failsafe-sequence.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/steps/thinkings-generation.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/agent-generics/src/substeps/factories.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
+      "exists": true,
+      "legacy": false
+    },
+    {
+      "sourcePath": "scripts/specifying/src/canonical/inference-surface-inventory.js",
+      "exists": true,
+      "legacy": false
+    }
+  ],
+  "coverage": {
+    "rowCount": 9,
+    "ptrrStepIds": [
+      "plan",
+      "try",
+      "refine",
+      "retry"
+    ],
+    "failsafeStageIds": [
+      "prepare-concise-context",
+      "chunk-then-sum",
+      "stitch-until-complete"
+    ],
+    "thricifiedGenerationStageIds": [
+      "reason",
+      "judge",
+      "structured-output"
+    ],
+    "requiredPredicateCount": 69,
+    "passedPredicateCount": 69,
+    "failedPredicateIds": [],
+    "sourceRootCount": 7,
+    "missingSourceRoots": [],
+    "legacySourceRoots": false,
+    "gate2InventoryRoot": "v38-inference-surface-inventory:3f50930549dee560db576a9a",
+    "totalPtrrStepCount": 52,
+    "totalFailsafeSequenceCount": 156,
+    "totalThricifiedGenerationCount": 156,
+    "totalProviderCallCount": 468,
+    "expectedProviderCallSlots": 468,
+    "providerCallSlotsPerPtrrStep": 9,
+    "toolsAreStepOwned": true,
+    "protectedSourceVisible": false,
+    "credentialsSerialized": false,
+    "unpaidAssetPackSourceVisible": false,
+    "knownCarryForwardGapIds": [
+      "gate4-completes-promptpart-and-prompt-benchmarks",
+      "gate5-binds-source-safe-inference-telemetry-to-stream-contracts",
+      "gate9-repairs-non-ptrr-quick-conversation-surfaces"
+    ]
+  },
+  "failures": [],
+  "passed": true,
+  "artifactRoot": "v38-ptrr-failsafe-thricified-stack:af3a75b196d4b52e921c0130"
+}

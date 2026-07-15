@@ -16,7 +16,7 @@ test('V38 Conversation/tool prompt inference parity binds Conversation, tool pro
 
   assert.equal(
     V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_ARTIFACT_PATH,
-    '.bitcode/v38-conversation-tool-prompt-inference-parity.json',
+    '.proofs/v38/conversation-tool-prompt-inference-parity.json',
   );
   assert.equal(report.artifactId, 'v38-conversation-tool-prompt-inference-parity');
   assert.equal(report.schemaId, V38_CONVERSATION_TOOL_PROMPT_INFERENCE_PARITY_SCHEMA_ID);

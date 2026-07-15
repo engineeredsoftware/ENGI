@@ -19,7 +19,7 @@ describe('BitcodePayloadCollectionCard', () => {
             id: 'selection-materialization',
             title: 'selection-materialization',
             summary: 'passed · replay 3',
-            supportingText: '.bitcode/selection-and-materialization-proof.json',
+            supportingText: '.proofs/_shared/selection-and-materialization-proof.json',
           },
         ]}
         actions={[{ label: 'Open proofs', onClick: onOpenProofs }]}

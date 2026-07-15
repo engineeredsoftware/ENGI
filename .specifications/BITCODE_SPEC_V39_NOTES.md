@@ -10,7 +10,7 @@
 - Current active draft target: `V39`
 - Prior canonical anchor: `BITCODE_SPEC_V38.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v39-spec-family-report.json`, `.bitcode/v39-canonical-input-report.json`, `.bitcode/v39-canon-posture-drift-report.json`, `.bitcode/v39-depository-supply-indexing.json`, `.bitcode/v39-enterprise-reading-ux-state.json`, `.bitcode/v39-read-need-review-resynthesis.json`, `.bitcode/v39-read-fits-finding-runtime.json`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, `.bitcode/v39-settlement-rights-delivery.json`, `.bitcode/v39-operational-telemetry-repair-readback.json`, `.bitcode/v39-interface-conversation-product-parity.json`, `.bitcode/v39-local-staging-reading-rehearsal.json`, `.bitcode/v39-promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v39/spec-family-report.json`, `.proofs/v39/canonical-input-report.json`, `.proofs/v39/canon-posture-drift-report.json`, `.proofs/v39/depository-supply-indexing.json`, `.proofs/v39/enterprise-reading-ux-state.json`, `.proofs/v39/read-need-review-resynthesis.json`, `.proofs/v39/read-fits-finding-runtime.json`, `.proofs/v39/assetpack-preview-quote-boundary.json`, `.proofs/v39/settlement-rights-delivery.json`, `.proofs/v39/operational-telemetry-repair-readback.json`, `.proofs/v39/interface-conversation-product-parity.json`, `.proofs/v39/local-staging-reading-rehearsal.json`, `.proofs/v39/promotion-readiness-report.json`, V39 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V39_PROVEN.md` as the generated proof appendix for V39 promotion
 - Source parity state: V39 source-side Depository supply indexing, enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement rights delivery, operational telemetry repair readback, interface parity, local/staging rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V39 file family
 - Spec companion: `BITCODE_SPEC_V39.md`
 - Delta companion: `BITCODE_SPEC_V39_DELTA.md`
@@ -185,7 +185,7 @@ depositor/reader BTD rights boundary, and repair actions. The index converts
 into `DepositoryAsset` candidates for `ReadFitsFindingSynthesis` through
 `depositorySupplyAssetsFromIndex`, so Finding Fits can search deposited supply
 without reading source-bearing payloads before settlement. The proof artifact is
-`.bitcode/v39-depository-supply-indexing.json`.
+`.proofs/v39/depository-supply-indexing.json`.
 
 ## Gate 3 implementation notes
 
@@ -195,7 +195,7 @@ by default and expandable source-safe pipeline detail.
 The state carrier is `TerminalEnterpriseReadingUxState`; Conversation can
 suggest only a source-safe `readingStage`, and Terminal reads it back as
 operator posture while retaining transaction authority.
-The generated artifact `.bitcode/v39-enterprise-reading-ux-state.json` binds
+The generated artifact `.proofs/v39/enterprise-reading-ux-state.json` binds
 stage ids, source-safe disclosure, rich execution stream integration, route
 state tests, component tests, and the maintained opt-in browser proof workflow.
 
@@ -299,7 +299,7 @@ Reading package objects instead of inventing a parallel runner:
 `ReadingOperationalTelemetryRepairReadback`, and
 `ReadingInterfaceProductParity`.
 
-The artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`. It proves
+The artifact is `.proofs/v39/local-staging-reading-rehearsal.json`. It proves
 local and staging-testnet lanes, all five Reading stages, many-fit Depository
 search, source-safe preview/quote, settlement/BTD rights delivery,
 ledger/database/storage synchronization, rich log readback, and blocked
@@ -310,7 +310,7 @@ generated artifacts.
 ## Gate 11 implementation notes
 
 Gate 11 closes V39 by binding every commercial Reading gate artifact, V39 proof appendix generation, workflow posture, promotion command support, and post-promotion runtime posture into one source-safe promotion-readiness contract. After promotion, runtime posture must become active V39 / draft V40 and `BITCODE_SPEC.txt` may point to V39 only through the V39 promotion workflow.
-The Gate 11 contract is `V39CommercialReadingPromotionReadinessReport` with generated artifact `.bitcode/v39-promotion-readiness-report.json`. It binds all commercial Reading closure artifacts, source-safety evidence, `BITCODE_SPEC_V39_PROVEN.md` support, `v39-canon-promotion.yml`, `pnpm run check:v39-gate11`, and active V39 / draft V40 runtime posture.
+The Gate 11 contract is `V39CommercialReadingPromotionReadinessReport` with generated artifact `.proofs/v39/promotion-readiness-report.json`. It binds all commercial Reading closure artifacts, source-safety evidence, `BITCODE_SPEC_V39_PROVEN.md` support, `v39-canon-promotion.yml`, `pnpm run check:v39-gate11`, and active V39 / draft V40 runtime posture.
 
 ## Post-V39 planning notes
 

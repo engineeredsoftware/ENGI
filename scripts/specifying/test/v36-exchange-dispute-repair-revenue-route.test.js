@@ -124,6 +124,6 @@ test('builds source-safe V36 ExchangeRevenueRoute rows with conservation proofs'
   assert.equal(report.operationalBoundary.exchangeDisputeRepairCaseCovers, 'stale owner, cancelled order replay, underpayment, overpayment, projection drift, source leakage, and delivery mismatch');
   assert.equal(report.operationalBoundary.exchangeRevenueRouteCovers, 'depositor, reader, treasury, fee, BTC route, BTD right route, and conservation proof');
   assert.equal(report.operationalBoundary.repairRunbookBinding, 'runbooks and repair commands are source-safe and proof-rooted');
-  assert.equal(EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_ARTIFACT_PATH, '.bitcode/v36-exchange-dispute-repair-revenue-route.json');
+  assert.equal(EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_ARTIFACT_PATH, '.proofs/v36/exchange-dispute-repair-revenue-route.json');
   assert.match(report.artifactRoot, /^exchange-dispute-repair-revenue-route:[a-f0-9]{24}$/u);
 });

@@ -16,12 +16,12 @@ export const V20_QUALITY_SUMMARY_REPORT_ID = 'v20-quality-summary';
 export const V20_MINIMUM_INHERITED_POSITIVE_MATRIX_CELL_COUNT = 1832;
 
 export const V20_ARTIFACT_PATHS = {
-  operatorAcceptanceTranscript: '.bitcode/v20-operator-acceptance-transcript.json',
-  visualRegressionReport: '.bitcode/v20-visual-regression-report.json',
-  accessibilityReport: '.bitcode/v20-accessibility-report.json',
-  performanceBudgetReport: '.bitcode/v20-performance-budget-report.json',
-  projectionQualitySmokeMatrix: '.bitcode/v20-projection-quality-smoke-matrix.json',
-  qualitySummary: '.bitcode/v20-quality-summary.json'
+  operatorAcceptanceTranscript: '.proofs/v20/operator-acceptance-transcript.json',
+  visualRegressionReport: '.proofs/v20/visual-regression-report.json',
+  accessibilityReport: '.proofs/v20/accessibility-report.json',
+  performanceBudgetReport: '.proofs/v20/performance-budget-report.json',
+  projectionQualitySmokeMatrix: '.proofs/v20/projection-quality-smoke-matrix.json',
+  qualitySummary: '.proofs/v20/quality-summary.json'
 };
 
 export const V20_PROJECTION_PRINCIPALS = ['public', 'reviewer', 'buyer', 'internal'];

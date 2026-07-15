@@ -1,0 +1,538 @@
+{
+  "artifactId": "v40-test-inventory-coverage-matrix",
+  "schemaId": "bitcode.v40.testInventoryCoverageMatrix.v1",
+  "version": "V40",
+  "currentTarget": "V39",
+  "sourceSafetyVerdict": "source-safe-test-inventory-coverage-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v40-test-inventory-coverage-matrix:619959b9bf9787a1e06ffc71",
+  "passed": true,
+  "surfaceIds": [
+    "unit:packages-primitives-implementations",
+    "integration:api-route-interface-contracts",
+    "integration:reading-pipeline-implementations",
+    "integration:conversation-terminal-surfaces",
+    "browser:visual-accessibility-responsive",
+    "sync:ledger-database-storage-wallet-delivery",
+    "rehearsal:local-staging-testnet",
+    "benchmark:prompt-promptpart-smoke",
+    "demonstration:minimal-protocol-parity",
+    "ci:gate-canon-promotion-quality"
+  ],
+  "coverageTierIds": [
+    "existing-greenable",
+    "needs-new-v40-artifact",
+    "opt-in-lane",
+    "promotion-required"
+  ],
+  "rows": [
+    {
+      "surfaceId": "unit:packages-primitives-implementations",
+      "gateOwner": "V40 Gate 3",
+      "requiredResult": "Inventory package, primitive, isolated implementation, and real commercial implementation unit suites before closing V40 unit depth.",
+      "coverageTier": "needs-new-v40-artifact",
+      "sourceRoots": [
+        "packages/btd/__tests__",
+        "packages/asset-packs-pipelines/domain/src/__tests__",
+        "scripts/specifying/test"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/btd test",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain test",
+        "pnpm --filter @bitcode/specifying test"
+      ],
+      "generatedArtifactPath": ".proofs/v40/unit-coverage-inventory.json",
+      "missingCoverageClosesInGate": 3,
+      "rowRoot": "v40-test-inventory-coverage-row:10fcb0ad0e69eb346b5901e3",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "integration:api-route-interface-contracts",
+      "gateOwner": "V40 Gate 4",
+      "requiredResult": "Inventory UAPI, package API, public API, MCP API, ChatGPT App, persistence, authorization, and response schema contract suites.",
+      "coverageTier": "needs-new-v40-artifact",
+      "sourceRoots": [
+        "packages/api/src/routes/__tests__",
+        "apps/uapi/tests",
+        "packages/mcp-generics/src/mcp-server/src/__tests__",
+        "apps/chatgpt/src/__tests__"
+      ],
+      "commandIds": [
+        "pnpm --dir apps/uapi exec jest",
+        "pnpm --filter @bitcode/api exec jest",
+        "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp",
+        "pnpm --dir packages/chatgptapp exec jest"
+      ],
+      "generatedArtifactPath": ".proofs/v40/api-integration-contracts.json",
+      "missingCoverageClosesInGate": 4,
+      "rowRoot": "v40-test-inventory-coverage-row:fa43621a6520a197dfe1e0a1",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "integration:reading-pipeline-implementations",
+      "gateOwner": "V40 Gate 5",
+      "requiredResult": "Inventory primitive pipeline tests and real ReadNeedComprehensionSynthesis and ReadFitsFindingSynthesis implementation tests.",
+      "coverageTier": "needs-new-v40-artifact",
+      "sourceRoots": [
+        "packages/asset-packs-pipelines/domain/src/__tests__",
+        "scripts/specifying/test/v38-read-need-comprehension-inference-hardening.test.js",
+        "scripts/specifying/test/v38-read-fits-finding-search-embeddings.test.js"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest",
+        "pnpm --dir scripts/specifying exec node --test"
+      ],
+      "generatedArtifactPath": ".proofs/v40/pipeline-integration-coverage.json",
+      "missingCoverageClosesInGate": 5,
+      "rowRoot": "v40-test-inventory-coverage-row:1ddd3e8cd9961e37fbdacc65",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "integration:conversation-terminal-surfaces",
+      "gateOwner": "V40 Gate 6",
+      "requiredResult": "Inventory Conversation, Terminal, handoff, stream telemetry, source-safe disclosure, and rich execution log integration suites.",
+      "coverageTier": "needs-new-v40-artifact",
+      "sourceRoots": [
+        "apps/uapi/tests",
+        "apps/uapi/tests"
+      ],
+      "commandIds": [
+        "pnpm --dir apps/uapi exec jest"
+      ],
+      "generatedArtifactPath": ".proofs/v40/conversation-terminal-integration.json",
+      "missingCoverageClosesInGate": 6,
+      "rowRoot": "v40-test-inventory-coverage-row:5bc3eb11f93f6effa6609236",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "browser:visual-accessibility-responsive",
+      "gateOwner": "V40 Gate 7",
+      "requiredResult": "Inventory Playwright, browser, screenshot comparison, accessibility, responsive, and interaction-state proofs across product surfaces.",
+      "coverageTier": "opt-in-lane",
+      "sourceRoots": [
+        ".github/workflows/bitcode-gate-quality.yml",
+        "apps/uapi/tests"
+      ],
+      "commandIds": [
+        "pnpm --dir apps/uapi run test:e2e:terminal-ux",
+        "pnpm --dir apps/uapi run test:e2e:v32-browser-proof"
+      ],
+      "generatedArtifactPath": ".proofs/v40/browser-e2e-visual-proof.json",
+      "missingCoverageClosesInGate": 7,
+      "rowRoot": "v40-test-inventory-coverage-row:68b7e0180b9e11e69d60ed5a",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "sync:ledger-database-storage-wallet-delivery",
+      "gateOwner": "V40 Gate 8",
+      "requiredResult": "Inventory settlement, BTC fee, BTD rights transfer, ledger, database, object storage, wallet, PR delivery, and repair synchronization tests.",
+      "coverageTier": "needs-new-v40-artifact",
+      "sourceRoots": [
+        "scripts/specifying/test/v39-assetpack-preview-quote-boundary.test.js",
+        "scripts/specifying/test/v39-settlement-rights-delivery.test.js",
+        "scripts/specifying/test/v39-operational-telemetry-repair-readback.test.js"
+      ],
+      "commandIds": [
+        "pnpm --filter @bitcode/btd exec jest",
+        "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest",
+        "pnpm --dir scripts/specifying exec node --test"
+      ],
+      "generatedArtifactPath": ".proofs/v40/ledger-storage-sync.json",
+      "missingCoverageClosesInGate": 8,
+      "rowRoot": "v40-test-inventory-coverage-row:7a1737c6b4fd7dc6fc200901",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "rehearsal:local-staging-testnet",
+      "gateOwner": "V40 Gate 9",
+      "requiredResult": "Inventory local and staging-testnet rehearsals with lane-bound secrets, source-safe receipts, and blocked value-bearing mainnet posture.",
+      "coverageTier": "opt-in-lane",
+      "sourceRoots": [
+        "scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js",
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml"
+      ],
+      "commandIds": [
+        "pnpm run check:v39-gate10",
+        "future pnpm run check:v40-rehearsal"
+      ],
+      "generatedArtifactPath": ".proofs/v40/local-staging-rehearsal.json",
+      "missingCoverageClosesInGate": 9,
+      "rowRoot": "v40-test-inventory-coverage-row:f35bcf983c01cf84f0e8e150",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "benchmark:prompt-promptpart-smoke",
+      "gateOwner": "V40 Gate 10",
+      "requiredResult": "Inventory prompt and PromptPart benchmark smoke commands and fixture roots so V41 can safely rewrite prompts as programs.",
+      "coverageTier": "needs-new-v40-artifact",
+      "sourceRoots": [
+        "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+        "scripts/specifying/test/v38-prompt-benchmark-report.test.js"
+      ],
+      "commandIds": [
+        "future pnpm run check:v40-prompt-benchmark-smoke",
+        "pnpm --dir scripts/specifying exec node --test test/v38-prompt-benchmark-report.test.js"
+      ],
+      "generatedArtifactPath": ".proofs/v40/prompt-benchmark-smoke.json",
+      "missingCoverageClosesInGate": 10,
+      "rowRoot": "v40-test-inventory-coverage-row:820c5b91f72e9d59227746fe",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "demonstration:minimal-protocol-parity",
+      "gateOwner": "V40 Gate 7",
+      "requiredResult": "Inventory the self-contained demonstration MVP tests without importing demonstration source into commercial packages.",
+      "coverageTier": "existing-greenable",
+      "sourceRoots": [
+        "protocol-demonstration/README.md",
+        "protocol-demonstration/package.json",
+        "scripts/specifying/test/protocol-package-boundary.test.js"
+      ],
+      "commandIds": [
+        "npm --prefix protocol-demonstration run test:v28-mvp-qa",
+        "node --test scripts/specifying/test/protocol-package-boundary.test.js"
+      ],
+      "generatedArtifactPath": ".proofs/v40/demonstration-test-parity.json",
+      "missingCoverageClosesInGate": 7,
+      "rowRoot": "v40-test-inventory-coverage-row:bc610b181372324bb257a546",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    },
+    {
+      "surfaceId": "ci:gate-canon-promotion-quality",
+      "gateOwner": "V40 Gate 11",
+      "requiredResult": "Inventory gate, canon, lint, build, mock, browser, local/staging, proof generation, and promotion workflows that must be greenable before canon promotion.",
+      "coverageTier": "promotion-required",
+      "sourceRoots": [
+        ".github/workflows/bitcode-gate-quality.yml",
+        ".github/workflows/bitcode-canon-quality.yml",
+        ".github/workflows/ci.yml"
+      ],
+      "commandIds": [
+        "pnpm run check:v40-gate1",
+        "pnpm run check:v40-gate2",
+        "future V40 promotion workflow"
+      ],
+      "generatedArtifactPath": ".proofs/v40/promotion-readiness-report.json",
+      "missingCoverageClosesInGate": 11,
+      "rowRoot": "v40-test-inventory-coverage-row:1bf7aa21bfa64f33be9d758d",
+      "sourceSafetyClass": "source_safe_test_inventory_coverage_metadata",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawProtectedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "unpaidAssetPackSourceVisible": false,
+      "credentialsSerialized": false,
+      "walletPrivateMaterialVisible": false,
+      "forbiddenPayloadClasses": [
+        "secret-values",
+        "provider-tokens",
+        "wallet-private-material",
+        "protected-source-payloads",
+        "raw-protected-prompts",
+        "raw-model-responses-with-protected-source",
+        "unpaid-assetpack-source",
+        "settlement-private-payloads"
+      ]
+    }
+  ],
+  "rowIds": [
+    "unit:packages-primitives-implementations",
+    "integration:api-route-interface-contracts",
+    "integration:reading-pipeline-implementations",
+    "integration:conversation-terminal-surfaces",
+    "browser:visual-accessibility-responsive",
+    "sync:ledger-database-storage-wallet-delivery",
+    "rehearsal:local-staging-testnet",
+    "benchmark:prompt-promptpart-smoke",
+    "demonstration:minimal-protocol-parity",
+    "ci:gate-canon-promotion-quality"
+  ],
+  "predicateResults": [
+    {
+      "id": "v40-spec-names-test-inventory",
+      "sourcePath": "BITCODE_SPEC_V40.md",
+      "passed": true
+    },
+    {
+      "id": "v40-delta-names-gate2",
+      "sourcePath": "BITCODE_SPEC_V40_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "v40-notes-names-test-inventory",
+      "sourcePath": "BITCODE_SPEC_V40_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "v40-parity-names-gate2-artifact",
+      "sourcePath": "BITCODE_SPEC_V40_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-advanced-through-gate2",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readmes-document-gate2",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "package-scripts-include-gate2",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate2-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "protocol-exports-gate2",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "unit-sources-exist",
+      "sourcePath": "packages/btd/__tests__",
+      "passed": true
+    },
+    {
+      "id": "api-uapi-sources-exist",
+      "sourcePath": "apps/uapi/tests",
+      "passed": true
+    },
+    {
+      "id": "reading-pipeline-evidence-exists",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/__tests__",
+      "passed": true
+    },
+    {
+      "id": "conversation-terminal-evidence-exists",
+      "sourcePath": "apps/uapi/tests",
+      "passed": true
+    },
+    {
+      "id": "browser-proof-workflow-lane-exists",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "settlement-sync-tests-exist",
+      "sourcePath": "scripts/specifying/test/v39-settlement-rights-delivery.test.js",
+      "passed": true
+    },
+    {
+      "id": "local-staging-rehearsal-exists",
+      "sourcePath": "scripts/specifying/test/v39-local-staging-reading-rehearsal.test.js",
+      "passed": true
+    },
+    {
+      "id": "prompt-benchmark-smoke-basis-exists",
+      "sourcePath": "scripts/specifying/src/canonical/prompt-benchmark-report.js",
+      "passed": true
+    },
+    {
+      "id": "demonstration-boundary-test-exists",
+      "sourcePath": "scripts/specifying/test/protocol-package-boundary.test.js",
+      "passed": true
+    },
+    {
+      "id": "promotion-ci-basis-exists",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "rowCount": 10,
+    "surfaceCount": 10,
+    "coverageTierIds": [
+      "existing-greenable",
+      "needs-new-v40-artifact",
+      "opt-in-lane",
+      "promotion-required"
+    ],
+    "rowsByTier": {
+      "needs-new-v40-artifact": 6,
+      "opt-in-lane": 2,
+      "existing-greenable": 1,
+      "promotion-required": 1
+    },
+    "requiredPredicateCount": 19,
+    "passedPredicateCount": 19,
+    "failedPredicateIds": [],
+    "unitInventoryCovered": true,
+    "apiIntegrationInventoryCovered": true,
+    "readingPipelineInventoryCovered": true,
+    "conversationTerminalInventoryCovered": true,
+    "browserVisualInventoryCovered": true,
+    "synchronizationInventoryCovered": true,
+    "localStagingInventoryCovered": true,
+    "promptBenchmarkInventoryCovered": true,
+    "demonstrationInventoryCovered": true,
+    "workflowInventoryCovered": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "valueBearingMainnetRequired": false,
+    "v41PromptProgramBoundaryPreserved": true
+  }
+}

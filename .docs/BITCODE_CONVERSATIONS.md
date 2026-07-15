@@ -20,7 +20,7 @@ staging-testnet rehearsals exercise chat, streaming, writing, source selector,
 product handoff, restore, retry, redaction, and error flows. Rehearsal
 logs/screenshots are source-safe. Route/UI checks, telemetry roots, and
 value-bearing mainnet blocking are visible in
-`.bitcode/v37-conversation-rehearsal.json` through
+`.proofs/v37/conversation-rehearsal.json` through
 `source-safe-conversation-rehearsal-metadata`.
 
 Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise chat, streaming, writing, source selector, product handoff, restore, retry, redaction, and error flows. Rehearsal logs/screenshots are source-safe. Route/UI checks, telemetry roots, and value-bearing mainnet blocking are visible.

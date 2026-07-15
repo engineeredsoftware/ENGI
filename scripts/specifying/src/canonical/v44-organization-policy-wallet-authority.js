@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_ARTIFACT_PATH =
-  '.bitcode/v44-organization-policy-wallet-authority.json';
+  '.proofs/v44/organization-policy-wallet-authority.json';
 export const V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_SCHEMA_ID =
   'bitcode.v44.organizationPolicyWalletAuthority.v1';
 export const V44_ORGANIZATION_POLICY_WALLET_AUTHORITY_VERSION = 'V44';

@@ -130,7 +130,7 @@ The V26 repository already contains reliable anchors for formal `$BTD` tokenomic
 | `packages/btd/README.md` | Human package contract | Non-fungible AssetPack share/read-right semantics |
 | `packages/btd/src/index.ts` | Current package surface | `BTD_MAX_MINTABLE_SUPPLY`, BTC fee basis, measured `$BTD`, fungible-mutation rejection |
 | `packages/btd/src/plans.ts` | Future bundle posture | V28 reference bundles must not imply V26 checkout or fungible token sale |
-| `.bitcode/source-to-shares-fifth-gate-proof.json` | Existing proof artifact | Future minted range roots, source roots, measurement roots, and allocation roots |
+| `.proofs/_shared/source-to-shares-fifth-gate-proof.json` | Existing proof artifact | Future minted range roots, source roots, measurement roots, and allocation roots |
 | `internal-.docs/BITCODE_EXCHANGE_DATABASE.md` | Exchange schema target | Supply state, ranges, cells, receipts, licenses, ancestry, revenue routes |
 | `apps/uapi/components/base/bitcode/btd/*` | Current UI posture | BTC fee asset vs non-fungible `$BTD` holding/read-right disclosure |
 | `apps/uapi/app/[token]/page.tsx` or successor route | Future token/range route | Owner-read, licensed-read, range boundaries, supply remaining, legal-right disclosure |
@@ -866,7 +866,7 @@ Gate 16 closes product-surface, research, and promotion proof readiness:
 - broader Exchange market depth and broader Terminal product workflows remain later-version work;
 - `/btd/[assetPackId]` is the unversioned AssetPack range disclosure route for range, access policy, read branch, proof root, and source manifest root;
 - `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds official-source crypto research to V27 choices without freezing candidate adapter libraries as protocol law;
-- `BITCODE_SPEC_V27_PROVEN.md` and `.bitcode/v27-total-closure-proof.json` map required proof families to gate artifacts or accepted equivalents.
+- `BITCODE_SPEC_V27_PROVEN.md` and `.proofs/v27/total-closure-proof.json` map required proof families to gate artifacts or accepted equivalents.
 
 The key truth split:
 

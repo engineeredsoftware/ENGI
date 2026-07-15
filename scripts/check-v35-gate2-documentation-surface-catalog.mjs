@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v35-documentation-surface-catalog.json';
+const ARTIFACT_PATH = '.proofs/v35/documentation-surface-catalog.json';
 
 const REQUIRED_SURFACE_IDS = [
   'canonical_spec_family',

@@ -662,7 +662,7 @@ export function createSettlementRuntime({
       recomputedBalances[entry.account] = (recomputedBalances[entry.account] || 0n) + BigInt(entry.delta);
     }
     const recomputedBalanceStrings = stringifyBigIntMap(recomputedBalances);
-    const witnessArtifactPaths = ['.bitcode/journal-diff.json', '.bitcode/journal-completeness-proof.json'];
+    const witnessArtifactPaths = ['.proofs/_shared/journal-diff.json', '.proofs/_shared/journal-completeness-proof.json'];
     const replayArtifacts = witnessArtifactPaths.slice();
     const replaySteps = [
       buildReplayStep({
@@ -729,8 +729,8 @@ export function createSettlementRuntime({
       },
       theoremVerdicts,
       artifactBindings: [
-        buildArtifactBinding({ artifactPath: '.bitcode/journal-diff.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
-        buildArtifactBinding({ artifactPath: '.bitcode/journal-completeness-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
+        buildArtifactBinding({ artifactPath: '.proofs/_shared/journal-diff.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+        buildArtifactBinding({ artifactPath: '.proofs/_shared/journal-completeness-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
       ],
       replaySteps,
       witnessArtifactPaths,
@@ -769,7 +769,7 @@ export function createSettlementRuntime({
       refsClosed: journalDiff.invariants['refsClosed'],
       stateRootIntegrity: journalDiff.afterRoot === derivedAfterRoot
     };
-    const witnessArtifactPaths = ['.bitcode/settlement-proof.json', '.bitcode/journal-diff.json', '.bitcode/asset-pack.lock.json'];
+    const witnessArtifactPaths = ['.proofs/_shared/settlement-proof.json', '.proofs/_shared/journal-diff.json', '.proofs/_shared/asset-pack.lock.json'];
     const replayArtifacts = witnessArtifactPaths.slice();
     const replaySteps = [
       buildReplayStep({
@@ -794,9 +794,9 @@ export function createSettlementRuntime({
       assetPackLockHash: stableHashObject(assetPackLock),
       theoremVerdicts,
       artifactBindings: [
-        buildArtifactBinding({ artifactPath: '.bitcode/journal-diff.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
-        buildArtifactBinding({ artifactPath: '.bitcode/asset-pack.lock.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
-        buildArtifactBinding({ artifactPath: '.bitcode/settlement-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
+        buildArtifactBinding({ artifactPath: '.proofs/_shared/journal-diff.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+        buildArtifactBinding({ artifactPath: '.proofs/_shared/asset-pack.lock.json', role: 'supporting-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true }),
+        buildArtifactBinding({ artifactPath: '.proofs/_shared/settlement-proof.json', role: 'primary-proof', theoremIds: theoremVerdicts.map((entry) => entry.theoremId), requiredForWitness: true, requiredForReplay: true })
       ],
       replaySteps,
       witnessArtifactPaths,

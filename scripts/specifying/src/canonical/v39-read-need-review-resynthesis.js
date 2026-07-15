@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_READ_NEED_REVIEW_RESYNTHESIS_ARTIFACT_PATH =
-  '.bitcode/v39-read-need-review-resynthesis.json';
+  '.proofs/v39/read-need-review-resynthesis.json';
 export const V39_READ_NEED_REVIEW_RESYNTHESIS_SCHEMA_ID =
   'bitcode.v39.readNeedReviewResynthesis.v1';
 export const V39_READ_NEED_REVIEW_RESYNTHESIS_VERSION = 'V39';

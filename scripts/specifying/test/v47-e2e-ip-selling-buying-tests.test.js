@@ -15,7 +15,7 @@ import {
 test('V47 E2E IP selling/buying tests bind both sides of the exchange', () => {
   const report = buildV47E2eIpSellingBuyingTests();
 
-  assert.equal(V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH, '.bitcode/v47-e2e-ip-selling-buying-tests.json');
+  assert.equal(V47_E2E_IP_EXCHANGE_TESTS_ARTIFACT_PATH, '.proofs/v47/e2e-ip-selling-buying-tests.json');
   assert.equal(report.artifactId, 'v47-e2e-ip-selling-buying-tests');
   assert.equal(report.schemaId, V47_E2E_IP_EXCHANGE_TESTS_SCHEMA_ID);
   assert.equal(report.version, 'V47');

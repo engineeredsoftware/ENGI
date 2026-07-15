@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH = '.bitcode/v36-exchange-intent-order-contracts.json';
+export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH = '.proofs/v36/exchange-intent-order-contracts.json';
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID = 'bitcode.v36.exchangeIntentOrderContracts.v1';
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_VERSION = 'V36';
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET = 'V35';

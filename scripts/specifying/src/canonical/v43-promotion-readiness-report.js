@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const V43_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v43-promotion-readiness-report.json';
+  '.proofs/v43/promotion-readiness-report.json';
 export const V43_PROMOTION_READINESS_REPORT_SCHEMA_ID =
   'bitcode.v43.promotionReadinessReport.v1';
 export const V43_PROMOTION_READINESS_REPORT_VERSION = 'V43';
@@ -18,21 +18,21 @@ export const V43_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT =
   'source-safe-v43-product-routes-agentic-depositing-promotion-metadata';
 
 export const V43_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v43-route-vocabulary-inventory.json',
-  '.bitcode/v43-packs-activity-master-detail.json',
-  '.bitcode/v43-read-route-five-step-ux.json',
-  '.bitcode/v43-deposit-route-options.json',
-  '.bitcode/v43-deposit-policy-compensation.json',
-  '.bitcode/v43-deposit-option-admission.json',
-  '.bitcode/v43-route-ux-product-excellence.json',
-  '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json',
+  '.proofs/v43/route-vocabulary-inventory.json',
+  '.proofs/v43/packs-activity-master-detail.json',
+  '.proofs/v43/read-route-five-step-ux.json',
+  '.proofs/v43/deposit-route-options.json',
+  '.proofs/v43/deposit-policy-compensation.json',
+  '.proofs/v43/deposit-option-admission.json',
+  '.proofs/v43/route-ux-product-excellence.json',
+  '.proofs/v43/cross-route-rehearsal-telemetry-repair.json',
 ]);
 
 export const V43_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V43_PROVEN.md',
-  '.bitcode/v43-spec-family-report.json',
-  '.bitcode/v43-canonical-input-report.json',
-  '.bitcode/v43-canon-posture-drift-report.json',
+  '.proofs/v43/spec-family-report.json',
+  '.proofs/v43/canonical-input-report.json',
+  '.proofs/v43/canon-posture-drift-report.json',
   V43_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
 ]);
 
@@ -401,7 +401,7 @@ export function buildV43PromotionReadinessReport(input = {}) {
     generatedArtifactPolicy: {
       provenAppendixPath: '.specifications/BITCODE_SPEC_V43_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
-      generatedArtifactPrefix: '.bitcode/v43-',
+      generatedArtifactPrefix: '.proofs/v43/',
       promotionOverwritesPreviewArtifacts: true,
       secretValuesSerialized: false,
       protectedSourceSerialized: false,

@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V40`
-- Generated structured artifact inventory: active canonical `.bitcode/v41-spec-family-report.json`, `.bitcode/v41-canonical-input-report.json`, `.bitcode/v41-canon-posture-drift-report.json`, `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-registry-interpolation-contracts.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`, `.bitcode/v41-readneed-prompt-hardening.json`, `.bitcode/v41-readfitsfinding-prompt-hardening.json`, `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, `.bitcode/v41-prompt-program-benchmark-report.json`, `.bitcode/v41-promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v41/spec-family-report.json`, `.proofs/v41/canonical-input-report.json`, `.proofs/v41/canon-posture-drift-report.json`, `.proofs/v41/promptpart-prompt-inventory.json`, `.proofs/v41/registry-interpolation-contracts.json`, `.proofs/v41/reading-prompt-benchmark-baselines.json`, `.proofs/v41/readneed-prompt-hardening.json`, `.proofs/v41/readfitsfinding-prompt-hardening.json`, `.proofs/v41/conversation-tool-interface-prompt-rewrite.json`, `.proofs/v41/prompt-program-benchmark-report.json`, `.proofs/v41/promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
 - Source parity state: V41 source-side PromptPart and Prompt inventory, registry interpolation contracts, Reading baselines, ReadNeedComprehensionSynthesis prompt hardening, ReadFitsFindingSynthesis prompt hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry report, workflow, and promotion surfaces are canonicalized in the promoted V41 file family
 - Notes companion: `BITCODE_SPEC_V41_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V41_DELTA.md`
@@ -109,7 +109,7 @@ It closes when active V40 / draft V41 truth is visible in the root docs, protoco
 Gate 2 must emit a source-safe inventory of every raw PromptPart and every composed Prompt.
 Rows must include prompt id, part id, source root, registry owner, semantic purpose, prompt family, composed prompt membership, current title, template variable names, benchmark fixture ids, disclosure tier, and validation command.
 The artifact may include ids, hashes, counts, and source-safe previews, but no raw protected prompt text.
-Gate 2 is closed by the package-backed `buildV41PromptPartPromptInventory` source, deterministic `.bitcode/v41-promptpart-prompt-inventory.json` artifact, `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`, `check:v41-gate2`, protocol tests, and gate/canon workflow wiring.
+Gate 2 is closed by the package-backed `buildV41PromptPartPromptInventory` source, deterministic `.proofs/v41/promptpart-prompt-inventory.json` artifact, `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`, `check:v41-gate2`, protocol tests, and gate/canon workflow wiring.
 The current inventory source-safe count contract is 1,459 raw PromptPart rows, 105 composed Prompt rows, 59 generic PromptPart rows, 1,400 specific PromptPart rows, 49 Reading prompt rows, 2 Conversation prompt rows, 74 tool prompt rows, 10 interface prompt rows, 87 prompt rows with registry paths, 1,135 registry paths, 8 benchmark fixture families, V38 benchmark report binding, and V40 prompt benchmark smoke binding.
 Gate 2 also preserves V41 scope and prepares draft V42 only as forward roadmap truth: V42 will focus on shortest-path Depositing, shortest-path Reading, and an AI-reading dominant demonstration MVP.
 
@@ -117,14 +117,14 @@ Gate 2 also preserves V41 scope and prepares draft V42 only as forward roadmap t
 
 Gate 3 must prove the composition chain from phase and pipeline context through PTRR agents, PTRR steps, FailsafeGenerationSequence, and ThricifiedGeneration final prompt resolution.
 Rows must bind registry ids, execution ancestry frames, interpolation keys, missing-key behavior, tool doc-comment prompt injection, context-size handling, and parser targets.
-Gate 3 is closed by the package-backed `buildV41RegistryInterpolationContracts` source, deterministic `.bitcode/v41-registry-interpolation-contracts.json` artifact, `generate:v41-registry-interpolation-contracts`, `check:v41-registry-interpolation-contracts`, `check:v41-gate3`, protocol tests, and gate/canon workflow wiring.
+Gate 3 is closed by the package-backed `buildV41RegistryInterpolationContracts` source, deterministic `.proofs/v41/registry-interpolation-contracts.json` artifact, `generate:v41-registry-interpolation-contracts`, `check:v41-registry-interpolation-contracts`, `check:v41-gate3`, protocol tests, and gate/canon workflow wiring.
 The current source-safe contract covers 12 rows, 65 passing source predicates, Prompt registry totality, TemplatedPromptPart interpolation, PTRR agent prompt composition, PTRR step prompt composition, FailsafeGenerationSequence context handling, ThricifiedGeneration final prompt resolution, execution ancestry overlays, tool doc-code prompt injection, `ReadNeedComprehensionSynthesis` parser targets, `ReadFitsFindingSynthesis` search/parser targets, AssetPack synthesis/finishing parser targets, and Gate 2 prompt inventory binding.
 
 ## V41 Gate 4 Reading Pipeline Prompt Benchmark Baselines
 
 Gate 4 must establish benchmark baselines for Reading prompt surfaces before rewrites.
 It covers `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Need review, Finding Fits, depository query synthesis, many-candidate ranking, AssetPack preview, quote explanation, telemetry summaries, and failure/repair prompts.
-Gate 4 is closed by the package-backed `buildV41ReadingPromptBenchmarkBaselines` source, deterministic `.bitcode/v41-reading-prompt-benchmark-baselines.json` artifact, `generate:v41-reading-prompt-benchmark-baselines`, `check:v41-reading-prompt-benchmark-baselines`, `check:v41-gate4`, protocol tests, and gate/canon workflow wiring.
+Gate 4 is closed by the package-backed `buildV41ReadingPromptBenchmarkBaselines` source, deterministic `.proofs/v41/reading-prompt-benchmark-baselines.json` artifact, `generate:v41-reading-prompt-benchmark-baselines`, `check:v41-reading-prompt-benchmark-baselines`, `check:v41-gate4`, protocol tests, and gate/canon workflow wiring.
 The current source-safe baseline covers 10 rows, 120 passing source predicates, all five Reading UX steps, both Reading pipeline ids, Gate 2 PromptPart/Prompt inventory roots, Gate 3 registry/interpolation roots, V38 benchmark fixture roots, V40 prompt smoke roots, 36 parser target ids, 9 registry contract ids, deterministic baseline scores, and source-safe disclosure tiers.
 The artifact may include ids, hashes, counts, fixture ids, metric ids, parser target ids, baseline scores, source path roots, and verdicts, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, or unpaid AssetPack source.
 
@@ -132,7 +132,7 @@ The artifact may include ids, hashes, counts, fixture ids, metric ids, parser ta
 
 Gate 5 may repartition, retitle, and rewrite ReadNeedComprehensionSynthesis PromptParts and Prompts after Gate 2 through Gate 4 evidence exists.
 It must prove that synthesized Needs describe exactly and only the user's Read Request, preserve repository and policy context, produce valid parsed return types, support review/resynthesis, and keep source-safe telemetry.
-Gate 5 is closed by the package-backed `buildV41ReadNeedPromptHardening` source, deterministic `.bitcode/v41-readneed-prompt-hardening.json` artifact, `generate:v41-readneed-prompt-hardening`, `check:v41-readneed-prompt-hardening`, `check:v41-gate5`, protocol tests, focused ReadNeed tests, and gate/canon workflow wiring.
+Gate 5 is closed by the package-backed `buildV41ReadNeedPromptHardening` source, deterministic `.proofs/v41/readneed-prompt-hardening.json` artifact, `generate:v41-readneed-prompt-hardening`, `check:v41-readneed-prompt-hardening`, `check:v41-gate5`, protocol tests, focused ReadNeed tests, and gate/canon workflow wiring.
 The current source-safe hardening report covers 7 rows and 63 passing source predicates for ReadNeed PromptPart rewrites, PTRR/Failsafe/Thricified composition preservation, strict Zod return-type parsing, source-constraint preservation, review/resynthesis admission, telemetry redaction, and read-comprehension tool prompt alignment.
 The artifact may include ids, source hashes, counts, prompt surface ids, parser target ids, fixture ids, predicate verdicts, dependency roots, and redaction posture, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, or unpaid AssetPack source.
 
@@ -140,7 +140,7 @@ The artifact may include ids, source hashes, counts, prompt surface ids, parser 
 
 Gate 6 may repartition, retitle, and rewrite ReadFitsFindingSynthesis PromptParts and Prompts after Gate 2 through Gate 4 evidence exists.
 It must improve query synthesis, Depository search breadth, embeddings usage, ranking, selected-fit provenance, AssetPack synthesis context, preview boundaries, quote explanation, and post-settlement delivery posture without exposing unpaid source.
-Gate 6 is closed by the package-backed `buildV41ReadFitsFindingPromptHardening` source, deterministic `.bitcode/v41-readfitsfinding-prompt-hardening.json` artifact, `generate:v41-readfitsfinding-prompt-hardening`, `check:v41-readfitsfinding-prompt-hardening`, `check:v41-gate6`, protocol tests, focused Finding Fits package tests, and gate/canon workflow wiring.
+Gate 6 is closed by the package-backed `buildV41ReadFitsFindingPromptHardening` source, deterministic `.proofs/v41/readfitsfinding-prompt-hardening.json` artifact, `generate:v41-readfitsfinding-prompt-hardening`, `check:v41-readfitsfinding-prompt-hardening`, `check:v41-gate6`, protocol tests, focused Finding Fits package tests, and gate/canon workflow wiring.
 The current source-safe hardening report covers 8 rows and 76 passing source predicates for AssetPack synthesis PromptPart rewrites, bounded inference prompt context, many-candidate Depository query/ranking/embedding policy, runtime replay telemetry, search tool prompt output boundaries, source-safe preview and quote disclosure, settlement/delivery/rights boundaries, and tests/docs/workflow proof.
 The artifact may include ids, source hashes, counts, prompt surface ids, parser target ids, fixture ids, predicate verdicts, dependency roots, query/ranking/provenance root metadata, and redaction posture, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
@@ -148,7 +148,7 @@ The artifact may include ids, source hashes, counts, prompt surface ids, parser 
 
 Gate 7 applies the same prompt-program discipline to Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal summaries, and interface prompts.
 It must preserve route authority, source selection policy, rich stream log disclosure, tool schemas, and parsed return types.
-Gate 7 is closed by the package-backed `buildV41ConversationToolInterfacePromptRewrite` source, deterministic `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` artifact, `generate:v41-conversation-tool-interface-prompt-rewrite`, `check:v41-conversation-tool-interface-prompt-rewrite`, `check:v41-gate7`, protocol tests, focused prompt-part rewrites, and gate/canon workflow wiring.
+Gate 7 is closed by the package-backed `buildV41ConversationToolInterfacePromptRewrite` source, deterministic `.proofs/v41/conversation-tool-interface-prompt-rewrite.json` artifact, `generate:v41-conversation-tool-interface-prompt-rewrite`, `check:v41-conversation-tool-interface-prompt-rewrite`, `check:v41-gate7`, protocol tests, focused prompt-part rewrites, and gate/canon workflow wiring.
 The current source-safe rewrite report covers 9 rows and 60 passing source predicates for Conversation PTRR PromptParts, Terminal system prompt composition, rich execution-log prompt/result disclosure metadata, DocCodeToolPrompt composition, ToolPromptRegistry hierarchy, MCP API/public API tool schema posture, ChatGPT App action/tool prompt boundaries, Terminal/public summaries, V38 Conversation/tool parity, and Gate 2 through Gate 6 prompt-program dependency roots.
 The artifact may include ids, source hashes, counts, prompt surface ids, parser target ids, tool schema ids, fixture ids, predicate verdicts, dependency roots, and redaction posture, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
@@ -156,7 +156,7 @@ The artifact may include ids, source hashes, counts, prompt surface ids, parser 
 
 Gate 8 must emit source-safe benchmark and telemetry artifacts after prompt rewrites.
 It binds benchmark deltas, prompt lineage, prompt registry versions, inference receipts, Failsafe and Thricified receipts, parsed outputs, redaction posture, and repair hooks without serializing raw provider responses or protected prompts.
-Gate 8 is closed by the package-backed `buildV41PromptProgramBenchmarkReport` source, deterministic `.bitcode/v41-prompt-program-benchmark-report.json` artifact, `generate:v41-prompt-program-benchmark-report`, `check:v41-prompt-program-benchmark-report`, `check:v41-gate8`, protocol tests, and gate/canon workflow wiring.
+Gate 8 is closed by the package-backed `buildV41PromptProgramBenchmarkReport` source, deterministic `.proofs/v41/prompt-program-benchmark-report.json` artifact, `generate:v41-prompt-program-benchmark-report`, `check:v41-prompt-program-benchmark-report`, `check:v41-gate8`, protocol tests, and gate/canon workflow wiring.
 The current source-safe benchmark telemetry report covers 9 rows for post-rewrite PromptPart and Prompt deltas, ReadNeedComprehensionSynthesis benchmark deltas, ReadFitsFindingSynthesis benchmark deltas, Conversation/tool/interface prompt deltas, registry lineage and version telemetry, PTRR/Failsafe/Thricified inference receipt projection, rich stream telemetry projection, repair hooks, parsed-output redaction posture, and tests/docs/workflow proof.
 The report binds V38 prompt benchmark, V38 inference telemetry disclosure, V38 PTRR/Failsafe/Thricified stack, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts.
 The artifact may include ids, source hashes, counts, prompt-program artifact ids, telemetry receipt ids, metric ids, predicate verdicts, dependency roots, source-safe benchmark deltas, parser/schema names, and disclosure posture, but no raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
@@ -166,7 +166,7 @@ The artifact may include ids, source hashes, counts, prompt-program artifact ids
 Gate 9 closes V41 promotion readiness.
 It must bind all V41 prompt-program artifacts, generated proof support, workflow support, promotion commands, post-promotion active V41 / draft V42 posture, source-safe generated appendix output, and value-bearing mainnet blocking where relevant.
 
-V41 promotion readiness canon is package-backed by `buildV41PromotionReadinessReport`, emits `.bitcode/v41-promotion-readiness-report.json`, and covers every V41 prompt-program gate artifact from PromptPart/Prompt inventory through post-rewrite benchmark telemetry integration.
+V41 promotion readiness canon is package-backed by `buildV41PromotionReadinessReport`, emits `.proofs/v41/promotion-readiness-report.json`, and covers every V41 prompt-program gate artifact from PromptPart/Prompt inventory through post-rewrite benchmark telemetry integration.
 The report must prove the V41 gate artifacts are present, parseable, source-safe, workflow-covered, generated-proof-covered, promotion-command-covered, and dry-run-promotable while `BITCODE_SPEC.txt` remains `V40`.
 The V41 promotion workflow is `.github/workflows/v41-canon-promotion.yml`; it validates all V41 gate checks, runs `node scripts/promote-bitcode-canon.mjs --version V41 --commit HEAD --dry-run`, and, on a version-branch PR into `main`, commits the standalone canonical promotion that rewrites the active runtime posture to V41 active / draft V42.
 Public V41 promotion artifacts may serialize ids, hashes, counts, paths, verdicts, proof roots, and source-safe summaries only; they may not serialize raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, private settlement payloads, wallet private material, or unpaid AssetPack source.
@@ -259,23 +259,23 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v41-prompt-program-benchmark-report.json` | prompt-catalogue, registry-chain, parsed-return | inference-output-typed, context-prepared | benchmark-baseline, benchmark-postrewrite | `.bitcode/v41-promptpart-prompt-inventory.json` | prompt registries and pipeline tests |
-| Prompt-completeness | `.bitcode/v41-promptpart-prompt-inventory.json` | every-part, every-prompt, every-callsite | no-prompt-omitted | catalogue-scan | `.bitcode/v41-registry-interpolation-contracts.json` | prompt package inventory |
-| Static-code-analysis | `.bitcode/v41-registry-interpolation-contracts.json` | imports, casing, registry-ids | registry-closed | static-scan | `.bitcode/v41-promptpart-prompt-inventory.json` | source checks |
-| Verification-decisions | `.bitcode/v41-reading-prompt-benchmark-baselines.json` | benchmark-verdicts, parser-verdicts | typed-output-valid | benchmark-run | `.bitcode/v41-prompt-program-benchmark-report.json` | benchmark scripts |
-| Selection-and-materialization | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | fit-selection, assetpack-context | no-unpaid-source | search-replay | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | Reading pipeline |
-| Authorization-and-sensitive-flow | `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` | visibility-tier, redaction | no-sensitive-prompt-context | redaction-check | `.bitcode/v41-registry-interpolation-contracts.json` | UAPI and prompt projectors |
-| Settlement-source-to-shares | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | quote-explanation, rights-boundary | conservation-preserved | settlement-replay | `.bitcode/v41-prompt-program-benchmark-report.json` | BTD and Terminal tests |
-| Disclosure-boundary | `.bitcode/v41-prompt-program-benchmark-report.json` | no-raw-prompt, no-raw-response | public-safe | artifact-scan | `.bitcode/v41-promotion-readiness-report.json` | generated artifacts |
-| Proof-contract | `.bitcode/v41-promotion-readiness-report.json` | gate-artifacts, workflows, proof | promotion-ready | promotion-dry-run | `BITCODE_SPEC_V41_PROVEN.md` | protocol proof generators |
+| Inference-synthesis | `.proofs/v41/prompt-program-benchmark-report.json` | prompt-catalogue, registry-chain, parsed-return | inference-output-typed, context-prepared | benchmark-baseline, benchmark-postrewrite | `.proofs/v41/promptpart-prompt-inventory.json` | prompt registries and pipeline tests |
+| Prompt-completeness | `.proofs/v41/promptpart-prompt-inventory.json` | every-part, every-prompt, every-callsite | no-prompt-omitted | catalogue-scan | `.proofs/v41/registry-interpolation-contracts.json` | prompt package inventory |
+| Static-code-analysis | `.proofs/v41/registry-interpolation-contracts.json` | imports, casing, registry-ids | registry-closed | static-scan | `.proofs/v41/promptpart-prompt-inventory.json` | source checks |
+| Verification-decisions | `.proofs/v41/reading-prompt-benchmark-baselines.json` | benchmark-verdicts, parser-verdicts | typed-output-valid | benchmark-run | `.proofs/v41/prompt-program-benchmark-report.json` | benchmark scripts |
+| Selection-and-materialization | `.proofs/v41/readfitsfinding-prompt-hardening.json` | fit-selection, assetpack-context | no-unpaid-source | search-replay | `.proofs/v41/readfitsfinding-prompt-hardening.json` | Reading pipeline |
+| Authorization-and-sensitive-flow | `.proofs/v41/conversation-tool-interface-prompt-rewrite.json` | visibility-tier, redaction | no-sensitive-prompt-context | redaction-check | `.proofs/v41/registry-interpolation-contracts.json` | UAPI and prompt projectors |
+| Settlement-source-to-shares | `.proofs/v41/readfitsfinding-prompt-hardening.json` | quote-explanation, rights-boundary | conservation-preserved | settlement-replay | `.proofs/v41/prompt-program-benchmark-report.json` | BTD and Terminal tests |
+| Disclosure-boundary | `.proofs/v41/prompt-program-benchmark-report.json` | no-raw-prompt, no-raw-response | public-safe | artifact-scan | `.proofs/v41/promotion-readiness-report.json` | generated artifacts |
+| Proof-contract | `.proofs/v41/promotion-readiness-report.json` | gate-artifacts, workflows, proof | promotion-ready | promotion-dry-run | `BITCODE_SPEC_V41_PROVEN.md` | protocol proof generators |
 
 ### Inference-synthesis
 
-- proofArtifactPath: `.bitcode/v41-prompt-program-benchmark-report.json`
+- proofArtifactPath: `.proofs/v41/prompt-program-benchmark-report.json`
 - members: prompt-catalogue, registry-chain, parsed-return
 - theoremIds: inference-output-typed, context-prepared
 - replayStepIds: benchmark-baseline, benchmark-postrewrite
-- witnessArtifactPaths: `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`
+- witnessArtifactPaths: `.proofs/v41/promptpart-prompt-inventory.json`, `.proofs/v41/reading-prompt-benchmark-baselines.json`
 - current member closure criteria: every inference output has typed parser and benchmark witness
 - current member verdict shape: closed, blocked, or reopened with source-safe reason
 - current theorem-by-theorem closure reading: every prompt program composes, interpolates, infers, parses, and redacts correctly
@@ -287,11 +287,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Prompt-completeness
 
-- proofArtifactPath: `.bitcode/v41-promptpart-prompt-inventory.json`
+- proofArtifactPath: `.proofs/v41/promptpart-prompt-inventory.json`
 - members: every-part, every-prompt, every-callsite
 - theoremIds: no-prompt-omitted
 - replayStepIds: catalogue-scan
-- witnessArtifactPaths: `.bitcode/v41-registry-interpolation-contracts.json`
+- witnessArtifactPaths: `.proofs/v41/registry-interpolation-contracts.json`
 - current member closure criteria: every raw PromptPart and composed Prompt appears once with registry and callsite ownership
 - current member verdict shape: inventoried, duplicate, missing, or blocked
 - current theorem-by-theorem closure reading: prompt registry totality is complete before rewrite
@@ -303,11 +303,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Static-code-analysis
 
-- proofArtifactPath: `.bitcode/v41-registry-interpolation-contracts.json`
+- proofArtifactPath: `.proofs/v41/registry-interpolation-contracts.json`
 - members: imports, casing, registry-ids
 - theoremIds: registry-closed
 - replayStepIds: static-scan
-- witnessArtifactPaths: `.bitcode/v41-promptpart-prompt-inventory.json`
+- witnessArtifactPaths: `.proofs/v41/promptpart-prompt-inventory.json`
 - current member closure criteria: registry imports, casing, and interpolation keys are deterministic
 - current member verdict shape: pass, fail, or blocked with source-safe path
 - current theorem-by-theorem closure reading: every composition edge is statically visible
@@ -319,11 +319,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Verification-decisions
 
-- proofArtifactPath: `.bitcode/v41-reading-prompt-benchmark-baselines.json`
+- proofArtifactPath: `.proofs/v41/reading-prompt-benchmark-baselines.json`
 - members: benchmark-verdicts, parser-verdicts
 - theoremIds: typed-output-valid
 - replayStepIds: benchmark-run
-- witnessArtifactPaths: `.bitcode/v41-prompt-program-benchmark-report.json`
+- witnessArtifactPaths: `.proofs/v41/prompt-program-benchmark-report.json`
 - current member closure criteria: benchmark output validates against expected parser and disclosure posture
 - current member verdict shape: pass, improve, regress, blocked
 - current theorem-by-theorem closure reading: prompt quality is evaluated against typed downstream needs
@@ -335,11 +335,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Selection-and-materialization
 
-- proofArtifactPath: `.bitcode/v41-readfitsfinding-prompt-hardening.json`
+- proofArtifactPath: `.proofs/v41/readfitsfinding-prompt-hardening.json`
 - members: fit-selection, assetpack-context
 - theoremIds: no-unpaid-source
 - replayStepIds: search-replay
-- witnessArtifactPaths: `.bitcode/v41-reading-prompt-benchmark-baselines.json`
+- witnessArtifactPaths: `.proofs/v41/reading-prompt-benchmark-baselines.json`
 - current member closure criteria: Finding Fits prompts preserve many-candidate search and source-safe AssetPack context
 - current member verdict shape: pass, regress, blocked, repair-required
 - current theorem-by-theorem closure reading: selected fits support AssetPack preview without disclosure violation
@@ -351,11 +351,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Authorization-and-sensitive-flow
 
-- proofArtifactPath: `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`
+- proofArtifactPath: `.proofs/v41/conversation-tool-interface-prompt-rewrite.json`
 - members: visibility-tier, redaction
 - theoremIds: no-sensitive-prompt-context
 - replayStepIds: redaction-check
-- witnessArtifactPaths: `.bitcode/v41-registry-interpolation-contracts.json`
+- witnessArtifactPaths: `.proofs/v41/registry-interpolation-contracts.json`
 - current member closure criteria: prompt context never includes unauthorized source or secret-shaped payloads
 - current member verdict shape: pass, redact, deny, blocked
 - current theorem-by-theorem closure reading: source selection and prompt context follow principal policy
@@ -367,11 +367,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Settlement-source-to-shares
 
-- proofArtifactPath: `.bitcode/v41-readfitsfinding-prompt-hardening.json`
+- proofArtifactPath: `.proofs/v41/readfitsfinding-prompt-hardening.json`
 - members: quote-explanation, rights-boundary
 - theoremIds: conservation-preserved
 - replayStepIds: settlement-replay
-- witnessArtifactPaths: `.bitcode/v41-prompt-program-benchmark-report.json`
+- witnessArtifactPaths: `.proofs/v41/prompt-program-benchmark-report.json`
 - current member closure criteria: prompt outputs explain settlement without altering deterministic accounting
 - current member verdict shape: pass, blocked, regress
 - current theorem-by-theorem closure reading: BTC fee, BTD rights, and source-to-shares remain exact
@@ -383,11 +383,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Disclosure-boundary
 
-- proofArtifactPath: `.bitcode/v41-prompt-program-benchmark-report.json`
+- proofArtifactPath: `.proofs/v41/prompt-program-benchmark-report.json`
 - members: no-raw-prompt, no-raw-response
 - theoremIds: public-safe
 - replayStepIds: artifact-scan
-- witnessArtifactPaths: `.bitcode/v41-promotion-readiness-report.json`
+- witnessArtifactPaths: `.proofs/v41/promotion-readiness-report.json`
 - current member closure criteria: public artifacts contain source-safe prompt metadata only
 - current member verdict shape: pass, blocked, redacted
 - current theorem-by-theorem closure reading: protected prompt and provider payloads never leave allowed scope
@@ -399,11 +399,11 @@ Current accepted boundaries: generated artifacts may report hashes and verdicts,
 
 ### Proof-contract
 
-- proofArtifactPath: `.bitcode/v41-promotion-readiness-report.json`
+- proofArtifactPath: `.proofs/v41/promotion-readiness-report.json`
 - members: gate-artifacts, workflows, proof
 - theoremIds: promotion-ready
 - replayStepIds: promotion-dry-run
-- witnessArtifactPaths: `BITCODE_SPEC_V41_PROVEN.md`, `.bitcode/v41-promotion-readiness-report.json`
+- witnessArtifactPaths: `BITCODE_SPEC_V41_PROVEN.md`, `.proofs/v41/promotion-readiness-report.json`
 - current member closure criteria: all V41 prompt-program gates are implemented, generated, tested, and source-safe
 - current member verdict shape: closed, blocked, reopened
 - current theorem-by-theorem closure reading: promotion proves V41 prompt-program completeness
@@ -429,20 +429,20 @@ V41 preserves operator-quality expectations for visual, accessibility, performan
 
 | Artifact | Purpose | Gate |
 | --- | --- | --- |
-| `.bitcode/v41-spec-family-report.json` | spec-family structural report | Gate 1 |
-| `.bitcode/v41-canonical-input-report.json` | canonical input report | Gate 1 |
-| `.bitcode/v41-promptpart-prompt-inventory.json` | PromptPart and Prompt inventory | Gate 2 |
-| `.bitcode/v41-registry-interpolation-contracts.json` | registry and interpolation contract report | Gate 3 |
-| `.bitcode/v41-reading-prompt-benchmark-baselines.json` | Reading benchmark baseline report | Gate 4 |
-| `.bitcode/v41-readneed-prompt-hardening.json` | ReadNeed prompt rewrite report | Gate 5 |
-| `.bitcode/v41-readfitsfinding-prompt-hardening.json` | ReadFitsFinding prompt rewrite report | Gate 6 |
-| `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` | Conversation, tool, and interface prompt rewrite report | Gate 7 |
-| `.bitcode/v41-prompt-program-benchmark-report.json` | post-rewrite benchmark and telemetry report | Gate 8 |
-| `.bitcode/v41-promotion-readiness-report.json` | V41 promotion readiness report | Gate 9 |
+| `.proofs/v41/spec-family-report.json` | spec-family structural report | Gate 1 |
+| `.proofs/v41/canonical-input-report.json` | canonical input report | Gate 1 |
+| `.proofs/v41/promptpart-prompt-inventory.json` | PromptPart and Prompt inventory | Gate 2 |
+| `.proofs/v41/registry-interpolation-contracts.json` | registry and interpolation contract report | Gate 3 |
+| `.proofs/v41/reading-prompt-benchmark-baselines.json` | Reading benchmark baseline report | Gate 4 |
+| `.proofs/v41/readneed-prompt-hardening.json` | ReadNeed prompt rewrite report | Gate 5 |
+| `.proofs/v41/readfitsfinding-prompt-hardening.json` | ReadFitsFinding prompt rewrite report | Gate 6 |
+| `.proofs/v41/conversation-tool-interface-prompt-rewrite.json` | Conversation, tool, and interface prompt rewrite report | Gate 7 |
+| `.proofs/v41/prompt-program-benchmark-report.json` | post-rewrite benchmark and telemetry report | Gate 8 |
+| `.proofs/v41/promotion-readiness-report.json` | V41 promotion readiness report | Gate 9 |
 
 #### V41 specifying generated artifacts
 
-The minimum V41 specifying generated artifacts are `.bitcode/v41-spec-family-report.json` and `.bitcode/v41-canonical-input-report.json`.
+The minimum V41 specifying generated artifacts are `.proofs/v41/spec-family-report.json` and `.proofs/v41/canonical-input-report.json`.
 Later V41 gates add prompt-program artifacts after their source-safe generators exist.
 
 #### Shared generated-artifact fields
@@ -539,7 +539,7 @@ Fail-closed triggers include invalid deposit, prompt contract incompleteness, pa
 
 ### Appendix K. Source-bearing AssetPack and artifact contract catalog
 
-V41 prompt work must preserve `.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V41_PROVEN.md` as source-bearing or proof-bearing artifact contract references.
+V41 prompt work must preserve `.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`, `.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`, `.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and `BITCODE_SPEC_V41_PROVEN.md` as source-bearing or proof-bearing artifact contract references.
 Prompt outputs may describe AssetPack measurements, quote posture, fit provenance, and delivery state before settlement.
 Prompt outputs may not expose source-bearing AssetPack content before BTC payment, finality, BTD rights transfer, and ledger/database/object-storage reconciliation agree.
 

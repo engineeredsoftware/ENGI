@@ -13,7 +13,7 @@ import {
 test('builds source-safe V47 PromotionReadinessReport for V47 Promotion Readiness', () => {
   const report = buildV47PromotionReadinessReport();
 
-  assert.equal(V47_PROMOTION_READINESS_REPORT_ARTIFACT_PATH, '.bitcode/v47-promotion-readiness-report.json');
+  assert.equal(V47_PROMOTION_READINESS_REPORT_ARTIFACT_PATH, '.proofs/v47/promotion-readiness-report.json');
   assert.equal(report.artifactId, 'v47-promotion-readiness-report');
   assert.equal(report.schemaId, V47_PROMOTION_READINESS_REPORT_SCHEMA_ID);
   assert.equal(report.version, 'V47');

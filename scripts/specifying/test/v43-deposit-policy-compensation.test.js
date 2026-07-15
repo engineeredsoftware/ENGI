@@ -13,7 +13,7 @@ import {
 test('V43 deposit policy compensation artifact binds source-safe policy contracts', () => {
   const report = buildV43DepositPolicyCompensation();
 
-  assert.equal(V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH, '.bitcode/v43-deposit-policy-compensation.json');
+  assert.equal(V43_DEPOSIT_POLICY_COMPENSATION_ARTIFACT_PATH, '.proofs/v43/deposit-policy-compensation.json');
   assert.equal(report.artifactId, 'v43-deposit-policy-compensation');
   assert.equal(report.schemaId, V43_DEPOSIT_POLICY_COMPENSATION_SCHEMA_ID);
   assert.equal(report.version, 'V43');

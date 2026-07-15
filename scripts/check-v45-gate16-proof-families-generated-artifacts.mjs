@@ -217,15 +217,15 @@ function main() {
   ], 'v45-proof-family-artifacts.test.js');
 
   assertIncludesAll(failures, spec, [
-    '.bitcode/v45-inference-synthesis-proof.json',
-    '.bitcode/v45-prompt-completeness-proof.json',
-    '.bitcode/v45-static-code-analysis-proof.json',
-    '.bitcode/v45-verification-decisions-proof.json',
-    '.bitcode/v45-selection-materialization-proof.json',
-    '.bitcode/v45-authorization-sensitive-flow-proof.json',
-    '.bitcode/v45-settlement-source-to-shares-proof.json',
-    '.bitcode/v45-disclosure-boundary-proof.json',
-    '.bitcode/v45-proof-contract-proof.json',
+    '.proofs/v45/inference-synthesis-proof.json',
+    '.proofs/v45/prompt-completeness-proof.json',
+    '.proofs/v45/static-code-analysis-proof.json',
+    '.proofs/v45/verification-decisions-proof.json',
+    '.proofs/v45/selection-materialization-proof.json',
+    '.proofs/v45/authorization-sensitive-flow-proof.json',
+    '.proofs/v45/settlement-source-to-shares-proof.json',
+    '.proofs/v45/disclosure-boundary-proof.json',
+    '.proofs/v45/proof-contract-proof.json',
     'Minimum generated appendix rendered contents',
   ], '.specifications/BITCODE_SPEC_V45.md');
 

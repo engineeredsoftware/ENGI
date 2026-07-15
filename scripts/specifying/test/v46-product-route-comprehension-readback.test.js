@@ -14,7 +14,7 @@ import {
 test('V46 product route comprehension readback binds packs, read, and deposit routes', () => {
   const report = buildV46ProductRouteComprehensionReadback();
 
-  assert.equal(V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_ARTIFACT_PATH, '.bitcode/v46-product-route-comprehension-readback.json');
+  assert.equal(V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_ARTIFACT_PATH, '.proofs/v46/product-route-comprehension-readback.json');
   assert.equal(report.artifactId, 'v46-product-route-comprehension-readback');
   assert.equal(report.schemaId, V46_PRODUCT_ROUTE_COMPREHENSION_READBACK_SCHEMA_ID);
   assert.equal(report.version, 'V46');

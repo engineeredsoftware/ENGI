@@ -77,10 +77,10 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
   const byAlignmentId = new Map(report.rows.map((row) => [row.alignmentId, row]));
 
   assert.ok(byAlignmentId.get('spec_family_alignment')?.expectedTokens.includes('DocsQaAlignmentReport'));
-  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-docs-qa-alignment-report.json'));
-  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-testnet-rollout-readiness-guide.json'));
-  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-telemetry-documentation-interface-integration.json'));
-  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json'));
+  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.proofs/v35/docs-qa-alignment-report.json'));
+  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.proofs/v35/testnet-rollout-readiness-guide.json'));
+  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.proofs/v35/telemetry-documentation-interface-integration.json'));
+  assert.ok(byAlignmentId.get('generated_artifact_inventory_alignment')?.generatedArtifacts.includes('.proofs/v35/local-staging-telemetry-documentation-rehearsal.json'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildOperatorRunbookCatalog'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildTestnetRolloutReadinessGuide'));
   assert.ok(byAlignmentId.get('catalog_implementation_alignment')?.expectedTokens.includes('buildTelemetryDocumentationInterfaceIntegration'));
@@ -97,5 +97,5 @@ test('binds docs QA to spec docs artifacts routes interfaces and workflows', () 
     report.disclosureBoundary.forbiddenDocsQaData.includes('protected_source_payloads'),
     true,
   );
-  assert.equal(DOCS_QA_ALIGNMENT_REPORT_ARTIFACT_PATH, '.bitcode/v35-docs-qa-alignment-report.json');
+  assert.equal(DOCS_QA_ALIGNMENT_REPORT_ARTIFACT_PATH, '.proofs/v35/docs-qa-alignment-report.json');
 });

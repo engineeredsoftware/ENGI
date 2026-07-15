@@ -9,7 +9,7 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v41-spec-family-report.json`, `.bitcode/v41-canonical-input-report.json`, `.bitcode/v41-canon-posture-drift-report.json`, `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-registry-interpolation-contracts.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`, `.bitcode/v41-readneed-prompt-hardening.json`, `.bitcode/v41-readfitsfinding-prompt-hardening.json`, `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, `.bitcode/v41-prompt-program-benchmark-report.json`, `.bitcode/v41-promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v41/spec-family-report.json`, `.proofs/v41/canonical-input-report.json`, `.proofs/v41/canon-posture-drift-report.json`, `.proofs/v41/promptpart-prompt-inventory.json`, `.proofs/v41/registry-interpolation-contracts.json`, `.proofs/v41/reading-prompt-benchmark-baselines.json`, `.proofs/v41/readneed-prompt-hardening.json`, `.proofs/v41/readfitsfinding-prompt-hardening.json`, `.proofs/v41/conversation-tool-interface-prompt-rewrite.json`, `.proofs/v41/prompt-program-benchmark-report.json`, `.proofs/v41/promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
 - Source parity state: V41 source-side PromptPart and Prompt inventory, registry interpolation contracts, Reading baselines, ReadNeedComprehensionSynthesis prompt hardening, ReadFitsFindingSynthesis prompt hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry report, workflow, and promotion surfaces are canonicalized in the promoted V41 file family
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: V41 canonical notes for prompt-program excellence over promoted V40 exhaustive commercial application testing canon
@@ -36,13 +36,13 @@ The report is metadata-only: ids, hashes, counts, fixtures, parser targets, pred
 ## Gate 8 implementation notes
 
 Gate 8 makes the post-rewrite prompt benchmark and telemetry readback source-checkable.
-It emits `V41PromptProgramBenchmarkReport` as `.bitcode/v41-prompt-program-benchmark-report.json`, binding V38 prompt benchmark rows, V38 inference telemetry disclosure, V38 PTRR/Failsafe/Thricified stack proof, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts.
+It emits `V41PromptProgramBenchmarkReport` as `.proofs/v41/prompt-program-benchmark-report.json`, binding V38 prompt benchmark rows, V38 inference telemetry disclosure, V38 PTRR/Failsafe/Thricified stack proof, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts.
 The report records prompt-program artifact ids, telemetry receipt ids, metric ids, source hashes, source-safe benchmark delta posture, predicate verdicts, and dependency roots only.
 It intentionally does not serialize raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, wallet private material, settlement private payloads, or unpaid AssetPack source.
 
 ## Gate 9: V41 Promotion Readiness Notes
 
-Gate 9 emits `V41PromotionReadinessReport` as `.bitcode/v41-promotion-readiness-report.json`.
+Gate 9 emits `V41PromotionReadinessReport` as `.proofs/v41/promotion-readiness-report.json`.
 It binds all V41 prompt-program artifacts, source and documentation evidence, `v41-canon-promotion.yml`, gate/canon workflow posture, `BITCODE_SPEC_V41_PROVEN.md` generation support, promotion dry-run support, and active V41 / draft V42 runtime preparation.
 It remains metadata-only and source-safe: ids, hashes, counts, paths, verdicts, proof roots, and source-safe summaries may be public, while raw prompt text, interpolated prompts, provider responses, protected prompts, protected source, private context, credentials, wallet material, settlement private payloads, and unpaid AssetPack source stay private.
 

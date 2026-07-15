@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_ARTIFACT_PATH =
-  '.bitcode/v35-local-staging-telemetry-documentation-rehearsal.json';
+  '.proofs/v35/local-staging-telemetry-documentation-rehearsal.json';
 export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_SCHEMA_ID =
   'bitcode.v35.localStagingTelemetryDocumentationRehearsal.v1';
 export const LOCAL_STAGING_TELEMETRY_DOCUMENTATION_REHEARSAL_VERSION = 'V35';
@@ -85,13 +85,13 @@ const SHARED_SOURCE_ROOTS = Object.freeze([
   '.specifications/BITCODE_SPEC_V35_NOTES.md',
   '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
   '.specifications/SPECIFICATIONS_ROADMAP.md',
-  '.bitcode/v35-documentation-surface-catalog.json',
-  '.bitcode/v35-telemetry-taxonomy-catalog.json',
-  '.bitcode/v35-public-docs-usage-guides.json',
-  '.bitcode/v35-operator-runbook-catalog.json',
-  '.bitcode/v35-docs-qa-alignment-report.json',
-  '.bitcode/v35-testnet-rollout-readiness-guide.json',
-  '.bitcode/v35-telemetry-documentation-interface-integration.json',
+  '.proofs/v35/documentation-surface-catalog.json',
+  '.proofs/v35/telemetry-taxonomy-catalog.json',
+  '.proofs/v35/public-docs-usage-guides.json',
+  '.proofs/v35/operator-runbook-catalog.json',
+  '.proofs/v35/docs-qa-alignment-report.json',
+  '.proofs/v35/testnet-rollout-readiness-guide.json',
+  '.proofs/v35/telemetry-documentation-interface-integration.json',
 ]);
 
 const rehearsalRows = Object.freeze([
@@ -281,7 +281,7 @@ const rehearsalRows = Object.freeze([
     eventFamilies: ['ledger', 'wallet', 'deployment', 'observer', 'promotion'],
     docsQaIds: ['public_docs_disclosure_alignment', 'internal_docs_alignment'],
     rolloutGuideIds: ['environment_lane_posture', 'wallet_settlement_caveats', 'known_blockers'],
-    sourceRoots: ['.bitcode/v34-environment-lane-contracts.json', '.bitcode/v35-testnet-rollout-readiness-guide.json'],
+    sourceRoots: ['.proofs/v34/environment-lane-contracts.json', '.proofs/v35/testnet-rollout-readiness-guide.json'],
     docsLinks: ['/docs/settlement-btd', '/docs/configuration', '/docs/proofs'],
     evidenceRoots: [
       'rehearsal.mainnet-blocked.non-admission.root',

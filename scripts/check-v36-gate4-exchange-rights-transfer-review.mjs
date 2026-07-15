@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v36-exchange-rights-transfer-review.json';
+const ARTIFACT_PATH = '.proofs/v36/exchange-rights-transfer-review.json';
 const REQUIRED_PREVIEW_STATES = ['owner_read', 'licensed_read', 'blocked_transfer'];
 const REQUIRED_FIELD_IDS = [
   'previewId',

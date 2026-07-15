@@ -14,7 +14,7 @@ import {
 test('V40 unit coverage inventory closes package and primitive unit surfaces', () => {
   const report = buildV40UnitCoverageInventory();
 
-  assert.equal(V40_UNIT_COVERAGE_INVENTORY_ARTIFACT_PATH, '.bitcode/v40-unit-coverage-inventory.json');
+  assert.equal(V40_UNIT_COVERAGE_INVENTORY_ARTIFACT_PATH, '.proofs/v40/unit-coverage-inventory.json');
   assert.equal(report.artifactId, 'v40-unit-coverage-inventory');
   assert.equal(report.schemaId, V40_UNIT_COVERAGE_INVENTORY_SCHEMA_ID);
   assert.equal(report.version, 'V40');

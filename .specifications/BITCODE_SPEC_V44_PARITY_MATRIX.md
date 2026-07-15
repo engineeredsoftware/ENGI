@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `2b08d07590269150d7a8ad658fe97dd99c05616d`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v44-spec-family-report.json`, `.bitcode/v44-canonical-input-report.json`, `.bitcode/v44-canon-posture-drift-report.json`, `.bitcode/v44-economic-domain-model.json`, `.bitcode/v44-packs-portfolio-market-intelligence.json`, `.bitcode/v44-reading-budget-quote-policy.json`, `.bitcode/v44-depositor-earnings-supply-opportunities.json`, `.bitcode/v44-btd-btc-compensation-statements.json`, `.bitcode/v44-organization-policy-wallet-authority.json`, `.bitcode/v44-enterprise-product-ux.json`, `.bitcode/v44-scaled-network-rehearsal.json`, `.bitcode/v44-promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v44/spec-family-report.json`, `.proofs/v44/canonical-input-report.json`, `.proofs/v44/canon-posture-drift-report.json`, `.proofs/v44/economic-domain-model.json`, `.proofs/v44/packs-portfolio-market-intelligence.json`, `.proofs/v44/reading-budget-quote-policy.json`, `.proofs/v44/depositor-earnings-supply-opportunities.json`, `.proofs/v44/btd-btc-compensation-statements.json`, `.proofs/v44/organization-policy-wallet-authority.json`, `.proofs/v44/enterprise-product-ux.json`, `.proofs/v44/scaled-network-rehearsal.json`, `.proofs/v44/promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
 - Source parity state: V44 source-side economic domain, Packs portfolio market intelligence, Reading budget/quote policy, depositor earnings opportunity, BTD/BTC compensation statements, organization policy and wallet authority, enterprise UX, scaled rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V44 file family
 - Scope: V44 canonical parity ledger for scaled engineering economy over promoted V43 product-route canon
 - Last fully realized canonical target preserved in source: `V44`
@@ -32,12 +32,12 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Gate 1 roadmap | V43 active / V44 draft posture, spec family, docs, workflow, package script, checker | implemented |
 | Economic domain model | Portfolio positions, market signals, quote states, settlement states, statements, repair cases | implemented |
 | Packs portfolio | `/packs` portfolio search, market intelligence, saved filters, economic facets | implemented |
-| Reading procurement | Budget, quote policy, approval thresholds, purchase governance through `.bitcode/v44-reading-budget-quote-policy.json` | implemented |
-| Depositor earnings | ROI, demand, compensation opportunity, supply recommendations through `.bitcode/v44-depositor-earnings-supply-opportunities.json` | implemented |
-| Accounting statements | BTD/BTC/source-to-shares statements and reconciliation through `.bitcode/v44-btd-btc-compensation-statements.json` | implemented |
-| Organization governance | Roles, budgets, wallet authority, source criticality, approvals through `.bitcode/v44-organization-policy-wallet-authority.json` | implemented |
-| Enterprise UX | Dense economic surfaces, proof expansion, responsive/accessibility proof through `.bitcode/v44-enterprise-product-ux.json` | implemented |
-| Scaled rehearsal | Many-pack, many-org local/staging-testnet economic rehearsal through `.bitcode/v44-scaled-network-rehearsal.json` | implemented |
+| Reading procurement | Budget, quote policy, approval thresholds, purchase governance through `.proofs/v44/reading-budget-quote-policy.json` | implemented |
+| Depositor earnings | ROI, demand, compensation opportunity, supply recommendations through `.proofs/v44/depositor-earnings-supply-opportunities.json` | implemented |
+| Accounting statements | BTD/BTC/source-to-shares statements and reconciliation through `.proofs/v44/btd-btc-compensation-statements.json` | implemented |
+| Organization governance | Roles, budgets, wallet authority, source criticality, approvals through `.proofs/v44/organization-policy-wallet-authority.json` | implemented |
+| Enterprise UX | Dense economic surfaces, proof expansion, responsive/accessibility proof through `.proofs/v44/enterprise-product-ux.json` | implemented |
+| Scaled rehearsal | Many-pack, many-org local/staging-testnet economic rehearsal through `.proofs/v44/scaled-network-rehearsal.json` | implemented |
 | Promotion readiness | Generated PROVEN, workflow, all V44 artifacts bound | closed |
 | Promotion addendum | Promoted source-of-truth hierarchy repaired and enforced against stale V43-active / V44-draft prose | closed |
 
@@ -67,4 +67,4 @@ tested, rehearsed, documented, and promotion-ready.
 
 | Artifact | Source evidence | Current judgment |
 | --- | --- | --- |
-| `.bitcode/v44-promotion-readiness-report.json` | `V44PromotionReadinessReport`, `generate:v44-promotion-readiness`, `check:v44-promotion-readiness`, `check:v44-gate10`, V44 PROVEN support, `v44-canon-promotion.yml`, gate/canon workflow posture, and V44 promotion scripts | closed |
+| `.proofs/v44/promotion-readiness-report.json` | `V44PromotionReadinessReport`, `generate:v44-promotion-readiness`, `check:v44-promotion-readiness`, `check:v44-gate10`, V44 PROVEN support, `v44-canon-promotion.yml`, gate/canon workflow posture, and V44 promotion scripts | closed |

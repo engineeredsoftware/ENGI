@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V41_READING_PROMPT_BENCHMARK_BASELINES_ARTIFACT_PATH =
-  '.bitcode/v41-reading-prompt-benchmark-baselines.json';
+  '.proofs/v41/reading-prompt-benchmark-baselines.json';
 export const V41_READING_PROMPT_BENCHMARK_BASELINES_SCHEMA_ID =
   'bitcode.v41.readingPromptBenchmarkBaselines.v1';
 export const V41_READING_PROMPT_BENCHMARK_BASELINES_VERSION = 'V41';
@@ -91,9 +91,9 @@ const SOURCE_ROOTS = Object.freeze({
   webSearchToolPrompts: 'packages/generic-tools/web-search/src/prompts',
   vcsToolPrompts: 'packages/generic-tools/vcs/src/prompts',
   gate2InventorySource: 'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
-  gate2InventoryArtifact: '.bitcode/v41-promptpart-prompt-inventory.json',
+  gate2InventoryArtifact: '.proofs/v41/promptpart-prompt-inventory.json',
   gate3ContractsSource: 'scripts/specifying/src/canonical/v41-registry-interpolation-contracts.js',
-  gate3ContractsArtifact: '.bitcode/v41-registry-interpolation-contracts.json',
+  gate3ContractsArtifact: '.proofs/v41/registry-interpolation-contracts.json',
   v38PromptBenchmarkReport: 'scripts/specifying/src/canonical/prompt-benchmark-report.js',
   v40PromptBenchmarkSmoke: 'scripts/specifying/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js',
   packageSource: 'scripts/specifying/src/canonical/v41-reading-prompt-benchmark-baselines.js',

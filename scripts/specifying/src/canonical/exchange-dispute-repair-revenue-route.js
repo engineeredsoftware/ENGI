@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_ARTIFACT_PATH = '.bitcode/v36-exchange-dispute-repair-revenue-route.json';
+export const EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_ARTIFACT_PATH = '.proofs/v36/exchange-dispute-repair-revenue-route.json';
 export const EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_SCHEMA_ID = 'bitcode.v36.exchangeDisputeRepairRevenueRoute.v1';
 export const EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_VERSION = 'V36';
 export const EXCHANGE_DISPUTE_REPAIR_REVENUE_ROUTE_CURRENT_TARGET = 'V35';

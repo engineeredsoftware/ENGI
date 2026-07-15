@@ -153,7 +153,7 @@ function rewritePackageReadme(content, version, nextDraft) {
     `must remain aligned to \`${version}\` active, \`${nextDraft}\` draft after promotion.`
   ).replace(
     /V\d+ Gate 10 will promote this package posture by rewriting those same runtime\s+carriers to `V\d+` active, `V\d+` draft and regenerating the V\d+ generated\s+appendix plus `\.bitcode\/v\d+-\*` promotion artifacts\./m,
-    `${version} Gate 10 promoted this package posture by rewriting those same runtime\ncarriers to \`${version}\` active, \`${nextDraft}\` draft and regenerating the ${version} generated\nappendix plus \`.bitcode/${version.toLowerCase()}-*\` promotion artifacts.`
+    `${version} Gate 10 promoted this package posture by rewriting those same runtime\ncarriers to \`${version}\` active, \`${nextDraft}\` draft and regenerating the ${version} generated\nappendix plus \`.proofs/${version.toLowerCase()}-*\` promotion artifacts.`
   );
 }
 

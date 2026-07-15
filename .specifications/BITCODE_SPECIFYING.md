@@ -12,7 +12,7 @@ Applies to:
 - future canonical promotion commits,
 - simplified-spec reading carried inside `NOTES`,
 - generated `_PROVEN_` appendices,
-- generated `.bitcode/vN-*` canonical artifacts,
+- generated `.proofs/vN-*` canonical artifacts,
 - system parity matrices,
 - version deltas,
 - and realization/demo documents when they are referenced by system canon
@@ -46,7 +46,7 @@ The priority order for specifying truth is:
 4. `BITCODE_SPEC_VN_DELTA.md`
 5. `BITCODE_SPEC_VN_PARITY_MATRIX.md`
 6. generated `BITCODE_SPEC_VN_PROVEN.md`
-7. generated `.bitcode/vN-*` artifacts
+7. generated `.proofs/vN-*` artifacts
 8. named realization/demo specs and adjunct docs, only where the active spec family explicitly references them
 
 Older versioned specs are historical.
@@ -60,7 +60,7 @@ When drafting a new version, the minimum canonical input set is:
 2. the current `NOTES` companion from V26 onward, including its simplified-spec reading section,
 3. the current generated `_PROVEN_`,
 4. the current parity matrix,
-5. the current canonical structured `.bitcode/vN-*` artifacts,
+5. the current canonical structured `.proofs/vN-*` artifacts,
 6. and any canon-named realization or adjunct documents required by the active spec family.
 
 `NOTES` may still contain non-canonical working detail, but from V26 onward it is also a required family member and simplified-reading carrier; it must not override the main `SPEC`.
@@ -92,7 +92,7 @@ A reader should be able to derive:
 from the active spec family.
 
 `SPEC` is the primary bearer of that derivability.
-`SPEC_DELTA`, `SPEC_PARITY_MATRIX`, `_PROVEN_`, and generated `.bitcode/vN-*` artifacts are required canonical supports, but they do not excuse a main spec that omits whole-system meaning.
+`SPEC_DELTA`, `SPEC_PARITY_MATRIX`, `_PROVEN_`, and generated `.proofs/vN-*` artifacts are required canonical supports, but they do not excuse a main spec that omits whole-system meaning.
 
 ## 2.1 `SPEC`-Alone Completeness
 
@@ -112,7 +112,7 @@ The supporting canonical family then adds:
 - `SPEC_NOTES` for reform/work tracking plus simplified version reading,
 - `SPEC_PARITY_MATRIX` for source/generated/test/promotion truth,
 - `_PROVEN_` for generated proof rendering,
-- and `.bitcode/vN-*` for generated structured evidence.
+- and `.proofs/vN-*` for generated structured evidence.
 
 Those supporting files may sharpen, evidence, or operationalize canon.
 They must not be required to supply omitted system semantics that the main `SPEC` failed to restate.
@@ -140,7 +140,7 @@ If a section cannot answer those questions, it is not implementation-derivable e
 - `SPEC_DELTA`,
 - `SPEC_PARITY_MATRIX`,
 - generated `_PROVEN_`,
-- generated `.bitcode/vN-*` artifacts,
+- generated `.proofs/vN-*` artifacts,
 - source code,
 - test files,
 - earlier specs,
@@ -309,7 +309,7 @@ Generated canonical artifacts are required separately when applicable:
 5. `BITCODE_SPEC_VN_PROVEN.md`
  The generated-only proof appendix for the canonical version.
 
-6. `.bitcode/vN-*`
+6. `.proofs/vN-*`
  Generated structured artifacts required by the version's proof, promotion, quality, replay, matrix, or contract-change canon.
 
 The root pointer is:
@@ -383,7 +383,7 @@ The rule is:
 - if a claim is intended to survive as current Bitcode truth, it must be promoted into `SPEC`;
 - if it is a version-local decision, accepted boundary, implementation-revealed refinement, or canonical commit-message input, it must be promoted into `SPEC_DELTA`;
 - if it is source/generated/test/promotion parity truth, it must be promoted into `SPEC_PARITY_MATRIX`;
-- if it is generated proof or report truth, it must be generated into `_PROVEN_` or `.bitcode/vN-*`.
+- if it is generated proof or report truth, it must be generated into `_PROVEN_` or `.proofs/vN-*`.
 
 Notes are therefore useful for drafting, but invalid as citation for canonical behavior.
 An implementer or auditor must be able to ignore notes entirely and still derive current canon from `SPEC`, `SPEC_DELTA`, `SPEC_PARITY_MATRIX`, and generated canon.
@@ -471,7 +471,7 @@ Stale status language is a canonical defect.
 1. **Once promoted, a version's canon artifacts for that era must not change** for the purpose of tracking later realization.
    That freeze covers, at minimum:
    - the hand-authored family (`BITCODE_SPEC_VN.md`, `NOTES`, `DELTA`, `PARITY_MATRIX` as promoted),
-   - generated `BITCODE_SPEC_VN_PROVEN.md` and `.bitcode/vN-*` structured artifacts for that promotion,
+   - generated `BITCODE_SPEC_VN_PROVEN.md` and `.proofs/vN-*` structured artifacts for that promotion,
    - version-bound gate checkers, package proof generators, and tests that attest **that era's** predicates against **that era's** source and route vocabulary.
 2. **Old version checks must never be edited** to chase later renames, package hierarchy moves, route pluralization, product retirement, component layout moves, vocabulary renames, or sole-canon modularization of a future draft.
 3. **Historical promoted specs remain referenceable as canon-at-that-time.** Auditors, PROPER reconstructions, and provenance citations use them as fixed law for the era they closed — not as living code maps of the current tree.
@@ -484,7 +484,7 @@ Stale status language is a canonical defect.
    - **era-pin / skip-with-reason** (or pointer-gated non-execution) for the historical check while the current pointer has moved past that era,
    - **PROPER** reconstructions (§3.2) when specifying itself is under test against an already-promoted target,
    - and **new** current-version proofs/checks that restate obligations against the present tree.
-   The incorrect tool is rewriting the historical checker, historical proof file, or historical `.bitcode/vN-*` artifact so it matches today's paths or product names.
+   The incorrect tool is rewriting the historical checker, historical proof file, or historical `.proofs/vN-*` artifact so it matches today's paths or product names.
 
 ### Why this exists
 
@@ -503,7 +503,7 @@ Bitcode treats each promotion as a closed ledger entry of system law. If V43–V
 The `SPEC` is the complete current canon.
 It is not release notes.
 
-`SPEC_DELTA`, `SPEC_PARITY_MATRIX`, generated `_PROVEN_`, and generated `.bitcode/vN-*` artifacts are required companion surfaces, but they do not lower the main-spec responsibility.
+`SPEC_DELTA`, `SPEC_PARITY_MATRIX`, generated `_PROVEN_`, and generated `.proofs/vN-*` artifacts are required companion surfaces, but they do not lower the main-spec responsibility.
 If the whole system cannot be re-implemented or audited from `SPEC`, the version is structurally incomplete even when the companion files are strong.
 
 Required top-level structure:
@@ -949,7 +949,7 @@ At minimum, the generator or its checker must fail closed when:
 - the proof-source commit does not match the rendered appendix,
 - or the committed appendix diverges from generator output in check mode.
 
-## 8.2 Structured `.bitcode` Artifacts
+## 8.2 Structured `.proofs` Artifacts
 
 Every canonical generated JSON artifact must have:
 - stable filename,
@@ -1134,7 +1134,7 @@ The parity matrix must include rows for:
 - file-family completeness,
 - stale draft language,
 - generated `_PROVEN_`,
-- generated `.bitcode/vN-*` artifacts,
+- generated `.proofs/vN-*` artifacts,
 - test gates,
 - promotion command,
 - canonical commit message body,
@@ -1163,7 +1163,7 @@ A promotion workflow must:
 12. prepare the hand-authored file family for promoted status truth,
 13. advance `BITCODE_SPEC.txt`,
 14. generate `BITCODE_SPEC_VN_PROVEN.md`,
-15. generate required `.bitcode/vN-*` artifacts,
+15. generate required `.proofs/vN-*` artifacts,
 16. run generated check mode,
 17. validate the newly pointed canonical input family after generation,
 18. run `git diff --check`,
@@ -1519,7 +1519,7 @@ A full Bitcode `SPEC` is structurally complete only when:
 12. `DELTA` contains version-local decisions only,
 13. `PARITY_MATRIX` honestly records source/generated/test/promotion truth,
 14. `_PROVEN_` is generated and checkable when promoted,
-15. `.bitcode/vN-*` artifacts are generated and checkable when required,
+15. `.proofs/vN-*` artifacts are generated and checkable when required,
 16. stale draft language is absent after promotion,
 17. required appendix-grade coverage carriers exist and are populated with current canon,
 18. scenario/workflow/principal/branch cross-products are explicit where current canon depends on them,

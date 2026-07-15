@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const TELEMETRY_TAXONOMY_CATALOG_ARTIFACT_PATH = '.bitcode/v35-telemetry-taxonomy-catalog.json';
+export const TELEMETRY_TAXONOMY_CATALOG_ARTIFACT_PATH = '.proofs/v35/telemetry-taxonomy-catalog.json';
 export const TELEMETRY_TAXONOMY_CATALOG_SCHEMA_ID = 'bitcode.v35.telemetryTaxonomyCatalog.v1';
 export const TELEMETRY_TAXONOMY_CATALOG_VERSION = 'V35';
 export const TELEMETRY_TAXONOMY_CATALOG_CURRENT_TARGET = 'V34';
@@ -257,7 +257,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       '.github/workflows/bitcode-gate-quality.yml',
       'packages/btd/src/migration-approval-gate.ts',
-      '.bitcode/v34-local-staging-testnet-deployment-rehearsal.json',
+      '.proofs/v34/local-staging-testnet-deployment-rehearsal.json',
     ],
   },
   {
@@ -276,7 +276,7 @@ const taxonomyRows = Object.freeze([
     runbookLink: 'runbook.observer.finality-lag',
     sourceRoots: [
       'packages/btd/src/runtime-observer-repair-job.ts',
-      '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
+      '.proofs/v34/runtime-observers-broadcasters-repair-jobs.json',
       'apps/uapi/tests/terminalJournalReconciliation.test.ts',
     ],
   },
@@ -296,7 +296,7 @@ const taxonomyRows = Object.freeze([
     runbookLink: 'runbook.repair.failed',
     sourceRoots: [
       'packages/btd/src/rollback-upgrade-repair-playbook.ts',
-      '.bitcode/v34-rollback-upgrade-data-repair-playbooks.json',
+      '.proofs/v34/rollback-upgrade-data-repair-playbooks.json',
       '.docs/DEPLOYMENT.md',
     ],
   },
@@ -317,7 +317,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'scripts/specifying/src/canonical/documentation-surface-catalog.js',
       'scripts/check-v35-gate2-documentation-surface-catalog.mjs',
-      '.bitcode/v35-documentation-surface-catalog.json',
+      '.proofs/v35/documentation-surface-catalog.json',
     ],
   },
   {

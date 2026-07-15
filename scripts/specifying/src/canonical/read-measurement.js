@@ -648,50 +648,50 @@ export function createReadMeasurementRuntime({
       };
     });
     const witnessArtifactPaths = [
-      '.bitcode/inference-moment-contracts.json',
-      '.bitcode/inference-proofs.json',
-      '.bitcode/prompt-implementation-surface.json',
-      '.bitcode/prompt-surfaces.json',
-      '.bitcode/parsed-completion-envelopes.json',
-      '.bitcode/inference-synthesis-proof.json'
+      '.proofs/_shared/inference-moment-contracts.json',
+      '.proofs/_shared/inference-proofs.json',
+      '.proofs/_shared/prompt-implementation-surface.json',
+      '.proofs/_shared/prompt-surfaces.json',
+      '.proofs/_shared/parsed-completion-envelopes.json',
+      '.proofs/_shared/inference-synthesis-proof.json'
     ];
     const replayArtifacts = [
-      '.bitcode/inference-moment-contracts.json',
-      '.bitcode/inference-proofs.json',
-      '.bitcode/prompt-implementation-surface.json',
-      '.bitcode/prompt-surfaces.json',
-      '.bitcode/parsed-completion-envelopes.json',
-      '.bitcode/eval-manifest.json',
-      '.bitcode/inference-synthesis-proof.json'
+      '.proofs/_shared/inference-moment-contracts.json',
+      '.proofs/_shared/inference-proofs.json',
+      '.proofs/_shared/prompt-implementation-surface.json',
+      '.proofs/_shared/prompt-surfaces.json',
+      '.proofs/_shared/parsed-completion-envelopes.json',
+      '.proofs/_shared/eval-manifest.json',
+      '.proofs/_shared/inference-synthesis-proof.json'
     ];
     const replaySteps = [
       buildReplayStep({
         stepId: 'inference-synthesis.coverage-reconciliation',
         theoremIds: ['inference_synthesis.coverage_totality'],
-        requiredArtifactPaths: ['.bitcode/inference-moment-contracts.json', '.bitcode/inference-proofs.json', '.bitcode/inference-synthesis-proof.json', '.bitcode/prompt-surfaces.json'],
+        requiredArtifactPaths: ['.proofs/_shared/inference-moment-contracts.json', '.proofs/_shared/inference-proofs.json', '.proofs/_shared/inference-synthesis-proof.json', '.proofs/_shared/prompt-surfaces.json'],
         instruction: 'Reconcile classified inferred fields against covered field proofs and prompt surfaces.'
       }),
       buildReplayStep({
         stepId: 'inference-synthesis.evaluator-status-replay',
         theoremIds: ['inference_synthesis.evaluator_status_truth'],
-        requiredArtifactPaths: ['.bitcode/inference-moment-contracts.json', '.bitcode/inference-proofs.json', '.bitcode/prompt-surfaces.json', '.bitcode/eval-manifest.json'],
+        requiredArtifactPaths: ['.proofs/_shared/inference-moment-contracts.json', '.proofs/_shared/inference-proofs.json', '.proofs/_shared/prompt-surfaces.json', '.proofs/_shared/eval-manifest.json'],
         instruction: 'Replay evaluator status across field proofs, prompt surfaces, and eval manifest.'
       }),
       buildReplayStep({
         stepId: 'inference-synthesis.evidence-basis-replay',
         theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'],
-        requiredArtifactPaths: ['.bitcode/inference-moment-contracts.json', '.bitcode/inference-proofs.json', '.bitcode/prompt-surfaces.json', '.bitcode/parsed-completion-envelopes.json', '.bitcode/inference-synthesis-proof.json'],
+        requiredArtifactPaths: ['.proofs/_shared/inference-moment-contracts.json', '.proofs/_shared/inference-proofs.json', '.proofs/_shared/prompt-surfaces.json', '.proofs/_shared/parsed-completion-envelopes.json', '.proofs/_shared/inference-synthesis-proof.json'],
         instruction: 'Reconcile field-proof evidence refs against prompt context and parsed envelopes.'
       })
     ];
     const artifactBindings = [
-      buildArtifactBinding({ artifactPath: '.bitcode/inference-moment-contracts.json', role: 'registry', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.evidence_basis_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.bitcode/inference-proofs.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.bitcode/prompt-implementation-surface.json', role: 'aggregate-surface', theoremIds: ['inference_synthesis.witness_materialization_closure'], requiredForWitness: true, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.bitcode/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.ownership_traceability_closure'] }),
-      buildArtifactBinding({ artifactPath: '.bitcode/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.replay_closure'] }),
-      buildArtifactBinding({ artifactPath: '.bitcode/eval-manifest.json', role: 'registry', theoremIds: ['inference_synthesis.evaluator_status_truth'], requiredForWitness: false, requiredForReplay: true }),
-      buildArtifactBinding({ artifactPath: '.bitcode/inference-synthesis-proof.json', role: 'primary-proof', theoremIds: ['inference_synthesis.witness_materialization_closure', 'inference_synthesis.replay_closure'] })
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/inference-moment-contracts.json', role: 'registry', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.evidence_basis_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/inference-proofs.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evidence_basis_closure', 'inference_synthesis.ownership_traceability_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/prompt-implementation-surface.json', role: 'aggregate-surface', theoremIds: ['inference_synthesis.witness_materialization_closure'], requiredForWitness: true, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/prompt-surfaces.json', role: 'primary-proof', theoremIds: ['inference_synthesis.coverage_totality', 'inference_synthesis.evaluator_status_truth', 'inference_synthesis.ownership_traceability_closure'] }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/parsed-completion-envelopes.json', role: 'supporting-proof', theoremIds: ['inference_synthesis.evidence_basis_closure', 'inference_synthesis.replay_closure'] }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/eval-manifest.json', role: 'registry', theoremIds: ['inference_synthesis.evaluator_status_truth'], requiredForWitness: false, requiredForReplay: true }),
+      buildArtifactBinding({ artifactPath: '.proofs/_shared/inference-synthesis-proof.json', role: 'primary-proof', theoremIds: ['inference_synthesis.witness_materialization_closure', 'inference_synthesis.replay_closure'] })
     ];
     const theoremIds = [
       'inference_synthesis.coverage_totality',
@@ -937,16 +937,16 @@ export function createReadMeasurementRuntime({
         template: `You are measuring a ${ACTIVE_PROJECT_LABEL} remediation read for repo {{repo}} on branch {{baseRef}} after GitHub run {{benchmarkRunId}}. Failing cases: {{failingCases}}. Weak dimensions: {{weakDimensions}}. Touched paths: {{touchedPaths}}. Constraints: {{constraints}}. Produce a concise task statement that preserves rollback safety and session validity.`,
         values: { repo: scenario.repo, baseRef: scenario.baseRef, benchmarkRunId: scenario.benchmarkRunId, failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, touchedPaths: repoCodeAnalysis.touchedPaths, constraints },
         contextInputs: [
-          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.bitcode/read.json'] },
-          { field: 'baseRef', value: scenario.baseRef, source: 'scenario.baseRef', evidenceRefs: [scenario.baseRef], artifactBindings: ['.bitcode/read.json'] },
-          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.bitcode/benchmark-target.json'] },
-          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.bitcode/read-measurement.json'] },
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/read-measurement.json'] },
-          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: fieldDerivations.touchedPaths.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.bitcode/read.json', '.bitcode/match-report.json'] },
-          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/read.json'] }
+          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.proofs/_shared/read.json'] },
+          { field: 'baseRef', value: scenario.baseRef, source: 'scenario.baseRef', evidenceRefs: [scenario.baseRef], artifactBindings: ['.proofs/_shared/read.json'] },
+          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.proofs/_shared/benchmark-target.json'] },
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.proofs/_shared/read-measurement.json'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.proofs/_shared/read-measurement.json'] },
+          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: fieldDerivations.touchedPaths.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.proofs/_shared/read.json', '.proofs/_shared/match-report.json'] },
+          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.proofs/_shared/read.json'] }
         ],
         outputFields: ['task'],
-        downstreamArtifacts: ['.bitcode/read.json', '.bitcode/match-report.json', '.bitcode/system-proof-bundle.json', 'BITCODE_READ.md']
+        downstreamArtifacts: ['.proofs/_shared/read.json', '.proofs/_shared/match-report.json', '.proofs/_shared/system-proof-bundle.json', 'BITCODE_READ.md']
       }),
       buildPromptSurface({
         promptId: 'read-measurement.failure-modes.v2',
@@ -954,12 +954,12 @@ export function createReadMeasurementRuntime({
         template: `Given failing cases {{failingCases}} and weak dimensions {{weakDimensions}} for repo {{repo}}, derive the concrete failure modes that must be addressed in the private ${ACTIVE_PROJECT_LABEL} remediation branch.`,
         values: { failingCases: canonicalBenchmarkOutputs.failingCases, weakDimensions: canonicalBenchmarkOutputs.weakDimensions, repo: scenario.repo },
         contextInputs: [
-          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.bitcode/read.json'] },
-          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.bitcode/read-measurement.json'] },
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/read-measurement.json'] }
+          { field: 'repo', value: scenario.repo, source: 'scenario.repo', evidenceRefs: [scenario.repo], artifactBindings: ['.proofs/_shared/read.json'] },
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.proofs/_shared/read-measurement.json'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.proofs/_shared/read-measurement.json'] }
         ],
         outputFields: ['failureModes'],
-        downstreamArtifacts: ['.bitcode/read.json', '.bitcode/match-report.json', '.bitcode/prompt-surfaces.json', 'BITCODE_READ.md']
+        downstreamArtifacts: ['.proofs/_shared/read.json', '.proofs/_shared/match-report.json', '.proofs/_shared/prompt-surfaces.json', 'BITCODE_READ.md']
       }),
       buildPromptSurface({
         promptId: 'read-measurement.constraints.v2',
@@ -967,13 +967,13 @@ export function createReadMeasurementRuntime({
         template: `Use weak dimensions {{weakDimensions}}, benchmark run {{benchmarkRunId}}, and repo privacy expectations to derive the non-negotiable constraints for this ${ACTIVE_PROJECT_LABEL} branch. Include rollback safety, privacy, and auditability where supported.`,
         values: { weakDimensions: canonicalBenchmarkOutputs.weakDimensions, benchmarkRunId: scenario.benchmarkRunId },
         contextInputs: [
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/read-measurement.json'] },
-          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.bitcode/benchmark-target.json'] },
-          { field: 'repoPrivacy', value: 'private remediation branch until bounded public proof', source: 'spec policy', evidenceRefs: [scenario.repo], artifactBindings: ['.bitcode/policy-release.json'] }
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.proofs/_shared/read-measurement.json'] },
+          { field: 'benchmarkRunId', value: scenario.benchmarkRunId, source: 'scenario.benchmarkRunId', evidenceRefs: summarizeStrings([scenario.canonicalRunEvidence?.runId]), artifactBindings: ['.proofs/_shared/benchmark-target.json'] },
+          { field: 'repoPrivacy', value: 'private remediation branch until bounded public proof', source: 'spec policy', evidenceRefs: [scenario.repo], artifactBindings: ['.proofs/_shared/policy-release.json'] }
         ],
         nonRenderedContextFields: ['repoPrivacy'],
         outputFields: ['constraints'],
-        downstreamArtifacts: ['.bitcode/read.json', '.bitcode/policy-release.json', '.bitcode/system-proof-bundle.json', 'BITCODE_READ.md']
+        downstreamArtifacts: ['.proofs/_shared/read.json', '.proofs/_shared/policy-release.json', '.proofs/_shared/system-proof-bundle.json', 'BITCODE_READ.md']
       }),
       buildPromptSurface({
         promptId: 'read-measurement.target-artifact-kinds.v2',
@@ -981,12 +981,12 @@ export function createReadMeasurementRuntime({
         template: 'From touched paths {{touchedPaths}}, symbols {{symbols}}, and repo context {{stackHints}}, determine which artifact kinds are needed to remediate the benchmark failures without widening scope.',
         values: { touchedPaths: repoCodeAnalysis.touchedPaths, symbols: repoCodeAnalysis.extractedSymbols, stackHints: repoCodeAnalysis.stackHints },
         contextInputs: [
-          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: 'buildRepoStaticCodeAnalysis.touchedPaths', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.bitcode/read.json'] },
-          { field: 'symbols', value: repoCodeAnalysis.extractedSymbols, source: 'buildRepoStaticCodeAnalysis.extractedSymbols', evidenceRefs: repoCodeAnalysis.extractedSymbols, artifactBindings: ['.bitcode/unit-catalog.json'] },
-          { field: 'stackHints', value: repoCodeAnalysis.stackHints, source: fieldDerivations.stackHints.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.stackHints, artifactBindings: ['.bitcode/eval-manifest.json'] }
+          { field: 'touchedPaths', value: repoCodeAnalysis.touchedPaths, source: 'buildRepoStaticCodeAnalysis.touchedPaths', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.proofs/_shared/read.json'] },
+          { field: 'symbols', value: repoCodeAnalysis.extractedSymbols, source: 'buildRepoStaticCodeAnalysis.extractedSymbols', evidenceRefs: repoCodeAnalysis.extractedSymbols, artifactBindings: ['.proofs/_shared/unit-catalog.json'] },
+          { field: 'stackHints', value: repoCodeAnalysis.stackHints, source: fieldDerivations.stackHints.source || 'repo-context-extraction', evidenceRefs: repoCodeAnalysis.stackHints, artifactBindings: ['.proofs/_shared/eval-manifest.json'] }
         ],
         outputFields: ['targetArtifactKinds'],
-        downstreamArtifacts: ['.bitcode/read.json', '.bitcode/artifact-upload-manifest.json', 'BITCODE_READ.md']
+        downstreamArtifacts: ['.proofs/_shared/read.json', '.proofs/_shared/artifact-upload-manifest.json', 'BITCODE_READ.md']
       }),
       buildPromptSurface({
         promptId: 'read-measurement.closure-criteria.v2',
@@ -999,13 +999,13 @@ export function createReadMeasurementRuntime({
           constraints
         },
         contextInputs: [
-          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.bitcode/read-measurement.json', 'BITCODE_READ.md'] },
-          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/read-measurement.json', 'BITCODE_READ.md'] },
-          { field: 'targetArtifactKinds', value: targetArtifactKinds, source: fieldDerivations.targetArtifactKinds.source || 'deterministic-synthesis', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.bitcode/read.json', 'BITCODE_READ.md'] },
-          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.bitcode/read.json', '.bitcode/policy-release.json', 'BITCODE_READ.md'] }
+          { field: 'failingCases', value: canonicalBenchmarkOutputs.failingCases, source: 'canonicalBenchmarkOutputs.failingCases', evidenceRefs: canonicalBenchmarkOutputs.failingCases, artifactBindings: ['.proofs/_shared/read-measurement.json', 'BITCODE_READ.md'] },
+          { field: 'weakDimensions', value: canonicalBenchmarkOutputs.weakDimensions, source: 'canonicalBenchmarkOutputs.weakDimensions', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.proofs/_shared/read-measurement.json', 'BITCODE_READ.md'] },
+          { field: 'targetArtifactKinds', value: targetArtifactKinds, source: fieldDerivations.targetArtifactKinds.source || 'deterministic-synthesis', evidenceRefs: repoCodeAnalysis.touchedPaths, artifactBindings: ['.proofs/_shared/read.json', 'BITCODE_READ.md'] },
+          { field: 'constraints', value: constraints, source: fieldDerivations.constraints.source || 'deterministic-synthesis', evidenceRefs: canonicalBenchmarkOutputs.weakDimensions, artifactBindings: ['.proofs/_shared/read.json', '.proofs/_shared/policy-release.json', 'BITCODE_READ.md'] }
         ],
         outputFields: ['closureCriteria'],
-        downstreamArtifacts: ['.bitcode/read.json', '.bitcode/reading-surface.json', 'BITCODE_READ.md']
+        downstreamArtifacts: ['.proofs/_shared/read.json', '.proofs/_shared/reading-surface.json', 'BITCODE_READ.md']
       })
     ];
     const classifiedPromptOwnedFields = ['task', 'failureModes', 'constraints', 'targetArtifactKinds', 'closureCriteria'];
@@ -1079,11 +1079,11 @@ export function createReadMeasurementRuntime({
       classifiedPromptOwnedFields,
       explicitExclusions: [],
       expectedDownstreamConsumersByField: {
-        task: ['.bitcode/read.json', '.bitcode/match-report.json', '.bitcode/system-proof-bundle.json', 'BITCODE_READ.md'],
-        failureModes: ['.bitcode/read.json', '.bitcode/match-report.json', 'BITCODE_READ.md'],
-        constraints: ['.bitcode/read.json', '.bitcode/policy-release.json', '.bitcode/system-proof-bundle.json', 'BITCODE_READ.md'],
-        targetArtifactKinds: ['.bitcode/read.json', '.bitcode/artifact-upload-manifest.json', 'BITCODE_READ.md'],
-        closureCriteria: ['.bitcode/read.json', '.bitcode/reading-surface.json', 'BITCODE_READ.md']
+        task: ['.proofs/_shared/read.json', '.proofs/_shared/match-report.json', '.proofs/_shared/system-proof-bundle.json', 'BITCODE_READ.md'],
+        failureModes: ['.proofs/_shared/read.json', '.proofs/_shared/match-report.json', 'BITCODE_READ.md'],
+        constraints: ['.proofs/_shared/read.json', '.proofs/_shared/policy-release.json', '.proofs/_shared/system-proof-bundle.json', 'BITCODE_READ.md'],
+        targetArtifactKinds: ['.proofs/_shared/read.json', '.proofs/_shared/artifact-upload-manifest.json', 'BITCODE_READ.md'],
+        closureCriteria: ['.proofs/_shared/read.json', '.proofs/_shared/reading-surface.json', 'BITCODE_READ.md']
       }
     });
     const inferenceSynthesisProof = buildInferenceSynthesisProof({

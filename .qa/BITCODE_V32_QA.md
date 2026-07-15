@@ -39,22 +39,22 @@ Promotion workflow proof:
   <proof-source-commit>` only on the version branch.
 - The promotion command rewrites the hand-authored V32 family status truth,
   prepares runtime posture for V32 active / V33 draft, writes
-  `BITCODE_SPEC_V32_PROVEN.md`, writes `.bitcode/v32-*` generated artifacts,
+  `BITCODE_SPEC_V32_PROVEN.md`, writes `.proofs/v32/*` generated artifacts,
   and validates the promoted V32 family.
 - Direct pushes to `main` remain inadmissible.
 
 Generated source-safe proof artifacts:
 
-- `.bitcode/v32-promotion-readiness-report.json`
-- `.bitcode/v32-promotion-proof-generation-hardening.json`
-- `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`
-- `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`
-- `.bitcode/v32-interface-contract-regression-suite.json`
-- `.bitcode/v32-ledger-btd-settlement-failure-state-coverage.json`
-- `.bitcode/v32-reading-pipeline-proof-coverage.json`
-- `.bitcode/v32-deterministic-replay-report.json`
-- `.bitcode/v32-artifact-volatility-inventory.json`
-- `.bitcode/v32-proof-coverage-matrix.json`
+- `.proofs/v32/promotion-readiness-report.json`
+- `.proofs/v32/promotion-proof-generation-hardening.json`
+- `.proofs/v32/testnet-mainnet-readiness-rehearsal.json`
+- `.proofs/v32/browser-accessibility-responsive-visual-proof.json`
+- `.proofs/v32/interface-contract-regression-suite.json`
+- `.proofs/v32/ledger-btd-settlement-failure-state-coverage.json`
+- `.proofs/v32/reading-pipeline-proof-coverage.json`
+- `.proofs/v32/deterministic-replay-report.json`
+- `.proofs/v32/artifact-volatility-inventory.json`
+- `.proofs/v32/proof-coverage-matrix.json`
 
 Accepted boundaries:
 

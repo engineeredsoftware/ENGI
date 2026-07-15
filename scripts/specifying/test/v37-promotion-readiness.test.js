@@ -52,7 +52,7 @@ test('builds source-safe V37 ConversationPromotionReadinessReport', () => {
   assert.match(report.artifactRoot, /^conversation-promotion-readiness-report:[a-f0-9]{24}$/u);
   assert.equal(
     CONVERSATION_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
-    '.bitcode/v37-promotion-readiness-report.json',
+    '.proofs/v37/promotion-readiness-report.json',
   );
 
   for (const artifactPath of CONVERSATION_PROMOTION_READINESS_GATE_ARTIFACT_PATHS) {
@@ -75,6 +75,6 @@ test('supports V37 promotion readiness with source-safe Conversations artifacts'
   assert.equal(result.data.v37.promotionReadinessReport.postPromotionPosture, 'V37 active / V38 draft');
   assert.equal(result.data.v37.promotionReadinessReport.passed, true);
   assert.match(result.markdown, /V37 Promotion Readiness/);
-  assert.ok(result.artifacts['.bitcode/v37-promotion-readiness-report.json']);
-  assert.ok(result.artifacts['.bitcode/v37-canon-posture-drift-report.json']);
+  assert.ok(result.artifacts['.proofs/v37/promotion-readiness-report.json']);
+  assert.ok(result.artifacts['.proofs/v37/canon-posture-drift-report.json']);
 });

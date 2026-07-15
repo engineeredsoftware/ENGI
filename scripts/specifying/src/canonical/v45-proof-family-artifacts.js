@@ -20,25 +20,25 @@ export const V45_PROOF_FAMILY_PROOF_SOURCE_COMMIT =
 export const V45_PROOF_FAMILY_PROVEN_PATH = '.specifications/BITCODE_SPEC_V45_PROVEN.md';
 
 export const V45_PROOF_FAMILY_ARTIFACT_PATHS = Object.freeze([
-  '.bitcode/v45-inference-synthesis-proof.json',
-  '.bitcode/v45-prompt-completeness-proof.json',
-  '.bitcode/v45-static-code-analysis-proof.json',
-  '.bitcode/v45-verification-decisions-proof.json',
-  '.bitcode/v45-selection-materialization-proof.json',
-  '.bitcode/v45-authorization-sensitive-flow-proof.json',
-  '.bitcode/v45-settlement-source-to-shares-proof.json',
-  '.bitcode/v45-disclosure-boundary-proof.json',
-  '.bitcode/v45-proof-contract-proof.json',
+  '.proofs/v45/inference-synthesis-proof.json',
+  '.proofs/v45/prompt-completeness-proof.json',
+  '.proofs/v45/static-code-analysis-proof.json',
+  '.proofs/v45/verification-decisions-proof.json',
+  '.proofs/v45/selection-materialization-proof.json',
+  '.proofs/v45/authorization-sensitive-flow-proof.json',
+  '.proofs/v45/settlement-source-to-shares-proof.json',
+  '.proofs/v45/disclosure-boundary-proof.json',
+  '.proofs/v45/proof-contract-proof.json',
 ]);
 
 export const V45_PROOF_FAMILY_GENERATED_OUTPUTS = Object.freeze([
   ...V45_PROOF_FAMILY_ARTIFACT_PATHS,
-  '.bitcode/v45-spec-family-report.json',
-  '.bitcode/v45-canonical-input-report.json',
+  '.proofs/v45/spec-family-report.json',
+  '.proofs/v45/canonical-input-report.json',
   V45_PROOF_FAMILY_PROVEN_PATH,
 ]);
 const V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
-  '.bitcode/v45-promotion-readiness-report.json';
+  '.proofs/v45/promotion-readiness-report.json';
 
 export const V45_PROOF_FAMILY_IDS = Object.freeze([
   'inference-synthesis',
@@ -146,7 +146,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'inference-synthesis',
     title: 'Inference-synthesis',
-    artifactPath: '.bitcode/v45-inference-synthesis-proof.json',
+    artifactPath: '.proofs/v45/inference-synthesis-proof.json',
     members: [
       'ReadNeedComprehensionSynthesis',
       'ReadFitsFindingSynthesis',
@@ -166,10 +166,10 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'redacted telemetry readback',
     ],
     witnessArtifactPaths: [
-      '.bitcode/v38-inference-surface-inventory.json',
-      '.bitcode/v38-ptrr-failsafe-thricified-stack.json',
-      '.bitcode/v39-read-fits-finding-runtime.json',
-      '.bitcode/v41-promptpart-prompt-inventory.json',
+      '.proofs/v38/inference-surface-inventory.json',
+      '.proofs/v38/ptrr-failsafe-thricified-stack.json',
+      '.proofs/v39/read-fits-finding-runtime.json',
+      '.proofs/v41/promptpart-prompt-inventory.json',
     ],
     sourceEvidence: [
       source('packages/asset-packs-pipelines/domain/src/read-need.ts', [
@@ -230,7 +230,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'prompt-completeness',
     title: 'Prompt-completeness',
-    artifactPath: '.bitcode/v45-prompt-completeness-proof.json',
+    artifactPath: '.proofs/v45/prompt-completeness-proof.json',
     members: [
       'prompt parts',
       'prompts',
@@ -250,9 +250,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'benchmark run',
     ],
     witnessArtifactPaths: [
-      '.bitcode/v41-promptpart-prompt-inventory.json',
-      '.bitcode/v41-registry-interpolation-contracts.json',
-      '.bitcode/v41-prompt-program-benchmark-report.json',
+      '.proofs/v41/promptpart-prompt-inventory.json',
+      '.proofs/v41/registry-interpolation-contracts.json',
+      '.proofs/v41/prompt-program-benchmark-report.json',
     ],
     sourceEvidence: [
       source('scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js', [
@@ -306,7 +306,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'static-code-analysis',
     title: 'Static-code-analysis',
-    artifactPath: '.bitcode/v45-static-code-analysis-proof.json',
+    artifactPath: '.proofs/v45/static-code-analysis-proof.json',
     members: ['packages', 'routes', 'scripts', 'workflows', 'tests', 'docs'],
     theoremIds: [
       'source names align with protocol',
@@ -315,9 +315,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     ],
     replayStepIds: ['lint', 'typecheck', 'casing/imports', 'spec check'],
     witnessArtifactPaths: [
-      '.bitcode/v44-promotion-readiness-report.json',
-      '.bitcode/v44-spec-family-report.json',
-      '.bitcode/v44-canonical-input-report.json',
+      '.proofs/v44/promotion-readiness-report.json',
+      '.proofs/v44/spec-family-report.json',
+      '.proofs/v44/canonical-input-report.json',
     ],
     sourceEvidence: [
       source('package.json', [
@@ -363,7 +363,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'verification-decisions',
     title: 'Verification-decisions',
-    artifactPath: '.bitcode/v45-verification-decisions-proof.json',
+    artifactPath: '.proofs/v45/verification-decisions-proof.json',
     members: [
       'Need review',
       'Fit thresholding',
@@ -384,9 +384,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'confirm finality',
     ],
     witnessArtifactPaths: [
-      '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
-      '.bitcode/v42-readfitsfinding-preview-quote.json',
-      '.bitcode/v44-organization-policy-wallet-authority.json',
+      '.proofs/v42/readneed-review-resynthesis-product-closure.json',
+      '.proofs/v42/readfitsfinding-preview-quote.json',
+      '.proofs/v44/organization-policy-wallet-authority.json',
     ],
     sourceEvidence: [
       source('packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts', [
@@ -443,7 +443,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'selection-and-materialization',
     title: 'Selection-and-materialization',
-    artifactPath: '.bitcode/v45-selection-materialization-proof.json',
+    artifactPath: '.proofs/v45/selection-materialization-proof.json',
     members: [
       'candidate recall',
       'selected Fit set',
@@ -458,9 +458,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     ],
     replayStepIds: ['search', 'rank', 'select', 'synthesize', 'unlock', 'deliver'],
     witnessArtifactPaths: [
-      '.bitcode/v39-read-fits-finding-runtime.json',
-      '.bitcode/v42-readfitsfinding-preview-quote.json',
-      '.bitcode/v42-settlement-rights-delivery.json',
+      '.proofs/v39/read-fits-finding-runtime.json',
+      '.proofs/v42/readfitsfinding-preview-quote.json',
+      '.proofs/v42/settlement-rights-delivery.json',
     ],
     sourceEvidence: [
       source('packages/asset-packs-pipelines/domain/src/depository-search.ts', [
@@ -516,7 +516,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'authorization-and-sensitive-flow',
     title: 'Authorization-and-sensitive-flow',
-    artifactPath: '.bitcode/v45-authorization-sensitive-flow-proof.json',
+    artifactPath: '.proofs/v45/authorization-sensitive-flow-proof.json',
     members: [
       'organization policy',
       'wallet authority',
@@ -528,9 +528,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     theoremIds: ['no secret leakage', 'no server custody', 'actor entitlement'],
     replayStepIds: ['policy check', 'wallet ready', 'authorization denial', 'redaction'],
     witnessArtifactPaths: [
-      '.bitcode/v44-organization-policy-wallet-authority.json',
-      '.bitcode/v33-interface-authorization-policy.json',
-      '.bitcode/v37-conversation-telemetry-proof-hooks.json',
+      '.proofs/v44/organization-policy-wallet-authority.json',
+      '.proofs/v33/interface-authorization-policy.json',
+      '.proofs/v37/conversation-telemetry-proof-hooks.json',
     ],
     sourceEvidence: [
       source('packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts', [
@@ -586,7 +586,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'settlement-source-to-shares',
     title: 'Settlement-source-to-shares',
-    artifactPath: '.bitcode/v45-settlement-source-to-shares-proof.json',
+    artifactPath: '.proofs/v45/settlement-source-to-shares-proof.json',
     members: [
       'BTD scalar-volume',
       'BTC quote',
@@ -610,9 +610,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'allocate shares',
     ],
     witnessArtifactPaths: [
-      '.bitcode/v44-btd-btc-compensation-statements.json',
-      '.bitcode/v44-reading-budget-quote-policy.json',
-      '.bitcode/v42-settlement-rights-delivery.json',
+      '.proofs/v44/btd-btc-compensation-statements.json',
+      '.proofs/v44/reading-budget-quote-policy.json',
+      '.proofs/v42/settlement-rights-delivery.json',
     ],
     sourceEvidence: [
       source('packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts', [
@@ -677,7 +677,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'disclosure-boundary',
     title: 'Disclosure-boundary',
-    artifactPath: '.bitcode/v45-disclosure-boundary-proof.json',
+    artifactPath: '.proofs/v45/disclosure-boundary-proof.json',
     members: [
       '/deposit',
       '/read',
@@ -695,9 +695,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     ],
     replayStepIds: ['preview', 'quote', 'observation', 'finality', 'rights', 'delivery'],
     witnessArtifactPaths: [
-      '.bitcode/v43-read-route-five-step-ux.json',
-      '.bitcode/v43-deposit-route-options.json',
-      '.bitcode/v43-packs-activity-master-detail.json',
+      '.proofs/v43/read-route-five-step-ux.json',
+      '.proofs/v43/deposit-route-options.json',
+      '.proofs/v43/packs-activity-master-detail.json',
     ],
     sourceEvidence: [
       source('packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts', [
@@ -754,7 +754,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
   family({
     id: 'proof-contract',
     title: 'Proof-contract',
-    artifactPath: '.bitcode/v45-proof-contract-proof.json',
+    artifactPath: '.proofs/v45/proof-contract-proof.json',
     members: [
       'generated spec proof',
       'workflow receipts',
@@ -772,9 +772,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     ],
     replayStepIds: ['readback join', 'contradiction', 'repair', 'replay'],
     witnessArtifactPaths: [
-      '.bitcode/v44-promotion-readiness-report.json',
-      '.bitcode/v44-canonical-input-report.json',
-      '.bitcode/v44-spec-family-report.json',
+      '.proofs/v44/promotion-readiness-report.json',
+      '.proofs/v44/canonical-input-report.json',
+      '.proofs/v44/spec-family-report.json',
     ],
     sourceEvidence: [
       source('.specifications/BITCODE_SPEC_V45.md', [
@@ -789,7 +789,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
         'V45 proof-family artifacts',
       ]),
       source('scripts/specifying/src/canonical/v21-specifying.js', [
-        '.bitcode/v45-proof-contract-proof.json',
+        '.proofs/v45/proof-contract-proof.json',
         'buildV21CanonicalInputReport',
         'buildV21GeneratedArtifactContents',
       ]),

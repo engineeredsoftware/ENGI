@@ -101,7 +101,7 @@ V27 must make all of these implementation-derivable:
 
 Status:
 Closed as a draft-target source-audit gate.
-Closure proof: `.bitcode/v27-gate-1-source-audit-proof.json`.
+Closure proof: `.proofs/v27/gate-1-source-audit-proof.json`.
 V26 remained the active canonical pointer during Gate 1.
 No generated V27 proof appendix is claimed.
 
@@ -120,7 +120,7 @@ Closure criteria:
 
 Status:
 Closed as a draft-target ontology and hard-cap gate.
-Closure proof: `.bitcode/v27-gate-2-ontology-cap-proof.json`.
+Closure proof: `.proofs/v27/gate-2-ontology-cap-proof.json`.
 Later gates still own registry persistence, range proof, access policy UI, generated proof-family closure, and promotion.
 
 Purpose:
@@ -138,7 +138,7 @@ Closure criteria:
 
 Status:
 Closed as a draft-target package primitive gate.
-Closure proof: `.bitcode/v27-gate-3-supply-range-proof.json`.
+Closure proof: `.proofs/v27/gate-3-supply-range-proof.json`.
 Later gates still own DB persistence, generated no-overlap proof families, and write-committing Exchange integration.
 
 Purpose:
@@ -157,8 +157,8 @@ Closure criteria:
 
 Status:
 Closed as a draft-target package/API admission gate.
-Closure proof: `.bitcode/v27-gate-4-mint-admission-proof.json`.
-Source-to-shares range binding proof: `.bitcode/v27-source-to-shares-mint-admission-proof.json`.
+Closure proof: `.proofs/v27/gate-4-mint-admission-proof.json`.
+Source-to-shares range binding proof: `.proofs/v27/source-to-shares-mint-admission-proof.json`.
 Later gates still own persisted Exchange mint writes, generated proof-family closure, and ledger finality.
 
 Purpose:
@@ -175,8 +175,8 @@ Closure criteria:
 
 Status:
 Closed as a draft-target package and demonstration replay gate.
-Closure proof: `.bitcode/v27-gate-5-receipt-replay-proof.json`.
-Receipt replay proof slice: `.bitcode/v27-receipt-replay-proof.json`.
+Closure proof: `.proofs/v27/gate-5-receipt-replay-proof.json`.
+Receipt replay proof slice: `.proofs/v27/receipt-replay-proof.json`.
 Later gates still own persisted Exchange receipt writes, database projection replay, ledger finality, and generated total proof-family closure.
 
 Purpose:
@@ -193,7 +193,7 @@ Closure criteria:
 
 Status:
 Closed as a draft-target migration and ORM boundary gate.
-Closure proof: `.bitcode/v27-gate-6-exchange-persistence-proof.json`.
+Closure proof: `.proofs/v27/gate-6-exchange-persistence-proof.json`.
 Later gates still own live migration execution, generated DB type refresh, wallet/ledger finality, and value-bearing rollout controls.
 
 Purpose:
@@ -209,7 +209,7 @@ Closure criteria:
 ### Gate 7: Access And Policy Closure
 
 Closed as a draft-target access and policy gate.
-Closure proof: `.bitcode/v27-gate-7-access-policy-proof.json`.
+Closure proof: `.proofs/v27/gate-7-access-policy-proof.json`.
 Later gates still own value-bearing access operations, full legal template review, and generated proof-family promotion.
 
 Purpose:
@@ -225,7 +225,7 @@ Closure criteria:
 ### Gate 8: Allocation And Revenue Closure
 
 Closed as a draft-target allocation and revenue gate.
-Closure proof: `.bitcode/v27-gate-8-allocation-revenue-proof.json`.
+Closure proof: `.proofs/v27/gate-8-allocation-revenue-proof.json`.
 Later gates still own live wallet settlement, broadcaster finality, full source-to-shares write integration, and generated proof-family promotion.
 
 Purpose:
@@ -244,7 +244,7 @@ Purpose:
 Add late-bound knowledge ancestry without creating early-token rent seeking.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-9-ancestry-antigame-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-9-ancestry-antigame-proof.json`.
 
 Closure criteria:
 
@@ -268,7 +268,7 @@ Purpose:
 Make user-controlled wallet authorization and BTC fee payment real enough for V27 commercial operation.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-10-wallet-btc-fee-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-10-wallet-btc-fee-proof.json`.
 
 Closure criteria:
 
@@ -294,7 +294,7 @@ Purpose:
 Make AssetPack ranges, proof roots, and access policy hashes ledger-observable without leaking private source.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-11-ledger-anchor-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-11-ledger-anchor-proof.json`.
 
 Closure criteria:
 
@@ -319,7 +319,7 @@ Purpose:
 Prove that AssetPack rights can be bought, sold, bid, asked, cancelled, settled, and transferred without fungible `$BTD` balances.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-12-minimal-exchange-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-12-minimal-exchange-proof.json`.
 
 Closure criteria:
 
@@ -342,7 +342,7 @@ Purpose:
 Make Terminal actions accountable from user intent through Exchange settlement and ledger observation.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-13-terminal-journal-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-13-terminal-journal-proof.json`.
 
 Closure criteria:
 
@@ -364,7 +364,7 @@ Purpose:
 Make ledgers the source of truth for cryptographic finality while preserving Bitcode's canonical private/metaphysical database facts.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-14-ledger-database-reconciliation-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-14-ledger-database-reconciliation-proof.json`.
 
 Closure criteria:
 
@@ -387,7 +387,7 @@ Purpose:
 Prepare the V27 crypto surfaces for production operation without automatically launching value-bearing mainnet activity.
 
 Status:
-Closed for draft-target implementation by `.bitcode/v27-gate-15-testnet-mainnet-telemetry-upgrade-proof.json`.
+Closed for draft-target implementation by `.proofs/v27/gate-15-testnet-mainnet-telemetry-upgrade-proof.json`.
 
 Closure criteria:
 
@@ -412,13 +412,13 @@ Purpose:
 Promote V27 only after spec, source, tests, proof, parity, and web-rebound crypto/library choices agree.
 
 Status:
-Closed by `.bitcode/v27-gate-16-promotion-proof.json` and `.bitcode/v27-total-closure-proof.json`.
+Closed by `.proofs/v27/gate-16-promotion-proof.json` and `.proofs/v27/total-closure-proof.json`.
 
 Closure criteria:
 
 - web research agenda is complete and normative choices are rebound to durable primary sources.
 - V27 generated proof appendix exists.
-- `.bitcode/v27-*` artifacts exist.
+- `.proofs/v27/*` artifacts exist.
 - parity matrix has no blocking open rows.
 - V27 tests pass.
 - `BITCODE_SPEC.txt` is updated to `V27` only at promotion.
@@ -429,7 +429,7 @@ Closure evidence:
 - `apps/uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range/policy/read-right disclosure route;
 - the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`;
 - `internal-.docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds Bitcoin, BIP 174, BIP 341, Filecoin, EIPs, and adapter-library research to V27 implementation choices;
-- `BITCODE_SPEC_V27_PROVEN.md`, `.bitcode/v27-crypto-library-research-proof.json`, and `.bitcode/v27-total-closure-proof.json` provide the proof appendix and accepted generated-family map.
+- `BITCODE_SPEC_V27_PROVEN.md`, `.proofs/v27/crypto-library-research-proof.json`, and `.proofs/v27/total-closure-proof.json` provide the proof appendix and accepted generated-family map.
 
 ## Current Source Audit Summary
 
@@ -464,7 +464,7 @@ Implemented baseline:
 - `supabase/migrations/002_v27_btd_crypto_registry.sql` defines the V27 registry/projection table set.
 - `packages/orm/src/models/btd-registry.ts` gives commercial source a Bitcode-native ORM boundary for V27 tables until generated types refresh.
 - `packages/orm/src/client.ts` now exposes `btdRegistry` on standard and admin ORM clients.
-- `.bitcode/v27-crypto-primitives-proof.json` records the first V27 proof slice for package, demonstration, registry, and validation surfaces.
+- `.proofs/v27/crypto-primitives-proof.json` records the first V27 proof slice for package, demonstration, registry, and validation surfaces.
 - `packages/btd/src/index.ts` exports `BTD_MAX_MINTABLE_SUPPLY = 21_000_000`.
 - `packages/btd/src/index.ts` exports BTC fee-basis helpers.
 - `packages/btd/src/index.ts` rejects fungible mutation through `BtdFungibleMutationRejectedError`.

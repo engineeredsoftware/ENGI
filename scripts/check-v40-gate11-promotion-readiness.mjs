@@ -8,18 +8,18 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v40-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v40/promotion-readiness-report.json';
 
 const V40_GATE_ARTIFACTS = [
-  '.bitcode/v40-test-inventory-coverage-matrix.json',
-  '.bitcode/v40-unit-coverage-inventory.json',
-  '.bitcode/v40-api-integration-contracts.json',
-  '.bitcode/v40-reading-pipeline-integration-coverage.json',
-  '.bitcode/v40-conversation-terminal-integration.json',
-  '.bitcode/v40-browser-e2e-visual-proof.json',
-  '.bitcode/v40-ledger-storage-sync.json',
-  '.bitcode/v40-local-staging-rehearsal-automation.json',
-  '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json',
+  '.proofs/v40/test-inventory-coverage-matrix.json',
+  '.proofs/v40/unit-coverage-inventory.json',
+  '.proofs/v40/api-integration-contracts.json',
+  '.proofs/v40/reading-pipeline-integration-coverage.json',
+  '.proofs/v40/conversation-terminal-integration.json',
+  '.proofs/v40/browser-e2e-visual-proof.json',
+  '.proofs/v40/ledger-storage-sync.json',
+  '.proofs/v40/local-staging-rehearsal-automation.json',
+  '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v47-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v47/promotion-readiness-report.json';
 
 const V47_GATE_ARTIFACTS = [
-  '.bitcode/v47-feature-excess-alignment-audit.json',
-  '.bitcode/v47-seller-buyer-state-machine-law.json',
-  '.bitcode/v47-depositor-website-completion.json',
-  '.bitcode/v47-reader-website-completion.json',
-  '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
-  '.bitcode/v47-e2e-ip-selling-buying-tests.json',
-  '.bitcode/v47-landing-public-launch-messaging.json',
-  '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
+  '.proofs/v47/feature-excess-alignment-audit.json',
+  '.proofs/v47/seller-buyer-state-machine-law.json',
+  '.proofs/v47/depositor-website-completion.json',
+  '.proofs/v47/reader-website-completion.json',
+  '.proofs/v47/packs-auxillaries-commercial-dashboard.json',
+  '.proofs/v47/e2e-ip-selling-buying-tests.json',
+  '.proofs/v47/landing-public-launch-messaging.json',
+  '.proofs/v47/staging-testnet-deployment-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

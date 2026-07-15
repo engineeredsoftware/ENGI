@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `2b08d07590269150d7a8ad658fe97dd99c05616d`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v44-spec-family-report.json`, `.bitcode/v44-canonical-input-report.json`, `.bitcode/v44-canon-posture-drift-report.json`, `.bitcode/v44-economic-domain-model.json`, `.bitcode/v44-packs-portfolio-market-intelligence.json`, `.bitcode/v44-reading-budget-quote-policy.json`, `.bitcode/v44-depositor-earnings-supply-opportunities.json`, `.bitcode/v44-btd-btc-compensation-statements.json`, `.bitcode/v44-organization-policy-wallet-authority.json`, `.bitcode/v44-enterprise-product-ux.json`, `.bitcode/v44-scaled-network-rehearsal.json`, `.bitcode/v44-promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v44/spec-family-report.json`, `.proofs/v44/canonical-input-report.json`, `.proofs/v44/canon-posture-drift-report.json`, `.proofs/v44/economic-domain-model.json`, `.proofs/v44/packs-portfolio-market-intelligence.json`, `.proofs/v44/reading-budget-quote-policy.json`, `.proofs/v44/depositor-earnings-supply-opportunities.json`, `.proofs/v44/btd-btc-compensation-statements.json`, `.proofs/v44/organization-policy-wallet-authority.json`, `.proofs/v44/enterprise-product-ux.json`, `.proofs/v44/scaled-network-rehearsal.json`, `.proofs/v44/promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
 - Source parity state: V44 source-side economic domain, Packs portfolio market intelligence, Reading budget/quote policy, depositor earnings opportunity, BTD/BTC compensation statements, organization policy and wallet authority, enterprise UX, scaled rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V44 file family
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
@@ -202,7 +202,7 @@ delivery, and repair states distinctly.
 
 Gate 2 closes through `V44EconomicDomainModel` in
 `packages/protocol/src/canonical/v44-economic-domain-model.js`, deterministic
-`.bitcode/v44-economic-domain-model.json`, `generate:v44-economic-domain-model`,
+`.proofs/v44/economic-domain-model.json`, `generate:v44-economic-domain-model`,
 `check:v44-economic-domain-model`, and `check:v44-gate2`. The artifact names
 EnterprisePackPortfolio, PackPortfolioPosition, PackMarketSignal,
 ReadDemandSignal, UnfitNeedSignal, DepositSupplyOpportunity,
@@ -226,7 +226,7 @@ drilldown, and no-source-leak tests.
 
 Gate 3 closes through `V44PacksPortfolioMarketIntelligence` in
 `packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js`,
-deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`,
+deterministic `.proofs/v44/packs-portfolio-market-intelligence.json`,
 `generate:v44-packs-portfolio-market-intelligence`,
 `check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`. The
 `/api/packs/activity` projection now returns `marketIntelligence` with
@@ -244,7 +244,7 @@ settlement readiness, and source-safe pre-purchase review.
 
 Gate 4 closes through `V44ReadingBudgetQuotePolicy` in
 `packages/protocol/src/canonical/v44-reading-budget-quote-policy.js`,
-deterministic `.bitcode/v44-reading-budget-quote-policy.json`,
+deterministic `.proofs/v44/reading-budget-quote-policy.json`,
 `generate:v44-reading-budget-quote-policy`,
 `check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. The `/read`
 route session now projects `ReadProcurementGovernance` with source-safe budget
@@ -264,7 +264,7 @@ earning statements, and source-safe Depository supply recommendations.
 
 Gate 5 closes through `V44DepositorEarningsSupplyOpportunities` in
 `packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js`,
-deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+deterministic `.proofs/v44/depositor-earnings-supply-opportunities.json`,
 `generate:v44-depositor-earnings-supply-opportunities`,
 `check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
 The `/deposit` route session now projects `DepositorEarningSupplyIntelligence`
@@ -284,7 +284,7 @@ routes, repair states, and ledger/database/object-storage reconciliation.
 
 Gate 6 closes through `V44BtdBtcCompensationStatements` in
 `packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js`,
-deterministic `.bitcode/v44-btd-btc-compensation-statements.json`,
+deterministic `.proofs/v44/btd-btc-compensation-statements.json`,
 `generate:v44-btd-btc-compensation-statements`,
 `check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`.
 The settlement boundary now projects `BtdBtcCompensationStatements` with
@@ -305,7 +305,7 @@ permission checks.
 
 Gate 7 closes through `V44OrganizationPolicyWalletAuthority` in
 `packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js`,
-deterministic `.bitcode/v44-organization-policy-wallet-authority.json`,
+deterministic `.proofs/v44/organization-policy-wallet-authority.json`,
 `generate:v44-organization-policy-wallet-authority`,
 `check:v44-organization-policy-wallet-authority`, and `check:v44-gate7`.
 The BTD authority layer now recognizes Reading spend, source unlock, delivery,
@@ -328,7 +328,7 @@ navigation, responsive layouts, concise copy, and visual regression coverage.
 
 Gate 8 closes through `V44EnterpriseProductUx` in
 `packages/protocol/src/canonical/v44-enterprise-product-ux.js`,
-deterministic `.bitcode/v44-enterprise-product-ux.json`,
+deterministic `.proofs/v44/enterprise-product-ux.json`,
 `generate:v44-enterprise-product-ux`, `check:v44-enterprise-product-ux`,
 and `check:v44-gate8`. The shared product route shell now exposes
 `ProductRouteEnterpriseSummary`, `ProductRouteKeyboardHint`, and
@@ -351,7 +351,7 @@ lanes without value-bearing mainnet admission or secret serialization.
 
 Gate 9 closes through `V44ScaledNetworkRehearsal` in
 `packages/protocol/src/canonical/v44-scaled-network-rehearsal.js`,
-deterministic `.bitcode/v44-scaled-network-rehearsal.json`,
+deterministic `.proofs/v44/scaled-network-rehearsal.json`,
 `generate:v44-scaled-network-rehearsal`,
 `check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
 `check:v44-gate9`. The operator receipt covers both `local` and
@@ -382,7 +382,7 @@ runtime posture before V44 can be promoted into `main`. The post-promotion
 posture is also recorded as V44 active / draft V45 for generated proof checks.
 
 Gate 10 adds package-backed `V44PromotionReadinessReport`, deterministic
-`.bitcode/v44-promotion-readiness-report.json`,
+`.proofs/v44/promotion-readiness-report.json`,
 `generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
 `check:v44-gate10`, `v44-canon-promotion.yml`, V44 support in
 `promote-bitcode-canon.mjs`, spec-family/runtime promotion support, and
@@ -526,7 +526,7 @@ source-safe projections over receipt-backed ledger truth.
 
 ### Proof contract, witnesses, and replay
 
-Current canonical objects and emitted artifacts: generated `.bitcode/v44-*`
+Current canonical objects and emitted artifacts: generated `.proofs/v44/*`
 reports, `BITCODE_SPEC_V44_PROVEN.md`, local/staging rehearsal receipts, and
 workflow check logs.
 Current algorithms and derivation rules: every V44 gate must produce or bind
@@ -547,7 +547,7 @@ commercial code does not import it.
 
 ### Inference-synthesis
 
-proofArtifactPath: `.bitcode/v44-inference-economic-policy.json`.
+proofArtifactPath: `.proofs/v44/inference-economic-policy.json`.
 members: ReadNeed, Finding Fits, deposit options, market signals, quote policy.
 theoremIds: inference-source-safety, parsed-output-validity.
 replayStepIds: prompt registry resolution, PTRR/Failsafe/Thricified receipts.
@@ -564,7 +564,7 @@ fail-closed conditions: prompt leak, schema failure, stale context.
 
 ### Prompt-completeness
 
-proofArtifactPath: `.bitcode/v44-prompt-economic-coverage.json`.
+proofArtifactPath: `.proofs/v44/prompt-economic-coverage.json`.
 members: policy prompts, market-signal prompts, statement prompts.
 theoremIds: complete-context, no-overlap-vocabulary.
 replayStepIds: registry composition, interpolation, parser target.
@@ -580,7 +580,7 @@ fail-closed conditions: missing variable, raw prompt disclosure, weak parser.
 
 ### Static-code-analysis
 
-proofArtifactPath: `.bitcode/v44-static-economic-surface.json`.
+proofArtifactPath: `.proofs/v44/static-economic-surface.json`.
 members: routes, APIs, packages, tests, workflows.
 theoremIds: surface-present, no-legacy-authority.
 replayStepIds: rg inventory, typecheck, import casing.
@@ -596,7 +596,7 @@ fail-closed conditions: missing route, versioned source path, stale name.
 
 ### Verification-decisions
 
-proofArtifactPath: `.bitcode/v44-verification-decisions.json`.
+proofArtifactPath: `.proofs/v44/verification-decisions.json`.
 members: quote verification, budget approval, compensation statement.
 theoremIds: admissible, blocked, repairable.
 replayStepIds: policy eval, ledger readback, storage readback.
@@ -612,7 +612,7 @@ fail-closed conditions: ambiguous authority, missing receipt, drift.
 
 ### Selection-and-materialization
 
-proofArtifactPath: `.bitcode/v44-selection-materialization.json`.
+proofArtifactPath: `.proofs/v44/selection-materialization.json`.
 members: selected Fits, AssetPack preview, delivery.
 theoremIds: source-withheld, paid-unlock.
 replayStepIds: candidate selection, preview, settlement, delivery.
@@ -628,7 +628,7 @@ fail-closed conditions: unpaid source leak, missing rights, failed PR.
 
 ### Authorization-and-sensitive-flow
 
-proofArtifactPath: `.bitcode/v44-authorization-sensitive-flow.json`.
+proofArtifactPath: `.proofs/v44/authorization-sensitive-flow.json`.
 members: budgets, wallet authority, approvals, source policy.
 theoremIds: authorized, denied, escalated.
 replayStepIds: role check, budget check, wallet check, policy check.
@@ -644,7 +644,7 @@ fail-closed conditions: no actor, stale role, missing approval.
 
 ### Settlement-source-to-shares
 
-proofArtifactPath: `.bitcode/v44-settlement-source-to-shares.json`.
+proofArtifactPath: `.proofs/v44/settlement-source-to-shares.json`.
 members: BTC settlement, BTD transfer, contributor allocation.
 theoremIds: conservation, finality, statement-accuracy.
 replayStepIds: quote, observe payment, transfer rights, allocate shares.
@@ -660,7 +660,7 @@ fail-closed conditions: conservation drift, no finality, wrong owner.
 
 ### Disclosure-boundary
 
-proofArtifactPath: `.bitcode/v44-disclosure-boundary.json`.
+proofArtifactPath: `.proofs/v44/disclosure-boundary.json`.
 members: portfolio rows, market signals, statements, proof expansion.
 theoremIds: source-safe, prompt-safe, provider-safe.
 replayStepIds: projection, redaction, no-source scan.
@@ -677,11 +677,11 @@ fail-closed conditions: protected source, raw prompt, provider payload.
 
 ### Proof-contract
 
-proofArtifactPath: `.bitcode/v44-proof-contract.json`.
+proofArtifactPath: `.proofs/v44/proof-contract.json`.
 members: gate artifacts, PROVEN appendix, promotion workflow.
 theoremIds: deterministic, replayable, complete.
 replayStepIds: generate, check, promote, verify.
-witnessArtifactPaths: `.bitcode/v44-*`, `BITCODE_SPEC_V44_PROVEN.md`.
+witnessArtifactPaths: `.proofs/v44/*`, `BITCODE_SPEC_V44_PROVEN.md`.
 current member closure criteria: every gate is generated, checked, and bound.
 current member verdict shape: closed/open/blocked.
 current theorem-by-theorem closure reading: canon promotion is evidence-backed.
@@ -694,7 +694,7 @@ fail-closed conditions: stale pointer, missing artifact, failing check.
 ## V44 generated canon
 
 V44 generated canon begins with the spec family. Later gates must add
-package-backed `.bitcode/v44-*` artifacts and ultimately
+package-backed `.proofs/v44/*` artifacts and ultimately
 `BITCODE_SPEC_V44_PROVEN.md`.
 
 ### Inherited V19 reproducible-canon artifacts
@@ -712,36 +712,36 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 
 | artifact | field | verdict |
 | --- | --- | --- |
-| `.bitcode/v44-spec-family-report.json` | aggregate proof verdict | draft-required |
-| `.bitcode/v44-canonical-input-report.json` | generated artifact inventories | draft-required |
-| `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
-| `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
-| `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | implemented-source-safe |
-| `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | implemented-source-safe |
-| `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | implemented-source-safe |
-| `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | implemented-source-safe |
-| `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
-| `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
-| `.bitcode/v44-scaled-network-rehearsal.json` | scaled network rehearsal | implemented-source-safe |
-| `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | implemented-source-safe |
+| `.proofs/v44/spec-family-report.json` | aggregate proof verdict | draft-required |
+| `.proofs/v44/canonical-input-report.json` | generated artifact inventories | draft-required |
+| `.proofs/v44/canon-posture-drift-report.json` | active/draft posture | draft-required |
+| `.proofs/v44/economic-domain-model.json` | economic domain model | implemented-source-safe |
+| `.proofs/v44/packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | implemented-source-safe |
+| `.proofs/v44/reading-budget-quote-policy.json` | Reading budget and quote policy | implemented-source-safe |
+| `.proofs/v44/depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | implemented-source-safe |
+| `.proofs/v44/btd-btc-compensation-statements.json` | BTD/BTC compensation statements | implemented-source-safe |
+| `.proofs/v44/organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
+| `.proofs/v44/enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
+| `.proofs/v44/scaled-network-rehearsal.json` | scaled network rehearsal | implemented-source-safe |
+| `.proofs/v44/promotion-readiness-report.json` | promotion readiness | implemented-source-safe |
 
 ### V44 generated artifact contract catalog
 
-Required draft artifacts include `.bitcode/v44-economic-domain-model.json`,
-`.bitcode/v44-packs-portfolio-market-intelligence.json`,
-`.bitcode/v44-reading-budget-quote-policy.json`,
-`.bitcode/v44-depositor-earnings-supply-opportunities.json`,
-`.bitcode/v44-btd-btc-compensation-statements.json`,
-`.bitcode/v44-organization-policy-wallet-authority.json`,
-`.bitcode/v44-enterprise-product-ux.json`,
-`.bitcode/v44-scaled-network-rehearsal.json`, and
-`.bitcode/v44-promotion-readiness-report.json`.
+Required draft artifacts include `.proofs/v44/economic-domain-model.json`,
+`.proofs/v44/packs-portfolio-market-intelligence.json`,
+`.proofs/v44/reading-budget-quote-policy.json`,
+`.proofs/v44/depositor-earnings-supply-opportunities.json`,
+`.proofs/v44/btd-btc-compensation-statements.json`,
+`.proofs/v44/organization-policy-wallet-authority.json`,
+`.proofs/v44/enterprise-product-ux.json`,
+`.proofs/v44/scaled-network-rehearsal.json`, and
+`.proofs/v44/promotion-readiness-report.json`.
 
 ### V44 specifying generated artifacts
 
-V44 starts with `.bitcode/v44-spec-family-report.json`,
-`.bitcode/v44-canonical-input-report.json`, and
-`.bitcode/v44-canon-posture-drift-report.json`. Later gates add economic,
+V44 starts with `.proofs/v44/spec-family-report.json`,
+`.proofs/v44/canonical-input-report.json`, and
+`.proofs/v44/canon-posture-drift-report.json`. Later gates add economic,
 portfolio, budget, compensation, governance, UX, rehearsal, and promotion
 readiness artifacts.
 
@@ -849,15 +849,15 @@ Disclosure-boundary, and Proof-contract all remain mandatory.
 
 | proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
 | --- | --- | --- | --- | --- | --- | --- |
-| Inference-synthesis | `.bitcode/v44-inference-economic-policy.json` | economic inference | source-safety | prompt replay | V38/V41 | Reading and deposit inference |
-| Prompt-completeness | `.bitcode/v44-prompt-economic-coverage.json` | policy prompts | complete-context | prompt registry | V41 | PromptPart and Prompt catalog |
-| Static-code-analysis | `.bitcode/v44-static-economic-surface.json` | code surfaces | surface-present | static checks | CI | Routes/packages/workflows |
-| Verification-decisions | `.bitcode/v44-verification-decisions.json` | decisions | admissible | policy replay | V44 receipts | Governance and accounting |
-| Selection-and-materialization | `.bitcode/v44-selection-materialization.json` | selected packs | paid-unlock | delivery replay | V42/V43 | AssetPack preview and delivery |
-| Authorization-and-sensitive-flow | `.bitcode/v44-authorization-sensitive-flow.json` | authority | authorized | role checks | Auxillaries | Org/wallet/budget policy |
-| Settlement-source-to-shares | `.bitcode/v44-settlement-source-to-shares.json` | accounting | conservation | ledger replay | BTD | BTC/BTD/source-to-shares |
-| Disclosure-boundary | `.bitcode/v44-disclosure-boundary.json` | projections | source-safe | no-leak scan | V43 | Source-safe UI/API/storage |
-| Proof-contract | `.bitcode/v44-proof-contract.json` | gates | deterministic | promote | workflows | Promotion readiness |
+| Inference-synthesis | `.proofs/v44/inference-economic-policy.json` | economic inference | source-safety | prompt replay | V38/V41 | Reading and deposit inference |
+| Prompt-completeness | `.proofs/v44/prompt-economic-coverage.json` | policy prompts | complete-context | prompt registry | V41 | PromptPart and Prompt catalog |
+| Static-code-analysis | `.proofs/v44/static-economic-surface.json` | code surfaces | surface-present | static checks | CI | Routes/packages/workflows |
+| Verification-decisions | `.proofs/v44/verification-decisions.json` | decisions | admissible | policy replay | V44 receipts | Governance and accounting |
+| Selection-and-materialization | `.proofs/v44/selection-materialization.json` | selected packs | paid-unlock | delivery replay | V42/V43 | AssetPack preview and delivery |
+| Authorization-and-sensitive-flow | `.proofs/v44/authorization-sensitive-flow.json` | authority | authorized | role checks | Auxillaries | Org/wallet/budget policy |
+| Settlement-source-to-shares | `.proofs/v44/settlement-source-to-shares.json` | accounting | conservation | ledger replay | BTD | BTC/BTD/source-to-shares |
+| Disclosure-boundary | `.proofs/v44/disclosure-boundary.json` | projections | source-safe | no-leak scan | V43 | Source-safe UI/API/storage |
+| Proof-contract | `.proofs/v44/proof-contract.json` | gates | deterministic | promote | workflows | Promotion readiness |
 
 ### Appendix C. Generated artifact contract catalog
 
@@ -879,34 +879,34 @@ Inherited.
 
 | artifact | field | verdict |
 | --- | --- | --- |
-| `.bitcode/v44-spec-family-report.json` | aggregate proof verdict | draft-required |
-| `.bitcode/v44-canonical-input-report.json` | exact generated-artifact inventory | draft-required |
-| `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
-| `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
-| `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | implemented-source-safe |
-| `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | implemented-source-safe |
-| `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | implemented-source-safe |
-| `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | implemented-source-safe |
-| `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
-| `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
-| `.bitcode/v44-scaled-network-rehearsal.json` | scaled rehearsal | implemented-source-safe |
-| `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | implemented-source-safe |
+| `.proofs/v44/spec-family-report.json` | aggregate proof verdict | draft-required |
+| `.proofs/v44/canonical-input-report.json` | exact generated-artifact inventory | draft-required |
+| `.proofs/v44/canon-posture-drift-report.json` | active/draft posture | draft-required |
+| `.proofs/v44/economic-domain-model.json` | economic domain model | implemented-source-safe |
+| `.proofs/v44/packs-portfolio-market-intelligence.json` | portfolio and market intelligence | implemented-source-safe |
+| `.proofs/v44/reading-budget-quote-policy.json` | budget and quote policy | implemented-source-safe |
+| `.proofs/v44/depositor-earnings-supply-opportunities.json` | depositor earning opportunity | implemented-source-safe |
+| `.proofs/v44/btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | implemented-source-safe |
+| `.proofs/v44/organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
+| `.proofs/v44/enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
+| `.proofs/v44/scaled-network-rehearsal.json` | scaled rehearsal | implemented-source-safe |
+| `.proofs/v44/promotion-readiness-report.json` | promotion readiness | implemented-source-safe |
 
 ### V44 specifying generated artifacts
 
-`.bitcode/v44-spec-family-report.json`,
-`.bitcode/v44-canonical-input-report.json`, and
-`.bitcode/v44-canon-posture-drift-report.json` are the opening artifacts.
-Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`.
+`.proofs/v44/spec-family-report.json`,
+`.proofs/v44/canonical-input-report.json`, and
+`.proofs/v44/canon-posture-drift-report.json` are the opening artifacts.
+Gate 2 adds deterministic `.proofs/v44/economic-domain-model.json`.
 Gate 3 adds deterministic
-`.bitcode/v44-packs-portfolio-market-intelligence.json`.
-Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`.
+`.proofs/v44/packs-portfolio-market-intelligence.json`.
+Gate 4 adds deterministic `.proofs/v44/reading-budget-quote-policy.json`.
 Gate 5 adds deterministic
-`.bitcode/v44-depositor-earnings-supply-opportunities.json`.
-Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`.
-Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`.
-Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`.
-Gate 9 adds deterministic `.bitcode/v44-scaled-network-rehearsal.json`.
+`.proofs/v44/depositor-earnings-supply-opportunities.json`.
+Gate 6 adds deterministic `.proofs/v44/btd-btc-compensation-statements.json`.
+Gate 7 adds deterministic `.proofs/v44/organization-policy-wallet-authority.json`.
+Gate 8 adds deterministic `.proofs/v44/enterprise-product-ux.json`.
+Gate 9 adds deterministic `.proofs/v44/scaled-network-rehearsal.json`.
 
 ### Shared generated-artifact fields
 
@@ -967,7 +967,7 @@ artifacts and canonical promotion.
 The V44 file family is `BITCODE_SPEC_V44.md`,
 `BITCODE_SPEC_V44_DELTA.md`, `BITCODE_SPEC_V44_NOTES.md`,
 `BITCODE_SPEC_V44_PARITY_MATRIX.md`, later `BITCODE_SPEC_V44_PROVEN.md`,
-and generated `.bitcode/v44-*` artifacts.
+and generated `.proofs/v44/*` artifacts.
 
 ### Appendix H. Operator surface and quality contract catalog
 
@@ -998,9 +998,9 @@ transfer. Portfolio and statement artifacts carry metadata, proof roots,
 settlement roots, delivery state, and repair state only.
 
 Source-bearing artifact paths remain inherited and protected:
-`.bitcode/asset-pack.lock.json`, `.bitcode/selected-source-material.json`,
-`.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`,
-`.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and
+`.proofs/_shared/asset-pack.lock.json`, `.proofs/_shared/selected-source-material.json`,
+`.proofs/_shared/verification-report.json`, `.proofs/_shared/source-to-shares.json`,
+`.proofs/_shared/projection-policy.json`, `.proofs/_shared/system-proof-bundle.json`, and
 the later `BITCODE_SPEC_V44_PROVEN.md` generated appendix. V44 portfolio and
 statement surfaces may cite their proof roots but must not disclose protected
 payloads before paid settlement and rights transfer.

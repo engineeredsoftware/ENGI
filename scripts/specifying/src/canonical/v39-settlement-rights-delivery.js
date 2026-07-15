@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V39_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH =
-  '.bitcode/v39-settlement-rights-delivery.json';
+  '.proofs/v39/settlement-rights-delivery.json';
 export const V39_SETTLEMENT_RIGHTS_DELIVERY_SCHEMA_ID =
   'bitcode.v39.settlementRightsDelivery.v1';
 export const V39_SETTLEMENT_RIGHTS_DELIVERY_VERSION = 'V39';

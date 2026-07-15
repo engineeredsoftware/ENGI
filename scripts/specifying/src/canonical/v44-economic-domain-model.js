@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_ECONOMIC_DOMAIN_MODEL_ARTIFACT_PATH =
-  '.bitcode/v44-economic-domain-model.json';
+  '.proofs/v44/economic-domain-model.json';
 export const V44_ECONOMIC_DOMAIN_MODEL_SCHEMA_ID =
   'bitcode.v44.economicDomainModel.v1';
 export const V44_ECONOMIC_DOMAIN_MODEL_VERSION = 'V44';

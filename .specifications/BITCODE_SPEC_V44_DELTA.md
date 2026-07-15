@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `2b08d07590269150d7a8ad658fe97dd99c05616d`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v44-spec-family-report.json`, `.bitcode/v44-canonical-input-report.json`, `.bitcode/v44-canon-posture-drift-report.json`, `.bitcode/v44-economic-domain-model.json`, `.bitcode/v44-packs-portfolio-market-intelligence.json`, `.bitcode/v44-reading-budget-quote-policy.json`, `.bitcode/v44-depositor-earnings-supply-opportunities.json`, `.bitcode/v44-btd-btc-compensation-statements.json`, `.bitcode/v44-organization-policy-wallet-authority.json`, `.bitcode/v44-enterprise-product-ux.json`, `.bitcode/v44-scaled-network-rehearsal.json`, `.bitcode/v44-promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v44/spec-family-report.json`, `.proofs/v44/canonical-input-report.json`, `.proofs/v44/canon-posture-drift-report.json`, `.proofs/v44/economic-domain-model.json`, `.proofs/v44/packs-portfolio-market-intelligence.json`, `.proofs/v44/reading-budget-quote-policy.json`, `.proofs/v44/depositor-earnings-supply-opportunities.json`, `.proofs/v44/btd-btc-compensation-statements.json`, `.proofs/v44/organization-policy-wallet-authority.json`, `.proofs/v44/enterprise-product-ux.json`, `.proofs/v44/scaled-network-rehearsal.json`, `.proofs/v44/promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
 - Source parity state: V44 source-side economic domain, Packs portfolio market intelligence, Reading budget/quote policy, depositor earnings opportunity, BTD/BTC compensation statements, organization policy and wallet authority, enterprise UX, scaled rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V44 file family
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
@@ -91,7 +91,7 @@ synthesis, approval, and submission authority actions; package-backed
 `OrganizationPolicyWalletAuthority`; `/read` spend and wallet approval
 readback; `/deposit` source criticality, deposit approval, and wallet authority
 readback; `/packs` searchable governance readback; deterministic
-`.bitcode/v44-organization-policy-wallet-authority.json`; and `check:v44-gate7`.
+`.proofs/v44/organization-policy-wallet-authority.json`; and `check:v44-gate7`.
 It does not disclose protected source, serialize wallet private material,
 execute value-bearing mainnet movement, or let policy bypass Need review,
 Finding Fits, settlement, BTD rights transfer, delivery, or source-to-shares
@@ -99,7 +99,7 @@ law.
 
 V44 Gate 8 closes enterprise product UX for economic operation. It adds
 package-backed `V44EnterpriseProductUx`; deterministic
-`.bitcode/v44-enterprise-product-ux.json`; shared
+`.proofs/v44/enterprise-product-ux.json`; shared
 `ProductRouteEnterpriseSummary`, `ProductRouteKeyboardHint`, and
 `ProductRouteProofDetail` primitives; `/packs` enterprise economy overview,
 keyboard navigation, sticky dense activity table, and expandable proof detail;
@@ -112,7 +112,7 @@ settlement payloads, or value-bearing mainnet operation.
 
 V44 Gate 9 closes scaled local/staging network rehearsal. It adds
 package-backed `V44ScaledNetworkRehearsal`; deterministic
-`.bitcode/v44-scaled-network-rehearsal.json`; `rehearse:v44-scaled-network`;
+`.proofs/v44/scaled-network-rehearsal.json`; `rehearse:v44-scaled-network`;
 source-safe local and staging-testnet operator receipts; exact rehearsal scale
 of 24 deposits, 18 Reads, 72 Fit candidates, 18 quotes, 12 BTC settlement
 observations, 36 contributors, 8 repair cases, and 54 PackActivity rows; the
@@ -126,7 +126,7 @@ value-bearing mainnet operation.
 
 V44 Gate 10 closes promotion readiness. It adds package-backed
 `V44PromotionReadinessReport`; deterministic
-`.bitcode/v44-promotion-readiness-report.json`;
+`.proofs/v44/promotion-readiness-report.json`;
 `generate:v44-promotion-readiness`, `check:v44-promotion-readiness`, and
 `check:v44-gate10`; `v44-canon-promotion.yml`; generated PROVEN support for
 `BITCODE_SPEC_V44_PROVEN.md`; and promotion scripts support V44. It binds all

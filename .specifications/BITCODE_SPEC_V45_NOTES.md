@@ -10,7 +10,7 @@
 - Canonical proof-source commit: `23294cc578dcb2148a6b602c3463b3ca01f1fef1`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `.bitcode/v45-canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v45/spec-family-report.json`, `.proofs/v45/canonical-input-report.json`, `.proofs/v45/canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.proofs/v45/source-safe-e2e-rehearsal.json`, `.proofs/v45/promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
 - Source parity state: V45 source-side AssetPack commodity lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, source-safe rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V45 file family
 - V45 state: canonical promotion complete; V45 notes record accepted AssetPack commodity, BTD scalar-volume, BTC settlement, interface authority, proof readback, rehearsal, and promotion-readiness evidence
 - Scope: V45 canonical notes for knowledge commoditization protocol precision over promoted V44 scaled engineering economy canon
@@ -79,7 +79,7 @@ build/process validation.
 ## Gate 18: V45 Promotion Readiness
 
 Gate 18 records the promotion-readiness note for
-`.bitcode/v45-promotion-readiness-report.json`, V45 promotion workflow support,
+`.proofs/v45/promotion-readiness-report.json`, V45 promotion workflow support,
 promotion dry-run support, generated proof support, and source-safety exclusions.
 Promotion moved the system to active V45 / draft V46 after workflow validation
 committed the standalone pointer update; the same posture is named active V45 /

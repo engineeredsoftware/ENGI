@@ -51,7 +51,7 @@ test('builds the source-safe V36 Exchange rehearsal report', () => {
   assert.equal(report.coverage.privatePaymentCredentialsVisible, false);
   assert.equal(report.coverage.objectStoragePrivateBytesVisible, false);
   assert.match(report.artifactRoot, /^exchange-rehearsal:[a-f0-9]{24}$/u);
-  assert.equal(EXCHANGE_REHEARSAL_ARTIFACT_PATH, '.bitcode/v36-exchange-rehearsal.json');
+  assert.equal(EXCHANGE_REHEARSAL_ARTIFACT_PATH, '.proofs/v36/exchange-rehearsal.json');
 });
 
 test('rehearses local and staging-testnet Exchange flows with blocked mainnet posture', () => {

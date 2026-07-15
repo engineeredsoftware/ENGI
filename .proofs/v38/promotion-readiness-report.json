@@ -1,0 +1,555 @@
+{
+  "reportId": "v38-promotion-readiness-report",
+  "artifactId": "v38-promotion-readiness-report",
+  "schemaId": "bitcode.v38.inferencePromotionReadinessReport.v1",
+  "version": "V38",
+  "currentTarget": "V37",
+  "generatedAt": "2026-05-25T00:10:48-03:00",
+  "sourceSafetyVerdict": "source-safe-inference-promotion-readiness-metadata",
+  "prePromotionPosture": "V37 active / V38 draft",
+  "postPromotionPosture": "V38 active / V39 draft",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "promotionPrRequired": true,
+    "versionBranch": "version/v38",
+    "versionPromotionPullRequestTitlePrefix": "V38 Canonical Promotion"
+  },
+  "generatedArtifactPolicy": {
+    "provenAppendixPath": "BITCODE_SPEC_V38_PROVEN.md",
+    "provenAppendixRequiredBeforePromotion": false,
+    "generatedArtifactPrefix": ".proofs/v38/",
+    "promotionOverwritesPreviewArtifacts": true,
+    "secretValuesSerialized": false,
+    "protectedSourceSerialized": false,
+    "rawProtectedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "unpaidAssetPackSourceSerialized": false
+  },
+  "validationCommands": [
+    "pnpm run check:v38-gate1",
+    "pnpm run check:v38-gate2",
+    "pnpm run check:v38-gate3",
+    "pnpm run check:v38-gate4",
+    "pnpm run check:v38-gate5",
+    "pnpm run check:v38-gate6",
+    "pnpm run check:v38-gate7",
+    "pnpm run check:v38-gate8",
+    "pnpm run check:v38-gate9",
+    "pnpm run check:v38-gate10",
+    "pnpm run check:v38-gate11",
+    "node scripts/promote-bitcode-canon.mjs --version V38 --commit HEAD --dry-run"
+  ],
+  "gateArtifactEvidence": [
+    {
+      "relativePath": ".proofs/v38/inference-surface-inventory.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:c540297423ec385660857674d6fee872875eb707e85bdf897f66f1b6da7961b7",
+      "byteLength": 38335,
+      "sourceSafe": true,
+      "artifactId": "v38-inference-surface-inventory",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-inference-surface-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/ptrr-failsafe-thricified-stack.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:b6a8d5b9233e2207d549dc43988cc173a235a52c0d968d8e3a95db55eb62e039",
+      "byteLength": 31494,
+      "sourceSafe": true,
+      "artifactId": "v38-ptrr-failsafe-thricified-stack",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-ptrr-failsafe-thricified-stack-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/prompt-benchmark-report.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:06a1324b99fdcb98a821b75b332c32a49d402d20f8fae59848b7ad8b27aa79ec",
+      "byteLength": 73942,
+      "sourceSafe": true,
+      "artifactId": "v38-prompt-benchmark-report",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-prompt-benchmark-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/disclosure-boundary-report.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:d71a4dda219c03d5fc031ee28b495887184b35f2ecca6df124e5465a4c493347",
+      "byteLength": 48828,
+      "sourceSafe": true,
+      "artifactId": "v38-inference-telemetry-disclosure-report",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-inference-telemetry-disclosure-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/read-need-comprehension-inference-hardening.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:b2aec51b217cddad2884a443f8db34e7764a12abcf16f2dab075827af13a3470",
+      "byteLength": 14236,
+      "sourceSafe": true,
+      "artifactId": "v38-read-need-comprehension-inference-hardening",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-read-need-comprehension-inference-hardening-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/read-fits-finding-search-embeddings.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:f8be03b595d895be6068ae03662741fff93efec6eda304301d7e3a90fd6c655a",
+      "byteLength": 17848,
+      "sourceSafe": true,
+      "artifactId": "v38-read-fits-finding-search-embeddings",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-read-fits-finding-search-embeddings-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/assetpack-synthesis-economic-traceability.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:519a944020a411b6d8b7b0dca49c471fecc820cdd2cb98eff6e484c9573510ff",
+      "byteLength": 22794,
+      "sourceSafe": true,
+      "artifactId": "v38-assetpack-synthesis-economic-traceability",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-assetpack-synthesis-economic-traceability-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/conversation-tool-prompt-inference-parity.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:aaf0e42ca94de4cf5213fdeb7ff20a0323c4317a438017774438478c774ac744",
+      "byteLength": 23819,
+      "sourceSafe": true,
+      "artifactId": "v38-conversation-tool-prompt-inference-parity",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-conversation-tool-prompt-inference-parity-metadata"
+    },
+    {
+      "relativePath": ".proofs/v38/local-staging-inference-depository-search-rehearsal.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:78fa929f192144632b2db32b54bdd162a0f587d420b939025d9291fcd121228f",
+      "byteLength": 27167,
+      "sourceSafe": true,
+      "artifactId": "v38-local-staging-inference-depository-search-rehearsal",
+      "version": "V38",
+      "sourceSafetyVerdict": "source-safe-local-staging-inference-depository-search-rehearsal-metadata"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "relativePath": "scripts/check-v38-gate11-promotion-readiness.mjs",
+      "present": true,
+      "digest": "sha256:2398ed5a2818c0e2900d413950e5cd7e1027f3357735e9a6ac185f018e78a33f",
+      "requiredTokens": [
+        {
+          "token": "V38 Gate 11 promotion readiness",
+          "present": true
+        },
+        {
+          "token": "--promotion-mode",
+          "present": true
+        },
+        {
+          "token": "promotedPointer",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/generate-v38-promotion-readiness-report.mjs",
+      "present": true,
+      "digest": "sha256:7068c18e63d8783f9deead90a28f6b3291056484283d6b7d2293119722e70eae",
+      "requiredTokens": [
+        {
+          "token": "buildV38InferencePromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "source-safe-inference-promotion-readiness-metadata",
+          "present": true
+        },
+        {
+          "token": "v38-promotion-readiness-report",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "present": true,
+      "digest": "sha256:3ae6f80aa5713dbe7753c95e09799426e23fcfc6c3999e8ac040ca8e2785b317",
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V38')",
+          "present": true
+        },
+        {
+          "token": "const v38Gate11Command",
+          "present": true
+        },
+        {
+          "token": "buildDerivedV38CommitMessageBody",
+          "present": true
+        },
+        {
+          "token": "scripts/check-v38-gate11-promotion-readiness.mjs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "present": true,
+      "digest": "sha256:472f4e2f775b9c8e164e66b6e364d30941aac0f79bb40e46a53c3b87e9d4b4ce",
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V38')",
+          "present": true
+        },
+        {
+          "token": "V38 canonical system specification for inference correctness",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V38_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
+      "present": true,
+      "digest": "sha256:9b556aca984dcdac18a611e46b71c4d753b2009f21b9a8769f205e8dd1e002fd",
+      "requiredTokens": [
+        {
+          "token": "--next-draft",
+          "present": true
+        },
+        {
+          "token": "rewritePackageReadme",
+          "present": true
+        },
+        {
+          "token": "rewriteRuntimeDataState",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/v38-canon-promotion.yml",
+      "present": true,
+      "digest": "sha256:50fa973b20503a02aa8dd522f081a5a7f0d49ea4b94f9750e27bdbc65663f025",
+      "requiredTokens": [
+        {
+          "token": "head.ref == 'version/v38'",
+          "present": true
+        },
+        {
+          "token": "npm run promote:canon -- --version V38",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V38_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": "Promote V38 canon files",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "present": true,
+      "digest": "sha256:6d883ececc5e5c41e2c3ab932e48883037aec180c5aa26dd620e05c92a7eb7a0",
+      "requiredTokens": [
+        {
+          "token": "check-v38-gate11-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "token": "elif [ \"$POINTER\" = \"V38\" ]",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "present": true,
+      "digest": "sha256:61f8232f5ae2e78a79ecab30e7c079d81f0b9d9cfd93a0914a3c7344c298ad41",
+      "requiredTokens": [
+        {
+          "token": "check-v38-gate11-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "token": "elif [ \"$POINTER\" = \"V38\" ]",
+          "present": true
+        },
+        {
+          "token": "--active-canon V38 --draft-target V39",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/src/canonical/proven-generator.js",
+      "present": true,
+      "digest": "sha256:31a365f806ae286a5eeddca37b7b3eb004500264b22128497aca8e91157d4de0",
+      "requiredTokens": [
+        {
+          "token": "buildV38ProvenPackage",
+          "present": true
+        },
+        {
+          "token": "buildV38PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/test/v38-promotion-readiness.test.js",
+      "present": true,
+      "digest": "sha256:ba159a14668b6720f10d8ebe641535300b75a844804a55d0eadc6c4b11bd3cac",
+      "requiredTokens": [
+        {
+          "token": "builds source-safe V38 InferencePromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "v38-promotion-readiness-report",
+          "present": true
+        },
+        {
+          "token": "V38 Promotion Readiness",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/src/canonical/v21-specifying.js",
+      "present": true,
+      "digest": "sha256:2be74b9e8ee280d378d18931a33795cb20cf10e55ade6fcd1576e272fc55f104",
+      "requiredTokens": [
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "package.json",
+      "present": true,
+      "digest": "sha256:9ee49f53f6c17550981f3819e5e4a0a685366a66b74c5ad6ab4ad67d85643f3d",
+      "requiredTokens": [
+        {
+          "token": "generate:v38-promotion-readiness",
+          "present": true
+        },
+        {
+          "token": "check:v38-promotion-readiness",
+          "present": true
+        },
+        {
+          "token": "check:v38-gate11",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "documentationEvidence": [
+    {
+      "relativePath": "BITCODE_SPEC_V38.md",
+      "present": true,
+      "digest": "sha256:8ad857cf31d5b60ba0b7fe58b2b2adba633da2792a3599ee5daa02c76221b5f1",
+      "requiredTokens": [
+        {
+          "token": "V38 promotion readiness canon",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "V38 active / draft V39",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V38_DELTA.md",
+      "present": true,
+      "digest": "sha256:c7202a4f8c30e565485170e7425342bd57ae558545e07c923517fcf61b077f7d",
+      "requiredTokens": [
+        {
+          "token": "Gate 11: V38 Promotion Readiness",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "promotion scripts support V38",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V38_NOTES.md",
+      "present": true,
+      "digest": "sha256:71f7fdd71c74bf3d7b274b7795ab1cca5e16116b637df19dfc5b05532ed4e1a8",
+      "requiredTokens": [
+        {
+          "token": "Gate 11: V38 Promotion Readiness",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "active V38 / draft V39",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V38_PARITY_MATRIX.md",
+      "present": true,
+      "digest": "sha256:1d13e7a91bc1cc6d72803d7995dc21c3406ab96cec35a8adc2780700481aa3d1",
+      "requiredTokens": [
+        {
+          "token": "## Gate 11 Promotion readiness parity",
+          "present": true
+        },
+        {
+          "token": ".proofs/v38/promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "closed",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "present": true,
+      "digest": "sha256:448d448e46f7cf590bf299bf6003a0d84cb7abe52e3ac84f267d027531070a60",
+      "requiredTokens": [
+        {
+          "token": "V38 Gate 11 closure anchor",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V38_PROVEN.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "README.md",
+      "present": true,
+      "digest": "sha256:7c946a9a86d9dd3af2bf0cd38434bdc50eabc5a3d1d8552ee323636523b3fef7",
+      "requiredTokens": [
+        {
+          "token": "check:v38-gate11",
+          "present": true
+        },
+        {
+          "token": "v38-canon-promotion.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/specifying/README.md",
+      "present": true,
+      "digest": "sha256:c33bd3dd921675bb0218e1bbaeb9f1ad2b0fabb1e0c221748c2ae3c97c8371c4",
+      "requiredTokens": [
+        {
+          "token": "V38 Gate 11",
+          "present": true
+        },
+        {
+          "token": "V38` active, `V39` draft",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "requiredGateArtifactPaths": [
+      ".proofs/v38/inference-surface-inventory.json",
+      ".proofs/v38/ptrr-failsafe-thricified-stack.json",
+      ".proofs/v38/prompt-benchmark-report.json",
+      ".proofs/v38/disclosure-boundary-report.json",
+      ".proofs/v38/read-need-comprehension-inference-hardening.json",
+      ".proofs/v38/read-fits-finding-search-embeddings.json",
+      ".proofs/v38/assetpack-synthesis-economic-traceability.json",
+      ".proofs/v38/conversation-tool-prompt-inference-parity.json",
+      ".proofs/v38/local-staging-inference-depository-search-rehearsal.json"
+    ],
+    "generatedProofOutputs": [
+      "BITCODE_SPEC_V38_PROVEN.md",
+      ".proofs/v38/spec-family-report.json",
+      ".proofs/v38/canonical-input-report.json",
+      ".proofs/v38/canon-posture-drift-report.json",
+      ".proofs/v38/promotion-readiness-report.json"
+    ],
+    "gateArtifactCount": 9,
+    "missingGateArtifacts": [],
+    "unparseableGateArtifacts": [],
+    "sourceUnsafeGateArtifacts": [],
+    "sourceEvidenceComplete": true,
+    "documentationEvidenceComplete": true,
+    "allGateArtifactsCovered": true,
+    "allGateArtifactsParseable": true,
+    "allGateArtifactsSourceSafe": true,
+    "generatedProofOutputsCovered": true,
+    "promotionWorkflowCovered": true,
+    "gateQualityWorkflowCovered": true,
+    "canonQualityWorkflowCovered": true,
+    "promotionScriptCovered": true,
+    "specFamilyPromotionScriptCovered": true,
+    "runtimePromotionScriptCovered": true,
+    "provenGeneratorCovered": true,
+    "prePromotionPosture": "V37 active / V38 draft",
+    "postPromotionPosture": "V38 active / V39 draft",
+    "valueBearingMainnetAdmission": false,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false
+  },
+  "failClosedResult": "promotion remains blocked when any V38 inference artifact, prompt benchmark report, Reading search evidence, telemetry disclosure law, rehearsal evidence, workflow, promotion script, generated proof support, source-safety check, or value-bearing mainnet block is missing",
+  "artifactRoot": "inference-promotion-readiness-report:1d9795fd4b675391a29f7924",
+  "passed": true,
+  "failures": [],
+  "validationCommand": "pnpm run check:v38-gate11",
+  "proofSourceCommit": "57173a81fc05a70b6b4b922ebe88add8bfa7f64e",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
+}

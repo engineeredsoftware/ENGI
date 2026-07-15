@@ -104,8 +104,8 @@ function main() {
     '.specifications/BITCODE_SPEC_V45_NOTES.md',
     '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
     '.specifications/SPECIFICATIONS_ROADMAP.md',
-    '.bitcode/v45-source-safe-e2e-rehearsal.json',
-    '.bitcode/v45-promotion-readiness-report.json',
+    '.proofs/v45/source-safe-e2e-rehearsal.json',
+    '.proofs/v45/promotion-readiness-report.json',
     'scripts/specifying/src/canonical/v21-specifying.js',
     'scripts/specifying/test/spec-family-promotion-posture.test.js',
   ];

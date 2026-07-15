@@ -19,7 +19,7 @@ test('V47 staging-testnet deployment rehearsal binds lanes, surfaces, and the re
 
   assert.equal(
     V47_STAGING_TESTNET_REHEARSAL_ARTIFACT_PATH,
-    '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
+    '.proofs/v47/staging-testnet-deployment-rehearsal.json',
   );
   assert.equal(report.artifactId, 'v47-staging-testnet-deployment-rehearsal');
   assert.equal(report.schemaId, V47_STAGING_TESTNET_REHEARSAL_SCHEMA_ID);

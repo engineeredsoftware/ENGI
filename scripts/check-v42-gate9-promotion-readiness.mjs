@@ -8,16 +8,16 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v42-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v42/promotion-readiness-report.json';
 
 const V42_GATE_ARTIFACTS = [
-  '.bitcode/v42-depositing-shortest-path.json',
-  '.bitcode/v42-reading-shortest-path-state-machine.json',
-  '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
-  '.bitcode/v42-readfitsfinding-preview-quote.json',
-  '.bitcode/v42-settlement-rights-delivery.json',
-  '.bitcode/v42-ai-reading-demonstration.json',
-  '.bitcode/v42-local-staging-mvp-rehearsal.json',
+  '.proofs/v42/depositing-shortest-path.json',
+  '.proofs/v42/reading-shortest-path-state-machine.json',
+  '.proofs/v42/readneed-review-resynthesis-product-closure.json',
+  '.proofs/v42/readfitsfinding-preview-quote.json',
+  '.proofs/v42/settlement-rights-delivery.json',
+  '.proofs/v42/ai-reading-demonstration.json',
+  '.proofs/v42/local-staging-mvp-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

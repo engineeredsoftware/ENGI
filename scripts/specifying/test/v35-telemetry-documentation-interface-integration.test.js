@@ -100,6 +100,6 @@ test('binds active interface surfaces to docs telemetry runbooks and proof roots
   );
   assert.equal(
     TELEMETRY_DOCUMENTATION_INTERFACE_INTEGRATION_ARTIFACT_PATH,
-    '.bitcode/v35-telemetry-documentation-interface-integration.json',
+    '.proofs/v35/telemetry-documentation-interface-integration.json',
   );
 });

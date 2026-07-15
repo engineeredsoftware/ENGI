@@ -48,7 +48,7 @@ test('builds source-safe ConversationStreamEvent contracts for every stream row 
   assert.equal(contract.coverage.credentialsSerialized, false);
   assert.equal(contract.coverage.legacySourceRoots, false);
   assert.match(contract.artifactRoot, /^conversation-stream-event-contract:[a-f0-9]{24}$/u);
-  assert.equal(CONVERSATION_STREAM_EVENT_CONTRACT_ARTIFACT_PATH, '.bitcode/v37-conversation-stream-event-contract.json');
+  assert.equal(CONVERSATION_STREAM_EVENT_CONTRACT_ARTIFACT_PATH, '.proofs/v37/conversation-stream-event-contract.json');
 
   for (const kindId of CONVERSATION_STREAM_EVENT_KIND_IDS) {
     assert.equal(contract.rows.some((row) => row.kindId === kindId), true, `missing ${kindId}`);

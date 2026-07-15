@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_ARTIFACT_PATH =
-  '.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json';
+  '.proofs/v40/prompt-benchmark-smoke-v41-readiness.json';
 export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_SCHEMA_ID =
   'bitcode.v40.promptBenchmarkSmokeV41Readiness.v1';
 export const V40_PROMPT_BENCHMARK_SMOKE_V41_READINESS_VERSION = 'V40';
@@ -74,7 +74,7 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 
 const SOURCE_ROOTS = Object.freeze({
   v38PromptBenchmarkReport: 'scripts/specifying/src/canonical/prompt-benchmark-report.js',
-  v38PromptBenchmarkArtifact: '.bitcode/v38-prompt-benchmark-report.json',
+  v38PromptBenchmarkArtifact: '.proofs/v38/prompt-benchmark-report.json',
   v38PromptBenchmarkGenerator: 'scripts/generate-v38-prompt-benchmark-report.mjs',
   v38PromptBenchmarkCheck: 'scripts/check-v38-gate4-prompt-benchmark-report.mjs',
   v38PromptBenchmarkTest: 'scripts/specifying/test/v38-prompt-benchmark-report.test.js',

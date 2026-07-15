@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v41-readneed-prompt-hardening.json';
+const ARTIFACT_PATH = '.proofs/v41/readneed-prompt-hardening.json';
 
 const REQUIRED_HARDENING_IDS = [
   'readneed-promptpart-rewrite-boundary',
@@ -128,9 +128,9 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    '.bitcode/v41-promptpart-prompt-inventory.json',
-    '.bitcode/v41-registry-interpolation-contracts.json',
-    '.bitcode/v41-reading-prompt-benchmark-baselines.json',
+    '.proofs/v41/promptpart-prompt-inventory.json',
+    '.proofs/v41/registry-interpolation-contracts.json',
+    '.proofs/v41/reading-prompt-benchmark-baselines.json',
     'scripts/specifying/src/canonical/v41-readneed-prompt-hardening.js',
     'scripts/specifying/test/v41-readneed-prompt-hardening.test.js',
     'scripts/generate-v41-readneed-prompt-hardening.mjs',

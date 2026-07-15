@@ -1,0 +1,2193 @@
+{
+  "artifactId": "v35-local-staging-telemetry-documentation-rehearsal",
+  "schemaId": "bitcode.v35.localStagingTelemetryDocumentationRehearsal.v1",
+  "version": "V35",
+  "currentTarget": "V34",
+  "generatedAt": "2026-05-24T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-rehearsal-metadata",
+  "disclosureBoundary": {
+    "allowedRehearsalFields": [
+      "laneId",
+      "eventIds",
+      "proofRoots",
+      "docsSurfaceIds",
+      "docsLinks",
+      "runbookIds",
+      "dashboardPanelIds",
+      "incidentClasses",
+      "redactionPosture",
+      "sourceSafetyClass",
+      "summaryCounts"
+    ],
+    "forbiddenRehearsalPayload": [
+      "secret_values",
+      "provider_tokens",
+      "wallet_private_material",
+      "protected_source_payloads",
+      "raw_protected_prompts",
+      "raw_model_responses_with_protected_source",
+      "buyer_repository_private_data",
+      "unpaid_assetpack_source"
+    ],
+    "rehearsalRule": "Local and staging-testnet rehearsal evidence may expose source-safe ids, proof roots, docs links, runbook links, dashboard ids, incident classes, redaction posture, and summary counts only; it must not expose secrets, protected source, raw protected prompts, buyer repository private data, wallet private material, or unpaid AssetPack source."
+  },
+  "lanePosture": {
+    "local": "developer_workstation_source_safe_rehearsal",
+    "stagingTestnet": "full_stack_non_value_testnet_rehearsal",
+    "mainnetReadyDryRun": "mainnet_watch_only_dry_run_without_value_bearing_unlock",
+    "valueBearingMainnet": "blocked_future_canon_required"
+  },
+  "rows": [
+    {
+      "rehearsalId": "local_telemetry_documentation_rehearsal",
+      "laneId": "local",
+      "title": "Local telemetry documentation rehearsal",
+      "purpose": "Follow the local operator path from documentation discovery through source-safe telemetry proof-root review before any staging work.",
+      "phases": [
+        "documentation_discovery",
+        "telemetry_event_emission",
+        "dashboard_runbook_lookup",
+        "docs_qa_review",
+        "incident_drill",
+        "source_safe_proof_root_review"
+      ],
+      "docsSurfaceIds": [
+        "canonical_spec_family",
+        "roadmap_contributor_governance",
+        "internal_codebase_docs",
+        "public_docs_surface",
+        "package_readmes",
+        "generated_artifact_docs",
+        "telemetry_observability_docs",
+        "demonstration_docs"
+      ],
+      "interfaceIds": [
+        "terminal",
+        "auxillaries",
+        "api",
+        "package_readmes",
+        "internal_docs",
+        "public_docs"
+      ],
+      "eventFamilies": [
+        "pipeline",
+        "execution",
+        "ptrr_agent",
+        "thricified_generation",
+        "tool",
+        "interface",
+        "docs_qa"
+      ],
+      "docsQaIds": [
+        "spec_family_alignment",
+        "generated_artifact_inventory_alignment",
+        "workflow_checker_alignment"
+      ],
+      "rolloutGuideIds": [
+        "contributor_onboarding",
+        "local_development",
+        "operator_use",
+        "rehearsal_evidence"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        "README.md",
+        "scripts/specifying/README.md",
+        "apps/uapi/app/terminal/README.md",
+        ".docs/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
+      ],
+      "docsLinks": [
+        "/docs/terminal",
+        "/docs/proofs",
+        "/docs/configuration",
+        "/docs/commercial-interfaces"
+      ],
+      "evidenceRoots": [
+        "rehearsal.local.docs-discovery.root",
+        "rehearsal.local.telemetry-event-emission.root",
+        "rehearsal.local.dashboard-runbook-lookup.root",
+        "rehearsal.local.docs-qa-review.root",
+        "rehearsal.local.incident-drill.root",
+        "rehearsal.local.proof-root-review.root"
+      ],
+      "screenshotOrLogRoots": [
+        "local-terminal-log-stream-redacted-root",
+        "local-docs-qa-redacted-output-root"
+      ],
+      "validationCommands": [
+        "pnpm run check:v35-gate6",
+        "pnpm run check:v35-gate8",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/pipelineExecutionLogHeader.test.tsx --runInBand"
+      ],
+      "incidentClasses": [
+        "docs_qa_alignment_drift",
+        "telemetry_redaction_regression",
+        "runbook_lookup_missing"
+      ],
+      "valueBearingMainnetAdmission": false,
+      "eventIds": [
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "pipeline.created",
+        "pipeline.failed",
+        "pipeline.phase.completed",
+        "pipeline.phase.started",
+        "ptrr_agent.plan.started",
+        "ptrr_agent.refine.completed",
+        "ptrr_agent.retry.completed",
+        "ptrr_agent.try.completed",
+        "thricified_generation.failed",
+        "thricified_generation.judge.completed",
+        "thricified_generation.reason.completed",
+        "thricified_generation.typed_output.completed",
+        "tool.call.completed",
+        "tool.call.failed",
+        "tool.call.started",
+        "tool.policy.denied"
+      ],
+      "proofRootFields": [
+        "agentRoot",
+        "artifactRoot",
+        "docsQaRoot",
+        "executionRoot",
+        "interfaceProofRoot",
+        "interpolatedContextRoot",
+        "parsedTypeRoot",
+        "phaseRoot",
+        "pipelineRoot",
+        "policyRoot",
+        "promptTemplateRoot",
+        "rawResponseRoot",
+        "requestRoot",
+        "responseRoot",
+        "stepRoot",
+        "surfaceRoot",
+        "telemetryRoot",
+        "toolInputRoot",
+        "toolOutputRoot",
+        "typedOutputRoot"
+      ],
+      "dashboardPanelIds": [
+        "dashboard.docs.qa",
+        "dashboard.execution.status",
+        "dashboard.inference.ptrr-agents",
+        "dashboard.inference.thricified-generations",
+        "dashboard.interfaces.requests",
+        "dashboard.pipeline.health",
+        "dashboard.tools.calls"
+      ],
+      "runbookLinks": [
+        "runbook.docs.qa-repair",
+        "runbook.execution.orphan-repair",
+        "runbook.inference.generation-redaction",
+        "runbook.inference.ptrr-agent-debug",
+        "runbook.interfaces.auth-denial",
+        "runbook.pipeline.execution-repair",
+        "runbook.tools.policy-denial"
+      ],
+      "redactionPosture": [
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "input_output_roots_and_summary_only",
+        "prompt_roots_context_keys_raw_response_root_and_parsed_type_only",
+        "prompt_template_root_context_keys_and_typed_output_root",
+        "roots_context_keys_and_counts_only",
+        "route_contract_roots_status_and_policy_only",
+        "tool_name_roots_exit_code_and_policy_only"
+      ],
+      "allowedPayloadFields": [
+        "laneId",
+        "eventIds",
+        "proofRoots",
+        "docsSurfaceIds",
+        "docsLinks",
+        "runbookIds",
+        "dashboardPanelIds",
+        "incidentClasses",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "buyer_repository_private_data",
+        "unpaid_assetpack_source"
+      ],
+      "sourceSafetyClass": "source-safe-rehearsal-metadata",
+      "sourceSafetyRule": "Rehearsal evidence may expose lane ids, event ids, proof roots, docs links, runbook ids, dashboard ids, incident classes, redaction posture, and summary counts only.",
+      "failClosedResult": "local_telemetry_documentation_rehearsal blocks when documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, proof-root review, or source-safety evidence is incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-local-staging-telemetry-documentation-rehearsal",
+        "failClosedOn": [
+          "missing_rehearsal",
+          "missing_local_lane",
+          "missing_staging_testnet_lane",
+          "missing_required_phase",
+          "missing_dashboard_or_runbook",
+          "missing_docs_qa_binding",
+          "missing_source_safe_log_root",
+          "value_bearing_mainnet_unblocked",
+          "source_unsafe_rehearsal_payload"
+        ]
+      },
+      "rehearsalRoot": "telemetry-docs-rehearsal-row:8c879fc41c9d1a6a03fe8c44"
+    },
+    {
+      "rehearsalId": "staging_testnet_telemetry_documentation_rehearsal",
+      "laneId": "staging-testnet",
+      "title": "Staging-testnet telemetry documentation rehearsal",
+      "purpose": "Follow the staging-testnet path across Terminal, API, MCP API, ChatGPT App, docs, telemetry, dashboards, runbooks, and proof roots without value-bearing mainnet admission.",
+      "phases": [
+        "documentation_discovery",
+        "telemetry_event_emission",
+        "dashboard_runbook_lookup",
+        "docs_qa_review",
+        "incident_drill",
+        "source_safe_proof_root_review"
+      ],
+      "docsSurfaceIds": [
+        "public_docs_surface",
+        "route_api_docs",
+        "api_interface_docs",
+        "deployment_operations_docs",
+        "telemetry_observability_docs",
+        "security_boundary_docs"
+      ],
+      "interfaceIds": [
+        "terminal",
+        "api",
+        "mcp_api",
+        "chatgpt_app",
+        "internal_docs",
+        "public_docs"
+      ],
+      "eventFamilies": [
+        "pipeline",
+        "execution",
+        "ledger",
+        "wallet",
+        "storage",
+        "interface",
+        "deployment",
+        "observer",
+        "repair",
+        "docs_qa"
+      ],
+      "docsQaIds": [
+        "public_docs_disclosure_alignment",
+        "internal_docs_alignment",
+        "route_docs_alignment",
+        "interface_docs_alignment"
+      ],
+      "rolloutGuideIds": [
+        "operator_use",
+        "enterprise_reader_flow",
+        "depositor_flow",
+        "interface_consumer_flow",
+        "environment_lane_posture"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        "packages/api/README.md",
+        "packages/mcp-generics/src/mcp-server/README.md",
+        "apps/chatgpt/README.md",
+        ".docs/DEPLOYMENT.md",
+        "apps/uapi/app/terminal/README.md"
+      ],
+      "docsLinks": [
+        "/docs/read-results",
+        "/docs/mcp-api",
+        "/docs/chatgpt-app",
+        "/docs/settlement-btd"
+      ],
+      "evidenceRoots": [
+        "rehearsal.staging-testnet.docs-discovery.root",
+        "rehearsal.staging-testnet.telemetry-event-emission.root",
+        "rehearsal.staging-testnet.dashboard-runbook-lookup.root",
+        "rehearsal.staging-testnet.docs-qa-review.root",
+        "rehearsal.staging-testnet.incident-drill.root",
+        "rehearsal.staging-testnet.proof-root-review.root"
+      ],
+      "screenshotOrLogRoots": [
+        "staging-testnet-terminal-log-stream-redacted-root",
+        "staging-testnet-interface-proof-readback-redacted-root"
+      ],
+      "validationCommands": [
+        "pnpm run check:v35-gate7",
+        "pnpm run check:v35-gate8",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand"
+      ],
+      "incidentClasses": [
+        "staging_testnet_event_missing",
+        "dashboard_panel_missing",
+        "protected_source_disclosure_attempt"
+      ],
+      "valueBearingMainnetAdmission": false,
+      "eventIds": [
+        "deployment.lane.checked",
+        "deployment.migration.approved",
+        "deployment.rehearsal.completed",
+        "deployment.secret.available",
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.receipt.emitted",
+        "ledger.repaired",
+        "observer.failed",
+        "observer.finality.lagged",
+        "observer.poll.completed",
+        "observer.poll.started",
+        "pipeline.created",
+        "pipeline.failed",
+        "pipeline.phase.completed",
+        "pipeline.phase.started",
+        "repair.command.completed",
+        "repair.command.started",
+        "repair.detected",
+        "repair.failed",
+        "storage.read.denied",
+        "storage.repair.completed",
+        "storage.write.admitted",
+        "storage.write.completed",
+        "wallet.connection.started",
+        "wallet.policy.denied",
+        "wallet.signing.failed",
+        "wallet.signing.requested"
+      ],
+      "proofRootFields": [
+        "accessPolicyRoot",
+        "afterStateRoot",
+        "artifactRoot",
+        "beforeStateRoot",
+        "capabilityRoot",
+        "denialRoot",
+        "deploymentRoot",
+        "docsQaRoot",
+        "executionRoot",
+        "finalityRoot",
+        "interfaceProofRoot",
+        "laneRoot",
+        "ledgerRoot",
+        "objectStorageRoot",
+        "observerRoot",
+        "phaseRoot",
+        "pipelineRoot",
+        "policyRoot",
+        "receiptRoot",
+        "repairRoot",
+        "requestRoot",
+        "responseRoot",
+        "retentionRoot",
+        "surfaceRoot",
+        "telemetryRoot",
+        "walletCapabilityRoot"
+      ],
+      "dashboardPanelIds": [
+        "dashboard.deployment.lanes",
+        "dashboard.docs.qa",
+        "dashboard.execution.status",
+        "dashboard.interfaces.requests",
+        "dashboard.ledger.finality",
+        "dashboard.observers.finality",
+        "dashboard.pipeline.health",
+        "dashboard.repairs.outcomes",
+        "dashboard.storage.posture",
+        "dashboard.wallet.operations"
+      ],
+      "runbookLinks": [
+        "runbook.deployment.lane-repair",
+        "runbook.docs.qa-repair",
+        "runbook.execution.orphan-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.ledger.reconciliation-repair",
+        "runbook.observer.finality-lag",
+        "runbook.pipeline.execution-repair",
+        "runbook.repair.failed",
+        "runbook.storage.object-repair",
+        "runbook.wallet.signing-failure"
+      ],
+      "redactionPosture": [
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "input_output_roots_and_summary_only",
+        "lane_ids_capability_ids_and_secret_family_status_only",
+        "object_key_roots_retention_policy_and_access_state_only",
+        "observed_root_state_and_lag_class_only",
+        "receipt_roots_transaction_refs_and_state_only",
+        "repair_command_id_roots_outcome_and_actor_role_only",
+        "roots_context_keys_and_counts_only",
+        "route_contract_roots_status_and_policy_only",
+        "wallet_id_network_policy_and_error_class_only"
+      ],
+      "allowedPayloadFields": [
+        "laneId",
+        "eventIds",
+        "proofRoots",
+        "docsSurfaceIds",
+        "docsLinks",
+        "runbookIds",
+        "dashboardPanelIds",
+        "incidentClasses",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "buyer_repository_private_data",
+        "unpaid_assetpack_source"
+      ],
+      "sourceSafetyClass": "source-safe-rehearsal-metadata",
+      "sourceSafetyRule": "Rehearsal evidence may expose lane ids, event ids, proof roots, docs links, runbook ids, dashboard ids, incident classes, redaction posture, and summary counts only.",
+      "failClosedResult": "staging_testnet_telemetry_documentation_rehearsal blocks when documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, proof-root review, or source-safety evidence is incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-local-staging-telemetry-documentation-rehearsal",
+        "failClosedOn": [
+          "missing_rehearsal",
+          "missing_local_lane",
+          "missing_staging_testnet_lane",
+          "missing_required_phase",
+          "missing_dashboard_or_runbook",
+          "missing_docs_qa_binding",
+          "missing_source_safe_log_root",
+          "value_bearing_mainnet_unblocked",
+          "source_unsafe_rehearsal_payload"
+        ]
+      },
+      "rehearsalRoot": "telemetry-docs-rehearsal-row:721c1bf8c7ce0c547d28accf"
+    },
+    {
+      "rehearsalId": "dashboard_runbook_lookup_rehearsal",
+      "laneId": "staging-testnet",
+      "title": "Dashboard and runbook lookup rehearsal",
+      "purpose": "Start from emitted event families and prove operators can resolve dashboard panels, alert thresholds, runbook ids, and source-safe repair commands.",
+      "phases": [
+        "documentation_discovery",
+        "telemetry_event_emission",
+        "dashboard_runbook_lookup",
+        "docs_qa_review",
+        "incident_drill",
+        "source_safe_proof_root_review"
+      ],
+      "docsSurfaceIds": [
+        "internal_codebase_docs",
+        "deployment_operations_docs",
+        "telemetry_observability_docs"
+      ],
+      "interfaceIds": [
+        "terminal",
+        "api",
+        "internal_docs"
+      ],
+      "eventFamilies": [
+        "pipeline",
+        "execution",
+        "ledger",
+        "wallet",
+        "storage",
+        "observer",
+        "repair"
+      ],
+      "docsQaIds": [
+        "internal_docs_alignment",
+        "workflow_checker_alignment"
+      ],
+      "rolloutGuideIds": [
+        "operator_use",
+        "environment_lane_posture",
+        "wallet_settlement_caveats"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".docs/README.md",
+        ".docs/DEPLOYMENT.md",
+        ".docs/BITCODE_VERIFICATION.md"
+      ],
+      "docsLinks": [
+        "/docs/proofs",
+        "/docs/configuration",
+        "/docs/commercial-interfaces"
+      ],
+      "evidenceRoots": [
+        "rehearsal.dashboard-runbook.event-to-panel.root",
+        "rehearsal.dashboard-runbook.alert-to-runbook.root",
+        "rehearsal.dashboard-runbook.repair-command-redacted.root"
+      ],
+      "screenshotOrLogRoots": [
+        "dashboard-runbook-lookup-redacted-log-root"
+      ],
+      "validationCommands": [
+        "pnpm run check:v35-gate5",
+        "pnpm run check:v35-gate6"
+      ],
+      "incidentClasses": [
+        "alert_without_runbook",
+        "runbook_without_validation_command",
+        "repair_result_missing_root"
+      ],
+      "valueBearingMainnetAdmission": false,
+      "eventIds": [
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.receipt.emitted",
+        "ledger.repaired",
+        "observer.failed",
+        "observer.finality.lagged",
+        "observer.poll.completed",
+        "observer.poll.started",
+        "pipeline.created",
+        "pipeline.failed",
+        "pipeline.phase.completed",
+        "pipeline.phase.started",
+        "repair.command.completed",
+        "repair.command.started",
+        "repair.detected",
+        "repair.failed",
+        "storage.read.denied",
+        "storage.repair.completed",
+        "storage.write.admitted",
+        "storage.write.completed",
+        "wallet.connection.started",
+        "wallet.policy.denied",
+        "wallet.signing.failed",
+        "wallet.signing.requested"
+      ],
+      "proofRootFields": [
+        "accessPolicyRoot",
+        "afterStateRoot",
+        "beforeStateRoot",
+        "denialRoot",
+        "executionRoot",
+        "finalityRoot",
+        "ledgerRoot",
+        "objectStorageRoot",
+        "observerRoot",
+        "phaseRoot",
+        "pipelineRoot",
+        "policyRoot",
+        "receiptRoot",
+        "repairRoot",
+        "requestRoot",
+        "responseRoot",
+        "retentionRoot",
+        "telemetryRoot",
+        "walletCapabilityRoot"
+      ],
+      "dashboardPanelIds": [
+        "dashboard.execution.status",
+        "dashboard.ledger.finality",
+        "dashboard.observers.finality",
+        "dashboard.pipeline.health",
+        "dashboard.repairs.outcomes",
+        "dashboard.storage.posture",
+        "dashboard.wallet.operations"
+      ],
+      "runbookLinks": [
+        "runbook.execution.orphan-repair",
+        "runbook.ledger.reconciliation-repair",
+        "runbook.observer.finality-lag",
+        "runbook.pipeline.execution-repair",
+        "runbook.repair.failed",
+        "runbook.storage.object-repair",
+        "runbook.wallet.signing-failure"
+      ],
+      "redactionPosture": [
+        "input_output_roots_and_summary_only",
+        "object_key_roots_retention_policy_and_access_state_only",
+        "observed_root_state_and_lag_class_only",
+        "receipt_roots_transaction_refs_and_state_only",
+        "repair_command_id_roots_outcome_and_actor_role_only",
+        "roots_context_keys_and_counts_only",
+        "wallet_id_network_policy_and_error_class_only"
+      ],
+      "allowedPayloadFields": [
+        "laneId",
+        "eventIds",
+        "proofRoots",
+        "docsSurfaceIds",
+        "docsLinks",
+        "runbookIds",
+        "dashboardPanelIds",
+        "incidentClasses",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "buyer_repository_private_data",
+        "unpaid_assetpack_source"
+      ],
+      "sourceSafetyClass": "source-safe-rehearsal-metadata",
+      "sourceSafetyRule": "Rehearsal evidence may expose lane ids, event ids, proof roots, docs links, runbook ids, dashboard ids, incident classes, redaction posture, and summary counts only.",
+      "failClosedResult": "dashboard_runbook_lookup_rehearsal blocks when documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, proof-root review, or source-safety evidence is incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-local-staging-telemetry-documentation-rehearsal",
+        "failClosedOn": [
+          "missing_rehearsal",
+          "missing_local_lane",
+          "missing_staging_testnet_lane",
+          "missing_required_phase",
+          "missing_dashboard_or_runbook",
+          "missing_docs_qa_binding",
+          "missing_source_safe_log_root",
+          "value_bearing_mainnet_unblocked",
+          "source_unsafe_rehearsal_payload"
+        ]
+      },
+      "rehearsalRoot": "telemetry-docs-rehearsal-row:047695f9b01c30d782f74c40"
+    },
+    {
+      "rehearsalId": "docs_qa_incident_drill",
+      "laneId": "local",
+      "title": "Docs QA incident drill",
+      "purpose": "Rehearse stale docs, missing generated artifacts, unsupported disclosure, and source-unsafe payload blockers from the docs QA report.",
+      "phases": [
+        "documentation_discovery",
+        "telemetry_event_emission",
+        "dashboard_runbook_lookup",
+        "docs_qa_review",
+        "incident_drill",
+        "source_safe_proof_root_review"
+      ],
+      "docsSurfaceIds": [
+        "canonical_spec_family",
+        "public_docs_surface",
+        "package_readmes",
+        "generated_artifact_docs"
+      ],
+      "interfaceIds": [
+        "package_readmes",
+        "internal_docs",
+        "public_docs"
+      ],
+      "eventFamilies": [
+        "docs_qa",
+        "promotion",
+        "repair"
+      ],
+      "docsQaIds": [
+        "spec_family_alignment",
+        "public_docs_disclosure_alignment",
+        "generated_artifact_inventory_alignment",
+        "workflow_checker_alignment"
+      ],
+      "rolloutGuideIds": [
+        "known_blockers",
+        "rehearsal_evidence"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "scripts/specifying/src/canonical/docs-qa-alignment-report.js"
+      ],
+      "docsLinks": [
+        "/docs/what-is-bitcode",
+        "/docs/proofs",
+        "/docs/auxillaries"
+      ],
+      "evidenceRoots": [
+        "rehearsal.docs-qa.stale-token-blocker.root",
+        "rehearsal.docs-qa.generated-artifact-blocker.root",
+        "rehearsal.docs-qa.disclosure-blocker.root"
+      ],
+      "screenshotOrLogRoots": [
+        "docs-qa-incident-drill-redacted-log-root"
+      ],
+      "validationCommands": [
+        "pnpm run check:v35-gate6"
+      ],
+      "incidentClasses": [
+        "stale_docs_token",
+        "missing_generated_artifact",
+        "unsupported_disclosure_claim"
+      ],
+      "valueBearingMainnetAdmission": false,
+      "eventIds": [
+        "docs_qa.alignment.failed",
+        "docs_qa.alignment.repaired",
+        "docs_qa.catalog.checked",
+        "docs_qa.drift.detected",
+        "promotion.blocked",
+        "promotion.check.completed",
+        "promotion.check.started",
+        "promotion.pointer.updated",
+        "repair.command.completed",
+        "repair.command.started",
+        "repair.detected",
+        "repair.failed"
+      ],
+      "proofRootFields": [
+        "afterStateRoot",
+        "artifactRoot",
+        "beforeStateRoot",
+        "canonicalInputRoot",
+        "docsQaRoot",
+        "promotionRoot",
+        "provenRoot",
+        "repairRoot",
+        "surfaceRoot"
+      ],
+      "dashboardPanelIds": [
+        "dashboard.docs.qa",
+        "dashboard.promotion.readiness",
+        "dashboard.repairs.outcomes"
+      ],
+      "runbookLinks": [
+        "runbook.docs.qa-repair",
+        "runbook.promotion.blocked",
+        "runbook.repair.failed"
+      ],
+      "redactionPosture": [
+        "commit_refs_artifact_roots_and_gate_status_only",
+        "file_paths_tokens_roots_and_failure_codes_only",
+        "repair_command_id_roots_outcome_and_actor_role_only"
+      ],
+      "allowedPayloadFields": [
+        "laneId",
+        "eventIds",
+        "proofRoots",
+        "docsSurfaceIds",
+        "docsLinks",
+        "runbookIds",
+        "dashboardPanelIds",
+        "incidentClasses",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "buyer_repository_private_data",
+        "unpaid_assetpack_source"
+      ],
+      "sourceSafetyClass": "source-safe-rehearsal-metadata",
+      "sourceSafetyRule": "Rehearsal evidence may expose lane ids, event ids, proof roots, docs links, runbook ids, dashboard ids, incident classes, redaction posture, and summary counts only.",
+      "failClosedResult": "docs_qa_incident_drill blocks when documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, proof-root review, or source-safety evidence is incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/docs-qa-alignment-report.js",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-local-staging-telemetry-documentation-rehearsal",
+        "failClosedOn": [
+          "missing_rehearsal",
+          "missing_local_lane",
+          "missing_staging_testnet_lane",
+          "missing_required_phase",
+          "missing_dashboard_or_runbook",
+          "missing_docs_qa_binding",
+          "missing_source_safe_log_root",
+          "value_bearing_mainnet_unblocked",
+          "source_unsafe_rehearsal_payload"
+        ]
+      },
+      "rehearsalRoot": "telemetry-docs-rehearsal-row:37d7a39c656f9b6ccff54125"
+    },
+    {
+      "rehearsalId": "source_safe_proof_root_review",
+      "laneId": "mainnet-ready-dry-run",
+      "title": "Source-safe proof-root review",
+      "purpose": "Review proof roots, artifact roots, row roots, and source-safety verdicts without exposing protected source, secrets, wallet private material, or unpaid AssetPack source.",
+      "phases": [
+        "documentation_discovery",
+        "telemetry_event_emission",
+        "dashboard_runbook_lookup",
+        "docs_qa_review",
+        "incident_drill",
+        "source_safe_proof_root_review"
+      ],
+      "docsSurfaceIds": [
+        "canonical_spec_family",
+        "generated_artifact_docs",
+        "security_boundary_docs"
+      ],
+      "interfaceIds": [
+        "terminal",
+        "api",
+        "mcp_api",
+        "chatgpt_app",
+        "internal_docs",
+        "public_docs"
+      ],
+      "eventFamilies": [
+        "execution",
+        "ledger",
+        "wallet",
+        "storage",
+        "interface",
+        "promotion"
+      ],
+      "docsQaIds": [
+        "generated_artifact_inventory_alignment",
+        "public_docs_disclosure_alignment",
+        "route_docs_alignment"
+      ],
+      "rolloutGuideIds": [
+        "environment_lane_posture",
+        "wallet_settlement_caveats",
+        "rehearsal_evidence"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".github/workflows/bitcode-gate-quality.yml",
+        "scripts/specifying/src/canonical/v21-specifying.js"
+      ],
+      "docsLinks": [
+        "/docs/proofs",
+        "/docs/settlement-btd",
+        "/docs/commercial-interfaces"
+      ],
+      "evidenceRoots": [
+        "rehearsal.proof-root.generated-artifact-root.root",
+        "rehearsal.proof-root.telemetry-event-root.root",
+        "rehearsal.proof-root.interface-payload-redaction.root"
+      ],
+      "screenshotOrLogRoots": [
+        "proof-root-review-redacted-log-root"
+      ],
+      "validationCommands": [
+        "node scripts/check-bitcode-spec-family.mjs --version V35 --mode draft --current-target V34",
+        "node scripts/check-bitcode-canonical-inputs.mjs --current-target V34",
+        "pnpm run check:v35-gate8"
+      ],
+      "incidentClasses": [
+        "proof_root_missing",
+        "source_safety_verdict_failed",
+        "redaction_boundary_failed"
+      ],
+      "valueBearingMainnetAdmission": false,
+      "eventIds": [
+        "execution.admitted",
+        "execution.completed",
+        "execution.failed",
+        "execution.started",
+        "interface.auth.denied",
+        "interface.payload.redacted",
+        "interface.request.received",
+        "interface.response.rendered",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.receipt.emitted",
+        "ledger.repaired",
+        "promotion.blocked",
+        "promotion.check.completed",
+        "promotion.check.started",
+        "promotion.pointer.updated",
+        "storage.read.denied",
+        "storage.repair.completed",
+        "storage.write.admitted",
+        "storage.write.completed",
+        "wallet.connection.started",
+        "wallet.policy.denied",
+        "wallet.signing.failed",
+        "wallet.signing.requested"
+      ],
+      "proofRootFields": [
+        "accessPolicyRoot",
+        "canonicalInputRoot",
+        "denialRoot",
+        "executionRoot",
+        "finalityRoot",
+        "interfaceProofRoot",
+        "ledgerRoot",
+        "objectStorageRoot",
+        "policyRoot",
+        "promotionRoot",
+        "provenRoot",
+        "receiptRoot",
+        "requestRoot",
+        "responseRoot",
+        "retentionRoot",
+        "walletCapabilityRoot"
+      ],
+      "dashboardPanelIds": [
+        "dashboard.execution.status",
+        "dashboard.interfaces.requests",
+        "dashboard.ledger.finality",
+        "dashboard.promotion.readiness",
+        "dashboard.storage.posture",
+        "dashboard.wallet.operations"
+      ],
+      "runbookLinks": [
+        "runbook.execution.orphan-repair",
+        "runbook.interfaces.auth-denial",
+        "runbook.ledger.reconciliation-repair",
+        "runbook.promotion.blocked",
+        "runbook.storage.object-repair",
+        "runbook.wallet.signing-failure"
+      ],
+      "redactionPosture": [
+        "commit_refs_artifact_roots_and_gate_status_only",
+        "input_output_roots_and_summary_only",
+        "object_key_roots_retention_policy_and_access_state_only",
+        "receipt_roots_transaction_refs_and_state_only",
+        "route_contract_roots_status_and_policy_only",
+        "wallet_id_network_policy_and_error_class_only"
+      ],
+      "allowedPayloadFields": [
+        "laneId",
+        "eventIds",
+        "proofRoots",
+        "docsSurfaceIds",
+        "docsLinks",
+        "runbookIds",
+        "dashboardPanelIds",
+        "incidentClasses",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "buyer_repository_private_data",
+        "unpaid_assetpack_source"
+      ],
+      "sourceSafetyClass": "source-safe-rehearsal-metadata",
+      "sourceSafetyRule": "Rehearsal evidence may expose lane ids, event ids, proof roots, docs links, runbook ids, dashboard ids, incident classes, redaction posture, and summary counts only.",
+      "failClosedResult": "source_safe_proof_root_review blocks when documentation discovery, telemetry event emission, dashboard/runbook lookup, docs QA, incident drill, proof-root review, or source-safety evidence is incomplete",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-local-staging-telemetry-documentation-rehearsal",
+        "failClosedOn": [
+          "missing_rehearsal",
+          "missing_local_lane",
+          "missing_staging_testnet_lane",
+          "missing_required_phase",
+          "missing_dashboard_or_runbook",
+          "missing_docs_qa_binding",
+          "missing_source_safe_log_root",
+          "value_bearing_mainnet_unblocked",
+          "source_unsafe_rehearsal_payload"
+        ]
+      },
+      "rehearsalRoot": "telemetry-docs-rehearsal-row:07c7fd6906ef6cc398895f19"
+    },
+    {
+      "rehearsalId": "value_bearing_mainnet_blocked_rehearsal",
+      "laneId": "value-bearing-mainnet",
+      "title": "Value-bearing mainnet blocked rehearsal",
+      "purpose": "Make the value-bearing mainnet non-admission visible while preserving local, staging-testnet, public-testnet, and mainnet-ready dry-run rehearsal paths.",
+      "phases": [
+        "documentation_discovery",
+        "incident_drill",
+        "source_safe_proof_root_review"
+      ],
+      "docsSurfaceIds": [
+        "canonical_spec_family",
+        "deployment_operations_docs",
+        "security_boundary_docs"
+      ],
+      "interfaceIds": [
+        "terminal",
+        "api",
+        "internal_docs",
+        "public_docs"
+      ],
+      "eventFamilies": [
+        "ledger",
+        "wallet",
+        "deployment",
+        "observer",
+        "promotion"
+      ],
+      "docsQaIds": [
+        "public_docs_disclosure_alignment",
+        "internal_docs_alignment"
+      ],
+      "rolloutGuideIds": [
+        "environment_lane_posture",
+        "wallet_settlement_caveats",
+        "known_blockers"
+      ],
+      "sourceRoots": [
+        "BITCODE_SPEC_V35.md",
+        "BITCODE_SPEC_V35_DELTA.md",
+        "BITCODE_SPEC_V35_NOTES.md",
+        "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+        "SPECIFICATIONS_ROADMAP.md",
+        ".proofs/v35/documentation-surface-catalog.json",
+        ".proofs/v35/telemetry-taxonomy-catalog.json",
+        ".proofs/v35/public-docs-usage-guides.json",
+        ".proofs/v35/operator-runbook-catalog.json",
+        ".proofs/v35/docs-qa-alignment-report.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json",
+        ".proofs/v35/telemetry-documentation-interface-integration.json",
+        ".proofs/v34/environment-lane-contracts.json",
+        ".proofs/v35/testnet-rollout-readiness-guide.json"
+      ],
+      "docsLinks": [
+        "/docs/settlement-btd",
+        "/docs/configuration",
+        "/docs/proofs"
+      ],
+      "evidenceRoots": [
+        "rehearsal.mainnet-blocked.non-admission.root",
+        "rehearsal.mainnet-blocked.no-broadcast.root",
+        "rehearsal.mainnet-blocked.no-source-unlock.root"
+      ],
+      "screenshotOrLogRoots": [
+        "value-bearing-mainnet-blocked-redacted-log-root"
+      ],
+      "validationCommands": [
+        "pnpm run check:v35-gate7"
+      ],
+      "incidentClasses": [
+        "value_bearing_mainnet_blocked",
+        "settlement_broadcast_denied",
+        "assetpack_source_unlock_denied"
+      ],
+      "valueBearingMainnetAdmission": false,
+      "eventIds": [
+        "deployment.lane.checked",
+        "deployment.migration.approved",
+        "deployment.rehearsal.completed",
+        "deployment.secret.available",
+        "ledger.finality.observed",
+        "ledger.projection.drift",
+        "ledger.receipt.emitted",
+        "ledger.repaired",
+        "observer.failed",
+        "observer.finality.lagged",
+        "observer.poll.completed",
+        "observer.poll.started",
+        "promotion.blocked",
+        "promotion.check.completed",
+        "promotion.check.started",
+        "promotion.pointer.updated",
+        "wallet.connection.started",
+        "wallet.policy.denied",
+        "wallet.signing.failed",
+        "wallet.signing.requested"
+      ],
+      "proofRootFields": [
+        "canonicalInputRoot",
+        "capabilityRoot",
+        "denialRoot",
+        "deploymentRoot",
+        "finalityRoot",
+        "laneRoot",
+        "ledgerRoot",
+        "observerRoot",
+        "policyRoot",
+        "promotionRoot",
+        "provenRoot",
+        "receiptRoot",
+        "repairRoot",
+        "walletCapabilityRoot"
+      ],
+      "dashboardPanelIds": [
+        "dashboard.deployment.lanes",
+        "dashboard.ledger.finality",
+        "dashboard.observers.finality",
+        "dashboard.promotion.readiness",
+        "dashboard.wallet.operations"
+      ],
+      "runbookLinks": [
+        "runbook.deployment.lane-repair",
+        "runbook.ledger.reconciliation-repair",
+        "runbook.observer.finality-lag",
+        "runbook.promotion.blocked",
+        "runbook.wallet.signing-failure"
+      ],
+      "redactionPosture": [
+        "commit_refs_artifact_roots_and_gate_status_only",
+        "lane_ids_capability_ids_and_secret_family_status_only",
+        "observed_root_state_and_lag_class_only",
+        "receipt_roots_transaction_refs_and_state_only",
+        "wallet_id_network_policy_and_error_class_only"
+      ],
+      "allowedPayloadFields": [
+        "laneId",
+        "eventIds",
+        "proofRoots",
+        "docsSurfaceIds",
+        "docsLinks",
+        "runbookIds",
+        "dashboardPanelIds",
+        "incidentClasses",
+        "redactionPosture",
+        "sourceSafetyClass",
+        "summaryCounts"
+      ],
+      "forbiddenPayloadFields": [
+        "secret_values",
+        "provider_tokens",
+        "wallet_private_material",
+        "protected_source_payloads",
+        "raw_protected_prompts",
+        "raw_model_responses_with_protected_source",
+        "buyer_repository_private_data",
+        "unpaid_assetpack_source"
+      ],
+      "sourceSafetyClass": "source-safe-rehearsal-metadata",
+      "sourceSafetyRule": "Rehearsal evidence may expose lane ids, event ids, proof roots, docs links, runbook ids, dashboard ids, incident classes, redaction posture, and summary counts only.",
+      "failClosedResult": "value_bearing_mainnet_blocked_rehearsal remains blocked until future canon explicitly admits value-bearing mainnet",
+      "sourceEvidence": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/environment-lane-contracts.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        }
+      ],
+      "replayExpectation": {
+        "command": "pnpm run check:v35-local-staging-telemetry-documentation-rehearsal",
+        "failClosedOn": [
+          "missing_rehearsal",
+          "missing_local_lane",
+          "missing_staging_testnet_lane",
+          "missing_required_phase",
+          "missing_dashboard_or_runbook",
+          "missing_docs_qa_binding",
+          "missing_source_safe_log_root",
+          "value_bearing_mainnet_unblocked",
+          "source_unsafe_rehearsal_payload"
+        ]
+      },
+      "rehearsalRoot": "telemetry-docs-rehearsal-row:1d93a8b0d50b800f30b47878"
+    }
+  ],
+  "coverage": {
+    "requiredRehearsalIds": [
+      "local_telemetry_documentation_rehearsal",
+      "staging_testnet_telemetry_documentation_rehearsal",
+      "dashboard_runbook_lookup_rehearsal",
+      "docs_qa_incident_drill",
+      "source_safe_proof_root_review",
+      "value_bearing_mainnet_blocked_rehearsal"
+    ],
+    "observedRehearsalIds": [
+      "local_telemetry_documentation_rehearsal",
+      "staging_testnet_telemetry_documentation_rehearsal",
+      "dashboard_runbook_lookup_rehearsal",
+      "docs_qa_incident_drill",
+      "source_safe_proof_root_review",
+      "value_bearing_mainnet_blocked_rehearsal"
+    ],
+    "missingRehearsalIds": [],
+    "observedLaneIds": [
+      "local",
+      "mainnet-ready-dry-run",
+      "staging-testnet",
+      "value-bearing-mainnet"
+    ],
+    "observedPhases": [
+      "dashboard_runbook_lookup",
+      "docs_qa_review",
+      "documentation_discovery",
+      "incident_drill",
+      "source_safe_proof_root_review",
+      "telemetry_event_emission"
+    ],
+    "requiredPhases": [
+      "documentation_discovery",
+      "telemetry_event_emission",
+      "dashboard_runbook_lookup",
+      "docs_qa_review",
+      "incident_drill",
+      "source_safe_proof_root_review"
+    ],
+    "observedDocsSurfaceIds": [
+      "api_interface_docs",
+      "canonical_spec_family",
+      "demonstration_docs",
+      "deployment_operations_docs",
+      "generated_artifact_docs",
+      "internal_codebase_docs",
+      "package_readmes",
+      "public_docs_surface",
+      "roadmap_contributor_governance",
+      "route_api_docs",
+      "security_boundary_docs",
+      "telemetry_observability_docs"
+    ],
+    "observedInterfaceIds": [
+      "api",
+      "auxillaries",
+      "chatgpt_app",
+      "internal_docs",
+      "mcp_api",
+      "package_readmes",
+      "public_docs",
+      "terminal"
+    ],
+    "observedDocsQaIds": [
+      "generated_artifact_inventory_alignment",
+      "interface_docs_alignment",
+      "internal_docs_alignment",
+      "public_docs_disclosure_alignment",
+      "route_docs_alignment",
+      "spec_family_alignment",
+      "workflow_checker_alignment"
+    ],
+    "observedRolloutGuideIds": [
+      "contributor_onboarding",
+      "depositor_flow",
+      "enterprise_reader_flow",
+      "environment_lane_posture",
+      "interface_consumer_flow",
+      "known_blockers",
+      "local_development",
+      "operator_use",
+      "rehearsal_evidence",
+      "wallet_settlement_caveats"
+    ],
+    "observedEventFamilies": [
+      "deployment",
+      "docs_qa",
+      "execution",
+      "interface",
+      "ledger",
+      "observer",
+      "pipeline",
+      "promotion",
+      "ptrr_agent",
+      "repair",
+      "storage",
+      "thricified_generation",
+      "tool",
+      "wallet"
+    ],
+    "observedRunbookLinks": [
+      "runbook.deployment.lane-repair",
+      "runbook.docs.qa-repair",
+      "runbook.execution.orphan-repair",
+      "runbook.inference.generation-redaction",
+      "runbook.inference.ptrr-agent-debug",
+      "runbook.interfaces.auth-denial",
+      "runbook.ledger.reconciliation-repair",
+      "runbook.observer.finality-lag",
+      "runbook.pipeline.execution-repair",
+      "runbook.promotion.blocked",
+      "runbook.repair.failed",
+      "runbook.storage.object-repair",
+      "runbook.tools.policy-denial",
+      "runbook.wallet.signing-failure"
+    ],
+    "observedDashboardPanelIds": [
+      "dashboard.deployment.lanes",
+      "dashboard.docs.qa",
+      "dashboard.execution.status",
+      "dashboard.inference.ptrr-agents",
+      "dashboard.inference.thricified-generations",
+      "dashboard.interfaces.requests",
+      "dashboard.ledger.finality",
+      "dashboard.observers.finality",
+      "dashboard.pipeline.health",
+      "dashboard.promotion.readiness",
+      "dashboard.repairs.outcomes",
+      "dashboard.storage.posture",
+      "dashboard.tools.calls",
+      "dashboard.wallet.operations"
+    ],
+    "rehearsalCount": 6,
+    "allRequiredRehearsalsCovered": true,
+    "localRehearsalCovered": true,
+    "stagingTestnetRehearsalCovered": true,
+    "mainnetReadyDryRunCovered": true,
+    "valueBearingMainnetVisibleAndBlocked": true,
+    "documentationDiscoveryCovered": true,
+    "telemetryEventEmissionCovered": true,
+    "dashboardRunbookLookupCovered": true,
+    "docsQaCovered": true,
+    "incidentDrillCovered": true,
+    "sourceSafeProofRootReviewCovered": true,
+    "documentationSurfacesCovered": true,
+    "interfaceSurfacesCovered": true,
+    "docsQaBindingsCovered": true,
+    "rolloutGuideBindingsCovered": true,
+    "runbookLinksCovered": true,
+    "dashboardPanelsCovered": true,
+    "operatorRunbookCatalogReferenced": true,
+    "missingSourceRoots": [],
+    "rowsMissingRequiredPhases": [],
+    "rowsMissingDocsSurfaces": [],
+    "rowsMissingEventIds": [],
+    "rowsMissingProofRoots": [],
+    "rowsMissingDashboards": [],
+    "rowsMissingRunbooks": [],
+    "rowsMissingDocsQa": [],
+    "rowsMissingEvidence": [],
+    "rowsMissingSourceSafeLogs": [],
+    "valueBearingUnblockedRows": [],
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false
+  },
+  "sourceEvidence": [
+    {
+      "rehearsalId": "local_telemetry_documentation_rehearsal",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rehearsalId": "staging_testnet_telemetry_documentation_rehearsal",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/api/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "packages/mcp-generics/src/mcp-server/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/chatgpt/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rehearsalId": "dashboard_runbook_lookup_rehearsal",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/README.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/DEPLOYMENT.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".docs/BITCODE_VERIFICATION.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rehearsalId": "docs_qa_incident_drill",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/docs-qa-alignment-report.js",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rehearsalId": "source_safe_proof_root_review",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".github/workflows/bitcode-gate-quality.yml",
+          "present": true
+        },
+        {
+          "sourceRoot": "scripts/specifying/src/canonical/v21-specifying.js",
+          "present": true
+        }
+      ]
+    },
+    {
+      "rehearsalId": "value_bearing_mainnet_blocked_rehearsal",
+      "allSourceRootsPresent": true,
+      "sourceRoots": [
+        {
+          "sourceRoot": "BITCODE_SPEC_V35.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_DELTA.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_NOTES.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "BITCODE_SPEC_V35_PARITY_MATRIX.md",
+          "present": true
+        },
+        {
+          "sourceRoot": "SPECIFICATIONS_ROADMAP.md",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/documentation-surface-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-taxonomy-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/public-docs-usage-guides.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/operator-runbook-catalog.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/docs-qa-alignment-report.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/telemetry-documentation-interface-integration.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v34/environment-lane-contracts.json",
+          "present": true
+        },
+        {
+          "sourceRoot": ".proofs/v35/testnet-rollout-readiness-guide.json",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "artifactRoot": "local-staging-telemetry-documentation-rehearsal:b591e95f7497306c26ceccde",
+  "passed": true,
+  "failures": [],
+  "validationCommand": "pnpm run check:v35-gate9"
+}

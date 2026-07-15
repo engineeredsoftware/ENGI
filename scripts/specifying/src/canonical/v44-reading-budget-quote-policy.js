@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 
 export const V44_READING_BUDGET_QUOTE_POLICY_ARTIFACT_PATH =
-  '.bitcode/v44-reading-budget-quote-policy.json';
+  '.proofs/v44/reading-budget-quote-policy.json';
 export const V44_READING_BUDGET_QUOTE_POLICY_SCHEMA_ID =
   'bitcode.v44.readingBudgetQuotePolicy.v1';
 export const V44_READING_BUDGET_QUOTE_POLICY_VERSION = 'V44';

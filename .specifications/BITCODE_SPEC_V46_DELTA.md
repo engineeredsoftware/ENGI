@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `40a32e9d61a64130c958eda1498812e25a682653`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v46/spec-family-report.json`, `.proofs/v46/canonical-input-report.json`, `.proofs/v46/canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.proofs/v46/promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion
 - Source parity state: V46 source-side protocol comprehension object model, public/operator claim boundaries, route readback, interface claim contracts, proof readback, local rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V46 file family
 - Notes companion: `BITCODE_SPEC_V46_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V46.md`
@@ -75,7 +75,7 @@ V46 file claims promoted authority.
 ## Gate 2: Protocol Comprehension Object Model And Claim Taxonomy
 
 Gate 2 adds `V46ProtocolComprehensionObjectModel` as a source-safe generated
-artifact at `.bitcode/v46-protocol-comprehension-object-model.json`. It
+artifact at `.proofs/v46/protocol-comprehension-object-model.json`. It
 formalizes the object vocabulary and claim taxonomy that every public,
 product, operator, API/MCP, ChatGPT App, Bitcode Chat, telemetry, and
 investor-facing surface must use when explaining Bitcode.
@@ -101,7 +101,7 @@ Accepted Gate 2 decisions:
 ## Gate 3: Public Docs, Landing, And Operator Claim Boundaries
 
 Gate 3 adds `V46PublicOperatorClaimBoundaries` as a source-safe generated
-artifact at `.bitcode/v46-public-operator-claim-boundaries.json`. It binds
+artifact at `.proofs/v46/public-operator-claim-boundaries.json`. It binds
 public docs, landing copy, README surfaces, and operator notes to Gate 2 claim
 authority so launch-facing statements are readable, source-safe, and
 non-overclaiming.
@@ -124,7 +124,7 @@ Accepted Gate 3 decisions:
 ## Gate 4: `/packs`, `/read`, And `/deposit` Comprehension UX Readback
 
 Gate 4 adds `V46ProductRouteComprehensionReadback` as a source-safe generated
-artifact at `.bitcode/v46-product-route-comprehension-readback.json`. It binds
+artifact at `.proofs/v46/product-route-comprehension-readback.json`. It binds
 the three product routes to Gate 2 claim authority and Gate 3 public/operator
 boundaries so route UX can stay low-detail by default while preserving
 expandable proof readback.
@@ -150,7 +150,7 @@ Accepted Gate 4 decisions:
 ## Gate 5: API/MCP, ChatGPT App, And Bitcode Chat Claim Contracts
 
 Gate 5 adds `V46InterfaceClaimContracts` as a source-safe generated artifact
-at `.bitcode/v46-interface-claim-contracts.json`. It binds public API, MCP
+at `.proofs/v46/interface-claim-contracts.json`. It binds public API, MCP
 API, ChatGPT App, Bitcode Chat, and package-consumer surfaces to the Gate 2
 `InterfaceClaim` taxonomy, Gate 3 public/operator claim boundaries, and Gate 4
 product-route readback law.
@@ -180,7 +180,7 @@ Accepted Gate 5 decisions:
 ## Gate 6: Proof Readback And Source-Safe Operator Explanation
 
 Gate 6 adds `V46ProofReadbackOperatorExplanation` as a source-safe generated
-artifact at `.bitcode/v46-proof-readback-operator-explanation.json`. It binds
+artifact at `.proofs/v46/proof-readback-operator-explanation.json`. It binds
 canonical/generated proof, execution/workflow receipts, ledger journals,
 database projections, object-storage roots, telemetry streams,
 wallet/provider receipts, repository delivery receipts, and
@@ -209,7 +209,7 @@ Accepted Gate 6 decisions:
 ## Gate 7: Local Interface Comprehension Rehearsal
 
 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` as a source-safe
-generated artifact at `.bitcode/v46-local-interface-comprehension-rehearsal.json`.
+generated artifact at `.proofs/v46/local-interface-comprehension-rehearsal.json`.
 It rehearses local .docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
 ChatGPT App, Bitcode Chat, proof telemetry, and repair readback surfaces
 against the Gate 2 through Gate 6 claim and authority artifacts.
@@ -235,7 +235,7 @@ Accepted Gate 7 decisions:
 ## Gate 8: V46 Promotion Readiness
 
 Gate 8 adds `V46PromotionReadinessReport` as a source-safe generated artifact
-at `.bitcode/v46-promotion-readiness-report.json`. It binds the six accepted
+at `.proofs/v46/promotion-readiness-report.json`. It binds the six accepted
 V46 protocol comprehension artifacts, generated `BITCODE_SPEC_V46_PROVEN.md`
 support, `v46-canon-promotion.yml`, V46 gate/canon workflow posture, and
 promotion scripts support V46 before a version-promotion pull request can ask

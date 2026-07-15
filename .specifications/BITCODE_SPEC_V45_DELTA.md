@@ -8,7 +8,7 @@
 - Canonical proof-source commit: `23294cc578dcb2148a6b602c3463b3ca01f1fef1`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: active canonical `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `.bitcode/v45-canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
+- Generated structured artifact inventory: active canonical `.proofs/v45/spec-family-report.json`, `.proofs/v45/canonical-input-report.json`, `.proofs/v45/canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.proofs/v45/source-safe-e2e-rehearsal.json`, `.proofs/v45/promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
 - Source parity state: V45 source-side AssetPack commodity lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, source-safe rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V45 file family
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V45.md`
@@ -65,7 +65,7 @@ readback, and gate taxonomy.
 ## Gate 18: V45 Promotion Readiness
 
 Gate 18 closes promotion readiness with
-`.bitcode/v45-promotion-readiness-report.json`,
+`.proofs/v45/promotion-readiness-report.json`,
 `generate:v45-promotion-readiness`, `check:v45-promotion-readiness`,
 `check:v45-gate18`, `v45-canon-promotion.yml`; promotion scripts support V45.
 It proves the V45 proof-family artifacts, source-safe rehearsal artifact,

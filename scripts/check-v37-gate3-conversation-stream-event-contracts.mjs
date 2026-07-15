@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v37-conversation-stream-event-contract.json';
+const ARTIFACT_PATH = '.proofs/v37/conversation-stream-event-contract.json';
 
 const REQUIRED_EVENT_KIND_IDS = [
   'model_delta',
@@ -296,7 +296,7 @@ function main() {
     'retry states',
     'completion decisions',
     'error rows',
-    '.bitcode/v37-conversation-stream-event-contract.json',
+    '.proofs/v37/conversation-stream-event-contract.json',
     'source-safe-conversation-stream-event-metadata',
     'check:v37-gate3',
   ]) {

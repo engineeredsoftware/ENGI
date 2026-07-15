@@ -8,17 +8,17 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRepoRoot = path.resolve(__dirname, '..');
-const ARTIFACT_PATH = '.bitcode/v44-promotion-readiness-report.json';
+const ARTIFACT_PATH = '.proofs/v44/promotion-readiness-report.json';
 
 const V44_GATE_ARTIFACTS = [
-  '.bitcode/v44-economic-domain-model.json',
-  '.bitcode/v44-packs-portfolio-market-intelligence.json',
-  '.bitcode/v44-reading-budget-quote-policy.json',
-  '.bitcode/v44-depositor-earnings-supply-opportunities.json',
-  '.bitcode/v44-btd-btc-compensation-statements.json',
-  '.bitcode/v44-organization-policy-wallet-authority.json',
-  '.bitcode/v44-enterprise-product-ux.json',
-  '.bitcode/v44-scaled-network-rehearsal.json',
+  '.proofs/v44/economic-domain-model.json',
+  '.proofs/v44/packs-portfolio-market-intelligence.json',
+  '.proofs/v44/reading-budget-quote-policy.json',
+  '.proofs/v44/depositor-earnings-supply-opportunities.json',
+  '.proofs/v44/btd-btc-compensation-statements.json',
+  '.proofs/v44/organization-policy-wallet-authority.json',
+  '.proofs/v44/enterprise-product-ux.json',
+  '.proofs/v44/scaled-network-rehearsal.json',
 ];
 
 const JWT_HEADER_PREFIX = String.fromCharCode(

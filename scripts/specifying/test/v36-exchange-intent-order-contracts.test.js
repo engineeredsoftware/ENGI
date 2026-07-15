@@ -91,7 +91,7 @@ test('builds source-safe V36 ExchangeIntent and ExchangeOrder transition contrac
   }
 
   assert.equal(EXCHANGE_INTENT_ORDER_ROWS.length, EXCHANGE_INTENT_ACTION_KINDS.length);
-  assert.equal(EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH, '.bitcode/v36-exchange-intent-order-contracts.json');
+  assert.equal(EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH, '.proofs/v36/exchange-intent-order-contracts.json');
 });
 
 test('keeps cancel, accept, settle, and history transitions replayable without secrets', () => {
