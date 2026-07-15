@@ -157,7 +157,17 @@ export type PipelineSandboxSource =
   | PipelineSandboxSourceSnapshot;
 
 export interface SandboxCreateOptions {
+  /**
+   * Stock Sandbox runtime (node24 / node22 / …). Mutually exclusive with `image`
+   * per Vercel Sandbox SDK — do not set both.
+   */
   runtime?: VercelSandboxRuntime;
+  /**
+   * VCR custom image reference (e.g. `bitcode-pipeline:v48-abc` or full
+   * `vcr.vercel.com/<team>/<project>/bitcode-pipeline:<tag>`). When set, the
+   * host plan uses the pipeline appliance image instead of a stock runtime.
+   */
+  image?: string;
   timeout?: number;
   ports?: number[];
   resources?: {

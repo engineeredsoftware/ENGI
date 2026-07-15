@@ -136,6 +136,7 @@ export async function runDepositInBoxHost(input: {
     synthesizeMode: "deposit",
     // Explicit opt-out of v2 default persistence (one-shot deposit synthesis).
     persistent: false,
+    // Production: BITCODE_PIPELINE_SANDBOX_IMAGE → VCR appliance (no stock runtime).
     read: {
       id: `deposit-read-${input.repositoryFullName}`,
       prompt: "Deposit synthesis (no read need).",

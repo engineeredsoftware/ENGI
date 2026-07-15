@@ -1,0 +1,27 @@
+{
+  "name": "@bitcode/pipeline-image",
+  "version": "0.1.0",
+  "private": true,
+  "description": "VCR/Sandbox pipeline appliance: materialize in-box runners and container image for deposit/read synthesis",
+  "type": "module",
+  "main": "dist/run-pipeline.mjs",
+  "files": [
+    "dist",
+    "Dockerfile",
+    "README.md",
+    ".dockerignore",
+    "scripts"
+  ],
+  "scripts": {
+    "materialize": "node ./scripts/materialize.mjs",
+    "build": "pnpm run materialize",
+    "typecheck": "node -e \"require('fs').accessSync('dist/run-pipeline.mjs')\"",
+    "test": "pnpm run materialize && node --test ./scripts/materialize.test.mjs"
+  },
+  "dependencies": {
+    "@bitcode/pipeline-hosts": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.0"
+  }
+}

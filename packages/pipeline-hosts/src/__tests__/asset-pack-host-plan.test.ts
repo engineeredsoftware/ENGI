@@ -77,6 +77,34 @@ describe('asset-pack sandbox host plan', () => {
     ).toThrow(/requires a sandbox source/);
   });
 
+  it('uses VCR pipeline image when sandboxImage / env is set (no stock runtime install)', () => {
+    const plan = buildAssetPackSandboxHostPlan({
+      ...baseOptions,
+      mode: 'asset_pack_pipeline',
+      synthesizeMode: 'deposit',
+      sandboxImage: 'bitcode-pipeline:v48-test',
+      source: {
+        type: 'git',
+        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        revision: baseOptions.sourceRevision.commit,
+        depth: 1,
+      },
+    });
+
+    expect(plan.createOptions.image).toBe('bitcode-pipeline:v48-test');
+    expect(plan.createOptions.runtime).toBeUndefined();
+    expect(plan.createOptions.persistent).toBe(false);
+    expect(plan.files.map((file) => file.path)).toEqual([
+      '.bitcode/pipeline-host/manifest.json',
+    ]);
+    expect(plan.commands.map((command) => command.label)).toEqual([
+      'runtime-readiness',
+      'asset-pack-pipeline-run',
+    ]);
+    const run = plan.commands.find((c) => c.label === 'asset-pack-pipeline-run');
+    expect(run?.args?.join(' ')).toContain('/opt/bitcode/pipeline/run-pipeline.mjs');
+  });
+
   it('plans dependency install and live runner commands for real pipeline mode', () => {
     const plan = buildAssetPackSandboxHostPlan({
       ...baseOptions,
@@ -95,6 +123,7 @@ describe('asset-pack sandbox host plan', () => {
       revision: baseOptions.sourceRevision.commit,
       depth: 1,
     });
+    expect(plan.createOptions.image).toBeUndefined();
     expect(plan.commands.map((command) => command.label)).toEqual([
       'runtime-readiness',
       'package-manager-readiness',

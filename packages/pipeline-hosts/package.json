@@ -20,6 +20,7 @@
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
     "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "qa:asset-pack:sandbox": "ts-node --transpile-only src/dev/run-asset-pack-sandbox-host.ts",
+    "materialize-runners": "ts-node --transpile-only src/dev/materialize-runners.ts",
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {

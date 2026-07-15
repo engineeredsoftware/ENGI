@@ -1,0 +1,88 @@
+name: Pipeline Image
+
+# Build (and optionally push) the VCR pipeline appliance used by sandbox deposit/read.
+on:
+  push:
+    branches:
+      - version/**
+      - main
+    paths:
+      - 'packages/pipeline-image/**'
+      - 'packages/pipeline-hosts/**'
+      - 'packages/host-generics/**'
+      - 'packages/asset-packs-pipelines/**'
+      - 'packages/pipelines-generics/**'
+      - 'packages/btd/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/pipeline-image.yml'
+  workflow_dispatch:
+    inputs:
+      push_to_vcr:
+        description: 'Push image to VCR (requires secrets)'
+        required: false
+        default: 'false'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  materialize-and-build:
+    name: Materialize runners + Docker build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Materialize pipeline-image runners
+        run: pnpm --filter @bitcode/pipeline-image run materialize
+
+      - name: Pipeline-image unit test
+        run: pnpm --filter @bitcode/pipeline-image test
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build pipeline image (local tag)
+        run: |
+          docker build \
+            -f packages/pipeline-image/Dockerfile \
+            -t "bitcode-pipeline:ci-${GITHUB_SHA}" \
+            .
+
+      - name: Log in to VCR and push
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.push_to_vcr == 'true' }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          VCR_IMAGE: ${{ vars.BITCODE_PIPELINE_VCR_IMAGE }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_TEAM_ID" ] || [ -z "$VCR_IMAGE" ]; then
+            echo "Missing VERCEL_TOKEN, VERCEL_TEAM_ID, or BITCODE_PIPELINE_VCR_IMAGE" >&2
+            exit 1
+          fi
+          printf '%s' "$VERCEL_TOKEN" | docker login vcr.vercel.com \
+            --username "$VERCEL_TEAM_ID" \
+            --password-stdin
+          SHORT_SHA="$(echo "$GITHUB_SHA" | cut -c1-7)"
+          TAG="${VCR_IMAGE}:v48-${SHORT_SHA}"
+          docker tag "bitcode-pipeline:ci-${GITHUB_SHA}" "$TAG"
+          docker push "$TAG"
+          echo "Pushed $TAG"
+          echo "Set Production BITCODE_PIPELINE_SANDBOX_IMAGE=$TAG"

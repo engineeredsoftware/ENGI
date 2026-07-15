@@ -17,3 +17,11 @@ export const PIPELINE_EXIT_CODE_PATH = `${HOST_RUN_DIRECTORY}/pipeline.exit-code
 export const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox' as const;
 export const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
 export const SANDBOX_PNPM_VERSION = '10.33.0';
+
+/** In-image dispatcher (VCR pipeline appliance). */
+export const PIPELINE_IMAGE_ENTRY_DEFAULT = '/opt/bitcode/pipeline/run-pipeline.mjs';
+export const PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT = '/opt/bitcode';
+
+/** Env: when set, host plans use Sandbox.create({ image }) instead of runtime. */
+export const PIPELINE_SANDBOX_IMAGE_ENV = 'BITCODE_PIPELINE_SANDBOX_IMAGE';
+export const PIPELINE_IMAGE_ENTRY_ENV = 'BITCODE_PIPELINE_IMAGE_ENTRY';

@@ -448,10 +448,17 @@ export function normalizeCreateOptions(
   const name =
     (typeof createOptions.name === 'string' && createOptions.name.trim()) ||
     `bitcode-host-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+  const image =
+    typeof createOptions.image === 'string' && createOptions.image.trim()
+      ? createOptions.image.trim()
+      : undefined;
+  // Vercel SDK: runtime and image are mutually exclusive.
+  const { runtime: _runtime, ...rest } = createOptions;
   return {
-    ...createOptions,
+    ...rest,
     persistent,
     name,
+    ...(image ? { image } : { runtime: createOptions.runtime }),
   };
 }
 

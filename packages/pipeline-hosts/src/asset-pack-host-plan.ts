@@ -29,6 +29,10 @@ import {
   LIVE_PIPELINE_RUNNER_PATH,
   MANIFEST_PATH,
   PIPELINE_EXIT_CODE_PATH,
+  PIPELINE_IMAGE_ENTRY_DEFAULT,
+  PIPELINE_IMAGE_ENTRY_ENV,
+  PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT,
+  PIPELINE_SANDBOX_IMAGE_ENV,
   PIPELINE_STDERR_PATH,
   PIPELINE_STDOUT_PATH,
   SANDBOX_PNPM_VERSION,
@@ -89,6 +93,34 @@ export interface BuildAssetPackSandboxHostPlanOptions {
   persistent?: boolean;
   /** Optional stable name (unique per Vercel project). Auto-generated when omitted. */
   sandboxName?: string;
+  /**
+   * VCR pipeline appliance image. When set (or when env
+   * BITCODE_PIPELINE_SANDBOX_IMAGE is set), createOptions uses `image` and
+   * omits stock `runtime`; in-box monorepo install is skipped.
+   */
+  sandboxImage?: string | null;
+  /** Override image entry (default /opt/bitcode/pipeline/run-pipeline.mjs). */
+  pipelineImageEntry?: string | null;
+}
+
+/** Resolve pipeline appliance image from options or process env. */
+export function resolvePipelineSandboxImage(
+  optionsImage?: string | null,
+  env: NodeJS.ProcessEnv = process.env,
+): string | null {
+  const fromOptions = typeof optionsImage === 'string' ? optionsImage.trim() : '';
+  if (fromOptions) return fromOptions;
+  const fromEnv = env[PIPELINE_SANDBOX_IMAGE_ENV]?.trim();
+  return fromEnv || null;
+}
+
+export function resolvePipelineImageEntry(
+  optionsEntry?: string | null,
+  env: NodeJS.ProcessEnv = process.env,
+): string {
+  const fromOptions = typeof optionsEntry === 'string' ? optionsEntry.trim() : '';
+  if (fromOptions) return fromOptions;
+  return env[PIPELINE_IMAGE_ENTRY_ENV]?.trim() || PIPELINE_IMAGE_ENTRY_DEFAULT;
 }
 
 export function buildAssetPackSandboxHostPlan(
@@ -100,6 +132,10 @@ export function buildAssetPackSandboxHostPlan(
       'asset_pack_pipeline host mode requires a sandbox source or assumeRepositoryPresent=true.'
     );
   }
+
+  const sandboxImage = resolvePipelineSandboxImage(options.sandboxImage);
+  const usePipelineImage = Boolean(sandboxImage);
+  const pipelineImageEntry = resolvePipelineImageEntry(options.pipelineImageEntry);
 
   const sourceOverlayPatch = normalizeSourceOverlayPatch(options.sourceOverlayPatch);
   const sourceOverlay = sourceOverlayPatch
@@ -113,6 +149,7 @@ export function buildAssetPackSandboxHostPlan(
     BITCODE_PIPELINE_HOST_MANIFEST: `${SANDBOX_WORKING_DIRECTORY}/${MANIFEST_PATH}`,
     BITCODE_PIPELINE_HOST_ARTIFACT_DIR: `${SANDBOX_WORKING_DIRECTORY}/${HOST_RUN_DIRECTORY}`,
     BITCODE_PIPELINE_HOST_MODE: mode,
+    BITCODE_MONOREPO_ROOT: PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT,
     ...(sourceOverlay ? { BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED: '1' } : {}),
     ...options.commandEnvironment,
   };
@@ -135,12 +172,19 @@ export function buildAssetPackSandboxHostPlan(
     depositSteering: options.depositSteering,
   });
 
-  const commands = buildCommands(
-    mode,
-    commandEnvironment,
-    options.installDependencies ?? true,
-    sourceOverlayPatch !== null
-  );
+  const commands = usePipelineImage
+    ? buildPipelineImageCommands(
+        mode,
+        commandEnvironment,
+        pipelineImageEntry,
+        sourceOverlayPatch !== null,
+      )
+    : buildCommands(
+        mode,
+        commandEnvironment,
+        options.installDependencies ?? true,
+        sourceOverlayPatch !== null,
+      );
 
   // Vercel Sandbox v2: persistence is ON by default. Never leave `persistent`
   // undefined for host creates — that would silently bill Snapshot Storage
@@ -150,43 +194,57 @@ export function buildAssetPackSandboxHostPlan(
     (typeof options.sandboxName === 'string' && options.sandboxName.trim()) ||
     buildEphemeralSandboxName(options.synthesizeMode ?? 'read', options.deposit?.id);
 
+  // runtime XOR image (Vercel SDK). Image mode = pipeline appliance.
+  const createOptions: PipelineHostPlan['createOptions'] = {
+    timeout: options.timeoutMs ?? DEFAULT_LONG_TIMEOUT_MS,
+    networkPolicy: options.networkPolicy ?? 'allow-all',
+    source: options.source,
+    persistent,
+    name: sandboxName,
+    env: commandEnvironment,
+    ...(usePipelineImage
+      ? { image: sandboxImage! }
+      : { runtime: options.runtime ?? VERCEL_SANDBOX_HOST_CAPABILITIES.defaultRuntime }),
+  };
+
+  // Image mode: only ship the run manifest (+ optional overlay). Runners live
+  // in the VCR image under /opt/bitcode.
+  const files: PipelineHostPlan['files'] = [
+    {
+      path: MANIFEST_PATH,
+      content: Buffer.from(JSON.stringify(manifest, null, 2)),
+      mode: 0o644,
+    },
+    ...(usePipelineImage
+      ? []
+      : [
+          {
+            path: HOST_SMOKE_RUNNER_PATH,
+            content: Buffer.from(createHostSmokeRunner()),
+            mode: 0o755,
+          },
+          {
+            path: LIVE_PIPELINE_RUNNER_PATH,
+            content: Buffer.from(createLiveAssetPackPipelineRunner()),
+            mode: 0o755,
+          },
+        ]),
+    ...(sourceOverlayPatch
+      ? [
+          {
+            path: SOURCE_OVERLAY_PATCH_PATH,
+            content: sourceOverlayPatch,
+            mode: 0o644,
+          },
+        ]
+      : []),
+  ];
+
   return {
     capabilities: VERCEL_SANDBOX_HOST_CAPABILITIES,
-    createOptions: {
-      runtime: options.runtime ?? VERCEL_SANDBOX_HOST_CAPABILITIES.defaultRuntime,
-      timeout: options.timeoutMs ?? DEFAULT_LONG_TIMEOUT_MS,
-      networkPolicy: options.networkPolicy ?? 'allow-all',
-      source: options.source,
-      persistent,
-      name: sandboxName,
-    },
+    createOptions,
     manifest,
-    files: [
-      {
-        path: MANIFEST_PATH,
-        content: Buffer.from(JSON.stringify(manifest, null, 2)),
-        mode: 0o644,
-      },
-      {
-        path: HOST_SMOKE_RUNNER_PATH,
-        content: Buffer.from(createHostSmokeRunner()),
-        mode: 0o755,
-      },
-      {
-        path: LIVE_PIPELINE_RUNNER_PATH,
-        content: Buffer.from(createLiveAssetPackPipelineRunner()),
-        mode: 0o755,
-      },
-      ...(sourceOverlayPatch
-        ? [
-            {
-              path: SOURCE_OVERLAY_PATCH_PATH,
-              content: sourceOverlayPatch,
-              mode: 0o644,
-            },
-          ]
-        : []),
-    ],
+    files,
     sourceOverlay,
     commands,
     artifactPaths: {
@@ -194,6 +252,70 @@ export function buildAssetPackSandboxHostPlan(
       telemetry: TELEMETRY_PATH,
     },
   };
+}
+
+/** In-image commands: no monorepo install; single dispatcher entry. */
+function buildPipelineImageCommands(
+  mode: PipelineHostMode,
+  commandEnvironment: Record<string, string>,
+  pipelineImageEntry: string,
+  hasSourceOverlayPatch: boolean,
+): PipelineHostCommand[] {
+  const commands: PipelineHostCommand[] = [
+    {
+      label: 'runtime-readiness',
+      cmd: 'node',
+      args: ['--version'],
+      required: true,
+    },
+  ];
+
+  if (hasSourceOverlayPatch) {
+    commands.push({
+      label: 'apply-source-overlay',
+      cmd: 'git',
+      args: ['apply', '--whitespace=nowarn', SOURCE_OVERLAY_PATCH_PATH],
+      required: true,
+    });
+  }
+
+  const maxWaitMs =
+    Number(commandEnvironment.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || DEFAULT_LONG_TIMEOUT_MS) +
+    120000;
+
+  if (mode === 'asset_pack_pipeline') {
+    commands.push({
+      label: 'asset-pack-pipeline-run',
+      cmd: 'sh',
+      args: [
+        '-lc',
+        [
+          `node ${shellQuote(pipelineImageEntry)} > ${shellQuote(PIPELINE_STDOUT_PATH)} 2> ${shellQuote(PIPELINE_STDERR_PATH)}`,
+          'code=$?',
+          `printf "%s" "$code" > ${shellQuote(PIPELINE_EXIT_CODE_PATH)}`,
+          'exit "$code"',
+        ].join('; '),
+      ],
+      env: commandEnvironment,
+      detached: true,
+      exitCodePath: PIPELINE_EXIT_CODE_PATH,
+      stdoutPath: PIPELINE_STDOUT_PATH,
+      stderrPath: PIPELINE_STDERR_PATH,
+      maxWaitMs,
+      pollIntervalMs: 2000,
+      required: true,
+    });
+    return commands;
+  }
+
+  commands.push({
+    label: 'host-smoke-run',
+    cmd: 'node',
+    args: [pipelineImageEntry],
+    env: commandEnvironment,
+    required: true,
+  });
+  return commands;
 }
 
 function normalizeDepositReferenceEvidence({
