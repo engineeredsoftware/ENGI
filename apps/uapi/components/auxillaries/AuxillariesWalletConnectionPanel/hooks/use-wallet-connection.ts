@@ -9,6 +9,7 @@ import { QueryClientContext } from '@tanstack/react-query';
 import { createClient } from '@bitcode/supabase/ssr/client';
 
 import { clearAuthQueries, updateCachedUser } from '@/hooks/use-auth-query';
+import { clearSharedAuthUser } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { clearUserDataIdentity, mutateUserData } from '@/hooks/useUserData';
 import {
   connectBitcoinWallet,
@@ -323,6 +324,7 @@ export function useWalletConnection({
      */
     clearLocalBitcodeWalletIdentity();
     clearUserDataIdentity();
+    clearSharedAuthUser();
     setWalletAddress('');
     setWalletProvider('');
     setWalletBindingStatus(null);

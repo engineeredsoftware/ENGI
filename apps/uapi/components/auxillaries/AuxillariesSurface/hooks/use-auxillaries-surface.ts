@@ -29,6 +29,7 @@ import {
   type AuxillaryPane,
 } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 import { clearAuthQueries, updateCachedUser } from '@/hooks/use-auth-query';
+import { clearSharedAuthUser } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { clearUserDataIdentity, mutateUserData, useUserData } from '@/hooks/useUserData';
 import { clearLocalBitcodeWalletIdentity } from '@bitcode/auth/wallet-local';
 
@@ -242,6 +243,7 @@ export function useAuxillariesSurface({
      */
     clearLocalBitcodeWalletIdentity();
     clearUserDataIdentity();
+    clearSharedAuthUser();
     await queryClient.cancelQueries({ queryKey: ['auth'] });
     updateCachedUser(queryClient, null);
     setCompletedSteps([]);

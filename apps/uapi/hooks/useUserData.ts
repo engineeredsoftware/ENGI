@@ -291,11 +291,11 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
   return inFlight;
 }
 
-// Force refresh (invalidates cache).  Returned promise resolves to the fresh
-// value so callers can await.
+// Force refresh while keeping the previous snapshot until the new fetch lands
+// (stale-while-revalidate). Clearing `cached` first caused route remounts of
+// Nav to flash "Reading wallet" whenever mutateUserData ran mid-navigation.
 export async function mutateUserData(): Promise<AggregatedUserData> {
-  cached = null;
-  return fetchUserData();
+  return fetchUserData({ revalidate: true });
 }
 
 /** Browser event: Disconnect / sign-out optimistically wiped shared user data. */

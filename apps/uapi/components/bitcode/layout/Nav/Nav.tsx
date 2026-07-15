@@ -3,7 +3,10 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { BTDTracker } from "@/components/bitcode/btd/BtdTracker/BtdTracker";
-import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
+import {
+  clearSharedAuthUser,
+  useAuth,
+} from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { clearUserDataIdentity, useUserData } from '@/hooks/useUserData';
 import { openAuxillaries, prefetchAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 import { NotificationsWidget } from "@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget"
@@ -82,7 +85,7 @@ const publicSecondaryActionClassName =
  * route links from shifting when wallet readiness resolves.
  */
 const NAV_RIGHT_CHROME_SLOT_CLASS =
-  'nav-right-chrome-slot flex w-full shrink-0 items-center justify-end tablet:w-[21rem] tablet:min-w-[21rem] tablet:max-w-[21rem]';
+  'nav-right-chrome-slot flex w-full min-w-0 shrink-0 items-center justify-end overflow-x-auto tablet:w-[21rem] tablet:min-w-[21rem] tablet:max-w-[21rem] tablet:overflow-visible';
 
 const disabledActionClassName =
   'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
@@ -112,7 +115,7 @@ function readStringField(source: unknown, ...keys: string[]) {
 export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading: isAuthLoading } = useAuth();
   const {
     data: userData,
     hasWalletConnection,
@@ -227,8 +230,14 @@ export default function Nav() {
     readStringField(bitcodeProfileSettings, 'walletNickname', 'wallet_nickname') ??
     readStringField(profileRecord, 'wallet_nickname') ??
     compactBitcodeAddress(chromeWalletAddress, 6);
+  // Session user and/or verified wallet binding. Connected chrome never falls
+  // back to a text "Profile" CTA — only the notification + account icons.
   const hasChromeWalletIdentity = Boolean(user || hasWalletConnection);
-  const isWalletReadinessLoading = !hasResolvedUserData && isUserDataLoading;
+  // Cold first paint only. Background revalidation / Auth remounts must not
+  // replace connected chrome with "Reading wallet" on every product route change.
+  const isWalletReadinessLoading =
+    !hasChromeWalletIdentity &&
+    ((isUserDataLoading && !hasResolvedUserData) || (isAuthLoading && !user));
 
   useEffect(() => {
     bitcodeQaTelemetry('info', 'nav', 'chrome-identity', {
@@ -398,7 +407,7 @@ export default function Nav() {
   } as const;
 
   const publicRouteLinks = usesProductChrome ? (
-    <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
+    <ul className="flex w-full min-w-0 flex-wrap items-center gap-1.5 phone:gap-2 tablet:ml-6 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-3 laptop:ml-10 laptop:gap-5">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
         const isPacksRoute = href === '/packs';
         const isDepositRoute = href === '/deposits';
@@ -484,8 +493,8 @@ export default function Nav() {
           border: 'none',
         }}
       >
-        <div className={`max-w-7xl mx-auto px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesProductChrome ? 'flex w-full flex-col gap-3 py-2.5 tablet:flex-row tablet:items-center tablet:justify-between' : `flex items-center justify-between ${usesWorkspaceOnlyChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
-          <div className={usesProductChrome ? 'flex w-full flex-col items-stretch gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex items-center w-full'}>
+        <div className={`mx-auto max-w-7xl px-3 phone:px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesProductChrome ? 'flex w-full min-w-0 flex-col gap-2.5 py-2 phone:gap-3 phone:py-2.5 tablet:flex-row tablet:items-center tablet:justify-between' : `flex w-full min-w-0 items-center justify-between ${usesWorkspaceOnlyChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
+          <div className={usesProductChrome ? 'flex w-full min-w-0 flex-col items-stretch gap-2.5 phone:gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex w-full min-w-0 items-center'}>
             <NavBrand
               animated={showNavEntrance && shouldAnimateNavEntrance}
               visible={showNavEntrance}
@@ -578,8 +587,9 @@ export default function Nav() {
                     btdBalance={btdBalance}
                     btcFeeBalance={btcFeeBalance}
                     recentBtdAssetPacks={recentBtdAssetPacks}
-                    isLoading={isUserDataLoading || isUserDataRevalidating}
-                    hasWalletIdentity={hasWalletConnection}
+                    // Never treat background revalidation as a full wallet re-read.
+                    isLoading={isUserDataLoading && !hasChromeWalletIdentity}
+                    hasWalletIdentity={hasChromeWalletIdentity}
                     walletLabel={chromeWalletLabel}
                     walletAddress={chromeWalletAddress}
                     walletProvider={chromeWalletProvider}
@@ -587,7 +597,7 @@ export default function Nav() {
                   />
                 )}
 
-                {FEATURE_FLAGS.NOTIFICATIONS && user && (
+                {FEATURE_FLAGS.NOTIFICATIONS && (
                   <MemoNotificationsWidget />
                 )}
 
@@ -599,6 +609,7 @@ export default function Nav() {
                       import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
                         const client = createClient();
                         client.auth.signOut({ scope: 'local' }).finally(() => {
+                          clearSharedAuthUser();
                           clearLocalBitcodeWalletIdentity();
                           clearUserDataIdentity();
                           // Show connect pane after disconnect
@@ -612,13 +623,16 @@ export default function Nav() {
                     }}
                   />
                 ) : (
+                  // Wallet-connected without a Supabase user still gets the same
+                  // squared account icon — never a text "Profile" button.
                   <button
                     type="button"
+                    aria-label="User menu"
                     onMouseEnter={() => prefetchAuxillaries()}
                     onClick={() => openAuxillaries('auxillaries', 'profile')}
-                    className="box-border inline-flex h-8 max-h-8 min-h-8 shrink-0 items-center justify-center rounded-none border border-white/12 bg-white/5 px-4 py-0 text-[0.68rem] font-medium uppercase leading-none tracking-[0.18em] text-neutral-100 transition hover:border-white/22 hover:bg-white/10"
+                    className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-none border border-emerald-400/30 text-sm font-semibold text-neutral-300 shadow-[0_0_6px_rgba(101,254,183,0.2)] transition-colors transition-shadow duration-300 ease-out hover:border-emerald-400/50 hover:text-white hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] focus:outline-none focus:ring-0 focus-visible:outline-none"
                   >
-                    Profile
+                    {(chromeWalletLabel || chromeWalletAddress || 'W').charAt(0).toUpperCase()}
                   </button>
                 )}
               </div>

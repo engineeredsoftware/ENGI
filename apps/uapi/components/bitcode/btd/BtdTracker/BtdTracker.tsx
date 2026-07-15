@@ -73,7 +73,10 @@ export function BTDTracker({
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [actionState, setActionState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const isBalanceLoading = isLoading && btdBalance === 0 && btcFeeBalance === null;
+  // Once wallet identity is known, keep balances visible during background revalidation
+  // (product routes remount shell providers and re-fetch without re-connecting).
+  const isBalanceLoading =
+    isLoading && btdBalance === 0 && btcFeeBalance === null && !hasWalletIdentity;
   const shouldShowWalletNow = isHovered && !isBalanceLoading;
   const btcBalanceLabel = formatBtcFeeBalance(displayedBtcFeeBalance);
   const btdBalanceLabel = `${displayedBtdBalance.toLocaleString()} BTD`;
