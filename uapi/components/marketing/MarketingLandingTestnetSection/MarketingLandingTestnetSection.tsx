@@ -8,11 +8,13 @@
 
 import React from 'react';
 import {
+  ArrowsRightLeftIcon,
   ChatBubbleLeftRightIcon,
   CodeBracketSquareIcon,
   ComputerDesktopIcon,
 } from '@heroicons/react/24/outline';
 
+import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 
 const TITLE_HIGHLIGHTS = [
@@ -63,8 +65,53 @@ export function MarketingLandingTestnetSection() {
       aria-label="Commercial product launch readiness"
       className="relative w-full shrink-0"
     >
-      <div className="rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="relative overflow-visible rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
+        {/*
+          Absolute so the larger exchange mark never expands card layout.
+          Bitcode (green) ⇄ Bitcoin (orange); arrows use product purple.
+        */}
+        <div
+          className="pointer-events-none absolute right-2 top-2 z-10 inline-flex items-center gap-1.5 phone:right-3 phone:top-3"
+          aria-hidden="true"
+          title="Bitcode for Bitcoin exchange"
+        >
+          {/*
+            Larger marks; gap scales only with size (gap-1.5 ≈ prior gap/size ratio),
+            not extra whitespace between arrows and icons.
+          */}
+          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.75))_drop-shadow(0_0_22px_rgba(52,211,153,0.45))]">
+            <Logo
+              height="h-14"
+              width="w-14"
+              fill="#65FEB7"
+              className="opacity-95"
+            />
+          </span>
+          {/* Filter on wrapper so purple glow paints outside the stroke. */}
+          <span className="inline-flex shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(232,121,249,0.8))_drop-shadow(0_0_22px_rgba(192,132,252,0.5))]">
+            <ArrowsRightLeftIcon
+              className="h-8 w-8 text-fuchsia-300"
+              strokeWidth={2}
+            />
+          </span>
+          {/*
+            Glow on outer frame — drop-shadow on a masked node is often clipped;
+            filter the wrapper so orange matches Bitcode’s green glow strength.
+          */}
+          <span className="inline-flex h-14 w-14 shrink-0 items-center justify-center [filter:drop-shadow(0_0_10px_rgba(251,146,60,0.8))_drop-shadow(0_0_22px_rgba(251,191,36,0.45))]">
+            <span
+              className="inline-block h-14 w-14 origin-center scale-[1.28] bg-orange-300"
+              style={{
+                maskImage: 'url(/bitcoin-logo.svg)',
+                WebkitMaskImage: 'url(/bitcoin-logo.svg)',
+                maskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                maskPosition: 'center',
+              }}
+            />
+          </span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 pr-36 phone:pr-40">
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
             {copy.badge}
           </span>
