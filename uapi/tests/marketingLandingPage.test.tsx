@@ -121,7 +121,7 @@ describe('MarketingLandingPage', () => {
         const text = node.textContent ?? '';
         return (
           text.includes('Deposit AssetPacks synthesized from source-code') &&
-          text.includes('buy them with Bitcoin') &&
+          text.includes('buy them for Bitcoin') &&
           text.includes('auditable ledger')
         );
       }),
