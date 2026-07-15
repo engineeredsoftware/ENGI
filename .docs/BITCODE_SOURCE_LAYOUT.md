@@ -32,10 +32,12 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 | Path | Role |
 | --- | --- |
 | `scripts/` | Durable automation: gate checkers, promotion, CI helpers |
-| `.specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*`, roadmap, specifying law)
-| `.docs/` | Engineering docs (layout, apps, familiarization, agent rules)
-| `.qa/` | Version QA ledgers (`BITCODE_VN_QA.md`) (`BITCODE_SPEC*.md`, pointer, roadmap, specifying law) |
-| `tests/` | Shared Jest helpers (`jest.base.cjs`, package map, resolver) and root test stubs
+| `.specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*`, roadmap, specifying law) |
+| `.docs/` | Engineering docs (layout, apps, familiarization, agent rules, api fragments) |
+| `.qa/` | Version QA ledgers (`BITCODE_VN_QA.md`) |
+| `.fixtures/` | Monorepo JSON fixtures (not nested package test `fixtures/`) |
+| `.fundraising/` | Non-product fundraising materials |
+| `tests/` | Shared Jest helpers (`jest.base.cjs`, package map, resolver) and root test stubs |
 | `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `.specifications/BITCODE_SPECIFYING.md`) |
 | `.codemods/` | **Temporary** one-off code-modification scripts for this repo (see `.codemods/README.md`) |
 | `containers/images/` | OCI / appliance images (Pipeliner VCR, …) |
@@ -458,6 +460,8 @@ bitcode/
 ├── .specifications/ # all living BITCODE_SPEC* family documents
 ├── .docs/ # engineering docs (AGENTS, APPS, FAMILIARIZATION, layout, …)
 ├── .qa/ # version QA ledgers
+├── .fixtures/ # monorepo JSON fixtures
+├── .fundraising/ # non-product fundraising materials
 ├── tests/ # shared Jest helpers + root test stubs
 ├── scripts/ # durable gate checkers, promotion, tooling
 │   └── specifying/ # @bitcode/specifying machine (not product domain)

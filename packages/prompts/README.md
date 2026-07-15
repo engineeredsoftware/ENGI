@@ -759,6 +759,6 @@ The result is a foundation where capability is both measurable and evolvable.
 
 ## See Also
 
-- `/docs/BITCODE_PROMPT_SYSTEM.md` - Bitcode prompt system notes
-- `/AGENTS.md` - Development excellence guidelines
+- [`.docs/BITCODE_PROMPT_SYSTEM.md`](../../.docs/BITCODE_PROMPT_SYSTEM.md) — Bitcode prompt system notes
+- [`.docs/AGENTS.md`](../../.docs/AGENTS.md) — Development excellence guidelines
 - `TODOS.md` - If present, tracks pending tasks and improvements

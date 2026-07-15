@@ -422,20 +422,20 @@ they do not scatter ad-hoc mega-strings across the app without the registry.
 
 ```
 bitcode/
-├── AGENTS.md, README.md, .docs/FAMILIARIZATION.md # this guide
-├── BITCODE_SPEC*.md / BITCODE_SPEC.txt # canon family
-├── BITCODE_SPECIFYING.md
+├── AGENTS.md, README.md # entry pointers
+├── .specifications/ # canon family (BITCODE_SPEC*, roadmap, specifying law)
+├── .docs/ # engineering docs (FAMILIARIZATION, layout, AGENTS, api fragments, …)
+├── .qa/ # version QA ledgers
 ├── packages/ # domain monorepo (pnpm workspace)
-├── apps/uapi/ # Next.js commercial website
+├── apps/ # uapi, mcp, chatgpt, claude
 ├── supabase/ # migrations, queries, seed
-├── scripts/ # gate checkers, promotion, generators
+├── scripts/ # gate checkers, promotion, generators (+ specifying/)
 ├── .bitcode/ # generated structured artifacts
-├── protocol-demonstration/ # protocol realization (not V48 UI truth)
-├── .fixtures/ # JSON fixtures
-├── .docs/ # engineering docs
-├── .docs/ # public-facing API docs fragments
+├── .fixtures/ # monorepo JSON fixtures
+├── .fundraising/ # non-product fundraising materials
+├── .codemods/ # temporary one-off codemods
 ├── tests/ # root jest setup (limited)
-└── .codemods/, containers/k8/, …
+└── containers/ # images/, k8/, Dockerfiles
 ```
 
 **pnpm workspace:** `packages/*` (+ nested), and `uapi` (app also listed for

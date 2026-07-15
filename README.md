@@ -82,6 +82,8 @@ inheritance from older specs or folklore in source.
 | Next shells | `apps/uapi/app/*` | Thin pages + HTTP adapters |
 | UI | `apps/uapi/components/{shadcn,bitcode,<experience>}` | `Shadcn*` → `Bitcode*` → 7 experiences |
 | Specs | `.specifications/` | Canon family + roadmap |
+| Guides / QA | `.docs/`, `.qa/` | Engineering docs + version QA ledgers |
+| Fixtures / codemods | `.fixtures/`, `.codemods/` | Monorepo fixtures; temporary transforms |
 | Containers | `containers/images`, `containers/k8` | Pipeliner OCI, long-runner, k8s |
 | Proof machine | `scripts/specifying` | Package-native promotion / gate proofs |
 | DB | `supabase/` | Migrations, local config, data-health |

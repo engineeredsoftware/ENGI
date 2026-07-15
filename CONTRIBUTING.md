@@ -135,8 +135,11 @@ scripts/            Canon checks, promotion, operators
 scripts/specifying  Package-native proof / promotion readiness machine
 supabase/           Migrations, local config, data-health
 containers/         Pipeliner OCI image, long-runner Docker, k8s
-.qa/                 Version QA ledgers
-.docs/               Non-canonical guides (this tree)
+.qa/                Version QA ledgers
+.docs/              Non-canonical guides (FAMILIARIZATION, layout, APPS, …)
+.fixtures/          Monorepo JSON fixtures
+.fundraising/       Non-product fundraising materials
+.codemods/          Temporary one-off codemods
 .bitcode/           Generated proof artifacts
 ```
 
