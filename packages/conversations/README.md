@@ -8,8 +8,8 @@ system prompt ownership for commercial Bitcode interfaces.
 
 Plain `conversations` — not `*-generics` — because there is no separate
 `generic-conversations/*` implementor family. Types and helpers live here;
-UI lives under `uapi/components/conversations/`; routes under `packages/api`
-and `uapi/app/api/conversations/*`.
+UI lives under `apps/uapi/components/conversations/`; routes under `packages/api`
+and `apps/uapi/app/api/conversations/*`.
 
 ## Owns
 

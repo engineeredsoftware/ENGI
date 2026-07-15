@@ -149,13 +149,13 @@ function main() {
   assertCheck(failures, hasSection(parity, 'V28 Metadevelopment Parity Matrix'), 'V28 PARITY must carry the metadevelopment parity matrix.');
   assertCheck(failures, hasSection(parity, 'V28 Product-Gate Carryforward Audit'), 'V28 PARITY must carry the product-gate carryforward audit.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();
   assertCheck(failures, routeScan.length === 0, `UAPI API routes must remain unversioned. Found:\n${routeScan}`);
 
-  const interfacePane = read(root, 'uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx');
+  const interfacePane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx');
   assertCheck(failures, !interfacePane.includes('GlobalModelSelection'), 'Active Interfaces pane must not expose broad global model selection.');
   assertCheck(failures, interfacePane.includes('ledgerizedPipelineModels'), 'Active Interfaces pane must persist deterministic ledgerized model posture.');
 

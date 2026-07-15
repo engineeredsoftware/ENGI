@@ -60,7 +60,7 @@
   "completionRows": [
     {
       "rowId": "read-request-initiation",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "route": "/read",
       "contract": "Readers initiate a Read request from a connected repository source through the route-owned five-step session before any Need synthesis is recorded.",
       "requiredFields": [
@@ -93,7 +93,7 @@
     },
     {
       "rowId": "need-review-acceptance",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "route": "/read",
       "contract": "A synthesized Need must be reviewed and accepted before Finding Fits; the route session records acceptance state and blocks the fit step without it.",
       "requiredFields": [
@@ -126,7 +126,7 @@
     },
     {
       "rowId": "fit-measurement-review",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "route": "/read",
       "contract": "Readers review source-safe Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence, delivery readiness, selected Fit provenance, final BTD scalar, and quote basis before paying.",
       "requiredFields": [
@@ -160,7 +160,7 @@
     },
     {
       "rowId": "quote-before-settlement",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "route": "/read",
       "contract": "The BTC-testnet quote derives deterministically from the weighted fit measurement contributions; settlement readiness is blocked until quote, approval, buyer, and wallet authority agree.",
       "requiredFields": [
@@ -194,7 +194,7 @@
     },
     {
       "rowId": "settlement-finality-rights-delivery",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "route": "/read",
       "contract": "Payment observation, BTC-testnet finality, BTD rights transfer receipt, and repository PR delivery render as ordered fail-closed readback; delivery stays locked until rights transfer.",
       "requiredFields": [
@@ -228,7 +228,7 @@
     },
     {
       "rowId": "packs-history-readback",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "route": "/packs",
       "contract": "Recent Reading activity, Need-Fit previews, and settled AssetPack rows remain reachable from /read through source-safe execution history and /packs activity.",
       "requiredFields": [
@@ -293,42 +293,42 @@
     },
     {
       "id": "read-route-model-binds-five-step-source-safe-session",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-route-model-binds-fit-measurement-quote-basis",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-route-model-orders-settlement-rights-delivery",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-client-renders-fit-measurement-review",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-renders-settlement-rights-delivery",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-links-packs-history-readback",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-route-model-test-covers-measurement-quote-binding",
-      "sourcePath": "uapi/tests/readRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/readRouteModel.test.ts",
       "passed": true
     },
     {
       "id": "read-page-test-covers-buyer-readback",
-      "sourcePath": "uapi/tests/readPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/readPageClient.test.tsx",
       "passed": true
     },
     {
@@ -338,7 +338,7 @@
     },
     {
       "id": "pack-activity-model-supports-read-readback",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
@@ -369,12 +369,12 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "readRouteModel": "uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
-    "readPage": "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-    "readRouteModelTest": "uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
-    "readPageTest": "uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "readRouteModel": "apps/uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "readPage": "apps/uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+    "readRouteModelTest": "apps/uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
+    "readPageTest": "apps/uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
     "previewBoundaryModel": "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts:1319dd4223292e03b795ab87",
     "settlementRightsDeliveryModel": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
     "needReviewModel": "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts:347bd88040c9456420e03c0e",

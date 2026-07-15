@@ -446,8 +446,8 @@ export function buildExchangeIntentOrderContracts(input = {}) {
     'scripts/generate-v36-exchange-intent-order-contracts.mjs',
     'scripts/check-v36-gate3-exchange-intent-order-contracts.mjs',
     'packages/btd/src/exchange.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/api/btd/asset-pack-exchange/route.ts',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/api/btd/asset-pack-exchange/route.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
 

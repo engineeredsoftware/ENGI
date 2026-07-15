@@ -59,10 +59,10 @@ No `_legacy/` source is active source truth.
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V31.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v31/gate-1-spec-roadmap-opening` | closed | V31 family validates in draft mode over active V30 and `check:v31-gate1` passes. |
 | Roadmap truth | Gate 1 | `SPECIFICATIONS_ROADMAP.md`, README, PR template, workflow posture | closed | Roadmap states V30 active, V31 draft, and coherent V32-V37 responsibilities. |
 | Auxillaries package and route contracts | Gate 2 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, package docs, route tests | closed | Shared Profile, Connects, Interfaces, Wallet, BTD, organization, readiness, and recovery objects are package-owned and JSON-safe. |
-| Profile and account state | Gate 3 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, route/pane tests | closed | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
+| Profile and account state | Gate 3 | `packages/api/src/routes/auxillaries-contract.ts`, `packages/api/src/routes/auxillaries.ts`, `apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, route/pane tests | closed | Profile, account identity, wallet binding, preferences, notification posture, and completeness blockers are typed and recoverable. |
 | Connects provider readiness and recovery | Gate 4 | Provider packages, connection routes, readiness/recovery tests | closed | Provider readiness names credential posture without secrets, scopes class, readback status, blocker, repair action, and before/after roots. |
 | Wallet and BTD pane readiness | Gate 5 | `packages/btd`, Wallet/BTD panes, settlement/read-right tests | closed | Wallet and BTD panes consume V30 no-custody, signer, read-right, treasury, and settlement-readiness primitives. |
-| Organization team role policy authority | Gate 6 | `packages/btd/src/authority.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `uapi/app/terminal/terminal-organization-authority.ts`, focused BTD/API/UI tests | closed | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
+| Organization team role policy authority | Gate 6 | `packages/btd/src/authority.ts`, `packages/api/src/routes/auxillaries-contract.ts`, `apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, `apps/uapi/app/terminal/terminal-organization-authority.ts`, focused BTD/API/UI tests | closed | Organization, team, role, grants, multi-sig readiness, policy decisions, denials, and recovery routes are typed and fail closed. |
 | Interfaces pane admission and cross-surface contracts | Gate 7 | Interfaces pane, API/MCP/ChatGPT App interface records, tests | closed | Interface admission records name auth mode, supported actions, policy constraints, source-safety class, blockers, and readiness. |
 | Auxillaries UX accessibility and responsive proof | Gate 8 | Auxillaries components, focused Jest/Playwright/a11y evidence | closed | Guided low-detail and expandable audit UX works across Profile, Connects, Interfaces, Wallet/BTD, and organization panes. |
 | Auxillaries telemetry proof and recovery runs | Gate 9 | `packages/api/src/routes/auxillaries-contract.ts`, `/api/auxillaries/data`, `useUserData`, Externals UI, route/API/UI tests, Gate 9 checker | closed | Profile, connection, interface, wallet, BTD, organization, policy, readiness, and recovery events emit source-safe proof hooks. |
@@ -98,7 +98,7 @@ No `_legacy/` source is active source truth.
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
 | Package-owned Auxillaries contracts exist | `packages/api/src/routes/auxillaries-contract.ts` owns `AuxillariesContractSnapshot`, `AuxillariesProfileState`, `AuxillariesConnectionReadiness`, `AuxillariesInterfaceAdmission`, `AuxillariesWalletBtdPaneState`, `OrganizationPolicyAuthority`, `AuxillariesReadinessDiagnostic`, and `AuxillariesRecoveryRun` | drafted |
-| Routes delegate readiness and policy derivation | `packages/api/src/routes/auxillaries.ts` delegates live and mock data through `buildAuxillaryDataPayload` / `buildAuxillaryDataPayloadFromUnknown`; `uapi/app/api/auxillaries/data/route.ts` remains a thin interface binding | drafted |
+| Routes delegate readiness and policy derivation | `packages/api/src/routes/auxillaries.ts` delegates live and mock data through `buildAuxillaryDataPayload` / `buildAuxillaryDataPayloadFromUnknown`; `apps/uapi/app/api/auxillaries/data/route.ts` remains a thin interface binding | drafted |
 | JSON-safe serializers redact secrets and protected source | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` covers provider tokens, service-role keys, wallet secrets, private prompts, protected source, validation, diagnostics, and recovery-run roots | drafted |
 | Commercial runtime avoids standalone demonstration imports | `scripts/check-v31-gate2-auxillaries-package-route-contracts.mjs` scans tracked commercial runtime source and fails on `protocol-demonstration/src/*` imports | drafted |
 
@@ -108,21 +108,21 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- |
 | Profile/account state is typed | `AuxillariesAccountIdentity`, `AuxillariesProfileCompletenessIssue`, `AuxillariesPreferencePosture`, `AuxillariesNotificationPosture`, and `AuxillariesDataSharingPosture` in `packages/api/src/routes/auxillaries-contract.ts` | drafted |
 | Wallet binding and preferences are recoverable support state | `buildAuxillariesProfileState` emits wallet, model, and template repair issues; `/api/auxillaries/data` hydrates model and template preferences before `buildAuxillaryDataPayload` | drafted |
-| Incomplete state names blockers and repair routes | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts`, `uapi/tests/userDataRoute.test.ts`, and `uapi/tests/profileStep.test.tsx` cover issues, blockers, repair routes, and Profile pane projection | drafted |
+| Incomplete state names blockers and repair routes | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts`, `apps/uapi/tests/userDataRoute.test.ts`, and `apps/uapi/tests/profileStep.test.tsx` cover issues, blockers, repair routes, and Profile pane projection | drafted |
 
 ## Gate 4 Parity
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
 | Provider readiness is source-safe | `AuxillariesConnectionReadiness` in `packages/api/src/routes/auxillaries-contract.ts` carries provider id/name, token presence class, scopes class, last readback, blocker, repair action, source-safe metadata, and `providerReadinessRoot` | drafted |
-| Recovery runs record before/after readiness roots | `uapi/app/api/vcs/[provider]/connection/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, and `uapi/tests/api/auxillariesGithubConnectionRoute.test.ts` emit and test before/after readiness roots | drafted |
-| Tokens and credentials never enter telemetry/UI metadata | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts`, `uapi/tests/api/vcsRoutes.test.ts`, `uapi/tests/api/auxillariesGithubConnectionRoute.test.ts`, and `uapi/tests/auxillariesExternalsPane.test.tsx` cover response/UI redaction and source-safe projection | drafted |
+| Recovery runs record before/after readiness roots | `apps/uapi/app/api/vcs/[provider]/connection/route.ts`, `apps/uapi/app/api/auxillaries/connections/github/route.ts`, and `apps/uapi/tests/api/auxillariesGithubConnectionRoute.test.ts` emit and test before/after readiness roots | drafted |
+| Tokens and credentials never enter telemetry/UI metadata | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts`, `apps/uapi/tests/api/vcsRoutes.test.ts`, `apps/uapi/tests/api/auxillariesGithubConnectionRoute.test.ts`, and `apps/uapi/tests/auxillariesExternalsPane.test.tsx` cover response/UI redaction and source-safe projection | drafted |
 
 ## Gate 5 Parity
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Wallet panes consume no-custody signer posture | `packages/btd/src/auxillaries-support.ts`, `packages/api/src/routes/auxillaries-contract.ts`, and `uapi/tests/auxillariesWalletPane.test.tsx` project no-custody capability, signer readiness, signer actions, roots, and UI readout | drafted |
+| Wallet panes consume no-custody signer posture | `packages/btd/src/auxillaries-support.ts`, `packages/api/src/routes/auxillaries-contract.ts`, and `apps/uapi/tests/auxillariesWalletPane.test.tsx` project no-custody capability, signer readiness, signer actions, roots, and UI readout | drafted |
 | BTD panes consume range/read-right/treasury summaries | `BtdWalletBtdSupportProjection`, `AuxillariesWalletBtdPaneState`, `packages/btd/__tests__/btd.test.ts`, and `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` cover range counts, read-right counts, BTC fee treasury, and protected-source invisibility | drafted |
 | Settlement-readiness state remains distinct from Exchange market state | Wallet pane and package tests assert account-scoped treasury posture, settlement blockers, and `not_exchange_market_state` classification | drafted |
 
@@ -133,23 +133,23 @@ No `_legacy/` source is active source truth.
 | Organization authority is package-owned | `BtdOrganizationPolicyAuthority` and `buildBtdOrganizationPolicyAuthority` in `packages/btd/src/authority.ts`; `OrganizationPolicyAuthority` aliases that object in `packages/api/src/routes/auxillaries-contract.ts` | closed |
 | Role, grants, policy, wallet binding, and denial reasons are typed | BTD tests cover allowed settlement-adjacent policy authority and protected-source denial; API tests assert organization/team/member/grant/policy/multi-sig route emission; Profile pane tests render the shared authority object | closed |
 | Protected actions fail closed unless all authority inputs admit them | `packages/btd/__tests__/btd.test.ts` covers missing grant, wallet, policy, interface admission, multi-sig, settlement, read access, and confirmation denial reasons with blocked source visibility | closed |
-| Terminal and Auxillaries consume one authority object | `uapi/hooks/useUserData.ts`, `uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, and `uapi/app/terminal/terminal-organization-authority.ts` consume/project `organizationAuthority` without route-local policy rederivation | closed |
+| Terminal and Auxillaries consume one authority object | `apps/uapi/hooks/useUserData.ts`, `apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx`, `apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx`, and `apps/uapi/app/terminal/terminal-organization-authority.ts` consume/project `organizationAuthority` without route-local policy rederivation | closed |
 
 ## Gate 7 Parity
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Interfaces pane exposes admitted surfaces | `AuxillariesInterfaceAdmission` records in `packages/api/src/routes/auxillaries-contract.ts` enumerate Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks; `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` renders the catalog | closed |
+| Interfaces pane exposes admitted surfaces | `AuxillariesInterfaceAdmission` records in `packages/api/src/routes/auxillaries-contract.ts` enumerate Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks; `apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` renders the catalog | closed |
 | Each surface names auth, actions, policy, source-safety, blockers, and readiness | `packages/api/src/routes/__tests__/auxillaries-contract.test.ts` asserts auth mode, `supportedActions`, current `allowedActions`, `policyRequirements`, `sourceSafetyClass`, blockers, readiness, and roots | closed |
-| Deferred Exchange and Conversations remain explicitly out of scope | Exchange and Conversations hook records are blocked with `deferredProductDepth` values and deferred blockers; `uapi/tests/orbitalsInterfacesPane.test.tsx` reads those blockers in the catalog | closed |
+| Deferred Exchange and Conversations remain explicitly out of scope | Exchange and Conversations hook records are blocked with `deferredProductDepth` values and deferred blockers; `apps/uapi/tests/orbitalsInterfacesPane.test.tsx` reads those blockers in the catalog | closed |
 
 ## Gate 8 Parity
 
 | Requirement | Source evidence | Current V31 judgment |
 | --- | --- | --- |
-| Guided low-detail UX is default | `uapi/app/auxillaries/components/AuxillariesContent.tsx` renders the contained active-pane summary and readiness chips before audit expansion; `uapi/tests/auxillariesContent.access.test.tsx` asserts the named main, active pane, status, ready/loading state, and skip link | closed |
-| Audit detail is expandable without layout breakage | `uapi/app/auxillaries/components/AuxillariesContent.tsx` renders source-safe `details` audit metadata; `uapi/styles/auxillaries-bitcode.css` keeps audit grids responsive at desktop/tablet/mobile breakpoints | closed |
-| Keyboard, focus, labels, state announcements, contrast, and reduced motion are tested | `uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts`, `uapi/tests/auxillariesContent.access.test.tsx`, and `uapi/tests/auxillariesWorkspacePanels.access.test.tsx` cover landmarks, labels, `aria-current`, `aria-disabled`, status announcements, evidence files, and viewport posture; route CSS covers focus-visible rings, contrast chips, wrapping, and `prefers-reduced-motion` | closed |
+| Guided low-detail UX is default | `apps/uapi/app/auxillaries/components/AuxillariesContent.tsx` renders the contained active-pane summary and readiness chips before audit expansion; `apps/uapi/tests/auxillariesContent.access.test.tsx` asserts the named main, active pane, status, ready/loading state, and skip link | closed |
+| Audit detail is expandable without layout breakage | `apps/uapi/app/auxillaries/components/AuxillariesContent.tsx` renders source-safe `details` audit metadata; `apps/uapi/styles/auxillaries-bitcode.css` keeps audit grids responsive at desktop/tablet/mobile breakpoints | closed |
+| Keyboard, focus, labels, state announcements, contrast, and reduced motion are tested | `apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts`, `apps/uapi/tests/auxillariesContent.access.test.tsx`, and `apps/uapi/tests/auxillariesWorkspacePanels.access.test.tsx` cover landmarks, labels, `aria-current`, `aria-disabled`, status announcements, evidence files, and viewport posture; route CSS covers focus-visible rings, contrast chips, wrapping, and `prefers-reduced-motion` | closed |
 
 ## Gate 9 Parity
 

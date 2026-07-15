@@ -106,15 +106,15 @@ function main() {
     ARTIFACT,
     'scripts/generate-v32-browser-accessibility-responsive-visual-proof.mjs',
     'scripts/check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs',
-    'uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
-    'uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
-    'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
-    'uapi/tests/terminalUxBrowserProof.test.tsx',
-    'uapi/tests/auxillariesContent.access.test.tsx',
-    'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-    'uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
-    'uapi/styles/auxillaries-bitcode.css',
-    'uapi/package.json',
+    'apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
+    'apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
+    'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+    'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
+    'apps/uapi/tests/auxillariesContent.access.test.tsx',
+    'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+    'apps/uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
+    'apps/uapi/styles/auxillaries-bitcode.css',
+    'apps/uapi/package.json',
     'BITCODE_SPEC_V32.md',
     'BITCODE_SPEC_V32_DELTA.md',
     'BITCODE_SPEC_V32_NOTES.md',
@@ -174,11 +174,11 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V32_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
-  const uapiPackageJson = read(root, 'uapi/package.json');
+  const uapiPackageJson = read(root, 'apps/uapi/package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const matrix = read(root, 'scripts/v32-proof-coverage-matrix.mjs');
-  const contractTest = read(root, 'uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts');
-  const e2eTest = read(root, 'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts');
+  const contractTest = read(root, 'apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts');
+  const e2eTest = read(root, 'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts');
 
   for (const doc of [spec, delta, notes, parity]) {
     assertCheck(failures, doc.includes(ARTIFACT), `V32 docs must mention ${ARTIFACT}.`);
@@ -187,7 +187,7 @@ function main() {
 
   assertCheck(failures, /Current working gate: V32 Gate (?:[7-9]|10)\b/u.test(roadmap), 'Roadmap must track V32 Gate 7 or later as the current working gate.');
   assertCheck(failures, packageJson.includes('"check:v32-gate7"'), 'package.json must expose check:v32-gate7.');
-  assertCheck(failures, uapiPackageJson.includes('"test:e2e:v32-browser-proof"'), 'uapi/package.json must expose the V32 browser proof e2e script.');
+  assertCheck(failures, uapiPackageJson.includes('"test:e2e:v32-browser-proof"'), 'apps/uapi/package.json must expose the V32 browser proof e2e script.');
   assertCheck(
     failures,
     workflow.includes('check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs') &&

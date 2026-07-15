@@ -96,9 +96,9 @@ function main() {
     'BITCODE_SPEC_V47_NOTES.md',
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/src/source-to-shares.ts',
@@ -167,7 +167,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

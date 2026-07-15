@@ -17,7 +17,7 @@ Required local proof:
 - `pnpm run check:v29-gate10`
 - `npm run promote:canon -- --version V29 --commit HEAD --dry-run`
 - `pnpm run check:v29-gate9`
-- `pnpm --dir uapi run test:e2e:terminal-ux`
+- `pnpm --dir apps/uapi run test:e2e:terminal-ux`
 - `pnpm test:qa:v28:pipeline-readback`
 - `npm --prefix protocol-demonstration test`
 - `npm --prefix protocol-demonstration run test:v28-mvp-qa`

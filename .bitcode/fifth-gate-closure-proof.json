@@ -112,17 +112,17 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+            "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
             "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
             "description": "execution-history parity proves write/reread continuity"
           },
           {
-            "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+            "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
             "evidence": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
             "description": "state route rereads accepted source-to-shares branch materialization"
           },
           {
-            "file": "uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+            "file": "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts",
             "evidence": "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
             "description": "selected-detail snapshot preserves settlement review posture"
           },
@@ -165,12 +165,12 @@
             "description": "package test locks branched attachment continuity"
           },
           {
-            "file": "uapi/tests/api/conversationThreadStreamRoute.test.ts",
+            "file": "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
             "evidence": "output_destinations: expect.arrayContaining",
             "description": "thread stream route proves destination roundtrip"
           },
           {
-            "file": "uapi/tests/api/chatStreamRoute.test.ts",
+            "file": "apps/uapi/tests/api/chatStreamRoute.test.ts",
             "evidence": "rich_input: expect.objectContaining",
             "description": "root stream route proves normalized rich input execution evidence"
           }
@@ -199,22 +199,22 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+            "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
             "evidence": "live wallet-provider signing session is no longer available",
             "description": "route admission downgrades saved wallet signer posture without a live provider session"
           },
           {
-            "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+            "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
             "evidence": "outside the connected provider inventory",
             "description": "route admission rejects repository anchors outside connected provider inventory"
           },
           {
-            "file": "uapi/tests/applicationFlowGuideCard.test.tsx",
+            "file": "apps/uapi/tests/applicationFlowGuideCard.test.tsx",
             "evidence": "repository-reconnect-required",
             "description": "Terminal flow guide exposes repository reconnect-required posture"
           },
           {
-            "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+            "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
             "evidence": "wallet provider must reconnect before Bitcode can rely on live signing again",
             "description": "$BTD auxiliary read exposes live signing truth"
           }
@@ -251,12 +251,12 @@
             "description": "package-local storage test locks the schema bridge"
           },
           {
-            "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+            "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
             "evidence": "repo_snapshot: {",
             "description": "execution-history route test covers persisted repository snapshot reread"
           },
           {
-            "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+            "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
             "evidence": "processing_stats: {",
             "description": "execution-history route test covers persisted processing statistics reread"
           },

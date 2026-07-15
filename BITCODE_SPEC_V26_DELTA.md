@@ -103,8 +103,8 @@ It is not exhaustive; it fixes the expected descriptive density for later DELTA 
 | Former operational job | Current Bitcode object | Source owner | Reform action | Proof closure |
 | --- | --- | --- | --- | --- |
 | demonstration protocol runtime and proof shell | deterministic protocol witness and lower-rail proof reference | `protocol-demonstration/*` | reference implementation plus proof substrate | generated proof family, protocol tests, source-to-shares witnesses |
-| commercial application shell, routes, conversations, and auxillary panes | Terminal and Exchange operator experience | `uapi/app/application/*`, `uapi/app/api/*`, `uapi/app/auxillaries/*`, `packages/api/*` | direct-product and interface owner | app/API tests, route reread evidence, Terminal selected-detail persistence |
-| execution history and retained run surfaces | Exchange-readable activity, execution state, and Terminal transaction detail | `packages/api/src/routes/*`, `uapi/app/api/executions/*`, storage read models | direct-product persistence/interface corridor | persistence proof, API tests, execution-history reread |
+| commercial application shell, routes, conversations, and auxillary panes | Terminal and Exchange operator experience | `apps/uapi/app/application/*`, `apps/uapi/app/api/*`, `apps/uapi/app/auxillaries/*`, `packages/api/*` | direct-product and interface owner | app/API tests, route reread evidence, Terminal selected-detail persistence |
+| execution history and retained run surfaces | Exchange-readable activity, execution state, and Terminal transaction detail | `packages/api/src/routes/*`, `apps/uapi/app/api/executions/*`, storage read models | direct-product persistence/interface corridor | persistence proof, API tests, execution-history reread |
 | former deliverable pipeline orchestration | Read-satisfying agentic pipeline run that synthesizes AssetPack synthesis artifacts, stores AssetPack evidence, then Finishes and Delivers a GitHub pull-request Shippable | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack`, `packages/pipelines-generics/*` | filesystem/package owner is AssetPack; old route/payload wrappers are removed from active V26, with old names admitted only as physical storage or bounded promptpart identifiers | pipeline finish reform tests, package-filesystem proof, inference records, runs-pipelines proof |
 | former task/deliverable comprehension tools | setup-phase Read comprehension, requirements, constraints, satisfaction criteria, validation, and implementation complexity | `packages/generic-tools/read-comprehension/*` | compatibility-only tool reservoir with canonical read-first exports | package typecheck, no source-co-located JS check, prompt boundary tests |
 | former task/deliverable comprehension agent behavior | setup/pre-danger-wall PTRR Read-comprehension composer | `packages/generic-agents/read-comprehension/*` | admitted setup agent | package typecheck, pipeline setup wiring, inference records |
@@ -112,7 +112,7 @@ It is not exhaustive; it fixes the expected descriptive density for later DELTA 
 | web research and web search agents/tools | source-attributed discovery-phase Read-synthesis evidence | `packages/generic-agents/web-researcher/*`, `packages/generic-agents/web-search/*`, `packages/generic-tools/web-search/*`, `packages/web-search/*` | admitted support | web research/search witnesses, inference records, prompt-system proof |
 | LSP and grep search utilities | repository evidence for Read measurement, fit reasoning, proof inspection, and AssetPack planning | `packages/generic-tools/lsp-query/*`, `packages/system-grep/*`, `packages/generic-tools/simple-system-text-search/*` | admitted support | package witnesses, inference records, proof-source checks |
 | doc-comment/doc-code prompt injection | build-time tool prompt descriptions for agentic Bitcode runs | `packages/doc-comment/*`, `packages/doc-code/*`, `packages/generic-doc-comment-plugins/*` | commercial infrastructure | doc-comment reform tests, prompt-system proof |
-| ChatGPT App, MCP, webhooks, and connected third-party APIs | connected-interface ingress or delivery mechanisms, never parallel Exchange ownership | `packages/chatgptapp/*`, `packages/executions-mcp/*`, `uapi/app/api/webhook/*`, provider packages | ingress/support or delivery mechanism | admission tests, MCP tests, write receipts, connected-interface proof rows |
+| ChatGPT App, MCP, webhooks, and connected third-party APIs | connected-interface ingress or delivery mechanisms, never parallel Exchange ownership | `packages/chatgptapp/*`, `packages/executions-mcp/*`, `apps/uapi/app/api/webhook/*`, provider packages | ingress/support or delivery mechanism | admission tests, MCP tests, write receipts, connected-interface proof rows |
 | Supabase/PostgreSQL/ORM state helpers | Exchange persistence, execution storage, profile/readiness, AssetPack and proof evidence | `supabase/*`, `packages/supabase/*`, `packages/orm/*` | commercial infrastructure | migrations, schema proof, ORM tests, generated database type evidence |
 | generated JavaScript emitted beside TypeScript source | build artifact only, never active source proof for commercial TypeScript packages | package build output outside `src/` | cut from source ownership | source-content tests and package-local typechecks |
 | field-intelligence and experimental cognitive/product ideas | historical idea material only | `_legacy/field-intelligence`, `_legacy/internal-docs-experimental/*` | archived/cut | active source absence tests and reform-strategy notes |
@@ -124,9 +124,9 @@ The following examples define how DELTA color should be read:
 | Reform area | V26 current owner | Delta meaning |
 | --- | --- | --- |
 | deterministic protocol witness | `protocol-demonstration/*` | retains the lower-level protocol behavior and proof model while commercial product rails move through `uapi` and packages |
-| commercial Terminal/Exchange application | `uapi/app/application/*`, `uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
-| execution-history ledger write/read loop | `uapi/app/application/application-activity-history.ts`, `uapi/app/api/executions/history/route.ts`, `packages/api/src/routes/executions.ts` | converts retained execution-history storage from a generic run log into the Bitcode Terminal activity ledger write/read seam, where deposit/read/closure writes persist as completed Bitcode activity and reread through the same Exchange route family |
-| Read-fitting Exchange/Terminal review seam | `protocol-demonstration/server.js`, `uapi/app/api/read-review/route.ts`, `uapi/app/application/ApplicationReadScenarioPanel.tsx` | promotes the post-measurement/pre-fit review from a raw branch artifact into an Exchange `readFittingReview` payload that Terminal renders before candidate recall, fit search, AssetPack assembly, and present-fit settlement review |
+| commercial Terminal/Exchange application | `apps/uapi/app/application/*`, `apps/uapi/app/api/*`, `packages/api/*` | turns retained app infrastructure into product-facing Terminal, Exchange ingress, and state admission rather than a standalone demonstration |
+| execution-history ledger write/read loop | `apps/uapi/app/application/application-activity-history.ts`, `apps/uapi/app/api/executions/history/route.ts`, `packages/api/src/routes/executions.ts` | converts retained execution-history storage from a generic run log into the Bitcode Terminal activity ledger write/read seam, where deposit/read/closure writes persist as completed Bitcode activity and reread through the same Exchange route family |
+| Read-fitting Exchange/Terminal review seam | `protocol-demonstration/server.js`, `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/app/application/ApplicationReadScenarioPanel.tsx` | promotes the post-measurement/pre-fit review from a raw branch artifact into an Exchange `readFittingReview` payload that Terminal renders before candidate recall, fit search, AssetPack assembly, and present-fit settlement review |
 | product readiness auditing | `.bitcode/v26-product-readiness-audit.json`, `protocol-demonstration/src/canonical/v26-product-readiness-audit.js` | converts the parity matrix plus Exchange-lite/Terminal-lite/commercial source evidence into an explicit readiness map that proves fifth-gate closure and sixth-gate MVP readiness while refusing launch or V26 definition-of-read overclaims |
 | AssetPack pipeline corridor, formerly deliverable pipeline | `packages/pipelines/asset-pack/*`, `@bitcode/pipeline-asset-pack` | live filesystem/package owner for Bitcode agentic pipeline runs that satisfy Reads, synthesize AssetPack contents, store Exchange evidence, Finish results, and use the GitHub pull-request delivery mechanism; old public route/payload wrappers are cut from active V26 |
 | retained execution composer and template path | Shippable template selection plus AssetPack execution submission | active component, hook, style, streaming, `/api/templates/shippables`, and route-log names move to Shippable/AssetPack; retained database table/column names are translated at the storage edge only, and `/api/templates/deliverables` plus `/api/deliverables` are not active V26 mounts |
@@ -165,7 +165,7 @@ Its rule is:
 - keep conversations and orbitals as fullscreen overlays entered from within `/application`,
 - port the strongest executions plus AssetPack/Shippable master-detail patterns inward to `/application`,
 - retain the pre-Bitcode navbar as the application navigation frame,
-- converge more of the page onto `uapi/components/base/*`,
+- converge more of the page onto `apps/uapi/components/base/*`,
 - lock the read experience onto a rich transactions master-detail workspace and the write experience onto Deposit/Read draft flow,
 - keep live application copy user-facing rather than demo-facing, canon-facing, or source-path-facing,
 - keep preserved-runtime guidance user-facing as a `flow guide` rather than a visible `tutorial`,
@@ -247,22 +247,22 @@ The current first-gate V26 structure is:
   The deterministic runtime/context remains available as preserved protocol HTTP/runtime composition under `protocol-demonstration/server.js`; the old `engi-demo/server.js` ownership is retired.
 - `protocol-demonstration/test/*`
   First-gate proof/runtime validation moved with the preserved protocol owner.
-- `uapi/app/application/page.tsx`
+- `apps/uapi/app/application/page.tsx`
   `/application` remains the Bitcode first-class route carrier.
-- `uapi/app/application/ApplicationPageClient.tsx`
+- `apps/uapi/app/application/ApplicationPageClient.tsx`
   The application route now renders the preserved first-gate Bitcode shell markup directly in the app.
-- `uapi/app/application/first-gate-styles/route.ts`
+- `apps/uapi/app/application/first-gate-styles/route.ts`
   The application route serves the preserved first-gate stylesheet as an app-owned surface.
-- `uapi/lib/bitcode-app-context.ts`
+- `apps/uapi/lib/bitcode-app-context.ts`
   Shared app-owned bridge from Next route handlers into the preserved protocol-owned Bitcode context.
-- `uapi/app/api/state/route.ts`
-- `uapi/app/api/deposits/route.ts`
-- `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/reset/route.ts`
-- `uapi/app/api/bitcoin-demonstration-service/route.ts`
-- `uapi/app/api/auxillaries/data/route.ts`
-- `uapi/app/api/v24/external-realization/route.ts`
-- `uapi/app/api/v24/executors/[interfaceId]/route.ts`
+- `apps/uapi/app/api/state/route.ts`
+- `apps/uapi/app/api/deposits/route.ts`
+- `apps/uapi/app/api/make-bitcode-branch/route.ts`
+- `apps/uapi/app/api/reset/route.ts`
+- `apps/uapi/app/api/bitcoin-demonstration-service/route.ts`
+- `apps/uapi/app/api/auxillaries/data/route.ts`
+- `apps/uapi/app/api/v24/external-realization/route.ts`
+- `apps/uapi/app/api/v24/executors/[interfaceId]/route.ts`
   These now carry the preserved first-gate JSON contract from the application instead of from a standalone demo server.
 
 ## Accepted V26 decisions
@@ -328,7 +328,7 @@ Second-gate is now specified as:
 - inward porting of executions plus AssetPack/Shippable master-detail reuse patterns,
 - retention of the pre-Bitcode navbar as the application frame,
 - semantic preservation of the carried first-gate Bitcode flow,
-- explicit reuse of current `uapi/components/base/*` and orbital carriers where those owners fit,
+- explicit reuse of current `apps/uapi/components/base/*` and orbital carriers where those owners fit,
 - live copy that is user-facing rather than demo-facing or gate-facing,
 - flow-guide naming and contained-orbital shell behavior as production-facing surfaces rather than incidental implementation details,
 - markdown/readme refurbishment for the active route/package/component owners so the growing Bitcode system remains legible while it is being componentized,
@@ -336,110 +336,110 @@ Second-gate is now specified as:
 - and stable-readiness hardening for the application-facing external interfacings visible through the new page.
 
 The current active second-gate source file additions are:
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
-- `uapi/app/application/ApplicationExperienceFrame.tsx`
-- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
-- `uapi/app/application/ApplicationClosureControlDeck.tsx`
-- `uapi/app/application/ApplicationReadScenarioPanel.tsx`
-- `uapi/app/application/ApplicationDepositReadWorkbench.tsx`
-- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
-- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
-- `uapi/app/application/ApplicationSectionAtlas.tsx`
-- `uapi/app/application/ApplicationCoreNativeSections.tsx`
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
-- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationTransactionsTable.tsx`
-- `uapi/app/application/ApplicationDepositComposer.tsx`
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
-- `uapi/app/application/application-core-surface.ts`
-- `uapi/app/application/application-shell-bridge.tsx`
-- `uapi/app/application/application-closure-controls.ts`
-- `uapi/app/application/application-closure-state.ts`
-- `uapi/app/application/application-deposit-composer.ts`
-- `uapi/app/application/application-command-state.ts`
-- `uapi/app/application/application-section-atlas.ts`
-- `uapi/app/application/application-live-summary.ts`
-- `uapi/app/application/application-external-runtime.ts`
-- `uapi/app/application/application-experience-architecture.ts`
-- `uapi/app/application/application-deposit-read-workbench.ts`
-- `uapi/app/application/application-read-scenarios.ts`
-- `uapi/app/application/application-run-activity.ts`
-- `uapi/app/application/application-transaction-source.ts`
-- `uapi/app/application/application-transaction-detail-snapshot.ts`
-- `uapi/app/application/application-transaction-detail.ts`
-- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
-- `uapi/app/application/application-repository-context.ts`
-- `uapi/app/application/application-shell-sections.ts`
-- `uapi/app/application/application-shell-reading.ts`
-- `uapi/app/application/application-supply-selection.ts`
-- `uapi/app/application/application-transaction-query.ts`
-- `uapi/app/application/application-transactions.ts`
-- `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
-- `uapi/app/application/ApplicationMockTransactionDetails.tsx`
-- `uapi/app/application/application-run-data.ts`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
-- `uapi/app/api/conversations/route.ts`
-- `uapi/app/api/conversations/branch/route.ts`
-- `uapi/app/api/conversations/stream/route.ts`
-- `uapi/app/api/conversations/[conversationId]/stream/route.ts`
-- `uapi/app/api/vcs/[provider]/connection/route.ts`
-- `uapi/app/api/vcs/[provider]/oauth/route.ts`
-- `uapi/app/api/vcs/[provider]/connect-token/route.ts`
-- `uapi/app/api/vcs/[provider]/repositories/route.ts`
-- `uapi/app/conversations/components/ConversationsOverlay.tsx`
-- `uapi/tests/applicationRepositoryContext.test.ts`
-- `uapi/tests/applicationCommandState.test.ts`
-- `uapi/tests/applicationShellBridge.test.tsx`
-- `uapi/tests/applicationClosureControls.test.ts`
-- `uapi/tests/applicationCoreSurface.test.ts`
-- `uapi/tests/applicationDepositComposer.test.ts`
-- `uapi/tests/applicationExternalRuntime.test.ts`
-- `uapi/tests/applicationDepositReadWorkbench.test.ts`
-- `uapi/tests/applicationSectionAtlas.test.ts`
-- `uapi/tests/applicationClosureState.test.ts`
-- `uapi/tests/applicationLiveSummary.test.ts`
-- `uapi/tests/applicationReadScenarios.test.ts`
-- `uapi/tests/applicationTransactionActivity.test.ts`
-- `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
-- `uapi/tests/applicationTransactionDetail.test.ts`
-- `uapi/tests/applicationShellBridge.test.tsx`
-- `uapi/tests/applicationSupplySelection.test.ts`
-- `uapi/tests/applicationTransactions.test.ts`
-- `uapi/tests/protocol-demonstrationDetailRowList.test.tsx`
-- `uapi/tests/protocol-demonstrationMetricGrid.test.tsx`
-- `uapi/tests/api/executionsHistoryRoute.test.ts`
-- `uapi/tests/api/executionsHistoryRunRoute.test.ts`
-- `uapi/tests/usePipelineExecution.test.tsx`
-- `uapi/tests/api/externalRealizationRoute.test.ts`
+- `apps/uapi/app/application/ApplicationCommandDeck.tsx`
+- `apps/uapi/app/application/ApplicationActionWorkbenchCard.tsx`
+- `apps/uapi/app/application/ApplicationExperienceFrame.tsx`
+- `apps/uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `apps/uapi/app/application/ApplicationClosureControlDeck.tsx`
+- `apps/uapi/app/application/ApplicationReadScenarioPanel.tsx`
+- `apps/uapi/app/application/ApplicationDepositReadWorkbench.tsx`
+- `apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx`
+- `apps/uapi/app/application/ApplicationSectionAtlas.tsx`
+- `apps/uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `apps/uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `apps/uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `apps/uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+- `apps/uapi/app/application/ApplicationTransactionDetailHero.tsx`
+- `apps/uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `apps/uapi/app/application/ApplicationTransactionClosureCard.tsx`
+- `apps/uapi/app/application/ApplicationTransactionsTable.tsx`
+- `apps/uapi/app/application/ApplicationDepositComposer.tsx`
+- `apps/uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `apps/uapi/app/application/application-core-surface.ts`
+- `apps/uapi/app/application/application-shell-bridge.tsx`
+- `apps/uapi/app/application/application-closure-controls.ts`
+- `apps/uapi/app/application/application-closure-state.ts`
+- `apps/uapi/app/application/application-deposit-composer.ts`
+- `apps/uapi/app/application/application-command-state.ts`
+- `apps/uapi/app/application/application-section-atlas.ts`
+- `apps/uapi/app/application/application-live-summary.ts`
+- `apps/uapi/app/application/application-external-runtime.ts`
+- `apps/uapi/app/application/application-experience-architecture.ts`
+- `apps/uapi/app/application/application-deposit-read-workbench.ts`
+- `apps/uapi/app/application/application-read-scenarios.ts`
+- `apps/uapi/app/application/application-run-activity.ts`
+- `apps/uapi/app/application/application-transaction-source.ts`
+- `apps/uapi/app/application/application-transaction-detail-snapshot.ts`
+- `apps/uapi/app/application/application-transaction-detail.ts`
+- `apps/uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
+- `apps/uapi/app/application/application-repository-context.ts`
+- `apps/uapi/app/application/application-shell-sections.ts`
+- `apps/uapi/app/application/application-shell-reading.ts`
+- `apps/uapi/app/application/application-supply-selection.ts`
+- `apps/uapi/app/application/application-transaction-query.ts`
+- `apps/uapi/app/application/application-transactions.ts`
+- `apps/uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `apps/uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `apps/uapi/app/application/ApplicationMockTransactionDetails.tsx`
+- `apps/uapi/app/application/application-run-data.ts`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
+- `apps/uapi/app/api/conversations/route.ts`
+- `apps/uapi/app/api/conversations/branch/route.ts`
+- `apps/uapi/app/api/conversations/stream/route.ts`
+- `apps/uapi/app/api/conversations/[conversationId]/stream/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/connection/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/oauth/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/connect-token/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/repositories/route.ts`
+- `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`
+- `apps/uapi/tests/applicationRepositoryContext.test.ts`
+- `apps/uapi/tests/applicationCommandState.test.ts`
+- `apps/uapi/tests/applicationShellBridge.test.tsx`
+- `apps/uapi/tests/applicationClosureControls.test.ts`
+- `apps/uapi/tests/applicationCoreSurface.test.ts`
+- `apps/uapi/tests/applicationDepositComposer.test.ts`
+- `apps/uapi/tests/applicationExternalRuntime.test.ts`
+- `apps/uapi/tests/applicationDepositReadWorkbench.test.ts`
+- `apps/uapi/tests/applicationSectionAtlas.test.ts`
+- `apps/uapi/tests/applicationClosureState.test.ts`
+- `apps/uapi/tests/applicationLiveSummary.test.ts`
+- `apps/uapi/tests/applicationReadScenarios.test.ts`
+- `apps/uapi/tests/applicationTransactionActivity.test.ts`
+- `apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts`
+- `apps/uapi/tests/applicationTransactionDetail.test.ts`
+- `apps/uapi/tests/applicationShellBridge.test.tsx`
+- `apps/uapi/tests/applicationSupplySelection.test.ts`
+- `apps/uapi/tests/applicationTransactions.test.ts`
+- `apps/uapi/tests/protocol-demonstrationDetailRowList.test.tsx`
+- `apps/uapi/tests/protocol-demonstrationMetricGrid.test.tsx`
+- `apps/uapi/tests/api/executionsHistoryRoute.test.ts`
+- `apps/uapi/tests/api/executionsHistoryRunRoute.test.ts`
+- `apps/uapi/tests/usePipelineExecution.test.tsx`
+- `apps/uapi/tests/api/externalRealizationRoute.test.ts`
 - `protocol-demonstration/src/client-entry.js`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
@@ -482,7 +482,7 @@ Second-gate acceptance is reached only when:
 - the transactions master surface also supports route-owned pagination rather than component-local row-window state,
 - route-local polling and shell-control refresh are centralized through `application-shell-bridge.tsx` rather than repeated independently across second-gate carriers,
 - second-gate application health is explicit: shell-bridge snapshot/control reads fail closed during pre-mount or hot-reload rebuilds instead of crashing `/application`, and client-error telemetry is accepted through an app-owned route rather than 404ing,
-- app-owned execution-history JSON routes exist under `uapi/app/api/executions/history*` so the transactions master, selected-transaction detail, and retained execution readers no longer fall through to missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review,
+- app-owned execution-history JSON routes exist under `apps/uapi/app/api/executions/history*` so the transactions master, selected-transaction detail, and retained execution readers no longer fall through to missing-route HTML responses and can fail closed to anonymous-safe empty carriers during unauthenticated review,
 - second-gate application health also includes keeping fullscreen orbitals renderable from `/application` rather than allowing missing overlay carriers to crash the app during orbital entry,
 - second-gate workspace chrome now replaces disabled marketing-era unauthenticated nav CTA behavior on `/application` and canonical `/auxillaries` with deliberate access/create-account actions that keep the operator shell clean, while `/orbitals/*` survives only as redirect-only compatibility,
 - shared workspace-route classification now governs navbar surface posture and footer suppression for `/application`, `/auxillaries`, and `/conversations`, so operator chrome cannot drift route-by-route,

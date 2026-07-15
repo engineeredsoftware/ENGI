@@ -156,7 +156,7 @@ Layer boundaries:
 
 ## V31 Auxillaries package API and account support canon
 
-V31 treats `packages/api`, `packages/orm`, `packages/btd`, `packages/vcs`, provider packages, and `uapi/app/auxillaries` as the commercial Auxillaries deepening substrate.
+V31 treats `packages/api`, `packages/orm`, `packages/btd`, `packages/vcs`, provider packages, and `apps/uapi/app/auxillaries` as the commercial Auxillaries deepening substrate.
 The formal package boundaries are:
 
 - `@bitcode/protocol` owns active/draft canon posture, spec-family checks, generated-proof helpers, and promotion-governance helper APIs;
@@ -164,7 +164,7 @@ The formal package boundaries are:
 - `@bitcode/api` owns JSON-safe Auxillaries route contracts over package primitives, never hidden provider or policy logic;
 - `@bitcode/btd` owns BTD range/read-license/right-transfer state, wallet capability, access policy, treasury posture, and reconciliation primitives consumed by Auxillaries panes;
 - provider packages own connection capability descriptors and token-readiness evidence for their provider family;
-- `uapi/app/auxillaries` owns the product UI and user workflow, not the primitive policy derivation.
+- `apps/uapi/app/auxillaries` owns the product UI and user workflow, not the primitive policy derivation.
 
 The commercial protocol package owns the active/draft posture while V31 is in flight:
 
@@ -226,7 +226,7 @@ Gate 2 contract precision:
 
 - Auxillaries API routes may authenticate, parse requests, and persist explicit route writes, but profile/account readiness, connection readiness, interface admission, wallet/BTD pane state, organization authority, readiness diagnostics, and recovery run objects must be built by package-owned helpers.
 - JSON-safe output must redact provider tokens, API keys, wallet secrets, private prompts, protected source, and service credentials.
-- `uapi/app/auxillaries` components consume these contracts as product state and must not rederive hidden policy logic.
+- `apps/uapi/app/auxillaries` components consume these contracts as product state and must not rederive hidden policy logic.
 - The package-owned V31 contract builder is `buildAuxillariesContractSnapshot`; its JSON-safe route payload compatibility builder is `buildAuxillaryDataPayload`, and every route/mock bridge must pass through these builders before UI consumption.
 
 Gate 3 profile/account precision:
@@ -499,7 +499,7 @@ They must never store service-role JWTs, Supabase secret keys, OpenAI keys, data
 - Current algorithms and derivation rules: repository inventory binds source branch/commit; deposit admission creates searchable lexical/vector evidence; depositor ownership stays separate from later Reader rights.
 - Current invariants and fail-closed conditions: invalid deposit, missing repository commit, unavailable source material, or absent depositor boundary blocks Finding Fits.
 - Current proof obligations: source measurement root, embedding policy root, repository snapshot root, and depositor boundary proof.
-- Current source-bearing implementation basis: `uapi/app/terminal`, commercial API routes, `packages/pipelines/asset-pack`, `packages/btd`, Supabase migrations, and readback scripts.
+- Current source-bearing implementation basis: `apps/uapi/app/terminal`, commercial API routes, `packages/pipelines/asset-pack`, `packages/btd`, Supabase migrations, and readback scripts.
 - Current validating commands and parity basis: V31 gate checks, V30 readback verifier until replaced, package tests, UAPI tests, and staging-testnet SQL/readback evidence.
 - Current accepted boundaries: broader provider families remain staged unless Terminal requires a narrow GitHub-adjacent hook.
 
@@ -940,7 +940,7 @@ Source map:
 - `packages/pipelines/asset-pack`: Reading pipeline and AssetPack synthesis source.
 - `packages/pipeline-hosts`: sandbox/harness execution source.
 - `packages/btd`: BTD, BTC, rights, journal, and reconciliation primitives.
-- `uapi/app/terminal`: Terminal operator surface.
+- `apps/uapi/app/terminal`: Terminal operator surface.
 - `.github/workflows`: gate and promotion automation.
 
 ## Appendix F. Subsystem totality and derivability matrix

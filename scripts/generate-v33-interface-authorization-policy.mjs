@@ -119,12 +119,12 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
       'STALE_AUTHORITY',
       'PROTECTED_SOURCE_DISCLOSURE_BLOCKED',
     ]),
-    scanTokens('packages/external-apps/chatgpt/src/tools.ts', [
+    scanTokens('apps/chatgpt/src/tools.ts', [
       'buildBtdInterfaceAuthorizationPolicy',
       'interfaceAuthorizationPolicy',
       'Bitcode ChatGPT App write admission denied by interface authorization policy',
     ]),
-    scanTokens('packages/generic-mcps/bitcode/src/tools/pipeline-tools.ts', [
+    scanTokens('apps/mcp/src/tools/pipeline-tools.ts', [
       'buildBtdInterfaceAuthorizationPolicy',
       'mcp-pipeline-create-request-finding-fits',
       'interfaceAuthorizationPolicy',
@@ -139,13 +139,13 @@ export function buildV33InterfaceAuthorizationPolicyArtifact() {
     scanTokens('packages/api/src/routes/__tests__/btd-crypto.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for API request admission',
     ]),
-    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for MCP Finding Fits admission',
     ]),
-    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for ChatGPT App delivery',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
       'shares the package-owned InterfaceAuthorizationPolicy fixture for Terminal BTC fee admission',
       'renders stale Terminal authority as a readable fail-closed denial',
     ]),

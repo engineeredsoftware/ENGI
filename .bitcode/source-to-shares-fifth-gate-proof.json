@@ -35,11 +35,11 @@
       "passed": true,
       "detail": "5 required files present",
       "requiredFiles": [
-        "uapi/app/api/read-review/route.ts",
-        "uapi/app/api/make-bitcode-branch/route.ts",
-        "uapi/app/application/ApplicationReadScenarioPanel.tsx",
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/tests/api/readReviewProtocolParity.test.ts"
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/make-bitcode-branch/route.ts",
+        "apps/uapi/app/application/ApplicationReadScenarioPanel.tsx",
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/tests/api/readReviewProtocolParity.test.ts"
       ],
       "missingFiles": []
     },
@@ -49,9 +49,9 @@
       "passed": true,
       "detail": "3 required files present",
       "requiredFiles": [
-        "uapi/app/api/state/route.ts",
-        "uapi/app/api/make-bitcode-branch/route.ts",
-        "uapi/tests/api/readReviewProtocolParity.test.ts"
+        "apps/uapi/app/api/state/route.ts",
+        "apps/uapi/app/api/make-bitcode-branch/route.ts",
+        "apps/uapi/tests/api/readReviewProtocolParity.test.ts"
       ],
       "missingFiles": []
     },
@@ -62,32 +62,32 @@
       "detail": "6 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "uapi/app/api/state/route.ts",
+          "file": "apps/uapi/app/api/state/route.ts",
           "evidence": "getBitcodeAppContext().getState(principal)",
           "description": "state route delegates principal-scoped reread to the protocol-backed app context"
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "evidence": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "description": "commercial parity test owns an explicit source-to-shares state-reread scenario"
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "evidence": "http://localhost/api/state?principal=buyer",
           "description": "reread uses the buyer projection instead of inspecting only a branch response"
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "evidence": "statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash",
           "description": "reread asserts quantized source-to-shares fit-quality hash continuity"
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "evidence": "statePayload.latestRun.branchArtifacts.files).toBeUndefined()",
           "description": "reread proves private raw branch files are not exposed through the buyer state projection"
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "evidence": "statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts",
           "description": "reread asserts settlement-source-to-shares proof carry-through"
         }
@@ -101,11 +101,11 @@
       "passed": true,
       "detail": "5 required files present",
       "requiredFiles": [
-        "uapi/app/api/executions/history/route.ts",
+        "apps/uapi/app/api/executions/history/route.ts",
         "packages/api/src/routes/executions.ts",
-        "uapi/app/application/application-activity-history.ts",
-        "uapi/tests/applicationActivityHistory.test.ts",
-        "uapi/tests/api/executionsHistoryWriteReadParity.test.ts"
+        "apps/uapi/app/application/application-activity-history.ts",
+        "apps/uapi/tests/applicationActivityHistory.test.ts",
+        "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts"
       ],
       "missingFiles": []
     },
@@ -116,7 +116,7 @@
       "detail": "4 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "uapi/app/application/application-activity-history.ts",
+          "file": "apps/uapi/app/application/application-activity-history.ts",
           "evidence": "status: draft.status || 'completed'",
           "description": "Terminal activity recordings default to completed Bitcode ledger writes"
         },
@@ -126,12 +126,12 @@
           "description": "execution-history inserts persist terminal activity completion timestamps for reread"
         },
         {
-          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
           "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "description": "commercial parity test proves deposit/read/closure writes reread through the same execution-history ledger"
         },
         {
-          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
           "evidence": "expect(historyPayload.map((row: any) => row.summary)).toEqual([",
           "description": "commercial parity test asserts newest-first reread ordering from the execution-history route"
         }
@@ -145,12 +145,12 @@
       "passed": true,
       "detail": "6 required files present",
       "requiredFiles": [
-        "uapi/app/application/ApplicationClosureNativeSections.tsx",
-        "uapi/app/application/application-closure-state.ts",
-        "uapi/app/application/application-transaction-detail-snapshot.ts",
-        "uapi/app/application/application-activity-history.ts",
-        "uapi/tests/applicationClosureState.test.ts",
-        "uapi/tests/applicationTransactionDetailSnapshot.test.ts"
+        "apps/uapi/app/application/ApplicationClosureNativeSections.tsx",
+        "apps/uapi/app/application/application-closure-state.ts",
+        "apps/uapi/app/application/application-transaction-detail-snapshot.ts",
+        "apps/uapi/app/application/application-activity-history.ts",
+        "apps/uapi/tests/applicationClosureState.test.ts",
+        "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts"
       ],
       "missingFiles": []
     },
@@ -161,52 +161,52 @@
       "detail": "10 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "uapi/app/application/ApplicationClosureNativeSections.tsx",
+          "file": "apps/uapi/app/application/ApplicationClosureNativeSections.tsx",
           "evidence": "Read closure as one sequence from reviewable Read admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.",
           "description": "native Terminal closure card teaches the complete review-to-settlement sequence"
         },
         {
-          "file": "uapi/app/application/application-closure-state.ts",
+          "file": "apps/uapi/app/application/application-closure-state.ts",
           "evidence": "{ label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
           "description": "closure-state normalization exposes fit-search admission as Terminal read state"
         },
         {
-          "file": "uapi/app/application/application-closure-state.ts",
+          "file": "apps/uapi/app/application/application-closure-state.ts",
           "evidence": "{ label: 'Objective contract', value: stringValue(settlement.quantizedObjectiveContractId) }",
           "description": "closure-state normalization preserves the quantized objective contract row"
         },
         {
-          "file": "uapi/app/application/application-closure-state.ts",
+          "file": "apps/uapi/app/application/application-closure-state.ts",
           "evidence": "{ label: 'Source-to-shares ref', value: stringValue(settlement.sourceToSharesRef) }",
           "description": "closure-state normalization preserves the source-to-shares reference row"
         },
         {
-          "file": "uapi/app/application/application-closure-state.ts",
+          "file": "apps/uapi/app/application/application-closure-state.ts",
           "evidence": "{ label: 'Fit-quality hash', value: stringValue(settlement.fitQualityHash) }",
           "description": "closure-state normalization preserves the fit-quality hash row"
         },
         {
-          "file": "uapi/tests/applicationClosureState.test.ts",
+          "file": "apps/uapi/tests/applicationClosureState.test.ts",
           "evidence": "expect(closure?.settlement.rows.find((entry) => entry.label === 'Objective contract')?.value).toBe(",
           "description": "native closure-state test asserts objective-contract visibility"
         },
         {
-          "file": "uapi/tests/applicationClosureState.test.ts",
+          "file": "apps/uapi/tests/applicationClosureState.test.ts",
           "evidence": "expect(closure?.settlement.fitQualities?.[0]?.detail).toContain('source-to-shares-weighted-objective')",
           "description": "native closure-state test asserts source-to-shares fit-quality detail"
         },
         {
-          "file": "uapi/app/application/application-transaction-detail-snapshot.ts",
+          "file": "apps/uapi/app/application/application-transaction-detail-snapshot.ts",
           "evidence": "fitQualities: coerceFitQualities(value.fitQualities)",
           "description": "selected-detail snapshot preserves persisted fit-quality rows"
         },
         {
-          "file": "uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+          "file": "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts",
           "evidence": "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
           "description": "selected-detail snapshot test asserts present-fit settlement review persistence"
         },
         {
-          "file": "uapi/tests/applicationTransactionDetailSnapshot.test.ts",
+          "file": "apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts",
           "evidence": "detail: '10000 bp · source-to-shares-weighted-objective'",
           "description": "selected-detail snapshot test asserts source-to-shares fit-quality persistence"
         }

@@ -80,7 +80,7 @@ test('distinguishes rollout audiences lanes caveats blockers and rehearsal evide
   assert.ok(byGuideId.get('operator_use')?.rehearsalEvidence.includes('.bitcode/v35-operator-runbook-catalog.json'));
   assert.ok(byGuideId.get('enterprise_reader_flow')?.workflowStages.includes('review-assetpack-preview'));
   assert.ok(byGuideId.get('depositor_flow')?.knownBlockers.includes('protected source visible in rollout docs'));
-  assert.ok(byGuideId.get('interface_consumer_flow')?.sourceRoots.includes('packages/external-apps/chatgpt/README.md'));
+  assert.ok(byGuideId.get('interface_consumer_flow')?.sourceRoots.includes('apps/chatgpt/README.md'));
   assert.deepEqual(byGuideId.get('environment_lane_posture')?.laneIds, TESTNET_ROLLOUT_LANE_IDS);
   assert.ok(byGuideId.get('wallet_settlement_caveats')?.workflowStages.includes('rights-transfer-readback'));
   assert.ok(byGuideId.get('known_blockers')?.knownBlockers.includes('mainnet value-bearing admission requested before future canon'));

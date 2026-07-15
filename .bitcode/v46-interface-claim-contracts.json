@@ -32,13 +32,13 @@
     "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
     "packages/btd/src/chatgpt-app-action-contract.ts": "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
     "packages/btd/__tests__/chatgpt-app-action-contract.test.ts": "packages/btd/__tests__/chatgpt-app-action-contract.test.ts:0106718de811ad1250860b07",
-    "packages/external-apps/chatgpt/src/tools.ts": "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
-    "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c",
+    "apps/chatgpt/src/tools.ts": "apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+    "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c",
     "packages/api/src/routes/conversations.ts": "packages/api/src/routes/conversations.ts:5e58470bbe10ab4eb0e1f54a",
-    "uapi/tests/api/conversationReadingInterfaceParity.test.ts": "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
-    "uapi/tests/conversationTerminalHandoff.test.tsx": "uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
-    "uapi/tests/conversationStreamPipelineLog.test.tsx": "uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
-    "uapi/app/conversations/conversation-session-route-history.ts": "uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc",
+    "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
+    "apps/uapi/tests/conversationTerminalHandoff.test.tsx": "apps/uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
+    "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
+    "apps/uapi/app/conversations/conversation-session-route-history.ts": "apps/uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc",
     "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js": "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js:7037724fdab78cd00402fd02"
   },
   "surfaceIds": [
@@ -301,8 +301,8 @@
       "sourcePaths": [
         "packages/btd/src/chatgpt-app-action-contract.ts",
         "packages/btd/__tests__/chatgpt-app-action-contract.test.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+        "apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "claimIds": [
         "btd-is-weighted-scalar-volume-and-settled-rights",
@@ -412,8 +412,8 @@
       "sourceRoots": [
         "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
         "packages/btd/__tests__/chatgpt-app-action-contract.test.ts:0106718de811ad1250860b07",
-        "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c"
+        "apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts:4d61df32d3f61c9a2f1efa5c"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -424,10 +424,10 @@
       "surfaceRole": "website conversation overlay for workflow assistance, stream readback, and Terminal-delegated Reading handoff",
       "sourcePaths": [
         "packages/api/src/routes/conversations.ts",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
-        "uapi/tests/conversationTerminalHandoff.test.tsx",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "uapi/app/conversations/conversation-session-route-history.ts"
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/app/conversations/conversation-session-route-history.ts"
       ],
       "claimIds": [
         "operator-evidence-is-source-safe-readback",
@@ -531,10 +531,10 @@
       "rowRoot": "v46-interface-claim-contract-row:45b3bb631d111fb108ebd15d",
       "sourceRoots": [
         "packages/api/src/routes/conversations.ts:5e58470bbe10ab4eb0e1f54a",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
-        "uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
-        "uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc"
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx:f86ac4ab726148a1a0fdcdc5",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx:73e3ba9c6f058ffe4418b3e4",
+        "apps/uapi/app/conversations/conversation-session-route-history.ts:d3d12ff13b464135f08599fc"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -736,7 +736,7 @@
     },
     {
       "id": "conversation-binds-terminal-handoff",
-      "sourcePath": "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
       "passed": true
     }
   ],

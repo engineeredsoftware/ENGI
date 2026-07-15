@@ -331,8 +331,8 @@
       ],
       "sourcePaths": [
         "packages/btd/src/reconciliation.ts",
-        "uapi/app/bitcode-ledger-storage-sync.ts",
-        "uapi/tests/bitcodeLedgerStorageSync.test.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts",
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts"
       ],
       "requiredCopyTokens": [
         "DatabaseProjectedFact",
@@ -406,8 +406,8 @@
       "rowRoot": "v46-proof-readback-row:a66f1ce0f5f64efb1e3a401c",
       "sourceRoots": [
         "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
-        "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
-        "uapi/tests/bitcodeLedgerStorageSync.test.ts:55e74064a027e2070b5519af"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts:55e74064a027e2070b5519af"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -612,7 +612,7 @@
         "packages/btd/src/wallet.ts",
         "packages/btd/src/btc-fee-operation.ts",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
-        "uapi/app/bitcode-ledger-storage-sync.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "requiredCopyTokens": [
         "WalletSignerSession",
@@ -687,7 +687,7 @@
         "packages/btd/src/wallet.ts:36133f892f3a3dd34cf4f153",
         "packages/btd/src/btc-fee-operation.ts:65f910e8e471fe199939e9c4",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
-        "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -705,7 +705,7 @@
       "sourcePaths": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "uapi/app/bitcode-ledger-storage-sync.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "requiredCopyTokens": [
         "pull_request_after_settlement",
@@ -780,7 +780,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts:f40f6cf958404cc64d6d5b1a",
-        "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -964,7 +964,7 @@
     },
     {
       "id": "uapi-ledger-storage-sync-contract-present",
-      "sourcePath": "uapi/app/bitcode-ledger-storage-sync.ts",
+      "sourcePath": "apps/uapi/app/bitcode-ledger-storage-sync.ts",
       "passed": true
     },
     {

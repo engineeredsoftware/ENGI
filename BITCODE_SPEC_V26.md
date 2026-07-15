@@ -67,7 +67,7 @@ V26 is the most complex canonical promotion in the repository because it simulta
 V27 then becomes the post-productization successor.
 V26 must not be treated as a rename cleanup continuation; it is the full productization program that turns the retained repository into Bitcode-owned product truth through eighth-gate closure.
 
-The intended result is not "micro-app the demo into `uapi/`."
+The intended result is not "micro-app the demo into `apps/uapi/`."
 The intended result is:
 - remove the standalone protocol demonstration directory as a primary product owner,
 - land first-gate Bitcode ownership under `protocol-demonstration` plus app-owned route surfaces,
@@ -98,19 +98,19 @@ The current first-gate source file structure is:
 - `protocol-demonstration/public/*`
 - `protocol-demonstration/server.js`
 - `protocol-demonstration/test/*`
-- `uapi/app/application/page.tsx`
-- `uapi/app/application/ApplicationPageClient.tsx`
-- `uapi/app/application/first-gate-styles/route.ts`
-- `uapi/app/api/state/route.ts`
-- `uapi/app/api/deposits/route.ts`
-- `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/read-review/route.ts`
-- `uapi/app/api/reset/route.ts`
-- `uapi/app/api/bitcoin-demonstration-service/route.ts`
-- `uapi/app/api/auxillaries/data/route.ts`
-- `uapi/app/api/v24/external-realization/route.ts`
-- `uapi/app/api/v24/executors/[interfaceId]/route.ts`
-- `uapi/lib/bitcode-app-context.ts`
+- `apps/uapi/app/application/page.tsx`
+- `apps/uapi/app/application/ApplicationPageClient.tsx`
+- `apps/uapi/app/application/first-gate-styles/route.ts`
+- `apps/uapi/app/api/state/route.ts`
+- `apps/uapi/app/api/deposits/route.ts`
+- `apps/uapi/app/api/make-bitcode-branch/route.ts`
+- `apps/uapi/app/api/read-review/route.ts`
+- `apps/uapi/app/api/reset/route.ts`
+- `apps/uapi/app/api/bitcoin-demonstration-service/route.ts`
+- `apps/uapi/app/api/auxillaries/data/route.ts`
+- `apps/uapi/app/api/v24/external-realization/route.ts`
+- `apps/uapi/app/api/v24/executors/[interfaceId]/route.ts`
+- `apps/uapi/lib/bitcode-app-context.ts`
 
 First-gate closure means:
 - no standalone demonstration product directory remains,
@@ -129,128 +129,128 @@ Its aesthetic atmosphere remains the retained application design system, but the
 It also includes markdown and README refurbishment for the active route, orbital, execution, shared-component, package, and preserved protocol owners so the growing V26 system stays legible and provable.
 
 The current active second-gate source additions are now explicitly:
-- `uapi/app/application/ApplicationCommandDeck.tsx`
-- `uapi/app/application/ApplicationActionWorkbenchCard.tsx`
-- `uapi/app/application/ApplicationClosureControlDeck.tsx`
-- `uapi/app/application/ApplicationExperienceFrame.tsx`
-- `uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
-- `uapi/app/application/ApplicationDepositComposer.tsx`
-- `uapi/app/application/ApplicationDepositReadWorkbench.tsx`
-- `uapi/app/application/ApplicationLiveSummaryStrip.tsx`
-- `uapi/app/application/ApplicationReadScenarioPanel.tsx`
-- `uapi/app/application/ApplicationRepositoryContextPanel.tsx`
-- `uapi/app/application/ApplicationSectionAtlas.tsx`
-- `uapi/app/application/ApplicationCoreNativeSections.tsx`
-- `uapi/app/application/ApplicationClosureNativeSections.tsx`
-- `uapi/app/application/ApplicationTransactionActivitySurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
-- `uapi/app/application/ApplicationTransactionDetailSurface.tsx`
-- `uapi/app/application/ApplicationTransactionDetailHero.tsx`
-- `uapi/app/application/ApplicationTransactionIdentityCard.tsx`
-- `uapi/app/application/ApplicationTransactionClosureCard.tsx`
-- `uapi/app/application/ApplicationTransactionsTable.tsx`
-- `uapi/app/application/ApplicationSupplySelectionPanel.tsx`
-- `uapi/app/application/application-core-surface.ts`
-- `uapi/app/application/application-shell-bridge.tsx`
-- `uapi/app/application/application-closure-controls.ts`
-- `uapi/app/application/application-closure-state.ts`
-- `uapi/app/application/application-deposit-composer.ts`
-- `uapi/app/application/application-external-runtime.ts`
-- `uapi/app/application/application-command-state.ts`
-- `uapi/app/application/application-section-atlas.ts`
-- `uapi/app/application/application-live-summary.ts`
-- `uapi/app/application/application-experience-architecture.ts`
-- `uapi/app/application/application-deposit-read-workbench.ts`
-- `uapi/app/application/application-read-scenarios.ts`
-- `uapi/app/application/application-run-activity.ts`
-- `uapi/app/application/application-transaction-source.ts`
-- `uapi/app/application/application-transaction-detail-snapshot.ts`
-- `uapi/app/application/application-transaction-detail.ts`
-- `uapi/app/application/application-repository-context.ts`
-- `uapi/app/application/application-shell-sections.ts`
-- `uapi/app/application/application-shell-reading.ts`
-- `uapi/app/application/application-supply-selection.ts`
-- `uapi/app/application/application-transaction-query.ts`
-- `uapi/app/application/application-transactions.ts`
-- `uapi/app/application/ApplicationWorkspaceRail.tsx`
-- `uapi/app/application/ApplicationTransactionWorkspace.tsx`
-- `uapi/app/application/ApplicationMockTransactionDetails.tsx`
-- `uapi/app/application/application-run-data.ts`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
-- `uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
-- `uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
-- `uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
-- `uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
-- `uapi/app/api/conversations/route.ts`
-- `uapi/app/api/conversations/branch/route.ts`
-- `uapi/app/api/conversations/stream/route.ts`
-- `uapi/app/api/conversations/[conversationId]/stream/route.ts`
-- `uapi/app/api/vcs/[provider]/connection/route.ts`
-- `uapi/app/api/vcs/[provider]/oauth/route.ts`
-- `uapi/app/api/vcs/[provider]/connect-token/route.ts`
-- `uapi/app/api/vcs/[provider]/repositories/route.ts`
-- `uapi/app/conversations/components/ConversationsOverlay.tsx`
-- `uapi/tests/applicationRepositoryContext.test.ts`
-- `uapi/tests/applicationCommandState.test.ts`
-- `uapi/tests/applicationShellBridge.test.tsx`
-- `uapi/tests/applicationClosureControls.test.ts`
-- `uapi/tests/applicationCoreSurface.test.ts`
-- `uapi/tests/applicationDepositComposer.test.ts`
-- `uapi/tests/applicationExternalRuntime.test.ts`
-- `uapi/tests/applicationDepositReadWorkbench.test.ts`
-- `uapi/tests/applicationClosureState.test.ts`
-- `uapi/tests/applicationSectionAtlas.test.ts`
-- `uapi/tests/applicationLiveSummary.test.ts`
-- `uapi/tests/applicationReadScenarios.test.ts`
-- `uapi/tests/applicationTransactionActivity.test.ts`
-- `uapi/tests/applicationTransactionDetailSnapshot.test.ts`
-- `uapi/tests/applicationTransactionDetail.test.ts`
-- `uapi/tests/applicationTransactionQuery.test.ts`
-- `uapi/tests/applicationShellBridge.test.tsx`
-- `uapi/tests/applicationSupplySelection.test.ts`
-- `uapi/tests/applicationTransactions.test.ts`
-- `uapi/tests/protocol-demonstrationInlineExplainer.test.tsx`
-- `uapi/tests/protocol-demonstrationDetailRowList.test.tsx`
-- `uapi/tests/protocol-demonstrationMetricGrid.test.tsx`
-- `uapi/tests/protocol-demonstrationTransactionsFilterBar.test.tsx`
-- `uapi/tests/protocol-demonstrationTransactionsPagination.test.tsx`
-- `uapi/tests/protocol-demonstrationPayloadInspector.test.tsx`
-- `uapi/tests/api/executionsHistoryRoute.test.ts`
-- `uapi/tests/api/executionsHistoryRunRoute.test.ts`
-- `uapi/tests/usePipelineExecution.test.tsx`
-- `uapi/tests/api/externalRealizationRoute.test.ts`
+- `apps/uapi/app/application/ApplicationCommandDeck.tsx`
+- `apps/uapi/app/application/ApplicationActionWorkbenchCard.tsx`
+- `apps/uapi/app/application/ApplicationClosureControlDeck.tsx`
+- `apps/uapi/app/application/ApplicationExperienceFrame.tsx`
+- `apps/uapi/app/application/ApplicationExternalInterfacingPanel.tsx`
+- `apps/uapi/app/application/ApplicationDepositComposer.tsx`
+- `apps/uapi/app/application/ApplicationDepositReadWorkbench.tsx`
+- `apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx`
+- `apps/uapi/app/application/ApplicationReadScenarioPanel.tsx`
+- `apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx`
+- `apps/uapi/app/application/ApplicationSectionAtlas.tsx`
+- `apps/uapi/app/application/ApplicationCoreNativeSections.tsx`
+- `apps/uapi/app/application/ApplicationClosureNativeSections.tsx`
+- `apps/uapi/app/application/ApplicationTransactionActivitySurface.tsx`
+- `apps/uapi/app/application/ApplicationTransactionDetailActionBar.tsx`
+- `apps/uapi/app/application/ApplicationTransactionDetailSurface.tsx`
+- `apps/uapi/app/application/ApplicationTransactionDetailHero.tsx`
+- `apps/uapi/app/application/ApplicationTransactionIdentityCard.tsx`
+- `apps/uapi/app/application/ApplicationTransactionClosureCard.tsx`
+- `apps/uapi/app/application/ApplicationTransactionsTable.tsx`
+- `apps/uapi/app/application/ApplicationSupplySelectionPanel.tsx`
+- `apps/uapi/app/application/application-core-surface.ts`
+- `apps/uapi/app/application/application-shell-bridge.tsx`
+- `apps/uapi/app/application/application-closure-controls.ts`
+- `apps/uapi/app/application/application-closure-state.ts`
+- `apps/uapi/app/application/application-deposit-composer.ts`
+- `apps/uapi/app/application/application-external-runtime.ts`
+- `apps/uapi/app/application/application-command-state.ts`
+- `apps/uapi/app/application/application-section-atlas.ts`
+- `apps/uapi/app/application/application-live-summary.ts`
+- `apps/uapi/app/application/application-experience-architecture.ts`
+- `apps/uapi/app/application/application-deposit-read-workbench.ts`
+- `apps/uapi/app/application/application-read-scenarios.ts`
+- `apps/uapi/app/application/application-run-activity.ts`
+- `apps/uapi/app/application/application-transaction-source.ts`
+- `apps/uapi/app/application/application-transaction-detail-snapshot.ts`
+- `apps/uapi/app/application/application-transaction-detail.ts`
+- `apps/uapi/app/application/application-repository-context.ts`
+- `apps/uapi/app/application/application-shell-sections.ts`
+- `apps/uapi/app/application/application-shell-reading.ts`
+- `apps/uapi/app/application/application-supply-selection.ts`
+- `apps/uapi/app/application/application-transaction-query.ts`
+- `apps/uapi/app/application/application-transactions.ts`
+- `apps/uapi/app/application/ApplicationWorkspaceRail.tsx`
+- `apps/uapi/app/application/ApplicationTransactionWorkspace.tsx`
+- `apps/uapi/app/application/ApplicationMockTransactionDetails.tsx`
+- `apps/uapi/app/application/application-run-data.ts`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsDataTable.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeTransactionsPagination.tsx`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-data-mode.ts`
+- `apps/uapi/components/base/bitcode/execution/BitcodeDetailRowList.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeMetricGrid.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeDetailCollection.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeDetailPanel.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeChipCloud.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeActionPillRow.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadRowsCard.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadCollectionCard.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadDetailCard.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadInspector.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadShape.tsx`
+- `apps/uapi/components/base/bitcode/execution/BitcodePayloadTree.tsx`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-active-filters.ts`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts`
+- `apps/uapi/components/base/bitcode/execution/bitcode-transaction-types.ts`
+- `apps/uapi/app/api/conversations/route.ts`
+- `apps/uapi/app/api/conversations/branch/route.ts`
+- `apps/uapi/app/api/conversations/stream/route.ts`
+- `apps/uapi/app/api/conversations/[conversationId]/stream/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/connection/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/oauth/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/connect-token/route.ts`
+- `apps/uapi/app/api/vcs/[provider]/repositories/route.ts`
+- `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`
+- `apps/uapi/tests/applicationRepositoryContext.test.ts`
+- `apps/uapi/tests/applicationCommandState.test.ts`
+- `apps/uapi/tests/applicationShellBridge.test.tsx`
+- `apps/uapi/tests/applicationClosureControls.test.ts`
+- `apps/uapi/tests/applicationCoreSurface.test.ts`
+- `apps/uapi/tests/applicationDepositComposer.test.ts`
+- `apps/uapi/tests/applicationExternalRuntime.test.ts`
+- `apps/uapi/tests/applicationDepositReadWorkbench.test.ts`
+- `apps/uapi/tests/applicationClosureState.test.ts`
+- `apps/uapi/tests/applicationSectionAtlas.test.ts`
+- `apps/uapi/tests/applicationLiveSummary.test.ts`
+- `apps/uapi/tests/applicationReadScenarios.test.ts`
+- `apps/uapi/tests/applicationTransactionActivity.test.ts`
+- `apps/uapi/tests/applicationTransactionDetailSnapshot.test.ts`
+- `apps/uapi/tests/applicationTransactionDetail.test.ts`
+- `apps/uapi/tests/applicationTransactionQuery.test.ts`
+- `apps/uapi/tests/applicationShellBridge.test.tsx`
+- `apps/uapi/tests/applicationSupplySelection.test.ts`
+- `apps/uapi/tests/applicationTransactions.test.ts`
+- `apps/uapi/tests/protocol-demonstrationInlineExplainer.test.tsx`
+- `apps/uapi/tests/protocol-demonstrationDetailRowList.test.tsx`
+- `apps/uapi/tests/protocol-demonstrationMetricGrid.test.tsx`
+- `apps/uapi/tests/protocol-demonstrationTransactionsFilterBar.test.tsx`
+- `apps/uapi/tests/protocol-demonstrationTransactionsPagination.test.tsx`
+- `apps/uapi/tests/protocol-demonstrationPayloadInspector.test.tsx`
+- `apps/uapi/tests/api/executionsHistoryRoute.test.ts`
+- `apps/uapi/tests/api/executionsHistoryRunRoute.test.ts`
+- `apps/uapi/tests/usePipelineExecution.test.tsx`
+- `apps/uapi/tests/api/externalRealizationRoute.test.ts`
 - `protocol-demonstration/src/client-entry.js`
 - `protocol-demonstration/public/app.js`
 - `protocol-demonstration/public/index.html`
 - `protocol-demonstration/public/styles.css`
-- `uapi/styles/orbital.css`
-- `uapi/styles/orbital-rings.css`
+- `apps/uapi/styles/orbital.css`
+- `apps/uapi/styles/orbital-rings.css`
 - `README.md`
-- `uapi/README.md`
+- `apps/uapi/README.md`
 - `protocol-demonstration/README.md`
-- `uapi/app/application/README.md`
-- `uapi/app/orbitals/README.md`
-- `uapi/components/base/bitcode/README.md`
-- `uapi/components/base/bitcode/execution/README.md`
+- `apps/uapi/app/application/README.md`
+- `apps/uapi/app/orbitals/README.md`
+- `apps/uapi/components/base/bitcode/README.md`
+- `apps/uapi/components/base/bitcode/execution/README.md`
 - `protocol-demonstration/V26_APPLICATION_SYSTEMS.md`
 - `protocol-demonstration/V26_PROOF_SURFACES.md`
 
@@ -279,22 +279,22 @@ Third-gate must now also:
 - and prepare the public site to read as the outer frame of the production Bitcode application rather than as a detached marketing skin.
 
 The current mounted third-gate start carriers are now explicitly:
-- `uapi/app/(root)/components/PublicShellFrame.tsx`
-- `uapi/app/(root)/components/MarketingLandingPage.tsx`
-- `uapi/app/(root)/components/landing/MarketingLandingHero.tsx`
-- `uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`
-- `uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
-- `uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
-- `uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
-- `uapi/app/(root)/components/PublicDocsPageContent.tsx`
-- `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
-- `uapi/app/docs/page.tsx`
-- `uapi/app/demo-video/page.tsx`
-- `uapi/components/base/bitcode/layout/nav.tsx`
-- `uapi/components/base/bitcode/layout/NavBrand.tsx`
-- `uapi/components/base/bitcode/layout/footer.tsx`
-- `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
-- `uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`
+- `apps/uapi/app/(root)/components/PublicShellFrame.tsx`
+- `apps/uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `apps/uapi/app/(root)/components/landing/MarketingLandingHero.tsx`
+- `apps/uapi/app/(root)/components/landing/MarketingLandingPillarCard.tsx`
+- `apps/uapi/app/(root)/components/landing/MarketingLandingGuideCard.tsx`
+- `apps/uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx`
+- `apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx`
+- `apps/uapi/app/(root)/components/PublicDocsPageContent.tsx`
+- `apps/uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
+- `apps/uapi/app/docs/page.tsx`
+- `apps/uapi/app/demo-video/page.tsx`
+- `apps/uapi/components/base/bitcode/layout/nav.tsx`
+- `apps/uapi/components/base/bitcode/layout/NavBrand.tsx`
+- `apps/uapi/components/base/bitcode/layout/footer.tsx`
+- `apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
+- `apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`
 
 Those owners now carry the public-shell route and teaching vocabulary for:
 - `Network`
@@ -379,7 +379,7 @@ The design contract below is the minimum collaboration surface required before c
 Before second-gate implementation is accepted, the draft must carry:
 1. a section-by-section application wireframe pack for `/application`,
 2. a semantic non-regression ledger for the carried first-gate Bitcode flow,
-3. a component adoption matrix that maps each carried section onto route-local app composition and current `uapi/components/base/*` carriers,
+3. a component adoption matrix that maps each carried section onto route-local app composition and current `apps/uapi/components/base/*` carriers,
 4. an external interfacing hardening matrix covering the application-facing GitHub/auth/bitcoin/sidechain/repeated-read/compute/storage surfaces,
 5. a modular supplementary-doc rewrite map for non-canonical repository documents that must evolve alongside the converged Bitcode architecture,
 6. and a second-gate acceptance matrix that separates UI acceptance from third-gate marketing work and fourth-gate cleanup work.
@@ -488,18 +488,18 @@ Profile-owned repository knowledge sharing should also fail closed through an ap
 ### Second-gate target file-structure direction
 
 The second-gate target structure is:
-- `uapi/app/application/*`
+- `apps/uapi/app/application/*`
   The only primary Bitcode destination and the master-detail carrier for deposit/read operations, a rich activity ledger (`transactions` table), selected activity detail, AssetPack evidence, PR Shippables, proofs, and history.
-- `uapi/components/base/bitcode/layout/nav.tsx`
+- `apps/uapi/components/base/bitcode/layout/nav.tsx`
   The retained navigation frame that continues to anchor the application.
-- `uapi/app/auxillaries/components/*`
+- `apps/uapi/app/auxillaries/components/*`
   The auxillary overlay system mounted from within the application context.
-- `uapi/app/conversations/components/*`
+- `apps/uapi/app/conversations/components/*`
   The fullscreen conversation system mounted from within the application context.
-- `uapi/app/executions/components/*`
+- `apps/uapi/app/executions/components/*`
   Master-detail, run-inspection, log, and Shippable/AssetPack-reading patterns to be ported into `/application`.
 - `packages/api/src/routes/{shippables,conversations,executions}.ts`, `packages/api/src/conversations/*`, `packages/api/src/pipelines/*`
-  Current route-orchestration carriers that continue to feed the converged application surfaces, with thin `uapi/app/api/*` filesystem route bindings importing formal handlers from `packages/api` while deeper subsystem behavior stays in narrower package owners.
+  Current route-orchestration carriers that continue to feed the converged application surfaces, with thin `apps/uapi/app/api/*` filesystem route bindings importing formal handlers from `packages/api` while deeper subsystem behavior stays in narrower package owners.
 - `packages/prompts/src/*`, `packages/execution-generics/*`, `packages/conversations-generics/*`, `packages/pipelines/*`
   Retained package carriers that must be woven into the converged V26 Bitcode system with explicit roles and proof obligations.
 
@@ -507,22 +507,22 @@ The second-gate target structure is:
 
 | Second-gate surface | Current semantic source | Second-gate target owner | Required semantic invariants | Required UI direction |
 | --- | --- | --- | --- | --- |
-| master-detail application workspace | `uapi/app/application/*`, `uapi/app/executions/*`, `packages/api/src/routes/shippables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, a rich transaction-master carrier in `ApplicationTransactionsTable.tsx`, inward substructure composition in `ApplicationTransactionWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | transactions, AssetPacks, Shippables, proofs, history, operating detail, route-owned pagination, and payload inspection remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
+| master-detail application workspace | `apps/uapi/app/application/*`, `apps/uapi/app/executions/*`, `packages/api/src/routes/shippables.ts` | `/application` as the single primary Bitcode workspace, with architecture framing in `ApplicationExperienceFrame.tsx`, a rich transaction-master carrier in `ApplicationTransactionsTable.tsx`, inward substructure composition in `ApplicationTransactionWorkspace.tsx`, and route-local composition in `ApplicationPageClient.tsx` | transactions, AssetPacks, Shippables, proofs, history, operating detail, route-owned pagination, and payload inspection remain accessible without leaving application context | read as the central Bitcode operator experience rather than a peer-route handoff |
 | deposit action frame | `renderRepoInventory()`, `renderAssets()`, deposit form semantics, repo-auth session surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationSupplySelectionPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | authenticated repo supply, depositing, inventory browsing, and material submission remain explicit | the operator should clearly understand how to deposit material to Bitcode |
-| deposit-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode deposit-side supply |
-| native deposit submission | preserved-shell deposit contract and app-owned `/api/deposits` carrier | `ApplicationDepositComposer.tsx`, `application-deposit-composer.ts`, and `uapi/app/api/deposits/route.ts` | title/author inference, selected inventory continuity, raw fallback behavior, and deposit posting remain semantically aligned to Bitcode intake | the operator should be able to submit a Bitcode deposit from the application workspace without dropping back into the preserved shell form |
+| deposit-side repository context | application-owned repository connection posture, provider choice, and selected repo supply before the deposit chain | `ApplicationRepositoryContextPanel.tsx`, `application-repository-context.ts`, `apps/uapi/app/api/vcs/[provider]/*`, and `VCSRepositorySelector.tsx` | repository connection posture, provider choice, and selected repository supply remain explicit without hiding behind the preserved shell | the operator should clearly understand which connected repository currently anchors Bitcode deposit-side supply |
+| native deposit submission | preserved-shell deposit contract and app-owned `/api/deposits` carrier | `ApplicationDepositComposer.tsx`, `application-deposit-composer.ts`, and `apps/uapi/app/api/deposits/route.ts` | title/author inference, selected inventory continuity, raw fallback behavior, and deposit posting remain semantically aligned to Bitcode intake | the operator should be able to submit a Bitcode deposit from the application workspace without dropping back into the preserved shell form |
 | shared shell bridge provider | per-component polling and shell-control refresh logic previously lived separately across second-gate carriers | `application-shell-bridge.tsx`, `protocol-demonstration/public/app.js`, and `protocol-demonstration/src/client-entry.js` | mounted-shell semantic state and control refresh remain centralized, exact, reusable across route-local application carriers, and fail closed during pre-mount or hot-reload rebuilds instead of crashing `/application` | the operator should experience one coherent Bitcode application state carrier rather than drifting per-panel refresh loops |
 | command-state and control bridge | preserved-shell command posture and mutable operator actions exposed for native application composition without DOM scraping | `application-shell-bridge.tsx`, `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationCommandDeck.tsx`, and `application-command-state.ts` | scenario, projection, branch mode, flow-guide continuity, make-branch, and reset remain application-visible and semantically aligned to the preserved shell while preserved-shell tutorial fields survive only as compatibility input | the operator should experience a route-owned command surface rather than a DOM-proxy shell control strip |
 | application section atlas bridge | route-local atlas previews previously depended on rendered shell panel text and card counting | `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationSectionAtlas.tsx`, and `application-section-atlas.ts` | atlas previews remain aligned to the real Bitcode body without reintroducing panel-markup scraping | the operator should experience a semantic application atlas rather than a DOM-era section mirror |
 | core-state semantic snapshot bridge | preserved-shell operating, depositing, reading, and fit panels previously depended on rendered shell DOM for application-owned composition | `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationCoreNativeSections.tsx`, and `application-core-surface.ts` | route-local deposit/read and master-detail core sections read exact Bitcode surface truth without relying on rendered panel markup | the operator should experience native Bitcode core cards that stay semantically exact without DOM-era drift |
 | deposit/read semantic snapshot bridge | preserved-shell semantic state and active operator selections exposed for native application composition without re-deriving Bitcode truth from generic markup | `protocol-demonstration/public/app.js`, `protocol-demonstration/src/client-entry.js`, `ApplicationDepositReadWorkbench.tsx`, `ApplicationSupplySelectionPanel.tsx`, `application-deposit-read-workbench.ts`, and `application-supply-selection.ts` | route-local V26 sections read exact Bitcode shell truth without mutating first-gate ownership or inventing alternate semantics | the operator should experience deeper native composition without semantic drift between preserved shell and application-owned sections |
-| external interfacing posture | `renderOperatingPicture()`, `state.boundaryRealitySurface`, `latestRun.externalRealizationSummary`, and `uapi/app/api/v24/external-realization/route.ts` | `ApplicationExternalInterfacingPanel.tsx`, `application-external-runtime.ts`, and the app-owned V24 route surface | environment mode, actuality disposition, boundary-only posture, live misconfiguration, and per-interface runtime state remain explicit and fail closed | the operator should clearly understand what is mocked, what is boundary-only, what is live-configured, and what is currently blocking |
+| external interfacing posture | `renderOperatingPicture()`, `state.boundaryRealitySurface`, `latestRun.externalRealizationSummary`, and `apps/uapi/app/api/v24/external-realization/route.ts` | `ApplicationExternalInterfacingPanel.tsx`, `application-external-runtime.ts`, and the app-owned V24 route surface | environment mode, actuality disposition, boundary-only posture, live misconfiguration, and per-interface runtime state remain explicit and fail closed | the operator should clearly understand what is mocked, what is boundary-only, what is live-configured, and what is currently blocking |
 | read action frame | `renderScenario()`, `renderFit()`, measured-demand and fit surfaces | route-local application sections and controls within the master-detail workspace, centered on `ApplicationCommandDeck.tsx`, `ApplicationReadScenarioPanel.tsx`, `ApplicationExperienceFrame.tsx`, and `ApplicationCoreNativeSections.tsx` | scenario framing, measured read, and fit pressure remain explicit before closure stages | the operator should clearly understand how to express and inspect read |
 | deposit/read action detail | current shell-selected repo supply, measured demand, and fit intent carried into route-local application-owned action blocks | `ApplicationDepositReadWorkbench.tsx`, `ApplicationActionWorkbenchCard.tsx`, and `application-deposit-read-workbench.ts` | repository supply posture, measured read, and fit/closure intent remain explicit as the two main Bitcode actions | the operator should read deposit and read as dense application-grade action detail rather than preserved-shell-only panels |
-| global navbar and app frame | `uapi/components/base/bitcode/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established pre-Bitcode navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
-| shell frame, command rail, summary, hero posture | `uapi/app/application/ApplicationPageClient.tsx`, `uapi/app/application/ApplicationCommandDeck.tsx`, `uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `uapi/app/application/application-command-state.ts`, `uapi/app/application/application-live-summary.ts`, `protocol-demonstration/public/app.js` | route-local `uapi/app/application/*` composition using current app shell carriers and the shell command/control bridge | scenario/projection/branch controls, run status, summary posture, exact settlement/repository reconnect posture, reset, and canon posture remain explicit and synchronized to the preserved shell | read as a first-class Bitcode application page instead of a carried static shell |
+| global navbar and app frame | `apps/uapi/components/base/bitcode/layout/nav.tsx`, current app shell carriers | integrated app-shell frame around `/application` | the established pre-Bitcode navigation frame remains intact while Bitcode stays the product identity | keep the familiar application frame and density, but make its labels and destinations fully Bitcode-first |
+| shell frame, command rail, summary, hero posture | `apps/uapi/app/application/ApplicationPageClient.tsx`, `apps/uapi/app/application/ApplicationCommandDeck.tsx`, `apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx`, `apps/uapi/app/application/application-command-state.ts`, `apps/uapi/app/application/application-live-summary.ts`, `protocol-demonstration/public/app.js` | route-local `apps/uapi/app/application/*` composition using current app shell carriers and the shell command/control bridge | scenario/projection/branch controls, run status, summary posture, exact settlement/repository reconnect posture, reset, and canon posture remain explicit and synchronized to the preserved shell | read as a first-class Bitcode application page instead of a carried static shell |
 | flow-guide and explainer system | `protocol-demonstration/public/app.js` guide/explainer contract plus `application-flow-guide.ts` and `ApplicationFlowGuideCard.tsx` | route-local flow-guide/explainer composition plus current overlay primitives where appropriate | stepwise operator guidance, resumable working-flow continuity, targeted explainers, and exact reconnect-required readiness labels remain available while preserved-shell tutorial fields survive only as compatibility input | use current overlay and panel language without losing the guide’s operator-facing role |
-| conversations fullscreen workspace | `uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*` | application-mounted fullscreen overlay launched from `/application` | chat-based interaction, tool usage, route-orchestration continuity, and conversational continuity remain first-class without leaving application context | read as a fullscreen Bitcode conversation workspace over the application rather than as a separate product destination |
+| conversations fullscreen workspace | `apps/uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*` | application-mounted fullscreen overlay launched from `/application` | chat-based interaction, tool usage, route-orchestration continuity, and conversational continuity remain first-class without leaving application context | read as a fullscreen Bitcode conversation workspace over the application rather than as a separate product destination |
 | operating picture | `renderOperatingPicture()` and related first-gate visual surfaces | route-local section atlas plus `ApplicationCoreNativeSections.tsx`, then later deeper app-native section composition | repo-supply to settlement reading remains the opening systems view | denser application-grade cards and system summaries, not a demo-only tableau |
 | depositing and repo supply | `renderRepoInventory()`, `renderAssets()`, deposit form semantics | route-local section atlas plus `ApplicationCoreNativeSections.tsx`, `ApplicationSupplySelectionPanel.tsx`, `ApplicationDepositComposer.tsx`, and then route-local section plus current VCS/integration/input carriers | authenticated repo session, inventory filtering, deposit overrides, and raw fallback remain intact | application-grade form layout and inventory browsing using current input, card, and integration patterns |
 | reading and measured demand | `renderScenario()`, read/measurement surfaces | route-local section atlas plus `ApplicationCoreNativeSections.tsx`, `ApplicationReadScenarioPanel.tsx`, and then route-local section with app-native panels | active scenario, benchmark/read framing, and measured-demand reading remain explicit | clearer scenario framing and demand readability while preserving semantic output |
@@ -532,9 +532,9 @@ The second-gate target structure is:
 | settlement, proofs, and journal/accounting closure | `renderSettlement()` and settlement/proof visuals | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then route-local section with app-native proof/accounting composition | exact accounting, source-to-shares, proof family, and journal diff semantics remain intact | structured settlement/proof reading suitable for a production-initial application page |
 | closure operation control | preserved-shell make-branch/reset/refresh posture previously lived only in shared command controls and underlying shell actions | `ApplicationClosureControlDeck.tsx`, `application-closure-controls.ts`, and the shell command/control bridge | branch execution, closure refresh, reset, and follow-through focus remain semantically aligned to Bitcode closure | the operator should experience a native closure operation deck rather than treating closure as an opaque lower-body shell action |
 | ledger, run history, and policy surfaces | `renderLedger()` and policy/ledger/history visuals | route-local section atlas plus `ApplicationClosureNativeSections.tsx` and `application-closure-state.ts`, then route-local section plus application-owned execution/history linkages and reused execution carriers | ledger accounts, run history, and bounded proof metadata remain explicit | read as a live application workspace/history surface instead of a shell appendix |
-| run detail and AssetPack/Shippable master-detail surfaces | `uapi/app/executions/*`, `packages/api/src/routes/{shippables,executions}.ts`, execution/log/AssetPack/Shippable panels | inward-ported master-detail sections, drawers, and detail surfaces within `/application` | run inspection, logs, work updates, execution-history route-orchestration, AssetPack evidence, PR Shippables, and proof reading remain available without semantic loss | reuse the strongest execution plus AssetPack/Shippable interaction patterns inside `/application` rather than preserving peer destinations |
-| orbitals relationship | `uapi/app/auxillaries/*`, redirect-only `uapi/app/orbitals/*`, `uapi/app/api/auxillaries/data/route.ts`, and `uapi/app/api/auxillaries/model-preferences/route.ts` | canonical auxillaries ownership with redirect-only orbital compatibility, stronger application-page entry points, pane rehabilitation, and signed-in preference coherence | auxillaries remain the Connects/Interfaces/Profile/`$BTD` owner, `Interfaces` and `$BTD` now read through application-owned panes instead of model or credits wrappers, contained auxillary rails now use shared panel/tabs carriers instead of older floating ring-label sequence furniture, and auxillaries are not flattened into `/application` | the ringed overlay stays intact and feels like the application’s auxillary layer |
-| orbital preference persistence | signed-in orbital defaults historically depended on missing or demo-local save carriers | `uapi/app/api/auxillaries/model-preferences/route.ts`, `OrbitalsInterfacesPane.tsx`, `OrbitalsBTDPane.tsx`, and shared orbital workspace carriers | authenticated read, lead/admin write, shared preference-card posture, and operator-facing default continuity remain explicit without reviving demo-era pane indirection | the operator should experience real orbital preference ownership rather than compatibility wrapper panes |
+| run detail and AssetPack/Shippable master-detail surfaces | `apps/uapi/app/executions/*`, `packages/api/src/routes/{shippables,executions}.ts`, execution/log/AssetPack/Shippable panels | inward-ported master-detail sections, drawers, and detail surfaces within `/application` | run inspection, logs, work updates, execution-history route-orchestration, AssetPack evidence, PR Shippables, and proof reading remain available without semantic loss | reuse the strongest execution plus AssetPack/Shippable interaction patterns inside `/application` rather than preserving peer destinations |
+| orbitals relationship | `apps/uapi/app/auxillaries/*`, redirect-only `apps/uapi/app/orbitals/*`, `apps/uapi/app/api/auxillaries/data/route.ts`, and `apps/uapi/app/api/auxillaries/model-preferences/route.ts` | canonical auxillaries ownership with redirect-only orbital compatibility, stronger application-page entry points, pane rehabilitation, and signed-in preference coherence | auxillaries remain the Connects/Interfaces/Profile/`$BTD` owner, `Interfaces` and `$BTD` now read through application-owned panes instead of model or credits wrappers, contained auxillary rails now use shared panel/tabs carriers instead of older floating ring-label sequence furniture, and auxillaries are not flattened into `/application` | the ringed overlay stays intact and feels like the application’s auxillary layer |
+| orbital preference persistence | signed-in orbital defaults historically depended on missing or demo-local save carriers | `apps/uapi/app/api/auxillaries/model-preferences/route.ts`, `OrbitalsInterfacesPane.tsx`, `OrbitalsBTDPane.tsx`, and shared orbital workspace carriers | authenticated read, lead/admin write, shared preference-card posture, and operator-facing default continuity remain explicit without reviving demo-era pane indirection | the operator should experience real orbital preference ownership rather than compatibility wrapper panes |
 
 ### Second-gate semantic non-regression rule
 
@@ -660,13 +660,13 @@ Fourth-gate ports the retained application systems into the Bitcode V26 total sy
 
 | Retained system | Current source basis | Fourth-gate target requirement |
 | --- | --- | --- |
-| conversations and chat-based application interface | `uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
-| executions, runs, pipelines, and retained execution APIs | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, active `uapi/app/api/templates/shippables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/shippables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | remain explicit merged-world `executions` primitives, with pipeline runs, read measurement, PR-only Shippable template personalization, and retained selectors/template personalization staying execution-shaped inside the broader `activity` family while old `/api/deliverables` and `/api/templates/deliverables` mounts are removed from active V26 |
-| retained auxillaries routes, preferences, and companion panes | `uapi/app/auxillaries/*`, redirect-only `uapi/app/orbitals/*`, `uapi/app/api/auxillaries/data/route.ts`, `uapi/app/api/auxillaries/profile/route.ts`, `uapi/app/api/auxillaries/connections/github/route.ts`, `uapi/app/api/auxillaries/model-preferences/route.ts`, `uapi/app/api/auxillaries/btd/route.ts`, `uapi/app/api/auxillaries/usage/route.ts`, `uapi/app/api/auxillaries/transactions/route.ts`, `uapi/app/api/auxillaries/api-keys/route.ts`, `uapi/app/api/auxillaries/user/data-share/route.ts` | converge on merged-world `auxillaries`: extra-network, non-transactional, still-proven user preference, interface, identity, external-connection, and BTD-throughput surfaces that remain around the Bitcode core without being treated as the network/activity center |
+| conversations and chat-based application interface | `apps/uapi/app/conversations/components/*`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` | remain first-class application interfaces and port onto the Bitcode V26 system model rather than sitting beside it |
+| executions, runs, pipelines, and retained execution APIs | `apps/uapi/app/executions/*`, `apps/uapi/app/api/vcs/route.ts`, active `apps/uapi/app/api/templates/shippables/route.ts`, `apps/uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/shippables.ts`, `packages/api/src/pipelines/branch.ts`, `packages/execution-generics/*`, `packages/pipelines/*` | remain explicit merged-world `executions` primitives, with pipeline runs, read measurement, PR-only Shippable template personalization, and retained selectors/template personalization staying execution-shaped inside the broader `activity` family while old `/api/deliverables` and `/api/templates/deliverables` mounts are removed from active V26 |
+| retained auxillaries routes, preferences, and companion panes | `apps/uapi/app/auxillaries/*`, redirect-only `apps/uapi/app/orbitals/*`, `apps/uapi/app/api/auxillaries/data/route.ts`, `apps/uapi/app/api/auxillaries/profile/route.ts`, `apps/uapi/app/api/auxillaries/connections/github/route.ts`, `apps/uapi/app/api/auxillaries/model-preferences/route.ts`, `apps/uapi/app/api/auxillaries/btd/route.ts`, `apps/uapi/app/api/auxillaries/usage/route.ts`, `apps/uapi/app/api/auxillaries/transactions/route.ts`, `apps/uapi/app/api/auxillaries/api-keys/route.ts`, `apps/uapi/app/api/auxillaries/user/data-share/route.ts` | converge on merged-world `auxillaries`: extra-network, non-transactional, still-proven user preference, interface, identity, external-connection, and BTD-throughput surfaces that remain around the Bitcode core without being treated as the network/activity center |
 | PostgreSQL and Supabase persistence | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, active database-facing API carriers, `/edgetimes`, and `/api/edgetimes` | converge on one explicit Bitcode persistence owner with active migrations, schema contracts, typed query ownership, generated database types, and application/API boundaries that are no longer informal |
-| prompt abstraction and prompt space | `packages/prompts/src/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
+| prompt abstraction and prompt space | `packages/prompts/src/*`, `apps/uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/src/canonical/type-contracts.ts` | become the direct source of prompt text and prompt contracts across retained V26 systems, and weave into a proved prompt space |
 | retained agent and tool abstractions | `packages/generic-agents/*`, `packages/git/*`, `packages/vcs/*`, related API/tool carriers | remain as retained abstractions only where V26 gives them a clear role inside conversations and pipeline capabilities |
-| former `deliverable` semantics | `packages/api/src/routes/shippables.ts`, `uapi/app/executions/*`, `packages/pipelines/asset-pack/*`, current execution components | are reformed under Bitcode V26 so `deliverable` remains only a trace/storage-boundary word while active route, payload, UI, notification, and template semantics are `AssetPack` plus Finish-delivered GitHub pull-request `Shippable`; see `protocol-demonstration/V26_SHIPPABLE_REFORM.md` |
+| former `deliverable` semantics | `packages/api/src/routes/shippables.ts`, `apps/uapi/app/executions/*`, `packages/pipelines/asset-pack/*`, current execution components | are reformed under Bitcode V26 so `deliverable` remains only a trace/storage-boundary word while active route, payload, UI, notification, and template semantics are `AssetPack` plus Finish-delivered GitHub pull-request `Shippable`; see `protocol-demonstration/V26_SHIPPABLE_REFORM.md` |
 
 ### Fourth-gate convergence rules
 
@@ -796,7 +796,7 @@ To close `make shares`, the repository ensures:
 - repository read carriers such as `/api/vcs/[provider]/repositories`, the repository-supply panel, and admitted auxillary repository-share views prefer stored connected-provider inventory when Exchange persistence already holds it, fall back to live provider inventory only when stored rows are absent, disclose that basis as `inventorySource` so read truth and write admission use the same repository-boundary semantics, and keep stored inventory readable inside `/application` even when a saved provider attachment has degraded to reconnect-required,
 - the primary auxillary reread carrier at `/api/auxillaries/data` must reuse that same stored-first/live-fallback repository inventory contract, expose `repositoryInventorySource`, `repositoryConnectionStatus`, and `walletConnectionStatus`, and feed `Connects` plus `$BTD` with the same repository-scope and signer-session truth enforced by deposit and branch admission so stale saved provider sessions degrade to reconnect-required and saved verified wallet signer posture without a live provider session degrades to wallet reconnect required rather than reading as settlement-ready,
 - the main `/application` route must derive transactional readiness from the strongest available repository carrier in order: route-local repository context first, auxillary reread second, and weak connection-presence fallback only when richer carriers are absent, so reconnect-required provider drift is not masked by stale cached validity,
-- active `uapi/app` owners are TypeScript-only canonical owners; duplicate JavaScript mirrors must not coexist beside TypeScript route entrypoints, route-local components, hooks, helper modules, or API shared carriers because that creates parallel active source and duplicate runtime ambiguity across the Bitcode Terminal, conversations, auxillaries, orbitals, and public-product corridors,
+- active `apps/uapi/app` owners are TypeScript-only canonical owners; duplicate JavaScript mirrors must not coexist beside TypeScript route entrypoints, route-local components, hooks, helper modules, or API shared carriers because that creates parallel active source and duplicate runtime ambiguity across the Bitcode Terminal, conversations, auxillaries, orbitals, and public-product corridors,
 - read review is visible and replayable as the boundary between synthesized measurement and fitting, so bad or too-broad Reads can be rejected or remeasured with feedback before AssetPack selection,
 - those writes stay source-bearing and rerunnable through the Bitcode Terminal and admitted API surfaces,
 - and the retained execution substrate is teaching canonical Bitcode share-making semantics rather than generic transaction or pipeline posture.
@@ -826,20 +826,20 @@ Each row names:
 
 | Acceptance domain | Required interface design (`SPEC`) | Required implementation/parity (`PARITY`) | Active source basis / owning families | Fifth-gate closure evidence |
 | --- | --- | --- | --- | --- |
-| Bitcode Terminal activity ledger | `/application` exposes one dominant searchable, filterable, paginatable activity ledger with stable selected-detail posture | list, filters, selection, and reread are one Bitcode-owned read model even when retained persistence lags | `uapi/app/application/*`, retained execution-history readers, application transaction projection helpers | stable browser/read verification plus activity-ledger proof artifact coverage |
-| Selected activity detail | selected activity exposes identity, stored AssetPack evidence, Finish-delivered Shippables, proofs, history, closure follow-through, and settlement posture without forcing a second primary product surface | selected-detail fallback can reread both persisted and projected protocol posture; no shell-only detail dependency remains | `uapi/app/application/{ApplicationTransaction*,application-transaction-detail*,application-protocol-projection*}` | selected-detail proof coverage and deterministic detail snapshot tests |
-| Deposit/read/write surfaces | `deposit`, `read`, `fit`, `deposit`, `branch`, and `closure` controls all write through the Bitcode Terminal rather than redirecting to a separate product model | every write materializes back into the same ledger with immediate rereadability | `uapi/app/application/{ApplicationCommandDeck,ApplicationDepositReadWorkbench,ApplicationDepositComposer,ApplicationClosureControlDeck,ApplicationPageClient,application-activity-history}.tsx` | write-through proof, targeted route/browser checks, and ledger reread tests |
-| Read review before fit search | synthesized Reads are presented for review after measurement and before fitting, with accept, reject, and remeasure-with-feedback outcomes plus a Terminal-readable Read-fitting admission surface | `.bitcode/read-review.json` records the reviewable Read, applied decision, source-to-shares focus, and fit-search admission state; candidate recall/ranking starts only after accepted review; the Bitcode Terminal closure map and native read-scenario controls must surface the review boundary before verification, fit search, and settlement reads; `/api/read-review` must expose the same reviewable Read, return `readFittingReview` with blocked/admitted fit stages and the present-fit settlement objective contract, and persist explicit accept/reject/remeasure decisions before `/api/make-bitcode-branch` can continue fitting; protocol-demonstration SPEC-IMPL and commercial repository SPEC-IMPL must be parity-tested at the route boundary so low-level Bitcode behavior, not route-local copy, drives production behavior; accepted commercial branch materialization must carry the same `.bitcode/read-review.json`, `.bitcode/source-to-shares.json`, `.bitcode/settlement-preview.json`, and `settlement-source-to-shares` fit-quality receipt evidence that the protocol implementation produces | `protocol-demonstration/src/canonical/read-measurement.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/bitcode-runtime.js`, `protocol-demonstration/server.js`, `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/public/app.js`, `uapi/app/api/read-review/route.ts`, `uapi/app/api/make-bitcode-branch/route.ts`, `uapi/app/application/{ApplicationReadScenarioPanel.tsx,application-read-scenarios.ts,application-closure-state.ts,ApplicationClosureNativeSections.tsx,application-section-atlas.ts}` | `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `uapi/tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}`, `uapi/tests/applicationReadScenarios.test.ts`, branch-artifact required-path checks, proof-witness digest coverage, and `uapi/tests/applicationClosureState.test.ts` / `uapi/tests/applicationSectionAtlas.test.ts` |
-| Operator guidance and explainer adjacency | the Bitcode Terminal exposes protocol-demonstration-style explainers adjacent to the fields and actions that matter, especially around read/write posture, repository anchoring, read/deposit controls, readiness, deposit provenance, and closure follow-through | inline and card-level explainers carry Bitcode-only semantics plus `Current source` and `Current canon` references so the operator can validate usage, provenance, and parity reality without leaving the active control | `uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`, `uapi/app/application/{application-workspace-explainers.ts,ApplicationExperienceFrame.tsx,ApplicationCommandDeck.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationReadScenarioPanel.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx}`, `protocol-demonstration/public/app.js` | explainer-reference tests, focused browser/usability verification, and proof-surface coverage for field/action adjacency |
-| Conversations as Bitcode rich input | conversations are a first-class fullscreen and popup-capable Bitcode write surface with attachments, execution intent, destinations, and persisted reread | conversation routes no longer stop at mock-only or local-only state; first write, reread, destination roundtrip, and branched attachment continuity behave as one system | `uapi/app/conversations/*`, `packages/api/src/conversations/*`, `packages/api/src/routes/conversations.ts`, `packages/conversations-generics/*` | conversations continuity proof family, route tests, and persisted overlay/readback checks |
-| Auxillaries transactional readiness | `Profile`, `Connects`, `Interfaces`, and `$BTD` remain the real readiness carriers for wallet, repository, provider, and transactional posture | readiness state is not ornamental; it gates or informs transacting and settling behavior through shared state, active product controls carry repository-provider precision into the write route boundary, `/api/auxillaries/data` rereads repository scope with explicit `repositoryInventorySource` and `repositoryConnectionStatus`, and that same reread surface now carries `walletConnectionStatus` so `Connects` and `$BTD` distinguish saved verified signer posture from live wallet-provider signing access rather than teaching soft connection-only copy | `uapi/app/auxillaries/*`, relevant `uapi/app/api/auxillaries/*`, wallet/repository/VCS integration carriers | readiness proof and route/browser validation on the live auxillary pane owners |
-| Repository anchor and VCS scope | repository anchoring is explicit, Bitcode-owned, and admitted through `Connects` / `/application` / API surfaces | repository context no longer depends on stale provider-caller drift; Bitcode read/write flows share one repository scope model, `/api/vcs/[provider]/repositories`, `/api/auxillaries/data`, and auxillary repository-share reads prefer stored connected-provider inventory before live fallback, disclose `inventorySource` or `repositoryInventorySource`, keep repository-supply inventory readable in `/application` even when the live provider session is reconnect-required, and route admission rejects both anchors outside the connected provider inventory and settlement-bearing requests whose saved provider attachment no longer validates against the live provider session | `packages/vcs/*`, `packages/github/*`, `packages/api/src/vcs/*`, `uapi/app/api/{vcs,auxillaries}/*`, repository context application panels | repository-boundary compile health plus repository-anchor behavior proof |
+| Bitcode Terminal activity ledger | `/application` exposes one dominant searchable, filterable, paginatable activity ledger with stable selected-detail posture | list, filters, selection, and reread are one Bitcode-owned read model even when retained persistence lags | `apps/uapi/app/application/*`, retained execution-history readers, application transaction projection helpers | stable browser/read verification plus activity-ledger proof artifact coverage |
+| Selected activity detail | selected activity exposes identity, stored AssetPack evidence, Finish-delivered Shippables, proofs, history, closure follow-through, and settlement posture without forcing a second primary product surface | selected-detail fallback can reread both persisted and projected protocol posture; no shell-only detail dependency remains | `apps/uapi/app/application/{ApplicationTransaction*,application-transaction-detail*,application-protocol-projection*}` | selected-detail proof coverage and deterministic detail snapshot tests |
+| Deposit/read/write surfaces | `deposit`, `read`, `fit`, `deposit`, `branch`, and `closure` controls all write through the Bitcode Terminal rather than redirecting to a separate product model | every write materializes back into the same ledger with immediate rereadability | `apps/uapi/app/application/{ApplicationCommandDeck,ApplicationDepositReadWorkbench,ApplicationDepositComposer,ApplicationClosureControlDeck,ApplicationPageClient,application-activity-history}.tsx` | write-through proof, targeted route/browser checks, and ledger reread tests |
+| Read review before fit search | synthesized Reads are presented for review after measurement and before fitting, with accept, reject, and remeasure-with-feedback outcomes plus a Terminal-readable Read-fitting admission surface | `.bitcode/read-review.json` records the reviewable Read, applied decision, source-to-shares focus, and fit-search admission state; candidate recall/ranking starts only after accepted review; the Bitcode Terminal closure map and native read-scenario controls must surface the review boundary before verification, fit search, and settlement reads; `/api/read-review` must expose the same reviewable Read, return `readFittingReview` with blocked/admitted fit stages and the present-fit settlement objective contract, and persist explicit accept/reject/remeasure decisions before `/api/make-bitcode-branch` can continue fitting; protocol-demonstration SPEC-IMPL and commercial repository SPEC-IMPL must be parity-tested at the route boundary so low-level Bitcode behavior, not route-local copy, drives production behavior; accepted commercial branch materialization must carry the same `.bitcode/read-review.json`, `.bitcode/source-to-shares.json`, `.bitcode/settlement-preview.json`, and `settlement-source-to-shares` fit-quality receipt evidence that the protocol implementation produces | `protocol-demonstration/src/canonical/read-measurement.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/bitcode-runtime.js`, `protocol-demonstration/server.js`, `protocol-demonstration/src/canonical/evaluation-materialization.js`, `protocol-demonstration/public/app.js`, `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/app/api/make-bitcode-branch/route.ts`, `apps/uapi/app/application/{ApplicationReadScenarioPanel.tsx,application-read-scenarios.ts,application-closure-state.ts,ApplicationClosureNativeSections.tsx,application-section-atlas.ts}` | `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `apps/uapi/tests/api/{readReviewRoute.test.ts,readReviewProtocolParity.test.ts}`, `apps/uapi/tests/applicationReadScenarios.test.ts`, branch-artifact required-path checks, proof-witness digest coverage, and `apps/uapi/tests/applicationClosureState.test.ts` / `apps/uapi/tests/applicationSectionAtlas.test.ts` |
+| Operator guidance and explainer adjacency | the Bitcode Terminal exposes protocol-demonstration-style explainers adjacent to the fields and actions that matter, especially around read/write posture, repository anchoring, read/deposit controls, readiness, deposit provenance, and closure follow-through | inline and card-level explainers carry Bitcode-only semantics plus `Current source` and `Current canon` references so the operator can validate usage, provenance, and parity reality without leaving the active control | `apps/uapi/components/base/bitcode/execution/BitcodeInlineExplainer.tsx`, `apps/uapi/app/application/{application-workspace-explainers.ts,ApplicationExperienceFrame.tsx,ApplicationCommandDeck.tsx,ApplicationRepositoryContextPanel.tsx,ApplicationSupplySelectionPanel.tsx,ApplicationReadScenarioPanel.tsx,ApplicationDepositComposer.tsx,ApplicationClosureControlDeck.tsx}`, `protocol-demonstration/public/app.js` | explainer-reference tests, focused browser/usability verification, and proof-surface coverage for field/action adjacency |
+| Conversations as Bitcode rich input | conversations are a first-class fullscreen and popup-capable Bitcode write surface with attachments, execution intent, destinations, and persisted reread | conversation routes no longer stop at mock-only or local-only state; first write, reread, destination roundtrip, and branched attachment continuity behave as one system | `apps/uapi/app/conversations/*`, `packages/api/src/conversations/*`, `packages/api/src/routes/conversations.ts`, `packages/conversations-generics/*` | conversations continuity proof family, route tests, and persisted overlay/readback checks |
+| Auxillaries transactional readiness | `Profile`, `Connects`, `Interfaces`, and `$BTD` remain the real readiness carriers for wallet, repository, provider, and transactional posture | readiness state is not ornamental; it gates or informs transacting and settling behavior through shared state, active product controls carry repository-provider precision into the write route boundary, `/api/auxillaries/data` rereads repository scope with explicit `repositoryInventorySource` and `repositoryConnectionStatus`, and that same reread surface now carries `walletConnectionStatus` so `Connects` and `$BTD` distinguish saved verified signer posture from live wallet-provider signing access rather than teaching soft connection-only copy | `apps/uapi/app/auxillaries/*`, relevant `apps/uapi/app/api/auxillaries/*`, wallet/repository/VCS integration carriers | readiness proof and route/browser validation on the live auxillary pane owners |
+| Repository anchor and VCS scope | repository anchoring is explicit, Bitcode-owned, and admitted through `Connects` / `/application` / API surfaces | repository context no longer depends on stale provider-caller drift; Bitcode read/write flows share one repository scope model, `/api/vcs/[provider]/repositories`, `/api/auxillaries/data`, and auxillary repository-share reads prefer stored connected-provider inventory before live fallback, disclose `inventorySource` or `repositoryInventorySource`, keep repository-supply inventory readable in `/application` even when the live provider session is reconnect-required, and route admission rejects both anchors outside the connected provider inventory and settlement-bearing requests whose saved provider attachment no longer validates against the live provider session | `packages/vcs/*`, `packages/github/*`, `packages/api/src/vcs/*`, `apps/uapi/app/api/{vcs,auxillaries}/*`, repository context application panels | repository-boundary compile health plus repository-anchor behavior proof |
 | Wallet and signed transaction posture | fifth-gate interfaces explicitly teach the distinction between Profile-owned wallet identity, saved verified signer posture, live verified wallet-provider signing access, and signed transaction intent for Bitcode activity | manual wallet identity can enable drafting and reread, but signed settlement remains staged until live verified wallet-provider signing is present; saved verified signer posture by itself is not enough, so transaction readiness, route admission, `Connects`, and `$BTD` must surface `wallet reconnect required` when the saved signer survives but the live wallet-provider session does not | wallet/auth/profile carriers, `$BTD` pane owners, auxillary reread contracts, transaction readiness state readers/writers | readiness proof plus explicit route/interface acceptance coverage |
 | Bitcode agentic execution | `ad hoc` remains the admitted live pipeline for conversation-driven agency, and future Bitcode pipelines are specified as Bitcode-owned actions/activity rather than deliverable/upgrades carry-over | retained pipeline implementations are reference-only unless explicitly repurposed; primitives survive, stale orchestration does not; multi-agent pipeline selection is removed rather than carried forward; computer-use is available only through the internal Read-measurement registry flag and is absent from implementation, validation, Finish/Delivering, and Terminal action controls | `packages/pipelines/*`, `packages/agent-generics/*`, `packages/tools-generics/*`, `packages/execution-generics/*`, `packages/generic-agents/*` where retained | runs/pipelines totality proof family, system-reform admissibility proof, active-product naming witnesses, and active-source compile/admissibility coverage |
 | Execution-core primitive boundary | execution primitives, registries, prompts, sequence/state/sub-execution carriers, and provider abstractions remain the reusable Bitcode substrate, while retained orchestration families are taught as reference-only until explicitly repurposed | package headers, metadata, promptparts, and retained execution comments must not present SDIVS/PTRR/meta-phase deliverable families as the current Bitcode product implementation or preserve non-Bitcode platform narration in the live execution stack, and live execution/pipeline prompt classes must bind directly to prompt primitives rather than route through the retained raw-promptpart barrel | `packages/{execution-generics,agent-generics,pipelines-generics,pipelines/asset-pack,prompts,executions-mcp}/*` | active-source compile health plus package/spec/proof admissibility witnesses showing a clean primitive/reference split |
 | Asset-pack/share synthesis | share candidates, proofs, history, AssetPack synthesis artifacts, stored AssetPack evidence, and connected-interface Shippables are represented as Bitcode outputs rather than generic outputs in operator teaching | retained execution substrate can still be reused, but output meaning is canonicalized to Bitcode shares, AssetPacks, synthesis artifacts, stored evidence, Shippables, destination mechanisms, and activity; old output nouns survive only as storage/proof trace boundaries | `/application` detail/read surfaces, retained execution and AssetPack evidence carriers, spec/proof families | proof surface coverage tying retained execution outputs to Bitcode share semantics |
-| Settlement and follow-through | settlement posture, branch artifacts, proof state, quantized source-to-shares fit qualities, and closure metrics remain in the same Bitcode-owned reread model | closure-bearing writes persist meaningful follow-through instead of thin execution notes; selected detail can reconstruct saved settlement state; the native closure map shows the present-fit-for-settlement-review objective contract, source-to-shares ref, fit-quality hash, receipt refs, and fit-quality rows; receipts carry the same quantized fit-quality objective shown at present-fit-for-settlement-review time | `application-activity-history`, `application-transaction-detail-snapshot`, `application-closure-state`, closure/detail cards, retained execution-history rows, `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/public/app.js` | closure-follow-through persistence proof, reread tests, `uapi/tests/applicationClosureState.test.ts`, `uapi/tests/applicationTransactionDetail.test.ts`, and `v26-read-review-source-to-shares` receipt/proof coverage |
-| API and third-party interface parity | active APIs, admitted `Bitcode MCP`, and third-party app surfaces are not parallel products; they are admitted interfaces over the same Bitcode Exchange state model that the Bitcode Terminal uses | API carriers are synchronized with terminal writes/reads and preserve Bitcode-only semantics; third-party MCPs plus repository/provider connections and attachments are admitted as ingress/input context, the Bitcode Exchange-facing MCP surface normalizes outputs toward asset-pack/share meaning, and the ChatGPT App surface fails closed on unconfirmed connected-interface writes while emitting write-admission receipts instead of owning Exchange state | `uapi/app/api/*`, `packages/api/src/routes/*`, MCP/app integration carriers, ChatGPT-style surfaces, `packages/chatgptapp/src/{tools,server}.ts` | conversations continuity, application composition, runs/pipelines totality, ChatGPT App write-admission tests, and endpoint verification coverage |
+| Settlement and follow-through | settlement posture, branch artifacts, proof state, quantized source-to-shares fit qualities, and closure metrics remain in the same Bitcode-owned reread model | closure-bearing writes persist meaningful follow-through instead of thin execution notes; selected detail can reconstruct saved settlement state; the native closure map shows the present-fit-for-settlement-review objective contract, source-to-shares ref, fit-quality hash, receipt refs, and fit-quality rows; receipts carry the same quantized fit-quality objective shown at present-fit-for-settlement-review time | `application-activity-history`, `application-transaction-detail-snapshot`, `application-closure-state`, closure/detail cards, retained execution-history rows, `protocol-demonstration/src/canonical/settlement.js`, `protocol-demonstration/public/app.js` | closure-follow-through persistence proof, reread tests, `apps/uapi/tests/applicationClosureState.test.ts`, `apps/uapi/tests/applicationTransactionDetail.test.ts`, and `v26-read-review-source-to-shares` receipt/proof coverage |
+| API and third-party interface parity | active APIs, admitted `Bitcode MCP`, and third-party app surfaces are not parallel products; they are admitted interfaces over the same Bitcode Exchange state model that the Bitcode Terminal uses | API carriers are synchronized with terminal writes/reads and preserve Bitcode-only semantics; third-party MCPs plus repository/provider connections and attachments are admitted as ingress/input context, the Bitcode Exchange-facing MCP surface normalizes outputs toward asset-pack/share meaning, and the ChatGPT App surface fails closed on unconfirmed connected-interface writes while emitting write-admission receipts instead of owning Exchange state | `apps/uapi/app/api/*`, `packages/api/src/routes/*`, MCP/app integration carriers, ChatGPT-style surfaces, `packages/chatgptapp/src/{tools,server}.ts` | conversations continuity, application composition, runs/pipelines totality, ChatGPT App write-admission tests, and endpoint verification coverage |
 | Retained-system Bitcode purification | fifth-gate is not closed while retained systems still survive as parallel live product logic; anything kept must already be cut, isolated, or Bitcode-purposed enough to fit the Bitcode-native baseline | retained web-search, webhook, generic-agent, generic-tool, and orchestration carriers no longer silently define or backdoor the live Bitcode product model even if some reference owners remain for later refinement; multi-agent is a cut execution concept, while use-computer is a bounded internal Read-measurement support primitive with broader capability deferred beyond V26 | retained packages/routes admitted by V26, especially search/webhook/agent/tool/pipeline carriers | system reform admissibility proof plus explicit kept/cut/isolated classification on the live path |
 | Persistence/schema convergence | schema, ORM, migrations, Supabase carriers, and generated types form one coherent Bitcode storage interpretation | active persistence carriers cannot preserve null-key drift, stale naming, or separate demo/app meanings on the same records | `supabase/*`, `packages/supabase/*`, `packages/orm/*`, retained storage-facing route carriers | persistence and schema totality proof family plus filtered compile health on active storage corridors |
 | Prompt-system explicitness | prompts, prompt parts, prompt execution, and retained prompt ports remain explicit infrastructure, not silent string debt | prompt space must be Bitcode-owned and compile/admissible even where old prompt reservoirs survive as references, and those retained reservoirs must stay off the live execution primitive path unless explicitly repurposed; retained PTRR agents on the active corridor must provide explicit Registry-backed `prompt` / `stepPrompts` carriers rather than relying on description strings alone | `packages/prompts/*`, prompt carriers in executions/agents/conversations/AssetPack corridors, `packages/pipelines/asset-pack/src/agents/{design/iterate-product-md-agent,digest/capture-learnings-agent,validation/asset-pack-ready-to-instruct-agent}.ts` | prompt-system totality, prompt-space completeness, and active `uapi` typecheck proofs |
@@ -855,13 +855,13 @@ The production architecture is therefore fixed as the following joined system:
 
 | Production layer | Required fifth-gate role | Active source basis / owning families | Required fifth-gate closure property |
 | --- | --- | --- | --- |
-| Product routes and operator surfaces | `/application`, `/conversations`, `/auxillaries`, `/(root)`, `/docs`, `/executions`, and admitted compatibility deep links are the only user-facing route owners of the Bitcode product model | `uapi/app/application/*`, `uapi/app/conversations/*`, `uapi/app/auxillaries/*`, `uapi/app/(root)/*`, `uapi/app/docs/*`, `uapi/app/executions/*` | no live route may teach a parallel product center or bypass Bitcode-owned semantics |
-| App-owned protocol and ingress routes | the application owns HTTP and SSE admission into Bitcode Exchange state, including activity, state, deposits, Read review, branches, conversations, auxillaries, VCS, external-realization, executor, webhook, storage, and telemetry intake routes | `uapi/app/api/{activity,state,deposits,read-review,make-bitcode-branch,conversations,auxillaries,vcs,v24,webhook,edgetimes,client-error,executions}/*` plus `packages/api/src/routes/*` | routes must be server-owned admission carriers, not thin client-only illusions, and must fail closed when readiness, policy, repository scope, or accepted Read-review admission is absent |
-| Identity, readiness, and transactional admission | wallet identity, verified wallet-provider signing, repository anchoring, auth session posture, provider bindings, and `$BTD`/profile state compose one transactional admission model | `packages/{auth,btd,github,vcs}/*`, `uapi/app/application/{bitcode-transaction-readiness,bitcode-transaction-route-readiness}.ts`, `uapi/app/auxillaries/*`, related app/API auth routes | drafting, reread, and signed settlement must remain explicitly distinct, and settlement-bearing routes must not bypass server-owned `canSettle` checks |
+| Product routes and operator surfaces | `/application`, `/conversations`, `/auxillaries`, `/(root)`, `/docs`, `/executions`, and admitted compatibility deep links are the only user-facing route owners of the Bitcode product model | `apps/uapi/app/application/*`, `apps/uapi/app/conversations/*`, `apps/uapi/app/auxillaries/*`, `apps/uapi/app/(root)/*`, `apps/uapi/app/docs/*`, `apps/uapi/app/executions/*` | no live route may teach a parallel product center or bypass Bitcode-owned semantics |
+| App-owned protocol and ingress routes | the application owns HTTP and SSE admission into Bitcode Exchange state, including activity, state, deposits, Read review, branches, conversations, auxillaries, VCS, external-realization, executor, webhook, storage, and telemetry intake routes | `apps/uapi/app/api/{activity,state,deposits,read-review,make-bitcode-branch,conversations,auxillaries,vcs,v24,webhook,edgetimes,client-error,executions}/*` plus `packages/api/src/routes/*` | routes must be server-owned admission carriers, not thin client-only illusions, and must fail closed when readiness, policy, repository scope, or accepted Read-review admission is absent |
+| Identity, readiness, and transactional admission | wallet identity, verified wallet-provider signing, repository anchoring, auth session posture, provider bindings, and `$BTD`/profile state compose one transactional admission model | `packages/{auth,btd,github,vcs}/*`, `apps/uapi/app/application/{bitcode-transaction-readiness,bitcode-transaction-route-readiness}.ts`, `apps/uapi/app/auxillaries/*`, related app/API auth routes | drafting, reread, and signed settlement must remain explicitly distinct, and settlement-bearing routes must not bypass server-owned `canSettle` checks |
 | Persistence and state coherence | PostgreSQL/Supabase storage, ORM/query carriers, generated database types, storage-facing API routes, and execution/history rows form one Bitcode storage interpretation | `supabase/*`, `packages/{supabase,orm}/*`, `/edgetimes`, retained storage-facing route owners | Bitcode Exchange state may not split into route-local, shell-local, and persistence-local meanings on the same records |
 | Execution, conversation, and prompt substrate | conversations, `ad hoc` execution, execution primitives, prompt parts, prompt execution, attachments, templates, tool calling, and pipeline compatibility carriers remain explicit infrastructure for Bitcode activity | `packages/{conversations-generics,execution-generics,executions-mcp,pipelines,pipelines-generics,prompts,agent-generics,attachments-generics,templates-generics,tools-generics,llm-generics,streams}/*` | primitives may survive, but retained orchestration reservoirs must not silently define the live product model, prompt-bearing inference carriers must compose through the public `@bitcode/prompts` boundary, and the Bitcode MCP corridor must remain auditable |
 | External realization and settlement runtime | bitcoin, sidechain, repeated-read, compute, GitHub realization, storage publication, and settlement observation remain explicit production architecture rather than invisible demo substrate | `protocol-demonstration/src/canonical/{v23-bitcoin.js,v23-bitcoin-demonstration-service.js,v24-external-realization.js,v24-external-execution.js,v24-live-execution.js,v24-local-executors.js,v24-remote-adapters.js,settlement.js}`, `packages/github/*` | external realization, execution observation, and settlement proof must remain fail-closed even while ownership refits from demo-local reservoirs toward packages and app routes |
-| Observability, error intake, and runtime health | runtime failures, telemetry, repository-health, logger, and operator-visible diagnostics remain part of the production contract rather than incidental engineering residue | `uapi/app/api/client-error/route.ts`, `packages/{observability,logger,repository-health,testing}/*`, retained telemetry carriers in `protocol-demonstration` | the live Bitcode path must accept, classify, and audit errors and health posture without reverting to non-Bitcode diagnostics or silent client failures |
+| Observability, error intake, and runtime health | runtime failures, telemetry, repository-health, logger, and operator-visible diagnostics remain part of the production contract rather than incidental engineering residue | `apps/uapi/app/api/client-error/route.ts`, `packages/{observability,logger,repository-health,testing}/*`, retained telemetry carriers in `protocol-demonstration` | the live Bitcode path must accept, classify, and audit errors and health posture without reverting to non-Bitcode diagnostics or silent client failures |
 | Proof, generated evidence, and promotion control | generated proof families, spec-family reports, canonical-input reports, `_PROVEN_`, and promotion scripts are first-class production architecture because Bitcode requires a provable static codebase and deployed financial system | `.bitcode/*`, `BITCODE_SPEC_V26_PROVEN.md`, `scripts/{check-bitcode-canonical-inputs.mjs,check-bitcode-spec-family.mjs,generate-bitcode-proven.mjs}`, proof generators under `protocol-demonstration/src/canonical/*` | fifth-gate is invalid if the product architecture is not described, generated, and replayable as one witness-bearing system |
 
 The production architecture above is constrained by the following fifth-gate rules:
@@ -951,19 +951,19 @@ Later-gate polish, commercialization, and `mainnet` posture are not allowed to b
 
 | Proof family | Required artifact path | Closure obligation | Current source basis |
 | --- | --- | --- | --- |
-| second-gate application composition | `.bitcode/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `uapi/app/application/*`, `protocol-demonstration/public/app.js` |
-| conversations continuity | `.bitcode/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics, including persisted rich-input execution evidence for source attachments, output destinations, asset-pack references, and Read-measurement intent | `uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
-| runs and pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including Shippable/AssetPack meaning, Bitcode MCP write admission, third-party MCP ingress as input context, and the compatibility selectors still required to keep retained execution reads healthy without reintroducing active deliverables routes | `uapi/app/executions/*`, `uapi/app/api/vcs/route.ts`, active `uapi/app/api/templates/shippables/route.ts`, `uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/shippables.ts`, absence witnesses for removed `/api/templates/deliverables` and `packages/api/src/routes/deliverables.ts`, `packages/executions-mcp/src/mcp-server/src/{types/index.ts,tools/pipeline-tools.ts,pipeline-execution/adapter.ts,__tests__/unit/pipeline-ingress-contract.test.ts}`, `packages/pipelines/*`, `packages/execution-generics/*` |
+| second-gate application composition | `.bitcode/application-composition-proof.json` | prove that `/application` is route-local application composition while preserving first-gate Bitcode semantics | `apps/uapi/app/application/*`, `protocol-demonstration/public/app.js` |
+| conversations continuity | `.bitcode/conversations-continuity-proof.json` | prove that conversations and the chat-based interface remain first-class and correctly port into V26 Bitcode system semantics, including persisted rich-input execution evidence for source attachments, output destinations, asset-pack references, and Read-measurement intent | `apps/uapi/app/conversations/components/*`, `packages/api/src/routes/conversations.ts`, `packages/api/src/conversations/*`, `packages/conversations-generics/*` |
+| runs and pipelines totality | `.bitcode/runs-pipelines-totality-proof.json` | prove that retained run/pipeline systems totalize Bitcode operations coherently, including Shippable/AssetPack meaning, Bitcode MCP write admission, third-party MCP ingress as input context, and the compatibility selectors still required to keep retained execution reads healthy without reintroducing active deliverables routes | `apps/uapi/app/executions/*`, `apps/uapi/app/api/vcs/route.ts`, active `apps/uapi/app/api/templates/shippables/route.ts`, `apps/uapi/app/api/auxillaries/template-preferences/route.ts`, `packages/api/src/routes/shippables.ts`, absence witnesses for removed `/api/templates/deliverables` and `packages/api/src/routes/deliverables.ts`, `packages/executions-mcp/src/mcp-server/src/{types/index.ts,tools/pipeline-tools.ts,pipeline-execution/adapter.ts,__tests__/unit/pipeline-ingress-contract.test.ts}`, `packages/pipelines/*`, `packages/execution-generics/*` |
 | persistence and schema totality | `.bitcode/persistence-schema-totality-proof.json` | prove that PostgreSQL/Supabase persistence, `/edgetimes`, migrations, schema contracts, ORM/query carriers, and generated types form one coherent Bitcode storage system | `supabase/*`, `supabase/migrations/001_v26_production.sql`, `packages/supabase/src/*`, `packages/orm/src/models/*`, `packages/orm/src/queries/*`, `packages/orm/src/types/database.generated.ts`, `packages/orm/src/types/database.ts`, `packages/orm/scripts/generate-db-types.ts`, retained storage-facing API carriers, and generated database types |
 | prompt system totality | `.bitcode/prompt-system-totality-proof.json` | prove that retained `PromptPart`/`Prompt`/`PromptExecution` carriers and non-Bitcode prompt ports remain explicit Bitcode-owned prompt infrastructure, that active inference packages consume those carriers through the public `@bitcode/prompts` boundary, and that the active/support/reference prompt consumer map remains explicit before later prompt-space completeness closure | `packages/prompts/src/*`, `packages/execution-generics/src/prompts/*`, `packages/agent-generics/src/prompts/*`, `packages/conversations-generics/src/prompts/*`, `protocol-demonstration/V26_PROMPT_SURFACES.md`, retained Jira prompt ports, and retained deliverable planning/measurement prompts |
 | inference implementation records | `.bitcode/inference-implementation-records-proof.json` | prove that prompt, tool, agentic, execution, pipeline, conversation, asset-pack, read-comprehension, and MCP/external ingress systems are represented by structurally checked source-visible V26 inference implementation records with canonical read, nested implementation fields, source-backed implementation owners, boundary posture, typed verification evidence, and executable/generated verification footing | `protocol-demonstration/src/canonical/inference-implementation-records.js`, `protocol-demonstration/test/v26-inference-implementation-records.test.js`, and `protocol-demonstration/V26_INFERENCE_SYSTEMS.md` |
 | fourth-gate reclosure review | `.bitcode/fourth-gate-reclosure-review-proof.json` | prove that the procedurally reopened fourth-gate claim has been re-reviewed against every material acceptance criterion, that earlier through-fourth-gate closure claims remain recorded as overstated, and that no blocking fourth-gate deviance remains before fifth-gate work resumes | generated proof-family evidence across application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference records, retained packages, and the V26 checkpoint |
-| source-to-shares fifth-gate proof | `.bitcode/source-to-shares-fifth-gate-proof.json` | prove the fifth-gate make-shares/use-shares baseline around reviewable Reads, accepted-fit admission, app-owned route-level reread, Terminal selected-detail persistence, quantized source-to-shares fit qualities, settlement AssetPack receipts, private-file redaction in buyer state projection, and dual protocol/commercial SPEC-IMPL parity without itself claiming fourth-gate or fifth-gate procedural closure | `protocol-demonstration/src/canonical/{read-measurement,settlement,run-artifacts}.js`, `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `uapi/app/api/{read-review,state,make-bitcode-branch}/route.ts`, `uapi/tests/api/readReviewProtocolParity.test.ts`, `uapi/app/application/{application-closure-state,application-transaction-detail-snapshot}.ts`, `uapi/tests/{applicationClosureState,applicationTransactionDetailSnapshot}.test.ts`, and pipeline Finish/Delivering reform carriers |
+| source-to-shares fifth-gate proof | `.bitcode/source-to-shares-fifth-gate-proof.json` | prove the fifth-gate make-shares/use-shares baseline around reviewable Reads, accepted-fit admission, app-owned route-level reread, Terminal selected-detail persistence, quantized source-to-shares fit qualities, settlement AssetPack receipts, private-file redaction in buyer state projection, and dual protocol/commercial SPEC-IMPL parity without itself claiming fourth-gate or fifth-gate procedural closure | `protocol-demonstration/src/canonical/{read-measurement,settlement,run-artifacts}.js`, `protocol-demonstration/test/v26-read-review-source-to-shares.test.js`, `apps/uapi/app/api/{read-review,state,make-bitcode-branch}/route.ts`, `apps/uapi/tests/api/readReviewProtocolParity.test.ts`, `apps/uapi/app/application/{application-closure-state,application-transaction-detail-snapshot}.ts`, `apps/uapi/tests/{applicationClosureState,applicationTransactionDetailSnapshot}.test.ts`, and pipeline Finish/Delivering reform carriers |
 | fifth-gate closure deepening proof | `.bitcode/fifth-gate-closure-deepening-proof.json` | prove that fifth-gate closure evidence has deepened after fourth-gate promoted closure across Terminal read/write, conversations/execution continuity, repository scope, persistence/schema, retained-system reform, and proof/environment axes | source-to-shares proof, application composition, conversations, runs/pipelines, persistence/schema, prompt-system, inference-record, prompt-space baseline, retained-package, system-reform, and environment-mode proof families |
 | fifth-gate closure proof | `.bitcode/fifth-gate-closure-proof.json` | prove that every fifth-gate closure queue row has source-level checks, generated proof artifacts, executable tests, and specification text aligned for minimum-functional Bitcode closure without claiming launch or total V26 completion | source-to-shares proof, fifth-gate closure deepening proof, product readiness audit, application composition, conversations, runs/pipelines, persistence/schema, environment-mode, retained-package, system-reform, and active naming proof carriers |
-| sixth-gate MVP closure proof | `.bitcode/sixth-gate-mvp-closure-proof.json` | prove that fifth-gate acceptance holds and the post-fifth-gate product map, activity/transactions operator loop, conversations/ChatGPT-style interface, auxillaries readiness, admitted API/MCP/app interface parity, and MVP-quality architecture are source-checked and product-ready as the prerequisite proof for the separately generated seventh- and eighth-gate proof families | product readiness audit, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `uapi/app/application/application-experience-architecture.ts`, and MVP source/test carriers |
-| seventh-gate commercial testnet launch proof | `.bitcode/seventh-gate-commercial-testnet-launch-proof.json` | prove that fifth- and sixth-gate acceptance hold and that the product is refined into an initial commercially viable, testnet-first launch posture across Exchange, Terminal, Protocol, Proofs, API, MCP, admitted app surfaces, wallet/BTC/`$BTD`, repository scope, proof/state reread, operator flows, and no non-Bitcode compatibility fallback for core journeys | product readiness audit, sixth-gate MVP proof, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `uapi/app/application/application-commercial-launch-readiness.ts`, and commercial launch source/test carriers |
-| prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | close the eighth-gate prompt-space verdict over prompt primitives, active carriers, doc-code injection, asset-pack/read-comprehension compatibility, raw PromptPart runtime carry-through, app/MCP ingress, proof/spec tests, and final completeness dimensions | `packages/prompts/src/*`, `packages/{execution-generics,pipelines-generics,agent-generics,conversations-generics,tools-generics,doc-comment,doc-code}/*`, `packages/pipelines/asset-pack/*`, `packages/generic-tools/read-comprehension/*`, `packages/executions-mcp/*`, `uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/V26_{PROMPT_SURFACES,INFERENCE_SYSTEMS}.md`, and prompt proof tests |
+| sixth-gate MVP closure proof | `.bitcode/sixth-gate-mvp-closure-proof.json` | prove that fifth-gate acceptance holds and the post-fifth-gate product map, activity/transactions operator loop, conversations/ChatGPT-style interface, auxillaries readiness, admitted API/MCP/app interface parity, and MVP-quality architecture are source-checked and product-ready as the prerequisite proof for the separately generated seventh- and eighth-gate proof families | product readiness audit, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `apps/uapi/app/application/application-experience-architecture.ts`, and MVP source/test carriers |
+| seventh-gate commercial testnet launch proof | `.bitcode/seventh-gate-commercial-testnet-launch-proof.json` | prove that fifth- and sixth-gate acceptance hold and that the product is refined into an initial commercially viable, testnet-first launch posture across Exchange, Terminal, Protocol, Proofs, API, MCP, admitted app surfaces, wallet/BTC/`$BTD`, repository scope, proof/state reread, operator flows, and no non-Bitcode compatibility fallback for core journeys | product readiness audit, sixth-gate MVP proof, application composition, source-to-shares proof, conversations continuity, runs/pipelines totality, persistence/schema, environment-mode, retained-package, system-reform, `apps/uapi/app/application/application-commercial-launch-readiness.ts`, and commercial launch source/test carriers |
+| prompt space completeness | `.bitcode/prompt-space-completeness-proof.json` | close the eighth-gate prompt-space verdict over prompt primitives, active carriers, doc-code injection, asset-pack/read-comprehension compatibility, raw PromptPart runtime carry-through, app/MCP ingress, proof/spec tests, and final completeness dimensions | `packages/prompts/src/*`, `packages/{execution-generics,pipelines-generics,agent-generics,conversations-generics,tools-generics,doc-comment,doc-code}/*`, `packages/pipelines/asset-pack/*`, `packages/generic-tools/read-comprehension/*`, `packages/executions-mcp/*`, `apps/uapi/prompts/conversations-system-prompt.ts`, `protocol-demonstration/V26_{PROMPT_SURFACES,INFERENCE_SYSTEMS}.md`, and prompt proof tests |
 | retained package admissibility | `.bitcode/retained-package-admissibility-proof.json` | prove that each kept non-Bitcode package has an explicit V26 role, primary role class, write boundary, proof obligation, justification, required source witness set, and retained port scope where applicable, while active-cut corridors such as field-intelligence remain outside live Bitcode source | retained `packages/*` admitted by V26 |
 | environment mode coherence | `.bitcode/environment-mode-coherence-proof.json` | prove debug/environment controls and production/staging/development mode behavior are coherent and refresh safely | app shell, debug controls, environment toggles, route/API posture |
 | fifth-gate system reform admissibility | `.bitcode/system-reform-admissibility-proof.json` | prove that retained agentic systems are already cut, isolated, or repurposed enough to satisfy the fifth-gate Bitcode-native baseline rather than surviving as unexamined parallel product logic | retained web-search, webhooks, generic agent/tool ports, executions-adjacent agentic packages, and other retained infrastructure still admitted after fourth-gate |
@@ -1193,7 +1193,7 @@ V26 productionizing hardening is organized into ten interacting layers:
 
 The current source-bearing split across these layers is still imperfect:
 - the former top-level demo owner still spans many of them at once,
-- `uapi/` carries marketing and app composition,
+- `apps/uapi/` carries marketing and app composition,
 - `packages/*` already owns some production-grade responsibilities,
 - and V26 exists to make those boundaries explicit rather than accidental.
 
@@ -1317,7 +1317,7 @@ The workflow stages remain:
 - Current algorithms and derivation rules: Bitcode projects public, reviewer, buyer, and internal surfaces from the same underlying artifact set and preserves bounded-public proof as the only public-safe external projection. V26 additionally requires that the application-native operator surface and refurbished marketing surfaces present these boundaries clearly.
 - Current invariants and fail-closed conditions: public projection overexposure, mismatched redaction, storage publication beyond principal rights, retrieval without disclosure authorization, or product-surface copy that implies broader disclosure than policy allows fail closed.
 - Current proof obligations: projection policy closure, bounded-public closure, redaction alignment, disclosure verdict alignment, and storage-publication alignment must remain auditable.
-- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/projections.js`, `protocol-demonstration/src/demo-shell-state.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, and `uapi/app/(root)/components/MarketingLandingPage.tsx`.
+- Current source-bearing implementation basis: `protocol-demonstration/src/canonical/projections.js`, `protocol-demonstration/src/demo-shell-state.js`, `protocol-demonstration/src/bitcode-demo.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, and `apps/uapi/app/(root)/components/MarketingLandingPage.tsx`.
 - Current validating commands and parity basis: `node --test protocol-demonstration/test/api.test.js`, `node --test protocol-demonstration/test/e2e.test.js`, and disclosure-boundary proof-family closure.
 - Current accepted boundaries: public chains and public storage surfaces may only carry bounded-public receipts or bounded-public anchor material, never licensed source or private proof payloads by default, and V26 marketing must not reintroduce disclosure ambiguity.
 
@@ -1362,9 +1362,9 @@ These target owners remain draft targets, not yet promoted truth.
 | `protocol-demonstration/src/canonical/v23-bitcoin.js`, `protocol-demonstration/src/canonical/v23-bitcoin-demonstration-service.js`, `protocol-demonstration/src/canonical/v24-external-realization.js`, `protocol-demonstration/src/canonical/v24-external-execution.js`, `protocol-demonstration/src/canonical/v24-live-execution.js`, `protocol-demonstration/src/canonical/v24-local-executors.js`, `protocol-demonstration/src/canonical/v24-remote-adapters.js` | bitcoin, sidechain, repeated-read, compute, storage, and GitHub external-realization and execution contracts | `packages/bitcode-external-realization` plus `packages/github` where GitHub provider behavior belongs | move protocol-local external-interface ownership into package-backed runtime and adapter layers; GitHub provider logic converges on `packages/github` and related app/API owners | P0 |
 | `protocol-demonstration/src/realization-profile.js`, `protocol-demonstration/src/policy-release.js`, `protocol-demonstration/src/receipt-schemas.js` | realization profiles, policy release carriers, and receipt-shape helpers | `packages/bitcode-canon` and `packages/bitcode-artifacts` | split between package-owned canon/profile truth and package-owned receipt and artifact schemas | P1 |
 | `protocol-demonstration/src/demo-scenario.js`, `protocol-demonstration/src/seed.js`, seeded fixture and test-support surfaces | seeded scenarios and deterministic fixture posture | `packages/bitcode-scenarios` | preserve deterministic scenario and fixture truth in package-owned test and demo-fixture surfaces | P1 |
-| `protocol-demonstration/src/bitcode-demo.js` | orchestration reservoir spanning the full Bitcode operating chain | distributed across the package owners above, with composition in `packages/api` and `uapi/app/*` | shrink and eventually dissolve the monolithic reservoir into package-owned domain layers plus application/API composition | P0 |
+| `protocol-demonstration/src/bitcode-demo.js` | orchestration reservoir spanning the full Bitcode operating chain | distributed across the package owners above, with composition in `packages/api` and `apps/uapi/app/*` | shrink and eventually dissolve the monolithic reservoir into package-owned domain layers plus application/API composition | P0 |
 | `protocol-demonstration/server.js` | standalone demo HTTP server and API composition | `packages/api` plus `uapi` application routes | move Bitcode API composition into package and app owners; the standalone demo server stops being the primary product surface | P0 |
-| `protocol-demonstration/public/index.html`, `protocol-demonstration/public/app.js`, `protocol-demonstration/public/styles.css` | demo-owned UI shell and rendering | `uapi/app/*` plus `uapi/components/base/*` | replace the demo UI implementation with application-facing components while preserving operator UX | P0 |
+| `protocol-demonstration/public/index.html`, `protocol-demonstration/public/app.js`, `protocol-demonstration/public/styles.css` | demo-owned UI shell and rendering | `apps/uapi/app/*` plus `apps/uapi/components/base/*` | replace the demo UI implementation with application-facing components while preserving operator UX | P0 |
 | `protocol-demonstration/test/*` | demo-local runtime, proof, quality, and external-realization validation | package-local tests plus API and app integration tests | follow the extracted ownership model and keep fail-closed validation across package, API, and app layers | P0 |
 
 ## V26 package corridor role catalog
@@ -1762,28 +1762,28 @@ The current canonical source map includes:
 - `protocol-demonstration/public/styles.css`
 - `protocol-demonstration/server.js`
 - `protocol-demonstration/test/*`
-- `uapi/app/application/page.tsx`
-- `uapi/app/application/ApplicationPageClient.tsx`
-- `uapi/app/application/first-gate-styles/route.ts`
-- `uapi/app/api/state/route.ts`
-- `uapi/app/api/deposits/route.ts`
-- `uapi/app/api/make-bitcode-branch/route.ts`
-- `uapi/app/api/read-review/route.ts`
-- `uapi/app/api/reset/route.ts`
-- `uapi/app/api/bitcoin-demonstration-service/route.ts`
-- `uapi/app/api/auxillaries/data/route.ts`
-- `uapi/app/api/v24/external-realization/route.ts`
-- `uapi/app/api/v24/executors/[interfaceId]/route.ts`
-- `uapi/lib/bitcode-app-context.ts`
-- `uapi/app/(root)/components/MarketingLandingPage.tsx`
-- `uapi/app/(root)/components/PublicShellFrame.tsx`
-- `uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
-- `uapi/app/demo-video/page.tsx`
-- `uapi/components/base/bitcode/layout/nav.tsx`
-- `uapi/components/base/bitcode/layout/NavBrand.tsx`
-- `uapi/components/base/bitcode/layout/footer.tsx`
-- `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
-- `uapi/components/base/README.md`
+- `apps/uapi/app/application/page.tsx`
+- `apps/uapi/app/application/ApplicationPageClient.tsx`
+- `apps/uapi/app/application/first-gate-styles/route.ts`
+- `apps/uapi/app/api/state/route.ts`
+- `apps/uapi/app/api/deposits/route.ts`
+- `apps/uapi/app/api/make-bitcode-branch/route.ts`
+- `apps/uapi/app/api/read-review/route.ts`
+- `apps/uapi/app/api/reset/route.ts`
+- `apps/uapi/app/api/bitcoin-demonstration-service/route.ts`
+- `apps/uapi/app/api/auxillaries/data/route.ts`
+- `apps/uapi/app/api/v24/external-realization/route.ts`
+- `apps/uapi/app/api/v24/executors/[interfaceId]/route.ts`
+- `apps/uapi/lib/bitcode-app-context.ts`
+- `apps/uapi/app/(root)/components/MarketingLandingPage.tsx`
+- `apps/uapi/app/(root)/components/PublicShellFrame.tsx`
+- `apps/uapi/app/(root)/components/MarketingOperatorGuideCard.tsx`
+- `apps/uapi/app/demo-video/page.tsx`
+- `apps/uapi/components/base/bitcode/layout/nav.tsx`
+- `apps/uapi/components/base/bitcode/layout/NavBrand.tsx`
+- `apps/uapi/components/base/bitcode/layout/footer.tsx`
+- `apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts`
+- `apps/uapi/components/base/README.md`
 - `packages/github`
 - `packages/auth`
 - `packages/api`
@@ -1842,7 +1842,7 @@ Promotion requires the pointer, posture, generated reports, `_PROVEN_` appendix,
 
 The operator surface and quality contract catalog includes:
 - full-page Bitcode application routing,
-- application-facing component ownership under `uapi/components/base/*`,
+- application-facing component ownership under `apps/uapi/components/base/*`,
 - operator explanation surfaces for supply, read, fit, verification, proof, and settlement,
 - projection summaries and proof inspection views,
 - settlement preview and audit views,

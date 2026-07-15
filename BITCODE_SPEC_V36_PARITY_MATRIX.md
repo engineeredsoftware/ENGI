@@ -181,10 +181,10 @@ No `_legacy/` source is active source truth.
 | `ExchangeUxProof` is package-owned | `packages/protocol/src/canonical/exchange-ux-proof.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
 | Generated Exchange UX artifact exists | `.bitcode/v36-exchange-ux-proof.json`, `scripts/generate-v36-exchange-ux-proof.mjs`, `pnpm run check:v36-exchange-ux-proof` | closed |
 | Exchange route exposes market review | `/exchange` exposes market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state | closed |
-| Terminal handoff preserves context | `buildExchangeHref`, `TerminalTransactionDetailHero`, and `uapi/tests/exchangeTerminalHandoff.test.ts`; Terminal can hand off to Exchange without losing transaction context | closed |
+| Terminal handoff preserves context | `buildExchangeHref`, `TerminalTransactionDetailHero`, and `apps/uapi/tests/exchangeTerminalHandoff.test.ts`; Terminal can hand off to Exchange without losing transaction context | closed |
 | Collapsed and expanded disclosure is source-safe | collapsed UI gives readable status and expanded UI exposes source-safe detail | closed |
 | Telemetry binding is source-safe | `source-safe-exchange-ux-proof-metadata`; Exchange telemetry dashboards remain source-safe and proof-rooted | closed |
-| Workflow, package, and UI tests are wired | `packages/protocol/test/v36-exchange-ux-proof.test.js`, `uapi/tests/exchangePageClient.test.tsx`, `uapi/tests/exchangeTerminalHandoff.test.ts`, `scripts/check-v36-gate8-exchange-ux-proof.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Workflow, package, and UI tests are wired | `packages/protocol/test/v36-exchange-ux-proof.test.js`, `apps/uapi/tests/exchangePageClient.test.tsx`, `apps/uapi/tests/exchangeTerminalHandoff.test.ts`, `scripts/check-v36-gate8-exchange-ux-proof.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## Gate 9 Parity
 

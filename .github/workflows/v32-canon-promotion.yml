@@ -91,7 +91,7 @@ jobs:
           pnpm --filter @bitcode/pipeline-hosts typecheck
           pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          pnpm --dir uapi exec jest --runTestsByPath \
+          pnpm --dir apps/uapi exec jest --runTestsByPath \
             tests/userDataRoute.test.ts \
             tests/auxillariesWalletPane.test.tsx \
             tests/auxillariesContent.access.test.tsx \
@@ -119,9 +119,9 @@ jobs:
             tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/pipelineExecutionLogHeader.test.tsx \
             --runInBand
-          pnpm --dir uapi exec playwright install chromium --with-deps
-          pnpm --dir uapi run test:e2e:terminal-ux
-          pnpm --dir uapi run test:e2e:v32-browser-proof
+          pnpm --dir apps/uapi exec playwright install chromium --with-deps
+          pnpm --dir apps/uapi run test:e2e:terminal-ux
+          pnpm --dir apps/uapi run test:e2e:v32-browser-proof
           git diff --check
 
       - name: Promote V32 canon files

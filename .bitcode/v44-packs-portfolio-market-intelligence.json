@@ -46,7 +46,7 @@
   "rows": [
     {
       "rowId": "portfolio-position-projection",
-      "owner": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "contract": "PackPortfolioPositionProjection groups source-safe PackActivity rows into enterprise portfolio positions with BTD estimates, sats values, signal counts, proof counts, and state readback.",
       "requiredFields": [
         "assetPackTitle",
@@ -63,7 +63,7 @@
     },
     {
       "rowId": "market-signal-projection",
-      "owner": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "contract": "PackMarketSignalProjection exposes demand, supply, unfit-Need, settlement, compensation, delivery, and repair signals without source-bearing payloads.",
       "requiredFields": [
         "kind",
@@ -79,7 +79,7 @@
     },
     {
       "rowId": "saved-filter-presets",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "contract": "/packs renders saved source-safe filters for repair cases, demand signals, supply signals, settlement facets, and compensation facets.",
       "requiredFields": [
         "savedFilters",
@@ -94,7 +94,7 @@
     },
     {
       "rowId": "portfolio-market-api",
-      "owner": "uapi/app/api/packs/activity/route.ts",
+      "owner": "apps/uapi/app/api/packs/activity/route.ts",
       "contract": "/api/packs/activity returns marketIntelligence beside records, detail, summary, query, and sourceSafety.",
       "requiredFields": [
         "marketIntelligence",
@@ -120,10 +120,10 @@
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
     "economicModel": "packages/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
-    "model": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "route": "uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
-    "client": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "uapiTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "model": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "route": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "client": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "uapiTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
     "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
     "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
     "packageTest": "packages/specifying/test/v44-packs-portfolio-market-intelligence.test.js:ea02fa03d210e6480036fc0f",
@@ -183,52 +183,52 @@
     },
     {
       "id": "model-defines-market-intelligence",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "model-defines-saved-filters",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "model-defines-market-signals",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "model-defines-facets",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "api-returns-market-intelligence",
-      "sourcePath": "uapi/app/api/packs/activity/route.ts",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
       "passed": true
     },
     {
       "id": "client-renders-portfolio-positions",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "client-renders-market-signals",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "client-renders-saved-filters",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "client-renders-facet-filters",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "uapi-test-covers-gate3-model",
-      "sourcePath": "uapi/tests/packActivityModel.test.ts",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
       "passed": true
     },
     {

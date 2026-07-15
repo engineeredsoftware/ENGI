@@ -41,30 +41,30 @@
         "packages/api/src/routes/user.ts returns 410 for admin generic BTD mutation attempts",
         "packages/api/src/routes/auxillaries.ts returns 410 for auxillary generic BTD mutation attempts",
         "packages/api/src/routes/__tests__/user-btd-mutation.test.ts covers unauthenticated, non-admin, and admin package-route mutation rejection",
-        "uapi/tests/api/userBtdRoute.test.ts covers active auxillary mutation route rejection"
+        "apps/uapi/tests/api/userBtdRoute.test.ts covers active auxillary mutation route rejection"
       ]
     },
     {
       "criterion": "UI copy keeps BTC fee and $BTD share/read-right separate",
       "status": "closed",
       "evidence": [
-        "uapi/components/base/bitcode/btd/btd-tracker.tsx separates BTC fee liquidity from non-fungible BTD share/read-right holdings",
-        "uapi/components/base/bitcode/btd/BTDPrices.tsx labels BTC fee basis and Terminal/Exchange acquisition paths",
-        "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx describes BTC fee liquidity separately from BTD holdings",
-        "uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx separates BTC fees and BTD read-right posture",
-        "uapi/app/(root)/components/MarketingFaqSection.tsx states BTC is the fee asset and BTD is not a fungible checkout token"
+        "apps/uapi/components/base/bitcode/btd/btd-tracker.tsx separates BTC fee liquidity from non-fungible BTD share/read-right holdings",
+        "apps/uapi/components/base/bitcode/btd/BTDPrices.tsx labels BTC fee basis and Terminal/Exchange acquisition paths",
+        "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx describes BTC fee liquidity separately from BTD holdings",
+        "apps/uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx separates BTC fees and BTD read-right posture",
+        "apps/uapi/app/(root)/components/MarketingFaqSection.tsx states BTC is the fee asset and BTD is not a fungible checkout token"
       ]
     }
   ],
   "validatedCommands": [
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
       "assertions": 34,
       "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
     },
     {
-      "command": "pnpm -C uapi exec jest --runTestsByPath tests/api/userBtdRoute.test.ts --runInBand",
+      "command": "pnpm -C apps/uapi exec jest --runTestsByPath tests/api/userBtdRoute.test.ts --runInBand",
       "status": "passed",
       "assertions": 3,
       "notes": "Jest reports an existing ts-jest globals deprecation warning."

@@ -291,39 +291,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -486,39 +486,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -682,39 +682,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -877,39 +877,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1072,39 +1072,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1268,39 +1268,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1380,39 +1380,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1466,39 +1466,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1552,39 +1552,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1638,39 +1638,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1724,39 +1724,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {
@@ -1810,39 +1810,39 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-query.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalPageClient.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalPageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalTransactionQuery.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalTransactionQuery.test.ts",
           "present": true
         },
         {

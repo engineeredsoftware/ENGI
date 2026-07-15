@@ -12,8 +12,8 @@
       "rowId": "state:five-step-shortest-path",
       "purpose": "Preserve exactly five enterprise Reading steps from Read Request through Need review, Finding Fits, AssetPack preview, and settlement delivery.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingUxState",
@@ -53,10 +53,10 @@
       "rowId": "route:transaction-stage-persistence",
       "purpose": "Bind Reading state to recoverable transaction ids and readingStage route state so refresh, restart, and route handoff preserve the active stage.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/terminal-transaction-query.ts",
-        "uapi/app/terminal/TerminalPageClient.tsx",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/terminal-transaction-query.ts",
+        "apps/uapi/app/terminal/TerminalPageClient.tsx",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingRouteState",
@@ -94,9 +94,9 @@
       "rowId": "transition:accepted-need-before-finding-fits",
       "purpose": "Make accepted Need the hard transition before Finding Fits, preview, settlement, or delivery can proceed.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/conversations/conversation-terminal-handoff.ts"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/conversations/conversation-terminal-handoff.ts"
       ],
       "emittedTypes": [
         "acceptedNeedRequiredBeforeFindingFits",
@@ -134,9 +134,9 @@
       "rowId": "retry:restart-and-failure-repair",
       "purpose": "Represent retry, restart, and failure repair posture as source-safe state metadata without exposing protected source, prompts, provider responses, wallet material, or settlement payloads.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingFailureKind",
@@ -174,9 +174,9 @@
       "rowId": "ui:low-detail-proof-on-expand",
       "purpose": "Keep the default Reading view guided and low-detail while details expand to source-safe proof roots, measurements, blockers, and visible field ids.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/terminal/README.md"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/README.md"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingUxState.disclosure"
@@ -213,9 +213,9 @@
       "rowId": "stream:rich-reading-pipeline-telemetry",
       "purpose": "Keep Reading pipeline progress inspectable through rich execution stream rows for phase, PTRR step, ThricifiedGeneration, tool, prompt-template id, output schema, and parsed-result posture.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalReadFitsFindingSynthesisHarnessEvent",
@@ -255,9 +255,9 @@
       "rowId": "activity:history-and-workbench-readback",
       "purpose": "Project Reading state through activity history and workbench readback so transaction detail, proof roots, and compensation/settlement posture remain recoverable.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-activity-history.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/terminal/terminal-deposit-read-workbench.ts"
+        "apps/uapi/app/terminal/terminal-activity-history.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts"
       ],
       "emittedTypes": [
         "WorkspaceRun",
@@ -295,11 +295,11 @@
       "rowId": "tests:route-state-contracts",
       "purpose": "Prove the state machine through route-state tests, component state tests, Conversation handoff tests, workbench tests, and stream-header tests.",
       "sourceRoots": [
-        "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
-        "uapi/tests/terminalDepositReadWorkbench.test.ts",
-        "uapi/tests/conversationTerminalHandoff.test.tsx",
-        "uapi/tests/terminalTransactionQuery.test.ts",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+        "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/tests/terminalTransactionQuery.test.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
         ".github/workflows/bitcode-gate-quality.yml"
       ],
       "emittedTypes": [
@@ -398,87 +398,87 @@
   "predicateResults": [
     {
       "id": "ux-state-keeps-five-step-path",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "ux-state-defines-route-state",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "ux-state-defines-retry-failure-source-safety",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "ux-state-forbids-protected-payloads",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "terminal-page-passes-reading-stage",
-      "sourcePath": "uapi/app/terminal/TerminalPageClient.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalPageClient.tsx",
       "passed": true
     },
     {
       "id": "workbench-projects-route-state",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "workbench-keeps-low-detail-expandable-cards",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "workbench-contract-reexports-stage-ids",
-      "sourcePath": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
       "passed": true
     },
     {
       "id": "terminal-query-reads-reading-stage",
-      "sourcePath": "uapi/app/terminal/terminal-transaction-query.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-transaction-query.ts",
       "passed": true
     },
     {
       "id": "activity-history-keeps-reading-readback",
-      "sourcePath": "uapi/app/terminal/terminal-activity-history.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-activity-history.ts",
       "passed": true
     },
     {
       "id": "harness-projects-rich-reading-telemetry",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "conversation-handoff-preserves-reading-stage",
-      "sourcePath": "uapi/app/conversations/conversation-terminal-handoff.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
       "passed": true
     },
     {
       "id": "ux-state-tests-cover-route-retry-failure",
-      "sourcePath": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
       "passed": true
     },
     {
       "id": "workbench-tests-cover-five-stage-labels",
-      "sourcePath": "uapi/tests/terminalDepositReadWorkbench.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
       "passed": true
     },
     {
       "id": "handoff-tests-cover-reading-stage-route",
-      "sourcePath": "uapi/tests/conversationTerminalHandoff.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
       "passed": true
     },
     {
       "id": "query-tests-cover-reading-stage-route",
-      "sourcePath": "uapi/tests/terminalTransactionQuery.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalTransactionQuery.test.ts",
       "passed": true
     },
     {
       "id": "stream-tests-cover-rich-header",
-      "sourcePath": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "passed": true
     },
     {
@@ -549,19 +549,19 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "terminalUxState": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-    "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-    "terminalPageClient": "uapi/app/terminal/TerminalPageClient.tsx",
-    "terminalWorkbenchContract": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
-    "terminalRouteQuery": "uapi/app/terminal/terminal-transaction-query.ts",
-    "terminalActivityHistory": "uapi/app/terminal/terminal-activity-history.ts",
-    "terminalHarnessClient": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-    "conversationHandoff": "uapi/app/conversations/conversation-terminal-handoff.ts",
-    "uxStateTest": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
-    "workbenchTest": "uapi/tests/terminalDepositReadWorkbench.test.ts",
-    "handoffTest": "uapi/tests/conversationTerminalHandoff.test.tsx",
-    "queryTest": "uapi/tests/terminalTransactionQuery.test.ts",
-    "streamHeaderTest": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+    "terminalUxState": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "terminalPageClient": "apps/uapi/app/terminal/TerminalPageClient.tsx",
+    "terminalWorkbenchContract": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+    "terminalRouteQuery": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+    "terminalActivityHistory": "apps/uapi/app/terminal/terminal-activity-history.ts",
+    "terminalHarnessClient": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+    "conversationHandoff": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+    "uxStateTest": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+    "workbenchTest": "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
+    "handoffTest": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+    "queryTest": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+    "streamHeaderTest": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "v42Spec": "BITCODE_SPEC_V42.md",
     "v42Delta": "BITCODE_SPEC_V42_DELTA.md",
@@ -569,7 +569,7 @@
     "v42Parity": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
-    "terminalReadme": "uapi/app/terminal/README.md",
+    "terminalReadme": "apps/uapi/app/terminal/README.md",
     "protocolReadme": "packages/specifying/README.md"
   }
 }

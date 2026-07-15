@@ -72,7 +72,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
       'packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
-      'uapi/app/api/pipeline-host/asset-pack/runner.ts',
+      'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     ],
   },
   {
@@ -91,8 +91,8 @@ const taxonomyRows = Object.freeze([
     runbookLink: 'runbook.execution.orphan-repair',
     sourceRoots: [
       'packages/specifying/src/telemetry.js',
-      'uapi/app/api/executions/route.ts',
-      'uapi/app/api/executions/stream/route.ts',
+      'apps/uapi/app/api/executions/route.ts',
+      'apps/uapi/app/api/executions/stream/route.ts',
     ],
   },
   {
@@ -196,8 +196,8 @@ const taxonomyRows = Object.freeze([
     runbookLink: 'runbook.wallet.signing-failure',
     sourceRoots: [
       'packages/btd/src/terminal-operational-health.ts',
-      'uapi/app/api/wallet/authenticate/route.ts',
-      'uapi/tests/terminalWalletBtcOperation.test.ts',
+      'apps/uapi/app/api/wallet/authenticate/route.ts',
+      'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
     ],
   },
   {
@@ -217,7 +217,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/btd/src/deployment-storage-posture.ts',
       'packages/pipeline-hosts/README.md',
-      'uapi/app/api/pipeline-host/asset-pack/runner.ts',
+      'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     ],
   },
   {
@@ -237,7 +237,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/api/src/routes/auxillaries-contract.ts',
       'packages/btd/src/interface-telemetry-proof-hook.ts',
-      'uapi/app/api/read-review/route.ts',
+      'apps/uapi/app/api/read-review/route.ts',
     ],
   },
   {
@@ -277,7 +277,7 @@ const taxonomyRows = Object.freeze([
     sourceRoots: [
       'packages/btd/src/runtime-observer-repair-job.ts',
       '.bitcode/v34-runtime-observers-broadcasters-repair-jobs.json',
-      'uapi/tests/terminalJournalReconciliation.test.ts',
+      'apps/uapi/tests/terminalJournalReconciliation.test.ts',
     ],
   },
   {

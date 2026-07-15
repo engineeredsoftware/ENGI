@@ -138,15 +138,15 @@ function main() {
     'packages/specifying/test/conversation-session-route-history.test.js',
     'scripts/generate-v37-conversation-session-route-history.mjs',
     'scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs',
-    'uapi/app/conversations/conversation-session-route-history.ts',
-    'uapi/app/api/conversations/route.ts',
-    'uapi/app/api/conversations/[conversationId]/route.ts',
-    'uapi/app/api/conversations/stream/route.ts',
-    'uapi/app/api/conversations/[conversationId]/stream/route.ts',
-    'uapi/app/api/conversations/branch/route.ts',
-    'uapi/app/api/conversations/_shared.ts',
-    'uapi/tests/api/conversationSessionRouteHistory.test.ts',
-    'uapi/tests/api/conversationSessionRouteHistoryContract.test.ts',
+    'apps/uapi/app/conversations/conversation-session-route-history.ts',
+    'apps/uapi/app/api/conversations/route.ts',
+    'apps/uapi/app/api/conversations/[conversationId]/route.ts',
+    'apps/uapi/app/api/conversations/stream/route.ts',
+    'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
+    'apps/uapi/app/api/conversations/branch/route.ts',
+    'apps/uapi/app/api/conversations/_shared.ts',
+    'apps/uapi/tests/api/conversationSessionRouteHistory.test.ts',
+    'apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts',
     'packages/api/src/routes/conversations.ts',
     'BITCODE_SPEC_V37.md',
     'BITCODE_SPEC_V37_DELTA.md',
@@ -155,7 +155,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/conversations/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -185,7 +185,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationSessionRouteHistory.test.ts',
@@ -275,11 +275,11 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
-  const conversationsReadme = read(root, 'uapi/app/conversations/README.md');
+  const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
-  const routeContracts = read(root, 'uapi/app/conversations/conversation-session-route-history.ts');
+  const routeContracts = read(root, 'apps/uapi/app/conversations/conversation-session-route-history.ts');
 
   for (const phrase of [
     'ConversationSession',
@@ -315,7 +315,7 @@ function main() {
     assertCheck(failures, routeContracts.includes(routeId), `Route contract module must include ${routeId}.`);
   }
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

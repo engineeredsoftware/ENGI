@@ -278,13 +278,13 @@ const SOURCE_EVIDENCE_PATHS = Object.freeze([
   'packages/specifying/src/canonical/conversation-stream-event-contract.js',
   'packages/api/src/conversations/stream-events.ts',
   'packages/api/src/routes/conversations.ts',
-  'uapi/hooks/useConversationStream.ts',
-  'uapi/app/conversations/components/hooks/usePipelineState.ts',
-  'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
-  'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
-  'uapi/app/api/conversations/_shared.ts',
-  'uapi/tests/api/conversationStreamEventContract.test.ts',
-  'uapi/tests/conversationStreamPipelineLog.test.tsx',
+  'apps/uapi/hooks/useConversationStream.ts',
+  'apps/uapi/app/conversations/components/hooks/usePipelineState.ts',
+  'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+  'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+  'apps/uapi/app/api/conversations/_shared.ts',
+  'apps/uapi/tests/api/conversationStreamEventContract.test.ts',
+  'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
 ]);
 
 /**

@@ -255,13 +255,13 @@ It treats UX quality as protocol evidence: operators must be able to read the tr
 
 Accepted surfaces:
 
-- `uapi/app/terminal/terminal-ux-browser-proof.ts` records the browser-proof contract: required landmarks, state semantics, viewports, route checks, and evidence files.
+- `apps/uapi/app/terminal/terminal-ux-browser-proof.ts` records the browser-proof contract: required landmarks, state semantics, viewports, route checks, and evidence files.
 - `TerminalPageClient.tsx` owns the named cockpit `main` landmark and skip link.
 - `TerminalTransactionWorkspace.tsx` owns the named transaction workspace region, loading/empty/error semantics, and selected result status.
 - `TerminalTransactionDetailSurface.tsx`, `TerminalTransactionDetailHero.tsx`, and `TerminalTransactionDetailActionBar.tsx` own the selected activity detail region, low-detail source-safe header, section controls, blocked Console posture, and action errors.
 - `BitcodeTransactionsTable.tsx` and `BitcodeTransactionsDataTable.tsx` keep transaction table overflow contained while exposing loading, empty, error, and selectable-row states to tests and assistive technology.
-- `uapi/tests/terminalUxBrowserProof.test.tsx` proves the typed state contract.
-- `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` proves the cockpit in a real browser in deterministic mock mode.
+- `apps/uapi/tests/terminalUxBrowserProof.test.tsx` proves the typed state contract.
+- `apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` proves the cockpit in a real browser in deterministic mock mode.
 
 Gate 9 accepted boundaries:
 

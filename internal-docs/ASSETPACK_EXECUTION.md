@@ -16,7 +16,7 @@ The operator-facing product meaning is:
 
 ## Current Source Carriers
 
-- `uapi/app/executions/*` remains a compatibility execution surface used by the Bitcode Terminal.
+- `apps/uapi/app/executions/*` remains a compatibility execution surface used by the Bitcode Terminal.
 - `packages/api/src/routes/shippables.ts` remains the main server execution route while its product meaning is AssetPack execution and PR Shippables.
 - `packages/asset-packs-pipelines/domain/*` is the live package path for AssetPack and connected-interface written-asset synthesis; the predecessor package path is no longer an active filesystem owner.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/agent-generics/*`, and `packages/prompts/*` provide the reusable execution, registry, and prompt substrate.

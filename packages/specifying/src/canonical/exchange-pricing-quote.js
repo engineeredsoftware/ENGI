@@ -419,8 +419,8 @@ export function buildExchangePricingQuote(input = {}) {
     'scripts/generate-v36-exchange-pricing-quote.mjs',
     'scripts/check-v36-gate5-exchange-pricing-quote.mjs',
     'packages/btd/src/exchange.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/api/btd/asset-pack-exchange/route.ts',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/api/btd/asset-pack-exchange/route.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
 

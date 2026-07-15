@@ -28,20 +28,20 @@ const surfaces = Object.freeze([
     surfaceId: 'terminal',
     states: ['default', 'guided', 'detail'],
     evidenceFiles: [
-      'uapi/app/terminal/terminal-ux-browser-proof.ts',
-      'uapi/tests/terminalUxBrowserProof.test.tsx',
-      'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-      'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+      'apps/uapi/app/terminal/terminal-ux-browser-proof.ts',
+      'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
+      'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+      'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
     ],
   },
   {
     surfaceId: 'auxillaries',
     states: ['default', 'guided', 'detail'],
     evidenceFiles: [
-      'uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
-      'uapi/tests/auxillariesContent.access.test.tsx',
-      'uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
-      'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+      'apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
+      'apps/uapi/tests/auxillariesContent.access.test.tsx',
+      'apps/uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
+      'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
     ],
   },
 ]);
@@ -115,43 +115,43 @@ function allTokensPresent(scan) {
 
 export function buildV32BrowserAccessibilityResponsiveVisualProof() {
   const sourceEvidence = [
-    scanTokens('uapi/app/bitcode-browser-accessibility-responsive-proof.ts', [
+    scanTokens('apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts', [
       'BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_CONTRACT',
       'keyboard-path',
       'deterministic-visual-semantics',
       'no-screenshot-only-approval',
     ]),
-    scanTokens('uapi/app/terminal/terminal-ux-browser-proof.ts', [
+    scanTokens('apps/uapi/app/terminal/terminal-ux-browser-proof.ts', [
       'TERMINAL_UX_BROWSER_PROOF_VIEWPORTS',
       'source-safe-preview',
     ]),
-    scanTokens('uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts', [
+    scanTokens('apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts', [
       'AUXILLARIES_UX_ACCESSIBILITY_PROOF_CONTRACT',
       'audit-expanded',
     ]),
-    scanTokens('uapi/styles/auxillaries-bitcode.css', [
+    scanTokens('apps/uapi/styles/auxillaries-bitcode.css', [
       'focus-visible',
       'overflow-wrap: anywhere',
       '@media (prefers-reduced-motion: reduce)',
     ]),
   ];
   const testEvidence = [
-    scanTokens('uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', [
+    scanTokens('apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts', [
       'covers Terminal and Auxillaries default, guided, and detail states',
       'requires keyboard, labels, focus, status, contrast, motion, overflow',
       'no-screenshot-only-approval',
     ]),
-    scanTokens('uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts', [
+    scanTokens('apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts', [
       'Terminal default, guided, and detail states stay semantic and responsive',
       'Auxillaries default, guided, and detail states stay semantic and responsive',
       'expectNoHorizontalOverflow',
       "reducedMotion: 'reduce'",
     ]),
-    scanTokens('uapi/tests/terminalUxBrowserProof.test.tsx', [
+    scanTokens('apps/uapi/tests/terminalUxBrowserProof.test.tsx', [
       'renders Terminal workspace loading, failed, and empty states with explicit semantics',
       'marks selected detail sections as route-owned controls',
     ]),
-    scanTokens('uapi/tests/auxillariesContent.access.test.tsx', [
+    scanTokens('apps/uapi/tests/auxillariesContent.access.test.tsx', [
       'named landmarks, skip navigation, active-pane announcements',
       'expandable audit detail',
     ]),

@@ -14,7 +14,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/app/api/read-review/route.ts"
+        "apps/uapi/app/api/read-review/route.ts"
       ],
       "emittedTypes": [
         "ReadNeedRequest",
@@ -88,7 +88,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/tests/api/readReviewRoute.test.ts"
+        "apps/uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
         "resynthesis_attempt",
@@ -162,7 +162,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/tests/api/readReviewRoute.test.ts"
+        "apps/uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
         "ReadFitsFindingAdmission",
@@ -199,7 +199,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/tests/api/readReviewRoute.test.ts"
+        "apps/uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
         "RejectedReadNeed",
@@ -272,9 +272,9 @@
       "rowId": "route:read-review-actions",
       "purpose": "Expose synthesize, resynthesize, accept, and reject actions through the Read review route with storage projection, runtime summary, and admission readback.",
       "sourceRoots": [
-        "uapi/app/api/read-review/route.ts",
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/jest.config.cjs"
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/jest.config.cjs"
       ],
       "emittedTypes": [
         "readNeedReviewRuntime",
@@ -312,7 +312,7 @@
       "purpose": "Bind Gate 4 closure to package tests, route tests, protocol artifact tests, docs, scripts, and gate/canon workflow checks.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
-        "uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
       ],
@@ -413,37 +413,37 @@
     },
     {
       "id": "route-exposes-all-review-actions",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "route-returns-runtime-projection",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "route-tests-cover-runtime-and-rejection",
-      "sourcePath": "uapi/tests/api/readReviewRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewRoute.test.ts",
       "passed": true
     },
     {
       "id": "protocol-parity-keeps-finding-fits-blocked",
-      "sourcePath": "uapi/tests/api/readReviewProtocolParity.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
       "passed": true
     },
     {
       "id": "uapi-jest-maps-runtime",
-      "sourcePath": "uapi/jest.config.cjs",
+      "sourcePath": "apps/uapi/jest.config.cjs",
       "passed": true
     },
     {
       "id": "uapi-runtime-imports-resolve-in-next-build",
-      "sourcePath": "uapi/next.config.mjs",
+      "sourcePath": "apps/uapi/next.config.mjs",
       "passed": true
     },
     {
       "id": "uapi-ts-maps-runtime",
-      "sourcePath": "uapi/tsconfig.json",
+      "sourcePath": "apps/uapi/tsconfig.json",
       "passed": true
     },
     {
@@ -529,12 +529,12 @@
     "readNeedTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
     "runtimeTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
     "readingContractTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
-    "readReviewRoute": "uapi/app/api/read-review/route.ts",
-    "readReviewRouteTest": "uapi/tests/api/readReviewRoute.test.ts",
-    "readReviewProtocolParityTest": "uapi/tests/api/readReviewProtocolParity.test.ts",
-    "uapiJestConfig": "uapi/jest.config.cjs",
-    "uapiNextConfig": "uapi/next.config.mjs",
-    "uapiTsConfig": "uapi/tsconfig.json",
+    "readReviewRoute": "apps/uapi/app/api/read-review/route.ts",
+    "readReviewRouteTest": "apps/uapi/tests/api/readReviewRoute.test.ts",
+    "readReviewProtocolParityTest": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+    "uapiJestConfig": "apps/uapi/jest.config.cjs",
+    "uapiNextConfig": "apps/uapi/next.config.mjs",
+    "uapiTsConfig": "apps/uapi/tsconfig.json",
     "v39Spec": "BITCODE_SPEC_V39.md",
     "v39Delta": "BITCODE_SPEC_V39_DELTA.md",
     "v39Notes": "BITCODE_SPEC_V39_NOTES.md",

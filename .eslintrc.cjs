@@ -44,8 +44,8 @@ module.exports = {
     // Temporarily allow multiple components in complex route headers
     {
       files: [
-        'uapi/app/conversations/components/ConversationsOverlay.tsx',
-        'uapi/app/executions/components/ExecutionPageHeader.tsx'
+        'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+        'apps/uapi/app/executions/components/ExecutionPageHeader.tsx'
       ],
       rules: {
         'react/no-multi-comp': 'off',
@@ -79,7 +79,7 @@ module.exports = {
     },
     {
       files: [
-        'packages/external-apps/chatgpt/src/tools.ts',
+        'apps/chatgpt/src/tools.ts',
         'packages/generic-tools/files-maintaining/src/__tests__/**',
         'packages/asset-packs-pipelines/domain/src/tools/**',
       ],
@@ -88,7 +88,7 @@ module.exports = {
       }
     },
     {
-      files: ['uapi/app/**/*', 'uapi/components/vcs/**/*'],
+      files: ['apps/uapi/app/**/*', 'apps/uapi/components/vcs/**/*'],
       rules: {
         // Enforce SSOT: forbid importing UI primitives from the vendored folder
         'no-restricted-imports': ['error', {

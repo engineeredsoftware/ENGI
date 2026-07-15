@@ -11,15 +11,15 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 
 const btdTrackerSource = readFileSync(
-  new URL('../../uapi/components/bitcode/btd/BtdTracker/BtdTracker.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/bitcode/btd/BtdTracker/BtdTracker.tsx', import.meta.url),
   'utf8',
 );
 const navSource = readFileSync(
-  new URL('../../uapi/components/bitcode/layout/Nav/Nav.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/bitcode/layout/Nav/Nav.tsx', import.meta.url),
   'utf8',
 );
 const userDataHookSource = readFileSync(
-  new URL('../../uapi/hooks/useUserData.ts', import.meta.url),
+  new URL('../../apps/uapi/hooks/useUserData.ts', import.meta.url),
   'utf8',
 );
 const auxillariesContractSource = readFileSync(
@@ -27,23 +27,23 @@ const auxillariesContractSource = readFileSync(
   'utf8',
 );
 const mockReviewModeSource = readFileSync(
-  new URL('../../uapi/lib/mock-review-mode.ts', import.meta.url),
+  new URL('../../apps/uapi/lib/mock-review-mode.ts', import.meta.url),
   'utf8',
 );
 const packsPageClientSource = readFileSync(
-  new URL('../../uapi/components/packs/PacksPageClient/PacksPageClient.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/packs/PacksPageClient/PacksPageClient.tsx', import.meta.url),
   'utf8',
 );
 const shippablesCardsPanelSource = readFileSync(
-  new URL('../../uapi/components/bitcode/pipeline/ShippablesCardsPanel/ShippablesCardsPanel.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/bitcode/pipeline/ShippablesCardsPanel/ShippablesCardsPanel.tsx', import.meta.url),
   'utf8',
 );
 const executionsPageClientSource = readFileSync(
-  new URL('../../uapi/components/bitcode/pipeline/ExecutionsPageClient/ExecutionsPageClient.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/bitcode/pipeline/ExecutionsPageClient/ExecutionsPageClient.tsx', import.meta.url),
   'utf8',
 );
 const uapiPackageSource = readFileSync(
-  new URL('../../uapi/package.json', import.meta.url),
+  new URL('../../apps/uapi/package.json', import.meta.url),
   'utf8',
 );
 const genericLlmsRegistryPackageSource = readFileSync(
@@ -64,13 +64,13 @@ const genericLlmsGooglePackageSource = readFileSync(
 );
 
 const productMvpE2eFiles = [
-  '../../uapi/tests/e2e/commercial-mvp.helpers.ts',
-  '../../uapi/tests/e2e/commercial-mvp.routes.spec.ts',
-  '../../uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
-  '../../uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
-  '../../uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
-  '../../uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
-  '../../uapi/tests/e2e/commercial-mvp.responsive.spec.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.helpers.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.routes.spec.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
+  '../../apps/uapi/tests/e2e/commercial-mvp.responsive.spec.ts',
 ];
 
 test('V48 BTD tracker renders BTC and BTD as peer wallet balances', () => {
@@ -124,7 +124,7 @@ test('V48 commercial MVP Playwright suite files remain present', () => {
   assert.match(uapiPackageSource, /--workers=1/u);
 
   const helperSource = readFileSync(
-    new URL('../../uapi/tests/e2e/commercial-mvp.helpers.ts', import.meta.url),
+    new URL('../../apps/uapi/tests/e2e/commercial-mvp.helpers.ts', import.meta.url),
     'utf8',
   );
   assert.match(helperSource, /api\/auxillaries\/model-preferences/u);

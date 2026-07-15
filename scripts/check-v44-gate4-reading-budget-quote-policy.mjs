@@ -87,9 +87,9 @@ function main() {
 
   for (const relativePath of [
     V44_READING_BUDGET_QUOTE_POLICY_ARTIFACT_PATH,
-    'uapi/app/read/read-route-model.ts',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/tests/readRouteModel.test.ts',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/tests/readRouteModel.test.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/btc-fee-operation.ts',
     'packages/specifying/src/canonical/v44-reading-budget-quote-policy.js',
@@ -164,7 +164,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'readRouteModel.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'readRouteModel.test.ts', '--runInBand']);
     } catch {
       failures.push('uapi readRouteModel.test.ts must pass.');
     }

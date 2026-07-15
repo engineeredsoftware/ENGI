@@ -388,22 +388,22 @@
     },
     {
       "id": "deposit-route-binds-seller-states",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "passed": true
     },
     {
       "id": "read-route-binds-buyer-states",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-route-enforces-measurement-price-settlement-order",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "packs-history-projects-state-readback",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
@@ -454,9 +454,9 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "depositRouteModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
-    "readRouteModel": "uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "depositRouteModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "readRouteModel": "apps/uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
     "btdReceipts": "packages/btd/src/receipts.ts:663e799baf0715924cb67c14",
     "btdSettlement": "packages/btd/src/settlement.ts:871ea57357f464d8fbb0c6af",
     "btdSourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",

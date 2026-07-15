@@ -1,14 +1,15 @@
 packages:
-  # The Next.js webapp (uapi) manages its dependencies independently.
-  # Exclude the app from pnpm workspace to avoid lock-file divergence issues.
-  #
-  # Packages consumed by this app remain in the workspace so they can
-  # depend on them via "workspace:*".
-  #
-  - 'uapi'
-  - 'uapi/**'
+  # Applications (Next.js, MCP, external agent surfaces)
+  - 'apps/*'
+  - 'apps/uapi'
+  - 'apps/uapi/**'
   # Exclude test fixture repos from workspace to avoid CI frozen-lockfile errors
-  - '!uapi/tests/fixtures/**'
+  - '!apps/uapi/tests/fixtures/**'
+
+  # Shared domain / host / tooling packages (consumable by any app or image)
   - 'packages/*'
   - 'packages/*/*'
   - 'packages/*/*/*'
+
+  # OCI / appliance images (Pipeliner, …)
+  - 'images/*'

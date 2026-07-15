@@ -89,7 +89,7 @@ jobs:
           pnpm --filter @bitcode/pipeline-hosts typecheck
           pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --passWithNoTests --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          pnpm --dir uapi exec jest --runTestsByPath \
+          pnpm --dir apps/uapi exec jest --runTestsByPath \
             tests/api/readReviewRoute.test.ts \
             tests/api/pipelineHarnessRoute.test.ts \
             tests/terminalPipelineHarnessClient.test.ts \

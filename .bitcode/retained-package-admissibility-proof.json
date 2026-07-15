@@ -377,7 +377,7 @@
     },
     {
       "packageName": "@bitcode/external-apps-chatgpt",
-      "packagePath": "packages/external-apps/chatgpt/package.json",
+      "packagePath": "apps/chatgpt/package.json",
       "primaryRole": "direct-product",
       "classificationBasis": "direct-product-name",
       "rationale": "package participates directly in the Exchange, Terminal, MCP, API, or BTD product experience",
@@ -385,9 +385,9 @@
       "writeBoundary": "product writes must pass through Bitcode-owned application/API/MCP admission, activity, and settlement semantics",
       "proofObligation": "product packages must stay bound to application composition, source-to-shares, runs/pipelines, and interface parity proofs",
       "requiredFiles": [
-        "packages/external-apps/chatgpt/package.json",
-        "packages/external-apps/chatgpt/src/index.ts",
-        "packages/external-apps/chatgpt/README.md"
+        "apps/chatgpt/package.json",
+        "apps/chatgpt/src/index.ts",
+        "apps/chatgpt/README.md"
       ],
       "missingFiles": [],
       "unclassified": false,

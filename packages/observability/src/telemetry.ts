@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 // ---------------------------------------------------------------------------
 //
 // Only a subset of the full telemetry API that exists in the `admin` package
-// is required here.  At the time of writing `uapi/app/api/feedback/route.ts`
+// is required here.  At the time of writing `apps/uapi/app/api/feedback/route.ts`
 // only imports `logFeedback`, so we implement that helper and nothing more in
 // order to keep the duplication contained and dependencies light.
 //

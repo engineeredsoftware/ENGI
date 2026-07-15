@@ -127,7 +127,7 @@ describe('depository settled demand estimate', () => {
         summary: 'Source-safe deposit route proof and Depository admission evidence',
         kind: 'proof-operations-slice',
         repositoryFullName: 'engineeredsoftware/ENGI',
-        coveredSourcePaths: ['uapi/app/deposits/DepositPageClient.tsx'],
+        coveredSourcePaths: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       },
     });
     expect(estimate.estimatable).toBe(true);

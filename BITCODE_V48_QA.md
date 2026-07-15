@@ -11,7 +11,7 @@ when CI is green.
 
 - Version: `V48`
 - Active canon during QA: `V47`
-- Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
+- Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C apps/uapi dev:remote`) against the staging Supabase project; wallet network testnet4
 - Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
 
 ## Environments (project map corrected 2026-07-06)
@@ -28,7 +28,7 @@ when CI is green.
   `GITHUB_APP_ID`, `GITHUB_PRIVATE_KEY`, `GITHUB_APP_CLIENT_ID`,
   `GITHUB_APP_CLIENT_SECRET`, and
   `NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-auxiliary`
-  (code fallback in `uapi/lib/github-app-url.ts` also names this slug).
+  (code fallback in `apps/uapi/lib/github-app-url.ts` also names this slug).
 - Historical notes below that mention `bitcode-github-auxillary-stag-test`,
   dual apps, or “production vs staging app” are **superseded** by this law.
   Stale dual-app installs on accounts should be uninstalled and reinstalled
@@ -62,9 +62,9 @@ two-project model that mislabeled `mwugicjpxmrtctvjghjg` as staging-testnet):**
   **staging-testnet (`tkpyosihuouusyaxtbau`)** so the wallet auth provider is
   available; browser-facing hops stay on `localhost:3000`, and the wallet
   OAuth server endpoints resolve through `www.bitcode.exchange` (the provider's
-  `bitcode.exchange` URLs 307→www, method-preserving). `uapi/.env.local` was
+  `bitcode.exchange` URLs 307→www, method-preserving). `apps/uapi/.env.local` was
   repointed to `tkpyosihuouusyaxtbau` on 2026-07-06 (Supabase URL + anon /
-  service / publishable / secret keys synced from `uapi/.env.local.remote`;
+  service / publishable / secret keys synced from `apps/uapi/.env.local.remote`;
   `SUPABASE_JWT_SECRET` left as its placeholder — vestigial, no app code reads
   it). GitHub App credentials must be the single
   **`bitcode-github-auxiliary`** app (not the retired stag-test registration),
@@ -279,7 +279,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Severity: medium (user-facing identity confusion; canonical law is "a Bitcoin wallet is the minimum identity/authentication path for staging; email remains optional notification and recovery contact after wallet identity exists")
 - Canonical path (calibrated): nav "Connect Wallet" guest CTA (gated by `DISABLE_CREATE_ACCOUNT`, default-open in dev/QA) → Auxillaries SignUpWindow → Wallet pane → sats-connect signature (testnet4) → `signInWithOAuth({ provider: 'custom:bitcode-bitcoin' })` → Supabase session → `/tps/supabase/callback`.
 - Residue inventory (eradication candidates for a V48 gate):
-  1. `uapi/app/login/` route family (page, head, magic-link `actions.ts`, `callback/LoginCallbackClient.tsx`) — live legacy email-first sign-in surface at `/login`.
+  1. `apps/uapi/app/login/` route family (page, head, magic-link `actions.ts`, `callback/LoginCallbackClient.tsx`) — live legacy email-first sign-in surface at `/login`.
   2. `AuxillariesLoginPane.tsx:76` mounts legacy email-OTP `LoginForm` inside the canonical wallet-first pane.
   3. `components/base/bitcode/auth/PhoneSSO.tsx` — phone-OTP sign-in, routes to `/login`.
   4. `AuxillariesProfilePane.tsx:283-289` — `signInWithOtp` used for the optional-email flow; needs disambiguation from authentication semantics.
@@ -297,8 +297,8 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   - `https://www.bitcode.exchange/tps/supabase/callback?next=…` → also rejected → apex fallback (production sign-in equally broken).
   - The dashboard glob `http://localhost:3000/**` matches nothing (bare root rejected too); the Site-URL hostname (apex) is exempt from matching entirely, which is why only apex "worked".
   - GoTrue allow-list matching is exact-string against entries; any query string defeats the match. The first-attempt diagnosis (missing allow-list entry) was wrong — the entries were present and correct.
-- Failure chain after fallback: auth code lands on apex root → `uapi/app/page.tsx:40` forwards stray `?code` to `/tps/supabase/callback` → `exchangeCodeForSession` fails because the PKCE `code_verifier` lives in the initiating origin's storage → `LoginCallbackClient.tsx` emits `/?loginError=server_error&loginErrorDescription=…code verifier should be non-empty`. All observed symptoms reproduce from this one defect.
-- Fix (code, implemented): `uapi/lib/supabase-auth-redirect.ts` — `redirect_to` is now always the query-free `${origin}/tps/supabase/callback`; the post-auth destination travels via origin-local storage and is consumed once by `LoginCallbackClient` (explicit `?next=` still wins for back-compat). Call sites converted: `AuxillariesWalletConnectionPanel`, `SocialAccountLinker`, `SocialLoginButton`. Regression-pinned by `uapi/tests/supabaseAuthRedirect.test.ts`.
+- Failure chain after fallback: auth code lands on apex root → `apps/uapi/app/page.tsx:40` forwards stray `?code` to `/tps/supabase/callback` → `exchangeCodeForSession` fails because the PKCE `code_verifier` lives in the initiating origin's storage → `LoginCallbackClient.tsx` emits `/?loginError=server_error&loginErrorDescription=…code verifier should be non-empty`. All observed symptoms reproduce from this one defect.
+- Fix (code, implemented): `apps/uapi/lib/supabase-auth-redirect.ts` — `redirect_to` is now always the query-free `${origin}/tps/supabase/callback`; the post-auth destination travels via origin-local storage and is consumed once by `LoginCallbackClient` (explicit `?next=` still wins for back-compat). Call sites converted: `AuxillariesWalletConnectionPanel`, `SocialAccountLinker`, `SocialLoginButton`. Regression-pinned by `apps/uapi/tests/supabaseAuthRedirect.test.ts`.
 - Dashboard: no change required — exact entries for localhost and www callbacks already exist and exact matching now applies; glob entries can stay but are ineffective.
 - Code-hardening candidates (still open): (a) the app renders "connected" wallet chrome from client-side wallet-session persistence even when `hasUser: false` — sessionless state should not look signed-in; (b) `loginError`/`loginErrorDescription` query params surfaced only as raw URL params — no visible error UI; (c) callback flow should fail loudly when the PKCE verifier is absent.
 - Retest (local, 2026-06-12): VERIFIED — session minted (`auth.users.last_sign_in_at` set ~3s after creation, user `267ccb92…`), callback returned to `localhost:3000`, signed-in nav chrome with Sign out renders. Post-auth landing initially hit `/terminal` because `buildAuxillariesRoutePath` targets the legacy overlay root (see F8); destination now pinned to `/packs`.
@@ -320,7 +320,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 ### F8 — Legacy `/terminal` route still live; auxillaries plumbing routes to it
 
 - Severity: medium (legacy surface reachable post-launch; post-auth callback landed there until pinned to `/packs`)
-- Observed: first successful wallet sign-in landed on `/terminal` — `buildAuxillariesRoutePath` builds `/terminal?auxillary-open-to=…` via `AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal'` (`uapi/app/auxillaries/components/auxillary-pane-meta.ts:18`), and the legacy terminal page still renders.
+- Observed: first successful wallet sign-in landed on `/terminal` — `buildAuxillariesRoutePath` builds `/terminal?auxillary-open-to=…` via `AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal'` (`apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts:18`), and the legacy terminal page still renders.
 - Canon: `/terminal` functionality was split into `/packs`, `/reads`, and `/deposits`. A V48 gate should (a) verify each terminal capability was properly ported to the three routes, (b) retarget or remove `AUXILLARY_OVERLAY_ROUTE_ROOT` and remaining `/terminal` links, and (c) remove the unused terminal page/code (relates to F4 — another surface the V47 feature-excess audit never classified).
 - Interim fix: wallet sign-in post-auth destination pinned to `/packs` in `AuxillariesWalletConnectionPanel`; GitHub connect redirect retargeted to `/packs?auxillary-open-to=externals` in `tps/github/_callback-handler.ts`; all seven `auxillaries-contract.ts` repair/recovery routes retargeted from `/terminal?auxillary-open-to=…` to `/packs?auxillary-open-to=…` after "Add Email" landed on the legacy terminal page with no email experience (the `AuxillariesProvider` reads the open-to param on any route, so panes open over `/packs`; the v40 browser-proof checker pins only `bitcode-browser-proof.ts` route states, untouched). Remaining `/terminal` consumers (orbitals links, browser-proof paths, `AUXILLARY_OVERLAY_ROUTE_ROOT`/`buildAuxillariesRoutePath` itself) stay for the F8 gate.
 
@@ -342,7 +342,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 ### F10 — GitHub App sessionless install staging is a dead end (cookie has no consumer)
 
 - Severity: medium (drops real installations whenever the post-install redirect lands on an origin without a session — e.g. the registered Setup URL origin differs from where the user signed in)
-- Trace: `uapi/app/tps/github/_callback-handler.ts` — with a session, the installation persists to `user_connections` correctly; without one, it writes a `bitcode_github_installation_pending` cookie (15 min) and redirects with `vcsConnection=installation_staged`, but no code anywhere reads that cookie. Staged installations are silently dropped.
+- Trace: `apps/uapi/app/tps/github/_callback-handler.ts` — with a session, the installation persists to `user_connections` correctly; without one, it writes a `bitcode_github_installation_pending` cookie (15 min) and redirects with `vcsConnection=installation_staged`, but no code anywhere reads that cookie. Staged installations are silently dropped.
 - Structural note: GitHub Apps have a single registered Setup URL (no per-request redirect override), so the post-install origin is fixed at registration — same origin-hop class as F5. The grace path was clearly designed for this and needs completing: on next authenticated load, claim the pending cookie (verify the installation's account/visibility) and persist the connection; or replace the cookie with a server-side staged row keyed to the installation id.
 - Local QA workaround: the App has "Request user authorization (OAuth) during installation" enabled, which disables the Setup URL — GitHub instead redirects post-install to the FIRST registered Callback URL with `code` + `installation_id`. The handler dispatches on `installation_id` before the OAuth-code branch, so the install leg needs only `GITHUB_APP_ID` + `GITHUB_PRIVATE_KEY` (present locally). For QA: add `http://localhost:3000/tps/github/callback` as the first Callback URL and enable "Redirect on update"; reorder back after.
 - Adjacent residue (F4-class): a legacy OAuth App registration still points at `https://engi.software/api/auth/github/callback` (pre-Bitcode domain). Not part of the App install flow; check whether its client id backs `SUPABASE_AUTH_GITHUB_CLIENT_ID` or `GITHUB_CLIENT_ID`, then retire or rotate.
@@ -527,7 +527,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   were production-mainnet and the `staginglocal-testnet` custom environment; the **Preview**
   target (which every push to a non-`main` branch builds against) was never given the
   Supabase keys, so every prerender that constructs a client threw. NOT a routing defect
-  (the listed legacy routes physically exist as `uapi/app/*` dirs — F4/F8 eradication
+  (the listed legacy routes physically exist as `apps/uapi/app/*` dirs — F4/F8 eradication
   residue — and merely surfaced in the error list because they too call `createClient` at
   prerender) and NOT related to the Engi→Bitcode repo/dir/dashboard rename (the git
   integration clones `advancedengineeredsoftware/Bitcode` correctly).
@@ -545,7 +545,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Severity: high (reported live as "errors running deposit pipelines" — intermittent by nature, so hard to pin from symptoms alone).
 - Cause: `POST /api/deposit/synthesize-options` (V48-Gate3-F26-B) dispatches the run then returns `{status:'dispatched'}` immediately, with the actual multi-agent synthesis (`runSynthesis()`) continuing as a bare `void runSynthesis()` promise after the response completes. Vercel Functions (including Fluid Compute) do not guarantee an instance stays alive to finish work started before the response but not awaited by it — the platform is free to freeze/recycle the instance once the response is flushed, unless the continuation is registered via `waitUntil()`. This is the same failure class `execution-orphan-sweep.ts`'s own header comment already names as the reason its sweep exists ("dev-server restarts (and crashed serverless boxes) kill in-process pipelines … leaving them running forever" — QA runs `7f023f23` and the 2026-07-03 pre-restart orphans): that sweep detects and relabels the resulting stuck-`running` rows as `interrupted`, but nothing previously stopped the box from being killed mid-run in the first place. The same bare-`void` pattern was also on the orphan sweep's own fire-and-forget call at dispatch time.
-- Repair: added `@vercel/functions` and wrapped both fire-and-forget continuations in `waitUntil()` — the `runSynthesis()` background run and the `sweepOrphanedExecutions()` call in `uapi/app/api/deposit/synthesize-options/route.ts`. This keeps the Function instance alive until the promise settles, so a dispatched run either completes or fails and finalizes its row through the normal `finalizeExecutionRow`/error-banner path, instead of being silently killed mid-flight. Checked the only sibling background-dispatch route (`/api/pipeline-host/asset-pack`) and confirmed it does NOT have this defect: its continuation runs inside an open `ReadableStream` (SSE), whose lifetime keeps the Function instance alive by construction — no `waitUntil` needed there. Verified: `tsc --noEmit` 0; `depositSynthesizeOptionsRoute.test.ts` 6/6 green.
+- Repair: added `@vercel/functions` and wrapped both fire-and-forget continuations in `waitUntil()` — the `runSynthesis()` background run and the `sweepOrphanedExecutions()` call in `apps/uapi/app/api/deposit/synthesize-options/route.ts`. This keeps the Function instance alive until the promise settles, so a dispatched run either completes or fails and finalizes its row through the normal `finalizeExecutionRow`/error-banner path, instead of being silently killed mid-flight. Checked the only sibling background-dispatch route (`/api/pipeline-host/asset-pack`) and confirmed it does NOT have this defect: its continuation runs inside an open `ReadableStream` (SSE), whose lifetime keeps the Function instance alive by construction — no `waitUntil` needed there. Verified: `tsc --noEmit` 0; `depositSynthesizeOptionsRoute.test.ts` 6/6 green.
 
 ### V48-Gate3-F32 — Branch/Commit selects on `/deposits` silently stuck on a stale GitHub connection, no explanation (FIXED)
 
@@ -564,14 +564,14 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Severity: high (live-confirmed, 2026-07-08: clicked Refresh after the F33 deploy went live — same "Invalid" badge in Auxillaries, same reconnect-required banner on `/deposits`. Confirmed deploy timing: commit `dbef719e` (F33) pushed 11:24:50, its Preview build was `Ready` by ~11:27, the retest screenshot is 11:46 — the fix WAS live when retested, so F33's fix, while a real and necessary bug, was not the reason THIS specific connection stayed Invalid).
 - Investigation: with F33 confirmed deployed and env vars confirmed present (F33), the only two remaining explanations are (a) the GitHub App installation was genuinely revoked/uninstalled on GitHub's side (only a real reinstall fixes that), or (b) a different bug in the regeneration call chain. Neither was distinguishable from the UI or from `vercel logs` (historical logs aren't retrievable after the fact for this project's plan/log-drain setup — confirmed by trying).
-- Repair (turns the black box into a source-safe diagnostic instead of resolving blind): `VCSConnections` now persists a `last_regeneration_error` (and `last_regeneration_at`) onto the connection row every time installation-token regeneration is attempted — the actual reason on failure (GitHub's own API error text; or `github_app_credentials_not_configured` if the env gate itself was skipped), or cleared to `null` on success. This flows through the existing `sanitizeConnectionMetadata` pass-through into `connectionStatus.metadata` with no other route changes needed (the new keys aren't in the token/secret blocklist). `VCSConnectionCard.tsx` now renders this reason under the badge when `!valid`. This makes the NEXT occurrence of "Refresh doesn't fix Invalid" immediately diagnosable from the card itself — for this user or anyone — without needing server log access. Verified: `tsc --noEmit` 0 (both packages); new `uapi/tests/vcsConnectionCard.test.tsx` (4/4); full uapi jest suite 643/644 green (1 pre-existing skip); `packages/vcs` suite 7/7 green. See F35 immediately below: the initial "a 404 means the installation was removed" copy this repair shipped with turned out to be WRONG for the actual case it then revealed.
-- Noted but out of scope here: `uapi/components/base/bitcode/vcs/__tests__/VCSConnectionCard.test.tsx` is a pre-existing test file for an entirely superseded implementation of this component (mocks `@supabase/auth-helpers-nextjs` directly, expects copy/icons that no longer exist) — it isn't in `jest.config.cjs`'s `testMatch` allowlist, so it silently never runs and was not caught by this drift. Left as-is; a follow-up should either delete it or rewrite it against the current component.
+- Repair (turns the black box into a source-safe diagnostic instead of resolving blind): `VCSConnections` now persists a `last_regeneration_error` (and `last_regeneration_at`) onto the connection row every time installation-token regeneration is attempted — the actual reason on failure (GitHub's own API error text; or `github_app_credentials_not_configured` if the env gate itself was skipped), or cleared to `null` on success. This flows through the existing `sanitizeConnectionMetadata` pass-through into `connectionStatus.metadata` with no other route changes needed (the new keys aren't in the token/secret blocklist). `VCSConnectionCard.tsx` now renders this reason under the badge when `!valid`. This makes the NEXT occurrence of "Refresh doesn't fix Invalid" immediately diagnosable from the card itself — for this user or anyone — without needing server log access. Verified: `tsc --noEmit` 0 (both packages); new `apps/uapi/tests/vcsConnectionCard.test.tsx` (4/4); full uapi jest suite 643/644 green (1 pre-existing skip); `packages/vcs` suite 7/7 green. See F35 immediately below: the initial "a 404 means the installation was removed" copy this repair shipped with turned out to be WRONG for the actual case it then revealed.
+- Noted but out of scope here: `apps/uapi/components/base/bitcode/vcs/__tests__/VCSConnectionCard.test.tsx` is a pre-existing test file for an entirely superseded implementation of this component (mocks `@supabase/auth-helpers-nextjs` directly, expects copy/icons that no longer exist) — it isn't in `jest.config.cjs`'s `testMatch` allowlist, so it silently never runs and was not caught by this drift. Left as-is; a follow-up should either delete it or rewrite it against the current component.
 
 ### V48-Gate3-F35 — The 404 is a stale installation id from a DIFFERENT Bitcode GitHub App, not a removed installation — GitHub still shows the app installed (FIXED copy; DIAGNOSIS refined)
 
 - Severity: high (live-confirmed, 2026-07-08: the F34 diagnostic surfaced `Failed to generate installation token: 404 {"message":"Not Found",...}`; the org's **Installed GitHub Apps** page shows BOTH `Bitcode GitHub Auxillary` (production) AND `Bitcode GitHub Auxillary (Stag-Test)` still installed on `advancedengineeredsoftware` — disproving F34's own "the installation was removed" hint for this case).
 - Refined cause: per the Environments section above (`## Environments`, corrected 2026-07-06), there are genuinely TWO separate Bitcode GitHub App registrations — `bitcode-github-auxillary` (production-mainnet) and `bitcode-github-auxillary-stag-test` (`GITHUB_APP_ID=4224019`) — and, per the 2026-07-05 "production == staging" decision, the stag-test app's credentials were pushed to ALL THREE Vercel targets (`staginglocal-testnet`, `production`, `preview`). A connection whose stored installation id was minted under `bitcode-github-auxillary` (e.g. from before that unification, or from a flow that used the production app's install link) is invisible to a JWT signed for `bitcode-github-auxillary-stag-test` — GitHub returns 404 for "this app doesn't own that installation id," which reads identically to "the installation was removed" even though the app is very much still installed (just the OTHER one). Confirmed can't rule this out by comparing `GITHUB_APP_ID` values directly: `vercel env pull` returns encrypted vars as empty strings under this session's CLI permissions (confirmed non-sensitive vars pull fine, so this is a permission gate, not empty config).
-- Repair: corrected `VCSConnectionCard.tsx`'s 40x hint — it no longer claims "the installation was removed, reinstalling will fix it" (unverifiable and, in this case, wrong). It now says a 40x means this connection's stored installation isn't one the CURRENT deployment's app can use, even if GitHub still shows an app installed, and suggests Disconnect (in Bitcode) + reconnect — which re-runs the install/authorize flow against whichever app this deployment is actually configured with (already shown as installed in GitHub's list) and writes a fresh installation id, with no GitHub-side action needed. Updated `uapi/tests/vcsConnectionCard.test.tsx` to match. Verified: `tsc --noEmit` 0; `vcsConnectionCard.test.tsx` 4/4 green.
+- Repair: corrected `VCSConnectionCard.tsx`'s 40x hint — it no longer claims "the installation was removed, reinstalling will fix it" (unverifiable and, in this case, wrong). It now says a 40x means this connection's stored installation isn't one the CURRENT deployment's app can use, even if GitHub still shows an app installed, and suggests Disconnect (in Bitcode) + reconnect — which re-runs the install/authorize flow against whichever app this deployment is actually configured with (already shown as installed in GitHub's list) and writes a fresh installation id, with no GitHub-side action needed. Updated `apps/uapi/tests/vcsConnectionCard.test.tsx` to match. Verified: `tsc --noEmit` 0; `vcsConnectionCard.test.tsx` 4/4 green.
 - Not yet done: confirming from the Supabase side which specific `connectionId`/app the existing stuck row actually points to (would need direct DB access, out of reach here) — Disconnect + reconnect is the actionable next step for the live account; if it does NOT resolve to Valid, the next lead is confirming this Preview deployment's actual `GITHUB_APP_ID`/`SUPABASE_URL` pairing against the documented map above.
 - **CONFIRMED (2026-07-08, live)**: disconnected via a direct `fetch(..., {method:'DELETE'})` from the browser console (the UI Disconnect button itself was blocked — see F36), then reconnected through Bitcode's normal Connect GitHub flow. Result: **Connected / Valid.** This confirms the diagnosis — the stuck row's installation id belonged to the OTHER Bitcode GitHub App; reconnecting against the currently-configured app resolved it, no GitHub-side action needed. `/deposits`' Branch/Commit reconnect-required banner (F32) should now be gone for this account too, since it shares the same `connectionStatus.valid` gate.
 
@@ -594,7 +594,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 ## Track 2 — Depositing (Gate 2, opened 2026-06-12 on `v48/gate-2-depositing-interactive-qa`)
 
-- Environment: add to `uapi/.env.local` and restart `dev:remote` — `BITCODE_ASSET_PACK_REAL_INFERENCE=true` and `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` (provider keys already present; without the flags, synthesis runs deterministic bring-up branches, and the pipeline host preflight rejects Read/Fit QA). `BITCODE_ENABLE_PIPELINE_HOST_API` is unnecessary locally (the host route is open on non-production deployments).
+- Environment: add to `apps/uapi/.env.local` and restart `dev:remote` — `BITCODE_ASSET_PACK_REAL_INFERENCE=true` and `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` (provider keys already present; without the flags, synthesis runs deterministic bring-up branches, and the pipeline host preflight rejects Read/Fit QA). `BITCODE_ENABLE_PIPELINE_HOST_API` is unnecessary locally (the host route is open on non-production deployments).
 
 - [ ] Connect repository on /deposits
 - [ ] Synthesize AssetPack options (real inference if enabled)
@@ -609,13 +609,13 @@ Manual end-to-end verification of the Gate-3 depositing parity matrix
 lines / UI values into §6 for the QA record.
 
 **0. Preconditions**
-- Branch `v48/gate-3-synthesis-pipeline-correctness`; `uapi/.env.local` then restart `dev:remote`:
+- Branch `v48/gate-3-synthesis-pipeline-correctness`; `apps/uapi/.env.local` then restart `dev:remote`:
   - `BITCODE_ASSET_PACK_REAL_INFERENCE=true` — the ONLY required flag. Do NOT set
     `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE` (profiles removed, F26-A; it is a no-op).
   - Anthropic key present (default `claude-haiku-4-5` since 2026-07-03; `BITCODE_LLM_MODEL` overrides).
   - `BITCODE_PIPELINE_HOST` unset (defaults to `local`) — the dev Node server IS the
     inline host, so it must have `git` on PATH + a writable temp dir.
-- Supabase LOCAL (decided 2026-07-03): `uapi/.env.local` points at the local stack
+- Supabase LOCAL (decided 2026-07-03): `apps/uapi/.env.local` points at the local stack
   (`127.0.0.1:54321`, `supabase start`/Docker running); `dev:remote` serves against it directly.
   A connected GitHub repo (`vcs_repositories` row + an active `user_connections` github row).
   Pick a small/medium real TS or Python repo (meaningful sizes).
@@ -657,7 +657,7 @@ the streaming accordion log.
 pnpm -C packages/agent-generics exec jest
 pnpm -C packages/pipelines/asset-pack exec jest --config jest.config.cjs    # 45 suites / 227
 pnpm -C packages/pipeline-hosts exec jest --config jest.config.cjs          # 6 suites / 34
-cd uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRoute depositPageClient   # 3 / 14
+cd apps/uapi && pnpm exec jest depositSourceProvisioning depositSynthesizeOptionsRoute depositPageClient   # 3 / 14
 ```
 
 **5. #25 SandboxHost in-box dispatch (deployment-conditional)**

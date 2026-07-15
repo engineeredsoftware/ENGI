@@ -119,9 +119,9 @@ const rehearsalRows = Object.freeze([
     sourceRoots: [
       'README.md',
       'packages/specifying/README.md',
-      'uapi/components/README.md',
+      'apps/uapi/components/README.md',
       'internal-docs/README.md',
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
     ],
     docsLinks: ['/docs/terminal', '/docs/proofs', '/docs/configuration', '/docs/commercial-interfaces'],
     evidenceRoots: [
@@ -136,7 +136,7 @@ const rehearsalRows = Object.freeze([
     validationCommands: [
       'pnpm run check:v35-gate6',
       'pnpm run check:v35-gate8',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/pipelineExecutionLogHeader.test.tsx --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/pipelineExecutionLogHeader.test.tsx --runInBand',
     ],
     incidentClasses: ['docs_qa_alignment_drift', 'telemetry_redaction_regression', 'runbook_lookup_missing'],
     valueBearingMainnetAdmission: false,
@@ -162,10 +162,10 @@ const rehearsalRows = Object.freeze([
     rolloutGuideIds: ['operator_use', 'enterprise_reader_flow', 'depositor_flow', 'interface_consumer_flow', 'environment_lane_posture'],
     sourceRoots: [
       'packages/api/README.md',
-      'packages/generic-mcps/bitcode/README.md',
-      'packages/external-apps/chatgpt/README.md',
+      'apps/mcp/README.md',
+      'apps/chatgpt/README.md',
       'internal-docs/DEPLOYMENT.md',
-      'uapi/components/README.md',
+      'apps/uapi/components/README.md',
     ],
     docsLinks: ['/docs/read-results', '/docs/mcp-api', '/docs/chatgpt-app', '/docs/settlement-btd'],
     evidenceRoots: [
@@ -183,7 +183,7 @@ const rehearsalRows = Object.freeze([
     validationCommands: [
       'pnpm run check:v35-gate7',
       'pnpm run check:v35-gate8',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
     ],
     incidentClasses: ['staging_testnet_event_missing', 'dashboard_panel_missing', 'protected_source_disclosure_attempt'],
     valueBearingMainnetAdmission: false,

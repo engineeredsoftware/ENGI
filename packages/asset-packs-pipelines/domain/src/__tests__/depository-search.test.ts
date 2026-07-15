@@ -48,7 +48,7 @@ function asset(overrides: Partial<DepositoryAsset> = {}): DepositoryAsset {
           'Terminal commercial path records repository revision Deposit evidence, measured Read, Fit quality receipt, AssetPack evidence, proof-root, finality readback, wallet authorization, and reconciliation readback.',
         codeAnalysisFacts: {
           symbols: ['TerminalDepositReadWorkbench', 'AssetPackPipelineHarness'],
-          paths: ['uapi/components/reads/models/deposit-read-workbench.ts'],
+          paths: ['apps/uapi/components/reads/models/deposit-read-workbench.ts'],
           configKeys: ['BITCODE_PIPELINE_STREAM_TO_DATABASE'],
           stackTags: ['terminal', 'assetpack', 'supabase'],
           constraints: ['no mock repository leakage', 'source revision proof'],

@@ -128,8 +128,8 @@ function main() {
     'README.md',
     'packages/specifying/README.md',
     'internal-docs/README.md',
-    'uapi/app/terminal/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -237,8 +237,8 @@ function main() {
   const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
   const internalDocs = read(root, 'internal-docs/README.md');
-  const terminalDocs = read(root, 'uapi/app/terminal/README.md');
-  const publicDocs = read(root, 'uapi/app/docs/bitcode-docs-content.ts');
+  const terminalDocs = read(root, 'apps/uapi/app/terminal/README.md');
+  const publicDocs = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
 
   for (const doc of [spec, delta, notes, parity, roadmap, protocolReadme, rootReadme, internalDocs, terminalDocs, publicDocs]) {
     assertCheck(failures, doc.includes('LocalStagingTelemetryDocumentationRehearsal'), 'Docs/specs must name LocalStagingTelemetryDocumentationRehearsal.');

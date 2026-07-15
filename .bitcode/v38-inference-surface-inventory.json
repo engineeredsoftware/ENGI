@@ -397,7 +397,7 @@
       "sourceRoots": [
         "packages/api/src/routes/conversations.ts",
         "packages/api/src/conversations/stream-events.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "phaseCount": 1,
       "ptrrAgentCount": 0,
@@ -486,7 +486,7 @@
         "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
         "packages/tools-generics/src/execution/ToolExecution.ts",
         "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
-        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts"
+        "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts"
       ],
       "phaseCount": 0,
       "ptrrAgentCount": 0,
@@ -828,7 +828,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "exists": true,
       "legacy": false
     },
@@ -923,7 +923,7 @@
       "legacy": false
     },
     {
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "exists": true,
       "legacy": false
     }

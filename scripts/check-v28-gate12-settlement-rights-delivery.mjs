@@ -72,7 +72,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    file: 'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     needles: [
       'BITCODE_PIPELINE_BTC_FEE_SATS',
       'protectedSourceUnlock',
@@ -81,7 +81,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     needles: [
       'protectedSourceUnlock',
       'Read license',
@@ -90,7 +90,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/terminal-pipeline-host-client.ts',
+    file: 'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
     needles: [
       'protectedSourceUnlock',
       'sourceAvailable',

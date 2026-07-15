@@ -78,14 +78,14 @@
       "status": "closed",
       "evidence": [
         "packages/api/src/routes/btd-crypto.ts exposes /btd/btc-fee-transaction without introducing a versioned route prefix",
-        "uapi/app/api/btd/btc-fee-transaction/route.ts binds the Next.js App Router endpoint",
+        "apps/uapi/app/api/btd/btc-fee-transaction/route.ts binds the Next.js App Router endpoint",
         "registry writes occur only when commitToRegistry is explicitly true"
       ]
     }
   ],
   "validatedCommands": [
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
       "assertions": 49,
       "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
@@ -121,7 +121,7 @@
     "packages/btd/__tests__/v27-crypto-primitives.test.ts",
     "packages/api/src/routes/btd-crypto.ts",
     "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-    "uapi/app/api/btd/btc-fee-transaction/route.ts",
+    "apps/uapi/app/api/btd/btc-fee-transaction/route.ts",
     "supabase/migrations/002_v27_btd_crypto_registry.sql",
     "packages/orm/src/__tests__/btd-registry.test.ts",
     "internal-docs/BITCODE_EXCHANGE_DATABASE.md",

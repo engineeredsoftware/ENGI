@@ -23,11 +23,11 @@ The Terminal execution surface should show:
 ## Current Implementation
 
 Current source routes and components include:
-- `uapi/app/executions/*`
-- `uapi/app/api/executions/*`
+- `apps/uapi/app/executions/*`
+- `apps/uapi/app/api/executions/*`
 - `packages/api/src/routes/shippables.ts`
 - `packages/asset-packs-pipelines/domain/*`
-- execution history and event readers in `uapi/app/api/executions/history/*`
+- execution history and event readers in `apps/uapi/app/api/executions/history/*`
 
 Storage-edge compatibility names may remain behind explicit translation, but internal docs and SPEC promotion should use Bitcode execution, AssetPack execution, Read measurement, fit review, and Finish.
 

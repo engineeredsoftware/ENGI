@@ -1,4 +1,4 @@
-// Moved from uapi/lib/apiAuth.ts
+// Moved from apps/uapi/lib/apiAuth.ts
 
 import { createClient } from '@bitcode/supabase';
 import { supabaseAdmin } from '@bitcode/supabase';

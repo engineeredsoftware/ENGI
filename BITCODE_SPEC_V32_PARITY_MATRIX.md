@@ -70,9 +70,9 @@ Gate 1 audit basis:
 - `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`
 - `scripts/generate-v32-browser-accessibility-responsive-visual-proof.mjs`
 - `scripts/check-v32-gate7-browser-accessibility-responsive-visual-proof.mjs`
-- `uapi/app/bitcode-browser-accessibility-responsive-proof.ts`
-- `uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts`
-- `uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`
+- `apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts`
+- `apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts`
+- `apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`
 - `.bitcode/v32-testnet-mainnet-readiness-rehearsal.json`
 - `scripts/generate-v32-testnet-mainnet-readiness-rehearsal.mjs`
 - `scripts/check-v32-gate8-testnet-mainnet-readiness-rehearsal.mjs`
@@ -193,7 +193,7 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V32 judgment |
 | --- | --- | --- |
-| Browser proof covers Terminal and Auxillaries | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`, `uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts` prove Terminal plus the active Terminal-hosted Auxillaries support-plane entry points | drafted |
+| Browser proof covers Terminal and Auxillaries | `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`, `apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts`, `apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts` prove Terminal plus the active Terminal-hosted Auxillaries support-plane entry points | drafted |
 | Accessibility and responsive states are asserted | Gate 7 artifact covers keyboard path, landmark labels, focus state, status announcements, contrast-sensitive tokens, reduced-motion, overflow/wrapping, and four canonical viewports | drafted |
 | Visual proof is deterministic enough for CI | Gate 7 artifact and browser proof prefer semantic layout metrics, stateful roles, route-state contracts, and `no-screenshot-only-approval` | drafted |
 

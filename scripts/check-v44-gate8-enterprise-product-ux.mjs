@@ -87,13 +87,13 @@ function main() {
 
   for (const relativePath of [
     V44_ENTERPRISE_PRODUCT_UX_ARTIFACT_PATH,
-    'uapi/components/bitcode/routes/product-route-shell.tsx',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/packsPageClient.test.tsx',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/components/bitcode/routes/product-route-shell.tsx',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/tests/depositPageClient.test.tsx',
     'packages/specifying/src/canonical/v44-enterprise-product-ux.js',
     'packages/specifying/test/v44-enterprise-product-ux.test.js',
     'scripts/generate-v44-enterprise-product-ux.mjs',
@@ -163,7 +163,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi enterprise product UX tests must pass.');
     }

@@ -102,7 +102,7 @@
         "pipeline-local-runtime-receipt-log-root"
       ],
       "validationCommands": [
-        "pnpm --dir uapi run test:e2e:terminal-ux",
+        "pnpm --dir apps/uapi run test:e2e:terminal-ux",
         "pnpm --filter @bitcode/api build",
         "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
         "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand",
@@ -203,7 +203,7 @@
         "pipeline-staging-testnet-runtime-receipt-log-root"
       ],
       "validationCommands": [
-        "pnpm --dir uapi run test:e2e:terminal-ux",
+        "pnpm --dir apps/uapi run test:e2e:terminal-ux",
         "pnpm --filter @bitcode/api build",
         "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand",
         "pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand",

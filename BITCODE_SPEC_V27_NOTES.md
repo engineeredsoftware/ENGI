@@ -132,8 +132,8 @@ The V26 repository already contains reliable anchors for formal `$BTD` tokenomic
 | `packages/btd/src/plans.ts` | Future bundle posture | V28 reference bundles must not imply V26 checkout or fungible token sale |
 | `.bitcode/source-to-shares-fifth-gate-proof.json` | Existing proof artifact | Future minted range roots, source roots, measurement roots, and allocation roots |
 | `internal-docs/BITCODE_EXCHANGE_DATABASE.md` | Exchange schema target | Supply state, ranges, cells, receipts, licenses, ancestry, revenue routes |
-| `uapi/components/base/bitcode/btd/*` | Current UI posture | BTC fee asset vs non-fungible `$BTD` holding/read-right disclosure |
-| `uapi/app/[token]/page.tsx` or successor route | Future token/range route | Owner-read, licensed-read, range boundaries, supply remaining, legal-right disclosure |
+| `apps/uapi/components/base/bitcode/btd/*` | Current UI posture | BTC fee asset vs non-fungible `$BTD` holding/read-right disclosure |
+| `apps/uapi/app/[token]/page.tsx` or successor route | Future token/range route | Owner-read, licensed-read, range boundaries, supply remaining, legal-right disclosure |
 
 If exact current files are missing for receipt schemas, proof modules, treasury models, or Exchange tables, V27 should add narrow files rather than scattering tokenomics logic through existing broad modules.
 

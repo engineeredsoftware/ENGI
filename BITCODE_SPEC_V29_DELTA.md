@@ -159,7 +159,7 @@ Closure acceptance:
 
 - `packages/btd/src/authority.ts` defines the shared organization/interface authority primitive, action requirements, registry holdings/read-license summary, source visibility, and proof roots.
 - BTD tests prove organization holdings, active/expired/revoked read-license usage, paid delivery admission, unpaid unlock denial, and unsupported ChatGPT administration denial.
-- `packages/api/src/routes/btd-crypto.ts` exposes JSON-safe organization authority decisions and `uapi/app/api/btd/organization-interface-authority/route.ts` binds the route.
+- `packages/api/src/routes/btd-crypto.ts` exposes JSON-safe organization authority decisions and `apps/uapi/app/api/btd/organization-interface-authority/route.ts` binds the route.
 - MCP auth can require interface authority after registry-derived owner-read or licensed-read evidence.
 - ChatGPT App connected-interface write carriers require explicit confirmation, registry read-access evidence, and organization authority evidence before write execution.
 - The sandbox harness emits `organizationAuthority` evidence alongside settlement unlock and ledger/database reconciliation.

@@ -1,5 +1,5 @@
 /**
- * CircleCI MCP underlying implementations – migrated from `uapi/lib/mcps/circleci.ts`.
+ * CircleCI MCP underlying implementations – migrated from `apps/uapi/lib/mcps/circleci.ts`.
  */
 
 export async function circleciConfigHelperTool(params: { config: string }): Promise<any> {

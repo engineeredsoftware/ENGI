@@ -80,10 +80,10 @@
         ".bitcode/v36-exchange-settlement-reconciliation.json",
         ".bitcode/v36-exchange-dispute-repair-revenue-route.json",
         ".bitcode/v36-exchange-ux-proof.json",
-        "uapi/app/exchange/ExchangePageClient.tsx",
-        "uapi/app/exchange/README.md",
-        "uapi/tests/exchangePageClient.test.tsx",
-        "uapi/tests/exchangeTerminalHandoff.test.ts",
+        "apps/uapi/app/exchange/ExchangePageClient.tsx",
+        "apps/uapi/app/exchange/README.md",
+        "apps/uapi/tests/exchangePageClient.test.tsx",
+        "apps/uapi/tests/exchangeTerminalHandoff.test.ts",
         ".github/workflows/bitcode-gate-quality.yml"
       ],
       "ledgerDatabaseSyncChecks": [
@@ -98,7 +98,7 @@
       "validationCommands": [
         "pnpm run check:v36-gate2",
         "pnpm run check:v36-gate8",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/exchangePageClient.test.tsx tests/exchangeTerminalHandoff.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/exchangePageClient.test.tsx tests/exchangeTerminalHandoff.test.ts --runInBand"
       ],
       "valueBearingMainnetAdmission": false,
       "canonicalObject": "ExchangeRehearsal",
@@ -206,19 +206,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/ExchangePageClient.tsx",
+          "sourceRoot": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/README.md",
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/exchangePageClient.test.tsx",
+          "sourceRoot": "apps/uapi/tests/exchangePageClient.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/exchangeTerminalHandoff.test.ts",
+          "sourceRoot": "apps/uapi/tests/exchangeTerminalHandoff.test.ts",
           "present": true
         },
         {
@@ -279,11 +279,11 @@
         ".bitcode/v36-exchange-settlement-reconciliation.json",
         ".bitcode/v36-exchange-dispute-repair-revenue-route.json",
         ".bitcode/v36-exchange-ux-proof.json",
-        "uapi/app/exchange/ExchangePageClient.tsx",
-        "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
-        "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
-        "uapi/app/terminal/terminal-transaction-read-model.ts",
-        "uapi/app/terminal/terminal-routes.ts"
+        "apps/uapi/app/exchange/ExchangePageClient.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+        "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
+        "apps/uapi/app/terminal/terminal-routes.ts"
       ],
       "ledgerDatabaseSyncChecks": [
         "staging-testnet.exchange.ledger-root-to-database-projection.root",
@@ -405,23 +405,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/ExchangePageClient.tsx",
+          "sourceRoot": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-read-model.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-routes.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-routes.ts",
           "present": true
         }
       ],
@@ -471,8 +471,8 @@
         ".bitcode/v36-exchange-ux-proof.json",
         "packages/specifying/src/canonical/exchange-settlement-reconciliation.js",
         "packages/specifying/src/canonical/exchange-dispute-repair-revenue-route.js",
-        "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
-        "uapi/app/terminal/terminal-journal-reconciliation.ts"
+        "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+        "apps/uapi/app/terminal/terminal-journal-reconciliation.ts"
       ],
       "ledgerDatabaseSyncChecks": [
         "exchange.settlement.ledger-root-dominates-database-projection.root",
@@ -595,11 +595,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-journal-reconciliation.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-journal-reconciliation.ts",
           "present": true
         }
       ],
@@ -645,9 +645,9 @@
         ".bitcode/v36-exchange-settlement-reconciliation.json",
         ".bitcode/v36-exchange-dispute-repair-revenue-route.json",
         ".bitcode/v36-exchange-ux-proof.json",
-        "uapi/app/exchange/ExchangePageClient.tsx",
-        "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/app/exchange/ExchangePageClient.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
         "packages/specifying/src/canonical/exchange-ux-proof.js"
       ],
       "ledgerDatabaseSyncChecks": [
@@ -659,7 +659,7 @@
       ],
       "validationCommands": [
         "pnpm run check:v36-gate8",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/pipelineExecutionLogHeader.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/pipelineExecutionLogHeader.test.tsx --runInBand"
       ],
       "valueBearingMainnetAdmission": false,
       "canonicalObject": "ExchangeRehearsal",
@@ -761,15 +761,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/ExchangePageClient.tsx",
+          "sourceRoot": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+          "sourceRoot": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
           "present": true
         },
         {
@@ -1117,19 +1117,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/ExchangePageClient.tsx",
+          "sourceRoot": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/README.md",
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/exchangePageClient.test.tsx",
+          "sourceRoot": "apps/uapi/tests/exchangePageClient.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/exchangeTerminalHandoff.test.ts",
+          "sourceRoot": "apps/uapi/tests/exchangeTerminalHandoff.test.ts",
           "present": true
         },
         {
@@ -1191,23 +1191,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/ExchangePageClient.tsx",
+          "sourceRoot": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-transaction-read-model.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-routes.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-routes.ts",
           "present": true
         }
       ]
@@ -1273,11 +1273,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/terminal-journal-reconciliation.ts",
+          "sourceRoot": "apps/uapi/app/terminal/terminal-journal-reconciliation.ts",
           "present": true
         }
       ]
@@ -1335,15 +1335,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/ExchangePageClient.tsx",
+          "sourceRoot": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
+          "sourceRoot": "apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+          "sourceRoot": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
           "present": true
         },
         {

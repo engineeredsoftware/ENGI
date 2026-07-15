@@ -251,7 +251,7 @@
       "sourceRoots": [
         "packages/specifying/src/canonical/conversation-session-route-history.js",
         "packages/api/src/routes/conversations.ts",
-        "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+        "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
         "docs/conversations.md"
       ],
       "hookRoot": "conversation-telemetry-hook:03df3f7c87dd13dc91f297ac",
@@ -266,7 +266,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
@@ -506,7 +506,7 @@
       "sourceRoots": [
         "packages/specifying/src/canonical/conversation-stream-event-contract.js",
         "packages/api/src/conversations/stream-events.ts",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
         "internal-docs/BITCODE_CONVERSATIONS.md"
       ],
       "hookRoot": "conversation-telemetry-hook:8fc2c0e8275300de595fbe13",
@@ -521,7 +521,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
           "present": true
         },
         {
@@ -632,7 +632,7 @@
       ],
       "sourceRoots": [
         "packages/api/src/conversations/stream-events.ts",
-        "uapi/app/conversations/components/ConversationsOverlay.tsx",
+        "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
         "internal-docs/BITCODE_AGENTIC_EXECUTION.md",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
@@ -644,7 +644,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
@@ -759,8 +759,8 @@
       ],
       "sourceRoots": [
         "packages/specifying/src/canonical/conversation-source-selector.js",
-        "uapi/app/conversations/conversation-source-selector.ts",
-        "uapi/tests/conversationSourceSelector.test.tsx",
+        "apps/uapi/app/conversations/conversation-source-selector.ts",
+        "apps/uapi/tests/conversationSourceSelector.test.tsx",
         "docs/conversations.md"
       ],
       "hookRoot": "conversation-telemetry-hook:d3daeda3fd00d9c0d780dd0c",
@@ -771,11 +771,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -886,8 +886,8 @@
       ],
       "sourceRoots": [
         "packages/specifying/src/canonical/conversation-terminal-handoff.js",
-        "uapi/app/conversations/conversation-terminal-handoff.ts",
-        "uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
         "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "hookRoot": "conversation-telemetry-hook:b532c56367bed26a56cb6147",
@@ -898,11 +898,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
@@ -1014,7 +1014,7 @@
       "sourceRoots": [
         "packages/specifying/src/canonical/conversation-session-route-history.js",
         "packages/api/src/routes/conversations.ts",
-        "uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
+        "apps/uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "hookRoot": "conversation-telemetry-hook:985e0baf2ea890421b559100",
@@ -1029,7 +1029,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
           "present": true
         },
         {
@@ -1141,7 +1141,7 @@
       "sourceRoots": [
         "packages/api/src/conversations/privacy.ts",
         "packages/api/src/conversations/stream-events.ts",
-        "uapi/lib/bitcode-server-telemetry.ts",
+        "apps/uapi/lib/bitcode-server-telemetry.ts",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "hookRoot": "conversation-telemetry-hook:6e589f032dc72de9f9df1043",
@@ -1156,7 +1156,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/lib/bitcode-server-telemetry.ts",
+          "sourceRoot": "apps/uapi/lib/bitcode-server-telemetry.ts",
           "present": true
         },
         {
@@ -1268,7 +1268,7 @@
       "sourceRoots": [
         "packages/specifying/src/canonical/conversation-stream-event-contract.js",
         "packages/api/src/conversations/messages.ts",
-        "uapi/app/conversations/components/ConversationsChat.tsx",
+        "apps/uapi/app/conversations/components/ConversationsChat.tsx",
         "docs/conversations.md"
       ],
       "hookRoot": "conversation-telemetry-hook:7081431e0074bf7869f0e698",
@@ -1283,7 +1283,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsChat.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsChat.tsx",
           "present": true
         },
         {
@@ -1318,7 +1318,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
@@ -1362,7 +1362,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
           "present": true
         },
         {
@@ -1380,7 +1380,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
@@ -1402,11 +1402,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1424,11 +1424,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-terminal-handoff.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         },
         {
@@ -1450,7 +1450,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsBranchMenuButton.tsx",
           "present": true
         },
         {
@@ -1472,7 +1472,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/lib/bitcode-server-telemetry.ts",
+          "sourceRoot": "apps/uapi/lib/bitcode-server-telemetry.ts",
           "present": true
         },
         {
@@ -1494,7 +1494,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsChat.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsChat.tsx",
           "present": true
         },
         {

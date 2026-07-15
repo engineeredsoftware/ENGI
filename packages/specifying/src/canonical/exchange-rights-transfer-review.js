@@ -255,8 +255,8 @@ export function buildExchangeRightsTransferReview(input = {}) {
     'scripts/generate-v36-exchange-rights-transfer-review.mjs',
     'scripts/check-v36-gate4-exchange-rights-transfer-review.mjs',
     'packages/btd/src/exchange.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/api/btd/asset-pack-exchange/route.ts',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/api/btd/asset-pack-exchange/route.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
 

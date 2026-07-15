@@ -86,13 +86,13 @@ function main() {
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'uapi/app/terminal/terminal-journal-reconciliation.ts',
-    'uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
-    'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'uapi/tests/terminalJournalReconciliation.test.ts',
-    'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
+    'apps/uapi/app/terminal/terminal-journal-reconciliation.ts',
+    'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
+    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/tests/terminalJournalReconciliation.test.ts',
+    'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
     'packages/btd/README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/README.md',
     'BITCODE_SPEC_V30.md',
     'BITCODE_SPEC_V30_DELTA.md',
     'BITCODE_SPEC_V30_NOTES.md',
@@ -107,12 +107,12 @@ function main() {
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-journal-reconciliation.ts');
-  const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
-  const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalJournalReconciliation.test.ts');
+  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-journal-reconciliation.ts');
+  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalJournalReconciliation.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   const spec = read(root, 'BITCODE_SPEC_V30.md');
   const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');

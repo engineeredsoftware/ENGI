@@ -426,7 +426,7 @@ Closure criteria:
 Closure evidence:
 
 - product acquisition surfaces route Terminal Read minting and minimal Exchange range-right transfer as V27 while leaving broader market depth to later versions;
-- `uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range/policy/read-right disclosure route;
+- `apps/uapi/app/btd/[assetPackId]/page.tsx` provides an unversioned range/policy/read-right disclosure route;
 - the former version-prefixed UAPI protocol corridors are ported to unversioned `/api/external-realization` and `/api/executors/[interfaceId]`;
 - `internal-docs/BITCODE_V27_CRYPTO_RESEARCH_REBINDING.md` binds Bitcoin, BIP 174, BIP 341, Filecoin, EIPs, and adapter-library research to V27 implementation choices;
 - `BITCODE_SPEC_V27_PROVEN.md`, `.bitcode/v27-crypto-library-research-proof.json`, and `.bitcode/v27-total-closure-proof.json` provide the proof appendix and accepted generated-family map.
@@ -457,7 +457,7 @@ Implemented baseline:
 - `packages/btd/src/upgrade.ts` owns versioned protocol upgrade receipts.
 - `packages/btd/__tests__/v27-crypto-primitives.test.ts` proves the package primitives.
 - `packages/api/src/routes/btd-crypto.ts` exposes authenticated registry snapshots and deterministic mint-draft projections without committing mint state.
-- `uapi/app/api/btd/registry/route.ts` and `uapi/app/api/btd/mint-draft/route.ts` mount the commercial Next route boundary in place, without versioned route paths.
+- `apps/uapi/app/api/btd/registry/route.ts` and `apps/uapi/app/api/btd/mint-draft/route.ts` mount the commercial Next route boundary in place, without versioned route paths.
 - `packages/api/src/routes/__tests__/btd-crypto.test.ts` proves route-level authentication injection, registry snapshot projection, and JSON-safe mint drafts.
 - `protocol-demonstration/src/v27-crypto-primitives.js` and `test/v27-crypto-primitives.test.js` demonstrate the minimum protocol witness.
 - `protocol-demonstration/src/receipt-schemas.js` exposes V27 semantic-volume, mint, allocation, ancestry, revenue-route, BTC fee, ledger-anchor, rights-transfer, reconciliation, and upgrade receipt families.
@@ -471,10 +471,10 @@ Implemented baseline:
 - `packages/btd/__tests__/btd.test.ts` proves cap presence and overflow rejection.
 - `packages/api/src/routes/user.ts` rejects generic `$BTD` balance mutation.
 - `packages/api/src/routes/auxillaries.ts` rejects generic auxillary `$BTD` mutation.
-- `uapi/tests/api/userBtdRoute.test.ts` proves API mutation rejection.
-- `uapi/components/base/bitcode/btd/btd-tracker.tsx` separates BTC and `$BTD` in user balance posture and records Terminal Read plus Exchange existing-`$BTD` acquisition intent as V27.
-- `uapi/components/base/bitcode/btd/BTDPrices.tsx` distinguishes Terminal Read V27 from minimal Exchange Range V27.
-- `uapi/app/auxillaries/components/AuxillariesBTDPane.tsx` displays BTC fee liquidity and non-fungible `$BTD` holdings separately.
+- `apps/uapi/tests/api/userBtdRoute.test.ts` proves API mutation rejection.
+- `apps/uapi/components/base/bitcode/btd/btd-tracker.tsx` separates BTC and `$BTD` in user balance posture and records Terminal Read plus Exchange existing-`$BTD` acquisition intent as V27.
+- `apps/uapi/components/base/bitcode/btd/BTDPrices.tsx` distinguishes Terminal Read V27 from minimal Exchange Range V27.
+- `apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx` displays BTC fee liquidity and non-fungible `$BTD` holdings separately.
 - public marketing surfaces disclose BTC fee and non-fungible `$BTD` read-right posture.
 - `protocol-demonstration/src/receipt-schemas.js` already has licensed read and allocation receipt families that V27 can extend.
 - `protocol-demonstration/src/canonical/settlement.js` already has source-to-shares fit quality and settlement accounting primitives.

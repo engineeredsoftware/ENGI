@@ -77,48 +77,48 @@ function defaultSpecProvenPath(version) {
     : `_legacy/ENGI_SPEC_${version}_PROVEN.md`;
 }
 const V26_SECOND_GATE_TERMINAL_FILES = [
-  'uapi/app/terminal/TerminalPageClient.tsx',
-  'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-  'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-  'uapi/app/terminal/TerminalCommandDeck.tsx',
-  'uapi/app/terminal/TerminalWorkspaceRail.tsx',
-  'uapi/app/auxillaries/AuxillariesRouteClient.tsx',
-  'uapi/app/auxillaries/components/AuxillariesProvider.tsx',
-  'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
-  'uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx',
-  'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
-  'uapi/components/base/bitcode/layout/nav.tsx',
-  'uapi/components/base/bitcode/layout/user-menu.tsx',
-  'uapi/components/base/bitcode/notifications/NotificationsWidget.tsx',
-  'uapi/styles/orbital.css'
+  'apps/uapi/app/terminal/TerminalPageClient.tsx',
+  'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
+  'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
+  'apps/uapi/app/terminal/TerminalCommandDeck.tsx',
+  'apps/uapi/app/terminal/TerminalWorkspaceRail.tsx',
+  'apps/uapi/app/auxillaries/AuxillariesRouteClient.tsx',
+  'apps/uapi/app/auxillaries/components/AuxillariesProvider.tsx',
+  'apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx',
+  'apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx',
+  'apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+  'apps/uapi/components/base/bitcode/layout/nav.tsx',
+  'apps/uapi/components/base/bitcode/layout/user-menu.tsx',
+  'apps/uapi/components/base/bitcode/notifications/NotificationsWidget.tsx',
+  'apps/uapi/styles/orbital.css'
 ];
 const V26_SECOND_GATE_PROOF_FILES = [
   'protocol-demonstration/test/v26-public-copy.test.js',
-  'uapi/tests/auxillariesProvider.test.tsx',
-  'uapi/tests/orbitalsInterfacesPane.test.tsx',
-  'uapi/tests/orbitalsBTDPane.test.tsx',
-  'uapi/tests/navWorkspaceChrome.test.tsx',
-  'uapi/tests/notificationsWidget.test.tsx',
-  'uapi/tests/orbitalsLoginPane.test.tsx',
-  'uapi/tests/orbitalsContent.test.tsx',
-  'uapi/tests/orbitalsPaneTabs.test.tsx',
-  'uapi/tests/orbitalsRouteClient.test.tsx',
-  'uapi/tests/userMenu.test.tsx',
-  'uapi/tests/workspaceSurface.test.ts'
+  'apps/uapi/tests/auxillariesProvider.test.tsx',
+  'apps/uapi/tests/orbitalsInterfacesPane.test.tsx',
+  'apps/uapi/tests/orbitalsBTDPane.test.tsx',
+  'apps/uapi/tests/navWorkspaceChrome.test.tsx',
+  'apps/uapi/tests/notificationsWidget.test.tsx',
+  'apps/uapi/tests/orbitalsLoginPane.test.tsx',
+  'apps/uapi/tests/orbitalsContent.test.tsx',
+  'apps/uapi/tests/orbitalsPaneTabs.test.tsx',
+  'apps/uapi/tests/orbitalsRouteClient.test.tsx',
+  'apps/uapi/tests/userMenu.test.tsx',
+  'apps/uapi/tests/workspaceSurface.test.ts'
 ];
 const V26_SECOND_GATE_DOCUMENTATION_FILES = [
   'README.md',
-  'uapi/README.md',
+  'apps/uapi/README.md',
   'protocol-demonstration/README.md',
-  'uapi/app/terminal/README.md',
-  'uapi/app/orbitals/README.md',
-  'uapi/components/base/bitcode/README.md',
-  'uapi/components/base/bitcode/execution/README.md',
+  'apps/uapi/app/terminal/README.md',
+  'apps/uapi/app/orbitals/README.md',
+  'apps/uapi/components/base/bitcode/README.md',
+  'apps/uapi/components/base/bitcode/execution/README.md',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
 const V26_THIRD_GATE_PREPARATION_FILES = [
-  'uapi/app/(root)/components/MarketingLandingPage.tsx',
+  'apps/uapi/app/(root)/components/MarketingLandingPage.tsx',
   'BITCODE_SPEC_V26_DELTA.md',
   'BITCODE_SPEC_V26_NOTES.md',
   'BITCODE_SPEC_V26_PARITY_MATRIX.md',
@@ -126,30 +126,30 @@ const V26_THIRD_GATE_PREPARATION_FILES = [
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
 const V26_THIRD_GATE_TERMINAL_FILES = [
-  'uapi/app/page.tsx',
-  'uapi/app/docs/page.tsx',
-  'uapi/app/demo-video/page.tsx',
-  'uapi/app/(root)/components/PublicShellFrame.tsx',
-  'uapi/app/(root)/components/MarketingLandingPage.tsx',
-  'uapi/app/(root)/components/PublicDocsPageContent.tsx',
-  'uapi/app/(root)/components/MarketingOperatorGuideCard.tsx',
-  'uapi/components/base/bitcode/layout/nav.tsx',
-  'uapi/components/base/bitcode/layout/footer.tsx',
-  'uapi/components/base/bitcode/layout/NavBrand.tsx',
-  'uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
-  'uapi/components/base/bitcode/layout/bitcode-public-explainers.ts'
+  'apps/uapi/app/page.tsx',
+  'apps/uapi/app/docs/page.tsx',
+  'apps/uapi/app/demo-video/page.tsx',
+  'apps/uapi/app/(root)/components/PublicShellFrame.tsx',
+  'apps/uapi/app/(root)/components/MarketingLandingPage.tsx',
+  'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx',
+  'apps/uapi/app/(root)/components/MarketingOperatorGuideCard.tsx',
+  'apps/uapi/components/base/bitcode/layout/nav.tsx',
+  'apps/uapi/components/base/bitcode/layout/footer.tsx',
+  'apps/uapi/components/base/bitcode/layout/NavBrand.tsx',
+  'apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts',
+  'apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts'
 ];
 const V26_THIRD_GATE_PROOF_FILES = [
-  'uapi/tests/marketingLandingPage.test.tsx',
-  'uapi/tests/marketingOperatorGuideCard.test.tsx',
-  'uapi/tests/publicDocsPageContent.test.tsx',
-  'uapi/tests/navPublicShell.test.tsx',
-  'uapi/tests/footerPublicShell.test.tsx',
-  'uapi/tests/navBrand.test.tsx'
+  'apps/uapi/tests/marketingLandingPage.test.tsx',
+  'apps/uapi/tests/marketingOperatorGuideCard.test.tsx',
+  'apps/uapi/tests/publicDocsPageContent.test.tsx',
+  'apps/uapi/tests/navPublicShell.test.tsx',
+  'apps/uapi/tests/footerPublicShell.test.tsx',
+  'apps/uapi/tests/navBrand.test.tsx'
 ];
 const V26_THIRD_GATE_DOCUMENTATION_FILES = [
   'README.md',
-  'uapi/README.md',
+  'apps/uapi/README.md',
   'BITCODE_SPEC_V26_DELTA.md',
   'BITCODE_SPEC_V26_NOTES.md',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
@@ -175,12 +175,12 @@ const V26_FOURTH_GATE_PERSISTENCE_FILES = [
   'packages/orm/tsconfig.json',
   'packages/orm/scripts/generate-db-types.ts',
   'packages/orm/src/__tests__/bitcode-execution-storage.test.ts',
-  'uapi/app/edgetimes/edgetimes-topology.ts',
-  'uapi/app/edgetimes/EdgetimesPageContent.tsx',
-  'uapi/app/edgetimes/page.tsx',
-  'uapi/app/api/edgetimes/route.ts',
-  'uapi/tests/edgetimesPageContent.test.tsx',
-  'uapi/tests/api/edgetimesRoute.test.ts',
+  'apps/uapi/app/edgetimes/edgetimes-topology.ts',
+  'apps/uapi/app/edgetimes/EdgetimesPageContent.tsx',
+  'apps/uapi/app/edgetimes/page.tsx',
+  'apps/uapi/app/api/edgetimes/route.ts',
+  'apps/uapi/tests/edgetimesPageContent.test.tsx',
+  'apps/uapi/tests/api/edgetimesRoute.test.ts',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
@@ -196,17 +196,17 @@ const V26_FOURTH_GATE_STORAGE_TABLE_PARITY = [
   ['token_costs', 'token_costs']
 ];
 const V26_FOURTH_GATE_CONVERSATION_FILES = [
-  'uapi/app/conversations/page.tsx',
-  'uapi/app/conversations/ConversationsRouteClient.tsx',
-  'uapi/app/conversations/README.md',
-  'uapi/app/conversations/components/ConversationsOverlay.tsx',
-  'uapi/app/ClientLayoutInner.tsx',
-  'uapi/app/terminal/TerminalPageClient.tsx',
-  'uapi/app/api/conversations/route.ts',
-  'uapi/app/api/conversations/stream/route.ts',
-  'uapi/app/api/conversations/[conversationId]/stream/route.ts',
-  'uapi/app/api/conversations/branch/route.ts',
-  'uapi/app/api/conversations/_shared.ts',
+  'apps/uapi/app/conversations/page.tsx',
+  'apps/uapi/app/conversations/ConversationsRouteClient.tsx',
+  'apps/uapi/app/conversations/README.md',
+  'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+  'apps/uapi/app/ClientLayoutInner.tsx',
+  'apps/uapi/app/terminal/TerminalPageClient.tsx',
+  'apps/uapi/app/api/conversations/route.ts',
+  'apps/uapi/app/api/conversations/stream/route.ts',
+  'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
+  'apps/uapi/app/api/conversations/branch/route.ts',
+  'apps/uapi/app/api/conversations/_shared.ts',
   'packages/conversations/src/index.ts',
   'packages/conversations/src/agent/ConversationAgent.ts',
   'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
@@ -215,52 +215,52 @@ const V26_FOURTH_GATE_CONVERSATION_FILES = [
   'packages/api/src/conversations/messages.ts',
   'packages/api/src/conversations/attachments.ts',
   'packages/api/src/conversations/streaming.ts',
-  'uapi/tests/api/conversationsRoute.test.ts',
-  'uapi/tests/api/chatStreamRoute.test.ts',
-  'uapi/tests/api/conversationThreadStreamRoute.test.ts',
-  'uapi/tests/conversationsRouteClient.test.tsx'
+  'apps/uapi/tests/api/conversationsRoute.test.ts',
+  'apps/uapi/tests/api/chatStreamRoute.test.ts',
+  'apps/uapi/tests/api/conversationThreadStreamRoute.test.ts',
+  'apps/uapi/tests/conversationsRouteClient.test.tsx'
 ];
 const V26_FOURTH_GATE_ACTIVITY_FILES = [
-  'uapi/components/base/bitcode/activity/bitcode-activity-model.ts',
-  'uapi/app/terminal/terminal-run-activity.ts',
-  'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
-  'uapi/app/api/activity/route.ts',
-  'uapi/app/api/auxillaries/notifications/_shared.ts',
-  'uapi/app/api/auxillaries/notifications/route.ts',
-  'uapi/app/api/auxillaries/notifications/[notificationId]/route.ts',
-  'uapi/app/api/auxillaries/profile/route.ts',
-  'uapi/app/api/auxillaries/connections/github/route.ts',
-  'uapi/app/api/auxillaries/btd/route.ts',
-  'uapi/app/api/auxillaries/usage/route.ts',
-  'uapi/app/api/auxillaries/transactions/route.ts',
-  'uapi/app/api/auxillaries/api-keys/route.ts',
-  'uapi/tests/bitcodeActivityModel.test.ts',
-  'uapi/tests/terminalTransactionActivity.test.ts',
-  'uapi/tests/api/activityRoute.test.ts',
-  'uapi/tests/api/orbitalsNotificationsRoute.test.ts',
-  'uapi/tests/api/orbitalsProfileRoute.test.ts',
-  'uapi/tests/api/orbitalUsageRoute.test.ts',
-  'uapi/tests/api/auxillariesTransactionsRoute.test.ts',
-  'uapi/tests/userConnectionsGithubRoute.test.ts',
-  'uapi/tests/api/userBtdRoute.test.ts',
-  'uapi/tests/apiKeysRoutes.test.ts',
-  'uapi/tests/mcpSmoke.test.ts',
-  'uapi/tests/notificationsWidget.test.tsx'
+  'apps/uapi/components/base/bitcode/activity/bitcode-activity-model.ts',
+  'apps/uapi/app/terminal/terminal-run-activity.ts',
+  'apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
+  'apps/uapi/app/api/activity/route.ts',
+  'apps/uapi/app/api/auxillaries/notifications/_shared.ts',
+  'apps/uapi/app/api/auxillaries/notifications/route.ts',
+  'apps/uapi/app/api/auxillaries/notifications/[notificationId]/route.ts',
+  'apps/uapi/app/api/auxillaries/profile/route.ts',
+  'apps/uapi/app/api/auxillaries/connections/github/route.ts',
+  'apps/uapi/app/api/auxillaries/btd/route.ts',
+  'apps/uapi/app/api/auxillaries/usage/route.ts',
+  'apps/uapi/app/api/auxillaries/transactions/route.ts',
+  'apps/uapi/app/api/auxillaries/api-keys/route.ts',
+  'apps/uapi/tests/bitcodeActivityModel.test.ts',
+  'apps/uapi/tests/terminalTransactionActivity.test.ts',
+  'apps/uapi/tests/api/activityRoute.test.ts',
+  'apps/uapi/tests/api/orbitalsNotificationsRoute.test.ts',
+  'apps/uapi/tests/api/orbitalsProfileRoute.test.ts',
+  'apps/uapi/tests/api/orbitalUsageRoute.test.ts',
+  'apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts',
+  'apps/uapi/tests/userConnectionsGithubRoute.test.ts',
+  'apps/uapi/tests/api/userBtdRoute.test.ts',
+  'apps/uapi/tests/apiKeysRoutes.test.ts',
+  'apps/uapi/tests/mcpSmoke.test.ts',
+  'apps/uapi/tests/notificationsWidget.test.tsx'
 ];
 const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
-  'uapi/app/executions/page.tsx',
-  'uapi/app/executions/[runId]/page.tsx',
-  'uapi/app/executions/README.md',
-  'uapi/app/executions/components/ExecutionsPage.tsx',
-  'uapi/app/executions/components/ExecutionsPageClient.tsx',
-  'uapi/app/executions/components/ExecutionsDetailsView.tsx',
-  'uapi/app/api/executions/route.ts',
-  'uapi/app/api/executions/history/route.ts',
-  'uapi/app/api/executions/history/[runId]/route.ts',
-  'uapi/app/api/executions/_shared.ts',
-  'uapi/app/api/vcs/route.ts',
-  'uapi/app/api/auxillaries/template-preferences/route.ts',
-  'uapi/app/api/templates/shippables/route.ts',
+  'apps/uapi/app/executions/page.tsx',
+  'apps/uapi/app/executions/[runId]/page.tsx',
+  'apps/uapi/app/executions/README.md',
+  'apps/uapi/app/executions/components/ExecutionsPage.tsx',
+  'apps/uapi/app/executions/components/ExecutionsPageClient.tsx',
+  'apps/uapi/app/executions/components/ExecutionsDetailsView.tsx',
+  'apps/uapi/app/api/executions/route.ts',
+  'apps/uapi/app/api/executions/history/route.ts',
+  'apps/uapi/app/api/executions/history/[runId]/route.ts',
+  'apps/uapi/app/api/executions/_shared.ts',
+  'apps/uapi/app/api/vcs/route.ts',
+  'apps/uapi/app/api/auxillaries/template-preferences/route.ts',
+  'apps/uapi/app/api/templates/shippables/route.ts',
   'packages/api/src/routes/shippables.ts',
   'packages/api/src/pipelines/branch.ts',
   'packages/execution-generics/src/Execution.ts',
@@ -270,14 +270,14 @@ const V26_FOURTH_GATE_RUNS_PIPELINES_FILES = [
   'packages/pipelines-generics/src/execution/PipelineExecutor.ts',
   'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
   'packages/asset-packs-pipelines/domain/src/run.ts',
-  'uapi/tests/api/shippableTemplatesRoute.test.ts',
-  'uapi/tests/api/vcsCompatibilityRoute.test.ts',
-  'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
-  'uapi/tests/api/deliverableTemplatesRoute.test.ts',
-  'uapi/tests/api/executionsHistoryRoute.test.ts',
-  'uapi/tests/api/executionsHistoryRunRoute.test.ts',
-  'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
-  'uapi/tests/usePipelineExecution.test.tsx'
+  'apps/uapi/tests/api/shippableTemplatesRoute.test.ts',
+  'apps/uapi/tests/api/vcsCompatibilityRoute.test.ts',
+  'apps/uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
+  'apps/uapi/tests/api/deliverableTemplatesRoute.test.ts',
+  'apps/uapi/tests/api/executionsHistoryRoute.test.ts',
+  'apps/uapi/tests/api/executionsHistoryRunRoute.test.ts',
+  'apps/uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
+  'apps/uapi/tests/usePipelineExecution.test.tsx'
 ];
 const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/prompts/README.md',
@@ -365,9 +365,9 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/digest/prompts/doc-code-tool.generate-digest.ts',
   'packages/generic-tools/files-maintaining/src/prompts/tool-prompt-transaction-begin.ts',
   'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
-  'packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
-  'packages/external-apps/chatgpt/tsconfig.test.json',
-  'packages/external-apps/chatgpt/jest.config.cjs',
+  'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+  'apps/chatgpt/tsconfig.test.json',
+  'apps/chatgpt/jest.config.cjs',
   'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
   'packages/doc-comment-generics/README.md',
   'packages/doc-comment-generics/IMPLEMENTATION.md',
@@ -1873,13 +1873,13 @@ function buildV26TerminalCompositionProof({
       'terminal-route-and-shell-owners',
       'Terminal route, shell bridge, and native surface owners remain explicit',
       [
-        'uapi/app/terminal/page.tsx',
-        'uapi/app/terminal/TerminalPageClient.tsx',
-        'uapi/app/terminal/terminal-shell-bridge.tsx',
-        'uapi/app/terminal/TerminalExperienceFrame.tsx',
-        'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-        'uapi/app/terminal/TerminalWorkspaceRail.tsx',
-        'uapi/app/terminal/TerminalPreservedShellSurface.tsx',
+        'apps/uapi/app/terminal/page.tsx',
+        'apps/uapi/app/terminal/TerminalPageClient.tsx',
+        'apps/uapi/app/terminal/terminal-shell-bridge.tsx',
+        'apps/uapi/app/terminal/TerminalExperienceFrame.tsx',
+        'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
+        'apps/uapi/app/terminal/TerminalWorkspaceRail.tsx',
+        'apps/uapi/app/terminal/TerminalPreservedShellSurface.tsx',
         'protocol-demonstration/public/app.js',
         'protocol-demonstration/src/client-entry.js'
       ]
@@ -1888,12 +1888,12 @@ function buildV26TerminalCompositionProof({
       'terminal-route-state-and-debug-owners',
       'Route query state, environment controls, and floating debug-widget owners remain explicit',
       [
-        'uapi/app/terminal/terminal-transaction-query.ts',
-        'uapi/app/terminal/TerminalExternalInterfacingPanel.tsx',
-        'uapi/app/terminal/TerminalFloatingDebugWidget.tsx',
-        'uapi/tests/terminalTransactionQuery.test.ts',
-        'uapi/tests/terminalExternalInterfacingPanel.test.tsx',
-        'uapi/tests/terminalFloatingDebugWidget.test.tsx'
+        'apps/uapi/app/terminal/terminal-transaction-query.ts',
+        'apps/uapi/app/terminal/TerminalExternalInterfacingPanel.tsx',
+        'apps/uapi/app/terminal/TerminalFloatingDebugWidget.tsx',
+        'apps/uapi/tests/terminalTransactionQuery.test.ts',
+        'apps/uapi/tests/terminalExternalInterfacingPanel.test.tsx',
+        'apps/uapi/tests/terminalFloatingDebugWidget.test.tsx'
       ]
     ),
     buildV26FileContentCheck(
@@ -1901,57 +1901,57 @@ function buildV26TerminalCompositionProof({
       'ChatGPT App connected-interface writes fail closed on explicit confirmation and emit Bitcode write-admission receipts',
       [
         {
-          file: 'packages/external-apps/chatgpt/src/tools.ts',
+          file: 'apps/chatgpt/src/tools.ts',
           evidence: 'function assertConfirmedConnectedInterfaceWrite',
           description: 'ChatGPT App write tools share a fail-closed confirmation guard'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/tools.ts',
+          file: 'apps/chatgpt/src/tools.ts',
           evidence: 'Bitcode ChatGPT App write admission requires confirmed: true',
           description: 'direct tool execution rejects unconfirmed connected-interface writes'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/tools.ts',
+          file: 'apps/chatgpt/src/tools.ts',
           evidence: "permission: 'explicit_user_confirmation'",
           description: 'write receipts expose explicit confirmation as the permission basis'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/tools.ts',
+          file: 'apps/chatgpt/src/tools.ts',
           evidence: "exchangeStateRole: 'connected_interface_delivery_mechanism'",
           description: 'ChatGPT App writes are delivery mechanisms rather than Exchange state owners'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/server.ts',
+          file: 'apps/chatgpt/src/server.ts',
           evidence: 'Bitcode is the source-to-shares protocol surfaced through ChatGPT',
           description: 'server instructions frame ChatGPT App as a Bitcode Terminal companion interface'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+          file: 'apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: 'rejects ChatGPT App connected-interface writes without explicit confirmation',
           description: 'unit proof covers unconfirmed write rejection'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+          file: 'apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
           description: 'unit proof covers schema-level confirmation requirements across GitHub, Vercel, and AWS write carriers'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+          file: 'apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: 'write_code_changes_to_vcs creates GitHub repository after explicit write admission',
           description: 'unit proof covers GitHub write admission through the ChatGPT App VCS tool'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+          file: 'apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: "targetAnchor: 'github:bitcode-yapper'",
           description: 'unit proof covers target-bound GitHub write admission'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+          file: 'apps/chatgpt/src/__tests__/tools.test.ts',
           evidence: "targetAnchor: 'vercel:team_bitcode/prj_Yapper'",
           description: 'unit proof covers target-bound Vercel write admission'
         },
         {
-          file: 'packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts',
+          file: 'apps/chatgpt/src/__tests__/yapperFlow.test.ts',
           evidence: 'confirmed: true',
           description: 'demo-flow proof invokes write tools through explicit confirmation payloads'
         }
@@ -1992,20 +1992,20 @@ function buildV26EnvironmentModeCoherenceProof({
       [
         'protocol-demonstration/src/canonical/v24-external-realization.js',
         'protocol-demonstration/server.js',
-        'uapi/app/api/external-realization/route.ts'
+        'apps/uapi/app/api/external-realization/route.ts'
       ]
     ),
     buildV26FilePresenceCheck(
       'environment-terminal-controls-and-tests',
       'Terminal environment controls and route-local proof carriers remain explicit',
       [
-        'uapi/app/terminal/terminal-external-runtime.ts',
-        'uapi/app/terminal/TerminalExternalInterfacingPanel.tsx',
-        'uapi/app/terminal/TerminalFloatingDebugWidget.tsx',
-        'uapi/tests/api/externalRealizationRoute.test.ts',
-        'uapi/tests/terminalExternalRuntime.test.ts',
-        'uapi/tests/terminalExternalInterfacingPanel.test.tsx',
-        'uapi/tests/terminalFloatingDebugWidget.test.tsx'
+        'apps/uapi/app/terminal/terminal-external-runtime.ts',
+        'apps/uapi/app/terminal/TerminalExternalInterfacingPanel.tsx',
+        'apps/uapi/app/terminal/TerminalFloatingDebugWidget.tsx',
+        'apps/uapi/tests/api/externalRealizationRoute.test.ts',
+        'apps/uapi/tests/terminalExternalRuntime.test.ts',
+        'apps/uapi/tests/terminalExternalInterfacingPanel.test.tsx',
+        'apps/uapi/tests/terminalFloatingDebugWidget.test.tsx'
       ]
     )
   ];
@@ -2417,9 +2417,9 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsatisfactionimplementationcomplexity_doccodetoolexample3.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_validateneedcomprehension_doccodetoolpurpose.ts',
         'packages/generic-tools/vcs/src/prompts/ListRepositoriesDocCodeToolPrompt.ts',
-        'packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
-        'packages/external-apps/chatgpt/tsconfig.test.json',
-        'packages/external-apps/chatgpt/jest.config.cjs',
+        'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+        'apps/chatgpt/tsconfig.test.json',
+        'apps/chatgpt/jest.config.cjs',
         'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
         'packages/doc-comment-generics/README.md',
         'packages/doc-comment-generics/IMPLEMENTATION.md',
@@ -2576,20 +2576,20 @@ function buildV26SourceToSharesFifthGateProof({
       'commercial-read-review-route-parity',
       'Commercial production SPEC-IMPL preserves the protocol Read-review admission boundary and blocks fit search until accept',
       [
-        'uapi/app/api/read-review/route.ts',
-        'uapi/app/api/make-bitcode-branch/route.ts',
-        'uapi/app/terminal/TerminalReadScenarioPanel.tsx',
-        'uapi/tests/api/readReviewRoute.test.ts',
-        'uapi/tests/api/readReviewProtocolParity.test.ts'
+        'apps/uapi/app/api/read-review/route.ts',
+        'apps/uapi/app/api/make-bitcode-branch/route.ts',
+        'apps/uapi/app/terminal/TerminalReadScenarioPanel.tsx',
+        'apps/uapi/tests/api/readReviewRoute.test.ts',
+        'apps/uapi/tests/api/readReviewProtocolParity.test.ts'
       ]
     ),
     buildV26FilePresenceCheck(
       'commercial-state-route-reread-parity',
       'Commercial production SPEC-IMPL rereads accepted Read review, source-to-shares artifacts, settlement preview, and quantized fit-quality evidence through the app-owned state route after branch materialization',
       [
-        'uapi/app/api/state/route.ts',
-        'uapi/app/api/make-bitcode-branch/route.ts',
-        'uapi/tests/api/readReviewProtocolParity.test.ts'
+        'apps/uapi/app/api/state/route.ts',
+        'apps/uapi/app/api/make-bitcode-branch/route.ts',
+        'apps/uapi/tests/api/readReviewProtocolParity.test.ts'
       ]
     ),
     buildV26FileContentCheck(
@@ -2597,32 +2597,32 @@ function buildV26SourceToSharesFifthGateProof({
       'Commercial route reread proof checks the exact state-route assertions for accepted Read review, quantized source-to-shares continuity, private-file redaction, and settlement-proof carry-through',
       [
         {
-          file: 'uapi/app/api/state/route.ts',
+          file: 'apps/uapi/app/api/state/route.ts',
           evidence: 'getBitcodeAppContext().getState(principal)',
           description: 'state route delegates principal-scoped reread to the protocol-backed app context'
         },
         {
-          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+          file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route',
           description: 'commercial parity test owns an explicit source-to-shares state-reread scenario'
         },
         {
-          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+          file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'http://localhost/api/state?principal=buyer',
           description: 'reread uses the buyer projection instead of inspecting only a branch response'
         },
         {
-          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+          file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'statePayload.latestRun.sourceToSharesArtifact.quantizedFitQualities.fitQualityHash',
           description: 'reread asserts quantized source-to-shares fit-quality hash continuity'
         },
         {
-          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+          file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'statePayload.latestRun.branchArtifacts.files).toBeUndefined()',
           description: 'reread proves private raw branch files are not exposed through the buyer state projection'
         },
         {
-          file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+          file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
           evidence: 'statePayload.latestRun.settlementSourceToSharesProof.memberVerdicts',
           description: 'reread asserts settlement-source-to-shares proof carry-through'
         }
@@ -2632,11 +2632,11 @@ function buildV26SourceToSharesFifthGateProof({
       'commercial-activity-ledger-write-reread',
       'Commercial production SPEC-IMPL records deposit, read, and closure writes into execution history and rereads them through the same Bitcode activity ledger',
       [
-        'uapi/app/api/executions/history/route.ts',
+        'apps/uapi/app/api/executions/history/route.ts',
         'packages/api/src/routes/executions.ts',
-        'uapi/app/terminal/terminal-activity-history.ts',
-        'uapi/tests/terminalActivityHistory.test.ts',
-        'uapi/tests/api/executionsHistoryWriteReadParity.test.ts'
+        'apps/uapi/app/terminal/terminal-activity-history.ts',
+        'apps/uapi/tests/terminalActivityHistory.test.ts',
+        'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts'
       ]
     ),
     buildV26FileContentCheck(
@@ -2644,7 +2644,7 @@ function buildV26SourceToSharesFifthGateProof({
       'Commercial activity-ledger write proof checks completed Bitcode activity recording, normalized execution-history storage, and immediate reread ordering through the same route family',
       [
         {
-          file: 'uapi/app/terminal/terminal-activity-history.ts',
+          file: 'apps/uapi/app/terminal/terminal-activity-history.ts',
           evidence: "status: draft.status || 'completed'",
           description: 'Terminal activity recordings default to completed Bitcode ledger writes'
         },
@@ -2654,12 +2654,12 @@ function buildV26SourceToSharesFifthGateProof({
           description: 'execution-history inserts persist terminal activity completion timestamps for reread'
         },
         {
-          file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+          file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
           evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
           description: 'commercial parity test proves deposit/read/closure writes reread through the same execution-history ledger'
         },
         {
-          file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+          file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
           evidence: "expect(historyPayload.map((row: any) => row.summary)).toEqual([",
           description: 'commercial parity test asserts newest-first reread ordering from the execution-history route'
         }
@@ -2669,12 +2669,12 @@ function buildV26SourceToSharesFifthGateProof({
       'terminal-source-to-shares-settlement-read',
       'Bitcode Terminal reads Read review, fit-search admission, quantized fit quality, and source-to-shares settlement as one closure sequence',
       [
-        'uapi/app/terminal/TerminalClosureNativeSections.tsx',
-        'uapi/app/terminal/terminal-closure-state.ts',
-        'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-        'uapi/app/terminal/terminal-activity-history.ts',
-        'uapi/tests/terminalClosureState.test.ts',
-        'uapi/tests/terminalTransactionDetailSnapshot.test.ts'
+        'apps/uapi/app/terminal/TerminalClosureNativeSections.tsx',
+        'apps/uapi/app/terminal/terminal-closure-state.ts',
+        'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+        'apps/uapi/app/terminal/terminal-activity-history.ts',
+        'apps/uapi/tests/terminalClosureState.test.ts',
+        'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts'
       ]
     ),
     buildV26FileContentCheck(
@@ -2682,52 +2682,52 @@ function buildV26SourceToSharesFifthGateProof({
       'Bitcode Terminal read proof checks the native closure and selected-detail assertions for Read review, present-fit settlement review, quantized fit-quality rows, and persisted source-to-shares detail carry-through',
       [
         {
-          file: 'uapi/app/terminal/TerminalClosureNativeSections.tsx',
+          file: 'apps/uapi/app/terminal/TerminalClosureNativeSections.tsx',
           evidence: 'Read closure as one sequence from reviewable Read admission through verification, asset-pack branch materialization, source-to-shares settlement, and ledger continuity.',
           description: 'native Terminal closure card teaches the complete review-to-settlement sequence'
         },
         {
-          file: 'uapi/app/terminal/terminal-closure-state.ts',
+          file: 'apps/uapi/app/terminal/terminal-closure-state.ts',
           evidence: "{ label: 'Fit search admitted', value: readReview.fitSearchAdmitted === true ? 'yes' : 'no' }",
           description: 'closure-state normalization exposes fit-search admission as Terminal read state'
         },
         {
-          file: 'uapi/app/terminal/terminal-closure-state.ts',
+          file: 'apps/uapi/app/terminal/terminal-closure-state.ts',
           evidence: "{ label: 'Objective contract', value: stringValue(settlement.quantizedObjectiveContractId) }",
           description: 'closure-state normalization preserves the quantized objective contract row'
         },
         {
-          file: 'uapi/app/terminal/terminal-closure-state.ts',
+          file: 'apps/uapi/app/terminal/terminal-closure-state.ts',
           evidence: "{ label: 'Source-to-shares ref', value: stringValue(settlement.sourceToSharesRef) }",
           description: 'closure-state normalization preserves the source-to-shares reference row'
         },
         {
-          file: 'uapi/app/terminal/terminal-closure-state.ts',
+          file: 'apps/uapi/app/terminal/terminal-closure-state.ts',
           evidence: "{ label: 'Fit-quality hash', value: stringValue(settlement.fitQualityHash) }",
           description: 'closure-state normalization preserves the fit-quality hash row'
         },
         {
-          file: 'uapi/tests/terminalClosureState.test.ts',
+          file: 'apps/uapi/tests/terminalClosureState.test.ts',
           evidence: "expect(closure?.settlement.rows.find((entry) => entry.label === 'Objective contract')?.value).toBe(",
           description: 'native closure-state test asserts objective-contract visibility'
         },
         {
-          file: 'uapi/tests/terminalClosureState.test.ts',
+          file: 'apps/uapi/tests/terminalClosureState.test.ts',
           evidence: "expect(closure?.settlement.fitQualities?.[0]?.detail).toContain('source-to-shares-weighted-objective')",
           description: 'native closure-state test asserts source-to-shares fit-quality detail'
         },
         {
-          file: 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+          file: 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
           evidence: 'fitQualities: coerceFitQualities(value.fitQualities)',
           description: 'selected-detail snapshot preserves persisted fit-quality rows'
         },
         {
-          file: 'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
+          file: 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
           evidence: "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
           description: 'selected-detail snapshot test asserts present-fit settlement review persistence'
         },
         {
-          file: 'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
+          file: 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
           evidence: "detail: '10000 bp · source-to-shares-weighted-objective'",
           description: 'selected-detail snapshot test asserts source-to-shares fit-quality persistence'
         }
@@ -2884,7 +2884,7 @@ function buildV26FifthGateClosureDeepeningProof({
       'terminal-read-write-loop',
       'Bitcode Terminal read/write loop',
       ['terminal-composition', 'source-to-shares', 'product-readiness-audit', 'environment-mode-coherence'],
-      'Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
+      'Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only apps/uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.',
       'Closed by the fifth-gate closure proof as a minimum-functional read/write baseline; sixth-gate and later harden wider browser/authenticated production coverage.'
     ),
     axis(
@@ -3086,17 +3086,17 @@ function buildV26FifthGateClosureProof({
         'Terminal deposit, read, deposit, branch, closure, selected-detail, and ledger reread are source-backed by route/API tests',
         [
           {
-            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
             evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
             description: 'execution-history parity proves write/reread continuity'
           },
           {
-            file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+            file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
             evidence: 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route',
             description: 'state route rereads accepted source-to-shares branch materialization'
           },
           {
-            file: 'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
+            file: 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
             evidence: "{ label: 'Present-fit review', value: 'present-fit-for-settlement-review' }",
             description: 'selected-detail snapshot preserves settlement review posture'
           },
@@ -3128,12 +3128,12 @@ function buildV26FifthGateClosureProof({
             description: 'package test locks branched attachment continuity'
           },
           {
-            file: 'uapi/tests/api/conversationThreadStreamRoute.test.ts',
+            file: 'apps/uapi/tests/api/conversationThreadStreamRoute.test.ts',
             evidence: "output_destinations: expect.arrayContaining",
             description: 'thread stream route proves destination roundtrip'
           },
           {
-            file: 'uapi/tests/api/chatStreamRoute.test.ts',
+            file: 'apps/uapi/tests/api/chatStreamRoute.test.ts',
             evidence: "rich_input: expect.objectContaining",
             description: 'root stream route proves normalized rich input execution evidence'
           }
@@ -3150,22 +3150,22 @@ function buildV26FifthGateClosureProof({
         'Repository and wallet readiness distinguish manual identity, saved signer posture, live sessions, stored inventory, and reconnect-required failures',
         [
           {
-            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            file: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
             evidence: 'live wallet-provider signing session is no longer available',
             description: 'route admission downgrades saved wallet signer posture without a live provider session'
           },
           {
-            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            file: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
             evidence: 'outside the connected provider inventory',
             description: 'route admission rejects repository anchors outside connected provider inventory'
           },
           {
-            file: 'uapi/tests/terminalFlowGuideCard.test.tsx',
+            file: 'apps/uapi/tests/terminalFlowGuideCard.test.tsx',
             evidence: 'repository-reconnect-required',
             description: 'Terminal flow guide exposes repository reconnect-required posture'
           },
           {
-            file: 'uapi/tests/orbitalsBTDPane.test.tsx',
+            file: 'apps/uapi/tests/orbitalsBTDPane.test.tsx',
             evidence: 'wallet provider must reconnect before Bitcode can rely on live signing again',
             description: '$BTD auxiliary read exposes live signing truth'
           }
@@ -3192,12 +3192,12 @@ function buildV26FifthGateClosureProof({
             description: 'package-local storage test locks the schema bridge'
           },
           {
-            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
             evidence: "repo_snapshot: {",
             description: 'execution-history route test covers persisted repository snapshot reread'
           },
           {
-            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
             evidence: 'processing_stats: {',
             description: 'execution-history route test covers persisted processing statistics reread'
           },
@@ -3470,17 +3470,17 @@ function buildV26SixthGateMvpClosureProof({
         'Terminal source owns activity, transactions, conversations, and auxillaries as implementation-bearing MVP surfaces',
         [
           {
-            file: 'uapi/app/terminal/terminal-experience-architecture.ts',
+            file: 'apps/uapi/app/terminal/terminal-experience-architecture.ts',
             evidence: 'SIXTH_GATE_MVP_TERMINAL_MAP',
             description: 'Terminal map source exports the sixth-gate MVP map'
           },
           {
-            file: 'uapi/app/terminal/terminal-experience-architecture.ts',
+            file: 'apps/uapi/app/terminal/terminal-experience-architecture.ts',
             evidence: 'dominant-master-detail-read-surface',
             description: 'activity is named as the dominant read surface'
           },
           {
-            file: 'uapi/tests/terminalExperienceArchitecture.test.ts',
+            file: 'apps/uapi/tests/terminalExperienceArchitecture.test.ts',
             evidence: 'locks the post-fifth-gate Terminal map to activity, transactions, conversations, and auxillaries',
             description: 'test locks the four-surface MVP map'
           },
@@ -3501,22 +3501,22 @@ function buildV26SixthGateMvpClosureProof({
         'Activity and transaction surfaces search, filter, paginate, select, write, and reread through the same operator loop',
         [
           {
-            file: 'uapi/tests/terminalTransactions.test.ts',
+            file: 'apps/uapi/tests/terminalTransactions.test.ts',
             evidence: 'filters transactions by search, ownership, and repository',
             description: 'transaction ledger filtering is tested'
           },
           {
-            file: 'uapi/tests/terminalTransactionQuery.test.ts',
+            file: 'apps/uapi/tests/terminalTransactionQuery.test.ts',
             evidence: 'reads and writes transaction pagination through route query state',
             description: 'transaction pagination is route-stable'
           },
           {
-            file: 'uapi/tests/e2e/terminal.terminal.flow.spec.ts',
+            file: 'apps/uapi/tests/e2e/terminal.terminal.flow.spec.ts',
             evidence: 'Terminal route keeps read, selection, and repository-anchor write-through in one master-detail surface',
             description: 'browser story covers the repeated operator master-detail loop'
           },
           {
-            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
             evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
             description: 'write-through reread is route-tested'
           }
@@ -3532,22 +3532,22 @@ function buildV26SixthGateMvpClosureProof({
         'Conversations are fullscreen/popup-capable and aligned with retained ChatGPT App connected-interface tooling',
         [
           {
-            file: 'uapi/app/conversations/components/ConversationsOverlay.tsx',
+            file: 'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
             evidence: 'Multiple view modes (floating, sidebar, fullscreen, split-screen)',
             description: 'conversation overlay owns popup/fullscreen modes'
           },
           {
-            file: 'uapi/tests/conversationsRouteClient.test.tsx',
+            file: 'apps/uapi/tests/conversationsRouteClient.test.tsx',
             evidence: 'forceFullscreen=true',
             description: 'direct route tests fullscreen conversation mode'
           },
           {
-            file: 'packages/external-apps/chatgpt/src/server.ts',
+            file: 'apps/chatgpt/src/server.ts',
             evidence: 'connected-interface Bitcode Terminal companion',
             description: 'ChatGPT App is specified as a Terminal companion, not a parallel product'
           },
           {
-            file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+            file: 'apps/chatgpt/src/__tests__/tools.test.ts',
             evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
             description: 'ChatGPT App write tools share admission semantics'
           }
@@ -3563,22 +3563,22 @@ function buildV26SixthGateMvpClosureProof({
         'Auxillaries keep Connects, Interfaces, Profile, BTC fee liquidity, and non-fungible BTD posture around the network core',
         [
           {
-            file: 'uapi/app/auxillaries/components/auxillary-pane-meta.ts',
+            file: 'apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts',
             evidence: 'Connects, Interfaces, Profile, and $BTD',
             description: 'auxillary pane contract names the non-duplicative panes'
           },
           {
-            file: 'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+            file: 'apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
             evidence: '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture',
             description: 'BTD pane distinguishes non-fungible shares from BTC fees'
           },
           {
-            file: 'uapi/tests/userDataRoute.test.ts',
+            file: 'apps/uapi/tests/userDataRoute.test.ts',
             evidence: 'walletConnectionStatus',
             description: 'auxillary reread route includes wallet-provider session truth'
           },
           {
-            file: 'uapi/tests/orbitalsBTDPane.test.tsx',
+            file: 'apps/uapi/tests/orbitalsBTDPane.test.tsx',
             evidence: 'wallet provider must reconnect before Bitcode can rely on live signing again',
             description: 'BTD pane test blocks saved-signer-only settlement posture'
           }
@@ -3599,12 +3599,12 @@ function buildV26SixthGateMvpClosureProof({
             description: 'Bitcode MCP writes emit write-admission receipts'
           },
           {
-            file: 'packages/external-apps/chatgpt/src/server.ts',
+            file: 'apps/chatgpt/src/server.ts',
             evidence: 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state',
             description: 'ChatGPT App read tools are Exchange input evidence'
           },
           {
-            file: 'uapi/tests/api/readReviewProtocolParity.test.ts',
+            file: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
             evidence: 'rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route',
             description: 'commercial API rereads protocol state'
           },
@@ -3849,12 +3849,12 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'canonical spec sets testnet-first commercial launch boundary'
           },
           {
-            file: 'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+            file: 'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
             evidence: 'testnet-first',
             description: 'launch-readiness source names the testnet-first launch posture'
           },
           {
-            file: 'uapi/tests/terminalCommercialLaunchReadiness.test.ts',
+            file: 'apps/uapi/tests/terminalCommercialLaunchReadiness.test.ts',
             evidence: 'testnet-first',
             description: 'terminal launch-readiness test locks testnet-first language'
           }
@@ -3875,12 +3875,12 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'canonical spec requires commercially legible cross-surface posture'
           },
           {
-            file: 'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+            file: 'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
             evidence: 'one commercial Bitcode product',
             description: 'launch-readiness source names the one-product commercial story'
           },
           {
-            file: 'packages/external-apps/chatgpt/src/server.ts',
+            file: 'apps/chatgpt/src/server.ts',
             evidence: 'connected-interface Bitcode Terminal companion',
             description: 'ChatGPT App remains a companion interface'
           }
@@ -3896,22 +3896,22 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'Wallet BTC/$BTD posture, signed-settlement reread, and repository/provider scope are source-checked as launch-critical',
         [
           {
-            file: 'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+            file: 'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
             evidence: 'BTC fee liquidity and non-fungible $BTD share/read-right holdings',
             description: 'launch map requires BTC fee and BTD share/read-right visibility'
           },
           {
-            file: 'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+            file: 'apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
             evidence: '$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture',
             description: 'BTD pane distinguishes BTD shares from BTC fee liquidity'
           },
           {
-            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            file: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
             evidence: 'outside the connected provider inventory',
             description: 'write-admission test rejects repository scope drift'
           },
           {
-            file: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+            file: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
             evidence: 'live wallet-provider signing session is no longer available',
             description: 'write-admission test rejects saved-signer-only settlement'
           }
@@ -3927,17 +3927,17 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'Operator activity, transaction detail, proof state, and history reread share one repeated launch loop',
         [
           {
-            file: 'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+            file: 'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
             evidence: 'proof state, history, settlement follow-through, and route reread stay in one repeated operator loop',
             description: 'launch map requires proof/state reread as one operator loop'
           },
           {
-            file: 'uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
+            file: 'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts',
             evidence: 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger',
             description: 'activity ledger write-reread path is tested'
           },
           {
-            file: 'uapi/tests/api/activityRoute.test.ts',
+            file: 'apps/uapi/tests/api/activityRoute.test.ts',
             evidence: 'returns live activity with persisted execution reread and notification aggregation',
             description: 'live activity route reread is tested'
           }
@@ -3953,7 +3953,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'MCP and ChatGPT App launch surfaces remain connected interfaces with confirmation and write-admission semantics',
         [
           {
-            file: 'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+            file: 'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
             evidence: 'not as parallel Exchange owners',
             description: 'launch map blocks parallel Exchange ownership by connected interfaces'
           },
@@ -3963,7 +3963,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'MCP accepted writes emit write-admission metadata'
           },
           {
-            file: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+            file: 'apps/chatgpt/src/__tests__/tools.test.ts',
             evidence: 'declares confirmation schema on every ChatGPT App connected-interface write carrier',
             description: 'ChatGPT App write carriers require confirmation schema'
           }
@@ -3979,7 +3979,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'Launch documentation and source explain Bitcode journeys directly without compatibility fallback for core user paths',
         [
           {
-            file: 'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+            file: 'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
             evidence: 'without non-Bitcode compatibility fallback',
             description: 'launch map requires direct Bitcode journey explanation'
           },
@@ -4183,9 +4183,9 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     fifthGateUse: 'Shows that Terminal conversations and admitted MCP ingress are prompt-bearing interfaces over Bitcode state, not parallel products.',
     laterGateRemaining: 'MCP and third-party app prompt quality, permissioning, and commercial readiness remain sixth/seventh-gate refinements.',
     requiredFiles: [
-      'uapi/prompts/bitcode-terminal-system-prompt.ts',
-      'uapi/app/api/conversations/stream/route.ts',
-      'uapi/app/api/conversations/[conversationId]/stream/route.ts',
+      'apps/uapi/prompts/bitcode-terminal-system-prompt.ts',
+      'apps/uapi/app/api/conversations/stream/route.ts',
+      'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
       'packages/mcp-generics/package.json',
       'packages/mcp-generics/src/mcp-server/src/prompts/analysis-prompts.ts',
       'packages/mcp-generics/src/mcp-server/src/prompts/workflow-prompts.ts',
@@ -4337,23 +4337,23 @@ function buildV26ConversationsContinuityProof({
       'conversations-route-and-overlay-owners',
       'Direct conversations route and fullscreen overlay owners',
       [
-        'uapi/app/conversations/page.tsx',
-        'uapi/app/conversations/ConversationsRouteClient.tsx',
-        'uapi/app/conversations/README.md',
-        'uapi/app/conversations/components/ConversationsOverlay.tsx',
-        'uapi/app/ClientLayoutInner.tsx',
-        'uapi/app/terminal/TerminalPageClient.tsx'
+        'apps/uapi/app/conversations/page.tsx',
+        'apps/uapi/app/conversations/ConversationsRouteClient.tsx',
+        'apps/uapi/app/conversations/README.md',
+        'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+        'apps/uapi/app/ClientLayoutInner.tsx',
+        'apps/uapi/app/terminal/TerminalPageClient.tsx'
       ]
     ),
     buildV26FilePresenceCheck(
       'conversations-api-carriers',
       'Conversations API and mock-mode carriers',
       [
-        'uapi/app/api/conversations/route.ts',
-        'uapi/app/api/conversations/stream/route.ts',
-        'uapi/app/api/conversations/[conversationId]/stream/route.ts',
-        'uapi/app/api/conversations/branch/route.ts',
-        'uapi/app/api/conversations/_shared.ts'
+        'apps/uapi/app/api/conversations/route.ts',
+        'apps/uapi/app/api/conversations/stream/route.ts',
+        'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
+        'apps/uapi/app/api/conversations/branch/route.ts',
+        'apps/uapi/app/api/conversations/_shared.ts'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -4369,11 +4369,11 @@ function buildV26ConversationsContinuityProof({
         'packages/api/src/conversations/attachments.ts',
         'packages/api/src/conversations/streaming.ts',
         'packages/api/src/conversations/__tests__/branch-conversation.test.ts',
-        'uapi/tests/api/conversationsRoute.test.ts',
-        'uapi/tests/api/chatStreamRoute.test.ts',
-        'uapi/tests/api/conversationBranchRoute.test.ts',
-        'uapi/tests/api/conversationThreadStreamRoute.test.ts',
-        'uapi/tests/conversationsRouteClient.test.tsx'
+        'apps/uapi/tests/api/conversationsRoute.test.ts',
+        'apps/uapi/tests/api/chatStreamRoute.test.ts',
+        'apps/uapi/tests/api/conversationBranchRoute.test.ts',
+        'apps/uapi/tests/api/conversationThreadStreamRoute.test.ts',
+        'apps/uapi/tests/conversationsRouteClient.test.tsx'
       ]
     ),
     buildV26FileContentCheck(
@@ -4421,17 +4421,17 @@ function buildV26ConversationsContinuityProof({
           description: 'package-level branching test proves copied attachment continuity'
         },
         {
-          file: 'uapi/tests/api/conversationBranchRoute.test.ts',
+          file: 'apps/uapi/tests/api/conversationBranchRoute.test.ts',
           evidence: 'copiedAttachmentCount',
           description: 'App Router branch route preserves copied attachment continuity at the interface boundary'
         },
         {
-          file: 'uapi/tests/api/chatStreamRoute.test.ts',
+          file: 'apps/uapi/tests/api/chatStreamRoute.test.ts',
           evidence: "rich_input: expect.objectContaining",
           description: 'root conversation stream test asserts persisted Read-measurement rich input'
         },
         {
-          file: 'uapi/tests/api/conversationThreadStreamRoute.test.ts',
+          file: 'apps/uapi/tests/api/conversationThreadStreamRoute.test.ts',
           evidence: "output_destinations: expect.arrayContaining",
           description: 'thread conversation stream test asserts destination roundtrip into execution metadata'
         }
@@ -4478,22 +4478,22 @@ function buildV26RunsPipelinesTotalityProof({
       'executions-route-and-detail-owners',
       'Direct executions route and retained detail owners',
       [
-        'uapi/app/executions/page.tsx',
-        'uapi/app/executions/[runId]/page.tsx',
-        'uapi/app/executions/README.md',
-        'uapi/app/executions/components/ExecutionsPage.tsx',
-        'uapi/app/executions/components/ExecutionsPageClient.tsx',
-        'uapi/app/executions/components/ExecutionsDetailsView.tsx'
+        'apps/uapi/app/executions/page.tsx',
+        'apps/uapi/app/executions/[runId]/page.tsx',
+        'apps/uapi/app/executions/README.md',
+        'apps/uapi/app/executions/components/ExecutionsPage.tsx',
+        'apps/uapi/app/executions/components/ExecutionsPageClient.tsx',
+        'apps/uapi/app/executions/components/ExecutionsDetailsView.tsx'
       ]
     ),
     buildV26FilePresenceCheck(
       'executions-api-and-history-carriers',
       'Active executions API route and history carriers',
       [
-        'uapi/app/api/executions/route.ts',
-        'uapi/app/api/executions/history/route.ts',
-        'uapi/app/api/executions/history/[runId]/route.ts',
-        'uapi/app/api/executions/_shared.ts',
+        'apps/uapi/app/api/executions/route.ts',
+        'apps/uapi/app/api/executions/history/route.ts',
+        'apps/uapi/app/api/executions/history/[runId]/route.ts',
+        'apps/uapi/app/api/executions/_shared.ts',
         'packages/api/src/routes/shippables.ts',
         'packages/api/src/pipelines/branch.ts'
       ]
@@ -4502,25 +4502,25 @@ function buildV26RunsPipelinesTotalityProof({
       'executions-retained-compatibility-carriers',
       'Retained executions compatibility APIs, canonical auxillary APIs, and proof carriers',
       [
-        'uapi/app/api/vcs/route.ts',
-        'uapi/app/api/auxillaries/template-preferences/route.ts',
-        'uapi/app/api/auxillaries/profile/route.ts',
-        'uapi/app/api/auxillaries/connections/github/route.ts',
-        'uapi/app/api/auxillaries/btd/route.ts',
-        'uapi/app/api/auxillaries/usage/route.ts',
-        'uapi/app/api/auxillaries/transactions/route.ts',
-        'uapi/app/api/auxillaries/api-keys/route.ts',
-        'uapi/app/api/templates/shippables/route.ts',
-        'uapi/app/api/templates/shippables/route.ts',
-        'uapi/tests/api/vcsCompatibilityRoute.test.ts',
-        'uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
-        'uapi/tests/api/orbitalsProfileRoute.test.ts',
-        'uapi/tests/api/orbitalUsageRoute.test.ts',
-        'uapi/tests/api/auxillariesTransactionsRoute.test.ts',
-        'uapi/tests/api/shippableTemplatesRoute.test.ts',
-        'uapi/tests/apiKeysRoutes.test.ts',
-        'uapi/tests/userConnectionsGithubRoute.test.ts',
-        'uapi/tests/api/userBtdRoute.test.ts'
+        'apps/uapi/app/api/vcs/route.ts',
+        'apps/uapi/app/api/auxillaries/template-preferences/route.ts',
+        'apps/uapi/app/api/auxillaries/profile/route.ts',
+        'apps/uapi/app/api/auxillaries/connections/github/route.ts',
+        'apps/uapi/app/api/auxillaries/btd/route.ts',
+        'apps/uapi/app/api/auxillaries/usage/route.ts',
+        'apps/uapi/app/api/auxillaries/transactions/route.ts',
+        'apps/uapi/app/api/auxillaries/api-keys/route.ts',
+        'apps/uapi/app/api/templates/shippables/route.ts',
+        'apps/uapi/app/api/templates/shippables/route.ts',
+        'apps/uapi/tests/api/vcsCompatibilityRoute.test.ts',
+        'apps/uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts',
+        'apps/uapi/tests/api/orbitalsProfileRoute.test.ts',
+        'apps/uapi/tests/api/orbitalUsageRoute.test.ts',
+        'apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts',
+        'apps/uapi/tests/api/shippableTemplatesRoute.test.ts',
+        'apps/uapi/tests/apiKeysRoutes.test.ts',
+        'apps/uapi/tests/userConnectionsGithubRoute.test.ts',
+        'apps/uapi/tests/api/userBtdRoute.test.ts'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -4534,11 +4534,11 @@ function buildV26RunsPipelinesTotalityProof({
         'packages/pipelines-generics/src/execution/PipelineExecutor.ts',
         'packages/pipelines-generics/src/execution/route-pipeline-execution.ts',
         'packages/asset-packs-pipelines/domain/src/run.ts',
-        'uapi/tests/api/shippableTemplatesRoute.test.ts',
-        'uapi/tests/api/executionsHistoryRoute.test.ts',
-        'uapi/tests/api/executionsHistoryRunRoute.test.ts',
-        'uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
-        'uapi/tests/usePipelineExecution.test.tsx'
+        'apps/uapi/tests/api/shippableTemplatesRoute.test.ts',
+        'apps/uapi/tests/api/executionsHistoryRoute.test.ts',
+        'apps/uapi/tests/api/executionsHistoryRunRoute.test.ts',
+        'apps/uapi/tests/bitcodeExecutionStreamPanel.test.tsx',
+        'apps/uapi/tests/usePipelineExecution.test.tsx'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -4628,32 +4628,32 @@ function buildV26RunsPipelinesTotalityProof({
       'GitHub webhook automation is source-checked as asset-pack pipeline ingress rather than Exchange ownership or non-Bitcode output canon',
       [
         {
-          file: 'uapi/app/api/webhook/route.ts',
+          file: 'apps/uapi/app/api/webhook/route.ts',
           evidence: "WEBHOOK_ASSET_PACK_PIPELINE_TRACK_EVENT = 'Trigger Asset-Pack Pipeline'",
           description: 'webhook analytics event names the active asset-pack pipeline meaning'
         },
         {
-          file: 'uapi/app/api/webhook/route.ts',
+          file: 'apps/uapi/app/api/webhook/route.ts',
           evidence: "outputMeaning: 'asset_packs'",
           description: 'webhook success receipts classify output as asset packs'
         },
         {
-          file: 'uapi/app/api/webhook/route.ts',
+          file: 'apps/uapi/app/api/webhook/route.ts',
           evidence: "exchangeStateRole: 'ingress_only_automation_boundary'",
           description: 'webhook receipt keeps GitHub automation as ingress-only rather than Exchange state ownership'
         },
         {
-          file: 'uapi/app/api/webhook/route.ts',
+          file: 'apps/uapi/app/api/webhook/route.ts',
           evidence: "triggerCommand: 'bitcode-asset-pack-trigger'",
           description: 'asset-pack trigger command uses current Bitcode ingress naming'
         },
         {
-          file: 'uapi/tests/webhookRoute.test.ts',
+          file: 'apps/uapi/tests/webhookRoute.test.ts',
           evidence: 'expectedAssetPackPipelineTrack',
           description: 'route test centralizes expected asset-pack ingress receipt shape'
         },
         {
-          file: 'uapi/tests/webhookRoute.test.ts',
+          file: 'apps/uapi/tests/webhookRoute.test.ts',
           evidence: 'supports bitcode-pr label for asset-pack pipeline',
           description: 'route test proves GitHub label ingress now teaches asset-pack pipeline semantics'
         }
@@ -4664,17 +4664,17 @@ function buildV26RunsPipelinesTotalityProof({
       'Terminal execution client hook teaches Bitcode asset-pack pipeline semantics through canonical Definition of Read input names',
       [
         {
-          file: 'uapi/hooks/useExecutionState.ts',
+          file: 'apps/uapi/hooks/useExecutionState.ts',
           evidence: 'Triggers the Bitcode asset-pack pipeline',
           description: 'TypeScript hook comment describes active client execution as asset-pack pipeline behavior'
         },
         {
-          file: 'uapi/hooks/useExecutionState.ts',
+          file: 'apps/uapi/hooks/useExecutionState.ts',
           evidence: 'definitionOfRead',
           description: 'TypeScript hook submits the canonical Definition of Read request shape'
         },
         {
-          file: 'uapi/hooks/useExecutionState.ts',
+          file: 'apps/uapi/hooks/useExecutionState.ts',
           evidence: 'Submitting Bitcode asset-pack pipeline',
           description: 'TypeScript debug path teaches Bitcode asset-pack submission'
         }
@@ -4730,10 +4730,10 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     reformClass: 'ingress-only',
     livePathRole: 'GitHub-triggered automation ingress may schedule work, but it does not own Bitcode Exchange state semantics.',
     requiredFiles: [
-      'uapi/app/api/webhook/route.ts',
-      'uapi/app/api/webhook/verify.ts',
-      'uapi/tests/webhookRoute.test.ts',
-      'uapi/tests/api/webhookSignature.test.ts'
+      'apps/uapi/app/api/webhook/route.ts',
+      'apps/uapi/app/api/webhook/verify.ts',
+      'apps/uapi/tests/webhookRoute.test.ts',
+      'apps/uapi/tests/api/webhookSignature.test.ts'
     ]
   },
   {
@@ -4753,8 +4753,8 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     livePathRole: 'The VCS agent layer can support retained callers, but repository scope in the Bitcode product belongs to Connects and terminal-owned panels.',
     requiredFiles: [
       'packages/generic-agents/vcs/src/index.ts',
-      'uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
-      'uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx'
+      'apps/uapi/app/terminal/TerminalRepositoryContextPanel.tsx',
+      'apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx'
     ]
   },
   {
@@ -4770,8 +4770,8 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/asset-packs-pipelines/domain/src/tools/index.ts',
       'packages/api/src/routes/shippables.ts',
       'packages/execution-generics/src/store/registry.ts',
-      'uapi/app/executions/components/ExecutionsPageClient.tsx',
-      'uapi/components/base/bitcode/execution/execution-option-toggle.tsx',
+      'apps/uapi/app/executions/components/ExecutionsPageClient.tsx',
+      'apps/uapi/components/base/bitcode/execution/execution-option-toggle.tsx',
       'protocol-demonstration/test/v26-active-product-naming.test.js'
     ]
   },
@@ -4813,7 +4813,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts',
       'protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
       'packages/web-search/src/index.ts',
-      'packages/external-apps/chatgpt/src/tools.ts',
+      'apps/chatgpt/src/tools.ts',
       'protocol-demonstration/test/v26-active-product-naming.test.js'
     ]
   },
@@ -4965,16 +4965,16 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
       'whole-repository-commercial-product-carriers',
       'Commercial Exchange, Terminal, Protocol, proof, and readiness carriers',
       [
-        'uapi/app/terminal/TerminalPageClient.tsx',
-        'uapi/app/terminal/terminal-experience-architecture.ts',
-        'uapi/app/terminal/terminal-commercial-launch-readiness.ts',
-        'uapi/tests/terminalCommercialLaunchReadiness.test.ts',
-        'uapi/app/api/state/route.ts',
-        'uapi/app/api/read-review/route.ts',
-        'uapi/app/api/make-bitcode-branch/route.ts',
-        'uapi/app/api/auxillaries/data/route.ts',
-        'uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
-        'uapi/app/conversations/ConversationsRouteClient.tsx',
+        'apps/uapi/app/terminal/TerminalPageClient.tsx',
+        'apps/uapi/app/terminal/terminal-experience-architecture.ts',
+        'apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts',
+        'apps/uapi/tests/terminalCommercialLaunchReadiness.test.ts',
+        'apps/uapi/app/api/state/route.ts',
+        'apps/uapi/app/api/read-review/route.ts',
+        'apps/uapi/app/api/make-bitcode-branch/route.ts',
+        'apps/uapi/app/api/auxillaries/data/route.ts',
+        'apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx',
+        'apps/uapi/app/conversations/ConversationsRouteClient.tsx',
         'packages/api/src/routes/conversations.ts'
       ]
     ),
@@ -4982,9 +4982,9 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
       'whole-repository-connected-interface-and-package-carriers',
       'MCP, ChatGPT App, AssetPack, API, prompt, storage, and schema carriers',
       [
-        'packages/external-apps/chatgpt/src/server.ts',
-        'packages/external-apps/chatgpt/src/tools.ts',
-        'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+        'apps/chatgpt/src/server.ts',
+        'apps/chatgpt/src/tools.ts',
+        'apps/chatgpt/src/__tests__/tools.test.ts',
         'packages/mcp-generics/src/mcp-server/src/tools/pipeline-tools.ts',
         'packages/mcp-generics/src/mcp-server/src/types/index.ts',
         'packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts',

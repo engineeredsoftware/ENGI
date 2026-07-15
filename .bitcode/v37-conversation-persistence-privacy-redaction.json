@@ -349,15 +349,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -554,15 +554,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -759,15 +759,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -962,15 +962,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1165,15 +1165,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1370,15 +1370,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1575,15 +1575,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1684,15 +1684,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1758,15 +1758,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1832,15 +1832,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1906,15 +1906,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1980,15 +1980,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -2054,15 +2054,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -2128,15 +2128,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {

@@ -240,7 +240,7 @@ The cockpit must expose:
 - contained table overflow so phone and tablet viewports do not acquire document-level horizontal overflow;
 - route-owned detail controls whose current, available, empty, and blocked states are understandable before raw payload expansion.
 
-The browser-proof contract is package-local to Terminal and exported by `uapi/app/terminal/terminal-ux-browser-proof.ts`.
+The browser-proof contract is package-local to Terminal and exported by `apps/uapi/app/terminal/terminal-ux-browser-proof.ts`.
 It identifies the required landmarks, viewports, state semantics, route checks, and evidence files.
 The focused Jest test proves the contract and state semantics.
 The focused Playwright spec proves the cockpit in a real browser in deterministic mock mode across key route and responsive states.
@@ -354,7 +354,7 @@ The API may persist schema-compatible repair receipts while richer repair action
 - Current algorithms and derivation rules: repository inventory binds source branch/commit; deposit admission creates searchable lexical/vector evidence; depositor ownership stays separate from later Reader rights.
 - Current invariants and fail-closed conditions: invalid deposit, missing repository commit, unavailable source material, or absent depositor boundary blocks Finding Fits.
 - Current proof obligations: source measurement root, embedding policy root, repository snapshot root, and depositor boundary proof.
-- Current source-bearing implementation basis: `uapi/app/terminal`, commercial API routes, `packages/pipelines/asset-pack`, `packages/btd`, Supabase migrations, and readback scripts.
+- Current source-bearing implementation basis: `apps/uapi/app/terminal`, commercial API routes, `packages/pipelines/asset-pack`, `packages/btd`, Supabase migrations, and readback scripts.
 - Current validating commands and parity basis: V29 gate checks, V28 readback verifier until replaced, package tests, UAPI tests, and staging-testnet SQL/readback evidence.
 - Current accepted boundaries: broader provider families remain staged unless Terminal requires a narrow GitHub-adjacent hook.
 
@@ -789,7 +789,7 @@ Source map:
 - `packages/pipelines/asset-pack`: Reading pipeline and AssetPack synthesis source.
 - `packages/pipeline-hosts`: sandbox/harness execution source.
 - `packages/btd`: BTD, BTC, rights, journal, and reconciliation primitives.
-- `uapi/app/terminal`: Terminal operator surface.
+- `apps/uapi/app/terminal`: Terminal operator surface.
 - `.github/workflows`: gate and promotion automation.
 
 ## Appendix F. Subsystem totality and derivability matrix

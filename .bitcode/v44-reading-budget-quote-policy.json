@@ -52,7 +52,7 @@
   "rows": [
     {
       "rowId": "reading-budget-policy",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "contract": "ReadProcurementGovernance projects source-safe budget envelopes, approval thresholds, quote sats, and fail-closed budget states for Reading.",
       "requiredFields": [
         "budgetEnvelopeSats",
@@ -68,7 +68,7 @@
     },
     {
       "rowId": "assetpack-quote-policy",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "contract": "AssetPack quote policy uses measurement-weight-volume pricing, quote expiry state, BTC fee asset labeling, and quote roots before settlement.",
       "requiredFields": [
         "measurement-weight-volume",
@@ -84,7 +84,7 @@
     },
     {
       "rowId": "procurement-approval-receipt",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "contract": "Procurement approval records buyer authorization, wallet authority, reviewer approval posture, blockers, and approval roots before settlement.",
       "requiredFields": [
         "buyerAuthorized",
@@ -99,7 +99,7 @@
     },
     {
       "rowId": "pre-purchase-review-boundary",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "contract": "Pre-purchase review stays source-safe: preview metadata may be visible, but protected source, unpaid AssetPack source, wallet private material, and private settlement payloads remain hidden.",
       "requiredFields": [
         "protectedSourceVisible",
@@ -114,7 +114,7 @@
     },
     {
       "rowId": "read-route-procurement-ui",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "contract": "/read renders budget, quote, approval, settlement readiness, wallet authority, and procurement blockers beside the five-step Reading path.",
       "requiredFields": [
         "Budget and quote",
@@ -156,9 +156,9 @@
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
     "economicModel": "packages/specifying/src/canonical/v44-economic-domain-model.js:2376c461d422d5eb4cb62da4",
-    "readModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
-    "readModelTest": "uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
+    "readModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "readModelTest": "apps/uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
     "sourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",
     "btcFeeOperation": "packages/btd/src/btc-fee-operation.ts:65f910e8e471fe199939e9c4",
     "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
@@ -221,42 +221,42 @@
     },
     {
       "id": "read-model-defines-procurement-governance",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-model-defines-budget-states",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-model-defines-quote-states",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-model-defines-settlement-readiness",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-model-defines-source-safe-review-boundary",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-client-renders-budget-quote",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-renders-wallet-authority",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-model-test-covers-governance",
-      "sourcePath": "uapi/tests/readRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/readRouteModel.test.ts",
       "passed": true
     },
     {

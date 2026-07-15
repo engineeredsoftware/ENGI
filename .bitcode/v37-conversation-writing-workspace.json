@@ -255,23 +255,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -448,23 +448,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -641,23 +641,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -834,23 +834,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -930,23 +930,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -1000,23 +1000,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -1070,23 +1070,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
@@ -1140,23 +1140,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-writing-workspace.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {

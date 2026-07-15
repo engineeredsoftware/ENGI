@@ -80,37 +80,37 @@ function main() {
   }
 
   for (const relativePath of [
-    'uapi/app/auxillaries/components/AuxillariesContent.tsx',
-    'uapi/app/auxillaries/components/shared/AuxillariesWorkspacePanels.tsx',
-    'uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
-    'uapi/styles/auxillaries-bitcode.css',
-    'uapi/tests/auxillariesContent.access.test.tsx',
-    'uapi/tests/auxillariesWorkspacePanels.access.test.tsx',
+    'apps/uapi/app/auxillaries/components/AuxillariesContent.tsx',
+    'apps/uapi/app/auxillaries/components/shared/AuxillariesWorkspacePanels.tsx',
+    'apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
+    'apps/uapi/styles/auxillaries-bitcode.css',
+    'apps/uapi/tests/auxillariesContent.access.test.tsx',
+    'apps/uapi/tests/auxillariesWorkspacePanels.access.test.tsx',
     'BITCODE_SPEC_V31.md',
     'BITCODE_SPEC_V31_DELTA.md',
     'BITCODE_SPEC_V31_NOTES.md',
     'BITCODE_SPEC_V31_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/auxillaries/README.md',
+    'apps/uapi/app/auxillaries/README.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V31 Gate 8 file: ${relativePath}`);
   }
 
-  const content = read(root, 'uapi/app/auxillaries/components/AuxillariesContent.tsx');
-  const workspacePanels = read(root, 'uapi/app/auxillaries/components/shared/AuxillariesWorkspacePanels.tsx');
-  const proofContract = read(root, 'uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts');
-  const css = read(root, 'uapi/styles/auxillaries-bitcode.css');
-  const contentTest = read(root, 'uapi/tests/auxillariesContent.access.test.tsx');
-  const panelsTest = read(root, 'uapi/tests/auxillariesWorkspacePanels.access.test.tsx');
+  const content = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesContent.tsx');
+  const workspacePanels = read(root, 'apps/uapi/app/auxillaries/components/shared/AuxillariesWorkspacePanels.tsx');
+  const proofContract = read(root, 'apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts');
+  const css = read(root, 'apps/uapi/styles/auxillaries-bitcode.css');
+  const contentTest = read(root, 'apps/uapi/tests/auxillariesContent.access.test.tsx');
+  const panelsTest = read(root, 'apps/uapi/tests/auxillariesWorkspacePanels.access.test.tsx');
   const spec = read(root, 'BITCODE_SPEC_V31.md');
   const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V31_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
-  const auxReadme = read(root, 'uapi/app/auxillaries/README.md');
+  const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const jestConfig = read(root, 'uapi/jest.config.cjs');
+  const jestConfig = read(root, 'apps/uapi/jest.config.cjs');
 
   for (const contentPhrase of [
     'aria-label="Bitcode Auxillaries support plane"',

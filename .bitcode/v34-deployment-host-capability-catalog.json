@@ -50,7 +50,7 @@
       "admissionStatus": "admitted_non_value_lanes",
       "hostId": "website",
       "outboundNetworkPosture": "provider_bound",
-      "ownerPackage": "uapi",
+      "ownerPackage": "apps/uapi",
       "proofOutputPaths": [
         ".bitcode/v34-deployment-host-capability-catalog.json"
       ],
@@ -64,7 +64,7 @@
         "mainnet-ready-dry-run"
       ],
       "telemetryProofHookId": "deployment.telemetry.website",
-      "validationCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand"
+      "validationCommand": "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand"
     },
     {
       "admissionStatus": "admitted_non_value_lanes",

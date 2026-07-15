@@ -164,13 +164,13 @@ function main() {
     'packages/api/src/conversations/messages.ts',
     'packages/api/src/routes/conversations.ts',
     'packages/api/src/conversations/__tests__/privacy.test.ts',
-    'uapi/app/conversations/conversation-persistence-privacy-redaction.ts',
-    'uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts',
-    'uapi/tests/conversationPersistencePrivacyPanel.test.tsx',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts',
+    'apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts',
+    'apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx',
+    'apps/uapi/jest.config.cjs',
     'BITCODE_SPEC_V37.md',
     'BITCODE_SPEC_V37_DELTA.md',
     'BITCODE_SPEC_V37_NOTES.md',
@@ -178,7 +178,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/conversations/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -231,7 +231,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationPersistencePrivacyRedaction.test.ts',
@@ -313,7 +313,7 @@ function main() {
   const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
-  const uapiReadme = read(root, 'uapi/app/conversations/README.md');
+  const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');

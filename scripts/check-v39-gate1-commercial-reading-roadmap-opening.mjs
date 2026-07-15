@@ -266,7 +266,7 @@ function main() {
   assertCheck(failures, embeddingConfigSource.includes('match_deliverable_vectors'), 'Embedding config source must preserve vector match function name.');
   assertCheck(failures, searchSource.includes('buildAssetPackEmbeddingPolicy'), 'Depository search source must consume the embedding policy.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

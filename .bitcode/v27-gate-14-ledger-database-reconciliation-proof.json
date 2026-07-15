@@ -51,7 +51,7 @@
       "status": "closed",
       "evidence": [
         "packages/api/src/routes/btd-crypto.ts exposes /btd/ledger-database-reconciliation",
-        "uapi/app/api/btd/ledger-database-reconciliation/route.ts binds the Next.js App Router endpoint without a versioned route prefix",
+        "apps/uapi/app/api/btd/ledger-database-reconciliation/route.ts binds the Next.js App Router endpoint without a versioned route prefix",
         "registry writes occur only when commitToRegistry is explicitly true"
       ]
     }
@@ -71,13 +71,13 @@
       "assertions": 9
     },
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
       "assertions": 59,
       "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
     },
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/orm focused ts-jest config...}' --runInBand",
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/orm focused ts-jest config...}' --runInBand",
       "status": "passed",
       "assertions": 3,
       "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 ORM slice."
@@ -92,7 +92,7 @@
     "packages/btd/__tests__/v27-crypto-primitives.test.ts",
     "packages/api/src/routes/btd-crypto.ts",
     "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-    "uapi/app/api/btd/ledger-database-reconciliation/route.ts",
+    "apps/uapi/app/api/btd/ledger-database-reconciliation/route.ts",
     "supabase/migrations/002_v27_btd_crypto_registry.sql",
     "packages/orm/src/models/btd-registry.ts",
     "protocol-demonstration/src/receipt-schemas.js",

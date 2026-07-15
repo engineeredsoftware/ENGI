@@ -113,10 +113,10 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/postprocess.ts',
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
-    'uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
     'packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js',
     'packages/specifying/test/v39-operational-telemetry-repair-readback.test.js',
     'scripts/generate-v39-operational-telemetry-repair-readback.mjs',
@@ -183,7 +183,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

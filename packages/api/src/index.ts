@@ -6,7 +6,7 @@
  * and `@bitcode/api/streams`).
  *
  * Does not own: product domain law (prefer `btd`, `pipeline-asset-pack`,
- * `conversations`, `vcs-generics`, …). Next `uapi/app/api/*` bindings stay thin.
+ * `conversations`, `vcs-generics`, …). Next `apps/uapi/app/api/*` bindings stay thin.
  *
  * Key principles:
  * - Route ownership lives here; FS interface bindings stay thin

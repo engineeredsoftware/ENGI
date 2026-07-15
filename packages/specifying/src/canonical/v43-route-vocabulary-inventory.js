@@ -212,7 +212,7 @@ function categorizeFile(relativePath, content) {
   const extension = path.extname(relativePath);
 
   if (
-    relativePath.startsWith('uapi/app/') &&
+    relativePath.startsWith('apps/uapi/app/') &&
     (relativePath.endsWith('/page.tsx') ||
       relativePath.endsWith('/layout.tsx') ||
       relativePath.endsWith('/route.ts') ||

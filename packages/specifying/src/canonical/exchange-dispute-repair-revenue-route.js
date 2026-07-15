@@ -648,8 +648,8 @@ export function buildExchangeDisputeRepairRevenueRoute(input = {}) {
     'scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs',
     'scripts/check-v36-gate7-exchange-dispute-repair-revenue-route.mjs',
     'packages/btd/src/exchange.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/api/btd/asset-pack-exchange/route.ts',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/api/btd/asset-pack-exchange/route.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
 

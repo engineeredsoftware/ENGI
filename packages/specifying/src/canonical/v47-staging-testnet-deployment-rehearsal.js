@@ -97,8 +97,8 @@ const SOURCE_ROOTS = Object.freeze({
   longRunnerDockerfile: 'Dockerfile.long-runner',
   longRunnerWorkerDockerfile: 'Dockerfile.long-runner-worker',
   longRunnerK8s: 'infra/k8s/long-runner.yaml',
-  uapiPackageJson: 'uapi/package.json',
-  ipExchangeSpec: 'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+  uapiPackageJson: 'apps/uapi/package.json',
+  ipExchangeSpec: 'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
   packageJson: 'package.json',
   protocolIndex: 'packages/specifying/src/index.js',
   protocolTypes: 'packages/specifying/src/index.d.ts',
@@ -226,7 +226,7 @@ export function buildV47StagingTestnetRehearsalLanes() {
 export const V47_STAGING_TESTNET_VALIDATION_COMMANDS = Object.freeze([
   {
     commandId: 'supabase-local-stack-bringup',
-    command: 'pnpm -C uapi dev:local',
+    command: 'pnpm -C apps/uapi dev:local',
     purpose: 'Bring up the Supabase-backed full stack the staging deployment mirrors.',
   },
   {
@@ -236,12 +236,12 @@ export const V47_STAGING_TESTNET_VALIDATION_COMMANDS = Object.freeze([
   },
   {
     commandId: 'uapi-production-build',
-    command: 'pnpm -C uapi build',
+    command: 'pnpm -C apps/uapi build',
     purpose: 'Produce the production Next.js build the Vercel staging host deploys.',
   },
   {
     commandId: 'e2e-ip-exchange-browser-proof',
-    command: 'pnpm -C uapi run test:e2e:ip-exchange',
+    command: 'pnpm -C apps/uapi run test:e2e:ip-exchange',
     purpose: 'Prove the seller and buyer launch flows in the browser against the deployed route surfaces.',
   },
   {

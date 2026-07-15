@@ -14,7 +14,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "ReadFitsFindingAdmission",
@@ -276,8 +276,8 @@
       "purpose": "Fail closed when preview, telemetry, route summary, or UI readback would expose protected source or unpaid AssetPack source before settlement.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "AssetPackDisclosureReview",
@@ -348,8 +348,8 @@
       "rowId": "route:harness-preview-quote-summary",
       "purpose": "Summarize preview boundary, quote receipt, selected-fit provenance, settlement instructions, delivery posture, and disclosure review through the pipeline harness route without source payloads.",
       "sourceRoots": [
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts"
       ],
       "emittedTypes": [
         "assetPackPreviewBoundary",
@@ -386,9 +386,9 @@
       "rowId": "ui:terminal-preview-quote-provenance-readback",
       "purpose": "Render Terminal Finding Fits preview, quote, provenance, settlement, delivery, and replay roots as expandable source-safe metadata.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts"
       ],
       "emittedTypes": [
         "assetPackPreviewBoundaryRows",
@@ -426,7 +426,7 @@
         "packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml",
         "BITCODE_SPEC_V42.md",
@@ -548,27 +548,27 @@
     },
     {
       "id": "harness-route-summarizes-preview-boundary",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "harness-route-tests-preview-boundary-summary",
-      "sourcePath": "uapi/tests/api/pipelineHarnessRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
       "passed": true
     },
     {
       "id": "terminal-ui-renders-preview-boundary-rows",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "terminal-client-summarizes-boundary",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "terminal-client-tests-boundary-summary",
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
@@ -656,11 +656,11 @@
     "runtimeTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts",
     "previewBoundaryTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts",
     "postprocessTest": "packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts",
-    "harnessRunner": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-    "harnessRouteTest": "uapi/tests/api/pipelineHarnessRoute.test.ts",
-    "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-    "terminalHarnessClient": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-    "terminalHarnessClientTest": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+    "harnessRunner": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+    "harnessRouteTest": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "terminalHarnessClient": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+    "terminalHarnessClientTest": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml",
     "v42Spec": "BITCODE_SPEC_V42.md",
@@ -669,7 +669,7 @@
     "v42Parity": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
-    "terminalReadme": "uapi/app/terminal/README.md",
+    "terminalReadme": "apps/uapi/app/terminal/README.md",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
     "protocolReadme": "packages/specifying/README.md"
   }

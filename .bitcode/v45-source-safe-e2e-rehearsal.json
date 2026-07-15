@@ -224,8 +224,8 @@
       ],
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts",
-        "uapi/app/deposit/deposit-route-model.ts",
-        "uapi/app/deposit/DepositPageClient.tsx"
+        "apps/uapi/app/deposit/deposit-route-model.ts",
+        "apps/uapi/app/deposit/DepositPageClient.tsx"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:831c166002b013e08078aa0e",
       "sourceSafetyVerdict": "source-safe-v45-end-to-end-rehearsal-metadata",
@@ -267,8 +267,8 @@
         "read-need-review-receipt"
       ],
       "sourceRoots": [
-        "uapi/app/read/read-route-model.ts",
-        "uapi/app/read/ReadPageClient.tsx",
+        "apps/uapi/app/read/read-route-model.ts",
+        "apps/uapi/app/read/ReadPageClient.tsx",
         ".bitcode/v39-local-staging-reading-rehearsal.json"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:144c64c3edaf07d08e476866",
@@ -483,7 +483,7 @@
       ],
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
-        "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+        "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
         ".bitcode/v45-proof-contract-proof.json"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:69b12b919efef66dce3114c5",
@@ -526,8 +526,8 @@
         "repair-posture-receipt"
       ],
       "sourceRoots": [
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/app/packs/PacksPageClient.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/app/packs/PacksPageClient.tsx",
         ".bitcode/v45-verification-decisions-proof.json"
       ],
       "rowRoot": "v45-source-safe-e2e-rehearsal-row:0dadb496b1ab0744827de19d",
@@ -773,7 +773,7 @@
       "evidenceClassId": "read-request-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -793,7 +793,7 @@
       "evidenceClassId": "read-need-review-receipt",
       "present": true,
       "contradictory": false,
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -913,7 +913,7 @@
       "evidenceClassId": "interface-browser-receipt-root",
       "present": true,
       "contradictory": false,
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "sourceSafeMetadataOnly": true,
       "protectedSourcePayloadSerialized": false,
       "rawPromptVisible": false,
@@ -1010,13 +1010,13 @@
     "depositAdmission": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
     "depositorySearch": "packages/asset-packs-pipelines/domain/src/depository-search.ts:e983ef9a11ae67d867ebaa99",
     "operationalReadback": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts:4b0d32180a32720cb0086ffe",
-    "readModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
-    "depositModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
+    "readModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
+    "depositModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "pipelineLogUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
     "proofFamilySource": "packages/specifying/src/canonical/v45-proof-family-artifacts.js:1a2c8975783ccdc0263c8c61",
     "source": "packages/specifying/src/canonical/v45-source-safe-e2e-rehearsal.js:ae4bebb6c6e9902bc2630078",
     "test": "packages/specifying/test/v45-source-safe-e2e-rehearsal.test.js:240a9eca76b583de67a0a309",
@@ -1116,12 +1116,12 @@
     },
     {
       "id": "routes-render-source-safe-loop",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "pipeline-log-renders-expandable-metadata",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {

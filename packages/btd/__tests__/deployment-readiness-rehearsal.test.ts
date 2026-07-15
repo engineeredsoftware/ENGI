@@ -53,7 +53,7 @@ describe('DeploymentReadinessRehearsal', () => {
       );
       expect(rehearsal.runtimeReceiptIds.length).toBeGreaterThanOrEqual(7);
       expect(rehearsal.validationCommands).toEqual(expect.arrayContaining([
-        'pnpm --dir uapi run test:e2e:terminal-ux',
+        'pnpm --dir apps/uapi run test:e2e:terminal-ux',
         'pnpm run qa:pipeline-readback',
       ]));
       expect(rehearsal.sourceSafeLogKinds.every((logKind) => /log-root/.test(logKind))).toBe(true);

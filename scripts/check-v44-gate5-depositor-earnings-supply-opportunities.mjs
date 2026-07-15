@@ -90,10 +90,10 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts',
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
     'packages/btd/src/source-to-shares.ts',
     'packages/specifying/src/canonical/v44-depositor-earnings-supply-opportunities.js',
     'packages/specifying/test/v44-depositor-earnings-supply-opportunities.test.js',
@@ -173,7 +173,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi deposit route/page tests must pass.');
     }

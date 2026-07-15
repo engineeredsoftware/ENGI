@@ -54,7 +54,7 @@
   "completionRows": [
     {
       "rowId": "source-connection",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "route": "/deposit",
       "contract": "Depositors connect a repository, branch, commit, and source scope through the route-owned source selector before option synthesis can be journaled.",
       "requiredFields": [
@@ -87,7 +87,7 @@
     },
     {
       "rowId": "option-synthesis-journal",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "route": "/deposit",
       "contract": "The synthesize action records a source-safe execution row with route session, synthesis, policy, earning intelligence, authority, proof roots, and repository context.",
       "requiredFields": [
@@ -120,7 +120,7 @@
     },
     {
       "rowId": "source-safe-measurement-review",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "route": "/deposit",
       "contract": "Depositors review option measurements, criticality, demand, ROI, BTD potential, compensation preview, roots, and recommendations before approval.",
       "requiredFields": [
@@ -154,7 +154,7 @@
     },
     {
       "rowId": "admission-and-repair-actions",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "route": "/deposit",
       "contract": "Depositors approve, reject, or request resynthesis; approved policy-eligible options emit admission readback and synchronize to /packs.",
       "requiredFields": [
@@ -188,7 +188,7 @@
     },
     {
       "rowId": "compensation-authority-readback",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "route": "/deposit",
       "contract": "The route exposes future BTC compensation estimates, unfit Need opportunity roots, source-to-shares preview posture, and organization/wallet authority state.",
       "requiredFields": [
@@ -222,7 +222,7 @@
     },
     {
       "rowId": "packs-history-readback",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "route": "/packs",
       "contract": "Recent Deposit activity and admitted Depository AssetPack rows remain reachable from /deposit through source-safe execution history and /packs activity.",
       "requiredFields": [
@@ -287,47 +287,47 @@
     },
     {
       "id": "deposit-route-model-binds-five-step-source-safe-session",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "passed": true
     },
     {
       "id": "deposit-client-binds-source-connection-before-synthesis",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-client-records-option-synthesis-execution",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-client-renders-source-safe-measurement-review",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-client-records-review-admission-actions",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-client-renders-compensation-authority-readback",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-client-links-packs-history-readback",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-page-test-covers-synthesis-journaling",
-      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "deposit-route-model-test-covers-admission-compensation",
-      "sourcePath": "uapi/tests/depositRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
       "passed": true
     },
     {
@@ -337,7 +337,7 @@
     },
     {
       "id": "pack-activity-model-supports-depository-assetpack-sync",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
@@ -368,12 +368,12 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "depositRouteModel": "uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
-    "depositPage": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-    "depositRouteModelTest": "uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad",
-    "depositPageTest": "uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "depositRouteModel": "apps/uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
+    "depositPage": "apps/uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+    "depositRouteModelTest": "apps/uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad",
+    "depositPageTest": "apps/uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
     "optionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts:e592710e04c64b0ebdb40068",
     "policyModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
     "admissionModel": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",

@@ -70,12 +70,12 @@
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
         "packages/api/src/routes/__tests__",
-        "uapi/tests",
+        "apps/uapi/tests",
         "packages/mcp-generics/src/mcp-server/src/__tests__",
-        "packages/external-apps/chatgpt/src/__tests__"
+        "apps/chatgpt/src/__tests__"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest",
+        "pnpm --dir apps/uapi exec jest",
         "pnpm --filter @bitcode/api exec jest",
         "pnpm --dir packages/mcp-generics/src/mcp-server run test:mcp",
         "pnpm --dir packages/chatgptapp exec jest"
@@ -144,11 +144,11 @@
       "requiredResult": "Inventory Conversation, Terminal, handoff, stream telemetry, source-safe disclosure, and rich execution log integration suites.",
       "coverageTier": "needs-new-v40-artifact",
       "sourceRoots": [
-        "uapi/tests",
-        "uapi/tests"
+        "apps/uapi/tests",
+        "apps/uapi/tests"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest"
+        "pnpm --dir apps/uapi exec jest"
       ],
       "generatedArtifactPath": ".bitcode/v40-conversation-terminal-integration.json",
       "missingCoverageClosesInGate": 6,
@@ -179,11 +179,11 @@
       "coverageTier": "opt-in-lane",
       "sourceRoots": [
         ".github/workflows/bitcode-gate-quality.yml",
-        "uapi/tests"
+        "apps/uapi/tests"
       ],
       "commandIds": [
-        "pnpm --dir uapi run test:e2e:terminal-ux",
-        "pnpm --dir uapi run test:e2e:v32-browser-proof"
+        "pnpm --dir apps/uapi run test:e2e:terminal-ux",
+        "pnpm --dir apps/uapi run test:e2e:v32-browser-proof"
       ],
       "generatedArtifactPath": ".bitcode/v40-browser-e2e-visual-proof.json",
       "missingCoverageClosesInGate": 7,
@@ -454,7 +454,7 @@
     },
     {
       "id": "api-uapi-sources-exist",
-      "sourcePath": "uapi/tests",
+      "sourcePath": "apps/uapi/tests",
       "passed": true
     },
     {
@@ -464,7 +464,7 @@
     },
     {
       "id": "conversation-terminal-evidence-exists",
-      "sourcePath": "uapi/tests",
+      "sourcePath": "apps/uapi/tests",
       "passed": true
     },
     {

@@ -115,11 +115,11 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
-    'uapi/app/api/pipeline-host/asset-pack/runner.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-pipeline-host-client.ts',
-    'uapi/tests/api/pipelineHostRoute.test.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/tests/api/pipelineHostRoute.test.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
     'packages/specifying/src/canonical/v42-readfitsfinding-preview-quote.js',
     'packages/specifying/test/v42-readfitsfinding-preview-quote.test.js',
     'scripts/generate-v42-readfitsfinding-preview-quote.mjs',
@@ -130,7 +130,7 @@ function main() {
     'BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
     'packages/specifying/README.md',
     'package.json',
@@ -188,7 +188,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -251,7 +251,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V42.md');
   const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   assertCheck(failures, spec.includes('V42 Gate 5') && spec.includes('v42-readfitsfinding-preview-quote'), 'V42 spec must expand Gate 5 ReadFitsFinding preview/quote closure.');
   assertCheck(failures, parity.includes('Finding Fits preview and quote') && parity.includes('implemented'), 'V42 parity matrix must mark Finding Fits preview and quote implemented.');
   assertCheck(failures, terminalReadme.includes('V42 Gate 5') && terminalReadme.includes('Finding Fits preview'), 'Terminal README must document Gate 5 preview/quote readback.');

@@ -149,7 +149,7 @@
     },
     {
       "rowId": "packs-accounting-readback",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "contract": "/packs renders BTD/BTC accounting state, BTD range, BTC settlement, treasury route, contributor counts, allocation, and accounting root.",
       "requiredFields": [
         "Accounting",
@@ -197,10 +197,10 @@
     "btdSettlement": "packages/btd/src/settlement.ts:871ea57357f464d8fbb0c6af",
     "btdReceipts": "packages/btd/src/receipts.ts:663e799baf0715924cb67c14",
     "btdReconciliation": "packages/btd/src/reconciliation.ts:d4bc6c129196572ae673c05b",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "packActivityModelTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
-    "packsClientTest": "uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "packsClientTest": "apps/uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
     "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
     "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
@@ -313,22 +313,22 @@
     },
     {
       "id": "pack-activity-model-projects-accounting",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "packs-client-renders-accounting",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "pack-activity-test-covers-accounting",
-      "sourcePath": "uapi/tests/packActivityModel.test.ts",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
       "passed": true
     },
     {
       "id": "packs-client-test-covers-accounting",
-      "sourcePath": "uapi/tests/packsPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
       "passed": true
     },
     {

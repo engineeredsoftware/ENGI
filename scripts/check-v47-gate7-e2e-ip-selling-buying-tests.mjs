@@ -97,10 +97,10 @@ function main() {
     'BITCODE_SPEC_V47_NOTES.md',
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
-    'uapi/tests/e2e/commercial-mvp.helpers.ts',
-    'uapi/playwright.config.ts',
-    'uapi/package.json',
+    'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
+    'apps/uapi/tests/e2e/commercial-mvp.helpers.ts',
+    'apps/uapi/playwright.config.ts',
+    'apps/uapi/package.json',
     'packages/specifying/src/index.js',
     'packages/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -162,7 +162,7 @@ function main() {
 
   if (args.runBrowserTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'run', 'test:e2e:ip-exchange']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:ip-exchange']);
     } catch {
       failures.push('uapi test:e2e:ip-exchange browser proof must pass.');
     }

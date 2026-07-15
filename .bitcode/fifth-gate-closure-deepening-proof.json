@@ -85,7 +85,7 @@
       "label": "Bitcode Terminal read/write loop",
       "baselineAdvanced": true,
       "closurePassed": true,
-      "currentDeepening": "Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.",
+      "currentDeepening": "Terminal-facing source-to-shares Read review, fit admission, settlement reading, TypeScript-only apps/uapi/app ownership, product readiness audit, and environment posture are generated and app/API-backed.",
       "remainingClosure": "Closed by the fifth-gate closure proof as a minimum-functional read/write baseline; sixth-gate and later harden wider browser/authenticated production coverage.",
       "evidenceArtifactPaths": [
         ".bitcode/application-composition-proof.json",

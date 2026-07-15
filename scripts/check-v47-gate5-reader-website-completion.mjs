@@ -96,10 +96,10 @@ function main() {
     'BITCODE_SPEC_V47_NOTES.md',
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/tests/readRouteModel.test.ts',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/tests/readRouteModel.test.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
@@ -170,7 +170,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

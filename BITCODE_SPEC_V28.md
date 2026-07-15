@@ -751,7 +751,7 @@ Implementation evidence:
   telemetry, upgrade, provider, settlement-network, synthetic testnet minting,
   Terminal journal, ledger anchor, and ledger/database reconciliation read
   from BTD primitives rather than a UI-only fixture.
-- `uapi/app/terminal/TerminalOperationalHealthPanel.tsx` renders that package
+- `apps/uapi/app/terminal/TerminalOperationalHealthPanel.tsx` renders that package
   read in Terminal. It keeps all six lanes visible, blocks value-bearing
   mainnet without an operational approval root, exposes broadcaster/observer
   severity, displays rollback/migration/generated-type refresh posture, shows
@@ -759,7 +759,7 @@ Implementation evidence:
   disabled.
 - Gate 7 implementation tests are
   `packages/btd/__tests__/terminal-operational-health.test.ts` and
-  `uapi/tests/terminalOperationalHealthPanel.test.tsx`; package-level BTD tests
+  `apps/uapi/tests/terminalOperationalHealthPanel.test.tsx`; package-level BTD tests
   are runnable through `pnpm -C packages/btd test`.
 
 ### Gate 8: V28 Metadevelopment And Promotion Proof
@@ -1013,10 +1013,10 @@ V28 keeps these layer boundaries:
 - `packages/btd`: protocol primitives and receipt constructors.
 - `packages/api`: service-owned admission and route builders.
 - `packages/orm` plus migrations: registry and projection persistence.
-- `uapi/app/api`: unversioned Next route wrappers.
-- `/terminal` plus `uapi/app/terminal`: Terminal route surface.
-- `uapi/app/terminal`: Terminal implementation module retained as an internal component boundary while the prior generic workspace route remains absent.
-- `uapi/app/btd/[assetPackId]`: AssetPack range disclosure surface.
+- `apps/uapi/app/api`: unversioned Next route wrappers.
+- `/terminal` plus `apps/uapi/app/terminal`: Terminal route surface.
+- `apps/uapi/app/terminal`: Terminal implementation module retained as an internal component boundary while the prior generic workspace route remains absent.
+- `apps/uapi/app/btd/[assetPackId]`: AssetPack range disclosure surface.
 - MCP API and ChatGPT App: V28 MVP interface surfaces over registry-derived policy and proof truth.
 - `protocol-demonstration`: minimal deterministic protocol witness. It may
   contain a local source-bound fit-finding loop for E2E proof, but
@@ -1372,7 +1372,7 @@ Current canonical objects and emitted artifacts: Read text, Read measurement rec
 Current algorithms and derivation rules: reading and measured demand are reviewed before fit.
 Current invariants and fail-closed conditions: prompt contract incompleteness blocks proof-bearing settlement.
 Current proof obligations: bind prompt, model/provider, source scope, and measurement evidence.
-Current source-bearing implementation basis: `uapi/app/terminal`, `uapi/app/executions`, prompt system notes.
+Current source-bearing implementation basis: `apps/uapi/app/terminal`, `apps/uapi/app/executions`, prompt system notes.
 Current validating commands and parity basis: package/API tests and Terminal UI tests.
 Current accepted boundaries: V28 productizes Terminal reads without redefining inference law.
 
@@ -1698,11 +1698,11 @@ Required validation includes:
 
 - `node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27`
 - `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28`
-- `find uapi/app/api -path '*v[0-9]*' -print | sort`
+- `find apps/uapi/app/api -path '*v[0-9]*' -print | sort`
 - `jq empty .bitcode/v28-*.json`
 - package/API/ORM/protocol-demonstration tests
 - Terminal UI and browser checks
-- `pnpm -C uapi build`
+- `pnpm -C apps/uapi build`
 - `git diff --check`
 
 ## Appendix E. Current canonical source map
@@ -1713,10 +1713,10 @@ Current canonical source map:
 - active proof appendix: `BITCODE_SPEC_V27_PROVEN.md`
 - draft target: `BITCODE_SPEC_V28.md`
 - source-bearing package: `packages/btd/src`
-- route owners: `packages/api/src/routes/btd-crypto.ts` and `uapi/app/api/btd/*`
-- Terminal route surface: `/terminal` through `uapi/app/terminal`
-- Terminal implementation module: `uapi/app/terminal`
-- AssetPack range surface: `uapi/app/btd/[assetPackId]`
+- route owners: `packages/api/src/routes/btd-crypto.ts` and `apps/uapi/app/api/btd/*`
+- Terminal route surface: `/terminal` through `apps/uapi/app/terminal`
+- Terminal implementation module: `apps/uapi/app/terminal`
+- AssetPack range surface: `apps/uapi/app/btd/[assetPackId]`
 - MCP API and ChatGPT App surfaces: V28 MVP interface ingress over Protocol/Terminal truth
 - witness runtime: `protocol-demonstration`
 

@@ -59,8 +59,8 @@
       "@bitcode/generic-hosts-local": ["packages/generic-hosts/Local/src/index.ts"],
       "@bitcode/generic-hosts-vercel-sandbox": ["packages/generic-hosts/VercelSandbox/src/index.ts"],
       "@bitcode/mcp-generics": ["packages/mcp-generics/src/index.ts"],
-      "@bitcode/generic-mcps-bitcode": ["packages/generic-mcps/bitcode/src/index.ts"],
-      "@bitcode/generic-mcps-bitcode": ["packages/generic-mcps/bitcode/src/index.ts"],
+      "@bitcode/generic-mcps-bitcode": ["apps/mcp/src/index.ts"],
+      "@bitcode/generic-mcps-bitcode": ["apps/mcp/src/index.ts"],
       "@bitcode/generic-agents-ptrr": ["packages/generic-agents/PTRR/src/index.ts"],
       "@bitcode/generic-agents-ptrr/*": ["packages/generic-agents/PTRR/src/*"],
       "@bitcode/pipeline-hosts/*": ["packages/pipeline-hosts/src/*"],
@@ -145,9 +145,9 @@
       // -------------------------------------------------------------------
       "@bitcode/validation/validationOTFAdherencePhaseModule": ["packages/validation/validationOTFAdherencePhaseModule.ts"],
       "@bitcode/mcp-generics/validation": ["packages/mcp-generics/src/index.ts"],
-      "@bitcode/external-apps-chatgpt": ["packages/external-apps/chatgpt/src/index.ts"],
-      "@bitcode/external-apps-chatgpt": ["packages/external-apps/chatgpt/src/index.ts"],
-      "@bitcode/external-apps-claude": ["packages/external-apps/claude/README.md"],
+      "@bitcode/external-apps-chatgpt": ["apps/chatgpt/src/index.ts"],
+      "@bitcode/external-apps-chatgpt": ["apps/chatgpt/src/index.ts"],
+      "@bitcode/external-apps-claude": ["apps/claude/README.md"],
       "@bitcode/supabase/ssr/*": ["packages/supabase/src/ssr/*"],
       "@bitcode/steps/*": ["packages/pipelines-generics/src/steps/*"],
       "@bitcode/steps": ["packages/pipelines-generics/src/steps/index.ts"],
@@ -325,13 +325,13 @@
     // @bitcode/pipeline-engine-generics mapping defined at top-level – duplicate removed
 
       // -------------------------------------------------------------------
-      // Retained utility aliases for removed `uapi/utils` paths. Inserted
+      // Retained utility aliases for removed `apps/uapi/utils` paths. Inserted
       // above the generic `@/*` catch-all so they take precedence.
       // -------------------------------------------------------------------
       "@/utils/btd-plans": ["packages/btd/src/plans.ts"],
       "@/utils/model-pricing": ["packages/generic-llms/models/src/pricing.ts"],
 
-      "@/*": ["uapi/*"],
+      "@/*": ["apps/uapi/*"],
 
       // -------------------------------------------------------------------
       // Retained app aliases mapped to package-owned Bitcode implementations.

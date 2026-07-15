@@ -106,7 +106,7 @@
     },
     {
       "rowId": "deposit-route-earning-readback",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "contract": "/deposit renders earning estimates, unfit Need opportunities, source-safe recommendations, and opportunity roots beside the five-step Depositing path.",
       "requiredFields": [
         "Supply opportunity",
@@ -151,10 +151,10 @@
     "optionPolicy": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
     "earningSupplyIntelligence": "packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts:e0ec2d83cfaf3bfaaa126387",
     "earningSupplyIntelligenceTest": "packages/asset-packs-pipelines/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts:f881826a57f6572c554cb0ee",
-    "depositModel": "uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
-    "depositRouteTest": "uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad",
-    "depositPageTest": "uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
+    "depositModel": "apps/uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
+    "depositRouteTest": "apps/uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad",
+    "depositPageTest": "apps/uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
     "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:518ba39d54cec9fe2e372f4e",
     "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "sourceToShares": "packages/btd/src/source-to-shares.ts:6e2e84251b29ba2477766708",
@@ -263,12 +263,12 @@
     },
     {
       "id": "deposit-model-uses-intelligence",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "passed": true
     },
     {
       "id": "deposit-client-renders-earnings",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
@@ -278,12 +278,12 @@
     },
     {
       "id": "route-test-covers-intelligence",
-      "sourcePath": "uapi/tests/depositRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
       "passed": true
     },
     {
       "id": "page-test-covers-intelligence",
-      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
       "passed": true
     },
     {

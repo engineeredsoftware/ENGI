@@ -50,7 +50,7 @@
   "completionRows": [
     {
       "rowId": "pack-activity-master-detail",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "route": "/packs",
       "contract": "PackActivity renders as a searchable master table with a row-owned source-safe detail surface covering overview, measurements, state readback, accounting, governance, and proof roots.",
       "requiredFields": [
@@ -83,7 +83,7 @@
     },
     {
       "rowId": "search-filters-saved-views",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "route": "/packs",
       "contract": "Pack activity is searchable and filterable by type, scope, repository, and settlement, compensation, delivery, and repair facets, with saved market-intelligence filters writing route-owned query params.",
       "requiredFields": [
@@ -116,7 +116,7 @@
     },
     {
       "rowId": "histories-readback",
-      "owner": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "route": "/packs",
       "contract": "Deposit, Read, settlement, rights, compensation, delivery, and repair histories project from source-safe activity records into typed PackActivity rows and summary facets.",
       "requiredFields": [
@@ -149,7 +149,7 @@
     },
     {
       "rowId": "settlement-rights-delivery-state-tracking",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "route": "/packs",
       "contract": "The detail state readback tracks settlement, BTD rights, compensation, delivery, and repair states with rights derived only from finality-consistent commodity-state evidence.",
       "requiredFields": [
@@ -182,7 +182,7 @@
     },
     {
       "rowId": "repair-surface",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "route": "/packs",
       "contract": "Repair-required activity exposes a fail-closed repair surface listing commodity-state blockers; state advances only through proof-backed readback.",
       "requiredFields": [
@@ -215,7 +215,7 @@
     },
     {
       "rowId": "auxillaries-identity-teams-wallets-histories",
-      "owner": "uapi/app/auxillaries/components/auxillary-pane-meta.ts",
+      "owner": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts",
       "route": "/auxillaries",
       "contract": "Auxillaries panes cover identity profile, external source connections, interfaces, wallet authority with BTD history readback, and organization team and treasury settings.",
       "requiredFields": [
@@ -282,47 +282,47 @@
     },
     {
       "id": "packs-client-renders-master-detail",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "packs-client-tracks-settlement-rights-delivery-repair",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "pack-activity-model-projects-rights-and-histories",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "packs-activity-api-serves-filtered-readback",
-      "sourcePath": "uapi/app/api/packs/activity/route.ts",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
       "passed": true
     },
     {
       "id": "auxillaries-panes-cover-identity-wallet-externals-interfaces",
-      "sourcePath": "uapi/app/auxillaries/components/auxillary-pane-meta.ts",
+      "sourcePath": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts",
       "passed": true
     },
     {
       "id": "auxillaries-cover-teams-treasury-histories",
-      "sourcePath": "uapi/app/auxillaries/components/organization/OrganizationSettings.tsx",
+      "sourcePath": "apps/uapi/app/auxillaries/components/organization/OrganizationSettings.tsx",
       "passed": true
     },
     {
       "id": "pack-activity-model-test-covers-rights-tracking",
-      "sourcePath": "uapi/tests/packActivityModel.test.ts",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
       "passed": true
     },
     {
       "id": "packs-client-test-covers-repair-surface",
-      "sourcePath": "uapi/tests/packsPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "auxillaries-tests-exist",
-      "sourcePath": "uapi/tests/auxillariesWalletPane.test.tsx",
+      "sourcePath": "apps/uapi/tests/auxillariesWalletPane.test.tsx",
       "passed": true
     },
     {
@@ -353,21 +353,21 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
-    "packsPage": "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
-    "packsActivityApi": "uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
-    "auxillariesPage": "uapi/app/auxillaries/page.tsx:e2ae8743fd61c3cdf231514b",
-    "auxillariesPaneMeta": "uapi/app/auxillaries/components/auxillary-pane-meta.ts:6ca5ecca402b14b0b17ebdd2",
-    "auxillariesOnboardingContract": "uapi/app/auxillaries/auxillary-onboarding-contract.ts:ace24943a77d37f327018599",
-    "auxillariesOrganizationSettings": "uapi/app/auxillaries/components/organization/OrganizationSettings.tsx:1648dfd3e1aa4839295d999b",
-    "auxillariesTreasury": "uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx:a08e06c3300cae7d2692085b",
-    "auxillariesWalletPane": "uapi/app/auxillaries/components/AuxillariesWalletPane.tsx:4d3eac9e2a5e5d9ae5b1d556",
-    "auxillariesExternalsPane": "uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx:e8c9f1bbb5f3ee2a14da056f",
-    "packActivityModelTest": "uapi/tests/packActivityModel.test.ts:145d430461dc7830c2a23487",
-    "packsClientTest": "uapi/tests/packsPageClient.test.tsx:65fdbfca8be6f0b11ed59576",
-    "auxillariesWalletPaneTest": "uapi/tests/auxillariesWalletPane.test.tsx:6eb2466152a6eede16e95863",
-    "auxillariesWorkspaceTest": "uapi/tests/auxillariesWorkspacePanels.test.tsx:8feac0b9ea0b109749402d65",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
+    "packsPage": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "packsActivityApi": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "auxillariesPage": "apps/uapi/app/auxillaries/page.tsx:e2ae8743fd61c3cdf231514b",
+    "auxillariesPaneMeta": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts:6ca5ecca402b14b0b17ebdd2",
+    "auxillariesOnboardingContract": "apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts:ace24943a77d37f327018599",
+    "auxillariesOrganizationSettings": "apps/uapi/app/auxillaries/components/organization/OrganizationSettings.tsx:1648dfd3e1aa4839295d999b",
+    "auxillariesTreasury": "apps/uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx:a08e06c3300cae7d2692085b",
+    "auxillariesWalletPane": "apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx:4d3eac9e2a5e5d9ae5b1d556",
+    "auxillariesExternalsPane": "apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx:e8c9f1bbb5f3ee2a14da056f",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:145d430461dc7830c2a23487",
+    "packsClientTest": "apps/uapi/tests/packsPageClient.test.tsx:65fdbfca8be6f0b11ed59576",
+    "auxillariesWalletPaneTest": "apps/uapi/tests/auxillariesWalletPane.test.tsx:6eb2466152a6eede16e95863",
+    "auxillariesWorkspaceTest": "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx:8feac0b9ea0b109749402d65",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",

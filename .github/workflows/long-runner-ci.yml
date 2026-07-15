@@ -3,7 +3,7 @@ name: Long-Runner Image
 on:
   push:
     paths:
-      - "uapi/**"
+      - "apps/uapi/**"
       - "Dockerfile.long-runner"
       - ".github/workflows/long-runner-ci.yml"
 

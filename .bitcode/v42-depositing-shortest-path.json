@@ -14,8 +14,8 @@
       "sourceRoots": [
         "packages/specifying/server.js",
         "packages/specifying/src/bitcode-demo.js",
-        "uapi/app/api/deposits/route.ts",
-        "uapi/app/terminal/TerminalDepositComposer.tsx"
+        "apps/uapi/app/api/deposits/route.ts",
+        "apps/uapi/app/terminal/TerminalDepositComposer.tsx"
       ],
       "emittedTypes": [
         "createDeposit",
@@ -53,7 +53,7 @@
       "rowId": "api:deposit-route-readiness-contract",
       "purpose": "Keep POST /api/deposits admitted only after signed transaction and repository readiness checks, then project source-safe Depository evidence.",
       "sourceRoots": [
-        "uapi/app/api/deposits/route.ts",
+        "apps/uapi/app/api/deposits/route.ts",
         "packages/specifying/server.js",
         "packages/specifying/test/protocol-package-boundary.test.js"
       ],
@@ -238,10 +238,10 @@
       "rowId": "terminal:compensation-visibility-readback",
       "purpose": "Show source-safe compensation posture in Terminal and carry compensation roots through activity history and the deposit-to-read workbench.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalDepositComposer.tsx",
-        "uapi/app/terminal/terminal-activity-history.ts",
-        "uapi/app/terminal/terminal-deposit-read-workbench.ts",
-        "uapi/app/terminal/terminal-run-data.ts"
+        "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
+        "apps/uapi/app/terminal/terminal-activity-history.ts",
+        "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+        "apps/uapi/app/terminal/terminal-run-data.ts"
       ],
       "emittedTypes": [
         "TerminalDepositResponseEvidence",
@@ -325,7 +325,7 @@
   "predicateResults": [
     {
       "id": "deposit-route-requires-readiness",
-      "sourcePath": "uapi/app/api/deposits/route.ts",
+      "sourcePath": "apps/uapi/app/api/deposits/route.ts",
       "passed": true
     },
     {
@@ -380,22 +380,22 @@
     },
     {
       "id": "terminal-composer-captures-compensation-roots",
-      "sourcePath": "uapi/app/terminal/TerminalDepositComposer.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
       "passed": true
     },
     {
       "id": "terminal-history-maps-compensation-roots",
-      "sourcePath": "uapi/app/terminal/terminal-activity-history.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-activity-history.ts",
       "passed": true
     },
     {
       "id": "terminal-workbench-shows-compensation-rows",
-      "sourcePath": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
       "passed": true
     },
     {
       "id": "workspace-run-carries-compensation-fields",
-      "sourcePath": "uapi/app/terminal/terminal-run-data.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-run-data.ts",
       "passed": true
     },
     {
@@ -469,11 +469,11 @@
     "protocolServer": "packages/specifying/server.js",
     "protocolRuntime": "packages/specifying/src/bitcode-demo.js",
     "protocolBoundaryTest": "packages/specifying/test/protocol-package-boundary.test.js",
-    "uapiDepositRoute": "uapi/app/api/deposits/route.ts",
-    "terminalDepositComposer": "uapi/app/terminal/TerminalDepositComposer.tsx",
-    "terminalActivityHistory": "uapi/app/terminal/terminal-activity-history.ts",
-    "terminalWorkbench": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
-    "terminalRunData": "uapi/app/terminal/terminal-run-data.ts",
+    "uapiDepositRoute": "apps/uapi/app/api/deposits/route.ts",
+    "terminalDepositComposer": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
+    "terminalActivityHistory": "apps/uapi/app/terminal/terminal-activity-history.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+    "terminalRunData": "apps/uapi/app/terminal/terminal-run-data.ts",
     "v42Spec": "BITCODE_SPEC_V42.md",
     "v42Delta": "BITCODE_SPEC_V42_DELTA.md",
     "v42Notes": "BITCODE_SPEC_V42_NOTES.md",

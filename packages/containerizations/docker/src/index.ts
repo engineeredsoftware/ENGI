@@ -88,7 +88,7 @@ export async function dockerRemoveVolumeTool(params: { name: string; force?: boo
 
 // -------------------------------------------------------
 // Minimal wrapper around `docker run` originally implemented in
-// `uapi/lib/dockerUtils.ts`.  The helper streams logs in real-time so the
+// `apps/uapi/lib/dockerUtils.ts`.  The helper streams logs in real-time so the
 // caller can forward them to UIs or log aggregation systems.
 // -------------------------------------------------------
 

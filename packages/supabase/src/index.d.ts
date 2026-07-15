@@ -1,8 +1,8 @@
 /**
  * Supabase utilities and thin MCP helpers.
  *
- * Consolidates the previous `uapi/lib/supabaseClient.ts` (client helpers) and
- * `uapi/lib/mcps/supabase.ts` (MCP tool implementations) into a single raw
+ * Consolidates the previous `apps/uapi/lib/supabaseClient.ts` (client helpers) and
+ * `apps/uapi/lib/mcps/supabase.ts` (MCP tool implementations) into a single raw
  * package so that external code can simply depend on `@bitcode/supabase` for any
  * Supabase-related functionality.
  *

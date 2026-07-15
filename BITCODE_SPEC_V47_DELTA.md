@@ -187,7 +187,7 @@ proof, settlement, rights, compensation, and delivery.
 
 Gate 7 owns `.bitcode/v47-e2e-ip-selling-buying-tests.json`,
 `buildV47E2eIpSellingBuyingTests`, and `check:v47-gate7`. The browser proof
-(`uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts`, run by
+(`apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts`, run by
 `test:e2e:ip-exchange`) drives `/deposit` from source connection through
 option synthesis, source-safe measurement review, and Depository admission
 with journaled execution rows; drives `/read` through the five-step buyer

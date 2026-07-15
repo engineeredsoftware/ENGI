@@ -84,13 +84,13 @@ function main() {
     V43_DEPOSIT_OPTION_ADMISSION_ARTIFACT_PATH,
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/jest.config.cjs',
     'packages/specifying/src/canonical/v43-deposit-option-admission.js',
     'packages/specifying/test/v43-deposit-option-admission.test.js',
     'scripts/generate-v43-deposit-option-admission.mjs',
@@ -161,7 +161,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', 'packActivityModel.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'depositRouteModel.test.ts', 'depositPageClient.test.tsx', 'packActivityModel.test.ts', '--runInBand']);
     } catch {
       failures.push('uapi depositRouteModel.test.ts, depositPageClient.test.tsx, and packActivityModel.test.ts must pass.');
     }

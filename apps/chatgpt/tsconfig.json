@@ -1,0 +1,40 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../../..",
+    "ignoreDeprecations": "5.0",
+    "noEmit": true,
+    "types": ["node", "jest"],
+    "paths": {
+      "@bitcode/btd": ["packages/btd/src/authority.ts"],
+      "@bitcode/btd/api-schema-compatibility-matrix": ["packages/btd/src/api-schema-compatibility-matrix.ts"],
+      "@bitcode/btd/chatgpt-app-action-contract": ["packages/btd/src/chatgpt-app-action-contract.ts"],
+      "@bitcode/btd/interface-authorization-policy": ["packages/btd/src/interface-authorization-policy.ts"],
+      "@bitcode/btd/interface-consumer-ux-regression-proof": ["packages/btd/src/interface-consumer-ux-regression-proof.ts"],
+      "@bitcode/btd/interface-integration-contract": ["packages/btd/src/interface-integration-contract.ts"],
+      "@bitcode/btd/interface-telemetry-proof-hook": ["packages/btd/src/interface-telemetry-proof-hook.ts"],
+      "@bitcode/btd/read-license-assetpack-rights-contract": ["packages/btd/src/read-license-assetpack-rights-contract.ts"],
+      "@bitcode/tools-generics": ["apps/chatgpt/src/__stubs__/tools-generics.ts"],
+      "@bitcode/generic-tools-simple-system-text-search": ["apps/chatgpt/src/__stubs__/generic-tools-simple-system-text-search.ts"],
+      "@bitcode/generic-tools-web-search": ["apps/chatgpt/src/__stubs__/generic-tools-web-search.ts"],
+      "@bitcode/generic-agents-digesting": ["apps/chatgpt/src/__stubs__/digest-run.ts"],
+      "@bitcode/generic-tools-mcps-aws": ["apps/chatgpt/src/__stubs__/generic-tools-mcps-aws.ts"],
+      "@bitcode/generic-tools-mcps-vercel": ["apps/chatgpt/src/__stubs__/generic-tools-mcps-vercel.ts"],
+      "@bitcode/generic-vcs-github": ["apps/chatgpt/src/__stubs__/github.ts"],
+      "@bitcode/vcs-generics": ["apps/chatgpt/src/__stubs__/vcs.ts"],
+      "@bitcode/generic-artifacts-compose": ["apps/chatgpt/src/__mocks__/bitcode-artifacts.ts"],
+      "@bitcode/generic-generations-failsafes": ["apps/chatgpt/src/__stubs__/context.ts"],
+      "@bitcode/generic-tools-mcps-vercel/src/prompts/VercelMCPDocCodeToolPrompt": ["apps/chatgpt/src/__stubs__/vercel-doc-prompt.ts"],
+      "@bitcode/generic-tools-mcps-aws/src/prompts/AWSMCPDocCodeToolPrompt": ["apps/chatgpt/src/__stubs__/aws-doc-prompt.ts"],
+      "@bitcode/generic-tools-simple-system-text-search/src/prompts/SimpleSystemTextSearchDocCodeToolPrompt": ["apps/chatgpt/src/__stubs__/ssts-doc-prompt.ts"],
+      "@bitcode/generic-tools-web-search/src/prompts/WebSearchDocCodeToolPrompt": ["apps/chatgpt/src/__stubs__/web-search-doc-prompt.ts"],
+      "@bitcode/prompts/prompt": ["packages/prompts/src/prompt.ts"],
+      "@bitcode/prompts/parts/PromptPart": ["packages/prompts/src/parts/PromptPart.ts"],
+      "@bitcode/prompts/formatters": ["packages/prompts/src/formatters/index.ts"],
+      "@bitcode/prompts/execution/PromptExecution": ["packages/prompts/src/execution/PromptExecution.ts"],
+      "@bitcode/prompts/raw_promptparts/*": ["packages/prompts/src/raw_promptparts/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/types/**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "src/__tests__"]
+}

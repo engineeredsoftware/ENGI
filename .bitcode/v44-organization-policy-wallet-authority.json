@@ -96,7 +96,7 @@
     },
     {
       "rowId": "read-route-authority",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "contract": "/read binds organization policy wallet authority to budgeted quotes, buyer approval, wallet authority, and source-safe route assertions.",
       "requiredFields": [
         "organizationPolicyWalletAuthority",
@@ -111,7 +111,7 @@
     },
     {
       "rowId": "deposit-route-authority",
-      "owner": "uapi/app/deposit/deposit-route-model.ts",
+      "owner": "apps/uapi/app/deposit/deposit-route-model.ts",
       "contract": "/deposit binds source criticality approval, deposit approval, wallet authority, and deposit admission policy into route state.",
       "requiredFields": [
         "organizationPolicyWalletAuthority",
@@ -126,7 +126,7 @@
     },
     {
       "rowId": "packs-governance-readback",
-      "owner": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "contract": "/packs projects source-safe governance readback into searchable activity detail without serializing secrets or protected source.",
       "requiredFields": [
         "PackActivityGovernanceReadback",
@@ -141,7 +141,7 @@
     },
     {
       "rowId": "read-deposit-ui-governance",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "contract": "/read and /deposit render Organization authority sections with authority state, wallet state, blockers, and authority roots.",
       "requiredFields": [
         "Organization authority",
@@ -268,62 +268,62 @@
     },
     {
       "id": "read-route-model-binds-authority",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-route-test-covers-authority",
-      "sourcePath": "uapi/tests/readRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/readRouteModel.test.ts",
       "passed": true
     },
     {
       "id": "read-client-renders-authority",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-test-covers-authority",
-      "sourcePath": "uapi/tests/readPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/readPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "deposit-route-model-binds-authority",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "passed": true
     },
     {
       "id": "deposit-route-test-covers-authority",
-      "sourcePath": "uapi/tests/depositRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
       "passed": true
     },
     {
       "id": "deposit-client-renders-authority",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-client-test-covers-authority",
-      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "packs-model-projects-governance",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "packs-client-renders-governance",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "pack-activity-test-covers-governance",
-      "sourcePath": "uapi/tests/packActivityModel.test.ts",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
       "passed": true
     },
     {
       "id": "packs-client-test-covers-governance",
-      "sourcePath": "uapi/tests/packsPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
       "passed": true
     },
     {
@@ -385,18 +385,18 @@
     "packageHelperTest": "packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts:dffe4b5f7918abac32d9930b",
     "assetPackPackageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
     "assetPackPackageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
-    "readRouteModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
-    "readRouteTest": "uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
-    "readClientTest": "uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
-    "depositRouteModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
-    "depositRouteTest": "uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
-    "depositClientTest": "uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "packActivityModelTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
-    "packsClientTest": "uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
+    "readRouteModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
+    "readRouteTest": "apps/uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "readClientTest": "apps/uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
+    "depositRouteModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "depositRouteTest": "apps/uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "depositClientTest": "apps/uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "packsClientTest": "apps/uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
     "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
     "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
     "packageSource": "packages/specifying/src/canonical/v44-organization-policy-wallet-authority.js:50d1fae80749c01012041f97",

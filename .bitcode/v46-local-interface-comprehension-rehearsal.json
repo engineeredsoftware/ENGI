@@ -37,9 +37,9 @@
       "surfaceId": "docs_landing",
       "surfaceLabel": "Public Docs And Landing",
       "sourcePaths": [
-        "uapi/app/page.tsx",
-        "uapi/app/docs/page.tsx",
-        "uapi/app/(root)/components/PublicDocsPageContent.tsx"
+        "apps/uapi/app/page.tsx",
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -116,9 +116,9 @@
       ],
       "rowRoot": "v46-local-interface-rehearsal-row:fb1b98a0d2c9e17fc883f230",
       "sourceRoots": [
-        "uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
-        "uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
-        "uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e"
+        "apps/uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
+        "apps/uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
+        "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -127,9 +127,9 @@
       "surfaceId": "packs_route",
       "surfaceLabel": "/packs",
       "sourcePaths": [
-        "uapi/app/packs/page.tsx",
-        "uapi/app/packs/PacksPageClient.tsx",
-        "uapi/components/base/bitcode/activity/pack-activity-model.ts"
+        "apps/uapi/app/packs/page.tsx",
+        "apps/uapi/app/packs/PacksPageClient.tsx",
+        "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts"
       ],
       "claimIds": [
         "operator-evidence-is-source-safe-readback",
@@ -210,9 +210,9 @@
       ],
       "rowRoot": "v46-local-interface-rehearsal-row:d744aeb10f86283529f10544",
       "sourceRoots": [
-        "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-        "uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
-        "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb"
+        "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+        "apps/uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
+        "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -221,8 +221,8 @@
       "surfaceId": "read_route",
       "surfaceLabel": "/read",
       "sourcePaths": [
-        "uapi/app/read/page.tsx",
-        "uapi/app/read/ReadPageClient.tsx"
+        "apps/uapi/app/read/page.tsx",
+        "apps/uapi/app/read/ReadPageClient.tsx"
       ],
       "claimIds": [
         "operator-evidence-is-source-safe-readback",
@@ -304,8 +304,8 @@
       ],
       "rowRoot": "v46-local-interface-rehearsal-row:24860b3d7668bfd1be49225b",
       "sourceRoots": [
-        "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-        "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb"
+        "apps/uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+        "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -314,8 +314,8 @@
       "surfaceId": "deposit_route",
       "surfaceLabel": "/deposit",
       "sourcePaths": [
-        "uapi/app/deposit/page.tsx",
-        "uapi/app/deposit/DepositPageClient.tsx"
+        "apps/uapi/app/deposit/page.tsx",
+        "apps/uapi/app/deposit/DepositPageClient.tsx"
       ],
       "claimIds": [
         "deposit-option-is-potential-supply",
@@ -396,8 +396,8 @@
       ],
       "rowRoot": "v46-local-interface-rehearsal-row:4353b716ad3db5bd7833d76f",
       "sourceRoots": [
-        "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-        "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a"
+        "apps/uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+        "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -501,10 +501,10 @@
       "surfaceLabel": "ChatGPT App And Bitcode Chat",
       "sourcePaths": [
         "packages/btd/src/chatgpt-app-action-contract.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
-        "uapi/app/conversations/conversation-terminal-handoff.ts",
-        "uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts"
+        "apps/chatgpt/src/tools.ts",
+        "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+        "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts"
       ],
       "claimIds": [
         "preview-is-source-safe-measurement",
@@ -588,10 +588,10 @@
       "rowRoot": "v46-local-interface-rehearsal-row:10d2d1b870ff147f062b1775",
       "sourceRoots": [
         "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
-        "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
-        "uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
-        "uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485"
+        "apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+        "apps/uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
+        "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -600,9 +600,9 @@
       "surfaceId": "proof_telemetry_repair",
       "surfaceLabel": "Proof, Telemetry, And Repair Readback",
       "sourcePaths": [
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
         "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js",
-        "uapi/app/bitcode-ledger-storage-sync.ts",
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts",
         ".bitcode/v46-proof-readback-operator-explanation.json"
       ],
       "claimIds": [
@@ -685,9 +685,9 @@
       ],
       "rowRoot": "v46-local-interface-rehearsal-row:5dab113b96d09fc833b28ccc",
       "sourceRoots": [
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
         "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
-        "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
         ".bitcode/v46-proof-readback-operator-explanation.json:5fb82dae1fac3711939dcd89"
       ],
       "sourceFilesPresent": true,
@@ -816,27 +816,27 @@
     "v46ProductArtifact": ".bitcode/v46-product-route-comprehension-readback.json:fcb6d5406f0ff810cc3013c9",
     "v46InterfaceArtifact": ".bitcode/v46-interface-claim-contracts.json:85379590a5c5e719d0cc1ed1",
     "v46ProofArtifact": ".bitcode/v46-proof-readback-operator-explanation.json:5fb82dae1fac3711939dcd89",
-    "landingPage": "uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
-    "docsPage": "uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
-    "docsContent": "uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e",
-    "packsPage": "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
-    "readPage": "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
-    "depositPage": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
+    "landingPage": "apps/uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
+    "docsPage": "apps/uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
+    "docsContent": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e",
+    "packsPage": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "readPage": "apps/uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "depositPage": "apps/uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
     "btdApiSchema": "packages/btd/src/api-schema-compatibility-matrix.ts:21527a4ab84909ce72247fab",
     "btdMcpContract": "packages/btd/src/mcp-tool-contract.ts:ed7ff68bb55bd47afc9c538b",
     "mcpDocsReference": "packages/mcp-generics/src/mcp-server/docs/mcp/mcp-api-reference.md:39ae38737d2c48c96eebb5ea",
     "btdChatGptContract": "packages/btd/src/chatgpt-app-action-contract.ts:a24a464bd0910f8b8284ddfe",
-    "chatGptTools": "packages/external-apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
-    "conversationHandoff": "uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
-    "conversationTelemetry": "uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
-    "conversationParityTest": "uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
-    "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
+    "chatGptTools": "apps/chatgpt/src/tools.ts:01098e7c683c6394a4ff6918",
+    "conversationHandoff": "apps/uapi/app/conversations/conversation-terminal-handoff.ts:0eb848817ddf44fc2946aa05",
+    "conversationTelemetry": "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts:44c7ff1620bfa9f329f07c4d",
+    "conversationParityTest": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts:e31d05980a03ff7c966df485",
+    "pipelineLogUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:9d88b27b51e6b4d3a15ce995",
     "v39OperationalTelemetryReadback": "packages/specifying/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
-    "uapiLedgerStorageSync": "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
+    "uapiLedgerStorageSync": "apps/uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d"
   },
   "coverage": {
     "predicateCount": 13,

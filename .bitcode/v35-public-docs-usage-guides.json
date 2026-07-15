@@ -112,12 +112,12 @@
         "TelemetryTaxonomyCatalog"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/terminal/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/terminal/README.md",
         "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "packageSurfaces": [
-        "uapi/app/terminal",
+        "apps/uapi/app/terminal",
         "packages/pipelines/asset-pack"
       ],
       "docsSections": [
@@ -169,11 +169,11 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
@@ -202,7 +202,7 @@
         "BITCODE_SPEC.txt",
         "BITCODE_SPEC_V35.md",
         "packages/specifying/README.md",
-        "uapi/app/docs/bitcode-docs-content.ts"
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
       ],
       "packageSurfaces": [
         "packages/specifying/src/index.js",
@@ -269,7 +269,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         }
       ],
@@ -291,13 +291,13 @@
         "packages/btd"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/auxillaries/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/auxillaries/README.md",
         "packages/api/README.md",
         "packages/btd/README.md"
       ],
       "packageSurfaces": [
-        "uapi/app/auxillaries",
+        "apps/uapi/app/auxillaries",
         "packages/api/src/routes/auxillaries-contract.ts"
       ],
       "docsSections": [
@@ -348,11 +348,11 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/auxillaries/README.md",
+          "sourceRoot": "apps/uapi/app/auxillaries/README.md",
           "present": true
         },
         {
@@ -382,7 +382,7 @@
         "packages/api"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
         "packages/mcp-generics/README.md",
         "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
         "packages/mcp-generics/src/mcp-server/docs/public/mcp-api-reference.md",
@@ -440,7 +440,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -478,13 +478,13 @@
         "TelemetryTaxonomyCatalog"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "packages/external-apps/chatgpt/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/chatgpt/README.md",
         "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md"
       ],
       "packageSurfaces": [
-        "packages/external-apps/chatgpt/src",
-        "uapi/app/docs"
+        "apps/chatgpt/src",
+        "apps/uapi/app/docs"
       ],
       "docsSections": [
         "chatgpt-app",
@@ -534,11 +534,11 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -563,13 +563,13 @@
         "packages/btd"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
         "packages/btd/README.md",
-        "uapi/app/api/btd/btc-fee-transaction/route.ts"
+        "apps/uapi/app/api/btd/btc-fee-transaction/route.ts"
       ],
       "packageSurfaces": [
         "packages/btd/src",
-        "uapi/app/api/btd"
+        "apps/uapi/app/api/btd"
       ],
       "docsSections": [
         "settlement-btd",
@@ -619,7 +619,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -627,7 +627,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/btd/btc-fee-transaction/route.ts",
+          "sourceRoot": "apps/uapi/app/api/btd/btc-fee-transaction/route.ts",
           "present": true
         }
       ],
@@ -649,7 +649,7 @@
         "packages/btd"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
         "internal-docs/ASSETPACK_EXECUTION.md",
         "packages/asset-packs-pipelines/domain/README.md",
         "packages/btd/README.md"
@@ -707,7 +707,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -739,13 +739,13 @@
         "packages/pipelines/asset-pack"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
         "packages/asset-packs-pipelines/domain/README.md",
         "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md"
       ],
       "packageSurfaces": [
         "packages/asset-packs-pipelines/domain/src",
-        "uapi/app/api/read-review/route.ts"
+        "apps/uapi/app/api/read-review/route.ts"
       ],
       "docsSections": [
         "read-results",
@@ -795,7 +795,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -824,14 +824,14 @@
         "packages/btd"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
         "packages/btd/README.md",
-        "uapi/app/api/btd/btc-fee-transaction/route.ts",
-        "uapi/tests/terminalWalletBtcOperation.test.ts"
+        "apps/uapi/app/api/btd/btc-fee-transaction/route.ts",
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts"
       ],
       "packageSurfaces": [
         "packages/btd/src",
-        "uapi/app/api/btd/btc-fee-transaction/route.ts"
+        "apps/uapi/app/api/btd/btc-fee-transaction/route.ts"
       ],
       "docsSections": [
         "settlement-btd",
@@ -881,7 +881,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -889,11 +889,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/btd/btc-fee-transaction/route.ts",
+          "sourceRoot": "apps/uapi/app/api/btd/btc-fee-transaction/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalWalletBtcOperation.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
           "present": true
         }
       ],
@@ -915,7 +915,7 @@
         "TelemetryTaxonomyCatalog"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
         "BITCODE_SPEC_V35.md",
         "packages/specifying/README.md"
       ],
@@ -971,7 +971,7 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -998,15 +998,15 @@
       "canonicalTruth": [
         "BITCODE_SPEC_V35.md",
         "SPECIFICATIONS_ROADMAP.md",
-        "uapi/app/exchange"
+        "apps/uapi/app/exchange"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/exchange/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/exchange/README.md",
         "SPECIFICATIONS_ROADMAP.md"
       ],
       "packageSurfaces": [
-        "uapi/app/exchange",
+        "apps/uapi/app/exchange",
         "packages/api/src"
       ],
       "docsSections": [
@@ -1057,11 +1057,11 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/README.md",
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
           "present": true
         },
         {
@@ -1084,16 +1084,16 @@
       "canonicalTruth": [
         "BITCODE_SPEC_V35.md",
         "SPECIFICATIONS_ROADMAP.md",
-        "uapi/app/conversations"
+        "apps/uapi/app/conversations"
       ],
       "sourceRoots": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/conversations/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/conversations/README.md",
         "internal-docs/BITCODE_CONVERSATIONS.md",
         "SPECIFICATIONS_ROADMAP.md"
       ],
       "packageSurfaces": [
-        "uapi/app/conversations",
+        "apps/uapi/app/conversations",
         "docs/api/conversations-openapi.yaml"
       ],
       "docsSections": [
@@ -1144,11 +1144,11 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1171,11 +1171,11 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
@@ -1203,7 +1203,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         }
       ]
@@ -1215,11 +1215,11 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/auxillaries/README.md",
+          "sourceRoot": "apps/uapi/app/auxillaries/README.md",
           "present": true
         },
         {
@@ -1239,7 +1239,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -1267,11 +1267,11 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -1287,7 +1287,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -1295,7 +1295,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/btd/btc-fee-transaction/route.ts",
+          "sourceRoot": "apps/uapi/app/api/btd/btc-fee-transaction/route.ts",
           "present": true
         }
       ]
@@ -1307,7 +1307,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -1331,7 +1331,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -1351,7 +1351,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -1359,11 +1359,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/btd/btc-fee-transaction/route.ts",
+          "sourceRoot": "apps/uapi/app/api/btd/btc-fee-transaction/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalWalletBtcOperation.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
           "present": true
         }
       ]
@@ -1375,7 +1375,7 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
@@ -1395,11 +1395,11 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/exchange/README.md",
+          "sourceRoot": "apps/uapi/app/exchange/README.md",
           "present": true
         },
         {
@@ -1415,11 +1415,11 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {

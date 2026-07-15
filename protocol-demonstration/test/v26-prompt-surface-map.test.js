@@ -12,7 +12,7 @@ const promptHierarchyRuleDocs = readFileSync(
   new URL('../../packages/eslint-plugin-bitcode/docs/require-prompt-hierarchy.md', import.meta.url),
   'utf8'
 );
-const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
+const uapiTsconfigSource = readFileSync(new URL('../../apps/uapi/tsconfig.json', import.meta.url), 'utf8');
 const promptSpaceCompletenessProof = JSON.parse(
   readFileSync(new URL('../../.bitcode/prompt-space-completeness-proof.json', import.meta.url), 'utf8')
 );

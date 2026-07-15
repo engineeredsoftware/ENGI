@@ -149,9 +149,9 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-commodity-state.test.ts',
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/jest.config.cjs',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/jest.config.cjs',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -160,11 +160,11 @@ function main() {
 
   const commodityState = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts');
   const commodityStateTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-commodity-state.test.ts');
-  const packActivityModel = read(root, 'uapi/components/bitcode/activity/pack-activity-model.ts');
-  const packActivityTest = read(root, 'uapi/tests/packActivityModel.test.ts');
+  const packActivityModel = read(root, 'apps/uapi/components/bitcode/activity/pack-activity-model.ts');
+  const packActivityTest = read(root, 'apps/uapi/tests/packActivityModel.test.ts');
   const assetPackPackageJson = read(root, 'packages/asset-packs-pipelines/domain/package.json');
   const assetPackIndex = read(root, 'packages/asset-packs-pipelines/domain/src/index.ts');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const packageJson = read(root, 'package.json');
   const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
@@ -264,7 +264,7 @@ function main() {
   for (const phrase of [
     'Gate 12 implementation readback',
     'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts',
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
     'check:v45-gate12',
   ]) {
     assertCheck(failures, parity.includes(phrase), `V45 parity matrix must include Gate 12 readback phrase: ${phrase}`);

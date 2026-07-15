@@ -356,8 +356,8 @@
         ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json",
         "packages/api/src/conversations/stream-events.ts",
         "packages/api/src/conversations/telemetry.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx"
       ],
       "promptProgramArtifactIds": [
         "v41-conversation-tool-interface-prompt-rewrite"
@@ -438,8 +438,8 @@
           "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
           "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
+          "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+          "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
         }
       },
       "requiredPredicateCount": 5,
@@ -658,10 +658,10 @@
         "packages/api/src/conversations/telemetry.ts",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "promptProgramArtifactIds": [
         "v38-inference-telemetry-disclosure-report",
@@ -743,10 +743,10 @@
           "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
           "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
           "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
-          "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
-          "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
-          "uapi/tests/pipelineExecutionLogHeader.test.tsx": "4835ee31e6397899e58b4183"
+          "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+          "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
+          "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
+          "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx": "4835ee31e6397899e58b4183"
         }
       },
       "requiredPredicateCount": 5,
@@ -1272,28 +1272,28 @@
       "sourceRootHash": "7cf03ec77f881f1e99ca81a8"
     },
     {
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "7b519f4bb914bc58a33c5d19"
     },
     {
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "1d6e5d2eda94b3befa2641d6"
     },
     {
-      "sourcePath": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
       "sourceRootHash": "fc41f8ce1326ccfa5357e0ce"
     },
     {
-      "sourcePath": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "exists": true,
       "legacy": false,
       "fileCount": 1,
@@ -1350,8 +1350,8 @@
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
         "packages/specifying/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5d0746b8c2be1ef518496281",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99"
       }
     },
     "registry-lineage-version-telemetry-binding": {
@@ -1387,10 +1387,10 @@
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts": "1bfe930d27ce7ae587d0f4ca",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts": "95b17a44d842ebab6ee647fc",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx": "4835ee31e6397899e58b4183"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx": "4835ee31e6397899e58b4183"
       }
     },
     "repair-hooks-parsed-output-redaction-posture": {
@@ -1545,7 +1545,7 @@
     {
       "id": "pipeline-log-projects-prompt-result-disclosure",
       "rowId": "conversation-interface-post-rewrite-benchmark-delta",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {
@@ -1635,13 +1635,13 @@
     {
       "id": "rich-log-header-renders-prompt-result-posture",
       "rowId": "rich-stream-source-safe-telemetry-projection",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
       "passed": true
     },
     {
       "id": "rich-log-tests-cover-telemetry-disclosure",
       "rowId": "rich-stream-source-safe-telemetry-projection",
-      "sourcePath": "uapi/tests/conversationStreamPipelineLog.test.tsx,uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx,apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "passed": true
     },
     {

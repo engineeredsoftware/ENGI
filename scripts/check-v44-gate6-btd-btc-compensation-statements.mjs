@@ -94,10 +94,10 @@ function main() {
     'packages/btd/src/settlement.ts',
     'packages/btd/src/receipts.ts',
     'packages/btd/src/reconciliation.ts',
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/tests/packsPageClient.test.tsx',
     'packages/specifying/src/canonical/v44-btd-btc-compensation-statements.js',
     'packages/specifying/test/v44-btd-btc-compensation-statements.test.js',
     'scripts/generate-v44-btd-btc-compensation-statements.mjs',
@@ -176,7 +176,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi Packs activity model/page tests must pass.');
     }

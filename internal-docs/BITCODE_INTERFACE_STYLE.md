@@ -20,7 +20,7 @@ The UI should distinguish:
 
 ## Component Policy
 
-- Use `uapi/components/bitcode/*` for first-party Bitcode primitives.
+- Use `apps/uapi/components/bitcode/*` for first-party Bitcode primitives.
 - Use shared shadcn wrappers only as low-level UI substrate.
 - Keep Terminal and Exchange semantics in component names where possible.
 - Avoid styling that hides critical execution/proof state behind generic cards.

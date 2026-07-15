@@ -38,7 +38,7 @@
   },
   "validatedCommands": [
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
       "assertions": 44,
       "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."

@@ -60,8 +60,8 @@ Promotion validation is represented by the focused package/API/ORM/protocol-demo
 - focused package/API Jest: 62 tests
 - focused ORM Jest: 3 tests
 - focused UAPI external-realization route Jest: 2 tests
-- `pnpm -C uapi build`
-- unversioned-route scan of `uapi/app/api`
+- `pnpm -C apps/uapi build`
+- unversioned-route scan of `apps/uapi/app/api`
 
 Duplicate Jest manual mock warnings, the ts-jest globals deprecation warning, Browserslist staleness, and the optional `@ai-sdk/google` warning in generic-llms are pre-existing outside the V27 crypto closure slice and are not V27 blockers.
 

@@ -81,19 +81,19 @@ function main() {
 
   for (const relativePath of [
     V43_READ_ROUTE_FIVE_STEP_UX_ARTIFACT_PATH,
-    'uapi/app/read/read-route-model.ts',
-    'uapi/app/read/page.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/terminal/terminal-routes.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'uapi/components/bitcode/layout/nav.tsx',
-    'uapi/components/bitcode/layout/workspace-surface.ts',
-    'uapi/components/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/components/bitcode/layout/bitcode-public-explainers.ts',
-    'uapi/components/bitcode/layout/footer.tsx',
-    'uapi/tests/readRouteModel.test.ts',
-    'uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/app/read/page.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/terminal/terminal-routes.ts',
+    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/components/bitcode/layout/nav.tsx',
+    'apps/uapi/components/bitcode/layout/workspace-surface.ts',
+    'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'apps/uapi/components/bitcode/layout/bitcode-public-explainers.ts',
+    'apps/uapi/components/bitcode/layout/footer.tsx',
+    'apps/uapi/tests/readRouteModel.test.ts',
+    'apps/uapi/tests/readPageClient.test.tsx',
     'packages/specifying/src/canonical/v43-read-route-five-step-ux.js',
     'packages/specifying/test/v43-read-route-five-step-ux.test.js',
     'scripts/generate-v43-read-route-five-step-ux.mjs',
@@ -146,7 +146,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'readPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'readPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi readRouteModel.test.ts and readPageClient.test.tsx must pass.');
     }

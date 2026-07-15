@@ -85,9 +85,9 @@ Validation:
 - focused package/API Jest: 62 tests
 - focused ORM Jest: 3 tests
 - focused UAPI external-realization route Jest: 2 tests
-- `pnpm -C uapi build`
+- `pnpm -C apps/uapi build`
 - `jq empty .bitcode/v27-*.json .bitcode/environment-mode-coherence-proof.json`
-- `find uapi/app/api -path '*v[0-9]*' -print | sort`
+- `find apps/uapi/app/api -path '*v[0-9]*' -print | sort`
 - `git diff --check`
 
 Value-bearing mainnet launch remains separately gated by operational approval.

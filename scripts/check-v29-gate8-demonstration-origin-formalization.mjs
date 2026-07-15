@@ -189,13 +189,13 @@ function main() {
   const demonstrationImportViolations = findDirectDemonstrationRuntimeImports(root, [
     'scripts',
     'packages',
-    'uapi/app',
-    'uapi/components',
-    'uapi/config',
-    'uapi/hooks',
-    'uapi/lib',
-    'uapi/networking',
-    'uapi/types',
+    'apps/uapi/app',
+    'apps/uapi/components',
+    'apps/uapi/config',
+    'apps/uapi/hooks',
+    'apps/uapi/lib',
+    'apps/uapi/networking',
+    'apps/uapi/types',
   ]).filter((relativePath) => !relativePath.startsWith('protocol-demonstration/'));
   assertCheck(
     failures,

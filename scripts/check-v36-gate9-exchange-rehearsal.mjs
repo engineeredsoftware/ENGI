@@ -129,7 +129,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/exchange/README.md',
+    'apps/uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -222,7 +222,7 @@ function main() {
   const protocolDts = read(root, 'packages/specifying/src/index.d.ts');
   const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
 
   for (const doc of [spec, delta, notes, parity, roadmap, protocolReadme, rootReadme, exchangeReadme]) {
     assertCheck(failures, doc.includes('ExchangeRehearsal'), 'Docs/specs must name ExchangeRehearsal.');

@@ -94,7 +94,7 @@ function main() {
     'packages/btd/src/reconciliation.ts',
     'packages/btd/src/wallet.ts',
     'packages/pipeline-hosts/src/distributed-execution-runtime-receipt.ts',
-    'uapi/app/bitcode-ledger-storage-sync.ts',
+    'apps/uapi/app/bitcode-ledger-storage-sync.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     'package.json',

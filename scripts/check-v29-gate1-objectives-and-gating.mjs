@@ -152,7 +152,7 @@ function main() {
   assertCheck(failures, agents.includes('version/v29') || agents.includes('such as `version/v28`'), 'AGENTS.md must document version base branch usage.');
   assertCheck(failures, /gate branches must be prefixed with the gate number/i.test(agents), 'AGENTS.md must retain gate-number branch discipline.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8'
   }).trim();

@@ -24,7 +24,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "emittedTypes": [
         "AssetPackSettlementPaymentObservation",
@@ -174,7 +174,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/settlement.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "AssetPackDeliveryUnlockReceipt",
@@ -211,7 +211,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/btd/src/reconciliation.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "emittedTypes": [
         "LedgerDatabaseReconciliationReport"
@@ -280,8 +280,8 @@
       "rowId": "route:harness-settlement-summary",
       "purpose": "Summarize payment, finality, rights, source-to-shares, delivery, reconciliation, replay, and storage roots through the harness route.",
       "sourceRoots": [
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts"
       ],
       "emittedTypes": [
         "assetPackSettlementRightsDeliveryBoundary",
@@ -315,9 +315,9 @@
       "rowId": "ui:terminal-settlement-readback",
       "purpose": "Render settlement rights, compensation, delivery, replay, and reconciliation readback in Terminal expandable metadata.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts"
       ],
       "emittedTypes": [
         "assetPackSettlementBoundaryRows",
@@ -477,27 +477,27 @@
     },
     {
       "id": "route-summarizes-boundary",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "route-test-covers-boundary",
-      "sourcePath": "uapi/tests/api/pipelineHarnessRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
       "passed": true
     },
     {
       "id": "terminal-renders-boundary",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "terminal-client-summarizes-boundary",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "terminal-client-test-covers-boundary",
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {

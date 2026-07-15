@@ -138,7 +138,7 @@
         "contractId": "api.conversations.collection",
         "path": "/api/conversations",
         "method": "POST",
-        "sourceRoot": "uapi/app/api/conversations/route.ts",
+        "sourceRoot": "apps/uapi/app/api/conversations/route.ts",
         "runtime": "nodejs",
         "sourceSafetyClass": "source_safe_route_contract_metadata"
       },
@@ -326,19 +326,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -350,7 +350,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/route.ts",
           "present": true
         }
       ],
@@ -373,7 +373,7 @@
         "contractId": "api.conversations.session",
         "path": "/api/conversations/[conversationId]",
         "method": "GET",
-        "sourceRoot": "uapi/app/api/conversations/[conversationId]/route.ts",
+        "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/route.ts",
         "runtime": "nodejs",
         "sourceSafetyClass": "source_safe_route_contract_metadata"
       },
@@ -563,19 +563,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -587,7 +587,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/[conversationId]/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/route.ts",
           "present": true
         }
       ],
@@ -610,7 +610,7 @@
         "contractId": "api.conversations.collection_stream",
         "path": "/api/conversations/stream",
         "method": "POST",
-        "sourceRoot": "uapi/app/api/conversations/stream/route.ts",
+        "sourceRoot": "apps/uapi/app/api/conversations/stream/route.ts",
         "runtime": "nodejs",
         "sourceSafetyClass": "source_safe_route_contract_metadata"
       },
@@ -799,19 +799,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -823,7 +823,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/stream/route.ts",
           "present": true
         }
       ],
@@ -846,7 +846,7 @@
         "contractId": "api.conversations.session_stream",
         "path": "/api/conversations/[conversationId]/stream",
         "method": "POST",
-        "sourceRoot": "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
         "runtime": "nodejs",
         "sourceSafetyClass": "source_safe_route_contract_metadata"
       },
@@ -1036,19 +1036,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1060,7 +1060,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
           "present": true
         }
       ],
@@ -1083,7 +1083,7 @@
         "contractId": "api.conversations.branch",
         "path": "/api/conversations/branch",
         "method": "POST",
-        "sourceRoot": "uapi/app/api/conversations/branch/route.ts",
+        "sourceRoot": "apps/uapi/app/api/conversations/branch/route.ts",
         "runtime": "nodejs",
         "sourceSafetyClass": "source_safe_route_contract_metadata"
       },
@@ -1273,19 +1273,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1297,7 +1297,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/branch/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/branch/route.ts",
           "present": true
         }
       ],
@@ -1320,7 +1320,7 @@
         "contractId": "api.conversations.shared_contracts",
         "path": "/api/conversations/* shared contracts",
         "method": "INTERNAL",
-        "sourceRoot": "uapi/app/api/conversations/_shared.ts",
+        "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
         "runtime": "nodejs",
         "sourceSafetyClass": "source_safe_route_contract_metadata"
       },
@@ -1508,19 +1508,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1532,7 +1532,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/_shared.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
           "present": true
         }
       ],
@@ -1585,19 +1585,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1609,7 +1609,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/route.ts",
           "present": true
         }
       ]
@@ -1651,19 +1651,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1675,7 +1675,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/[conversationId]/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/route.ts",
           "present": true
         }
       ]
@@ -1717,19 +1717,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1741,7 +1741,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/stream/route.ts",
           "present": true
         }
       ]
@@ -1783,19 +1783,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1807,7 +1807,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
           "present": true
         }
       ]
@@ -1849,19 +1849,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1873,7 +1873,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/branch/route.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/branch/route.ts",
           "present": true
         }
       ]
@@ -1915,19 +1915,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-session-route-history.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-session-route-history.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistory.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistory.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
+          "sourceRoot": "apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts",
           "present": true
         },
         {
@@ -1939,7 +1939,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/conversations/_shared.ts",
+          "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
           "present": true
         }
       ]

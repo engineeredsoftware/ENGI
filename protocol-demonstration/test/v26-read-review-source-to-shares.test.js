@@ -130,16 +130,16 @@ test('V26 settlement review and receipts show quantized source-to-shares fit qua
 
 test('V26 Read-fitting Exchange and Terminal source stays TypeScript-owned without generated JS mirrors', () => {
   [
-    'uapi/app/api/read-review/route.js',
-    'uapi/app/api/make-bitcode-branch/route.js',
-    'uapi/app/api/state/route.js',
-    'uapi/lib/bitcode-app-context.js',
-    'uapi/hooks/useExecutionState.js',
-    'uapi/tests/api/readReviewRoute.test.js',
-    'uapi/tests/api/readReviewProtocolParity.test.js',
-    'uapi/tests/api/executionsHistoryWriteReadParity.test.js',
-    'uapi/tests/terminalReadScenarios.test.js',
-    'uapi/tests/terminalClosureState.test.js'
+    'apps/uapi/app/api/read-review/route.js',
+    'apps/uapi/app/api/make-bitcode-branch/route.js',
+    'apps/uapi/app/api/state/route.js',
+    'apps/uapi/lib/bitcode-app-context.js',
+    'apps/uapi/hooks/useExecutionState.js',
+    'apps/uapi/tests/api/readReviewRoute.test.js',
+    'apps/uapi/tests/api/readReviewProtocolParity.test.js',
+    'apps/uapi/tests/api/executionsHistoryWriteReadParity.test.js',
+    'apps/uapi/tests/terminalReadScenarios.test.js',
+    'apps/uapi/tests/terminalClosureState.test.js'
   ].forEach((sourcePath) => {
     assert.equal(existsSync(sourcePath), false, `${sourcePath} must not be emitted beside TypeScript source`);
   });

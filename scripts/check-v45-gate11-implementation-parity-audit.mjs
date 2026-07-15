@@ -137,10 +137,10 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/exchange/page.tsx',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/exchange/page.tsx',
     '.github/workflows/v44-canon-promotion.yml',
   ]) {
     assertCheck(failures, exists(root, sourcePath), `V45 Gate 11 audited source path must exist: ${sourcePath}`);

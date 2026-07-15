@@ -311,7 +311,7 @@ Implemented after Pass 2, pending next manual QA confirmation:
 | Terminal adds compact operator lanes for Recent activity, Deposit, Read, and Closure. | Focused Playwright Terminal spec checks the lane map. |
 | Terminal digest actions now change selected detail focus before scrolling, closing the visible no-op class found in QA. | Focused Playwright Terminal spec clicks `Open proof detail` and verifies `transactionDetail=proofs`. |
 | `/terminal` is the canonical Terminal route and the prior generic workspace route is fully retired. | Unit and E2E route expectations now point to `/terminal`; active source scans verify the prior generic workspace route is absent rather than retained as a compatibility route. |
-| Active demonstration witness stylesheet source uses unversioned names. | `uapi/app/terminal/demonstration-witness-*`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace the explicit gate-named stylesheet route carriers. |
+| Active demonstration witness stylesheet source uses unversioned names. | `apps/uapi/app/terminal/demonstration-witness-*`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace the explicit gate-named stylesheet route carriers. |
 | Static overview badges are quieter than actionable chips/buttons. | Requires next manual visual confirmation. |
 | Active touched Auxillaries names moved from orbitals to Auxillaries in mock-mode envs, component callbacks, and commercial tests. | Source search is clean for active renamed identifiers; no route compatibility artifact is retained for the retired generic workspace. |
 | Conversations split-pane source selector tolerates missing or variant repository payloads and no longer crashes the route during commercial QA. | Historical implementation note only; website Conversations is deferred beyond V35 after May 11. |
@@ -342,12 +342,12 @@ Implemented after Pass 2, pending next manual QA confirmation:
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Environment file posture | pass | Populated root and UAPI `.env` files were moved out of tracking into `.env.local`; root `.env.example` and `uapi/.env.example` now carry placeholder keys only. |
+| Environment file posture | pass | Populated root and UAPI `.env` files were moved out of tracking into `.env.local`; root `.env.example` and `apps/uapi/.env.example` now carry placeholder keys only. |
 | Supabase migrations | pass | CLI link was realigned to staging-testnet project `tkpyosihuouusyaxtbau`; `supabase db push --include-all` applied local migrations `001`, `002`, and `003` before the dashboard-origin RLS migration `20260510223914`; `supabase migration list` and `supabase db push --dry-run` report the remote database is up to date. |
-| UAPI unit/integration tests | pass | `pnpm -C uapi exec jest --runInBand --silent`: 85 suites passed, 1 skipped; 245 tests passed, 1 skipped. Jest now exits without `--forceExit` after moving ts-jest config out of deprecated `globals`, suppressing mock-orchestrator process hooks in Jest, and unref'ing conversation streaming timers. |
+| UAPI unit/integration tests | pass | `pnpm -C apps/uapi exec jest --runInBand --silent`: 85 suites passed, 1 skipped; 245 tests passed, 1 skipped. Jest now exits without `--forceExit` after moving ts-jest config out of deprecated `globals`, suppressing mock-orchestrator process hooks in Jest, and unref'ing conversation streaming timers. |
 | Package tests | pass | `pnpm -C packages/protocol test`, `pnpm -C packages/protocol run typecheck`, and `pnpm -C packages/orm test` pass. |
-| Lint/typecheck | pass | `pnpm run lint`, `pnpm -C uapi run lint`, and `pnpm -C uapi exec tsc --noEmit --pretty false` pass. |
-| Staging-testnet build | pass | `pnpm -C uapi run build` passes with staging-testnet flags, Exchange and website Conversations disabled, mocks off, and Next loading `uapi/.env.local`. Auxillaries data routes are dynamic and no longer emit build-time 500s; local Tailwind JIT noise is gone after `DEBUG=false`, and Browserslist/caniuse stale-data warning is gone after the workspace `caniuse-lite` override/install refresh. |
+| Lint/typecheck | pass | `pnpm run lint`, `pnpm -C apps/uapi run lint`, and `pnpm -C apps/uapi exec tsc --noEmit --pretty false` pass. |
+| Staging-testnet build | pass | `pnpm -C apps/uapi run build` passes with staging-testnet flags, Exchange and website Conversations disabled, mocks off, and Next loading `apps/uapi/.env.local`. Auxillaries data routes are dynamic and no longer emit build-time 500s; local Tailwind JIT noise is gone after `DEBUG=false`, and Browserslist/caniuse stale-data warning is gone after the workspace `caniuse-lite` override/install refresh. |
 | Diff hygiene | pass | `git diff --check` passes. |
 
 ### 2026-05-09 Pass 3A Resume: Wallet Extension And Provider Prerequisites
@@ -507,8 +507,8 @@ QA3.1 reply template:
 
 Automated verification for this slice:
 
-- `pnpm -C uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/btdTrackerLoading.test.tsx tests/auxillariesWorkspacePanels.test.tsx tests/featureFlagsMockMode.test.ts`: pass.
-- `pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed, including the Terminal fullscreen Auxillaries viewport/scroll assertion and contained portal-entry regression.
+- `pnpm -C apps/uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/btdTrackerLoading.test.tsx tests/auxillariesWorkspacePanels.test.tsx tests/featureFlagsMockMode.test.ts`: pass.
+- `pnpm -C apps/uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed, including the Terminal fullscreen Auxillaries viewport/scroll assertion and contained portal-entry regression.
 - Focused browser verification on the mock lane: raw lane text count `0`, state indicator count `4`, Profile display name `Avery Mercer`, Profile bio `Reviewing the Bitcode commercial surface in deterministic mock mode.`, shell bottom gap `0`, pane bottom overflow `0`, pane `scrollTop` advances, explicit auxillary Save buttons are removed in favor of autosave, Externals repos present, no product console/page errors.
 
 Deferred to V31 from this pass:
@@ -522,10 +522,10 @@ They are external telemetry noise, not product readiness evidence.
 
 Automated verification after this implementation pass:
 
-- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the May 9 Auxillaries/Profile/BTD/notification refinements.
-- `pnpm -C uapi exec jest --runInBand tests/auxillariesWalletPane.test.tsx tests/notificationsWidget.test.tsx tests/orbitalsInterfacesPane.test.tsx`: 9 passed after the BTD hierarchy, tooltip, notification-footer, and autosave assertions.
-- `START_STORYBOOK=false pnpm -C uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed after contained shell and pane-state refinements.
-- `pnpm -C uapi run build`: pass after the May 9 QA fixes; the prior clean-clone Vercel module-resolution failure remains fixed locally.
+- `pnpm -C apps/uapi exec tsc --noEmit --pretty false`: pass after the May 9 Auxillaries/Profile/BTD/notification refinements.
+- `pnpm -C apps/uapi exec jest --runInBand tests/auxillariesWalletPane.test.tsx tests/notificationsWidget.test.tsx tests/orbitalsInterfacesPane.test.tsx`: 9 passed after the BTD hierarchy, tooltip, notification-footer, and autosave assertions.
+- `START_STORYBOOK=false pnpm -C apps/uapi exec playwright test tests/e2e/commercial-mvp.auxillaries.spec.ts --project=laptop --workers=1`: 10 passed after contained shell and pane-state refinements.
+- `pnpm -C apps/uapi run build`: pass after the May 9 QA fixes; the prior clean-clone Vercel module-resolution failure remains fixed locally.
 - Playwright non-mock browser smoke after the May 9 patch: `Connect Wallet` opens the contained Auxillaries shell, selector order is `Externals`, `Interfaces`, `Profile`, `Wallet`, old-ring count is `0`, Google prerequisite copy is absent, MetaMask and GitHub are present, no visible Save/Continue buttons remain, Profile first-open scroll advances, and no console/page errors occur.
 - May 9 live Leather QA: wallet connection persisted, but follow-up findings required V28 fixes for wallet-authenticated nav chrome, Wallet/Profile/Externals ownership, robust connected-wallet readout, Sign Out button styling, BTD tracker wallet identity action, and verbose console telemetry. Source now treats local Bitcoin wallet identity as sufficient chrome identity while backend persistence catches up; Wallet owns crypto wallet identity and BTD/BTC posture; Profile owns optional email/contact/admin posture; Externals owns GitHub; the BTD tracker opens the Wallet auxillary pane; and verbose QA logs are gated behind `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true`, `NEXT_PUBLIC_BITCODE_VERBOSE=true`, `?bitcode_verbose=true`, or `localStorage.bitcode.qa.verbose=true`.
 - May 9 follow-up QA found Externals still showing the old signed-in blocker after the Bitcoin wallet was correctly connected. V28 fixes Externals to render GitHub controls from wallet identity or email session, so Wallet completion can progress directly into repository connection without waiting on optional email/Supabase persistence.
@@ -534,28 +534,28 @@ Automated verification after this implementation pass:
 - May 12 Supabase readiness resolves project reachability and key acceptance but remains blocked on database schema. The project URL is reachable, auth settings return 200 with the supplied publishable key, and the secret key is accepted by the Supabase API gateway. Core Bitcode tables including `user_profiles`, `user_connections`, `vcs_repositories`, `btd_asset_pack_ranges`, and `btd_mint_receipts` return `PGRST205` table-not-found responses, so migrations have not been applied to this testnet project yet. Source now accepts both the older `NEXT_PUBLIC_SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY` names and the newer `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` / `SUPABASE_SECRET_KEY` names so the provided testnet variables can be used directly after migration.
 - May 12 GitHub App setup/callback hardening: the active install link is now `https://github.com/apps/bitcode-github-app-auxillary` in Auxillaries and docs-facing surfaces. The retained public callback route `/github/callback` redirects to `/tps/github/callback`, and the retained setup route `/github/setup` redirects to `/tps/github/app-install`, preserving query fields. The callback handler collects GitHub App installation fields including `installation_id`, `setup_action`, `state`, `target_id`, and `target_type`; when a Supabase user session exists it exchanges the installation for an installation token and stores the GitHub connection as installation-scoped metadata without exposing tokens in client connection status. The GitHub App description copy for the registration form is: `Connect GitHub repositories to Bitcode so Terminal can measure Reads, synthesize BTD-backed AssetPacks, and return proof-bound delivery status.`
 - Recommended GitHub App URLs for production registration: homepage `https://bitcode.exchange`, callback URL `https://bitcode.exchange/github/callback`, setup URL `https://bitcode.exchange/github/setup`, public app link `https://github.com/apps/bitcode-github-app-auxillary`. For local callback QA, add a temporary allowed callback/setup pair for the active local port or use the deployed staging domain; GitHub App setup redirects do not inherit the browser's local origin automatically.
-- `pnpm -C uapi exec jest --runInBand tests/api/vcsRoutes.test.ts tests/api/vcsGithubCallbackRoute.test.ts tests/auxillariesConnectsPane.test.tsx tests/publicDocsPageContent.test.tsx`: 11 passed after GitHub App install-link and callback/setup handling.
-- `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/userConnectionsGithubRoute.test.ts'`: 6 passed after GitHub connection-status token redaction.
-- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after GitHub App callback/setup and public install-link wiring.
-- `pnpm -C uapi run build`: pass after GitHub App callback/setup and public install-link wiring.
+- `pnpm -C apps/uapi exec jest --runInBand tests/api/vcsRoutes.test.ts tests/api/vcsGithubCallbackRoute.test.ts tests/auxillariesConnectsPane.test.tsx tests/publicDocsPageContent.test.tsx`: 11 passed after GitHub App install-link and callback/setup handling.
+- `pnpm -C apps/uapi exec jest --runInBand --testMatch '**/tests/userConnectionsGithubRoute.test.ts'`: 6 passed after GitHub connection-status token redaction.
+- `pnpm -C apps/uapi exec tsc --noEmit --pretty false`: pass after GitHub App callback/setup and public install-link wiring.
+- `pnpm -C apps/uapi run build`: pass after GitHub App callback/setup and public install-link wiring.
 - May 12 Bitcoin wallet auth formalization: V28 no longer uses anonymous Supabase sign-in as the wallet persistence origin. Wallet starts Supabase custom OAuth through `custom:bitcode-bitcoin`, `/tps/wallet/authorize` captures the signed wallet proof, `/api/wallet/oauth/token` and `/api/wallet/oauth/userinfo` let Supabase create the user session, and Wallet then synchronizes the same wallet proof into `/api/wallet/authenticate`.
 - Supabase custom provider dashboard values for testnet: provider type `OAuth2`, identifier `custom:bitcode-bitcoin`, name `Bitcode Bitcoin Wallet`, authorization URL `<public staging-or-tunnel origin>/tps/wallet/authorize`, token URL `<public staging-or-tunnel origin>/api/wallet/oauth/token`, userinfo URL `<public staging-or-tunnel origin>/api/wallet/oauth/userinfo`, scopes `profile wallet:bitcoin`, PKCE enabled, and email optional enabled. Cloud Supabase cannot call `127.0.0.1` token/userinfo URLs, so local QA needs either a deployed preview/staging origin or a tunnel that uses the same OAuth client secret as the local lane.
 - Required matching app env for testnet lane: `BITCODE_BITCOIN_OAUTH_CLIENT_ID=<same client id configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_CLIENT_SECRET=<same client secret configured in Supabase>`, `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_ORIGINS=https://tkpyosihuouusyaxtbau.supabase.co`, and `BITCODE_BITCOIN_OAUTH_ALLOWED_REDIRECT_URIS=https://tkpyosihuouusyaxtbau.supabase.co/auth/v1/callback` if the Supabase URL env is unavailable, plus the existing Supabase publishable/secret keys.
 - May 13 Leather reconnect QA classified the wallet provider path as working but the Supabase custom-OAuth exchange as blocked: Bitcode issued `wallet-oauth:authorization-code-issued` for Leather on testnet, local wallet identity hydrated in top chrome, but Supabase returned `server_error: Unable to exchange external code` and no `wallet-oauth:token-issued` telemetry appeared. Do not rerun Leather until the Supabase provider token/userinfo URLs are confirmed public-reachable from Supabase and configured with the same Bitcoin OAuth client secret. V28 now surfaces the full `loginErrorDescription` toast and adds a Wallet-pane `Disconnect wallet` action that clears the Bitcode-local wallet/session state while accurately noting that Leather/Xverse extension permissions may read revocation inside the wallet.
 - May 13 Leather documentation ingestion closes the adapter contract for V28 implementation preparation. Leather support is through `window.LeatherProvider.request`, with `getAddresses` selected by BTC `symbol`/`type` rather than index, Taproot `p2tr` preferred for Bitcode auth, Native SegWit `p2wpkh` retained for payment, account derived from the returned derivation path, and explicit `signMessage` parameters. V28 source now also exposes tested Leather utilities for `open`, hex `signPsbt`, and `sendTransfer`; Terminal BTC-fee/PSBT work can call those utilities later without redefining the wallet provider contract.
-- `pnpm -C uapi exec jest --runInBand tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts`: 9 passed after Bitcoin wallet custom OAuth implementation.
-- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after Bitcoin wallet custom OAuth implementation.
-- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
-- `pnpm -C uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
+- `pnpm -C apps/uapi exec jest --runInBand tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts`: 9 passed after Bitcoin wallet custom OAuth implementation.
+- `pnpm -C apps/uapi exec tsc --noEmit --pretty false`: pass after Bitcoin wallet custom OAuth implementation.
+- `pnpm -C apps/uapi exec tsc --noEmit --pretty false`: pass after the formal protocol package split.
+- `pnpm -C apps/uapi run test:e2e:commercial-mvp`: 50 passed after Conversations streaming, Conversations exit, and Terminal transaction-search stabilization.
 - `npm --prefix protocol-demonstration run test:integration`: 58 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v27-crypto`: 9 passed after standalone demonstration/package-boundary cleanup.
 - `npm --prefix protocol-demonstration run test:v28-mvp-qa`: 13 passed after adding the boundary-separation and local Finding Fits witness checks.
-- `pnpm -C uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/readReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
+- `pnpm -C apps/uapi exec jest --runInBand tests/demonstrationWitnessMount.test.tsx tests/demonstrationWitnessScopedStylesRoute.test.ts tests/terminalPreservedShellSurface.test.tsx tests/terminalShellBridge.test.tsx tests/marketingLandingPage.test.tsx tests/api/readReviewProtocolParity.test.ts tests/api/bitcodeAppContextOptions.test.ts tests/protocolCommercialBoundary.test.ts`: 18 passed after the formal protocol package split.
 - `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`: 2 passed after the formal package split.
 - `pnpm -C packages/protocol test`: 2 passed after the formal package split and protocol runtime-source deployment fix.
 - `pnpm -C packages/protocol run typecheck`: pass after adding the formal package typecheck config.
-- `pnpm -C uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`: 5 passed after adding the formal protocol deployment-source boundary check.
-- `pnpm -C uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/featureFlagsMockMode.test.ts tests/protocolCommercialBoundary.test.ts`: 11 passed after the mock top-chrome cache/flag fix, JavaScript companion parity check, and protocol package resolver check.
+- `pnpm -C apps/uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`: 5 passed after adding the formal protocol deployment-source boundary check.
+- `pnpm -C apps/uapi exec jest --runInBand tests/useUserDataHydration.test.tsx tests/featureFlagsMockMode.test.ts tests/protocolCommercialBoundary.test.ts`: 11 passed after the mock top-chrome cache/flag fix, JavaScript companion parity check, and protocol package resolver check.
 - Playwright dual-lane browser verification after lane-specific `NEXT_DIST_DIR` restart: mock lane shows `0.042 BTC`, `1,200 BTD`, mock review state, reviewer profile, and populated notifications; testnet-readiness lane shows no mock balances, no mock review state, and the Connect Wallet prerequisite controls; both lanes have no product console/page errors.
 
 Deferred to V29 from this pass:
@@ -601,7 +601,7 @@ NEXT_PUBLIC_DISABLE_AUXILLARIES=false \
 NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false \
 NEXT_PUBLIC_MCP_UPGRADES=true \
 NEXT_PUBLIC_BITCODE_QA_VERBOSE=true \
-pnpm -C uapi dev:remote
+pnpm -C apps/uapi dev:remote
 ```
 
 Testnet-readiness lane dev server:
@@ -642,7 +642,7 @@ NEXT_PUBLIC_DISABLE_AUXILLARIES=false \
 NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT=false \
 NEXT_PUBLIC_MCP_UPGRADES=true \
 NEXT_PUBLIC_BITCODE_QA_VERBOSE=true \
-pnpm -C uapi exec next dev --hostname 127.0.0.1 -p 3001
+pnpm -C apps/uapi exec next dev --hostname 127.0.0.1 -p 3001
 ```
 
 When the testnet-readiness lane lacks wallet, GitHub, Supabase, signer, BTC broadcaster, ledger observer, MCP, ChatGPT App, or database projection credentials, the expected V28 behavior is explicit blocked readiness.
@@ -1402,7 +1402,7 @@ a synchronous route, raw-prompt Read, or source-leaking preview model.
   `pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/read-need.test.ts --runInBand`,
   `pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand`,
   and
-  `pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHostRoute.test.ts tests/terminalPipelineHarnessClient.test.ts tests/terminalDepositReadWorkbench.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand`.
+  `pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHostRoute.test.ts tests/terminalPipelineHarnessClient.test.ts tests/terminalDepositReadWorkbench.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand`.
 
 Observed staging-testnet harness evidence on 2026-05-17:
 
@@ -1576,7 +1576,7 @@ manifest-bound Deposit evidence root fixes:
   are missing tool execution telemetry for the latest run plus zero BTD range,
   BTC fee, journal, anchor, ownership, license, and crypto telemetry settlement
   rows.
-- `pnpm qa:v28:pipeline-readback -- --env-file uapi/.env.local --expected-host
+- `pnpm qa:v28:pipeline-readback -- --env-file apps/uapi/.env.local --expected-host
   tkpyosihuouusyaxtbau.supabase.co` correctly returns blocked locally with a
   placeholder Supabase URL and `supabase_admin_credential_missing_or_not_service_role`.
 - `pnpm test:qa:v28:pipeline-readback` passes 12 Node tests covering pnpm
@@ -1592,7 +1592,7 @@ manifest-bound Deposit evidence root fixes:
 
 - No live deployment is part of this pass. V28 route, stream, and harness work
   is validated through local application deployment only.
-- Local Terminal application deployment must start with `pnpm -C uapi
+- Local Terminal application deployment must start with `pnpm -C apps/uapi
   dev:staging -- --port 3010`. That script sets
   `BITCODE_ENABLE_PIPELINE_HARNESS_API=1`,
   `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1`,
@@ -1649,7 +1649,7 @@ manifest-bound Deposit evidence root fixes:
   Focused tests cover parent tool
   lookup, base Tool lookup, result-event telemetry, missing-tool telemetry, and
   verification-tool readback shape.
-- `.env.local` and `uapi/.env.local` now point `SUPABASE_URL` /
+- `.env.local` and `apps/uapi/.env.local` now point `SUPABASE_URL` /
   `NEXT_PUBLIC_SUPABASE_URL` at staging-testnet. The route, readback verifier,
   and standalone dev harness fail closed when production-mainnet refs are used
   in staging mode, when REST and DB hosts differ, when an anon JWT is placed
@@ -1677,8 +1677,8 @@ manifest-bound Deposit evidence root fixes:
   `pnpm -C packages/pipelines/asset-pack exec tsc --noEmit --pretty false`,
   `pnpm -C packages/pipeline-hosts test -- asset-pack-host-plan`,
   `pnpm -C packages/pipeline-hosts exec tsc --noEmit --pretty false`,
-  `pnpm -C uapi exec jest --runInBand tests/terminalPipelineHarnessClient.test.ts`,
-  `pnpm -C uapi exec tsc --noEmit --pretty false`,
+  `pnpm -C apps/uapi exec jest --runInBand tests/terminalPipelineHarnessClient.test.ts`,
+  `pnpm -C apps/uapi exec tsc --noEmit --pretty false`,
   `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source rest --lookback-hours 48`,
   `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --readback-source db --lookback-hours 48`,
   and `git diff --check`. That pass was correctly blocked before the
@@ -1758,7 +1758,7 @@ manifest-bound Deposit evidence root fixes:
   response carried `thricified-generation` mode, `success` status, provider
   `openai`, model `gpt-4.1-mini`, parsed reasoning, parsed judgment, parsed
   structured output, a measured `ReadNeed`, and a `sha256:` measurement root.
-- Local `/terminal` browser validation against `pnpm -C uapi dev:staging`
+- Local `/terminal` browser validation against `pnpm -C apps/uapi dev:staging`
   rendered all five Reading steps with no error overlay, console errors, or
   page errors: `Request Read`, `Review synthesized Need`, `Request Fit`,
   `Review synthesized AssetPack`, and `Buy AssetPack, settle`. The same page
@@ -1791,7 +1791,7 @@ Pass 2C prompt-to-artifact closure audit:
 | Vercel Sandbox harness creates a host, runs commands, exports evidence, exports telemetry, and cleans up. | `packages/pipeline-hosts` host/manifest/harness tests pass; local sandbox artifacts were exported for `sbx_rLVfPTD3HuITtCbrR0AmZ26spEYO`. | implemented and locally verified |
 | Route-started run id is visible before telemetry starts. | The route runner allocates `BITCODE_PIPELINE_RUN_ID`; Terminal stream snapshot and metadata rows consume `runId`; focused UAPI tests cover the stream adapter and runner event order. | implemented and tested |
 | Staging route uses real bounded inference, not deterministic bring-up or full-profile blocking. | Route preflight requires real inference, OpenAI key, `bounded`, and runtime budget `<=600000`; Terminal summarizes full-profile async blocker. | implemented and tested |
-| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `uapi/tests/api/pipelineHostRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
+| Local application deployment can enforce the same route strictness without deploying. | `BITCODE_PIPELINE_HARNESS_REQUIRE_REAL_INFERENCE=1` makes local `next dev` require real bounded inference, OpenAI, aligned Supabase admin credentials, REST/DB host alignment, and route budget `<=600000`. `apps/uapi/tests/api/pipelineHostRoute.test.ts` proves local strict failure, mixed-host failure, and strict success without live deployment. | implemented and tested |
 | Operators can see sanitized preflight context before waiting on the sandbox. | SSE preflight includes Supabase host, profile, and runtime budget; Terminal stream metadata renders database/profile/budget; route-runner tests assert secret redaction in completion tails. | implemented and tested |
 | A repeatable readback verifier exists for staging operators. | `pnpm qa:v28:pipeline-readback -- --env-file .env.local --expected-host tkpyosihuouusyaxtbau.supabase.co --lookback-hours 48` checks sanitized REST/DB host identity, admin credential posture, pipeline telemetry tables, latest deliverable run coherence, generation/tool rows, and ledger settlement rows. The 2026-05-18 source-bound run now reports `ready_for_v28_result_review`; `pnpm test:qa:v28:pipeline-readback` passes 12 verifier tests. | implemented and verified on staging-testnet |
 | Deposited proof/measurement flags become manifest-bound roots before Fit evaluation. | Harness materializes deterministic proof, measurement, and reconciliation roots; focused harness test asserts root shapes. | implemented and tested |
@@ -1822,10 +1822,10 @@ Environment posture checked:
 
 Automated checks passed:
 
-- `find uapi/app/api -path '*v[0-9]*' -print | sort`: no versioned API routes.
-- `pnpm -C uapi exec jest --runInBand tests/bitcoinWalletClient.test.ts tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts tests/auxillariesWalletConnectionPanel.test.tsx tests/publicDocsPageContent.test.tsx tests/protocolCommercialBoundary.test.ts`: 19 passed across the matched suites.
-- `pnpm -C uapi exec jest --runInBand --testMatch '**/tests/auxillariesWalletConnectionPanel.test.tsx'`: 1 passed.
-- `pnpm -C uapi exec tsc --noEmit --pretty false`: pass.
+- `find apps/uapi/app/api -path '*v[0-9]*' -print | sort`: no versioned API routes.
+- `pnpm -C apps/uapi exec jest --runInBand tests/bitcoinWalletClient.test.ts tests/api/walletOAuthRoutes.test.ts tests/api/walletAuthenticateRoute.test.ts tests/auxillariesWalletConnectionPanel.test.tsx tests/publicDocsPageContent.test.tsx tests/protocolCommercialBoundary.test.ts`: 19 passed across the matched suites.
+- `pnpm -C apps/uapi exec jest --runInBand --testMatch '**/tests/auxillariesWalletConnectionPanel.test.tsx'`: 1 passed.
+- `pnpm -C apps/uapi exec tsc --noEmit --pretty false`: pass.
 - `pnpm -C packages/protocol test`: 2 passed.
 - `pnpm -C packages/protocol run typecheck`: pass.
 - `pnpm -C packages/orm test`: 19 passed, with live data-health E2E tests skipped unless enabled by env flags.
@@ -1833,14 +1833,14 @@ Automated checks passed:
 - `BITCODE_RUN_DB_HEALTH_E2E=true BITCODE_RUN_SCHEMA_TYPES_E2E=true pnpm -C packages/orm run test:data-health:live`: 6 passed against the staging-testnet Supabase project.
 - `pnpm -C packages/orm run schema-types:check`: generated Supabase and ORM database types cover canonical public tables.
 - `pnpm -C packages/orm run build`: pass after generated type refresh.
-- `pnpm -C uapi run build` with the staging-testnet env block: Next.js production build passed.
+- `pnpm -C apps/uapi run build` with the staging-testnet env block: Next.js production build passed.
 - `git diff --check`: pass.
 - Supabase Security Advisor RLS class probe: direct SQL returned zero public tables with policies or browser-role grants while RLS is disabled.
 
 Build warnings and interpretation:
 
 - Browserslist/caniuse stale-data warning is closed by the workspace `caniuse-lite` override and refreshed install.
-- Tailwind/JIT `JIT TOTAL` label warnings are closed locally by keeping `DEBUG=false` in `uapi/.env.local`; Vercel should not set broad `DEBUG=true` for staging builds unless intentionally debugging Tailwind.
+- Tailwind/JIT `JIT TOTAL` label warnings are closed locally by keeping `DEBUG=false` in `apps/uapi/.env.local`; Vercel should not set broad `DEBUG=true` for staging builds unless intentionally debugging Tailwind.
 - The production build no longer logs `auxillaries-data:read-finish { status: 500, mockMode: false }` during static generation; the data routes are dynamic and fail open to anonymous readiness during prerender.
 
 External Supabase readiness check:
@@ -2158,7 +2158,7 @@ pnpm --filter @bitcode/btd typecheck
 pnpm --filter @bitcode/btd test
 pnpm --filter @bitcode/pipeline-hosts typecheck
 pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
-pnpm --dir uapi exec jest --runTestsByPath \
+pnpm --dir apps/uapi exec jest --runTestsByPath \
   tests/api/pipelineHostRoute.test.ts \
   tests/terminalPipelineHarnessClient.test.ts \
   tests/terminalDepositReadWorkbench.test.ts \

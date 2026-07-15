@@ -19,8 +19,8 @@ demonstration implementations:
 - `packages/orm/src/models/btd-registry.ts` and
   `supabase/migrations/002_v27_btd_crypto_registry.sql`: registry projection and
   database constraints.
-- `uapi/app/api/btd/*`, `uapi/app/btd/[assetPackId]/page.tsx`,
-  `uapi/lib/bitcoin-wallet-client.ts`, and the BTD auxillary UI: product surfaces.
+- `apps/uapi/app/api/btd/*`, `apps/uapi/app/btd/[assetPackId]/page.tsx`,
+  `apps/uapi/lib/bitcoin-wallet-client.ts`, and the BTD auxillary UI: product surfaces.
 - `protocol-demonstration/src/v27-crypto-primitives.js` and receipt schemas:
   compact witness functions for replayable demonstration.
 

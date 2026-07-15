@@ -58,7 +58,7 @@ function loadLocalEnvFiles(): void {
   const seen = new Set<string>();
 
   for (const root of roots) {
-    loadLocalEnvFile(resolve(root, 'uapi/.env.local'), seen, false);
+    loadLocalEnvFile(resolve(root, 'apps/uapi/.env.local'), seen, false);
     loadLocalEnvFile(resolve(root, '.env.local'), seen, true);
   }
 }

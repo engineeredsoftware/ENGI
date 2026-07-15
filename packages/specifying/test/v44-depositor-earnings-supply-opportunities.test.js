@@ -27,7 +27,7 @@ test('V44 Depositor earnings supply opportunities bind source-safe deposit-side 
   assert.equal(artifact.demandOpportunityStateIds.length, V44_DEPOSITOR_DEMAND_OPPORTUNITY_STATE_IDS.length);
   assert.equal(artifact.rows.length, V44_DEPOSITOR_EARNINGS_SUPPLY_ROWS.length);
   assert.equal(artifact.sourceRoots.earningSupplyIntelligence.startsWith('packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts:'), true);
-  assert.equal(artifact.sourceRoots.depositClient.startsWith('uapi/components/deposits/DepositPageClient/DepositPageClient.tsx:'), true);
+  assert.equal(artifact.sourceRoots.depositClient.startsWith('apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx:'), true);
   assert.equal(artifact.coverage.depositorEarningSupplyIntelligenceImplemented, true);
   assert.equal(artifact.coverage.likelyDemandImplemented, true);
   assert.equal(artifact.coverage.unfitNeedOpportunitiesImplemented, true);

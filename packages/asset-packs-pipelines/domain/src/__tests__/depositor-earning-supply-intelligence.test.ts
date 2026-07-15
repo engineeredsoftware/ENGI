@@ -12,7 +12,7 @@ function reviewablePolicyReport() {
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     obfuscations: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
     forcedInclusions: [
-      'uapi/app/deposits/DepositPageClient.tsx',
+      'apps/uapi/app/deposits/DepositPageClient.tsx',
       'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
     ],
     depositoryDemandSignals: [

@@ -325,7 +325,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     promptImplementation: {
       owners: [
         'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
-        'uapi/prompts/bitcode-terminal-system-prompt.ts'
+        'apps/uapi/prompts/bitcode-terminal-system-prompt.ts'
       ],
       rawPromptPartBoundary: 'conversation system prompt plus app-level binding',
       registryLayering: 'Conversation prompt binding composes the conversation-specific implementation prompt with public prompt primitives and inherits the same Registry-backed Prompt contract.',
@@ -343,7 +343,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       owners: [
         'packages/api/src/conversations/conversations.ts',
         'packages/api/src/conversations/streaming.ts',
-        'uapi/app/api/conversations/stream/route.ts'
+        'apps/uapi/app/api/conversations/stream/route.ts'
       ],
       carriers: ['conversation persistence', 'conversation stream events', 'ad hoc execution continuity']
     },
@@ -353,17 +353,17 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'active',
     verificationSet: [
-      'uapi/tests/api/conversationsRoute.test.ts',
-      'uapi/tests/api/chatStreamRoute.test.ts',
+      'apps/uapi/tests/api/conversationsRoute.test.ts',
+      'apps/uapi/tests/api/chatStreamRoute.test.ts',
       '.bitcode/conversations-continuity-proof.json'
     ],
     sourceEvidenceRefs: [
       'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
       'packages/conversations/src/agent/ConversationAgent.ts',
-      'uapi/prompts/bitcode-terminal-system-prompt.ts',
+      'apps/uapi/prompts/bitcode-terminal-system-prompt.ts',
       'packages/api/src/conversations/conversations.ts',
       'packages/api/src/conversations/streaming.ts',
-      'uapi/app/api/conversations/stream/route.ts'
+      'apps/uapi/app/api/conversations/stream/route.ts'
     ]
   },
   {
@@ -834,7 +834,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     executionImplementation: {
       owners: [
         'packages/mcp-generics/src/index.ts',
-        'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx'
+        'apps/uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx'
       ],
       carriers: ['queue/run/execution creation', 'provider ingress', 'operator reread']
     },
@@ -855,7 +855,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/mcp-generics/src/mcp-server/package.json',
       'packages/mcp-generics/src/mcp-server/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
-      'uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
+      'apps/uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx',
       'protocol-demonstration/V26_TERMINAL_SYSTEMS.md'
     ]
   }

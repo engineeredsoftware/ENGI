@@ -218,7 +218,7 @@
         "protectedSourceVisible": false,
         "rightsPosture": "settlement_pending"
       },
-      "fixturePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "fixturePath": "apps/chatgpt/src/__tests__/tools.test.ts",
       "posture": "blocked_preview",
       "promptBodyVisible": false,
       "proofRoots": [
@@ -258,7 +258,7 @@
         "protectedSourceVisible": false,
         "rightsPosture": "settlement_pending"
       },
-      "fixturePath": "uapi/tests/terminalOrganizationAuthority.test.ts",
+      "fixturePath": "apps/uapi/tests/terminalOrganizationAuthority.test.ts",
       "posture": "blocked_preview",
       "promptBodyVisible": false,
       "proofRoots": [
@@ -271,7 +271,7 @@
         "review-source-safe-preview",
         "settle-btc-fee-to-unlock-rights"
       ],
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand",
+      "replayCommand": "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand",
       "rowId": "interface.consumer.terminal-preview-blocked",
       "rowRoot": "btd-interface-consumer-ux-regression-row:93e60813b9e12a141828c8fa",
       "sourceSafeSummary": "Terminal handoff shows AssetPack measurements, fee posture, proof roots, and settlement repair steps only.",
@@ -418,7 +418,7 @@
     },
     {
       "digest": "sha256:bd3b2ab267858fb98a2ccc0e7d50666c3f7d86c55d44b81dd79202d0d0394014",
-      "relativePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "relativePath": "apps/chatgpt/src/__tests__/tools.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -432,7 +432,7 @@
     },
     {
       "digest": "sha256:67b4f82b5e94bfcddef7f349f6dd9eb361753c7bc1690be1266f2025147eee4c",
-      "relativePath": "uapi/tests/terminalOrganizationAuthority.test.ts",
+      "relativePath": "apps/uapi/tests/terminalOrganizationAuthority.test.ts",
       "requiredTokens": [
         {
           "present": true,

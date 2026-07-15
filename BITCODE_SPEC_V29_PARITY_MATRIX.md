@@ -51,7 +51,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- | --- | --- |
 | Draft family and branch posture | Gate 1 | `BITCODE_SPEC_V29.md`, DELTA, NOTES, PARITY, `BITCODE_SPEC.txt`, branch `v29/gate-1-objectives-and-gating` | closed | V29 family validates in draft mode over active V28 and `check:v29-gate1` passes. |
 | Workflow retargeting | Gate 1 | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | closed | CI checks V28 active / V29 draft posture instead of stale V27/V28 posture. |
-| Terminal transaction read models | Gate 2 | `uapi/app/terminal/terminal-transaction-read-model.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | closed | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
+| Terminal transaction read models | Gate 2 | `apps/uapi/app/terminal/terminal-transaction-read-model.ts`, `apps/uapi/app/terminal/terminal-transaction-query.ts`, `TerminalTransactionWorkspace.tsx`, `TerminalTransactionDetailSurface.tsx`, UAPI tests, Gate 2 checker | closed | Terminal transaction state is URL-addressable, recoverable, typed, low-detail by default, and expandable without raw JSON as the ordinary operator contract. |
 | Wallet signer/BTC operations | Gate 3 | `packages/btd/src/btc-fee-operation.ts`, BTC fee route, Terminal Wallet/BTC detail section, BTD and UAPI tests, Gate 3 checker | closed | Signer session, PSBT, broadcast/finality/reorg/replacement/failure states are ordinary Terminal states. |
 | Reading pipeline observability | Gate 4 | `packages/pipelines/asset-pack/src/reading-pipeline-observability.ts`, `packages/pipeline-hosts/src/asset-pack-harness.ts`, Terminal stream components, Gate 4 checker | closed | Pipeline/phase/PTRR/ThricifiedGeneration/tool/prompt/raw-output/parsed-output telemetry is contract-projected, complete, and readable. |
 | AssetPack disclosure rights | Gate 5 | `asset-pack-disclosure.ts`, AssetPack postprocess, sandbox harness, BTD access tests, Terminal disclosure review UI, Gate 5 checker | closed | Source-safe preview and paid unlock are proven without protected-source leakage. |
@@ -196,8 +196,8 @@ Accepted surfaces:
 - `packages/btd/src/reconciliation.ts` is the canonical reconciliation primitive for ledger observed facts, database projected facts, private metaphysical canonical facts, settlement conservation checks, projection repair receipts, repair actions, drift-kind counts, report state, and proof roots.
 - `packages/api/src/routes/btd-crypto.ts` accepts settlement conservation checks and binds reconciliation proof roots into the Terminal journal entry for reconciliation settlements.
 - `packages/pipeline-hosts/src/asset-pack-harness.ts` stores `asset-pack/settlement.ledgerDatabaseReconciliation`, includes it in evidence, and streams reconciliation state/repair-action count after ledger readback.
-- `uapi/app/terminal/terminal-journal-reconciliation.ts` projects the selected transaction into observed facts, projected facts, canonical facts, drift classes, blocking reasons, repair actions, proof roots, and repair receipts.
-- `uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx` renders the above as a low-detail operator surface with raw payload still available behind expansion.
+- `apps/uapi/app/terminal/terminal-journal-reconciliation.ts` projects the selected transaction into observed facts, projected facts, canonical facts, drift classes, blocking reasons, repair actions, proof roots, and repair receipts.
+- `apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx` renders the above as a low-detail operator surface with raw payload still available behind expansion.
 
 Accepted failure states:
 
@@ -223,11 +223,11 @@ Gate 7 closes the organization authority slice by making action permission a sha
 Accepted surfaces:
 
 - `packages/btd/src/authority.ts` is the canonical organization/interface authority primitive for role checks, explicit grants, wallet binding, registry read access, settlement, explicit confirmation, repair approval, source visibility, and authority proof roots.
-- `packages/api/src/routes/btd-crypto.ts` and `uapi/app/api/btd/organization-interface-authority/route.ts` expose JSON-safe authority decisions for application routes.
+- `packages/api/src/routes/btd-crypto.ts` and `apps/uapi/app/api/btd/organization-interface-authority/route.ts` expose JSON-safe authority decisions for application routes.
 - `packages/executions-mcp/src/mcp-server/src/auth/middleware.ts` can require interface authority after existing permission and BTD read-access checks.
 - `packages/chatgptapp/src/tools.ts` requires explicit confirmation, registry read-access evidence, and organization authority evidence before connected-interface writes.
 - `packages/pipeline-hosts/src/asset-pack-harness.ts` stores and emits `organizationAuthority` beside settlement unlock and reconciliation evidence.
-- `uapi/app/terminal/terminal-organization-authority.ts` and `TerminalTransactionOrganizationAuthorityCard.tsx` project the selected transaction into authority metrics, blockers, decision rows, proof roots, and raw payload.
+- `apps/uapi/app/terminal/terminal-organization-authority.ts` and `TerminalTransactionOrganizationAuthorityCard.tsx` project the selected transaction into authority metrics, blockers, decision rows, proof roots, and raw payload.
 
 Accepted failure states:
 
@@ -257,7 +257,7 @@ Accepted surfaces:
 - `packages/protocol/src/canon-posture.js` declares active V28 and draft V29 while V29 gates are in progress.
 - Root scripts for spec-family checks, canonical-input checks, canon-posture drift, spec quality, pre-commit posture, and proven generation import through the protocol package source boundary.
 - `packages/protocol/test/protocol-package-boundary.test.js` proves package exports, posture, provenance-helper availability, repository-revision deposit behavior, and direct demonstration-source import boundaries.
-- `uapi/tests/protocolCommercialBoundary.test.ts` remains the commercial application boundary scan proving UAPI depends on `@bitcode/protocol` and not the standalone demonstration package.
+- `apps/uapi/tests/protocolCommercialBoundary.test.ts` remains the commercial application boundary scan proving UAPI depends on `@bitcode/protocol` and not the standalone demonstration package.
 - `.github/workflows/bitcode-gate-quality.yml` runs the Gate 8 checker, protocol package typecheck/test, and the commercial protocol boundary test.
 
 Accepted boundaries:
@@ -281,13 +281,13 @@ Gate 9 closes the Terminal UX quality and browser-proof slice by making the tran
 
 Accepted surfaces:
 
-- `uapi/app/terminal/terminal-ux-browser-proof.ts` exports the typed contract for Gate 9 landmarks, viewports, states, route checks, and evidence files.
+- `apps/uapi/app/terminal/terminal-ux-browser-proof.ts` exports the typed contract for Gate 9 landmarks, viewports, states, route checks, and evidence files.
 - `TerminalPageClient.tsx` exposes a named `main` cockpit region and skip link to the selected transaction workspace.
 - `TerminalTransactionWorkspace.tsx` exposes a named transaction workspace region, selected activity status, and explicit loading, empty, and error states.
 - `TerminalTransactionDetailSurface.tsx`, `TerminalTransactionDetailHero.tsx`, and `TerminalTransactionDetailActionBar.tsx` expose a named selected activity detail region, source-safe low-detail detail hero, route-owned section controls, blocked Console posture, and action error alerts.
 - `BitcodeTransactionsTable.tsx` and `BitcodeTransactionsDataTable.tsx` expose table state semantics while containing table overflow inside the table scroller.
-- `uapi/tests/terminalUxBrowserProof.test.tsx` proves the contract and UI state semantics.
-- `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` proves the cockpit through a real browser in deterministic mock mode.
+- `apps/uapi/tests/terminalUxBrowserProof.test.tsx` proves the contract and UI state semantics.
+- `apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` proves the cockpit through a real browser in deterministic mock mode.
 - `.github/workflows/bitcode-gate-quality.yml` runs the Gate 9 checker, focused Jest test, Playwright browser install, and focused Terminal browser proof.
 
 Accepted boundaries:

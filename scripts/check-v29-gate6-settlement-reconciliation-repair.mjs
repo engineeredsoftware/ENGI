@@ -93,12 +93,12 @@ function main() {
     'packages/api/package.json',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'uapi/app/terminal/terminal-journal-reconciliation.ts',
-    'uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
-    'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'uapi/app/terminal/README.md',
-    'uapi/tests/terminalJournalReconciliation.test.ts',
-    'uapi/tests/terminalTransactionDetailCards.test.tsx',
+    'apps/uapi/app/terminal/terminal-journal-reconciliation.ts',
+    'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx',
+    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/tests/terminalJournalReconciliation.test.ts',
+    'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
     '.github/workflows/bitcode-gate-quality.yml',
     'package.json',
   ];
@@ -118,12 +118,12 @@ function main() {
   const apiPackageJson = read(root, 'packages/api/package.json');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-journal-reconciliation.ts');
-  const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
-  const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const terminalTest = read(root, 'uapi/tests/terminalJournalReconciliation.test.ts');
-  const terminalCardTest = read(root, 'uapi/tests/terminalTransactionDetailCards.test.tsx');
+  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-journal-reconciliation.ts');
+  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalJournalReconciliation.test.ts');
+  const terminalCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

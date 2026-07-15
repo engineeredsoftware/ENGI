@@ -88,14 +88,14 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/__tests__/btc-fee-operation.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/terminal-transaction-read-model.ts',
-    'uapi/app/terminal/terminal-wallet-btc-operation.ts',
-    'uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-    'uapi/tests/terminalWalletBtcOperation.test.ts',
-    'uapi/tests/terminalTransactionReadModel.test.ts',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/terminal-transaction-query.ts',
+    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
+    'apps/uapi/app/terminal/terminal-wallet-btc-operation.ts',
+    'apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
+    'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
+    'apps/uapi/tests/terminalTransactionReadModel.test.ts',
+    'apps/uapi/app/terminal/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -112,14 +112,14 @@ function main() {
   const btdIndex = read(root, 'packages/btd/src/index.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btc-fee-operation.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
-  const query = read(root, 'uapi/app/terminal/terminal-transaction-query.ts');
-  const readModel = read(root, 'uapi/app/terminal/terminal-transaction-read-model.ts');
-  const terminalOperation = read(root, 'uapi/app/terminal/terminal-wallet-btc-operation.ts');
-  const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx');
-  const detailSurface = read(root, 'uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
-  const terminalTest = read(root, 'uapi/tests/terminalWalletBtcOperation.test.ts');
-  const readModelTest = read(root, 'uapi/tests/terminalTransactionReadModel.test.ts');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const query = read(root, 'apps/uapi/app/terminal/terminal-transaction-query.ts');
+  const readModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
+  const terminalOperation = read(root, 'apps/uapi/app/terminal/terminal-wallet-btc-operation.ts');
+  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx');
+  const detailSurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalWalletBtcOperation.test.ts');
+  const readModelTest = read(root, 'apps/uapi/tests/terminalTransactionReadModel.test.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -219,7 +219,7 @@ function main() {
 
   const versionedSource = execFileSync(
     'find',
-    ['packages/btd/src', 'uapi/app/terminal', '-name', '*v29*', '-print'],
+    ['packages/btd/src', 'apps/uapi/app/terminal', '-name', '*v29*', '-print'],
     {
       cwd: root,
       encoding: 'utf8',

@@ -352,19 +352,19 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
-        "uapi/app/executions/utilities/pipeline-telemetry.ts"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/app/executions/utilities/pipeline-telemetry.ts"
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
-        "uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx"
+        "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/asset-packs-pipelines-domain test -- reading-operational-telemetry-repair-readback reading-interface-product-parity",
-        "pnpm --dir uapi exec jest tests/readingOperationalTelemetryPipelineLog.test.tsx tests/pipelineExecutionLogHeader.test.tsx"
+        "pnpm --dir apps/uapi exec jest tests/readingOperationalTelemetryPipelineLog.test.tsx tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "requiredSourceMarkers": [
         "buildReadingOperationalTelemetryRepairReadback",
@@ -412,22 +412,22 @@
       ],
       "integrationKind": "terminal-api-harness",
       "sourceRoots": [
-        "uapi/app/api/read-review/route.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/route.ts",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
         "packages/api/src/pipelines/branch.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/tests/api/readReviewProtocolParity.test.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts",
-        "uapi/tests/api/pipelineHarnessPreflight.test.ts",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
         "packages/api/src/pipelines/__tests__/branch-run.test.ts",
         "packages/api/src/pipelines/__tests__/branch-resume-from-conversation.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/terminalPipelineHarnessClient.test.ts",
+        "pnpm --dir apps/uapi exec jest tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/terminalPipelineHarnessClient.test.ts",
         "pnpm --filter @bitcode/api test"
       ],
       "requiredSourceMarkers": [
@@ -785,22 +785,22 @@
     },
     {
       "id": "reading-terminal-api-harness-integration:source-roots-exist",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "reading-terminal-api-harness-integration:test-paths-exist",
-      "sourcePath": "uapi/tests/api/readReviewRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewRoute.test.ts",
       "passed": true
     },
     {
       "id": "reading-terminal-api-harness-integration:source-markers-present",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "reading-terminal-api-harness-integration:test-markers-present",
-      "sourcePath": "uapi/tests/api/readReviewRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewRoute.test.ts",
       "passed": true
     },
     {

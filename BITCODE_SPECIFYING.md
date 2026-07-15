@@ -1240,7 +1240,7 @@ Version-bound checkers, package proof tests, and generated-artifact checks for *
 
 - Pointer-gated workflows: historical version promotion workflows stay on disk; they do not re-fire as current required gates once the pointer has advanced.
 - Specifying package tests: historical proof files that hard-code prior-era paths may import an era-pin shim that skips with reason when the current realization has superseded that era (for example `packages/specifying/test/era-pinned-superseded-routes.js`).
-- Required CI for draft work: green the **living** uapi/package suite and the **current draft's** specifying proofs — not by rewriting V2x–V(n−1) checkers.
+- Required CI for draft work: green the **living** apps/uapi/package suite and the **current draft's** specifying proofs — not by rewriting V2x–V(n−1) checkers.
 
 If a historical check becomes impossible to execute even under era-pin, record that as an accepted boundary in the **current** draft's parity/notes; do not "repair" the historical checker.
 

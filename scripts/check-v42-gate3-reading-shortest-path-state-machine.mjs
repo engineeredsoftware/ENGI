@@ -104,20 +104,20 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'uapi/app/terminal/TerminalPageClient.tsx',
-    'uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-deposit-read-workbench.ts',
-    'uapi/app/terminal/terminal-pipeline-host-client.ts',
-    'uapi/app/conversations/conversation-terminal-handoff.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/terminal-activity-history.ts',
-    'uapi/tests/terminalEnterpriseReadingUxState.test.ts',
-    'uapi/tests/terminalDepositReadWorkbench.test.ts',
-    'uapi/tests/conversationTerminalHandoff.test.tsx',
-    'uapi/tests/terminalTransactionQuery.test.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/app/terminal/TerminalPageClient.tsx',
+    'apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts',
+    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/terminal/terminal-deposit-read-workbench.ts',
+    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/app/conversations/conversation-terminal-handoff.ts',
+    'apps/uapi/app/terminal/terminal-transaction-query.ts',
+    'apps/uapi/app/terminal/terminal-activity-history.ts',
+    'apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts',
+    'apps/uapi/tests/terminalDepositReadWorkbench.test.ts',
+    'apps/uapi/tests/conversationTerminalHandoff.test.tsx',
+    'apps/uapi/tests/terminalTransactionQuery.test.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
     'packages/specifying/src/canonical/v42-reading-shortest-path-state-machine.js',
     'packages/specifying/test/v42-reading-shortest-path-state-machine.test.js',
     'scripts/generate-v42-reading-shortest-path-state-machine.mjs',
@@ -128,7 +128,7 @@ function main() {
     'BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/README.md',
     'packages/specifying/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -163,7 +163,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -223,7 +223,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V42.md');
   const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   assertCheck(failures, spec.includes('V42 Gate 3') && spec.includes('reading shortest path state machine'), 'V42 spec must expand Gate 3 state machine.');
   assertCheck(failures, parity.includes('Reading state machine') && parity.includes('implemented'), 'V42 parity matrix must mark Reading state machine implemented.');
   assertCheck(failures, terminalReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingRouteState'), 'Terminal README must document Gate 3 route state.');

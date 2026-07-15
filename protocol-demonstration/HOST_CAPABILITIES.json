@@ -4,7 +4,7 @@
   "canonicalPointerVersion": "V27",
   "draftTargetVersion": "V28",
   "packageOwner": "protocol-demonstration",
-  "primaryTerminalCarrier": "uapi/app/terminal",
+  "primaryTerminalCarrier": "apps/uapi/app/terminal",
   "host": {
     "os": "Darwin 25.4.0",
     "arch": "arm64"
@@ -16,9 +16,9 @@
   },
   "programUsageTruth": {
     "primaryReviewPath": [
-      "uapi/app/terminal/page.tsx",
-      "uapi/app/terminal/TerminalPageClient.tsx",
-      "uapi/app/api/*"
+      "apps/uapi/app/terminal/page.tsx",
+      "apps/uapi/app/terminal/TerminalPageClient.tsx",
+      "apps/uapi/app/api/*"
     ],
     "packageValidationPath": [
       "protocol-demonstration/server.js",

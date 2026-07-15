@@ -24,16 +24,16 @@
     "checker": "scripts/check-v46-gate3-public-operator-claim-boundaries.mjs:b958086681492633958639bf",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
-    "publicExplainers": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
-    "landingShared": "uapi/app/(root)/components/landing/marketing-landing-shared.tsx:27c33bd46ea46fd7608fd093",
-    "landingPreview": "uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx:e3fb5b38877c959e7eb0e7e7",
-    "docsPage": "uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
-    "docsHome": "uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e",
-    "docsContent": "uapi/app/docs/bitcode-docs-content.ts:d45a40837e0e65b10f5ef333",
-    "docsRoute": "uapi/app/docs/[slug]/page.tsx:af7f8bedcf6b3016f73046e8",
-    "publicDocsUnitTest": "uapi/tests/publicDocsPageContent.test.tsx:f4605b2a539a93b9e1e1e36a",
-    "docsContentUnitTest": "uapi/tests/bitcodeDocsContent.test.tsx:2ec2330df086eb414078ef45",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
+    "publicExplainers": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
+    "landingShared": "apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx:27c33bd46ea46fd7608fd093",
+    "landingPreview": "apps/uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx:e3fb5b38877c959e7eb0e7e7",
+    "docsPage": "apps/uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
+    "docsHome": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e",
+    "docsContent": "apps/uapi/app/docs/bitcode-docs-content.ts:d45a40837e0e65b10f5ef333",
+    "docsRoute": "apps/uapi/app/docs/[slug]/page.tsx:af7f8bedcf6b3016f73046e8",
+    "publicDocsUnitTest": "apps/uapi/tests/publicDocsPageContent.test.tsx:f4605b2a539a93b9e1e1e36a",
+    "docsContentUnitTest": "apps/uapi/tests/bitcodeDocsContent.test.tsx:2ec2330df086eb414078ef45",
     "operatorReadme": "internal-docs/README.md:b723dde2988124dc8de83c56"
   },
   "surfaceIds": [
@@ -123,9 +123,9 @@
         "investor"
       ],
       "sourcePaths": [
-        "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
-        "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
-        "uapi/app/(root)/components/landing/marketing-landing-shared.tsx"
+        "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+        "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
+        "apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -187,9 +187,9 @@
         "operator"
       ],
       "sourcePaths": [
-        "uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx",
-        "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
-        "uapi/app/(root)/components/landing/marketing-landing-shared.tsx"
+        "apps/uapi/app/(root)/components/landing/MarketingLandingTerminalPreview.tsx",
+        "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+        "apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx"
       ],
       "claimIds": [
         "preview-is-source-safe-measurement",
@@ -253,9 +253,9 @@
         "depositor"
       ],
       "sourcePaths": [
-        "uapi/app/docs/page.tsx",
-        "uapi/app/(root)/components/PublicDocsPageContent.tsx",
-        "uapi/tests/publicDocsPageContent.test.tsx"
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
+        "apps/uapi/tests/publicDocsPageContent.test.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -319,8 +319,8 @@
         "protocol-reviewer"
       ],
       "sourcePaths": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/tests/bitcodeDocsContent.test.tsx"
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/tests/bitcodeDocsContent.test.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -383,8 +383,8 @@
         "implementation-reviewer"
       ],
       "sourcePaths": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/docs/[slug]/page.tsx"
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/[slug]/page.tsx"
       ],
       "claimIds": [
         "operator-evidence-is-source-safe-readback",
@@ -822,17 +822,17 @@
       },
       {
         "id": "landing-copy-uses-current-claims",
-        "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+        "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
         "passed": true
       },
       {
         "id": "public-docs-home-uses-current-claims",
-        "sourcePath": "uapi/app/(root)/components/PublicDocsPageContent.tsx",
+        "sourcePath": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
         "passed": true
       },
       {
         "id": "public-docs-content-uses-current-protocol-page",
-        "sourcePath": "uapi/app/docs/bitcode-docs-content.ts",
+        "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
         "passed": true
       },
       {

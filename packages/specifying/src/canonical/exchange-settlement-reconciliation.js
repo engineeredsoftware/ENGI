@@ -406,8 +406,8 @@ export function buildExchangeSettlementReconciliation(input = {}) {
     'scripts/generate-v36-exchange-settlement-reconciliation.mjs',
     'scripts/check-v36-gate6-exchange-settlement-reconciliation.mjs',
     'packages/btd/src/exchange.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/api/btd/asset-pack-exchange/route.ts',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/api/btd/asset-pack-exchange/route.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
 

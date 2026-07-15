@@ -53,7 +53,7 @@
   "contractRows": [
     {
       "rowId": "read-route-session",
-      "owner": "uapi/app/read/read-route-model.ts",
+      "owner": "apps/uapi/app/read/read-route-model.ts",
       "contract": "ReadRouteSession owns the /read route state, five Reading steps, accepted-Need gate, source-safe preview boundary, settlement quote, and delivery unlock posture.",
       "requiredFields": [
         "schema",
@@ -71,7 +71,7 @@
     },
     {
       "rowId": "read-route-page",
-      "owner": "uapi/app/read/page.tsx",
+      "owner": "apps/uapi/app/read/page.tsx",
       "contract": "/read is the default Reading route with metadata, public shell chrome, Suspense fallback, and ReadPageClient.",
       "requiredFields": [
         "canonical",
@@ -85,7 +85,7 @@
     },
     {
       "rowId": "read-route-client",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "contract": "ReadPageClient renders request-read, Need review, Finding Fits request, source-safe preview, settlement/delivery posture, route-owned activity readback, and live workbench controls.",
       "requiredFields": [
         "TerminalDepositReadWorkbench",
@@ -102,7 +102,7 @@
     },
     {
       "rowId": "navigation-read-route",
-      "owner": "uapi/components/base/bitcode/layout/nav.tsx",
+      "owner": "apps/uapi/components/base/bitcode/layout/nav.tsx",
       "contract": "Public navigation and footer expose /read as the primary Reading path while retained Terminal remains available for debug-compatible detail.",
       "requiredFields": [
         "/read",
@@ -127,22 +127,22 @@
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "routeModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
-    "page": "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-    "client": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
-    "terminalRoutes": "uapi/app/terminal/terminal-routes.ts:80f478da2673f1a64ada9bfb",
-    "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx:beeb39fa4f8568619d16f343",
-    "terminalReadingState": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts:fb152fb0cc1d0799d1d616d6",
-    "nav": "uapi/components/base/bitcode/layout/nav.tsx:802e44030967176ec5c18cea",
-    "workspaceSurface": "uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
-    "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
-    "publicExplainers": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
-    "footer": "uapi/components/base/bitcode/layout/footer.tsx:2ccbbecfc6054f371e66ab5f",
+    "routeModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
+    "page": "apps/uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+    "client": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "terminalRoutes": "apps/uapi/app/terminal/terminal-routes.ts:80f478da2673f1a64ada9bfb",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx:beeb39fa4f8568619d16f343",
+    "terminalReadingState": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts:fb152fb0cc1d0799d1d616d6",
+    "nav": "apps/uapi/components/base/bitcode/layout/nav.tsx:802e44030967176ec5c18cea",
+    "workspaceSurface": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
+    "publicExplainers": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
+    "footer": "apps/uapi/components/base/bitcode/layout/footer.tsx:2ccbbecfc6054f371e66ab5f",
     "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
     "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
     "packageTest": "packages/specifying/test/v43-read-route-five-step-ux.test.js:fedf825a49244098367f6388",
-    "routeModelTest": "uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
-    "pageTest": "uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
+    "routeModelTest": "apps/uapi/tests/readRouteModel.test.ts:5ad610c538f65fb0c860777f",
+    "pageTest": "apps/uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
     "generator": "scripts/generate-v43-read-route-five-step-ux.mjs:04954a1f66c27e21ef86a08f",
     "checker": "scripts/check-v43-gate4-read-route-five-step-ux.mjs:86ba9a96169452ceeb347f10"
   },
@@ -194,92 +194,92 @@
     },
     {
       "id": "route-model-defines-read-route-session",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "route-model-defines-pipeline-ownership",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "route-model-forbids-source-leakage",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-page-canonical-route",
-      "sourcePath": "uapi/app/read/page.tsx",
+      "sourcePath": "apps/uapi/app/read/page.tsx",
       "passed": true
     },
     {
       "id": "read-client-renders-five-step-route",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-reuses-live-workbench",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-renders-source-safe-session",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-client-records-activity",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "terminal-routes-define-read",
-      "sourcePath": "uapi/app/terminal/terminal-routes.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-routes.ts",
       "passed": true
     },
     {
       "id": "workbench-preserves-execution-stream",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "reading-state-preserves-five-steps",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "nav-links-to-read",
-      "sourcePath": "uapi/components/base/bitcode/layout/nav.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/nav.tsx",
       "passed": true
     },
     {
       "id": "public-shell-recognizes-read",
-      "sourcePath": "uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts",
       "passed": true
     },
     {
       "id": "public-copy-uses-read-link",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "public-explainers-define-read",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
       "passed": true
     },
     {
       "id": "footer-links-to-read",
-      "sourcePath": "uapi/components/base/bitcode/layout/footer.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/footer.tsx",
       "passed": true
     },
     {
       "id": "uapi-route-model-test-covers-read",
-      "sourcePath": "uapi/tests/readRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/readRouteModel.test.ts",
       "passed": true
     },
     {
       "id": "uapi-page-test-covers-read",
-      "sourcePath": "uapi/tests/readPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/readPageClient.test.tsx",
       "passed": true
     },
     {

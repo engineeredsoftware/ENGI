@@ -121,7 +121,7 @@ const routeHistoryRows = Object.freeze([
     routeContract: routeContract(
       'api.conversations.collection',
       '/api/conversations',
-      'uapi/app/api/conversations/route.ts',
+      'apps/uapi/app/api/conversations/route.ts',
       'POST',
     ),
     sourceSafeSummary:
@@ -174,7 +174,7 @@ const routeHistoryRows = Object.freeze([
     routeContract: routeContract(
       'api.conversations.session',
       '/api/conversations/[conversationId]',
-      'uapi/app/api/conversations/[conversationId]/route.ts',
+      'apps/uapi/app/api/conversations/[conversationId]/route.ts',
       'GET',
     ),
     sourceSafeSummary:
@@ -227,7 +227,7 @@ const routeHistoryRows = Object.freeze([
     routeContract: routeContract(
       'api.conversations.collection_stream',
       '/api/conversations/stream',
-      'uapi/app/api/conversations/stream/route.ts',
+      'apps/uapi/app/api/conversations/stream/route.ts',
       'POST',
     ),
     sourceSafeSummary:
@@ -280,7 +280,7 @@ const routeHistoryRows = Object.freeze([
     routeContract: routeContract(
       'api.conversations.session_stream',
       '/api/conversations/[conversationId]/stream',
-      'uapi/app/api/conversations/[conversationId]/stream/route.ts',
+      'apps/uapi/app/api/conversations/[conversationId]/stream/route.ts',
       'POST',
     ),
     sourceSafeSummary:
@@ -333,7 +333,7 @@ const routeHistoryRows = Object.freeze([
     routeContract: routeContract(
       'api.conversations.branch',
       '/api/conversations/branch',
-      'uapi/app/api/conversations/branch/route.ts',
+      'apps/uapi/app/api/conversations/branch/route.ts',
       'POST',
     ),
     sourceSafeSummary:
@@ -386,7 +386,7 @@ const routeHistoryRows = Object.freeze([
     routeContract: routeContract(
       'api.conversations.shared_contracts',
       '/api/conversations/* shared contracts',
-      'uapi/app/api/conversations/_shared.ts',
+      'apps/uapi/app/api/conversations/_shared.ts',
       'INTERNAL',
     ),
     sourceSafeSummary:
@@ -513,10 +513,10 @@ export function buildConversationSessionRouteHistory(input = {}) {
     'packages/specifying/test/conversation-session-route-history.test.js',
     'scripts/generate-v37-conversation-session-route-history.mjs',
     'scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs',
-    'uapi/components/conversations/models/conversation-session-route-history.ts',
-    'uapi/app/conversations/README.md',
-    'uapi/tests/api/conversationSessionRouteHistory.test.ts',
-    'uapi/tests/api/conversationSessionRouteHistoryContract.test.ts',
+    'apps/uapi/components/conversations/models/conversation-session-route-history.ts',
+    'apps/uapi/app/conversations/README.md',
+    'apps/uapi/tests/api/conversationSessionRouteHistory.test.ts',
+    'apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts',
     'packages/api/src/routes/conversations.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];

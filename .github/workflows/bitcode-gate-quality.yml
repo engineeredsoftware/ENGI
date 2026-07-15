@@ -639,9 +639,9 @@ jobs:
           pnpm --filter @bitcode/api build
           # MCP primitives stay typecheck-gated; Exchange MCP server behavior is covered by unit tests below.
           pnpm --filter @bitcode/mcp-generics typecheck
-          # ChatGPT App lives at packages/external-apps/chatgpt (not packages/chatgptapp).
+          # ChatGPT App lives at apps/chatgpt (not packages/chatgptapp).
           # Typecheck excludes __tests__; action contracts are proven by Jest below.
-          pnpm --dir packages/external-apps/chatgpt exec tsc --noEmit --pretty false
+          pnpm --dir apps/chatgpt exec tsc --noEmit --pretty false
           pnpm --filter @bitcode/asset-packs-pipelines-domain typecheck
           pnpm --filter @bitcode/pipeline-hosts typecheck
           pnpm --filter @bitcode/specifying typecheck
@@ -814,7 +814,7 @@ jobs:
           pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/auth.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/generic-mcps-bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand --forceExit
-          pnpm --dir packages/external-apps/chatgpt exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
+          pnpm --dir apps/chatgpt exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
           # asset-pack-harness.test.ts removed; host plan + distributed receipt remain.
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit
@@ -888,7 +888,7 @@ jobs:
       # contracts (Conversations / Auxillaries / Reads / browser-proof suites).
       - name: Test staged Reading route and product harness contracts
         run: |
-          pnpm --dir uapi exec jest --runTestsByPath \
+          pnpm --dir apps/uapi exec jest --runTestsByPath \
             tests/userDataRoute.test.ts \
             tests/auxillariesWalletPane.test.tsx \
             tests/auxillariesContent.access.test.tsx \
@@ -923,15 +923,15 @@ jobs:
 
       - name: Install browser-proof browser
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi exec playwright install chromium --with-deps
+        run: pnpm --dir apps/uapi exec playwright install chromium --with-deps
 
       - name: Browser proof Deposits, Reads, and Auxillaries responsive accessibility
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:accessibility-responsive-proof
+        run: pnpm --dir apps/uapi run test:e2e:accessibility-responsive-proof
 
       - name: Browser proof product surfaces
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
-        run: pnpm --dir uapi run test:e2e:browser-proof
+        run: pnpm --dir apps/uapi run test:e2e:browser-proof
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback

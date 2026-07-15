@@ -164,8 +164,8 @@ execution detail UI.
 
 Gate 4 evidence is covered by
 `packages/btd/__tests__/api-boundaries.test.ts`,
-`uapi/tests/terminalTransactionDetailSnapshot.test.ts`,
-`uapi/tests/terminalTransactionReadModel.test.ts`, and
+`apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts`,
+`apps/uapi/tests/terminalTransactionReadModel.test.ts`, and
 `scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs`.
 
 ### Gate 5: Testnet Ledger Projection Hardening
@@ -208,8 +208,8 @@ Gate 5 evidence is covered by
 `packages/btd/__tests__/reconciliation.test.ts`,
 `packages/api/src/routes/__tests__/btd-crypto.test.ts`,
 `packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts`,
-`uapi/tests/terminalJournalReconciliation.test.ts`,
-`uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and
+`apps/uapi/tests/terminalJournalReconciliation.test.ts`,
+`apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and
 `scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs`.
 
 ### Gate 6: Source-To-Shares Proof Cleanup
@@ -242,7 +242,7 @@ accounting without route-local reinterpretation.
 
 Gate 6 evidence is covered by `packages/btd/__tests__/source-to-shares.test.ts`,
 `packages/api/src/routes/__tests__/btd-crypto.test.ts`,
-`uapi/app/api/btd/source-to-shares-proof/route.ts`, and
+`apps/uapi/app/api/btd/source-to-shares-proof/route.ts`, and
 `scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs`.
 
 ### Gate 7: Bridge Readiness Research Boundaries

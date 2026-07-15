@@ -81,13 +81,13 @@ function main() {
 
   for (const relativePath of [
     V43_ROUTE_UX_PRODUCT_EXCELLENCE_ARTIFACT_PATH,
-    'uapi/components/bitcode/routes/product-route-shell.tsx',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/packsPageClient.test.tsx',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/components/bitcode/routes/product-route-shell.tsx',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/tests/depositPageClient.test.tsx',
     'packages/specifying/src/canonical/v43-route-ux-product-excellence.js',
     'packages/specifying/test/v43-route-ux-product-excellence.test.js',
     'scripts/generate-v43-route-ux-product-excellence.mjs',
@@ -146,7 +146,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/packsPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/packsPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi packsPageClient.test.tsx, readPageClient.test.tsx, and depositPageClient.test.tsx must pass.');
     }

@@ -706,19 +706,19 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
         'sourceBearingAssetPackVisibleToReader',
         'unpaidAssetPackSourceVisible: false',
       ]),
-      source('uapi/components/reads/models/read-route-model.ts', [
+      source('apps/uapi/components/reads/models/read-route-model.ts', [
         'buildReadRouteSession',
         'sourceSafe',
         'preview',
         'settlement',
       ]),
-      source('uapi/components/deposits/models/deposit-route-model.ts', [
+      source('apps/uapi/components/deposits/models/deposit-route-model.ts', [
         'buildDepositRouteSession',
         'sourceSafe',
         'AssetPack',
         'Depository',
       ]),
-      source('uapi/components/bitcode/activity/PackActivityModel/pack-activity-model.ts', [
+      source('apps/uapi/components/bitcode/activity/PackActivityModel/pack-activity-model.ts', [
         'normalizePackActivityRecord',
         'sourceSafeMetadataOnly',
         '[withheld:source-safe]',
@@ -739,9 +739,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     ],
     generatedArtifactAndTestBindings: [
       'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts',
-      'uapi/tests/readPageClient.test.tsx',
-      'uapi/tests/depositPageClient.test.tsx',
-      'uapi/tests/packsPageClient.test.tsx',
+      'apps/uapi/tests/readPageClient.test.tsx',
+      'apps/uapi/tests/depositPageClient.test.tsx',
+      'apps/uapi/tests/packsPageClient.test.tsx',
       'packages/specifying/test/v45-proof-family-artifacts.test.js',
     ],
     failClosedConditions: [

@@ -37,7 +37,7 @@
   "completionRows": [
     {
       "rowId": "testnet-meaning-messaging",
-      "owner": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "route": "/",
       "contract": "The landing testnet section states the meaning of commercial testnet exactly: BTC amounts are testnet and free while measurements, quotes, settlement ordering, BTD rights, and repository delivery stay production-intended.",
       "requiredFields": [
@@ -70,7 +70,7 @@
     },
     {
       "rowId": "core-flow-messaging",
-      "owner": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "route": "/",
       "contract": "The landing documents the core launch flow in user order — deposit IP on /deposit, read and buy on /read, audit on /packs — with each step linking to its launch route.",
       "requiredFields": [
@@ -103,7 +103,7 @@
     },
     {
       "rowId": "proof-backed-trust-and-source-safety",
-      "owner": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "route": "/",
       "contract": "The landing carries the proof-backed trust narrative (protocol law and proof readback decide state) and source-safe IP exchange positioning (source withheld until BTC finality and BTD rights transfer).",
       "requiredFields": [
@@ -135,7 +135,7 @@
     },
     {
       "rowId": "public-docs-testnet-card",
-      "owner": "uapi/app/docs/bitcode-docs-content.ts",
+      "owner": "apps/uapi/app/docs/bitcode-docs-content.ts",
       "route": "/docs",
       "contract": "Public docs explain testnet semantics as a first-class card: free BTC amounts, production-intended behavior, unweakened boundaries, and blocked value-bearing mainnet.",
       "requiredFields": [
@@ -167,7 +167,7 @@
     },
     {
       "rowId": "v46-claim-boundary-preservation",
-      "owner": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "owner": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "route": "/",
       "contract": "Launch messaging is additive over promoted V46 claim boundaries: the required V46 copy tokens and the /deposit, /read, /packs launch navigation remain intact.",
       "requiredFields": [
@@ -232,37 +232,37 @@
     },
     {
       "id": "public-copy-states-testnet-meaning",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "public-copy-documents-core-flow",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "public-copy-carries-trust-and-source-safety",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "landing-renders-testnet-section",
-      "sourcePath": "uapi/app/(root)/components/MarketingLandingPage.tsx",
+      "sourcePath": "apps/uapi/app/(root)/components/MarketingLandingPage.tsx",
       "passed": true
     },
     {
       "id": "docs-explain-testnet-semantics",
-      "sourcePath": "uapi/app/docs/bitcode-docs-content.ts",
+      "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
       "passed": true
     },
     {
       "id": "v46-claim-tokens-preserved",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "landing-test-covers-launch-messaging",
-      "sourcePath": "uapi/tests/marketingLandingPage.test.tsx",
+      "sourcePath": "apps/uapi/tests/marketingLandingPage.test.tsx",
       "passed": true
     },
     {
@@ -293,12 +293,12 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
-    "landingPage": "uapi/app/(root)/components/MarketingLandingPage.tsx:5a7bbc85fa67525dd83127b2",
-    "testnetSection": "uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx:04e5895c15559d4f262335dc",
-    "landingShared": "uapi/app/(root)/components/landing/marketing-landing-shared.tsx:27c33bd46ea46fd7608fd093",
-    "docsContent": "uapi/app/docs/bitcode-docs-content.ts:5c7e56156db21c2d368277e6",
-    "landingTest": "uapi/tests/marketingLandingPage.test.tsx:4efa7e076b8716d87d8478c8",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
+    "landingPage": "apps/uapi/app/(root)/components/MarketingLandingPage.tsx:5a7bbc85fa67525dd83127b2",
+    "testnetSection": "apps/uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx:04e5895c15559d4f262335dc",
+    "landingShared": "apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx:27c33bd46ea46fd7608fd093",
+    "docsContent": "apps/uapi/app/docs/bitcode-docs-content.ts:5c7e56156db21c2d368277e6",
+    "landingTest": "apps/uapi/tests/marketingLandingPage.test.tsx:4efa7e076b8716d87d8478c8",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",

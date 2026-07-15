@@ -114,7 +114,7 @@ function runFocusedTests(root, failures, args) {
 
   if (!args.skipUapiTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/pipelineHostPreflight.test.ts', 'tests/api/pipelineHostRoute.test.ts', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/api/pipelineHostPreflight.test.ts', 'tests/api/pipelineHostRoute.test.ts', '--runInBand']],
     );
   }
 
@@ -163,9 +163,9 @@ function main() {
     'packages/specifying/test/v42-local-staging-mvp-rehearsal.test.js',
     'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
-    'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
-    'uapi/app/api/pipeline-host/asset-pack/runner.ts',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/app/api/pipeline-host/asset-pack/preflight.ts',
+    'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V42.md',
     'BITCODE_SPEC_V42_DELTA.md',
     'BITCODE_SPEC_V42_NOTES.md',
@@ -174,7 +174,7 @@ function main() {
     'README.md',
     'packages/specifying/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',

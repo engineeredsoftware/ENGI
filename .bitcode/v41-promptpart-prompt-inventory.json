@@ -84,12 +84,12 @@
     },
     {
       "id": "chatgptAppPrompts",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts",
+      "sourcePath": "apps/chatgpt/src/prompts",
       "present": true
     },
     {
       "id": "uapiPromptSurfaces",
-      "sourcePath": "uapi/app",
+      "sourcePath": "apps/uapi/app",
       "present": true
     },
     {
@@ -51214,7 +51214,7 @@
       "inventoryId": "prompt:CODE_DESIGN_DOC_CODE_TOOL_PROMPT",
       "rowRoot": "v41-prompt-inventory-row:f1ff6870b412b93ee6b8a131",
       "kind": "DocCodeToolPrompt",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "sourceHash": "bebc8c802c60830ea6630503",
       "exportNames": [
         "CODE_DESIGN_DOC_CODE_TOOL_PROMPT",

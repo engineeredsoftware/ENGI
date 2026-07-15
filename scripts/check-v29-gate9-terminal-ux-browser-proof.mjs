@@ -85,21 +85,21 @@ function main() {
     'BITCODE_SPEC_V29_NOTES.md',
     'BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate9-terminal-ux-browser-proof.mjs',
-    'uapi/app/terminal/terminal-ux-browser-proof.ts',
-    'uapi/app/terminal/TerminalPageClient.tsx',
-    'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailHero.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
-    'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
-    'uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx',
-    'uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable.tsx',
-    'uapi/tests/terminalUxBrowserProof.test.tsx',
-    'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-    'uapi/playwright.config.ts',
-    'uapi/app/terminal/README.md',
-    'uapi/package.json',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/terminal/terminal-ux-browser-proof.ts',
+    'apps/uapi/app/terminal/TerminalPageClient.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
+    'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx',
+    'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable.tsx',
+    'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
+    'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+    'apps/uapi/playwright.config.ts',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/package.json',
+    'apps/uapi/jest.config.cjs',
     '.github/workflows/bitcode-gate-quality.yml',
     'package.json',
   ];
@@ -112,21 +112,21 @@ function main() {
   const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const contract = read(root, 'uapi/app/terminal/terminal-ux-browser-proof.ts');
-  const pageClient = read(root, 'uapi/app/terminal/TerminalPageClient.tsx');
-  const workspace = read(root, 'uapi/app/terminal/TerminalTransactionWorkspace.tsx');
-  const detailSurface = read(root, 'uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
-  const detailHero = read(root, 'uapi/app/terminal/TerminalTransactionDetailHero.tsx');
-  const actionBar = read(root, 'uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
-  const activitySurface = read(root, 'uapi/app/terminal/TerminalTransactionActivitySurface.tsx');
-  const table = read(root, 'uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx');
-  const dataTable = read(root, 'uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable.tsx');
-  const jestTest = read(root, 'uapi/tests/terminalUxBrowserProof.test.tsx');
-  const e2eTest = read(root, 'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts');
-  const playwrightConfig = read(root, 'uapi/playwright.config.ts');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const uapiPackage = read(root, 'uapi/package.json');
-  const jestConfig = read(root, 'uapi/jest.config.cjs');
+  const contract = read(root, 'apps/uapi/app/terminal/terminal-ux-browser-proof.ts');
+  const pageClient = read(root, 'apps/uapi/app/terminal/TerminalPageClient.tsx');
+  const workspace = read(root, 'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx');
+  const detailSurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
+  const detailHero = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx');
+  const actionBar = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
+  const activitySurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx');
+  const table = read(root, 'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsTable.tsx');
+  const dataTable = read(root, 'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable.tsx');
+  const jestTest = read(root, 'apps/uapi/tests/terminalUxBrowserProof.test.tsx');
+  const e2eTest = read(root, 'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts');
+  const playwrightConfig = read(root, 'apps/uapi/playwright.config.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const uapiPackage = read(root, 'apps/uapi/package.json');
+  const jestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

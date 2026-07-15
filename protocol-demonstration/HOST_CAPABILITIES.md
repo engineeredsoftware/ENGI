@@ -8,7 +8,7 @@ Host scope: local machine and Vercel Sandbox capabilities relevant to active V27
 - Canonical pointer: `/Users/garrettmaring/Developer/ENGI/BITCODE_SPEC.txt -> V27`
 - Current canonical/latest target: `V27`
 - Current draft-target family: `V28`
-- Current protocol owner: `protocol-demonstration` mounted through `uapi/app/terminal/*`
+- Current protocol owner: `protocol-demonstration` mounted through `apps/uapi/app/terminal/*`
 
 ## Purpose
 
@@ -17,7 +17,7 @@ This document records what the host actually needs to run the current Bitcode Te
 The source of truth for this document is:
 
 - live host inspection commands run on 2026-04-16,
-- the current repo implementation in `protocol-demonstration/*` and `uapi/app/terminal/*`,
+- the current repo implementation in `protocol-demonstration/*` and `apps/uapi/app/terminal/*`,
 - the active V27 canonical family,
 - and the V28 draft-target family.
 
@@ -27,9 +27,9 @@ The source of truth for this document is:
 
 The primary review path is the Terminal-owned route:
 
-- `uapi/app/terminal/page.tsx`
-- `uapi/app/terminal/TerminalPageClient.tsx`
-- `uapi/app/api/*`
+- `apps/uapi/app/terminal/page.tsx`
+- `apps/uapi/app/terminal/TerminalPageClient.tsx`
+- `apps/uapi/app/api/*`
 
 This is the route that carries the preserved Bitcode operator UX inside the app shell.
 For interface review, the preferred posture is mock mode so Terminal can be reviewed without live external dependencies or real user data.
@@ -54,7 +54,7 @@ The repo needs:
 The current real local program usage includes:
 
 - serving the Terminal-owned `/terminal` route,
-- serving Terminal-owned JSON contract routes under `uapi/app/api/*`,
+- serving Terminal-owned JSON contract routes under `apps/uapi/app/api/*`,
 - deterministic read derivation and state transitions inside `protocol-demonstration`,
 - proof/materialization/accounting artifact assembly,
 - the Node-based regression/test stack,

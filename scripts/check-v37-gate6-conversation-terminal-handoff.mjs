@@ -148,15 +148,15 @@ function main() {
     'packages/specifying/test/conversation-terminal-handoff.test.js',
     'scripts/generate-v37-conversation-terminal-handoff.mjs',
     'scripts/check-v37-gate6-conversation-terminal-handoff.mjs',
-    'uapi/app/conversations/conversation-terminal-handoff.ts',
-    'uapi/app/conversations/components/ConversationTerminalHandoff.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/TerminalPageClient.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/conversationTerminalHandoff.test.tsx',
-    'uapi/tests/terminalTransactionQuery.test.ts',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/conversations/conversation-terminal-handoff.ts',
+    'apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/app/terminal/terminal-transaction-query.ts',
+    'apps/uapi/app/terminal/TerminalPageClient.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/conversationTerminalHandoff.test.tsx',
+    'apps/uapi/tests/terminalTransactionQuery.test.ts',
+    'apps/uapi/jest.config.cjs',
     'BITCODE_SPEC_V37.md',
     'BITCODE_SPEC_V37_DELTA.md',
     'BITCODE_SPEC_V37_NOTES.md',
@@ -164,8 +164,8 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/conversations/README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/conversations/README.md',
+    'apps/uapi/app/terminal/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -195,7 +195,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/conversationTerminalHandoff.test.tsx',
@@ -274,8 +274,8 @@ function main() {
   const notes = read(root, 'BITCODE_SPEC_V37_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V37_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
-  const uapiReadme = read(root, 'uapi/app/conversations/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');

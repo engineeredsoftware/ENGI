@@ -111,22 +111,22 @@ describe('AssetPacksSynthesis core', () => {
   it('re-samples prompt excerpts after Forced Inclusion empties pre-scope samples', () => {
     // Pre-scope samples only from out-of-root paths (the monorepo case).
     const provisioned = {
-      paths: ['README.md', 'uapi/app.ts', 'uapi/lib.ts', 'secret/keys.py'],
+      paths: ['README.md', 'apps/uapi/app.ts', 'apps/uapi/lib.ts', 'secret/keys.py'],
       samples: [{ path: 'README.md', excerpt: 'root readme' }],
       sources: [
         { path: 'README.md', content: '# root' },
-        { path: 'uapi/app.ts', content: 'export const app = 1' },
-        { path: 'uapi/lib.ts', content: 'export const lib = 2' },
+        { path: 'apps/uapi/app.ts', content: 'export const app = 1' },
+        { path: 'apps/uapi/lib.ts', content: 'export const lib = 2' },
         { path: 'secret/keys.py', content: 'KEY=1' },
       ],
     };
     const scoped = applyInventoryScope(provisioned, {
-      inclusions: ['uapi/'],
+      inclusions: ['apps/uapi/'],
       exclusions: [],
     });
-    expect(scoped.paths).toEqual(['uapi/app.ts', 'uapi/lib.ts']);
+    expect(scoped.paths).toEqual(['apps/uapi/app.ts', 'apps/uapi/lib.ts']);
     expect(scoped.samples.length).toBeGreaterThan(0);
-    expect(scoped.samples.every((s) => s.path.startsWith('uapi/'))).toBe(true);
+    expect(scoped.samples.every((s) => s.path.startsWith('apps/uapi/'))).toBe(true);
   });
 
   it('maps inference candidates through the lens measurement catalog', async () => {

@@ -88,7 +88,7 @@ Accepted findings converted to repairs so far:
 - Supabase `redirect_to` law: GoTrue validates the Auth redirect allow-list by
  exact string match, so `redirect_to` must stay query-free. The post-auth
  destination travels through origin-local storage
- (`uapi/lib/supabase-auth-redirect.ts`) and is consumed once by the callback.
+ (`apps/uapi/lib/supabase-auth-redirect.ts`) and is consumed once by the callback.
  This repaired wallet connect from both localhost and production www, which
  previously stranded the PKCE verifier and never minted a session.
 - Identity-derived wallet binding: the canonical wallet connect signs on the
@@ -608,8 +608,8 @@ are NOT re-pointed — frozen proofs attest their own era (canon-at-that-time).
 The legacy `/terminal` cockpit **browser proofs** are eradicated and the active
 browser-proof coverage is repointed at the current product surfaces:
 
-- The two ACTIVE browser-proof contracts (`uapi/app/bitcode-browser-proof.ts`,
- `uapi/app/bitcode-browser-accessibility-responsive-proof.ts`) drop the
+- The two ACTIVE browser-proof contracts (`apps/uapi/app/bitcode-browser-proof.ts`,
+ `apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts`) drop the
  `terminal` surface (routes `/terminal…`) and instead prove `deposits`
  (`/deposits`) and `reads` (`/reads`) — real routes, real testids
  (`route-shell-deposit`/`deposits-pipelines-table`/`deposit-synthesis-telemetry`,
@@ -618,9 +618,9 @@ browser-proof coverage is repointed at the current product surfaces:
  `/packs?auxillary-open-to=`. Their jest contract tests and the (opt-in,
  gate-var-guarded) Playwright specs are repointed to match.
 - The V29-era terminal-ux browser proof is DELETED:
- `uapi/app/terminal/terminal-ux-browser-proof.ts`,
- `uapi/tests/terminalUxBrowserProof.test.tsx`, and
- `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` — removed from the Gate
+ `apps/uapi/app/terminal/terminal-ux-browser-proof.ts`,
+ `apps/uapi/tests/terminalUxBrowserProof.test.tsx`, and
+ `apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` — removed from the Gate
  Quality jest step, the `jest.config.cjs` allowlist, and the `test:e2e:terminal-ux`
  package script; the accessibility script is renamed
  `test:e2e:v32-browser-proof` → `test:e2e:accessibility-responsive-proof`, and the
@@ -682,7 +682,7 @@ shared transactions/telemetry components) is governed by these laws:
  disclosure summaries, table overview chips and state pills all carry the
  shared rich hover tooltip (the telemetry-pill trigger, generalized), each
  leading with what the specific value means and where it comes from
- (copy: `uapi/app/deposits/deposit-stat-explainers.ts`). Tooltips are
+ (copy: `apps/uapi/app/deposits/deposit-stat-explainers.ts`). Tooltips are
  viewport-height capped and INTERACTIVE: overflow scrolls inside the
  tooltip (pointer can travel in; inner scrolls do not dismiss it).
 - **All tooltips carry ALL their sections.** BOTH tooltip families carry
@@ -735,7 +735,7 @@ Rich product analytics over the commercial surfaces, in two layers:
  pattern alongside the page path (the Route dimension). GA4 keeps its
  `page_view` + delegated-click safety net unchanged.
 - **Custom events go through ONE audited module** —
- `uapi/lib/product-analytics.ts`: a TYPED event union (`ProductEvent`)
+ `apps/uapi/lib/product-analytics.ts`: a TYPED event union (`ProductEvent`)
  fanned out to Vercel Web Analytics (`track`) and GA4 (`trackEvent`) under
  the same snake_case event names, so both dashboards carry the same funnel.
  Direct `track` calls outside the module are prohibited; the union is the
@@ -1006,7 +1006,7 @@ confirms source-present. The inventory is built FROM the checkout:
 excerpts for the prompts) + `sources` (every tracked file's verbatim content, type
 `AssetPacksSynthesisSourceFile {path, content}`, for measurement). `readWorkspaceSources(workspace, {paths?})`
 bridges the checkout to `{path, content}[]`; `provisionDepositSourceInventory({host, …})`
-(`uapi/lib/deposit-source-provisioning.ts`) orchestrates provision → read → dispose.
+(`apps/uapi/lib/deposit-source-provisioning.ts`) orchestrates provision → read → dispose.
 `applyExclusionsToInventory` filters `paths` + `samples` + `sources` fail-closed
 (protected-IP paths are never measured, sampled, or carried). The GitHub-API sample
 inventory (`buildSourceInventory`) is RETIRED; the `cloneRepository` metadata stub and
@@ -1054,7 +1054,7 @@ is named in spec for closure):
 - **Host + provisioning.** `packages/pipeline-hosts`: `BitcodePipelineHost` /
  `BitcodeHostWorkspace` / `BitcodeHostCapabilities` (`host.ts`); `LocalHost`;
  `SandboxHost` + `VercelSandboxHost` (Vercel provider) + `AwsSandboxHost` (stub);
- `readWorkspaceSources`. `uapi/lib/deposit-source-provisioning.ts`:
+ `readWorkspaceSources`. `apps/uapi/lib/deposit-source-provisioning.ts`:
  `selectDepositHostKind`, `resolveDepositPipelineHost`, `provisionDepositSourceInventory`.
 - **Config.** `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE` removed (full SDIVF pipeline only;
  Validation — measurement + quality — never skipped).
@@ -1129,9 +1129,9 @@ Deposit (and any agentic) runs are cancelable without killing mid-token LLM stre
 
 **Implementation symbols**
 
-- `uapi/lib/execution-cancel.ts` — `cancelUserExecution`, `assertExecutionNotCancelled`,
+- `apps/uapi/lib/execution-cancel.ts` — `cancelUserExecution`, `assertExecutionNotCancelled`,
  `ExecutionCancelledError`, `isExecutionCancelled`
-- `uapi/app/api/executions/[runId]/cancel/route.ts`
+- `apps/uapi/app/api/executions/[runId]/cancel/route.ts`
 - Deposit route cooperative checks + sandbox `shouldAbort`
 - `VercelSandboxPipelineHost` `shouldAbort` + `sandbox-cancelled` events
 - `DepositPageClient` Cancel run control
@@ -1225,14 +1225,14 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 2. **Three base layers:** `Shadcn*` (root re-exports) → `Bitcode*` (theme +
  app-wide) → experience-specific prefixes. Strict import direction; no
  experience imports another experience.
-3. **Directories:** `uapi/components/{shadcn,bitcode,marketing,packs,reads,
+3. **Directories:** `apps/uapi/components/{shadcn,bitcode,marketing,packs,reads,
  deposits,docs,conversations,auxillaries}/` (not under App Router pages as
- routes). Thin page shells remain under `uapi/app/...`.
+ routes). Thin page shells remain under `apps/uapi/app/...`.
 4. **Pipeline** replaces product **Execution** / **Terminal** UI and domain
  names for run surfaces (`BitcodePipeline*`, experience extensions). Ledger
  **journal/transaction** vocabulary stays for BTD journal rows.
  `execution-generics` (agent/PTRR) is not product Pipeline — do not blind-rename.
-5. **Terminal eradication:** ~96 modules under `uapi/app/terminal/`; only ~15
+5. **Terminal eradication:** ~96 modules under `apps/uapi/app/terminal/`; only ~15
  are live-imported by deposits/reads/auxillaries/conversations. Relocate live
  modules first, then delete cockpit-only residue. `/terminal` becomes
  redirect-only (default `/packs`) then removable.
@@ -1274,19 +1274,19 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 - SPEC: frontend component + Terminal eradication law.
 - DELTA/NOTES/PARITY: workstream recorded.
 - Docs: `internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md`,
- `uapi/ARCHITECTURE.md`, `internal-docs/TERMINOLOGY.md` updated.
-- Scaffold: `uapi/components/{shadcn,bitcode,...}` READMEs.
+ `apps/uapi/ARCHITECTURE.md`, `internal-docs/TERMINOLOGY.md` updated.
+- Scaffold: `apps/uapi/components/{shadcn,bitcode,...}` READMEs.
 - Implementation: `product-routes` as Bitcode-owned route helpers;
  `@bitcode/btd` `journal` + `operational-health` as canonical names with
  Terminal-named shims for callers.
 
 ### Phase 1 landing (tree move)
 
-- Moved `uapi/components/base/shadcn/*` → `uapi/components/shadcn/*`.
-- Moved `uapi/components/base/bitcode/*` → `uapi/components/bitcode/*`.
+- Moved `apps/uapi/components/base/shadcn/*` → `apps/uapi/components/shadcn/*`.
+- Moved `apps/uapi/components/base/bitcode/*` → `apps/uapi/components/bitcode/*`.
 - Rewrote imports (`@/components/base/{shadcn,bitcode}` →
- `@/components/{shadcn,bitcode}`) across uapi/packages/docs.
-- Removed empty `uapi/components/base/`.
+ `@/components/{shadcn,bitcode}`) across apps/uapi/packages/docs.
+- Removed empty `apps/uapi/components/base/`.
 - Deferred: `Shadcn*` export renames; `execution/` → `pipeline/` (Phase 2).
 
 ### Phase 3 progress (live Terminal module relocate)
@@ -1331,7 +1331,7 @@ enforcement, tests, and clear naming targets (7 experiences + base layers).
 
 ### Phase 2 landing (execution → pipeline UI tree)
 
-- Moved `uapi/components/bitcode/execution/*` into `uapi/components/bitcode/pipeline/`.
+- Moved `apps/uapi/components/bitcode/execution/*` into `apps/uapi/components/bitcode/pipeline/`.
 - Rewrote imports `@/components/bitcode/execution/` → `.../pipeline/`.
 - Agent/package `execution-generics` intentionally unchanged (not product Pipeline).
 
@@ -1362,7 +1362,7 @@ Deposit experience (SRP models/hooks/units; page client thinned):
 | Network depository count | `…/use-deposit-network-depository-count.ts` |
 | URL navigation hook | `…/use-deposit-url-navigation.ts` |
 | Source list refresh button | `DepositSourceSelection/DepositSourceListRefreshButton.tsx` |
-| Unit tests | `uapi/tests/depositActivityLedger.test.ts`, `depositSourceCriticality.test.ts`, `depositRunStatus.test.ts` |
+| Unit tests | `apps/uapi/tests/depositActivityLedger.test.ts`, `depositSourceCriticality.test.ts`, `depositRunStatus.test.ts` |
 
 Packs experience (thin page client):
 
@@ -1413,7 +1413,7 @@ and not page god-clients.
 
 ### Phase 5 complete — Terminal deleted (no redirect)
 
-- **`uapi/app/terminal/` removed entirely** — no page, no redirect, no shims.
+- **`apps/uapi/app/terminal/` removed entirely** — no page, no redirect, no shims.
 - Product entrypoints use Packs/Deposits/Reads only; `TERMINAL_ROUTE` /
  `buildTerminalHref` removed from product-routes.
 - Workspace surface no longer recognizes `/terminal`.
@@ -1427,18 +1427,18 @@ and not page god-clients.
 | --- | --- |
 | execution cancel | `@bitcode/api/pipelines/cancel` (`packages/api/src/pipelines/cancel.ts`) |
 | orphan sweep | `@bitcode/api/pipelines/orphan-sweep` |
-| product analytics | `@bitcode/observability/product-analytics` (+ uapi/lib copy for app/jest) |
+| product analytics | `@bitcode/observability/product-analytics` (+ apps/uapi/lib copy for app/jest) |
 | wallet local/client/oauth | `@bitcode/auth/{wallet-local,bitcoin-wallet-client,bitcoin-wallet-oauth-provider}` |
 | supabase auth redirect | `@bitcode/auth/supabase-auth-redirect` |
 | QA telemetry | `@bitcode/auth/qa-telemetry` |
 
-uapi/lib retains thin re-export shims (or full analytics copy) for import stability.
+apps/uapi/lib retains thin re-export shims (or full analytics copy) for import stability.
 
 ### Modular source layout convention (Garrett, 2026-07-11)
 
 Canonical filesystem and co-location rules live in
 `internal-docs/BITCODE_SOURCE_LAYOUT.md` (also pointed from README, AGENTS.md,
-`uapi/ARCHITECTURE.md`, `uapi/components/README.md`).
+`apps/uapi/ARCHITECTURE.md`, `apps/uapi/components/README.md`).
 
 - Seven experiences + Shadcn/Bitcode bases
 - Component units: `ComponentName/ComponentName.tsx` (not `index.tsx`) with
@@ -1832,7 +1832,7 @@ Mirrors SDIVF extraction: pipelines-generics → generic-pipelines/SDIVF.
 
 ```
 @bitcode/mcp-generics # packages/mcp-generics (was executions-mcp primitives)
- → @bitcode/generic-mcps-bitcode # packages/generic-mcps/bitcode (was executions-mcp/mcp-server)
+ → @bitcode/generic-mcps-bitcode # apps/mcp (was executions-mcp/mcp-server)
 ```
 
 Compatibility barrels: `@bitcode/mcp-generics` → mcp-generics; `@bitcode/generic-mcps-bitcode` → generic-mcps-bitcode.
@@ -1941,11 +1941,11 @@ the only package home; consumers import hierarchy package names.
 | `packages/system-grep` | `packages/host-commands/grep` | `@bitcode/host-commands-grep` |
 | `packages/streams` | `packages/api/src/streams` | `@bitcode/api/streams` |
 | `packages/responses` | `packages/api/src/responses` | `@bitcode/api/responses` |
-| `packages/chatgptapp` | `packages/external-apps/chatgpt` | `@bitcode/external-apps-chatgpt` |
+| `packages/chatgptapp` | `apps/chatgpt` | `@bitcode/external-apps-chatgpt` |
 | `packages/sentry` | `packages/external-telemetry/sentry` | `@bitcode/external-telemetry-sentry` |
 | `packages/google-analytics` | `packages/external-telemetry/google` | `@bitcode/external-telemetry-google` |
 | `packages/context` / `context-generics` | **deleted** | use `@bitcode/generic-executions` |
-| `packages/mcp-server` | `packages/generic-mcps/bitcode` | `@bitcode/generic-mcps-bitcode` |
+| `packages/mcp-server` | `apps/mcp` | `@bitcode/generic-mcps-bitcode` |
 | `packages/executions-mcp` | `packages/mcp-generics` | `@bitcode/mcp-generics` |
 
 Intentional non-move barrels that remain:

@@ -128,13 +128,13 @@ function main() {
     'packages/specifying/test/v36-exchange-ux-proof.test.js',
     'scripts/generate-v36-exchange-ux-proof.mjs',
     'scripts/check-v36-gate8-exchange-ux-proof.mjs',
-    'uapi/app/exchange/ExchangePageClient.tsx',
-    'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailHero.tsx',
-    'uapi/app/terminal/terminal-routes.ts',
-    'uapi/tests/exchangePageClient.test.tsx',
-    'uapi/tests/exchangeTerminalHandoff.test.ts',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/exchange/ExchangePageClient.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx',
+    'apps/uapi/app/terminal/terminal-routes.ts',
+    'apps/uapi/tests/exchangePageClient.test.tsx',
+    'apps/uapi/tests/exchangeTerminalHandoff.test.ts',
+    'apps/uapi/jest.config.cjs',
     'BITCODE_SPEC_V36.md',
     'BITCODE_SPEC_V36_DELTA.md',
     'BITCODE_SPEC_V36_NOTES.md',
@@ -142,7 +142,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/exchange/README.md',
+    'apps/uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -221,7 +221,7 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -229,12 +229,12 @@ function main() {
   const index = read(root, 'packages/specifying/src/index.js');
   const typeDefs = read(root, 'packages/specifying/src/index.d.ts');
   const packageTest = read(root, 'packages/specifying/test/v36-exchange-ux-proof.test.js');
-  const exchangePage = read(root, 'uapi/app/exchange/ExchangePageClient.tsx');
-  const terminalRoutes = read(root, 'uapi/app/terminal/terminal-routes.ts');
-  const detailHero = read(root, 'uapi/app/terminal/TerminalTransactionDetailHero.tsx');
-  const handoffTest = read(root, 'uapi/tests/exchangeTerminalHandoff.test.ts');
-  const exchangePageTest = read(root, 'uapi/tests/exchangePageClient.test.tsx');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const exchangePage = read(root, 'apps/uapi/app/exchange/ExchangePageClient.tsx');
+  const terminalRoutes = read(root, 'apps/uapi/app/terminal/terminal-routes.ts');
+  const detailHero = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx');
+  const handoffTest = read(root, 'apps/uapi/tests/exchangeTerminalHandoff.test.ts');
+  const exchangePageTest = read(root, 'apps/uapi/tests/exchangePageClient.test.tsx');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
 
   for (const doc of docs) {
     assertCheck(failures, doc.includes(ARTIFACT_PATH), `V36 docs must mention ${ARTIFACT_PATH}.`);

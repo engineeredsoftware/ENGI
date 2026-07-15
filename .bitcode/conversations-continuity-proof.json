@@ -17,17 +17,17 @@
     "/api/conversations/branch"
   ],
   "requiredFiles": [
-    "uapi/app/conversations/page.tsx",
-    "uapi/app/conversations/ConversationsRouteClient.tsx",
-    "uapi/app/conversations/README.md",
-    "uapi/app/conversations/components/ConversationsOverlay.tsx",
-    "uapi/app/ClientLayoutInner.tsx",
-    "uapi/app/application/ApplicationPageClient.tsx",
-    "uapi/app/api/conversations/route.ts",
-    "uapi/app/api/conversations/stream/route.ts",
-    "uapi/app/api/conversations/[conversationId]/stream/route.ts",
-    "uapi/app/api/conversations/branch/route.ts",
-    "uapi/app/api/conversations/_shared.ts",
+    "apps/uapi/app/conversations/page.tsx",
+    "apps/uapi/app/conversations/ConversationsRouteClient.tsx",
+    "apps/uapi/app/conversations/README.md",
+    "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+    "apps/uapi/app/ClientLayoutInner.tsx",
+    "apps/uapi/app/application/ApplicationPageClient.tsx",
+    "apps/uapi/app/api/conversations/route.ts",
+    "apps/uapi/app/api/conversations/stream/route.ts",
+    "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
+    "apps/uapi/app/api/conversations/branch/route.ts",
+    "apps/uapi/app/api/conversations/_shared.ts",
     "packages/conversations/src/index.ts",
     "packages/conversations/src/agent/ConversationAgent.ts",
     "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
@@ -36,10 +36,10 @@
     "packages/api/src/conversations/messages.ts",
     "packages/api/src/conversations/attachments.ts",
     "packages/api/src/conversations/streaming.ts",
-    "uapi/tests/api/conversationsRoute.test.ts",
-    "uapi/tests/api/chatStreamRoute.test.ts",
-    "uapi/tests/api/conversationThreadStreamRoute.test.ts",
-    "uapi/tests/conversationsRouteClient.test.tsx"
+    "apps/uapi/tests/api/conversationsRoute.test.ts",
+    "apps/uapi/tests/api/chatStreamRoute.test.ts",
+    "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
+    "apps/uapi/tests/conversationsRouteClient.test.tsx"
   ],
   "checks": [
     {
@@ -48,12 +48,12 @@
       "passed": true,
       "detail": "6 required files present",
       "requiredFiles": [
-        "uapi/app/conversations/page.tsx",
-        "uapi/app/conversations/ConversationsRouteClient.tsx",
-        "uapi/app/conversations/README.md",
-        "uapi/app/conversations/components/ConversationsOverlay.tsx",
-        "uapi/app/ClientLayoutInner.tsx",
-        "uapi/app/application/ApplicationPageClient.tsx"
+        "apps/uapi/app/conversations/page.tsx",
+        "apps/uapi/app/conversations/ConversationsRouteClient.tsx",
+        "apps/uapi/app/conversations/README.md",
+        "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+        "apps/uapi/app/ClientLayoutInner.tsx",
+        "apps/uapi/app/application/ApplicationPageClient.tsx"
       ],
       "missingFiles": []
     },
@@ -63,11 +63,11 @@
       "passed": true,
       "detail": "5 required files present",
       "requiredFiles": [
-        "uapi/app/api/conversations/route.ts",
-        "uapi/app/api/conversations/stream/route.ts",
-        "uapi/app/api/conversations/[conversationId]/stream/route.ts",
-        "uapi/app/api/conversations/branch/route.ts",
-        "uapi/app/api/conversations/_shared.ts"
+        "apps/uapi/app/api/conversations/route.ts",
+        "apps/uapi/app/api/conversations/stream/route.ts",
+        "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "apps/uapi/app/api/conversations/branch/route.ts",
+        "apps/uapi/app/api/conversations/_shared.ts"
       ],
       "missingFiles": []
     },
@@ -86,11 +86,11 @@
         "packages/api/src/conversations/attachments.ts",
         "packages/api/src/conversations/streaming.ts",
         "packages/api/src/conversations/__tests__/branch-conversation.test.ts",
-        "uapi/tests/api/conversationsRoute.test.ts",
-        "uapi/tests/api/chatStreamRoute.test.ts",
-        "uapi/tests/api/conversationBranchRoute.test.ts",
-        "uapi/tests/api/conversationThreadStreamRoute.test.ts",
-        "uapi/tests/conversationsRouteClient.test.tsx"
+        "apps/uapi/tests/api/conversationsRoute.test.ts",
+        "apps/uapi/tests/api/chatStreamRoute.test.ts",
+        "apps/uapi/tests/api/conversationBranchRoute.test.ts",
+        "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
+        "apps/uapi/tests/conversationsRouteClient.test.tsx"
       ],
       "missingFiles": []
     },
@@ -141,17 +141,17 @@
           "description": "package-level branching test proves copied attachment continuity"
         },
         {
-          "file": "uapi/tests/api/conversationBranchRoute.test.ts",
+          "file": "apps/uapi/tests/api/conversationBranchRoute.test.ts",
           "evidence": "copiedAttachmentCount",
           "description": "App Router branch route preserves copied attachment continuity at the interface boundary"
         },
         {
-          "file": "uapi/tests/api/chatStreamRoute.test.ts",
+          "file": "apps/uapi/tests/api/chatStreamRoute.test.ts",
           "evidence": "rich_input: expect.objectContaining",
           "description": "root conversation stream test asserts persisted Read-measurement rich input"
         },
         {
-          "file": "uapi/tests/api/conversationThreadStreamRoute.test.ts",
+          "file": "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
           "evidence": "output_destinations: expect.arrayContaining",
           "description": "thread conversation stream test asserts destination roundtrip into execution metadata"
         }

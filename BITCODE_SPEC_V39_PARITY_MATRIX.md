@@ -72,7 +72,7 @@ No `_legacy/` source is active source truth.
 | Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | closed | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
 | Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | closed | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
 | Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.bitcode/v39-depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
-| Enterprise Reading UX state machine | Gate 3 | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
+| Enterprise Reading UX state machine | Gate 3 | `apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
 | ReadNeed review and resynthesis | Gate 4 | `packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts`, `.bitcode/v39-read-need-review-resynthesis.json`, package tests, route tests, protocol tests | implemented | Finding Fits remains blocked until a reviewed Need is accepted; rejected Needs preserve feedback and stay blocked. |
 | ReadFitsFinding runtime and replay | Gate 5 | `packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`, `depository-search.ts`, `.bitcode/v39-read-fits-finding-runtime.json`, package tests, protocol tests | implemented | Finding Fits searches the whole available Depository for many above-threshold candidates and persists source-safe replay, storage, telemetry, and repair receipts. |
 | AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
@@ -144,12 +144,12 @@ No `_legacy/` source is active source truth.
 
 | Requirement | Source evidence | Current V39 judgment |
 | --- | --- | --- |
-| Five-step Reading state machine exists | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `uapi/tests/terminalEnterpriseReadingUxState.test.ts` | implemented |
-| Terminal renders low-detail and expandable source-safe detail | `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`, `uapi/tests/terminalDepositReadWorkbench.test.ts` | implemented |
-| Conversation handoff carries source-safe Reading stage intent | `uapi/app/conversations/conversation-terminal-handoff.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `uapi/tests/conversationTerminalHandoff.test.tsx`, `uapi/tests/terminalTransactionQuery.test.ts` | implemented |
-| Rich execution log remains the live Reading pipeline stream | `uapi/app/terminal/terminal-pipeline-harness-client.ts`, `uapi/tests/pipelineExecutionLogHeader.test.tsx` | implemented |
+| Five-step Reading state machine exists | `apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts` | implemented |
+| Terminal renders low-detail and expandable source-safe detail | `apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx`, `apps/uapi/tests/terminalDepositReadWorkbench.test.ts` | implemented |
+| Conversation handoff carries source-safe Reading stage intent | `apps/uapi/app/conversations/conversation-terminal-handoff.ts`, `apps/uapi/app/terminal/terminal-transaction-query.ts`, `apps/uapi/tests/conversationTerminalHandoff.test.tsx`, `apps/uapi/tests/terminalTransactionQuery.test.ts` | implemented |
+| Rich execution log remains the live Reading pipeline stream | `apps/uapi/app/terminal/terminal-pipeline-harness-client.ts`, `apps/uapi/tests/pipelineExecutionLogHeader.test.tsx` | implemented |
 | Proof artifact and checker exist | `.bitcode/v39-enterprise-reading-ux-state.json`, `packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js`, `packages/protocol/test/v39-enterprise-reading-ux-state.test.js`, `scripts/check-v39-gate3-enterprise-reading-ux-state.mjs` | implemented |
-| Browser proof remains wired as opt-in gate-quality evidence | `.github/workflows/bitcode-gate-quality.yml`, `uapi/tests/terminalUxBrowserProof.test.tsx`, `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` | implemented |
+| Browser proof remains wired as opt-in gate-quality evidence | `.github/workflows/bitcode-gate-quality.yml`, `apps/uapi/tests/terminalUxBrowserProof.test.tsx`, `apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` | implemented |
 
 ## Gate 4 Parity
 
@@ -161,7 +161,7 @@ No `_legacy/` source is active source truth.
 | Accepted Need is the only Finding Fits admission path | `acceptReadNeed`, `admitReadFitsFinding`, `accepted_need_admission`, route acceptance tests | implemented |
 | Rejected Needs block Finding Fits and retain feedback | `rejectReadNeed`, `rejected_need_posture`, route rejection tests | implemented |
 | Telemetry receipts count the ReadNeed pipeline stack | `ReadNeedReviewTelemetryReceipt`, 4 phases, 16 PTRR steps, 48 ThricifiedGeneration ids | implemented |
-| Read review route exposes all review actions | `uapi/app/api/read-review/route.ts`, `uapi/tests/api/readReviewRoute.test.ts` | implemented |
+| Read review route exposes all review actions | `apps/uapi/app/api/read-review/route.ts`, `apps/uapi/tests/api/readReviewRoute.test.ts` | implemented |
 | Proof artifact and checker exist | `.bitcode/v39-read-need-review-resynthesis.json`, `packages/protocol/src/canonical/v39-read-need-review-resynthesis.js`, `packages/protocol/test/v39-read-need-review-resynthesis.test.js`, `scripts/check-v39-gate4-read-need-review-resynthesis.mjs` | implemented |
 | Workflow wiring includes Gate 4 source-safe proof | `.github/workflows/bitcode-gate-quality.yml`, `.github/workflows/bitcode-canon-quality.yml` | implemented |
 

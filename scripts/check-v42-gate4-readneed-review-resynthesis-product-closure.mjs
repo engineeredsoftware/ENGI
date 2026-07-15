@@ -113,10 +113,10 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
-    'uapi/app/api/read-review/route.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/tests/api/readReviewRoute.test.ts',
-    'uapi/tests/api/readReviewProtocolParity.test.ts',
+    'apps/uapi/app/api/read-review/route.ts',
+    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/tests/api/readReviewRoute.test.ts',
+    'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
     'packages/specifying/src/canonical/v42-readneed-review-resynthesis-product-closure.js',
     'packages/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
     'scripts/generate-v42-readneed-review-resynthesis-product-closure.mjs',
@@ -127,7 +127,7 @@ function main() {
     'BITCODE_SPEC_V42_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/README.md',
     'packages/asset-packs-pipelines/domain/README.md',
     'packages/specifying/README.md',
     'package.json',
@@ -184,7 +184,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',
@@ -241,7 +241,7 @@ function main() {
 
   const spec = read(root, 'BITCODE_SPEC_V42.md');
   const parity = read(root, 'BITCODE_SPEC_V42_PARITY_MATRIX.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   assertCheck(failures, spec.includes('V42 Gate 4') && spec.includes('v42-readneed-review-resynthesis-product-closure'), 'V42 spec must expand Gate 4 ReadNeed product closure.');
   assertCheck(failures, parity.includes('ReadNeed product closure') && parity.includes('implemented'), 'V42 parity matrix must mark ReadNeed product closure implemented.');
   assertCheck(failures, terminalReadme.includes('V42 Gate 4') && terminalReadme.includes('ReadNeedReviewResynthesisRuntime'), 'Terminal README must document Gate 4 ReadNeed runtime readback.');

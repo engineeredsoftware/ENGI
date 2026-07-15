@@ -219,9 +219,9 @@
       "passed": true,
       "detail": "9 required files present",
       "requiredFiles": [
-        "uapi/prompts/bitcode-terminal-system-prompt.ts",
-        "uapi/app/api/conversations/stream/route.ts",
-        "uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+        "apps/uapi/app/api/conversations/stream/route.ts",
+        "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
         "packages/mcp-generics/package.json",
         "packages/mcp-generics/src/mcp-server/src/prompts/analysis-prompts.ts",
         "packages/mcp-generics/src/mcp-server/src/prompts/workflow-prompts.ts",

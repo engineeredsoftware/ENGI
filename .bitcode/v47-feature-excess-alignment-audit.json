@@ -171,21 +171,21 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
-    "nav": "uapi/components/base/bitcode/layout/nav.tsx:2b2eaaf65982969883af8d1e",
-    "features": "uapi/config/features.ts:6ff2da113ab17dfc468d7461",
-    "workspaceSurface": "uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
-    "home": "uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
-    "heroClient": "uapi/app/hero-client.tsx:2a524ab6b50787be4414f8ba",
-    "marketingPricing": "uapi/app/(root)/components/MarketingPricingSection.tsx:6eda1c0801da2e0e2b6dc47c",
-    "packsPage": "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-    "readPage": "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
-    "depositPage": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-    "terminalPage": "uapi/app/terminal/page.tsx:6b75306c69248605ab1bb69b",
-    "conversationsPage": "uapi/app/conversations/page.tsx:bb3f749e94dbe158142bbe0d",
-    "exchangePage": "uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
-    "exchangeReadme": "uapi/app/exchange/README.md:3a0b7052de6be76fcda2b094",
-    "btdDetailPage": "uapi/app/btd/[assetPackId]/page.tsx:b94efe66179c2a2a27bde659",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
+    "nav": "apps/uapi/components/base/bitcode/layout/nav.tsx:2b2eaaf65982969883af8d1e",
+    "features": "apps/uapi/config/features.ts:6ff2da113ab17dfc468d7461",
+    "workspaceSurface": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
+    "home": "apps/uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
+    "heroClient": "apps/uapi/app/hero-client.tsx:2a524ab6b50787be4414f8ba",
+    "marketingPricing": "apps/uapi/app/(root)/components/MarketingPricingSection.tsx:6eda1c0801da2e0e2b6dc47c",
+    "packsPage": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "readPage": "apps/uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+    "depositPage": "apps/uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+    "terminalPage": "apps/uapi/app/terminal/page.tsx:6b75306c69248605ab1bb69b",
+    "conversationsPage": "apps/uapi/app/conversations/page.tsx:bb3f749e94dbe158142bbe0d",
+    "exchangePage": "apps/uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
+    "exchangeReadme": "apps/uapi/app/exchange/README.md:3a0b7052de6be76fcda2b094",
+    "btdDetailPage": "apps/uapi/app/btd/[assetPackId]/page.tsx:b94efe66179c2a2a27bde659",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",
@@ -229,57 +229,57 @@
     },
     {
       "id": "public-nav-current-routes-only",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "landing-cta-current-routes-only",
-      "sourcePath": "uapi/app/hero-client.tsx",
+      "sourcePath": "apps/uapi/app/hero-client.tsx",
       "passed": true
     },
     {
       "id": "marketing-acquisition-current-routes-only",
-      "sourcePath": "uapi/app/(root)/components/MarketingPricingSection.tsx",
+      "sourcePath": "apps/uapi/app/(root)/components/MarketingPricingSection.tsx",
       "passed": true
     },
     {
       "id": "btd-detail-current-routes-only",
-      "sourcePath": "uapi/app/btd/[assetPackId]/page.tsx",
+      "sourcePath": "apps/uapi/app/btd/[assetPackId]/page.tsx",
       "passed": true
     },
     {
       "id": "exchange-compatibility-redirect-only",
-      "sourcePath": "uapi/app/exchange/page.tsx",
+      "sourcePath": "apps/uapi/app/exchange/page.tsx",
       "passed": true
     },
     {
       "id": "terminal-direct-entry-flaggable",
-      "sourcePath": "uapi/components/base/bitcode/layout/nav.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/nav.tsx",
       "passed": true
     },
     {
       "id": "terminal-metadata-retained-operator-workspace",
-      "sourcePath": "uapi/app/terminal/page.tsx",
+      "sourcePath": "apps/uapi/app/terminal/page.tsx",
       "passed": true
     },
     {
       "id": "conversations-direct-entry-flaggable",
-      "sourcePath": "uapi/app/conversations/page.tsx",
+      "sourcePath": "apps/uapi/app/conversations/page.tsx",
       "passed": true
     },
     {
       "id": "feature-config-owns-deferred-flags",
-      "sourcePath": "uapi/config/features.ts",
+      "sourcePath": "apps/uapi/config/features.ts",
       "passed": true
     },
     {
       "id": "public-shell-launch-routes-classified",
-      "sourcePath": "uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts",
       "passed": true
     },
     {
       "id": "public-launch-sources-avoid-deferred-entry-targets",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {

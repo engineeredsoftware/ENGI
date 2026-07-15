@@ -47,7 +47,7 @@ and validate the website E2E.
   V48 commercial testnet readiness.
 - **Frontend component architecture (V48 implementation quality workstream on
   `version/v48`):** three layers (`Shadcn*` → `Bitcode*` → seven experiences),
-  components under `uapi/components/{shadcn,bitcode,marketing,packs,reads,
+  components under `apps/uapi/components/{shadcn,bitcode,marketing,packs,reads,
   deposits,docs,conversations,auxillaries}`, Pipeline product naming over
   Execution/Terminal UI names, generalizable utilities package-first, legacy
   `/terminal` eradicated (deleted). Spec updates and implementation land
@@ -213,7 +213,7 @@ proof, settlement, rights, compensation, and delivery.
 
 Gate 7 owns `.bitcode/v48-e2e-ip-selling-buying-tests.json`,
 `buildV48E2eIpSellingBuyingTests`, and `check:v48-gate7`. The browser proof
-(`uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts`, run by
+(`apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts`, run by
 `test:e2e:ip-exchange`) drives `/deposits` from source connection through
 option synthesis, source-safe measurement review, and Depository admission
 with journaled execution rows; drives `/reads` through the five-step buyer

@@ -92,7 +92,7 @@ function collectSourceFiles(root, startRelativePath) {
 function findStandaloneDemonstrationImports(root) {
   const importPattern =
     /(?:from\s+|import\s*\(|require\s*\()\s*['"][^'"]*(?:@bitcode\/protocol-demonstration|protocol-demonstration\/src)/u;
-  const sourceRoots = ['packages', 'uapi/app', 'uapi/components', 'uapi/lib'];
+  const sourceRoots = ['packages', 'apps/uapi/app', 'apps/uapi/components', 'apps/uapi/lib'];
   return sourceRoots.flatMap((sourceRoot) =>
     collectSourceFiles(root, sourceRoot).flatMap((filePath) => {
       const source = readFileSync(filePath, 'utf8');

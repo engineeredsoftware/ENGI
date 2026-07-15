@@ -14,7 +14,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
         "packages/asset-packs-pipelines/domain/src/depository-search.ts",
-        "uapi/app/api/deposits/route.ts"
+        "apps/uapi/app/api/deposits/route.ts"
       ],
       "emittedTypes": [
         "DepositorySupplyIndex",
@@ -157,7 +157,7 @@
       "purpose": "Preserve the depositor ownership and reader visibility boundary: BTD remains depositor-owned until settlement transfer and source-bearing AssetPack content remains hidden before settlement.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/depository-supply-index.ts",
-        "uapi/app/terminal/TerminalDepositComposer.tsx",
+        "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
         "BITCODE_SPEC_V39.md"
       ],
       "emittedTypes": [
@@ -336,12 +336,12 @@
     },
     {
       "id": "deposit-route-requires-readiness",
-      "sourcePath": "uapi/app/api/deposits/route.ts",
+      "sourcePath": "apps/uapi/app/api/deposits/route.ts",
       "passed": true
     },
     {
       "id": "terminal-deposit-captures-evidence",
-      "sourcePath": "uapi/app/terminal/TerminalDepositComposer.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
       "passed": true
     },
     {
@@ -419,8 +419,8 @@
     "assetPackPackage": "packages/asset-packs-pipelines/domain/package.json",
     "assetPackIndex": "packages/asset-packs-pipelines/domain/src/index.ts",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
-    "uapiDepositRoute": "uapi/app/api/deposits/route.ts",
-    "terminalDepositComposer": "uapi/app/terminal/TerminalDepositComposer.tsx",
+    "uapiDepositRoute": "apps/uapi/app/api/deposits/route.ts",
+    "terminalDepositComposer": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
     "ormAssetPackEvidence": "packages/orm/src/models/asset-pack-evidence.ts",
     "ormExecutionStorage": "packages/orm/src/models/bitcode-execution-storage.ts",
     "v39Spec": "BITCODE_SPEC_V39.md",

@@ -7,15 +7,15 @@ Detail filesystem contract: `BITCODE_SOURCE_LAYOUT.md`.
 
 | Experience | Route(s) | Component prefix | Directory |
 | --- | --- | --- | --- |
-| Marketing | `/` | `Marketing*` | `uapi/components/marketing/` |
-| Packs | `/packs` | `Packs*` | `uapi/components/packs/` |
-| Reads | `/reads` | `Reads*` | `uapi/components/reads/` |
-| Deposits | `/deposits` | `Deposits*` | `uapi/components/deposits/` |
-| Docs | `/docs` | `Docs*` | `uapi/components/docs/` |
-| Conversations | conversations (full UX deferred post-V48) | `Conversations*` | `uapi/components/conversations/` |
-| Auxillaries | `/auxillaries/*` | `Auxillaries*` | `uapi/components/auxillaries/` |
+| Marketing | `/` | `Marketing*` | `apps/uapi/components/marketing/` |
+| Packs | `/packs` | `Packs*` | `apps/uapi/components/packs/` |
+| Reads | `/reads` | `Reads*` | `apps/uapi/components/reads/` |
+| Deposits | `/deposits` | `Deposits*` | `apps/uapi/components/deposits/` |
+| Docs | `/docs` | `Docs*` | `apps/uapi/components/docs/` |
+| Conversations | conversations (full UX deferred post-V48) | `Conversations*` | `apps/uapi/components/conversations/` |
+| Auxillaries | `/auxillaries/*` | `Auxillaries*` | `apps/uapi/components/auxillaries/` |
 
-Page shells: `uapi/app/...` — orchestration only.
+Page shells: `apps/uapi/app/...` — orchestration only.
 
 ## Component layers
 
@@ -23,15 +23,15 @@ Page shells: `uapi/app/...` — orchestration only.
 Shadcn* → Bitcode* → Experience*
 ```
 
-1. **Shadcn** — root primitives (`uapi/components/shadcn/`).
+1. **Shadcn** — root primitives (`apps/uapi/components/shadcn/`).
 2. **Bitcode** — theme, layout, nav, pipeline table/log/telemetry, auth chrome,
- product route helpers (`uapi/components/bitcode/`).
+ product route helpers (`apps/uapi/components/bitcode/`).
 3. **Experience** — page-specific composition; imports Bitcode only.
 
 ## Component unit pattern
 
 ```
-uapi/components/<layer>/<ComponentName>/
+apps/uapi/components/<layer>/<ComponentName>/
  <ComponentName>.tsx # named entry — not index.tsx
  hooks/
  styles/
@@ -64,4 +64,4 @@ Shared pure logic for an experience lives under that experience’s `models/`,
 ## Package boundary
 
 - Shareable pure logic → `packages/`.
-- React and Next → `uapi/`.
+- React and Next → `apps/uapi/`.

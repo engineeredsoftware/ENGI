@@ -62,9 +62,9 @@ Fresh audit inputs:
 - `packages/api/src/routes/btd-crypto.ts`
 - `packages/api/src/routes/__tests__/btd-crypto.test.ts`
 - `packages/api/src/routes/__tests__/user-btd-mutation.test.ts`
-- `uapi/tests/api/userBtdRoute.test.ts`
-- `uapi/app/api/btd/registry/route.ts`
-- `uapi/app/api/btd/mint-draft/route.ts`
+- `apps/uapi/tests/api/userBtdRoute.test.ts`
+- `apps/uapi/app/api/btd/registry/route.ts`
+- `apps/uapi/app/api/btd/mint-draft/route.ts`
 - `packages/orm/src/models/user-btd-balances.ts`
 - `packages/orm/src/models/user-btd-transactions.ts`
 - `packages/orm/src/models/organization-btd-treasury.ts`
@@ -82,12 +82,12 @@ Fresh audit inputs:
 - `protocol-demonstration/src/canon-posture.js`
 - `protocol-demonstration/data/state.json`
 - `protocol-demonstration/src/canonical/proven-generator.js`
-- `uapi/components/base/bitcode/btd/btd-tracker.tsx`
-- `uapi/components/base/bitcode/btd/BTDPrices.tsx`
-- `uapi/app/auxillaries/components/AuxillariesBTDPane.tsx`
-- `uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx`
-- `uapi/app/(root)/components/MarketingCtaContactSection.tsx`
-- `uapi/app/(root)/components/MarketingFaqSection.tsx`
+- `apps/uapi/components/base/bitcode/btd/btd-tracker.tsx`
+- `apps/uapi/components/base/bitcode/btd/BTDPrices.tsx`
+- `apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx`
+- `apps/uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx`
+- `apps/uapi/app/(root)/components/MarketingCtaContactSection.tsx`
+- `apps/uapi/app/(root)/components/MarketingFaqSection.tsx`
 - `packages/executions-mcp/src/mcp-server/ARCHITECTURE.md`
 - `packages/executions-mcp/src/mcp-server/src/auth/middleware.ts`
 - `.bitcode/v27-crypto-primitives-proof.json`
@@ -160,13 +160,13 @@ Audit query classes:
 | Exchange DB docs | DB target names BTD registry tables | `internal-docs/BITCODE_EXCHANGE_DATABASE.md` documents V27 registry/projection tables, service-role/RLS posture, and compatibility-table noncanonical limits | partial | Gate 6 documentation closure is proved; keep synchronized as later gates add live writes |
 | SQL migration | DB constraints for supply/range/cells/crypto receipts | `supabase/migrations/002_v27_btd_crypto_registry.sql` adds V27 registry, allocation, ancestry, revenue, upgrade, crypto projection, RLS, access-policy, cap, unique token, and no-overlap constraints | partial | Gate 6 migration closure is proved; live migration execution and generated DB type refresh remain later work |
 | ORM models | Bitcode-native BTD registry models | `packages/orm/src/models/btd-registry.ts` exposes the V27 registry/allocation/revenue/upgrade boundary; `packages/orm/src/client.ts` exposes `btdRegistry` on standard/admin clients; ORM tests verify table routing | partial | Gate 6 ORM boundary closure is proved; replace raw V27 table boundary with generated types after DB codegen |
-| BTD API route boundary | authenticated commercial routes expose registry, mint-draft, fee, anchor, ancestry, revenue, and minimal Exchange projections | `packages/api/src/routes/btd-crypto.ts`, Next wrappers under `uapi/app/api/btd/*`, and `btd-crypto.test.ts` cover registry snapshots, JSON-safe mint drafts, read access, revenue, ancestry, BTC fee, ledger anchor, and minimal Exchange route paths without versioned route paths | closed through Gate 12 | generated proof-family promotion and full live value-bearing rollout remain later |
-| Versioned route removal | current app API routes are in-place and unversioned | former version-prefixed corridors are now `uapi/app/api/external-realization` and `uapi/app/api/executors/[interfaceId]`; `find uapi/app/api -path '*v[0-9]*'` returns no routes | closed | future versions must update routes in place |
+| BTD API route boundary | authenticated commercial routes expose registry, mint-draft, fee, anchor, ancestry, revenue, and minimal Exchange projections | `packages/api/src/routes/btd-crypto.ts`, Next wrappers under `apps/uapi/app/api/btd/*`, and `btd-crypto.test.ts` cover registry snapshots, JSON-safe mint drafts, read access, revenue, ancestry, BTC fee, ledger anchor, and minimal Exchange route paths without versioned route paths | closed through Gate 12 | generated proof-family promotion and full live value-bearing rollout remain later |
+| Versioned route removal | current app API routes are in-place and unversioned | former version-prefixed corridors are now `apps/uapi/app/api/external-realization` and `apps/uapi/app/api/executors/[interfaceId]`; `find apps/uapi/app/api -path '*v[0-9]*'` returns no routes | closed | future versions must update routes in place |
 | UAPI balance widget | top-right balance distinguishes BTC and `$BTD` | `btd-tracker.tsx` shows BTC and `$BTD`; acquisition intent stores Terminal Read and Exchange existing-`$BTD` paths as V27 | closed | registry/range live reads can deepen later |
 | UAPI acquisition card | Terminal Read and Exchange minimal acquisition split | `BTDPrices.tsx` labels Terminal Read and Exchange Range as V27 while reserving market depth for later work | closed | broader order-book UX is later-version work |
 | Auxillary BTD pane | wallet and holdings are readable | `AuxillariesBTDPane.tsx` shows BTC fee liquidity, holdings, wallet posture | implemented baseline | add range/policy/supply details |
 | Public copy | BTC/$BTD distinction visible | marketing metrics, CTA, and FAQ state BTC pays fees and `$BTD` is non-fungible read-right | implemented baseline | add V27 exact range/access language after implementation |
-| Token/range route | route shows range, policy, and rights | `uapi/app/btd/[assetPackId]/page.tsx` shows range, policy id/hash, read branch, proof root, and source manifest root | closed | live registry hydration can deepen later |
+| Token/range route | route shows range, policy, and rights | `apps/uapi/app/btd/[assetPackId]/page.tsx` shows range, policy id/hash, read branch, proof root, and source manifest root | closed | live registry hydration can deepen later |
 | MCP holding gate | MCP can require BTD holding | MCP auth middleware checks `minimumBtdHolding` against aggregate balance | partial | switch to registry-derived holding/read-right checks |
 | Proof generator | V26 generator knows cap evidence | `proven-generator.js` references `BTD_MAX_MINTABLE_SUPPLY = 21_000_000` | partial | add V27 proof families |
 | Wallet signer session | user wallet authorizes crypto operations | `packages/btd/src/wallet.ts` requires address authorization proof before signing; proofless sessions stay prepared and fail closed; `/api/btd/btc-fee-transaction` accepts authorized signer sessions for BTC fee handoff | closed for Gate 10 | live wallet adapter UX remains later |
@@ -300,8 +300,8 @@ This does not close live Supabase migration execution, generated DB type refresh
 | `packages/api/src/routes/btd-crypto.ts` | authenticated registry snapshot and mint-draft route builders |
 | `packages/api/src/routes/__tests__/btd-crypto.test.ts` | route tests for snapshot projection and JSON-safe mint drafts |
 | `packages/api/src/routes/__tests__/user-btd-mutation.test.ts` | package-route tests proving `/user/btd` generic mutation fails closed |
-| `uapi/app/api/btd/registry/route.ts` | commercial Next route wrapper for registry snapshots |
-| `uapi/app/api/btd/mint-draft/route.ts` | commercial Next route wrapper for mint drafts |
+| `apps/uapi/app/api/btd/registry/route.ts` | commercial Next route wrapper for registry snapshots |
+| `apps/uapi/app/api/btd/mint-draft/route.ts` | commercial Next route wrapper for mint drafts |
 | `packages/orm/src/models/user-btd-balances.ts` | compatibility holding reads |
 | `packages/orm/src/models/user-btd-transactions.ts` | compatibility holding history |
 | `packages/orm/src/models/organization-btd-treasury.ts` | aggregate treasury read |
@@ -312,11 +312,11 @@ This does not close live Supabase migration execution, generated DB type refresh
 | `protocol-demonstration/src/receipt-schemas.js` | current receipt family to extend |
 | `protocol-demonstration/src/canonical/settlement.js` | current source-to-shares fit and settlement primitive |
 | `protocol-demonstration/src/settlement-structs.js` | settlement participation structures |
-| `uapi/components/base/bitcode/btd/btd-tracker.tsx` | balance/acquisition intent widget |
-| `uapi/components/base/bitcode/btd/BTDPrices.tsx` | Terminal Read and minimal Exchange range acquisition split |
-| `uapi/app/auxillaries/components/AuxillariesBTDPane.tsx` | auxillary wallet and holding posture |
-| `uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx` | public 21M/read-right explanation |
-| `uapi/app/(root)/components/MarketingFaqSection.tsx` | public BTC vs `$BTD` distinction |
+| `apps/uapi/components/base/bitcode/btd/btd-tracker.tsx` | balance/acquisition intent widget |
+| `apps/uapi/components/base/bitcode/btd/BTDPrices.tsx` | Terminal Read and minimal Exchange range acquisition split |
+| `apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx` | auxillary wallet and holding posture |
+| `apps/uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx` | public 21M/read-right explanation |
+| `apps/uapi/app/(root)/components/MarketingFaqSection.tsx` | public BTC vs `$BTD` distinction |
 | `packages/executions-mcp/src/mcp-server/src/auth/middleware.ts` | aggregate holding gate for MCP authorization |
 | future wallet integration module | V27 signer/session/network owner |
 | future Bitcoin transaction module | V27 BTC fee payment, broadcast, and confirmation owner |
@@ -360,8 +360,8 @@ Completed implementation seeds:
 - `packages/orm/src/__tests__/btd-registry.test.ts`
 - `packages/api/src/routes/btd-crypto.ts`
 - `packages/api/src/routes/__tests__/btd-crypto.test.ts`
-- `uapi/app/api/btd/registry/route.ts`
-- `uapi/app/api/btd/mint-draft/route.ts`
+- `apps/uapi/app/api/btd/registry/route.ts`
+- `apps/uapi/app/api/btd/mint-draft/route.ts`
 - `.bitcode/v27-crypto-primitives-proof.json`
 
 Remaining queue:

@@ -1139,7 +1139,7 @@ The V36 generated artifact contract catalog is defined in the generated canon se
 
 ### Appendix E. Current canonical source map
 
-V36 source map roots include `packages/protocol`, `packages/btd`, `packages/api`, `packages/pipelines/asset-pack`, `uapi/app/exchange`, `uapi/app/terminal`, `uapi/app/api`, public docs, workflows, scripts, and generated `.bitcode/` artifacts.
+V36 source map roots include `packages/protocol`, `packages/btd`, `packages/api`, `packages/pipelines/asset-pack`, `apps/uapi/app/exchange`, `apps/uapi/app/terminal`, `apps/uapi/app/api`, public docs, workflows, scripts, and generated `.bitcode/` artifacts.
 `_legacy/` is historical only.
 
 ### Appendix F. Subsystem totality and derivability matrix

@@ -119,9 +119,9 @@
       "collapsedStatus": "The Exchange header and table describe the selected activity and data mode.",
       "expandedDetail": "The selected detail pane exposes activity identity, AssetPack evidence, proof posture, history, and journal sections.",
       "sourceRoots": [
-        "uapi/app/exchange/ExchangePageClient.tsx",
-        "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
-        "uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx"
+        "apps/uapi/app/exchange/ExchangePageClient.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+        "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx"
       ],
       "detailSectionIds": [
         "activity_table_summary",
@@ -208,15 +208,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/exchange/ExchangePageClient.tsx",
+          "relativePath": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx",
+          "relativePath": "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx",
           "present": true
         }
       ]
@@ -228,9 +228,9 @@
       "collapsedStatus": "Search, status, ownership, lens, repository, participant, proof, sort, and pagination remain route-owned.",
       "expandedDetail": "Filter chips and pagination expose filter state without source-bearing payloads.",
       "sourceRoots": [
-        "uapi/app/exchange/ExchangePageClient.tsx",
-        "uapi/app/terminal/terminal-transaction-query.ts",
-        "uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx"
+        "apps/uapi/app/exchange/ExchangePageClient.tsx",
+        "apps/uapi/app/terminal/terminal-transaction-query.ts",
+        "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx"
       ],
       "detailSectionIds": [
         "activity_table_summary"
@@ -313,15 +313,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/exchange/ExchangePageClient.tsx",
+          "relativePath": "apps/uapi/app/exchange/ExchangePageClient.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/terminal-transaction-query.ts",
+          "relativePath": "apps/uapi/app/terminal/terminal-transaction-query.ts",
           "present": true
         },
         {
-          "relativePath": "uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx",
+          "relativePath": "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx",
           "present": true
         }
       ]
@@ -333,9 +333,9 @@
       "collapsedStatus": "History section status is visible from the selected activity action bar.",
       "expandedDetail": "History detail reads retained activity rows, proof-rooted continuity, and ledger-linked order state.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
-        "uapi/app/terminal/TerminalTransactionHistoryCard.tsx",
-        "uapi/app/terminal/terminal-transaction-read-model.ts"
+        "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionHistoryCard.tsx",
+        "apps/uapi/app/terminal/terminal-transaction-read-model.ts"
       ],
       "detailSectionIds": [
         "history_state",
@@ -420,15 +420,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionHistoryCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionHistoryCard.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/terminal-transaction-read-model.ts",
+          "relativePath": "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
           "present": true
         }
       ]
@@ -440,9 +440,9 @@
       "collapsedStatus": "Authority and closure chips show rights-transfer readiness without exposing source.",
       "expandedDetail": "Authority, closure, and shippables sections show rights posture, proof roots, and delivery gate state.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
-        "uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx",
-        "uapi/app/terminal/TerminalTransactionClosureCard.tsx"
+        "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionClosureCard.tsx"
       ],
       "detailSectionIds": [
         "authority_state",
@@ -529,15 +529,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionClosureCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionClosureCard.tsx",
           "present": true
         }
       ]
@@ -549,9 +549,9 @@
       "collapsedStatus": "BTC fee basis and measured BTD are visible in low-detail metrics.",
       "expandedDetail": "Wallet/BTC and proof detail carry quote, PSBT, finality, and blocked readiness facts.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
-        "uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx",
-        "uapi/app/terminal/terminal-transaction-read-model.ts"
+        "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx",
+        "apps/uapi/app/terminal/terminal-transaction-read-model.ts"
       ],
       "detailSectionIds": [
         "source_safe_status_header",
@@ -638,15 +638,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/terminal-transaction-read-model.ts",
+          "relativePath": "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
           "present": true
         }
       ]
@@ -658,9 +658,9 @@
       "collapsedStatus": "Settlement and closure posture are readable from the selected activity hero.",
       "expandedDetail": "Closure and journal detail expose ledger roots, database projection roots, and delivery state.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
-        "uapi/app/terminal/TerminalTransactionClosureCard.tsx",
-        "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx"
+        "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionClosureCard.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx"
       ],
       "detailSectionIds": [
         "closure_state",
@@ -747,15 +747,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionClosureCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionClosureCard.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
           "present": true
         }
       ]
@@ -767,9 +767,9 @@
       "collapsedStatus": "Repair state is summarized in journal and dispute posture copy.",
       "expandedDetail": "Journal and proof sections expose repair receipts, blocking drift reasons, and source-safe commands.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
-        "uapi/app/terminal/terminal-journal-reconciliation.ts",
-        "uapi/app/terminal/TerminalTransactionProofsCard.tsx"
+        "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+        "apps/uapi/app/terminal/terminal-journal-reconciliation.ts",
+        "apps/uapi/app/terminal/TerminalTransactionProofsCard.tsx"
       ],
       "detailSectionIds": [
         "journal_reconciliation",
@@ -854,15 +854,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/terminal-journal-reconciliation.ts",
+          "relativePath": "apps/uapi/app/terminal/terminal-journal-reconciliation.ts",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionProofsCard.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionProofsCard.tsx",
           "present": true
         }
       ]
@@ -874,10 +874,10 @@
       "collapsedStatus": "Terminal can open Exchange with transactionId, transactionDetail, and filters preserved.",
       "expandedDetail": "Exchange can return to Terminal with the same route-owned selection and detail section.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-routes.ts",
-        "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
-        "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
-        "uapi/tests/exchangeTerminalHandoff.test.ts"
+        "apps/uapi/app/terminal/terminal-routes.ts",
+        "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+        "apps/uapi/tests/exchangeTerminalHandoff.test.ts"
       ],
       "detailSectionIds": [
         "source_safe_status_header",
@@ -963,19 +963,19 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/terminal-routes.ts",
+          "relativePath": "apps/uapi/app/terminal/terminal-routes.ts",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/tests/exchangeTerminalHandoff.test.ts",
+          "relativePath": "apps/uapi/tests/exchangeTerminalHandoff.test.ts",
           "present": true
         }
       ]
@@ -987,9 +987,9 @@
       "collapsedStatus": "Collapsed UI gives readable activity state, proof posture, selected section, and data mode.",
       "expandedDetail": "Expanded UI exposes only source-safe identity, proof, history, journal, wallet/BTC, authority, and delivery metadata.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
-        "uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
-        "uapi/app/terminal/TerminalTransactionDetailSurface.tsx"
+        "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx"
       ],
       "detailSectionIds": [
         "source_safe_status_header",
@@ -1094,15 +1094,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         }
       ]
@@ -1114,9 +1114,9 @@
       "collapsedStatus": "The execution stream and console section advertise whether telemetry detail is attached.",
       "expandedDetail": "Execution stream, history, and console detail bind events to source-safe execution telemetry.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
-        "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
-        "uapi/app/exchange/README.md"
+        "apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
+        "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+        "apps/uapi/app/exchange/README.md"
       ],
       "detailSectionIds": [
         "execution_stream",
@@ -1202,15 +1202,15 @@
       },
       "sourceEvidence": [
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+          "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
           "present": true
         },
         {
-          "relativePath": "uapi/app/exchange/README.md",
+          "relativePath": "apps/uapi/app/exchange/README.md",
           "present": true
         }
       ]
@@ -1218,67 +1218,67 @@
   ],
   "sourceEvidence": [
     {
-      "relativePath": "uapi/app/exchange/ExchangePageClient.tsx",
+      "relativePath": "apps/uapi/app/exchange/ExchangePageClient.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/exchange/page.tsx",
+      "relativePath": "apps/uapi/app/exchange/page.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/exchange/README.md",
+      "relativePath": "apps/uapi/app/exchange/README.md",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/TerminalPageClient.tsx",
+      "relativePath": "apps/uapi/app/terminal/TerminalPageClient.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+      "relativePath": "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+      "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+      "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
+      "relativePath": "apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/TerminalTransactionsTable.tsx",
+      "relativePath": "apps/uapi/app/terminal/TerminalTransactionsTable.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/terminal-routes.ts",
+      "relativePath": "apps/uapi/app/terminal/terminal-routes.ts",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/terminal-transaction-query.ts",
+      "relativePath": "apps/uapi/app/terminal/terminal-transaction-query.ts",
       "present": true
     },
     {
-      "relativePath": "uapi/app/terminal/terminal-transaction-read-model.ts",
+      "relativePath": "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
       "present": true
     },
     {
-      "relativePath": "uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx",
+      "relativePath": "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx",
+      "relativePath": "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/tests/exchangePageClient.test.tsx",
+      "relativePath": "apps/uapi/tests/exchangePageClient.test.tsx",
       "present": true
     },
     {
-      "relativePath": "uapi/tests/exchangeTerminalHandoff.test.ts",
+      "relativePath": "apps/uapi/tests/exchangeTerminalHandoff.test.ts",
       "present": true
     }
   ],

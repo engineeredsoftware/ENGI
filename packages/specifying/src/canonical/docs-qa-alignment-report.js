@@ -170,11 +170,11 @@ const alignmentRows = Object.freeze([
   {
     alignmentId: 'public_docs_disclosure_alignment',
     alignmentClass: 'public_docs_disclosure',
-    owner: 'uapi',
+    owner: 'apps/uapi',
     checkedSources: [
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'uapi/app/docs/page.tsx',
-      'uapi/app/docs/[slug]/page.tsx',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/page.tsx',
+      'apps/uapi/app/docs/[slug]/page.tsx',
       '.bitcode/v35-public-docs-usage-guides.json',
     ],
     expectedTokens: [
@@ -214,8 +214,8 @@ const alignmentRows = Object.freeze([
     checkedSources: [
       'packages/api/README.md',
       'internal-docs/BITCODE_API.md',
-      'uapi/app/api/read-review/route.ts',
-      'uapi/app/api/pipeline-host/asset-pack/route.ts',
+      'apps/uapi/app/api/read-review/route.ts',
+      'apps/uapi/app/api/pipeline-host/asset-pack/route.ts',
     ],
     expectedTokens: [
       'route',
@@ -232,9 +232,9 @@ const alignmentRows = Object.freeze([
     alignmentClass: 'interface_docs',
     owner: 'interface-packages',
     checkedSources: [
-      'packages/generic-mcps/bitcode/README.md',
-      'packages/generic-mcps/bitcode/docs/public/mcp-overview.md',
-      'packages/external-apps/chatgpt/README.md',
+      'apps/mcp/README.md',
+      'apps/mcp/docs/public/mcp-overview.md',
+      'apps/chatgpt/README.md',
       'internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md',
     ],
     expectedTokens: [

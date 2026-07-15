@@ -21,10 +21,10 @@
     "protocol-demonstration/src/canon-posture.js",
     "packages/btd/src",
     "packages/api/src/routes/btd-crypto.ts",
-    "uapi/app/api/btd",
-    "uapi/app/application",
-    "uapi/app/exchange",
-    "uapi/app/btd/[assetPackId]",
+    "apps/uapi/app/api/btd",
+    "apps/uapi/app/application",
+    "apps/uapi/app/exchange",
+    "apps/uapi/app/btd/[assetPackId]",
     "internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md",
     "internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md",
     "internal-docs/BITCODE_AUXILLARIES_READINESS.md",
@@ -82,7 +82,7 @@
       "status": "passed"
     },
     {
-      "command": "find uapi/app/api -path '*v[0-9]*' -print | sort",
+      "command": "find apps/uapi/app/api -path '*v[0-9]*' -print | sort",
       "status": "passed",
       "result": "empty"
     },

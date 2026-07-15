@@ -84,15 +84,15 @@ function main() {
     'BITCODE_SPEC_V29_DELTA.md',
     'BITCODE_SPEC_V29_NOTES.md',
     'BITCODE_SPEC_V29_PARITY_MATRIX.md',
-    'uapi/app/terminal/terminal-transaction-read-model.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/TerminalPageClient.tsx',
-    'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
-    'uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
-    'uapi/tests/terminalTransactionReadModel.test.ts',
-    'uapi/tests/terminalTransactionQuery.test.ts',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
+    'apps/uapi/app/terminal/terminal-transaction-query.ts',
+    'apps/uapi/app/terminal/TerminalPageClient.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
+    'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx',
+    'apps/uapi/tests/terminalTransactionReadModel.test.ts',
+    'apps/uapi/tests/terminalTransactionQuery.test.ts',
+    'apps/uapi/app/terminal/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -105,14 +105,14 @@ function main() {
   const delta = read(root, 'BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const readModel = read(root, 'uapi/app/terminal/terminal-transaction-read-model.ts');
-  const query = read(root, 'uapi/app/terminal/terminal-transaction-query.ts');
-  const pageClient = read(root, 'uapi/app/terminal/TerminalPageClient.tsx');
-  const detailSurface = read(root, 'uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
-  const actionBar = read(root, 'uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
-  const readModelTest = read(root, 'uapi/tests/terminalTransactionReadModel.test.ts');
-  const queryTest = read(root, 'uapi/tests/terminalTransactionQuery.test.ts');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const readModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
+  const query = read(root, 'apps/uapi/app/terminal/terminal-transaction-query.ts');
+  const pageClient = read(root, 'apps/uapi/app/terminal/TerminalPageClient.tsx');
+  const detailSurface = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx');
+  const actionBar = read(root, 'apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx');
+  const readModelTest = read(root, 'apps/uapi/tests/terminalTransactionReadModel.test.ts');
+  const queryTest = read(root, 'apps/uapi/tests/terminalTransactionQuery.test.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -190,7 +190,7 @@ function main() {
     'Gate quality workflow must run the read-model tests.',
   );
 
-  const versionedTerminalSource = execFileSync('find', ['uapi/app/terminal', '-name', '*v29*', '-print'], {
+  const versionedTerminalSource = execFileSync('find', ['apps/uapi/app/terminal', '-name', '*v29*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

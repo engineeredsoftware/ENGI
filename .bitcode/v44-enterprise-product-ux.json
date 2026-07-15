@@ -46,7 +46,7 @@
   "contractRows": [
     {
       "rowId": "shared-enterprise-ux-primitives",
-      "owner": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "owner": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx",
       "contract": "Product route shell exposes shared enterprise summary, keyboard navigation, and proof-detail primitives for source-safe economic operation.",
       "requiredFields": [
         "ProductRouteEnterpriseSummary",
@@ -61,7 +61,7 @@
     },
     {
       "rowId": "packs-economic-operation",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "contract": "/packs renders portfolio economy overview, keyboard navigation, sticky dense activity grid, and expandable proof detail.",
       "requiredFields": [
         "packs-enterprise-economic-summary",
@@ -76,7 +76,7 @@
     },
     {
       "rowId": "read-economic-operation",
-      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "owner": "apps/uapi/app/read/ReadPageClient.tsx",
       "contract": "/read renders Reading economy overview, keyboard navigation, and route/procurement/authority proof roots.",
       "requiredFields": [
         "read-enterprise-economic-summary",
@@ -91,7 +91,7 @@
     },
     {
       "rowId": "deposit-economic-operation",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "contract": "/deposit renders Depositing economy overview, keyboard navigation, and synthesis/policy/admission/earnings/authority proof roots.",
       "requiredFields": [
         "deposit-enterprise-economic-summary",
@@ -106,7 +106,7 @@
     },
     {
       "rowId": "focused-route-tests",
-      "owner": "uapi/tests/packsPageClient.test.tsx",
+      "owner": "apps/uapi/tests/packsPageClient.test.tsx",
       "contract": "Focused route tests cover enterprise summaries, keyboard hints, proof detail, and source-safe table/detail hooks.",
       "requiredFields": [
         "packs-enterprise-economic-summary",
@@ -144,13 +144,13 @@
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "productRouteShell": "uapi/components/base/bitcode/routes/product-route-shell.tsx:e71f90c289dec52fd158568a",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
-    "packsTest": "uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
-    "readTest": "uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
-    "depositTest": "uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
+    "productRouteShell": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx:e71f90c289dec52fd158568a",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "packsTest": "apps/uapi/tests/packsPageClient.test.tsx:3fba7a8cabfefd257882490e",
+    "readTest": "apps/uapi/tests/readPageClient.test.tsx:45cea103fa46706d1f39c4f4",
+    "depositTest": "apps/uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
     "protocolIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
     "protocolTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
     "protocolSource": "packages/specifying/src/canonical/v44-enterprise-product-ux.js:0f27756ad44940e543988b11",
@@ -206,47 +206,47 @@
     },
     {
       "id": "shared-enterprise-summary-implemented",
-      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx",
       "passed": true
     },
     {
       "id": "shared-keyboard-hint-implemented",
-      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx",
       "passed": true
     },
     {
       "id": "shared-proof-detail-implemented",
-      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx",
       "passed": true
     },
     {
       "id": "packs-route-uses-enterprise-ux",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-route-uses-enterprise-ux",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-route-uses-enterprise-ux",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "packs-test-covers-enterprise-ux",
-      "sourcePath": "uapi/tests/packsPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/packsPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "read-test-covers-enterprise-ux",
-      "sourcePath": "uapi/tests/readPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/readPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "deposit-test-covers-enterprise-ux",
-      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
       "passed": true
     },
     {

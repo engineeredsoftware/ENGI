@@ -167,28 +167,28 @@
           "passed": true
         },
         {
-          "file": "uapi/app/api/state/route.ts",
+          "file": "apps/uapi/app/api/state/route.ts",
           "requiredText": "getBitcodeAppContext().getState(principal)",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/api/read-review/route.ts",
+          "file": "apps/uapi/app/api/read-review/route.ts",
           "requiredText": "getBitcodeAppContext().getReadReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/api/make-bitcode-branch/route.ts",
+          "file": "apps/uapi/app/api/make-bitcode-branch/route.ts",
           "requiredText": "makeBitcodeBranch",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "filePresent": true,
           "evidencePresent": true,
@@ -204,21 +204,21 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
           "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/activityRoute.test.ts",
+          "file": "apps/uapi/tests/api/activityRoute.test.ts",
           "requiredText": "returns live activity with persisted execution reread and notification aggregation",
           "filePresent": true,
           "evidencePresent": true,
@@ -227,21 +227,21 @@
       ],
       "launchEvidenceChecks": [
         {
-          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
           "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/activityRoute.test.ts",
+          "file": "apps/uapi/tests/api/activityRoute.test.ts",
           "requiredText": "returns live activity with persisted execution reread and notification aggregation",
           "filePresent": true,
           "evidencePresent": true,
@@ -285,140 +285,140 @@
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationPageClient.tsx",
+          "file": "apps/uapi/app/application/ApplicationPageClient.tsx",
           "requiredText": "ApplicationReadScenarioPanel",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationPageClient.tsx",
+          "file": "apps/uapi/app/application/ApplicationPageClient.tsx",
           "requiredText": "ApplicationLiveSummaryStrip",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/application-transaction-readiness-source.ts",
+          "file": "apps/uapi/app/application/application-transaction-readiness-source.ts",
           "requiredText": "route_repository_context",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+          "file": "apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx",
           "requiredText": "Inventory source",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+          "file": "apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx",
           "requiredText": "Reconnect Connects to restore live write admission",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationLiveSummaryStrip.tsx",
+          "file": "apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx",
           "requiredText": "Settlement posture",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationLiveSummaryStrip.tsx",
+          "file": "apps/uapi/app/application/ApplicationLiveSummaryStrip.tsx",
           "requiredText": "Repository posture",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationFlowGuideCard.tsx",
+          "file": "apps/uapi/app/application/ApplicationFlowGuideCard.tsx",
           "requiredText": "repository-reconnect-required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationFlowGuideCard.tsx",
+          "file": "apps/uapi/app/application/ApplicationFlowGuideCard.tsx",
           "requiredText": "wallet-reconnect-required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/application-activity-history.ts",
+          "file": "apps/uapi/app/application/application-activity-history.ts",
           "requiredText": "status: draft.status || 'completed'",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationReadScenarioPanel.tsx",
+          "file": "apps/uapi/app/application/ApplicationReadScenarioPanel.tsx",
           "requiredText": "Read-fitting Exchange review",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/ApplicationClosureNativeSections.tsx",
+          "file": "apps/uapi/app/application/ApplicationClosureNativeSections.tsx",
           "requiredText": "Read closure as one sequence from reviewable Read admission",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/application-transaction-detail-snapshot.ts",
+          "file": "apps/uapi/app/application/application-transaction-detail-snapshot.ts",
           "requiredText": "fitQualities: coerceFitQualities",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/vcsRepositoriesInventoryParity.test.ts",
+          "file": "apps/uapi/tests/api/vcsRepositoriesInventoryParity.test.ts",
           "requiredText": "stored repository inventory and skips live provider reads",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+          "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
           "requiredText": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationLiveSummaryStrip.test.tsx",
+          "file": "apps/uapi/tests/applicationLiveSummaryStrip.test.tsx",
           "requiredText": "GitHub reconnect required · stored Exchange inventory",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationFlowGuideCard.test.tsx",
+          "file": "apps/uapi/tests/applicationFlowGuideCard.test.tsx",
           "requiredText": "repository-reconnect-required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationTransactionReadinessSource.test.ts",
+          "file": "apps/uapi/tests/applicationTransactionReadinessSource.test.ts",
           "requiredText": "route_repository_context",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationRepositoryContextPanel.test.tsx",
+          "file": "apps/uapi/tests/applicationRepositoryContextPanel.test.tsx",
           "requiredText": "Saved GitHub attachment found, but the live provider session must reconnect",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationReadScenarios.test.ts",
+          "file": "apps/uapi/tests/applicationReadScenarios.test.ts",
           "requiredText": "normalizes Exchange Read-fitting review state for Terminal review controls",
           "filePresent": true,
           "evidencePresent": true,
@@ -434,21 +434,21 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "uapi/app/application/application-experience-architecture.ts",
+          "file": "apps/uapi/app/application/application-experience-architecture.ts",
           "requiredText": "SIXTH_GATE_MVP_APPLICATION_MAP",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationExperienceArchitecture.test.ts",
+          "file": "apps/uapi/tests/applicationExperienceArchitecture.test.ts",
           "requiredText": "locks the post-fifth-gate application map to activity, transactions, conversations, and auxillaries",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/e2e/application.terminal.flow.spec.ts",
+          "file": "apps/uapi/tests/e2e/application.terminal.flow.spec.ts",
           "requiredText": "application route keeps read, selection, and repository-anchor write-through in one master-detail surface",
           "filePresent": true,
           "evidencePresent": true,
@@ -457,21 +457,21 @@
       ],
       "launchEvidenceChecks": [
         {
-          "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+          "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
           "requiredText": "SEVENTH_GATE_COMMERCIAL_TESTNET_LAUNCH_MAP",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationCommercialLaunchReadiness.test.ts",
+          "file": "apps/uapi/tests/applicationCommercialLaunchReadiness.test.ts",
           "requiredText": "locks the launch-readiness rows required after MVP closure",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/e2e/application.terminal.flow.spec.ts",
+          "file": "apps/uapi/tests/e2e/application.terminal.flow.spec.ts",
           "requiredText": "application route keeps read, selection, and repository-anchor write-through in one master-detail surface",
           "filePresent": true,
           "evidencePresent": true,
@@ -508,21 +508,21 @@
           "passed": true
         },
         {
-          "file": "uapi/app/application/application-read-scenarios.ts",
+          "file": "apps/uapi/app/application/application-read-scenarios.ts",
           "requiredText": "normalizeApplicationReadFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewRoute.test.ts",
+          "file": "apps/uapi/tests/api/readReviewRoute.test.ts",
           "requiredText": "presents a reviewable Read before fit search",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
@@ -538,14 +538,14 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "uapi/tests/api/readReviewRoute.test.ts",
+          "file": "apps/uapi/tests/api/readReviewRoute.test.ts",
           "requiredText": "presents a reviewable Read before fit search",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
@@ -568,14 +568,14 @@
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "readFittingReview",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+          "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
           "requiredText": "source-to-shares settlement artifacts",
           "filePresent": true,
           "evidencePresent": true,
@@ -729,7 +729,7 @@
           "passed": true
         },
         {
-          "file": "uapi/tests/api/conversationBranchRoute.test.ts",
+          "file": "apps/uapi/tests/api/conversationBranchRoute.test.ts",
           "requiredText": "copiedAttachmentCount",
           "filePresent": true,
           "evidencePresent": true,
@@ -752,21 +752,21 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "file": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "requiredText": "Multiple view modes (floating, sidebar, fullscreen, split-screen)",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/conversationsRouteClient.test.tsx",
+          "file": "apps/uapi/tests/conversationsRouteClient.test.tsx",
           "requiredText": "forceFullscreen=true",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/server.ts",
+          "file": "apps/chatgpt/src/server.ts",
           "requiredText": "connected-interface Bitcode Terminal companion",
           "filePresent": true,
           "evidencePresent": true,
@@ -775,21 +775,21 @@
       ],
       "launchEvidenceChecks": [
         {
-          "file": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "file": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "requiredText": "Multiple view modes (floating, sidebar, fullscreen, split-screen)",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/conversationsRouteClient.test.tsx",
+          "file": "apps/uapi/tests/conversationsRouteClient.test.tsx",
           "requiredText": "forceFullscreen=true",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/server.ts",
+          "file": "apps/chatgpt/src/server.ts",
           "requiredText": "connected-interface Bitcode Terminal companion",
           "filePresent": true,
           "evidencePresent": true,
@@ -821,196 +821,196 @@
       ],
       "evidenceChecks": [
         {
-          "file": "uapi/app/application/bitcode-transaction-readiness.ts",
+          "file": "apps/uapi/app/application/bitcode-transaction-readiness.ts",
           "requiredText": "canSettle",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/bitcode-transaction-readiness.ts",
+          "file": "apps/uapi/app/application/bitcode-transaction-readiness.ts",
           "requiredText": "repository reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/bitcode-transaction-readiness.ts",
+          "file": "apps/uapi/app/application/bitcode-transaction-readiness.ts",
           "requiredText": "wallet reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "file": "apps/uapi/app/application/bitcode-transaction-route-readiness.ts",
           "requiredText": "requireBitcodeSignedTransactionReadiness",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "file": "apps/uapi/app/application/bitcode-transaction-route-readiness.ts",
           "requiredText": "repository inventory",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/application/bitcode-transaction-route-readiness.ts",
+          "file": "apps/uapi/app/application/bitcode-transaction-route-readiness.ts",
           "requiredText": "readBitcodeWalletConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/api/auxillaries/data/route.ts",
+          "file": "apps/uapi/app/api/auxillaries/data/route.ts",
           "requiredText": "repositoryConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/api/auxillaries/data/route.ts",
+          "file": "apps/uapi/app/api/auxillaries/data/route.ts",
           "requiredText": "repositoryInventorySource",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/api/auxillaries/data/route.ts",
+          "file": "apps/uapi/app/api/auxillaries/data/route.ts",
           "requiredText": "resolveWalletConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
           "requiredText": "Connects",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
           "requiredText": "Reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx",
           "requiredText": "stored-first or live-fallback inventory contract",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
           "requiredText": "Saved verified wallet-provider signer posture exists, but the live signer session needs reconnect",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesProfilePane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx",
           "requiredText": "Profile",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/bitcodeTransactionReadiness.test.ts",
+          "file": "apps/uapi/tests/bitcodeTransactionReadiness.test.ts",
           "requiredText": "signed settlement remains staged",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/bitcodeTransactionReadiness.test.ts",
+          "file": "apps/uapi/tests/bitcodeTransactionReadiness.test.ts",
           "requiredText": "wallet reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/userDataRoute.test.ts",
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
           "requiredText": "repositoryConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/userDataRoute.test.ts",
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
           "requiredText": "repositoryInventorySource",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/userDataRoute.test.ts",
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
           "requiredText": "walletConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/auxillariesConnectsPane.test.tsx",
+          "file": "apps/uapi/tests/auxillariesConnectsPane.test.tsx",
           "requiredText": "stored Exchange inventory",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/auxillariesConnectsPane.test.tsx",
+          "file": "apps/uapi/tests/auxillariesConnectsPane.test.tsx",
           "requiredText": "Reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationCommandDeck.test.tsx",
+          "file": "apps/uapi/tests/applicationCommandDeck.test.tsx",
           "requiredText": "repository reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationClosureControlDeck.test.tsx",
+          "file": "apps/uapi/tests/applicationClosureControlDeck.test.tsx",
           "requiredText": "repository reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/applicationDepositComposerCard.test.tsx",
+          "file": "apps/uapi/tests/applicationDepositComposerCard.test.tsx",
           "requiredText": "repository reconnect required",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+          "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
           "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
           "requiredText": "Reconnect GitHub",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
           "requiredText": "live wallet-provider signing session is no longer available",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
           "requiredText": "outside the connected provider inventory",
           "filePresent": true,
           "evidencePresent": true,
@@ -1026,21 +1026,21 @@
       ],
       "mvpEvidenceChecks": [
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
           "requiredText": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+          "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
           "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/userDataRoute.test.ts",
+          "file": "apps/uapi/tests/userDataRoute.test.ts",
           "requiredText": "walletConnectionStatus",
           "filePresent": true,
           "evidencePresent": true,
@@ -1049,21 +1049,21 @@
       ],
       "launchEvidenceChecks": [
         {
-          "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+          "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
           "requiredText": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+          "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
           "requiredText": "wallet provider must reconnect before Bitcode can rely on live signing again",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+          "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
           "requiredText": "live wallet-provider signing session is no longer available",
           "filePresent": true,
           "evidencePresent": true,
@@ -1107,14 +1107,14 @@
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/tools.ts",
+          "file": "apps/chatgpt/src/tools.ts",
           "requiredText": "confirmed",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
           "requiredText": "rejects ChatGPT App connected-interface writes without explicit confirmation",
           "filePresent": true,
           "evidencePresent": true,
@@ -1137,14 +1137,14 @@
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
           "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/server.ts",
+          "file": "apps/chatgpt/src/server.ts",
           "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
           "filePresent": true,
           "evidencePresent": true,
@@ -1160,14 +1160,14 @@
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+          "file": "apps/chatgpt/src/__tests__/tools.test.ts",
           "requiredText": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
           "filePresent": true,
           "evidencePresent": true,
           "passed": true
         },
         {
-          "file": "packages/external-apps/chatgpt/src/server.ts",
+          "file": "apps/chatgpt/src/server.ts",
           "requiredText": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
           "filePresent": true,
           "evidencePresent": true,

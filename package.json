@@ -34,7 +34,9 @@
     "packages/host-commands/*",
     "packages/web-search/*",
     "packages/security/*",
-    "uapi",
+    "apps/*",
+    "apps/uapi",
+    "images/*",
     "admin"
   ],
   "devDependencies": {
@@ -56,7 +58,7 @@
     }
   },
   "scripts": {
-    "docs:refresh": "npm --prefix packages/generic-mcps/bitcode run docs:generate && npm --prefix packages/generic-mcps/bitcode run docs:openapi",
+    "docs:refresh": "npm --prefix apps/mcp run docs:generate && npm --prefix apps/mcp run docs:openapi",
     "verify:ui": "node scripts/verify-ui-ssot.mjs",
     "generate:proven": "node scripts/generate-bitcode-proven.mjs",
     "promote:canon": "node scripts/promote-bitcode-canon.mjs",

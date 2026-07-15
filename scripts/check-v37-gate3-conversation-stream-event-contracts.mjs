@@ -142,15 +142,15 @@ function main() {
     'packages/api/src/routes/conversations.ts',
     'scripts/generate-v37-conversation-stream-event-contract.mjs',
     'scripts/check-v37-gate3-conversation-stream-event-contracts.mjs',
-    'uapi/app/api/conversations/_shared.ts',
-    'uapi/hooks/useConversationStream.ts',
-    'uapi/app/conversations/components/hooks/usePipelineState.ts',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
-    'uapi/tests/api/conversationStreamEventContract.test.ts',
-    'uapi/tests/conversationStreamPipelineLog.test.tsx',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/api/conversations/_shared.ts',
+    'apps/uapi/hooks/useConversationStream.ts',
+    'apps/uapi/app/conversations/components/hooks/usePipelineState.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'apps/uapi/tests/api/conversationStreamEventContract.test.ts',
+    'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/jest.config.cjs',
     'BITCODE_SPEC_V37.md',
     'BITCODE_SPEC_V37_DELTA.md',
     'BITCODE_SPEC_V37_NOTES.md',
@@ -158,7 +158,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/conversations/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -200,7 +200,7 @@ function main() {
       ]);
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationStreamEventContract.test.ts',
@@ -277,15 +277,15 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
-  const conversationsReadme = read(root, 'uapi/app/conversations/README.md');
+  const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const packageJson = read(root, 'package.json');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
   const streamEvents = read(root, 'packages/api/src/conversations/stream-events.ts');
-  const streamHook = read(root, 'uapi/hooks/useConversationStream.ts');
-  const pipelineState = read(root, 'uapi/app/conversations/components/hooks/usePipelineState.ts');
-  const logHeader = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
+  const streamHook = read(root, 'apps/uapi/hooks/useConversationStream.ts');
+  const pipelineState = read(root, 'apps/uapi/app/conversations/components/hooks/usePipelineState.ts');
+  const logHeader = read(root, 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
 
   for (const phrase of [
     'ConversationStreamEvent',
@@ -323,7 +323,7 @@ function main() {
   assertCheck(failures, logHeader.includes('promptDisclosurePosture'), 'Execution log header must show prompt disclosure posture.');
   assertCheck(failures, logHeader.includes('resultDisclosurePosture'), 'Execution log header must show result disclosure posture.');
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8',
   }).trim();

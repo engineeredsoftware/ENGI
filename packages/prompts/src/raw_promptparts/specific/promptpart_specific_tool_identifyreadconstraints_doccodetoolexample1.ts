@@ -14,4 +14,4 @@
 import type { PromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_TOOL_IDENTIFYREADCONSTRAINTS_DOCCODETOOLEXAMPLE1: PromptPart =
-  "Example 1 - Repository constraint: identifyReadConstraints({ readContext: { primaryIntent: \"modify auth route\" }, repositoryContext: { protectedAreas: [\"uapi/app/api/auth\"] } }) -> emits ownership, test, and server-readiness constraints before code synthesis." as PromptPart;
+  "Example 1 - Repository constraint: identifyReadConstraints({ readContext: { primaryIntent: \"modify auth route\" }, repositoryContext: { protectedAreas: [\"apps/uapi/app/api/auth\"] } }) -> emits ownership, test, and server-readiness constraints before code synthesis." as PromptPart;

@@ -346,14 +346,14 @@
         "depositors",
         "interface_consumers"
       ],
-      "owner": "uapi",
+      "owner": "apps/uapi",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
-        "uapi/app/docs/page.tsx",
-        "uapi/app/docs/[slug]/page.tsx",
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/docs/DocsArticlePage.tsx",
-        "uapi/app/(root)/components/PublicDocsPageContent.tsx"
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/DocsArticlePage.tsx",
+        "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx"
       ],
       "linkedSpecSections": [
         "V35 accepted boundaries and reopen conditions",
@@ -363,7 +363,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "uapi/app/docs/[slug]/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx",
         "docs/api/conversations-openapi.yaml"
       ],
       "proofCoverage": [
@@ -395,23 +395,23 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/[slug]/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/DocsArticlePage.tsx",
+          "sourceRoot": "apps/uapi/app/docs/DocsArticlePage.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/(root)/components/PublicDocsPageContent.tsx",
+          "sourceRoot": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
           "present": true
         }
       ],
@@ -503,13 +503,13 @@
         "interface_consumers",
         "operators"
       ],
-      "owner": "uapi",
+      "owner": "apps/uapi",
       "disclosureClass": "public_source_safe",
       "sourceRoots": [
-        "uapi/app/api/read-review/route.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/route.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-        "uapi/app/api/executions/stream/route.ts",
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/executions/stream/route.ts",
         "docs/api/conversations-openapi.yaml"
       ],
       "linkedSpecSections": [
@@ -520,8 +520,8 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "uapi/tests/api/pipelineHarnessRoute.test.ts",
-        "uapi/tests/readReviewRoute.test.ts"
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/readReviewRoute.test.ts"
       ],
       "proofCoverage": [
         "route-contract-test",
@@ -552,19 +552,19 @@
       ],
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/api/read-review/route.ts",
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/executions/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
           "present": true
         },
         {
@@ -587,8 +587,8 @@
       "sourceRoots": [
         "packages/api/README.md",
         "packages/mcp-generics/README.md",
-        "packages/external-apps/chatgpt/README.md",
-        "uapi/README.md",
+        "apps/chatgpt/README.md",
+        "apps/uapi/README.md",
         "docs/api/conversations-openapi.yaml"
       ],
       "linkedSpecSections": [
@@ -603,7 +603,7 @@
       ],
       "routePackageBindings": [
         "packages/mcp-generics/src/mcp-server",
-        "packages/external-apps/chatgpt/src"
+        "apps/chatgpt/src"
       ],
       "proofCoverage": [
         "interface-contract-test",
@@ -642,11 +642,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/README.md",
+          "sourceRoot": "apps/uapi/README.md",
           "present": true
         },
         {
@@ -844,8 +844,8 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "uapi/app/api/executions/stream/route.ts",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx"
+        "apps/uapi/app/api/executions/stream/route.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "proofCoverage": [
         "telemetry-proof-hook-check",
@@ -984,7 +984,7 @@
         "packages/security/README.md",
         "packages/auth/README.md",
         "packages/btd/README.md",
-        "uapi/.ai/AGENTS.md"
+        "apps/uapi/.ai/AGENTS.md"
       ],
       "linkedSpecSections": [
         "Identity, authorization, and sensitive flow",
@@ -996,7 +996,7 @@
         ".bitcode/v35-documentation-surface-catalog.json"
       ],
       "routePackageBindings": [
-        "uapi/tests/protocolCommercialBoundary.test.ts",
+        "apps/uapi/tests/protocolCommercialBoundary.test.ts",
         "packages/btd/__tests__/interface-authorization-policy.test.ts"
       ],
       "proofCoverage": [
@@ -1044,7 +1044,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/.ai/AGENTS.md",
+          "sourceRoot": "apps/uapi/.ai/AGENTS.md",
           "present": true
         }
       ],
@@ -1147,23 +1147,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/[slug]/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/DocsArticlePage.tsx",
+          "sourceRoot": "apps/uapi/app/docs/DocsArticlePage.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/(root)/components/PublicDocsPageContent.tsx",
+          "sourceRoot": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
           "present": true
         }
       ]
@@ -1199,19 +1199,19 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/api/read-review/route.ts",
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/executions/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
           "present": true
         },
         {
@@ -1233,11 +1233,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/README.md",
+          "sourceRoot": "apps/uapi/README.md",
           "present": true
         },
         {
@@ -1367,7 +1367,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/.ai/AGENTS.md",
+          "sourceRoot": "apps/uapi/.ai/AGENTS.md",
           "present": true
         }
       ]

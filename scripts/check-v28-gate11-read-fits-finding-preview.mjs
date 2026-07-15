@@ -92,7 +92,7 @@ const checks = [
     ],
   },
   {
-    file: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     needles: [
       'sourceSafePreview',
       'Source-safe preview and settlement readback',

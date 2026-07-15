@@ -5,169 +5,169 @@ import { existsSync, readFileSync } from 'node:fs';
 const serverSource = readFileSync(new URL('../server.js', import.meta.url), 'utf8');
 const apiTestSource = readFileSync(new URL('./api.test.js', import.meta.url), 'utf8');
 const workflowTestSource = readFileSync(new URL('./workflow.integration.test.js', import.meta.url), 'utf8');
-const sonnerSource = readFileSync(new URL('../../uapi/components/base/shadcn/sonner.tsx', import.meta.url), 'utf8');
-const footerSource = readFileSync(new URL('../../uapi/components/base/bitcode/layout/footer.tsx', import.meta.url), 'utf8');
+const sonnerSource = readFileSync(new URL('../../apps/uapi/components/base/shadcn/sonner.tsx', import.meta.url), 'utf8');
+const footerSource = readFileSync(new URL('../../apps/uapi/components/base/bitcode/layout/footer.tsx', import.meta.url), 'utf8');
 const bitcodePublicCopySource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/layout/bitcode-public-copy.ts', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts', import.meta.url),
   'utf8',
 );
 const bitcodePublicExplainersSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/layout/bitcode-public-explainers.ts', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts', import.meta.url),
   'utf8',
 );
-const publicDocsPageContentSource = readFileSync(new URL('../../uapi/app/(root)/components/PublicDocsPageContent.tsx', import.meta.url), 'utf8');
-const footerAnimationsSource = readFileSync(new URL('../../uapi/styles/footer-animations.css', import.meta.url), 'utf8');
-const fillGapsSource = readFileSync(new URL('../../uapi/app/fill-gaps.tsx', import.meta.url), 'utf8');
-const featureFlagsSource = readFileSync(new URL('../../uapi/config/features.ts', import.meta.url), 'utf8');
-const heroClientSource = readFileSync(new URL('../../uapi/app/hero-client.tsx', import.meta.url), 'utf8');
-const terminalPageSource = readFileSync(new URL('../../uapi/app/terminal/page.tsx', import.meta.url), 'utf8');
-const terminalPageClientSource = readFileSync(new URL('../../uapi/app/terminal/TerminalPageClient.tsx', import.meta.url), 'utf8');
+const publicDocsPageContentSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/PublicDocsPageContent.tsx', import.meta.url), 'utf8');
+const footerAnimationsSource = readFileSync(new URL('../../apps/uapi/styles/footer-animations.css', import.meta.url), 'utf8');
+const fillGapsSource = readFileSync(new URL('../../apps/uapi/app/fill-gaps.tsx', import.meta.url), 'utf8');
+const featureFlagsSource = readFileSync(new URL('../../apps/uapi/config/features.ts', import.meta.url), 'utf8');
+const heroClientSource = readFileSync(new URL('../../apps/uapi/app/hero-client.tsx', import.meta.url), 'utf8');
+const terminalPageSource = readFileSync(new URL('../../apps/uapi/app/terminal/page.tsx', import.meta.url), 'utf8');
+const terminalPageClientSource = readFileSync(new URL('../../apps/uapi/app/terminal/TerminalPageClient.tsx', import.meta.url), 'utf8');
 const terminalTransactionsSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-transactions.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-transactions.ts', import.meta.url),
   'utf8',
 );
 const terminalRunDataSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-run-data.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-run-data.ts', import.meta.url),
   'utf8',
 );
 const terminalWorkspaceCopySource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-workspace-copy.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-workspace-copy.ts', import.meta.url),
   'utf8',
 );
 const terminalTransactionActivitySurfaceSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionActivitySurface.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionDetailSurfaceSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionDetailSurface.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionDetailHeroSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionDetailHero.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionIdentityCardSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionIdentityCard.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionIdentityCard.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionClosureCardSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionClosureCard.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionClosureCard.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionProofsCardSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionProofsCard.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionProofsCard.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionHistoryCardSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionHistoryCard.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionHistoryCard.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionDetailActionBarSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionDetailActionBar.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx', import.meta.url),
   'utf8',
 );
 const terminalClosureControlDeckSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalClosureControlDeck.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalClosureControlDeck.tsx', import.meta.url),
   'utf8',
 );
 const terminalExperienceFrameSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalExperienceFrame.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalExperienceFrame.tsx', import.meta.url),
   'utf8',
 );
 const terminalWorkspaceRailSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalWorkspaceRail.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalWorkspaceRail.tsx', import.meta.url),
   'utf8',
 );
 const terminalMockTransactionDetailsSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalMockTransactionDetails.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalMockTransactionDetails.tsx', import.meta.url),
   'utf8',
 );
 const terminalCommandPresentationSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-command-presentation.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-command-presentation.ts', import.meta.url),
   'utf8',
 );
 const terminalFlowGuideSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-flow-guide.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-flow-guide.ts', import.meta.url),
   'utf8',
 );
 const terminalTransactionWorkspaceSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalTransactionWorkspace.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx', import.meta.url),
   'utf8',
 );
 const terminalDepositReadWorkbenchSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalDepositReadWorkbench.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx', import.meta.url),
   'utf8',
 );
 const terminalReadScenarioPanelSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalReadScenarioPanel.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalReadScenarioPanel.tsx', import.meta.url),
   'utf8',
 );
 const terminalClosureNativeSectionsSource = readFileSync(
-  new URL('../../uapi/app/terminal/TerminalClosureNativeSections.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/TerminalClosureNativeSections.tsx', import.meta.url),
   'utf8',
 );
 const terminalExperienceArchitectureSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-experience-architecture.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-experience-architecture.ts', import.meta.url),
   'utf8',
 );
 const terminalWorkspaceExplainersSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-workspace-explainers.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-workspace-explainers.ts', import.meta.url),
   'utf8',
 );
-const terminalReadmeSource = readFileSync(new URL('../../uapi/app/terminal/README.md', import.meta.url), 'utf8');
+const terminalReadmeSource = readFileSync(new URL('../../apps/uapi/app/terminal/README.md', import.meta.url), 'utf8');
 const agenticExecutionSource = readFileSync(
   new URL('../../packages/api/src/executions/agentic-execution.ts', import.meta.url),
   'utf8',
 );
 const bitcodeTransactionsTableSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx', import.meta.url),
   'utf8',
 );
 const bitcodeTransactionsActiveFiltersSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/execution/BitcodeTransactionsActiveFilters.tsx', import.meta.url),
   'utf8',
 );
 const bitcodeTransactionsOverviewSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/execution/BitcodeTransactionsOverview.tsx', import.meta.url),
   'utf8',
 );
 const executionReadmeSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/execution/README.md', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/execution/README.md', import.meta.url),
   'utf8',
 );
-const marketingScreenshotSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingScreenshotSection.tsx', import.meta.url), 'utf8');
-const conversationsStylesSource = readFileSync(new URL('../../uapi/styles/conversations.css', import.meta.url), 'utf8');
+const marketingScreenshotSectionSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingScreenshotSection.tsx', import.meta.url), 'utf8');
+const conversationsStylesSource = readFileSync(new URL('../../apps/uapi/styles/conversations.css', import.meta.url), 'utf8');
 const conversationsRouteClientSource = readFileSync(
-  new URL('../../uapi/app/conversations/ConversationsRouteClient.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/conversations/ConversationsRouteClient.tsx', import.meta.url),
   'utf8',
 );
-const conversationsReadmeSource = readFileSync(new URL('../../uapi/app/conversations/README.md', import.meta.url), 'utf8');
+const conversationsReadmeSource = readFileSync(new URL('../../apps/uapi/app/conversations/README.md', import.meta.url), 'utf8');
 const conversationsOverlaySource = readFileSync(
-  new URL('../../uapi/app/conversations/components/ConversationsOverlay.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/conversations/components/ConversationsOverlay.tsx', import.meta.url),
   'utf8',
 );
 const conversationsEnhancedRichTextInputSource = readFileSync(
-  new URL('../../uapi/app/conversations/components/ConversationsEnhancedRichTextInput.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/conversations/components/ConversationsEnhancedRichTextInput.tsx', import.meta.url),
   'utf8',
 );
 const conversationsListSource = readFileSync(
-  new URL('../../uapi/app/conversations/components/ConversationsList.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/conversations/components/ConversationsList.tsx', import.meta.url),
   'utf8',
 );
 const conversationsSidebarLogsSource = readFileSync(
-  new URL('../../uapi/app/conversations/components/ConversationsSidebarLogs.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/conversations/components/ConversationsSidebarLogs.tsx', import.meta.url),
   'utf8',
 );
-const conversationSharedSource = readFileSync(new URL('../../uapi/app/api/conversations/_shared.ts', import.meta.url), 'utf8');
-const orbitalStylesSource = readFileSync(new URL('../../uapi/styles/orbital.css', import.meta.url), 'utf8');
-const webhookRouteSource = readFileSync(new URL('../../uapi/app/api/webhook/route.ts', import.meta.url), 'utf8');
-const webhookVerifySource = readFileSync(new URL('../../uapi/app/api/webhook/verify.ts', import.meta.url), 'utf8');
-const webhookRouteTestSource = readFileSync(new URL('../../uapi/tests/webhookRoute.test.ts', import.meta.url), 'utf8');
-const uapiPackageSource = readFileSync(new URL('../../uapi/package.json', import.meta.url), 'utf8');
-const uapiPackageLockPath = new URL('../../uapi/package-lock.json', import.meta.url);
-const uapiPnpmLockPath = new URL('../../uapi/pnpm-lock.yaml', import.meta.url);
-const landingTestSource = readFileSync(new URL('../../uapi/tests/marketingLandingPage.test.tsx', import.meta.url), 'utf8');
-const footerTestSource = readFileSync(new URL('../../uapi/tests/footerPublicShell.test.tsx', import.meta.url), 'utf8');
+const conversationSharedSource = readFileSync(new URL('../../apps/uapi/app/api/conversations/_shared.ts', import.meta.url), 'utf8');
+const orbitalStylesSource = readFileSync(new URL('../../apps/uapi/styles/orbital.css', import.meta.url), 'utf8');
+const webhookRouteSource = readFileSync(new URL('../../apps/uapi/app/api/webhook/route.ts', import.meta.url), 'utf8');
+const webhookVerifySource = readFileSync(new URL('../../apps/uapi/app/api/webhook/verify.ts', import.meta.url), 'utf8');
+const webhookRouteTestSource = readFileSync(new URL('../../apps/uapi/tests/webhookRoute.test.ts', import.meta.url), 'utf8');
+const uapiPackageSource = readFileSync(new URL('../../apps/uapi/package.json', import.meta.url), 'utf8');
+const uapiPackageLockPath = new URL('../../apps/uapi/package-lock.json', import.meta.url);
+const uapiPnpmLockPath = new URL('../../apps/uapi/pnpm-lock.yaml', import.meta.url);
+const landingTestSource = readFileSync(new URL('../../apps/uapi/tests/marketingLandingPage.test.tsx', import.meta.url), 'utf8');
+const footerTestSource = readFileSync(new URL('../../apps/uapi/tests/footerPublicShell.test.tsx', import.meta.url), 'utf8');
 const externalRealizationSource = readFileSync(new URL('../src/canonical/v24-external-realization.js', import.meta.url), 'utf8');
 const v24LocalExecutorsSource = readFileSync(new URL('../src/canonical/v24-local-executors.js', import.meta.url), 'utf8');
 const v24RemoteAdaptersSource = readFileSync(new URL('../src/canonical/v24-remote-adapters.js', import.meta.url), 'utf8');
@@ -182,128 +182,128 @@ const v18MatricesSource = readFileSync(new URL('../src/canonical/v18-matrices.js
 const stateSource = readFileSync(new URL('../data/state.json', import.meta.url), 'utf8');
 const coreTestSource = readFileSync(new URL('./core.test.js', import.meta.url), 'utf8');
 const hostCapabilitiesSource = readFileSync(new URL('../HOST_CAPABILITIES.json', import.meta.url), 'utf8');
-const marketingMultiAgentShowcasePath = new URL('../../uapi/app/(root)/components/MarketingMultiAgentShowcase.tsx', import.meta.url);
-const marketingFeaturesGridSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFeaturesGrid.tsx', import.meta.url), 'utf8');
-const marketingComputeSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingComputeSection.tsx', import.meta.url), 'utf8');
-const marketingMarketplaceSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingMarketplaceSection.tsx', import.meta.url), 'utf8');
-const marketingFaqSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFaqSection.tsx', import.meta.url), 'utf8');
-const marketingSmsPhonePreviewSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingSmsPhonePreview.tsx', import.meta.url), 'utf8');
-const marketingCompetitorTableSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingCompetitorTableSection.tsx', import.meta.url), 'utf8');
-const marketingCompetitorTableStylesSource = readFileSync(new URL('../../uapi/app/(root)/components/marketing-competitor-table-section.module.css', import.meta.url), 'utf8');
-const executionsPageClientSource = readFileSync(new URL('../../uapi/app/executions/components/ExecutionsPageClient.tsx', import.meta.url), 'utf8');
-const executionsToggleButtonsSource = readFileSync(new URL('../../uapi/app/executions/components/ExecutionsToggleButtons.tsx', import.meta.url), 'utf8');
-const uapiFeatureFlagsSource = readFileSync(new URL('../../uapi/config/featureFlags.ts', import.meta.url), 'utf8');
-const executionOptionToggleSource = readFileSync(new URL('../../uapi/components/base/bitcode/execution/execution-option-toggle.tsx', import.meta.url), 'utf8');
-const executionToggleButtonsSource = readFileSync(new URL('../../uapi/components/base/bitcode/execution/toggle-buttons.tsx', import.meta.url), 'utf8');
+const marketingMultiAgentShowcasePath = new URL('../../apps/uapi/app/(root)/components/MarketingMultiAgentShowcase.tsx', import.meta.url);
+const marketingFeaturesGridSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingFeaturesGrid.tsx', import.meta.url), 'utf8');
+const marketingComputeSectionSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingComputeSection.tsx', import.meta.url), 'utf8');
+const marketingMarketplaceSectionSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingMarketplaceSection.tsx', import.meta.url), 'utf8');
+const marketingFaqSectionSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingFaqSection.tsx', import.meta.url), 'utf8');
+const marketingSmsPhonePreviewSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingSmsPhonePreview.tsx', import.meta.url), 'utf8');
+const marketingCompetitorTableSectionSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingCompetitorTableSection.tsx', import.meta.url), 'utf8');
+const marketingCompetitorTableStylesSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/marketing-competitor-table-section.module.css', import.meta.url), 'utf8');
+const executionsPageClientSource = readFileSync(new URL('../../apps/uapi/app/executions/components/ExecutionsPageClient.tsx', import.meta.url), 'utf8');
+const executionsToggleButtonsSource = readFileSync(new URL('../../apps/uapi/app/executions/components/ExecutionsToggleButtons.tsx', import.meta.url), 'utf8');
+const uapiFeatureFlagsSource = readFileSync(new URL('../../apps/uapi/config/featureFlags.ts', import.meta.url), 'utf8');
+const executionOptionToggleSource = readFileSync(new URL('../../apps/uapi/components/base/bitcode/execution/execution-option-toggle.tsx', import.meta.url), 'utf8');
+const executionToggleButtonsSource = readFileSync(new URL('../../apps/uapi/components/base/bitcode/execution/toggle-buttons.tsx', import.meta.url), 'utf8');
 const deliverableToolsIndexSource = readFileSync(new URL('../../packages/asset-packs-pipelines/domain/src/tools/index.ts', import.meta.url), 'utf8');
 const multiPipelinePackagePath = new URL('../../packages/pipelines/multi', import.meta.url);
-const preprocessTogglePath = new URL('../../uapi/components/base/bitcode/execution/preprocess-toggle.tsx', import.meta.url);
-const evidenceDocumentTemplatesSource = readFileSync(new URL('../../uapi/hooks/useEvidenceDocumentTemplates.ts', import.meta.url), 'utf8');
-const orbitalsConnectsEmailSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx', import.meta.url), 'utf8');
-const pipelineToastsSource = readFileSync(new URL('../../uapi/components/base/bitcode/toast/pipeline-toasts.ts', import.meta.url), 'utf8');
-const pipelineExecutionLogSource = readFileSync(new URL('../../uapi/components/base/bitcode/execution/pipeline-execution-log.tsx', import.meta.url), 'utf8');
-const auxillariesProviderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProvider.tsx', import.meta.url), 'utf8');
-const auxillariesSurfaceSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesSurface.tsx', import.meta.url), 'utf8');
-const auxillariesContentSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesContent.tsx', import.meta.url), 'utf8');
-const auxillaryPaneMetaSource = readFileSync(new URL('../../uapi/app/auxillaries/components/auxillary-pane-meta.ts', import.meta.url), 'utf8');
-const auxillariesLoginPaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesLoginPane.tsx', import.meta.url), 'utf8');
-const auxillariesProfilePaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', import.meta.url), 'utf8');
-const auxillariesConnectsPaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', import.meta.url), 'utf8');
-const auxillariesInterfacesPaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx', import.meta.url), 'utf8');
-const auxillariesBtdPaneSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', import.meta.url), 'utf8');
-const auxillariesProfilePaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesProfilePaneHeader.tsx', import.meta.url), 'utf8');
-const auxillariesConnectsPaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader.tsx', import.meta.url), 'utf8');
-const auxillariesInterfacesPaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader.tsx', import.meta.url), 'utf8');
-const auxillariesBtdPaneHeaderSource = readFileSync(new URL('../../uapi/app/auxillaries/components/headers/AuxillariesBTDPaneHeader.tsx', import.meta.url), 'utf8');
+const preprocessTogglePath = new URL('../../apps/uapi/components/base/bitcode/execution/preprocess-toggle.tsx', import.meta.url);
+const evidenceDocumentTemplatesSource = readFileSync(new URL('../../apps/uapi/hooks/useEvidenceDocumentTemplates.ts', import.meta.url), 'utf8');
+const orbitalsConnectsEmailSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx', import.meta.url), 'utf8');
+const pipelineToastsSource = readFileSync(new URL('../../apps/uapi/components/base/bitcode/toast/pipeline-toasts.ts', import.meta.url), 'utf8');
+const pipelineExecutionLogSource = readFileSync(new URL('../../apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx', import.meta.url), 'utf8');
+const auxillariesProviderSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesProvider.tsx', import.meta.url), 'utf8');
+const auxillariesSurfaceSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx', import.meta.url), 'utf8');
+const auxillariesContentSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesContent.tsx', import.meta.url), 'utf8');
+const auxillaryPaneMetaSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts', import.meta.url), 'utf8');
+const auxillariesLoginPaneSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesLoginPane.tsx', import.meta.url), 'utf8');
+const auxillariesProfilePaneSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx', import.meta.url), 'utf8');
+const auxillariesConnectsPaneSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx', import.meta.url), 'utf8');
+const auxillariesInterfacesPaneSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx', import.meta.url), 'utf8');
+const auxillariesBtdPaneSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx', import.meta.url), 'utf8');
+const auxillariesProfilePaneHeaderSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/headers/AuxillariesProfilePaneHeader.tsx', import.meta.url), 'utf8');
+const auxillariesConnectsPaneHeaderSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/headers/AuxillariesConnectsPaneHeader.tsx', import.meta.url), 'utf8');
+const auxillariesInterfacesPaneHeaderSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader.tsx', import.meta.url), 'utf8');
+const auxillariesBtdPaneHeaderSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/headers/AuxillariesBTDPaneHeader.tsx', import.meta.url), 'utf8');
 const auxillariesOrganizationSettingsSource = readFileSync(
-  new URL('../../uapi/app/auxillaries/components/organization/OrganizationSettings.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/auxillaries/components/organization/OrganizationSettings.tsx', import.meta.url),
   'utf8',
 );
 const auxillariesBtdTreasuryManagementSource = readFileSync(
-  new URL('../../uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url),
   'utf8',
 );
-const auxillariesPaneTitleSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/PaneTitle.tsx', import.meta.url), 'utf8');
-const auxillariesOnboardingInfoBoxSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/OnboardingInfoBox.tsx', import.meta.url), 'utf8');
-const auxillariesAfterOnboardingOverlaySource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/AfterOnboardingOverlay.tsx', import.meta.url), 'utf8');
-const auxillariesPreferenceCardsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/AuxillariesPreferenceCards.tsx', import.meta.url), 'utf8');
-const auxillariesStatGridSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/AuxillariesStatGrid.tsx', import.meta.url), 'utf8');
-const auxillariesWorkspaceSectionSource = readFileSync(new URL('../../uapi/app/auxillaries/components/shared/AuxillariesWorkspaceSection.tsx', import.meta.url), 'utf8');
-const auxillariesGlobalModelSelectionSource = readFileSync(new URL('../../uapi/app/auxillaries/components/models/GlobalModelSelection.tsx', import.meta.url), 'utf8');
-const auxillariesSystemPromptSectionSource = readFileSync(new URL('../../uapi/app/auxillaries/components/models/SystemPromptSection.tsx', import.meta.url), 'utf8');
-const auxillariesDataSharingPanelSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesDataSharingPanel.tsx', import.meta.url), 'utf8');
-const auxillaryPaneExplainersSource = readFileSync(new URL('../../uapi/app/auxillaries/components/auxillary-pane-explainers.ts', import.meta.url), 'utf8');
-const auxillariesProfilePaneStylesSource = readFileSync(new URL('../../uapi/app/auxillaries/components/profile-pane.module.css', import.meta.url), 'utf8');
-const auxillaryOnboardingContractSource = readFileSync(new URL('../../uapi/app/auxillaries/auxillary-onboarding-contract.ts', import.meta.url), 'utf8');
-const userDataContextSource = readFileSync(new URL('../../uapi/context/UserDataContext.tsx', import.meta.url), 'utf8');
-const useUserDataSource = readFileSync(new URL('../../uapi/hooks/useUserData.ts', import.meta.url), 'utf8');
-const onboardingVisualSpecSource = readFileSync(new URL('../../uapi/tests/e2e/onboarding.visual.spec.ts', import.meta.url), 'utf8');
-const onboardingFullFlowSpecSource = readFileSync(new URL('../../uapi/tests/e2e/onboarding-full-flow.spec.ts', import.meta.url), 'utf8');
-const auxillariesHelperSource = readFileSync(new URL('../../uapi/tests/e2e/auxillaries.helpers.ts', import.meta.url), 'utf8');
-const auxillariesBtdFlowsSpecSource = readFileSync(new URL('../../uapi/tests/e2e/auxillaries.btd.flows.spec.ts', import.meta.url), 'utf8');
-const auxillariesConnectionsFlowsSpecPath = new URL('../../uapi/tests/e2e/auxillaries.connections.flows.spec.ts', import.meta.url);
-const auxillariesProfileSpecPath = new URL('../../uapi/tests/e2e/auxillaries.profile.spec.ts', import.meta.url);
-const auxillariesInterfacesFlowsSpecPath = new URL('../../uapi/tests/e2e/auxillaries.interfaces.flows.spec.ts', import.meta.url);
-const auxillariesNavigationSpecPath = new URL('../../uapi/tests/e2e/auxillaries.navigation.spec.ts', import.meta.url);
-const auxillariesBtdFlowsSpecPath = new URL('../../uapi/tests/e2e/auxillaries.btd.flows.spec.ts', import.meta.url);
-const auxillariesBtdIntervalSpecPath = new URL('../../uapi/tests/e2e/auxillaries.btd.interval.active.spec.ts', import.meta.url);
-const auxillariesBtdChartNoDataSpecPath = new URL('../../uapi/tests/e2e/auxillaries.btd.chart.nodata.spec.ts', import.meta.url);
-const accountBtdVisualSpecPath = new URL('../../uapi/tests/e2e/account.btd.visual.spec.ts', import.meta.url);
-const orbitalHelperPath = new URL('../../uapi/tests/e2e/orbital.helpers.ts', import.meta.url);
-const orbitalConnectionsFlowsSpecPath = new URL('../../uapi/tests/e2e/orbital.connections.flows.spec.ts', import.meta.url);
-const orbitalProfileSpecPath = new URL('../../uapi/tests/e2e/orbital.profile.spec.ts', import.meta.url);
-const orbitalModelsFlowsSpecPath = new URL('../../uapi/tests/e2e/orbital.models.flows.spec.ts', import.meta.url);
-const orbitalNavigationSpecPath = new URL('../../uapi/tests/e2e/orbital.navigation.spec.ts', import.meta.url);
-const orbitalCreditsFlowsSpecPath = new URL('../../uapi/tests/e2e/orbital.credits.flows.spec.ts', import.meta.url);
-const orbitalCreditsIntervalSpecPath = new URL('../../uapi/tests/e2e/orbital.credits.interval.active.spec.ts', import.meta.url);
-const orbitalCreditsChartNoDataSpecPath = new URL('../../uapi/tests/e2e/orbital.credits.chart.nodata.spec.ts', import.meta.url);
-const accountCreditsVisualSpecPath = new URL('../../uapi/tests/e2e/account.credits.visual.spec.ts', import.meta.url);
-const checkoutCallbackClientPath = new URL('../../uapi/app/checkout/callback/CheckoutCallbackClient.tsx', import.meta.url);
-const checkoutCallbackPagePath = new URL('../../uapi/app/checkout/callback/page.tsx', import.meta.url);
-const createCheckoutSessionRoutePath = new URL('../../uapi/app/api/create-checkout-session/route.ts', import.meta.url);
-const fulfillCheckoutSessionRoutePath = new URL('../../uapi/app/api/fulfill-checkout-session/route.ts', import.meta.url);
-const lowBtdReminderRouteSource = readFileSync(new URL('../../uapi/app/api/notifications/low-btd-reminder/route.ts', import.meta.url), 'utf8');
-const outOfBtdRouteSource = readFileSync(new URL('../../uapi/app/api/notifications/out-of-btd/route.ts', import.meta.url), 'utf8');
-const btdTransferRouteSource = readFileSync(new URL('../../uapi/app/api/notifications/btd-transfer/route.ts', import.meta.url), 'utf8');
-const apiClientSource = readFileSync(new URL('../../uapi/networking/api-client.ts', import.meta.url), 'utf8');
-const btdTrackerSource = readFileSync(new URL('../../uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url), 'utf8');
-const marketingPricingSectionSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingPricingSection.tsx', import.meta.url), 'utf8');
-const nextConfigSource = readFileSync(new URL('../../uapi/next.config.mjs', import.meta.url), 'utf8');
-const securityHeadersSource = readFileSync(new URL('../../uapi/middleware/security-headers.ts', import.meta.url), 'utf8');
-const mockingIndexSource = readFileSync(new URL('../../uapi/mocking/index.ts', import.meta.url), 'utf8');
-const mockingReadmeSource = readFileSync(new URL('../../uapi/mocking/README.md', import.meta.url), 'utf8');
-const mockingIntegrationGuideSource = readFileSync(new URL('../../uapi/mocking/INTEGRATION_GUIDE.md', import.meta.url), 'utf8');
-const mockingQuickStartDemoSource = readFileSync(new URL('../../uapi/mocking/QUICK_START_DEMO.md', import.meta.url), 'utf8');
-const mockingSummarySource = readFileSync(new URL('../../uapi/mocking/COMPREHENSIVE_SYSTEM_SUMMARY.md', import.meta.url), 'utf8');
-const mockingValidateSystemSource = readFileSync(new URL('../../uapi/mocking/validate-system.js', import.meta.url), 'utf8');
-const mockingScriptsPackageSource = readFileSync(new URL('../../uapi/mocking/scripts/package.json', import.meta.url), 'utf8');
-const mockingScriptsReadmeSource = readFileSync(new URL('../../uapi/mocking/scripts/README.md', import.meta.url), 'utf8');
-const mockingSetupScriptSource = readFileSync(new URL('../../uapi/mocking/scripts/setup-mock-system.js', import.meta.url), 'utf8');
-const mockingValidateScriptSource = readFileSync(new URL('../../uapi/mocking/scripts/validate-mock-system.js', import.meta.url), 'utf8');
-const mockProviderSource = readFileSync(new URL('../../uapi/mocking/integration/MockProvider.tsx', import.meta.url), 'utf8');
-const mockOrchestratorSource = readFileSync(new URL('../../uapi/mocking/core/MockOrchestrator.ts', import.meta.url), 'utf8');
-const mockDataGeneratorsSource = readFileSync(new URL('../../uapi/mocking/generators/MockDataGenerators.ts', import.meta.url), 'utf8');
-const comprehensiveMockDataGeneratorsSource = readFileSync(new URL('../../uapi/mocking/generators/ComprehensiveMockDataGenerators.ts', import.meta.url), 'utf8');
-const specializedMockMiddlewareSource = readFileSync(new URL('../../uapi/mocking/middleware/SpecializedMockMiddleware.ts', import.meta.url), 'utf8');
-const mockingTypesSource = readFileSync(new URL('../../uapi/mocking/types/core.ts', import.meta.url), 'utf8');
-const orbitalsSurfaceSource = readFileSync(new URL('../../uapi/app/orbitals/components/index.tsx', import.meta.url), 'utf8');
-const orbitalsContentSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsContent.tsx', import.meta.url), 'utf8');
-const orbitalsLoginPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsLoginPane.tsx', import.meta.url), 'utf8');
-const orbitalsOrbitalHeaderSource = readFileSync(new URL('../../uapi/app/orbitals/components/headers/OrbitalsOrbitalHeader.tsx', import.meta.url), 'utf8');
-const orbitalsProfileOrbitalHeaderSource = readFileSync(new URL('../../uapi/app/orbitals/components/headers/OrbitalsProfileOrbitalHeader.tsx', import.meta.url), 'utf8');
-const orbitalsConnectsOrbitalHeaderSource = readFileSync(new URL('../../uapi/app/orbitals/components/headers/OrbitalsConnectsOrbitalHeader.tsx', import.meta.url), 'utf8');
-const orbitalsInterfacesOrbitalHeaderSource = readFileSync(new URL('../../uapi/app/orbitals/components/headers/OrbitalsInterfacesOrbitalHeader.tsx', import.meta.url), 'utf8');
-const orbitalsBtdOrbitalHeaderSource = readFileSync(new URL('../../uapi/app/orbitals/components/headers/OrbitalsBTDOrbitalHeader.tsx', import.meta.url), 'utf8');
-const orbitalsPaneTitleSource = readFileSync(new URL('../../uapi/app/orbitals/components/shared/PaneTitle.tsx', import.meta.url), 'utf8');
-const orbitalsOnboardingInfoBoxSource = readFileSync(new URL('../../uapi/app/orbitals/components/shared/OnboardingInfoBox.tsx', import.meta.url), 'utf8');
-const orbitalsAfterOnboardingOverlaySource = readFileSync(new URL('../../uapi/app/orbitals/components/shared/after-onboarding-overlay.tsx', import.meta.url), 'utf8');
-const orbitalsPreferenceCardsSource = readFileSync(new URL('../../uapi/app/orbitals/components/shared/OrbitalsPreferenceCards.tsx', import.meta.url), 'utf8');
-const orbitalsStatGridSource = readFileSync(new URL('../../uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx', import.meta.url), 'utf8');
-const orbitalsWorkspaceSectionSource = readFileSync(new URL('../../uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx', import.meta.url), 'utf8');
-const orbitalsGlobalModelSelectionSource = readFileSync(new URL('../../uapi/app/orbitals/components/models/GlobalModelSelection.tsx', import.meta.url), 'utf8');
-const orbitalsSystemPromptSectionSource = readFileSync(new URL('../../uapi/app/orbitals/components/models/SystemPromptSection.tsx', import.meta.url), 'utf8');
-const orbitalsDataSharingPanelSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsDataSharingPanel.tsx', import.meta.url), 'utf8');
-const orbitalsPaneExplainersSource = readFileSync(new URL('../../uapi/app/orbitals/components/orbital-pane-explainers.ts', import.meta.url), 'utf8');
+const auxillariesPaneTitleSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/shared/PaneTitle.tsx', import.meta.url), 'utf8');
+const auxillariesOnboardingInfoBoxSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/shared/OnboardingInfoBox.tsx', import.meta.url), 'utf8');
+const auxillariesAfterOnboardingOverlaySource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/shared/AfterOnboardingOverlay.tsx', import.meta.url), 'utf8');
+const auxillariesPreferenceCardsSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/shared/AuxillariesPreferenceCards.tsx', import.meta.url), 'utf8');
+const auxillariesStatGridSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/shared/AuxillariesStatGrid.tsx', import.meta.url), 'utf8');
+const auxillariesWorkspaceSectionSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/shared/AuxillariesWorkspaceSection.tsx', import.meta.url), 'utf8');
+const auxillariesGlobalModelSelectionSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/models/GlobalModelSelection.tsx', import.meta.url), 'utf8');
+const auxillariesSystemPromptSectionSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/models/SystemPromptSection.tsx', import.meta.url), 'utf8');
+const auxillariesDataSharingPanelSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesDataSharingPanel.tsx', import.meta.url), 'utf8');
+const auxillaryPaneExplainersSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/auxillary-pane-explainers.ts', import.meta.url), 'utf8');
+const auxillariesProfilePaneStylesSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/profile-pane.module.css', import.meta.url), 'utf8');
+const auxillaryOnboardingContractSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts', import.meta.url), 'utf8');
+const userDataContextSource = readFileSync(new URL('../../apps/uapi/context/UserDataContext.tsx', import.meta.url), 'utf8');
+const useUserDataSource = readFileSync(new URL('../../apps/uapi/hooks/useUserData.ts', import.meta.url), 'utf8');
+const onboardingVisualSpecSource = readFileSync(new URL('../../apps/uapi/tests/e2e/onboarding.visual.spec.ts', import.meta.url), 'utf8');
+const onboardingFullFlowSpecSource = readFileSync(new URL('../../apps/uapi/tests/e2e/onboarding-full-flow.spec.ts', import.meta.url), 'utf8');
+const auxillariesHelperSource = readFileSync(new URL('../../apps/uapi/tests/e2e/auxillaries.helpers.ts', import.meta.url), 'utf8');
+const auxillariesBtdFlowsSpecSource = readFileSync(new URL('../../apps/uapi/tests/e2e/auxillaries.btd.flows.spec.ts', import.meta.url), 'utf8');
+const auxillariesConnectionsFlowsSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.connections.flows.spec.ts', import.meta.url);
+const auxillariesProfileSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.profile.spec.ts', import.meta.url);
+const auxillariesInterfacesFlowsSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.interfaces.flows.spec.ts', import.meta.url);
+const auxillariesNavigationSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.navigation.spec.ts', import.meta.url);
+const auxillariesBtdFlowsSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.btd.flows.spec.ts', import.meta.url);
+const auxillariesBtdIntervalSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.btd.interval.active.spec.ts', import.meta.url);
+const auxillariesBtdChartNoDataSpecPath = new URL('../../apps/uapi/tests/e2e/auxillaries.btd.chart.nodata.spec.ts', import.meta.url);
+const accountBtdVisualSpecPath = new URL('../../apps/uapi/tests/e2e/account.btd.visual.spec.ts', import.meta.url);
+const orbitalHelperPath = new URL('../../apps/uapi/tests/e2e/orbital.helpers.ts', import.meta.url);
+const orbitalConnectionsFlowsSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.connections.flows.spec.ts', import.meta.url);
+const orbitalProfileSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.profile.spec.ts', import.meta.url);
+const orbitalModelsFlowsSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.models.flows.spec.ts', import.meta.url);
+const orbitalNavigationSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.navigation.spec.ts', import.meta.url);
+const orbitalCreditsFlowsSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.credits.flows.spec.ts', import.meta.url);
+const orbitalCreditsIntervalSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.credits.interval.active.spec.ts', import.meta.url);
+const orbitalCreditsChartNoDataSpecPath = new URL('../../apps/uapi/tests/e2e/orbital.credits.chart.nodata.spec.ts', import.meta.url);
+const accountCreditsVisualSpecPath = new URL('../../apps/uapi/tests/e2e/account.credits.visual.spec.ts', import.meta.url);
+const checkoutCallbackClientPath = new URL('../../apps/uapi/app/checkout/callback/CheckoutCallbackClient.tsx', import.meta.url);
+const checkoutCallbackPagePath = new URL('../../apps/uapi/app/checkout/callback/page.tsx', import.meta.url);
+const createCheckoutSessionRoutePath = new URL('../../apps/uapi/app/api/create-checkout-session/route.ts', import.meta.url);
+const fulfillCheckoutSessionRoutePath = new URL('../../apps/uapi/app/api/fulfill-checkout-session/route.ts', import.meta.url);
+const lowBtdReminderRouteSource = readFileSync(new URL('../../apps/uapi/app/api/notifications/low-btd-reminder/route.ts', import.meta.url), 'utf8');
+const outOfBtdRouteSource = readFileSync(new URL('../../apps/uapi/app/api/notifications/out-of-btd/route.ts', import.meta.url), 'utf8');
+const btdTransferRouteSource = readFileSync(new URL('../../apps/uapi/app/api/notifications/btd-transfer/route.ts', import.meta.url), 'utf8');
+const apiClientSource = readFileSync(new URL('../../apps/uapi/networking/api-client.ts', import.meta.url), 'utf8');
+const btdTrackerSource = readFileSync(new URL('../../apps/uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url), 'utf8');
+const marketingPricingSectionSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingPricingSection.tsx', import.meta.url), 'utf8');
+const nextConfigSource = readFileSync(new URL('../../apps/uapi/next.config.mjs', import.meta.url), 'utf8');
+const securityHeadersSource = readFileSync(new URL('../../apps/uapi/middleware/security-headers.ts', import.meta.url), 'utf8');
+const mockingIndexSource = readFileSync(new URL('../../apps/uapi/mocking/index.ts', import.meta.url), 'utf8');
+const mockingReadmeSource = readFileSync(new URL('../../apps/uapi/mocking/README.md', import.meta.url), 'utf8');
+const mockingIntegrationGuideSource = readFileSync(new URL('../../apps/uapi/mocking/INTEGRATION_GUIDE.md', import.meta.url), 'utf8');
+const mockingQuickStartDemoSource = readFileSync(new URL('../../apps/uapi/mocking/QUICK_START_DEMO.md', import.meta.url), 'utf8');
+const mockingSummarySource = readFileSync(new URL('../../apps/uapi/mocking/COMPREHENSIVE_SYSTEM_SUMMARY.md', import.meta.url), 'utf8');
+const mockingValidateSystemSource = readFileSync(new URL('../../apps/uapi/mocking/validate-system.js', import.meta.url), 'utf8');
+const mockingScriptsPackageSource = readFileSync(new URL('../../apps/uapi/mocking/scripts/package.json', import.meta.url), 'utf8');
+const mockingScriptsReadmeSource = readFileSync(new URL('../../apps/uapi/mocking/scripts/README.md', import.meta.url), 'utf8');
+const mockingSetupScriptSource = readFileSync(new URL('../../apps/uapi/mocking/scripts/setup-mock-system.js', import.meta.url), 'utf8');
+const mockingValidateScriptSource = readFileSync(new URL('../../apps/uapi/mocking/scripts/validate-mock-system.js', import.meta.url), 'utf8');
+const mockProviderSource = readFileSync(new URL('../../apps/uapi/mocking/integration/MockProvider.tsx', import.meta.url), 'utf8');
+const mockOrchestratorSource = readFileSync(new URL('../../apps/uapi/mocking/core/MockOrchestrator.ts', import.meta.url), 'utf8');
+const mockDataGeneratorsSource = readFileSync(new URL('../../apps/uapi/mocking/generators/MockDataGenerators.ts', import.meta.url), 'utf8');
+const comprehensiveMockDataGeneratorsSource = readFileSync(new URL('../../apps/uapi/mocking/generators/ComprehensiveMockDataGenerators.ts', import.meta.url), 'utf8');
+const specializedMockMiddlewareSource = readFileSync(new URL('../../apps/uapi/mocking/middleware/SpecializedMockMiddleware.ts', import.meta.url), 'utf8');
+const mockingTypesSource = readFileSync(new URL('../../apps/uapi/mocking/types/core.ts', import.meta.url), 'utf8');
+const orbitalsSurfaceSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/index.tsx', import.meta.url), 'utf8');
+const orbitalsContentSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsContent.tsx', import.meta.url), 'utf8');
+const orbitalsLoginPaneSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsLoginPane.tsx', import.meta.url), 'utf8');
+const orbitalsOrbitalHeaderSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/headers/OrbitalsOrbitalHeader.tsx', import.meta.url), 'utf8');
+const orbitalsProfileOrbitalHeaderSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/headers/OrbitalsProfileOrbitalHeader.tsx', import.meta.url), 'utf8');
+const orbitalsConnectsOrbitalHeaderSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/headers/OrbitalsConnectsOrbitalHeader.tsx', import.meta.url), 'utf8');
+const orbitalsInterfacesOrbitalHeaderSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/headers/OrbitalsInterfacesOrbitalHeader.tsx', import.meta.url), 'utf8');
+const orbitalsBtdOrbitalHeaderSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/headers/OrbitalsBTDOrbitalHeader.tsx', import.meta.url), 'utf8');
+const orbitalsPaneTitleSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/shared/PaneTitle.tsx', import.meta.url), 'utf8');
+const orbitalsOnboardingInfoBoxSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/shared/OnboardingInfoBox.tsx', import.meta.url), 'utf8');
+const orbitalsAfterOnboardingOverlaySource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/shared/after-onboarding-overlay.tsx', import.meta.url), 'utf8');
+const orbitalsPreferenceCardsSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/shared/OrbitalsPreferenceCards.tsx', import.meta.url), 'utf8');
+const orbitalsStatGridSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/shared/OrbitalsStatGrid.tsx', import.meta.url), 'utf8');
+const orbitalsWorkspaceSectionSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/shared/OrbitalsWorkspaceSection.tsx', import.meta.url), 'utf8');
+const orbitalsGlobalModelSelectionSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/models/GlobalModelSelection.tsx', import.meta.url), 'utf8');
+const orbitalsSystemPromptSectionSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/models/SystemPromptSection.tsx', import.meta.url), 'utf8');
+const orbitalsDataSharingPanelSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsDataSharingPanel.tsx', import.meta.url), 'utf8');
+const orbitalsPaneExplainersSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/orbital-pane-explainers.ts', import.meta.url), 'utf8');
 const assetPackSystemReflectionSource = readFileSync(new URL('../../packages/prompts/src/raw_promptparts/specific/promptpart_specific_asset_pack_system_ultra_critical_reflection.ts', import.meta.url), 'utf8');
 const promptsIndexSource = readFileSync(new URL('../../packages/prompts/src/index.ts', import.meta.url), 'utf8');
 const promptPartSource = readFileSync(new URL('../../packages/prompts/src/parts/PromptPart.ts', import.meta.url), 'utf8');
@@ -343,27 +343,27 @@ const apiAuxillariesContractSource = readFileSync(
   new URL('../../packages/api/src/routes/auxillaries-contract.ts', import.meta.url),
   'utf8',
 );
-const conversationsApiRouteSource = readFileSync(new URL('../../uapi/app/api/conversations/route.ts', import.meta.url), 'utf8');
-const conversationBranchApiRouteSource = readFileSync(new URL('../../uapi/app/api/conversations/branch/route.ts', import.meta.url), 'utf8');
-const conversationStreamApiRouteSource = readFileSync(new URL('../../uapi/app/api/conversations/stream/route.ts', import.meta.url), 'utf8');
-const conversationThreadStreamApiRouteSource = readFileSync(new URL('../../uapi/app/api/conversations/[conversationId]/stream/route.ts', import.meta.url), 'utf8');
-const executionsApiRouteSource = readFileSync(new URL('../../uapi/app/api/executions/route.ts', import.meta.url), 'utf8');
-const executionHistoryApiRouteSource = readFileSync(new URL('../../uapi/app/api/executions/history/route.ts', import.meta.url), 'utf8');
-const executionHistoryRunApiRouteSource = readFileSync(new URL('../../uapi/app/api/executions/history/[runId]/route.ts', import.meta.url), 'utf8');
+const conversationsApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/conversations/route.ts', import.meta.url), 'utf8');
+const conversationBranchApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/conversations/branch/route.ts', import.meta.url), 'utf8');
+const conversationStreamApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/conversations/stream/route.ts', import.meta.url), 'utf8');
+const conversationThreadStreamApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/conversations/[conversationId]/stream/route.ts', import.meta.url), 'utf8');
+const executionsApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/executions/route.ts', import.meta.url), 'utf8');
+const executionHistoryApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/executions/history/route.ts', import.meta.url), 'utf8');
+const executionHistoryRunApiRouteSource = readFileSync(new URL('../../apps/uapi/app/api/executions/history/[runId]/route.ts', import.meta.url), 'utf8');
 const auxillariesOnboardingApiRouteSource = readFileSync(
-  new URL('../../uapi/app/api/auxillaries/onboarding/route.ts', import.meta.url),
+  new URL('../../apps/uapi/app/api/auxillaries/onboarding/route.ts', import.meta.url),
   'utf8',
 );
 const auxillariesDataApiRouteSource = readFileSync(
-  new URL('../../uapi/app/api/auxillaries/data/route.ts', import.meta.url),
+  new URL('../../apps/uapi/app/api/auxillaries/data/route.ts', import.meta.url),
   'utf8',
 );
 const auxillariesModelPreferencesApiRouteSource = readFileSync(
-  new URL('../../uapi/app/api/auxillaries/model-preferences/route.ts', import.meta.url),
+  new URL('../../apps/uapi/app/api/auxillaries/model-preferences/route.ts', import.meta.url),
   'utf8',
 );
 const auxillariesTemplatePreferencesApiRouteSource = readFileSync(
-  new URL('../../uapi/app/api/auxillaries/template-preferences/route.ts', import.meta.url),
+  new URL('../../apps/uapi/app/api/auxillaries/template-preferences/route.ts', import.meta.url),
   'utf8',
 );
 const webSearchSource = readFileSync(new URL('../../packages/web-search/src/index.ts', import.meta.url), 'utf8');
@@ -413,17 +413,17 @@ const digestTsconfigTestSource = readFileSync(new URL('../../packages/digest/tsc
 const digestBitcodeLoggerMockSource = readFileSync(new URL('../../packages/digest/__mocks__/bitcode/logger.ts', import.meta.url), 'utf8');
 const digestGitMockSource = readFileSync(new URL('../../packages/digest/__mocks__/lib/git/git.ts', import.meta.url), 'utf8');
 const digestServiceReadmeSource = readFileSync(new URL('../../packages/digest/service/README.md', import.meta.url), 'utf8');
-const chatgptAppServerSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/server.ts', import.meta.url), 'utf8');
-const chatgptAppToolsSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/tools.ts', import.meta.url), 'utf8');
-const chatgptAppIndexSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/index.ts', import.meta.url), 'utf8');
-const chatgptAppPackageSource = readFileSync(new URL('../../packages/external-apps/chatgpt/package.json', import.meta.url), 'utf8');
-const chatgptAppReadmeSource = readFileSync(new URL('../../packages/external-apps/chatgpt/README.md', import.meta.url), 'utf8');
-const chatgptAppDemoSource = readFileSync(new URL('../../packages/external-apps/chatgpt/DEMO.md', import.meta.url), 'utf8');
-const chatgptAppTldrSource = readFileSync(new URL('../../packages/external-apps/chatgpt/TLDR.md', import.meta.url), 'utf8');
-const chatgptAppTodoSource = readFileSync(new URL('../../packages/external-apps/chatgpt/TODO.md', import.meta.url), 'utf8');
-const chatgptAppEnvSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/env.ts', import.meta.url), 'utf8');
-const chatgptAppYapperFlowTestSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts', import.meta.url), 'utf8');
-const chatgptAppArtifactsMockSource = readFileSync(new URL('../../packages/external-apps/chatgpt/src/__mocks__/bitcode-artifacts.ts', import.meta.url), 'utf8');
+const chatgptAppServerSource = readFileSync(new URL('../../apps/chatgpt/src/server.ts', import.meta.url), 'utf8');
+const chatgptAppToolsSource = readFileSync(new URL('../../apps/chatgpt/src/tools.ts', import.meta.url), 'utf8');
+const chatgptAppIndexSource = readFileSync(new URL('../../apps/chatgpt/src/index.ts', import.meta.url), 'utf8');
+const chatgptAppPackageSource = readFileSync(new URL('../../apps/chatgpt/package.json', import.meta.url), 'utf8');
+const chatgptAppReadmeSource = readFileSync(new URL('../../apps/chatgpt/README.md', import.meta.url), 'utf8');
+const chatgptAppDemoSource = readFileSync(new URL('../../apps/chatgpt/DEMO.md', import.meta.url), 'utf8');
+const chatgptAppTldrSource = readFileSync(new URL('../../apps/chatgpt/TLDR.md', import.meta.url), 'utf8');
+const chatgptAppTodoSource = readFileSync(new URL('../../apps/chatgpt/TODO.md', import.meta.url), 'utf8');
+const chatgptAppEnvSource = readFileSync(new URL('../../apps/chatgpt/src/env.ts', import.meta.url), 'utf8');
+const chatgptAppYapperFlowTestSource = readFileSync(new URL('../../apps/chatgpt/src/__tests__/yapperFlow.test.ts', import.meta.url), 'utf8');
+const chatgptAppArtifactsMockSource = readFileSync(new URL('../../apps/chatgpt/src/__mocks__/bitcode-artifacts.ts', import.meta.url), 'utf8');
 const emailPackageSource = readFileSync(new URL('../../packages/email/package.json', import.meta.url), 'utf8');
 const emailReadmeSource = readFileSync(new URL('../../packages/email/README.md', import.meta.url), 'utf8');
 const emailInvitationServiceSource = readFileSync(new URL('../../packages/email/src/services/invitationService.ts', import.meta.url), 'utf8');
@@ -471,30 +471,30 @@ const executionWorkSummariesDocSource = readFileSync(new URL('../../internal-doc
 const frontendArchitectureDocSource = readFileSync(new URL('../../internal-docs/BITCODE_FRONTEND_ARCHITECTURE.md', import.meta.url), 'utf8');
 const databaseDocSource = readFileSync(new URL('../../internal-docs/BITCODE_EXCHANGE_DATABASE.md', import.meta.url), 'utf8');
 const executionsDocSource = readFileSync(new URL('../../internal-docs/BITCODE_EXECUTIONS.md', import.meta.url), 'utf8');
-const uapiArchitectureDocSource = readFileSync(new URL('../../uapi/ARCHITECTURE.md', import.meta.url), 'utf8');
-const consolidatedSystemGuideSource = readFileSync(new URL('../../uapi/styles/CONSOLIDATED_SYSTEM_GUIDE.md', import.meta.url), 'utf8');
+const uapiArchitectureDocSource = readFileSync(new URL('../../apps/uapi/ARCHITECTURE.md', import.meta.url), 'utf8');
+const consolidatedSystemGuideSource = readFileSync(new URL('../../apps/uapi/styles/CONSOLIDATED_SYSTEM_GUIDE.md', import.meta.url), 'utf8');
 const webSearchEnhancedResearchExampleSource = readFileSync(new URL('../../packages/web-search/examples/enhanced-research-example.ts', import.meta.url), 'utf8');
 const productGuideSource = readFileSync(new URL('../../.ai/PRODUCT.md', import.meta.url), 'utf8');
-const marketingTestimonialsCtaSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingTestimonialsCTA.tsx', import.meta.url), 'utf8');
-const marketingFeatureBentoSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFeatureBento.tsx', import.meta.url), 'utf8');
-const marketingFeatureListSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingFeatureList.tsx', import.meta.url), 'utf8');
-const marketingStepsSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingSteps.tsx', import.meta.url), 'utf8');
+const marketingTestimonialsCtaSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingTestimonialsCTA.tsx', import.meta.url), 'utf8');
+const marketingFeatureBentoSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingFeatureBento.tsx', import.meta.url), 'utf8');
+const marketingFeatureListSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingFeatureList.tsx', import.meta.url), 'utf8');
+const marketingStepsSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingSteps.tsx', import.meta.url), 'utf8');
 const marketingHeadlessMobileShowcaseSource = readFileSync(
-  new URL('../../uapi/app/(root)/components/MarketingHeadlessMobileShowcase.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/(root)/components/MarketingHeadlessMobileShowcase.tsx', import.meta.url),
   'utf8',
 );
-const uapiBaseReadmeSource = readFileSync(new URL('../../uapi/components/base/README.md', import.meta.url), 'utf8');
-const tailwindConfigSource = readFileSync(new URL('../../uapi/tailwind.config.ts', import.meta.url), 'utf8');
-const longRunnerWorkerSource = readFileSync(new URL('../../uapi/scripts/long-runner-worker.ts', import.meta.url), 'utf8');
+const uapiBaseReadmeSource = readFileSync(new URL('../../apps/uapi/components/base/README.md', import.meta.url), 'utf8');
+const tailwindConfigSource = readFileSync(new URL('../../apps/uapi/tailwind.config.ts', import.meta.url), 'utf8');
+const longRunnerWorkerSource = readFileSync(new URL('../../apps/uapi/scripts/long-runner-worker.ts', import.meta.url), 'utf8');
 const dockerLongRunnerSource = readFileSync(new URL('../../Dockerfile.long-runner', import.meta.url), 'utf8');
-const emailLogoSource = readFileSync(new URL('../../uapi/public/email-logo.svg', import.meta.url), 'utf8');
-const magicLinkStorySource = readFileSync(new URL('../../uapi/stories/email-templates/MagicLink.stories.tsx', import.meta.url), 'utf8');
-const confirmStorySource = readFileSync(new URL('../../uapi/stories/email-templates/Confirm.stories.tsx', import.meta.url), 'utf8');
-const emailChangeStorySource = readFileSync(new URL('../../uapi/stories/email-templates/EmailChange.stories.tsx', import.meta.url), 'utf8');
-const inviteStorySource = readFileSync(new URL('../../uapi/stories/email-templates/Invite.stories.tsx', import.meta.url), 'utf8');
-const genericNotificationStorySource = readFileSync(new URL('../../uapi/stories/email-templates/GenericNotification.stories.tsx', import.meta.url), 'utf8');
-const passwordRecoveryStorySource = readFileSync(new URL('../../uapi/stories/email-templates/PasswordRecovery.stories.tsx', import.meta.url), 'utf8');
-const upgradeStatusStorySource = readFileSync(new URL('../../uapi/stories/email-templates/UpgradeStatus.stories.tsx', import.meta.url), 'utf8');
+const emailLogoSource = readFileSync(new URL('../../apps/uapi/public/email-logo.svg', import.meta.url), 'utf8');
+const magicLinkStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/MagicLink.stories.tsx', import.meta.url), 'utf8');
+const confirmStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/Confirm.stories.tsx', import.meta.url), 'utf8');
+const emailChangeStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/EmailChange.stories.tsx', import.meta.url), 'utf8');
+const inviteStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/Invite.stories.tsx', import.meta.url), 'utf8');
+const genericNotificationStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/GenericNotification.stories.tsx', import.meta.url), 'utf8');
+const passwordRecoveryStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/PasswordRecovery.stories.tsx', import.meta.url), 'utf8');
+const upgradeStatusStorySource = readFileSync(new URL('../../apps/uapi/stories/email-templates/UpgradeStatus.stories.tsx', import.meta.url), 'utf8');
 const stylingReadmeSource = readFileSync(new URL('../../packages/styling/README.md', import.meta.url), 'utf8');
 const lspContextAwarenessCompositionSource = readFileSync(
   new URL('../../packages/generic-tools/lsp-query/src/prompts/lsp-context-awareness-composition.ts', import.meta.url),
@@ -503,11 +503,11 @@ const lspContextAwarenessCompositionSource = readFileSync(
 const vulnerabilityAuditSource = readFileSync(new URL('../../VULNERABILITY_AUDIT_2026-04-02.md', import.meta.url), 'utf8');
 const investorMemoSource = readFileSync(new URL('../../INVESTOR_MEMO.md', import.meta.url), 'utf8');
 const introPamphletSource = readFileSync(new URL('../../.sales/INTRO_PAMPHLET.md', import.meta.url), 'utf8');
-const uapiEnvExampleSource = readFileSync(new URL('../../uapi/.env.example', import.meta.url), 'utf8');
-const uapiEnvSource = readFileSync(new URL('../../uapi/.env', import.meta.url), 'utf8');
-const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
-const storybookMainSource = readFileSync(new URL('../../uapi/.storybook/main.ts', import.meta.url), 'utf8');
-const storybookPreviewSource = readFileSync(new URL('../../uapi/.storybook/preview.tsx', import.meta.url), 'utf8');
+const uapiEnvExampleSource = readFileSync(new URL('../../apps/uapi/.env.example', import.meta.url), 'utf8');
+const uapiEnvSource = readFileSync(new URL('../../apps/uapi/.env', import.meta.url), 'utf8');
+const uapiTsconfigSource = readFileSync(new URL('../../apps/uapi/tsconfig.json', import.meta.url), 'utf8');
+const storybookMainSource = readFileSync(new URL('../../apps/uapi/.storybook/main.ts', import.meta.url), 'utf8');
+const storybookPreviewSource = readFileSync(new URL('../../apps/uapi/.storybook/preview.tsx', import.meta.url), 'utf8');
 const startBitcodeMcpScriptSource = readFileSync(new URL('../../scripts/start-bitcode-mcp.sh', import.meta.url), 'utf8');
 const phase2CompleteScriptSource = readFileSync(new URL('../../scripts/phase2-complete.sh', import.meta.url), 'utf8');
 const phase2NamingComplianceScriptSource = readFileSync(new URL('../../scripts/phase2-naming-compliance.py', import.meta.url), 'utf8');
@@ -565,7 +565,7 @@ const deliverableMetricsTestSource = readFileSync(new URL('../../packages/asset-
 const deliverableSetupPlanAgentSource = readFileSync(new URL('../../packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-setup-plan-agent.ts', import.meta.url), 'utf8');
 const deliverableCreatePullRequestAgentSource = readFileSync(new URL('../../packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-finish-create-pull-request-delivery-agent.ts', import.meta.url), 'utf8');
 const parsingSource = readFileSync(new URL('../../packages/parsing/src/parsing.ts', import.meta.url), 'utf8');
-const assetPackNotificationsTestSource = readFileSync(new URL('../../uapi/tests/api/assetPack.notifications.test.ts', import.meta.url), 'utf8');
+const assetPackNotificationsTestSource = readFileSync(new URL('../../apps/uapi/tests/api/assetPack.notifications.test.ts', import.meta.url), 'utf8');
 const vercelIndexSource = readFileSync(new URL('../../packages/externals/vercel/src/index.ts', import.meta.url), 'utf8');
 const vercelReadmeSource = readFileSync(new URL('../../packages/externals/vercel/README.md', import.meta.url), 'utf8');
 const genericRepositorySetupPackageSource = readFileSync(new URL('../../packages/generic-tools/repository-setup/package.json', import.meta.url), 'utf8');
@@ -578,7 +578,7 @@ const gitPackageReadmeSource = readFileSync(new URL('../../packages/generic-vcs/
 const gitPackageManifestSource = readFileSync(new URL('../../packages/generic-vcs/git/package.json', import.meta.url), 'utf8');
 const genericGitInteractorSource = readFileSync(new URL('../../packages/generic-tools/git-interactor/src/index.ts', import.meta.url), 'utf8');
 const conversationsGenericsAgentSource = readFileSync(new URL('../../packages/conversations/src/agent/ConversationAgent.ts', import.meta.url), 'utf8');
-const useConversationStreamSource = readFileSync(new URL('../../uapi/hooks/useConversationStream.ts', import.meta.url), 'utf8');
+const useConversationStreamSource = readFileSync(new URL('../../apps/uapi/hooks/useConversationStream.ts', import.meta.url), 'utf8');
 const lspIndexSource = readFileSync(new URL('../../packages/lsp/src/index.ts', import.meta.url), 'utf8');
 const filesSecurityUtilsSource = readFileSync(new URL('../../packages/files/src/securityUtils.ts', import.meta.url), 'utf8');
 const genericLlmsGoogleSource = readFileSync(new URL('../../packages/generic-llms/src/providers/google.ts', import.meta.url), 'utf8');
@@ -659,8 +659,8 @@ const supabaseStreamsSource = readFileSync(new URL('../../packages/supabase/src/
 const docCodeJestConfigSource = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/jest.config.cjs', import.meta.url), 'utf8');
 const docCodeBitcodeToolsGenericsMockSource = readFileSync(new URL('../../packages/generic-doc-comments/doc-code/__mocks__/bitcode-tools-generics.ts', import.meta.url), 'utf8');
 const genericDocCommentDevelopingPackageSource = readFileSync(new URL('../../packages/generic-doc-comments/doc-developing/package.json', import.meta.url), 'utf8');
-const executionsPersistedStateSource = readFileSync(new URL('../../uapi/app/executions/hooks/usePersistedState.ts', import.meta.url), 'utf8');
-const patternRecognitionSource = readFileSync(new URL('../../uapi/hooks/usePatternRecognition.ts', import.meta.url), 'utf8');
+const executionsPersistedStateSource = readFileSync(new URL('../../apps/uapi/app/executions/hooks/usePersistedState.ts', import.meta.url), 'utf8');
+const patternRecognitionSource = readFileSync(new URL('../../apps/uapi/hooks/usePatternRecognition.ts', import.meta.url), 'utf8');
 const llmGenericsJestConfigSource = readFileSync(new URL('../../packages/llm-generics/jest.config.cjs', import.meta.url), 'utf8');
 const llmGenericsTsconfigTestSource = readFileSync(new URL('../../packages/llm-generics/tsconfig.test.json', import.meta.url), 'utf8');
 const llmGenericsReadmeSource = readFileSync(new URL('../../packages/llm-generics/README.md', import.meta.url), 'utf8');
@@ -671,66 +671,66 @@ const techTypesIdentifierIndexSource = readFileSync(new URL('../../packages/gene
 const techTypesIdentifierReadmeSource = readFileSync(new URL('../../packages/generic-agents/tech-types-identifier/README.md', import.meta.url), 'utf8');
 const jestBaseSource = readFileSync(new URL('../../jest.base.cjs', import.meta.url), 'utf8');
 const pnpmWorkspaceSource = readFileSync(new URL('../../pnpm-workspace.yaml', import.meta.url), 'utf8');
-const accountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
-const completionCelebrationStorySource = readFileSync(new URL('../../uapi/stories/CompletionCelebration.stories.tsx', import.meta.url), 'utf8');
-const readDefinitionInputStorySource = readFileSync(new URL('../../uapi/stories/ReadDefinitionInput.stories.tsx', import.meta.url), 'utf8');
-const executionActionsStorySource = readFileSync(new URL('../../uapi/stories/shippables/Actions.stories.tsx', import.meta.url), 'utf8');
-const errorRecoveryGraceStorySource = readFileSync(new URL('../../uapi/stories/ErrorRecoveryGrace.stories.tsx', import.meta.url), 'utf8');
-const patternMemoryStorySource = readFileSync(new URL('../../uapi/stories/PatternMemory.stories.tsx', import.meta.url), 'utf8');
-const pipelinePhasePoetryStorySource = readFileSync(new URL('../../uapi/stories/PipelinePhasePoetry.stories.tsx', import.meta.url), 'utf8');
-const conversationsCompleteSystemStorySource = readFileSync(new URL('../../uapi/stories/conversations/CompleteSystem.stories.tsx', import.meta.url), 'utf8');
-const btdInvestmentExperienceStorySource = readFileSync(new URL('../../uapi/stories/BTDInvestmentExperience.stories.tsx', import.meta.url), 'utf8');
-const marketingBtdInvestmentExperienceSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingBtdInvestmentExperience.tsx', import.meta.url), 'utf8');
-const marketingTestimonialsSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingTestimonials.tsx', import.meta.url), 'utf8');
+const accountOrbitalStorySource = readFileSync(new URL('../../apps/uapi/stories/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
+const completionCelebrationStorySource = readFileSync(new URL('../../apps/uapi/stories/CompletionCelebration.stories.tsx', import.meta.url), 'utf8');
+const readDefinitionInputStorySource = readFileSync(new URL('../../apps/uapi/stories/ReadDefinitionInput.stories.tsx', import.meta.url), 'utf8');
+const executionActionsStorySource = readFileSync(new URL('../../apps/uapi/stories/shippables/Actions.stories.tsx', import.meta.url), 'utf8');
+const errorRecoveryGraceStorySource = readFileSync(new URL('../../apps/uapi/stories/ErrorRecoveryGrace.stories.tsx', import.meta.url), 'utf8');
+const patternMemoryStorySource = readFileSync(new URL('../../apps/uapi/stories/PatternMemory.stories.tsx', import.meta.url), 'utf8');
+const pipelinePhasePoetryStorySource = readFileSync(new URL('../../apps/uapi/stories/PipelinePhasePoetry.stories.tsx', import.meta.url), 'utf8');
+const conversationsCompleteSystemStorySource = readFileSync(new URL('../../apps/uapi/stories/conversations/CompleteSystem.stories.tsx', import.meta.url), 'utf8');
+const btdInvestmentExperienceStorySource = readFileSync(new URL('../../apps/uapi/stories/BTDInvestmentExperience.stories.tsx', import.meta.url), 'utf8');
+const marketingBtdInvestmentExperienceSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingBtdInvestmentExperience.tsx', import.meta.url), 'utf8');
+const marketingTestimonialsSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingTestimonials.tsx', import.meta.url), 'utf8');
 const btdPricesSource = [
-  readFileSync(new URL('../../uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url), 'utf8'),
-  readFileSync(new URL('../../uapi/components/base/bitcode/btd/BTDPrices.js', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../apps/uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../apps/uapi/components/base/bitcode/btd/BTDPrices.js', import.meta.url), 'utf8'),
 ].join('\n');
 const flexibleBtdSelectorSource = [
-  readFileSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url), 'utf8'),
-  readFileSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.js', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../apps/uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../apps/uapi/components/base/bitcode/btd/FlexibleBtdSelector.js', import.meta.url), 'utf8'),
 ].join('\n');
-const intelligentProcessingIndicatorStorySource = readFileSync(new URL('../../uapi/stories/IntelligentProcessingIndicator.stories.tsx', import.meta.url), 'utf8');
-const userAccountOrbitalStorySource = readFileSync(new URL('../../uapi/stories/user/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
-const markdownElementsStorySource = readFileSync(new URL('../../uapi/stories/docs/MarkdownElements.stories.tsx', import.meta.url), 'utf8');
-const sourceDividerStorySource = readFileSync(new URL('../../uapi/stories/SourceDivider.stories.tsx', import.meta.url), 'utf8');
-const sourceConfigStorySource = readFileSync(new URL('../../uapi/stories/SourceConfig.stories.tsx', import.meta.url), 'utf8');
-const conversationDigestPipelineTestSource = readFileSync(new URL('../../uapi/tests/e2e/conversation-digest-pipeline.test.ts', import.meta.url), 'utf8');
-const killBugStoryFixtureSource = readFileSync(new URL('../../uapi/tests/e2e/fixtures/stories/killBug.json', import.meta.url), 'utf8');
-const pipelineMeasureSmokePath = new URL('../../uapi/tests/pipelineMeasureSmoke.test.ts', import.meta.url);
-const btdStepStaticTestSource = readFileSync(new URL('../../uapi/tests/btdStep.static.test.tsx', import.meta.url), 'utf8');
-const btdStepInitialFlowTestSource = readFileSync(new URL('../../uapi/tests/btdStep.initialFlow.test.tsx', import.meta.url), 'utf8');
-const connectionsStepTestSource = readFileSync(new URL('../../uapi/tests/connectionsStep.test.tsx', import.meta.url), 'utf8');
-const modelsStepTestSource = readFileSync(new URL('../../uapi/tests/modelsStep.test.tsx', import.meta.url), 'utf8');
-const profileStepTestSource = readFileSync(new URL('../../uapi/tests/profileStep.test.tsx', import.meta.url), 'utf8');
-const orbitalsInterfacesPaneTestSource = readFileSync(new URL('../../uapi/tests/orbitalsInterfacesPane.test.tsx', import.meta.url), 'utf8');
-const orbitalsBtdPaneTestSource = readFileSync(new URL('../../uapi/tests/orbitalsBTDPane.test.tsx', import.meta.url), 'utf8');
-const orbitalsLoginPaneTestSource = readFileSync(new URL('../../uapi/tests/orbitalsLoginPane.test.tsx', import.meta.url), 'utf8');
-const orbitalsContentTestSource = readFileSync(new URL('../../uapi/tests/orbitalsContent.test.tsx', import.meta.url), 'utf8');
-const orbitalsPaneTabsTestSource = readFileSync(new URL('../../uapi/tests/orbitalsPaneTabs.test.tsx', import.meta.url), 'utf8');
-const orbitalsWorkspacePanelsTestSource = readFileSync(new URL('../../uapi/tests/orbitalsWorkspacePanels.test.tsx', import.meta.url), 'utf8');
-const orbitalPaneMetaTestSource = readFileSync(new URL('../../uapi/tests/orbitalPaneMeta.test.ts', import.meta.url), 'utf8');
-const modelsPaneCatalogRenderTestSource = readFileSync(new URL('../../uapi/tests/modelsPane.catalogRender.test.tsx', import.meta.url), 'utf8');
-const authStorySource = readFileSync(new URL('../../uapi/stories/user/Auth.stories.tsx', import.meta.url), 'utf8');
-const loginPaneStorySource = readFileSync(new URL('../../uapi/stories/LoginPane.stories.tsx', import.meta.url), 'utf8');
-const onboardingPaneStorySource = readFileSync(new URL('../../uapi/stories/OnboardingPane.stories.tsx', import.meta.url), 'utf8');
-const onboardingUserStorySource = readFileSync(new URL('../../uapi/stories/user/Onboarding.stories.tsx', import.meta.url), 'utf8');
-const orbitalsProfilePaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsProfilePane.tsx', import.meta.url), 'utf8');
-const orbitalsConnectsPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsConnectsPane.tsx', import.meta.url), 'utf8');
-const orbitalsInterfacesPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx', import.meta.url), 'utf8');
-const orbitalsBtdPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsBTDPane.tsx', import.meta.url), 'utf8');
+const intelligentProcessingIndicatorStorySource = readFileSync(new URL('../../apps/uapi/stories/IntelligentProcessingIndicator.stories.tsx', import.meta.url), 'utf8');
+const userAccountOrbitalStorySource = readFileSync(new URL('../../apps/uapi/stories/user/AccountOrbital.stories.tsx', import.meta.url), 'utf8');
+const markdownElementsStorySource = readFileSync(new URL('../../apps/uapi/stories/docs/MarkdownElements.stories.tsx', import.meta.url), 'utf8');
+const sourceDividerStorySource = readFileSync(new URL('../../apps/uapi/stories/SourceDivider.stories.tsx', import.meta.url), 'utf8');
+const sourceConfigStorySource = readFileSync(new URL('../../apps/uapi/stories/SourceConfig.stories.tsx', import.meta.url), 'utf8');
+const conversationDigestPipelineTestSource = readFileSync(new URL('../../apps/uapi/tests/e2e/conversation-digest-pipeline.test.ts', import.meta.url), 'utf8');
+const killBugStoryFixtureSource = readFileSync(new URL('../../apps/uapi/tests/e2e/fixtures/stories/killBug.json', import.meta.url), 'utf8');
+const pipelineMeasureSmokePath = new URL('../../apps/uapi/tests/pipelineMeasureSmoke.test.ts', import.meta.url);
+const btdStepStaticTestSource = readFileSync(new URL('../../apps/uapi/tests/btdStep.static.test.tsx', import.meta.url), 'utf8');
+const btdStepInitialFlowTestSource = readFileSync(new URL('../../apps/uapi/tests/btdStep.initialFlow.test.tsx', import.meta.url), 'utf8');
+const connectionsStepTestSource = readFileSync(new URL('../../apps/uapi/tests/connectionsStep.test.tsx', import.meta.url), 'utf8');
+const modelsStepTestSource = readFileSync(new URL('../../apps/uapi/tests/modelsStep.test.tsx', import.meta.url), 'utf8');
+const profileStepTestSource = readFileSync(new URL('../../apps/uapi/tests/profileStep.test.tsx', import.meta.url), 'utf8');
+const orbitalsInterfacesPaneTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsInterfacesPane.test.tsx', import.meta.url), 'utf8');
+const orbitalsBtdPaneTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsBTDPane.test.tsx', import.meta.url), 'utf8');
+const orbitalsLoginPaneTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsLoginPane.test.tsx', import.meta.url), 'utf8');
+const orbitalsContentTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsContent.test.tsx', import.meta.url), 'utf8');
+const orbitalsPaneTabsTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsPaneTabs.test.tsx', import.meta.url), 'utf8');
+const orbitalsWorkspacePanelsTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsWorkspacePanels.test.tsx', import.meta.url), 'utf8');
+const orbitalPaneMetaTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalPaneMeta.test.ts', import.meta.url), 'utf8');
+const modelsPaneCatalogRenderTestSource = readFileSync(new URL('../../apps/uapi/tests/modelsPane.catalogRender.test.tsx', import.meta.url), 'utf8');
+const authStorySource = readFileSync(new URL('../../apps/uapi/stories/user/Auth.stories.tsx', import.meta.url), 'utf8');
+const loginPaneStorySource = readFileSync(new URL('../../apps/uapi/stories/LoginPane.stories.tsx', import.meta.url), 'utf8');
+const onboardingPaneStorySource = readFileSync(new URL('../../apps/uapi/stories/OnboardingPane.stories.tsx', import.meta.url), 'utf8');
+const onboardingUserStorySource = readFileSync(new URL('../../apps/uapi/stories/user/Onboarding.stories.tsx', import.meta.url), 'utf8');
+const orbitalsProfilePaneSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsProfilePane.tsx', import.meta.url), 'utf8');
+const orbitalsConnectsPaneSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsConnectsPane.tsx', import.meta.url), 'utf8');
+const orbitalsInterfacesPaneSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsInterfacesPane.tsx', import.meta.url), 'utf8');
+const orbitalsBtdPaneSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsBTDPane.tsx', import.meta.url), 'utf8');
 const orbitalsOrganizationSettingsSource = readFileSync(
-  new URL('../../uapi/app/orbitals/components/organization/OrganizationSettings.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/orbitals/components/organization/OrganizationSettings.tsx', import.meta.url),
   'utf8',
 );
-const orbitalsModelsPaneSource = readFileSync(new URL('../../uapi/app/orbitals/components/OrbitalsModelsPane.tsx', import.meta.url), 'utf8');
-const auxillariesConnectsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesConnects.tsx', import.meta.url), 'utf8');
-const auxillariesModelsSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesModels.tsx', import.meta.url), 'utf8');
-const auxillariesProfileStepSource = readFileSync(new URL('../../uapi/app/auxillaries/components/AuxillariesProfileStep.tsx', import.meta.url), 'utf8');
-const externalRealizationRouteTestSource = readFileSync(new URL('../../uapi/tests/api/externalRealizationRoute.test.ts', import.meta.url), 'utf8');
-const terminalExternalRuntimeTestSource = readFileSync(new URL('../../uapi/tests/terminalExternalRuntime.test.ts', import.meta.url), 'utf8');
-const orbitalsOnboardingRouteTestSource = readFileSync(new URL('../../uapi/tests/orbitalsOnboardingRoute.test.ts', import.meta.url), 'utf8');
-const userDataRouteTestSource = readFileSync(new URL('../../uapi/tests/userDataRoute.test.ts', import.meta.url), 'utf8');
+const orbitalsModelsPaneSource = readFileSync(new URL('../../apps/uapi/app/orbitals/components/OrbitalsModelsPane.tsx', import.meta.url), 'utf8');
+const auxillariesConnectsSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesConnects.tsx', import.meta.url), 'utf8');
+const auxillariesModelsSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesModels.tsx', import.meta.url), 'utf8');
+const auxillariesProfileStepSource = readFileSync(new URL('../../apps/uapi/app/auxillaries/components/AuxillariesProfileStep.tsx', import.meta.url), 'utf8');
+const externalRealizationRouteTestSource = readFileSync(new URL('../../apps/uapi/tests/api/externalRealizationRoute.test.ts', import.meta.url), 'utf8');
+const terminalExternalRuntimeTestSource = readFileSync(new URL('../../apps/uapi/tests/terminalExternalRuntime.test.ts', import.meta.url), 'utf8');
+const orbitalsOnboardingRouteTestSource = readFileSync(new URL('../../apps/uapi/tests/orbitalsOnboardingRoute.test.ts', import.meta.url), 'utf8');
+const userDataRouteTestSource = readFileSync(new URL('../../apps/uapi/tests/userDataRoute.test.ts', import.meta.url), 'utf8');
 const bitcodeScriptSource = readFileSync(new URL('../SCRIPT.md', import.meta.url), 'utf8');
 const bitcodeScriptShortSource = readFileSync(new URL('../SCRIPT_SHORT.md', import.meta.url), 'utf8');
 const bitcodeDemoSpecV15Source = readFileSync(new URL('../BITCODE_DEMO_SPEC_V15.md', import.meta.url), 'utf8');
@@ -752,7 +752,7 @@ const figmaIntegrationSource = readFileSync(new URL('../../packages/externals/fi
 const multimodalProcessingPackageSource = readFileSync(new URL('../../packages/generic-tools/multimodal-processing/package.json', import.meta.url), 'utf8');
 const multimodalProcessingReadmeSource = readFileSync(new URL('../../packages/generic-tools/multimodal-processing/README.md', import.meta.url), 'utf8');
 const systemGrepReadmeSource = readFileSync(new URL('../../packages/host-commands/grep/README.md', import.meta.url), 'utf8');
-const marketingSetupFormSource = readFileSync(new URL('../../uapi/app/(root)/components/MarketingSetupForm.tsx', import.meta.url), 'utf8');
+const marketingSetupFormSource = readFileSync(new URL('../../apps/uapi/app/(root)/components/MarketingSetupForm.tsx', import.meta.url), 'utf8');
 
 test('active root spec family is Bitcode-named and legacy spec family is preserved under _legacy', () => {
   const activeSpecPaths = [
@@ -811,39 +811,39 @@ test('active root spec family is Bitcode-named and legacy spec family is preserv
     `${new URL('../../.engi', import.meta.url).pathname} should not remain as an active root artifact namespace`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/app/_legacy', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/app/_legacy', import.meta.url)),
     false,
-    `${new URL('../../uapi/app/_legacy', import.meta.url).pathname} should not remain as an active terminal subtree`
+    `${new URL('../../apps/uapi/app/_legacy', import.meta.url).pathname} should not remain as an active terminal subtree`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/components/base/bitcode/credits', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/components/base/bitcode/credits', import.meta.url)),
     false,
-    `${new URL('../../uapi/components/base/bitcode/credits', import.meta.url).pathname} should not remain as an active Bitcode UI directory`
+    `${new URL('../../apps/uapi/components/base/bitcode/credits', import.meta.url).pathname} should not remain as an active Bitcode UI directory`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url)),
     true,
-    `${new URL('../../uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+    `${new URL('../../apps/uapi/components/base/bitcode/btd/btd-tracker.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url)),
     true,
-    `${new URL('../../uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+    `${new URL('../../apps/uapi/components/base/bitcode/btd/BTDPrices.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url)),
     true,
-    `${new URL('../../uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
+    `${new URL('../../apps/uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx', import.meta.url).pathname} should exist under canonical BTD naming`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/app/orbitals/components/organization/CreditManagement.tsx', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/app/orbitals/components/organization/CreditManagement.tsx', import.meta.url)),
     false,
-    `${new URL('../../uapi/app/orbitals/components/organization/CreditManagement.tsx', import.meta.url).pathname} should not remain as an active credit-named organization carrier`
+    `${new URL('../../apps/uapi/app/orbitals/components/organization/CreditManagement.tsx', import.meta.url).pathname} should not remain as an active credit-named organization carrier`
   );
   assert.equal(
-    existsSync(new URL('../../uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url)),
     true,
-    `${new URL('../../uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url).pathname} should exist under canonical BTD treasury naming`
+    `${new URL('../../apps/uapi/app/auxillaries/components/organization/BTDTreasuryManagement.tsx', import.meta.url).pathname} should exist under canonical BTD treasury naming`
   );
 });
 const genericVcsReadmeSource = readFileSync(new URL('../../packages/generic-tools/vcs/README.md', import.meta.url), 'utf8');
@@ -875,11 +875,11 @@ const toolsGenericsDocCodeToolIndexSource = readFileSync(
 
 test('active V26 runtime and package tests no longer admit the make-engi-branch compatibility route', () => {
   assert.equal(
-    existsSync(new URL('../../uapi/app/api/make-engi-branch/route.ts', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/app/api/make-engi-branch/route.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../uapi/app/api/make-engi-branch', import.meta.url)),
+    existsSync(new URL('../../apps/uapi/app/api/make-engi-branch', import.meta.url)),
     false,
   );
   assert.doesNotMatch(serverSource, /\/api\/make-engi-branch/);
@@ -1398,7 +1398,7 @@ test('active V26 canon posture and preserved runtime state use bitcode policy an
   assert.doesNotMatch(useUserDataSource, /credits:\s*btdBalance/);
   assert.equal(existsSync(checkoutCallbackClientPath), false);
   assert.equal(existsSync(checkoutCallbackPagePath), false);
-  assert.equal(existsSync(new URL('../../uapi/app/checkout/callback/head.tsx', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/app/checkout/callback/head.tsx', import.meta.url)), false);
   assert.equal(existsSync(createCheckoutSessionRoutePath), false);
   assert.equal(existsSync(fulfillCheckoutSessionRoutePath), false);
   assert.doesNotMatch(heroClientSource, /successful_checkout_session_id/);
@@ -2269,75 +2269,75 @@ test('active V26 retained package surfaces use Bitcode naming instead of Engi na
   assert.doesNotMatch(chatgptAppToolsSource, /team_engi/);
   assert.doesNotMatch(chatgptAppToolsSource, /builder@engi\.dev/);
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__artifacts.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__artifacts.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__digest__run.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__digest__run.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-mcps-aws.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__generic-tools-mcps-aws.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-mcps-vercel.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__generic-tools-mcps-vercel.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__generic-tools-web-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__generic-tools-web-search.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__github.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__github.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/engi__vcs.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/engi__vcs.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__artifacts.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__artifacts.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__digest__run.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__digest__run.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-mcps-aws.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__generic-tools-mcps-aws.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-mcps-vercel.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__generic-tools-mcps-vercel.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__generic-tools-simple-system-text-search.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__generic-tools-web-search.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__generic-tools-web-search.d.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__github.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__github.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/types/bitcode__vcs.d.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/types/bitcode__vcs.d.ts', import.meta.url)),
     false,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/__stubs__/github.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/__stubs__/github.ts', import.meta.url)),
     true,
   );
   assert.equal(
-    existsSync(new URL('../../packages/external-apps/chatgpt/src/__stubs__/vcs.ts', import.meta.url)),
+    existsSync(new URL('../../apps/chatgpt/src/__stubs__/vcs.ts', import.meta.url)),
     true,
   );
 
@@ -3181,14 +3181,14 @@ test('active V26 marketing, styling, asset, and operator carriers use Bitcode na
   assert.doesNotMatch(introPamphletSource, /'Engi Software Agents'/);
   assert.doesNotMatch(introPamphletSource, /AES' Unique Offering with ESAs/);
 
-  assert.equal(existsSync(new URL('../../uapi/public/bitcode.svg', import.meta.url)), false);
-  assert.equal(existsSync(new URL('../../uapi/public/logo.svg', import.meta.url)), true);
-  assert.equal(existsSync(new URL('../../uapi/public/icon.svg', import.meta.url)), true);
-  assert.equal(existsSync(new URL('../../uapi/public/icons/logo.svg', import.meta.url)), true);
-  assert.equal(existsSync(new URL('../../uapi/public/bitcode-typelogo.png', import.meta.url)), true);
-  assert.equal(existsSync(new URL('../../uapi/public/parse-issue-with-comment-from-bitcode.png', import.meta.url)), true);
-  assert.equal(existsSync(new URL('../../uapi/public/engi.svg', import.meta.url)), false);
-  assert.equal(existsSync(new URL('../../uapi/public/engi-typelogo.png', import.meta.url)), false);
-  assert.equal(existsSync(new URL('../../uapi/public/parse-issue-with-comment-from-engi.png', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/bitcode.svg', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/logo.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/icon.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/icons/logo.svg', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/bitcode-typelogo.png', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/parse-issue-with-comment-from-bitcode.png', import.meta.url)), true);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/engi.svg', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/engi-typelogo.png', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/public/parse-issue-with-comment-from-engi.png', import.meta.url)), false);
   assert.equal(existsSync(new URL('../../packages/eslint-plugin-engi', import.meta.url)), false);
 });

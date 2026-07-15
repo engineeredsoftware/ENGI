@@ -58,10 +58,10 @@
       "laneId": "staging-testnet",
       "purpose": "Prove staging-testnet route execution requires real bounded inference, validates Supabase readback, streams to database storage, and returns source-safe completion summaries.",
       "sourceRoots": [
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts",
-        "uapi/tests/api/pipelineHarnessPreflight.test.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts"
       ],
       "primitiveIds": [
         "summarizeHarnessPreflight",
@@ -105,7 +105,7 @@
       "sourceRoots": [
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
         "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts"
       ],
       "primitiveIds": [
@@ -196,7 +196,7 @@
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
         "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "primitiveIds": [
         "buildAssetPackSourceSafePreview",
@@ -239,10 +239,10 @@
       "purpose": "Prove phase, agent, PTRR step, Failsafe, ThricifiedGeneration, prompt-presence, raw-response-presence, parsed-output, tool, and database readback telemetry can render in the rich execution log shape.",
       "sourceRoots": [
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "primitiveIds": [
         "pipeline-stream-event",
@@ -285,9 +285,9 @@
       "laneId": "local-and-staging-testnet",
       "purpose": "Require real non-mocked inference in staging-testnet and allow local live rehearsal only when model-provider and sandbox credentials are present outside tracked files.",
       "sourceRoots": [
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
         "packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-harness.ts",
-        "uapi/tests/api/pipelineHarnessPreflight.test.ts"
+        "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts"
       ],
       "primitiveIds": [
         "assertRealInferenceEnvironment",
@@ -329,7 +329,7 @@
       "purpose": "Keep local and staging-testnet rehearsals blocked from value-bearing production-mainnet settlement while still proving ledger/database synchronization, BTC fee posture, and ownership boundaries.",
       "sourceRoots": [
         "packages/pipeline-hosts/src/asset-pack-harness.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
         "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts"
       ],
       "primitiveIds": [
@@ -396,57 +396,57 @@
   "predicateResults": [
     {
       "id": "preflight-requires-real-inference-toggle",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {
       "id": "preflight-requires-provider-credential",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {
       "id": "preflight-bounds-route-runtime-budget",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {
       "id": "preflight-requires-bounded-profile",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {
       "id": "route-emits-preflight-and-completion-events",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "route-forces-database-streaming",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "route-validates-staging-readback",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "route-summary-projects-search-preview-settlement",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "route-summary-projects-many-selected-candidates",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "route-tests-cover-accepted-read-need",
-      "sourcePath": "uapi/tests/api/pipelineHarnessRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
       "passed": true
     },
     {
       "id": "route-preflight-tests-cover-real-inference",
-      "sourcePath": "uapi/tests/api/pipelineHarnessPreflight.test.ts",
+      "sourcePath": "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts",
       "passed": true
     },
     {
@@ -571,17 +571,17 @@
     },
     {
       "id": "terminal-client-tests-cover-harness-streaming",
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
       "id": "pipeline-log-header-tests-cover-rich-log",
-      "sourcePath": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "passed": true
     },
     {
       "id": "pipeline-log-ui-remains-rich-accordion",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     }
   ],
@@ -630,10 +630,10 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "routePreflight": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-    "routeRunner": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-    "routeTest": "uapi/tests/api/pipelineHarnessRoute.test.ts",
-    "routePreflightTest": "uapi/tests/api/pipelineHarnessPreflight.test.ts",
+    "routePreflight": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+    "routeRunner": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+    "routeTest": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+    "routePreflightTest": "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts",
     "harness": "packages/pipeline-hosts/src/asset-pack-harness.ts",
     "harnessDevRunner": "packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-harness.ts",
     "harnessTest": "packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts",
@@ -643,8 +643,8 @@
     "readingPipelineContractTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
     "readingPipelineObservabilityTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
     "assetPackDisclosureTest": "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts",
-    "terminalPipelineHarnessClientTest": "uapi/tests/terminalPipelineHarnessClient.test.ts",
-    "pipelineExecutionLogHeaderTest": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-    "pipelineExecutionLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+    "terminalPipelineHarnessClientTest": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+    "pipelineExecutionLogHeaderTest": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+    "pipelineExecutionLogUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
   }
 }

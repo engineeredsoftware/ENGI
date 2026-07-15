@@ -179,14 +179,14 @@ function main() {
     'packages/api/src/conversations/stream-events.ts',
     'packages/api/src/conversations/__tests__/telemetry.test.ts',
     'packages/api/src/conversations/__tests__/stream-events.test.ts',
-    'uapi/app/conversations/conversation-telemetry-proof-hooks.ts',
-    'uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/api/conversationTelemetryProofHooks.test.ts',
-    'uapi/tests/conversationTelemetryProofPanel.test.tsx',
-    'uapi/tests/conversationStreamPipelineLog.test.tsx',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts',
+    'apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/api/conversationTelemetryProofHooks.test.ts',
+    'apps/uapi/tests/conversationTelemetryProofPanel.test.tsx',
+    'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
+    'apps/uapi/jest.config.cjs',
     'docs/conversations.md',
     'internal-docs/BITCODE_CONVERSATIONS.md',
     'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
@@ -197,7 +197,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/conversations/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -247,7 +247,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationTelemetryProofHooks.test.ts',
@@ -333,12 +333,12 @@ function main() {
   assertCheck(failures, streamEvents.includes('dashboardPanel'), 'Conversation stream log metadata must expose dashboard panel ids.');
   assertCheck(failures, streamEvents.includes('runbookId'), 'Conversation stream log metadata must expose runbook ids.');
 
-  const uiTelemetry = read(root, 'uapi/app/conversations/conversation-telemetry-proof-hooks.ts');
+  const uiTelemetry = read(root, 'apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts');
   assertCheck(failures, uiTelemetry.includes('buildConversationTelemetryProofPreview'), 'UAPI must expose a telemetry proof preview helper.');
   assertCheck(failures, uiTelemetry.includes('source-safe-conversation-telemetry-proof-hooks-metadata'), 'UAPI telemetry proof preview must use the source-safe verdict.');
   assertCheck(failures, !uiTelemetry.includes('process.env'), 'UAPI telemetry proof helper must not read credentials or env values.');
 
-  const overlay = read(root, 'uapi/app/conversations/components/ConversationsOverlay.tsx');
+  const overlay = read(root, 'apps/uapi/app/conversations/components/ConversationsOverlay.tsx');
   assertCheck(failures, overlay.includes('ConversationTelemetryProofPanel'), 'Conversations overlay must expose the telemetry proof panel.');
 
   const docs = read(root, 'docs/conversations.md');

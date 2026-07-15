@@ -2,9 +2,9 @@
  * Era-pin for V28 commercial-MVP static product-surface witnesses.
  *
  * V28 `v28-mvp-qa.test.js` reads the historical layout
- * (`uapi/components/base/bitcode/...`, `app/terminal/...`, monolith
+ * (`apps/uapi/components/base/bitcode/...`, `app/terminal/...`, monolith
  * `packages/generic-llms/package.json`). V48 sole-canon modularization moved
- * those carriers under `uapi/components/{bitcode,packs,...}/` and nested
+ * those carriers under `apps/uapi/components/{bitcode,packs,...}/` and nested
  * `packages/generic-llms/*` providers.
  *
  * Meta law (`BITCODE_SPECIFYING.md` §4.3 / §13.1): **old version checks never
@@ -26,7 +26,7 @@ const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..
 
 /** True once the V48 sole-canon component layout is present. */
 export const SUPERSEDED = existsSync(
-  path.join(REPO_ROOT, 'uapi/components/bitcode/btd/BtdTracker/BtdTracker.tsx'),
+  path.join(REPO_ROOT, 'apps/uapi/components/bitcode/btd/BtdTracker/BtdTracker.tsx'),
 );
 
 const SKIP_REASON =

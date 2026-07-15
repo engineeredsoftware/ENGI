@@ -18,14 +18,16 @@ RUN apt-get update && apt-get install -y \
     openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy only the workspace (monorepo) files needed for runner execution.
-COPY uapi ./uapi
+# Copy monorepo workspace pieces needed for runner execution.
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY packages ./packages
+COPY apps/uapi ./apps/uapi
 
 # Install PNPM for faster deterministic installs
 RUN npm install -g pnpm@8
 
 # Install production deps (no devDependencies speeds up image build)
-RUN pnpm --filter uapi... install --prod --frozen-lockfile
+RUN pnpm --filter bitcode-uapi... install --prod --frozen-lockfile
 
 # ------------------------------------------------------------------------
 # Final image – slim and ready to execute run-long-runner.ts
@@ -39,4 +41,4 @@ COPY --from=base /app /app
 ENV NODE_ENV=production \
     TZ=UTC
 
-ENTRYPOINT ["npx", "ts-node", "uapi/scripts/run-long-runner.ts"]
+ENTRYPOINT ["npx", "ts-node", "apps/uapi/scripts/run-long-runner.ts"]

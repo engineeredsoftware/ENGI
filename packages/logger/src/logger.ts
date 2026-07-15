@@ -1,4 +1,4 @@
-// Migrated from uapi/lib/logger.ts – no code changes.
+// Migrated from apps/uapi/lib/logger.ts – no code changes.
 // The original file now re-exports from this module so existing imports keep working.
 
 import * as fs from 'fs/promises';

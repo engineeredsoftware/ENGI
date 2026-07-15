@@ -285,23 +285,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -464,23 +464,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -643,23 +643,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -823,23 +823,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1003,23 +1003,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1183,23 +1183,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1362,23 +1362,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1541,23 +1541,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1640,23 +1640,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1710,23 +1710,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1780,23 +1780,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1850,23 +1850,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1920,23 +1920,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -1990,23 +1990,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -2060,23 +2060,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
@@ -2130,23 +2130,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-source-selector.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-source-selector.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {

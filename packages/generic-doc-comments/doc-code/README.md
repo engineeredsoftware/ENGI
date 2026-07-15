@@ -39,7 +39,7 @@ searchTool.__promptParts = WEB_SEARCH_DOC_CODE_TOOL_PROMPT;
 
 ## Installation
 
-The webpack loader is automatically configured in `uapi/next.config.mjs`:
+The webpack loader is automatically configured in `apps/uapi/next.config.mjs`:
 
 ```javascript
 config.module.rules.push({

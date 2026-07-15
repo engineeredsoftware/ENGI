@@ -145,7 +145,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/exchange/README.md',
+    'apps/uapi/app/exchange/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -240,7 +240,7 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
   const protocolReadme = read(root, 'packages/specifying/README.md');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

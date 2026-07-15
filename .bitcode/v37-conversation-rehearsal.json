@@ -85,13 +85,13 @@
         ".bitcode/v37-conversation-terminal-handoff.json",
         ".bitcode/v37-conversation-persistence-privacy-redaction.json",
         ".bitcode/v37-conversation-telemetry-proof-hooks.json",
-        "uapi/app/conversations/components/ConversationsOverlay.tsx",
-        "uapi/app/conversations/components/ConversationsChat.tsx",
-        "uapi/hooks/useConversationStream.ts",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "uapi/tests/conversationWritingWorkspace.test.tsx",
-        "uapi/tests/conversationSourceSelector.test.tsx",
-        "uapi/tests/conversationTerminalHandoff.test.tsx"
+        "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
+        "apps/uapi/app/conversations/components/ConversationsChat.tsx",
+        "apps/uapi/hooks/useConversationStream.ts",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
+        "apps/uapi/tests/conversationSourceSelector.test.tsx",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx"
       ],
       "routeUiChecks": [
         "local.conversation.route-history-restored.root",
@@ -227,31 +227,31 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsChat.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsChat.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/hooks/useConversationStream.ts",
+          "sourceRoot": "apps/uapi/hooks/useConversationStream.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         }
       ],
@@ -315,7 +315,7 @@
         "packages/api/src/conversations/privacy.ts",
         "packages/api/src/conversations/stream-events.ts",
         "packages/api/src/conversations/telemetry.ts",
-        "uapi/app/conversations/README.md",
+        "apps/uapi/app/conversations/README.md",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
       "routeUiChecks": [
@@ -335,7 +335,7 @@
       ],
       "validationCommands": [
         "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/conversations/__tests__/privacy.test.ts src/conversations/__tests__/stream-events.test.ts src/conversations/__tests__/telemetry.test.ts --runInBand --forceExit",
-        "pnpm --dir uapi exec jest tests/api/conversationSessionRouteHistory.test.ts tests/api/conversationTelemetryProofHooks.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/api/conversationSessionRouteHistory.test.ts tests/api/conversationTelemetryProofHooks.test.ts --runInBand"
       ],
       "valueBearingMainnetAdmission": false,
       "canonicalObject": "ConversationRehearsal",
@@ -466,7 +466,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -523,11 +523,11 @@
         ".bitcode/v37-conversation-terminal-handoff.json",
         ".bitcode/v37-conversation-persistence-privacy-redaction.json",
         ".bitcode/v37-conversation-telemetry-proof-hooks.json",
-        "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
-        "uapi/app/conversations/components/ConversationSourceSelector.tsx",
-        "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx"
+        "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+        "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+        "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx"
       ],
       "routeUiChecks": [
         "conversation.stream-row-expanded-metadata-source-safe.root",
@@ -544,7 +544,7 @@
         "conversation-stream-writing-selector-handoff-redacted-log-root"
       ],
       "validationCommands": [
-        "pnpm --dir uapi exec jest tests/conversationStreamPipelineLog.test.tsx tests/conversationWritingWorkspace.test.tsx tests/conversationSourceSelector.test.tsx tests/conversationTerminalHandoff.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/conversationStreamPipelineLog.test.tsx tests/conversationWritingWorkspace.test.tsx tests/conversationSourceSelector.test.tsx tests/conversationTerminalHandoff.test.tsx --runInBand"
       ],
       "valueBearingMainnetAdmission": false,
       "canonicalObject": "ConversationRehearsal",
@@ -652,23 +652,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+          "sourceRoot": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+          "sourceRoot": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
           "present": true
         }
       ],
@@ -722,8 +722,8 @@
         "packages/api/src/conversations/messages.ts",
         "packages/api/src/routes/conversations.ts",
         "packages/api/src/conversations/__tests__/privacy.test.ts",
-        "uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx",
-        "uapi/tests/conversationPersistencePrivacyPanel.test.tsx"
+        "apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx",
+        "apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx"
       ],
       "routeUiChecks": [
         "conversation.persistence.export-source-safe-visible-tier.root",
@@ -740,7 +740,7 @@
       ],
       "validationCommands": [
         "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/conversations/__tests__/privacy.test.ts --runInBand --forceExit",
-        "pnpm --dir uapi exec jest tests/conversationPersistencePrivacyPanel.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/conversationPersistencePrivacyPanel.test.tsx --runInBand"
       ],
       "valueBearingMainnetAdmission": false,
       "canonicalObject": "ConversationRehearsal",
@@ -863,11 +863,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationPersistencePrivacyPanel.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx",
           "present": true
         }
       ],
@@ -917,9 +917,9 @@
         ".bitcode/v37-conversation-terminal-handoff.json",
         ".bitcode/v37-conversation-persistence-privacy-redaction.json",
         ".bitcode/v37-conversation-telemetry-proof-hooks.json",
-        "uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx",
-        "uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
-        "uapi/tests/conversationTelemetryProofPanel.test.tsx",
+        "apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx",
+        "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
+        "apps/uapi/tests/conversationTelemetryProofPanel.test.tsx",
         "docs/conversations.md",
         "internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md"
       ],
@@ -939,7 +939,7 @@
       ],
       "validationCommands": [
         "pnpm run check:v37-gate8",
-        "pnpm --dir uapi exec jest tests/conversationTelemetryProofPanel.test.tsx tests/conversationStreamPipelineLog.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/conversationTelemetryProofPanel.test.tsx tests/conversationStreamPipelineLog.test.tsx --runInBand"
       ],
       "valueBearingMainnetAdmission": false,
       "canonicalObject": "ConversationRehearsal",
@@ -1046,15 +1046,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTelemetryProofPanel.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTelemetryProofPanel.test.tsx",
           "present": true
         },
         {
@@ -1119,7 +1119,7 @@
         "BITCODE_SPEC_V37.md",
         "packages/specifying/src/canonical/conversation-terminal-handoff.js",
         "packages/specifying/src/canonical/conversation-telemetry-proof-hooks.js",
-        "uapi/app/conversations/components/ConversationTerminalHandoff.tsx"
+        "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx"
       ],
       "routeUiChecks": [
         "value-bearing-mainnet.conversation.non-admission.root",
@@ -1259,7 +1259,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         }
       ],
@@ -1427,31 +1427,31 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationsChat.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationsChat.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/hooks/useConversationStream.ts",
+          "sourceRoot": "apps/uapi/hooks/useConversationStream.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationWritingWorkspace.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationSourceSelector.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationSourceSelector.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTerminalHandoff.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
           "present": true
         }
       ]
@@ -1529,7 +1529,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/README.md",
+          "sourceRoot": "apps/uapi/app/conversations/README.md",
           "present": true
         },
         {
@@ -1591,23 +1591,23 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationSourceSelector.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+          "sourceRoot": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+          "sourceRoot": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
           "present": true
         }
       ]
@@ -1681,11 +1681,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationPersistencePrivacyPanel.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx",
           "present": true
         }
       ]
@@ -1743,15 +1743,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
+          "sourceRoot": "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/conversationTelemetryProofPanel.test.tsx",
+          "sourceRoot": "apps/uapi/tests/conversationTelemetryProofPanel.test.tsx",
           "present": true
         },
         {
@@ -1829,7 +1829,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+          "sourceRoot": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
           "present": true
         }
       ]

@@ -93,19 +93,19 @@ function main() {
     'package.json',
     'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts',
-    'uapi/app/page.tsx',
-    'uapi/app/exchange/README.md',
-    'uapi/app/(root)/components/PublicDocsPageContent.tsx',
-    'uapi/components/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/components/bitcode/layout/bitcode-public-explainers.ts',
-    'uapi/tests/publicDocsPageContent.test.tsx',
-    'uapi/tests/bitcodeDocsContent.test.tsx',
-    'uapi/tests/marketingLandingPage.test.tsx',
-    'uapi/tests/marketingOperatorGuideCard.test.tsx',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/tests/packsPageClient.test.tsx',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/page.tsx',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx',
+    'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'apps/uapi/components/bitcode/layout/bitcode-public-explainers.ts',
+    'apps/uapi/tests/publicDocsPageContent.test.tsx',
+    'apps/uapi/tests/bitcodeDocsContent.test.tsx',
+    'apps/uapi/tests/marketingLandingPage.test.tsx',
+    'apps/uapi/tests/marketingOperatorGuideCard.test.tsx',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/jest.config.cjs',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -117,25 +117,25 @@ function main() {
   const packageJson = read(root, 'package.json');
   const parity = read(root, 'BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const publicDocs = [
-    read(root, 'uapi/app/docs/bitcode-docs-content.ts'),
-    read(root, 'uapi/app/(root)/components/PublicDocsPageContent.tsx'),
-    read(root, 'uapi/components/bitcode/layout/bitcode-public-copy.ts'),
-    read(root, 'uapi/components/bitcode/layout/bitcode-public-explainers.ts'),
-    read(root, 'uapi/app/page.tsx'),
+    read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts'),
+    read(root, 'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx'),
+    read(root, 'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts'),
+    read(root, 'apps/uapi/components/bitcode/layout/bitcode-public-explainers.ts'),
+    read(root, 'apps/uapi/app/page.tsx'),
   ].join('\n');
-  const exchangeReadme = read(root, 'uapi/app/exchange/README.md');
+  const exchangeReadme = read(root, 'apps/uapi/app/exchange/README.md');
   const routeTests = [
-    read(root, 'uapi/tests/readPageClient.test.tsx'),
-    read(root, 'uapi/tests/depositPageClient.test.tsx'),
-    read(root, 'uapi/tests/packsPageClient.test.tsx'),
+    read(root, 'apps/uapi/tests/readPageClient.test.tsx'),
+    read(root, 'apps/uapi/tests/depositPageClient.test.tsx'),
+    read(root, 'apps/uapi/tests/packsPageClient.test.tsx'),
   ].join('\n');
   const docsTests = [
-    read(root, 'uapi/tests/publicDocsPageContent.test.tsx'),
-    read(root, 'uapi/tests/bitcodeDocsContent.test.tsx'),
-    read(root, 'uapi/tests/marketingLandingPage.test.tsx'),
-    read(root, 'uapi/tests/marketingOperatorGuideCard.test.tsx'),
+    read(root, 'apps/uapi/tests/publicDocsPageContent.test.tsx'),
+    read(root, 'apps/uapi/tests/bitcodeDocsContent.test.tsx'),
+    read(root, 'apps/uapi/tests/marketingLandingPage.test.tsx'),
+    read(root, 'apps/uapi/tests/marketingOperatorGuideCard.test.tsx'),
   ].join('\n');
-  const uapiJestConfig = read(root, 'uapi/jest.config.cjs');
+  const uapiJestConfig = read(root, 'apps/uapi/jest.config.cjs');
 
   assertIncludesAll(failures, implementation, [
     'INTERFACE_DISCLOSURE_BOUNDARY_SURFACES',
@@ -204,7 +204,7 @@ function main() {
     'BTD scalar volume and rights',
     'BTC settlement money',
     'compatibility only',
-  ], 'uapi/app/exchange/README.md');
+  ], 'apps/uapi/app/exchange/README.md');
 
   assertIncludesAll(failures, routeTests, [
     'Source-safe read state',
@@ -239,8 +239,8 @@ function main() {
   assertIncludesAll(failures, parity, [
     'Gate 15 implementation readback',
     'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/(root)/components/PublicDocsPageContent.tsx',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx',
     'check:v45-gate15',
   ], 'V45 parity matrix Gate 15 readback');
 

@@ -53,13 +53,13 @@ const hostRows = Object.freeze([
   {
     hostId: 'website',
     runtimeSurface: 'website',
-    ownerPackage: 'uapi',
+    ownerPackage: 'apps/uapi',
     runtimeCarrier: 'vercel-nextjs-website',
     outboundNetworkPosture: 'provider_bound',
     admissionStatus: 'admitted_non_value_lanes',
     proofOutputPaths: [HOST_ARTIFACT_PATH],
     validationCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
     supportedLaneIds: ['local', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
     telemetryProofHookId: 'deployment.telemetry.website',
   },
@@ -79,13 +79,13 @@ const hostRows = Object.freeze([
   {
     hostId: 'mcp_api',
     runtimeSurface: 'mcp_api',
-    ownerPackage: 'packages/generic-mcps/bitcode',
+    ownerPackage: 'apps/mcp',
     runtimeCarrier: 'mcp-server-process',
     outboundNetworkPosture: 'outbound_restricted',
     admissionStatus: 'admitted_non_value_lanes',
     proofOutputPaths: ['.bitcode/v33-mcp-api-tool-contracts.json'],
     validationCommand:
-      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     supportedLaneIds: ['local', 'staging-testnet', 'public-testnet'],
     telemetryProofHookId: 'deployment.telemetry.mcp-api',
   },

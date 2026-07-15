@@ -77,8 +77,8 @@
       "surfaceKind": "operator-lane",
       "sourceRoots": [
         "scripts/rehearse-v40-local-staging-testnet.mjs",
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "commandIds": [
         "node scripts/rehearse-v40-local-staging-testnet.mjs --lane staging-testnet --dry-run --json",
@@ -255,12 +255,12 @@
       "laneId": "staging-testnet",
       "surfaceKind": "database-readback",
       "sourceRoots": [
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
-        "uapi/tests/api/pipelineHarnessPreflight.test.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+        "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHarnessPreflight.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/pipelineHarnessPreflight.test.ts --runInBand"
       ],
       "requiredEvidence": [
         "stream to database flag",
@@ -517,7 +517,7 @@
     },
     {
       "id": "route-preflight-real-inference-database-readback",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {

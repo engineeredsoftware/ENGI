@@ -89,14 +89,14 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'uapi/app/terminal/terminal-pipeline-host-client.ts',
-    'uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
-    'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-    'uapi/app/terminal/README.md',
-    'uapi/components/bitcode/pipeline/README.md',
+    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/components/bitcode/pipeline/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -113,13 +113,13 @@ function main() {
   const observabilityTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-host-client.ts');
-  const header = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
-  const log = read(root, 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx');
-  const terminalTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');
-  const headerTest = read(root, 'uapi/tests/pipelineExecutionLogHeader.test.tsx');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const executionReadme = read(root, 'uapi/components/bitcode/pipeline/README.md');
+  const terminalClient = read(root, 'apps/uapi/app/terminal/terminal-pipeline-host-client.ts');
+  const header = read(root, 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx');
+  const log = read(root, 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalPipelineHarnessClient.test.ts');
+  const headerTest = read(root, 'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const executionReadme = read(root, 'apps/uapi/components/bitcode/pipeline/README.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

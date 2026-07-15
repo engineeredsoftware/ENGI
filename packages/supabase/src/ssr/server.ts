@@ -3,7 +3,7 @@
 /**
  * Server-side Supabase client helper for Next.js (Edge / Node).
  *
- * Ported from `uapi/utils/supabase/server.ts` to make it available outside the
+ * Ported from `apps/uapi/utils/supabase/server.ts` to make it available outside the
  * uapi application.
  */
 

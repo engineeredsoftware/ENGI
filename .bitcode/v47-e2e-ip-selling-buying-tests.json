@@ -42,7 +42,7 @@
   "completionRows": [
     {
       "rowId": "seller-flow-browser-proof",
-      "owner": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "route": "/deposit",
       "contract": "A browser test deposits IP the Bitcode way: source connection gates option synthesis, source-safe measurements render before approval, admission readback synchronizes to /packs, and the flow journals execution rows.",
       "requiredFields": [
@@ -75,7 +75,7 @@
     },
     {
       "rowId": "buyer-flow-browser-proof",
-      "owner": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "route": "/read",
       "contract": "A browser test buys synthesized IP the Bitcode way: the five-step session renders the fit measurement review, final BTD scalar, and deterministic BTC-testnet quote basis before payment, then reads back payment observation, finality, BTD rights receipt, and repository PR delivery in order.",
       "requiredFields": [
@@ -109,7 +109,7 @@
     },
     {
       "rowId": "packs-dashboard-browser-proof",
-      "owner": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "route": "/packs",
       "contract": "A browser test audits the exchange on /packs: master-detail state readback tracks settlement, BTD rights, compensation, and delivery, and repair-required activity exposes the fail-closed repair surface with commodity-state blockers.",
       "requiredFields": [
@@ -142,7 +142,7 @@
     },
     {
       "rowId": "deterministic-mock-harness",
-      "owner": "uapi/tests/e2e/commercial-mvp.helpers.ts",
+      "owner": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts",
       "route": "/deposit",
       "contract": "The browser proof runs in deterministic mock mode with stateful execution-history journaling, mocked VCS/auxillary surfaces, and a browser error trap that fails the proof on framework overlays or console errors.",
       "requiredFields": [
@@ -207,37 +207,37 @@
     },
     {
       "id": "spec-proves-ip-seller-deposit-flow",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "passed": true
     },
     {
       "id": "spec-proves-ip-buyer-read-flow",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "passed": true
     },
     {
       "id": "spec-proves-packs-dashboard-readback",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "passed": true
     },
     {
       "id": "spec-runs-deterministic-source-safe-mock-mode",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "passed": true
     },
     {
       "id": "e2e-harness-binds-helpers-and-config",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.helpers.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts",
       "passed": true
     },
     {
       "id": "uapi-package-exposes-ip-exchange-script",
-      "sourcePath": "uapi/package.json",
+      "sourcePath": "apps/uapi/package.json",
       "passed": true
     },
     {
       "id": "route-clients-carry-proven-surfaces",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
@@ -268,13 +268,13 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
-    "ipExchangeSpec": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
-    "e2eHelpers": "uapi/tests/e2e/commercial-mvp.helpers.ts:5bb8c28f36170b877e8a467a",
-    "playwrightConfig": "uapi/playwright.config.ts:0aea6b01fa17b8c0614b2074",
-    "uapiPackageJson": "uapi/package.json:dc9773834cf101bb272eb07c",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:f01b600f9ef64cd3739460ef",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
+    "ipExchangeSpec": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
+    "e2eHelpers": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts:5bb8c28f36170b877e8a467a",
+    "playwrightConfig": "apps/uapi/playwright.config.ts:0aea6b01fa17b8c0614b2074",
+    "uapiPackageJson": "apps/uapi/package.json:dc9773834cf101bb272eb07c",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:f01b600f9ef64cd3739460ef",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:6314e03df5bf7c598e5b7802",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",

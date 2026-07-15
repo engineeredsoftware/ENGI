@@ -92,8 +92,8 @@ const runbookRows = Object.freeze([
     incidentClass: 'execution_orphan_or_missing_completion',
     escalationPath: ['execution operator', 'api maintainer', 'deployment owner'],
     commandSequence: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHostRoute.test.ts --runInBand',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/pipelineHostRoute.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts --runInBand',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
     repairReferences: ['DistributedExecutionRuntimeReceipt', 'execution_event_store', 'execution stream route'],
@@ -122,7 +122,7 @@ const runbookRows = Object.freeze([
     incidentClass: 'tool_policy_denial_or_repeated_failure',
     escalationPath: ['tool operator', 'agent maintainer', 'security reviewer'],
     commandSequence: [
-      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
       'pnpm run check:v35-telemetry-taxonomy-catalog',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
@@ -143,7 +143,7 @@ const runbookRows = Object.freeze([
     escalationPath: ['wallet operator', 'BTD maintainer', 'security reviewer'],
     commandSequence: [
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
     repairReferences: ['SecretRotationPlan', 'wallet capability root', 'fee quote policy'],
@@ -162,7 +162,7 @@ const runbookRows = Object.freeze([
     incidentClass: 'interface_auth_denial_or_payload_redaction_spike',
     escalationPath: ['interface operator', 'api maintainer', 'organization policy owner'],
     commandSequence: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
@@ -183,7 +183,7 @@ const runbookRows = Object.freeze([
     escalationPath: ['observer operator', 'ledger operator', 'BTD maintainer'],
     commandSequence: [
       'pnpm run check:v34-runtime-observers-broadcasters-repair-jobs',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand',
     ],
     verificationCommands: ['pnpm run check:v35-gate5'],
     repairReferences: ['RuntimeObserverRepairJob', 'finality watcher', 'ledger projection repair'],

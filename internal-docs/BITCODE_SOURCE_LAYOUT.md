@@ -13,19 +13,22 @@ Agents and humans follow it for new files and for refactors.
 ```
 packages/* (domain, pure, reusable)
  ↑
-uapi/lib, uapi/networking, uapi/hooks (thin Next/React adapters)
+apps/uapi/lib, apps/uapi/networking, apps/uapi/hooks (thin Next/React adapters)
  ↑
-uapi/components/shadcn → Shadcn* primitives
+apps/uapi/components/shadcn → Shadcn* primitives
  ↑
-uapi/components/bitcode → Bitcode* base (theme, pipeline, layout, auth)
+apps/uapi/components/bitcode → Bitcode* base (theme, pipeline, layout, auth)
  ↑
-uapi/components/{marketing|packs|reads|deposits|docs|conversations|auxillaries}
+apps/uapi/components/{marketing|packs|reads|deposits|docs|conversations|auxillaries}
  ↑
-uapi/app/{page shells} → compose only; no heavy logic
+apps/uapi/app/{page shells} → compose only; no heavy logic
 ```
 
+**Monorepo roots:** `packages/` (shared libs), `apps/` (uapi, mcp, chatgpt, claude),
+`images/` (pipeliner).
+
 **Never:** experience → experience. **Never:** page client → another page client.
-**Never:** packages → uapi. **Never:** new Terminal product surface.
+**Never:** packages → apps. **Never:** new Terminal product surface.
 
 ---
 
@@ -33,15 +36,15 @@ uapi/app/{page shells} → compose only; no heavy logic
 
 | Prefix | Route / role | Component home |
 | --- | --- | --- |
-| `Marketing*` | `/` landing | `uapi/components/marketing/` |
-| `Packs*` | `/packs` | `uapi/components/packs/` |
-| `Reads*` | `/reads` | `uapi/components/reads/` |
-| `Deposits*` | `/deposits` | `uapi/components/deposits/` |
-| `Docs*` | `/docs` | `uapi/components/docs/` |
-| `Conversations*` | conversations (full UX post-V48) | `uapi/components/conversations/` |
-| `Auxillaries*` | identity / wallet / GitHub panes | `uapi/components/auxillaries/` |
-| `Shadcn*` | root primitives | `uapi/components/shadcn/` |
-| `Bitcode*` | shared base over Shadcn | `uapi/components/bitcode/` |
+| `Marketing*` | `/` landing | `apps/uapi/components/marketing/` |
+| `Packs*` | `/packs` | `apps/uapi/components/packs/` |
+| `Reads*` | `/reads` | `apps/uapi/components/reads/` |
+| `Deposits*` | `/deposits` | `apps/uapi/components/deposits/` |
+| `Docs*` | `/docs` | `apps/uapi/components/docs/` |
+| `Conversations*` | conversations (full UX post-V48) | `apps/uapi/components/conversations/` |
+| `Auxillaries*` | identity / wallet / GitHub panes | `apps/uapi/components/auxillaries/` |
+| `Shadcn*` | root primitives | `apps/uapi/components/shadcn/` |
+| `Bitcode*` | shared base over Shadcn | `apps/uapi/components/bitcode/` |
 
 Product run language is **Pipeline** (`BitcodePipeline*`, experience extensions).
 Ledger language is **journal**. Agent packages may still say `execution-generics`.
@@ -54,7 +57,7 @@ Each non-trivial component owns a **directory** named after the component.
 The entry file is **named** (`ComponentName.tsx`), **not** `index.tsx`.
 
 ```
-uapi/components/<layer-or-experience>/<ComponentName>/
+apps/uapi/components/<layer-or-experience>/<ComponentName>/
  <ComponentName>.tsx # component entry (named file)
  <ComponentName>.types.ts # props / local types (optional if tiny)
  <ComponentName>.constants.ts # local constants (optional)
@@ -79,7 +82,7 @@ uapi/components/<layer-or-experience>/<ComponentName>/
 6. **React** — extract hooks for stateful logic; keep render trees readable;
  co-locate styles; no prop drilling dumps when a hook or context is clearer.
 7. **Tests** — co-located under `__tests__/` for unit behavior; app-level
- contracts may stay in `uapi/tests/` when they prove routes/pages.
+ contracts may stay in `apps/uapi/tests/` when they prove routes/pages.
 
 **Barrels:** prefer **explicit imports** (no `export *` barrels) unless a
 package public API requires a stable entry.
@@ -89,7 +92,7 @@ package public API requires a stable entry.
 ## 4. Experience module layout
 
 ```
-uapi/components/<experience>/
+apps/uapi/components/<experience>/
  README.md
  models/ # pure route models, formatters, explainers
  <experience>-route-model.ts
@@ -108,7 +111,7 @@ uapi/components/<experience>/
 Page shells stay thin:
 
 ```
-uapi/app/<experience>/
+apps/uapi/app/<experience>/
  page.tsx # metadata + server shell
  <Experience>PageClient.tsx # orchestration only (providers, URL, sections)
 ```
@@ -116,7 +119,7 @@ uapi/app/<experience>/
 **Deposit experience (V48 Phase 4 — modular rebuild target):**
 
 ```
-uapi/components/deposits/
+apps/uapi/components/deposits/
  models/ # pure: route session, activity ledger, demand, status
  DepositPageClient/
  DepositPageClient.tsx # orchestration only
@@ -133,7 +136,7 @@ uapi/components/deposits/
 **Packs experience (V48 Phase 4):**
 
 ```
-uapi/components/packs/
+apps/uapi/components/packs/
  models/ # pure: packs-format.ts, activity types
  PacksPageClient/ + hooks/ # use-packs-activity, use-packs-route-params
  PacksPortfolioOverview/
@@ -154,7 +157,7 @@ uapi/components/packs/
 ## 5. Bitcode base layout
 
 ```
-uapi/components/bitcode/
+apps/uapi/components/bitcode/
  README.md
  pipeline/ # shared pipeline table/log/telemetry/models
  models/
@@ -350,7 +353,7 @@ bitcode/
 │ ├── execution-generics/
 │ ├── prompts/
 │ └── ...
-├── uapi/ # Next.js interface owner
+├── apps/uapi/ # Next.js interface owner
 │ ├── ARCHITECTURE.md
 │ ├── README.md
 │ ├── app/ # App Router — thin shells + API
@@ -471,11 +474,11 @@ bitcode/
 **V48 modular co-location is the active layout.** Component units use
 `ComponentName/ComponentName.tsx` under:
 
-- `uapi/components/shadcn/` — primitives (`Button/Button.tsx`, …)
-- `uapi/components/bitcode/` — shared base (pipeline, auth, layout, …)
-- `uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
+- `apps/uapi/components/shadcn/` — primitives (`Button/Button.tsx`, …)
+- `apps/uapi/components/bitcode/` — shared base (pipeline, auth, layout, …)
+- `apps/uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
 
-`uapi/app/*` route files are thin shells (metadata + Suspense + re-exports).
+`apps/uapi/app/*` route files are thin shells (metadata + Suspense + re-exports).
 Page clients live under the matching experience component tree.
 
 When touching a remaining large monofile, extract pure helpers and section

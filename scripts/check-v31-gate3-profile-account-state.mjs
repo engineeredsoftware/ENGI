@@ -83,14 +83,14 @@ function main() {
     'packages/api/src/routes/auxillaries-contract.ts',
     'packages/api/src/routes/auxillaries.ts',
     'packages/api/src/routes/__tests__/auxillaries-contract.test.ts',
-    'uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
-    'uapi/app/auxillaries/components/AuxillariesSurface.tsx',
-    'uapi/app/auxillaries/auxillary-onboarding-contract.ts',
-    'uapi/tests/userDataRoute.test.ts',
-    'uapi/tests/profileStep.test.tsx',
+    'apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx',
+    'apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx',
+    'apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts',
+    'apps/uapi/tests/userDataRoute.test.ts',
+    'apps/uapi/tests/profileStep.test.tsx',
     'packages/api/README.md',
     'packages/orm/README.md',
-    'uapi/app/auxillaries/README.md',
+    'apps/uapi/app/auxillaries/README.md',
     'BITCODE_SPEC_V31.md',
     'BITCODE_SPEC_V31_DELTA.md',
     'BITCODE_SPEC_V31_NOTES.md',
@@ -103,14 +103,14 @@ function main() {
   const contract = read(root, 'packages/api/src/routes/auxillaries-contract.ts');
   const route = read(root, 'packages/api/src/routes/auxillaries.ts');
   const contractTest = read(root, 'packages/api/src/routes/__tests__/auxillaries-contract.test.ts');
-  const dataRouteTest = read(root, 'uapi/tests/userDataRoute.test.ts');
-  const profilePane = read(root, 'uapi/app/auxillaries/components/AuxillariesProfilePane.tsx');
-  const surface = read(root, 'uapi/app/auxillaries/components/AuxillariesSurface.tsx');
-  const bridge = read(root, 'uapi/app/auxillaries/auxillary-onboarding-contract.ts');
-  const profileTest = read(root, 'uapi/tests/profileStep.test.tsx');
+  const dataRouteTest = read(root, 'apps/uapi/tests/userDataRoute.test.ts');
+  const profilePane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx');
+  const surface = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx');
+  const bridge = read(root, 'apps/uapi/app/auxillaries/auxillary-onboarding-contract.ts');
+  const profileTest = read(root, 'apps/uapi/tests/profileStep.test.tsx');
   const apiReadme = read(root, 'packages/api/README.md');
   const ormReadme = read(root, 'packages/orm/README.md');
-  const auxReadme = read(root, 'uapi/app/auxillaries/README.md');
+  const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const spec = read(root, 'BITCODE_SPEC_V31.md');
   const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
@@ -118,7 +118,7 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const jestConfig = read(root, 'uapi/jest.config.cjs');
+  const jestConfig = read(root, 'apps/uapi/jest.config.cjs');
 
   for (const symbol of [
     'AuxillariesAccountIdentity',

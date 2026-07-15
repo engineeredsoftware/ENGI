@@ -100,7 +100,7 @@ const checks = [
     forbidden: ['implementation:asset-pack-synthesize-artifacts-agent'],
   },
   {
-    file: 'uapi/app/api/read-review/route.ts',
+    file: 'apps/uapi/app/api/read-review/route.ts',
     needles: [
       'synthesize_read_need',
       'resynthesize_read_need',
@@ -113,7 +113,7 @@ const checks = [
     forbidden: ['READ_FINDING_FITS_SYNTHESIS', 'ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
-    file: 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    file: 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
     needles: [
       'Synthesize Read-Need',
       'Resynthesize with feedback',
@@ -125,7 +125,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission', 'TerminalFitPipelineHarness', 'readFitProgress'],
   },
   {
-    file: 'uapi/tests/api/readReviewRoute.test.ts',
+    file: 'apps/uapi/tests/api/readReviewRoute.test.ts',
     needles: [
       'resynthesizes a Read-Need with feedback',
       'pipelineTrace',

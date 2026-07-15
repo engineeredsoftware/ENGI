@@ -163,7 +163,7 @@
       ],
       "sourceRoots": [
         "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
-        "uapi/prompts/bitcode-terminal-system-prompt.ts",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts"
@@ -242,7 +242,7 @@
       "hardeningScore": 1,
       "sourceHashes": {
         "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts": "2d058deda99d3de2b2e75bf2",
-        "uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts": "e9a890f6fc8bb33c5205c70f",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts": "cb04b9ba4b01cd81cec89376",
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts": "f8cfc824a9d3f39de3df5fb3"
@@ -259,11 +259,11 @@
       "sourceRoots": [
         "packages/api/src/conversations/stream-events.ts",
         "packages/api/src/conversations/telemetry.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
         "packages/api/src/conversations/__tests__/stream-events.test.ts",
         "packages/api/src/conversations/__tests__/telemetry.test.ts",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx"
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx"
       ],
       "promptFamilyIds": [
         "Conversation",
@@ -342,11 +342,11 @@
       "sourceHashes": {
         "packages/api/src/conversations/stream-events.ts": "049a26286565e121f20c6874",
         "packages/api/src/conversations/telemetry.ts": "9ebc4836fe0e2cde2699cb7e",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx": "a8d415906e5fd112ea493e99",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx": "4170c67feac8f35d5a0b276f",
         "packages/api/src/conversations/__tests__/stream-events.test.ts": "b8cf51cd980b71ef83c4f7ab",
         "packages/api/src/conversations/__tests__/telemetry.test.ts": "b39d24fe1ad77a65eca15b1f",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4"
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx": "73e3ba9c6f058ffe4418b3e4"
       }
     },
     {
@@ -543,7 +543,7 @@
         "packages/btd/__tests__/mcp-tool-contract.test.ts",
         "packages/btd/src/api-boundaries.ts",
         "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-        "uapi/app/docs/bitcode-docs-content.ts"
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
       ],
       "promptFamilyIds": [
         "ToolDefinition",
@@ -625,7 +625,7 @@
         "packages/btd/__tests__/mcp-tool-contract.test.ts": "27ef7ecf25bdbcb8420466d8",
         "packages/btd/src/api-boundaries.ts": "f5fc231ed68d390c3102f0c7",
         "packages/api/src/routes/__tests__/btd-crypto.test.ts": "c0c94cbd3006b1eb181d3dde",
-        "uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
+        "apps/uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
       }
     },
     {
@@ -637,11 +637,11 @@
         "Interface"
       ],
       "sourceRoots": [
-        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+        "apps/chatgpt/src/tools.ts",
         "packages/btd/src/chatgpt-app-action-contract.ts",
-        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+        "apps/chatgpt/src/__tests__/tools.test.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "promptFamilyIds": [
         "ToolDefinition",
@@ -721,11 +721,11 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts": "bebc8c802c60830ea6630503",
-        "packages/external-apps/chatgpt/src/tools.ts": "01098e7c683c6394a4ff6918",
+        "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts": "bebc8c802c60830ea6630503",
+        "apps/chatgpt/src/tools.ts": "01098e7c683c6394a4ff6918",
         "packages/btd/src/chatgpt-app-action-contract.ts": "a24a464bd0910f8b8284ddfe",
-        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts": "bd3b2ab267858fb98a2ccc0e",
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "4d61df32d3f61c9a2f1efa5c"
+        "apps/chatgpt/src/__tests__/tools.test.ts": "bd3b2ab267858fb98a2ccc0e",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts": "4d61df32d3f61c9a2f1efa5c"
       }
     },
     {
@@ -737,11 +737,11 @@
         "Interface"
       ],
       "sourceRoots": [
-        "uapi/prompts/bitcode-terminal-system-prompt.ts",
-        "uapi/app/api/conversations/_shared.ts",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+        "apps/uapi/app/api/conversations/_shared.ts",
         "packages/api/src/routes/conversations.ts",
-        "uapi/app/terminal/terminal-commercial-launch-readiness.ts",
-        "uapi/app/docs/bitcode-docs-content.ts"
+        "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
       ],
       "promptFamilyIds": [
         "Interface",
@@ -817,11 +817,11 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
-        "uapi/app/api/conversations/_shared.ts": "66789580a62df36a6ff2ff12",
+        "apps/uapi/prompts/bitcode-terminal-system-prompt.ts": "3ffedfa546e463ea9ba5bbcd",
+        "apps/uapi/app/api/conversations/_shared.ts": "66789580a62df36a6ff2ff12",
         "packages/api/src/routes/conversations.ts": "5e58470bbe10ab4eb0e1f54a",
-        "uapi/app/terminal/terminal-commercial-launch-readiness.ts": "57a4003516368404a5f3756d",
-        "uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
+        "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts": "57a4003516368404a5f3756d",
+        "apps/uapi/app/docs/bitcode-docs-content.ts": "5c7e56156db21c2d368277e6"
       }
     },
     {
@@ -1002,7 +1002,7 @@
     {
       "id": "uapi-terminal-prompt-imports-canonical-system-prompt",
       "rowId": "conversation-terminal-system-prompt-boundary",
-      "sourcePath": "uapi/prompts/bitcode-terminal-system-prompt.ts",
+      "sourcePath": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
       "passed": true
     },
     {
@@ -1050,19 +1050,19 @@
     {
       "id": "pipeline-log-renders-prompt-disclosure",
       "rowId": "conversation-stream-log-disclosure-boundary",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {
       "id": "pipeline-log-renders-return-schema-metadata",
       "rowId": "conversation-stream-log-disclosure-boundary",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {
       "id": "pipeline-log-tests-source-safe-disclosure",
       "rowId": "conversation-stream-log-disclosure-boundary",
-      "sourcePath": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
       "passed": true
     },
     {
@@ -1164,37 +1164,37 @@
     {
       "id": "public-api-docs-teach-request-shape-and-failure-posture",
       "rowId": "mcp-api-public-contract-prompt-boundary",
-      "sourcePath": "uapi/app/docs/bitcode-docs-content.ts",
+      "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
       "passed": true
     },
     {
       "id": "chatgpt-prompts-use-doccode-prompt",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-prompts-export-tool-carriers",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-format-doccode-prompts",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-carry-doccode-prompt-metadata",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-enforce-read-access-and-organization-authority",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
@@ -1212,19 +1212,19 @@
     {
       "id": "chatgpt-tests-cover-write-admission",
       "rowId": "chatgpt-app-tool-prompt-boundary",
-      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "sourcePath": "apps/chatgpt/src/__tests__/tools.test.ts",
       "passed": true
     },
     {
       "id": "terminal-app-prompt-uses-canonical-conversation-prompt",
       "rowId": "terminal-public-api-interface-summary-boundary",
-      "sourcePath": "uapi/prompts/bitcode-terminal-system-prompt.ts",
+      "sourcePath": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
       "passed": true
     },
     {
       "id": "conversation-route-shared-stream-events-source-safe",
       "rowId": "terminal-public-api-interface-summary-boundary",
-      "sourcePath": "uapi/app/api/conversations/_shared.ts",
+      "sourcePath": "apps/uapi/app/api/conversations/_shared.ts",
       "passed": true
     },
     {
@@ -1236,13 +1236,13 @@
     {
       "id": "terminal-readiness-names-connected-interface-authority",
       "rowId": "terminal-public-api-interface-summary-boundary",
-      "sourcePath": "uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
       "passed": true
     },
     {
       "id": "public-docs-cover-mcp-chatgpt-api-terminal-boundaries",
       "rowId": "terminal-public-api-interface-summary-boundary",
-      "sourcePath": "uapi/app/docs/bitcode-docs-content.ts",
+      "sourcePath": "apps/uapi/app/docs/bitcode-docs-content.ts",
       "passed": true
     },
     {
@@ -1375,16 +1375,16 @@
     "conversationAgent": "packages/conversations/src/agent/ConversationAgent.ts",
     "conversationSystemPrompt": "packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts",
     "conversationPromptParts": "packages/prompts/src/raw_promptparts/specific",
-    "uapiTerminalSystemPrompt": "uapi/prompts/bitcode-terminal-system-prompt.ts",
-    "conversationRouteShared": "uapi/app/api/conversations/_shared.ts",
+    "uapiTerminalSystemPrompt": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
+    "conversationRouteShared": "apps/uapi/app/api/conversations/_shared.ts",
     "conversationApiRoute": "packages/api/src/routes/conversations.ts",
     "conversationStreamEvents": "packages/api/src/conversations/stream-events.ts",
     "conversationTelemetry": "packages/api/src/conversations/telemetry.ts",
     "conversationStreamEventsTest": "packages/api/src/conversations/__tests__/stream-events.test.ts",
     "conversationTelemetryTest": "packages/api/src/conversations/__tests__/telemetry.test.ts",
-    "conversationStreamUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-    "conversationStreamUiHeader": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
-    "conversationStreamUiTest": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+    "conversationStreamUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+    "conversationStreamUiHeader": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+    "conversationStreamUiTest": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
     "docCodeToolPrompt": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
     "formatUsableTools": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
     "toolPromptRegistry": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
@@ -1394,13 +1394,13 @@
     "btdMcpToolContractTest": "packages/btd/__tests__/mcp-tool-contract.test.ts",
     "btdApiBoundaries": "packages/btd/src/api-boundaries.ts",
     "btdApiRouteTest": "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-    "chatGptToolDocPrompts": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
-    "chatGptTools": "packages/external-apps/chatgpt/src/tools.ts",
+    "chatGptToolDocPrompts": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+    "chatGptTools": "apps/chatgpt/src/tools.ts",
     "chatGptActionContract": "packages/btd/src/chatgpt-app-action-contract.ts",
-    "chatGptToolsTest": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
-    "chatGptActionContractTest": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
-    "publicDocs": "uapi/app/docs/bitcode-docs-content.ts",
-    "terminalReadiness": "uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+    "chatGptToolsTest": "apps/chatgpt/src/__tests__/tools.test.ts",
+    "chatGptActionContractTest": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+    "publicDocs": "apps/uapi/app/docs/bitcode-docs-content.ts",
+    "terminalReadiness": "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
     "gate2InventorySource": "packages/specifying/src/canonical/v41-promptpart-prompt-inventory.js",
     "gate2InventoryArtifact": ".bitcode/v41-promptpart-prompt-inventory.json",
     "gate3ContractsSource": "packages/specifying/src/canonical/v41-registry-interpolation-contracts.js",

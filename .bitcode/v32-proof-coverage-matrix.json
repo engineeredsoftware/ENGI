@@ -65,12 +65,12 @@
         "unredacted-protected-source-in-detail-pane",
         "operator-detail-overflow"
       ],
-      "fixture": "uapi/tests/terminalTransactionReadModel.test.ts; uapi/tests/terminalPipelineHarnessClient.test.ts; uapi/tests/pipelineExecutionLogHeader.test.tsx; uapi/tests/terminalInterfaceIntegrationRegression.test.ts; uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
-      "owner": "uapi/app/terminal",
+      "fixture": "apps/uapi/tests/terminalTransactionReadModel.test.ts; apps/uapi/tests/terminalPipelineHarnessClient.test.ts; apps/uapi/tests/pipelineExecutionLogHeader.test.tsx; apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts; apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
+      "owner": "apps/uapi/app/terminal",
       "plannedGate": "Gate 6 and Gate 7",
       "promotedBehavior": "URL-addressable Terminal transactions, live execution streams, transaction detail cards, wallet/BTC posture, and source-safe operator readback.",
       "repairPosture": "Gate 6 hardens transaction contract fixtures; Gate 7 proves browser/accessibility/responsive presentation.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx tests/terminalInterfaceIntegrationRegression.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof",
+      "replayCommand": "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx tests/terminalInterfaceIntegrationRegression.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof",
       "requiredContexts": [
         "TerminalTransaction",
         "TerminalTransactionReadModel",
@@ -142,12 +142,12 @@
         "wallet-btd-projection-mismatch",
         "recovery-run-without-before-after-roots"
       ],
-      "fixture": "packages/api/src/routes/__tests__/auxillaries-contract.test.ts; uapi/tests/userDataRoute.test.ts; uapi/tests/auxillariesWalletPane.test.tsx; uapi/tests/auxillariesExternalsPane.test.tsx; uapi/tests/auxillariesContent.access.test.tsx; uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
-      "owner": "packages/api; packages/orm; uapi/app/auxillaries",
+      "fixture": "packages/api/src/routes/__tests__/auxillaries-contract.test.ts; apps/uapi/tests/userDataRoute.test.ts; apps/uapi/tests/auxillariesWalletPane.test.tsx; apps/uapi/tests/auxillariesExternalsPane.test.tsx; apps/uapi/tests/auxillariesContent.access.test.tsx; apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts; apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
+      "owner": "packages/api; packages/orm; apps/uapi/app/auxillaries",
       "plannedGate": "Gate 6 and Gate 7",
       "promotedBehavior": "Profile, account, provider readiness, interface admission, wallet/BTD pane, organization authority, diagnostics, recovery, and telemetry proof hooks.",
       "repairPosture": "Gate 6 turns inherited Auxillaries contracts into shared regression fixtures; Gate 7 expands browser/accessibility evidence.",
-      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand && pnpm --dir uapi exec jest --runTestsByPath tests/userDataRoute.test.ts tests/auxillariesWalletPane.test.tsx tests/auxillariesExternalsPane.test.tsx tests/auxillariesContent.access.test.tsx tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof",
+      "replayCommand": "pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/auxillaries-contract.test.ts --runInBand && pnpm --dir apps/uapi exec jest --runTestsByPath tests/userDataRoute.test.ts tests/auxillariesWalletPane.test.tsx tests/auxillariesExternalsPane.test.tsx tests/auxillariesContent.access.test.tsx tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites && pnpm run check:v32-browser-accessibility-responsive-visual-proof",
       "requiredContexts": [
         "AuxillariesProfileState",
         "AuxillariesConnectionReadiness",
@@ -193,7 +193,7 @@
         "missing-interface-blocker",
         "prompt-doc-drift"
       ],
-      "fixture": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts; packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts",
+      "fixture": "apps/chatgpt/src/__tests__/tools.test.ts; apps/chatgpt/src/__tests__/yapperFlow.test.ts",
       "owner": "packages/chatgptapp",
       "plannedGate": "Gate 6",
       "promotedBehavior": "ChatGPT App tool surfaces, prompt documentation, interface integration seams, and source-safe tool responses.",
@@ -218,12 +218,12 @@
         "source-safety-class-missing",
         "provider-error-without-repair-action"
       ],
-      "fixture": "uapi/tests/api/readReviewRoute.test.ts; uapi/tests/api/pipelineHarnessRoute.test.ts; uapi/tests/api/vcsRoutes.test.ts; uapi/tests/userDataRoute.test.ts; packages/api/src/routes/__tests__/btd-crypto.test.ts; uapi/tests/api/conversationsRouteRead.test.ts",
-      "owner": "uapi/app/api; packages/api",
+      "fixture": "apps/uapi/tests/api/readReviewRoute.test.ts; apps/uapi/tests/api/pipelineHarnessRoute.test.ts; apps/uapi/tests/api/vcsRoutes.test.ts; apps/uapi/tests/userDataRoute.test.ts; packages/api/src/routes/__tests__/btd-crypto.test.ts; apps/uapi/tests/api/conversationsRouteRead.test.ts",
+      "owner": "apps/uapi/app/api; packages/api",
       "plannedGate": "Gate 6",
       "promotedBehavior": "UAPI and package API routes for Reading, pipeline harnesses, VCS, user data, Auxillaries, BTD, and transaction readback.",
       "repairPosture": "Gate 6 converts inherited route tests into shared API/interface contract regressions.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/api/vcsRoutes.test.ts tests/userDataRoute.test.ts tests/api/conversationsRouteRead.test.ts --runInBand && pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
+      "replayCommand": "pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts tests/api/vcsRoutes.test.ts tests/userDataRoute.test.ts tests/api/conversationsRouteRead.test.ts --runInBand && pnpm --filter @bitcode/api exec jest --config jest.config.cjs --runTestsByPath src/routes/__tests__/btd-crypto.test.ts --runInBand && pnpm run check:v32-interface-contract-regression-suites",
       "requiredContexts": [
         "route schemas",
         "auth/session posture",
@@ -243,12 +243,12 @@
         "settlement-conservation-drift",
         "read-license-unbound"
       ],
-      "fixture": "uapi/tests/terminalJournalReconciliation.test.ts; packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts; packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts",
-      "owner": "packages/btd; packages/pipeline-hosts; uapi/app/terminal",
+      "fixture": "apps/uapi/tests/terminalJournalReconciliation.test.ts; packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts; packages/btd/__tests__/btc-fee-operation.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts",
+      "owner": "packages/btd; packages/pipeline-hosts; apps/uapi/app/terminal",
       "plannedGate": "Gate 5",
       "promotedBehavior": "BTC fee, BTD ownership, read-license, internal ledger anchors, terminal journal entries, and reconciliation readback.",
       "repairPosture": "Gate 5 adds failure-state rows and deterministic repair roots for ledger/database reconciliation.",
-      "replayCommand": "pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand && pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states",
+      "replayCommand": "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand && pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts __tests__/v32-ledger-btd-settlement-failure-states.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states",
       "requiredContexts": [
         "BtcFeeQuote",
         "BtdRightsTransferReceipt",

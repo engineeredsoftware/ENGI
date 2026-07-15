@@ -63,9 +63,9 @@ const rows = Object.freeze([
     previewState: 'preview_admitted',
     rightsPosture: 'preview_only_locked',
     fixturePath:
-      'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     replayCommand:
-      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     successSummary: 'Finding Fits request is queued with source-safe proof roots and rights preview.',
   }),
   row({
@@ -82,7 +82,7 @@ const rows = Object.freeze([
     previewId: 'chatgpt-delivery',
     previewState: 'blocked_until_rights',
     rightsPosture: 'settlement_pending',
-    fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+    fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
     replayCommand:
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     readableDenial: 'Reader confirmation and paid AssetPack rights are required before delivery.',
@@ -102,9 +102,9 @@ const rows = Object.freeze([
     previewId: 'terminal-preview',
     previewState: 'blocked_until_rights',
     rightsPosture: 'settlement_pending',
-    fixturePath: 'uapi/tests/terminalOrganizationAuthority.test.ts',
+    fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     replayCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
     readableDenial: 'AssetPack source remains locked until BTC settlement and BTD rights transfer are admitted.',
     denialCode: 'ASSETPACK_SOURCE_LOCKED_UNTIL_SETTLEMENT',
   }),
@@ -279,15 +279,15 @@ export function buildV33InterfaceConsumerUxRegressionProofArtifact() {
       'shares the package-owned InterfaceConsumerUxRegressionProof for public API denied states',
       'interface.consumer.public-api-read-access-denied',
     ]),
-    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceConsumerUxRegressionProof for MCP Finding Fits readability',
       'interface.consumer.mcp-finding-fits-readable',
     ]),
-    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceConsumerUxRegressionProof for ChatGPT App blocked delivery',
       'interface.consumer.chatgpt-delivery-blocked',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
       'shares the package-owned InterfaceConsumerUxRegressionProof for Terminal handoff readability',
       'interface.consumer.terminal-preview-blocked',
     ]),

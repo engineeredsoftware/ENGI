@@ -299,7 +299,7 @@
       ]
     },
     {
-      "relativePath": "uapi/app/read/read-route-model.ts",
+      "relativePath": "apps/uapi/app/read/read-route-model.ts",
       "present": true,
       "digest": "sha256:670e1abd63cccea6365a491f5692b89671abbe260f7ca92c88f90c9260280101",
       "byteLength": 19997,
@@ -325,7 +325,7 @@
       ]
     },
     {
-      "relativePath": "uapi/app/deposit/deposit-route-model.ts",
+      "relativePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "present": true,
       "digest": "sha256:6485e388dd745c79907f992c6425b6ae8d3e2aff92bf73e8f1a6324d7d6462ff",
       "byteLength": 18200,
@@ -351,7 +351,7 @@
       ]
     },
     {
-      "relativePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "relativePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "present": true,
       "digest": "sha256:88d0334af8bc699e071ca2a19d4018965e8b4f5745bb1d4806c860aff3bc4e71",
       "byteLength": 37397,
@@ -401,9 +401,9 @@
   ],
   "generatedArtifactAndTestBindings": [
     "packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts",
-    "uapi/tests/readPageClient.test.tsx",
-    "uapi/tests/depositPageClient.test.tsx",
-    "uapi/tests/packsPageClient.test.tsx",
+    "apps/uapi/tests/readPageClient.test.tsx",
+    "apps/uapi/tests/depositPageClient.test.tsx",
+    "apps/uapi/tests/packsPageClient.test.tsx",
     "packages/specifying/test/v45-proof-family-artifacts.test.js"
   ],
   "failClosedConditions": [

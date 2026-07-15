@@ -112,21 +112,21 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'browser-e2e-interaction-state',
     routeStates: ['/terminal', '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=activity', '/terminal?transactionId=mock-run-branch-remediation&transactionDetail=console'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
-      'uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
-      'uapi/tests/bitcodeBrowserProof.test.ts',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
+      'apps/uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
+      'apps/uapi/tests/bitcodeBrowserProof.test.ts',
     ],
     testPaths: [
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.terminal.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-      'uapi/tests/bitcodeBrowserProof.test.ts',
-      'uapi/tests/terminalUxBrowserProof.test.tsx',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.terminal.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+      'apps/uapi/tests/bitcodeBrowserProof.test.ts',
+      'apps/uapi/tests/terminalUxBrowserProof.test.tsx',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:browser-proof',
-      'pnpm --dir uapi exec jest tests/bitcodeBrowserProof.test.ts tests/terminalUxBrowserProof.test.tsx --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/bitcodeBrowserProof.test.ts tests/terminalUxBrowserProof.test.tsx --runInBand',
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
@@ -154,22 +154,22 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'browser-e2e-conversation-terminal-handoff',
     routeStates: ['/conversations'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/components/conversations/ConversationsRouteClient/ConversationsRouteClient.tsx',
-      'uapi/components/conversations/ConversationsFullscreenControls/ConversationsFullscreenControls.tsx',
-      'uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
-      'uapi/components/conversations/ConversationsSidebarLogs/ConversationsSidebarLogs.tsx',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/components/conversations/ConversationsRouteClient/ConversationsRouteClient.tsx',
+      'apps/uapi/components/conversations/ConversationsFullscreenControls/ConversationsFullscreenControls.tsx',
+      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/ConversationsSidebarLogs/ConversationsSidebarLogs.tsx',
     ],
     testPaths: [
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
-      'uapi/tests/e2e/conversations.split-logs.spec.ts',
-      'uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
-      'uapi/tests/conversationStreamPipelineLog.test.tsx',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
+      'apps/uapi/tests/e2e/conversations.split-logs.spec.ts',
+      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:browser-proof',
-      'pnpm --dir uapi exec jest tests/conversationTerminalHandoff.test.tsx tests/conversationStreamPipelineLog.test.tsx --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/conversationTerminalHandoff.test.tsx tests/conversationStreamPipelineLog.test.tsx --runInBand',
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
@@ -197,21 +197,21 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'browser-e2e-accessibility-responsive',
     routeStates: ['/terminal?auxillary-open-to=wallet', '/terminal?auxillary-open-to=profile', '/terminal?auxillary-open-to=interfaces'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
-      'uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
-      'uapi/components/auxillaries/AuxillariesContent/AuxillariesContent.tsx',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
+      'apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
+      'apps/uapi/components/auxillaries/AuxillariesContent/AuxillariesContent.tsx',
     ],
     testPaths: [
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
-      'uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
-      'uapi/tests/auxillariesContent.access.test.tsx',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts',
+      'apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
+      'apps/uapi/tests/auxillariesContent.access.test.tsx',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:browser-proof',
-      'pnpm --dir uapi exec jest tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts tests/auxillariesContent.access.test.tsx --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts tests/auxillariesContent.access.test.tsx --runInBand',
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
@@ -239,23 +239,23 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'browser-e2e-rights-market',
     routeStates: ['/exchange', '/exchange?assetPack=asset-pack-run-branch-remediation&intent=buy-existing-btd'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/app/packs/PacksPageClient.tsx',
-      'uapi/app/packs/page.tsx',
-      'uapi/app/api/packs/activity/route.ts',
-      'uapi/app/exchange/page.tsx',
-      'uapi/components/bitcode/routes/ProductRoutes/product-routes.ts',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/app/packs/PacksPageClient.tsx',
+      'apps/uapi/app/packs/page.tsx',
+      'apps/uapi/app/api/packs/activity/route.ts',
+      'apps/uapi/app/exchange/page.tsx',
+      'apps/uapi/components/bitcode/routes/ProductRoutes/product-routes.ts',
     ],
     testPaths: [
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
-      'uapi/tests/packsPageClient.test.tsx',
-      'uapi/tests/packActivityModel.test.ts',
-      'uapi/tests/exchangeTerminalHandoff.test.ts',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
+      'apps/uapi/tests/packsPageClient.test.tsx',
+      'apps/uapi/tests/packActivityModel.test.ts',
+      'apps/uapi/tests/exchangeTerminalHandoff.test.ts',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:browser-proof',
-      'pnpm --dir uapi exec jest tests/exchangeTerminalHandoff.test.ts --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/exchangeTerminalHandoff.test.ts --runInBand',
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
@@ -283,20 +283,20 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'browser-e2e-docs-navigation',
     routeStates: ['/docs', '/docs/exchange', '/docs/terminal-actions'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/components/marketing/PublicDocsPageContent/PublicDocsPageContent.tsx',
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'uapi/app/docs/page.tsx',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/components/marketing/PublicDocsPageContent/PublicDocsPageContent.tsx',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/page.tsx',
     ],
     testPaths: [
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.routes.spec.ts',
-      'uapi/tests/publicDocsPageContent.test.tsx',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.routes.spec.ts',
+      'apps/uapi/tests/publicDocsPageContent.test.tsx',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:browser-proof',
-      'pnpm --dir uapi exec jest tests/publicDocsPageContent.test.tsx --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/publicDocsPageContent.test.tsx --runInBand',
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
@@ -324,20 +324,20 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'responsive-viewport-proof',
     routeStates: ['phone', 'tablet', 'laptop', 'widescreen'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
-      'uapi/playwright.config.ts',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
+      'apps/uapi/playwright.config.ts',
     ],
     testPaths: [
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
-      'uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
-      'uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
-      'uapi/tests/bitcodeBrowserProof.test.ts',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts',
+      'apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts',
+      'apps/uapi/tests/bitcodeBrowserProof.test.ts',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:browser-proof',
-      'pnpm --dir uapi run test:e2e:v32-browser-proof',
-      'pnpm --dir uapi exec jest tests/bitcodeBrowserProof.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi run test:e2e:v32-browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/bitcodeBrowserProof.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts --runInBand',
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_VIEWPORTS',
@@ -365,21 +365,21 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'visual-baseline-proof',
     routeStates: ['screenshot-baseline', 'trace-on-first-retry', 'video-on'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/playwright.config.ts',
-      'uapi/tests/e2e/sidebars.visual.spec.ts',
-      'uapi/tests/e2e/login.visual.spec.ts',
-      'uapi/tests/e2e/storybook.components.visual.spec.ts',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/playwright.config.ts',
+      'apps/uapi/tests/e2e/sidebars.visual.spec.ts',
+      'apps/uapi/tests/e2e/login.visual.spec.ts',
+      'apps/uapi/tests/e2e/storybook.components.visual.spec.ts',
     ],
     testPaths: [
-      'uapi/tests/e2e/sidebars.visual.spec.ts',
-      'uapi/tests/e2e/login.visual.spec.ts',
-      'uapi/tests/e2e/storybook.components.visual.spec.ts',
-      'uapi/tests/bitcodeBrowserProof.test.ts',
+      'apps/uapi/tests/e2e/sidebars.visual.spec.ts',
+      'apps/uapi/tests/e2e/login.visual.spec.ts',
+      'apps/uapi/tests/e2e/storybook.components.visual.spec.ts',
+      'apps/uapi/tests/bitcodeBrowserProof.test.ts',
     ],
     commandIds: [
-      'pnpm --dir uapi run test:e2e:visual',
-      'pnpm --dir uapi exec jest tests/bitcodeBrowserProof.test.ts --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:visual',
+      'pnpm --dir apps/uapi exec jest tests/bitcodeBrowserProof.test.ts --runInBand',
     ],
     requiredSourceMarkers: [
       'deterministic-screenshot-baselines',
@@ -408,20 +408,20 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     proofKind: 'accessibility-contract-proof',
     routeStates: ['keyboard-path', 'landmark-labels', 'focus-state', 'status-announcements'],
     sourceRoots: [
-      'uapi/app/bitcode-browser-proof.ts',
-      'uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
-      'uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
-      'uapi/components/conversations/ConversationsMessageWaterfall/ConversationsMessageWaterfall.tsx',
+      'apps/uapi/app/bitcode-browser-proof.ts',
+      'apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts',
+      'apps/uapi/app/auxillaries/auxillaries-ux-accessibility-proof.ts',
+      'apps/uapi/components/conversations/ConversationsMessageWaterfall/ConversationsMessageWaterfall.tsx',
     ],
     testPaths: [
-      'uapi/tests/bitcodeBrowserProof.test.ts',
-      'uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
-      'uapi/tests/auxillariesContent.access.test.tsx',
-      'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+      'apps/uapi/tests/bitcodeBrowserProof.test.ts',
+      'apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
+      'apps/uapi/tests/auxillariesContent.access.test.tsx',
+      'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
     ],
     commandIds: [
-      'pnpm --dir uapi exec jest tests/bitcodeBrowserProof.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts tests/auxillariesContent.access.test.tsx --runInBand',
-      'pnpm --dir uapi run test:e2e:browser-proof',
+      'pnpm --dir apps/uapi exec jest tests/bitcodeBrowserProof.test.ts tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts tests/auxillariesContent.access.test.tsx --runInBand',
+      'pnpm --dir apps/uapi run test:e2e:browser-proof',
     ],
     requiredSourceMarkers: [
       'keyboard-path',
@@ -448,7 +448,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
 
 function buildPredicateResults(repoRoot) {
   const packageJson = readSource(repoRoot, 'package.json');
-  const uapiPackageJson = readSource(repoRoot, 'uapi/package.json');
+  const uapiPackageJson = readSource(repoRoot, 'apps/uapi/package.json');
   const gateWorkflow = readSource(repoRoot, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = readSource(repoRoot, '.github/workflows/bitcode-canon-quality.yml');
   const spec = readSource(repoRoot, 'BITCODE_SPEC_V40.md');
@@ -460,7 +460,7 @@ function buildPredicateResults(repoRoot) {
   const rootReadme = readSource(repoRoot, 'README.md');
   const protocolIndex = readSource(repoRoot, 'packages/specifying/src/index.js');
   const protocolTypes = readSource(repoRoot, 'packages/specifying/src/index.d.ts');
-  const uapiJestConfig = readSource(repoRoot, 'uapi/jest.config.cjs');
+  const uapiJestConfig = readSource(repoRoot, 'apps/uapi/jest.config.cjs');
 
   const rowPredicates = V40_BROWSER_E2E_VISUAL_ROWS.flatMap((coverageRow) => {
     const safeId = coverageRow.browserSurfaceId.replace(/[^a-z0-9]+/gu, '-');
@@ -490,11 +490,11 @@ function buildPredicateResults(repoRoot) {
 
   return [
     predicateResult('package-scripts-include-gate7', 'package.json', packageJson.includes('generate:v40-browser-e2e-visual-proof') && packageJson.includes('check:v40-gate7')),
-    predicateResult('uapi-package-includes-browser-proof-script', 'uapi/package.json', uapiPackageJson.includes('test:e2e:browser-proof')),
+    predicateResult('uapi-package-includes-browser-proof-script', 'apps/uapi/package.json', uapiPackageJson.includes('test:e2e:browser-proof')),
     predicateResult('workflows-run-gate7-check', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('check-v40-gate7-browser-e2e-visual-proof.mjs') && canonWorkflow.includes('check-v40-gate7-browser-e2e-visual-proof.mjs')),
     predicateResult('gate-quality-runs-browser-proof-contract-test', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('bitcodeBrowserProof.test.ts')),
     predicateResult('gate-quality-optionally-runs-browser-proof', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('test:e2e:browser-proof') && gateWorkflow.includes('BITCODE_ENABLE_GATE_BROWSER_PROOF')),
-    predicateResult('uapi-jest-includes-browser-proof-test', 'uapi/jest.config.cjs', uapiJestConfig.includes('bitcodeBrowserProof.test.ts')),
+    predicateResult('uapi-jest-includes-browser-proof-test', 'apps/uapi/jest.config.cjs', uapiJestConfig.includes('bitcodeBrowserProof.test.ts')),
     predicateResult('protocol-exports-gate7', 'packages/specifying/src/index.js', protocolIndex.includes('buildV40BrowserE2eVisualProof') && protocolTypes.includes('buildV40BrowserE2eVisualProof')),
     predicateResult('spec-documents-gate7', 'BITCODE_SPEC_V40.md', spec.includes('V40 Gate 7 Browser E2E, Accessibility, Responsive, And Visual Proof') && spec.includes(V40_BROWSER_E2E_VISUAL_PROOF_ARTIFACT_PATH)),
     predicateResult('delta-documents-gate7', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 7 closes with package-backed `V40BrowserE2eVisualProof`')),

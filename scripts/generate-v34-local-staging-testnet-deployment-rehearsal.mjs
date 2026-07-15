@@ -127,9 +127,9 @@ function fullStackRow(rehearsalId, label, laneId, screenshotOrLogRoots, settleme
     ],
     screenshotOrLogRoots,
     validationCommands: [
-      'pnpm --dir uapi run test:e2e:terminal-ux',
+      'pnpm --dir apps/uapi run test:e2e:terminal-ux',
       'pnpm --filter @bitcode/api build',
-      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand',
       'pnpm run qa:pipeline-readback',
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/deployment-storage-posture.test.ts',

@@ -193,7 +193,7 @@
       "sourceRoots": [
         ".bitcode/v44-depositor-earnings-supply-opportunities.json",
         ".bitcode/v44-organization-policy-wallet-authority.json",
-        "uapi/app/deposit/DepositPageClient.tsx"
+        "apps/uapi/app/deposit/DepositPageClient.tsx"
       ],
       "requiredEvidence": [
         "depositCount",
@@ -241,8 +241,8 @@
       ],
       "sourceRoots": [
         ".bitcode/v44-reading-budget-quote-policy.json",
-        "uapi/app/read/ReadPageClient.tsx",
-        "uapi/app/read/read-route-model.ts"
+        "apps/uapi/app/read/ReadPageClient.tsx",
+        "apps/uapi/app/read/read-route-model.ts"
       ],
       "requiredEvidence": [
         "readCount",
@@ -290,7 +290,7 @@
       "sourceRoots": [
         ".bitcode/v44-packs-portfolio-market-intelligence.json",
         ".bitcode/v44-reading-budget-quote-policy.json",
-        "uapi/app/read/read-route-model.ts"
+        "apps/uapi/app/read/read-route-model.ts"
       ],
       "requiredEvidence": [
         "fitCandidateCount",
@@ -338,7 +338,7 @@
       "sourceRoots": [
         ".bitcode/v44-reading-budget-quote-policy.json",
         ".bitcode/v44-btd-btc-compensation-statements.json",
-        "uapi/app/read/ReadPageClient.tsx"
+        "apps/uapi/app/read/ReadPageClient.tsx"
       ],
       "requiredEvidence": [
         "quoteCount",
@@ -387,7 +387,7 @@
       "sourceRoots": [
         ".bitcode/v44-btd-btc-compensation-statements.json",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
-        "uapi/app/packs/PacksPageClient.tsx"
+        "apps/uapi/app/packs/PacksPageClient.tsx"
       ],
       "requiredEvidence": [
         "settlementObservationCount",
@@ -532,7 +532,7 @@
       "sourceRoots": [
         ".bitcode/v44-btd-btc-compensation-statements.json",
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
-        "uapi/app/api/packs/activity/route.ts"
+        "apps/uapi/app/api/packs/activity/route.ts"
       ],
       "requiredEvidence": [
         "ledger",
@@ -587,7 +587,7 @@
         "portfolio:many-pack-readback"
       ],
       "sourceRoots": [
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "scripts/rehearse-v44-scaled-network-flow.mjs"
       ],
@@ -701,13 +701,13 @@
     "gate6Artifact": ".bitcode/v44-btd-btc-compensation-statements.json:b8845f4d0984f114e0b197c0",
     "gate7Artifact": ".bitcode/v44-organization-policy-wallet-authority.json:dfd8c6ef6c8b3f42c8240663",
     "gate8Artifact": ".bitcode/v44-enterprise-product-ux.json:7fe6bdcd82ece5ce7d3aa228",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
-    "packsApi": "uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
-    "readModel": "uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
-    "depositModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
-    "pipelineLogUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:860bec675640bf466752bc7e",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "packsApi": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "readModel": "apps/uapi/app/read/read-route-model.ts:670e1abd63cccea6365a491f",
+    "depositModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "pipelineLogUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
     "compensationBoundary": "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
     "depositAdmission": "packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
     "operationalReadback": "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts:4b0d32180a32720cb0086ffe",
@@ -782,27 +782,27 @@
     },
     {
       "id": "packs-route-operates-economy",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "read-route-operates-procurement",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-route-operates-supply",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "packs-api-readback-source-safe",
-      "sourcePath": "uapi/app/api/packs/activity/route.ts",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
       "passed": true
     },
     {
       "id": "telemetry-ui-rich-readback",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {

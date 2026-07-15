@@ -5,9 +5,11 @@ FROM node:20-slim AS base
 
 WORKDIR /app
 
-COPY uapi ./uapi
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY packages ./packages
+COPY apps/uapi ./apps/uapi
 
-RUN npm install -g pnpm@8 && pnpm --filter uapi... install --prod --frozen-lockfile
+RUN npm install -g pnpm@8 && pnpm --filter bitcode-uapi... install --prod --frozen-lockfile
 
 FROM node:20-slim
 WORKDIR /app
@@ -16,4 +18,4 @@ ENV NODE_ENV=production TZ=UTC POLL_INTERVAL_MS=2000
 
 EXPOSE 9090
 
-ENTRYPOINT ["npx", "ts-node", "uapi/scripts/long-runner-worker.ts"]
+ENTRYPOINT ["npx", "ts-node", "apps/uapi/scripts/long-runner-worker.ts"]

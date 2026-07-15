@@ -86,9 +86,9 @@ function main() {
     'packages/btd/__tests__/telemetry.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/protocol-telemetry/route.ts',
+    'apps/uapi/app/api/btd/protocol-telemetry/route.ts',
     'packages/btd/README.md',
-    'uapi/app/terminal/README.md',
+    'apps/uapi/app/terminal/README.md',
     'BITCODE_SPEC_V30.md',
     'BITCODE_SPEC_V30_DELTA.md',
     'BITCODE_SPEC_V30_NOTES.md',
@@ -103,9 +103,9 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/telemetry.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const uapiRoute = read(root, 'uapi/app/api/btd/protocol-telemetry/route.ts');
+  const uapiRoute = read(root, 'apps/uapi/app/api/btd/protocol-telemetry/route.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
   const spec = read(root, 'BITCODE_SPEC_V30.md');
   const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');

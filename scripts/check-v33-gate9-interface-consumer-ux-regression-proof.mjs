@@ -132,9 +132,9 @@ function main() {
     'packages/btd/src/index.ts',
     'packages/btd/package.json',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
-    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
     'scripts/generate-v33-interface-consumer-ux-regression-proof.mjs',
     'scripts/check-v33-gate9-interface-consumer-ux-regression-proof.mjs',
     'BITCODE_SPEC_V33.md',
@@ -204,9 +204,9 @@ function main() {
   const btdSource = read(root, 'packages/btd/src/interface-consumer-ux-regression-proof.ts');
   const btdTest = read(root, 'packages/btd/__tests__/interface-consumer-ux-regression-proof.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts');
-  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
   const specs = [
     read(root, 'BITCODE_SPEC_V33.md'),
     read(root, 'BITCODE_SPEC_V33_DELTA.md'),

@@ -49,12 +49,12 @@
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "uapi/tests/terminalWalletBtcOperation.test.ts",
-        "uapi/tests/api/transactionWriteReadinessRoutes.test.ts"
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+        "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts tests/api/transactionWriteReadinessRoutes.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts tests/api/transactionWriteReadinessRoutes.test.ts --runInBand"
       ],
       "requiredEvidence": [
         "confirmed finality",
@@ -98,7 +98,7 @@
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "uapi/tests/terminalTransactionDetailCards.test.tsx"
+        "apps/uapi/tests/terminalTransactionDetailCards.test.tsx"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
@@ -191,11 +191,11 @@
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "uapi/tests/terminalJournalReconciliation.test.ts"
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/reconciliation.test.ts --runInBand --forceExit",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand"
       ],
       "requiredEvidence": [
         "ledger observed fact",
@@ -235,14 +235,14 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts",
-        "uapi/app/bitcode-ledger-storage-sync.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "testPaths": [
-        "uapi/tests/bitcodeLedgerStorageSync.test.ts",
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/bitcodeLedgerStorageSync.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/bitcodeLedgerStorageSync.test.ts --runInBand"
       ],
       "requiredEvidence": [
         "source-safe projection",
@@ -282,11 +282,11 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts",
         "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
-        "uapi/app/bitcode-ledger-storage-sync.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "uapi/tests/bitcodeLedgerStorageSync.test.ts"
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
@@ -333,7 +333,7 @@
       ],
       "testPaths": [
         "packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts",
-        "uapi/tests/terminalJournalReconciliation.test.ts"
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit"
@@ -376,11 +376,11 @@
       "sourceRoots": [
         "packages/btd/src/wallet.ts",
         "packages/btd/src/btc-fee-operation.ts",
-        "uapi/app/bitcode-ledger-storage-sync.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts"
       ],
       "testPaths": [
-        "uapi/tests/terminalWalletBtcOperation.test.ts",
-        "uapi/tests/bitcodeLedgerStorageSync.test.ts"
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btc-fee-operation.test.ts --runInBand --forceExit"
@@ -421,17 +421,17 @@
       "rowId": "terminal:route-and-interface-readback",
       "surfaceKind": "interface-readback",
       "sourceRoots": [
-        "uapi/app/bitcode-ledger-storage-sync.ts",
-        "uapi/tests/terminalTransactionDetailCards.test.tsx",
-        "uapi/tests/terminalJournalReconciliation.test.ts"
+        "apps/uapi/app/bitcode-ledger-storage-sync.ts",
+        "apps/uapi/tests/terminalTransactionDetailCards.test.tsx",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "testPaths": [
-        "uapi/tests/bitcodeLedgerStorageSync.test.ts",
-        "uapi/tests/terminalTransactionDetailCards.test.tsx",
-        "uapi/tests/terminalJournalReconciliation.test.ts"
+        "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts",
+        "apps/uapi/tests/terminalTransactionDetailCards.test.tsx",
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand"
       ],
       "requiredEvidence": [
         "Terminal settlement status",
@@ -564,12 +564,12 @@
     },
     {
       "id": "uapi-contract-covers-ledger-storage-sync",
-      "sourcePath": "uapi/app/bitcode-ledger-storage-sync.ts",
+      "sourcePath": "apps/uapi/app/bitcode-ledger-storage-sync.ts",
       "passed": true
     },
     {
       "id": "uapi-tests-cover-interface-sync-contract",
-      "sourcePath": "uapi/tests/bitcodeLedgerStorageSync.test.ts",
+      "sourcePath": "apps/uapi/tests/bitcodeLedgerStorageSync.test.ts",
       "passed": true
     },
     {

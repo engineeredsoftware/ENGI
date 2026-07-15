@@ -19,19 +19,19 @@
     "/api/templates/shippables"
   ],
   "requiredFiles": [
-    "uapi/app/executions/page.tsx",
-    "uapi/app/executions/[runId]/page.tsx",
-    "uapi/app/executions/README.md",
-    "uapi/app/executions/components/ExecutionsPage.tsx",
-    "uapi/app/executions/components/ExecutionsPageClient.tsx",
-    "uapi/app/executions/components/ExecutionsDetailsView.tsx",
-    "uapi/app/api/executions/route.ts",
-    "uapi/app/api/executions/history/route.ts",
-    "uapi/app/api/executions/history/[runId]/route.ts",
-    "uapi/app/api/executions/_shared.ts",
-    "uapi/app/api/vcs/route.ts",
-    "uapi/app/api/auxillaries/template-preferences/route.ts",
-    "uapi/app/api/templates/shippables/route.ts",
+    "apps/uapi/app/executions/page.tsx",
+    "apps/uapi/app/executions/[runId]/page.tsx",
+    "apps/uapi/app/executions/README.md",
+    "apps/uapi/app/executions/components/ExecutionsPage.tsx",
+    "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
+    "apps/uapi/app/executions/components/ExecutionsDetailsView.tsx",
+    "apps/uapi/app/api/executions/route.ts",
+    "apps/uapi/app/api/executions/history/route.ts",
+    "apps/uapi/app/api/executions/history/[runId]/route.ts",
+    "apps/uapi/app/api/executions/_shared.ts",
+    "apps/uapi/app/api/vcs/route.ts",
+    "apps/uapi/app/api/auxillaries/template-preferences/route.ts",
+    "apps/uapi/app/api/templates/shippables/route.ts",
     "packages/api/src/routes/shippables.ts",
     "packages/api/src/pipelines/branch.ts",
     "packages/execution-generics/src/Execution.ts",
@@ -41,14 +41,14 @@
     "packages/pipelines-generics/src/execution/PipelineExecutor.ts",
     "packages/pipelines-generics/src/execution/route-pipeline-execution.ts",
     "packages/asset-packs-pipelines/domain/src/run.ts",
-    "uapi/tests/api/shippableTemplatesRoute.test.ts",
-    "uapi/tests/api/vcsCompatibilityRoute.test.ts",
-    "uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
-    "uapi/tests/api/deliverableTemplatesRoute.test.ts",
-    "uapi/tests/api/executionsHistoryRoute.test.ts",
-    "uapi/tests/api/executionsHistoryRunRoute.test.ts",
-    "uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
-    "uapi/tests/usePipelineExecution.test.tsx"
+    "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+    "apps/uapi/tests/api/vcsCompatibilityRoute.test.ts",
+    "apps/uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
+    "apps/uapi/tests/api/deliverableTemplatesRoute.test.ts",
+    "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
+    "apps/uapi/tests/api/executionsHistoryRunRoute.test.ts",
+    "apps/uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
+    "apps/uapi/tests/usePipelineExecution.test.tsx"
   ],
   "checks": [
     {
@@ -57,12 +57,12 @@
       "passed": true,
       "detail": "6 required files present",
       "requiredFiles": [
-        "uapi/app/executions/page.tsx",
-        "uapi/app/executions/[runId]/page.tsx",
-        "uapi/app/executions/README.md",
-        "uapi/app/executions/components/ExecutionsPage.tsx",
-        "uapi/app/executions/components/ExecutionsPageClient.tsx",
-        "uapi/app/executions/components/ExecutionsDetailsView.tsx"
+        "apps/uapi/app/executions/page.tsx",
+        "apps/uapi/app/executions/[runId]/page.tsx",
+        "apps/uapi/app/executions/README.md",
+        "apps/uapi/app/executions/components/ExecutionsPage.tsx",
+        "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
+        "apps/uapi/app/executions/components/ExecutionsDetailsView.tsx"
       ],
       "missingFiles": []
     },
@@ -72,10 +72,10 @@
       "passed": true,
       "detail": "6 required files present",
       "requiredFiles": [
-        "uapi/app/api/executions/route.ts",
-        "uapi/app/api/executions/history/route.ts",
-        "uapi/app/api/executions/history/[runId]/route.ts",
-        "uapi/app/api/executions/_shared.ts",
+        "apps/uapi/app/api/executions/route.ts",
+        "apps/uapi/app/api/executions/history/route.ts",
+        "apps/uapi/app/api/executions/history/[runId]/route.ts",
+        "apps/uapi/app/api/executions/_shared.ts",
         "packages/api/src/routes/shippables.ts",
         "packages/api/src/pipelines/branch.ts"
       ],
@@ -87,25 +87,25 @@
       "passed": true,
       "detail": "19 required files present",
       "requiredFiles": [
-        "uapi/app/api/vcs/route.ts",
-        "uapi/app/api/auxillaries/template-preferences/route.ts",
-        "uapi/app/api/auxillaries/profile/route.ts",
-        "uapi/app/api/auxillaries/connections/github/route.ts",
-        "uapi/app/api/auxillaries/btd/route.ts",
-        "uapi/app/api/auxillaries/usage/route.ts",
-        "uapi/app/api/auxillaries/transactions/route.ts",
-        "uapi/app/api/auxillaries/api-keys/route.ts",
-        "uapi/app/api/templates/shippables/route.ts",
-        "uapi/app/api/templates/shippables/route.ts",
-        "uapi/tests/api/vcsCompatibilityRoute.test.ts",
-        "uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
-        "uapi/tests/api/orbitalsProfileRoute.test.ts",
-        "uapi/tests/api/orbitalUsageRoute.test.ts",
-        "uapi/tests/api/auxillariesTransactionsRoute.test.ts",
-        "uapi/tests/api/shippableTemplatesRoute.test.ts",
-        "uapi/tests/apiKeysRoutes.test.ts",
-        "uapi/tests/userConnectionsGithubRoute.test.ts",
-        "uapi/tests/api/userBtdRoute.test.ts"
+        "apps/uapi/app/api/vcs/route.ts",
+        "apps/uapi/app/api/auxillaries/template-preferences/route.ts",
+        "apps/uapi/app/api/auxillaries/profile/route.ts",
+        "apps/uapi/app/api/auxillaries/connections/github/route.ts",
+        "apps/uapi/app/api/auxillaries/btd/route.ts",
+        "apps/uapi/app/api/auxillaries/usage/route.ts",
+        "apps/uapi/app/api/auxillaries/transactions/route.ts",
+        "apps/uapi/app/api/auxillaries/api-keys/route.ts",
+        "apps/uapi/app/api/templates/shippables/route.ts",
+        "apps/uapi/app/api/templates/shippables/route.ts",
+        "apps/uapi/tests/api/vcsCompatibilityRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsTemplatePreferencesRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsProfileRoute.test.ts",
+        "apps/uapi/tests/api/orbitalUsageRoute.test.ts",
+        "apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts",
+        "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+        "apps/uapi/tests/apiKeysRoutes.test.ts",
+        "apps/uapi/tests/userConnectionsGithubRoute.test.ts",
+        "apps/uapi/tests/api/userBtdRoute.test.ts"
       ],
       "missingFiles": []
     },
@@ -122,11 +122,11 @@
         "packages/pipelines-generics/src/execution/PipelineExecutor.ts",
         "packages/pipelines-generics/src/execution/route-pipeline-execution.ts",
         "packages/asset-packs-pipelines/domain/src/run.ts",
-        "uapi/tests/api/shippableTemplatesRoute.test.ts",
-        "uapi/tests/api/executionsHistoryRoute.test.ts",
-        "uapi/tests/api/executionsHistoryRunRoute.test.ts",
-        "uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
-        "uapi/tests/usePipelineExecution.test.tsx"
+        "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+        "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
+        "apps/uapi/tests/api/executionsHistoryRunRoute.test.ts",
+        "apps/uapi/tests/bitcodeExecutionStreamPanel.test.tsx",
+        "apps/uapi/tests/usePipelineExecution.test.tsx"
       ],
       "missingFiles": []
     },
@@ -136,31 +136,31 @@
       "passed": true,
       "detail": "25 required files present",
       "requiredFiles": [
-        "uapi/components/base/bitcode/activity/bitcode-activity-model.ts",
-        "uapi/app/application/application-run-activity.ts",
-        "uapi/app/application/ApplicationTransactionActivitySurface.tsx",
-        "uapi/app/api/activity/route.ts",
-        "uapi/app/api/auxillaries/notifications/_shared.ts",
-        "uapi/app/api/auxillaries/notifications/route.ts",
-        "uapi/app/api/auxillaries/notifications/[notificationId]/route.ts",
-        "uapi/app/api/auxillaries/profile/route.ts",
-        "uapi/app/api/auxillaries/connections/github/route.ts",
-        "uapi/app/api/auxillaries/btd/route.ts",
-        "uapi/app/api/auxillaries/usage/route.ts",
-        "uapi/app/api/auxillaries/transactions/route.ts",
-        "uapi/app/api/auxillaries/api-keys/route.ts",
-        "uapi/tests/bitcodeActivityModel.test.ts",
-        "uapi/tests/applicationTransactionActivity.test.ts",
-        "uapi/tests/api/activityRoute.test.ts",
-        "uapi/tests/api/orbitalsNotificationsRoute.test.ts",
-        "uapi/tests/api/orbitalsProfileRoute.test.ts",
-        "uapi/tests/api/orbitalUsageRoute.test.ts",
-        "uapi/tests/api/auxillariesTransactionsRoute.test.ts",
-        "uapi/tests/userConnectionsGithubRoute.test.ts",
-        "uapi/tests/api/userBtdRoute.test.ts",
-        "uapi/tests/apiKeysRoutes.test.ts",
-        "uapi/tests/mcpSmoke.test.ts",
-        "uapi/tests/notificationsWidget.test.tsx"
+        "apps/uapi/components/base/bitcode/activity/bitcode-activity-model.ts",
+        "apps/uapi/app/application/application-run-activity.ts",
+        "apps/uapi/app/application/ApplicationTransactionActivitySurface.tsx",
+        "apps/uapi/app/api/activity/route.ts",
+        "apps/uapi/app/api/auxillaries/notifications/_shared.ts",
+        "apps/uapi/app/api/auxillaries/notifications/route.ts",
+        "apps/uapi/app/api/auxillaries/notifications/[notificationId]/route.ts",
+        "apps/uapi/app/api/auxillaries/profile/route.ts",
+        "apps/uapi/app/api/auxillaries/connections/github/route.ts",
+        "apps/uapi/app/api/auxillaries/btd/route.ts",
+        "apps/uapi/app/api/auxillaries/usage/route.ts",
+        "apps/uapi/app/api/auxillaries/transactions/route.ts",
+        "apps/uapi/app/api/auxillaries/api-keys/route.ts",
+        "apps/uapi/tests/bitcodeActivityModel.test.ts",
+        "apps/uapi/tests/applicationTransactionActivity.test.ts",
+        "apps/uapi/tests/api/activityRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsNotificationsRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsProfileRoute.test.ts",
+        "apps/uapi/tests/api/orbitalUsageRoute.test.ts",
+        "apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts",
+        "apps/uapi/tests/userConnectionsGithubRoute.test.ts",
+        "apps/uapi/tests/api/userBtdRoute.test.ts",
+        "apps/uapi/tests/apiKeysRoutes.test.ts",
+        "apps/uapi/tests/mcpSmoke.test.ts",
+        "apps/uapi/tests/notificationsWidget.test.tsx"
       ],
       "missingFiles": []
     },
@@ -256,32 +256,32 @@
       "detail": "6 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "uapi/app/api/webhook/route.ts",
+          "file": "apps/uapi/app/api/webhook/route.ts",
           "evidence": "WEBHOOK_ASSET_PACK_PIPELINE_TRACK_EVENT = 'Trigger Asset-Pack Pipeline'",
           "description": "webhook analytics event names the active asset-pack pipeline meaning"
         },
         {
-          "file": "uapi/app/api/webhook/route.ts",
+          "file": "apps/uapi/app/api/webhook/route.ts",
           "evidence": "outputMeaning: 'asset_packs'",
           "description": "webhook success receipts classify output as asset packs"
         },
         {
-          "file": "uapi/app/api/webhook/route.ts",
+          "file": "apps/uapi/app/api/webhook/route.ts",
           "evidence": "exchangeStateRole: 'ingress_only_automation_boundary'",
           "description": "webhook receipt keeps GitHub automation as ingress-only rather than Exchange state ownership"
         },
         {
-          "file": "uapi/app/api/webhook/route.ts",
+          "file": "apps/uapi/app/api/webhook/route.ts",
           "evidence": "triggerCommand: 'bitcode-asset-pack-trigger'",
           "description": "asset-pack trigger command uses current Bitcode ingress naming"
         },
         {
-          "file": "uapi/tests/webhookRoute.test.ts",
+          "file": "apps/uapi/tests/webhookRoute.test.ts",
           "evidence": "expectedAssetPackPipelineTrack",
           "description": "route test centralizes expected asset-pack ingress receipt shape"
         },
         {
-          "file": "uapi/tests/webhookRoute.test.ts",
+          "file": "apps/uapi/tests/webhookRoute.test.ts",
           "evidence": "supports bitcode-pr label for asset-pack pipeline",
           "description": "route test proves GitHub label ingress now teaches asset-pack pipeline semantics"
         }
@@ -296,17 +296,17 @@
       "detail": "3 source evidence requirements satisfied",
       "requiredEvidence": [
         {
-          "file": "uapi/hooks/useExecutionState.ts",
+          "file": "apps/uapi/hooks/useExecutionState.ts",
           "evidence": "Triggers the Bitcode asset-pack pipeline",
           "description": "TypeScript hook comment describes active client execution as asset-pack pipeline behavior"
         },
         {
-          "file": "uapi/hooks/useExecutionState.ts",
+          "file": "apps/uapi/hooks/useExecutionState.ts",
           "evidence": "definitionOfRead",
           "description": "TypeScript hook submits the canonical Definition of Read request shape"
         },
         {
-          "file": "uapi/hooks/useExecutionState.ts",
+          "file": "apps/uapi/hooks/useExecutionState.ts",
           "evidence": "Submitting Bitcode asset-pack pipeline",
           "description": "TypeScript debug path teaches Bitcode asset-pack submission"
         }

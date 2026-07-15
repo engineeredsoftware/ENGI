@@ -28,9 +28,9 @@ Examples:
 
 ## Current Source Examples
 
-- `uapi/app/api/vcs/*`
+- `apps/uapi/app/api/vcs/*`
 - `packages/vcs-generics/*` + `packages/generic-vcs/*` (sole homes; root `packages/{vcs,github,gitlab,git,bitbucket}` removed)
 - `packages/externals/jira/*` (sole home; root `packages/jira` removed)
-- `packages/external-apps/chatgpt/*`
-- `packages/mcp-generics/* + packages/generic-mcps/bitcode/*`
+- `apps/chatgpt/*`
+- `packages/mcp-generics/* + apps/mcp/*`
 - `packages/api/src/routes/*`

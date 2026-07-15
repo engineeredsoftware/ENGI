@@ -58,10 +58,10 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  routePreflight: 'uapi/app/api/pipeline-host/asset-pack/preflight.ts',
-  routeRunner: 'uapi/app/api/pipeline-host/asset-pack/runner.ts',
-  routeTest: 'uapi/tests/api/pipelineHostRoute.test.ts',
-  routePreflightTest: 'uapi/tests/api/pipelineHostPreflight.test.ts',
+  routePreflight: 'apps/uapi/app/api/pipeline-host/asset-pack/preflight.ts',
+  routeRunner: 'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
+  routeTest: 'apps/uapi/tests/api/pipelineHostRoute.test.ts',
+  routePreflightTest: 'apps/uapi/tests/api/pipelineHostPreflight.test.ts',
   harness: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
   harnessDevRunner: 'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-host.ts',
   harnessTest: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
@@ -71,9 +71,9 @@ const SOURCE_ROOTS = Object.freeze({
   readingPipelineContractTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
   readingPipelineObservabilityTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
   assetPackDisclosureTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts',
-  terminalPipelineHarnessClientTest: 'uapi/tests/terminalPipelineHarnessClient.test.ts',
-  pipelineExecutionLogHeaderTest: 'uapi/tests/pipelineExecutionLogHeader.test.tsx',
-  pipelineExecutionLogUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+  terminalPipelineHarnessClientTest: 'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
+  pipelineExecutionLogHeaderTest: 'apps/uapi/tests/pipelineExecutionLogHeader.test.tsx',
+  pipelineExecutionLogUi: 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
 });
 
 function digest(value) {
@@ -227,7 +227,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('route-summary-projects-many-selected-candidates', SOURCE_ROOTS.routeRunner, routeRunner.includes('selectedCandidates') && routeRunner.includes('blockedCandidates')),
     predicateResult('route-tests-cover-accepted-read-need', SOURCE_ROOTS.routeTest, routeTest.includes('acceptedReadNeed') && routeTest.includes('pipeline-stream-event')),
     predicateResult('route-preflight-tests-cover-real-inference', SOURCE_ROOTS.routePreflightTest, routePreflightTest.includes('assertRealInferenceEnvironment') && routePreflightTest.includes('BITCODE_ASSET_PACK_REAL_INFERENCE=1') && routePreflightTest.includes('BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded')),
-    predicateResult('dev-runner-loads-local-env-files', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes("'.env.local'") && harnessDevRunner.includes("'uapi/.env.local'")),
+    predicateResult('dev-runner-loads-local-env-files', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes("'.env.local'") && harnessDevRunner.includes("'apps/uapi/.env.local'")),
     predicateResult('dev-runner-requires-explicit-live-opt-in', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('BITCODE_RUN_VERCEL_SANDBOX_HARNESS') && harnessDevRunner.includes('Set BITCODE_RUN_VERCEL_SANDBOX_HARNESS=1')),
     predicateResult('dev-runner-requires-sandbox-auth', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('VERCEL_OIDC_TOKEN') && harnessDevRunner.includes('VERCEL_TOKEN') && harnessDevRunner.includes('Missing Vercel Sandbox auth')),
     predicateResult('dev-runner-redacts-known-secrets', SOURCE_ROOTS.harnessDevRunner, harnessDevRunner.includes('redactKnownSecrets') && harnessDevRunner.includes('[redacted]')),

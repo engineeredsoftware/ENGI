@@ -94,7 +94,7 @@ function runBrowserProofSmoke(root, failures) {
     ['node', ['--test', '--test-force-exit', 'packages/specifying/test/v40-browser-e2e-visual-proof.test.js']],
   ];
   const pnpmCommands = [
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath',
+    ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath',
       'tests/bitcodeBrowserProof.test.ts',
       'tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts',
       'tests/terminalUxBrowserProof.test.tsx',
@@ -120,7 +120,7 @@ function runBrowserProofSmoke(root, failures) {
 
 function runOptionalBrowserTests(root, failures) {
   try {
-    run(root, 'pnpm', ['--dir', 'uapi', 'run', 'test:e2e:browser-proof']);
+    run(root, 'pnpm', ['--dir', 'apps/uapi', 'run', 'test:e2e:browser-proof']);
   } catch (error) {
     failures.push(`Browser proof Playwright lane failed: ${error.stderr || error.message}`);
   }
@@ -154,9 +154,9 @@ function main() {
     'packages/specifying/test/v40-browser-e2e-visual-proof.test.js',
     'scripts/generate-v40-browser-e2e-visual-proof.mjs',
     'scripts/check-v40-gate7-browser-e2e-visual-proof.mjs',
-    'uapi/app/bitcode-browser-proof.ts',
-    'uapi/tests/bitcodeBrowserProof.test.ts',
-    'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
+    'apps/uapi/app/bitcode-browser-proof.ts',
+    'apps/uapi/tests/bitcodeBrowserProof.test.ts',
+    'apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts',
     'BITCODE_SPEC_V40.md',
     'BITCODE_SPEC_V40_DELTA.md',
     'BITCODE_SPEC_V40_NOTES.md',
@@ -165,7 +165,7 @@ function main() {
     'README.md',
     'packages/specifying/README.md',
     'package.json',
-    'uapi/package.json',
+    'apps/uapi/package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
   ];

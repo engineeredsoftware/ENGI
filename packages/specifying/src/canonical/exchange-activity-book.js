@@ -661,8 +661,8 @@ export function buildExchangeActivityBook(input = {}) {
     'scripts/generate-v36-exchange-activity-book.mjs',
     'scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs',
     'packages/btd/src/exchange.ts',
-    'uapi/app/exchange/README.md',
-    'uapi/app/api/btd/asset-pack-exchange/route.ts',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/api/btd/asset-pack-exchange/route.ts',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
 

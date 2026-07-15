@@ -163,15 +163,15 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
       'shares the package-owned ReadLicense and AssetPackRights fixture for API preview admission',
       'api-read-license-source-safe-preview',
     ]),
-    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for MCP Finding Fits preview',
       'mcp-finding-fits-source-safe-preview',
     ]),
-    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for unpaid ChatGPT App delivery denial',
       'chatgpt-unpaid-delivery-denied',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
       'shares the package-owned ReadLicense and AssetPackRights fixture for paid Terminal delivery',
       'terminal-paid-rights-delivery',
     ]),

@@ -82,8 +82,8 @@
       "purpose": "Bind staging-testnet Reading rehearsal to real bounded inference, Supabase project tkpyosihuouusyaxtbau, route streaming, and database readback.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "requiredEvidence": [
         "realInferenceRequired: true",
@@ -380,7 +380,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "requiredEvidence": [
         "phase",
@@ -637,12 +637,12 @@
     },
     {
       "id": "route-requires-real-staging-inference",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {
       "id": "rich-log-ui-present",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {

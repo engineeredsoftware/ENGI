@@ -87,19 +87,19 @@ function main() {
     'packages/btd/__tests__/interface-integration.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/interface-integration-regression/route.ts',
-    'uapi/app/terminal/terminal-interface-integration-regression.ts',
-    'uapi/app/terminal/terminal-protocol-projection.ts',
-    'uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
-    'uapi/tests/terminalProtocolProjection.test.ts',
-    'packages/external-apps/chatgpt/src/interface-integration.ts',
-    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
-    'packages/generic-mcps/bitcode/src/interface-integration.ts',
-    'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
+    'apps/uapi/app/api/btd/interface-integration-regression/route.ts',
+    'apps/uapi/app/terminal/terminal-interface-integration-regression.ts',
+    'apps/uapi/app/terminal/terminal-protocol-projection.ts',
+    'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
+    'apps/uapi/tests/terminalProtocolProjection.test.ts',
+    'apps/chatgpt/src/interface-integration.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/mcp/src/interface-integration.ts',
+    'apps/mcp/src/__tests__/unit/auth.test.ts',
     'packages/btd/README.md',
-    'uapi/app/terminal/README.md',
-    'packages/external-apps/chatgpt/README.md',
-    'packages/generic-mcps/bitcode/README.md',
+    'apps/uapi/app/terminal/README.md',
+    'apps/chatgpt/README.md',
+    'apps/mcp/README.md',
     'BITCODE_SPEC_V30.md',
     'BITCODE_SPEC_V30_DELTA.md',
     'BITCODE_SPEC_V30_NOTES.md',
@@ -115,19 +115,19 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/interface-integration.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const nextRoute = read(root, 'uapi/app/api/btd/interface-integration-regression/route.ts');
-  const terminalAdapter = read(root, 'uapi/app/terminal/terminal-interface-integration-regression.ts');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-protocol-projection.ts');
-  const terminalTest = read(root, 'uapi/tests/terminalInterfaceIntegrationRegression.test.ts');
-  const terminalProjectionTest = read(root, 'uapi/tests/terminalProtocolProjection.test.ts');
-  const chatgptAdapter = read(root, 'packages/external-apps/chatgpt/src/interface-integration.ts');
-  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
-  const mcpAdapter = read(root, 'packages/generic-mcps/bitcode/src/interface-integration.ts');
-  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts');
+  const nextRoute = read(root, 'apps/uapi/app/api/btd/interface-integration-regression/route.ts');
+  const terminalAdapter = read(root, 'apps/uapi/app/terminal/terminal-interface-integration-regression.ts');
+  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-protocol-projection.ts');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts');
+  const terminalProjectionTest = read(root, 'apps/uapi/tests/terminalProtocolProjection.test.ts');
+  const chatgptAdapter = read(root, 'apps/chatgpt/src/interface-integration.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const mcpAdapter = read(root, 'apps/mcp/src/interface-integration.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/auth.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const chatgptReadme = read(root, 'packages/external-apps/chatgpt/README.md');
-  const mcpReadme = read(root, 'packages/generic-mcps/bitcode/README.md');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const chatgptReadme = read(root, 'apps/chatgpt/README.md');
+  const mcpReadme = read(root, 'apps/mcp/README.md');
   const spec = read(root, 'BITCODE_SPEC_V30.md');
   const delta = read(root, 'BITCODE_SPEC_V30_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V30_NOTES.md');

@@ -239,7 +239,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
     {
       hostId: 'website',
       runtimeSurface: 'website',
-      ownerPackage: 'uapi',
+      ownerPackage: 'apps/uapi',
       runtimeCarrier: 'vercel-nextjs-website',
       requiredPackages: ['@bitcode/api', '@bitcode/asset-packs-pipelines-domain', '@bitcode/btd'],
       outboundNetworkPosture: 'provider_bound',
@@ -250,7 +250,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
       repairCapability: 'supported',
       proofOutputPaths: ['.bitcode/v34-deployment-host-capability-catalog.json'],
       validationCommand:
-        'pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
+        'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand',
       supportedLaneIds: ['local', 'staging-testnet', 'public-testnet', 'mainnet-ready-dry-run'],
       admissionStatus: 'admitted_non_value_lanes',
       failureMode: 'website-host-without-lane-contract-or-disclosure-lock',
@@ -283,7 +283,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
     {
       hostId: 'mcp_api',
       runtimeSurface: 'mcp_api',
-      ownerPackage: 'packages/generic-mcps/bitcode',
+      ownerPackage: 'apps/mcp',
       runtimeCarrier: 'mcp-server-process',
       requiredPackages: ['@bitcode/btd', '@bitcode/asset-packs-pipelines-domain'],
       outboundNetworkPosture: 'outbound_restricted',
@@ -294,7 +294,7 @@ export function buildDeploymentHostCapabilityRows(): DeploymentHostCapabilityRow
       repairCapability: 'supported',
       proofOutputPaths: ['.bitcode/v33-mcp-api-tool-contracts.json'],
       validationCommand:
-        'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       supportedLaneIds: ['local', 'staging-testnet', 'public-testnet'],
       admissionStatus: 'admitted_non_value_lanes',
       failureMode: 'mcp-api-host-without-tool-contract-or-permission-proof',

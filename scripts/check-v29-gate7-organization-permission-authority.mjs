@@ -90,24 +90,24 @@ function main() {
     'packages/btd/__tests__/btd.test.ts',
     'packages/api/src/routes/btd-crypto.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
-    'uapi/app/api/btd/organization-interface-authority/route.ts',
-    'packages/generic-mcps/bitcode/src/auth/middleware.ts',
-    'packages/generic-mcps/bitcode/src/types/index.ts',
-    'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts',
-    'packages/external-apps/chatgpt/src/tools.ts',
-    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
-    'packages/external-apps/chatgpt/package.json',
+    'apps/uapi/app/api/btd/organization-interface-authority/route.ts',
+    'apps/mcp/src/auth/middleware.ts',
+    'apps/mcp/src/types/index.ts',
+    'apps/mcp/src/__tests__/unit/auth.test.ts',
+    'apps/chatgpt/src/tools.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/chatgpt/package.json',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
-    'uapi/app/terminal/terminal-organization-authority.ts',
-    'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
-    'uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
-    'uapi/app/terminal/terminal-transaction-read-model.ts',
-    'uapi/app/terminal/terminal-transaction-query.ts',
-    'uapi/app/terminal/README.md',
-    'uapi/tests/terminalOrganizationAuthority.test.ts',
-    'uapi/tests/terminalTransactionDetailCards.test.tsx',
-    'uapi/tests/terminalTransactionDetailSnapshot.test.ts',
+    'apps/uapi/app/terminal/terminal-organization-authority.ts',
+    'apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx',
+    'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts',
+    'apps/uapi/app/terminal/terminal-transaction-read-model.ts',
+    'apps/uapi/app/terminal/terminal-transaction-query.ts',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
+    'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
+    'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts',
     '.github/workflows/bitcode-gate-quality.yml',
     'package.json',
   ];
@@ -125,24 +125,24 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
   const apiRoute = read(root, 'packages/api/src/routes/btd-crypto.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
-  const uapiRoute = read(root, 'uapi/app/api/btd/organization-interface-authority/route.ts');
-  const mcpAuth = read(root, 'packages/generic-mcps/bitcode/src/auth/middleware.ts');
-  const mcpTypes = read(root, 'packages/generic-mcps/bitcode/src/types/index.ts');
-  const mcpTest = read(root, 'packages/generic-mcps/bitcode/src/__tests__/unit/auth.test.ts');
-  const chatgptTools = read(root, 'packages/external-apps/chatgpt/src/tools.ts');
-  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts');
-  const chatgptPackage = read(root, 'packages/external-apps/chatgpt/package.json');
+  const uapiRoute = read(root, 'apps/uapi/app/api/btd/organization-interface-authority/route.ts');
+  const mcpAuth = read(root, 'apps/mcp/src/auth/middleware.ts');
+  const mcpTypes = read(root, 'apps/mcp/src/types/index.ts');
+  const mcpTest = read(root, 'apps/mcp/src/__tests__/unit/auth.test.ts');
+  const chatgptTools = read(root, 'apps/chatgpt/src/tools.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/tools.test.ts');
+  const chatgptPackage = read(root, 'apps/chatgpt/package.json');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
-  const terminalProjection = read(root, 'uapi/app/terminal/terminal-organization-authority.ts');
-  const terminalCard = read(root, 'uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
-  const terminalSnapshot = read(root, 'uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
-  const terminalReadModel = read(root, 'uapi/app/terminal/terminal-transaction-read-model.ts');
-  const terminalQuery = read(root, 'uapi/app/terminal/terminal-transaction-query.ts');
-  const terminalReadme = read(root, 'uapi/app/terminal/README.md');
-  const terminalTest = read(root, 'uapi/tests/terminalOrganizationAuthority.test.ts');
-  const terminalCardTest = read(root, 'uapi/tests/terminalTransactionDetailCards.test.tsx');
-  const terminalSnapshotTest = read(root, 'uapi/tests/terminalTransactionDetailSnapshot.test.ts');
+  const terminalProjection = read(root, 'apps/uapi/app/terminal/terminal-organization-authority.ts');
+  const terminalCard = read(root, 'apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx');
+  const terminalSnapshot = read(root, 'apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts');
+  const terminalReadModel = read(root, 'apps/uapi/app/terminal/terminal-transaction-read-model.ts');
+  const terminalQuery = read(root, 'apps/uapi/app/terminal/terminal-transaction-query.ts');
+  const terminalReadme = read(root, 'apps/uapi/app/terminal/README.md');
+  const terminalTest = read(root, 'apps/uapi/tests/terminalOrganizationAuthority.test.ts');
+  const terminalCardTest = read(root, 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx');
+  const terminalSnapshotTest = read(root, 'apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 
@@ -241,7 +241,7 @@ function main() {
       gateWorkflow.includes('check-v29-gate7-organization-permission-authority.mjs') &&
       gateWorkflow.includes('terminalOrganizationAuthority.test.ts') &&
       gateWorkflow.includes('packages/chatgptapp') &&
-      gateWorkflow.includes('packages/generic-mcps/bitcode'),
+      gateWorkflow.includes('apps/mcp'),
     'Package scripts and gate-quality workflow must invoke Gate 7 checker and focused tests.',
   );
 

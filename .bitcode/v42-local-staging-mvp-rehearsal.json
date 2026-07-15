@@ -82,8 +82,8 @@
       "purpose": "Bind the staging-testnet MVP rehearsal to real-inference posture, Vercel Sandbox authorization, database streaming, and Supabase readback.",
       "sourceRoots": [
         "scripts/rehearse-v42-local-staging-mvp.mjs",
-        "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "requiredEvidence": [
         "staging-testnet",
@@ -123,7 +123,7 @@
       "purpose": "Carry Gate 2 Depositing shortest path through rehearsal with source admission proof and later compensation readback.",
       "sourceRoots": [
         ".bitcode/v42-depositing-shortest-path.json",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "requiredEvidence": [
         "DepositorySupplyCompensationPreview",
@@ -163,7 +163,7 @@
       "purpose": "Carry Gate 3 route-owned Reading state through transaction recovery, route hydration, and source-safe repair posture.",
       "sourceRoots": [
         ".bitcode/v42-reading-shortest-path-state-machine.json",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "requiredEvidence": [
         "TerminalEnterpriseReadingRouteState",
@@ -404,7 +404,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "requiredEvidence": [
         "phase",
@@ -676,22 +676,22 @@
     },
     {
       "id": "harness-preflight-binds-staging",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "passed": true
     },
     {
       "id": "harness-runner-covers-boundaries",
-      "sourcePath": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "sourcePath": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "passed": true
     },
     {
       "id": "terminal-renders-reading-rehearsal",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "pipeline-log-supports-rich-telemetry",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {

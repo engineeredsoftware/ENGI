@@ -41,7 +41,7 @@
   "validationCommands": [
     {
       "commandId": "supabase-local-stack-bringup",
-      "command": "pnpm -C uapi dev:local",
+      "command": "pnpm -C apps/uapi dev:local",
       "purpose": "Bring up the Supabase-backed full stack the staging deployment mirrors."
     },
     {
@@ -51,12 +51,12 @@
     },
     {
       "commandId": "uapi-production-build",
-      "command": "pnpm -C uapi build",
+      "command": "pnpm -C apps/uapi build",
       "purpose": "Produce the production Next.js build the Vercel staging host deploys."
     },
     {
       "commandId": "e2e-ip-exchange-browser-proof",
-      "command": "pnpm -C uapi run test:e2e:ip-exchange",
+      "command": "pnpm -C apps/uapi run test:e2e:ip-exchange",
       "purpose": "Prove the seller and buyer launch flows in the browser against the deployed route surfaces."
     },
     {
@@ -364,12 +364,12 @@
     },
     {
       "id": "browser-proof-binds-deployed-routes",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts",
       "passed": true
     },
     {
       "id": "uapi-exposes-rehearsal-commands",
-      "sourcePath": "uapi/package.json",
+      "sourcePath": "apps/uapi/package.json",
       "passed": true
     },
     {
@@ -422,8 +422,8 @@
     "longRunnerDockerfile": "Dockerfile.long-runner:2b4e6ff1937c65e463774cca",
     "longRunnerWorkerDockerfile": "Dockerfile.long-runner-worker:4791dc2c7fc6fb4727111c3d",
     "longRunnerK8s": "infra/k8s/long-runner.yaml:443a427e14e668d8109c84e5",
-    "uapiPackageJson": "uapi/package.json:dc9773834cf101bb272eb07c",
-    "ipExchangeSpec": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
+    "uapiPackageJson": "apps/uapi/package.json:dc9773834cf101bb272eb07c",
+    "ipExchangeSpec": "apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/specifying/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/specifying/src/index.d.ts:df3330e66cf6b01b41c762ee",

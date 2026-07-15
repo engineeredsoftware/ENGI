@@ -29,23 +29,23 @@
     {
       "integrationSurfaceId": "uapi:reading-and-pipeline-routes",
       "routeFamilies": [
-        "uapi/app/api/read-review",
-        "uapi/app/api/pipeline-harness/asset-pack",
-        "uapi/app/api/deposits"
+        "apps/uapi/app/api/read-review",
+        "apps/uapi/app/api/pipeline-harness/asset-pack",
+        "apps/uapi/app/api/deposits"
       ],
       "sourceRoots": [
-        "uapi/app/api/read-review/route.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/route.ts",
-        "uapi/app/api/deposits/route.ts"
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+        "apps/uapi/app/api/deposits/route.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/tests/api/readReviewProtocolParity.test.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts",
-        "uapi/tests/api/pipelineHarnessPreflight.test.ts"
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessPreflight.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts"
+        "pnpm --dir apps/uapi exec jest tests/api/readReviewRoute.test.ts tests/api/pipelineHarnessRoute.test.ts"
       ],
       "coverageTier": "promotion-required",
       "closureRequirement": "Reading request review, pipeline harness admission, preflight, and deposit route contracts are integration-covered.",
@@ -73,23 +73,23 @@
     {
       "integrationSurfaceId": "uapi:execution-stream-routes",
       "routeFamilies": [
-        "uapi/app/api/executions",
-        "uapi/app/api/executions/history",
-        "uapi/app/api/executions/stream"
+        "apps/uapi/app/api/executions",
+        "apps/uapi/app/api/executions/history",
+        "apps/uapi/app/api/executions/stream"
       ],
       "sourceRoots": [
-        "uapi/app/api/executions/route.ts",
-        "uapi/app/api/executions/history/route.ts",
-        "uapi/app/api/executions/stream/route.ts"
+        "apps/uapi/app/api/executions/route.ts",
+        "apps/uapi/app/api/executions/history/route.ts",
+        "apps/uapi/app/api/executions/stream/route.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/executionsHistoryRoute.test.ts",
-        "uapi/tests/api/executionsHistoryRunRoute.test.ts",
-        "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
-        "uapi/tests/api/sseHelper.test.ts"
+        "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
+        "apps/uapi/tests/api/executionsHistoryRunRoute.test.ts",
+        "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+        "apps/uapi/tests/api/sseHelper.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/executionsHistoryRoute.test.ts tests/api/executionsHistoryWriteReadParity.test.ts"
+        "pnpm --dir apps/uapi exec jest tests/api/executionsHistoryRoute.test.ts tests/api/executionsHistoryWriteReadParity.test.ts"
       ],
       "coverageTier": "promotion-required",
       "closureRequirement": "Execution history, run readback, write/read parity, and stream helper contracts are integration-covered.",
@@ -117,27 +117,27 @@
     {
       "integrationSurfaceId": "uapi:conversation-routes",
       "routeFamilies": [
-        "uapi/app/api/conversations",
-        "uapi/app/api/conversations/stream",
-        "uapi/app/api/conversations/branch"
+        "apps/uapi/app/api/conversations",
+        "apps/uapi/app/api/conversations/stream",
+        "apps/uapi/app/api/conversations/branch"
       ],
       "sourceRoots": [
-        "uapi/app/api/conversations/route.ts",
-        "uapi/app/api/conversations/stream/route.ts",
-        "uapi/app/api/conversations/branch/route.ts"
+        "apps/uapi/app/api/conversations/route.ts",
+        "apps/uapi/app/api/conversations/stream/route.ts",
+        "apps/uapi/app/api/conversations/branch/route.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/conversationsRoute.test.ts",
-        "uapi/tests/api/conversationsRouteRead.test.ts",
-        "uapi/tests/api/chatStreamRoute.test.ts",
-        "uapi/tests/api/conversationThreadStreamRoute.test.ts",
-        "uapi/tests/api/conversationStreamEventContract.test.ts",
-        "uapi/tests/api/conversationBranchRoute.test.ts",
-        "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
-        "uapi/tests/api/conversationTelemetryProofHooks.test.ts"
+        "apps/uapi/tests/api/conversationsRoute.test.ts",
+        "apps/uapi/tests/api/conversationsRouteRead.test.ts",
+        "apps/uapi/tests/api/chatStreamRoute.test.ts",
+        "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
+        "apps/uapi/tests/api/conversationStreamEventContract.test.ts",
+        "apps/uapi/tests/api/conversationBranchRoute.test.ts",
+        "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+        "apps/uapi/tests/api/conversationTelemetryProofHooks.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/conversationsRoute.test.ts tests/api/conversationStreamEventContract.test.ts"
+        "pnpm --dir apps/uapi exec jest tests/api/conversationsRoute.test.ts tests/api/conversationStreamEventContract.test.ts"
       ],
       "coverageTier": "promotion-required",
       "closureRequirement": "Conversation route, streaming, branch, privacy, and telemetry route contracts are integration-covered.",
@@ -165,27 +165,27 @@
     {
       "integrationSurfaceId": "uapi:auxillaries-orbitals-routes",
       "routeFamilies": [
-        "uapi/app/api/auxillaries",
-        "uapi/app/api/orbitals"
+        "apps/uapi/app/api/auxillaries",
+        "apps/uapi/app/api/orbitals"
       ],
       "sourceRoots": [
-        "uapi/app/api/auxillaries/profile/route.ts",
-        "uapi/app/api/auxillaries/notifications/route.ts",
-        "uapi/app/api/orbitals/profile/route.ts",
-        "uapi/app/api/orbitals/notifications/route.ts"
+        "apps/uapi/app/api/auxillaries/profile/route.ts",
+        "apps/uapi/app/api/auxillaries/notifications/route.ts",
+        "apps/uapi/app/api/orbitals/profile/route.ts",
+        "apps/uapi/app/api/orbitals/notifications/route.ts"
       ],
       "testPaths": [
-        "uapi/tests/userDataRoute.test.ts",
-        "uapi/tests/userProfileRoute.test.ts",
-        "uapi/tests/api/orbitalsProfileRoute.test.ts",
-        "uapi/tests/api/orbitalsNotificationsRoute.test.ts",
-        "uapi/tests/api/userModelPreferencesRoute.test.ts",
-        "uapi/tests/api/orbitalsUserDataShareRoute.test.ts",
-        "uapi/tests/api/auxillariesTransactionsRoute.test.ts",
-        "uapi/tests/apiKeysRoutes.test.ts"
+        "apps/uapi/tests/userDataRoute.test.ts",
+        "apps/uapi/tests/userProfileRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsProfileRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsNotificationsRoute.test.ts",
+        "apps/uapi/tests/api/userModelPreferencesRoute.test.ts",
+        "apps/uapi/tests/api/orbitalsUserDataShareRoute.test.ts",
+        "apps/uapi/tests/api/auxillariesTransactionsRoute.test.ts",
+        "apps/uapi/tests/apiKeysRoutes.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/userDataRoute.test.ts tests/api/orbitalsProfileRoute.test.ts"
+        "pnpm --dir apps/uapi exec jest tests/api/userDataRoute.test.ts tests/api/orbitalsProfileRoute.test.ts"
       ],
       "coverageTier": "promotion-required",
       "closureRequirement": "Auxillaries and Orbitals data, profile, notifications, preferences, and API-key route contracts are integration-covered.",
@@ -213,27 +213,27 @@
     {
       "integrationSurfaceId": "uapi:vcs-wallet-webhook-routes",
       "routeFamilies": [
-        "uapi/app/api/vcs",
-        "uapi/app/api/wallet",
-        "uapi/app/api/webhook"
+        "apps/uapi/app/api/vcs",
+        "apps/uapi/app/api/wallet",
+        "apps/uapi/app/api/webhook"
       ],
       "sourceRoots": [
-        "uapi/app/api/vcs/route.ts",
-        "uapi/app/api/wallet/authenticate/route.ts",
-        "uapi/app/api/wallet/oauth/token/route.ts",
-        "uapi/app/api/webhook/route.ts"
+        "apps/uapi/app/api/vcs/route.ts",
+        "apps/uapi/app/api/wallet/authenticate/route.ts",
+        "apps/uapi/app/api/wallet/oauth/token/route.ts",
+        "apps/uapi/app/api/webhook/route.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/vcsRoutes.test.ts",
-        "uapi/tests/api/vcsGithubCallbackRoute.test.ts",
-        "uapi/tests/api/vcsCompatibilityRoute.test.ts",
-        "uapi/tests/api/walletAuthenticateRoute.test.ts",
-        "uapi/tests/api/walletConnectionStatus.test.ts",
-        "uapi/tests/api/walletOAuthRoutes.test.ts",
-        "uapi/tests/api/webhookSignature.test.ts"
+        "apps/uapi/tests/api/vcsRoutes.test.ts",
+        "apps/uapi/tests/api/vcsGithubCallbackRoute.test.ts",
+        "apps/uapi/tests/api/vcsCompatibilityRoute.test.ts",
+        "apps/uapi/tests/api/walletAuthenticateRoute.test.ts",
+        "apps/uapi/tests/api/walletConnectionStatus.test.ts",
+        "apps/uapi/tests/api/walletOAuthRoutes.test.ts",
+        "apps/uapi/tests/api/webhookSignature.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/vcsRoutes.test.ts tests/api/walletOAuthRoutes.test.ts tests/api/webhookSignature.test.ts"
+        "pnpm --dir apps/uapi exec jest tests/api/vcsRoutes.test.ts tests/api/walletOAuthRoutes.test.ts tests/api/webhookSignature.test.ts"
       ],
       "coverageTier": "promotion-required",
       "closureRequirement": "VCS provider, wallet authentication/OAuth, and webhook verification contracts are integration-covered.",
@@ -261,29 +261,29 @@
     {
       "integrationSurfaceId": "uapi:public-activity-template-routes",
       "routeFamilies": [
-        "uapi/app/api/activity",
-        "uapi/app/api/external-realization",
-        "uapi/app/api/edgetimes",
-        "uapi/app/api/templates",
-        "uapi/app/api/notifications"
+        "apps/uapi/app/api/activity",
+        "apps/uapi/app/api/external-realization",
+        "apps/uapi/app/api/edgetimes",
+        "apps/uapi/app/api/templates",
+        "apps/uapi/app/api/notifications"
       ],
       "sourceRoots": [
-        "uapi/app/api/activity/route.ts",
-        "uapi/app/api/external-realization/route.ts",
-        "uapi/app/api/edgetimes/route.ts",
-        "uapi/app/api/templates/shippables/route.ts",
-        "uapi/app/api/notifications/btd-transfer/route.ts"
+        "apps/uapi/app/api/activity/route.ts",
+        "apps/uapi/app/api/external-realization/route.ts",
+        "apps/uapi/app/api/edgetimes/route.ts",
+        "apps/uapi/app/api/templates/shippables/route.ts",
+        "apps/uapi/app/api/notifications/btd-transfer/route.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/activityRoute.test.ts",
-        "uapi/tests/api/externalRealizationRoute.test.ts",
-        "uapi/tests/api/edgetimesRoute.test.ts",
-        "uapi/tests/api/shippableTemplatesRoute.test.ts",
-        "uapi/tests/api/assetPack.notifications.test.ts",
-        "uapi/tests/api/clientErrorRoute.test.ts"
+        "apps/uapi/tests/api/activityRoute.test.ts",
+        "apps/uapi/tests/api/externalRealizationRoute.test.ts",
+        "apps/uapi/tests/api/edgetimesRoute.test.ts",
+        "apps/uapi/tests/api/shippableTemplatesRoute.test.ts",
+        "apps/uapi/tests/api/assetPack.notifications.test.ts",
+        "apps/uapi/tests/api/clientErrorRoute.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/activityRoute.test.ts tests/api/shippableTemplatesRoute.test.ts"
+        "pnpm --dir apps/uapi exec jest tests/api/activityRoute.test.ts tests/api/shippableTemplatesRoute.test.ts"
       ],
       "coverageTier": "existing-greenable",
       "closureRequirement": "Activity, external-realization, public template, notification, and client-error route contracts are integration-covered.",
@@ -442,19 +442,19 @@
     {
       "integrationSurfaceId": "chatgpt:app-action-contracts",
       "routeFamilies": [
-        "packages/external-apps/chatgpt/src/server.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
-        "packages/external-apps/chatgpt/src/interface-integration.ts"
+        "apps/chatgpt/src/server.ts",
+        "apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/interface-integration.ts"
       ],
       "sourceRoots": [
-        "packages/external-apps/chatgpt/src/server.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
-        "packages/external-apps/chatgpt/src/interface-integration.ts"
+        "apps/chatgpt/src/server.ts",
+        "apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/interface-integration.ts"
       ],
       "testPaths": [
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
-        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
-        "packages/external-apps/chatgpt/src/__tests__/yapperFlow.test.ts"
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+        "apps/chatgpt/src/__tests__/tools.test.ts",
+        "apps/chatgpt/src/__tests__/yapperFlow.test.ts"
       ],
       "commandIds": [
         "pnpm --dir packages/chatgptapp test"
@@ -543,62 +543,62 @@
     },
     {
       "id": "uapi-reading-and-pipeline-routes:source-roots-exist",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "uapi-reading-and-pipeline-routes:test-paths-exist",
-      "sourcePath": "uapi/tests/api/readReviewRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewRoute.test.ts",
       "passed": true
     },
     {
       "id": "uapi-execution-stream-routes:source-roots-exist",
-      "sourcePath": "uapi/app/api/executions/route.ts",
+      "sourcePath": "apps/uapi/app/api/executions/route.ts",
       "passed": true
     },
     {
       "id": "uapi-execution-stream-routes:test-paths-exist",
-      "sourcePath": "uapi/tests/api/executionsHistoryRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
       "passed": true
     },
     {
       "id": "uapi-conversation-routes:source-roots-exist",
-      "sourcePath": "uapi/app/api/conversations/route.ts",
+      "sourcePath": "apps/uapi/app/api/conversations/route.ts",
       "passed": true
     },
     {
       "id": "uapi-conversation-routes:test-paths-exist",
-      "sourcePath": "uapi/tests/api/conversationsRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationsRoute.test.ts",
       "passed": true
     },
     {
       "id": "uapi-auxillaries-orbitals-routes:source-roots-exist",
-      "sourcePath": "uapi/app/api/auxillaries/profile/route.ts",
+      "sourcePath": "apps/uapi/app/api/auxillaries/profile/route.ts",
       "passed": true
     },
     {
       "id": "uapi-auxillaries-orbitals-routes:test-paths-exist",
-      "sourcePath": "uapi/tests/userDataRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/userDataRoute.test.ts",
       "passed": true
     },
     {
       "id": "uapi-vcs-wallet-webhook-routes:source-roots-exist",
-      "sourcePath": "uapi/app/api/vcs/route.ts",
+      "sourcePath": "apps/uapi/app/api/vcs/route.ts",
       "passed": true
     },
     {
       "id": "uapi-vcs-wallet-webhook-routes:test-paths-exist",
-      "sourcePath": "uapi/tests/api/vcsRoutes.test.ts",
+      "sourcePath": "apps/uapi/tests/api/vcsRoutes.test.ts",
       "passed": true
     },
     {
       "id": "uapi-public-activity-template-routes:source-roots-exist",
-      "sourcePath": "uapi/app/api/activity/route.ts",
+      "sourcePath": "apps/uapi/app/api/activity/route.ts",
       "passed": true
     },
     {
       "id": "uapi-public-activity-template-routes:test-paths-exist",
-      "sourcePath": "uapi/tests/api/activityRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/activityRoute.test.ts",
       "passed": true
     },
     {
@@ -633,12 +633,12 @@
     },
     {
       "id": "chatgpt-app-action-contracts:source-roots-exist",
-      "sourcePath": "packages/external-apps/chatgpt/src/server.ts",
+      "sourcePath": "apps/chatgpt/src/server.ts",
       "passed": true
     },
     {
       "id": "chatgpt-app-action-contracts:test-paths-exist",
-      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+      "sourcePath": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "passed": true
     }
   ],

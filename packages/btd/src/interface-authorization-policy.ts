@@ -278,7 +278,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'mcp-finding-fits-allowed',
       interfaceSurface: 'mcp',
-      fixturePath: 'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      fixturePath: 'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       input: {
         policyId: 'interface-auth-mcp-finding-fits',
         interfaceSurface: 'mcp',
@@ -299,7 +299,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'chatgpt-delivery-allowed',
       interfaceSurface: 'chatgpt_app',
-      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+      fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
       input: {
         policyId: 'interface-auth-chatgpt-delivery',
         interfaceSurface: 'chatgpt_app',
@@ -344,7 +344,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'terminal-btc-fee-allowed',
       interfaceSurface: 'terminal',
-      fixturePath: 'uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
       input: {
         policyId: 'interface-auth-terminal-btc-fee',
         interfaceSurface: 'terminal',
@@ -372,7 +372,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'terminal-stale-authority-denied',
       interfaceSurface: 'terminal',
-      fixturePath: 'uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
       input: {
         policyId: 'interface-auth-terminal-stale-denial',
         interfaceSurface: 'terminal',
@@ -405,7 +405,7 @@ export function buildBtdInterfaceAuthorizationPolicyFixtures(): BtdInterfaceAuth
     {
       fixtureId: 'chatgpt-unpaid-delivery-denied',
       interfaceSurface: 'chatgpt_app',
-      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+      fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
       input: {
         policyId: 'interface-auth-chatgpt-unpaid-delivery',
         interfaceSurface: 'chatgpt_app',

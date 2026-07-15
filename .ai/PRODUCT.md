@@ -7,8 +7,8 @@ This document is a current, non-canonical operator guide for the shipping V26 re
 Bitcode V26 is the first commercial promotion of the source-to-shares system:
 
 - `protocol-demonstration/` is the deterministic protocol witness and proof substrate.
-- `uapi/app/application/*` is the Bitcode Terminal route for deposit, read, review, fit, settlement, and reread.
-- `packages/api/*`, `uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry Bitcode Exchange state.
+- `apps/uapi/app/application/*` is the Bitcode Terminal route for deposit, read, review, fit, settlement, and reread.
+- `packages/api/*`, `apps/uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry Bitcode Exchange state.
 - `packages/asset-packs-pipelines/domain/*` carries Read-satisfaction AssetPack synthesis and Finish delivery.
 - MCP, ChatGPT App, GitHub/VCS, webhooks, and other connections are admitted interfaces, not separate product owners.
 
@@ -23,7 +23,7 @@ The Terminal centers one activity ledger and three operator experiences:
 Activity compatibility page lives under `/executions`.
 Transactions write-space lives under `/application`.
 Auxillaries live under `/auxillaries/*`.
-Shared execution update carrier: `uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`.
+Shared execution update carrier: `apps/uapi/components/base/bitcode/execution/WorkUpdatePanel.tsx`.
 
 The main operator actions are `give` and `read`. Repository choice, Read review, fit review, transaction readiness, proof follow-through, and closure rereads must all resolve through Bitcode-owned state rather than shell-only side effects.
 

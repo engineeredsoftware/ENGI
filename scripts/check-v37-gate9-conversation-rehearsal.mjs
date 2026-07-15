@@ -144,13 +144,13 @@ function main() {
     'packages/specifying/test/conversation-rehearsal.test.js',
     'scripts/generate-v37-conversation-rehearsal.mjs',
     'scripts/check-v37-gate9-conversation-rehearsal.mjs',
-    'uapi/app/conversations/conversation-rehearsal.ts',
-    'uapi/app/conversations/components/ConversationRehearsalPanel.tsx',
-    'uapi/app/conversations/components/ConversationsOverlay.tsx',
-    'uapi/styles/conversations-fullscreen.css',
-    'uapi/tests/api/conversationRehearsal.test.ts',
-    'uapi/tests/conversationRehearsalPanel.test.tsx',
-    'uapi/jest.config.cjs',
+    'apps/uapi/app/conversations/conversation-rehearsal.ts',
+    'apps/uapi/app/conversations/components/ConversationRehearsalPanel.tsx',
+    'apps/uapi/app/conversations/components/ConversationsOverlay.tsx',
+    'apps/uapi/styles/conversations-fullscreen.css',
+    'apps/uapi/tests/api/conversationRehearsal.test.ts',
+    'apps/uapi/tests/conversationRehearsalPanel.test.tsx',
+    'apps/uapi/jest.config.cjs',
     'docs/conversations.md',
     'internal-docs/BITCODE_CONVERSATIONS.md',
     'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
@@ -161,7 +161,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/conversations/README.md',
+    'apps/uapi/app/conversations/README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -191,7 +191,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         'tests/api/conversationRehearsal.test.ts',
@@ -287,7 +287,7 @@ function main() {
   const protocolDts = read(root, 'packages/specifying/src/index.d.ts');
   const protocolReadme = read(root, 'packages/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const conversationsReadme = read(root, 'uapi/app/conversations/README.md');
+  const conversationsReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const publicDocs = read(root, 'docs/conversations.md');
   const internalDocs = read(root, 'internal-docs/BITCODE_CONVERSATIONS.md');
   const runbook = read(root, 'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md');

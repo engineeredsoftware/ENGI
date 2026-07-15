@@ -7393,7 +7393,7 @@ Format: `path -- <1 sentence TL;DR>`.
  jest-globals.d.ts -- Source or tooling module.
  tests/ -- Directory `tests`.
  jest.setup.cjs -- Jest unit-test runner configuration.
- uapi/ -- Next.js product application (routes thin; UI in components).
+ apps/uapi/ -- Next.js product application (routes thin; UI in components).
  .storybook/ -- UAPI `.storybook` area.
  main.ts -- UAPI source module.
  preview.ts -- UAPI source module.

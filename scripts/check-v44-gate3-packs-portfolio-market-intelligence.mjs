@@ -87,10 +87,10 @@ function main() {
 
   for (const relativePath of [
     V44_PACKS_PORTFOLIO_MARKET_INTELLIGENCE_ARTIFACT_PATH,
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/api/packs/activity/route.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/api/packs/activity/route.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
     'packages/specifying/src/canonical/v44-packs-portfolio-market-intelligence.js',
     'packages/specifying/test/v44-packs-portfolio-market-intelligence.test.js',
     'scripts/generate-v44-packs-portfolio-market-intelligence.mjs',
@@ -159,7 +159,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packActivityModel.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packActivityModel.test.ts', '--runInBand']);
     } catch {
       failures.push('uapi packActivityModel.test.ts must pass.');
     }

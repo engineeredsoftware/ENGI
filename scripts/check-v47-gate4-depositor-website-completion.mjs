@@ -96,10 +96,10 @@ function main() {
     'BITCODE_SPEC_V47_NOTES.md',
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/tests/depositRouteModel.test.ts',
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts',
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts',
     'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts',
@@ -167,7 +167,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

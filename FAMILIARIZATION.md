@@ -17,7 +17,7 @@ Companion docs (do not duplicate their contracts here):
 | `ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
 | `internal-docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
 | `internal-docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
-| `uapi/ARCHITECTURE.md` | Next app architecture notes | No |
+| `apps/uapi/ARCHITECTURE.md` | Next app architecture notes | No |
 
 **This file (`FAMILIARIZATION.md`) is non-canonical.** If it conflicts with
 `BITCODE_SPEC_V48.md`, the SPEC wins. Never omit system semantics from SPEC on
@@ -41,7 +41,7 @@ Read in this order on a first pass:
 10. **§12 Terms appendix** — acronyms, hierarchy words, uapi concepts (lookup table)
 
 When implementing: open the SPEC section for the gate, then the package path
-named in G3-14 / source maps, then the experience unit under `uapi/components/`.
+named in G3-14 / source maps, then the experience unit under `apps/uapi/components/`.
 Use **§12** whenever an acronym or hierarchy name is unfamiliar.
 
 ---
@@ -335,7 +335,7 @@ pipeline-local tools e.g. AssetPackLexicalDepositorySearchTool
 @bitcode/mcp-generics / @bitcode/generic-mcps-bitcode composition re-exports (was packages/executions-mcp)
 ```
 
-Package paths: `packages/mcp-generics/`, `packages/generic-mcps/bitcode/`.
+Package paths: `packages/mcp-generics/`, `apps/mcp/`.
 
 ### 3.3 Pipelines
 
@@ -425,7 +425,7 @@ bitcode/
 ├── BITCODE_SPEC*.md / BITCODE_SPEC.txt # canon family
 ├── BITCODE_SPECIFYING.md
 ├── packages/ # domain monorepo (pnpm workspace)
-├── uapi/ # Next.js commercial website
+├── apps/uapi/ # Next.js commercial website
 ├── supabase/ # migrations, queries, seed
 ├── scripts/ # gate checkers, promotion, generators
 ├── .bitcode/ # generated structured artifacts
@@ -595,22 +595,22 @@ helpers live in `deposit-source-safe-utils.ts`.
 
 ## 6. UAPI — how the website works
 
-`uapi/` is the **Next.js App Router** commercial application.
+`apps/uapi/` is the **Next.js App Router** commercial application.
 
 ### 6.1 Dependency direction (strict)
 
 ```
 packages/* (no React pages; no import of uapi)
  ↑
-uapi/lib, uapi/networking, uapi/hooks (thin adapters)
+apps/uapi/lib, apps/uapi/networking, apps/uapi/hooks (thin adapters)
  ↑
-uapi/components/shadcn Shadcn*
+apps/uapi/components/shadcn Shadcn*
  ↑
-uapi/components/bitcode Bitcode* (theme, layout, pipeline chrome, auth, VCS)
+apps/uapi/components/bitcode Bitcode* (theme, layout, pipeline chrome, auth, VCS)
  ↑
-uapi/components/{experience}
+apps/uapi/components/{experience}
  ↑
-uapi/app/* page shells only
+apps/uapi/app/* page shells only
 ```
 
 **Never:** experience → experience imports.
@@ -664,9 +664,9 @@ Named entry file — **not** `index.tsx`. Top-of-file overview comment on non-tr
 ### 7.1 Marketing (`/`)
 
 Landing, walkthrough, marketplace narrative, competitor tables, BTD education.
-Home: `uapi/components/marketing/`. Large sections are modularized (data/helpers
+Home: `apps/uapi/components/marketing/`. Large sections are modularized (data/helpers
 + co-located subcomponents under each `Marketing*Section/` directory); see
-`uapi/components/marketing/README.md`. Screenshot shell composes hero gallery /
+`apps/uapi/components/marketing/README.md`. Screenshot shell composes hero gallery /
 how-it-works / entrance hook; marketplace composes order book, ticker, candles,
 detail, narrative, and action-pad units.
 
@@ -687,7 +687,7 @@ in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 
 **Reads modularization (entry paths):**
 
-- Page orchestration: `uapi/components/reads/ReadPageClient/ReadPageClient.tsx`
+- Page orchestration: `apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx`
  with hooks (`use-read-live-runs`, `use-read-url-navigation`,
  `use-read-pipeline-telemetry`, `use-read-session-projections`,
  `use-read-activity-recording`, `use-read-route-params`)
@@ -709,7 +709,7 @@ in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 Network-scope PackActivity master-detail (ledgerized history).
 **Not** personal pipeline activity (that is `/deposits`).
 
-Home: `uapi/components/packs/`.
+Home: `apps/uapi/components/packs/`.
 
 | Concern | Location |
 | --- | --- |
@@ -722,7 +722,7 @@ Home: `uapi/components/packs/`.
 | Shared chrome | `PacksDetailSection/`, `PacksStatusPill/` |
 | Cross-route activity projection | `bitcode/activity/PackActivityModel/pack-activity-model` (leave under Bitcode; not packs-only) |
 
-App shell: `uapi/app/packs/` re-exports the page client. Layout contract:
+App shell: `apps/uapi/app/packs/` re-exports the page client. Layout contract:
 `internal-docs/BITCODE_SOURCE_LAYOUT.md` § Packs experience.
 
 ### 7.5 Docs (`/docs`)
@@ -735,7 +735,7 @@ rail/card/specimen/API/manual subcomponents.
 ### 7.6 Conversations
 
 Full commercial Conversations UX is **deferred post-V48**, but structure remains
-under `uapi/components/conversations/`. Overlay orchestration is a thin shell
+under `apps/uapi/components/conversations/`. Overlay orchestration is a thin shell
 (<500) composing header/main-content/side-panels plus send + view-mode hooks;
 rich-text input uses co-located serialize/render helpers; GitHub source selector
 cascade lives in `use-github-source-selection`; edge-case handler is a facade
@@ -747,7 +747,7 @@ post-auth landing, not Terminal.
 Identity, wallet, GitHub externals, interfaces, organization/treasury panes.
 Route: `/auxillaries/[pane]`. Overlays can open from product pages.
 
-| Concern | Location under `uapi/components/auxillaries/` |
+| Concern | Location under `apps/uapi/components/auxillaries/` |
 | --- | --- |
 | Surface shell + step wiring | `AuxillariesSurface/` (`hooks/`, `models/`, dynamic pane imports) |
 | Profile | `AuxillariesProfilePane/` + `Profile*Section/`, `OrganizationAuthoritySection/` |
@@ -757,7 +757,7 @@ Route: `/auxillaries/[pane]`. Overlays can open from product pages.
 | Organization | `organization/OrganizationSettings/` (tab units) + `BTDTreasuryManagement/` |
 | Shared chrome | `headers/`, `shared/` (tabs, stat grids, preference cards, workspace sections) |
 
-Layout contract: `uapi/components/auxillaries/README.md` and
+Layout contract: `apps/uapi/components/auxillaries/README.md` and
 `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
 
 ### 7.8 Bitcode base
@@ -797,7 +797,7 @@ or provider payloads.
 | Layer | Location |
 | --- | --- |
 | Package unit | `packages/<name>/src/__tests__` or co-located |
-| UAPI unit/integration | `uapi/tests/*` (must be on jest `testMatch` allowlist) |
+| UAPI unit/integration | `apps/uapi/tests/*` (must be on jest `testMatch` allowlist) |
 | Gate checkers | `scripts/check-v*-gate*.mjs`, `package.json` `check:v*` scripts |
 | E2E | Playwright under uapi (opt-in heavy paths) |
 
@@ -816,8 +816,8 @@ as if they were source of product law.
 2. `packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts` (barrel)
 3. `.../agents/{setup,discovery,implementation,validation}/deposit-*.ts`
 4. `packages/pipeline-hosts/src/asset-pack-host.ts`
-5. `uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`
-6. `uapi/components/deposits/DepositPageClient/*`
+5. `apps/uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`
+6. `apps/uapi/components/deposits/DepositPageClient/*`
 
 ### 9.2 “How does an agent call an LLM?”
 
@@ -836,7 +836,7 @@ as if they were source of product law.
 ### 9.4 “Where do I put new pure logic?”
 
 - Shared non-React → new or existing `packages/*`
-- Experience-only pure → `uapi/components/<exp>/models/`
+- Experience-only pure → `apps/uapi/components/<exp>/models/`
 - React stateful → co-located `hooks/`
 - Never dump into page clients
 
@@ -896,7 +896,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 
 | Term | Expansion / meaning |
 | --- | --- |
-| **API** | Application Programming Interface — here usually HTTP route handlers in `packages/api` and thin `uapi/app/api/*` bindings. |
+| **API** | Application Programming Interface — here usually HTTP route handlers in `packages/api` and thin `apps/uapi/app/api/*` bindings. |
 | **BTC** | Bitcoin (currency). V48 settlement money is **BTC-testnet** only (no mainnet value). |
 | **BTD** | Bitcode’s weighted knowledge-volume unit: measured basis of price; after settlement, a rights-bearing receipt (ledger language is **journal**). |
 | **CI** | Continuous Integration — GitHub Actions gate/promotion workflows; also `packages/ci/circle` (CircleCI provider). |
@@ -917,8 +917,8 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **SDIVF** | **Setup → [Discover → Implement → Validate]\* → Finish** — base product pipeline shape (`SDIVFPipeline`). |
 | **SSE** | Server-Sent Events — one way clients receive streaming pipeline telemetry. |
 | **SRP** | Single Responsibility Principle — one primary reason to change per component/file unit. |
-| **UI / UX** | User interface / user experience — React under `uapi/components/*`. |
-| **UAPI** | The Next.js commercial app at `uapi/` (routes, components, thin adapters). |
+| **UI / UX** | User interface / user experience — React under `apps/uapi/components/*`. |
+| **UAPI** | The Next.js commercial app at `apps/uapi/` (routes, components, thin adapters). |
 | **VCS** | Version Control System — providers under `vcs-generics` + `generic-vcs/*`. |
 
 ### 12.2 Product domain (market / settlement)
@@ -1041,17 +1041,17 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
 | Term | Meaning |
 | --- | --- |
-| **Bitcode\*** | Shared app base components over Shadcn (`uapi/components/bitcode`). |
+| **Bitcode\*** | Shared app base components over Shadcn (`apps/uapi/components/bitcode`). |
 | **BitcodePipeline\*** | Shared pipeline chrome (table, log, telemetry) — product run UI language. |
 | **Component unit** | Directory `ComponentName/ComponentName.tsx` + optional `hooks/`, `styles/`, `__tests__/`. Not `index.tsx`. |
 | **Experience** | One of seven product UI domains: Marketing, Packs, Reads, Deposits, Docs, Conversations, Auxillaries. |
 | **Experience → experience** | **Forbidden** import direction. |
-| **Page shell** | Thin `uapi/app/*` file: metadata + composition only; no heavy logic. |
+| **Page shell** | Thin `apps/uapi/app/*` file: metadata + composition only; no heavy logic. |
 | **Page client** | Client orchestration component (providers, URL, section wiring). |
 | **Packages → uapi** | **Forbidden** — domain packages must not import the Next app. |
-| **Shadcn\*** | Root UI primitives (`uapi/components/shadcn`). |
+| **Shadcn\*** | Root UI primitives (`apps/uapi/components/shadcn`). |
 | **Theme / layout / auth (Bitcode base)** | Shared chrome: nav, branding, auth panes, pipeline cards. |
-| **`uapi/lib`, `networking`, `hooks`** | Thin Next/React adapters over packages. |
+| **`apps/uapi/lib`, `networking`, `hooks`** | Thin Next/React adapters over packages. |
 | **DepositPageClient / PacksPageClient / …** | Experience page orchestrators. |
 | **Master-detail** | UI pattern: list/master + detail pane (deposits options, packs activity). |
 | **NavBrand** | Top nav brand cluster (logo marks + BITCODE wordmark). |

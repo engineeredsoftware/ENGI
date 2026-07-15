@@ -187,12 +187,12 @@ Shadcn*  →  Bitcode*  →  {Marketing|Packs|Reads|Deposits|Docs|Conversations|
 
 Filesystem and co-location convention (named component directories, hooks/styles/__tests__, packages vs uapi): `internal-docs/BITCODE_SOURCE_LAYOUT.md`.
 
-Canonical directories (under the Next app root `uapi/`):
+Canonical directories (under the Next app root `apps/uapi/`):
 
-- `uapi/components/shadcn/`
-- `uapi/components/bitcode/`
-- `uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
-- Thin page shells under `uapi/app/{packs,deposits,reads,docs,conversations,auxillaries}/` and marketing at `uapi/app/page.tsx` / `(root)`
+- `apps/uapi/components/shadcn/`
+- `apps/uapi/components/bitcode/`
+- `apps/uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
+- Thin page shells under `apps/uapi/app/{packs,deposits,reads,docs,conversations,auxillaries}/` and marketing at `apps/uapi/app/page.tsx` / `(root)`
 
 Naming law (types, classes, files, functions, variables — not only components):
 
@@ -206,7 +206,7 @@ Naming law (types, classes, files, functions, variables — not only components)
   agent/executor packages (`execution-generics`, PTRR executor primitives) are
   not product Pipeline surfaces and are not blindly renamed.
 - **Terminal** as a product surface name is eradicated. Live capabilities that
-  still live under `uapi/app/terminal/` must relocate into Bitcode or the
+  still live under `apps/uapi/app/terminal/` must relocate into Bitcode or the
   owning experience; dead cockpit-only modules are deleted. `/terminal` may
   remain only as a compatibility redirect (default `/packs`) during migration.
 - HTTP paths under `/api/executions/*` may remain stable during rename waves;
@@ -220,20 +220,20 @@ remain under a Terminal path.
 God-client modularization law (Phase 4, active on `version/v48`):
 
 - Experience page clients are **orchestration shells** only. Pure projections
-  live under `uapi/components/<experience>/models/`; stateful IO under
+  live under `apps/uapi/components/<experience>/models/`; stateful IO under
   co-located `hooks/`; render units under named `ComponentName/` directories.
 - `/deposits` rebuild index: `DepositPageClient` + deposit models/hooks/units
   listed in G3-14. `/packs` uses `PacksPageClient` + portfolio/master/detail
   units. Further thinning of deposit handlers and source-inventory loading
   continues until no deposit-touched module violates SRP.
-- Unit tests for pure deposit models register under `uapi/tests/` (and
-  `uapi/jest.config.cjs` testMatch) so CI proves modular projections.
+- Unit tests for pure deposit models register under `apps/uapi/tests/` (and
+  `apps/uapi/jest.config.cjs` testMatch) so CI proves modular projections.
 
 ### Legacy Terminal eradication completion condition
 
 Terminal eradication is complete when:
 
-1. `uapi/app/terminal/` does not exist.
+1. `apps/uapi/app/terminal/` does not exist.
 2. `/terminal` is not a route (no page, no redirect) and is not a nav/login CTA.
 3. Shared pipeline selection, history, repository context, and readiness
    models live under Bitcode/experience names without `Terminal*` prefixes.
@@ -566,7 +566,7 @@ Dispatch must use Vercel `waitUntil` (QA F31) — bare `void` after response is 
 
 | HostKind | Implementation | Law |
 |---|---|---|
-| `local` | LocalHost + `uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Host **adopt this-run tree or clone** complete tree at SHA; Node fs workspace; build **sourceCheckoutCatalog** `{ paths, samples, sources? }`. |
+| `local` | LocalHost + `apps/uapi/lib/deposit-source-provisioning` | Default when `BITCODE_PIPELINE_HOST` unset. Host **adopt this-run tree or clone** complete tree at SHA; Node fs workspace; build **sourceCheckoutCatalog** `{ paths, samples, sources? }`. |
 | `sandbox` | VercelSandbox host family | When `BITCODE_PIPELINE_HOST=sandbox`. Auth fail-closed. Deposit boxes **`persistent: false`**. Persist `context.sandboxId` for cancel. |
 
 Scope after provision: Forced Inclusions/Exclusions applied to catalog. Prompt path uses projection of **paths + samples only** — never full `sources` in prompts or telemetried `pipeline:input`.
@@ -943,19 +943,19 @@ Rebuild order in `buildDepositRouteSession` / `DepositPageClient`:
 | Depository search pure | `…/tools/deposit-depository-asset-pack-search.ts` |
 | Real option projection | `deposit-option-real-synthesis.ts` |
 | Policy / admission / earnings | `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depositor-earning-supply-intelligence.ts` |
-| Settled demand | `depository-settled-demand-estimate.ts`, `uapi/lib/depository-settled-demand.ts` |
+| Settled demand | `depository-settled-demand-estimate.ts`, `apps/uapi/lib/depository-settled-demand.ts` |
 | Hosts | `packages/pipeline-hosts/` (LocalHost, VercelSandbox, …) |
-| Provisioning | `uapi/lib/deposit-source-provisioning.ts` |
-| Synthesize route / dispatch | `uapi/app/api/deposit/synthesize-options/` |
-| Demand route | `uapi/app/api/deposit/demand-estimate/route.ts` |
-| Cancel | `uapi/lib/execution-cancel.ts`, `uapi/app/api/executions/[runId]/cancel` |
+| Provisioning | `apps/uapi/lib/deposit-source-provisioning.ts` |
+| Synthesize route / dispatch | `apps/uapi/app/api/deposit/synthesize-options/` |
+| Demand route | `apps/uapi/app/api/deposit/demand-estimate/route.ts` |
+| Cancel | `apps/uapi/lib/execution-cancel.ts`, `apps/uapi/app/api/executions/[runId]/cancel` |
 | Stream safety | `packages/pipelines-generics/src/streaming/*` |
-| UI page shell | `uapi/app/deposits/page.tsx` (thin mount) |
-| UI orchestration | `uapi/components/deposits/DepositPageClient/DepositPageClient.tsx` |
-| UI pure models | `uapi/components/deposits/models/` |
-| UI hooks | `uapi/components/deposits/DepositPageClient/hooks/` |
-| UI units | `DepositSourceSelection`, `DepositObfuscationsPanel`, `DepositAssetPackOptions`, `DepositPipelinesMaster`, `DepositSynthesisTelemetry`, `DepositActivityLedgerDetail`, `DepositRouteStateAside` under `uapi/components/deposits/` |
-| Layout contract | `internal-docs/BITCODE_SOURCE_LAYOUT.md`, `uapi/components/deposits/README.md` |
+| UI page shell | `apps/uapi/app/deposits/page.tsx` (thin mount) |
+| UI orchestration | `apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx` |
+| UI pure models | `apps/uapi/components/deposits/models/` |
+| UI hooks | `apps/uapi/components/deposits/DepositPageClient/hooks/` |
+| UI units | `DepositSourceSelection`, `DepositObfuscationsPanel`, `DepositAssetPackOptions`, `DepositPipelinesMaster`, `DepositSynthesisTelemetry`, `DepositActivityLedgerDetail`, `DepositRouteStateAside` under `apps/uapi/components/deposits/` |
+| Layout contract | `internal-docs/BITCODE_SOURCE_LAYOUT.md`, `apps/uapi/components/deposits/README.md` |
 | LLM defaults | `packages/generic-llms/src/defaults.ts` |
 | DB | `supabase/migrations/20260515010000_terminal_execution_history.sql` |
 | Prompt contracts (test) | `…/__tests__/deposit-agent-prompt-contracts.test.ts` |
@@ -969,7 +969,7 @@ not supply omitted system semantics.
 
 The `/deposits` commercial surface is modular by SRP, not a single god client:
 
-1. **Page shell** (`uapi/app/deposits/`) mounts only; no domain logic.
+1. **Page shell** (`apps/uapi/app/deposits/`) mounts only; no domain logic.
 2. **Orchestration** (`DepositPageClient`) wires state and handlers; pure
    projections and IO belong in `models/` and `hooks/`.
 3. **Named component units** own discrete UI responsibilities (source,
@@ -1127,8 +1127,8 @@ roots only; no raw source.
 | Settle package | `packages/asset-packs-pipelines/settle-asset-pack-pipeline/` |
 | BitcodeERC1155 | `packages/btd/contracts/BitcodeERC1155.sol`, `packages/btd/src/erc1155/` |
 | Needinesses → BTD | `computeSettlementBtdFromNeedinesses` (`@bitcode/btd/erc1155`) |
-| Read API | `uapi/app/api/read/synthesize-options/`, `uapi/app/api/read/settle/` |
-| UI | `uapi/components/reads/*`, `uapi/components/packs/*` |
+| Read API | `apps/uapi/app/api/read/synthesize-options/`, `apps/uapi/app/api/read/settle/` |
+| UI | `apps/uapi/components/reads/*`, `apps/uapi/components/packs/*` |
 
 ## V48 whole Bitcode operator chain
 
@@ -1839,7 +1839,7 @@ gate/canon workflows run the Gate 2 checker under promoted V48 canon.
 V48 frontend component architecture and Terminal eradication (implementation
 quality workstream on `version/v48`, not a separate product gate number) is
 complete when the three-layer / seven-experience component law above is
-realized in source, live modules no longer import `uapi/app/terminal/`, product
+realized in source, live modules no longer import `apps/uapi/app/terminal/`, product
 Pipeline naming replaces Execution/Terminal UI names, generalizable utilities
 prefer packages, and parity matrix rows for this workstream are closed.
 

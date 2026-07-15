@@ -107,7 +107,7 @@ Gate 3 implements the five-step enterprise Reading path in Terminal and connecte
 The UX must default to clear low-detail guidance while preserving expandable source-safe operational detail for every step, pipeline run, quote, settlement, and delivery state.
 The gate is closed by route state contracts, component tests, browser proof, stream-log integration, and source-safe disclosure tests.
 The implementation basis is `TerminalEnterpriseReadingUxState`, exported from
-`uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, with five stable
+`apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, with five stable
 steps: `request-read`, `review-synthesized-need`, `request-fit`,
 `review-synthesized-asset-pack`, and `buy-asset-pack-settle`.
 Conversation handoffs may carry only source-safe stage intent through the

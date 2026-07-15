@@ -172,17 +172,17 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/application/application-experience-architecture.ts",
+            "file": "apps/uapi/app/application/application-experience-architecture.ts",
             "evidence": "SIXTH_GATE_MVP_APPLICATION_MAP",
             "description": "application map source exports the sixth-gate MVP map"
           },
           {
-            "file": "uapi/app/application/application-experience-architecture.ts",
+            "file": "apps/uapi/app/application/application-experience-architecture.ts",
             "evidence": "dominant-master-detail-read-surface",
             "description": "activity is named as the dominant read surface"
           },
           {
-            "file": "uapi/tests/applicationExperienceArchitecture.test.ts",
+            "file": "apps/uapi/tests/applicationExperienceArchitecture.test.ts",
             "evidence": "locks the post-fifth-gate application map to activity, transactions, conversations, and auxillaries",
             "description": "test locks the four-surface MVP map"
           },
@@ -214,22 +214,22 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/tests/applicationTransactions.test.ts",
+            "file": "apps/uapi/tests/applicationTransactions.test.ts",
             "evidence": "filters transactions by search, ownership, and repository",
             "description": "transaction ledger filtering is tested"
           },
           {
-            "file": "uapi/tests/applicationTransactionQuery.test.ts",
+            "file": "apps/uapi/tests/applicationTransactionQuery.test.ts",
             "evidence": "reads and writes transaction pagination through route query state",
             "description": "transaction pagination is route-stable"
           },
           {
-            "file": "uapi/tests/e2e/application.terminal.flow.spec.ts",
+            "file": "apps/uapi/tests/e2e/application.terminal.flow.spec.ts",
             "evidence": "application route keeps read, selection, and repository-anchor write-through in one master-detail surface",
             "description": "browser story covers the repeated operator master-detail loop"
           },
           {
-            "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+            "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
             "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
             "description": "write-through reread is route-tested"
           }
@@ -255,22 +255,22 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+            "file": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
             "evidence": "Multiple view modes (floating, sidebar, fullscreen, split-screen)",
             "description": "conversation overlay owns popup/fullscreen modes"
           },
           {
-            "file": "uapi/tests/conversationsRouteClient.test.tsx",
+            "file": "apps/uapi/tests/conversationsRouteClient.test.tsx",
             "evidence": "forceFullscreen=true",
             "description": "direct route tests fullscreen conversation mode"
           },
           {
-            "file": "packages/external-apps/chatgpt/src/server.ts",
+            "file": "apps/chatgpt/src/server.ts",
             "evidence": "connected-interface Bitcode Terminal companion",
             "description": "ChatGPT App is specified as a Terminal companion, not a parallel product"
           },
           {
-            "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+            "file": "apps/chatgpt/src/__tests__/tools.test.ts",
             "evidence": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
             "description": "ChatGPT App write tools share admission semantics"
           }
@@ -296,22 +296,22 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/auxillaries/components/auxillary-pane-meta.ts",
+            "file": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts",
             "evidence": "Connects, Interfaces, Profile, and $BTD",
             "description": "auxillary pane contract names the non-duplicative panes"
           },
           {
-            "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+            "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
             "evidence": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
             "description": "BTD pane distinguishes non-fungible shares from BTC fees"
           },
           {
-            "file": "uapi/tests/userDataRoute.test.ts",
+            "file": "apps/uapi/tests/userDataRoute.test.ts",
             "evidence": "walletConnectionStatus",
             "description": "auxillary reread route includes wallet-provider session truth"
           },
           {
-            "file": "uapi/tests/orbitalsBTDPane.test.tsx",
+            "file": "apps/uapi/tests/orbitalsBTDPane.test.tsx",
             "evidence": "wallet provider must reconnect before Bitcode can rely on live signing again",
             "description": "BTD pane test blocks saved-signer-only settlement posture"
           }
@@ -344,12 +344,12 @@
             "description": "Bitcode MCP writes emit write-admission receipts"
           },
           {
-            "file": "packages/external-apps/chatgpt/src/server.ts",
+            "file": "apps/chatgpt/src/server.ts",
             "evidence": "Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state",
             "description": "ChatGPT App read tools are Exchange input evidence"
           },
           {
-            "file": "uapi/tests/api/readReviewProtocolParity.test.ts",
+            "file": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
             "evidence": "rereads accepted Read review and source-to-shares settlement artifacts through the commercial /api/state route",
             "description": "commercial API rereads protocol state"
           },

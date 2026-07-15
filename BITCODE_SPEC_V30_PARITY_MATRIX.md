@@ -148,16 +148,16 @@ No `_legacy/` source is active source truth.
 | API boundary exposes package-owned receipt construction | `buildBtdMintDraft`, `buildBtdReadReceiptBoundarySettlement`, and `buildBtdAssetPackExchangeSettlement` compose receipt builders | drafted |
 | Sandbox harness stores and streams receipt evidence | `packages/pipeline-hosts/src/asset-pack-harness.ts` stores mint/read receipt payloads in ledger settlement evidence and emits receipt roots in readback telemetry | drafted |
 | Terminal renders receipt readback through existing detail surfaces | `terminal-transaction-detail-snapshot.ts` coerces receipt payloads and `terminal-transaction-read-model.ts` counts them in closure/journal sections | drafted |
-| Tests cover package and Terminal receipt posture | `packages/btd/__tests__/api-boundaries.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `uapi/tests/terminalTransactionReadModel.test.ts` | drafted |
+| Tests cover package and Terminal receipt posture | `packages/btd/__tests__/api-boundaries.test.ts`, `apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts`, and `apps/uapi/tests/terminalTransactionReadModel.test.ts` | drafted |
 | Gate checker protects the receipt surface | `scripts/check-v30-gate4-btd-assetpack-mint-read-receipts.mjs`, `pnpm run check:v30-gate4`, gate-quality workflow | drafted |
 
 ## Gate 5 Parity
 
 | Requirement | Source evidence | Current V30 judgment |
 | --- | --- | --- |
-| Ledger projection report separates four fact classes | `packages/btd/src/reconciliation.ts`, `uapi/app/terminal/terminal-journal-reconciliation.ts`, `uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx` | drafted |
+| Ledger projection report separates four fact classes | `packages/btd/src/reconciliation.ts`, `apps/uapi/app/terminal/terminal-journal-reconciliation.ts`, `apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx` | drafted |
 | Object-storage and staging-testnet repair classes are deterministic | `packages/btd/__tests__/reconciliation.test.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts` | drafted |
-| Harness and Terminal consume the same report evidence | `packages/pipeline-hosts/src/asset-pack-harness.ts`, `packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts`, `uapi/tests/terminalJournalReconciliation.test.ts`, `uapi/tests/terminalTransactionDetailSnapshot.test.ts` | drafted |
+| Harness and Terminal consume the same report evidence | `packages/pipeline-hosts/src/asset-pack-harness.ts`, `packages/pipeline-hosts/src/__tests__/asset-pack-harness.test.ts`, `apps/uapi/tests/terminalJournalReconciliation.test.ts`, `apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts` | drafted |
 | Gate checker protects projection hardening | `scripts/check-v30-gate5-testnet-ledger-projection-hardening.mjs`, `pnpm run check:v30-gate5`, gate-quality workflow | drafted |
 
 ## Gate 4 accepted boundaries
@@ -182,7 +182,7 @@ No `_legacy/` source is active source truth.
 | --- | --- | --- |
 | Source-to-shares proof is package-owned | `packages/btd/src/source-to-shares.ts`, `packages/btd/src/api-boundaries.ts` | drafted |
 | Contribution weights, range slices, BTC fee allocation, and conservation are deterministic | `packages/btd/__tests__/source-to-shares.test.ts` | drafted |
-| API and Next route consume the package proof without route-local accounting | `packages/api/src/routes/btd-crypto.ts`, `uapi/app/api/btd/source-to-shares-proof/route.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts` | drafted |
+| API and Next route consume the package proof without route-local accounting | `packages/api/src/routes/btd-crypto.ts`, `apps/uapi/app/api/btd/source-to-shares-proof/route.ts`, `packages/api/src/routes/__tests__/btd-crypto.test.ts` | drafted |
 | Gate checker protects source-to-shares cleanup | `scripts/check-v30-gate6-source-to-shares-proof-cleanup.mjs`, `pnpm run check:v30-gate6`, gate-quality workflow | drafted |
 
 ## Gate 6 accepted boundaries
@@ -200,7 +200,7 @@ No `_legacy/` source is active source truth.
 | Bridge-readiness posture is package-owned | `packages/btd/src/bridge-readiness.ts`, `packages/btd/src/index.ts` | drafted |
 | Taproot, BitVM, BSC/opBNB, Binance Web3 Wallet, and future distribution paths are covered | `BRIDGE_READINESS_RESEARCH_PATHS`, `packages/btd/__tests__/bridge-readiness.test.ts` | drafted |
 | Every bridge path remains research-only and not current BTD chain-of-record truth | `assertNoBridgeChainOfRecordAdmission`, `bridgeChainOfRecordTruth: no_bridge_chain_of_record` | drafted |
-| API and Terminal boundary expose source-safe research posture only | `buildBtdBridgeReadinessResearchSettlement`, `buildPostBtdBridgeReadinessResearchRoute`, `uapi/app/api/btd/bridge-readiness-research/route.ts` | drafted |
+| API and Terminal boundary expose source-safe research posture only | `buildBtdBridgeReadinessResearchSettlement`, `buildPostBtdBridgeReadinessResearchRoute`, `apps/uapi/app/api/btd/bridge-readiness-research/route.ts` | drafted |
 | Gate checker protects bridge research boundaries | `scripts/check-v30-gate7-bridge-readiness-research-boundaries.mjs`, `pnpm run check:v30-gate7`, gate-quality workflow | drafted |
 
 ## Gate 7 accepted boundaries
@@ -219,7 +219,7 @@ No `_legacy/` source is active source truth.
 | Receipt, BTC fee, ledger projection, source-to-shares, and bridge-readiness subjects are typed | `BTD_PROTOCOL_TELEMETRY_SUBJECT_KINDS`, `packages/btd/__tests__/telemetry.test.ts` | drafted |
 | Telemetry rows and proof hooks reject protected source and secrets | `sourceSafety`, metadata source-safety tests | drafted |
 | Proof hooks carry theorem, replay, witness, generated artifact, evidence, and telemetry roots | `BtdProtocolProofHook`, `buildBtdProtocolProofHook`, focused tests | drafted |
-| API and Terminal boundary expose JSON-safe proof-admission telemetry | `buildBtdProtocolTelemetrySettlement`, `buildPostBtdProtocolTelemetryRoute`, `uapi/app/api/btd/protocol-telemetry/route.ts` | drafted |
+| API and Terminal boundary expose JSON-safe proof-admission telemetry | `buildBtdProtocolTelemetrySettlement`, `buildPostBtdProtocolTelemetryRoute`, `apps/uapi/app/api/btd/protocol-telemetry/route.ts` | drafted |
 | Gate checker protects telemetry/proof-hook boundaries | `scripts/check-v30-gate8-protocol-telemetry-proof-hooks.mjs`, `pnpm run check:v30-gate8`, gate-quality workflow | drafted |
 
 ## Gate 8 accepted boundaries
@@ -235,8 +235,8 @@ No `_legacy/` source is active source truth.
 | Requirement | Source evidence | Current V30 judgment |
 | --- | --- | --- |
 | Interface integration proof is package-owned | `packages/btd/src/interface-integration.ts`, `packages/btd/src/interface-integration-contract.ts`, `packages/btd/src/index.ts` | drafted |
-| Terminal can consume client-safe package contracts | `uapi/app/terminal/terminal-interface-integration-regression.ts`, `uapi/app/terminal/terminal-protocol-projection.ts` | drafted |
-| API exposes JSON-safe proof admission | `buildBtdInterfaceIntegrationRegressionSettlement`, `buildPostBtdInterfaceIntegrationRegressionRoute`, `uapi/app/api/btd/interface-integration-regression/route.ts` | drafted |
+| Terminal can consume client-safe package contracts | `apps/uapi/app/terminal/terminal-interface-integration-regression.ts`, `apps/uapi/app/terminal/terminal-protocol-projection.ts` | drafted |
+| API exposes JSON-safe proof admission | `buildBtdInterfaceIntegrationRegressionSettlement`, `buildPostBtdInterfaceIntegrationRegressionRoute`, `apps/uapi/app/api/btd/interface-integration-regression/route.ts` | drafted |
 | MCP and ChatGPT App declare package-owned object records | `packages/executions-mcp/src/mcp-server/src/interface-integration.ts`, `packages/chatgptapp/src/interface-integration.ts` | drafted |
 | Source-safe low-detail and transaction cockpit regression are tested | BTD interface-integration tests, BTD crypto route tests, Terminal projection tests, MCP auth test, ChatGPT tools test | drafted |
 | Gate checker protects interface integration boundaries | `scripts/check-v30-gate9-interface-integration-regression-proof.mjs`, `pnpm run check:v30-gate9`, gate-quality workflow | drafted |

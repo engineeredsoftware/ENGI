@@ -46,10 +46,10 @@
       "passed": true,
       "detail": "4 required files present",
       "requiredFiles": [
-        "uapi/app/api/webhook/route.ts",
-        "uapi/app/api/webhook/verify.ts",
-        "uapi/tests/webhookRoute.test.ts",
-        "uapi/tests/api/webhookSignature.test.ts"
+        "apps/uapi/app/api/webhook/route.ts",
+        "apps/uapi/app/api/webhook/verify.ts",
+        "apps/uapi/tests/webhookRoute.test.ts",
+        "apps/uapi/tests/api/webhookSignature.test.ts"
       ],
       "missingFiles": [],
       "reformClass": "ingress-only",
@@ -75,8 +75,8 @@
       "detail": "3 required files present",
       "requiredFiles": [
         "packages/generic-agents/vcs/src/index.ts",
-        "uapi/app/application/ApplicationRepositoryContextPanel.tsx",
-        "uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx"
+        "apps/uapi/app/application/ApplicationRepositoryContextPanel.tsx",
+        "apps/uapi/app/auxillaries/components/AuxillariesConnectsPane.tsx"
       ],
       "missingFiles": [],
       "reformClass": "reference-only",
@@ -95,8 +95,8 @@
         "packages/asset-packs-pipelines/domain/src/tools/index.ts",
         "packages/api/src/routes/shippables.ts",
         "packages/execution-generics/src/store/registry.ts",
-        "uapi/app/executions/components/ExecutionsPageClient.tsx",
-        "uapi/components/base/bitcode/execution/execution-option-toggle.tsx",
+        "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
+        "apps/uapi/components/base/bitcode/execution/execution-option-toggle.tsx",
         "protocol-demonstration/test/v26-active-product-naming.test.js"
       ],
       "missingFiles": [],
@@ -147,7 +147,7 @@
         "packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts",
         "protocol-demonstration/test/v26-web-search-support-compatibility.test.js",
         "packages/web-search/src/index.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/tools.ts",
         "protocol-demonstration/test/v26-active-product-naming.test.js"
       ],
       "missingFiles": [],

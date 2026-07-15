@@ -87,7 +87,7 @@
       "purpose": "Make Conversation a source-safe handoff into Terminal Reading authority rather than a parallel buyer authority.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
         "BITCODE_SPEC_V39.md"
       ],
       "requiredEvidence": [
@@ -202,7 +202,7 @@
       "purpose": "Bind ChatGPT App actions to confirmation, source-safe preview, settlement unlock, and paid BTD rights delivery.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts",
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "requiredEvidence": [
         "chatgpt_app",
@@ -356,7 +356,7 @@
       "purpose": "Bind Gate 9 closure to package tests, Conversation handoff tests, MCP/ChatGPT interface tests, docs, workflows, and generated artifact freshness.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml"
       ],
@@ -448,7 +448,7 @@
     },
     {
       "id": "conversation-test-covers-parity",
-      "sourcePath": "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
       "passed": true
     },
     {
@@ -458,7 +458,7 @@
     },
     {
       "id": "chatgpt-test-covers-parity",
-      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+      "sourcePath": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "passed": true
     },
     {

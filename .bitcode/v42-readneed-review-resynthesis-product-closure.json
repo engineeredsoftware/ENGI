@@ -14,7 +14,7 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/app/api/read-review/route.ts"
+        "apps/uapi/app/api/read-review/route.ts"
       ],
       "emittedTypes": [
         "ReadNeedRequest",
@@ -126,8 +126,8 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "resynthesis_attempt",
@@ -201,8 +201,8 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts"
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts"
       ],
       "emittedTypes": [
         "ReadFitsFindingAdmission",
@@ -239,8 +239,8 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
-        "uapi/tests/api/readReviewRoute.test.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "RejectedReadNeed",
@@ -278,7 +278,7 @@
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts",
-        "uapi/app/api/read-review/route.ts"
+        "apps/uapi/app/api/read-review/route.ts"
       ],
       "emittedTypes": [
         "ReadNeedReviewTelemetryReceipt",
@@ -314,8 +314,8 @@
       "rowId": "route:read-review-actions",
       "purpose": "Expose synthesize, resynthesize, accept, and reject actions through the Read review route with storage projection, runtime summary, source-safe telemetry, and Finding Fits admission readback.",
       "sourceRoots": [
-        "uapi/app/api/read-review/route.ts",
-        "uapi/tests/api/readReviewRoute.test.ts"
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/tests/api/readReviewRoute.test.ts"
       ],
       "emittedTypes": [
         "readNeedReviewRuntime",
@@ -352,8 +352,8 @@
       "rowId": "ui:terminal-need-runtime-readback",
       "purpose": "Expose the reviewed Need, feedback loop, rejection path, storage projection, runtime roots, telemetry return type, and Finding Fits blocker/admission state in Terminal without protected source.",
       "sourceRoots": [
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/terminal/README.md"
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/README.md"
       ],
       "emittedTypes": [
         "TerminalReadNeedReviewRuntimeState",
@@ -390,7 +390,7 @@
       "purpose": "Bind V42 Gate 4 closure to package tests, route tests, protocol artifact tests, docs, scripts, and gate/canon workflow checks.",
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
-        "uapi/tests/api/readReviewRoute.test.ts",
+        "apps/uapi/tests/api/readReviewRoute.test.ts",
         ".github/workflows/bitcode-gate-quality.yml",
         ".github/workflows/bitcode-canon-quality.yml",
         "BITCODE_SPEC_V42.md",
@@ -501,42 +501,42 @@
     },
     {
       "id": "route-exposes-all-review-actions",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "route-persists-all-runtime-actions",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "route-returns-runtime-projection",
-      "sourcePath": "uapi/app/api/read-review/route.ts",
+      "sourcePath": "apps/uapi/app/api/read-review/route.ts",
       "passed": true
     },
     {
       "id": "route-tests-cover-runtime-and-rejection",
-      "sourcePath": "uapi/tests/api/readReviewRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewRoute.test.ts",
       "passed": true
     },
     {
       "id": "protocol-parity-keeps-finding-fits-blocked",
-      "sourcePath": "uapi/tests/api/readReviewProtocolParity.test.ts",
+      "sourcePath": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
       "passed": true
     },
     {
       "id": "terminal-ui-exposes-runtime-readback",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "terminal-ui-exposes-rejection",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "terminal-ux-keeps-accepted-need-gate",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
@@ -624,11 +624,11 @@
     "readNeedTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts",
     "runtimeTest": "packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts",
     "readingContractTest": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
-    "readReviewRoute": "uapi/app/api/read-review/route.ts",
-    "readReviewRouteTest": "uapi/tests/api/readReviewRoute.test.ts",
-    "readReviewProtocolParityTest": "uapi/tests/api/readReviewProtocolParity.test.ts",
-    "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-    "terminalUxState": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+    "readReviewRoute": "apps/uapi/app/api/read-review/route.ts",
+    "readReviewRouteTest": "apps/uapi/tests/api/readReviewRoute.test.ts",
+    "readReviewProtocolParityTest": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "terminalUxState": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml",
     "v42Spec": "BITCODE_SPEC_V42.md",
@@ -637,7 +637,7 @@
     "v42Parity": "BITCODE_SPEC_V42_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
-    "terminalReadme": "uapi/app/terminal/README.md",
+    "terminalReadme": "apps/uapi/app/terminal/README.md",
     "assetPackReadme": "packages/asset-packs-pipelines/domain/README.md",
     "protocolReadme": "packages/specifying/README.md"
   }

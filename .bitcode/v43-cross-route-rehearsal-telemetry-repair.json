@@ -214,7 +214,7 @@
       ],
       "sourceRoots": [
         ".bitcode/v43-read-route-five-step-ux.json",
-        "uapi/app/read/read-route-model.ts",
+        "apps/uapi/app/read/read-route-model.ts",
         "packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts"
       ],
       "requiredEvidence": [
@@ -307,8 +307,8 @@
       ],
       "sourceRoots": [
         ".bitcode/v43-packs-activity-master-detail.json",
-        "uapi/app/packs/PacksPageClient.tsx",
-        "uapi/app/api/packs/activity/route.ts"
+        "apps/uapi/app/packs/PacksPageClient.tsx",
+        "apps/uapi/app/api/packs/activity/route.ts"
       ],
       "requiredEvidence": [
         "PackActivity",
@@ -363,7 +363,7 @@
         "packs:inspect-activity-repair"
       ],
       "sourceRoots": [
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
         "packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts",
         "scripts/rehearse-v43-cross-route-product-flow.mjs"
       ],
@@ -466,9 +466,9 @@
         "packs:inspect-activity-repair"
       ],
       "sourceRoots": [
-        "uapi/app/deposit/deposit-route-model.ts",
-        "uapi/app/read/read-route-model.ts",
-        "uapi/app/packs/PacksPageClient.tsx"
+        "apps/uapi/app/deposit/deposit-route-model.ts",
+        "apps/uapi/app/read/read-route-model.ts",
+        "apps/uapi/app/packs/PacksPageClient.tsx"
       ],
       "requiredEvidence": [
         "critical-source block",
@@ -521,9 +521,9 @@
         "packs:inspect-activity-repair"
       ],
       "sourceRoots": [
-        "uapi/components/base/bitcode/routes/product-route-shell.tsx",
-        "uapi/app/deposit/DepositPageClient.tsx",
-        "uapi/app/read/ReadPageClient.tsx"
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx",
+        "apps/uapi/app/deposit/DepositPageClient.tsx",
+        "apps/uapi/app/read/ReadPageClient.tsx"
       ],
       "requiredEvidence": [
         "Withheld",
@@ -700,37 +700,37 @@
     },
     {
       "id": "deposit-route-covers-admission",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "deposit-model-covers-repair-boundaries",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "passed": true
     },
     {
       "id": "read-route-covers-two-pipeline-path",
-      "sourcePath": "uapi/app/read/read-route-model.ts",
+      "sourcePath": "apps/uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
       "id": "read-client-covers-preview-settlement-delivery",
-      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
       "id": "packs-route-covers-activity-repair",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "packs-api-source-safe-readback",
-      "sourcePath": "uapi/app/api/packs/activity/route.ts",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
       "passed": true
     },
     {
       "id": "pipeline-log-rich-metadata",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {

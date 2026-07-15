@@ -37,10 +37,10 @@ const hookRows = Object.freeze([
     executionId: 'execution-terminal-reading-preview',
     rootId: 'terminal-preview',
     replayCommand:
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
     theoremIds: ['interface-denial-readable', 'interface-preview-not-source'],
     replayStepIds: ['terminal-preview-blocked-readback', 'terminal-read-model'],
-    witnessArtifactPaths: ['uapi/tests/terminalOrganizationAuthority.test.ts'],
+    witnessArtifactPaths: ['apps/uapi/tests/terminalOrganizationAuthority.test.ts'],
     denialReason: 'assetpack-source-locked-until-settlement',
     repairPosture: 'settle-btc-fee-before-full-assetpack-delivery',
   }),
@@ -67,11 +67,11 @@ const hookRows = Object.freeze([
     executionId: 'execution-mcp-reading-pipeline',
     rootId: 'mcp-reading-pipeline',
     replayCommand:
-      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
     theoremIds: ['interface-execution-rooted', 'interface-proof-replayable'],
     replayStepIds: ['mcp-auth-context', 'mcp-pipeline-queue-readback'],
     witnessArtifactPaths: [
-      'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+      'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
     ],
     successSummary: 'mcp-reading-pipeline-queued-with-source-safe-roots',
     repairPosture: 'replay-mcp-pipeline-ingress-before-investigating-downstream-hosts',
@@ -87,7 +87,7 @@ const hookRows = Object.freeze([
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
     theoremIds: ['interface-confirmation-required', 'interface-preview-not-source'],
     replayStepIds: ['chatgpt-assetpack-delivery-blocked', 'chatgpt-confirmation-check'],
-    witnessArtifactPaths: ['packages/external-apps/chatgpt/src/__tests__/tools.test.ts'],
+    witnessArtifactPaths: ['apps/chatgpt/src/__tests__/tools.test.ts'],
     denialReason: 'reader-confirmation-or-paid-rights-missing',
     repairPosture: 'confirm-action-and-settle-before-full-delivery',
   }),
@@ -260,15 +260,15 @@ export function buildV33InterfaceTelemetryProofHooksArtifact() {
       'shares the package-owned InterfaceTelemetryProofHook for public API readback replay',
       'interface.telemetry.public-api-reading',
     ]),
-    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for MCP pipeline replay',
       'interface.telemetry.mcp-reading-tool',
     ]),
-    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for ChatGPT App delivery blockers',
       'interface.telemetry.chatgpt-reading-action',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
       'shares the package-owned InterfaceTelemetryProofHook for Terminal handoff replay',
       'interface.telemetry.terminal-reading-handoff',
     ]),

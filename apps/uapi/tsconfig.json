@@ -1,0 +1,700 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "target": "es2020",
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline": [
+        "../../packages/asset-packs-pipelines/settle-asset-pack-pipeline/src/index.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline": [
+        "../../packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/src/index.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline": [
+        "../../packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-compose": [
+        "../../packages/generic-artifacts/compose/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-aws-provider": [
+        "../../packages/generic-artifacts/aws-provider/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-supabase-provider": [
+        "../../packages/generic-artifacts/supabase-provider/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-vercel-provider": [
+        "../../packages/generic-artifacts/vercel-provider/src/index.ts"
+      ],
+      "@bitcode/generic-artifacts-patch-kind": [
+        "../../packages/generic-artifacts/patch-kind/src/index.ts"
+      ],
+      "@bitcode/generic-executions": [
+        "../../packages/generic-executions/src/index.ts"
+      ],
+      "@bitcode/generic-executions/*": [
+        "../../packages/generic-executions/src/*"
+      ],
+      "@bitcode/notifications": [
+        "../../packages/notifications/src/index.ts"
+      ],
+      "@bitcode/pipelines-generics/execution/resume": [
+        "../../packages/pipelines-generics/src/execution/resume.ts"
+      ],
+      "@bitcode/pipelines-generics/execution/pipeline-types": [
+        "../../packages/pipelines-generics/src/execution/pipeline-types.ts"
+      ],
+      "@bitcode/pipelines-generics/phases/phase-factory": [
+        "../../packages/pipelines-generics/src/phases/phase-factory.ts"
+      ],
+      "@bitcode/pipelines-generics/pipeline-factory": [
+        "../../packages/pipelines-generics/src/pipeline-factory.ts"
+      ],
+      "@bitcode/generic-vcs-bitbucket": [
+        "../../packages/generic-vcs/bitbucket/src/index.ts"
+      ],
+      "@bitcode/generic-vcs-gitlab": [
+        "../../packages/generic-vcs/gitlab/src/index.ts"
+      ],
+      "@bitcode/api/pipelines/orphan-sweep": [
+        "../../packages/api/src/pipelines/orphan-sweep.ts"
+      ],
+      "@bitcode/api/pipelines/cancel": [
+        "../../packages/api/src/pipelines/cancel.ts"
+      ],
+      "@bitcode/auth/qa-telemetry": [
+        "../../packages/auth/src/qa-telemetry.ts"
+      ],
+      "@bitcode/auth/supabase-auth-redirect": [
+        "../../packages/auth/src/supabase-auth-redirect.ts"
+      ],
+      "@bitcode/auth/bitcoin-wallet-oauth-provider": [
+        "../../packages/auth/src/bitcoin-wallet-oauth-provider.ts"
+      ],
+      "@bitcode/auth/bitcoin-wallet-client": [
+        "../../packages/auth/src/bitcoin-wallet-client.ts"
+      ],
+      "@bitcode/auth/wallet-local": [
+        "../../packages/auth/src/bitcode-wallet-local.ts"
+      ],
+      "@bitcode/vcs-generics-core": [
+        "../../packages/vcs-generics/src/index.ts"
+      ],
+      "@/*": [
+        "./*"
+      ],
+      // Keep the public prompt contract explicit on the active app path.
+      // `@bitcode/prompts/*` covers approved subpaths such as
+      // `raw_promptparts/*` and `formatters`, but we do not retain a
+      // stable alias for `@bitcode/prompts/src/*`.
+      "@bitcode/prompts": [
+        "../../packages/prompts/src/index.ts"
+      ],
+      "@bitcode/prompts/*": [
+        "../../packages/prompts/src/*"
+      ],
+      "@bitcode/prompts/raw_promptparts/*": [
+        "../../packages/prompts/src/raw_promptparts/*"
+      ],
+      "@bitcode/btd/terminal-operational-health": [
+        "../../packages/btd/src/terminal-operational-health.ts"
+      ],
+      "@bitcode/btd/api-schema-compatibility-matrix": [
+        "../../packages/btd/src/api-schema-compatibility-matrix.ts"
+      ],
+      "@bitcode/btd/interface-telemetry-proof-hook": [
+        "../../packages/btd/src/interface-telemetry-proof-hook.ts"
+      ],
+      "@bitcode/btd/interface-integration-contract": [
+        "../../packages/btd/src/interface-integration-contract.ts"
+      ],
+      "@bitcode/btd/interface-authorization-policy": [
+        "../../packages/btd/src/interface-authorization-policy.ts"
+      ],
+      "@bitcode/btd/read-license-assetpack-rights-contract": [
+        "../../packages/btd/src/read-license-assetpack-rights-contract.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain": [
+        "../../packages/asset-packs-pipelines/domain/src/index.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/read-need": [
+        "../../packages/asset-packs-pipelines/domain/src/read-need.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis": [
+        "../../packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract": [
+        "../../packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options": [
+        "../../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy": [
+        "../../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis": [
+        "../../packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis": [
+        "../../packages/asset-packs-pipelines/domain/src/deposit-option-real-synthesis.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/depository-settled-demand-estimate": [
+        "../../packages/asset-packs-pipelines/domain/src/depository-settled-demand-estimate.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/runtime-inference-policy": [
+        "../../packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
+      ],
+      "@bitcode/*": [
+        "../../packages/*/src",
+        "../../packages/*"
+      ],
+      "@bitcode/agent-generics/*": [
+        "../../packages/agent-generics/*"
+      ],
+      // Allow importing tool packages using the new
+      // "@bitcode/generic-tools/<tool>" pattern.
+      "@bitcode/generic-tools/*": [
+        "../../packages/generic-tools/*/src/index.ts"
+      ],
+      "@bitcode/generic-tools-multimodal-processing": [
+        "../../packages/generic-tools/multimodal-processing/src/index.ts"
+      ],
+      "@bitcode/generic-tools-multimodal-processing/*": [
+        "../../packages/generic-tools/multimodal-processing/src/*"
+      ],
+      "@bitcode/generic-tools-repository-setup": [
+        "../../packages/generic-tools/repository-setup/src/index.ts"
+      ],
+      "@bitcode/generic-tools-repository-setup/*": [
+        "../../packages/generic-tools/repository-setup/src/*"
+      ],
+      "@bitcode/generic-tools-lsp-query": [
+        "../../packages/generic-tools/lsp-query/src/index.ts"
+      ],
+      "@bitcode/generic-tools-lsp-query/*": [
+        "../../packages/generic-tools/lsp-query/src/*"
+      ],
+      "@bitcode/generic-agents-read-comprehension": [
+        "../../packages/generic-agents/read-comprehension/src/index.ts"
+      ],
+      "@bitcode/generic-tools-read-comprehension": [
+        "../../packages/generic-tools/read-comprehension/src/index.ts"
+      ],
+      "@bitcode/generic-tools/use-computer/src/index": [
+        "../../packages/generic-tools/use-computer/src/index.ts"
+      ],
+      "@bitcode/generic-tools-mcps-*": [
+        "../../packages/generic-tools/mcps-tools/*/src/index.ts"
+      ],
+      "@/lib/engine": [
+        "../../packages/pipelines-generics/src/pipeline/index.ts"
+      ],
+      "@/lib/engine/*": [
+        "../../packages/pipelines-generics/src/pipeline/*"
+      ],
+      "@/lib/engine/pipeline": [
+        "../../packages/pipelines-generics/src/pipeline/index.ts"
+      ],
+      "@/lib/engine/pipeline/*": [
+        "../../packages/pipelines-generics/src/pipeline/*"
+      ],
+      "@/lib/engine/pipeline/pipelineSetupPhaseWrapper": [
+        "../../packages/pipelines-generics/src/phases/setup/index.ts"
+      ],
+      "@/lib/engine/pipeline/pipelineDiscoveryPhaseWrapper": [
+        "../../packages/pipelines-generics/src/phases/discovery/index.ts"
+      ],
+      "@/lib/engine/pipeline/pipelineImplementationPhaseWrapper": [
+        "../../packages/pipelines-generics/src/phases/implementation/index.ts"
+      ],
+      "@/lib/engine/pipeline/pipelineValidationPhaseWrapper": [
+        "../../packages/pipelines-generics/src/phases/validation/index.ts"
+      ],
+      "@/lib/engine/pipeline/pipelineSDIVF": [
+        "../../packages/asset-packs-pipelines/domain/src/run.ts"
+      ],
+      "@/lib/engine/pipeline/pipelineMeasureSDIVS": [
+        "../../packages/pipelines/measure/src/run.ts"
+      ],
+      "@/lib/engine/pipeline/pipelineObfuscateSDIVS": [
+        "../../packages/pipelines/obfuscate/src/run.ts"
+      ],
+      "@/lib/engine/constants": [
+        "../../packages/pipelines-generics/src/constants.ts"
+      ],
+      "@/lib/files": [
+        "../../packages/files/src/files.ts"
+      ],
+      "@/lib/files/*": [
+        "../../packages/files/src/*"
+      ],
+      "@/lib/steps": [
+        "../../packages/pipelines-generics/src/steps/index.ts"
+      ],
+      "@/lib/steps/*": [
+        "../../packages/pipelines-generics/src/steps/*"
+      ],
+      "@/lib/setup": [
+        "../../packages/pipelines-generics/src/phases/setup/index.ts"
+      ],
+      "@/lib/setup/*": [
+        "../../packages/pipelines-generics/src/phases/setup/*",
+        "../../packages/pipelines-generics/src/setup/*"
+      ],
+      "@/lib/discovery": [
+        "../../packages/pipelines-generics/src/phases/discovery/index.ts"
+      ],
+      "@/lib/discovery/*": [
+        "../../packages/pipelines-generics/src/phases/discovery/*"
+      ],
+      "@/lib/implementation": [
+        "../../packages/pipelines-generics/src/implementation/index.ts"
+      ],
+      "@/lib/implementation/*": [
+        "../../packages/pipelines-generics/src/implementation/*"
+      ],
+      "@/lib/validation": [
+        "../../packages/validation/src/index.ts"
+      ],
+      "@/lib/validation/*": [
+        "../../packages/validation/src/*"
+      ],
+      // ---------------------------------------------------------------
+      // Generic phase umbrella – allow `@/lib/phases/<phase>` imports.
+      // ---------------------------------------------------------------
+      "@/lib/phases": [
+        "../../packages/pipelines-generics/src/phases/index.ts"
+      ],
+      "@/lib/phases/*": [
+        "../../packages/pipelines-generics/src/phases/*"
+      ],
+      "@/lib/logger": [
+        "../../packages/logger/src/logger.ts"
+      ],
+      "@/lib/streams": [
+        "../../packages/api/src/streams/streams.ts"
+      ],
+      "@/lib/sentry": [
+        "../../packages/external-telemetry/sentry/src/sentry.ts"
+      ],
+      "@/lib/time": [
+        "../../packages/pipelines-generics/src/time.ts"
+      ],
+      "@/lib/parsing": [
+        "../../packages/pipelines-generics/src/parsing.ts"
+      ],
+      "@/lib/observability": [
+        "../../packages/observability/src/observability.ts"
+      ],
+      "@/lib/dryrun": [
+        "../../packages/observability/src/dryrun.ts"
+      ],
+      "@/lib/dryrun/*": [
+        "../../packages/observability/src/dryrun/*"
+      ],
+      "@bitcode/asset-packs-pipelines-domain/*": [
+        "../../packages/asset-packs-pipelines/domain/*"
+      ],
+      "@bitcode/generic-agents-initialize-mcps": [
+        "../../packages/generic-agents/mcps-initializer/src/index.ts"
+      ],
+      "@bitcode/generic-agents-ready-to-short-circuit": [
+        "../../packages/generic-agents/ready-to-short-circuit/src/index.ts"
+      ],
+      "@bitcode/generic-agents-digesting": [
+        "../../packages/generic-agents/digester/src/index.ts"
+      ],
+      "@bitcode/generic-agents-file-pick": [
+        "../../packages/generic-agents/file-pick/src/index.ts"
+      ],
+      "@bitcode/generic-agents-language": [
+        "../../packages/generic-agents/language/src/index.ts"
+      ],
+      "@bitcode/generic-agents-vcs": [
+        "../../packages/generic-agents/vcs/src/index.ts"
+      ],
+      "@bitcode/generic-agents-vcs/*": [
+        "../../packages/generic-agents/vcs/src/*"
+      ],
+      "@bitcode/generic-agent-code-editor": [
+        "../../packages/generic-agents/code-editor/src/index.ts"
+      ],
+      "@bitcode/generic-agents-web-search": [
+        "../../packages/generic-agents/web-search/src/index.ts"
+      ],
+      "@bitcode/pipeline-engine-generics/*": [
+        "../../packages/pipelines-generics/src/*"
+      ],
+      "@bitcode/generic-tools-registry": [
+        "../../packages/tools-generics/src/registry.ts"
+      ],
+      "@bitcode/generic-tools-editing": [
+        "../../packages/generic-tools/files-maintaining/src/index.ts"
+      ],
+      "@bitcode/generic-tools-editing/execution-context": [
+        "../../packages/generic-tools/files-maintaining/src/execution-context.ts"
+      ],
+      "@bitcode/generic-tools-vcs": [
+        "../../packages/generic-tools/vcs/src/index.ts"
+      ],
+      "@bitcode/generic-tools-vcs/*": [
+        "../../packages/generic-tools/vcs/src/*"
+      ],
+      "@bitcode/generic-tools/repository": [
+        "../../packages/generic-tools/git-interactor/src/index.ts"
+      ],
+      "@bitcode/generic-tools/file-tracker": [
+        "../../packages/pipelines-generics/src/context/context.ts"
+      ],
+      "@bitcode/generic-agents-git": [
+        "../../packages/generic-agents/git-interactor/src/index.ts"
+      ],
+      "@bitcode/generic-tools-simple-system-text-search": [
+        "../../packages/generic-tools/simple-system-text-search/src/index.ts"
+      ],
+      "@bitcode/generic-tools-git": [
+        "../../packages/generic-tools/git-interactor/src/index.ts"
+      ],
+      // -------------------------------------------------------------------
+      // New @bitcode/* aliases replacing the historical @/lib/* imports.
+      // -------------------------------------------------------------------
+      "@bitcode/validation/validationOTFAdherencePhaseModule": [
+        "../../packages/validation/validationOTFAdherencePhaseModule.ts"
+      ],
+      "@bitcode/mcp-generics": [
+        "../../packages/mcp-generics/src/index.ts"
+      ],
+      "@bitcode/mcp-generics/validation": [
+        "../../packages/mcp-generics/src/index.ts"
+      ],
+      "@bitcode/generic-mcps-bitcode": [
+        "../apps/mcp/src/index.ts"
+      ],
+      "@bitcode/steps/*": [
+        "../../packages/pipelines-generics/src/steps/*"
+      ],
+      "@bitcode/steps": [
+        "../../packages/pipelines-generics/src/steps/index.ts"
+      ],
+      "@bitcode/api/streams/*": [
+        "../../packages/api/src/streams/src/*"
+      ],
+      "@bitcode/api/streams": [
+        "../../packages/api/src/streams/index.ts"
+      ],
+      "@bitcode/containerizations-kubernetes": [
+        "packages/containerizations/kubernetes/src/index.ts"
+      ],
+      "@bitcode/externals-figma": [
+        "packages/externals/figma/src/index.ts"
+      ],
+      "@bitcode/externals-jira": [
+        "../../packages/externals/jira/src/index.ts"
+      ],
+      "@bitcode/externals-notion": [
+        "../../packages/externals/notion/src/index.ts"
+      ],
+      "@bitcode/externals-vercel": [
+        "packages/externals/vercel/src/index.ts"
+      ],
+      "@bitcode/external-telemetry-sentry": [
+        "../../packages/external-telemetry/sentry/src/sentry.ts"
+      ],
+      "@bitcode/external-telemetry-google": [
+        "packages/external-telemetry/google/src/ga.ts"
+      ],
+      "@bitcode/external-telemetry-vercel": [
+        "packages/external-telemetry/vercel/src/index.ts"
+      ],
+      "@bitcode/ci-circle": [
+        "packages/ci/circle/src/index.ts"
+      ],
+      "@bitcode/host-commands-grep": [
+        "packages/host-commands/grep/src/index.ts"
+      ],
+      "@bitcode/file-refactoring": [
+        "packages/file-refactoring/src/index.ts"
+      ],
+      "@bitcode/generic-measurements-tech-types": [
+        "packages/generic-measurements/tech-types/src/index.ts"
+      ],
+      "@bitcode/generic-llms-models": [
+        "../../packages/generic-llms/models/src/index.ts"
+      ],
+      "@bitcode/web-search-exa": [
+        "packages/web-search/exa/src/index.ts"
+      ],
+      "@bitcode/specifying": [
+        "packages/specifying/src/index.js"
+      ],
+      "@bitcode/api/responses": [
+        "../../packages/api/src/responses/index.ts"
+      ],
+      "@bitcode/obfuscation": [
+        "../../packages/obfuscation/src/index.ts"
+      ],
+      "@bitcode/conversations": [
+        "../../packages/conversations/src/index.ts"
+      ],
+      "@bitcode/asset-packs-generics": [
+        "packages/asset-packs-generics/src/index.ts"
+      ],
+      "@bitcode/generic-asset-packs-synthesis": [
+        "packages/generic-asset-packs/synthesis/src/index.ts"
+      ],      "@bitcode/security-encryption": [
+        "packages/security/encryption/src/index.ts"
+      ],
+      "@bitcode/security-credentials": [
+        "packages/security/credentials/src/index.ts"
+      ],
+      "@bitcode/security-client": [
+        "packages/security/client/src/index.ts"
+      ],
+      "@bitcode/logger": [
+        "../../packages/logger/src/logger.ts"
+      ],
+      "@bitcode/time": [
+        "../../packages/pipelines-generics/src/time.ts"
+      ],
+      "@bitcode/parsing": [
+        "../../packages/parsing/src/parsing.ts"
+      ],
+      "@bitcode/phases": [
+        "../../packages/pipelines-generics/src/phases/index.ts"
+      ],
+      "@bitcode/phases/*": [
+        "../../packages/pipelines-generics/src/phases/*"
+      ],
+      "@bitcode/agents/*": [
+        "../../packages/agent-generics/src/*"
+      ],
+      "@bitcode/agents": [
+        "../../packages/agent-generics/src/index.ts"
+      ],
+      "@bitcode/files": [
+        "../../packages/files/src/index.ts"
+      ],
+      "@bitcode/files/*": [
+        "../../packages/files/src/*"
+      ],
+      "@bitcode/styling": [
+        "../../packages/styling/src/index.ts"
+      ],
+      "@bitcode/styling/*": [
+        "../../packages/styling/src/*"
+      ],
+      "@bitcode/utils": [
+        "../../packages/styling/src/index.ts"
+      ],
+      "@bitcode/observability": [
+        "../../packages/observability/src/observability.ts"
+      ],
+      "@bitcode/observability/*": [
+        "../../packages/observability/src/observability.ts"
+      ],
+      "@bitcode/discovery": [
+        "../../packages/pipelines-generics/src/phases/discovery/index.ts"
+      ],
+      "@bitcode/discovery/*": [
+        "../../packages/pipelines-generics/src/phases/discovery/*"
+      ],
+      "@bitcode/setup": [
+        "../../packages/pipelines-generics/src/phases/setup/index.ts"
+      ],
+      "@bitcode/setup/*": [
+        "../../packages/pipelines-generics/src/phases/setup/*",
+        "../../packages/pipelines-generics/src/setup/*"
+      ],
+      "@bitcode/supabase/ssr/*": [
+        "../../packages/supabase/src/ssr/*"
+      ],
+      "@bitcode/implementation": [
+        "../../packages/pipelines-generics/src/phases/implementation/index.ts"
+      ],
+      "@bitcode/implementation/*": [
+        "../../packages/pipelines-generics/src/implementation/*"
+      ],
+      "@bitcode/validation": [
+        "../../packages/validation/src/index.ts"
+      ],
+      "@bitcode/validation/*": [
+        "../../packages/validation/src/*"
+      ],
+      // -------------------------------------------------------------------
+      // UI registry components (Shadcn)
+      // -------------------------------------------------------------------
+      "@/registry/*": [
+        "components/ui/apps/www/registry/*"
+      ],
+      // Generic tools & utilities
+      "@bitcode/tools/types": [
+        "../../packages/tools-generics/src/types.ts"
+      ],
+      "@bitcode/execution-generics": [
+        "../../packages/execution-generics/src/index.ts"
+      ],
+      "@bitcode/execution-generics/*": [
+        "../../packages/execution-generics/src/*"
+      ],
+      "@bitcode/registry": [
+        "../../packages/registry/src/index.ts"
+      ],
+      "@bitcode/registry/*": [
+        "../../packages/registry/src/*"
+      ],
+      "@bitcode/llm-generics": [
+        "../../packages/llm-generics/src/index.ts"
+      ],
+      "@bitcode/llm-generics/*": [
+        "../../packages/llm-generics/src/*"
+      ],
+      "@bitcode/doc-comment-generics": [
+        "../../packages/doc-comment-generics/src/index.ts"
+      ],
+      "@bitcode/doc-comment-generics/*": [
+        "../../packages/doc-comment-generics/src/*"
+      ],
+      "@bitcode/generic-doc-comments-doc-code": [
+        "../../packages/generic-doc-comments/doc-code/src/index.ts"
+      ],
+      "@bitcode/file-editing": [
+        "../../packages/file-editing/src/index.ts"
+      ],
+      "@bitcode/generic-vcs-github": [
+        "../../packages/generic-vcs/github/src/index.ts"
+      ],
+      "@bitcode/generic-vcs-github/*": [
+        "../../packages/generic-vcs/github/src/*"
+      ],
+      "@bitcode/generic-vcs-git": [
+        "../../packages/generic-vcs/git/src/index.ts"
+      ],
+      "@bitcode/generic-vcs-git/*": [
+        "../../packages/generic-vcs/git/src/*"
+      ],
+      "@bitcode/vcs-generics": [
+        "../../packages/vcs-generics/src/index.ts"
+      ],
+      "@bitcode/vcs-generics/*": [
+        "../../packages/vcs-generics/src/*"
+      ],
+      "@bitcode/orm": [
+        "../../packages/orm/src/index.ts"
+      ],
+      "@bitcode/orm/*": [
+        "../../packages/orm/src/*"
+      ],
+      "@bitcode/tools/*": [
+        "../../packages/generic-tools/src/*"
+      ],
+      "@bitcode/tools": [
+        "../../packages/generic-tools/src/index.ts"
+      ],
+      "@bitcode/email": [
+        "../../packages/email/supabase/src/index.ts"
+      ],
+      "@bitcode/system_prompt.txt": [
+        "../../packages/prompts/src/system_prompt.txt"
+      ],
+      "@bitcode/sse": [
+        "../../packages/networking/src/sse.ts"
+      ],
+      "@bitcode/telemetry": [
+        "../../packages/observability/src/telemetry.ts"
+      ],
+      "@bitcode/web-search": [
+        "../../packages/web-search/multi/src/index.ts"
+      ],
+      "@bitcode/containerizations-dockerUtils": [
+        "../../packages/containerizations/docker/src/index.ts"
+      ],
+      "@bitcode/supabase": [
+        "../../packages/supabase/src/index.ts"
+      ],
+      "@/lib/validation/validationOTFAdherencePhaseModule": [
+        "../../packages/validation/validationOTFAdherencePhaseModule.ts"
+      ],
+      "@/lib/mcp/validation": [
+        "../../packages/mcp-generics/src/index.ts"
+      ],
+      "@/lib/email": [
+        "../../packages/email/supabase/src/index.ts"
+      ],
+      "@/lib/prompts": [
+        "../../packages/prompts/src/index.ts"
+      ],
+      "@/lib/system_prompt.txt": [
+        "../../packages/prompts/src/system_prompt.txt"
+      ],
+      "@/lib/responses": [
+        "../../packages/api/src/responses/index.ts"
+      ],
+      "@/lib/sse": [
+        "../../packages/networking/src/sse.ts"
+      ],
+      "@/lib/web-search": [
+        "../../packages/web-search/multi/src/index.ts"
+      ],
+      "@/lib/asset-pack": [
+        "../../packages/asset-packs-pipelines/domain/src/index.ts"
+      ],
+      "@/lib/models": [
+        "../../packages/generic-llms/models/src/index.ts"
+      ],
+      "@/lib/telemetry": [
+        "../../packages/observability/src/telemetry.ts"
+      ],
+      "@/lib/dockerUtils": [
+        "../../packages/containerizations/docker/src/index.ts"
+      ],
+      // -----------------------------------------------------------------
+      // Retained app utility aliases. The `apps/uapi/utils` folder has been removed; these
+      // mappings keep existing import paths working without code changes.
+      // -----------------------------------------------------------------
+      "@/utils/btd-plans": [
+        "../../packages/btd/src/plans.ts"
+      ],
+      "@/utils/model-pricing": [
+        "../../packages/generic-llms/models/src/pricing.ts"
+      ],
+      "@/lib/git": [
+        "../../packages/generic-vcs/git/src"
+      ],
+      "@/lib/git/*": [
+        "../../packages/generic-vcs/git/src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "types/**/*.d.ts",
+    ".next-v28-protocol-testnet/types/**/*.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    ".next"
+  ]
+}

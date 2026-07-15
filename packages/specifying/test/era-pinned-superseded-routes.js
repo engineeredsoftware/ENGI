@@ -2,8 +2,8 @@
  * Era-pin for superseded product-route realization proofs.
  *
  * V48 Gate 3 pluralized the product routes (`/deposit` -> `/deposits`,
- * `/read` -> `/reads`). Clients live under `uapi/components/{deposits,reads}/`
- * with thin `uapi/app/{deposits,reads}/page.tsx` shells (no app-level re-export
+ * `/read` -> `/reads`). Clients live under `apps/uapi/components/{deposits,reads}/`
+ * with thin `apps/uapi/app/{deposits,reads}/page.tsx` shells (no app-level re-export
  * duals). The V43-V47 canonical proofs read the historical singular-route
  * source in place and assert on its literal content, so once the pluralized
  * realization lands they are validating a superseded era against source that
@@ -33,7 +33,7 @@ const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..
 export const SUPERSEDED = existsSync(
   path.join(
     REPO_ROOT,
-    'uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',
+    'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',
   ),
 );
 

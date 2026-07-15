@@ -426,11 +426,11 @@
     {
       "alignmentId": "public_docs_disclosure_alignment",
       "alignmentClass": "public_docs_disclosure",
-      "owner": "uapi",
+      "owner": "apps/uapi",
       "checkedSources": [
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/docs/page.tsx",
-        "uapi/app/docs/[slug]/page.tsx",
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx",
         ".bitcode/v35-public-docs-usage-guides.json"
       ],
       "expectedTokens": [
@@ -446,15 +446,15 @@
       "repairCommand": "repair public docs disclosure limits and rerun pnpm run check:v35-gate4 and pnpm run check:v35-gate6",
       "sourceEvidence": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/[slug]/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
           "present": true
         },
         {
@@ -552,8 +552,8 @@
       "checkedSources": [
         "packages/api/README.md",
         "internal-docs/BITCODE_API.md",
-        "uapi/app/api/read-review/route.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/route.ts"
+        "apps/uapi/app/api/read-review/route.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts"
       ],
       "expectedTokens": [
         "route",
@@ -576,11 +576,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/read-review/route.ts",
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
           "present": true
         }
       ],
@@ -613,7 +613,7 @@
       "checkedSources": [
         "packages/mcp-generics/src/mcp-server/README.md",
         "packages/mcp-generics/src/mcp-server/docs/public/mcp-overview.md",
-        "packages/external-apps/chatgpt/README.md",
+        "apps/chatgpt/README.md",
         "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md"
       ],
       "expectedTokens": [
@@ -637,7 +637,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -968,15 +968,15 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/[slug]/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
           "present": true
         },
         {
@@ -1020,11 +1020,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/read-review/route.ts",
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/route.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
           "present": true
         }
       ]
@@ -1042,7 +1042,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {

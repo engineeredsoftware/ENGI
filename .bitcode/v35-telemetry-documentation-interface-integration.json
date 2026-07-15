@@ -33,7 +33,7 @@
     {
       "integrationId": "terminal",
       "surfaceKind": "application_surface",
-      "owner": "uapi",
+      "owner": "apps/uapi",
       "docsLinks": [
         "/docs/terminal",
         "/docs/terminal-actions",
@@ -59,10 +59,10 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "uapi/app/terminal/README.md",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-        "uapi/tests/terminalInterfaceIntegrationRegression.test.ts"
+        "apps/uapi/app/terminal/README.md",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts"
       ],
       "routePayloadSurfaces": [
         "terminal pipeline log header",
@@ -70,8 +70,8 @@
         "terminal wallet pane"
       ],
       "validationCommands": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts tests/pipelineExecutionLogHeader.test.tsx --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalInterfaceIntegrationRegression.test.ts --runInBand"
       ],
       "packageOwnedContracts": [
         "DocumentationSurfaceCatalog",
@@ -242,19 +242,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+          "sourceRoot": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
           "present": true
         }
       ],
@@ -276,7 +276,7 @@
     {
       "integrationId": "auxillaries",
       "surfaceKind": "application_surface",
-      "owner": "uapi",
+      "owner": "apps/uapi",
       "docsLinks": [
         "/docs/auxillaries",
         "/docs/configuration",
@@ -298,9 +298,9 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "uapi/app/auxillaries/README.md",
-        "uapi/tests/auxillariesWorkspacePanels.test.tsx",
-        "uapi/tests/auxillariesContent.access.test.tsx"
+        "apps/uapi/app/auxillaries/README.md",
+        "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx",
+        "apps/uapi/tests/auxillariesContent.access.test.tsx"
       ],
       "routePayloadSurfaces": [
         "auxillaries wallet panel",
@@ -308,7 +308,7 @@
         "auxillaries interface settings"
       ],
       "validationCommands": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/auxillariesWorkspacePanels.test.tsx tests/auxillariesContent.access.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/auxillariesWorkspacePanels.test.tsx tests/auxillariesContent.access.test.tsx --runInBand"
       ],
       "packageOwnedContracts": [
         "DocumentationSurfaceCatalog",
@@ -438,15 +438,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/auxillaries/README.md",
+          "sourceRoot": "apps/uapi/app/auxillaries/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/auxillariesWorkspacePanels.test.tsx",
+          "sourceRoot": "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/auxillariesContent.access.test.tsx",
+          "sourceRoot": "apps/uapi/tests/auxillariesContent.access.test.tsx",
           "present": true
         }
       ],
@@ -891,10 +891,10 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "packages/external-apps/chatgpt/README.md",
+        "apps/chatgpt/README.md",
         "internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md",
-        "packages/external-apps/chatgpt/src/interface-integration.ts",
-        "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
+        "apps/chatgpt/src/interface-integration.ts",
+        "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts"
       ],
       "routePayloadSurfaces": [
         "chatgpt app actions",
@@ -1031,7 +1031,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -1039,11 +1039,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/src/interface-integration.ts",
+          "sourceRoot": "apps/chatgpt/src/interface-integration.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+          "sourceRoot": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
           "present": true
         }
       ],
@@ -1091,7 +1091,7 @@
         "packages/btd/README.md",
         "packages/api/README.md",
         "packages/mcp-generics/src/mcp-server/README.md",
-        "packages/external-apps/chatgpt/README.md"
+        "apps/chatgpt/README.md"
       ],
       "routePayloadSurfaces": [
         "package exported helper docs",
@@ -1247,7 +1247,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         }
       ],
@@ -1485,7 +1485,7 @@
     {
       "integrationId": "public_docs",
       "surfaceKind": "public_docs",
-      "owner": "uapi",
+      "owner": "apps/uapi",
       "docsLinks": [
         "/docs/what-is-bitcode",
         "/docs/protocol-v26",
@@ -1507,9 +1507,9 @@
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
         ".bitcode/v35-testnet-rollout-readiness-guide.json",
-        "uapi/app/docs/bitcode-docs-content.ts",
-        "uapi/app/docs/page.tsx",
-        "uapi/app/docs/[slug]/page.tsx"
+        "apps/uapi/app/docs/bitcode-docs-content.ts",
+        "apps/uapi/app/docs/page.tsx",
+        "apps/uapi/app/docs/[slug]/page.tsx"
       ],
       "routePayloadSurfaces": [
         "public docs cards",
@@ -1517,7 +1517,7 @@
         "public disclosure limit section"
       ],
       "validationCommands": [
-        "pnpm --dir uapi exec tsc --noEmit --pretty false",
+        "pnpm --dir apps/uapi exec tsc --noEmit --pretty false",
         "pnpm run check:v35-gate8"
       ],
       "packageOwnedContracts": [
@@ -1638,15 +1638,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/[slug]/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
           "present": true
         }
       ],
@@ -1804,19 +1804,19 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+          "sourceRoot": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
           "present": true
         }
       ]
@@ -1862,15 +1862,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/auxillaries/README.md",
+          "sourceRoot": "apps/uapi/app/auxillaries/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/auxillariesWorkspacePanels.test.tsx",
+          "sourceRoot": "apps/uapi/tests/auxillariesWorkspacePanels.test.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/auxillariesContent.access.test.tsx",
+          "sourceRoot": "apps/uapi/tests/auxillariesContent.access.test.tsx",
           "present": true
         }
       ]
@@ -2032,7 +2032,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         },
         {
@@ -2040,11 +2040,11 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/src/interface-integration.ts",
+          "sourceRoot": "apps/chatgpt/src/interface-integration.ts",
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+          "sourceRoot": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
           "present": true
         }
       ]
@@ -2106,7 +2106,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         }
       ]
@@ -2214,15 +2214,15 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/page.tsx",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/[slug]/page.tsx",
+          "sourceRoot": "apps/uapi/app/docs/[slug]/page.tsx",
           "present": true
         }
       ]

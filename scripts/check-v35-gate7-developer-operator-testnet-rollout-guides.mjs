@@ -139,7 +139,7 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -246,7 +246,7 @@ function main() {
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   assertCheck(failures, roadmap.includes('V35 Gate 7 closure anchor'), 'Roadmap must include V35 Gate 7 closure anchor.');
 
-  const publicDocs = read(root, 'uapi/app/docs/bitcode-docs-content.ts');
+  const publicDocs = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
   assertCheck(failures, publicDocs.includes('testnet rollout readiness'), 'Public docs must mention testnet rollout readiness source-safe posture.');
 
   if (failures.length > 0) {

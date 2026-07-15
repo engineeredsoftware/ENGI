@@ -90,16 +90,16 @@ function main() {
     'BITCODE_SPEC_V47_NOTES.md',
     'BITCODE_SPEC_V47_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
-    'uapi/components/bitcode/layout/bitcode-public-copy.ts',
-    'uapi/components/bitcode/layout/nav.tsx',
-    'uapi/config/features.ts',
-    'uapi/app/hero-client.tsx',
-    'uapi/app/(root)/components/MarketingPricingSection.tsx',
-    'uapi/app/btd/[assetPackId]/page.tsx',
-    'uapi/app/exchange/page.tsx',
-    'uapi/app/exchange/README.md',
-    'uapi/app/terminal/page.tsx',
-    'uapi/app/conversations/page.tsx',
+    'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
+    'apps/uapi/components/bitcode/layout/nav.tsx',
+    'apps/uapi/config/features.ts',
+    'apps/uapi/app/hero-client.tsx',
+    'apps/uapi/app/(root)/components/MarketingPricingSection.tsx',
+    'apps/uapi/app/btd/[assetPackId]/page.tsx',
+    'apps/uapi/app/exchange/page.tsx',
+    'apps/uapi/app/exchange/README.md',
+    'apps/uapi/app/terminal/page.tsx',
+    'apps/uapi/app/conversations/page.tsx',
     'packages/specifying/src/index.js',
     'packages/specifying/src/index.d.ts',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -145,7 +145,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/packsPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/packsPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi packsPageClient.test.tsx, readPageClient.test.tsx, and depositPageClient.test.tsx must pass.');
     }

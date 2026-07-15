@@ -180,12 +180,12 @@
             "description": "canonical spec sets testnet-first commercial launch boundary"
           },
           {
-            "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+            "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
             "evidence": "testnet-first",
             "description": "launch-readiness source names the testnet-first launch posture"
           },
           {
-            "file": "uapi/tests/applicationCommercialLaunchReadiness.test.ts",
+            "file": "apps/uapi/tests/applicationCommercialLaunchReadiness.test.ts",
             "evidence": "testnet-first",
             "description": "application launch-readiness test locks testnet-first language"
           }
@@ -218,12 +218,12 @@
             "description": "canonical spec requires commercially legible cross-surface posture"
           },
           {
-            "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+            "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
             "evidence": "one commercial Bitcode product",
             "description": "launch-readiness source names the one-product commercial story"
           },
           {
-            "file": "packages/external-apps/chatgpt/src/server.ts",
+            "file": "apps/chatgpt/src/server.ts",
             "evidence": "connected-interface Bitcode Terminal companion",
             "description": "ChatGPT App remains a companion interface"
           }
@@ -250,22 +250,22 @@
         "detail": "4 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+            "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
             "evidence": "BTC fee liquidity and non-fungible $BTD share/read-right holdings",
             "description": "launch map requires BTC fee and BTD share/read-right visibility"
           },
           {
-            "file": "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+            "file": "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
             "evidence": "$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture",
             "description": "BTD pane distinguishes BTD shares from BTC fee liquidity"
           },
           {
-            "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+            "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
             "evidence": "outside the connected provider inventory",
             "description": "write-admission test rejects repository scope drift"
           },
           {
-            "file": "uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
+            "file": "apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts",
             "evidence": "live wallet-provider signing session is no longer available",
             "description": "write-admission test rejects saved-signer-only settlement"
           }
@@ -293,17 +293,17 @@
         "detail": "3 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+            "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
             "evidence": "proof state, history, settlement follow-through, and route reread stay in one repeated operator loop",
             "description": "launch map requires proof/state reread as one operator loop"
           },
           {
-            "file": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+            "file": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
             "evidence": "round-trips deposit, read, and closure writes through the same Bitcode activity ledger",
             "description": "activity ledger write-reread path is tested"
           },
           {
-            "file": "uapi/tests/api/activityRoute.test.ts",
+            "file": "apps/uapi/tests/api/activityRoute.test.ts",
             "evidence": "returns live activity with persisted execution reread and notification aggregation",
             "description": "live activity route reread is tested"
           }
@@ -331,7 +331,7 @@
         "detail": "3 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+            "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
             "evidence": "not as parallel Exchange owners",
             "description": "launch map blocks parallel Exchange ownership by connected interfaces"
           },
@@ -341,7 +341,7 @@
             "description": "MCP accepted writes emit write-admission metadata"
           },
           {
-            "file": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+            "file": "apps/chatgpt/src/__tests__/tools.test.ts",
             "evidence": "declares confirmation schema on every ChatGPT App connected-interface write carrier",
             "description": "ChatGPT App write carriers require confirmation schema"
           }
@@ -368,7 +368,7 @@
         "detail": "3 source evidence requirements satisfied",
         "requiredEvidence": [
           {
-            "file": "uapi/app/application/application-commercial-launch-readiness.ts",
+            "file": "apps/uapi/app/application/application-commercial-launch-readiness.ts",
             "evidence": "without non-Bitcode compatibility fallback",
             "description": "launch map requires direct Bitcode journey explanation"
           },

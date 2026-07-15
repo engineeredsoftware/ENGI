@@ -224,7 +224,7 @@ The allowed boundary is narrow:
 - ledgerized Terminal/Protocol behavior must use protocol-specified model identities, versions, prompts, thresholds, toolchains, and receipt-bound configuration;
 - any "apply to all" model control visible in active Auxillaries/Interfaces must be removed, disabled, or scoped to non-ledgerized conversation interfaces before V28 promotion.
 
-Current source audit flags `uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` and `uapi/app/auxillaries/components/models/GlobalModelSelection.tsx` as likely V28 cleanup points because they still present broad user-driven model preference behavior.
+Current source audit flags `apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx` and `apps/uapi/app/auxillaries/components/models/GlobalModelSelection.tsx` as likely V28 cleanup points because they still present broad user-driven model preference behavior.
 
 ## QA Scope Refinement
 
@@ -279,7 +279,7 @@ The automated V28 commercial-MVP suite must be product-experiential, not generic
 - responsive checks run inside the commercial suite so obvious phone/widescreen regressions surface before manual QA resumes;
 - every test captures console errors, uncaught page errors, framework overlays, route readability, and visible main content.
 
-The initial implementation target is `uapi/tests/e2e/commercial-mvp*.spec.ts`, with the deterministic mock-mode runner `pnpm -C uapi run test:e2e:commercial-mvp`.
+The initial implementation target is `apps/uapi/tests/e2e/commercial-mvp*.spec.ts`, with the deterministic mock-mode runner `pnpm -C apps/uapi run test:e2e:commercial-mvp`.
 That runner should remain serial unless the shared Next dev server and route-level mock harness are proven concurrency-stable; the purpose is product-experience proof, not parallel load testing. The harness owns Auxillaries profile/model-preference/data-share state and conversation streaming so QA can distinguish UI regressions from unavailable local wallets, provider accounts, or database sessions.
 Commercial QA also exposed a provider-package dependency boundary issue: `@bitcode/generic-llms` directly requires AI SDK, Google, OpenAI, and Anthropic bindings, so V28 declares those runtime dependencies in that package rather than relying on the UAPI host dependency tree. Module-resolution warnings from provider packages are not acceptable QA noise.
 
@@ -315,7 +315,7 @@ Implementation refinement after the clarified Exchange master-detail design:
 - Bare `/terminal` no longer writes default provider/repository/transaction query state during route load. Explicit route context and user selections remain URL-addressable, the old Terminal route redirects to `/terminal`, and public navigation can move Terminal -> Docs without being overwritten by hydration-time route synchronization.
 - Conversations split-pane QA now uses stable commercial mocks for execution pickers and stream responses, and the source selector treats missing or variant repository/branch/commit payloads as empty collections rather than crashing the fullscreen route.
 - Demonstration witness stylesheet source paths and identifiers are unversioned and precise: `demonstration-witness-scoped-styles`, `demonstration-witness-styles`, `demonstration-witness-theme-overrides`, `bitcode-demonstration-witness-root`, and `bitcode-demonstration-witness-stylesheet` replace explicit gate-named source carriers. `AGENTS.md` now records that implementation source is implicitly versioned to the active canon and current gate, not explicitly versioned by route/file/CSS/test names.
-- The prior automated V28 commercial MVP baseline was `pnpm -C uapi run test:e2e:commercial-mvp`, which passed 50 laptop-project tests after the earlier Exchange, Terminal, Auxillaries, Conversations, BTD, docs, responsive, and stitched-nav fixes. After the May 11 scope reduction, V28 proof must narrow or split that runner so Exchange and website Conversations are not required for closure.
+- The prior automated V28 commercial MVP baseline was `pnpm -C apps/uapi run test:e2e:commercial-mvp`, which passed 50 laptop-project tests after the earlier Exchange, Terminal, Auxillaries, Conversations, BTD, docs, responsive, and stitched-nav fixes. After the May 11 scope reduction, V28 proof must narrow or split that runner so Exchange and website Conversations are not required for closure.
 
 The same pass also reclassified active `orbitals` naming as legacy residue when it appears in current commercial Auxillaries source, visible copy, mock-mode naming, or test names.
 Redirect-only `/orbitals/*` compatibility can remain documented as compatibility until it is removed, and old stylesheet class names can remain temporarily only where they are inert styling carriers.
@@ -606,14 +606,14 @@ Before V28 implementation closes, rerun at minimum:
 
 - `cat BITCODE_SPEC.txt`
 - `pnpm run check:v28-metadevelopment`
-- `find uapi/app/api -path '*v[0-9]*' -print | sort`
+- `find apps/uapi/app/api -path '*v[0-9]*' -print | sort`
 - `rg -n 'gap blocking|partial blocking|not started|not promoted|not generated yet' BITCODE_SPEC_V28*`
 - `node scripts/promote-bitcode-canon.mjs --version V28 --commit HEAD --dry-run`
 - `pnpm -C packages/api build`
 - `pnpm -C packages/orm build`
 - `npm --prefix protocol-demonstration run test:v27-crypto`
 - `node --test --test-force-exit protocol-demonstration/test/v28-boundary-separation.test.js`
-- `pnpm -C uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`
+- `pnpm -C apps/uapi exec jest --runInBand tests/protocolCommercialBoundary.test.ts`
 - Protocol/Terminal, Auxillaries, BTD, MCP API, and ChatGPT App-specific Jest/Playwright coverage once added
-- `pnpm -C uapi build`
+- `pnpm -C apps/uapi build`
 - `git diff --check`

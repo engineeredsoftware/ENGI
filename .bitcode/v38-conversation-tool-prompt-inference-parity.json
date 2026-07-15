@@ -96,7 +96,7 @@
       "sourceRoots": [
         "packages/conversations/src/agent/ConversationAgent.ts",
         "packages/api/src/conversations/stream-events.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "primitiveIds": [
         "ConversationPlanSchema",
@@ -139,7 +139,7 @@
         "packages/api/src/conversations/telemetry.ts",
         "packages/api/src/conversations/__tests__/stream-events.test.ts",
         "packages/api/src/conversations/__tests__/telemetry.test.ts",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx"
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx"
       ],
       "primitiveIds": [
         "ConversationStreamEvent",
@@ -260,9 +260,9 @@
       "familyId": "tool_definition_prompt",
       "purpose": "Bind ChatGPT App tool definitions to DocCodeToolPrompt PromptParts, formatted prompt carriers, read-access checks, and organization-authority checks.",
       "sourceRoots": [
-        "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
-        "packages/external-apps/chatgpt/src/tools.ts",
-        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts"
+        "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+        "apps/chatgpt/src/tools.ts",
+        "apps/chatgpt/src/__tests__/tools.test.ts"
       ],
       "primitiveIds": [
         "DocCodeToolPrompt",
@@ -305,8 +305,8 @@
         "packages/specifying/src/canonical/prompt-benchmark-report.js",
         "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js",
         "packages/conversations/src/agent/ConversationAgent.ts",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "packages/external-apps/chatgpt/src/__tests__/tools.test.ts"
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/chatgpt/src/__tests__/tools.test.ts"
       ],
       "primitiveIds": [
         "V38InferenceSurfaceInventory",
@@ -448,7 +448,7 @@
     },
     {
       "id": "conversation-ui-test-renders-rich-execution-log",
-      "sourcePath": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
       "passed": true
     },
     {
@@ -483,37 +483,37 @@
     },
     {
       "id": "chatgpt-tool-prompts-use-doc-code-prompt",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tool-prompts-use-specific-promptparts",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tool-prompts-export-six-carriers",
-      "sourcePath": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+      "sourcePath": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-format-doc-code-prompts",
-      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-carry-doc-code-prompt-meta",
-      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-enforce-read-access-and-authority",
-      "sourcePath": "packages/external-apps/chatgpt/src/tools.ts",
+      "sourcePath": "apps/chatgpt/src/tools.ts",
       "passed": true
     },
     {
       "id": "chatgpt-tools-tests-cover-write-admission",
-      "sourcePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "sourcePath": "apps/chatgpt/src/__tests__/tools.test.ts",
       "passed": true
     },
     {
@@ -570,16 +570,16 @@
     "conversationTelemetry": "packages/api/src/conversations/telemetry.ts",
     "conversationStreamEventsTest": "packages/api/src/conversations/__tests__/stream-events.test.ts",
     "conversationTelemetryTest": "packages/api/src/conversations/__tests__/telemetry.test.ts",
-    "conversationStreamUiTest": "uapi/tests/conversationStreamPipelineLog.test.tsx",
-    "conversationStreamUi": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+    "conversationStreamUiTest": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+    "conversationStreamUi": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
     "docCodeToolPrompt": "packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts",
     "formatUsableTools": "packages/tools-generics/src/doc-code-tool/formatUsableTools.ts",
     "toolPromptRegistry": "packages/tools-generics/src/execution/ToolPromptRegistry.ts",
     "agentPrompt": "packages/agent-generics/src/prompts/AgentPrompt.ts",
     "toolExecutionPrompt": "packages/agent-generics/src/prompts/ToolExecutionPrompt.ts",
-    "chatGptToolDocPrompts": "packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
-    "chatGptTools": "packages/external-apps/chatgpt/src/tools.ts",
-    "chatGptToolsTest": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+    "chatGptToolDocPrompts": "apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts",
+    "chatGptTools": "apps/chatgpt/src/tools.ts",
+    "chatGptToolsTest": "apps/chatgpt/src/__tests__/tools.test.ts",
     "gate2Inventory": "packages/specifying/src/canonical/inference-surface-inventory.js",
     "gate4PromptBenchmark": "packages/specifying/src/canonical/prompt-benchmark-report.js",
     "gate5Disclosure": "packages/specifying/src/canonical/inference-telemetry-disclosure-report.js"

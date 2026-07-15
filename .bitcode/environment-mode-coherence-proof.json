@@ -21,7 +21,7 @@
       "requiredFiles": [
         "protocol-demonstration/src/canonical/v24-external-realization.js",
         "protocol-demonstration/server.js",
-        "uapi/app/api/external-realization/route.ts"
+        "apps/uapi/app/api/external-realization/route.ts"
       ],
       "missingFiles": []
     },
@@ -31,13 +31,13 @@
       "passed": true,
       "detail": "7 required files present",
       "requiredFiles": [
-        "uapi/app/application/application-external-runtime.ts",
-        "uapi/app/application/ApplicationExternalInterfacingPanel.tsx",
-        "uapi/app/application/ApplicationFloatingDebugWidget.tsx",
-        "uapi/tests/api/externalRealizationRoute.test.ts",
-        "uapi/tests/applicationExternalRuntime.test.ts",
-        "uapi/tests/applicationExternalInterfacingPanel.test.tsx",
-        "uapi/tests/applicationFloatingDebugWidget.test.tsx"
+        "apps/uapi/app/application/application-external-runtime.ts",
+        "apps/uapi/app/application/ApplicationExternalInterfacingPanel.tsx",
+        "apps/uapi/app/application/ApplicationFloatingDebugWidget.tsx",
+        "apps/uapi/tests/api/externalRealizationRoute.test.ts",
+        "apps/uapi/tests/applicationExternalRuntime.test.ts",
+        "apps/uapi/tests/applicationExternalInterfacingPanel.test.tsx",
+        "apps/uapi/tests/applicationFloatingDebugWidget.test.tsx"
       ],
       "missingFiles": []
     }

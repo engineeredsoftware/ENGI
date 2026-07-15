@@ -150,15 +150,15 @@ export function buildV33ApiSchemaCompatibilityMatrixArtifact() {
       'shares the package-owned API schema compatibility matrix for versionless public routes',
       'public-api-btd-registry-success',
     ]),
-    scanTokens('packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
+    scanTokens('apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts', [
       'shares the package-owned API schema compatibility matrix for MCP tool calls',
       'mcp-api-asset-pack-create-success',
     ]),
-    scanTokens('packages/external-apps/chatgpt/src/__tests__/tools.test.ts', [
+    scanTokens('apps/chatgpt/src/__tests__/tools.test.ts', [
       'shares the package-owned API schema compatibility matrix for ChatGPT App blocked delivery',
       'chatgpt-app-deliver-assetpack-blocked',
     ]),
-    scanTokens('uapi/tests/terminalOrganizationAuthority.test.ts', [
+    scanTokens('apps/uapi/tests/terminalOrganizationAuthority.test.ts', [
       'shares the package-owned API schema compatibility matrix for Terminal handoff rows',
       'terminal-handoff-preview-blocked',
     ]),

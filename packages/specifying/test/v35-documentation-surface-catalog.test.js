@@ -62,7 +62,7 @@ test('binds public docs and generated artifacts without protected source exposur
 
   assert.ok(publicDocs);
   assert.equal(publicDocs.disclosureClass, 'public_source_safe');
-  assert.equal(publicDocs.sourceRoots.includes('uapi/app/docs/bitcode-docs-content.ts'), true);
+  assert.equal(publicDocs.sourceRoots.includes('apps/uapi/app/docs/bitcode-docs-content.ts'), true);
   assert.equal(publicDocs.linkedGeneratedArtifacts.includes(DOCUMENTATION_SURFACE_CATALOG_ARTIFACT_PATH), true);
   assert.equal(publicDocs.forbiddenContent.includes('protected_source_payloads'), true);
 

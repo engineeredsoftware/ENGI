@@ -65,12 +65,12 @@ const SUPPORT_PROMPT_CORRIDORS = [
 const REFERENCE_PROMPT_CORRIDORS = [
   'packages/generic-agents',
   'packages/generic-tools',
-  'packages/external-apps/chatgpt/src/prompts',
+  'apps/chatgpt/src/prompts',
   'packages/doc-comment-generics/examples',
 ];
 const REFERENCE_PROMPT_CONFIG_FILES = [
-  'packages/external-apps/chatgpt/tsconfig.test.json',
-  'packages/external-apps/chatgpt/jest.config.cjs',
+  'apps/chatgpt/tsconfig.test.json',
+  'apps/chatgpt/jest.config.cjs',
 ];
 const ACTIVE_AGENT_PROMPT_HIERARCHY_DOCS = [
   'packages/agent-generics/README.md',
@@ -352,7 +352,7 @@ test('V26 Terminal conversation prompts are specific raw PromptPart-backed regis
     'utf8'
   );
   const conversationAppPromptBindingSource = readFileSync(
-    path.join(repoRoot, 'uapi/prompts/bitcode-terminal-system-prompt.ts'),
+    path.join(repoRoot, 'apps/uapi/prompts/bitcode-terminal-system-prompt.ts'),
     'utf8'
   );
   const conversationPromptPartSource = CONVERSATION_RAW_PROMPTPART_FILES

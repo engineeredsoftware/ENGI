@@ -1,4 +1,4 @@
-// Migrated from uapi/lib/sentry.ts – thin wrapper around the Sentry SDK that
+// Migrated from apps/uapi/lib/sentry.ts – thin wrapper around the Sentry SDK that
 // degrades gracefully when SDK/DSN are not present.  No functional changes.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

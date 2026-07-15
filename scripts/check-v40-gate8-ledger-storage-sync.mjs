@@ -104,7 +104,7 @@ function runFocusedTests(root, failures, skipIntegrationTests) {
 
     if (!skipIntegrationTests) {
       commands.push(
-        ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath',
+        ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath',
           'tests/bitcodeLedgerStorageSync.test.ts',
           'tests/terminalWalletBtcOperation.test.ts',
           'tests/terminalJournalReconciliation.test.ts',
@@ -154,8 +154,8 @@ function main() {
     'packages/specifying/test/v40-ledger-storage-sync.test.js',
     'scripts/generate-v40-ledger-storage-sync.mjs',
     'scripts/check-v40-gate8-ledger-storage-sync.mjs',
-    'uapi/app/bitcode-ledger-storage-sync.ts',
-    'uapi/tests/bitcodeLedgerStorageSync.test.ts',
+    'apps/uapi/app/bitcode-ledger-storage-sync.ts',
+    'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'packages/btd/src/btc-fee-operation.ts',

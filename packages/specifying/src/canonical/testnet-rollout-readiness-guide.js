@@ -123,9 +123,9 @@ const guideRows = Object.freeze([
     purpose: 'Run the website, protocol packages, and demonstration checks locally with source-safe environment posture.',
     laneIds: ['local'],
     workflowStages: ['workspace-install', 'uapi-typecheck', 'mock-route-tests', 'protocol-package-tests', 'demonstration-validation'],
-    sourceRoots: ['uapi/README.md', 'protocol-demonstration/README.md'],
+    sourceRoots: ['apps/uapi/README.md', 'protocol-demonstration/README.md'],
     reproducibleCommands: [
-      'pnpm --dir uapi exec tsc --noEmit --pretty false',
+      'pnpm --dir apps/uapi exec tsc --noEmit --pretty false',
       'pnpm --filter @bitcode/specifying test',
       'npm --prefix protocol-demonstration run test:v28-mvp-qa',
     ],
@@ -181,9 +181,9 @@ const guideRows = Object.freeze([
     purpose: 'Explain the safe testnet path from Read request through Need review, FindingFits, AssetPack preview, settlement, and delivery.',
     laneIds: ['local', 'staging-testnet', 'public-testnet'],
     workflowStages: ['request-read', 'review-read-need', 'request-fits', 'review-assetpack-preview', 'settle-and-unlock'],
-    sourceRoots: ['uapi/components/README.md', 'uapi/app/docs/bitcode-docs-content.ts'],
+    sourceRoots: ['apps/uapi/components/README.md', 'apps/uapi/app/docs/bitcode-docs-content.ts'],
     reproducibleCommands: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalDepositReadWorkbench.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalDepositReadWorkbench.test.ts --runInBand',
       'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand',
     ],
     guideExamples: [
@@ -209,10 +209,10 @@ const guideRows = Object.freeze([
     purpose: 'Explain source deposit, measurement, eligibility, and rights posture without exposing protected deposited source.',
     laneIds: ['local', 'staging-testnet', 'public-testnet'],
     workflowStages: ['connect-provider', 'select-source', 'record-deposit', 'measure-deposit', 'await-fit-use'],
-    sourceRoots: ['uapi/components/README.md', 'packages/btd/src/deployment-readiness-rehearsal.ts'],
+    sourceRoots: ['apps/uapi/components/README.md', 'packages/btd/src/deployment-readiness-rehearsal.ts'],
     reproducibleCommands: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/api/vcsRoutes.test.ts --runInBand',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/vcsRoutes.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand',
     ],
     guideExamples: [
       'Depositor guidance may explain repository anchoring, proof roots, rights posture, and payout receipts.',
@@ -228,7 +228,7 @@ const guideRows = Object.freeze([
       '.bitcode/v34-deployment-host-capability-catalog.json',
       '.bitcode/v35-docs-qa-alignment-report.json',
     ],
-    validationCommands: ['pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand'],
+    validationCommands: ['pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand'],
   }),
   row({
     guideId: 'interface_consumer_flow',
@@ -239,12 +239,12 @@ const guideRows = Object.freeze([
     workflowStages: ['route-contract-review', 'authorization-check', 'tool-contract-check', 'redaction-check', 'proof-root-readback'],
     sourceRoots: [
       'packages/api/README.md',
-      'packages/generic-mcps/bitcode/README.md',
-      'packages/external-apps/chatgpt/README.md',
+      'apps/mcp/README.md',
+      'apps/chatgpt/README.md',
     ],
     reproducibleCommands: [
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts',
-      'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
+      'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/mcp-tool-contract.test.ts --runInBand',
       'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts --runInBand',
     ],
     guideExamples: [
@@ -310,7 +310,7 @@ const guideRows = Object.freeze([
     ],
     reproducibleCommands: [
       'pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand',
       'pnpm run check:v35-gate7',
     ],
     guideExamples: [

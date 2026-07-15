@@ -69,7 +69,7 @@
   "contractRows": [
     {
       "rowId": "pack-activity-record",
-      "owner": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "contract": "PackActivityRecord contains source-safe activity type, title, description, repository, measurements, values, proof roots, and state readback.",
       "requiredFields": [
         "type",
@@ -92,7 +92,7 @@
     },
     {
       "rowId": "packs-activity-api",
-      "owner": "uapi/app/api/packs/activity/route.ts",
+      "owner": "apps/uapi/app/api/packs/activity/route.ts",
       "contract": "/api/packs/activity returns queried PackActivity records, summary, detail projection, and explicit source-safety posture.",
       "requiredFields": [
         "records",
@@ -108,7 +108,7 @@
     },
     {
       "rowId": "packs-route-master-detail",
-      "owner": "uapi/app/packs/PacksPageClient.tsx",
+      "owner": "apps/uapi/app/packs/PacksPageClient.tsx",
       "contract": "/packs renders searchable, sortable, filterable master-detail pack activity with proof roots and state readback.",
       "requiredFields": [
         "search",
@@ -124,7 +124,7 @@
     },
     {
       "rowId": "exchange-compatibility-redirect",
-      "owner": "uapi/app/exchange/page.tsx",
+      "owner": "apps/uapi/app/exchange/page.tsx",
       "contract": "/exchange is retained only as compatibility redirect into /packs while preserving query parameters.",
       "requiredFields": [
         "/packs",
@@ -148,19 +148,19 @@
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
-    "model": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "route": "uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
-    "page": "uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
-    "client": "uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
-    "exchangeRedirect": "uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
-    "nav": "uapi/components/base/bitcode/layout/nav.tsx:802e44030967176ec5c18cea",
-    "workspaceSurface": "uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
-    "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
-    "publicExplainers": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
+    "model": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "route": "apps/uapi/app/api/packs/activity/route.ts:97c5a4539d48562eb5de66e8",
+    "page": "apps/uapi/app/packs/page.tsx:1b3d7a1cc00500a13042e8dd",
+    "client": "apps/uapi/app/packs/PacksPageClient.tsx:68c61c8fd312e6c750d742ba",
+    "exchangeRedirect": "apps/uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
+    "nav": "apps/uapi/components/base/bitcode/layout/nav.tsx:802e44030967176ec5c18cea",
+    "workspaceSurface": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
+    "publicCopy": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts:9b39322f872b899e1c752701",
+    "publicExplainers": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:4e3b84dda50607ea8ea2b73e",
     "packageIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
     "packageTypes": "packages/specifying/src/index.d.ts:278dfc652c621533b5e86f4d",
     "packageTest": "packages/specifying/test/v43-packs-activity-master-detail.test.js:baf3e44b2fbe4e62590c1824",
-    "uapiTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "uapiTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
     "generator": "scripts/generate-v43-packs-activity-master-detail.mjs:f342bc9b3ebb8de4e7aa2882",
     "checker": "scripts/check-v43-gate3-packs-activity-master-detail.mjs:5914a444235ffb15bb3272ad"
   },
@@ -212,72 +212,72 @@
     },
     {
       "id": "model-defines-packactivity-record",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "model-defines-search-filter-sort",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "model-defines-detail-projection",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "model-defines-source-safety-assertion",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
       "id": "api-route-exposes-packactivity-query",
-      "sourcePath": "uapi/app/api/packs/activity/route.ts",
+      "sourcePath": "apps/uapi/app/api/packs/activity/route.ts",
       "passed": true
     },
     {
       "id": "packs-page-canonical-route",
-      "sourcePath": "uapi/app/packs/page.tsx",
+      "sourcePath": "apps/uapi/app/packs/page.tsx",
       "passed": true
     },
     {
       "id": "packs-client-master-detail",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "packs-client-search-sort-filter",
-      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
       "passed": true
     },
     {
       "id": "exchange-route-redirects-to-packs",
-      "sourcePath": "uapi/app/exchange/page.tsx",
+      "sourcePath": "apps/uapi/app/exchange/page.tsx",
       "passed": true
     },
     {
       "id": "nav-links-to-packs",
-      "sourcePath": "uapi/components/base/bitcode/layout/nav.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/nav.tsx",
       "passed": true
     },
     {
       "id": "public-shell-recognizes-packs",
-      "sourcePath": "uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts",
       "passed": true
     },
     {
       "id": "public-copy-uses-packs-link",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "passed": true
     },
     {
       "id": "public-explainers-use-packs",
-      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
       "passed": true
     },
     {
       "id": "uapi-test-covers-model",
-      "sourcePath": "uapi/tests/packActivityModel.test.ts",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
       "passed": true
     },
     {

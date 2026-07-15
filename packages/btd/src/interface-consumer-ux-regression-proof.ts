@@ -190,9 +190,9 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
       repairSteps: ['replay-mcp-pipeline-ingress', 'inspect-queued-pipeline-roots'],
       feeRightsPreview: feeRightsPreview('mcp-finding-fits', 'preview_admitted', 'preview_only_locked'),
       fixturePath:
-        'packages/generic-mcps/bitcode/src/__tests__/unit/pipeline-ingress-contract.test.ts',
+        'apps/mcp/src/__tests__/unit/pipeline-ingress-contract.test.ts',
       replayCommand:
-        'pnpm --dir packages/generic-mcps/bitcode run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
+        'pnpm --dir apps/mcp run test:mcp -- --runTestsByPath src/__tests__/unit/pipeline-ingress-contract.test.ts --runInBand',
       capabilities: DEFAULT_CAPABILITIES,
       successSummary: 'Finding Fits request is queued with source-safe proof roots and rights preview.',
     },
@@ -208,7 +208,7 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
       proofRoots: ['confirmation-root:chatgpt-delivery', 'rights-root:chatgpt-delivery'],
       repairSteps: ['confirm-reader-action', 'settle-btc-fee-before-delivery'],
       feeRightsPreview: feeRightsPreview('chatgpt-delivery', 'blocked_until_rights', 'settlement_pending'),
-      fixturePath: 'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+      fixturePath: 'apps/chatgpt/src/__tests__/tools.test.ts',
       replayCommand:
         'pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/tools.test.ts --runInBand',
       capabilities: DEFAULT_CAPABILITIES,
@@ -227,9 +227,9 @@ export function buildBtdInterfaceConsumerUxRegressionInputs(): BtdInterfaceConsu
       proofRoots: ['preview-root:terminal-reading', 'settlement-root:terminal-reading'],
       repairSteps: ['review-source-safe-preview', 'settle-btc-fee-to-unlock-rights'],
       feeRightsPreview: feeRightsPreview('terminal-preview', 'blocked_until_rights', 'settlement_pending'),
-      fixturePath: 'uapi/tests/terminalOrganizationAuthority.test.ts',
+      fixturePath: 'apps/uapi/tests/terminalOrganizationAuthority.test.ts',
       replayCommand:
-        'pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
+        'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand',
       capabilities: DEFAULT_CAPABILITIES,
       readableDenial: 'AssetPack source remains locked until BTC settlement and BTD rights transfer are admitted.',
       denialCode: 'ASSETPACK_SOURCE_LOCKED_UNTIL_SETTLEMENT',

@@ -1,8 +1,8 @@
 /**
  * Supabase utilities and thin MCP helpers.
  *
- * Consolidates the previous `uapi/lib/supabaseClient.ts` (client helpers) and
- * `uapi/lib/mcps/supabase.ts` (MCP tool implementations) into a single raw
+ * Consolidates the previous `apps/uapi/lib/supabaseClient.ts` (client helpers) and
+ * `apps/uapi/lib/mcps/supabase.ts` (MCP tool implementations) into a single raw
  * package so that external code can simply depend on `@bitcode/supabase` for any
  * Supabase-related functionality.
  *
@@ -13,7 +13,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 // ---------------------------------------------------------------------------
-// Centralised Supabase client helpers (formerly uapi/lib/supabaseClient.ts)
+// Centralised Supabase client helpers (formerly apps/uapi/lib/supabaseClient.ts)
 // ---------------------------------------------------------------------------
 
 // Helper to strip out any stray unicode characters (e.g. smart quotes)
@@ -89,7 +89,7 @@ export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
 });
 
 // ---------------------------------------------------------------------------
-// MCP helper utilities (formerly uapi/lib/mcps/supabase.ts)
+// MCP helper utilities (formerly apps/uapi/lib/mcps/supabase.ts)
 // ---------------------------------------------------------------------------
 
 export async function supabaseMcpTool(params: { userId: string; query?: string; count?: number }): Promise<any[]> {

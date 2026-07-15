@@ -50,10 +50,10 @@ function deposit(overrides: Record<string, unknown> = {}) {
         unitId: 'terminal-unit-1',
         unitKind: 'source-file',
         text: 'PRIVATE_SOURCE_DO_NOT_SERIALIZE function terminalSecret() {}',
-        path: 'uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
+        path: 'apps/uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
         codeAnalysisFacts: {
           symbols: ['TerminalDepositReadWorkbench', 'streamTerminalReadFitsFindingSynthesisHost'],
-          paths: ['uapi/components/bitcode/pipeline/pipeline-host-client.ts'],
+          paths: ['apps/uapi/components/bitcode/pipeline/pipeline-host-client.ts'],
           stackTags: ['terminal', 'supabase', 'assetpack'],
           constraints: ['protected source remains hidden until settlement'],
         },

@@ -88,12 +88,12 @@ const removedComprehendTaskEntrypoints = [
   '../../packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-task-agent-prompts.js',
 ];
 const removedTerminalExecutionGeneratedJsMirrors = [
-  '../../uapi/app/terminal/TerminalTransactionDetailSurface.js',
-  '../../uapi/app/terminal/terminal-experience-architecture.js',
-  '../../uapi/app/executions/page.js',
-  '../../uapi/app/executions/components/ExecutionsDoButton.js',
-  '../../uapi/components/base/bitcode/execution/DeliverablesDocPanel.js',
-  '../../uapi/components/base/bitcode/execution/deliver-button.js',
+  '../../apps/uapi/app/terminal/TerminalTransactionDetailSurface.js',
+  '../../apps/uapi/app/terminal/terminal-experience-architecture.js',
+  '../../apps/uapi/app/executions/page.js',
+  '../../apps/uapi/app/executions/components/ExecutionsDoButton.js',
+  '../../apps/uapi/components/base/bitcode/execution/DeliverablesDocPanel.js',
+  '../../apps/uapi/components/base/bitcode/execution/deliver-button.js',
 ];
 const removedNotificationGeneratedJsMirrors = [
   '../../packages/notifications/src/events.js',
@@ -103,12 +103,12 @@ const removedNotificationGeneratedJsMirrors = [
   '../../packages/notifications/src/worker.js',
 ];
 const removedExecutionSupportGeneratedJsMirrors = [
-  '../../uapi/middleware/route-rewrite.js',
-  '../../uapi/middleware/authentication.js',
-  '../../uapi/hooks/useVCSData.js',
-  '../../uapi/scripts/long-runner-worker.js',
-  '../../uapi/scripts/run-long-runner.js',
-  '../../uapi/scripts/sync-deliverables-embeddings.js',
+  '../../apps/uapi/middleware/route-rewrite.js',
+  '../../apps/uapi/middleware/authentication.js',
+  '../../apps/uapi/hooks/useVCSData.js',
+  '../../apps/uapi/scripts/long-runner-worker.js',
+  '../../apps/uapi/scripts/run-long-runner.js',
+  '../../apps/uapi/scripts/sync-deliverables-embeddings.js',
 ];
 const removedTypeKeyedImplementationEntrypoints = [
   '../../packages/asset-packs-pipelines/domain/src/agents/implementation-agents.ts',
@@ -189,15 +189,15 @@ const executionsRouteSource = readFileSync(
   'utf8'
 );
 const terminalDetailSnapshotSource = readFileSync(
-  new URL('../../uapi/app/terminal/terminal-transaction-detail-snapshot.ts', import.meta.url),
+  new URL('../../apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts', import.meta.url),
   'utf8'
 );
 const executionsPageHeaderSource = readFileSync(
-  new URL('../../uapi/app/executions/components/ExecutionsPageHeader.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/executions/components/ExecutionsPageHeader.tsx', import.meta.url),
   'utf8'
 );
 const executionsCompleteHeaderContentSource = readFileSync(
-  new URL('../../uapi/app/executions/components/ExecutionsCompleteHeaderContent.tsx', import.meta.url),
+  new URL('../../apps/uapi/app/executions/components/ExecutionsCompleteHeaderContent.tsx', import.meta.url),
   'utf8'
 );
 const shippablesRouteSource = readFileSync(
@@ -205,15 +205,15 @@ const shippablesRouteSource = readFileSync(
   'utf8'
 );
 const shippableTemplatesRouteSource = readFileSync(
-  new URL('../../uapi/app/api/templates/shippables/route.ts', import.meta.url),
+  new URL('../../apps/uapi/app/api/templates/shippables/route.ts', import.meta.url),
   'utf8'
 );
 const streamParserSource = readFileSync(
-  new URL('../../uapi/streaming/stream-parser.ts', import.meta.url),
+  new URL('../../apps/uapi/streaming/stream-parser.ts', import.meta.url),
   'utf8'
 );
 const executionReadInputSource = readFileSync(
-  new URL('../../uapi/components/base/bitcode/execution/ExecutionReadInput.tsx', import.meta.url),
+  new URL('../../apps/uapi/components/base/bitcode/execution/ExecutionReadInput.tsx', import.meta.url),
   'utf8'
 );
 const notificationTypesSource = readFileSync(
@@ -233,26 +233,26 @@ const notificationReadmeSource = readFileSync(
   'utf8'
 );
 const routeRewriteMiddlewareSource = readFileSync(
-  new URL('../../uapi/middleware/route-rewrite.ts', import.meta.url),
+  new URL('../../apps/uapi/middleware/route-rewrite.ts', import.meta.url),
   'utf8'
 );
 const authenticationMiddlewareSource = readFileSync(
-  new URL('../../uapi/middleware/authentication.ts', import.meta.url),
+  new URL('../../apps/uapi/middleware/authentication.ts', import.meta.url),
   'utf8'
 );
 const vcsDataHookSource = readFileSync(
-  new URL('../../uapi/hooks/useVCSData.ts', import.meta.url),
+  new URL('../../apps/uapi/hooks/useVCSData.ts', import.meta.url),
   'utf8'
 );
-const tpsReadmeSource = readFileSync(new URL('../../uapi/app/tps/README.md', import.meta.url), 'utf8');
-const uapiPackageSource = readFileSync(new URL('../../uapi/package.json', import.meta.url), 'utf8');
+const tpsReadmeSource = readFileSync(new URL('../../apps/uapi/app/tps/README.md', import.meta.url), 'utf8');
+const uapiPackageSource = readFileSync(new URL('../../apps/uapi/package.json', import.meta.url), 'utf8');
 const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
-const uapiTsconfigSource = readFileSync(new URL('../../uapi/tsconfig.json', import.meta.url), 'utf8');
+const uapiTsconfigSource = readFileSync(new URL('../../apps/uapi/tsconfig.json', import.meta.url), 'utf8');
 const syncAssetPackEvidenceEmbeddingsScriptSource = readFileSync(
-  new URL('../../uapi/scripts/sync-asset-pack-evidence-embeddings.ts', import.meta.url),
+  new URL('../../apps/uapi/scripts/sync-asset-pack-evidence-embeddings.ts', import.meta.url),
   'utf8'
 );
-const runLongRunnerSource = readFileSync(new URL('../../uapi/scripts/run-long-runner.ts', import.meta.url), 'utf8');
+const runLongRunnerSource = readFileSync(new URL('../../apps/uapi/scripts/run-long-runner.ts', import.meta.url), 'utf8');
 const assetPackStartedTemplateSource = readFileSync(
   new URL('../../supabase/templates/asset_pack_started.html', import.meta.url),
   'utf8'
@@ -625,7 +625,7 @@ test('AssetPack schemas expose written-asset semantic aliases and bounded compat
 });
 
 test('asset-pack evidence search uses current Bitcode naming at the package boundary', () => {
-  assert.equal(existsSync(new URL('../../uapi/tests/searchRelevantDeliverables.test.ts', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/tests/searchRelevantDeliverables.test.ts', import.meta.url)), false);
   assert.match(assetPackSearchSource, /export async function searchRelevantAssetPackEvidence/u);
   assert.match(assetPackSearchSource, /BITCODE_PRE_CONTEXT_ASSET_PACK_EVIDENCE_COUNT/u);
   assert.match(assetPackSearchSource, /assetPackEvidenceId/u);
@@ -894,7 +894,7 @@ test('AssetPack templates and bounded promptparts teach asset-pack-run semantics
   assert.match(shippableTemplatesRouteSource, /createShippableTemplates/u);
   assert.match(shippableTemplatesRouteSource, /shippableTypes/u);
   assert.match(shippableTemplatesRouteSource, /Shippable template name/u);
-  assert.equal(existsSync(new URL('../../uapi/app/api/templates/deliverables/route.ts', import.meta.url)), false);
+  assert.equal(existsSync(new URL('../../apps/uapi/app/api/templates/deliverables/route.ts', import.meta.url)), false);
   assert.match(executionReadInputSource, /\/api\/templates\/shippables/u);
   assert.doesNotMatch(executionReadInputSource, /deliverableTypes/u);
   assert.match(assetPackStartedTemplateSource, /Bitcode asset-pack run started/u);

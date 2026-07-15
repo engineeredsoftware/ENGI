@@ -114,7 +114,7 @@ function runFocusedTests(root, failures, args) {
 
   if (!args.skipUapiTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--dir', 'uapi', 'exec', 'jest', '--runTestsByPath', 'tests/depositPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/packsPageClient.test.tsx', 'tests/packActivityModel.test.ts', '--runInBand']],
+      ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', '--runTestsByPath', 'tests/depositPageClient.test.tsx', 'tests/readPageClient.test.tsx', 'tests/packsPageClient.test.tsx', 'tests/packActivityModel.test.ts', '--runInBand']],
     );
   }
 
@@ -161,11 +161,11 @@ function main() {
     'scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs',
     'packages/specifying/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js',
     'packages/specifying/test/v43-cross-route-rehearsal-telemetry-repair.test.js',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/api/packs/activity/route.ts',
-    'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/api/packs/activity/route.ts',
+    'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'BITCODE_SPEC_V43.md',
     'BITCODE_SPEC_V43_DELTA.md',
     'BITCODE_SPEC_V43_NOTES.md',

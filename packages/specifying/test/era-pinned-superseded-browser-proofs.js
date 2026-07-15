@@ -29,7 +29,7 @@ const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..
  * under deposits/reads and must not un-pin historical V39/V40 Terminal proofs).
  */
 export const SUPERSEDED = !existsSync(
-  path.join(REPO_ROOT, 'uapi/app/terminal/terminal-ux-browser-proof.ts'),
+  path.join(REPO_ROOT, 'apps/uapi/app/terminal/terminal-ux-browser-proof.ts'),
 );
 
 const SKIP_REASON =

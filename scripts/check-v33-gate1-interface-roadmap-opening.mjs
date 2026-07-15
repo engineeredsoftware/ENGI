@@ -212,7 +212,7 @@ function main() {
     assertCheck(failures, content.includes("DRAFT_TARGET_VERSION = 'V33'") || content.includes('"draftTargetVersion": "V33"'), `${label} must declare V33 draft target.`);
   }
 
-  const routeScan = execFileSync('find', ['uapi/app/api', '-path', '*v[0-9]*', '-print'], {
+  const routeScan = execFileSync('find', ['apps/uapi/app/api', '-path', '*v[0-9]*', '-print'], {
     cwd: root,
     encoding: 'utf8'
   }).trim();

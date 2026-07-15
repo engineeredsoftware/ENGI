@@ -99,7 +99,7 @@ function runIntegrationSmoke(root, failures) {
     ]],
     ['pnpm', ['--filter', '@bitcode/pipelines-generics', 'test']],
     ['pnpm', ['--filter', '@bitcode/agent-generics', 'test']],
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/readingOperationalTelemetryPipelineLog.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
+    ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/terminalPipelineHarnessClient.test.ts', 'tests/readingOperationalTelemetryPipelineLog.test.tsx', 'tests/pipelineExecutionLogHeader.test.tsx', '--runInBand']],
   ];
 
   for (const [command, args] of commands) {

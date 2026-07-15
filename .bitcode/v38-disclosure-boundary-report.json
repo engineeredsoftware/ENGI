@@ -392,7 +392,7 @@
       "sourceRoots": [
         "packages/tools-generics/src/execution/ToolExecution.ts",
         "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts"
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts"
       ],
       "requiredTelemetryLevelIds": [
         "schema_verdict",
@@ -469,8 +469,8 @@
       "sourceRoots": [
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
         "packages/specifying/src/canonical/prompt-benchmark-report.js"
       ],
       "requiredTelemetryLevelIds": [
@@ -547,7 +547,7 @@
         "packages/asset-packs-pipelines/domain/src/read-need.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
-        "uapi/tests/terminalPipelineHarnessClient.test.ts"
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts"
       ],
       "requiredTelemetryLevelIds": [
         "parsed_output",
@@ -627,11 +627,11 @@
       "sourceRoots": [
         "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts",
         "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
         "packages/specifying/src/canonical/conversation-stream-event-contract.js",
         "packages/specifying/src/canonical/telemetry-taxonomy-catalog.js"
       ],
@@ -815,32 +815,32 @@
       "legacy": false
     },
     {
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "exists": true,
       "legacy": false
     },
     {
-      "sourcePath": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
       "exists": true,
       "legacy": false
     },
@@ -1072,7 +1072,7 @@
     {
       "id": "telemetry:tool-execution-lifecycle.source-roots-present",
       "rowId": "telemetry:tool-execution-lifecycle",
-      "sourcePath": "packages/tools-generics/src/execution/ToolExecution.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "packages/tools-generics/src/execution/ToolExecution.ts,packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
@@ -1114,13 +1114,13 @@
     {
       "id": "tool.ui-summarizes-tool-telemetry",
       "rowId": "telemetry:tool-execution-lifecycle",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "telemetry:prompt-template-interpolation.source-roots-present",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/tests/terminalPipelineHarnessClient.test.ts,packages/specifying/src/canonical/prompt-benchmark-report.js",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/tests/terminalPipelineHarnessClient.test.ts,packages/specifying/src/canonical/prompt-benchmark-report.js",
       "passed": true
     },
     {
@@ -1156,7 +1156,7 @@
     {
       "id": "prompt.harness-stream-summarizes-template-and-interpolation",
       "rowId": "telemetry:prompt-template-interpolation",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
@@ -1168,7 +1168,7 @@
     {
       "id": "telemetry:raw-response-parsed-output-schema.source-roots-present",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts,uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,packages/asset-packs-pipelines/domain/src/read-need.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts,packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts,apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
@@ -1210,13 +1210,13 @@
     {
       "id": "schema.harness-metadata-carries-inference-audit-shape",
       "rowId": "telemetry:raw-response-parsed-output-schema",
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
       "id": "telemetry:stream-ui-storage-projection.source-roots-present",
       "rowId": "telemetry:stream-ui-storage-projection",
-      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,uapi/app/terminal/terminal-pipeline-harness-client.ts,uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,uapi/tests/pipelineExecutionLogHeader.test.tsx,uapi/tests/conversationStreamPipelineLog.test.tsx,packages/specifying/src/canonical/conversation-stream-event-contract.js,packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
+      "sourcePath": "packages/execution-generics/src/storage/ExecutionStreamAdapter.ts,packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts,apps/uapi/app/terminal/terminal-pipeline-harness-client.ts,apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx,apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx,apps/uapi/tests/pipelineExecutionLogHeader.test.tsx,apps/uapi/tests/conversationStreamPipelineLog.test.tsx,packages/specifying/src/canonical/conversation-stream-event-contract.js,packages/specifying/src/canonical/telemetry-taxonomy-catalog.js",
       "passed": true
     },
     {
@@ -1252,13 +1252,13 @@
     {
       "id": "stream.ui-renders-expanded-metadata",
       "rowId": "telemetry:stream-ui-storage-projection",
-      "sourcePath": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourcePath": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "passed": true
     },
     {
       "id": "stream.terminal-harness-carries-reading-telemetry",
       "rowId": "telemetry:stream-ui-storage-projection",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {

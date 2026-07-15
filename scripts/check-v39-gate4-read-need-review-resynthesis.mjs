@@ -111,9 +111,9 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
-    'uapi/app/api/read-review/route.ts',
-    'uapi/tests/api/readReviewRoute.test.ts',
-    'uapi/tests/api/readReviewProtocolParity.test.ts',
+    'apps/uapi/app/api/read-review/route.ts',
+    'apps/uapi/tests/api/readReviewRoute.test.ts',
+    'apps/uapi/tests/api/readReviewProtocolParity.test.ts',
     'packages/specifying/src/canonical/v39-read-need-review-resynthesis.js',
     'packages/specifying/test/v39-read-need-review-resynthesis.test.js',
     'scripts/generate-v39-read-need-review-resynthesis.mjs',
@@ -181,7 +181,7 @@ function main() {
     try {
       run(root, 'pnpm', [
         '--dir',
-        'uapi',
+        'apps/uapi',
         'exec',
         'jest',
         '--runTestsByPath',

@@ -111,7 +111,7 @@ Expand operator-facing proof:
 - semantic browser assertions where they are more stable than screenshots.
 - generated artifact `.bitcode/v32-browser-accessibility-responsive-visual-proof.json`;
 - generator command `pnpm run generate:v32-browser-accessibility-responsive-visual-proof`, checker command `pnpm run check:v32-browser-accessibility-responsive-visual-proof`, and gate closure command `pnpm run check:v32-gate7`;
-- focused Jest test `uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts` and browser proof `uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts` proving `no-screenshot-only-approval` visual semantics.
+- focused Jest test `apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts` and browser proof `apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts` proving `no-screenshot-only-approval` visual semantics.
 
 ### Gate 8: Testnet And Mainnet Readiness Rehearsal
 

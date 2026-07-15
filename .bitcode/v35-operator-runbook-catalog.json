@@ -261,7 +261,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "sourceEvidence": [
         {
@@ -285,7 +285,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
           "present": true
         }
       ],
@@ -323,8 +323,8 @@
         "deployment owner"
       ],
       "commandSequence": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/api/pipelineHarnessRoute.test.ts --runInBand",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/pipelineHarnessRoute.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalPipelineHarnessClient.test.ts --runInBand"
       ],
       "verificationCommands": [
         "pnpm run check:v35-gate5"
@@ -378,8 +378,8 @@
         "BITCODE_SPEC_V35_DELTA.md",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/specifying/src/telemetry.js",
-        "uapi/app/api/executions/route.ts",
-        "uapi/app/api/executions/stream/route.ts"
+        "apps/uapi/app/api/executions/route.ts",
+        "apps/uapi/app/api/executions/stream/route.ts"
       ],
       "sourceEvidence": [
         {
@@ -399,11 +399,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/executions/route.ts",
+          "sourceRoot": "apps/uapi/app/api/executions/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/executions/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
           "present": true
         }
       ],
@@ -916,7 +916,7 @@
       ],
       "commandSequence": [
         "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand"
       ],
       "verificationCommands": [
         "pnpm run check:v35-gate5"
@@ -970,8 +970,8 @@
         "BITCODE_SPEC_V35_DELTA.md",
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/btd/src/terminal-operational-health.ts",
-        "uapi/app/api/wallet/authenticate/route.ts",
-        "uapi/tests/terminalWalletBtcOperation.test.ts"
+        "apps/uapi/app/api/wallet/authenticate/route.ts",
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts"
       ],
       "sourceEvidence": [
         {
@@ -991,11 +991,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/wallet/authenticate/route.ts",
+          "sourceRoot": "apps/uapi/app/api/wallet/authenticate/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalWalletBtcOperation.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
           "present": true
         }
       ],
@@ -1089,7 +1089,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/btd/src/deployment-storage-posture.ts",
         "packages/pipeline-hosts/README.md",
-        "uapi/app/api/pipeline-harness/asset-pack/runner.ts"
+        "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts"
       ],
       "sourceEvidence": [
         {
@@ -1113,7 +1113,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
           "present": true
         }
       ],
@@ -1151,7 +1151,7 @@
         "organization policy owner"
       ],
       "commandSequence": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalOrganizationAuthority.test.ts --runInBand",
         "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts"
       ],
       "verificationCommands": [
@@ -1207,7 +1207,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/api/src/routes/auxillaries-contract.ts",
         "packages/btd/src/interface-telemetry-proof-hook.ts",
-        "uapi/app/api/read-review/route.ts"
+        "apps/uapi/app/api/read-review/route.ts"
       ],
       "sourceEvidence": [
         {
@@ -1231,7 +1231,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/read-review/route.ts",
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
           "present": true
         }
       ],
@@ -1388,7 +1388,7 @@
       ],
       "commandSequence": [
         "pnpm run check:v34-runtime-observers-broadcasters-repair-jobs",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand"
       ],
       "verificationCommands": [
         "pnpm run check:v35-gate5"
@@ -1443,7 +1443,7 @@
         ".bitcode/v35-telemetry-taxonomy-catalog.json",
         "packages/btd/src/runtime-observer-repair-job.ts",
         ".bitcode/v34-runtime-observers-broadcasters-repair-jobs.json",
-        "uapi/tests/terminalJournalReconciliation.test.ts"
+        "apps/uapi/tests/terminalJournalReconciliation.test.ts"
       ],
       "sourceEvidence": [
         {
@@ -1467,7 +1467,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalJournalReconciliation.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalJournalReconciliation.test.ts",
           "present": true
         }
       ],
@@ -1868,7 +1868,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
           "present": true
         }
       ]
@@ -1895,11 +1895,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/executions/route.ts",
+          "sourceRoot": "apps/uapi/app/api/executions/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/executions/stream/route.ts",
+          "sourceRoot": "apps/uapi/app/api/executions/stream/route.ts",
           "present": true
         }
       ]
@@ -2050,11 +2050,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/wallet/authenticate/route.ts",
+          "sourceRoot": "apps/uapi/app/api/wallet/authenticate/route.ts",
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalWalletBtcOperation.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
           "present": true
         }
       ]
@@ -2085,7 +2085,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+          "sourceRoot": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
           "present": true
         }
       ]
@@ -2116,7 +2116,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/api/read-review/route.ts",
+          "sourceRoot": "apps/uapi/app/api/read-review/route.ts",
           "present": true
         }
       ]
@@ -2178,7 +2178,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/tests/terminalJournalReconciliation.test.ts",
+          "sourceRoot": "apps/uapi/tests/terminalJournalReconciliation.test.ts",
           "present": true
         }
       ]

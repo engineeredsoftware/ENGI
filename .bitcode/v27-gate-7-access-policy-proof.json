@@ -32,8 +32,8 @@
       "status": "closed",
       "evidence": [
         "packages/api/src/routes/btd-crypto.ts exposes the unversioned /btd/read-access route builder and returns btd_read_access_decision with distinct decision and policyDisclosure payloads",
-        "uapi/app/api/btd/read-access/route.ts binds the Next.js App Router endpoint without introducing a versioned route",
-        "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx discloses Access policy, Policy hash, AssetPack range, and Read branch as separate fields"
+        "apps/uapi/app/api/btd/read-access/route.ts binds the Next.js App Router endpoint without introducing a versioned route",
+        "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx discloses Access policy, Policy hash, AssetPack range, and Read branch as separate fields"
       ]
     },
     {
@@ -49,14 +49,14 @@
       "criterion": "public copy avoids copyright, dividend, royalty, and price-promise overclaims",
       "status": "closed",
       "evidence": [
-        "rg -n \"copyright ownership|automatic copyright|guaranteed royalt|price appreciation|dividend|dividends|royalties are guaranteed|treasury routing is the same as dividends\" uapi/app uapi/components uapi/lib uapi/tests -g '!_legacy/**' returned no matches",
-        "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx uses share/read-right, owner-read, licensed-read, policy hash, range posture, and BTC fee-liquidity language instead of overclaiming legal/economic rights"
+        "rg -n \"copyright ownership|automatic copyright|guaranteed royalt|price appreciation|dividend|dividends|royalties are guaranteed|treasury routing is the same as dividends\" apps/uapi/app apps/uapi/components apps/uapi/lib apps/uapi/tests -g '!_legacy/**' returned no matches",
+        "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx uses share/read-right, owner-read, licensed-read, policy hash, range posture, and BTC fee-liquidity language instead of overclaiming legal/economic rights"
       ]
     }
   ],
   "validatedCommands": [
     {
-      "command": "./uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
+      "command": "./apps/uapi/node_modules/.bin/jest --config '{...packages/api + packages/btd focused ts-jest config...}' --runInBand",
       "status": "passed",
       "assertions": 42,
       "notes": "Jest reports pre-existing duplicate manual mock warnings outside the V27 package/API slice."
@@ -76,7 +76,7 @@
       "notes": "Jest reports an existing ts-jest globals deprecation warning."
     },
     {
-      "command": "pnpm -C uapi exec jest --runTestsByPath tests/orbitalsBTDPane.test.tsx --runInBand",
+      "command": "pnpm -C apps/uapi exec jest --runTestsByPath tests/orbitalsBTDPane.test.tsx --runInBand",
       "status": "passed",
       "assertions": 2,
       "notes": "Jest reports an existing ts-jest globals deprecation warning."
@@ -87,12 +87,12 @@
       "assertions": 9
     },
     {
-      "command": "find uapi/app/api -path '*v[0-9]*' -print | sort",
+      "command": "find apps/uapi/app/api -path '*v[0-9]*' -print | sort",
       "status": "passed",
       "notes": "No versioned BTD route identifiers found."
     },
     {
-      "command": "rg -n \"copyright ownership|automatic copyright|guaranteed royalt|price appreciation|dividend|dividends|royalties are guaranteed|treasury routing is the same as dividends\" uapi/app uapi/components uapi/lib uapi/tests -g '!_legacy/**'",
+      "command": "rg -n \"copyright ownership|automatic copyright|guaranteed royalt|price appreciation|dividend|dividends|royalties are guaranteed|treasury routing is the same as dividends\" apps/uapi/app apps/uapi/components apps/uapi/lib apps/uapi/tests -g '!_legacy/**'",
       "status": "passed",
       "notes": "No public-surface overclaim phrases found."
     }
@@ -106,9 +106,9 @@
     "packages/btd/__tests__/v27-crypto-primitives.test.ts",
     "packages/api/src/routes/btd-crypto.ts",
     "packages/api/src/routes/__tests__/btd-crypto.test.ts",
-    "uapi/app/api/btd/read-access/route.ts",
-    "uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
-    "uapi/tests/orbitalsBTDPane.test.tsx",
+    "apps/uapi/app/api/btd/read-access/route.ts",
+    "apps/uapi/app/auxillaries/components/AuxillariesBTDPane.tsx",
+    "apps/uapi/tests/orbitalsBTDPane.test.tsx",
     "packages/orm/src/models/btd-registry.ts",
     "packages/orm/src/__tests__/btd-registry.test.ts",
     "supabase/migrations/002_v27_btd_crypto_registry.sql",

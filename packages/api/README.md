@@ -26,14 +26,14 @@ packages/api/src/
 ## Dependency direction
 
 ```
-uapi/app/api/* thin Next route bindings
+apps/uapi/app/api/* thin Next route bindings
  ↓
 @bitcode/api orchestration + response/stream primitives
  ↓
 @bitcode/{orm,auth,btd,execution-generics,conversations,vcs-generics,…}
 ```
 
-Interface-owned route bindings (`uapi/app/api/*`) stay thin. They import handlers
+Interface-owned route bindings (`apps/uapi/app/api/*`) stay thin. They import handlers
 from this package; handlers import narrower domain packages — not the reverse.
 
 ## Principles

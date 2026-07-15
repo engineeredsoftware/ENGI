@@ -232,7 +232,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     sourceRoots: [
       'packages/specifying/src/canonical/conversation-session-route-history.js',
       'packages/api/src/routes/conversations.ts',
-      'uapi/tests/api/conversationSessionRouteHistory.test.ts',
+      'apps/uapi/tests/api/conversationSessionRouteHistory.test.ts',
       'docs/conversations.md',
     ],
     publicDocsRefs: ['docs/conversations.md#route-local-history'],
@@ -276,7 +276,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     sourceRoots: [
       'packages/specifying/src/canonical/conversation-stream-event-contract.js',
       'packages/api/src/conversations/stream-events.ts',
-      'uapi/tests/conversationStreamPipelineLog.test.tsx',
+      'apps/uapi/tests/conversationStreamPipelineLog.test.tsx',
       'internal-docs/BITCODE_CONVERSATIONS.md',
     ],
     publicDocsRefs: ['docs/conversations.md#streaming-and-proof-roots'],
@@ -297,7 +297,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     alertThreshold: 'tool_policy_denial_or_repeated_failure_warning',
     sourceRoots: [
       'packages/api/src/conversations/stream-events.ts',
-      'uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx',
+      'apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx',
       'internal-docs/BITCODE_AGENTIC_EXECUTION.md',
       'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
@@ -319,8 +319,8 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     alertThreshold: 'source_policy_denial_spike_warning',
     sourceRoots: [
       'packages/specifying/src/canonical/conversation-source-selector.js',
-      'uapi/components/conversations/models/conversation-source-selector.ts',
-      'uapi/tests/conversationSourceSelector.test.tsx',
+      'apps/uapi/components/conversations/models/conversation-source-selector.ts',
+      'apps/uapi/tests/conversationSourceSelector.test.tsx',
       'docs/conversations.md',
     ],
     publicDocsRefs: ['docs/conversations.md#source-selection'],
@@ -341,8 +341,8 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     alertThreshold: 'handoff_blocked_or_terminal_context_missing_warning',
     sourceRoots: [
       'packages/specifying/src/canonical/conversation-terminal-handoff.js',
-      'uapi/components/conversations/models/conversation-terminal-handoff.ts',
-      'uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
+      'apps/uapi/components/conversations/models/conversation-terminal-handoff.ts',
+      'apps/uapi/components/conversations/ConversationTerminalHandoff/ConversationTerminalHandoff.tsx',
       'internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
     ],
     publicDocsRefs: ['docs/conversations.md#terminal-handoff'],
@@ -364,7 +364,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     sourceRoots: [
       'packages/specifying/src/canonical/conversation-session-route-history.js',
       'packages/api/src/routes/conversations.ts',
-      'uapi/components/conversations/ConversationsBranchMenuButton/ConversationsBranchMenuButton.tsx',
+      'apps/uapi/components/conversations/ConversationsBranchMenuButton/ConversationsBranchMenuButton.tsx',
       'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     publicDocsRefs: ['docs/conversations.md#retry-and-recovery'],
@@ -386,7 +386,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     sourceRoots: [
       'packages/api/src/conversations/privacy.ts',
       'packages/api/src/conversations/stream-events.ts',
-      'uapi/lib/bitcode-server-telemetry.ts',
+      'apps/uapi/lib/bitcode-server-telemetry.ts',
       'internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md',
     ],
     publicDocsRefs: ['docs/conversations.md#retry-and-recovery'],
@@ -408,7 +408,7 @@ export const CONVERSATION_TELEMETRY_PROOF_HOOK_ROWS = Object.freeze([
     sourceRoots: [
       'packages/specifying/src/canonical/conversation-stream-event-contract.js',
       'packages/api/src/conversations/messages.ts',
-      'uapi/components/conversations/ConversationsChat/ConversationsChat.tsx',
+      'apps/uapi/components/conversations/ConversationsChat/ConversationsChat.tsx',
       'docs/conversations.md',
     ],
     publicDocsRefs: ['docs/conversations.md#streaming-and-proof-roots'],

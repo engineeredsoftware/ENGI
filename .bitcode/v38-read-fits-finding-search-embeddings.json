@@ -405,7 +405,7 @@
     },
     {
       "id": "uapi-search-uses-embedding-config",
-      "sourcePath": "uapi/lib/search.ts",
+      "sourcePath": "apps/uapi/lib/search.ts",
       "passed": true
     },
     {
@@ -430,7 +430,7 @@
     },
     {
       "id": "terminal-streams-read-fits-harness",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     }
   ],
@@ -476,8 +476,8 @@
     "readingContractTests": "packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts",
     "lexicalTool": "packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts",
     "vectorEvidenceSearch": "packages/asset-packs-pipelines/domain/src/tools/search.ts",
-    "uapiSearch": "uapi/lib/search.ts",
-    "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "uapiSearch": "apps/uapi/lib/search.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
     "gate2Inventory": "packages/specifying/src/canonical/inference-surface-inventory.js",
     "gate3Stack": "packages/specifying/src/canonical/ptrr-failsafe-thricified-stack.js",
     "gate4Benchmark": "packages/specifying/src/canonical/prompt-benchmark-report.js",

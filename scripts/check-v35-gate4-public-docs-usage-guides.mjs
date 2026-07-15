@@ -125,10 +125,10 @@ function main() {
     'packages/specifying/test/v35-public-docs-usage-guide-catalog.test.js',
     'scripts/generate-v35-public-docs-usage-guides.mjs',
     'scripts/check-v35-gate4-public-docs-usage-guides.mjs',
-    'uapi/app/docs/bitcode-docs-content.ts',
-    'uapi/app/docs/page.tsx',
-    'uapi/app/docs/[slug]/page.tsx',
-    'uapi/app/docs/DocsArticlePage.tsx',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/app/docs/page.tsx',
+    'apps/uapi/app/docs/[slug]/page.tsx',
+    'apps/uapi/app/docs/DocsArticlePage.tsx',
     'packages/specifying/src/canonical/v21-specifying.js',
     'BITCODE_SPEC_V35.md',
     'BITCODE_SPEC_V35_DELTA.md',
@@ -240,7 +240,7 @@ function main() {
   const protocolReadme = read(root, 'packages/specifying/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const docsContent = read(root, 'uapi/app/docs/bitcode-docs-content.ts');
+  const docsContent = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');
   const source = read(root, 'packages/specifying/src/canonical/public-docs-usage-guide-catalog.js');
   const index = read(root, 'packages/specifying/src/index.js');
   const typeDefs = read(root, 'packages/specifying/src/index.d.ts');

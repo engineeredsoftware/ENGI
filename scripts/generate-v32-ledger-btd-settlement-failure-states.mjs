@@ -38,8 +38,8 @@ const testFiles = Object.freeze([
   'packages/btd/__tests__/source-to-shares.test.ts',
   'packages/btd/__tests__/api-boundaries.test.ts',
   'packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts',
-  'uapi/tests/terminalJournalReconciliation.test.ts',
-  'uapi/tests/terminalWalletBtcOperation.test.ts',
+  'apps/uapi/tests/terminalJournalReconciliation.test.ts',
+  'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
   'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
 ]);
 

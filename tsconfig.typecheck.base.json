@@ -169,7 +169,7 @@
         "packages/mcp-generics/src/index.ts"
       ],
       "@bitcode/generic-mcps-bitcode": [
-        "packages/generic-mcps/bitcode/src/index.ts"
+        "apps/mcp/src/index.ts"
       ],
       "@bitcode/generic-agents-ptrr": [
         "packages/generic-agents/PTRR/src/index.ts"
@@ -358,10 +358,10 @@
         "packages/mcp-generics/src/index.ts"
       ],
       "@bitcode/external-apps-chatgpt": [
-        "packages/external-apps/chatgpt/src/index.ts"
+        "apps/chatgpt/src/index.ts"
       ],
       "@bitcode/external-apps-claude": [
-        "packages/external-apps/claude/README.md"
+        "apps/claude/README.md"
       ],
       "@bitcode/supabase/ssr/*": [
         "packages/supabase/src/ssr/*"
@@ -792,7 +792,7 @@
         "packages/generic-llms/models/src/pricing.ts"
       ],
       "@/*": [
-        "uapi/*"
+        "apps/uapi/*"
       ],
       "@/lib/email": [
         "packages/notifications/src/index.ts"

@@ -45,7 +45,7 @@
       ],
       "authBoundary": "authenticated_route",
       "boundaryKind": "terminal_ui",
-      "fixturePath": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "fixturePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "objectFamilies": [
         "btd_registry",
         "read_access",
@@ -119,7 +119,7 @@
       ],
       "authBoundary": "confirmed_connected_write",
       "boundaryKind": "chatgpt_tool",
-      "fixturePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "fixturePath": "apps/chatgpt/src/__tests__/tools.test.ts",
       "objectFamilies": [
         "read_access",
         "organization_authority",
@@ -143,7 +143,7 @@
       ],
       "authBoundary": "support_plane_policy",
       "boundaryKind": "auxillaries_ui",
-      "fixturePath": "uapi/tests/auxillariesContent.access.test.tsx",
+      "fixturePath": "apps/uapi/tests/auxillariesContent.access.test.tsx",
       "objectFamilies": [
         "btd_registry",
         "organization_authority",
@@ -168,7 +168,7 @@
       "authBoundary": "deferred_not_admitted",
       "boundaryKind": "deferred_interface_hook",
       "deferredReason": "Exchange product depth is outside V32 Gate 6.",
-      "fixturePath": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "fixturePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "objectFamilies": [
         "btd_receipts",
         "btc_fee_operation",
@@ -192,7 +192,7 @@
       "authBoundary": "deferred_not_admitted",
       "boundaryKind": "deferred_interface_hook",
       "deferredReason": "Conversations product depth is outside V32 Gate 6.",
-      "fixturePath": "uapi/tests/api/conversationsRouteRead.test.ts",
+      "fixturePath": "apps/uapi/tests/api/conversationsRouteRead.test.ts",
       "objectFamilies": [
         "read_access",
         "organization_authority",
@@ -240,17 +240,17 @@
     "packages/btd/src/interface-contract-regression.ts",
     "packages/btd/src/interface-integration-contract.ts",
     "packages/btd/src/interface-integration.ts",
-    "uapi/app/terminal/terminal-interface-integration-regression.ts",
+    "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
     "packages/mcp-generics/src/mcp-server/src/interface-integration.ts",
-    "packages/external-apps/chatgpt/src/interface-integration.ts",
+    "apps/chatgpt/src/interface-integration.ts",
     "packages/btd/__tests__/v32-interface-contract-regression.test.ts",
     "packages/btd/__tests__/interface-integration.test.ts",
-    "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+    "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
     "packages/api/src/routes/__tests__/btd-crypto.test.ts",
     "packages/mcp-generics/src/mcp-server/src/__tests__/unit/pipeline-ingress-contract.test.ts",
-    "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
-    "uapi/tests/auxillariesContent.access.test.tsx",
-    "uapi/tests/api/conversationsRouteRead.test.ts"
+    "apps/chatgpt/src/__tests__/tools.test.ts",
+    "apps/uapi/tests/auxillariesContent.access.test.tsx",
+    "apps/uapi/tests/api/conversationsRouteRead.test.ts"
   ],
   "sourceEvidence": [
     {
@@ -291,7 +291,7 @@
     },
     {
       "digest": "sha256:e13b23c5679a5020c5d5cc4d899e25198febef12c6755f56a6c0dfff70684604",
-      "relativePath": "uapi/app/terminal/terminal-interface-integration-regression.ts",
+      "relativePath": "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -319,7 +319,7 @@
     },
     {
       "digest": "sha256:1196162b7949e519c7277b0387c6506abc0813dcc6dad0aea73df7cfbab9e834",
-      "relativePath": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "relativePath": "apps/chatgpt/src/__tests__/tools.test.ts",
       "requiredTokens": [
         {
           "present": true,
@@ -372,7 +372,7 @@
     },
     {
       "digest": "sha256:138bf2b8563dada41cdd6ab84f34ae0d491c917d8582a486cb6bb62f1a2e0ff4",
-      "relativePath": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "relativePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "requiredTokens": [
         {
           "present": true,

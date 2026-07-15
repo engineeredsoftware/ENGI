@@ -56,8 +56,8 @@ product routes (`/deposits`, `/reads`, `/packs`).
 | Layer | Location | Role |
 |---|---|---|
 | Domain packages | `packages/*` | Pure domain, APIs, pipelines, BTD, auth, analytics |
-| Next app | `uapi/app/*` | Thin page shells + HTTP adapters |
-| UI layers | `uapi/components/{shadcn,bitcode,<experience>}` | `Shadcn*` → `Bitcode*` → 7 experiences |
+| Next app | `apps/uapi/app/*` | Thin page shells + HTTP adapters |
+| UI layers | `apps/uapi/components/{shadcn,bitcode,<experience>}` | `Shadcn*` → `Bitcode*` → 7 experiences |
 
 **Dependency direction:** packages ← Bitcode/Shadcn ← experiences ← page shells.
 
@@ -65,7 +65,7 @@ product routes (`/deposits`, `/reads`, `/packs`).
 co-located `hooks/`, `styles/`, `__tests__/`. Full contract:
 [`internal-docs/BITCODE_SOURCE_LAYOUT.md`](internal-docs/BITCODE_SOURCE_LAYOUT.md).
 
-**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`FAMILIARIZATION.md`](FAMILIARIZATION.md) · [`uapi/ARCHITECTURE.md`](uapi/ARCHITECTURE.md) · [`uapi/components/README.md`](uapi/components/README.md).
+**Conventions for agents:** [`AGENTS.md`](AGENTS.md) · [`FAMILIARIZATION.md`](FAMILIARIZATION.md) · [`apps/uapi/ARCHITECTURE.md`](apps/uapi/ARCHITECTURE.md) · [`apps/uapi/components/README.md`](apps/uapi/components/README.md).
 
 ---
 
@@ -116,7 +116,7 @@ pnpm install
 
 ```bash
 # App (Next.js) — copy/adapt; never commit secrets
-cp uapi/.env.example uapi/.env.local # if present; else create from team secrets
+cp apps/uapi/.env.example apps/uapi/.env.local # if present; else create from team secrets
 
 # Minimum for deposit synthesis (live inference)
 # BITCODE_ASSET_PACK_REAL_INFERENCE=true
@@ -132,14 +132,14 @@ cp uapi/.env.example uapi/.env.local # if present; else create from team secrets
 
 ```bash
 # From repo root or uapi — follow team Supabase layout
-cd uapi && pnpm exec supabase start # if configured
+cd apps/uapi && pnpm exec supabase start # if configured
 # Apply migrations under supabase/migrations (executions, execution_events, …)
 ```
 
 ### App server
 
 ```bash
-cd uapi
+cd apps/uapi
 pnpm dev:remote # Next on 127.0.0.1
 # or: pnpm dev:local # supabase start + next (if available)
 ```
@@ -163,7 +163,7 @@ Full QA checklist: `BITCODE_V48_QA.md` → Gate 3 depositing runbook.
 
 | Path | Role |
 |---|---|
-| `uapi/` | Next.js app — `/deposits`, `/reads`, `/packs`, APIs |
+| `apps/uapi/` | Next.js app — `/deposits`, `/reads`, `/packs`, APIs |
 | `packages/asset-packs-pipelines/domain/` | SynthesizeAssetPacks SDIVF, deposit agents, policy, demand estimate |
 | `packages/asset-packs-pipelines/` | Product pipelines (synthesize-deposits/reads, settle-reads) |
 | `packages/asset-packs-generics/` | AssetPack protocol primitive |
@@ -214,7 +214,7 @@ pnpm exec node scripts/run-bitcode-spec-quality.mjs
 
 # Focused package tests (examples)
 pnpm --filter @bitcode/asset-packs-pipelines-domain test
-cd uapi && pnpm exec jest --testPathPattern='deposit'
+cd apps/uapi && pnpm exec jest --testPathPattern='deposit'
 ```
 
 ---
@@ -1408,17 +1408,17 @@ or promotion validation.
 - [BITCODE_SPEC_V43.md](BITCODE_SPEC_V43.md) is the active promoted spec family.
 - [BITCODE_SPEC_V44.md](BITCODE_SPEC_V44.md) is the active draft target.
 - [BITCODE_SPEC_V44_PARITY_MATRIX.md](BITCODE_SPEC_V44_PARITY_MATRIX.md) tracks V44 gate parity.
-- [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
-- [uapi/app/packs](uapi/app/packs) is the PackActivity and portfolio inspection route.
-- [uapi/app/read](uapi/app/read) is the Reading route.
-- [uapi/app/deposit](uapi/app/deposit) is the Depositing route.
-- [uapi/app/auxillaries/README.md](uapi/app/auxillaries/README.md) documents Auxillaries.
+- [apps/uapi/README.md](apps/uapi/README.md) documents the commercial website/API surface.
+- [apps/uapi/app/packs](apps/uapi/app/packs) is the PackActivity and portfolio inspection route.
+- [apps/uapi/app/read](apps/uapi/app/read) is the Reading route.
+- [apps/uapi/app/deposit](apps/uapi/app/deposit) is the Depositing route.
+- [apps/uapi/app/auxillaries/README.md](apps/uapi/app/auxillaries/README.md) documents Auxillaries.
 - [protocol-demonstration/README.md](protocol-demonstration/README.md) documents
  the deterministic demonstration.
 
 ## Repository Map
 
-- `uapi/`: commercial website, API routes, Terminal, Exchange, Auxillaries,
+- `apps/uapi/`: commercial website, API routes, Terminal, Exchange, Auxillaries,
  Conversations, public docs, and shared UI systems.
 - `protocol-demonstration/`: deterministic Bitcode demonstration, proof
  generator inputs, and standalone validation runtime.
@@ -1431,7 +1431,7 @@ or promotion validation.
 Mock-mode commercial review:
 
 ```bash
-cd uapi
+cd apps/uapi
 NEXT_PUBLIC_MASTER_MOCK_MODE=true \
 NEXT_PUBLIC_ENABLE_MOCKS=true \
 NEXT_PUBLIC_MOCK_USER_ORBITAL=true \
@@ -1445,7 +1445,7 @@ HOST=127.0.0.1 PORT=3000 pnpm dev:remote
 Commercial verification:
 
 ```bash
-cd uapi
+cd apps/uapi
 pnpm exec tsc --noEmit --pretty false
 pnpm run test:e2e:commercial-mvp
 ```

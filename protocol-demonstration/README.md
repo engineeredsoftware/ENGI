@@ -101,7 +101,7 @@ code.
 ## Required Doc Companions
 
 - [../README.md](../README.md)
-- [../uapi/README.md](../uapi/README.md)
-- [../uapi/app/terminal/README.md](../uapi/app/terminal/README.md)
-- [../uapi/app/exchange/README.md](../uapi/app/exchange/README.md)
-- [../uapi/app/auxillaries/README.md](../uapi/app/auxillaries/README.md)
+- [../apps/uapi/README.md](../apps/uapi/README.md)
+- [../apps/uapi/app/terminal/README.md](../apps/uapi/app/terminal/README.md)
+- [../apps/uapi/app/exchange/README.md](../apps/uapi/app/exchange/README.md)
+- [../apps/uapi/app/auxillaries/README.md](../apps/uapi/app/auxillaries/README.md)

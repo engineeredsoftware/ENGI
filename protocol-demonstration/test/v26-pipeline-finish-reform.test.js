@@ -34,7 +34,7 @@ const assetPackReadmeSource = readFileSync(
   'utf8'
 );
 const rootTsconfigSource = readFileSync(new URL('../../tsconfig.json', import.meta.url), 'utf8');
-const uapiNextConfigSource = readFileSync(new URL('../../uapi/next.config.mjs', import.meta.url), 'utf8');
+const uapiNextConfigSource = readFileSync(new URL('../../apps/uapi/next.config.mjs', import.meta.url), 'utf8');
 const pnpmLockSource = readFileSync(new URL('../../pnpm-lock.yaml', import.meta.url), 'utf8');
 const assetPackPhasesSource = readFileSync(
   new URL('../../packages/asset-packs-pipelines/domain/src/phases/index.ts', import.meta.url),

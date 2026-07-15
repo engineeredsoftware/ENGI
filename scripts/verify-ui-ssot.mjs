@@ -41,44 +41,44 @@ console.log('Bitcode UI SSOT verification start');
 
 // 1) No imports from vendored ui in app/VCS
 const banned = "@/components/ui/(button|card|input|label|select|tabs|dialog|alert-dialog|dropdown-menu|avatar|switch|textarea|progress|checkbox|popover|collapsible|command|calendar|tooltip|table|badge|alert)";
-assertZero("rg -n -e " + JSON.stringify(banned) + " uapi/app uapi/components/vcs --glob '!**/__tests__/**' --glob '!**/*.test.*' || true", "No app/VCS imports from vendored ui primitives (non-test)");
+assertZero("rg -n -e " + JSON.stringify(banned) + " apps/uapi/app apps/uapi/components/vcs --glob '!**/__tests__/**' --glob '!**/*.test.*' || true", "No app/VCS imports from vendored ui primitives (non-test)");
 
 // 2) components.css is globally imported (once) in layout
-assertSome("rg -n " + JSON.stringify("styles/components.css") + " uapi/app/layout.tsx || true", "Global import of styles/components.css in layout");
+assertSome("rg -n " + JSON.stringify("styles/components.css") + " apps/uapi/app/layout.tsx || true", "Global import of styles/components.css in layout");
 
 // 3) No duplicated WebKit scrollbar definitions outside SSOT
 const allowCss = 'components.css|conversations/|orbital';
-assertZero("rg -n " + JSON.stringify("::\-webkit\-scrollbar") + " uapi/app/styles | rg -v " + JSON.stringify(allowCss) + " || true", "No ::-webkit-scrollbar outside allowed CSS (components.css, conversations, user-orbital)");
+assertZero("rg -n " + JSON.stringify("::\-webkit\-scrollbar") + " apps/uapi/app/styles | rg -v " + JSON.stringify(allowCss) + " || true", "No ::-webkit-scrollbar outside allowed CSS (components.css, conversations, user-orbital)");
 
 // 4) Conversations container not wrapped by GPUAcceleration (to preserve sticky).
-// Conversations experience lives under uapi/components/conversations (not app/).
+// Conversations experience lives under apps/uapi/components/conversations (not app/).
 assertZero(
   "rg -n " +
     JSON.stringify("<GPUAcceleration className=\"conversations-container\"") +
-    " uapi/components/conversations uapi/app/conversations --glob '!**/__tests__/**' || true",
+    " apps/uapi/components/conversations apps/uapi/app/conversations --glob '!**/__tests__/**' || true",
   "No GPUAcceleration on .conversations-container",
 );
 assertZero(
   "rg -n " +
     JSON.stringify("<GPUAcceleration className=\"conversations-fullscreen\"") +
-    " uapi/components/conversations uapi/app/conversations --glob '!**/__tests__/**' || true",
+    " apps/uapi/components/conversations apps/uapi/app/conversations --glob '!**/__tests__/**' || true",
   "No GPUAcceleration on .conversations-fullscreen",
 );
 
 // 5) Bitcode execution primitives route scroll regions through the shared scrollbar utility.
-assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " uapi/components/bitcode/execution uapi/components/bitcode/panels || true", "Bitcode execution scroll regions use shared scrollbar classes");
+assertSome("rg -n " + JSON.stringify("custom-scrollbar") + " apps/uapi/components/bitcode/execution apps/uapi/components/bitcode/panels || true", "Bitcode execution scroll regions use shared scrollbar classes");
 
 // 6) Conversations split/message surfaces use content-vis + custom-scrollbar.
 assertSome(
   "rg -n " +
     JSON.stringify("content-vis") +
-    " uapi/components/conversations/ConversationsSplitGrid/ConversationsSplitGrid.tsx || true",
+    " apps/uapi/components/conversations/ConversationsSplitGrid/ConversationsSplitGrid.tsx || true",
   "Conversations split grid uses content-vis",
 );
 assertSome(
   "rg -n " +
     JSON.stringify("custom-scrollbar") +
-    " uapi/components/conversations/ConversationsSplitGrid/ConversationsSplitGrid.tsx uapi/components/conversations/ConversationsMessageWaterfall/ConversationsMessageWaterfall.tsx || true",
+    " apps/uapi/components/conversations/ConversationsSplitGrid/ConversationsSplitGrid.tsx apps/uapi/components/conversations/ConversationsMessageWaterfall/ConversationsMessageWaterfall.tsx || true",
   "Conversations surfaces use custom-scrollbar",
 );
 

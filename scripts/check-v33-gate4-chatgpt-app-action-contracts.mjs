@@ -148,9 +148,9 @@ function main() {
     ARTIFACT,
     'packages/btd/src/chatgpt-app-action-contract.ts',
     'packages/btd/__tests__/chatgpt-app-action-contract.test.ts',
-    'packages/external-apps/chatgpt/src/tools.ts',
-    'packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
-    'packages/external-apps/chatgpt/src/__tests__/tools.test.ts',
+    'apps/chatgpt/src/tools.ts',
+    'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts',
+    'apps/chatgpt/src/__tests__/tools.test.ts',
     'scripts/generate-v33-chatgpt-app-action-contracts.mjs',
     'scripts/check-v33-gate4-chatgpt-app-action-contracts.mjs',
     'BITCODE_SPEC_V33.md',
@@ -236,9 +236,9 @@ function main() {
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/chatgpt-app-action-contract.ts');
-  const chatgptSource = read(root, 'packages/external-apps/chatgpt/src/tools.ts');
+  const chatgptSource = read(root, 'apps/chatgpt/src/tools.ts');
   const btdTest = read(root, 'packages/btd/__tests__/chatgpt-app-action-contract.test.ts');
-  const chatgptTest = read(root, 'packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts');
+  const chatgptTest = read(root, 'apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts');
   const specifying = read(root, 'packages/specifying/src/canonical/v21-specifying.js');
 
   for (const doc of [spec, delta, notes, parity]) {

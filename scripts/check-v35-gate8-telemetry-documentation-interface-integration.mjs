@@ -129,13 +129,13 @@ function main() {
     'SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/specifying/README.md',
-    'uapi/app/terminal/README.md',
-    'uapi/app/auxillaries/README.md',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
-    'packages/generic-mcps/bitcode/README.md',
-    'packages/external-apps/chatgpt/README.md',
+    'apps/mcp/README.md',
+    'apps/chatgpt/README.md',
     'internal-docs/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
   ];
@@ -244,13 +244,13 @@ function main() {
   assertCheck(failures, roadmap.includes('V35 Gate 8 closure anchor'), 'Roadmap must include V35 Gate 8 closure anchor.');
 
   const activeSurfaceText = [
-    'uapi/app/terminal/README.md',
-    'uapi/app/auxillaries/README.md',
+    'apps/uapi/app/terminal/README.md',
+    'apps/uapi/app/auxillaries/README.md',
     'packages/api/README.md',
-    'packages/generic-mcps/bitcode/README.md',
-    'packages/external-apps/chatgpt/README.md',
+    'apps/mcp/README.md',
+    'apps/chatgpt/README.md',
     'internal-docs/README.md',
-    'uapi/app/docs/bitcode-docs-content.ts',
+    'apps/uapi/app/docs/bitcode-docs-content.ts',
   ].map((relativePath) => read(root, relativePath)).join('\n');
   for (const token of ['event ids', 'proof roots', 'docs links', 'runbook links', 'redaction posture']) {
     assertCheck(failures, activeSurfaceText.includes(token), `Active interface docs must mention ${token}.`);

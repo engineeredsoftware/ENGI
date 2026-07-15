@@ -296,13 +296,13 @@ function mapRightsSurface(
 function ownerPackage(surface: ReadingInterfaceProductParitySurface): string {
   switch (surface) {
     case 'terminal':
-      return 'uapi/components/bitcode/pipeline';
+      return 'apps/uapi/components/bitcode/pipeline';
     case 'conversation':
-      return 'uapi/app/conversations';
+      return 'apps/uapi/app/conversations';
     case 'public_api':
       return 'packages/api/src/routes';
     case 'mcp_api':
-      return 'packages/generic-mcps/bitcode';
+      return 'apps/mcp';
     case 'chatgpt_app':
       return 'packages/chatgptapp';
     case 'package_consumer':

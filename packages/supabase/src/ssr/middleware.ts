@@ -2,7 +2,7 @@
  * Next.js middleware helper that keeps the Supabase session cookie in sync so
  * that protected routes work both client and server-side.
  *
- * Direct copy of `uapi/utils/supabase/middleware.ts`.
+ * Direct copy of `apps/uapi/utils/supabase/middleware.ts`.
  */
 
 import { createServerClient, type CookieOptions } from '@supabase/ssr';

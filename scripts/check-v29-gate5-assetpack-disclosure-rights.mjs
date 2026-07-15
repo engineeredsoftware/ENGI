@@ -95,9 +95,9 @@ function main() {
     'packages/btd/src/access.ts',
     'packages/btd/src/settlement.ts',
     'packages/btd/__tests__/btd.test.ts',
-    'uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
-    'uapi/app/terminal/terminal-pipeline-host-client.ts',
-    'uapi/tests/terminalPipelineHarnessClient.test.ts',
+    'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx',
+    'apps/uapi/app/terminal/terminal-pipeline-host-client.ts',
+    'apps/uapi/tests/terminalPipelineHarnessClient.test.ts',
     'AGENTS.md',
     'README.md',
     '.github/pull_request_template.md',
@@ -120,9 +120,9 @@ function main() {
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');
-  const terminal = read(root, 'uapi/app/terminal/TerminalDepositReadWorkbench.tsx');
-  const terminalClient = read(root, 'uapi/app/terminal/terminal-pipeline-host-client.ts');
-  const terminalClientTest = read(root, 'uapi/tests/terminalPipelineHarnessClient.test.ts');
+  const terminal = read(root, 'apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx');
+  const terminalClient = read(root, 'apps/uapi/app/terminal/terminal-pipeline-host-client.ts');
+  const terminalClientTest = read(root, 'apps/uapi/tests/terminalPipelineHarnessClient.test.ts');
   const agents = read(root, 'AGENTS.md');
   const readme = read(root, 'README.md');
   const prTemplate = read(root, '.github/pull_request_template.md');

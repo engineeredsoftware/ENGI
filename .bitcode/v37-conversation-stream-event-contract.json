@@ -646,31 +646,31 @@
       "present": true
     },
     {
-      "sourceRoot": "uapi/hooks/useConversationStream.ts",
+      "sourceRoot": "apps/uapi/hooks/useConversationStream.ts",
       "present": true
     },
     {
-      "sourceRoot": "uapi/app/conversations/components/hooks/usePipelineState.ts",
+      "sourceRoot": "apps/uapi/app/conversations/components/hooks/usePipelineState.ts",
       "present": true
     },
     {
-      "sourceRoot": "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+      "sourceRoot": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
       "present": true
     },
     {
-      "sourceRoot": "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+      "sourceRoot": "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
       "present": true
     },
     {
-      "sourceRoot": "uapi/app/api/conversations/_shared.ts",
+      "sourceRoot": "apps/uapi/app/api/conversations/_shared.ts",
       "present": true
     },
     {
-      "sourceRoot": "uapi/tests/api/conversationStreamEventContract.test.ts",
+      "sourceRoot": "apps/uapi/tests/api/conversationStreamEventContract.test.ts",
       "present": true
     },
     {
-      "sourceRoot": "uapi/tests/conversationStreamPipelineLog.test.tsx",
+      "sourceRoot": "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
       "present": true
     }
   ],

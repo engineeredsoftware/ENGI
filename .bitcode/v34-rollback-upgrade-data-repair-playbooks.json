@@ -55,7 +55,7 @@
       "playbookId": "deployment_rollback",
       "label": "deployment rollback playbook",
       "playbookClass": "rollback",
-      "ownerPackage": "uapi",
+      "ownerPackage": "apps/uapi",
       "requiredHostIds": [
         "website",
         "api"

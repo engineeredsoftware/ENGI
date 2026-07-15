@@ -71,12 +71,12 @@ const SOURCE_ROOTS = Object.freeze({
   btdSourceToShares: 'packages/btd/src/source-to-shares.ts',
   btdSettlement: 'packages/btd/src/settlement.ts',
   btdReconciliation: 'packages/btd/src/reconciliation.ts',
-  uapiContract: 'uapi/app/bitcode-ledger-storage-sync.ts',
-  uapiContractTest: 'uapi/tests/bitcodeLedgerStorageSync.test.ts',
-  terminalWalletTest: 'uapi/tests/terminalWalletBtcOperation.test.ts',
-  terminalJournalTest: 'uapi/tests/terminalJournalReconciliation.test.ts',
-  terminalDetailTest: 'uapi/tests/terminalTransactionDetailCards.test.tsx',
-  transactionWriteReadinessTest: 'uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+  uapiContract: 'apps/uapi/app/bitcode-ledger-storage-sync.ts',
+  uapiContractTest: 'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
+  terminalWalletTest: 'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
+  terminalJournalTest: 'apps/uapi/tests/terminalJournalReconciliation.test.ts',
+  terminalDetailTest: 'apps/uapi/tests/terminalTransactionDetailCards.test.tsx',
+  transactionWriteReadinessTest: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
   v40Spec: 'BITCODE_SPEC_V40.md',
   v40Delta: 'BITCODE_SPEC_V40_DELTA.md',
   v40Notes: 'BITCODE_SPEC_V40_NOTES.md',
@@ -177,7 +177,7 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
     testPaths: [SOURCE_ROOTS.settlementBoundaryTest, SOURCE_ROOTS.terminalWalletTest, SOURCE_ROOTS.transactionWriteReadinessTest],
     commandIds: [
       'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts tests/api/transactionWriteReadinessRoutes.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts tests/api/transactionWriteReadinessRoutes.test.ts --runInBand',
     ],
     requiredEvidence: ['confirmed finality', 'reader wallet session', 'server custody rejected', 'payment observation root'],
     closureRequirement:
@@ -214,7 +214,7 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
     testPaths: [SOURCE_ROOTS.settlementBoundaryTest, SOURCE_ROOTS.terminalJournalTest],
     commandIds: [
       'pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/reconciliation.test.ts --runInBand --forceExit',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalJournalReconciliation.test.ts --runInBand',
     ],
     requiredEvidence: ['ledger observed fact', 'database projected fact', 'object storage artifact fact', 'reconciliation root'],
     closureRequirement:
@@ -226,7 +226,7 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
     sourceRoots: [SOURCE_ROOTS.settlementBoundary, SOURCE_ROOTS.previewBoundary, SOURCE_ROOTS.uapiContract],
     testPaths: [SOURCE_ROOTS.uapiContractTest, SOURCE_ROOTS.settlementBoundaryTest],
     commandIds: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/bitcodeLedgerStorageSync.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/bitcodeLedgerStorageSync.test.ts --runInBand',
     ],
     requiredEvidence: ['source-safe projection', 'storage root', 'artifact lock', 'unpaid source absent'],
     closureRequirement:
@@ -274,7 +274,7 @@ export const V40_LEDGER_STORAGE_SYNC_ROWS = Object.freeze([
     sourceRoots: [SOURCE_ROOTS.uapiContract, SOURCE_ROOTS.terminalDetailTest, SOURCE_ROOTS.terminalJournalTest],
     testPaths: [SOURCE_ROOTS.uapiContractTest, SOURCE_ROOTS.terminalDetailTest, SOURCE_ROOTS.terminalJournalTest],
     commandIds: [
-      'pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand',
+      'pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionDetailCards.test.tsx tests/terminalJournalReconciliation.test.ts --runInBand',
     ],
     requiredEvidence: ['Terminal settlement status', 'journal reconciliation state', 'delivery posture', 'source-safe detail card'],
     closureRequirement:

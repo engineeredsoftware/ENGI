@@ -22,20 +22,20 @@
     "checker": "scripts/check-v46-gate4-product-route-comprehension-readback.mjs:483822ed6cd2809c20ee8fe5",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:379d7561d515468f9237bf02",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd",
-    "productRouteShell": "uapi/components/base/bitcode/routes/product-route-shell.tsx:2d7125f4da681fe3b0365cdc",
-    "packsClient": "uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
-    "packsModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
-    "packsApi": "uapi/app/api/packs/activity/route.ts:31a4c4c8731c857c1442cea0",
-    "packsTest": "uapi/tests/packsPageClient.test.tsx:65fdbfca8be6f0b11ed59576",
-    "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
-    "readModel": "uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
-    "readStepModel": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts:fb152fb0cc1d0799d1d616d6",
-    "readClientTest": "uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
-    "readModelTest": "uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
-    "depositModel": "uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
-    "depositClientTest": "uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
-    "depositModelTest": "uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad"
+    "productRouteShell": "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx:2d7125f4da681fe3b0365cdc",
+    "packsClient": "apps/uapi/app/packs/PacksPageClient.tsx:b4650917f1b8e9bd621737d9",
+    "packsModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
+    "packsApi": "apps/uapi/app/api/packs/activity/route.ts:31a4c4c8731c857c1442cea0",
+    "packsTest": "apps/uapi/tests/packsPageClient.test.tsx:65fdbfca8be6f0b11ed59576",
+    "readClient": "apps/uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "readModel": "apps/uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
+    "readStepModel": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts:fb152fb0cc1d0799d1d616d6",
+    "readClientTest": "apps/uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
+    "readModelTest": "apps/uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
+    "depositClient": "apps/uapi/app/deposit/DepositPageClient.tsx:a2f40f51107ad7500318ec5a",
+    "depositModel": "apps/uapi/app/deposit/deposit-route-model.ts:f751aa1958d609894752b737",
+    "depositClientTest": "apps/uapi/tests/depositPageClient.test.tsx:83234813537f5b97a59a7445",
+    "depositModelTest": "apps/uapi/tests/depositRouteModel.test.ts:5ce2e42d4c249ad5a5a70aad"
   },
   "routeIds": [
     "packs",
@@ -80,11 +80,11 @@
       "routePath": "/packs",
       "routeRole": "searchable source-safe PackActivity master-detail and market activity readback",
       "sourcePaths": [
-        "uapi/app/packs/PacksPageClient.tsx",
-        "uapi/components/base/bitcode/activity/pack-activity-model.ts",
-        "uapi/app/api/packs/activity/route.ts",
-        "uapi/tests/packsPageClient.test.tsx",
-        "uapi/components/base/bitcode/routes/product-route-shell.tsx"
+        "apps/uapi/app/packs/PacksPageClient.tsx",
+        "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
+        "apps/uapi/app/api/packs/activity/route.ts",
+        "apps/uapi/tests/packsPageClient.test.tsx",
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -173,12 +173,12 @@
       "routePath": "/read",
       "routeRole": "five-step Reading procurement route from Read Request to settled delivery",
       "sourcePaths": [
-        "uapi/app/read/ReadPageClient.tsx",
-        "uapi/app/read/read-route-model.ts",
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/tests/readPageClient.test.tsx",
-        "uapi/tests/readRouteModel.test.ts",
-        "uapi/components/base/bitcode/routes/product-route-shell.tsx"
+        "apps/uapi/app/read/ReadPageClient.tsx",
+        "apps/uapi/app/read/read-route-model.ts",
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/tests/readPageClient.test.tsx",
+        "apps/uapi/tests/readRouteModel.test.ts",
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -270,11 +270,11 @@
       "routePath": "/deposit",
       "routeRole": "five-step Depositing route from connected source to Depository admission",
       "sourcePaths": [
-        "uapi/app/deposit/DepositPageClient.tsx",
-        "uapi/app/deposit/deposit-route-model.ts",
-        "uapi/tests/depositPageClient.test.tsx",
-        "uapi/tests/depositRouteModel.test.ts",
-        "uapi/components/base/bitcode/routes/product-route-shell.tsx"
+        "apps/uapi/app/deposit/DepositPageClient.tsx",
+        "apps/uapi/app/deposit/deposit-route-model.ts",
+        "apps/uapi/tests/depositPageClient.test.tsx",
+        "apps/uapi/tests/depositRouteModel.test.ts",
+        "apps/uapi/components/base/bitcode/routes/product-route-shell.tsx"
       ],
       "claimIds": [
         "assetpack-is-commodity",
@@ -534,17 +534,17 @@
       },
       {
         "id": "packs-route-uses-shared-shell",
-        "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+        "sourcePath": "apps/uapi/app/packs/PacksPageClient.tsx",
         "passed": true
       },
       {
         "id": "read-route-uses-five-step-shell",
-        "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+        "sourcePath": "apps/uapi/app/read/ReadPageClient.tsx",
         "passed": true
       },
       {
         "id": "deposit-route-uses-five-step-shell",
-        "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+        "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
         "passed": true
       }
     ],

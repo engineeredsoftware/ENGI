@@ -82,7 +82,7 @@
     },
     {
       "rowId": "compensation-and-packs-sync",
-      "owner": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "owner": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "contract": "Admitted options preserve Gate 6 BTC source-to-shares compensation preview and synchronize to /packs as Depository AssetPack activity without minting BTD.",
       "requiredFields": [
         "compensationPreview",
@@ -127,13 +127,13 @@
     "optionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
     "policyModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
     "admissionModelTest": "packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-option-admission.test.ts:9f156ea0d8c603487a7a8152",
-    "routeModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
-    "client": "uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
-    "routeModelTest": "uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
-    "pageTest": "uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
-    "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "packActivityModelTest": "uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
-    "uapiJestConfig": "uapi/jest.config.cjs:7384e1c2812fc3479936eef8",
+    "routeModel": "apps/uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
+    "client": "apps/uapi/app/deposit/DepositPageClient.tsx:8526b7980e568ab7d5228e8f",
+    "routeModelTest": "apps/uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
+    "pageTest": "apps/uapi/tests/depositPageClient.test.tsx:3385b14ea538e4ea1bb3ed01",
+    "packActivityModel": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
+    "packActivityModelTest": "apps/uapi/tests/packActivityModel.test.ts:e6c865c6b351c41c6b6e1f43",
+    "uapiJestConfig": "apps/uapi/jest.config.cjs:7384e1c2812fc3479936eef8",
     "packageIndex": "packages/asset-packs-pipelines/domain/src/index.ts:aca8dabbfc7a4348a1e9eed8",
     "packageManifest": "packages/asset-packs-pipelines/domain/package.json:6e9dd21d8ac1fb420997527a",
     "protocolIndex": "packages/specifying/src/index.js:1f16ea428bd71351a1292cb6",
@@ -225,17 +225,17 @@
     },
     {
       "id": "route-model-owns-admission",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "sourcePath": "apps/uapi/app/deposit/deposit-route-model.ts",
       "passed": true
     },
     {
       "id": "deposit-client-renders-admission",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "sourcePath": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "passed": true
     },
     {
       "id": "pack-activity-recognizes-admission",
-      "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
+      "sourcePath": "apps/uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
@@ -250,7 +250,7 @@
     },
     {
       "id": "uapi-jest-maps-admission",
-      "sourcePath": "uapi/jest.config.cjs",
+      "sourcePath": "apps/uapi/jest.config.cjs",
       "passed": true
     },
     {
@@ -260,17 +260,17 @@
     },
     {
       "id": "route-test-covers-admission",
-      "sourcePath": "uapi/tests/depositRouteModel.test.ts",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
       "passed": true
     },
     {
       "id": "page-test-covers-admission",
-      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
       "passed": true
     },
     {
       "id": "pack-activity-test-covers-admission",
-      "sourcePath": "uapi/tests/packActivityModel.test.ts",
+      "sourcePath": "apps/uapi/tests/packActivityModel.test.ts",
       "passed": true
     },
     {

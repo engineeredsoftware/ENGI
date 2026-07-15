@@ -12,8 +12,8 @@
       "rowId": "stage:request-read",
       "purpose": "Represent the first Terminal Reading stage where the reader selects source anchors, frames the request, records measured Read posture, and keeps protected source hidden.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingStepView",
@@ -51,8 +51,8 @@
       "rowId": "stage:review-synthesized-need",
       "purpose": "Represent the reviewable ReadNeedComprehensionSynthesis output stage before any Depository search is admitted.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalReadNeedState",
@@ -90,9 +90,9 @@
       "rowId": "stage:request-finding-fits",
       "purpose": "Represent the accepted-Need gate that starts ReadFitsFindingSynthesis and feeds source-safe stream telemetry into the rich execution log.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts"
       ],
       "emittedTypes": [
         "TerminalReadFitsFindingSynthesisHarnessRequest",
@@ -130,8 +130,8 @@
       "rowId": "stage:review-assetpack-preview",
       "purpose": "Represent source-safe AssetPack preview and quote review without disclosing source-bearing AssetPack contents before settlement.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingStepView"
@@ -168,8 +168,8 @@
       "rowId": "stage:buy-assetpack-settle",
       "purpose": "Represent BTC quote settlement, BTD rights unlock, ledger readback, and delivery posture while private wallet and settlement payloads remain hidden.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingStepView"
@@ -206,8 +206,8 @@
       "rowId": "route:conversation-terminal-reading-stage",
       "purpose": "Carry source-safe Reading stage intent from Conversation into Terminal route query state while Terminal remains the transaction authority.",
       "sourceRoots": [
-        "uapi/app/conversations/conversation-terminal-handoff.ts",
-        "uapi/app/terminal/terminal-transaction-query.ts"
+        "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+        "apps/uapi/app/terminal/terminal-transaction-query.ts"
       ],
       "emittedTypes": [
         "ConversationTerminalHandoffEnvelope.readingStage",
@@ -245,9 +245,9 @@
       "rowId": "stream:readfitsfinding-log-panel",
       "purpose": "Project ReadFitsFindingSynthesis telemetry into the existing rich execution stream with phase, PTRR, Failsafe, ThricifiedGeneration, tool, prompt, and schema metadata.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx"
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "emittedTypes": [
         "TerminalReadFitsFindingSynthesisHarnessStreamSnapshot",
@@ -287,9 +287,9 @@
       "rowId": "disclosure:source-safe-low-detail-expandable",
       "purpose": "Default the Reading UX to low-detail guidance while expandable details remain source-safe and forbid protected source, raw prompts, provider responses, unpaid AssetPack source, credentials, and private settlement material.",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-        "uapi/tests/terminalEnterpriseReadingUxState.test.ts"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+        "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts"
       ],
       "emittedTypes": [
         "TerminalEnterpriseReadingUxState.disclosure"
@@ -326,12 +326,12 @@
       "rowId": "proof:component-browser-workflow",
       "purpose": "Bind Gate 3 to component tests, route-state tests, source-safe disclosure tests, and the maintained opt-in Terminal browser proof workflow.",
       "sourceRoots": [
-        "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
-        "uapi/tests/terminalDepositReadWorkbench.test.ts",
-        "uapi/tests/conversationTerminalHandoff.test.tsx",
-        "uapi/tests/terminalTransactionQuery.test.ts",
-        "uapi/tests/terminalUxBrowserProof.test.tsx",
-        "uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
+        "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+        "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/tests/terminalTransactionQuery.test.ts",
+        "apps/uapi/tests/terminalUxBrowserProof.test.tsx",
+        "apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
         ".github/workflows/bitcode-gate-quality.yml"
       ],
       "emittedTypes": [
@@ -387,82 +387,82 @@
   "predicateResults": [
     {
       "id": "ux-state-defines-five-stage-contract",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "ux-state-source-safety-disclosure",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "ux-state-forbids-protected-payloads",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "workbench-renders-stage-state-cards",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "workbench-renders-execution-stream-panel",
-      "sourcePath": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "sourcePath": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "passed": true
     },
     {
       "id": "workbench-contract-reexports-stage-ids",
-      "sourcePath": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
       "passed": true
     },
     {
       "id": "harness-projects-rich-reading-telemetry",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "conversation-handoff-carries-reading-stage",
-      "sourcePath": "uapi/app/conversations/conversation-terminal-handoff.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
       "passed": true
     },
     {
       "id": "terminal-query-reads-reading-stage",
-      "sourcePath": "uapi/app/terminal/terminal-transaction-query.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-transaction-query.ts",
       "passed": true
     },
     {
       "id": "ux-state-tests-cover-source-safety",
-      "sourcePath": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
       "passed": true
     },
     {
       "id": "workbench-tests-cover-five-stage-labels",
-      "sourcePath": "uapi/tests/terminalDepositReadWorkbench.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
       "passed": true
     },
     {
       "id": "handoff-tests-cover-reading-stage-route",
-      "sourcePath": "uapi/tests/conversationTerminalHandoff.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
       "passed": true
     },
     {
       "id": "query-tests-cover-reading-stage-route",
-      "sourcePath": "uapi/tests/terminalTransactionQuery.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalTransactionQuery.test.ts",
       "passed": true
     },
     {
       "id": "stream-tests-cover-rich-header",
-      "sourcePath": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "sourcePath": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "passed": true
     },
     {
       "id": "browser-proof-contract-retained",
-      "sourcePath": "uapi/tests/terminalUxBrowserProof.test.tsx",
+      "sourcePath": "apps/uapi/tests/terminalUxBrowserProof.test.tsx",
       "passed": true
     },
     {
       "id": "browser-proof-e2e-retained",
-      "sourcePath": "uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
+      "sourcePath": "apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
       "passed": true
     },
     {
@@ -531,19 +531,19 @@
     "legacySourceRoots": false
   },
   "sourceRoots": {
-    "terminalUxState": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-    "terminalWorkbench": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
-    "terminalWorkbenchContract": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
-    "terminalHarnessClient": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-    "conversationHandoff": "uapi/app/conversations/conversation-terminal-handoff.ts",
-    "terminalRouteQuery": "uapi/app/terminal/terminal-transaction-query.ts",
-    "uxStateTest": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
-    "workbenchTest": "uapi/tests/terminalDepositReadWorkbench.test.ts",
-    "handoffTest": "uapi/tests/conversationTerminalHandoff.test.tsx",
-    "queryTest": "uapi/tests/terminalTransactionQuery.test.ts",
-    "streamHeaderTest": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
-    "browserProofTest": "uapi/tests/terminalUxBrowserProof.test.tsx",
-    "browserProofE2e": "uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
+    "terminalUxState": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+    "terminalWorkbench": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+    "terminalWorkbenchContract": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
+    "terminalHarnessClient": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+    "conversationHandoff": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+    "terminalRouteQuery": "apps/uapi/app/terminal/terminal-transaction-query.ts",
+    "uxStateTest": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+    "workbenchTest": "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
+    "handoffTest": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+    "queryTest": "apps/uapi/tests/terminalTransactionQuery.test.ts",
+    "streamHeaderTest": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
+    "browserProofTest": "apps/uapi/tests/terminalUxBrowserProof.test.tsx",
+    "browserProofE2e": "apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml",
     "v39Spec": "BITCODE_SPEC_V39.md",
     "v39Delta": "BITCODE_SPEC_V39_DELTA.md",
@@ -551,8 +551,8 @@
     "v39Parity": "BITCODE_SPEC_V39_PARITY_MATRIX.md",
     "roadmap": "SPECIFICATIONS_ROADMAP.md",
     "rootReadme": "README.md",
-    "terminalReadme": "uapi/app/terminal/README.md",
-    "conversationReadme": "uapi/app/conversations/README.md",
+    "terminalReadme": "apps/uapi/app/terminal/README.md",
+    "conversationReadme": "apps/uapi/app/conversations/README.md",
     "protocolReadme": "packages/specifying/README.md"
   }
 }

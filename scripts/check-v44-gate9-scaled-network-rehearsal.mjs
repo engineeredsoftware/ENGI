@@ -259,7 +259,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi enterprise route tests must pass for Gate 9 scaled readback.');
     }

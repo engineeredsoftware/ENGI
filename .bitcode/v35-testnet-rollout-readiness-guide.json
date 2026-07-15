@@ -221,11 +221,11 @@
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
-        "uapi/README.md",
+        "apps/uapi/README.md",
         "protocol-demonstration/README.md"
       ],
       "reproducibleCommands": [
-        "pnpm --dir uapi exec tsc --noEmit --pretty false",
+        "pnpm --dir apps/uapi exec tsc --noEmit --pretty false",
         "pnpm --filter @bitcode/specifying test",
         "npm --prefix protocol-demonstration run test:v28-mvp-qa"
       ],
@@ -325,7 +325,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/README.md",
+          "sourceRoot": "apps/uapi/README.md",
           "present": true
         },
         {
@@ -535,11 +535,11 @@
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
-        "uapi/app/terminal/README.md",
-        "uapi/app/docs/bitcode-docs-content.ts"
+        "apps/uapi/app/terminal/README.md",
+        "apps/uapi/app/docs/bitcode-docs-content.ts"
       ],
       "reproducibleCommands": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalDepositReadWorkbench.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalDepositReadWorkbench.test.ts --runInBand",
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts --runInBand"
       ],
       "guideExamples": [
@@ -638,11 +638,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         }
       ],
@@ -691,12 +691,12 @@
         ".bitcode/v35-public-docs-usage-guides.json",
         ".bitcode/v35-operator-runbook-catalog.json",
         ".bitcode/v35-docs-qa-alignment-report.json",
-        "uapi/app/terminal/README.md",
+        "apps/uapi/app/terminal/README.md",
         "packages/btd/src/deployment-readiness-rehearsal.ts"
       ],
       "reproducibleCommands": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/api/vcsRoutes.test.ts --runInBand",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/api/vcsRoutes.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand"
       ],
       "guideExamples": [
         "Depositor guidance may explain repository anchoring, proof roots, rights posture, and payout receipts.",
@@ -713,7 +713,7 @@
         ".bitcode/v35-docs-qa-alignment-report.json"
       ],
       "validationCommands": [
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalTransactionReadModel.test.ts --runInBand"
       ],
       "allowedDisclosure": [
         "lane_ids",
@@ -793,7 +793,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
@@ -848,7 +848,7 @@
         ".bitcode/v35-docs-qa-alignment-report.json",
         "packages/api/README.md",
         "packages/mcp-generics/src/mcp-server/README.md",
-        "packages/external-apps/chatgpt/README.md"
+        "apps/chatgpt/README.md"
       ],
       "reproducibleCommands": [
         "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/interface-authorization-policy.test.ts",
@@ -958,7 +958,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         }
       ],
@@ -1179,7 +1179,7 @@
       ],
       "reproducibleCommands": [
         "pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/btc-fee-operation.test.ts",
-        "pnpm --dir uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest --runTestsByPath tests/terminalWalletBtcOperation.test.ts --runInBand",
         "pnpm run check:v35-gate7"
       ],
       "guideExamples": [
@@ -1820,7 +1820,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/README.md",
+          "sourceRoot": "apps/uapi/README.md",
           "present": true
         },
         {
@@ -1952,11 +1952,11 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/docs/bitcode-docs-content.ts",
+          "sourceRoot": "apps/uapi/app/docs/bitcode-docs-content.ts",
           "present": true
         }
       ]
@@ -2018,7 +2018,7 @@
           "present": true
         },
         {
-          "sourceRoot": "uapi/app/terminal/README.md",
+          "sourceRoot": "apps/uapi/app/terminal/README.md",
           "present": true
         },
         {
@@ -2092,7 +2092,7 @@
           "present": true
         },
         {
-          "sourceRoot": "packages/external-apps/chatgpt/README.md",
+          "sourceRoot": "apps/chatgpt/README.md",
           "present": true
         }
       ]

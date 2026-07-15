@@ -79,9 +79,9 @@ function printHelp() {
 function runIntegrationSmoke(root, failures) {
   const commands = [
     ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-api-integration-contracts.test.js']],
-    ['pnpm', ['--dir', 'uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/api/conversationsRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/api/walletOAuthRoutes.test.ts', 'tests/api/webhookSignature.test.ts']],
+    ['pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'tests/api/readReviewRoute.test.ts', 'tests/api/pipelineHostRoute.test.ts', 'tests/api/conversationsRoute.test.ts', 'tests/api/vcsRoutes.test.ts', 'tests/api/walletOAuthRoutes.test.ts', 'tests/api/webhookSignature.test.ts']],
     ['pnpm', ['--filter', '@bitcode/api', 'test']],
-    ['pnpm', ['--dir', 'packages/generic-mcps/bitcode', 'run', 'test:mcp']],
+    ['pnpm', ['--dir', 'apps/mcp', 'run', 'test:mcp']],
     ['pnpm', ['--dir', 'packages/chatgptapp', 'test']],
   ];
 

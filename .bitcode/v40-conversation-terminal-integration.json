@@ -28,18 +28,18 @@
       "integrationSurfaceId": "conversation:terminal-handoff-route-contract",
       "integrationKind": "handoff-route-contract",
       "sourceRoots": [
-        "uapi/app/conversations/conversation-terminal-handoff.ts",
-        "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
-        "uapi/app/terminal/terminal-transaction-query.ts",
-        "uapi/app/terminal/terminal-routes.ts"
+        "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
+        "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+        "apps/uapi/app/terminal/terminal-transaction-query.ts",
+        "apps/uapi/app/terminal/terminal-routes.ts"
       ],
       "testPaths": [
-        "uapi/tests/conversationTerminalHandoff.test.tsx",
-        "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx",
-        "uapi/tests/terminalTransactionQuery.test.ts"
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx",
+        "apps/uapi/tests/terminalTransactionQuery.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/conversationTerminalHandoff.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx tests/terminalTransactionQuery.test.ts --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/conversationTerminalHandoff.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx tests/terminalTransactionQuery.test.ts --runInBand"
       ],
       "requiredSourceMarkers": [
         "buildConversationTerminalHandoffEnvelope",
@@ -89,19 +89,19 @@
       "integrationKind": "stream-to-log-rendering",
       "sourceRoots": [
         "packages/api/src/conversations/stream-events.ts",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
-        "uapi/app/conversations/components/ConversationsSidebarLogs.tsx"
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx",
+        "apps/uapi/app/conversations/components/ConversationsSidebarLogs.tsx"
       ],
       "testPaths": [
         "packages/api/src/conversations/__tests__/stream-events.test.ts",
-        "uapi/tests/conversationStreamPipelineLog.test.tsx",
-        "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx",
-        "uapi/tests/pipelineExecutionLogHeader.test.tsx"
+        "apps/uapi/tests/conversationStreamPipelineLog.test.tsx",
+        "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx",
+        "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx"
       ],
       "commandIds": [
         "pnpm --filter @bitcode/api exec jest src/conversations/__tests__/stream-events.test.ts --runInBand --forceExit",
-        "pnpm --dir uapi exec jest tests/conversationStreamPipelineLog.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx tests/pipelineExecutionLogHeader.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/conversationStreamPipelineLog.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx tests/pipelineExecutionLogHeader.test.tsx --runInBand"
       ],
       "requiredSourceMarkers": [
         "buildConversationStreamEvent",
@@ -150,29 +150,29 @@
       "integrationSurfaceId": "conversation:route-api-persistence-branch-contracts",
       "integrationKind": "route-api-contracts",
       "sourceRoots": [
-        "uapi/app/api/conversations/route.ts",
-        "uapi/app/api/conversations/[conversationId]/route.ts",
-        "uapi/app/api/conversations/[conversationId]/stream/route.ts",
-        "uapi/app/api/conversations/branch/route.ts",
-        "uapi/app/api/conversations/stream/route.ts",
+        "apps/uapi/app/api/conversations/route.ts",
+        "apps/uapi/app/api/conversations/[conversationId]/route.ts",
+        "apps/uapi/app/api/conversations/[conversationId]/stream/route.ts",
+        "apps/uapi/app/api/conversations/branch/route.ts",
+        "apps/uapi/app/api/conversations/stream/route.ts",
         "packages/api/src/conversations/conversations.ts",
         "packages/api/src/conversations/privacy.ts",
         "packages/api/src/conversations/telemetry.ts"
       ],
       "testPaths": [
-        "uapi/tests/api/conversationsRoute.test.ts",
-        "uapi/tests/api/conversationsRouteRead.test.ts",
-        "uapi/tests/api/chatStreamRoute.test.ts",
-        "uapi/tests/api/conversationThreadStreamRoute.test.ts",
-        "uapi/tests/api/conversationBranchRoute.test.ts",
-        "uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
-        "uapi/tests/api/conversationTelemetryProofHooks.test.ts",
+        "apps/uapi/tests/api/conversationsRoute.test.ts",
+        "apps/uapi/tests/api/conversationsRouteRead.test.ts",
+        "apps/uapi/tests/api/chatStreamRoute.test.ts",
+        "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
+        "apps/uapi/tests/api/conversationBranchRoute.test.ts",
+        "apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts",
+        "apps/uapi/tests/api/conversationTelemetryProofHooks.test.ts",
         "packages/api/src/conversations/__tests__/branch-conversation.test.ts",
         "packages/api/src/conversations/__tests__/privacy.test.ts",
         "packages/api/src/conversations/__tests__/telemetry.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/conversationsRoute.test.ts tests/api/conversationBranchRoute.test.ts tests/api/conversationTelemetryProofHooks.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest tests/api/conversationsRoute.test.ts tests/api/conversationBranchRoute.test.ts tests/api/conversationTelemetryProofHooks.test.ts --runInBand",
         "pnpm --filter @bitcode/api exec jest src/conversations/__tests__/branch-conversation.test.ts src/conversations/__tests__/privacy.test.ts src/conversations/__tests__/telemetry.test.ts --runInBand --forceExit"
       ],
       "requiredSourceMarkers": [
@@ -223,20 +223,20 @@
       "integrationSurfaceId": "conversation:writing-source-selector-handoff",
       "integrationKind": "writing-source-selector-handoff",
       "sourceRoots": [
-        "uapi/app/conversations/conversation-writing-workspace.ts",
-        "uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
-        "uapi/app/conversations/conversation-source-selector.ts",
-        "uapi/app/conversations/components/ConversationSourceSelector.tsx",
-        "uapi/app/conversations/components/ConversationsOverlay.tsx"
+        "apps/uapi/app/conversations/conversation-writing-workspace.ts",
+        "apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx",
+        "apps/uapi/app/conversations/conversation-source-selector.ts",
+        "apps/uapi/app/conversations/components/ConversationSourceSelector.tsx",
+        "apps/uapi/app/conversations/components/ConversationsOverlay.tsx"
       ],
       "testPaths": [
-        "uapi/tests/conversationWritingWorkspace.test.tsx",
-        "uapi/tests/conversationSourceSelector.test.tsx",
-        "uapi/tests/conversationsOverlayMapping.test.ts",
-        "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
+        "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
+        "apps/uapi/tests/conversationSourceSelector.test.tsx",
+        "apps/uapi/tests/conversationsOverlayMapping.test.ts",
+        "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/conversationWritingWorkspace.test.tsx tests/conversationSourceSelector.test.tsx tests/conversationsOverlayMapping.test.ts tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/conversationWritingWorkspace.test.tsx tests/conversationSourceSelector.test.tsx tests/conversationsOverlayMapping.test.ts tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand"
       ],
       "requiredSourceMarkers": [
         "ConversationWritingWorkspace",
@@ -286,18 +286,18 @@
       "integrationSurfaceId": "terminal:reading-state-handoff-readback",
       "integrationKind": "terminal-reading-state",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-        "uapi/app/terminal/TerminalPageClient.tsx",
-        "uapi/app/terminal/README.md",
-        "uapi/app/conversations/README.md"
+        "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+        "apps/uapi/app/terminal/TerminalPageClient.tsx",
+        "apps/uapi/app/terminal/README.md",
+        "apps/uapi/app/conversations/README.md"
       ],
       "testPaths": [
-        "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
-        "uapi/tests/conversationTerminalHandoff.test.tsx",
-        "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
+        "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+        "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
+        "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/terminalEnterpriseReadingUxState.test.ts tests/conversationTerminalHandoff.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/terminalEnterpriseReadingUxState.test.ts tests/conversationTerminalHandoff.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand"
       ],
       "requiredSourceMarkers": [
         "TERMINAL_ENTERPRISE_READING_STEPS",
@@ -346,19 +346,19 @@
       "integrationSurfaceId": "terminal:pipeline-harness-log-stream",
       "integrationKind": "terminal-harness-streaming",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-pipeline-harness-client.ts",
-        "uapi/app/api/pipeline-harness/asset-pack/route.ts",
-        "uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx",
-        "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
+        "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
+        "apps/uapi/app/api/pipeline-harness/asset-pack/route.ts",
+        "apps/uapi/components/base/bitcode/execution/BitcodeExecutionStreamPanel.tsx",
+        "apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx"
       ],
       "testPaths": [
-        "uapi/tests/terminalPipelineHarnessClient.test.ts",
-        "uapi/tests/api/pipelineHarnessRoute.test.ts",
-        "uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
-        "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
+        "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
+        "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
+        "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
+        "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/terminalPipelineHarnessClient.test.ts tests/api/pipelineHarnessRoute.test.ts tests/readingOperationalTelemetryPipelineLog.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand"
+        "pnpm --dir apps/uapi exec jest tests/terminalPipelineHarnessClient.test.ts tests/api/pipelineHarnessRoute.test.ts tests/readingOperationalTelemetryPipelineLog.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand"
       ],
       "requiredSourceMarkers": [
         "buildTerminalReadFitsFindingSynthesisHarnessStreamSnapshot",
@@ -407,20 +407,20 @@
       "integrationSurfaceId": "terminal:transaction-cockpit-authority-boundary",
       "integrationKind": "terminal-authority-boundary",
       "sourceRoots": [
-        "uapi/app/terminal/terminal-interface-integration-regression.ts",
-        "uapi/app/terminal/terminal-transaction-read-model.ts",
-        "uapi/app/terminal/terminal-wallet-btc-operation.ts",
+        "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
+        "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
+        "apps/uapi/app/terminal/terminal-wallet-btc-operation.ts",
         "packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts"
       ],
       "testPaths": [
-        "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
-        "uapi/tests/terminalTransactionReadModel.test.ts",
-        "uapi/tests/terminalWalletBtcOperation.test.ts",
-        "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+        "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+        "apps/uapi/tests/terminalTransactionReadModel.test.ts",
+        "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
+        "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
         "packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/terminalInterfaceIntegrationRegression.test.ts tests/terminalTransactionReadModel.test.ts tests/terminalWalletBtcOperation.test.ts tests/api/conversationReadingInterfaceParity.test.ts --runInBand",
+        "pnpm --dir apps/uapi exec jest tests/terminalInterfaceIntegrationRegression.test.ts tests/terminalTransactionReadModel.test.ts tests/terminalWalletBtcOperation.test.ts tests/api/conversationReadingInterfaceParity.test.ts --runInBand",
         "pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest src/__tests__/reading-interface-product-parity.test.ts --runInBand --forceExit"
       ],
       "requiredSourceMarkers": [
@@ -469,20 +469,20 @@
       "integrationSurfaceId": "conversation-terminal:rehearsal-docs-and-parity",
       "integrationKind": "rehearsal-docs-parity",
       "sourceRoots": [
-        "uapi/app/conversations/conversation-rehearsal.ts",
-        "uapi/app/conversations/components/ConversationRehearsalPanel.tsx",
-        "uapi/app/conversations/README.md",
-        "uapi/app/terminal/README.md",
+        "apps/uapi/app/conversations/conversation-rehearsal.ts",
+        "apps/uapi/app/conversations/components/ConversationRehearsalPanel.tsx",
+        "apps/uapi/app/conversations/README.md",
+        "apps/uapi/app/terminal/README.md",
         "packages/specifying/src/canonical/v39-interface-conversation-product-parity.js"
       ],
       "testPaths": [
-        "uapi/tests/api/conversationRehearsal.test.ts",
-        "uapi/tests/conversationRehearsalPanel.test.tsx",
+        "apps/uapi/tests/api/conversationRehearsal.test.ts",
+        "apps/uapi/tests/conversationRehearsalPanel.test.tsx",
         "packages/specifying/test/v39-interface-conversation-product-parity.test.js",
-        "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
+        "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx"
       ],
       "commandIds": [
-        "pnpm --dir uapi exec jest tests/api/conversationRehearsal.test.ts tests/conversationRehearsalPanel.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand",
+        "pnpm --dir apps/uapi exec jest tests/api/conversationRehearsal.test.ts tests/conversationRehearsalPanel.test.tsx tests/conversationTerminalIntegrationCoverage.test.tsx --runInBand",
         "pnpm --filter @bitcode/specifying exec node --test --test-force-exit test/v39-interface-conversation-product-parity.test.js"
       ],
       "requiredSourceMarkers": [
@@ -557,7 +557,7 @@
     },
     {
       "id": "uapi-jest-includes-conversation-terminal-integration-test",
-      "sourcePath": "uapi/jest.config.cjs",
+      "sourcePath": "apps/uapi/jest.config.cjs",
       "passed": true
     },
     {
@@ -602,22 +602,22 @@
     },
     {
       "id": "conversation-terminal-handoff-route-contract:source-roots-exist",
-      "sourcePath": "uapi/app/conversations/conversation-terminal-handoff.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
       "passed": true
     },
     {
       "id": "conversation-terminal-handoff-route-contract:test-paths-exist",
-      "sourcePath": "uapi/tests/conversationTerminalHandoff.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
       "passed": true
     },
     {
       "id": "conversation-terminal-handoff-route-contract:source-markers-present",
-      "sourcePath": "uapi/app/conversations/conversation-terminal-handoff.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
       "passed": true
     },
     {
       "id": "conversation-terminal-handoff-route-contract:test-markers-present",
-      "sourcePath": "uapi/tests/conversationTerminalHandoff.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
       "passed": true
     },
     {
@@ -642,122 +642,122 @@
     },
     {
       "id": "conversation-route-api-persistence-branch-contracts:source-roots-exist",
-      "sourcePath": "uapi/app/api/conversations/route.ts",
+      "sourcePath": "apps/uapi/app/api/conversations/route.ts",
       "passed": true
     },
     {
       "id": "conversation-route-api-persistence-branch-contracts:test-paths-exist",
-      "sourcePath": "uapi/tests/api/conversationsRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationsRoute.test.ts",
       "passed": true
     },
     {
       "id": "conversation-route-api-persistence-branch-contracts:source-markers-present",
-      "sourcePath": "uapi/app/api/conversations/route.ts",
+      "sourcePath": "apps/uapi/app/api/conversations/route.ts",
       "passed": true
     },
     {
       "id": "conversation-route-api-persistence-branch-contracts:test-markers-present",
-      "sourcePath": "uapi/tests/api/conversationsRoute.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationsRoute.test.ts",
       "passed": true
     },
     {
       "id": "conversation-writing-source-selector-handoff:source-roots-exist",
-      "sourcePath": "uapi/app/conversations/conversation-writing-workspace.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
       "passed": true
     },
     {
       "id": "conversation-writing-source-selector-handoff:test-paths-exist",
-      "sourcePath": "uapi/tests/conversationWritingWorkspace.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
       "passed": true
     },
     {
       "id": "conversation-writing-source-selector-handoff:source-markers-present",
-      "sourcePath": "uapi/app/conversations/conversation-writing-workspace.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
       "passed": true
     },
     {
       "id": "conversation-writing-source-selector-handoff:test-markers-present",
-      "sourcePath": "uapi/tests/conversationWritingWorkspace.test.tsx",
+      "sourcePath": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
       "passed": true
     },
     {
       "id": "terminal-reading-state-handoff-readback:source-roots-exist",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "terminal-reading-state-handoff-readback:test-paths-exist",
-      "sourcePath": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
       "passed": true
     },
     {
       "id": "terminal-reading-state-handoff-readback:source-markers-present",
-      "sourcePath": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "passed": true
     },
     {
       "id": "terminal-reading-state-handoff-readback:test-markers-present",
-      "sourcePath": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
       "passed": true
     },
     {
       "id": "terminal-pipeline-harness-log-stream:source-roots-exist",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "terminal-pipeline-harness-log-stream:test-paths-exist",
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
       "id": "terminal-pipeline-harness-log-stream:source-markers-present",
-      "sourcePath": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "passed": true
     },
     {
       "id": "terminal-pipeline-harness-log-stream:test-markers-present",
-      "sourcePath": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "passed": true
     },
     {
       "id": "terminal-transaction-cockpit-authority-boundary:source-roots-exist",
-      "sourcePath": "uapi/app/terminal/terminal-interface-integration-regression.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
       "passed": true
     },
     {
       "id": "terminal-transaction-cockpit-authority-boundary:test-paths-exist",
-      "sourcePath": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "passed": true
     },
     {
       "id": "terminal-transaction-cockpit-authority-boundary:source-markers-present",
-      "sourcePath": "uapi/app/terminal/terminal-interface-integration-regression.ts",
+      "sourcePath": "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
       "passed": true
     },
     {
       "id": "terminal-transaction-cockpit-authority-boundary:test-markers-present",
-      "sourcePath": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "sourcePath": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "passed": true
     },
     {
       "id": "conversation-terminal-rehearsal-docs-and-parity:source-roots-exist",
-      "sourcePath": "uapi/app/conversations/conversation-rehearsal.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-rehearsal.ts",
       "passed": true
     },
     {
       "id": "conversation-terminal-rehearsal-docs-and-parity:test-paths-exist",
-      "sourcePath": "uapi/tests/api/conversationRehearsal.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationRehearsal.test.ts",
       "passed": true
     },
     {
       "id": "conversation-terminal-rehearsal-docs-and-parity:source-markers-present",
-      "sourcePath": "uapi/app/conversations/conversation-rehearsal.ts",
+      "sourcePath": "apps/uapi/app/conversations/conversation-rehearsal.ts",
       "passed": true
     },
     {
       "id": "conversation-terminal-rehearsal-docs-and-parity:test-markers-present",
-      "sourcePath": "uapi/tests/api/conversationRehearsal.test.ts",
+      "sourcePath": "apps/uapi/tests/api/conversationRehearsal.test.ts",
       "passed": true
     }
   ],

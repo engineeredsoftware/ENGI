@@ -51,9 +51,9 @@ Gate 1 through Gate 6 audit basis:
 - `scripts/generate-v37-conversation-session-route-history.mjs`
 - `scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs`
 - `.bitcode/v37-conversation-session-route-history.json`
-- `uapi/app/conversations/conversation-session-route-history.ts`
-- `uapi/tests/api/conversationSessionRouteHistory.test.ts`
-- `uapi/tests/api/conversationSessionRouteHistoryContract.test.ts`
+- `apps/uapi/app/conversations/conversation-session-route-history.ts`
+- `apps/uapi/tests/api/conversationSessionRouteHistory.test.ts`
+- `apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts`
 - `packages/protocol/src/canonical/conversation-stream-event-contract.js`
 - `packages/protocol/test/conversation-stream-event-contract.test.js`
 - `packages/api/src/conversations/stream-events.ts`
@@ -61,38 +61,38 @@ Gate 1 through Gate 6 audit basis:
 - `scripts/generate-v37-conversation-stream-event-contract.mjs`
 - `scripts/check-v37-gate3-conversation-stream-event-contracts.mjs`
 - `.bitcode/v37-conversation-stream-event-contract.json`
-- `uapi/hooks/useConversationStream.ts`
-- `uapi/app/conversations/components/hooks/usePipelineState.ts`
-- `uapi/components/base/bitcode/execution/pipeline-execution-log.tsx`
-- `uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx`
-- `uapi/tests/api/conversationStreamEventContract.test.ts`
-- `uapi/tests/conversationStreamPipelineLog.test.tsx`
+- `apps/uapi/hooks/useConversationStream.ts`
+- `apps/uapi/app/conversations/components/hooks/usePipelineState.ts`
+- `apps/uapi/components/base/bitcode/execution/pipeline-execution-log.tsx`
+- `apps/uapi/components/base/bitcode/execution/pipeline-execution-log-header.tsx`
+- `apps/uapi/tests/api/conversationStreamEventContract.test.ts`
+- `apps/uapi/tests/conversationStreamPipelineLog.test.tsx`
 - `packages/protocol/src/canonical/conversation-writing-workspace.js`
 - `packages/protocol/test/conversation-writing-workspace.test.js`
 - `scripts/generate-v37-conversation-writing-workspace.mjs`
 - `scripts/check-v37-gate4-conversation-writing-workspace.mjs`
 - `.bitcode/v37-conversation-writing-workspace.json`
-- `uapi/app/conversations/conversation-writing-workspace.ts`
-- `uapi/app/conversations/components/ConversationWritingWorkspace.tsx`
-- `uapi/tests/conversationWritingWorkspace.test.tsx`
+- `apps/uapi/app/conversations/conversation-writing-workspace.ts`
+- `apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx`
+- `apps/uapi/tests/conversationWritingWorkspace.test.tsx`
 - `packages/protocol/src/canonical/conversation-source-selector.js`
 - `packages/protocol/test/conversation-source-selector.test.js`
 - `scripts/generate-v37-conversation-source-selector.mjs`
 - `scripts/check-v37-gate5-conversation-source-selector.mjs`
 - `.bitcode/v37-conversation-source-selector.json`
-- `uapi/app/conversations/conversation-source-selector.ts`
-- `uapi/app/conversations/components/ConversationSourceSelector.tsx`
-- `uapi/tests/conversationSourceSelector.test.tsx`
+- `apps/uapi/app/conversations/conversation-source-selector.ts`
+- `apps/uapi/app/conversations/components/ConversationSourceSelector.tsx`
+- `apps/uapi/tests/conversationSourceSelector.test.tsx`
 - `packages/protocol/src/canonical/conversation-terminal-handoff.js`
 - `packages/protocol/test/conversation-terminal-handoff.test.js`
 - `scripts/generate-v37-conversation-terminal-handoff.mjs`
 - `scripts/check-v37-gate6-conversation-terminal-handoff.mjs`
 - `.bitcode/v37-conversation-terminal-handoff.json`
-- `uapi/app/conversations/conversation-terminal-handoff.ts`
-- `uapi/app/conversations/components/ConversationTerminalHandoff.tsx`
-- `uapi/tests/conversationTerminalHandoff.test.tsx`
-- `uapi/app/terminal/terminal-transaction-query.ts`
-- `uapi/app/terminal/TerminalPageClient.tsx`
+- `apps/uapi/app/conversations/conversation-terminal-handoff.ts`
+- `apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx`
+- `apps/uapi/tests/conversationTerminalHandoff.test.tsx`
+- `apps/uapi/app/terminal/terminal-transaction-query.ts`
+- `apps/uapi/app/terminal/TerminalPageClient.tsx`
 - `packages/protocol/src/canonical/conversation-persistence-privacy-redaction.js`
 - `packages/protocol/test/conversation-persistence-privacy-redaction.test.js`
 - `scripts/generate-v37-conversation-persistence-privacy-redaction.mjs`
@@ -101,25 +101,25 @@ Gate 1 through Gate 6 audit basis:
 - `packages/api/src/conversations/privacy.ts`
 - `packages/api/src/conversations/messages.ts`
 - `packages/api/src/conversations/__tests__/privacy.test.ts`
-- `uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx`
-- `uapi/tests/conversationPersistencePrivacyPanel.test.tsx`
+- `apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx`
+- `apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx`
 - `packages/protocol/src/canonical/conversation-telemetry-proof-hooks.js`
 - `packages/protocol/test/conversation-telemetry-proof-hooks.test.js`
 - `scripts/generate-v37-conversation-telemetry-proof-hooks.mjs`
 - `scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs`
 - `.bitcode/v37-conversation-telemetry-proof-hooks.json`
 - `packages/api/src/conversations/telemetry.ts`
-- `uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx`
-- `uapi/tests/conversationTelemetryProofPanel.test.tsx`
+- `apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx`
+- `apps/uapi/tests/conversationTelemetryProofPanel.test.tsx`
 - `packages/protocol/src/canonical/conversation-rehearsal.js`
 - `packages/protocol/test/conversation-rehearsal.test.js`
 - `scripts/generate-v37-conversation-rehearsal.mjs`
 - `scripts/check-v37-gate9-conversation-rehearsal.mjs`
 - `.bitcode/v37-conversation-rehearsal.json`
-- `uapi/app/conversations/conversation-rehearsal.ts`
-- `uapi/app/conversations/components/ConversationRehearsalPanel.tsx`
-- `uapi/tests/api/conversationRehearsal.test.ts`
-- `uapi/tests/conversationRehearsalPanel.test.tsx`
+- `apps/uapi/app/conversations/conversation-rehearsal.ts`
+- `apps/uapi/app/conversations/components/ConversationRehearsalPanel.tsx`
+- `apps/uapi/tests/api/conversationRehearsal.test.ts`
+- `apps/uapi/tests/conversationRehearsalPanel.test.tsx`
 - `packages/protocol/src/canonical/conversation-promotion-readiness-report.js`
 - `packages/protocol/test/v37-promotion-readiness.test.js`
 - `scripts/generate-v37-promotion-readiness-report.mjs`
@@ -186,7 +186,7 @@ No `_legacy/` source is active source truth.
 | Required history operations are covered | create, restore, branch, retry, redact, and stream | closed |
 | Route-local history stays local | every row records `routeLocalHistory: true`, `globalLedgerTruth: false`, and Terminal authority for ledger work | closed |
 | Route-history payloads are source-safe | `source-safe-conversation-session-route-history-metadata`; protected source, raw protected prompts, protected model responses with source, provider tokens, wallet private material, secrets, unpaid AssetPack source, settlement private payloads, and global ledger authority claims are forbidden | closed |
-| Workflow, package, and route tests are wired | `packages/protocol/test/conversation-session-route-history.test.js`, `uapi/tests/api/conversationSessionRouteHistory.test.ts`, `uapi/tests/api/conversationSessionRouteHistoryContract.test.ts`, `scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Workflow, package, and route tests are wired | `packages/protocol/test/conversation-session-route-history.test.js`, `apps/uapi/tests/api/conversationSessionRouteHistory.test.ts`, `apps/uapi/tests/api/conversationSessionRouteHistoryContract.test.ts`, `scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V37 Gate 3 Parity
 
@@ -196,7 +196,7 @@ No `_legacy/` source is active source truth.
 | Generated stream event artifact exists | `.bitcode/v37-conversation-stream-event-contract.json`, `scripts/generate-v37-conversation-stream-event-contract.mjs`, `pnpm run check:v37-conversation-stream-event-contract` | closed |
 | Required stream event kinds are covered | model delta, tool call, retrieval summary, proof root, retry state, completion decision, and error row | closed |
 | Rich stream rows are source-safe | collapsed readable status and expanded metadata carry event ids, proof roots, redaction posture, prompt/result disclosure posture, and fail-closed states without raw prompts, protected source, raw provider responses, provider tokens, wallet private material, unpaid AssetPack source, or ledger authority claims | closed |
-| Route and UI stream tests are wired | `packages/api/src/conversations/stream-events.ts`, `packages/api/src/conversations/__tests__/stream-events.test.ts`, `uapi/tests/api/conversationStreamEventContract.test.ts`, `uapi/tests/conversationStreamPipelineLog.test.tsx`, `uapi/tests/pipelineExecutionLogHeader.test.tsx`, `scripts/check-v37-gate3-conversation-stream-event-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Route and UI stream tests are wired | `packages/api/src/conversations/stream-events.ts`, `packages/api/src/conversations/__tests__/stream-events.test.ts`, `apps/uapi/tests/api/conversationStreamEventContract.test.ts`, `apps/uapi/tests/conversationStreamPipelineLog.test.tsx`, `apps/uapi/tests/pipelineExecutionLogHeader.test.tsx`, `scripts/check-v37-gate3-conversation-stream-event-contracts.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V37 Gate 4 Parity
 
@@ -206,8 +206,8 @@ No `_legacy/` source is active source truth.
 | Generated writing workspace artifact exists | `.bitcode/v37-conversation-writing-workspace.json`, `scripts/generate-v37-conversation-writing-workspace.mjs`, `pnpm run check:v37-conversation-writing-workspace` | closed |
 | Required writing modes are covered | Read Request, Need feedback, AssetPack review note, and Terminal handoff summary modes | closed |
 | Required workspace actions are covered | save, restore, summarize, and handoff actions with route-local draft keys, recovery states, keyboard behavior, responsive fullscreen layout, proof roots, and event ids | closed |
-| Emitted summaries are source-safe | `uapi/app/conversations/conversation-writing-workspace.ts` redacts source blocks, token-shaped values, secret fields, private keys, and JWT-shaped values before preview or handoff | closed |
-| Workspace UI is accessible and wired | `uapi/app/conversations/components/ConversationWritingWorkspace.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/conversationWritingWorkspace.test.tsx`, `scripts/check-v37-gate4-conversation-writing-workspace.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Emitted summaries are source-safe | `apps/uapi/app/conversations/conversation-writing-workspace.ts` redacts source blocks, token-shaped values, secret fields, private keys, and JWT-shaped values before preview or handoff | closed |
+| Workspace UI is accessible and wired | `apps/uapi/app/conversations/components/ConversationWritingWorkspace.tsx`, `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`, `apps/uapi/tests/conversationWritingWorkspace.test.tsx`, `scripts/check-v37-gate4-conversation-writing-workspace.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## V37 Gate 5 Parity
 
@@ -218,7 +218,7 @@ No `_legacy/` source is active source truth.
 | Required selector kinds are covered | repository, branch, commit, deposit, BTD range, AssetPack preview, document, and prior conversation | closed |
 | Governance dimensions are covered | account, organization, wallet, rights, settlement, disclosure, and policy posture | closed |
 | Preview states are explainable | allowed, denied, and retry-required previews include source-safe reason/retry metadata | closed |
-| Source selector UI is wired | `uapi/app/conversations/conversation-source-selector.ts`, `uapi/app/conversations/components/ConversationSourceSelector.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, and `uapi/tests/conversationSourceSelector.test.tsx` | closed |
+| Source selector UI is wired | `apps/uapi/app/conversations/conversation-source-selector.ts`, `apps/uapi/app/conversations/components/ConversationSourceSelector.tsx`, `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`, and `apps/uapi/tests/conversationSourceSelector.test.tsx` | closed |
 | Selector previews are source-safe | protected source, unpaid AssetPack source, private BTD material, provider tokens, wallet private material, settlement private payloads, protected prompts/responses, and global ledger authority claims are forbidden | closed |
 | Workflow, package, and UI tests are wired | `packages/protocol/test/conversation-source-selector.test.js`, `scripts/check-v37-gate5-conversation-source-selector.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
 
@@ -230,8 +230,8 @@ No `_legacy/` source is active source truth.
 | Generated Terminal handoff artifact exists | `.bitcode/v37-conversation-terminal-handoff.json`, `scripts/generate-v37-conversation-terminal-handoff.mjs`, `pnpm run check:v37-conversation-terminal-handoff` | closed |
 | Required handoff workflows are covered | Depositing, Reading, Finding Fits, Exchange, settlement, and delivery | closed |
 | Terminal remains authoritative | every row keeps Terminal as transaction cockpit and blocks conversation ledger write authority, wallet signing authority, and Terminal authority bypass | closed |
-| Handoff route context is preserved | `uapi/app/conversations/conversation-terminal-handoff.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, and `uapi/app/terminal/TerminalPageClient.tsx` preserve transaction id, repository anchor, source selector refs, source-safe summary, policy result, proof root, and transaction detail | closed |
-| Handoff UI is wired | `uapi/app/conversations/components/ConversationTerminalHandoff.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, and `uapi/tests/conversationTerminalHandoff.test.tsx` | closed |
+| Handoff route context is preserved | `apps/uapi/app/conversations/conversation-terminal-handoff.ts`, `apps/uapi/app/terminal/terminal-transaction-query.ts`, and `apps/uapi/app/terminal/TerminalPageClient.tsx` preserve transaction id, repository anchor, source selector refs, source-safe summary, policy result, proof root, and transaction detail | closed |
+| Handoff UI is wired | `apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx`, `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`, and `apps/uapi/tests/conversationTerminalHandoff.test.tsx` | closed |
 | Handoff payloads are source-safe | protected source, raw protected prompts, protected model responses with source, unpaid AssetPack source, provider tokens, wallet private material, settlement private payloads, ledger write authority, wallet signing authority, and Terminal authority bypass are forbidden | closed |
 | Workflow, package, UI, and Terminal tests are wired | `packages/protocol/test/conversation-terminal-handoff.test.js`, `scripts/check-v37-gate6-conversation-terminal-handoff.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
 
@@ -244,7 +244,7 @@ No `_legacy/` source is active source truth.
 | Required visibility tiers are covered | public, user-visible, organization-visible, buyer-visible, reviewer-visible, and operator-only visibility tier separation | closed |
 | Required persistence operations are covered | persist message, restore history, export history, delete history, retain history, replay history, and incident repair | closed |
 | API storage path is redacted | `packages/api/src/conversations/privacy.ts`, `packages/api/src/conversations/messages.ts`, `packages/api/src/routes/conversations.ts`, and `packages/api/src/conversations/__tests__/privacy.test.ts` redact message content, attachment metadata, execution input, and execution metadata before storage | closed |
-| Persistence privacy UI is wired | `uapi/app/conversations/conversation-persistence-privacy-redaction.ts`, `uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts`, and `uapi/tests/conversationPersistencePrivacyPanel.test.tsx` | closed |
+| Persistence privacy UI is wired | `apps/uapi/app/conversations/conversation-persistence-privacy-redaction.ts`, `apps/uapi/app/conversations/components/ConversationPersistencePrivacyPanel.tsx`, `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`, `apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts`, and `apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx` | closed |
 | Export, delete, retention, replay, and incident repair are source-safe | export emits source-safe visible tiers, delete leaves tombstone proof, retention does not escalate visibility, replay uses prompt template ids and parsed result shapes, and incident repair uses proof roots/redaction verdicts only | closed |
 | Persistence payloads are source-safe | protected prompts, protected model responses with source, protected source payloads, provider tokens, wallet private material, settlement private payloads, private payment credentials, operator private notes, unpaid AssetPack source, ledger write authority, and wallet signing authority are forbidden | closed |
 | Workflow, package, API, and UI tests are wired | `packages/protocol/test/conversation-persistence-privacy-redaction.test.js`, `scripts/check-v37-gate7-conversation-persistence-privacy-redaction.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
@@ -258,7 +258,7 @@ No `_legacy/` source is active source truth.
 | Required event families are covered | session, message, stream, tool, source selector, Terminal handoff, retry, error, and completion | closed |
 | Dashboard and runbook posture is source-safe | `conversation.dashboard.*` panels and `runbook.conversation.*` ids are emitted with proof roots, telemetry roots, redaction posture, source evidence roots, and replay expectations | closed |
 | API stream rows carry telemetry proof hooks | `packages/api/src/conversations/telemetry.ts`, `packages/api/src/conversations/stream-events.ts`, `packages/api/src/conversations/__tests__/telemetry.test.ts`, and `packages/api/src/conversations/__tests__/stream-events.test.ts` attach source-safe dashboard/runbook metadata to execution rows | closed |
-| Telemetry proof UI is wired | `uapi/app/conversations/conversation-telemetry-proof-hooks.ts`, `uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/api/conversationTelemetryProofHooks.test.ts`, and `uapi/tests/conversationTelemetryProofPanel.test.tsx` | closed |
+| Telemetry proof UI is wired | `apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts`, `apps/uapi/app/conversations/components/ConversationTelemetryProofPanel.tsx`, `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`, `apps/uapi/tests/api/conversationTelemetryProofHooks.test.ts`, and `apps/uapi/tests/conversationTelemetryProofPanel.test.tsx` | closed |
 | Public and internal docs are wired | `docs/conversations.md`, `internal-docs/BITCODE_CONVERSATIONS.md`, and `internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md` explain route-local history, Terminal handoff, disclosure limits, dashboard panels, and runbook ids | closed |
 | Telemetry payloads are source-safe | protected prompts, protected model responses with source, protected source payloads, provider tokens, wallet private material, settlement private payloads, private payment credentials, operator private notes, unpaid AssetPack source, ledger write authority, and wallet signing authority are forbidden | closed |
 | Workflow, package, API, and UI tests are wired | `packages/protocol/test/conversation-telemetry-proof-hooks.test.js`, `scripts/check-v37-gate8-conversation-telemetry-proof-hooks.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
@@ -272,7 +272,7 @@ No `_legacy/` source is active source truth.
 | Required local/staging flows are covered | chat, streaming, writing, source selector, Terminal handoff, restore, retry, redaction, and error | closed |
 | Local and staging lanes are source-safe | local and staging-testnet rows include route/UI check roots, telemetry roots, source-safe screenshot/log roots, validation commands, proof roots, and source evidence roots | closed |
 | Value-bearing mainnet is visibly blocked | `value_bearing_mainnet_blocked_conversations_rehearsal` records blocked mainnet posture, no ledger write authority, no wallet signing authority, and no source unlock | closed |
-| Rehearsal UI is wired | `uapi/app/conversations/conversation-rehearsal.ts`, `uapi/app/conversations/components/ConversationRehearsalPanel.tsx`, `uapi/app/conversations/components/ConversationsOverlay.tsx`, `uapi/tests/api/conversationRehearsal.test.ts`, and `uapi/tests/conversationRehearsalPanel.test.tsx` | closed |
+| Rehearsal UI is wired | `apps/uapi/app/conversations/conversation-rehearsal.ts`, `apps/uapi/app/conversations/components/ConversationRehearsalPanel.tsx`, `apps/uapi/app/conversations/components/ConversationsOverlay.tsx`, `apps/uapi/tests/api/conversationRehearsal.test.ts`, and `apps/uapi/tests/conversationRehearsalPanel.test.tsx` | closed |
 | Public and internal docs are wired | `docs/conversations.md`, `internal-docs/BITCODE_CONVERSATIONS.md`, and `internal-docs/BITCODE_CONVERSATIONS_TELEMETRY_RUNBOOK.md` explain local/staging rehearsal, source-safe screenshots/logs, route/UI checks, telemetry roots, and blocked value-bearing mainnet posture | closed |
 | Rehearsal payloads are source-safe | protected prompts, protected model responses with source, protected source payloads, provider tokens, wallet private material, settlement private payloads, private payment credentials, operator private notes, unpaid AssetPack source, ledger write authority, and wallet signing authority are forbidden | closed |
 | Workflow, package, and UI tests are wired | `packages/protocol/test/conversation-rehearsal.test.js`, `scripts/check-v37-gate9-conversation-rehearsal.mjs`, `.github/workflows/bitcode-gate-quality.yml`, and `.github/workflows/bitcode-canon-quality.yml` | closed |
@@ -425,10 +425,10 @@ Gate 9 exact rehearsal statement: local and staging-testnet rehearsals exercise 
 | `ExchangeUxProof` is package-owned | `packages/protocol/src/canonical/exchange-ux-proof.js`, `packages/protocol/src/index.js`, `packages/protocol/src/index.d.ts` | closed |
 | Generated Exchange UX artifact exists | `.bitcode/v36-exchange-ux-proof.json`, `scripts/generate-v36-exchange-ux-proof.mjs`, `pnpm run check:v36-exchange-ux-proof` | closed |
 | Exchange route exposes market review | `/exchange` exposes market-wide master-detail, filters, order history, rights-transfer review, pricing quote, settlement state, and repair state | closed |
-| Terminal handoff preserves context | `buildExchangeHref`, `TerminalTransactionDetailHero`, and `uapi/tests/exchangeTerminalHandoff.test.ts`; Terminal can hand off to Exchange without losing transaction context | closed |
+| Terminal handoff preserves context | `buildExchangeHref`, `TerminalTransactionDetailHero`, and `apps/uapi/tests/exchangeTerminalHandoff.test.ts`; Terminal can hand off to Exchange without losing transaction context | closed |
 | Collapsed and expanded disclosure is source-safe | collapsed UI gives readable status and expanded UI exposes source-safe detail | closed |
 | Telemetry binding is source-safe | `source-safe-exchange-ux-proof-metadata`; Exchange telemetry dashboards remain source-safe and proof-rooted | closed |
-| Workflow, package, and UI tests are wired | `packages/protocol/test/v36-exchange-ux-proof.test.js`, `uapi/tests/exchangePageClient.test.tsx`, `uapi/tests/exchangeTerminalHandoff.test.ts`, `scripts/check-v36-gate8-exchange-ux-proof.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Workflow, package, and UI tests are wired | `packages/protocol/test/v36-exchange-ux-proof.test.js`, `apps/uapi/tests/exchangePageClient.test.tsx`, `apps/uapi/tests/exchangeTerminalHandoff.test.ts`, `scripts/check-v36-gate8-exchange-ux-proof.mjs`, `.github/workflows/bitcode-gate-quality.yml` | closed |
 
 ## Gate 9 Parity
 

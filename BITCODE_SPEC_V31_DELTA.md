@@ -149,7 +149,7 @@ Gate 5 implementation centers:
 
 - `packages/btd/src/auxillaries-support.ts` owns `BtdWalletBtdSupportProjection`, deriving no-custody wallet capability, signer posture, network readiness, BTD range/read-right counts, account treasury posture, settlement blockers, and source-safe roots;
 - `packages/api/src/routes/auxillaries-contract.ts` maps that BTD package projection into `AuxillariesWalletBtdPaneState` so `/api/auxillaries/data` returns one package-owned Wallet/BTD support object;
-- `uapi/app/auxillaries/components/AuxillariesWalletPane.tsx` renders signer, network, range, read-right, settlement, treasury-boundary, and proof-root readouts from `walletBtdPaneState` rather than locally rederiving BTD law;
+- `apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx` renders signer, network, range, read-right, settlement, treasury-boundary, and proof-root readouts from `walletBtdPaneState` rather than locally rederiving BTD law;
 - focused BTD, API, route, and pane tests prove no-custody posture, range/read-right summary, protected-source non-disclosure, and explicit non-Exchange treasury classification.
 
 ### Gate 6: Organization Team Role Policy Authority
@@ -166,8 +166,8 @@ Gate 6 implementation centers:
 
 - `packages/btd/src/authority.ts` owns `BtdOrganizationPolicyAuthority`, `BtdOrganizationPolicyMultiSigInput`, and `buildBtdOrganizationPolicyAuthority`, deriving policy-level admission from account admission, organization/team/member identity, role, explicit grants, wallet binding, policy id/hash, multi-sig readiness, settlement/read-license/confirmation posture, interface admission, denial reasons, recovery route, source visibility, and aggregate authority root;
 - `packages/api/src/routes/auxillaries-contract.ts` maps the BTD authority projection into `OrganizationPolicyAuthority` for `/api/auxillaries/data` so route handlers serialize one JSON-safe authority object instead of route-local role heuristics;
-- `uapi/app/auxillaries/components/AuxillariesProfilePane.tsx` renders organization authority, team/member, wallet binding, policy action/hash, multi-sig posture, explicit grants, denial reasons, recovery route, and authority root from the package object;
-- `uapi/app/terminal/terminal-organization-authority.ts` projects both the policy wrapper and underlying interface decision so selected-activity detail, blockers, proof roots, and raw payload inspection agree with Auxillaries;
+- `apps/uapi/app/auxillaries/components/AuxillariesProfilePane.tsx` renders organization authority, team/member, wallet binding, policy action/hash, multi-sig posture, explicit grants, denial reasons, recovery route, and authority root from the package object;
+- `apps/uapi/app/terminal/terminal-organization-authority.ts` projects both the policy wrapper and underlying interface decision so selected-activity detail, blockers, proof roots, and raw payload inspection agree with Auxillaries;
 - focused BTD, API, Profile pane, and Terminal tests prove allowed settlement-adjacent posture, protected-source fail-closed behavior, JSON-safe route emission, shared UI consumption, multi-sig readiness, and proof roots.
 
 ### Gate 7: Interfaces Pane Admission And Cross-Surface Contracts
@@ -185,7 +185,7 @@ Gate 7 implementation centers:
 - `packages/api/src/routes/auxillaries-contract.ts` deepens `AuxillariesInterfaceAdmission` with `policyRequirements`, legacy-compatible `policyConstraints`, `supportedActions`, current `allowedActions`, `sourceSafetyClass`, `deferredProductDepth`, blockers, readiness, and proof roots;
 - `buildAuxillariesInterfaceAdmissions` emits the required catalog for Terminal, API, MCP, ChatGPT App, Exchange hook, Conversations hook, and future interface hooks, keeping Exchange and Conversations blocked as deferred product-depth hooks;
 - `validateAuxillariesContractSnapshot` now fails malformed snapshots that omit required interface ids or the required admission fields;
-- `uapi/hooks/useUserData.ts` and `.js` carry `interfaceAdmissions` into UI read models, and `AuxillariesInterfacesPane.tsx` renders the source-safe catalog without deriving policy locally;
+- `apps/uapi/hooks/useUserData.ts` and `.js` carry `interfaceAdmissions` into UI read models, and `AuxillariesInterfacesPane.tsx` renders the source-safe catalog without deriving policy locally;
 - focused API and Interfaces pane tests assert supported actions, admitted actions, policy requirements, source-safety classes, deferred blockers, proof roots, and autosaved interface defaults.
 
 ### Gate 8: Auxillaries UX Accessibility And Responsive Proof

@@ -81,12 +81,12 @@ function main() {
 
   for (const relativePath of [
     V43_PACKS_ACTIVITY_MASTER_DETAIL_ARTIFACT_PATH,
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/api/packs/activity/route.ts',
-    'uapi/app/packs/page.tsx',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/app/exchange/page.tsx',
-    'uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/api/packs/activity/route.ts',
+    'apps/uapi/app/packs/page.tsx',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/app/exchange/page.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
     'packages/specifying/src/canonical/v43-packs-activity-master-detail.js',
     'packages/specifying/test/v43-packs-activity-master-detail.test.js',
     'scripts/generate-v43-packs-activity-master-detail.mjs',
@@ -141,7 +141,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'packActivityModel.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'packActivityModel.test.ts', '--runInBand']);
     } catch {
       failures.push('uapi packActivityModel.test.ts must pass.');
     }

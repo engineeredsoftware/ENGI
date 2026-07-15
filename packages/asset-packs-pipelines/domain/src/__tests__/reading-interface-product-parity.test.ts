@@ -181,7 +181,7 @@ describe('Reading interface product parity', () => {
     }
     expect(parity.rows.find((row) => row.surface === 'conversation')).toMatchObject({
       authorityMode: 'terminal-delegated-handoff',
-      ownerPackage: 'uapi/app/conversations',
+      ownerPackage: 'apps/uapi/app/conversations',
       entrypoint: 'conversation.terminal-reading-handoff',
     });
     expect(parity.rows.find((row) => row.surface === 'package_consumer')).toMatchObject({

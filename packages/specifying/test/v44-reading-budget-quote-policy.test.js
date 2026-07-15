@@ -26,7 +26,7 @@ test('V44 Reading budget quote policy binds source-safe procurement governance',
   assert.equal(artifact.quoteStateIds.length, V44_READING_QUOTE_STATE_IDS.length);
   assert.equal(artifact.settlementReadinessIds.length, V44_READING_SETTLEMENT_READINESS_IDS.length);
   assert.equal(artifact.rows.length, V44_READING_BUDGET_QUOTE_POLICY_ROWS.length);
-  assert.equal(artifact.sourceRoots.readModel.startsWith('uapi/components/reads/models/read-route-model.ts:'), true);
+  assert.equal(artifact.sourceRoots.readModel.startsWith('apps/uapi/components/reads/models/read-route-model.ts:'), true);
   assert.equal(artifact.sourceRoots.sourceToShares.startsWith('packages/btd/src/source-to-shares.ts:'), true);
   assert.equal(artifact.sourceRoots.btcFeeOperation.startsWith('packages/btd/src/btc-fee-operation.ts:'), true);
   assert.equal(artifact.coverage.budgetEnvelopeImplemented, true);

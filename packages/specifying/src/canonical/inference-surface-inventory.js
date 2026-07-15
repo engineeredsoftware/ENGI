@@ -77,7 +77,7 @@ const SOURCE_ROOTS = Object.freeze({
   conversationSystemPrompt: 'packages/conversations/src/prompts/BitcodeTerminalConversationSystemPrompt.ts',
   conversationRoute: 'packages/api/src/routes/conversations.ts',
   conversationStreamEvents: 'packages/api/src/conversations/stream-events.ts',
-  conversationStreamUi: 'uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
+  conversationStreamUi: 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
   pipelineExecution: 'packages/pipelines-generics/src/execution/PipelineExecution.ts',
   pipelinePromptRegistry: 'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
   pipelineAgentRegistry: 'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',
@@ -95,7 +95,7 @@ const SOURCE_ROOTS = Object.freeze({
   toolPromptRegistry: 'packages/tools-generics/src/execution/ToolPromptRegistry.ts',
   docCodeToolPrompt: 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
   formatUsableTools: 'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-  chatGptToolDocPrompts: 'packages/external-apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
+  chatGptToolDocPrompts: 'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
 });
 
 function digest(value) {

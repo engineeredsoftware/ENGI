@@ -77,11 +77,11 @@ const guideRows = Object.freeze([
     guideIntent: 'Orient users inside the Deposit/Read operator surface before they write or trust a result.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'DocumentationSurfaceCatalog', 'TelemetryTaxonomyCatalog'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'uapi/components/README.md',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/components/README.md',
       'internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
     ],
-    packageSurfaces: ['uapi/app/terminal', 'packages/pipelines/asset-pack'],
+    packageSurfaces: ['apps/uapi/app/terminal', 'packages/pipelines/asset-pack'],
     docsSections: ['terminal', 'terminal-actions', 'read-results'],
     proofSignals: ['terminal activity detail', 'execution stream metadata', 'ledger reread posture'],
     disclosureNotes: [
@@ -100,7 +100,7 @@ const guideRows = Object.freeze([
       'BITCODE_SPEC.txt',
       'BITCODE_SPEC_V35.md',
       'packages/specifying/README.md',
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
     ],
     packageSurfaces: ['packages/specifying/src/index.js', 'packages/specifying/src/canonical/v21-specifying.js'],
     docsSections: ['protocol', 'proofs', 'settlement-btd'],
@@ -118,12 +118,12 @@ const guideRows = Object.freeze([
     guideIntent: 'Explain wallet, externals, profile, and interface readiness as operational configuration, not detached settings.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/api', 'packages/btd'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'uapi/app/auxillaries/README.md',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/auxillaries/README.md',
       'packages/api/README.md',
       'packages/btd/README.md',
     ],
-    packageSurfaces: ['uapi/app/auxillaries', 'packages/api/src/routes/auxillaries-contract.ts'],
+    packageSurfaces: ['apps/uapi/app/auxillaries', 'packages/api/src/routes/auxillaries-contract.ts'],
     docsSections: ['auxillaries', 'configuration'],
     proofSignals: ['wallet readiness state', 'external provider readiness', 'interface defaults'],
     disclosureNotes: [
@@ -137,15 +137,15 @@ const guideRows = Object.freeze([
     title: 'MCP and API usage guide',
     audience: ['mcp_consumers', 'api_consumers', 'agent_builders'],
     guideIntent: 'Teach programmable clients to write bounded intent and reread Exchange state through source-safe tool results.',
-    canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/generic-mcps/bitcode', 'packages/api'],
+    canonicalTruth: ['BITCODE_SPEC_V35.md', 'apps/mcp', 'packages/api'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
       'packages/mcp-generics/README.md',
-      'packages/generic-mcps/bitcode/docs/public/mcp-overview.md',
-      'packages/generic-mcps/bitcode/docs/public/mcp-api-reference.md',
+      'apps/mcp/docs/public/mcp-overview.md',
+      'apps/mcp/docs/public/mcp-api-reference.md',
       'docs/api/conversations-openapi.yaml',
     ],
-    packageSurfaces: ['packages/generic-mcps/bitcode', 'packages/api/src'],
+    packageSurfaces: ['apps/mcp', 'packages/api/src'],
     docsSections: ['mcp-api', 'commercial-interfaces'],
     proofSignals: ['tool result id', 'activity id', 'proof posture'],
     disclosureNotes: [
@@ -161,11 +161,11 @@ const guideRows = Object.freeze([
     guideIntent: 'Explain conversational Bitcode operation while preserving confirmation, write admission, and Terminal reread boundaries.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/chatgptapp', 'TelemetryTaxonomyCatalog'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'packages/external-apps/chatgpt/README.md',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/chatgpt/README.md',
       'internal-docs/BITCODE_CHATGPT_APP_INTERFACE.md',
     ],
-    packageSurfaces: ['packages/external-apps/chatgpt/src', 'uapi/app/docs'],
+    packageSurfaces: ['apps/chatgpt/src', 'apps/uapi/app/docs'],
     docsSections: ['chatgpt-app', 'commercial-interfaces'],
     proofSignals: ['confirmation prompt', 'write admission', 'Terminal verification link'],
     disclosureNotes: [
@@ -181,11 +181,11 @@ const guideRows = Object.freeze([
     guideIntent: 'Explain settlement, rights transfer posture, and BTD accounting without exposing private wallet or unpaid source material.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/btd'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
       'packages/btd/README.md',
-      'uapi/app/api/btd/btc-fee-transaction/route.ts',
+      'apps/uapi/app/api/btd/btc-fee-transaction/route.ts',
     ],
-    packageSurfaces: ['packages/btd/src', 'uapi/app/api/btd'],
+    packageSurfaces: ['packages/btd/src', 'apps/uapi/app/api/btd'],
     docsSections: ['settlement-btd', 'source-shares'],
     proofSignals: ['BTD accounting row', 'fee transaction posture', 'ledger receipt state'],
     disclosureNotes: [
@@ -201,7 +201,7 @@ const guideRows = Object.freeze([
     guideIntent: 'Describe range and quality measurements that can be previewed before settlement without showing the source-bearing pack.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/pipelines/asset-pack', 'packages/btd'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
       'internal-docs/ASSETPACK_EXECUTION.md',
       'packages/asset-packs-pipelines/domain/README.md',
       'packages/btd/README.md',
@@ -222,11 +222,11 @@ const guideRows = Object.freeze([
     guideIntent: 'Teach users how to interpret Read measurement, fit admission, readiness, proof, and settlement state.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/pipelines/asset-pack'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
       'packages/asset-packs-pipelines/domain/README.md',
       'internal-docs/BITCODE_TERMINAL_OPERATOR_EXPERIENCE.md',
     ],
-    packageSurfaces: ['packages/asset-packs-pipelines/domain/src', 'uapi/app/api/read-review/route.ts'],
+    packageSurfaces: ['packages/asset-packs-pipelines/domain/src', 'apps/uapi/app/api/read-review/route.ts'],
     docsSections: ['read-results', 'terminal-actions'],
     proofSignals: ['read measurement', 'fit search admission', 'blocked readiness evidence'],
     disclosureNotes: [
@@ -242,12 +242,12 @@ const guideRows = Object.freeze([
     guideIntent: 'Explain BTC fee posture and deterministic price-read boundaries in public terms while keeping signing material private.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/btd'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
       'packages/btd/README.md',
-      'uapi/app/api/btd/btc-fee-transaction/route.ts',
-      'uapi/tests/terminalWalletBtcOperation.test.ts',
+      'apps/uapi/app/api/btd/btc-fee-transaction/route.ts',
+      'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
     ],
-    packageSurfaces: ['packages/btd/src', 'uapi/app/api/btd/btc-fee-transaction/route.ts'],
+    packageSurfaces: ['packages/btd/src', 'apps/uapi/app/api/btd/btc-fee-transaction/route.ts'],
     docsSections: ['settlement-btd', 'configuration'],
     proofSignals: ['btc fee finality state', 'payment mode', 'wallet readiness'],
     disclosureNotes: [
@@ -263,7 +263,7 @@ const guideRows = Object.freeze([
     guideIntent: 'Explain how public users read proof, witness, replay, redaction, and fail-closed posture.',
     canonicalTruth: ['BITCODE_SPEC_V35.md', 'packages/specifying', 'TelemetryTaxonomyCatalog'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
       'BITCODE_SPEC_V35.md',
       'packages/specifying/README.md',
     ],
@@ -281,13 +281,13 @@ const guideRows = Object.freeze([
     title: 'Exchange deferred boundary guide',
     audience: ['enterprise_readers', 'operators', 'product_reviewers'],
     guideIntent: 'Document the Exchange as durable state while keeping deeper Exchange product work deferred outside V35.',
-    canonicalTruth: ['BITCODE_SPEC_V35.md', 'SPECIFICATIONS_ROADMAP.md', 'uapi/app/exchange'],
+    canonicalTruth: ['BITCODE_SPEC_V35.md', 'SPECIFICATIONS_ROADMAP.md', 'apps/uapi/app/exchange'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'uapi/app/exchange/README.md',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/exchange/README.md',
       'SPECIFICATIONS_ROADMAP.md',
     ],
-    packageSurfaces: ['uapi/app/exchange', 'packages/api/src'],
+    packageSurfaces: ['apps/uapi/app/exchange', 'packages/api/src'],
     docsSections: ['exchange', 'source-shares'],
     proofSignals: ['activity ledger', 'selected detail', 'durable state reread'],
     disclosureNotes: [
@@ -301,14 +301,14 @@ const guideRows = Object.freeze([
     title: 'Conversations deferred boundary guide',
     audience: ['enterprise_readers', 'operators', 'product_reviewers'],
     guideIntent: 'Document Conversations as a compatible write surface while keeping website Conversations depth deferred outside V35.',
-    canonicalTruth: ['BITCODE_SPEC_V35.md', 'SPECIFICATIONS_ROADMAP.md', 'uapi/app/conversations'],
+    canonicalTruth: ['BITCODE_SPEC_V35.md', 'SPECIFICATIONS_ROADMAP.md', 'apps/uapi/app/conversations'],
     sourceRoots: [
-      'uapi/app/docs/bitcode-docs-content.ts',
-      'uapi/app/conversations/README.md',
+      'apps/uapi/app/docs/bitcode-docs-content.ts',
+      'apps/uapi/app/conversations/README.md',
       'internal-docs/BITCODE_CONVERSATIONS.md',
       'SPECIFICATIONS_ROADMAP.md',
     ],
-    packageSurfaces: ['uapi/app/conversations', 'docs/api/conversations-openapi.yaml'],
+    packageSurfaces: ['apps/uapi/app/conversations', 'docs/api/conversations-openapi.yaml'],
     docsSections: ['conversations', 'chatgpt-app'],
     proofSignals: ['attachment token', 'write confirmation', 'Terminal reread link'],
     disclosureNotes: [
@@ -375,7 +375,7 @@ function sourceRootExists(repoRoot, relativePath) {
 function publicDocsRouteExists(repoRoot, publicRoute) {
   if (!publicRoute.startsWith('/docs/')) return false;
   const slug = publicRoute.slice('/docs/'.length);
-  const docsContentPath = path.join(repoRoot, 'uapi/app/docs/bitcode-docs-content.ts');
+  const docsContentPath = path.join(repoRoot, 'apps/uapi/app/docs/bitcode-docs-content.ts');
   if (!existsSync(docsContentPath)) return false;
   const docsContent = readFileSync(docsContentPath, 'utf8');
   return docsContent.includes(`slug: '${slug}'`) || docsContent.includes(`slug: "${slug}"`);

@@ -3892,7 +3892,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/external-apps/chatgpt/README.md",
+      "path": "apps/chatgpt/README.md",
       "pathRoot": "v43-route-vocabulary-file:39bb4ebc239735c289ec6187",
       "categories": [
         "doc",
@@ -3910,7 +3910,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/external-apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
+      "path": "apps/chatgpt/src/__tests__/chatgpt-action-contract.test.ts",
       "pathRoot": "v43-route-vocabulary-file:98198358bc21794cf9c4c29f",
       "categories": [
         "package",
@@ -3925,7 +3925,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/external-apps/chatgpt/src/__tests__/tools.test.ts",
+      "path": "apps/chatgpt/src/__tests__/tools.test.ts",
       "pathRoot": "v43-route-vocabulary-file:65d3ce9e7cc49b97ed5c3826",
       "categories": [
         "package",
@@ -3941,7 +3941,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "packages/external-apps/chatgpt/src/server.ts",
+      "path": "apps/chatgpt/src/server.ts",
       "pathRoot": "v43-route-vocabulary-file:6a0355ffc070645e25fb9dc0",
       "categories": [
         "package",
@@ -11747,7 +11747,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/ARCHITECTURE.md",
+      "path": "apps/uapi/ARCHITECTURE.md",
       "pathRoot": "v43-route-vocabulary-file:4a399ac908531801a7bb9de4",
       "categories": [
         "doc",
@@ -11762,7 +11762,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/README.md",
+      "path": "apps/uapi/README.md",
       "pathRoot": "v43-route-vocabulary-file:04541d06dd7be1db69b23d3a",
       "categories": [
         "doc",
@@ -11783,7 +11783,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingBtdShareMetricsSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:3834760d340a81561571f5f5",
       "categories": [
         "component",
@@ -11799,7 +11799,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingCompetitorTableSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingCompetitorTableSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:36c0167e5538431319e7e7a3",
       "categories": [
         "component",
@@ -11814,7 +11814,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingComputeSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingComputeSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:60d924923e14875345dbc70c",
       "categories": [
         "component"
@@ -11829,7 +11829,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingFaqSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingFaqSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:a3c15474b6e4feea10881b2b",
       "categories": [
         "component",
@@ -11846,7 +11846,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingFeaturesGrid.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingFeaturesGrid.tsx",
       "pathRoot": "v43-route-vocabulary-file:e84a316799c9fcebf95fbc15",
       "categories": [
         "component",
@@ -11862,7 +11862,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingMarketplaceSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingMarketplaceSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:95424f08be42fae9c9f15917",
       "categories": [
         "component",
@@ -11877,7 +11877,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingOperatorGuideCard.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingOperatorGuideCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:1af7a969cdaa91cad297c736",
       "categories": [
         "component"
@@ -11891,7 +11891,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingPricingSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingPricingSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:5b434a026a2b9827f7866ae2",
       "categories": [
         "component",
@@ -11911,7 +11911,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingSetupForm.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingSetupForm.tsx",
       "pathRoot": "v43-route-vocabulary-file:547eec567816769b10bb0dcc",
       "categories": [
         "component"
@@ -11926,7 +11926,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/MarketingWalkthroughSection.tsx",
+      "path": "apps/uapi/app/(root)/components/MarketingWalkthroughSection.tsx",
       "pathRoot": "v43-route-vocabulary-file:d43d1432bc03acff97af51dd",
       "categories": [
         "component",
@@ -11941,7 +11941,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/PublicDocsPageContent.tsx",
+      "path": "apps/uapi/app/(root)/components/PublicDocsPageContent.tsx",
       "pathRoot": "v43-route-vocabulary-file:14bbe1e40303d89997cb2bde",
       "categories": [
         "component"
@@ -11960,7 +11960,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/(root)/components/landing/marketing-landing-shared.tsx",
+      "path": "apps/uapi/app/(root)/components/landing/marketing-landing-shared.tsx",
       "pathRoot": "v43-route-vocabulary-file:89407dbea162a0e76ae3341c",
       "categories": [
         "component",
@@ -11975,7 +11975,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/ClientLayoutInner.tsx",
+      "path": "apps/uapi/app/ClientLayoutInner.tsx",
       "pathRoot": "v43-route-vocabulary-file:d396d12d3a69bf9680192db5",
       "categories": [
         "component",
@@ -11991,7 +11991,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/activity/route.ts",
+      "path": "apps/uapi/app/api/activity/route.ts",
       "pathRoot": "v43-route-vocabulary-file:9f0207ff00bece42ab29fccb",
       "categories": [
         "api",
@@ -12008,7 +12008,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/conversations/_shared.ts",
+      "path": "apps/uapi/app/api/conversations/_shared.ts",
       "pathRoot": "v43-route-vocabulary-file:30f21445a1e7d6f2b3743644",
       "categories": [
         "api",
@@ -12025,7 +12025,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/deposits/route.ts",
+      "path": "apps/uapi/app/api/deposits/route.ts",
       "pathRoot": "v43-route-vocabulary-file:3f98c52dfd6a33985eb46972",
       "categories": [
         "api",
@@ -12041,7 +12041,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/executions/stream/route.ts",
+      "path": "apps/uapi/app/api/executions/stream/route.ts",
       "pathRoot": "v43-route-vocabulary-file:3594de60719262299a58fa30",
       "categories": [
         "api",
@@ -12057,7 +12057,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/make-bitcode-branch/route.ts",
+      "path": "apps/uapi/app/api/make-bitcode-branch/route.ts",
       "pathRoot": "v43-route-vocabulary-file:2c93a63aab5b68948d55d7b8",
       "categories": [
         "api",
@@ -12073,7 +12073,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
+      "path": "apps/uapi/app/api/pipeline-harness/asset-pack/preflight.ts",
       "pathRoot": "v43-route-vocabulary-file:3a921e6cfdde7fd865f987d4",
       "categories": [
         "api",
@@ -12088,7 +12088,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/pipeline-harness/asset-pack/runner.ts",
+      "path": "apps/uapi/app/api/pipeline-harness/asset-pack/runner.ts",
       "pathRoot": "v43-route-vocabulary-file:ba99c89ff13ff5fb19487e6b",
       "categories": [
         "api",
@@ -12103,7 +12103,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/vcs/[provider]/oauth/route.ts",
+      "path": "apps/uapi/app/api/vcs/[provider]/oauth/route.ts",
       "pathRoot": "v43-route-vocabulary-file:ab71b46afded881643ec9892",
       "categories": [
         "api",
@@ -12119,7 +12119,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/webhook/route.ts",
+      "path": "apps/uapi/app/api/webhook/route.ts",
       "pathRoot": "v43-route-vocabulary-file:1bda46d1a21ba70ea4bd83e6",
       "categories": [
         "api",
@@ -12135,7 +12135,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/api/webhook/verify.ts",
+      "path": "apps/uapi/app/api/webhook/verify.ts",
       "pathRoot": "v43-route-vocabulary-file:9f77a6aed28dd7c0c8909ea5",
       "categories": [
         "api"
@@ -12149,7 +12149,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/README.md",
+      "path": "apps/uapi/app/auxillaries/README.md",
       "pathRoot": "v43-route-vocabulary-file:87ee04f69ed393a377605b4d",
       "categories": [
         "doc",
@@ -12167,7 +12167,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx",
+      "path": "apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx",
       "pathRoot": "v43-route-vocabulary-file:7a12ebc1cda49d540f111856",
       "categories": [
         "component",
@@ -12183,7 +12183,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
+      "path": "apps/uapi/app/auxillaries/components/AuxillariesInterfacesPane.tsx",
       "pathRoot": "v43-route-vocabulary-file:bc8a06436d9f32679d6f827d",
       "categories": [
         "component",
@@ -12201,7 +12201,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/AuxillariesLoginPane.tsx",
+      "path": "apps/uapi/app/auxillaries/components/AuxillariesLoginPane.tsx",
       "pathRoot": "v43-route-vocabulary-file:e9d58a9b4b693e3e347648ec",
       "categories": [
         "component",
@@ -12216,7 +12216,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/AuxillariesSurface.tsx",
+      "path": "apps/uapi/app/auxillaries/components/AuxillariesSurface.tsx",
       "pathRoot": "v43-route-vocabulary-file:18c558b0a19e3bc78bb3b0aa",
       "categories": [
         "component",
@@ -12232,7 +12232,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/AuxillariesWalletPane.tsx",
+      "path": "apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx",
       "pathRoot": "v43-route-vocabulary-file:d812180527af41d67090b7dd",
       "categories": [
         "component",
@@ -12251,7 +12251,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/auxillary-pane-explainers.ts",
+      "path": "apps/uapi/app/auxillaries/components/auxillary-pane-explainers.ts",
       "pathRoot": "v43-route-vocabulary-file:5ef24bcd0cb4d27e1832612d",
       "categories": [
         "component",
@@ -12267,7 +12267,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/auxillary-pane-meta.ts",
+      "path": "apps/uapi/app/auxillaries/components/auxillary-pane-meta.ts",
       "pathRoot": "v43-route-vocabulary-file:ce6e275527be20a07eb51553",
       "categories": [
         "component"
@@ -12283,7 +12283,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader.tsx",
+      "path": "apps/uapi/app/auxillaries/components/headers/AuxillariesInterfacesPaneHeader.tsx",
       "pathRoot": "v43-route-vocabulary-file:5fe257603311c34a49f6d726",
       "categories": [
         "component"
@@ -12297,7 +12297,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/bitcode-browser-accessibility-responsive-proof.ts",
+      "path": "apps/uapi/app/bitcode-browser-accessibility-responsive-proof.ts",
       "pathRoot": "v43-route-vocabulary-file:02d4ebe62d243e9c0dcb109e",
       "categories": [],
       "tokenCounts": {
@@ -12311,7 +12311,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/bitcode-browser-proof.ts",
+      "path": "apps/uapi/app/bitcode-browser-proof.ts",
       "pathRoot": "v43-route-vocabulary-file:da7d29c95f7e6c054e890aae",
       "categories": [
         "telemetry"
@@ -12331,7 +12331,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/bitcode-ledger-storage-sync.ts",
+      "path": "apps/uapi/app/bitcode-ledger-storage-sync.ts",
       "pathRoot": "v43-route-vocabulary-file:7bed94b7aae0c00c1f038169",
       "categories": [],
       "tokenCounts": {
@@ -12343,7 +12343,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/btd/[assetPackId]/page.tsx",
+      "path": "apps/uapi/app/btd/[assetPackId]/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:f1115ca3ecb7c5f9d0676577",
       "categories": [
         "component",
@@ -12363,7 +12363,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/ConversationsRouteClient.tsx",
+      "path": "apps/uapi/app/conversations/ConversationsRouteClient.tsx",
       "pathRoot": "v43-route-vocabulary-file:d62c96beb3ee560fcbb9b30c",
       "categories": [
         "component",
@@ -12381,7 +12381,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/README.md",
+      "path": "apps/uapi/app/conversations/README.md",
       "pathRoot": "v43-route-vocabulary-file:ad3c8e82c49aff836c2576bc",
       "categories": [
         "doc",
@@ -12401,7 +12401,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
+      "path": "apps/uapi/app/conversations/components/ConversationTerminalHandoff.tsx",
       "pathRoot": "v43-route-vocabulary-file:3c37d4df728191b86357f18d",
       "categories": [
         "component"
@@ -12416,7 +12416,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/components/ConversationsEnhancedRichTextInput.tsx",
+      "path": "apps/uapi/app/conversations/components/ConversationsEnhancedRichTextInput.tsx",
       "pathRoot": "v43-route-vocabulary-file:3e5b0fa50424c179636dd110",
       "categories": [
         "component",
@@ -12431,7 +12431,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/components/ConversationsOverlay.tsx",
+      "path": "apps/uapi/app/conversations/components/ConversationsOverlay.tsx",
       "pathRoot": "v43-route-vocabulary-file:29948565cb03b0768bb99d1a",
       "categories": [
         "component",
@@ -12448,7 +12448,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/components/hooks/useChatState.ts",
+      "path": "apps/uapi/app/conversations/components/hooks/useChatState.ts",
       "pathRoot": "v43-route-vocabulary-file:f8e64ebe34242dc6c95c5ef6",
       "categories": [
         "component"
@@ -12462,7 +12462,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/conversation-rehearsal.ts",
+      "path": "apps/uapi/app/conversations/conversation-rehearsal.ts",
       "pathRoot": "v43-route-vocabulary-file:bcf67b8a2b81d9dfdb13565a",
       "categories": [
         "telemetry"
@@ -12476,7 +12476,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
+      "path": "apps/uapi/app/conversations/conversation-telemetry-proof-hooks.ts",
       "pathRoot": "v43-route-vocabulary-file:434dfdba21b7bc5272491d2a",
       "categories": [
         "telemetry"
@@ -12491,7 +12491,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/conversation-terminal-handoff.ts",
+      "path": "apps/uapi/app/conversations/conversation-terminal-handoff.ts",
       "pathRoot": "v43-route-vocabulary-file:1e16e13a6527cdf99b1fb802",
       "categories": [
         "telemetry"
@@ -12511,7 +12511,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/conversation-writing-workspace.ts",
+      "path": "apps/uapi/app/conversations/conversation-writing-workspace.ts",
       "pathRoot": "v43-route-vocabulary-file:33e203e630bcd5d7dd638808",
       "categories": [],
       "tokenCounts": {
@@ -12523,7 +12523,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/conversations/page.tsx",
+      "path": "apps/uapi/app/conversations/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:03fe2c46a2173955e8f73899",
       "categories": [
         "component",
@@ -12539,7 +12539,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/deposit/DepositPageClient.tsx",
+      "path": "apps/uapi/app/deposit/DepositPageClient.tsx",
       "pathRoot": "v43-route-vocabulary-file:f2420b10b04cc418d9da712f",
       "categories": [
         "component",
@@ -12558,7 +12558,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/deposit/deposit-route-model.ts",
+      "path": "apps/uapi/app/deposit/deposit-route-model.ts",
       "pathRoot": "v43-route-vocabulary-file:9f874e16b85a2cad2cc004fb",
       "categories": [
         "telemetry"
@@ -12572,7 +12572,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/deposit/page.tsx",
+      "path": "apps/uapi/app/deposit/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:7dc4793bff35d63c33a6320f",
       "categories": [
         "component",
@@ -12588,7 +12588,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/docs/DocsArticlePage.tsx",
+      "path": "apps/uapi/app/docs/DocsArticlePage.tsx",
       "pathRoot": "v43-route-vocabulary-file:bd4396603351d2adaf835dd2",
       "categories": [
         "component"
@@ -12605,7 +12605,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/docs/bitcode-docs-content.ts",
+      "path": "apps/uapi/app/docs/bitcode-docs-content.ts",
       "pathRoot": "v43-route-vocabulary-file:b06d095555423c17fd859069",
       "categories": [
         "telemetry"
@@ -12628,7 +12628,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/docs/page.tsx",
+      "path": "apps/uapi/app/docs/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:1aa73efbeeb9bd67feaed874",
       "categories": [
         "component",
@@ -12645,7 +12645,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/edgetimes/EdgetimesPageContent.tsx",
+      "path": "apps/uapi/app/edgetimes/EdgetimesPageContent.tsx",
       "pathRoot": "v43-route-vocabulary-file:f66c20e2a3b3d6d3bb32999b",
       "categories": [
         "component",
@@ -12662,7 +12662,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/edgetimes/edgetimes-topology.ts",
+      "path": "apps/uapi/app/edgetimes/edgetimes-topology.ts",
       "pathRoot": "v43-route-vocabulary-file:d41b57815fe4520342c4a80a",
       "categories": [
         "telemetry"
@@ -12679,7 +12679,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/exchange/README.md",
+      "path": "apps/uapi/app/exchange/README.md",
       "pathRoot": "v43-route-vocabulary-file:6615ca47ff7e7f892dfe8509",
       "categories": [
         "doc"
@@ -12699,7 +12699,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/executions/README.md",
+      "path": "apps/uapi/app/executions/README.md",
       "pathRoot": "v43-route-vocabulary-file:11cd51c6bcd76549498c6cfc",
       "categories": [
         "doc",
@@ -12715,7 +12715,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/executions/components/ExecutionsPageClient.tsx",
+      "path": "apps/uapi/app/executions/components/ExecutionsPageClient.tsx",
       "pathRoot": "v43-route-vocabulary-file:026240a4424f65e5b2a7d980",
       "categories": [
         "component",
@@ -12732,7 +12732,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/fill-gaps.tsx",
+      "path": "apps/uapi/app/fill-gaps.tsx",
       "pathRoot": "v43-route-vocabulary-file:6a611a1d6aac1619f3a30c9a",
       "categories": [
         "component",
@@ -12747,7 +12747,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/hero-client.tsx",
+      "path": "apps/uapi/app/hero-client.tsx",
       "pathRoot": "v43-route-vocabulary-file:7016ec9aeec42be02a4118eb",
       "categories": [
         "component",
@@ -12764,7 +12764,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/orbitals/README.md",
+      "path": "apps/uapi/app/orbitals/README.md",
       "pathRoot": "v43-route-vocabulary-file:9274b41153e7b6ea539609fa",
       "categories": [
         "doc"
@@ -12781,7 +12781,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx",
+      "path": "apps/uapi/app/orbitals/components/OrbitalsConnectsOrbitalEmailConnection.tsx",
       "pathRoot": "v43-route-vocabulary-file:e8538b307e5a67fc525d0f3a",
       "categories": [
         "component",
@@ -12797,7 +12797,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/orbitals/components/OrbitalsConnectsOrbitalPhoneConnection.tsx",
+      "path": "apps/uapi/app/orbitals/components/OrbitalsConnectsOrbitalPhoneConnection.tsx",
       "pathRoot": "v43-route-vocabulary-file:c0827063f7ba7cf7a51be553",
       "categories": [
         "component"
@@ -12812,7 +12812,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/orbitals/components/OrbitalsPhoneConnectSmart.tsx",
+      "path": "apps/uapi/app/orbitals/components/OrbitalsPhoneConnectSmart.tsx",
       "pathRoot": "v43-route-vocabulary-file:2510037f220e99c7cfddacf0",
       "categories": [
         "component",
@@ -12828,7 +12828,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/packs/PacksPageClient.tsx",
+      "path": "apps/uapi/app/packs/PacksPageClient.tsx",
       "pathRoot": "v43-route-vocabulary-file:e2a6d13fb8ac8c619972b4e3",
       "categories": [
         "component",
@@ -12846,7 +12846,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/packs/page.tsx",
+      "path": "apps/uapi/app/packs/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:640704e340fc2092705c5b9b",
       "categories": [
         "component",
@@ -12862,7 +12862,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/page.tsx",
+      "path": "apps/uapi/app/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:6130941253e6443000d6dbee",
       "categories": [
         "component",
@@ -12879,7 +12879,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/read/ReadPageClient.tsx",
+      "path": "apps/uapi/app/read/ReadPageClient.tsx",
       "pathRoot": "v43-route-vocabulary-file:88ac7ae502da78f716984a0b",
       "categories": [
         "component",
@@ -12898,7 +12898,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/read/page.tsx",
+      "path": "apps/uapi/app/read/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:f1683a164e5711d6c44ca7bb",
       "categories": [
         "component",
@@ -12914,7 +12914,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/read/read-route-model.ts",
+      "path": "apps/uapi/app/read/read-route-model.ts",
       "pathRoot": "v43-route-vocabulary-file:4c0c9efefe33fa407d10c8da",
       "categories": [],
       "tokenCounts": {
@@ -12929,7 +12929,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/DemonstrationWitnessHost.tsx",
+      "path": "apps/uapi/app/terminal/DemonstrationWitnessHost.tsx",
       "pathRoot": "v43-route-vocabulary-file:f8afe98c7e64ad58029103f7",
       "categories": [
         "component",
@@ -12944,7 +12944,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/README.md",
+      "path": "apps/uapi/app/terminal/README.md",
       "pathRoot": "v43-route-vocabulary-file:e4e31c52d53799c043ca166d",
       "categories": [
         "doc",
@@ -12964,7 +12964,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalActionWorkbenchCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalActionWorkbenchCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:b692c16a873bdca457acce8e",
       "categories": [
         "component",
@@ -12980,7 +12980,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalClosureControlDeck.tsx",
+      "path": "apps/uapi/app/terminal/TerminalClosureControlDeck.tsx",
       "pathRoot": "v43-route-vocabulary-file:0aaefaec568e851426efc8ac",
       "categories": [
         "component",
@@ -12996,7 +12996,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalClosureNativeSections.tsx",
+      "path": "apps/uapi/app/terminal/TerminalClosureNativeSections.tsx",
       "pathRoot": "v43-route-vocabulary-file:08dc7dc20aa31534776f6e68",
       "categories": [
         "component",
@@ -13012,7 +13012,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalCommandDeck.tsx",
+      "path": "apps/uapi/app/terminal/TerminalCommandDeck.tsx",
       "pathRoot": "v43-route-vocabulary-file:992dcf46df42ff9db093f877",
       "categories": [
         "component",
@@ -13029,7 +13029,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalCoreNativeSections.tsx",
+      "path": "apps/uapi/app/terminal/TerminalCoreNativeSections.tsx",
       "pathRoot": "v43-route-vocabulary-file:abc360f8ad044e607ee57dad",
       "categories": [
         "component"
@@ -13045,7 +13045,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalDepositComposer.tsx",
+      "path": "apps/uapi/app/terminal/TerminalDepositComposer.tsx",
       "pathRoot": "v43-route-vocabulary-file:f4bef39aa70cd164d97377ca",
       "categories": [
         "component",
@@ -13062,7 +13062,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
+      "path": "apps/uapi/app/terminal/TerminalDepositReadWorkbench.tsx",
       "pathRoot": "v43-route-vocabulary-file:69b483abf7a72437d78aaad1",
       "categories": [
         "component",
@@ -13078,7 +13078,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalExperienceFrame.tsx",
+      "path": "apps/uapi/app/terminal/TerminalExperienceFrame.tsx",
       "pathRoot": "v43-route-vocabulary-file:8fa8db42e7e1cb558eb3e16d",
       "categories": [
         "component",
@@ -13094,7 +13094,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalExternalInterfacingPanel.tsx",
+      "path": "apps/uapi/app/terminal/TerminalExternalInterfacingPanel.tsx",
       "pathRoot": "v43-route-vocabulary-file:c2d0996c5ed522d40fde3357",
       "categories": [
         "component",
@@ -13110,7 +13110,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalFloatingDebugWidget.tsx",
+      "path": "apps/uapi/app/terminal/TerminalFloatingDebugWidget.tsx",
       "pathRoot": "v43-route-vocabulary-file:94b3ccae4bc83ef8b0e93e1f",
       "categories": [
         "component",
@@ -13126,7 +13126,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalFlowGuideCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalFlowGuideCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:bc1e7274bbbc4869e660b1d3",
       "categories": [
         "component"
@@ -13140,7 +13140,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalLiveSummaryStrip.tsx",
+      "path": "apps/uapi/app/terminal/TerminalLiveSummaryStrip.tsx",
       "pathRoot": "v43-route-vocabulary-file:be6d0109cd926133de8d16db",
       "categories": [
         "component"
@@ -13156,7 +13156,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalMockTransactionDetails.tsx",
+      "path": "apps/uapi/app/terminal/TerminalMockTransactionDetails.tsx",
       "pathRoot": "v43-route-vocabulary-file:438b3bb0e220f849ef671d41",
       "categories": [
         "component",
@@ -13172,7 +13172,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalMvpMap.tsx",
+      "path": "apps/uapi/app/terminal/TerminalMvpMap.tsx",
       "pathRoot": "v43-route-vocabulary-file:cf3d2fb1d727d8810d63f862",
       "categories": [
         "component"
@@ -13189,7 +13189,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalOperationalHealthPanel.tsx",
+      "path": "apps/uapi/app/terminal/TerminalOperationalHealthPanel.tsx",
       "pathRoot": "v43-route-vocabulary-file:ccc83f24c8cebda6e48197ad",
       "categories": [
         "component",
@@ -13205,7 +13205,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalPageClient.tsx",
+      "path": "apps/uapi/app/terminal/TerminalPageClient.tsx",
       "pathRoot": "v43-route-vocabulary-file:a9c99f865a298ffb22056e24",
       "categories": [
         "component",
@@ -13222,7 +13222,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalPreservedShellSurface.tsx",
+      "path": "apps/uapi/app/terminal/TerminalPreservedShellSurface.tsx",
       "pathRoot": "v43-route-vocabulary-file:95483e0a2fb79f611e4d7bc4",
       "categories": [
         "component"
@@ -13237,7 +13237,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalReadScenarioPanel.tsx",
+      "path": "apps/uapi/app/terminal/TerminalReadScenarioPanel.tsx",
       "pathRoot": "v43-route-vocabulary-file:4b0e11c22c9298c06e394c18",
       "categories": [
         "component",
@@ -13255,7 +13255,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalRepositoryContextPanel.tsx",
+      "path": "apps/uapi/app/terminal/TerminalRepositoryContextPanel.tsx",
       "pathRoot": "v43-route-vocabulary-file:eb47108132ca63fef878665b",
       "categories": [
         "component",
@@ -13272,7 +13272,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalSectionAtlas.tsx",
+      "path": "apps/uapi/app/terminal/TerminalSectionAtlas.tsx",
       "pathRoot": "v43-route-vocabulary-file:d3dc34707f3fde88fcd89208",
       "categories": [
         "component"
@@ -13286,7 +13286,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalSupplySelectionPanel.tsx",
+      "path": "apps/uapi/app/terminal/TerminalSupplySelectionPanel.tsx",
       "pathRoot": "v43-route-vocabulary-file:3cf63c92f5359800166cbfeb",
       "categories": [
         "component",
@@ -13302,7 +13302,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionActivitySurface.tsx",
       "pathRoot": "v43-route-vocabulary-file:e7497ac7d60a3685438f48d4",
       "categories": [
         "component",
@@ -13318,7 +13318,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionClosureCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionClosureCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:65fffe7778e3cef09a530d52",
       "categories": [
         "component",
@@ -13333,7 +13333,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionDetailActionBar.tsx",
       "pathRoot": "v43-route-vocabulary-file:e33e3ceea31ec0a611353581",
       "categories": [
         "component",
@@ -13351,7 +13351,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionDetailHero.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionDetailHero.tsx",
       "pathRoot": "v43-route-vocabulary-file:b07ab39e34b4506a18398757",
       "categories": [
         "component",
@@ -13369,7 +13369,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionDetailSurface.tsx",
       "pathRoot": "v43-route-vocabulary-file:ea819809a2aaa821ef417cd2",
       "categories": [
         "component",
@@ -13387,7 +13387,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionHistoryCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionHistoryCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:e9dad45c598eb4f9f916bf55",
       "categories": [
         "component",
@@ -13402,7 +13402,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionJournalReconciliationCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:3a8291acbd1677361d4891d2",
       "categories": [
         "component",
@@ -13418,7 +13418,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionOrganizationAuthorityCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:8de692a74745d93fc5c859f6",
       "categories": [
         "component",
@@ -13433,7 +13433,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionProofsCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionProofsCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:2ccd1e5c0d45471f28419c87",
       "categories": [
         "component",
@@ -13448,7 +13448,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionWalletBtcCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:8d5e0ec533f2e7f86849d979",
       "categories": [
         "component",
@@ -13463,7 +13463,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionWorkspace.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionWorkspace.tsx",
       "pathRoot": "v43-route-vocabulary-file:3d78fabb99011308353ee0d3",
       "categories": [
         "component",
@@ -13481,7 +13481,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalTransactionsTable.tsx",
+      "path": "apps/uapi/app/terminal/TerminalTransactionsTable.tsx",
       "pathRoot": "v43-route-vocabulary-file:e71221cc2895a3dcc4c9c6b6",
       "categories": [
         "component",
@@ -13497,7 +13497,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/TerminalWorkspaceRail.tsx",
+      "path": "apps/uapi/app/terminal/TerminalWorkspaceRail.tsx",
       "pathRoot": "v43-route-vocabulary-file:d2117f168a5b76f54b3eb8d1",
       "categories": [
         "component",
@@ -13513,7 +13513,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/bitcode-transaction-readiness.ts",
+      "path": "apps/uapi/app/terminal/bitcode-transaction-readiness.ts",
       "pathRoot": "v43-route-vocabulary-file:f48ca17bba07965fa18142e3",
       "categories": [],
       "tokenCounts": {
@@ -13525,7 +13525,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/demonstration-witness-runtime.ts",
+      "path": "apps/uapi/app/terminal/demonstration-witness-runtime.ts",
       "pathRoot": "v43-route-vocabulary-file:9656ae00c2f9b340c5f5c4b2",
       "categories": [],
       "tokenCounts": {
@@ -13538,7 +13538,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/page.tsx",
+      "path": "apps/uapi/app/terminal/page.tsx",
       "pathRoot": "v43-route-vocabulary-file:70fd60e94565060fe3faaa03",
       "categories": [
         "component",
@@ -13556,7 +13556,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-activity-history.ts",
+      "path": "apps/uapi/app/terminal/terminal-activity-history.ts",
       "pathRoot": "v43-route-vocabulary-file:ef13c3387cf3d95fa8690fc2",
       "categories": [
         "telemetry"
@@ -13571,7 +13571,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-closure-controls.ts",
+      "path": "apps/uapi/app/terminal/terminal-closure-controls.ts",
       "pathRoot": "v43-route-vocabulary-file:5226a4ba3fa41bf1de6964df",
       "categories": [],
       "tokenCounts": {
@@ -13584,7 +13584,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-closure-state.ts",
+      "path": "apps/uapi/app/terminal/terminal-closure-state.ts",
       "pathRoot": "v43-route-vocabulary-file:a8cfa670779646311b7f6555",
       "categories": [
         "telemetry"
@@ -13599,7 +13599,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-command-presentation.ts",
+      "path": "apps/uapi/app/terminal/terminal-command-presentation.ts",
       "pathRoot": "v43-route-vocabulary-file:0252fa6dd5d6d14c688c919e",
       "categories": [],
       "tokenCounts": {
@@ -13612,7 +13612,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-commercial-launch-readiness.ts",
+      "path": "apps/uapi/app/terminal/terminal-commercial-launch-readiness.ts",
       "pathRoot": "v43-route-vocabulary-file:fba14b826659de542a4abd05",
       "categories": [
         "telemetry"
@@ -13630,7 +13630,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-core-surface.ts",
+      "path": "apps/uapi/app/terminal/terminal-core-surface.ts",
       "pathRoot": "v43-route-vocabulary-file:85c8d45586c951ae16fa6090",
       "categories": [],
       "tokenCounts": {
@@ -13644,7 +13644,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-deposit-read-workbench.ts",
+      "path": "apps/uapi/app/terminal/terminal-deposit-read-workbench.ts",
       "pathRoot": "v43-route-vocabulary-file:1ebd7ba42107e759c022f8f6",
       "categories": [
         "telemetry"
@@ -13659,7 +13659,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
+      "path": "apps/uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
       "pathRoot": "v43-route-vocabulary-file:a378af5edaf9522d2acf8dd7",
       "categories": [],
       "tokenCounts": {
@@ -13672,7 +13672,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-experience-architecture.ts",
+      "path": "apps/uapi/app/terminal/terminal-experience-architecture.ts",
       "pathRoot": "v43-route-vocabulary-file:4c08cbff68bf2c78e25ed573",
       "categories": [
         "telemetry"
@@ -13689,7 +13689,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-flow-guide.ts",
+      "path": "apps/uapi/app/terminal/terminal-flow-guide.ts",
       "pathRoot": "v43-route-vocabulary-file:42014dd64d46d31a0da32720",
       "categories": [],
       "tokenCounts": {
@@ -13703,7 +13703,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-interface-integration-regression.ts",
+      "path": "apps/uapi/app/terminal/terminal-interface-integration-regression.ts",
       "pathRoot": "v43-route-vocabulary-file:a39e8b7707eedd8320932cce",
       "categories": [
         "telemetry"
@@ -13720,7 +13720,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-journal-reconciliation.ts",
+      "path": "apps/uapi/app/terminal/terminal-journal-reconciliation.ts",
       "pathRoot": "v43-route-vocabulary-file:8c816706372944e70f71aeaa",
       "categories": [
         "telemetry"
@@ -13735,7 +13735,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-live-summary.ts",
+      "path": "apps/uapi/app/terminal/terminal-live-summary.ts",
       "pathRoot": "v43-route-vocabulary-file:96e256d491c3209ae479df78",
       "categories": [],
       "tokenCounts": {
@@ -13747,7 +13747,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-operator-copy.ts",
+      "path": "apps/uapi/app/terminal/terminal-operator-copy.ts",
       "pathRoot": "v43-route-vocabulary-file:db3610260c4db3ae1c62f57c",
       "categories": [],
       "tokenCounts": {
@@ -13759,7 +13759,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-operator-explainers.ts",
+      "path": "apps/uapi/app/terminal/terminal-operator-explainers.ts",
       "pathRoot": "v43-route-vocabulary-file:a3fcde8e431007c671847813",
       "categories": [],
       "tokenCounts": {
@@ -13771,7 +13771,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-organization-authority.ts",
+      "path": "apps/uapi/app/terminal/terminal-organization-authority.ts",
       "pathRoot": "v43-route-vocabulary-file:53305aa285004d337fbf7935",
       "categories": [],
       "tokenCounts": {
@@ -13784,7 +13784,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-pipeline-harness-client.ts",
+      "path": "apps/uapi/app/terminal/terminal-pipeline-harness-client.ts",
       "pathRoot": "v43-route-vocabulary-file:333076183da421e7f6da8286",
       "categories": [
         "telemetry"
@@ -13798,7 +13798,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-protocol-projection.ts",
+      "path": "apps/uapi/app/terminal/terminal-protocol-projection.ts",
       "pathRoot": "v43-route-vocabulary-file:004c5bd6e5efcd9d1058c1a1",
       "categories": [
         "telemetry"
@@ -13812,7 +13812,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-routes.ts",
+      "path": "apps/uapi/app/terminal/terminal-routes.ts",
       "pathRoot": "v43-route-vocabulary-file:1d28f9d658ca0abc40e794f9",
       "categories": [],
       "tokenCounts": {
@@ -13828,7 +13828,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-run-data.ts",
+      "path": "apps/uapi/app/terminal/terminal-run-data.ts",
       "pathRoot": "v43-route-vocabulary-file:b50a3d9dc691f0ac2aa3c582",
       "categories": [
         "telemetry"
@@ -13844,7 +13844,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-section-atlas.ts",
+      "path": "apps/uapi/app/terminal/terminal-section-atlas.ts",
       "pathRoot": "v43-route-vocabulary-file:d8637478c8a2bf4ab3fd0cd1",
       "categories": [],
       "tokenCounts": {
@@ -13856,7 +13856,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-shell-sections.ts",
+      "path": "apps/uapi/app/terminal/terminal-shell-sections.ts",
       "pathRoot": "v43-route-vocabulary-file:1f2dc0ca78f3b2f3c8dd53e3",
       "categories": [],
       "tokenCounts": {
@@ -13869,7 +13869,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-supply-selection.ts",
+      "path": "apps/uapi/app/terminal/terminal-supply-selection.ts",
       "pathRoot": "v43-route-vocabulary-file:bb2826625cf06be33f7b066e",
       "categories": [
         "telemetry"
@@ -13883,7 +13883,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transaction-detail-snapshot.ts",
+      "path": "apps/uapi/app/terminal/terminal-transaction-detail-snapshot.ts",
       "pathRoot": "v43-route-vocabulary-file:4fd35e4dee6f91bf9dd9966d",
       "categories": [
         "telemetry"
@@ -13897,7 +13897,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transaction-detail.ts",
+      "path": "apps/uapi/app/terminal/terminal-transaction-detail.ts",
       "pathRoot": "v43-route-vocabulary-file:006d0fbceb56f3b43262b077",
       "categories": [
         "telemetry"
@@ -13912,7 +13912,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transaction-query.ts",
+      "path": "apps/uapi/app/terminal/terminal-transaction-query.ts",
       "pathRoot": "v43-route-vocabulary-file:a7adf7c8bfe005a8ab716663",
       "categories": [
         "telemetry"
@@ -13927,7 +13927,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transaction-read-model.ts",
+      "path": "apps/uapi/app/terminal/terminal-transaction-read-model.ts",
       "pathRoot": "v43-route-vocabulary-file:c4fc536d9c62061bf1b8e18d",
       "categories": [
         "telemetry"
@@ -13942,7 +13942,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transaction-readiness-source.ts",
+      "path": "apps/uapi/app/terminal/terminal-transaction-readiness-source.ts",
       "pathRoot": "v43-route-vocabulary-file:f2d1df6f00601e46b9f8f952",
       "categories": [],
       "tokenCounts": {
@@ -13954,7 +13954,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transaction-source.ts",
+      "path": "apps/uapi/app/terminal/terminal-transaction-source.ts",
       "pathRoot": "v43-route-vocabulary-file:415b5d00ca4901e7dd6ee08f",
       "categories": [
         "telemetry"
@@ -13968,7 +13968,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-transactions.ts",
+      "path": "apps/uapi/app/terminal/terminal-transactions.ts",
       "pathRoot": "v43-route-vocabulary-file:2a28f508a2a4bd6f0665f1cc",
       "categories": [
         "telemetry"
@@ -13983,7 +13983,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-ux-browser-proof.ts",
+      "path": "apps/uapi/app/terminal/terminal-ux-browser-proof.ts",
       "pathRoot": "v43-route-vocabulary-file:cb821290b34b462e314976a6",
       "categories": [
         "telemetry"
@@ -13999,7 +13999,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-wallet-btc-operation.ts",
+      "path": "apps/uapi/app/terminal/terminal-wallet-btc-operation.ts",
       "pathRoot": "v43-route-vocabulary-file:05e5c8521c8144344b857f43",
       "categories": [],
       "tokenCounts": {
@@ -14011,7 +14011,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-workspace-copy.ts",
+      "path": "apps/uapi/app/terminal/terminal-workspace-copy.ts",
       "pathRoot": "v43-route-vocabulary-file:b58de298aa32b62fe8bd475b",
       "categories": [
         "telemetry"
@@ -14025,7 +14025,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/terminal-workspace-explainers.ts",
+      "path": "apps/uapi/app/terminal/terminal-workspace-explainers.ts",
       "pathRoot": "v43-route-vocabulary-file:ae563386dbd58c20f6711e99",
       "categories": [
         "telemetry"
@@ -14044,7 +14044,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/terminal/use-demonstration-witness-shell-mount.ts",
+      "path": "apps/uapi/app/terminal/use-demonstration-witness-shell-mount.ts",
       "pathRoot": "v43-route-vocabulary-file:f88020f9d47e50791f9fa697",
       "categories": [],
       "tokenCounts": {
@@ -14057,7 +14057,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/app/tps/README.md",
+      "path": "apps/uapi/app/tps/README.md",
       "pathRoot": "v43-route-vocabulary-file:1078aaf7d5752bc992e00d01",
       "categories": [
         "doc",
@@ -14075,7 +14075,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/README.md",
+      "path": "apps/uapi/components/base/bitcode/README.md",
       "pathRoot": "v43-route-vocabulary-file:8b3d53f452922c8ea0b51129",
       "categories": [
         "component",
@@ -14093,7 +14093,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/auth/LoginForm.tsx",
+      "path": "apps/uapi/components/base/bitcode/auth/LoginForm.tsx",
       "pathRoot": "v43-route-vocabulary-file:8116b21c7cc3da8a347799c1",
       "categories": [
         "component",
@@ -14110,7 +14110,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/btd/BTDPrices.tsx",
+      "path": "apps/uapi/components/base/bitcode/btd/BTDPrices.tsx",
       "pathRoot": "v43-route-vocabulary-file:c339f2d8dbaa2061e027c131",
       "categories": [
         "component",
@@ -14128,7 +14128,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx",
+      "path": "apps/uapi/components/base/bitcode/btd/FlexibleBtdSelector.tsx",
       "pathRoot": "v43-route-vocabulary-file:35bc10c23c19a8c2369a2947",
       "categories": [
         "component"
@@ -14142,7 +14142,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/btd/btd-tracker.tsx",
+      "path": "apps/uapi/components/base/bitcode/btd/btd-tracker.tsx",
       "pathRoot": "v43-route-vocabulary-file:777ea2b7d57d2f94f878eeaf",
       "categories": [
         "component",
@@ -14157,7 +14157,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx",
+      "path": "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx",
       "pathRoot": "v43-route-vocabulary-file:5f2190bf70110aead04f6c6d",
       "categories": [
         "component",
@@ -14172,7 +14172,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx",
+      "path": "apps/uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx",
       "pathRoot": "v43-route-vocabulary-file:6ae448961d1a0b820008159f",
       "categories": [
         "component",
@@ -14190,7 +14190,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/execution/README.md",
+      "path": "apps/uapi/components/base/bitcode/execution/README.md",
       "pathRoot": "v43-route-vocabulary-file:b97af42ea0cbef4098b9bd72",
       "categories": [
         "component",
@@ -14209,7 +14209,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts",
+      "path": "apps/uapi/components/base/bitcode/execution/bitcode-transaction-explainers.ts",
       "pathRoot": "v43-route-vocabulary-file:a24794c3346fb92b640498cc",
       "categories": [
         "component",
@@ -14226,7 +14226,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/layout/NavBrand.tsx",
+      "path": "apps/uapi/components/base/bitcode/layout/NavBrand.tsx",
       "pathRoot": "v43-route-vocabulary-file:25ec699ba9021ea6a6d5fe32",
       "categories": [
         "component",
@@ -14241,7 +14241,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "path": "apps/uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
       "pathRoot": "v43-route-vocabulary-file:b70ffb87f4bd57e71990eea3",
       "categories": [
         "component"
@@ -14259,7 +14259,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
+      "path": "apps/uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
       "pathRoot": "v43-route-vocabulary-file:8c3ef1f6717412a7e2d022e0",
       "categories": [
         "component",
@@ -14275,7 +14275,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/layout/footer.tsx",
+      "path": "apps/uapi/components/base/bitcode/layout/footer.tsx",
       "pathRoot": "v43-route-vocabulary-file:00e24168c7166a62817ef404",
       "categories": [
         "component",
@@ -14295,7 +14295,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/layout/nav.tsx",
+      "path": "apps/uapi/components/base/bitcode/layout/nav.tsx",
       "pathRoot": "v43-route-vocabulary-file:23a2826e52c58b018adcc8c3",
       "categories": [
         "component",
@@ -14319,7 +14319,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "path": "apps/uapi/components/base/bitcode/layout/workspace-surface.ts",
       "pathRoot": "v43-route-vocabulary-file:6bd2183c990da0605cd50970",
       "categories": [
         "component"
@@ -14339,7 +14339,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/vcs/VCSConnectionCard.tsx",
+      "path": "apps/uapi/components/base/bitcode/vcs/VCSConnectionCard.tsx",
       "pathRoot": "v43-route-vocabulary-file:cac15bdd0da7457452cad2c7",
       "categories": [
         "component",
@@ -14354,7 +14354,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/components/base/bitcode/vcs/VCSIntegrationPanel.tsx",
+      "path": "apps/uapi/components/base/bitcode/vcs/VCSIntegrationPanel.tsx",
       "pathRoot": "v43-route-vocabulary-file:856da0b2b0fd48b52641e669",
       "categories": [
         "component",
@@ -14369,7 +14369,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/config/integrations.ts",
+      "path": "apps/uapi/config/integrations.ts",
       "pathRoot": "v43-route-vocabulary-file:b8a442cecc84883605b277ed",
       "categories": [],
       "tokenCounts": {
@@ -14381,7 +14381,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/hooks/useVCSData.ts",
+      "path": "apps/uapi/hooks/useVCSData.ts",
       "pathRoot": "v43-route-vocabulary-file:e5c7e0e9c6e4637b94df20c6",
       "categories": [],
       "tokenCounts": {
@@ -14393,7 +14393,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/jest.config.cjs",
+      "path": "apps/uapi/jest.config.cjs",
       "pathRoot": "v43-route-vocabulary-file:f8d0d39295ef748ac1cd8fe6",
       "categories": [
         "telemetry"
@@ -14407,7 +14407,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/lib/mock-review-mode.ts",
+      "path": "apps/uapi/lib/mock-review-mode.ts",
       "pathRoot": "v43-route-vocabulary-file:e68f9f5520a7eaf537f2f09a",
       "categories": [
         "telemetry"
@@ -14424,7 +14424,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/lib/search.ts",
+      "path": "apps/uapi/lib/search.ts",
       "pathRoot": "v43-route-vocabulary-file:4f0dc05fd9f7f8079e92683d",
       "categories": [],
       "tokenCounts": {
@@ -14436,7 +14436,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/middleware/authentication.ts",
+      "path": "apps/uapi/middleware/authentication.ts",
       "pathRoot": "v43-route-vocabulary-file:c0e8018ef3859e578484a8a3",
       "categories": [
         "telemetry"
@@ -14450,7 +14450,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/middleware/security-headers.ts",
+      "path": "apps/uapi/middleware/security-headers.ts",
       "pathRoot": "v43-route-vocabulary-file:c0d668512ff1e5c10f332890",
       "categories": [
         "telemetry"
@@ -14464,7 +14464,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/mocking/README.md",
+      "path": "apps/uapi/mocking/README.md",
       "pathRoot": "v43-route-vocabulary-file:33d5d24108d333960bd5c4bd",
       "categories": [
         "doc",
@@ -14479,7 +14479,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/mocking/generators/ComprehensiveMockDataGenerators.js",
+      "path": "apps/uapi/mocking/generators/ComprehensiveMockDataGenerators.js",
       "pathRoot": "v43-route-vocabulary-file:726be7bb75eeb39ec27a7563",
       "categories": [
         "telemetry"
@@ -14493,7 +14493,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/mocking/generators/ComprehensiveMockDataGenerators.ts",
+      "path": "apps/uapi/mocking/generators/ComprehensiveMockDataGenerators.ts",
       "pathRoot": "v43-route-vocabulary-file:d1ae7e0385f80a602d63f04c",
       "categories": [
         "telemetry"
@@ -14507,7 +14507,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/mocking/scripts/setup-mock-system.js",
+      "path": "apps/uapi/mocking/scripts/setup-mock-system.js",
       "pathRoot": "v43-route-vocabulary-file:7c01429b8188debf67f94cc9",
       "categories": [
         "telemetry"
@@ -14521,7 +14521,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/package.json",
+      "path": "apps/uapi/package.json",
       "pathRoot": "v43-route-vocabulary-file:e49ba9393ac580108a985277",
       "categories": [
         "telemetry"
@@ -14535,7 +14535,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/playwright.config.ts",
+      "path": "apps/uapi/playwright.config.ts",
       "pathRoot": "v43-route-vocabulary-file:0bda103cbbf813dbfdce269c",
       "categories": [],
       "tokenCounts": {
@@ -14548,7 +14548,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/prompts/bitcode-terminal-system-prompt.ts",
+      "path": "apps/uapi/prompts/bitcode-terminal-system-prompt.ts",
       "pathRoot": "v43-route-vocabulary-file:c092810057ef8b8158bd6ce5",
       "categories": [],
       "tokenCounts": {
@@ -14560,7 +14560,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/scripts/sync-asset-pack-evidence-embeddings.ts",
+      "path": "apps/uapi/scripts/sync-asset-pack-evidence-embeddings.ts",
       "pathRoot": "v43-route-vocabulary-file:da125648f59839a9a369d00a",
       "categories": [
         "telemetry"
@@ -14574,7 +14574,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/stories/PatternMemory.stories.tsx",
+      "path": "apps/uapi/stories/PatternMemory.stories.tsx",
       "pathRoot": "v43-route-vocabulary-file:3da040a1748f5e867a45639a",
       "categories": [
         "component",
@@ -14589,7 +14589,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/stories/conversations/ConversationInterface.stories.tsx",
+      "path": "apps/uapi/stories/conversations/ConversationInterface.stories.tsx",
       "pathRoot": "v43-route-vocabulary-file:d2248a1dcac9fa0317b95cba",
       "categories": [
         "component",
@@ -14604,7 +14604,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/styles/conversations-fullscreen.css",
+      "path": "apps/uapi/styles/conversations-fullscreen.css",
       "pathRoot": "v43-route-vocabulary-file:7ab43c18a129dff0d7ca87d0",
       "categories": [
         "telemetry"
@@ -14618,7 +14618,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/activityRoute.test.ts",
+      "path": "apps/uapi/tests/api/activityRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:6a2ccd1c1872a3cc89b7c1ff",
       "categories": [
         "api",
@@ -14634,7 +14634,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/auxillariesGithubConnectionRoute.test.ts",
+      "path": "apps/uapi/tests/api/auxillariesGithubConnectionRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:05cb7d64d3a59a924860bca7",
       "categories": [
         "api",
@@ -14649,7 +14649,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/clientErrorRoute.test.ts",
+      "path": "apps/uapi/tests/api/clientErrorRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:c3850d1732af797231fde3e9",
       "categories": [
         "api",
@@ -14665,7 +14665,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/conversationBranchRoute.test.ts",
+      "path": "apps/uapi/tests/api/conversationBranchRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:9c61c0da65db6a67e95c1821",
       "categories": [
         "api",
@@ -14682,7 +14682,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/conversationReadingInterfaceParity.test.ts",
+      "path": "apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts",
       "pathRoot": "v43-route-vocabulary-file:35673f5b87dc34e12ed333ac",
       "categories": [
         "api",
@@ -14699,7 +14699,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/conversationTelemetryProofHooks.test.ts",
+      "path": "apps/uapi/tests/api/conversationTelemetryProofHooks.test.ts",
       "pathRoot": "v43-route-vocabulary-file:f169e547c12a11e4d56be6f9",
       "categories": [
         "api",
@@ -14715,7 +14715,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/conversationThreadStreamRoute.test.ts",
+      "path": "apps/uapi/tests/api/conversationThreadStreamRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:fa91d047a6a604be7ecd1876",
       "categories": [
         "api",
@@ -14733,7 +14733,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/conversationsRouteRead.test.ts",
+      "path": "apps/uapi/tests/api/conversationsRouteRead.test.ts",
       "pathRoot": "v43-route-vocabulary-file:26ab1317e288876effca1119",
       "categories": [
         "api",
@@ -14749,7 +14749,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/executionsHistoryRoute.test.ts",
+      "path": "apps/uapi/tests/api/executionsHistoryRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:5461aad5cca9f504afb9b1e0",
       "categories": [
         "api",
@@ -14765,7 +14765,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/executionsHistoryRunRoute.test.ts",
+      "path": "apps/uapi/tests/api/executionsHistoryRunRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:81671ef0f7e4ae9097f60616",
       "categories": [
         "api",
@@ -14781,7 +14781,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
+      "path": "apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts",
       "pathRoot": "v43-route-vocabulary-file:48f1121ecb69310d712fb06b",
       "categories": [
         "api",
@@ -14799,7 +14799,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/externalRealizationRoute.test.ts",
+      "path": "apps/uapi/tests/api/externalRealizationRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:19f454d6e05d4d485eaefd27",
       "categories": [
         "api",
@@ -14816,7 +14816,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/pipelineHarnessRoute.test.ts",
+      "path": "apps/uapi/tests/api/pipelineHarnessRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:19a9b8e2e12feffb31d2f2e0",
       "categories": [
         "api",
@@ -14832,7 +14832,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/readReviewProtocolParity.test.ts",
+      "path": "apps/uapi/tests/api/readReviewProtocolParity.test.ts",
       "pathRoot": "v43-route-vocabulary-file:0cccd2ae625748ef474ae8ad",
       "categories": [
         "api",
@@ -14848,7 +14848,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/readReviewRoute.test.ts",
+      "path": "apps/uapi/tests/api/readReviewRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:14655a1afb58a6c15097cb4a",
       "categories": [
         "api",
@@ -14864,7 +14864,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/userBtdRoute.test.ts",
+      "path": "apps/uapi/tests/api/userBtdRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:5fc09d50579c9cb326e112cd",
       "categories": [
         "api",
@@ -14880,7 +14880,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/vcsGithubCallbackRoute.test.ts",
+      "path": "apps/uapi/tests/api/vcsGithubCallbackRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:a9f8297b769f5bd770272ccd",
       "categories": [
         "api",
@@ -14898,7 +14898,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/vcsRepositoriesInventoryParity.test.ts",
+      "path": "apps/uapi/tests/api/vcsRepositoriesInventoryParity.test.ts",
       "pathRoot": "v43-route-vocabulary-file:6ebcf5e8ce4e756239e3bc15",
       "categories": [
         "api",
@@ -14913,7 +14913,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/vcsRoutes.test.ts",
+      "path": "apps/uapi/tests/api/vcsRoutes.test.ts",
       "pathRoot": "v43-route-vocabulary-file:69646457864a2a01847fe490",
       "categories": [
         "api",
@@ -14929,7 +14929,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/api/walletOAuthRoutes.test.ts",
+      "path": "apps/uapi/tests/api/walletOAuthRoutes.test.ts",
       "pathRoot": "v43-route-vocabulary-file:268bc274ee63c6b5c5432b97",
       "categories": [
         "api",
@@ -14944,7 +14944,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/auxillariesProvider.test.tsx",
+      "path": "apps/uapi/tests/auxillariesProvider.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:30b8feca3e164313cb4f24e5",
       "categories": [
         "component",
@@ -14962,7 +14962,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/auxillariesWalletPane.test.tsx",
+      "path": "apps/uapi/tests/auxillariesWalletPane.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:cee3412312e89e6076455355",
       "categories": [
         "component",
@@ -14977,7 +14977,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts",
+      "path": "apps/uapi/tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts",
       "pathRoot": "v43-route-vocabulary-file:52968c051c39418fe845ce4e",
       "categories": [
         "test"
@@ -14992,7 +14992,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeBrowserProof.test.ts",
+      "path": "apps/uapi/tests/bitcodeBrowserProof.test.ts",
       "pathRoot": "v43-route-vocabulary-file:f6ebd3b586a3f466daf263c0",
       "categories": [
         "test"
@@ -15010,7 +15010,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeDetailPanel.test.tsx",
+      "path": "apps/uapi/tests/bitcodeDetailPanel.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:82c9498d87b2bac792c62271",
       "categories": [
         "component",
@@ -15026,7 +15026,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeDocsContent.test.tsx",
+      "path": "apps/uapi/tests/bitcodeDocsContent.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:0957859bcfbbd3cfbdd2bb7b",
       "categories": [
         "component",
@@ -15047,7 +15047,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeInlineExplainer.test.tsx",
+      "path": "apps/uapi/tests/bitcodeInlineExplainer.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:5f5c7d0fcb2ad2fa510f6d57",
       "categories": [
         "component",
@@ -15064,7 +15064,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeTransactionReadiness.test.ts",
+      "path": "apps/uapi/tests/bitcodeTransactionReadiness.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ed51b975e067ecabcd3605a0",
       "categories": [
         "test"
@@ -15080,7 +15080,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/bitcodeTransactionsFilterBar.test.tsx",
+      "path": "apps/uapi/tests/bitcodeTransactionsFilterBar.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:3a7a82f7fc7e01dde8a642a5",
       "categories": [
         "component",
@@ -15096,7 +15096,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/btdTrackerLoading.test.tsx",
+      "path": "apps/uapi/tests/btdTrackerLoading.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:5d2b3e4df661c8ce4e0f1742",
       "categories": [
         "component",
@@ -15112,7 +15112,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationMockShared.test.ts",
+      "path": "apps/uapi/tests/conversationMockShared.test.ts",
       "pathRoot": "v43-route-vocabulary-file:b2bb5abc18fae9904e0cec35",
       "categories": [
         "telemetry",
@@ -15127,7 +15127,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationRehearsalPanel.test.tsx",
+      "path": "apps/uapi/tests/conversationRehearsalPanel.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:9ddfb04bf795a942e72c8190",
       "categories": [
         "component",
@@ -15142,7 +15142,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationTerminalHandoff.test.tsx",
+      "path": "apps/uapi/tests/conversationTerminalHandoff.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:7d5d7da044ca0fd2fcb2fbcf",
       "categories": [
         "component",
@@ -15161,7 +15161,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationTerminalIntegrationCoverage.test.tsx",
+      "path": "apps/uapi/tests/conversationTerminalIntegrationCoverage.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:fd7a5fcb09ec04a1e598b9d3",
       "categories": [
         "component",
@@ -15181,7 +15181,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationWritingWorkspace.test.tsx",
+      "path": "apps/uapi/tests/conversationWritingWorkspace.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:e58602b4a94874d48e9bea51",
       "categories": [
         "component",
@@ -15196,7 +15196,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationsOverlayMapping.test.ts",
+      "path": "apps/uapi/tests/conversationsOverlayMapping.test.ts",
       "pathRoot": "v43-route-vocabulary-file:e185ce0f38c3113648d6e1c5",
       "categories": [
         "telemetry",
@@ -15213,7 +15213,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/conversationsRouteClient.test.tsx",
+      "path": "apps/uapi/tests/conversationsRouteClient.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:2e2bede7b3431d1986be8c61",
       "categories": [
         "component",
@@ -15230,7 +15230,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/demonstrationWitnessMount.test.tsx",
+      "path": "apps/uapi/tests/demonstrationWitnessMount.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:184b265e050b6a7ffbf5093b",
       "categories": [
         "component",
@@ -15246,7 +15246,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/demonstrationWitnessScopedStylesRoute.test.ts",
+      "path": "apps/uapi/tests/demonstrationWitnessScopedStylesRoute.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ad0097bfcaac1afac2231822",
       "categories": [
         "test"
@@ -15261,7 +15261,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/depositPageClient.test.tsx",
+      "path": "apps/uapi/tests/depositPageClient.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:ee0f7a47ef58e682944fa540",
       "categories": [
         "component",
@@ -15280,7 +15280,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/depositRouteModel.test.ts",
+      "path": "apps/uapi/tests/depositRouteModel.test.ts",
       "pathRoot": "v43-route-vocabulary-file:d5e8711c81fe2b866dd4f7b6",
       "categories": [
         "test"
@@ -15294,7 +15294,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
+      "path": "apps/uapi/tests/e2e/bitcode-browser-accessibility-responsive-proof.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:53de966306b0735788b596a0",
       "categories": [
         "telemetry",
@@ -15311,7 +15311,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/bitcode-browser-proof.spec.ts",
+      "path": "apps/uapi/tests/e2e/bitcode-browser-proof.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:1bc2fcbab2b372c467c74e48",
       "categories": [
         "telemetry",
@@ -15332,7 +15332,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.auxillaries.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:ff6ef1a5dddd3dd8b8b96210",
       "categories": [
         "telemetry",
@@ -15349,7 +15349,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:4cbe968c93b7b6c903b13089",
       "categories": [
         "test"
@@ -15365,7 +15365,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.conversations-docs.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:84ce29b4719b25a06288e184",
       "categories": [
         "telemetry",
@@ -15387,7 +15387,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.helpers.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.helpers.ts",
       "pathRoot": "v43-route-vocabulary-file:66439c982a08af9e6bb03d70",
       "categories": [
         "telemetry"
@@ -15405,7 +15405,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.responsive.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.responsive.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:2e353d48faef12a79441dff0",
       "categories": [
         "test"
@@ -15421,7 +15421,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.routes.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.routes.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:f35dd177cc59f641eb25c393",
       "categories": [
         "test"
@@ -15437,7 +15437,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:9d9747349860f80279e843bb",
       "categories": [
         "telemetry",
@@ -15454,7 +15454,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/commercial-mvp.terminal.spec.ts",
+      "path": "apps/uapi/tests/e2e/commercial-mvp.terminal.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:7b4c4225ae2c0d185d0b4e59",
       "categories": [
         "telemetry",
@@ -15474,7 +15474,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/login.visual.spec.ts",
+      "path": "apps/uapi/tests/e2e/login.visual.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:d85ce985ca7571f544269ce5",
       "categories": [
         "telemetry",
@@ -15491,7 +15491,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/sso.spec.ts",
+      "path": "apps/uapi/tests/e2e/sso.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:bd71336f9130afc33a024866",
       "categories": [
         "telemetry",
@@ -15508,7 +15508,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/e2e/terminal.flow.spec.ts",
+      "path": "apps/uapi/tests/e2e/terminal.flow.spec.ts",
       "pathRoot": "v43-route-vocabulary-file:e53c83b3760dc8d665fc69a6",
       "categories": [
         "telemetry",
@@ -15526,7 +15526,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/edgetimesPageContent.test.tsx",
+      "path": "apps/uapi/tests/edgetimesPageContent.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:bfdd95badf9b585567351dd0",
       "categories": [
         "component",
@@ -15543,7 +15543,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/exchangeTerminalHandoff.test.ts",
+      "path": "apps/uapi/tests/exchangeTerminalHandoff.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ee2ced671a4e48853e0551cd",
       "categories": [
         "telemetry",
@@ -15564,7 +15564,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/features.test.ts",
+      "path": "apps/uapi/tests/features.test.ts",
       "pathRoot": "v43-route-vocabulary-file:8f00c84afd873e4169d85970",
       "categories": [
         "test"
@@ -15579,7 +15579,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/footerPublicShell.test.tsx",
+      "path": "apps/uapi/tests/footerPublicShell.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:5927b22494f623a505b55195",
       "categories": [
         "component",
@@ -15600,7 +15600,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/marketingLandingPage.test.tsx",
+      "path": "apps/uapi/tests/marketingLandingPage.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:482a47fa571ad7fbb464f571",
       "categories": [
         "component",
@@ -15619,7 +15619,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/marketingOperatorGuideCard.test.tsx",
+      "path": "apps/uapi/tests/marketingOperatorGuideCard.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:ddfd49b305d31bbf248cdcc3",
       "categories": [
         "component",
@@ -15635,7 +15635,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/navBrand.test.tsx",
+      "path": "apps/uapi/tests/navBrand.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:909e5a7aa8fcea65cf7d3436",
       "categories": [
         "component",
@@ -15651,7 +15651,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/navPublicShell.test.tsx",
+      "path": "apps/uapi/tests/navPublicShell.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:3f5e73fd4e2966ce436a1e7c",
       "categories": [
         "component",
@@ -15671,7 +15671,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/navWorkspaceChrome.test.tsx",
+      "path": "apps/uapi/tests/navWorkspaceChrome.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:8f66e5556f2a2c9fca3003bc",
       "categories": [
         "component",
@@ -15691,7 +15691,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/orbitalPaneMeta.test.ts",
+      "path": "apps/uapi/tests/orbitalPaneMeta.test.ts",
       "pathRoot": "v43-route-vocabulary-file:fe890a947c11a8962e5e950a",
       "categories": [
         "test"
@@ -15706,7 +15706,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/orbitalsInterfacesPane.test.tsx",
+      "path": "apps/uapi/tests/orbitalsInterfacesPane.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:581540a53c6f859ee76e9ede",
       "categories": [
         "component",
@@ -15726,7 +15726,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/orbitalsLoginPane.test.tsx",
+      "path": "apps/uapi/tests/orbitalsLoginPane.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:63d4e9dc585da5ae99a3bd43",
       "categories": [
         "component",
@@ -15742,7 +15742,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/packActivityModel.test.ts",
+      "path": "apps/uapi/tests/packActivityModel.test.ts",
       "pathRoot": "v43-route-vocabulary-file:1e4da9d875f8377591c3c697",
       "categories": [
         "telemetry",
@@ -15758,7 +15758,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/packsPageClient.test.tsx",
+      "path": "apps/uapi/tests/packsPageClient.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:cd7645d5121cc34c5ad0024d",
       "categories": [
         "component",
@@ -15776,7 +15776,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
+      "path": "apps/uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:3ed6012c0c5224091ce533b6",
       "categories": [
         "component",
@@ -15792,7 +15792,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/profileStep.test.tsx",
+      "path": "apps/uapi/tests/profileStep.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:2ccfa52fe59d687e5823ef70",
       "categories": [
         "component",
@@ -15808,7 +15808,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/publicDocsPageContent.test.tsx",
+      "path": "apps/uapi/tests/publicDocsPageContent.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:2ca1fdf7416f3e4d67eb31b4",
       "categories": [
         "component",
@@ -15828,7 +15828,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/readPageClient.test.tsx",
+      "path": "apps/uapi/tests/readPageClient.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:fb00863fdbde452acfa6d023",
       "categories": [
         "component",
@@ -15847,7 +15847,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/readRouteModel.test.ts",
+      "path": "apps/uapi/tests/readRouteModel.test.ts",
       "pathRoot": "v43-route-vocabulary-file:0930bf2820f8098d6e7c18e9",
       "categories": [
         "test"
@@ -15862,7 +15862,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
+      "path": "apps/uapi/tests/readingOperationalTelemetryPipelineLog.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:5e6e6c7c081645e43b0d5a4a",
       "categories": [
         "component",
@@ -15878,7 +15878,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalActionWorkbenchCard.test.tsx",
+      "path": "apps/uapi/tests/terminalActionWorkbenchCard.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:23ce45fae4dcaeef4b6babfc",
       "categories": [
         "component",
@@ -15894,7 +15894,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalActivityHistory.test.ts",
+      "path": "apps/uapi/tests/terminalActivityHistory.test.ts",
       "pathRoot": "v43-route-vocabulary-file:bd649f423b55bd1c285405e6",
       "categories": [
         "telemetry",
@@ -15912,7 +15912,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalClosureControlDeck.test.tsx",
+      "path": "apps/uapi/tests/terminalClosureControlDeck.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:a1b6049237666bca66570cf2",
       "categories": [
         "component",
@@ -15929,7 +15929,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalClosureControls.test.ts",
+      "path": "apps/uapi/tests/terminalClosureControls.test.ts",
       "pathRoot": "v43-route-vocabulary-file:19dd9ddb6f3665cceb758cd3",
       "categories": [
         "test"
@@ -15945,7 +15945,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalClosureState.test.ts",
+      "path": "apps/uapi/tests/terminalClosureState.test.ts",
       "pathRoot": "v43-route-vocabulary-file:d7c4073e867b729120dde967",
       "categories": [
         "telemetry",
@@ -15961,7 +15961,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalCommandDeck.test.tsx",
+      "path": "apps/uapi/tests/terminalCommandDeck.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:dcc9dbc9d8210d6204b68128",
       "categories": [
         "component",
@@ -15978,7 +15978,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalCommandPresentation.test.ts",
+      "path": "apps/uapi/tests/terminalCommandPresentation.test.ts",
       "pathRoot": "v43-route-vocabulary-file:68dbfeeb20fbbe26bdc10b62",
       "categories": [
         "test"
@@ -15994,7 +15994,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalCommandState.test.ts",
+      "path": "apps/uapi/tests/terminalCommandState.test.ts",
       "pathRoot": "v43-route-vocabulary-file:b83bab1a6d64bd830c8ee355",
       "categories": [
         "test"
@@ -16010,7 +16010,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalCommercialLaunchReadiness.test.ts",
+      "path": "apps/uapi/tests/terminalCommercialLaunchReadiness.test.ts",
       "pathRoot": "v43-route-vocabulary-file:bc161f68a853b8d378af2277",
       "categories": [
         "test"
@@ -16028,7 +16028,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalCoreNativeSections.test.tsx",
+      "path": "apps/uapi/tests/terminalCoreNativeSections.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:95b5e84a08ce7b372c3fd240",
       "categories": [
         "component",
@@ -16045,7 +16045,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalCoreSurface.test.ts",
+      "path": "apps/uapi/tests/terminalCoreSurface.test.ts",
       "pathRoot": "v43-route-vocabulary-file:4e38b1aa4d894bc7cd9a44dc",
       "categories": [
         "test"
@@ -16062,7 +16062,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalDepositComposer.test.ts",
+      "path": "apps/uapi/tests/terminalDepositComposer.test.ts",
       "pathRoot": "v43-route-vocabulary-file:59ad7a9268c62c7fcab24337",
       "categories": [
         "test"
@@ -16077,7 +16077,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalDepositComposerCard.test.tsx",
+      "path": "apps/uapi/tests/terminalDepositComposerCard.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:e536abbdb3c4820e74d8ebd3",
       "categories": [
         "component",
@@ -16094,7 +16094,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalDepositReadWorkbench.test.ts",
+      "path": "apps/uapi/tests/terminalDepositReadWorkbench.test.ts",
       "pathRoot": "v43-route-vocabulary-file:abacb113608e987f570e2505",
       "categories": [
         "telemetry",
@@ -16112,7 +16112,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalEnterpriseReadingUxState.test.ts",
+      "path": "apps/uapi/tests/terminalEnterpriseReadingUxState.test.ts",
       "pathRoot": "v43-route-vocabulary-file:3d0abd662cb0ef038d6dca88",
       "categories": [
         "test"
@@ -16128,7 +16128,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalExperienceArchitecture.test.ts",
+      "path": "apps/uapi/tests/terminalExperienceArchitecture.test.ts",
       "pathRoot": "v43-route-vocabulary-file:17eb74f8160952e62b2c7f00",
       "categories": [
         "test"
@@ -16144,7 +16144,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalExternalInterfacingPanel.test.tsx",
+      "path": "apps/uapi/tests/terminalExternalInterfacingPanel.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:282333991ac2c45a925a581b",
       "categories": [
         "component",
@@ -16161,7 +16161,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalExternalRuntime.test.ts",
+      "path": "apps/uapi/tests/terminalExternalRuntime.test.ts",
       "pathRoot": "v43-route-vocabulary-file:84d3f60bf821535bed09e555",
       "categories": [
         "telemetry",
@@ -16178,7 +16178,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalFloatingDebugWidget.test.tsx",
+      "path": "apps/uapi/tests/terminalFloatingDebugWidget.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:32338b47920e449a7c340ac5",
       "categories": [
         "component",
@@ -16195,7 +16195,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalFlowGuide.test.ts",
+      "path": "apps/uapi/tests/terminalFlowGuide.test.ts",
       "pathRoot": "v43-route-vocabulary-file:3d3fd4f959e349c43f2b6a0e",
       "categories": [
         "test"
@@ -16210,7 +16210,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalFlowGuideCard.test.tsx",
+      "path": "apps/uapi/tests/terminalFlowGuideCard.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:0e2cc041f97fd6ce94e96882",
       "categories": [
         "component",
@@ -16226,7 +16226,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
+      "path": "apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts",
       "pathRoot": "v43-route-vocabulary-file:ed1c88949ef2b07023288fa1",
       "categories": [
         "telemetry",
@@ -16243,7 +16243,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalJournalReconciliation.test.ts",
+      "path": "apps/uapi/tests/terminalJournalReconciliation.test.ts",
       "pathRoot": "v43-route-vocabulary-file:1f7c91f8943b05c5fd64dd98",
       "categories": [
         "test"
@@ -16258,7 +16258,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalLiveSummary.test.ts",
+      "path": "apps/uapi/tests/terminalLiveSummary.test.ts",
       "pathRoot": "v43-route-vocabulary-file:84363e552bd994fc999cc9d8",
       "categories": [
         "test"
@@ -16274,7 +16274,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalLiveSummaryStrip.test.tsx",
+      "path": "apps/uapi/tests/terminalLiveSummaryStrip.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:78f0ad0d9c319db29f2285a3",
       "categories": [
         "component",
@@ -16291,7 +16291,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalOperationalHealthPanel.test.tsx",
+      "path": "apps/uapi/tests/terminalOperationalHealthPanel.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:480a4c0e515bb90ed39f44a2",
       "categories": [
         "component",
@@ -16309,7 +16309,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalOperatorCard.test.tsx",
+      "path": "apps/uapi/tests/terminalOperatorCard.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:ddf918a64085d1e173b6059d",
       "categories": [
         "component",
@@ -16325,7 +16325,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalOrganizationAuthority.test.ts",
+      "path": "apps/uapi/tests/terminalOrganizationAuthority.test.ts",
       "pathRoot": "v43-route-vocabulary-file:cb4fefe6ea371b76dfe54d32",
       "categories": [
         "telemetry",
@@ -16342,7 +16342,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalPageShell.test.tsx",
+      "path": "apps/uapi/tests/terminalPageShell.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:aaa1a26c75549108000d4d22",
       "categories": [
         "component",
@@ -16359,7 +16359,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalPipelineHarnessClient.test.ts",
+      "path": "apps/uapi/tests/terminalPipelineHarnessClient.test.ts",
       "pathRoot": "v43-route-vocabulary-file:28f59a166624ccebd5eac952",
       "categories": [
         "telemetry",
@@ -16376,7 +16376,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalPreservedShellSurface.test.tsx",
+      "path": "apps/uapi/tests/terminalPreservedShellSurface.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:de410c28d6d938aeb5451959",
       "categories": [
         "component",
@@ -16392,7 +16392,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalProtocolProjection.test.ts",
+      "path": "apps/uapi/tests/terminalProtocolProjection.test.ts",
       "pathRoot": "v43-route-vocabulary-file:224972944d9516d9504e24f6",
       "categories": [
         "telemetry",
@@ -16408,7 +16408,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalReadScenarios.test.ts",
+      "path": "apps/uapi/tests/terminalReadScenarios.test.ts",
       "pathRoot": "v43-route-vocabulary-file:c0904753c63bb1d5cd16dbca",
       "categories": [
         "test"
@@ -16425,7 +16425,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalRepositoryContext.test.ts",
+      "path": "apps/uapi/tests/terminalRepositoryContext.test.ts",
       "pathRoot": "v43-route-vocabulary-file:98d6e3eca357b728e87c4c36",
       "categories": [
         "test"
@@ -16441,7 +16441,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalRepositoryContextPanel.test.tsx",
+      "path": "apps/uapi/tests/terminalRepositoryContextPanel.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:34e1c174beaf6f6c3a3ee899",
       "categories": [
         "component",
@@ -16459,7 +16459,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalSectionAtlas.test.ts",
+      "path": "apps/uapi/tests/terminalSectionAtlas.test.ts",
       "pathRoot": "v43-route-vocabulary-file:5cfabbd8f814fe634100ed55",
       "categories": [
         "telemetry",
@@ -16477,7 +16477,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalShellBridge.test.tsx",
+      "path": "apps/uapi/tests/terminalShellBridge.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:3cabf3268dfb9513f89b3c1b",
       "categories": [
         "component",
@@ -16493,7 +16493,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalSupplySelection.test.ts",
+      "path": "apps/uapi/tests/terminalSupplySelection.test.ts",
       "pathRoot": "v43-route-vocabulary-file:bc3565fc610e9f44c7e4994c",
       "categories": [
         "test"
@@ -16508,7 +16508,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalSupplySelectionPanel.test.tsx",
+      "path": "apps/uapi/tests/terminalSupplySelectionPanel.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:1738237f925689eca9c93383",
       "categories": [
         "component",
@@ -16525,7 +16525,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalSurfaceCopy.test.ts",
+      "path": "apps/uapi/tests/terminalSurfaceCopy.test.ts",
       "pathRoot": "v43-route-vocabulary-file:69e196652119c62a253495aa",
       "categories": [
         "test"
@@ -16542,7 +16542,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalSurfaceSection.test.tsx",
+      "path": "apps/uapi/tests/terminalSurfaceSection.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:c1af33d0e93e8d1e6ef5ff89",
       "categories": [
         "component",
@@ -16559,7 +16559,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionActivity.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionActivity.test.ts",
       "pathRoot": "v43-route-vocabulary-file:6965444cc55ef395fdab391e",
       "categories": [
         "telemetry",
@@ -16576,7 +16576,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionActivitySurface.test.tsx",
+      "path": "apps/uapi/tests/terminalTransactionActivitySurface.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:2785a7066e4bbf3a1d8aaf7e",
       "categories": [
         "component",
@@ -16593,7 +16593,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionDetail.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionDetail.test.ts",
       "pathRoot": "v43-route-vocabulary-file:5cdfa63e14c7488f5b99df32",
       "categories": [
         "telemetry",
@@ -16610,7 +16610,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionDetailCards.test.tsx",
+      "path": "apps/uapi/tests/terminalTransactionDetailCards.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:7169a020ba44d4e442401eec",
       "categories": [
         "component",
@@ -16627,7 +16627,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionDetailSnapshot.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionDetailSnapshot.test.ts",
       "pathRoot": "v43-route-vocabulary-file:39737fcd04d500beba5089df",
       "categories": [
         "telemetry",
@@ -16643,7 +16643,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionQuery.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionQuery.test.ts",
       "pathRoot": "v43-route-vocabulary-file:38a3343c4ebd5de2b2c2b616",
       "categories": [
         "test"
@@ -16660,7 +16660,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionReadModel.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionReadModel.test.ts",
       "pathRoot": "v43-route-vocabulary-file:685b8965132c3620372c151e",
       "categories": [
         "telemetry",
@@ -16677,7 +16677,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionReadinessSource.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionReadinessSource.test.ts",
       "pathRoot": "v43-route-vocabulary-file:7aa20f49b09b360d142ad5a9",
       "categories": [
         "test"
@@ -16692,7 +16692,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactionSource.test.ts",
+      "path": "apps/uapi/tests/terminalTransactionSource.test.ts",
       "pathRoot": "v43-route-vocabulary-file:772fc054a9e02798165ff5e9",
       "categories": [
         "telemetry",
@@ -16708,7 +16708,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalTransactions.test.ts",
+      "path": "apps/uapi/tests/terminalTransactions.test.ts",
       "pathRoot": "v43-route-vocabulary-file:e66c84f907672fa1e2bd0bbd",
       "categories": [
         "telemetry",
@@ -16724,7 +16724,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalUxBrowserProof.test.tsx",
+      "path": "apps/uapi/tests/terminalUxBrowserProof.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:6690572f654db7e7b7ebccbe",
       "categories": [
         "component",
@@ -16742,7 +16742,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalWalletBtcOperation.test.ts",
+      "path": "apps/uapi/tests/terminalWalletBtcOperation.test.ts",
       "pathRoot": "v43-route-vocabulary-file:7420fd077a0d20fe651e9c3a",
       "categories": [
         "telemetry",
@@ -16759,7 +16759,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalWorkspaceRail.test.tsx",
+      "path": "apps/uapi/tests/terminalWorkspaceRail.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:4fe66fdf754a661078663b1e",
       "categories": [
         "component",
@@ -16775,7 +16775,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/terminalWorkspaceRailCard.test.tsx",
+      "path": "apps/uapi/tests/terminalWorkspaceRailCard.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:815c064bf0b7177c7f5c4d48",
       "categories": [
         "component",
@@ -16792,7 +16792,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/useConversationStream.firstWrite.test.ts",
+      "path": "apps/uapi/tests/useConversationStream.firstWrite.test.ts",
       "pathRoot": "v43-route-vocabulary-file:a628eb899095011007fbe870",
       "categories": [
         "telemetry",
@@ -16807,7 +16807,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tests/workspaceSurface.test.ts",
+      "path": "apps/uapi/tests/workspaceSurface.test.ts",
       "pathRoot": "v43-route-vocabulary-file:49a536b2d6bfc1c3a848c7dc",
       "categories": [
         "test"
@@ -16822,7 +16822,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "uapi/tsconfig.json",
+      "path": "apps/uapi/tsconfig.json",
       "pathRoot": "v43-route-vocabulary-file:727b9f9e8a1cb53c8c422d73",
       "categories": [
         "telemetry"

@@ -91,18 +91,18 @@ function main() {
     'packages/btd/__tests__/btd.test.ts',
     'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
-    'uapi/app/read/read-route-model.ts',
-    'uapi/tests/readRouteModel.test.ts',
-    'uapi/app/read/ReadPageClient.tsx',
-    'uapi/tests/readPageClient.test.tsx',
-    'uapi/app/deposit/deposit-route-model.ts',
-    'uapi/tests/depositRouteModel.test.ts',
-    'uapi/app/deposit/DepositPageClient.tsx',
-    'uapi/tests/depositPageClient.test.tsx',
-    'uapi/components/bitcode/activity/pack-activity-model.ts',
-    'uapi/app/packs/PacksPageClient.tsx',
-    'uapi/tests/packActivityModel.test.ts',
-    'uapi/tests/packsPageClient.test.tsx',
+    'apps/uapi/app/read/read-route-model.ts',
+    'apps/uapi/tests/readRouteModel.test.ts',
+    'apps/uapi/app/read/ReadPageClient.tsx',
+    'apps/uapi/tests/readPageClient.test.tsx',
+    'apps/uapi/app/deposit/deposit-route-model.ts',
+    'apps/uapi/tests/depositRouteModel.test.ts',
+    'apps/uapi/app/deposit/DepositPageClient.tsx',
+    'apps/uapi/tests/depositPageClient.test.tsx',
+    'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
+    'apps/uapi/app/packs/PacksPageClient.tsx',
+    'apps/uapi/tests/packActivityModel.test.ts',
+    'apps/uapi/tests/packsPageClient.test.tsx',
     'packages/specifying/src/canonical/v44-organization-policy-wallet-authority.js',
     'packages/specifying/test/v44-organization-policy-wallet-authority.test.js',
     'scripts/generate-v44-organization-policy-wallet-authority.mjs',
@@ -184,7 +184,7 @@ function main() {
 
   if (!args.skipUapiTests) {
     try {
-      run(root, 'pnpm', ['--dir', 'uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'depositRouteModel.test.ts', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
+      run(root, 'pnpm', ['--dir', 'apps/uapi', 'exec', 'jest', 'readRouteModel.test.ts', 'depositRouteModel.test.ts', 'packActivityModel.test.ts', 'packsPageClient.test.tsx', 'readPageClient.test.tsx', 'depositPageClient.test.tsx', '--runInBand']);
     } catch {
       failures.push('uapi route and Packs governance tests must pass.');
     }

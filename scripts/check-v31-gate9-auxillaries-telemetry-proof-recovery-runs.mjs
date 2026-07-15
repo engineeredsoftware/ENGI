@@ -82,36 +82,36 @@ function main() {
   for (const relativePath of [
     'packages/api/src/routes/auxillaries-contract.ts',
     'packages/api/src/routes/__tests__/auxillaries-contract.test.ts',
-    'uapi/hooks/useUserData.ts',
-    'uapi/hooks/useUserData.js',
-    'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
-    'uapi/tests/userDataRoute.test.ts',
-    'uapi/tests/auxillariesExternalsPane.test.tsx',
+    'apps/uapi/hooks/useUserData.ts',
+    'apps/uapi/hooks/useUserData.js',
+    'apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
+    'apps/uapi/tests/userDataRoute.test.ts',
+    'apps/uapi/tests/auxillariesExternalsPane.test.tsx',
     'BITCODE_SPEC_V31.md',
     'BITCODE_SPEC_V31_DELTA.md',
     'BITCODE_SPEC_V31_NOTES.md',
     'BITCODE_SPEC_V31_PARITY_MATRIX.md',
     'SPECIFICATIONS_ROADMAP.md',
     'packages/api/README.md',
-    'uapi/app/auxillaries/README.md',
+    'apps/uapi/app/auxillaries/README.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V31 Gate 9 file: ${relativePath}`);
   }
 
   const contract = read(root, 'packages/api/src/routes/auxillaries-contract.ts');
   const contractTest = read(root, 'packages/api/src/routes/__tests__/auxillaries-contract.test.ts');
-  const userDataTs = read(root, 'uapi/hooks/useUserData.ts');
-  const userDataJs = read(root, 'uapi/hooks/useUserData.js');
-  const externalsPane = read(root, 'uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx');
-  const userDataRouteTest = read(root, 'uapi/tests/userDataRoute.test.ts');
-  const externalsPaneTest = read(root, 'uapi/tests/auxillariesExternalsPane.test.tsx');
+  const userDataTs = read(root, 'apps/uapi/hooks/useUserData.ts');
+  const userDataJs = read(root, 'apps/uapi/hooks/useUserData.js');
+  const externalsPane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx');
+  const userDataRouteTest = read(root, 'apps/uapi/tests/userDataRoute.test.ts');
+  const externalsPaneTest = read(root, 'apps/uapi/tests/auxillariesExternalsPane.test.tsx');
   const spec = read(root, 'BITCODE_SPEC_V31.md');
   const delta = read(root, 'BITCODE_SPEC_V31_DELTA.md');
   const notes = read(root, 'BITCODE_SPEC_V31_NOTES.md');
   const parity = read(root, 'BITCODE_SPEC_V31_PARITY_MATRIX.md');
   const roadmap = read(root, 'SPECIFICATIONS_ROADMAP.md');
   const apiReadme = read(root, 'packages/api/README.md');
-  const auxReadme = read(root, 'uapi/app/auxillaries/README.md');
+  const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

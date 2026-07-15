@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '../..');
-const UAPI_APP_ROOT = path.join(REPO_ROOT, 'uapi/app');
+const UAPI_APP_ROOT = path.join(REPO_ROOT, 'apps/uapi/app');
 const APP_ROUTER_ENTRYPOINT_NAMES = new Set([
   'page',
   'route',
@@ -67,12 +67,12 @@ test('V26 keeps active uapi app-owned source TypeScript-only', () => {
   assert.deepEqual(
     javascriptEntrypoints,
     [],
-    `expected no JavaScript App Router entrypoints under uapi/app, found:\n${javascriptEntrypoints.join('\n')}`,
+    `expected no JavaScript App Router entrypoints under apps/uapi/app, found:\n${javascriptEntrypoints.join('\n')}`,
   );
 
   assert.deepEqual(
     javascriptMirrors,
     [],
-    `expected no JavaScript mirror files with TypeScript peers under uapi/app, found:\n${javascriptMirrors.join('\n')}`,
+    `expected no JavaScript mirror files with TypeScript peers under apps/uapi/app, found:\n${javascriptMirrors.join('\n')}`,
   );
 });

@@ -90,8 +90,8 @@ const SOURCE_PATHS = Object.freeze({
   settlementBoundaryTest:
     'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
   localStagingRehearsal: 'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
-  uapiLedgerStorageSync: 'uapi/app/bitcode-ledger-storage-sync.ts',
-  uapiLedgerStorageSyncTest: 'uapi/tests/bitcodeLedgerStorageSync.test.ts',
+  uapiLedgerStorageSync: 'apps/uapi/app/bitcode-ledger-storage-sync.ts',
+  uapiLedgerStorageSyncTest: 'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
 });
 
 export const V46_PROOF_READBACK_OPERATOR_EXPLANATION_SOURCE_ROOTS = Object.freeze({
