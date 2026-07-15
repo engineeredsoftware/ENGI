@@ -543,19 +543,23 @@ function defaultResolvePackageId(id: string): string {
 export async function loadVercelSandboxFactory(): Promise<SandboxFactory> {
   const esmHref = resolveVercelSandboxEsmEntryHref();
   // webpackIgnore: do not rewrite to a CJS interop chunk; load Node-native ESM.
-  const module = (await import(
+  const loaded = (await import(
     /* webpackIgnore: true */
     esmHref
   )) as {
     Sandbox?: SandboxFactory;
-    default?: SandboxFactory | { Sandbox?: SandboxFactory };
+    default?: unknown;
   };
 
-  const fromDefault =
-    module.default && typeof module.default === 'object'
-      ? module.default.Sandbox
-      : undefined;
-  const Sandbox = module.Sandbox ?? fromDefault;
+  let Sandbox = loaded.Sandbox;
+  if (!Sandbox?.create && loaded.default && typeof loaded.default === 'object') {
+    const defaultExport = loaded.default as { Sandbox?: SandboxFactory; create?: SandboxFactory['create'] };
+    if (defaultExport.Sandbox?.create) {
+      Sandbox = defaultExport.Sandbox;
+    } else if (typeof defaultExport.create === 'function') {
+      Sandbox = defaultExport as SandboxFactory;
+    }
+  }
   if (!Sandbox?.create) {
     throw new Error(
       `@vercel/sandbox did not expose Sandbox.create() (ESM entry ${esmHref}).`,
