@@ -108,9 +108,11 @@ export const previewValueNeonClass: Record<PreviewValueTone, string> = {
 
 export const previewRows = [
   {
-    key: 'What sells?',
-    valueParts: ['code', 'docs', 'designs', 'PDFs'],
-    accentClassName: 'from-cyan-400/18 via-sky-400/8 to-transparent',
+    key: 'Trading',
+    valueParts: ['code', 'files', 'designs', 'data'],
+    // All orbital bullets green; no neon label glow on the 2×2 chips.
+    bulletTone: 'green' as PreviewValueTone,
+    accentClassName: 'from-emerald-400/18 via-teal-400/8 to-transparent',
     Icon: DocumentTextIcon,
     // 2×2 — short chips must stay single-line.
     valuesGridClassName: 'grid-cols-2',
@@ -118,27 +120,32 @@ export const previewRows = [
   },
   {
     key: "Seller's View",
-    valueParts: ['source', 'obfuscate', 'paths', 'SHA'],
+    valueParts: ["source inclusions", 'obfuscations', "pack's contents"],
+    bulletTone: 'purple' as PreviewValueTone,
+    valueTones: {
+      obfuscations: 'purple',
+    } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
-    // 2×2 — short chips so nothing truncates mid-word.
-    valuesGridClassName: 'grid-cols-2',
+    // Three stacked rows — match Buyer's View layout.
+    valuesGridClassName: 'grid-cols-1',
     iconClassName: 'text-white/58',
   },
   {
     key: "Buyer's View",
-    valueParts: ['measurements', 'fitting-to-needs', 'proof roots'],
+    valueParts: ['measurements', 'fits-for-needs', 'knowledge volume'],
+    bulletTone: 'orange' as PreviewValueTone,
     valueTones: {
-      'fitting-to-needs': 'green',
+      'fits-for-needs': 'orange',
     } satisfies Partial<Record<string, PreviewValueTone>>,
-    accentClassName: 'from-emerald-400/18 via-teal-400/8 to-transparent',
+    accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: Squares2X2Icon,
     // Three stacked rows — never a tight multi-col that letter-breaks words.
     valuesGridClassName: 'grid-cols-1',
     iconClassName: 'text-white/58',
   },
   {
-    key: 'what settles?',
+    key: 'Settlement',
     // 2×2: BTC | BTD / APs | Deliver — all single-line tokens.
     valueParts: ['BTC', 'BTD', 'APs', 'Deliver'],
     valueTones: {

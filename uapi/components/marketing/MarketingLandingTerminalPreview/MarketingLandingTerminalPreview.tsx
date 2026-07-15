@@ -383,6 +383,10 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                       'valueTones' in row
                         ? (row.valueTones as Partial<Record<string, PreviewValueTone>>)
                         : undefined;
+                    const bulletToneDefault =
+                      'bulletTone' in row
+                        ? (row.bulletTone as PreviewValueTone)
+                        : ('orange' as PreviewValueTone);
 
                     return (
                       <div
@@ -407,7 +411,9 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                             className={`mt-3 grid min-w-0 gap-x-4 gap-y-3 text-emerald-50/88 laptop:gap-x-3 laptop:gap-y-2 ${valuesGridClassName}`}
                           >
                             {valueParts.map((valuePart) => {
-                              const tone = valueTones?.[valuePart];
+                              // Neon label glow only when explicitly toned; bullets use row default.
+                              const neonTone = valueTones?.[valuePart];
+                              const bulletTone = neonTone ?? bulletToneDefault;
 
                               return (
                                 <span
@@ -417,12 +423,12 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                                   <span className="shrink-0">
                                     {renderOrbitalBullet(
                                       'scale-110 tablet:scale-[1.2] laptop:scale-100',
-                                      tone ?? 'orange',
+                                      bulletTone,
                                     )}
                                   </span>
                                   <span
                                     className={`min-w-0 flex-1 whitespace-nowrap text-[13px] leading-5 tablet:text-[15px] laptop:text-[12px] laptop:leading-5 ${
-                                      tone ? previewValueNeonClass[tone] : ''
+                                      neonTone ? previewValueNeonClass[neonTone] : ''
                                     }`}
                                   >
                                     {valuePart}
