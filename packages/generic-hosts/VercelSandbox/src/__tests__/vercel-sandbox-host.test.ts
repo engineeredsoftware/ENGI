@@ -426,7 +426,8 @@ describe('VercelSandboxPipelineHost', () => {
       response: { status: 400, statusText: 'Bad Request' },
       json: { error: { code: 'invalid_image', message: 'image not found in project' } },
     });
-    const wrapped = new Error('wrapper', { cause: apiError });
+    const wrapped = new Error('wrapper') as Error & { cause?: unknown };
+    wrapped.cause = apiError;
     const message = formatSandboxApiError(wrapped, 'Sandbox.create');
     expect(message).toContain('Sandbox.create failed');
     expect(message).toContain('HTTP 400');

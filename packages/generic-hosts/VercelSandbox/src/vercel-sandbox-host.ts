@@ -82,7 +82,10 @@ export class VercelSandboxPipelineHost {
         message,
         httpStatus,
       });
-      throw new Error(message, { cause: error });
+      // Assign cause without Error constructor options (lib target may be < ES2022).
+      const wrapped = new Error(message) as Error & { cause?: unknown };
+      wrapped.cause = error;
+      throw wrapped;
     }
     const sandboxIdentity = resolveSandboxIdentity(sandbox, createOptions.name);
     await this.emit({
