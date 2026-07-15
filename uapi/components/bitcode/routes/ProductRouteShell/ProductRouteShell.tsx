@@ -334,9 +334,14 @@ export function ProductRouteStatePanel({
 type ProductRouteDisclosureProps = {
   title: string;
   tone: ProductRouteTone;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   defaultOpen?: boolean;
-  /** Rich-tooltip body shown on hover over the summary line. */
+  /**
+   * Empty / non-interactive bar (no expand). Used for Opportunity roots,
+   * blockers, and proof detail when there is nothing to show.
+   */
+  empty?: boolean;
+  /** Rich-tooltip body shown on hover over the summary line (ignored when empty). */
   summaryDescription?: string;
 };
 
@@ -345,9 +350,24 @@ export function ProductRouteDisclosure({
   tone,
   children,
   defaultOpen = false,
+  empty = false,
   summaryDescription,
 }: ProductRouteDisclosureProps) {
   const toneClasses = TONE_CLASSES[tone];
+
+  if (empty) {
+    return (
+      <div
+        className={`border px-3 py-3 opacity-45 ${toneClasses.panelAccent}`}
+        aria-disabled="true"
+        data-disclosure-state="empty"
+      >
+        <p className="text-[0.62rem] uppercase tracking-[0.16em] text-current/80">
+          {title}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <details
@@ -527,6 +547,16 @@ export function ProductRouteProofDetail({
   testId,
 }: ProductRouteProofDetailProps) {
   const visibleRoots = roots.filter((root) => Boolean(root.root));
+  const isEmpty = visibleRoots.length === 0;
+
+  if (isEmpty) {
+    return (
+      <div data-testid={testId} data-enterprise-ux="expandable-proof-detail">
+        <ProductRouteDisclosure title={title} tone={tone} empty />
+        <span className="sr-only">{emptyMessage}</span>
+      </div>
+    );
+  }
 
   return (
     <ProductRouteDisclosure title={title} tone={tone} defaultOpen={defaultOpen}>
@@ -535,43 +565,39 @@ export function ProductRouteProofDetail({
         data-enterprise-ux="expandable-proof-detail"
         className="grid gap-2"
       >
-        {visibleRoots.length ? (
-          visibleRoots.map((proofRoot) => {
-            const rowBody = (
-              <>
-                <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
-                  {proofRoot.label}
-                </p>
-                <p className="mt-1 break-all font-mono text-xs text-neutral-100">
-                  {proofRoot.root}
-                </p>
-              </>
-            );
-            const rowClass = "border-b border-white/10 px-0 py-2 last:border-b-0";
-            return proofRoot.description ? (
-              <TelemetryExplainerTrigger
-                key={`${proofRoot.id}:${proofRoot.root}`}
-                as="div"
-                className={rowClass}
-                explainer={{
-                  kicker: "Proof root",
-                  title: proofRoot.label,
-                  specific: proofRoot.description,
-                  generic: PROOF_ROOT_TOOLTIP_GENERIC,
-                  ...PROOF_ROOT_TOOLTIP_SECTIONS,
-                }}
-              >
-                {rowBody}
-              </TelemetryExplainerTrigger>
-            ) : (
-              <div key={`${proofRoot.id}:${proofRoot.root}`} className={rowClass}>
-                {rowBody}
-              </div>
-            );
-          })
-        ) : (
-          <p className="text-xs text-neutral-400">{emptyMessage}</p>
-        )}
+        {visibleRoots.map((proofRoot) => {
+          const rowBody = (
+            <>
+              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                {proofRoot.label}
+              </p>
+              <p className="mt-1 break-all font-mono text-xs text-neutral-100">
+                {proofRoot.root}
+              </p>
+            </>
+          );
+          const rowClass = "border-b border-white/10 px-0 py-2 last:border-b-0";
+          return proofRoot.description ? (
+            <TelemetryExplainerTrigger
+              key={`${proofRoot.id}:${proofRoot.root}`}
+              as="div"
+              className={rowClass}
+              explainer={{
+                kicker: "Proof root",
+                title: proofRoot.label,
+                specific: proofRoot.description,
+                generic: PROOF_ROOT_TOOLTIP_GENERIC,
+                ...PROOF_ROOT_TOOLTIP_SECTIONS,
+              }}
+            >
+              {rowBody}
+            </TelemetryExplainerTrigger>
+          ) : (
+            <div key={`${proofRoot.id}:${proofRoot.root}`} className={rowClass}>
+              {rowBody}
+            </div>
+          );
+        })}
       </div>
     </ProductRouteDisclosure>
   );

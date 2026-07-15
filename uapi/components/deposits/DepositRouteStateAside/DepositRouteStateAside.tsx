@@ -69,9 +69,9 @@ export function DepositRouteStateAside({
           DEPOSIT_STAT_TOOLTIP_SECTIONS.governance.references.canon
         }
       >
-        {depositRouteSession.organizationPolicyWalletAuthority.aggregate
-          .blockers.length ? (
-          <div className="mt-3">
+        <div className="mt-3">
+          {depositRouteSession.organizationPolicyWalletAuthority.aggregate
+            .blockers.length ? (
             <ProductRouteDisclosure
               title="Authority blockers"
               tone="violet"
@@ -81,8 +81,14 @@ export function DepositRouteStateAside({
                 "; ",
               )}
             </ProductRouteDisclosure>
-          </div>
-        ) : null}
+          ) : (
+            <ProductRouteDisclosure
+              title="Authority blockers"
+              tone="violet"
+              empty
+            />
+          )}
+        </div>
       </DepositAsideRowsSection>
 
       <DepositAsideRowsSection

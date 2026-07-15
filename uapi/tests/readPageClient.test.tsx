@@ -222,7 +222,7 @@ describe("ReadPageClient", () => {
     unmount();
   });
 
-  it("shows route state aside with settlement and pack activity links in detail", async () => {
+  it("shows route state aside and AssetPack options as the review area in detail", async () => {
     mockQuery = "";
     render(<ReadPageClient />);
     fireEvent.click(await screen.findByTestId("reads-open-compose"));
@@ -231,9 +231,20 @@ describe("ReadPageClient", () => {
       expect(screen.getByLabelText("Reading route state")).toBeInTheDocument(),
     );
     expect(screen.getByText("Source-safe read state")).toBeInTheDocument();
+    expect(screen.getByText("Organization authority")).toBeInTheDocument();
+    expect(screen.getByText("Budget and quote")).toBeInTheDocument();
+    // Measurement / settlement / pack-activity panels removed — options is review.
     expect(
-      screen.getByRole("link", { name: "Open settled pack activity" }),
-    ).toHaveAttribute("href", "/packs?type=settled-assetpack");
+      screen.queryByRole("heading", { name: "Fit measurement review" }),
+    ).toBeNull();
+    expect(
+      screen.queryByRole("heading", { name: "Settlement, rights, and delivery" }),
+    ).toBeNull();
+    expect(screen.queryByRole("heading", { name: "Pack activity" })).toBeNull();
+    expect(screen.getByTestId("reads-asset-pack-options")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "AssetPack options" }),
+    ).toBeInTheDocument();
   });
 
   it("resumes a completed run's synthesized AssetPacks alongside the replayed telemetry", async () => {

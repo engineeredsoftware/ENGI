@@ -212,43 +212,27 @@ test.describe('commercial MVP IP exchange browser proof', () => {
       await expect(page.getByTestId(`read-route-step-${stepId}`)).toBeVisible();
     }
 
-    // Measurement before price: the fit measurement review renders Need
-    // coverage through delivery readiness with the final BTD scalar and the
-    // deterministic BTC-testnet quote basis.
+    // AssetPack options is the shared deposit/read review surface (measurement,
+    // settle, and pack activity no longer live as separate read-aside panels).
+    await expect(page.getByTestId('reads-asset-pack-options')).toBeVisible({
+      timeout: 30_000,
+    });
     await expect(
-      page.getByRole('heading', { name: 'Fit measurement review' }),
-    ).toBeVisible({ timeout: 30_000 });
-    await expect(page.getByText('Need coverage', { exact: true })).toBeVisible();
-    await expect(page.getByText('Fit confidence', { exact: true })).toBeVisible();
-    await expect(page.getByText('Delivery readiness', { exact: true })).toBeVisible();
-    await expect(page.getByText('Final BTD scalar', { exact: true })).toBeVisible();
-    await expect(page.getByText(/120\s*BTD knowledge-volume/u)).toBeVisible();
-    await expect(page.getByText('Quote basis', { exact: true })).toBeVisible();
-    await expect(page.getByText(/on btc-testnet/u)).toBeVisible();
-    await expect(page.getByText('Selected Fit provenance', { exact: true })).toBeVisible();
-
-    // Settlement ordering readback: observation, finality, rights, delivery.
-    await expect(
-      page.getByRole('heading', { name: 'Settlement, rights, and delivery' }),
+      page.getByRole('heading', { name: 'AssetPack options' }),
     ).toBeVisible();
-    await expect(page.getByText('btc testnet payment observed')).toBeVisible();
-    await expect(page.getByText(/btc testnet finality confirmed/u).first()).toBeVisible();
-    await expect(page.getByText(/btd rights transferred/u).first()).toBeVisible();
-    await expect(page.getByText(/repository pr delivery materialized/u).first()).toBeVisible();
 
-    // Proof-backed readback: rights and delivery receipt roots are exposed in
-    // the expandable source-safe proof detail.
+    // Session / governance / procurement remain on the collapsible route aside.
+    await expect(page.getByLabelText('Reading route state')).toBeVisible();
+    await expect(page.getByText('Source-safe read state')).toBeVisible();
+    await expect(page.getByText('Organization authority')).toBeVisible();
+    await expect(page.getByText('Budget and quote')).toBeVisible();
+
+    // Proof-backed readback: rights and delivery receipt roots stay in Session.
     await page.getByText('Reading proof detail', { exact: true }).click();
     const proofDetail = page.getByTestId('read-expandable-proof-detail');
     await expect(proofDetail).toBeVisible();
     await expect(proofDetail.getByText('BTD rights receipt root')).toBeVisible();
     await expect(proofDetail.getByText('Delivery receipt root')).toBeVisible();
-
-    // Settled AssetPacks remain auditable through /packs.
-    await expect(page.getByRole('link', { name: 'Open settled pack activity' })).toHaveAttribute(
-      'href',
-      '/packs?type=settled-assetpack',
-    );
 
     await trap.assertClean();
   });

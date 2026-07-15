@@ -258,12 +258,19 @@ describe("DepositPageClient", () => {
     expect(
       screen.queryByTestId("deposit-route-step-connect-source"),
     ).not.toBeInTheDocument();
+    // Lower asides default collapsed — titles visible; expand Session for body.
     expect(screen.getByText("Source-safe deposit state")).toBeInTheDocument();
+    expect(screen.getByText("Organization authority")).toBeInTheDocument();
+    expect(
+      screen.queryByText("Disclosure boundary"),
+    ).not.toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole("button", { name: "Expand Source-safe deposit state" }),
+    );
     expect(screen.getByText("Disclosure boundary")).toBeInTheDocument();
     expect(
       screen.getByText(/Withheld: raw source, unpaid AssetPack source, prompts/u),
     ).toBeInTheDocument();
-    expect(screen.getByText("Organization authority")).toBeInTheDocument();
     expect(
       screen.getAllByText("DepositAssetPackOptionSynthesis").length,
     ).toBeGreaterThan(0);
@@ -293,6 +300,11 @@ describe("DepositPageClient", () => {
       screen.getByText("All-repositories supply estimate"),
     ).toBeInTheDocument();
     expect(screen.getAllByText(/Earning estimate/u).length).toBeGreaterThan(0);
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Expand All-repositories supply estimate",
+      }),
+    );
     expect(
       screen.getByText(/Unfit Need opportunities/u),
     ).toBeInTheDocument();
@@ -733,7 +745,7 @@ describe("DepositPageClient", () => {
     // Pick the exclusion from the repository file tree (fetched at the
     // selected repo·branch·commit); a directory selects its prefix.
     const exclusionsTree = await screen.findByLabelText(
-      "Forced Exclusions file tree",
+      "Impermissible sources file tree",
     );
     const secretEngineRow = await within(exclusionsTree).findByText(
       "secret-engine/",
@@ -758,7 +770,7 @@ describe("DepositPageClient", () => {
     const body = JSON.parse(String(synthesisCall?.[1]?.body));
     expect(body.repositoryFullName).toBe("engineeredsoftware/ENGI");
     expect(body.forcedExclusions).toEqual(["secret-engine/"]);
-    // Forced Inclusion is always present on the synthesize POST (empty when none picked).
+    // Permissible sources are always present on the synthesize POST (empty when none picked).
     expect(body.forcedInclusions).toEqual([]);
     expect(Array.isArray(body.demandContext)).toBe(true);
 
@@ -1299,10 +1311,10 @@ describe("DepositPageClient", () => {
         within(listbox).getByText("Withhold the billing module internals."),
       ).toBeInTheDocument();
       expect(
-        within(listbox).getByLabelText("2 forced inclusion paths"),
+        within(listbox).getByLabelText("2 paths in permissible sources"),
       ).toBeInTheDocument();
       expect(
-        within(listbox).getByLabelText("1 forced exclusion path"),
+        within(listbox).getByLabelText("1 path in impermissible sources"),
       ).toBeInTheDocument();
       fireEvent.click(within(listbox).getByText("Billing withhold"));
 

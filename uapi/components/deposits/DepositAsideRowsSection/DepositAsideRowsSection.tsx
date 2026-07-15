@@ -1,13 +1,14 @@
 'use client';
 
 /**
- * Deposit route aside — reusable label/value rows section with explainers.
+ * Deposit route aside — reusable collapsible label/value rows section.
  * Used for Governance (authority) and Session panels; optional footer slots.
  */
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger/TelemetryExplainerTrigger";
+import { ProductRouteAsideCard } from "@/components/bitcode/routes/ProductRouteAsideCard/ProductRouteAsideCard";
 import type { DepositLabelValueRow } from "@/components/deposits/models/deposit-route-rows";
 import type { BitcodeExplainer } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
 
@@ -41,24 +42,13 @@ export function DepositAsideRowsSection({
   children,
 }: DepositAsideRowsSectionProps) {
   return (
-    <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
-            {kicker}
-          </p>
-          <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-            <span>{title}</span>
-            <span
-              onClick={(event) => event.stopPropagation()}
-              className="shrink-0"
-            >
-              <BitcodeInlineExplainer explainer={sectionExplainer} />
-            </span>
-          </h2>
-        </div>
-      </div>
-      <dl className="mt-4 grid gap-2">
+    <ProductRouteAsideCard
+      kicker={kicker}
+      title={title}
+      tone="emerald"
+      titleAccessory={<BitcodeInlineExplainer explainer={sectionExplainer} />}
+    >
+      <dl className="grid gap-2">
         {rows.map((row) => (
           <TelemetryExplainerTrigger
             key={row.label}
@@ -86,6 +76,6 @@ export function DepositAsideRowsSection({
         ))}
       </dl>
       {children}
-    </section>
+    </ProductRouteAsideCard>
   );
 }
