@@ -15,9 +15,19 @@ stock `node24` runtime that cannot install the monorepo on every run.
 | `/opt/bitcode/.bitcode/pipeline-host/*.mjs` | Host-smoke + live runners (`../../packages` resolves) |
 | `/vercel/sandbox` | Customer git checkout + run manifest/artifacts |
 
+## Host law
+
+| Runtime | Host |
+|---------|------|
+| **Local machine** (laptop, full FS) | **LocalHost** by default — optional `BITCODE_PIPELINE_HOST=sandbox` to exercise boxes |
+| **Serverless** (Vercel Production/Preview) | **Always sandbox** — LocalHost is never used (`VERCEL=1` forces sandbox) |
+
+LocalHost cannot run deposit/read pipelines on serverless. Serverless always spawns a Sandbox microVM; prefer a VCR pipeline image for cold-start cost.
+
 ## Env (Production)
 
 ```bash
+# Host is auto-sandbox on Vercel; still fine to set explicitly:
 BITCODE_PIPELINE_HOST=sandbox
 BITCODE_PIPELINE_SANDBOX_IMAGE=bitcode-pipeline:v48-<gitsha>
 # or full ref:

@@ -138,13 +138,25 @@ describe('provisionDepositSourceInventory (compat full catalog load)', () => {
 });
 
 describe('selectDepositHostKind', () => {
-  it('selects by configured BITCODE_PIPELINE_HOST (default local; env does not auto-select)', () => {
+  it('uses LocalHost only on local machines; serverless always sandbox', () => {
+    // Local machine (no Vercel/Lambda markers)
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'sandbox' } as any)).toBe('sandbox');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: ' Sandbox ' } as any)).toBe('sandbox');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'local' } as any)).toBe('local');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'inline' } as any)).toBe('local');
     expect(selectDepositHostKind({} as any)).toBe('local');
-    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('local');
+
+    // Serverless: always sandbox — LocalHost is never valid here
+    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('sandbox');
+    expect(selectDepositHostKind({ VERCEL: '1', BITCODE_PIPELINE_HOST: 'local' } as any)).toBe(
+      'sandbox',
+    );
+    expect(selectDepositHostKind({ VERCEL_ENV: 'production' } as any)).toBe('sandbox');
+    expect(selectDepositHostKind({ VERCEL_ENV: 'preview' } as any)).toBe('sandbox');
+    expect(selectDepositHostKind({ AWS_LAMBDA_FUNCTION_NAME: 'fn' } as any)).toBe('sandbox');
+    expect(
+      selectDepositHostKind({ BITCODE_PIPELINE_RUNTIME: 'serverless' } as any),
+    ).toBe('sandbox');
   });
 });
 

@@ -7,9 +7,15 @@
  * already has the tree (e.g. VercelSandboxHost image source), adopt it;
  * otherwise LocalHost clones via `deposit:cloneRepositoryForRun`.
  *
- * LocalHost only reads files from the workspace cloned for that run.
+ * Host law:
+ * - **LocalHost** — developer machine only (full system access). Never on
+ *   serverless/Production. Used when iterating locally with the monorepo on disk.
+ * - **Sandbox (VercelSandboxHost)** — always on serverless (Vercel / Lambda).
+ *   Synthesis spawns a microVM; optional VCR pipeline image via
+ *   `BITCODE_PIPELINE_SANDBOX_IMAGE`.
  *
- * Host selection: `BITCODE_PIPELINE_HOST` (`local` | `sandbox`).
+ * Host selection: `BITCODE_PIPELINE_HOST` (`local` | `sandbox`); serverless
+ * runtimes always resolve to `sandbox` even if `local` is misconfigured.
  */
 
 import {
@@ -60,18 +66,40 @@ export interface ProvisionedDepositCheckout {
 }
 
 /**
- * Select the deposit HostKind by CONFIGURATION (not environment): `BITCODE_PIPELINE_HOST`
- * (`local` | `sandbox`; `inline` = alias of `local`) chooses which HostKind runs the synthesis pipeline; default
- * `local`. (A SandboxHost's provider is `BITCODE_SANDBOX_PROVIDER`, `vercel` | `aws`.)
- * Pure + testable; no dev/prod or local/remote semantics.
+ * True when the process is a deployed serverless runtime (not a laptop dev server).
+ * Vercel sets `VERCEL=1` / `VERCEL_ENV` on Production and Preview functions.
+ */
+export function isServerlessPipelineRuntime(
+  env: NodeJS.ProcessEnv = process.env,
+): boolean {
+  if (env.BITCODE_PIPELINE_RUNTIME?.trim().toLowerCase() === 'serverless') {
+    return true;
+  }
+  if (env.VERCEL === '1') return true;
+  if (env.VERCEL_ENV === 'production' || env.VERCEL_ENV === 'preview') return true;
+  if (env.AWS_LAMBDA_FUNCTION_NAME) return true;
+  return false;
+}
+
+/**
+ * Select deposit HostKind.
+ *
+ * - **Serverless:** always `sandbox` (LocalHost cannot run pipelines on Vercel).
+ *   Explicit `BITCODE_PIPELINE_HOST=local` is ignored on serverless.
+ * - **Local machine:** default `local` (LocalHost); set `BITCODE_PIPELINE_HOST=sandbox`
+ *   to exercise the sandbox path from a laptop (needs Vercel auth).
+ * - `inline` is a deprecated alias of `local`.
  */
 export function selectDepositHostKind(
   env: NodeJS.ProcessEnv = process.env,
 ): BitcodeHostKind {
+  if (isServerlessPipelineRuntime(env)) {
+    return 'sandbox';
+  }
   const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
-  if (explicit === "sandbox") return "sandbox";
-  // `inline` is a deprecated alias of `local` (LocalHost, formerly LocalHost).
-  return "local";
+  if (explicit === 'sandbox') return 'sandbox';
+  // local | inline | unset → LocalHost on developer machines only
+  return 'local';
 }
 
 /**
