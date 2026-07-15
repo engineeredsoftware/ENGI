@@ -198,7 +198,7 @@ export default function BitcoinWalletAuthorizeClient({
           Solana providers are not used for this identity path.
         </p>
 
-        <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/30">
+        <div className="mt-8 rounded-none border border-white/10 bg-white/[0.055] p-5 shadow-2xl shadow-black/30">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/52">
@@ -212,7 +212,7 @@ export default function BitcoinWalletAuthorizeClient({
                     : 'No compatible Bitcoin wallet provider was detected.'}
               </p>
             </div>
-            <span className="rounded-full border border-emerald-300/24 bg-emerald-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
+            <span className="rounded-none border border-emerald-300/24 bg-emerald-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-100">
               Signed wallet
             </span>
           </div>
@@ -225,7 +225,7 @@ export default function BitcoinWalletAuthorizeClient({
                   type="button"
                   onClick={() => authorize(provider.id)}
                   disabled={status !== 'idle'}
-                  className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+                  className="inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
                 >
                   {status === 'requesting' ? `Opening ${provider.label}` : `Continue with ${provider.label}`}
                 </button>
@@ -235,7 +235,7 @@ export default function BitcoinWalletAuthorizeClient({
                 type="button"
                 onClick={() => authorize(preferredProvider)}
                 disabled={status !== 'idle'}
-                className="inline-flex items-center justify-center rounded-full border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
+                className="inline-flex items-center justify-center rounded-none border border-orange-300/34 bg-orange-400/14 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-50 transition hover:border-orange-300/54 hover:bg-orange-400/22 disabled:cursor-wait disabled:opacity-60"
               >
                 {status === 'requesting'
                   ? `Opening ${fallbackProviderLabel}`
@@ -246,14 +246,14 @@ export default function BitcoinWalletAuthorizeClient({
               type="button"
               onClick={() => scanProviders('manual')}
               disabled={status !== 'idle' || scanState === 'checking'}
-              className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
+              className="inline-flex items-center justify-center rounded-none border border-white/12 bg-white/6 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/66 transition hover:border-white/24 hover:bg-white/10 disabled:cursor-wait disabled:opacity-45"
             >
               {scanState === 'checking' ? 'Scanning wallets' : 'Rescan wallets'}
             </button>
           </div>
 
           {error ? (
-            <p className="mt-4 rounded-xl border border-amber-300/24 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
+            <p className="mt-4 rounded-none border border-amber-300/24 bg-amber-400/10 px-4 py-3 text-sm leading-6 text-amber-100">
               {error}
             </p>
           ) : null}
