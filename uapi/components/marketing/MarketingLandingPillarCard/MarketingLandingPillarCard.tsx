@@ -107,7 +107,7 @@ export function MarketingLandingPillarCard({
                   Proven on deposit
                 </p>
                 <p className="mt-1 text-[11px] leading-4 text-violet-100/72">
-                  commits, obfuscate, paths, and SHA
+                  source, obfuscate, paths, and SHA
                 </p>
               </div>
             </div>

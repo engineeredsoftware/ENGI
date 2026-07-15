@@ -118,7 +118,7 @@ export const previewRows = [
   },
   {
     key: "Seller's View",
-    valueParts: ['commits', 'obfuscate', 'paths', 'SHA'],
+    valueParts: ['source', 'obfuscate', 'paths', 'SHA'],
     accentClassName: 'from-fuchsia-400/18 via-purple-400/8 to-transparent',
     Icon: LinkIcon,
     // 2×2 — short chips so nothing truncates mid-word.
