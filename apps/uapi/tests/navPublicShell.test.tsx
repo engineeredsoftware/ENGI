@@ -116,10 +116,10 @@ describe('Nav public shell', () => {
     expect(screen.getByRole('link', { name: 'Packs' })).not.toHaveAttribute('aria-current');
     expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
-    expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Explain Docs' })).toBeNull();
+    // Nav info explainers removed — product routes are label links only.
+    expect(screen.queryByRole('button', { name: 'Explain Packs' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Explain Deposit' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Explain Read' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     // Fixed right band so Reading wallet ↔ Connect ↔ balances never reflow links.
     expect(rightChrome.className).toMatch(/tablet:w-\[21rem\]/);

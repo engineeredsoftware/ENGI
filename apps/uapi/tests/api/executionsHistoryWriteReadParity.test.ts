@@ -123,7 +123,7 @@ describe('Bitcode execution-history write/read parity', () => {
     repositories: [],
     selectedRepository: {
       id: 'repo-1',
-      name: 'terminal',
+      name: 'product',
       fullName: 'bitcode/product',
       private: true,
       defaultBranch: 'main',
@@ -310,7 +310,7 @@ describe('Bitcode execution-history write/read parity', () => {
         summary: 'Recorded deposit-side share posture for bitcode/product.',
         repo_snapshot: {
           org: 'bitcode',
-          repo: 'terminal',
+          repo: 'product',
           branch: 'main',
           commit: '',
         },
@@ -362,7 +362,7 @@ describe('Bitcode execution-history write/read parity', () => {
         status: 'completed',
         repo_snapshot: {
           org: 'bitcode',
-          repo: 'terminal',
+          repo: 'product',
           branch: 'main',
           commit: '',
         },
