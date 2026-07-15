@@ -2,11 +2,17 @@
 
 import React from "react";
 import type { LucideIcon } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { TelemetryExplainerTrigger } from "@/components/bitcode/pipeline/TelemetryExplainerTrigger/TelemetryExplainerTrigger";
 import {
   ProductEntranceItem,
   ProductRouteEntrance,
+  productEntranceEase,
 } from "@/components/bitcode/routes/ProductRouteEntrance/ProductRouteEntrance";
+import {
+  PRODUCT_METRIC_CHIP_ROW_CLASS,
+  PRODUCT_METRIC_CHIP_SHELL_CLASS,
+} from "@/components/bitcode/routes/ProductChipSkeletonRow/ProductChipSkeletonRow";
 import {
   AlertCircle,
   CircleDashed,
@@ -146,8 +152,100 @@ type ProductRouteShellProps = {
   summary: string;
   icon: LucideIcon;
   metrics: ProductRouteMetric[];
+  /**
+   * When false, header metric chips show fixed-height skeletons (same geometry
+   * as live chips). When true, the full chip set crossfades in place — opacity
+   * only, never y-translate — so already-rendered title/body do not shift.
+   */
+  metricsReady?: boolean;
   children: React.ReactNode;
 };
+
+/** Title-row metrics: fixed h-7 nowrap, trailing-edge aligned with the title. */
+const METRIC_CHIPS_CLASS = `${PRODUCT_METRIC_CHIP_ROW_CLASS} justify-end text-[0.58rem] uppercase tracking-[0.14em] text-neutral-300`;
+
+const METRIC_CHIP_CLASS = PRODUCT_METRIC_CHIP_SHELL_CLASS;
+
+function shouldReduceMetricMotion(prefersReduced: boolean | null): boolean {
+  if (prefersReduced) return true;
+  if (typeof process !== "undefined" && process.env.JEST_WORKER_ID) return true;
+  return false;
+}
+
+/**
+ * Header metric chips. Shells + labels always mount (h-7 nowrap). Values
+ * pulse until ready, then opacity-crossfade in place — never remount the
+ * row and never y-translate, so title/body geometry is fixed.
+ */
+function ProductRouteMetricChips({
+  metrics,
+  ready,
+}: {
+  metrics: ProductRouteMetric[];
+  ready: boolean;
+}) {
+  const reduceMotion = shouldReduceMetricMotion(useReducedMotion());
+
+  const chips = metrics.map((metric) => {
+    const valueSlot = !ready ? (
+      <span
+        className="inline-block h-2.5 w-6 shrink-0 bg-white/[0.12] motion-safe:animate-pulse"
+        aria-hidden="true"
+      />
+    ) : reduceMotion ? (
+      <span className="max-w-[9rem] truncate text-[0.7rem] font-semibold leading-none text-white phone:max-w-none">
+        {metric.value}
+      </span>
+    ) : (
+      <motion.span
+        className="max-w-[9rem] truncate text-[0.7rem] font-semibold leading-none text-white phone:max-w-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.42, ease: productEntranceEase }}
+        style={{ willChange: "opacity", backfaceVisibility: "hidden" }}
+      >
+        {metric.value}
+      </motion.span>
+    );
+
+    const chipBody = (
+      <>
+        <dt className="leading-none text-neutral-500">{metric.label}</dt>
+        <dd className="flex min-w-0 items-center">{valueSlot}</dd>
+      </>
+    );
+    return metric.description ? (
+      <TelemetryExplainerTrigger
+        key={metric.label}
+        as="div"
+        className={METRIC_CHIP_CLASS}
+        explainer={{
+          kicker: "Route metric",
+          title: metric.label,
+          specific: metric.description,
+          generic: ROUTE_METRIC_TOOLTIP_GENERIC,
+          ...ROUTE_METRIC_TOOLTIP_SECTIONS,
+        }}
+      >
+        {chipBody}
+      </TelemetryExplainerTrigger>
+    ) : (
+      <div key={metric.label} className={METRIC_CHIP_CLASS}>
+        {chipBody}
+      </div>
+    );
+  });
+
+  return (
+    <dl
+      className={METRIC_CHIPS_CLASS}
+      data-testid={ready ? "route-metrics" : "route-metrics-pending"}
+      aria-busy={!ready}
+    >
+      {chips}
+    </dl>
+  );
+}
 
 export function ProductRouteShell({
   testId,
@@ -157,6 +255,7 @@ export function ProductRouteShell({
   summary,
   icon: Icon,
   metrics,
+  metricsReady = true,
   children,
 }: ProductRouteShellProps) {
   const toneClasses = TONE_CLASSES[tone];
@@ -167,60 +266,29 @@ export function ProductRouteShell({
       className={`min-h-screen overflow-x-clip ${toneClasses.page} px-3 pb-20 pt-28 text-neutral-100 phone:px-4 phone:pb-24 phone:pt-32 tablet:px-6 laptop:px-8 desktop:px-8`}
     >
       <ProductRouteEntrance className="mx-auto grid w-full min-w-0 max-w-[1800px] gap-4 phone:gap-5">
-        {/* Compact route header — title + wrapping metric chips (phone stacks;
-            tablet+ title left / chips right). Shared by Packs / Reads / Deposits. */}
+        {/* Title band: eyebrow, then title + metrics on one row (chips right),
+            then summary. Chip value slots crossfade in place (no y-shift). */}
         <ProductEntranceItem
           as="header"
-          className={`grid min-w-0 items-center gap-x-4 gap-y-3 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-3 py-3 shadow-[0_30px_100px_rgba(0,0,0,0.34)] phone:px-5 phone:py-3.5 tablet:grid-cols-[minmax(0,1fr)_auto] tablet:min-h-[5.75rem] tablet:gap-x-6`}
+          className={`flex min-w-0 flex-col gap-2 border ${toneClasses.headerBorder} bg-[linear-gradient(135deg,rgba(7,14,26,0.96),rgba(4,9,18,0.92))] px-3 py-3 shadow-[0_30px_100px_rgba(0,0,0,0.34)] phone:px-5 phone:py-3.5`}
         >
-          <div className="min-w-0">
-            <p
-              className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.3em] ${toneClasses.eyebrow}`}
-            >
-              <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              {label}
-            </p>
-            <h1 className="mt-1 text-lg font-semibold tracking-tight text-white phone:text-xl tablet:text-2xl">
+          <p
+            className={`flex items-center gap-2 text-[0.66rem] uppercase tracking-[0.3em] ${toneClasses.eyebrow}`}
+          >
+            <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            {label}
+          </p>
+          <div className="flex min-w-0 items-center justify-between gap-3">
+            <h1 className="min-w-0 shrink-0 text-lg font-semibold tracking-tight text-white phone:text-xl tablet:text-2xl">
               {title}
             </h1>
-            <p className="mt-1 line-clamp-3 max-w-3xl text-xs leading-5 text-neutral-400 phone:line-clamp-2 tablet:text-sm">
-              {summary}
-            </p>
+            <div className="min-w-0 flex-1 overflow-x-auto">
+              <ProductRouteMetricChips metrics={metrics} ready={metricsReady} />
+            </div>
           </div>
-          <dl className="flex max-w-full flex-wrap items-center justify-start gap-1.5 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-300 tablet:max-w-[min(42rem,52vw)] tablet:justify-end">
-            {metrics.map((metric) => {
-              const chipBody = (
-                <>
-                  <dt className="text-neutral-500">{metric.label}</dt>
-                  <dd className="max-w-[9rem] truncate text-[0.7rem] font-semibold text-white phone:max-w-none">
-                    {metric.value}
-                  </dd>
-                </>
-              );
-              const chipClass =
-                "flex min-w-0 shrink-0 items-baseline gap-1.5 border border-white/10 bg-white/[0.045] px-2 py-1";
-              return metric.description ? (
-                <TelemetryExplainerTrigger
-                  key={metric.label}
-                  as="div"
-                  className={chipClass}
-                  explainer={{
-                    kicker: "Route metric",
-                    title: metric.label,
-                    specific: metric.description,
-                    generic: ROUTE_METRIC_TOOLTIP_GENERIC,
-                    ...ROUTE_METRIC_TOOLTIP_SECTIONS,
-                  }}
-                >
-                  {chipBody}
-                </TelemetryExplainerTrigger>
-              ) : (
-                <div key={metric.label} className={chipClass}>
-                  {chipBody}
-                </div>
-              );
-            })}
-          </dl>
+          <p className="line-clamp-3 max-w-3xl text-xs leading-5 text-neutral-400 phone:line-clamp-2 tablet:text-sm">
+            {summary}
+          </p>
         </ProductEntranceItem>
         <ProductEntranceItem className="grid min-w-0 gap-5">
           {children}

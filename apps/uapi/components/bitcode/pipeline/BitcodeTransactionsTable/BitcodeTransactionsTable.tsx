@@ -97,9 +97,11 @@ export default function BitcodeTransactionsTable({
           visibleTokenTotal={visibleTokenTotal}
           selectedTransactionId={selectedTransactionId}
           dataMode={dataMode}
+          statsReady={!isLoading}
         />
       ) : (
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        // Title band, then full-width overview (data chips on their own row).
+        <div className="flex flex-col gap-3">
           <div className="max-w-3xl">
             <p className="text-[0.68rem] uppercase tracking-[0.24em] text-emerald-300/75">{tableKicker}</p>
             <h3 id="bitcodeTransactionsTableTitle" className="mt-1.5 text-lg font-semibold text-white">{tableTitle}</h3>
@@ -114,6 +116,7 @@ export default function BitcodeTransactionsTable({
             visibleTokenTotal={visibleTokenTotal}
             selectedTransactionId={selectedTransactionId}
             dataMode={dataMode}
+            statsReady={!isLoading}
           />
         </div>
       )}

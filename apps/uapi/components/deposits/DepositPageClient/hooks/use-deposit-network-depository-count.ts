@@ -20,12 +20,17 @@ export function useDepositNetworkDepositoryCount() {
       request
         .then((response) => (response && response.ok ? response.json() : null))
         .then((payload) => {
-          if (disposed || !payload) return;
+          if (disposed) return;
+          // Always settle so header chips can enter; 0 on miss/failure.
           setNetworkDepositoryCount(
-            Array.isArray(payload.records) ? payload.records.length : null,
+            payload && Array.isArray(payload.records) ? payload.records.length : 0,
           );
         })
-        .catch(() => {});
+        .catch(() => {
+          if (!disposed) setNetworkDepositoryCount(0);
+        });
+    } else if (!disposed) {
+      setNetworkDepositoryCount(0);
     }
     return () => {
       disposed = true;
