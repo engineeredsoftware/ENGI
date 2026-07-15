@@ -15,11 +15,11 @@ export const BITCODE_LOGO_VIEW_BOX = '-8 -5 52 59';
 
 /**
  * Matches `bitcode-logo.svg` group transform (design tilt −17.5°).
- * Hover straighten on quantum chrome / BTD tracker applies +13.5° CSS (4° shy
- * of full cancel) so the mark reads upright without slight over-rotate.
+ * Hover straighten on quantum chrome / BTD tracker applies +14.875° CSS
+ * (2.625° shy of full cancel) so the mark reads upright without over-rotate.
  */
 export const BITCODE_LOGO_DESIGN_TILT_DEG = -17.5;
-export const BITCODE_LOGO_HOVER_STRAIGHTEN_DEG = 13.5; // cancels tilt, −4° vs full
+export const BITCODE_LOGO_HOVER_STRAIGHTEN_DEG = 14.875; // cancels tilt, −2.625° vs full
 export const BITCODE_LOGO_TRANSFORM = `rotate(${BITCODE_LOGO_DESIGN_TILT_DEG} 18 24.5)`;
 
 /** Intrinsic width from `bitcode-logo.svg` width attribute. */
