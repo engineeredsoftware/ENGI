@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
 
 import AuxillariesProfilePaneHeader from '@/components/auxillaries/headers/AuxillariesProfilePaneHeader/AuxillariesProfilePaneHeader';
 
@@ -67,12 +66,8 @@ export default function AuxillariesProfilePane({
 
   return (
     <div data-testid="profile-step-container">
-      <motion.div
-        className="orbital-step-content profile-step"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      >
+      {/* Shell/pane transition owns entrance; keep inner content free of long delays. */}
+      <div className="orbital-step-content profile-step">
         <div className="step-header">
           <AuxillariesProfilePaneHeader
             isOnboardingComplete={isOnboardingComplete}
@@ -82,11 +77,8 @@ export default function AuxillariesProfilePane({
 
         <form onSubmit={form.handleSubmit} className="step-form">
           {!isOnboardingComplete && (
-            <motion.div
+            <div
               className="onboarding-info"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
               style={{
                 background: 'linear-gradient(145deg, rgba(15, 30, 50, 0.7), rgba(10, 20, 35, 0.7))',
                 borderRadius: '16px',
@@ -103,7 +95,7 @@ export default function AuxillariesProfilePane({
                 Profile only holds email, display identity, organization role, and account metadata.
                 Wallets live in Wallet; GitHub and other providers live in Externals.
               </p>
-            </motion.div>
+            </div>
           )}
 
           <ProfileReadinessSection profileState={profileState} />
@@ -143,7 +135,7 @@ export default function AuxillariesProfilePane({
             </p>
           </div>
         </form>
-      </motion.div>
+      </div>
     </div>
   );
 }

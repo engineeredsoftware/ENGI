@@ -861,12 +861,11 @@
   transition: none !important;
 }
 
-/* Portal visibility control for instant open */
+/* Full-page Auxillaries / orbital portal — fixed shell; entrance handled by framer-motion. */
 :is(.orbital-portal, .auxillaries-portal) {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  transition: opacity 0ms; /* Instant transition */
 }
 
 .orbital-closed {

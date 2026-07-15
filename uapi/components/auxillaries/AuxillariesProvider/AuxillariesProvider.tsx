@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   isAuxillariesCompatPath,
   isAuxillariesPath,
@@ -9,6 +10,18 @@ import {
 } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
+
+/** Matches marketing landing entranceEase. */
+const AUX_ENTRANCE_EASE = [0.16, 1, 0.3, 1] as const;
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch {
+    return false;
+  }
+}
 
 const AuxillariesSurface = dynamic(() => import('@/components/auxillaries/AuxillariesSurface/AuxillariesSurface'), { ssr: false });
 
@@ -68,6 +81,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
   const [windowState, setWindowState] = useState<AuxillaryWindow>('AuxillariesWindow');
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
   const [deepLinkStep, setDeepLinkStep] = useState<AuxillaryPane | null>(null);
+  const reduceMotion = prefersReducedMotion();
 
   useEffect(() => {
     const el = document.createElement('div');
@@ -182,15 +196,46 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
   return (
     <AuxillariesContext.Provider value={ctx}>
       {children}
-      {isOpen && portalContainer
+      {portalContainer
         ? createPortal(
-            <div className="auxillaries-portal auxillaries-open">
-              <AuxillariesSurface
-                window={windowState}
-                onClose={closeAuxillaries}
-                initialStep={deepLinkStep ?? undefined}
-              />
-            </div>,
+            <AnimatePresence>
+              {isOpen ? (
+                <motion.div
+                  key="auxillaries-overlay"
+                  className="auxillaries-portal auxillaries-open"
+                  initial={reduceMotion ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reduceMotion ? undefined : { opacity: 0 }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.38,
+                    ease: AUX_ENTRANCE_EASE,
+                  }}
+                >
+                  <motion.div
+                    className="h-full w-full"
+                    initial={
+                      reduceMotion ? false : { opacity: 0, y: 22, scale: 0.985 }
+                    }
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, y: 12, scale: 0.99 }}
+                    transition={{
+                      duration: reduceMotion ? 0 : 0.55,
+                      ease: AUX_ENTRANCE_EASE,
+                    }}
+                    style={{
+                      willChange: reduceMotion ? undefined : 'transform, opacity',
+                      transformOrigin: 'center top',
+                    }}
+                  >
+                    <AuxillariesSurface
+                      window={windowState}
+                      onClose={closeAuxillaries}
+                      initialStep={deepLinkStep ?? undefined}
+                    />
+                  </motion.div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>,
             portalContainer,
           )
         : null}

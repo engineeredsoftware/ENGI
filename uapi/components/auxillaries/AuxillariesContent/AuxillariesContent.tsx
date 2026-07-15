@@ -12,6 +12,18 @@ import {
 import AuxillariesPaneTabs from '@/components/auxillaries/shared/AuxillariesPaneTabs/AuxillariesPaneTabs';
 import AuxillariesWorkspacePanels from '@/components/auxillaries/shared/AuxillariesWorkspacePanels/AuxillariesWorkspacePanels';
 
+/** Matches marketing landing entranceEase. */
+const AUX_PANE_EASE = [0.16, 1, 0.3, 1] as const;
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch {
+    return false;
+  }
+}
+
 export interface AuxillariesContentProps {
   mode?: 'onboarding' | 'auxillaries';
   steps: AuxillaryPane[];
@@ -48,6 +60,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
   const isAuxillariesMode = mode === 'auxillaries';
   const usesTabNavigation = navigationMode === 'tabs';
   const usesContainedLayout = surfaceVariant === 'contained';
+  const reduceMotion = prefersReducedMotion();
   const activePaneLabel = currentStep ? labelForAuxillaryPane(currentStep) : 'Auxillaries';
   const availableStepLabels = availableSteps.filter(Boolean).map((step) => labelForAuxillaryPane(step));
   const blockedStepLabels = steps
@@ -65,6 +78,22 @@ function AuxillariesContent(props: AuxillariesContentProps) {
 
     return { pos, currentIdx, lastCompletedIdx };
   }, [steps, currentStep, completedSteps]);
+
+  // Snappy shell motion — no enter delay; exit faster than enter so the next
+  // pane feels immediate after a tab click.
+  const paneMotion = reduceMotion
+    ? {
+        initial: false as const,
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 1, y: 0 },
+        transition: { duration: 0 },
+      }
+    : {
+        initial: { opacity: 0, y: 12 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -8 },
+        transition: { duration: 0.26, ease: AUX_PANE_EASE },
+      };
 
   const ringElements = useMemo(() => {
     if (usesContainedLayout) return null;
@@ -126,14 +155,28 @@ function AuxillariesContent(props: AuxillariesContentProps) {
 
   const contentPanel =
     showContent && currentStep ? (
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={!reduceMotion}>
         <motion.div
           key={currentStep}
-          className="orbital-content-container"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          className={`orbital-content-container${reduceMotion ? '' : ' auxillaries-pane-enter'}`}
+          initial={paneMotion.initial}
+          animate={paneMotion.animate}
+          exit={{
+            ...paneMotion.exit,
+            transition: reduceMotion
+              ? { duration: 0 }
+              : { duration: 0.16, ease: AUX_PANE_EASE },
+          }}
+          transition={paneMotion.transition}
+          style={
+            reduceMotion
+              ? undefined
+              : {
+                  willChange: 'transform, opacity',
+                  transform: 'translateZ(0)',
+                  backfaceVisibility: 'hidden',
+                }
+          }
         >
           {renderStepContent(currentStep)}
         </motion.div>

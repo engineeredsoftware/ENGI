@@ -143,9 +143,9 @@ export default function AuxillariesSurface({
           <motion.div
             key="login"
             className="orbital-content-container orbital-auth-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.25 }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
             <AuxillariesLoginPane
               onClose={onClose}
@@ -154,21 +154,29 @@ export default function AuxillariesSurface({
             />
           </motion.div>
         ) : (
-          <AuxillariesContent
-            mode={surface.treatsContainedSurfaceAsAuxillaries ? 'auxillaries' : 'onboarding'}
-            steps={surface.visibleSteps}
-            currentStep={surface.currentStep}
-            completedSteps={surface.completedSteps}
-            availableSteps={surface.availableSteps}
-            showContent
-            showSuccessAnimation={surface.shouldPersistOnboardingProgress}
-            navigationMode="tabs"
-            surfaceVariant={surface.usesContainedAuxillariesSurface ? 'contained' : 'default'}
-            chromeActions={placeChromeAboveLeftPane ? chromeActions : null}
-            onStepClick={surface.handleStepClick}
-            renderStepContent={renderStepContent}
-            isOnboardingComplete={surface.canonicalOnboardingComplete}
-          />
+          <motion.div
+            key="auxillaries-workspace"
+            className="h-full min-h-0 w-full"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+          >
+            <AuxillariesContent
+              mode={surface.treatsContainedSurfaceAsAuxillaries ? 'auxillaries' : 'onboarding'}
+              steps={surface.visibleSteps}
+              currentStep={surface.currentStep}
+              completedSteps={surface.completedSteps}
+              availableSteps={surface.availableSteps}
+              showContent
+              showSuccessAnimation={surface.shouldPersistOnboardingProgress}
+              navigationMode="tabs"
+              surfaceVariant={surface.usesContainedAuxillariesSurface ? 'contained' : 'default'}
+              chromeActions={placeChromeAboveLeftPane ? chromeActions : null}
+              onStepClick={surface.handleStepClick}
+              renderStepContent={renderStepContent}
+              isOnboardingComplete={surface.canonicalOnboardingComplete}
+            />
+          </motion.div>
         )}
       </ContentVisibility>
     </div>

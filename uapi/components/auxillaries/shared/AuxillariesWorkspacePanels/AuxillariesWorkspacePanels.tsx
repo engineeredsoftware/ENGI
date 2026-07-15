@@ -5,11 +5,23 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion';
 
 import {
   getAuxillaryDescriptor,
   type AuxillaryPane,
 } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
+
+const PANEL_EASE = [0.16, 1, 0.3, 1] as const;
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch {
+    return false;
+  }
+}
 
 interface AuxillariesWorkspacePanelsProps {
   steps: AuxillaryPane[];
@@ -24,13 +36,15 @@ export default function AuxillariesWorkspacePanels({
   availableSteps,
   onStepClick,
 }: AuxillariesWorkspacePanelsProps) {
+  const reduceMotion = prefersReducedMotion();
+
   return (
     <div
       className="orbital-workspace-panel-list auxillaries-bitcode-selector-list"
       role="list"
       aria-label="Auxillaries workspace panels"
     >
-      {steps.map((step) => {
+      {steps.map((step, index) => {
         if (!step) return null;
 
         const descriptor = getAuxillaryDescriptor(step);
@@ -47,7 +61,17 @@ export default function AuxillariesWorkspacePanels({
         const pillsId = `auxillaries-panel-${step}-pills`;
 
         return (
-          <div key={step} role="listitem">
+          <motion.div
+            key={step}
+            role="listitem"
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: reduceMotion ? 0 : 0.45,
+              delay: reduceMotion ? 0 : 0.12 + index * 0.07,
+              ease: PANEL_EASE,
+            }}
+          >
             <button
               type="button"
               disabled={!isAvailable}
@@ -100,7 +124,7 @@ export default function AuxillariesWorkspacePanels({
                 ))}
               </ul>
             </button>
-          </div>
+          </motion.div>
         );
       })}
     </div>
