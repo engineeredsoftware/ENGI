@@ -9215,7 +9215,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'qa/BITCODE_V32_QA.md',
+      relativePath: '.qa/BITCODE_V32_QA.md',
       tokens: [
         'Bitcode V32 QA Ledger',
         'Gate 10 Promotion Readiness QA',

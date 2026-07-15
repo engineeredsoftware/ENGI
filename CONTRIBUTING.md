@@ -117,7 +117,7 @@ Full craft rules: [`.docs/AGENTS.md`](.docs/AGENTS.md).
 ### 2.4 QA finding tags
 
 Inline comments that cite QA findings must use fully-qualified tags, e.g.
-`V48-Gate3-F26-B`, matching a heading in `qa/BITCODE_V48_QA.md`. Never bare
+`V48-Gate3-F26-B`, matching a heading in `.qa/BITCODE_V48_QA.md`. Never bare
 `F26-B` tags.
 
 ---
@@ -135,7 +135,7 @@ scripts/            Canon checks, promotion, operators
 scripts/specifying  Package-native proof / promotion readiness machine
 supabase/           Migrations, local config, data-health
 containers/         Pipeliner OCI image, long-runner Docker, k8s
-qa/                 Version QA ledgers
+.qa/                 Version QA ledgers
 .docs/               Non-canonical guides (this tree)
 .bitcode/           Generated proof artifacts
 ```
@@ -470,7 +470,7 @@ routes, or other structure FAMILIARIZATION teaches, update
 5. Pick a **small** gate-scoped issue on `version/v48`; open a gate branch.
 6. Land one `(impl-only)` PR with tests; read gate-quality output.
 7. Optionally: enable real inference + GitHub App on a tiny repo smoke per
-   `qa/BITCODE_V48_QA.md`.
+   `.qa/BITCODE_V48_QA.md`.
 
 ---
 
@@ -483,7 +483,7 @@ routes, or other structure FAMILIARIZATION teaches, update
 | How do components nest? | SOURCE_LAYOUT + `apps/uapi/components/README.md` |
 | Supabase / auth | SUPABASE.md, AUTH packages |
 | Deploy / sandbox | VERCEL.md, DEPLOYMENT.md |
-| Interactive QA steps | `qa/BITCODE_V48_QA.md` (or current version ledger) |
+| Interactive QA steps | `.qa/BITCODE_V48_QA.md` (or current version ledger) |
 | Proof machine APIs | `scripts/specifying/README.md` |
 
 When blocked on secrets or external install rights, stop and ask — do not fake

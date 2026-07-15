@@ -27,7 +27,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
-    file: 'qa/BITCODE_V28_QA.md',
+    file: '.qa/BITCODE_V28_QA.md',
     needles: [
       'ReadNeedComprehensionSynthesis',
       'ReadFitsFindingSynthesis',

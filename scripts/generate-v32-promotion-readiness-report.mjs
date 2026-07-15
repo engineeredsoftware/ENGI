@@ -144,7 +144,7 @@ export function buildV32PromotionReadinessReport() {
       '.bitcode/v32-promotion-readiness-report.json',
       'closed',
     ]),
-    scanTokens('qa/BITCODE_V32_QA.md', [
+    scanTokens('.qa/BITCODE_V32_QA.md', [
       'Bitcode V32 QA Ledger',
       'Gate 10 Promotion Readiness QA',
       'source-safe',

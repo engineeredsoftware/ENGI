@@ -11298,13 +11298,13 @@ Format: `path -- <1 sentence TL;DR>`.
  BITCODE_SPECIFYING.md -- Bitcode system specification (draft or canon pointer family).
  BITCODE_V10_PREP_MEMO.md -- Documentation or specification text.
  BITCODE_V11_PREP_MEMO.md -- Documentation or specification text.
- qa/BITCODE_V26_QA.md -- Documentation or specification text.
- qa/BITCODE_V28_QA.md -- Documentation or specification text.
- qa/BITCODE_V29_QA.md -- Documentation or specification text.
- qa/BITCODE_V30_QA.md -- Documentation or specification text.
- qa/BITCODE_V31_QA.md -- Documentation or specification text.
- qa/BITCODE_V32_QA.md -- Documentation or specification text.
- qa/BITCODE_V48_QA.md -- V48 draft notes, delta, parity, or QA ledger entry.
+ .qa/BITCODE_V26_QA.md -- Documentation or specification text.
+ .qa/BITCODE_V28_QA.md -- Documentation or specification text.
+ .qa/BITCODE_V29_QA.md -- Documentation or specification text.
+ .qa/BITCODE_V30_QA.md -- Documentation or specification text.
+ .qa/BITCODE_V31_QA.md -- Documentation or specification text.
+ .qa/BITCODE_V32_QA.md -- Documentation or specification text.
+ .qa/BITCODE_V48_QA.md -- V48 draft notes, delta, parity, or QA ledger entry.
  containers/Dockerfile.long-runner -- Container image build definition.
  containers/Dockerfile.long-runner-worker -- Container image build definition.
  INVESTOR_MEMO.md -- Documentation or specification text.

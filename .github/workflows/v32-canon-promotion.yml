@@ -148,7 +148,7 @@ jobs:
             .specifications/BITCODE_SPEC_V32_NOTES.md \
             .specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md \
             .specifications/BITCODE_SPEC_V32_PROVEN.md \
-            qa/BITCODE_V32_QA.md \
+            .qa/BITCODE_V32_QA.md \
             scripts/specifying/src/canon-posture.js \
             scripts/specifying/data/state.json \
             scripts/specifying/README.md \

@@ -48,7 +48,7 @@ class ProductionExaSearchProvider extends SearchProviderBase {
       timeout: 10000
     },
     specializations: {
-      categories: ['general', 'documentation', 'code', 'qa', 'academic'] as const,
+      categories: ['general', 'documentation', 'code', '.qa', 'academic'] as const,
       technologies: [],
       strengths: [
         'Neural search',

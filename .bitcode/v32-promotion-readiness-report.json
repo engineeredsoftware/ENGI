@@ -193,7 +193,7 @@
       ]
     },
     {
-      "relativePath": "qa/BITCODE_V32_QA.md",
+      "relativePath": ".qa/BITCODE_V32_QA.md",
       "present": true,
       "requiredTokens": [
         {

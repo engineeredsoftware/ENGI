@@ -2458,7 +2458,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "qa/BITCODE_V26_QA.md",
+      "path": ".qa/BITCODE_V26_QA.md",
       "pathRoot": "v43-route-vocabulary-file:8054f5c070c3a0b1de6a376c",
       "categories": [
         "doc",
@@ -2476,7 +2476,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "qa/BITCODE_V28_QA.md",
+      "path": ".qa/BITCODE_V28_QA.md",
       "pathRoot": "v43-route-vocabulary-file:a1cabc3a7f574827ab0d1e37",
       "categories": [
         "doc",
@@ -2498,7 +2498,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "qa/BITCODE_V29_QA.md",
+      "path": ".qa/BITCODE_V29_QA.md",
       "pathRoot": "v43-route-vocabulary-file:fa928ebc8bae0db3b492550b",
       "categories": [
         "doc",
@@ -2514,7 +2514,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "qa/BITCODE_V30_QA.md",
+      "path": ".qa/BITCODE_V30_QA.md",
       "pathRoot": "v43-route-vocabulary-file:7e3e25631ad84f553e6a85db",
       "categories": [
         "doc",

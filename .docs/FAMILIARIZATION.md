@@ -777,7 +777,7 @@ Radix/shadcn primitives re-exported with explicit `Shadcn` prefix direction
 
 Migrations under `supabase/migrations/`. Executions / events / BTD / connections
 are core. Local vs staging-testnet vs production projects are documented in
-`qa/BITCODE_V48_QA.md` (do not mix project IDs casually).
+`.qa/BITCODE_V48_QA.md` (do not mix project IDs casually).
 
 ### 8.2 Pipeline hosts
 
@@ -909,7 +909,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **PCC** | **Prepare Concise Context** — first FailsafeGeneration kind: select Execution state *keys* (not values). |
 | **PR** | Pull request — GitHub/GitLab/Bitbucket shippable; also “gate PR” into `version/vN`. |
 | **PTRR** | **Plan → Try → Refine → Retry** — base agent step model (`@bitcode/generic-agents-ptrr`). |
-| **QA** | Quality assurance — interactive ledgers (`qa/BITCODE_V48_QA.md`), runbooks, findings tags `V48-GateN-F*`. |
+| **QA** | Quality assurance — interactive ledgers (`.qa/BITCODE_V48_QA.md`), runbooks, findings tags `V48-GateN-F*`. |
 | **RLS** | Row Level Security — Supabase/Postgres access policies. |
 | **SDIV** | Informal shorthand for the SDIVF middle phases (Discover–Implement–Validate). Prefer **SDIVF** for the full pipeline shape. |
 | **SDIVF** | **Setup → [Discover → Implement → Validate]\* → Finish** — base product pipeline shape (`SDIVFPipeline`). |

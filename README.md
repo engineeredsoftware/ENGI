@@ -57,7 +57,7 @@ Product routes are `/packs`, `/deposits`, `/reads`, and `/docs`.
 | `.specifications/BITCODE_SPEC_V47.md` (+ DELTA / NOTES / PARITY / PROVEN) | Promoted commercial website testnet-launch canon |
 | `.specifications/BITCODE_SPEC_V48.md` (+ family) | **Draft** rebuild-alone SPEC for V48 gate work |
 | `.specifications/BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
-| [`qa/BITCODE_V48_QA.md`](qa/BITCODE_V48_QA.md) | Interactive QA ledger / gate runbooks |
+| [`.qa/BITCODE_V48_QA.md`](.qa/BITCODE_V48_QA.md) | Interactive QA ledger / gate runbooks |
 | [`.docs/FAMILIARIZATION.md`](.docs/FAMILIARIZATION.md) | **Non-canonical** codebase walkthrough |
 | [`.docs/ASSET_PACKS.md`](.docs/ASSET_PACKS.md) | **Non-canonical** AssetPack orientation |
 
@@ -170,7 +170,7 @@ grounded is **Unestimatable**, not invented.
 | [`.docs/AGENTS.md`](.docs/AGENTS.md) | Engineering craft + gate/commit law |
 | [`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / modularity contract |
 | [`.docs/TERMINOLOGY.md`](.docs/TERMINOLOGY.md) | Product vs agent vocabulary |
-| [`qa/`](qa/) | Version QA ledgers |
+| [`.qa/`](.qa/) | Version QA ledgers |
 | [`scripts/specifying/README.md`](scripts/specifying/README.md) | Specifying package / proof machine |
 
 ---

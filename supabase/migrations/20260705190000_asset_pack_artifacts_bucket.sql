@@ -1,4 +1,4 @@
--- Raw AssetPack artifact store (decided 2026-07-05, qa/BITCODE_V48_QA.md §
+-- Raw AssetPack artifact store (decided 2026-07-05, .qa/BITCODE_V48_QA.md §
 -- "Raw AssetPack artifact storage"): artifacts are ALWAYS .patch files in the
 -- PRIVATE `asset-pack-artifacts` file bucket at
 -- `<user_id>/<run_id>/<option_id>.patch`. Owner-only RLS; buyers receive

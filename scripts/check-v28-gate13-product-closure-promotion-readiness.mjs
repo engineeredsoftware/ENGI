@@ -27,7 +27,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'commercialSettlementAdmissible'],
   },
   {
-    file: 'qa/BITCODE_V28_QA.md',
+    file: '.qa/BITCODE_V28_QA.md',
     needles: [
       'Gate 13 Commercial Product Closure And Promotion Readiness QA',
       'pnpm run check:v28-gate13',
