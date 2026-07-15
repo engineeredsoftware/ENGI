@@ -39,7 +39,10 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
         const json = await res.json();
         if (!cancelled && json.success && Array.isArray(json.repos)) {
           setRepos(json.repos);
-          setEnableAll(json.repos.every((r: DataShareRepo) => r.enabled));
+          // Empty inventory must not light the master toggle (Array.every is true on []).
+          setEnableAll(
+            json.repos.length > 0 && json.repos.every((r: DataShareRepo) => r.enabled),
+          );
         }
       } catch (err) {
         console.error(err);

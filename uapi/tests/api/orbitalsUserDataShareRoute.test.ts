@@ -51,7 +51,7 @@ describe('GET /api/auxillaries/user/data-share', () => {
     expect(payload.repos[0]).toMatchObject({
       fullName: 'bitcode/bitcode',
       branch: 'main',
-      enabled: true,
+      enabled: false,
     });
   });
 

@@ -34,7 +34,8 @@ function mapRepositoryListToDataShare(repositories: Array<{
         : repository.updatedAt instanceof Date
           ? repository.updatedAt.toISOString().replace(/[^0-9a-z]/gi, '').slice(0, 7) || `mock${index}`
           : `mock${index}`,
-    enabled: true,
+    // Opt-in only — "Set it and forget it" and per-repo share start off.
+    enabled: false,
     lastAnalysisAt:
       typeof repository.updatedAt === 'string'
         ? repository.updatedAt
