@@ -1,446 +1,237 @@
-# Bitcode Apps (primarily `apps/uapi`)
+# Bitcode Apps (V48)
 
-This guide describes the **commercial application surfaces** of Bitcode—especially
-the Next.js website and API under `apps/uapi`. Package domain law lives under
-`packages/`; specification law under `.specifications/`.
+**Status:** non-canonical orientation for **commercial app surfaces**.  
+**Product law:** `.specifications/BITCODE_SPEC.txt` and the draft-target
+**V48** family under `.specifications/`. If this file conflicts with the SPEC,
+the **SPEC wins**.
 
-For agent engineering rules see [`AGENTS.md`](./AGENTS.md). For package catalog
-and inheritance, see [`.docs/FAMILIARIZATION.md`](./FAMILIARIZATION.md). For AssetPack
-domain depth see [`.docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
+This guide describes **what ships as apps** in the monorepo under V48
+launch-freeze. Domain packages live under `packages/`. Engineering craft:
+[`.docs/AGENTS.md`](./AGENTS.md). Package map:
+[`.docs/FAMILIARIZATION.md`](./FAMILIARIZATION.md). Layout:
+[`.docs/BITCODE_SOURCE_LAYOUT.md`](./BITCODE_SOURCE_LAYOUT.md). Security:
+[`.docs/SECURITY.md`](./SECURITY.md). AssetPack measurement orientation:
+[`.docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
 
-## Product apps in this monorepo
+---
 
-| App | Path | Role |
+## 1. V48 commercial posture
+
+| Topic | V48 truth |
+| --- | --- |
+| Launch surface | Generally available **website MVP** on **staging-testnet** |
+| Settlement money | **BTC-testnet** only; value-bearing **mainnet blocked** until future canon |
+| Sellable unit | **AssetPack** = synthesized **patch + measurements + metadata** (never raw unpaid source) |
+| Product language | **Pipeline** = product runs; **journal** = BTD ledger language |
+| Source-safety | No protected/raw source, unpaid pack source, raw prompts/provider bodies, credentials, or private settlement payloads on product surfaces |
+| Identity | Wallet (Bitcoin OAuth / Auxillaries), Supabase session, GitHub App for source connections |
+
+**Not V48 launch scope:** value-bearing mainnet; full Conversations commercialization;
+API/MCP and ChatGPT/Claude Apps as **primary commercial** paths; advanced market
+mechanics; deeper BTD mining cryptography beyond the website contract.
+
+Those monorepo apps may still exist as **compatibility / future-readiness**
+surfaces — they must not regress source-safe contracts, but they are **not** the
+V48 website launch path unless a later gate reopens them (SPEC goals/non-goals).
+
+---
+
+## 2. Apps in this monorepo
+
+| App | Path | V48 role |
 | --- | --- | --- |
-| **uapi** | `apps/uapi` | Primary commercial website + HTTP APIs (`/deposits`, `/reads`, `/packs`, Auxillaries, Docs, Conversations) |
-| **mcp** | `apps/mcp` | Bitcode MCP server surface |
-| **chatgpt** | `apps/chatgpt` | ChatGPT App actions |
-| **claude** | `apps/claude` | Claude App surface |
+| **uapi** | `apps/uapi` | **Primary commercial website** + thin HTTP adapters |
+| **mcp** | `apps/mcp` | MCP server — product tool surface; **not** V48 commercial launch path beyond source-safe compatibility |
+| **chatgpt** | `apps/chatgpt` | ChatGPT App — deferred commercial surface in V48 |
+| **claude** | `apps/claude` | Claude App — deferred commercial surface in V48 |
 
-**Run uapi:** from repo root `pnpm run dev:remote` or `pnpm -C apps/uapi dev:remote` (path is always `apps/uapi`; no root `uapi/` symlink).
+There is **no** root `uapi/` or `mcp/` symlink. Always use `apps/uapi` /
+`apps/mcp` (or pnpm filters).
 
-## Architecture (uapi)
+**Run website (local app + remote/staging DB posture as configured):**
 
-Dependency direction:
+```bash
+pnpm run dev:remote
+# or
+pnpm -C apps/uapi run dev:remote
+```
+
+Env, host, and deploy: [`.docs/DEPLOYMENT.md`](./DEPLOYMENT.md),
+[`.docs/VERCEL.md`](./VERCEL.md), [`.docs/SUPABASE.md`](./SUPABASE.md),
+[`CONTRIBUTING.md`](../CONTRIBUTING.md).
+
+---
+
+## 3. Website: experiences and routes (uapi)
+
+### 3.1 Component architecture (rebuild law)
 
 ```
 packages/* (domain)
   → apps/uapi/lib, networking, hooks
-  → components/shadcn → Bitcode*
-  → experiences: marketing | packs | reads | deposits | docs | conversations | auxillaries
-  → app/* thin page shells
+  → components/shadcn (Shadcn*)
+  → components/bitcode (Bitcode*)
+  → experiences: Marketing | Packs | Reads | Deposits | Docs | Conversations | Auxillaries
+  → app/* thin page shells only
 ```
 
-Product run language is **Pipeline**. BTD ledger language is **journal**.
-Product routes: `/packs`, `/deposits`, `/reads`, `/docs`.
+Strict dependency direction: **never** experience → experience; **never**
+page client → page client; **never** packages → apps.
 
-## Commercial loop (Deposit → Read → Settle)
+### 3.2 Canonical product routes
 
+| Route / surface | Owner | V48 commercial role |
+| --- | --- | --- |
+| `/` | Marketing | Landing / public launch messaging |
+| `/deposits` | Deposits | **IP seller:** connect source → **SynthesizeDepositAssetPacks (SDIVF)** → source-safe option review → Depository admission → compensation readback |
+| `/reads` | Reads | **IP buyer:** Read Request → Need comprehension/resynthesis → Fits finding → source-safe preview → quote → **BTC-testnet settle** → BTD rights → delivery |
+| `/packs` | Packs | Searchable **PackActivity** master-detail (deposits, reads, previews, quotes, settlements, rights, delivery, compensation, repairs, proof roots, history) |
+| `/docs` | Docs | Public product documentation |
+| Auxillaries | Auxillaries | Identity, org/teams, **wallet**, GitHub/externals, interfaces, histories |
+| Conversations | Conversations | Structure retained; **full commercial UX deferred** post-V48 |
 
-## Evidence Documents System
+**Compatibility (not product homes):**
 
-**Evidence basis**: repository-facing documents keep product intent, operating instructions, and tool configuration readable across Bitcode sessions.
+- Legacy `/exchange` (and similar cockpit paths) route into **`/packs`**.
+- Dead cockpit-only modules are deleted; do not rebuild Terminal or exchange
+  cockpit as product.
 
-### Architecture
+Login / TPS wallet authorize and Supabase callbacks live under app shells such as
+`/login` and `app/tps/*` — infrastructure for identity, not separate product
+experiences.
 
-```typescript
-interface CodebaseIntelligence {
-  ".docs/AGENTS.md": "Questions about how to design in THIS codebase"
-  ".docs/PRODUCT.md": "Implementation truth of THIS product"
-  ".docs/MCPS.md": "Tools and integrations THIS codebase uses"
-}
-```
-
-### The Experience
-
-**Rich Response Diffs**: When AI learns something new about your codebase:
-
-```diff
-## .docs/AGENTS.md changes proposed:
-
-+ ### How should I handle authentication in this codebase?
-+ Use the existing AuthService with JWT refresh rotation pattern.
-+ All auth checks must go through middleware/authentication.ts.
-+ Never store tokens in localStorage - use httpOnly cookies.
-
-+ ### What patterns does this codebase follow for data access?
-+ Repository pattern with explicit interfaces.
-+ All database queries through Prisma ORM.
-+ Transaction boundaries at service layer only.
-```
-
-**User Control**:
-- **Accept**: Knowledge becomes permanent
-- **Modify**: Edit the understanding before accepting
-- **Reject**: AI forgets this learning
-
-### The Intelligence Loop
+### 3.3 Commercial loop (website MVP)
 
 ```
-Execution generates Unknowledge
-  → Unknowledge becomes Questions
-    → Questions drive Discovery
-      → Discovery updates .docs/
-        → .docs/ drives next Execution
-          → (Exponential Learning)
+Depositor (/deposits)
+  connect source + Obfuscations
+  → SynthesizeDepositAssetPacks (SDIVF)
+  → source-safe option select / admit to Depository
+  → /packs activity + compensation expectation
+
+Reader (/reads)
+  Read Request → Need → Fits
+  → source-safe preview → quote
+  → BTC-testnet settlement → BTD rights → delivery
+  → /packs activity
+
+Operator (Auxillaries + /packs)
+  wallet / GitHub authenticity, histories, portfolio readback
 ```
 
-### Generating Unknowledge
-
-**The Humility Protocol**: AI must document what it DOESN'T know:
-
-```markdown
-## .docs/AGENTS.md - Unknowledge Section
-
-### Questions I Cannot Yet Answer:
-- How does this codebase handle distributed transactions?
-- What is the reasoning behind the custom EventBus implementation?
-- Why does AuthService bypass the standard middleware for admin routes?
-
-### Assumptions Requiring Validation:
-- ASSUMING: All API routes follow REST conventions (needs verification)
-- ASSUMING: Database migrations run automatically (found no evidence)
-- ASSUMING: The custom Logger writes to CloudWatch (unconfirmed)
-```
-
-### Highly Amenable Instructions
-
-Instructions that ADAPT based on .docs/ knowledge:
-
-```typescript
-// Same instruction: "Add user authentication"
-
-// Codebase A (from .docs/AGENTS.md):
-→ Implements OAuth2 with existing Google provider
-→ Extends current SessionManager
-→ Follows established JWT refresh pattern
-
-// Codebase B (from different .docs/AGENTS.md):
-→ Implements basic auth with bcrypt
-→ Creates new auth middleware
-→ Uses cookie-based sessions
-```
-
-## AssetPack Pipeline
-
-**SDIVF Pattern**: Setup → Discovery → Implementation → Validation → Finish
-
-### V26 Precision Instrument
-
-1. **Code Change** → Pull Request
-   - Divide|Apply|Correct execution pattern
-   - AST-based symbol resolution
-   - Automatic test generation
-   - Performance regression detection
-
-2. **Code Change Review** → PR Analysis
-   - Security vulnerability scanning
-   - Performance impact assessment
-   - Architecture compliance verification
-   - Test coverage validation
-
-3. **Design Document** → Issue Creation
-   - Requirements extraction from instructions
-   - Technical specification generation
-   - Dependency graph visualization
-   - Implementation roadmap creation
-
-4. **Design Document Review** → Issue Analysis
-   - Feasibility assessment
-   - Risk identification
-   - Alternative approach generation
-   - Cost/benefit analysis
-
-### Execution Streaming
-
-**Real-Time Intelligence Flow**:
-- Server-Sent Events with <50ms latency
-- Hierarchical execution visibility
-- BTC fee-liquidity readiness and measured `$BTD` evidence transparency
-- Tool execution tracing with industrial precision
-- Generation streaming with token-level visibility
-
-### PTRR Architecture
-
-Every agent follows Plan → Try → Refine → Retry with 7-substep hierarchy:
-- 3 Failsafe parents handle context/noise/scale
-- Each parent has 3 generation children (Reason/Judge/Output)
-- Minimum 3 iterations for convergence
-- Maximum 10 iterations with exponential backoff
-
-## Orbitals Experience
-
-**Your Bitcode operations workspace**
-
-### BTC Fee Readiness and BTD Holdings
-- Real-time BTC fee-liquidity posture
-- Automatic fee-hold release on failure
-- Usage analytics with model-cost breakdown
-- Cost optimization recommendations
-- Budget alerts and limits
-
-### Model Preferences
-- Per-operation model routing
-- Quality vs speed vs cost optimization
-- Automatic failover chains
-- A/B testing infrastructure
-- Performance benchmarking
-
-### GitHub Integration
-- Repository auto-discovery
-- Branch protection compliance
-- Commit signing enforcement
-- PR template generation
-- Issue label automation
-
-### Template System
-- Instruction templates with variables
-- Context-aware suggestions
-- Performance-based recommendations
-- Team sharing and versioning
-- Usage analytics
-
-### Notification Streams
-- Execution start/complete/fail
-- BTC fee-liquidity threshold warnings
-- PR merge notifications
-- Review request alerts
-- Performance anomaly detection
-
-## Conversations Reasoning
-
-**Conversation Surface**: Always-available Bitcode reasoning over repository and Exchange context
-
-### Contextual Understanding
-- Repository-aware responses
-- File-system navigation
-- Symbol resolution
-- Dependency understanding
-- Pattern recognition
-
-### Conversation State
-- Cross-session memory
-- Context switching
-- Multi-repository support
-- Team knowledge sharing
-- Learning accumulation
-
-### Codebase Learning
-- Pattern extraction
-- Convention discovery
-- Architecture mapping
-- Performance profiling
-- Security scanning
-
-## Executions Interface
-
-**Unified Control Plane**: All pipeline executions through single interface
-
-### Execution Types
-- `agentic-execution:asset-pack` (V26 only)
-- Future: measure, obfuscate pipelines
-
-### State Management
-- Persisted with 3s debounce
-- Multi-tab synchronization
-- URL state preservation
-- Back button support
-- Recovery on refresh
-
-### VCS Integration
-- Provider → Account → Repository → Branch → Commit flow
-- Auto-selection with memory
-- Default branch detection
-- Latest commit selection
-- File browser interface
-
-## TPS (Third-Party Surfaces)
-
-**Integration Points for External Services**
-
-### Payment Processing
-- Stripe checkout integration
-- Usage-based billing
-- Invoice generation
-- Payment method management
-- Subscription handling
-
-### Communication
-- Twilio SMS notifications
-- Email via SendGrid
-- Slack integration
-- Discord webhooks
-- Teams connectors
-
-### Productivity
-- Notion synchronization
-- Linear issue sync
-- Jira integration
-- Confluence documentation
-- Google Workspace
-
-### Development Tools
-- MCP (Model Context Protocol) tools
-- GitHub App webhooks
-- CircleCI pipeline triggers
-- Vercel deployment hooks
-- Netlify build notifications
-
-## Security Architecture
-
-### OWASP Compliance
-- CSP headers with nonce-based scripts
-- HSTS with preload
-- X-Frame-Options DENY
-- X-Content-Type-Options nosniff
-- Referrer-Policy strict-origin
-
-### Authentication
-- Supabase SSO with PKCE
-- Session validation middleware
-- Ownership verification
-- Rate limiting per user
-- Token bucket implementation
-
-### Data Protection
-- Encryption at rest (AES-256)
-- TLS 1.3 only
-- Secret rotation automation
-- Audit logging
-- PII scrubbing
-
-## Performance Requirements
-
-### Latency Targets
-- **Instruction → Execution**: <500ms
-- **SSE Event Delivery**: <50ms
-- **BTC Fee Estimate Calculation**: <10ms
-- **Pattern Match**: <100ms
-- **Tool Execution**: Parallel with DAG
-
-### Scalability Metrics
-- 10,000 concurrent executions
-- 1M SSE connections
-- 100K repos indexed
-- 10M prompt parts
-- 1B tool executions/month
-
-### Reliability Standards
-- 99.99% API uptime
-- Zero data loss guarantee
-- Automatic failure recovery
-- Circuit breaker patterns
-- Dead letter queues
-
-## Database Architecture
-
-### Single Migration Truth
-```sql
--- 001_v26_production.sql
--- Current Bitcode schema, transitional shims excluded
-
-CREATE TABLE executions (
-  id UUID PRIMARY KEY,
-  user_id UUID NOT NULL,
-  type TEXT DEFAULT 'agentic-execution:asset-pack',
-  status TEXT DEFAULT 'pending',
-  -- Complete schema...
-);
-
--- Plus: generations, AssetPack evidence, artifacts, conversations,
--- BTD holding storage, user_profiles, vcs_repositories, and BTC fee readiness state
-```
-
-### Performance Optimizations
-- Indexed foreign keys
-- Materialized views for analytics
-- Connection pooling with pgBouncer
-- Read replicas for queries
-- Automatic vacuum tuning
-
-## Monitoring & Observability
-
-### Metrics Collection
-- OpenTelemetry instrumentation
-- Custom execution metrics
-- Business KPI tracking
-- Error rate monitoring
-- Performance profiling
-
-### Alerting
-- PagerDuty integration
-- Slack notifications
-- Email escalation
-- Custom thresholds
-- Anomaly detection
-
-### Debugging
-- Distributed tracing
-- Correlation IDs
-- Event sourcing
-- Time-travel debugging
-- Replay capability
-
-## Success Metrics
-
-### User Success
-- Instructions → Merged PRs in <10 minutes
-- Zero failed executions due to ambiguity
-- Transparent BTC fee readiness, measured `$BTD` holdings, and fail-closed settlement receipts
-- Pattern recognition accuracy >95%
-- User satisfaction NPS >70
-
-### System Success
-- Every execution faster than the last
-- Every pattern strengthens the whole
-- Every user improves it for everyone
-- Knowledge compounds exponentially
-- Architecture self-optimizes
-
-### Business Success
-- Exponential user growth via excellence
-- Network effects from pattern sharing
-- Defensible moat from execution data
-- Viral coefficient >1.5
-- LTV:CAC ratio >3
-
-## The Network Effect
-
-```
-Users provide Instructions
-  → System discovers Patterns
-    → Patterns improve Execution
-      → Excellence becomes Standard
-        → Standards attract Users
-          → More data improves AI
-            → AI generates better code
-              → Success stories spread
-                → (Exponential Loop)
-```
-
-## REMEMBER
-
-**Bitcode is market infrastructure for auditable technical knowledge exchange.**
-
-Every instruction becomes architecture.
-Every execution becomes learning.
-Every pattern becomes permanent.
-Every codebase becomes auditable technical knowledge.
-Every user makes it better for everyone.
-
-This is not a generic automation surface.
-This is the commercial Bitcode baseline for source, Read, fit, proof, settlement, and AssetPack reread.
+Every user-visible money or rights state must name its honesty class (estimate,
+potential, preview, quote, observed testnet payment, final settlement, rights
+transfer, delivery, compensation, repair) — see SPEC.
 
 ---
 
-**THE PRODUCT IS THE PROTOCOL**
-**THE PROTOCOL IS PROVEN**
-**THE PROOF IS REPLAYABLE**
+## 4. Pipelines on the website (not V26 “instrument” folklore)
 
-Make every Read measurable.
-Make every fit reviewable.
-Make every AssetPack auditable.
-Make every share traceable.
+V48 product pipelines that the website drives:
 
-V26 is the first commercial Bitcode promotion baseline.
+| Pipeline | Pattern | Purpose |
+| --- | --- | --- |
+| **SynthesizeDepositAssetPacks** | **SDIVF** | Depositor repo (+ Obfuscations) → measured AssetPack **options** on `/deposits` |
+| **SynthesizeReadAssetPacks** | **SDIVF** | Reader repo + **Need** → option path on `/reads` |
+| **settle-asset-pack** (and related) | Linear / simple | Post-buy: BTC settle → BTD mint/rights → delivery; **1:1 AssetPack : run** where SPEC requires |
 
+**SDIVF** = Setup → Discovery → Implementation → Validation → Finish — the
+**phased corridor** for synthesis pipelines (`packages/asset-packs-pipelines`).
+It is **not** a V26 “Code Change → PR / Design Document → Issue” product matrix.
+
+Agent composition inside steps (when used): **PTRR** (Plan → Try → Refine →
+Retry) with **FailsafeGeneration** parents and **ThinkingsGeneration** children
+(Reason → Judge → StructuredOutput). Vocabulary:
+[`.docs/TERMINOLOGY.md`](./TERMINOLOGY.md).
+
+**Hosts:** long synthesis runs on **pipeline hosts** — Vercel **sandbox**
+(Pipeliner image) on serverless; LocalHost only on developer machines. See
+[`.docs/VERCEL.md`](./VERCEL.md) and `packages/pipeline-hosts`.
+
+**Streaming:** source-safe pipeline telemetry to the UI (Pipeline language);
+never stream secrets or protected source.
+
+---
+
+## 5. Auxillaries (operator panes)
+
+V48 Auxillaries are the **operator / authenticity** side of the website MVP —
+not a separate “Orbitals product suite” and not a prepaid usage dashboard.
+
+Typical concerns (names follow components under
+`apps/uapi/components/auxillaries/`):
+
+| Concern | Role |
+| --- | --- |
+| Profile / identity | Session user, org membership |
+| Wallet | Bitcoin wallet bind, **testnet4** network default, fee-readiness posture |
+| Externals / GitHub | GitHub App connection for deposit/read source workspaces |
+| Interfaces | Connected interface posture where SPEC admits it |
+| Organization | Org policy / treasury only as SPEC admits (solo vs org) |
+
+Wallet and GitHub authenticity gate commercial deposit/read actions. Do not
+invent bootstrap org authority the SPEC denies.
+
+---
+
+## 6. Public Docs and Marketing
+
+| Surface | Role |
+| --- | --- |
+| `/` | Marketing landing — V48 testnet-ready claims; claim honesty markers must match SPEC / public-claim gates |
+| `/docs` | Public documentation experience (`Docs*` components + content models) |
+
+Marketing is **not** product law. Do not treat landing copy as SPEC.
+
+---
+
+## 7. Conversations, MCP, ChatGPT, Claude (deferred commercial)
+
+| Surface | Monorepo path | V48 stance |
+| --- | --- | --- |
+| Conversations | `apps/uapi` experience + routes | Structure retained; full commercial conversations UX **deferred** |
+| MCP | `apps/mcp` | Product tools exist (measure, synthesize deposit/read packs, packs, auxiliary profile/wallet/interfaces/externals); **not** the website launch commercial path beyond source-safe compatibility |
+| ChatGPT App | `apps/chatgpt` | Deferred commercial surface |
+| Claude App | `apps/claude` | Deferred commercial surface |
+
+Do not market these as the V48 GA website entrypoints. Do not regress
+source-safety or auth boundaries while they remain in-tree.
+
+---
+
+## 8. HTTP adapters and middleware (uapi)
+
+- Thin App Router handlers under `apps/uapi/app/api/*` (and related) adapt
+  **packages** domain — they are not a second product.
+- Edge middleware stack: telemetry → security headers → CORS → rate-limit →
+  authentication → … (see [`.docs/SECURITY.md`](./SECURITY.md)).
+- Service-role Supabase clients are **server only**.
+
+---
+
+## 9. What this file is not
+
+- Not the SPEC (no gate acceptance law here).
+- Not a V26 / GA‑1 / “precision instrument” feature catalog (PR automation,
+  design-doc issue bots, Stripe prepaid usage, exponential “network effect”
+  marketing copy, fake latency/SLA tables).
+- Not package domain depth (use FAMILIARIZATION + ASSET_PACKS + package READMEs).
+- Not env/deploy runbooks (use DEPLOYMENT / VERCEL / SUPABASE / CONTRIBUTING).
+
+---
+
+## 10. Where to go next
+
+| Question | Look first |
+| --- | --- |
+| Product law for a gate | `.specifications/BITCODE_SPEC_V48.md` (+ NOTES / PARITY / DELTA) |
+| UI component homes | `.docs/BITCODE_SOURCE_LAYOUT.md`, `apps/uapi/components/README.md` |
+| Package inheritance | `.docs/FAMILIARIZATION.md` |
+| Deposit measurement / SDIVF options | SPEC G3 + `.docs/ASSET_PACKS.md` |
+| Interactive QA | `.qa/BITCODE_V48_QA.md` |
+| Secrets / source-safety | `.docs/SECURITY.md`, CONTRIBUTING §8.4 |
+
+---
+
+**V48 website launch entrypoints:** `/deposits`, `/reads`, `/packs`, Auxillaries  
+**Settlement:** BTC-testnet · **Rights:** BTD · **Unit:** AssetPack · **Safety:** source-safe always
