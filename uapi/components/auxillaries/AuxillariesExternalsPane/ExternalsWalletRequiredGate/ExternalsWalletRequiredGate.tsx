@@ -1,11 +1,9 @@
 /**
- * Pre-identity gate when wallet/session is missing — directs operator to Wallet.
+ * Pre-identity gate when wallet/session is missing — directs operator to Wallet
+ * via the left-rail selector (no redundant CTA button).
  */
 
 import React from 'react';
-import Link from 'next/link';
-
-import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 export default function ExternalsWalletRequiredGate() {
   return (
@@ -13,9 +11,9 @@ export default function ExternalsWalletRequiredGate() {
       <div className="space-y-2">
         <h3 className="text-lg font-semibold text-white">Connect Bitcoin wallet first</h3>
         <p className="text-sm leading-7 text-white/68">
-          Connect a Bitcoin-capable wallet in Wallet, then attach GitHub here so read
-          measurement, asset-pack synthesis, and settlement follow-through can operate
-          against a live repository source.
+          Connect a Bitcoin-capable wallet in Wallet (left selector), then attach GitHub here so
+          read measurement, asset-pack synthesis, and settlement follow-through can operate against
+          a live repository source.
         </p>
       </div>
 
@@ -39,15 +37,6 @@ export default function ExternalsWalletRequiredGate() {
             attachment, scope review, and non-wallet third-party posture.
           </p>
         </div>
-      </div>
-
-      <div>
-        <Link
-          href={buildAuxillariesRoutePath('wallet')}
-          className="inline-flex items-center justify-center rounded-none border border-emerald-300/24 bg-emerald-400/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-50 transition-colors hover:border-emerald-300/42 hover:bg-emerald-400/18"
-        >
-          Open Wallet auxillary
-        </Link>
       </div>
     </div>
   );
