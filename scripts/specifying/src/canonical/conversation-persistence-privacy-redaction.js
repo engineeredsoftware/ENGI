@@ -331,11 +331,11 @@ export function buildConversationPersistencePrivacyRedaction(input = {}) {
   const repoRoot = input.repoRoot || path.resolve(__dirname, '../../../..');
   const generatedAt = input.generatedAt || '2026-05-24T00:00:00.000Z';
   const sharedSourceRoots = [
-    'specifications/BITCODE_SPEC_V37.md',
-    'specifications/BITCODE_SPEC_V37_DELTA.md',
-    'specifications/BITCODE_SPEC_V37_NOTES.md',
-    'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'scripts/specifying/src/canonical/conversation-persistence-privacy-redaction.js',
     'scripts/specifying/test/conversation-persistence-privacy-redaction.test.js',
     'scripts/generate-v37-conversation-persistence-privacy-redaction.mjs',

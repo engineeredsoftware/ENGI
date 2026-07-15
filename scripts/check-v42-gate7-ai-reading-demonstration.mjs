@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -115,11 +115,11 @@ function main() {
     'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
     'scripts/generate-v42-ai-reading-demonstration.mjs',
     'scripts/check-v42-gate7-ai-reading-demonstration.mjs',
-    'specifications/BITCODE_SPEC_V42.md',
-    'specifications/BITCODE_SPEC_V42_DELTA.md',
-    'specifications/BITCODE_SPEC_V42_NOTES.md',
-    'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',

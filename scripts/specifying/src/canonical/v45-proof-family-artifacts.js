@@ -17,7 +17,7 @@ export const V45_PROOF_FAMILY_SOURCE_SAFETY_VERDICT =
 export const V45_PROOF_FAMILY_GENERATED_AT = '2026-05-31T00:00:00.000Z';
 export const V45_PROOF_FAMILY_PROOF_SOURCE_COMMIT =
   'draft-v45-gate16-proof-source-snapshot';
-export const V45_PROOF_FAMILY_PROVEN_PATH = 'specifications/BITCODE_SPEC_V45_PROVEN.md';
+export const V45_PROOF_FAMILY_PROVEN_PATH = '.specifications/BITCODE_SPEC_V45_PROVEN.md';
 
 export const V45_PROOF_FAMILY_ARTIFACT_PATHS = Object.freeze([
   '.bitcode/v45-inference-synthesis-proof.json',
@@ -777,13 +777,13 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       '.bitcode/v44-spec-family-report.json',
     ],
     sourceEvidence: [
-      source('specifications/BITCODE_SPEC_V45.md', [
+      source('.specifications/BITCODE_SPEC_V45.md', [
         '## V45 proof-family canon',
         '## V45 generated canon',
         'Minimum generated appendix rendered contents',
         'proof-backed readback',
       ]),
-      source('specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md', [
+      source('.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md', [
         'Gate 16: V45 Proof Families And Generated Artifacts',
         'check:v45-gate16',
         'V45 proof-family artifacts',

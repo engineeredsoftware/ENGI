@@ -137,7 +137,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -173,11 +173,11 @@ function main() {
     'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts',
-    'specifications/BITCODE_SPEC_V41.md',
-    'specifications/BITCODE_SPEC_V41_DELTA.md',
-    'specifications/BITCODE_SPEC_V41_NOTES.md',
-    'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -269,7 +269,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-reading-prompt-benchmark-baselines'), 'package.json must expose generate:v41-reading-prompt-benchmark-baselines.');
   assertCheck(failures, packageJson.includes('check:v41-gate4'), 'package.json must expose check:v41-gate4.');
 
-  const roadmap = fileExists(root, 'specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, 'specifications/SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(failures, /Current working gate: V41 Gate (?:4|5|6|7|8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 4 or later as current working gate.');
   assertCheck(
     failures,

@@ -7,7 +7,7 @@ registry events). Bitcoin remains the fee rail; Ethereum is not the primary
 product UX host.
 
 Related: [`packages/btd/README.md`](../packages/btd/README.md),
-[`ASSET_PACKS.md`](./ASSET_PACKS.md), active SPEC under `specifications/`.
+[`ASSET_PACKS.md`](./ASSET_PACKS.md), active SPEC under `.specifications/`.
 
 ---
 

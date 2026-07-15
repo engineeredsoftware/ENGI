@@ -9,7 +9,7 @@ always the single current Bitcode system under the active canon.
 
 | | |
 |---|---|
-| **Active canon on `main`** | **V47** (`specifications/BITCODE_SPEC.txt`) |
+| **Active canon on `main`** | **V47** (`.specifications/BITCODE_SPEC.txt`) |
 | **Draft target** | **V48** (`version/v48`, full-stack rebuild-alone SPEC) |
 | **How to develop** | **[`CONTRIBUTING.md`](CONTRIBUTING.md)** — setup, canon, env, hosts, GitHub App, testing |
 | **How the tree is organized** | [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) |
@@ -53,15 +53,15 @@ Product routes are `/packs`, `/deposits`, `/reads`, and `/docs`.
 
 | File | Role |
 | --- | --- |
-| [`specifications/BITCODE_SPEC.txt`](specifications/BITCODE_SPEC.txt) | **Active** version pointer (currently **V47**) |
-| `specifications/BITCODE_SPEC_V47.md` (+ DELTA / NOTES / PARITY / PROVEN) | Promoted commercial website testnet-launch canon |
-| `specifications/BITCODE_SPEC_V48.md` (+ family) | **Draft** rebuild-alone SPEC for V48 gate work |
-| `specifications/BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
+| [`.specifications/BITCODE_SPEC.txt`](.specifications/BITCODE_SPEC.txt) | **Active** version pointer (currently **V47**) |
+| `.specifications/BITCODE_SPEC_V47.md` (+ DELTA / NOTES / PARITY / PROVEN) | Promoted commercial website testnet-launch canon |
+| `.specifications/BITCODE_SPEC_V48.md` (+ family) | **Draft** rebuild-alone SPEC for V48 gate work |
+| `.specifications/BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability |
 | [`qa/BITCODE_V48_QA.md`](qa/BITCODE_V48_QA.md) | Interactive QA ledger / gate runbooks |
 | [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) | **Non-canonical** codebase walkthrough |
 | [`docs/ASSET_PACKS.md`](docs/ASSET_PACKS.md) | **Non-canonical** AssetPack orientation |
 
-**Canonical truth** is only the `specifications/BITCODE_SPEC_*` family (plus
+**Canonical truth** is only the `.specifications/BITCODE_SPEC_*` family (plus
 generated PROVEN / `.bitcode/vN-*` when part of that family). README,
 FAMILIARIZATION, ASSET_PACKS, and AGENTS **orient** — they must not be required
 to rebuild the system. If any guide conflicts with the active/draft SPEC, the
@@ -81,7 +81,7 @@ inheritance from older specs or folklore in source.
 | Apps | `apps/{uapi,mcp,chatgpt,claude}` | Product surfaces |
 | Next shells | `apps/uapi/app/*` | Thin pages + HTTP adapters |
 | UI | `apps/uapi/components/{shadcn,bitcode,<experience>}` | `Shadcn*` → `Bitcode*` → 7 experiences |
-| Specs | `specifications/` | Canon family + roadmap |
+| Specs | `.specifications/` | Canon family + roadmap |
 | Containers | `containers/images`, `containers/k8` | Pipeliner OCI, long-runner, k8s |
 | Proof machine | `scripts/specifying` | Package-native promotion / gate proofs |
 | DB | `supabase/` | Migrations, local config, data-health |

@@ -63,12 +63,12 @@ export const V43_DEPOSIT_OPTION_FORBIDDEN_PAYLOAD_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  activePointer: 'specifications/BITCODE_SPEC.txt',
-  spec: 'specifications/BITCODE_SPEC_V43.md',
-  delta: 'specifications/BITCODE_SPEC_V43_DELTA.md',
-  notes: 'specifications/BITCODE_SPEC_V43_NOTES.md',
-  parity: 'specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
-  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
+  activePointer: '.specifications/BITCODE_SPEC.txt',
+  spec: '.specifications/BITCODE_SPEC_V43.md',
+  delta: '.specifications/BITCODE_SPEC_V43_DELTA.md',
+  notes: '.specifications/BITCODE_SPEC_V43_NOTES.md',
+  parity: '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+  roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
   readme: 'README.md',
   protocolReadme: 'scripts/specifying/README.md',
   packageJson: 'package.json',

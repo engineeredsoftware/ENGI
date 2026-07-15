@@ -119,7 +119,7 @@ apps/mcp/src/__tests__/
 ├── framework/                   # Core testing framework
 │   ├── MCPTestFramework.ts     # Main test framework
 │   └── ...
-├── fixtures/                   # Test data and scenarios
+├── .fixtures/                   # Test data and scenarios
 │   ├── MCPTestFixtures.ts      # Comprehensive test fixtures
 │   └── ...
 ├── suites/                     # Main test suites
@@ -362,7 +362,7 @@ node --inspect-brk node_modules/.bin/jest --config jest.config.mcp.js --runInBan
 
 ### Adding New Tests
 
-1. **Create test fixtures** in `fixtures/MCPTestFixtures.ts`
+1. **Create test fixtures** in `.fixtures/MCPTestFixtures.ts`
 2. **Design customer scenarios** with clear business value metrics
 3. **Implement test suite** following the MCPTestFramework pattern
 4. **Add performance benchmarks** and quality thresholds

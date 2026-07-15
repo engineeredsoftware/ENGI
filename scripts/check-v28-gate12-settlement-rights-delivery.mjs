@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'specifications/BITCODE_SPEC_V28.md',
+    file: '.specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 12: Settlement, Rights, Delivery, And Reconciliation',
       'bitcode.asset-pack.settlement-unlock',
@@ -17,7 +17,7 @@ const checks = [
     forbidden: ['commercialSettlementAdmissible', 'ReadFindingFitsSynthesis'],
   },
   {
-    file: 'specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
+    file: '.specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'BTC settlement and read-license/right transfer',
       'AssetPack delivery as pull request',

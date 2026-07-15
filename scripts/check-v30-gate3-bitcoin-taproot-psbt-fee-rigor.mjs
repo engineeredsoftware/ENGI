@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -85,10 +85,10 @@ function main() {
     'packages/btd/__tests__/btc-fee-operation.test.ts',
     'packages/api/src/routes/__tests__/btd-crypto.test.ts',
     'packages/btd/README.md',
-    'specifications/BITCODE_SPEC_V30.md',
-    'specifications/BITCODE_SPEC_V30_DELTA.md',
-    'specifications/BITCODE_SPEC_V30_NOTES.md',
-    'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V30.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V30 Gate 3 file: ${relativePath}`);
   }
@@ -98,10 +98,10 @@ function main() {
   const btdTest = read(root, 'packages/btd/__tests__/btc-fee-operation.test.ts');
   const apiTest = read(root, 'packages/api/src/routes/__tests__/btd-crypto.test.ts');
   const btdReadme = read(root, 'packages/btd/README.md');
-  const spec = read(root, 'specifications/BITCODE_SPEC_V30.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V30_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V30_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V30.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

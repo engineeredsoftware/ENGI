@@ -100,8 +100,8 @@ function usesBitcodeSpecFamily(version) {
  * @returns {string}
  */
 function defaultSpecProvenPath(version) {
-  // Always under specifications/ (ENGI/_legacy tree removed).
-  return `specifications/BITCODE_SPEC_${version}_PROVEN.md`;
+  // Always under .specifications/ (ENGI/_legacy tree removed).
+  return `.specifications/BITCODE_SPEC_${version}_PROVEN.md`;
 }
 const V26_SECOND_GATE_TERMINAL_FILES = [
   'apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx',
@@ -146,9 +146,9 @@ const V26_SECOND_GATE_DOCUMENTATION_FILES = [
 ];
 const V26_THIRD_GATE_PREPARATION_FILES = [
   'apps/uapi/components/marketing/MarketingLandingPage/MarketingLandingPage.tsx',
-  'specifications/BITCODE_SPEC_V26_DELTA.md',
-  'specifications/BITCODE_SPEC_V26_NOTES.md',
-  'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V26_DELTA.md',
+  '.specifications/BITCODE_SPEC_V26_NOTES.md',
+  '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
@@ -177,8 +177,8 @@ const V26_THIRD_GATE_PROOF_FILES = [
 const V26_THIRD_GATE_DOCUMENTATION_FILES = [
   'README.md',
   'apps/uapi/README.md',
-  'specifications/BITCODE_SPEC_V26_DELTA.md',
-  'specifications/BITCODE_SPEC_V26_NOTES.md',
+  '.specifications/BITCODE_SPEC_V26_DELTA.md',
+  '.specifications/BITCODE_SPEC_V26_NOTES.md',
   'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
   'protocol-demonstration/V26_PROOF_SURFACES.md'
 ];
@@ -3293,7 +3293,7 @@ function buildV26FifthGateClosureProof({
             description: 'formal gate test keeps total closure explicit and ordered'
           },
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'The current generated fifth-gate evidence includes an explicit closure verdict',
             description: 'canonical spec text records the accepted fifth-gate closure verdict'
           }
@@ -3445,12 +3445,12 @@ function buildV26SixthGateMvpClosureProof({
         'Fifth-gate closure remains explicit before sixth-gate promotion',
         [
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'Fifth-gate is closed only when:',
             description: 'canonical spec keeps fifth-gate acceptance explicit'
           },
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'Fifth gate is accepted at the minimum-functional Bitcode baseline',
             description: 'canonical spec records accepted fifth-gate baseline'
           },
@@ -3512,7 +3512,7 @@ function buildV26SixthGateMvpClosureProof({
             description: 'test locks the four-surface MVP map'
           },
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: '`activity`: the dominant master-detail transaction activity surface',
             description: 'canonical spec names the MVP activity surface'
           }
@@ -3652,12 +3652,12 @@ function buildV26SixthGateMvpClosureProof({
         'MVP promotion remains proof-bearing, architecture-reducing, and not compatibility-expanding',
         [
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'repository-level architecture remains cleaner after MVP elevation',
             description: 'canonical spec requires architecture cleanup, not expansion'
           },
           {
-            file: 'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+            file: '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
             evidence: 'Sixth-gate MVP closure queue',
             description: 'parity matrix records the sixth-gate closure queue'
           },
@@ -3819,12 +3819,12 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'Fifth- and sixth-gate closure remain explicit before seventh-gate promotion',
         [
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'Fifth gate is accepted at the minimum-functional Bitcode baseline',
             description: 'canonical spec records fifth-gate closure'
           },
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'Sixth gate is accepted at the minimal viable product baseline',
             description: 'canonical spec records sixth-gate closure'
           },
@@ -3871,7 +3871,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'product launch-readiness source keeps commercial launch scoped to testnet-first settlement and operator use',
         [
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'commercially-viable live-launch posture while remaining testnet-first',
             description: 'canonical spec sets testnet-first commercial launch boundary'
           },
@@ -3897,7 +3897,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'product source and spec teach one commercial Bitcode product story across all admitted surfaces',
         [
           {
-            file: 'specifications/BITCODE_SPEC_V26.md',
+            file: '.specifications/BITCODE_SPEC_V26.md',
             evidence: 'the Exchange, product, Protocol, Proofs, API, MCP, and admitted app surfaces are commercially legible',
             description: 'canonical spec requires commercially legible cross-surface posture'
           },
@@ -4011,7 +4011,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'launch map requires direct Bitcode journey explanation'
           },
           {
-            file: 'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+            file: '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
             evidence: 'Seventh-gate commercial testnet launch closure queue',
             description: 'parity matrix records the seventh-gate closure queue'
           },
@@ -4295,12 +4295,12 @@ function buildV26PromptSpaceCompletenessProof({
       'Prompt-space eighth-gate closure is specified, tested, and rendered as a final verdict',
       [
         {
-          file: 'specifications/BITCODE_SPEC_V26.md',
+          file: '.specifications/BITCODE_SPEC_V26.md',
           evidence: 'prompt space completeness and total repository closure proofs are generated with explicit closure verdicts',
           description: 'formal eighth-gate rule requires prompt-space completeness as a closure verdict'
         },
         {
-          file: 'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+          file: '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
           evidence: 'Prompt-space completeness',
           description: 'parity ledger tracks prompt-space completeness as a generated proof family'
         },
@@ -4742,9 +4742,9 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     reformClass: 'governance',
     livePathRole: 'The canonical spec family and supplementary architecture/proof docs classify compatibility-bounded retained families rather than leaving them implicit.',
     requiredFiles: [
-      'specifications/BITCODE_SPEC_V26.md',
-      'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
-      'specifications/BITCODE_SPEC_V26_NOTES.md',
+      '.specifications/BITCODE_SPEC_V26.md',
+      '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+      '.specifications/BITCODE_SPEC_V26_NOTES.md',
       'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
       'protocol-demonstration/V26_PROOF_SURFACES.md',
       'protocol-demonstration/V26_REFORM_STRATEGY.md',
@@ -4976,11 +4976,11 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
       'whole-repository-canonical-spec-proof-carriers',
       'Canonical spec family, proof generator, proof-surface map, and final-gate tests',
       [
-        'specifications/BITCODE_SPEC_V26.md',
-        'specifications/BITCODE_SPEC_V26_DELTA.md',
-        'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
-        'specifications/BITCODE_SPEC_V26_NOTES.md',
-        'specifications/BITCODE_SPEC_V26_PROVEN.md',
+        '.specifications/BITCODE_SPEC_V26.md',
+        '.specifications/BITCODE_SPEC_V26_DELTA.md',
+        '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+        '.specifications/BITCODE_SPEC_V26_NOTES.md',
+        '.specifications/BITCODE_SPEC_V26_PROVEN.md',
         'protocol-demonstration/V26_PROOF_SURFACES.md',
         'protocol-demonstration/src/canonical/proven-generator.js',
         'protocol-demonstration/src/canonical/v21-specifying.js',
@@ -5032,7 +5032,7 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
       'No silent compatibility ownership remains on the final Bitcode product path',
       [
         {
-          file: 'specifications/BITCODE_SPEC_V26.md',
+          file: '.specifications/BITCODE_SPEC_V26.md',
           evidence: 'terminal-ready Bitcode canon without legacy product naming or silent compatibility ownership',
           description: 'eighth-gate acceptance requires the kept repository to be terminal-ready Bitcode canon'
         },
@@ -5119,17 +5119,17 @@ function buildV26TotalClosureProof({
     'V26 total closure is specified, parity-recorded, and proof-surface mapped',
     [
       {
-        file: 'specifications/BITCODE_SPEC_V26.md',
+        file: '.specifications/BITCODE_SPEC_V26.md',
         evidence: 'The current generated eighth-gate evidence includes explicit closure verdicts',
         description: 'main spec records the current eighth-gate closure evidence'
       },
       {
-        file: 'specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
+        file: '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
         evidence: 'eighth-gate whole-repository closure is explicit and closed',
         description: 'parity matrix records closed final-gate repository closure'
       },
       {
-        file: 'specifications/BITCODE_SPEC_V26_DELTA.md',
+        file: '.specifications/BITCODE_SPEC_V26_DELTA.md',
         evidence: 'V26 is now fully proven Bitcode canon',
         description: 'delta records the shift from through-seventh checkpoint to full V26 closure'
       },
@@ -7831,7 +7831,7 @@ function buildV21ProvenPackage(baseData, {
   const canonicalInputReport = buildV21CanonicalInputReport({
     currentTarget: 'V21',
     assumeExistingRelativePaths: [
-      'specifications/BITCODE_SPEC_V21_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V21_PROVEN.md',
       '.bitcode/v21-spec-family-report.json',
       '.bitcode/v21-canonical-input-report.json'
     ]
@@ -7896,7 +7896,7 @@ function buildV22ProvenPackage(baseData, {
     currentTarget: 'V22',
     reportVersion: 'V22',
     assumeExistingRelativePaths: [
-      'specifications/BITCODE_SPEC_V22_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V22_PROVEN.md',
       '.bitcode/v22-spec-family-report.json',
       '.bitcode/v22-canonical-input-report.json',
       '.bitcode/v22-canon-posture-drift-report.json'
@@ -7974,7 +7974,7 @@ function buildV23ProvenPackage(baseData, {
     currentTarget: 'V23',
     reportVersion: 'V23',
     assumeExistingRelativePaths: [
-      'specifications/BITCODE_SPEC_V23_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V23_PROVEN.md',
       '.bitcode/v23-spec-family-report.json',
       '.bitcode/v23-canonical-input-report.json',
       '.bitcode/v23-canon-posture-drift-report.json'
@@ -8052,7 +8052,7 @@ function buildV24ProvenPackage(baseData, {
     currentTarget: 'V24',
     reportVersion: 'V24',
     assumeExistingRelativePaths: [
-      'specifications/BITCODE_SPEC_V24_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V24_PROVEN.md',
       '.bitcode/v24-spec-family-report.json',
       '.bitcode/v24-canonical-input-report.json',
       '.bitcode/v24-canon-posture-drift-report.json'
@@ -8129,7 +8129,7 @@ function buildV25ProvenPackage(baseData, {
     currentTarget: 'V25',
     reportVersion: 'V25',
     assumeExistingRelativePaths: [
-      'specifications/BITCODE_SPEC_V25_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V25_PROVEN.md',
       '.bitcode/v25-spec-family-report.json',
       '.bitcode/v25-canonical-input-report.json',
       '.bitcode/v25-canon-posture-drift-report.json'
@@ -8211,7 +8211,7 @@ function buildV26ProvenPackage(baseData, {
         ? {
           skipPointerCheck: true,
           assumeExistingRelativePaths: [
-            'specifications/BITCODE_SPEC_V26_PROVEN.md',
+            '.specifications/BITCODE_SPEC_V26_PROVEN.md',
             '.bitcode/terminal-composition-proof.json',
             '.bitcode/environment-mode-coherence-proof.json',
             '.bitcode/v26-spec-family-report.json',
@@ -8550,10 +8550,10 @@ function buildV30ProtocolTelemetryProofHooks({ generatedAt, baseData }) {
     'apps/uapi/app/api/btd/protocol-telemetry/route.ts',
     'packages/btd/README.md',
     'apps/uapi/components/README.md',
-    'specifications/BITCODE_SPEC_V30.md',
-    'specifications/BITCODE_SPEC_V30_DELTA.md',
-    'specifications/BITCODE_SPEC_V30_NOTES.md',
-    'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md'
+    '.specifications/BITCODE_SPEC_V30.md',
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md'
   ];
   const telemetryPrimitiveTokens = [
     'BtdProtocolTelemetryEnvelope',
@@ -8586,7 +8586,7 @@ function buildV30ProtocolTelemetryProofHooks({ generatedAt, baseData }) {
   const routeContent = sourceByPath['packages/api/src/routes/btd-crypto.ts'] || '';
   const nextRouteContent = sourceByPath['apps/uapi/app/api/btd/protocol-telemetry/route.ts'] || '';
   const testContent = sourceByPath['packages/btd/__tests__/telemetry.test.ts'] || '';
-  const specContent = sourceByPath['specifications/BITCODE_SPEC_V30.md'] || '';
+  const specContent = sourceByPath['.specifications/BITCODE_SPEC_V30.md'] || '';
   const routeReady = routeContent.includes('buildPostBtdProtocolTelemetryRoute')
     && routeContent.includes('postBtdProtocolTelemetry')
     && nextRouteContent.includes('postBtdProtocolTelemetry');
@@ -8652,7 +8652,7 @@ function buildV30ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V30' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V30_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V30_PROVEN.md',
     '.bitcode/v30-spec-family-report.json',
     '.bitcode/v30-canonical-input-report.json',
     '.bitcode/v30-canon-posture-drift-report.json',
@@ -8747,10 +8747,10 @@ function buildV31AuxillariesTelemetryProofHooks({ generatedAt, baseData }) {
     'apps/uapi/components/auxillaries/AuxillariesExternalsPane/AuxillariesExternalsPane.tsx',
     'apps/uapi/tests/userDataRoute.test.ts',
     'apps/uapi/tests/auxillariesExternalsPane.test.tsx',
-    'specifications/BITCODE_SPEC_V31.md',
-    'specifications/BITCODE_SPEC_V31_DELTA.md',
-    'specifications/BITCODE_SPEC_V31_NOTES.md',
-    'specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md'
+    '.specifications/BITCODE_SPEC_V31.md',
+    '.specifications/BITCODE_SPEC_V31_DELTA.md',
+    '.specifications/BITCODE_SPEC_V31_NOTES.md',
+    '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md'
   ];
   const contractTokens = [
     'AuxillariesTelemetrySubject',
@@ -8789,7 +8789,7 @@ function buildV31AuxillariesTelemetryProofHooks({ generatedAt, baseData }) {
   const userDataTsContent = sourceByPath['apps/uapi/hooks/useUserData.ts'] || '';
   const userDataJsContent = sourceByPath['apps/uapi/hooks/useUserData.js'] || '';
   const externalsPaneContent = sourceByPath['apps/uapi/components/auxillaries/AuxillariesExternalsPane/AuxillariesExternalsPane.tsx'] || '';
-  const specContent = sourceByPath['specifications/BITCODE_SPEC_V31.md'] || '';
+  const specContent = sourceByPath['.specifications/BITCODE_SPEC_V31.md'] || '';
   const testsReady = [
     'telemetrySubjects',
     'provider_connection',
@@ -8869,7 +8869,7 @@ function buildV31ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V31' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V31_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V31_PROVEN.md',
     '.bitcode/v31-spec-family-report.json',
     '.bitcode/v31-canonical-input-report.json',
     '.bitcode/v31-canon-posture-drift-report.json',
@@ -8973,7 +8973,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       tokens: [
         '--dry-run',
         'canonical promotion plan',
-        'specifications/BITCODE_SPEC.txt'
+        '.specifications/BITCODE_SPEC.txt'
       ]
     },
     {
@@ -9015,7 +9015,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V32.md',
+      relativePath: '.specifications/BITCODE_SPEC_V32.md',
       tokens: [
         'Gate 9 promotion proof precision',
         '.bitcode/v32-promotion-proof-generation-hardening.json',
@@ -9023,7 +9023,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
+      relativePath: '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
       tokens: [
         'V32 proof generation supports dry-run/check modes',
         '.bitcode/v32-promotion-proof-generation-hardening.json',
@@ -9031,7 +9031,7 @@ function buildV32PromotionProofGenerationHardening({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/SPECIFICATIONS_ROADMAP.md',
+      relativePath: '.specifications/SPECIFICATIONS_ROADMAP.md',
       tokens: [
         '| V32 | `BITCODE_SPEC_V32.md`',
         '| V33 |'
@@ -9199,7 +9199,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V32.md',
+      relativePath: '.specifications/BITCODE_SPEC_V32.md',
       tokens: [
         'V32 local and staging promotion readiness canon',
         '.bitcode/v32-promotion-readiness-report.json',
@@ -9207,7 +9207,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
+      relativePath: '.specifications/BITCODE_SPEC_V32_PARITY_MATRIX.md',
       tokens: [
         '## Gate 10 Parity',
         '.bitcode/v32-promotion-readiness-report.json',
@@ -9288,7 +9288,7 @@ function buildV32PromotionReadinessReport({ generatedAt, baseData }) {
       versionPromotionPullRequestTitlePrefix: 'V32 Canonical Promotion'
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'specifications/BITCODE_SPEC_V32_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V32_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v32-',
       secretValuesSerialized: false,
@@ -9319,7 +9319,7 @@ function buildV32ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V32' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V32_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V32_PROVEN.md',
     '.bitcode/v32-spec-family-report.json',
     '.bitcode/v32-canonical-input-report.json',
     '.bitcode/v32-canon-posture-drift-report.json',
@@ -9481,7 +9481,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V33.md',
+      relativePath: '.specifications/BITCODE_SPEC_V33.md',
       tokens: [
         'V33 promotion readiness canon',
         '.bitcode/v33-promotion-readiness-report.json',
@@ -9489,7 +9489,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+      relativePath: '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
       tokens: [
         '## Gate 10 Parity',
         '.bitcode/v33-promotion-readiness-report.json',
@@ -9562,7 +9562,7 @@ function buildV33PromotionReadinessReport({ generatedAt, baseData }) {
       versionPromotionPullRequestTitlePrefix: 'V33 Canonical Promotion'
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'specifications/BITCODE_SPEC_V33_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V33_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v33-',
       secretValuesSerialized: false,
@@ -9593,7 +9593,7 @@ function buildV33ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V33' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V33_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V33_PROVEN.md',
     '.bitcode/v33-spec-family-report.json',
     '.bitcode/v33-canonical-input-report.json',
     '.bitcode/v33-canon-posture-drift-report.json',
@@ -9763,7 +9763,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V34.md',
+      relativePath: '.specifications/BITCODE_SPEC_V34.md',
       tokens: [
         'V34 promotion readiness canon',
         '.bitcode/v34-promotion-readiness-report.json',
@@ -9771,7 +9771,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       ]
     },
     {
-      relativePath: 'specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
+      relativePath: '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
       tokens: [
         '## Gate 10 Parity',
         '.bitcode/v34-promotion-readiness-report.json',
@@ -9844,7 +9844,7 @@ function buildV34PromotionReadinessReport({ generatedAt, baseData }) {
       versionPromotionPullRequestTitlePrefix: 'V34 Canonical Promotion'
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'specifications/BITCODE_SPEC_V34_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v34-',
       secretValuesSerialized: false,
@@ -9875,7 +9875,7 @@ function buildV34ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V34' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V34_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V34_PROVEN.md',
     '.bitcode/v34-spec-family-report.json',
     '.bitcode/v34-canonical-input-report.json',
     '.bitcode/v34-canon-posture-drift-report.json',
@@ -10005,7 +10005,7 @@ function buildV35ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V35' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V35_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V35_PROVEN.md',
     '.bitcode/v35-spec-family-report.json',
     '.bitcode/v35-canonical-input-report.json',
     '.bitcode/v35-canon-posture-drift-report.json',
@@ -10134,7 +10134,7 @@ function buildV36ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V36' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V36_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V36_PROVEN.md',
     '.bitcode/v36-spec-family-report.json',
     '.bitcode/v36-canonical-input-report.json',
     '.bitcode/v36-canon-posture-drift-report.json',
@@ -10263,7 +10263,7 @@ function buildV37ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V37' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V37_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V37_PROVEN.md',
     '.bitcode/v37-spec-family-report.json',
     '.bitcode/v37-canonical-input-report.json',
     '.bitcode/v37-canon-posture-drift-report.json',
@@ -10392,7 +10392,7 @@ function buildV38ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V38' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V38_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V38_PROVEN.md',
     '.bitcode/v38-spec-family-report.json',
     '.bitcode/v38-canonical-input-report.json',
     '.bitcode/v38-canon-posture-drift-report.json',
@@ -10522,7 +10522,7 @@ function buildV39ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V39' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V39_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V39_PROVEN.md',
     '.bitcode/v39-spec-family-report.json',
     '.bitcode/v39-canonical-input-report.json',
     '.bitcode/v39-canon-posture-drift-report.json',
@@ -10652,7 +10652,7 @@ function buildV40ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V40' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V40_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V40_PROVEN.md',
     '.bitcode/v40-spec-family-report.json',
     '.bitcode/v40-canonical-input-report.json',
     '.bitcode/v40-canon-posture-drift-report.json',
@@ -10782,7 +10782,7 @@ function buildV41ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V41' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V41_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V41_PROVEN.md',
     '.bitcode/v41-spec-family-report.json',
     '.bitcode/v41-canonical-input-report.json',
     '.bitcode/v41-canon-posture-drift-report.json',
@@ -10910,7 +10910,7 @@ function buildV42ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V42' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V42_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V42_PROVEN.md',
     '.bitcode/v42-spec-family-report.json',
     '.bitcode/v42-canonical-input-report.json',
     '.bitcode/v42-canon-posture-drift-report.json',
@@ -11038,7 +11038,7 @@ function buildV43ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V43' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V43_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V43_PROVEN.md',
     '.bitcode/v43-spec-family-report.json',
     '.bitcode/v43-canonical-input-report.json',
     '.bitcode/v43-canon-posture-drift-report.json',
@@ -11167,7 +11167,7 @@ function buildV44ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V44' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V44_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V44_PROVEN.md',
     '.bitcode/v44-spec-family-report.json',
     '.bitcode/v44-canonical-input-report.json',
     '.bitcode/v44-canon-posture-drift-report.json',
@@ -11296,7 +11296,7 @@ function buildV45ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V45' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V45_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V45_PROVEN.md',
     '.bitcode/v45-spec-family-report.json',
     '.bitcode/v45-canonical-input-report.json',
     '.bitcode/v45-canon-posture-drift-report.json',
@@ -11418,7 +11418,7 @@ function buildV46ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V46' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V46_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V46_PROVEN.md',
     '.bitcode/v46-spec-family-report.json',
     '.bitcode/v46-canonical-input-report.json',
     '.bitcode/v46-canon-posture-drift-report.json',
@@ -11535,7 +11535,7 @@ function buildV47ProvenPackage(baseData, {
     ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V47' })
   });
   const assumedArtifactPaths = [
-    'specifications/BITCODE_SPEC_V47_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V47_PROVEN.md',
     '.bitcode/v47-spec-family-report.json',
     '.bitcode/v47-canonical-input-report.json',
     '.bitcode/v47-canon-posture-drift-report.json',

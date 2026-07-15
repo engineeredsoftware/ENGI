@@ -317,7 +317,7 @@ export function buildDeploymentStorageCarrierRows(): DeploymentStorageCarrierInp
       repairCommand: 'pnpm run check:spec-quality && pnpm run check:v34-gate4',
       repairPosture: 'regenerate proof artifact from canonical source and re-run promotion checks',
       validationCommand: 'pnpm run check:v34-gate4',
-      proofRootBasis: ['specifications/BITCODE_SPEC_V34.md', 'specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md'],
+      proofRootBasis: ['.specifications/BITCODE_SPEC_V34.md', '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md'],
     },
     {
       carrierId: 'audit_log_stream',

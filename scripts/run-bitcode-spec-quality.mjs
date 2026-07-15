@@ -97,10 +97,10 @@ function runStrictVersionChecks(cwd, version) {
   }
 
   if (version === DRAFT_TARGET_VERSION) {
-    const draftSpecPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${version}.md`);
-    const draftDeltaPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${version}_DELTA.md`);
-    const draftParityPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${version}_PARITY_MATRIX.md`);
-    const draftNotesPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${version}_NOTES.md`);
+    const draftSpecPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}.md`);
+    const draftDeltaPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}_DELTA.md`);
+    const draftParityPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}_PARITY_MATRIX.md`);
+    const draftNotesPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${version}_NOTES.md`);
     const hasFullDraftFamily = existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath);
     if (hasFullDraftFamily) {
       runNode(cwd, `${version} draft spec-family`, [
@@ -161,9 +161,9 @@ function runBasicChecks(cwd) {
       'promoted'
     ]);
   }
-  const draftSpecPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}.md`);
-  const draftDeltaPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_DELTA.md`);
-  const draftParityPath = path.join(cwd, 'specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_PARITY_MATRIX.md`);
+  const draftSpecPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}.md`);
+  const draftDeltaPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_DELTA.md`);
+  const draftParityPath = path.join(cwd, '.specifications', `BITCODE_SPEC_${DRAFT_TARGET_VERSION}_PARITY_MATRIX.md`);
   if (existsSync(draftSpecPath) && existsSync(draftDeltaPath) && existsSync(draftParityPath)) {
     runNode(cwd, `${DRAFT_TARGET_VERSION} draft spec-family`, [
       path.join(cwd, 'scripts/check-bitcode-spec-family.mjs'),

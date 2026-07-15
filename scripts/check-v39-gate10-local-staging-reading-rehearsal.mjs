@@ -114,7 +114,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -146,11 +146,11 @@ function main() {
     'scripts/specifying/README.md',
     'scripts/generate-v39-local-staging-reading-rehearsal.mjs',
     'scripts/check-v39-gate10-local-staging-reading-rehearsal.mjs',
-    'specifications/BITCODE_SPEC_V39.md',
-    'specifications/BITCODE_SPEC_V39_DELTA.md',
-    'specifications/BITCODE_SPEC_V39_NOTES.md',
-    'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
@@ -248,8 +248,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 10 predicates must all pass.');
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V39.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
   const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadingLocalStagingRehearsal'), 'V39 spec must name ReadingLocalStagingRehearsal.');
   assertCheck(failures, spec.includes('v39-local-staging-reading-rehearsal'), 'V39 spec must name the Gate 10 artifact.');

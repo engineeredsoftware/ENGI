@@ -88,7 +88,7 @@ function main() {
   const root = path.resolve(args.repoRoot || repoRoot);
   /** @type {string[]} */
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
   assertCheck(
     failures,
     args.promotionMode ? ['V27', 'V28'].includes(pointer) : pointer === 'V27',
@@ -128,7 +128,7 @@ function main() {
   const promotionWorkflow = read(root, '.github/workflows/v28-canon-promotion.yml');
   assertCheck(failures, promotionWorkflow.includes('head.ref == \'version/v28\''), 'V28 promotion workflow must only promote version/v28 PRs into main.');
   assertCheck(failures, promotionWorkflow.includes('npm run promote:canon -- --version V28'), 'V28 promotion workflow must use the canonical promotion script.');
-  assertCheck(failures, promotionWorkflow.includes('specifications/BITCODE_SPEC_V28_PROVEN.md'), 'V28 promotion workflow must commit the generated PROVEN appendix.');
+  assertCheck(failures, promotionWorkflow.includes('.specifications/BITCODE_SPEC_V28_PROVEN.md'), 'V28 promotion workflow must commit the generated PROVEN appendix.');
   assertCheck(failures, promotionWorkflow.includes('check-v28-metadevelopment-readiness.mjs --promotion-mode'), 'V28 promotion workflow must run metadevelopment readiness in promotion mode.');
 
   const readme = read(root, 'README.md');
@@ -141,9 +141,9 @@ function main() {
   assertCheck(failures, /gate branches (?:are|must be) prefixed with the gate number/i.test(agents), 'AGENTS.md must document gate-number-prefixed branches.');
   assertCheck(failures, /promotion workflow health/i.test(agents), 'AGENTS.md must treat promotion workflow health as gate closure work.');
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V28.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V28_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V28.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V28_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md');
   assertCheck(failures, hasSection(spec, 'Gate 8: V28 Metadevelopment And Promotion Proof'), 'V28 SPEC must define Gate 8 as metadevelopment and promotion proof.');
   assertCheck(failures, hasSection(notes, 'Gate 8 metadevelopment closure notes'), 'V28 NOTES must carry Gate 8 metadevelopment closure notes.');
   assertCheck(failures, hasSection(parity, 'V28 Metadevelopment Parity Matrix'), 'V28 PARITY must carry the metadevelopment parity matrix.');

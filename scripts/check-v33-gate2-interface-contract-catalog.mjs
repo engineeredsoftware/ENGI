@@ -106,7 +106,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -130,11 +130,11 @@ function main() {
     'packages/btd/__tests__/interface-contract-catalog.test.ts',
     'scripts/generate-v33-interface-contract-catalog.mjs',
     'scripts/check-v33-gate2-interface-contract-catalog.mjs',
-    'specifications/BITCODE_SPEC_V33.md',
-    'specifications/BITCODE_SPEC_V33_DELTA.md',
-    'specifications/BITCODE_SPEC_V33_NOTES.md',
-    'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     'scripts/specifying/src/canonical/v21-specifying.js',
@@ -198,11 +198,11 @@ function main() {
     );
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V33.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V33_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V33_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V33.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const btdSource = read(root, 'packages/btd/src/interface-contract-catalog.ts');

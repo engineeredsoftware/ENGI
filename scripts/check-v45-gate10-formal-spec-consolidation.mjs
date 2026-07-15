@@ -65,7 +65,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V44', `BITCODE_SPEC.txt must remain V44 during V45 formal draft work. Observed ${pointer || 'empty'}.`);
 
@@ -79,23 +79,23 @@ function main() {
   }
 
   for (const relativePath of [
-    'specifications/BITCODE_SPEC_V45.md',
-    'specifications/BITCODE_SPEC_V45_DELTA.md',
-    'specifications/BITCODE_SPEC_V45_NOTES.md',
-    'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'specifications/BITCODE_SPEC_V44.md',
-    'specifications/BITCODE_SPEC_V44_PROVEN.md',
-    'specifications/BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_DELTA.md',
+    '.specifications/BITCODE_SPEC_V45_NOTES.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V44.md',
+    '.specifications/BITCODE_SPEC_V44_PROVEN.md',
+    '.specifications/BITCODE_SPEC.txt',
     'package.json',
     'scripts/check-v45-gate9-gate-taxonomy-formal-spec-readiness.mjs',
   ]) {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 10 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V45.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V45_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V45_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V45.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V45_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V45_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const combined = normalize([spec, delta, notes, parity].join('\n'));
 

@@ -10,7 +10,7 @@ local / staging / sandbox hosts, and what “done” means for tests and proof.
 | [`docs/FAMILIARIZATION.md`](docs/FAMILIARIZATION.md) | Package catalog, inheritance, experiences, request paths |
 | [`docs/AGENTS.md`](docs/AGENTS.md) | Gate/commit law and craft expectations (agents + humans) |
 | [`docs/BITCODE_SOURCE_LAYOUT.md`](docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / component unit contract |
-| [`specifications/BITCODE_SPEC.txt`](specifications/BITCODE_SPEC.txt) | Active canon pointer |
+| [`.specifications/BITCODE_SPEC.txt`](.specifications/BITCODE_SPEC.txt) | Active canon pointer |
 | [`README.md`](README.md) | Product summary + quick start |
 
 **Non-canonical:** README, this file, FAMILIARIZATION, ASSET_PACKS, and AGENTS
@@ -38,7 +38,7 @@ sellable unit.
   mainnet is blocked until a future canon admits it.
 
 Orientation only: [`docs/ASSET_PACKS.md`](docs/ASSET_PACKS.md).  
-Binding law: `specifications/BITCODE_SPEC_V48.md` (draft) / active `V47` family.
+Binding law: `.specifications/BITCODE_SPEC_V48.md` (draft) / active `V47` family.
 
 ---
 
@@ -52,10 +52,10 @@ law from UI vibes or from older version folklore.
 | Term | Meaning |
 | --- | --- |
 | **Canon** | The single active system specification family that defines rebuildable product law |
-| **Pointer** | `specifications/BITCODE_SPEC.txt` — currently `V47` on promoted trees |
+| **Pointer** | `.specifications/BITCODE_SPEC.txt` — currently `V47` on promoted trees |
 | **Draft target** | Next version family (e.g. **V48**) edited on `version/v48` while pointer stays on promoted version |
 | **Family** | For version `VN`: `BITCODE_SPEC_VN.md`, `_DELTA`, `_NOTES`, `_PARITY_MATRIX`, optional `_PROVEN` |
-| **Metaspec** | `specifications/BITCODE_SPECIFYING.md` — how specifying works (Complete Implementation Derivability) |
+| **Metaspec** | `.specifications/BITCODE_SPECIFYING.md` — how specifying works (Complete Implementation Derivability) |
 | **Proof artifacts** | Generated under `.bitcode/vN-*` and PROVEN appendices — source-safe metadata only |
 
 **Complete Implementation Derivability:** a competent reader must rebuild the
@@ -130,7 +130,7 @@ apps/uapi           Next.js website + HTTP APIs (primary commercial surface)
 apps/mcp            Bitcode MCP server
 apps/chatgpt        ChatGPT App surface
 apps/claude         Claude App surface
-specifications/     Canon family (ONLY place for BITCODE_SPEC_* law)
+.specifications/     Canon family (ONLY place for BITCODE_SPEC_* law)
 scripts/            Canon checks, promotion, operators
 scripts/specifying  Package-native proof / promotion readiness machine
 supabase/           Migrations, local config, data-health
@@ -478,7 +478,7 @@ routes, or other structure FAMILIARIZATION teaches, update
 
 | Question | Look first |
 | --- | --- |
-| What is product law? | `specifications/BITCODE_SPEC_V*.md` for the gate |
+| What is product law? | `.specifications/BITCODE_SPEC_V*.md` for the gate |
 | Where does package X live? | FAMILIARIZATION §5 |
 | How do components nest? | SOURCE_LAYOUT + `apps/uapi/components/README.md` |
 | Supabase / auth | SUPABASE.md, AUTH packages |

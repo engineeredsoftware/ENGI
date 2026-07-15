@@ -93,11 +93,11 @@ const ALLOWED_REHEARSAL_FIELDS = Object.freeze([
 ]);
 
 const SHARED_SOURCE_ROOTS = Object.freeze([
-  'specifications/BITCODE_SPEC_V37.md',
-  'specifications/BITCODE_SPEC_V37_DELTA.md',
-  'specifications/BITCODE_SPEC_V37_NOTES.md',
-  'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
-  'specifications/SPECIFICATIONS_ROADMAP.md',
+  '.specifications/BITCODE_SPEC_V37.md',
+  '.specifications/BITCODE_SPEC_V37_DELTA.md',
+  '.specifications/BITCODE_SPEC_V37_NOTES.md',
+  '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+  '.specifications/SPECIFICATIONS_ROADMAP.md',
   '.bitcode/v37-conversation-session-route-history.json',
   '.bitcode/v37-conversation-stream-event-contract.json',
   '.bitcode/v37-conversation-writing-workspace.json',
@@ -305,7 +305,7 @@ const rehearsalRows = Object.freeze([
     phaseIds: ['terminal_handoff_review', 'source_safe_evidence_review', 'telemetry_proof_review'],
     flowIds: CONVERSATION_REHEARSAL_FLOW_IDS,
     sourceRoots: [
-      'specifications/BITCODE_SPEC_V37.md',
+      '.specifications/BITCODE_SPEC_V37.md',
       'scripts/specifying/src/canonical/conversation-product-handoff.js',
       'scripts/specifying/src/canonical/conversation-telemetry-proof-hooks.js',
       'apps/uapi/components/conversations/ConversationProductHandoff/ConversationProductHandoff.tsx',

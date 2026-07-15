@@ -28,7 +28,7 @@ export const V42_PROMOTION_READINESS_GATE_ARTIFACT_PATHS = Object.freeze([
 ]);
 
 export const V42_PROMOTION_READINESS_GENERATED_OUTPUTS = Object.freeze([
-  'specifications/BITCODE_SPEC_V42_PROVEN.md',
+  '.specifications/BITCODE_SPEC_V42_PROVEN.md',
   '.bitcode/v42-spec-family-report.json',
   '.bitcode/v42-canonical-input-report.json',
   '.bitcode/v42-canon-posture-drift-report.json',
@@ -121,7 +121,7 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
     'node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V42 --next-draft V43',
     'node scripts/generate-bitcode-proven.mjs --version V42',
     'node scripts/check-bitcode-spec-family.mjs --version V42 --mode promoted --current-target V42',
-    'specifications/BITCODE_SPEC_V42_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V42_PROVEN.md',
     'Promote V42 canon files',
   ]),
   source('.github/workflows/bitcode-gate-quality.yml', [
@@ -155,27 +155,27 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
 ]);
 
 const REQUIRED_DOCUMENTATION_EVIDENCE = Object.freeze([
-  source('specifications/BITCODE_SPEC_V42.md', [
+  source('.specifications/BITCODE_SPEC_V42.md', [
     'V42 promotion readiness canon',
     V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'V42 active / draft V43',
   ]),
-  source('specifications/BITCODE_SPEC_V42_DELTA.md', [
+  source('.specifications/BITCODE_SPEC_V42_DELTA.md', [
     'Gate 9: V42 Promotion Readiness',
     V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'promotion scripts support V42',
   ]),
-  source('specifications/BITCODE_SPEC_V42_NOTES.md', [
+  source('.specifications/BITCODE_SPEC_V42_NOTES.md', [
     'Gate 9: V42 Promotion Readiness',
     V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'active V42 / draft V43',
   ]),
-  source('specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md', [
+  source('.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md', [
     '## Gate 9 Promotion readiness parity',
     V42_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
     'closed',
   ]),
-  source('specifications/SPECIFICATIONS_ROADMAP.md', [
+  source('.specifications/SPECIFICATIONS_ROADMAP.md', [
     'V42 Gate 9 closure anchor',
     'BITCODE_SPEC_V42_PROVEN.md',
   ]),
@@ -355,7 +355,7 @@ export function buildV42PromotionReadinessReport(input = {}) {
     allGateArtifactsCovered: missingGateArtifacts.length === 0,
     allGateArtifactsParseable: unparseableGateArtifacts.length === 0,
     allGateArtifactsSourceSafe: sourceUnsafeGateArtifacts.length === 0,
-    generatedProofOutputsCovered: V42_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('specifications/BITCODE_SPEC_V42_PROVEN.md'),
+    generatedProofOutputsCovered: V42_PROMOTION_READINESS_GENERATED_OUTPUTS.includes('.specifications/BITCODE_SPEC_V42_PROVEN.md'),
     promotionWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/v42-canon-promotion.yml' && allTokensPresent(entry)),
     gateQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-gate-quality.yml' && allTokensPresent(entry)),
     canonQualityWorkflowCovered: sourceEvidence.some((entry) => entry.relativePath === '.github/workflows/bitcode-canon-quality.yml' && allTokensPresent(entry)),
@@ -397,7 +397,7 @@ export function buildV42PromotionReadinessReport(input = {}) {
       versionPromotionPullRequestTitlePrefix: 'V42 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'specifications/BITCODE_SPEC_V42_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V42_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v42-',
       promotionOverwritesPreviewArtifacts: true,

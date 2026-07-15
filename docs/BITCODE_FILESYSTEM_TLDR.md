@@ -421,7 +421,7 @@ Format: `path -- <1 sentence TL;DR>`.
  api/ -- Directory `api`.
  conversations-openapi.yaml -- Configuration file.
  conversations.md -- Documentation or specification text.
- fixtures/ -- Directory `fixtures`.
+ .fixtures/ -- Directory `fixtures`.
  auth.users.json -- Configuration file.
  public.deliverable_runs.json -- Configuration file.
  public.deliverables.json -- Configuration file.
@@ -1310,7 +1310,7 @@ Format: `path -- <1 sentence TL;DR>`.
  pipeline-recovery.js -- Package `executions-mcp` artifact.
  pipeline-recovery.ts -- Source module in package `executions-mcp`.
  __tests__/ -- Package tests for this module.
- fixtures/ -- Package tests for this module.
+ .fixtures/ -- Package tests for this module.
  MCPTestFixtures.js -- Package tests for this module.
  MCPTestFixtures.ts -- Package tests for this module.
  framework/ -- Package tests for this module.
@@ -10880,7 +10880,7 @@ Format: `path -- <1 sentence TL;DR>`.
  walletOAuthRoutes.test.ts -- App-level test suite.
  webhookSignature.test.ts -- App-level test suite.
  e2e/ -- UAPI directory `e2e`.
- fixtures/ -- UAPI directory `fixtures`.
+ .fixtures/ -- UAPI directory `fixtures`.
  stories/ -- UAPI directory `stories`.
  addAI.json -- UAPI file.
  awsCost.json -- UAPI file.
@@ -10955,7 +10955,7 @@ Format: `path -- <1 sentence TL;DR>`.
  story.marketing.spec.ts -- App-level test suite.
  story.profile.spec.ts -- App-level test suite.
  storybook.components.visual.spec.ts -- App-level test suite.
- fixtures/ -- UAPI directory `fixtures`.
+ .fixtures/ -- UAPI directory `fixtures`.
  repos/ -- UAPI directory `repos`.
  nextjs-minimal/ -- UAPI directory `nextjs-minimal`.
  pages/ -- UAPI directory `pages`.

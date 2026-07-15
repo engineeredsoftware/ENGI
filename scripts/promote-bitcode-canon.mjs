@@ -10,12 +10,12 @@ const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..');
 
 function archivedSpecPath(version, suffix = '') {
-  // Living SPEC family is under specifications/ only (ENGI/_legacy removed).
-  return path.join(repoRoot, 'specifications', `BITCODE_SPEC_${version}${suffix}.md`);
+  // Living SPEC family is under .specifications/ only (ENGI/_legacy removed).
+  return path.join(repoRoot, '.specifications', `BITCODE_SPEC_${version}${suffix}.md`);
 }
 
 function archivedProvenOutput(version) {
-  return path.join('specifications', `BITCODE_SPEC_${version}_PROVEN.md`);
+  return path.join('.specifications', `BITCODE_SPEC_${version}_PROVEN.md`);
 }
 
 /**
@@ -3077,7 +3077,7 @@ async function main() {
   for (const [file, commandArgs] of commands.slice(0, generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }
-  await fs.writeFile(path.join(repoRoot, 'specifications/BITCODE_SPEC.txt'), `${version}\n`, 'utf8');
+  await fs.writeFile(path.join(repoRoot, '.specifications/BITCODE_SPEC.txt'), `${version}\n`, 'utf8');
   for (const [file, commandArgs] of commands.slice(generatedCommandIndex)) {
     execFileSync(file, commandArgs, { cwd: repoRoot, stdio: 'inherit' });
   }

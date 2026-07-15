@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -119,11 +119,11 @@ function main() {
     'scripts/specifying/test/v39-interface-conversation-product-parity.test.js',
     'scripts/generate-v39-interface-conversation-product-parity.mjs',
     'scripts/check-v39-gate9-interface-conversation-product-parity.mjs',
-    'specifications/BITCODE_SPEC_V39.md',
-    'specifications/BITCODE_SPEC_V39_DELTA.md',
-    'specifications/BITCODE_SPEC_V39_NOTES.md',
-    'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'packages/asset-packs-pipelines/domain/README.md',
     'scripts/specifying/README.md',
@@ -246,8 +246,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 9 predicates must all pass.');
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V39.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
   const readme = read(root, 'packages/asset-packs-pipelines/domain/README.md');
   assertCheck(failures, spec.includes('ReadingInterfaceProductParity'), 'V39 spec must name ReadingInterfaceProductParity.');
   assertCheck(failures, spec.includes('v39-interface-conversation-product-parity'), 'V39 spec must name the Gate 9 artifact.');

@@ -106,7 +106,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -132,11 +132,11 @@ function main() {
     'scripts/generate-v35-testnet-rollout-readiness-guide.mjs',
     'scripts/check-v35-gate7-developer-operator-testnet-rollout-guides.mjs',
     'scripts/specifying/src/canonical/v21-specifying.js',
-    'specifications/BITCODE_SPEC_V35.md',
-    'specifications/BITCODE_SPEC_V35_DELTA.md',
-    'specifications/BITCODE_SPEC_V35_NOTES.md',
-    'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'apps/uapi/app/docs/bitcode-docs-content.ts',
@@ -239,11 +239,11 @@ function main() {
   assertCheck(failures, workflow.includes('check-v35-gate7-developer-operator-testnet-rollout-guides.mjs'), 'Gate workflow must run V35 Gate 7 checker when present.');
   assertCheck(failures, workflow.includes('test/v35-testnet-rollout-readiness-guide.test.js'), 'Gate workflow must run V35 rollout guide package test.');
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V35.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
   assertCheck(failures, spec.includes('V35 TestnetRolloutReadinessGuide canon'), 'V35 spec must include TestnetRolloutReadinessGuide canon section.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH), 'V35 spec must name testnet rollout readiness artifact.');
 
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   assertCheck(failures, roadmap.includes('V35 Gate 7 closure anchor'), 'Roadmap must include V35 Gate 7 closure anchor.');
 
   const publicDocs = read(root, 'apps/uapi/app/docs/bitcode-docs-content.ts');

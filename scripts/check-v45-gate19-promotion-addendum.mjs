@@ -84,7 +84,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V45', `BITCODE_SPEC.txt must point to V45 for the V45 promotion addendum. Observed ${pointer || 'empty'}.`);
 
@@ -98,12 +98,12 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC.txt',
-    'specifications/BITCODE_SPEC_V45.md',
-    'specifications/BITCODE_SPEC_V45_DELTA.md',
-    'specifications/BITCODE_SPEC_V45_NOTES.md',
-    'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_DELTA.md',
+    '.specifications/BITCODE_SPEC_V45_NOTES.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     '.bitcode/v45-source-safe-e2e-rehearsal.json',
     '.bitcode/v45-promotion-readiness-report.json',
     'scripts/specifying/src/canonical/v21-specifying.js',
@@ -114,11 +114,11 @@ function main() {
   }
 
   const specFamilyFiles = [
-    'specifications/BITCODE_SPEC_V45.md',
-    'specifications/BITCODE_SPEC_V45_DELTA.md',
-    'specifications/BITCODE_SPEC_V45_NOTES.md',
-    'specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_DELTA.md',
+    '.specifications/BITCODE_SPEC_V45_NOTES.md',
+    '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
   ];
   for (const relativePath of specFamilyFiles) {
     const content = read(root, relativePath);
@@ -131,9 +131,9 @@ function main() {
     }
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V45.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V45_NOTES.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V45.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V45_NOTES.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const checker = read(root, 'scripts/specifying/src/canonical/v21-specifying.js');
   const test = read(root, 'scripts/specifying/test/spec-family-promotion-posture.test.js');
   const packageJson = read(root, 'package.json');

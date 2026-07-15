@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,10 +80,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC_V29.md',
-    'specifications/BITCODE_SPEC_V29_DELTA.md',
-    'specifications/BITCODE_SPEC_V29_NOTES.md',
-    'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate5-assetpack-disclosure-rights.mjs',
     'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts',
     'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts',
@@ -109,10 +109,10 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 5 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V29.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const disclosure = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts');
   const disclosureTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts');
   const postprocess = read(root, 'packages/asset-packs-pipelines/domain/src/postprocess.ts');

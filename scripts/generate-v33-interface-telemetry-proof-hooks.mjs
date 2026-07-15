@@ -274,10 +274,10 @@ export function buildV33InterfaceTelemetryProofHooksArtifact() {
     ]),
   ];
   const docsEvidence = [
-    scanTokens('specifications/BITCODE_SPEC_V33.md', ['InterfaceTelemetryProofHook', 'Gate 8']),
-    scanTokens('specifications/BITCODE_SPEC_V33_DELTA.md', ['Interface Telemetry And Proof Replay Hooks']),
-    scanTokens('specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface telemetry proof hooks']),
-    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 8 Interface Telemetry And Proof Replay Hooks']),
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', ['InterfaceTelemetryProofHook', 'Gate 8']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', ['Interface Telemetry And Proof Replay Hooks']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Interface telemetry proof hooks']),
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 8 Interface Telemetry And Proof Replay Hooks']),
   ];
   const observedInterfaceIds = Array.from(new Set(hookRows.map((row) => row.interfaceId))).sort();
   const observedPostures = Array.from(new Set(hookRows.map((row) => row.posture))).sort();

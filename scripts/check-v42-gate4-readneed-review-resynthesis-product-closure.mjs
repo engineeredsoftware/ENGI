@@ -88,7 +88,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -121,11 +121,11 @@ function main() {
     'scripts/specifying/test/v42-readneed-review-resynthesis-product-closure.test.js',
     'scripts/generate-v42-readneed-review-resynthesis-product-closure.mjs',
     'scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs',
-    'specifications/BITCODE_SPEC_V42.md',
-    'specifications/BITCODE_SPEC_V42_DELTA.md',
-    'specifications/BITCODE_SPEC_V42_NOTES.md',
-    'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'apps/uapi/app/ (removed cockpit tree) README.md',
     'packages/asset-packs-pipelines/domain/README.md',
@@ -239,8 +239,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 4 predicates must all pass.');
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V42.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
   const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 4') && spec.includes('v42-readneed-review-resynthesis-product-closure'), 'V42 spec must expand Gate 4 ReadNeed product closure.');
   assertCheck(failures, parity.includes('ReadNeed product closure') && parity.includes('implemented'), 'V42 parity matrix must mark ReadNeed product closure implemented.');

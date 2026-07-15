@@ -330,11 +330,11 @@ function buildPredicateResults(repoRoot) {
   const packageJson = readSource(repoRoot, 'package.json');
   const gateWorkflow = readSource(repoRoot, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = readSource(repoRoot, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40.md');
-  const delta = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_DELTA.md');
-  const notes = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_NOTES.md');
-  const parity = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = readSource(repoRoot, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = readSource(repoRoot, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const protocolIndex = readSource(repoRoot, 'scripts/specifying/src/index.js');
   const protocolTypes = readSource(repoRoot, 'scripts/specifying/src/index.d.ts');
 
@@ -358,14 +358,14 @@ function buildPredicateResults(repoRoot) {
     predicateResult('package-scripts-include-gate4', 'package.json', packageJson.includes('generate:v40-api-integration-contracts') && packageJson.includes('check:v40-gate4')),
     predicateResult('workflows-run-gate4-check', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('check-v40-gate4-api-integration-contracts.mjs') && canonWorkflow.includes('check-v40-gate4-api-integration-contracts.mjs')),
     predicateResult('protocol-exports-gate4', 'scripts/specifying/src/index.js', protocolIndex.includes('buildV40ApiIntegrationContracts') && protocolTypes.includes('buildV40ApiIntegrationContracts')),
-    predicateResult('spec-documents-gate4', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 4 API And Route Integration Contracts') && spec.includes(V40_API_INTEGRATION_CONTRACTS_ARTIFACT_PATH)),
-    predicateResult('delta-documents-gate4', 'specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 4 closes with package-backed `V40ApiIntegrationContracts`')),
-    predicateResult('notes-document-gate4', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 4 implementation notes') && notes.includes('API route integration contracts')),
-    predicateResult('parity-documents-gate4', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-api-integration-contracts') && parity.includes('| Gate 4 | API/route integration artifact | implemented |')),
-    predicateResult('roadmap-advanced-through-gate4', 'specifications/SPECIFICATIONS_ROADMAP.md', roadmap.includes('V40 Gate 4 closure anchor')),
+    predicateResult('spec-documents-gate4', '.specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 4 API And Route Integration Contracts') && spec.includes(V40_API_INTEGRATION_CONTRACTS_ARTIFACT_PATH)),
+    predicateResult('delta-documents-gate4', '.specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 4 closes with package-backed `V40ApiIntegrationContracts`')),
+    predicateResult('notes-document-gate4', '.specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 4 implementation notes') && notes.includes('API route integration contracts')),
+    predicateResult('parity-documents-gate4', '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-api-integration-contracts') && parity.includes('| Gate 4 | API/route integration artifact | implemented |')),
+    predicateResult('roadmap-advanced-through-gate4', '.specifications/SPECIFICATIONS_ROADMAP.md', roadmap.includes('V40 Gate 4 closure anchor')),
     predicateResult(
       'roadmap-documents-v41-prompt-programs',
-      'specifications/SPECIFICATIONS_ROADMAP.md',
+      '.specifications/SPECIFICATIONS_ROADMAP.md',
       roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` |') &&
         roadmap.includes('Prompt and PromptPart excellence') &&
         roadmap.includes('meaningfully benchmarkable semantic parts'),

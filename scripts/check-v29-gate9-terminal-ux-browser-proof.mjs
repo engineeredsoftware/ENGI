@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,10 +80,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC_V29.md',
-    'specifications/BITCODE_SPEC_V29_DELTA.md',
-    'specifications/BITCODE_SPEC_V29_NOTES.md',
-    'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate9-terminal-ux-browser-proof.mjs',
     'apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts',
     'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx',
@@ -108,10 +108,10 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 9 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V29.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const contract = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-ux-browser-proof.ts');
   const pageClient = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalPageClient.tsx');
   const workspace = read(root, 'apps/uapi/app/ (removed cockpit tree) TerminalTransactionWorkspace.tsx');

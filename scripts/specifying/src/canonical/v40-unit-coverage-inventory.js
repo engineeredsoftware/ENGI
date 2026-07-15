@@ -264,11 +264,11 @@ function buildPredicateResults(repoRoot) {
   const packageJson = readSource(repoRoot, 'package.json');
   const gateWorkflow = readSource(repoRoot, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = readSource(repoRoot, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40.md');
-  const delta = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_DELTA.md');
-  const notes = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_NOTES.md');
-  const parity = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = readSource(repoRoot, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = readSource(repoRoot, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const protocolIndex = readSource(repoRoot, 'scripts/specifying/src/index.js');
   const protocolTypes = readSource(repoRoot, 'scripts/specifying/src/index.d.ts');
 
@@ -292,13 +292,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('package-scripts-include-gate3', 'package.json', packageJson.includes('generate:v40-unit-coverage') && packageJson.includes('check:v40-gate3')),
     predicateResult('workflows-run-gate3-check', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('check-v40-gate3-unit-coverage.mjs') && canonWorkflow.includes('check-v40-gate3-unit-coverage.mjs')),
     predicateResult('protocol-exports-gate3', 'scripts/specifying/src/index.js', protocolIndex.includes('buildV40UnitCoverageInventory') && protocolTypes.includes('buildV40UnitCoverageInventory')),
-    predicateResult('spec-documents-gate3', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 3 Unit Coverage For Packages And Primitives') && spec.includes(V40_UNIT_COVERAGE_INVENTORY_ARTIFACT_PATH)),
-    predicateResult('delta-documents-gate3', 'specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 3: Unit Coverage For Packages And Primitives')),
-    predicateResult('notes-document-gate3', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 3 closes unit coverage breadth') && notes.includes('Gate 3 implementation notes')),
-    predicateResult('parity-documents-gate3', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-unit-coverage-inventory') && parity.includes('| Gate 3 | Unit coverage closure artifact | implemented |')),
+    predicateResult('spec-documents-gate3', '.specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 3 Unit Coverage For Packages And Primitives') && spec.includes(V40_UNIT_COVERAGE_INVENTORY_ARTIFACT_PATH)),
+    predicateResult('delta-documents-gate3', '.specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 3: Unit Coverage For Packages And Primitives')),
+    predicateResult('notes-document-gate3', '.specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 3 closes unit coverage breadth') && notes.includes('Gate 3 implementation notes')),
+    predicateResult('parity-documents-gate3', '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-unit-coverage-inventory') && parity.includes('| Gate 3 | Unit coverage closure artifact | implemented |')),
     predicateResult(
       'roadmap-advanced-through-gate3',
-      'specifications/SPECIFICATIONS_ROADMAP.md',
+      '.specifications/SPECIFICATIONS_ROADMAP.md',
       roadmap.includes('V40 Gate 3 closure anchor') &&
         (/Current working gate: V40 Gate (?:3|[4-9]|10|11)\b/u.test(roadmap) ||
           roadmap.includes('Latest closed version: V40 Exhaustive Commercial Application Testing') ||

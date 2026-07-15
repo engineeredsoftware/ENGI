@@ -35,7 +35,7 @@ describe('DeploymentPromotionReadinessReport', () => {
       'node scripts/promote-bitcode-canon.mjs --version V34 --commit HEAD --dry-run',
     ]));
     expect(report.generatedProofOutputs).toEqual(expect.arrayContaining([
-      'specifications/BITCODE_SPEC_V34_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       '.bitcode/v34-spec-family-report.json',
       '.bitcode/v34-canonical-input-report.json',
       '.bitcode/v34-canon-posture-drift-report.json',

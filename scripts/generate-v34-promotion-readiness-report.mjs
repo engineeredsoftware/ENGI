@@ -129,7 +129,7 @@ export function buildV34PromotionReadinessReport() {
     scanTokens('scripts/prepare-bitcode-spec-family-promotion.mjs', [
       "if (version === 'V34')",
       'V34 canonical system specification for deployment depth',
-      'specifications/BITCODE_SPEC_V34_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       '.bitcode/v34-promotion-readiness-report.json',
     ]),
     scanTokens('scripts/prepare-bitcode-runtime-canon-promotion.mjs', [
@@ -140,7 +140,7 @@ export function buildV34PromotionReadinessReport() {
     scanTokens('.github/workflows/v34-canon-promotion.yml', [
       "head.ref == 'version/v34'",
       'npm run promote:canon -- --version V34',
-      'specifications/BITCODE_SPEC_V34_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       'Promote V34 canon files',
     ]),
     scanTokens('.github/workflows/bitcode-gate-quality.yml', [
@@ -176,29 +176,29 @@ export function buildV34PromotionReadinessReport() {
     ]),
   ];
   const documentationEvidence = [
-    scanTokens('specifications/BITCODE_SPEC_V34.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34.md', [
       'V34 promotion readiness canon',
       '.bitcode/v34-promotion-readiness-report.json',
       'V34 active / V35 draft',
     ]),
-    scanTokens('specifications/BITCODE_SPEC_V34_DELTA.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34_DELTA.md', [
       'Gate 10: V34 Promotion Readiness',
       '.bitcode/v34-promotion-readiness-report.json',
       'promotion scripts support V34',
     ]),
-    scanTokens('specifications/BITCODE_SPEC_V34_NOTES.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34_NOTES.md', [
       'Gate 10: V34 Promotion Readiness',
       '.bitcode/v34-promotion-readiness-report.json',
       'active V34 / draft V35',
     ]),
-    scanTokens('specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md', [
       '## Gate 10 Parity',
       '.bitcode/v34-promotion-readiness-report.json',
       'closed',
     ]),
-    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', [
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', [
       'Current working gate: V34 Gate 10 Promotion Readiness',
-      'specifications/BITCODE_SPEC_V34_PROVEN.md',
+      '.specifications/BITCODE_SPEC_V34_PROVEN.md',
     ]),
     scanTokens('README.md', [
       'check:v34-gate10',
@@ -257,7 +257,7 @@ export function buildV34PromotionReadinessReport() {
       versionPromotionPullRequestTitlePrefix: 'V34 Canonical Promotion',
     },
     generatedArtifactPolicy: {
-      provenAppendixPath: 'specifications/BITCODE_SPEC_V34_PROVEN.md',
+      provenAppendixPath: '.specifications/BITCODE_SPEC_V34_PROVEN.md',
       provenAppendixRequiredBeforePromotion: false,
       generatedArtifactPrefix: '.bitcode/v34-',
       promotionOverwritesPreviewArtifacts: true,

@@ -280,9 +280,9 @@ const laneRows = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/deployment-host-capability-catalog.ts',
   'packages/btd/src/index.ts',
-  'specifications/BITCODE_SPEC_V34.md',
-  'specifications/BITCODE_SPEC_V34_DELTA.md',
-  'specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V34.md',
+  '.specifications/BITCODE_SPEC_V34_DELTA.md',
+  '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
 ]);
 
 const testFiles = Object.freeze([
@@ -387,7 +387,7 @@ export function buildV34DeploymentHostCapabilityCatalogArtifact() {
       'ledger_projection',
     ]),
     scanTokens('packages/btd/src/index.ts', ['deployment-host-capability-catalog']),
-    scanTokens('specifications/BITCODE_SPEC_V34.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34.md', [
       HOST_ARTIFACT_PATH,
       LANE_ARTIFACT_PATH,
       'DeploymentHostCapabilityCatalog',
@@ -459,7 +459,7 @@ export function buildV34EnvironmentLaneContractsArtifact() {
       'blocked_future_canon_required',
       'buildEnvironmentLaneContracts',
     ]),
-    scanTokens('specifications/BITCODE_SPEC_V34_DELTA.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34_DELTA.md', [
       'local, regtest, signet, staging-testnet, public testnet, mainnet-ready dry run, and value-bearing mainnet lanes are represented',
       LANE_ARTIFACT_PATH,
     ]),

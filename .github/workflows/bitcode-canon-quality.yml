@@ -22,7 +22,7 @@ jobs:
 
       - name: Validate active canon and draft posture
         run: |
-          POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V28" ]; then
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V28
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V28 --draft-target V29
@@ -42,35 +42,35 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V31
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V31 --draft-target V32
             node scripts/check-bitcode-spec-family.mjs --version V31 --mode promoted --current-target V31
-            if [ -f specifications/BITCODE_SPEC_V32.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V32.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V32 --mode draft --current-target V31
             fi
           elif [ "$POINTER" = "V32" ]; then
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V32
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V32 --draft-target V33
             node scripts/check-bitcode-spec-family.mjs --version V32 --mode promoted --current-target V32
-            if [ -f specifications/BITCODE_SPEC_V33.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V33.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V33 --mode draft --current-target V32
             fi
           elif [ "$POINTER" = "V33" ]; then
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V33
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V33 --draft-target V34
             node scripts/check-bitcode-spec-family.mjs --version V33 --mode promoted --current-target V33
-            if [ -f specifications/BITCODE_SPEC_V34.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V34.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V34 --mode draft --current-target V33
             fi
           elif [ "$POINTER" = "V34" ]; then
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V34
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V34 --draft-target V35
             node scripts/check-bitcode-spec-family.mjs --version V34 --mode promoted --current-target V34
-            if [ -f specifications/BITCODE_SPEC_V35.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V35.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V35 --mode draft --current-target V34
             fi
           elif [ "$POINTER" = "V35" ]; then
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V35
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V35 --draft-target V36
             node scripts/check-bitcode-spec-family.mjs --version V35 --mode promoted --current-target V35
-            if [ -f specifications/BITCODE_SPEC_V36.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V36.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V36 --mode draft --current-target V35
               node scripts/check-v36-gate1-exchange-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v36-gate2-exchange-activity-book-market-master-detail.mjs ]; then
@@ -106,7 +106,7 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V36 --draft-target V37
             node scripts/check-bitcode-spec-family.mjs --version V36 --mode promoted --current-target V36
             node scripts/check-v36-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
-            if [ -f specifications/BITCODE_SPEC_V37.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V37.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V37 --mode draft --current-target V36
               node scripts/check-v37-gate1-conversations-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v37-gate2-conversation-session-route-history-contracts.mjs ]; then
@@ -142,7 +142,7 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V37 --draft-target V38
             node scripts/check-bitcode-spec-family.mjs --version V37 --mode promoted --current-target V37
             node scripts/check-v37-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
-            if [ -f specifications/BITCODE_SPEC_V38.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V38.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V38 --mode draft --current-target V37
               node scripts/check-v38-gate1-inference-stack-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v38-gate2-inference-surface-inventory.mjs ]; then
@@ -181,7 +181,7 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V38 --draft-target V39
             node scripts/check-bitcode-spec-family.mjs --version V38 --mode promoted --current-target V38
             node scripts/check-v38-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V39.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V39.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V39 --mode draft --current-target V38
               node scripts/check-v39-gate1-commercial-reading-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v39-gate2-depository-supply-indexing.mjs ]; then
@@ -220,7 +220,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V39
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40
             node scripts/check-v39-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V40.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V40.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39
               node scripts/check-v40-gate1-testing-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v40-gate2-test-inventory-coverage-matrix.mjs ]; then
@@ -259,7 +259,7 @@ jobs:
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41
             node scripts/check-bitcode-spec-family.mjs --version V40 --mode promoted --current-target V40
             node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V41.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V41.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V41 --mode draft --current-target V40
               node scripts/check-v41-gate1-prompt-program-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v41-gate2-promptpart-prompt-inventory.mjs ]; then
@@ -292,7 +292,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V41
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V41 --draft-target V42
             node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V42.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V42.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V42 --mode draft --current-target V41
               node scripts/check-v42-gate1-mvp-experience-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v42-gate2-depositing-shortest-path.mjs ]; then
@@ -325,7 +325,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V42
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V42 --draft-target V43
             node scripts/check-v42-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V43.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V43.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V43 --mode draft --current-target V42
               node scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs --skip-branch-check
               if [ -f scripts/check-v43-gate2-route-vocabulary-inventory.mjs ]; then
@@ -361,7 +361,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V43
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44
             node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V44.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V44.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
               node scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs --skip-branch-check
               if [ -f scripts/check-v44-gate2-economic-domain-model.mjs ]; then
@@ -397,7 +397,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V44
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V44 --draft-target V45
             node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V45.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V45.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V45 --mode draft --current-target V44
               if [ -f scripts/check-v45-gate16-proof-families-generated-artifacts.mjs ]; then
                 node scripts/check-v45-gate16-proof-families-generated-artifacts.mjs --skip-branch-check --skip-package-tests # check:v45-gate16
@@ -414,10 +414,10 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V45
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V45 --draft-target V46
             node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ ! -f specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
+            if [ ! -f .specifications/BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
               node scripts/check-v45-gate19-promotion-addendum.mjs --skip-branch-check --skip-package-tests
             fi
-            if [ -f specifications/BITCODE_SPEC_V46.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V46.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V46 --mode draft --current-target V45
               if [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
                 node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
@@ -449,7 +449,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V46
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47
             node scripts/check-v46-gate8-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V47.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V47.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V47 --mode draft --current-target V46
               if [ -f scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs ]; then
                 node scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs --skip-branch-check
@@ -490,7 +490,7 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V47
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V47 --draft-target V48
             node scripts/check-v47-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f specifications/BITCODE_SPEC_V48.md ]; then
+            if [ -f .specifications/BITCODE_SPEC_V48.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V47
             fi
           else
@@ -532,7 +532,7 @@ jobs:
         run: |
           case "$SPEC_TITLE" in
             spec:\ V29*|spec:\ v29*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V29" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V29 --mode promoted --current-target V29
               else
@@ -540,7 +540,7 @@ jobs:
               fi
               ;;
             spec:\ V30*|spec:\ v30*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V30" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V30 --mode promoted --current-target V30
               else
@@ -548,7 +548,7 @@ jobs:
               fi
               ;;
             spec:\ V31*|spec:\ v31*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V31" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V31 --mode promoted --current-target V31
               else
@@ -556,7 +556,7 @@ jobs:
               fi
               ;;
             spec:\ V32*|spec:\ v32*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V32" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V32 --mode promoted --current-target V32
               else
@@ -564,7 +564,7 @@ jobs:
               fi
               ;;
             spec:\ V33*|spec:\ v33*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V33" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V33 --mode promoted --current-target V33
               else
@@ -572,7 +572,7 @@ jobs:
               fi
               ;;
             spec:\ V34*|spec:\ v34*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V34" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V34 --mode promoted --current-target V34
               else
@@ -580,7 +580,7 @@ jobs:
               fi
               ;;
             spec:\ V35*|spec:\ v35*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V35" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V35 --mode promoted --current-target V35
               else
@@ -588,7 +588,7 @@ jobs:
               fi
               ;;
             spec:\ V36*|spec:\ v36*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V36" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V36 --mode promoted --current-target V36
               else
@@ -596,7 +596,7 @@ jobs:
               fi
               ;;
             spec:\ V37*|spec:\ v37*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V37" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V37 --mode promoted --current-target V37
               else
@@ -604,7 +604,7 @@ jobs:
               fi
               ;;
             spec:\ V38*|spec:\ v38*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V38" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V38 --mode promoted --current-target V38
               else
@@ -612,7 +612,7 @@ jobs:
               fi
               ;;
             spec:\ V39*|spec:\ v39*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V39" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V39 --mode promoted --current-target V39
               else
@@ -620,7 +620,7 @@ jobs:
               fi
               ;;
             spec:\ V40*|spec:\ v40*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V40" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V40 --mode promoted --current-target V40
               else
@@ -628,7 +628,7 @@ jobs:
               fi
               ;;
             spec:\ V41*|spec:\ v41*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V41" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V41 --mode promoted --current-target V41
               else
@@ -636,7 +636,7 @@ jobs:
               fi
               ;;
             spec:\ V42*|spec:\ v42*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V42" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V42 --mode promoted --current-target V42
               else
@@ -644,7 +644,7 @@ jobs:
               fi
               ;;
             spec:\ V43*|spec:\ v43*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V43" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V43 --mode promoted --current-target V43
               else
@@ -655,7 +655,7 @@ jobs:
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
               ;;
             spec:\ V45*|spec:\ v45*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V45" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V45 --mode promoted --current-target V45
               else
@@ -663,7 +663,7 @@ jobs:
               fi
               ;;
             spec:\ V46*|spec:\ v46*)
-              POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+              POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
               if [ "$POINTER" = "V46" ]; then
                 node scripts/check-bitcode-spec-family.mjs --version V46 --mode promoted --current-target V46
               else

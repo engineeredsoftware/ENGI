@@ -51,9 +51,9 @@ const SOURCE_ROOTS = Object.freeze({
   terminalDepositComposer: 'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',
   ormAssetPackEvidence: 'packages/orm/src/models/asset-pack-evidence.ts',
   ormExecutionStorage: 'packages/orm/src/models/bitcode-execution-storage.ts',
-  v39Spec: 'specifications/BITCODE_SPEC_V39.md',
-  v39Delta: 'specifications/BITCODE_SPEC_V39_DELTA.md',
-  v39Parity: 'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+  v39Spec: '.specifications/BITCODE_SPEC_V39.md',
+  v39Delta: '.specifications/BITCODE_SPEC_V39_DELTA.md',
+  v39Parity: '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
 });
 
 function digest(value) {

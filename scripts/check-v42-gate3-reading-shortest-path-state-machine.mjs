@@ -85,7 +85,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -122,11 +122,11 @@ function main() {
     'scripts/specifying/test/v42-reading-shortest-path-state-machine.test.js',
     'scripts/generate-v42-reading-shortest-path-state-machine.mjs',
     'scripts/check-v42-gate3-reading-shortest-path-state-machine.mjs',
-    'specifications/BITCODE_SPEC_V42.md',
-    'specifications/BITCODE_SPEC_V42_DELTA.md',
-    'specifications/BITCODE_SPEC_V42_NOTES.md',
-    'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V42.md',
+    '.specifications/BITCODE_SPEC_V42_DELTA.md',
+    '.specifications/BITCODE_SPEC_V42_NOTES.md',
+    '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'apps/uapi/app/ (removed cockpit tree) README.md',
     'scripts/specifying/README.md',
@@ -221,8 +221,8 @@ function main() {
     assertCheck(failures, Array.isArray(artifact.coverage.failedPredicateIds) && artifact.coverage.failedPredicateIds.length === 0, 'Gate 3 predicates must all pass.');
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V42.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V42.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md');
   const terminalReadme = read(root, 'apps/uapi/app/ (removed cockpit tree) README.md');
   assertCheck(failures, spec.includes('V42 Gate 3') && spec.includes('reading shortest path state machine'), 'V42 spec must expand Gate 3 state machine.');
   assertCheck(failures, parity.includes('Reading state machine') && parity.includes('implemented'), 'V42 parity matrix must mark Reading state machine implemented.');

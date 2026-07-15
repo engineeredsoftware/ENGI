@@ -6,7 +6,7 @@ const repoRoot = process.cwd();
 
 const checks = [
   {
-    file: 'specifications/BITCODE_SPEC_V28.md',
+    file: '.specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 10: Read Request To Read-Need Comprehension',
       'ReadNeedComprehensionSynthesis',
@@ -17,7 +17,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
-    file: 'specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
+    file: '.specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'Read Request capture',
       'Read-Need synthesis, review, and resynthesis',

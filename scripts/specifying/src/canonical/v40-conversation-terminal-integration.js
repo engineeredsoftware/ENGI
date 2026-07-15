@@ -424,11 +424,11 @@ function buildPredicateResults(repoRoot) {
   const packageJson = readSource(repoRoot, 'package.json');
   const gateWorkflow = readSource(repoRoot, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = readSource(repoRoot, '.github/workflows/bitcode-canon-quality.yml');
-  const spec = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40.md');
-  const delta = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_DELTA.md');
-  const notes = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_NOTES.md');
-  const parity = readSource(repoRoot, 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
-  const roadmap = readSource(repoRoot, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40.md');
+  const delta = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_DELTA.md');
+  const notes = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_NOTES.md');
+  const parity = readSource(repoRoot, '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md');
+  const roadmap = readSource(repoRoot, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const protocolReadme = readSource(repoRoot, 'scripts/specifying/README.md');
   const rootReadme = readSource(repoRoot, 'README.md');
   const protocolIndex = readSource(repoRoot, 'scripts/specifying/src/index.js');
@@ -466,13 +466,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('gate-quality-runs-conversation-terminal-integration-test', '.github/workflows/bitcode-gate-quality.yml', gateWorkflow.includes('conversationTerminalIntegrationCoverage.test.tsx')),
     predicateResult('uapi-jest-includes-conversation-terminal-integration-test', 'apps/uapi/jest.config.cjs', readSource(repoRoot, 'apps/uapi/jest.config.cjs').includes('conversationTerminalIntegrationCoverage.test.tsx')),
     predicateResult('protocol-exports-gate6', 'scripts/specifying/src/index.js', protocolIndex.includes('buildV40ConversationTerminalIntegration') && protocolTypes.includes('buildV40ConversationTerminalIntegration')),
-    predicateResult('spec-documents-gate6', 'specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 6 Conversation And product Integration Coverage') && spec.includes(V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH)),
-    predicateResult('delta-documents-gate6', 'specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 6 closes with package-backed `V40ConversationTerminalIntegration`')),
-    predicateResult('notes-document-gate6', 'specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 6 implementation notes') && notes.includes('Conversation and product integration coverage')),
-    predicateResult('parity-documents-gate6', 'specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-conversation-terminal-integration') && parity.includes('| Gate 6 | Conversation/product integration artifact | implemented |')),
+    predicateResult('spec-documents-gate6', '.specifications/BITCODE_SPEC_V40.md', spec.includes('V40 Gate 6 Conversation And product Integration Coverage') && spec.includes(V40_CONVERSATION_TERMINAL_INTEGRATION_ARTIFACT_PATH)),
+    predicateResult('delta-documents-gate6', '.specifications/BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 6 closes with package-backed `V40ConversationTerminalIntegration`')),
+    predicateResult('notes-document-gate6', '.specifications/BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 6 implementation notes') && notes.includes('Conversation and product integration coverage')),
+    predicateResult('parity-documents-gate6', '.specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-conversation-terminal-integration') && parity.includes('| Gate 6 | Conversation/product integration artifact | implemented |')),
     predicateResult(
       'roadmap-advanced-through-gate6',
-      'specifications/SPECIFICATIONS_ROADMAP.md',
+      '.specifications/SPECIFICATIONS_ROADMAP.md',
       roadmap.includes('V40 Gate 6 closure anchor') &&
         (/Current working gate: V40 Gate (?:6|7|8|9|10|11)\b/u.test(roadmap) ||
           roadmap.includes('Latest closed version: V40 Exhaustive Commercial Application Testing') ||
@@ -481,7 +481,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('readmes-document-gate6', 'README.md', rootReadme.includes('V40 Gate 6') && protocolReadme.includes('V40ConversationTerminalIntegration')),
     predicateResult(
       'roadmap-preserves-v41-prompt-programs',
-      'specifications/SPECIFICATIONS_ROADMAP.md',
+      '.specifications/SPECIFICATIONS_ROADMAP.md',
       roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` |') &&
         roadmap.includes('Prompt and PromptPart excellence') &&
         roadmap.includes('prompts as programs'),

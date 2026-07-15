@@ -59,7 +59,7 @@ function main() {
   }
 
   const resolvedRepoRoot = path.resolve(args.repoRoot || process.cwd());
-  const version = args.version || readFileSync(path.join(resolvedRepoRoot, 'specifications/BITCODE_SPEC.txt'), 'utf8').trim();
+  const version = args.version || readFileSync(path.join(resolvedRepoRoot, '.specifications/BITCODE_SPEC.txt'), 'utf8').trim();
   const mode = args.mode || 'draft';
   if (!['draft', 'promoted'].includes(mode)) {
     throw new Error(`Unsupported mode ${mode}. Expected draft or promoted.`);

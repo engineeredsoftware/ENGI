@@ -56,7 +56,7 @@ jobs:
 
       - name: Validate V40 promotion readiness
         run: |
-          POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V39" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40
@@ -103,7 +103,7 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat specifications/BITCODE_SPEC.txt)" = "V40" ]; then
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V40" ]; then
             echo "BITCODE_SPEC.txt already points to V40."
             exit 0
           fi
@@ -112,12 +112,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            specifications/BITCODE_SPEC.txt \
-            specifications/BITCODE_SPEC_V40.md \
-            specifications/BITCODE_SPEC_V40_DELTA.md \
-            specifications/BITCODE_SPEC_V40_NOTES.md \
-            specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md \
-            specifications/BITCODE_SPEC_V40_PROVEN.md \
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V40.md \
+            .specifications/BITCODE_SPEC_V40_DELTA.md \
+            .specifications/BITCODE_SPEC_V40_NOTES.md \
+            .specifications/BITCODE_SPEC_V40_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V40_PROVEN.md \
             scripts/specifying/src/canon-posture.js \
             scripts/specifying/data/state.json \
             scripts/specifying/README.md \

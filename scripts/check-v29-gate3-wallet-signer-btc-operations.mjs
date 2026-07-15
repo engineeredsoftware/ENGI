@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -80,10 +80,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC_V29.md',
-    'specifications/BITCODE_SPEC_V29_DELTA.md',
-    'specifications/BITCODE_SPEC_V29_NOTES.md',
-    'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V29.md',
+    '.specifications/BITCODE_SPEC_V29_DELTA.md',
+    '.specifications/BITCODE_SPEC_V29_NOTES.md',
+    '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'packages/btd/src/btc-fee-operation.ts',
     'packages/btd/src/index.ts',
     'packages/btd/__tests__/btc-fee-operation.test.ts',
@@ -104,10 +104,10 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing Gate 3 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V29.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V29_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V29_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V29.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const btdOperation = read(root, 'packages/btd/src/btc-fee-operation.ts');
   const btdIndex = read(root, 'packages/btd/src/index.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btc-fee-operation.test.ts');

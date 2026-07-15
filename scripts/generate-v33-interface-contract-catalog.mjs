@@ -180,9 +180,9 @@ const catalogRows = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/interface-contract-catalog.ts',
   'packages/btd/src/index.ts',
-  'specifications/BITCODE_SPEC_V33.md',
-  'specifications/BITCODE_SPEC_V33_DELTA.md',
-  'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V33.md',
+  '.specifications/BITCODE_SPEC_V33_DELTA.md',
+  '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
 ]);
 
 const testFiles = Object.freeze([
@@ -280,7 +280,7 @@ export function buildV33InterfaceContractCatalogArtifact() {
       'deferred_not_admitted',
     ]),
     scanTokens('packages/btd/src/index.ts', ['interface-contract-catalog']),
-    scanTokens('specifications/BITCODE_SPEC_V33.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', [
       'InterfaceContractCatalog',
       '.bitcode/v33-interface-contract-catalog.json',
     ]),

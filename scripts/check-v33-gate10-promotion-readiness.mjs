@@ -119,7 +119,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -139,10 +139,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC_V33.md',
-    'specifications/BITCODE_SPEC_V33_DELTA.md',
-    'specifications/BITCODE_SPEC_V33_NOTES.md',
-    'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V33.md',
+    '.specifications/BITCODE_SPEC_V33_DELTA.md',
+    '.specifications/BITCODE_SPEC_V33_NOTES.md',
+    '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md',
     ARTIFACT,
     'scripts/generate-v33-promotion-readiness-report.mjs',
     'scripts/check-v33-gate10-promotion-readiness.mjs',
@@ -160,7 +160,7 @@ function main() {
     'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V33_GATE_ARTIFACTS,
   ];
 
@@ -176,10 +176,10 @@ function main() {
     }
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V33.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V33_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V33_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V33.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V33_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V33_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -193,7 +193,7 @@ function main() {
   const packageState = read(root, 'scripts/specifying/data/state.json');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V33 promotion readiness canon'), 'V33 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT) && spec.includes('V33 active / V34 draft'), 'V33 SPEC must include Gate 10 artifact and post-promotion posture.');
@@ -237,7 +237,7 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v33'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V33') &&
-      promotionWorkflow.includes('specifications/BITCODE_SPEC_V33_PROVEN.md') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V33_PROVEN.md') &&
       promotionWorkflow.includes('.bitcode') &&
       promotionWorkflow.includes('Promote V33 canon files'),
     'V33 promotion workflow must validate version/v33 and commit V33 promotion artifacts.',
@@ -272,7 +272,7 @@ function main() {
     failures,
     prepareSpecScript.includes("if (version === 'V33')") &&
       prepareSpecScript.includes('V33 canonical system specification for commercial interface depth') &&
-      prepareSpecScript.includes('specifications/BITCODE_SPEC_V33_PROVEN.md') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V33_PROVEN.md') &&
       prepareSpecScript.includes('.bitcode/v33-promotion-readiness-report.json') &&
       prepareSpecScript.includes('rewritePromotedParityJudgments'),
     'Spec-family promotion preparation must rewrite V33 hand-authored status truth and promoted parity judgments.',
@@ -353,8 +353,8 @@ function main() {
     }
   }
 
-  if (fileExists(root, 'specifications/BITCODE_SPEC_V33_PROVEN.md')) {
-    const proven = read(root, 'specifications/BITCODE_SPEC_V33_PROVEN.md');
+  if (fileExists(root, '.specifications/BITCODE_SPEC_V33_PROVEN.md')) {
+    const proven = read(root, '.specifications/BITCODE_SPEC_V33_PROVEN.md');
     assertCheck(failures, proven.includes('Bitcode Spec V33') || proven.includes('V33'), 'BITCODE_SPEC_V33_PROVEN.md must render V33 proof content.');
   }
 

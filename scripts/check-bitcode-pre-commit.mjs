@@ -56,7 +56,7 @@ export function isSpecRelevantPath(stagedPath) {
 export function runPreCommitCheck({ repoRoot, qualityScript }) {
   let activeVersion = ACTIVE_CANON_VERSION;
   try {
-    activeVersion = readFileSync(path.join(repoRoot, 'specifications/BITCODE_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
+    activeVersion = readFileSync(path.join(repoRoot, '.specifications/BITCODE_SPEC.txt'), 'utf8').trim() || ACTIVE_CANON_VERSION;
   } catch {
     activeVersion = ACTIVE_CANON_VERSION;
   }

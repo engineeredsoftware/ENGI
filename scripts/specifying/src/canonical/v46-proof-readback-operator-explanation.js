@@ -58,14 +58,14 @@ export const V46_PROOF_READBACK_OPERATOR_DECISION_IDS = Object.freeze([
 ]);
 
 const SOURCE_PATHS = Object.freeze({
-  activePointer: 'specifications/BITCODE_SPEC.txt',
-  spec: 'specifications/BITCODE_SPEC_V46.md',
-  delta: 'specifications/BITCODE_SPEC_V46_DELTA.md',
-  notes: 'specifications/BITCODE_SPEC_V46_NOTES.md',
-  parity: 'specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
-  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
-  v45Spec: 'specifications/BITCODE_SPEC_V45.md',
-  v45Proven: 'specifications/BITCODE_SPEC_V45_PROVEN.md',
+  activePointer: '.specifications/BITCODE_SPEC.txt',
+  spec: '.specifications/BITCODE_SPEC_V46.md',
+  delta: '.specifications/BITCODE_SPEC_V46_DELTA.md',
+  notes: '.specifications/BITCODE_SPEC_V46_NOTES.md',
+  parity: '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+  roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
+  v45Spec: '.specifications/BITCODE_SPEC_V45.md',
+  v45Proven: '.specifications/BITCODE_SPEC_V45_PROVEN.md',
   readme: 'README.md',
   protocolReadme: 'scripts/specifying/README.md',
   packageJson: 'package.json',

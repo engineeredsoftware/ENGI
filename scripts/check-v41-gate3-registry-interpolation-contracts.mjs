@@ -139,7 +139,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -176,11 +176,11 @@ function main() {
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/asset-packs-pipelines/domain/src/read-need.ts',
     'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
-    'specifications/BITCODE_SPEC_V41.md',
-    'specifications/BITCODE_SPEC_V41_DELTA.md',
-    'specifications/BITCODE_SPEC_V41_NOTES.md',
-    'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -271,7 +271,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-registry-interpolation-contracts'), 'package.json must expose generate:v41-registry-interpolation-contracts.');
   assertCheck(failures, packageJson.includes('check:v41-gate3'), 'package.json must expose check:v41-gate3.');
 
-  const roadmap = fileExists(root, 'specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, 'specifications/SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(failures, /Current working gate: V41 Gate (?:3|4|5|6|7|8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 3 or later as current working gate.');
   assertCheck(failures, roadmap.includes('V42 should focus on the reliable MVP product experience'), 'Roadmap must preserve V42 reliable MVP product note.');
   assertCheck(failures, roadmap.includes('AI-reading dominant demonstration'), 'Roadmap must preserve AI-reading dominant demonstration note.');

@@ -2,7 +2,7 @@
 
 ## Specification document location (filesystem law)
 
-All living Bitcode specification documents live under monorepo `specifications/` (pointer `BITCODE_SPEC.txt`, version family `BITCODE_SPEC_VN*`, roadmap, template guide, and this specifying law). Do not place SPEC family markdown at the monorepo root. Executable specifying machinery remains under `scripts/specifying/`.
+All living Bitcode specification documents live under monorepo `.specifications/` (pointer `BITCODE_SPEC.txt`, version family `BITCODE_SPEC_VN*`, roadmap, template guide, and this specifying law). Do not place SPEC family markdown at the monorepo root. Executable specifying machinery remains under `scripts/specifying/`.
 
 Status: active Bitcode metaspec standard aligned through V26 canon
 Scope: canonical system-specification requirements, full-canon structure, delta discipline, parity discipline, generated artifact requirements, proof appendix rules, promotion gates, code-documentation patterns, formal product/interface coverage, and content-quality standards for future Bitcode versions

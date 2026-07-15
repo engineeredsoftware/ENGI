@@ -61,7 +61,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V42', `BITCODE_SPEC.txt must remain V42 during V43 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -76,11 +76,11 @@ function main() {
 
   for (const relativePath of [
     V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH,
-    'specifications/BITCODE_SPEC_V43.md',
-    'specifications/BITCODE_SPEC_V43_DELTA.md',
-    'specifications/BITCODE_SPEC_V43_NOTES.md',
-    'specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V43.md',
+    '.specifications/BITCODE_SPEC_V43_DELTA.md',
+    '.specifications/BITCODE_SPEC_V43_NOTES.md',
+    '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'scripts/specifying/src/canonical/v43-route-vocabulary-inventory.js',
@@ -114,11 +114,11 @@ function main() {
     `${V43_ROUTE_VOCABULARY_INVENTORY_ARTIFACT_PATH} must be generated and current.`,
   );
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V43.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V43_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V43_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V43.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V43_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V43_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V43_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const packageJson = read(root, 'package.json');

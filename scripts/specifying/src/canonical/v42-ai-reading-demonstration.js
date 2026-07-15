@@ -50,11 +50,11 @@ const SOURCE_ROOTS = Object.freeze({
   gateWorkflow: '.github/workflows/bitcode-gate-quality.yml',
   canonWorkflow: '.github/workflows/bitcode-canon-quality.yml',
   rootReadme: 'README.md',
-  v42Spec: 'specifications/BITCODE_SPEC_V42.md',
-  v42Delta: 'specifications/BITCODE_SPEC_V42_DELTA.md',
-  v42Notes: 'specifications/BITCODE_SPEC_V42_NOTES.md',
-  v42Parity: 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
-  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
+  v42Spec: '.specifications/BITCODE_SPEC_V42.md',
+  v42Delta: '.specifications/BITCODE_SPEC_V42_DELTA.md',
+  v42Notes: '.specifications/BITCODE_SPEC_V42_NOTES.md',
+  v42Parity: '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+  roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
 });
 
 const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([

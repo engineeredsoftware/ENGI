@@ -55,7 +55,7 @@ jobs:
 
       - name: Validate V28 promotion readiness
         run: |
-          POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V27" ]; then
             node scripts/check-bitcode-spec-family.mjs --version V28 --mode draft --current-target V27
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V27 --draft-target V28
@@ -107,7 +107,7 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat specifications/BITCODE_SPEC.txt)" = "V28" ]; then
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V28" ]; then
             echo "BITCODE_SPEC.txt already points to V28."
             exit 0
           fi
@@ -116,12 +116,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            specifications/BITCODE_SPEC.txt \
-            specifications/BITCODE_SPEC_V28.md \
-            specifications/BITCODE_SPEC_V28_DELTA.md \
-            specifications/BITCODE_SPEC_V28_NOTES.md \
-            specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md \
-            specifications/BITCODE_SPEC_V28_PROVEN.md \
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V28.md \
+            .specifications/BITCODE_SPEC_V28_DELTA.md \
+            .specifications/BITCODE_SPEC_V28_NOTES.md \
+            .specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V28_PROVEN.md \
             .bitcode
           git commit -m "Promote Bitcode canon to V28"
           git push origin "HEAD:$HEAD_BRANCH"

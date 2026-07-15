@@ -154,7 +154,7 @@ const carrierRows = Object.freeze([
     repairCommand: 'pnpm run check:spec-quality && pnpm run check:v34-gate4',
     repairPosture: 'regenerate proof artifact from canonical source and re-run promotion checks',
     validationCommand: 'pnpm run check:v34-gate4',
-    proofRootBasis: ['specifications/BITCODE_SPEC_V34.md', 'specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md'],
+    proofRootBasis: ['.specifications/BITCODE_SPEC_V34.md', '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md'],
   },
   {
     carrierId: 'audit_log_stream',
@@ -273,9 +273,9 @@ const driftRepairFixtures = Object.freeze([
 const sourceFiles = Object.freeze([
   'packages/btd/src/deployment-storage-posture.ts',
   'packages/btd/src/index.ts',
-  'specifications/BITCODE_SPEC_V34.md',
-  'specifications/BITCODE_SPEC_V34_DELTA.md',
-  'specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
+  '.specifications/BITCODE_SPEC_V34.md',
+  '.specifications/BITCODE_SPEC_V34_DELTA.md',
+  '.specifications/BITCODE_SPEC_V34_PARITY_MATRIX.md',
 ]);
 
 const testFiles = Object.freeze([
@@ -393,7 +393,7 @@ export function buildV34DeploymentStoragePostureArtifact() {
       'value-bearing-mainnet',
     ]),
     scanTokens('packages/btd/src/index.ts', ['deployment-storage-posture']),
-    scanTokens('specifications/BITCODE_SPEC_V34.md', [
+    scanTokens('.specifications/BITCODE_SPEC_V34.md', [
       ARTIFACT_PATH,
       'DeploymentStoragePosture',
       'protected source is never an unpaid interface payload',

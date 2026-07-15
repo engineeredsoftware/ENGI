@@ -91,7 +91,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -111,10 +111,10 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC_V35.md',
-    'specifications/BITCODE_SPEC_V35_DELTA.md',
-    'specifications/BITCODE_SPEC_V35_NOTES.md',
-    'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V35.md',
+    '.specifications/BITCODE_SPEC_V35_DELTA.md',
+    '.specifications/BITCODE_SPEC_V35_NOTES.md',
+    '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md',
     ARTIFACT_PATH,
     'scripts/generate-v35-documentation-telemetry-promotion-readiness-report.mjs',
     'scripts/check-v35-gate10-promotion-readiness.mjs',
@@ -134,7 +134,7 @@ function main() {
     'scripts/specifying/src/canonical/v21-specifying.js',
     'package.json',
     'README.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     ...V35_GATE_ARTIFACTS,
   ];
 
@@ -191,10 +191,10 @@ function main() {
     );
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V35.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V35_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V35_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V35.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V35_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V35_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V35_PARITY_MATRIX.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');
@@ -205,7 +205,7 @@ function main() {
   const provenGenerator = read(root, 'scripts/specifying/src/canonical/proven-generator.js');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const rootReadme = read(root, 'README.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
 
   assertCheck(failures, spec.includes('V35 promotion readiness canon'), 'V35 SPEC must define promotion readiness canon.');
   assertCheck(failures, spec.includes(ARTIFACT_PATH) && spec.includes('V35 active / draft V36'), 'V35 SPEC must include Gate 10 artifact and post-promotion posture.');
@@ -238,7 +238,7 @@ function main() {
     failures,
     promotionWorkflow.includes("head.ref == 'version/v35'") &&
       promotionWorkflow.includes('npm run promote:canon -- --version V35') &&
-      promotionWorkflow.includes('specifications/BITCODE_SPEC_V35_PROVEN.md') &&
+      promotionWorkflow.includes('.specifications/BITCODE_SPEC_V35_PROVEN.md') &&
       promotionWorkflow.includes('Promote V35 canon files'),
     'V35 promotion workflow must validate version/v35 and commit V35 promotion artifacts.',
   );
@@ -253,7 +253,7 @@ function main() {
   assertCheck(
     failures,
     prepareSpecScript.includes("if (version === 'V35')") &&
-      prepareSpecScript.includes('specifications/BITCODE_SPEC_V35_PROVEN.md') &&
+      prepareSpecScript.includes('.specifications/BITCODE_SPEC_V35_PROVEN.md') &&
       prepareSpecScript.includes(ARTIFACT_PATH),
     'Spec-family promotion script must support V35.',
   );

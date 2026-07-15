@@ -72,7 +72,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -91,11 +91,11 @@ function main() {
     'scripts/specifying/test/v47-landing-public-launch-messaging.test.js',
     'scripts/generate-v47-landing-public-launch-messaging.mjs',
     'scripts/check-v47-gate8-landing-public-launch-messaging.mjs',
-    'specifications/BITCODE_SPEC_V47.md',
-    'specifications/BITCODE_SPEC_V47_DELTA.md',
-    'specifications/BITCODE_SPEC_V47_NOTES.md',
-    'specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'apps/uapi/components/bitcode/layout/bitcode-public-copy.ts',
     'apps/uapi/app/(root)/components/MarketingLandingPage.tsx',
     'apps/uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx',

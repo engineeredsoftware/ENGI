@@ -110,7 +110,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -136,9 +136,9 @@ function main() {
     'packages/btd/README.md',
     'packages/api/README.md',
     'scripts/specifying/README.md',
-    'specifications/BITCODE_SPEC_V30_DELTA.md',
-    'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
-    'specifications/BITCODE_SPEC_V30_NOTES.md'
+    '.specifications/BITCODE_SPEC_V30_DELTA.md',
+    '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V30_NOTES.md'
   ]) {
     assertCheck(failures, fileExists(root, relativePath), `Missing V30 Gate 2 file: ${relativePath}`);
   }
@@ -151,9 +151,9 @@ function main() {
   const btdReadme = read(root, 'packages/btd/README.md');
   const apiReadme = read(root, 'packages/api/README.md');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V30_DELTA.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V30_NOTES.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V30_DELTA.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V30_PARITY_MATRIX.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V30_NOTES.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
 

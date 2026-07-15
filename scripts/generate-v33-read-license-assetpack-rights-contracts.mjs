@@ -177,10 +177,10 @@ export function buildV33ReadLicenseAssetPackRightsContractsArtifact() {
     ]),
   ];
   const docsEvidence = [
-    scanTokens('specifications/BITCODE_SPEC_V33.md', ['ReadLicenseInterfaceContract', 'AssetPackRightsInterfaceContract', 'Gate 6']),
-    scanTokens('specifications/BITCODE_SPEC_V33_DELTA.md', ['Read License And AssetPack Rights Interface Contracts']),
-    scanTokens('specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Read license and AssetPack rights contracts']),
-    scanTokens('specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 6 Read License And AssetPack Rights Interface Contracts']),
+    scanTokens('.specifications/BITCODE_SPEC_V33.md', ['ReadLicenseInterfaceContract', 'AssetPackRightsInterfaceContract', 'Gate 6']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_DELTA.md', ['Read License And AssetPack Rights Interface Contracts']),
+    scanTokens('.specifications/BITCODE_SPEC_V33_PARITY_MATRIX.md', ['Read license and AssetPack rights contracts']),
+    scanTokens('.specifications/SPECIFICATIONS_ROADMAP.md', ['V33 Gate 6 Read License And AssetPack Rights Interface Contracts']),
   ];
   const observedSurfaces = Array.from(new Set(fixtureRows.map((row) => row.interfaceSurface))).sort();
   const missingSurfaces = requiredSurfaces.filter((surface) => !observedSurfaces.includes(surface));

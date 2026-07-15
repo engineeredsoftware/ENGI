@@ -57,7 +57,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V40', `BITCODE_SPEC.txt must remain V40 during V41 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -71,11 +71,11 @@ function main() {
   }
 
   for (const relativePath of [
-    'specifications/BITCODE_SPEC_V41.md',
-    'specifications/BITCODE_SPEC_V41_DELTA.md',
-    'specifications/BITCODE_SPEC_V41_NOTES.md',
-    'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'scripts/specifying/README.md',
@@ -87,11 +87,11 @@ function main() {
     assertCheck(failures, exists(root, relativePath), `Missing required V41 Gate 1 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V41.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V41_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V41_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V41.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V41_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V41_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const readme = read(root, 'README.md');
   const protocolReadme = read(root, 'scripts/specifying/README.md');
   const demoReadme = read(root, 'scripts/specifying/README.md');

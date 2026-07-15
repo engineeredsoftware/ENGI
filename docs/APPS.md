@@ -2,7 +2,7 @@
 
 This guide describes the **commercial application surfaces** of Bitcode—especially
 the Next.js website and API under `apps/uapi`. Package domain law lives under
-`packages/`; specification law under `specifications/`.
+`packages/`; specification law under `.specifications/`.
 
 For agent engineering rules see [`AGENTS.md`](./AGENTS.md). For package catalog
 and inheritance, see [`docs/FAMILIARIZATION.md`](./docs/FAMILIARIZATION.md). For AssetPack

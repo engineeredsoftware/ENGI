@@ -86,11 +86,11 @@ const ALLOWED_REHEARSAL_FIELDS = Object.freeze([
 ]);
 
 const SHARED_SOURCE_ROOTS = Object.freeze([
-  'specifications/BITCODE_SPEC_V36.md',
-  'specifications/BITCODE_SPEC_V36_DELTA.md',
-  'specifications/BITCODE_SPEC_V36_NOTES.md',
-  'specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
-  'specifications/SPECIFICATIONS_ROADMAP.md',
+  '.specifications/BITCODE_SPEC_V36.md',
+  '.specifications/BITCODE_SPEC_V36_DELTA.md',
+  '.specifications/BITCODE_SPEC_V36_NOTES.md',
+  '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
+  '.specifications/SPECIFICATIONS_ROADMAP.md',
   '.bitcode/v36-exchange-activity-book.json',
   '.bitcode/v36-exchange-intent-order-contracts.json',
   '.bitcode/v36-exchange-rights-transfer-review.json',
@@ -225,7 +225,7 @@ const rehearsalRows = Object.freeze([
     phaseIds: ['pricing_quote_review', 'settlement_reconciliation', 'source_safe_evidence_review'],
     flowIds: EXCHANGE_REHEARSAL_FLOW_IDS,
     sourceRoots: [
-      'specifications/BITCODE_SPEC_V36.md',
+      '.specifications/BITCODE_SPEC_V36.md',
       'scripts/specifying/src/canonical/exchange-pricing-quote.js',
       'scripts/specifying/src/canonical/exchange-settlement-reconciliation.js',
       'scripts/specifying/src/canonical/exchange-rights-transfer-review.js',

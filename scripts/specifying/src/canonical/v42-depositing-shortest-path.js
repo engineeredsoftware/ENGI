@@ -53,11 +53,11 @@ const SOURCE_ROOTS = Object.freeze({
   terminalActivityHistory: 'apps/uapi/components/bitcode/pipeline/models/pipeline-activity-history.ts',
   terminalWorkbench: 'apps/uapi/components/reads/ReadsDepositReadWorkbench/ReadsDepositReadWorkbench.tsx',
   terminalRunData: 'apps/uapi/components/bitcode/pipeline/models/pipeline-run-data.ts',
-  v42Spec: 'specifications/BITCODE_SPEC_V42.md',
-  v42Delta: 'specifications/BITCODE_SPEC_V42_DELTA.md',
-  v42Notes: 'specifications/BITCODE_SPEC_V42_NOTES.md',
-  v42Parity: 'specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
-  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
+  v42Spec: '.specifications/BITCODE_SPEC_V42.md',
+  v42Delta: '.specifications/BITCODE_SPEC_V42_DELTA.md',
+  v42Notes: '.specifications/BITCODE_SPEC_V42_NOTES.md',
+  v42Parity: '.specifications/BITCODE_SPEC_V42_PARITY_MATRIX.md',
+  roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
 });
 
 function digest(value) {

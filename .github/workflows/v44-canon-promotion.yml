@@ -72,7 +72,7 @@ jobs:
             echo "::endgroup::"
           }
 
-          POINTER="$(cat specifications/BITCODE_SPEC.txt)"
+          POINTER="$(cat .specifications/BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V43" ]; then
             run_checked node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
             run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44
@@ -118,16 +118,16 @@ jobs:
         env:
           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-          if [ "$(cat specifications/BITCODE_SPEC.txt)" = "V44" ]; then
+          if [ "$(cat .specifications/BITCODE_SPEC.txt)" = "V44" ]; then
             echo "BITCODE_SPEC.txt already points to V44."
             exit 0
           fi
           PROOF_SOURCE_COMMIT="$(git rev-parse HEAD)"
           node scripts/prepare-bitcode-spec-family-promotion.mjs --version V44 --commit "$PROOF_SOURCE_COMMIT"
           node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V44 --next-draft V45
-          printf "V44\n" > specifications/BITCODE_SPEC.txt
-          node scripts/generate-bitcode-proven.mjs --version V44 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output specifications/BITCODE_SPEC_V44_PROVEN.md --allow-dirty
-          node scripts/generate-bitcode-proven.mjs --version V44 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output specifications/BITCODE_SPEC_V44_PROVEN.md --check --allow-dirty
+          printf "V44\n" > .specifications/BITCODE_SPEC.txt
+          node scripts/generate-bitcode-proven.mjs --version V44 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V44_PROVEN.md --allow-dirty
+          node scripts/generate-bitcode-proven.mjs --version V44 --commit "$PROOF_SOURCE_COMMIT" --worktree-state clean --output .specifications/BITCODE_SPEC_V44_PROVEN.md --check --allow-dirty
           node scripts/check-bitcode-canonical-inputs.mjs --current-target V44
           node scripts/check-bitcode-spec-family.mjs --version V44 --mode promoted --current-target V44
           node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V44 --draft-target V45
@@ -135,12 +135,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
-            specifications/BITCODE_SPEC.txt \
-            specifications/BITCODE_SPEC_V44.md \
-            specifications/BITCODE_SPEC_V44_DELTA.md \
-            specifications/BITCODE_SPEC_V44_NOTES.md \
-            specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md \
-            specifications/BITCODE_SPEC_V44_PROVEN.md \
+            .specifications/BITCODE_SPEC.txt \
+            .specifications/BITCODE_SPEC_V44.md \
+            .specifications/BITCODE_SPEC_V44_DELTA.md \
+            .specifications/BITCODE_SPEC_V44_NOTES.md \
+            .specifications/BITCODE_SPEC_V44_PARITY_MATRIX.md \
+            .specifications/BITCODE_SPEC_V44_PROVEN.md \
             scripts/specifying/src/canon-posture.js \
             scripts/specifying/data/state.json \
             scripts/specifying/README.md \

@@ -12,5 +12,5 @@
 | [VERCEL.md](./VERCEL.md) | Deploy, Sandbox pipeline host, Blob, analytics |
 | [ETHEREUM.md](./ETHEREUM.md) | BitcodeERC1155 dual-maintain + ledger anchors |
 
-Living **specifications** live under [`../specifications/`](../specifications/).  
+Living **specifications** live under [`../.specifications/`](../.specifications/).  
 **QA ledgers** live under [`../qa/`](../qa/).

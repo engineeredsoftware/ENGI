@@ -67,7 +67,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -85,13 +85,13 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC_V39.md',
-    'specifications/BITCODE_SPEC_V39_DELTA.md',
-    'specifications/BITCODE_SPEC_V39_NOTES.md',
-    'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V39.md',
+    '.specifications/BITCODE_SPEC_V39_DELTA.md',
+    '.specifications/BITCODE_SPEC_V39_NOTES.md',
+    '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md',
     'BITCODE_SPECIFYING.md',
-    'specifications/BITCODE_SPEC_TEMPLATEGUIDE.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_TEMPLATEGUIDE.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
     '.github/pull_request_template.md',
@@ -119,11 +119,11 @@ function main() {
     assertCheck(failures, fileExists(root, relativePath), `Missing required V39 Gate 1 file: ${relativePath}`);
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V39.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V39_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V39_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V39.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V39_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V39_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V39_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

@@ -83,7 +83,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V45', `BITCODE_SPEC.txt must remain V45 during V46 Gate 1. Observed ${pointer || 'empty'}.`);
 
@@ -97,14 +97,14 @@ function main() {
   }
 
   const requiredFiles = [
-    'specifications/BITCODE_SPEC.txt',
-    'specifications/BITCODE_SPEC_V45.md',
-    'specifications/BITCODE_SPEC_V45_PROVEN.md',
-    'specifications/BITCODE_SPEC_V46.md',
-    'specifications/BITCODE_SPEC_V46_DELTA.md',
-    'specifications/BITCODE_SPEC_V46_NOTES.md',
-    'specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC.txt',
+    '.specifications/BITCODE_SPEC_V45.md',
+    '.specifications/BITCODE_SPEC_V45_PROVEN.md',
+    '.specifications/BITCODE_SPEC_V46.md',
+    '.specifications/BITCODE_SPEC_V46_DELTA.md',
+    '.specifications/BITCODE_SPEC_V46_NOTES.md',
+    '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'package.json',
     '.github/workflows/bitcode-gate-quality.yml',
     '.github/workflows/bitcode-canon-quality.yml',
@@ -114,10 +114,10 @@ function main() {
   }
 
   const specFamilyFiles = [
-    'specifications/BITCODE_SPEC_V46.md',
-    'specifications/BITCODE_SPEC_V46_DELTA.md',
-    'specifications/BITCODE_SPEC_V46_NOTES.md',
-    'specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
+    '.specifications/BITCODE_SPEC_V46.md',
+    '.specifications/BITCODE_SPEC_V46_DELTA.md',
+    '.specifications/BITCODE_SPEC_V46_NOTES.md',
+    '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md',
   ];
   const gate8PromotionReadinessAccepted =
     exists(root, 'scripts/check-v46-gate8-promotion-readiness.mjs') &&
@@ -143,11 +143,11 @@ function main() {
     }
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V46.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V46_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V46_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V46.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V46_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V46_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V46_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const gateWorkflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
   const canonWorkflow = read(root, '.github/workflows/bitcode-canon-quality.yml');

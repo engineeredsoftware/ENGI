@@ -32,11 +32,11 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 | Path | Role |
 | --- | --- |
 | `scripts/` | Durable automation: gate checkers, promotion, CI helpers |
-| `specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*`, roadmap, specifying law)
+| `.specifications/` | **All** living SPEC family docs (`BITCODE_SPEC*`, roadmap, specifying law)
 | `docs/` | Engineering docs (layout, apps, familiarization, agent rules)
 | `qa/` | Version QA ledgers (`BITCODE_VN_QA.md`) (`BITCODE_SPEC*.md`, pointer, roadmap, specifying law) |
 | `tests/` | Shared Jest helpers (`jest.base.cjs`, package map, resolver) and root test stubs
-| `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `specifications/BITCODE_SPECIFYING.md`) |
+| `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `.specifications/BITCODE_SPECIFYING.md`) |
 | `codemod/` | **Temporary** one-off code-modification scripts for this repo (see `codemod/README.md`) |
 | `containers/images/` | OCI / appliance images (Pipeliner VCR, …) |
 | `containers/k8/` | Kubernetes manifests (long-runner fleet, …) |
@@ -455,7 +455,7 @@ bitcode/
 │ ├── types/
 │ ├── tests/ # route/page contracts, e2e helpers
 │ └── .storybook/stories/
-├── specifications/ # all living BITCODE_SPEC* family documents
+├── .specifications/ # all living BITCODE_SPEC* family documents
 ├── docs/ # engineering docs (AGENTS, APPS, FAMILIARIZATION, layout, …)
 ├── qa/ # version QA ledgers
 ├── tests/ # shared Jest helpers + root test stubs

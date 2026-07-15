@@ -135,7 +135,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -171,11 +171,11 @@ function main() {
     'apps/uapi/tests/api/conversationPersistencePrivacyRedaction.test.ts',
     'apps/uapi/tests/conversationPersistencePrivacyPanel.test.tsx',
     'apps/uapi/jest.config.cjs',
-    'specifications/BITCODE_SPEC_V37.md',
-    'specifications/BITCODE_SPEC_V37_DELTA.md',
-    'specifications/BITCODE_SPEC_V37_NOTES.md',
-    'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_NOTES.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'apps/uapi/app/conversations/README.md',
@@ -307,11 +307,11 @@ function main() {
     );
   }
 
-  const spec = read(root, 'specifications/BITCODE_SPEC_V37.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V37_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V37_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V37.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V37_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V37_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const rootReadme = read(root, 'README.md');
   const uapiReadme = read(root, 'apps/uapi/app/conversations/README.md');
   const protocolReadme = read(root, 'scripts/specifying/README.md');

@@ -77,12 +77,12 @@ function specFamilyPrefix(activeCanonVersion, draftTargetVersion = '') {
  */
 function resolveSpecPointerFilename(repoRoot, activeCanonVersion, draftTargetVersion = '') {
   const preferredBase = `${specFamilyPrefix(activeCanonVersion, draftTargetVersion)}.txt`;
-  const preferredUnderSpecs = path.join('specifications', preferredBase);
+  const preferredUnderSpecs = path.join('.specifications', preferredBase);
   if (existsSync(path.join(repoRoot, preferredUnderSpecs))) return preferredUnderSpecs;
   if (existsSync(path.join(repoRoot, preferredBase))) return preferredBase;
 
   const fallbackBase = preferredBase;
-  const fallbackUnderSpecs = path.join('specifications', fallbackBase);
+  const fallbackUnderSpecs = path.join('.specifications', fallbackBase);
   if (existsSync(path.join(repoRoot, fallbackUnderSpecs))) return fallbackUnderSpecs;
   if (existsSync(path.join(repoRoot, fallbackBase))) return fallbackBase;
 

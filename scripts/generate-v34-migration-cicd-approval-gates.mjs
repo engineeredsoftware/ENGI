@@ -202,7 +202,7 @@ const gateRows = Object.freeze([
     workflowBinding: 'v34-canon-promotion.yml or Gate 10 promotion workflow successor',
     blockingFailureMode: 'block promotion when closed gate roots, generated proofs, reviewer approval, or promotion dry-run are missing',
     auditEventName: 'migration_cicd_approval.promotion_commit',
-    proofRootBasis: ['specifications/BITCODE_SPEC.txt', 'specifications/BITCODE_SPEC_V34_PROVEN.md', 'promote-bitcode-canon'],
+    proofRootBasis: ['.specifications/BITCODE_SPEC.txt', '.specifications/BITCODE_SPEC_V34_PROVEN.md', 'promote-bitcode-canon'],
   },
 ]);
 

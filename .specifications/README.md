@@ -11,7 +11,7 @@
 | Version family | `BITCODE_SPEC_VNN.md`, `_DELTA`, `_NOTES`, `_PARITY_MATRIX`, `_PROVEN` |
 
 Do not place living SPEC family markdown at the monorepo root. Agents and scripts
-resolve paths under `specifications/` (see `scripts/bitcode-spec-paths.mjs` and
+resolve paths under `.specifications/` (see `scripts/bitcode-spec-paths.mjs` and
 `scripts/specifying` path helpers).
 
 Executable specifying machinery remains under `scripts/specifying/` (`@bitcode/specifying`).

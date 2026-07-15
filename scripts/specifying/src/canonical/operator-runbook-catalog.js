@@ -261,8 +261,8 @@ function row(eventFamily, config) {
     storageTarget: telemetry.storageTarget,
     correlationIds: telemetry.correlationIds,
     sourceRoots: [
-      'specifications/BITCODE_SPEC_V35.md',
-      'specifications/BITCODE_SPEC_V35_DELTA.md',
+      '.specifications/BITCODE_SPEC_V35.md',
+      '.specifications/BITCODE_SPEC_V35_DELTA.md',
       '.bitcode/v35-telemetry-taxonomy-catalog.json',
       ...telemetry.sourceRoots,
     ],

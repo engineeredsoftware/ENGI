@@ -73,7 +73,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(failures, pointer === 'V46', `BITCODE_SPEC.txt must remain V46 during V47 gate work. Observed ${pointer || 'empty'}.`);
 
@@ -92,11 +92,11 @@ function main() {
     'scripts/specifying/test/v47-e2e-ip-selling-buying-tests.test.js',
     'scripts/generate-v47-e2e-ip-selling-buying-tests.mjs',
     'scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs',
-    'specifications/BITCODE_SPEC_V47.md',
-    'specifications/BITCODE_SPEC_V47_DELTA.md',
-    'specifications/BITCODE_SPEC_V47_NOTES.md',
-    'specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V47.md',
+    '.specifications/BITCODE_SPEC_V47_DELTA.md',
+    '.specifications/BITCODE_SPEC_V47_NOTES.md',
+    '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'apps/uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts',
     'apps/uapi/tests/e2e/commercial-mvp.helpers.ts',
     'apps/uapi/playwright.config.ts',

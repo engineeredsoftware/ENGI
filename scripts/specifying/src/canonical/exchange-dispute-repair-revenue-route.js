@@ -639,10 +639,10 @@ export function buildExchangeDisputeRepairRevenueRoute(input = {}) {
   const generatedAt = input.generatedAt || '2026-05-24T00:00:00.000Z';
   const repoRoot = input.repoRoot || path.resolve(__dirname, '../../../..');
   const sharedSourceRoots = [
-    'specifications/BITCODE_SPEC_V36.md',
-    'specifications/BITCODE_SPEC_V36_DELTA.md',
-    'specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V36.md',
+    '.specifications/BITCODE_SPEC_V36_DELTA.md',
+    '.specifications/BITCODE_SPEC_V36_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'scripts/specifying/src/canonical/exchange-dispute-repair-revenue-route.js',
     'scripts/specifying/test/v36-exchange-dispute-repair-revenue-route.test.js',
     'scripts/generate-v36-exchange-dispute-repair-revenue-route.mjs',

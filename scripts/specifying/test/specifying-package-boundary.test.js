@@ -45,7 +45,7 @@ test('@bitcode/specifying does not import the standalone protocol demonstration'
 
 test('@bitcode/specifying commercial formalization exports package-native canon helpers', async () => {
   const protocol = await import('../src/index.js');
-  const pointer = readFileSync(path.join(repoRoot, 'specifications/BITCODE_SPEC.txt'), 'utf8').trim();
+  const pointer = readFileSync(path.join(repoRoot, '.specifications/BITCODE_SPEC.txt'), 'utf8').trim();
   const expectedPostureByPointer = {
     V28: { activeCanon: 'V28', draftTarget: 'V29' },
     V29: { activeCanon: 'V29', draftTarget: 'V30' },
@@ -85,7 +85,7 @@ test('@bitcode/specifying commercial formalization exports package-native canon 
   assert.equal(typeof protocol.V40_PROMOTION_READINESS_REPORT_ARTIFACT_PATH, 'string');
   assert.equal(
     protocol.defaultProvenOutputPath(expectedPosture.activeCanon),
-    `specifications/BITCODE_SPEC_${expectedPosture.activeCanon}_PROVEN.md`,
+    `.specifications/BITCODE_SPEC_${expectedPosture.activeCanon}_PROVEN.md`,
   );
   const specFamilyReport = protocol.buildV21SpecFamilyReport({
     version: expectedPosture.activeCanon,

@@ -106,11 +106,11 @@ const SOURCE_ROOTS = Object.freeze({
   checker: 'scripts/check-v41-gate3-registry-interpolation-contracts.mjs',
   gate2InventorySource: 'scripts/specifying/src/canonical/v41-promptpart-prompt-inventory.js',
   gate2InventoryArtifact: '.bitcode/v41-promptpart-prompt-inventory.json',
-  spec: 'specifications/BITCODE_SPEC_V41.md',
-  delta: 'specifications/BITCODE_SPEC_V41_DELTA.md',
-  notes: 'specifications/BITCODE_SPEC_V41_NOTES.md',
-  parity: 'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
-  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
+  spec: '.specifications/BITCODE_SPEC_V41.md',
+  delta: '.specifications/BITCODE_SPEC_V41_DELTA.md',
+  notes: '.specifications/BITCODE_SPEC_V41_NOTES.md',
+  parity: '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+  roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
 });
 
 function digest(value) {

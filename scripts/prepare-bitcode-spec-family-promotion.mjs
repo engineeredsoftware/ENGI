@@ -1163,14 +1163,14 @@ async function main() {
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
   if (!(/^V\d+$/.test(version) && Number(version.slice(1)) >= 26)) {
     throw new Error(
-      `Only Bitcode specification families V26+ under specifications/ are supported (got ${version}). ENGI/_legacy paths are removed.`
+      `Only Bitcode specification families V26+ under .specifications/ are supported (got ${version}). ENGI/_legacy paths are removed.`
     );
   }
   const files = [
-    ['spec', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}.md`)],
-    ['delta', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}_DELTA.md`)],
-    ['notes', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}_NOTES.md`)],
-    ['parity', path.join(resolvedRepoRoot, 'specifications', `BITCODE_SPEC_${version}_PARITY_MATRIX.md`)]
+    ['spec', path.join(resolvedRepoRoot, '.specifications', `BITCODE_SPEC_${version}.md`)],
+    ['delta', path.join(resolvedRepoRoot, '.specifications', `BITCODE_SPEC_${version}_DELTA.md`)],
+    ['notes', path.join(resolvedRepoRoot, '.specifications', `BITCODE_SPEC_${version}_NOTES.md`)],
+    ['parity', path.join(resolvedRepoRoot, '.specifications', `BITCODE_SPEC_${version}_PARITY_MATRIX.md`)]
   ];
 
   for (const [kind, filePath] of files) {

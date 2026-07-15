@@ -131,7 +131,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -172,11 +172,11 @@ function main() {
     'packages/api/src/conversations/telemetry.ts',
     'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     'apps/uapi/components/bitcode/pipeline/pipeline-execution-log-header.tsx',
-    'specifications/BITCODE_SPEC_V41.md',
-    'specifications/BITCODE_SPEC_V41_DELTA.md',
-    'specifications/BITCODE_SPEC_V41_NOTES.md',
-    'specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V41.md',
+    '.specifications/BITCODE_SPEC_V41_DELTA.md',
+    '.specifications/BITCODE_SPEC_V41_NOTES.md',
+    '.specifications/BITCODE_SPEC_V41_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'README.md',
     'scripts/specifying/README.md',
     'package.json',
@@ -280,7 +280,7 @@ function main() {
   assertCheck(failures, packageJson.includes('generate:v41-prompt-program-benchmark-report'), 'package.json must expose generate:v41-prompt-program-benchmark-report.');
   assertCheck(failures, packageJson.includes('check:v41-gate8'), 'package.json must expose check:v41-gate8.');
 
-  const roadmap = fileExists(root, 'specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, 'specifications/SPECIFICATIONS_ROADMAP.md') : '';
+  const roadmap = fileExists(root, '.specifications/SPECIFICATIONS_ROADMAP.md') ? read(root, '.specifications/SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(failures, /Current working gate: V41 Gate (?:8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 8 or later V41 gate progression.');
   assertCheck(failures, roadmap.includes('V41 Gate 9 closure anchor'), 'Roadmap must carry V41 Gate 9 closure anchor after Gate 8.');
   assertCheck(failures, roadmap.includes('V41 Gate 8 closure anchor'), 'Roadmap must preserve V41 Gate 8 closure anchor.');

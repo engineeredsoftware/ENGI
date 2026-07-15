@@ -505,10 +505,10 @@ export function buildConversationSessionRouteHistory(input = {}) {
   const generatedAt = input.generatedAt || '2026-05-24T00:00:00.000Z';
   const repoRoot = input.repoRoot || path.resolve(__dirname, '../../../..');
   const sharedSourceRoots = [
-    'specifications/BITCODE_SPEC_V37.md',
-    'specifications/BITCODE_SPEC_V37_DELTA.md',
-    'specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V37.md',
+    '.specifications/BITCODE_SPEC_V37_DELTA.md',
+    '.specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'scripts/specifying/src/canonical/conversation-session-route-history.js',
     'scripts/specifying/test/conversation-session-route-history.test.js',
     'scripts/generate-v37-conversation-session-route-history.mjs',

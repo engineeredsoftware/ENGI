@@ -255,23 +255,23 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -450,23 +450,23 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -646,23 +646,23 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -841,23 +841,23 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1036,23 +1036,23 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1232,23 +1232,23 @@
       },
       "sourceEvidence": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1344,23 +1344,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1430,23 +1430,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1516,23 +1516,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1602,23 +1602,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1688,23 +1688,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {
@@ -1774,23 +1774,23 @@
       "allSourceRootsPresent": true,
       "sourceRoots": [
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_DELTA.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_DELTA.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_NOTES.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_NOTES.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
+          "sourceRoot": ".specifications/BITCODE_SPEC_V37_PARITY_MATRIX.md",
           "present": true
         },
         {
-          "sourceRoot": "specifications/SPECIFICATIONS_ROADMAP.md",
+          "sourceRoot": ".specifications/SPECIFICATIONS_ROADMAP.md",
           "present": true
         },
         {

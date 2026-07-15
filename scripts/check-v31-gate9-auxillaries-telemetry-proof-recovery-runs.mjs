@@ -62,7 +62,7 @@ function main() {
 
   const root = args.repoRoot;
   const failures = [];
-  const pointer = read(root, 'specifications/BITCODE_SPEC.txt').trim();
+  const pointer = read(root, '.specifications/BITCODE_SPEC.txt').trim();
 
   assertCheck(
     failures,
@@ -87,11 +87,11 @@ function main() {
     'apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx',
     'apps/uapi/tests/userDataRoute.test.ts',
     'apps/uapi/tests/auxillariesExternalsPane.test.tsx',
-    'specifications/BITCODE_SPEC_V31.md',
-    'specifications/BITCODE_SPEC_V31_DELTA.md',
-    'specifications/BITCODE_SPEC_V31_NOTES.md',
-    'specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md',
-    'specifications/SPECIFICATIONS_ROADMAP.md',
+    '.specifications/BITCODE_SPEC_V31.md',
+    '.specifications/BITCODE_SPEC_V31_DELTA.md',
+    '.specifications/BITCODE_SPEC_V31_NOTES.md',
+    '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md',
+    '.specifications/SPECIFICATIONS_ROADMAP.md',
     'packages/api/README.md',
     'apps/uapi/app/auxillaries/README.md',
   ]) {
@@ -105,11 +105,11 @@ function main() {
   const externalsPane = read(root, 'apps/uapi/app/auxillaries/components/AuxillariesExternalsPane.tsx');
   const userDataRouteTest = read(root, 'apps/uapi/tests/userDataRoute.test.ts');
   const externalsPaneTest = read(root, 'apps/uapi/tests/auxillariesExternalsPane.test.tsx');
-  const spec = read(root, 'specifications/BITCODE_SPEC_V31.md');
-  const delta = read(root, 'specifications/BITCODE_SPEC_V31_DELTA.md');
-  const notes = read(root, 'specifications/BITCODE_SPEC_V31_NOTES.md');
-  const parity = read(root, 'specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md');
-  const roadmap = read(root, 'specifications/SPECIFICATIONS_ROADMAP.md');
+  const spec = read(root, '.specifications/BITCODE_SPEC_V31.md');
+  const delta = read(root, '.specifications/BITCODE_SPEC_V31_DELTA.md');
+  const notes = read(root, '.specifications/BITCODE_SPEC_V31_NOTES.md');
+  const parity = read(root, '.specifications/BITCODE_SPEC_V31_PARITY_MATRIX.md');
+  const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const apiReadme = read(root, 'packages/api/README.md');
   const auxReadme = read(root, 'apps/uapi/app/auxillaries/README.md');
   const packageJson = read(root, 'package.json');

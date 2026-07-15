@@ -431,7 +431,7 @@ bitcode/
 ├── scripts/ # gate checkers, promotion, generators
 ├── .bitcode/ # generated structured artifacts
 ├── protocol-demonstration/ # protocol realization (not V48 UI truth)
-├── fixtures/ # JSON fixtures
+├── .fixtures/ # JSON fixtures
 ├── docs/ # engineering docs
 ├── docs/ # public-facing API docs fragments
 ├── tests/ # root jest setup (limited)

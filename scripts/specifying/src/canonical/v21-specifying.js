@@ -237,7 +237,7 @@ function usesRequiredNotesCompanion(version) {
  */
 function specPointerFilename(_version) {
   // Basename only — directory is supplied by specFamilyDirectory / resolveSpecPointerFilename.
-  // ENGI/_legacy family removed; only Bitcode specifications/ remains.
+  // ENGI/_legacy family removed; only Bitcode .specifications/ remains.
   return 'BITCODE_SPEC.txt';
 }
 
@@ -248,8 +248,8 @@ function specPointerFilename(_version) {
  */
 function resolveSpecPointerFilename(repoRoot, version) {
   const preferred = specPointerFilename(version);
-  // V48+: all specification documents live under specifications/.
-  const preferredUnderSpecs = path.join('specifications', preferred);
+  // V48+: all specification documents live under .specifications/.
+  const preferredUnderSpecs = path.join('.specifications', preferred);
   if (fileExists(path.join(repoRoot, preferredUnderSpecs))) return preferredUnderSpecs;
 
   // Root fallback for transitional trees.
@@ -281,9 +281,9 @@ function specFamilyPrefix(_version) {
  * @returns {string}
  */
 function specFamilyDirectory(_version) {
-  // All living Bitcode specification documents live under specifications/.
+  // All living Bitcode specification documents live under .specifications/.
   // The historical `_legacy/` ENGI tree has been removed from the monorepo.
-  return 'specifications';
+  return '.specifications';
 }
 
 /**
@@ -611,7 +611,7 @@ function buildV21LikeProfile(version) {
       '.bitcode/source-to-shares.json',
       '.bitcode/projection-policy.json',
       '.bitcode/system-proof-bundle.json',
-      // Document prose cites basename; filesystem path is under specifications/.
+      // Document prose cites basename; filesystem path is under .specifications/.
       specMarkdownFilename(version, '_PROVEN')
     ],
     requiredDeltaSections: [

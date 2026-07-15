@@ -84,12 +84,12 @@ export const V47_STAGING_TESTNET_FORBIDDEN_PAYLOAD_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  activePointer: 'specifications/BITCODE_SPEC.txt',
-  spec: 'specifications/BITCODE_SPEC_V47.md',
-  delta: 'specifications/BITCODE_SPEC_V47_DELTA.md',
-  notes: 'specifications/BITCODE_SPEC_V47_NOTES.md',
-  parity: 'specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
-  roadmap: 'specifications/SPECIFICATIONS_ROADMAP.md',
+  activePointer: '.specifications/BITCODE_SPEC.txt',
+  spec: '.specifications/BITCODE_SPEC_V47.md',
+  delta: '.specifications/BITCODE_SPEC_V47_DELTA.md',
+  notes: '.specifications/BITCODE_SPEC_V47_NOTES.md',
+  parity: '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
+  roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
   vercelConfig: 'vercel.json',
   supabaseConfig: 'supabase/config.toml',
   baseMigration: 'supabase/migrations/001_v26_production.sql',
