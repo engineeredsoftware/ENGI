@@ -163,9 +163,11 @@ export interface SandboxCreateOptions {
    */
   runtime?: VercelSandboxRuntime;
   /**
-   * VCR custom image reference (e.g. `bitcode-pipeline:v48-abc` or full
-   * `vcr.vercel.com/<team>/<project>/bitcode-pipeline:<tag>`). When set, the
-   * host plan uses the pipeline appliance image instead of a stock runtime.
+   * VCR custom image reference for Pipeliner, e.g.
+   * `vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:latest` or
+   * `…/pipeliner:v48-<sha>`. When set, the host plan uses the pipeline
+   * appliance image instead of a stock runtime (mutually exclusive with
+   * `runtime`).
    */
   image?: string;
   timeout?: number;

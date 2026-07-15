@@ -68,6 +68,10 @@ await import(pathToFileURL(runner).href);
 async function main() {
   await mkdir(distDir, { recursive: true });
 
+  const hostsTsconfig = path.join(
+    monorepoRoot,
+    'packages/pipeline-hosts/tsconfig.json',
+  );
   const result = spawnSync(
     'pnpm',
     [
@@ -76,11 +80,13 @@ async function main() {
       'exec',
       'ts-node',
       '--transpile-only',
+      '--project',
+      hostsTsconfig,
       'src/dev/materialize-runners.ts',
       distDir,
     ],
     {
-      cwd: monorepoRoot,
+      cwd: path.join(monorepoRoot, 'packages/pipeline-hosts'),
       encoding: 'utf8',
       env: process.env,
     },

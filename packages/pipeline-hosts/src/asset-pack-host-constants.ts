@@ -18,7 +18,18 @@ export const SANDBOX_WORKING_DIRECTORY = '/vercel/sandbox' as const;
 export const DEFAULT_LONG_TIMEOUT_MS = 45 * 60 * 1000;
 export const SANDBOX_PNPM_VERSION = '10.33.0';
 
-/** In-image dispatcher (VCR pipeline appliance). */
+/**
+ * Pipeliner — VCR pipeline appliance image.
+ * Purpose: run deposit/read AssetPack synthesis inside Vercel Sandbox microVMs
+ * (and local Docker) with Bitcode packages preinstalled — never LocalHost on
+ * serverless.
+ */
+export const PIPELINER_VCR_REPOSITORY =
+  'vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner';
+/** Prefer a git-sha tag in Production; :latest is convenience for push/dev. */
+export const PIPELINER_IMAGE_DEFAULT = `${PIPELINER_VCR_REPOSITORY}:latest`;
+
+/** In-image dispatcher entry (Pipeliner image layout). */
 export const PIPELINE_IMAGE_ENTRY_DEFAULT = '/opt/bitcode/pipeline/run-pipeline.mjs';
 export const PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT = '/opt/bitcode';
 

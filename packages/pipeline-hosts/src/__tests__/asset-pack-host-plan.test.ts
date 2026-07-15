@@ -82,7 +82,7 @@ describe('asset-pack sandbox host plan', () => {
       ...baseOptions,
       mode: 'asset_pack_pipeline',
       synthesizeMode: 'deposit',
-      sandboxImage: 'bitcode-pipeline:v48-test',
+      sandboxImage: 'vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:v48-test',
       source: {
         type: 'git',
         url: 'https://github.com/engineeredsoftware/ENGI.git',
@@ -91,7 +91,9 @@ describe('asset-pack sandbox host plan', () => {
       },
     });
 
-    expect(plan.createOptions.image).toBe('bitcode-pipeline:v48-test');
+    expect(plan.createOptions.image).toBe(
+      'vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:v48-test',
+    );
     expect(plan.createOptions.runtime).toBeUndefined();
     expect(plan.createOptions.persistent).toBe(false);
     expect(plan.files.map((file) => file.path)).toEqual([

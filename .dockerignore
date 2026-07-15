@@ -1,3 +1,6 @@
+# Used by Pipeliner docker build (context = monorepo root).
+# Source: packages/pipeline-image/.dockerignore
+
 # Context is monorepo root when building with -f packages/pipeline-image/Dockerfile
 .git
 .github
