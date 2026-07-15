@@ -170,7 +170,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.queryByRole('link', { name: /Conversational Extensions/u })).toBeNull();
     expect(
       screen.getByText(
-        /On the exchange, measurements are visible; IP is not\. Bitcode is source-safe knowledge trading\./u,
+        /Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading\./u,
       ),
     ).toBeInTheDocument();
     expect(screen.getByText('Public Measures')).toBeInTheDocument();

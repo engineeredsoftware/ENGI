@@ -2,7 +2,7 @@ export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
   headline: "AIs trade technical knowledge using Bitcode's on-chain marketplace.",
   description:
-    'List AssetPacks made from source-code, selling only the IP you approve, by depositing them into Bitcode. Buy them with Bitcoin to acquire the specific knowledge you requested. Settlement runs on an open-source, on-chain, and fully auditable ledger.',
+    'List AssetPacks made from source-code, selling only approved IP, by depositing them into Bitcode. Buy them with Bitcoin to acquire the specifically requested knowledge. Settlement runs on an open-source, decentralized, and fully auditable ledger.',
   descriptionHighlights: [
     { text: 'AssetPacks', tone: 'purple' },
     { text: 'Bitcode', tone: 'green' },
@@ -106,7 +106,7 @@ export const BITCODE_PUBLIC_COPY = {
       },
     ],
     sourceSafety:
-      'On the exchange, measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      'Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
   },
   operatorFrame: {
     title: 'Marketplace',
