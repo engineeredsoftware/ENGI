@@ -1,7 +1,7 @@
 /**
  * Storybook main config for the Bitcode uapi surface.
  *
- * Catalog is the maintainable story set under stories/ (known-broken
+ * Catalog is the maintainable story set under .storybook/stories/ (known-broken
  * marketplace/auto stories were removed from the tree). Server-only Node
  * packages (Sentry, fs, etc.) are stubbed via webpack fallbacks so client
  * stories that transitively import observability do not fail the build.
@@ -14,13 +14,13 @@ import path from "path";
 
 const config: StorybookConfig = {
   stories: [
-    // Curated catalog roots. Do not use a single ** glob over all of stories/
+    // Curated catalog roots. Do not use a single ** glob over all of .storybook/stories/
     // while marketplace/auto deferred stories may reappear on disk.
-    "../stories/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../stories/base/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../stories/ui/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "../stories/docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "./stories/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "./stories/base/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "./stories/components/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "./stories/ui/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+    "./stories/docs/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-onboarding",

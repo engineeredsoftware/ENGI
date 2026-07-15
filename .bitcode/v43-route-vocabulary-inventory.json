@@ -14574,7 +14574,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "apps/uapi/stories/PatternMemory.stories.tsx",
+      "path": "apps/uapi/.storybook/stories/PatternMemory.stories.tsx",
       "pathRoot": "v43-route-vocabulary-file:3da040a1748f5e867a45639a",
       "categories": [
         "component",
@@ -14589,7 +14589,7 @@
       "sourceSnippetSerialized": false
     },
     {
-      "path": "apps/uapi/stories/conversations/ConversationInterface.stories.tsx",
+      "path": "apps/uapi/.storybook/stories/conversations/ConversationInterface.stories.tsx",
       "pathRoot": "v43-route-vocabulary-file:d2248a1dcac9fa0317b95cba",
       "categories": [
         "component",

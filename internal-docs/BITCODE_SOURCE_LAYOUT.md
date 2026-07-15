@@ -437,7 +437,7 @@ bitcode/
 │ ├── networking/
 │ ├── types/
 │ ├── tests/ # route/page contracts, e2e helpers
-│ └── stories/
+│ └── .storybook/stories/
 ├── scripts/ # gate checkers, promotion, tooling
 ├── supabase/
 └── _legacy/ # historical specs only — do not implement from

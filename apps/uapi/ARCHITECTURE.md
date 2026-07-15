@@ -31,7 +31,7 @@ apps/uapi/
 ├── networking/
 ├── types/
 ├── tests/                       # Route/page contracts (unit co-located under components)
-└── stories/
+└── .storybook/stories/
 ```
 
 **Terminal is deleted.** Do not reintroduce `app/terminal` or `/terminal`.
