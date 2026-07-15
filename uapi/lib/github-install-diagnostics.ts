@@ -23,6 +23,7 @@ export type GitHubInstallLifecycleEvent =
   | 'claim-start'
   | 'claim-result'
   | 'claim-no-pending-cookie'
+  | 'claim-pending-cookie-unreadable'
   | 'session-resolve-failed'
   | 'app-not-configured';
 

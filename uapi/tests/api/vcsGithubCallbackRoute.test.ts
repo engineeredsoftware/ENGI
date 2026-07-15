@@ -192,4 +192,79 @@ describe('GitHub App callback handling', () => {
     expect(location.startsWith('https://www.bitcode.exchange/packs?')).toBe(true);
     expect(location).toContain('vcsConnection=installation_connected');
   });
+
+  it('parses staged pending cookie with numeric installation_id and percent-encoding', async () => {
+    const { parsePendingInstallationCookieValue } = await import(
+      '@/app/tps/github/_callback-handler'
+    );
+
+    // Production stage path: JSON.stringify writes installation_id as a number.
+    const plain = JSON.stringify({
+      installation_id: 146662656,
+      setup_action: 'install',
+      state: null,
+      account: {
+        login: 'advancedengineeredsoftware',
+        id: '84343342',
+        type: 'Organization',
+        html_url: 'https://github.com/advancedengineeredsoftware',
+      },
+      captured_at: '2026-07-15T03:53:14.351Z',
+    });
+    expect(parsePendingInstallationCookieValue(plain)?.installation_id).toBe(146662656);
+
+    // DevTools / some proxies leave the Cookie header percent-encoded.
+    const encoded =
+      '%7B%22installation_id%22%3A146662656%2C%22setup_action%22%3A%22install%22%2C%22state%22%3Anull%2C%22account%22%3A%7B%22login%22%3A%22advancedengineeredsoftware%22%2C%22id%22%3A%2284343342%22%2C%22type%22%3A%22Organization%22%2C%22html_url%22%3A%22https%3A%2F%2Fgithub.com%2Fadvancedengineeredsoftware%22%7D%2C%22captured_at%22%3A%222026-07-15T03%3A53%3A14.351Z%22%7D';
+    const fromEncoded = parsePendingInstallationCookieValue(encoded);
+    expect(fromEncoded?.installation_id).toBe(146662656);
+    expect(fromEncoded?.setup_action).toBe('install');
+    expect(fromEncoded?.account?.login).toBe('advancedengineeredsoftware');
+
+    // String form still accepted (query-style / hand-edited cookies).
+    expect(
+      parsePendingInstallationCookieValue(
+        JSON.stringify({ installation_id: '131722518', setup_action: 'install' }),
+      )?.installation_id,
+    ).toBe(131722518);
+  });
+
+  it('claims staged install from Cookie header when cookies() store is empty', async () => {
+    const cookieBody = JSON.stringify({
+      installation_id: 146662656,
+      setup_action: 'install',
+      state: null,
+      account: { login: 'advancedengineeredsoftware' },
+      captured_at: '2026-07-15T03:53:14.351Z',
+    });
+
+    const { claimPendingGitHubInstallation } = await import(
+      '@/app/tps/github/_callback-handler'
+    );
+    const request = new Request('https://www.bitcode.exchange/api/vcs/github/connection', {
+      headers: {
+        cookie: `bitcode_github_installation_pending=${encodeURIComponent(cookieBody)}`,
+      },
+    });
+
+    const result = await claimPendingGitHubInstallation(request as any);
+    // Account login comes from getInstallation (mock), not only the staged cookie.
+    expect(result.claimed).toBe(true);
+    expect(result.installationId).toBe(146662656);
+    expect(result.account).toBe('engineeredsoftware');
+    expect(mockGetInstallation).toHaveBeenCalledWith(146662656);
+    expect(mockGenerateInstallationToken).toHaveBeenCalledWith(146662656);
+    expect(mockSaveConnection).toHaveBeenCalledWith(
+      'user-1',
+      'github',
+      expect.objectContaining({
+        accessToken: 'ghs_installation_token',
+        providerUserId: '146662656',
+        metadata: expect.objectContaining({
+          auth_source: 'github_app_installation',
+          installation_id: 146662656,
+        }),
+      }),
+    );
+  });
 });

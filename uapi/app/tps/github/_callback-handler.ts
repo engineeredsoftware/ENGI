@@ -52,7 +52,20 @@ function readString(value: unknown) {
   return typeof value === 'string' && value.trim() ? value.trim() : null;
 }
 
+/**
+ * Coerce query/cookie JSON values to a positive integer.
+ * Critical for staged install cookies: `JSON.stringify({ installation_id: n })`
+ * emits a JSON number; treating only strings as valid made claim see a present
+ * cookie as missing (`claim-no-pending-cookie` with browser cookie still set).
+ */
 function readPositiveInteger(value: unknown) {
+  if (typeof value === 'number') {
+    return Number.isSafeInteger(value) && value > 0 ? value : null;
+  }
+  if (typeof value === 'bigint') {
+    const asNumber = Number(value);
+    return Number.isSafeInteger(asNumber) && asNumber > 0 ? asNumber : null;
+  }
   const stringValue = readString(value);
   if (!stringValue) return null;
   const parsed = Number(stringValue);
@@ -79,6 +92,8 @@ function buildConnectsRedirect(
   // legacy /terminal overlay root (QA ledger F8).
   // Canonical origin: prefer NEXT_PUBLIC_APP_URL so apex/www callbacks both
   // return to the operator-facing host and keep session + claim cookies aligned.
+  // Pending install uses cookies().set (App Router merges Set-Cookie onto this
+  // Response). Plain Response keeps Jest/node route tests constructible.
   const origin = resolveCanonicalAppOrigin(request);
   const redirectUrl = new URL(
     `/packs?${AUXILLARY_OPEN_QUERY_PARAM}=externals`,
@@ -229,11 +244,26 @@ type PendingInstallationCookie = {
   captured_at?: string;
 };
 
-function readPendingInstallationCookie(): PendingInstallationCookie | null {
+/**
+ * Parse staged install cookie. Browsers / proxies may leave the value
+ * percent-encoded (%7B…); JSON.parse without decode fails. installation_id may
+ * be a JSON number (from JSON.stringify) or a string (query-style payloads).
+ */
+export function parsePendingInstallationCookieValue(
+  raw: string | null | undefined,
+): PendingInstallationCookie | null {
+  if (!raw || !String(raw).trim()) return null;
+  let text = String(raw).trim();
   try {
-    const raw = cookies().get(PENDING_INSTALLATION_COOKIE)?.value;
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as PendingInstallationCookie;
+    // Decode when the jar still holds percent-encoding (DevTools often shows this).
+    if (text.includes('%7B') || text.includes('%22') || text.startsWith('%')) {
+      text = decodeURIComponent(text);
+    }
+  } catch {
+    // keep original text
+  }
+  try {
+    const parsed = JSON.parse(text) as PendingInstallationCookie;
     const installationId = readPositiveInteger(parsed?.installation_id);
     if (!installationId) return null;
     return {
@@ -243,9 +273,55 @@ function readPendingInstallationCookie(): PendingInstallationCookie | null {
       state: readString(parsed.state),
     };
   } catch {
-    // Jest / non-request contexts have no Next cookie store.
     return null;
   }
+}
+
+function readCookieHeaderValue(
+  request: Request | undefined,
+  name: string,
+): string | null {
+  if (!request) return null;
+  try {
+    const header = request.headers.get('cookie') || '';
+    if (!header) return null;
+    for (const part of header.split(';')) {
+      const trimmed = part.trim();
+      if (!trimmed) continue;
+      const eq = trimmed.indexOf('=');
+      if (eq <= 0) continue;
+      const key = trimmed.slice(0, eq).trim();
+      if (key !== name) continue;
+      return trimmed.slice(eq + 1);
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+type PendingCookieRead =
+  | { status: 'ok'; value: PendingInstallationCookie }
+  | { status: 'missing' }
+  | { status: 'unreadable'; rawPresent: true };
+
+function readPendingInstallationCookie(request?: Request): PendingCookieRead {
+  let raw: string | null | undefined;
+  try {
+    raw = cookies().get(PENDING_INSTALLATION_COOKIE)?.value;
+  } catch {
+    raw = null;
+  }
+  // Prefer Next cookie store; fall back to the inbound Cookie header (claim on
+  // /api/vcs/github/connection sometimes sees the header when cookies() is empty).
+  if (!raw) {
+    raw = readCookieHeaderValue(request, PENDING_INSTALLATION_COOKIE);
+  }
+  if (!raw) return { status: 'missing' };
+
+  const parsed = parsePendingInstallationCookieValue(raw);
+  if (!parsed) return { status: 'unreadable', rawPresent: true };
+  return { status: 'ok', value: parsed };
 }
 
 function clearPendingInstallationCookie(request?: Request) {
@@ -309,8 +385,8 @@ export async function claimPendingGitHubInstallation(
   request?: Request,
 ): Promise<ClaimPendingGitHubInstallationResult> {
   const host = request ? readRequestHostname(request) : null;
-  const pending = readPendingInstallationCookie();
-  if (!pending) {
+  const pendingRead = readPendingInstallationCookie(request);
+  if (pendingRead.status === 'missing') {
     const diagnostic = logInstallLifecycle('info', 'claim-no-pending-cookie', {
       host,
       hasPendingCookie: false,
@@ -320,6 +396,25 @@ export async function claimPendingGitHubInstallation(
     bitcodeServerTelemetry('debug', 'github-callback', 'claim-no-pending-cookie');
     return { claimed: false, diagnostic };
   }
+  if (pendingRead.status === 'unreadable') {
+    // Cookie name present but body not JSON (often percent-encoded without decode).
+    const diagnostic = logInstallLifecycle('warn', 'claim-pending-cookie-unreadable', {
+      host,
+      hasPendingCookie: true,
+      hasSession: null,
+      message: 'pending_cookie_unreadable',
+      errorClass: 'cookie',
+    });
+    bitcodeServerTelemetry('warn', 'github-callback', 'claim-pending-cookie-unreadable');
+    return {
+      claimed: false,
+      error: 'pending_cookie_unreadable',
+      errorClass: 'cookie',
+      diagnostic,
+    };
+  }
+
+  const pending = pendingRead.value;
 
   logInstallLifecycle('info', 'claim-start', {
     installationId: pending.installation_id,
@@ -355,6 +450,7 @@ export async function claimPendingGitHubInstallation(
   }
 
   if (!userContext?.user) {
+    // No Connect session yet — cookie is fine; operator must Connect wallet first.
     const diagnostic = logInstallLifecycle('warn', 'claim-result', {
       installationId: pending.installation_id,
       host,
