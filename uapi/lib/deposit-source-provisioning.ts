@@ -133,6 +133,106 @@ export interface DepositInBoxHostResult {
   outcome: PipelineHostRunResult["outcome"];
 }
 
+/** Full or abbreviated git object id (7–40 hex). */
+const GIT_COMMIT_SHA_RE = /^[0-9a-f]{7,40}$/i;
+
+export type DepositSandboxGitRevisionStrategy =
+  | "branch-shallow"
+  | "commit-full"
+  | "ref-shallow";
+
+/**
+ * Git source for `Sandbox.create` deposit clones.
+ *
+ * Vercel Sandbox performs a single git clone at create time. A common failure
+ * is `bad_request: git clone failed` when `revision` is a commit SHA with
+ * `depth: 1` — shallow clones fetch advertised refs (branches/tags), not
+ * arbitrary SHAs (GitHub often rejects unadvertised objects).
+ *
+ * Strategy (mirrors LocalHost intent, adapted for create-time-only clone):
+ * 1. **Branch present** → shallow clone that branch tip (`depth: 1`).
+ * 2. **Commit SHA only** → full clone at that revision (omit `depth`).
+ * 3. **Other ref** (tag / symbolic) → shallow clone that ref.
+ *
+ * Evidence still records the exact `commit` via `sourceRevision`; only the
+ * create-time clone ref is adjusted for Vercel reachability.
+ */
+export function buildDepositSandboxGitSource(input: {
+  repositoryFullName: string;
+  /** Preferred product revision (often the selected commit SHA). */
+  revision: string;
+  branch: string | null;
+  commit: string | null;
+  token?: string;
+}): {
+  source: {
+    type: "git";
+    url: string;
+    revision: string;
+    username?: string;
+    password?: string;
+    depth?: number;
+  };
+  strategy: DepositSandboxGitRevisionStrategy;
+  /** Ref actually passed to Sandbox.create (branch, SHA, or other). */
+  cloneRevision: string;
+  depth: number | null;
+} {
+  const branch = input.branch?.trim() || "";
+  const commit = (input.commit || "").trim();
+  const revision = (input.revision || "").trim();
+  const url = `https://github.com/${input.repositoryFullName}.git`;
+  const auth =
+    input.token
+      ? { username: "x-access-token" as const, password: input.token }
+      : {};
+
+  // Prefer a non-SHA branch name even when revision/commit is a full SHA.
+  if (branch && !GIT_COMMIT_SHA_RE.test(branch)) {
+    return {
+      source: {
+        type: "git",
+        url,
+        revision: branch,
+        depth: 1,
+        ...auth,
+      },
+      strategy: "branch-shallow",
+      cloneRevision: branch,
+      depth: 1,
+    };
+  }
+
+  const effective = commit || revision || "HEAD";
+  if (GIT_COMMIT_SHA_RE.test(effective)) {
+    // Omit depth: shallow + bare SHA is the create failure mode we hit in prod.
+    return {
+      source: {
+        type: "git",
+        url,
+        revision: effective,
+        ...auth,
+      },
+      strategy: "commit-full",
+      cloneRevision: effective,
+      depth: null,
+    };
+  }
+
+  return {
+    source: {
+      type: "git",
+      url,
+      revision: effective,
+      depth: 1,
+      ...auth,
+    },
+    strategy: "ref-shallow",
+    cloneRevision: effective,
+    depth: 1,
+  };
+}
+
 /**
  * Run the deposit synthesis IN the sandbox box (#25). Builds an asset-pack host in
  * DEPOSIT mode (git source for the revision + steering), dispatches it on the sandbox
@@ -160,6 +260,13 @@ export async function runDepositInBoxHost(input: {
   shouldAbort?: () => boolean | Promise<boolean>;
   hostFactory?: () => Promise<DepositInBoxHost>;
 }): Promise<DepositInBoxHostResult> {
+  const gitSource = buildDepositSandboxGitSource({
+    repositoryFullName: input.repositoryFullName,
+    revision: input.revision,
+    branch: input.branch,
+    commit: input.commit,
+    token: input.token,
+  });
   const plan = buildAssetPackSandboxHostPlan({
     mode: "asset_pack_pipeline",
     synthesizeMode: "deposit",
@@ -176,14 +283,7 @@ export async function runDepositInBoxHost(input: {
       branch: input.branch || "main",
       commit: input.commit || input.revision,
     },
-    source: {
-      type: "git",
-      url: `https://github.com/${input.repositoryFullName}.git`,
-      revision: input.revision,
-      username: input.token ? "x-access-token" : undefined,
-      password: input.token,
-      depth: 1,
-    },
+    source: gitSource.source,
     depositSteering: {
       obfuscations: input.obfuscations,
       forcedExclusions: input.forcedExclusions,
@@ -212,6 +312,11 @@ export async function runDepositInBoxHost(input: {
     hasGitSource: Boolean(plan.createOptions.source),
     synthesizeMode: plan.manifest.synthesizeMode ?? null,
     repositoryFullName: input.repositoryFullName,
+    gitRevisionStrategy: gitSource.strategy,
+    gitCloneRevision: gitSource.cloneRevision,
+    gitDepth: gitSource.depth,
+    sourceCommit: input.commit || null,
+    sourceBranch: input.branch || null,
   };
   bitcodeServerTelemetry("info", "deposit-sandbox-host", "plan-ready", createSummary);
 

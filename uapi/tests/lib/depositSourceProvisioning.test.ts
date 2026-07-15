@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 import {
+  buildDepositSandboxGitSource,
   createDepositLocalHostCloneForRun,
   provisionDepositCheckout,
   provisionDepositSourceInventory,
@@ -181,6 +182,51 @@ describe('resolveDepositPipelineHost', () => {
   });
 });
 
+describe('buildDepositSandboxGitSource', () => {
+  it('prefers branch shallow clone when branch is present (even if revision is a SHA)', () => {
+    const built = buildDepositSandboxGitSource({
+      repositoryFullName: 'advancedengineeredsoftware/Bitcode',
+      revision: 'f956577ce478e90d629db48c452102e582fa081c',
+      branch: 'version/v48',
+      commit: 'f956577ce478e90d629db48c452102e582fa081c',
+      token: 'ghs_tok',
+    });
+    expect(built.strategy).toBe('branch-shallow');
+    expect(built.source).toMatchObject({
+      type: 'git',
+      url: 'https://github.com/advancedengineeredsoftware/Bitcode.git',
+      revision: 'version/v48',
+      depth: 1,
+      username: 'x-access-token',
+      password: 'ghs_tok',
+    });
+  });
+
+  it('omits depth for bare commit SHAs (avoid shallow unadvertised-object failure)', () => {
+    const built = buildDepositSandboxGitSource({
+      repositoryFullName: 'o/r',
+      revision: 'f956577ce478e90d629db48c452102e582fa081c',
+      branch: null,
+      commit: 'f956577ce478e90d629db48c452102e582fa081c',
+    });
+    expect(built.strategy).toBe('commit-full');
+    expect(built.source.revision).toBe('f956577ce478e90d629db48c452102e582fa081c');
+    expect(built.source.depth).toBeUndefined();
+    expect(built.depth).toBeNull();
+  });
+
+  it('shallow-clones non-SHA refs (tags / symbolic)', () => {
+    const built = buildDepositSandboxGitSource({
+      repositoryFullName: 'o/r',
+      revision: 'v1.2.3',
+      branch: null,
+      commit: null,
+    });
+    expect(built.strategy).toBe('ref-shallow');
+    expect(built.source).toMatchObject({ revision: 'v1.2.3', depth: 1 });
+  });
+});
+
 describe('runDepositInBoxHost (#25)', () => {
   it('dispatches a deposit-mode host and returns evidence.depositOptions', async () => {
     let receivedPlan: any;
@@ -199,9 +245,9 @@ describe('runDepositInBoxHost (#25)', () => {
     };
     const result = await runDepositInBoxHost({
       repositoryFullName: 'engineeredsoftware/demo',
-      revision: 'abc123',
+      revision: 'abc123def456',
       branch: 'main',
-      commit: 'abc123',
+      commit: 'abc123def456',
       token: 'ghs_tok',
       obfuscations: 'hide internal names',
       forcedExclusions: ['secret/'],
@@ -215,7 +261,17 @@ describe('runDepositInBoxHost (#25)', () => {
     // The dispatched plan ran the deposit lens in-box, with a git source + steering.
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
     expect(receivedPlan.manifest.depositSteering).toMatchObject({ forcedExclusions: ['secret/'] });
-    expect(receivedPlan.createOptions.source).toMatchObject({ type: 'git', revision: 'abc123' });
+    // Clone uses the branch (shallow), not the bare SHA — avoids Sandbox create git-clone 400.
+    expect(receivedPlan.createOptions.source).toMatchObject({
+      type: 'git',
+      revision: 'main',
+      depth: 1,
+    });
+    // Evidence still pins the selected commit.
+    expect(receivedPlan.manifest.sourceRevision).toMatchObject({
+      branch: 'main',
+      commit: 'abc123def456',
+    });
     // Vercel Sandbox v2: persistence is default — deposit must opt out.
     expect(receivedPlan.createOptions.persistent).toBe(false);
     expect(typeof receivedPlan.createOptions.name).toBe('string');
