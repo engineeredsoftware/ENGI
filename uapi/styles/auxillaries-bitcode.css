@@ -514,6 +514,30 @@
   backface-visibility: hidden;
 }
 
+/*
+ * Connect / GitHub attention hosts also set the CSS `animation` property.
+ * If entrance binds the same node, removing the attention class re-applies
+ * auxillaries-inner-rise and the card re-enters after the highlight.
+ * Exclude those hosts from entrance (wrappers still cascade). Specificity must
+ * beat `.auxillaries-pane-enter .space-y-5 > *` but yield to attention classes.
+ */
+.auxillaries-pane-enter .orbital-step-content > .wallet-required-section:not(.wallet-connect-attention-section),
+.auxillaries-pane-enter .orbital-step-content > .repository-connection-section:not(.github-connect-attention-section),
+.auxillaries-pane-enter .step-form > .wallet-required-section:not(.wallet-connect-attention-section),
+.auxillaries-pane-enter .step-form > .repository-connection-section:not(.github-connect-attention-section),
+.auxillaries-pane-enter .space-y-5 > .wallet-required-section:not(.wallet-connect-attention-section),
+.auxillaries-pane-enter .space-y-5 > .repository-connection-section:not(.github-connect-attention-section),
+.auxillaries-pane-enter .space-y-4 > .wallet-required-section:not(.wallet-connect-attention-section),
+.auxillaries-pane-enter .space-y-4 > .repository-connection-section:not(.github-connect-attention-section),
+.auxillaries-pane-enter .space-y-6 > .wallet-required-section:not(.wallet-connect-attention-section),
+.auxillaries-pane-enter .space-y-6 > .repository-connection-section:not(.github-connect-attention-section),
+.auxillaries-pane-enter .space-y-3 > .wallet-required-section:not(.wallet-connect-attention-section),
+.auxillaries-pane-enter .space-y-3 > .repository-connection-section:not(.github-connect-attention-section) {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
 .auxillaries-pane-enter .orbital-step-content > *:nth-child(1),
 .auxillaries-pane-enter .step-form > *:nth-child(1),
 .auxillaries-pane-enter .space-y-5 > *:nth-child(1),

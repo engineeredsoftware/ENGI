@@ -41,13 +41,22 @@ export default function AuxillariesWalletPane({
         <AuxillariesWalletPaneHeader isOnboardingComplete={isOnboardingComplete} />
 
         <div className="space-y-5">
-          <AuxillariesWalletConnectionPanel
-            initialWalletAddress={state.walletBinding?.address ?? state.profile?.wallet_address ?? null}
-            initialWalletProvider={state.walletBinding?.provider ?? state.profile?.wallet_provider ?? null}
-            initialWalletBindingStatus={state.walletBinding?.status ?? state.profile?.wallet_binding_status ?? null}
-            initialWalletBoundAt={state.walletBinding?.boundAt ?? state.profile?.wallet_bound_at ?? null}
-            onWalletIdentityChange={onCompletionStatusChange}
-          />
+          {/*
+            Entrance stagger targets this wrapper (space-y-5 > *). The connection
+            panel owns Connect attention on the same DOM node would share the CSS
+            `animation` property with auxillaries-inner-rise — so after the
+            highlight settles, entrance re-fired. Keep both animations unchanged;
+            only separate the hosts.
+          */}
+          <div className="min-w-0">
+            <AuxillariesWalletConnectionPanel
+              initialWalletAddress={state.walletBinding?.address ?? state.profile?.wallet_address ?? null}
+              initialWalletProvider={state.walletBinding?.provider ?? state.profile?.wallet_provider ?? null}
+              initialWalletBindingStatus={state.walletBinding?.status ?? state.profile?.wallet_binding_status ?? null}
+              initialWalletBoundAt={state.walletBinding?.boundAt ?? state.profile?.wallet_bound_at ?? null}
+              onWalletIdentityChange={onCompletionStatusChange}
+            />
+          </div>
 
           <WalletBtdPostureSection
             displayBtdBalance={state.displayBtdBalance}

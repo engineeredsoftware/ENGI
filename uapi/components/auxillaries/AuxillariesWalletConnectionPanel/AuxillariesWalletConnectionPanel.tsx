@@ -67,7 +67,8 @@ export default function AuxillariesWalletConnectionPanel({
   useEffect(() => {
     const runAttention = () => {
       clearPendingWalletConnectAttention();
-      // Drop then re-apply so CSS animations restart on repeated Connect clicks.
+      // Drop then re-apply so CSS attention restarts on repeated Connect clicks.
+      // Do not touch pane-enter classes — attention and entrance must not share hosts.
       setAttentionActive(false);
       setAttentionKey((key) => key + 1);
       if (attentionTimerRef.current != null) {

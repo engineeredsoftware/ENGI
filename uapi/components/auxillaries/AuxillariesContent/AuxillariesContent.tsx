@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import {
@@ -95,6 +95,25 @@ function AuxillariesContent(props: AuxillariesContentProps) {
         transition: { duration: 0.26, ease: AUX_PANE_EASE },
       };
 
+  /**
+   * Inner CSS stagger (auxillaries-pane-enter) only for the brief entrance window.
+   * Leave it mounted and Connect attention will toggle other classes on the same
+   * nodes — which restarts the CSS entrance after the highlight. Strip the class
+   * once the cascade finishes so attention never re-fires entrance.
+   */
+  const [innerEnterActive, setInnerEnterActive] = useState(!reduceMotion);
+
+  useEffect(() => {
+    if (reduceMotion || !currentStep || !showContent) {
+      setInnerEnterActive(false);
+      return;
+    }
+    setInnerEnterActive(true);
+    // Last stagger delay ~0.17s + 0.28s duration ≈ 0.45s; small buffer.
+    const timer = window.setTimeout(() => setInnerEnterActive(false), 520);
+    return () => window.clearTimeout(timer);
+  }, [currentStep, showContent, reduceMotion]);
+
   const ringElements = useMemo(() => {
     if (usesContainedLayout) return null;
 
@@ -158,7 +177,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
       <AnimatePresence mode="wait" initial={!reduceMotion}>
         <motion.div
           key={currentStep}
-          className={`orbital-content-container${reduceMotion ? '' : ' auxillaries-pane-enter'}`}
+          className={`orbital-content-container${innerEnterActive ? ' auxillaries-pane-enter' : ''}`}
           initial={paneMotion.initial}
           animate={paneMotion.animate}
           exit={{
