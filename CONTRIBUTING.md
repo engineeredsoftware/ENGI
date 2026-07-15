@@ -486,6 +486,7 @@ routes, or other structure FAMILIARIZATION teaches, update
 | How do components nest? | SOURCE_LAYOUT + `apps/uapi/components/README.md` |
 | Supabase / auth | SUPABASE.md, AUTH packages |
 | Deploy / sandbox | VERCEL.md, DEPLOYMENT.md |
+| Security / secrets / source-safety | [`.docs/SECURITY.md`](.docs/SECURITY.md), CONTRIBUTING §8.4 |
 | Interactive QA steps | `.qa/BITCODE_V48_QA.md` (or current version ledger) |
 | Proof machine APIs | `scripts/specifying/README.md` |
 

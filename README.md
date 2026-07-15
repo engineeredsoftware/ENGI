@@ -172,6 +172,7 @@ grounded is **Unestimatable**, not invented.
 | [`.docs/AGENTS.md`](.docs/AGENTS.md) | Engineering craft + gate/commit law |
 | [`.docs/BITCODE_SOURCE_LAYOUT.md`](.docs/BITCODE_SOURCE_LAYOUT.md) | Filesystem / modularity contract |
 | [`.docs/TERMINOLOGY.md`](.docs/TERMINOLOGY.md) | Product vs agent vocabulary |
+| [`.docs/SECURITY.md`](.docs/SECURITY.md) | Secrets, source-safety, edge controls (non-canonical) |
 | [`.qa/`](.qa/) | Version QA ledgers |
 | [`scripts/specifying/README.md`](scripts/specifying/README.md) | Specifying package / proof machine |
 
