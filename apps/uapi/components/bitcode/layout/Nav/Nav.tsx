@@ -15,8 +15,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper";
 import { BITCODE_PUBLIC_COPY } from "@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy";
 import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } from "@/components/bitcode/layout/WorkspaceSurface/workspace-surface";
-import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
-import { BITCODE_PUBLIC_EXPLAINERS } from "@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers";
 import { bitcodeQaTelemetry, compactBitcodeAddress } from "@bitcode/auth/qa-telemetry";
 import { clearLocalBitcodeWalletIdentity } from "@bitcode/auth/wallet-local";
 import BitcodeQuantumChromeButton from "@/components/bitcode/layout/BitcodeQuantumChromeButton/BitcodeQuantumChromeButton";
@@ -379,8 +377,6 @@ export default function Nav() {
         'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-orange-300/42 hover:bg-orange-400/[0.12] hover:text-orange-100 hover:shadow-[0_0_18px_rgba(251,146,60,0.16)]',
       disabledActive:
         'border-orange-300/20 bg-orange-400/[0.06] text-orange-100/55',
-      explainer:
-        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-orange-300/42 hover:bg-orange-400/12 hover:text-orange-100',
     },
     packs: {
       active:
@@ -389,8 +385,6 @@ export default function Nav() {
         'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-emerald-300/42 hover:bg-emerald-400/[0.12] hover:text-emerald-100 hover:shadow-[0_0_18px_rgba(16,185,129,0.16)]',
       disabledActive:
         'border-emerald-300/20 bg-emerald-400/[0.06] text-emerald-100/55',
-      explainer:
-        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/42 hover:bg-emerald-400/12 hover:text-emerald-100',
     },
     // Match Deposit pillar: purple/fuchsia (not Tailwind violet, which reads blue).
     deposit: {
@@ -400,8 +394,6 @@ export default function Nav() {
         'border-white/10 bg-white/[0.025] text-neutral-400 hover:border-purple-300/42 hover:bg-purple-500/[0.12] hover:text-purple-100 hover:shadow-[0_0_18px_rgba(192,132,252,0.16)]',
       disabledActive:
         'border-purple-300/22 bg-purple-500/[0.07] text-purple-100/55',
-      explainer:
-        'h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-purple-300/42 hover:bg-purple-500/12 hover:text-purple-100',
     },
   } as const;
 
@@ -430,58 +422,37 @@ export default function Nav() {
             className={navItemEntranceClassName}
             style={{ '--item-index': index } as React.CSSProperties}
           >
-            <span className="inline-flex items-center gap-1.5">
-              {isDisabledRoute ? (
-                <DisabledTooltipWrapper
-                  tooltip={DISABLED_FEATURE_TOOLTIPS.exchange}
-                >
-                  <span
-                    role="link"
-                    aria-disabled="true"
-                    aria-current={isActiveRoute ? 'page' : undefined}
-                    className={`
-                      inline-flex cursor-not-allowed rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
-                      ${isActiveRoute
-                        ? routeTheme.disabledActive
-                        : 'border-white/10 bg-white/[0.025] text-neutral-500'}
-                    `}
-                  >
-                    {label}
-                  </span>
-                </DisabledTooltipWrapper>
-              ) : (
-                <Link
-                  href={href}
+            {isDisabledRoute ? (
+              <DisabledTooltipWrapper
+                tooltip={DISABLED_FEATURE_TOOLTIPS.exchange}
+              >
+                <span
+                  role="link"
+                  aria-disabled="true"
                   aria-current={isActiveRoute ? 'page' : undefined}
                   className={`
-                    rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em]
-                    transition-[color,background-color,border-color,box-shadow] duration-200
-                    ${isActiveRoute ? routeTheme.active : routeTheme.idle}
+                    inline-flex cursor-not-allowed rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em] transition
+                    ${isActiveRoute
+                      ? routeTheme.disabledActive
+                      : 'border-white/10 bg-white/[0.025] text-neutral-500'}
                   `}
                 >
                   {label}
-                </Link>
-              )}
-              {isPacksRoute ? (
-                <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.network}
-                  side="bottom"
-                  triggerClassName={routeTheme.explainer}
-                />
-              ) : isDepositRoute ? (
-                <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.deposit}
-                  side="bottom"
-                  triggerClassName={routeTheme.explainer}
-                />
-              ) : isReadRoute ? (
-                <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.read}
-                  side="bottom"
-                  triggerClassName={routeTheme.explainer}
-                />
-              ) : null}
-            </span>
+                </span>
+              </DisabledTooltipWrapper>
+            ) : (
+              <Link
+                href={href}
+                aria-current={isActiveRoute ? 'page' : undefined}
+                className={`
+                  rounded-none border px-3.5 py-2 text-[0.68rem] font-medium uppercase tracking-[0.18em]
+                  transition-[color,background-color,border-color,box-shadow] duration-200
+                  ${isActiveRoute ? routeTheme.active : routeTheme.idle}
+                `}
+              >
+                {label}
+              </Link>
+            )}
           </li>
         );
       })}
