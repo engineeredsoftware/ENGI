@@ -37,7 +37,7 @@ apps/uapi/app/{page shells} → compose only; no heavy logic
 | `qa/` | Version QA ledgers (`BITCODE_VN_QA.md`) (`BITCODE_SPEC*.md`, pointer, roadmap, specifying law) |
 | `tests/` | Shared Jest helpers (`jest.base.cjs`, package map, resolver) and root test stubs
 | `scripts/specifying/` | Repo specifying machine (`@bitcode/specifying`): gate generators, canon posture (law is `.specifications/BITCODE_SPECIFYING.md`) |
-| `codemod/` | **Temporary** one-off code-modification scripts for this repo (see `codemod/README.md`) |
+| `.codemods/` | **Temporary** one-off code-modification scripts for this repo (see `.codemods/README.md`) |
 | `containers/images/` | OCI / appliance images (Pipeliner VCR, …) |
 | `containers/k8/` | Kubernetes manifests (long-runner fleet, …) |
 
@@ -461,7 +461,7 @@ bitcode/
 ├── tests/ # shared Jest helpers + root test stubs
 ├── scripts/ # durable gate checkers, promotion, tooling
 │   └── specifying/ # @bitcode/specifying machine (not product domain)
-├── codemod/ # temporary one-off codemods (see codemod/README.md)
+├── .codemods/ # temporary one-off codemods (see .codemods/README.md)
 ├── containers/
 │   ├── images/ # OCI appliances (pipeliner, …)
 │   ├── k8/ # Kubernetes manifests

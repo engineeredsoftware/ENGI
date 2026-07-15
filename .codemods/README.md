@@ -1,12 +1,12 @@
 # Codemod — temporary code-modification scripts
 
 **Home for temporary, one-off codemodification scripts for the Bitcode
-repository.** This directory lives at the **repo root** (`codemod/`), not under
+repository.** This directory lives at the **repo root** (`.codemods/`), not under
 `apps/uapi` or any single app package.
 
 ## When to put a script here
 
-Use `codemod/` for **ephemeral, mechanical refactors** that:
+Use `.codemods/` for **ephemeral, mechanical refactors** that:
 
 - rename identifiers, paths, or import prefixes across many files
 - apply a bounded AST transform (e.g. jscodeshift) once or a few times
@@ -18,7 +18,7 @@ verifiers, CI helpers, and long-lived maintenance tools belong under
 
 | Location | Purpose |
 | --- | --- |
-| **`codemod/`** (this folder) | Temporary / one-off codemods for Bitcode |
+| **`.codemods/`** (this folder) | Temporary / one-off codemods for Bitcode |
 | **`scripts/`** | Durable automation: gates, canon checks, promotion, tooling |
 
 ## Conventions
@@ -30,14 +30,14 @@ verifiers, CI helpers, and long-lived maintenance tools belong under
 3. **Prefer dry-run first** — never apply on a dirty tree without review.
 4. **Delete when done** — after the migration is merged and verified, remove the
    script (or leave only historical notes in this README if useful). Do not let
-   `codemod/` become a second `scripts/` tree.
-5. **No product runtime** — nothing under `codemod/` is imported by apps,
+   `.codemods/` become a second `scripts/` tree.
+5. **No product runtime** — nothing under `.codemods/` is imported by apps,
    packages, or CI required paths unless a human intentionally runs it.
 
 ## Layout
 
 ```
-codemod/
+.codemods/
 ├── README.md                              # this file
 └── <transform-name>.js|.mjs|.ts           # one-off scripts (add as needed)
 ```
@@ -50,11 +50,11 @@ jscodeshift transform: `@/components/ui/<mod>` → `@/components/shadcn/<mod>`.
 
 ```sh
 # Dry-run
-npx jscodeshift -d -p -t codemod/migrate-ui-imports-to-base-shadcn.js \
+npx jscodeshift -d -p -t .codemods/migrate-ui-imports-to-base-shadcn.js \
   'apps/uapi/app/**/*.tsx' 'apps/uapi/components/**/*.tsx'
 
 # Apply
-npx jscodeshift -t codemod/migrate-ui-imports-to-base-shadcn.js \
+npx jscodeshift -t .codemods/migrate-ui-imports-to-base-shadcn.js \
   'apps/uapi/app/**/*.tsx' 'apps/uapi/components/**/*.tsx'
 ```
 
@@ -63,7 +63,7 @@ touched apps.
 
 ## Adding a new temporary codemod
 
-1. Create `codemod/<name>.js` (or `.mjs`) with a short header comment and usage.
+1. Create `.codemods/<name>.js` (or `.mjs`) with a short header comment and usage.
 2. List it under **Current scripts** in this README (or remove the entry when
    you delete the script after the migration).
 3. Run dry-run → apply → review → test → commit the **result** of the codemod

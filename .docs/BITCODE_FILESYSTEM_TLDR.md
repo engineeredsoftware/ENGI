@@ -415,7 +415,7 @@ Format: `path -- <1 sentence TL;DR>`.
  ENGI_SPEC_V8.md -- Legacy historical artifact (do not implement from).
  ENGI_SPEC_V8_NOTES.md -- Legacy historical artifact (do not implement from).
  ENGI_SPEC_V9.md -- Legacy historical artifact (do not implement from).
- codemod/ -- Directory `codemod`.
+ .codemods/ -- Directory `codemod`.
  README.md -- Human orientation for this directory.
  .docs/ -- Top-level documentation artifacts.
  api/ -- Directory `api`.
