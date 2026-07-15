@@ -11163,7 +11163,6 @@ Format: `path -- <1 sentence TL;DR>`.
  postcss.config.js -- UAPI file.
  private.key -- UAPI file.
  README.md -- Human orientation for this directory.
- requirements.txt -- UAPI file.
  tailwind.config.js -- Tailwind CSS theme and content paths.
  tailwind.config.ts -- Tailwind CSS theme and content paths.
  tsconfig.json -- TypeScript project configuration.
