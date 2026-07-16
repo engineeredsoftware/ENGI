@@ -3,7 +3,7 @@
  *
  * The physical table name is retained by the V26 migration boundary. This
  * model is the Bitcode storage-edge translation layer for AssetPack evidence
- * and PR Shippable delivery records.
+ * and settle PR delivery records.
  */
 
 import { BaseModel } from './base';

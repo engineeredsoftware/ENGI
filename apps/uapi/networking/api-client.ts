@@ -176,7 +176,7 @@ export const callAssetPackExecutionsAPI = async (
 
 /**
  * Fetch a list of pipeline executions (history) for the current user.
- * Each execution may include AssetPack evidence and Finish-delivered Shippables.
+ * Each execution may include AssetPack evidence and settle delivery surfaces.
  */
 export const fetchPipelineExecutionHistory = async (): Promise<PipelineExecution[]> => {
   const response = await fetch('/api/executions/history');

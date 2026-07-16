@@ -405,7 +405,7 @@ export function registerMonitoringTools(): MCPTool[] {
 Provides comprehensive pipeline information including:
 • Current execution status and phase
 • Performance metrics and resource usage
-• AssetPack results and PR Shippables produced
+• AssetPack results and settle PR deliveries produced
 • Error information and recovery status
 • Real-time execution events (optional)
 

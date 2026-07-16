@@ -20,7 +20,7 @@ interface DeliveryTemplatePickerProps {
 export default function DeliveryTemplatePicker({ isOpen, onSelect, onClose, searchTerm }: DeliveryTemplatePickerProps) {
   const [shippables, setShippables] = useState<Shippable[]>([]);
 
-  // Fetch AssetPack executions that can expose Finish-delivered Shippables.
+  // Fetch AssetPack executions that can expose settle delivery surfaces.
   useEffect(() => {
     if (!isOpen || shippables.length > 0) return;
     fetch('/api/executions?type=agentic-execution:asset-pack')

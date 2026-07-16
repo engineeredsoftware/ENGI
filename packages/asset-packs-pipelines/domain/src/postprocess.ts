@@ -233,6 +233,7 @@ export function buildAssetPackPostprocessedResult(
     findStoredExecutionValue(execution, 'implementation', 'assetPackSynthesisArtifacts')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'writtenAssets')?.summary ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'settleDelivery')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'shippables')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'summary') ||
     normalized.assetPackSynthesisArtifacts?.summary ||
@@ -303,8 +304,16 @@ export function buildAssetPackPostprocessedResult(
   const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
   const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
-  const shippables =
+  // Prefer settleDelivery; dual-read historical shippables + store.
+  const settleDeliveryFromStore =
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'settleDelivery') ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'shippables') ||
+    findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') ||
+    null;
+  const settleDelivery =
+    (normalized as any).settleDelivery ||
     normalized.shippables ||
+    settleDeliveryFromStore ||
     (shippable
       ? {
           ...(shippable.prUrl ? { pullRequest: { url: shippable.prUrl, title: shippable.title } } : {}),
@@ -326,7 +335,9 @@ export function buildAssetPackPostprocessedResult(
     repository,
     summary: finalSummary,
     shippable,
-    shippables: shippables as any,
+    settleDelivery: settleDelivery as any,
+    // Dual-write historical key for reread clients.
+    shippables: settleDelivery as any,
     deliveryMechanism: normalized.deliveryMechanism || shippable,
     assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     writtenAssets: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,

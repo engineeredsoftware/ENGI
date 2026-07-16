@@ -51,6 +51,9 @@ export interface AssetPackOutput {
   success: boolean;
   summary?: string;
   shippable?: ShippableMeta;
+  /** Canonical settle PR surface after rights (prefer over shippables). */
+  settleDelivery?: AssetPackSynthesisArtifactsMeta;
+  /** Historical dual-write of settleDelivery for reread clients. */
   shippables?: AssetPackSynthesisArtifactsMeta;
   deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
@@ -92,6 +95,9 @@ export interface AssetPackPostprocessed {
   repository?: string;
   summary?: string;
   shippable?: ShippableMeta;
+  /** Canonical settle delivery surface. */
+  settleDelivery?: AssetPackSynthesisArtifactsMeta | null;
+  /** Historical dual-write of settleDelivery. */
   shippables?: AssetPackSynthesisArtifactsMeta | null;
   deliveryMechanism?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;

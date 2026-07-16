@@ -1263,6 +1263,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             null;
           const completionDelivery =
             assetPackCompletion?.deliveryMechanism ||
+            assetPackCompletion?.settleDelivery ||
             assetPackCompletion?.shippables ||
             null;
           const completionFileChanges = completionWrittenAssets?.fileChanges || null;

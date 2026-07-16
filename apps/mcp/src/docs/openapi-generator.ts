@@ -210,7 +210,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge
             url: {
               type: 'string',
               format: 'uri',
-              description: 'External URL for the PR-backed Shippable',
+              description: 'External URL for the settle PR delivery',
               example: 'https://github.com/bitcode-labs/webapp/pull/123'
             },
             content: {
@@ -297,7 +297,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge
             assetPacks: {
               type: 'array',
               items: { $ref: '#/components/schemas/AssetPack' },
-              description: 'Generated AssetPack results and PR Shippables'
+              description: 'Generated AssetPack results and settle PR deliveries'
             },
             metrics: { $ref: '#/components/schemas/ExecutionMetrics' },
             streamUrl: {

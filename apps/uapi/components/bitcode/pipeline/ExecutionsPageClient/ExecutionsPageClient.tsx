@@ -347,6 +347,7 @@ export function ExecutionsClient() {
     null;
   const deliveryMechanismForPanels =
     getHeaderSettleDelivery(historyAssetPackCompletion) ||
+    headerPostprocessed?.settleDelivery ||
     headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
     null;

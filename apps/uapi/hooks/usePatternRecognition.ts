@@ -421,7 +421,7 @@ const generateLearningInsights = (
   // Risk assessment insights
   const highRiskPatterns = patterns.filter(p => p.riskLevel === 'high');
   if (highRiskPatterns.length > 0) {
-    insights.push(`Detected ${highRiskPatterns.length} high-risk pattern(s) - consider splitting the AssetPack synthesis into smaller shippables`);
+    insights.push(`Detected ${highRiskPatterns.length} high-risk pattern(s) - consider splitting AssetPack synthesis into smaller options`);
   }
   
   return insights;

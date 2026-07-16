@@ -668,7 +668,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       run.asset_pack_completion?.summary ||
       run.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
       run.asset_pack_completion?.writtenAssets?.summary ||
-      run.asset_pack_completion?.shippables?.summary ||
+      run.asset_pack_completion?.settleDelivery?.summary || run.asset_pack_completion?.shippables?.summary ||
       run.asset_pack_completion?.deliveryMechanism?.summary ||
       failureSummary ||
       null,

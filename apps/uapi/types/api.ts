@@ -195,7 +195,9 @@ export interface PipelineExecution {
   asset_pack_synthesis_artifacts?: AssetPackSynthesisArtifactsSurface | null;
   /** Semantic reread of the AssetPack synthesis artifacts. */
   written_assets?: AssetPackSurface | null;
-  /** V26 Finish-delivered pull-request Shippable. */
+  /** Canonical settle PR delivery surface. */
+  settle_delivery?: AssetPackSurface | null;
+  /** Historical dual-write of settle_delivery. */
   shippables?: AssetPackSurface | null;
   /** Delivery mechanism projected onto the connected pull-request interface. */
   delivery_mechanism?: AssetPackSurface | null;
@@ -211,7 +213,9 @@ export interface PipelineExecution {
   /** Canonical AssetPack completion payload. */
   asset_pack_completion?: {
     summary?: string | null;
-    /** Primary Finish-delivered Shippables. */
+    /** Canonical settle delivery surface (buyer PR after rights). */
+    settleDelivery?: AssetPackSurface;
+    /** Historical dual-write of settleDelivery. */
     shippables?: AssetPackSurface;
     /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
     assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsSurface;

@@ -6,7 +6,7 @@ import {
   resolveWrittenAssetTypeFromExecution,
 } from '../../semantic-resolution';
 
-// Header-expected shapes for Finish-delivered shippables.
+// Header-expected shapes for settle delivery + synthesis evidence surfaces.
 export const ShippableSchema = z.object({
   url: z.string(),
   number: z.number().optional(),

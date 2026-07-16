@@ -300,7 +300,7 @@ export function ConversationsCard({
           </div>
         </div>
 
-        {/* Logs & Shippables bucket column */}
+        {/* Logs + settle delivery / evidence surfaces */}
         {showEmbeddedLogs && (
           <div
             className="embedded-process-log border-l border-gray-700 custom-scrollbar"
@@ -318,7 +318,9 @@ export function ConversationsCard({
               {renderLog()}
             </div>
             <div style={{ flex: 1, overflowY: "auto", borderTop: "1px solid rgba(55,65,81)", padding: "0.5rem", backgroundColor: "#0a1428" }}>
-              <h3 style={{ fontSize: "0.8rem", color: "#ccc", marginBottom: "0.5rem" }}>Shippables & Evidence Documents</h3>
+              <h3 style={{ fontSize: "0.8rem", color: "#ccc", marginBottom: "0.5rem" }}>
+                Delivery & evidence
+              </h3>
               {chat.messages.flatMap(m => m.actions || []).length > 0 ? (
                 chat.messages.flatMap(m => m.actions || []).map((action, idx) => (
                   <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.25rem 0" }}>
@@ -333,7 +335,9 @@ export function ConversationsCard({
                   </div>
                 ))
               ) : (
-                <p style={{ fontSize: "0.75rem", color: "#9ca3af" }}>No Shippables or AI documents yet</p>
+                <p style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
+                  No settle delivery or evidence surfaces yet
+                </p>
               )}
             </div>
           </div>
