@@ -49,7 +49,7 @@ function makeScriptedLLM(capturedUserPrompts: string[], overrides: { failOn?: st
   };
 }
 
-/** Build a root that carries registries + agent/step/phase meta the substeps findUp. */
+/** Build a root that carries registries + agent/step/phase meta generations findUp. */
 function makeRootAndStep(llm: (input: any) => Promise<any>) {
   const root = new Execution('agent-root') as any;
   root.llms = { getDefaultLLM: () => llm, getDefaultConfig: () => ({ maxTokens: 4000 }) };

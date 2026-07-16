@@ -65,7 +65,7 @@ function rawLLMPathKey(ctx: ReturnType<typeof getCtx>): string {
   return [ctx.phase, ctx.agentName, ctx.step, ctx.failsafe, ctx.sequence].filter(Boolean).join('-');
 }
 
-export async function logLLMSubstepStart(
+export async function logLLMGenerationStart(
   execution: Execution,
   sequence: string,
   systemPrompt: string,
@@ -119,7 +119,7 @@ export async function logLLMSubstepStart(
   } catch { /* never break the pipeline for debug I/O */ }
 
   if (!(DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES)) return;
-  log('[llm substep] start', 'debug', {
+  log('[llm generation] start', 'debug', {
     ...ctx,
     systemLen: systemPrompt.length,
     userLen: userPrompt.length,
@@ -129,7 +129,7 @@ export async function logLLMSubstepStart(
     providerPlanned: (llmConfig as any)?.provider,
   });
   if (DIAG_FULL_PROMPTS) {
-    log('[llm substep] prompt-full', 'debug', {
+    log('[llm generation] prompt-full', 'debug', {
       ...ctx,
       systemPrompt,
       userPrompt,
@@ -138,7 +138,7 @@ export async function logLLMSubstepStart(
   }
 }
 
-export async function logLLMSubstepSuccess(
+export async function logLLMGenerationSuccess(
   execution: Execution,
   sequence: string,
   output: { content?: string; usage?: any; metadata?: any },
@@ -185,7 +185,7 @@ export async function logLLMSubstepSuccess(
   } catch { /* ignore */ }
 
   if (DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES) {
-    log('[llm substep] success', 'debug', {
+    log('[llm generation] success', 'debug', {
       ...ctx,
       durationMs: undefined,
       outputLen: String(output?.content || '').length,
@@ -195,7 +195,7 @@ export async function logLLMSubstepSuccess(
       provider: output?.metadata?.provider,
     });
     if (DIAG_FULL_PROMPTS) {
-      log('[llm substep] completion-full', 'debug', {
+      log('[llm generation] completion-full', 'debug', {
         ...ctx,
         content: output?.content,
       });
@@ -227,13 +227,13 @@ export async function logLLMSubstepSuccess(
         model: output?.metadata?.model,
       });
       if (DIAG_ENABLED && (inputPath || outputPath)) {
-        log('[llm substep] prompt-io', 'debug', { ...ctx, inputPath, outputPath });
+        log('[llm generation] prompt-io', 'debug', { ...ctx, inputPath, outputPath });
       }
     } catch {}
   }
 }
 
-export function logLLMSubstepError(
+export function logLLMGenerationError(
   execution: Execution,
   sequence: string,
   err: unknown,
@@ -256,7 +256,7 @@ export function logLLMSubstepError(
 
   if (!DIAG_ENABLED) return;
   const message = err instanceof Error ? err.message : String(err);
-  log('[llm substep] error', 'error', {
+  log('[llm generation] error', 'error', {
     ...ctx,
     error: message,
     durationMs
@@ -342,10 +342,10 @@ export function logStepTrace(stepExec: Execution, stepName: string) {
 }
 
 // Optional debug-stop helpers to keep core code minimal
-export function shouldDebugStopAfterFirstReason(substepExec: Execution, sequence: string): boolean {
+export function shouldDebugStopAfterFirstReason(generationExec: Execution, sequence: string): boolean {
   try {
-    const pathArr: string[] = (substepExec as any).getPath?.() || [];
-    const ctx = getCtx(substepExec, sequence);
+    const pathArr: string[] = (generationExec as any).getPath?.() || [];
+    const ctx = getCtx(generationExec, sequence);
     const decision = shouldHardStopAfterLlmCall({
       sequence,
       pathArr,
@@ -370,7 +370,7 @@ export function shouldDebugStopAfterFirstReason(substepExec: Execution, sequence
           extra: { reason: decision.reason },
         });
       } catch { /* ignore */ }
-      log('[llm substep] debug-stop', 'info', {
+      log('[llm generation] debug-stop', 'info', {
         ...ctx,
         reason: decision.reason || 'BITCODE_DEBUG_STOP_AFTER_FIRST_REASON',
         debugDir: getLlmCallDebugRunDir(String(ctx.correlationId || '')),
@@ -381,22 +381,22 @@ export function shouldDebugStopAfterFirstReason(substepExec: Execution, sequence
   return false;
 }
 
-export function shouldDebugStopAfterFirstStructuredOutput(substepExec: Execution, sequence: string): boolean {
+export function shouldDebugStopAfterFirstStructuredOutput(generationExec: Execution, sequence: string): boolean {
   try {
     if (sequence !== 'structured_output') return false;
     const flag = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT || '').toLowerCase() === '1';
     if (!flag) return false;
-    const pathArr = (substepExec as any).getPath?.() || [];
+    const pathArr = (generationExec as any).getPath?.() || [];
     const isPlanStep = pathArr.includes('plan');
     const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
     // The structured_output substep runs inside the first thinkings
     // generation node (gen-0); the sequence gate above already pins the kind.
     const isFirstStructured = pathArr.includes('gen-0');
-    const ctx = getCtx(substepExec);
+    const ctx = getCtx(generationExec);
     const agentFilter = process?.env?.BITCODE_DEBUG_STOP_AGENT_FILTER;
     const agentMatches = agentFilter ? String(ctx.agentName || '').includes(String(agentFilter)) : true;
     if (isPlanStep && inPrepareFailsafe && isFirstStructured && agentMatches) {
-      log('[llm substep] debug-stop', 'info', { ...ctx, reason: 'BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT' });
+      log('[llm generation] debug-stop', 'info', { ...ctx, reason: 'BITCODE_DEBUG_STOP_AFTER_FIRST_STRUCTURED_OUTPUT' });
       return true;
     }
   } catch {}

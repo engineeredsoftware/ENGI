@@ -829,7 +829,7 @@ as if they were source of product law.
 ### 9.2 “How does an agent call an LLM?”
 
 1. `execution-generics` Execution store
-2. `agent-generics` factoryPTRRAgent + substeps
+2. `agent-generics` factoryPTRRAgent + Failsafe/Thinkings generations
 3. `prompts` Prompt registry + raw_promptparts
 4. `generic-llms` provider
 5. Stream path: pipelines-generics streaming → source-safe filter → uapi log

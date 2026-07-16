@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
-import { factoryStitchUntilComplete, factoryReason, factoryStructuredOutput } from '../substeps/factories';
+import { factoryStitchUntilComplete, factoryReason, factoryStructuredOutput } from '../generations/llm-bound-factories';
 
 const schema = z.object({ value: z.string() });
 

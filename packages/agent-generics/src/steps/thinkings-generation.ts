@@ -9,7 +9,7 @@
 
 import { sequential, type Executor } from '@bitcode/execution-generics';
 import { z } from 'zod';
-import { factoryReason, factoryJudge, factoryStructuredOutput } from '../substeps/factories';
+import { factoryReason, factoryJudge, factoryStructuredOutput } from '../generations/llm-bound-factories';
 
 /**
  * Thinkings + Generation hierarchy name (base Thinkings composition of the

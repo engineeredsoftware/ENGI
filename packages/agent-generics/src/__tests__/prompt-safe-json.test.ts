@@ -3,7 +3,7 @@
  * reason/judge/structured_output with RangeError: Invalid string length.
  */
 
-import { projectPromptSafeValue, safePromptJson } from '../substeps/factories';
+import { projectPromptSafeValue, safePromptJson } from '../generations/llm-bound-factories';
 
 describe('projectPromptSafeValue / safePromptJson', () => {
   it('strips inventory.sources and never embeds file content', () => {

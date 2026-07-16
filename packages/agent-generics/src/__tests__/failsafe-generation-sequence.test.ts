@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
 import { StepExecution } from '../execution';
 import { createFailsafeGenerationSequence } from '../steps/failsafe-sequence';
-import { factoryChunkThenSum, factoryStitchUntilComplete } from '../substeps/factories';
+import { factoryChunkThenSum, factoryStitchUntilComplete } from '../generations/llm-bound-factories';
 
 const outputSchema = z.object({ title: z.string(), score: z.number() });
 

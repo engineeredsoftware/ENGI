@@ -7,7 +7,7 @@
 ALL agents now follow the SAME pattern:
 - **Define schemas** - WHAT each step produces
 - **Define prompts** - WHO the agent is, HOW it thinks
-- **Factories handle everything** - Automatic 7-substep execution
+- **Factories handle everything** - Automatic Failsafe×Thinkings execution
 - **Zero manual implementation** - Framework does ALL the work
 
 ## The Architecture Truth
@@ -36,7 +36,7 @@ Every agent variation follows PTRR:
 3. **Refine** - Improve results  
 4. **Retry** - Handle failures
 
-## The 7-SubStep Architecture
+## The Failsafe×Thinkings Architecture
 
 Each PTRR step runs IDENTICALLY:
 
@@ -85,7 +85,7 @@ These are pre‑enabled in `.env.local` for local development.
 - BITCODE_DEBUG_ONLY_AGENT: substring — execute only agents whose name includes this.
 - BITCODE_DEBUG_ONLY_STEP: plan|try|refine|retry — execute only that PTRR step.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — include only those parent failsafes.
-- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those child substeps under each parent.
+- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those Thinkings generations under each parent.
 
 Markers
 - Failsafe events log `[failsafe] prepare-context|chunk-then-sum|stitch-until-complete` with start/complete payloads.
@@ -213,7 +213,7 @@ const StepOutputSchema = z.object({
 Think of agents as **declarations**:
 1. **Schemas declare** - What each step produces
 2. **Prompts declare** - How the agent thinks
-3. **Factories execute** - The 7-substep sequence automatically
+3. **Factories execute** - The Failsafe×Thinkings sequence automatically
 4. **Framework handles** - All complexity, state, and tool execution
 
 This creates reliable, validated, tool-augmented decision-making at scale with MINIMAL code and MAXIMUM capability.

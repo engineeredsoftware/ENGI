@@ -88,7 +88,7 @@ const SOURCE_ROOTS = Object.freeze({
   stepFactories: 'packages/agent-generics/src/steps/factories.ts',
   failsafeSequence: 'packages/agent-generics/src/steps/failsafe-sequence.ts',
   thricifiedGeneration: 'packages/agent-generics/src/steps/thinkings-generation.ts',
-  substepFactories: 'packages/agent-generics/src/substeps/factories.ts',
+  generationFactories: 'packages/agent-generics/src/generations/llm-bound-factories.ts',
   promptOverlays: 'packages/agent-generics/src/execution/prompt-overlays.ts',
   docCodeToolDecorator: 'packages/tools-generics/src/doc-code-tool/DocCodeToolDecorator.ts',
   docCodeToolPrompt: 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
@@ -253,7 +253,7 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
   row({
     contractId: 'failsafe-sequence-context-handling',
     label: 'FailsafeGenerationSequence selects concise context, chunks oversized composed requests, and stitches typed outputs',
-    sourceRoots: [SOURCE_ROOTS.failsafeSequence, SOURCE_ROOTS.substepFactories, SOURCE_ROOTS.failsafeMetaSubStepPrompt],
+    sourceRoots: [SOURCE_ROOTS.failsafeSequence, SOURCE_ROOTS.generationFactories, SOURCE_ROOTS.failsafeMetaSubStepPrompt],
     registryIds: ['FailsafeGenerationSequence', 'FailsafeGenerationPrompt', 'FailsafeExecution'],
     compositionLevelIds: ['failsafe-generation-sequence', 'failsafe-substep'],
     interpolationKeyIds: ['selectedKeys', 'selectedContext', 'chunkResults'],
@@ -286,7 +286,7 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
     label: 'ThricifiedGeneration resolves final Reason, Judge, and StructuredOutput call chain and typed parser target',
     sourceRoots: [
       SOURCE_ROOTS.thricifiedGeneration,
-      SOURCE_ROOTS.substepFactories,
+      SOURCE_ROOTS.generationFactories,
       SOURCE_ROOTS.agentGenerationSubStepPrompt,
     ],
     registryIds: ['ThricifiedGeneration', 'AgentGenerationSubStepPrompt', 'GenerationExecution'],
@@ -299,11 +299,11 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
     executionAncestryFrameIds: ['failsafe-execution', 'generation-execution'],
     requiredPredicateIds: [
       'thricified.sequences-reason-judge-structured-output',
-      'substep.builds-hierarchical-prompt',
-      'substep.stores-final-prompt-and-output',
-      'substep.stores-parsed-output',
+      'generation.builds-hierarchical-prompt',
+      'generation.stores-final-prompt-and-output',
+      'generation.stores-parsed-output',
       'generationprompt.injects-tool-docs-and-schema',
-      'substep.enforces-json-generation-hints',
+      'generation.enforces-json-generation-hints',
     ],
     validationCommand: 'pnpm run check:v41-gate3',
     disclosureTier: 'parser_target_id_source_safe',
@@ -315,7 +315,7 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
       SOURCE_ROOTS.executionPrimitive,
       SOURCE_ROOTS.promptExecution,
       SOURCE_ROOTS.promptOverlays,
-      SOURCE_ROOTS.substepFactories,
+      SOURCE_ROOTS.generationFactories,
     ],
     registryIds: ['Execution', 'PromptExecution', 'ExecutionStreamAdapter', 'PromptOverlay'],
     compositionLevelIds: ['pipeline-or-phase-context', 'failsafe-substep', 'thricified-generation'],
@@ -347,7 +347,7 @@ export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS = Object.freeze([
       SOURCE_ROOTS.docCodeToolPrompt,
       SOURCE_ROOTS.formatUsableTools,
       SOURCE_ROOTS.toolExecutionPrompt,
-      SOURCE_ROOTS.substepFactories,
+      SOURCE_ROOTS.generationFactories,
     ],
     registryIds: ['DocCodeToolPrompt', 'DocCodeTool', 'ToolExecutionPrompt'],
     compositionLevelIds: ['tool-doc-code-prompt'],
@@ -605,17 +605,17 @@ function buildPredicateResults(sourceText, gate2Inventory) {
     ),
     predicateResult(
       'failsafe.stores-selected-context',
-      SOURCE_ROOTS.substepFactories,
+      SOURCE_ROOTS.generationFactories,
       // PCC selection contract: the keys-only tree, the selected keys, and the
       // read-in selected values are stored on the failsafe execution.
-      sourceText.substepFactories.includes("store('context', 'keys'")
-        && sourceText.substepFactories.includes("store('context', 'selectedKeys'")
-        && sourceText.substepFactories.includes("store('context', 'selectedContext'"),
+      sourceText.generationFactories.includes("store('context', 'keys'")
+        && sourceText.generationFactories.includes("store('context', 'selectedKeys'")
+        && sourceText.generationFactories.includes("store('context', 'selectedContext'"),
     ),
     predicateResult(
       'failsafe.stores-ptrr-failsafe',
-      SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes("store('ptrr', 'failsafe'"),
+      SOURCE_ROOTS.generationFactories,
+      sourceText.generationFactories.includes("store('ptrr', 'failsafe'"),
     ),
     predicateResult(
       'failsafe.prompt-has-handle',
@@ -624,9 +624,9 @@ function buildPredicateResults(sourceText, gate2Inventory) {
     ),
     predicateResult(
       'failsafe.uses-output-schema',
-      SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes('outputSchema.parse')
-        || sourceText.substepFactories.includes('factoryStitchUntilComplete<T>'),
+      SOURCE_ROOTS.generationFactories,
+      sourceText.generationFactories.includes('outputSchema.parse')
+        || sourceText.generationFactories.includes('factoryStitchUntilComplete<T>'),
     ),
     predicateResult(
       'thricified.sequences-reason-judge-structured-output',
@@ -637,22 +637,22 @@ function buildPredicateResults(sourceText, gate2Inventory) {
         && sourceText.thricifiedGeneration.includes('sequential<any>(...seq)'),
     ),
     predicateResult(
-      'substep.builds-hierarchical-prompt',
-      SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes('buildHierarchicalPrompt(substep)')
-        && sourceText.substepFactories.includes('prompts.join'),
+      'generation.builds-hierarchical-prompt',
+      SOURCE_ROOTS.generationFactories,
+      sourceText.generationFactories.includes('buildHierarchicalPrompt(generationExec)')
+        && sourceText.generationFactories.includes('prompts.join'),
     ),
     predicateResult(
-      'substep.stores-final-prompt-and-output',
-      SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes("store('llm', 'input'")
-        && sourceText.substepFactories.includes("store('llm', 'prompt'")
-        && sourceText.substepFactories.includes("store('llm', 'output'"),
+      'generation.stores-final-prompt-and-output',
+      SOURCE_ROOTS.generationFactories,
+      sourceText.generationFactories.includes("store('llm', 'input'")
+        && sourceText.generationFactories.includes("store('llm', 'prompt'")
+        && sourceText.generationFactories.includes("store('llm', 'output'"),
     ),
     predicateResult(
-      'substep.stores-parsed-output',
-      SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes("store('llm', 'parsedOutput'"),
+      'generation.stores-parsed-output',
+      SOURCE_ROOTS.generationFactories,
+      sourceText.generationFactories.includes("store('llm', 'parsedOutput'"),
     ),
     predicateResult(
       'generationprompt.injects-tool-docs-and-schema',
@@ -661,10 +661,10 @@ function buildPredicateResults(sourceText, gate2Inventory) {
         && sourceText.agentGenerationSubStepPrompt.includes('auto:output_schema'),
     ),
     predicateResult(
-      'substep.enforces-json-generation-hints',
-      SOURCE_ROOTS.substepFactories,
-      sourceText.substepFactories.includes('PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER')
-        && sourceText.substepFactories.includes('PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA'),
+      'generation.enforces-json-generation-hints',
+      SOURCE_ROOTS.generationFactories,
+      sourceText.generationFactories.includes('PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER')
+        && sourceText.generationFactories.includes('PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA'),
     ),
     predicateResult(
       'execution.stores-and-streams-state',

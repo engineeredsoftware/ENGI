@@ -9,7 +9,7 @@ Related packages:
 | --- | --- |
 | `@bitcode/tools-generics` | `Tool`, DocCodeToolPrompt, `formatUsableTools` |
 | `@bitcode/agent-generics` | AgentExecution tools registry, PTRR step postprocess, interpolations |
-| `@bitcode/generic-agents-ptrr` | PTRRAgent base (Plan→Try→Refine→Retry) |
+| `@bitcode/generic-agents-ptrr` | PTRRAgent base (Plan→Try→Retry→Refine) |
 | `@bitcode/generic-doc-comments-doc-code` | Build-time `@doc-code-tool` → prompt attachment |
 
 ---
@@ -40,11 +40,12 @@ For each selection:
         ↓
 Store tools.use / tools.used; publish agent-step work update
         ↓
-Next PTRR step (Refine/Retry) sees usedTools via results interpolation
+Next PTRR step (Retry then Refine) sees usedTools via results interpolation
 ```
 
-Tools run **once per step**, **after** failsafes — never inside Reason/Judge as
-side effects. Selection is declarative JSON; execution is deterministic registry lookup.
+Tools run **once per Try/Retry step**, **after** failsafes — never inside
+Reason/Judge as side effects, and never on Plan or Refine. Selection is
+declarative JSON; execution is deterministic registry lookup.
 
 ---
 
@@ -81,7 +82,7 @@ const docs = formatUsableTools(Object.values(execution.tools.getUsableTools()));
 
 ### Injection path (automatic)
 
-`factoryLLMSubStep` (Thinkings generations) calls
+`factoryLLMGeneration` (Thinkings generations) calls
 `injectToolInterpolationsForGeneration` →
 `injectUsableToolDocsIntoPrompt`:
 
@@ -178,14 +179,14 @@ Optional specialized formatting: `ToolPromptRegistry.formatOutput(name, output)`
 
 ## 5. PTRR placement
 
-| PTRR step | Failsafe×Thinkings | Tools postprocess |
+| PTRR step (order) | Failsafe×Thinkings | Tools postprocess |
 | --- | --- | --- |
-| Plan | yes | if `output.useTools?.length` |
-| Try | yes | if `output.useTools?.length` |
-| Refine | yes | if `output.useTools?.length` |
-| Retry | yes | if `output.useTools?.length` (some paths always consider tools) |
+| Plan (1) | yes | **no** — plans tool use only |
+| Try (2) | yes | if `output.useTools?.length` |
+| Retry (3) | yes | if `output.useTools?.length` (re-try using prior errors/usedTools) |
+| Refine (4) | yes | **no** — final agent-typed return |
 
-Composition (simplified):
+Composition for Try/Retry (simplified):
 
 ```ts
 sequential(
@@ -243,6 +244,6 @@ Gate-aware file tools may bind `executionContext` so edits honor pipeline gates.
 | formatUsableTools | `packages/tools-generics/src/doc-code-tool/formatUsableTools.ts` |
 | AgentToolsRegistry / ExecutionTool | `packages/agent-generics/src/execution/AgentToolsRegistry.ts` |
 | Doc + results interpolation | `packages/agent-generics/src/execution/tool-prompt-interpolation.ts` |
-| factoryToolsExecution | `packages/agent-generics/src/substeps/factories.ts` |
+| factoryToolsExecution | `packages/agent-generics/src/generations/llm-bound-factories.ts` |
 | PTRR step wiring | `packages/agent-generics/src/steps/factories.ts` |
 | ToolExecutionPrompt | `packages/agent-generics/src/prompts/ToolExecutionPrompt.ts` |

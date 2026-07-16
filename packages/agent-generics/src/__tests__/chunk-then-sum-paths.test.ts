@@ -16,7 +16,7 @@ import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
 import { StepExecution } from '../execution';
 import { createFailsafeGenerationSequence } from '../steps/failsafe-sequence';
-import { factoryChunkThenSum, factoryPrepareConciseContext } from '../substeps/factories';
+import { factoryChunkThenSum, factoryPrepareConciseContext } from '../generations/llm-bound-factories';
 
 function makeRootAndStep(llm?: (input: any) => Promise<any>) {
   const root = new Execution('agent-root') as any;

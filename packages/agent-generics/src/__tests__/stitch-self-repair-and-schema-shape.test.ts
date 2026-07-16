@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
-import { factoryStitchUntilComplete, factoryStructuredOutput } from '../substeps/factories';
+import { factoryStitchUntilComplete, factoryStructuredOutput } from '../generations/llm-bound-factories';
 
 describe('StitchUntilComplete self-repair instruction', () => {
   it('tells the model exactly what failed schema validation instead of only "continue"', async () => {

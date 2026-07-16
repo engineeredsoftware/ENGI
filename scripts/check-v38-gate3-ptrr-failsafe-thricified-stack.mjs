@@ -133,7 +133,7 @@ function main() {
     'packages/agent-generics/src/steps/factories.ts',
     'packages/agent-generics/src/steps/failsafe-sequence.ts',
     'packages/agent-generics/src/steps/thricified-generation.ts',
-    'packages/agent-generics/src/substeps/factories.ts',
+    'packages/agent-generics/src/generations/llm-bound-factories.ts',
     '.specifications/BITCODE_SPEC_V38.md',
     '.specifications/BITCODE_SPEC_V38_DELTA.md',
     '.specifications/BITCODE_SPEC_V38_NOTES.md',

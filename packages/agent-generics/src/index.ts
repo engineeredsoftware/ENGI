@@ -3,18 +3,18 @@
  *
  * Hierarchy:
  *   generation-generics → generic-generations/{failsafes,thinkings}
- *     → agent-generics (this package: Agent primitive, execution, substeps, QuickAgent)
- *     → generic-agents/PTRR (PTRRAgent base: Plan→Try→Refine→Retry)
+ *     → agent-generics (this package: Agent, Step, Generation factories, QuickAgent)
+ *     → generic-agents/PTRR (PTRRAgent base: Plan→Try→Retry→Refine)
  *     → product / measure / conversation agents
  *
  * PTRR base lives in `@bitcode/generic-agents-ptrr` and is re-exported for product agent assembly.
- * Each PTRR step runs 3 failsafe parents (PrepareConciseContext → ChunkThenSum →
- * StitchUntilComplete), each driving Thinkings (Reason → Judge → StructuredOutput).
+ * Each PTRR step runs 3 FailsafeGenerations (PrepareConciseContext → ChunkThenSum →
+ * StitchUntilComplete), each driving ThinkingsGeneration (Reason → Judge → StructuredOutput).
+ * There is no "substep" construct — Failsafes and Thinkings are Generations.
  *
  * Generation vocabulary: @bitcode/generation-generics
  * Failsafe prepared-context types: @bitcode/generic-generations-failsafes
- * LLM-bound failsafe/thinkings factories still hosted here until AgentExecution
- * coupling is inverted into pure Execution + LLM registry.
+ * LLM-bound failsafe/thinkings factories: ./generations
  *
  * @doc-package
  * version: 1.0.0
@@ -139,7 +139,7 @@ export {
 // Canonical PTRR STEP output schemas (step outputs validate against STEP
 // schemas, not the full agent schema — Plan's default plan shape lives here)
 export { PlanStepOutputSchema, type PlanStepOutput } from './steps/step-schemas';
-// Generation-first aliases
+// Generation factories (Failsafe + Thinkings + tools + step aliases)
 export {
   factoryPlanGeneration,
   factoryTryGeneration,
@@ -148,40 +148,28 @@ export {
   factoryGeneration,
   createFailsafedGenerationSequence,
   createFailsafedThinkingsGeneration,
-  createFailsafedGeneration
+  createFailsafedGeneration,
+  factoryPrepareConciseContext,
+  factoryChunkThenSum,
+  factoryStitchUntilComplete,
+  PCC_KEY_SELECTION_SCHEMA,
+  type PrepareConciseContextSelectionInput,
+  factoryReason,
+  factoryJudge,
+  factoryStructuredOutput,
+  factoryToolsExecution,
+  factoryValidation,
+  factoryAgentFailsafeGenerationExecution,
+  factoryAgentThinkingsGenerationExecution,
+  factoryAgentToolGenerationExecution,
+  projectPromptSafeValue,
+  safePromptJson,
 } from './generations/factories';
 export { createThinkingsGeneration } from './steps/thinkings-generation';
 export {
   createFailsafeGenerationSequence,
   createContextfulFailsafedThinkingsGeneration
 } from './steps/failsafe-sequence';
-
-// ==================== SUBSTEP FACTORIES ====================
-
-// Failsafe substeps
-export {
-  factoryPrepareConciseContext,
-  factoryChunkThenSum,
-  factoryStitchUntilComplete,
-  PCC_KEY_SELECTION_SCHEMA,
-  type PrepareConciseContextSelectionInput
-} from './substeps/factories';
-
-// Generation substeps
-export {
-  factoryReason,
-  factoryJudge,
-  factoryStructuredOutput,
-  factoryToolsExecution,
-  factoryValidation
-} from './substeps/factories';
-
-// Generation-layer execution factories (within a PTRR step)
-export {
-  factoryAgentFailsafeGenerationExecution,
-  factoryAgentThinkingsGenerationExecution,
-  factoryAgentToolGenerationExecution,
-} from './substeps/factories';
 
 // ==================== EXECUTION TYPES ====================
 

@@ -2200,7 +2200,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/agent-generics/src/diagnostics/trace.ts',
         'packages/agent-generics/src/diagnostics/instrumentation.ts',
         'packages/agent-generics/src/execution/file-diff-integration.ts',
-        'packages/agent-generics/src/substeps/factories.ts',
+        'packages/agent-generics/src/generations/llm-bound-factories.ts',
         'packages/agent-generics/src/types.ts',
         'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
         'packages/pipelines-generics/src/execution/Metrics.ts',

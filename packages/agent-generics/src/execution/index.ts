@@ -8,7 +8,7 @@
  *   - FailsafeGenerationExecution: failsafe parent (PCC / Chunk / Stitch)
  *   - ThinkingsGenerationExecution: thinkings child (Reason / Judge / Output)
  *
- * Legacy: SubStep was the old name for Generation within a Step.
+
  */
 
 import { Execution } from '@bitcode/execution-generics/Execution';

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
-import { factoryStructuredOutput } from '../substeps/factories';
+import { factoryStructuredOutput } from '../generations/llm-bound-factories';
 
 const schema = z.object({ title: z.string(), score: z.number() });
 

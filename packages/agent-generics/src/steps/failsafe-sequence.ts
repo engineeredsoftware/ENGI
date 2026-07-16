@@ -21,7 +21,7 @@ import {
   factoryPrepareConciseContext,
   factoryChunkThenSum,
   factoryStitchUntilComplete
-} from '../substeps/factories';
+} from '../generations/llm-bound-factories';
 import { createThinkingsGeneration } from './thinkings-generation';
 
 export type FailsafeGenerationSequence<TIn = any, TOut = any> = Executor<TIn, TOut>;

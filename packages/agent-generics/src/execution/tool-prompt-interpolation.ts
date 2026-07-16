@@ -9,7 +9,7 @@
  *    (`auto:tools_results`) so Refine/Retry (and stitch context) can consume
  *    tool outputs without re-invoking tools blindly.
  *
- * Called from factoryLLMSubStep for ThinkingsGeneration sequences.
+ * Called from factoryLLMGeneration for ThinkingsGeneration sequences.
  */
 
 import type { Execution } from '@bitcode/execution-generics/Execution';

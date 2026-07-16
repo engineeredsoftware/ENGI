@@ -175,7 +175,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     agentImplementation: {
       owners: [
         'packages/agent-generics/src/agents/factories.ts',
-        'packages/agent-generics/src/substeps/factories.ts',
+        'packages/agent-generics/src/generations/llm-bound-factories.ts',
         'packages/agent-generics/src/steps/factories.ts'
       ],
       contract: 'Agent roles, steps, substeps, structured outputs, diagnostics, and retries/refinement are named and bounded.'
@@ -207,7 +207,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/agent-generics/src/execution/AgentPromptsRegistry.ts',
       'packages/agent-generics/src/execution/AgentToolsRegistry.ts',
       'packages/agent-generics/src/agents/factories.ts',
-      'packages/agent-generics/src/substeps/factories.ts',
+      'packages/agent-generics/src/generations/llm-bound-factories.ts',
       'packages/agent-generics/src/diagnostics/trace.ts'
     ]
   },

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { AgentExecution } from '../execution';
 import { factoryPlanStep } from '../steps/factories';
-import { factoryStitchUntilComplete } from '../substeps/factories';
+import { factoryStitchUntilComplete } from '../generations/llm-bound-factories';
 
 describe('PTRR step prompt formatting', () => {
   it('formats registry-backed step prompts instead of rendering Prompt objects', async () => {

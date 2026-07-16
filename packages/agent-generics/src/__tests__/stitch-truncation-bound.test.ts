@@ -11,7 +11,7 @@
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
 import { StepExecution } from '../execution';
-import { factoryStitchUntilComplete } from '../substeps/factories';
+import { factoryStitchUntilComplete } from '../generations/llm-bound-factories';
 
 const TRUNCATION_THRESHOLD = 4000 * 3; // maxTokens 4000 * rough chars-per-token 3
 

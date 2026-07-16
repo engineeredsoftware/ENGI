@@ -13,7 +13,7 @@ product / measure / conversation agents # specific + PTRR + Agent
 ```
 
 ```
-@bitcode/agent-generics # factoryAgent, factoryQuickAgent, AgentExecution, substeps
+@bitcode/agent-generics # factoryAgent, factoryQuickAgent, AgentExecution, generations
  ↑
 @bitcode/generic-agents-ptrr # factoryPTRRAgent / factoryPTRRAgent → PTRRAgent
  ↑
@@ -25,7 +25,7 @@ product / measure / conversation agents # specific + PTRR + Agent
 
 | Path | Package name | Role |
 | --- | --- | --- |
-| `PTRR/` | `@bitcode/generic-agents-ptrr` | `PTRRAgent` base (Plan→Try→Refine→Retry + 7-substep failsafes) |
+| `PTRR/` | `@bitcode/generic-agents-ptrr` | `PTRRAgent` base (Plan→Try→Retry→Refine + 7-substep failsafes) |
 | `code-editor/`, `danger-wall/`, … | `@bitcode/generic-agent-*` | Specialized agents |
 
 Product agents supply prompts, tools, and schemas; they do not reimplement PTRR.

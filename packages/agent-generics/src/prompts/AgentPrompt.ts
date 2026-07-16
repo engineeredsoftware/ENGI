@@ -29,7 +29,7 @@ export interface AgentPromptConfig {
  * 
  * This class is intentionally minimal. Agent prompts should contain
  * ONLY information relevant to EVERY LLM call within the agent.
- * More specific context is added through step and substep prompts.
+ * More specific context is added through step and generation prompts.
  */
 export class AgentPrompt extends Prompt {
   constructor(config: AgentPromptConfig) {

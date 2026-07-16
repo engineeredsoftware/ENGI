@@ -2,7 +2,7 @@ import type { Execution } from '@bitcode/execution-generics/Execution';
 
 export interface ExecutionTraceNode {
   id: string;
-  type: 'agent' | 'step' | 'substep' | 'execution';
+  type: 'agent' | 'step' | 'generation' | 'execution';
   path: string[];
   namespaces: Record<string, Record<string, any>>;
   prompt?: { formatted?: string };
@@ -13,7 +13,13 @@ function classify(execution: any): ExecutionTraceNode['type'] {
   const id: string = execution?.id || '';
   if (id.includes('agent:')) return 'agent';
   if (id.includes('step:')) return 'step';
-  if (id.includes('substep:') || id.includes('failsafe:') || id.includes('generation:')) return 'substep';
+  if (
+    id.includes('failsafe:') ||
+    id.includes('thinkings:') ||
+    id.includes('generation:')
+  ) {
+    return 'generation';
+  }
   return 'execution';
 }
 
@@ -76,23 +82,29 @@ export interface ExecutionTraceSummary {
   nodeCount: number;
   namespaceCount: number;
   stepIds: string[];
-  substepIds: string[];
+  /** Generation-shaped node ids (failsafe / thinkings / tools). */
+  generationIds: string[];
 }
 
 export function summarizeExecutionTrace(trace: ExecutionTraceNode): ExecutionTraceSummary {
   let nodeCount = 0;
   let namespaceCount = 0;
   const stepIds: string[] = [];
-  const substepIds: string[] = [];
+  const generationIds: string[] = [];
   const visit = (n: ExecutionTraceNode) => {
     nodeCount++;
     namespaceCount += Object.keys(n.namespaces || {}).length;
     if (n.type === 'step') stepIds.push(n.id);
-    if (n.type === 'substep') substepIds.push(n.id);
+    if (n.type === 'generation') generationIds.push(n.id);
     for (const c of n.children || []) visit(c);
   };
   visit(trace);
-  return { nodeCount, namespaceCount, stepIds, substepIds };
+  return {
+    nodeCount,
+    namespaceCount,
+    stepIds,
+    generationIds,
+  };
 }
 
 export function extractFirstProviderModel(trace: ExecutionTraceNode): { provider?: string; model?: string } {

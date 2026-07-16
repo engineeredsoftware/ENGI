@@ -13,7 +13,7 @@
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
 import { StepExecution } from '../execution';
-import { factoryPrepareConciseContext, PCC_KEY_SELECTION_SCHEMA } from '../substeps/factories';
+import { factoryPrepareConciseContext, PCC_KEY_SELECTION_SCHEMA } from '../generations/llm-bound-factories';
 
 const collectNodes = (node: any, out: any[] = []): any[] => {
   out.push(node);

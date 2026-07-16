@@ -22,14 +22,14 @@ import { Tool } from '@bitcode/tools-generics';
 // ==================== PTRR ENUMS ====================
 
 /**
- * Agent Variation Steps - The four fundamental steps
- * Plan-Try-Refine-Retry: The methodology for intelligent execution
+ * Agent Variation Steps — the four fundamental steps in execution order:
+ * Plan → Try → Retry → Refine.
  */
 export enum AgentVariationStep {
-  PLAN = 'plan',      // Focus: (NO TOOLS) Plan the optimal 'Try'
-  TRY = 'try',        // Focus: Attempt primary agent's objective
-  RETRY = 'retry',    // Focus: Re-attempt given obvious 'Try' failures
-  REFINE = 'refine'   // Focus: (NO TOOLS) Synthesize steps' ultimate objective results
+  PLAN = 'plan',      // Focus: (NO TOOLS) Plan the optimal 'Try' (incl. tool use)
+  TRY = 'try',        // Focus: Attempt primary agent's objective (tools postprocess)
+  RETRY = 'retry',    // Focus: Re-attempt Try given prior Try errors / usedTools
+  REFINE = 'refine'   // Focus: (NO TOOLS) Final agent return — same type as agent
 }
 
 /**
@@ -85,7 +85,7 @@ export interface FailsafeContext {
  * Agent - Executor that sequences PTRR steps
  * 
  * Agents are Executors that implement intelligence through
- * the PTRR (Plan-Try-Refine-Retry) pattern with 7 substeps.
+ * the PTRR (Plan-Try-Retry-Refine) pattern with Failsafe×Thinkings generations.
  * No more variations - agents are selected from registries dynamically.
  * 
  * Execution hierarchy: Agent → Step → FailsafeGeneration → ThinkingsGeneration

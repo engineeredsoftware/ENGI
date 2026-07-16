@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Execution } from '@bitcode/execution-generics';
-import { factoryToolsExecution } from '../substeps/factories';
+import { factoryToolsExecution } from '../generations/llm-bound-factories';
 
 describe('factoryToolsExecution telemetry', () => {
   it('stores tool result events with summarized input and output', async () => {

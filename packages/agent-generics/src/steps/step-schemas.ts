@@ -11,12 +11,13 @@
  *             agent schema onto Plan made every run's plan step fail
  *             validation and burn stitch repairs before Try even started.
  *  - Try    → the agent's output schema (the main generation attempt).
- *  - Refine → the agent's output schema (improves the Try output in place).
- *  - Retry  → the agent's output schema (the last bounded chance at a valid
- *             output — the agent's final result is the last step's output,
- *             so the run's typed contract is preserved).
+ *  - Retry  → the agent's output schema (re-attempt Try using prior errors /
+ *             usedTools; tools postprocess when selected).
+ *  - Refine → the agent's output schema (LAST step — final agent return;
+ *             same type as the agent; no tools postprocess).
  *
- * `factoryPTRRAgent` resolve these defaults; each step
+ * Runtime order: Plan → Try → Retry → Refine.
+ * `factoryPTRRAgent` resolves these defaults; each step
  * accepts an explicit `outputSchema` override in its per-step config.
  */
 

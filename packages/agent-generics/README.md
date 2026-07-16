@@ -10,7 +10,7 @@ Generation / FailsafeGeneration / ThinkingsGeneration # generation-generics
  ↑
 @bitcode/agent-generics # this package (Agent primitive + LLM-bound factories)
  ↑
-@bitcode/generic-agents-ptrr # PTRRAgent base (Plan→Try→Refine→Retry)
+@bitcode/generic-agents-ptrr # PTRRAgent base (Plan→Try→Retry→Refine)
  ↑
 product / generic-agent-* # specialized agents
 ```
@@ -28,15 +28,14 @@ See **[TOOLS-IN-PTRR.md](./TOOLS-IN-PTRR.md)** for the full contract:
 4. `factoryToolsExecution` runs `getTool(name).execute(input)` → `usedTools`.
 5. Prior `usedTools` auto-interpolate as `auto:tools_results` on later generations.
 
-Legacy `*MetaSubStep` / `SubStep` names are not used — prefer
-`FailsafeGeneration` / `ThinkingsGeneration` / `GenerationExecution`.
+Vocabulary: `FailsafeGeneration` / `ThinkingsGeneration` / `GenerationExecution` under `src/generations/`.
 
 PTRR base factories (`factoryPTRRAgent`) live in
 `@bitcode/generic-agents-ptrr` and are re-exported here for compatibility.
 
 ## Quick vs. PTRR Agents
 
-- **PTRRAgent** (`@bitcode/generic-agents-ptrr`): sequences Plan → Try → Refine → Retry. Each step uses FailsafeGeneration × ThinkingsGeneration by default.
+- **PTRRAgent** (`@bitcode/generic-agents-ptrr`): sequences Plan → Try → Retry → Refine. Each step uses FailsafeGeneration × ThinkingsGeneration by default.
 - **QuickAgent** (this package): Minimal, single‑generation agent for setup/utility behaviors where PTRR is unnecessary.
 
 Create a QuickAgent:
@@ -363,10 +362,10 @@ When any agent is called:
 
 1. **Variation Selection** - Agent picks comprehensive or quick based on input
 2. **If Comprehensive (PTRR)**:
- - `factoryPlanStep(schema)` creates Plan executor with 7 substeps
- - `factoryTryStep(schema)` creates Try executor with 7 substeps
- - `factoryRefineStep(schema)` creates Refine executor with 7 substeps
- - `factoryRetryStep(schema)` creates Retry executor with 7 substeps
+ - `factoryPlanStep(schema)` creates Plan executor with Failsafe×Thinkings generations
+ - `factoryTryStep(schema)` creates Try executor with Failsafe×Thinkings generations
+ - `factoryRefineStep(schema)` creates Refine executor with Failsafe×Thinkings generations
+ - `factoryRetryStep(schema)` creates Retry executor with Failsafe×Thinkings generations
 3. **Each Executor Automatically**:
  - Runs `PrepareConciseContext → ChunkThenSum → StitchUntilComplete`
  - Each parent runs `Reason → Judge → StructuredOutput`
@@ -430,7 +429,7 @@ The declarative pattern transforms agents from:
 
 This architecture provides:
 - **Consistency**: Every agent works identically
-- **Reliability**: Proven 7-substep sequence
+- **Reliability**: Proven Failsafe×Thinkings sequence
 - **Quality**: Built-in reasoning and judgment
 - **Scalability**: Easy to add new agents
 - **Maintainability**: Minimal code, maximum capability
@@ -440,7 +439,7 @@ This architecture provides:
 The agent-generics package represents the pinnacle of declarative architecture:
 - Agents are specifications, not implementations
 - Execution is automatic and consistent
-- Quality is built-in through the 7-substep sequence
+- Quality is built-in through the Failsafe×Thinkings sequence
 - Everything just works through the framework
 
 ---
