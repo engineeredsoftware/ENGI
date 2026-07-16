@@ -80,12 +80,12 @@ export const BITCODE_PUBLIC_COPY = {
     rail: 'For Agents, Humans, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
-  // Claim anchors in meaning: * ERC-1155 · ** Measured AssetPacks · *** Measurements (footnotes).
+  // Claim anchors in meaning: * ERC-1155 · ** Measured · *** AssetPacks (footnotes).
   testnetLaunch: {
     badge: 'Productionized Protocol',
     title: 'Exchange Bitcoins for Bitcodes.',
     meaning:
-      "Bitcode's central, canonical, commercial implementations are the mainnet ERC-1155 contract*, **Measured AssetPacks, and delightful applications.",
+      "Bitcode's canonical, commercial deployments are its mainnet ERC-1155* tokens, tradable Measured** AssetPacks*** artifacts, and delightful user applications.",
     flow: [
       {
         id: 'whitepaper',
@@ -138,8 +138,8 @@ export const BITCODE_PUBLIC_COPY = {
     ],
     sourceSafety: [
       '* Bitcode (BTD) tokens are an immutable, scarce, deflationary, data-backed digital asset.',
-      "** An AssetPack's BTD volume is a protocol determination. The price of BTD is a market one.",
-      '*** Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      '** Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      "*** An AssetPack's BTD volume is a protocol determination. The price of BTD is a market one.",
     ],
   },
   operatorFrame: {

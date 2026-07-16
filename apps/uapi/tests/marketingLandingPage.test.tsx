@@ -158,10 +158,11 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Bitcoins', { selector: 'h2 span' })).toBeInTheDocument();
     expect(
       screen.getByText(
-        /Bitcode's central, canonical, commercial implementations are the mainnet ERC-1155 contract/u,
+        /Bitcode's canonical, commercial deployments are its mainnet ERC-1155/u,
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Measured AssetPacks/u)).toBeInTheDocument();
+    expect(screen.getByText(/Measured/u)).toBeInTheDocument();
+    expect(screen.getByText(/AssetPacks/u)).toBeInTheDocument();
     expect(screen.getByText(/delightful applications/i)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
@@ -196,7 +197,7 @@ describe('MarketingLandingPage', () => {
     expect(interfaceLabels[0]).toMatch(/Bitcode Whitepaper/u);
     expect(
       screen.getByText(
-        /Bitcode's central, canonical, commercial implementations are the mainnet ERC-1155 contract/u,
+        /Bitcode's canonical, commercial deployments are its mainnet ERC-1155/u,
       ),
     ).toBeInTheDocument();
     expect(
@@ -205,16 +206,16 @@ describe('MarketingLandingPage', () => {
       ),
     ).toBeInTheDocument();
     expect(
+      screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
+    ).toBeInTheDocument();
+    expect(
       screen.getByText(
         /An AssetPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
       ),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
-    ).toBeInTheDocument();
-    // Claim anchors: * ERC-1155 (body + footnote), ** Measured AssetPacks (body + footnote),
-    // *** Measurements (footnote). Body folds measures into Measured AssetPacks.
-    expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(1);
+    // Claim anchors: * after ERC-1155, ** after Measured, *** after AssetPacks
+    // Footnotes: * BTD · ** Measurements · *** AssetPack volume.
+    expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText('Public Measures')).toBeInTheDocument();
