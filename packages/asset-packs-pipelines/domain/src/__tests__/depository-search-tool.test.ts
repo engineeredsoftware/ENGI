@@ -60,7 +60,7 @@ describe('lexical depository search tool', () => {
     };
 
     const output = await executionContext.run(execution as any, () =>
-      lexicalDepositorySearchTool.execute({ repositoryFullName: 'engineeredsoftware/ENGI' }),
+      lexicalDepositorySearchTool.execute({ repositoryFullName: 'octocat/Spoon-Knife' }),
     );
 
     expect(output).toMatchObject({
@@ -105,7 +105,7 @@ describe('AssetPack verification evidence tool', () => {
           assetId: 'asset-1',
           title: 'Deposited source asset',
           asset: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             sourceBranch: 'main',
             sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
             contentRoot: 'sha256:content',
@@ -178,7 +178,7 @@ describe('AssetPack verification evidence tool', () => {
         expect.objectContaining({
           assetId: 'asset-1',
           sourceBinding: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             sourceBranch: 'main',
             sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
             contentRoot: 'sha256:content',

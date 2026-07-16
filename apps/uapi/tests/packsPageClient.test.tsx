@@ -30,7 +30,7 @@ const basePackPayload = {
       description: "Source-safe AssetPack preview.",
       timestamp: "2026-05-28T10:00:00.000Z",
       state: "completed",
-      repository: "engineeredsoftware/ENGI",
+      repository: "octocat/Spoon-Knife",
       assetPackTitle: "Auth rollback proof pack",
       settlementState: "quote_ready",
       compensationState: "source_to_shares_preview_ready",
@@ -108,7 +108,7 @@ const basePackPayload = {
     overview: {
       state: "completed",
       scope: "network",
-      repository: "engineeredsoftware/ENGI",
+      repository: "octocat/Spoon-Knife",
       assetPackTitle: "Auth rollback proof pack",
     },
     measurements: [
@@ -171,7 +171,7 @@ const basePackPayload = {
     total: 1,
     types: { "read-need-fit-preview": 1 },
     states: { completed: 1 },
-    repositories: ["engineeredsoftware/ENGI"],
+    repositories: ["octocat/Spoon-Knife"],
     settlementReady: 1,
     compensationReady: 1,
     deliveryReady: 0,

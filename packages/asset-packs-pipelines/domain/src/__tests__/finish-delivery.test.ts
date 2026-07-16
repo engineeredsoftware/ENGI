@@ -26,7 +26,7 @@ describe('finish pull-request delivery', () => {
     createBranchUse.mockResolvedValue({ name: 'bitcode/asset-pack-run-123' });
     createOrUpdateFileUse.mockResolvedValue({ path: '.proofs/asset-packs/run-123.md', content: 'written' });
     createPullRequestUse.mockResolvedValue({
-      url: 'https://github.com/engineeredsoftware/ENGI/pull/123',
+      url: 'https://github.com/octocat/Spoon-Knife/pull/123',
       number: 123,
       title: 'Bitcode AssetPack delivery run-123',
     });
@@ -40,7 +40,7 @@ describe('finish pull-request delivery', () => {
     exec.store('pipeline', 'userId', '18eb2a4c-503f-49f2-ae65-b00b1f9b7fcb');
     exec.store('harness', 'runId', 'run-123');
     exec.store('harness', 'sourceRevision', {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       branch: 'main',
       commit: '272b5b1586b28363b57676603a1990bb10df319c',
     });
@@ -67,8 +67,8 @@ describe('finish pull-request delivery', () => {
     expect(result.prUrl).toContain('/pull/123');
     expect(createBranchUse).toHaveBeenCalledWith(expect.objectContaining({
       provider: 'github',
-      owner: 'engineeredsoftware',
-      repo: 'ENGI',
+      owner: 'octocat',
+      repo: 'Spoon-Knife',
       branch: 'bitcode/asset-pack-run-123',
       from: '272b5b1586b28363b57676603a1990bb10df319c',
       userId: '18eb2a4c-503f-49f2-ae65-b00b1f9b7fcb',
@@ -86,7 +86,7 @@ describe('finish pull-request delivery', () => {
     expect(exec.get('finish', 'pullRequestUrl')).toContain('/pull/123');
     expect(exec.get('finish', 'deliveryReadiness')).toMatchObject({
       status: 'delivered',
-      prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/123',
+      prUrl: 'https://github.com/octocat/Spoon-Knife/pull/123',
       branch: 'bitcode/asset-pack-run-123',
       path: '.proofs/asset-packs/run-123.md',
     });

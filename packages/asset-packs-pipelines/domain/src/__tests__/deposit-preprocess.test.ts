@@ -170,11 +170,11 @@ describe('deposit-mode preprocess context assembly', () => {
     const execution = new PipelineExecution('pipeline:deposit-preprocess-fullname');
     const input = {
       mode: 'deposit',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       repository: {
-        url: 'https://github.com/engineeredsoftware/ENGI',
-        owner: 'engineeredsoftware',
-        name: 'ENGI',
+        url: 'https://github.com/octocat/Spoon-Knife',
+        owner: 'octocat',
+        name: 'Spoon-Knife',
         branch: 'main',
       },
     };
@@ -182,11 +182,11 @@ describe('deposit-mode preprocess context assembly', () => {
     await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
 
     expect(execution.get('deposit', 'repository')).toMatchObject({
-      url: 'https://github.com/engineeredsoftware/ENGI',
-      owner: 'engineeredsoftware',
-      name: 'ENGI',
+      url: 'https://github.com/octocat/Spoon-Knife',
+      owner: 'octocat',
+      name: 'Spoon-Knife',
       branch: 'main',
-      fullName: 'engineeredsoftware/ENGI',
+      fullName: 'octocat/Spoon-Knife',
     });
     // Steering fields default without throwing when the depositor omits them.
     expect(execution.get('deposit', 'obfuscations')).toBeNull();

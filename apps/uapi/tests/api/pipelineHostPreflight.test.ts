@@ -27,7 +27,7 @@ describe('pipeline host preflight', () => {
   const modelCredential = 'model-credential-placeholder';
 
   const body = {
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     readId: 'read-1',

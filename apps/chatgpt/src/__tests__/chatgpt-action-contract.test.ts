@@ -38,7 +38,7 @@ describe('ChatGPT App Reading action contracts', () => {
     const tool = findTool('bitcode_request_read');
     const result = await tool.execute({
       readerId: 'reader-1',
-      repository: 'engineeredsoftware/ENGI',
+      repository: 'octocat/Spoon-Knife',
       readRequest: 'Repair the staged Reading flow.',
       requestId: 'read-request-1',
     });

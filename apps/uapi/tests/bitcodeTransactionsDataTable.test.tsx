@@ -8,11 +8,11 @@ import type { TransactionRecord } from '@/components/bitcode/pipeline/BitcodeTra
 function buildRecord(overrides: Partial<TransactionRecord> = {}): TransactionRecord {
   return {
     id: 'run-branch-remediation',
-    summary: 'Deposit option synthesis for engineeredsoftware/ENGI',
+    summary: 'Deposit option synthesis for octocat/Spoon-Knife',
     type: 'agentic-execution:asset-pack',
     status: 'completed',
-    participant: 'engineeredsoftware',
-    repository: 'engineeredsoftware/ENGI',
+    participant: 'octocat',
+    repository: 'octocat/Spoon-Knife',
     branch: 'main',
     proofStatus: 'depository proof ready',
     closureFocus: 'deposit posture',
@@ -45,7 +45,7 @@ describe('BitcodeTransactionsDataTable — fully clickable rows', () => {
     );
 
     // Click a cell far from the legacy per-cell button (Repository column).
-    fireEvent.click(screen.getByText('engineeredsoftware/ENGI'));
+    fireEvent.click(screen.getByText('octocat/Spoon-Knife'));
     expect(onSelectTransaction).toHaveBeenCalledWith('run-branch-remediation');
   });
 

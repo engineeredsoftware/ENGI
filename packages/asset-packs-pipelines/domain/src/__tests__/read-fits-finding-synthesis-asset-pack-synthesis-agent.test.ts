@@ -29,7 +29,7 @@ describe('runReadFitsFindingSynthesisAssetPackSynthesisAgent', () => {
       prompt: 'Read the deposited source revision for terminal closure.',
     });
     root.store('harness', 'sourceRevision', {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       branch: 'main',
       commit: 'abc123',
     });

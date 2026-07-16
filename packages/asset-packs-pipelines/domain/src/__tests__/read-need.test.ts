@@ -21,7 +21,7 @@ const input = {
       'Find whether the deposited repository has a complete product path through Deposit, Read/Fit, AssetPack evidence, proof readback, and ledger reconciliation.',
   },
   sourceRevision: {
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     branch: 'main',
     commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   },
@@ -30,9 +30,9 @@ const input = {
 function depositoryAsset() {
   return {
     assetId: 'deposit-asset-1',
-    title: 'Deposited repository revision engineeredsoftware/ENGI',
+    title: 'Deposited repository revision octocat/Spoon-Knife',
     artifactKind: 'repository-revision',
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     contentRoot: 'sha256:content',
@@ -76,13 +76,13 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
       schema: 'bitcode.read.request',
       requestId: 'read-1',
       prompt: input.read.prompt,
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       previousNeedId: null,
     });
     expect(need.sourceConstraints).toMatchObject({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       protectedSourceDisclosure: 'forbidden_before_settlement',
@@ -343,7 +343,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
       need: acceptedReadNeed,
       fitResult,
       rangeStart: 42,
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/6',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/6',
       createdAt: '2026-05-18T00:00:00.000Z',
     });
 
@@ -372,7 +372,7 @@ describe('Read-Need synthesis and Finding Fits admission', () => {
         sourceAvailable: false,
       },
       delivery: {
-        pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/6',
+        pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/6',
         availableAfterSettlement: true,
       },
     });

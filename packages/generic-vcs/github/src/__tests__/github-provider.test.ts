@@ -20,7 +20,7 @@ const pullRequestFixture = {
   created_at: '2026-05-18T00:00:00.000Z',
   updated_at: '2026-05-18T00:01:00.000Z',
   merged_at: null,
-  html_url: 'https://github.com/engineeredsoftware/ENGI/pull/7'
+  html_url: 'https://github.com/octocat/Spoon-Knife/pull/7'
 };
 
 jest.mock('@octokit/rest', () => {
@@ -105,7 +105,7 @@ describe('GitHubProvider', () => {
 
     const existingPrError = Object.assign(
       new Error(
-        'Validation Failed: {"resource":"PullRequest","code":"custom","message":"A pull request already exists for engineeredsoftware:bitcode/asset-pack-run."}'
+        'Validation Failed: {"resource":"PullRequest","code":"custom","message":"A pull request already exists for octocat:bitcode/asset-pack-run."}'
       ),
       { status: 422 }
     );
@@ -114,8 +114,8 @@ describe('GitHubProvider', () => {
 
     const result = await provider.createPullRequest(
       { accessToken: 'ghu_token' },
-      'engineeredsoftware',
-      'ENGI',
+      'octocat',
+      'Spoon-Knife',
       {
         title: 'Deliver AssetPack',
         description: 'AssetPack delivery',
@@ -127,15 +127,15 @@ describe('GitHubProvider', () => {
 
     expect(result).toMatchObject({
       number: 7,
-      url: 'https://github.com/engineeredsoftware/ENGI/pull/7',
+      url: 'https://github.com/octocat/Spoon-Knife/pull/7',
       sourceBranch: 'bitcode/asset-pack-run',
       targetBranch: 'main'
     });
     expect(mockPullsList).toHaveBeenCalledWith({
-      owner: 'engineeredsoftware',
-      repo: 'ENGI',
+      owner: 'octocat',
+      repo: 'Spoon-Knife',
       state: 'open',
-      head: 'engineeredsoftware:bitcode/asset-pack-run',
+      head: 'octocat:bitcode/asset-pack-run',
       base: 'main',
       per_page: 10
     });

@@ -108,12 +108,12 @@ jest.mock("@/components/deposits/DepositSourceSelection/DepositSourceSelection",
         provider: "github",
         selectedRepository: {
           id: "repo-1",
-          fullName: "engineeredsoftware/ENGI",
+          fullName: "octocat/Spoon-Knife",
           defaultBranch: "main",
           private: true,
           language: "TypeScript",
           topics: [],
-          owner: { username: "engineeredsoftware" },
+          owner: { username: "octocat" },
         },
         repositories: [],
         selectedBranch: "main",
@@ -201,8 +201,8 @@ describe("DepositPageClient", () => {
           compensationPreviewRoot: "sha256:compensation",
         },
         repo_snapshot: {
-          org: "engineeredsoftware",
-          repo: "ENGI",
+          org: "octocat",
+          repo: "Spoon-Knife",
           branch: "main",
           commit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
         },
@@ -464,7 +464,7 @@ describe("DepositPageClient", () => {
           workbench: "deposit-option-synthesis",
           route: "/deposits",
           pipelineCore: "AssetPacksSynthesis",
-          repositoryFullName: "engineeredsoftware/ENGI",
+          repositoryFullName: "octocat/Spoon-Knife",
           sourceBranch: "main",
           sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
         },
@@ -486,7 +486,7 @@ describe("DepositPageClient", () => {
                   requestId: "deposit-option-request:resume0001",
                   createdAt: "2026-07-03T10:00:00.000Z",
                   request: {
-                    repositoryFullName: "engineeredsoftware/ENGI",
+                    repositoryFullName: "octocat/Spoon-Knife",
                     sourceBranch: "main",
                     sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
                     depositorInstructionRoot: null,
@@ -570,7 +570,7 @@ describe("DepositPageClient", () => {
       summary:
         "A source-safe slice describing the demo capability measured by AssetPacksSynthesis under the deposit lens.",
       sourceBinding: {
-        repositoryFullName: "engineeredsoftware/ENGI",
+        repositoryFullName: "octocat/Spoon-Knife",
         sourceBranch: "main",
         sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
         sourcePathRoots: ["deposit-option-source-path:11111111"],
@@ -645,7 +645,7 @@ describe("DepositPageClient", () => {
       requestId: "deposit-option-request:99999999",
       createdAt: "2026-06-12T22:00:00.000Z",
       request: {
-        repositoryFullName: "engineeredsoftware/ENGI",
+        repositoryFullName: "octocat/Spoon-Knife",
         sourceBranch: "main",
         sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
         depositorInstructionRoot: null,
@@ -768,7 +768,7 @@ describe("DepositPageClient", () => {
       ([url]) => url === "/api/deposit/synthesize-options",
     );
     const body = JSON.parse(String(synthesisCall?.[1]?.body));
-    expect(body.repositoryFullName).toBe("engineeredsoftware/ENGI");
+    expect(body.repositoryFullName).toBe("octocat/Spoon-Knife");
     expect(body.impermissibleSources).toEqual(["secret-engine/"]);
     // Permissible sources are always present on the synthesize POST (empty when none picked).
     expect(body.permissibleSources).toEqual([]);
@@ -820,7 +820,7 @@ describe("DepositPageClient", () => {
       summary:
         "A measured, source-safe slice covering the ledger reconciliation capability.",
       sourceBinding: {
-        repositoryFullName: "engineeredsoftware/ENGI",
+        repositoryFullName: "octocat/Spoon-Knife",
         sourceBranch: "main",
         sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
         sourcePathRoots: ["deposit-option-source-path:11111111"],
@@ -914,7 +914,7 @@ describe("DepositPageClient", () => {
       requestId: "deposit-option-request:99999999",
       createdAt: "2026-07-01T22:00:00.000Z",
       request: {
-        repositoryFullName: "engineeredsoftware/ENGI",
+        repositoryFullName: "octocat/Spoon-Knife",
         sourceBranch: "main",
         sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
         depositorInstructionRoot: null,
@@ -1186,8 +1186,8 @@ describe("DepositPageClient", () => {
           },
           context: { source: "terminal-deposit-composer" },
           repo_snapshot: {
-            org: "engineeredsoftware",
-            repo: "ENGI",
+            org: "octocat",
+            repo: "Spoon-Knife",
             branch: "main",
             commit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
           },
@@ -1207,7 +1207,7 @@ describe("DepositPageClient", () => {
           },
           context: {
             source: "terminal-repository-context-panel",
-            repositoryFullName: "engineeredsoftware/OtherRepo",
+            repositoryFullName: "octocat/OtherRepo",
             sourceBranch: "develop",
             sourceCommit: "abc1234567",
           },
@@ -1227,7 +1227,7 @@ describe("DepositPageClient", () => {
           },
           context: {
             source: "deposit-obfuscations-anchor",
-            repositoryFullName: "engineeredsoftware/ENGI",
+            repositoryFullName: "octocat/Spoon-Knife",
             obfuscationsAnchorName: "Billing withhold",
           },
           output: {
@@ -1238,7 +1238,7 @@ describe("DepositPageClient", () => {
               impermissibleSources: ["secret/"],
               permissibleSourceCount: 2,
               impermissibleSourceCount: 1,
-              repositoryFullName: "engineeredsoftware/ENGI",
+              repositoryFullName: "octocat/Spoon-Knife",
               anchoredAt: "2026-07-02T10:00:00.000Z",
             },
           },
@@ -1259,12 +1259,12 @@ describe("DepositPageClient", () => {
         "deposit-source-selection-repository-anchors",
       );
       expect(
-        within(anchors).getByText("engineeredsoftware/OtherRepo"),
+        within(anchors).getByText("octocat/OtherRepo"),
       ).toBeInTheDocument();
       // The default fixture's own "terminal-deposit-composer" run is not a
       // repository-anchor record and must not appear.
       expect(
-        within(anchors).queryByText("engineeredsoftware/ENGI"),
+        within(anchors).queryByText("octocat/Spoon-Knife"),
       ).not.toBeInTheDocument();
     });
 
@@ -1411,7 +1411,7 @@ describe("DepositPageClient", () => {
                     impermissibleSources: [],
                     permissibleSourceCount: 0,
                     impermissibleSourceCount: 0,
-                    repositoryFullName: "engineeredsoftware/ENGI",
+                    repositoryFullName: "octocat/Spoon-Knife",
                     anchoredAt: "2026-07-03T10:00:00.000Z",
                   },
                 },

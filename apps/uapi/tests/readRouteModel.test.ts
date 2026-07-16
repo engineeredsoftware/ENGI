@@ -12,7 +12,7 @@ describe('read-route-model', () => {
   it('builds a source-safe five-step ReadRouteSession', () => {
     const session = buildReadRouteSession({
       transactionId: 'read-run-1',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       hasRepositorySource: true,
@@ -57,7 +57,7 @@ describe('read-route-model', () => {
   it('projects approved Reading quote readiness without exposing source-bearing payloads', () => {
     const session = buildReadRouteSession({
       transactionId: 'read-run-quote-approved',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       hasRepositorySource: true,
       hasReadMeasurement: true,
       hasSynthesizedNeed: true,
@@ -137,7 +137,7 @@ describe('read-route-model', () => {
   it('keeps Finding Fits blocked until a synthesized Need is accepted', () => {
     const session = buildReadRouteSession({
       routeReadingStage: 'request-fit',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       hasRepositorySource: true,
       hasReadMeasurement: true,
       hasSynthesizedNeed: true,
@@ -156,7 +156,7 @@ describe('read-route-model', () => {
   it('renders Need-relative fit measurement review whose contributions decide the quote basis', () => {
     const session = buildReadRouteSession({
       transactionId: 'read-run-measured',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       hasRepositorySource: true,
       hasReadMeasurement: true,
       hasSynthesizedNeed: true,
@@ -215,15 +215,15 @@ describe('read-route-model', () => {
 
     const delivered = buildReadSettlementRightsDelivery({
       transactionId: 'read-run-delivered',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       hasSettlementReadback: true,
       hasDeliveryReadback: true,
-      deliveryPullRequestReference: 'engineeredsoftware/ENGI#412',
+      deliveryPullRequestReference: 'octocat/Spoon-Knife#412',
     });
     expect(delivered.finality.state).toBe('btc-testnet-finality-confirmed');
     expect(delivered.btdRights.state).toBe('btd-rights-transferred');
     expect(delivered.delivery.state).toBe('repository-pr-delivery-materialized');
-    expect(delivered.delivery.pullRequestReference).toBe('engineeredsoftware/ENGI#412');
+    expect(delivered.delivery.pullRequestReference).toBe('octocat/Spoon-Knife#412');
     expect(delivered.blockers).toEqual([]);
     expect(delivered.network).toBe('btc-testnet');
     expect(delivered.valueBearingMainnetEnabled).toBe(false);
@@ -241,7 +241,7 @@ describe('read-route-model', () => {
 
     const deliveredSession = buildReadRouteSession({
       transactionId: 'read-run-delivered',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       hasRepositorySource: true,
       hasReadMeasurement: true,
       hasSynthesizedNeed: true,

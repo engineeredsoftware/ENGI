@@ -16,7 +16,7 @@ const acceptedNeed = acceptReadNeed(
       prompt: 'Find a source-safe AssetPack fit for product settlement proof.',
     },
     sourceRevision: {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       branch: 'main',
       commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     },
@@ -52,7 +52,7 @@ const preview = buildAssetPackSourceSafePreview({
   },
   rangeStart: 42,
   tokenCount: 7,
-  pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/29',
+  pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/29',
   createdAt: '2026-05-20T00:00:00.000Z',
 });
 

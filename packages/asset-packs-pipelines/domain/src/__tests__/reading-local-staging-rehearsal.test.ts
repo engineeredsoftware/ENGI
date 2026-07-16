@@ -24,7 +24,7 @@ import {
 } from '../reading-local-staging-rehearsal';
 
 const sourceRevision = {
-  repositoryFullName: 'engineeredsoftware/ENGI',
+  repositoryFullName: 'octocat/Spoon-Knife',
   branch: 'main',
   commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
 };
@@ -103,14 +103,14 @@ async function settledInputs() {
   const previewBoundary = buildAssetPackPreviewBoundary({
     need,
     fitResult,
-    pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/410',
+    pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/410',
     createdAt: '2026-05-23T00:00:00.000Z',
   });
   const settlementBoundary = buildAssetPackSettlementRightsDeliveryBoundary({
     previewBoundary,
     readerWalletId: 'reader-wallet-gate10',
     depositorWalletId: 'depositor-wallet-gate10',
-    pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/410',
+    pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/410',
     createdAt: '2026-05-23T00:00:00.000Z',
   });
   const operationalReadback = buildReadingOperationalTelemetryRepairReadback({

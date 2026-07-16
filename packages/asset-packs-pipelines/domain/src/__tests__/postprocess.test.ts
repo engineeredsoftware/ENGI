@@ -148,7 +148,7 @@ describe('normalizeAssetPackOutput', () => {
         prompt: 'Find deposited source evidence for a source-safe product AssetPack preview.',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -189,7 +189,7 @@ describe('normalizeAssetPackOutput', () => {
       success: true,
       summary: 'Measured AssetPack preview ready.',
       deliveryMechanism: {
-        prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/28',
+        prUrl: 'https://github.com/octocat/Spoon-Knife/pull/28',
       },
     } as any, exec);
     const result = buildAssetPackPostprocessedResult(exec, normalized);
@@ -219,7 +219,7 @@ describe('normalizeAssetPackOutput', () => {
       },
     });
     expect(normalized.sourceSafePreview.delivery.pullRequestTarget).toBe(
-      'https://github.com/engineeredsoftware/ENGI/pull/28'
+      'https://github.com/octocat/Spoon-Knife/pull/28'
     );
     expect(normalized.feeQuote.quoteRoot).toMatch(/^sha256:/);
     expect(normalized.assetPackDisclosureReview).toMatchObject({

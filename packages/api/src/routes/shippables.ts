@@ -581,7 +581,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       modelProvider = DEFAULT_PROVIDER,
       modelId = DEFAULT_MODEL_API,
       iterationCount = 3,
-      gate = 'Develop',
       conversationId,
       templateId,
       templateText,
@@ -612,7 +611,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       hasRepo: !!repoOwner && !!repoName,
       hasBranch: !!repoBranch,
       attachmentCount: attachments?.length || 0,
-      gate,
       templateId,
       enhanceWithContext,
       enhanceWithHistory
@@ -663,7 +661,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
       user_id: user.id,
       type: 'agentic-execution:asset-pack',
       status: 'running',
-      guide: gate, // Server terminology remains Gate; UI converts to Guide
+      guide: 'SDIVF',
       input: {
         definitionOfRead: definition_of_read,
         repoOwner,
@@ -919,11 +917,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         execution.store('config', 'iterationCount', iterationCount);
         execution.store('attachments', 'list', attachments);
         
-        // Later gate: on-the-fly instructions are stored here when admitted.
-        // if (otfInstructions && otfInstructions.length > 0) {
-        //   execution.store('otf', 'instructions', otfInstructions);
-        // }
-
         // Build pipeline input with attachments
         // IMPORTANT: attachments field was missing before - now properly passed to pipeline
         // This allows agents to access user-provided files, URLs, and issues
@@ -947,8 +940,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           },
           // Pass attachments to pipeline
           attachments: attachments || [],
-          // Set the starting gate (Design/Develop/Digest)
-          gate: gate as 'Design' | 'Develop' | 'Digest'
         };
 
         // ROUTE PIPELINE EXECUTION: store the Bitcode-owned asset-pack run snapshot.
@@ -1156,25 +1147,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           (execution as any).get?.('pipeline', 'writtenAssetType') ||
           assetPackRequestSnapshot?.writtenAssetType ||
           undefined;
-        let digestStatus: any = undefined;
-        if (gate === 'Digest') {
-          try {
-            const digestProposal = (execution as any).get?.('digest', 'proposal');
-            const fileChanges = ((execution as any).get?.('file-changes', 'all') || []) as Array<{ path?: string }>;
-            const agentsDocUpdated = Array.isArray(fileChanges) && fileChanges.some((change) => typeof change?.path === 'string' && change.path.endsWith('.docs/AGENTS.md'));
-            try {
-              execution?.store?.('digest', 'agentsDocUpdated', agentsDocUpdated);
-            } catch {}
-            digestStatus = {
-              agentsDocUpdated,
-              readyToFinish: !!digestProposal?.readyToFinish,
-              summary: digestProposal?.agentsMdUpdates || null,
-              questionsAnswered: Array.isArray(digestProposal?.questionsAnswered) ? digestProposal.questionsAnswered.length : 0,
-              patternsDocumented: Array.isArray(digestProposal?.patternsDocumented) ? digestProposal.patternsDocumented.length : 0,
-              capturedAt: digestProposal?.capturedAt || new Date().toISOString()
-            };
-          } catch {}
-        }
         try {
           postprocessed = (execution as any).get?.('postprocessed', 'result');
           // Enrich with ReadyToFinish decision if available
@@ -1194,19 +1166,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             }
           } catch {}
         } catch {}
-
-        if (digestStatus) {
-          if (!assetPackCompletion) {
-            assetPackCompletion = {};
-          }
-          assetPackCompletion.processingStats = {
-            ...(assetPackCompletion.processingStats || {}),
-            digest: digestStatus
-          };
-          if (!assetPackCompletion.summary && digestStatus.summary) {
-            assetPackCompletion.summary = digestStatus.summary;
-          }
-        }
 
         // Build client-facing result only after semantic asset-pack-completion mirrors
         // have been extracted so the streamed completion payload can carry the
@@ -1234,17 +1193,13 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           event_data: { ...completionEvent, runId } as any
         } as any);
 
-        const gateState = execution?.get?.('gate', 'state') as
-          | { history?: unknown }
-          | undefined;
-
         const completionMetadata: Record<string, any> = {
           ...(executionData?.namespaces ? { namespaces: executionData.namespaces } : {}),
           ...(executionData?.data ? { data: executionData.data } : {}),
           repository: `${repoOwner}/${repoName}`,
           definitionOfRead: definition_of_read,
           durationMs: Date.now() - startTime,
-          guide: execution?.get('meta', 'phase') || gate,
+          guide: 'SDIVF',
           shippableWrittenAssetType: assetPackCompletion?.writtenAssetType || writtenAssetType,
           writtenAssetType: assetPackCompletion?.writtenAssetType || writtenAssetType,
           read: assetPackCompletion?.read || preprocessedSnapshot?.read || definition_of_read,
@@ -1260,14 +1215,6 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
               ? 'asset-pack-written-asset'
               : null,
         };
-
-        if (gateState?.history) {
-          completionMetadata.gateHistory = gateState.history;
-        }
-
-        if (digestStatus) {
-          completionMetadata.digest = digestStatus;
-        }
 
         await orm.pipelineExecutions.update(runId, {
           status: 'completed',

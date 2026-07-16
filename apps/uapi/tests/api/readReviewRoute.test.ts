@@ -33,7 +33,7 @@ describe('/api/read-review', () => {
           readId: 'read-activity',
           readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             branch: 'main',
             commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
           },
@@ -61,7 +61,7 @@ describe('/api/read-review', () => {
           readId: 'read-activity',
           readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             branch: 'main',
             commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
           },
@@ -80,7 +80,7 @@ describe('/api/read-review', () => {
           feedback: ['Tighten source-bound constraints.'],
           readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             branch: 'main',
             commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
           },
@@ -103,7 +103,7 @@ describe('/api/read-review', () => {
           readId: 'read-activity',
           readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             branch: 'main',
             commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
           },
@@ -139,7 +139,7 @@ describe('/api/read-review', () => {
           readId: 'read-activity',
           readPrompt: 'Find a source-bound product AssetPack fit.',
           sourceRevision: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             branch: 'main',
             commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
           },

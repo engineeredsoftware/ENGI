@@ -127,7 +127,7 @@ describe('PTRR step prompt formatting', () => {
       {
         read: 'Fit the deposited repository.',
         sourceRevision: {
-          repositoryFullName: 'engineeredsoftware/ENGI',
+          repositoryFullName: 'octocat/Spoon-Knife',
           branch: 'main',
           commit: '07de275b3d97679321f1f596c16e48105d81d51b',
         },
@@ -139,7 +139,7 @@ describe('PTRR step prompt formatting', () => {
     expect(seenInputs[0].context).toMatchObject({
       read: 'Fit the deposited repository.',
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '07de275b3d97679321f1f596c16e48105d81d51b',
       },

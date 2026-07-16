@@ -797,7 +797,7 @@ describe('BTD crypto API builders', () => {
       walletId: 'wallet-reader',
       settlementState: 'settled',
       confirmed: true,
-      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      targetAnchor: 'github:octocat/Spoon-Knife/pull/42',
       readAccessDecision: {
         decision: 'owner_read',
         accessPolicyHash: 'policy-api-hash',

@@ -80,7 +80,7 @@ describe('AssetPack settlement unlock', () => {
         readerWalletId: 'wallet-reader',
         readback: completeReadback,
       },
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
     });
 
     expect(unlock).toMatchObject({
@@ -111,7 +111,7 @@ describe('AssetPack settlement unlock', () => {
         sourceAvailable: true,
       },
       delivery: {
-        pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+        pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
       },
       settlementUnlock: unlock,
     });
@@ -129,7 +129,7 @@ describe('AssetPack settlement unlock', () => {
           readLicense: false,
         },
       },
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
     });
 
     expect(unlock).toMatchObject({
@@ -547,7 +547,7 @@ describe('organization interface authority', () => {
         accessPolicyHash: 'policy-hash',
         reason: 'wallet_has_valid_policy_matching_license',
       },
-      targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+      targetAnchor: 'github:octocat/Spoon-Knife/pull/42',
       at: '2026-05-19T00:00:00.000Z',
     });
 

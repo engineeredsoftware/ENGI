@@ -15,7 +15,7 @@ const input = {
     prompt: 'Find Reading proof evidence without leaking protected source.',
   },
   sourceRevision: {
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     branch: 'main',
     commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   },

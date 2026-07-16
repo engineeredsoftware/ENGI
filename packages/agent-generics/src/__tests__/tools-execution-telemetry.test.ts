@@ -18,7 +18,7 @@ describe('factoryToolsExecution telemetry', () => {
           useTools: [
             {
               name: 'bitcode.asset-pack.verification',
-              input: { repositoryFullName: 'engineeredsoftware/ENGI' },
+              input: { repositoryFullName: 'octocat/Spoon-Knife' },
               reason: 'verify source-bound candidate evidence',
             },
           ],
@@ -29,7 +29,7 @@ describe('factoryToolsExecution telemetry', () => {
 
     expect(out.usedTools).toHaveLength(1);
     expect(tool.execute).toHaveBeenCalledWith({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
     });
 
     const toolsExecution = execution.children.get('tools:execution');

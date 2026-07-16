@@ -332,7 +332,7 @@ async function createConversationExecution(options: {
       user_id: options.userId,
       type: storageType,
       status: 'running',
-      guide: options.canonicalType.includes('read-measurement') ? 'Read' : 'Develop',
+      guide: options.canonicalType.includes('read-measurement') ? 'Read' : 'SDIVF',
       input: {
         conversationId: options.conversationId,
         content: safeContent.value,

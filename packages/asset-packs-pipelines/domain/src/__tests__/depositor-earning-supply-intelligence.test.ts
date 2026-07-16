@@ -7,7 +7,7 @@ import { buildDepositAssetPackOptionSynthesis } from '../deposit-asset-pack-opti
 
 function reviewablePolicyReport() {
   const synthesis = buildDepositAssetPackOptionSynthesis({
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     obfuscations: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
@@ -85,7 +85,7 @@ describe('Depositor earning supply intelligence', () => {
 
   it('blocks critical source from earning readiness without leaking protected payloads', () => {
     const synthesis = buildDepositAssetPackOptionSynthesis({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts'],

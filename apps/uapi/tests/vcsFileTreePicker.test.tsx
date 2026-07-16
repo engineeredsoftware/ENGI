@@ -52,7 +52,7 @@ describe('VCSFileTreePicker', () => {
     render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         treeRef="31bbc0c5"
         selectedPaths={[]}
         onChange={jest.fn()}
@@ -63,8 +63,8 @@ describe('VCSFileTreePicker', () => {
     expect(screen.getByText('README.md')).toBeInTheDocument();
     const firstUrl = String((global.fetch as jest.Mock).mock.calls[0][0]);
     expect(firstUrl).toContain('resource=tree');
-    expect(firstUrl).toContain('owner=engineeredsoftware');
-    expect(firstUrl).toContain('repo=ENGI');
+    expect(firstUrl).toContain('owner=octocat');
+    expect(firstUrl).toContain('repo=Spoon-Knife');
     expect(firstUrl).toContain('ref=31bbc0c5');
 
     fireEvent.click(screen.getByRole('button', { name: 'Expand src' }));
@@ -79,7 +79,7 @@ describe('VCSFileTreePicker', () => {
     render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         selectedPaths={['README.md']}
         onChange={onChange}
       />,
@@ -100,7 +100,7 @@ describe('VCSFileTreePicker', () => {
     render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         selectedPaths={[]}
         onChange={onChange}
         conflictingPaths={['README.md']}
@@ -129,7 +129,7 @@ describe('VCSFileTreePicker', () => {
     render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         selectedPaths={[]}
         onChange={onChange}
       />,
@@ -148,7 +148,7 @@ describe('VCSFileTreePicker', () => {
     render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         selectedPaths={['README.md']}
         onChange={onChange}
         conflictingPaths={['src/']}
@@ -167,7 +167,7 @@ describe('VCSFileTreePicker', () => {
     render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         selectedPaths={['README.md', 'src/']}
         onChange={onChange}
       />,
@@ -209,7 +209,7 @@ describe('VCSFileTreePicker', () => {
     const { rerender } = render(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         treeRef="main"
         selectedPaths={[]}
         onChange={jest.fn()}
@@ -220,7 +220,7 @@ describe('VCSFileTreePicker', () => {
     rerender(
       <VCSFileTreePicker
         provider="github"
-        repositoryFullName="engineeredsoftware/ENGI"
+        repositoryFullName="octocat/Spoon-Knife"
         treeRef="abc123"
         selectedPaths={[]}
         onChange={jest.fn()}

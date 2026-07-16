@@ -18,7 +18,6 @@ export {
   type ExecutionStep,
   type FailsafeStep,
   type GenerationStep,
-  type MetaPhase,
   type ExecutionState,
   // Stream-specific types
   type ToolUseMessage,

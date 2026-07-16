@@ -33,7 +33,7 @@ import {
 } from '../reading-operational-telemetry-repair-readback';
 
 const sourceRevision = {
-  repositoryFullName: 'engineeredsoftware/ENGI',
+  repositoryFullName: 'octocat/Spoon-Knife',
   branch: 'main',
   commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
 };
@@ -109,14 +109,14 @@ async function settledInputs() {
   const previewBoundary = buildAssetPackPreviewBoundary({
     need,
     fitResult,
-    pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/409',
+    pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/409',
     createdAt: '2026-05-23T00:00:00.000Z',
   });
   const settlementBoundary = buildAssetPackSettlementRightsDeliveryBoundary({
     previewBoundary,
     readerWalletId: 'reader-wallet-gate9',
     depositorWalletId: 'depositor-wallet-gate9',
-    pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/409',
+    pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/409',
     createdAt: '2026-05-23T00:00:00.000Z',
   });
   const operationalReadback = buildReadingOperationalTelemetryRepairReadback({

@@ -15,46 +15,11 @@ import { CREATE_FILE_DOC_CODE_TOOL_PROMPT } from './prompts/CreateFileDocCodeToo
 import { DELETE_FILE_DOC_CODE_TOOL_PROMPT } from './prompts/DeleteFileDocCodeToolPrompt';
 
 import {
-  editCommandSchema,
   runEditCommand,
-  EditCommandParams,
   TransactionalFileEditor,
-  EditError,
 } from '@bitcode/file-editing';
-import { executionContext } from './execution-context';
 
 export { executionContext } from './execution-context';
-
-/**
- * Gate-aware wrapper for runEditCommand
- * Checks file gates if execution context is available
- */
-async function runEditCommandWithGates(params: EditCommandParams): Promise<string> {
-  const execution = executionContext.getStore();
-
-  if (execution) {
-    const allowedPatterns = execution.get('gates', 'allowedFilePatterns');
-    const currentGate = execution.get('gate', 'current');
-
-    if (allowedPatterns && params.command !== 'view') {
-      // Import gate checking logic
-      const { isFileAllowed } = await import('@bitcode/pipelines-generics');
-      const allowed = isFileAllowed(params.path, (currentGate as any) || 'Develop');
-
-      if (!allowed) {
-        const primaryDoc = execution.get('gates', 'primaryDocument');
-        throw new EditError(
-          `File operation blocked by gate: ${currentGate} phase can only modify ${primaryDoc || 'designated files'}. Attempted: ${params.path}`,
-          'GATE_VIOLATION',
-          params.path,
-          params.command
-        );
-      }
-    }
-  }
-
-  return runEditCommand(params);
-}
 
 import { BEGIN_TRANSACTION_TOOL_PROMPT } from './prompts/tool-prompt-transaction-begin';
 
@@ -64,8 +29,8 @@ import { BEGIN_TRANSACTION_TOOL_PROMPT } from './prompts/tool-prompt-transaction
  * @doc-code-tool
  * @prompt TEXT_EDITOR_DOC_CODE_TOOL_PROMPT
  */
-class TextEditorTool extends Tool<typeof runEditCommandWithGates> {
-  use = runEditCommandWithGates;
+class TextEditorTool extends Tool<typeof runEditCommand> {
+  use = runEditCommand;
 }
 
 export const textEditorTool = new TextEditorTool();
@@ -84,8 +49,8 @@ export const textEditorTool = new TextEditorTool();
  * @stability stable
  * @version V26
  */
-class DeleteFileTool extends Tool<typeof runEditCommandWithGates> {
-  use = runEditCommandWithGates;
+class DeleteFileTool extends Tool<typeof runEditCommand> {
+  use = runEditCommand;
 }
 
 export const deleteFileTool = new DeleteFileTool();
@@ -104,8 +69,8 @@ export const deleteFileTool = new DeleteFileTool();
  * @stability stable
  * @version V26
  */
-class CreateFileTool extends Tool<typeof runEditCommandWithGates> {
-  use = runEditCommandWithGates;
+class CreateFileTool extends Tool<typeof runEditCommand> {
+  use = runEditCommand;
 }
 
 export const createFileTool = new CreateFileTool();
@@ -116,8 +81,8 @@ export const createFileTool = new CreateFileTool();
  * @doc-code-tool
  * @prompt REPLACE_FILE_DOC_CODE_TOOL_PROMPT
  */
-class ReplaceFileTool extends Tool<typeof runEditCommandWithGates> {
-  use = runEditCommandWithGates;
+class ReplaceFileTool extends Tool<typeof runEditCommand> {
+  use = runEditCommand;
 }
 
 export const replaceFileTool = new ReplaceFileTool();

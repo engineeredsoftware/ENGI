@@ -253,7 +253,7 @@ function findRepositoryRoot(): string {
     }
     current = dirname(current);
   }
-  throw new Error('Unable to locate ENGI repository root for local source overlay generation.');
+  throw new Error('Unable to locate Bitcode monorepo root for local source overlay generation.');
 }
 
 function localSourceOverlayPatch(): Buffer | undefined {

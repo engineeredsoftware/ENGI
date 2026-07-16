@@ -1,10 +1,5 @@
 // Canonical primitive types and mappers for pipelines (DB + Streams SSOT)
-
-// Gate (Design → Develop → Digest)
-// Gates control file access, user interaction, and pipeline transitions
-export type Gate = 'Design' | 'Develop' | 'Digest';
-
-export type MetaPhase = Gate;
+// Bitcode product law: SDIVF phases only (no Design→Develop→Digest gates).
 
 // Lowercase phase for DB.
 export type PhaseLower = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
@@ -20,10 +15,9 @@ export type SubStep = 'reason' | 'judge' | 'structured_output';
  * Execution State - Canonical representation for streaming and UI
  *
  * Represents the current position in the execution hierarchy:
- * Gate → Phase → Agent → Step → Failsafe → Generation
+ * Phase → Agent → Step → Failsafe → Generation
  */
 export interface ExecutionState {
-  gate?: Gate;
   phase: PhaseTitle;
   agent?: string;
   step?: StepTitle;
@@ -34,7 +28,7 @@ export interface ExecutionState {
 export function toPhaseLower(p?: string): PhaseLower | undefined {
   if (!p) return undefined;
   const s = p.toLowerCase();
-  if (['setup','discovery','implementation','validation','finish'].includes(s)) return s as PhaseLower;
+  if (['setup', 'discovery', 'implementation', 'validation', 'finish'].includes(s)) return s as PhaseLower;
   return undefined;
 }
 
@@ -54,7 +48,6 @@ export function toStepLower(step?: string): StepLower | undefined {
   if (!step) return undefined;
   const s = step.toLowerCase();
   if (s === 'plan' || s === 'try' || s === 'refine' || s === 'retry') return s as StepLower;
-  // Streams may send title-case PTRR
   if (step === 'Plan') return 'plan';
   if (step === 'Try') return 'try';
   if (step === 'Refine') return 'refine';

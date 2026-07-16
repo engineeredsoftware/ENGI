@@ -433,7 +433,7 @@ describe('Authentication Middleware', () => {
           action: 'deliver_asset_pack',
           settlementState: 'settled',
           confirmed: true,
-          targetAnchor: 'github:engineeredsoftware/ENGI/pull/42',
+          targetAnchor: 'github:octocat/Spoon-Knife/pull/42',
           at: '2026-05-19T00:00:00.000Z'
         }
       });

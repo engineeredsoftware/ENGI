@@ -64,9 +64,9 @@ describe('GitHub App callback handling', () => {
       repository_selection: 'all',
       account: {
         id: 991,
-        login: 'engineeredsoftware',
+        login: 'octocat',
         type: 'Organization',
-        html_url: 'https://github.com/engineeredsoftware',
+        html_url: 'https://github.com/octocat',
       },
     });
 
@@ -78,8 +78,8 @@ describe('GitHub App callback handling', () => {
       repositories: [
         {
           id: 1,
-          name: 'ENGI',
-          full_name: 'engineeredsoftware/ENGI',
+          name: 'Spoon-Knife',
+          full_name: 'octocat/Spoon-Knife',
           private: false,
         },
       ],
@@ -111,7 +111,7 @@ describe('GitHub App callback handling', () => {
       expect.objectContaining({
         accessToken: 'ghs_installation_token',
         providerUserId: '131722518',
-        providerUsername: 'engineeredsoftware',
+        providerUsername: 'octocat',
         metadata: expect.objectContaining({
           auth_source: 'github_app_installation',
           installation_id: 131722518,
@@ -119,7 +119,7 @@ describe('GitHub App callback handling', () => {
           setup_state: 'qa-state',
           target_id: '991',
           target_type: 'Organization',
-          account_login: 'engineeredsoftware',
+          account_login: 'octocat',
           app_slug: 'engi-software-agents',
           repository_selection: 'all',
           installation_token_expires_at: '2026-05-12T18:00:00.000Z',
@@ -251,7 +251,7 @@ describe('GitHub App callback handling', () => {
     // Account login comes from getInstallation (mock), not only the staged cookie.
     expect(result.claimed).toBe(true);
     expect(result.installationId).toBe(146662656);
-    expect(result.account).toBe('engineeredsoftware');
+    expect(result.account).toBe('octocat');
     expect(mockGetInstallation).toHaveBeenCalledWith(146662656);
     expect(mockGenerateInstallationToken).toHaveBeenCalledWith(146662656);
     expect(mockSaveConnection).toHaveBeenCalledWith(

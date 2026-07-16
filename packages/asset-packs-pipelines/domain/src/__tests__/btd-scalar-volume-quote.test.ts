@@ -21,7 +21,7 @@ const input = {
       'Find source-bound implementation knowledge that can improve the repository Reading path, proof readback, BTC settlement, and AssetPack delivery.',
   },
   sourceRevision: {
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     branch: 'main',
     commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   },
@@ -43,7 +43,7 @@ function fitResult(
     artifactKind: 'asset-pack',
     useTier: 'settlement-eligible' as const,
     sourceBinding: {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       contentRoot: `sha256:content-${fit.assetId}`,
@@ -134,7 +134,7 @@ function previewFor(
     need,
     fitResult: fitResult(fits),
     rangeStart: 50_000,
-    pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/4500',
+    pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/4500',
     createdAt: '2026-05-31T00:00:00.000Z',
   });
 }

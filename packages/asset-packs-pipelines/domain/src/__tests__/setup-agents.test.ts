@@ -28,7 +28,7 @@ jest.mock('@bitcode/generic-agents-read-comprehension', () => ({
       writtenAssetRequest: 'read-satisfaction-asset-pack',
     },
     asset_pack_context: {
-      repository: { fullName: 'engineeredsoftware/ENGI' },
+      repository: { fullName: 'octocat/Spoon-Knife' },
       fitState: 'worthy_fit',
       selectedCandidateAssetIds: ['manual-deposit-qa'],
     },
@@ -102,7 +102,7 @@ describe('AssetPack setup agents', () => {
   it('adopts repository already available on the Host (VercelSandboxHost image source)', async () => {
     const execution = executionStub();
     const sourceRevision = {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       branch: 'main',
       commit: '07de275b3d97679321f1f596c16e48105d81d51b',
     };
@@ -113,7 +113,7 @@ describe('AssetPack setup agents', () => {
     const result = await cloneRepositoryAgent(
       {
         repository: {
-          fullName: 'engineeredsoftware/ENGI',
+          fullName: 'octocat/Spoon-Knife',
           branch: 'main',
           commit: '07de275b3d97679321f1f596c16e48105d81d51b',
         },
@@ -125,7 +125,7 @@ describe('AssetPack setup agents', () => {
 
     expect(result).toMatchObject({
       success: true,
-      repository: { owner: 'engineeredsoftware', name: 'ENGI', ref: 'main' },
+      repository: { owner: 'octocat', name: 'Spoon-Knife', ref: 'main' },
       status: 'host-source-present',
       metadata: {
         workingTree: 'complete-at-revision',
@@ -134,8 +134,8 @@ describe('AssetPack setup agents', () => {
     });
     expect(execution.stores).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ namespace: 'repository', key: 'owner', value: 'engineeredsoftware' }),
-        expect.objectContaining({ namespace: 'repository', key: 'name', value: 'ENGI' }),
+        expect.objectContaining({ namespace: 'repository', key: 'owner', value: 'octocat' }),
+        expect.objectContaining({ namespace: 'repository', key: 'name', value: 'Spoon-Knife' }),
         expect.objectContaining({ namespace: 'repository', key: 'commit', value: '07de275b3d97679321f1f596c16e48105d81d51b' }),
       ]),
     );
@@ -200,7 +200,7 @@ describe('AssetPack setup agents', () => {
       {
         read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
         repository: {
-          fullName: 'engineeredsoftware/ENGI',
+          fullName: 'octocat/Spoon-Knife',
           branch: 'main',
           commit: '07de275b3d97679321f1f596c16e48105d81d51b',
         },
@@ -229,7 +229,7 @@ describe('AssetPack setup agents', () => {
       {
         read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
         repository: {
-          fullName: 'engineeredsoftware/ENGI',
+          fullName: 'octocat/Spoon-Knife',
           branch: 'main',
           commit: '07de275b3d97679321f1f596c16e48105d81d51b',
         },
@@ -243,7 +243,7 @@ describe('AssetPack setup agents', () => {
 
     expect(result.read.expressed_read).toContain('Read/Fit QA');
     expect(result.asset_pack_context).toMatchObject({
-      repository: { fullName: 'engineeredsoftware/ENGI' },
+      repository: { fullName: 'octocat/Spoon-Knife' },
       fitState: 'worthy_fit',
       selectedCandidateAssetIds: ['manual-deposit-qa'],
     });

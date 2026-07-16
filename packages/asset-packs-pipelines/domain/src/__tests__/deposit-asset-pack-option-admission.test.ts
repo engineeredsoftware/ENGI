@@ -8,7 +8,7 @@ import { buildDepositAssetPackOptionSynthesis } from '../deposit-asset-pack-opti
 describe('deposit-asset-pack-option-admission', () => {
   it('admits approved policy-eligible options with source-safe index, storage, telemetry, and packs activity receipts', () => {
     const synthesis = buildDepositAssetPackOptionSynthesis({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
@@ -78,7 +78,7 @@ describe('deposit-asset-pack-option-admission', () => {
 
   it('keeps rejected, resynthesis, pending, and policy-blocked options out of the Depository', () => {
     const synthesis = buildDepositAssetPackOptionSynthesis({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-admission.ts'],

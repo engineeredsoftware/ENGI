@@ -110,7 +110,7 @@ describe('VercelSandboxPipelineHost', () => {
       read: { id: 'read-1', prompt: 'Read.' },
       deposit: { id: 'deposit-1' },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -153,7 +153,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -192,7 +192,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -244,7 +244,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -312,7 +312,7 @@ describe('VercelSandboxPipelineHost', () => {
           id: 'deposit-1',
         },
         sourceRevision: {
-          repositoryFullName: 'engineeredsoftware/ENGI',
+          repositoryFullName: 'octocat/Spoon-Knife',
           branch: 'main',
           commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
         },
@@ -359,11 +359,11 @@ describe('VercelSandboxPipelineHost', () => {
       read: { id: 'read-1', prompt: 'n/a' },
       deposit: { id: 'deposit-demo' },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/demo',
+        repositoryFullName: 'octocat/demo',
         branch: 'main',
         commit: 'abc',
       },
-      source: { type: 'git', url: 'https://github.com/engineeredsoftware/demo.git', revision: 'abc' },
+      source: { type: 'git', url: 'https://github.com/octocat/demo.git', revision: 'abc' },
     });
     expect(plan.createOptions.persistent).toBe(false);
     expect(plan.createOptions.name).toMatch(/^bitcode-deposit-/);
@@ -386,7 +386,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },

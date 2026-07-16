@@ -18,7 +18,7 @@ function acceptedNeed() {
         prompt: 'Find deposited source evidence and synthesize a source-safe AssetPack preview for settlement review.',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -58,7 +58,7 @@ function fitResult(finalScore = 0.91): any {
           artifactKind: 'asset-pack',
           useTier: 'settlement-eligible',
           sourceBinding: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             sourceBranch: 'main',
             sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
             contentRoot: 'sha256:content-1',
@@ -146,13 +146,13 @@ describe('AssetPack preview quote boundary', () => {
     const boundary = buildAssetPackPreviewBoundary({
       need,
       fitResult: fit,
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/39',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/39',
       createdAt: '2026-05-21T00:00:00.000Z',
     });
     const repeated = buildAssetPackPreviewBoundary({
       need,
       fitResult: fit,
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/39',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/39',
       createdAt: '2026-05-21T00:00:00.000Z',
     });
 

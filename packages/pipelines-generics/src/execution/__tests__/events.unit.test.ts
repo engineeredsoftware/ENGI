@@ -69,7 +69,7 @@ describe('PipelineExecutor event emission (unit)', () => {
     }) as any);
 
     const phaseInput = {
-      repository: { fullName: 'engineeredsoftware/ENGI', branch: 'main' },
+      repository: { fullName: 'octocat/Spoon-Knife', branch: 'main' },
       read: 'fit current deposited source revision',
     };
 

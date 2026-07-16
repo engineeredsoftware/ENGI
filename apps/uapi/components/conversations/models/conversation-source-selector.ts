@@ -54,17 +54,17 @@ export const CONVERSATION_SOURCE_SELECTOR_OPTIONS: Array<{
   {
     kind: 'repository',
     label: 'Repository',
-    sourceRefPlaceholder: 'engineeredsoftware/ENGI',
+    sourceRefPlaceholder: 'octocat/Spoon-Knife',
   },
   {
     kind: 'branch',
     label: 'Branch',
-    sourceRefPlaceholder: 'engineeredsoftware/ENGI#main',
+    sourceRefPlaceholder: 'octocat/Spoon-Knife#main',
   },
   {
     kind: 'commit',
     label: 'Commit',
-    sourceRefPlaceholder: 'engineeredsoftware/ENGI@commit',
+    sourceRefPlaceholder: 'octocat/Spoon-Knife@commit',
   },
   {
     kind: 'deposit',

@@ -8,7 +8,7 @@ describe('finish AssetPack completion evidence', () => {
     exec.store('pipeline', 'expressedRead', 'Read the deposited source and ship the Fit result.');
     exec.store('pipeline', 'writtenAssetType', 'read-satisfaction-asset-pack');
     exec.store('harness', 'sourceRevision', {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       branch: 'main',
       commit: '272b5b1586b28363b57676603a1990bb10df319c',
     });
@@ -16,28 +16,28 @@ describe('finish AssetPack completion evidence', () => {
       status: 'delivered',
       branch: 'bitcode/asset-pack-run-123',
       path: '.proofs/asset-packs/run-123.md',
-      prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/123',
+      prUrl: 'https://github.com/octocat/Spoon-Knife/pull/123',
     });
-    exec.store('finish', 'pullRequestUrl', 'https://github.com/engineeredsoftware/ENGI/pull/123');
+    exec.store('finish', 'pullRequestUrl', 'https://github.com/octocat/Spoon-Knife/pull/123');
     exec.store('finish', 'pullRequestNumber', 123);
     exec.store('finish', 'pullRequestTitle', 'Bitcode AssetPack delivery run-123');
 
     const result = await AssetPackCompletionAgent({}, exec);
 
     expect(result.repoSnapshot).toEqual({
-      org: 'engineeredsoftware',
-      repo: 'ENGI',
+      org: 'octocat',
+      repo: 'Spoon-Knife',
       branch: 'main',
       commit: '272b5b1586b28363b57676603a1990bb10df319c',
     });
     expect(result.shippables.pullRequest).toMatchObject({
-      url: 'https://github.com/engineeredsoftware/ENGI/pull/123',
+      url: 'https://github.com/octocat/Spoon-Knife/pull/123',
       number: 123,
     });
     expect(result.deliveryMechanism?.readiness).toMatchObject({
       status: 'delivered',
       branch: 'bitcode/asset-pack-run-123',
     });
-    expect(result.deliveryMechanism?.summary).toContain('engineeredsoftware/ENGI');
+    expect(result.deliveryMechanism?.summary).toContain('octocat/Spoon-Knife');
   });
 });

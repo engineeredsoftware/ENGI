@@ -11,7 +11,7 @@ const read: DepositorySearchRead = {
   id: 'read-terminal-fit',
   prompt:
     'Read the deposited repository revision and determine whether it contains a complete non-mock product path through Deposit, Read/Fit, AssetPack evidence, proof finality readback, and Supabase ledger reconciliation.',
-  repositoryFullName: 'engineeredsoftware/ENGI',
+  repositoryFullName: 'octocat/Spoon-Knife',
   sourceBranch: 'main',
   sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   targetArtifactKinds: [
@@ -30,19 +30,19 @@ const read: DepositorySearchRead = {
 
 function asset(overrides: Partial<DepositoryAsset> = {}): DepositoryAsset {
   return {
-    assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
-    title: 'Deposited ENGI repository revision',
+    assetId: 'asset_repository-revision-deposit-octocat-engi',
+    title: 'Deposited Spoon-Knife repository revision',
     summary:
       'Repository revision evidence for Deposit, Read/Fit, AssetPack evidence, proof-root, finality readback, and Supabase ledger reconciliation.',
     artifactKind: 'repository-revision',
     artifactType: 'repository/revision',
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     contentRoot: 'sha256:test-content-root',
     contentUnits: [
       {
-        unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:unit-1',
+        unitId: 'asset_repository-revision-deposit-octocat-engi:unit-1',
         unitKind: 'repository-revision',
         text:
           'product commercial path records repository revision Deposit evidence, measured Read, Fit quality receipt, AssetPack evidence, proof-root, finality readback, wallet authorization, and reconciliation readback.',
@@ -56,7 +56,7 @@ function asset(overrides: Partial<DepositoryAsset> = {}): DepositoryAsset {
       },
     ],
     signingSurface: { payloadHash: 'sha256:signed' },
-    githubBoundary: { sourceProvider: 'github', sourceRepo: 'engineeredsoftware/ENGI' },
+    githubBoundary: { sourceProvider: 'github', sourceRepo: 'octocat/Spoon-Knife' },
     assetMeasurement: { targetKindCount: 5 },
     measurementProvenance: [{ stage: 'deposit-measurement' }],
     verificationEvidence: {
@@ -87,11 +87,11 @@ describe('AssetPack depository search', () => {
 
     expect(result.resultState).toBe('worthy_fit');
     expect(result.fitDepositAssetIds).toEqual([
-      'asset_repository-revision-deposit-engineeredsoftware-engi',
+      'asset_repository-revision-deposit-octocat-engi',
     ]);
     expect(result.fitDeposits).toHaveLength(1);
     expect(result.selectedCandidateAssetIds).toEqual([
-      'asset_repository-revision-deposit-engineeredsoftware-engi',
+      'asset_repository-revision-deposit-octocat-engi',
     ]);
     expect(result.selectedCandidates[0].verification.repositoryBound).toBe(true);
     expect(result.selectedCandidates[0].verification.sourceRevisionBound).toBe(true);
@@ -287,8 +287,8 @@ describe('AssetPack depository search', () => {
       assets: [
         asset({
           assetId: 'asset_frontier_demo',
-          repositoryFullName: 'frontier/ENGI',
-          githubBoundary: { sourceProvider: 'demo', sourceRepo: 'frontier/ENGI' },
+          repositoryFullName: 'frontier/Spoon-Knife',
+          githubBoundary: { sourceProvider: 'demo', sourceRepo: 'frontier/Spoon-Knife' },
         }),
       ],
     });
@@ -302,7 +302,7 @@ describe('AssetPack depository search', () => {
   it('normalizes manifest-only deposits into searchable source-bound assets', () => {
     const normalized = normalizePipelineDepositoryAssets({
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -319,7 +319,7 @@ describe('AssetPack depository search', () => {
 
     expect(normalized).toHaveLength(1);
     expect(normalized[0].assetId).toBe('asset-1');
-    expect(normalized[0].repositoryFullName).toBe('engineeredsoftware/ENGI');
+    expect(normalized[0].repositoryFullName).toBe('octocat/Spoon-Knife');
     expect(normalized[0].hasWalletOrAttestationProof).toBe(true);
     expect(normalized[0].verificationEvidence).toMatchObject({
       proofRoot: 'sha256:manifest-proof',
@@ -378,7 +378,7 @@ describe('AssetPack depository search', () => {
         step: 'ReadFitsFindingSynthesis.discovery.finding-fits.try',
         output: expect.objectContaining({
           resultState: 'worthy_fit',
-          fitDepositAssetIds: ['asset_repository-revision-deposit-engineeredsoftware-engi'],
+          fitDepositAssetIds: ['asset_repository-revision-deposit-octocat-engi'],
           queryRoot: expect.stringMatching(/^sha256:/),
           rankingRoot: expect.stringMatching(/^sha256:/),
           queryPlanRoot: expect.stringMatching(/^sha256:/),
@@ -417,23 +417,23 @@ describe('AssetPack depository search', () => {
     });
     expect(findStored(exec, 'read/finding-fits', 'replayRoot')).toMatch(/^sha256:/);
     expect(findStored(exec, 'depository/search', 'sourceSafeCandidateRanking')?.[0]).toMatchObject({
-      assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
+      assetId: 'asset_repository-revision-deposit-octocat-engi',
     });
     expect(output.fitResult.resultState).toBe('worthy_fit');
     expect(output.fitResult.fitDepositAssetIds).toEqual([
-      'asset_repository-revision-deposit-engineeredsoftware-engi',
+      'asset_repository-revision-deposit-octocat-engi',
     ]);
     expect(output.fitResult.selectionTrace.fitDeposits[0]).toMatchObject({
-      assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
+      assetId: 'asset_repository-revision-deposit-octocat-engi',
     });
     expect(output.fitResult.embeddingPolicy.model).toBe('text-embedding-3-small');
     expect(['settlement-eligible', 'patch-eligible']).toContain(
       output.fitResult.selectionTrace.selectedCandidates[0].useTier
     );
     expect(output.fitResult.selectionTrace.selectedCandidates[0]).toMatchObject({
-      assetId: 'asset_repository-revision-deposit-engineeredsoftware-engi',
+      assetId: 'asset_repository-revision-deposit-octocat-engi',
       sourceBinding: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         sourceBranch: 'main',
         sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -457,14 +457,14 @@ describe('AssetPack depository search', () => {
       },
     });
     expect(findStored(exec, 'fit', 'selectionTrace')?.selectedCandidates[0].selectedUnits[0]).toMatchObject({
-      unitId: 'asset_repository-revision-deposit-engineeredsoftware-engi:supply-index-source-safe-unit',
+      unitId: 'asset_repository-revision-deposit-octocat-engi:supply-index-source-safe-unit',
       unitKind: 'depository-supply-index',
     });
     expect(output.depositorySearch.selectedCandidateAssetIds).toEqual([
-      'asset_repository-revision-deposit-engineeredsoftware-engi',
+      'asset_repository-revision-deposit-octocat-engi',
     ]);
     expect(output.depositorySearch.fitDepositAssetIds).toEqual([
-      'asset_repository-revision-deposit-engineeredsoftware-engi',
+      'asset_repository-revision-deposit-octocat-engi',
     ]);
   });
 });

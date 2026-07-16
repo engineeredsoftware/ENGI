@@ -88,14 +88,14 @@ describe('depository settled demand estimate', () => {
         title: 'Deposit route proof operations',
         summary: 'Source-safe deposit route proof and admission',
         kind: 'proof-operations-slice',
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         topics: ['deposit', 'route', 'proof'],
       }),
       pack('2', {
         title: 'Deposit admission receipt',
         summary: 'Depository admission for deposit options',
         kind: 'proof-operations-slice',
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         topics: ['deposit', 'admission'],
       }),
       pack('3', {
@@ -126,7 +126,7 @@ describe('depository settled demand estimate', () => {
         title: 'Deposit route proof operations slice',
         summary: 'Source-safe deposit route proof and Depository admission evidence',
         kind: 'proof-operations-slice',
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         coveredSourcePaths: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
       },
     });

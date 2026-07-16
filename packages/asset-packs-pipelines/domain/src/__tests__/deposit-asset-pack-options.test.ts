@@ -6,7 +6,7 @@ import {
 describe('Deposit AssetPack option synthesis', () => {
   it('builds multiple source-safe AssetPack options from connected source and demand signals', () => {
     const synthesis = buildDepositAssetPackOptionSynthesis({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       obfuscations:
@@ -56,7 +56,7 @@ describe('Deposit AssetPack option synthesis', () => {
     for (const option of synthesis.options) {
       expect(option.schema).toBe('bitcode.deposit.asset-pack-option');
       expect(option.sourceBinding).toMatchObject({
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         sourceBranch: 'main',
         sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
         sourcePathCount: 2,

@@ -90,13 +90,13 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
 
   it("defaults commit selection to Latest and refreshes head on demand", async () => {
     mockSearchParams = new URLSearchParams(
-      "provider=github&repo=engineeredsoftware/ENGI&sourceBranch=main",
+      "provider=github&repo=octocat/Spoon-Knife&sourceBranch=main",
     );
     mockVcsFetch({
       repositories: [
         {
-          fullName: "engineeredsoftware/ENGI",
-          name: "ENGI",
+          fullName: "octocat/Spoon-Knife",
+          name: "Spoon-Knife",
           defaultBranch: "main",
         },
       ],
@@ -187,7 +187,7 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
         repositoryAnchors={[
           {
             id: "repo-anchor-1",
-            repositoryFullName: "engineeredsoftware/OtherRepo",
+            repositoryFullName: "octocat/OtherRepo",
             branch: "develop",
             commit: "abc1234567",
           },
@@ -201,12 +201,12 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
     fireEvent.click(anchorSelect);
     const listbox = await screen.findByRole("listbox");
     fireEvent.click(
-      within(listbox).getByText("engineeredsoftware/OtherRepo"),
+      within(listbox).getByText("octocat/OtherRepo"),
     );
 
     await waitFor(() =>
       expect(mockReplace).toHaveBeenCalledWith(
-        expect.stringContaining("repo=engineeredsoftware%2FOtherRepo"),
+        expect.stringContaining("repo=octocat%2FOtherRepo"),
         { scroll: false },
       ),
     );
@@ -224,7 +224,7 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
         repositoryAnchors={[
           {
             id: "repo-anchor-2",
-            repositoryFullName: "engineeredsoftware/Bare",
+            repositoryFullName: "octocat/Bare",
             branch: null,
             commit: null,
           },
@@ -238,11 +238,11 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
       }),
     );
     const listbox = await screen.findByRole("listbox");
-    fireEvent.click(within(listbox).getByText("engineeredsoftware/Bare"));
+    fireEvent.click(within(listbox).getByText("octocat/Bare"));
 
     await waitFor(() =>
       expect(mockReplace).toHaveBeenCalledWith(
-        expect.stringContaining("repo=engineeredsoftware%2FBare"),
+        expect.stringContaining("repo=octocat%2FBare"),
         { scroll: false },
       ),
     );

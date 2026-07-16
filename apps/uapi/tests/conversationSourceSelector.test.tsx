@@ -15,13 +15,13 @@ describe('ConversationSourceSelector', () => {
     render(
       <ConversationSourceSelector
         initialKind="repository"
-        initialSourceRef="engineeredsoftware/ENGI"
+        initialSourceRef="octocat/Spoon-Knife"
         onSelect={onSelect}
       />,
     );
 
     expect(screen.getByLabelText('Source-safe selector preview')).toHaveTextContent('allowed');
-    expect(screen.getByLabelText('Source-safe selector preview')).toHaveTextContent('engineeredsoftware/ENGI');
+    expect(screen.getByLabelText('Source-safe selector preview')).toHaveTextContent('octocat/Spoon-Knife');
 
     fireEvent.click(screen.getByRole('button', { name: 'Select conversation source' }));
     await waitFor(() => expect(onSelect).toHaveBeenCalledTimes(1));

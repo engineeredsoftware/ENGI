@@ -233,7 +233,7 @@ export function buildBtdApiSchemaCompatibilityRows(): BtdApiSchemaCompatibilityR
       example: {
         request: {
           task: 'Synthesize a source-safe AssetPack preview for a reviewed ReadNeed.',
-          repository: { provider: 'github', owner: 'engineeredsoftware', name: 'ENGI' },
+          repository: { provider: 'github', owner: 'octocat', name: 'Spoon-Knife' },
         },
         response: {
           status: 'queued',

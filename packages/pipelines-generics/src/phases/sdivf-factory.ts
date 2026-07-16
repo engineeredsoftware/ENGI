@@ -1,9 +1,9 @@
 /**
- * @deprecated Prefer `@bitcode/generic-pipelines-sdivf`.
- * Compatibility re-export of the SDIVFPipeline base (hierarchy: SDIVF + Pipeline).
+ * SDIVFPipeline base re-export surface for pipelines-generics callers.
+ * Prefer importing `@bitcode/generic-pipelines-sdivf` directly.
  *
  * Hierarchy: pipelines-generics (Pipeline) → generic-pipelines/SDIVF (SDIVFPipeline)
- * → pipeline-asset-pack (SynthesizeAssetPacksSDIVFPipeline / future Settle…).
+ * → asset-packs-pipelines domain (SynthesizeAssetPacksSDIVFPipeline).
  */
 
 export {

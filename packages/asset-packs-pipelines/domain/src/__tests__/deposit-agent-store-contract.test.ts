@@ -49,9 +49,9 @@ import runDepositValidationAgent from '../agents/validation/deposit-validation-a
 import runUploadAssetPacksForReviewAgent from '../agents/finish/upload-asset-packs-for-review-agent';
 
 const REPOSITORY = {
-  owner: 'engineeredsoftware',
-  name: 'ENGI',
-  fullName: 'engineeredsoftware/ENGI',
+  owner: 'octocat',
+  name: 'Spoon-Knife',
+  fullName: 'octocat/Spoon-Knife',
   branch: 'main',
 };
 

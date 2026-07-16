@@ -225,14 +225,14 @@ jest.mock('@bitcode/pipeline-hosts', () => ({
                   sourceAvailable: true,
                   reason: 'settlement delivered in route test',
                   readLicenseId: 'read-license-route-test',
-                  pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+                  pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
                   missingReadbackKeys: [],
                 },
                 deliveryUnlock: {
                   schema: 'bitcode.asset-pack.delivery-unlock',
                   state: 'source_bearing_pull_request_ready',
                   deliveryMechanism: 'pull_request_after_settlement',
-                  pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+                  pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/42',
                   sourceBearingDeliveryVisibleToReader: true,
                   protectedSourcePayloadSerialized: false,
                   requiredReceipts: ['btc_payment_observation', 'btd_rights_transfer'],
@@ -385,7 +385,7 @@ function restoreEnv() {
 function validHostBody(overrides: Record<string, unknown> = {}) {
   return {
     mode: 'asset_pack_pipeline',
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     readId: 'read-activity',
@@ -410,7 +410,7 @@ function acceptedReadNeed() {
     failureModes: ['repository_mismatch'],
     targetArtifactKinds: ['asset-pack-evidence'],
     sourceConstraints: {
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       protectedSourceDisclosure: 'forbidden_before_settlement',

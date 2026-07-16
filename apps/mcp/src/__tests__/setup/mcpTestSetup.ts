@@ -395,9 +395,6 @@ jest.mock('@bitcode/pipelines-generics', () => ({
       return current;
     })
   ),
-  waitForInstruction: jest.fn().mockImplementation(() =>
-    jest.fn().mockImplementation(async (input: any) => input)
-  ),
   createPipelineExecutor: jest.fn().mockReturnValue({
     execute: jest.fn().mockResolvedValue({
       success: true,

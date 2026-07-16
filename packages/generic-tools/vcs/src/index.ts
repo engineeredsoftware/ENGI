@@ -55,8 +55,6 @@ import {
   LIST_BRANCHES_DOC_CODE_TOOL_PROMPT,
   GET_FILE_CONTENT_DOC_CODE_TOOL_PROMPT
 } from './prompts';
-import { executionContext } from '@bitcode/generic-tools-editing/execution-context';
-
 type VcsInputBase = {
   provider?: VCSProviderType;
   connectionId?: string;
@@ -133,50 +131,6 @@ function buildProviderConfig(
 
 async function createProvider(provider: VCSProviderType, instanceUrl?: string) {
   return VCSProviderFactory.create(buildProviderConfig(provider, instanceUrl));
-}
-
-async function enforceWriteGate(path: string): Promise<void> {
-  try {
-    const execution = executionContext?.getStore?.();
-    if (!execution) {
-      return;
-    }
-
-    const metaPhase =
-      execution.get?.('gate', 'current') ||
-      execution.get?.('meta', 'phase') ||
-      'Develop';
-    const { validateFileOperation } = await import('@bitcode/pipelines-generics');
-    const validation = validateFileOperation('write', path, metaPhase as any);
-    if (validation.allowed) {
-      return;
-    }
-
-    try {
-      execution.store?.('gates', 'lastViolation', {
-        metaPhase,
-        operation: 'write',
-        path,
-        reason: validation.reason,
-        timestamp: new Date().toISOString(),
-      });
-    } catch {}
-
-    const gateError = new Error(
-      validation.reason ||
-        `${metaPhase} phase can only modify designated files. Attempted: ${path}`,
-    );
-    (gateError as any).code = 'GATE_VIOLATION';
-    throw gateError;
-  } catch (gateCheckError) {
-    if ((gateCheckError as any)?.code === 'GATE_VIOLATION') {
-      throw gateCheckError;
-    }
-
-    throw new Error(
-      `Failed to evaluate gate permissions for ${path}: ${(gateCheckError as Error).message}`,
-    );
-  }
 }
 
 /**
@@ -318,8 +272,6 @@ class CreateOrUpdateFileTool extends Tool<any> {
   });
 
   use = async (input: z.infer<typeof this.inputSchema>) => {
-    await enforceWriteGate(input.path);
-
     const { auth, instanceUrl } = await resolveConnectionContext(input);
     const vcsProvider = await createProvider(input.provider, instanceUrl);
 

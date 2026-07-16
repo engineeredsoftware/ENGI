@@ -244,15 +244,13 @@ export function ExecutionsClient() {
         if (!res.ok) return; const data = await res.json(); const run = data?.run || {};
         const runOutput = (run as any)?.output || run?.output_data || null;
         const assetPackCompletion = runOutput?.asset_pack_completion || run?.asset_pack_completion || null;
-        const guide = run?.guide || run?.guide || null;
-        const gateHistory = (run?.metadata?.gateHistory || run?.metadata?.gate_history) ?? null;
+        const guide = run?.guide || null;
         const enrichedAssetPackCompletion = assetPackCompletion
           ? {
               ...assetPackCompletion,
               processingStats: {
                 ...(assetPackCompletion.processingStats || {}),
                 guide: guide || (assetPackCompletion.processingStats as any)?.guide || null,
-                ...(gateHistory ? { gateHistory } : {})
               }
             }
           : assetPackCompletion;

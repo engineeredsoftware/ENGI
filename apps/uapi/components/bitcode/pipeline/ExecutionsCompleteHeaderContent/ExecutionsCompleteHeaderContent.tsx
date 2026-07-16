@@ -134,7 +134,6 @@ export function CompleteHeaderContent({
     );
   }
   const headerTitle = 'Written Asset Ready';
-  const digestStatus = processingStats?.digest || null;
 
   return (
     <div className="relative flex flex-col space-y-6 w-full max-w-4.5xl mx-auto">
@@ -194,23 +193,6 @@ export function CompleteHeaderContent({
           {postprocessed && (
             <PostprocessedSummary postprocessed={postprocessed} />
           )}
-        </div>
-      )}
-
-      {digestStatus && (
-        <div className="rounded-none border border-sky-500/30 bg-sky-500/5 p-4 space-y-2">
-          <div className="flex items-center justify-between">
-            <p className="text-sm font-semibold text-sky-200">Digest Guide</p>
-            <span className={`text-xs px-2 py-0.5 rounded-none ${digestStatus.agentsDocUpdated ? 'bg-emerald-500/20 text-emerald-200' : 'bg-amber-500/20 text-amber-200'}`}>
-              {digestStatus.agentsDocUpdated ? 'AGENTS.md updated' : 'AGENTS.md pending'}
-            </span>
-          </div>
-          {digestStatus.summary && (
-            <p className="text-sm text-sky-100 whitespace-pre-wrap">{digestStatus.summary}</p>
-          )}
-          <p className="text-xs text-sky-200/80">
-            Questions answered: {digestStatus.questionsAnswered ?? 0} · Patterns documented: {digestStatus.patternsDocumented ?? 0}
-          </p>
         </div>
       )}
 

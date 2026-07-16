@@ -10,7 +10,7 @@ const read: DepositorySearchRead = {
   id: 'read-supply-index',
   prompt:
     'Find source-bound evidence for Deposit Read Fit AssetPack proof-root reconciliation readback and Supabase ledger synchronization.',
-  repositoryFullName: 'engineeredsoftware/ENGI',
+  repositoryFullName: 'octocat/Spoon-Knife',
   sourceBranch: 'main',
   sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   targetArtifactKinds: ['repository-revision', 'asset-pack-evidence', 'proof-root'],
@@ -34,7 +34,7 @@ function deposit(overrides: Record<string, unknown> = {}) {
       'Source-safe evidence for Deposit, Read, Finding Fits, AssetPack proof-root, reconciliation readback, and Supabase ledger synchronization.',
     artifactKind: 'repository-revision',
     artifactType: 'repository/revision',
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
     contentRoot: 'sha256:source-material-root',

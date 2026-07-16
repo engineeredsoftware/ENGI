@@ -100,7 +100,6 @@ export { isExecutionDebugEnabled, enableExecutionDebug, debugWrapExecutorStep } 
 
 // Canonical primitive types and mappers (DB + Streams SSOT)
 export type {
-  MetaPhase,
   PhaseLower,
   PhaseTitle,
   StepLower,
@@ -110,19 +109,6 @@ export type {
   ExecutionState
 } from './types/primitives';
 export { toPhaseLower, toPhaseTitle, toStepLower, isMetaStep, isSubStep } from './types/primitives';
-
-// Historical Engi gate helpers (file-gates / residual tooling). Product pipelines use SDIVF.
-export * from './gate-system';
-
-export {
-  storeGateState,
-  getCurrentGate,
-  getGateState,
-  transitionToNextGate,
-  isCollaborativeGate,
-  getSelfInstructThreshold,
-  type GateExecutionContext
-} from './execution/route-pipeline-execution';
 
 // Pipeline DB aliases (built from ORM types)
 export type {

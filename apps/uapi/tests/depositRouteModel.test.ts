@@ -21,7 +21,7 @@ describe('deposit-route-model', () => {
     const session = buildDepositRouteSession({
       transactionId: 'deposit-run-1',
       depositStage: 'review-options',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       obfuscations: 'Create bounded source-safe AssetPack options for review.',
@@ -110,7 +110,7 @@ describe('deposit-route-model', () => {
   it('keeps deposit submission blocked until option review is present', () => {
     const session = buildDepositRouteSession({
       depositStage: 'submit-deposit',
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts'],
@@ -131,7 +131,7 @@ describe('deposit-route-model', () => {
 
   it('keeps critical or negative-value policy blocked before Gate 7 admission', () => {
     const session = buildDepositRouteSession({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts'],
@@ -157,7 +157,7 @@ describe('deposit-route-model', () => {
 
   it('projects source-safe depositor earnings and unfit Need opportunities', () => {
     const session = buildDepositRouteSession({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
@@ -217,7 +217,7 @@ describe('deposit-route-model', () => {
 
   it('marks earnings unestimatable when settled Depository demand is unavailable', () => {
     const session = buildDepositRouteSession({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
@@ -260,7 +260,7 @@ describe('deposit-route-model', () => {
 
   it('admits approved policy-eligible deposit options into source-safe Depository projections', () => {
     const initial = buildDepositRouteSession({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
@@ -271,7 +271,7 @@ describe('deposit-route-model', () => {
       optionsRequested: true,
     });
     const approved = buildDepositRouteSession({
-      repositoryFullName: 'engineeredsoftware/ENGI',
+      repositoryFullName: 'octocat/Spoon-Knife',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],

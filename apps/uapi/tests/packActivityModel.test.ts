@@ -22,8 +22,8 @@ describe('pack-activity-model', () => {
     payload: {
       type: 'pipeline:read-fits',
       repo_snapshot: {
-        org: 'engineeredsoftware',
-        repo: 'ENGI',
+        org: 'octocat',
+        repo: 'Spoon-Knife',
       },
       assetPackTitle: 'Auth rollback proof pack',
       measuredBtd: 42,
@@ -101,7 +101,7 @@ describe('pack-activity-model', () => {
     expect(record).toMatchObject({
       id: 'pack-activity-1',
       type: 'read-need-fit-preview',
-      repository: 'engineeredsoftware/ENGI',
+      repository: 'octocat/Spoon-Knife',
       assetPackTitle: 'Auth rollback proof pack',
       settlementState: 'quote_ready',
       compensationState: 'source_to_shares_preview_ready',
@@ -285,13 +285,13 @@ describe('pack-activity-model', () => {
           source: 'read-settle-asset-pack',
           packActivityType: 'settled-assetpack',
           activityType: 'settled-assetpack',
-          repositoryFullName: 'engineeredsoftware/ENGI',
+          repositoryFullName: 'octocat/Spoon-Knife',
           optionCount: 1,
           settlementState: 'settled',
           rightsState: 'btd-rights-projected',
           deliveryState: 'opened',
-          deliveryReference: 'https://github.com/engineeredsoftware/ENGI/pull/42',
-          prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+          deliveryReference: 'https://github.com/octocat/Spoon-Knife/pull/42',
+          prUrl: 'https://github.com/octocat/Spoon-Knife/pull/42',
           assetPackTitle: 'Auth rollback proof pack',
         },
         output: {
@@ -302,7 +302,7 @@ describe('pack-activity-model', () => {
           settlementState: 'settled',
           rightsState: 'btd-rights-projected',
           deliveryState: 'opened',
-          prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+          prUrl: 'https://github.com/octocat/Spoon-Knife/pull/42',
           amountSats: 4500,
           measurements: [
             {
@@ -333,7 +333,7 @@ describe('pack-activity-model', () => {
           packActivity: {
             schema: 'bitcode.packs.activity',
             packActivityType: 'settled-assetpack',
-            prUrl: 'https://github.com/engineeredsoftware/ENGI/pull/42',
+            prUrl: 'https://github.com/octocat/Spoon-Knife/pull/42',
           },
           // Must be redacted if present
           protectedSource: 'protected source body',
@@ -343,14 +343,14 @@ describe('pack-activity-model', () => {
     });
 
     expect(settleRecord.type).toBe('settled-assetpack');
-    expect(settleRecord.repository).toBe('engineeredsoftware/ENGI');
+    expect(settleRecord.repository).toBe('octocat/Spoon-Knife');
     expect(settleRecord.assetPackTitle).toBe('Auth rollback proof pack');
     expect(settleRecord.title).toContain('Auth rollback proof pack');
     expect(settleRecord.settlementState).toBe('settled');
     expect(settleRecord.rightsState).toBe('btd-rights-projected');
     expect(settleRecord.deliveryState).toBe('opened');
     expect(settleRecord.deliveryReference).toBe(
-      'https://github.com/engineeredsoftware/ENGI/pull/42',
+      'https://github.com/octocat/Spoon-Knife/pull/42',
     );
     expect(settleRecord.measurements.some((m) => m.id === 'absolute:functions')).toBe(true);
     expect(settleRecord.measurements.some((m) => m.id === 'neediness:language-fit')).toBe(true);
@@ -364,7 +364,7 @@ describe('pack-activity-model', () => {
 
     const detail = buildPackActivityDetailProjection(settleRecord);
     expect(detail.deliveryReference).toBe(
-      'https://github.com/engineeredsoftware/ENGI/pull/42',
+      'https://github.com/octocat/Spoon-Knife/pull/42',
     );
     expect(detail.states.delivery).toBe('opened');
     expect(detail.states.settlement).toBe('settled');
@@ -496,7 +496,7 @@ describe('pack-activity-model', () => {
         payload: {
           type: 'pipeline:deposit-option-admission',
           assetPackTitle: 'Auth rollback proof pack',
-          repositoryFullName: 'engineeredsoftware/ENGI',
+          repositoryFullName: 'octocat/Spoon-Knife',
           admittedCount: 1,
           compensationState: 'allocation_ready',
           settlementState: 'quote_ready',
@@ -514,7 +514,7 @@ describe('pack-activity-model', () => {
         payload: {
           type: 'pipeline:read-fits',
           assetPackTitle: 'Latency repair opportunity',
-          repositoryFullName: 'engineeredsoftware/ENGI',
+          repositoryFullName: 'octocat/Spoon-Knife',
           fitResult: 'no_worthy_fit',
           repairState: 'open_reconciliation',
           unfitNeedRoot: 'unfit-need-root',

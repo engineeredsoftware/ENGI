@@ -24,7 +24,7 @@ import {
 } from '../reading-pipeline-observability';
 
 const sourceRevision = {
-  repositoryFullName: 'engineeredsoftware/ENGI',
+  repositoryFullName: 'octocat/Spoon-Knife',
   branch: 'main',
   commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
 };
@@ -157,7 +157,7 @@ describe('Reading pipeline integration coverage', () => {
     const previewBoundary = buildAssetPackPreviewBoundary({
       need,
       fitResult,
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/505',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/505',
       createdAt: '2026-05-25T00:00:00.000Z',
     });
     expect(previewBoundary.sourceSafePreview).toMatchObject({
@@ -183,7 +183,7 @@ describe('Reading pipeline integration coverage', () => {
       previewBoundary,
       readerWalletId: 'reader-wallet-v40-gate5',
       depositorWalletId: 'depositor-wallet-v40-gate5',
-      pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/505',
+      pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/505',
       createdAt: '2026-05-25T00:00:00.000Z',
     });
     expect(settlementBoundary).toMatchObject({

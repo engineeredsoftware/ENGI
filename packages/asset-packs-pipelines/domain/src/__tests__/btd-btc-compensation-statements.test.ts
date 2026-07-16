@@ -19,7 +19,7 @@ function acceptedNeed() {
         prompt: 'Settle an AssetPack, account for BTD/BTC rights, compensate contributors, and reconcile projections.',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -60,7 +60,7 @@ function fitResult(finalScore = 0.93): any {
           artifactKind: 'asset-pack',
           useTier: 'settlement-eligible',
           sourceBinding: {
-            repositoryFullName: 'engineeredsoftware/ENGI',
+            repositoryFullName: 'octocat/Spoon-Knife',
             sourceBranch: 'main',
             sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
             contentRoot: 'sha256:content-accounting-1',
@@ -145,7 +145,7 @@ function previewBoundary() {
   return buildAssetPackPreviewBoundary({
     need: acceptedNeed(),
     fitResult: fitResult(),
-    pullRequestTarget: 'https://github.com/engineeredsoftware/ENGI/pull/441',
+    pullRequestTarget: 'https://github.com/octocat/Spoon-Knife/pull/441',
     createdAt: '2026-05-29T00:00:00.000Z',
   });
 }

@@ -12,7 +12,6 @@ import { supabaseAdmin } from '@bitcode/supabase';
 
 // Import canonical types from pipelines-generics (SSOT)
 import type {
-  MetaPhase,
   PhaseTitle,
   StepTitle,
   MetaStep,
@@ -25,7 +24,6 @@ export type ExecutionPhase = PhaseTitle;
 export type ExecutionStep = StepTitle;
 export type FailsafeStep = MetaStep;
 export type GenerationStep = SubStep;
-export type { MetaPhase };
 
 // ExecutionState for stream messages (re-export from pipelines-generics)
 export type ExecutionState = PipelineExecutionState;
