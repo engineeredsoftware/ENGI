@@ -36,7 +36,8 @@ export interface InstallationResponse {
   accounts: Account[];
 }
 
-export interface Shippable {
+/** Buyer-repo pull request surface on settle delivery. */
+export interface SettleDeliveryPullRequest {
   url: string;
   number?: number;
   title?: string;
@@ -56,7 +57,7 @@ export type AssetPackFileChanges = {
 };
 
 export type AssetPackSurface = {
-  pullRequest?: Shippable | null;
+  pullRequest?: SettleDeliveryPullRequest | null;
   fileChanges?: AssetPackFileChanges | null;
   summary?: string | null;
 };
@@ -127,15 +128,15 @@ export interface UrlEntry {
   origin: string;
   status?: 'success' | 'error';
 }
-// Record type for a single Shippable history item.
-export interface ShippableHistoryItem {
+/** History line item attached to a pipeline execution row. */
+export interface PipelineExecutionHistoryItem {
   id: string;
   title: string;
   output?: string | null;
   repository?: string | null;
-  shippable_type: 'pr';
-  shippable_id?: string | null;
-  shippable_status?: string | null;
+  delivery_type: 'pr';
+  delivery_id?: string | null;
+  delivery_status?: string | null;
   attached_urls?: any;
   selected_files?: any;
   created_at: string;
@@ -152,7 +153,7 @@ export interface PipelineExecution {
   status?: string;
   output?: Record<string, any> | null;
   metadata?: Record<string, any> | null;
-  items: ShippableHistoryItem[];
+  items: PipelineExecutionHistoryItem[];
   /**
    * Arbitrary JSON context blob attached to the run. Current pipelines attach
    * a rich object matching `GlobalContext` (see `lib/context`). Keep this
@@ -338,7 +339,7 @@ export interface EvidenceDocumentRun {
 }
 
 // Unified postprocessed result type
-export type ShippableArtifacts = {
+export type PipelineResultArtifacts = {
   filesCreated: string[];
   filesModified: string[];
   testsAdded: number;
@@ -354,11 +355,11 @@ export type ValidationReadySnapshot = {
 
 export type PostprocessedResult = {
   executionId: string;
-  kind: 'shippable' | 'multi-shippable' | 'evidence_document';
+  kind: 'settle_delivery' | 'multi_settle_delivery' | 'evidence_document';
   title: string;
   repository?: string;
   summary?: string;
-  artifacts?: ShippableArtifacts | null;
+  artifacts?: PipelineResultArtifacts | null;
   validationReady?: ValidationReadySnapshot;
   entries?: PostprocessedResult[];
   series?: PostprocessedResult[];

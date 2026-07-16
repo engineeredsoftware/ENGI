@@ -379,7 +379,7 @@ const Conversation = memo(function Conversation({
       onToggleSplitScreen={view.toggleSplitScreen}
       onToggleWritingWorkspace={() => view.setShowWritingWorkspace((prev) => !prev)}
       onToggleSourceSelector={() => view.setShowSourceSelector((prev) => !prev)}
-      onToggleProductHandoff={() => view.setShowTerminalHandoff((prev) => !prev)}
+      onToggleProductHandoff={() => view.setShowProductHandoff((prev) => !prev)}
       onTogglePersistencePrivacy={() => view.setShowPersistencePrivacy((prev) => !prev)}
       onToggleTelemetryProof={() => view.setShowTelemetryProof((prev) => !prev)}
       onToggleRehearsalProof={() => view.setShowRehearsalProof((prev) => !prev)}

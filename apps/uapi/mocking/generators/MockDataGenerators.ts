@@ -27,7 +27,7 @@ import type {
   IssueOrPR,
   RepoFile,
   UrlEntry,
-  ShippableHistoryItem
+  PipelineExecutionHistoryItem
 } from '@/types/api';
 
 import type { DeliveryTemplates } from '@/types/templates';
@@ -419,7 +419,7 @@ class AssetPackGenerator extends BaseDataGenerator {
 
     for (let i = 0; i < count; i++) {
       const itemCount = Math.floor(Math.random() * 3) + 1;
-      const items: ShippableHistoryItem[] = [];
+      const items: PipelineExecutionHistoryItem[] = [];
 
       for (let j = 0; j < itemCount; j++) {
         items.push({
@@ -427,9 +427,9 @@ class AssetPackGenerator extends BaseDataGenerator {
           title: this.generateRealisticText(4),
           output: this.generateRealisticText(20),
           repository: 'mock-org/mock-repo',
-          shippable_type: 'pr',
-          shippable_id: (j + 1).toString(),
-          shippable_status: this.pickRandom(['open', 'closed', 'merged']),
+          delivery_type: 'pr',
+          delivery_id: (j + 1).toString(),
+          delivery_status: this.pickRandom(['open', 'closed', 'merged']),
           attached_urls: [],
           selected_files: [],
           created_at: this.generateRealisticTimestamp(i),

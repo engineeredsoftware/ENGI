@@ -385,7 +385,7 @@ export class StreamFactory {
       correlationId,
       dataStream,
       metadata: {
-        streamType: 'asset-pack-shippable-execution'
+        streamType: 'asset-pack-settle-delivery-execution'
       }
     });
   }

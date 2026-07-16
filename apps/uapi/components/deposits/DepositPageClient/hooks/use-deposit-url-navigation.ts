@@ -14,8 +14,8 @@ import {
   DEPOSIT_ROUTE,
 } from "@/components/bitcode/routes/ProductRoutes/product-routes";
 import {
-  clearTerminalTransactionId,
-  writeTerminalTransactionId,
+  clearPipelineTransactionId,
+  writePipelineTransactionId,
 } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 
 export function useDepositUrlNavigation() {
@@ -54,7 +54,7 @@ export function useDepositUrlNavigation() {
   const openDepositRouteTransaction = useCallback(
     (transactionId: string) => {
       pushDepositSearchParams(
-        writeTerminalTransactionId(readCurrentSearchParams(), transactionId),
+        writePipelineTransactionId(readCurrentSearchParams(), transactionId),
       );
     },
     [pushDepositSearchParams, readCurrentSearchParams],
@@ -66,7 +66,7 @@ export function useDepositUrlNavigation() {
   /** Close detail: strip transactionId without adding another history step. */
   const clearDepositRouteTransaction = useCallback(() => {
     replaceDepositSearchParams(
-      clearTerminalTransactionId(readCurrentSearchParams()),
+      clearPipelineTransactionId(readCurrentSearchParams()),
     );
   }, [readCurrentSearchParams, replaceDepositSearchParams]);
 

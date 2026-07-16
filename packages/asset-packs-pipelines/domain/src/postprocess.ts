@@ -323,7 +323,7 @@ export function buildAssetPackPostprocessedResult(
 
   return {
     executionId,
-    kind: 'shippable',
+    kind: 'settle_delivery',
     semanticKind: 'asset-pack-written-asset',
     title:
       normalized.writtenAsset?.title ||

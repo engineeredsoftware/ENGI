@@ -74,7 +74,7 @@ async function main() {
 
     const result = pipelineResult;
 
-    // Attempt to save the PR patch if Finish delivered a pull-request Shippable.
+    // Attempt to save the PR patch if settle Simple delivered a pull-request.
     try {
       const prUrl: string | undefined =
         (result as any)?.shippableUrl ||

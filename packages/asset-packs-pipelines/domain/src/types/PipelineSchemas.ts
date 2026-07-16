@@ -7,9 +7,11 @@ import type { AssetPackDisclosureReview } from '../asset-pack-disclosure';
 import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
 
 /**
- * AssetPack synthesis uses written-asset and shippable /
- * delivery-mechanism semantics. A Shippable is the connected-interface object
- * delivered by Finish after AssetPack evidence exists.
+ * AssetPack synthesis output schemas.
+ * writtenAssets / assetPackSynthesisArtifacts = synthesis evidence (SDIVF).
+ * settleDelivery = buyer-repo PR surface after settle Simple.
+ * deliveryMechanism = connected-interface projection of delivery readiness.
+ * shippable (singular) = settle-stage PR receipt with prUrl (not Finish shipping).
  */
 
 export interface AssetPackArtifacts {
@@ -90,7 +92,7 @@ export type AssetPackDeliveryMechanismTemplateValue = AssetPackDeliveryMechanism
 
 export interface AssetPackPostprocessed {
   executionId: string;
-  kind: 'shippable';
+  kind: 'settle_delivery';
   semanticKind?: 'asset-pack-written-asset';
   title: string;
   repository?: string;

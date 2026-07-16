@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     const message =
       templatesError instanceof Error
         ? templatesError.message
-        : 'Failed to load Shippable templates';
+        : 'Failed to load Delivery templates';
 
     return NextResponse.json({ error: message, templates: [] }, { status: 500 });
   }
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   if (!name || !templateText || !types.length) {
     return NextResponse.json(
       {
-        error: 'Shippable template name, text, and at least one Shippable type are required',
+        error: 'Delivery template name, text, and at least one delivery type are required',
         templates: [],
       },
       { status: 400 },
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
   if (types.some((type) => type !== 'pullRequests')) {
     return NextResponse.json(
       {
-        error: 'V26 Shippable templates support pull request delivery only',
+        error: 'V26 Delivery templates support pull request delivery only',
         templates: [],
       },
       { status: 400 },
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
     const message =
       templatesError instanceof Error
         ? templatesError.message
-        : 'Failed to save Shippable template';
+        : 'Failed to save Delivery template';
 
     return NextResponse.json({ error: message, templates: [] }, { status: 500 });
   }

@@ -25,7 +25,7 @@ const CodeBlock = dynamic(() => import("@/components/bitcode/media/SyntaxHighlig
 });
 import { ProcessingIndicator } from "@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator";
 // global styles for the header
-import "@/styles/shippables-header.css";
+import "@/styles/settle-delivery-header.css";
 
 // Extracted component & styles
 import DeliveryTemplateText from "@/components/bitcode/pipeline/ExecutionsDeliveryTemplateText/ExecutionsDeliveryTemplateText";
@@ -375,7 +375,7 @@ export default function ExecutionsPageHeader({
     mode: 'execute',
     slowEntranceAnimations: false,
     showMockData: false,
-    enabledShippables: {
+    enabledSettleDelivery: {
       pullRequest: false,
       fileChanges: false,
       summary: false,
@@ -593,7 +593,7 @@ export default function ExecutionsPageHeader({
                   <li><span className="text-white">Maximum abstraction</span>: Optimal code organization and reusability</li>
                   <li><span className="text-white">Error handling</span>: Robust error management and recovery</li>
                 </ul>
-                <div className="text-xs text-gray-500 mt-2">Ideal for production-critical shippables requiring maximum reliability.</div>
+                <div className="text-xs text-gray-500 mt-2">Ideal for production-critical settle delivery requiring maximum reliability.</div>
               </div>
             )
           }

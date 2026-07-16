@@ -70,7 +70,7 @@ export const MOCK_RUNS: WorkspaceRun[] = [
     btcFeeUsdEquivalent: 6.72,
     averageLatencyMs: 1180,
     proofStatus: 'bounded proof bundle ready',
-    closureFocus: 'AssetPack evidence + Finish PR mechanism',
+    closureFocus: 'AssetPack evidence + settle delivery',
   },
   {
     id: 'mock-run-read-measurement-pass',
@@ -191,13 +191,13 @@ export const MOCK_RUN_ACTIVITY: Record<
       phase: 'Branch remediation',
       agent: 'Branch synthesizer',
       step: 'prepare_concise_context',
-      generation: 'Shippable bundle',
+      generation: 'Settle delivery bundle',
     },
     latestWorkUpdate: {
       id: 'wu-1',
       iteration: 2,
       confidence: 0.94,
-      prose: 'Remediation branch artifacts and Shippable surfaces are aligned for transaction review.',
+      prose: 'Remediation branch artifacts and settle delivery surfaces are aligned for transaction review.',
       timestamp: '2026-04-16T12:01:40.000Z',
     },
     iterationUpdates: [
@@ -212,7 +212,7 @@ export const MOCK_RUN_ACTIVITY: Record<
         id: 'wu-2',
         iteration: 2,
         confidence: 0.94,
-        prose: 'Remediation branch artifacts and Shippable surfaces are aligned for transaction review.',
+        prose: 'Remediation branch artifacts and settle delivery surfaces are aligned for transaction review.',
         timestamp: '2026-04-16T12:01:40.000Z',
       },
     ],

@@ -113,7 +113,7 @@ function normalizeAssetPackDeliverySurface(surface: any, summary?: string | null
   };
 }
 
-function normalizePullRequestShippableSurface(surface: any, summary?: string | null) {
+function normalizePullRequestSettleDeliverySurface(surface: any, summary?: string | null) {
   const deliverySurface = normalizeAssetPackDeliverySurface(surface, summary);
   if (!deliverySurface?.pullRequest) return null;
   return deliverySurface;
@@ -295,8 +295,8 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               actionsSurface;
 
             const settleDelivery =
-              normalizePullRequestShippableSurface(explicitSettleDelivery) ||
-              normalizePullRequestShippableSurface(deliveryMechanism);
+              normalizePullRequestSettleDeliverySurface(explicitSettleDelivery) ||
+              normalizePullRequestSettleDeliverySurface(deliveryMechanism);
 
             parsedData.completion = {
               ...canonicalResult,

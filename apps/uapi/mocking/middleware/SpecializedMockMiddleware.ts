@@ -302,7 +302,7 @@ export const mockChat = {
 // ============================================================================
 
 /**
- * AssetPack pipeline middleware with optional Shippable delivery flow
+ * AssetPack pipeline middleware with optional settle delivery flow
  */
 export const mockAssetPacks = {
   main: () => createSpecializedMiddleware({

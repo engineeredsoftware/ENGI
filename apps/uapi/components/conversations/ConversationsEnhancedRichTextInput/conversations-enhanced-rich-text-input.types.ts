@@ -3,7 +3,7 @@
  */
 export interface ConversationsRichTextToken {
   id: string;
-  type: 'evidence_document' | 'shippable' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
+  type: 'evidence_document' | 'settle_delivery' | 'attachment' | 'source' | 'destination' | 'pipeline_run' | 'command';
   text: string;
   data: any;
   displayInfo?: string;

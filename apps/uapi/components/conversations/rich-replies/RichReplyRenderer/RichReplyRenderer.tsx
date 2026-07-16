@@ -25,7 +25,7 @@ export interface RichReplyProps {
     purpose: string;
   }>;
   pipelineTriggers?: Array<{
-    type: 'shippable' | 'measure';
+    type: 'settle_delivery' | 'measure';
     task: string;
     runId?: string;
     status: 'triggered' | 'pending' | 'failed';
@@ -85,7 +85,7 @@ export const RichReplyRenderer: React.FC<RichReplyProps> = ({
               <div key={idx} className="pipeline-trigger-card bg-gray-800 rounded p-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">
-                    {trigger.type === 'shippable' ? '📦' : '⚡'} {trigger.task}
+                    {trigger.type === 'settle_delivery' ? '📦' : '⚡'} {trigger.task}
                   </span>
                   <span className={`text-xs px-2 py-1 rounded ${
                     trigger.status === 'triggered' ? 'bg-green-900 text-green-300' :

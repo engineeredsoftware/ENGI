@@ -232,14 +232,14 @@ export function readProductConversationHandoffContext(searchParams: URLSearchPar
   };
 }
 
-export function writeTerminalTransactionId(searchParams: URLSearchParams, transactionId: string) {
+export function writePipelineTransactionId(searchParams: URLSearchParams, transactionId: string) {
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.set(SEARCH_PARAM_KEYS.transactionId, transactionId);
   nextParams.delete(SEARCH_PARAM_KEYS.runIdAlias);
   return nextParams;
 }
 
-export function clearTerminalTransactionId(searchParams: URLSearchParams) {
+export function clearPipelineTransactionId(searchParams: URLSearchParams) {
   const nextParams = new URLSearchParams(searchParams.toString());
   nextParams.delete(SEARCH_PARAM_KEYS.transactionId);
   nextParams.delete(SEARCH_PARAM_KEYS.runIdAlias);
@@ -259,7 +259,7 @@ export function writeProductEnvironmentMode(
   return nextParams;
 }
 
-export function writeTerminalDebugEnabled(searchParams: URLSearchParams, enabled: boolean) {
+export function writePipelineDebugEnabled(searchParams: URLSearchParams, enabled: boolean) {
   const nextParams = new URLSearchParams(searchParams.toString());
   if (!enabled) {
     nextParams.delete(SEARCH_PARAM_KEYS.debug);
@@ -309,7 +309,7 @@ export function writeProductTransactionFilters(
   return nextParams;
 }
 
-export function writeTerminalTransactionPagination(
+export function writePipelineTransactionPagination(
   searchParams: URLSearchParams,
   pagination: TransactionPagination,
 ) {
@@ -330,7 +330,7 @@ export function writeTerminalTransactionPagination(
   return nextParams;
 }
 
-export function shouldRecoverTerminalTransactionRoute({
+export function shouldRecoverPipelineTransactionRoute({
   transactionIds,
   selectedTransactionId,
 }: {

@@ -33,7 +33,7 @@ export interface VCSData {
 
 /**
  * VCS data hook with issues/PRs and files support for Read measurement,
- * AssetPack synthesis evidence, and Shippable delivery mechanisms.
+ * AssetPack synthesis evidence, and settle delivery mechanisms.
  */
 export const useVCSData = () => {
   // Add state management for the data

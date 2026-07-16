@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface Shippable {
+/** AssetPack pipeline run selectable for settle delivery context. */
+interface SettleDeliveryRunOption {
   id: string;
   title: string;
   description: string;
@@ -12,22 +13,22 @@ interface Shippable {
 
 interface DeliveryTemplatePickerProps {
   isOpen: boolean;
-  onSelect: (shippable: Shippable) => void;
+  onSelect: (run: SettleDeliveryRunOption) => void;
   onClose: () => void;
   searchTerm: string;
 }
 
 export default function DeliveryTemplatePicker({ isOpen, onSelect, onClose, searchTerm }: DeliveryTemplatePickerProps) {
-  const [shippables, setShippables] = useState<Shippable[]>([]);
+  const [runs, setRuns] = useState<SettleDeliveryRunOption[]>([]);
 
   // Fetch AssetPack executions that can expose settle delivery surfaces.
   useEffect(() => {
-    if (!isOpen || shippables.length > 0) return;
+    if (!isOpen || runs.length > 0) return;
     fetch('/api/executions?type=agentic-execution:asset-pack')
       .then(res => res.ok ? res.json() : [])
       .then(data => {
         if (Array.isArray(data)) {
-          setShippables(data.map((d: any) => ({
+          setRuns(data.map((d: any) => ({
             id: d.id,
             title: d.title || d.name || 'Untitled',
             description: d.description || '',
@@ -36,25 +37,24 @@ export default function DeliveryTemplatePicker({ isOpen, onSelect, onClose, sear
         }
       })
       .catch(() => {});
-  }, [isOpen, shippables.length]);
+  }, [isOpen, runs.length]);
 
-  const [filteredShippables, setFilteredShippables] = useState<Shippable[]>(shippables);
+  const [filteredRuns, setFilteredRuns] = useState<SettleDeliveryRunOption[]>(runs);
 
-  // Filter Shippables based on search term.
   useEffect(() => {
     if (!searchTerm) {
-      setFilteredShippables(shippables);
+      setFilteredRuns(runs);
       return;
     }
 
-    const filtered = shippables.filter(
-      shippable =>
-        shippable.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        shippable.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = runs.filter(
+      (run) =>
+        run.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        run.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    setFilteredShippables(filtered);
-  }, [searchTerm, shippables]);
+    setFilteredRuns(filtered);
+  }, [searchTerm, runs]);
 
   if (!isOpen) return null;
 
@@ -66,20 +66,20 @@ export default function DeliveryTemplatePicker({ isOpen, onSelect, onClose, sear
         exit={{ opacity: 0, y: 10 }}
         className="picker-container"
       >
-        <div className="picker-header">SHIPPABLES</div>
+        <div className="picker-header">SETTLE DELIVERY</div>
 
-        {filteredShippables.length > 0 ? (
-          filteredShippables.map(shippable => (
+        {filteredRuns.length > 0 ? (
+          filteredRuns.map((run) => (
             <div
-              key={shippable.id}
+              key={run.id}
               className="picker-item"
               onClick={() => {
-                onSelect(shippable);
+                onSelect(run);
                 onClose();
               }}
             >
               <div className="picker-item-title">
-                {shippable.title}
+                {run.title}
                 <span
                   style={{
                     marginLeft: '0.5rem',
@@ -87,26 +87,26 @@ export default function DeliveryTemplatePicker({ isOpen, onSelect, onClose, sear
                     padding: '0.125rem 0.375rem',
                     borderRadius: '4px',
                     backgroundColor:
-                      shippable.status === 'completed' ? 'rgba(16, 185, 129, 0.1)' :
-                        shippable.status === 'in-progress' ? 'rgba(245, 158, 11, 0.1)' :
+                      run.status === 'completed' ? 'rgba(16, 185, 129, 0.1)' :
+                        run.status === 'in-progress' ? 'rgba(245, 158, 11, 0.1)' :
                           'rgba(107, 114, 128, 0.1)',
                     color:
-                      shippable.status === 'completed' ? '#10b981' :
-                        shippable.status === 'in-progress' ? '#f59e0b' :
+                      run.status === 'completed' ? '#10b981' :
+                        run.status === 'in-progress' ? '#f59e0b' :
                           '#6b7280',
                   }}
                 >
-                  {shippable.status === 'completed' ? 'Completed' :
-                    shippable.status === 'in-progress' ? 'In Progress' :
+                  {run.status === 'completed' ? 'Completed' :
+                    run.status === 'in-progress' ? 'In Progress' :
                       'Pending'}
                 </span>
               </div>
-              <div className="picker-item-description">{shippable.description}</div>
+              <div className="picker-item-description">{run.description}</div>
             </div>
           ))
         ) : (
           <div className="picker-empty">
-            No Shippables found matching "{searchTerm}"
+            No settle delivery runs matching &quot;{searchTerm}&quot;
           </div>
         )}
       </motion.div>

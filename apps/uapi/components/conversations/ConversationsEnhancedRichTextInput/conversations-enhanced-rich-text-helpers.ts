@@ -7,7 +7,7 @@ export function getTokenIcon(type: string): string {
   switch (type) {
     case 'evidence_document':
       return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 16v-3a2 2 0 0 0-2-2h-4V7a2 2 0 0 0-2-2H6"></path><path d="M18 14v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-4"></path><path d="M6 5l4 4-4 4"></path></svg>';
-    case 'shippable':
+    case 'settle_delivery':
       return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg>';
     case 'attachment':
       return '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>';
@@ -27,8 +27,8 @@ export function getTokenTypeLabel(type: string): string {
   switch (type) {
     case 'evidence_document':
       return 'Evidence Document';
-    case 'shippable':
-      return 'Shippable';
+    case 'settle_delivery':
+      return 'Settle delivery';
     case 'attachment':
       return 'Attachment';
     case 'source':
@@ -70,7 +70,7 @@ export function getTokenDisplayInfo(token: ConversationsRichTextToken): string {
   switch (token.type) {
     case 'evidence_document':
       return token.data?.description ? token.data.description.substring(0, 30) : '';
-    case 'shippable':
+    case 'settle_delivery':
       return token.data?.status ? token.data.status : '';
     case 'attachment':
       return token.data?.size ? token.data.size : '';
@@ -86,7 +86,7 @@ export function getTokenDisplayInfo(token: ConversationsRichTextToken): string {
       if (String(token.data.pipelineType).toLowerCase().includes('measure')) return 'read-measurement';
       if (
         String(token.data.pipelineType).toLowerCase().includes('asset-pack') ||
-        String(token.data.pipelineType).toLowerCase().includes('shippable') ||
+        String(token.data.pipelineType).toLowerCase().includes('settle') ||
         String(token.data.pipelineType).toLowerCase().includes('artifact')
       ) {
         return 'branch-artifact';
@@ -142,13 +142,13 @@ export function serializeTokensForSend(tokens: ConversationsRichTextToken[], tex
       };
     }
 
-    if (token.type === 'shippable') {
+    if (token.type === 'settle_delivery') {
       return {
         ...token,
-        type: 'shippable',
+        type: 'settle_delivery',
         value: token.text.trim(),
         metadata: {
-          kind: 'shippable',
+          kind: 'settle_delivery',
           asset_pack_reference: token.data?.id || null,
           ...token.data,
         },
@@ -210,7 +210,7 @@ export function triggerCharForTokenType(type: string): string {
   switch (type) {
     case 'evidence_document':
       return '^';
-    case 'shippable':
+    case 'settle_delivery':
       return '@';
     case 'attachment':
       return '+';

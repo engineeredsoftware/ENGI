@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for planning stored AssetPack evidence and Shippable delivery"
+ * intent: "Bitcode Finish PromptPart for planning stored AssetPack evidence and AssetPack delivery"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_PLAN_ANALYSIS: PromptPart = 
-  'Analyze full AssetPack pipeline context for Finish: validated Read-satisfaction artifacts, stored evidence requirements, proof receipts, fit-to-Read checks, delivery-mechanism readiness, Shippable destination constraints, and operator review evidence' as PromptPart;
+  'Analyze full AssetPack pipeline context for Finish: validated Read-satisfaction artifacts, stored evidence requirements, proof receipts, fit-to-Read checks, delivery-mechanism readiness, AssetPack destination constraints, and operator review evidence' as PromptPart;

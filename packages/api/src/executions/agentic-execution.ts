@@ -46,7 +46,7 @@ export function normalizeAgenticExecutionType(value?: string | null) {
   if (
     normalized.includes('asset-pack') ||
     normalized.includes('asset_pack') ||
-    normalized.includes('shippable') ||
+    normalized.includes('settle') ||
     normalized.includes('artifact')
   ) {
     return 'agentic-execution:asset-pack';

@@ -319,7 +319,7 @@ export function buildDepositRouteSession(
       sourceCriticalityDemandRoiPolicyPresent: true,
       sourceCriticalityDemandRoiPolicySourceSafe: true,
       admissionAndIndexingPolicyPresent: true,
-      retainedTerminalDebugCompatible: true,
+      retainedPipelineDebugCompatible: true,
     },
     synthesis,
     policy,

@@ -92,7 +92,7 @@ export default function RichTextInput({
             setActivePicker('evidence_document');
             break;
           case '@':
-            setActivePicker('shippable');
+            setActivePicker('settle_delivery');
             break;
           case '+':
             setActivePicker('attachment');
@@ -110,7 +110,7 @@ export default function RichTextInput({
       // If a picker is open, update the search term
       const triggerChar =
         activePicker === 'evidence_document' ? '^' :
-          activePicker === 'shippable' ? '@' :
+          activePicker === 'settle_delivery' ? '@' :
             activePicker === 'attachment' ? '+' :
               activePicker === 'source' ? '#' :
                 activePicker === 'destination' ? '!' : '!';
@@ -170,12 +170,12 @@ export default function RichTextInput({
     });
   };
 
-  const handleSelectShippable = (shippable: any) => {
+  const handleSelectSettleDelivery = (run: any) => {
     insertToken({
-      id: `shippable-${Date.now()}`,
-      type: 'shippable',
-      text: shippable.title,
-      data: shippable
+      id: `settle-delivery-${Date.now()}`,
+      type: 'settle_delivery',
+      text: run.title,
+      data: run
     });
   };
 
@@ -423,10 +423,10 @@ export default function RichTextInput({
         />
       )}
 
-      {activePicker === 'shippable' && (
+      {activePicker === 'settle_delivery' && (
         <DeliveryTemplatePicker
           isOpen={true}
-          onSelect={handleSelectShippable}
+          onSelect={handleSelectSettleDelivery}
           onClose={() => setActivePicker(null)}
           searchTerm={searchTerm}
         />

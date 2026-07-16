@@ -10,8 +10,8 @@ import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { buildReadHref } from "@/components/bitcode/routes/ProductRoutes/product-routes";
 import {
-  clearTerminalTransactionId,
-  writeTerminalTransactionId,
+  clearPipelineTransactionId,
+  writePipelineTransactionId,
 } from "@/components/bitcode/pipeline/models/pipeline-selection-query";
 
 const READ_ROUTE = "/reads";
@@ -50,7 +50,7 @@ export function useReadUrlNavigation() {
   const openReadRouteTransaction = useCallback(
     (transactionId: string) => {
       pushReadSearchParams(
-        writeTerminalTransactionId(readCurrentSearchParams(), transactionId),
+        writePipelineTransactionId(readCurrentSearchParams(), transactionId),
       );
     },
     [pushReadSearchParams, readCurrentSearchParams],
@@ -61,7 +61,7 @@ export function useReadUrlNavigation() {
 
   const closePipelineDetail = useCallback(() => {
     replaceReadSearchParams(
-      clearTerminalTransactionId(readCurrentSearchParams()),
+      clearPipelineTransactionId(readCurrentSearchParams()),
     );
   }, [readCurrentSearchParams, replaceReadSearchParams]);
 

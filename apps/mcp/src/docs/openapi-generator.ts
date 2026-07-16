@@ -33,7 +33,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge
 
 ## Features
 
-- Tools interface for AssetPack execution and optional Shippable delivery
+- Tools interface for AssetPack execution and optional settle delivery
 - Real‑time streaming (WebSocket)
 - Multi‑modal attachments (Figma, documents, images, audio, video)
 - BTC fee posture plus measured non-fungible $BTD AssetPack amount
@@ -239,7 +239,7 @@ The Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge
             subtype: {
               type: 'string',
               enum: ['pull_request'],
-              description: 'V26 Shippable type to create'
+              description: 'Delivery template type to create'
             },
             attachments: {
               type: 'array',

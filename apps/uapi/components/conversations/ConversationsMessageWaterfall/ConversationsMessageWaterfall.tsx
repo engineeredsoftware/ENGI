@@ -10,7 +10,7 @@ import SourceDivider from '@/components/conversations/ConversationsSourceDivider
 // Re-export types from index for convenience (avoids duplication).
 export interface Token {
   id: string;
-  type: 'evidence_document' | 'shippable' | 'attachment' | 'source' | 'command';
+  type: 'evidence_document' | 'settle_delivery' | 'attachment' | 'source' | 'command';
   text: string;
   data: any;
 }

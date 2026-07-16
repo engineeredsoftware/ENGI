@@ -315,7 +315,7 @@ export function OrbitalsConnectsOrbitalEmailConnection({ userId, userEmail, onCo
                 <strong>From:</strong> {emailConfig?.email}
               </div>
               <div className="orbitals-connects-email-field">
-                <strong>Subject:</strong> Deliver application shippables
+                <strong>Subject:</strong> Deliver application settle delivery
               </div>
             </header>
             <div className="orbitals-connects-email-body">

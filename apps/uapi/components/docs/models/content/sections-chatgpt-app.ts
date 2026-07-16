@@ -9,7 +9,7 @@ export const chatGptAppSections = [
     eyebrow: 'ChatGPT App',
     title: 'The ChatGPT App is a guided Bitcode interface, not a separate assistant',
     summary:
-      'A ChatGPT App can help users express Reads, attach source, ask for proof explanations, draft Shippables, and operate through confirmation-gated writes.',
+      'A ChatGPT App can help users express Reads, attach source, ask for proof explanations, draft settle delivery, and operate through confirmation-gated writes.',
     detail:
       'Its answers should map back to /packs records and proof readback. The app may be conversational, but the proof and state contract remains Bitcode.',
     reason:

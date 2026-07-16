@@ -141,12 +141,12 @@ function main() {
   );
   assertCheck(
     failures,
-    query.includes('shouldRecoverTerminalTransactionRoute'),
+    query.includes('shouldRecoverPipelineTransactionRoute'),
     'product query helpers must expose default route recovery.',
   );
   assertCheck(
     failures,
-    pageClient.includes('shouldRecoverTerminalTransactionRoute'),
+    pageClient.includes('shouldRecoverPipelineTransactionRoute'),
     'product page must use route recovery for the first selectable transaction.',
   );
   assertCheck(
@@ -169,7 +169,7 @@ function main() {
   );
   assertCheck(
     failures,
-    queryTest.includes('shouldRecoverTerminalTransactionRoute'),
+    queryTest.includes('shouldRecoverPipelineTransactionRoute'),
     'Query tests must cover default transaction route recovery.',
   );
   assertCheck(

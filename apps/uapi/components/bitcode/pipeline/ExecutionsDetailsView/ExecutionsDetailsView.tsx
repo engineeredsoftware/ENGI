@@ -58,9 +58,9 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
   const runOutput = (run as any).output || (run as any).output_data || {};
   const assetPackCompletion = runOutput?.asset_pack_completion || (run as any).asset_pack_completion || null;
   const writtenAssets = getHeaderWrittenAssets(assetPackCompletion);
-  const shippables = getHeaderSettleDelivery(assetPackCompletion);
-  const deliveryMechanism = shippables;
-  const mergedAssetPackSurface = mergeHeaderSettleDelivery(writtenAssets, shippables);
+  const settleDelivery = getHeaderSettleDelivery(assetPackCompletion);
+  const deliveryMechanism = settleDelivery;
+  const mergedAssetPackSurface = mergeHeaderSettleDelivery(writtenAssets, settleDelivery);
   const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
   // Extract execution state and output from events

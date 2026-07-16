@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for the role that delivers Shippables"
+ * intent: "Bitcode Finish PromptPart for the role that delivers AssetPacks"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_SYSTEM_ROLE: PromptPart = 
-  'Your role is to coordinate Finish using complete execution history: verify validation gates, preserve AssetPack evidence, summarize proof and Read satisfaction, deliver requested Shippables through connected-interface mechanisms, and return receipts that Packs and Exchange can reread' as PromptPart;
+  'Your role is to coordinate Finish using complete execution history: verify validation gates, preserve AssetPack evidence, summarize proof and Read satisfaction, store settle-ready evidence through connected-interface mechanisms, and return receipts that Packs and Exchange can reread' as PromptPart;

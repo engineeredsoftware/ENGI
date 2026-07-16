@@ -46,7 +46,7 @@ export function formatConversationExecutionLabel(value?: string) {
 
   if (!normalized) return 'agentic execution';
   if (normalized.includes('measure')) return 'read-measurement execution';
-  if (normalized.includes('asset-pack') || normalized.includes('shippable') || normalized.includes('artifact')) {
+  if (normalized.includes('asset-pack') || normalized.includes('settle') || normalized.includes('artifact')) {
     return 'AssetPack execution';
   }
 
@@ -61,13 +61,13 @@ export function renderTokenInMessageHelper(content: string, tokens?: any[]): str
   
   // Process execution tokens
   tokens.forEach(token => {
-    const pipelineMatch = token.text?.match(/\[\[(shippable|asset_pack|evidence_document):([^\]]+)\]\]/);
+    const pipelineMatch = token.text?.match(/\[\[(settle_delivery|asset_pack|evidence_document):([^\]]+)\]\]/);
     if (!pipelineMatch) return;
     
     const [fullMatch, kind, title] = pipelineMatch;
     const regex = new RegExp(`(^|\\s)${fullMatch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'g');
     
-    const isAssetPack = kind === 'shippable' || kind === 'asset_pack';
+    const isAssetPack = kind === 'settle_delivery' || kind === 'asset_pack';
     const kindLabel = isAssetPack ? 'Asset pack' : 'Evidence Document';
     const status = token.metadata?.status || '';
     const sourceLine = token.metadata?.source ? 

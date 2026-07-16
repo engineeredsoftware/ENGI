@@ -146,7 +146,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
       acceptedNeedRequiredBeforeFindingFits: true,
       previewSourceSafeBeforeSettlement: true,
       deliveryRequiresPaidReadRights: true,
-      retainedTerminalDebugCompatible: true,
+      retainedPipelineDebugCompatible: true,
     },
     procurementGovernance,
     fitMeasurementReview,

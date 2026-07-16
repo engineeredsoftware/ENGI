@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for instructions to store evidence and deliver Shippables"
+ * intent: "Bitcode Finish PromptPart for instructions to store evidence and deliver AssetPacks"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_SYSTEM_INSTRUCTIONS: PromptPart = 
-  'Execute Finish with complete pipeline context: verify Read satisfaction, store AssetPack evidence and proof receipts, write the AssetPack completion summary, prepare only requested Shippables, deliver them through the chosen delivery mechanism, record destination evidence, and keep physical storage mirrors subordinate to canonical AssetPack and Shippable fields' as PromptPart;
+  'Execute Finish with complete pipeline context: verify Read satisfaction, store AssetPack evidence and proof receipts, write the AssetPack completion summary, prepare only settle-ready evidence, leave PR shipping to settle Simple (ship-asset-pack-patch-pr), record destination evidence, and keep physical storage mirrors subordinate to canonical AssetPack and AssetPack fields' as PromptPart;

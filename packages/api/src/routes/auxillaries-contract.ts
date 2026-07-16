@@ -169,7 +169,7 @@ export interface AuxillariesPreferencePosture {
   };
   templates: {
     configured: boolean;
-    shippableTemplateCount: number;
+    deliveryTemplateCount: number;
     evidenceDocumentTemplateCount: number;
     autoSaveTemplates: boolean;
     preferenceRoot: string;
@@ -823,7 +823,7 @@ export function buildAuxillariesProfileState(input: {
           id: 'preferences.templates_missing',
           severity: 'recoverable',
           summary: 'Template preference is not configured.',
-          requiredAction: 'Configure shippable and evidence templates for support output.',
+          requiredAction: 'Configure delivery and evidence templates for support output.',
           pane: 'interfaces',
           label: 'Configure Templates',
         })
@@ -897,7 +897,7 @@ export function buildAuxillariesPreferencePosture(input: {
     readString(modelRecord?.provider) ??
     readString(modelRecord?.default_provider) ??
     readString(modelRecord?.defaultProvider);
-  const shippableTemplateCount = deliveryTemplates ? Object.keys(deliveryTemplates).length : 0;
+  const deliveryTemplateCount = deliveryTemplates ? Object.keys(deliveryTemplates).length : 0;
   const evidenceDocumentTemplateCount = evidenceDocumentTemplates ? Object.keys(evidenceDocumentTemplates).length : 0;
   const autoSaveTemplates = readBoolean(templateRecord?.auto_save_templates) ??
     readBoolean(templateRecord?.autoSaveTemplates) ??
@@ -908,8 +908,8 @@ export function buildAuxillariesPreferencePosture(input: {
     model,
   };
   const templateWithoutRoot = {
-    configured: shippableTemplateCount + evidenceDocumentTemplateCount > 0 || autoSaveTemplates,
-    shippableTemplateCount,
+    configured: deliveryTemplateCount + evidenceDocumentTemplateCount > 0 || autoSaveTemplates,
+    deliveryTemplateCount,
     evidenceDocumentTemplateCount,
     autoSaveTemplates,
   };

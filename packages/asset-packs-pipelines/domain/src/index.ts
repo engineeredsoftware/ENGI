@@ -632,7 +632,7 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
 }
 
 /**
- * Dual-mode SDIVF entry (deposit | read from input/mode). Prefer product packages
+ * Host may route deposit|read; product law prefers dedicated product packages
  * under asset-packs-pipelines/synthesize-*-asset-packs-pipeline when mode is fixed.
  */
 export const synthesizeAssetPacksSDIVFPipeline: SynthesizeAssetPacksSDIVFPipeline =

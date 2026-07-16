@@ -132,7 +132,7 @@ describe('Auxillaries package route contracts', () => {
     });
     expect(payload.profileState.preferences.templates).toMatchObject({
       configured: true,
-      shippableTemplateCount: 1,
+      deliveryTemplateCount: 1,
       evidenceDocumentTemplateCount: 1,
       autoSaveTemplates: true,
     });

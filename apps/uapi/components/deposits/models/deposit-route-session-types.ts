@@ -106,7 +106,7 @@ export interface DepositRouteSession {
     sourceCriticalityDemandRoiPolicyPresent: true;
     sourceCriticalityDemandRoiPolicySourceSafe: true;
     admissionAndIndexingPolicyPresent: true;
-    retainedTerminalDebugCompatible: true;
+    retainedPipelineDebugCompatible: true;
   };
   synthesis: DepositAssetPackOptionSynthesis;
   policy: DepositAssetPackOptionPolicyReport;

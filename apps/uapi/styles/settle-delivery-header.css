@@ -1,4 +1,4 @@
-/* Global styles extracted from the Bitcode shippables execution header component */
+/* Global styles for the Bitcode settle-delivery execution header component */
 
 /* Text shadow utilities */
 .text-shadow-purple {
@@ -9,7 +9,7 @@
   text-shadow: 0 0 8px rgba(216, 180, 254, 0.25);
 }
 
-/* Shippables-ready special effects */
+/* Settle-delivery header effects */
 @keyframes glow-pulse {
   0% {
     opacity: 0.5;

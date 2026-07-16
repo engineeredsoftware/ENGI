@@ -236,7 +236,7 @@ export type ReadRouteSession = {
     acceptedNeedRequiredBeforeFindingFits: true;
     previewSourceSafeBeforeSettlement: true;
     deliveryRequiresPaidReadRights: true;
-    retainedTerminalDebugCompatible: true;
+    retainedPipelineDebugCompatible: true;
   };
   procurementGovernance: ReadProcurementGovernance;
   fitMeasurementReview: ReadFitMeasurementReview;

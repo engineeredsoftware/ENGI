@@ -73,7 +73,7 @@ describe('deposit-route-model', () => {
       sourceCriticalityDemandRoiPolicyPresent: true,
       sourceCriticalityDemandRoiPolicySourceSafe: true,
       admissionAndIndexingPolicyPresent: true,
-      retainedTerminalDebugCompatible: true,
+      retainedPipelineDebugCompatible: true,
     });
     expect(session.synthesis.schema).toBe('bitcode.deposit.asset-pack-option-synthesis');
     expect(session.synthesis.optionCount).toBe(3);

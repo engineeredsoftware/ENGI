@@ -8,13 +8,13 @@ describe('BitcodeMetricGrid', () => {
     render(
       <BitcodeMetricGrid
         metrics={[
-          { label: 'Shippable surfaces', value: '4' },
+          { label: 'Settle delivery surfaces', value: '4' },
           { label: 'Proof posture', value: 'bounded proof ready' },
         ]}
       />,
     );
 
-    expect(screen.getByText('Shippable surfaces')).toBeTruthy();
+    expect(screen.getByText('Settle delivery surfaces')).toBeTruthy();
     expect(screen.getByText('4')).toBeTruthy();
     expect(screen.getByText('Proof posture')).toBeTruthy();
     expect(screen.getByText('bounded proof ready')).toBeTruthy();

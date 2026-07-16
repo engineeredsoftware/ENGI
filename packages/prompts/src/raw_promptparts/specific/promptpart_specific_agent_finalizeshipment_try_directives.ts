@@ -3,7 +3,7 @@ import { PromptPart } from '../../parts/PromptPart';
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
- * intent: "Bitcode Finish PromptPart for executing evidence storage and Shippable delivery"
+ * intent: "Bitcode Finish PromptPart for executing evidence storage and AssetPack delivery"
  * current_version: "0.50.0"
  * versions: []
  * benchmarks: [
@@ -13,4 +13,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_FINALIZESHIPMENT_TRY_DIRECTIVES: PromptPart = 
-  'Execute Finish with full context orchestration: persist final AssetPack evidence, create the final summary, map validated artifacts to requested Shippables, call the destination delivery mechanism, capture PR/issue/comment/review identifiers or URLs, and archive proof-visible receipts for future reread' as PromptPart;
+  'Execute Finish with full context orchestration: persist final AssetPack evidence, create the final summary, map validated artifacts to settle-ready evidence, call the destination delivery mechanism, capture PR/issue/comment/review identifiers or URLs, and archive proof-visible receipts for future reread' as PromptPart;

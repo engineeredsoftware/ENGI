@@ -270,7 +270,7 @@ describe('GET /api/auxillaries/data', () => {
           accountReadiness: 'degraded',
           preferences: expect.objectContaining({
             templates: expect.objectContaining({
-              shippableTemplateCount: 1,
+              deliveryTemplateCount: 1,
               evidenceDocumentTemplateCount: 1,
             }),
           }),

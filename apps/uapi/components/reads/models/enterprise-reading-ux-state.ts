@@ -41,7 +41,7 @@ function stableHash(value: string) {
   return (hash >>> 0).toString(16).padStart(8, '0');
 }
 
-export function inferTerminalEnterpriseReadingActiveStep(
+export function inferEnterpriseReadingActiveStep(
   input: EnterpriseReadingUxStateInput,
 ): EnterpriseReadingStepId {
   if (input.hasDeliveryReadback || input.hasSettlementReadback) return 'buy-asset-pack-settle';
@@ -68,7 +68,7 @@ function chooseActiveStep(input: EnterpriseReadingUxStateInput): {
   activeStepId: EnterpriseReadingStepId;
   routeReadingStage: EnterpriseReadingStepId | null;
 } {
-  const inferredStep = inferTerminalEnterpriseReadingActiveStep(input);
+  const inferredStep = inferEnterpriseReadingActiveStep(input);
   const routeReadingStage = routeStageOrNull(input.routeReadingStage);
   if (!routeReadingStage) return { activeStepId: inferredStep, routeReadingStage };
 

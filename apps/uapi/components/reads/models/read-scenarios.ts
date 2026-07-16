@@ -58,7 +58,7 @@ export type ProductReadFittingReviewState = {
   blockedUntil: string;
 };
 
-export function normalizeTerminalReadScenarios(snapshot: ShellSnapshot): ProductReadScenariosState | null {
+export function normalizeReadScenarios(snapshot: ShellSnapshot): ProductReadScenariosState | null {
   if (!snapshot) return null;
 
   const scenarios = (snapshot.scenarios || [])
@@ -115,7 +115,7 @@ function stringList(value: unknown): string[] {
     : [];
 }
 
-export function normalizeTerminalReadFittingReview(payload: unknown): ProductReadFittingReviewState | null {
+export function normalizeReadFittingReview(payload: unknown): ProductReadFittingReviewState | null {
   const root = recordValue(payload);
   const review = recordValue(root.readFittingReview);
   if (!review.artifactKind && !root.reviewableRead) return null;

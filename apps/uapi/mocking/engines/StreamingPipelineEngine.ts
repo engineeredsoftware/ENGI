@@ -898,7 +898,7 @@ export const createStreamingPipelineEngine = {
           llmCalls: [
             {
               model: 'claude-3-sonnet',
-              purpose: 'Shippable delivery evidence',
+              purpose: 'Settle delivery evidence',
               durationMs: 8000,
               tokens: { prompt: 400, completion: 200, total: 600 },
               successProbability: 0.98

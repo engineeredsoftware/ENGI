@@ -14,7 +14,7 @@ export type PipelinePhase =
   | 'validation'
   | 'finish';
 export type PipelineSubType = string;
-export type ShippableSubType = string;
+export type SettleDeliverySubType = string;
 export type InterfaceIngressSurface =
   | 'bitcode_mcp'
   | 'third_party_mcp'
@@ -157,7 +157,7 @@ export interface PipelineInputContext {
 }
 
 /**
- * Canonical output meaning for AssetPack/Shippable results.
+ * Canonical output meaning for AssetPack / settle delivery results.
  */
 export interface AssetPackResult {
   kind: 'asset_pack';
@@ -295,14 +295,14 @@ export const BasePipelineToolSchema = z.object({
 });
 
 /**
- * AssetPack pipeline tool schema with Shippable subtype specialization.
+ * AssetPack pipeline tool schema with settle-delivery subtype specialization.
  */
 export const AssetPackPipelineToolSchema = BasePipelineToolSchema.extend({
   subtype: z.enum([
     'pull_request', 'pr_review', 'issue', 'comment', 'blog_post', 
     'diagram', 'api_spec', 'frontend_scaffolder', 'scope_analysis',
     'implementation_plan', 'refactor_proposal'
-  ] as const).describe('Specific Shippable subtype or AssetPack written-asset focus'),
+  ] as const).describe('Specific settle-delivery subtype or AssetPack written-asset focus'),
   
   // AssetPack/Finish delivery options.
   options: z.object({
