@@ -9,7 +9,7 @@ const checks = [
     file: '.specifications/BITCODE_SPEC_V28.md',
     needles: [
       'Gate 13: Commercial Product Closure And Promotion Readiness',
-      'full `protocol-demonstration` proof suite',
+      'full `@bitcode/specifying` proof suite',
       'staging-testnet readback verifier',
       'tkpyosihuouusyaxtbau.supabase.co',
       'version/v28 promotion pull request',
@@ -20,7 +20,7 @@ const checks = [
     file: '.specifications/BITCODE_SPEC_V28_PARITY_MATRIX.md',
     needles: [
       'Gate 13 closure closes the two final carryforward rows',
-      'full `protocol-demonstration` suite',
+      'full `@bitcode/specifying` suite',
       'staging-testnet readback verifier',
       'promotion workflow',
     ],
@@ -31,7 +31,7 @@ const checks = [
     needles: [
       'Gate 13 Commercial Product Closure And Promotion Readiness QA',
       'pnpm run check:v28-gate13',
-      'npm --prefix protocol-demonstration test',
+      'pnpm --filter @bitcode/specifying test',
       'pnpm test:qa:v28:pipeline-readback',
       '--readback-source rest',
       'DB readback is a stricter',
@@ -50,8 +50,8 @@ const checks = [
     needles: [
       'check-v28-gate13-product-closure-promotion-readiness.mjs',
       'pnpm test:qa:v28:pipeline-readback',
-      'npm --prefix protocol-demonstration test',
-      'npm --prefix protocol-demonstration run test:v28-mvp-qa',
+      'pnpm --filter @bitcode/specifying test',
+      'pnpm --filter @bitcode/specifying run test:v28-mvp-qa',
     ],
   },
   {
@@ -61,7 +61,7 @@ const checks = [
       'pnpm test:qa:v28:pipeline-readback',
       'pnpm --filter @bitcode/btd typecheck',
       'pnpm --filter @bitcode/btd test',
-      'npm --prefix protocol-demonstration test',
+      'pnpm --filter @bitcode/specifying test',
       'Promote V28 canon files',
     ],
   },
@@ -71,18 +71,18 @@ const checks = [
       'check-v28-gate13-product-closure-promotion-readiness.mjs',
       "['pnpm', ['test:qa:v28:pipeline-readback']]",
       "['pnpm', ['--filter', '@bitcode/btd', 'typecheck']]",
-      "['npm', ['--prefix', 'protocol-demonstration', 'test']]",
+      "['npm', ['--filter', '@bitcode/specifying', 'test']]",
     ],
   },
   {
-    file: 'protocol-demonstration/src/canonical/enums.js',
+    file: 'scripts/specifying/src/canonical/enums.js',
     needles: [
       "DEPOSIT_TO_READ_FIT: 'deposit-to-read-fit'",
     ],
     forbidden: ['DEPOSIT_TO_NEED_FIT'],
   },
   {
-    file: 'protocol-demonstration/test/proof-member-matrix.test.js',
+    file: 'scripts/specifying/test/proof-member-matrix.test.js',
     needles: [
       'assert.equal(matrix.cellCount, 736)',
       'assert.equal(matrix.passedCellCount, 736)',
@@ -90,7 +90,7 @@ const checks = [
     ],
   },
   {
-    file: 'protocol-demonstration/test/theorem-evidence-matrix.test.js',
+    file: 'scripts/specifying/test/theorem-evidence-matrix.test.js',
     needles: [
       'assert.equal(matrix.cellCount, 928)',
       'assert.equal(matrix.passedCellCount, 928)',
@@ -98,7 +98,7 @@ const checks = [
     ],
   },
   {
-    file: 'protocol-demonstration/src/canonical/run-artifacts.js',
+    file: 'scripts/specifying/src/canonical/run-artifacts.js',
     needles: [
       'proofMemberSemantic: 736',
       'theoremEvidence: 928',
@@ -106,7 +106,7 @@ const checks = [
     ],
   },
   {
-    file: 'protocol-demonstration/test/proven-generator.test.js',
+    file: 'scripts/specifying/test/proven-generator.test.js',
     needles: [
       'without overstating superseded promotion readiness',
       "ACTIVE_CANON_VERSION !== 'V26'",

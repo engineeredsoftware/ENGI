@@ -87,7 +87,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     boundaryPosture: 'active',
     verificationSet: [
       'pnpm -C packages/prompts exec jest --runInBand src/__tests__/prompt.test.ts',
-      'node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
+      'node --test scripts/specifying/test/v26-prompt-runtime-loadability.test.js',
       '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
@@ -138,8 +138,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'admitted support',
     verificationSet: [
-      'node --test protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
-      'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+      'node --test scripts/specifying/test/v26-prompt-runtime-loadability.test.js',
+      'node --test scripts/specifying/test/v26-prompt-system-boundary.test.js',
       'packages/generic-doc-comments/doc-code/src/__tests__/transform.test.ts'
     ],
     sourceEvidenceRefs: [
@@ -197,7 +197,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     boundaryPosture: 'active',
     verificationSet: [
       'pnpm -C packages/agent-generics run typecheck',
-      'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+      'node --test scripts/specifying/test/v26-prompt-system-boundary.test.js',
       '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
@@ -250,7 +250,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     boundaryPosture: 'active',
     verificationSet: [
       'pnpm -C packages/execution-generics run typecheck',
-      'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+      'node --test scripts/specifying/test/v26-prompt-system-boundary.test.js',
       '.proofs/_shared/runs-pipelines-totality-proof.json'
     ],
     sourceEvidenceRefs: [
@@ -305,7 +305,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     boundaryPosture: 'active',
     verificationSet: [
       'pnpm -C packages/pipelines-generics run typecheck',
-      'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
+      'node --test scripts/specifying/test/v26-prompt-system-boundary.test.js',
       '.proofs/_shared/runs-pipelines-totality-proof.json'
     ],
     sourceEvidenceRefs: [
@@ -428,18 +428,18 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'compatibility',
     verificationSet: [
-      'node --test protocol-demonstration/test/v26-shippable-reform.test.js',
-      'node --test protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
+      'node --test scripts/specifying/test/v26-shippable-reform.test.js',
+      'node --test scripts/specifying/test/v26-pipeline-finish-reform.test.js',
       '.proofs/_shared/runs-pipelines-totality-proof.json',
       '.proofs/_shared/prompt-system-totality-proof.json'
     ],
     sourceEvidenceRefs: [
-      'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
-      'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
-      'protocol-demonstration/test/v26-shippable-reform.test.js',
-      'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
-      'protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js',
-      'protocol-demonstration/test/v26-text-searcher-agent-compatibility.test.js',
+      'scripts/specifying/V26_SHIPPABLE_REFORM.md',
+      'scripts/specifying/V26_PIPELINE_FINISH_REFORM.md',
+      'scripts/specifying/test/v26-shippable-reform.test.js',
+      'scripts/specifying/test/v26-pipeline-finish-reform.test.js',
+      'scripts/specifying/test/v26-simple-system-text-search-compatibility.test.js',
+      'scripts/specifying/test/v26-text-searcher-agent-compatibility.test.js',
       'packages/asset-packs-pipelines/domain/src/index.ts',
       'packages/asset-packs-pipelines/domain/src/phases/index.ts',
       'packages/asset-packs-pipelines/domain/src/phases/finish.ts',
@@ -546,8 +546,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     verificationSet: [
       'pnpm -C packages/generic-agents/read-comprehension run build',
       'pnpm -C packages/generic-tools/read-comprehension run build',
-      'node --test protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      'node --test protocol-demonstration/test/v26-shippable-reform.test.js'
+      'node --test scripts/specifying/test/v26-prompt-system-boundary.test.js',
+      'node --test scripts/specifying/test/v26-shippable-reform.test.js'
     ],
     sourceEvidenceRefs: [
       'packages/generic-agents/read-comprehension/README.md',
@@ -589,8 +589,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Review a synthesized Bitcode Read after measurement and before any candidate recall, fitting, AssetPack assembly, or source-to-shares settlement review proceeds.',
     promptImplementation: {
       owners: [
-        'protocol-demonstration/src/canonical/read-measurement.js',
-        'protocol-demonstration/src/canonical/prompting.js'
+        'scripts/specifying/src/canonical/read-measurement.js',
+        'scripts/specifying/src/canonical/prompting.js'
       ],
       rawPromptPartBoundary: 'Read review consumes the measured Read prompt outputs (`expressedRead`, `failureModes`, `constraints`, `targetArtifactKinds`, `closureCriteria`) and does not promote a separate prompt reservoir.',
       registryLayering: 'Measured Read prompt surfaces remain the source-owned registry-bearing inference layer; the review artifact is a protocol admission boundary over those outputs, not another hidden prompt string.',
@@ -606,9 +606,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     executionImplementation: {
       owners: [
-        'protocol-demonstration/src/bitcode-demo.js',
-        'protocol-demonstration/src/canonical/evaluation-materialization.js',
-        'protocol-demonstration/src/canonical/run-artifacts.js'
+        'scripts/specifying/src/specifying-runtime.js',
+        'scripts/specifying/src/canonical/evaluation-materialization.js',
+        'scripts/specifying/src/canonical/run-artifacts.js'
       ],
       carriers: ['.proofs/_shared/read-review.json', 'pipeline-telemetry.read-review', 'branch-artifact-required-path']
     },
@@ -618,15 +618,15 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'active',
     verificationSet: [
-      'node --test protocol-demonstration/test/v26-read-review-source-to-shares.test.js',
+      'node --test scripts/specifying/test/v26-read-review-source-to-shares.test.js',
       '.proofs/_shared/inference-implementation-records-proof.json'
     ],
     sourceEvidenceRefs: [
-      'protocol-demonstration/src/canonical/read-measurement.js',
-      'protocol-demonstration/src/canonical/evaluation-materialization.js',
-      'protocol-demonstration/src/canonical/run-artifacts.js',
-      'protocol-demonstration/src/bitcode-demo.js',
-      'protocol-demonstration/test/v26-read-review-source-to-shares.test.js'
+      'scripts/specifying/src/canonical/read-measurement.js',
+      'scripts/specifying/src/canonical/evaluation-materialization.js',
+      'scripts/specifying/src/canonical/run-artifacts.js',
+      'scripts/specifying/src/specifying-runtime.js',
+      'scripts/specifying/test/v26-read-review-source-to-shares.test.js'
     ]
   },
   {
@@ -682,9 +682,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'admitted support',
     verificationSet: [
-      'node --test protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js',
-      'node --test protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
-      'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
+      'node --test scripts/specifying/test/v26-web-researcher-agent-compatibility.test.js',
+      'node --test scripts/specifying/test/v26-web-search-support-compatibility.test.js',
+      'node --test scripts/specifying/test/v26-inference-implementation-records.test.js',
       '.proofs/_shared/inference-implementation-records-proof.json',
       '.proofs/_shared/prompt-system-totality-proof.json'
     ],
@@ -736,8 +736,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts',
       'packages/generic-tools/web-search/src/prompts/GetContentsDocCodeToolPrompt.ts',
       'packages/generic-tools/web-search/src/prompts/MultiProviderSearchDocCodeToolPrompt.ts',
-      'protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
-      'protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js'
+      'scripts/specifying/test/v26-web-search-support-compatibility.test.js',
+      'scripts/specifying/test/v26-web-researcher-agent-compatibility.test.js'
     ]
   },
   {
@@ -780,8 +780,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     boundaryPosture: 'admitted support',
     verificationSet: [
-      'node --test protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js',
-      'node --test protocol-demonstration/test/v26-inference-implementation-records.test.js',
+      'node --test scripts/specifying/test/v26-danger-wall-agent-compatibility.test.js',
+      'node --test scripts/specifying/test/v26-inference-implementation-records.test.js',
       '.proofs/_shared/inference-implementation-records-proof.json',
       '.proofs/_shared/prompt-system-totality-proof.json'
     ],
@@ -805,7 +805,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts',
       'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
-      'protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js'
+      'scripts/specifying/test/v26-danger-wall-agent-compatibility.test.js'
     ]
   },
   {
@@ -856,7 +856,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'apps/mcp/tsconfig.typecheck.json',
       'packages/tools-generics/src/mcp/MCPToolWrapper.ts',
       'apps/uapi/components/bitcode/pipeline/BitcodeExecutionStreamPanel/BitcodeExecutionStreamPanel.tsx',
-      'protocol-demonstration/V26_TERMINAL_SYSTEMS.md'
+      'scripts/specifying/V26_TERMINAL_SYSTEMS.md'
     ]
   }
 ]);

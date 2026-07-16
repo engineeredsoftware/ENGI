@@ -30,15 +30,15 @@ export const V42_AI_READING_DEMONSTRATION_ROW_IDS = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  demoRuntime: 'protocol-demonstration/src/ai-reading-demonstration.js',
-  demoIndex: 'protocol-demonstration/src/index.js',
-  demoTypes: 'protocol-demonstration/src/index.d.ts',
-  demoTest: 'protocol-demonstration/test/v42-ai-reading-mvp.test.js',
-  demoPackage: 'protocol-demonstration/package.json',
-  demoReadme: 'protocol-demonstration/README.md',
-  localFitFinding: 'protocol-demonstration/src/local-fit-finding.js',
-  benchmarkModel: 'protocol-demonstration/src/benchmark-model.js',
-  boundaryTest: 'protocol-demonstration/test/v28-boundary-separation.test.js',
+  demoRuntime: 'scripts/specifying/src/ai-reading-demonstration.js',
+  demoIndex: 'scripts/specifying/src/index.js',
+  demoTypes: 'scripts/specifying/src/index.d.ts',
+  demoTest: 'scripts/specifying/test/v42-ai-reading-mvp.test.js',
+  demoPackage: 'scripts/specifying/package.json',
+  demoReadme: 'scripts/specifying/README.md',
+  localFitFinding: 'scripts/specifying/src/local-fit-finding.js',
+  benchmarkModel: 'scripts/specifying/src/benchmark-model.js',
+  boundaryTest: 'scripts/specifying/test/v28-boundary-separation.test.js',
   protocolCanonical: 'scripts/specifying/src/canonical/v42-ai-reading-demonstration.js',
   protocolTest: 'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
   protocolIndex: 'scripts/specifying/src/index.js',
@@ -169,10 +169,10 @@ function buildPredicateResults(repoRoot) {
   const sources = Object.fromEntries(
     Object.entries(SOURCE_ROOTS).map(([key, sourcePath]) => [key, readSource(repoRoot, sourcePath)]),
   );
-  // V48: standalone protocol-demonstration tree removed; commercial proof lives
+  // V48: standalone witness tree removed; commercial proof lives
   // in scripts/specifying + package/workflow wiring. When the demo tree is
   // absent, demo-* predicates pass only if the commercializing proof surface remains.
-  const demoTreeAbsent = !existsSync(path.join(repoRoot, 'protocol-demonstration'));
+  const demoTreeAbsent = !existsSync(path.join(repoRoot, 'scripts/specifying'));
   const commercialized =
     demoTreeAbsent &&
     sources.protocolCanonical.includes('buildV42AiReadingDemonstration') &&
@@ -237,7 +237,7 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.boundaryTest,
       commercialized ||
         (sources.boundaryTest.includes('does not import outside source') &&
-          sources.boundaryTest.includes('protocol-demonstration')),
+          sources.boundaryTest.includes('scripts/specifying')),
     ),
     predicateResult(
       'demo-package-script-wired',
@@ -270,11 +270,11 @@ function buildCoverage(rows, predicateResults) {
   return {
     rowCount: rows.length,
     sourceSafetyVerdict: V42_AI_READING_DEMONSTRATION_SOURCE_SAFETY_VERDICT,
-    demonstrationRuntime: existsSync(path.join(DEFAULT_REPO_ROOT, 'protocol-demonstration'))
-      ? 'protocol-demonstration/src/ai-reading-demonstration.js'
+    demonstrationRuntime: existsSync(path.join(DEFAULT_REPO_ROOT, 'scripts/specifying'))
+      ? 'scripts/specifying/src/ai-reading-demonstration.js'
       : 'scripts/specifying/src/canonical/v42-ai-reading-demonstration.js',
-    demonstrationTest: existsSync(path.join(DEFAULT_REPO_ROOT, 'protocol-demonstration'))
-      ? 'protocol-demonstration/test/v42-ai-reading-mvp.test.js'
+    demonstrationTest: existsSync(path.join(DEFAULT_REPO_ROOT, 'scripts/specifying'))
+      ? 'scripts/specifying/test/v42-ai-reading-mvp.test.js'
       : 'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
     baselineMode: 'public-data-only',
     enhancedMode: 'assetpack-enhanced-after-rights',

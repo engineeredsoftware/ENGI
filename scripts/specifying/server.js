@@ -1054,6 +1054,6 @@ export async function startServer({ port = DEFAULT_PORT, host = '127.0.0.1', ...
 if (process.argv[1] && import.meta.url === new URL(process.argv[1], 'file://').href) {
   const host = process.env['HOST'] || '127.0.0.1';
   startServer({ port: DEFAULT_PORT, host }).then(({ port }) => {
-    console.log(`Bitcode demo listening on http://${host}:${port}`);
+    console.log(`Bitcode specifying server listening on http://${host}:${port}`);
   });
 }

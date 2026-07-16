@@ -19,7 +19,7 @@ Required proof areas:
 ## Representative Commands
 
 - `pnpm -C apps/uapi exec tsc --noEmit --project tsconfig.json --pretty false`
-- `node --test protocol-demonstration/test/v26-active-product-naming.test.js`
+- `node --test scripts/specifying/test/specifying-package-boundary.test.js`
 - `node scripts/check-bitcode-spec-family.mjs --version V26 --mode draft`
 - `node scripts/generate-bitcode-proven.mjs --version V26 --allow-dirty`
 - `node scripts/generate-bitcode-proven.mjs --version V26 --allow-dirty --check`

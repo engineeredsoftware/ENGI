@@ -6,7 +6,7 @@ import {
   summarizeArtifactContents
 } from './v19-canon.js';
 
-export const V20_QUALITY_RUNNER_ID = 'bitcode-demo.v20-quality-runner.v1';
+export const V20_QUALITY_RUNNER_ID = 'bitcode-specifying.v20-quality-runner.v1';
 export const V20_OPERATOR_TRANSCRIPT_REPORT_ID = 'v20-operator-acceptance-transcript';
 export const V20_VISUAL_REGRESSION_REPORT_ID = 'v20-visual-regression-report';
 export const V20_ACCESSIBILITY_REPORT_ID = 'v20-accessibility-report';
@@ -187,7 +187,7 @@ export function buildV20QualityReplayContext({
     reducedMotion: 'reduce',
     locale: 'en-US',
     timezone: 'UTC',
-    fixtureSeed: 'bitcode-demo-v20-quality-fixture-v1'
+    fixtureSeed: 'bitcode-specifying-v20-quality-fixture-v1'
   };
 }
 

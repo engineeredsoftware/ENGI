@@ -9,7 +9,7 @@ import { buildSystemProofBundle } from './run-artifacts.js';
 import { getV24LocalExecutorInterfaceId } from './v24-local-executors.js';
 import { executeV24RemoteAdapter } from './v24-remote-adapters.js';
 import { buildProofWitnessManifest } from './proof-materialization.js';
-import { buildProofContract } from '../bitcode-demo.js';
+import { buildProofContract } from '../specifying-runtime.js';
 
 const V24_INTERFACE_ORDER = [
   'bitcoin-mainchain-execution',

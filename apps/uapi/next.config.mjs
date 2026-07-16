@@ -90,9 +90,9 @@ let nextConfig = {
     // out of serverless NFT packages (250 MB uncompressed limit).
     outputFileTracingExcludes: {
       '*': [
-        '**/protocol-demonstration/**',
+        '**/scripts/specifying/**',
         '**/v23-bitcoin-demonstration-service.*',
-        '**/bitcode-demo.js',
+        '**/specifying-runtime.js',
         '**/ai-reading-demonstration/**',
         '**/.proofs/**',
         '**/storybook-static/**',

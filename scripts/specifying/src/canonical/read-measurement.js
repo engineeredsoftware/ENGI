@@ -252,7 +252,7 @@ import {
 } from './proof-annotations.js';
 
 import { ACTIVE_CANON_VERSION } from '../canon-posture.js';
-import { buildProfileCompositions } from '../demo-shell-state.js';
+import { buildProfileCompositions } from '../projection-state.js';
 import { buildRealizationProfile } from '../realization-profile.js';
 
 const ACTIVE_PROJECT_LABEL = 'Bitcode';

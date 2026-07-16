@@ -84,8 +84,8 @@ Not allowed:
 
 The V26 proof family checks this package through:
 
-- `protocol-demonstration/test/v26-simple-system-text-search-compatibility.test.js`
-- `protocol-demonstration/test/v26-active-product-naming.test.js`
-- `protocol-demonstration/test/v26-inference-implementation-records.test.js`
+- `scripts/specifying/test/v26-simple-system-text-search-compatibility.test.js`
+- `scripts/specifying/test/v26-active-product-naming.test.js`
+- `scripts/specifying/test/v26-inference-implementation-records.test.js`
 - `.proofs/_shared/prompt-space-completeness-proof.json`
 - `.proofs/_shared/inference-implementation-records-proof.json`

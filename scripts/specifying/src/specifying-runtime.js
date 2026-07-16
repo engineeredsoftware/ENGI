@@ -59,7 +59,7 @@ import { buildPipelineTelemetry, buildPromptImplementationSurface, buildSystemPr
 import { createReadMeasurementRuntime } from './canonical/read-measurement.js';
 import { createEvaluationMaterializationRuntime } from './canonical/evaluation-materialization.js';
 import { createSettlementRuntime } from './canonical/settlement.js';
-import { buildProfileCompositions, buildPublicState as buildDemoPublicState } from './demo-shell-state.js';
+import { buildProfileCompositions, buildPublicState as buildProjectedPublicState } from './projection-state.js';
 import {
   extractPromptPlaceholders,
   buildPromptContract,
@@ -137,7 +137,7 @@ const buildProjectionPolicyUnchecked = /** @type {any} */ (buildProjectionPolicy
 const buildBoundedPublicProofArtifactUnchecked = /** @type {any} */ (buildBoundedPublicProofArtifact);
 const buildRedactionProofUnchecked = /** @type {any} */ (buildRedactionProof);
 const buildDisclosureProofUnchecked = /** @type {any} */ (buildDisclosureProof);
-const buildDemoPublicStateUnchecked = /** @type {any} */ (buildDemoPublicState);
+const buildProjectedPublicStateUnchecked = /** @type {any} */ (buildProjectedPublicState);
 
 export const SPEC_VERSION = CURRENT_SPEC_VERSION_LABEL;
 const ACTIVE_PROJECT_LABEL = 'Bitcode';
@@ -7479,7 +7479,7 @@ export function runMakeBitcodeBranch(state, input = {}) {
  * @returns {any}
  */
 export function publicState(state, principal = DEFAULT_PROJECTION_PRINCIPAL) {
-  return buildDemoPublicStateUnchecked(state, principal, {
+  return buildProjectedPublicStateUnchecked(state, principal, {
     ensureProjectionPrincipal,
     buildRepoSupplySurface,
     buildBoundaryRealitySurface,

@@ -175,7 +175,7 @@ function runBasicChecks(cwd) {
       ACTIVE_CANON_VERSION
     ]);
   }
-  // V48: protocol-demonstration removed. Specifying package owns commercial
+  // V48: standalone witness tree removed. Specifying (scripts/) owns gate/canon tooling; packages/* own product systems
   // canon-posture / package-boundary proofs (not a separate demo tree).
   runNode(cwd, 'specifying package boundary and promotion posture tests', [
     '--test',

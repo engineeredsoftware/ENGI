@@ -44,7 +44,7 @@ Profiling markers for performance analysis:
 
 Prompt-specific developing experiments remain prompt-package internal and reference-only.
 Retained consumers in this corridor must not treat `packages/prompts/src/*` or `@bitcode/prompts/src/*` locations as public API.
-See `protocol-demonstration/V26_DOC_COMMENT_REFORM.md` for the active V26 reform boundary.
+See `scripts/specifying/V26_DOC_COMMENT_REFORM.md` for the active V26 reform boundary.
 
 ## Usage
 

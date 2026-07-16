@@ -17,19 +17,19 @@ const COMMERCIAL_SOURCE_ROOTS = [
 ] as const;
 
 const SOURCE_EXTENSIONS = new Set(['.cjs', '.js', '.jsx', '.mjs', '.ts', '.tsx']);
-const DISALLOWED_DEMONSTRATION_BOUNDARY_PATTERNS = [
-  /@bitcode\/protocol-demonstration/,
-  /protocol-demonstration\/public/,
-  /BITCODE_DEMONSTRATION_PUBLIC_DIR/,
-  // Removed product surface — do not reintroduce (Vercel 250mb function bombs).
-  /bitcoin-demonstration-service/,
-  /getBitcoinDemonstrationService\s*\(/,
+/** Patterns that must never reappear in commercial product runtime. */
+const DISALLOWED_COMMERCIAL_BOUNDARY_PATTERNS = [
   // Specifying is repo metadevelopment only — never product Next/Vercel runtime.
   /@bitcode\/specifying/,
   /from ['"]@bitcode\/specifying/,
-  // Removed protocol-demo host residue.
+  // Removed host residue — do not reintroduce.
   /bitcode-app-context/,
   /getBitcodeAppContext/,
+  /BITCODE_DEMONSTRATION_PUBLIC_DIR/,
+  /bitcoin-demonstration-service/,
+  /getBitcoinDemonstrationService\s*\(/,
+  /DemonstrationWitnessRuntime/,
+  /mountBitcodeDemonstrationShell/,
 ];
 
 function collectSourceFiles(root: string): string[] {
@@ -93,11 +93,11 @@ describe('commercial protocol boundary', () => {
     expect(untrackedFiles).toEqual([]);
   });
 
-  it('keeps commercial runtime source free of standalone demonstration imports', () => {
+  it('keeps commercial runtime free of specifying and removed host residue', () => {
     const violations = COMMERCIAL_SOURCE_ROOTS.flatMap((rootName) =>
       collectSourceFiles(path.join(uapiRoot, rootName)).flatMap((filePath) => {
         const source = readFileSync(filePath, 'utf8');
-        return DISALLOWED_DEMONSTRATION_BOUNDARY_PATTERNS
+        return DISALLOWED_COMMERCIAL_BOUNDARY_PATTERNS
           .filter((pattern) => pattern.test(source))
           .map((pattern) => `${path.relative(repoRoot, filePath)} matched ${pattern}`);
       }),
@@ -106,13 +106,7 @@ describe('commercial protocol boundary', () => {
     expect(violations).toEqual([]);
   });
 
-  it('does not ship a bitcoin-demonstration-service product API route', () => {
-    expect(
-      existsSync(path.join(uapiRoot, 'app/api/bitcoin-demonstration-service')),
-    ).toBe(false);
-  });
-
-  it('does not ship specifying protocol-demo host shim API routes', () => {
+  it('does not ship removed specifying host shim API routes', () => {
     const removedShimRoutes = [
       'app/api/state',
       'app/api/reset',
@@ -132,7 +126,7 @@ describe('commercial protocol boundary', () => {
     expect(existsSync(path.join(uapiRoot, 'app/api/deposit'))).toBe(true);
   });
 
-  it('does not depend on specifying or standalone demonstration in the commercial package graph', () => {
+  it('does not depend on specifying in the commercial package graph', () => {
     const uapiPackageJson = JSON.parse(readFileSync(path.join(uapiRoot, 'package.json'), 'utf8'));
     const dependencies = {
       ...(uapiPackageJson.dependencies ?? {}),
@@ -142,7 +136,6 @@ describe('commercial protocol boundary', () => {
     // Specifying stays in the monorepo for gates/canon work; it must not be a
     // product dependency (Vercel NFT packs monorepo walks past 250 MB).
     expect(dependencies['@bitcode/specifying']).toBeUndefined();
-    expect(dependencies['@bitcode/protocol-demonstration']).toBeUndefined();
   });
 
   it('keeps Next/Vercel product config free of specifying transpile and webpack aliases', () => {
@@ -153,11 +146,5 @@ describe('commercial protocol boundary', () => {
     expect(nextConfigSource).toContain('outputFileTracingRoot');
     expect(nextConfigSource).toContain('scripts/specifying/**');
     expect(nextConfigSource).toContain('**/tests/**');
-  });
-
-  it('keeps the standalone protocol demonstration outside the workspace build graph', () => {
-    const workspaceSource = readFileSync(path.join(repoRoot, 'pnpm-workspace.yaml'), 'utf8');
-
-    expect(workspaceSource).not.toContain("- 'protocol-demonstration'");
   });
 });

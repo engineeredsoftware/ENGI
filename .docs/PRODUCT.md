@@ -6,10 +6,11 @@ This document is a current, non-canonical operator guide for the shipping V26 re
 
 Bitcode V26 is the first commercial promotion of the source-to-shares system:
 
-- `protocol-demonstration/` is the deterministic protocol witness and proof substrate.
-- `apps/uapi/app/application/*` is the Bitcode Terminal route for deposit, read, review, fit, settlement, and reread.
-- `packages/api/*`, `apps/uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry Bitcode Exchange state.
-- `packages/asset-packs-pipelines/domain/*` carries Read-satisfaction AssetPack synthesis and Finish delivery.
+- Product core systems live under `packages/*` (pipelines, BTD, hosts, API primitives, agents, tools, …).
+- `scripts/specifying/` is metadevelopment specifying tooling (gate proofs, canon posture) — not product ownership.
+- `apps/uapi/` is the commercial Next.js application (routes, experiences, product API adapters).
+- `packages/api/*`, `apps/uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry exchange/runtime state.
+- `packages/asset-packs-pipelines/*` carries AssetPack synthesis/settle product pipelines and domain.
 - MCP, ChatGPT App, GitHub/VCS, webhooks, and other connections are admitted interfaces, not separate product owners.
 
 ## Terminal

@@ -130,7 +130,7 @@ reusable checks:
 - `v28_qa_terminal_04_deposit_repository_alignment`:
   `supabase/queries/v28_qa_terminal_04_deposit_repository_alignment.sql` confirms
   the Deposit source is the connected GitHub repository inventory and
-  flags any live-lane leakage from protocol demonstration `frontier/*` data.
+  flags any live-lane leakage from specifying machine `frontier/*` data.
 - `v28_qa_terminal_08_depository_evidence_after_deposit`:
   `supabase/queries/v28_qa_terminal_08_depository_evidence_after_deposit.sql`
   checks Gate 9 deposited-source evidence after a Deposit: candidate

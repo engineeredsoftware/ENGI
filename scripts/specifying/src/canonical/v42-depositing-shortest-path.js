@@ -46,7 +46,7 @@ const SOURCE_ROOTS = Object.freeze({
   embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
   assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
   protocolServer: 'scripts/specifying/server.js',
-  protocolRuntime: 'scripts/specifying/src/bitcode-demo.js',
+  protocolRuntime: 'scripts/specifying/src/specifying-runtime.js',
   protocolBoundaryTest: 'scripts/specifying/test/protocol-package-boundary.test.js',
   uapiDepositRoute: 'apps/uapi/app/api/deposit/synthesize-options',
   terminalDepositComposer: 'apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx',

@@ -155,7 +155,7 @@ grounded is **Unestimatable**, not invented.
 ## What not to do
 
 - Do not version source paths (`api/v1`, `v48-*` product modules) unless directed.
-- Do not treat removed demo trees (`protocol-demonstration`) as product law.
+- Product core systems live in `packages/*`. Specifying tooling lives under `scripts/specifying/` (etc.). Do not reintroduce removed standalone witness trees as product law.
 - Do not open value-bearing mainnet settlement in V48 draft work.
 - Do not push product work straight to `main` — version + gate branches only.
 - Product routes: `/packs`, `/deposits`, `/reads`, `/docs`.

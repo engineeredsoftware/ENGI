@@ -51,18 +51,6 @@ jest.mock('@/components/bitcode/MultiLineTypingAnimation/MultiLineTypingAnimatio
   default: ({ text }: { text: string }) => <>{text}</>,
 }));
 
-jest.mock('@/components/bitcode/layout/DemonstrationWitnessRuntime/demonstration-witness-runtime', () => ({
-  mountBitcodeDemonstrationShell: jest.fn(async () => jest.fn()),
-  readBitcodeDemonstrationShellSnapshot: jest.fn(),
-  readBitcodeDemonstrationShellControls: jest.fn(),
-}));
-
-const { mountBitcodeDemonstrationShell } = jest.requireMock(
-  '@/components/bitcode/layout/DemonstrationWitnessRuntime/demonstration-witness-runtime',
-) as {
-  mountBitcodeDemonstrationShell: jest.Mock;
-};
-
 describe('MarketingLandingPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -134,9 +122,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getAllByText('Read').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
-    expect(document.getElementById('bitcodeDemonstrationRoot')).toBeNull();
     expect(document.querySelector('iframe')).toBeNull();
-    expect(mountBitcodeDemonstrationShell).not.toHaveBeenCalled();
     expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');

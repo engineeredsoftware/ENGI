@@ -203,7 +203,7 @@ function main() {
   assertCheck(
     failures,
     demonstrationImportViolations.length === 0,
-    `Commercial runtime source must not import protocol-demonstration/src or @bitcode/protocol-demonstration: ${demonstrationImportViolations.join(', ')}`
+    `Commercial runtime source must not import scripts/specifying/src or @bitcode/specifying: ${demonstrationImportViolations.join(', ')}`
   );
 
   assertCheck(failures, btdReadme.includes('api-boundaries.ts'), 'BTD README must name the API-boundary module.');
@@ -211,7 +211,7 @@ function main() {
   assertCheck(failures, apiReadme.includes('@bitcode/btd'), 'API README must state BTD route delegation to @bitcode/btd.');
   assertCheck(failures, apiReadme.includes('route-owned'), 'API README must distinguish route-owned work from package-owned policy.');
   assertCheck(failures, protocolReadme.includes('@bitcode/specifying'), 'Protocol README must keep accepted commercial imports explicit.');
-  assertCheck(failures, protocolReadme.includes('must not import `protocol-demonstration/src/*`'), 'Protocol README must forbid standalone demonstration runtime imports.');
+  assertCheck(failures, protocolReadme.includes('must not import `scripts/specifying/src/*`'), 'Protocol README must forbid standalone demonstration runtime imports.');
 
   assertCheck(failures, delta.includes('Gate 2: Protocol Package API Boundaries'), 'V30 DELTA must retain Gate 2 scope.');
   assertCheck(failures, delta.includes('packages/btd/src/api-boundaries.ts'), 'V30 DELTA must name the BTD API-boundary implementation.');

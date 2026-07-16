@@ -4,7 +4,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { buildInitialState, runMakeBitcodeBranch } from '../bitcode-demo.js';
+import { buildInitialState, runMakeBitcodeBranch } from '../specifying-runtime.js';
 import { buildV18Matrices, summarizeV18Matrix } from './v18-matrices.js';
 import {
   buildV19DeterministicReplayReport,
@@ -120,7 +120,7 @@ const V26_SECOND_GATE_TERMINAL_FILES = [
   'apps/uapi/styles/orbital.css'
 ];
 const V26_SECOND_GATE_PROOF_FILES = [
-  'protocol-demonstration/test/v26-public-copy.test.js',
+  'scripts/specifying/test/v26-public-copy.test.js',
   'apps/uapi/tests/auxillariesProvider.test.tsx',
   'apps/uapi/tests/orbitalsInterfacesPane.test.tsx',
   'apps/uapi/tests/orbitalsBTDPane.test.tsx',
@@ -136,21 +136,21 @@ const V26_SECOND_GATE_PROOF_FILES = [
 const V26_SECOND_GATE_DOCUMENTATION_FILES = [
   'README.md',
   'apps/uapi/README.md',
-  'protocol-demonstration/README.md',
+  'scripts/specifying/README.md',
   'apps/uapi/components/README.md',
   'apps/uapi/app/orbitals/README.md',
   'apps/uapi/components/bitcode/README.md',
   'apps/uapi/components/bitcode/pipeline/README.md',
-  'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
-  'protocol-demonstration/V26_PROOF_SURFACES.md'
+  'scripts/specifying/V26_TERMINAL_SYSTEMS.md',
+  'scripts/specifying/V26_PROOF_SURFACES.md'
 ];
 const V26_THIRD_GATE_PREPARATION_FILES = [
   'apps/uapi/components/marketing/MarketingLandingPage/MarketingLandingPage.tsx',
   '.specifications/BITCODE_SPEC_V26_DELTA.md',
   '.specifications/BITCODE_SPEC_V26_NOTES.md',
   '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
-  'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
-  'protocol-demonstration/V26_PROOF_SURFACES.md'
+  'scripts/specifying/V26_TERMINAL_SYSTEMS.md',
+  'scripts/specifying/V26_PROOF_SURFACES.md'
 ];
 const V26_THIRD_GATE_TERMINAL_FILES = [
   'apps/uapi/app/page.tsx',
@@ -179,8 +179,8 @@ const V26_THIRD_GATE_DOCUMENTATION_FILES = [
   'apps/uapi/README.md',
   '.specifications/BITCODE_SPEC_V26_DELTA.md',
   '.specifications/BITCODE_SPEC_V26_NOTES.md',
-  'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
-  'protocol-demonstration/V26_PROOF_SURFACES.md'
+  'scripts/specifying/V26_TERMINAL_SYSTEMS.md',
+  'scripts/specifying/V26_PROOF_SURFACES.md'
 ];
 const V26_FOURTH_GATE_PERSISTENCE_FILES = [
   'supabase/migrations/001_v26_production.sql',
@@ -208,8 +208,8 @@ const V26_FOURTH_GATE_PERSISTENCE_FILES = [
   'apps/uapi/app/api/edgetimes/route.ts',
   'apps/uapi/tests/edgetimesPageContent.test.tsx',
   'apps/uapi/tests/api/edgetimesRoute.test.ts',
-  'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
-  'protocol-demonstration/V26_PROOF_SURFACES.md'
+  'scripts/specifying/V26_TERMINAL_SYSTEMS.md',
+  'scripts/specifying/V26_PROOF_SURFACES.md'
 ];
 const V26_FOURTH_GATE_STORAGE_TABLE_PARITY = [
   ['deliverable_run_phases', 'phase_executions'],
@@ -395,7 +395,7 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
   'apps/chatgpt/tsconfig.test.json',
   'apps/chatgpt/jest.config.cjs',
-  'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
+  'scripts/specifying/V26_DOC_COMMENT_REFORM.md',
   'packages/doc-comment-generics/README.md',
   'packages/doc-comment-generics/IMPLEMENTATION.md',
   'packages/doc-comment-generics/src/build-plugin.ts',
@@ -425,7 +425,7 @@ const V26_FOURTH_GATE_PROMPT_SYSTEM_FILES = [
   'packages/generic-doc-comments/doc-developing/README.md',
   'packages/generic-doc-comments/doc-developing/TLDR.md',
   'packages/generic-doc-comments/doc-developing/tsconfig.json',
-  'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
+  'scripts/specifying/test/v26-prompt-runtime-loadability.test.js',
   'packages/asset-packs-pipelines/domain/src/agents/prompts/understand-requirements-prompt.ts',
   'packages/asset-packs-pipelines/domain/src/agents/prompts/plan-implementation-prompt.ts'
 ];
@@ -1907,8 +1907,8 @@ function buildV26TerminalCompositionProof({
         'apps/uapi/components/bitcode/pipeline/BitcodeTransactionsDataTable/BitcodeTransactionsDataTable.tsx',
         'apps/uapi/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge.tsx',
         'apps/uapi/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge.tsx',
-        'protocol-demonstration/public/app.js',
-        'protocol-demonstration/src/client-entry.js'
+        'scripts/specifying/src/specifying-runtime.js',
+        'scripts/specifying/src/specifying-runtime.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -2017,8 +2017,8 @@ function buildV26EnvironmentModeCoherenceProof({
       'environment-runtime-resolution',
       'Protocol runtime and external-realization resolution remain explicit',
       [
-        'protocol-demonstration/src/canonical/v24-external-realization.js',
-        'protocol-demonstration/server.js',
+        'scripts/specifying/src/canonical/v24-external-realization.js',
+        'scripts/specifying/server.js',
         'apps/uapi/app/api/external-realization/route.ts'
       ]
     ),
@@ -2122,13 +2122,13 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/execution/PromptExecution.js',
         'packages/prompts/src/parts/PromptPart.ts',
         'packages/prompts/src/__tests__/prompt.test.ts',
-        'protocol-demonstration/src/canonical/inference-implementation-records.js',
-        'protocol-demonstration/V26_PROMPT_SURFACES.md',
-        'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
-        'protocol-demonstration/test/v26-inference-implementation-records.test.js',
-        'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-        'protocol-demonstration/test/v26-prompt-surface-map.test.js',
-        'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js'
+        'scripts/specifying/src/canonical/inference-implementation-records.js',
+        'scripts/specifying/V26_PROMPT_SURFACES.md',
+        'scripts/specifying/V26_INFERENCE_SYSTEMS.md',
+        'scripts/specifying/test/v26-inference-implementation-records.test.js',
+        'scripts/specifying/test/v26-prompt-system-boundary.test.js',
+        'scripts/specifying/test/v26-prompt-surface-map.test.js',
+        'scripts/specifying/test/v26-prompt-runtime-loadability.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -2157,7 +2157,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.js',
         'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
         'packages/tools-generics/src/doc-code-tool/formatUsableTools.js',
-        'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js'
+        'scripts/specifying/test/v26-prompt-runtime-loadability.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -2175,7 +2175,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/tools-generics/src/execution/ToolPromptRegistry.js',
         'packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.ts',
         'packages/tools-generics/src/doc-code-tool/DocCodeToolPlugin.js',
-        'protocol-demonstration/test/v26-prompt-system-boundary.test.js'
+        'scripts/specifying/test/v26-prompt-system-boundary.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -2254,8 +2254,8 @@ function buildV26PromptSystemTotalityProof({
       'doc-comment-doc-code-tool-injection-support',
       'Doc-comment and doc-code keep tool prompt injection explicit under Bitcode ownership',
       [
-        'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
-        'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
+        'scripts/specifying/V26_DOC_COMMENT_REFORM.md',
+        'scripts/specifying/V26_INFERENCE_SYSTEMS.md',
         'packages/doc-comment-generics/README.md',
         'packages/doc-comment-generics/src/build-plugin.ts',
         'packages/generic-doc-comments/doc-code/README.md',
@@ -2317,7 +2317,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_identity.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_instructions.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_webresearcher_system_role.ts',
-        'protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js',
+        'scripts/specifying/test/v26-web-researcher-agent-compatibility.test.js',
         'packages/generic-agents/web-search/README.md',
         'packages/generic-agents/web-search/package.json',
         'packages/generic-agents/web-search/src/index.ts',
@@ -2357,7 +2357,7 @@ function buildV26PromptSystemTotalityProof({
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_getcontents_doccodetoolpurpose.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_multiprovidersearch_doccodetoolpurpose.ts',
         'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearchtool_purpose_corestatement.ts',
-        'protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
+        'scripts/specifying/test/v26-web-search-support-compatibility.test.js',
         'packages/generic-tools/files-maintaining/README.md',
         'packages/generic-tools/files-maintaining/src/index.ts',
         'packages/generic-tools/files-maintaining/src/prompts/TextEditorDocCodeToolPrompt.ts',
@@ -2447,7 +2447,7 @@ function buildV26PromptSystemTotalityProof({
         'apps/chatgpt/src/prompts/chatgpt-tool-doc-prompts.ts',
         'apps/chatgpt/tsconfig.test.json',
         'apps/chatgpt/jest.config.cjs',
-        'protocol-demonstration/V26_DOC_COMMENT_REFORM.md',
+        'scripts/specifying/V26_DOC_COMMENT_REFORM.md',
         'packages/doc-comment-generics/README.md',
         'packages/doc-comment-generics/IMPLEMENTATION.md',
         'packages/doc-comment-generics/examples/doc-comments-as-prompts.ts',
@@ -2460,10 +2460,10 @@ function buildV26PromptSystemTotalityProof({
       'read-ingestion-and-shippable-prompt-ports',
       'Read-ingestion and admitted shippable compatibility ports remain explicit under Bitcode ownership, narrow public prompt subpaths, and semantic read/written-asset mirrors',
       [
-        'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
-        'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
-        'protocol-demonstration/test/v26-shippable-reform.test.js',
-        'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
+        'scripts/specifying/V26_SHIPPABLE_REFORM.md',
+        'scripts/specifying/V26_PIPELINE_FINISH_REFORM.md',
+        'scripts/specifying/test/v26-shippable-reform.test.js',
+        'scripts/specifying/test/v26-pipeline-finish-reform.test.js',
         'packages/generic-agents/jira-processor/src/prompts/system-prompt-jira-processor.ts',
         'packages/generic-agents/jira-processor/src/prompts/agent-prompt-jira-processor.ts',
         'packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts',
@@ -2502,10 +2502,10 @@ function buildV26PromptSystemTotalityProof({
       'lsp-measurement-prompt-and-proof-boundary',
       'Retained LSP tooling is specified as Bitcode static Read/AssetPack measurement infrastructure',
       [
-        'protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md',
-        'protocol-demonstration/src/bitcode-demo.js',
-        'protocol-demonstration/src/canonical/read-measurement.js',
-        'protocol-demonstration/test/v26-lsp-measurement-reform.test.js',
+        'scripts/specifying/V26_LSP_MEASUREMENT_REFORM.md',
+        'scripts/specifying/src/specifying-runtime.js',
+        'scripts/specifying/src/canonical/read-measurement.js',
+        'scripts/specifying/test/v26-lsp-measurement-reform.test.js',
         'packages/lsp/src/index.ts',
         'packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts',
         'packages/generic-tools/lsp-query/src/prompts/lsp-purpose-composition.ts',
@@ -2592,11 +2592,11 @@ function buildV26SourceToSharesFifthGateProof({
       'source-to-shares-protocol-review-artifacts',
       'Low-level protocol SPEC-IMPL emits reviewable Reads before fit search and carries source-to-shares artifacts into settlement receipts',
       [
-        'protocol-demonstration/src/canonical/read-measurement.js',
-        'protocol-demonstration/src/canonical/settlement.js',
-        'protocol-demonstration/src/canonical/run-artifacts.js',
-        'protocol-demonstration/src/bitcode-demo.js',
-        'protocol-demonstration/test/v26-read-review-source-to-shares.test.js'
+        'scripts/specifying/src/canonical/read-measurement.js',
+        'scripts/specifying/src/canonical/settlement.js',
+        'scripts/specifying/src/canonical/run-artifacts.js',
+        'scripts/specifying/src/specifying-runtime.js',
+        'scripts/specifying/test/v26-read-review-source-to-shares.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -2764,10 +2764,10 @@ function buildV26SourceToSharesFifthGateProof({
       'asset-pack-finish-delivering-semantics',
       'Pipeline output semantics distinguish stable AssetPacks and written assets from delivered Shippables, with Finish as the broad final phase',
       [
-        'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
-        'protocol-demonstration/V26_PIPELINE_FINISH_REFORM.md',
-        'protocol-demonstration/test/v26-shippable-reform.test.js',
-        'protocol-demonstration/test/v26-pipeline-finish-reform.test.js',
+        'scripts/specifying/V26_SHIPPABLE_REFORM.md',
+        'scripts/specifying/V26_PIPELINE_FINISH_REFORM.md',
+        'scripts/specifying/test/v26-shippable-reform.test.js',
+        'scripts/specifying/test/v26-pipeline-finish-reform.test.js',
         'packages/pipelines-generics/src/phases/sdivf-factory.ts',
         'packages/pipelines-generics/src/phases/phase-factory.ts',
         'packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts',
@@ -2791,7 +2791,7 @@ function buildV26SourceToSharesFifthGateProof({
     proceduralGateClosure: false,
     makeSharesContract: 'Measured Reads are reviewable after measurement and before fit search; accept admits fit search, reject and remeasure-with-feedback block it.',
     useSharesContract: 'Present-fit-for-settlement-review surfaces quantized source-to-shares fit qualities and carries them into settlement AssetPack receipts.',
-    productionParityContract: 'protocol-demonstration remains the low-level SPEC-IMPL and uapi routes remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review, route-level reread, and settlement contract.',
+    productionParityContract: 'scripts/specifying remains the specifying-machine harness and packages/* + apps/uapi remain the commercial SPEC-IMPL; both must preserve the same source-to-shares review, route-level reread, and settlement contract.',
     openReason: 'This proof advances the fifth-gate source-to-shares baseline without itself claiming fourth-gate procedural closure or full fifth-gate closure.',
     checks
   };
@@ -3128,7 +3128,7 @@ function buildV26FifthGateClosureProof({
             description: 'selected-detail snapshot preserves settlement review posture'
           },
           {
-            file: 'protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js',
+            file: 'scripts/specifying/test/v26-uapi-app-router-entrypoints.test.js',
             evidence: 'V26 keeps active uapi app-owned source TypeScript-only',
             description: 'active app-owned source has no JavaScript mirror ambiguity'
           }
@@ -3246,22 +3246,22 @@ function buildV26FifthGateClosureProof({
         'Retained live-path packages are classified, public-boundary clean, Bitcode-repurposed, and not teaching parallel non-Bitcode ownership',
         [
           {
-            file: 'protocol-demonstration/test/v26-active-product-naming.test.js',
+            file: 'scripts/specifying/test/v26-active-product-naming.test.js',
             evidence: 'active V26 retained package surfaces use Bitcode naming instead of Engi naming',
             description: 'active naming test blocks non-Bitcode product-language reintroduction'
           },
           {
-            file: 'protocol-demonstration/src/canonical/proven-generator.js',
+            file: 'scripts/specifying/src/canonical/proven-generator.js',
             evidence: 'retained-package-admissibility',
             description: 'generated proof owns retained-package admissibility classification'
           },
           {
-            file: 'protocol-demonstration/src/canonical/proven-generator.js',
+            file: 'scripts/specifying/src/canonical/proven-generator.js',
             evidence: 'system-reform-admissibility',
             description: 'generated proof owns system-reform admissibility classification'
           },
           {
-            file: 'protocol-demonstration/V26_REFORM_STRATEGY.md',
+            file: 'scripts/specifying/V26_REFORM_STRATEGY.md',
             evidence: 'semantic mirrors before destructive rename',
             description: 'reform strategy documents the Bitcode-first rename/removal discipline'
           }
@@ -3278,17 +3278,17 @@ function buildV26FifthGateClosureProof({
         'Fifth-gate closure has an explicit generated verdict and remains ordered before final Gate 8 closure',
         [
           {
-            file: 'protocol-demonstration/src/canonical/proven-generator.js',
+            file: 'scripts/specifying/src/canonical/proven-generator.js',
             evidence: 'buildV26FifthGateClosureProof',
             description: 'generator owns the fifth-gate closure verdict'
           },
           {
-            file: 'protocol-demonstration/test/proven-generator.test.js',
+            file: 'scripts/specifying/test/proven-generator.test.js',
             evidence: 'fifthGateClosurePassed, true',
             description: 'generator test asserts the fifth-gate closure flag'
           },
           {
-            file: 'protocol-demonstration/test/v26-gate-acceptance-criteria.test.js',
+            file: 'scripts/specifying/test/v26-gate-acceptance-criteria.test.js',
             evidence: 'V26 generated proofs close fifth, sixth, seventh, and eighth gates',
             description: 'formal gate test keeps total closure explicit and ordered'
           },
@@ -3471,17 +3471,17 @@ function buildV26SixthGateMvpClosureProof({
         'Product readiness audit now carries sixth-gate MVP evidence per product',
         [
           {
-            file: 'protocol-demonstration/src/canonical/v26-product-readiness-audit.js',
+            file: 'scripts/specifying/src/canonical/v26-product-readiness-audit.js',
             evidence: 'sixthGateMvpClaim',
             description: 'product readiness audit exposes sixth-gate MVP claim'
           },
           {
-            file: 'protocol-demonstration/src/canonical/v26-product-readiness-audit.js',
+            file: 'scripts/specifying/src/canonical/v26-product-readiness-audit.js',
             evidence: 'mvpEvidenceChecks',
             description: 'product readiness audit source-checks MVP evidence'
           },
           {
-            file: 'protocol-demonstration/test/v26-product-readiness-audit.test.js',
+            file: 'scripts/specifying/test/v26-product-readiness-audit.test.js',
             evidence: 'readyForSixthGateMvp, true',
             description: 'product readiness test requires every product to be MVP-ready'
           }
@@ -3662,12 +3662,12 @@ function buildV26SixthGateMvpClosureProof({
             description: 'parity matrix records the sixth-gate closure queue'
           },
           {
-            file: 'protocol-demonstration/V26_REFORM_STRATEGY.md',
+            file: 'scripts/specifying/V26_REFORM_STRATEGY.md',
             evidence: 'semantic mirrors before destructive rename',
             description: 'reform strategy keeps cleanup disciplined'
           },
           {
-            file: 'protocol-demonstration/test/proven-generator.test.js',
+            file: 'scripts/specifying/test/proven-generator.test.js',
             evidence: 'sixthGateClosurePassed, true',
             description: 'generator test locks sixth-gate closure'
           }
@@ -3845,17 +3845,17 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
         'Product readiness audit source-checks launch evidence for every V26 product surface',
         [
           {
-            file: 'protocol-demonstration/src/canonical/v26-product-readiness-audit.js',
+            file: 'scripts/specifying/src/canonical/v26-product-readiness-audit.js',
             evidence: 'seventhGateCommercialTestnetLaunchClaim',
             description: 'product readiness audit exposes seventh-gate launch claim'
           },
           {
-            file: 'protocol-demonstration/src/canonical/v26-product-readiness-audit.js',
+            file: 'scripts/specifying/src/canonical/v26-product-readiness-audit.js',
             evidence: 'launchEvidenceChecks',
             description: 'product readiness audit source-checks launch evidence'
           },
           {
-            file: 'protocol-demonstration/test/v26-product-readiness-audit.test.js',
+            file: 'scripts/specifying/test/v26-product-readiness-audit.test.js',
             evidence: 'readyForSeventhGateCommercialTestnetLaunch, true',
             description: 'product readiness test requires every product to be launch-ready'
           }
@@ -4016,7 +4016,7 @@ function buildV26SeventhGateCommercialTestnetLaunchProof({
             description: 'parity matrix records the seventh-gate closure queue'
           },
           {
-            file: 'protocol-demonstration/V26_PROOF_SURFACES.md',
+            file: 'scripts/specifying/V26_PROOF_SURFACES.md',
             evidence: 'seventh-gate commercial testnet launch proof',
             description: 'proof surface names the generated seventh-gate proof'
           }
@@ -4129,7 +4129,7 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
       'packages/generic-doc-comments/doc-code/src/transformDocCodeTools.ts',
       'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
       'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-      'protocol-demonstration/V26_DOC_COMMENT_REFORM.md'
+      'scripts/specifying/V26_DOC_COMMENT_REFORM.md'
     ]
   },
   {
@@ -4229,14 +4229,14 @@ const V26_PROMPT_SPACE_WITNESS_SETS = [
     fifthGateUse: 'Lets fifth-gate judge prompt behavior from source, specs, tests, and generated proof rather than informal interpretation.',
     laterGateRemaining: 'Eighth-gate must still prove total prompt-space completeness after all retained corridors converge.',
     requiredFiles: [
-      'protocol-demonstration/V26_PROMPT_SURFACES.md',
-      'protocol-demonstration/V26_INFERENCE_SYSTEMS.md',
-      'protocol-demonstration/src/canonical/inference-implementation-records.js',
-      'protocol-demonstration/src/canonical/type-contracts.ts',
-      'protocol-demonstration/test/v26-prompt-system-boundary.test.js',
-      'protocol-demonstration/test/v26-prompt-surface-map.test.js',
-      'protocol-demonstration/test/v26-prompt-runtime-loadability.test.js',
-      'protocol-demonstration/test/v26-inference-implementation-records.test.js',
+      'scripts/specifying/V26_PROMPT_SURFACES.md',
+      'scripts/specifying/V26_INFERENCE_SYSTEMS.md',
+      'scripts/specifying/src/canonical/inference-implementation-records.js',
+      'scripts/specifying/src/canonical/type-contracts.ts',
+      'scripts/specifying/test/v26-prompt-system-boundary.test.js',
+      'scripts/specifying/test/v26-prompt-surface-map.test.js',
+      'scripts/specifying/test/v26-prompt-runtime-loadability.test.js',
+      'scripts/specifying/test/v26-inference-implementation-records.test.js',
       'packages/linting/eslint/src/requirePromptHierarchy.ts',
       'packages/linting/eslint/docs/require-prompt-hierarchy.md',
       'packages/linting/eslint/__tests__/requirePromptHierarchy.test.ts',
@@ -4305,12 +4305,12 @@ function buildV26PromptSpaceCompletenessProof({
           description: 'parity ledger tracks prompt-space completeness as a generated proof family'
         },
         {
-          file: 'protocol-demonstration/V26_PROOF_SURFACES.md',
+          file: 'scripts/specifying/V26_PROOF_SURFACES.md',
           evidence: 'prompt-space completeness',
           description: 'proof-surface map names prompt-space completeness as a final gate family'
         },
         {
-          file: 'protocol-demonstration/test/v26-prompt-surface-map.test.js',
+          file: 'scripts/specifying/test/v26-prompt-surface-map.test.js',
           evidence: 'V26 prompt-space proof closes the eighth-gate completeness verdict',
           description: 'prompt-surface test asserts the final completeness verdict rather than a baseline-only witness'
         }
@@ -4745,10 +4745,10 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       '.specifications/BITCODE_SPEC_V26.md',
       '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
       '.specifications/BITCODE_SPEC_V26_NOTES.md',
-      'protocol-demonstration/V26_TERMINAL_SYSTEMS.md',
-      'protocol-demonstration/V26_PROOF_SURFACES.md',
-      'protocol-demonstration/V26_REFORM_STRATEGY.md',
-      'protocol-demonstration/test/v26-reform-strategy.test.js'
+      'scripts/specifying/V26_TERMINAL_SYSTEMS.md',
+      'scripts/specifying/V26_PROOF_SURFACES.md',
+      'scripts/specifying/V26_REFORM_STRATEGY.md',
+      'scripts/specifying/test/v26-reform-strategy.test.js'
     ]
   },
   {
@@ -4799,7 +4799,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/execution-generics/src/store/registry.ts',
       'apps/uapi/components/bitcode/pipeline/ExecutionsPageClient/ExecutionsPageClient.tsx',
       'apps/uapi/components/bitcode/pipeline/execution-option-toggle.tsx',
-      'protocol-demonstration/test/v26-active-product-naming.test.js'
+      'scripts/specifying/test/v26-active-product-naming.test.js'
     ]
   },
   {
@@ -4818,9 +4818,9 @@ const V26_SYSTEM_REFORM_DECISIONS = [
     reformClass: 'ingress-or-support',
     livePathRole: 'LSP tooling may remain only as replayable symbol/path/config/type evidence for Read measurement, AssetPack fit, and proof replay.',
     requiredFiles: [
-      'protocol-demonstration/V26_LSP_MEASUREMENT_REFORM.md',
-      'protocol-demonstration/src/bitcode-demo.js',
-      'protocol-demonstration/src/canonical/read-measurement.js',
+      'scripts/specifying/V26_LSP_MEASUREMENT_REFORM.md',
+      'scripts/specifying/src/specifying-runtime.js',
+      'scripts/specifying/src/canonical/read-measurement.js',
       'packages/lsp/src/index.ts',
       'packages/generic-tools/lsp-query/src/prompts/LspQueryDocCodeToolPrompt.ts'
     ]
@@ -4838,10 +4838,10 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/generic-tools/web-search/src/prompts/WebSearchDocCodeToolPrompt.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_websearch_purpose_corestatement.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_websearch_doccodetoolpurpose.ts',
-      'protocol-demonstration/test/v26-web-search-support-compatibility.test.js',
+      'scripts/specifying/test/v26-web-search-support-compatibility.test.js',
       'packages/generic-tools/web-search/src/index.ts',
       'apps/chatgpt/src/tools.ts',
-      'protocol-demonstration/test/v26-active-product-naming.test.js'
+      'scripts/specifying/test/v26-active-product-naming.test.js'
     ]
   },
   {
@@ -4853,7 +4853,7 @@ const V26_SYSTEM_REFORM_DECISIONS = [
       'packages/generic-agents/danger-wall/README.md',
       'packages/generic-agents/danger-wall/src/index.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_purpose_corestatement.ts',
-      'protocol-demonstration/test/v26-danger-wall-agent-compatibility.test.js'
+      'scripts/specifying/test/v26-danger-wall-agent-compatibility.test.js'
     ]
   }
 ];
@@ -4981,11 +4981,11 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
         '.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md',
         '.specifications/BITCODE_SPEC_V26_NOTES.md',
         '.specifications/BITCODE_SPEC_V26_PROVEN.md',
-        'protocol-demonstration/V26_PROOF_SURFACES.md',
-        'protocol-demonstration/src/canonical/proven-generator.js',
-        'protocol-demonstration/src/canonical/v21-specifying.js',
-        'protocol-demonstration/test/proven-generator.test.js',
-        'protocol-demonstration/test/v26-gate-acceptance-criteria.test.js'
+        'scripts/specifying/V26_PROOF_SURFACES.md',
+        'scripts/specifying/src/canonical/proven-generator.js',
+        'scripts/specifying/src/canonical/v21-specifying.js',
+        'scripts/specifying/test/proven-generator.test.js',
+        'scripts/specifying/test/v26-gate-acceptance-criteria.test.js'
       ]
     ),
     buildV26FilePresenceCheck(
@@ -5037,17 +5037,17 @@ function buildV26WholeRepositoryProductionSatisfactionProof({
           description: 'eighth-gate acceptance requires the kept repository to be terminal-ready Bitcode canon'
         },
         {
-          file: 'protocol-demonstration/V26_REFORM_STRATEGY.md',
+          file: 'scripts/specifying/V26_REFORM_STRATEGY.md',
           evidence: 'classify before reuse',
           description: 'reform strategy requires classification before retained corridor reuse'
         },
         {
-          file: 'protocol-demonstration/V26_SHIPPABLE_REFORM.md',
+          file: 'scripts/specifying/V26_SHIPPABLE_REFORM.md',
           evidence: '`deliverable` is not a Bitcode concept.',
           description: 'Shippable reform keeps deliverable wording as a trace target rather than active Bitcode canon'
         },
         {
-          file: 'protocol-demonstration/test/v26-active-product-naming.test.js',
+          file: 'scripts/specifying/test/v26-active-product-naming.test.js',
           evidence: 'active V26 retained package surfaces use Bitcode naming instead of Engi naming',
           description: 'active naming test audits retained package surfaces for Bitcode naming'
         },
@@ -5134,7 +5134,7 @@ function buildV26TotalClosureProof({
         description: 'delta records the shift from through-seventh checkpoint to full V26 closure'
       },
       {
-        file: 'protocol-demonstration/V26_PROOF_SURFACES.md',
+        file: 'scripts/specifying/V26_PROOF_SURFACES.md',
         evidence: 'generated V26 proof appendix and reports are eighth-gate final closure evidence',
         description: 'proof-surface map treats final reports as closure evidence rather than blockers'
       }

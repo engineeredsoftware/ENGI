@@ -3,7 +3,7 @@
  *
  * Measures the intrinsic SIZES of synthesized AssetPacks from real source via
  * deterministic, language-generic regex fact-extraction — inspired by the
- * demonstration (`protocol-demonstration/src/bitcode-demo.js`: symbol / path /
+ * demonstration (`scripts/specifying/src/specifying-runtime.js`: symbol / path /
  * config-key extraction + per-unit token counts). Individual analyses (functions,
  * types, symbols, config keys, lines, tokens) composed together, grounding the
  * absolute measuring agent (`agent-measure-absolutes`) so sizes are MEASURED, not
@@ -112,7 +112,7 @@ const TYPE_PATTERNS: Record<string, RegExp[]> = {
 const GENERIC_FUNCTION: RegExp[] = [/\b(?:function|def|fn|func)\b[ \t]+\w+/g];
 const GENERIC_TYPE: RegExp[] = [/\b(?:class|struct|interface|enum|trait|record)\b[ \t]+\w+/g];
 
-// Demonstration-style fact regexes (bitcode-demo.js).
+// Specifying-harness-style fact regexes (scripts tooling only).
 const SYMBOL_RE = /\b[A-Z][A-Za-z0-9]+\b|\b[a-z]+(?:[A-Z][A-Za-z0-9]+)+\b/g;
 const CONFIG_KEY_RE = /\b[a-z][a-z0-9_-]*(?:\.[a-z0-9_-]+)+\b/g;
 

@@ -1,6 +1,6 @@
 # Bitcode full filesystem (source tree)
 
-Excludes: `protocol-demonstration/`, `node_modules/`, `.next*`, `coverage/`, `dist/`, caches, and runtime harness dumps.
+Excludes: `scripts/specifying/`, `node_modules/`, `.next*`, `coverage/`, `dist/`, caches, and runtime harness dumps.
 
 Generated inventory: **2163 directories**, **9152 files** (**11315** paths).
 
@@ -6331,14 +6331,14 @@ Format: `path -- <1 sentence TL;DR>`.
  attestation-model.js -- Package `protocol` artifact.
  benchmark-model.js -- Package `protocol` artifact.
  bitcode-core.js -- Package `protocol` artifact.
- bitcode-demo.js -- Package `protocol` artifact.
+ specifying-runtime.js -- Package `protocol` artifact.
  bitcode-runtime.js -- Package `protocol` artifact.
  canon-posture.js -- Package `protocol` artifact.
  client-entry.d.ts -- Source module in package `protocol`.
  client-entry.js -- Package `protocol` artifact.
  conservation-check.js -- Package `protocol` artifact.
  demo-scenario.js -- Package `protocol` artifact.
- demo-shell-state.js -- Package `protocol` artifact.
+ projection-state.js -- Package `protocol` artifact.
  index.d.ts -- Public package export surface.
  index.js -- Package `protocol` artifact.
  policy-release.js -- Package `protocol` artifact.

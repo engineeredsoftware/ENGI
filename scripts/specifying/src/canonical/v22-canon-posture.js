@@ -13,7 +13,7 @@ import {
   CURRENT_SPEC_VERSION_LABEL,
   DRAFT_TARGET_VERSION
 } from '../canon-posture.js';
-import { buildInitialState, publicState } from '../bitcode-demo.js';
+import { buildInitialState, publicState } from '../specifying-runtime.js';
 import { buildV21GeneratedArtifactContents } from './v21-specifying.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -116,7 +116,7 @@ export function buildCanonPostureDriftReport({
   const pointerFilename = resolveSpecPointerFilename(resolvedRepoRoot, activeCanonVersion, draftTargetVersion);
   const activeProvenAppendixPath = `${activeSpecFamilyPrefix}_${activeCanonVersion}_PROVEN.md`;
   const pointerVersion = readFileSync(path.join(resolvedRepoRoot, pointerFilename), 'utf8').trim();
-  // V48: protocol-demonstration removed. Canon-posture drift is owned by scripts/specifying.
+  // V48: canon-posture drift is owned by scripts/specifying (tooling), not a product package.
   const specifyingReadmePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'README.md');
   const specifyingCanonPosturePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'src', 'canon-posture.js');
   const specifyingPackagePath = path.join(resolvedRepoRoot, 'scripts', 'specifying', 'package.json');
@@ -193,8 +193,8 @@ export function buildCanonPostureDriftReport({
     specifyingCanonPostureContent.includes(`ACTIVE_CANON_VERSION`)
       && specifyingCanonPostureContent.includes(activeCanonVersion)
       && specifyingCanonPostureContent.includes(draftTargetVersion)
-      && !specifyingCanonPostureContent.includes('protocol-demonstration/'),
-    `scripts/specifying/src/canon-posture.js declares active ${activeCanonVersion} and draft ${draftTargetVersion} without protocol-demonstration coupling.`
+      && !specifyingCanonPostureContent.includes('protocol-demonstration'),
+    `scripts/specifying/src/canon-posture.js declares active ${activeCanonVersion} and draft ${draftTargetVersion} without a removed witness-tree coupling.`
   );
   pushCheck(
     checks,
@@ -202,13 +202,13 @@ export function buildCanonPostureDriftReport({
     specifyingReadmeContent.length > 0
       && (specifyingReadmeContent.includes('specifying') || specifyingReadmeContent.includes('Specifying') || specifyingReadmeContent.includes('canon'))
       && !specifyingReadmeContent.includes('V15 canonical deterministic local prototype'),
-    'scripts/specifying/README.md is present as the commercial specifying owner after protocol-demonstration removal.'
+    'scripts/specifying/README.md is present as the specifying-machine owner under scripts/.'
   );
   pushCheck(
     checks,
-    'protocol-demonstration-removed',
+    'standalone-witness-tree-removed',
     !existsSync(path.join(resolvedRepoRoot, 'protocol-demonstration')),
-    'protocol-demonstration/ is removed; commercial specifying lives under scripts/specifying.'
+    'standalone protocol-demonstration/ is removed; specifying tooling lives under scripts/specifying/ (product core in packages/*).'
   );
 
   const blockingFailures = checks.filter((check) => !check.passed);

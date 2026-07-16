@@ -40,8 +40,8 @@ Prompt implementations stay local to the package usage site and compose through 
 
 The V26 proof family checks this package through:
 
-- `protocol-demonstration/test/v26-web-researcher-agent-compatibility.test.js`
-- `protocol-demonstration/test/v26-prompt-system-boundary.test.js`
-- `protocol-demonstration/test/v26-inference-implementation-records.test.js`
+- `scripts/specifying/test/v26-web-researcher-agent-compatibility.test.js`
+- `scripts/specifying/test/v26-prompt-system-boundary.test.js`
+- `scripts/specifying/test/v26-inference-implementation-records.test.js`
 - `.proofs/_shared/prompt-space-completeness-proof.json`
 - `.proofs/_shared/inference-implementation-records-proof.json`

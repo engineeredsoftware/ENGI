@@ -2,9 +2,9 @@ import { sha256, nowIso } from './bitcode-core.js';
 
 export function buildAttestationSnapshot() {
   const gitCommit = 'demo-cff6dc9';
-  const imageDigest = `sha256:${sha256('bitcode-demo-image')}`;
+  const imageDigest = `sha256:${sha256('bitcode-specifying-image')}`;
   const policyDigest = `sha256:${sha256('bitcode-policy-release-v1')}`;
-  const verifierDigest = `sha256:${sha256('bitcode-demo-verifier')}`;
+  const verifierDigest = `sha256:${sha256('bitcode-specifying-verifier')}`;
 
   return {
     deploymentId: `deploy_${sha256(`${gitCommit}:${imageDigest}`).slice(0, 10)}`,

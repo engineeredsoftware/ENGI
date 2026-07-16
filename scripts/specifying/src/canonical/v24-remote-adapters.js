@@ -241,7 +241,7 @@ async function executeGithubRestAdapter(payload, fetchImpl) {
   const workflowRunId =
     artifacts.githubArtifactFetchReceipt?.workflowRunIds?.[0]
     || supportArtifacts.githubBoundarySurface?.selectedInventoryProofs?.[0]?.workflowRunId
-    || 'bitcode-demo-run';
+    || 'bitcode-specifying-run';
   const sourceSha = artifacts.githubArtifactFetchReceipt?.sourceCommits?.[0] || `sha_${shortId(`${repo}:${branchName}`, 12)}`;
   const token = envString('BITCODE_V24_GITHUB_BEARER_TOKEN');
   const headers = {
@@ -376,7 +376,7 @@ async function executeGithubAppRestAdapter(payload, fetchImpl) {
   const workflowRunId =
     artifacts.githubArtifactFetchReceipt?.workflowRunIds?.[0]
     || supportArtifacts.githubBoundarySurface?.selectedInventoryProofs?.[0]?.workflowRunId
-    || 'bitcode-demo-run';
+    || 'bitcode-specifying-run';
   const sourceSha = artifacts.githubArtifactFetchReceipt?.sourceCommits?.[0] || `sha_${shortId(`${repo}:${branchName}`, 12)}`;
   const installationId = resolveGithubInstallationId(binding, repo);
   const appJwt = createGithubAppJwt(binding);

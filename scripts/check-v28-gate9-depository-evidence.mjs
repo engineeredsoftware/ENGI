@@ -15,7 +15,7 @@ const checks = [
     ],
   },
   {
-    file: 'scripts/specifying/src/bitcode-demo.js',
+    file: 'scripts/specifying/src/specifying-runtime.js',
     needles: [
       'buildDepositoryEvidence',
       'depositorySearchDocumentRoot',

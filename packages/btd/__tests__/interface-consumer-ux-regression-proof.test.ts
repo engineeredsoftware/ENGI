@@ -149,7 +149,7 @@ describe('Interface consumer UX regression proof', () => {
     expect(() =>
       buildBtdInterfaceConsumerUxRegressionRow({
         ...row,
-        fixturePath: 'protocol-demonstration/src/consumer-fixture.test.ts',
+        fixturePath: 'scripts/specifying/src/consumer-fixture.test.ts',
       }),
     ).toThrow(/demonstration-only/);
   });

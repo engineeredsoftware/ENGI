@@ -566,7 +566,7 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 | `asset-packs-pipelines/*` | Product ExecutionPipeline packages (SDIVF synthesize deposits/reads, Simple settle) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
-| `specifying` (`@bitcode/specifying`) | Gate proof generators, canon posture, promotion helpers, transitional demo-engine bridge. **Not** “the protocol” — the monorepo is protocol canon |
+| `specifying` (`@bitcode/specifying` under `scripts/specifying/`) | Metadevelopment specifying machine: gate proof generators, canon posture, promotion helpers. **Not** product core (that lives in `packages/*`); monorepo is protocol canon |
 | `api` | Route orchestration **and** API primitives: `src/responses/`, `src/streams/` |
 
 **Deposit domain modular layout:** public entries remain stable
@@ -628,11 +628,10 @@ helpers live in `deposit-source-safe-utils.ts`.
 | --- | --- |
 | Product **Pipeline** UI | `execution-generics` PTRR executors |
 | `generic-agents` base agents | Deposit agents under `pipeline-asset-pack/agents` |
-| `@bitcode/specifying` | Specifying/gate-proof tooling (not a product “protocol” package; monorepo is canon) |
+| `@bitcode/specifying` / `scripts/specifying/` | Specifying/gate-proof **tooling** (scripts, etc.) — not a product “protocol” package and not product core systems (`packages/*`) |
 | `templates-generics` | Prompt formatting (`@bitcode/prompts`) |
 | `externals/*` | `external-telemetry/*` (product APIs vs analytics) |
 | `*-generics` alone | A full stack — expect a matching `generic-*` family when the name is used |
-| `protocol-demonstration/` | Live V48 website measurement source of truth |
 
 ---
 
@@ -888,7 +887,7 @@ as if they were source of product law.
 ### 9.5 “Where must I not look?”
 
 - Superseded `BITCODE_SPEC_V{n<draft}.md` as live product law
-- `protocol-demonstration/` as V48 measurement canon (realization only)
+- Specifying tooling (`scripts/specifying/`) as if it owned product systems (product core lives in `packages/*`; specifying is gate/canon machine only)
 
 ---
 

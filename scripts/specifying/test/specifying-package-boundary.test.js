@@ -32,7 +32,7 @@ function collectRuntimeFiles(root) {
   return files;
 }
 
-test('@bitcode/specifying does not import the standalone protocol demonstration', async () => {
+test('@bitcode/specifying does not import removed standalone witness packages', async () => {
   const runtimeFiles = [path.join(packageRoot, 'server.js'), ...collectRuntimeFiles(path.join(packageRoot, 'src'))];
   const violations = runtimeFiles
     .filter((filePath) => importBoundaryPattern.test(readFileSync(filePath, 'utf8')))
@@ -97,7 +97,7 @@ test('@bitcode/specifying commercial formalization exports package-native canon 
   assert.equal(canonicalInputReport.passed, true);
 });
 
-test('commercial scripts do not directly import standalone demonstration source', () => {
+test('commercial scripts do not import removed standalone witness source', () => {
   const runtimeFiles = collectRuntimeFiles(path.join(repoRoot, 'scripts'));
   const violations = runtimeFiles
     .filter((filePath) => demonstrationSourceImportPattern.test(readFileSync(filePath, 'utf8')))
@@ -106,15 +106,20 @@ test('commercial scripts do not directly import standalone demonstration source'
   assert.deepEqual(violations, []);
 });
 
-test('@bitcode/specifying witness bundle does not overwrite commercial route titles when embedded', () => {
-  const appBundle = readFileSync(path.join(packageRoot, 'public', 'app.js'), 'utf8');
-
-  assert.match(appBundle, /function shouldUpdateDocumentTitle\(\)/);
-  assert.match(appBundle, /data-bitcode-demonstration-witness-host/);
-  assert.match(appBundle, /if \(shouldUpdateDocumentTitle\(\)\) \{\s*document\.title =/);
+test('@bitcode/specifying does not ship a demonstration shell public bundle', () => {
+  // Product core systems live in packages/*; scripts/specifying is tooling only.
+  // The former public demonstration shell must stay deleted.
+  assert.equal(
+    statSync(path.join(packageRoot, 'public', 'app.js'), { throwIfNoEntry: false })?.isFile() ?? false,
+    false,
+  );
+  assert.equal(
+    statSync(path.join(packageRoot, 'public', 'index.html'), { throwIfNoEntry: false })?.isFile() ?? false,
+    false,
+  );
 });
 
-test('@bitcode/specifying accepts live repository revision deposits without demo inventory ids', async () => {
+test('@bitcode/specifying accepts live repository revision deposits without legacy inventory ids', async () => {
   const protocol = await import('../src/index.js');
   const tempDir = mkdtempSync(path.join(tmpdir(), 'bitcode-protocol-repo-deposit-'));
   try {

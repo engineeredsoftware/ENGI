@@ -6,4 +6,4 @@ export {
   publicState,
   reviewReadForFitSearch,
   runMakeBitcodeBranch
-} from './bitcode-demo.js';
+} from './specifying-runtime.js';

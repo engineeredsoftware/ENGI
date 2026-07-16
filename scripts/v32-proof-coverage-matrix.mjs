@@ -12,7 +12,7 @@ export const V32_REQUIRED_PROOF_SURFACE_IDS = Object.freeze([
   'database',
   'object-storage',
   'promotion',
-  'protocol-demonstration'
+  'scripts/specifying'
 ]);
 
 export const V32_SOURCE_SAFETY_CLASSES = Object.freeze([
@@ -161,8 +161,8 @@ const coverageRows = Object.freeze([
     surfaceId: 'object-storage',
     promotedBehavior: 'Object-storage and artifact delivery posture for source-safe proof artifacts, protected AssetPack source, delivery receipts, and retrieval readback.',
     owner: 'packages/pipeline-hosts; packages/orm; provider storage adapters',
-    fixture: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; protocol-demonstration/test/core.test.js',
-    replayCommand: 'pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && pnpm run check:v32-testnet-mainnet-readiness-rehearsal && npm --prefix protocol-demonstration test -- --test-name-pattern "storage"',
+    fixture: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts; packages/btd/__tests__/v32-ledger-btd-settlement-failure-states.test.ts; scripts/specifying/test/core.test.js',
+    replayCommand: 'pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-host-plan.test.ts --runInBand && pnpm --filter @bitcode/btd test -- --runTestsByPath __tests__/v32-ledger-btd-settlement-failure-states.test.ts __tests__/v32-testnet-mainnet-readiness-rehearsal.test.ts && pnpm run check:v32-ledger-btd-settlement-failure-states && pnpm run check:v32-testnet-mainnet-readiness-rehearsal && pnpm --filter @bitcode/specifying test -- --test-name-pattern "storage"',
     expectedArtifact: '.proofs/v32/testnet-mainnet-readiness-rehearsal.json',
     sourceSafetyClass: 'protected-source-locked',
     coverageStatus: 'planned-gap',
@@ -187,17 +187,17 @@ const coverageRows = Object.freeze([
     repairPosture: 'Gate 9 hardens generated-proof diagnostics through .proofs/v32/promotion-proof-generation-hardening.json; Gate 10 wires V32 promotion and post-promotion V33 draft posture.'
   },
   {
-    surfaceId: 'protocol-demonstration',
-    promotedBehavior: 'Standalone minimal Bitcode witness for local fit finding, proof matrices, generated canon, and commercial/demonstration boundary separation.',
-    owner: 'protocol-demonstration',
-    fixture: 'protocol-demonstration/test/v21-specifying.test.js; protocol-demonstration/test/v28-boundary-separation.test.js; protocol-demonstration/test/local-fit-finding.test.js; protocol-demonstration/test/proven-generator.test.js',
-    replayCommand: 'npm --prefix protocol-demonstration test && npm --prefix protocol-demonstration run test:v28-mvp-qa',
-    expectedArtifact: '.proofs/v32/protocol-demonstration-proof-coverage.json',
+    surfaceId: 'scripts/specifying',
+    promotedBehavior: 'Specifying machine under scripts/ for gate proofs, proof matrices, generated canon, and commercial/product boundary separation.',
+    owner: 'scripts/specifying',
+    fixture: 'scripts/specifying/test/v21-specifying.test.js; scripts/specifying/test/v28-boundary-separation.test.js; scripts/specifying/test/local-fit-finding.test.js; scripts/specifying/test/proven-generator.test.js',
+    replayCommand: 'pnpm --filter @bitcode/specifying test && pnpm --filter @bitcode/specifying run test:v28-mvp-qa',
+    expectedArtifact: '.proofs/v32/scripts-specifying-proof-coverage.json',
     sourceSafetyClass: 'source-safe-public',
     coverageStatus: 'inherited-covered',
     plannedGate: 'Gate 3 and Gate 9',
-    requiredContexts: ['standalone witness', 'local fit finding', 'generated proof appendix', 'boundary separation'],
-    failureModes: ['commercial-import-from-demonstration', 'demonstration-import-from-commercial', 'stale-canon-pointer-expectation', 'non-deterministic-proof-output'],
+    requiredContexts: ['specifying machine', 'local fit finding', 'generated proof appendix', 'boundary separation'],
+    failureModes: ['commercial-import-from-specifying-harness', 'specifying-harness-import-from-commercial', 'stale-canon-pointer-expectation', 'non-deterministic-proof-output'],
     repairPosture: 'Gate 3 controls deterministic replay; Gate 9 keeps generated proof diagnostics debuggable.'
   }
 ]);
