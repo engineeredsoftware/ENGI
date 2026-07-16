@@ -3,6 +3,11 @@ import type { Execution } from '@bitcode/execution-generics/Execution';
 import { log, writePromptIO, writeStepTraceJSON, writeRawLLMIO } from '@bitcode/logger';
 import { DIAG_ENABLED, DIAG_TRACES, DIAG_FULL_TRACES, DIAG_FULL_PROMPTS, DIAG_TRACE_MAX, DIAG_WRITE_PROMPT_IO, DIAG_WRITE_STEP_TRACES } from './config';
 import { collectExecutionTrace, summarizeExecutionTrace } from './trace';
+import {
+  writeLlmCallDebug,
+  shouldHardStopAfterLlmCall,
+  getLlmCallDebugRunDir,
+} from './llm-call-debug';
 
 function getCtx(execution: Execution, sequence?: string) {
   const phase = (execution as any).findUp?.('phase', 'current');
@@ -83,6 +88,36 @@ export async function logLLMSubstepStart(
     content: { systemPrompt, userPrompt, combinedPrompt, ...ctx },
   }).catch(() => {});
 
+  // Monorepo .tmp ledger (call-by-call pipeline debug).
+  try {
+    const f = writeLlmCallDebug({
+      kind: 'request',
+      sequence,
+      phase: ctx.phase != null ? String(ctx.phase) : undefined,
+      agentName: ctx.agentName != null ? String(ctx.agentName) : undefined,
+      step: ctx.step != null ? String(ctx.step) : undefined,
+      failsafe: ctx.failsafe != null ? String(ctx.failsafe) : undefined,
+      path: Array.isArray(ctx.path) ? ctx.path.map(String) : undefined,
+      correlationId: ctx.correlationId != null ? String(ctx.correlationId) : undefined,
+      provider: (llmConfig as any)?.provider,
+      model: llmConfig?.model,
+      systemPrompt,
+      userPrompt,
+      combinedPrompt,
+    });
+    if (f) {
+      log('[llm-call-debug] request written', 'info', {
+        file: f,
+        dir: getLlmCallDebugRunDir(String(ctx.correlationId || '')),
+        agent: ctx.agentName,
+        step: ctx.step,
+        failsafe: ctx.failsafe,
+        generation: sequence,
+        model: llmConfig?.model,
+      });
+    }
+  } catch { /* never break the pipeline for debug I/O */ }
+
   if (!(DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES)) return;
   log('[llm substep] start', 'debug', {
     ...ctx,
@@ -120,6 +155,34 @@ export async function logLLMSubstepSuccess(
     model: output?.metadata?.model,
     content: { content: output?.content, usage: output?.usage, metadata: output?.metadata },
   }).catch(() => {});
+
+  try {
+    const f = writeLlmCallDebug({
+      kind: 'response',
+      sequence,
+      phase: ctx.phase != null ? String(ctx.phase) : undefined,
+      agentName: ctx.agentName != null ? String(ctx.agentName) : undefined,
+      step: ctx.step != null ? String(ctx.step) : undefined,
+      failsafe: ctx.failsafe != null ? String(ctx.failsafe) : undefined,
+      path: Array.isArray(ctx.path) ? ctx.path.map(String) : undefined,
+      correlationId: ctx.correlationId != null ? String(ctx.correlationId) : undefined,
+      provider: output?.metadata?.provider,
+      model: output?.metadata?.model,
+      content: output?.content,
+      usage: output?.usage,
+    });
+    if (f) {
+      log('[llm-call-debug] response written', 'info', {
+        file: f,
+        agent: ctx.agentName,
+        step: ctx.step,
+        failsafe: ctx.failsafe,
+        generation: sequence,
+        model: output?.metadata?.model,
+        outputLen: String(output?.content || '').length,
+      });
+    }
+  } catch { /* ignore */ }
 
   if (DIAG_ENABLED || DIAG_FULL_PROMPTS || DIAG_TRACES) {
     log('[llm substep] success', 'debug', {
@@ -281,18 +344,37 @@ export function logStepTrace(stepExec: Execution, stepName: string) {
 // Optional debug-stop helpers to keep core code minimal
 export function shouldDebugStopAfterFirstReason(substepExec: Execution, sequence: string): boolean {
   try {
-    if (sequence !== 'reason') return false;
-    const flag = String(process?.env?.BITCODE_DEBUG_STOP_AFTER_FIRST_REASON || '').toLowerCase() === '1';
-    if (!flag) return false;
-    const pathArr = (substepExec as any).getPath?.() || [];
-    const isPlanStep = pathArr.includes('plan');
-    const inPrepareFailsafe = pathArr.some((p: string) => String(p).includes('prepare_concise_context'));
-    const isFirstGen = pathArr.includes('gen-0');
-    const ctx = getCtx(substepExec);
-    const agentFilter = process?.env?.BITCODE_DEBUG_STOP_AGENT_FILTER;
-    const agentMatches = agentFilter ? String(ctx.agentName || '').includes(String(agentFilter)) : true;
-    if (isPlanStep && inPrepareFailsafe && isFirstGen && agentMatches) {
-      log('[llm substep] debug-stop', 'info', { ...ctx, reason: 'BITCODE_DEBUG_STOP_AFTER_FIRST_REASON' });
+    const pathArr: string[] = (substepExec as any).getPath?.() || [];
+    const ctx = getCtx(substepExec, sequence);
+    const decision = shouldHardStopAfterLlmCall({
+      sequence,
+      pathArr,
+      phase: ctx.phase != null ? String(ctx.phase) : undefined,
+      agentName: ctx.agentName != null ? String(ctx.agentName) : undefined,
+      step: ctx.step != null ? String(ctx.step) : undefined,
+      failsafe: ctx.failsafe != null ? String(ctx.failsafe) : undefined,
+    });
+    if (decision.stop) {
+      try {
+        writeLlmCallDebug({
+          kind: 'abort',
+          sequence,
+          phase: ctx.phase != null ? String(ctx.phase) : undefined,
+          agentName: ctx.agentName != null ? String(ctx.agentName) : undefined,
+          step: ctx.step != null ? String(ctx.step) : undefined,
+          failsafe: ctx.failsafe != null ? String(ctx.failsafe) : undefined,
+          path: pathArr.map(String),
+          correlationId: ctx.correlationId != null ? String(ctx.correlationId) : undefined,
+          provider: ctx.provider != null ? String(ctx.provider) : undefined,
+          model: ctx.model != null ? String(ctx.model) : undefined,
+          extra: { reason: decision.reason },
+        });
+      } catch { /* ignore */ }
+      log('[llm substep] debug-stop', 'info', {
+        ...ctx,
+        reason: decision.reason || 'BITCODE_DEBUG_STOP_AFTER_FIRST_REASON',
+        debugDir: getLlmCallDebugRunDir(String(ctx.correlationId || '')),
+      });
       return true;
     }
   } catch {}

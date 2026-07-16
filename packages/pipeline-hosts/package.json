@@ -20,6 +20,8 @@
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
     "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "qa:asset-pack:sandbox": "ts-node --transpile-only src/dev/run-asset-pack-sandbox-host.ts",
+    "qa:deposit:local": "node --import tsx src/dev/run-local-deposit-pipeline.ts",
+    "qa:read:debug-first-llm": "node --import tsx src/dev/run-local-read-pipeline-debug.ts",
     "materialize-runners": "ts-node --transpile-only src/dev/materialize-runners.ts",
     "type-check": "pnpm run typecheck"
   },

@@ -105,6 +105,28 @@ docker buildx build \
 
 ## Local validation (align with Production)
 
+### Deposit acceptance (seller spine)
+
+From monorepo root — Path **A** LocalHost runner, Path **B** Pipeliner Docker:
+
+```bash
+# Real LLM required for measured options:
+export BITCODE_ASSET_PACK_REAL_INFERENCE=1
+# ANTHROPIC_API_KEY / OPENAI_API_KEY / …
+
+pnpm run accept:deposit-synthesis          # Path A (default)
+pnpm run accept:deposit-synthesis:docker   # Path B (needs Docker)
+pnpm run accept:deposit-synthesis:all      # A then B
+```
+
+Acceptance requires `worthy_deposit_candidates` (or recovered options), **full
+absolute measurement catalog** per option, and **inspectable patch/fileChanges**.
+Reports land under `.tmp/accept-deposit-a|b/` and `.tmp/accept-deposit-summary/`.
+
+Fixture: `fixtures/deposit-manifest.template.json`.
+
+### Host smoke (entry only)
+
 ```bash
 # After build:
 docker run --rm \

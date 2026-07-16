@@ -1,0 +1,26 @@
+{
+  "schema": "bitcode.pipeline-host.manifest",
+  "hostMode": "asset_pack_pipeline",
+  "synthesizeMode": "deposit",
+  "sourceRevision": {
+    "repositoryFullName": "sindresorhus/is-plain-obj",
+    "branch": "main",
+    "commit": "REPLACE_WITH_CLONE_SHA"
+  },
+  "read": {
+    "id": "deposit-acceptance-read",
+    "prompt": "Deposit measured AssetPack options (acceptance fixture)."
+  },
+  "deposit": {
+    "id": "deposit-acceptance",
+    "hasWalletOrAttestationProof": true,
+    "hasAssetMeasurementEvidence": false
+  },
+  "depositSteering": {
+    "obfuscations": "Redact secrets, API keys, and private credentials. Prefer public API surface only. Do not include private source bodies in summaries.",
+    "permissibleSources": [],
+    "impermissibleSources": ["**/.env*", "**/secrets/**", "**/node_modules/**", "**/*credential*"],
+    "demandContext": ["library-api", "type-safety", "plain-object-check"]
+  },
+  "requireAcceptedReadNeed": false
+}
