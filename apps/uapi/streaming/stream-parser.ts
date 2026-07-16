@@ -129,7 +129,7 @@ function pickCanonicalCompletionResult(result: any) {
     'assetPackSynthesisArtifacts',
     'writtenAssets',
     'deliveryMechanism',
-    'shippables',
+    'settleDelivery', 'shippables',
     'actions',
     'summary',
     'message',
@@ -260,11 +260,15 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const explicitAssetPackSynthesisArtifacts = normalizeAssetPackSurface(data.result.assetPackSynthesisArtifacts);
             const explicitWrittenAssets = normalizeAssetPackSurface(data.result.writtenAssets);
             const explicitDeliveryMechanism = normalizeAssetPackSurface(data.result.deliveryMechanism);
-            const explicitShippables = normalizeAssetPackSurface(data.result.shippables) || explicitDeliveryMechanism;
+            // Prefer settleDelivery; dual-read historical shippables.
+            const explicitSettleDelivery =
+              normalizeAssetPackSurface(data.result.settleDelivery) ||
+              normalizeAssetPackSurface(data.result.shippables) ||
+              explicitDeliveryMechanism;
             const actionsFileChanges = data.result.actions?.files || null;
             const deliveryEvidenceSurface =
               (normalizeAssetPackEvidenceSurface(explicitDeliveryMechanism) ||
-                normalizeAssetPackEvidenceSurface(explicitShippables)) as ReturnType<typeof normalizeAssetPackSurface>;
+                normalizeAssetPackEvidenceSurface(explicitSettleDelivery)) as ReturnType<typeof normalizeAssetPackSurface>;
 
             const semanticFileChanges =
               explicitAssetPackSynthesisArtifacts?.fileChanges ||
@@ -287,21 +291,23 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
 
             const deliveryMechanism =
               normalizeAssetPackDeliverySurface(explicitDeliveryMechanism) ||
-              normalizeAssetPackDeliverySurface(explicitShippables) ||
+              normalizeAssetPackDeliverySurface(explicitSettleDelivery) ||
               actionsSurface;
 
-            const shippables =
-              normalizePullRequestShippableSurface(explicitShippables) ||
+            const settleDelivery =
+              normalizePullRequestShippableSurface(explicitSettleDelivery) ||
               normalizePullRequestShippableSurface(deliveryMechanism);
 
             parsedData.completion = {
               ...canonicalResult,
               display: data.result.summary || data.result.message || 'Read completed',
-              shippables,
+              settleDelivery,
+              // Dual-write historical key for older completion consumers.
+              shippables: settleDelivery,
               assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts || writtenAssets,
               writtenAssets,
               deliveryMechanism,
-              semanticKind: data.result.semanticKind || (explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
+              semanticKind: data.result.semanticKind || (explicitAssetPackSynthesisArtifacts || writtenAssets || settleDelivery || deliveryMechanism ? 'asset-pack-written-asset' : undefined),
               read: data.result.read || null,
               writtenAssetType: data.result.writtenAssetType || null,
               assetPack: data.result.assetPack || null,

@@ -18,6 +18,9 @@ type AssetPackCompletionRecord = {
   summary?: string | null;
   processingStats?: unknown;
   repoSnapshot?: unknown;
+  /** Canonical settle delivery surface (buyer PR after rights). */
+  settleDelivery?: SurfaceRecord;
+  /** Historical dual-write key; dual-read with settleDelivery. */
   shippables?: SurfaceRecord;
   assetPackSynthesisArtifacts?: SurfaceRecord;
   writtenAssets?: SurfaceRecord;
@@ -131,6 +134,7 @@ export function buildSemanticCompletionResult(params: {
   const resultRecord = asRecord(params.result) || {};
   const {
     shippables: _retainedShippables,
+    settleDelivery: _retainedSettleDelivery,
     deliveryMechanism: _retainedDeliveryMechanism,
     writtenAssets: _retainedWrittenAssets,
     assetPackSynthesisArtifacts: _retainedAssetPackSynthesisArtifacts,
@@ -149,7 +153,10 @@ export function buildSemanticCompletionResult(params: {
   const explicitDeliveryMechanism =
     asSurfaceRecord(assetPackCompletion?.deliveryMechanism) ||
     asSurfaceRecord(resultRecord.deliveryMechanism);
+  // Prefer settleDelivery; dual-read historical shippables.
   const explicitSettleDelivery =
+    asSurfaceRecord(assetPackCompletion?.settleDelivery) ||
+    asSurfaceRecord(resultRecord.settleDelivery) ||
     asSurfaceRecord(assetPackCompletion?.shippables) ||
     asSurfaceRecord(resultRecord.shippables) ||
     explicitDeliveryMechanism;
@@ -184,7 +191,7 @@ export function buildSemanticCompletionResult(params: {
     actionDeliverySurface ||
     null;
 
-  const shippables =
+  const settleDelivery =
     buildPullRequestDeliverySurface(explicitSettleDelivery) ||
     buildPullRequestDeliverySurface(deliveryMechanism) ||
     null;
@@ -213,12 +220,13 @@ export function buildSemanticCompletionResult(params: {
       ...(assetPackCompletion?.repoSnapshot ? { repoSnapshot: assetPackCompletion.repoSnapshot } : {}),
       ...(explicitAssetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts } : {}),
       ...(writtenAssets ? { writtenAssets } : {}),
-      ...(shippables ? { shippables } : {}),
+      // Canonical + historical dual-write for stream/UI reread.
+      ...(settleDelivery ? { settleDelivery, shippables: settleDelivery } : {}),
       ...(deliveryMechanism ? { deliveryMechanism } : {}),
       ...(read ? { read } : {}),
       ...(writtenAssetType ? { writtenAssetType } : {}),
       ...(assetPack ? { assetPack } : {}),
-      ...(explicitAssetPackSynthesisArtifacts || writtenAssets || shippables || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
+      ...(explicitAssetPackSynthesisArtifacts || writtenAssets || settleDelivery || deliveryMechanism ? { semanticKind: 'asset-pack-written-asset' } : {}),
       actions: {
         pullRequest: deliveryMechanism?.pullRequest ?? null,
         files:

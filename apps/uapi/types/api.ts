@@ -72,12 +72,11 @@ export interface CompletionData {
   /** Primary display string or title */
   display: string;
   /**
-   * Primary Finish-delivered shippables surface.
-   * Bitcode-owned reread should prefer `assetPackSynthesisArtifacts`
-   * and `asset_pack_completion.assetPackSynthesisArtifacts` for synthesized
-   * source evidence, then `shippables` for connected-interface artifacts.
+   * Settle delivery surface (buyer PR after rights). Prefer `settleDelivery`.
+   * `shippables` is dual-written for historical reread only.
    */
-  shippables: AssetPackSurface;
+  settleDelivery?: AssetPackSurface | null;
+  shippables?: AssetPackSurface | null;
   /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsSurface | null;
   /** Semantic reread of the AssetPack synthesis artifacts. */

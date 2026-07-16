@@ -177,14 +177,30 @@ function normalizeDeliveryMechanismSurface(surface: Record<string, unknown> | nu
   };
 }
 
+/**
+ * New-world settle delivery surface. Prefer `settleDelivery`, dual-read
+ * historical `shippables` so stored runs remain rereadable.
+ */
+function pickSettleDeliveryRecord(...candidates: unknown[]) {
+  for (const candidate of candidates) {
+    const record = asRecord(candidate);
+    if (record) return record;
+  }
+  return null;
+}
+
 function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
   const explicitDeliveryMechanism =
-    asRecord(assetPackCompletion?.deliveryMechanism) ||
-    asRecord(assetPackCompletion?.shippables) ||
-    asRecord(output?.deliveryMechanism) ||
-    asRecord(output?.shippables);
+    pickSettleDeliveryRecord(
+      assetPackCompletion?.deliveryMechanism,
+      assetPackCompletion?.settleDelivery,
+      assetPackCompletion?.shippables,
+      output?.deliveryMechanism,
+      output?.settleDelivery,
+      output?.shippables,
+    );
 
   const deliverySurface = normalizeDeliveryMechanismSurface(explicitDeliveryMechanism);
   if (deliverySurface) return deliverySurface;
@@ -196,9 +212,12 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
 function buildSettleDelivery(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
-  const explicitSettleDelivery =
-    asRecord(assetPackCompletion?.shippables) ||
-    asRecord(output?.shippables);
+  const explicitSettleDelivery = pickSettleDeliveryRecord(
+    assetPackCompletion?.settleDelivery,
+    assetPackCompletion?.shippables,
+    output?.settleDelivery,
+    output?.shippables,
+  );
 
   const normalizedExplicitSettleDelivery = normalizeDeliveryMechanismSurface(explicitSettleDelivery);
   if (hasPullRequestDelivery(normalizedExplicitSettleDelivery)) return normalizedExplicitSettleDelivery;
@@ -406,6 +425,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   const assetPackCompletion = readAssetPackCompletion(row);
   const {
     shippables: _retainedShippables,
+    settleDelivery: _retainedSettleDelivery,
     deliveryMechanism: _retainedDeliveryMechanism,
     writtenAssets: _retainedWrittenAssets,
     assetPackSynthesisArtifacts: _retainedAssetPackSynthesisArtifacts,
@@ -414,7 +434,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   } = assetPackCompletion || {};
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
-  const shippables = buildSettleDelivery(row);
+  const settleDelivery = buildSettleDelivery(row);
   const deliveryMechanism = buildDeliveryMechanism(row);
   const read = buildRead(row);
   const writtenAssetType = buildWrittenAssetType(row);
@@ -431,7 +451,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     !assetPackCompletion &&
     !assetPackSynthesisArtifacts &&
     !writtenAssets &&
-    !shippables &&
+    !settleDelivery &&
     !deliveryMechanism &&
     !read &&
     !writtenAssetType &&
@@ -448,7 +468,8 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     ...(summary ? { summary } : {}),
     ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
-    ...(shippables ? { shippables } : {}),
+    // Canonical new-world key + historical dual-write for reread clients.
+    ...(settleDelivery ? { settleDelivery, shippables: settleDelivery } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
     ...(read ? { read } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
@@ -495,6 +516,8 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     repo_snapshot: buildRepoSnapshot(row),
     asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
     written_assets: buildWrittenAssets(row),
+    settle_delivery: buildSettleDelivery(row),
+    // Historical dual-write: older UI still reads shippables.
     shippables: buildSettleDelivery(row),
     delivery_mechanism: buildDeliveryMechanism(row),
     read: buildRead(row),

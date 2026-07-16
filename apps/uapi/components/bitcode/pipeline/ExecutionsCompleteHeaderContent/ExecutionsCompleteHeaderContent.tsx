@@ -345,7 +345,9 @@ export function getHeaderWrittenAssets(
 export function getHeaderSettleDelivery(
   assetPackCompletion?: HeaderAssetPackCompletion | null,
 ): HeaderSettleDelivery | null {
+  // Prefer settleDelivery; dual-read historical shippables.
   return (
+    (assetPackCompletion as any)?.settleDelivery ||
     assetPackCompletion?.shippables ||
     assetPackCompletion?.deliveryMechanism ||
     null

@@ -256,7 +256,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       readiness: deliveryReadiness,
     };
 
-    // Validate and finalize output
+    // Validate and finalize output (schema still names shippables; dual-store settleDelivery).
     const validated = AssetPackCompletionOutputSchema.parse({
       shippables,
       assetPackSynthesisArtifacts,
@@ -270,8 +270,9 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
 
     const output: AssetPackCompletionOutput = validated;
 
-    // Store for API persistence
+    // Store for API persistence — canonical settleDelivery + historical shippables.
     try {
+      (execution as any).store?.('finish/asset_pack_completion', 'settleDelivery', shippables as any);
       (execution as any).store?.('finish/asset_pack_completion', 'shippables', shippables as any);
       (execution as any).store?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssets', writtenAssets as any);

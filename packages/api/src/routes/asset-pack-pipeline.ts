@@ -1041,13 +1041,16 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
             writtenAssets ||
             undefined;
-          const shippables =
+          // Prefer settleDelivery; dual-read historical shippables + deliveryMechanism.
+          const settleDelivery =
+            (execution as any).get?.('finish/asset_pack_completion', 'settleDelivery') ||
             (execution as any).get?.('finish/asset_pack_completion', 'shippables') ||
+            (execution as any).get?.('settle-asset-pack-pipeline', 'shippable') ||
             (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             undefined;
           const deliveryMechanism =
             (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
-            shippables ||
+            settleDelivery ||
             undefined;
           const read =
             (execution as any).get?.('finish/asset_pack_completion', 'read') ||
@@ -1066,7 +1069,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             repoSnapshot: (execution as any).get?.('finish/asset_pack_completion', 'repoSnapshot'),
             assetPackSynthesisArtifacts,
             writtenAssets,
-            shippables,
+            settleDelivery,
+            // Dual-write historical key so older reread clients still resolve PR surfaces.
+            shippables: settleDelivery,
             deliveryMechanism,
             read,
             writtenAssetType,
@@ -1086,6 +1091,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             !assetPackCompletion?.summary &&
             !assetPackCompletion?.assetPackSynthesisArtifacts?.summary &&
             !assetPackCompletion?.writtenAssets?.summary &&
+            !assetPackCompletion?.settleDelivery?.summary &&
             !assetPackCompletion?.shippables?.summary &&
             !assetPackCompletion?.deliveryMechanism?.summary
           ) assetPackCompletion = undefined;
@@ -1102,6 +1108,9 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           }
           if (!assetPackCompletion.summary && assetPackCompletion.deliveryMechanism?.summary) {
             assetPackCompletion.summary = assetPackCompletion.deliveryMechanism.summary;
+          }
+          if (!assetPackCompletion.summary && assetPackCompletion.settleDelivery?.summary) {
+            assetPackCompletion.summary = assetPackCompletion.settleDelivery.summary;
           }
           if (!assetPackCompletion.summary && assetPackCompletion.shippables?.summary) {
             assetPackCompletion.summary = assetPackCompletion.shippables.summary;
@@ -1206,10 +1215,14 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           read: assetPackCompletion?.read || preprocessedSnapshot?.read || definition_of_read,
           assetPack: assetPackCompletion?.assetPack || preprocessedSnapshot?.assetPack || null,
           assetPackSynthesisArtifacts: assetPackCompletion?.assetPackSynthesisArtifacts || null,
-          shippables: assetPackCompletion?.shippables || null,
+          settleDelivery:
+            assetPackCompletion?.settleDelivery || assetPackCompletion?.shippables || null,
+          shippables:
+            assetPackCompletion?.settleDelivery || assetPackCompletion?.shippables || null,
           semanticKind:
             assetPackCompletion?.assetPackSynthesisArtifacts ||
             assetPackCompletion?.writtenAssets ||
+            assetPackCompletion?.settleDelivery ||
             assetPackCompletion?.shippables ||
             assetPackCompletion?.deliveryMechanism ||
             assetPackCompletion?.assetPack
