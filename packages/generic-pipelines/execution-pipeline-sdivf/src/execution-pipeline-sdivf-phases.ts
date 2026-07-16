@@ -7,7 +7,7 @@
  */
 
 import type { Executor } from '@bitcode/execution-generics';
-import type { ExecutionPhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
+import type { ExecutionPhaseDelegator } from '@bitcode/pipelines-generics/phases/execution-phase-factory';
 
 /** Canonical ExecutionPipelineSDIVF phase ids (Setup → Discovery → Implementation → Validation → Finish). */
 export enum ExecutionPipelineSDIVFPhase {

@@ -1,12 +1,13 @@
 {
   "name": "@bitcode/generic-pipelines-execution-pipeline-simple",
   "version": "1.0.0",
-  "description": "ExecutionPipelineSimple base: linear stage sequence extending pipelines-generics (parity with SDIVF; like QuickAgent vs PTRRAgent)",
+  "description": "ExecutionPipelineSimple base: linear stage sequence based on ExecutionPipeline",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./simple-factory": "./src/simple-factory.ts"
+    "./execution-pipeline-simple-factory": "./src/execution-pipeline-simple-factory.ts",
+    "./simple-factory": "./src/execution-pipeline-simple-factory.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",

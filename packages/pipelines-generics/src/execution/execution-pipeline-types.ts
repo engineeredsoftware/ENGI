@@ -1,8 +1,10 @@
 /**
- * Pipeline Execution Types - Clean pipeline-specific execution
- * 
- * Pipeline/ExecutionPipeline - The EE pair for top-level pipeline orchestration
- * ExecutionPhaseDelegator/ExecutionPhase - The Executor/Execution pair for phase delegation to agents
+ * ExecutionPipeline types — hierarchy naming law:
+ * anything based on the Execution primitive encodes full ancestry
+ * (e.g. ExecutionPipeline, ExecutionPhase, ExecutionPhaseDelegator).
+ *
+ * ExecutionPipeline — EE for top-level pipeline orchestration
+ * ExecutionPhaseDelegator / ExecutionPhase — Executor/Execution pair for phases
  */
 
 import type { Executor } from '@bitcode/execution-generics';
@@ -18,13 +20,18 @@ import {
 // Re-export the pipeline EE class
 export { ExecutionPipeline } from './ExecutionPipeline';
 
-// ==================== PIPELINE (EE) ====================
+// ==================== EXECUTION PIPELINE (executor form) ====================
 /**
- * Pipeline - The top-level Executor that sequences Phases
- * Uses ExecutionPipeline with all registries
+ * Executor function that runs against an ExecutionPipeline EE.
+ * Prefer this name over the short `Pipeline` alias in new code.
  */
-export type Pipeline<TInput = any, TOutput = any> = 
-  (input: TInput, execution: ExecutionPipeline) => Promise<TOutput>;
+export type ExecutionPipelineFn<TInput = any, TOutput = any> = (
+  input: TInput,
+  execution: ExecutionPipeline,
+) => Promise<TOutput>;
+
+/** @deprecated Prefer ExecutionPipelineFn — leaf-only "Pipeline" omits Execution ancestry */
+export type Pipeline<TInput = any, TOutput = any> = ExecutionPipelineFn<TInput, TOutput>;
 
 // ==================== PHASE DELEGATOR ====================
 /**

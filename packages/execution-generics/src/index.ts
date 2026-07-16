@@ -145,11 +145,13 @@ export {
   storeAgentStepWorkUpdate,
   storeIterationWorkUpdate,
   buildAgentStepWorkUpdate,
+  buildExecutionPipelineSDIVFUpdate,
   buildSDIVFPipelineUpdate,
   accumulateIterationWorkContext,
   consumeIterationWorkContext,
   type WorkUpdate,
   type AgentStepWorkUpdate,
+  type ExecutionPipelineSDIVFUpdate,
   type SDIVFPipelineUpdate,
   type ToolUsageUpdate,
 } from './work-update';

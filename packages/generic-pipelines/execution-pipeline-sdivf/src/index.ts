@@ -7,19 +7,19 @@
  * ExecutionPipelineSDIVFSynthesizeReadAssetPacks). Settle is Simple, not SDIVF.
  */
 
-export type { ExecutionPipelineSDIVF } from './sdivf-factory';
+export type { ExecutionPipelineSDIVF } from './execution-pipeline-sdivf-factory';
 
 export {
   factoryExecutionPipelineSDIVF,
   factoryExecutionPipelineSDIVFFromExecutors,
   type ExecutionPipelineSDIVFConfig,
   type ExecutionPipelineSDIVFExecutorConfig,
-} from './sdivf-factory';
+} from './execution-pipeline-sdivf-factory';
 
 export {
   ExecutionPipelineSDIVFPhase,
   factoryExecutionPipelineSDIVFPhaseDelegators,
-} from './sdivf-phases';
+} from './execution-pipeline-sdivf-phases';
 
 export { EXECUTION_PIPELINE_SDIVF_PROMPT } from './prompts/execution-pipeline-sdivf-prompt';
 export {

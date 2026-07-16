@@ -1,13 +1,15 @@
 {
   "name": "@bitcode/generic-pipelines-execution-pipeline-sdivf",
   "version": "1.0.0",
-  "description": "SDIVF base Pipeline implementation: Setup-[Discovery-Implementation-Validation]*-Finish extending pipelines-generics primitives",
+  "description": "ExecutionPipelineSDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish based on ExecutionPipeline",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./sdivf-factory": "./src/sdivf-factory.ts",
-    "./sdivf-phases": "./src/sdivf-phases.ts",
+    "./execution-pipeline-sdivf-factory": "./src/execution-pipeline-sdivf-factory.ts",
+    "./execution-pipeline-sdivf-phases": "./src/execution-pipeline-sdivf-phases.ts",
+    "./sdivf-factory": "./src/execution-pipeline-sdivf-factory.ts",
+    "./sdivf-phases": "./src/execution-pipeline-sdivf-phases.ts",
     "./prompts/execution-pipeline-sdivf-prompt": "./src/prompts/execution-pipeline-sdivf-prompt.ts",
     "./prompts/execution-phase-sdivf-prompts": "./src/prompts/execution-phase-sdivf-prompts.ts"
   },

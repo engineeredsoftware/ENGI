@@ -7,8 +7,8 @@
  */
 
 import type { Executor } from '@bitcode/execution-generics';
-import type { Pipeline } from './pipeline-factory';
-import { factoryExecutionPipeline } from './execution/pipeline-types';
+import type { Pipeline } from './execution-pipeline-factory';
+import { factoryExecutionPipeline } from './execution/execution-pipeline-types';
 
 export type QuickPhase<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 

@@ -6,7 +6,7 @@
  * ExecutionPipelineSimpleSettleAssetPack — linear stages, no DIV loop.
  */
 
-export type { ExecutionPipelineSimple } from './simple-factory';
+export type { ExecutionPipelineSimple } from './execution-pipeline-simple-factory';
 
 export {
   factoryExecutionPipelineSimple,
@@ -14,4 +14,4 @@ export {
   factoryExecutionPipelineSimpleSequential,
   type ExecutionPipelineSimpleConfig,
   type ExecutionPipelineSimpleStage,
-} from './simple-factory';
+} from './execution-pipeline-simple-factory';

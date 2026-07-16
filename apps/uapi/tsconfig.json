@@ -63,14 +63,14 @@
       "@bitcode/pipelines-generics/execution/resume": [
         "../../packages/pipelines-generics/src/execution/resume.ts"
       ],
-      "@bitcode/pipelines-generics/execution/pipeline-types": [
-        "../../packages/pipelines-generics/src/execution/pipeline-types.ts"
+      "@bitcode/pipelines-generics/execution/execution-pipeline-types": [
+        "../../packages/pipelines-generics/src/execution/execution-pipeline-types.ts"
       ],
-      "@bitcode/pipelines-generics/phases/phase-factory": [
-        "../../packages/pipelines-generics/src/phases/phase-factory.ts"
+      "@bitcode/pipelines-generics/phases/execution-phase-factory": [
+        "../../packages/pipelines-generics/src/phases/execution-phase-factory.ts"
       ],
-      "@bitcode/pipelines-generics/pipeline-factory": [
-        "../../packages/pipelines-generics/src/pipeline-factory.ts"
+      "@bitcode/pipelines-generics/execution-pipeline-factory": [
+        "../../packages/pipelines-generics/src/execution-pipeline-factory.ts"
       ],
       "@bitcode/generic-vcs-bitbucket": [
         "../../packages/generic-vcs/bitbucket/src/index.ts"

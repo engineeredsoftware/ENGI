@@ -13,7 +13,7 @@ export {
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
   factoryParallelPhaseDelegator,
-} from './phase-factory';
+} from './execution-phase-factory';
 
 export {
   ExecutionPipelineSDIVFPhase,

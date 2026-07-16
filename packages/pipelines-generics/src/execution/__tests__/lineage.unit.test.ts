@@ -2,7 +2,7 @@ import {
   ExecutionPipeline,
   inferExecutionPipelineLineage
 } from '../ExecutionPipeline';
-import { factoryExecutionPipeline } from '../pipeline-types';
+import { factoryExecutionPipeline } from '../execution-pipeline-types';
 
 describe('ExecutionPipeline lineage', () => {
   it('infers live lineage for ad hoc execution', () => {

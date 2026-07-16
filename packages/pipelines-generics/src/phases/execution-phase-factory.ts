@@ -13,7 +13,7 @@ import { sequential, parallel } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Agent } from '@bitcode/agent-generics';
-import { ExecutionPhase, factoryExecutionPhase } from '../execution/pipeline-types';
+import { ExecutionPhase, factoryExecutionPhase } from '../execution/execution-pipeline-types';
 
 // ==================== PHASE DELEGATOR ====================
 

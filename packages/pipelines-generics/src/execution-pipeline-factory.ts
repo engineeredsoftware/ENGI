@@ -1,35 +1,38 @@
 /**
- * Pipeline Factory — Pipeline *primitive* factories.
+ * ExecutionPipeline factories (primitive layer).
  *
- * Hierarchy naming law (always encode full ancestry):
- *   Pipeline                              — primitive
+ * Hierarchy naming law (always encode full ancestry left→right):
+ *   ExecutionPipeline                              — primitive (based on Execution)
  *   ExecutionPipelineSDIVF                         — base + primitive
  *   ExecutionPipelineSDIVFSynthesizeAssetPacks     — specific + base + primitive
  *
  * SDIVF base: @bitcode/generic-pipelines-execution-pipeline-sdivf
- * Product:    @bitcode/asset-packs-pipelines-domain
+ * Product:    @bitcode/asset-packs-pipelines-execution-pipeline-*
  */
 
 import { sequential, conditional, repeat } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import { ExecutionPhaseDelegator } from './phases/phase-factory';
-import { ExecutionPipeline, factoryExecutionPipeline } from './execution/pipeline-types';
+import { ExecutionPhaseDelegator } from './phases/execution-phase-factory';
+import { ExecutionPipeline, factoryExecutionPipeline } from './execution/execution-pipeline-types';
 
 // ==================== PIPELINE EXECUTOR ====================
 
 /**
- * Pipeline - The top-level Executor that sequences Phases
+ * Executor form of an ExecutionPipeline (sequences ExecutionPhaseDelegators).
  */
-export type Pipeline<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+export type ExecutionPipelineFn<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+
+/** @deprecated Prefer ExecutionPipelineFn */
+export type Pipeline<TInput = any, TOutput = any> = ExecutionPipelineFn<TInput, TOutput>;
 
 /**
- * Create a Pipeline that sequences Phases
+ * Create an ExecutionPipeline executor that sequences ExecutionPhaseDelegators.
  */
-export function factoryPipeline<TInput, TOutput>(
+export function factoryExecutionPipelineFromPhases<TInput, TOutput>(
   name: string,
   phases: ExecutionPhaseDelegator<any, any>[]
-): Pipeline<TInput, TOutput> {
+): ExecutionPipelineFn<TInput, TOutput> {
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create pipeline execution
     const pipelineExec = factoryExecutionPipeline(name, execution);
@@ -59,7 +62,7 @@ export function factoryPipeline<TInput, TOutput>(
  * The DIV (Discovery-Implementation-Validation) loop can iterate
  * multiple times until validation passes or max iterations reached.
  */
-export function factoryPipelineWithDIVFinishLoop<TInput, TOutput>(
+export function factoryExecutionPipelineWithDIVFinishLoop<TInput, TOutput>(
   name: string,
   config: {
     setup: ExecutionPhaseDelegator<TInput, any>;
@@ -116,3 +119,9 @@ export function factoryPipelineWithDIVFinishLoop<TInput, TOutput>(
     return output;
   };
 }
+
+/** @deprecated Prefer factoryExecutionPipelineWithDIVFinishLoop */
+export const factoryPipelineWithDIVFinishLoop = factoryExecutionPipelineWithDIVFinishLoop;
+
+/** @deprecated Prefer factoryExecutionPipelineFromPhases */
+export const factoryPipeline = factoryExecutionPipelineFromPhases;

@@ -198,18 +198,28 @@ add new packages when a domain is clearly shared and non-UI.
 
 ### 6.0 Hierarchy naming law (required)
 
-Type, factory, and export names **always encode full inheritance ancestry**:
+**Anything based on, extending, or specializing a primitive must name the full
+ancestry** in **types, factories, exports, and file names** — left→right
+(primitive → base → specific). Leaf-only labels are illegal for layered types.
+
+Anything based on the **Execution** primitive must include `Execution` in the
+name (e.g. `ExecutionPipeline`, `ExecutionPhase`, `ExecutionPipelineSDIVF`,
+`ExecutionPipelineSimpleSettleAssetPack`). Prefer
+`factoryExecutionPipelineFromPhases` over a bare `factoryPipeline`.
 
 ```
-Pipeline # primitive
+ExecutionPipeline # primitive (based on Execution)
 ExecutionPipelineSDIVF # base + primitive
-ExecutionPipelineSDIVFSynthesizeAssetPacks # primitive → base → specific (left→right)
+ExecutionPipelineSDIVFSynthesizeAssetPacks # specific + base + primitive (left→right)
 ```
 
-Do not introduce leaf-only names for layered types (e.g. avoid a product
-pipeline named only `AssetPackPipeline` when it is an `…ExecutionPipelineSDIVF`).
-Deprecated short aliases may exist for compatibility; new code uses the
-full hierarchy name.
+Files match the same order in kebab-case
+(`execution-pipeline-sdivf-factory.ts`,
+`execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts.ts`).
+
+Do not introduce leaf-only names (e.g. avoid `AssetPackPipeline` when the type
+is an `ExecutionPipelineSDIVF…`). Deprecated short aliases may exist for
+compatibility; new code uses the full hierarchy name.
 
 ### 6.1 Nested `generic-*` families (required)
 

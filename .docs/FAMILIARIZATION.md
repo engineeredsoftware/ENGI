@@ -348,10 +348,14 @@ Package paths: `packages/mcp-generics/`, `apps/mcp/`.
 
 ### 3.3 Pipelines
 
-**Hierarchy naming law:** names encode full ancestry **left→right**
-(primitive → base → specific), never a leaf-only label. Prompt **files** use
-the same order in kebab-case (e.g.
-`execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts`).
+**Hierarchy naming law:** anything that is based on / extends / specializes a
+primitive must encode **full ancestry left→right** (primitive → base → specific)
+in **types, factories, exports, and file names** — never a leaf-only label.
+Anything based on **Execution** includes `Execution` in the name
+(`ExecutionPipeline`, `ExecutionPhase`, `ExecutionPipelineSDIVF…`). Prompt and
+factory **files** use the same order in kebab-case (e.g.
+`execution-pipeline-sdivf-factory.ts`,
+`execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts.ts`).
 
 | Layer | Type name | Factory (examples) |
 | --- | --- | --- |
@@ -1001,7 +1005,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | --- | --- |
 | **`*-generics` package** | Primitive layer: types, contracts, factories, abstract bases (e.g. `vcs-generics`, `asset-packs-generics`). Use **only** when a matching `generic-*` implementor family exists. |
 | **`generic-*` family** | Folder of nested implementor packages (no root `package.json` on the family folder), e.g. `generic-vcs/{github,gitlab,…}`. |
-| **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`). |
+| **Hierarchy naming law** | Types, factories, exports, **and files** encode full ancestry left→right (primitive → base → specific). Execution-based types include `Execution` (e.g. `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`, `execution-pipeline-sdivf-factory.ts`). |
 | **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
 | **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `SynthesisAssetPack`, `ExecutionPipelineSDIVF`, `LocalHost`). |
 | **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |

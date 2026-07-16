@@ -16,15 +16,15 @@
 import { sequential } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import type { Pipeline } from '@bitcode/pipelines-generics/pipeline-factory';
+import type { Pipeline } from '@bitcode/pipelines-generics/execution-pipeline-factory';
 import type {
   ExecutionPhaseDelegator,
   ExecutionPipeline,
-} from '@bitcode/pipelines-generics/execution/pipeline-types';
+} from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
 import {
   factoryExecutionPipeline,
   factoryExecutionPhase,
-} from '@bitcode/pipelines-generics/execution/pipeline-types';
+} from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
 import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
 import {
   attachExecutionPipelinePromptHierarchy,
@@ -90,11 +90,16 @@ export interface ExecutionPipelineSDIVFConfig<TInput = any, TOutput = any> exten
   readyToFinish?: Executor<any, boolean>;
 }
 
-type SDIVFPhaseName = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
+type ExecutionPipelineSDIVFPhaseName =
+  | 'setup'
+  | 'discovery'
+  | 'implementation'
+  | 'validation'
+  | 'finish';
 
 function storePhaseStart(
   execution: ExecutionPipeline | Execution,
-  phase: SDIVFPhaseName,
+  phase: ExecutionPipelineSDIVFPhaseName,
   input: unknown,
   iteration?: number
 ): void {
@@ -113,7 +118,7 @@ function storePhaseStart(
 
 function storePhaseComplete(
   execution: ExecutionPipeline | Execution,
-  phase: SDIVFPhaseName,
+  phase: ExecutionPipelineSDIVFPhaseName,
   output: unknown,
   iteration?: number,
   error?: unknown
@@ -130,7 +135,7 @@ function storePhaseComplete(
 }
 
 async function runObservedPhase<TIn, TOut>(
-  phase: SDIVFPhaseName,
+  phase: ExecutionPipelineSDIVFPhaseName,
   input: TIn,
   execution: ExecutionPipeline,
   delegate: ExecutionPhaseDelegator<TIn, TOut>,
@@ -164,7 +169,7 @@ async function runObservedPhase<TIn, TOut>(
 }
 
 async function runObservedExecutorPhase<TIn, TOut>(
-  phase: SDIVFPhaseName,
+  phase: ExecutionPipelineSDIVFPhaseName,
   input: TIn,
   execution: Execution,
   executor: Executor<TIn, TOut>,

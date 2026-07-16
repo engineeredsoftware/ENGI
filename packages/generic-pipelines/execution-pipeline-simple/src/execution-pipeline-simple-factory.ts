@@ -12,11 +12,11 @@
 
 import { sequential, type Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import type { Pipeline } from '@bitcode/pipelines-generics/pipeline-factory';
+import type { Pipeline } from '@bitcode/pipelines-generics/execution-pipeline-factory';
 import {
   factoryExecutionPipeline,
   type ExecutionPipeline,
-} from '@bitcode/pipelines-generics/execution/pipeline-types';
+} from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
 
 /**
  * Simple base Pipeline (hierarchy name: Simple + Pipeline).

@@ -1,24 +1,19 @@
 /**
- * PIPELINES-GENERICS - Pipeline Execution Primitives
+ * PIPELINES-GENERICS — ExecutionPipeline primitives (based on Execution).
  *
- * This package provides the foundational abstractions for building
- * pipelines. Pipelines are Executors that sequence PhaseDelegators.
- * PhaseDelegators are Executors that delegate to Agents.
- *
- * These are reusable orchestration primitives (Pipeline, ExecutionPhaseDelegator,
- * composition). The SDIVF *base implementation* lives in
- * `@bitcode/generic-pipelines-execution-pipeline-sdivf` and is re-exported here for compatibility.
+ * Hierarchy naming law: anything based on Execution encodes full ancestry
+ * left→right (e.g. ExecutionPipeline, ExecutionPhase, ExecutionPipelineSDIVF).
  *
  * Hierarchy:
- *   pipelines-generics (this package — primitives)
- *     → generic-pipelines/execution-pipeline-sdivf (base SDIVF loop)
- *       → pipeline-asset-pack (SynthesizeAssetPacks / settle-asset-pack-pipeline)
+ *   pipelines-generics (this package — ExecutionPipeline / ExecutionPhase primitives)
+ *     → generic-pipelines/execution-pipeline-sdivf (ExecutionPipelineSDIVF base)
+ *       → asset-packs-pipelines/execution-pipeline-* (product)
  *
  * Core Concepts:
- * - Pipeline: Top-level Executor orchestrating phases
- * - ExecutionPhaseDelegator: Executor that delegates work to Agents
- * - SDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish (generic-pipelines-execution-pipeline-sdivf)
- * 
+ * - ExecutionPipeline / ExecutionPipelineFn — EE + executor form
+ * - ExecutionPhaseDelegator / ExecutionPhase — phase EE pair
+ * - ExecutionPipelineSDIVF — Setup-[DIV]*-Finish base (generic-pipelines-execution-pipeline-sdivf)
+ *
  * @doc-code
  * type: package
  * category: pipeline-primitives
@@ -27,13 +22,14 @@
 
 // Pipeline and ExecutionPhaseDelegator types
 export {
+  type ExecutionPipelineFn,
   type Pipeline,
   ExecutionPipeline,
   type ExecutionPhaseDelegator,
   ExecutionPhase,
   factoryExecutionPipeline,
   factoryExecutionPhase
-} from './execution/pipeline-types';
+} from './execution/execution-pipeline-types';
 export {
   type ExecutionPipelineLineage,
   type ExecutionPipelineFamily,
@@ -41,11 +37,13 @@ export {
   inferExecutionPipelineLineage
 } from './execution/ExecutionPipeline';
 
-// Pipeline factories
+// ExecutionPipeline factories
 export {
+  factoryExecutionPipelineFromPhases,
+  factoryExecutionPipelineWithDIVFinishLoop,
   factoryPipeline,
-  factoryPipelineWithDIVFinishLoop
-} from './pipeline-factory';
+  factoryPipelineWithDIVFinishLoop,
+} from './execution-pipeline-factory';
 
 // Quick pipeline (single QuickPhase, no phases semantics)
 export {
@@ -58,7 +56,7 @@ export {
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
   factoryParallelPhaseDelegator,
-} from './phases/phase-factory';
+} from './phases/execution-phase-factory';
 
 // ExecutionPipelineSDIVF base — owned by @bitcode/generic-pipelines-execution-pipeline-sdivf
 // (re-exported for compatibility; prefer importing that package directly)

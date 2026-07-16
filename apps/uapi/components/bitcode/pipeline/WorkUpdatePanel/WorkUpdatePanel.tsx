@@ -4,7 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import type {
   AgentStepWorkUpdate,
-  SDIVFPipelineUpdate,
+  ExecutionPipelineSDIVFUpdate,
   ToolUsageUpdate,
   FileChange,
 } from '@bitcode/execution-generics';
@@ -13,7 +13,7 @@ type WorkUpdateVariant = 'latest' | 'iteration';
 
 export interface WorkUpdatePanelProps {
   variant: WorkUpdateVariant;
-  update: AgentStepWorkUpdate | SDIVFPipelineUpdate | null;
+  update: AgentStepWorkUpdate | ExecutionPipelineSDIVFUpdate | null;
   className?: string;
 }
 
@@ -52,7 +52,7 @@ export function WorkUpdatePanel({ variant, update, className }: WorkUpdatePanelP
   if (!update) return null;
 
   const isIteration = variant === 'iteration';
-  const iterationUpdate = isIteration ? update as SDIVFPipelineUpdate : null;
+  const iterationUpdate = isIteration ? update as ExecutionPipelineSDIVFUpdate : null;
   const title = isIteration
     ? `Iteration ${iterationUpdate?.iteration ?? ''} Self Instruction`
     : 'Latest Work Update';
