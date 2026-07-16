@@ -8,10 +8,12 @@
  *   FailsafeGeneration ×3 (PCC → ChunkThenSum → Stitch)
  *     → each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
  *   + tools postprocess after failsafes on Try/Retry only
- *     (Plan plans tool use; Refine synthesizes the final agent return — no tools)
+ *     (Plan: strategy only, empty tool surface by default;
+ *      Try/Retry: own useTools + postprocess; Refine: no tools)
  *
- * Failsafe and Thinkings units are Generations (not "substeps").
+ * Failsafe and Thinkings units are Generations.
  * Factories: `@bitcode/agent-generics/generations`.
+ * Step tool allowlists: `applyStepToolSurface` on StepExecution.tools.
  */
 
 import {
@@ -42,6 +44,7 @@ import { z } from 'zod';
 import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrumentation';
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
 import { PlanStepOutputSchema } from './step-schemas';
+import { applyStepToolSurface } from '../execution';
 
 // StepExecutor is just an Executor - no special type needed
 type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
@@ -140,8 +143,7 @@ export function factoryPlanStep<TInput, TOutput>(
     chunkThreshold?: number;
   }
 ): AgentStep<TInput, TOutput> {
-  // Plan never executes tools — it may narrate intended tool use in the plan
-  // shape; Try/Retry perform tools_execution postprocess.
+  // Plan: strategy only (no tools postprocess). Default step tool surface is [].
   const core = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
     enableParallelChunks: true
@@ -165,7 +167,8 @@ export function factoryPlanStep<TInput, TOutput>(
       stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', part);
     }
     try {
-      // Record usable tools so Plan can document intended use (no execution).
+      // Plan default: no usable tools (strategy sans tool docs / useTools).
+      applyStepToolSurface(stepExec, config?.tools ?? []);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
@@ -249,7 +252,8 @@ export function factoryTryStep<TInput, TOutput>(
       stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
     }
     try {
-      // Record usable tools
+      // Try: agent catalog tools by default (own useTools + postprocess).
+      applyStepToolSurface(stepExec, options?.tools);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
@@ -337,7 +341,7 @@ export function factoryRetryStep<TInput, TOutput>(
       stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
     }
     try {
-      // Record usable tools
+      applyStepToolSurface(stepExec, options?.tools);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
@@ -415,7 +419,8 @@ export function factoryRefineStep<TInput, TOutput>(
       stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
     }
     try {
-      // Usable tools may still be documented for context; Refine does not execute them.
+      // Refine: empty tool surface by default (final agent return only).
+      applyStepToolSurface(stepExec, options?.tools ?? []);
       try {
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);

@@ -65,20 +65,28 @@ export type BitcodePTRRFactoryConfig<TOutput> = BitcodePTRRPromptCarrier & {
   plan?: {
     chunkThreshold?: number;
     outputSchema?: z.ZodType<any>;
+    /** Step tool allowlist. Default: [] (strategy sans tools). */
+    tools?: string[];
   };
   try?: {
     chunkThreshold?: number;
     enableParallelChunks?: boolean;
     outputSchema?: z.ZodType<any>;
+    /** Step tool allowlist. Default: agent `tools` catalog. */
+    tools?: string[];
   };
   refine?: {
     maxAttempts?: number;
     outputSchema?: z.ZodType<any>;
+    /** Step tool allowlist. Default: [] (final return only). */
+    tools?: string[];
   };
   retry?: {
     maxAttempts?: number;
     backoff?: number;
     outputSchema?: z.ZodType<any>;
+    /** Step tool allowlist. Default: agent `tools` catalog. */
+    tools?: string[];
   };
 };
 
@@ -183,25 +191,40 @@ export function factoryPTRRAgent<TInput, TOutput>(
     refine: config.refine?.outputSchema ?? config.outputSchema
   };
 
+  // Agent catalog vs per-step tool surfaces:
+  //   Plan / Refine → [] by default (strategy / final return; no usable tools)
+  //   Try / Retry   → agent tools catalog (each step selects its own useTools)
+  const agentToolCatalog: string[] = Array.isArray(config.tools)
+    ? config.tools.map((t) => String(t).trim()).filter(Boolean)
+    : Array.isArray(config.requiredTools)
+      ? config.requiredTools.map((t) => String(t).trim()).filter(Boolean)
+      : [];
+  const stepToolSurfaces = {
+    plan: config.plan?.tools ?? [],
+    try: config.try?.tools ?? agentToolCatalog,
+    retry: config.retry?.tools ?? agentToolCatalog,
+    refine: config.refine?.tools ?? [],
+  };
+
   const steps: AgentStep<any, any>[] = [
     factoryPlanStep(stepSchemas.plan, {
       prompt: stepPrompts.plan,
-      tools: config.tools,
+      tools: stepToolSurfaces.plan,
       chunkThreshold: config.plan?.chunkThreshold
     }),
     factoryTryStep(stepSchemas.try, {
       ...config.try,
       prompt: stepPrompts.try,
-      tools: config.tools
+      tools: stepToolSurfaces.try
     }),
     factoryRetryStep(stepSchemas.retry, {
       ...config.retry,
       prompt: stepPrompts.retry,
-      tools: config.tools
+      tools: stepToolSurfaces.retry
     }),
     factoryRefineStep(stepSchemas.refine, {
       prompt: stepPrompts.refine,
-      tools: config.tools,
+      tools: stepToolSurfaces.refine,
       maxAttempts: config.refine?.maxAttempts
     })
   ];

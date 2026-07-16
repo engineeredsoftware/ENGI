@@ -14,6 +14,7 @@
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { AgentToolsRegistry } from './AgentToolsRegistry';
 
 export { AgentExecution, createAgentExecution } from './AgentExecution';
 export { AgentPromptsRegistry } from './AgentPromptsRegistry';
@@ -25,15 +26,21 @@ export type { ExecutionAgent } from './AgentAgentsRegistry';
 // ==================== STEP LEVEL ====================
 
 /**
- * StepExecution - PTRR step (Plan / Try / Refine / Retry)
+ * StepExecution - PTRR step (Plan / Try / Refine / Retry).
+ *
+ * Owns a step-scoped tools registry (inherits parent registrations via
+ * hierarchy lookup + optional `restrictTo` allowlist). LLMs/agents still
+ * resolve upward to the agent node.
  */
 export class StepExecution extends Execution {
   readonly prompt: ExecutionPrompt;
+  readonly tools: AgentToolsRegistry;
   constructor(id: string, parent?: Execution) {
     super(id, parent);
     this.prompt = new ExecutionPrompt();
     this.prompt.set('generic_system', ' ' as PromptPart);
     this.prompt.set('specific_execution', ' ' as PromptPart);
+    this.tools = new AgentToolsRegistry(this);
   }
 
   child(id: string): StepExecution {
@@ -48,16 +55,25 @@ export class StepExecution extends Execution {
     while (cur && !('llms' in cur)) cur = cur.parent;
     return cur?.llms;
   }
-  get tools(): any {
-    let cur: any = this.parent;
-    while (cur && !('tools' in cur)) cur = cur.parent;
-    return cur?.tools;
-  }
   get agents(): any {
     let cur: any = this.parent;
     while (cur && !('agents' in cur)) cur = cur.parent;
     return cur?.agents;
   }
+}
+
+/**
+ * Apply the step tool surface: allowlist names visible to this step's
+ * getUsableTools / getTool / doc interpolation. Empty array → no tools.
+ * Undefined → no allowlist (full parent hierarchy usable set).
+ */
+export function applyStepToolSurface(
+  stepExec: StepExecution,
+  tools: string[] | undefined,
+): void {
+  if (tools === undefined) return;
+  const keys = tools.map((t) => String(t).trim()).filter(Boolean);
+  stepExec.tools.restrictTo(keys);
 }
 
 // ==================== GENERATION LAYER (within a step) ====================

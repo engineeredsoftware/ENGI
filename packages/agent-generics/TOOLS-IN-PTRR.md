@@ -17,35 +17,40 @@ Related packages:
 ## 1. End-to-end lifecycle
 
 ```
-Register tools on AgentExecution.tools (or parent pipeline registry)
+Register tools on pipeline / AgentExecution.tools (agent catalog)
         ↓
-PTRR step starts → store tools.usable = Object.keys(getUsableTools())
+factoryPTRRAgent resolves per-step tool allowlists:
+  plan/refine default []; try/retry default agent catalog
+        ↓
+PTRR step starts → StepExecution owns tools registry
+  applyStepToolSurface(stepExec, stepAllowlist)  // restrictTo
+  store tools.usable = Object.keys(getUsableTools())  // step-filtered
         ↓
 FailsafeGeneration ×3 (PCC → ChunkThenSum → Stitch)
   each runs ThinkingsGeneration (Reason → Judge → StructuredOutput)
         ↓  [before each Thinkings LLM call]
-  Doc interpolation:  auto:tools_doc_code_tools  ← formatUsableTools(usable)
+  Doc interpolation:  auto:tools_doc_code_tools  ← formatUsableTools(step usable)
   Results interpolation: auto:tools_results      ← prior usedTools (if any)
         ↓
-StructuredOutput may include:
-  useTools: [{ name, input, reason }, ...]
+Try/Retry StructuredOutput may include:
+  useTools: [{ name, input, reason }, ...]   // that step's own selection
         ↓
-Step postprocess (conditional):
+Step postprocess (Try/Retry only):
   if useTools?.length → factoryToolsExecution()
         ↓
 For each selection:
-  tool = execution.tools.getTool(name)
+  tool = step.tools.getTool(name)  // step allowlist + hierarchy
   output = tool.execute(input)
   usedTools.push({ tool: name, input, output } | { tool, error })
         ↓
 Store tools.use / tools.used; publish agent-step work update
         ↓
-Next PTRR step (Retry then Refine) sees usedTools via results interpolation
+Next PTRR step sees usedTools via results interpolation (not Plan's useTools)
 ```
 
-Tools run **once per Try/Retry step**, **after** failsafes — never inside
-Reason/Judge as side effects, and never on Plan or Refine. Selection is
-declarative JSON; execution is deterministic registry lookup.
+**Plan** = strategy only (empty tool surface by default; no tools postprocess).
+**Try/Retry** each select their own `useTools` and postprocess.
+**Refine** = final agent return (empty tool surface; no postprocess).
 
 ---
 
@@ -181,10 +186,16 @@ Optional specialized formatting: `ToolPromptRegistry.formatOutput(name, output)`
 
 | PTRR step (order) | Failsafe×Thinkings | Tools postprocess |
 | --- | --- | --- |
-| Plan (1) | yes | **no** — plans tool use only |
-| Try (2) | yes | if `output.useTools?.length` |
-| Retry (3) | yes | if `output.useTools?.length` (re-try using prior errors/usedTools) |
-| Refine (4) | yes | **no** — final agent-typed return |
+| Plan (1) | yes | **no** — strategy only; empty tool surface by default |
+| Try (2) | yes | if **this step's** `output.useTools?.length` |
+| Retry (3) | yes | if **this step's** `output.useTools?.length` (prior usedTools via interpolation) |
+| Refine (4) | yes | **no** — final agent-typed return; empty tool surface |
+
+**Not the old handoff model:** tools are **not** selected on step N and passed as
+parameters for step N+1 to run. Each Try/Retry selects `useTools` in **its own**
+structured output; **postprocess on that same step** executes them. Downstream
+steps may *see results* (`usedTools` / `auto:tools_results`), not a deferred
+invocation list.
 
 Composition for Try/Retry (simplified):
 
