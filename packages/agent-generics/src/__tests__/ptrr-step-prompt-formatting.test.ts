@@ -30,7 +30,7 @@ describe('PTRR step prompt formatting', () => {
           return {
             content: JSON.stringify({
               analysis: 'The prompt was formatted.',
-              steps: ['read prompt parts'],
+              reasoningItems: ['read prompt parts'],
               conclusion: 'Continue.',
               confidence: 1,
             }),

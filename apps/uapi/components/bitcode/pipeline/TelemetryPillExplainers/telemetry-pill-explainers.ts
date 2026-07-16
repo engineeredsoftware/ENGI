@@ -311,7 +311,7 @@ const FAILSAFE_SPECIFICS: Record<string, (agentPossessive: string) => string> = 
 
 const GENERATION_SPECIFICS: Record<string, (agentPossessive: string) => string> = {
   reason: () =>
-    'Prompted to work the problem free-form; returns an analysis JSON {analysis, steps, conclusion, confidence} (optionally naming tools to use). Nothing typed is produced yet — this is the open thinking pass.',
+    'Prompted to work the problem free-form; returns an analysis JSON {analysis, reasoningItems, conclusion, confidence} (optionally naming tools to use). Nothing typed is produced yet — this is the open thinking pass.',
   judge: () =>
     'Prompted with the reasoning and returns an advisory verdict {quality, issues, suggestions, approved} over it. A failed judgment steers Refine and Retry — it does not halt the run.',
   structured_output: (a) =>

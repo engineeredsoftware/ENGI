@@ -155,7 +155,7 @@ describe('pipeline-stream-integration — executions-row FK race (QA: "Failed to
 });
 
 describe('sourceSafeStreamEvent (telemetry source-safety law, V48)', () => {
-  const RAW_RESPONSE = '```json\n{\n  "analysis": "secret plan prose",\n  "steps": ["step one"]\n}\n```';
+  const RAW_RESPONSE = '```json\n{\n  "analysis": "secret plan prose",\n  "reasoningItems": ["step one"]\n}\n```';
 
   it('withholds the raw model response stored under llm/response', () => {
     const safe = sourceSafeStreamEvent({

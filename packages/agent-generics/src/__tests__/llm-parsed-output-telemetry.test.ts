@@ -19,7 +19,7 @@ describe('LLM parsed output telemetry', () => {
       getDefaultLLM: () => async () => ({
         content: JSON.stringify({
           analysis: 'Source-bound fit reasoning.',
-          steps: ['rank candidates', 'verify proof'],
+          reasoningItems: ['rank candidates', 'verify proof'],
           conclusion: 'Candidate can proceed to review.',
           confidence: 0.91,
         }),

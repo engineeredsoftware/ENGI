@@ -27,7 +27,7 @@
 
 const REASON_JUDGE_SAFE_DEFAULTS = {
   analysis: 'Boundary-mock reasoning.',
-  steps: ['Boundary-mock step.'],
+  reasoningItems: ['Boundary-mock reasoning item.'],
   conclusion: 'Boundary-mock conclusion.',
   confidence: 0.9,
   quality: 0.9,

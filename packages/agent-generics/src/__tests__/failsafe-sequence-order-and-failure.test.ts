@@ -13,7 +13,7 @@ import { createFailsafeGenerationSequence } from '../steps/failsafe-sequence';
 
 const outputSchema = z.object({ title: z.string(), score: z.number() });
 
-const reasoningPayload = { analysis: 'a', steps: ['s'], conclusion: 'c', confidence: 0.9 };
+const reasoningPayload = { analysis: 'a', reasoningItems: ['s'], conclusion: 'c', confidence: 0.9 };
 const judgmentPayload = { quality: 0.9, issues: [], suggestions: [], approved: true };
 const structuredPayload = { title: 'Asset pack option', score: 42 };
 

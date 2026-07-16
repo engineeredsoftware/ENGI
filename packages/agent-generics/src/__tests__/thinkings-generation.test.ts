@@ -8,7 +8,7 @@ const outputSchema = z.object({ title: z.string(), score: z.number() });
 
 const reasoningPayload = {
   analysis: 'analyzed the deposit read',
-  steps: ['inspect candidates', 'rank options'],
+  reasoningItems: ['inspect candidates', 'rank options'],
   conclusion: 'proceed with synthesis',
   confidence: 0.8,
 };

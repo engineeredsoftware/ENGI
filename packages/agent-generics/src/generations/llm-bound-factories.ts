@@ -308,7 +308,7 @@ function factoryLLMGeneration<TInput, TOutput>(
     // Enforce strict JSON output for Thinkings generations to support parsing
     // Provide minimal key shape hints per sequence to improve reliability
     if (sequence === ThinkingsGeneration.REASON) {
-      const shape = (ReasoningSchema as any)?.description || '{ "analysis": string, "steps": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
+      const shape = (ReasoningSchema as any)?.description || '{ "analysis": string, "reasoningItems": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
       userPrompt = [
         String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
         shape,
@@ -957,7 +957,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
             'Reason ONLY about PrepareConciseContext key selection for the preparation task below.',
             'Goals: minimal sufficient keys; prefer host workspace / repository coordinates / step inputs; omit lineage, telemetry, debug, and unrelated phase state.',
             'Do NOT emit selectedKeys (structured_output will). Do NOT select tools (useTools must be omitted). Do NOT attempt the agent task itself.',
-            'In analysis/steps/conclusion: name candidate keys using paths present in pipeline_execution_keys, prefer form \'<execution-path>#<namespace>:<key>\' (root shorthand \'#namespace:key\' is ok); explain why each is needed for subsequent Plan/Try failsafes.',
+            'In analysis/reasoningItems/conclusion: name candidate keys using paths present in pipeline_execution_keys, prefer form \'<execution-path>#<namespace>:<key>\' (root shorthand \'#namespace:key\' is ok); explain why each is needed for subsequent Plan/Try failsafes. Use reasoningItems (never "steps" — steps means PTRR Plan/Try/Refine/Retry).',
             '',
             'Selection input:',
             safePromptJson({
@@ -976,7 +976,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
           ReasoningSchema,
           () => ({
             analysis: 'Failed to reason',
-            steps: [],
+            reasoningItems: [],
             conclusion: 'No conclusion',
             confidence: 0
           })
@@ -1422,7 +1422,8 @@ const ChunkedContentSchema = z.object({
 // TODO: ReasoningFailsafeOutputSchema or ReasoningFailsafeInputSchema better namign
 const ReasoningSchema = z.object({
   analysis: z.string(),
-  steps: z.array(z.string()),
+  // Not "steps": reserved for ExecutionAgentPTRRStep (Plan/Try/Refine/Retry).
+  reasoningItems: z.array(z.string()),
   conclusion: z.string(),
   confidence: z.number().min(0).max(1),
   useTools: z.array(z.object({
@@ -1431,7 +1432,7 @@ const ReasoningSchema = z.object({
     input: z.any(),
     reason: z.string()
   })).optional()
-}).describe('{ "analysis": string, "steps": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }');
+}).describe('{ "analysis": string, "reasoningItems": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }');
 
 const JudgmentSchema = z.object({
   quality: z.number().min(0).max(1),

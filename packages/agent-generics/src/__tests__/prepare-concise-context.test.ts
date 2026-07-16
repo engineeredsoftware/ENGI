@@ -181,7 +181,7 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
     const llm = async (llmInput: any) => {
       const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
       userPrompts.push(user);
-      let payload: any = { analysis: 'a', steps: ['s'], conclusion: 'c', confidence: 0.9 };
+      let payload: any = { analysis: 'a', reasoningItems: ['s'], conclusion: 'c', confidence: 0.9 };
       if (user.includes('Generate structured output for:')) {
         payload = { selectedKeys: ['agent-root#read:description'] };
       } else if (user.includes('Evaluate the quality and correctness of:') || user.includes('Judge the quality')) {

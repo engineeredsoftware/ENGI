@@ -53,7 +53,11 @@ export enum ThinkingsGeneration {
 
 export interface Reasoning {
   analysis: string;
-  steps: string[];
+  /**
+   * Ordered reasoning points within a Reason generation (not PTRR Steps).
+   * Never name this `steps` — that term is reserved for ExecutionAgentPTRRStep.
+   */
+  reasoningItems: string[];
   conclusion: string;
   confidence: number;
   useTools?: Array<{ name: string; input: any; reason: string; tool?: unknown }>;

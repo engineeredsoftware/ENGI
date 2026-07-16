@@ -710,7 +710,7 @@ const readNeedStringListSchema = z.preprocess(
 
 const ReadNeedReasoningSchema = z.object({
   analysis: z.string().default(''),
-  steps: readNeedStringListSchema,
+  reasoningItems: readNeedStringListSchema,
   conclusion: z.string().default(''),
   confidence: z.coerce.number().min(0).max(1).catch(0),
   useTools: z.array(z.any()).optional(),
@@ -874,7 +874,7 @@ async function runReadNeedComprehensionInference<T>(params: {
           role: 'user' as const,
           content: [
             'ThinkingsGeneration stage 1/3: reason.',
-            'Return only JSON with keys: analysis, steps, conclusion, confidence.',
+            'Return only JSON with keys: analysis, reasoningItems, conclusion, confidence.',
           ].join('\n'),
         },
       ],

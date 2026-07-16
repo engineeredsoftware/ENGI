@@ -61,7 +61,7 @@ describe('debug stop escapes the substep', () => {
     const nested = root.child('plan').child('failsafe:prepare_concise_context').child('gen-0');
     (nested as any).llms = llms({
       analysis: 'a',
-      steps: ['s'],
+      reasoningItems: ['s'],
       conclusion: 'c',
       confidence: 0.9,
     });

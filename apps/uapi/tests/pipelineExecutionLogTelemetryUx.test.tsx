@@ -396,7 +396,7 @@ describe('getTelemetryPillExplainer — prompt/return-concrete specific copy', (
 
   it('generation copy names the Thinkings return shapes', () => {
     expect(getTelemetryPillExplainer('generation', 'reason').specific).toContain(
-      '{analysis, steps, conclusion, confidence}',
+      '{analysis, reasoningItems, conclusion, confidence}',
     );
     expect(getTelemetryPillExplainer('generation', 'judge').specific).toContain(
       '{quality, issues, suggestions, approved}',
