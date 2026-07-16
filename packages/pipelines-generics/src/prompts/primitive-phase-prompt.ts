@@ -1,24 +1,23 @@
 /**
  * Primitive phase Prompt — fully generic (any pipeline phase).
+ * Assembled from raw_promptparts; phase name is a path detail, not a new part SSOT.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_identity_corestatement';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_CONTRACT_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_contract_detailcontent';
 
 export function factoryPrimitivePhasePrompt(phaseName: string): Prompt {
   const p = new Prompt();
+  p.set('identity', PROMPTPART_GENERIC_PHASE_SYSTEM_IDENTITY_CORESTATEMENT);
   p.set(
-    'identity',
+    'name',
     createPromptPart(
-      `You are in pipeline phase "${phaseName}": a named segment of the pipeline that coordinates agents toward that phase's objective before control returns to the pipeline shell.`,
+      `Active phase name: "${phaseName}". Coordinate only this phase's objective.`,
     ),
   );
-  p.set(
-    'contract',
-    createPromptPart(
-      'Phase law: complete only this phase\'s objective; store cross-phase artifacts for later phases; do not assume later phases have already run.',
-    ),
-  );
+  p.set('contract', PROMPTPART_GENERIC_PHASE_SYSTEM_CONTRACT_DETAILCONTENT);
   return p;
 }
 

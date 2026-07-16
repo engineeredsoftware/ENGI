@@ -170,8 +170,24 @@ export type {
 
 // ==================== REGISTRY INTEGRATIONS ====================
 
-// ExecutionPrompt base class
-export { ExecutionPrompt } from './prompts/ExecutionPrompt';
+// ExecutionPrompt + call-site composition (generic; not agent-specific)
+export { ExecutionPrompt, createExecutionPrompt } from './prompts/ExecutionPrompt';
+export {
+  composePromptLayers,
+  composeNamespacedPromptLayers,
+} from './prompts/compose-prompt-layers';
+export {
+  applyPromptRegistryToExecutionPrompt,
+  applyComposedCallSiteNodePrompt,
+  type PromptRegistryLike,
+} from './prompts/apply-prompt-registry-to-execution-prompt';
+export {
+  buildExecutionHierarchySystemPrompt,
+  EXECUTION_HIERARCHY_PROMPT_NODE_SEPARATOR,
+  type BuildExecutionHierarchySystemPromptOptions,
+  type ExecutionHierarchyPromptPathFilter,
+} from './prompts/build-execution-hierarchy-system-prompt';
+export { PRIMITIVE_EXECUTION_SYSTEM_PROMPT } from './prompts/execution-system-prompt';
 
 // ExecutionToolRegistry and ExecutionTool
 export { 

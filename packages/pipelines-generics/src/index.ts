@@ -83,10 +83,13 @@ export {
 } from './streaming/pipeline-stream-integration';
 
 // Pipeline Prompt (EE) + hierarchical attach helpers
+// Compose/walk primitives live in @bitcode/execution-generics; re-exported here.
 export { PipelinePrompt } from './prompts/PipelinePrompt';
 export {
   applyPromptRegistryToExecutionPrompt,
+  applyComposedCallSiteNodePrompt,
   composePromptLayers,
+  composeNamespacedPromptLayers,
 } from './prompts/compose-execution-prompt';
 export { PRIMITIVE_PIPELINE_PROMPT } from './prompts/primitive-pipeline-prompt';
 export {

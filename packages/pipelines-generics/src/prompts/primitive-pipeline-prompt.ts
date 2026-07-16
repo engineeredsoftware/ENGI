@@ -1,29 +1,17 @@
 /**
  * Primitive pipeline Prompt — fully generic (any Bitcode pipeline).
+ * Assembled from raw_promptparts (not inline prose SSOT).
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_PIPELINE_SYSTEM_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_pipeline_system_identity_corestatement';
+import { PROMPTPART_GENERIC_PIPELINE_SYSTEM_CONTRACT_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_pipeline_system_contract_detailcontent';
+import { PROMPTPART_GENERIC_PIPELINE_SYSTEM_OBSERVABILITY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_pipeline_system_observability_detailcontent';
 
 export const PRIMITIVE_PIPELINE_PROMPT: Prompt = (() => {
   const p = new Prompt();
-  p.set(
-    'identity',
-    createPromptPart(
-      'You are operating inside a Bitcode Pipeline: a bounded, observable run that sequences phases, agents, and generations to produce typed product outcomes.',
-    ),
-  );
-  p.set(
-    'contract',
-    createPromptPart(
-      'Pipeline law: respect phase boundaries; use only tools and context available on the Host; emit structured outputs that match the active schema; never invent Host capabilities or bypass source-safety.',
-    ),
-  );
-  p.set(
-    'observability',
-    createPromptPart(
-      'Every agent step and generation is auditable. Prefer precise, minimal context selection and schema-valid JSON when required.',
-    ),
-  );
+  p.set('identity', PROMPTPART_GENERIC_PIPELINE_SYSTEM_IDENTITY_CORESTATEMENT);
+  p.set('contract', PROMPTPART_GENERIC_PIPELINE_SYSTEM_CONTRACT_DETAILCONTENT);
+  p.set('observability', PROMPTPART_GENERIC_PIPELINE_SYSTEM_OBSERVABILITY_DETAILCONTENT);
   return p;
 })();

@@ -419,30 +419,30 @@ composed from parts registered there). Agents assemble `Prompt` registries;
 they do not scatter ad-hoc mega-strings across the app without the registry.
 
 **Authoring layers (content):** primitive → base → specific on each node kind.
+**PromptPart SSOT:** `packages/prompts/.../raw_promptparts/`. Full law:
+[`.docs/PROMPTING.md`](PROMPTING.md).
 
 | Layer | Where | Example |
 | --- | --- | --- |
-| Primitive | `pipelines-generics`, `agent-generics` | What a pipeline/phase/generation *is* |
+| Primitive | `execution-generics`, `pipelines-generics`, raw_promptparts | Execution / pipeline / phase *is* |
 | Base | `generic-pipelines-sdivf`, `generic-agents/*` | SDIVF pattern; VCS agent |
 | Specific | `asset-packs-pipelines/*` | synthesize-reads; clone agent |
 
 **Runtime nodes (call-site system string):**
 
 ```
-PipelineExecution.prompt     ← pipeline:primitive|base|specific
-  └─ PhaseDelegation.prompt  ← phase:primitive|base|specific:{name}
-       └─ AgentExecution.prompt
-            └─ StepExecution.prompt   (+ step tool allowlist)
-                 └─ FailsafeGenerationExecution.prompt
-                      └─ ThinkingsGenerationExecution.prompt
+Pipeline EE.prompt   ← call_site:pipeline (Execution ⊕ Pipeline ⊕ base ⊕ specific once)
+  └─ Phase EE.prompt ← call_site:phase:{name} (Phase ⊕ base ⊕ specific; no Execution redo)
+       └─ Agent EE.prompt
+            └─ Step EE.prompt   (+ step tool allowlist)
+                 └─ Failsafe EE.prompt
+                      └─ Thinking EE.prompt
 ```
 
-`buildHierarchicalPrompt(leaf)` walks root→leaf and joins each node’s
-`ExecutionPrompt` (role-filtered for active failsafe + thinking).
-
-Attach helpers: `attachPipelinePromptHierarchy` /
-`attachPhasePromptHierarchy` in `@bitcode/pipelines-generics`. Full law:
-`packages/pipelines-generics/PROMPT_CALL_SITE.md`.
+**Compose + EE walk** live in `@bitcode/execution-generics`
+(`composePromptLayers`, `buildExecutionHierarchySystemPrompt`).
+**Pipeline/phase attach:** `@bitcode/pipelines-generics`.
+**Agent role filter only:** `@bitcode/agent-generics` (not the generic walk).
 
 **Tools (parallel surface):** catalog at pipeline/agent; **step allowlist**
 via `applyStepToolSurface` (Plan/Refine default `[]`; Try/Retry default agent
@@ -860,8 +860,8 @@ as if they were source of product law.
 
 1. `execution-generics` Execution store
 2. `agent-generics` factoryPTRRAgent + Failsafe/Thinkings generations
-3. Prompt call-site hierarchy: `packages/pipelines-generics/PROMPT_CALL_SITE.md`
-   (pipeline → phase → agent → step → failsafe → thinking; primitive/base/specific)
+3. Prompt call-site hierarchy: `.docs/PROMPTING.md`
+   (Execution once on pipeline → phase → agent → step → failsafe → thinking)
 4. `prompts` Prompt registry + raw_promptparts
 5. `generic-llms` provider
 6. Stream path: pipelines-generics streaming → source-safe filter → uapi log

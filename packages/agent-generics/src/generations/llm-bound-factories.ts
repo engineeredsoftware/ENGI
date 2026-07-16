@@ -33,6 +33,7 @@ import {
   conditional,
   walkExecutionStateKeys,
   resolveExecutionStateKeyPath,
+  buildExecutionHierarchySystemPrompt,
   type ExecutionStateKeysTree
 } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
@@ -1590,65 +1591,19 @@ function shouldIncludePromptPath(path: string, role: HierarchicalPromptRole): bo
   return true;
 }
 
-function formatPromptRegistryForRole(prompt: any, role: HierarchicalPromptRole): string {
-  if (!prompt) return '';
-  // Path-aware filter when registry exposes paths; else fall back to full format.
-  if (typeof prompt.getAllPaths === 'function' && typeof prompt.get === 'function') {
-    const paths: string[] = prompt.getAllPaths() || [];
-    const parts: string[] = [];
-    for (const path of [...paths].sort()) {
-      if (!shouldIncludePromptPath(path, role)) continue;
-      const part = prompt.get(path);
-      const text = part == null ? '' : String(part).trim();
-      if (text) parts.push(text);
-    }
-    return parts.join('\n\n');
-  }
-  if (typeof prompt.format === 'function') {
-    return String(prompt.format() || '').trim();
-  }
-  return '';
-}
-
 /**
- * Build hierarchical prompt by accumulating from execution tree
+ * Agent call-site system prompt: generic EE tree walk
+ * (`buildExecutionHierarchySystemPrompt` in execution-generics) +
+ * agent-specific failsafe/thinking role path filter.
  *
- * Walks up the execution tree and accumulates prompts in order:
- * 1. Agent prompt (identity / purpose / constraints)
- * 2. Step prompt (Plan/Try/Retry/Refine purpose)
- * 3. Failsafe prompt (active failsafe only)
- * 4. Generation prompt (active Thinkings unit only)
- *
- * Filters sibling generation/failsafe registry paths so Reason does not
- * receive Judge/StructuredOutput instructions (and vice versa).
+ * Organization: walk/compose primitives are not agent-owned; only role
+ * filtering and failsafe/thinking injection stay in agent-generics.
  */
 function buildHierarchicalPrompt(execution: Execution): string {
   const role = detectHierarchicalPromptRole(execution);
-  const prompts: string[] = [];
-
-  let current: Execution | undefined = execution;
-  const executions: Execution[] = [];
-  while (current) {
-    executions.unshift(current);
-    current = current.parent;
-  }
-
-  for (const exec of executions) {
-    if ('prompt' in exec && (exec as any).prompt) {
-      const formatted = formatPromptRegistryForRole((exec as any).prompt, role);
-      if (formatted) prompts.push(formatted);
-    } else if ('prompts' in exec && (exec as any).prompts && exec instanceof AgentExecution) {
-      const agentPrompt = (exec as any).prompts.get('system');
-      if (agentPrompt) {
-        const text = typeof agentPrompt === 'string'
-          ? agentPrompt
-          : formatPromptRegistryForRole(agentPrompt, role);
-        if (text && String(text).trim()) prompts.push(String(text).trim());
-      }
-    }
-  }
-
-  return prompts.join('\n\n---\n\n');
+  return buildExecutionHierarchySystemPrompt(execution, {
+    pathFilter: (path) => shouldIncludePromptPath(path, role),
+  });
 }
 
 function getSequencePrompt(sequence: FailsafeGeneration | ThinkingsGeneration): PromptPart {

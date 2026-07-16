@@ -21,6 +21,22 @@
       "types": "./src/prompts/ExecutionPrompt.ts",
       "default": "./src/prompts/ExecutionPrompt.js"
     },
+    "./prompts/compose-prompt-layers": {
+      "types": "./src/prompts/compose-prompt-layers.ts",
+      "default": "./src/prompts/compose-prompt-layers.ts"
+    },
+    "./prompts/apply-prompt-registry-to-execution-prompt": {
+      "types": "./src/prompts/apply-prompt-registry-to-execution-prompt.ts",
+      "default": "./src/prompts/apply-prompt-registry-to-execution-prompt.ts"
+    },
+    "./prompts/build-execution-hierarchy-system-prompt": {
+      "types": "./src/prompts/build-execution-hierarchy-system-prompt.ts",
+      "default": "./src/prompts/build-execution-hierarchy-system-prompt.ts"
+    },
+    "./prompts/execution-system-prompt": {
+      "types": "./src/prompts/execution-system-prompt.ts",
+      "default": "./src/prompts/execution-system-prompt.ts"
+    },
     "./execution-registry": {
       "types": "./src/execution-registry.ts",
       "default": "./src/execution-registry.js"

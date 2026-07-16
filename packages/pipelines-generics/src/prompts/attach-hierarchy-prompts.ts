@@ -1,17 +1,26 @@
 /**
- * Attach primitive → base → specific Prompt layers onto pipeline / phase EEs.
+ * Attach call-site Prompt layers onto pipeline / phase Execution nodes.
  *
- * Law: pipeline layers must land on an **ancestor** of every phase/agent node
- * so `buildHierarchicalPrompt` sees them. Sequential composition uses
- * `execution.child('seq-N')` — attaching only on the attach-step's seq child
- * leaves pipeline text off the wire for later seq siblings. Prefer the root
- * PipelineExecution (or greatest parent with an ExecutionPrompt).
+ * Organization:
+ *   - compose / apply / Execution primitive → @bitcode/execution-generics
+ *   - pipeline/phase primitive Prompt assembly → this package
+ *   - base (SDIVF) / specific (product) → generic-pipelines / asset-packs-pipelines
+ *
+ * Law (.docs/PROMPTING.md):
+ *   - Pipeline node composes Execution ⊕ Pipeline ⊕ base ⊕ specific **once**
+ *   - Phase node composes Phase ⊕ base ⊕ specific only (no Execution re-emit)
+ *   - Attach pipeline layers on root PipelineExecution (not seq-N child)
  */
 
 import type { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
-import { applyPromptRegistryToExecutionPrompt } from './compose-execution-prompt';
+import {
+  applyComposedCallSiteNodePrompt,
+  applyPromptRegistryToExecutionPrompt,
+  composeNamespacedPromptLayers,
+  PRIMITIVE_EXECUTION_SYSTEM_PROMPT,
+} from '@bitcode/execution-generics';
 import { PRIMITIVE_PIPELINE_PROMPT } from './primitive-pipeline-prompt';
 import {
   factoryPrimitivePhasePrompt,
@@ -36,9 +45,6 @@ function ensureNodePrompt(execution: any): ExecutionPrompt {
 /**
  * Host for pipeline-level system text: nearest PipelineExecution-like node
  * (has `.prompt` + agent registry), else the greatest parent (root).
- *
- * Sequential SDIVF steps receive `child(seq-N)`; pipeline attach must not
- * stay on that ephemeral child or later phases never inherit the layers.
  */
 export function resolvePipelinePromptHost(execution: any): any {
   if (!execution) return execution;
@@ -59,9 +65,9 @@ export function resolvePipelinePromptHost(execution: any): any {
 }
 
 /**
- * Attach pipeline-level layers (primitive always; optional base + specific).
- * Call once when the pipeline EE is created / SDIVF starts.
- * Always resolves to the pipeline root host (see resolvePipelinePromptHost).
+ * Attach pipeline call-site block:
+ *   Execution ⊕ Pipeline primitive ⊕ optional base ⊕ optional specific
+ * as one composed PromptPart (includes_execution marker set).
  */
 export function attachPipelinePromptHierarchy(
   pipelineExec: any,
@@ -72,6 +78,11 @@ export function attachPipelinePromptHierarchy(
 ): void {
   const host = resolvePipelinePromptHost(pipelineExec);
   const target = ensureNodePrompt(host);
+
+  // Also apply layered paths for hierarchicalFormatter / path audits
+  applyPromptRegistryToExecutionPrompt(target, PRIMITIVE_EXECUTION_SYSTEM_PROMPT, {
+    namespace: 'execution:primitive',
+  });
   applyPromptRegistryToExecutionPrompt(target, PRIMITIVE_PIPELINE_PROMPT, {
     namespace: 'pipeline:primitive',
   });
@@ -85,11 +96,22 @@ export function attachPipelinePromptHierarchy(
       namespace: 'pipeline:specific',
     });
   }
+
+  // Canonical call-site node block (Execution once; namespaced so layers
+  // do not clobber each other on identity/contract paths).
+  const composed = composeNamespacedPromptLayers([
+    { namespace: 'execution', prompt: PRIMITIVE_EXECUTION_SYSTEM_PROMPT },
+    { namespace: 'pipeline:primitive', prompt: PRIMITIVE_PIPELINE_PROMPT },
+    { namespace: 'pipeline:base', prompt: layers?.base ?? null },
+    { namespace: 'pipeline:specific', prompt: layers?.specific ?? null },
+  ]);
+  applyComposedCallSiteNodePrompt(target, composed, 'pipeline', {
+    includesExecution: true,
+  });
 }
 
 /**
- * Attach phase-level layers for the active phase name.
- * Call when entering a phase (on the phase EE or pipeline EE).
+ * Attach phase call-site block (no Execution layer).
  */
 export function attachPhasePromptHierarchy(
   phaseExec: any,
@@ -104,6 +126,7 @@ export function attachPhasePromptHierarchy(
     phaseName === 'setup'
       ? PRIMITIVE_PHASE_SETUP_PROMPT
       : factoryPrimitivePhasePrompt(phaseName);
+
   applyPromptRegistryToExecutionPrompt(target, primitive, {
     namespace: `phase:primitive:${phaseName}`,
   });
@@ -117,4 +140,11 @@ export function attachPhasePromptHierarchy(
       namespace: `phase:specific:${phaseName}`,
     });
   }
+
+  const composed = composeNamespacedPromptLayers([
+    { namespace: `phase:primitive:${phaseName}`, prompt: primitive },
+    { namespace: `phase:base:${phaseName}`, prompt: layers?.base ?? null },
+    { namespace: `phase:specific:${phaseName}`, prompt: layers?.specific ?? null },
+  ]);
+  applyComposedCallSiteNodePrompt(target, composed, `phase:${phaseName}`);
 }
