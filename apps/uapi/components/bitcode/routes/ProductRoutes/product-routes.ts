@@ -20,17 +20,6 @@ export const READS_ROUTE = '/reads' as const;
 /** Deposits experience (plural product route). */
 export const DEPOSITS_ROUTE = '/deposits' as const;
 
-/**
- * Compatibility aliases matching historical singular export names used by
- * deposit/read clients during the product → experience migration.
- * Prefer `READS_ROUTE` / `DEPOSITS_ROUTE` in new code.
- */
-export const READ_ROUTE = READS_ROUTE;
-export const DEPOSIT_ROUTE = DEPOSITS_ROUTE;
-
-/** Historical alias: Exchange activity resolves to Packs. */
-export const EXCHANGE_ROUTE = PACKS_ROUTE;
-
 function buildRouteHref(
   route: string,
   params?: URLSearchParams | string | null,
@@ -47,22 +36,10 @@ export function buildReadsHref(params?: URLSearchParams | string | null): string
   return buildRouteHref(READS_ROUTE, params);
 }
 
-/** @deprecated Prefer `buildReadsHref` — kept for call-site migration. */
-export function buildReadHref(params?: URLSearchParams | string | null): string {
-  return buildReadsHref(params);
-}
-
 export function buildDepositsHref(
   params?: URLSearchParams | string | null,
 ): string {
   return buildRouteHref(DEPOSITS_ROUTE, params);
-}
-
-/** @deprecated Prefer `buildDepositsHref` — kept for call-site migration. */
-export function buildDepositHref(
-  params?: URLSearchParams | string | null,
-): string {
-  return buildDepositsHref(params);
 }
 
 export function buildExchangeHref(

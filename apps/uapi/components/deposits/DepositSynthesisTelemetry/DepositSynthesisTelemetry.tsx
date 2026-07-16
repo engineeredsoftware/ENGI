@@ -13,7 +13,7 @@ import { RunClock } from "@/components/bitcode/pipeline/RunClock/RunClock";
 import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
 import { verifiedAccessOrbConfig } from "@/components/marketing/MarketingLandingShared/MarketingLandingShared";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { PipelineRunActivitySnapshot } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 
 /** Live call-chain context for the telemetry pill row. */
@@ -45,7 +45,7 @@ export type DepositSynthesisTelemetryProps = {
   onDismissError: () => void;
   synthesisLogScrolled: boolean;
   setSynthesisLogScrolled: (value: boolean) => void;
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   obfuscations: string;
   permissibleSources: string[];
   impermissibleSources: string[];

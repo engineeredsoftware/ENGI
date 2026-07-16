@@ -10,8 +10,8 @@
 import { useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  buildDepositHref,
-  DEPOSIT_ROUTE,
+  buildDepositsHref,
+  DEPOSITS_ROUTE,
 } from "@/components/bitcode/routes/ProductRoutes/product-routes";
 import {
   clearPipelineTransactionId,
@@ -25,7 +25,7 @@ export function useDepositUrlNavigation() {
   const readCurrentSearchParams = useCallback(
     () =>
       typeof window !== "undefined" &&
-      window.location.pathname === DEPOSIT_ROUTE
+      window.location.pathname === DEPOSITS_ROUTE
         ? new URLSearchParams(window.location.search)
         : new URLSearchParams(searchParams.toString()),
     [searchParams],
@@ -34,7 +34,7 @@ export function useDepositUrlNavigation() {
   const replaceDepositSearchParams = useCallback(
     (nextParams: URLSearchParams) => {
       const query = nextParams.toString();
-      router.replace(buildDepositHref(query), { scroll: false });
+      router.replace(buildDepositsHref(query), { scroll: false });
     },
     [router],
   );
@@ -42,7 +42,7 @@ export function useDepositUrlNavigation() {
   const pushDepositSearchParams = useCallback(
     (nextParams: URLSearchParams) => {
       const query = nextParams.toString();
-      router.push(buildDepositHref(query), { scroll: false });
+      router.push(buildDepositsHref(query), { scroll: false });
     },
     [router],
   );
@@ -60,9 +60,6 @@ export function useDepositUrlNavigation() {
     [pushDepositSearchParams, readCurrentSearchParams],
   );
 
-  /** @deprecated Prefer openDepositRouteTransaction (push, not replace). */
-  const replaceDepositRouteTransaction = openDepositRouteTransaction;
-
   /** Close detail: strip transactionId without adding another history step. */
   const clearDepositRouteTransaction = useCallback(() => {
     replaceDepositSearchParams(
@@ -76,7 +73,6 @@ export function useDepositUrlNavigation() {
     replaceDepositSearchParams,
     pushDepositSearchParams,
     openDepositRouteTransaction,
-    replaceDepositRouteTransaction,
     clearDepositRouteTransaction,
   };
 }

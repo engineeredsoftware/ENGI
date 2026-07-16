@@ -29,7 +29,7 @@ import {
   DEPOSIT_COMMIT_LATEST_REF,
   getProviderLabel,
   normalizeRepositoryProvider,
-  type ProductRepositoryContextState,
+  type RepositoryContextState,
 } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRepositoryAnchor } from "@/components/deposits/models/deposit-repository-anchor";
 import { DepositSourceFieldGrid } from "@/components/deposits/DepositSourceFieldGrid/DepositSourceFieldGrid";
@@ -39,7 +39,7 @@ export type { DepositRepositoryAnchor };
 
 type DepositSourceSelectionProps = {
   preferredRepository?: string | null;
-  onContextChange?: (context: ProductRepositoryContextState) => void;
+  onContextChange?: (context: RepositoryContextState) => void;
   onRecordActivity?: (draft: ProductActivityRecordDraft) => Promise<unknown>;
   routePath: string;
   buildRouteHref: (params?: URLSearchParams | string | null) => string;

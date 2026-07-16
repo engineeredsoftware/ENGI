@@ -1,7 +1,4 @@
-/**
- * @deprecated Prefer `@bitcode/generic-asset-packs-synthesis` for measurement catalogs.
- * Compatibility re-export for pipeline-local imports.
- */
+/** Measurement catalogs re-export from @bitcode/generic-asset-packs-synthesis. */
 
 export {
   DEPOSIT_MEASUREMENT_CATALOG,

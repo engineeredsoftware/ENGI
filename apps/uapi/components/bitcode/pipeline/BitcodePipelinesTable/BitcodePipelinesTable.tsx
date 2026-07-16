@@ -118,5 +118,3 @@ export default function BitcodePipelinesTable({
   );
 }
 
-/** @deprecated Prefer `BitcodePipelinesTable`. */
-export { BitcodePipelinesTable as productTransactionsTable };

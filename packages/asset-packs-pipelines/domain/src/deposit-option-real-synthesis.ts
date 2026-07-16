@@ -48,17 +48,16 @@ export {
   isPathPermissible,
   normalizeSourcePathList,
 };
-export type { AssetPacksSynthesisSourceInventory as DepositOptionSourceInventory };
+export type { AssetPacksSynthesisSourceInventory };
 export type {
   DepositOptionReviewProjection,
   RealDepositAssetPackOptionSynthesis,
 } from './deposit-option-real-synthesis-types';
 
 /**
- * @deprecated Product deposit synthesis is `runExecutionPipelineSDIVFSynthesizeAssetPacks` (full
- * SDIVF) via `/api/deposit/synthesize-options`. This single-agent formal path
- * remains only for non-product unit fixtures that mock
- * `synthesizeAssetPackCandidatesFormal` — do not call it from product routes.
+ * Formal single-agent deposit-option synthesis fixture path.
+ * Product deposit synthesis is `runExecutionPipelineSDIVFSynthesizeDepositAssetPacks` via `/api/deposit/synthesize-options`.
+ * Do not call this from product routes.
  */
 export async function synthesizeRealDepositOptionCandidates(input: {
   repositoryFullName: string;

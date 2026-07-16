@@ -30,7 +30,7 @@ import {
   getTelemetryPillExplainer,
   getTelemetryRowIconExplainer,
 } from '@/components/bitcode/pipeline/TelemetryPillExplainers/telemetry-pill-explainers';
-import { buildProductRunActivityFromEvents } from '@/components/bitcode/pipeline/models/pipeline-run-activity';
+import { buildPipelineRunActivityFromEvents } from '@/components/bitcode/pipeline/models/pipeline-run-activity';
 
 beforeAll(() => {
   (global as any).ResizeObserver = class {
@@ -212,7 +212,7 @@ describe('formatRunClock', () => {
 // 'synthesize-asset-packs'/'mode' store, stamps it onto rows, and exposes the
 // CURRENT call-chain for the live header tracker (item 5).
 // ---------------------------------------------------------------------------
-describe('buildProductRunActivityFromEvents — mode latch + latest context', () => {
+describe('buildPipelineRunActivityFromEvents — mode latch + latest context', () => {
   const events = [
     {
       id: '1',
@@ -239,14 +239,14 @@ describe('buildProductRunActivityFromEvents — mode latch + latest context', ()
   ];
 
   it('latches the mode and stamps it onto row executionState', () => {
-    const snapshot = buildProductRunActivityFromEvents(events, null, [], null);
+    const snapshot = buildPipelineRunActivityFromEvents(events, null, [], null);
     expect(snapshot.mode).toBe('deposit');
     const row = Object.values(snapshot.outputDetails)[0] as any;
     expect(row.executionState.pipelineMode).toBe('deposit');
   });
 
   it('exposes the current call-chain as latestContext', () => {
-    const snapshot = buildProductRunActivityFromEvents(events, null, [], null);
+    const snapshot = buildPipelineRunActivityFromEvents(events, null, [], null);
     expect(snapshot.latestContext).toMatchObject({
       phase: 'discovery',
       agent: 'DepositDepositorySearchAgent',
@@ -257,7 +257,7 @@ describe('buildProductRunActivityFromEvents — mode latch + latest context', ()
   });
 
   it('keeps mode null and latestContext null before anything streams', () => {
-    const snapshot = buildProductRunActivityFromEvents([], null, [], null);
+    const snapshot = buildPipelineRunActivityFromEvents([], null, [], null);
     expect(snapshot.mode).toBeNull();
     expect(snapshot.latestContext).toBeNull();
   });

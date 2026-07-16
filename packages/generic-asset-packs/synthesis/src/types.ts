@@ -7,8 +7,8 @@
 
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
 
-/** @deprecated Prefer separate deposit/read product pipelines (no lens). */
-export type AssetPacksSynthesisLens = 'deposit' | 'read';
+/** Deposit | read synthesis mode (separate product pipelines; no lens). */
+export type SynthesizeAssetPacksMode = 'deposit' | 'read';
 
 /** Soft policy / legacy relative specs (not formal absolute or neediness kinds). */
 export interface AssetPackMeasurementSpec {

@@ -16,7 +16,7 @@ import type { VCSBranch, VCSCommit, VCSProviderType, VCSRepository } from "@bitc
 import {
   DEPOSIT_COMMIT_LATEST_REF,
   getProviderLabel,
-  PRODUCT_REPOSITORY_PROVIDERS,
+  REPOSITORY_PROVIDERS,
   type RepositoryConnectionStatus,
 } from "@/components/bitcode/pipeline/models/repository-context";
 import { DepositSourceListRefreshButton } from "@/components/deposits/DepositSourceSelection/DepositSourceListRefreshButton";
@@ -86,7 +86,7 @@ export function DepositSourceFieldGrid(props: DepositSourceFieldGridProps) {
           <div className="min-w-0 flex-1">
             <SearchableSelect
               aria-label="Repository provider"
-              items={PRODUCT_REPOSITORY_PROVIDERS.map((option) => ({
+              items={REPOSITORY_PROVIDERS.map((option) => ({
                 key: option,
                 label: getProviderLabel(option),
                 description:

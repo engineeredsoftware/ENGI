@@ -7,7 +7,7 @@ import type {
   ProductDepositedSourceRevision,
   ProductDepositReadWorkbench,
 } from '@/components/reads/models/deposit-read-workbench';
-import type { ProductRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
+import type { RepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 
 export type ProductReadFitsFindingSynthesisHostRequest = {
   mode: 'asset_pack_pipeline';
@@ -82,7 +82,7 @@ export function buildProductReadFitsFindingSynthesisHostRequest({
   acceptedReadNeed,
 }: {
   workbench: ProductDepositReadWorkbench | null;
-  repositoryContext?: ProductRepositoryContextState | null;
+  repositoryContext?: RepositoryContextState | null;
   depositedSourceRevision?: ProductDepositedSourceRevision | null;
   readActivityId?: string | null;
   acceptedReadNeed?: unknown;

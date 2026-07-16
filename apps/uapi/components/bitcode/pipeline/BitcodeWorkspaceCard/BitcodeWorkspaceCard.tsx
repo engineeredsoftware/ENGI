@@ -75,5 +75,3 @@ export default function BitcodeWorkspaceCard({
   );
 }
 
-/** @deprecated Prefer BitcodeWorkspaceCard */
-export { BitcodeWorkspaceCard as productWorkspaceCard };

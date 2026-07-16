@@ -107,5 +107,3 @@ export default function BitcodeActionWorkbenchCard({
   );
 }
 
-/** @deprecated Prefer BitcodeActionWorkbenchCard */
-export { BitcodeActionWorkbenchCard as productActionWorkbenchCard };

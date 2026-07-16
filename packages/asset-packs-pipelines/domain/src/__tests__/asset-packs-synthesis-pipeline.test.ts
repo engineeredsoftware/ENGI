@@ -6,7 +6,7 @@ import {
   buildSynthesisPromptLayers,
   sumLlmTokensFromExecutionTree,
 } from '../asset-packs-synthesis-pipeline';
-import { measurementCatalogForLens, type AssetPacksSynthesisLens } from '../asset-packs-synthesis';
+import { measurementCatalogForLens, type SynthesizeAssetPacksMode } from '../asset-packs-synthesis';
 
 // Satisfy the ExecutionPrompt root requirements exactly as AgentExecution does
 // at runtime (generic_system + specific_execution set to a blank PromptPart).
@@ -19,7 +19,7 @@ const BLANK = ' ' as PromptPart;
  * layer's instruction content into the system prompt, lens-correctly.
  */
 describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
-  function render(lens: AssetPacksSynthesisLens): string {
+  function render(lens: SynthesizeAssetPacksMode): string {
     const prompt = new ExecutionPrompt();
     prompt.set('generic_system', BLANK);
     prompt.set('specific_execution', BLANK);

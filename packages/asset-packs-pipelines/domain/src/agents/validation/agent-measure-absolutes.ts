@@ -24,7 +24,7 @@ import {
   ASSET_PACK_ABSOLUTES_CATALOG,
   type AssetPackAbsoluteSpec,
   type AssetPackCandidateMeasurement,
-  type AssetPacksSynthesisLens,
+  type SynthesizeAssetPacksMode,
 } from '../../asset-packs-synthesis';
 import { isAssetPackRealInferenceEnabled } from '../../runtime-inference-policy';
 import {
@@ -54,7 +54,7 @@ const QUANTITY_KINDS = new Set([
   'symbolic-richness',
   'modularity',
 ]);
-const LENS_SUBJECT: Record<AssetPacksSynthesisLens, string> = {
+const LENS_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   deposit:
     'a synthesized source-safe deposit AssetPack patch the depositor will review and admit',
   read: 'a synthesized source-safe Need-fitting AssetPack the reader will review and buy',
@@ -73,22 +73,7 @@ function clamp01(value: number): number {
   return Number(Math.max(0, Math.min(1, n)).toFixed(2));
 }
 
-/**
- * factoryAssetPackMeasureAbsolutesAgent — the lens-parameterized concrete
- * measurer. Bases factoryAbsolutesMeasureAgent with the absolutes catalog.
- */
-/**
- * @deprecated Prefer factorySynthesizeAssetPacksAbsolutesMeasureAgent from
- * @bitcode/generic-asset-packs-synthesis. Kept as local alias for pipeline validation wiring.
- */
-export function factoryAssetPackMeasureAbsolutesAgent(
-  lens: AssetPacksSynthesisLens,
-): MeasureAgent {
-  return factorySynthesizeAssetPacksAbsolutesMeasureAgent(lens);
-}
-
-/** Hierarchy-encoded product factory (re-export). */
-export { factorySynthesizeAssetPacksAbsolutesMeasureAgent };
+export { factorySynthesizeAssetPacksAbsolutesMeasureAgent } from '@bitcode/generic-asset-packs-synthesis';
 
 /** Static-analysis helpers used by deposit attach paths (re-export). */
 export { analyzeStaticSource } from './source-static-analysis-tool';
@@ -338,7 +323,7 @@ async function measureStaticAnalysis(
  */
 export async function measureAssetPackAbsolutes(
   patch: MeasurableAssetPackPatch,
-  context: { lens: AssetPacksSynthesisLens; execution?: any; sources?: StaticAnalysisSourceFile[] },
+  context: { lens: SynthesizeAssetPacksMode; execution?: any; sources?: StaticAnalysisSourceFile[] },
 ): Promise<AssetPackCandidateMeasurement[]> {
   const report = await measureStaticAnalysis(patch, context);
   const reportAbsolutes = computeAbsolutesFromReport(report, patch);
@@ -347,7 +332,7 @@ export async function measureAssetPackAbsolutes(
     return reportAbsolutes;
   }
   try {
-    const agent = factoryAssetPackMeasureAbsolutesAgent(context.lens);
+    const agent = factorySynthesizeAssetPacksAbsolutesMeasureAgent(context.lens);
     const raw = await agent(toDescriptor(patch, report) as any, context.execution);
     // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }) — unwrap (F27).
     const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;

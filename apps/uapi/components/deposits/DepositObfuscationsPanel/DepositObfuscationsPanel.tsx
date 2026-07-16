@@ -10,7 +10,7 @@ import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineE
 import { ProductSynthesizeAssetPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeAssetPackOptionsButton/ProductSynthesizeAssetPackOptionsButton";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import { DEPOSIT_OBFUSCATIONS_PLACEHOLDER } from "@/components/deposits/models/deposit-format";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositObfuscationsAnchor } from "@/components/deposits/models/deposit-activity-ledger";
 import { DepositObfuscationsAnchorControls } from "@/components/deposits/DepositObfuscationsAnchorControls/DepositObfuscationsAnchorControls";
 import { DepositObfuscationsPathPickers } from "@/components/deposits/DepositObfuscationsPathPickers/DepositObfuscationsPathPickers";
@@ -34,7 +34,7 @@ export type DepositObfuscationsPanelProps = {
   onPermissibleSourcesChange: (paths: string[]) => void;
   impermissibleSources: string[];
   onImpermissibleSourcesChange: (paths: string[]) => void;
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   /** Selected repository full name (enables synthesize when set). */
   repositoryFullName: string | null | undefined;
   onSynthesize: () => void | Promise<void>;

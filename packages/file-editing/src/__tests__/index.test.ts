@@ -19,7 +19,7 @@ import {
   type EditCommandParams,
   type TextEdit,
   type Position,
-  type FileOperation,
+  type FileEditOperation,
   type FileTransaction,
 } from '../index';
 import * as fs from 'fs/promises';

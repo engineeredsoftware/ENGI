@@ -217,8 +217,6 @@ export interface FileEditOperation {
   transactionId?: string;
 }
 
-/** @deprecated Prefer FileEditOperation — avoids clash with @bitcode/files FileOperation */
-export type FileOperation = FileEditOperation;
 
 export interface FileTransaction {
   id: string;

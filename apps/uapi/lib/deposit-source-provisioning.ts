@@ -56,8 +56,6 @@ export interface DepositCheckoutSourceCatalog {
   truncated: boolean;
 }
 
-/** @deprecated Use DepositCheckoutSourceCatalog */
-export type ProvisionedDepositInventory = DepositCheckoutSourceCatalog;
 
 /**
  * Host checkout of the complete working tree at the revision.
@@ -226,7 +224,6 @@ export function formatDepositHostFailure(result: {
 export type DepositSandboxGitRevisionStrategy = GitWorkingTreeStrategy;
 
 /**
- * @deprecated Create-time Sandbox git source is Host-law illegal for deposit.
  * Prefer `resolveGitClonePlan` + `buildHostCloneEnvEntries` (Setup in-box clone).
  * Kept as a pure plan helper for tests / diagnostics of the old shape.
  */
@@ -545,11 +542,8 @@ export async function readDepositCheckoutSourceFiles(
   return readWorkspaceSources(workspace);
 }
 
-/** @deprecated Prefer readDepositCheckoutSourceFiles */
-export const materializeDepositInventorySources = readDepositCheckoutSourceFiles;
 
 /**
- * @deprecated Prefer provisionDepositCheckout + Discovery source-file load.
  * One-shot full catalog load (disposes workspace). Kept for tests.
  */
 export async function provisionDepositSourceInventory(input: {

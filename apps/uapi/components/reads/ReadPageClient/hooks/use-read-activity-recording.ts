@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { PipelineExecution } from "@/types/api";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   buildProductExecutionHistoryRequest,
   mapExecutionHistoryRunToWorkspaceRun,
@@ -17,18 +17,18 @@ import {
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
 export function useReadActivityRecording(input: {
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   selectedRun: WorkspaceRun | null;
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
   refreshLiveRuns: () => void | Promise<unknown>;
-  replaceReadRouteTransaction: (id: string) => void;
+  openReadRouteTransaction: (id: string) => void;
 }) {
   const {
     repositoryContext,
     selectedRun,
     setLiveRuns,
     refreshLiveRuns,
-    replaceReadRouteTransaction,
+    openReadRouteTransaction,
   } = input;
 
   const handleRecordActivity = useCallback(
@@ -67,14 +67,14 @@ export function useReadActivityRecording(input: {
       const nextRun = mapExecutionHistoryRunToWorkspaceRun(payload.execution);
       setLiveRuns((currentRuns) => upsertWorkspaceRun(currentRuns, nextRun));
       if (draft.selectAfterRecord !== false) {
-        replaceReadRouteTransaction(nextRun.id);
+        openReadRouteTransaction(nextRun.id);
       }
       void refreshLiveRuns();
       return nextRun;
     },
     [
       refreshLiveRuns,
-      replaceReadRouteTransaction,
+      openReadRouteTransaction,
       repositoryContext,
       selectedRun,
       setLiveRuns,

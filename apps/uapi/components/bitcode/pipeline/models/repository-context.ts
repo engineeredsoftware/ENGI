@@ -2,10 +2,6 @@
  * Shared repository connection / inventory context for pipeline experiences
  * (Deposits, Reads, Packs).
  *
- * V48 naming: not product-owned. Product surfaces import from this Bitcode
- * pipeline model. Temporary product* aliases remain until residual cockpit
- * callers migrate.
- *
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
@@ -15,9 +11,6 @@ export type RepositoryInventorySource =
   | 'stored_repository_inventory'
   | 'live_provider_inventory'
   | 'mock_repository_inventory';
-
-/** @deprecated Prefer `RepositoryInventorySource`. */
-export type ProductRepositoryInventorySource = RepositoryInventorySource;
 
 export type RepositoryConnectionStatus = {
   connected: boolean;
@@ -33,9 +26,6 @@ export type RepositoryConnectionStatus = {
     supported?: boolean;
   };
 };
-
-/** @deprecated Prefer `RepositoryConnectionStatus`. */
-export type ProductRepositoryConnectionStatus = RepositoryConnectionStatus;
 
 export type RepositoryContextState = {
   provider: VCSProviderType;
@@ -53,13 +43,7 @@ export type RepositoryContextState = {
   sourceSelectionError?: string | null;
 };
 
-/** @deprecated Prefer `RepositoryContextState`. */
-export type ProductRepositoryContextState = RepositoryContextState;
-
 export const REPOSITORY_PROVIDERS: VCSProviderType[] = ['github'];
-
-/** @deprecated Prefer `REPOSITORY_PROVIDERS`. */
-export const PRODUCT_REPOSITORY_PROVIDERS = REPOSITORY_PROVIDERS;
 
 export function normalizeRepositoryProvider(_value?: string | null): VCSProviderType {
   return 'github';

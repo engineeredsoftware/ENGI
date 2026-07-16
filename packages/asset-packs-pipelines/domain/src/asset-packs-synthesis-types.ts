@@ -13,7 +13,7 @@ import type { MeasurementSpec } from '@bitcode/measurement-generics';
 import type { AssetPackPatchDescriptor } from '@bitcode/asset-packs-generics';
 import type { DepositDemandEstimate } from './deposit-asset-pack-options-types';
 
-export type AssetPacksSynthesisLens = 'deposit' | 'read';
+export type SynthesizeAssetPacksMode = 'deposit' | 'read';
 
 export interface AssetPackMeasurementSpec {
   measurementKind: string;
@@ -80,7 +80,7 @@ export interface AssetPacksSynthesisSteering {
 }
 
 export interface AssetPacksSynthesisRequest {
-  lens: AssetPacksSynthesisLens;
+  lens: SynthesizeAssetPacksMode;
   repositoryFullName: string;
   sourceBranch: string | null;
   sourceCommit: string | null;
@@ -144,7 +144,7 @@ export interface AssetPacksSynthesisInferenceAccounting {
 }
 
 export interface AssetPacksSynthesisResult {
-  lens: AssetPacksSynthesisLens;
+  lens: SynthesizeAssetPacksMode;
   candidates: AssetPackCandidate[];
   droppedCandidateCount: number;
   exclusionViolations: string[];

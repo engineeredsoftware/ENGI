@@ -7,7 +7,7 @@ import { useCallback } from "react";
 import type { Dispatch, MutableRefObject, SetStateAction } from "react";
 import type { PipelineExecution } from "@/types/api";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   buildProductExecutionHistoryRequest,
   buildProductObfuscationsAnchorDraft,
@@ -18,12 +18,12 @@ import {
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
 export function useDepositActivityRecording(input: {
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   selectedRun: WorkspaceRun | null;
   liveRuns: WorkspaceRun[];
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
   refreshLiveRuns: () => void | Promise<unknown>;
-  replaceDepositRouteTransaction: (id: string) => void;
+  openDepositRouteTransaction: (id: string) => void;
   synthesizeOptionsRef: MutableRefObject<(() => Promise<void>) | null>;
   obfuscations: string;
   obfuscationsAnchorName: string;
@@ -39,7 +39,7 @@ export function useDepositActivityRecording(input: {
     liveRuns,
     setLiveRuns,
     refreshLiveRuns,
-    replaceDepositRouteTransaction,
+    openDepositRouteTransaction,
     synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
@@ -84,7 +84,7 @@ export function useDepositActivityRecording(input: {
       const nextRun = mapExecutionHistoryRunToWorkspaceRun(payload.execution);
       setLiveRuns((currentRuns) => upsertWorkspaceRun(currentRuns, nextRun));
       if (draft.selectAfterRecord !== false) {
-        replaceDepositRouteTransaction(nextRun.id);
+        openDepositRouteTransaction(nextRun.id);
       }
       void refreshLiveRuns();
       if (
@@ -97,7 +97,7 @@ export function useDepositActivityRecording(input: {
     },
     [
       refreshLiveRuns,
-      replaceDepositRouteTransaction,
+      openDepositRouteTransaction,
       repositoryContext,
       selectedRun,
       setLiveRuns,

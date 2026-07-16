@@ -13,8 +13,8 @@ import {
   deriveSelectedCommit,
   deriveSelectedRepository,
   isLatestCommitRef,
-  type ProductRepositoryConnectionStatus,
-  type ProductRepositoryInventorySource,
+  type RepositoryConnectionStatus,
+  type RepositoryInventorySource,
 } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   readJsonResponse,
@@ -37,9 +37,9 @@ export function useDepositSourceVcs(input: {
   } = input;
 
   const [connectionStatus, setConnectionStatus] =
-    useState<ProductRepositoryConnectionStatus | null>(null);
+    useState<RepositoryConnectionStatus | null>(null);
   const [inventorySource, setInventorySource] =
-    useState<ProductRepositoryInventorySource | null>(null);
+    useState<RepositoryInventorySource | null>(null);
   const [repositories, setRepositories] = useState<VCSRepository[]>([]);
   const [branches, setBranches] = useState<VCSBranch[]>([]);
   const [commits, setCommits] = useState<VCSCommit[]>([]);
@@ -99,7 +99,7 @@ export function useDepositSourceVcs(input: {
           throw new Error("Unable to load repository connection posture.");
         }
         if (!disposed) {
-          setConnectionStatus(payload as ProductRepositoryConnectionStatus);
+          setConnectionStatus(payload as RepositoryConnectionStatus);
         }
       })
       .catch((nextError) => {
@@ -155,7 +155,7 @@ export function useDepositSourceVcs(input: {
           setInventorySource(
             typeof (payload as { inventorySource?: unknown }).inventorySource ===
               "string"
-              ? ((payload as { inventorySource: ProductRepositoryInventorySource })
+              ? ((payload as { inventorySource: RepositoryInventorySource })
                   .inventorySource)
               : null,
           );

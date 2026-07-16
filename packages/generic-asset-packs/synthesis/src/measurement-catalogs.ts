@@ -9,7 +9,7 @@
 import type {
   AssetPackAbsoluteSpec,
   AssetPackMeasurementSpec,
-  AssetPacksSynthesisLens,
+  SynthesizeAssetPacksMode,
 } from './types';
 
 export const DEPOSIT_MEASUREMENT_CATALOG: AssetPackMeasurementSpec[] = [
@@ -55,7 +55,7 @@ export const READ_MEASUREMENT_CATALOG: AssetPackMeasurementSpec[] = [
   },
 ];
 
-export function measurementCatalogForLens(lens: AssetPacksSynthesisLens): AssetPackMeasurementSpec[] {
+export function measurementCatalogForLens(lens: SynthesizeAssetPacksMode): AssetPackMeasurementSpec[] {
   return lens === 'read' ? READ_MEASUREMENT_CATALOG : DEPOSIT_MEASUREMENT_CATALOG;
 }
 
@@ -160,7 +160,6 @@ export const ASSET_PACK_ABSOLUTE_KINDS: string[] = ASSET_PACK_ABSOLUTES_CATALOG.
 );
 
 /**
- * @deprecated Deposit must not carry neediness. Needinesses are read-only
  * measurement KIND rows under measurements.needinesses (see needinesses package).
  */
 export const DEPOSIT_NEEDINESS_MEASUREMENT = {

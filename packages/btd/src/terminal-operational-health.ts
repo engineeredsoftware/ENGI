@@ -1,24 +1,22 @@
 /**
- * product-era export names for operational health.
- *
- * Prefer `./operational-health` (or `@bitcode/btd/operational-health`).
- * Operational health is package domain vocabulary, not a product cockpit name.
+ * Operational health exports for terminal / Auxillaries surfaces.
+ * Canonical vocabulary lives in `./operational-health`.
  */
 
 export type {
-  OperationalReadinessState as productOperationalReadinessState,
-  OperationalHealthSeverity as productOperationalHealthSeverity,
-  OperationalLaneRead as productOperationalLaneRead,
-  OperationalSubsystemRead as productOperationalSubsystemRead,
-  OperationalUpgradeRead as productOperationalUpgradeRead,
-  OperationalProviderRead as productOperationalProviderRead,
-  OperationalSettlementNetworkRead as productOperationalSettlementNetworkRead,
-  OperationalMintingRead as productOperationalMintingRead,
-  OperationalHealthRead as OperationalHealthRead,
-  BuildOperationalHealthReadInput as BuildOperationalHealthReadInput,
+  OperationalReadinessState,
+  OperationalHealthSeverity,
+  OperationalLaneRead,
+  OperationalSubsystemRead,
+  OperationalUpgradeRead,
+  OperationalProviderRead,
+  OperationalSettlementNetworkRead,
+  OperationalMintingRead,
+  OperationalHealthRead,
+  BuildOperationalHealthReadInput,
 } from './operational-health';
 
 export {
-  buildOperationalHealthRead as buildOperationalHealthRead,
-  aggregateOperationalTelemetrySeverity as aggregateOperationalTelemetrySeverity,
+  buildOperationalHealthRead,
+  aggregateOperationalTelemetrySeverity,
 } from './operational-health';

@@ -10,7 +10,7 @@ import type {
   AssetPackCandidate,
   AssetPackCandidateMeasurement,
   AssetPackPatchDescriptor,
-  AssetPacksSynthesisLens,
+  SynthesizeAssetPacksMode,
   AssetPacksSynthesisSourceInventory,
   DepositSynthesisRawOption,
 } from './asset-packs-synthesis-types';
@@ -55,7 +55,7 @@ export function assertSourceSafeCandidates(
 export function validateDepositSynthesisOptions(
   rawOptions: DepositSynthesisRawOption[],
   context: {
-    lens: AssetPacksSynthesisLens;
+    lens: SynthesizeAssetPacksMode;
     inventoryPaths: string[];
     impermissibleSources: string[];
     candidateKinds: string[];

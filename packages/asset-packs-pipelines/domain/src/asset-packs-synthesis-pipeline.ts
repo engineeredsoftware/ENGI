@@ -33,7 +33,7 @@ import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
 import { applyInventoryScope } from './asset-packs-synthesis-inventory';
 import type {
   AssetPackMeasurementSpec,
-  AssetPacksSynthesisLens,
+  SynthesizeAssetPacksMode,
   AssetPacksSynthesisSourceInventory,
   AssetPacksSynthesisSourceSample,
   AssetPacksSynthesisSteering,
@@ -55,7 +55,7 @@ const PIPELINE_SOURCE_SAFETY = part(
     'impermissible sources absolutely — never cover, reference, or describe excluded material.',
 );
 
-const LENS_ROLE: Record<AssetPacksSynthesisLens, PromptPart> = {
+const LENS_ROLE: Record<SynthesizeAssetPacksMode, PromptPart> = {
   deposit: part(
     'Lens: deposit. Depositors supply AssetPacks (bounded, source-safe slices of repository ' +
       'knowledge) into a Depository where future buyers find Need-fitting packs. Synthesize ' +
@@ -117,7 +117,7 @@ export interface SynthesisPromptLayer {
  * chunk F: PromptPart/Prompt sanity-check).
  */
 export function buildSynthesisPromptLayers(
-  lens: AssetPacksSynthesisLens,
+  lens: SynthesizeAssetPacksMode,
   catalog: AssetPackMeasurementSpec[],
   candidateKinds: string[],
   maxCandidates: number,
@@ -158,7 +158,7 @@ export class AssetPackInventoryTool extends ExecutionTool<
 // ---- The formal synthesis run ----------------------------------------------
 
 export interface FormalSynthesisRequest {
-  lens: AssetPacksSynthesisLens;
+  lens: SynthesizeAssetPacksMode;
   repositoryFullName: string;
   sourceBranch: string | null;
   sourceCommit: string | null;
@@ -235,10 +235,6 @@ export function sumLlmTokensFromExecutionTree(execution: {
   return seen ? total : null;
 }
 
-/** @deprecated alias — use sumLlmTokensFromExecutionTree */
-function sumLlmTokens(execution: Execution): number | null {
-  return sumLlmTokensFromExecutionTree(execution);
-}
 
 export async function synthesizeAssetPackCandidatesFormal(
   request: FormalSynthesisRequest,
@@ -336,6 +332,6 @@ export async function synthesizeAssetPackCandidatesFormal(
     options: Array.isArray((parsed as any)?.options) ? (parsed as any).options : [],
     provider: provider ?? null,
     model: model ?? null,
-    totalTokens: sumLlmTokens(pipelineExec),
+    totalTokens: sumLlmTokensFromExecutionTree(pipelineExec),
   };
 }

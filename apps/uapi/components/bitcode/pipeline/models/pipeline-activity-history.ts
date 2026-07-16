@@ -11,7 +11,7 @@ import type { PipelineExecution } from '@/types/api';
 import type { ProductDepositReadWorkbench, ProductSourceRevision } from '@/components/reads/models/deposit-read-workbench';
 import type { ProductReadScenariosState } from '@/components/reads/models/read-scenarios';
 import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
-import type { ProductRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
+import type { RepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 import type { PipelineTransactionDetailSection } from '@/components/bitcode/pipeline/models/pipeline-selection-query';
 
 /** Slim processing stats for history drafts (no Pack detail snapshot dependency). */
@@ -63,7 +63,7 @@ function buildReadMeasurementState(
 }
 
 
-function buildRepositoryAnchorState(repositoryContext: ProductRepositoryContextState, providerAccount: string) {
+function buildRepositoryAnchorState(repositoryContext: RepositoryContextState, providerAccount: string) {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;
   const selectedBranch = repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
@@ -147,7 +147,7 @@ function buildProductFitResultState(workbench: ProductDepositReadWorkbench) {
 }
 
 function buildRepoSnapshot(
-  repositoryContext?: ProductRepositoryContextState | null,
+  repositoryContext?: RepositoryContextState | null,
   fallbackRun?: WorkspaceRun | null,
   sourceRevision?: ProductSourceRevision | null,
 ) {
@@ -253,7 +253,7 @@ export function formatObfuscationsAnchorDescription(input: {
 export function buildProductExecutionHistoryRequest(
   draft: ProductActivityRecordDraft,
   options: {
-    repositoryContext?: ProductRepositoryContextState | null;
+    repositoryContext?: RepositoryContextState | null;
     fallbackRun?: WorkspaceRun | null;
   },
 ) {
@@ -502,7 +502,7 @@ export function buildProductFitWorkbenchDraft(
 }
 
 export function buildProductRepositoryAnchorDraft(
-  repositoryContext: ProductRepositoryContextState,
+  repositoryContext: RepositoryContextState,
 ): ProductActivityRecordDraft {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;

@@ -52,7 +52,7 @@ export type {
   AssetPackNeediness,
   AssetPackPatchDescriptor,
   AssetPacksSynthesisInferenceAccounting,
-  AssetPacksSynthesisLens,
+  SynthesizeAssetPacksMode,
   AssetPacksSynthesisRequest,
   AssetPacksSynthesisResult,
   AssetPacksSynthesisSourceFile,

@@ -7,7 +7,7 @@
 
 import type { DepositOptionReviewDecision } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
 import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRouteSession } from "@/components/deposits/models/deposit-route-model";
 import type { DepositRouteStepId } from "@/components/deposits/models/deposit-route-model";
 import type {
@@ -18,7 +18,7 @@ import type {
 export type BuildDepositRouteInputArgs = {
   transactionId: string | null;
   depositStage: DepositRouteStepId | null | undefined;
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   obfuscations: string;
   permissibleSources: string[];
   settledDemandSignals: DepositSettledDemandSignals;

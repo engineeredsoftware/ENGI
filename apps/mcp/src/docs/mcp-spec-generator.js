@@ -50,7 +50,7 @@ class MCPSpecificationGenerator {
             { name: 'Enterprise Integration', tools: (0, enterprise_tools_1.registerEnterpriseTools)() },
             { name: 'LSP Integration', tools: (0, lsp_tools_1.registerLspTools)() },
             { name: 'Observability', tools: (0, observability_tools_1.registerObservabilityTools)() },
-            { name: 'Analysis', tools: (0, analysis_tools_1.registerAnalysisTools)() }
+            { name: 'Analysis', tools: (0, analysis_tools_1.registerMeasureTools)() }
         ];
         // Process each category
         for (const category of toolCategories) {

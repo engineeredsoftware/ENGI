@@ -267,7 +267,7 @@ class BitcodeMCPServer {
             // Safely register each tool category
             const toolCategories = [
                 { name: 'pipeline', register: pipeline_tools_1.registerPipelineTools },
-                { name: 'analysis', register: analysis_tools_1.registerAnalysisTools },
+                { name: 'analysis', register: analysis_tools_1.registerMeasureTools },
                 { name: 'intelligence', register: intelligence_tools_1.registerIntelligenceTools },
                 { name: 'enterprise', register: enterprise_tools_1.registerEnterpriseTools },
                 { name: 'lsp', register: lsp_tools_1.registerLspTools },
@@ -342,7 +342,7 @@ class BitcodeMCPServer {
                         // Route tool execution based on name prefix
                         const toolRoutes = [
                             { prefix: 'bitcode://pipelines/', register: pipeline_tools_1.registerPipelineTools },
-                            { prefix: 'bitcode://analysis/', register: analysis_tools_1.registerAnalysisTools },
+                            { prefix: 'bitcode://analysis/', register: analysis_tools_1.registerMeasureTools },
                             { prefix: 'bitcode://intelligence/', register: intelligence_tools_1.registerIntelligenceTools },
                             { prefix: 'bitcode://enterprise/', register: enterprise_tools_1.registerEnterpriseTools },
                             { prefix: 'bitcode://lsp/', register: lsp_tools_1.registerLspTools },

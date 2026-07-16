@@ -256,21 +256,6 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   return null;
 }
 
-/** @deprecated Prefer `buildPipelineRunActivityFromEvents`. */
-export function buildProductRunActivityFromEvents(
-  events: ExecutionEvent[],
-  latestWorkUpdate: any | null,
-  iterationUpdates: any[],
-  streamError: string | null,
-): ProductRunActivitySnapshot {
-  return buildPipelineRunActivityFromEvents(
-    events,
-    latestWorkUpdate,
-    iterationUpdates,
-    streamError,
-  );
-}
-
 export function buildPipelineRunActivityFromEvents(
   events: ExecutionEvent[],
   latestWorkUpdate: any | null,
@@ -507,13 +492,6 @@ export function buildPipelineRunActivityFromEvents(
     currentIteration: rollingContext.iteration ?? null,
     readyToFinishVerdicts,
   };
-}
-
-/** @deprecated Prefer `buildPipelineRunActivityFromMock`. */
-export function buildProductRunActivityFromMock(
-  snapshot: MockRunActivitySnapshot | null | undefined,
-): ProductRunActivitySnapshot | null {
-  return buildPipelineRunActivityFromMock(snapshot);
 }
 
 export function buildPipelineRunActivityFromMock(

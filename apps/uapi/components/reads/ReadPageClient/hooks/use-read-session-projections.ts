@@ -6,7 +6,7 @@
 
 import { useMemo } from "react";
 import type { ProductDepositedSourceRevision } from "@/components/reads/models/deposit-read-workbench";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import {
   buildReadRouteSession,
@@ -16,7 +16,7 @@ import {
 
 export function useReadSessionProjections(input: {
   liveRuns: WorkspaceRun[];
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   selectedTransactionId: string | null;
   selectedRun: WorkspaceRun | null;
   routeReadingStage: ReadRouteStepId | null;

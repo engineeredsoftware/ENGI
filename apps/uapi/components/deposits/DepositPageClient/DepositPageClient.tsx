@@ -42,7 +42,7 @@ import { useUserData } from "@/hooks/useUserData";
 import { trackProductEvent } from "@/lib/product-analytics";
 
 import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import {
   DEFAULT_TRANSACTION_FILTERS,
   DEFAULT_TRANSACTION_PAGINATION,
@@ -50,8 +50,8 @@ import {
   type TransactionPagination,
 } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
 import {
-  buildDepositHref,
-  DEPOSIT_ROUTE,
+  buildDepositsHref,
+  DEPOSITS_ROUTE,
 } from "@/components/bitcode/routes/ProductRoutes/product-routes";
 import { BitcodeShellBridgeProvider } from "@/components/bitcode/layout/BitcodeShellBridge/BitcodeShellBridge";
 import {
@@ -109,7 +109,7 @@ export default function DepositPageClient() {
   const networkDepositoryCount = useDepositNetworkDepositoryCount();
 
   const [repositoryContext, setRepositoryContext] =
-    useState<ProductRepositoryContextState | null>(null);
+    useState<RepositoryContextState | null>(null);
   const [obfuscations, setObfuscations] = useState("");
   const [obfuscationsAnchorName, setObfuscationsAnchorName] = useState("");
   const [isObfuscationsAnchorPopoverOpen, setIsObfuscationsAnchorPopoverOpen] =
@@ -374,7 +374,7 @@ export default function DepositPageClient() {
     selectedRun,
     readCurrentSearchParams,
     replaceDepositSearchParams,
-    replaceDepositRouteTransaction: openDepositRouteTransaction,
+    openDepositRouteTransaction: openDepositRouteTransaction,
     refreshLiveRuns,
     obfuscations,
     permissibleSources,
@@ -421,7 +421,7 @@ export default function DepositPageClient() {
     liveRuns,
     setLiveRuns,
     refreshLiveRuns,
-    replaceDepositRouteTransaction: openDepositRouteTransaction,
+    openDepositRouteTransaction: openDepositRouteTransaction,
     synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
@@ -550,8 +550,8 @@ export default function DepositPageClient() {
                   preferredRepository={selectedRun?.repository || null}
                   onContextChange={setRepositoryContext}
                   onRecordActivity={handleRecordActivity}
-                  routePath={DEPOSIT_ROUTE}
-                  buildRouteHref={buildDepositHref}
+                  routePath={DEPOSITS_ROUTE}
+                  buildRouteHref={buildDepositsHref}
                   repoEarningEstimateSats={
                     depositRouteSession.earningSupplyIntelligence.aggregate
                       .totalExpectedCompensationSats

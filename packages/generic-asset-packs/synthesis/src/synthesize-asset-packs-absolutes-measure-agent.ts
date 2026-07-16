@@ -13,9 +13,9 @@ import {
 } from '@bitcode/generic-measurements-absolutes';
 
 import { ASSET_PACK_ABSOLUTES_CATALOG } from './measurement-catalogs';
-import type { AssetPacksSynthesisLens } from './types';
+import type { SynthesizeAssetPacksMode } from './types';
 
-const LENS_SUBJECT: Record<AssetPacksSynthesisLens, string> = {
+const LENS_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   deposit:
     'a synthesized source-safe deposit AssetPack patch the depositor will review and admit',
   read: 'a synthesized source-safe Need-fitting AssetPack the reader will review and buy',
@@ -25,7 +25,7 @@ const LENS_SUBJECT: Record<AssetPacksSynthesisLens, string> = {
  * factorySynthesizeAssetPacksAbsolutesMeasureAgent — lens-parameterized product measurer.
  */
 export function factorySynthesizeAssetPacksAbsolutesMeasureAgent(
-  lens: AssetPacksSynthesisLens,
+  lens: SynthesizeAssetPacksMode,
 ): AbsolutesMeasureAgent {
   return factoryAbsolutesMeasureAgent({
     name: `SynthesizeAssetPacksAbsolutesMeasureAgent:${lens}`,
@@ -39,6 +39,3 @@ export function factorySynthesizeAssetPacksAbsolutesMeasureAgent(
   });
 }
 
-/** @deprecated Use factorySynthesizeAssetPacksAbsolutesMeasureAgent */
-export const factoryAssetPackMeasureAbsolutesAgent =
-  factorySynthesizeAssetPacksAbsolutesMeasureAgent;

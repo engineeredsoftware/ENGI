@@ -59,5 +59,3 @@ export default function AuxillariesOpenButton({
   );
 }
 
-/** @deprecated Prefer `AuxillariesOpenButton`. */
-export { AuxillariesOpenButton as productOpenAuxillariesButton };

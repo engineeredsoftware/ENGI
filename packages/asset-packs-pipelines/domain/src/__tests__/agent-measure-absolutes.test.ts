@@ -16,7 +16,7 @@ import {
   mapReadingsToAbsoluteMeasurements,
   mergeReportAndReadings,
   measureAssetPackAbsolutes,
-  factoryAssetPackMeasureAbsolutesAgent,
+  factorySynthesizeAssetPacksAbsolutesMeasureAgent,
   type MeasurableAssetPackPatch,
 } from '../agents/validation/agent-measure-absolutes';
 import { SourceStaticAnalysisTool } from '../agents/validation/source-static-analysis-tool';
@@ -104,8 +104,8 @@ describe('agent-measure-absolutes', () => {
   });
 
   it('builds a lens-parameterized measurer agent', () => {
-    const deposit = factoryAssetPackMeasureAbsolutesAgent('deposit');
-    const read = factoryAssetPackMeasureAbsolutesAgent('read');
+    const deposit = factorySynthesizeAssetPacksAbsolutesMeasureAgent('deposit');
+    const read = factorySynthesizeAssetPacksAbsolutesMeasureAgent('read');
     expect(deposit.name).toBe('SynthesizeAssetPacksAbsolutesMeasureAgent:deposit');
     expect(read.name).toBe('SynthesizeAssetPacksAbsolutesMeasureAgent:read');
     expect(deposit.measurementCategory).toBe('absolute');

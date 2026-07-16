@@ -13,7 +13,7 @@ import {
 } from "@/components/deposits/models/deposit-run-status";
 import type { DepositSynthesisStatus } from "./use-deposit-synthesis-activity";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
-import type { ProductRepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRealSynthesis } from "@/components/deposits/models/deposit-real-synthesis";
 
 export function useDepositSynthesisLifecycle(input: {
@@ -41,12 +41,12 @@ export function useDepositSynthesisLifecycle(input: {
   selectedRun: WorkspaceRun | null;
   readCurrentSearchParams: () => URLSearchParams;
   replaceDepositSearchParams: (p: URLSearchParams) => void;
-  replaceDepositRouteTransaction: (id: string) => void;
+  openDepositRouteTransaction: (id: string) => void;
   refreshLiveRuns: () => void | Promise<unknown>;
   obfuscations: string;
   permissibleSources: string[];
   impermissibleSources: string[];
-  repositoryContext: ProductRepositoryContextState | null;
+  repositoryContext: RepositoryContextState | null;
   depositoryDemandSignals: Array<{ label: string }>;
   readingDemandSignals: Array<{ label: string }>;
   existingDepositorySignals: unknown;
@@ -75,7 +75,7 @@ export function useDepositSynthesisLifecycle(input: {
     selectedRun,
     readCurrentSearchParams,
     replaceDepositSearchParams,
-    replaceDepositRouteTransaction,
+    openDepositRouteTransaction,
     refreshLiveRuns,
     obfuscations,
     permissibleSources,
@@ -345,7 +345,7 @@ export function useDepositSynthesisLifecycle(input: {
           },
         });
         void Promise.resolve(refreshLiveRuns() as unknown).then(() => {
-          replaceDepositRouteTransaction(runId);
+          openDepositRouteTransaction(runId);
         });
       } catch (error) {
         setSynthesisStatus("failed");
@@ -368,7 +368,7 @@ export function useDepositSynthesisLifecycle(input: {
       obfuscations,
       readingDemandSignals,
       refreshLiveRuns,
-      replaceDepositRouteTransaction,
+      openDepositRouteTransaction,
       repositoryContext,
       setRealSynthesis,
       setSynthesisDispatchedAtMs,

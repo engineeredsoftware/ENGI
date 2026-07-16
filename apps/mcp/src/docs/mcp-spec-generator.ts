@@ -13,7 +13,7 @@ import { registerIntelligenceTools } from '../tools/intelligence-tools';
 import { registerEnterpriseTools } from '../tools/enterprise-tools';
 import { registerLspTools } from '../tools/lsp-tools';
 import { registerObservabilityTools } from '../tools/observability-tools';
-import { registerAnalysisTools } from '../tools/analysis-tools';
+import { registerMeasureTools } from '../tools/measure-tools';
 
 /**
  * MCP Tool interface
@@ -126,7 +126,7 @@ export class MCPSpecificationGenerator {
       { name: 'Enterprise Integration', tools: registerEnterpriseTools() },
       { name: 'LSP Integration', tools: registerLspTools() },
       { name: 'Observability', tools: registerObservabilityTools() },
-      { name: 'Analysis', tools: registerAnalysisTools() }
+      { name: 'Analysis', tools: registerMeasureTools() }
     ];
 
     // Process each category

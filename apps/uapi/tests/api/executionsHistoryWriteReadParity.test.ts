@@ -16,7 +16,7 @@ import {
   buildProductReadMeasurementDraft,
   mapExecutionHistoryRunToWorkspaceRun,
 } from '@/components/bitcode/pipeline/models/pipeline-activity-history';
-import type { ProductRepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
+import type { RepositoryContextState } from '@/components/bitcode/pipeline/models/repository-context';
 
 function createExecutionHistoryStore(userId = 'user-1') {
   const storedRows: any[] = [];
@@ -110,7 +110,7 @@ function createExecutionHistoryStore(userId = 'user-1') {
 }
 
 describe('Bitcode execution-history write/read parity', () => {
-  const repositoryContext: ProductRepositoryContextState = {
+  const repositoryContext: RepositoryContextState = {
     provider: 'github',
     connectionStatus: {
       connected: true,
