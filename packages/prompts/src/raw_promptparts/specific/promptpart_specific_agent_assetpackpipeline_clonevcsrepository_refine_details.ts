@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_DETAILS: PromptPart =
-  'Handle fallback refs, shallow/complete clone toggles, and workspace path corrections; ensure idempotency' as PromptPart;
+  'Final step only (no tools): synthesize Plan+Try+Retry into the agent return object { success, repository, workspacePath, status?, metadata? }; prefer successful clone evidence and record hostProvision/workingTree' as PromptPart;

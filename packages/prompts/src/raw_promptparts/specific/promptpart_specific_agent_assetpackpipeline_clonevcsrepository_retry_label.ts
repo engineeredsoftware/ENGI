@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL: PromptPart =
-  'RETRY: Recover from clone failures' as PromptPart;
+  'RETRY: Re-try clone using prior Try errors' as PromptPart;

@@ -111,17 +111,18 @@ export const AssetPackCloneVCSRepositoryAgent = factoryPTRRAgent<
     'Setup on Host: ensure complete repository working tree at SHA/ref for this pipeline run (adopt Host checkout or clone)',
   outputSchema: AssetPackCloneVCSRepoOutputSchema,
   prompt: AssetPackCloneVCSRepositoryAgentSystemPrompt,
+  // Step prompts keyed by name; factoryPTRRAgent runs Plan→Try→Retry→Refine.
   stepPrompts: {
     plan: () => planPrompt,
     try: () => tryPrompt,
-    refine: () => refinePrompt,
     retry: () => retryPrompt,
+    refine: () => refinePrompt,
   },
   tools: ['asset-pack-clone-vcs-repository-tool'],
   plan: { chunkThreshold: 1000 },
   try: { chunkThreshold: 2000 },
-  refine: { maxAttempts: 1 },
   retry: { maxAttempts: 1 },
+  refine: { maxAttempts: 1 },
 });
 
 function findExecutionValue(execution: any, namespace: string, key: string): any {
@@ -421,6 +422,11 @@ async function recordDepositCatalogFromRunWorkspace(
   });
 }
 
+function forceClonePtrr(): boolean {
+  const v = String(process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '').toLowerCase();
+  return v === '1' || v === 'true' || v === 'yes';
+}
+
 export default async function runAssetPackCloneVCSRepositoryAgent(input: any, execution: any) {
   const safeStore = (ns: string, key: string, val: unknown) => {
     try {
@@ -445,8 +451,27 @@ export default async function runAssetPackCloneVCSRepositoryAgent(input: any, ex
 
   let out: any;
 
-  // 1) LocalHost deposit: Host-wired factory always clones for this run.
-  if (normalized && typeof cloneForRun === 'function') {
+  // Debug: force the real PTRR clone agent (Plan→Try→Retry→Refine + clone tool)
+  // so LLM call-by-call passes can exercise the agent instead of host short-circuits.
+  if (forceClonePtrr()) {
+    log('[setup/clone] BITCODE_DEBUG_FORCE_CLONE_PTRR — using PTRR agent path', 'info', {
+      hasNormalized: Boolean(normalized),
+      hasCloneForRun: typeof cloneForRun === 'function',
+      hasHostCloneEnv: Boolean(readHostCloneEnv()),
+    });
+    out = await AssetPackCloneVCSRepositoryAgent(input, execution);
+    if (out && typeof out === 'object') {
+      out = {
+        ...out,
+        metadata: {
+          ...(out.metadata || {}),
+          workingTree: 'complete-at-revision',
+          hostProvision: 'debug-force-clone-ptrr',
+        },
+      };
+    }
+  } else if (normalized && typeof cloneForRun === 'function') {
+    // 1) LocalHost deposit: Host-wired factory always clones for this run.
     const workspace = await cloneForRun();
     const workspacePath =
       typeof workspace?.workspacePath === 'string' ? workspace.workspacePath.trim() : '';
@@ -490,7 +515,7 @@ export default async function runAssetPackCloneVCSRepositoryAgent(input: any, ex
           hostAvailable.availability,
         );
       } else {
-        // 4) Clone on the Host via Setup VCS tool.
+        // 4) Clone on the Host via Setup VCS tool (real PTRR agent).
         log('[setup/clone] falling back to Setup VCS clone tool', 'info', {
           hasNormalized: Boolean(normalized),
           hasHostCloneEnv: Boolean(readHostCloneEnv()),

@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_LABEL: PromptPart =
-  'REFINE: Improve clone reliability' as PromptPart;
+  'REFINE: Final clone agent return' as PromptPart;
