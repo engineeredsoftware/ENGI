@@ -1,15 +1,15 @@
 /**
- * SDIVFPipeline base re-export surface for pipelines-generics callers.
+ * ExecutionPipelineSDIVF base re-export surface for pipelines-generics callers.
  * Prefer importing `@bitcode/generic-pipelines-sdivf` directly.
  *
- * Hierarchy: pipelines-generics (Pipeline) → generic-pipelines/SDIVF (SDIVFPipeline)
- * → asset-packs-pipelines domain (SynthesizeAssetPacksSDIVFPipeline).
+ * Hierarchy: pipelines-generics (Pipeline) → generic-pipelines/SDIVF (ExecutionPipelineSDIVF)
+ * → asset-packs-pipelines domain (ExecutionPipelineSDIVFSynthesizeAssetPacks).
  */
 
 export {
-  factorySDIVFPipeline,
-  factorySDIVFPipelineFromExecutors,
-    type SDIVFPipeline,
-  type SDIVFPipelineConfig,
-  type SDIVFPipelineExecutorConfig,
+  factoryExecutionPipelineSDIVF,
+  factoryExecutionPipelineSDIVFFromExecutors,
+    type ExecutionPipelineSDIVF,
+  type ExecutionPipelineSDIVFConfig,
+  type ExecutionPipelineSDIVFExecutorConfig,
     } from '@bitcode/generic-pipelines-sdivf';

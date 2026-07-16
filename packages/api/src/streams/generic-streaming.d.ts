@@ -5,7 +5,7 @@
  * intelligence: ["stream-orchestration", "pipeline-coordination", "real-time-updates"]
  * philosophy: "Streams are the nervous system of pipeline intelligence"
  */
-import { SDIVFPipelinePhase } from '@bitcode/pipelines-generics';
+import { ExecutionPipelineSDIVFPhase } from '@bitcode/pipelines-generics';
 import { StreamMessage } from './streams';
 /**
  * @doc-generic
@@ -26,9 +26,9 @@ export interface PipelineStreamMessage extends StreamMessage {
     pipeline?: string;
     subtype?: string;
     phaseProgress?: {
-        current: SDIVFPipelinePhase | string;
-        completed: (SDIVFPipelinePhase | string)[];
-        remaining: (SDIVFPipelinePhase | string)[];
+        current: ExecutionPipelineSDIVFPhase | string;
+        completed: (ExecutionPipelineSDIVFPhase | string)[];
+        remaining: (ExecutionPipelineSDIVFPhase | string)[];
     };
 }
 /**
@@ -78,8 +78,8 @@ export declare class GenericStreamManager {
      * @doc-stream
      * Phase transition events
      */
-    phaseStart(phase: SDIVFPipelinePhase | string): Promise<void>;
-    phaseComplete(phase: SDIVFPipelinePhase | string, result?: any): Promise<void>;
+    phaseStart(phase: ExecutionPipelineSDIVFPhase | string): Promise<void>;
+    phaseComplete(phase: ExecutionPipelineSDIVFPhase | string, result?: any): Promise<void>;
     /**
      * @doc-stream
      * Agent coordination events

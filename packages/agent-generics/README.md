@@ -180,8 +180,8 @@ type Executor<TInput = any, TOutput = any> =
  (input: TInput, execution: Execution) => Promise<TOutput>;
 
 // Execution hierarchy with proper parent/child relationships
-Pipeline (PipelineExecution)
-├── Phase (PhaseDelegation) - pipeline.child('implementation')
+Pipeline (ExecutionPipeline)
+├── Phase (ExecutionPhase) - pipeline.child('implementation')
 │ ├── Agent (AgentStepper) - phase.child('code-generator')
 │ │ ├── Variation (VariationStepping) - agent.child('generate-component')
 │ │ │ ├── Generation (GenerationExecution) - variation.child('plan')

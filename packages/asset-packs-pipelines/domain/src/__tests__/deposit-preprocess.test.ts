@@ -3,7 +3,7 @@
  * SynthesizeAssetPacks preprocess (V48 Gate 3) — context assembly from a
  * synthetic request.
  *
- * Runs the real composed pipeline (`runSynthesizeAssetPacksSDIVFPipeline`; under
+ * Runs the real composed pipeline (`runExecutionPipelineSDIVFSynthesizeAssetPacks`; under
  * NODE_ENV=test the five phase runtimes are stubbed but preprocess/postprocess
  * are REAL) and pins the deposit-mode preprocess contract:
  *  - mode resolution + storage on the SHARED outer execution (F20) so every
@@ -39,8 +39,8 @@ jest.mock('../depository-search', () => {
 });
 
 import { Execution } from '@bitcode/execution-generics';
-import { PipelineExecution } from '@bitcode/pipelines-generics';
-import { runSynthesizeAssetPacksSDIVFPipeline } from '../index';
+import { ExecutionPipeline } from '@bitcode/pipelines-generics';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '../index';
 import { runDepositorySearchForPipelineInput } from '../depository-search';
 import {
   resolveSynthesizeAssetPacksMode,
@@ -92,7 +92,7 @@ describe('deposit-mode preprocess context assembly', () => {
   });
 
   it('assembles the deposit context from a synthetic depositor request', async () => {
-    const execution = new PipelineExecution('pipeline:deposit-preprocess-assembly');
+    const execution = new ExecutionPipeline('pipeline:deposit-preprocess-assembly');
     const input = {
       mode: 'deposit',
       repositoryUrl: 'https://github.com/octo/repo-x',
@@ -105,7 +105,7 @@ describe('deposit-mode preprocess context assembly', () => {
       sourceCheckoutCatalog: { assetCount: 2 },
     };
 
-    await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
+    await runExecutionPipelineSDIVFSynthesizeAssetPacks(input, execution);
 
     // V48-Gate3-F20: the mode lives on the SHARED outer execution, resolvable from any
     // phase sibling via the upward walk.
@@ -167,7 +167,7 @@ describe('deposit-mode preprocess context assembly', () => {
   });
 
   it('honors an explicit repositoryFullName over the owner/name join', async () => {
-    const execution = new PipelineExecution('pipeline:deposit-preprocess-fullname');
+    const execution = new ExecutionPipeline('pipeline:deposit-preprocess-fullname');
     const input = {
       mode: 'deposit',
       repositoryFullName: 'octocat/Spoon-Knife',
@@ -179,7 +179,7 @@ describe('deposit-mode preprocess context assembly', () => {
       },
     };
 
-    await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
+    await runExecutionPipelineSDIVFSynthesizeAssetPacks(input, execution);
 
     expect(execution.get('deposit', 'repository')).toMatchObject({
       url: 'https://github.com/octocat/Spoon-Knife',
@@ -196,14 +196,14 @@ describe('deposit-mode preprocess context assembly', () => {
   });
 
   it('read mode keeps the read-lens preprocess: depository search runs, no deposit stores', async () => {
-    const execution = new PipelineExecution('pipeline:read-preprocess-lens');
+    const execution = new ExecutionPipeline('pipeline:read-preprocess-lens');
     const input = {
       mode: 'read',
       read: 'Determine whether the deposited repository satisfies Read/Fit QA.',
       repository: { owner: 'octo', name: 'repo-x', branch: 'main' },
     };
 
-    await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
+    await runExecutionPipelineSDIVFSynthesizeAssetPacks(input, execution);
 
     expect(synthesizeAssetPacksModeFromExecution(execution)).toBe('read');
     expect(depositorySearchMock).toHaveBeenCalledTimes(1);

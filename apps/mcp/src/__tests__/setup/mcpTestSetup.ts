@@ -357,7 +357,7 @@ jest.mock('@bitcode/pipelines-generics', () => ({
     VALIDATION: 'validation',
     FINISH: 'finish'
   },
-  PipelineExecution: class MockPipelineExecution {
+  ExecutionPipeline: class MockPipelineExecution {
     id: string;
     parent?: unknown;
     llms = { setLLMRegistry: jest.fn(), set: jest.fn() };
@@ -382,7 +382,7 @@ jest.mock('@bitcode/pipelines-generics', () => ({
       success: true
     }))
   ),
-  factorySDIVFPipelineFromExecutors: jest.fn().mockImplementation((_name: string, config: any) =>
+  factoryExecutionPipelineSDIVFFromExecutors: jest.fn().mockImplementation((_name: string, config: any) =>
     jest.fn().mockImplementation(async (input: any, execution: any) => {
       let current = input;
       if (config?.preprocess) current = await config.preprocess(current, execution);

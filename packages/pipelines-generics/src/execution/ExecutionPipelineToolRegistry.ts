@@ -1,5 +1,5 @@
 /**
- * PipelineToolRegistry - Tool registry for pipeline executions
+ * ExecutionPipelineToolRegistry - Tool registry for pipeline executions
  * 
  * Manages tool registration and hierarchical lookup for pipelines.
  * Tools can be registered at any level and resolved upward.
@@ -75,12 +75,12 @@ export abstract class ExecutionTool<T extends (...args: any[]) => any = (...args
 }
 
 /**
- * PipelineToolRegistry - Hierarchical tool registry for pipelines
+ * ExecutionPipelineToolRegistry - Hierarchical tool registry for pipelines
  * 
  * Stores tool instances and provides hierarchical lookup.
  * When getting a tool, walks up execution hierarchy to find it.
  */
-export class PipelineToolRegistry extends RegistryImpl<ExecutionTool> {
+export class ExecutionPipelineToolRegistry extends RegistryImpl<ExecutionTool> {
   private readonly execution: Execution;
   
   constructor(execution: Execution) {
@@ -117,12 +117,12 @@ export class PipelineToolRegistry extends RegistryImpl<ExecutionTool> {
       return bindToolToExecution(tool, this.execution) as ExecutionTool;
     }
     
-    // Walk up parent chain looking for PipelineExecution
+    // Walk up parent chain looking for ExecutionPipeline
     let current = this.execution.parent;
     while (current) {
-      // Check if parent has tools registry (is PipelineExecution)
-      if ('tools' in current && current.tools instanceof PipelineToolRegistry) {
-        tool = (current.tools as PipelineToolRegistry).get(key);
+      // Check if parent has tools registry (is ExecutionPipeline)
+      if ('tools' in current && current.tools instanceof ExecutionPipelineToolRegistry) {
+        tool = (current.tools as ExecutionPipelineToolRegistry).get(key);
         if (tool) {
           return bindToolToExecution(tool, this.execution) as ExecutionTool;
         }
@@ -157,8 +157,8 @@ export class PipelineToolRegistry extends RegistryImpl<ExecutionTool> {
       }
       
       // Add tools from this level if it has a registry
-      if ('tools' in exec && exec.tools instanceof PipelineToolRegistry) {
-        const registry = exec.tools as PipelineToolRegistry;
+      if ('tools' in exec && exec.tools instanceof ExecutionPipelineToolRegistry) {
+        const registry = exec.tools as ExecutionPipelineToolRegistry;
         const paths = registry.getPaths();
         for (const path of paths) {
           const tool = registry.get(path);

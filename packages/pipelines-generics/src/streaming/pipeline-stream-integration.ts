@@ -31,7 +31,7 @@ export interface PipelineStreamConfig {
 // prompt/response content auto-streams via Execution.store under the `llm`
 // namespace, but the content-bearing key NAMES drift between the two LLM-call
 // paths: the formal Thinkings substeps store `input`/`prompt`/`output`/
-// `parsedOutput`, while AgentLLMsRegistry/PipelineLLMRegistry (direct getLLM
+// `parsedOutput`, while AgentLLMsRegistry/ExecutionPipelineLLMRegistry (direct getLLM
 // calls) store `messages`/`config`/`response`. A content-key denylist silently
 // missed `response`, so a raw model response leaked through as a status-event
 // message (and the renderer split that multi-line payload into one row per

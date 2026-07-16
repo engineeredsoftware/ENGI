@@ -1,5 +1,5 @@
 /**
- * PipelineExecution - Full-featured execution for pipelines
+ * ExecutionPipeline - Full-featured execution for pipelines
  * 
  * Extends PromptExecution to add tool, LLM, and agent registries.
  * This is the complete execution context for pipeline operations.
@@ -14,22 +14,22 @@ import { Execution } from '@bitcode/execution-generics/Execution';
 import { registerExecution } from '@bitcode/execution-generics/execution-registry';
 import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
-import { PipelinePromptRegistry } from './PipelinePromptRegistry';
-import { PipelineToolRegistry } from './PipelineToolRegistry';
-import { PipelineLLMRegistry } from './PipelineLLMRegistry';
-import { PipelineAgentRegistry } from './PipelineAgentRegistry';
+import { ExecutionPipelinePromptRegistry } from './ExecutionPipelinePromptRegistry';
+import { ExecutionPipelineToolRegistry } from './ExecutionPipelineToolRegistry';
+import { ExecutionPipelineLLMRegistry } from './ExecutionPipelineLLMRegistry';
+import { ExecutionPipelineAgentRegistry } from './ExecutionPipelineAgentRegistry';
 
-export type PipelineExecutionPosture = 'live' | 'reference' | 'support';
-export type PipelineExecutionFamily =
+export type ExecutionPipelinePosture = 'live' | 'reference' | 'support';
+export type ExecutionPipelineFamily =
   | 'ad_hoc'
   | 'asset_pack'
   | 'quick'
   | 'custom';
 
-export interface PipelineExecutionLineage {
+export interface ExecutionPipelineLineage {
   pipelineName: string;
-  family: PipelineExecutionFamily;
-  posture: PipelineExecutionPosture;
+  family: ExecutionPipelineFamily;
+  posture: ExecutionPipelinePosture;
   admittedSurface: string;
 }
 
@@ -37,7 +37,7 @@ function normalizePipelineName(name: string): string {
   return name.trim().toLowerCase().replace(/[\s-]+/g, '_');
 }
 
-export function inferPipelineExecutionLineage(name: string): PipelineExecutionLineage {
+export function inferExecutionPipelineLineage(name: string): ExecutionPipelineLineage {
   const normalized = normalizePipelineName(name);
 
   if (normalized === 'ad_hoc' || normalized === 'adhoc') {
@@ -67,7 +67,7 @@ export function inferPipelineExecutionLineage(name: string): PipelineExecutionLi
 }
 
 /**
- * PipelineExecution - Complete execution context for pipelines
+ * ExecutionPipeline - Complete execution context for pipelines
  * 
  * Provides all four registries needed for pipeline operations:
  * - prompts (for prompt management)
@@ -75,16 +75,16 @@ export function inferPipelineExecutionLineage(name: string): PipelineExecutionLi
  * - llms (for LLM configuration and selection)
  * - agents (for agent registration and dynamic selection)
  */
-export class PipelineExecution extends Execution {
+export class ExecutionPipeline extends Execution {
   /** Hierarchical LLM system prompt parts for this pipeline node. */
   readonly prompt: ExecutionPrompt;
-  readonly prompts: PipelinePromptRegistry;
-  readonly tools: PipelineToolRegistry;
-  readonly llms: PipelineLLMRegistry;
-  readonly agents: PipelineAgentRegistry;
-  readonly lineage: PipelineExecutionLineage;
+  readonly prompts: ExecutionPipelinePromptRegistry;
+  readonly tools: ExecutionPipelineToolRegistry;
+  readonly llms: ExecutionPipelineLLMRegistry;
+  readonly agents: ExecutionPipelineAgentRegistry;
+  readonly lineage: ExecutionPipelineLineage;
 
-  constructor(id: string, parent?: Execution, lineage?: PipelineExecutionLineage) {
+  constructor(id: string, parent?: Execution, lineage?: ExecutionPipelineLineage) {
     super(id, parent);
 
     this.prompt = new ExecutionPrompt();
@@ -92,14 +92,14 @@ export class PipelineExecution extends Execution {
     this.prompt.set('specific_execution', ' ' as PromptPart);
 
     // Initialize all 4 registries with parent chain awareness
-    this.prompts = new PipelinePromptRegistry(this);
-    this.tools = new PipelineToolRegistry(this);
-    this.llms = new PipelineLLMRegistry(this);
-    this.agents = new PipelineAgentRegistry(this);
+    this.prompts = new ExecutionPipelinePromptRegistry(this);
+    this.tools = new ExecutionPipelineToolRegistry(this);
+    this.llms = new ExecutionPipelineLLMRegistry(this);
+    this.agents = new ExecutionPipelineAgentRegistry(this);
     this.lineage = lineage
-      ?? (parent instanceof PipelineExecution
+      ?? (parent instanceof ExecutionPipeline
         ? parent.lineage
-        : inferPipelineExecutionLineage(id.replace(/^pipeline:/, '')));
+        : inferExecutionPipelineLineage(id.replace(/^pipeline:/, '')));
 
     // Register root executions for instruction API access
     // Child executions are not registered (only root runId is used)
@@ -107,8 +107,8 @@ export class PipelineExecution extends Execution {
       registerExecution(id, this);
     }
 
-    // If parent is also PipelineExecution, inherit registry state
-    if (parent && parent instanceof PipelineExecution) {
+    // If parent is also ExecutionPipeline, inherit registry state
+    if (parent && parent instanceof ExecutionPipeline) {
       // Tools, LLMs, and Agents can inherit from parent
       // but start with empty registries (lookup walks up chain)
     }
@@ -121,20 +121,20 @@ export class PipelineExecution extends Execution {
   }
   
   /**
-   * Override child to maintain PipelineExecution type
+   * Override child to maintain ExecutionPipeline type
    */
-  child(id: string): PipelineExecution {
-    return new PipelineExecution(`${this.id}/${id}`, this, this.lineage);
+  child(id: string): ExecutionPipeline {
+    return new ExecutionPipeline(`${this.id}/${id}`, this, this.lineage);
   }
 }
 
 /**
  * Factory function for creating pipeline executions
  */
-export function createPipelineExecution(
+export function createExecutionPipeline(
   id: string,
   parent?: Execution,
-  lineage?: PipelineExecutionLineage
-): PipelineExecution {
-  return new PipelineExecution(id, parent, lineage);
+  lineage?: ExecutionPipelineLineage
+): ExecutionPipeline {
+  return new ExecutionPipeline(id, parent, lineage);
 }

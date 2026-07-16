@@ -7,7 +7,7 @@
  *     → this product pipeline (SynthesizeAssetPacks measurement)
  *
  * Runtime path:
- *   PipelineExecution → phase → factoryAgent (AgentExecution) → step
+ *   ExecutionPipeline → phase → factoryAgent (AgentExecution) → step
  *     → createFailsafeGenerationSequence  (Failsafe[prepare|chunk|stitch] ∘
  *        Thinkings[reason|judge|structured_output])
  *
@@ -19,7 +19,7 @@
 
 import { z } from 'zod';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import { PipelineExecution } from '@bitcode/pipelines-generics';
+import { ExecutionPipeline } from '@bitcode/pipelines-generics';
 import {
   factoryAgent,
   createFailsafeGenerationSequence,
@@ -248,7 +248,7 @@ export async function synthesizeAssetPackCandidatesFormal(
   const catalog = measurementCatalogForLens(request.lens);
 
   // Execution spine: Pipeline → Phase → Agent → Step → Generation (real nodes).
-  const pipelineExec = new PipelineExecution(
+  const pipelineExec = new ExecutionPipeline(
     'pipeline:asset-packs-synthesis',
     execution,
     {

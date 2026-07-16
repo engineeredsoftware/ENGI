@@ -4,7 +4,7 @@
  */
 
 import { Executor } from '@bitcode/execution-generics';
-import { PipelineExecution } from './PipelineExecution';
+import { ExecutionPipeline } from './ExecutionPipeline';
 import { log } from '@bitcode/logger';
 import { isExecutionDebugEnabled } from './debug';
 import { resolveRegisteredAgent } from './resolve-agent';
@@ -20,7 +20,7 @@ function findAgentsRegistry(execution: any): any {
 
 export function createAgentExecutor(agentName: string): Executor<any, any> {
   return async (input: any, execution: any) => {
-    const px = execution as PipelineExecution;
+    const px = execution as ExecutionPipeline;
     const agents = findAgentsRegistry(execution) || (px as any).agents;
     const agent = await resolveRegisteredAgent(agentName, agents?.getAgent?.(agentName) as any);
     const phase = String(

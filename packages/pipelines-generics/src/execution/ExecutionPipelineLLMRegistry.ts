@@ -1,5 +1,5 @@
 /**
- * PipelineLLMRegistry - LLM registry for pipeline executions
+ * ExecutionPipelineLLMRegistry - LLM registry for pipeline executions
  * 
  * Manages LLM configuration and hierarchical lookup for pipelines.
  * LLMs can be configured at any level and resolved upward.
@@ -46,12 +46,12 @@ async function callLlmWithTimeout(call: Promise<LLMOutput>, model: string): Prom
 }
 
 /**
- * PipelineLLMRegistry - Hierarchical LLM configuration registry
+ * ExecutionPipelineLLMRegistry - Hierarchical LLM configuration registry
  * 
  * Stores LLM configurations in the execution tree.
  * When getting an LLM, walks up the hierarchy to find configuration.
  */
-export class PipelineLLMRegistry extends RegistryImpl<LLMConfig> {
+export class ExecutionPipelineLLMRegistry extends RegistryImpl<LLMConfig> {
   private readonly execution: Execution;
   private llmRegistry: LLMRegistry;
   
@@ -94,8 +94,8 @@ export class PipelineLLMRegistry extends RegistryImpl<LLMConfig> {
       let config: LLMConfig | undefined;
       let current: Execution | undefined = this.execution;
       while (current && !config) {
-        if ('llms' in current && current.llms instanceof PipelineLLMRegistry) {
-          config = (current.llms as PipelineLLMRegistry).get(key);
+        if ('llms' in current && current.llms instanceof ExecutionPipelineLLMRegistry) {
+          config = (current.llms as ExecutionPipelineLLMRegistry).get(key);
         }
         current = current.parent;
       }

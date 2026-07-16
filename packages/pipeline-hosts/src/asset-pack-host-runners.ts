@@ -1408,7 +1408,7 @@ try {
   const [
     domainExports,
     depositPipelineExports,
-    { enablePipelineStreaming, factoryPipelineExecution },
+    { enablePipelineStreaming, factoryExecutionPipeline },
     { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
     { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
     { evaluateBtdOrganizationInterfaceAuthority },
@@ -1439,8 +1439,8 @@ try {
     summarizeReadingPipelineObservabilityCoverage,
     synthesizeReadNeedForPipelineInput,
   } = domainExports;
-  const { factorySynthesizeDepositAssetPacksSDIVFPipeline } = depositPipelineExports;
-  const { factorySynthesizeReadAssetPacksSDIVFPipeline } = await import(
+  const { factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks } = depositPipelineExports;
+  const { factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks } = await import(
     pkgImport('packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/src/index.ts')
   );
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
@@ -1449,7 +1449,7 @@ try {
   readingPipelineObservabilityInventory = buildReadingPipelineObservabilityInventory();
   resolveReadingPipelineTelemetryProjectionFn = resolveReadingPipelineTelemetryProjection;
   summarizeReadingPipelineObservabilityCoverageFn = summarizeReadingPipelineObservabilityCoverage;
-  execution = factoryPipelineExecution(isDepositMode ? 'synthesize_deposit_asset_packs' : 'asset_pack', undefined, {
+  execution = factoryExecutionPipeline(isDepositMode ? 'synthesize_deposit_asset_packs' : 'asset_pack', undefined, {
     pipelineName: isDepositMode ? 'synthesize-deposits-asset-packs-pipeline' : 'asset_pack',
     family: 'asset_pack',
     posture: 'live',
@@ -1558,8 +1558,8 @@ try {
   }
   // Product law: deposit and read are separate SDIVF pipelines (not Engi DDD).
   const pipelineEntrypoint = isDepositMode
-    ? factorySynthesizeDepositAssetPacksSDIVFPipeline()
-    : factorySynthesizeReadAssetPacksSDIVFPipeline();
+    ? factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks()
+    : factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks();
   const rawOutput = await withHostTimeout(pipelineEntrypoint(input, execution), hostMaxRuntimeMs);
   const postprocessedOutput = findExecutionValueDown(execution, 'postprocessed', 'result');
   output = postprocessedOutput && typeof postprocessedOutput === 'object' && !Array.isArray(postprocessedOutput)

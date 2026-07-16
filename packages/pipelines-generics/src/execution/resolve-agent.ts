@@ -1,4 +1,4 @@
-import type { ExecutionAgent } from './PipelineAgentRegistry';
+import type { ExecutionAgent } from './ExecutionPipelineAgentRegistry';
 
 type RegisteredAgent = ExecutionAgent | (() => Promise<ExecutionAgent | { default?: ExecutionAgent }>);
 

@@ -1,10 +1,10 @@
 /**
- * SettleAssetPackSimplePipeline — 1:1 option, needinesses BTD mint, ERC1155 co-own.
+ * ExecutionPipelineSimpleSettleAssetPack — 1:1 option, needinesses BTD mint, ERC1155 co-own.
  */
 
 import { Execution } from '@bitcode/execution-generics';
 import {
-  factorySettleAssetPackSimplePipeline,
+  factoryExecutionPipelineSimpleSettleAssetPack,
   type SettleAssetPackOption,
   type SettleAssetPackInput,
 } from '../index';
@@ -14,7 +14,7 @@ import {
   computeSettlementBtdFromNeedinesses,
 } from '@bitcode/btd/erc1155';
 
-describe('SettleAssetPackSimplePipeline', () => {
+describe('ExecutionPipelineSimpleSettleAssetPack', () => {
   const option: SettleAssetPackOption = {
     title: 'Session refresh fit pack',
     kind: 'capability-slice',
@@ -38,7 +38,7 @@ describe('SettleAssetPackSimplePipeline', () => {
   };
 
   it('rejects multi-option settle (1:1 law)', async () => {
-    const pipeline = factorySettleAssetPackSimplePipeline();
+    const pipeline = factoryExecutionPipelineSimpleSettleAssetPack();
     const exec = new Execution('test:settle:multi');
     const input: SettleAssetPackInput = {
       selectedOptions: [option, { ...option, title: 'Other' }],
@@ -47,7 +47,7 @@ describe('SettleAssetPackSimplePipeline', () => {
   });
 
   it('runs settle-btc → mint-btd → settle-btd → settle-asset-pack → ship → journal', async () => {
-    const pipeline = factorySettleAssetPackSimplePipeline();
+    const pipeline = factoryExecutionPipelineSimpleSettleAssetPack();
     const exec = new Execution('test:settle:happy');
     const input: SettleAssetPackInput = {
       assetPackOption: option,

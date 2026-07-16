@@ -55,7 +55,7 @@ export type {
 } from './deposit-option-real-synthesis-types';
 
 /**
- * @deprecated Product deposit synthesis is `runSynthesizeAssetPacksSDIVFPipeline` (full
+ * @deprecated Product deposit synthesis is `runExecutionPipelineSDIVFSynthesizeAssetPacks` (full
  * SDIVF) via `/api/deposit/synthesize-options`. This single-agent formal path
  * remains only for non-product unit fixtures that mock
  * `synthesizeAssetPackCandidatesFormal` — do not call it from product routes.

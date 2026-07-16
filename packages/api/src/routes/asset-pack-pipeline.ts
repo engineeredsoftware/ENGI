@@ -18,10 +18,10 @@ import { DEFAULT_PROVIDER, DEFAULT_MODEL_API, getUsdPricingForApiModel } from '@
 import { BITCODE_FEE_ASSET, BTD_ASSET_SEMANTICS } from '@bitcode/btd';
 import { Execution, ExecutionStreamAdapter, NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH } from '@bitcode/execution-generics';
 import {
-  PipelineExecution,
-  inferPipelineExecutionLineage
+  ExecutionPipeline,
+  inferExecutionPipelineLineage
 } from '@bitcode/pipelines-generics';
-import { runSynthesizeAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-domain';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-domain';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/external-telemetry-google';
 import { BitcodeError, reportError } from '@bitcode/errors';
@@ -847,11 +847,11 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
 
         // Create execution context
         log('[asset-pack-route] Creating execution context', 'debug', { correlationId, runId });
-        // Use PipelineExecution to ensure prompts/tools/llms/agents registries are available.
-        execution = new PipelineExecution(
+        // Use ExecutionPipeline to ensure prompts/tools/llms/agents registries are available.
+        execution = new ExecutionPipeline(
           runId,
           undefined,
-          inferPipelineExecutionLineage('asset-pack')
+          inferExecutionPipelineLineage('asset-pack')
         );
         // Bridge execution store events to stream
         try { ExecutionStreamAdapter.registerStreamer(runId, streamer); } catch {}
@@ -973,7 +973,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         
         const pipelineStartTime = Date.now();
 
-        const result = await runSynthesizeAssetPacksSDIVFPipeline(pipelineInput, execution!);
+        const result = await runExecutionPipelineSDIVFSynthesizeAssetPacks(pipelineInput, execution!);
         
         const pipelineDuration = Date.now() - pipelineStartTime;
         log('[asset-pack-route] Pipeline execution completed', 'info', {

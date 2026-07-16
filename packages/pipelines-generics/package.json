@@ -29,9 +29,10 @@
     "./phases/phase-factory": "./src/phases/phase-factory.ts",
     "./execution/pipeline-types": "./src/execution/pipeline-types.ts",
     "./execution/resume": "./src/execution/resume.ts",
-    "./prompts/attach-hierarchy-prompts": "./src/prompts/attach-hierarchy-prompts.ts",
-    "./prompts/compose-execution-prompt": "./src/prompts/compose-execution-prompt.ts",
-    "./prompts/primitive-pipeline-prompt": "./src/prompts/primitive-pipeline-prompt.ts",
-    "./prompts/primitive-phase-prompt": "./src/prompts/primitive-phase-prompt.ts"
+    "./prompts/execution-prompt-attach-hierarchy": "./src/prompts/execution-prompt-attach-hierarchy.ts",
+    "./prompts/execution-prompt-compose": "./src/prompts/execution-prompt-compose.ts",
+    "./prompts/execution-pipeline-prompt": "./src/prompts/execution-pipeline-prompt.ts",
+    "./prompts/execution-pipeline-primitive-prompt": "./src/prompts/execution-pipeline-primitive-prompt.ts",
+    "./prompts/execution-phase-primitive-prompt": "./src/prompts/execution-phase-primitive-prompt.ts"
   }
 }

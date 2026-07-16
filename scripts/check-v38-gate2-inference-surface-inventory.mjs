@@ -20,7 +20,7 @@ const REQUIRED_FAMILY_IDS = [
 ];
 
 const REQUIRED_PRIMITIVE_IDS = [
-  'PipelineExecution',
+  'ExecutionPipeline',
   'PipelinePromptRegistry',
   'PipelineAgentRegistry',
   'factoryPTRRAgent',

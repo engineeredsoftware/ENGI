@@ -44,7 +44,7 @@ jest.mock('../agents/setup/asset-pack-initialize-mcps-tools-agent', () => ({
   default: jest.fn(async (input: any) => ({ ...(input ?? {}), mcps: true })),
 }));
 
-import { PipelineExecution } from '@bitcode/pipelines-generics';
+import { ExecutionPipeline } from '@bitcode/pipelines-generics';
 import { assetPackSetupPhaseExecutor } from '../phases/setup';
 import { storeSynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
@@ -68,7 +68,7 @@ const mcpsMock = initializeMcpsToolsAgent as jest.Mock;
  * would run Setup on. The mode lives on the SHARED root (F20).
  */
 function setupHarness(mode: 'deposit' | 'read', rootId: string) {
-  const root = new PipelineExecution(rootId);
+  const root = new ExecutionPipeline(rootId);
   storeSynthesizeAssetPacksMode(root, mode);
   root.agents.registerAgent('setup:asset-pack-clone-vcs-repository-agent', cloneAgent);
   root.agents.registerAgent('setup:ReadFitsFindingSynthesisSetupPlanAgent', readSetupPlanAgent);

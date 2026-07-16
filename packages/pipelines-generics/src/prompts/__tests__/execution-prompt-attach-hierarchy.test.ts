@@ -6,11 +6,11 @@ import {
 } from '@bitcode/execution-generics';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import {
-  attachPipelinePromptHierarchy,
-  attachPhasePromptHierarchy,
-  resolvePipelinePromptHost,
-} from '../attach-hierarchy-prompts';
-import { applyPromptRegistryToExecutionPrompt } from '../compose-execution-prompt';
+  attachExecutionPipelinePromptHierarchy,
+  attachExecutionPhasePromptHierarchy,
+  resolveExecutionPipelinePromptHost,
+} from '../execution-prompt-attach-hierarchy';
+import { applyPromptRegistryToExecutionPrompt } from '../execution-prompt-compose';
 import { Prompt } from '@bitcode/prompts/prompt';
 import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 
@@ -38,13 +38,13 @@ describe('prompt hierarchy attach (Execution-once + call_site compose)', () => {
     expect(formatted).toContain('PRIMITIVE_PIPELINE');
   });
 
-  it('attachPipelinePromptHierarchy folds Execution + pipeline layers once', () => {
+  it('attachExecutionPipelinePromptHierarchy folds Execution + pipeline layers once', () => {
     const exec = pipelineLike('pipeline:test');
     const base = new Prompt();
     base.set('pattern', createPromptPart('SDIVF_BASE'));
     const specific = new Prompt();
     specific.set('lens', createPromptPart('READ_LENS'));
-    attachPipelinePromptHierarchy(exec, { base, specific });
+    attachExecutionPipelinePromptHierarchy(exec, { base, specific });
 
     const wire = buildExecutionHierarchySystemPrompt(exec);
     // Execution once
@@ -58,24 +58,24 @@ describe('prompt hierarchy attach (Execution-once + call_site compose)', () => {
     expect(execHits).toBe(1);
   });
 
-  it('attachPipelinePromptHierarchy lands on root, not sequential child', () => {
+  it('attachExecutionPipelinePromptHierarchy lands on root, not sequential child', () => {
     const root = pipelineLike('pipeline:asset_pack');
     const seq0 = root.child('seq-0');
     const base = new Prompt();
     base.set('pattern', createPromptPart('SDIVF_ON_ROOT'));
-    attachPipelinePromptHierarchy(seq0, { base });
-    expect(resolvePipelinePromptHost(seq0)).toBe(root);
+    attachExecutionPipelinePromptHierarchy(seq0, { base });
+    expect(resolveExecutionPipelinePromptHost(seq0)).toBe(root);
     const rootWire = buildExecutionHierarchySystemPrompt(root);
     expect(rootWire).toContain('SDIVF_ON_ROOT');
     expect(rootWire).toMatch(/You are in an Execution/i);
   });
 
-  it('attachPhasePromptHierarchy does not re-emit Execution', () => {
+  it('attachExecutionPhasePromptHierarchy does not re-emit Execution', () => {
     const exec: any = new Execution('phase:setup');
     exec.prompt = blankPrompt();
     const specific = new Prompt();
     specific.set('objective', createPromptPart('READ_SETUP_OBJECTIVE'));
-    attachPhasePromptHierarchy(exec, 'setup', { specific });
+    attachExecutionPhasePromptHierarchy(exec, 'setup', { specific });
     const wire = buildExecutionHierarchySystemPrompt(exec);
     expect(wire).toMatch(/You are in a Phase/i);
     expect(wire).toContain('READ_SETUP_OBJECTIVE');
@@ -84,12 +84,12 @@ describe('prompt hierarchy attach (Execution-once + call_site compose)', () => {
 
   it('pipeline + phase parent chain has Execution only on pipeline block', () => {
     const pipeline = pipelineLike('pipeline:asset_pack');
-    attachPipelinePromptHierarchy(pipeline, {
+    attachExecutionPipelinePromptHierarchy(pipeline, {
       base: new Prompt().set('pattern', createPromptPart('SDIVF_BASE')),
     });
     const phase: any = new Execution('phase:setup', pipeline);
     phase.prompt = blankPrompt();
-    attachPhasePromptHierarchy(phase, 'setup', {
+    attachExecutionPhasePromptHierarchy(phase, 'setup', {
       specific: new Prompt().set('objective', createPromptPart('SETUP_SPECIFIC')),
     });
     const wire = buildExecutionHierarchySystemPrompt(phase);

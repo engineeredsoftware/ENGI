@@ -26,7 +26,7 @@ export const V38_INFERENCE_SURFACE_REQUIRED_FAMILY_IDS = Object.freeze([
 ]);
 
 export const V38_INFERENCE_SURFACE_REQUIRED_PRIMITIVE_IDS = Object.freeze([
-  'PipelineExecution',
+  'ExecutionPipeline',
   'PipelinePromptRegistry',
   'PipelineAgentRegistry',
   'factoryPTRRAgent',
@@ -78,7 +78,7 @@ const SOURCE_ROOTS = Object.freeze({
   conversationRoute: 'packages/api/src/routes/conversations.ts',
   conversationStreamEvents: 'packages/api/src/conversations/stream-events.ts',
   conversationStreamUi: 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
-  pipelineExecution: 'packages/pipelines-generics/src/execution/PipelineExecution.ts',
+  pipelineExecution: 'packages/pipelines-generics/src/execution/ExecutionPipeline.ts',
   pipelinePromptRegistry: 'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
   pipelineAgentRegistry: 'packages/pipelines-generics/src/execution/PipelineAgentRegistry.ts',
   ptrrFactory: 'packages/agent-generics/src/agents/factories.ts',
@@ -112,7 +112,7 @@ function surfaceRow(input) {
     ...input,
     providerCallCount,
     primitiveStack: input.primitiveStack || [
-      'PipelineExecution',
+      'ExecutionPipeline',
       'PTRR agent',
       'PTRR step',
       'FailsafeGenerationSequence',
@@ -403,7 +403,7 @@ export const V38_INFERENCE_SURFACE_ROWS = Object.freeze([
     familyId: 'execution_primitive',
     label: 'Pipeline, PTRR, Failsafe, Thricified, and ToolExecution primitives',
     purpose:
-      'Bind package-owned execution ancestry from PipelineExecution through PTRR agents, FailsafeGenerationSequence, ThricifiedGeneration, and ToolExecution.',
+      'Bind package-owned execution ancestry from ExecutionPipeline through PTRR agents, FailsafeGenerationSequence, ThricifiedGeneration, and ToolExecution.',
     sourceRoots: [
       SOURCE_ROOTS.pipelineExecution,
       SOURCE_ROOTS.pipelinePromptRegistry,
@@ -425,7 +425,7 @@ export const V38_INFERENCE_SURFACE_ROWS = Object.freeze([
     promptRegistryIds: ['PipelinePromptRegistry', 'AgentPromptsRegistry', 'ToolPromptRegistry'],
     promptPartNamespaces: ['pipeline/*', 'agent/*', 'step/*', 'failsafe/*', 'generation/*', 'tool/*'],
     interpolationBindingIds: ['pipeline.context', 'agent.context', 'step.context', 'tool.context'],
-    contextFieldIds: ['PipelineExecution', 'AgentExecution', 'StepExecution', 'ToolExecution'],
+    contextFieldIds: ['ExecutionPipeline', 'AgentExecution', 'StepExecution', 'ToolExecution'],
     outputSchemaIds: ['zod.outputSchema', 'ToolExecutionResult', 'PipelineExecutionEvent'],
     failureSurfaceIds: ['missing_default_llm', 'required_tool_missing', 'schema_parse_failed', 'unsafe_tool_postprocess'],
     storageTargetIds: ['pipeline.currentIteration', 'agent.output', 'step.output', 'tool.output'],

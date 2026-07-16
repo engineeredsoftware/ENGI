@@ -2,7 +2,7 @@
  * SDIVF base Pipeline implementation factories — phase shell only.
  *
  * Hierarchy:
- *   @bitcode/pipelines-generics      — Pipeline / PhaseDelegator primitives
+ *   @bitcode/pipelines-generics      — Pipeline / ExecutionPhaseDelegator primitives
  *   @bitcode/generic-pipelines-sdivf — this package (SDIVF phase loop)
  *   product packages                 — inject phase Executors (agents/tools/rosters)
  *
@@ -10,7 +10,7 @@
  * with bounded DIV iteration. No agents, tools, product catalogs, or settle
  * shipping live here — only phase orchestration over injected Executors.
  *
- * Sibling base: SimplePipeline (linear stages). Settle is Simple, not SDIVF.
+ * Sibling base: ExecutionPipelineSimple (linear stages). Settle is Simple, not SDIVF.
  */
 
 import { sequential } from '@bitcode/execution-generics';
@@ -18,29 +18,29 @@ import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { Pipeline } from '@bitcode/pipelines-generics/pipeline-factory';
 import type {
-  PhaseDelegator,
-  PipelineExecution,
+  ExecutionPhaseDelegator,
+  ExecutionPipeline,
 } from '@bitcode/pipelines-generics/execution/pipeline-types';
 import {
-  factoryPipelineExecution,
-  factoryPhaseDelegation,
+  factoryExecutionPipeline,
+  factoryExecutionPhase,
 } from '@bitcode/pipelines-generics/execution/pipeline-types';
 import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
 import {
-  attachPipelinePromptHierarchy,
-  attachPhasePromptHierarchy,
-} from '@bitcode/pipelines-generics/prompts/attach-hierarchy-prompts';
-import { SDIVF_PIPELINE_PROMPT } from './prompts/sdivf-pipeline-prompt';
-import { sdivfPhasePromptFor } from './prompts/sdivf-phase-prompts';
+  attachExecutionPipelinePromptHierarchy,
+  attachExecutionPhasePromptHierarchy,
+} from '@bitcode/pipelines-generics/prompts/execution-prompt-attach-hierarchy';
+import { EXECUTION_PIPELINE_SDIVF_PROMPT } from './prompts/execution-pipeline-sdivf-prompt';
+import { executionPhaseSdivfPromptFor } from './prompts/execution-phase-sdivf-prompts';
 
 /**
  * SDIVF base Pipeline (hierarchy name: SDIVF + Pipeline).
  * Product examples that *compose* this base (not definitions of it):
- *   SynthesizeDepositAssetPacksSDIVFPipeline,
- *   SynthesizeReadAssetPacksSDIVFPipeline.
- * Settle is SettleAssetPackSimplePipeline (Simple base) — not SDIVF.
+ *   ExecutionPipelineSDIVFSynthesizeDepositAssetPacks,
+ *   ExecutionPipelineSDIVFSynthesizeReadAssetPacks.
+ * Settle is ExecutionPipelineSimpleSettleAssetPack (Simple base) — not SDIVF.
  */
-export type SDIVFPipeline<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
+export type ExecutionPipelineSDIVF<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
 
 // ==================== SDIVF CONFIGURATION ====================
 
@@ -64,14 +64,14 @@ async function emitPipelineDataStreamEvent(
 }
 
 interface SDIVBaseConfig<TInput = any> {
-  setup: PhaseDelegator<TInput, any>;
-  discovery: PhaseDelegator<any, any>;
-  implementation: PhaseDelegator<any, any>;
-  validation: PhaseDelegator<any, any>;
+  setup: ExecutionPhaseDelegator<TInput, any>;
+  discovery: ExecutionPhaseDelegator<any, any>;
+  implementation: ExecutionPhaseDelegator<any, any>;
+  validation: ExecutionPhaseDelegator<any, any>;
   readyToIterate?: Executor<any, boolean>;
   maxIterations?: number;
   iterationStrategy?: 'sequential' | 'adaptive';
-  initialize?: (execution: PipelineExecution, input: TInput) => void | Promise<void>;
+  initialize?: (execution: ExecutionPipeline, input: TInput) => void | Promise<void>;
   /**
    * Product-specific pipeline Prompt layer (namespace pipeline:specific).
    * Primitive + SDIVF base are attached automatically.
@@ -85,15 +85,15 @@ interface SDIVBaseConfig<TInput = any> {
   >;
 }
 
-export interface SDIVFPipelineConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
-  finish: PhaseDelegator<any, TOutput>;
+export interface ExecutionPipelineSDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
+  finish: ExecutionPhaseDelegator<any, TOutput>;
   readyToFinish?: Executor<any, boolean>;
 }
 
 type SDIVFPhaseName = 'setup' | 'discovery' | 'implementation' | 'validation' | 'finish';
 
 function storePhaseStart(
-  execution: PipelineExecution | Execution,
+  execution: ExecutionPipeline | Execution,
   phase: SDIVFPhaseName,
   input: unknown,
   iteration?: number
@@ -112,7 +112,7 @@ function storePhaseStart(
 }
 
 function storePhaseComplete(
-  execution: PipelineExecution | Execution,
+  execution: ExecutionPipeline | Execution,
   phase: SDIVFPhaseName,
   output: unknown,
   iteration?: number,
@@ -132,17 +132,17 @@ function storePhaseComplete(
 async function runObservedPhase<TIn, TOut>(
   phase: SDIVFPhaseName,
   input: TIn,
-  execution: PipelineExecution,
-  delegate: PhaseDelegator<TIn, TOut>,
+  execution: ExecutionPipeline,
+  delegate: ExecutionPhaseDelegator<TIn, TOut>,
   iteration?: number,
   phasePromptSpecific?: any,
 ): Promise<TOut> {
   // Phase EE node carries phase prompt layers; agents run under it so
   // buildHierarchicalPrompt includes pipeline + phase + agent + …
-  const phaseExec = factoryPhaseDelegation(phase, execution) as any;
+  const phaseExec = factoryExecutionPhase(phase, execution) as any;
   try {
-    attachPhasePromptHierarchy(phaseExec, phase, {
-      base: sdivfPhasePromptFor(phase),
+    attachExecutionPhasePromptHierarchy(phaseExec, phase, {
+      base: executionPhaseSdivfPromptFor(phase),
       specific: phasePromptSpecific ?? null,
     });
   } catch {
@@ -171,10 +171,10 @@ async function runObservedExecutorPhase<TIn, TOut>(
   iteration?: number,
   phasePromptSpecific?: any,
 ): Promise<TOut> {
-  const phaseExec = factoryPhaseDelegation(phase, execution) as any;
+  const phaseExec = factoryExecutionPhase(phase, execution) as any;
   try {
-    attachPhasePromptHierarchy(phaseExec, phase, {
-      base: sdivfPhasePromptFor(phase),
+    attachExecutionPhasePromptHierarchy(phaseExec, phase, {
+      base: executionPhaseSdivfPromptFor(phase),
       specific: phasePromptSpecific ?? null,
     });
   } catch {
@@ -248,15 +248,15 @@ function summarizePhaseError(error: unknown): Record<string, unknown> {
  * 2. Max iterations reached
  * 3. Error occurs (handled gracefully)
  */
-export function factorySDIVFPipeline<TInput, TOutput>(
+export function factoryExecutionPipelineSDIVF<TInput, TOutput>(
   name: string,
-  config: SDIVFPipelineConfig<TInput, TOutput>
-): SDIVFPipeline<TInput, TOutput> {
+  config: ExecutionPipelineSDIVFConfig<TInput, TOutput>
+): ExecutionPipelineSDIVF<TInput, TOutput> {
   const maxIterations = config.maxIterations || 3;
   
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create pipeline execution
-    const pipelineExec = factoryPipelineExecution(name, execution);
+    const pipelineExec = factoryExecutionPipeline(name, execution);
     pipelineExec.store('pipeline', 'start', { name });
     await emitPipelineDataStreamEvent(pipelineExec, {
       type: 'pipeline',
@@ -286,8 +286,8 @@ export function factorySDIVFPipeline<TInput, TOutput>(
 
     // Pipeline prompt hierarchy: primitive → SDIVF base → product specific
     try {
-      attachPipelinePromptHierarchy(pipelineExec, {
-        base: SDIVF_PIPELINE_PROMPT,
+      attachExecutionPipelinePromptHierarchy(pipelineExec, {
+        base: EXECUTION_PIPELINE_SDIVF_PROMPT,
         specific: config.pipelinePromptSpecific ?? null,
       });
     } catch {
@@ -427,7 +427,7 @@ export function factorySDIVFPipeline<TInput, TOutput>(
 
 // ==================== COMPOSED SDIVF EXECUTOR ====================
 
-export interface SDIVFPipelineExecutorConfig<TInput = any, TOutput = any> {
+export interface ExecutionPipelineSDIVFExecutorConfig<TInput = any, TOutput = any> {
   // Phase executors (already-resolved functions)
   setup: Executor<TInput, any>;
   discovery?: Executor<any, any>;
@@ -483,14 +483,14 @@ function executorValidationSignalsReadyToFinish(result: any, exec: any): boolean
 }
 
 /**
- * factorySDIVFPipelineFromExecutors — build an SDIVFPipeline from phase Executors.
- * Hierarchy return type: SDIVFPipeline. Construction uses execution-generics
+ * factoryExecutionPipelineSDIVFFromExecutors — build an ExecutionPipelineSDIVF from phase Executors.
+ * Hierarchy return type: ExecutionPipelineSDIVF. Construction uses execution-generics
  * sequential composition: [preprocess] → Setup → [DIV]* → Finish → [postprocess].
  */
-export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
+export function factoryExecutionPipelineSDIVFFromExecutors<TInput, TOutput>(
   name: string,
-  cfg: SDIVFPipelineExecutorConfig<TInput, TOutput>
-): SDIVFPipeline<TInput, TOutput> {
+  cfg: ExecutionPipelineSDIVFExecutorConfig<TInput, TOutput>
+): ExecutionPipelineSDIVF<TInput, TOutput> {
   const maxIter = cfg.maxIterations ?? 3;
 
   // Optional preprocess/postprocess
@@ -510,8 +510,8 @@ export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
     // Attach pipeline prompt hierarchy once on the root EE
     async (input, exec) => {
       try {
-        attachPipelinePromptHierarchy(exec as any, {
-          base: SDIVF_PIPELINE_PROMPT,
+        attachExecutionPipelinePromptHierarchy(exec as any, {
+          base: EXECUTION_PIPELINE_SDIVF_PROMPT,
           specific: cfg.pipelinePromptSpecific ?? null,
         });
         (exec as any).store?.('pipeline', 'pattern', 'SDIVF');

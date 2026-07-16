@@ -8,12 +8,12 @@
  */
 
 import {
-  PipelineExecution,
+  ExecutionPipeline,
   enableExecutionDebug,
-  PipelineLLMRegistry,
-  PipelinePromptRegistry,
-  PipelineToolRegistry,
-  PipelineAgentRegistry,
+  ExecutionPipelineLLMRegistry,
+  ExecutionPipelinePromptRegistry,
+  ExecutionPipelineToolRegistry,
+  ExecutionPipelineAgentRegistry,
   PipelineExecutionClass as PE,
 } from '@bitcode/pipelines-generics';
 import type { Tool } from '@bitcode/tools-generics';
@@ -28,22 +28,22 @@ function assertDocCodePrompt(tool: Tool, key: string) {
   }
 }
 
-export async function initializeAssetPackPipeline(execution: PipelineExecution) {
-  // 0) Hard guard: ensure this execution has LLM registry and child() creates PipelineExecution children
+export async function initializeAssetPackPipeline(execution: ExecutionPipeline) {
+  // 0) Hard guard: ensure this execution has LLM registry and child() creates ExecutionPipeline children
   try {
     if (!(execution as any).prompts) {
-      (execution as any).prompts = new PipelinePromptRegistry(execution as any);
+      (execution as any).prompts = new ExecutionPipelinePromptRegistry(execution as any);
     }
     if (!(execution as any).tools) {
-      (execution as any).tools = new PipelineToolRegistry(execution as any);
+      (execution as any).tools = new ExecutionPipelineToolRegistry(execution as any);
     }
     if (!(execution as any).llms) {
-      (execution as any).llms = new PipelineLLMRegistry(execution as any);
+      (execution as any).llms = new ExecutionPipelineLLMRegistry(execution as any);
     }
     if (!(execution as any).agents) {
-      (execution as any).agents = new PipelineAgentRegistry(execution as any);
+      (execution as any).agents = new ExecutionPipelineAgentRegistry(execution as any);
     }
-    // Ensure child executions remain PipelineExecution instances
+    // Ensure child executions remain ExecutionPipeline instances
     const originalChild = (execution as any).child?.bind(execution);
     (execution as any).child = (id: string) => {
       try { return new PE(`${(execution as any).id}/${id}`, execution as any); } catch { return originalChild ? originalChild(id) : new PE(id, execution as any); }

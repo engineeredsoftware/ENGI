@@ -23,7 +23,7 @@ echo "category,file,symbol,class,origin" > "$tmp_csv"
 rg -nP "export\\s+const\\s+([A-Za-z0-9_]+)\\s*=\\s*new\\s+([A-Za-z0-9_]+)\\s*\\(" packages \
   -g '!**/node_modules/**' -g '!**/README.md' | \
   sed -E "s#^([^:]+):[0-9]+:.*export const ([A-Za-z0-9_]+) *= *new ([A-Za-z0-9_]+).*#\1,\2,\3,export_const_new#g" | \
-  awk -F, '($3 ~ /Prompt$/ || $3 == "Prompt" || $3 ~ /(AgentPrompt|AgentStepPrompt|ToolPrompt|PipelinePrompt|ExecutionPrompt|DocCodeToolPrompt)$/) {print $0}' |
+  awk -F, '($3 ~ /Prompt$/ || $3 == "Prompt" || $3 ~ /(AgentPrompt|AgentStepPrompt|ToolPrompt|ExecutionPipelinePrompt|ExecutionPrompt|DocCodeToolPrompt)$/) {print $0}' |
   while IFS=, read -r file sym cls origin; do
     category="Unknown"
     case "$file" in
@@ -84,7 +84,7 @@ rg -nP "export\\s+function\\s+([A-Za-z0-9_]+)\\([^)]*\\)\\s*:\\s*Prompt\\b" pack
 
 # NOTE: Nested property prompts (e.g., object properties with new AgentStepPrompt)
 # Add lightweight entries keyed by class@L<line>. Parts/keys are computed at file-level.
-rg -nPo "^[[:space:]]*[A-Za-z0-9_]+[[:space:]]*:[[:space:]]*new[[:space:]]+(AgentStepPrompt|AgentPrompt|ToolPrompt|PipelinePrompt|ExecutionPrompt|Prompt)[[:space:]]*\(" packages \
+rg -nPo "^[[:space:]]*[A-Za-z0-9_]+[[:space:]]*:[[:space:]]*new[[:space:]]+(AgentStepPrompt|AgentPrompt|ToolPrompt|ExecutionPipelinePrompt|ExecutionPrompt|Prompt)[[:space:]]*\(" packages \
   -g '!**/node_modules/**' -g '!**/README.md' -r '$1' |
   while IFS=: read -r file lineno cls; do
     category="Unknown"

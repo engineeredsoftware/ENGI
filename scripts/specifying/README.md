@@ -830,7 +830,7 @@ protocol tests, and workflow wiring. The maintained commands are
 `pnpm run generate:v39-local-staging-reading-rehearsal` and
 `pnpm run check:v39-gate10`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
-PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
+ExecutionPipeline, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
 depository-search, embedding policy, prompt benchmarking, and source-safe
 telemetry scope that later V38 gates must implement.

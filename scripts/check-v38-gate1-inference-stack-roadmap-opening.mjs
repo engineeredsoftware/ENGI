@@ -158,7 +158,7 @@ function main() {
 
   for (const phrase of [
     'inference stack',
-    'PipelineExecution',
+    'ExecutionPipeline',
     'PTRR',
     'Plan',
     'Try',

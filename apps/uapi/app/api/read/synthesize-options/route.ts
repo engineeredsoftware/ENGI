@@ -2,7 +2,7 @@
  * POST /api/read/synthesize-options — thin dispatch surface (deposit twin).
  *
  * Auth → validate Need + repository → create execution → waitUntil
- * SynthesizeReadAssetPacksSDIVFPipeline. Settlement is a separate pipeline.
+ * ExecutionPipelineSDIVFSynthesizeReadAssetPacks. Settlement is a separate pipeline.
  */
 
 import { randomUUID } from 'crypto';

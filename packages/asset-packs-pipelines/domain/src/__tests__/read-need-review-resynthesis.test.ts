@@ -150,7 +150,7 @@ describe('ReadNeed review, resynthesis, and admission runtime', () => {
     expect(runtime.nextProtocolAction).toMatch(/resynthesize/i);
   });
 
-  it('persists runtime projections into PipelineExecution-compatible storage', () => {
+  it('persists runtime projections into ExecutionPipeline-compatible storage', () => {
     const runtime = buildReadNeedReviewResynthesisRuntime({
       action: 'synthesize_read_need',
       readNeed: synthesizeReadNeedForPipelineInput(input),

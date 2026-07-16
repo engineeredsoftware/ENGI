@@ -1,5 +1,5 @@
 /**
- * PipelinePrompt - Primitive Prompt class for pipeline call-site authoring.
+ * ExecutionPipelinePrompt - Primitive Prompt class for pipeline call-site authoring.
  *
  * Content lives in raw_promptparts; this class (and product subclasses)
  * assemble hierarchical paths under ExecutionPrompt roots when attached.
@@ -15,9 +15,9 @@ import { createPromptPart, type PromptPart } from '@bitcode/prompts/parts/Prompt
  * Base Pipeline Prompt registry.
  *
  * Specific pipeline implementations merge base/specific layers; attach
- * folds Execution once via attachPipelinePromptHierarchy.
+ * folds Execution once via attachExecutionPipelinePromptHierarchy.
  */
-export class PipelinePrompt extends Prompt {
+export class ExecutionPipelinePrompt extends Prompt {
   constructor() {
     super();
     this.require('generic_system');
@@ -39,8 +39,8 @@ export class PipelinePrompt extends Prompt {
     return this.set(`specific_execution:agent:${path}`, part);
   }
 
-  static create(name: string): PipelinePrompt {
-    const prompt = new PipelinePrompt();
+  static create(name: string): ExecutionPipelinePrompt {
+    const prompt = new ExecutionPipelinePrompt();
     prompt.setPipeline('name', name);
     return prompt;
   }

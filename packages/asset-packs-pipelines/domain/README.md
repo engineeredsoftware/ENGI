@@ -131,7 +131,7 @@ turns `ReadNeedComprehensionSynthesis` output into review-loop storage and
 telemetry records. It projects the Read Request, current synthesized Need,
 feedback history, resynthesis attempts, Need measurement inputs,
 accepted-Need admission, rejected-Need posture, and telemetry receipts into
-PipelineExecution-compatible storage records.
+ExecutionPipeline-compatible storage records.
 
 Finding Fits is admitted only when `acceptReadNeed` has produced an accepted
 Need. Rejected or still-unreviewed Needs emit blockers and preserve feedback
@@ -154,7 +154,7 @@ product runtime readback before Finding Fits can run.
 evidence. It projects accepted-Need admission, source-safe query plans, search
 channels, candidate ranking, selected-fit provenance, fit result evidence,
 replay receipt, repair posture, and telemetry receipt records into
-PipelineExecution-compatible storage.
+ExecutionPipeline-compatible storage.
 
 The runtime preserves the active embedding policy
 (`text-embedding-3-small`, 1536 dimensions, cosine

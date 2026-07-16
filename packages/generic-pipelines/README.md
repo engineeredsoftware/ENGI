@@ -7,21 +7,21 @@ Base pipeline implementations that extend `@bitcode/pipelines-generics` primitiv
 ```
 Pipeline # primitive (@bitcode/pipelines-generics)
  ↑
-SDIVFPipeline # base + primitive (@bitcode/generic-pipelines-sdivf)
-SimplePipeline # base + primitive (@bitcode/generic-pipelines-simple)
+ExecutionPipelineSDIVF # base + primitive (@bitcode/generic-pipelines-sdivf)
+ExecutionPipelineSimple # base + primitive (@bitcode/generic-pipelines-simple)
  ↑
-SynthesizeDepositAssetPacksSDIVFPipeline # asset-packs-pipelines/synthesize-deposits
-SynthesizeReadAssetPacksSDIVFPipeline # asset-packs-pipelines/synthesize-reads
-SettleAssetPackSimplePipeline # asset-packs-pipelines/settle-reads
+ExecutionPipelineSDIVFSynthesizeDepositAssetPacks # asset-packs-pipelines/synthesize-deposits
+ExecutionPipelineSDIVFSynthesizeReadAssetPacks # asset-packs-pipelines/synthesize-reads
+ExecutionPipelineSimpleSettleAssetPack # asset-packs-pipelines/settle-reads
 ```
 
-Parity with agents: **SimplePipeline** is to **SDIVFPipeline** as **QuickAgent** is to **PTRRAgent**.
+Parity with agents: **ExecutionPipelineSimple** is to **ExecutionPipelineSDIVF** as **QuickAgent** is to **PTRRAgent**.
 
 ```
 @bitcode/pipelines-generics # factoryPipeline → Pipeline
  ↑
-@bitcode/generic-pipelines-sdivf # factorySDIVFPipeline → SDIVFPipeline
-@bitcode/generic-pipelines-simple # factorySimplePipeline → SimplePipeline
+@bitcode/generic-pipelines-sdivf # factoryExecutionPipelineSDIVF → ExecutionPipelineSDIVF
+@bitcode/generic-pipelines-simple # factoryExecutionPipelineSimple → ExecutionPipelineSimple
  ↑
 @bitcode/asset-packs-pipelines-* # product synthesis / settle pipelines
 ```
@@ -30,12 +30,12 @@ Parity with agents: **SimplePipeline** is to **SDIVFPipeline** as **QuickAgent**
 
 | Path | Package name | Role |
 | --- | --- | --- |
-| `SDIVF/` | `@bitcode/generic-pipelines-sdivf` | `SDIVFPipeline` base (Setup-[DIV]*-Finish) |
-| `Simple/` | `@bitcode/generic-pipelines-simple` | `SimplePipeline` base (linear stages) |
+| `SDIVF/` | `@bitcode/generic-pipelines-sdivf` | `ExecutionPipelineSDIVF` base (Setup-[DIV]*-Finish) |
+| `Simple/` | `@bitcode/generic-pipelines-simple` | `ExecutionPipelineSimple` base (linear stages) |
 
 Product pipelines supply stage/phase agents; they do not reimplement base loops.
 **Naming law:** every type/factory name must express the full inheritance chain
-(e.g. `SettleAssetPackSimplePipeline`, not bare `SettlePipeline`).
+(e.g. `ExecutionPipelineSimpleSettleAssetPack`, not bare `SettlePipeline`).
 **No lens:** deposit synthesis, read synthesis, and settle-reads are separate
 specific pipelines — never one factory parameterized by deposit|read.
 ## Nested-package pattern

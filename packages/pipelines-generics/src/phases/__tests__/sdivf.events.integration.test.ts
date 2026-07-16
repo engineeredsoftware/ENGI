@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { factorySDIVFPipeline } from '@bitcode/generic-pipelines-sdivf';
+import { factoryExecutionPipelineSDIVF } from '@bitcode/generic-pipelines-sdivf';
 import { Execution } from '../../../../execution-generics/src/Execution';
 
 describe('SDIVF pipeline event emission (integration)', () => {
@@ -16,7 +16,7 @@ describe('SDIVF pipeline event emission (integration)', () => {
     const step = async (input: any) => ({ ...input });
     const setup = step, discovery = step, implementation = step, validation = step, finish = step;
 
-    const pipeline = factorySDIVFPipeline('asset-pack', {
+    const pipeline = factoryExecutionPipelineSDIVF('asset-pack', {
       setup,
       discovery,
       implementation,

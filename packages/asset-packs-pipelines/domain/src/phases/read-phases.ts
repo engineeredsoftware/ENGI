@@ -1,5 +1,5 @@
 /**
- * Read-only SDIVF phase rosters for SynthesizeReadAssetPacksSDIVFPipeline.
+ * Read-only SDIVF phase rosters for ExecutionPipelineSDIVFSynthesizeReadAssetPacks.
  *
  * Shape mirrors deposit (same agents/roles; instruction = Need, not Obfuscations):
  * Setup: clone alone → parallel {LSP, MCP, comprehend-needs} → danger-wall alone.
@@ -10,10 +10,10 @@
  * Finish: store-artifacts → ledgerize → finish-synthesize-read-run (selection envelope).
  *
  * BTC settle / BTD mint / rights / PR ship are **not** this pipeline —
- * they are SettleAssetPackSimplePipeline after the reader pays for options.
+ * they are ExecutionPipelineSimpleSettleAssetPack after the reader pays for options.
  */
 
-import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
+import { type ExecutionPhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
 import { Executor, sequential, parallel } from '@bitcode/execution-generics';
 import type { AssetPackInput, AssetPackOutput } from '../types/PipelineSchemas';
 import {
@@ -52,7 +52,7 @@ function registerReadSetupAgents(agentRegistry: any): void {
   );
 }
 
-export const readSetupPhase: PhaseDelegator<AssetPackInput, SetupOutput> = (async (
+export const readSetupPhase: ExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -83,9 +83,9 @@ export const readSetupPhase: PhaseDelegator<AssetPackInput, SetupOutput> = (asyn
     } catch {}
     throw error;
   }
-}) as unknown as PhaseDelegator<AssetPackInput, SetupOutput>;
+}) as unknown as ExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
 
-export const readDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
+export const readDiscoveryPhase: ExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -103,9 +103,9 @@ export const readDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = 
     createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS),
   );
   return await exec(input, execution);
-}) as unknown as PhaseDelegator<SetupOutput, DiscoveryOutput>;
+}) as unknown as ExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
 
-export const readImplementationPhase: PhaseDelegator<
+export const readImplementationPhase: ExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
@@ -116,9 +116,9 @@ export const readImplementationPhase: PhaseDelegator<
     );
   } catch {}
   return await createAgentExecutor('implementation:read-asset-pack-synthesis')(input, execution);
-}) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
+}) as unknown as ExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
-export const readValidationPhase: PhaseDelegator<
+export const readValidationPhase: ExecutionPhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
@@ -131,9 +131,9 @@ export const readValidationPhase: PhaseDelegator<
   return await createAgentExecutor(
     'validation:ready-to-finish-asset-packs-synthesis-read-pipeline',
   )(input, execution);
-}) as unknown as PhaseDelegator<ImplementationOutput, ValidationOutput>;
+}) as unknown as ExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
 
-export const readFinishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
+export const readFinishPhase: ExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
@@ -158,7 +158,7 @@ export const readFinishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> 
     createAgentExecutor('finish:finish-synthesize-asset-packs-for-read-run'),
   );
   return await exec(input, execution);
-}) as unknown as PhaseDelegator<ValidationOutput, AssetPackOutput>;
+}) as unknown as ExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
 
 export const readPhases = {
   setup: readSetupPhase,

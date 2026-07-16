@@ -199,7 +199,7 @@ async function executePipelineJob(runId, options) {
         switch (options.pipeline) {
             case 'asset-pack': {
                 const inputContext = buildPipelineInputContext('bitcode_mcp', options.config);
-                const execution = new pipelines_generics_1.PipelineExecution(runId, undefined, (0, pipelines_generics_1.inferPipelineExecutionLineage)('asset-pack'));
+                const execution = new pipelines_generics_1.ExecutionPipeline(runId, undefined, (0, pipelines_generics_1.inferExecutionPipelineLineage)('asset-pack'));
                 execution.store('interface', 'ingress', {
                     surface: 'bitcode_mcp',
                     interfaceKind: 'bitcode_exchange_interface',

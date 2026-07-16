@@ -5,7 +5,7 @@
  * pipelines. Pipelines are Executors that sequence PhaseDelegators.
  * PhaseDelegators are Executors that delegate to Agents.
  *
- * These are reusable orchestration primitives (Pipeline, PhaseDelegator,
+ * These are reusable orchestration primitives (Pipeline, ExecutionPhaseDelegator,
  * composition). The SDIVF *base implementation* lives in
  * `@bitcode/generic-pipelines-sdivf` and is re-exported here for compatibility.
  *
@@ -16,7 +16,7 @@
  *
  * Core Concepts:
  * - Pipeline: Top-level Executor orchestrating phases
- * - PhaseDelegator: Executor that delegates work to Agents
+ * - ExecutionPhaseDelegator: Executor that delegates work to Agents
  * - SDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish (generic-pipelines-sdivf)
  * 
  * @doc-code
@@ -25,21 +25,21 @@
  * pattern: executor-composition
  */
 
-// Pipeline and PhaseDelegator types
+// Pipeline and ExecutionPhaseDelegator types
 export {
   type Pipeline,
-  PipelineExecution,
-  type PhaseDelegator,
-  PhaseDelegation,
-  factoryPipelineExecution,
-  factoryPhaseDelegation
+  ExecutionPipeline,
+  type ExecutionPhaseDelegator,
+  ExecutionPhase,
+  factoryExecutionPipeline,
+  factoryExecutionPhase
 } from './execution/pipeline-types';
 export {
-  type PipelineExecutionLineage,
-  type PipelineExecutionFamily,
-  type PipelineExecutionPosture,
-  inferPipelineExecutionLineage
-} from './execution/PipelineExecution';
+  type ExecutionPipelineLineage,
+  type ExecutionPipelineFamily,
+  type ExecutionPipelinePosture,
+  inferExecutionPipelineLineage
+} from './execution/ExecutionPipeline';
 
 // Pipeline factories
 export {
@@ -60,16 +60,16 @@ export {
   factoryParallelPhaseDelegator,
 } from './phases/phase-factory';
 
-// SDIVFPipeline base — owned by @bitcode/generic-pipelines-sdivf
+// ExecutionPipelineSDIVF base — owned by @bitcode/generic-pipelines-sdivf
 // (re-exported for compatibility; prefer importing that package directly)
 export {
-  factorySDIVFPipelinePhaseDelegators,
-  SDIVFPipelinePhase,
-  factorySDIVFPipeline,
-  factorySDIVFPipelineFromExecutors,
-  type SDIVFPipeline,
-  type SDIVFPipelineConfig,
-  type SDIVFPipelineExecutorConfig,
+  factoryExecutionPipelineSDIVFPhaseDelegators,
+  ExecutionPipelineSDIVFPhase,
+  factoryExecutionPipelineSDIVF,
+  factoryExecutionPipelineSDIVFFromExecutors,
+  type ExecutionPipelineSDIVF,
+  type ExecutionPipelineSDIVFConfig,
+  type ExecutionPipelineSDIVFExecutorConfig,
 } from '@bitcode/generic-pipelines-sdivf';
 
 // Streaming integration for real-time pipeline updates
@@ -84,27 +84,27 @@ export {
 
 // Pipeline Prompt (EE) + hierarchical attach helpers
 // Compose/walk primitives live in @bitcode/execution-generics; re-exported here.
-export { PipelinePrompt } from './prompts/PipelinePrompt';
+export { ExecutionPipelinePrompt } from './prompts/execution-pipeline-prompt';
 export {
   applyPromptRegistryToExecutionPrompt,
   applyComposedCallSiteNodePrompt,
   composePromptLayers,
   composeNamespacedPromptLayers,
-} from './prompts/compose-execution-prompt';
-export { PRIMITIVE_PIPELINE_PROMPT } from './prompts/primitive-pipeline-prompt';
+} from './prompts/execution-prompt-compose';
+export { EXECUTION_PIPELINE_PRIMITIVE_PROMPT } from './prompts/execution-pipeline-primitive-prompt';
 export {
-  factoryPrimitivePhasePrompt,
-  PRIMITIVE_PHASE_SETUP_PROMPT,
-  PRIMITIVE_PHASE_DISCOVERY_PROMPT,
-  PRIMITIVE_PHASE_IMPLEMENTATION_PROMPT,
-  PRIMITIVE_PHASE_VALIDATION_PROMPT,
-  PRIMITIVE_PHASE_FINISH_PROMPT,
-} from './prompts/primitive-phase-prompt';
+  factoryExecutionPhasePrimitivePrompt,
+  EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT,
+  EXECUTION_PHASE_PRIMITIVE_DISCOVERY_PROMPT,
+  EXECUTION_PHASE_PRIMITIVE_IMPLEMENTATION_PROMPT,
+  EXECUTION_PHASE_PRIMITIVE_VALIDATION_PROMPT,
+  EXECUTION_PHASE_PRIMITIVE_FINISH_PROMPT,
+} from './prompts/execution-phase-primitive-prompt';
 export {
-  attachPipelinePromptHierarchy,
-  attachPhasePromptHierarchy,
-  resolvePipelinePromptHost,
-} from './prompts/attach-hierarchy-prompts';
+  attachExecutionPipelinePromptHierarchy,
+  attachExecutionPhasePromptHierarchy,
+  resolveExecutionPipelinePromptHost,
+} from './prompts/execution-prompt-attach-hierarchy';
 
 // Metrics
 export { computePipelineMetrics } from './execution/Metrics';
@@ -143,12 +143,12 @@ export {
   createPhaseRunner,
   type PhaseConfig,
   type AgentStep
-} from './execution/PipelineExecutor';
+} from './execution/ExecutionPipelineExecutor';
 
 // Registry surfaces used by asset-packs-pipelines domain preprocess.
-export { PipelineLLMRegistry } from './execution/PipelineLLMRegistry';
-export { PipelinePromptRegistry } from './execution/PipelinePromptRegistry';
-export { PipelineToolRegistry } from './execution/PipelineToolRegistry';
-export { PipelineAgentRegistry } from './execution/PipelineAgentRegistry';
+export { ExecutionPipelineLLMRegistry } from './execution/ExecutionPipelineLLMRegistry';
+export { ExecutionPipelinePromptRegistry } from './execution/ExecutionPipelinePromptRegistry';
+export { ExecutionPipelineToolRegistry } from './execution/ExecutionPipelineToolRegistry';
+export { ExecutionPipelineAgentRegistry } from './execution/ExecutionPipelineAgentRegistry';
 // Class re-export for callers that need the concrete execution type symbol.
-export { PipelineExecution as PipelineExecutionClass } from './execution/PipelineExecution';
+export { ExecutionPipeline as ExecutionPipelineClass } from './execution/ExecutionPipeline';

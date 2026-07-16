@@ -1,32 +1,32 @@
 /**
  * @bitcode/generic-pipelines-sdivf
  *
- * Base SDIVFPipeline — phase shell only (Setup-[DIV]*-Finish).
+ * Base ExecutionPipelineSDIVF — phase shell only (Setup-[DIV]*-Finish).
  * No agents, tools, or product domains. Product pipelines inject phase
  * Executors and name themselves Specific+SDIVF+Pipeline (e.g.
- * SynthesizeReadAssetPacksSDIVFPipeline). Settle is Simple, not SDIVF.
+ * ExecutionPipelineSDIVFSynthesizeReadAssetPacks). Settle is Simple, not SDIVF.
  */
 
-export type { SDIVFPipeline } from './sdivf-factory';
+export type { ExecutionPipelineSDIVF } from './sdivf-factory';
 
 export {
-  factorySDIVFPipeline,
-  factorySDIVFPipelineFromExecutors,
-  type SDIVFPipelineConfig,
-  type SDIVFPipelineExecutorConfig,
+  factoryExecutionPipelineSDIVF,
+  factoryExecutionPipelineSDIVFFromExecutors,
+  type ExecutionPipelineSDIVFConfig,
+  type ExecutionPipelineSDIVFExecutorConfig,
 } from './sdivf-factory';
 
 export {
-  SDIVFPipelinePhase,
-  factorySDIVFPipelinePhaseDelegators,
+  ExecutionPipelineSDIVFPhase,
+  factoryExecutionPipelineSDIVFPhaseDelegators,
 } from './sdivf-phases';
 
-export { SDIVF_PIPELINE_PROMPT } from './prompts/sdivf-pipeline-prompt';
+export { EXECUTION_PIPELINE_SDIVF_PROMPT } from './prompts/execution-pipeline-sdivf-prompt';
 export {
-  SDIVF_PHASE_SETUP_PROMPT,
-  SDIVF_PHASE_DISCOVERY_PROMPT,
-  SDIVF_PHASE_IMPLEMENTATION_PROMPT,
-  SDIVF_PHASE_VALIDATION_PROMPT,
-  SDIVF_PHASE_FINISH_PROMPT,
-  sdivfPhasePromptFor,
-} from './prompts/sdivf-phase-prompts';
+  EXECUTION_PHASE_SDIVF_SETUP_PROMPT,
+  EXECUTION_PHASE_SDIVF_DISCOVERY_PROMPT,
+  EXECUTION_PHASE_SDIVF_IMPLEMENTATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_VALIDATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_FINISH_PROMPT,
+  executionPhaseSdivfPromptFor,
+} from './prompts/execution-phase-sdivf-prompts';

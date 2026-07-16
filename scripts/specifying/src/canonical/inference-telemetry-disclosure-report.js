@@ -80,7 +80,7 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 
 const SOURCE_ROOTS = Object.freeze({
   executionStreamAdapter: 'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
-  pipelineExecution: 'packages/pipelines-generics/src/execution/PipelineExecution.ts',
+  pipelineExecution: 'packages/pipelines-generics/src/execution/ExecutionPipeline.ts',
   sdivfFactory: 'packages/pipelines-generics/src/phases/sdivf-factory.ts',
   agentFactory: 'packages/agent-generics/src/agents/factories.ts',
   stepFactories: 'packages/agent-generics/src/steps/factories.ts',

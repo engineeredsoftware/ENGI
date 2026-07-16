@@ -1,17 +1,17 @@
 /**
  * @bitcode/generic-pipelines-simple
  *
- * Base SimplePipeline (hierarchy: Simple + Pipeline primitive).
+ * Base ExecutionPipelineSimple (hierarchy: Simple + Pipeline primitive).
  * Product pipelines name themselves Specific+Simple+Pipeline, e.g.
- * SettleAssetPackSimplePipeline — linear stages, no DIV loop.
+ * ExecutionPipelineSimpleSettleAssetPack — linear stages, no DIV loop.
  */
 
-export type { SimplePipeline } from './simple-factory';
+export type { ExecutionPipelineSimple } from './simple-factory';
 
 export {
-  factorySimplePipeline,
-  factorySimplePipelineFromExecutors,
-  factorySimpleSequentialPipeline,
-  type SimplePipelineConfig,
-  type SimplePipelineStage,
+  factoryExecutionPipelineSimple,
+  factoryExecutionPipelineSimpleFromExecutors,
+  factoryExecutionPipelineSimpleSequential,
+  type ExecutionPipelineSimpleConfig,
+  type ExecutionPipelineSimpleStage,
 } from './simple-factory';

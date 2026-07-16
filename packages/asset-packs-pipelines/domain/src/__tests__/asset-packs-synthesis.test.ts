@@ -19,7 +19,7 @@ import {
 import { buildRealDepositAssetPackOptionSynthesis } from '../deposit-option-real-synthesis';
 import { assertDepositAssetPackOptionSynthesisSourceSafe } from '../deposit-asset-pack-options';
 
-// The formal pipeline (PipelineExecution → factoryAgent → Failsafe ∘ Thinkings)
+// The formal pipeline (ExecutionPipeline → factoryAgent → Failsafe ∘ Thinkings)
 // is mocked here; its own correctness is covered by the agent-generics suites.
 // These tests cover the lens contract + fail-closed validation this module owns.
 const mockInference = synthesizeAssetPackCandidatesFormal as jest.Mock;

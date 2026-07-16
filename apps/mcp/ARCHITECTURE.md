@@ -230,7 +230,7 @@ Best-practice templates for common engineering workflows:
 
 ```typescript
 // Pipeline execution generates events
-PipelineExecution → PipelineEvent → StreamBroadcast → ClientNotification
+ExecutionPipeline → PipelineEvent → StreamBroadcast → ClientNotification
 
 // Event flow
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐

@@ -348,17 +348,19 @@ Package paths: `packages/mcp-generics/`, `apps/mcp/`.
 
 ### 3.3 Pipelines
 
-**Hierarchy naming law:** names always encode full ancestry
-(specific → base → primitive), never a leaf-only label.
+**Hierarchy naming law:** names encode full ancestry **left→right**
+(primitive → base → specific), never a leaf-only label. Prompt **files** use
+the same order in kebab-case (e.g.
+`execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts`).
 
 | Layer | Type name | Factory (examples) |
 | --- | --- | --- |
-| Primitive | `Pipeline` | `factoryPipeline` |
-| Base + primitive | `SDIVFPipeline` | `factorySDIVFPipeline`, `factorySDIVFPipelineFromExecutors` |
-| Base + primitive | `SimplePipeline` | `factorySimplePipeline` (linear; like QuickAgent vs PTRR) |
-| Specific + SDIVF | `SynthesizeDepositAssetPacksSDIVFPipeline` | `factorySynthesizeDepositAssetPacksSDIVFPipeline` |
-| Specific + SDIVF | `SynthesizeReadAssetPacksSDIVFPipeline` | `factorySynthesizeReadAssetPacksSDIVFPipeline` |
-| Specific + Simple | `SettleAssetPackSimplePipeline` | `factorySettleAssetPackSimplePipeline` |
+| Primitive | `ExecutionPipeline` | `factoryExecutionPipeline` |
+| Base + primitive | `ExecutionPipelineSDIVF` | `factoryExecutionPipelineSDIVF`, `factoryExecutionPipelineSDIVFFromExecutors` |
+| Base + primitive | `ExecutionPipelineSimple` | `factoryExecutionPipelineSimple` (linear; like QuickAgent vs PTRR) |
+| Specific + SDIVF | `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks` | `factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks` |
+| Specific + SDIVF | `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` | `factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks` |
+| Specific + Simple | `ExecutionPipelineSimpleSettleAssetPack` | `factoryExecutionPipelineSimpleSettleAssetPack` |
 
 **No lens:** deposit synthesis, read synthesis, and settle-reads are separate
 packages under `packages/asset-packs-pipelines/*`.
@@ -366,8 +368,8 @@ packages under `packages/asset-packs-pipelines/*`.
 ```
 @bitcode/pipelines-generics Pipeline primitive
  ↑
-@bitcode/generic-pipelines-sdivf SDIVFPipeline base (Setup-[DIV]*-Finish)
-@bitcode/generic-pipelines-simple SimplePipeline base (linear stages)
+@bitcode/generic-pipelines-sdivf ExecutionPipelineSDIVF base (Setup-[DIV]*-Finish)
+@bitcode/generic-pipelines-simple ExecutionPipelineSimple base (linear stages)
  ↑
 @bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline
 @bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline
@@ -492,7 +494,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `execution-generics` | `Execution` state tree, `Executor`, sequential/parallel/pipe |
 | `agent-generics` | Agent = Executor + PTRR composition over generations |
 | `tools-generics` | `Tool` class, factories, MCP bridges |
-| `pipelines-generics` | Pipeline / PhaseDelegator primitives / stream hooks (re-exports SDIVF) |
+| `pipelines-generics` | Pipeline / ExecutionPhaseDelegator primitives / stream hooks (re-exports SDIVF) |
 | `generic-pipelines-sdivf` | SDIVF base loop (`packages/generic-pipelines/SDIVF`) |
 | `generation-generics` | Generation primitive + failsafe/thinkings enums |
 | `generic-generations-failsafes` | Failsafe base + prepared-context types |
@@ -952,7 +954,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **QA** | Quality assurance — interactive ledgers (`.qa/BITCODE_V48_QA.md`), runbooks, findings tags `V48-GateN-F*`. |
 | **RLS** | Row Level Security — Supabase/Postgres access policies. |
 | **SDIV** | Informal shorthand for the SDIVF middle phases (Discover–Implement–Validate). Prefer **SDIVF** for the full pipeline shape. |
-| **SDIVF** | **Setup → [Discover → Implement → Validate]\* → Finish** — base product pipeline shape (`SDIVFPipeline`). |
+| **SDIVF** | **Setup → [Discover → Implement → Validate]\* → Finish** — base product pipeline shape (`ExecutionPipelineSDIVF`). |
 | **SSE** | Server-Sent Events — one way clients receive streaming pipeline telemetry. |
 | **SRP** | Single Responsibility Principle — one primary reason to change per component/file unit. |
 | **UI / UX** | User interface / user experience — React under `apps/uapi/components/*`. |
@@ -996,9 +998,9 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | --- | --- |
 | **`*-generics` package** | Primitive layer: types, contracts, factories, abstract bases (e.g. `vcs-generics`, `asset-packs-generics`). Use **only** when a matching `generic-*` implementor family exists. |
 | **`generic-*` family** | Folder of nested implementor packages (no root `package.json` on the family folder), e.g. `generic-vcs/{github,gitlab,…}`. |
-| **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `SynthesizeDepositAssetPacksSDIVFPipeline`). |
+| **Hierarchy naming law** | Type/export names encode full ancestry: primitive → base → specific (e.g. `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`). |
 | **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
-| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `SynthesisAssetPack`, `SDIVFPipeline`, `LocalHost`). |
+| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `SynthesisAssetPack`, `ExecutionPipelineSDIVF`, `LocalHost`). |
 | **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |
 | **Family folder** | Directory that groups nested packages; itself is not a package (except rare composition barrels like `@bitcode/security`). |
 | **Workspace package** | A `package.json` with `@bitcode/…` (or `eslint-plugin-bitcode`) name in the pnpm workspace. |
@@ -1015,7 +1017,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Generation** | Primitive unit of LLM/work generation inside a step (`generation-generics`). |
 | **Process-root Execution** | Process defaults (`@bitcode/generic-executions`) — not a parallel Context bag. |
 | **Judge** | ThinkingsGeneration kind: evaluate intermediate reasoning. |
-| **PhaseDelegator** | Pipeline phase that resolves and runs agents/tools for that phase. |
+| **ExecutionPhaseDelegator** | Pipeline phase that resolves and runs agents/tools for that phase. |
 | **Prepared context** | Failsafe selection of Execution **keys** (noise reduction), not a second state bag. |
 | **Process-root Execution** | Root Execution for the process (`initializeProcessRoot` / `getProcessRootExecution`). |
 | **PTRRAgent** | Agent whose steps are Plan/Try/Refine/Retry (`factoryPTRRAgent`). |
@@ -1048,11 +1050,11 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **Needinesses** | Read-side measurement framing (relative to Need). |
 | **Pipeline** | Product run language (UI tables, logs, history) and/or `pipelines-generics` primitive. |
 | **PipelineHost / BitcodePipelineHost** | Host contract (`host-generics`). |
-| **SimplePipeline** | Linear stage pipeline base (contrast SDIVF). |
-| **SDIVFPipeline** | Pipeline base implementing Setup-[DIV]*-Finish. |
-| **SynthesizeDepositAssetPacksSDIVFPipeline** | `synthesize-deposits-asset-packs-pipeline` |
-| **SynthesizeReadAssetPacksSDIVFPipeline** | `synthesize-reads-asset-packs-pipeline` |
-| **SettleAssetPackSimplePipeline** | `settle-asset-pack-pipeline` (1:1 AssetPack) |
+| **ExecutionPipelineSimple** | Linear stage pipeline base (contrast SDIVF). |
+| **ExecutionPipelineSDIVF** | Pipeline base implementing Setup-[DIV]*-Finish. |
+| **ExecutionPipelineSDIVFSynthesizeDepositAssetPacks** | `synthesize-deposits-asset-packs-pipeline` |
+| **ExecutionPipelineSDIVFSynthesizeReadAssetPacks** | `synthesize-reads-asset-packs-pipeline` |
+| **ExecutionPipelineSimpleSettleAssetPack** | `settle-asset-pack-pipeline` (1:1 AssetPack) |
 | **VercelSandboxHost** | Decoupled Firecracker/sandbox host for pipeline boxes. |
 | **maxIterations** | SDIVF loop bound; Gate 3 deposit synthesis uses **1**. |
 
@@ -1151,7 +1153,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | “Harness” for run boxes | **Host** (LocalHost / VercelSandboxHost) |
 | “product” product UI | Experiences on `/deposits`, `/reads`, `/packs`, … |
 | “Pipeline” for BTD ledger rows | **Journal** |
-| Leaf-only type names for layered types | Full hierarchy names (`…SDIVFPipeline`, `…AbsolutesMeasureAgent`) |
+| Leaf-only type names for layered types | Full hierarchy names (`…ExecutionPipelineSDIVF`, `…AbsolutesMeasureAgent`) |
 | New `*-generics` without `generic-*` peers | Plain domain package name |
 | `templates-generics` as prompt system | `@bitcode/prompts` |
 | `externals` vs telemetry | `externals/*` = product APIs; `external-telemetry/*` = analytics |

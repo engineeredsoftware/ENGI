@@ -4,10 +4,10 @@ Clean pipeline execution primitives for orchestrating phase sequences.
 
 ## What This Package IS
 
-- **Pipeline/PipelineExecution** - The EE (Execution Entity) pair for pipelines
-- **PhaseDelegator/PhaseDelegation** - The Executor/Execution pattern for phases delegating to agents
+- **Pipeline/ExecutionPipeline** - The EE (Execution Entity) pair for pipelines
+- **ExecutionPhaseDelegator/ExecutionPhase** - The Executor/Execution pattern for phases delegating to agents
 - **SDIVFPhase enum** - The 5 standard phases (Setup, Discovery, Implementation, Validation, Finish)
-- **PipelinePrompt** - The generic prompt for Pipeline EE
+- **ExecutionPipelinePrompt** - The generic prompt for Pipeline EE
 - **Factory functions** - Clean creation of pipelines and phase delegators
 
 ## What This Package IS NOT
@@ -36,26 +36,26 @@ type Executor<TInput = any, TOutput = any> =
 // Pipeline - Top-level Executor that sequences phases
 type Pipeline<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 
-// PhaseDelegator - Executor that delegates work to agents
-type PhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+// ExecutionPhaseDelegator - Executor that delegates work to agents
+type ExecutionPhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 ```
 
 ### The EE Pattern
 
 ```typescript
-// Pipeline/PipelineExecution - The EE pair
+// Pipeline/ExecutionPipeline - The EE pair
 export type Pipeline<TInput, TOutput> = Executor<TInput, TOutput>;
-export class PipelineExecution extends Execution<PipelinePrompt> {
+export class ExecutionPipeline extends Execution<ExecutionPipelinePrompt> {
  constructor(id: string, parent?: Execution) {
- super(id, parent, PipelinePrompt);
+ super(id, parent, ExecutionPipelinePrompt);
  }
 }
 
-// PhaseDelegator/PhaseDelegation - The delegation pattern
-export type PhaseDelegator<TInput, TOutput> = Executor<TInput, TOutput>;
-export class PhaseDelegation extends Execution<PipelinePrompt> {
+// ExecutionPhaseDelegator/ExecutionPhase - The delegation pattern
+export type ExecutionPhaseDelegator<TInput, TOutput> = Executor<TInput, TOutput>;
+export class ExecutionPhase extends Execution<ExecutionPipelinePrompt> {
  constructor(id: string, parent?: Execution) {
- super(id, parent, PipelinePrompt);
+ super(id, parent, ExecutionPipelinePrompt);
  }
 }
 ```
@@ -91,7 +91,7 @@ export const myQuickPipeline = factoryQuickPipeline('my-quick', { phase: quickPh
 
 Notes:
 - QuickPipeline has no Phase concept; Phase is SDIVF-specific.
-- Execution still receives `PipelineExecution` and stores under canonical namespaces.
+- Execution still receives `ExecutionPipeline` and stores under canonical namespaces.
 
 ## Usage
 
@@ -198,15 +198,15 @@ const phases = factorySDIVFPhaseDelegators({
 const pipeline = factoryPipeline('measure', phases);
 ```
 
-## PipelinePrompt
+## ExecutionPipelinePrompt
 
 The generic prompt for Pipeline EE:
 
 ```typescript
-import { PipelinePrompt } from '@bitcode/pipelines-generics';
+import { ExecutionPipelinePrompt } from '@bitcode/pipelines-generics';
 
 // Create pipeline-specific prompt
-const prompt = PipelinePrompt.create('asset-pack');
+const prompt = ExecutionPipelinePrompt.create('asset-pack');
 
 // Prompts flow through Registry pattern
 prompt.registry.set('pipeline.type', 'asset-pack');
@@ -217,7 +217,7 @@ prompt.registry.set('phase.current', 'implementation');
 
 ```typescript
 // Pipeline factories
-factoryPipeline(name: string, phases: PhaseDelegator[])
+factoryPipeline(name: string, phases: ExecutionPhaseDelegator[])
 factoryPipelineWithDIVFinishLoop(name: string, config: DIVFinishConfig)
 
 // Phase factories
@@ -227,15 +227,15 @@ factoryParallelPhaseDelegator(name: string, agents: Agent[], combiner: (results:
 factorySDIVFPhaseDelegators(config: SDIVFConfig)
 
 // Execution factories
-factoryPipelineExecution(name: string, parent?: Execution)
-factoryPhaseDelegation(phase: string, parent: Execution)
+factoryExecutionPipeline(name: string, parent?: Execution)
+factoryExecutionPhase(phase: string, parent: Execution)
 ```
 
 ## Integration with Other Packages
 
 - **execution-generics**: Provides Executor and Execution primitives
 - **agent-generics**: Provides Agent implementations that phases delegate to
-- **prompts**: Base Prompt class that PipelinePrompt extends
+- **prompts**: Base Prompt class that ExecutionPipelinePrompt extends
 - **registry**: Registry pattern for hierarchical configuration
 
 ## Key Design Decisions
@@ -243,7 +243,7 @@ factoryPhaseDelegation(phase: string, parent: Execution)
 1. **Minimal surface area** - Only 6 files, 409 lines of clean code
 2. **Pure Executor pattern** - Everything is just functions
 3. **No specific implementations** - Only generic abstractions
-4. **Clean EE pattern** - Pipeline/PipelineExecution, PhaseDelegator/PhaseDelegation
+4. **Clean EE pattern** - Pipeline/ExecutionPipeline, ExecutionPhaseDelegator/ExecutionPhase
 5. **Standard phases** - SDIVFPhase enum for the 5 phases
 
 ## Streaming Integration

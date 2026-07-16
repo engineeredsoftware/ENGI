@@ -3,9 +3,9 @@
  *
  * Product pipeline name: **synthesize-deposits-asset-packs-pipeline**
  *
- * Hierarchy: SynthesizeDepositAssetPacks + SDIVF + Pipeline
- *   factorySynthesizeDepositAssetPacksSDIVFPipeline
- *     → SynthesizeDepositAssetPacksSDIVFPipeline
+ * Hierarchy (left→right): Execution → Pipeline → SDIVF → SynthesizeDepositAssetPacks
+ *   factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks
+ *     → ExecutionPipelineSDIVFSynthesizeDepositAssetPacks
  *
  * Depositor supplies a repository; pipeline synthesizes DepositSynthesizedAssetPack
  * options for Depository review/admission. Not mode/lens-parameterized.
@@ -13,8 +13,8 @@
 
 import type { Execution } from '@bitcode/execution-generics';
 import {
-  factorySDIVFPipelineFromExecutors,
-  type SDIVFPipeline,
+  factoryExecutionPipelineSDIVFFromExecutors,
+  type ExecutionPipelineSDIVF,
 } from '@bitcode/generic-pipelines-sdivf';
 import {
   depositPhases,
@@ -23,22 +23,22 @@ import {
   storeCrossPhaseArtifact,
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
-  ASSET_PACKS_SYNTHESIZE_DEPOSITS_PIPELINE_PROMPT,
-  ASSET_PACKS_SETUP_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_DISCOVERY_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_IMPLEMENTATION_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_VALIDATION_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_FINISH_PHASE_DEPOSIT_PROMPT,
+  EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_DEPOSITS_ASSET_PACKS_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_SETUP_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_DISCOVERY_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_IMPLEMENTATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_VALIDATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_FINISH_PROMPT,
 } from '@bitcode/asset-packs-pipelines-domain';
 
-/** Full hierarchy name: SynthesizeDepositAssetPacks + SDIVF + Pipeline. */
-export type SynthesizeDepositAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
+/** Full hierarchy name: ExecutionPipelineSDIVFSynthesizeDepositAssetPacks. */
+export type ExecutionPipelineSDIVFSynthesizeDepositAssetPacks = ExecutionPipelineSDIVF<any, any>;
 
-export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
+export function factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks(
   pipelineName: string = 'synthesize-deposits-asset-packs-pipeline',
-): SynthesizeDepositAssetPacksSDIVFPipeline {
+): ExecutionPipelineSDIVFSynthesizeDepositAssetPacks {
   const maxIterations = 1;
-  const sdivf = factorySDIVFPipelineFromExecutors(pipelineName, {
+  const sdivf = factoryExecutionPipelineSDIVFFromExecutors(pipelineName, {
     preprocess: factoryPreprocessDepositOnly() as any,
     setup: depositPhases.setup as any,
     discovery: depositPhases.discovery as any,
@@ -46,13 +46,13 @@ export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
     validation: depositPhases.validation as any,
     finish: depositPhases.finish as any,
     maxIterations,
-    pipelinePromptSpecific: ASSET_PACKS_SYNTHESIZE_DEPOSITS_PIPELINE_PROMPT,
+    pipelinePromptSpecific: EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_DEPOSITS_ASSET_PACKS_PROMPT,
     phasePromptSpecific: {
-      setup: ASSET_PACKS_SETUP_PHASE_DEPOSIT_PROMPT,
-      discovery: ASSET_PACKS_DISCOVERY_PHASE_DEPOSIT_PROMPT,
-      implementation: ASSET_PACKS_IMPLEMENTATION_PHASE_DEPOSIT_PROMPT,
-      validation: ASSET_PACKS_VALIDATION_PHASE_DEPOSIT_PROMPT,
-      finish: ASSET_PACKS_FINISH_PHASE_DEPOSIT_PROMPT,
+      setup: EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_SETUP_PROMPT,
+      discovery: EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_DISCOVERY_PROMPT,
+      implementation: EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_IMPLEMENTATION_PROMPT,
+      validation: EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_VALIDATION_PROMPT,
+      finish: EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_FINISH_PROMPT,
     },
     postprocess: (async (output: any, execution: Execution) => {
       const normalized = normalizeAssetPackOutput(output, execution as any);
@@ -67,7 +67,7 @@ export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
   };
 }
 
-export const synthesizeDepositAssetPacksSDIVFPipeline: SynthesizeDepositAssetPacksSDIVFPipeline =
-  factorySynthesizeDepositAssetPacksSDIVFPipeline();
+export const executionPipelineSDIVFSynthesizeDepositAssetPacks: ExecutionPipelineSDIVFSynthesizeDepositAssetPacks =
+  factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks();
 
-export const runSynthesizeDepositAssetPacksSDIVFPipeline = synthesizeDepositAssetPacksSDIVFPipeline;
+export const runExecutionPipelineSDIVFSynthesizeDepositAssetPacks = executionPipelineSDIVFSynthesizeDepositAssetPacks;

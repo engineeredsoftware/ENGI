@@ -4,7 +4,7 @@
  * Product pipeline name: **settle-asset-pack-pipeline** (singular AssetPack).
  *
  * Hierarchy: SettleAssetPack + Simple + Pipeline
- *   factorySettleAssetPackSimplePipeline → SettleAssetPackSimplePipeline
+ *   factoryExecutionPipelineSimpleSettleAssetPack → ExecutionPipelineSimpleSettleAssetPack
  *
  * **Not** SDIVF. Synthesize-reads produces multiple options; each **bought**
  * option starts its own settle pipeline (1:1 AssetPack : settle run) and yields
@@ -25,8 +25,8 @@
 import { createHash } from 'crypto';
 import type { Executor } from '@bitcode/execution-generics';
 import {
-  factorySimplePipeline,
-  type SimplePipeline,
+  factoryExecutionPipelineSimple,
+  type ExecutionPipelineSimple,
 } from '@bitcode/generic-pipelines-simple';
 import {
   addAssetPackCoOwner,
@@ -69,7 +69,7 @@ export type { SettleAssetPackInput, SettleAssetPackResult, SettleAssetPackOption
 export type * from './settle-types';
 export { parseSettleAssetPackOption, parseSettleAssetPackOptions } from './parse-settle-option';
 
-export type SettleAssetPackSimplePipeline = SimplePipeline<
+export type ExecutionPipelineSimpleSettleAssetPack = ExecutionPipelineSimple<
   SettleAssetPackInput,
   SettleAssetPackResult
 >;
@@ -924,10 +924,10 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
   };
 };
 
-export function factorySettleAssetPackSimplePipeline(
+export function factoryExecutionPipelineSimpleSettleAssetPack(
   pipelineName: string = 'settle-asset-pack-pipeline',
-): SettleAssetPackSimplePipeline {
-  return factorySimplePipeline(pipelineName, {
+): ExecutionPipelineSimpleSettleAssetPack {
+  return factoryExecutionPipelineSimple(pipelineName, {
     stages: [
       { id: 'validate-settlement-readiness', run: validateSettlementReadiness },
       { id: 'settle-btc', run: settleBtc },
@@ -940,7 +940,7 @@ export function factorySettleAssetPackSimplePipeline(
   });
 }
 
-export const settleAssetPackSimplePipeline: SettleAssetPackSimplePipeline =
-  factorySettleAssetPackSimplePipeline();
+export const executionPipelineSimpleSettleAssetPack: ExecutionPipelineSimpleSettleAssetPack =
+  factoryExecutionPipelineSimpleSettleAssetPack();
 
-export const runSettleAssetPackSimplePipeline = settleAssetPackSimplePipeline;
+export const runExecutionPipelineSimpleSettleAssetPack = executionPipelineSimpleSettleAssetPack;

@@ -9,13 +9,13 @@
  */
 
 export {
-  type PhaseDelegator,
+  type ExecutionPhaseDelegator,
   factoryPhaseDelegator,
   factorySequentialPhaseDelegator,
   factoryParallelPhaseDelegator,
 } from './phase-factory';
 
 export {
-  SDIVFPipelinePhase,
-  factorySDIVFPipelinePhaseDelegators,
+  ExecutionPipelineSDIVFPhase,
+  factoryExecutionPipelineSDIVFPhaseDelegators,
 } from '@bitcode/generic-pipelines-sdivf';

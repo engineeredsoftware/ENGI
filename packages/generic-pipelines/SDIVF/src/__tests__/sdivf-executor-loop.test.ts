@@ -1,9 +1,9 @@
 // @ts-nocheck
 /**
- * factorySDIVFPipelineFromExecutors semantics (V48 Gate 3).
+ * factoryExecutionPipelineSDIVFFromExecutors semantics (V48 Gate 3).
  *
  * This is the SDIVF variant the SynthesizeAssetPacks pipeline actually runs
- * (packages/asset-packs-pipelines/domain/src/index.ts) — NOT factorySDIVFPipeline,
+ * (packages/asset-packs-pipelines/domain/src/index.ts) — NOT factoryExecutionPipelineSDIVF,
  * which sdivf.events.integration.test.ts covers. Pins, with stub phase
  * executors on a plain Execution root:
  *
@@ -28,7 +28,7 @@
  * (finalApproval/passed false), so the exact-iteration-count pins exercise the
  * bounded (max-iterations) side of the gate.
  */
-import { factorySDIVFPipelineFromExecutors } from '../index';
+import { factoryExecutionPipelineSDIVFFromExecutors } from '../index';
 import { Execution } from '@bitcode/execution-generics/Execution';
 
 type Recorded = { calls: string[]; inputs: Record<string, any[]>; nodes: Record<string, string[]> };
@@ -66,10 +66,10 @@ function buildConfig(recorded: Recorded, overrides: Record<string, any> = {}) {
   };
 }
 
-describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () => {
+describe('factoryExecutionPipelineSDIVFFromExecutors (executor-variant SDIVF loop)', () => {
   it('runs preprocess → setup → (D→I→V) × maxIterations → finish → postprocess in order', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-loop-order', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-loop-order', {
       ...buildConfig(recorded),
       maxIterations: 2,
     });
@@ -94,7 +94,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
 
   it('never exceeds maxIterations (single-iteration loop)', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-loop-single', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-loop-single', {
       ...buildConfig(recorded),
       maxIterations: 1,
     });
@@ -109,7 +109,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
 
   it('exits the DIV loop early when the validation RESULT signals ready-to-finish', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-gate-result', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-gate-result', {
       ...buildConfig(recorded, {
         validation: async (input: any, exec: any) => {
           record(recorded, 'validation', input, exec);
@@ -135,7 +135,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
   it('exits the DIV loop early via the cross-phase validation:readyToFinish artifact on the ROOT', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
     const root = new Execution('root-gate-artifact');
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-gate-artifact', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-gate-artifact', {
       ...buildConfig(recorded, {
         validation: async (input: any, exec: any) => {
           record(recorded, 'validation', input, exec);
@@ -163,7 +163,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
   it('honors a cfg.readyToFinish override as the gate', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
     const gateCalls: any[] = [];
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-gate-override', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-gate-override', {
       ...buildConfig(recorded),
       readyToFinish: async (result: any) => {
         gateCalls.push(result);
@@ -186,7 +186,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
   it('records loop observability: per-iteration pass flags and the max-iterations marker', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
     const root = new Execution('root-gate-observe');
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-gate-observe', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-gate-observe', {
       ...buildConfig(recorded),
       maxIterations: 2,
     });
@@ -203,7 +203,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
 
   it('threads each phase output into the next phase input', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-threading', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-threading', {
       ...buildConfig(recorded),
       maxIterations: 2,
     });
@@ -230,7 +230,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
 
   it('runs iterationPreprocess before each Discovery and threads its return into the loop', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-iterpre', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-iterpre', {
       ...buildConfig(recorded),
       iterationPreprocess: async (input: any, exec: any) => {
         record(recorded, 'iterationPreprocess', input, exec);
@@ -257,7 +257,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
     const seen: Record<string, any> = {};
     const root = new Execution('root-topology');
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-topology', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-topology', {
       ...buildConfig(recorded, {
         setup: async (input: any, exec: any) => {
           record(recorded, 'setup', input, exec);
@@ -297,7 +297,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
   it('stores phase start/complete observability with iteration numbers', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
     const root = new Execution('root-observe');
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-observe', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-observe', {
       ...buildConfig(recorded),
       maxIterations: 2,
     });
@@ -325,7 +325,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
   it('fails closed: a throwing implementation rejects the pipeline and stops downstream phases', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
     const root = new Execution('root-fail');
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-fail', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-fail', {
       ...buildConfig(recorded, {
         implementation: async (input: any, exec: any) => {
           record(recorded, 'implementation', input, exec);
@@ -354,7 +354,7 @@ describe('factorySDIVFPipelineFromExecutors (executor-variant SDIVF loop)', () =
 
   it('fails closed on a throwing setup: the DIV loop and finish never start', async () => {
     const recorded: Recorded = { calls: [], inputs: {}, nodes: {} };
-    const pipeline = factorySDIVFPipelineFromExecutors('sdivf-fail-setup', {
+    const pipeline = factoryExecutionPipelineSDIVFFromExecutors('sdivf-fail-setup', {
       ...buildConfig(recorded, {
         setup: async (input: any, exec: any) => {
           record(recorded, 'setup', input, exec);

@@ -1,16 +1,16 @@
 /**
- * SDIVFPipeline phase names — base phase shell only.
+ * ExecutionPipelineSDIVF phase names — base phase shell only.
  *
- * Hierarchy: phases of an SDIVFPipeline (base + Pipeline primitive).
+ * Hierarchy: phases of an ExecutionPipelineSDIVF (base + Pipeline primitive).
  * Product pipelines supply phase Executors (agents, tools, rosters live
  * above this package — never in the base SDIVF loop).
  */
 
 import type { Executor } from '@bitcode/execution-generics';
-import type { PhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
+import type { ExecutionPhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
 
-/** Canonical SDIVFPipeline phase ids (Setup → Discovery → Implementation → Validation → Finish). */
-export enum SDIVFPipelinePhase {
+/** Canonical ExecutionPipelineSDIVF phase ids (Setup → Discovery → Implementation → Validation → Finish). */
+export enum ExecutionPipelineSDIVFPhase {
   SETUP = 'setup',
   DISCOVERY = 'discovery',
   IMPLEMENTATION = 'implementation',
@@ -20,25 +20,25 @@ export enum SDIVFPipelinePhase {
 
 /**
  * Order phase executors as SDIVF PhaseDelegators (Executor-typed; no agents).
- * Prefer factorySDIVFPipelineFromExecutors when building product pipelines.
+ * Prefer factoryExecutionPipelineSDIVFFromExecutors when building product pipelines.
  */
-export function factorySDIVFPipelinePhaseDelegators<TInput, TOutput>(config: {
+export function factoryExecutionPipelineSDIVFPhaseDelegators<TInput, TOutput>(config: {
   setup: Executor<TInput, any>;
   discovery: Executor<any, any>;
   implementation: Executor<any, any>;
   validation: Executor<any, any>;
   finish: Executor<any, TOutput>;
-}): PhaseDelegator<TInput, TOutput>[] {
+}): ExecutionPhaseDelegator<TInput, TOutput>[] {
   const asDelegator = <TIn, TOut>(
-    _phase: SDIVFPipelinePhase,
+    _phase: ExecutionPipelineSDIVFPhase,
     run: Executor<TIn, TOut>,
-  ): PhaseDelegator<TIn, TOut> => run;
+  ): ExecutionPhaseDelegator<TIn, TOut> => run;
 
   return [
-    asDelegator(SDIVFPipelinePhase.SETUP, config.setup),
-    asDelegator(SDIVFPipelinePhase.DISCOVERY, config.discovery),
-    asDelegator(SDIVFPipelinePhase.IMPLEMENTATION, config.implementation),
-    asDelegator(SDIVFPipelinePhase.VALIDATION, config.validation),
-    asDelegator(SDIVFPipelinePhase.FINISH, config.finish),
+    asDelegator(ExecutionPipelineSDIVFPhase.SETUP, config.setup),
+    asDelegator(ExecutionPipelineSDIVFPhase.DISCOVERY, config.discovery),
+    asDelegator(ExecutionPipelineSDIVFPhase.IMPLEMENTATION, config.implementation),
+    asDelegator(ExecutionPipelineSDIVFPhase.VALIDATION, config.validation),
+    asDelegator(ExecutionPipelineSDIVFPhase.FINISH, config.finish),
   ];
 }

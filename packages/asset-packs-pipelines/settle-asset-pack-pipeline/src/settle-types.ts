@@ -1,5 +1,5 @@
 /**
- * Strongly typed contracts for SettleAssetPackSimplePipeline and BitcodeERC1155
+ * Strongly typed contracts for ExecutionPipelineSimpleSettleAssetPack and BitcodeERC1155
  * settlement artifacts. No `unknown` on settle/contract surfaces.
  */
 

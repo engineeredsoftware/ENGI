@@ -270,11 +270,11 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Represent Bitcode runs, phases, prompts, tool registries, streaming, resume, metrics, and phase orchestration as explicit pipeline execution infrastructure.',
     promptImplementation: {
       owners: [
-        'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
+        'packages/pipelines-generics/src/prompts/execution-pipeline-prompt.ts',
         'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts'
       ],
       rawPromptPartBoundary: '@bitcode/prompts and @bitcode/prompts/parts/PromptPart through public subpaths',
-      registryLayering: 'PipelinePrompt and PipelinePromptRegistry bind generic phase/pipeline prompt bases to specific setup, discovery, implementation, validation, and finish implementations through registry-backed hierarchy.',
+      registryLayering: 'ExecutionPipelinePrompt and PipelinePromptRegistry bind generic phase/pipeline prompt bases to specific setup, discovery, implementation, validation, and finish implementations through registry-backed hierarchy.',
       runtimeCarryThrough: 'Pipeline prompts must not depend on route-local strings or private prompt source paths.'
     },
     toolImplementation: {
@@ -291,12 +291,12 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     executionImplementation: {
       owners: [
-        'packages/pipelines-generics/src/execution/PipelineExecution.ts',
+        'packages/pipelines-generics/src/execution/ExecutionPipeline.ts',
         'packages/pipelines-generics/src/execution/pipeline-types.ts',
         'packages/pipelines-generics/src/execution/resume.ts',
         'packages/pipelines-generics/src/streaming/pipeline-stream-integration.ts'
       ],
-      carriers: ['PipelineExecution', 'PipelinePromptRegistry', 'PipelineToolRegistry', 'PipelineLLMRegistry', 'PipelineAgentRegistry']
+      carriers: ['ExecutionPipeline', 'PipelinePromptRegistry', 'PipelineToolRegistry', 'PipelineLLMRegistry', 'PipelineAgentRegistry']
     },
     assetPackImplementation: {
       outputKind: 'pipeline run evidence',
@@ -309,8 +309,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       '.proofs/_shared/runs-pipelines-totality-proof.json'
     ],
     sourceEvidenceRefs: [
-      'packages/pipelines-generics/src/prompts/PipelinePrompt.ts',
-      'packages/pipelines-generics/src/execution/PipelineExecution.ts',
+      'packages/pipelines-generics/src/prompts/execution-pipeline-prompt.ts',
+      'packages/pipelines-generics/src/execution/ExecutionPipeline.ts',
       'packages/pipelines-generics/src/execution/PipelinePromptRegistry.ts',
       'packages/pipelines-generics/src/execution/PipelineToolRegistry.ts',
       'packages/pipelines-generics/src/phases/phase-factory.ts',
@@ -420,7 +420,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/asset-packs-pipelines/domain/src/postprocess.ts',
         'packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts'
       ],
-      carriers: ['PipelineExecution compatibility entry', 'postprocess read model', 'execution history projections']
+      carriers: ['ExecutionPipeline compatibility entry', 'postprocess read model', 'execution history projections']
     },
     assetPackImplementation: {
       outputKind: 'asset pack and shippable delivery mechanism',

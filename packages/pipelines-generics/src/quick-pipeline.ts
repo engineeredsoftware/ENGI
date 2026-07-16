@@ -8,7 +8,7 @@
 
 import type { Executor } from '@bitcode/execution-generics';
 import type { Pipeline } from './pipeline-factory';
-import { factoryPipelineExecution } from './execution/pipeline-types';
+import { factoryExecutionPipeline } from './execution/pipeline-types';
 
 export type QuickPhase<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 
@@ -22,7 +22,7 @@ export function factoryQuickPipeline<TInput = any, TOutput = any>(
   cfg: QuickPipelineConfig<TInput, TOutput>
 ): Pipeline<TInput, TOutput> {
   return async (input, execution) => {
-    const pipelineExec = factoryPipelineExecution(name, execution as any);
+    const pipelineExec = factoryExecutionPipeline(name, execution as any);
     try {
       pipelineExec.store('pipeline', 'name', name);
       pipelineExec.store('pipeline', 'pattern', 'QUICK');

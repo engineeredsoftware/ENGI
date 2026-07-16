@@ -1,14 +1,14 @@
 // @ts-nocheck
 // @ts-nocheck
-import { PipelineExecution } from '../PipelineExecution';
-import { PipelineExecutor } from '../PipelineExecutor';
+import { ExecutionPipeline } from '../ExecutionPipeline';
+import { ExecutionPipelineExecutor } from '../ExecutionPipelineExecutor';
 import { createAgentExecutor } from '../agent-executor';
 import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
 import { Streamer } from '@bitcode/api/streams';
 
-describe('PipelineExecutor event emission (unit)', () => {
+describe('ExecutionPipelineExecutor event emission (unit)', () => {
   it('emits phase and agent events in expected order', async () => {
-    const exec = new PipelineExecution('pipeline:unit');
+    const exec = new ExecutionPipeline('pipeline:unit');
     const events: any[] = [];
     const streamer = new Streamer({ streamId: 'pipeline:unit', userId: 'unit-user' });
     streamer.subscribe((event) => {
@@ -23,7 +23,7 @@ describe('PipelineExecutor event emission (unit)', () => {
     (exec as any).agents.registerAgent('unit:agentA', agentA as any);
     (exec as any).agents.registerAgent('unit:agentB', agentB as any);
 
-    const executor = new PipelineExecutor(exec);
+    const executor = new ExecutionPipelineExecutor(exec);
     const res = await executor.executePhase({
       phaseName: 'setup',
       sequence: [
@@ -56,7 +56,7 @@ describe('PipelineExecutor event emission (unit)', () => {
   });
 
   it('passes phase input to agents unless a step overrides it', async () => {
-    const exec = new PipelineExecution('pipeline:input-forwarding');
+    const exec = new ExecutionPipeline('pipeline:input-forwarding');
     const received: any[] = [];
 
     (exec as any).agents.registerAgent('unit:default-input', (async (input: any) => {
@@ -73,7 +73,7 @@ describe('PipelineExecutor event emission (unit)', () => {
       read: 'fit current deposited source revision',
     };
 
-    const executor = new PipelineExecutor(exec);
+    const executor = new ExecutionPipelineExecutor(exec);
     await executor.executePhase({
       phaseName: 'setup',
       sequence: [
@@ -89,7 +89,7 @@ describe('PipelineExecutor event emission (unit)', () => {
   });
 
   it('resolves lazy registered agents before executing through generic executors', async () => {
-    const exec = new PipelineExecution('pipeline:lazy-agent');
+    const exec = new ExecutionPipeline('pipeline:lazy-agent');
     const phaseInput = { read: 'fit deposited source revision' };
 
     (exec as any).agents.registerAgent('unit:lazy-executor', (() =>
@@ -104,7 +104,7 @@ describe('PipelineExecutor event emission (unit)', () => {
       })) as any);
 
     const executorOutput = await createAgentExecutor('unit:lazy-executor')(phaseInput, exec);
-    const phaseOutput = await new PipelineExecutor(exec).executeAgent('unit:lazy-phase', phaseInput);
+    const phaseOutput = await new ExecutionPipelineExecutor(exec).executeAgent('unit:lazy-phase', phaseInput);
 
     expect(executorOutput).toEqual({ ok: true, read: phaseInput.read });
     expect(phaseOutput).toEqual({ ok: true, read: phaseInput.read });

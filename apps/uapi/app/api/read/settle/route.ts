@@ -1,5 +1,5 @@
 /**
- * POST /api/read/settle — spawn one SettleAssetPackSimplePipeline per bought option.
+ * POST /api/read/settle — spawn one ExecutionPipelineSimpleSettleAssetPack per bought option.
  *
  * 1:1 AssetPack : settle pipeline. SynthesizeRead may return multiple options;
  * each selected option gets its own settle run (BTC → mint-btd → settle-btd →
@@ -17,7 +17,7 @@ import { Execution } from '@bitcode/execution-generics';
 import {
   parseSettleAssetPackOption,
   parseSettleAssetPackOptions,
-  runSettleAssetPackSimplePipeline,
+  runExecutionPipelineSimpleSettleAssetPack,
   type SettleAssetPackOption,
   type SettleAssetPackInput,
   type SettleBtcPaymentObservationInput,
@@ -184,7 +184,7 @@ async function runOneSettle(input: RunOneSettleInput) {
   };
 
   try {
-    const result = await runSettleAssetPackSimplePipeline(pipelineInput, exec);
+    const result = await runExecutionPipelineSimpleSettleAssetPack(pipelineInput, exec);
 
     const packActivity = result.packActivity;
     const shippable = result.shippable;

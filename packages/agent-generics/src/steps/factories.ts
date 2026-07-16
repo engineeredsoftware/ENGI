@@ -45,9 +45,28 @@ import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrum
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
 import { PlanStepOutputSchema } from './step-schemas';
 import { applyStepToolSurface } from '../execution';
+import { applyComposedCallSiteNodePrompt } from '@bitcode/execution-generics';
+import { Prompt } from '@bitcode/prompts/prompt';
+import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 
 // StepExecutor is just an Executor - no special type needed
 type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+
+/** Attach step purpose as call_site:step block (one node → one wire block). */
+function attachStepCallSitePrompt(stepExec: any, stepName: string, promptCarrier: any): void {
+  if (!stepExec?.prompt || !promptCarrier) return;
+  const part = formatStepPromptCarrier(promptCarrier);
+  // Correct path under specific_execution (setSpecificExecution prefixes once).
+  try {
+    stepExec.prompt.setSpecificExecution('step:purpose', part);
+  } catch {
+    /* ignore */
+  }
+  const composed = new Prompt();
+  composed.set('purpose', typeof part === 'string' ? createPromptPart(String(part)) : part);
+  composed.set('name', createPromptPart(`PTRR step: ${stepName}`));
+  applyComposedCallSiteNodePrompt(stepExec.prompt, composed, `step:${stepName}`);
+}
 
 function formatStepPromptCarrier(prompt: any): any {
   if (!prompt) return prompt;
@@ -163,8 +182,7 @@ export function factoryPlanStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'plan'); } catch {}
     if (config?.prompt) {
-      const part = formatStepPromptCarrier(config.prompt);
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', part);
+      attachStepCallSitePrompt(stepExec, 'plan', config.prompt);
     }
     try {
       // Plan default: no usable tools (strategy sans tool docs / useTools).
@@ -249,7 +267,7 @@ export function factoryTryStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'try'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
+      attachStepCallSitePrompt(stepExec, 'try', options.prompt);
     }
     try {
       // Try: agent catalog tools by default (own useTools + postprocess).
@@ -338,7 +356,7 @@ export function factoryRetryStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'retry'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
+      attachStepCallSitePrompt(stepExec, 'retry', options.prompt);
     }
     try {
       applyStepToolSurface(stepExec, options?.tools);
@@ -416,7 +434,7 @@ export function factoryRefineStep<TInput, TOutput>(
     const started = Date.now();
     try { logStepStart(stepExec, 'refine'); } catch {}
     if (options?.prompt) {
-      stepExec.prompt.setSpecificExecution('specific_execution:step:purpose', formatStepPromptCarrier(options.prompt));
+      attachStepCallSitePrompt(stepExec, 'refine', options.prompt);
     }
     try {
       // Refine: empty tool surface by default (final agent return only).

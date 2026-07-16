@@ -2927,24 +2927,24 @@ Format: `path -- <1 sentence TL;DR>`.
  pipeline-types.d.ts -- Source module in package `pipelines-generics`.
  pipeline-types.js -- Package `pipelines-generics` artifact.
  pipeline-types.ts -- Source module in package `pipelines-generics`.
- PipelineAgentRegistry.d.ts -- Source module in package `pipelines-generics`.
- PipelineAgentRegistry.js -- Package `pipelines-generics` artifact.
- PipelineAgentRegistry.ts -- Source module in package `pipelines-generics`.
- PipelineExecution.d.ts -- Source module in package `pipelines-generics`.
- PipelineExecution.js -- Package `pipelines-generics` artifact.
- PipelineExecution.ts -- Source module in package `pipelines-generics`.
- PipelineExecutor.d.ts -- Source module in package `pipelines-generics`.
- PipelineExecutor.js -- Package `pipelines-generics` artifact.
- PipelineExecutor.ts -- Source module in package `pipelines-generics`.
- PipelineLLMRegistry.d.ts -- Source module in package `pipelines-generics`.
- PipelineLLMRegistry.js -- Package `pipelines-generics` artifact.
- PipelineLLMRegistry.ts -- Source module in package `pipelines-generics`.
- PipelinePromptRegistry.d.ts -- Source module in package `pipelines-generics`.
- PipelinePromptRegistry.js -- Package `pipelines-generics` artifact.
- PipelinePromptRegistry.ts -- Source module in package `pipelines-generics`.
- PipelineToolRegistry.d.ts -- Source module in package `pipelines-generics`.
- PipelineToolRegistry.js -- Package `pipelines-generics` artifact.
- PipelineToolRegistry.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineAgentRegistry.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineAgentRegistry.js -- Package `pipelines-generics` artifact.
+ ExecutionPipelineAgentRegistry.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipeline.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipeline.js -- Package `pipelines-generics` artifact.
+ ExecutionPipeline.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineExecutor.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineExecutor.js -- Package `pipelines-generics` artifact.
+ ExecutionPipelineExecutor.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineLLMRegistry.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineLLMRegistry.js -- Package `pipelines-generics` artifact.
+ ExecutionPipelineLLMRegistry.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelinePromptRegistry.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelinePromptRegistry.js -- Package `pipelines-generics` artifact.
+ ExecutionPipelinePromptRegistry.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineToolRegistry.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelineToolRegistry.js -- Package `pipelines-generics` artifact.
+ ExecutionPipelineToolRegistry.ts -- Source module in package `pipelines-generics`.
  resolve-agent.d.ts -- Source module in package `pipelines-generics`.
  resolve-agent.js -- Package `pipelines-generics` artifact.
  resolve-agent.ts -- Source module in package `pipelines-generics`.
@@ -2983,9 +2983,9 @@ Format: `path -- <1 sentence TL;DR>`.
  sdivf-factory.js -- Package `pipelines-generics` artifact.
  sdivf-factory.ts -- Source module in package `pipelines-generics`.
  prompts/ -- Subfolder of package `pipelines-generics`.
- PipelinePrompt.d.ts -- Source module in package `pipelines-generics`.
- PipelinePrompt.js -- Package `pipelines-generics` artifact.
- PipelinePrompt.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelinePrompt.d.ts -- Source module in package `pipelines-generics`.
+ ExecutionPipelinePrompt.js -- Package `pipelines-generics` artifact.
+ ExecutionPipelinePrompt.ts -- Source module in package `pipelines-generics`.
  streaming/ -- Subfolder of package `pipelines-generics`.
  __tests__/ -- Package tests for this module.
  file-storage-execution.test.js -- Package tests for this module.

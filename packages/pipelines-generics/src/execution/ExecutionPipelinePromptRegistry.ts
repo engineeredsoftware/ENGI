@@ -1,5 +1,5 @@
 /**
- * PipelinePromptRegistry - Prompt registry for pipeline executions
+ * ExecutionPipelinePromptRegistry - Prompt registry for pipeline executions
  * 
  * Manages prompt registration and hierarchical lookup for pipelines.
  * Prompts are resolved up the execution tree for reuse.
@@ -14,12 +14,12 @@ import { RegistryImpl } from '@bitcode/registry';
 import { Execution } from '@bitcode/execution-generics/Execution';
 
 /**
- * PipelinePromptRegistry - Hierarchical prompt registry for pipelines
+ * ExecutionPipelinePromptRegistry - Hierarchical prompt registry for pipelines
  * 
  * Wraps the base PromptRegistry with execution-aware resolution.
  * Prompts can be registered at any level and resolved upward.
  */
-export class PipelinePromptRegistry extends RegistryImpl<any> {
+export class ExecutionPipelinePromptRegistry extends RegistryImpl<any> {
   private readonly execution: Execution;
   private baseRegistry: RegistryImpl<any>;
   

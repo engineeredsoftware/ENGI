@@ -1,12 +1,12 @@
 import {
-  PipelineExecution,
-  inferPipelineExecutionLineage
-} from '../PipelineExecution';
-import { factoryPipelineExecution } from '../pipeline-types';
+  ExecutionPipeline,
+  inferExecutionPipelineLineage
+} from '../ExecutionPipeline';
+import { factoryExecutionPipeline } from '../pipeline-types';
 
-describe('PipelineExecution lineage', () => {
+describe('ExecutionPipeline lineage', () => {
   it('infers live lineage for ad hoc execution', () => {
-    const lineage = inferPipelineExecutionLineage('ad_hoc');
+    const lineage = inferExecutionPipelineLineage('ad_hoc');
     expect(lineage).toEqual({
       pipelineName: 'ad_hoc',
       family: 'ad_hoc',
@@ -16,7 +16,7 @@ describe('PipelineExecution lineage', () => {
   });
 
   it('infers live lineage for AssetPack execution', () => {
-    const lineage = inferPipelineExecutionLineage('asset-pack');
+    const lineage = inferExecutionPipelineLineage('asset-pack');
     expect(lineage).toEqual({
       pipelineName: 'asset-pack',
       family: 'asset_pack',
@@ -26,7 +26,7 @@ describe('PipelineExecution lineage', () => {
   });
 
   it('stores lineage on root and child pipeline executions', () => {
-    const execution = factoryPipelineExecution('asset-pack');
+    const execution = factoryExecutionPipeline('asset-pack');
     const child = execution.child('phase-0');
 
     expect(execution.lineage.family).toBe('asset_pack');
@@ -38,7 +38,7 @@ describe('PipelineExecution lineage', () => {
   });
 
   it('accepts explicit lineage overrides', () => {
-    const execution = new PipelineExecution('custom-run', undefined, {
+    const execution = new ExecutionPipeline('custom-run', undefined, {
       pipelineName: 'bitcode-measure',
       family: 'custom',
       posture: 'live',

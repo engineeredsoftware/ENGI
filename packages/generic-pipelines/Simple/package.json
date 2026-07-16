@@ -1,7 +1,7 @@
 {
   "name": "@bitcode/generic-pipelines-simple",
   "version": "1.0.0",
-  "description": "SimplePipeline base: linear stage sequence extending pipelines-generics (parity with SDIVF; like QuickAgent vs PTRRAgent)",
+  "description": "ExecutionPipelineSimple base: linear stage sequence extending pipelines-generics (parity with SDIVF; like QuickAgent vs PTRRAgent)",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {

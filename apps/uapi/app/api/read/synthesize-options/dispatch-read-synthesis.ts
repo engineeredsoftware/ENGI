@@ -1,12 +1,12 @@
 /**
  * Background read option synthesis (deposit dispatch twin).
- * Provisions Host when possible, runs SynthesizeReadAssetPacksSDIVFPipeline,
+ * Provisions Host when possible, runs ExecutionPipelineSDIVFSynthesizeReadAssetPacks,
  * persists selection envelope onto executions.output.
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { Execution } from '@bitcode/execution-generics';
-import { runSynthesizeReadAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline';
+import { runExecutionPipelineSDIVFSynthesizeReadAssetPacks } from '@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
 
 export type ReadSynthesisDispatchInput = {
@@ -81,7 +81,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
       // Host optional in constrained environments; pipeline may still run with empty catalog.
     }
 
-    const result = await runSynthesizeReadAssetPacksSDIVFPipeline(pipelineInput, exec);
+    const result = await runExecutionPipelineSDIVFSynthesizeReadAssetPacks(pipelineInput, exec);
     const selectionEnvelope =
       exec.get?.('finish', 'selectionEnvelope') ||
       (result as any)?.selectionEnvelope ||

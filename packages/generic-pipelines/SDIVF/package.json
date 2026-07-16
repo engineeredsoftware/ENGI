@@ -8,8 +8,8 @@
     ".": "./src/index.ts",
     "./sdivf-factory": "./src/sdivf-factory.ts",
     "./sdivf-phases": "./src/sdivf-phases.ts",
-    "./prompts/sdivf-pipeline-prompt": "./src/prompts/sdivf-pipeline-prompt.ts",
-    "./prompts/sdivf-phase-prompts": "./src/prompts/sdivf-phase-prompts.ts"
+    "./prompts/execution-pipeline-sdivf-prompt": "./src/prompts/execution-pipeline-sdivf-prompt.ts",
+    "./prompts/execution-phase-sdivf-prompts": "./src/prompts/execution-phase-sdivf-prompts.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",

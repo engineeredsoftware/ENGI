@@ -16,7 +16,7 @@ on product semantics.
 | **Prompt** | `@bitcode/prompts` | `RegistryImpl<PromptPart>`; assemble + `format()` / `hierarchicalFormatter` |
 | **ExecutionPrompt** | `@bitcode/execution-generics` | Only roots: `generic_system:` · `specific_execution:` |
 | **Compose + EE walk** | `@bitcode/execution-generics` | `composePromptLayers`, `applyPromptRegistryToExecutionPrompt`, `applyComposedCallSiteNodePrompt`, `buildExecutionHierarchySystemPrompt` |
-| **Pipeline/phase attach** | `@bitcode/pipelines-generics` | `attachPipelinePromptHierarchy`, `attachPhasePromptHierarchy` |
+| **Pipeline/phase attach** | `@bitcode/pipelines-generics` | `attachExecutionPipelinePromptHierarchy`, `attachExecutionPhasePromptHierarchy` |
 | **Role filter (failsafe/thinking)** | `@bitcode/agent-generics` | Thin wrapper over EE walk for active generation only |
 
 **Do not** bury generic hierarchy walk/compose under `agent-generics` only.
@@ -115,10 +115,10 @@ Product-first full ancestry with **Execution** as EE primitive where applicable
 
 | Target | Replaces |
 | --- | --- |
-| `ExecutionPipeline` | `PipelineExecution` |
-| `ExecutionPhase` | `PhaseDelegation` |
-| `SDIVFExecutionPipeline` | `SDIVFPipeline` |
-| `SynthesizeReadAssetPacksSDIVFExecutionPipeline` | `SynthesizeReadAssetPacksSDIVFPipeline` |
+| `ExecutionPipeline` | `ExecutionPipeline` |
+| `ExecutionPhase` | `ExecutionPhase` |
+| `ExecutionPipelineSDIVF` | `ExecutionPipelineSDIVF` |
+| `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` | `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` |
 | … | (phased renames; pipeline/phase before agent EE renames) |
 
 ---
@@ -130,8 +130,8 @@ Product-first full ancestry with **Execution** as EE primitive where applicable
 // 2) Assemble layers
 const composed = composePromptLayers([
   PRIMITIVE_EXECUTION_SYSTEM_PROMPT, // pipeline node only
-  PRIMITIVE_PIPELINE_PROMPT,
-  SDIVF_PIPELINE_PROMPT,
+  EXECUTION_PIPELINE_PRIMITIVE_PROMPT,
+  EXECUTION_PIPELINE_SDIVF_PROMPT,
   PRODUCT_PIPELINE_PROMPT,
 ]);
 // 3) Attach on root ExecutionPipeline (not seq-0)

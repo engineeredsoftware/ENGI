@@ -7,7 +7,7 @@
 
 import { Execution } from '@bitcode/execution-generics';
 import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
-import { runSynthesizeAssetPacksSDIVFPipeline } from '../index';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '../index';
 
 async function main() {
   process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
@@ -40,7 +40,7 @@ async function main() {
     repository: { url: 'https://github.com/acme/repo', branch: 'main' },
     deliveryTarget: 'pr' as const,
   };
-  const result = await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
+  const result = await runExecutionPipelineSDIVFSynthesizeAssetPacks(input, execution);
 
   console.log('Phase current:', execution.get('phase', 'current'));
   console.log('Result present:', !!result);

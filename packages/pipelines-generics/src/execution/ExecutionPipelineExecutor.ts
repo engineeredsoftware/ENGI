@@ -1,11 +1,11 @@
 /**
- * PipelineExecutor - Orchestrates pipeline execution with short-circuit support
+ * ExecutionPipelineExecutor - Orchestrates pipeline execution with short-circuit support
  * 
  * Provides phase sequencing, agent execution, and automatic short-circuit
  * detection with refund handling.
  */
 
-import { PipelineExecution } from './PipelineExecution';
+import { ExecutionPipeline } from './ExecutionPipeline';
 // No direct stream adapter usage here; rely on store() + adapter inference
 import { 
   ShortCircuitError, 
@@ -45,9 +45,9 @@ export interface PhaseResult {
 /**
  * Pipeline executor that handles phase sequencing and short-circuits
  */
-export class PipelineExecutor {
+export class ExecutionPipelineExecutor {
   constructor(
-    private execution: PipelineExecution
+    private execution: ExecutionPipeline
   ) {}
   
   /**
@@ -227,7 +227,7 @@ export class PipelineExecutor {
  */
 export function createPhaseRunner(config: PhaseConfig): Executor<any, PhaseResult> {
   return async (input: any, execution: any): Promise<PhaseResult> => {
-    const executor = new PipelineExecutor(execution as PipelineExecution);
+    const executor = new ExecutionPipelineExecutor(execution as ExecutionPipeline);
     return await executor.executePhase(config, input);
   };
 }

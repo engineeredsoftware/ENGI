@@ -1,17 +1,17 @@
 // @ts-nocheck
 import { Execution } from '@bitcode/execution-generics';
 import { Tool } from '@bitcode/tools-generics';
-import { PipelineToolRegistry } from '../execution/PipelineToolRegistry';
+import { ExecutionPipelineToolRegistry } from '../execution/ExecutionPipelineToolRegistry';
 
 class PlainTool extends Tool {
   name = 'plain-tool';
   use = jest.fn(async () => ({ ok: true }));
 }
 
-describe('PipelineToolRegistry', () => {
+describe('ExecutionPipelineToolRegistry', () => {
   it('returns base Tool instances that do not implement execution binding', async () => {
     const execution = new Execution('pipeline:test');
-    const registry = new PipelineToolRegistry(execution);
+    const registry = new ExecutionPipelineToolRegistry(execution);
     const tool = new PlainTool();
 
     registry.registerTool('plain-tool', tool as any);

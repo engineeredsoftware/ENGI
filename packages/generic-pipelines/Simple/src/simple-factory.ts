@@ -1,10 +1,10 @@
 /**
- * SimplePipeline base — linear stage sequence (no DIV iteration loop).
+ * ExecutionPipelineSimple base — linear stage sequence (no DIV iteration loop).
  *
  * Hierarchy:
  *   @bitcode/pipelines-generics          Pipeline / Executor primitives
  *   @bitcode/generic-pipelines-simple    this package (Simple + Pipeline)
- *   product                              e.g. SettleAssetPackSimplePipeline
+ *   product                              e.g. ExecutionPipelineSimpleSettleAssetPack
  *
  * Parity: QuickAgent vs PTRRAgent — Simple is the non-iterating pipeline base;
  * SDIVF is the iterative Setup-[DIV]*-Finish base.
@@ -14,43 +14,43 @@ import { sequential, type Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { Pipeline } from '@bitcode/pipelines-generics/pipeline-factory';
 import {
-  factoryPipelineExecution,
-  type PipelineExecution,
+  factoryExecutionPipeline,
+  type ExecutionPipeline,
 } from '@bitcode/pipelines-generics/execution/pipeline-types';
 
 /**
  * Simple base Pipeline (hierarchy name: Simple + Pipeline).
- * Product pipelines: SettleAssetPackSimplePipeline, …
+ * Product pipelines: ExecutionPipelineSimpleSettleAssetPack, …
  */
-export type SimplePipeline<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
+export type ExecutionPipelineSimple<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
 
-export interface SimplePipelineStage<TIn = any, TOut = any> {
+export interface ExecutionPipelineSimpleStage<TIn = any, TOut = any> {
   /** Stage id for telemetry (e.g. validate, finalize-settlement, ship). */
   id: string;
   run: Executor<TIn, TOut>;
 }
 
-export interface SimplePipelineConfig<TInput = any, TOutput = any> {
+export interface ExecutionPipelineSimpleConfig<TInput = any, TOutput = any> {
   /** Ordered linear stages; each receives the previous stage output. */
-  stages: SimplePipelineStage[];
+  stages: ExecutionPipelineSimpleStage[];
   preprocess?: Executor<TInput, any>;
   postprocess?: Executor<any, TOutput>;
-  initialize?: (execution: PipelineExecution, input: TInput) => void | Promise<void>;
+  initialize?: (execution: ExecutionPipeline, input: TInput) => void | Promise<void>;
 }
 
 /**
- * factorySimplePipeline — linear SimplePipeline (no Setup-DIV-Finish loop).
+ * factoryExecutionPipelineSimple — linear ExecutionPipelineSimple (no Setup-DIV-Finish loop).
  */
-export function factorySimplePipeline<TInput = any, TOutput = any>(
+export function factoryExecutionPipelineSimple<TInput = any, TOutput = any>(
   name: string,
-  config: SimplePipelineConfig<TInput, TOutput>,
-): SimplePipeline<TInput, TOutput> {
+  config: ExecutionPipelineSimpleConfig<TInput, TOutput>,
+): ExecutionPipelineSimple<TInput, TOutput> {
   if (!config.stages?.length) {
-    throw new Error('factorySimplePipeline requires at least one stage.');
+    throw new Error('factoryExecutionPipelineSimple requires at least one stage.');
   }
 
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
-    const pipelineExec = factoryPipelineExecution(name, execution);
+    const pipelineExec = factoryExecutionPipeline(name, execution);
     pipelineExec.store('pipeline', 'start', { name });
     pipelineExec.store('pipeline', 'pattern', 'Simple');
     pipelineExec.store('pipeline', 'phaseModel', 'linear-stages');
@@ -111,27 +111,27 @@ export function factorySimplePipeline<TInput = any, TOutput = any>(
 }
 
 /**
- * factorySimplePipelineFromExecutors — stages supplied as a plain ordered list
+ * factoryExecutionPipelineSimpleFromExecutors — stages supplied as a plain ordered list
  * of executors (ids auto-numbered stage-0…).
  */
-export function factorySimplePipelineFromExecutors<TInput = any, TOutput = any>(
+export function factoryExecutionPipelineSimpleFromExecutors<TInput = any, TOutput = any>(
   name: string,
   stages: Executor<any, any>[],
-  options?: Omit<SimplePipelineConfig<TInput, TOutput>, 'stages'>,
-): SimplePipeline<TInput, TOutput> {
-  return factorySimplePipeline(name, {
+  options?: Omit<ExecutionPipelineSimpleConfig<TInput, TOutput>, 'stages'>,
+): ExecutionPipelineSimple<TInput, TOutput> {
+  return factoryExecutionPipelineSimple(name, {
     ...options,
     stages: stages.map((run, i) => ({ id: `stage-${i}`, run })),
   });
 }
 
 /** Convenience: compose stages with sequential under one Simple pipeline name. */
-export function factorySimpleSequentialPipeline<TInput = any, TOutput = any>(
+export function factoryExecutionPipelineSimpleSequential<TInput = any, TOutput = any>(
   name: string,
   stages: Executor<any, any>[],
-): SimplePipeline<TInput, TOutput> {
+): ExecutionPipelineSimple<TInput, TOutput> {
   const body = sequential(...stages) as Executor<TInput, TOutput>;
-  return factorySimplePipeline(name, {
+  return factoryExecutionPipelineSimple(name, {
     stages: [{ id: 'body', run: body }],
   });
 }

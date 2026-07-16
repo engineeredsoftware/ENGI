@@ -19,10 +19,10 @@ import {
   PipelineExecutionsModel,
   ExecutionEventsModel
 } from '@bitcode/orm';
-import { runSynthesizeAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-domain';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-domain';
 import {
-  PipelineExecution,
-  inferPipelineExecutionLineage
+  ExecutionPipeline,
+  inferExecutionPipelineLineage
 } from '@bitcode/pipelines-generics';
 import type {
   AssetPackResult,
@@ -270,10 +270,10 @@ async function executePipelineJob(
     switch (options.pipeline) {
       case 'asset-pack': {
         const inputContext = buildPipelineInputContext('bitcode_mcp', options.config);
-        const execution = new PipelineExecution(
+        const execution = new ExecutionPipeline(
           runId,
           undefined,
-          inferPipelineExecutionLineage('asset-pack')
+          inferExecutionPipelineLineage('asset-pack')
         );
         execution.store('interface', 'ingress', {
           surface: 'bitcode_mcp',
@@ -281,7 +281,7 @@ async function executePipelineJob(
           pipeline: 'asset-pack',
         } as any);
         execution.store('inputs', 'context', inputContext as any);
-        result = await runSynthesizeAssetPacksSDIVFPipeline({
+        result = await runExecutionPipelineSDIVFSynthesizeAssetPacks({
           task: options.task,
           config: options.config,
           userId: options.userId,

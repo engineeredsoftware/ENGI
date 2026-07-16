@@ -3,8 +3,8 @@
  *
  * Hierarchy naming law (always encode full ancestry):
  *   Pipeline                              — primitive
- *   SDIVFPipeline                         — base + primitive
- *   SynthesizeAssetPacksSDIVFPipeline     — specific + base + primitive
+ *   ExecutionPipelineSDIVF                         — base + primitive
+ *   ExecutionPipelineSDIVFSynthesizeAssetPacks     — specific + base + primitive
  *
  * SDIVF base: @bitcode/generic-pipelines-sdivf
  * Product:    @bitcode/asset-packs-pipelines-domain
@@ -13,8 +13,8 @@
 import { sequential, conditional, repeat } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import { PhaseDelegator } from './phases/phase-factory';
-import { PipelineExecution, factoryPipelineExecution } from './execution/pipeline-types';
+import { ExecutionPhaseDelegator } from './phases/phase-factory';
+import { ExecutionPipeline, factoryExecutionPipeline } from './execution/pipeline-types';
 
 // ==================== PIPELINE EXECUTOR ====================
 
@@ -28,11 +28,11 @@ export type Pipeline<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
  */
 export function factoryPipeline<TInput, TOutput>(
   name: string,
-  phases: PhaseDelegator<any, any>[]
+  phases: ExecutionPhaseDelegator<any, any>[]
 ): Pipeline<TInput, TOutput> {
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create pipeline execution
-    const pipelineExec = factoryPipelineExecution(name, execution);
+    const pipelineExec = factoryExecutionPipeline(name, execution);
     
     // Store pipeline metadata
     pipelineExec.store('pipeline', 'name', name);
@@ -62,11 +62,11 @@ export function factoryPipeline<TInput, TOutput>(
 export function factoryPipelineWithDIVFinishLoop<TInput, TOutput>(
   name: string,
   config: {
-    setup: PhaseDelegator<TInput, any>;
-    discovery: PhaseDelegator<any, any>;
-    implementation: PhaseDelegator<any, any>;
-    validation: PhaseDelegator<any, any>;
-    finish: PhaseDelegator<any, TOutput>;
+    setup: ExecutionPhaseDelegator<TInput, any>;
+    discovery: ExecutionPhaseDelegator<any, any>;
+    implementation: ExecutionPhaseDelegator<any, any>;
+    validation: ExecutionPhaseDelegator<any, any>;
+    finish: ExecutionPhaseDelegator<any, TOutput>;
     maxIterations?: number;
     validationPredicate?: (result: any, execution: Execution) => boolean;
   }
@@ -77,7 +77,7 @@ export function factoryPipelineWithDIVFinishLoop<TInput, TOutput>(
   
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create pipeline execution
-    const pipelineExec = factoryPipelineExecution(name, execution);
+    const pipelineExec = factoryExecutionPipeline(name, execution);
     
     // Store pipeline metadata
     pipelineExec.store('pipeline', 'name', name);

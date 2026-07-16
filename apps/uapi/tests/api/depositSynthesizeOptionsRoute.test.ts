@@ -48,10 +48,10 @@ jest.mock('@bitcode/asset-packs-pipelines-domain/runtime-inference-policy', () =
 // is dispatched + that its persisted output is built from the real lens adapter.
 // Also stub neediness grounding (settled Depository search) for unit isolation.
 jest.mock('@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline', () => ({
-  synthesizeDepositAssetPacksSDIVFPipeline: jest.fn(async () => undefined),
+  executionPipelineSDIVFSynthesizeDepositAssetPacks: jest.fn(async () => undefined),
 }));
 jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({
-  runSynthesizeAssetPacksSDIVFPipeline: jest.fn(async () => undefined),
+  runExecutionPipelineSDIVFSynthesizeAssetPacks: jest.fn(async () => undefined),
   // re-exports / shared helpers still imported from pipeline-asset-pack
   groundOptionNeedinessFromSettledDepository: jest.fn((options: unknown[]) => options),
 }));
@@ -97,7 +97,7 @@ jest.mock('@/lib/depository-settled-demand', () => ({
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
-import { synthesizeDepositAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline';
+import { executionPipelineSDIVFSynthesizeDepositAssetPacks } from '@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
 import {
   createDepositLocalHostCloneForRun,
@@ -108,7 +108,7 @@ import { waitUntil } from '@vercel/functions';
 import { POST } from '@/app/api/deposit/synthesize-options/route';
 
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
-const mockPipeline = synthesizeDepositAssetPacksSDIVFPipeline as jest.Mock;
+const mockPipeline = executionPipelineSDIVFSynthesizeDepositAssetPacks as jest.Mock;
 const mockCreateExecution = createStreamingExecution as jest.Mock;
 const mockCreateCloneForRun = createDepositLocalHostCloneForRun as jest.Mock;
 const mockSelectKind = selectDepositHostKind as jest.Mock;

@@ -1,10 +1,10 @@
 /**
- * Phase Factory - Creates PhaseDelegator Executors that delegate to Agents
+ * Phase Factory - Creates ExecutionPhaseDelegator Executors that delegate to Agents
  *
  * PhaseDelegators are Executors that coordinate agent execution within
  * a pipeline phase. They delegate work to agents and accumulate results.
  *
- * The generic phase abstraction is reusable (PhaseDelegator factories).
+ * The generic phase abstraction is reusable (ExecutionPhaseDelegator factories).
  * The SDIVF base pipeline (Setup-[DIV]*-Finish) lives in
  * `@bitcode/generic-pipelines-sdivf`, not in this primitive package.
  */
@@ -13,25 +13,25 @@ import { sequential, parallel } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Agent } from '@bitcode/agent-generics';
-import { PhaseDelegation, factoryPhaseDelegation } from '../execution/pipeline-types';
+import { ExecutionPhase, factoryExecutionPhase } from '../execution/pipeline-types';
 
 // ==================== PHASE DELEGATOR ====================
 
 /**
- * PhaseDelegator - An Executor that delegates to Agents
+ * ExecutionPhaseDelegator - An Executor that delegates to Agents
  */
-export type PhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+export type ExecutionPhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 
 /**
- * Create a PhaseDelegator that delegates to a single Agent
+ * Create a ExecutionPhaseDelegator that delegates to a single Agent
  */
 export function factoryPhaseDelegator<TInput, TOutput>(
   name: string,
   agent: Agent<TInput, TOutput>
-): PhaseDelegator<TInput, TOutput> {
+): ExecutionPhaseDelegator<TInput, TOutput> {
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create phase delegation
-    const phaseDelegation = factoryPhaseDelegation(name, execution);
+    const phaseDelegation = factoryExecutionPhase(name, execution);
     
     // Store phase metadata
     phaseDelegation.store('phase', 'name', name);
@@ -49,15 +49,15 @@ export function factoryPhaseDelegator<TInput, TOutput>(
 }
 
 /**
- * Create a PhaseDelegator that delegates to multiple Agents in sequence
+ * Create a ExecutionPhaseDelegator that delegates to multiple Agents in sequence
  */
 export function factorySequentialPhaseDelegator<TInput, TOutput>(
   name: string,
   agents: Agent<any, any>[]
-): PhaseDelegator<TInput, TOutput> {
+): ExecutionPhaseDelegator<TInput, TOutput> {
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create phase delegation
-    const phaseDelegation = factoryPhaseDelegation(name, execution);
+    const phaseDelegation = factoryExecutionPhase(name, execution);
     
     // Store phase metadata
     phaseDelegation.store('phase', 'name', name);
@@ -79,16 +79,16 @@ export function factorySequentialPhaseDelegator<TInput, TOutput>(
 }
 
 /**
- * Create a PhaseDelegator that delegates to multiple Agents in parallel
+ * Create a ExecutionPhaseDelegator that delegates to multiple Agents in parallel
  */
 export function factoryParallelPhaseDelegator<TInput, TOutput>(
   name: string,
   agents: Agent<TInput, any>[],
   combiner: (results: any[]) => TOutput
-): PhaseDelegator<TInput, TOutput> {
+): ExecutionPhaseDelegator<TInput, TOutput> {
   return async (input: TInput, execution: Execution): Promise<TOutput> => {
     // Create phase delegation
-    const phaseDelegation = factoryPhaseDelegation(name, execution);
+    const phaseDelegation = factoryExecutionPhase(name, execution);
     
     // Store phase metadata
     phaseDelegation.store('phase', 'name', name);

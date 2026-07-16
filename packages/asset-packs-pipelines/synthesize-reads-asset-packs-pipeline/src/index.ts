@@ -3,19 +3,19 @@
  *
  * Product pipeline name: **synthesize-reads-asset-packs-pipeline**
  *
- * Hierarchy: SynthesizeReadAssetPacks + SDIVF + Pipeline
- *   factorySynthesizeReadAssetPacksSDIVFPipeline
- *     → SynthesizeReadAssetPacksSDIVFPipeline
+ * Hierarchy (left→right): Execution → Pipeline → SDIVF → SynthesizeReadAssetPacks
+ *   factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks
+ *     → ExecutionPipelineSDIVFSynthesizeReadAssetPacks
  *
  * Reader's accepted Need is satisfied by finding + synthesizing
  * ReadSynthesizedAssetPack options. Settlement is settle-asset-pack-pipeline
- * (SettleAssetPackSimplePipeline) — one run per bought option.
+ * (ExecutionPipelineSimpleSettleAssetPack) — one run per bought option.
  */
 
 import type { Execution } from '@bitcode/execution-generics';
 import {
-  factorySDIVFPipelineFromExecutors,
-  type SDIVFPipeline,
+  factoryExecutionPipelineSDIVFFromExecutors,
+  type ExecutionPipelineSDIVF,
 } from '@bitcode/generic-pipelines-sdivf';
 import {
   readPhases,
@@ -26,22 +26,22 @@ import {
   factoryPreprocessReadOnly,
 } from '@bitcode/asset-packs-pipelines-domain';
 import {
-  ASSET_PACKS_SYNTHESIZE_READS_PIPELINE_PROMPT,
-  ASSET_PACKS_SETUP_PHASE_READ_PROMPT,
-  ASSET_PACKS_DISCOVERY_PHASE_READ_PROMPT,
-  ASSET_PACKS_IMPLEMENTATION_PHASE_READ_PROMPT,
-  ASSET_PACKS_VALIDATION_PHASE_READ_PROMPT,
-  ASSET_PACKS_FINISH_PHASE_READ_PROMPT,
+  EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_DISCOVERY_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_IMPLEMENTATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_VALIDATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_FINISH_PROMPT,
 } from '@bitcode/asset-packs-pipelines-domain';
 
-/** Full hierarchy name: SynthesizeReadAssetPacks + SDIVF + Pipeline. */
-export type SynthesizeReadAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
+/** Full hierarchy name: ExecutionPipelineSDIVFSynthesizeReadAssetPacks. */
+export type ExecutionPipelineSDIVFSynthesizeReadAssetPacks = ExecutionPipelineSDIVF<any, any>;
 
-export function factorySynthesizeReadAssetPacksSDIVFPipeline(
+export function factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks(
   pipelineName: string = 'synthesize-reads-asset-packs-pipeline',
-): SynthesizeReadAssetPacksSDIVFPipeline {
+): ExecutionPipelineSDIVFSynthesizeReadAssetPacks {
   const maxIterations = 1;
-  const sdivf = factorySDIVFPipelineFromExecutors(pipelineName, {
+  const sdivf = factoryExecutionPipelineSDIVFFromExecutors(pipelineName, {
     preprocess: factoryPreprocessReadOnly() as any,
     setup: readPhases.setup as any,
     discovery: readPhases.discovery as any,
@@ -49,13 +49,13 @@ export function factorySynthesizeReadAssetPacksSDIVFPipeline(
     validation: readPhases.validation as any,
     finish: readPhases.finish as any,
     maxIterations,
-    pipelinePromptSpecific: ASSET_PACKS_SYNTHESIZE_READS_PIPELINE_PROMPT,
+    pipelinePromptSpecific: EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
     phasePromptSpecific: {
-      setup: ASSET_PACKS_SETUP_PHASE_READ_PROMPT,
-      discovery: ASSET_PACKS_DISCOVERY_PHASE_READ_PROMPT,
-      implementation: ASSET_PACKS_IMPLEMENTATION_PHASE_READ_PROMPT,
-      validation: ASSET_PACKS_VALIDATION_PHASE_READ_PROMPT,
-      finish: ASSET_PACKS_FINISH_PHASE_READ_PROMPT,
+      setup: EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
+      discovery: EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_DISCOVERY_PROMPT,
+      implementation: EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_IMPLEMENTATION_PROMPT,
+      validation: EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_VALIDATION_PROMPT,
+      finish: EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_FINISH_PROMPT,
     },
     postprocess: (async (output: any, execution: Execution) => {
       const normalized = normalizeAssetPackOutput(output, execution as any);
@@ -70,7 +70,7 @@ export function factorySynthesizeReadAssetPacksSDIVFPipeline(
   };
 }
 
-export const synthesizeReadAssetPacksSDIVFPipeline: SynthesizeReadAssetPacksSDIVFPipeline =
-  factorySynthesizeReadAssetPacksSDIVFPipeline();
+export const executionPipelineSDIVFSynthesizeReadAssetPacks: ExecutionPipelineSDIVFSynthesizeReadAssetPacks =
+  factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks();
 
-export const runSynthesizeReadAssetPacksSDIVFPipeline = synthesizeReadAssetPacksSDIVFPipeline;
+export const runExecutionPipelineSDIVFSynthesizeReadAssetPacks = executionPipelineSDIVFSynthesizeReadAssetPacks;

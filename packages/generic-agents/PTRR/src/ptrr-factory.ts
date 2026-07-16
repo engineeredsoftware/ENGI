@@ -265,8 +265,9 @@ export function factoryPTRRAgent<TInput, TOutput>(
       const get = (k: string) => (typeof agentPrompt.get === 'function' ? agentPrompt.get(k) : undefined);
       const namePart = get('agent:name');
       const identityPart = get('agent:identity');
-      if (namePart) agentExec.prompt.setSpecificExecution('specific_execution:agent:name', namePart);
-      if (identityPart) agentExec.prompt.setSpecificExecution('specific_execution:agent:identity', identityPart);
+      // setSpecificExecution already prefixes specific_execution:
+      if (namePart) agentExec.prompt.setSpecificExecution('agent:name', namePart);
+      if (identityPart) agentExec.prompt.setSpecificExecution('agent:identity', identityPart);
 
       try {
         const paths = agentPrompt.getAllPaths?.() || [];
@@ -274,13 +275,40 @@ export function factoryPTRRAgent<TInput, TOutput>(
           if (p === 'agent:name' || p === 'agent:identity') continue;
           const part = agentPrompt.get(p);
           if (part) {
-            agentExec.prompt.setSpecificExecution(`specific_execution:${p}`, part);
+            const key = String(p).startsWith('specific_execution:')
+              ? String(p).slice('specific_execution:'.length)
+              : p;
+            agentExec.prompt.setSpecificExecution(key, part);
           }
         }
       } catch {
         if (!identityPart) {
-          agentExec.prompt.setSpecificExecution('specific_execution:agent:identity', agentPrompt);
+          agentExec.prompt.setSpecificExecution('agent:identity', agentPrompt);
         }
+      }
+
+      // One call_site:agent block for hierarchical wire walk
+      try {
+        const {
+          applyComposedCallSiteNodePrompt,
+          composeNamespacedPromptLayers,
+        } = require('@bitcode/execution-generics');
+        const { Prompt } = require('@bitcode/prompts/prompt');
+        const carrier =
+          typeof agentPrompt.merge === 'function'
+            ? agentPrompt
+            : (() => {
+                const p = new Prompt();
+                if (identityPart) p.set('identity', identityPart);
+                if (namePart) p.set('name', namePart);
+                return p;
+              })();
+        const composed = composeNamespacedPromptLayers([
+          { namespace: 'agent', prompt: carrier },
+        ]);
+        applyComposedCallSiteNodePrompt(agentExec.prompt, composed, 'agent');
+      } catch {
+        /* optional on constrained hosts */
       }
     }
 

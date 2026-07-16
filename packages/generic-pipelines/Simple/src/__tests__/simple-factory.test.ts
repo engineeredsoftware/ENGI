@@ -1,9 +1,9 @@
-import { factorySimplePipeline } from '../index';
+import { factoryExecutionPipelineSimple } from '../index';
 
-describe('factorySimplePipeline', () => {
+describe('factoryExecutionPipelineSimple', () => {
   it('runs stages in order and returns the last stage output', async () => {
     const seen: string[] = [];
-    const pipeline = factorySimplePipeline('simple-order', {
+    const pipeline = factoryExecutionPipelineSimple('simple-order', {
       stages: [
         {
           id: 'a',
@@ -54,7 +54,7 @@ describe('factorySimplePipeline', () => {
 
   it('requires at least one stage', () => {
     expect(() =>
-      factorySimplePipeline('empty', { stages: [] }),
+      factoryExecutionPipelineSimple('empty', { stages: [] }),
     ).toThrow(/at least one stage/);
   });
 });

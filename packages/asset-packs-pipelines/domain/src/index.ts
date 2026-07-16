@@ -9,8 +9,8 @@
 
 import { Executor, Execution } from '@bitcode/execution-generics';
 import {
-  factorySDIVFPipelineFromExecutors,
-  type SDIVFPipeline,
+  factoryExecutionPipelineSDIVFFromExecutors,
+  type ExecutionPipelineSDIVF,
 } from '@bitcode/generic-pipelines-sdivf';
 import { depositPhases, readPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
@@ -72,21 +72,23 @@ export { storeCrossPhaseArtifact } from './synthesize-asset-packs';
 export { initializeAssetPackPipeline } from './preprocess';
 export { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
 
+export { EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_ASSET_PACKS_PROMPT } from './prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts';
 export {
-  ASSET_PACKS_SYNTHESIZE_PIPELINE_PROMPT,
-  ASSET_PACKS_SYNTHESIZE_READS_PIPELINE_PROMPT,
-  ASSET_PACKS_SYNTHESIZE_DEPOSITS_PIPELINE_PROMPT,
-  ASSET_PACKS_SETUP_PHASE_READ_PROMPT,
-  ASSET_PACKS_DISCOVERY_PHASE_READ_PROMPT,
-  ASSET_PACKS_IMPLEMENTATION_PHASE_READ_PROMPT,
-  ASSET_PACKS_VALIDATION_PHASE_READ_PROMPT,
-  ASSET_PACKS_FINISH_PHASE_READ_PROMPT,
-  ASSET_PACKS_SETUP_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_DISCOVERY_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_IMPLEMENTATION_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_VALIDATION_PHASE_DEPOSIT_PROMPT,
-  ASSET_PACKS_FINISH_PHASE_DEPOSIT_PROMPT,
-} from './prompts/synthesize-asset-packs-pipeline-prompts';
+  EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_DISCOVERY_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_IMPLEMENTATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_VALIDATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_FINISH_PROMPT,
+} from './prompts/execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts';
+export {
+  EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_DEPOSITS_ASSET_PACKS_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_SETUP_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_DISCOVERY_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_IMPLEMENTATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_VALIDATION_PROMPT,
+  EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_FINISH_PROMPT,
+} from './prompts/execution-pipeline-sdivf-synthesize-deposits-asset-packs-prompts';
 
 export * from './depositor-earning-supply-intelligence';
 
@@ -461,7 +463,7 @@ function factoryPostprocess(): Executor<any, any> {
   };
 }
 
-/** Deposit-only preprocess for SynthesizeDepositAssetPacksSDIVFPipeline. */
+/** Deposit-only preprocess for ExecutionPipelineSDIVFSynthesizeDepositAssetPacks. */
 export function factoryPreprocessDepositOnly(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
@@ -530,7 +532,7 @@ export async function preprocessReadMode(processedInput: any, execution: Executi
 }
 
 /**
- * Read-only preprocess for SynthesizeReadAssetPacksSDIVFPipeline.
+ * Read-only preprocess for ExecutionPipelineSDIVFSynthesizeReadAssetPacks.
  * Need + Host catalog; deposit obfuscation path never required.
  */
 export function factoryPreprocessReadOnly(): Executor<any, any> {
@@ -568,15 +570,15 @@ function isAssetPackSetupRuntimeEnabledInTest(): boolean {
 }
 
 /** Dual-mode SDIVF pipeline type (deposit | read). */
-export type SynthesizeAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
+export type ExecutionPipelineSDIVFSynthesizeAssetPacks = ExecutionPipelineSDIVF<any, any>;
 
 /**
  * Dual factory: routes to deposit or read phase rosters by explicit input mode.
  * Prefer product packages under asset-packs-pipelines/ when mode is fixed.
  */
-function factorySynthesizeAssetPacksSDIVFPipeline(
+function factoryExecutionPipelineSDIVFSynthesizeAssetPacks(
   pipelineName: string = 'synthesize-asset-packs',
-): SynthesizeAssetPacksSDIVFPipeline {
+): ExecutionPipelineSDIVFSynthesizeAssetPacks {
   const maxIterations = 1;
   // Evaluate bypass at call time (not module-load): integration tests set
   // BITCODE_ENABLE_ASSET_PACK_*_IN_TEST in beforeAll after this factory runs.
@@ -595,7 +597,7 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
     return mode === 'deposit' ? depositPhases : readPhases;
   };
 
-  const sdivfPipeline = factorySDIVFPipelineFromExecutors(pipelineName, {
+  const sdivfPipeline = factoryExecutionPipelineSDIVFFromExecutors(pipelineName, {
     preprocess: factoryPreprocess(),
     setup: wrap(async (input, execution) => {
       const phases = resolvePhases(input, execution);
@@ -651,8 +653,8 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
  * Host may route deposit|read; product law prefers dedicated product packages
  * under asset-packs-pipelines/synthesize-*-asset-packs-pipeline when mode is fixed.
  */
-export const synthesizeAssetPacksSDIVFPipeline: SynthesizeAssetPacksSDIVFPipeline =
-  factorySynthesizeAssetPacksSDIVFPipeline();
+export const executionPipelineSDIVFSynthesizeAssetPacks: ExecutionPipelineSDIVFSynthesizeAssetPacks =
+  factoryExecutionPipelineSDIVFSynthesizeAssetPacks();
 
 // ==================== EXPORTS ====================
 
@@ -712,11 +714,11 @@ export {
   type ShareToFeeQuote,
 } from './read-need';
 
-/** Canonical SynthesizeAssetPacksSDIVFPipeline entry (deposit | read). */
-export const runSynthesizeAssetPacksSDIVFPipeline = synthesizeAssetPacksSDIVFPipeline;
+/** Canonical ExecutionPipelineSDIVFSynthesizeAssetPacks entry (deposit | read). */
+export const runExecutionPipelineSDIVFSynthesizeAssetPacks = executionPipelineSDIVFSynthesizeAssetPacks;
 
 export {
-  factorySynthesizeAssetPacksSDIVFPipeline,
+  factoryExecutionPipelineSDIVFSynthesizeAssetPacks,
 };
 
-export default runSynthesizeAssetPacksSDIVFPipeline;
+export default runExecutionPipelineSDIVFSynthesizeAssetPacks;

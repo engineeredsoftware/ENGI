@@ -7,7 +7,7 @@
  *
  * This module only registers the optional Bitcode review-upload path used by
  * residual shared configs. Buyer-repo PR shipping is not this phase: it is
- * stage `ship-asset-pack-patch-pr` on SettleAssetPackSimplePipeline after BTC
+ * stage `ship-asset-pack-patch-pr` on ExecutionPipelineSimpleSettleAssetPack after BTC
  * finality, BTD rights, and co-ownership (separate Simple base, not SDIVF).
  */
 

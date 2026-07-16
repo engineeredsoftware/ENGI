@@ -8,7 +8,7 @@ import { PROMPTPART_GENERIC_PIPELINE_SYSTEM_IDENTITY_CORESTATEMENT } from '@bitc
 import { PROMPTPART_GENERIC_PIPELINE_SYSTEM_CONTRACT_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_pipeline_system_contract_detailcontent';
 import { PROMPTPART_GENERIC_PIPELINE_SYSTEM_OBSERVABILITY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_pipeline_system_observability_detailcontent';
 
-export const PRIMITIVE_PIPELINE_PROMPT: Prompt = (() => {
+export const EXECUTION_PIPELINE_PRIMITIVE_PROMPT: Prompt = (() => {
   const p = new Prompt();
   p.set('identity', PROMPTPART_GENERIC_PIPELINE_SYSTEM_IDENTITY_CORESTATEMENT);
   p.set('contract', PROMPTPART_GENERIC_PIPELINE_SYSTEM_CONTRACT_DETAILCONTENT);

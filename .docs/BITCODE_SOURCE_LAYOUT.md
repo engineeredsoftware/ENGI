@@ -202,12 +202,12 @@ Type, factory, and export names **always encode full inheritance ancestry**:
 
 ```
 Pipeline # primitive
-SDIVFPipeline # base + primitive
-SynthesizeAssetPacksSDIVFPipeline # specific + base + primitive
+ExecutionPipelineSDIVF # base + primitive
+ExecutionPipelineSDIVFSynthesizeAssetPacks # primitive → base → specific (left→right)
 ```
 
 Do not introduce leaf-only names for layered types (e.g. avoid a product
-pipeline named only `AssetPackPipeline` when it is an `…SDIVFPipeline`).
+pipeline named only `AssetPackPipeline` when it is an `…ExecutionPipelineSDIVF`).
 Deprecated short aliases may exist for compatibility; new code uses the
 full hierarchy name.
 
@@ -344,7 +344,7 @@ bitcode/
 │ │ ├── journal.ts
 │ │ ├── operational-health.ts
 │ │ └── ...
-│ ├── pipelines-generics/ # Pipeline / PhaseDelegator primitives
+│ ├── pipelines-generics/ # Pipeline / ExecutionPhaseDelegator primitives
 │ ├── generic-pipelines/
 │ │ └── SDIVF/ # @bitcode/generic-pipelines-sdivf base
 │ ├── generic-llms/ # nested LLM providers (no family package.json)

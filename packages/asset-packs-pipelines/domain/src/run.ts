@@ -1,15 +1,15 @@
 /**
  * Canonical run exports for the AssetPack SDIVF pipeline.
  *
- * Callers should use runSynthesizeAssetPacksSDIVFPipeline (or the product
+ * Callers should use runExecutionPipelineSDIVFSynthesizeAssetPacks (or the product
  * deposit/read packages) and treat Finish as the final phase.
  */
 
 export {
-  runSynthesizeAssetPacksSDIVFPipeline,
-  synthesizeAssetPacksSDIVFPipeline,
-  factorySynthesizeAssetPacksSDIVFPipeline,
+  runExecutionPipelineSDIVFSynthesizeAssetPacks,
+  executionPipelineSDIVFSynthesizeAssetPacks,
+  factoryExecutionPipelineSDIVFSynthesizeAssetPacks,
 } from './index';
 
-import { runSynthesizeAssetPacksSDIVFPipeline } from './index';
-export default runSynthesizeAssetPacksSDIVFPipeline;
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from './index';
+export default runExecutionPipelineSDIVFSynthesizeAssetPacks;

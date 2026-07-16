@@ -19,7 +19,7 @@ Pipelines create child executions for each level:
 - **Step**: Runs 7 substeps
 - **SubStep**: Atomic operations
 
-## PipelinePrompt
+## ExecutionPipelinePrompt
 
 Specialized prompt that accumulates through hierarchy:
 ```typescript

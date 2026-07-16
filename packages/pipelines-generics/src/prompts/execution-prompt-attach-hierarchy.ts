@@ -9,7 +9,7 @@
  * Law (.docs/PROMPTING.md):
  *   - Pipeline node composes Execution ⊕ Pipeline ⊕ base ⊕ specific **once**
  *   - Phase node composes Phase ⊕ base ⊕ specific only (no Execution re-emit)
- *   - Attach pipeline layers on root PipelineExecution (not seq-N child)
+ *   - Attach pipeline layers on root ExecutionPipeline (not seq-N child)
  */
 
 import type { Prompt } from '@bitcode/prompts/prompt';
@@ -21,11 +21,11 @@ import {
   composeNamespacedPromptLayers,
   PRIMITIVE_EXECUTION_SYSTEM_PROMPT,
 } from '@bitcode/execution-generics';
-import { PRIMITIVE_PIPELINE_PROMPT } from './primitive-pipeline-prompt';
+import { EXECUTION_PIPELINE_PRIMITIVE_PROMPT } from './execution-pipeline-primitive-prompt';
 import {
-  factoryPrimitivePhasePrompt,
-  PRIMITIVE_PHASE_SETUP_PROMPT,
-} from './primitive-phase-prompt';
+  factoryExecutionPhasePrimitivePrompt,
+  EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT,
+} from './execution-phase-primitive-prompt';
 
 function ensureNodePrompt(execution: any): ExecutionPrompt {
   if (execution.prompt instanceof ExecutionPrompt) {
@@ -43,10 +43,10 @@ function ensureNodePrompt(execution: any): ExecutionPrompt {
 }
 
 /**
- * Host for pipeline-level system text: nearest PipelineExecution-like node
+ * Host for pipeline-level system text: nearest ExecutionPipeline-like node
  * (has `.prompt` + agent registry), else the greatest parent (root).
  */
-export function resolvePipelinePromptHost(execution: any): any {
+export function resolveExecutionPipelinePromptHost(execution: any): any {
   if (!execution) return execution;
   let cur: any = execution;
   let pipelineLike: any = null;
@@ -69,21 +69,21 @@ export function resolvePipelinePromptHost(execution: any): any {
  *   Execution ⊕ Pipeline primitive ⊕ optional base ⊕ optional specific
  * as one composed PromptPart (includes_execution marker set).
  */
-export function attachPipelinePromptHierarchy(
+export function attachExecutionPipelinePromptHierarchy(
   pipelineExec: any,
   layers?: {
     base?: Prompt | null;
     specific?: Prompt | null;
   },
 ): void {
-  const host = resolvePipelinePromptHost(pipelineExec);
+  const host = resolveExecutionPipelinePromptHost(pipelineExec);
   const target = ensureNodePrompt(host);
 
   // Also apply layered paths for hierarchicalFormatter / path audits
   applyPromptRegistryToExecutionPrompt(target, PRIMITIVE_EXECUTION_SYSTEM_PROMPT, {
     namespace: 'execution:primitive',
   });
-  applyPromptRegistryToExecutionPrompt(target, PRIMITIVE_PIPELINE_PROMPT, {
+  applyPromptRegistryToExecutionPrompt(target, EXECUTION_PIPELINE_PRIMITIVE_PROMPT, {
     namespace: 'pipeline:primitive',
   });
   if (layers?.base) {
@@ -101,7 +101,7 @@ export function attachPipelinePromptHierarchy(
   // do not clobber each other on identity/contract paths).
   const composed = composeNamespacedPromptLayers([
     { namespace: 'execution', prompt: PRIMITIVE_EXECUTION_SYSTEM_PROMPT },
-    { namespace: 'pipeline:primitive', prompt: PRIMITIVE_PIPELINE_PROMPT },
+    { namespace: 'pipeline:primitive', prompt: EXECUTION_PIPELINE_PRIMITIVE_PROMPT },
     { namespace: 'pipeline:base', prompt: layers?.base ?? null },
     { namespace: 'pipeline:specific', prompt: layers?.specific ?? null },
   ]);
@@ -113,7 +113,7 @@ export function attachPipelinePromptHierarchy(
 /**
  * Attach phase call-site block (no Execution layer).
  */
-export function attachPhasePromptHierarchy(
+export function attachExecutionPhasePromptHierarchy(
   phaseExec: any,
   phaseName: string,
   layers?: {
@@ -124,8 +124,8 @@ export function attachPhasePromptHierarchy(
   const target = ensureNodePrompt(phaseExec);
   const primitive =
     phaseName === 'setup'
-      ? PRIMITIVE_PHASE_SETUP_PROMPT
-      : factoryPrimitivePhasePrompt(phaseName);
+      ? EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT
+      : factoryExecutionPhasePrimitivePrompt(phaseName);
 
   applyPromptRegistryToExecutionPrompt(target, primitive, {
     namespace: `phase:primitive:${phaseName}`,

@@ -1,5 +1,5 @@
 /**
- * PipelineAgentRegistry - Agent registry for pipeline executions
+ * ExecutionPipelineAgentRegistry - Agent registry for pipeline executions
  * 
  * Manages agent registration and dynamic selection for pipelines.
  * Replaces the old variations pattern with registry-based selection.
@@ -24,7 +24,7 @@ export interface ExecutionAgent<TInput = any, TOutput = any> extends Agent<TInpu
 }
 
 /**
- * PipelineAgentRegistry - Dynamic agent registry for pipelines
+ * ExecutionPipelineAgentRegistry - Dynamic agent registry for pipelines
  * 
  * Stores agent instances and provides hierarchical lookup.
  * Agents are selected dynamically based on runtime conditions.
@@ -34,7 +34,7 @@ export interface ExecutionAgent<TInput = any, TOutput = any> extends Agent<TInpu
  * - Register specialized: registry.registerAgent('vcs:pr', vcsPRAgent, 10)
  * - Get with fallback: registry.getAgentWithFallback(['vcs:pr', 'vcs'])
  */
-export class PipelineAgentRegistry extends RegistryImpl<ExecutionAgent> {
+export class ExecutionPipelineAgentRegistry extends RegistryImpl<ExecutionAgent> {
   private readonly execution: Execution;
   
   constructor(execution: Execution) {
@@ -71,12 +71,12 @@ export class PipelineAgentRegistry extends RegistryImpl<ExecutionAgent> {
       return agent.bindExecution ? agent.bindExecution(this.execution) : agent;
     }
     
-    // Walk up parent chain looking for PipelineExecution
+    // Walk up parent chain looking for ExecutionPipeline
     let current = this.execution.parent;
     while (current) {
-      // Check if parent has agents registry (is PipelineExecution)
-      if ('agents' in current && current.agents instanceof PipelineAgentRegistry) {
-        agent = (current.agents as PipelineAgentRegistry).get(key);
+      // Check if parent has agents registry (is ExecutionPipeline)
+      if ('agents' in current && current.agents instanceof ExecutionPipelineAgentRegistry) {
+        agent = (current.agents as ExecutionPipelineAgentRegistry).get(key);
         if (agent) {
           return agent.bindExecution ? agent.bindExecution(this.execution) : agent;
         }
@@ -128,8 +128,8 @@ export class PipelineAgentRegistry extends RegistryImpl<ExecutionAgent> {
       }
       
       // Add agents from this level if it has a registry
-      if ('agents' in exec && exec.agents instanceof PipelineAgentRegistry) {
-        const registry = exec.agents as PipelineAgentRegistry;
+      if ('agents' in exec && exec.agents instanceof ExecutionPipelineAgentRegistry) {
+        const registry = exec.agents as ExecutionPipelineAgentRegistry;
         const paths = registry.getPaths();
         for (const path of paths) {
           if (regex.test(path)) {
