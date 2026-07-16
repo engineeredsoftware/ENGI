@@ -11,7 +11,7 @@ import { Executor, Execution } from '@bitcode/execution-generics';
 import {
   factoryExecutionPipelineSDIVFFromExecutors,
   type ExecutionPipelineSDIVF,
-} from '@bitcode/generic-pipelines-sdivf';
+} from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { depositPhases, readPhases } from './phases';
 import { initializeAssetPackPipeline } from './preprocess';
 import { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';

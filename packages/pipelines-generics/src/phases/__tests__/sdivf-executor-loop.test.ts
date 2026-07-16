@@ -28,7 +28,7 @@
  * (finalApproval/passed false), so the exact-iteration-count pins exercise the
  * bounded (max-iterations) side of the gate.
  */
-import { factoryExecutionPipelineSDIVFFromExecutors } from '@bitcode/generic-pipelines-sdivf';
+import { factoryExecutionPipelineSDIVFFromExecutors } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { Execution } from '../../../../execution-generics/src/Execution';
 
 type Recorded = { calls: string[]; inputs: Record<string, any[]>; nodes: Record<string, string[]> };

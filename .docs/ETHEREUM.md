@@ -40,7 +40,7 @@ Commercial **read settle** uses a **single ERC1155** contract family:
 weighting is off-chain; Solidity enforces supply/transfers only. Do not treat
 `contracts/` as build output of `src/erc1155/`—edit both when token law changes.
 
-**Pipeline consumer:** `@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline`
+**Pipeline consumer:** `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack`
 (and related settle/read product paths).
 
 ---

@@ -38,26 +38,26 @@
       "@bitcode/pipelines-generics/*": [
         "packages/pipelines-generics/src/*"
       ],
-      "@bitcode/generic-pipelines-sdivf": [
-        "packages/generic-pipelines/SDIVF/src/index.ts"
+      "@bitcode/generic-pipelines-execution-pipeline-sdivf": [
+        "packages/generic-pipelines/execution-pipeline-sdivf/src/index.ts"
       ],
-      "@bitcode/generic-pipelines-sdivf/*": [
-        "packages/generic-pipelines/SDIVF/src/*"
+      "@bitcode/generic-pipelines-execution-pipeline-sdivf/*": [
+        "packages/generic-pipelines/execution-pipeline-sdivf/src/*"
       ],
-      "@bitcode/generic-pipelines-simple": [
-        "packages/generic-pipelines/Simple/src/index.ts"
+      "@bitcode/generic-pipelines-execution-pipeline-simple": [
+        "packages/generic-pipelines/execution-pipeline-simple/src/index.ts"
       ],
-      "@bitcode/generic-pipelines-simple/*": [
-        "packages/generic-pipelines/Simple/src/*"
+      "@bitcode/generic-pipelines-execution-pipeline-simple/*": [
+        "packages/generic-pipelines/execution-pipeline-simple/src/*"
       ],
-      "@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline": [
-        "packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline/src/index.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": [
+        "packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-deposits-asset-packs/src/index.ts"
       ],
-      "@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline": [
-        "packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/src/index.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs": [
+        "packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-reads-asset-packs/src/index.ts"
       ],
-      "@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline": [
-        "packages/asset-packs-pipelines/settle-asset-pack-pipeline/src/index.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack": [
+        "packages/asset-packs-pipelines/execution-pipeline-simple-settle-asset-pack/src/index.ts"
       ],
       "@bitcode/generic-llms": [
         "packages/generic-llms/registry/src/index.ts"

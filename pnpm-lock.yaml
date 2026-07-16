@@ -230,15 +230,15 @@ importers:
       '@bitcode/asset-packs-pipelines-domain':
         specifier: workspace:*
         version: link:../../packages/asset-packs-pipelines/domain
-      '@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline':
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs':
         specifier: workspace:*
-        version: link:../../packages/asset-packs-pipelines/settle-asset-pack-pipeline
-      '@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline':
+        version: link:../../packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-deposits-asset-packs
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs':
         specifier: workspace:*
-        version: link:../../packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline
-      '@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline':
+        version: link:../../packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-reads-asset-packs
+      '@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack':
         specifier: workspace:*
-        version: link:../../packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline
+        version: link:../../packages/asset-packs-pipelines/execution-pipeline-simple-settle-asset-pack
       '@bitcode/btd':
         specifier: workspace:*
         version: link:../../packages/btd
@@ -888,9 +888,9 @@ importers:
       '@bitcode/generic-measurements-needinesses':
         specifier: workspace:*
         version: link:../../generic-measurements/needinesses
-      '@bitcode/generic-pipelines-sdivf':
+      '@bitcode/generic-pipelines-execution-pipeline-sdivf':
         specifier: workspace:*
-        version: link:../../generic-pipelines/SDIVF
+        version: link:../../generic-pipelines/execution-pipeline-sdivf
       '@bitcode/generic-tools-editing':
         specifier: workspace:*
         version: link:../../generic-tools/files-maintaining
@@ -953,7 +953,63 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/asset-packs-pipelines/settle-asset-pack-pipeline:
+  packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-deposits-asset-packs:
+    dependencies:
+      '@bitcode/asset-packs-pipelines-domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@bitcode/execution-generics':
+        specifier: workspace:*
+        version: link:../../execution-generics
+      '@bitcode/generic-pipelines-execution-pipeline-sdivf':
+        specifier: workspace:*
+        version: link:../../generic-pipelines/execution-pipeline-sdivf
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.41
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-reads-asset-packs:
+    dependencies:
+      '@bitcode/asset-packs-pipelines-domain':
+        specifier: workspace:*
+        version: link:../domain
+      '@bitcode/execution-generics':
+        specifier: workspace:*
+        version: link:../../execution-generics
+      '@bitcode/generic-pipelines-execution-pipeline-sdivf':
+        specifier: workspace:*
+        version: link:../../generic-pipelines/execution-pipeline-sdivf
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.5.12
+        version: 29.5.14
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.41
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3)))(typescript@5.8.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
+  packages/asset-packs-pipelines/execution-pipeline-simple-settle-asset-pack:
     dependencies:
       '@bitcode/btd':
         specifier: workspace:*
@@ -967,68 +1023,12 @@ importers:
       '@bitcode/generic-asset-packs-read-synthesized-settled':
         specifier: workspace:*
         version: link:../../generic-asset-packs/read-synthesized-settled
-      '@bitcode/generic-pipelines-simple':
+      '@bitcode/generic-pipelines-execution-pipeline-simple':
         specifier: workspace:*
-        version: link:../../generic-pipelines/Simple
+        version: link:../../generic-pipelines/execution-pipeline-simple
       '@bitcode/generic-vcs-git':
         specifier: workspace:*
         version: link:../../generic-vcs/git
-    devDependencies:
-      '@types/jest':
-        specifier: ^29.5.12
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.41
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
-      ts-jest:
-        specifier: ^29.1.1
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3)))(typescript@5.8.3)
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
-
-  packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline:
-    dependencies:
-      '@bitcode/asset-packs-pipelines-domain':
-        specifier: workspace:*
-        version: link:../domain
-      '@bitcode/execution-generics':
-        specifier: workspace:*
-        version: link:../../execution-generics
-      '@bitcode/generic-pipelines-sdivf':
-        specifier: workspace:*
-        version: link:../../generic-pipelines/SDIVF
-    devDependencies:
-      '@types/jest':
-        specifier: ^29.5.12
-        version: 29.5.14
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.41
-      jest:
-        specifier: ^29.7.0
-        version: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
-      ts-jest:
-        specifier: ^29.1.1
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3)))(typescript@5.8.3)
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
-
-  packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline:
-    dependencies:
-      '@bitcode/asset-packs-pipelines-domain':
-        specifier: workspace:*
-        version: link:../domain
-      '@bitcode/execution-generics':
-        specifier: workspace:*
-        version: link:../../execution-generics
-      '@bitcode/generic-pipelines-sdivf':
-        specifier: workspace:*
-        version: link:../../generic-pipelines/SDIVF
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -2660,7 +2660,7 @@ importers:
 
   packages/generic-measurements/tech-types: {}
 
-  packages/generic-pipelines/SDIVF:
+  packages/generic-pipelines/execution-pipeline-sdivf:
     dependencies:
       '@bitcode/execution-generics':
         specifier: workspace:*
@@ -2668,6 +2668,9 @@ importers:
       '@bitcode/pipelines-generics':
         specifier: workspace:*
         version: link:../../pipelines-generics
+      '@bitcode/prompts':
+        specifier: workspace:*
+        version: link:../../prompts
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -2685,7 +2688,7 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
-  packages/generic-pipelines/Simple:
+  packages/generic-pipelines/execution-pipeline-simple:
     dependencies:
       '@bitcode/execution-generics':
         specifier: workspace:*
@@ -3531,9 +3534,9 @@ importers:
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
-      '@bitcode/generic-pipelines-sdivf':
+      '@bitcode/generic-pipelines-execution-pipeline-sdivf':
         specifier: workspace:*
-        version: link:../generic-pipelines/SDIVF
+        version: link:../generic-pipelines/execution-pipeline-sdivf
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts

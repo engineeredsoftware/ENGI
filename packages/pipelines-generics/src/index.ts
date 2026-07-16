@@ -7,17 +7,17 @@
  *
  * These are reusable orchestration primitives (Pipeline, ExecutionPhaseDelegator,
  * composition). The SDIVF *base implementation* lives in
- * `@bitcode/generic-pipelines-sdivf` and is re-exported here for compatibility.
+ * `@bitcode/generic-pipelines-execution-pipeline-sdivf` and is re-exported here for compatibility.
  *
  * Hierarchy:
  *   pipelines-generics (this package — primitives)
- *     → generic-pipelines/SDIVF (base SDIVF loop)
+ *     → generic-pipelines/execution-pipeline-sdivf (base SDIVF loop)
  *       → pipeline-asset-pack (SynthesizeAssetPacks / settle-asset-pack-pipeline)
  *
  * Core Concepts:
  * - Pipeline: Top-level Executor orchestrating phases
  * - ExecutionPhaseDelegator: Executor that delegates work to Agents
- * - SDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish (generic-pipelines-sdivf)
+ * - SDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish (generic-pipelines-execution-pipeline-sdivf)
  * 
  * @doc-code
  * type: package
@@ -60,7 +60,7 @@ export {
   factoryParallelPhaseDelegator,
 } from './phases/phase-factory';
 
-// ExecutionPipelineSDIVF base — owned by @bitcode/generic-pipelines-sdivf
+// ExecutionPipelineSDIVF base — owned by @bitcode/generic-pipelines-execution-pipeline-sdivf
 // (re-exported for compatibility; prefer importing that package directly)
 export {
   factoryExecutionPipelineSDIVFPhaseDelegators,
@@ -70,7 +70,7 @@ export {
   type ExecutionPipelineSDIVF,
   type ExecutionPipelineSDIVFConfig,
   type ExecutionPipelineSDIVFExecutorConfig,
-} from '@bitcode/generic-pipelines-sdivf';
+} from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 
 // Streaming integration for real-time pipeline updates
 export {

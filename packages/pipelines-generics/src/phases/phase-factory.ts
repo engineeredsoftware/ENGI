@@ -6,7 +6,7 @@
  *
  * The generic phase abstraction is reusable (ExecutionPhaseDelegator factories).
  * The SDIVF base pipeline (Setup-[DIV]*-Finish) lives in
- * `@bitcode/generic-pipelines-sdivf`, not in this primitive package.
+ * `@bitcode/generic-pipelines-execution-pipeline-sdivf`, not in this primitive package.
  */
 
 import { sequential, parallel } from '@bitcode/execution-generics';

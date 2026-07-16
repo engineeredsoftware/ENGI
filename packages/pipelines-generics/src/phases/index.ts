@@ -4,7 +4,7 @@
  * PhaseDelegators are Executors that delegate work to Agents within
  * pipeline phases. This index re-exports the factory functions.
  *
- * SDIVF phase vocabulary and base loop live in `@bitcode/generic-pipelines-sdivf`
+ * SDIVF phase vocabulary and base loop live in `@bitcode/generic-pipelines-execution-pipeline-sdivf`
  * (re-exported here for compatibility).
  */
 
@@ -18,4 +18,4 @@ export {
 export {
   ExecutionPipelineSDIVFPhase,
   factoryExecutionPipelineSDIVFPhaseDelegators,
-} from '@bitcode/generic-pipelines-sdivf';
+} from '@bitcode/generic-pipelines-execution-pipeline-sdivf';

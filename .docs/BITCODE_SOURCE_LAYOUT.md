@@ -228,8 +228,8 @@ packages/generic-<family>/ # README only (no package.json)
 | --- | --- | --- |
 | `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `files-maintaining/`, `vcs/`, … | `@bitcode/generic-tools-*` |
-| `generic-pipelines/` | `SDIVF/`, `Simple/` | `@bitcode/generic-pipelines-sdivf`, `-simple` |
-| `asset-packs-pipelines/` | `domain/`, `synthesize-deposits-asset-packs-pipeline/`, `synthesize-reads-asset-packs-pipeline/`, `settle-asset-pack-pipeline/` | domain + product pipelines (no `packages/pipelines/`) |
+| `generic-pipelines/` | `execution-pipeline-sdivf/`, `execution-pipeline-simple/` | `@bitcode/generic-pipelines-execution-pipeline-sdivf`, `-simple` |
+| `asset-packs-pipelines/` | `domain/`, `execution-pipeline-sdivf-synthesize-deposits-asset-packs/`, `execution-pipeline-sdivf-synthesize-reads-asset-packs/`, `execution-pipeline-simple-settle-asset-pack/` | domain + product pipelines (no `packages/pipelines/`) |
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/`, `models/` | `@bitcode/generic-llms-*` (+ aggregator) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-*` |
 | `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
@@ -286,7 +286,7 @@ packages/
  asset-packs-pipelines/ # product SDIVF / Simple pipelines
  asset-packs-pipelines/ # domain + SynthesizeDeposit/Read + SettleAssetPack pipelines
  pipelines-generics/ # Pipeline primitive
- generic-pipelines/SDIVF/ # SDIVF base
+ generic-pipelines/execution-pipeline-sdivf/ # SDIVF base
  generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/
  vcs-generics/ + generic-vcs/ # VCS hierarchy
  security/{encryption,…}/ # security subpackages
@@ -346,7 +346,8 @@ bitcode/
 │ │ └── ...
 │ ├── pipelines-generics/ # Pipeline / ExecutionPhaseDelegator primitives
 │ ├── generic-pipelines/
-│ │ └── SDIVF/ # @bitcode/generic-pipelines-sdivf base
+│ │ ├── execution-pipeline-sdivf/ # @bitcode/generic-pipelines-execution-pipeline-sdivf base
+│ │ └── execution-pipeline-simple/ # @bitcode/generic-pipelines-execution-pipeline-simple base
 │ ├── generic-llms/ # nested LLM providers (no family package.json)
 │ │ ├── xAI/ # @bitcode/generic-llms-xai
 │ │ ├── OpenAI/ # @bitcode/generic-llms-openai

@@ -2,9 +2,9 @@
  * Synthesis mode helpers.
  *
  * Product law: **no lens**. Prefer separate pipelines:
- *   - @bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline  (SDIVF)
- *   - @bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline     (SDIVF)
- *   - @bitcode/asset-packs-pipelines-settle-reads         (Simple)
+ *   - @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs  (SDIVF)
+ *   - @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs     (SDIVF)
+ *   - @bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack (Simple)
  *
  * `SynthesizeAssetPacksMode` / resolve helpers remain only for dual-entry
  * callers that still pass `mode` / legacy `lens` aliases.

@@ -24,7 +24,7 @@
     },
     "./raw_promptparts/*": {
       "types": "./src/raw_promptparts/*.ts",
-      "default": "./src/raw_promptparts/*.js"
+      "default": "./src/raw_promptparts/*.ts"
     },
     "./formatters": {
       "types": "./src/formatters/index.d.ts",

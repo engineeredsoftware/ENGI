@@ -22,7 +22,7 @@ import {
   type SettleAssetPackInput,
   type SettleBtcPaymentObservationInput,
   type SettleRepositoryRef,
-} from '@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline';
+} from '@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
 
 export const runtime = 'nodejs';

@@ -21,8 +21,8 @@ module.exports = {
     // (matches root tsconfig `@bitcode/pipelines-generics/*` → `src/*`).
     '^@bitcode/pipelines-generics/src/(.*)$': '<rootDir>/../../pipelines-generics/src/$1',
     '^@bitcode/pipelines-generics/(.*)$': '<rootDir>/../../pipelines-generics/src/$1',
-    '^@bitcode/generic-pipelines-sdivf$': '<rootDir>/../../generic-pipelines/SDIVF/src/index.ts',
-    '^@bitcode/generic-pipelines-sdivf/(.*)$': '<rootDir>/../../generic-pipelines/SDIVF/src/$1',
+    '^@bitcode/generic-pipelines-execution-pipeline-sdivf$': '<rootDir>/../../generic-pipelines/execution-pipeline-sdivf/src/index.ts',
+    '^@bitcode/generic-pipelines-execution-pipeline-sdivf/(.*)$': '<rootDir>/../../generic-pipelines/execution-pipeline-sdivf/src/$1',
     '^@bitcode/execution-generics$': '<rootDir>/../../execution-generics/src/index.ts',
     '^@bitcode/execution-generics/(.*)$': '<rootDir>/../../execution-generics/src/$1',
     '^@bitcode/agent-generics$': '<rootDir>/../../agent-generics/src/index.ts',

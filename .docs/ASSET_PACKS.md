@@ -669,7 +669,7 @@ Depositor UI (/deposits)
 ## 13. Reading: synthesizing AssetPack options (deposit twin)
 
 **Canon:** `BITCODE_SPEC_V48.md` §G4. Product package:
-`@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline`.
+`@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs`.
 
 | Topic | Law |
 |-------|-----|
@@ -684,7 +684,7 @@ Depositor UI (/deposits)
 
 Linear stages: validate → observe BTC finality → mint BTD / transfer rights →
 ship AssetPack patch PR → journal PackActivity. Package:
-`@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline`.
+`@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack`.
 
 ---
 

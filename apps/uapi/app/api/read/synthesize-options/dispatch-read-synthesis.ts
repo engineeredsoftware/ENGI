@@ -6,7 +6,7 @@
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { Execution } from '@bitcode/execution-generics';
-import { runExecutionPipelineSDIVFSynthesizeReadAssetPacks } from '@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline';
+import { runExecutionPipelineSDIVFSynthesizeReadAssetPacks } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
 
 export type ReadSynthesisDispatchInput = {

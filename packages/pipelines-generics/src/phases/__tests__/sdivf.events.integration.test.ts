@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { factoryExecutionPipelineSDIVF } from '@bitcode/generic-pipelines-sdivf';
+import { factoryExecutionPipelineSDIVF } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { Execution } from '../../../../execution-generics/src/Execution';
 
 describe('SDIVF pipeline event emission (integration)', () => {

@@ -368,12 +368,12 @@ packages under `packages/asset-packs-pipelines/*`.
 ```
 @bitcode/pipelines-generics Pipeline primitive
  ↑
-@bitcode/generic-pipelines-sdivf ExecutionPipelineSDIVF base (Setup-[DIV]*-Finish)
-@bitcode/generic-pipelines-simple ExecutionPipelineSimple base (linear stages)
+@bitcode/generic-pipelines-execution-pipeline-sdivf ExecutionPipelineSDIVF base (Setup-[DIV]*-Finish)
+@bitcode/generic-pipelines-execution-pipeline-simple ExecutionPipelineSimple base (linear stages)
  ↑
-@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeline
-@bitcode/asset-packs-pipelines-synthesize-reads-asset-packs-pipeline
-@bitcode/asset-packs-pipelines-settle-asset-pack-pipeline # validate → BTC/BTD/rights → PR ship
+@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs
+@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs
+@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack # validate → BTC/BTD/rights → PR ship
 @bitcode/asset-packs-pipelines-domain agents/tools/domain
 @bitcode/pipeline-hosts Local host + Vercel Sandbox host
 ```
@@ -431,7 +431,7 @@ blocks use `createPromptPartFromPrompt(prompt)` (no new prose). Law:
 | Layer | Where | Example |
 | --- | --- | --- |
 | Primitive | `execution-generics`, `pipelines-generics`, raw_promptparts | Execution / pipeline / phase *is* |
-| Base | `generic-pipelines-sdivf`, `generic-agents/*` | SDIVF pattern; VCS agent |
+| Base | `generic-pipelines-execution-pipeline-sdivf`, `generic-agents/*` | SDIVF pattern; VCS agent |
 | Specific | `asset-packs-pipelines/*` | synthesize-reads; clone agent |
 
 **Runtime nodes (call-site system string):**
@@ -499,7 +499,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `agent-generics` | Agent = Executor + PTRR composition over generations |
 | `tools-generics` | `Tool` class, factories, MCP bridges |
 | `pipelines-generics` | Pipeline / ExecutionPhaseDelegator primitives / stream hooks (re-exports SDIVF) |
-| `generic-pipelines-sdivf` | SDIVF base loop (`packages/generic-pipelines/SDIVF`) |
+| `generic-pipelines-execution-pipeline-sdivf` | SDIVF base loop (`packages/generic-pipelines/execution-pipeline-sdivf`) |
 | `generation-generics` | Generation primitive + failsafe/thinkings enums |
 | `generic-generations-failsafes` | Failsafe base + prepared-context types |
 | `generic-generations-thinkings` | Thinkings base vocabulary surface |
@@ -524,7 +524,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | --- | --- |
 | `generic-agents/*` | Nested base agents: VCS, danger-wall, code-editor, digester, web-research, … |
 | `generic-tools/*` | Nested base tools: files-maintaining, git, VCS, LSP, web-search, … |
-| `generic-pipelines/*` | Nested base pipelines: SDIVF, Simple |
+| `generic-pipelines/*` | Nested base: `execution-pipeline-sdivf`, `execution-pipeline-simple` |
 | `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry, **models** |
 | `generic-generations/*` | Nested generation bases: failsafes, thinkings |
 | `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses, tech-types |
@@ -563,7 +563,7 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 | Package | Responsibility |
 | --- | --- |
 | `asset-packs-pipelines/domain` (`@bitcode/asset-packs-pipelines-domain`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
-| `asset-packs-pipelines/*` | Product SDIVF/Simple pipelines (synthesize-deposits/reads, settle-reads) |
+| `asset-packs-pipelines/*` | Product ExecutionPipeline packages (SDIVF synthesize deposits/reads, Simple settle) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
 | `specifying` (`@bitcode/specifying`) | Gate proof generators, canon posture, promotion helpers, transitional demo-engine bridge. **Not** “the protocol” — the monorepo is protocol canon |
@@ -898,7 +898,7 @@ as if they were source of product law.
 | --- | --- |
 | Executor composition | `execution-generics` sequential/parallel/pipe |
 | Agent PTRR | `agent-generics` |
-| Phase pipeline | `generic-pipelines-sdivf` base (via `pipelines-generics` primitives) |
+| Phase pipeline | `generic-pipelines-execution-pipeline-sdivf` base (via `pipelines-generics` primitives) |
 | Registry hierarchy | `registry` → `Prompt` |
 | Source-safe allowlist | pipeline streaming + deposit UI contracts |
 | Thin HTTP route | validate → dispatch → return id; long work off-request |

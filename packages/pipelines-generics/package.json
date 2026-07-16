@@ -9,7 +9,7 @@
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/generic-pipelines-sdivf": "workspace:*"
+    "@bitcode/generic-pipelines-execution-pipeline-sdivf": "workspace:*"
   },
   "scripts": {
     "build": "tsc --noEmit",

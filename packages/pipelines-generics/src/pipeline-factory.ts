@@ -6,7 +6,7 @@
  *   ExecutionPipelineSDIVF                         — base + primitive
  *   ExecutionPipelineSDIVFSynthesizeAssetPacks     — specific + base + primitive
  *
- * SDIVF base: @bitcode/generic-pipelines-sdivf
+ * SDIVF base: @bitcode/generic-pipelines-execution-pipeline-sdivf
  * Product:    @bitcode/asset-packs-pipelines-domain
  */
 
