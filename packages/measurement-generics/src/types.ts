@@ -20,9 +20,6 @@ import { z } from 'zod';
 /** Formal measurement kinds (V48 taxonomy). More kinds may be added later. */
 export type MeasurementKindCategory = 'absolute' | 'neediness';
 
-/** @deprecated Use MeasurementKindCategory — "category" was prior wording. */
-export type MeasurementCategory = MeasurementKindCategory;
-
 /**
  * One measurement requested of a measurer.
  * Absolutes: fixed product catalog. Needinesses: static reading catalog +
@@ -87,8 +84,3 @@ export const MeasurementOutputSchema = z.object({
   ),
 });
 export type MeasurementOutput = z.infer<typeof MeasurementOutputSchema>;
-
-/** @deprecated Use MeasurementOutputSchema */
-export const MeasureAgentOutputSchema = MeasurementOutputSchema;
-/** @deprecated Use MeasurementOutput */
-export type MeasureAgentOutput = MeasurementOutput;

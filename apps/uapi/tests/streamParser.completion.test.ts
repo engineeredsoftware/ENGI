@@ -16,7 +16,7 @@ describe('parseStreamChunk completion mapping', () => {
           summary: 'Stable asset-pack summary.',
           fileChanges: { edited: 2, created: 1, deleted: 0 },
         },
-        shippables: {
+        settleDelivery: {
           pullRequest: { url: 'https://github.com/acme/web/pull/1', title: 'feat: add' },
         },
         deliveryMechanism: {
@@ -53,9 +53,9 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.processingStats?.btcFeesPaid).toBe(0.00001);
     expect(parsed.completion?.processingStats?.credits).toBeUndefined();
     expect(parsed.completion?.repoSnapshot?.org).toBe('acme');
-    expect(parsed.completion?.shippables?.pullRequest?.url).toContain('/pull/1');
-    expect((parsed.completion?.shippables as any)?.comments).toBeUndefined();
-    expect((parsed.completion?.shippables as any)?.issues).toBeUndefined();
+    expect(parsed.completion?.settleDelivery?.pullRequest?.url).toContain('/pull/1');
+    expect((parsed.completion?.settleDelivery as any)?.comments).toBeUndefined();
+    expect((parsed.completion?.settleDelivery as any)?.issues).toBeUndefined();
     expect(parsed.completion?.deliverables).toBeUndefined();
     expect(parsed.completion?.assetPackSynthesisArtifacts?.summary).toBe('Canonical synthesis artifacts.');
     expect(parsed.completion?.assetPackSynthesisArtifacts?.fileChanges?.edited).toBe(4);
@@ -104,7 +104,7 @@ describe('parseStreamChunk completion mapping', () => {
     expect(parsed.completion?.semanticKind).toBe('asset-pack-written-asset');
   });
 
-  it('does not synthesize shippables from summary-only delivery surfaces', () => {
+  it('does not invent settleDelivery PR from summary-only delivery surfaces', () => {
     const payload = {
       type: 'completion',
       result: {
@@ -122,6 +122,7 @@ describe('parseStreamChunk completion mapping', () => {
     const parsed = parseStreamChunk(`data: ${JSON.stringify(payload)}\n\n`);
     expect(parsed.completion?.writtenAssets?.fileChanges?.edited).toBe(1);
     expect(parsed.completion?.deliveryMechanism?.summary).toBe('Finish recorded evidence without a PR delivery mechanism.');
-    expect(parsed.completion?.shippables).toBeNull();
+    // Summary-only surfaces do not produce a PR-bearing settleDelivery.
+    expect(parsed.completion?.settleDelivery).toBeNull();
   });
 });

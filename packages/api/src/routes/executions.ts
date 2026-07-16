@@ -178,8 +178,8 @@ function normalizeDeliveryMechanismSurface(surface: Record<string, unknown> | nu
 }
 
 /**
- * New-world settle delivery surface. Prefer `settleDelivery`, dual-read
- * historical `shippables` so stored runs remain rereadable.
+ * First non-null object among candidates. Used when resolving the buyer-repo
+ * delivery surface from stored execution rows that may still use legacy keys.
  */
 function pickSettleDeliveryRecord(...candidates: unknown[]) {
   for (const candidate of candidates) {
@@ -196,10 +196,8 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
     pickSettleDeliveryRecord(
       assetPackCompletion?.deliveryMechanism,
       assetPackCompletion?.settleDelivery,
-      assetPackCompletion?.shippables,
       output?.deliveryMechanism,
       output?.settleDelivery,
-      output?.shippables,
     );
 
   const deliverySurface = normalizeDeliveryMechanismSurface(explicitDeliveryMechanism);
@@ -209,14 +207,17 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   return summary ? { summary } : null;
 }
 
+/**
+ * Project settle Simple buyer-repo delivery for history reread.
+ * Pre-production: only settleDelivery (no shippables alias). Returns null when
+ * no PR-bearing surface exists.
+ */
 function buildSettleDelivery(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
   const explicitSettleDelivery = pickSettleDeliveryRecord(
     assetPackCompletion?.settleDelivery,
-    assetPackCompletion?.shippables,
     output?.settleDelivery,
-    output?.shippables,
   );
 
   const normalizedExplicitSettleDelivery = normalizeDeliveryMechanismSurface(explicitSettleDelivery);
@@ -424,7 +425,6 @@ function buildMetadata(row: ExecutionHistoryRow) {
 function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   const assetPackCompletion = readAssetPackCompletion(row);
   const {
-    shippables: _retainedShippables,
     settleDelivery: _retainedSettleDelivery,
     deliveryMechanism: _retainedDeliveryMechanism,
     writtenAssets: _retainedWrittenAssets,
@@ -468,8 +468,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
     ...(summary ? { summary } : {}),
     ...(assetPackSynthesisArtifacts ? { assetPackSynthesisArtifacts } : {}),
     ...(writtenAssets ? { writtenAssets } : {}),
-    // Canonical new-world key + historical dual-write for reread clients.
-    ...(settleDelivery ? { settleDelivery, shippables: settleDelivery } : {}),
+    ...(settleDelivery ? { settleDelivery } : {}),
     ...(deliveryMechanism ? { deliveryMechanism } : {}),
     ...(read ? { read } : {}),
     ...(writtenAssetType ? { writtenAssetType } : {}),
@@ -517,8 +516,6 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
     written_assets: buildWrittenAssets(row),
     settle_delivery: buildSettleDelivery(row),
-    // Historical dual-write: older UI still reads shippables.
-    shippables: buildSettleDelivery(row),
     delivery_mechanism: buildDeliveryMechanism(row),
     read: buildRead(row),
     written_asset_type: buildWrittenAssetType(row),

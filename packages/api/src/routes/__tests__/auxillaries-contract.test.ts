@@ -99,7 +99,7 @@ describe('Auxillaries package route contracts', () => {
         preferred_provider: 'openai',
       },
       templatePreferences: {
-        shippable_templates: {
+        delivery_templates: {
           asset_pack_pr: { label: 'AssetPack PR' },
         },
         evidence_document_templates: {

@@ -38,9 +38,6 @@ export interface AbsolutesMeasureAgentConfig {
   retry?: { maxAttempts?: number };
 }
 
-/** @deprecated Use AbsolutesMeasureAgentConfig */
-export type MeasureAgentAbsolutesConfig = AbsolutesMeasureAgentConfig;
-
 /** AbsolutesMeasureAgent — MeasureAgent specialized to category absolute. */
 export type AbsolutesMeasureAgent = MeasureAgent;
 
@@ -63,6 +60,3 @@ export function factoryAbsolutesMeasureAgent(
     retry: config.retry,
   });
 }
-
-/** @deprecated Use factoryAbsolutesMeasureAgent */
-export const factoryMeasureAgentAbsolutes = factoryAbsolutesMeasureAgent;

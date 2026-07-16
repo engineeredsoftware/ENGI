@@ -1,5 +1,5 @@
 {
-  "shippable_templates": {
+  "delivery_templates": {
     "pullRequests": ["pr-quick-todo"]
   },
   "evidence_document_templates": {

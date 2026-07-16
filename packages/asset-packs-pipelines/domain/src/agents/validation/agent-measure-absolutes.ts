@@ -2,7 +2,7 @@
  * agent-measure-absolutes — pipeline host for SynthesizeAssetPacksAbsolutesMeasureAgent
  * (product factory in @bitcode/generic-asset-packs-synthesis) + static-analysis quantity tools.
  *
- * Bases factoryMeasureAgentAbsolutes with the asset-pack ABSOLUTES catalog —
+ * Bases factoryAbsolutesMeasureAgent with the asset-pack ABSOLUTES catalog —
  * material properties of digital material:
  *   quantity (Tool): function/type/file sizes, symbolic richness, modularity
  *   quality  (Agent): correctness, objectives fidelity, computational usage
@@ -75,7 +75,7 @@ function clamp01(value: number): number {
 
 /**
  * factoryAssetPackMeasureAbsolutesAgent — the lens-parameterized concrete
- * measurer. Bases factoryMeasureAgentAbsolutes with the absolutes catalog.
+ * measurer. Bases factoryAbsolutesMeasureAgent with the absolutes catalog.
  */
 /**
  * @deprecated Prefer factorySynthesizeAssetPacksAbsolutesMeasureAgent from

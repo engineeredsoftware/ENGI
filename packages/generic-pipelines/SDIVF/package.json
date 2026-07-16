@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
-    "@bitcode/agent-generics": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*"
   },
   "devDependencies": {

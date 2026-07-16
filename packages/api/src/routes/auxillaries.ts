@@ -17,7 +17,6 @@ import {
 } from './auxillaries-contract';
 
 const EMPTY_TEMPLATE_PREFERENCES = {
-  shippable_templates: {},
   delivery_templates: {},
   evidence_document_templates: {},
   auto_save_templates: false,
@@ -361,7 +360,6 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const modelPreferences = preferencesResult.data?.preferences ?? null;
     const templatePreferences = templatePreferencesResult.data
       ? {
-          shippable_templates: templatePreferencesResult.data.deliverable_templates || {},
           delivery_templates: templatePreferencesResult.data.deliverable_templates || {},
           evidence_document_templates: templatePreferencesResult.data.ai_document_templates || {},
           auto_save_templates: Boolean(templatePreferencesResult.data.auto_save_templates),
@@ -547,7 +545,6 @@ export function buildGetAuxillaryTemplatePreferencesRoute(options: AuxillaryRout
     }
 
     return createJsonResponse({
-      shippable_templates: data.deliverable_templates || {},
       delivery_templates: data.deliverable_templates || {},
       evidence_document_templates: data.ai_document_templates || {},
     });
@@ -581,10 +578,8 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
       typeof value === 'object' && value !== null ? value : null;
     const bodyRecord =
       body && typeof body === 'object' ? (body as Record<string, unknown>) : null;
-    // Prefer delivery_templates; dual-read historical shippable_templates.
-    const deliveryTemplates =
-      asObject(bodyRecord?.delivery_templates) ||
-      asObject(bodyRecord?.shippable_templates);
+    // Pre-production: delivery_templates only (no shippable_templates alias).
+    const deliveryTemplates = asObject(bodyRecord?.delivery_templates);
     const evidenceDocumentTemplates = asObject(bodyRecord?.evidence_document_templates);
 
     if (!deliveryTemplates || !evidenceDocumentTemplates) {

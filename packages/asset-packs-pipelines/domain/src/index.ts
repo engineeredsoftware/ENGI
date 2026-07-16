@@ -600,7 +600,8 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
     finish: wrap(async (input, execution) => {
       const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
       if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
-        // SDIVF Finish does not open buyer-repo PRs (settle-asset-pack-pipeline ships).
+        // Test bypass: Finish is synthesis close/evidence only. Buyer-repo PR
+        // shipping is settle Simple (ship-asset-pack-patch-pr), a separate pipeline.
         return {
           success: true,
           artifacts: {

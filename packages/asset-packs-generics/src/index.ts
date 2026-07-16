@@ -44,5 +44,4 @@ export {
 export type {
   MeasurementReading,
   MeasurementKindCategory,
-  MeasurementCategory,
 } from '@bitcode/measurement-generics';

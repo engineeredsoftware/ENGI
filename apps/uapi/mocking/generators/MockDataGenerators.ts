@@ -477,7 +477,8 @@ class CompletionDataGenerator extends BaseDataGenerator {
         paths: ['src/main.ts', 'README.md', 'package.json'].slice(0, Math.floor(Math.random() * 3) + 1)
       } : null
     };
-    // Settle delivery surface (buyer PR after rights); dual-write historical key.
+    // Mock settle Simple delivery surface (buyer PR after rights). New-world
+    // mocks emit settleDelivery only — not the legacy shippables key.
     const settleDelivery = {
       pullRequest: hasPR ? {
         url: 'https://github.com/mock/repo/pull/123',
@@ -493,7 +494,6 @@ class CompletionDataGenerator extends BaseDataGenerator {
       summary: writtenAssets.summary || this.generateRealisticText(25),
       display: 'Mock Asset Pack',
       settleDelivery,
-      shippables: settleDelivery,
       assetPackSynthesisArtifacts: {
         ...settleDelivery,
         proofEvidence: ['mock AssetPack evidence captured for reread'],

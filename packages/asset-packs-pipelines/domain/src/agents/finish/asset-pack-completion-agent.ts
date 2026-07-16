@@ -59,10 +59,13 @@ const SettleDeliverySurfaceSchema = z.object({
 });
 
 export const AssetPackCompletionOutputSchema = z.object({
-  /** Canonical settle delivery surface (buyer PR after rights). */
+  /**
+   * Buyer-repo delivery surface (PR URL/summary) when the shared execution
+   * already ran settle Simple (ship-asset-pack-patch-pr). Optional: Deposit/Read
+   * SDIVF Finish alone does not open a PR and omits this. Pre-production: this
+   * is the only field name for that surface — no shippables alias.
+   */
   settleDelivery: SettleDeliverySurfaceSchema.optional(),
-  /** Historical dual-write of settleDelivery for reread clients. */
-  shippables: SettleDeliverySurfaceSchema,
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: WrittenAssetsSchema.optional(),
   deliveryMechanism: DeliveryMechanismSchema.optional(),
@@ -115,7 +118,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, shippables{summary}, deliveryMechanism{summary,readiness}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. SDIVF Finish stores AssetPack evidence only; buyer-repo PR shipping is settle-asset-pack-pipeline only.'
+          'Output JSON with keys: assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, settleDelivery{summary,pullRequest?}, deliveryMechanism{summary,readiness}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. SDIVF Finish closes the synthesis run and stores evidence; PR shipping is settle Simple (ship-asset-pack-patch-pr), not an SDIVF phase.'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -231,7 +234,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       }
     } catch {}
 
-    const shippables = {
+    const settleDelivery = {
       pullRequest,
       fileChanges: undefined,
       summary,
@@ -261,10 +264,9 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       readiness: deliveryReadiness,
     };
 
-    // Validate and finalize output — dual-write settleDelivery + shippables.
+    // Persist under settleDelivery only (pre-production: no legacy aliases).
     const validated = AssetPackCompletionOutputSchema.parse({
-      settleDelivery: shippables,
-      shippables,
+      settleDelivery,
       assetPackSynthesisArtifacts,
       writtenAssets,
       deliveryMechanism,
@@ -276,10 +278,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
 
     const output: AssetPackCompletionOutput = validated;
 
-    // Store for API persistence — canonical settleDelivery + historical shippables.
     try {
-      (execution as any).store?.('finish/asset_pack_completion', 'settleDelivery', shippables as any);
-      (execution as any).store?.('finish/asset_pack_completion', 'shippables', shippables as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'settleDelivery', settleDelivery as any);
       (execution as any).store?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssets', writtenAssets as any);
       (execution as any).store?.('finish/asset_pack_completion', 'deliveryMechanism', deliveryMechanism as any);

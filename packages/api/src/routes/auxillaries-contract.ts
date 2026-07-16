@@ -883,9 +883,8 @@ export function buildAuxillariesPreferencePosture(input: {
 }): AuxillariesPreferencePosture {
   const modelRecord = asRecord(toAuxillariesJsonSafe(input.modelPreferences ?? null));
   const templateRecord = asRecord(toAuxillariesJsonSafe(input.templatePreferences ?? null));
-  const shippableTemplates =
+  const deliveryTemplates =
     asRecord(templateRecord?.delivery_templates) ??
-    asRecord(templateRecord?.shippable_templates) ??
     asRecord(templateRecord?.deliverable_templates);
   const evidenceDocumentTemplates =
     asRecord(templateRecord?.evidence_document_templates) ??
@@ -898,7 +897,7 @@ export function buildAuxillariesPreferencePosture(input: {
     readString(modelRecord?.provider) ??
     readString(modelRecord?.default_provider) ??
     readString(modelRecord?.defaultProvider);
-  const shippableTemplateCount = shippableTemplates ? Object.keys(shippableTemplates).length : 0;
+  const shippableTemplateCount = deliveryTemplates ? Object.keys(deliveryTemplates).length : 0;
   const evidenceDocumentTemplateCount = evidenceDocumentTemplates ? Object.keys(evidenceDocumentTemplates).length : 0;
   const autoSaveTemplates = readBoolean(templateRecord?.auto_save_templates) ??
     readBoolean(templateRecord?.autoSaveTemplates) ??

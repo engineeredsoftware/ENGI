@@ -1,9 +1,10 @@
 /**
  * @bitcode/generic-pipelines-sdivf
  *
- * Base SDIVFPipeline (hierarchy: SDIVF + Pipeline primitive).
- * Product pipelines name themselves as Specific+SDIVF+Pipeline, e.g.
- * SynthesizeAssetPacksSDIVFPipeline — they do not reimplement the DIV loop.
+ * Base SDIVFPipeline — phase shell only (Setup-[DIV]*-Finish).
+ * No agents, tools, or product domains. Product pipelines inject phase
+ * Executors and name themselves Specific+SDIVF+Pipeline (e.g.
+ * SynthesizeReadAssetPacksSDIVFPipeline). Settle is Simple, not SDIVF.
  */
 
 export type { SDIVFPipeline } from './sdivf-factory';

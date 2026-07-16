@@ -32,7 +32,7 @@ describe('/api/auxillaries/template-preferences route', () => {
 
     expect(response.status).toBe(200);
     expect(payload).toEqual({
-      shippable_templates: {},
+      delivery_templates: {},
       evidence_document_templates: {},
       auto_save_templates: false,
     });

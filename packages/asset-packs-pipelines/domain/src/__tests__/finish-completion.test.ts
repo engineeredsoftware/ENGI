@@ -1,13 +1,14 @@
 // @ts-nocheck
 /**
- * Finish AssetPack completion evidence — SDIVF only.
- * Buyer-repo PR shipping is settle-asset-pack-pipeline, not Finish.
+ * Finish AssetPack completion evidence (product SDIVF Finish phase).
+ * Buyer-repo PR URL is only present when settle Simple already stored a
+ * shippable on the shared execution — Finish itself does not open PRs.
  */
 import { Execution } from '@bitcode/execution-generics';
 import AssetPackCompletionAgent from '../agents/finish/asset-pack-completion-agent';
 
 describe('finish AssetPack completion evidence', () => {
-  it('builds repository snapshot without inventing a Finish PR shippable', async () => {
+  it('builds repository snapshot without inventing a Finish PR on settleDelivery', async () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('pipeline', 'expressedRead', 'Read the deposited source and prepare Fit options.');
     exec.store('pipeline', 'writtenAssetType', 'read-satisfaction-asset-pack');
@@ -30,14 +31,14 @@ describe('finish AssetPack completion evidence', () => {
       branch: 'main',
       commit: '272b5b1586b28363b57676603a1990bb10df319c',
     });
-    expect(result.shippables.pullRequest).toBeNull();
+    expect(result.settleDelivery?.pullRequest).toBeNull();
     expect(result.deliveryMechanism?.readiness).toMatchObject({
       status: 'pending-user-review',
     });
     expect(result.deliveryMechanism?.summary).toContain('octocat/Spoon-Knife');
   });
 
-  it('passes through settle shippable PR when settle already ran on the execution', async () => {
+  it('passes through settle shippable PR on settleDelivery when settle already ran', async () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('pipeline', 'expressedRead', 'Need: type-safe plain object check');
     exec.store('harness', 'sourceRevision', {
@@ -51,7 +52,7 @@ describe('finish AssetPack completion evidence', () => {
     });
 
     const result = await AssetPackCompletionAgent({}, exec);
-    expect(result.shippables.pullRequest).toMatchObject({
+    expect(result.settleDelivery?.pullRequest).toMatchObject({
       url: 'https://github.com/octocat/Spoon-Knife/pull/123',
     });
   });

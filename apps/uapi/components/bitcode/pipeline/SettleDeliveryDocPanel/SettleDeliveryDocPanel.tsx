@@ -34,7 +34,10 @@ export interface SettleDeliveryDocPanelProps {
 
 /**
  * Renders settle delivery summary (buyer PR when present) plus synthesis summary.
- * PR shipping is settle-asset-pack-pipeline only — not SDIVF Finish.
+ *
+ * settleDelivery is the output surface of settle Simple (BTC → BTD → co-own →
+ * ship-asset-pack-patch-pr). It is not a phase of base SDIVF and not Finish of
+ * Deposit/Read product SDIVF pipelines.
  */
 export function SettleDeliveryDocPanel({ settleDelivery, summaryOpen, onToggleSummary }: SettleDeliveryDocPanelProps) {
   const tldr: React.ReactNode[] = [];

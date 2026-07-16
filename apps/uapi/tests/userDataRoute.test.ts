@@ -247,7 +247,7 @@ describe('GET /api/auxillaries/data', () => {
       recentBtdAssetPacks: [],
       modelPreferences: prefData.preferences,
       templatePreferences: {
-        shippable_templates: templatePrefData.deliverable_templates,
+        delivery_templates: templatePrefData.deliverable_templates,
         evidence_document_templates: templatePrefData.ai_document_templates,
         auto_save_templates: true,
       },

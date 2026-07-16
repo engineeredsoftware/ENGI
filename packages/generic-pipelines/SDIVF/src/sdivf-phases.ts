@@ -1,12 +1,13 @@
 /**
- * SDIVFPipeline phase names and phase-delegator assembly helpers.
+ * SDIVFPipeline phase names — base phase shell only.
  *
  * Hierarchy: phases of an SDIVFPipeline (base + Pipeline primitive).
+ * Product pipelines supply phase Executors (agents, tools, rosters live
+ * above this package — never in the base SDIVF loop).
  */
 
-import type { Agent } from '@bitcode/agent-generics';
+import type { Executor } from '@bitcode/execution-generics';
 import type { PhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
-import { factoryPhaseDelegator } from '@bitcode/pipelines-generics/phases/phase-factory';
 
 /** Canonical SDIVFPipeline phase ids (Setup → Discovery → Implementation → Validation → Finish). */
 export enum SDIVFPipelinePhase {
@@ -18,23 +19,26 @@ export enum SDIVFPipelinePhase {
 }
 
 /**
- * Create ordered SDIVFPipeline PhaseDelegators from agents (one agent per phase).
- * Product pipelines may instead supply phase executors to
- * factorySDIVFPipelineFromExecutors.
+ * Order phase executors as SDIVF PhaseDelegators (Executor-typed; no agents).
+ * Prefer factorySDIVFPipelineFromExecutors when building product pipelines.
  */
 export function factorySDIVFPipelinePhaseDelegators<TInput, TOutput>(config: {
-  setup: Agent<TInput, any>;
-  discovery: Agent<any, any>;
-  implementation: Agent<any, any>;
-  validation: Agent<any, any>;
-  finish: Agent<any, TOutput>;
+  setup: Executor<TInput, any>;
+  discovery: Executor<any, any>;
+  implementation: Executor<any, any>;
+  validation: Executor<any, any>;
+  finish: Executor<any, TOutput>;
 }): PhaseDelegator<TInput, TOutput>[] {
+  const asDelegator = <TIn, TOut>(
+    _phase: SDIVFPipelinePhase,
+    run: Executor<TIn, TOut>,
+  ): PhaseDelegator<TIn, TOut> => run;
+
   return [
-    factoryPhaseDelegator(SDIVFPipelinePhase.SETUP, config.setup),
-    factoryPhaseDelegator(SDIVFPipelinePhase.DISCOVERY, config.discovery),
-    factoryPhaseDelegator(SDIVFPipelinePhase.IMPLEMENTATION, config.implementation),
-    factoryPhaseDelegator(SDIVFPipelinePhase.VALIDATION, config.validation),
-    factoryPhaseDelegator(SDIVFPipelinePhase.FINISH, config.finish),
+    asDelegator(SDIVFPipelinePhase.SETUP, config.setup),
+    asDelegator(SDIVFPipelinePhase.DISCOVERY, config.discovery),
+    asDelegator(SDIVFPipelinePhase.IMPLEMENTATION, config.implementation),
+    asDelegator(SDIVFPipelinePhase.VALIDATION, config.validation),
+    asDelegator(SDIVFPipelinePhase.FINISH, config.finish),
   ];
 }
-

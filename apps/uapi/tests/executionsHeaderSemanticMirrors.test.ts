@@ -26,9 +26,9 @@ describe('executions header semantic mirrors', () => {
           paths: ['src/index.ts'],
         },
       },
-      shippables: {
+      settleDelivery: {
         pullRequest: {
-          title: 'Shippable PR',
+          title: 'Settled PR',
           url: 'https://example.com/pr/4',
           number: 4,
         },
@@ -36,7 +36,7 @@ describe('executions header semantic mirrors', () => {
     };
 
     expect(getHeaderWrittenAssets(assetPackCompletion)?.summary).toBe('Primary AssetPack synthesis artifact summary.');
-    expect(getHeaderDeliveryMechanism(assetPackCompletion)?.pullRequest?.title).toBe('Shippable PR');
+    expect(getHeaderDeliveryMechanism(assetPackCompletion)?.pullRequest?.title).toBe('Settled PR');
     expect(
       mergeHeaderSettleDelivery(
         getHeaderWrittenAssets(assetPackCompletion),
@@ -44,7 +44,7 @@ describe('executions header semantic mirrors', () => {
       ),
     ).toEqual({
       pullRequest: {
-        title: 'Shippable PR',
+        title: 'Settled PR',
         url: 'https://example.com/pr/4',
         number: 4,
       },

@@ -72,11 +72,10 @@ export interface CompletionData {
   /** Primary display string or title */
   display: string;
   /**
-   * Settle delivery surface (buyer PR after rights). Prefer `settleDelivery`.
-   * `shippables` is dual-written for historical reread only.
+   * Buyer-repo delivery after settle Simple (PR URL/summary). Sole field name
+   * for that surface (pre-production: no shippables alias).
    */
   settleDelivery?: AssetPackSurface | null;
-  shippables?: AssetPackSurface | null;
   /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsSurface | null;
   /** Semantic reread of the AssetPack synthesis artifacts. */
@@ -195,10 +194,10 @@ export interface PipelineExecution {
   asset_pack_synthesis_artifacts?: AssetPackSynthesisArtifactsSurface | null;
   /** Semantic reread of the AssetPack synthesis artifacts. */
   written_assets?: AssetPackSurface | null;
-  /** Canonical settle PR delivery surface. */
+  /**
+   * Buyer-repo delivery after settle Simple. History projection of settleDelivery.
+   */
   settle_delivery?: AssetPackSurface | null;
-  /** Historical dual-write of settle_delivery. */
-  shippables?: AssetPackSurface | null;
   /** Delivery mechanism projected onto the connected pull-request interface. */
   delivery_mechanism?: AssetPackSurface | null;
   read?: string | null;
@@ -213,10 +212,8 @@ export interface PipelineExecution {
   /** Canonical AssetPack completion payload. */
   asset_pack_completion?: {
     summary?: string | null;
-    /** Canonical settle delivery surface (buyer PR after rights). */
+    /** Buyer-repo delivery after settle Simple (sole field name). */
     settleDelivery?: AssetPackSurface;
-    /** Historical dual-write of settleDelivery. */
-    shippables?: AssetPackSurface;
     /** Bitcode-owned implementation-phase AssetPack synthesis artifacts. */
     assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsSurface;
     /** Semantic reread of the AssetPack synthesis artifacts. */
@@ -294,7 +291,7 @@ export interface EvidenceDocumentRun {
   repo_snapshot?: { org: string; repo: string; branch: string; commit: string } | null;
   asset_pack_synthesis_artifacts?: { summary?: string | null } | null;
   written_assets?: { summary?: string | null } | null;
-  shippables?: { summary?: string | null } | null;
+  settle_delivery?: { summary?: string | null } | null;
   read?: string | null;
   written_asset_type?: string | null;
   asset_pack?: {
@@ -305,7 +302,7 @@ export interface EvidenceDocumentRun {
   } | null;
   asset_pack_completion?: {
     summary?: string | null;
-    shippables?: { summary?: string | null };
+    settleDelivery?: { summary?: string | null };
     assetPackSynthesisArtifacts?: { summary?: string | null };
     writtenAssets?: { summary?: string | null };
     read?: string | null;

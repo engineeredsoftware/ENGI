@@ -129,7 +129,7 @@ function pickCanonicalCompletionResult(result: any) {
     'assetPackSynthesisArtifacts',
     'writtenAssets',
     'deliveryMechanism',
-    'settleDelivery', 'shippables',
+    'settleDelivery',
     'actions',
     'summary',
     'message',
@@ -260,10 +260,10 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
             const explicitAssetPackSynthesisArtifacts = normalizeAssetPackSurface(data.result.assetPackSynthesisArtifacts);
             const explicitWrittenAssets = normalizeAssetPackSurface(data.result.writtenAssets);
             const explicitDeliveryMechanism = normalizeAssetPackSurface(data.result.deliveryMechanism);
-            // Prefer settleDelivery; dual-read historical shippables.
+            // Buyer-repo delivery: settleDelivery only (pre-production).
+            // deliveryMechanism is a separate connected-interface projection.
             const explicitSettleDelivery =
               normalizeAssetPackSurface(data.result.settleDelivery) ||
-              normalizeAssetPackSurface(data.result.shippables) ||
               explicitDeliveryMechanism;
             const actionsFileChanges = data.result.actions?.files || null;
             const deliveryEvidenceSurface =
@@ -302,8 +302,6 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
               ...canonicalResult,
               display: data.result.summary || data.result.message || 'Read completed',
               settleDelivery,
-              // Dual-write historical key for older completion consumers.
-              shippables: settleDelivery,
               assetPackSynthesisArtifacts: explicitAssetPackSynthesisArtifacts || writtenAssets,
               writtenAssets,
               deliveryMechanism,

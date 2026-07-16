@@ -78,9 +78,8 @@ export type RepoSnapshot = { org: string; repo: string; branch: string; commit: 
 
 export type HeaderAssetPackCompletion = {
   summary?: string | null;
+  /** Buyer-repo delivery after settle Simple (sole field name). */
   settleDelivery?: HeaderSettleDelivery;
-  /** Historical dual-write of settleDelivery. */
-  shippables?: HeaderSettleDelivery;
   assetPackSynthesisArtifacts?: HeaderSettleDelivery;
   writtenAssets?: HeaderSettleDelivery;
   deliveryMechanism?: HeaderSettleDelivery;
@@ -344,13 +343,16 @@ export function getHeaderWrittenAssets(
   );
 }
 
+/**
+ * Resolve buyer-repo delivery for the executions header.
+ * settleDelivery first; deliveryMechanism is a separate connected-interface
+ * projection used only when settleDelivery is absent. Does not invent PRs.
+ */
 export function getHeaderSettleDelivery(
   assetPackCompletion?: HeaderAssetPackCompletion | null,
 ): HeaderSettleDelivery | null {
-  // Prefer settleDelivery; dual-read historical shippables.
   return (
     assetPackCompletion?.settleDelivery ||
-    assetPackCompletion?.shippables ||
     assetPackCompletion?.deliveryMechanism ||
     null
   );

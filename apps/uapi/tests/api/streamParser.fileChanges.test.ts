@@ -33,7 +33,7 @@ describe('parseStreamChunk completion.fileChanges mapping', () => {
       modified: ['y'],
       deleted: ['z'],
     });
-    expect(parsed.completion!.shippables).toBeNull();
+    expect(parsed.completion!.settleDelivery).toBeNull();
     expect(parsed.completion!.deliveryMechanism).toBeNull();
   });
 });

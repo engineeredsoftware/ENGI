@@ -202,6 +202,9 @@ module.exports = {
     '<rootDir>/tests/productRoutes.test.ts',
     '<rootDir>/tests/repositoryContext.test.ts',
     '<rootDir>/tests/pipelineRunData.test.ts',
+    // Settle delivery completion mapping (settleDelivery only; pre-production)
+    '<rootDir>/tests/streamParser.completion.test.ts',
+    '<rootDir>/tests/executionsHeaderSemanticMirrors.test.ts',
     '<rootDir>/tests/transactionReadiness.test.ts',
     '<rootDir>/tests/pipelineSelectionQuery.test.ts',
     '<rootDir>/tests/pipelineActivityHistory.test.ts',

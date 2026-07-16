@@ -1,13 +1,14 @@
 /**
- * Shared Finish helpers for AssetPack synthesis (SDIVF).
+ * Shared Finish helpers for AssetPack synthesis product SDIVF pipelines.
  *
+ * Base SDIVF only defines the Finish phase slot (close run / hand off result).
  * Product deposit/read Finish rosters live in deposit-phases.ts and
  * read-phases.ts (store-artifacts → ledgerize → finish-synthesize-run).
  *
  * This module only registers the optional Bitcode review-upload path used by
- * residual shared configs. **Pull-request shipping is not Finish** — it is
- * stage `ship-asset-pack-patch-pr` on settle-asset-pack-pipeline after BTC
- * finality, BTD rights, and co-ownership.
+ * residual shared configs. Buyer-repo PR shipping is not this phase: it is
+ * stage `ship-asset-pack-patch-pr` on SettleAssetPackSimplePipeline after BTC
+ * finality, BTD rights, and co-ownership (separate Simple base, not SDIVF).
  */
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';

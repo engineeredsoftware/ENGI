@@ -144,10 +144,11 @@ function findPullRequestUrl(output) {
   return (
     output?.deliveryMechanism?.pullRequest?.url ||
     output?.deliveryMechanism?.prUrl ||
-    // Prefer settleDelivery; dual-read historical shippables. Not SDIVF Finish.
+    // Buyer-repo PR URL: settleDelivery (completion surface) or settle
+    // Simple shippable.prUrl / deliveryMechanism projection. Pre-production:
+    // no shippables completion alias.
     output?.settleDelivery?.pullRequest?.url ||
     output?.shippable?.prUrl ||
-    output?.shippables?.pullRequest?.url ||
     output?.writtenAssets?.pullRequest?.url ||
     output?.assetPackSynthesisArtifacts?.pullRequest?.url ||
     null
@@ -1993,11 +1994,9 @@ try {
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,
-    // Prefer settleDelivery; dual-read historical shippables. Dual-write both.
+    // Project settle delivery onto the host result (settleDelivery only).
     settleDelivery:
-      output?.settleDelivery || output?.shippables || output?.deliveryMechanism || null,
-    shippables:
-      output?.settleDelivery || output?.shippables || output?.deliveryMechanism || null,
+      output?.settleDelivery || output?.deliveryMechanism || null,
     ledgerSettlement: output.ledgerSettlement,
     organizationAuthority,
     ledgerDatabaseReconciliation,

@@ -102,13 +102,10 @@ export {
 export {
   MeasurementReadingSchema,
   MeasurementOutputSchema,
-  MeasureAgentOutputSchema,
   type MeasurementKindCategory,
-  type MeasurementCategory,
   type MeasurementSpec,
   type MeasurementReading,
   type MeasurementOutput,
-  type MeasureAgentOutput,
 } from '@bitcode/measurement-generics';
 
 export {
@@ -119,10 +116,8 @@ export {
 
 export {
   factoryAbsolutesMeasureAgent,
-  factoryMeasureAgentAbsolutes,
   type AbsolutesMeasureAgent,
   type AbsolutesMeasureAgentConfig,
-  type MeasureAgentAbsolutesConfig,
 } from '@bitcode/generic-measurements-absolutes';
 
 export {

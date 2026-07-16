@@ -57,9 +57,10 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (execution as any).findUp?.('depository/search', 'result') ||
     (execution as any).get?.('depository/search', 'result');
 
-  // PR URLs belong to settle-asset-pack-pipeline shipping, not SDIVF Finish.
-  // Only surface a PR when settle already recorded a shippable (or the result
-  // object was produced by settle). Never invent from finish/* keys.
+  // PR URLs come from settle Simple (ship-asset-pack-patch-pr), not from the
+  // Deposit/Read SDIVF Finish phase. Only surface a PR when settle already
+  // recorded a shippable (or the result object was produced by settle).
+  // Never invent a PR from finish/* store keys alone.
   const settleShippable = findStoredExecutionValue(
     execution,
     'settle-asset-pack-pipeline',
@@ -234,7 +235,6 @@ export function buildAssetPackPostprocessedResult(
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'writtenAssets')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'settleDelivery')?.summary ||
-    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'shippables')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'summary') ||
     normalized.assetPackSynthesisArtifacts?.summary ||
     normalized.summary ||
@@ -304,15 +304,15 @@ export function buildAssetPackPostprocessedResult(
   const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
   const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
-  // Prefer settleDelivery; dual-read historical shippables + store.
+  // Resolve settleDelivery for the postprocessed view (sole completion field).
+  // Sources: finish store settleDelivery → settle Simple shippable artifact →
+  // pipeline output settleDelivery → shippable.prUrl shape from settle result.
   const settleDeliveryFromStore =
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'settleDelivery') ||
-    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'shippables') ||
     findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') ||
     null;
   const settleDelivery =
     (normalized as any).settleDelivery ||
-    normalized.shippables ||
     settleDeliveryFromStore ||
     (shippable
       ? {
@@ -336,8 +336,6 @@ export function buildAssetPackPostprocessedResult(
     summary: finalSummary,
     shippable,
     settleDelivery: settleDelivery as any,
-    // Dual-write historical key for reread clients.
-    shippables: settleDelivery as any,
     deliveryMechanism: normalized.deliveryMechanism || shippable,
     assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     writtenAssets: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,

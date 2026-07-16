@@ -196,7 +196,7 @@ describe('GET /api/executions/history', () => {
         delivery_mechanism: {
           summary: 'Recorded closure posture.',
         },
-        shippables: null,
+        settle_delivery: null,
         read: 'Refresh fifth-gate proof posture and closure evidence.',
         written_asset_type: 'proof-refresh',
         asset_pack: {
@@ -258,7 +258,7 @@ describe('GET /api/executions/history', () => {
         delivery_mechanism: {
           summary: 'Branch artifact persisted.',
         },
-        shippables: null,
+        settle_delivery: null,
         read: 'Materialize a branch-ready asset pack for settlement follow-through.',
         written_asset_type: 'branch-artifact',
         asset_pack: {

@@ -24,16 +24,13 @@ import {
 
 export type {
   MeasurementKindCategory,
-  MeasurementCategory,
   MeasurementSpec,
   MeasurementReading,
   MeasurementOutput,
-  MeasureAgentOutput,
 } from '@bitcode/measurement-generics';
 export {
   MeasurementReadingSchema,
   MeasurementOutputSchema,
-  MeasureAgentOutputSchema,
 } from '@bitcode/measurement-generics';
 
 const part = (content: string): PromptPart => content as PromptPart;

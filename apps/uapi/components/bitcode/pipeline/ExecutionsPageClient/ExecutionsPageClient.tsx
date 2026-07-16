@@ -52,7 +52,9 @@ const calculateInstructionTimeoutSeconds = (confidence: number): number => {
 };
 
 export function ExecutionsClient() {
-  // Settle delivery panels: buyer PR after settle, not SDIVF Finish.
+  // Settle delivery panels: buyer-repo PR/summary from settle Simple
+  // (ship-asset-pack-patch-pr after rights). Separate from Deposit/Read SDIVF
+  // Finish, which only stores synthesis evidence and closes the run.
   const router = useRouter();
   const searchParams = useSearchParams();
   const runId = searchParams.get('runId');
@@ -66,7 +68,7 @@ export function ExecutionsClient() {
   const mergedTemplates: DeliveryTemplates = React.useMemo(() => {
     if (!preferences) return templatesSource;
     const filterByPrefs = (category: keyof DeliveryTemplates, list: DeliveryTemplates[keyof DeliveryTemplates]) => {
-      const prefIds = preferences.shippable_templates?.[category] ?? [];
+      const prefIds = preferences.delivery_templates?.[category] ?? [];
       if (!prefIds.length) return list;
       return list.filter((t) => prefIds.includes(t.id));
     };
@@ -348,7 +350,6 @@ export function ExecutionsClient() {
   const deliveryMechanismForPanels =
     getHeaderSettleDelivery(historyAssetPackCompletion) ||
     headerPostprocessed?.settleDelivery ||
-    headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
     null;
   const settleDeliveryForPanels = mergeHeaderSettleDelivery(

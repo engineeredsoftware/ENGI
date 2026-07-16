@@ -51,10 +51,11 @@ export interface AssetPackOutput {
   success: boolean;
   summary?: string;
   shippable?: ShippableMeta;
-  /** Canonical settle PR surface after rights (prefer over shippables). */
+  /**
+   * Buyer-repo delivery after settle Simple (PR URL/summary). Sole field name
+   * for that surface (pre-production: no shippables alias).
+   */
   settleDelivery?: AssetPackSynthesisArtifactsMeta;
-  /** Historical dual-write of settleDelivery for reread clients. */
-  shippables?: AssetPackSynthesisArtifactsMeta;
   deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta;
@@ -95,10 +96,11 @@ export interface AssetPackPostprocessed {
   repository?: string;
   summary?: string;
   shippable?: ShippableMeta;
-  /** Canonical settle delivery surface. */
+  /**
+   * Buyer-repo delivery after settle Simple (PR URL/summary). Sole field name
+   * for that surface (pre-production: no shippables alias).
+   */
   settleDelivery?: AssetPackSynthesisArtifactsMeta | null;
-  /** Historical dual-write of settleDelivery. */
-  shippables?: AssetPackSynthesisArtifactsMeta | null;
   deliveryMechanism?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
   writtenAssets?: AssetPackSynthesisArtifactsMeta | null;

@@ -1,13 +1,16 @@
 /**
- * SDIVF base Pipeline implementation factories.
+ * SDIVF base Pipeline implementation factories — phase shell only.
  *
  * Hierarchy:
- *   @bitcode/pipelines-generics     — Pipeline / PhaseDelegator primitives
- *   @bitcode/generic-pipelines-sdivf — this package (SDIVF base loop)
- *   @bitcode/asset-packs-pipelines-domain    — SynthesizeDeposit/Read + settle-asset-pack-pipeline
+ *   @bitcode/pipelines-generics      — Pipeline / PhaseDelegator primitives
+ *   @bitcode/generic-pipelines-sdivf — this package (SDIVF phase loop)
+ *   product packages                 — inject phase Executors (agents/tools/rosters)
  *
  * Pattern: Setup → [Discovery → Implementation → Validation]* → Finish
- * with bounded DIV iteration. Product pipelines supply phase executors/agents.
+ * with bounded DIV iteration. No agents, tools, product catalogs, or settle
+ * shipping live here — only phase orchestration over injected Executors.
+ *
+ * Sibling base: SimplePipeline (linear stages). Settle is Simple, not SDIVF.
  */
 
 import { sequential } from '@bitcode/execution-generics';
@@ -23,8 +26,10 @@ import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
 
 /**
  * SDIVF base Pipeline (hierarchy name: SDIVF + Pipeline).
- * Product pipelines must extend this pattern:
- *   SynthesizeAssetPacksSDIVFPipeline, settle-asset-pack-pipelineSDIVFPipeline, …
+ * Product examples that *compose* this base (not definitions of it):
+ *   SynthesizeDepositAssetPacksSDIVFPipeline,
+ *   SynthesizeReadAssetPacksSDIVFPipeline.
+ * Settle is SettleAssetPackSimplePipeline (Simple base) — not SDIVF.
  */
 export type SDIVFPipeline<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
 
@@ -353,11 +358,11 @@ export interface SDIVFPipelineExecutorConfig<TInput = any, TOutput = any> {
 /**
  * Default iterate-vs-complete signal for the executor-variant DIV loop.
  *
- * Mirrors the factorySDIVFPipeline gate (validation:passed store, or
- * passed/ready on the threaded result), extended with the CROSS-PHASE
- * readiness artifact the AssetPack ReadyToFinish agent stores on the SHARED
- * root execution (`validation:readyToFinish` with a `finalApproval` verdict) —
- * resolvable from the DIV sibling via the ancestors-only findUp walk.
+ * Product-agnostic store keys only:
+ *   - validation:readyToFinish.finalApproval (cross-phase readiness artifact)
+ *   - validation:passed
+ *   - result.passed | result.ready | result.finalApproval
+ * Product layers decide *who* writes those keys (agents optional above base).
  */
 function executorValidationSignalsReadyToFinish(result: any, exec: any): boolean {
   const readShared = (namespace: string, key: string): unknown => {
