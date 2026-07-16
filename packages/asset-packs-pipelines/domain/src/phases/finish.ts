@@ -11,7 +11,7 @@
  * finality, BTD rights, and co-ownership (separate Simple base, not SDIVF).
  */
 
-import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
@@ -28,7 +28,7 @@ function createFinishSequence(): any[] {
 /**
  * Finish phase configuration (shared residual path; prefer deposit/read rosters).
  */
-export function createFinishPhaseConfig(_deliveryMechanismTemplate?: string): PhaseConfig {
+export function createFinishPhaseConfig(_deliveryMechanismTemplate?: string): ExecutionPipelineSDIVFExecutionPhaseRunnerConfig {
   return {
     phaseName: 'finish',
     sequence: createFinishSequence(),
@@ -40,7 +40,7 @@ export function createFinishPhaseConfig(_deliveryMechanismTemplate?: string): Ph
  * Create the Finish phase runner.
  */
 export function runFinishPhase(deliveryMechanismTemplate?: string) {
-  return createPhaseRunner(createFinishPhaseConfig(deliveryMechanismTemplate));
+  return factoryExecutionPipelineSDIVFExecutionPhaseRunner(createFinishPhaseConfig(deliveryMechanismTemplate));
 }
 
 /**

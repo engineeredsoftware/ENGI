@@ -1,14 +1,16 @@
 /**
- * Attach call-site Prompt layers onto pipeline / phase Execution nodes.
+ * Attach call-site Prompt layers onto pipeline Execution nodes.
  *
  * Organization:
  *   - compose / apply / Execution primitive → @bitcode/execution-generics
- *   - pipeline/phase primitive Prompt assembly → this package
+ *   - pipeline primitive Prompt assembly → this package
+ *   - phase attach (SDIVF-only) → @bitcode/generic-pipelines-execution-pipeline-sdivf
  *   - base (SDIVF) / specific (product) → generic-pipelines / asset-packs-pipelines
  *
  * Law (.docs/PROMPTING.md):
  *   - Pipeline node composes Execution ⊕ Pipeline ⊕ base ⊕ specific **once**
  *   - Phase node composes Phase ⊕ base ⊕ specific only (no Execution re-emit)
+ *     — see attachExecutionPipelineSDIVFExecutionPhasePromptHierarchy
  *   - Attach pipeline layers on root ExecutionPipeline (not seq-N child)
  */
 
@@ -22,10 +24,6 @@ import {
   PRIMITIVE_EXECUTION_SYSTEM_PROMPT,
 } from '@bitcode/execution-generics';
 import { EXECUTION_PIPELINE_PRIMITIVE_PROMPT } from './execution-pipeline-primitive-prompt';
-import {
-  factoryExecutionPhasePrimitivePrompt,
-  EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT,
-} from './execution-phase-primitive-prompt';
 
 function ensureNodePrompt(execution: any): ExecutionPrompt {
   if (execution.prompt instanceof ExecutionPrompt) {
@@ -108,43 +106,4 @@ export function attachExecutionPipelinePromptHierarchy(
   applyComposedCallSiteNodePrompt(target, composed, 'pipeline', {
     includesExecution: true,
   });
-}
-
-/**
- * Attach phase call-site block (no Execution layer).
- */
-export function attachExecutionPhasePromptHierarchy(
-  phaseExec: any,
-  phaseName: string,
-  layers?: {
-    base?: Prompt | null;
-    specific?: Prompt | null;
-  },
-): void {
-  const target = ensureNodePrompt(phaseExec);
-  const primitive =
-    phaseName === 'setup'
-      ? EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT
-      : factoryExecutionPhasePrimitivePrompt(phaseName);
-
-  applyPromptRegistryToExecutionPrompt(target, primitive, {
-    namespace: `phase:primitive:${phaseName}`,
-  });
-  if (layers?.base) {
-    applyPromptRegistryToExecutionPrompt(target, layers.base, {
-      namespace: `phase:base:${phaseName}`,
-    });
-  }
-  if (layers?.specific) {
-    applyPromptRegistryToExecutionPrompt(target, layers.specific, {
-      namespace: `phase:specific:${phaseName}`,
-    });
-  }
-
-  const composed = composeNamespacedPromptLayers([
-    { namespace: `phase:primitive:${phaseName}`, prompt: primitive },
-    { namespace: `phase:base:${phaseName}`, prompt: layers?.base ?? null },
-    { namespace: `phase:specific:${phaseName}`, prompt: layers?.specific ?? null },
-  ]);
-  applyComposedCallSiteNodePrompt(target, composed, `phase:${phaseName}`);
 }

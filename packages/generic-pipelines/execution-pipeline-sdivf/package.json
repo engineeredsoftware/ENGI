@@ -1,15 +1,19 @@
 {
   "name": "@bitcode/generic-pipelines-execution-pipeline-sdivf",
   "version": "1.0.0",
-  "description": "ExecutionPipelineSDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish based on ExecutionPipeline",
+  "description": "ExecutionPipelineSDIVF base: Setup-[Discovery-Implementation-Validation]*-Finish and ExecutionPipelineSDIVFExecutionPhase* based on ExecutionPipeline",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./execution-pipeline-sdivf-factory": "./src/execution-pipeline-sdivf-factory.ts",
     "./execution-pipeline-sdivf-phases": "./src/execution-pipeline-sdivf-phases.ts",
+    "./execution-pipeline-sdivf-execution-phase": "./src/execution-pipeline-sdivf-execution-phase.ts",
+    "./execution-pipeline-sdivf-execution-phase-delegator-factory": "./src/execution-pipeline-sdivf-execution-phase-delegator-factory.ts",
     "./prompts/execution-pipeline-sdivf-prompt": "./src/prompts/execution-pipeline-sdivf-prompt.ts",
-    "./prompts/execution-phase-sdivf-prompts": "./src/prompts/execution-phase-sdivf-prompts.ts"
+    "./prompts/execution-pipeline-sdivf-execution-phase-base-prompts": "./src/prompts/execution-pipeline-sdivf-execution-phase-base-prompts.ts",
+    "./prompts/execution-pipeline-sdivf-execution-phase-primitive-prompt": "./src/prompts/execution-pipeline-sdivf-execution-phase-primitive-prompt.ts",
+    "./prompts/execution-pipeline-sdivf-execution-phase-prompt-attach": "./src/prompts/execution-pipeline-sdivf-execution-phase-prompt-attach.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",
@@ -18,6 +22,7 @@
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {
+    "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*"

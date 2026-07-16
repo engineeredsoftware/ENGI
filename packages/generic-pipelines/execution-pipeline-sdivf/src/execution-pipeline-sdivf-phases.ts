@@ -1,5 +1,5 @@
 /**
- * ExecutionPipelineSDIVF phase names — base phase shell only.
+ * ExecutionPipelineSDIVF phase ids and PhaseDelegator ordering helpers.
  *
  * Hierarchy: phases of an ExecutionPipelineSDIVF (base + Pipeline primitive).
  * Product pipelines supply phase Executors (agents, tools, rosters live
@@ -7,7 +7,7 @@
  */
 
 import type { Executor } from '@bitcode/execution-generics';
-import type { ExecutionPhaseDelegator } from '@bitcode/pipelines-generics/phases/execution-phase-factory';
+import type { ExecutionPipelineSDIVFExecutionPhaseDelegator } from './execution-pipeline-sdivf-execution-phase';
 
 /** Canonical ExecutionPipelineSDIVF phase ids (Setup → Discovery → Implementation → Validation → Finish). */
 export enum ExecutionPipelineSDIVFPhase {
@@ -19,7 +19,7 @@ export enum ExecutionPipelineSDIVFPhase {
 }
 
 /**
- * Order phase executors as SDIVF PhaseDelegators (Executor-typed; no agents).
+ * Order phase executors as SDIVF ExecutionPhaseDelegators (Executor-typed; no agents).
  * Prefer factoryExecutionPipelineSDIVFFromExecutors when building product pipelines.
  */
 export function factoryExecutionPipelineSDIVFPhaseDelegators<TInput, TOutput>(config: {
@@ -28,11 +28,11 @@ export function factoryExecutionPipelineSDIVFPhaseDelegators<TInput, TOutput>(co
   implementation: Executor<any, any>;
   validation: Executor<any, any>;
   finish: Executor<any, TOutput>;
-}): ExecutionPhaseDelegator<TInput, TOutput>[] {
+}): ExecutionPipelineSDIVFExecutionPhaseDelegator<TInput, TOutput>[] {
   const asDelegator = <TIn, TOut>(
     _phase: ExecutionPipelineSDIVFPhase,
     run: Executor<TIn, TOut>,
-  ): ExecutionPhaseDelegator<TIn, TOut> => run;
+  ): ExecutionPipelineSDIVFExecutionPhaseDelegator<TIn, TOut> => run;
 
   return [
     asDelegator(ExecutionPipelineSDIVFPhase.SETUP, config.setup),

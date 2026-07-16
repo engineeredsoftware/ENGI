@@ -16,7 +16,8 @@ on product semantics.
 | **Prompt** | `@bitcode/prompts` | `RegistryImpl<PromptPart>`; assemble + `format()` / `hierarchicalFormatter` |
 | **ExecutionPrompt** | `@bitcode/execution-generics` | Only roots: `generic_system:` · `specific_execution:` |
 | **Compose + EE walk** | `@bitcode/execution-generics` | `composePromptLayers`, `applyPromptRegistryToExecutionPrompt`, `applyComposedCallSiteNodePrompt`, `buildExecutionHierarchySystemPrompt` |
-| **Pipeline/phase attach** | `@bitcode/pipelines-generics` | `attachExecutionPipelinePromptHierarchy`, `attachExecutionPhasePromptHierarchy` |
+| **Pipeline attach** | `@bitcode/pipelines-generics` | `attachExecutionPipelinePromptHierarchy` |
+| **Phase attach (SDIVF-only)** | `@bitcode/generic-pipelines-execution-pipeline-sdivf` | `attachExecutionPipelineSDIVFExecutionPhasePromptHierarchy` |
 | **Role filter (failsafe/thinking)** | `@bitcode/agent-generics` | Thin wrapper over EE walk for active generation only |
 
 **Do not** bury generic hierarchy walk/compose under `agent-generics` only.
@@ -123,11 +124,12 @@ Product-first full ancestry with **Execution** as EE primitive where applicable
 
 | Target | Replaces |
 | --- | --- |
-| `ExecutionPipeline` | `ExecutionPipeline` |
-| `ExecutionPhase` | `ExecutionPhase` |
-| `ExecutionPipelineSDIVF` | `ExecutionPipelineSDIVF` |
-| `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` | `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` |
-| … | (phased renames; pipeline/phase before agent EE renames) |
+| `ExecutionPipeline` | pipeline primitive |
+| `ExecutionPipelineSDIVF` | SDIVF base |
+| `ExecutionPipelineSDIVFExecutionPhase` | SDIVF phase EE |
+| `ExecutionPipelineSDIVFExecutionPhaseDelegator` | SDIVF phase Executor |
+| `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` | product pipeline |
+| … | full ancestry left→right; phases are SDIVF-only |
 
 ---
 

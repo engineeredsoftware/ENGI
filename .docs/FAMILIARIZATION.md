@@ -502,7 +502,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `execution-generics` | `Execution` state tree, `Executor`, sequential/parallel/pipe |
 | `agent-generics` | Agent = Executor + PTRR composition over generations |
 | `tools-generics` | `Tool` class, factories, MCP bridges |
-| `pipelines-generics` | Pipeline / ExecutionPhaseDelegator primitives / stream hooks (re-exports SDIVF) |
+| `pipelines-generics` | ExecutionPipeline primitives / stream hooks (no phases; phases are SDIVF-only) |
 | `generic-pipelines-execution-pipeline-sdivf` | SDIVF base loop (`packages/generic-pipelines/execution-pipeline-sdivf`) |
 | `generation-generics` | Generation primitive + failsafe/thinkings enums |
 | `generic-generations-failsafes` | Failsafe base + prepared-context types |
@@ -1024,7 +1024,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Generation** | Primitive unit of LLM/work generation inside a step (`generation-generics`). |
 | **Process-root Execution** | Process defaults (`@bitcode/generic-executions`) — not a parallel Context bag. |
 | **Judge** | ThinkingsGeneration kind: evaluate intermediate reasoning. |
-| **ExecutionPhaseDelegator** | Pipeline phase that resolves and runs agents/tools for that phase. |
+| **ExecutionPipelineSDIVFExecutionPhaseDelegator** | SDIVF phase Executor that resolves and runs agents/tools for that phase. |
 | **Prepared context** | Failsafe selection of Execution **keys** (noise reduction), not a second state bag. |
 | **Process-root Execution** | Root Execution for the process (`initializeProcessRoot` / `getProcessRootExecution`). |
 | **PTRRAgent** | Agent whose steps are Plan/Try/Refine/Retry (`factoryPTRRAgent`). |

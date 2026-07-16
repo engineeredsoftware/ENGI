@@ -13,7 +13,8 @@
  * they are ExecutionPipelineSimpleSettleAssetPack after the reader pays for options.
  */
 
-import { type ExecutionPhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
+import { createAgentExecutor } from '@bitcode/pipelines-generics';
+import { type ExecutionPipelineSDIVFExecutionPhaseDelegator } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { Executor, sequential, parallel } from '@bitcode/execution-generics';
 import type { AssetPackInput, AssetPackOutput } from '../types/PipelineSchemas';
 import {
@@ -52,7 +53,7 @@ function registerReadSetupAgents(agentRegistry: any): void {
   );
 }
 
-export const readSetupPhase: ExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
+export const readSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -83,9 +84,9 @@ export const readSetupPhase: ExecutionPhaseDelegator<AssetPackInput, SetupOutput
     } catch {}
     throw error;
   }
-}) as unknown as ExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
 
-export const readDiscoveryPhase: ExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
+export const readDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -103,9 +104,9 @@ export const readDiscoveryPhase: ExecutionPhaseDelegator<SetupOutput, DiscoveryO
     createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS),
   );
   return await exec(input, execution);
-}) as unknown as ExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
 
-export const readImplementationPhase: ExecutionPhaseDelegator<
+export const readImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
@@ -116,9 +117,9 @@ export const readImplementationPhase: ExecutionPhaseDelegator<
     );
   } catch {}
   return await createAgentExecutor('implementation:read-asset-pack-synthesis')(input, execution);
-}) as unknown as ExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
-export const readValidationPhase: ExecutionPhaseDelegator<
+export const readValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
@@ -131,9 +132,9 @@ export const readValidationPhase: ExecutionPhaseDelegator<
   return await createAgentExecutor(
     'validation:ready-to-finish-asset-packs-synthesis-read-pipeline',
   )(input, execution);
-}) as unknown as ExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
 
-export const readFinishPhase: ExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
+export const readFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
@@ -158,7 +159,7 @@ export const readFinishPhase: ExecutionPhaseDelegator<ValidationOutput, AssetPac
     createAgentExecutor('finish:finish-synthesize-asset-packs-for-read-run'),
   );
   return await exec(input, execution);
-}) as unknown as ExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
 
 export const readPhases = {
   setup: readSetupPhase,

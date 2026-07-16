@@ -32,6 +32,7 @@
     "@bitcode/orm": "workspace:*",
     "@bitcode/asset-packs-pipelines-domain": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
+    "@bitcode/generic-pipelines-execution-pipeline-sdivf": "workspace:*",
     "@bitcode/networking": "workspace:*",
     "@bitcode/security": "workspace:*",
     "@bitcode/supabase": "workspace:*",

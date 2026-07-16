@@ -8,8 +8,7 @@
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",
-    "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/generic-pipelines-execution-pipeline-sdivf": "workspace:*"
+    "@bitcode/agent-generics": "workspace:*"
   },
   "scripts": {
     "build": "tsc --noEmit",
@@ -26,13 +25,12 @@
   "exports": {
     ".": "./src/index.ts",
     "./execution-pipeline-factory": "./src/execution-pipeline-factory.ts",
-    "./phases/execution-phase-factory": "./src/phases/execution-phase-factory.ts",
     "./execution/execution-pipeline-types": "./src/execution/execution-pipeline-types.ts",
+    "./execution/ExecutionPipelineExecutor": "./src/execution/ExecutionPipelineExecutor.ts",
     "./execution/resume": "./src/execution/resume.ts",
     "./prompts/execution-prompt-attach-hierarchy": "./src/prompts/execution-prompt-attach-hierarchy.ts",
     "./prompts/execution-prompt-compose": "./src/prompts/execution-prompt-compose.ts",
     "./prompts/execution-pipeline-prompt": "./src/prompts/execution-pipeline-prompt.ts",
-    "./prompts/execution-pipeline-primitive-prompt": "./src/prompts/execution-pipeline-primitive-prompt.ts",
-    "./prompts/execution-phase-primitive-prompt": "./src/prompts/execution-phase-primitive-prompt.ts"
+    "./prompts/execution-pipeline-primitive-prompt": "./src/prompts/execution-pipeline-primitive-prompt.ts"
   }
 }

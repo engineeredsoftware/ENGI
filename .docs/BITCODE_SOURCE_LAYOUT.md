@@ -203,9 +203,11 @@ ancestry** in **types, factories, exports, and file names** — left→right
 (primitive → base → specific). Leaf-only labels are illegal for layered types.
 
 Anything based on the **Execution** primitive must include `Execution` in the
-name (e.g. `ExecutionPipeline`, `ExecutionPhase`, `ExecutionPipelineSDIVF`,
-`ExecutionPipelineSimpleSettleAssetPack`). Prefer
-`factoryExecutionPipelineFromPhases` over a bare `factoryExecutionPipelineFromPhases`.
+name (e.g. `ExecutionPipeline`, `ExecutionPipelineSDIVF`,
+`ExecutionPipelineSDIVFExecutionPhaseDelegator`,
+`ExecutionPipelineSimpleSettleAssetPack`). Phases are exclusively an
+`ExecutionPipelineSDIVF` concept (`ExecutionPipelineSDIVFExecutionPhase*`) and
+live under `generic-pipelines/execution-pipeline-sdivf`, not `pipelines-generics`.
 
 ```
 ExecutionPipeline # primitive (based on Execution)
@@ -354,10 +356,10 @@ bitcode/
 │ │ ├── journal.ts
 │ │ ├── operational-health.ts
 │ │ └── ...
-│ ├── pipelines-generics/ # Pipeline / ExecutionPhaseDelegator primitives
+│ ├── pipelines-generics/ # ExecutionPipeline primitives only (no phases)
 │ ├── generic-pipelines/
-│ │ ├── execution-pipeline-sdivf/ # @bitcode/generic-pipelines-execution-pipeline-sdivf base
-│ │ └── execution-pipeline-simple/ # @bitcode/generic-pipelines-execution-pipeline-simple base
+│ │ ├── execution-pipeline-sdivf/ # SDIVF base + ExecutionPipelineSDIVFExecutionPhase*
+│ │ └── execution-pipeline-simple/ # linear stages base
 │ ├── generic-llms/ # nested LLM providers (no family package.json)
 │ │ ├── xAI/ # @bitcode/generic-llms-xai
 │ │ ├── OpenAI/ # @bitcode/generic-llms-openai

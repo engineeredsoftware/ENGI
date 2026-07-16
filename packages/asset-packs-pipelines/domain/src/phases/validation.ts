@@ -1,4 +1,4 @@
-import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { registerValidationAgentsForType as registerAgents } from '../agents/validation-agents';
 import { AssetPackWrittenAssetType } from '../types/AssetPackWrittenAssetType';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
@@ -8,7 +8,7 @@ import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
  * Deposit Validation is registered/executed only via deposit-phases
  * (`validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline`).
  */
-const validationPhaseConfig: PhaseConfig = {
+const validationPhaseConfig: ExecutionPipelineSDIVFExecutionPhaseRunnerConfig = {
   phaseName: 'validation',
   sequence: [
     { agent: 'validation:asset-pack-ready-to-finish-agent' }
@@ -16,7 +16,7 @@ const validationPhaseConfig: PhaseConfig = {
   allowShortCircuit: true
 };
 
-export const runValidationPhase = createPhaseRunner(validationPhaseConfig);
+export const runValidationPhase = factoryExecutionPipelineSDIVFExecutionPhaseRunner(validationPhaseConfig);
 
 /**
  * Register validation agents (delegates to the canonical agents module).

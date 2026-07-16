@@ -6,10 +6,10 @@
  */
 
 import { Executor } from '@bitcode/execution-generics';
-import { createPhaseRunner, type PhaseConfig } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, type ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { synthesizeAssetPacksModeFromExecution } from '../synthesize-asset-packs';
 
-const setupPhaseConfig: PhaseConfig = {
+const setupPhaseConfig: ExecutionPipelineSDIVFExecutionPhaseRunnerConfig = {
   phaseName: 'setup',
   sequence: [
     { agent: 'setup:asset-pack-clone-vcs-repository-agent' },
@@ -26,7 +26,7 @@ const setupPhaseConfig: PhaseConfig = {
   allowShortCircuit: true
 };
 
-const runSetupPhase = createPhaseRunner(setupPhaseConfig);
+const runSetupPhase = factoryExecutionPipelineSDIVFExecutionPhaseRunner(setupPhaseConfig);
 
 export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, execution) => {
   // Conditional runtime registry: the deposit lens comprehends the depositor's

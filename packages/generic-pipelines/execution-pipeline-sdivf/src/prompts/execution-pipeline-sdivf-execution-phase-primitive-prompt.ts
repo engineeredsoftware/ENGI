@@ -1,6 +1,8 @@
 /**
- * Primitive phase Prompt — fully generic (any pipeline phase).
- * Assembled from raw_promptparts only (no inline PromptPart prose).
+ * Primitive phase Prompt for ExecutionPipelineSDIVFExecutionPhase nodes.
+ *
+ * Fully generic phase identity (any SDIVF phase name). Assembled from
+ * raw_promptparts only. Lives with SDIVF base — phases are not pipeline primitives.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -21,7 +23,9 @@ const ACTIVE_NAME: Record<string, PromptPart> = {
   finish: PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_FINISH_DETAILCONTENT,
 };
 
-export function factoryExecutionPhasePrimitivePrompt(phaseName: string): Prompt {
+export function factoryExecutionPipelineSDIVFExecutionPhasePrimitivePrompt(
+  phaseName: string,
+): Prompt {
   const p = new Prompt();
   p.set('identity', PROMPTPART_GENERIC_PHASE_SYSTEM_IDENTITY_CORESTATEMENT);
   const active =
@@ -32,10 +36,13 @@ export function factoryExecutionPhasePrimitivePrompt(phaseName: string): Prompt 
   return p;
 }
 
-export const EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT = factoryExecutionPhasePrimitivePrompt('setup');
-export const EXECUTION_PHASE_PRIMITIVE_DISCOVERY_PROMPT = factoryExecutionPhasePrimitivePrompt('discovery');
-export const EXECUTION_PHASE_PRIMITIVE_IMPLEMENTATION_PROMPT =
-  factoryExecutionPhasePrimitivePrompt('implementation');
-export const EXECUTION_PHASE_PRIMITIVE_VALIDATION_PROMPT =
-  factoryExecutionPhasePrimitivePrompt('validation');
-export const EXECUTION_PHASE_PRIMITIVE_FINISH_PROMPT = factoryExecutionPhasePrimitivePrompt('finish');
+export const EXECUTION_PIPELINE_SDIVF_EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT =
+  factoryExecutionPipelineSDIVFExecutionPhasePrimitivePrompt('setup');
+export const EXECUTION_PIPELINE_SDIVF_EXECUTION_PHASE_PRIMITIVE_DISCOVERY_PROMPT =
+  factoryExecutionPipelineSDIVFExecutionPhasePrimitivePrompt('discovery');
+export const EXECUTION_PIPELINE_SDIVF_EXECUTION_PHASE_PRIMITIVE_IMPLEMENTATION_PROMPT =
+  factoryExecutionPipelineSDIVFExecutionPhasePrimitivePrompt('implementation');
+export const EXECUTION_PIPELINE_SDIVF_EXECUTION_PHASE_PRIMITIVE_VALIDATION_PROMPT =
+  factoryExecutionPipelineSDIVFExecutionPhasePrimitivePrompt('validation');
+export const EXECUTION_PIPELINE_SDIVF_EXECUTION_PHASE_PRIMITIVE_FINISH_PROMPT =
+  factoryExecutionPipelineSDIVFExecutionPhasePrimitivePrompt('finish');

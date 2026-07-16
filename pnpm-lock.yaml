@@ -721,6 +721,9 @@ importers:
       '@bitcode/generic-llms-models':
         specifier: workspace:*
         version: link:../generic-llms/models
+      '@bitcode/generic-pipelines-execution-pipeline-sdivf':
+        specifier: workspace:*
+        version: link:../generic-pipelines/execution-pipeline-sdivf
       '@bitcode/generic-vcs-bitbucket':
         specifier: workspace:*
         version: link:../generic-vcs/bitbucket
@@ -2662,6 +2665,9 @@ importers:
 
   packages/generic-pipelines/execution-pipeline-sdivf:
     dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../execution-generics
@@ -3534,9 +3540,6 @@ importers:
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../execution-generics
-      '@bitcode/generic-pipelines-execution-pipeline-sdivf':
-        specifier: workspace:*
-        version: link:../generic-pipelines/execution-pipeline-sdivf
       '@bitcode/prompts':
         specifier: workspace:*
         version: link:../prompts

@@ -6,14 +6,14 @@
  * for direct phase-runner imports.
  */
 
-import { createPhaseRunner, type AgentStep, type PhaseConfig } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, type AgentStep, type ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 function createImplementationSequence(_assetPackWrittenAssetType: string): AgentStep[] {
   return [{ agent: 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent' }];
 }
 
-export function createImplementationPhaseConfig(assetPackWrittenAssetType: string): PhaseConfig {
+export function createImplementationPhaseConfig(assetPackWrittenAssetType: string): ExecutionPipelineSDIVFExecutionPhaseRunnerConfig {
   return {
     phaseName: 'implementation',
     sequence: createImplementationSequence(assetPackWrittenAssetType),
@@ -22,7 +22,7 @@ export function createImplementationPhaseConfig(assetPackWrittenAssetType: strin
 }
 
 export function runImplementationPhase(assetPackWrittenAssetType: string) {
-  return createPhaseRunner(createImplementationPhaseConfig(assetPackWrittenAssetType));
+  return factoryExecutionPipelineSDIVFExecutionPhaseRunner(createImplementationPhaseConfig(assetPackWrittenAssetType));
 }
 
 export function registerImplementationAgentsForType(

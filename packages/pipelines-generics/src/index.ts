@@ -2,17 +2,20 @@
  * PIPELINES-GENERICS — ExecutionPipeline primitives (based on Execution).
  *
  * Hierarchy naming law: anything based on Execution encodes full ancestry
- * left→right (e.g. ExecutionPipeline, ExecutionPhase, ExecutionPipelineSDIVF).
+ * left→right (e.g. ExecutionPipeline, ExecutionPipelineSDIVF).
  *
  * Hierarchy:
- *   pipelines-generics (this package — ExecutionPipeline / ExecutionPhase primitives)
- *     → generic-pipelines/execution-pipeline-sdivf (ExecutionPipelineSDIVF base)
+ *   pipelines-generics (this package — ExecutionPipeline primitives only)
+ *     → generic-pipelines/execution-pipeline-sdivf (ExecutionPipelineSDIVF + phases)
+ *     → generic-pipelines/execution-pipeline-simple (ExecutionPipelineSimple stages)
  *       → asset-packs-pipelines/execution-pipeline-* (product)
  *
- * Core Concepts:
+ * Core Concepts (this package):
  * - ExecutionPipeline / ExecutionPipelineFn — EE + executor form
- * - ExecutionPhaseDelegator / ExecutionPhase — phase EE pair
- * - ExecutionPipelineSDIVF — Setup-[DIV]*-Finish base (generic-pipelines-execution-pipeline-sdivf)
+ * - Registries, streaming, metrics, resume, agent-executor adapters
+ *
+ * SDIVF phases (ExecutionPipelineSDIVFExecutionPhase*) live ONLY in
+ * @bitcode/generic-pipelines-execution-pipeline-sdivf.
  *
  * @doc-code
  * type: package
@@ -20,13 +23,10 @@
  * pattern: executor-composition
  */
 
-// ExecutionPipeline and ExecutionPhase types
+// ExecutionPipeline types
 export {
   ExecutionPipeline,
-  type ExecutionPhaseDelegator,
-  ExecutionPhase,
   factoryExecutionPipeline,
-  factoryExecutionPhase,
 } from './execution/execution-pipeline-types';
 export {
   type ExecutionPipelineLineage,
@@ -35,12 +35,8 @@ export {
   inferExecutionPipelineLineage,
 } from './execution/ExecutionPipeline';
 
-// ExecutionPipeline factories + executor form
-export {
-  type ExecutionPipelineFn,
-  factoryExecutionPipelineFromPhases,
-  factoryExecutionPipelineWithDIVFinishLoop,
-} from './execution-pipeline-factory';
+// ExecutionPipeline executor form
+export { type ExecutionPipelineFn } from './execution-pipeline-factory';
 
 // ExecutionPipelineQuick (single stage, no SDIVF phases)
 export {
@@ -49,25 +45,6 @@ export {
   type ExecutionPipelineQuickConfig,
 } from './quick-pipeline';
 
-// Phase factories (primitives)
-export {
-  factoryPhaseDelegator,
-  factorySequentialPhaseDelegator,
-  factoryParallelPhaseDelegator,
-} from './phases/execution-phase-factory';
-
-// ExecutionPipelineSDIVF base — owned by @bitcode/generic-pipelines-execution-pipeline-sdivf
-// (owned by @bitcode/generic-pipelines-execution-pipeline-sdivf)
-export {
-  factoryExecutionPipelineSDIVFPhaseDelegators,
-  ExecutionPipelineSDIVFPhase,
-  factoryExecutionPipelineSDIVF,
-  factoryExecutionPipelineSDIVFFromExecutors,
-  type ExecutionPipelineSDIVF,
-  type ExecutionPipelineSDIVFConfig,
-  type ExecutionPipelineSDIVFExecutorConfig,
-} from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
-
 // Streaming integration for real-time pipeline updates
 export {
   enablePipelineStreaming,
@@ -75,10 +52,10 @@ export {
   emitPhaseTransition,
   emitAgentActivity,
   emitToolUsage,
-  type PipelineStreamConfig
+  type PipelineStreamConfig,
 } from './streaming/pipeline-stream-integration';
 
-// Pipeline Prompt (EE) + hierarchical attach helpers
+// Pipeline Prompt (EE) + hierarchical attach helpers (pipeline only)
 // Compose/walk primitives live in @bitcode/execution-generics; re-exported here.
 export { ExecutionPipelinePrompt } from './prompts/execution-pipeline-prompt';
 export {
@@ -89,16 +66,7 @@ export {
 } from './prompts/execution-prompt-compose';
 export { EXECUTION_PIPELINE_PRIMITIVE_PROMPT } from './prompts/execution-pipeline-primitive-prompt';
 export {
-  factoryExecutionPhasePrimitivePrompt,
-  EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT,
-  EXECUTION_PHASE_PRIMITIVE_DISCOVERY_PROMPT,
-  EXECUTION_PHASE_PRIMITIVE_IMPLEMENTATION_PROMPT,
-  EXECUTION_PHASE_PRIMITIVE_VALIDATION_PROMPT,
-  EXECUTION_PHASE_PRIMITIVE_FINISH_PROMPT,
-} from './prompts/execution-phase-primitive-prompt';
-export {
   attachExecutionPipelinePromptHierarchy,
-  attachExecutionPhasePromptHierarchy,
   resolveExecutionPipelinePromptHost,
 } from './prompts/execution-prompt-attach-hierarchy';
 
@@ -108,9 +76,14 @@ export { descendExecution, resumeDescriptorFromEvent } from './execution/resume'
 
 // Minimal agent→executor adapter for composition
 export { createAgentExecutor } from './execution/agent-executor';
-export { isExecutionDebugEnabled, enableExecutionDebug, debugWrapExecutorStep } from './execution/debug';
+export {
+  isExecutionDebugEnabled,
+  enableExecutionDebug,
+  debugWrapExecutorStep,
+} from './execution/debug';
 
 // Canonical primitive types and mappers (DB + Streams SSOT)
+// Phase labels match product SDIVF vocabulary for telemetry.
 export type {
   PhaseLower,
   PhaseTitle,
@@ -118,9 +91,15 @@ export type {
   StepTitle,
   MetaStep,
   SubStep,
-  ExecutionState
+  ExecutionState,
 } from './types/primitives';
-export { toPhaseLower, toPhaseTitle, toStepLower, isMetaStep, isSubStep } from './types/primitives';
+export {
+  toPhaseLower,
+  toPhaseTitle,
+  toStepLower,
+  isMetaStep,
+  isSubStep,
+} from './types/primitives';
 
 // Pipeline DB aliases (built from ORM types)
 export type {
@@ -131,14 +110,16 @@ export type {
   DPGeneration,
   DPGenerationInsert,
   DPToolExec,
-  DPToolExecInsert
+  DPToolExecInsert,
 } from './types/db';
 
 // Direct pipeline-runner composition exports.
 export {
+  ExecutionPipelineExecutor,
   createPhaseRunner,
   type PhaseConfig,
-  type AgentStep
+  type AgentStep,
+  type PhaseResult,
 } from './execution/ExecutionPipelineExecutor';
 
 // Registry surfaces used by asset-packs-pipelines domain preprocess.

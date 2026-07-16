@@ -9,7 +9,8 @@
  * Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run.
  */
 
-import { type ExecutionPhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
+import { createAgentExecutor } from '@bitcode/pipelines-generics';
+import { type ExecutionPipelineSDIVFExecutionPhaseDelegator } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import { Executor, sequential, parallel } from '@bitcode/execution-generics';
 import type { AssetPackInput, AssetPackOutput } from '../types/PipelineSchemas';
 import {
@@ -49,7 +50,7 @@ function registerDepositSetupAgents(agentRegistry: any): void {
   );
 }
 
-export const depositSetupPhase: ExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
+export const depositSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -80,9 +81,9 @@ export const depositSetupPhase: ExecutionPhaseDelegator<AssetPackInput, SetupOut
     } catch {}
     throw error;
   }
-}) as unknown as ExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
 
-export const depositDiscoveryPhase: ExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
+export const depositDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -100,9 +101,9 @@ export const depositDiscoveryPhase: ExecutionPhaseDelegator<SetupOutput, Discove
     createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS),
   );
   return await exec(input, execution);
-}) as unknown as ExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
 
-export const depositImplementationPhase: ExecutionPhaseDelegator<
+export const depositImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
@@ -111,10 +112,10 @@ export const depositImplementationPhase: ExecutionPhaseDelegator<
     registerImplementationAgents((execution as any).agents, 'deposit');
   } catch {}
   return await createAgentExecutor('implementation:deposit-asset-pack-synthesis')(input, execution);
-}) as unknown as ExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
 /** Single Validation agent: prior phases + pack quality + obfuscations. */
-export const depositValidationPhase: ExecutionPhaseDelegator<
+export const depositValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
@@ -129,10 +130,10 @@ export const depositValidationPhase: ExecutionPhaseDelegator<
   return await createAgentExecutor(
     'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
   )(input, execution);
-}) as unknown as ExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
 
 /** Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run. */
-export const depositFinishPhase: ExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
+export const depositFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
@@ -158,7 +159,7 @@ export const depositFinishPhase: ExecutionPhaseDelegator<ValidationOutput, Asset
     createAgentExecutor('finish:finish-synthesize-asset-packs-for-deposit-run'),
   );
   return await exec(input, execution);
-}) as unknown as ExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
+}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
 
 export const depositPhases = {
   setup: depositSetupPhase,

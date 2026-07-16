@@ -14,7 +14,7 @@ import {
   ExecutionPipelinePromptRegistry,
   ExecutionPipelineToolRegistry,
   ExecutionPipelineAgentRegistry,
-  PipelineExecutionClass as PE,
+  ExecutionPipelineClass as PE,
 } from '@bitcode/pipelines-generics';
 import type { Tool } from '@bitcode/tools-generics';
 import { factoryLLMRegistryWithProviders, resolveDefaultLLMConfig } from '@bitcode/generic-llms';

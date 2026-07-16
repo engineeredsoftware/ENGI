@@ -7,7 +7,6 @@ import {
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import {
   attachExecutionPipelinePromptHierarchy,
-  attachExecutionPhasePromptHierarchy,
   resolveExecutionPipelinePromptHost,
 } from '../execution-prompt-attach-hierarchy';
 import { applyPromptRegistryToExecutionPrompt } from '../execution-prompt-compose';
@@ -68,35 +67,5 @@ describe('prompt hierarchy attach (Execution-once + call_site compose)', () => {
     const rootWire = buildExecutionHierarchySystemPrompt(root);
     expect(rootWire).toContain('SDIVF_ON_ROOT');
     expect(rootWire).toMatch(/You are in an Execution/i);
-  });
-
-  it('attachExecutionPhasePromptHierarchy does not re-emit Execution', () => {
-    const exec: any = new Execution('phase:setup');
-    exec.prompt = blankPrompt();
-    const specific = new Prompt();
-    specific.set('objective', createPromptPart('READ_SETUP_OBJECTIVE'));
-    attachExecutionPhasePromptHierarchy(exec, 'setup', { specific });
-    const wire = buildExecutionHierarchySystemPrompt(exec);
-    expect(wire).toMatch(/You are in a Phase/i);
-    expect(wire).toContain('READ_SETUP_OBJECTIVE');
-    expect(wire).not.toMatch(/You are in an Execution/i);
-  });
-
-  it('pipeline + phase parent chain has Execution only on pipeline block', () => {
-    const pipeline = pipelineLike('pipeline:asset_pack');
-    attachExecutionPipelinePromptHierarchy(pipeline, {
-      base: new Prompt().set('pattern', createPromptPart('SDIVF_BASE')),
-    });
-    const phase: any = new Execution('phase:setup', pipeline);
-    phase.prompt = blankPrompt();
-    attachExecutionPhasePromptHierarchy(phase, 'setup', {
-      specific: new Prompt().set('objective', createPromptPart('SETUP_SPECIFIC')),
-    });
-    const wire = buildExecutionHierarchySystemPrompt(phase);
-    expect((wire.match(/You are in an Execution/gi) || []).length).toBe(1);
-    expect(wire).toMatch(/You are in a Pipeline/i);
-    expect(wire).toMatch(/You are in a Phase/i);
-    expect(wire).toContain('SETUP_SPECIFIC');
-    expect(wire).toContain(PRIMITIVE_EXECUTION_SYSTEM_PROMPT.get('identity') as string);
   });
 });

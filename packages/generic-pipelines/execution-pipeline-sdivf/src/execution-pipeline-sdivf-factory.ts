@@ -2,8 +2,9 @@
  * ExecutionPipelineSDIVF base factories — phase shell only.
  *
  * Hierarchy:
- *   @bitcode/pipelines-generics — ExecutionPipeline / ExecutionPhaseDelegator primitives
- *   @bitcode/generic-pipelines-execution-pipeline-sdivf — this package (SDIVF phase loop)
+ *   @bitcode/pipelines-generics — ExecutionPipeline primitives (no phases)
+ *   @bitcode/generic-pipelines-execution-pipeline-sdivf — this package
+ *     (SDIVF phase loop + ExecutionPipelineSDIVFExecutionPhase*)
  *   product packages — inject phase Executors (agents/tools/rosters)
  *
  * Pattern: Setup → [Discovery → Implementation → Validation]* → Finish
@@ -17,21 +18,15 @@ import { sequential } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { ExecutionPipelineFn } from '@bitcode/pipelines-generics/execution-pipeline-factory';
-import type {
-  ExecutionPhaseDelegator,
-  ExecutionPipeline,
-} from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
-import {
-  factoryExecutionPipeline,
-  factoryExecutionPhase,
-} from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
+import type { ExecutionPipeline } from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
+import { factoryExecutionPipeline } from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
 import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
-import {
-  attachExecutionPipelinePromptHierarchy,
-  attachExecutionPhasePromptHierarchy,
-} from '@bitcode/pipelines-generics/prompts/execution-prompt-attach-hierarchy';
+import { attachExecutionPipelinePromptHierarchy } from '@bitcode/pipelines-generics/prompts/execution-prompt-attach-hierarchy';
+import type { ExecutionPipelineSDIVFExecutionPhaseDelegator } from './execution-pipeline-sdivf-execution-phase';
+import { factoryExecutionPipelineSDIVFExecutionPhase } from './execution-pipeline-sdivf-execution-phase';
+import { attachExecutionPipelineSDIVFExecutionPhasePromptHierarchy } from './prompts/execution-pipeline-sdivf-execution-phase-prompt-attach';
 import { EXECUTION_PIPELINE_SDIVF_PROMPT } from './prompts/execution-pipeline-sdivf-prompt';
-import { executionPhaseSdivfPromptFor } from './prompts/execution-phase-sdivf-prompts';
+import { executionPipelineSDIVFExecutionPhaseBasePromptFor } from './prompts/execution-pipeline-sdivf-execution-phase-base-prompts';
 
 /**
  * ExecutionPipelineSDIVF — SDIVF base based on ExecutionPipeline.
@@ -67,10 +62,10 @@ async function emitPipelineDataStreamEvent(
 }
 
 interface SDIVBaseConfig<TInput = any> {
-  setup: ExecutionPhaseDelegator<TInput, any>;
-  discovery: ExecutionPhaseDelegator<any, any>;
-  implementation: ExecutionPhaseDelegator<any, any>;
-  validation: ExecutionPhaseDelegator<any, any>;
+  setup: ExecutionPipelineSDIVFExecutionPhaseDelegator<TInput, any>;
+  discovery: ExecutionPipelineSDIVFExecutionPhaseDelegator<any, any>;
+  implementation: ExecutionPipelineSDIVFExecutionPhaseDelegator<any, any>;
+  validation: ExecutionPipelineSDIVFExecutionPhaseDelegator<any, any>;
   readyToIterate?: Executor<any, boolean>;
   maxIterations?: number;
   iterationStrategy?: 'sequential' | 'adaptive';
@@ -89,7 +84,7 @@ interface SDIVBaseConfig<TInput = any> {
 }
 
 export interface ExecutionPipelineSDIVFConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
-  finish: ExecutionPhaseDelegator<any, TOutput>;
+  finish: ExecutionPipelineSDIVFExecutionPhaseDelegator<any, TOutput>;
   readyToFinish?: Executor<any, boolean>;
 }
 
@@ -141,16 +136,16 @@ async function runObservedPhase<TIn, TOut>(
   phase: ExecutionPipelineSDIVFPhaseName,
   input: TIn,
   execution: ExecutionPipeline,
-  delegate: ExecutionPhaseDelegator<TIn, TOut>,
+  delegate: ExecutionPipelineSDIVFExecutionPhaseDelegator<TIn, TOut>,
   iteration?: number,
   phasePromptSpecific?: any,
 ): Promise<TOut> {
   // Phase EE node carries phase prompt layers; agents run under it so
   // buildHierarchicalPrompt includes pipeline + phase + agent + …
-  const phaseExec = factoryExecutionPhase(phase, execution) as any;
+  const phaseExec = factoryExecutionPipelineSDIVFExecutionPhase(phase, execution) as any;
   try {
-    attachExecutionPhasePromptHierarchy(phaseExec, phase, {
-      base: executionPhaseSdivfPromptFor(phase),
+    attachExecutionPipelineSDIVFExecutionPhasePromptHierarchy(phaseExec, phase, {
+      base: executionPipelineSDIVFExecutionPhaseBasePromptFor(phase),
       specific: phasePromptSpecific ?? null,
     });
   } catch {
@@ -179,10 +174,10 @@ async function runObservedExecutorPhase<TIn, TOut>(
   iteration?: number,
   phasePromptSpecific?: any,
 ): Promise<TOut> {
-  const phaseExec = factoryExecutionPhase(phase, execution) as any;
+  const phaseExec = factoryExecutionPipelineSDIVFExecutionPhase(phase, execution) as any;
   try {
-    attachExecutionPhasePromptHierarchy(phaseExec, phase, {
-      base: executionPhaseSdivfPromptFor(phase),
+    attachExecutionPipelineSDIVFExecutionPhasePromptHierarchy(phaseExec, phase, {
+      base: executionPipelineSDIVFExecutionPhaseBasePromptFor(phase),
       specific: phasePromptSpecific ?? null,
     });
   } catch {

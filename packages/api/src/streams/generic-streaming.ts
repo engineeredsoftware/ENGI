@@ -6,9 +6,9 @@
  * philosophy: "Streams are the nervous system of pipeline intelligence"
  */
 
-import { 
+import {
   ExecutionPipelineSDIVFPhase
-} from '@bitcode/pipelines-generics';
+} from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import {
   ExecutionState,
   ExecutionPhase,
