@@ -144,7 +144,8 @@ function findPullRequestUrl(output) {
   return (
     output?.deliveryMechanism?.pullRequest?.url ||
     output?.deliveryMechanism?.prUrl ||
-    // PR only after settle ship stage — not SDIVF Finish fabrication.
+    // Prefer settleDelivery; dual-read historical shippables. Not SDIVF Finish.
+    output?.settleDelivery?.pullRequest?.url ||
     output?.shippable?.prUrl ||
     output?.shippables?.pullRequest?.url ||
     output?.writtenAssets?.pullRequest?.url ||
@@ -1992,7 +1993,11 @@ try {
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,
-    shippables: output?.shippables || null,
+    // Prefer settleDelivery; dual-read historical shippables. Dual-write both.
+    settleDelivery:
+      output?.settleDelivery || output?.shippables || output?.deliveryMechanism || null,
+    shippables:
+      output?.settleDelivery || output?.shippables || output?.deliveryMechanism || null,
     ledgerSettlement: output.ledgerSettlement,
     organizationAuthority,
     ledgerDatabaseReconciliation,

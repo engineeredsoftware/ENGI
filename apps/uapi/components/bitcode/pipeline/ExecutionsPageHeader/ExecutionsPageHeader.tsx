@@ -242,7 +242,7 @@ interface ExecutionPageHeaderProps {
   templates?: DeliveryTemplateSets;
   onTemplateSelect?: (templateId: string, templateCategory: keyof DeliveryTemplateSets) => void;
   /** Settle delivery (buyer PR after rights). Bitcode-owned meaning lives in AssetPack evidence first. */
-  shippables?: {
+  settleDelivery?: {
     pullRequest?: DeliveryMechanismSurface | null; // Singular PR delivery mechanism.
     fileChanges?: FileChanges | null;
     summary?: string | null;
@@ -339,7 +339,7 @@ const childVariants = {
  */
 export default function ExecutionsPageHeader({
   executionStatus: mode,
-  shippables,
+  settleDelivery,
   processingStats,
   repoSnapshot,
   onSelectDeliveryTemplateDefinitionOfNeed,
@@ -491,7 +491,7 @@ export default function ExecutionsPageHeader({
     };
   }, [entranceSpeedFactor]);
 
-  const effectiveSettleDelivery = shippables ?? {};
+  const effectiveSettleDelivery = settleDelivery ?? {};
   const effectiveMode = mode;
   const iterationConfidence = typeof processingStats?.confidence === 'number' ? processingStats?.confidence : undefined;
   const awaitingInstruction = processingStats?.awaitingInstruction ?? (typeof iterationConfidence === 'number' ? iterationConfidence < INSTRUCTION_WAIT_THRESHOLD : false);
@@ -806,7 +806,7 @@ export default function ExecutionsPageHeader({
 
           {effectiveMode === "executed" && effectiveSettleDelivery && (renderDocInsideHeader !== false) && (
             <CompleteHeaderContent
-              shippables={effectiveSettleDelivery as any}
+              settleDelivery={effectiveSettleDelivery as any}
               processingStats={processingStats as any}
               repoSnapshot={repoSnapshot as any}
               executionType={executionType}

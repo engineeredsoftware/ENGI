@@ -884,6 +884,7 @@ export function buildAuxillariesPreferencePosture(input: {
   const modelRecord = asRecord(toAuxillariesJsonSafe(input.modelPreferences ?? null));
   const templateRecord = asRecord(toAuxillariesJsonSafe(input.templatePreferences ?? null));
   const shippableTemplates =
+    asRecord(templateRecord?.delivery_templates) ??
     asRecord(templateRecord?.shippable_templates) ??
     asRecord(templateRecord?.deliverable_templates);
   const evidenceDocumentTemplates =

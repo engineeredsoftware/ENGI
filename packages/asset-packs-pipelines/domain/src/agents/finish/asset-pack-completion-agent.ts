@@ -52,12 +52,17 @@ const DeliveryMechanismSchema = z.object({
     .optional(),
 });
 
+const SettleDeliverySurfaceSchema = z.object({
+  pullRequest: ShippableSchema.nullable().optional(),
+  fileChanges: FileChangesSchema.nullable().optional(),
+  summary: z.string().nullable().optional(),
+});
+
 export const AssetPackCompletionOutputSchema = z.object({
-  shippables: z.object({
-    pullRequest: ShippableSchema.nullable().optional(),
-    fileChanges: FileChangesSchema.nullable().optional(),
-    summary: z.string().nullable().optional(),
-  }),
+  /** Canonical settle delivery surface (buyer PR after rights). */
+  settleDelivery: SettleDeliverySurfaceSchema.optional(),
+  /** Historical dual-write of settleDelivery for reread clients. */
+  shippables: SettleDeliverySurfaceSchema,
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: WrittenAssetsSchema.optional(),
   deliveryMechanism: DeliveryMechanismSchema.optional(),
@@ -256,8 +261,9 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       readiness: deliveryReadiness,
     };
 
-    // Validate and finalize output (schema still names shippables; dual-store settleDelivery).
+    // Validate and finalize output — dual-write settleDelivery + shippables.
     const validated = AssetPackCompletionOutputSchema.parse({
+      settleDelivery: shippables,
       shippables,
       assetPackSynthesisArtifacts,
       writtenAssets,

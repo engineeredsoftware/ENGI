@@ -3,7 +3,7 @@
  * V26 Production Ready
  */
 
-// V26 Finish ships AssetPacks through pull requests only.
+// Settle delivers AssetPacks via pull request after rights transfer.
 export type DeliveryTemplateType = 'pullRequests';
 
 // Evidence Document template types matching UI categories.

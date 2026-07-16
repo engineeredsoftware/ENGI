@@ -14,9 +14,9 @@ import {
   type MeasureAgent,
   type MeasurementSpec,
 } from '@bitcode/generic-measurements-measure-agent';
-import type { MeasurementCategory } from '@bitcode/measurement-generics';
+import type { MeasurementKindCategory } from '@bitcode/measurement-generics';
 
-const NEEDINESSES_MEASUREMENT_CATEGORY: MeasurementCategory = 'neediness';
+const NEEDINESSES_MEASUREMENT_CATEGORY: MeasurementKindCategory = 'neediness';
 
 const NEEDINESSES_FRAMING =
   'You measure NEEDINESSES — READER-RELATIVE properties of digital material: how ' +

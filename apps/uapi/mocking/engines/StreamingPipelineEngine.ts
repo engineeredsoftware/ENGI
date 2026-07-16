@@ -654,7 +654,8 @@ export class StreamingPipelineEngine {
         paths: ['src/mock.ts', 'README.md']
       }
     };
-    const shippables = {
+    // Settle delivery surface; dual-write historical shippables for reread.
+    const settleDelivery = {
       pullRequest: {
         url: 'https://github.com/mock/repo/pull/123',
         number: 123,
@@ -667,14 +668,15 @@ export class StreamingPipelineEngine {
     return {
       summary: writtenAssets.summary,
       display: 'Mock Asset Pack',
-      shippables,
+      settleDelivery,
+      shippables: settleDelivery,
       assetPackSynthesisArtifacts: {
-        ...shippables,
+        ...settleDelivery,
         proofEvidence: ['mock AssetPack evidence captured for reread'],
         reviewNotes: ['mock Read-satisfaction artifacts synthesized'],
       },
       writtenAssets,
-      deliveryMechanism: shippables,
+      deliveryMechanism: settleDelivery,
       semanticKind: 'asset-pack-written-asset',
       read: 'Mock retained corridor read',
       writtenAssetType: 'code-change',

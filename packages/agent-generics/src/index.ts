@@ -103,6 +103,7 @@ export {
   MeasurementReadingSchema,
   MeasurementOutputSchema,
   MeasureAgentOutputSchema,
+  type MeasurementKindCategory,
   type MeasurementCategory,
   type MeasurementSpec,
   type MeasurementReading,

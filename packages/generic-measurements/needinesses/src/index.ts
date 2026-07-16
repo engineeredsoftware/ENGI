@@ -7,9 +7,9 @@
  * Hybrid: static catalogue + dynamic inferred dimensions; need-fit = weighted mean.
  */
 
-import type { MeasurementCategory } from '@bitcode/measurement-generics';
+import type { MeasurementKindCategory } from '@bitcode/measurement-generics';
 
-export const NEEDINESSES_MEASUREMENT_CATEGORY: MeasurementCategory = 'neediness';
+export const NEEDINESSES_MEASUREMENT_CATEGORY: MeasurementKindCategory = 'neediness';
 
 export const NEEDINESSES_FRAMING =
   'You measure NEEDINESSES — READER-RELATIVE properties of digital material: how ' +

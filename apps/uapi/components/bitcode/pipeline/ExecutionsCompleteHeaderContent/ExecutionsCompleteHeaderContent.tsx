@@ -78,6 +78,8 @@ export type RepoSnapshot = { org: string; repo: string; branch: string; commit: 
 
 export type HeaderAssetPackCompletion = {
   summary?: string | null;
+  settleDelivery?: HeaderSettleDelivery;
+  /** Historical dual-write of settleDelivery. */
   shippables?: HeaderSettleDelivery;
   assetPackSynthesisArtifacts?: HeaderSettleDelivery;
   writtenAssets?: HeaderSettleDelivery;
@@ -105,13 +107,13 @@ const formatWrittenAssetType = (type?: string | null) => {
 };
 
 export function CompleteHeaderContent({
-  shippables,
+  settleDelivery,
   processingStats,
   repoSnapshot,
   postprocessed,
   executionType,
 }: {
-  shippables?: HeaderSettleDelivery;
+  settleDelivery?: HeaderSettleDelivery;
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   postprocessed?: any;
@@ -123,7 +125,7 @@ export function CompleteHeaderContent({
   // - processingStats and repoSnapshot are sourced from server-computed asset_pack_completion objects
   //   emitted by both pipelines. The UI renders only server-provided values.
   const [showFileDetails, setShowFileDetails] = React.useState(false);
-  const settleDeliverySurface = shippables || {};
+  const settleDeliverySurface = settleDelivery || {};
   const tldr: React.ReactNode[] = [];
   if (settleDeliverySurface?.pullRequest) {
     const pr = settleDeliverySurface.pullRequest;
@@ -347,7 +349,7 @@ export function getHeaderSettleDelivery(
 ): HeaderSettleDelivery | null {
   // Prefer settleDelivery; dual-read historical shippables.
   return (
-    (assetPackCompletion as any)?.settleDelivery ||
+    assetPackCompletion?.settleDelivery ||
     assetPackCompletion?.shippables ||
     assetPackCompletion?.deliveryMechanism ||
     null

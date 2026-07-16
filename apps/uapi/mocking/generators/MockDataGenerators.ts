@@ -477,7 +477,8 @@ class CompletionDataGenerator extends BaseDataGenerator {
         paths: ['src/main.ts', 'README.md', 'package.json'].slice(0, Math.floor(Math.random() * 3) + 1)
       } : null
     };
-    const shippables = {
+    // Settle delivery surface (buyer PR after rights); dual-write historical key.
+    const settleDelivery = {
       pullRequest: hasPR ? {
         url: 'https://github.com/mock/repo/pull/123',
         number: 123,
@@ -491,14 +492,15 @@ class CompletionDataGenerator extends BaseDataGenerator {
     return {
       summary: writtenAssets.summary || this.generateRealisticText(25),
       display: 'Mock Asset Pack',
-      shippables,
+      settleDelivery,
+      shippables: settleDelivery,
       assetPackSynthesisArtifacts: {
-        ...shippables,
+        ...settleDelivery,
         proofEvidence: ['mock AssetPack evidence captured for reread'],
         reviewNotes: ['mock Read-satisfaction artifacts synthesized'],
       },
       writtenAssets,
-      deliveryMechanism: shippables,
+      deliveryMechanism: settleDelivery,
       semanticKind: 'asset-pack-written-asset',
       read: this.generateRealisticText(10),
       writtenAssetType: this.pickRandom(['code-change', 'code-change-review', 'design-document']),

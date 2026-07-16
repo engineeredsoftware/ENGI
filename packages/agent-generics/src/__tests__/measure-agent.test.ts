@@ -1,8 +1,8 @@
 // @ts-nocheck
 import {
   factoryMeasureAgent,
-  factoryMeasureAgentAbsolutes,
-  MeasureAgentOutputSchema,
+  factoryAbsolutesMeasureAgent,
+  MeasurementOutputSchema,
   MeasurementReadingSchema,
 } from '../index';
 
@@ -27,8 +27,8 @@ describe('measure-agent base hierarchy', () => {
     expect(agent.measurementSpecs[0].measurementKind).toBe('function-count');
   });
 
-  it('factoryMeasureAgentAbsolutes bases measure-agent with the absolute category', () => {
-    const agent = factoryMeasureAgentAbsolutes({
+  it('factoryAbsolutesMeasureAgent bases measure-agent with the absolute category', () => {
+    const agent = factoryAbsolutesMeasureAgent({
       name: 'test-measure-absolutes',
       subject: 'a synthesized source-safe AssetPack patch',
       measurements: SIZES,
@@ -41,7 +41,7 @@ describe('measure-agent base hierarchy', () => {
 
   it('rejects an empty measurement catalog', () => {
     expect(() =>
-      factoryMeasureAgentAbsolutes({
+      factoryAbsolutesMeasureAgent({
         name: 'empty',
         subject: 'nothing',
         measurements: [],
@@ -50,7 +50,7 @@ describe('measure-agent base hierarchy', () => {
   });
 
   it('output schema accepts readings (magnitude optional) and rejects out-of-range volume', () => {
-    const ok = MeasureAgentOutputSchema.safeParse({
+    const ok = MeasurementOutputSchema.safeParse({
       measurements: [
         { measurementKind: 'function-count', magnitude: 12, volume: 0.6, rationale: 'twelve functions' },
         { measurementKind: 'correctness-estimate', volume: 0.8, rationale: 'coherent' },

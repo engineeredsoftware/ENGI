@@ -2,11 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 
 interface UserTemplatePreferencesApiResponse {
   shippable_templates?: Record<string, string[]>;
+  delivery_templates?: Record<string, string[]>;
   evidence_document_templates?: Record<string, string[]>;
 }
 
 export interface UserTemplatePreferences {
   shippable_templates: Record<string, string[]>;
+  delivery_templates: Record<string, string[]>;
   evidence_document_templates: Record<string, string[]>;
 }
 
@@ -22,7 +24,8 @@ interface UseTemplatePreferencesHook {
 
 /**
  * Client-side hook that fetches the current user's saved template
- * preferences (Shippable & Evidence Document) from `/api/auxillaries/template-preferences`.
+ * preferences (delivery templates & evidence documents) from
+ * `/api/auxillaries/template-preferences`.
  *
  * It automatically fetches once on mount but also returns a `reload`
  * function should the caller read to refresh the data (e.g. after a
@@ -41,6 +44,7 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
       if (res.status === 401 || res.status === 404) {
         setPreferences({
           shippable_templates: {},
+        delivery_templates: {},
           evidence_document_templates: {},
         });
         return;
@@ -61,12 +65,14 @@ export const useTemplatePreferences = (): UseTemplatePreferencesHook => {
       const data = (await res.json()) as UserTemplatePreferencesApiResponse;
 
       setPreferences({
-        shippable_templates: data.shippable_templates ?? {},
+        shippable_templates: data.delivery_templates ?? data.shippable_templates ?? {},
+        delivery_templates: data.delivery_templates ?? data.shippable_templates ?? {},
         evidence_document_templates: data.evidence_document_templates ?? {},
       });
     } catch (err) {
       setPreferences({
         shippable_templates: {},
+        delivery_templates: {},
         evidence_document_templates: {},
       });
       setError(err instanceof Error ? err.message : String(err));

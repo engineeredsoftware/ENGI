@@ -14,16 +14,16 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { factoryPTRRAgent } from '@bitcode/agent-generics/agents/factories';
 import type { Agent } from '@bitcode/agent-generics/types';
 import type {
-  MeasurementCategory,
+  MeasurementKindCategory,
   MeasurementSpec,
   MeasurementOutput,
 } from '@bitcode/measurement-generics';
 import {
   MeasurementOutputSchema,
-  MeasureAgentOutputSchema,
 } from '@bitcode/measurement-generics';
 
 export type {
+  MeasurementKindCategory,
   MeasurementCategory,
   MeasurementSpec,
   MeasurementReading,
@@ -43,7 +43,7 @@ export interface MeasureAgentConfig {
   description?: string;
   /** What is being measured, e.g. "a synthesized source-safe AssetPack patch". */
   subject: string;
-  category: MeasurementCategory;
+  category: MeasurementKindCategory;
   /** The category-specific framing line(s) (what this category means). */
   categoryFraming: string;
   /** The measurements to read. */
@@ -57,7 +57,7 @@ export interface MeasureAgentConfig {
 /** MeasureAgent: PTRR agent plus the specs/category it measures. */
 export type MeasureAgent = Agent<any, MeasurementOutput> & {
   measurementSpecs: MeasurementSpec[];
-  measurementCategory: MeasurementCategory;
+  measurementCategory: MeasurementKindCategory;
 };
 
 function buildMeasureIdentity(config: MeasureAgentConfig): PromptPart {

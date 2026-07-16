@@ -18,6 +18,7 @@ import {
 
 const EMPTY_TEMPLATE_PREFERENCES = {
   shippable_templates: {},
+  delivery_templates: {},
   evidence_document_templates: {},
   auto_save_templates: false,
 };
@@ -361,6 +362,7 @@ export function buildGetAuxillaryDataRoute(options: AuxillaryRouteBuilderOptions
     const templatePreferences = templatePreferencesResult.data
       ? {
           shippable_templates: templatePreferencesResult.data.deliverable_templates || {},
+          delivery_templates: templatePreferencesResult.data.deliverable_templates || {},
           evidence_document_templates: templatePreferencesResult.data.ai_document_templates || {},
           auto_save_templates: Boolean(templatePreferencesResult.data.auto_save_templates),
         }
@@ -546,6 +548,7 @@ export function buildGetAuxillaryTemplatePreferencesRoute(options: AuxillaryRout
 
     return createJsonResponse({
       shippable_templates: data.deliverable_templates || {},
+      delivery_templates: data.deliverable_templates || {},
       evidence_document_templates: data.ai_document_templates || {},
     });
   });
@@ -574,34 +577,25 @@ export function buildPostAuxillaryTemplatePreferencesRoute(options: AuxillaryRou
       return createJsonResponse({ error: 'Invalid JSON' }, 400);
     }
 
-    const payload =
-      body && typeof body === 'object'
-        ? {
-            shippable_templates:
-              typeof (body as Record<string, unknown>).shippable_templates === 'object' &&
-              (body as Record<string, unknown>).shippable_templates !== null
-                ? (body as Record<string, unknown>).shippable_templates
-                : null,
-            evidence_document_templates:
-              typeof (body as Record<string, unknown>).evidence_document_templates === 'object' &&
-              (body as Record<string, unknown>).evidence_document_templates !== null
-                ? (body as Record<string, unknown>).evidence_document_templates
-                : null,
-          }
-        : {
-            shippable_templates: null,
-            evidence_document_templates: null,
-          };
+    const asObject = (value: unknown) =>
+      typeof value === 'object' && value !== null ? value : null;
+    const bodyRecord =
+      body && typeof body === 'object' ? (body as Record<string, unknown>) : null;
+    // Prefer delivery_templates; dual-read historical shippable_templates.
+    const deliveryTemplates =
+      asObject(bodyRecord?.delivery_templates) ||
+      asObject(bodyRecord?.shippable_templates);
+    const evidenceDocumentTemplates = asObject(bodyRecord?.evidence_document_templates);
 
-    if (!payload.shippable_templates || !payload.evidence_document_templates) {
+    if (!deliveryTemplates || !evidenceDocumentTemplates) {
       return createJsonResponse({ error: 'Invalid template preferences format' }, 400);
     }
 
     const { error: upsertError } = await supabaseAdmin.from('user_template_preferences').upsert(
       {
         user_id: user.id,
-        deliverable_templates: payload.shippable_templates,
-        ai_document_templates: payload.evidence_document_templates,
+        deliverable_templates: deliveryTemplates,
+        ai_document_templates: evidenceDocumentTemplates,
         updated_at: new Date().toISOString(),
       },
       { onConflict: 'user_id' },
