@@ -23,7 +23,8 @@
     "qa:deposit:local": "node --import tsx src/dev/run-local-deposit-pipeline.ts",
     "qa:read:debug-first-llm": "node --import tsx src/dev/run-local-read-pipeline-debug.ts",
     "materialize-runners": "ts-node --transpile-only src/dev/materialize-runners.ts",
-    "type-check": "pnpm run typecheck"
+    "type-check": "pnpm run typecheck",
+    "qa:deposit:debug-first-llm": "node --import tsx src/dev/run-local-deposit-pipeline-debug.ts"
   },
   "dependencies": {
     "@vercel/sandbox": "2.6.0",

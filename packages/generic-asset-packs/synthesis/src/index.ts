@@ -13,10 +13,7 @@
 export * from './types';
 export * from './measurement-catalogs';
 export * from './synthesis-asset-pack';
-export {
-  factorySynthesizeAssetPacksAbsolutesMeasureAgent,
-  factorySynthesizeAssetPacksAbsolutesMeasureAgent,
-} from './synthesize-asset-packs-absolutes-measure-agent';
+export { factorySynthesizeAssetPacksAbsolutesMeasureAgent } from './synthesize-asset-packs-absolutes-measure-agent';
 
 export type { AssetPackPatchArtifact, BuildAssetPackPatchArtifactInput } from './asset-pack-patch-artifact';
 export {
