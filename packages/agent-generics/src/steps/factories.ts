@@ -47,10 +47,21 @@ import { PlanStepOutputSchema } from './step-schemas';
 import { applyStepToolSurface } from '../execution';
 import { applyComposedCallSiteNodePrompt } from '@bitcode/execution-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_PTRR_STEP_PLAN_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_plan_name_corestatement';
+import { PROMPTPART_GENERIC_PTRR_STEP_TRY_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_try_name_corestatement';
+import { PROMPTPART_GENERIC_PTRR_STEP_RETRY_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_retry_name_corestatement';
+import { PROMPTPART_GENERIC_PTRR_STEP_REFINE_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_ptrr_step_refine_name_corestatement';
 
 // StepExecutor is just an Executor - no special type needed
 type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+
+const PTRR_STEP_NAME: Record<string, PromptPart> = {
+  plan: PROMPTPART_GENERIC_PTRR_STEP_PLAN_NAME_CORESTATEMENT,
+  try: PROMPTPART_GENERIC_PTRR_STEP_TRY_NAME_CORESTATEMENT,
+  retry: PROMPTPART_GENERIC_PTRR_STEP_RETRY_NAME_CORESTATEMENT,
+  refine: PROMPTPART_GENERIC_PTRR_STEP_REFINE_NAME_CORESTATEMENT,
+};
 
 /** Attach step purpose as call_site:step block (one node → one wire block). */
 function attachStepCallSitePrompt(stepExec: any, stepName: string, promptCarrier: any): void {
@@ -63,8 +74,21 @@ function attachStepCallSitePrompt(stepExec: any, stepName: string, promptCarrier
     /* ignore */
   }
   const composed = new Prompt();
-  composed.set('purpose', typeof part === 'string' ? createPromptPart(String(part)) : part);
-  composed.set('name', createPromptPart(`PTRR step: ${stepName}`));
+  // Purpose from product/base step Prompt (raw_promptparts) or its format.
+  if (part != null && typeof part !== 'string') {
+    composed.set('purpose', part as PromptPart);
+  } else if (promptCarrier && typeof promptCarrier.format === 'function') {
+    try {
+      const { createPromptPartFromPrompt } = require('@bitcode/prompts/parts/PromptPart');
+      composed.set('purpose', createPromptPartFromPrompt(promptCarrier));
+    } catch {
+      /* ignore */
+    }
+  }
+  const namePart =
+    PTRR_STEP_NAME[String(stepName).toLowerCase()] ??
+    PROMPTPART_GENERIC_PTRR_STEP_PLAN_NAME_CORESTATEMENT;
+  composed.set('name', namePart);
   applyComposedCallSiteNodePrompt(stepExec.prompt, composed, `step:${stepName}`);
 }
 

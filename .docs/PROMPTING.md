@@ -21,8 +21,16 @@ on product semantics.
 
 **Do not** bury generic hierarchy walk/compose under `agent-generics` only.
 
-**Do not** keep long-lived prose SSOT as `createPromptPart('…')` outside
-`raw_promptparts/` (dynamic name crumbs only when unavoidable).
+### PromptPart residence law (absolute)
+
+| Rule | |
+| --- | --- |
+| **Authored strings** | Written **only** under `packages/prompts/src/raw_promptparts/{generic,specific}/` |
+| **Naming** | `promptpart_[generic\|specific]_[domain]_[promptclass]_[semantic]_[position].ts` |
+| **Everywhere else** | **Import** `PROMPTPART_*` and assemble into `Prompt` registries |
+| **Forbidden** | `createPromptPart('prose…')` outside `raw_promptparts` (any package, agent, pipeline) |
+| **`createPromptPart`** | Branding helper for raw_promptparts files only |
+| **`createPromptPartFromPrompt`** | Brand a *composed* `Prompt.format()` result as one PromptPart for call-site nodes (no new prose) |
 
 ---
 

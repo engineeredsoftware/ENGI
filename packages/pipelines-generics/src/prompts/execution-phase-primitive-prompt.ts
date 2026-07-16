@@ -1,28 +1,41 @@
 /**
  * Primitive phase Prompt — fully generic (any pipeline phase).
- * Assembled from raw_promptparts; phase name is a path detail, not a new part SSOT.
+ * Assembled from raw_promptparts only (no inline PromptPart prose).
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PROMPTPART_GENERIC_PHASE_SYSTEM_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_identity_corestatement';
 import { PROMPTPART_GENERIC_PHASE_SYSTEM_CONTRACT_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_contract_detailcontent';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_SETUP_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_activename_setup_detailcontent';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_DISCOVERY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_activename_discovery_detailcontent';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_IMPLEMENTATION_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_activename_implementation_detailcontent';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_VALIDATION_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_activename_validation_detailcontent';
+import { PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_FINISH_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_phase_system_activename_finish_detailcontent';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+
+const ACTIVE_NAME: Record<string, PromptPart> = {
+  setup: PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_SETUP_DETAILCONTENT,
+  discovery: PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_DISCOVERY_DETAILCONTENT,
+  implementation: PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_IMPLEMENTATION_DETAILCONTENT,
+  validation: PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_VALIDATION_DETAILCONTENT,
+  finish: PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_FINISH_DETAILCONTENT,
+};
 
 export function factoryExecutionPhasePrimitivePrompt(phaseName: string): Prompt {
   const p = new Prompt();
   p.set('identity', PROMPTPART_GENERIC_PHASE_SYSTEM_IDENTITY_CORESTATEMENT);
-  p.set(
-    'name',
-    createPromptPart(
-      `Active phase name: "${phaseName}". Coordinate only this phase's objective.`,
-    ),
-  );
+  const active =
+    ACTIVE_NAME[String(phaseName).toLowerCase()] ??
+    PROMPTPART_GENERIC_PHASE_SYSTEM_ACTIVENAME_SETUP_DETAILCONTENT;
+  p.set('name', active);
   p.set('contract', PROMPTPART_GENERIC_PHASE_SYSTEM_CONTRACT_DETAILCONTENT);
   return p;
 }
 
 export const EXECUTION_PHASE_PRIMITIVE_SETUP_PROMPT = factoryExecutionPhasePrimitivePrompt('setup');
 export const EXECUTION_PHASE_PRIMITIVE_DISCOVERY_PROMPT = factoryExecutionPhasePrimitivePrompt('discovery');
-export const EXECUTION_PHASE_PRIMITIVE_IMPLEMENTATION_PROMPT = factoryExecutionPhasePrimitivePrompt('implementation');
-export const EXECUTION_PHASE_PRIMITIVE_VALIDATION_PROMPT = factoryExecutionPhasePrimitivePrompt('validation');
+export const EXECUTION_PHASE_PRIMITIVE_IMPLEMENTATION_PROMPT =
+  factoryExecutionPhasePrimitivePrompt('implementation');
+export const EXECUTION_PHASE_PRIMITIVE_VALIDATION_PROMPT =
+  factoryExecutionPhasePrimitivePrompt('validation');
 export const EXECUTION_PHASE_PRIMITIVE_FINISH_PROMPT = factoryExecutionPhasePrimitivePrompt('finish');

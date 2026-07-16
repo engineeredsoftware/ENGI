@@ -10,6 +10,8 @@
  */
 
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { createPromptPartFromPrompt } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_EXECUTION_CALLSITE_INCLUDESEXECUTION_MARKER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_execution_callsite_includesexecution_marker';
 import type { Prompt } from '@bitcode/prompts/prompt';
 import type { ExecutionPrompt } from './ExecutionPrompt';
 
@@ -119,12 +121,15 @@ export function applyComposedCallSiteNodePrompt(
     text = parts.join('\n\n');
   }
   if (!text) return;
-  const { createPromptPart } = require('@bitcode/prompts/parts/PromptPart') as typeof import('@bitcode/prompts/parts/PromptPart');
-  target.setSpecificExecution(`call_site:${kind}`, createPromptPart(text));
+  // Brand composed text only (raw parts already live on the Prompt).
+  target.setSpecificExecution(
+    `call_site:${kind}`,
+    createPromptPartFromPrompt(composed),
+  );
   if (options?.includesExecution) {
     target.setSpecificExecution(
       'call_site:includes_execution',
-      createPromptPart('1'),
+      PROMPTPART_GENERIC_EXECUTION_CALLSITE_INCLUDESEXECUTION_MARKER,
     );
   }
 }

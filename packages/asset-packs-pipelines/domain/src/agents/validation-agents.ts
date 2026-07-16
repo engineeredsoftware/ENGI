@@ -8,24 +8,34 @@
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import {
   createAssetPackValidationReadyToFinishAgentPrompt,
   AssetPackValidationReadyToFinishAgentPromptSteps,
 } from './prompts/asset-pack-validation-ready-to-finish-prompt';
 import { storeCrossPhaseArtifact } from '../synthesize-asset-packs';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_PLAN_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_ptrr_plan_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_TRY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_ptrr_try_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_REFINE_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_ptrr_refine_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_RETRY_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_ptrr_retry_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_LASTVALIDATION_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_lastvalidation_identity_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_LASTVALIDATION_REQUIREMENTS_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_lastvalidation_requirements_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_DISCOVERY_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_discovery_identity_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_DISCOVERY_REQUIREMENTS_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_discovery_requirements_detailcontent';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_SYNTHESIS_IDENTITY_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_synthesis_identity_corestatement';
+import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_SYNTHESIS_REQUIREMENTS_DETAILCONTENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackvalidation_synthesis_requirements_detailcontent';
 
 const ValidateIssuesOutputSchema = z.object({ issues: z.array(z.string()) });
 
-function createValidationPrompt(identity: string, requirement: string): Prompt {
+function createValidationPrompt(identity: PromptPart, requirement: PromptPart): Prompt {
   const prompt = new Prompt();
-  prompt.set('agent:identity', createPromptPart(identity));
-  prompt.set('agent:requirements', createPromptPart(requirement));
-  prompt.set('ptrr:plan', createPromptPart('Plan validation against Read, source evidence, AssetPack content, and proof obligations.'));
-  prompt.set('ptrr:try', createPromptPart('Return concrete issues only when evidence shows AssetPack incompleteness or unsafe Finish readiness.'));
-  prompt.set('ptrr:refine', createPromptPart('Refine findings to remove delivery-mechanism assumptions and preserve proof traceability.'));
-  prompt.set('ptrr:retry', createPromptPart('Recover by validating the available AssetPack state and explicitly naming missing evidence.'));
+  prompt.set('agent:identity', identity);
+  prompt.set('agent:requirements', requirement);
+  prompt.set('ptrr:plan', PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_PLAN_DETAILCONTENT);
+  prompt.set('ptrr:try', PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_TRY_DETAILCONTENT);
+  prompt.set('ptrr:refine', PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_REFINE_DETAILCONTENT);
+  prompt.set('ptrr:retry', PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_PTRR_RETRY_DETAILCONTENT);
   prompt.require('agent:identity');
   prompt.require('agent:requirements');
   prompt.requirePattern('ptrr:*');
@@ -33,18 +43,18 @@ function createValidationPrompt(identity: string, requirement: string): Prompt {
 }
 
 const lastValidationPrompt = createValidationPrompt(
-  'You validate the prior AssetPack validation iteration for regressions or unresolved proof gaps.',
-  'Treat prior validation as evidence over the same Read-to-AssetPack corridor, not as a separate delivery-template pipeline.'
+  PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_LASTVALIDATION_IDENTITY_CORESTATEMENT,
+  PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_LASTVALIDATION_REQUIREMENTS_DETAILCONTENT,
 );
 
 const discoveryValidationPrompt = createValidationPrompt(
-  'You validate discovery evidence for the measured Bitcode Read and AssetPack synthesis plan.',
-  'Discovery is sufficient only when it explains Read satisfaction, source evidence, risk, and proof requirements for AssetPack synthesis.'
+  PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_DISCOVERY_IDENTITY_CORESTATEMENT,
+  PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_DISCOVERY_REQUIREMENTS_DETAILCONTENT,
 );
 
 const assetPackValidationPrompt = createValidationPrompt(
-  'You validate synthesized AssetPack artifacts before Finish stores evidence or invokes delivery mechanisms.',
-  'Validate one canonical AssetPack synthesis corridor. Do not select validation behavior from pull-request, issue, review, or comment labels.'
+  PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_SYNTHESIS_IDENTITY_CORESTATEMENT,
+  PROMPTPART_SPECIFIC_AGENT_ASSETPACKVALIDATION_SYNTHESIS_REQUIREMENTS_DETAILCONTENT,
 );
 
 export const AssetPackValidationPhaseValidateLastValidationAgent = factoryPTRRAgent<

@@ -1,15 +1,15 @@
 /**
  * ExecutionPipelinePrompt - Primitive Prompt class for pipeline call-site authoring.
  *
- * Content lives in raw_promptparts; this class (and product subclasses)
- * assemble hierarchical paths under ExecutionPrompt roots when attached.
+ * LAW: Callers pass PromptPart values imported from raw_promptparts — never
+ * ad-hoc strings. setPipeline/setPhase/setAgent accept PromptPart only.
  *
  * Call-site law: see .docs/PROMPTING.md
- *   Pipeline composed = Execution ⊕ Pipeline ⊕ base ⊕ specific (once)
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart, type PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_SPECIFIC_PIPELINE_SYNTHESIZEREADSASSETPACKS_NAME_CORESTATEMENT } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_pipeline_synthesizereadsassetpacks_name_corestatement';
 
 /**
  * Base Pipeline Prompt registry.
@@ -24,24 +24,26 @@ export class ExecutionPipelinePrompt extends Prompt {
     this.require('specific_execution');
   }
 
-  setPipeline(path: string, prompt: PromptPart | string): this {
-    const part = typeof prompt === 'string' ? createPromptPart(prompt) : prompt;
-    return this.set(`specific_execution:pipeline:${path}`, part);
+  setPipeline(path: string, prompt: PromptPart): this {
+    return this.set(`specific_execution:pipeline:${path}`, prompt);
   }
 
-  setPhase(path: string, prompt: PromptPart | string): this {
-    const part = typeof prompt === 'string' ? createPromptPart(prompt) : prompt;
-    return this.set(`specific_execution:phase:${path}`, part);
+  setPhase(path: string, prompt: PromptPart): this {
+    return this.set(`specific_execution:phase:${path}`, prompt);
   }
 
-  setAgent(path: string, prompt: PromptPart | string): this {
-    const part = typeof prompt === 'string' ? createPromptPart(prompt) : prompt;
-    return this.set(`specific_execution:agent:${path}`, part);
+  setAgent(path: string, prompt: PromptPart): this {
+    return this.set(`specific_execution:agent:${path}`, prompt);
   }
 
-  static create(name: string): ExecutionPipelinePrompt {
+  /**
+   * Factory: seed pipeline name with a raw PromptPart (not free-form string).
+   * Default uses read synthesize name only as a convenience demo path;
+   * product code should pass its own name part.
+   */
+  static create(namePart: PromptPart = PROMPTPART_SPECIFIC_PIPELINE_SYNTHESIZEREADSASSETPACKS_NAME_CORESTATEMENT): ExecutionPipelinePrompt {
     const prompt = new ExecutionPipelinePrompt();
-    prompt.setPipeline('name', name);
+    prompt.setPipeline('name', namePart);
     return prompt;
   }
 }

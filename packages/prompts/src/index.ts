@@ -24,6 +24,7 @@
 export type { PromptPart } from './parts/PromptPart';
 export {
   createPromptPart,
+  createPromptPartFromPrompt,
   isPromptPart,
   EMPTY_PROMPT_PART
 } from './parts/PromptPart';
