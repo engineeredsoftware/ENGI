@@ -16,7 +16,7 @@
     },
     "./parts/PromptPart": {
       "types": "./src/parts/PromptPart.ts",
-      "default": "./src/parts/PromptPart.js"
+      "default": "./src/parts/PromptPart.ts"
     },
     "./execution/PromptExecution": {
       "types": "./src/execution/PromptExecution.ts",
