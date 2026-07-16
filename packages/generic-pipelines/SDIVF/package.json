@@ -7,7 +7,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./sdivf-factory": "./src/sdivf-factory.ts",
-    "./sdivf-phases": "./src/sdivf-phases.ts"
+    "./sdivf-phases": "./src/sdivf-phases.ts",
+    "./prompts/sdivf-pipeline-prompt": "./src/prompts/sdivf-pipeline-prompt.ts",
+    "./prompts/sdivf-phase-prompts": "./src/prompts/sdivf-phase-prompts.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",
@@ -17,7 +19,8 @@
   },
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
-    "@bitcode/pipelines-generics": "workspace:*"
+    "@bitcode/pipelines-generics": "workspace:*",
+    "@bitcode/prompts": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

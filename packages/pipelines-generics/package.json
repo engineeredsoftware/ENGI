@@ -24,9 +24,14 @@
     "typescript": "^5.0.0"
   },
   "exports": {
+    ".": "./src/index.ts",
     "./pipeline-factory": "./src/pipeline-factory.ts",
     "./phases/phase-factory": "./src/phases/phase-factory.ts",
     "./execution/pipeline-types": "./src/execution/pipeline-types.ts",
-    "./execution/resume": "./src/execution/resume.ts"
+    "./execution/resume": "./src/execution/resume.ts",
+    "./prompts/attach-hierarchy-prompts": "./src/prompts/attach-hierarchy-prompts.ts",
+    "./prompts/compose-execution-prompt": "./src/prompts/compose-execution-prompt.ts",
+    "./prompts/primitive-pipeline-prompt": "./src/prompts/primitive-pipeline-prompt.ts",
+    "./prompts/primitive-phase-prompt": "./src/prompts/primitive-phase-prompt.ts"
   }
 }

@@ -12,6 +12,8 @@
 
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { registerExecution } from '@bitcode/execution-generics/execution-registry';
+import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { PipelinePromptRegistry } from './PipelinePromptRegistry';
 import { PipelineToolRegistry } from './PipelineToolRegistry';
 import { PipelineLLMRegistry } from './PipelineLLMRegistry';
@@ -74,6 +76,8 @@ export function inferPipelineExecutionLineage(name: string): PipelineExecutionLi
  * - agents (for agent registration and dynamic selection)
  */
 export class PipelineExecution extends Execution {
+  /** Hierarchical LLM system prompt parts for this pipeline node. */
+  readonly prompt: ExecutionPrompt;
   readonly prompts: PipelinePromptRegistry;
   readonly tools: PipelineToolRegistry;
   readonly llms: PipelineLLMRegistry;
@@ -82,6 +86,10 @@ export class PipelineExecution extends Execution {
 
   constructor(id: string, parent?: Execution, lineage?: PipelineExecutionLineage) {
     super(id, parent);
+
+    this.prompt = new ExecutionPrompt();
+    this.prompt.set('generic_system', ' ' as PromptPart);
+    this.prompt.set('specific_execution', ' ' as PromptPart);
 
     // Initialize all 4 registries with parent chain awareness
     this.prompts = new PipelinePromptRegistry(this);

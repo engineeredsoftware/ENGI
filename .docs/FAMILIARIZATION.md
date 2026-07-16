@@ -402,7 +402,7 @@ Default LLM (V48): Anthropic `claude-haiku-4-5` (`BITCODE_LLM_PROVIDER=anthropic
 Inference is **non-configurable** inside the pipeline (mock at the provider
 boundary in tests only).
 
-### 3.5 Prompts
+### 3.5 Prompts (authoring + call-site)
 
 ```
 @bitcode/registry Hierarchical typed registry primitive
@@ -417,6 +417,36 @@ boundary in tests only).
 **Rule:** PromptPart *implementations* live in `packages/prompts` (or are
 composed from parts registered there). Agents assemble `Prompt` registries;
 they do not scatter ad-hoc mega-strings across the app without the registry.
+
+**Authoring layers (content):** primitive → base → specific on each node kind.
+
+| Layer | Where | Example |
+| --- | --- | --- |
+| Primitive | `pipelines-generics`, `agent-generics` | What a pipeline/phase/generation *is* |
+| Base | `generic-pipelines-sdivf`, `generic-agents/*` | SDIVF pattern; VCS agent |
+| Specific | `asset-packs-pipelines/*` | synthesize-reads; clone agent |
+
+**Runtime nodes (call-site system string):**
+
+```
+PipelineExecution.prompt     ← pipeline:primitive|base|specific
+  └─ PhaseDelegation.prompt  ← phase:primitive|base|specific:{name}
+       └─ AgentExecution.prompt
+            └─ StepExecution.prompt   (+ step tool allowlist)
+                 └─ FailsafeGenerationExecution.prompt
+                      └─ ThinkingsGenerationExecution.prompt
+```
+
+`buildHierarchicalPrompt(leaf)` walks root→leaf and joins each node’s
+`ExecutionPrompt` (role-filtered for active failsafe + thinking).
+
+Attach helpers: `attachPipelinePromptHierarchy` /
+`attachPhasePromptHierarchy` in `@bitcode/pipelines-generics`. Full law:
+`packages/pipelines-generics/PROMPT_CALL_SITE.md`.
+
+**Tools (parallel surface):** catalog at pipeline/agent; **step allowlist**
+via `applyStepToolSurface` (Plan/Refine default `[]`; Try/Retry default agent
+catalog). See `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
 ### 3.6 Mental model one-liner
 
@@ -830,9 +860,11 @@ as if they were source of product law.
 
 1. `execution-generics` Execution store
 2. `agent-generics` factoryPTRRAgent + Failsafe/Thinkings generations
-3. `prompts` Prompt registry + raw_promptparts
-4. `generic-llms` provider
-5. Stream path: pipelines-generics streaming → source-safe filter → uapi log
+3. Prompt call-site hierarchy: `packages/pipelines-generics/PROMPT_CALL_SITE.md`
+   (pipeline → phase → agent → step → failsafe → thinking; primitive/base/specific)
+4. `prompts` Prompt registry + raw_promptparts
+5. `generic-llms` provider
+6. Stream path: pipelines-generics streaming → source-safe filter → uapi log
 
 ### 9.3 “How does /packs show ledger state?”
 

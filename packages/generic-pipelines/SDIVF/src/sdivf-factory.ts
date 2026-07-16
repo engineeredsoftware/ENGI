@@ -21,8 +21,17 @@ import type {
   PhaseDelegator,
   PipelineExecution,
 } from '@bitcode/pipelines-generics/execution/pipeline-types';
-import { factoryPipelineExecution } from '@bitcode/pipelines-generics/execution/pipeline-types';
+import {
+  factoryPipelineExecution,
+  factoryPhaseDelegation,
+} from '@bitcode/pipelines-generics/execution/pipeline-types';
 import { descendExecution } from '@bitcode/pipelines-generics/execution/resume';
+import {
+  attachPipelinePromptHierarchy,
+  attachPhasePromptHierarchy,
+} from '@bitcode/pipelines-generics/prompts/attach-hierarchy-prompts';
+import { SDIVF_PIPELINE_PROMPT } from './prompts/sdivf-pipeline-prompt';
+import { sdivfPhasePromptFor } from './prompts/sdivf-phase-prompts';
 
 /**
  * SDIVF base Pipeline (hierarchy name: SDIVF + Pipeline).
@@ -63,6 +72,17 @@ interface SDIVBaseConfig<TInput = any> {
   maxIterations?: number;
   iterationStrategy?: 'sequential' | 'adaptive';
   initialize?: (execution: PipelineExecution, input: TInput) => void | Promise<void>;
+  /**
+   * Product-specific pipeline Prompt layer (namespace pipeline:specific).
+   * Primitive + SDIVF base are attached automatically.
+   */
+  pipelinePromptSpecific?: any;
+  /**
+   * Optional product-specific phase Prompt layers keyed by phase name.
+   */
+  phasePromptSpecific?: Partial<
+    Record<'setup' | 'discovery' | 'implementation' | 'validation' | 'finish', any>
+  >;
 }
 
 export interface SDIVFPipelineConfig<TInput = any, TOutput = any> extends SDIVBaseConfig<TInput> {
@@ -114,15 +134,31 @@ async function runObservedPhase<TIn, TOut>(
   input: TIn,
   execution: PipelineExecution,
   delegate: PhaseDelegator<TIn, TOut>,
-  iteration?: number
+  iteration?: number,
+  phasePromptSpecific?: any,
 ): Promise<TOut> {
-  storePhaseStart(execution, phase, input, iteration);
+  // Phase EE node carries phase prompt layers; agents run under it so
+  // buildHierarchicalPrompt includes pipeline + phase + agent + …
+  const phaseExec = factoryPhaseDelegation(phase, execution) as any;
   try {
-    const output = await delegate(input, execution);
+    attachPhasePromptHierarchy(phaseExec, phase, {
+      base: sdivfPhasePromptFor(phase),
+      specific: phasePromptSpecific ?? null,
+    });
+  } catch {
+    /* prompts optional on constrained hosts */
+  }
+  // Telemetry on pipeline root (existing consumers) + phase node
+  storePhaseStart(execution, phase, input, iteration);
+  storePhaseStart(phaseExec, phase, input, iteration);
+  try {
+    const output = await delegate(input, phaseExec);
     storePhaseComplete(execution, phase, output, iteration);
+    storePhaseComplete(phaseExec, phase, output, iteration);
     return output;
   } catch (error) {
     storePhaseComplete(execution, phase, null, iteration, error);
+    storePhaseComplete(phaseExec, phase, null, iteration, error);
     throw error;
   }
 }
@@ -132,15 +168,28 @@ async function runObservedExecutorPhase<TIn, TOut>(
   input: TIn,
   execution: Execution,
   executor: Executor<TIn, TOut>,
-  iteration?: number
+  iteration?: number,
+  phasePromptSpecific?: any,
 ): Promise<TOut> {
-  storePhaseStart(execution, phase, input, iteration);
+  const phaseExec = factoryPhaseDelegation(phase, execution) as any;
   try {
-    const output = await executor(input, execution);
+    attachPhasePromptHierarchy(phaseExec, phase, {
+      base: sdivfPhasePromptFor(phase),
+      specific: phasePromptSpecific ?? null,
+    });
+  } catch {
+    /* ignore */
+  }
+  storePhaseStart(execution, phase, input, iteration);
+  storePhaseStart(phaseExec, phase, input, iteration);
+  try {
+    const output = await executor(input, phaseExec);
     storePhaseComplete(execution, phase, output, iteration);
+    storePhaseComplete(phaseExec, phase, output, iteration);
     return output;
   } catch (error) {
     storePhaseComplete(execution, phase, null, iteration, error);
+    storePhaseComplete(phaseExec, phase, null, iteration, error);
     throw error;
   }
 }
@@ -234,6 +283,16 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     if (typeof config.initialize === 'function') {
       await config.initialize(pipelineExec, input);
     }
+
+    // Pipeline prompt hierarchy: primitive → SDIVF base → product specific
+    try {
+      attachPipelinePromptHierarchy(pipelineExec, {
+        base: SDIVF_PIPELINE_PROMPT,
+        specific: config.pipelinePromptSpecific ?? null,
+      });
+    } catch {
+      /* ignore */
+    }
     
     // Store SDIVF metadata
     pipelineExec.store('pipeline', 'pattern', 'SDIVF');
@@ -241,9 +300,18 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     pipelineExec.store('pipeline', 'name', name);
     pipelineExec.store('pipeline', 'startTime', Date.now());
     pipelineExec.store('pipeline', 'maxIterations', maxIterations);
+
+    const phaseSpecific = config.phasePromptSpecific || {};
     
     // ========== SETUP PHASE ==========
-    let result = await runObservedPhase('setup', input, pipelineExec, config.setup);
+    let result = await runObservedPhase(
+      'setup',
+      input,
+      pipelineExec,
+      config.setup,
+      undefined,
+      phaseSpecific.setup,
+    );
     
     // Check if we should iterate (optional)
     if (config.readyToIterate) {
@@ -263,13 +331,34 @@ export function factorySDIVFPipeline<TInput, TOutput>(
       pipelineExec.store('pipeline', 'currentIteration', iterations);
       
       // Discovery Phase
-      result = await runObservedPhase('discovery', result, pipelineExec, config.discovery, iterations);
+      result = await runObservedPhase(
+        'discovery',
+        result,
+        pipelineExec,
+        config.discovery,
+        iterations,
+        phaseSpecific.discovery,
+      );
       
       // Implementation Phase
-      result = await runObservedPhase('implementation', result, pipelineExec, config.implementation, iterations);
+      result = await runObservedPhase(
+        'implementation',
+        result,
+        pipelineExec,
+        config.implementation,
+        iterations,
+        phaseSpecific.implementation,
+      );
       
       // Validation Phase
-      result = await runObservedPhase('validation', result, pipelineExec, config.validation, iterations);
+      result = await runObservedPhase(
+        'validation',
+        result,
+        pipelineExec,
+        config.validation,
+        iterations,
+        phaseSpecific.validation,
+      );
       
       // Check if ready to finish
       if (config.readyToFinish) {
@@ -309,7 +398,14 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     
     // ========== FINISH PHASE ==========
     pipelineExec.store('finish', 'responsibility', 'save-results-and-close-run');
-    const output = await runObservedPhase('finish', result, pipelineExec, config.finish);
+    const output = await runObservedPhase(
+      'finish',
+      result,
+      pipelineExec,
+      config.finish,
+      undefined,
+      phaseSpecific.finish,
+    );
     
     // Store completion metadata
     pipelineExec.store('pipeline', 'endTime', Date.now());
@@ -353,6 +449,12 @@ export interface SDIVFPipelineExecutorConfig<TInput = any, TOutput = any> {
   // Runs at the start of each DIV loop iteration (before Discovery)
   iterationPreprocess?: Executor<any, any>;
   postprocess?: Executor<TOutput, TOutput>;
+  /** Product-specific pipeline Prompt (namespace pipeline:specific). */
+  pipelinePromptSpecific?: any;
+  /** Product-specific phase Prompts by phase name. */
+  phasePromptSpecific?: Partial<
+    Record<'setup' | 'discovery' | 'implementation' | 'validation' | 'finish', any>
+  >;
 }
 
 /**
@@ -401,8 +503,24 @@ export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
   const validation = cfg.validation ?? (async (x) => x);
   const finish = cfg.finish ?? (async (x) => x as TOutput);
 
+  const phaseSpecific = cfg.phasePromptSpecific || {};
+
   // Compose complete pipeline
-  const pipelineExec: Executor<TInput, TOutput> = sequential<any>(
+  const pipelineExecutor: Executor<TInput, TOutput> = sequential<any>(
+    // Attach pipeline prompt hierarchy once on the root EE
+    async (input, exec) => {
+      try {
+        attachPipelinePromptHierarchy(exec as any, {
+          base: SDIVF_PIPELINE_PROMPT,
+          specific: cfg.pipelinePromptSpecific ?? null,
+        });
+        (exec as any).store?.('pipeline', 'pattern', 'SDIVF');
+        (exec as any).store?.('pipeline', 'name', name);
+      } catch {
+        /* ignore */
+      }
+      return input;
+    },
     preprocess as any,
     // Optional resume-at marker for visibility before setup runs
     async (input, exec) => {
@@ -416,7 +534,14 @@ export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
           } as any);
         }
       } catch {}
-      return runObservedExecutorPhase('setup', input, exec as Execution, cfg.setup as any);
+      return runObservedExecutorPhase(
+        'setup',
+        input,
+        exec as Execution,
+        cfg.setup as any,
+        undefined,
+        phaseSpecific.setup,
+      );
     },
     // Repeat DIV sequence up to max iterations, exiting early once Validation
     // signals ready-to-finish (iterate-vs-complete gate).
@@ -431,9 +556,30 @@ export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
         if (cfg.iterationPreprocess) {
           try { current = await cfg.iterationPreprocess(current, exec); } catch {}
         }
-        current = await runObservedExecutorPhase('discovery', current, exec as Execution, discovery as any, iteration);
-        current = await runObservedExecutorPhase('implementation', current, exec as Execution, implementation as any, iteration);
-        current = await runObservedExecutorPhase('validation', current, exec as Execution, validation as any, iteration);
+        current = await runObservedExecutorPhase(
+          'discovery',
+          current,
+          exec as Execution,
+          discovery as any,
+          iteration,
+          phaseSpecific.discovery,
+        );
+        current = await runObservedExecutorPhase(
+          'implementation',
+          current,
+          exec as Execution,
+          implementation as any,
+          iteration,
+          phaseSpecific.implementation,
+        );
+        current = await runObservedExecutorPhase(
+          'validation',
+          current,
+          exec as Execution,
+          validation as any,
+          iteration,
+          phaseSpecific.validation,
+        );
         // Iterate-vs-complete gate: stop looping the moment validation is ready.
         validationPassed = cfg.readyToFinish
           ? (await cfg.readyToFinish(current, exec)) === true
@@ -451,10 +597,18 @@ export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
       } catch {}
       return current;
     },
-    async (input, exec) => runObservedExecutorPhase('finish', input, exec as Execution, finish as any),
+    async (input, exec) =>
+      runObservedExecutorPhase(
+        'finish',
+        input,
+        exec as Execution,
+        finish as any,
+        undefined,
+        phaseSpecific.finish,
+      ),
     postprocess as any
   ) as Executor<TInput, TOutput>;
 
-  return pipelineExec;
+  return pipelineExecutor;
 }
 

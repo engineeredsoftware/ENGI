@@ -9,13 +9,35 @@ import { log } from '@bitcode/logger';
 import { isExecutionDebugEnabled } from './debug';
 import { resolveRegisteredAgent } from './resolve-agent';
 
+function findAgentsRegistry(execution: any): any {
+  let cur: any = execution;
+  while (cur) {
+    if (cur.agents && typeof cur.agents.getAgent === 'function') return cur.agents;
+    cur = cur.parent;
+  }
+  return null;
+}
+
 export function createAgentExecutor(agentName: string): Executor<any, any> {
   return async (input: any, execution: any) => {
     const px = execution as PipelineExecution;
-    const agent = await resolveRegisteredAgent(agentName, px.agents.getAgent(agentName) as any);
-    const phase = String(px.get('phase', 'current') || 'setup');
+    const agents = findAgentsRegistry(execution) || (px as any).agents;
+    const agent = await resolveRegisteredAgent(agentName, agents?.getAgent?.(agentName) as any);
+    const phase = String(
+      px.get?.('phase', 'current') ||
+        (execution as any).findUp?.('phase', 'current') ||
+        'setup',
+    );
     const step = 'try';
-    px.store('agent', 'name', agentName);
+    try {
+      px.store('agent', 'name', agentName);
+    } catch {
+      try {
+        (execution as any).store?.('agent', 'name', agentName);
+      } catch {
+        /* ignore */
+      }
+    }
     px.store('step', 'name', step);
     px.store(`agent:${agentName}`, 'start', {
       phase,

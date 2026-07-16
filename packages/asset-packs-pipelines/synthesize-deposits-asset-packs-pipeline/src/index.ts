@@ -23,6 +23,12 @@ import {
   storeCrossPhaseArtifact,
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
+  ASSET_PACKS_SYNTHESIZE_DEPOSITS_PIPELINE_PROMPT,
+  ASSET_PACKS_SETUP_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_DISCOVERY_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_IMPLEMENTATION_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_VALIDATION_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_FINISH_PHASE_DEPOSIT_PROMPT,
 } from '@bitcode/asset-packs-pipelines-domain';
 
 /** Full hierarchy name: SynthesizeDepositAssetPacks + SDIVF + Pipeline. */
@@ -40,6 +46,14 @@ export function factorySynthesizeDepositAssetPacksSDIVFPipeline(
     validation: depositPhases.validation as any,
     finish: depositPhases.finish as any,
     maxIterations,
+    pipelinePromptSpecific: ASSET_PACKS_SYNTHESIZE_DEPOSITS_PIPELINE_PROMPT,
+    phasePromptSpecific: {
+      setup: ASSET_PACKS_SETUP_PHASE_DEPOSIT_PROMPT,
+      discovery: ASSET_PACKS_DISCOVERY_PHASE_DEPOSIT_PROMPT,
+      implementation: ASSET_PACKS_IMPLEMENTATION_PHASE_DEPOSIT_PROMPT,
+      validation: ASSET_PACKS_VALIDATION_PHASE_DEPOSIT_PROMPT,
+      finish: ASSET_PACKS_FINISH_PHASE_DEPOSIT_PROMPT,
+    },
     postprocess: (async (output: any, execution: Execution) => {
       const normalized = normalizeAssetPackOutput(output, execution as any);
       return buildAssetPackPostprocessedResult(execution as any, normalized);

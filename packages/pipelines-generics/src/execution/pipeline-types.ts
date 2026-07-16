@@ -7,6 +7,8 @@
 
 import type { Executor } from '@bitcode/execution-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
+import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
+import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import {
   PipelineExecution as PipelineExecutionBase,
   type PipelineExecutionLineage,
@@ -32,13 +34,34 @@ export type Pipeline<TInput = any, TOutput = any> =
 export type PhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 
 /**
- * PhaseDelegation - Execution state for phase delegation
- * Tracks which agents were delegated to and their results
- * Just uses base Execution since it gets registries from parent PipelineExecution
+ * PhaseDelegation - Execution state for a phase segment.
+ * Owns an ExecutionPrompt (phase primitive/base/specific layers) and proxies
+ * tools/llms/agents from the parent PipelineExecution.
  */
 export class PhaseDelegation extends Execution {
+  readonly prompt: ExecutionPrompt;
+
   constructor(id: string, parent?: Execution) {
     super(id, parent);
+    this.prompt = new ExecutionPrompt();
+    this.prompt.set('generic_system', ' ' as PromptPart);
+    this.prompt.set('specific_execution', ' ' as PromptPart);
+  }
+
+  get tools(): any {
+    let cur: any = this.parent;
+    while (cur && !('tools' in cur)) cur = cur.parent;
+    return cur?.tools;
+  }
+  get llms(): any {
+    let cur: any = this.parent;
+    while (cur && !('llms' in cur)) cur = cur.parent;
+    return cur?.llms;
+  }
+  get agents(): any {
+    let cur: any = this.parent;
+    while (cur && !('agents' in cur)) cur = cur.parent;
+    return cur?.agents;
   }
 }
 

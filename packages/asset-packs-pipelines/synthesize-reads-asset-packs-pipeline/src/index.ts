@@ -25,6 +25,14 @@ import {
   buildAssetPackPostprocessedResult,
   factoryPreprocessReadOnly,
 } from '@bitcode/asset-packs-pipelines-domain';
+import {
+  ASSET_PACKS_SYNTHESIZE_READS_PIPELINE_PROMPT,
+  ASSET_PACKS_SETUP_PHASE_READ_PROMPT,
+  ASSET_PACKS_DISCOVERY_PHASE_READ_PROMPT,
+  ASSET_PACKS_IMPLEMENTATION_PHASE_READ_PROMPT,
+  ASSET_PACKS_VALIDATION_PHASE_READ_PROMPT,
+  ASSET_PACKS_FINISH_PHASE_READ_PROMPT,
+} from '@bitcode/asset-packs-pipelines-domain';
 
 /** Full hierarchy name: SynthesizeReadAssetPacks + SDIVF + Pipeline. */
 export type SynthesizeReadAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
@@ -41,6 +49,14 @@ export function factorySynthesizeReadAssetPacksSDIVFPipeline(
     validation: readPhases.validation as any,
     finish: readPhases.finish as any,
     maxIterations,
+    pipelinePromptSpecific: ASSET_PACKS_SYNTHESIZE_READS_PIPELINE_PROMPT,
+    phasePromptSpecific: {
+      setup: ASSET_PACKS_SETUP_PHASE_READ_PROMPT,
+      discovery: ASSET_PACKS_DISCOVERY_PHASE_READ_PROMPT,
+      implementation: ASSET_PACKS_IMPLEMENTATION_PHASE_READ_PROMPT,
+      validation: ASSET_PACKS_VALIDATION_PHASE_READ_PROMPT,
+      finish: ASSET_PACKS_FINISH_PHASE_READ_PROMPT,
+    },
     postprocess: (async (output: any, execution: Execution) => {
       const normalized = normalizeAssetPackOutput(output, execution as any);
       return buildAssetPackPostprocessedResult(execution as any, normalized);

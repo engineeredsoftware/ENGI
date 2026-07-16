@@ -72,6 +72,22 @@ export { storeCrossPhaseArtifact } from './synthesize-asset-packs';
 export { initializeAssetPackPipeline } from './preprocess';
 export { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './postprocess';
 
+export {
+  ASSET_PACKS_SYNTHESIZE_PIPELINE_PROMPT,
+  ASSET_PACKS_SYNTHESIZE_READS_PIPELINE_PROMPT,
+  ASSET_PACKS_SYNTHESIZE_DEPOSITS_PIPELINE_PROMPT,
+  ASSET_PACKS_SETUP_PHASE_READ_PROMPT,
+  ASSET_PACKS_DISCOVERY_PHASE_READ_PROMPT,
+  ASSET_PACKS_IMPLEMENTATION_PHASE_READ_PROMPT,
+  ASSET_PACKS_VALIDATION_PHASE_READ_PROMPT,
+  ASSET_PACKS_FINISH_PHASE_READ_PROMPT,
+  ASSET_PACKS_SETUP_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_DISCOVERY_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_IMPLEMENTATION_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_VALIDATION_PHASE_DEPOSIT_PROMPT,
+  ASSET_PACKS_FINISH_PHASE_DEPOSIT_PROMPT,
+} from './prompts/synthesize-asset-packs-pipeline-prompts';
+
 export * from './depositor-earning-supply-intelligence';
 
 // AssetPack hierarchy (prefer these packages directly for new code)

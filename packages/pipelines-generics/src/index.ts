@@ -82,8 +82,26 @@ export {
   type PipelineStreamConfig
 } from './streaming/pipeline-stream-integration';
 
-// Pipeline Prompt (EE)
+// Pipeline Prompt (EE) + hierarchical attach helpers
 export { PipelinePrompt } from './prompts/PipelinePrompt';
+export {
+  applyPromptRegistryToExecutionPrompt,
+  composePromptLayers,
+} from './prompts/compose-execution-prompt';
+export { PRIMITIVE_PIPELINE_PROMPT } from './prompts/primitive-pipeline-prompt';
+export {
+  factoryPrimitivePhasePrompt,
+  PRIMITIVE_PHASE_SETUP_PROMPT,
+  PRIMITIVE_PHASE_DISCOVERY_PROMPT,
+  PRIMITIVE_PHASE_IMPLEMENTATION_PROMPT,
+  PRIMITIVE_PHASE_VALIDATION_PROMPT,
+  PRIMITIVE_PHASE_FINISH_PROMPT,
+} from './prompts/primitive-phase-prompt';
+export {
+  attachPipelinePromptHierarchy,
+  attachPhasePromptHierarchy,
+  resolvePipelinePromptHost,
+} from './prompts/attach-hierarchy-prompts';
 
 // Metrics
 export { computePipelineMetrics } from './execution/Metrics';
