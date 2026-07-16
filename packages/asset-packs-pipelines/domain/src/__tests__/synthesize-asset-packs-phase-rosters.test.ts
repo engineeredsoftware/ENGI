@@ -147,13 +147,13 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
   });
 
   it.each([['deposit'], ['read']])(
-    'finish (mode=%s) registers upload-for-review deliver agent + completion (registerFinishAgentsForType path)',
+    'finish (mode=%s) registers review-upload + completion only (no PR ship; settle owns PR)',
     async (mode) => {
       const registry = fakeRegistry();
-      registerFinishAgentsForType('pull-request', registry, mode);
+      registerFinishAgentsForType('pull-request', registry, mode as any);
 
       expect(Array.from(registry.entries.keys())).toEqual([
-        'finish:deliver-asset-pack-to-destination-agent',
+        'finish:upload-asset-packs-for-review',
         'finish:asset-pack-completion',
       ]);
     },

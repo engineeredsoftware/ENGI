@@ -600,15 +600,9 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
     finish: wrap(async (input, execution) => {
       const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
       if (isTest && !isAssetPackSdivfRuntimeEnabledInTest()) {
-        const pullRequestShippable = { prUrl: 'https://github.com/test/repo/pull/1' };
+        // SDIVF Finish does not open buyer-repo PRs (settle-asset-pack-pipeline ships).
         return {
           success: true,
-          shippable: pullRequestShippable,
-          shippables: {
-            pullRequest: { url: 'https://github.com/test/repo/pull/1' },
-            summary: 'test',
-          },
-          deliveryMechanism: pullRequestShippable,
           artifacts: {
             filesCreated: [],
             filesModified: [],
@@ -618,6 +612,7 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
           },
           metrics: { duration: 0, tokensUsed: 0, measuredBtd: 0, confidence: 1, phases: {} },
           summary: 'test',
+          deliveryMechanism: 'bitcode-review-upload',
         };
       }
       const phases = resolvePhases(input, execution);

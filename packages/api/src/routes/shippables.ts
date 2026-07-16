@@ -1,10 +1,10 @@
 /**
- * AssetPack Shippable API Route Handlers
+ * AssetPack pipeline API route handlers (legacy route name: shippables).
  *
- * Active handler owner for AssetPack pipeline runs with Finish/Delivering
- * semantics. Route adapters re-export these handlers as AssetPack-owned
- * implementation, not as a parallel product surface.
- * All database operations use ORM, all VCS operations use VCS service.
+ * Runs deposit/read **SDIVF synthesis**. Buyer-repo PR shipping is **not**
+ * Finish — it is settle-asset-pack-pipeline after BTC/BTD rights.
+ * Route path retained for wire compatibility; product law is Bitcode Protocol
+ * (Deposit/Read SDIVF → settle → ship-asset-pack-patch-pr).
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -980,7 +980,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           correlationId,
           duration: pipelineDuration,
           success: true,
-          prCreated: !!result?.shippable?.prUrl || !!result?.deliveryMechanism?.prUrl
+          // PR open is settle-only; synthesis success is not gated on prUrl.
+          settledPrUrl: result?.shippable?.prUrl || result?.deliveryMechanism?.prUrl || null,
         });
 
         // Send completion

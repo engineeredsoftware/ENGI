@@ -18,12 +18,8 @@ import { assetPackImageComprehensionTool } from './AssetPackImageComprehensionTo
 import { assetPackPDFComprehensionTool } from './AssetPackPDFComprehensionTool';
 import { assetPackAudioComprehensionTool } from './AssetPackAudioComprehensionTool';
 import { assetPackVideoComprehensionTool } from './AssetPackVideoComprehensionTool';
-// VCS tools used during Finish/Delivering.
-import {
-  createBranchTool,
-  createOrUpdateFileTool,
-  createPullRequestTool,
-} from '@bitcode/generic-tools-vcs';
+// Buyer-repo PR shipping tools live on settle-asset-pack-pipeline only
+// (not SDIVF Finish). Do not reintroduce createPullRequest into synthesis.
 
 // AssetPack tool policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.
@@ -131,14 +127,10 @@ export const VALIDATION_PHASE_TOOLS: Tool[] = [
 ].filter(present);
 
 /**
- * Finish/Delivering tools.
- * Commercial AssetPack delivery emits GitHub pull requests only.
+ * Finish tools (SDIVF). Review upload / store / ledgerize only.
+ * PR shipping is settle-asset-pack-pipeline `ship-asset-pack-patch-pr`.
  */
-export const FINISH_DELIVERY_TOOLS: Tool[] = [
-  createBranchTool,
-  createOrUpdateFileTool,
-  createPullRequestTool,
-].filter(present);
+export const FINISH_PHASE_TOOLS: Tool[] = [].filter(present);
 
 // ==================== AGENT-SPECIFIC TOOL MAPPINGS ====================
 
@@ -206,24 +198,14 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     // Internal Read-measurement computer-use option
     'read-measurement:computer-use-evidence-agent': getComputerUseReadMeasurementTools(),
 
-    // Finish Phase
+    // Finish Phase (SDIVF: store / ledgerize / synthesize-run / review upload).
+    // Buyer-repo PR tools are settle-asset-pack-pipeline only (not Finish).
     'finish:store-artifacts': [],
     'finish:ledgerize': [],
     'finish:finish-synthesize-asset-packs-for-deposit-run': [],
-    'finish:deliver-asset-pack-to-destination-agent': [
-      createBranchTool,
-      createOrUpdateFileTool,
-      createPullRequestTool,
-    ],
+    'finish:finish-synthesize-asset-packs-for-read-run': [],
+    'finish:upload-asset-packs-for-review': [],
     'finish:asset-pack-completion': [],
-    'finish:asset-pack-create-pull-request-delivery-agent': [
-      createBranchTool,
-      createOrUpdateFileTool,
-      createPullRequestTool,
-    ],
-    'finish:asset-pack-gather-metrics-agent': [],
-    'finish:asset-pack-generate-final-response-agent': [],
-    'finish:asset-pack-finalize-delivery-evidence-agent': []
   };
 
   return agentToolMappings[agentName] || [];
@@ -238,7 +220,7 @@ export function getToolsForPhase(phase: string): Tool[] {
     //discovery: DISCOVERY_PHASE_TOOLS,
     //implementation: IMPLEMENTATION_PHASE_TOOLS,
     //validation: VALIDATION_PHASE_TOOLS,
-    finish: FINISH_DELIVERY_TOOLS
+    finish: FINISH_PHASE_TOOLS
   };
 
   return phaseToolMappings[phase] || [];
@@ -262,6 +244,6 @@ export const ALL_ASSET_PACK_TOOLS: Tool[] = [
     ...DISCOVERY_PHASE_TOOLS,
     ...IMPLEMENTATION_PHASE_TOOLS,
     ...VALIDATION_PHASE_TOOLS,
-    ...FINISH_DELIVERY_TOOLS
+    ...FINISH_PHASE_TOOLS
   ])
 ];

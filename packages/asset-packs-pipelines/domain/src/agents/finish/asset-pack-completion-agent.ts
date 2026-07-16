@@ -110,7 +110,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, shippables{pullRequest,summary}, deliveryMechanism{pullRequest,summary}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. Finish stores AssetPack evidence separately from the GitHub pull-request Shippable delivery mechanism.'
+          'Output JSON with keys: assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, shippables{summary}, deliveryMechanism{summary,readiness}, processingStats{time,tokens?,measuredBtd?,feeAsset?,btcFeesPaid?,btcFeeUsdEquivalent?}, repoSnapshot{org,repo,branch,commit}. SDIVF Finish stores AssetPack evidence only; buyer-repo PR shipping is settle-asset-pack-pipeline only.'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -210,13 +210,20 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     }
     const summary = lines.join('\n');
 
+    // PR shipping is settle-only. Finish may only pass through an already-settled
+    // shippable if one was stored on this execution (cross-pipeline handoff).
     let pullRequest: any = null;
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
     try {
-      const prUrl = findStoredExecutionValue(execution, 'finish', 'pullRequestUrl') || '';
-      const prTitle = findStoredExecutionValue(execution, 'finish', 'pullRequestTitle') || (read || 'Pull Request');
-      const prNumber = findStoredExecutionValue(execution, 'finish', 'pullRequestNumber');
-      pullRequest = prUrl ? { url: prUrl, title: prTitle, number: prNumber } : null;
+      const settleShippable =
+        findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') || null;
+      if (settleShippable?.prUrl) {
+        pullRequest = {
+          url: settleShippable.prUrl,
+          title: settleShippable.optionTitle || read || 'AssetPack delivery',
+          number: undefined,
+        };
+      }
     } catch {}
 
     const shippables = {
@@ -225,7 +232,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       summary,
     };
     const writtenAssets = {
-      ...shippables,
+      fileChanges: undefined,
+      summary,
     };
     const implementationArtifacts = findStoredExecutionValue(
       execution,

@@ -21,9 +21,8 @@ describe('AssetPack pipeline - formal Definition of Read acceptance criteria (pe
     };
     const res = await assetPack(input, new Execution('definition-of-read:good'));
     expect(res.success).toBe(true);
-    expect(res.shippable.prUrl).toContain('/pull/');
-    expect(res.shippables.pullRequest.url).toContain('/pull/');
-    expect(res.deliveryMechanism.prUrl).toContain('/pull/');
+    // SDIVF Finish does not open buyer-repo PRs (settle-asset-pack-pipeline ships).
+    expect(res.shippable?.prUrl).toBeUndefined();
   });
 
   it('accepts bad acceptanceCriteria (pipeline still runs; validation agents enforce)', async () => {

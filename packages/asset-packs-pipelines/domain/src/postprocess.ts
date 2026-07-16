@@ -57,12 +57,20 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (execution as any).findUp?.('depository/search', 'result') ||
     (execution as any).get?.('depository/search', 'result');
 
-  // 1) Ensure connected-interface links are populated if available on execution.
+  // PR URLs belong to settle-asset-pack-pipeline shipping, not SDIVF Finish.
+  // Only surface a PR when settle already recorded a shippable (or the result
+  // object was produced by settle). Never invent from finish/* keys.
+  const settleShippable = findStoredExecutionValue(
+    execution,
+    'settle-asset-pack-pipeline',
+    'shippable',
+  ) as { prUrl?: string } | null;
   const prUrl =
+    settleShippable?.prUrl ||
     enhanced.writtenAsset?.prUrl ||
     deliveryMechanism?.prUrl ||
-    (findStoredExecutionValue(execution, 'finish', 'prUrl') as string) ||
-    (findStoredExecutionValue(execution, 'finish', 'pullRequestUrl') as string);
+    enhanced.shippable?.prUrl ||
+    null;
   if (prUrl) {
     enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
     enhanced.shippable = { ...(enhanced.shippable || enhanced.deliveryMechanism || {}), prUrl } as any;

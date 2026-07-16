@@ -303,7 +303,7 @@ export function factorySDIVFPipeline<TInput, TOutput>(
     }
     
     // ========== FINISH PHASE ==========
-    pipelineExec.store('finish', 'responsibility', 'save-results-and-deliver-asset-packs');
+    pipelineExec.store('finish', 'responsibility', 'save-results-and-close-run');
     const output = await runObservedPhase('finish', result, pipelineExec, config.finish);
     
     // Store completion metadata

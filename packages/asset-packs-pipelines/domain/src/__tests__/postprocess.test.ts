@@ -4,11 +4,12 @@ import { Execution } from '@bitcode/execution-generics';
 import { acceptReadNeed, synthesizeReadNeedForPipelineInput } from '../read-need';
 
 describe('normalizeAssetPackOutput', () => {
-  it('backfills prUrl, filesModified, and summary from execution', () => {
+  it('backfills filesModified and summary; PR only from settle shippable, never finish/*', () => {
     const exec = new Execution('pipeline:asset-pack');
-    exec.store('finish', 'pullRequestUrl', 'https://github.com/acme/repo/pull/123');
+    // Legacy finish PR keys must not invent a synthesis shippable.
+    exec.store('finish', 'pullRequestUrl', 'https://github.com/acme/repo/pull/999');
     exec.store('implementation', 'filesChanged', ['a.ts', 'b.ts']);
-    exec.store('pipeline', 'expressedRead', 'Read a repository-backed pull request');
+    exec.store('pipeline', 'expressedRead', 'Read a repository-backed Fit option set');
     exec.store('pipeline', 'writtenAssetType', 'read-satisfaction-asset-pack');
     exec.store('pipeline', 'deliveryMechanismTemplate', 'pull-request');
     exec.store('implementation', 'assetPackSynthesisArtifacts', {
@@ -26,11 +27,10 @@ describe('normalizeAssetPackOutput', () => {
     };
 
     const normalized = normalizeAssetPackOutput(output, exec);
-    expect(normalized.shippable.prUrl).toContain('/pull/123');
-    expect(normalized.deliveryMechanism?.prUrl).toContain('/pull/123');
-    expect(normalized.writtenAsset?.prUrl).toBeUndefined();
+    expect(normalized.shippable?.prUrl).toBeUndefined();
+    expect(normalized.deliveryMechanism?.prUrl).toBeUndefined();
     expect(normalized.artifacts.filesModified).toEqual(['a.ts', 'b.ts']);
-    expect(normalized.read).toBe('Read a repository-backed pull request');
+    expect(normalized.read).toBe('Read a repository-backed Fit option set');
     expect(normalized.writtenAssetType).toBe('read-satisfaction-asset-pack');
     expect(normalized.deliveryMechanismTemplate).toBe('pull-request');
     expect(normalized.assetPackSynthesisArtifacts?.summary).toBe(
@@ -41,6 +41,12 @@ describe('normalizeAssetPackOutput', () => {
     expect(normalized.semanticKind).toBe('asset-pack-written-asset');
     expect(typeof normalized.summary).toBe('string');
     expect(normalized.summary.length).toBeGreaterThan(0);
+
+    exec.store('settle-asset-pack-pipeline', 'shippable', {
+      prUrl: 'https://github.com/acme/repo/pull/123',
+    });
+    const withSettle = normalizeAssetPackOutput(output, exec);
+    expect(withSettle.shippable.prUrl).toContain('/pull/123');
   });
 
   it('builds asset-pack semantic mirrors into the postprocessed result', () => {

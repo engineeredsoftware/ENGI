@@ -137,17 +137,8 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     const { registerDiscoveryAgents } = await import('./phases/discovery');
     registerDiscoveryAgents((execution as any).agents);
   } catch {}
-  // Register design gate agents
-  try {
-    const iterateProductMd = (await import('./agents/design/iterate-product-md-agent')).default;
-    execution.agents.registerAgent('design:iterate-product-md', iterateProductMd as any);
-  } catch {}
-  // Register digest gate agents
-  try {
-    const captureLearnings = (await import('./agents/digest/capture-learnings-agent')).default;
-    execution.agents.registerAgent('digest:capture-learnings', captureLearnings as any);
-  } catch {}
-  // Implementation, validation, and Finish register their canonical AssetPack agents when phases run.
+  // Implementation, validation, and Finish register product SDIVF agents when phases run.
+  // Design/Digest Engi gates are deleted. Buyer-repo PR shipping is settle-only.
 }
 
 export const initializeAssetPack = initializeAssetPackPipeline;

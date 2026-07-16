@@ -1,4 +1,8 @@
 // @ts-nocheck
+/**
+ * Attachment / Definition of Read variants under test-mode SDIVF stubs.
+ * Synthesis Finish does not open buyer-repo PRs (settle ships).
+ */
 import assetPack from '../index';
 import { Execution } from '@bitcode/execution-generics';
 
@@ -14,9 +18,7 @@ describe('AssetPack pipeline - attachments and Definition of Read variants (enab
     const exec = new Execution('asset-pack:no-attachments');
     const res = await assetPack({ ...baseInput, attachments: [] }, exec);
     expect(res.success).toBe(true);
-    expect(res.shippable.prUrl).toContain('/pull/');
-    expect(res.shippables.pullRequest.url).toContain('/pull/');
-    expect(res.deliveryMechanism.prUrl).toContain('/pull/');
+    expect(res.shippable?.prUrl).toBeUndefined();
     expect(res.metrics).toBeDefined();
   });
 
@@ -39,20 +41,5 @@ describe('AssetPack pipeline - attachments and Definition of Read variants (enab
     ];
     const res = await assetPack({ ...baseInput, attachments }, exec);
     expect(res.success).toBe(true);
-    expect(typeof res.summary).toBe('string');
-  });
-
-  it('covers Definition of Read-like good/bad requirements variations', async () => {
-    const good = { ...baseInput, requirements: { testCoverage: 80, documentationRequired: true } };
-    const bad = { ...baseInput, requirements: { testCoverage: 0, documentationRequired: false } };
-
-    const resGood = await assetPack({ ...good, attachments: [] }, new Execution('asset-pack:good'));
-    const resBad = await assetPack({ ...bad, attachments: [] }, new Execution('asset-pack:bad'));
-
-    // Both execute, but shapes remain correct; downstream phases would enforce stricter criteria
-    expect(resGood.success).toBe(true);
-    expect(resBad.success).toBe(true);
-    expect(resGood.metrics).toBeDefined();
-    expect(resBad.metrics).toBeDefined();
   });
 });

@@ -1,66 +1,60 @@
 /**
- * Finish Phase - AssetPack Pipeline
- * 
- * Final phase that saves the run result and performs Delivering when requested:
- * 1. Provide AssetPacks/AssetPackPartials to third-party destinations
- * 2. Gather completion metrics from all phases
- * 3. Generate AssetPack completion evidence
- * 4. Finalize the pipeline run
+ * Shared Finish helpers for AssetPack synthesis (SDIVF).
+ *
+ * Product deposit/read Finish rosters live in deposit-phases.ts and
+ * read-phases.ts (store-artifacts → ledgerize → finish-synthesize-run).
+ *
+ * This module only registers the optional Bitcode review-upload path used by
+ * residual shared configs. **Pull-request shipping is not Finish** — it is
+ * stage `ship-asset-pack-patch-pr` on settle-asset-pack-pipeline after BTC
+ * finality, BTD rights, and co-ownership.
  */
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
- * Create the canonical Finish sequence for AssetPack runs.
-*
- * Delivery-mechanism templates are consumed by the Deliver agent; they do not
- * change the broad Finish sequence.
+ * Shared Finish sequence: upload artifacts for Bitcode review, then completion.
+ * No PR / destination delivery here.
  */
-function createFinishSequence(_deliveryMechanismTemplate: string): any[] {
-  // Exactly two agents: Deliver (PTRR) then AssetPackCompletion (Quick).
+function createFinishSequence(): any[] {
   return [
-    { agent: 'finish:deliver-asset-pack-to-destination-agent' },
-    { agent: 'finish:asset-pack-completion' }
+    { agent: 'finish:upload-asset-packs-for-review' },
+    { agent: 'finish:asset-pack-completion' },
   ];
 }
 
 /**
- * Finish phase configuration.
+ * Finish phase configuration (shared residual path; prefer deposit/read rosters).
  */
-export function createFinishPhaseConfig(deliveryMechanismTemplate: string): PhaseConfig {
+export function createFinishPhaseConfig(_deliveryMechanismTemplate?: string): PhaseConfig {
   return {
     phaseName: 'finish',
-    sequence: createFinishSequence(deliveryMechanismTemplate),
-    allowShortCircuit: false // Finish never short-circuits
+    sequence: createFinishSequence(),
+    allowShortCircuit: false,
   };
 }
 
 /**
  * Create the Finish phase runner.
  */
-export function runFinishPhase(deliveryMechanismTemplate: string) {
+export function runFinishPhase(deliveryMechanismTemplate?: string) {
   return createPhaseRunner(createFinishPhaseConfig(deliveryMechanismTemplate));
 }
 
 /**
- * Register Finish agents for the requested delivery-mechanism template.
- * Called after validation phase.
+ * Register shared Finish agents (review upload + completion only).
+ * PR shipping lives exclusively on settle-asset-pack-pipeline.
  */
 export function registerFinishAgentsForType(
   _deliveryMechanismTemplate: string,
   agentRegistry: any,
-  // BOTH synthesis modes Finish by uploading the synthesized artifacts to
-  // Bitcode for user review (deposit: before Depository admission; read: before
-  // purchase). Opening a pull request is NO LONGER part of synthesis — PR /
-  // settlement delivery moves to the future Gate-6 SettleAssetPack pipeline
-  // (the legacy deliver-asset-pack-to-destination-agent is retained for it).
   _mode?: SynthesizeAssetPacksMode,
 ): void {
-  agentRegistry.registerAgent('finish:deliver-asset-pack-to-destination-agent', () =>
-    import('../agents/finish/upload-asset-packs-for-review-agent').then(m => m.default),
+  agentRegistry.registerAgent('finish:upload-asset-packs-for-review', () =>
+    import('../agents/finish/upload-asset-packs-for-review-agent').then((m) => m.default),
   );
   agentRegistry.registerAgent('finish:asset-pack-completion', () =>
-    import('../agents/finish/asset-pack-completion-agent').then(m => m.default),
+    import('../agents/finish/asset-pack-completion-agent').then((m) => m.default),
   );
 }

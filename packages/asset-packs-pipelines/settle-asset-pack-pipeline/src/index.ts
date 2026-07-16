@@ -684,7 +684,6 @@ const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput>
     note,
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'shippable', shippable);
-  storeCrossPhaseArtifact(execution, 'finish', 'shippable', shippable);
   return { ...input, shippable, success: status !== 'failed' };
 };
 

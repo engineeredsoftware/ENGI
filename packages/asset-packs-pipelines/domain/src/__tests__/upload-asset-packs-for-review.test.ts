@@ -110,24 +110,23 @@ describe('runUploadAssetPacksForReviewAgent', () => {
 });
 
 describe('registerFinishAgentsForType (SynthesizeAssetPacks Finish registry)', () => {
-  it('maps the deliver key to the upload-for-review agent for BOTH modes; the legacy PR agent is never registered', async () => {
+  it('registers review-upload + completion only; never PR shipping agents (settle owns ship)', async () => {
     for (const mode of ['deposit', 'read']) {
       const registrations = new Map<string, any>();
       const registry = {
         registerAgent: (key: string, handler: any) => registrations.set(key, handler),
       };
 
-      registerFinishAgentsForType('pull-request', registry, mode);
+      registerFinishAgentsForType('pull-request', registry, mode as any);
 
       expect([...registrations.keys()].sort()).toEqual([
         'finish:asset-pack-completion',
-        'finish:deliver-asset-pack-to-destination-agent',
+        'finish:upload-asset-packs-for-review',
       ]);
-      // The legacy PR delivery agent is retained for Gate-6 but NOT registered here.
       expect(registrations.has('finish:asset-pack-create-pull-request-delivery-agent')).toBe(false);
+      expect(registrations.has('finish:deliver-asset-pack-to-destination-agent')).toBe(false);
 
-      // The deliver key lazily resolves to the upload-for-review agent itself.
-      const loader = registrations.get('finish:deliver-asset-pack-to-destination-agent');
+      const loader = registrations.get('finish:upload-asset-packs-for-review');
       const resolved = await loader();
       expect(resolved).toBe(runUploadAssetPacksForReviewAgent);
     }
