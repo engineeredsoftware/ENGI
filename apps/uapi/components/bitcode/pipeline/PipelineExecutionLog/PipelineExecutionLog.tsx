@@ -181,7 +181,7 @@ interface PhaseGroup {
  */
 
 // Matches the default BITCODE_LLM_CALL_TIMEOUT_MS (AgentLLMsRegistry /
-// PipelineLLMRegistry, 180s) — past this many seconds with no new row, an
+// ExecutionPipelineLLMRegistry, 180s) — past this many seconds with no new row, an
 // in-flight LLM call should already have timed out server-side, so continued
 // silence is a genuine-hang signal rather than a merely slow generation.
 
