@@ -1,11 +1,12 @@
 /**
  * @doc-comment-developing-promptpartdevelopment
  * domain: pipeline
- * intent: "Deposit synthesize lens"
- * current_version: "0.80.0"
+ * intent: "ExecutionPipelineSDIVFSynthesizeDepositAssetPacks product identity"
+ * current_version: "0.81.0"
  * versions: []
- * benchmarks: [{ "name": "clarity", "test": "Deposit synthesize lens", "score": 0.80 }]
+ * benchmarks: [{ "name": "clarity", "test": "Deposit synthesize product pipeline", "score": 0.81 }]
  */
 import { PromptPart } from '../../parts/PromptPart';
+/** Product-specific deposit pipeline identity (separate from read; not a dual lens). */
 export const PROMPTPART_SPECIFIC_PIPELINE_SYNTHESIZEDEPOSITSASSETPACKS_LENS_CORESTATEMENT: PromptPart =
-  'Lens: DEPOSIT. Steering is depositor Obfuscations (+ permissible/impermissible sources). Setup comprehends obfuscations; Discovery maps supply; Implementation synthesizes deposit options; Finish stores options for /deposits review — not PR ship.' as PromptPart;
+  'Product pipeline: ExecutionPipelineSDIVFSynthesizeDepositAssetPacks. Steering is depositor Obfuscations (+ permissible/impermissible sources). Setup comprehends obfuscations; Discovery maps supply; Implementation synthesizes deposit options; Finish stores options for /deposits review — not PR ship. This is not the read synthesis pipeline.' as PromptPart;

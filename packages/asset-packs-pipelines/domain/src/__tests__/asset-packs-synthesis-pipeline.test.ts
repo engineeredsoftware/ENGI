@@ -62,7 +62,7 @@ describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
     const rendered = render('deposit');
     expect(rendered).toContain('single Bitcode synthesis and measurement pipeline'); // identity
     expect(rendered).toContain('Source-safety law'); // source-safety
-    expect(rendered).toContain('Lens: deposit'); // phase lens-role
+    expect(rendered).toContain('Product pipeline: synthesize-deposits'); // product pipeline role
     expect(rendered).toContain('source-coverage'); // agent catalog
     expect(rendered).toContain('demand-alignment');
     expect(rendered).toContain('DISTINCT candidates'); // agent rules
@@ -70,11 +70,11 @@ describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
     expect(rendered).toContain('capability-slice'); // allowed kinds threaded into rules
   });
 
-  it('carries the lens through the phase role and measurement catalog', () => {
+  it('carries product-pipeline role and measurement catalog (deposit vs read are separate)', () => {
     const deposit = render('deposit');
     const read = render('read');
-    expect(deposit).toContain('Lens: deposit');
-    expect(read).toContain('Lens: read');
+    expect(deposit).toContain('Product pipeline: synthesize-deposits');
+    expect(read).toContain('Product pipeline: synthesize-reads');
     // Read catalog adds the Need-relative measurement; deposit uses demand-alignment.
     expect(read).toContain('need-fit');
     expect(deposit).not.toContain('need-fit');

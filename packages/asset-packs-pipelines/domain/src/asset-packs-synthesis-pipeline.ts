@@ -55,16 +55,17 @@ const PIPELINE_SOURCE_SAFETY = part(
     'impermissible sources absolutely — never cover, reference, or describe excluded material.',
 );
 
-const LENS_ROLE: Record<SynthesizeAssetPacksMode, PromptPart> = {
+/** Product-pipeline role prose (deposit and read are separate pipelines, not dual lenses). */
+const PRODUCT_PIPELINE_ROLE: Record<SynthesizeAssetPacksMode, PromptPart> = {
   deposit: part(
-    'Lens: deposit. Depositors supply AssetPacks (bounded, source-safe slices of repository ' +
-      'knowledge) into a Depository where future buyers find Need-fitting packs. Synthesize ' +
-      'distinct deposit AssetPack options the depositor can review and admit.',
+    'Product pipeline: synthesize-deposits. Depositors supply AssetPacks (bounded, source-safe ' +
+      'slices of repository knowledge) into a Depository where future buyers find Need-fitting ' +
+      'packs. Synthesize distinct deposit AssetPack options the depositor can review and admit.',
   ),
   read: part(
-    'Lens: read. Readers ask Bitcode to satisfy a reviewed Need by finding and synthesizing ' +
-      'Need-fitting AssetPacks from Depository source. Synthesize distinct Need-fitting ' +
-      'AssetPack candidates the reader can review and buy.',
+    'Product pipeline: synthesize-reads. Readers ask Bitcode to satisfy a reviewed Need by ' +
+      'finding and synthesizing Need-fitting AssetPacks from Depository source. Synthesize ' +
+      'distinct Need-fitting AssetPack candidates the reader can review and buy.',
   ),
 };
 
@@ -125,7 +126,7 @@ export function buildSynthesisPromptLayers(
   return [
     { path: 'pipeline:asset-packs-synthesis:identity', part: PIPELINE_IDENTITY },
     { path: 'pipeline:asset-packs-synthesis:source-safety', part: PIPELINE_SOURCE_SAFETY },
-    { path: `phase:${lens}:role`, part: LENS_ROLE[lens] },
+    { path: `phase:${lens}:role`, part: PRODUCT_PIPELINE_ROLE[lens] },
     { path: 'agent:measure:catalog', part: buildCatalogPart(catalog) },
     { path: 'agent:measure:rules', part: buildRulesPart(candidateKinds, maxCandidates) },
     { path: 'step:candidate:shape', part: buildShapePart(catalog, maxCandidates) },
