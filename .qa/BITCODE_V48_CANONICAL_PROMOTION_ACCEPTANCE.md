@@ -29,9 +29,9 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (entry 1.1 filled) |
-| 2 | SDIVF deposit pipeline production-like accept | Open |
-| 3 | SDIVF read pipeline production-like accept | Open |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D2) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through PCC judge) |
+| 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
 | 6 | PTRR base law (Plan → Try → Retry → Refine) | Open |
@@ -57,29 +57,62 @@ call-by-call: wire prompt, completion, step/failsafe/thinking schemas, tools,
 and stability — starting at Setup and advancing only after the current stop
 is accepted.
 
-**Harness (read first-LLM, current):**
+**Harnesses (movable marker — advance only after current §1 entry is Accepted):**
 
 ```bash
-pnpm run debug:read:first-llm
+# Deposit (active progression 2026-07-16+)
+pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm
+# packages/pipeline-hosts/src/dev/run-local-deposit-pipeline-debug.ts
+
+# Read (entry 1.1 landed; marker not yet advanced on this harness)
+pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 # packages/pipeline-hosts/src/dev/run-local-read-pipeline-debug.ts
 ```
 
-| Env | Default / this pass |
-| --- | --- |
-| `BITCODE_LLM_CALL_DEBUG` | `1` |
-| `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` (force real clone PTRR agent) |
-| `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` |
-| `BITCODE_DEBUG_STOP_PHASE` | `setup` |
-| `BITCODE_DEBUG_STOP_STEP` | `plan` |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | `prepare_concise_context` |
-| `BITCODE_DEBUG_STOP_GENERATION` | `reason` |
-| `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` |
-| `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` |
+| Env | Deposit harness (current) | Notes |
+| --- | --- | --- |
+| `BITCODE_LLM_CALL_DEBUG` | `1` | Wire ledger on |
+| `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
+| `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
+| `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
+| `BITCODE_DEBUG_STOP_STEP` | `plan` | |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | `prepare_concise_context` | |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`judge`** (was `reason`) | +1 Thinkings generation after 1.D1 accepted |
+| `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
+| `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
 **Artifact root:** `.tmp/llm-call-debug/<runId>/`  
-**Work root:** `.tmp/local-read-debug/`  
+**Deposit work root:** `.tmp/local-deposit-debug/`  
+**Read work root:** `.tmp/local-read-debug/`  
 **Ledger:** `ledger.jsonl` + `000N-request|response|abort-*.json` +
 `VERBATIM_WIRE_REPORT.md`
+
+**Living rules:**
+
+1. Every marker move and every validated stop is recorded in this file in the
+   **same change set** (do not advance the harness without a §1 row).
+2. Each Accepted call-site must include **stability confidence**, **actual
+   results** (usage, paths, schemas, verbatim or summarized completion), and a
+   **detailed prompt + completion excellence breakdown** (not only a one-line
+   table). Replies that argue “fully successful” must match what is written
+   here.
+3. **Commit message law for call-site QA commits** — subject or body **must**
+   include the visible tag (so `git log --oneline` / short views show it).
+   **No braces.** **Title Case** each token (acronyms like Pcc may stay short
+   Title Case).
+
+   Full form:
+
+   ```text
+   QA Pipeline Deposit|Read|Settle Phase Setup Agent Clone-Vcs Step Plan
+   Failsafe Prepare-Concise-Context Thinking Judge Call-Site
+   ```
+
+   Short subject (preferred for oneline visibility):
+
+   ```text
+   V48 (spec-impl): QA Deposit Setup Clone-Vcs Plan Pcc Judge
+   ```
 
 ### 1.0.1 Entry template (use for every call)
 
@@ -122,6 +155,9 @@ Every stop uses the same fields:
 - **final_compose_user:** (verbatim or path)
 - **contextful_inputs:** (what was interpolated / selection tree / prior usedTools)
 - **completion_response:** (verbatim)
+- **prompt_excellence_breakdown:** (why system+user compose is correct / excellent)
+- **completion_excellence_breakdown:** (why model output is correct / excellent)
+- **stability_confidence:** (overall confidence 0..1 + what still residual)
 - **stability_analysis:**
   - **schema_parse:**
   - **role_correctness:**
@@ -130,6 +166,7 @@ Every stop uses the same fields:
   - **regression_vs_prior:**
 - **decision:** keep marker | move marker to …
 - **artifacts:**
+- **commit_tag:** QA Pipeline … Phase … Agent … Step … Failsafe … Thinking … Call-Site
 ```
 
 ---
@@ -164,7 +201,7 @@ Every stop uses the same fields:
 | --- | --- | --- |
 | **step_return** | `PlanStepOutputSchema` `{ approach, steps[], considerations? }` | End of Plan only (after PCC → chunk → stitch). **Not** this call. |
 | **failsafe_terminal** | `PCC_KEY_SELECTION_SCHEMA` `{ selectedKeys: string[] }` | End of selection Thinkings **structured_output**, then value read-in. **Not** this call. |
-| **thinking_return** | `ReasoningSchema` `{ analysis, steps[], conclusion, confidence, useTools? }` | **This call.** Under PCC: omit `useTools`; do not emit `selectedKeys`. |
+| **thinking_return** | `ReasoningSchema` `{ analysis, reasoningItems[], conclusion, confidence, useTools? }` | **This call.** Field is `reasoningItems` (not `steps` — reserved for PTRR Step). Under PCC: omit `useTools`; do not emit `selectedKeys`. |
 
 #### tools
 
@@ -334,13 +371,239 @@ Verbatim (this pass):
 
 ---
 
-### 1.2 … (next entries)
+### 1.D1 Deposit · Setup · clone-vcs · Plan · PCC · reason
 
-_Template ready. Next expected fill:_
+- **status:** **Accepted** (marker advanced to judge — see 1.D2)
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Prepare-Concise-Context Thinking Reason Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks` / host mode `asset_pack_pipeline`
+- **pipeline_mode:** deposit
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **agent_registry_key:** `setup:clone-vcs-repository`
+- **step:** plan
+- **failsafe:** prepare_concise_context
+- **thinking:** reason
+- **execution_path:**
+  `pipeline:synthesize_deposit_asset_packs → seq-2 → phase:setup → seq-0 → agent:asset-pack-clone-vcs-repository-agent → plan → seq-0 → failsafe:prepare_concise_context → selection → seq-0 → thinkings:reason`
+- **provider / model:** anthropic / `claude-haiku-4-5-20251001`
+- **usage (judge-stop re-run, reason leg):** 4502 in / 564 out / 5066 total tokens
+- **abort_marker (when this was the stop):**
+  `BITCODE_DEBUG_STOP_GENERATION=reason` + clone-vcs filter  
+  → `hard-stop after plan/prepare_concise_context/reason`  
+  throw: `__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__`
 
-- **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
-- **1.3** Read · Setup · clone-vcs · Plan · PCC · **structured_output**  
-- **1.4+** Plan chunk / stitch · Try · Retry · Refine · remaining Setup · Discovery · … · deposit · settle  
+#### expected_schemas (reason)
+
+| Layer | Schema | Notes |
+| --- | --- | --- |
+| **thinking_return** | `ReasoningSchema` `{ analysis, reasoningItems[], conclusion, confidence, useTools? }` | **This call.** Field is **`reasoningItems`** (never `steps` — PTRR Step reserved). No `useTools`; no `selectedKeys`. |
+| **failsafe_terminal** | `PCC_KEY_SELECTION_SCHEMA` | Not this call (structured_output). |
+| **step_return** | `PlanStepOutputSchema` | End of full Plan only. |
+
+#### tools
+
+| | |
+| --- | --- |
+| **usable** | `asset-pack-clone-vcs-repository-tool` on plan node keys (`tools:usable`) |
+| **selected (useTools)** | **none** (correct for Plan PCC reason) |
+| **executed** | **none** |
+
+#### actual results (reason completion)
+
+Latest reason completion (judge-stop re-run) used valid `reasoningItems` and named keys grounded in the keys tree, e.g.:
+
+- `deposit#repository`, `deposit#obfuscations`, `host#manifestRoot`, `host#sourceRevision`
+- `pipeline#userId`, `deposit#permissibleSources` / `deposit#impermissibleSources`, `deposit#reference`
+- `confidence`: ~0.92
+- No clone attempt; no `selectedKeys`; no `useTools`
+
+#### prompt_excellence_breakdown (reason)
+
+| Layer on wire | Proven correct because |
+| --- | --- |
+| **Execution** | Appears **once** in pipeline composed block; not re-emitted on phase/agent/failsafe. |
+| **Pipeline primitive** | Generic “You are in a Pipeline…” contract present. |
+| **SDIVF base** | Setup→[DIV]*→Finish + Host law; product-agnostic base. |
+| **Deposit product** | `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks` + Obfuscations steering + explicit “not the read pipeline” — dual-lens removed. |
+| **Phase Setup** | Generic SDIVF Setup objective (no “Need or Obfuscations” dual) + deposit Setup specific roster. |
+| **Agent / Plan** | Clone agent identity; Plan-only (“Plan the Try only; do not execute tools”). |
+| **PCC failsafe** | CONTEXT FILTER; keys-only tree; ranking law; Thinkings roles stated. |
+| **Reason generation** | Systematic reasoning + **`reasoningItems`** field instruction; ban SO-only fields. |
+
+User body correctly forces: JSON schema for Reason; PCC key-selection only; path-form key names; omit tools/selectedKeys.
+
+#### completion_excellence_breakdown (reason)
+
+| Axis | Assessment |
+| --- | --- |
+| **Schema** | Valid Reasoning JSON with `reasoningItems[]` (not legacy `steps`). |
+| **Role** | Stays in key-selection; does not clone; does not emit `selectedKeys`. |
+| **Grounding** | Keys exist on `pipeline_execution_keys` (deposit/host/pipeline namespaces). |
+| **PCC ranking** | Prioritizes repository + host workspace + source-safety over lineage/debug. |
+| **Quality residual** | Later Judge correctly flagged count/consistency and soft auth justification — reason is strong but not perfect; that residual is **expected** and is scored at 1.D2. |
+
+#### stability_analysis (reason)
+
+| Axis | Result |
+| --- | --- |
+| **schema_parse** | Pass — ReasoningSchema. |
+| **role_correctness** | Pass — PCC reason only. |
+| **task_quality** | Pass — high-signal keys; residual polish deferred to Judge. |
+| **prompt_hygiene** | Pass — hierarchy + deposit identity + `reasoningItems` vocabulary. |
+| **regression_vs_prior** | Pass — dual-lens Setup prose gone; Step/field name collision fixed. |
+
+#### stability_confidence
+
+- **0.92** for accepting this call-site and advancing the marker.  
+- Residual risk is **not** hierarchy/prompt attach (locked); residual is key-selection polish, validated next at Judge.
+
+#### decision
+
+- **Accepted** — advance marker to **judge** (same phase/step/failsafe/agent).
+
+---
+
+### 1.D2 Deposit · Setup · clone-vcs · Plan · PCC · judge
+
+- **status:** **Accepted (fully successful call-site; ready for structured_output)**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Prepare-Concise-Context Thinking Judge Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **pipeline_mode:** deposit
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **agent_registry_key:** `setup:clone-vcs-repository`
+- **step:** plan
+- **failsafe:** prepare_concise_context
+- **thinking:** judge
+- **execution_path:**
+  `pipeline:synthesize_deposit_asset_packs → seq-2 → phase:setup → seq-0 → agent:asset-pack-clone-vcs-repository-agent → plan → seq-0 → failsafe:prepare_concise_context → selection → seq-1 → thinkings:judge`
+- **provider / model:** anthropic / `claude-haiku-4-5-20251001`
+- **usage:** 4753 in / 487 out / 5240 total tokens (judge call)
+- **duration_ms:** ~6556 (judge call); ~14362 (plan step until abort)
+- **harness result:** `ok: true`, `debugStop: true`, `callCount: 5`, `stopGeneration: judge`
+- **abort_marker:**
+  `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON=1` + generation=**judge** + phase=setup + step=plan + failsafe=prepare_concise_context + agent filter `clone-vcs`  
+  → `hard-stop after plan/prepare_concise_context/judge agent=asset-pack-clone-vcs-repository-agent`  
+  throw: `__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__`  
+  harness: `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm`
+
+#### expected_schemas (judge)
+
+| Layer | Schema | Notes |
+| --- | --- | --- |
+| **thinking_return** | `JudgmentSchema` `{ quality, issues[], suggestions[], approved }` | **This call.** |
+| **failsafe_terminal** | `PCC_KEY_SELECTION_SCHEMA` `{ selectedKeys }` | **Not** this call (structured_output next). |
+| **step_return** | `PlanStepOutputSchema` | End of full Plan only. |
+
+#### tools
+
+| | |
+| --- | --- |
+| **usable** | clone tool registered on plan node (`tools:usable` in keys tree) |
+| **selected (useTools)** | **none** (correct for Plan PCC judge) |
+| **executed** | **none** |
+
+#### contextful_inputs
+
+- Judge user body includes prior **`reasoning`** object with `analysis` / `reasoningItems` / `conclusion` / `confidence` from reason gen.
+- Same `pipeline_execution_keys` tree + PCC system law + preparation framing.
+- Hierarchy system block includes deposit product identity (not dual lens) and generic Setup objective without Need/Obfuscations dual steering.
+
+#### completion_response (verbatim)
+
+```json
+{
+  "quality": 0.78,
+  "issues": [
+    "reasoning#reasoningItems includes 7 items but conclusion selects 8 keys (lists both obfuscations AND permissibleSources/impermissibleSources); inconsistency in reasoning count vs. final selection",
+    "reasoning does not explicitly justify why deposit#reference is needed for 'audit trail' when it appears to be a run identifier already bound at pipeline level; unclear if this is task-coordinate ranking #1 or bookkeeping",
+    "reasoning omits consideration of whether host#runId might be needed for workspace isolation or idempotent retry tracking in the Plan step",
+    "reasoningItems#5 (pipeline#userId) states 'may need' but does not confirm whether VCS provider REST API authentication requires userId from pipeline context vs. Host-level credentials",
+    "conclusion states 8 keys but reasoning#analysis paragraph mentions only 4 essential items (deposit reference/repository, host workspace/manifestRoot, host sourceRevision, pipeline userId); the 7 items list and final selection lack clear prioritization"
+  ],
+  "suggestions": [
+    "Recount and reconcile: clarify whether 7 or 8 keys are selected; if 8, explain why in conclusion; if 7, remove one from reasoningItems or explicitly state it is lower-priority",
+    "Validate deposit#reference necessity: confirm it is a task coordinate (ranking #1) or a pure bookkeeping artifact that violates minimality law; if bookkeeping, remove it",
+    "Add explicit host#runId analysis: discuss whether workspace isolation or idempotent retry tracking requires this key in the Plan step context",
+    "Strengthen auth binding justification: state whether VCS provider clone calls require pipeline#userId or whether Host-level credentials are sufficient; if the latter, omit pipeline#userId",
+    "Reorder reasoning to match ranking law: list keys in order of ranking preference (#1 coordinates, #2 auth/binding, #3 tools), then confirm minimality against that order"
+  ],
+  "approved": false
+}
+```
+
+#### prompt_excellence_breakdown (judge)
+
+| Dimension | Why the prompt is correct / excellent |
+| --- | --- |
+| **Hierarchy composition** | Full EE walk on system: Execution×1 → Pipeline primitive → SDIVF base → deposit product → Phase setup → agent → Plan → PCC → Judge generation. No Execution re-emit on phase. |
+| **Product identity** | Deposit-only product prose (`ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`); no dual Need/Obfuscations lens on generic Setup. |
+| **Judge conditioning** | User is not empty “rate this”: includes preparation + PCC system law + full keys-only tree + **prior reasoning object** intact. Correct multi-gen continuity. |
+| **Role boundaries** | System/user ban clone, tree dump, and `selectedKeys` on Judge. Narrow scoring contract, not a second Reason pass. |
+| **Vocabulary** | Upstream uses `reasoningItems`; Judge schema is orthogonal (`quality`/`issues`/`suggestions`/`approved`). No PTRR Step collision. |
+| **Operational path** | EE path ends at `selection/seq-1` + `thinkings:judge` after reason on `seq-0`; marker pin `generation=judge` matched exactly. |
+
+#### completion_excellence_breakdown (judge)
+
+| Dimension | Why the completion is correct / excellent |
+| --- | --- |
+| **Schema fidelity** | Valid JudgmentSchema only — no `selectedKeys`, no `useTools`, no task execution. |
+| **Role fidelity** | Scores prior reason; does **not** re-pick keys or attempt clone. |
+| **Grounding** | Issues cite concrete prior fields (count of `reasoningItems`, soft “may need” on `pipeline#userId`, weak `deposit#reference` rationale). Proves Judge read the reason object. |
+| **PCC alignment** | Critique targets minimality, ranking order, bookkeeping vs coordinates — exact failsafe axes. |
+| **Calibration** | `quality: 0.78` + `approved: false` is a real gate, not a rubber-stamp 1.0. Better for SO/retry than false approval. |
+| **Downstream usefulness** | Suggestions are actionable for structured_output / refine (reconcile key count, drop bookkeeping, tighten auth). |
+| **Process** | Hard-stop after Judge only; reason fully completed and available as input (`callCount: 5`). |
+
+#### stability_analysis (judge)
+
+| Axis | Result |
+| --- | --- |
+| **schema_parse** | **Pass** — JudgmentSchema. |
+| **role_correctness** | **Pass** — Judge only; multi-gen reason→judge continuity. |
+| **task_quality** | **Pass** — substantive, law-aligned critique; non-approval is quality signal not harness failure. |
+| **prompt_hygiene** | **Pass** — hierarchy + deposit identity + correct Judge conditioning. |
+| **regression_vs_prior** | **Pass** — first multi-generation deposit stop; generation pin works beyond reason. |
+
+#### stability_confidence
+
+- **0.95** that this call-site is fully successful and the marker may advance to **structured_output**.  
+- Residual: SO must emit only `{ selectedKeys }` using paths present on the keys tree; Judge’s `approved:false` is a quality input, not a blocker for accepting the Judge **call-site** itself.
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted — fully successful** |
+| **next marker** | `BITCODE_DEBUG_STOP_GENERATION=structured_output` (PCC `{ selectedKeys }` only) |
+| **next commit_tag** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Prepare-Concise-Context Thinking Structured-Output Call-Site` |
+| **not yet** | Plan chunk/stitch; Try/clone tool; remaining Setup agents; Discovery+; full deposit accept |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| Reason request | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0001-request-…-reason.json` |
+| Reason response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0002-response-…-reason.json` |
+| Judge request | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0003-request-…-judge.json` |
+| Judge response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0004-response-…-judge.json` |
+| Abort | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0005-abort-…-judge.json` |
+| Ledger | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/ledger.jsonl` |
+| Verbatim report | `.tmp/local-deposit-debug/VERBATIM_WIRE_REPORT.md` |
+| Summary | `.tmp/local-deposit-debug/debug-summary.json` |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
+### 1.2+ Read next / Deposit next
+
+_Template ready. Expected fills:_
+
+- **1.D3** Deposit · Setup · clone-vcs · Plan · PCC · **structured_output**  
+- **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge** (read harness still at reason)  
+- **1.D4+** Plan chunk / stitch · Try · Retry · Refine · remaining Setup · Discovery · … · settle  
 
 ---
 
@@ -348,15 +611,16 @@ _Template ready. Next expected fill:_
 
 ### §2 SDIVF deposit pipeline production-like accept
 
-- **status:** Open  
-- **criterion:** (TBD) full Setup→…→Finish deposit run under LocalHost / production-like accept script with real inference profile.  
-- **proof:** (TBD)
+- **status:** **Partial**  
+- **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
+- **proof (current):** §1.D1 reason Accepted; §1.D2 judge Accepted (marker at judge; next SO).  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopGeneration=`judge`.
 
 ### §3 SDIVF read pipeline production-like accept
 
-- **status:** Open (partial offline via §1 first-LLM only)  
+- **status:** Open (partial offline via §1.1 first reason)  
 - **criterion:** (TBD) full read SDIVF beyond Setup first reason.  
-- **proof:** (TBD)
+- **proof:** §1.1 Accepted (reason); read harness not yet advanced to judge.
 
 ### §4 Settle Simple pipeline production-like accept
 
