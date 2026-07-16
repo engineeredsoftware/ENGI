@@ -416,9 +416,13 @@ boundary in tests only).
  └── specific/ Domain-specific parts (large index)
 ```
 
-**Rule:** PromptPart *implementations* live in `packages/prompts` (or are
-composed from parts registered there). Agents assemble `Prompt` registries;
-they do not scatter ad-hoc mega-strings across the app without the registry.
+**Rule (absolute):** PromptPart *authored strings* live **only** in
+`packages/prompts/src/raw_promptparts/{generic,specific}/` (naming:
+`promptpart_[generic|specific]_…`). Agents and pipelines **import**
+`PROMPTPART_*` and assemble `Prompt` registries. Never
+`createPromptPart('prose…')` outside raw_promptparts. For composed call-site
+blocks use `createPromptPartFromPrompt(prompt)` (no new prose). Law:
+[`.docs/PROMPTING.md`](PROMPTING.md).
 
 **Authoring layers (content):** primitive → base → specific on each node kind.
 **PromptPart SSOT:** `packages/prompts/.../raw_promptparts/`. Full law:

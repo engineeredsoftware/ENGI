@@ -3,8 +3,9 @@
  *
  * Product pipeline name: **settle-asset-pack-pipeline** (singular AssetPack).
  *
- * Hierarchy: SettleAssetPack + Simple + Pipeline
- *   factoryExecutionPipelineSimpleSettleAssetPack → ExecutionPipelineSimpleSettleAssetPack
+ * Hierarchy (left→right): Execution → Pipeline → Simple → SettleAssetPack
+ *   factoryExecutionPipelineSimpleSettleAssetPack
+ *     → ExecutionPipelineSimpleSettleAssetPack
  *
  * **Not** SDIVF. Synthesize-reads produces multiple options; each **bought**
  * option starts its own settle pipeline (1:1 AssetPack : settle run) and yields

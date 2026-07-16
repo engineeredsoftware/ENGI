@@ -17,14 +17,14 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
-import { createPromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_PHASE_HEADER } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_audioprocessor_plan_phase_header';
 
 
 
 
 
 export const AUDIO_PROCESSOR_PLAN_PROMPT = new Prompt()
-  .set('phase', createPromptPart('PLAN'))
+  .set('phase', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_PHASE_HEADER)
   .set('instructions', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_INSTRUCTIONS)
   .set('analysis_approach', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_ANALYSIS_APPROACH)
   .set('output_format', PROMPTPART_SPECIFIC_AGENT_AUDIOPROCESSOR_PLAN_OUTPUT_FORMAT)
