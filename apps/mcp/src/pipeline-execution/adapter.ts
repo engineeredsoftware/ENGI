@@ -19,7 +19,7 @@ import {
   PipelineExecutionsModel,
   ExecutionEventsModel
 } from '@bitcode/orm';
-import assetPackPipeline from '@bitcode/pipelines/asset-pack';
+import { runSynthesizeAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-domain';
 import {
   PipelineExecution,
   inferPipelineExecutionLineage
@@ -281,7 +281,7 @@ async function executePipelineJob(
           pipeline: 'asset-pack',
         } as any);
         execution.store('inputs', 'context', inputContext as any);
-        result = await assetPackPipeline({
+        result = await runSynthesizeAssetPacksSDIVFPipeline({
           task: options.task,
           config: options.config,
           userId: options.userId,

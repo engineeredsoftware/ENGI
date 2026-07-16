@@ -1,14 +1,13 @@
 /**
  * AssetPack Pipeline
  *
- * Bitcode phased pipeline runs that satisfy Reads, synthesize AssetPack
- * artifacts and Exchange evidence, and use Finish-phase Delivering only for
- * connected-interface delivery mechanisms.
- * Routes to Design/Develop/Digest gates based on execution.get('gate', 'current').
+ * Bitcode SDIVF pipeline runs (Setup → Discovery → Implementation → Validation
+ * → Finish) that satisfy Reads, synthesize AssetPack artifacts and Exchange
+ * evidence, and use Finish-phase Delivering only for connected-interface
+ * delivery.
  */
 
 import { Executor, Execution } from '@bitcode/execution-generics';
-import { createGuidedPipelineExecution, gatePreprocess } from '@bitcode/pipelines-generics';
 import {
   factorySDIVFPipelineFromExecutors,
   type SDIVFPipeline,
@@ -200,8 +199,7 @@ export async function preprocessDepositMode(processedInput: any, execution: Exec
 }
 
 /**
- * @deprecated Prefer product pipelines (synthesize-deposits-asset-packs-pipeline / synthesize-reads-asset-packs-pipeline).
- * Dual-path preprocess retained only for callers that still pass mode.
+ * Dual-mode preprocess (deposit | read from input). Product packages force one path.
  */
 function factoryPreprocess(): Executor<any, any> {
   return async (input, execution) => {
@@ -212,8 +210,7 @@ function factoryPreprocess(): Executor<any, any> {
     storeSynthesizeAssetPacksMode(execution, mode);
     try { (input as any).synthesizeMode = mode; } catch {}
 
-    // Apply gate preprocessing
-    const processedInput = gatePreprocess(input, execution);
+    const processedInput = input;
     try { (processedInput as any).synthesizeMode = mode; } catch {}
 
     // Deposit skips the read Need / fits-finding preprocess entirely.
@@ -417,7 +414,6 @@ function factoryPreprocess(): Executor<any, any> {
 function factoryIterationPreprocess(): Executor<any, any> {
   return async (input, execution) => {
     // Apply gate preprocessing for each iteration
-    gatePreprocess(input, execution);
 
     // Process attachments
     const attachments = execution.get('attachments', 'list') || [];
@@ -454,7 +450,7 @@ export function factoryPreprocessDepositOnly(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
     storeSynthesizeAssetPacksMode(execution, 'deposit');
-    const processedInput = gatePreprocess(input, execution);
+    const processedInput = input;
     const depositInput = await preprocessDepositMode(
       { ...processedInput, synthesizeMode: 'deposit', mode: 'deposit' },
       execution,
@@ -525,7 +521,7 @@ export function factoryPreprocessReadOnly(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
     storeSynthesizeAssetPacksMode(execution, 'read');
-    const processedInput = gatePreprocess(input, execution);
+    const processedInput = input;
     const readInput = await preprocessReadMode(
       { ...processedInput, synthesizeMode: 'read', mode: 'read' },
       execution,
@@ -555,15 +551,12 @@ function isAssetPackSetupRuntimeEnabledInTest(): boolean {
   );
 }
 
-/**
- * @deprecated Prefer SynthesizeDepositAssetPacksSDIVFPipeline or SynthesizeReadAssetPacksSDIVFPipeline
- * from `@bitcode/asset-packs-pipelines-*`. No lens — two specific pipelines.
- */
+/** Dual-mode SDIVF pipeline type (deposit | read). */
 export type SynthesizeAssetPacksSDIVFPipeline = SDIVFPipeline<any, any>;
 
 /**
- * dual factory: routes to deposit or read phase rosters by explicit input
- * mode. Prefer product packages under asset-packs-pipelines/.
+ * Dual factory: routes to deposit or read phase rosters by explicit input mode.
+ * Prefer product packages under asset-packs-pipelines/ when mode is fixed.
  */
 function factorySynthesizeAssetPacksSDIVFPipeline(
   pipelineName: string = 'synthesize-asset-packs',
@@ -642,43 +635,12 @@ function factorySynthesizeAssetPacksSDIVFPipeline(
   };
 }
 
-/** @deprecated Prefer factorySynthesizeDepositAssetPacksSDIVFPipeline / factorySynthesizeReadAssetPacksSDIVFPipeline */
-const factorySynthesizeAssetPacksPipeline = factorySynthesizeAssetPacksSDIVFPipeline;
-
 /**
- * Dual factory (prefer product packages under asset-packs-pipelines/*).
- */
-function factoryDevelopPhase(): Executor<any, any> {
-  return factorySynthesizeAssetPacksSDIVFPipeline('develop');
-}
-
-// ==================== DDD GATE ROUTER ====================
-
-/**
- * Main AssetPack written-asset synthesis pipeline with guided gate execution.
- * Routes execution through Design -> Develop -> Digest gates
- */
-export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecution({
-  Design: async (input, execution) => {
-    const { designPhase } = await import('./phases/design');
-    return designPhase(input, execution);
-  },
-  Develop: factoryDevelopPhase(),
-  Digest: async (input, execution) => {
-    const { digestPhase } = await import('./phases/digest');
-    return digestPhase(input, execution);
-  }
-});
-
-/**
- * @deprecated Prefer synthesizeDepositAssetPacksSDIVFPipeline / synthesizeReadAssetPacksSDIVFPipeline
- * from `@bitcode/asset-packs-pipelines-*`. Dual entry (mode from input).
+ * Dual-mode SDIVF entry (deposit | read from input/mode). Prefer product packages
+ * under asset-packs-pipelines/synthesize-*-asset-packs-pipeline when mode is fixed.
  */
 export const synthesizeAssetPacksSDIVFPipeline: SynthesizeAssetPacksSDIVFPipeline =
   factorySynthesizeAssetPacksSDIVFPipeline();
-
-/** @deprecated Prefer product-specific pipelines under asset-packs-pipelines/ */
-export const synthesizeAssetPacksPipeline = synthesizeAssetPacksSDIVFPipeline;
 
 // ==================== EXPORTS ====================
 
@@ -737,20 +699,12 @@ export {
   type ReadNeedReviewState,
   type ShareToFeeQuote,
 } from './read-need';
-export default assetPackPipeline;
 
-/** Canonical SynthesizeAssetPacksSDIVFPipeline entry (deposit | read). Prefer over DDD router. */
+/** Canonical SynthesizeAssetPacksSDIVFPipeline entry (deposit | read). */
 export const runSynthesizeAssetPacksSDIVFPipeline = synthesizeAssetPacksSDIVFPipeline;
-
-/** @deprecated Use runSynthesizeAssetPacksSDIVFPipeline */
-export const runSynthesizeAssetPacksPipeline = synthesizeAssetPacksSDIVFPipeline;
-
-/**
- * @deprecated Use runSynthesizeAssetPacksSDIVFPipeline / synthesizeAssetPacksSDIVFPipeline.
- * Historical alias once pointed at the DDD router; now the unified SDIVF synthesis.
- */
-export const runSDIVFPipeline = synthesizeAssetPacksSDIVFPipeline;
 
 export {
   factorySynthesizeAssetPacksSDIVFPipeline,
 };
+
+export default runSynthesizeAssetPacksSDIVFPipeline;

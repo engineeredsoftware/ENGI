@@ -1,14 +1,14 @@
 /**
- * Guided Pipeline Execution
+ * Historical guided-pipeline helpers (Engi Design → Develop → Digest).
  *
- * The gate guidance layer that manages DDD (Design → Develop → Digest) sequencing.
- * Guides pipeline execution through gates, enforcing restrictions and transitions.
- * "Guiding" is what "gating" gives experientially.
+ * Bitcode product law is SDIVF (Setup → Discovery → Implementation →
+ * Validation → Finish). Prefer product pipeline factories under
+ * asset-packs-pipelines/* and generic-pipelines-sdivf. These helpers remain
+ * only for residual call sites and tests; new code must not route on DDD gates.
  *
  * @package @bitcode/pipelines-generics
  */
 
-import { switchExecutor } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { Gate, GateState, GateConfig } from '../gate-system/types';
@@ -108,93 +108,6 @@ export function transitionToNextGate(
     timestamp: now,
     triggeredBy: 'user',
   });
-}
-
-/**
- * Create Guided Pipeline Execution
- *
- * Creates a guided execution that:
- * 1. Determines current gate from execution state or input
- * 2. Routes to gate-specific pipeline
- * 3. Manages gate transitions
- * 4. Enforces gate restrictions
- *
- * @param gatePipelines - Map of gate-specific pipelines
- */
-export function createGuidedPipelineExecution<TInput, TOutput>(
-  gatePipelines: {
-    Design?: Executor<TInput, TOutput>;
-    Develop: Executor<TInput, TOutput>;
-    Digest?: Executor<TInput, TOutput>;
-  }
-): Executor<TInput, TOutput> {
-  return async (input: TInput, execution: Execution): Promise<TOutput> => {
-    // Initialize gate from input or default to Develop
-    const initialGate = (input as any).gate ||
-                       (input as any).metaPhase || // Meta-phase input synonym
-                       execution.get('gate', 'current') ||
-                       'Develop';
-
-    // Initialize gate state if not present
-    if (!execution.get('gate', 'state')) {
-      const initialState = initializeGateState(initialGate);
-      storeGateState(execution, initialState);
-    }
-
-    // Log gate initialization
-    console.log(`[Guided] Starting execution in ${initialGate} gate`);
-
-    // Use switchExecutor to route to gate-specific pipeline
-    const gateRouter = switchExecutor<TInput, TOutput>(
-      (_input, exec) => getCurrentGate(exec),
-      {
-        'Design': gatePipelines.Design || gatePipelines.Develop,
-        'Develop': gatePipelines.Develop,
-        'Digest': gatePipelines.Digest || gatePipelines.Develop,
-      }
-    );
-
-    // Execute gate-specific pipeline
-    const result = await gateRouter(input, execution);
-
-    // Check if user triggered a gate transition
-    const pendingTransition = execution.get('gate', 'pendingTransition');
-    if (pendingTransition) {
-      console.log(`[Guided] Gate transition pending: ${getCurrentGate(execution)} → ${pendingTransition}`);
-      execution.store('gate', 'requiresNewExecution', true);
-      execution.store('gate', 'nextGate', pendingTransition);
-    }
-
-    return result;
-  };
-}
-
-/**
- * Gate preprocess - Apply gate-specific configuration to input
- * Use this in iteration preprocess to enforce gate restrictions
- */
-export function gatePreprocess<TInput>(
-  input: TInput,
-  execution: Execution
-): TInput {
-  const currentGate = getCurrentGate(execution);
-  const config = GATE_CONFIGS[currentGate];
-
-  // Store gate configuration for agents to access
-  execution.store('gates', 'current', currentGate);
-  execution.store('gates', 'allowedFilePatterns', config.allowedFilePatterns);
-  execution.store('gates', 'collaborative', config.collaborative);
-
-  // Add gate context to input
-  (input as any).gateContext = {
-    gate: currentGate,
-    collaborative: config.collaborative,
-    primaryDocument: config.primaryDocument,
-    allowedFiles: config.allowedFilePatterns,
-    selfInstructThreshold: config.selfInstructThreshold,
-  };
-
-  return input;
 }
 
 /**

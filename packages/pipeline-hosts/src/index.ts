@@ -14,7 +14,6 @@ export * from './asset-pack-host-plan';
 export * from './distributed-execution-runtime-receipt';
 export * from './host';
 export * from './local-host';
-export * from './inline-host';
 export * from './sandbox-host';
 export * from './manifest';
 export * from './types';

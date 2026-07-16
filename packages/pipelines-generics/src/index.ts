@@ -111,17 +111,14 @@ export type {
 } from './types/primitives';
 export { toPhaseLower, toPhaseTitle, toStepLower, isMetaStep, isSubStep } from './types/primitives';
 
-// Gate system (Design → Develop → Digest) sequencing
+// Historical Engi gate helpers (file-gates / residual tooling). Product pipelines use SDIVF.
 export * from './gate-system';
 
-// Guided Pipeline Execution - Gate guidance layer
 export {
-  createGuidedPipelineExecution,
   storeGateState,
   getCurrentGate,
   getGateState,
   transitionToNextGate,
-  gatePreprocess,
   isCollaborativeGate,
   getSelfInstructThreshold,
   type GateExecutionContext

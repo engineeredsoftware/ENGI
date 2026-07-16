@@ -10,7 +10,7 @@ const baseOptions = {
     id: 'deposit-1',
   },
   sourceRevision: {
-    repositoryFullName: 'engineeredsoftware/ENGI',
+    repositoryFullName: 'octocat/Spoon-Knife',
     branch: 'main',
     commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
   },
@@ -46,7 +46,7 @@ describe('asset-pack sandbox host plan', () => {
       mode: 'asset_pack_pipeline',
       source: {
         type: 'git',
-        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        url: 'https://github.com/octocat/Spoon-Knife.git',
         revision: baseOptions.sourceRevision.commit,
         depth: 1,
       },
@@ -86,7 +86,7 @@ describe('asset-pack sandbox host plan', () => {
       sandboxImage: 'vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:v48-test',
       source: {
         type: 'git',
-        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        url: 'https://github.com/octocat/Spoon-Knife.git',
         revision: baseOptions.sourceRevision.commit,
         depth: 1,
       },
@@ -119,7 +119,7 @@ describe('asset-pack sandbox host plan', () => {
       mode: 'asset_pack_pipeline',
       source: {
         type: 'git',
-        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        url: 'https://github.com/octocat/Spoon-Knife.git',
         revision: baseOptions.sourceRevision.commit,
         depth: 1,
       },
@@ -127,7 +127,7 @@ describe('asset-pack sandbox host plan', () => {
 
     expect(plan.createOptions.source).toEqual({
       type: 'git',
-      url: 'https://github.com/engineeredsoftware/ENGI.git',
+      url: 'https://github.com/octocat/Spoon-Knife.git',
       revision: baseOptions.sourceRevision.commit,
       depth: 1,
     });
@@ -158,7 +158,7 @@ describe('asset-pack sandbox host plan', () => {
       mode: 'asset_pack_pipeline',
       source: {
         type: 'git',
-        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        url: 'https://github.com/octocat/Spoon-Knife.git',
         revision: baseOptions.sourceRevision.commit,
         depth: 1,
       },

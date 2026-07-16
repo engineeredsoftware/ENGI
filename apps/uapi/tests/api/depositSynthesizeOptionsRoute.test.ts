@@ -51,7 +51,7 @@ jest.mock('@bitcode/asset-packs-pipelines-synthesize-deposits-asset-packs-pipeli
   synthesizeDepositAssetPacksSDIVFPipeline: jest.fn(async () => undefined),
 }));
 jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({
-  synthesizeAssetPacksPipeline: jest.fn(async () => undefined),
+  runSynthesizeAssetPacksSDIVFPipeline: jest.fn(async () => undefined),
   // re-exports / shared helpers still imported from pipeline-asset-pack
   groundOptionNeedinessFromSettledDepository: jest.fn((options: unknown[]) => options),
 }));

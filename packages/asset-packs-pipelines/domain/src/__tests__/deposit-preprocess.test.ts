@@ -3,7 +3,7 @@
  * SynthesizeAssetPacks preprocess (V48 Gate 3) — context assembly from a
  * synthetic request.
  *
- * Runs the real composed pipeline (`synthesizeAssetPacksPipeline`; under
+ * Runs the real composed pipeline (`runSynthesizeAssetPacksSDIVFPipeline`; under
  * NODE_ENV=test the five phase runtimes are stubbed but preprocess/postprocess
  * are REAL) and pins the deposit-mode preprocess contract:
  *  - mode resolution + storage on the SHARED outer execution (F20) so every
@@ -40,7 +40,7 @@ jest.mock('../depository-search', () => {
 
 import { Execution } from '@bitcode/execution-generics';
 import { PipelineExecution } from '@bitcode/pipelines-generics';
-import { synthesizeAssetPacksPipeline } from '../index';
+import { runSynthesizeAssetPacksSDIVFPipeline } from '../index';
 import { runDepositorySearchForPipelineInput } from '../depository-search';
 import {
   resolveSynthesizeAssetPacksMode,
@@ -105,7 +105,7 @@ describe('deposit-mode preprocess context assembly', () => {
       sourceCheckoutCatalog: { assetCount: 2 },
     };
 
-    await synthesizeAssetPacksPipeline(input, execution);
+    await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
 
     // V48-Gate3-F20: the mode lives on the SHARED outer execution, resolvable from any
     // phase sibling via the upward walk.
@@ -179,7 +179,7 @@ describe('deposit-mode preprocess context assembly', () => {
       },
     };
 
-    await synthesizeAssetPacksPipeline(input, execution);
+    await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
 
     expect(execution.get('deposit', 'repository')).toMatchObject({
       url: 'https://github.com/engineeredsoftware/ENGI',
@@ -203,7 +203,7 @@ describe('deposit-mode preprocess context assembly', () => {
       repository: { owner: 'octo', name: 'repo-x', branch: 'main' },
     };
 
-    await synthesizeAssetPacksPipeline(input, execution);
+    await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
 
     expect(synthesizeAssetPacksModeFromExecution(execution)).toBe('read');
     expect(depositorySearchMock).toHaveBeenCalledTimes(1);

@@ -93,7 +93,7 @@ export function isServerlessPipelineRuntime(
  *   Explicit `BITCODE_PIPELINE_HOST=local` is ignored on serverless.
  * - **Local machine:** default `local` (LocalHost); set `BITCODE_PIPELINE_HOST=sandbox`
  *   to exercise the sandbox path from a laptop (needs Vercel auth).
- * - `inline` is a deprecated alias of `local`.
+ * - Host kinds are only `local` | `sandbox` (no dual names).
  */
 export function selectDepositHostKind(
   env: NodeJS.ProcessEnv = process.env,
@@ -103,7 +103,7 @@ export function selectDepositHostKind(
   }
   const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
   if (explicit === 'sandbox') return 'sandbox';
-  // local | inline | unset → LocalHost on developer machines only
+  // local | unset → LocalHost on developer machines only
   return 'local';
 }
 

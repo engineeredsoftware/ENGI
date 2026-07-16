@@ -3,7 +3,7 @@
  * Test script to verify AssetPack pipeline executions E2E
  */
 
-import { assetPackPipeline } from './src/index';
+import { runSynthesizeAssetPacksSDIVFPipeline } from './src/index';
 import { Execution } from '@bitcode/execution-generics';
 
 async function testPipeline() {
@@ -50,7 +50,7 @@ async function testPipeline() {
     console.log('Input:', JSON.stringify(input, null, 2));
     console.log('\nExecuting pipeline...\n');
     
-    const result = await assetPackPipeline(input, execution);
+    const result = await runSynthesizeAssetPacksSDIVFPipeline(input, execution);
     
     console.log('\n✅ Pipeline completed successfully!');
     console.log('Result:', JSON.stringify(result, null, 2));

@@ -23,6 +23,3 @@ export {
   readValidationPhase,
   readFinishPhase,
 } from './read-phases';
-
-/** @deprecated Prefer depositPhases or readPhases — no unified lensed roster. */
-export { depositPhases as assetPackPhases } from './deposit-phases';

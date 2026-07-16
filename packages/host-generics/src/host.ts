@@ -15,7 +15,7 @@
  * - Pipeline (Setup→…→Finish) speaks only to this primitive — identical on every host
  *
  * BITCODE_PIPELINE_HOST: unset|local → LocalHost; sandbox → in-box host.
- * hostKind is `local` | `sandbox` only (`inline` is not accepted).
+ * hostKind is `local` | `sandbox` only.
  */
 
 export type BitcodeHostKind = 'local' | 'sandbox';

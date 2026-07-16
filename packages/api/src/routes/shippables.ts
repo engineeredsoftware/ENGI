@@ -21,7 +21,7 @@ import {
   PipelineExecution,
   inferPipelineExecutionLineage
 } from '@bitcode/pipelines-generics';
-import { assetPackPipeline } from '@bitcode/asset-packs-pipelines-domain';
+import { runSynthesizeAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-domain';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/external-telemetry-google';
 import { BitcodeError, reportError } from '@bitcode/errors';
@@ -982,7 +982,7 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
         
         const pipelineStartTime = Date.now();
 
-        const result = await assetPackPipeline(pipelineInput, execution!);
+        const result = await runSynthesizeAssetPacksSDIVFPipeline(pipelineInput, execution!);
         
         const pipelineDuration = Date.now() - pipelineStartTime;
         log('[asset-pack-route] Pipeline execution completed', 'info', {

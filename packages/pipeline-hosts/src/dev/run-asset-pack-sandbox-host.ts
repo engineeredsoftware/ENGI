@@ -392,7 +392,7 @@ async function main(): Promise<void> {
 
   const mode = (process.env.BITCODE_SANDBOX_MODE || 'host_smoke') as PipelineHostMode;
   const repositoryFullName =
-    process.env.BITCODE_SANDBOX_REPOSITORY || 'engineeredsoftware/ENGI';
+    process.env.BITCODE_SANDBOX_REPOSITORY || 'octocat/Spoon-Knife';
   const branch = process.env.BITCODE_SANDBOX_SOURCE_BRANCH || 'main';
   const commit = process.env.BITCODE_SANDBOX_SOURCE_COMMIT || 'unknown';
   const sourceUrl = process.env.BITCODE_SANDBOX_SOURCE_GIT_URL;

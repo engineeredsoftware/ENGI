@@ -36,7 +36,7 @@ export interface ParsedStreamData {
   executionState?: ExecutionState;
   /** Run ID from the pipeline execution */
   runId?: string | null;
-  /** Current guide (Design/Develop/Digest) when provided */
+  /** Historical guide field (unused by Bitcode SDIVF product UI) */
   guide?: string | null;
   /** Generic ad-hoc event payload used by conversation-triggered pipeline events */
   event?: Record<string, unknown> | null;

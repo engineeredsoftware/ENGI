@@ -12,7 +12,8 @@ import {
   getProcessRootFields,
   serializeProcessRootFields,
 } from '@bitcode/generic-executions';
-import { runSDIVFPipeline } from '@bitcode/engine/pipeline/pipelineSDIVF';
+import { runSynthesizeAssetPacksSDIVFPipeline } from '@bitcode/asset-packs-pipelines-domain';
+import { factoryPipelineExecution } from '@bitcode/pipelines-generics';
 import { log } from '@bitcode/logger';
 import { saveArtifact } from '@bitcode/generic-artifacts-compose';
 
@@ -62,7 +63,13 @@ async function main() {
       else if (typeof mod.default === 'function') pipelineResult = await mod.default();
       else throw new Error(`Provided PIPELINE_MODULE ${pipelineModule} has no export runPipeline()`);
     } else {
-      pipelineResult = await runSDIVFPipeline();
+      const execution = factoryPipelineExecution('synthesize_asset_packs', undefined, {
+        pipelineName: 'synthesize-asset-packs-sdivf',
+        family: 'asset_pack',
+        posture: 'live',
+        admittedSurface: 'long_runner',
+      });
+      pipelineResult = await runSynthesizeAssetPacksSDIVFPipeline(ctx || {}, execution);
     }
 
     const result = pipelineResult;

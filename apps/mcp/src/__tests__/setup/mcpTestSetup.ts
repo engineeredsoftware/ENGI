@@ -395,28 +395,6 @@ jest.mock('@bitcode/pipelines-generics', () => ({
       return current;
     })
   ),
-  // @deprecated alias of factorySDIVFPipelineFromExecutors
-  factorySDIVFExecutorPipeline: jest.fn().mockImplementation((_name: string, config: any) =>
-    jest.fn().mockImplementation(async (input: any, execution: any) => {
-      let current = input;
-      if (config?.preprocess) current = await config.preprocess(current, execution);
-      if (config?.setup) current = await config.setup(current, execution);
-      if (config?.discovery) current = await config.discovery(current, execution);
-      if (config?.implementation) current = await config.implementation(current, execution);
-      if (config?.validation) current = await config.validation(current, execution);
-      if (config?.finish) current = await config.finish(current, execution);
-      if (config?.postprocess) current = await config.postprocess(current, execution);
-      return current;
-    })
-  ),
-  createGuidedPipelineExecution: jest.fn().mockImplementation((gates: Record<string, any>) =>
-    jest.fn().mockImplementation(async (input: any, execution: any) => {
-      const currentGate = execution?.get?.('gate', 'current') || 'Develop';
-      const gateExecutor = gates?.[currentGate] || gates?.Develop || (async (x: any) => x);
-      return gateExecutor(input, execution);
-    })
-  ),
-  gatePreprocess: jest.fn().mockImplementation((input: any) => input),
   waitForInstruction: jest.fn().mockImplementation(() =>
     jest.fn().mockImplementation(async (input: any) => input)
   ),

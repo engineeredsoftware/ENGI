@@ -102,7 +102,7 @@ describe('VercelSandboxPipelineHost', () => {
       read: { id: 'read-1', prompt: 'Read.' },
       deposit: { id: 'deposit-1' },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -145,7 +145,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -185,7 +185,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -237,7 +237,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },
@@ -305,7 +305,7 @@ describe('VercelSandboxPipelineHost', () => {
           id: 'deposit-1',
         },
         sourceRevision: {
-          repositoryFullName: 'engineeredsoftware/ENGI',
+          repositoryFullName: 'octocat/Spoon-Knife',
           branch: 'main',
           commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
         },
@@ -379,7 +379,7 @@ describe('VercelSandboxPipelineHost', () => {
         id: 'deposit-1',
       },
       sourceRevision: {
-        repositoryFullName: 'engineeredsoftware/ENGI',
+        repositoryFullName: 'octocat/Spoon-Knife',
         branch: 'main',
         commit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       },

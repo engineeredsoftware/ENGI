@@ -40,7 +40,7 @@ import {
   resetBoundaryLLMOutput,
   resetBoundaryLLMCalls,
 } from './support/generic-llms-mock';
-import { synthesizeAssetPacksPipeline } from '../index';
+import { runSynthesizeAssetPacksSDIVFPipeline } from '../index';
 import { validateDepositSynthesisOptions } from '../asset-packs-synthesis';
 
 const INVENTORY = {
@@ -165,7 +165,7 @@ describe('deposit SDIVF pipeline integration (boundary-mocked LLMs)', () => {
     async () => {
       const execution = new Execution('deposit-sdivf-integration');
 
-      await synthesizeAssetPacksPipeline(
+      await runSynthesizeAssetPacksSDIVFPipeline(
         {
           mode: 'deposit',
           synthesizeMode: 'deposit',

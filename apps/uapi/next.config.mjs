@@ -468,24 +468,6 @@ let nextConfig = {
       // Security package: server-safe root and explicit client entry
       '@bitcode/security': path.resolve(__dirname, '..', '..', 'packages', 'security', 'src', 'index.ts'),
       '@bitcode/security/client': path.resolve(__dirname, '..', '..', 'packages', 'security', 'client', 'src', 'index.ts'),
-      '@bitcode/engine/pipeline/pipelineSDIVF': path.resolve(
-        __dirname,
-        '..',
-        'packages',
-        'pipelines',
-        'asset-pack',
-        'src',
-        'run.ts'
-      ),
-      '@bitcode/engine/pipeline/pipelineMeasureSDIVS': path.resolve(
-        __dirname,
-        '..',
-        'packages',
-        'pipelines',
-        'measure',
-        'src',
-        'run.ts'
-      ),
       '@bitcode/mcp-generics/validation': path.resolve(__dirname, '..', '..', 'packages', 'mcp-generics', 'src', 'index.ts'),
       '@bitcode/generic-vcs-git': path.resolve(
         __dirname,

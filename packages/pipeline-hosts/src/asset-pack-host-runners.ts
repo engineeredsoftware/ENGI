@@ -1422,7 +1422,6 @@ try {
     import(pkgImport('packages/btd/src/receipts.ts')),
   ]);
   const {
-    assetPackPipeline,
     acceptReadNeed,
     buildAssetPackDisclosureReview,
     buildAssetPackPreviewBoundary,
@@ -1438,6 +1437,9 @@ try {
     synthesizeReadNeedForPipelineInput,
   } = domainExports;
   const { factorySynthesizeDepositAssetPacksSDIVFPipeline } = depositPipelineExports;
+  const { factorySynthesizeReadAssetPacksSDIVFPipeline } = await import(
+    pkgImport('packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/src/index.ts')
+  );
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
   buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;
   buildBtdRightsTransferReceiptFn = btdReceiptBuilders.buildBtdRightsTransferReceipt;
@@ -1551,9 +1553,10 @@ try {
       sourceOverlay: manifest.sourceOverlay,
     });
   }
+  // Product law: deposit and read are separate SDIVF pipelines (not Engi DDD).
   const pipelineEntrypoint = isDepositMode
     ? factorySynthesizeDepositAssetPacksSDIVFPipeline()
-    : assetPackPipeline;
+    : factorySynthesizeReadAssetPacksSDIVFPipeline();
   const rawOutput = await withHostTimeout(pipelineEntrypoint(input, execution), hostMaxRuntimeMs);
   const postprocessedOutput = findExecutionValueDown(execution, 'postprocessed', 'result');
   output = postprocessedOutput && typeof postprocessedOutput === 'object' && !Array.isArray(postprocessedOutput)

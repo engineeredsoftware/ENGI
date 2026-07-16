@@ -15,7 +15,6 @@ import ExecutionsHeaderTitle from '@/components/bitcode/pipeline/ExecutionsHeade
 import { ScrollContainer } from '@/components/bitcode/panels/ScrollContainer/ScrollContainer';
 import Logo from '@/components/bitcode/branding/Logo/Logo';
 import WordRotate from "@/components/bitcode/WordRotate/WordRotate";
-import GuideIndicator from "@/components/bitcode/pipeline/GuideIndicator/GuideIndicator";
 import InstructionConfidenceTimer from "@/components/bitcode/pipeline/InstructionConfidenceTimer/InstructionConfidenceTimer";
 import type { HeaderProcessingStats } from '@/components/bitcode/pipeline/ExecutionsCompleteHeaderContent/ExecutionsCompleteHeaderContent';
 // Load the heavy prism-based code highlighter lazily so the header bundle
@@ -494,7 +493,6 @@ export default function ExecutionsPageHeader({
 
   const effectiveShippables = shippables ?? {} as NonNullable<ExecutionPageHeaderProps['shippables']>;
   const effectiveMode = mode;
-  const activeGuide = (processingStats?.guide ?? processingStats?.gate ?? 'Develop') as string;
   const iterationConfidence = typeof processingStats?.confidence === 'number' ? processingStats?.confidence : undefined;
   const awaitingInstruction = processingStats?.awaitingInstruction ?? (typeof iterationConfidence === 'number' ? iterationConfidence < INSTRUCTION_WAIT_THRESHOLD : false);
   const timerInitialSecondsRaw = typeof processingStats?.timeRemainingSeconds === 'number'
@@ -514,13 +512,10 @@ export default function ExecutionsPageHeader({
         : 'low';
   const shouldShowInstructionTimer =
     effectiveMode === 'executing' &&
-    activeGuide === 'Develop' &&
     awaitingInstruction &&
     typeof timerInitialSeconds === 'number';
   const instructionSuggestions = (processingStats?.suggestions || []).filter(Boolean);
   const instructionSummary = processingStats?.selfInstruction;
-  const digestStatus = (processingStats as any)?.digest || (processingStats as any)?.digestStatus;
-  const canFinishDigest = activeGuide !== 'Digest' || !!digestStatus?.agentsDocUpdated;
   const confidencePercent = iterationConfidence !== undefined ? Math.round(iterationConfidence * 100) : undefined;
 
   // Track the last shown edu content
@@ -679,94 +674,15 @@ export default function ExecutionsPageHeader({
           initial="open"
           animate={effectiveMode === "executing" ? "closed" : "open"}
         >
-          {/* Meta-phase indicator and transition buttons (executing/executed modes) */}
+          {/* Pipeline run confidence / instruction wait (product execution UI) */}
           {(effectiveMode === "executing" || effectiveMode === "executed") && (
             <motion.div
               className="flex flex-col space-y-4"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              {/* Gate indicator (dynamic from execution state) */}
-              <GuideIndicator
-                currentGuide={activeGuide as any}
-                completedGuides={
-                  activeGuide === 'Develop' ? ['Design'] :
-                  activeGuide === 'Digest' ? ['Design', 'Develop'] : []
-                }
-                collaborative={(activeGuide === 'Design' || activeGuide === 'Digest')}
-                compact={false}
-              />
-
-              {/* Transition buttons (user-gated) */}
-              {effectiveMode === "executed" && (
-                <div className="flex gap-3">
-                  {activeGuide === 'Design' && (
-                    <button
-                      onClick={async () => {
-                        await fetch(`/api/executions/${processingStats?.runId}`, {
-                          method: 'PUT',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ gate: 'Develop' })
-                        });
-                      }}
-                      className="px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 rounded-none hover:bg-emerald-500/30 transition-colors"
-                    >
-                      Ready to Develop
-                    </button>
-                  )}
-
-                  {activeGuide === 'Develop' && (
-                    <button
-                      onClick={async () => {
-                        await fetch(`/api/executions/${processingStats?.runId}`, {
-                          method: 'PUT',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ gate: 'Digest' })
-                        });
-                      }}
-                      className="px-4 py-2 bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded-none hover:bg-amber-500/30 transition-colors"
-                    >
-                      Ready to Digest
-                    </button>
-                  )}
-
-                  {activeGuide === 'Digest' && (
-                    <div className="flex flex-col gap-2 w-full max-w-lg">
-                      <button
-                        onClick={async () => {
-                          if (!canFinishDigest) return;
-                          await fetch(`/api/executions/${processingStats?.runId}`, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ status: 'completed' })
-                          });
-                        }}
-                        disabled={!canFinishDigest}
-                        className={`px-4 py-2 rounded-none transition-colors border ${canFinishDigest
-                          ? 'bg-sky-500/20 border-sky-500/30 text-sky-300 hover:bg-sky-500/30'
-                          : 'bg-gray-800/50 border-gray-700 text-gray-400 cursor-not-allowed'}`}
-                      >
-                        Finish
-                      </button>
-                      {digestStatus && (
-                        <div className="rounded-none border border-sky-500/20 bg-sky-500/5 px-3 py-2 text-sm text-sky-100">
-                          <p className="font-semibold text-sky-200">
-                            {digestStatus.agentsDocUpdated
-                              ? '.docs/AGENTS.md update detected'
-                              : 'Awaiting .docs/AGENTS.md update before Delivering'}
-                          </p>
-                          {digestStatus.summary && (
-                            <p className="mt-1 text-sky-100/80 whitespace-pre-wrap">{digestStatus.summary}</p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Confidence timer / status (Develop guide) */}
-              {effectiveMode === "executing" && activeGuide === 'Develop' && (
+              {/* Confidence timer / status while pipeline is executing */}
+              {effectiveMode === "executing" && (
                 <div className="space-y-3 w-full">
                   {shouldShowInstructionTimer ? (
                     <InstructionConfidenceTimer

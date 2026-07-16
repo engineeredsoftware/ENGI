@@ -145,7 +145,8 @@ describe('selectDepositHostKind', () => {
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'sandbox' } as any)).toBe('sandbox');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: ' Sandbox ' } as any)).toBe('sandbox');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'local' } as any)).toBe('local');
-    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'inline' } as any)).toBe('local');
+    // Unknown host names fall through to local; only `sandbox` is special-cased.
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'unknown' } as any)).toBe('local');
     expect(selectDepositHostKind({} as any)).toBe('local');
 
     // Serverless: always sandbox — LocalHost is never valid here
