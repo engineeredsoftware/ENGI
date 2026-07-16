@@ -23,12 +23,12 @@ import type { HeaderProcessingStats } from '@/components/bitcode/pipeline/Execut
 const CodeBlock = dynamic(() => import("@/components/bitcode/media/SyntaxHighlighter/SyntaxHighlighter"), {
   ssr: false,
 });
-import { ProcessingIndicator } from "@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator/ProcessingIndicator";
+import { ProcessingIndicator } from "@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator";
 // global styles for the header
 import "@/styles/shippables-header.css";
 
 // Extracted component & styles
-import ShippableTemplateText from "@/components/bitcode/pipeline/ExecutionsShippableTemplateText/ExecutionsShippableTemplateText";
+import DeliveryTemplateText from "@/components/bitcode/pipeline/ExecutionsDeliveryTemplateText/ExecutionsDeliveryTemplateText";
   import { PageHeaderSection } from '@/components/bitcode/page-header/PageHeaderSection/PageHeaderSection';
   import { CompleteHeaderContent } from '@/components/bitcode/pipeline/ExecutionsCompleteHeaderContent/ExecutionsCompleteHeaderContent';
 
@@ -226,7 +226,7 @@ interface DeliveryTemplateSets {
 
 interface ExecutionPageHeaderProps {
   executionStatus: "execute" | "executing" | "executed";
-  onSelectShippableTemplateDefinitionOfNeed: (definitionOfRead: string) => void;
+  onSelectDeliveryTemplateDefinitionOfNeed: (definitionOfRead: string) => void;
   /** If false, suppresses rendering of the summary/TL;DR doc area inside the header */
   renderDocInsideHeader?: boolean;
   /** If false, suppresses rendering of the cards panel inside the header */
@@ -241,7 +241,7 @@ interface ExecutionPageHeaderProps {
   showIterationsEdu?: boolean | 'minimize' | 'maximize';
   templates?: DeliveryTemplateSets;
   onTemplateSelect?: (templateId: string, templateCategory: keyof DeliveryTemplateSets) => void;
-  /** Finish-delivered shippables. Bitcode-owned meaning lives in AssetPack evidence first. */
+  /** Settle delivery (buyer PR after rights). Bitcode-owned meaning lives in AssetPack evidence first. */
   shippables?: {
     pullRequest?: DeliveryMechanismSurface | null; // Singular PR delivery mechanism.
     fileChanges?: FileChanges | null;
@@ -342,7 +342,7 @@ export default function ExecutionsPageHeader({
   shippables,
   processingStats,
   repoSnapshot,
-  onSelectShippableTemplateDefinitionOfNeed,
+  onSelectDeliveryTemplateDefinitionOfNeed,
   renderDocInsideHeader,
   renderCardsInsideHeader,
   showSourceEdu,
@@ -491,7 +491,7 @@ export default function ExecutionsPageHeader({
     };
   }, [entranceSpeedFactor]);
 
-  const effectiveShippables = shippables ?? {} as NonNullable<ExecutionPageHeaderProps['shippables']>;
+  const effectiveSettleDelivery = shippables ?? {};
   const effectiveMode = mode;
   const iterationConfidence = typeof processingStats?.confidence === 'number' ? processingStats?.confidence : undefined;
   const awaitingInstruction = processingStats?.awaitingInstruction ?? (typeof iterationConfidence === 'number' ? iterationConfidence < INSTRUCTION_WAIT_THRESHOLD : false);
@@ -627,7 +627,7 @@ export default function ExecutionsPageHeader({
   // mock data).  We no longer fall back to the older single‑sentence mock
   // summary so that the rich format is always shown when mock data is enabled.
 
-  const pr = effectiveShippables?.pullRequest;
+  const pr = effectiveSettleDelivery?.pullRequest;
   if (pr) {
     tldrItems.push(
       <a
@@ -646,10 +646,10 @@ export default function ExecutionsPageHeader({
   }
 
   if (tldrItems.length === 0) {
-    tldrItems.push(<span key="none">No shippables to summarize</span>);
+    tldrItems.push(<span key="none">No settle delivery to summarize</span>);
   }
   return (
-    <section data-experience="shippables">
+    <section data-experience="settle-delivery">
       <div
         className={`
           relative
@@ -783,11 +783,11 @@ export default function ExecutionsPageHeader({
                   <div className="text-gray-400 text-lg self-start">
                     <>
                       V26 Finish delivers AssetPack evidence through a{' '}
-                    <ShippableTemplateText
+                    <DeliveryTemplateText
                       text="pull request"
                       templates={templates?.pullRequests}
                       defaultNeed="an opened pull request for:"
-                      onSelect={onSelectShippableTemplateDefinitionOfNeed}
+                      onSelect={onSelectDeliveryTemplateDefinitionOfNeed}
                       onTemplateSelect={(templateId) => onTemplateSelect?.(templateId, 'pullRequests')}
                       onMouseEnter={handlePullRequestHover}
                       duration={3.2}
@@ -804,9 +804,9 @@ export default function ExecutionsPageHeader({
             </motion.div>
           )}
 
-          {effectiveMode === "executed" && effectiveShippables && (renderDocInsideHeader !== false) && (
+          {effectiveMode === "executed" && effectiveSettleDelivery && (renderDocInsideHeader !== false) && (
             <CompleteHeaderContent
-              shippables={effectiveShippables as any}
+              shippables={effectiveSettleDelivery as any}
               processingStats={processingStats as any}
               repoSnapshot={repoSnapshot as any}
               executionType={executionType}

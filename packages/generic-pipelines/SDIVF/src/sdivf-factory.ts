@@ -453,13 +453,3 @@ export function factorySDIVFPipelineFromExecutors<TInput, TOutput>(
   return pipelineExec;
 }
 
-// ==================== COMPATIBILITY ALIASES ====================
-// Prefer hierarchy-encoded names: SDIVFPipeline, factorySDIVFPipeline,
-// factorySDIVFPipelineFromExecutors, SDIVFPipelineConfig.
-
-/** @deprecated Use SDIVFPipelineConfig */
-export type SDIVFConfig<TInput = any, TOutput = any> = SDIVFPipelineConfig<TInput, TOutput>;
-/** @deprecated Use SDIVFPipelineExecutorConfig */
-export type SDIVFExecutorConfig<TInput = any, TOutput = any> = SDIVFPipelineExecutorConfig<TInput, TOutput>;
-/** @deprecated Use factorySDIVFPipelineFromExecutors */
-export const factorySDIVFExecutorPipeline = factorySDIVFPipelineFromExecutors;

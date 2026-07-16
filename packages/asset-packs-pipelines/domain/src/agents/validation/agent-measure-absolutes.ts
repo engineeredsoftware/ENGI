@@ -54,9 +54,6 @@ const QUANTITY_KINDS = new Set([
   'symbolic-richness',
   'modularity',
 ]);
-/** @deprecated alias — use QUANTITY_KINDS */
-const SIZE_KINDS = QUANTITY_KINDS;
-
 const LENS_SUBJECT: Record<AssetPacksSynthesisLens, string> = {
   deposit:
     'a synthesized source-safe deposit AssetPack patch the depositor will review and admit',
@@ -71,9 +68,6 @@ const QUANTITY_NORMALIZER: Record<string, number> = {
   'symbolic-richness': 200,
   modularity: 12,
 };
-/** @deprecated alias */
-const SIZE_NORMALIZER = QUANTITY_NORMALIZER;
-
 function clamp01(value: number): number {
   const n = Number.isFinite(value) ? value : 0;
   return Number(Math.max(0, Math.min(1, n)).toFixed(2));

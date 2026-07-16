@@ -178,7 +178,7 @@ export type {
   ExecutionState,
   StreamStatusMessage,
   LlmCallData,
-  ShippableTemplates,
+  DeliveryTemplates,
   IntegrationOption,
   Issue
 } from './types/core';

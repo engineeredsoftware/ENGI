@@ -30,7 +30,7 @@ import type {
   ShippableHistoryItem
 } from '@/types/api';
 
-import type { ShippableTemplates } from '@/types/templates';
+import type { DeliveryTemplates } from '@/types/templates';
 import type { IntegrationOption } from '@/types/integrations';
 import type { Issue } from '@/types/issues';
 
@@ -566,7 +566,7 @@ class UserProfileGenerator extends BaseDataGenerator {
 }
 
 class TemplateGenerator extends BaseDataGenerator {
-  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<ShippableTemplates> {
+  async generate(context: GeneratorContext, config: GeneratorConfig): Promise<DeliveryTemplates> {
     const generateTemplateList = (category: string, count: number) => {
       const templates = [];
       for (let i = 0; i < count; i++) {

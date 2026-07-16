@@ -7,7 +7,7 @@
  */
 
 import { 
-  SDIVFPhase
+  SDIVFPipelinePhase
 } from '@bitcode/pipelines-generics';
 import {
   ExecutionState,
@@ -40,9 +40,9 @@ export interface PipelineStreamMessage extends StreamMessage {
   pipeline?: string;
   subtype?: string;
   phaseProgress?: {
-    current: SDIVFPhase | string;
-    completed: (SDIVFPhase | string)[];
-    remaining: (SDIVFPhase | string)[];
+    current: SDIVFPipelinePhase | string;
+    completed: (SDIVFPipelinePhase | string)[];
+    remaining: (SDIVFPipelinePhase | string)[];
   };
 }
 
@@ -85,7 +85,7 @@ export enum StreamEventType {
  */
 export class GenericStreamManager {
   private config: PipelineStreamConfig;
-  private phaseHistory: (SDIVFPhase | string)[] = [];
+  private phaseHistory: (SDIVFPipelinePhase | string)[] = [];
   private eventBuffer: PipelineStreamMessage[] = [];
   private startTime: number;
   
@@ -161,7 +161,7 @@ export class GenericStreamManager {
    * @doc-stream
    * Phase transition events
    */
-  async phaseStart(phase: SDIVFPhase | string): Promise<void> {
+  async phaseStart(phase: SDIVFPipelinePhase | string): Promise<void> {
     this.phaseHistory.push(phase);
     
     await this.writeMessage({
@@ -177,7 +177,7 @@ export class GenericStreamManager {
     });
   }
   
-  async phaseComplete(phase: SDIVFPhase | string, result?: any): Promise<void> {
+  async phaseComplete(phase: SDIVFPipelinePhase | string, result?: any): Promise<void> {
     await this.writeMessage({
       type: 'tool-use',
       executionState: { phase: phase as ExecutionPhase },
@@ -334,27 +334,27 @@ export class GenericStreamManager {
   
   private getCurrentPhase(): ExecutionPhase {
     const lastPhase = this.phaseHistory[this.phaseHistory.length - 1];
-    // Map SDIVFPhase to ExecutionPhase
+    // Map SDIVFPipelinePhase to ExecutionPhase
     const phaseMap: Record<string, ExecutionPhase> = {
-      [SDIVFPhase.SETUP]: 'Setup',
-      [SDIVFPhase.DISCOVERY]: 'Discovery',
-      [SDIVFPhase.IMPLEMENTATION]: 'Implementation',
-      [SDIVFPhase.VALIDATION]: 'Validation',
-      [SDIVFPhase.FINISH]: 'Finish'
+      [SDIVFPipelinePhase.SETUP]: 'Setup',
+      [SDIVFPipelinePhase.DISCOVERY]: 'Discovery',
+      [SDIVFPipelinePhase.IMPLEMENTATION]: 'Implementation',
+      [SDIVFPipelinePhase.VALIDATION]: 'Validation',
+      [SDIVFPipelinePhase.FINISH]: 'Finish'
     };
     return phaseMap[lastPhase as string] || 'Setup';
   }
   
-  private getRemainingPhases(currentPhase: SDIVFPhase | string): (SDIVFPhase | string)[] {
+  private getRemainingPhases(currentPhase: SDIVFPipelinePhase | string): (SDIVFPipelinePhase | string)[] {
     const allPhases = [
-      SDIVFPhase.SETUP,
-      SDIVFPhase.DISCOVERY,
-      SDIVFPhase.IMPLEMENTATION,
-      SDIVFPhase.VALIDATION,
-      SDIVFPhase.FINISH
+      SDIVFPipelinePhase.SETUP,
+      SDIVFPipelinePhase.DISCOVERY,
+      SDIVFPipelinePhase.IMPLEMENTATION,
+      SDIVFPipelinePhase.VALIDATION,
+      SDIVFPipelinePhase.FINISH
     ];
     
-    const currentIndex = allPhases.indexOf(currentPhase as SDIVFPhase);
+    const currentIndex = allPhases.indexOf(currentPhase as SDIVFPipelinePhase);
     return allPhases.slice(currentIndex + 1);
   }
 }
@@ -367,16 +367,16 @@ export class GenericStreamManager {
  */
 export class StreamFactory {
   /**
-   * Create stream manager for an AssetPack/Shippable-producing pipeline.
+   * Create stream manager for an AssetPack synthesis pipeline.
    */
   static createStreamManager(config: PipelineStreamConfig): GenericStreamManager {
     return new GenericStreamManager(config);
   }
   
   /**
-   * Create Shippable-specific stream manager.
+   * Create AssetPack pipeline stream manager.
    */
-  static createShippablesStream(
+  static createAssetPackPipelineStream(
     correlationId: string,
     dataStream?: any
   ): GenericStreamManager {

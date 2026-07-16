@@ -3,7 +3,7 @@
  * Relocated from app/terminal — not product-product vocabulary.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
-import type { ShippablesDoc } from '@/components/bitcode/pipeline/ShippablesDocPanel/ShippablesDocPanel';
+import type { SettleDeliveryDoc } from '@/components/bitcode/pipeline/SettleDeliveryDocPanel/SettleDeliveryDocPanel';
 import type { PipelineExecution } from '@/types/api';
 // Detail snapshot remains under terminal until its Phase 3 relocate.
 
@@ -118,7 +118,7 @@ export function isMockWorkspaceRunId(runId?: string | null) {
   return !!runId && MOCK_RUN_IDS.has(runId);
 }
 
-export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, ShippablesDoc> = {
+export const MOCK_RUN_ASSET_PACK_SURFACES: Record<string, SettleDeliveryDoc> = {
   'mock-run-branch-remediation': {
     pullRequest: {
       url: 'https://github.com/bitcode/bitcode/pull/268',

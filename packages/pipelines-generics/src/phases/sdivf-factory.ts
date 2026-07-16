@@ -9,10 +9,7 @@
 export {
   factorySDIVFPipeline,
   factorySDIVFPipelineFromExecutors,
-  factorySDIVFExecutorPipeline,
-  type SDIVFPipeline,
+    type SDIVFPipeline,
   type SDIVFPipelineConfig,
   type SDIVFPipelineExecutorConfig,
-  type SDIVFConfig,
-  type SDIVFExecutorConfig,
-} from '@bitcode/generic-pipelines-sdivf';
+    } from '@bitcode/generic-pipelines-sdivf';

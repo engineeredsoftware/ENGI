@@ -193,15 +193,15 @@ function buildDeliveryMechanism(row: ExecutionHistoryRow) {
   return summary ? { summary } : null;
 }
 
-function buildShippables(row: ExecutionHistoryRow) {
+function buildSettleDelivery(row: ExecutionHistoryRow) {
   const output = readOutputRecord(row);
   const assetPackCompletion = readAssetPackCompletion(row);
-  const explicitShippables =
+  const explicitSettleDelivery =
     asRecord(assetPackCompletion?.shippables) ||
     asRecord(output?.shippables);
 
-  const normalizedExplicitShippables = normalizeDeliveryMechanismSurface(explicitShippables);
-  if (hasPullRequestDelivery(normalizedExplicitShippables)) return normalizedExplicitShippables;
+  const normalizedExplicitSettleDelivery = normalizeDeliveryMechanismSurface(explicitSettleDelivery);
+  if (hasPullRequestDelivery(normalizedExplicitSettleDelivery)) return normalizedExplicitSettleDelivery;
 
   const deliveryMechanism = buildDeliveryMechanism(row);
   return hasPullRequestDelivery(deliveryMechanism) ? deliveryMechanism : null;
@@ -414,7 +414,7 @@ function buildNormalizedAssetPackCompletion(row: ExecutionHistoryRow) {
   } = assetPackCompletion || {};
   const assetPackSynthesisArtifacts = buildAssetPackSynthesisArtifacts(row);
   const writtenAssets = buildWrittenAssets(row);
-  const shippables = buildShippables(row);
+  const shippables = buildSettleDelivery(row);
   const deliveryMechanism = buildDeliveryMechanism(row);
   const read = buildRead(row);
   const writtenAssetType = buildWrittenAssetType(row);
@@ -495,7 +495,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     repo_snapshot: buildRepoSnapshot(row),
     asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
     written_assets: buildWrittenAssets(row),
-    shippables: buildShippables(row),
+    shippables: buildSettleDelivery(row),
     delivery_mechanism: buildDeliveryMechanism(row),
     read: buildRead(row),
     written_asset_type: buildWrittenAssetType(row),

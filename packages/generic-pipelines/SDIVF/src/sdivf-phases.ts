@@ -17,11 +17,6 @@ export enum SDIVFPipelinePhase {
   FINISH = 'finish',
 }
 
-/** @deprecated Use SDIVFPipelinePhase */
-export const SDIVFPhase = SDIVFPipelinePhase;
-/** @deprecated Use SDIVFPipelinePhase */
-export type SDIVFPhase = SDIVFPipelinePhase;
-
 /**
  * Create ordered SDIVFPipeline PhaseDelegators from agents (one agent per phase).
  * Product pipelines may instead supply phase executors to
@@ -43,5 +38,3 @@ export function factorySDIVFPipelinePhaseDelegators<TInput, TOutput>(config: {
   ];
 }
 
-/** @deprecated Use factorySDIVFPipelinePhaseDelegators */
-export const factorySDIVFPhaseDelegators = factorySDIVFPipelinePhaseDelegators;

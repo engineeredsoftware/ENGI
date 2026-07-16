@@ -1,11 +1,11 @@
-export interface ShippableTemplate {
+export interface DeliveryTemplate {
   id: string;
   name: string;
   text: string;
 }
 
-export interface ShippableTemplates {
-  pullRequests: ShippableTemplate[];
+export interface DeliveryTemplates {
+  pullRequests: DeliveryTemplate[];
 }
 
 export interface EvidenceDocumentTemplate {
@@ -17,6 +17,6 @@ export interface EvidenceDocumentTemplate {
 export interface EvidenceDocumentTemplates {
   knowledgeExtension: EvidenceDocumentTemplate[];
   assetPackFeedback: EvidenceDocumentTemplate[];
-  shippableFeedback?: EvidenceDocumentTemplate[];
+  deliveryFeedback?: EvidenceDocumentTemplate[];
   mcpConfig: EvidenceDocumentTemplate[];
 }

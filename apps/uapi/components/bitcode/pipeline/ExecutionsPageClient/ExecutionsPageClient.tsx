@@ -3,9 +3,9 @@
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ExecutionsPageHeaderShippablePostprocess from '@/components/bitcode/pipeline/ExecutionsPageHeaderShippablePostprocess/ExecutionsPageHeaderShippablePostprocess';
-import ShippablesDocPanel from '@/components/bitcode/pipeline/ShippablesDocPanel/ShippablesDocPanel';
-import ShippablesCardsPanel from '@/components/bitcode/pipeline/ShippablesCardsPanel/ShippablesCardsPanel';
+import ExecutionsPageHeaderSettleDeliveryPostprocess from '@/components/bitcode/pipeline/ExecutionsPageHeaderSettleDeliveryPostprocess/ExecutionsPageHeaderSettleDeliveryPostprocess';
+import SettleDeliveryDocPanel from '@/components/bitcode/pipeline/SettleDeliveryDocPanel/SettleDeliveryDocPanel';
+import SettleDeliveryCardsPanel from '@/components/bitcode/pipeline/SettleDeliveryCardsPanel/SettleDeliveryCardsPanel';
 import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel/BitcodeExecutionStreamPanel';
 import { ErrorBox } from '@/components/bitcode/pipeline/ErrorBox/ErrorBox';
 import { VCSSourceSelectors as RawVCSSourceSelectors } from '@/components/bitcode/vcs/VCSSourceSelectors/VCSSourceSelectors';
@@ -28,13 +28,13 @@ import { ExecutionsExecuteButton as ExecuteButton } from '@/components/bitcode/p
 import { IterationSlider } from '@/components/bitcode/interactions/IterationSlider/IterationSlider';
 import FlipText from '@/components/bitcode/layout/sidebars/FlipText/FlipText';
 import { templates as defaultTemplates } from '@/config/templates';
-import type { ShippableTemplates } from '@/types/templates';
+import type { DeliveryTemplates } from '@/types/templates';
 import { useTemplatePreferences } from '@/hooks/useTemplatePreferences';
-import { useShippableTemplates } from '@/hooks/useShippableTemplates';
+import { useDeliveryTemplates } from '@/hooks/useDeliveryTemplates';
 import {
-  getHeaderShippables,
+  getHeaderSettleDelivery,
   getHeaderWrittenAssets,
-  mergeHeaderShippables,
+  mergeHeaderSettleDelivery,
   type HeaderAssetPackCompletion,
 } from '@/components/bitcode/pipeline/ExecutionsCompleteHeaderContent/ExecutionsCompleteHeaderContent';
 
@@ -52,20 +52,20 @@ const calculateInstructionTimeoutSeconds = (confidence: number): number => {
 };
 
 export function ExecutionsClient() {
-  // Retained execution composer logic; Bitcode output nouns are shippables.
+  // Settle delivery panels: buyer PR after settle, not SDIVF Finish.
   const router = useRouter();
   const searchParams = useSearchParams();
   const runId = searchParams.get('runId');
   const { preferences, isLoading: isLoadingTemplatePrefs, error: templatePrefError, reload: reloadTemplatePrefs } = useTemplatePreferences();
-  const { templates: dbTemplates } = useShippableTemplates();
+  const { templates: dbTemplates } = useDeliveryTemplates();
 
-  const templatesSource: ShippableTemplates = useMemo(() => ({
+  const templatesSource: DeliveryTemplates = useMemo(() => ({
     pullRequests: [...defaultTemplates.pullRequests, ...(dbTemplates?.pullRequests ?? [])],
   }), [dbTemplates]);
 
-  const mergedTemplates: ShippableTemplates = React.useMemo(() => {
+  const mergedTemplates: DeliveryTemplates = React.useMemo(() => {
     if (!preferences) return templatesSource;
-    const filterByPrefs = (category: keyof ShippableTemplates, list: ShippableTemplates[keyof ShippableTemplates]) => {
+    const filterByPrefs = (category: keyof DeliveryTemplates, list: DeliveryTemplates[keyof DeliveryTemplates]) => {
       const prefIds = preferences.shippable_templates?.[category] ?? [];
       if (!prefIds.length) return list;
       return list.filter((t) => prefIds.includes(t.id));
@@ -346,11 +346,11 @@ export function ExecutionsClient() {
     headerPostprocessed?.writtenAssets ||
     null;
   const deliveryMechanismForPanels =
-    getHeaderShippables(historyAssetPackCompletion) ||
+    getHeaderSettleDelivery(historyAssetPackCompletion) ||
     headerPostprocessed?.shippables ||
     headerPostprocessed?.deliveryMechanism ||
     null;
-  const shippablesForPanels = mergeHeaderShippables(
+  const settleDeliveryForPanels = mergeHeaderSettleDelivery(
     writtenAssetsForPanels,
     deliveryMechanismForPanels,
   );
@@ -498,10 +498,10 @@ export function ExecutionsClient() {
   return (
     <>
       <OrbitalBackground isProcessing={isProcessing} />
-      <ExecutionsPageHeaderShippablePostprocess
+      <ExecutionsPageHeaderSettleDeliveryPostprocess
           renderDocInsideHeader={false}
           renderCardsInsideHeader={false}
-          onSelectShippableTemplateDefinitionOfNeed={handleSetDefinitionOfNeed}
+          onSelectDeliveryTemplateDefinitionOfNeed={handleSetDefinitionOfNeed}
           executionStatus={isProcessing ? 'executing' : (!isProcessing && (isStreamingComplete || (!!runId && !!historyAssetPackCompletion))) ? 'executed' : 'execute'}
           executionType={'agentic-execution:asset-pack'}
           postprocessed={headerPostprocessed || undefined}
@@ -518,7 +518,7 @@ export function ExecutionsClient() {
               handleSetDefinitionOfNeed(template.text);
             }
           }}
-          shippables={{
+          settleDelivery={{
             pullRequest: deliveryMechanismForPanels?.pullRequest ?? null,
             fileChanges: writtenAssetsForPanels?.fileChanges ?? null,
             summary:
@@ -532,22 +532,22 @@ export function ExecutionsClient() {
         />
 
       {/* AssetPack artifacts + execution log */}
-      {shippablesForPanels && (
-        <ShippablesDocPanel
-          shippables={{
-            pullRequest: shippablesForPanels.pullRequest ?? null,
-            fileChanges: shippablesForPanels.fileChanges ?? null,
-            summary: shippablesForPanels.summary ?? null,
+      {settleDeliveryForPanels && (
+        <SettleDeliveryDocPanel
+          settleDelivery={{
+            pullRequest: settleDeliveryForPanels.pullRequest ?? null,
+            fileChanges: settleDeliveryForPanels.fileChanges ?? null,
+            summary: settleDeliveryForPanels.summary ?? null,
           }}
           summaryOpen={summaryOpen}
           onToggleSummary={() => setSummaryOpen((prev) => !prev)}
         />
       )}
 
-      {shippablesForPanels && (
-        <ShippablesCardsPanel
-          shippables={{
-            pullRequest: shippablesForPanels.pullRequest ?? null,
+      {settleDeliveryForPanels && (
+        <SettleDeliveryCardsPanel
+          settleDelivery={{
+            pullRequest: settleDeliveryForPanels.pullRequest ?? null,
           }}
         />
       )}

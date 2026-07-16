@@ -64,17 +64,12 @@ export {
 // (re-exported for compatibility; prefer importing that package directly)
 export {
   factorySDIVFPipelinePhaseDelegators,
-  factorySDIVFPhaseDelegators,
   SDIVFPipelinePhase,
-  SDIVFPhase,
   factorySDIVFPipeline,
   factorySDIVFPipelineFromExecutors,
-  factorySDIVFExecutorPipeline,
   type SDIVFPipeline,
   type SDIVFPipelineConfig,
   type SDIVFPipelineExecutorConfig,
-  type SDIVFConfig,
-  type SDIVFExecutorConfig,
 } from '@bitcode/generic-pipelines-sdivf';
 
 // Streaming integration for real-time pipeline updates

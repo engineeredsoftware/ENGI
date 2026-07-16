@@ -70,5 +70,3 @@ export async function ensureDepositCheckoutSourceFiles(
   return sourceCatalog;
 }
 
-/** @deprecated Prefer ensureDepositCheckoutSourceFiles */
-export const ensureDepositInventorySources = ensureDepositCheckoutSourceFiles;

@@ -24,7 +24,7 @@ import type {
 import type { ExecutionState, StreamStatusMessage, LlmCallData } from '@/types/stream';
 import type { IntegrationOption } from '@/types/integrations';
 import type { Issue } from '@/types/issues';
-import type { ShippableTemplates } from '@/types/templates';
+import type { DeliveryTemplates } from '@/types/templates';
 
 // ============================================================================
 // Core Mocking Framework Types
@@ -757,7 +757,7 @@ export type {
   ExecutionState,
   StreamStatusMessage,
   LlmCallData,
-  ShippableTemplates,
+  DeliveryTemplates,
   IntegrationOption,
   Issue
 };

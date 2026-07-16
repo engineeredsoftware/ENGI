@@ -11,21 +11,11 @@ export type { SDIVFPipeline } from './sdivf-factory';
 export {
   factorySDIVFPipeline,
   factorySDIVFPipelineFromExecutors,
-  /** @deprecated Use factorySDIVFPipelineFromExecutors */
-  factorySDIVFExecutorPipeline,
   type SDIVFPipelineConfig,
   type SDIVFPipelineExecutorConfig,
-  /** @deprecated Use SDIVFPipelineConfig */
-  type SDIVFConfig,
-  /** @deprecated Use SDIVFPipelineExecutorConfig */
-  type SDIVFExecutorConfig,
 } from './sdivf-factory';
 
 export {
   SDIVFPipelinePhase,
   factorySDIVFPipelinePhaseDelegators,
-  /** @deprecated Use SDIVFPipelinePhase */
-  SDIVFPhase,
-  /** @deprecated Use factorySDIVFPipelinePhaseDelegators */
-  factorySDIVFPhaseDelegators,
 } from './sdivf-phases';

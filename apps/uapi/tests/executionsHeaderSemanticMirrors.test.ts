@@ -1,7 +1,7 @@
 import {
   getHeaderDeliveryMechanism,
   getHeaderWrittenAssets,
-  mergeHeaderShippables,
+  mergeHeaderSettleDelivery,
   type HeaderAssetPackCompletion,
 } from '@/components/bitcode/pipeline/ExecutionsCompleteHeaderContent/ExecutionsCompleteHeaderContent';
 
@@ -38,7 +38,7 @@ describe('executions header semantic mirrors', () => {
     expect(getHeaderWrittenAssets(assetPackCompletion)?.summary).toBe('Primary AssetPack synthesis artifact summary.');
     expect(getHeaderDeliveryMechanism(assetPackCompletion)?.pullRequest?.title).toBe('Shippable PR');
     expect(
-      mergeHeaderShippables(
+      mergeHeaderSettleDelivery(
         getHeaderWrittenAssets(assetPackCompletion),
         getHeaderDeliveryMechanism(assetPackCompletion),
       ),
@@ -73,7 +73,7 @@ describe('executions header semantic mirrors', () => {
 
     expect(getHeaderDeliveryMechanism(assetPackCompletion)).toBeNull();
     expect(
-      mergeHeaderShippables(
+      mergeHeaderSettleDelivery(
         getHeaderWrittenAssets(assetPackCompletion),
         getHeaderDeliveryMechanism(assetPackCompletion),
       ),

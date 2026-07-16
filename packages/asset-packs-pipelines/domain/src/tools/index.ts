@@ -158,10 +158,7 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     ],
 
     // Discovery Phase
-    'asset-pack-gather-context-agent': [lexicalDepositorySearchTool],
-    'asset-pack-understand-requirements-agent': [lexicalDepositorySearchTool],
-    'asset-pack-research-approach-agent': [lexicalDepositorySearchTool],
-    'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
+                'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
     'asset-pack-digest-codebase-agent': [],
     'asset-pack-research-web-agent': [],
     // Deposit Discovery roster keys (one entry each; factory names only if tools resolve by agent class).

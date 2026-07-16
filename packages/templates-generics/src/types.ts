@@ -4,7 +4,7 @@
  */
 
 // V26 Finish ships AssetPacks through pull requests only.
-export type ShippableTemplateType = 'pullRequests';
+export type DeliveryTemplateType = 'pullRequests';
 
 // Evidence Document template types matching UI categories.
 export type EvidenceDocumentTemplateType =
@@ -24,8 +24,8 @@ interface BaseTemplate {
   updated_at: string;
 }
 
-export interface ShippableTemplate extends BaseTemplate {
-  shippable_type: ShippableTemplateType;
+export interface DeliveryTemplate extends BaseTemplate {
+  shippable_type: DeliveryTemplateType;
 }
 
 // Evidence Document template.
@@ -45,9 +45,9 @@ export interface UserTemplatePreferences {
 }
 
 // Template creation payloads
-export interface CreateShippableTemplatePayload {
+export interface CreateDeliveryTemplatePayload {
   name: string;
-  shippableTypes: ShippableTemplateType[];
+  deliveryTypes: DeliveryTemplateType[];
   templateText: string;
 }
 

@@ -5,7 +5,7 @@
  * intelligence: ["stream-orchestration", "pipeline-coordination", "real-time-updates"]
  * philosophy: "Streams are the nervous system of pipeline intelligence"
  */
-import { SDIVFPhase } from '@bitcode/pipelines-generics';
+import { SDIVFPipelinePhase } from '@bitcode/pipelines-generics';
 import { StreamMessage } from './streams';
 /**
  * @doc-generic
@@ -26,9 +26,9 @@ export interface PipelineStreamMessage extends StreamMessage {
     pipeline?: string;
     subtype?: string;
     phaseProgress?: {
-        current: SDIVFPhase | string;
-        completed: (SDIVFPhase | string)[];
-        remaining: (SDIVFPhase | string)[];
+        current: SDIVFPipelinePhase | string;
+        completed: (SDIVFPipelinePhase | string)[];
+        remaining: (SDIVFPipelinePhase | string)[];
     };
 }
 /**
@@ -78,8 +78,8 @@ export declare class GenericStreamManager {
      * @doc-stream
      * Phase transition events
      */
-    phaseStart(phase: SDIVFPhase | string): Promise<void>;
-    phaseComplete(phase: SDIVFPhase | string, result?: any): Promise<void>;
+    phaseStart(phase: SDIVFPipelinePhase | string): Promise<void>;
+    phaseComplete(phase: SDIVFPipelinePhase | string, result?: any): Promise<void>;
     /**
      * @doc-stream
      * Agent coordination events
@@ -125,13 +125,13 @@ export declare class GenericStreamManager {
  */
 export declare class StreamFactory {
     /**
-     * Create stream manager for an AssetPack/Shippable-producing pipeline.
+     * Create stream manager for an AssetPack synthesis pipeline.
      */
     static createStreamManager(config: PipelineStreamConfig): GenericStreamManager;
     /**
-     * Create Shippable-specific stream manager.
+     * Create AssetPack pipeline stream manager.
      */
-    static createShippablesStream(correlationId: string, dataStream?: any): GenericStreamManager;
+    static createAssetPackPipelineStream(correlationId: string, dataStream?: any): GenericStreamManager;
 }
 /**
  * @doc-decorator

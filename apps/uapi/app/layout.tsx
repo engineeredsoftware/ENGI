@@ -4,7 +4,6 @@ import "./globals.css";
 // Global navigation animations
 import "@/styles/nav-animations.css";
 // Global marketing animations (text gradients, pulses, etc.)
-import "@/styles/marketing-animations.css";
 // Global styles for the orbital modal and rings
 import "@/styles/orbital-rings.css";
 import "@/styles/orbital.css";

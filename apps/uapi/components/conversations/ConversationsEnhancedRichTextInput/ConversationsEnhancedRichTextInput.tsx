@@ -8,7 +8,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 // motion and AnimatePresence not needed here
 // import { motion, AnimatePresence } from 'framer-motion';
-import ShippablePicker from '@/components/conversations/pickers/ShippablePicker/ShippablePicker';
+import DeliveryTemplatePicker from '@/components/conversations/pickers/DeliveryTemplatePicker/DeliveryTemplatePicker';
 import AttachmentPicker from '@/components/conversations/pickers/AttachmentPicker/AttachmentPicker';
 import VCSSourcePicker from '@/components/conversations/pickers/VcsSourcePicker/VcsSourcePicker';
 import PipelineRunPicker from '@/components/conversations/pickers/PipelineRunPicker/PipelineRunPicker';
@@ -415,7 +415,7 @@ export default function RichTextInput({
 
       {/* Pickers */}
       {activePicker === 'evidence_document' && (
-        <ShippablePicker
+        <DeliveryTemplatePicker
           isOpen={true}
           onSelect={handleSelectEvidenceDocument}
           onClose={() => setActivePicker(null)}
@@ -424,7 +424,7 @@ export default function RichTextInput({
       )}
 
       {activePicker === 'shippable' && (
-        <ShippablePicker
+        <DeliveryTemplatePicker
           isOpen={true}
           onSelect={handleSelectShippable}
           onClose={() => setActivePicker(null)}

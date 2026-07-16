@@ -25,7 +25,7 @@ type FileChanges = {
   charDiff?: { edited: number; created: number; deleted: number };
 };
 
-export type HeaderShippables = {
+export type HeaderSettleDelivery = {
   pullRequest?: Shippable | null;
   fileChanges?: FileChanges | null;
   summary?: string | null;
@@ -78,10 +78,10 @@ export type RepoSnapshot = { org: string; repo: string; branch: string; commit: 
 
 export type HeaderAssetPackCompletion = {
   summary?: string | null;
-  shippables?: HeaderShippables;
-  assetPackSynthesisArtifacts?: HeaderShippables;
-  writtenAssets?: HeaderShippables;
-  deliveryMechanism?: HeaderShippables;
+  shippables?: HeaderSettleDelivery;
+  assetPackSynthesisArtifacts?: HeaderSettleDelivery;
+  writtenAssets?: HeaderSettleDelivery;
+  deliveryMechanism?: HeaderSettleDelivery;
   read?: string | null;
   writtenAssetType?: string | null;
   assetPack?: {
@@ -111,7 +111,7 @@ export function CompleteHeaderContent({
   postprocessed,
   executionType,
 }: {
-  shippables?: HeaderShippables;
+  shippables?: HeaderSettleDelivery;
   processingStats?: HeaderProcessingStats;
   repoSnapshot?: RepoSnapshot;
   postprocessed?: any;
@@ -123,10 +123,10 @@ export function CompleteHeaderContent({
   // - processingStats and repoSnapshot are sourced from server-computed asset_pack_completion objects
   //   emitted by both pipelines. The UI renders only server-provided values.
   const [showFileDetails, setShowFileDetails] = React.useState(false);
-  const finishDeliveredShippables = shippables || {};
+  const settleDeliverySurface = shippables || {};
   const tldr: React.ReactNode[] = [];
-  if (finishDeliveredShippables?.pullRequest) {
-    const pr = finishDeliveredShippables.pullRequest;
+  if (settleDeliverySurface?.pullRequest) {
+    const pr = settleDeliverySurface.pullRequest;
     tldr.push(
       <a key={`pr-${pr.number}`} href={pr.url} target="_blank" rel="noopener noreferrer" className="text-emerald-300 hover:text-emerald-200">
         PR: {pr.title || `#${pr.number}`}
@@ -168,7 +168,7 @@ export function CompleteHeaderContent({
       </div>
 
       {/* Summary + TLDR */}
-      {finishDeliveredShippables?.summary && (
+      {settleDeliverySurface?.summary && (
         <div className="space-y-4">
           <div className="flex items-center justify-between px-5 py-4 bg-black/40 rounded-none border border-emerald-500/10">
             <div className="flex-1 text-sm text-gray-200 flex flex-wrap items-center gap-1">
@@ -187,7 +187,7 @@ export function CompleteHeaderContent({
             </div>
           </div>
           <div className="rounded-none border border-emerald-500/10 bg-black/30 p-4">
-            <ReactMarkdown className="prose prose-invert max-w-none">{finishDeliveredShippables.summary}</ReactMarkdown>
+            <ReactMarkdown className="prose prose-invert max-w-none">{settleDeliverySurface.summary}</ReactMarkdown>
           </div>
           {/* Unified postprocessed details shown beneath TL;DR */}
           {postprocessed && (
@@ -260,25 +260,25 @@ export function CompleteHeaderContent({
         <div className="space-y-3">
           <h3 className="text-emerald-300 text-sm font-medium uppercase tracking-wider border-b border-emerald-500/20 pb-2">Input Assets</h3>
           {/* Files changed summary if present */}
-          {finishDeliveredShippables?.fileChanges ? (
+          {settleDeliverySurface?.fileChanges ? (
             <div className="grid grid-cols-3 gap-2 text-center">
               <div>
-                <div className="text-emerald-300 text-lg font-medium">{finishDeliveredShippables.fileChanges.edited}</div>
+                <div className="text-emerald-300 text-lg font-medium">{settleDeliverySurface.fileChanges.edited}</div>
                 <div className="text-xs text-gray-400">Edited</div>
               </div>
               <div>
-                <div className="text-emerald-300 text-lg font-medium">{finishDeliveredShippables.fileChanges.created}</div>
+                <div className="text-emerald-300 text-lg font-medium">{settleDeliverySurface.fileChanges.created}</div>
                 <div className="text-xs text-gray-400">Created</div>
               </div>
               <div>
-                <div className="text-emerald-300 text-lg font-medium">{finishDeliveredShippables.fileChanges.deleted}</div>
+                <div className="text-emerald-300 text-lg font-medium">{settleDeliverySurface.fileChanges.deleted}</div>
                 <div className="text-xs text-gray-400">Deleted</div>
               </div>
             </div>
           ) : null}
 
           {/* Toggleable details */}
-          {finishDeliveredShippables?.fileChanges && (finishDeliveredShippables.fileChanges.fileDiffs?.length || finishDeliveredShippables.fileChanges.paths?.length) ? (
+          {settleDeliverySurface?.fileChanges && (settleDeliverySurface.fileChanges.fileDiffs?.length || settleDeliverySurface.fileChanges.paths?.length) ? (
             <div className="mt-2">
               <button
                 type="button"
@@ -289,9 +289,9 @@ export function CompleteHeaderContent({
               </button>
               {showFileDetails && (
                 <div className="mt-2 max-h-40 overflow-auto pr-2 border border-emerald-500/10 rounded-none bg-black/20">
-                  {(finishDeliveredShippables.fileChanges.fileDiffs && finishDeliveredShippables.fileChanges.fileDiffs.length > 0
-                    ? finishDeliveredShippables.fileChanges.fileDiffs
-                    : (finishDeliveredShippables.fileChanges.paths || []).map(path => ({ path, added: 0, removed: 0 }))
+                  {(settleDeliverySurface.fileChanges.fileDiffs && settleDeliverySurface.fileChanges.fileDiffs.length > 0
+                    ? settleDeliverySurface.fileChanges.fileDiffs
+                    : (settleDeliverySurface.fileChanges.paths || []).map(path => ({ path, added: 0, removed: 0 }))
                   ).slice(0, 50).map((diff: any, idx: number) => (
                     <div key={idx} className="px-2 py-1 text-xs text-gray-300 flex items-center justify-between border-b border-gray-800/30 last:border-0">
                       <span className="truncate mr-2">{diff.path}</span>
@@ -334,7 +334,7 @@ export function CompleteHeaderContent({
 
 export function getHeaderWrittenAssets(
   assetPackCompletion?: HeaderAssetPackCompletion | null,
-): HeaderShippables | null {
+): HeaderSettleDelivery | null {
   return (
     assetPackCompletion?.assetPackSynthesisArtifacts ||
     assetPackCompletion?.writtenAssets ||
@@ -342,9 +342,9 @@ export function getHeaderWrittenAssets(
   );
 }
 
-export function getHeaderShippables(
+export function getHeaderSettleDelivery(
   assetPackCompletion?: HeaderAssetPackCompletion | null,
-): HeaderShippables | null {
+): HeaderSettleDelivery | null {
   return (
     assetPackCompletion?.shippables ||
     assetPackCompletion?.deliveryMechanism ||
@@ -352,12 +352,12 @@ export function getHeaderShippables(
   );
 }
 
-export const getHeaderDeliveryMechanism = getHeaderShippables;
+export const getHeaderDeliveryMechanism = getHeaderSettleDelivery;
 
-export function mergeHeaderShippables(
-  writtenAssets?: HeaderShippables | null,
-  deliveryMechanism?: HeaderShippables | null,
-): HeaderShippables | null {
+export function mergeHeaderSettleDelivery(
+  writtenAssets?: HeaderSettleDelivery | null,
+  deliveryMechanism?: HeaderSettleDelivery | null,
+): HeaderSettleDelivery | null {
   if (!writtenAssets && !deliveryMechanism) return null;
 
   return {

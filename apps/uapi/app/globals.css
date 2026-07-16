@@ -1,11 +1,9 @@
 /* Import component-specific CSS files */
 @import '../styles/components.css';
+/* Product running-pipeline telemetry (PipelineExecutionLog / ProcessingIndicator) */
 @import '../styles/processing-indicator.css';
-@import '../styles/intelligent-processing.css';
 @import '../styles/deliver-button.css';
 @import '../styles/read-definition-input.css';
-@import '../styles/completion-celebration.css';
-@import '../styles/pipeline-phase-poetry.css';
 @import '../styles/error-recovery-grace.css';
 @import '../styles/quantum-button.css';
 

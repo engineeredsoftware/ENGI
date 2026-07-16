@@ -1,0 +1,4 @@
+import ExecutionsPageHeader from '@/components/bitcode/pipeline/ExecutionsPageHeader/ExecutionsPageHeader';
+
+const ExecutionsPageHeaderSettleDeliveryPostprocess = ExecutionsPageHeader;
+export default ExecutionsPageHeaderSettleDeliveryPostprocess;

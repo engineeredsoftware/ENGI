@@ -85,7 +85,7 @@ const PRODUCT_ENTERPRISE_READING_STAGE_VALUES: EnterpriseReadingStepId[] = [
   'buy-asset-pack-settle',
 ];
 export type PipelineTransactionDetailSection =
-  | 'shippables'
+  | 'settle_delivery'
   | 'transaction'
   | 'wallet-btc'
   | 'authority'
@@ -96,7 +96,7 @@ export type PipelineTransactionDetailSection =
   | 'activity'
   | 'console';
 const TRANSACTION_DETAIL_SECTION_VALUES: PipelineTransactionDetailSection[] = [
-  'shippables',
+  'settle_delivery',
   'transaction',
   'wallet-btc',
   'authority',
@@ -158,7 +158,7 @@ export function readProductDebugEnabled(searchParams: URLSearchParams) {
 export function readPipelineTransactionDetailSection(searchParams: URLSearchParams) {
   const rawValue = searchParams.get(SEARCH_PARAM_KEYS.detailSection);
   if (rawValue === 'identity') return 'transaction';
-  return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'shippables');
+  return parseEnumValue(rawValue, TRANSACTION_DETAIL_SECTION_VALUES, 'settle_delivery');
 }
 
 export function readProductTransactionFilters(searchParams: URLSearchParams): TransactionFilters {
@@ -274,7 +274,7 @@ export function writePipelineTransactionDetailSection(
   detailSection: PipelineTransactionDetailSection,
 ) {
   const nextParams = new URLSearchParams(searchParams.toString());
-  if (detailSection === 'shippables') {
+  if (detailSection === 'settle_delivery') {
     nextParams.delete(SEARCH_PARAM_KEYS.detailSection);
   } else {
     nextParams.set(SEARCH_PARAM_KEYS.detailSection, detailSection);

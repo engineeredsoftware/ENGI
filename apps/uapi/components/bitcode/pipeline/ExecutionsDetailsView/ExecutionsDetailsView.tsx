@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import { usePipelineExecution } from '@/hooks/usePipelineExecution';
 import BitcodeExecutionStreamPanel from '@/components/bitcode/pipeline/BitcodeExecutionStreamPanel/BitcodeExecutionStreamPanel';
 import {
-  getHeaderShippables,
+  getHeaderSettleDelivery,
   getHeaderWrittenAssets,
-  mergeHeaderShippables,
+  mergeHeaderSettleDelivery,
 } from '@/components/bitcode/pipeline/ExecutionsCompleteHeaderContent/ExecutionsCompleteHeaderContent';
 
 interface ExecutionDetailsViewProps {
@@ -58,9 +58,9 @@ export function ExecutionDetailsView({ runId, executionId }: ExecutionDetailsVie
   const runOutput = (run as any).output || (run as any).output_data || {};
   const assetPackCompletion = runOutput?.asset_pack_completion || (run as any).asset_pack_completion || null;
   const writtenAssets = getHeaderWrittenAssets(assetPackCompletion);
-  const shippables = getHeaderShippables(assetPackCompletion);
+  const shippables = getHeaderSettleDelivery(assetPackCompletion);
   const deliveryMechanism = shippables;
-  const mergedAssetPackSurface = mergeHeaderShippables(writtenAssets, shippables);
+  const mergedAssetPackSurface = mergeHeaderSettleDelivery(writtenAssets, shippables);
   const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
   // Extract execution state and output from events

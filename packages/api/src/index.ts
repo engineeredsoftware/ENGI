@@ -28,7 +28,7 @@ export * from './pipelines/branch';
 // VCS - Version control system operations
 export * from './vcs';
 export * from './routes/auth';
-export * as shippables from './routes/shippables';
+export * as assetPackPipeline from './routes/asset-pack-pipeline';
 
 // Additional business logic modules will be added here as they're migrated
 // from routes to this package

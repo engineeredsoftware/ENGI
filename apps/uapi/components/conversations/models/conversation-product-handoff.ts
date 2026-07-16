@@ -92,7 +92,7 @@ export const CONVERSATION_PRODUCT_HANDOFF_WORKFLOWS: Array<{
   {
     workflow: 'delivery',
     label: 'Delivery',
-    productDetail: 'shippables',
+    productDetail: 'settle_delivery',
     summaryPlaceholder: 'Summarize the post-settlement delivery review intent.',
   },
 ];

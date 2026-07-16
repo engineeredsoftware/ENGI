@@ -141,7 +141,7 @@ export const ExecutionReadInput = ({
     }
 
     try {
-      const response = await fetch('/api/templates/shippables', {
+      const response = await fetch('/api/templates/delivery', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

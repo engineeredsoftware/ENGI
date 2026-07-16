@@ -1,1 +1,1 @@
-export { DELETE, GET, POST } from '@bitcode/api/src/routes/shippables';
+export { DELETE, GET, POST } from '@bitcode/api/src/routes/asset-pack-pipeline';
