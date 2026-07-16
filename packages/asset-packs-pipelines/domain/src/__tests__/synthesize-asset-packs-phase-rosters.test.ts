@@ -14,7 +14,13 @@
 jest.mock('@bitcode/generic-llms', () =>
   require('./support/generic-llms-mock').makeGenericLLMsMock());
 
-import { registerDiscoveryAgents } from '../phases/discovery';
+import {
+  registerDiscoveryAgents,
+  DISCOVERY_COMPREHEND_CODEBASE,
+  DISCOVERY_INHERENT_REGURGITATION,
+  DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
+  DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
+} from '../phases/discovery';
 import { registerImplementationAgents } from '../phases/implementation';
 import { registerValidationAgentsForType } from '../phases/validation';
 import { registerFinishAgentsForType } from '../phases/finish';
@@ -33,6 +39,7 @@ import {
 
 import depositCodebaseComprehensionAgent from '../agents/discovery/deposit-codebase-comprehension-agent';
 import depositDepositorySearchAgent from '../agents/discovery/deposit-depository-search-agent';
+import readDepositorySearchForNeedFitsAgent from '../agents/discovery/read-depository-search-for-need-fits-agent';
 import depositInherentRegurgitationAgent from '../agents/discovery/deposit-inherent-regurgitation-agent';
 import depositAssetPackSynthesisAgent from '../agents/implementation/deposit-asset-pack-synthesis-agent';
 import readAssetPackSynthesisAgent from '../agents/implementation/read-asset-pack-synthesis-agent';
@@ -66,39 +73,50 @@ async function resolveEntry(entry: any) {
 }
 
 describe('per-mode agent rosters (conditional runtime registries)', () => {
-  it('deposit discovery registers exactly the three deposit agents', async () => {
+  it('deposit discovery registers wave-1 agents + deposit-relevants search', async () => {
     const registry = fakeRegistry();
     registerDiscoveryAgents(registry, 'deposit');
 
     expect(Array.from(registry.entries.keys())).toEqual([
-      'discovery:comprehend-codebase',
-      'discovery:search-depository',
-      'discovery:inherent-regurgitation',
+      DISCOVERY_COMPREHEND_CODEBASE,
+      DISCOVERY_INHERENT_REGURGITATION,
+      DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
     ]);
-    expect(await resolveEntry(registry.entries.get('discovery:comprehend-codebase'))).toBe(
+    expect(await resolveEntry(registry.entries.get(DISCOVERY_COMPREHEND_CODEBASE))).toBe(
       depositCodebaseComprehensionAgent,
     );
-    expect(await resolveEntry(registry.entries.get('discovery:search-depository'))).toBe(
-      depositDepositorySearchAgent,
-    );
-    expect(await resolveEntry(registry.entries.get('discovery:inherent-regurgitation'))).toBe(
+    expect(
+      await resolveEntry(registry.entries.get(DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS)),
+    ).toBe(depositDepositorySearchAgent);
+    expect(await resolveEntry(registry.entries.get(DISCOVERY_INHERENT_REGURGITATION))).toBe(
       depositInherentRegurgitationAgent,
     );
   });
 
-  it.each([['read'], [undefined], ['deposit']])(
-    'discovery (mode=%s) always registers the product three-agent roster',
-    (mode) => {
-      const registry = fakeRegistry();
-      registerDiscoveryAgents(registry, mode);
+  it('read discovery registers wave-1 agents + read-need-fits search', async () => {
+    const registry = fakeRegistry();
+    registerDiscoveryAgents(registry, 'read');
 
-      expect(Array.from(registry.entries.keys())).toEqual([
-        'discovery:comprehend-codebase',
-        'discovery:search-depository',
-        'discovery:inherent-regurgitation',
-      ]);
-    },
-  );
+    expect(Array.from(registry.entries.keys())).toEqual([
+      DISCOVERY_COMPREHEND_CODEBASE,
+      DISCOVERY_INHERENT_REGURGITATION,
+      DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
+    ]);
+    expect(
+      await resolveEntry(registry.entries.get(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS)),
+    ).toBe(readDepositorySearchForNeedFitsAgent);
+  });
+
+  it('default (non-read) discovery registers deposit-relevants search', () => {
+    const registry = fakeRegistry();
+    registerDiscoveryAgents(registry, undefined);
+    expect(Array.from(registry.entries.keys())).toContain(
+      DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
+    );
+    expect(Array.from(registry.entries.keys())).not.toContain(
+      DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
+    );
+  });
 
   it('implementation registers deposit-named vs read synthesis keys by mode', async () => {
     const depositKey = 'implementation:deposit-asset-pack-synthesis';
@@ -220,9 +238,14 @@ function harness(keys: string[]) {
 }
 
 const DEPOSIT_DISCOVERY_KEYS = [
-  'discovery:comprehend-codebase',
-  'discovery:search-depository',
-  'discovery:inherent-regurgitation',
+  DISCOVERY_COMPREHEND_CODEBASE,
+  DISCOVERY_INHERENT_REGURGITATION,
+  DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
+];
+const READ_DISCOVERY_KEYS = [
+  DISCOVERY_COMPREHEND_CODEBASE,
+  DISCOVERY_INHERENT_REGURGITATION,
+  DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
 ];
 const DEPOSIT_IMPLEMENTATION_KEY = 'implementation:deposit-asset-pack-synthesis';
 const DEPOSIT_VALIDATION_KEY =
@@ -241,23 +264,30 @@ const READ_FINISH_KEYS = [
 ];
 
 describe('product phase delegators execute the roster (execution-tree walk)', () => {
-  it('deposit discovery runs comprehend-codebase ∥ search-depository ∥ inherent-regurgitation', async () => {
+  it('deposit discovery: parallel(comprehend, regurgitation) then deposit-relevants search', async () => {
     const { calls, root } = harness(DEPOSIT_DISCOVERY_KEYS);
     const phaseExec = root.child('seq-2');
 
     await depositDiscoveryPhase({ seed: true }, phaseExec);
 
-    // Parallel — assert set equality, not order.
-    expect(new Set(calls)).toEqual(new Set(DEPOSIT_DISCOVERY_KEYS));
     expect(calls).toHaveLength(3);
+    // Wave 1 (either order) then wave 2 search last.
+    expect(new Set(calls.slice(0, 2))).toEqual(
+      new Set([DISCOVERY_COMPREHEND_CODEBASE, DISCOVERY_INHERENT_REGURGITATION]),
+    );
+    expect(calls[2]).toBe(DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS);
   });
 
-  it('read discovery reuses the three deposit discovery agent keys in parallel', async () => {
-    const { calls, root } = harness(DEPOSIT_DISCOVERY_KEYS);
+  it('read discovery: parallel(comprehend, regurgitation) then read-need-fits search', async () => {
+    const { calls, root } = harness(READ_DISCOVERY_KEYS);
 
     await readDiscoveryPhase({ seed: true }, root.child('seq-2'));
 
-    expect(new Set(calls)).toEqual(new Set(DEPOSIT_DISCOVERY_KEYS));
+    expect(calls).toHaveLength(3);
+    expect(new Set(calls.slice(0, 2))).toEqual(
+      new Set([DISCOVERY_COMPREHEND_CODEBASE, DISCOVERY_INHERENT_REGURGITATION]),
+    );
+    expect(calls[2]).toBe(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS);
   });
 
   it('deposit implementation resolves deposit-asset-pack-synthesis', async () => {

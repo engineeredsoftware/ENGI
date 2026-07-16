@@ -2,7 +2,8 @@
  * Deposit-only SDIVF phase rosters for SynthesizeDepositAssetPacksSDIVFPipeline.
  *
  * Setup: clone alone → parallel {LSP, MCP, obfuscations} → danger wall alone.
- * Discovery: parallel {comprehend-codebase, search-depository, inherent-regurgitation}.
+ * Discovery: parallel {comprehend-codebase, inherent-regurgitation}
+ *            → search-depository-for-deposit-relevants (after wave 1).
  * Implementation: synthesize deposit AssetPacks (patch + measurements + metadata).
  * Validation: single ready-to-finish deposit gate.
  * Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run.
@@ -11,6 +12,11 @@
 import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
 import { Executor, sequential, parallel } from '@bitcode/execution-generics';
 import type { AssetPackInput, AssetPackOutput } from '../types/PipelineSchemas';
+import {
+  DISCOVERY_COMPREHEND_CODEBASE,
+  DISCOVERY_INHERENT_REGURGITATION,
+  DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
+} from './discovery';
 
 type SetupOutput = AssetPackInput;
 type DiscoveryOutput = AssetPackInput;
@@ -85,10 +91,13 @@ export const depositDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput>
     registerDiscoveryAgents((execution as any).agents, 'deposit');
   } catch {}
 
-  const exec: Executor<any, any> = parallel(
-    createAgentExecutor('discovery:comprehend-codebase'),
-    createAgentExecutor('discovery:search-depository'),
-    createAgentExecutor('discovery:inherent-regurgitation'),
+  // Wave 1 parallel → wave 2 depository relevants search (uses comprehension).
+  const exec: Executor<any, any> = sequential(
+    parallel(
+      createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),
+      createAgentExecutor(DISCOVERY_INHERENT_REGURGITATION),
+    ),
+    createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS),
   );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<SetupOutput, DiscoveryOutput>;

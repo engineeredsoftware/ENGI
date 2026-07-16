@@ -172,8 +172,23 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
       lspCodeIntelligenceEngine,
       lspWorkspaceNavigationEngine,
     ),
+    'DepositDepositorySearchForRelevantsAgent': [
+      depositDepositoryAssetPackSearchTool,
+      lexicalDepositorySearchTool,
+    ],
     'DepositDepositorySearchAgent': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
-    'discovery:search-depository': [depositDepositoryAssetPackSearchTool, lexicalDepositorySearchTool],
+    'discovery:search-depository-for-deposit-relevants': [
+      depositDepositoryAssetPackSearchTool,
+      lexicalDepositorySearchTool,
+    ],
+    'ReadDepositorySearchForNeedFitsAgent': [
+      depositDepositoryAssetPackSearchTool,
+      lexicalDepositorySearchTool,
+    ],
+    'discovery:search-depository-for-read-need-fits': [
+      depositDepositoryAssetPackSearchTool,
+      lexicalDepositorySearchTool,
+    ],
     'discovery:inherent-regurgitation': [],
     'DepositInherentRegurgitationAgent': [],
 

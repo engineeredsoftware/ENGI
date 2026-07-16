@@ -332,25 +332,23 @@ describe('discovery conditional runtime registry roster', () => {
     };
   }
 
-  it('deposit mode registers exactly three Discovery agents (no synonym aliases)', () => {
+  it('deposit mode registers wave-1 + search-depository-for-deposit-relevants', () => {
     const registry = recordingRegistry();
     registerDiscoveryAgents(registry, 'deposit');
     expect([...registry.registrations.keys()].sort()).toEqual([
       'discovery:comprehend-codebase',
       'discovery:inherent-regurgitation',
-      'discovery:search-depository',
+      'discovery:search-depository-for-deposit-relevants',
     ]);
   });
 
-  it('read/default mode registers the same product three-agent Discovery roster', () => {
-    for (const mode of [undefined, 'read']) {
-      const registry = recordingRegistry();
-      registerDiscoveryAgents(registry, mode);
-      expect([...registry.registrations.keys()].sort()).toEqual([
-        'discovery:comprehend-codebase',
-        'discovery:inherent-regurgitation',
-        'discovery:search-depository',
-      ]);
-    }
+  it('read mode registers wave-1 + search-depository-for-read-need-fits', () => {
+    const registry = recordingRegistry();
+    registerDiscoveryAgents(registry, 'read');
+    expect([...registry.registrations.keys()].sort()).toEqual([
+      'discovery:comprehend-codebase',
+      'discovery:inherent-regurgitation',
+      'discovery:search-depository-for-read-need-fits',
+    ]);
   });
 });

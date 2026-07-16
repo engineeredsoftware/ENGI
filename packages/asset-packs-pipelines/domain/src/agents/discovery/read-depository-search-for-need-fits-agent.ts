@@ -1,16 +1,16 @@
 /**
- * Discovery wave-2 agent: search-depository-for-deposit-relevants.
+ * Discovery wave-2 agent: search-depository-for-read-need-fits.
  *
  * Runs **after** parallel codebase comprehension + inherent regurgitation so
  * queries can use wave-1 grounding (especially comprehend-codebase).
  *
- * Deposit purpose: find **relevant** settled Depository supply / demand
- * alignment for this deposit synthesis run (not Need-fits — that is read).
+ * Read purpose: find Depository AssetPacks that **fit the accepted Need**
+ * (fits-finding). Deposit relevance search is a different product agent.
  *
- * Plan: synthesize search queries from wave-1 signals, sourceCheckoutCatalog,
- * obfuscations, measurements, and demand context.
+ * Plan: synthesize Need-fit search queries from wave-1 comprehension, Need
+ * (Setup), sourceCheckoutCatalog, and related signals.
  * Try: call depository-asset-pack-search (embeddings policy + lexical rank).
- * Refine/Retry: source-safe demand/relevance guidance for Implementation.
+ * Refine/Retry: source-safe Need-fit guidance for Implementation.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -28,57 +28,59 @@ const DepositorySearchInputSchema = z.object({
   repository: z.any().optional(),
   inventory: z.any().optional(),
   sourceCheckoutCatalog: z.any().optional(),
-  demandContext: z.array(z.any()).optional(),
+  need: z.any().optional(),
+  expressedRead: z.string().optional(),
 });
 
-const ReadDemandGuidanceSchema = z.object({
+const NeedFitGuidanceSchema = z.object({
   summary: z.string(),
-  likelyReadTopics: z.array(z.string()).optional(),
-  demandAlignment: z.array(z.string()).optional(),
-  underservedTopics: z.array(z.string()).optional(),
+  needFitTopics: z.array(z.string()).optional(),
+  candidateFitNotes: z.array(z.string()).optional(),
+  gapTopics: z.array(z.string()).optional(),
   readabilityNotes: z.array(z.string()).optional(),
   /** Queries used for Depository search (Plan output, echoed for audit). */
   searchQueries: z.array(z.string()).optional(),
 });
 
 const DepositorySearchOutputSchema = z.object({
-  guidance: ReadDemandGuidanceSchema,
-  /** Optional explicit query plan when model emits it at top level. */
+  guidance: NeedFitGuidanceSchema,
   searchQueries: z.array(z.string()).optional(),
 });
 
-export type DepositReadDemandGuidance = z.infer<typeof ReadDemandGuidanceSchema>;
+export type ReadNeedFitGuidance = z.infer<typeof NeedFitGuidanceSchema>;
 
 const IDENTITY = part(
-  'You are Discovery search-depository-for-deposit-relevants. You run after codebase ' +
+  'You are Discovery search-depository-for-read-need-fits. You run after codebase ' +
     'comprehension and inherent regurgitation. Search the Bitcode Depository for settled ' +
-    'AssetPack supply **relevant** to this deposit synthesis run. Build search queries from ' +
-    'wave-1 comprehension signals, sourceCheckoutCatalog, obfuscations, checkout measurements, ' +
-    'and demand context so synthesized packs align with likely demand. Be source-safe. ' +
-    'This is deposit relevance search — not Need-fit search (that is the read product agent).',
+    'AssetPacks that **fit the accepted Need** for this read synthesis run. Build search ' +
+    'queries from wave-1 comprehension signals, the Need / expressed Read, and ' +
+    'sourceCheckoutCatalog. Be source-safe. This is Need-fit (fits-finding) search — not ' +
+    'deposit relevance search.',
 );
 
 const REQUIREMENTS = part(
-  'From repository coordinates, sourceCheckoutCatalog (paths/samples), obfuscation guidance, ' +
-    'source measurements, and demandContext, derive: summary (reading demand this repository ' +
-    'is likely to satisfy), likelyReadTopics, demandAlignment, underservedTopics (Depository ' +
-    'under-supply), readabilityNotes, and searchQueries (3-12 short query terms/phrases for ' +
-    'vector/lexical Depository search). Return ONLY {"guidance": {...}, "searchQueries": [...]} ' +
+  'From the Need (or expressedRead), repository coordinates, sourceCheckoutCatalog, and ' +
+    'wave-1 discovery signals, derive: summary (how Depository supply may fit this Need), ' +
+    'needFitTopics, candidateFitNotes, gapTopics (Need facets under-served by supply), ' +
+    'readabilityNotes, and searchQueries (3-12 short query terms/phrases for vector/lexical ' +
+    'Depository search targeting Need-fits). Return ONLY {"guidance": {...}, "searchQueries": [...]} ' +
     'or {"guidance": {..., "searchQueries": [...]}}.',
 );
 
 const PLAN = part(
-  'Plan: use wave-1 codebase comprehension and inherent regurgitation outcomes plus ' +
-    'sourceCheckoutCatalog, measurements, obfuscations, and demand context to synthesize ' +
-    'Depository search queries that retrieve AssetPacks **relevant** to high-demand deposit synthesis.',
+  'Plan: use wave-1 codebase comprehension and inherent regurgitation plus the accepted Need ' +
+    'and sourceCheckoutCatalog to synthesize Depository search queries that retrieve AssetPacks ' +
+    'that **fit the Need** (fits-finding).',
 );
 const TRY = part(
-  'Try: produce demand guidance and the searchQueries list the Depository search tool will run.',
+  'Try: produce Need-fit guidance and the searchQueries list the Depository search tool will run.',
 );
 const REFINE = part(
-  'Refine: ensure queries and guidance are grounded in sourceCheckoutCatalog evidence, demand-aligned, and source-safe.',
+  'Refine: ensure queries and guidance are Need-grounded, comprehension-grounded, and source-safe.',
 );
-const RETRY = part('Retry: return minimal demand guidance and broad searchQueries rather than failing.');
+const RETRY = part(
+  'Retry: return minimal Need-fit guidance and broad Need-derived searchQueries rather than failing.',
+);
 
 function createPrompt(): Prompt {
   const prompt = new Prompt();
@@ -96,13 +98,13 @@ function createPrompt(): Prompt {
 
 const prompt = createPrompt();
 
-export const DepositDepositorySearchAgent = factoryPTRRAgent<
+export const ReadDepositorySearchForNeedFitsAgent = factoryPTRRAgent<
   z.infer<typeof DepositorySearchInputSchema>,
   z.infer<typeof DepositorySearchOutputSchema>
 >({
-  name: 'DepositDepositorySearchForRelevantsAgent',
+  name: 'ReadDepositorySearchForNeedFitsAgent',
   description:
-    'Discovery wave-2: search Depository for deposit-relevant supply; query plan after codebase comprehension.',
+    'Discovery wave-2: search Depository for Need-fitting AssetPacks; query plan after codebase comprehension.',
   outputSchema: DepositorySearchOutputSchema,
   tools: ['depository-asset-pack-search'],
   prompt,
@@ -124,51 +126,80 @@ function findValue(execution: any, namespace: string, key: string): any {
   return execution?.findUp?.(namespace, key);
 }
 
-function defaultQueriesFromRun(input: {
+function resolveNeed(execution: any, input: any): unknown {
+  return (
+    input?.need ??
+    input?.readNeed ??
+    findValue(execution, 'setup', 'need') ??
+    findValue(execution, 'setup', 'readNeed') ??
+    findValue(execution, 'pipeline', 'need') ??
+    findValue(execution, 'pipeline', 'expressedRead') ??
+    input?.expressedRead ??
+    null
+  );
+}
+
+function defaultQueriesFromNeed(input: {
   catalog?: any;
-  demandContext?: any[];
-  obfuscations?: string | null;
-  measurements?: any[];
+  need?: unknown;
+  expressedRead?: string | null;
   repository?: any;
 }): string[] {
   const terms: string[] = [];
+  const needText =
+    typeof input.need === 'string'
+      ? input.need
+      : input.need && typeof input.need === 'object'
+        ? [
+            (input.need as any).summary,
+            (input.need as any).title,
+            (input.need as any).text,
+            (input.need as any).expressedRead,
+          ]
+            .filter(Boolean)
+            .join(' ')
+        : '';
+  const blob = `${needText} ${input.expressedRead || ''}`.trim();
+  if (blob) {
+    terms.push(
+      ...blob
+        .split(/\W+/)
+        .filter((t) => t.length > 3)
+        .slice(0, 10),
+    );
+  }
   const fullName = input.repository?.fullName || input.repository?.name;
   if (fullName) terms.push(String(fullName).split('/').pop() || String(fullName));
   const paths = Array.isArray(input.catalog?.paths) ? input.catalog.paths : [];
-  for (const p of paths.slice(0, 12)) {
+  for (const p of paths.slice(0, 8)) {
     const base = String(p).split('/').filter(Boolean).pop();
     if (base && !base.startsWith('.')) terms.push(base.replace(/\.[^.]+$/, ''));
   }
-  for (const d of input.demandContext || []) {
-    if (typeof d === 'string') terms.push(d);
-    else if (d && typeof d === 'object' && (d as any).topic) terms.push(String((d as any).topic));
-  }
-  if (input.obfuscations) {
-    // Only coarse tokens — never raw long secrets
-    terms.push(...String(input.obfuscations).split(/\W+/).filter((t) => t.length > 4).slice(0, 6));
-  }
-  if (Array.isArray(input.measurements)) {
-    terms.push('measured-capability', 'source-safe-asset-pack');
-  }
+  terms.push('need-fit', 'source-safe-asset-pack');
   return [...new Set(terms.map((t) => t.trim()).filter((t) => t.length > 2))].slice(0, 12);
 }
 
-export default async function runDepositDepositorySearchAgent(input: any, execution: any) {
-  const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
+export default async function runReadDepositorySearchForNeedFitsAgent(input: any, execution: any) {
+  const repository =
+    input?.repository ??
+    findValue(execution, 'pipeline', 'repository') ??
+    findValue(execution, 'deposit', 'repository') ??
+    {};
   const catalog = resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog);
-  const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
-  const obfuscations = findValue(execution, 'deposit', 'obfuscations');
-  const measurements = findValue(execution, 'discovery', 'sourceMeasurements');
+  const need = resolveNeed(execution, input);
+  const expressedRead =
+    (typeof input?.expressedRead === 'string' && input.expressedRead) ||
+    findValue(execution, 'pipeline', 'expressedRead') ||
+    (typeof need === 'string' ? need : null);
   const settledAssets =
     input?.depositoryAssets ??
-    findValue(execution, 'deposit', 'settledDepositoryAssets') ??
     findValue(execution, 'depository', 'settledAssets') ??
+    findValue(execution, 'deposit', 'settledDepositoryAssets') ??
     [];
 
   const { projectInventoryForPrompt } = await import('../../asset-packs-synthesis');
   const catalogForPrompt = projectInventoryForPrompt(catalog);
 
-  // Register search tool on execution for PTRR try step / direct use.
   try {
     (execution as any)?.tools?.registerTool?.(
       'depository-asset-pack-search',
@@ -176,46 +207,49 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
     );
   } catch {}
 
-  const raw = await DepositDepositorySearchAgent(
+  const raw = await ReadDepositorySearchForNeedFitsAgent(
     {
       ...input,
       repository,
       sourceCheckoutCatalog: catalogForPrompt,
       inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
-      demandContext,
-      sourceMeasurements: measurements,
-      obfuscations,
+      need,
+      expressedRead,
     },
     execution,
   );
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
-  let guidance: DepositReadDemandGuidance = (result as any)?.guidance ?? {
+  let guidance: ReadNeedFitGuidance = (result as any)?.guidance ?? {
     summary:
-      'No read-demand guidance derived; frame synthesized packs by their codebase knowledge until demand signal exists.',
-    likelyReadTopics: [],
-    demandAlignment: [],
-    underservedTopics: [],
+      'No Need-fit guidance derived; frame synthesized packs from the accepted Need and checkout until Depository hits exist.',
+    needFitTopics: [],
+    candidateFitNotes: [],
+    gapTopics: [],
     readabilityNotes: [],
   };
 
   const modelQueries = asTerms(
     (result as any)?.searchQueries ?? (guidance as any)?.searchQueries,
   );
-  const fallbackQueries = defaultQueriesFromRun({
+  const fallbackQueries = defaultQueriesFromNeed({
     catalog: catalogForPrompt || catalog,
-    demandContext,
-    obfuscations,
-    measurements,
+    need,
+    expressedRead,
     repository,
   });
   const searchQueries = modelQueries.length > 0 ? modelQueries : fallbackQueries;
 
-  // Always run Depository search tool (vector policy + lexical rank when assets present).
   let toolResult: any = null;
   try {
-    const supabase = findValue(execution, 'deposit', 'supabase') || undefined;
-    const embedQuery = findValue(execution, 'deposit', 'embedQuery') || undefined;
+    const supabase =
+      findValue(execution, 'pipeline', 'supabase') ||
+      findValue(execution, 'deposit', 'supabase') ||
+      undefined;
+    const embedQuery =
+      findValue(execution, 'pipeline', 'embedQuery') ||
+      findValue(execution, 'deposit', 'embedQuery') ||
+      undefined;
     toolResult = await runDepositDepositoryAssetPackSearch({
       queryTerms: searchQueries,
       assets: Array.isArray(settledAssets) ? settledAssets : [],
@@ -230,26 +264,24 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
       queryTerms: toolResult?.queryTerms,
       vectorStore: toolResult?.vectorStore,
       embeddingPolicy: toolResult?.embeddingPolicy,
+      product: 'read-need-fits',
     });
 
     if (toolResult?.underservedTopics?.length) {
       guidance = {
         ...guidance,
-        underservedTopics: [
-          ...new Set([
-            ...(guidance.underservedTopics || []),
-            ...toolResult.underservedTopics,
-          ]),
+        gapTopics: [
+          ...new Set([...(guidance.gapTopics || []), ...toolResult.underservedTopics]),
         ],
         searchQueries,
       };
     } else {
       guidance = { ...guidance, searchQueries };
     }
-    if (toolResult?.hits?.length && !guidance.likelyReadTopics?.length) {
+    if (toolResult?.hits?.length && !guidance.needFitTopics?.length) {
       guidance = {
         ...guidance,
-        likelyReadTopics: toolResult.hits
+        needFitTopics: toolResult.hits
           .map((h: any) => h.title)
           .filter(Boolean)
           .slice(0, 8),
@@ -259,8 +291,10 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
     guidance = { ...guidance, searchQueries };
   }
 
+  // Shared discovery keys so Validation / Implementation dual-read the same store.
   storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearch', guidance);
   storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearchQueries', searchQueries);
+  storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearchProduct', 'read-need-fits');
 
   return { ...(input || {}), success: true, guidance, searchQueries, toolResult };
 }

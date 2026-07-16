@@ -152,10 +152,10 @@ const SPECS: DepositAgentPromptSpec[] = [
     input: {},
   },
   {
-    title: 'DepositDepositorySearchAgent (Discovery: search-depository)',
+    title: 'DepositDepositorySearchForRelevantsAgent (Discovery: search-depository-for-deposit-relevants)',
     agent: DepositDepositorySearchAgent,
     identity:
-      'You are the SynthesizeAssetPacks Discovery agent that searches the Bitcode Depository',
+      'You are Discovery search-depository-for-deposit-relevants. You run after codebase',
     requirements: 'From repository coordinates, sourceCheckoutCatalog (paths/samples), obfuscation guidance,',
     wrapper: 'Return ONLY {"guidance": {...}, "searchQueries": [...]}',
     schemaFields: [
@@ -167,7 +167,7 @@ const SPECS: DepositAgentPromptSpec[] = [
       'searchQueries',
     ],
     ptrr: [
-      'Plan: from sourceCheckoutCatalog paths, measurements, obfuscations, and demand context,',
+      'Plan: use wave-1 codebase comprehension and inherent regurgitation outcomes plus',
       'Try: produce demand guidance and the searchQueries list the Depository search tool will run.',
       'Refine: ensure queries and guidance are grounded in sourceCheckoutCatalog evidence, demand-aligned, and source-safe.',
       'Retry: return minimal demand guidance and broad searchQueries rather than failing.',

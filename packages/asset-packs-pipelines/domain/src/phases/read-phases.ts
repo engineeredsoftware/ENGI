@@ -3,8 +3,9 @@
  *
  * Shape mirrors deposit (same agents/roles; instruction = Need, not Obfuscations):
  * Setup: clone alone → parallel {LSP, MCP, comprehend-needs} → danger-wall alone.
- * Discovery: parallel {comprehend-codebase, search-depository, inherent-regurgitation}.
- * Implementation: synthesize read AssetPacks (patch + absolutes + needinesses *-fit).
+ * Discovery: parallel {comprehend-codebase, inherent-regurgitation}
+ *            → search-depository-for-read-need-fits (after wave 1; fits-finding).
+ * Implementation: synthesize read AssetPacks (patch + absolutes + needinesses).
  * Validation: single ready-to-finish read gate (A/B/C + needinesses).
  * Finish: store-artifacts → ledgerize → finish-synthesize-read-run (selection envelope).
  *
@@ -15,6 +16,11 @@
 import { type PhaseDelegator, createAgentExecutor } from '@bitcode/pipelines-generics';
 import { Executor, sequential, parallel } from '@bitcode/execution-generics';
 import type { AssetPackInput, AssetPackOutput } from '../types/PipelineSchemas';
+import {
+  DISCOVERY_COMPREHEND_CODEBASE,
+  DISCOVERY_INHERENT_REGURGITATION,
+  DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
+} from './discovery';
 
 type SetupOutput = AssetPackInput;
 type DiscoveryOutput = AssetPackInput;
@@ -85,14 +91,16 @@ export const readDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = 
 ) => {
   try {
     const { registerDiscoveryAgents } = await import('./discovery');
-    // Product Discovery is the same three-agent roster for deposit and read.
     registerDiscoveryAgents((execution as any).agents, 'read');
   } catch {}
 
-  const exec: Executor<any, any> = parallel(
-    createAgentExecutor('discovery:comprehend-codebase'),
-    createAgentExecutor('discovery:search-depository'),
-    createAgentExecutor('discovery:inherent-regurgitation'),
+  // Wave 1 parallel → wave 2 depository Need-fits search (uses comprehension).
+  const exec: Executor<any, any> = sequential(
+    parallel(
+      createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),
+      createAgentExecutor(DISCOVERY_INHERENT_REGURGITATION),
+    ),
+    createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS),
   );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<SetupOutput, DiscoveryOutput>;
