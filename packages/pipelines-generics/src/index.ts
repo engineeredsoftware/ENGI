@@ -20,35 +20,33 @@
  * pattern: executor-composition
  */
 
-// Pipeline and ExecutionPhaseDelegator types
+// ExecutionPipeline and ExecutionPhase types
 export {
-  type ExecutionPipelineFn,
-  type Pipeline,
   ExecutionPipeline,
   type ExecutionPhaseDelegator,
   ExecutionPhase,
   factoryExecutionPipeline,
-  factoryExecutionPhase
+  factoryExecutionPhase,
 } from './execution/execution-pipeline-types';
 export {
   type ExecutionPipelineLineage,
   type ExecutionPipelineFamily,
   type ExecutionPipelinePosture,
-  inferExecutionPipelineLineage
+  inferExecutionPipelineLineage,
 } from './execution/ExecutionPipeline';
 
-// ExecutionPipeline factories
+// ExecutionPipeline factories + executor form
 export {
+  type ExecutionPipelineFn,
   factoryExecutionPipelineFromPhases,
   factoryExecutionPipelineWithDIVFinishLoop,
-  factoryPipeline,
-  factoryPipelineWithDIVFinishLoop,
 } from './execution-pipeline-factory';
 
-// Quick pipeline (single QuickPhase, no phases semantics)
+// ExecutionPipelineQuick (single stage, no SDIVF phases)
 export {
-  factoryQuickPipeline,
-  type QuickPhase
+  factoryExecutionPipelineQuick,
+  type ExecutionPipelineQuickStage,
+  type ExecutionPipelineQuickConfig,
 } from './quick-pipeline';
 
 // Phase factories (primitives)
@@ -59,7 +57,7 @@ export {
 } from './phases/execution-phase-factory';
 
 // ExecutionPipelineSDIVF base — owned by @bitcode/generic-pipelines-execution-pipeline-sdivf
-// (re-exported for compatibility; prefer importing that package directly)
+// (owned by @bitcode/generic-pipelines-execution-pipeline-sdivf)
 export {
   factoryExecutionPipelineSDIVFPhaseDelegators,
   ExecutionPipelineSDIVFPhase,

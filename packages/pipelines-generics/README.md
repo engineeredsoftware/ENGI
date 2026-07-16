@@ -7,7 +7,7 @@ Clean pipeline execution primitives for orchestrating phase sequences.
 - **Pipeline/ExecutionPipeline** - The EE (Execution Entity) pair for pipelines
 - **ExecutionPhaseDelegator/ExecutionPhase** - The Executor/Execution pattern for phases delegating to agents
 - **SDIVFPhase enum** - The 5 standard phases (Setup, Discovery, Implementation, Validation, Finish)
-- **ExecutionPipelinePrompt** - The generic prompt for Pipeline EE
+- **ExecutionPipelinePrompt** - The generic prompt for ExecutionPipeline EE
 - **Factory functions** - Clean creation of pipelines and phase delegators
 
 ## What This Package IS NOT
@@ -34,7 +34,7 @@ type Executor<TInput = any, TOutput = any> =
  (input: TInput, execution: Execution) => Promise<TOutput>;
 
 // Pipeline - Top-level Executor that sequences phases
-type Pipeline<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
+type ExecutionPipelineFn<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
 
 // ExecutionPhaseDelegator - Executor that delegates work to agents
 type ExecutionPhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOutput>;
@@ -43,8 +43,8 @@ type ExecutionPhaseDelegator<TInput = any, TOutput = any> = Executor<TInput, TOu
 ### The EE Pattern
 
 ```typescript
-// Pipeline/ExecutionPipeline - The EE pair
-export type Pipeline<TInput, TOutput> = Executor<TInput, TOutput>;
+// ExecutionExecutionPipeline EE - The EE pair
+export type ExecutionPipelineFn<TInput, TOutput> = Executor<TInput, TOutput>;
 export class ExecutionPipeline extends Execution<ExecutionPipelinePrompt> {
  constructor(id: string, parent?: Execution) {
  super(id, parent, ExecutionPipelinePrompt);
@@ -79,14 +79,14 @@ export enum SDIVFPhase {
 For non-SDIVF flows that are a single agent sequence or loop, use a QuickPipeline:
 
 ```typescript
-import { factoryQuickPipeline, type QuickPhase } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineQuick, type ExecutionPipelineQuickStage } from '@bitcode/pipelines-generics';
 
-const quickPhase: QuickPhase<any, any> = async (input, exec) => {
+const quickPhase: ExecutionPipelineQuickStage<any, any> = async (input, exec) => {
  // compose agents/executors freely – no phase semantics
  return input;
 };
 
-export const myQuickPipeline = factoryQuickPipeline('my-quick', { phase: quickPhase });
+export const myQuickPipeline = factoryExecutionPipelineQuick('my-quick', { stage: quickPhase });
 ```
 
 Notes:
@@ -98,7 +98,7 @@ Notes:
 ### Creating a Pipeline
 
 ```typescript
-import { factoryPipeline, factoryPhaseDelegator } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineFromPhases, factoryPhaseDelegator } from '@bitcode/pipelines-generics';
 
 // Create phase delegators
 const setupPhase = factoryPhaseDelegator('setup', setupAgent);
@@ -108,7 +108,7 @@ const validationPhase = factoryPhaseDelegator('validation', validationAgent);
 const finishPhase = factoryPhaseDelegator('finish', finishAgent);
 
 // Create pipeline that sequences phases
-const assetPackPipeline = factoryPipeline(
+const assetPackPipeline = factoryExecutionPipelineFromPhases(
  'asset-pack',
  [setupPhase, discoveryPhase, implementationPhase, validationPhase, finishPhase]
 );
@@ -117,10 +117,10 @@ const assetPackPipeline = factoryPipeline(
 ### Creating a Pipeline with DIV Loop
 
 ```typescript
-import { factoryPipelineWithDIVFinishLoop } from '@bitcode/pipelines-generics';
+import { factoryExecutionPipelineWithDIVFinishLoop } from '@bitcode/pipelines-generics';
 
 // DIV loop iterates Discovery-Implementation-Validation until validation passes
-const analysisPipeline = factoryPipelineWithDIVFinishLoop('analysis', {
+const analysisPipeline = factoryExecutionPipelineWithDIVFinishLoop('analysis', {
  setup: setupPhase,
  discovery: discoveryPhase,
  implementation: implementationPhase,
@@ -195,12 +195,12 @@ const phases = factorySDIVFPhaseDelegators({
 });
 
 // Use with pipeline factory
-const pipeline = factoryPipeline('measure', phases);
+const pipeline = factoryExecutionPipelineFromPhases('measure', phases);
 ```
 
 ## ExecutionPipelinePrompt
 
-The generic prompt for Pipeline EE:
+The generic prompt for ExecutionPipeline EE:
 
 ```typescript
 import { ExecutionPipelinePrompt } from '@bitcode/pipelines-generics';
@@ -217,8 +217,8 @@ prompt.registry.set('phase.current', 'implementation');
 
 ```typescript
 // Pipeline factories
-factoryPipeline(name: string, phases: ExecutionPhaseDelegator[])
-factoryPipelineWithDIVFinishLoop(name: string, config: DIVFinishConfig)
+factoryExecutionPipelineFromPhases(name: string, phases: ExecutionPhaseDelegator[])
+factoryExecutionPipelineWithDIVFinishLoop(name: string, config: DIVFinishConfig)
 
 // Phase factories
 factoryPhaseDelegator(name: string, agent: Agent)

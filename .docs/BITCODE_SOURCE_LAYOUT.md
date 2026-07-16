@@ -205,7 +205,7 @@ ancestry** in **types, factories, exports, and file names** — left→right
 Anything based on the **Execution** primitive must include `Execution` in the
 name (e.g. `ExecutionPipeline`, `ExecutionPhase`, `ExecutionPipelineSDIVF`,
 `ExecutionPipelineSimpleSettleAssetPack`). Prefer
-`factoryExecutionPipelineFromPhases` over a bare `factoryPipeline`.
+`factoryExecutionPipelineFromPhases` over a bare `factoryExecutionPipelineFromPhases`.
 
 ```
 ExecutionPipeline # primitive (based on Execution)
@@ -218,8 +218,8 @@ Files match the same order in kebab-case
 `execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts.ts`).
 
 Do not introduce leaf-only names (e.g. avoid `AssetPackPipeline` when the type
-is an `ExecutionPipelineSDIVF…`). Deprecated short aliases may exist for
-compatibility; new code uses the full hierarchy name.
+is an `ExecutionPipelineSDIVF…`). The tree must use hierarchy names exclusively —
+no short aliases, dual exports, or back-compat shims for renamed types.
 
 ### 6.1 Nested `generic-*` families (required)
 

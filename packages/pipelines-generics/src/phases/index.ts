@@ -5,7 +5,7 @@
  * pipeline phases. This index re-exports the factory functions.
  *
  * SDIVF phase vocabulary and base loop live in `@bitcode/generic-pipelines-execution-pipeline-sdivf`
- * (re-exported here for compatibility).
+ * (re-exported from `@bitcode/generic-pipelines-execution-pipeline-sdivf`).
  */
 
 export {

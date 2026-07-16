@@ -20,18 +20,8 @@ import {
 // Re-export the pipeline EE class
 export { ExecutionPipeline } from './ExecutionPipeline';
 
-// ==================== EXECUTION PIPELINE (executor form) ====================
-/**
- * Executor function that runs against an ExecutionPipeline EE.
- * Prefer this name over the short `Pipeline` alias in new code.
- */
-export type ExecutionPipelineFn<TInput = any, TOutput = any> = (
-  input: TInput,
-  execution: ExecutionPipeline,
-) => Promise<TOutput>;
-
-/** @deprecated Prefer ExecutionPipelineFn — leaf-only "Pipeline" omits Execution ancestry */
-export type Pipeline<TInput = any, TOutput = any> = ExecutionPipelineFn<TInput, TOutput>;
+// Executor form of ExecutionPipeline lives in execution-pipeline-factory.ts
+// as ExecutionPipelineFn (Executor-typed).
 
 // ==================== PHASE DELEGATOR ====================
 /**

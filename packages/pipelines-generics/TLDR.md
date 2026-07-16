@@ -33,7 +33,7 @@ prompt
 ## Creating Pipelines
 
 ```typescript
-const pipeline = factoryPipeline({
+const pipeline = factoryExecutionPipelineFromPhases({
   name: 'asset-pack',
   phases: ['discovery', 'implementation', 'validation']
 });

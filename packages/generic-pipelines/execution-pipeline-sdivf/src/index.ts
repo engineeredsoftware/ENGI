@@ -3,8 +3,8 @@
  *
  * Base ExecutionPipelineSDIVF — phase shell only (Setup-[DIV]*-Finish).
  * No agents, tools, or product domains. Product pipelines inject phase
- * Executors and name themselves Specific+SDIVF+Pipeline (e.g.
- * ExecutionPipelineSDIVFSynthesizeReadAssetPacks). Settle is Simple, not SDIVF.
+ * Executors (e.g. ExecutionPipelineSDIVFSynthesizeReadAssetPacks).
+ * Settle is ExecutionPipelineSimple, not SDIVF.
  */
 
 export type { ExecutionPipelineSDIVF } from './execution-pipeline-sdivf-factory';

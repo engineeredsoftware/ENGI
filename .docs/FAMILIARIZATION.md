@@ -1162,7 +1162,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | “Harness” for run boxes | **Host** (LocalHost / VercelSandboxHost) |
 | “product” product UI | Experiences on `/deposits`, `/reads`, `/packs`, … |
 | “Pipeline” for BTD ledger rows | **Journal** |
-| Leaf-only type names for layered types | Full hierarchy names (`…ExecutionPipelineSDIVF`, `…AbsolutesMeasureAgent`) |
+| Leaf-only type names or deprecated aliases for layered types | Full hierarchy names exclusively (`ExecutionPipelineSDIVF…`, `AbsolutesMeasureAgent…`) |
 | New `*-generics` without `generic-*` peers | Plain domain package name |
 | `templates-generics` as prompt system | `@bitcode/prompts` |
 | `externals` vs telemetry | `externals/*` = product APIs; `external-telemetry/*` = analytics |

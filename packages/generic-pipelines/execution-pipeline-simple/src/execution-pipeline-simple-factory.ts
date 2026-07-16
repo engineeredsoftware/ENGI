@@ -2,9 +2,9 @@
  * ExecutionPipelineSimple base — linear stage sequence (no DIV iteration loop).
  *
  * Hierarchy:
- *   @bitcode/pipelines-generics          Pipeline / Executor primitives
- *   @bitcode/generic-pipelines-execution-pipeline-simple    this package (Simple + Pipeline)
- *   product                              e.g. ExecutionPipelineSimpleSettleAssetPack
+ *   @bitcode/pipelines-generics — ExecutionPipeline / Executor primitives
+ *   @bitcode/generic-pipelines-execution-pipeline-simple — this package
+ *   product — e.g. ExecutionPipelineSimpleSettleAssetPack
  *
  * Parity: QuickAgent vs PTRRAgent — Simple is the non-iterating pipeline base;
  * SDIVF is the iterative Setup-[DIV]*-Finish base.
@@ -12,17 +12,20 @@
 
 import { sequential, type Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import type { Pipeline } from '@bitcode/pipelines-generics/execution-pipeline-factory';
+import type { ExecutionPipelineFn } from '@bitcode/pipelines-generics/execution-pipeline-factory';
 import {
   factoryExecutionPipeline,
   type ExecutionPipeline,
 } from '@bitcode/pipelines-generics/execution/execution-pipeline-types';
 
 /**
- * Simple base Pipeline (hierarchy name: Simple + Pipeline).
+ * ExecutionPipelineSimple — linear base based on ExecutionPipeline.
  * Product pipelines: ExecutionPipelineSimpleSettleAssetPack, …
  */
-export type ExecutionPipelineSimple<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
+export type ExecutionPipelineSimple<TInput = any, TOutput = any> = ExecutionPipelineFn<
+  TInput,
+  TOutput
+>;
 
 export interface ExecutionPipelineSimpleStage<TIn = any, TOut = any> {
   /** Stage id for telemetry (e.g. validate, finalize-settlement, ship). */

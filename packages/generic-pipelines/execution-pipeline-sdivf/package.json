@@ -8,8 +8,6 @@
     ".": "./src/index.ts",
     "./execution-pipeline-sdivf-factory": "./src/execution-pipeline-sdivf-factory.ts",
     "./execution-pipeline-sdivf-phases": "./src/execution-pipeline-sdivf-phases.ts",
-    "./sdivf-factory": "./src/execution-pipeline-sdivf-factory.ts",
-    "./sdivf-phases": "./src/execution-pipeline-sdivf-phases.ts",
     "./prompts/execution-pipeline-sdivf-prompt": "./src/prompts/execution-pipeline-sdivf-prompt.ts",
     "./prompts/execution-phase-sdivf-prompts": "./src/prompts/execution-phase-sdivf-prompts.ts"
   },

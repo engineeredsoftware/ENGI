@@ -58,8 +58,6 @@ export interface ExecutionPipelineSDIVFUpdate extends WorkUpdate {
   suggestions: string[];
 }
 
-/** @deprecated Use ExecutionPipelineSDIVFUpdate */
-export type SDIVFPipelineUpdate = ExecutionPipelineSDIVFUpdate;
 
 const WORK_UPDATE_NAMESPACE = 'work-update';
 const LATEST_AGENT_STEP_KEY = 'latest-agent-step';
@@ -163,8 +161,6 @@ export function buildExecutionPipelineSDIVFUpdate(params: {
   };
 }
 
-/** @deprecated Use buildExecutionPipelineSDIVFUpdate */
-export const buildSDIVFPipelineUpdate = buildExecutionPipelineSDIVFUpdate;
 
 export function accumulateIterationWorkContext(
   execution: Execution,

@@ -1,10 +1,10 @@
 /**
- * SDIVF base Pipeline implementation factories — phase shell only.
+ * ExecutionPipelineSDIVF base factories — phase shell only.
  *
  * Hierarchy:
- *   @bitcode/pipelines-generics      — Pipeline / ExecutionPhaseDelegator primitives
+ *   @bitcode/pipelines-generics — ExecutionPipeline / ExecutionPhaseDelegator primitives
  *   @bitcode/generic-pipelines-execution-pipeline-sdivf — this package (SDIVF phase loop)
- *   product packages                 — inject phase Executors (agents/tools/rosters)
+ *   product packages — inject phase Executors (agents/tools/rosters)
  *
  * Pattern: Setup → [Discovery → Implementation → Validation]* → Finish
  * with bounded DIV iteration. No agents, tools, product catalogs, or settle
@@ -16,7 +16,7 @@
 import { sequential } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
 import type { Execution } from '@bitcode/execution-generics/Execution';
-import type { Pipeline } from '@bitcode/pipelines-generics/execution-pipeline-factory';
+import type { ExecutionPipelineFn } from '@bitcode/pipelines-generics/execution-pipeline-factory';
 import type {
   ExecutionPhaseDelegator,
   ExecutionPipeline,
@@ -34,13 +34,16 @@ import { EXECUTION_PIPELINE_SDIVF_PROMPT } from './prompts/execution-pipeline-sd
 import { executionPhaseSdivfPromptFor } from './prompts/execution-phase-sdivf-prompts';
 
 /**
- * SDIVF base Pipeline (hierarchy name: SDIVF + Pipeline).
- * Product examples that *compose* this base (not definitions of it):
+ * ExecutionPipelineSDIVF — SDIVF base based on ExecutionPipeline.
+ * Product examples that compose this base:
  *   ExecutionPipelineSDIVFSynthesizeDepositAssetPacks,
  *   ExecutionPipelineSDIVFSynthesizeReadAssetPacks.
- * Settle is ExecutionPipelineSimpleSettleAssetPack (Simple base) — not SDIVF.
+ * Settle is ExecutionPipelineSimpleSettleAssetPack — not SDIVF.
  */
-export type ExecutionPipelineSDIVF<TInput = any, TOutput = any> = Pipeline<TInput, TOutput>;
+export type ExecutionPipelineSDIVF<TInput = any, TOutput = any> = ExecutionPipelineFn<
+  TInput,
+  TOutput
+>;
 
 // ==================== SDIVF CONFIGURATION ====================
 
