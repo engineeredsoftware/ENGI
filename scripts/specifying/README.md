@@ -27,7 +27,9 @@ promotion helpers used by commercial workflows and proof generation.
 - Compatibility re-exports (e.g. `bitcode-demo.js` → `specifying-runtime.js`)
   may keep frozen importers resolving **without editing** promoted-era files.
 
-See `.specifications/BITCODE_SPECIFYING.md` §4.3 and §13.1.
+**Active/draft posture (V47 Gate 10 promotion readiness):** `V47` active, `V48` draft.
+Living required gates for this pointer pair only — see V47 Gate 10 and
+`.specifications/BITCODE_SPECIFYING.md` §4.3 and §13.1.
 
 Commercial scripts, API/runtime code, and workflow checks must import canon
 posture, spec-family checks, canonical-input checks, canon-drift checks, and
