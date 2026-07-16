@@ -104,7 +104,7 @@ export interface AssetPackCandidateMeasurement {
   volume: number;
   /**
    * Absolutes form the weighted composite; needinesses are reader-relative
-   * previews and are NEVER in the absolute composite. Optional for back-compat.
+   * previews and are NEVER in the absolute composite. Optional residual field only when required by an existing parse path.
    */
   category?: 'absolute' | 'neediness';
   /** Raw count/quantity for size measurements (functions/types/files). */

@@ -385,7 +385,7 @@ packages under `packages/asset-packs-pipelines/*`.
 **SDIVF** = Setup → Discovery → Implementation → Validation → Finish
 **Simple** = ordered linear stages (no DIV loop).
 
-Deprecated short aliases (`synthesizeAssetPacksPipeline`, …) remain .
+No short aliases — use hierarchy names only.
 
 Product UI says **Pipeline**. Low-level packages may still say `execution` /
 `Execution` — do **not** rename `execution-generics` blindly.
