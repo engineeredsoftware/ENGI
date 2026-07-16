@@ -1,5 +1,16 @@
 #!/usr/bin/env node
 
+/**
+ * Living required gates for ACTIVE_CANON_VERSION + DRAFT_TARGET_VERSION only.
+ *
+ * Prior-era `scripts/check-vN-*` suites are frozen after promotion (§4.3 /
+ * §13.1). They are expected to break against later trees; do not re-run them
+ * here and do not edit them to chase renames. New draft checks must be
+ * exhaustive full-system for present sole-canon.
+ *
+ * Law: .specifications/BITCODE_SPECIFYING.md §4.3, §13.1
+ */
+
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
 import path from 'node:path';

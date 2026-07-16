@@ -107,10 +107,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'scripts/specifying/src/ai-reading-demonstration.js',
-    'scripts/specifying/test/v42-ai-reading-mvp.test.js',
-    'scripts/specifying/package.json',
-    'scripts/specifying/README.md',
+    'protocol-demonstration/src/ai-reading-demonstration.js',
+    'protocol-demonstration/test/v42-ai-reading-mvp.test.js',
+    'protocol-demonstration/package.json',
+    'protocol-demonstration/README.md',
     'scripts/specifying/src/canonical/v42-ai-reading-demonstration.js',
     'scripts/specifying/test/v42-ai-reading-demonstration.test.js',
     'scripts/generate-v42-ai-reading-demonstration.mjs',
@@ -153,7 +153,7 @@ function main() {
 
   if (failures.length === 0 && !args.skipDemonstrationTests) {
     try {
-      run(root, 'npm', ['--filter', '@bitcode/specifying', 'run', 'test:v42-ai-reading-mvp']);
+      run(root, 'npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v42-ai-reading-mvp']);
     } catch (error) {
       failures.push(`V42 AI-reading demonstration runtime test failed: ${error.stderr || error.message}`);
     }

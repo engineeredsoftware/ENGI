@@ -196,7 +196,7 @@ function main() {
     'apps/uapi/lib',
     'apps/uapi/networking',
     'apps/uapi/types',
-  ]).filter((relativePath) => !relativePath.startsWith('scripts/specifying/'));
+  ]).filter((relativePath) => !relativePath.startsWith('protocol-demonstration/'));
   assertCheck(
     failures,
     demonstrationImportViolations.length === 0,
@@ -218,7 +218,7 @@ function main() {
     protocolReadme.includes('Gate 8') &&
       protocolReadme.includes('package-native') &&
       protocolReadme.includes('must not import') &&
-      protocolReadme.includes('scripts/specifying'),
+      protocolReadme.includes('protocol-demonstration'),
     'Protocol package README must document Gate 8 package-native boundary.',
   );
   assertCheck(

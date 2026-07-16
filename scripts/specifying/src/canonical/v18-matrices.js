@@ -6,7 +6,7 @@ import {
   makeCandidateAsset,
   publicState,
   runMakeBitcodeBranch
-} from '../specifying-runtime.js';
+} from '../bitcode-demo.js';
 
 export const V18_PROOF_MEMBER_MATRIX_ID = 'v18-proof-member-semantic-matrix';
 export const V18_THEOREM_EVIDENCE_MATRIX_ID = 'v18-theorem-evidence-matrix';

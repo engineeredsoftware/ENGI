@@ -195,7 +195,7 @@ function main() {
   assertCheck(
     failures,
     demonstrationImportViolations.length === 0,
-    `Commercial runtime source must not import scripts/specifying/src or @bitcode/specifying: ${demonstrationImportViolations.join(', ')}`,
+    `Commercial runtime source must not import protocol-demonstration/src or @bitcode/protocol-demonstration: ${demonstrationImportViolations.join(', ')}`,
   );
 
   assertCheck(failures, apiReadme.includes('Auxillaries route contracts'), 'API README must document Auxillaries route contract ownership.');

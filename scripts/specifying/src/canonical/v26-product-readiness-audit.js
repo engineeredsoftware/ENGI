@@ -15,10 +15,10 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'deterministic-protocol-witness-backed',
     parityMatrixAnchor: 'Source-to-shares fifth-gate proof',
     requiredEvidence: [
-      ['scripts/specifying/src/specifying-runtime.js', 'runMakeBitcodeBranch'],
-      ['scripts/specifying/src/canonical/read-measurement.js', 'reviewReadForFitSearch'],
-      ['scripts/specifying/src/canonical/settlement.js', 'quantizedFitQualities'],
-      ['scripts/specifying/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
+      ['protocol-demonstration/src/bitcode-demo.js', 'runMakeBitcodeBranch'],
+      ['protocol-demonstration/src/canonical/read-measurement.js', 'reviewReadForFitSearch'],
+      ['protocol-demonstration/src/canonical/settlement.js', 'quantizedFitQualities'],
+      ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
       ['.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Source-to-shares fifth-gate proof']
     ],
     closureNotes: [
@@ -31,8 +31,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'exchange-lite-route-and-state-backed',
     parityMatrixAnchor: 'App-owned protocol/API ownership',
     requiredEvidence: [
-      ['scripts/specifying/server.js', 'createAppContext'],
-      ['scripts/specifying/server.js', 'readFittingReview'],
+      ['protocol-demonstration/server.js', 'createAppContext'],
+      ['protocol-demonstration/server.js', 'readFittingReview'],
       ['apps/uapi/app/api/state/route.ts', 'getBitcodeAppContext().getState(principal)'],
       ['apps/uapi/app/api/read-review/route.ts', 'getBitcodeAppContext().getReadReview'],
       ['apps/uapi/app/api/make-bitcode-branch/route.ts', 'makeBitcodeBranch'],
@@ -50,8 +50,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'terminal-lite-and-demonstration-read-backed',
     parityMatrixAnchor: 'Bitcode read/write loop',
     requiredEvidence: [
-      ['scripts/specifying/src/specifying-runtime.js', '__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__'],
-      ['scripts/specifying/test/v26-uapi-app-router-entrypoints.test.js', 'TypeScript-only'],
+      ['protocol-demonstration/public/app.js', '__BITCODE_DEMONSTRATION_SHELL_SNAPSHOT__'],
+      ['protocol-demonstration/test/v26-uapi-app-router-entrypoints.test.js', 'TypeScript-only'],
       ['apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx', 'TerminalReadScenarioPanel'],
       ['apps/uapi/components/reads/ReadPageClient/ReadPageClient.tsx', 'TerminalLiveSummaryStrip'],
       ['apps/uapi/components/bitcode/pipeline/models/transaction-route-readiness.ts', 'route_repository_context'],
@@ -85,7 +85,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'implemented-fifth-gate-slice',
     parityMatrixAnchor: 'Read review before fit search',
     requiredEvidence: [
-      ['scripts/specifying/server.js', 'bitcode-read-fitting-review'],
+      ['protocol-demonstration/server.js', 'bitcode-read-fitting-review'],
       ['apps/uapi/components/reads/ReadsReadScenarioPanel/ReadsReadScenarioPanel.tsx', 'normalizeTerminalReadFittingReview'],
       ['apps/uapi/tests/api/readReviewRoute.test.ts', 'presents a reviewable Read before fit search'],
       ['apps/uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
@@ -105,7 +105,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
       ['packages/asset-packs-pipelines/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
       ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
       ['packages/pipelines-generics/src/phases/sdivf-factory.ts', 'SDIVF'],
-      ['scripts/specifying/test/v26-pipeline-finish-reform.test.js', 'SDIVF'],
+      ['protocol-demonstration/test/v26-pipeline-finish-reform.test.js', 'SDIVF'],
       ['.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'retained execution/AssetPack readers no longer teach generic developer-platform meaning']
     ],
     closureNotes: [
@@ -197,7 +197,7 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     parityMatrixAnchor: 'Proof and generated-evidence parity matrix',
     requiredEvidence: [
       ['scripts/generate-bitcode-proven.mjs', 'generateCanonicalProvenMarkdown'],
-      ['scripts/specifying/src/canonical/proven-generator.js', 'buildV26FifthGateClosureDeepeningProof'],
+      ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26FifthGateClosureDeepeningProof'],
       ['.proofs/_shared/source-to-shares-fifth-gate-proof.json', 'v26-source-to-shares-fifth-gate-proof'],
       ['.proofs/_shared/fifth-gate-closure-deepening-proof.json', 'v26-fifth-gate-closure-deepening-proof'],
       ['.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'Proof and generated-evidence parity matrix']
@@ -211,8 +211,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
 const PRODUCT_MVP_EVIDENCE_BY_ID = {
   'bitcode-protocol': [
     ['.specifications/BITCODE_SPEC_V26.md', 'Sixth-gate is closed only when:'],
-    ['scripts/specifying/V26_PROOF_SURFACES.md', 'Gate 6: minimal viable product elevation'],
-    ['scripts/specifying/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof']
+    ['protocol-demonstration/V26_PROOF_SURFACES.md', 'Gate 6: minimal viable product elevation'],
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof']
   ],
   'bitcode-exchange': [
     ['apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger'],
@@ -227,12 +227,12 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
   'source-to-shares-read-fitting': [
     ['apps/uapi/tests/api/readReviewRoute.test.ts', 'presents a reviewable Read before fit search'],
     ['apps/uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
-    ['scripts/specifying/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities']
+    ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities']
   ],
   'assetpack-execution': [
     ['packages/asset-packs-pipelines/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
     ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
-    ['scripts/specifying/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates']
+    ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates']
   ],
   'conversations-rich-input': [
     ['apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],
@@ -250,17 +250,17 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
     ['apps/chatgpt/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
   ],
   'proof-and-promotion': [
-    ['scripts/specifying/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof'],
-    ['scripts/specifying/test/proven-generator.test.js', 'sixthGateClosurePassed, true'],
-    ['scripts/specifying/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, seventh, and eighth gates']
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SixthGateMvpClosureProof'],
+    ['protocol-demonstration/test/proven-generator.test.js', 'sixthGateClosurePassed, true'],
+    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, seventh, and eighth gates']
   ]
 };
 
 const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   'bitcode-protocol': [
     ['.specifications/BITCODE_SPEC_V26.md', 'Seventh-gate is closed only when:'],
-    ['scripts/specifying/V26_PROOF_SURFACES.md', 'Gate 7: initial commercially-viable testnet live-launch refinement'],
-    ['scripts/specifying/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof']
+    ['protocol-demonstration/V26_PROOF_SURFACES.md', 'Gate 7: initial commercially-viable testnet live-launch refinement'],
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof']
   ],
   'bitcode-exchange': [
     ['apps/uapi/tests/api/executionsHistoryWriteReadParity.test.ts', 'round-trips deposit, read, and closure writes through the same Bitcode activity ledger'],
@@ -273,12 +273,12 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
     ['apps/uapi/tests/e2e/terminal.flow.spec.ts', 'product route keeps read, selection, and repository-anchor write-through in one product surface']
   ],
   'source-to-shares-read-fitting': [
-    ['scripts/specifying/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
+    ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities'],
     ['apps/uapi/tests/api/readReviewProtocolParity.test.ts', 'readFittingReview'],
     ['apps/uapi/tests/api/readReviewProtocolParity.test.ts', 'source-to-shares settlement artifacts']
   ],
   'assetpack-execution': [
-    ['scripts/specifying/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates'],
+    ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates'],
     ['packages/asset-packs-pipelines/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
     ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack-create-pull-request-delivery-agent']
   ],
@@ -298,9 +298,9 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
     ['apps/chatgpt/src/server.ts', 'Read tools gather codebase, web, VCS, and DevOps context as Exchange input evidence rather than parallel product state']
   ],
   'proof-and-promotion': [
-    ['scripts/specifying/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof'],
-    ['scripts/specifying/test/proven-generator.test.js', 'seventhGateClosurePassed, true'],
-    ['scripts/specifying/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, seventh, and eighth gates']
+    ['protocol-demonstration/src/canonical/proven-generator.js', 'buildV26SeventhGateCommercialTestnetLaunchProof'],
+    ['protocol-demonstration/test/proven-generator.test.js', 'seventhGateClosurePassed, true'],
+    ['protocol-demonstration/test/v26-gate-acceptance-criteria.test.js', 'V26 generated proofs close fifth, sixth, seventh, and eighth gates']
   ]
 };
 
@@ -403,8 +403,8 @@ export function buildV26ProductReadinessAudit({
     gate: 'gate-5',
     promotedThroughGate: launchPassed ? 'gate-7' : (mvpPassed ? 'gate-6' : 'gate-5'),
     auditBasis: [
-      'packages/* exchange and pipeline product systems',
-      'apps/uapi commercial product surfaces',
+      'protocol-demonstration Exchange-lite implementation',
+      'protocol-demonstration product-lite shell UI',
       'uapi commercial Exchange and product surfaces',
       'BITCODE_SPEC_V26_PARITY_MATRIX.md acceptance rows'
     ],

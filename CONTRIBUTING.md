@@ -418,13 +418,16 @@ pnpm --filter @bitcode/pipeline-hosts test
 pnpm --filter @bitcode/specifying test
 pnpm --filter @bitcode/specifying typecheck
 
-# Canon posture (active V47 example)
+# Living required gates: ACTIVE + DRAFT only (today V47 + V48).
+# Do not re-run or re-edit scripts/check-v28-* … prior-era suites for current green.
+# Law: .specifications/BITCODE_SPECIFYING.md §4.3 / §13.1
 node scripts/check-bitcode-canonical-inputs.mjs --current-target V47
 node scripts/check-bitcode-spec-family.mjs --version V47 --mode promoted --current-target V47
 node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V47 --draft-target V48
+node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V47
 
-# Spec quality helper
-pnpm run check:spec-quality
+# Spec quality helper (active + draft only)
+node scripts/run-bitcode-spec-quality.mjs --mode basic
 
 # UI SSOT + casing
 pnpm run verify:ui
@@ -436,10 +439,16 @@ bash scripts/check-import-casing.sh
 
 | Workflow | Role |
 | --- | --- |
-| `bitcode-gate-quality.yml` | Gate PRs into `version/**` — canon posture, packages, uapi harness, specifying |
-| `bitcode-canon-quality.yml` | Repository-wide canon greenability during draft work |
-| `vN-canon-promotion.yml` | Version promotion into `main` |
+| `bitcode-gate-quality.yml` | Gate PRs into `version/**` — **active + draft** canon posture/family, living packages, uapi, specifying (not prior-era `check-vN-*` matrices) |
+| `bitcode-canon-quality.yml` | Repository-wide living greenability during draft work (active + draft) |
+| `vN-canon-promotion.yml` | Historical/version promotion workflows on disk; pointer-gated — not current required gates after pointer advances |
 | Application CI | Root pnpm install + uapi lint/typecheck/build + Jest |
+
+**Historical freeze:** after promotion, version-bound checkers and era proofs are
+immutable. New drafts may break them; leave them untouched and unrequired.
+Living full-system checks for the current active + draft pair must be
+exhaustive for present sole-canon. See `.specifications/BITCODE_SPECIFYING.md`
+§4.3 and §13.1, and `.docs/AGENTS.md`.
 
 Heavy suites (full browser E2E, Storybook, super-linter, advanced CodeQL) are
 **opt-in** via repository variables until maintained for required protection.

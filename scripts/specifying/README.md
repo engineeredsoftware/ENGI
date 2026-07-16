@@ -6,19 +6,28 @@
 > This package lives under **`scripts/specifying/`** as the specifying *machine*
 > (gate proof generators, canon posture, promotion helpers). It is **not** a
 > product package, not website measurement canon, and not a “protocol” product
-> owner — the monorepo is protocol canon. Specifying *law* lives in root
-> `BITCODE_SPECIFYING.md`.
+> owner — the monorepo is protocol canon. Specifying *law* lives in
+> `.specifications/BITCODE_SPECIFYING.md`.
 
 Bitcode specifying tooling (`scripts/`): gate generators, canon posture, and
 promotion helpers used by commercial workflows and proof generation.
 
-**Meta specifying (historical freeze):** promoted version specs, proofs, and
-version-bound checks are **immutable canon-at-that-time** — they must not be
-edited to chase later tree moves. The **living full-system check** is only for
-the current draft/active pointer and must be all-encompassing and completely
-correct for present sole-canon. See `BITCODE_SPECIFYING.md` §4.3 and §13.1.
-Era-pin shims under `test/era-pinned-*.js` skip superseded historical package
-proofs with reason; they do not rewrite those proofs.
+**Meta specifying (historical freeze — §4.3 / §13.1):**
+
+- Promoted version specs, proofs, and version-bound checks are **immutable
+  canon-at-that-time** — **never edit** them after promotion to chase later
+  tree moves (renames, package layout, demo-tree removal, etc.).
+- It is **expected** that a new draft will **break** prior-era checks. Leave
+  those checks **untouched** and **do not re-run them as required green**.
+- **Only active canon + draft target** execute as living required gates
+  (today: **V47 + V48** via `ACTIVE_CANON_VERSION` / `DRAFT_TARGET_VERSION`).
+- The living full-system check for that pair must be **exhaustive** for
+  present sole-canon — new suites restate total obligation; they do not
+  patch old suites.
+- Compatibility re-exports (e.g. `bitcode-demo.js` → `specifying-runtime.js`)
+  may keep frozen importers resolving **without editing** promoted-era files.
+
+See `.specifications/BITCODE_SPECIFYING.md` §4.3 and §13.1.
 
 Commercial scripts, API/runtime code, and workflow checks must import canon
 posture, spec-family checks, canonical-input checks, canon-drift checks, and

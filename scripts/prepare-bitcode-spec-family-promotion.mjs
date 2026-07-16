@@ -487,10 +487,10 @@ function rewritePromotionStatus(version, commit, content, kind) {
   if (version === 'V32') {
     const sharedInventory = 'active canonical `.proofs/v32/spec-family-report.json`, `.proofs/v32/canonical-input-report.json`, `.proofs/v32/canon-posture-drift-report.json`, `.proofs/v32/proof-coverage-matrix.json`, `.proofs/v32/artifact-volatility-inventory.json`, `.proofs/v32/deterministic-replay-report.json`, `.proofs/v32/reading-pipeline-proof-coverage.json`, `.proofs/v32/ledger-btd-settlement-failure-state-coverage.json`, `.proofs/v32/interface-contract-regression-suite.json`, `.proofs/v32/browser-accessibility-responsive-visual-proof.json`, `.proofs/v32/testnet-mainnet-readiness-rehearsal.json`, `.proofs/v32/promotion-proof-generation-hardening.json`, `.proofs/v32/promotion-readiness-report.json`, V32 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V32_PROVEN.md` as the generated proof appendix for V32 promotion';
     const scopeByKind = {
-      spec: 'V32 canonical system specification for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and specifying-machine rails',
-      delta: 'V32 canonical delta for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and specifying-machine rails',
-      notes: 'V32 canonical notes for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and specifying-machine rails',
-      parity: 'V32 canonical parity ledger for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and specifying-machine rails'
+      spec: 'V32 canonical system specification for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      delta: 'V32 canonical delta for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      notes: 'V32 canonical notes for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails',
+      parity: 'V32 canonical parity ledger for provation/testing over promoted product, Reading, Protocol/BTD, Auxillaries, MCP, ChatGPT App, API, ledger/database/object-storage, and protocol-demonstration rails'
     };
     const stateByKind = {
       spec: 'canonical promotion complete; V32 is the active provation/testing canon and the V32 hand-authored plus generated canon are aligned',

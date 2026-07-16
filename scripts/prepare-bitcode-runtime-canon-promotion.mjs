@@ -208,8 +208,8 @@ async function main() {
   const nextDraft = args.nextDraft || deriveNextDraft(version);
   const resolvedRepoRoot = path.resolve(args.repoRoot || repoRoot);
 
-  const demonstrationCanonPosturePath = path.join(resolvedRepoRoot, 'scripts/specifying', 'src', 'canon-posture.js');
-  const demonstrationReadmePath = path.join(resolvedRepoRoot, 'scripts/specifying', 'README.md');
+  const demonstrationCanonPosturePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'src', 'canon-posture.js');
+  const demonstrationReadmePath = path.join(resolvedRepoRoot, 'protocol-demonstration', 'README.md');
   const packageCanonPosturePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'src', 'canon-posture.js');
   const packageReadmePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'README.md');
   const packageDataStatePath = path.join(resolvedRepoRoot, 'packages', 'protocol', 'data', 'state.json');

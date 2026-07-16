@@ -113,7 +113,7 @@ function main() {
     'scripts/specifying/test/v42-depositing-shortest-path.test.js',
     'scripts/specifying/test/specifying-package-boundary.test.js',
     'scripts/specifying/server.js',
-    'scripts/specifying/src/specifying-runtime.js',
+    'scripts/specifying/src/bitcode-demo.js',
     'apps/uapi/app/api/deposit/synthesize-options',
     'apps/uapi/app/ (removed cockpit tree) TerminalDepositComposer.tsx',
     'apps/uapi/app/ (removed cockpit tree) terminal-activity-history.ts',

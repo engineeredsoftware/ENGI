@@ -11,8 +11,8 @@ Companion docs (do not duplicate their contracts here):
 | --- | --- | --- |
 | `BITCODE_SPEC.txt` | Active canon pointer | **Yes** (pointer) |
 | `BITCODE_SPEC_V48.md` (+ NOTES / DELTA / PARITY / PROVEN) | Draft rebuild-alone SPEC for current work | **Yes** (draft family) |
-| `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability | Metaspec |
-| `AGENTS.md` | Contributor / agent engineering law (gates, commits, Bezalel craft) | No |
+| `BITCODE_SPECIFYING.md` | Metaspec: Complete Implementation Derivability; **§4.3 / §13.1 historical freeze + active+draft checks only** | Metaspec |
+| `AGENTS.md` | Contributor / agent engineering law (gates, commits, freeze law, Bezalel craft) | No |
 | `README.md` | Product entry + quick start | No |
 | `CONTRIBUTING.md` | Developer guide (setup, canon, env, hosts, testing) | No |
 | `.docs/ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
@@ -1106,14 +1106,16 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | --- | --- |
 | **Active canon** | Version pointed by `BITCODE_SPEC.txt` on `main` (currently V47 until V48 promotion). |
 | **Canon / canonical** | Spec family + proven artifacts treated as rebuild law for a version. |
+| **Active + draft checks only** | Living required gates run only for `ACTIVE_CANON_VERSION` + `DRAFT_TARGET_VERSION` (today V47 + V48). Prior-era `check-vN-*` suites are ignored for current green (`BITCODE_SPECIFYING.md` §4.3 / §13.1). |
 | **Canon at that time** | Frozen promoted era (specs + proofs + version-bound checks) — never rewritten for later tree drift (`BITCODE_SPECIFYING.md` §4.3). |
 | **Complete Implementation Derivability** | A reader rebuilds current Bitcode from the active family alone (`BITCODE_SPECIFYING.md`). |
 | **DELTA** | Version decision log (`BITCODE_SPEC_VN_DELTA.md`). |
 | **Draft target** | Version under construction (V48 on `version/v48`) — not yet `BITCODE_SPEC.txt` pointer. |
-| **Era-pin** | Skip-with-reason for historical package proofs when current realization superseded that era (do not rewrite the frozen proof). |
+| **Era-pin** | Skip-with-reason for historical package proofs when current realization superseded that era (do not rewrite the frozen proof). Prefer not loading prior-era suites at all for required green. |
 | **Gate** | Bounded acceptance slice (e.g. V48 Gate 3); branch `v48/gate-N-topic`. |
 | **Gate PR** | Pull request closing a gate into the version branch. |
-| **Living full-system check** | All-encompassing, completely correct validation for the **current** draft/active pointer only (`BITCODE_SPECIFYING.md` §13.1). |
+| **Historical check freeze** | After promotion, do not edit version-bound checkers/generators; new drafts may break them — leave untouched and unrequired. |
+| **Living full-system check** | Exhaustive, fail-closed validation for **active + draft** only; sole authority for current green / promotion honesty (`BITCODE_SPECIFYING.md` §13.1). |
 | **NOTES** | Architecture intent ledger (`BITCODE_SPEC_VN_NOTES.md`) — weaker than SPEC body. |
 | **Parity matrix** | Spec claim ↔ source ↔ tests ↔ gates ledger. |
 | **Promotion** | Version PR to `main` after all gates closed; updates `BITCODE_SPEC.txt` pointer under workflow rules. |
