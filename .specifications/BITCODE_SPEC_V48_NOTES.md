@@ -776,10 +776,11 @@ guard) validates against what THAT step is prompted to produce:
  considerations?: string[] }` (`PlanStepOutputSchema`,
  `agent-generics/src/steps/step-schemas.ts`) — the execution strategy the Plan
  objective asks for, kept small so the structured-output hint stays whole.
-- **Try / Refine / Retry** → the agent's output schema. Try is the main typed
- attempt; Refine improves it against the same schema; Retry is the last bounded
- chance — and because an agent's result is its LAST step's output, the agent's
- typed output contract is preserved.
+- **Try / Retry / Refine** → the agent's output schema. Runtime order is
+ Plan → Try → Retry → Refine. Try is the main typed attempt; Retry re-attempts
+ Try using prior errors/usedTools; Refine is LAST and produces the final agent
+ return (same type as the agent). Because an agent's result is its LAST step's
+ output, the typed output contract is preserved.
 - Every step accepts an explicit `outputSchema` override in its per-step config
  (`config.plan.outputSchema` etc.); the defaults above are the law.
 

@@ -21,7 +21,7 @@ jest.mock('@bitcode/agent-generics/steps/step-schemas', () => {
   };
 });
 jest.mock('@bitcode/agent-generics/types', () => ({
-  AgentVariationStep: { PLAN: 'plan', TRY: 'try', REFINE: 'refine', RETRY: 'retry' },
+  AgentVariationStep: { PLAN: 'plan', TRY: 'try', RETRY: 'retry', REFINE: 'refine' },
 }));
 jest.mock('@bitcode/agent-generics/execution', () => ({
   AgentExecution: class {

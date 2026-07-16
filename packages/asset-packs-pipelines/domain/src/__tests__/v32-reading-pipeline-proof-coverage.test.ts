@@ -10,7 +10,7 @@ describe('V32 Reading pipeline proof coverage', () => {
       for (const phase of contract.phases) {
         for (const agent of phase.agents) {
           expect(agent.kind).toBe('ptrr-agent');
-          expect(agent.ptrrSteps.map((step) => step.ptrrStepName)).toEqual(['plan', 'try', 'refine', 'retry']);
+          expect(agent.ptrrSteps.map((step) => step.ptrrStepName)).toEqual(['plan', 'try', 'retry', 'refine']);
           for (const step of agent.ptrrSteps) {
             expect(step.inputType).toBeTruthy();
             expect(step.outputType).toBeTruthy();

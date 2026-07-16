@@ -31,7 +31,7 @@ describe('Reading pipeline contracts', () => {
             generation: 'generation:*',
             failsafe: 'failsafe:*',
           });
-          expect(agent.ptrrSteps.map((step) => step.ptrrStepName)).toEqual(['plan', 'try', 'refine', 'retry']);
+          expect(agent.ptrrSteps.map((step) => step.ptrrStepName)).toEqual(['plan', 'try', 'retry', 'refine']);
           for (const promptId of Object.values(agent.promptRegistry.ptrrStepPromptIds)) {
             expect(promptId.startsWith(`${contract.pipelineName}.prompt.`)).toBe(true);
           }

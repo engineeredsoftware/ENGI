@@ -3,8 +3,14 @@
  *
  * Hierarchy:
  *   @bitcode/agent-generics            — Agent / factoryAgent / factoryQuickAgent / PTRR steps
- *   @bitcode/generic-agents-ptrr       — this package (PTRRAgent base: Plan→Try→Refine→Retry)
+ *   @bitcode/generic-agents-ptrr       — this package (PTRRAgent base: Plan→Try→Retry→Refine)
  *   product / measure / conversation agents — specialize prompts, tools, schemas
+ *
+ * Canonical step order: Plan → Try → Retry → Refine.
+ *   Plan   — (no tools execute) plan the Try, including intended tool use
+ *   Try    — primary attempt (tools postprocess when useTools selected)
+ *   Retry  — re-attempt Try accounting for prior Try errors / usedTools
+ *   Refine — last step; same typed return as the agent (no tools execute)
  *
  * Preferred hierarchy names: PTRRAgent, factoryPTRRAgent.
  *  */
@@ -21,14 +27,14 @@ import { z } from 'zod';
  */
 export type PTRRAgent<TInput = any, TOutput = any> = Agent<TInput, TOutput>;
 
-export type BitcodePTRRStepName = 'plan' | 'try' | 'refine' | 'retry';
+export type BitcodePTRRStepName = 'plan' | 'try' | 'retry' | 'refine';
 export type BitcodePTRRPromptValue = any;
 export type BitcodePTRRStepPromptCarrier = BitcodePTRRPromptValue | (() => BitcodePTRRPromptValue);
 export type BitcodePTRRStepPromptRegistry = {
   plan: BitcodePTRRStepPromptCarrier;
   try: BitcodePTRRStepPromptCarrier;
-  refine: BitcodePTRRStepPromptCarrier;
   retry: BitcodePTRRStepPromptCarrier;
+  refine: BitcodePTRRStepPromptCarrier;
 };
 
 type BitcodePTRRPrimaryPromptCarrier = {
@@ -76,7 +82,8 @@ export type BitcodePTRRFactoryConfig<TOutput> = BitcodePTRRPromptCarrier & {
   };
 };
 
-const BITCODE_PTRR_STEP_NAMES: BitcodePTRRStepName[] = ['plan', 'try', 'refine', 'retry'];
+/** Canonical runtime order — Retry before Refine (final agent return). */
+const BITCODE_PTRR_STEP_NAMES: BitcodePTRRStepName[] = ['plan', 'try', 'retry', 'refine'];
 
 function isObjectRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object';
@@ -138,7 +145,7 @@ function resolveBitcodePTRRAgentPrompt(config: BitcodePTRRFactoryConfig<any>): B
 }
 
 /**
- * Create a PTRR base Agent — Plan → Try → Refine → Retry with 7-substep failsafes.
+ * Create a PTRR base Agent — Plan → Try → Retry → Refine with 7-substep failsafes.
  */
 export function factoryPTRRAgent<TInput, TOutput>(
   config: BitcodePTRRFactoryConfig<TOutput>
@@ -162,16 +169,18 @@ export function factoryPTRRAgent<TInput, TOutput>(
   const stepPrompts = {
     plan: resolveBitcodePTRRStepPrompt('plan', stepPromptRegistry.plan),
     try: resolveBitcodePTRRStepPrompt('try', stepPromptRegistry.try),
-    refine: resolveBitcodePTRRStepPrompt('refine', stepPromptRegistry.refine),
-    retry: resolveBitcodePTRRStepPrompt('retry', stepPromptRegistry.retry)
+    retry: resolveBitcodePTRRStepPrompt('retry', stepPromptRegistry.retry),
+    refine: resolveBitcodePTRRStepPrompt('refine', stepPromptRegistry.refine)
   };
   const onlyStepEnv = String(process?.env?.BITCODE_DEBUG_ONLY_STEP || '').toLowerCase();
 
+  // Try + Retry produce agent-shaped attempts; Refine is last and returns the
+  // agent contract (same default schema). Plan uses the canonical plan shape.
   const stepSchemas = {
     plan: config.plan?.outputSchema ?? PlanStepOutputSchema,
     try: config.try?.outputSchema ?? config.outputSchema,
-    refine: config.refine?.outputSchema ?? config.outputSchema,
-    retry: config.retry?.outputSchema ?? config.outputSchema
+    retry: config.retry?.outputSchema ?? config.outputSchema,
+    refine: config.refine?.outputSchema ?? config.outputSchema
   };
 
   const steps: AgentStep<any, any>[] = [
@@ -185,23 +194,23 @@ export function factoryPTRRAgent<TInput, TOutput>(
       prompt: stepPrompts.try,
       tools: config.tools
     }),
-    factoryRefineStep(stepSchemas.refine, {
-      prompt: stepPrompts.refine,
-      tools: config.tools,
-      maxAttempts: config.refine?.maxAttempts
-    }),
     factoryRetryStep(stepSchemas.retry, {
       ...config.retry,
       prompt: stepPrompts.retry,
       tools: config.tools
+    }),
+    factoryRefineStep(stepSchemas.refine, {
+      prompt: stepPrompts.refine,
+      tools: config.tools,
+      maxAttempts: config.refine?.maxAttempts
     })
   ];
   if (onlyStepEnv) {
     const map: Record<string, any> = {
       plan: AgentVariationStep.PLAN,
       try: AgentVariationStep.TRY,
-      refine: AgentVariationStep.REFINE,
-      retry: AgentVariationStep.RETRY
+      retry: AgentVariationStep.RETRY,
+      refine: AgentVariationStep.REFINE
     };
     const wanted = map[onlyStepEnv];
     if (wanted !== undefined) {
