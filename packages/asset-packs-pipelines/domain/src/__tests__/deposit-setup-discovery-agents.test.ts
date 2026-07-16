@@ -332,7 +332,7 @@ describe('discovery conditional runtime registry roster', () => {
     };
   }
 
-  it('deposit mode registers exactly three Discovery agents (no synonym aliases), not the read roster', () => {
+  it('deposit mode registers exactly three Discovery agents (no synonym aliases)', () => {
     const registry = recordingRegistry();
     registerDiscoveryAgents(registry, 'deposit');
     expect([...registry.registrations.keys()].sort()).toEqual([
@@ -342,16 +342,14 @@ describe('discovery conditional runtime registry roster', () => {
     ]);
   });
 
-  it('default/read mode registers the canonical five-agent read roster intact', () => {
+  it('read/default mode registers the same product three-agent Discovery roster', () => {
     for (const mode of [undefined, 'read']) {
       const registry = recordingRegistry();
       registerDiscoveryAgents(registry, mode);
-      expect([...registry.registrations.keys()]).toEqual([
-        'discovery:gather-context',
-        'discovery:understand-requirements',
-        'discovery:research-approach',
-        'discovery:plan-implementation',
-        'discovery:assess-complexity',
+      expect([...registry.registrations.keys()].sort()).toEqual([
+        'discovery:comprehend-codebase',
+        'discovery:inherent-regurgitation',
+        'discovery:search-depository',
       ]);
     }
   });

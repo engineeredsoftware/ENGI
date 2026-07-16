@@ -1,63 +1,28 @@
 /**
- * Discovery Phase - AssetPack Pipeline
- * 
- * Second phase that deeply understands requirements and plans approach:
- * 1. Comprehends all attachments (including Figma extraction)
- * 2. Filters and selects relevant files (parallel)
- * 3. Understands requirements with type awareness
- * 4. Researches approach and performs language analysis (parallel)
- * 5. Plans implementation strategy
- * 6. Assesses complexity for validation phase
+ * Discovery phase registration for AssetPack SDIVF pipelines.
+ *
+ * Product law (deposit and read): parallel three-agent Discovery —
+ *   comprehend-codebase | search-depository | inherent-regurgitation
+ *
+ * The historical five-agent Engi sequence (gather → understand → research →
+ * plan → assess) is deleted; it is not registered for any mode.
  */
 
-import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
-import { registerDiscoveryAgents as registerCanonicalDiscoveryAgents } from '../agents/discovery-agents';
-import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
-
 /**
- * Discovery phase configuration with parallel execution groups
- */
-const discoveryPhaseConfig: PhaseConfig = {
-  phaseName: 'discovery',
-  sequence: [
-    { agent: 'discovery:gather-context' },
-    { agent: 'discovery:understand-requirements' },
-    { agent: 'discovery:research-approach' },
-    { agent: 'discovery:plan-implementation' },
-    { agent: 'discovery:assess-complexity' }
-  ],
-  allowShortCircuit: false
-};
-
-/**
- * Create the discovery phase runner
- */
-export const runDiscoveryPhase = createPhaseRunner(discoveryPhaseConfig);
-
-/**
- * Discovery phase agent registration
- * Called after setup phase to register discovery agents
+ * Register product Discovery agents (same roster for deposit and read).
+ * Implementation differs by Implementation agents, not Discovery shape.
  */
 export function registerDiscoveryAgents(
   agentRegistry: any,
-  // mode drives conditional runtime registration; deposit Discovery runs three
-  // parallel agents: comprehend-codebase, search-depository, inherent-regurgitation.
-  // Read = default (the canonical 5-agent discovery sequence).
-  mode?: SynthesizeAssetPacksMode,
+  _mode?: 'deposit' | 'read' | string,
 ): void {
-  if (mode === 'deposit') {
-    // Exactly three deposit Discovery keys (parity matrix / depositDiscoveryPhase).
-    // No synonym aliases — one roster key per agent.
-    agentRegistry.registerAgent('discovery:comprehend-codebase', () =>
-      import('../agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default),
-    );
-    agentRegistry.registerAgent('discovery:search-depository', () =>
-      import('../agents/discovery/deposit-depository-search-agent').then((m) => m.default),
-    );
-    agentRegistry.registerAgent('discovery:inherent-regurgitation', () =>
-      import('../agents/discovery/deposit-inherent-regurgitation-agent').then((m) => m.default),
-    );
-    return;
-  }
-  registerCanonicalDiscoveryAgents(agentRegistry);
+  agentRegistry.registerAgent('discovery:comprehend-codebase', () =>
+    import('../agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default),
+  );
+  agentRegistry.registerAgent('discovery:search-depository', () =>
+    import('../agents/discovery/deposit-depository-search-agent').then((m) => m.default),
+  );
+  agentRegistry.registerAgent('discovery:inherent-regurgitation', () =>
+    import('../agents/discovery/deposit-inherent-regurgitation-agent').then((m) => m.default),
+  );
 }

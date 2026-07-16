@@ -286,7 +286,7 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
   const discoveryStep = findStep('ReadFitsFindingSynthesis.discovery.finding-fits.try');
   const implementationStep = findStep('ReadFitsFindingSynthesis.implementation.asset-pack.try');
   const previewStep = findStep('ReadFitsFindingSynthesis.preview.source-safe-preview.try');
-  const settleStep = findStep('ReadFitsFindingSynthesis.settle.buy-deliver.try');
+  const settleStep = findStep('ReadFitsFindingSynthesis.settle.ship-asset-pack-patch-pr.try');
   const admissionStep = findStep('ReadFitsFindingSynthesis.admit.accepted-need-gate.try');
 
   const boundaryCoverage = [
@@ -319,11 +319,16 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
       evidence: `${previewStep?.step.outputType || 'missing'}; tools=${previewStep?.step.tools.length ?? 'missing'}`,
     },
     {
-      assertionId: 'delivery-tool-runs-only-after-settlement-bound-preview',
+      assertionId: 'delivery-tool-runs-only-on-settle-pipeline-ship-stage',
       passed:
-        settleStep?.step.inputType === 'AssetPackSourceSafePreview' &&
-        settleStep?.step.tools.some((tool) => tool.toolId === 'ReadFitsFindingSynthesis.tool.vcs-create-pull-request') &&
-        toolTryStepOnly('ReadFitsFindingSynthesis.settle.buy-deliver.try', 'ReadFitsFindingSynthesis.tool.vcs-create-pull-request'),
+        settleStep?.step.inputType === 'SettleAssetPackInput' &&
+        settleStep?.step.tools.some(
+          (tool) => tool.toolId === 'settle-asset-pack-pipeline.tool.vcs-create-pull-request',
+        ) &&
+        toolTryStepOnly(
+          'ReadFitsFindingSynthesis.settle.ship-asset-pack-patch-pr.try',
+          'settle-asset-pack-pipeline.tool.vcs-create-pull-request',
+        ),
       evidence: `${settleStep?.step.inputType || 'missing'}; ${settleStep?.step.tools.map((tool) => tool.toolId).join(', ')}`,
     },
   ];

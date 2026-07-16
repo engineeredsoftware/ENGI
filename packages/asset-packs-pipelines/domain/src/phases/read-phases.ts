@@ -85,9 +85,8 @@ export const readDiscoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = 
 ) => {
   try {
     const { registerDiscoveryAgents } = await import('./discovery');
-    // Deposit discovery agents (codebase / depository / regurgitation) are shared;
-    // register under deposit keys used by the parallel roster below.
-    registerDiscoveryAgents((execution as any).agents, 'deposit');
+    // Product Discovery is the same three-agent roster for deposit and read.
+    registerDiscoveryAgents((execution as any).agents, 'read');
   } catch {}
 
   const exec: Executor<any, any> = parallel(

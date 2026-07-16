@@ -33,11 +33,12 @@ export interface ShippablesDocPanelProps {
 }
 
 /**
- * Renders Finish-delivered Shippables plus summary markdown.
+ * Renders settle delivery summary (buyer PR when present) plus synthesis summary.
+ * PR shipping is settle-asset-pack-pipeline only — not SDIVF Finish.
  */
 export function ShippablesDocPanel({ shippables, summaryOpen, onToggleSummary }: ShippablesDocPanelProps) {
   const tldr: React.ReactNode[] = [];
-  if (shippables.pullRequest?.title) tldr.push(<span key="pr">Pull Request</span>);
+  if (shippables.pullRequest?.title) tldr.push(<span key="pr">Settled pull request</span>);
 
   return (
     <div className="relative flex flex-col space-y-8 w-full max-w-4.5xl mx-auto">
@@ -56,7 +57,7 @@ export function ShippablesDocPanel({ shippables, summaryOpen, onToggleSummary }:
               <span>. Read the full summary below.</span>
             </>
           ) : (
-            <span>No shippables to summarize.</span>
+            <span>No settled delivery to summarize.</span>
           )}
         </div>
         <button onClick={onToggleSummary} className="ml-4 p-1 text-gray-300 hover:text-emerald-300 transition-transform">

@@ -56,7 +56,12 @@ describe('Reading pipeline contracts', () => {
               expect(telemetry.startsWith(`${contract.pipelineName}.telemetry.`)).toBe(true);
             }
             for (const tool of ptrrStep.tools) {
-              expect(tool.toolId.startsWith(`${contract.pipelineName}.tool.`)).toBe(true);
+              // Settlement PR shipping is settle-asset-pack-pipeline; other tools
+              // stay under the reading pipeline name prefix.
+              const allowed =
+                tool.toolId.startsWith(`${contract.pipelineName}.tool.`) ||
+                tool.toolId.startsWith('settle-asset-pack-pipeline.tool.');
+              expect(allowed).toBe(true);
             }
           }
         }
@@ -112,7 +117,7 @@ describe('Reading pipeline contracts', () => {
         'ReadFitsFindingSynthesis.tool.lexical-depository-search',
         'ReadFitsFindingSynthesis.tool.vector-depository-search',
         'ReadFitsFindingSynthesis.tool.verification-evidence',
-        'ReadFitsFindingSynthesis.tool.vcs-create-pull-request',
+        'settle-asset-pack-pipeline.tool.vcs-create-pull-request',
       ]),
     );
   });

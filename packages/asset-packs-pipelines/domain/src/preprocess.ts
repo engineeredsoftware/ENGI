@@ -132,13 +132,9 @@ export async function initializeAssetPackPipeline(execution: PipelineExecution) 
     const initializeMcpsToolsAgent = (await import('./agents/setup/asset-pack-initialize-mcps-tools-agent')).default as any;
     execution.agents.registerAgent('setup:asset-pack-initialize-mcps-tools-agent', initializeMcpsToolsAgent);
   } catch {}
-  // Register discovery agents
-  try {
-    const { registerDiscoveryAgents } = await import('./phases/discovery');
-    registerDiscoveryAgents((execution as any).agents);
-  } catch {}
+  // Discovery agents register when deposit/read Discovery phases run (product three-agent roster).
   // Implementation, validation, and Finish register product SDIVF agents when phases run.
-  // Design/Digest Engi gates are deleted. Buyer-repo PR shipping is settle-only.
+  // Buyer-repo PR shipping is settle-asset-pack-pipeline only.
 }
 
 export const initializeAssetPack = initializeAssetPackPipeline;

@@ -267,7 +267,7 @@ export function MarketingScreenshotHowItWorks({
               <div className="flex flex-wrap gap-3">
                 {[
                   {
-                    label: "PR Shippable",
+                    label: "Settle delivery",
                     icon: CodeBracketIcon,
                     cls: "bg-blue-600/20 text-blue-200 border-blue-500/40",
                   },

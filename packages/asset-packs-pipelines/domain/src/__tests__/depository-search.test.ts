@@ -135,7 +135,7 @@ describe('AssetPack depository search', () => {
         'ReadFitsFindingSynthesis.tool.lexical-depository-search',
         'ReadFitsFindingSynthesis.tool.vector-depository-search',
         'ReadFitsFindingSynthesis.tool.verification-evidence',
-        'ReadFitsFindingSynthesis.tool.vcs-create-pull-request',
+        'settle-asset-pack-pipeline.tool.vcs-create-pull-request',
       ],
       candidateCounts: {
         ranked: 1,

@@ -86,18 +86,16 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
     );
   });
 
-  it.each([['read'], [undefined]])(
-    'read discovery (mode=%s) registers the canonical five-agent sequence',
+  it.each([['read'], [undefined], ['deposit']])(
+    'discovery (mode=%s) always registers the product three-agent roster',
     (mode) => {
       const registry = fakeRegistry();
       registerDiscoveryAgents(registry, mode);
 
       expect(Array.from(registry.entries.keys())).toEqual([
-        'discovery:gather-context',
-        'discovery:understand-requirements',
-        'discovery:research-approach',
-        'discovery:plan-implementation',
-        'discovery:assess-complexity',
+        'discovery:comprehend-codebase',
+        'discovery:search-depository',
+        'discovery:inherent-regurgitation',
       ]);
     },
   );

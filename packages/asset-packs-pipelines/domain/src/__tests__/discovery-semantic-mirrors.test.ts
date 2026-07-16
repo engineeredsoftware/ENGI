@@ -13,7 +13,6 @@ describe('AssetPack discovery semantic mirrors', () => {
             name: 'finish',
             description: 'materialize the AssetPack evidence',
             assetPackSynthesisArtifacts: ['source patch evidence'],
-            shippables: ['pull request'],
           },
         ],
         tools: ['git'],
@@ -21,7 +20,7 @@ describe('AssetPack discovery semantic mirrors', () => {
       },
       alternatives: [],
       risks: [],
-      recommendation: 'finish with a pull request delivery mechanism',
+      recommendation: 'finish with AssetPack synthesis evidence (PR ships only after settle)',
     });
 
     expect(output.approach.phases[0].writtenAssets).toEqual(['source patch evidence']);
@@ -36,8 +35,7 @@ describe('AssetPack discovery semantic mirrors', () => {
             name: 'finish',
             description: 'materialize the AssetPack evidence',
             assetPackSynthesisArtifacts: ['source patch evidence'],
-            shippables: ['pull request'],
-            writtenAssets: ['draft pull request'],
+            writtenAssets: ['draft option set'],
           },
         ],
         tools: ['git'],
@@ -45,10 +43,10 @@ describe('AssetPack discovery semantic mirrors', () => {
       },
       alternatives: [],
       risks: [],
-      recommendation: 'finish with a pull request delivery mechanism',
+      recommendation: 'finish with AssetPack synthesis evidence (PR ships only after settle)',
     });
 
-    expect(output.approach.phases[0].writtenAssets).toEqual(['draft pull request']);
+    expect(output.approach.phases[0].writtenAssets).toEqual(['draft option set']);
   });
 
   it('normalizes PTRR envelope research outputs before mirroring', () => {

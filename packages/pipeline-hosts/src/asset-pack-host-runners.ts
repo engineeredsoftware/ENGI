@@ -144,8 +144,9 @@ function findPullRequestUrl(output) {
   return (
     output?.deliveryMechanism?.pullRequest?.url ||
     output?.deliveryMechanism?.prUrl ||
-    output?.shippables?.pullRequest?.url ||
+    // PR only after settle ship stage — not SDIVF Finish fabrication.
     output?.shippable?.prUrl ||
+    output?.shippables?.pullRequest?.url ||
     output?.writtenAssets?.pullRequest?.url ||
     output?.assetPackSynthesisArtifacts?.pullRequest?.url ||
     null

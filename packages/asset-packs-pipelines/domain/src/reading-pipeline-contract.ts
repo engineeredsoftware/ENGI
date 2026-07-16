@@ -595,25 +595,38 @@ export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
       ],
     },
     {
+      // Reading settle phase projects settle-asset-pack-pipeline (Simple).
+      // PR shipping is ship-asset-pack-patch-pr after BTC/BTD/co-own — never SDIVF Finish.
       phaseId: 'ReadFitsFindingSynthesis.settle',
-      stores: ['ledger.settlement', 'finish.deliveryMechanism', 'finish.asset_pack_completion'],
+      stores: [
+        'settle-asset-pack-pipeline.paymentObservation',
+        'settle-asset-pack-pipeline.mintBtd',
+        'settle-asset-pack-pipeline.settleBtd',
+        'settle-asset-pack-pipeline.settleAssetPack',
+        'settle-asset-pack-pipeline.shippable',
+      ],
       agents: [
         ptrrAgent({
           pipelineName: READ_FITS_FINDING_SYNTHESIS,
           phaseKey: 'settle',
-          agentKey: 'buy-deliver',
-          objectiveId: 'ReadFitsFindingSynthesis.settle.buy-deliver.objective',
+          agentKey: 'ship-asset-pack-patch-pr',
+          objectiveId:
+            'ReadFitsFindingSynthesis.settle.ship-asset-pack-patch-pr.objective',
           kind: 'settlement',
           tools: [
             {
-              toolId: 'ReadFitsFindingSynthesis.tool.vcs-create-pull-request',
+              toolId: 'settle-asset-pack-pipeline.tool.vcs-create-pull-request',
               inputType: 'PullRequestDeliveryInput',
               outputType: 'PullRequestDeliveryResult',
             },
           ],
-          returnType: 'AssetPackCompletionOutput',
-          inputType: 'AssetPackSourceSafePreview',
-          stores: ['ledger.settlement', 'finish.pullRequestUrl', 'finish.asset_pack_completion.result'],
+          returnType: 'SettleAssetPackResult',
+          inputType: 'SettleAssetPackInput',
+          stores: [
+            'settle-asset-pack-pipeline.shippable',
+            'settle-asset-pack-pipeline.settleAssetPack',
+            'settle-asset-pack-pipeline.settleBtd',
+          ],
           telemetry: [
             readFitsFindingTelemetry('btc-fee-receipt'),
             readFitsFindingTelemetry('range-readback'),

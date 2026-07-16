@@ -124,7 +124,9 @@ describe('V32 Reading pipeline proof coverage', () => {
       .find((phase) => phase.phaseId === 'ReadFitsFindingSynthesis.settle')!
       .agents[0]
       .ptrrSteps.find((step) => step.ptrrStepName === 'try')!;
-    expect(settleTry.inputType).toBe('AssetPackSourceSafePreview');
-    expect(settleTry.tools.map((tool) => tool.toolId)).toEqual(['ReadFitsFindingSynthesis.tool.vcs-create-pull-request']);
+    expect(settleTry.inputType).toBe('SettleAssetPackInput');
+    expect(settleTry.tools.map((tool) => tool.toolId)).toEqual([
+      'settle-asset-pack-pipeline.tool.vcs-create-pull-request',
+    ]);
   });
 });

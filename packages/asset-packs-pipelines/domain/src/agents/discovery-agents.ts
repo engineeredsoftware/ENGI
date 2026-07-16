@@ -104,7 +104,6 @@ const ResearchApproachOutputSchema = z.object({
       name: z.string(),
       description: z.string(),
       assetPackSynthesisArtifacts: z.array(z.string()).optional(),
-      shippables: z.array(z.string()).optional(),
       writtenAssets: z.array(z.string()).optional()
     })),
     tools: z.array(z.string()),
@@ -178,8 +177,7 @@ export function applyResearchApproachSemanticMirrors(
           ...normalizedPhase,
           writtenAssets:
             normalizedPhase.writtenAssets ??
-            normalizedPhase.assetPackSynthesisArtifacts ??
-            normalizedPhase.shippables,
+            normalizedPhase.assetPackSynthesisArtifacts,
           assetPackSynthesisArtifacts:
             normalizedPhase.assetPackSynthesisArtifacts ??
             normalizedPhase.writtenAssets,
@@ -454,60 +452,7 @@ export async function AssetPackDiscoveryPhaseAssessComplexityAgent(
 // ==================== DYNAMIC AGENT REGISTRATION ====================
 
 /**
- * Registers discovery agents for an AssetPack written-asset request.
- * Called after setup phase completes.
- * 
- * Sequence:
- * 1. GatherContext (generic) - ALWAYS FIRST
- * 2. UnderstandRequirements (generic but aware of type)
- * 3. ResearchApproach (generic but aware of type)
- * 4. PlanImplementation (generic but aware of type)
- * 5. AssessComplexity (generic) - ALWAYS LAST
+ * Product Discovery registration lives in phases/discovery.ts (three-agent roster).
+ * This module retains residual PTRR agent factories used only by unit tests /
+ * mirror helpers — do not reintroduce Engi five-agent Discovery registration here.
  */
-export function registerDiscoveryAgents(
-  agentRegistry: any // AgentAgentsRegistry from PipelineExecution
-): void {
-  // ALWAYS register generic gather context FIRST
-  agentRegistry.registerAgent(
-    'discovery:gather-context',
-    AssetPackDiscoveryPhaseGatherContextAgent
-  );
-  
-  // Register core discovery agents (generic but type-aware)
-  agentRegistry.registerAgent(
-    'discovery:understand-requirements',
-    AssetPackDiscoveryPhaseUnderstandRequirementsAgent
-  );
-  
-  agentRegistry.registerAgent(
-    'discovery:research-approach',
-    AssetPackDiscoveryPhaseResearchApproachAgent
-  );
-  
-  agentRegistry.registerAgent(
-    'discovery:plan-implementation',
-    AssetPackDiscoveryPhasePlanImplementationAgent
-  );
-  
-  // ALWAYS register generic assess complexity LAST
-  agentRegistry.registerAgent(
-    'discovery:assess-complexity',
-    AssetPackDiscoveryPhaseAssessComplexityAgent
-  );
-}
-
-/**
- * Creates the discovery phase sequence.
- * Note: Discovery phase is mostly generic with type-awareness.
- * 
- * @returns Array defining the execution order
- */
-export function createDiscoveryExecutorSequence(): any[] {
-  return [
-    { agent: 'discovery:gather-context' }, // Generic - FIRST
-    { agent: 'discovery:understand-requirements' }, // Generic but type-aware
-    { agent: 'discovery:research-approach' }, // Generic but type-aware
-    { agent: 'discovery:plan-implementation' }, // Generic but type-aware
-    { agent: 'discovery:assess-complexity' } // Generic - LAST
-  ];
-}

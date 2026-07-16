@@ -79,10 +79,11 @@ const MarketingAccelerationSection: React.FC = () => {
       description: 'Attach source-bearing proof, validation, and operator-visible receipts to the AssetPack.',
     },
     {
-      name: 'PR Shippable',
+      name: 'Settle delivery',
       icon: ClipboardDocumentCheckIcon,
       color: 'text-emerald-400',
-      description: 'Finish with a connected-interface pull request instead of parallel comment, issue, or review outputs.',
+      description:
+        'After BTC settlement and BTD rights, open one buyer-repo pull request for the bought AssetPack — not as SDIVF Finish.',
     },
     // Evidence Documents
     {
@@ -127,8 +128,8 @@ const MarketingAccelerationSection: React.FC = () => {
       stats: ['Deep Research', 'Deep Reasoning'],
       images: ['/screenshots/comments-1.png']
     },
-    'PR Shippable': {
-      stats: ['1000x Faster Response'],
+    'Settle delivery': {
+      stats: ['After rights transfer'],
       images: ['/screenshots/review-1.png', '/screenshots/review-2.png']
     },
     Feedback: {
