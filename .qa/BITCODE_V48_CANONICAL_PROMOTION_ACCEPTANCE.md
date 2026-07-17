@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D4) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through CS reason) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D5) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through CS judge) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -77,7 +77,7 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
 | `BITCODE_DEBUG_STOP_STEP` | `plan` | |
 | `BITCODE_DEBUG_STOP_FAILSAFE` | **`chunk_then_sum`** (was prepare_concise_context) | +1 after 1.D3 Accepted |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** (CS task reason; was PCC structured_output) | +1 after 1.D3 Accepted |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`judge`** (CS task judge; was CS reason) | +1 after 1.D4 Accepted |
 | `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -887,9 +887,9 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 | | |
 | --- | --- |
 | **this stop** | **Accepted — fully successful** |
-| **next marker** | Prefer **chunk_then_sum** / **judge** (then CS structured_output), or document stitch if SO lands first in sequence |
+| **next marker** | advanced → **chunk_then_sum** / **judge** (see 1.D5) |
 | **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Judge Call-Site` |
-| **not yet** | CS judge/SO; Stitch; Try/clone tool; remaining Setup; Discovery+ |
+| **not yet** | CS SO; Stitch; Try/clone tool; remaining Setup; Discovery+ |
 
 #### artifacts
 
@@ -905,13 +905,130 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 
 ---
 
+### 1.D5 Deposit · Setup · clone-vcs · Plan · ChunkThenSum · judge
+
+- **status:** **Accepted (fully successful call-site; CS task judge)**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Judge Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **pipeline_mode:** deposit
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **step:** plan
+- **failsafe:** chunk_then_sum
+- **thinking:** judge
+- **execution_path:**
+  `pipeline:synthesize_deposit_asset_packs → seq-2 → phase:setup → seq-0 → agent:asset-pack-clone-vcs-repository-agent → plan → seq-1 → failsafe:chunk_then_sum → gen-0 → seq-1 → thinkings:judge`
+- **provider / model:** anthropic / `claude-haiku-4-5-20251001`
+- **usage:** 2593 in / 445 out / 3038 total tokens (CS judge call)
+- **harness result:** `ok: true`, `debugStop: true`, `callCount: 11`, `stopFailsafe: chunk_then_sum`, `stopGeneration: judge`
+- **abort_marker:**
+  generation=**judge** + failsafe=**chunk_then_sum** + phase=setup + step=plan + agent filter `clone-vcs`  
+  → `hard-stop after plan/chunk_then_sum/judge agent=asset-pack-clone-vcs-repository-agent`
+
+#### expected_schemas (CS judge)
+
+| Layer | Schema | Notes |
+| --- | --- | --- |
+| **thinking_return** | `JudgmentSchema` `{ quality, issues, suggestions, approved }` | **This call.** |
+| **prior** | Reasoning from CS reason | Conditioning input, not re-emitted |
+
+#### tools
+
+| | |
+| --- | --- |
+| **usable** | clone tool on plan node |
+| **selected / executed** | **none** (Judge does not execute tools) |
+
+#### contextful_inputs
+
+- User wire keys: **`selectedKeys` + `selectedContext` + `reasoning`** only (prepared task path).
+- Prior CS reason present with plan clone strategy (GitHub / sindresorhus/is-plain-obj / commit + fallbacks).
+- No hierarchy re-paste; not PCC key-selection judge branch.
+
+#### completion_response (summary)
+
+```json
+{
+  "quality": 0.88,
+  "issues": [
+    "Provider inference assumes GitHub without explicit validation…",
+    "Shallow clone depth tradeoff for later measurement…",
+    "Auth fallback if public API unavailable…",
+    "Obfuscation enforcement coordination across phases…"
+  ],
+  "suggestions": [
+    "Confirm provider from naming/Host defaults…",
+    "Document depth rationale…",
+    "Auth fallback sequence…",
+    "Phase handoff for obfuscation gate…",
+    "Commit-vs-branch tradeoff in store…"
+  ],
+  "approved": true
+}
+```
+
+#### prompt_excellence_breakdown (CS judge)
+
+| Dimension | Why correct / excellent |
+| --- | --- |
+| **Hierarchy** | 6 blocks: Execution+Pipeline → Phase → Agent → Plan → **ChunkThenSum law** → **Judge** thinking. Execution once. |
+| **Role filter** | Active Judge instruction only (no Reason thinking block); no PCC/Stitch leak. |
+| **User prepared-only** | Wire keys exactly `selectedKeys`, `selectedContext`, `reasoning`. |
+| **Path** | Stops on `gen-0/seq-1` judge after CS reason `seq-0`; callCount 11 = PCC×3 + CS reason + CS judge + abort. |
+
+#### completion_excellence_breakdown (CS judge)
+
+| Dimension | Why correct / excellent |
+| --- | --- |
+| **Schema** | Valid Judgment only — no analysis/selectedKeys leak. |
+| **Role** | Scores prior **task** plan reasoning; does not re-plan clone or re-select keys. |
+| **Quality** | quality 0.88; **approved: true** with constructive issues (provider assumption, shallow depth, auth, phase handoff) — appropriate residual critique, not hard fail. |
+| **Task grounding** | Critiques land on the prior reason’s GitHub/shallow/auth claims against selectedContext. |
+
+#### stability_analysis (CS judge)
+
+| Axis | Result |
+| --- | --- |
+| **schema_parse** | **Pass** |
+| **role_correctness** | **Pass** — CS task judge, not PCC selection judge |
+| **task_quality** | **Pass** — useful, proportional critique; approved |
+| **prompt_hygiene** | **Pass** — prepared user + full hierarchy + CS law |
+| **regression_vs_prior** | **Pass** — first CS judge stop after lean prepared user |
+
+#### stability_confidence
+
+- **0.94** that this call-site is fully successful and the marker may advance to **CS structured_output**.  
+- Residual: CS SO must emit Plan step schema (not selectedKeys); approved:true is input, not a skip of SO.
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted — fully successful** |
+| **next marker** | Prefer **chunk_then_sum** / **structured_output** |
+| **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Structured-Output Call-Site` |
+| **not yet** | CS SO; Stitch; Try/clone tool; remaining Setup; Discovery+ |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| CS judge request | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0009-request-…-chunk_then_sum-judge.json` |
+| CS judge response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0010-response-…-chunk_then_sum-judge.json` (2593/445/3038) |
+| Abort | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0011-abort-…-chunk_then_sum-judge.json` |
+| Summary | `.tmp/local-deposit-debug/debug-summary.json` |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
 ### 1.2+ Read next / Deposit next
 
 _Template ready. Expected fills:_
 
-- **1.D5** Deposit · Setup · clone-vcs · Plan · **chunk_then_sum** · **judge**  
+- **1.D6** Deposit · Setup · clone-vcs · Plan · **chunk_then_sum** · **structured_output**  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge** (read harness still at reason)  
-- **1.D6+** CS SO · Stitch · Try · Retry · Refine · remaining Setup · Discovery · … · settle  
+- **1.D7+** Stitch · Try · Retry · Refine · remaining Setup · Discovery · … · settle  
 
 ---
 
@@ -921,8 +1038,8 @@ _Template ready. Expected fills:_
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1–1.D3 PCC selection Thinkings Accepted; §1.D4 ChunkThenSum reason Accepted.  
-  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopFailsafe=`chunk_then_sum`, stopGeneration=`reason`, callCount=9.
+- **proof (current):** §1.D1–1.D3 PCC; §1.D4 CS reason; §1.D5 CS judge Accepted.  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopFailsafe=`chunk_then_sum`, stopGeneration=`judge`, callCount=11.
 
 ### §3 SDIVF read pipeline production-like accept
 
