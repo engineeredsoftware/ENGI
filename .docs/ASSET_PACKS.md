@@ -252,7 +252,7 @@ Finish:
   )
 ```
 
-Implementation lives in `packages/asset-packs-pipelines/syntheses/domain/src/phases/deposit-phases.ts`.
+Implementation lives in `packages/asset-packs-pipelines/syntheses/domain/src/phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators.ts`.
 
 ---
 
@@ -692,7 +692,7 @@ ship AssetPack patch PR → journal PackActivity. Package:
 
 | Concern | Location |
 |---------|----------|
-| Deposit phase roster | `packages/asset-packs-pipelines/syntheses/domain/src/phases/deposit-phases.ts` |
+| Deposit phase roster | `packages/asset-packs-pipelines/syntheses/domain/src/phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators.ts` |
 | Discovery registration | `…/phases/discovery.ts` |
 | Absolutes catalog | `packages/generic-asset-packs/synthesis/src/measurement-catalogs.ts` |
 | Measured patch type | `packages/generic-asset-packs/synthesis/` |
@@ -723,4 +723,4 @@ ship AssetPack patch PR → journal PackActivity. Package:
 
 ---
 
-*Document owner: product + pipeline maintainers. Prefer updating this file when deposit agent roster keys, absolute catalog kinds, or Finish schemas change — keep it aligned with `deposit-phases.ts` and `ASSET_PACK_ABSOLUTES_CATALOG`.*
+*Document owner: product + pipeline maintainers. Prefer updating this file when deposit agent roster keys, absolute catalog kinds, or Finish schemas change — keep it aligned with `execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators.ts` and `ASSET_PACK_ABSOLUTES_CATALOG`.*

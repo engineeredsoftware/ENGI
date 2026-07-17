@@ -2,7 +2,7 @@
  * AssetPack Pipeline Phases
  *
  * Deposit and read synthesis are SEPARATE specific pipelines (no lens/mode).
- * Prefer importing depositPhases / readPhases from the product packages directly.
+ * Prefer importing executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators / executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators from the product packages directly.
  *
  * This barrel intentionally does **not** statically import product packages
  * (that creates a cycle: syntheses-domain → deposit/read → syntheses-domain).

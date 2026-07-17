@@ -16,7 +16,7 @@
     "./reading-operational-telemetry-repair-readback": "./src/reading-operational-telemetry-repair-readback.ts",
     "./reading-pipeline-contract": "./src/reading-pipeline-contract.ts",
     "./reading-pipeline-observability": "./src/reading-pipeline-observability.ts",
-    "./phases/read-phases": "./src/phases/read-phases.ts",
+    "./phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators": "./src/phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators.ts",
     "./tools/BitcodeReadMeasurementComputerUseTool": "./src/tools/BitcodeReadMeasurementComputerUseTool.ts",
     "./agents/setup/read-fits-finding-synthesis-setup-plan-agent": "./src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
     "./agents/setup/read-fits-finding-synthesis-read-comprehension-agent": "./src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts"

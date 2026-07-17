@@ -24,7 +24,7 @@ import {
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain';
-import { readPhases } from './phases/read-phases';
+import { executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators } from './phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators';
 import {
   EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
@@ -43,11 +43,11 @@ export function factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks(
   const maxIterations = 1;
   const sdivf = factoryExecutionPipelineSDIVFFromExecutors(pipelineName, {
     preprocess: factoryPreprocessReadOnly() as any,
-    setup: readPhases.setup as any,
-    discovery: readPhases.discovery as any,
-    implementation: readPhases.implementation as any,
-    validation: readPhases.validation as any,
-    finish: readPhases.finish as any,
+    setup: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.setup as any,
+    discovery: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.discovery as any,
+    implementation: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.implementation as any,
+    validation: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.validation as any,
+    finish: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.finish as any,
     maxIterations,
     pipelinePromptSpecific: EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
     phasePromptSpecific: {
@@ -86,4 +86,4 @@ export * from './reading-local-staging-rehearsal';
 export * from './reading-operational-telemetry-repair-readback';
 export * from './interface-disclosure-boundary';
 export * from './read-neediness-measurements';
-export * from './phases/read-phases';
+export * from './phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators';

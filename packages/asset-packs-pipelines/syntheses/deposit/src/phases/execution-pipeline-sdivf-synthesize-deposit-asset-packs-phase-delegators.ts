@@ -1,5 +1,10 @@
 /**
- * Deposit-only SDIVF phase rosters for ExecutionPipelineSDIVFSynthesizeDepositAssetPacks.
+ * ExecutionPipelineSDIVFSynthesizeDepositAssetPacks — SDIVF ExecutionPhase delegators.
+ *
+ * Hierarchy: Execution → Pipeline → SDIVF → SynthesizeDepositAssetPacks → ExecutionPhase*.
+ * Phases are exclusively SDIVF concepts (Setup / Discovery / Implementation / Validation / Finish).
+ * This module is product-specific *delegators* for those SDIVF phases — not a separate
+ * "deposit phase" system.
  *
  * Setup: clone alone → parallel {LSP, MCP, obfuscations} → danger wall alone.
  * Discovery: parallel {comprehend-codebase, inherent-regurgitation}
@@ -25,8 +30,8 @@ type DiscoveryOutput = AssetPackInput;
 type ImplementationOutput = AssetPackOutput;
 type ValidationOutput = AssetPackOutput;
 
-function registerDepositSetupAgents(agentRegistry: any): void {
-  // One roster key per Setup agent (matches depositSetupPhase executors).
+function registerExecutionPipelineSDIVFSynthesizeDepositAssetPacksSetupAgents(agentRegistry: any): void {
+  // One roster key per Setup agent (matches executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase executors).
   agentRegistry.registerAgent(
     'setup:clone-vcs-repository',
     () =>
@@ -51,12 +56,12 @@ function registerDepositSetupAgents(agentRegistry: any): void {
   );
 }
 
-export const depositSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
+export const executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
   try {
-    registerDepositSetupAgents((execution as any).agents);
+    registerExecutionPipelineSDIVFSynthesizeDepositAssetPacksSetupAgents((execution as any).agents);
   } catch {}
 
   // Progressive deposit QA: BITCODE_DEBUG_SETUP_SERIAL=1 runs wave-1 agents
@@ -136,7 +141,7 @@ export const depositSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<As
   }
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
 
-export const depositDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
+export const executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -146,6 +151,62 @@ export const depositDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegato
     );
     registerDiscoveryAgents((execution as any).agents, 'deposit');
   } catch {}
+
+  // Progressive Discovery QA: when BITCODE_DEBUG_STOP_AGENT_FILTER targets a
+  // later wave-1/wave-2 agent, passthrough earlier agents so each stop does not
+  // re-burn full multi-tool codebase PTRR (already Accepted 1.D-Agent).
+  const stopFilter = String(
+    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || '',
+  ).toLowerCase();
+  const targetsCodebase =
+    !stopFilter ||
+    stopFilter.includes('codebasecomprehension') ||
+    stopFilter.includes('comprehend-codebase');
+  const targetsRegurgitation =
+    stopFilter.includes('inherentregurgitation') ||
+    stopFilter.includes('inherent-regurgitation') ||
+    stopFilter.includes('regurgitation');
+  const targetsSearch =
+    stopFilter.includes('depository') ||
+    stopFilter.includes('search-depository') ||
+    stopFilter.includes('searchforrelevants');
+
+  if (stopFilter && !targetsCodebase) {
+    (execution as any).agents?.registerAgent?.(
+      DISCOVERY_COMPREHEND_CODEBASE,
+      async (passthroughInput: any, exec: any) => {
+        storeCrossPhaseArtifact(exec, 'discovery', 'codebaseComprehension', {
+          schema: 'bitcode.debug.fast-discovery.codebase',
+          summary:
+            'Fast Discovery: DepositCodebaseComprehension skipped (agent Accepted).',
+          capabilities: [],
+          knowledgeAreas: [],
+          notableModules: [],
+        });
+        storeCrossPhaseArtifact(exec, 'discovery', 'codebaseAnalysis', {
+          schema: 'bitcode.debug.fast-discovery.codebase-analysis',
+          skipped: true,
+        });
+        return passthroughInput;
+      },
+    );
+  }
+  if (stopFilter && targetsSearch && !targetsRegurgitation) {
+    (execution as any).agents?.registerAgent?.(
+      DISCOVERY_INHERENT_REGURGITATION,
+      async (passthroughInput: any, exec: any) => {
+        storeCrossPhaseArtifact(exec, 'discovery', 'inherentRegurgitation', {
+          schema: 'bitcode.debug.fast-discovery.regurgitation',
+          summary:
+            'Fast Discovery: InherentRegurgitation skipped for depository-search progressive QA.',
+          relevantKnowledge: [],
+          patterns: [],
+          references: [],
+        });
+        return passthroughInput;
+      },
+    );
+  }
 
   // Wave 1 parallel → wave 2 depository relevants search (uses comprehension).
   // Progressive Discovery QA: BITCODE_DEBUG_DISCOVERY_SERIAL=1 (or SETUP_SERIAL)
@@ -176,7 +237,7 @@ export const depositDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegato
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
 
-export const depositImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
+export const executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
@@ -190,7 +251,7 @@ export const depositImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDel
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
 /** Single Validation agent: prior phases + pack quality + obfuscations. */
-export const depositValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
+export const executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
@@ -208,7 +269,7 @@ export const depositValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegat
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
 
 /** Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run. */
-export const depositFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
+export const executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
@@ -236,10 +297,10 @@ export const depositFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<V
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
 
-export const depositPhases = {
-  setup: depositSetupPhase,
-  discovery: depositDiscoveryPhase,
-  implementation: depositImplementationPhase,
-  validation: depositValidationPhase,
-  finish: depositFinishPhase,
+export const executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators = {
+  setup: executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase,
+  discovery: executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase,
+  implementation: executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhase,
+  validation: executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase,
+  finish: executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase,
 };
