@@ -2,9 +2,8 @@
  * AssetPack Pipeline Tool catalog (source list for preprocess registration)
  *
  * These are **Tool** instances only. At pipeline init they enter
- * `ExecutionPipelineToolRegistry` **iff** each has `tool.__docCodePrompt`
- * (DocCode is a Tool primitive — agents do not use that pattern).
- * See `assertPipelineToolDocCode` in `preprocess.ts`.
+ * `ExecutionPipelineToolRegistry` by name. DocCode (`__docCodePrompt`) is
+ * optional Tool documentation for usable-tool docs — **not** a registration gate.
  *
  * Organized by phase for authoring; registration is one flat pipeline catalog.
  */

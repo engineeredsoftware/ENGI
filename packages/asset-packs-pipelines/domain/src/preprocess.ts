@@ -11,11 +11,11 @@
  * Only **Tools** (`@bitcode/tools-generics` Tool instances) enter
  * `ExecutionPipelineToolRegistry`. Agents, LLMs, and prompt carriers do not.
  *
- * Every pipeline/product tool **must** carry `tool.__docCodePrompt`
- * (build-time `@doc-code-tool` or runtime `attachDocCodeToolPrompt` /
- * factoryTool `{ prompt }`). DocCode is how usable-tool docs reach PTRR
- * Thinkings (`auto:tools_doc_code_tools`). No DocCode → not registered
- * (refused at this gate; not an agent/step-level concern).
+ * **DocCode is NOT required for registration.** `tool.__docCodePrompt` is a
+ * Tool-only documentation attachment (usable-tool docs in PTRR Thinkings via
+ * `auto:tools_doc_code_tools`). Prefer attaching DocCode for production tools;
+ * missing DocCode still registers the Tool — docs interpolation simply has less
+ * to format.
  */
 
 import {
@@ -31,23 +31,6 @@ import type { Tool } from '@bitcode/tools-generics';
 import { factoryLLMRegistryWithProviders, resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import { LLMRegistry } from '@bitcode/llm-generics';
 import { ALL_ASSET_PACK_TOOLS } from './tools';
-
-/**
- * Hard requirement for pipeline/product Tool registration.
- * DocCode is a Tool primitive — not used by agents or other registries.
- */
-export function assertPipelineToolDocCode(tool: Tool, key: string): void {
-  if (!tool || typeof tool !== 'object') {
-    throw new Error(`Pipeline tool registration refused: invalid tool for key ${key}`);
-  }
-  if (!(tool as any).__docCodePrompt) {
-    throw new Error(
-      `Pipeline tool registration refused: DocCode prompt required on Tool "${key}" ` +
-        `(attach __docCodePrompt via @doc-code-tool, attachDocCodeToolPrompt, or factoryTool). ` +
-        `Only Tools use DocCode; missing DocCode means the tool stays out of the pipeline catalog.`,
-    );
-  }
-}
 
 export async function initializeAssetPackPipeline(execution: ExecutionPipeline) {
   // 0) Hard guard: ensure this execution has LLM registry and child() creates ExecutionPipeline children
@@ -120,22 +103,20 @@ export async function initializeAssetPackPipeline(execution: ExecutionPipeline) 
     execution.store('config', 'debug', true);
   } catch {}
 
-  // 3) Pipeline tool catalog: Tools only, DocCode required per tool.
-  //    Per-tool refuse (not whole-loop abort): one incomplete Tool must not
-  //    prevent other DocCode-complete Tools from registering.
-  const refused: string[] = [];
+  // 3) Pipeline tool catalog: Tools only. DocCode optional (docs, not a gate).
   const registered: string[] = [];
+  const withoutDocCode: string[] = [];
   for (const tool of ALL_ASSET_PACK_TOOLS) {
     const key = (tool as any).name || tool.constructor?.name || 'asset-pack-tool';
     try {
-      assertPipelineToolDocCode(tool as Tool, key);
+      if (!tool || typeof tool !== 'object') continue;
       execution.tools.registerTool(key, tool as any);
       registered.push(key);
+      if (!(tool as any).__docCodePrompt) withoutDocCode.push(key);
     } catch (err) {
-      refused.push(key);
       try {
         const { log } = require('@bitcode/logger');
-        log('[asset-pack/preprocess] pipeline tool registration refused (DocCode required)', 'warn', {
+        log('[asset-pack/preprocess] pipeline tool registration failed', 'warn', {
           key,
           registry: 'ExecutionPipelineToolRegistry',
           level: 'pipeline',
@@ -149,8 +130,8 @@ export async function initializeAssetPackPipeline(execution: ExecutionPipeline) 
   try {
     execution.store('tools', 'pipelineCatalog', {
       registered,
-      refusedDocCode: refused,
-      law: 'Tool.__docCodePrompt required for pipeline/product registration',
+      withoutDocCode,
+      law: 'Tools register without DocCode gate; __docCodePrompt is optional Tool docs',
     } as any);
   } catch {
     /* ignore */

@@ -71,17 +71,17 @@ read-in is where Try/Retry `useTools` appears.
 
 ## 2. Doc-code → usable tool documentation (doc interpolation)
 
-### Law: DocCode is a **Tool** primitive (pipeline/product registration gate)
+### Law: DocCode is a **Tool** documentation attachment (not a registration gate)
 
 | Registry level | What registers | DocCode |
 | --- | --- | --- |
-| **Pipeline / product** (`ExecutionPipelineToolRegistry`) | **Tools only** | **Required** — no `__docCodePrompt` → registration **refused** |
-| Agent / Step tool registries | Allowlist + hierarchy lookup | Do not re-author DocCode; they resolve tools already on the pipeline |
+| **Pipeline / product** (`ExecutionPipelineToolRegistry`) | **Tools only** | **Optional** — improves usable-tool docs; **not** required to register |
+| Agent / Step tool registries | Allowlist + hierarchy lookup | Resolve tools already on the pipeline |
 
 Agents, LLMs, and prompt carriers do **not** use `__docCodePrompt`. Only
-`@bitcode/tools-generics` **Tool** instances carry DocCode for PTRR usable-tool
-docs (`auto:tools_doc_code_tools`). Product preprocess
-(`initializeAssetPackPipeline`) enforces this at the **pipeline** catalog.
+`@bitcode/tools-generics` **Tool** instances may carry DocCode for PTRR
+usable-tool docs (`auto:tools_doc_code_tools`). Missing DocCode still registers
+the Tool; interpolation formats less prose.
 
 ### Authoring a tool
 
@@ -101,7 +101,7 @@ class AssetPackLexicalDepositorySearchTool extends ExecutionTool<typeof searchFn
 Build-time **doc-code** (`@bitcode/generic-doc-comments-doc-code`) attaches a
 `DocCodeToolPrompt` instance to `tool.__docCodePrompt` (and `__promptParts`).
 Runtime fallback: `attachDocCodeToolPrompt(tool, prompt)` / `factoryTool({ prompt })`.
-Without DocCode, the tool must not be treated as pipeline-catalog ready.
+Prefer DocCode for production tools; it is **not** a pipeline catalog gate.
 
 ### Formatting for the LLM
 
