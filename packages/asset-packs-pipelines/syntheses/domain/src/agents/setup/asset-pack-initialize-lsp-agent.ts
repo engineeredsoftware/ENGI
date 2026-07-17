@@ -61,7 +61,7 @@ const initializeLSPAgent = factoryPTRRAgent<
   stepPrompts: AssetPackSetupPhaseInitializeLSPAgentPromptSteps,
   name: 'asset-pack-initialize-lsp-agent',
   description:
-    'Prime Host LSP for this checkout and register query tools for Discovery/Validation',
+    'Prime Host multi-language LSP for this checkout and register query tools for Discovery/Validation',
   outputSchema: InitializeLSPOutputSchema,
   plan: { chunkThreshold: 500 },
   try: { chunkThreshold: 1000 },

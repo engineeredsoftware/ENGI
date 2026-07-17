@@ -23,8 +23,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_TOOLS_AVAILABLE: PromptPart =
-  'Available tools (useTools names): lsp-workspace-symbols (probe workspace readiness), ' +
-  'lsp-document-symbols (per-file symbol evidence), lsp-definition, lsp-hover. ' +
-  'Host Setup also primes the full LSP suite for Discovery: lsp-references, ' +
-  'lsp-completion, lsp-signature-help, lsp-code-actions, lsp-format-document. ' +
-  'Pass workspacePath/filePath from the Host checkout; do not invent tools or server names.' as PromptPart;
+  'Available tools (useTools names): lsp-workspace-symbols (probe multi-language workspace readiness ' +
+  'across all started servers), lsp-document-symbols (per-file symbols via the language server for that ' +
+  'file extension), lsp-definition, lsp-hover. Host Setup also primes the full suite for Discovery ' +
+  'codebase comprehension: lsp-references, lsp-completion, lsp-signature-help, lsp-code-actions, ' +
+  'lsp-format-document. Pass workspacePath/filePath from the Host checkout; language and server are ' +
+  'inferred from path; use extensively during for-synthesis codebase comprehension; do not invent tools ' +
+  'or limit measurement to a single language.' as PromptPart;

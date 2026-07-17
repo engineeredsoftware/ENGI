@@ -45,26 +45,40 @@ describe('Enhanced LSP Package', () => {
     mockFs.access.mockResolvedValue(undefined);
     mockFs.readFile.mockResolvedValue('const test = "hello";\nfunction foo() {}\n');
     
-    Object.defineProperty(mockFsSync, 'constants', {
-      value: { R_OK: 4 },
-      writable: false,
-    });
+    try {
+      Object.defineProperty(mockFsSync, 'constants', {
+        value: { R_OK: 4 },
+        writable: true,
+        configurable: true,
+      });
+    } catch {
+      /* constants may already be defined */
+    }
   });
 
   describe('Language Detection', () => {
-    describe('Supported Extensions', () => {
-      const supportedExtensions = [
+    describe('Common Extensions', () => {
+      const commonExtensions = [
         ['.ts', 'typescript'],
-        ['.tsx', 'tsx'],
+        ['.tsx', 'typescriptreact'],
         ['.js', 'javascript'],
-        ['.jsx', 'jsx'],
+        ['.jsx', 'javascriptreact'],
         ['.mts', 'typescript'],
         ['.cts', 'typescript'],
         ['.mjs', 'javascript'],
         ['.cjs', 'javascript'],
+        ['.py', 'python'],
+        ['.go', 'go'],
+        ['.rs', 'rust'],
+        ['.java', 'java'],
+        ['.kt', 'kotlin'],
+        ['.rb', 'ruby'],
+        ['.json', 'json'],
+        ['.md', 'markdown'],
+        ['.vue', 'vue'],
       ];
 
-      test.each(supportedExtensions)('detects %s as %s', (ext, expected) => {
+      test.each(commonExtensions)('detects %s as %s', (ext, expected) => {
         const filePath = `test${ext}`;
         expect(detectLanguage(filePath)).toBe(expected);
       });
@@ -73,41 +87,30 @@ describe('Enhanced LSP Package', () => {
     describe('Case Insensitivity', () => {
       test('handles uppercase extensions', () => {
         expect(detectLanguage('test.TS')).toBe('typescript');
-        expect(detectLanguage('test.JSX')).toBe('jsx');
+        expect(detectLanguage('test.JSX')).toBe('javascriptreact');
       });
 
       test('handles mixed case extensions', () => {
         expect(detectLanguage('test.Ts')).toBe('typescript');
-        expect(detectLanguage('test.JsX')).toBe('jsx');
+        expect(detectLanguage('test.JsX')).toBe('javascriptreact');
       });
     });
 
-    describe('Unsupported Extensions', () => {
-      const unsupportedExtensions = [
-        '.py', '.java', '.c', '.cpp', '.php', '.rb', '.go', '.rs',
-        '.txt', '.md', '.json', '.xml', '.css', '.html', '.vue',
-      ];
-
-      test.each(unsupportedExtensions)('rejects %s files', (ext) => {
-        const filePath = `test${ext}`;
-        expect(() => detectLanguage(filePath)).toThrow(LspError);
-        expect(() => detectLanguage(filePath)).toThrow('Unsupported file extension');
+    describe('Unknown Extensions', () => {
+      test('falls back to plaintext (never rejects — multi-language product law)', () => {
+        expect(detectLanguage('test.xyz')).toBe('plaintext');
+        expect(detectLanguage('notes.txt')).toBe('plaintext');
+        expect(detectLanguage('test')).toBe('plaintext');
+        expect(detectLanguage('test.')).toBe('plaintext');
+        expect(detectLanguage('')).toBe('plaintext');
       });
     });
 
     describe('Edge Cases', () => {
-      test('handles files without extensions', () => {
-        expect(() => detectLanguage('test')).toThrow(LspError);
-        expect(() => detectLanguage('test.')).toThrow(LspError);
-      });
-
-      test('handles empty file paths', () => {
-        expect(() => detectLanguage('')).toThrow(LspError);
-      });
-
       test('handles complex file paths', () => {
-        expect(detectLanguage('/path/to/file.component.tsx')).toBe('tsx');
+        expect(detectLanguage('/path/to/file.component.tsx')).toBe('typescriptreact');
         expect(detectLanguage('src/utils/helper.mjs')).toBe('javascript');
+        expect(detectLanguage('pkg/main.go')).toBe('go');
       });
     });
   });

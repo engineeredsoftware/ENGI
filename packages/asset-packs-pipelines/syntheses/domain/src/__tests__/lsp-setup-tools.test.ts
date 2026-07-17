@@ -72,5 +72,16 @@ describe('Setup LSP tools for subsequent phases', () => {
     expect(store['setup/lsp/registeredToolNames']).toEqual(
       expect.arrayContaining([LSP_TOOL_NAMES.workspaceSymbols]),
     );
+    expect(Array.isArray(readiness.detectedLanguages)).toBe(true);
+    expect(readiness.detectedLanguages.length).toBeGreaterThan(0);
+  });
+
+  it('detectLanguage covers non-JS languages (product must not be TS-only)', async () => {
+    const { detectLanguage } = await import('@bitcode/lsp');
+    expect(detectLanguage('src/main.py')).toBe('python');
+    expect(detectLanguage('cmd/app.go')).toBe('go');
+    expect(detectLanguage('lib/mod.rs')).toBe('rust');
+    expect(detectLanguage('App.kt')).toBe('kotlin');
+    expect(detectLanguage('unknown.xyz')).toBe('plaintext');
   });
 });

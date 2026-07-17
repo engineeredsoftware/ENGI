@@ -23,7 +23,10 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_CAPABILITIES_LIST: PromptPart =
-  'Capabilities: prime Host TypeScript/JavaScript LSP for this checkout workspacePath; ' +
-  'register named query tools on the pipeline tool registry for Discovery and Validation; ' +
-  'validate readiness via workspace/document symbol tools; store setup/lsp readiness for later phases; ' +
-  'never invent Host capabilities or skip source-safety.' as PromptPart;
+  'Capabilities: prime real multi-language Language Clients for ALL languages present in the checkout ' +
+  'workspacePath (spawn mapped servers over stdio — typescript-language-server, pyright, gopls, ' +
+  'rust-analyzer, clangd, and peers when installed); register named LSP query tools on the pipeline ' +
+  'tool registry for Discovery codebase comprehension and Validation; detect languages from the tree; ' +
+  'validate readiness via workspace/document symbol tools against live sessions; store setup/lsp ' +
+  'readiness (detectedLanguages, startedServers, registered tools) for later phases; never invent ' +
+  'Host capabilities or skip source-safety.' as PromptPart;
