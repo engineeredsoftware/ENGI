@@ -1129,9 +1129,9 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
           // it (or the full EE hierarchy) in the user JSON.
           return [
             'Reason ONLY about PrepareConciseContext key selection for the task below.',
-            'Goals: minimal sufficient keys; prefer host workspace / repository coordinates / step inputs; omit lineage, telemetry, debug, and unrelated phase state.',
-            'Do NOT emit selectedKeys (structured_output will). Do NOT select tools (useTools must be omitted). Do NOT attempt the agent task itself.',
-            'In analysis/reasoningItems/conclusion: name candidate keys using paths present in pipeline_execution_keys, prefer form \'<execution-path>#<namespace>:<key>\' (root shorthand \'#namespace:key\' is ok); explain why each is needed for subsequent Plan/Try failsafes. Use reasoningItems (never "steps" — steps means PTRR Plan/Try/Refine/Retry).',
+            'Goals: minimal sufficient keys for THIS PTRR step; prefer populated host sourceRevision/workspace over null repository shells; omit lineage, telemetry, debug, and unrelated phase state.',
+            'Do NOT emit selectedKeys (structured_output will). Do NOT select tools (useTools must be omitted — even under Try). Do NOT attempt the agent task itself.',
+            'In analysis/reasoningItems/conclusion: name candidate keys using paths present in pipeline_execution_keys, prefer form \'<execution-path>#<namespace>:<key>\' (root shorthand \'#namespace:key\' is ok); explain why each is needed for THIS step’s ChunkThenSum/Stitch/task Thinkings. Use reasoningItems (never "steps" — reserved for PTRR). State exact recommended key count in conclusion.',
             '',
             'Selection input:',
             safePromptJson({
@@ -1145,7 +1145,8 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
           return [
             'Apply logical reasoning to the agent/step task using prepared context only.',
             'Prefer selectedContext values. Do not re-select keys. Do not invent facts absent from selectedContext.',
-            'Plan: omit useTools. Try/Retry: useTools only when tools are usable for this step.',
+            'Plan: omit useTools (strategy only). Try/Retry: emit useTools when the catalog tool must run; prefer host sourceRevision when deposit.repository shells are null.',
+            'Refine: omit useTools; finalize return from Plan/Try/Retry evidence only — never invent workspacePath or success without tool/host proof.',
             typedInput.priorChunkCompletions
               ? 'Chunk pass: incorporate priorChunkCompletions from earlier slices; reason about this selectedContext slice in that light.'
               : '',
@@ -1243,11 +1244,20 @@ export function factoryStructuredOutput<T, TSchema>(
       },
 
       parseOutput: async (output, input) => {
-        const structured = await parseResponse(
+        let structured = await parseResponse(
           output,
           schema,
           () => buildCoercedBySchema(schema)
         );
+        // Try/Retry law: useTools may land on Reason first; if SO schema allows
+        // tools but SO omitted them, hoist from reasoning so tools postprocess runs.
+        if (allowsUseTools) {
+          const fromSo = (structured as any)?.useTools;
+          const fromReason = (input as any)?.reasoning?.useTools;
+          if ((!Array.isArray(fromSo) || fromSo.length === 0) && Array.isArray(fromReason) && fromReason.length > 0) {
+            structured = { ...(structured as any), useTools: fromReason };
+          }
+        }
         return { ...(input as any), output: structured };
       },
 
@@ -1450,8 +1460,17 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
 
     const toolsExec = factoryAgentToolGenerationExecution(execution);
 
+    // Prefer task SO selection; fall back to Reason.useTools when SO omitted tools
+    // (common when agent schemas lagged optional useTools, or SO only re-emitted domain fields).
+    const rawUseTools =
+      (Array.isArray((input.output as any)?.useTools) && (input.output as any).useTools.length
+        ? (input.output as any).useTools
+        : null) ??
+      (Array.isArray((input as any)?.reasoning?.useTools) && (input as any).reasoning.useTools.length
+        ? (input as any).reasoning.useTools
+        : null) ??
+      [];
     // Normalize selection shapes: { name, input, reason } (canonical) or { tool: string|Tool, input }
-    const rawUseTools = (input.output as any)?.useTools;
     const useTools: Array<{ name: string; input: any; reason?: string }> = Array.isArray(rawUseTools)
       ? rawUseTools.map((t: any) => ({
           name: String(t?.name ?? (typeof t?.tool === 'string' ? t.tool : t?.tool?.name ?? t?.tool?.constructor?.name ?? '')),
@@ -1568,7 +1587,40 @@ export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[
       }
     }
 
-    return { ...input, usedTools };
+    // When tools produce authoritative domain fields (e.g. clone workspacePath),
+    // fold them into step output so Try return is not stuck on pre-tool SO guesses.
+    let nextOutput = (input as any)?.output;
+    if (nextOutput && typeof nextOutput === 'object') {
+      for (const u of usedTools) {
+        const o = (u as any)?.output;
+        if (!o || typeof o !== 'object') continue;
+        const path =
+          (typeof o.workspacePath === 'string' && o.workspacePath) ||
+          (typeof o.path === 'string' && o.path) ||
+          null;
+        if (o.success === true && path) {
+          nextOutput = {
+            ...nextOutput,
+            success: true,
+            workspacePath: path,
+            status: o.status || nextOutput.status || 'cloned',
+            repository: o.repository || nextOutput.repository,
+            metadata: {
+              ...(nextOutput.metadata && typeof nextOutput.metadata === 'object'
+                ? nextOutput.metadata
+                : {}),
+              ...(o.metadata && typeof o.metadata === 'object' ? o.metadata : {}),
+              fromTool: (u as any).tool,
+            },
+          };
+          break;
+        }
+      }
+    }
+
+    return nextOutput !== undefined
+      ? { ...input, output: nextOutput, usedTools }
+      : { ...input, usedTools };
   };
 }
 
@@ -1876,16 +1928,24 @@ function buildPccLeanTaskPreparation(execution: Execution): string {
 
   // Short task carrier for the PCC *user* JSON only (not a substitute for
   // hierarchical system ancestry — agent/phase/pipeline still walk the system).
+  const stepLaw =
+    step === 'plan' || !step
+      ? 'Plan: select keys for strategy only — no tools during PCC or Plan task SO.'
+      : step === 'try'
+        ? 'Try: select keys so task Thinkings can execute the plan (coords + safety + tools:usable); PCC itself never useTools.'
+        : step === 'retry'
+          ? 'Retry: select keys for re-attempt (include prior errors/usedTools if present); PCC never useTools.'
+          : step === 'refine'
+            ? 'Refine: select keys for final return only — no tools.'
+            : `Active step: ${step}.`;
   const lines = [
     'PrepareConciseContext selection task (keys only — values are not shown).',
     product ? `Product/pipeline: ${product}.` : '',
     phase ? `Phase: ${phase}.` : '',
     agent ? `Agent: ${agent}.` : '',
     step ? `PTRR step: ${step}.` : '',
-    step === 'plan' || !step
-      ? 'Plan step: decide strategy only — do not execute tools during this failsafe.'
-      : `Active step: ${step}.`,
-    'Select minimal execution-state keys so this step can run after context read-in. Never attempt the agent task here.',
+    stepLaw,
+    'Select minimal keys for THIS step after value read-in. Never attempt the agent task here.',
   ].filter(Boolean);
   return lines.join(' ');
 }

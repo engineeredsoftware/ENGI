@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D8; **Try PCC reason**) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (clone-vcs Plan closed; Try PCC started) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D9; **clone-vcs agent end**) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (clone-vcs Plan→Try→Retry→Refine closed at agent end) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -75,10 +75,11 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
 | `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
-| `BITCODE_DEBUG_STOP_STEP` | **`try`** | progressive Try (after 1.D7 Plan close) |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | Try PCC selection |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | Try PCC reason (1.D8) |
+| `BITCODE_DEBUG_STOP_STEP` | **`refine`** | end of clone-vcs agent (after 1.D9) |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | **`chunk_then_sum`** | Refine CS task SO |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`structured_output`** | agent terminal task gen |
 | `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
+| `BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS` | `900000` | full Plan+Try+Retry+Refine budget |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
 **Artifact root:** `.tmp/llm-call-debug/<runId>/`  
@@ -1322,26 +1323,104 @@ Explicit: “No tools are invoked in this Reason generation.”
 
 | | |
 | --- | --- |
-| **this stop** | **Accepted** |
-| **next marker** | Try · prepare_concise_context · **judge** |
-| **not yet** | Try PCC SO → CS → useTools → clone tool; remaining Setup |
+| **this stop** | **Accepted** (historical) |
+| **next marker** | advanced → full agent end (see **1.D9**) |
+| **not yet** | (closed by 1.D9) remaining Setup agents |
 
 #### artifacts
 
 | Kind | Path |
 | --- | --- |
 | Request | `.tmp/llm-call-debug/…/0013-request-…-try-prepare_concise_context-reason.json` |
-| Response | `.tmp/llm-call-debug/…/0014-response-…-try-prepare_concise_context-reason.json` |
+| Response | `.tmp/llm-call-debug/…/0014-response-…-try-prepare_concise-context-reason.json` |
 | Abort | `.tmp/llm-call-debug/…/0015-abort-…-try-…-reason.json` |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
+### 1.D9 Deposit · Setup · clone-vcs · **Agent end** (Plan→Try→Retry→Refine CS SO)
+
+- **status:** **Accepted (clone-vcs agent complete under progressive marker)**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Agent End Plan Try Retry Refine`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **step / failsafe / thinking (stop):** **refine** / **chunk_then_sum** / **structured_output**
+- **execution_path (abort):**
+  `…/agent:asset-pack-clone-vcs-repository-agent → refine → failsafe:chunk_then_sum → gen-0 → seq-2 → thinkings:structured_output`
+- **provider / model:** anthropic / `claude-haiku-4-5`
+- **harness:** `ok: true`, `debugStop: true`, **`callCount: 49`**, stopStep=`refine`, stopFailsafe=`chunk_then_sum`, stopGeneration=`structured_output`
+- **abort:** `hard-stop after refine/chunk_then_sum/structured_output agent=asset-pack-clone-vcs-repository-agent`
+
+#### coverage (single agent-end run)
+
+| PTRR step | PCC (R/J/SO) | CS (R/J/SO) | Tools postprocess |
+| --- | --- | --- | --- |
+| **Plan** | ✓ | ✓ PlanStepOutput (approach/steps) | none (correct) |
+| **Try** | ✓ | ✓ agent schema + **useTools** | **yes** — `asset-pack-clone-vcs-repository-tool` |
+| **Retry** | ✓ (includes try tools:used keys) | ✓ real `workspacePath` under `/var/folders/…/bitcode-clone-…` | yes when selected |
+| **Refine** | ✓ | ✓ agent return (stop here) | none (correct; no postprocess) |
+
+Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
+
+#### critique → fix (this agent session)
+
+| Defect | Fix |
+| --- | --- |
+| VCS system “DevOps soup” (Jenkins/Gerrit) | Thin Host-bound VCS prose |
+| PCC ranking preferred null deposit shells | Prefer `#host:sourceRevision` / workspace; Plan PCC SO now selects host keys first |
+| Try/Retry `useTools` never executed | (1) hoist `reasoning.useTools` → tools postprocess; (2) add optional `useTools` on clone agent schema; (3) **tool not registered** — missing `__docCodePrompt` aborted whole tool loop; per-tool fail-soft + attach prompt |
+| Clone tool `undefined.length` on agent-shaped input | Rewrite AssetPack clone tool to accept `{provider,owner,name,ref}` and git-https clone |
+| Try SO stuck pre-tool | Tools postprocess folds successful `workspacePath` into step `output` |
+| Settlement/delivery on synth | Already purged (no `settleDelivery` / `settlementBoundary` on wire) |
+
+#### excellence (agent end)
+
+| Axis | Result |
+| --- | --- |
+| **hierarchy** | **Pass** — Pipeline→Phase→Agent→Step→Failsafe→Thinking; Execution once |
+| **dual law** | **Pass** — PCC keys-only user; CS prepared `selectedKeys`+`selectedContext` |
+| **useTools law** | **Pass** — Plan/PCC omit; Try reason+SO select catalog tool; Refine no postprocess |
+| **tools execute** | **Pass** — postprocess runs; real temp workspace from clone tool |
+| **settle ban** | **Pass** — no settleDelivery on synth wire |
+| **prompt hygiene** | **Pass** — thin VCS; no Jenkins soup |
+
+#### residual (non-blocking for agent-end accept)
+
+- Refine CS may still invent wrong tool name (`cloneRepositoryTool`) or pending status in SO text (no tools postprocess on Refine — final return quality, not execution).  
+- Thin VCS string intermittent on some system walks (agent still has VCS Operations identity).  
+- Many non-clone tools still lack `__docCodePrompt` (logged skip at preprocess; catalog partially populated).  
+- Next progressive marker: next Setup agent or Discovery (not further clone-vcs gens).
+
+#### stability_confidence
+
+- **0.90** that clone-vcs agent end (Plan→Try→Retry→Refine CS SO, 49 calls, tools postprocess) is successful for V48 progressive deposit QA.
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted — clone-vcs agent complete** |
+| **next marker** | next Setup agent **or** Discovery (leave refine/CS/SO until next agent starts) |
+| **not yet** | initialize-lsp / mcps / comprehend-obfuscations / danger-wall; Discovery |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| Work root | `.tmp/local-deposit-debug/` |
+| Wire report | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/VERBATIM_WIRE_REPORT.md` |
+| Ledger | `…/ledger.jsonl` (49 entries) |
+| Abort | `…/0049-abort-…-refine-chunk_then_sum-structured_output.json` |
 | Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
 
 ---
 
 ### 1.2+ Read next / Deposit next
 
-- **1.D9** Deposit · Setup · clone-vcs · **Try** · PCC · **judge**  
+- **1.D10** next Setup agent (or Discovery) — progressive marker  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
-- **1.D10+** Try PCC SO → CS → tools/clone; remaining Setup; Discovery · …  
 
 ---
 
@@ -1351,8 +1430,8 @@ Explicit: “No tools are invoked in this Reason generation.”
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1–1.D7 Plan complete; §1.D8 Try PCC reason Accepted.  
-  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopStep=`try`, stopGeneration=`reason`, callCount=15.
+- **proof (current):** §1.D1–1.D9 **clone-vcs agent complete** (Plan→Try→Retry→Refine, tools postprocess, callCount=49).  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopStep=`refine`, stopFailsafe=`chunk_then_sum`, stopGeneration=`structured_output`.
 
 ### §3 SDIVF read pipeline production-like accept
 
@@ -1418,3 +1497,4 @@ Explicit: “No tools are invoked in this Reason generation.”
 | --- | --- |
 | 2026-07-16 | Document created. §1 method + entry **1.1** (read clone Plan PCC reason) filled from live `pnpm run debug:read:first-llm` after commits retiring substeps, PTRR order, and PCC prompt work. |
 | 2026-07-16 | §7 retitled: Host selection (API/dispatch) **vs** SDIVF Setup phase — naming clarification only; no host-selection bug found in read synthesize path from this audit. |
+| 2026-07-16 | **1.D9** clone-vcs agent end Accepted: marker refine/CS/SO; useTools hoist + clone tool registration/git-https; tools postprocess merges workspacePath. |

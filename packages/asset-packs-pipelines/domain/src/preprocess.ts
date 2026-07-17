@@ -99,15 +99,24 @@ export async function initializeAssetPackPipeline(execution: ExecutionPipeline) 
     execution.store('config', 'debug', true);
   } catch {}
 
-  // 3) Register all baseline tools
-  try {
-    for (const tool of ALL_ASSET_PACK_TOOLS) {
-      const key = (tool as any).name || tool.constructor?.name || 'asset-pack-tool';
+  // 3) Register all baseline tools (per-tool fail-soft so one missing DocCode
+  //    prompt cannot wipe the entire catalog — that blocked clone postprocess).
+  for (const tool of ALL_ASSET_PACK_TOOLS) {
+    const key = (tool as any).name || tool.constructor?.name || 'asset-pack-tool';
+    try {
       assertDocCodePrompt(tool as Tool, key);
       execution.tools.registerTool(key, tool as any);
+    } catch (err) {
+      try {
+        const { log } = require('@bitcode/logger');
+        log('[asset-pack/preprocess] tool registration skipped', 'warn', {
+          key,
+          err: err instanceof Error ? err.message : String(err),
+        });
+      } catch {
+        /* ignore */
+      }
     }
-  } catch (_) {
-    // Tool registration failures should not stop bootstrapping
   }
 
   // 4) Register Setup agents used during bring-up

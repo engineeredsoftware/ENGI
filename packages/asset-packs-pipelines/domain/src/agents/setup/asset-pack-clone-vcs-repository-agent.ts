@@ -62,13 +62,25 @@ const AssetPackCloneVCSRepoInputSchema = z.object({
   connectionId: z.number().optional().describe('Connection/installation id'),
 });
 
+/** Optional tool selection for Try/Retry task SO (tools postprocess). Omit on Plan/Refine. */
+const UseToolSelectionSchema = z.object({
+  name: z.string(),
+  input: z.any(),
+  reason: z.string().optional(),
+});
+
 const AssetPackCloneVCSRepoOutputSchema = z.object({
   success: z.boolean(),
   repository: z.object({ owner: z.string(), name: z.string(), ref: z.string().optional() }),
-  workspacePath: z.string().optional(),
+  // Models often emit null before tools run; accept and treat as absent.
+  workspacePath: z.string().nullish(),
   status: z.string().optional(),
   metadata: z.record(z.any()).optional(),
-}).describe('{ "success": boolean, "repository": { "owner": string, "name": string, "ref"?: string }, "workspacePath"?: string, "status"?: string, "metadata"?: Record<string, any> }');
+  // Try/Retry: select asset-pack-clone-vcs-repository-tool here (or on reason; hoist merges).
+  useTools: z.array(UseToolSelectionSchema).optional(),
+}).describe(
+  '{ "success": boolean, "repository": { "owner": string, "name": string, "ref"?: string }, "workspacePath"?: string | null, "status"?: string, "metadata"?: Record<string, any>, "useTools"?: [{ "name": string, "input": any, "reason"?: string }] }',
+);
 
 export const AssetPackCloneVCSRepositoryAgentSystemPrompt: Prompt = (() => {
   const merged = SYSTEM_PROMPT_VCS.clone();

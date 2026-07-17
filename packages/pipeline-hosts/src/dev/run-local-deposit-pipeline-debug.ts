@@ -136,28 +136,27 @@ writeFileSync(
 );
 
 // --- Debug abort marker (advance only after §1 acceptance) ---
-// Target: Setup clone-vcs → Try → prepare_concise_context → reason
-// (§1.D8 progressive Try PCC after Plan closed at 1.D7).
+// Target: Setup clone-vcs → Refine → CS → structured_output
+// End of clone-vcs agent after Plan+Try(+tools)+Retry+Refine task SO.
 // FORCE_CLONE_PTRR skips host clone/env/workspace short-circuits so the real
 // factoryPTRRAgent (Plan→Try→Retry→Refine) + clone tool path runs.
-// Note: BITCODE_DEBUG_STOP_AFTER_FIRST_REASON is the hard-stop *flag* name;
-// the generation pin is BITCODE_DEBUG_STOP_GENERATION.
 const debugEnv: Record<string, string> = {
   BITCODE_LLM_CALL_DEBUG: '1',
   BITCODE_DEBUG_FORCE_CLONE_PTRR: '1',
   BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
   BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'setup',
-  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'try',
+  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'refine',
   BITCODE_DEBUG_STOP_FAILSAFE:
-    process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
+    process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'chunk_then_sum',
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'reason',
-  // PCC selection uses selection/seq-N (not gen-0)
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'structured_output',
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
-  // Prefer clone agent for the stop filter (override via env if needed)
   BITCODE_DEBUG_STOP_AGENT_FILTER:
     process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || 'clone-vcs',
+  // Longer budget: full Plan+Try+Retry+Refine on clone agent
+  BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
+    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '900000',
   BITCODE_EXECUTION_DEBUG: 'true',
   BITCODE_LOG_FULL_PROMPTS: '1',
   BITCODE_LOG_TRACES: '1',
@@ -182,14 +181,14 @@ writeFileSync(
     '```',
     'phase: setup',
     'agent: clone-vcs (asset-pack-clone-vcs-repository-agent)',
-    'step: try',
-    'failsafe: prepare_concise_context',
-    'generation: reason',
+    'step: refine',
+    'failsafe: chunk_then_sum',
+    'generation: structured_output',
     'BITCODE_DEBUG_FORCE_CLONE_PTRR=1',
     '```',
     '',
-    'PTRR order under test: Plan → Try → Retry → Refine.',
-    'After this call is accepted in §1, advance to Try PCC judge.',
+    'PTRR order under test: Plan → Try → Retry → Refine (end of clone-vcs agent).',
+    'After accept: next Setup agent or Discovery.',
     '',
     '## Artifacts',
     '',
@@ -438,7 +437,7 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: true,
   expectedAbort:
-    'Setup → clone-vcs → Try → prepare_concise_context → reason',
+    'Setup → clone-vcs → Refine → chunk_then_sum → structured_output (agent end)',
   ptrrOrder: 'Plan → Try → Retry → Refine',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,
@@ -448,7 +447,6 @@ const summary = {
 writeFileSync(join(workRoot, 'debug-summary.json'), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 
-// Success for this pass: hard stop after Try PCC reason.
-// Exit may be non-zero because of the intentional throw.
+// Success: hard stop after clone-vcs Refine CS SO (agent terminal task gen).
 if (debugStop) process.exit(0);
 process.exit(run.status === 0 ? 0 : 1);

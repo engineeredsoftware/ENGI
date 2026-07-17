@@ -274,7 +274,9 @@ export function factoryTryStep<TInput, TOutput>(
   const withTools: Executor<any, any> = sequential(
     core as Executor<any, any>,
     conditional(
-      (input: any) => input?.output?.useTools?.length > 0,
+      (input: any) =>
+        (input?.output?.useTools?.length > 0) ||
+        (input?.reasoning?.useTools?.length > 0),
       require('../generations/llm-bound-factories').factoryToolsExecution() as Executor<any, any>,
       (input) => Promise.resolve(input)
     ) as Executor<any, any>
@@ -302,8 +304,14 @@ export function factoryTryStep<TInput, TOutput>(
         stepExec.store('tools', 'usable', usable);
       } catch {}
       const out = await withTools(input, stepExec);
-      // Record selected and used tools
-      try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
+      // Record selected and used tools (SO preferred; reason fallback)
+      try {
+        stepExec.store(
+          'tools',
+          'use',
+          (out as any)?.output?.useTools || (out as any)?.reasoning?.useTools || [],
+        );
+      } catch {}
       try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}
       try {
         publishAgentStepWorkUpdate(
@@ -391,12 +399,21 @@ export function factoryRetryStep<TInput, TOutput>(
       } catch {}
       // Run retry attempts on the core generation. After the final attempt, run tools once.
       let out = await executorWithRetry(input, stepExec);
-      if ((out as any)?.output?.useTools?.length > 0) {
+      const hasUseTools =
+        ((out as any)?.output?.useTools?.length > 0) ||
+        ((out as any)?.reasoning?.useTools?.length > 0);
+      if (hasUseTools) {
         const toolsExec = require('../generations/llm-bound-factories').factoryToolsExecution();
         out = await toolsExec(out, stepExec);
       }
-      // Record selected and used tools
-      try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
+      // Record selected and used tools (SO preferred; reason fallback for store)
+      try {
+        stepExec.store(
+          'tools',
+          'use',
+          (out as any)?.output?.useTools || (out as any)?.reasoning?.useTools || [],
+        );
+      } catch {}
       try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}
       try {
         publishAgentStepWorkUpdate(
