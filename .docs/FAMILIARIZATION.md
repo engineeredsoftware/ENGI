@@ -422,10 +422,11 @@ boundary in tests only).
 
 **Rule (absolute):** PromptPart *authored strings* live **only** in
 `packages/prompts/src/raw_promptparts/{generic,specific}/` (naming:
-`promptpart_[generic|specific]_…`). Agents and pipelines **import**
-`PROMPTPART_*` and assemble `Prompt` registries. Never
-`createPromptPart('prose…')` outside raw_promptparts. For composed call-site
-blocks use `createPromptPartFromPrompt(prompt)` (no new prose). Law:
+`promptpart_[generic|specific]_…`). **One `PROMPTPART_*` export per file**
+(no multi-export bags). Agents and pipelines **import** `PROMPTPART_*` and
+assemble `Prompt` registries. Never `createPromptPart('prose…')` outside
+raw_promptparts. For composed call-site blocks use
+`createPromptPartFromPrompt(prompt)` (no new prose). Law:
 [`.docs/PROMPTING.md`](PROMPTING.md).
 
 **Authoring layers (content):** primitive → base → specific on each node kind.

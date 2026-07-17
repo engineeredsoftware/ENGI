@@ -27,9 +27,11 @@ on product semantics.
 | Rule | |
 | --- | --- |
 | **Authored strings** | Written **only** under `packages/prompts/src/raw_promptparts/{generic,specific}/` |
+| **1 PromptPart ↔ 1 file** | Exactly **one** `export const PROMPTPART_*` per `.ts` file (no multi-export bags) |
 | **Naming** | `promptpart_[generic\|specific]_[domain]_[promptclass]_[semantic]_[position].ts` |
 | **Everywhere else** | **Import** `PROMPTPART_*` and assemble into `Prompt` registries |
 | **Forbidden** | `createPromptPart('prose…')` outside `raw_promptparts` (any package, agent, pipeline) |
+| **Forbidden** | Multiple `PROMPTPART_*` exports in one file; inline LLM prose in factories/agents/pipelines |
 | **`createPromptPart`** | Branding helper for raw_promptparts files only |
 | **`createPromptPartFromPrompt`** | Brand a *composed* `Prompt.format()` result as one PromptPart for call-site nodes (no new prose) |
 

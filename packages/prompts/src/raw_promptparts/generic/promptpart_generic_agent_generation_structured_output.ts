@@ -2,8 +2,8 @@
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Instruct substep to format reasoning and judgment into required type without additional thinking"
- * current_version: "0.60.0"
- * versions: ["0.50.0"]
+ * current_version: "0.70.0"
+ * versions: ["0.50.0", "0.60.0"]
  * benchmarks: [
  *   { "name": "technical_accuracy", "test": "Uses concrete technical language", "score": 0.60 },
  *   { "name": "implementation_ready", "test": "Provides clear actionable guidance", "score": 0.60 }
@@ -25,10 +25,3 @@ export const PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT: PromptPart =
     'with correct types for every required field.',
     'Emit only fields present in the active schema; do not invent extra fields.',
   ].join(' ') as PromptPart;
-
-/**
- * Optional tools clause for task Try/Retry structured_output only (not PCC).
- * Attached only when the call-site intentionally allows useTools in schema.
- */
-export const PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_TOOLS_IF_SCHEMA: PromptPart =
-  'If the active schema includes useTools and judgment approved tool use, include useTools[{ name, input, reason }] as specified by that schema; otherwise omit useTools.' as PromptPart;
