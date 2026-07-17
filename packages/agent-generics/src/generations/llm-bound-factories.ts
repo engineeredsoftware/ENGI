@@ -18,12 +18,67 @@
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_chunk';
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch';
+import {
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH_VALIDATION_PREFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH_VALIDATION_SUFFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH_CONTINUE_COMPLETE,
+  PROMPTPART_GENERIC_AGENT_GENERATION_SEQUENCE_FALLBACK_PREFIX,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch_user';
+import {
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_HEADER,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_PRODUCT_PREFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_PHASE_PREFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_AGENT_PREFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_PREFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_PLAN,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_TRY,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_RETRY,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_REFINE,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_ACTIVE_PREFIX,
+  PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_SELECT_FOOTER,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_prepare_context_lean_task';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PCC_SELECTION_USER,
+  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_INPUT_LABEL,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge_pcc_selection_user';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PREPARED_TASK_USER,
+  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PREPARED_TASK_CHUNK_PRIORS,
+  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_SUM_PREFIX,
+  PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_GENERIC_EVALUATE_PREFIX,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge_prepared_task_user';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PCC_SELECTION_USER,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SELECTION_INPUT_LABEL,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason_pcc_selection_user';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_USER,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_CHUNK_PRIORS,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_CHUNK_INDEX_PREFIX,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_INPUT_LABEL,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_STITCH_CONTINUE_PREFIX,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_STITCH_CONTEXT_LABEL,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SUM_PREFIX,
+  PROMPTPART_GENERIC_AGENT_GENERATION_REASON_GENERIC_SOLVE_PREFIX,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason_prepared_task_user';
 import {
   PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT,
   PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_TOOLS_IF_SCHEMA,
 } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_PCC_SELECTION_USER,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_INPUT_LABEL,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output_pcc_selection_user';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_PREPARED_TASK_USER,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_USETOOLS_ALLOWED,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_USETOOLS_FORBIDDEN,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_PREPARED_TASK_CHUNK_PRIORS,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_GENERIC_PREFIX,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_MUST_MATCH_SCHEMA_PREFIX,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output_prepared_task_user';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_single_object';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
@@ -976,9 +1031,8 @@ export function factoryStitchUntilComplete<T>(
         context: buildStitchContext(input),
         partialOutput: minimalPartial,
         instruction: lastValidationError
-          ? `The previous output failed schema validation: ${lastValidationError.slice(0, 600)}. ` +
-            'Return the full corrected JSON object with every required field present and within its constraints.'
-          : 'Continue and complete the previous output'
+          ? `${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH_VALIDATION_PREFIX)} ${lastValidationError.slice(0, 600)}. ${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH_VALIDATION_SUFFIX)}`
+          : String(PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH_CONTINUE_COMPLETE),
       } as any;
 
       for (let i = 0; i < thinkingsGenerations.length; i++) {
@@ -1042,7 +1096,11 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
         const typedInput = input as any;
         const isSum = typedInput.chunkResults !== undefined;
         if (isSum) {
-          return `Judge the quality of these chunked results:\n\n${safePromptJson(typedInput.chunkResults)}`;
+          return [
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_SUM_PREFIX),
+            '',
+            safePromptJson(typedInput.chunkResults),
+          ].join('\n');
         }
         // PCC selection: do not re-dump full hierarchy preparation / PCC essay.
         const isPccSelection =
@@ -1050,10 +1108,9 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
           (typedInput.preparation !== undefined || typedInput.reasoning !== undefined);
         if (isPccSelection) {
           return [
-            'Judge ONLY the prior PrepareConciseContext key-selection reasoning for minimality and coverage.',
-            'Score against pipeline_execution_keys and PCC ranking law (in system). Do not re-select keys; do not emit selectedKeys; do not attempt the agent task.',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PCC_SELECTION_USER),
             '',
-            'Judgment input:',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_INPUT_LABEL),
             safePromptJson({
               task: typeof typedInput.preparation === 'string'
                 ? typedInput.preparation
@@ -1066,16 +1123,20 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
         // CS prepared task: prior reasoning + selectedContext only (no envelope dump).
         if (isPreparedTaskInput(typedInput)) {
           return [
-            'Judge the prior task reasoning against prepared context and the step objective (in system).',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PREPARED_TASK_USER),
             typedInput.priorChunkCompletions
-              ? 'This is a chunk pass: priorChunkCompletions are earlier slices; score coherence with them when relevant.'
+              ? String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PREPARED_TASK_CHUNK_PRIORS)
               : '',
             '',
-            'Judgment input:',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_INPUT_LABEL),
             safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'judge')),
           ].filter(Boolean).join('\n');
         }
-        return `Evaluate the quality and correctness of:\n\n${safePromptJson(input)}`;
+        return [
+          String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_GENERIC_EVALUATE_PREFIX),
+          '',
+          safePromptJson(input),
+        ].join('\n');
       },
 
       parseOutput: async (output, input) => {
@@ -1117,23 +1178,34 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
 
         if (isStitch) {
           const context = typedInput.context && Object.keys(typedInput.context).length
-            ? `\n\nOriginal task context:\n\n${safePromptJson(typedInput.context)}`
+            ? [
+                '',
+                String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_STITCH_CONTEXT_LABEL),
+                '',
+                safePromptJson(typedInput.context),
+              ].join('\n')
             : '';
-          return `Continue reasoning from this partial output:\n\n${safePromptJson(typedInput.partialOutput)}${context}`;
+          return [
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_STITCH_CONTINUE_PREFIX),
+            '',
+            safePromptJson(typedInput.partialOutput),
+            context,
+          ].filter(Boolean).join('\n');
         }
         if (isSum) {
-          return `Reason about how to combine these chunk results:\n\n${safePromptJson(typedInput.chunkResults)}`;
+          return [
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SUM_PREFIX),
+            '',
+            safePromptJson(typedInput.chunkResults),
+          ].join('\n');
         }
         if (isPccSelection) {
           // PCC law is already on the hierarchical system prompt; do not re-embed
           // it (or the full EE hierarchy) in the user JSON.
           return [
-            'Reason ONLY about PrepareConciseContext key selection for the task below.',
-            'Goals: minimal sufficient keys for THIS PTRR step; prefer populated host sourceRevision/workspace over null repository shells; omit lineage, telemetry, debug, and unrelated phase state.',
-            'Do NOT emit selectedKeys (structured_output will). Do NOT select tools (useTools must be omitted — even under Try). Do NOT attempt the agent task itself.',
-            'In analysis/reasoningItems/conclusion: name candidate keys using paths present in pipeline_execution_keys, prefer form \'<execution-path>#<namespace>:<key>\' (root shorthand \'#namespace:key\' is ok); explain why each is needed for THIS step’s ChunkThenSum/Stitch/task Thinkings. Use reasoningItems (never "steps" — reserved for PTRR). State exact recommended key count in conclusion.',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PCC_SELECTION_USER),
             '',
-            'Selection input:',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SELECTION_INPUT_LABEL),
             safePromptJson({
               task: typedInput.preparation,
               pipeline_execution_keys: typedInput.pipeline_execution_keys,
@@ -1143,22 +1215,23 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
         // CS prepared task: selectedKeys + selectedContext (+ chunk priors) only.
         if (isPreparedTaskInput(typedInput)) {
           return [
-            'Apply logical reasoning to the agent/step task using prepared context only.',
-            'Prefer selectedContext values. Do not re-select keys. Do not invent facts absent from selectedContext.',
-            'Plan: omit useTools (strategy only). Try/Retry: emit useTools when the catalog tool must run; prefer host sourceRevision when deposit.repository shells are null.',
-            'Refine: FORBIDDEN useTools / inventing tool names / status pending|scheduled|blocked for tools. Finalize from Plan/Try/Retry evidence only (usedTools results, prior workspacePath). Never invent workspacePath or success without that proof; if proof missing set success false.',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_USER),
             typedInput.priorChunkCompletions
-              ? 'Chunk pass: incorporate priorChunkCompletions from earlier slices; reason about this selectedContext slice in that light.'
+              ? String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_CHUNK_PRIORS)
               : '',
             typedInput.chunk
-              ? `This is chunk ${typedInput.chunk.index} of ${typedInput.chunk.count}.`
+              ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_CHUNK_INDEX_PREFIX)} ${typedInput.chunk.index} of ${typedInput.chunk.count}.`
               : '',
             '',
-            'Task input (prepared):',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_INPUT_LABEL),
             safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'reason')),
           ].filter(Boolean).join('\n');
         }
-        return `Apply logical reasoning to solve:\n\n${safePromptJson(input ?? null)}`;
+        return [
+          String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_GENERIC_SOLVE_PREFIX),
+          '',
+          safePromptJson(input ?? null),
+        ].join('\n');
       },
 
       parseOutput: async (output, input) => {
@@ -1205,12 +1278,9 @@ export function factoryStructuredOutput<T, TSchema>(
           // User payload is keys + prior Thinkings only. Full hierarchy is on system.
           // PCC SO never includes useTools (schema is selectedKeys only).
           return [
-            'Emit ONLY { "selectedKeys": string[] } for PrepareConciseContext.',
-            'Slot from prior reasoning and judgment; do not re-reason.',
-            'Despite approved:false, emit the best legal minimal selectedKeys now.',
-            'Use path form from pipeline_execution_keys (e.g. #deposit:repository). Never invent keys. Never include useTools.',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_PCC_SELECTION_USER),
             '',
-            'Structured output input:',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_INPUT_LABEL),
             safePromptJson({
               task: typeof typedInput.preparation === 'string'
                 ? typedInput.preparation
@@ -1229,19 +1299,19 @@ export function factoryStructuredOutput<T, TSchema>(
         if (isPreparedTaskInput(typedInput)) {
           return [
             keysHint,
-            'Generate structured output for the step schema from prior reasoning/judgment and prepared context only.',
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_PREPARED_TASK_USER),
             allowsUseTools
-              ? 'Try/Retry only: useTools may appear when the catalog tool must run.'
-              : 'This step schema has no useTools — never emit useTools, invent tool names, or claim pending/scheduled tool execution.',
+              ? String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_USETOOLS_ALLOWED)
+              : String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_USETOOLS_FORBIDDEN),
             typedInput.priorChunkCompletions
-              ? 'Chunk pass: priorChunkCompletions are earlier slices; emit output for this slice consistent with them when relevant.'
+              ? String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_PREPARED_TASK_CHUNK_PRIORS)
               : '',
             safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'structured_output')),
           ].filter(Boolean).join('\n');
         }
         return [
           keysHint,
-          'Generate structured output for:',
+          String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_GENERIC_PREFIX),
           safePromptJson(input),
         ].filter(Boolean).join('\n');
       },
@@ -1269,7 +1339,7 @@ export function factoryStructuredOutput<T, TSchema>(
         const schemaPath = [...path, 'output', 'schema'].join(':');
         execution.prompt.setSpecificExecution(
           schemaPath,
-          `Output must match schema: ${shape}` as PromptPart
+          `${String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_MUST_MATCH_SCHEMA_PREFIX)} ${shape}` as PromptPart
         );
         // Task SO may need tools clause when schema includes useTools (not PCC).
         if (allowsUseTools) {
@@ -1931,24 +2001,33 @@ function buildPccLeanTaskPreparation(execution: Execution): string {
 
   // Short task carrier for the PCC *user* JSON only (not a substitute for
   // hierarchical system ancestry — agent/phase/pipeline still walk the system).
+  // Prose is raw_promptparts only; values are runtime identity.
   const stepLaw =
     step === 'plan' || !step
-      ? 'Plan: select keys for strategy only — no tools during PCC or Plan task SO.'
+      ? String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_PLAN)
       : step === 'try'
-        ? 'Try: select keys so task Thinkings can execute the plan (coords + safety + tools:usable); PCC itself never useTools.'
+        ? String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_TRY)
         : step === 'retry'
-          ? 'Retry: select keys for re-attempt (include prior errors/usedTools if present); PCC never useTools.'
+          ? String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_RETRY)
           : step === 'refine'
-            ? 'Refine: select keys for final return only — no tools.'
-            : `Active step: ${step}.`;
+            ? String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_REFINE)
+            : `${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_ACTIVE_PREFIX)} ${step}.`;
   const lines = [
-    'PrepareConciseContext selection task (keys only — values are not shown).',
-    product ? `Product/pipeline: ${product}.` : '',
-    phase ? `Phase: ${phase}.` : '',
-    agent ? `Agent: ${agent}.` : '',
-    step ? `PTRR step: ${step}.` : '',
+    String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_HEADER),
+    product
+      ? `${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_PRODUCT_PREFIX)} ${product}.`
+      : '',
+    phase
+      ? `${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_PHASE_PREFIX)} ${phase}.`
+      : '',
+    agent
+      ? `${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_AGENT_PREFIX)} ${agent}.`
+      : '',
+    step
+      ? `${String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_STEP_PREFIX)} ${step}.`
+      : '',
     stepLaw,
-    'Select minimal keys for THIS step after value read-in. Never attempt the agent task here.',
+    String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT_LEAN_TASK_SELECT_FOOTER),
   ].filter(Boolean);
   return lines.join(' ');
 }
@@ -1991,5 +2070,8 @@ function getSequencePrompt(sequence: FailsafeGeneration | ThinkingsGeneration): 
     [ThinkingsGeneration.STRUCTURED_OUTPUT]: PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT
   };
 
-  return prompts[sequence] || `Execute ${sequence} operation` as PromptPart;
+  return (
+    prompts[sequence] ||
+    (`${String(PROMPTPART_GENERIC_AGENT_GENERATION_SEQUENCE_FALLBACK_PREFIX)} ${sequence}` as PromptPart)
+  );
 }
