@@ -487,8 +487,7 @@ export function factoryRefineStep<TInput, TOutput>(
         stepExec.store('tools', 'usable', usable);
       } catch {}
       let out = await (core as Executor<any, any>)(input, stepExec);
-      // Mechanical hygiene: strip inventable useTools / pending-tool statuses.
-      // Refine never runs tools postprocess — SO must not claim otherwise.
+      // Refine never runs tools postprocess — strip useTools if the model emitted it.
       if (out && typeof out === 'object') {
         const sanitizedOutput = sanitizeRefineStepOutput((out as any).output);
         const reasoning = (out as any).reasoning;

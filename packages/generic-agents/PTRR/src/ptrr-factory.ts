@@ -187,8 +187,7 @@ export function factoryPTRRAgent<TInput, TOutput>(
 
   // Try + Retry produce agent-shaped attempts (may include useTools).
   // Refine is last: same domain fields, but useTools is always omitted from the
-  // SO schema so the model cannot invent tool selection / pending-tool statuses
-  // (no tools postprocess on Refine). Plan uses the canonical plan shape.
+  // SO schema (no tools postprocess on Refine). Plan uses the canonical plan shape.
   const stepSchemas = {
     plan: config.plan?.outputSchema ?? PlanStepOutputSchema,
     try: config.try?.outputSchema ?? config.outputSchema,

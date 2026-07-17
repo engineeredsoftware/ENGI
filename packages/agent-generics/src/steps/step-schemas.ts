@@ -17,8 +17,7 @@
  *             usedTools; tools postprocess when selected).
  *  - Refine → agent domain fields only (LAST step — final return). Same
  *             domain type as the agent, but **useTools is always omitted**
- *             from the Refine SO schema (no tools postprocess; inventing
- *             useTools / pending-tool statuses is a defect).
+ *             from the Refine SO schema (no tools postprocess on Refine).
  *
  * PCC selection SO (first failsafe) is never the step schema: always
  * `{ selectedKeys }` only — never useTools — on every PTRR step.
@@ -80,42 +79,14 @@ export function omitUseToolsFromSchema<T extends z.ZodTypeAny>(schema: T): T {
 }
 
 /**
- * Refine final-return hygiene: never keep useTools; collapse invented
- * "waiting on tools" statuses when tools cannot run on this step.
+ * Refine final-return hygiene: strip any `useTools` the model may have emitted.
+ * Refine never runs tools postprocess — only usable/use/used constructs exist
+ * on Try/Retry. Domain fields (including free-text `status`) are left alone.
  */
 export function sanitizeRefineStepOutput<T>(output: T): T {
   if (!output || typeof output !== 'object' || Array.isArray(output)) return output;
+  if (!('useTools' in (output as object))) return output;
   const bag = { ...(output as Record<string, unknown>) };
   delete bag.useTools;
-
-  const status = typeof bag.status === 'string' ? bag.status : '';
-  const statusL = status.toLowerCase();
-  const looksPendingTool =
-    /pending|scheduled|blocked|awaiting.?tool|tool.?execution|clone_scheduled|missing.?connection/i.test(
-      statusL,
-    );
-  const path =
-    (typeof bag.workspacePath === 'string' && bag.workspacePath.trim()) ||
-    (typeof bag.path === 'string' && bag.path.trim()) ||
-    '';
-
-  if (looksPendingTool) {
-    if (path) {
-      // Evidence already has a path — do not claim tools are still pending.
-      bag.status = bag.success === false ? status : 'cloned';
-      if (bag.success !== false) bag.success = true;
-    } else {
-      bag.success = false;
-      bag.status = 'incomplete-no-tool-proof';
-      bag.workspacePath = bag.workspacePath ?? null;
-    }
-  }
-
-  // Fabricated success without a path is not a valid Refine final return.
-  if (bag.success === true && !path && 'workspacePath' in bag) {
-    bag.success = false;
-    if (!status || looksPendingTool) bag.status = 'incomplete-no-tool-proof';
-  }
-
   return bag as T;
 }

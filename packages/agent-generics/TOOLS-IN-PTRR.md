@@ -54,8 +54,8 @@ Next PTRR step sees usedTools via results interpolation (not Plan's useTools)
 postprocess — **fundamental** to those steps (not optional philosophy).
 **Refine** = final agent return (empty tool surface; no tools postprocess).
 Refine SO schema is the agent domain shape with **`useTools` always omitted**
-(`omitUseToolsFromSchema`) plus `sanitizeRefineStepOutput` so the model cannot
-invent tool names or pending-tool statuses on a step that never executes tools.
+(`omitUseToolsFromSchema`); `sanitizeRefineStepOutput` strips any emitted
+`useTools`. Tool lifecycle is only **usable → useTools → usedTools** on Try/Retry.
 
 **PCC StructuredOutput** (first failsafe on every step) is unrelated: it emits only
 `{ selectedKeys }` and **never** `useTools`, even under Try/Retry. Task SO after PCC

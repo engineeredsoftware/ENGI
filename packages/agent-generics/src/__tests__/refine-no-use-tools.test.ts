@@ -1,6 +1,6 @@
 // @ts-nocheck
 /**
- * Refine law: SO schema has no useTools; sanitize strips invented tools/pending.
+ * Refine law: SO schema has no useTools; sanitize strips useTools only.
  */
 import { z } from 'zod';
 import {
@@ -41,37 +41,21 @@ describe('omitUseToolsFromSchema', () => {
 });
 
 describe('sanitizeRefineStepOutput', () => {
-  it('strips useTools and pending-tool status without path', () => {
-    const out = sanitizeRefineStepOutput({
-      success: true,
-      workspacePath: null,
-      status: 'pending-tool-execution',
-      useTools: [{ name: 'cloneRepositoryTool', input: {} }],
-    });
-    expect(out.useTools).toBeUndefined();
-    expect(out.success).toBe(false);
-    expect(out.status).toBe('incomplete-no-tool-proof');
-  });
-
-  it('keeps success when path exists and drops useTools', () => {
+  it('strips useTools and leaves domain fields unchanged', () => {
     const out = sanitizeRefineStepOutput({
       success: true,
       workspacePath: '/tmp/real-clone',
       status: 'cloned',
-      useTools: [{ name: 'x', input: {} }],
+      useTools: [{ name: 'asset-pack-clone-vcs-repository-tool', input: {} }],
     });
     expect(out.useTools).toBeUndefined();
     expect(out.success).toBe(true);
     expect(out.workspacePath).toBe('/tmp/real-clone');
+    expect(out.status).toBe('cloned');
   });
 
-  it('rewrites pending status when path already present', () => {
-    const out = sanitizeRefineStepOutput({
-      success: true,
-      workspacePath: '/tmp/real',
-      status: 'clone_scheduled',
-    });
-    expect(out.status).toBe('cloned');
-    expect(out.success).toBe(true);
+  it('identity when useTools absent', () => {
+    const input = { success: false, workspacePath: null, status: 'failed' };
+    expect(sanitizeRefineStepOutput(input)).toBe(input);
   });
 });
