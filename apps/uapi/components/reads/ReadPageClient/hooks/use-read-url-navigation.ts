@@ -56,6 +56,19 @@ export function useReadUrlNavigation() {
     [pushReadSearchParams, readCurrentSearchParams],
   );
 
+  /**
+   * Attach a live synthesis run id in-place (no history push).
+   * Avoids remounting the page client mid-run (deposit stability twin).
+   */
+  const attachLiveReadRun = useCallback(
+    (transactionId: string) => {
+      replaceReadSearchParams(
+        writePipelineTransactionId(readCurrentSearchParams(), transactionId),
+      );
+    },
+    [readCurrentSearchParams, replaceReadSearchParams],
+  );
+
   const closePipelineDetail = useCallback(() => {
     replaceReadSearchParams(
       clearPipelineTransactionId(readCurrentSearchParams()),
@@ -68,6 +81,7 @@ export function useReadUrlNavigation() {
     replaceReadSearchParams,
     pushReadSearchParams,
     openReadRouteTransaction,
+    attachLiveReadRun,
     closePipelineDetail,
   };
 }

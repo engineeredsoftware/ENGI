@@ -99,7 +99,7 @@ export function ReadsNeedComposePanel(props: {
           disabled={!canSynthesize || !need.trim() || running}
           running={running && status === "running"}
         />
-        {status === "running" && onCancel ? (
+        {running && onCancel ? (
           <button
             type="button"
             data-testid="reads-cancel-synthesis"
@@ -108,7 +108,7 @@ export function ReadsNeedComposePanel(props: {
             onClick={() => {
               onCancel();
             }}
-            className="border border-rose-300/30 bg-rose-500/10 px-3 py-2 text-xs font-medium text-rose-100 transition hover:border-rose-200/50 hover:bg-rose-500/15 disabled:opacity-50"
+            className="border border-rose-300/30 bg-rose-300/10 px-3 py-2 text-[0.62rem] font-medium uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-200/45 hover:bg-rose-300/18 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {isCancelling ? "Cancelling…" : "Cancel run"}
           </button>
@@ -116,7 +116,7 @@ export function ReadsNeedComposePanel(props: {
         {status === "cancelled" ? (
           <span
             data-testid="reads-synthesis-cancelled-badge"
-            className="border border-amber-300/25 bg-amber-300/10 px-3 py-2 text-xs text-amber-100"
+            className="border border-rose-300/25 bg-rose-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-rose-100"
           >
             Cancelled
           </span>

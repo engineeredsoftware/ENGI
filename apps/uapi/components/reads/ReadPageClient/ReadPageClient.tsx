@@ -57,6 +57,7 @@ export default function ReadPageClient() {
   } = useReadLiveRuns();
   const {
     openReadRouteTransaction,
+    attachLiveReadRun,
     closePipelineDetail: closeUrlDetail,
   } = useReadUrlNavigation();
 
@@ -70,15 +71,26 @@ export default function ReadPageClient() {
   const [settleError, setSettleError] = useState<string | null>(null);
   const [settleMessage, setSettleMessage] = useState<string | null>(null);
 
+  const selectedRun = useMemo(
+    () => liveRuns.find((run) => run.id === selectedTransactionId) || null,
+    [liveRuns, selectedTransactionId],
+  );
+
   const synthesis = useReadOptionSynthesis({
     repositoryContext,
     need,
     relevantPaths,
     irrelevantPaths,
     refreshLiveRuns,
+    // Prefer URL/liveRuns row so cancel survives soft navigation.
+    activeRunId: selectedTransactionId,
+    activeRunStatus: selectedRun?.status ?? null,
     onRunDispatched: (runId) => {
-      setIsComposeOpen(false);
-      openReadRouteTransaction(runId);
+      // Keep compose open (deposit stability). Attach run id via replace so
+      // Next searchParams updates do not feel like a full page reload.
+      setIsComposeOpen(true);
+      attachLiveReadRun(runId);
+      void Promise.resolve(refreshLiveRuns() as unknown);
     },
   });
 
@@ -157,11 +169,6 @@ export default function ReadPageClient() {
   const [pipelinePagination, setPipelinePagination] =
     useState<TransactionPagination>(DEFAULT_TRANSACTION_PAGINATION);
 
-  const selectedRun = useMemo(
-    () => liveRuns.find((run) => run.id === selectedTransactionId) || null,
-    [liveRuns, selectedTransactionId],
-  );
-
   const repositoryAnchors = useMemo(
     () => deriveRepositoryAnchors(liveRuns),
     [liveRuns],
@@ -187,7 +194,14 @@ export default function ReadPageClient() {
   }, [closeUrlDetail, synthesis.reset]);
 
   const telemetry = useReadPipelineTelemetry(
-    selectedRun || (synthesis.runId ? ({ id: synthesis.runId } as any) : null),
+    selectedRun ||
+      (synthesis.runId
+        ? ({
+            id: synthesis.runId,
+            type: "agentic-execution:asset-pack",
+            status: synthesis.synthesisRunning ? "running" : synthesis.status,
+          } as any)
+        : null),
   );
   const {
     depositedSourceRevision: _depositedSourceRevision,
@@ -212,9 +226,11 @@ export default function ReadPageClient() {
   const procurementRows = buildReadProcurementRows(readRouteSession);
   const authorityRows = buildReadAuthorityRows(readRouteSession);
 
-  const isConfigLocked = synthesis.status === "running";
+  const isConfigLocked = synthesis.synthesisRunning;
   const selectedPipelineRunId =
     telemetry.selectedPipelineRunId || synthesis.runId;
+  const showCancel =
+    synthesis.synthesisRunning && Boolean(selectedPipelineRunId);
 
   return (
     <BitcodeShellBridgeProvider>
@@ -325,9 +341,13 @@ export default function ReadPageClient() {
                 error={synthesis.error}
                 runId={synthesis.runId}
                 onSynthesize={() => void synthesis.synthesize()}
-                onCancel={() => {
-                  void synthesis.cancel();
-                }}
+                onCancel={
+                  showCancel
+                    ? () => {
+                        void synthesis.cancel();
+                      }
+                    : undefined
+                }
                 isCancelling={synthesis.isCancelling}
                 canSynthesize={Boolean(
                   repositoryContext?.selectedRepository?.fullName &&
@@ -343,8 +363,7 @@ export default function ReadPageClient() {
                 selectedPipelineRunId={selectedPipelineRunId}
                 readRunActivity={telemetry.readRunActivity}
                 readRunIsProcessing={
-                  telemetry.readRunIsProcessing ||
-                  synthesis.status === "running"
+                  telemetry.readRunIsProcessing || synthesis.synthesisRunning
                 }
                 readRunMode={telemetry.readRunMode || "read"}
                 readRunTelemetryError={
@@ -364,8 +383,7 @@ export default function ReadPageClient() {
                   void refreshLiveRuns();
                 }}
                 onCancel={
-                  synthesis.status === "running" &&
-                  synthesis.runId === selectedPipelineRunId
+                  showCancel
                     ? () => {
                         void synthesis.cancel();
                       }

@@ -10,6 +10,8 @@ import Link from "next/link";
 import { PipelineExecutionLog } from "@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog";
 import { ExecutionContextPillRow } from "@/components/bitcode/pipeline/ExecutionContextPillRow/ExecutionContextPillRow";
 import { RunClock } from "@/components/bitcode/pipeline/RunClock/RunClock";
+import { QuantumOrb } from "@/components/bitcode/effects/quantum-orb";
+import { verifiedAccessOrbConfig } from "@/components/marketing/MarketingLandingShared/MarketingLandingShared";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import type { ProductRunActivitySnapshot } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
 import type { SelectedRunPackSummary } from "@/components/reads/ReadPageClient/hooks/use-read-pipeline-telemetry";
@@ -84,7 +86,26 @@ export function ReadsPipelineTelemetry({
             </p>
           )}
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-3">
+          <QuantumOrb
+            key={
+              readRunIsProcessing
+                ? "reads-telemetry-orb-running"
+                : "reads-telemetry-orb-idle"
+            }
+            size={24}
+            config={verifiedAccessOrbConfig}
+            initialState={readRunIsProcessing ? "active" : "rest"}
+            interactive={false}
+            respectReducedMotion
+            className="shrink-0"
+          />
+          <RunClock
+            startedAtMs={readRunStartMs}
+            running={readRunIsProcessing}
+            endedAtMs={readRunEndMs}
+            className="font-mono text-[0.72rem] text-orange-100/90"
+          />
           {typeof readRunActivity.currentIteration === "number" && (
             <span
               title="DIV loop iteration (Discovery → Implementation → Validation)"
@@ -93,12 +114,6 @@ export function ReadsPipelineTelemetry({
               iter {readRunActivity.currentIteration}
             </span>
           )}
-          <RunClock
-            startedAtMs={readRunStartMs}
-            running={readRunIsProcessing}
-            endedAtMs={readRunEndMs}
-            className="font-mono text-[0.72rem] text-orange-100/90"
-          />
           {readRunIsProcessing && onCancel ? (
             <button
               type="button"
@@ -108,7 +123,7 @@ export function ReadsPipelineTelemetry({
               onClick={() => {
                 onCancel();
               }}
-              className="border border-rose-300/30 bg-rose-500/10 px-3 py-2 text-xs font-medium text-rose-100 transition hover:border-rose-200/50 hover:bg-rose-500/15 disabled:opacity-50"
+              className="border border-rose-300/30 bg-rose-300/10 px-3 py-2 text-[0.62rem] font-medium uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-200/45 hover:bg-rose-300/18 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isCancelling ? "Cancelling…" : "Cancel run"}
             </button>

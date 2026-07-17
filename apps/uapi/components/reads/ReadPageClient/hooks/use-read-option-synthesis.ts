@@ -54,6 +54,12 @@ export function useReadOptionSynthesis(input: {
   relevantPaths?: string[];
   /** Deposit impermissibleSources twin — paths to de-emphasize / exclude from fit. */
   irrelevantPaths?: string[];
+  /**
+   * Live run id from URL / liveRuns table (deposit twin). When present and
+   * still running, cancel works even after soft remount of compose state.
+   */
+  activeRunId?: string | null;
+  activeRunStatus?: string | null;
   onRunDispatched?: (runId: string) => void;
   refreshLiveRuns?: () => void | Promise<unknown>;
 }) {
@@ -62,6 +68,8 @@ export function useReadOptionSynthesis(input: {
     need,
     relevantPaths = [],
     irrelevantPaths = [],
+    activeRunId = null,
+    activeRunStatus = null,
     onRunDispatched,
     refreshLiveRuns,
   } = input;
@@ -217,16 +225,44 @@ export function useReadOptionSynthesis(input: {
     );
   }, []);
 
+  // Adopt a still-running row from URL/liveRuns (deposit lifecycle twin).
+  useEffect(() => {
+    const active = String(activeRunId || "").trim();
+    if (!active) return;
+    const rowStatus = String(activeRunStatus || "").toLowerCase();
+    if (rowStatus === "running") {
+      if (runId !== active) setRunId(active);
+      if (status !== "running" && status !== "complete") {
+        setStatus("running");
+        pollForOptions(active);
+      }
+      return;
+    }
+    if (rowStatus === "cancelled" && (status === "running" || runId === active)) {
+      stopPoll();
+      setRunId(active);
+      setStatus("cancelled");
+      setError(null);
+    }
+  }, [activeRunId, activeRunStatus, pollForOptions, runId, status, stopPoll]);
+
   /**
    * Cooperative cancel (deposit twin): mark execution cancelled; worker stops
    * and poll adopts cancelled status without treating it as a hard failure.
+   * Targets local runId or active URL/liveRuns id when state was remounted.
    */
   const cancel = useCallback(async () => {
-    if (!runId || status !== "running" || isCancelling) return;
+    const targetId = String(runId || activeRunId || "").trim();
+    const rowRunning = String(activeRunStatus || "").toLowerCase() === "running";
+    const canCancel =
+      Boolean(targetId) &&
+      !isCancelling &&
+      (status === "running" || rowRunning);
+    if (!canCancel || !targetId) return;
     setIsCancelling(true);
     try {
       const response = await fetch(
-        `/api/executions/${encodeURIComponent(runId)}/cancel`,
+        `/api/executions/${encodeURIComponent(targetId)}/cancel`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -242,6 +278,7 @@ export function useReadOptionSynthesis(input: {
         );
       }
       stopPoll();
+      setRunId(targetId);
       setStatus("cancelled");
       setError(null);
       const durationMs =
@@ -262,7 +299,15 @@ export function useReadOptionSynthesis(input: {
     } finally {
       setIsCancelling(false);
     }
-  }, [isCancelling, refreshLiveRuns, runId, status, stopPoll]);
+  }, [
+    activeRunId,
+    activeRunStatus,
+    isCancelling,
+    refreshLiveRuns,
+    runId,
+    status,
+    stopPoll,
+  ]);
 
   /** Clear compose/detail synthesis state when returning to the pipelines master. */
   const reset = useCallback(() => {
@@ -276,9 +321,13 @@ export function useReadOptionSynthesis(input: {
     dispatchedAtMsRef.current = null;
   }, [stopPoll]);
 
+  const synthesisRunning =
+    status === "running" ||
+    String(activeRunStatus || "").toLowerCase() === "running";
+
   return {
     status,
-    runId,
+    runId: runId || activeRunId || null,
     error,
     envelope,
     options: envelope?.options || [],
@@ -288,6 +337,7 @@ export function useReadOptionSynthesis(input: {
     synthesize,
     cancel,
     isCancelling,
+    synthesisRunning,
     reset,
   };
 }
