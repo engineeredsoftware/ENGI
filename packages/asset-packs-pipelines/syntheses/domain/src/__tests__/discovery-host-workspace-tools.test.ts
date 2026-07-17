@@ -38,6 +38,13 @@ describe('discovery host workspace tools', () => {
     expect(ok.ok).toBe(true);
     expect(ok.content).toContain('export const x');
 
+    // Models often pass workspacePath (same as Host checkout path).
+    const alias = await runHostWorkspaceReadFile({
+      workspacePath: root,
+      path: 'hello.js',
+    } as any);
+    expect(alias.ok).toBe(true);
+
     const escape = await runHostWorkspaceReadFile({
       workspaceRoot: root,
       path: '../outside',

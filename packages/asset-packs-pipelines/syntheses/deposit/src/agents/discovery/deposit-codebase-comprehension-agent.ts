@@ -130,7 +130,7 @@ const TRY = part(
     `(4) LSP tools (${LSP_TOOL_NAMES.workspaceSymbols}, ${LSP_TOOL_NAMES.documentSymbols},`,
     `${LSP_TOOL_NAMES.definition}, ${LSP_TOOL_NAMES.references}, ${LSP_TOOL_NAMES.hover})`,
     'with DIFFERENT path/query/line/character inputs — not a single token call.',
-    'Always pass workspaceRoot/workspacePath from selected context into host tools.',
+    'Always pass workspaceRoot (or workspacePath alias) from selected context into host tools.',
     'After tools postprocess, produce comprehension grounded in tool results + seed measurements.',
     'Source-safe: never dump secrets; paths only from catalog or tool results.',
   ].join(' '),

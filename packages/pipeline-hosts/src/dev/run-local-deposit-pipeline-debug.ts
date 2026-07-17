@@ -146,17 +146,17 @@ const debugEnv: Record<string, string> = {
     process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '0',
   BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
   BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'discovery',
-  // After Plan step closed (1.D14–1.D22): default next is Try PCC reason.
-  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'try',
+  // After codebase agent closed: next wave-1 = inherent regurgitation Plan PCC.
+  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'plan',
   BITCODE_DEBUG_STOP_FAILSAFE:
     process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
   BITCODE_DEBUG_STOP_GENERATION:
     process.env.BITCODE_DEBUG_STOP_GENERATION || 'reason',
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
-  // First Discovery LLM proves Setup (MCP + danger-wall) completed.
   BITCODE_DEBUG_STOP_AGENT_FILTER:
-    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || 'DepositCodebaseComprehension',
+    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER ||
+    'DepositInherentRegurgitation',
   BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
     process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '900000',
   // 0 = disable per-call bound for progressive QA (Judge can exceed 180s)

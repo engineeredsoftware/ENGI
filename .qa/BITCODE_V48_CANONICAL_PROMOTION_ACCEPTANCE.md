@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery codebase **Plan step closed** 1.D14–1.D22; next Try 1.D23) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup closed; Discovery Plan step closed) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery codebase **agent closed** 1.D14–1.D-Agent; next inherent-regurgitation) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup closed; first Discovery agent closed) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -75,14 +75,14 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
 | `BITCODE_DEBUG_STOP_PHASE` | **`discovery`** | Setup closed |
-| `BITCODE_DEBUG_STOP_STEP` | **`try`** | Plan closed; next Try PCC reason |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | Try PCC |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | 1.D23 Try PCC reason |
+| `BITCODE_DEBUG_STOP_STEP` | **`plan`** | next agent Plan PCC reason |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | PCC |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | first Thinkings |
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | **`0`** | clone PTRR closed at 1.D9; host-adopt |
 | `BITCODE_DEBUG_SETUP_SERIAL` | **`1`** | serial Setup wave-1 |
 | `BITCODE_DEBUG_FAST_SETUP` | **`1`** | Discovery QA: skip re-PTRR obfuscations/LSP |
 | `BITCODE_DEBUG_DISCOVERY_SERIAL` | **`1`** | serial Discovery wave-1 (no parallel race) |
-| `BITCODE_DEBUG_STOP_AGENT_FILTER` | **`DepositCodebaseComprehension`** | first Discovery agent |
+| `BITCODE_DEBUG_STOP_AGENT_FILTER` | **`DepositInherentRegurgitation`** | second wave-1 agent |
 | `BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS` | `900000` | full Plan+Try+Retry+Refine budget |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -1559,7 +1559,7 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
   - `BITCODE_DEBUG_SETUP_SERIAL=1` for progressive stops
   - `BITCODE_LLM_CALL_TIMEOUT_MS=0` when Judge/CS can exceed 180s
 - **layout fixes during Setup QA:** host import split (all-3 / synth / product); zod on read package; serial Setup debug flag; discovery registration import path; codebase-analysis-helpers package export
-- **next progressive marker:** Discovery · `DepositCodebaseComprehensionAgent` **Try** PCC reason (1.D23)
+- **next progressive marker:** Discovery · `DepositInherentRegurgitationAgent` Plan PCC reason
 
 ### 1.D14 Deposit · Discovery · comprehend-codebase · Plan · PCC · reason
 
@@ -1695,11 +1695,110 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 | 6 | 1.D19 | CS SO | Accepted |
 | 7–9 | 1.D20–22 | Stitch | Zero-LLM fence Accepted |
 
+### 1.D23 Deposit · Discovery · comprehend-codebase · **Try** · PCC · reason
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **usage:** ~10.1k in / ~944 out
+- **role:** Pass — Try PCC key selection; prioritizes host coords, source-safety, **sourceCheckoutCatalog**, **#discovery:usableToolNames**, workspacePath
+- **useTools:** omitted (correct for PCC)
+- **stability_confidence:** **0.92**
+- **decision:** advance to Try PCC judge
+- **commit_tag:** QA Deposit Discovery Codebase Try Pcc Reason Call-Site
+
+### 1.D24 Deposit · Discovery · comprehend-codebase · Try · PCC · judge
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **usage:** ~10.7k in / ~589 out
+- **completion:** Judgment quality ~0.78; critiques on path form / host runId — call-site valid
+- **stability_confidence:** **0.92**
+- **commit_tag:** QA Deposit Discovery Codebase Try Pcc Judge Call-Site
+
+### 1.D25 Deposit · Discovery · comprehend-codebase · Try · PCC · structured_output
+
+- **status:** **Accepted** (Try PCC selection complete)
+- **date:** 2026-07-17
+- **usage:** 11363 in / 102 out
+- **selectedKeys (8):** `#host:manifestRoot`, `#host:sourceRevision`, deposit obfuscations + path gates + **sourceCheckoutCatalog**, `#repository:workspacePath`, **`#discovery:usableToolNames`**
+- **no useTools** (PCC law)
+- **stability_confidence:** **0.93**
+- **commit_tag:** QA Deposit Discovery Codebase Try Pcc Structured-Output Call-Site
+
+### 1.D26 Deposit · Discovery · comprehend-codebase · Try · CS · reason
+
+- **status:** **Accepted** — multi-tool Try strategy **proven**
+- **date:** 2026-07-17
+- **usage:** ~11.2k in / ~2990 out (large useTools payload)
+- **useTools:** **18** calls — `host-workspace-read-file`×5, `host-workspace-run-command`×4, `host-workspace-list-dir`×2, `lsp-workspace-symbols`×2, `lsp-document-symbols`×2, `lsp-hover`/`definition`/`references`
+- **diversity:** same tools with different paths/queries (index.js, test.js, index.d.ts, package.json, .github/, git log/show, rg, multiple LSP positions)
+- **confidence:** 0.95
+- **stability_confidence:** **0.94**
+- **residual fixed after:** host tools accept `workspacePath` alias for `workspaceRoot` (models emit Path)
+- **commit_tag:** QA Deposit Discovery Codebase Try Cs Reason Call-Site
+
+### 1.D27 Deposit · Discovery · comprehend-codebase · Try · CS · judge
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **usage:** ~12.3k in / ~625 out
+- **quality:** ~0.88 — valid task judge on multi-tool plan
+- **stability_confidence:** **0.92**
+- **commit_tag:** QA Deposit Discovery Codebase Try Cs Judge Call-Site
+
+### 1.D28 Deposit · Discovery · comprehend-codebase · Try · CS · structured_output
+
+- **status:** **Accepted** (Try task SO + tools postprocess)
+- **date:** 2026-07-17
+- **usage:** ~15.4k in / ~3560 out (comprehension + useTools re-emit)
+- **completion:** full `comprehension` map for is-plain-obj + **useTools 18** (hoist/postprocess)
+- **role:** Pass — Try SO may include useTools; tools postprocess runs after failsafes
+- **stability_confidence:** **0.93**
+- **commit_tag:** QA Deposit Discovery Codebase Try Cs Structured-Output Call-Site
+
+### 1.D29–1.D31 Deposit · Discovery · comprehend-codebase · Try · Stitch
+
+- **status:** **Accepted (zero-LLM fence)**
+- **evidence:** no stitch wire files; pipeline advanced to Retry after Try CS
+- **commit_tag:** QA Deposit Discovery Codebase Try Stitch Fence Call-Site
+
+### 1.D32–1.D37 Deposit · Discovery · comprehend-codebase · **Retry** · PCC+CS (Stitch fence)
+
+- **status:** **Accepted** (full Retry Thinkings observed end-to-end)
+- **date:** 2026-07-17
+- **Retry CS reason useTools:** **12** additional (read-file×4, list-dir×2, run-command×3, LSP symbols)
+- **Retry CS SO:** comprehension refreshed; residual toolsUsed field sometimes labels seed context (non-blocking)
+- **Stitch:** zero-LLM
+- **stability_confidence:** **0.90**
+- **commit_tag:** QA Deposit Discovery Codebase Retry Step Call-Site
+
+### 1.D38–1.D43 Deposit · Discovery · comprehend-codebase · **Refine** · PCC+CS (Stitch fence)
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **useTools:** omitted on Refine (correct — Refine has no tools postprocess)
+- **Refine CS SO:** polished source-safe knowledge map (is-plain-obj type-guard utility)
+- **Stitch:** zero-LLM
+- **stability_confidence:** **0.92**
+- **commit_tag:** QA Deposit Discovery Codebase Refine Step Call-Site
+
+### 1.D-Agent · **DepositCodebaseComprehensionAgent closed**
+
+- **status:** **Closed** (2026-07-17)
+- **roster:** Plan 1.D14–22 → Try 1.D23–31 → Retry 1.D32–37 → Refine 1.D38–43
+- **proof highlights:**
+  - Multi-tool Try with **18** useTools (LSP + host read/list/run) and diversified parameters
+  - Retry added **12** more tool selections
+  - Refine polished without tools
+  - Host tools registry + `workspacePath` alias; full LSP suite registered for agent
+- **next progressive marker:** Discovery wave-1 sibling **`DepositInherentRegurgitationAgent`** Plan PCC reason  
+  (then wave-2 **search-depository-for-deposit-relevants**)
+
 ### 1.2+ Read next / Deposit next
 
-- **1.D23** Discovery · comprehend-codebase · **Try** · PCC · reason  
+- **1.D44** Discovery · inherent-regurgitation · Plan · PCC · reason  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
-- **later** Discovery wave-2 · search-depository (deposit relevants / read Need-fits) + low-level tool live proof  
+- **later** Discovery wave-2 · search-depository (deposit relevants / read Need-fits) live tool proof  
 
 ---
 
@@ -1709,8 +1808,8 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** Setup closed; Discovery codebase **Plan step closed** (1.D14–1.D22).  
-  Harness: `BITCODE_DEBUG_FAST_SETUP=1` + serial Setup/Discovery.
+- **proof (current):** Setup closed; Discovery **codebase comprehension agent closed** (1.D14–1.D-Agent).  
+  Multi-tool Try proven (18 useTools). Harness: fast Setup + serial Discovery.
 
 ### §3 SDIVF read pipeline production-like accept
 
@@ -1781,3 +1880,4 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 | 2026-07-17 | **1.D-L / 1.D-M / 1.D-W** LSP agent end (residual uninitialized), MCP + danger-wall Accepted; **Setup phase closed**. Marker → Discovery 1.D14. |
 | 2026-07-17 | **1.D14** Discovery codebase Plan PCC reason Accepted. Fast Setup + Discovery serial harness; Need-first depository search query plan. Marker → 1.D15 judge. |
 | 2026-07-17 | **1.D15–1.D22** Plan step closed (PCC R/J/SO, CS R/J/SO, Stitch zero-LLM fence). Marker → Try PCC reason 1.D23. |
+| 2026-07-17 | **1.D23–1.D-Agent** Codebase agent closed (Try 18 tools, Retry 12, Refine). Marker → inherent-regurgitation. |

@@ -30,8 +30,20 @@ function resolveUnderRoot(workspaceRoot: string, relPath: string): string | null
   return target;
 }
 
+function resolveWorkspaceRoot(input: {
+  workspaceRoot?: string;
+  workspacePath?: string;
+  root?: string;
+}): string {
+  return String(
+    input?.workspaceRoot || input?.workspacePath || input?.root || '',
+  ).trim();
+}
+
 async function readFileBounded(input: {
   workspaceRoot?: string;
+  workspacePath?: string;
+  root?: string;
   path?: string;
   maxBytes?: number;
 }): Promise<{
@@ -43,7 +55,7 @@ async function readFileBounded(input: {
   error?: string;
 }> {
   const rel = String(input?.path || '').trim();
-  const root = String(input?.workspaceRoot || '').trim();
+  const root = resolveWorkspaceRoot(input);
   if (!rel) return { ok: false, path: rel, error: 'path required' };
   if (!root) return { ok: false, path: rel, error: 'workspaceRoot required' };
   const abs = resolveUnderRoot(root, rel);
@@ -71,6 +83,8 @@ async function readFileBounded(input: {
 
 async function listDirBounded(input: {
   workspaceRoot?: string;
+  workspacePath?: string;
+  root?: string;
   path?: string;
   maxEntries?: number;
 }): Promise<{
@@ -81,7 +95,7 @@ async function listDirBounded(input: {
   error?: string;
 }> {
   const rel = String(input?.path || '.').trim() || '.';
-  const root = String(input?.workspaceRoot || '').trim();
+  const root = resolveWorkspaceRoot(input);
   if (!root) return { ok: false, path: rel, error: 'workspaceRoot required' };
   const abs = resolveUnderRoot(root, rel === '.' ? '' : rel);
   if (!abs) return { ok: false, path: rel, error: 'path escapes workspaceRoot' };
@@ -150,6 +164,8 @@ const FORBIDDEN_GIT_SUB = new Set([
 
 async function runCommandBounded(input: {
   workspaceRoot?: string;
+  workspacePath?: string;
+  root?: string;
   command?: string;
   args?: string[];
   timeoutMs?: number;
@@ -163,7 +179,7 @@ async function runCommandBounded(input: {
   stderr: string;
   error?: string;
 }> {
-  const root = String(input?.workspaceRoot || '').trim();
+  const root = resolveWorkspaceRoot(input);
   const command = String(input?.command || '').trim();
   const args = Array.isArray(input?.args)
     ? input!.args.map((a) => String(a))
