@@ -25,6 +25,9 @@ export function ReadsNeedComposePanel(props: {
   error: string | null;
   runId: string | null;
   onSynthesize: () => void;
+  /** Cooperative cancel while synthesis is running (deposit twin). */
+  onCancel?: () => void;
+  isCancelling?: boolean;
   canSynthesize: boolean;
   isConfigLocked?: boolean;
 }) {
@@ -40,6 +43,8 @@ export function ReadsNeedComposePanel(props: {
     error,
     runId,
     onSynthesize,
+    onCancel,
+    isCancelling = false,
     canSynthesize,
     isConfigLocked = false,
   } = props;
@@ -87,12 +92,36 @@ export function ReadsNeedComposePanel(props: {
         repositoryContext={repositoryContext}
       />
 
-      <ProductSynthesizeAssetPackOptionsButton
-        data-testid="reads-synthesize-options"
-        onClick={onSynthesize}
-        disabled={!canSynthesize || !need.trim()}
-        running={running}
-      />
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <ProductSynthesizeAssetPackOptionsButton
+          data-testid="reads-synthesize-options"
+          onClick={onSynthesize}
+          disabled={!canSynthesize || !need.trim() || running}
+          running={running && status === "running"}
+        />
+        {status === "running" && onCancel ? (
+          <button
+            type="button"
+            data-testid="reads-cancel-synthesis"
+            aria-label="Cancel read synthesis run"
+            disabled={isCancelling}
+            onClick={() => {
+              onCancel();
+            }}
+            className="border border-rose-300/30 bg-rose-500/10 px-3 py-2 text-xs font-medium text-rose-100 transition hover:border-rose-200/50 hover:bg-rose-500/15 disabled:opacity-50"
+          >
+            {isCancelling ? "Cancelling…" : "Cancel run"}
+          </button>
+        ) : null}
+        {status === "cancelled" ? (
+          <span
+            data-testid="reads-synthesis-cancelled-badge"
+            className="border border-amber-300/25 bg-amber-300/10 px-3 py-2 text-xs text-amber-100"
+          >
+            Cancelled
+          </span>
+        ) : null}
+      </div>
       {runId || status !== "idle" ? (
         <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-neutral-500">
           {runId ? (

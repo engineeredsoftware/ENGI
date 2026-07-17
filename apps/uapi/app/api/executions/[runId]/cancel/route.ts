@@ -10,9 +10,11 @@ export const runtime = 'nodejs';
 /**
  * POST /api/executions/[runId]/cancel
  *
- * Cooperative cancel for a user-owned running execution (deposit synthesis and
- * other agentic runs). Marks the row cancelled, emits a status event, and
- * best-effort stops a bound Vercel Sandbox when context.sandboxId is present.
+ * Cooperative cancel for a user-owned running execution — **deposit and read**
+ * option synthesis (and other agentic runs). Marks the row cancelled, emits a
+ * status event, and best-effort stops a bound Vercel Sandbox when
+ * context.sandboxId is present. Workers poll status and stop without overwriting
+ * cancelled → failed/completed.
  */
 export async function POST(
   request: Request,

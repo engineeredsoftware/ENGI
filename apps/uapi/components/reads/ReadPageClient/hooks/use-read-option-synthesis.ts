@@ -1,13 +1,20 @@
 /**
  * Read option synthesis lifecycle (deposit twin).
  * Dispatches POST /api/read/synthesize-options, polls history for selection envelope.
+ * Cancel: POST /api/executions/[runId]/cancel (same cooperative path as deposit).
  */
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
+import { trackProductEvent } from "@/lib/product-analytics";
 
-export type ReadSynthesisStatus = "idle" | "running" | "complete" | "failed";
+export type ReadSynthesisStatus =
+  | "idle"
+  | "running"
+  | "complete"
+  | "failed"
+  | "cancelled";
 
 export type ReadSynthesizedOption = {
   index: number;
@@ -63,7 +70,9 @@ export function useReadOptionSynthesis(input: {
   const [error, setError] = useState<string | null>(null);
   const [envelope, setEnvelope] = useState<ReadSelectionEnvelope | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
+  const [isCancelling, setIsCancelling] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const dispatchedAtMsRef = useRef<number | null>(null);
 
   const stopPoll = useCallback(() => {
     if (pollRef.current) {
@@ -83,7 +92,14 @@ export function useReadOptionSynthesis(input: {
           const data = await res.json().catch(() => null);
           const run = data?.run;
           const st = String(run?.status || "").toLowerCase();
-          if (st === "failed" || st === "cancelled") {
+          if (st === "cancelled") {
+            stopPoll();
+            setStatus("cancelled");
+            setError(null);
+            void Promise.resolve(refreshLiveRuns?.() as unknown);
+            return;
+          }
+          if (st === "failed") {
             stopPoll();
             setStatus("failed");
             setError(
@@ -141,6 +157,8 @@ export function useReadOptionSynthesis(input: {
     setError(null);
     setEnvelope(null);
     setSelectedIndexes([]);
+    setIsCancelling(false);
+    dispatchedAtMsRef.current = Date.now();
     const nextRunId =
       typeof crypto !== "undefined" && "randomUUID" in crypto
         ? crypto.randomUUID()
@@ -199,6 +217,53 @@ export function useReadOptionSynthesis(input: {
     );
   }, []);
 
+  /**
+   * Cooperative cancel (deposit twin): mark execution cancelled; worker stops
+   * and poll adopts cancelled status without treating it as a hard failure.
+   */
+  const cancel = useCallback(async () => {
+    if (!runId || status !== "running" || isCancelling) return;
+    setIsCancelling(true);
+    try {
+      const response = await fetch(
+        `/api/executions/${encodeURIComponent(runId)}/cancel`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ reason: "Run cancelled by reader." }),
+        },
+      );
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ok) {
+        throw new Error(
+          typeof payload?.error === "string"
+            ? payload.error
+            : "Unable to cancel the read synthesis run.",
+        );
+      }
+      stopPoll();
+      setStatus("cancelled");
+      setError(null);
+      const durationMs =
+        dispatchedAtMsRef.current !== null
+          ? Date.now() - dispatchedAtMsRef.current
+          : null;
+      trackProductEvent({
+        name: "read_synthesis_cancelled",
+        data: { durationMs },
+      });
+      void Promise.resolve(refreshLiveRuns?.() as unknown);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to cancel the read synthesis run.",
+      );
+    } finally {
+      setIsCancelling(false);
+    }
+  }, [isCancelling, refreshLiveRuns, runId, status, stopPoll]);
+
   /** Clear compose/detail synthesis state when returning to the pipelines master. */
   const reset = useCallback(() => {
     stopPoll();
@@ -207,6 +272,8 @@ export function useReadOptionSynthesis(input: {
     setError(null);
     setEnvelope(null);
     setSelectedIndexes([]);
+    setIsCancelling(false);
+    dispatchedAtMsRef.current = null;
   }, [stopPoll]);
 
   return {
@@ -219,6 +286,8 @@ export function useReadOptionSynthesis(input: {
     setSelectedIndexes,
     toggleSelect,
     synthesize,
+    cancel,
+    isCancelling,
     reset,
   };
 }

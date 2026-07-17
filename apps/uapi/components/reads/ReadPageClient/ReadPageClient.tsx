@@ -325,6 +325,10 @@ export default function ReadPageClient() {
                 error={synthesis.error}
                 runId={synthesis.runId}
                 onSynthesize={() => void synthesis.synthesize()}
+                onCancel={() => {
+                  void synthesis.cancel();
+                }}
+                isCancelling={synthesis.isCancelling}
                 canSynthesize={Boolean(
                   repositoryContext?.selectedRepository?.fullName &&
                     repositoryContext?.selectedCommit,
@@ -359,6 +363,15 @@ export default function ReadPageClient() {
                 onRefresh={() => {
                   void refreshLiveRuns();
                 }}
+                onCancel={
+                  synthesis.status === "running" &&
+                  synthesis.runId === selectedPipelineRunId
+                    ? () => {
+                        void synthesis.cancel();
+                      }
+                    : undefined
+                }
+                isCancelling={synthesis.isCancelling}
                 selectedRunPacks={telemetry.selectedRunPacks}
               />
             ) : null}

@@ -62,6 +62,11 @@ export type ProductEvent =
       name: "deposit_synthesis_cancelled";
       data: { durationMs: number | null };
     }
+  /** A running read option synthesis was cancelled by the reader (no identifiers). */
+  | {
+      name: "read_synthesis_cancelled";
+      data: { durationMs: number | null };
+    }
   /** A per-option review decision (enum state only — never option contents). */
   | {
       name: "deposit_option_review";

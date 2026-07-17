@@ -28,6 +28,9 @@ export type ReadsPipelineTelemetryProps = {
   setReadLogScrolled: (value: boolean) => void;
   onDismissError: () => void;
   onRefresh: () => void;
+  /** Cooperative cancel while the selected/active run is processing. */
+  onCancel?: () => void;
+  isCancelling?: boolean;
   selectedRunPacks: SelectedRunPackSummary | null;
 };
 
@@ -45,6 +48,8 @@ export function ReadsPipelineTelemetry({
   setReadLogScrolled,
   onDismissError,
   onRefresh,
+  onCancel,
+  isCancelling = false,
   selectedRunPacks,
 }: ReadsPipelineTelemetryProps) {
   return (
@@ -79,7 +84,7 @@ export function ReadsPipelineTelemetry({
             </p>
           )}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {typeof readRunActivity.currentIteration === "number" && (
             <span
               title="DIV loop iteration (Discovery → Implementation → Validation)"
@@ -94,6 +99,20 @@ export function ReadsPipelineTelemetry({
             endedAtMs={readRunEndMs}
             className="font-mono text-[0.72rem] text-orange-100/90"
           />
+          {readRunIsProcessing && onCancel ? (
+            <button
+              type="button"
+              data-testid="reads-telemetry-cancel-synthesis"
+              aria-label="Cancel read synthesis run"
+              disabled={isCancelling}
+              onClick={() => {
+                onCancel();
+              }}
+              className="border border-rose-300/30 bg-rose-500/10 px-3 py-2 text-xs font-medium text-rose-100 transition hover:border-rose-200/50 hover:bg-rose-500/15 disabled:opacity-50"
+            >
+              {isCancelling ? "Cancelling…" : "Cancel run"}
+            </button>
+          ) : null}
           <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
             {selectedPipelineRunId}
           </span>

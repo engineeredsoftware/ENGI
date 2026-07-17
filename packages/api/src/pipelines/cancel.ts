@@ -177,7 +177,7 @@ export async function cancelUserExecution(input: {
     };
   }
 
-  // Source-safe status event for the deposit telemetry accordion.
+  // Source-safe status event for deposit/read telemetry accordions.
   try {
     await input.supabase.from('execution_events').insert({
       run_id: runId,
