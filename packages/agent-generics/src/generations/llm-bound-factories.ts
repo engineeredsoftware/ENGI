@@ -622,6 +622,25 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
     try { failsafeExec.store('ptrr', 'failsafe', FailsafeGeneration.CHUNK_THEN_SUM as any); } catch {}
     try { execution.store('ptrr', 'failsafe', FailsafeGeneration.CHUNK_THEN_SUM as any); } catch {}
 
+    // Attach ChunkThenSum law on the failsafe parent so hierarchical system
+    // prompts for task Thinkings include the active failsafe objective (parity
+    // with PrepareConciseContext law attach). Without this, pathFilter drops
+    // failsafe text and Reason only sees Plan → Thinking with no failsafe node.
+    try {
+      const path = typeof (failsafeExec as any).getPath === 'function'
+        ? (failsafeExec as any).getPath()
+        : [];
+      const promptPath = [
+        ...(Array.isArray(path) ? path : []),
+        'failsafe:chunk_then_sum',
+        'law',
+      ].join(':');
+      (failsafeExec as any).prompt?.setSpecificExecution?.(
+        promptPath,
+        PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK,
+      );
+    } catch { /* ignore */ }
+
     // TRIGGER MEASUREMENT: the composed request the task generation would send.
     const systemPrompt = buildHierarchicalPrompt(failsafeExec);
     const inputChars = estimateSerializedSize(input);
@@ -767,6 +786,22 @@ export function factoryStitchUntilComplete<T>(
     try { failsafeExec.store('ptrr', 'failsafe', FailsafeGeneration.STITCH_UNTIL_COMPLETE as any); } catch {}
     try { execution.store('ptrr', 'failsafe', FailsafeGeneration.STITCH_UNTIL_COMPLETE as any); } catch {}
     try { logFailsafeEvent(execution, 'stitch-until-complete', { start: true }); } catch { }
+
+    // Attach Stitch law on the failsafe parent (parity with PCC / ChunkThenSum).
+    try {
+      const path = typeof (failsafeExec as any).getPath === 'function'
+        ? (failsafeExec as any).getPath()
+        : [];
+      const promptPath = [
+        ...(Array.isArray(path) ? path : []),
+        'failsafe:stitch_until_complete',
+        'law',
+      ].join(':');
+      (failsafeExec as any).prompt?.setSpecificExecution?.(
+        promptPath,
+        PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH,
+      );
+    } catch { /* ignore */ }
 
     // Get LLM config to check token limits
     const llmConfig = (failsafeExec as any).llms?.getDefaultConfig?.();
@@ -1565,8 +1600,11 @@ function detectHierarchicalPromptRole(execution: Execution): HierarchicalPromptR
     failsafe = 'stitch_until_complete';
   }
 
-  // PCC selection input builds preparation from the failsafe parent (no thinkings leaf).
-  const forPreparation = Boolean(failsafe) && thinking === null;
+  // Lean user-task preparation is PCC-only. Do not treat ChunkThenSum /
+  // Stitch failsafe parents (thinking===null during budget measure) as
+  // preparation — those need the full hierarchical system size estimate.
+  const forPreparation =
+    failsafe === 'prepare_concise_context' && thinking === null;
 
   return { thinking, failsafe, forPreparation };
 }

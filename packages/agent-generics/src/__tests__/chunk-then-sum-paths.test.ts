@@ -208,11 +208,21 @@ describe('large selected context chunks with a bounded LLM call count', () => {
       counter.calls++;
       const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
       let payload: any = reasoningPayload;
-      if (user.includes('Generate structured output for:')) {
-        // The SELECTION structured call renders the key-selection schema
-        // shape; task structured calls render the step's output schema.
-        payload = user.includes('"selectedKeys": string[]') ? selectionPayload : structuredPayload;
-      } else if (user.includes('Evaluate the quality and correctness of:') || user.includes('Judge the quality')) {
+      // PCC SO (lean): Emit ONLY { selectedKeys } / Structured output input
+      // Task SO: Generate structured output for: …
+      if (
+        user.includes('Emit ONLY { "selectedKeys"') ||
+        user.includes('Structured output input:') ||
+        (user.includes('"selectedKeys": string[]') && user.includes('PrepareConciseContext'))
+      ) {
+        payload = selectionPayload;
+      } else if (user.includes('Generate structured output for:')) {
+        payload = structuredPayload;
+      } else if (
+        user.includes('Judge ONLY the prior PrepareConciseContext') ||
+        user.includes('Evaluate the quality and correctness of:') ||
+        user.includes('Judge the quality')
+      ) {
         payload = judgmentPayload;
       }
       return {
