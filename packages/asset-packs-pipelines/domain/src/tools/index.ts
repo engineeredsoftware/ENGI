@@ -1,8 +1,12 @@
 /**
- * AssetPack Pipeline Tool Registry
- * 
- * Centralized registry of all tools available to AssetPack pipeline agents.
- * Organized by phase and functionality for optimal agent selection.
+ * AssetPack Pipeline Tool catalog (source list for preprocess registration)
+ *
+ * These are **Tool** instances only. At pipeline init they enter
+ * `ExecutionPipelineToolRegistry` **iff** each has `tool.__docCodePrompt`
+ * (DocCode is a Tool primitive — agents do not use that pattern).
+ * See `assertPipelineToolDocCode` in `preprocess.ts`.
+ *
+ * Organized by phase for authoring; registration is one flat pipeline catalog.
  */
 
 import { Tool } from '@bitcode/tools-generics';
