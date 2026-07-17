@@ -20,7 +20,10 @@ import { PROMPTPART_GENERIC_AGENT_FAILSAFE_CHUNK } from '@bitcode/prompts/raw_pr
 import { PROMPTPART_GENERIC_AGENT_FAILSAFE_STITCH } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_failsafe_stitch';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
-import { PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
+import {
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT,
+  PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_TOOLS_IF_SCHEMA,
+} from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_structured_output';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_header';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_json_only_single_object';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_if_unknown_empty';
@@ -34,6 +37,7 @@ import {
   walkExecutionStateKeys,
   resolveExecutionStateKeyPath,
   buildExecutionHierarchySystemPrompt,
+  EXECUTION_HIERARCHY_PROMPT_NODE_SEPARATOR,
   type ExecutionStateKeysTree
 } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
@@ -227,6 +231,8 @@ function factoryLLMGeneration<TInput, TOutput>(
     buildUserPrompt: (input: TInput) => string;
     parseOutput?: (output: string, input: TInput) => Promise<TOutput>;
     enrichPrompt?: (execution: GenerationExecution) => void;
+    /** StructuredOutput schema shape string (single user-envelope source). */
+    structuredSchemaShape?: string;
   }
 ): Executor<TInput, TOutput> {
 
@@ -305,8 +311,7 @@ function factoryLLMGeneration<TInput, TOutput>(
     const systemPrompt = buildHierarchicalPrompt(generationExec);
     let userPrompt = config.buildUserPrompt(input);
 
-    // Enforce strict JSON output for Thinkings generations to support parsing
-    // Provide minimal key shape hints per sequence to improve reliability
+    // Enforce strict JSON output for Thinkings generations (once — builders must not re-prefix).
     if (sequence === ThinkingsGeneration.REASON) {
       const shape = (ReasoningSchema as any)?.description || '{ "analysis": string, "reasoningItems": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
       userPrompt = [
@@ -326,9 +331,15 @@ function factoryLLMGeneration<TInput, TOutput>(
         userPrompt,
       ].join('\n');
     } else if (sequence === ThinkingsGeneration.STRUCTURED_OUTPUT) {
+      // Schema shape is owned here once; factoryStructuredOutput.buildUserPrompt
+      // only supplies the payload body (no second JSON-only / schema envelope).
+      const shape =
+        config.structuredSchemaShape ||
+        '{ /* see active schema */ }';
       userPrompt = [
+        String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
+        shape,
         String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
-        String(PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA),
         '',
         userPrompt,
         String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
@@ -480,11 +491,10 @@ export function factoryPrepareConciseContext<T>(
     const pipelineExecutionKeys = walkExecutionStateKeys(root);
     try { failsafeExec.store('context', 'keys', pipelineExecutionKeys as any); } catch {}
 
-    // 2. Selection inference input: the composed task prompt this failsafe is
-    // preparing context for, PCC's own instructions, and the keys-only tree.
-    // preparation uses forPreparation role (agent+step only; no thinkings soup).
+    // 2. Selection inference input: lean task identity (not full hierarchy soup),
+    // PCC law (also on hierarchical system for Thinkings), and keys-only tree.
     const selectionInput: PrepareConciseContextSelectionInput = {
-      preparation: buildHierarchicalPrompt(failsafeExec),
+      preparation: buildPccLeanTaskPreparation(failsafeExec),
       system: String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT),
       pipeline_execution_keys: pipelineExecutionKeys
     };
@@ -898,10 +908,28 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
     {
       buildUserPrompt: (input) => {
         const typedInput = input as any;
-        // Check if we're in a sum context
         const isSum = typedInput.chunkResults !== undefined;
         if (isSum) {
           return `Judge the quality of these chunked results:\n\n${safePromptJson(typedInput.chunkResults)}`;
+        }
+        // PCC selection: do not re-dump full hierarchy preparation / PCC essay.
+        const isPccSelection =
+          typedInput.pipeline_execution_keys !== undefined &&
+          (typedInput.preparation !== undefined || typedInput.reasoning !== undefined);
+        if (isPccSelection) {
+          return [
+            'Judge ONLY the prior PrepareConciseContext key-selection reasoning for minimality and coverage.',
+            'Score against pipeline_execution_keys and PCC ranking law (in system). Do not re-select keys; do not emit selectedKeys; do not attempt the agent task.',
+            '',
+            'Judgment input:',
+            safePromptJson({
+              task: typeof typedInput.preparation === 'string'
+                ? typedInput.preparation
+                : undefined,
+              reasoning: typedInput.reasoning ?? null,
+              pipeline_execution_keys: typedInput.pipeline_execution_keys,
+            }),
+          ].join('\n');
         }
         return `Evaluate the quality and correctness of:\n\n${safePromptJson(input)}`;
       },
@@ -953,16 +981,17 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
           return `Reason about how to combine these chunk results:\n\n${safePromptJson(typedInput.chunkResults)}`;
         }
         if (isPccSelection) {
+          // PCC law is already on the hierarchical system prompt; do not re-embed
+          // it (or the full EE hierarchy) in the user JSON.
           return [
-            'Reason ONLY about PrepareConciseContext key selection for the preparation task below.',
+            'Reason ONLY about PrepareConciseContext key selection for the task below.',
             'Goals: minimal sufficient keys; prefer host workspace / repository coordinates / step inputs; omit lineage, telemetry, debug, and unrelated phase state.',
             'Do NOT emit selectedKeys (structured_output will). Do NOT select tools (useTools must be omitted). Do NOT attempt the agent task itself.',
             'In analysis/reasoningItems/conclusion: name candidate keys using paths present in pipeline_execution_keys, prefer form \'<execution-path>#<namespace>:<key>\' (root shorthand \'#namespace:key\' is ok); explain why each is needed for subsequent Plan/Try failsafes. Use reasoningItems (never "steps" — steps means PTRR Plan/Try/Refine/Retry).',
             '',
             'Selection input:',
             safePromptJson({
-              preparation: typedInput.preparation,
-              system: typedInput.system,
+              task: typedInput.preparation,
               pipeline_execution_keys: typedInput.pipeline_execution_keys,
             }),
           ].join('\n');
@@ -996,19 +1025,46 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
 export function factoryStructuredOutput<T, TSchema>(
   schema: z.ZodType<TSchema>
 ): Executor<T, T & { output: TSchema }> {
+  const shape = schema.description || inferSchemaShape(schema);
+  const topKeys = inferTopLevelKeys(schema);
+  const allowsUseTools = topKeys.includes('useTools');
+
   const exec = factoryLLMGeneration(
     ThinkingsGeneration.STRUCTURED_OUTPUT,
     {
+      structuredSchemaShape: shape,
       buildUserPrompt: (input) => {
-        const shape = schema.description || inferSchemaShape(schema);
-        const keys = inferTopLevelKeys(schema);
+        const typedInput = input as any;
+        const isPccSelection =
+          typedInput.pipeline_execution_keys !== undefined &&
+          (typedInput.reasoning !== undefined || typedInput.preparation !== undefined);
+
+        if (isPccSelection) {
+          // Lean SO payload: reason + judgment + keys. No hierarchy re-copy, no useTools.
+          return [
+            'Emit ONLY { "selectedKeys": string[] } for PrepareConciseContext.',
+            'Slot from prior reasoning and judgment; do not re-reason.',
+            'Despite approved:false, emit the best legal minimal selectedKeys now.',
+            'Use path form from pipeline_execution_keys (e.g. #deposit:repository). Never invent keys. Never include useTools.',
+            '',
+            'Structured output input:',
+            safePromptJson({
+              task: typeof typedInput.preparation === 'string'
+                ? typedInput.preparation
+                : undefined,
+              reasoning: typedInput.reasoning ?? null,
+              judgment: typedInput.judgment ?? null,
+              pipeline_execution_keys: typedInput.pipeline_execution_keys,
+            }),
+          ].join('\n');
+        }
+
+        // Non-PCC task SO: payload only (schema envelope is outer wrap once).
+        const keysHint = topKeys.length
+          ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT)} ${topKeys.join(', ')}`
+          : '';
         return [
-          String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_SINGLE_OBJECT),
-          String(PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA),
-          shape,
-          keys.length ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT)} ${keys.join(', ')}` : '',
-          String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
-          '',
+          keysHint,
           'Generate structured output for:',
           safePromptJson(input),
         ].filter(Boolean).join('\n');
@@ -1024,13 +1080,23 @@ export function factoryStructuredOutput<T, TSchema>(
       },
 
       enrichPrompt: (execution) => {
-        // Add schema information to prompt
         const path = execution.getPath();
         const schemaPath = [...path, 'output', 'schema'].join(':');
         execution.prompt.setSpecificExecution(
           schemaPath,
-          `Output must match schema: ${schema.description || inferSchemaShape(schema)}` as PromptPart
+          `Output must match schema: ${shape}` as PromptPart
         );
+        // Task SO may need tools clause when schema includes useTools (not PCC).
+        if (allowsUseTools) {
+          const role = detectHierarchicalPromptRole(execution);
+          if (role.failsafe !== 'prepare_concise_context') {
+            const toolsPath = [...path, 'output', 'tools_if_schema'].join(':');
+            execution.prompt.setSpecificExecution(
+              toolsPath,
+              PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_TOOLS_IF_SCHEMA,
+            );
+          }
+        }
       }
     }
   );
@@ -1593,15 +1659,176 @@ function shouldIncludePromptPath(path: string, role: HierarchicalPromptRole): bo
 }
 
 /**
+ * Lean task carrier for PCC selection user JSON (and preparation field).
+ * Identity only — not full hierarchy, not VCS capability walls.
+ */
+function buildPccLeanTaskPreparation(execution: Execution): string {
+  let phase = '';
+  let agent = '';
+  let step = '';
+  let product = '';
+  try {
+    phase = String((execution as any).findUp?.('phase', 'current') ?? '') || '';
+  } catch { /* ignore */ }
+  try {
+    agent = String((execution as any).findUp?.('agent', 'name') ?? '') || '';
+  } catch { /* ignore */ }
+  try {
+    step = String((execution as any).findUp?.('step', 'name') ?? '') || '';
+  } catch { /* ignore */ }
+  try {
+    product =
+      String((execution as any).findUp?.('pipeline', 'productPipeline') ?? '') ||
+      String((execution as any).findUp?.('pipeline', 'name') ?? '') ||
+      '';
+  } catch { /* ignore */ }
+
+  // Fall back to path segments when stores are sparse.
+  try {
+    const path: string[] = typeof (execution as any).getPath === 'function'
+      ? (execution as any).getPath() || []
+      : [];
+    for (const seg of path) {
+      const s = String(seg);
+      if (!phase && s.startsWith('phase:')) phase = s.slice('phase:'.length);
+      if (!agent && s.startsWith('agent:')) agent = s.slice('agent:'.length);
+      if (!step && ['plan', 'try', 'retry', 'refine'].includes(s.toLowerCase())) {
+        step = s.toLowerCase();
+      }
+      if (!product && s.startsWith('pipeline:')) product = s;
+    }
+  } catch { /* ignore */ }
+
+  const lines = [
+    'Task identity for PrepareConciseContext key selection (not the full agent capability dump).',
+    product ? `Product/pipeline: ${product}.` : '',
+    phase ? `Phase: ${phase}.` : '',
+    agent ? `Agent: ${agent}.` : '',
+    step ? `PTRR step: ${step}.` : '',
+    step === 'plan' || !step
+      ? 'Plan step: decide strategy only — do not execute tools during this failsafe.'
+      : `Active step: ${step}.`,
+    'Select minimal execution-state keys so this step can run after context read-in. Never attempt the agent task here.',
+  ].filter(Boolean);
+  return lines.join(' ');
+}
+
+/**
+ * Lean system prompt for PCC selection Thinkings (reason | judge | structured_output).
+ * Keeps Execution+pipeline identity (short), phase, lean task, full PCC law, active thinking.
+ * Drops fat agent/step capability call_site blocks.
+ */
+function buildPccSelectionSystemPrompt(
+  execution: Execution,
+  role: HierarchicalPromptRole,
+): string {
+  const blocks: string[] = [];
+
+  // Pipeline + phase only (Execution-once on pipeline call_site). Skip agent/step
+  // (fat), failsafe/thinkings (we inject PCC + active thinking once below).
+  const hierarchy = buildExecutionHierarchySystemPrompt(execution, {
+    pathFilter: (path) => shouldIncludePromptPath(path, role),
+    nodeFilter: (exec) => {
+      const id = String((exec as any).id || '').toLowerCase();
+      if (id.includes('agent:')) return false;
+      if (['plan', 'try', 'retry', 'refine'].includes(id)) return false;
+      if (id.includes('failsafe:')) return false;
+      if (id.includes('thinkings:') || id.includes('selection') || id.startsWith('seq-')) {
+        // keep nothing under selection/seq shells
+        if (id.includes('selection') || id.includes('thinkings:')) return false;
+        if (/^seq-\d+$/.test(id)) return false;
+      }
+      return true;
+    },
+  });
+
+  if (hierarchy) {
+    blocks.push(trimHeavySystemProse(hierarchy));
+  }
+
+  blocks.push(buildPccLeanTaskPreparation(execution));
+  // PCC law once (not also via failsafe node walk).
+  blocks.push(String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT));
+
+  if (role.thinking === 'reason') {
+    blocks.push(String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON));
+  } else if (role.thinking === 'judge') {
+    blocks.push(String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE));
+  } else if (role.thinking === 'structured_output') {
+    blocks.push(String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT));
+    blocks.push('PCC selection: emit only { "selectedKeys": string[] }. Never include useTools.');
+  }
+
+  return blocks.filter((b) => b && b.trim()).join(EXECUTION_HIERARCHY_PROMPT_NODE_SEPARATOR);
+}
+
+/** Drop known heavy capability / measurement dumps from composed hierarchy text. */
+function trimHeavySystemProse(text: string): string {
+  const dropLineIf = [
+    /three-way merge/i,
+    /ci\/cd pipeline/i,
+    /cherry-pick/i,
+    /pull request validation/i,
+    /branch strategy implementation/i,
+    /repository maintenance via provider api/i,
+    /workflow automation through provider webhooks/i,
+    /measurement law:\s*absolutes/i,
+    /models do not invent absolute btd/i,
+    /^PLAN:\s*/i,
+  ];
+  const lines = text.split('\n');
+  const kept: string[] = [];
+  let prevBlank = false;
+  for (const line of lines) {
+    if (dropLineIf.some((re) => re.test(line))) continue;
+    // Collapse runs of capability bullet walls: drop bullets that look like VCS API catalogs
+    if (/^-\s+VCS operations via provider/i.test(line)) continue;
+    if (/^-\s+Three-way merge/i.test(line)) continue;
+    if (/^-\s+Repository analysis via provider/i.test(line)) continue;
+    if (/^-\s+Workflow automation through provider/i.test(line)) continue;
+    if (/^-\s+Code review via API/i.test(line)) continue;
+    if (/^-\s+Branch strategy implementation/i.test(line)) continue;
+    if (/^-\s+Commit message standardization/i.test(line)) continue;
+    if (/^-\s+Repository maintenance via provider/i.test(line)) continue;
+    const blank = !line.trim();
+    if (blank && prevBlank) continue;
+    kept.push(line);
+    prevBlank = blank;
+  }
+  // Collapse duplicate "Plan the Try only" lines
+  const out: string[] = [];
+  const seenPlanTry = new Set<string>();
+  for (const line of kept) {
+    const t = line.trim();
+    if (/Plan the Try only/i.test(t)) {
+      if (seenPlanTry.has('plan-try')) continue;
+      seenPlanTry.add('plan-try');
+    }
+    out.push(line);
+  }
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+/**
  * Agent call-site system prompt: generic EE tree walk
  * (`buildExecutionHierarchySystemPrompt` in execution-generics) +
  * agent-specific failsafe/thinking role path filter.
  *
- * Organization: walk/compose primitives are not agent-owned; only role
- * filtering and failsafe/thinking injection stay in agent-generics.
+ * PCC selection Thinkings use a lean system path (no fat agent/Plan dumps).
  */
 function buildHierarchicalPrompt(execution: Execution): string {
   const role = detectHierarchicalPromptRole(execution);
+  if (role.forPreparation) {
+    return buildPccLeanTaskPreparation(execution);
+  }
+  if (
+    role.failsafe === 'prepare_concise_context' &&
+    (role.thinking === 'reason' ||
+      role.thinking === 'judge' ||
+      role.thinking === 'structured_output')
+  ) {
+    return buildPccSelectionSystemPrompt(execution, role);
+  }
   return buildExecutionHierarchySystemPrompt(execution, {
     pathFilter: (path) => shouldIncludePromptPath(path, role),
   });

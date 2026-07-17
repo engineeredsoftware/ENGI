@@ -182,9 +182,16 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
       const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
       userPrompts.push(user);
       let payload: any = { analysis: 'a', reasoningItems: ['s'], conclusion: 'c', confidence: 0.9 };
-      if (user.includes('Generate structured output for:')) {
+      if (
+        user.includes('Structured output input:') ||
+        user.includes('Generate structured output for:')
+      ) {
         payload = { selectedKeys: ['agent-root#read:description'] };
-      } else if (user.includes('Evaluate the quality and correctness of:') || user.includes('Judge the quality')) {
+      } else if (
+        user.includes('Judge ONLY the prior PrepareConciseContext') ||
+        user.includes('Evaluate the quality and correctness of:') ||
+        user.includes('Judge the quality')
+      ) {
         payload = { quality: 0.9, issues: [], suggestions: [], approved: true };
       }
       return {
@@ -209,7 +216,20 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
     for (const prompt of userPrompts) {
       expect(prompt).toContain('pipeline_execution_keys');
       expect(prompt).not.toContain('SECRET-TASK-VALUE');
+      // Lean user: no VCS capability walls
+      expect(prompt).not.toContain('Three-way merge');
+      expect(prompt).not.toContain('CI/CD pipeline');
     }
+    // SO user must not instruct useTools under PCC
+    const soUser = userPrompts.find(
+      (p) => p.includes('Structured output input:') || p.includes('Generate structured output for:'),
+    );
+    expect(soUser).toBeDefined();
+    expect(soUser).toContain('selectedKeys');
+    expect(soUser).not.toMatch(/include the useTools array/i);
+    // Schema / JSON-only envelope once (header appears once, not doubled)
+    const soOnlyCount = (soUser!.match(/Respond ONLY with valid JSON matching this structure:/g) || []).length;
+    expect(soOnlyCount).toBeLessThanOrEqual(1);
 
     // The selected key's VALUE is read in AFTER selection.
     expect(out.selectedContext).toEqual({ 'agent-root#read:description': 'SECRET-TASK-VALUE' });

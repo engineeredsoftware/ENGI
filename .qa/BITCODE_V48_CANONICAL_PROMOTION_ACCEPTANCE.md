@@ -687,11 +687,35 @@ User body correctly forces: JSON schema for Reason; PCC key-selection only; path
 - **0.94** that this call-site is fully successful and PCC **selection** Thinkings can close.  
 - Residual (not SO call-site failures): post-SO value read-in; chunk_then_sum/stitch; Plan Try tool execution. Judge `approved:false` did not block a legal minimal key set.
 
+#### prompt hygiene (post-1.D3 lean pass, 2026-07-16)
+
+Lean PCC Thinkings applied for **Reason, Judge, and StructuredOutput** under prepare_concise_context:
+
+| Change | Effect |
+| --- | --- |
+| Lean `task` / preparation | Short identity (product/phase/agent/step) — **not** full hierarchy re-copy |
+| System under PCC | Pipeline+phase call_sites (trimmed) + lean task + PCC law **once** + active thinking; **no** agent VCS capability walls / Plan bullet dumps |
+| SO instruction | No unconditional `useTools`; PCC: “Never include useTools” |
+| User JSON envelope | Schema / “Respond ONLY…” **once** (SO double-wrap removed) |
+| Judge user | Prior `reasoning` + keys only (no fat preparation dump) |
+
+**Wire sizes after lean pass (SO stop re-run):**
+
+| Gen | system chars | user chars | total |
+| --- | --- | --- | --- |
+| reason | ~6293 | ~3840 | ~10.1k |
+| judge | ~5848 | ~5679 | ~11.5k |
+| structured_output | ~5942 | ~7396 | ~13.3k |
+
+(Pre-lean SO was ~8.7k system + ~15k user ≈ 24k.)
+
+**Post-lean SO completion still legal:** 5 path-form deposit/host/pipeline keys; `debugStop: true`.
+
 #### decision
 
 | | |
 | --- | --- |
-| **this stop** | **Accepted — fully successful** |
+| **this stop** | **Accepted — fully successful** (incl. post-lean re-validation) |
 | **next marker** | Next failsafe or Plan stack (likely **chunk_then_sum** reason, or document explicit next). Prefer advancing failsafe to `chunk_then_sum` / generation `reason` once selection keys are accepted. |
 | **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Reason Call-Site` |
 | **not yet** | Chunk/stitch value materialization proof; Try/clone tool; remaining Setup; Discovery+ |
