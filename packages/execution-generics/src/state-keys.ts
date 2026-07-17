@@ -74,6 +74,74 @@ export interface ResolvedExecutionStateKey {
 }
 
 /**
+ * Expand selection-model key path malformations into candidates.
+ *
+ * Live deposit Implementation Refine (2026-07-17) emitted forms that failed
+ * both strict and single-hash lenient resolution, emptying selectedContext:
+ *   '#deposit#obfuscations'  (leading # + ns#key instead of ns:key)
+ *   '#seq-3#phase:discovery#discovery#codebaseComprehension'
+ * Canonical remains '<execution-path>#<namespace>:<key>'.
+ */
+export function expandExecutionStateKeyPathCandidates(keyPath: string): string[] {
+  if (typeof keyPath !== 'string' || !keyPath.length) return [];
+  const out: string[] = [keyPath];
+  let s = keyPath.trim();
+  // Leading '#' with no path before it: '#deposit:x' or '#deposit#x'
+  while (s.startsWith(EXECUTION_STATE_KEY_PATH_SEPARATOR)) {
+    s = s.slice(1);
+  }
+  if (s !== keyPath) out.push(s);
+
+  // Single-hash namespace#key → namespace:key (existing live shorthand).
+  const firstHash = s.indexOf(EXECUTION_STATE_KEY_PATH_SEPARATOR);
+  if (firstHash >= 0) {
+    const oneReplace =
+      s.slice(0, firstHash) + ':' + s.slice(firstHash + 1);
+    out.push(oneReplace);
+  }
+
+  // Multi-hash: treat last two segments as namespace + key.
+  // '#seq-3#phase:discovery#discovery#codebaseComprehension'
+  //   → discovery:codebaseComprehension
+  //   → phase:discovery:codebaseComprehension (depth-first tries ns prefixes)
+  //   → seq-3/phase:discovery#discovery:codebaseComprehension
+  const parts = s.split(EXECUTION_STATE_KEY_PATH_SEPARATOR).filter(Boolean);
+  if (parts.length >= 2) {
+    const key = parts[parts.length - 1]!;
+    const nsPart = parts[parts.length - 2]!;
+    if (key && !key.includes(':')) {
+      out.push(`${nsPart}:${key}`);
+      // If nsPart is already 'phase:discovery', also try bare 'discovery:key'.
+      if (nsPart.includes(':')) {
+        const nsLeaf = nsPart.split(':').pop()!;
+        if (nsLeaf) out.push(`${nsLeaf}:${key}`);
+      }
+      if (parts.length >= 3) {
+        const execPath = parts.slice(0, -2).join('/');
+        out.push(`${execPath}${EXECUTION_STATE_KEY_PATH_SEPARATOR}${nsPart}:${key}`);
+        if (nsPart.includes(':')) {
+          const nsLeaf = nsPart.split(':').pop()!;
+          out.push(`${execPath}${EXECUTION_STATE_KEY_PATH_SEPARATOR}${nsLeaf}:${key}`);
+        }
+      }
+    }
+    // Last segment already 'namespace:key' (canonical after path hashes).
+    if (key.includes(':') && parts.length >= 2) {
+      const execPath = parts.slice(0, -1).join('/');
+      out.push(`${execPath}${EXECUTION_STATE_KEY_PATH_SEPARATOR}${key}`);
+      out.push(key);
+    }
+  }
+
+  // Collapse every remaining '#' to ':' for simple two-token forms only.
+  if (parts.length === 2 && !parts[1]!.includes(':')) {
+    out.push(`${parts[0]}:${parts[1]}`);
+  }
+
+  return Array.from(new Set(out.filter((c) => typeof c === 'string' && c.length > 0)));
+}
+
+/**
  * Resolve one stable key path against the execution tree rooted at `root`.
  *
  * Fail-soft by design: a malformed path, an unknown execution segment, an
@@ -83,8 +151,25 @@ export interface ResolvedExecutionStateKey {
  * Namespaces may themselves contain ':' (e.g. 'agent:discovery'), so the
  * '<namespace>:<key>' remainder is resolved by trying every namespace whose
  * '<namespace>:' prefixes it, longest namespace first.
+ *
+ * Also tries {@link expandExecutionStateKeyPathCandidates} so selection-model
+ * shorthand does not empty PrepareConciseContext selectedContext.
  */
 export function resolveExecutionStateKeyPath(
+  root: Execution,
+  keyPath: string
+): ResolvedExecutionStateKey {
+  if (typeof keyPath !== 'string' || !keyPath.length) return { found: false };
+
+  for (const candidate of expandExecutionStateKeyPathCandidates(keyPath)) {
+    const resolved = resolveExecutionStateKeyPathOnce(root, candidate);
+    if (resolved.found) return resolved;
+  }
+  return { found: false };
+}
+
+/** Single-path resolve (strict + original one-hash lenient). No candidate expand. */
+function resolveExecutionStateKeyPathOnce(
   root: Execution,
   keyPath: string
 ): ResolvedExecutionStateKey {

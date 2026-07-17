@@ -40,6 +40,12 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
 
   // Progressive Discovery QA: skip earlier agents when stop targets a later
   // Discovery agent or Implementation (Discovery closed → Implementation first LLM).
+  // BITCODE_DEBUG_FAST_DISCOVERY=0 forces full Discovery (no stubs) for review runs.
+  const fastDiscovery =
+    String(process.env.BITCODE_DEBUG_FAST_DISCOVERY || '1').toLowerCase() !==
+      '0' &&
+    String(process.env.BITCODE_DEBUG_FAST_DISCOVERY || '1').toLowerCase() !==
+      'false';
   const stopFilter = String(
     process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || '',
   ).toLowerCase();
@@ -64,14 +70,17 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
     stopFilter.includes('depositassetpack');
   // Empty filter + discovery phase: run full Discovery (legacy first-agent QA).
   const skipCodebase =
+    fastDiscovery &&
     Boolean(stopFilter || stopPhase) &&
     (targetsImplementation || targetsRegurgitation || targetsSearch) &&
     !targetsCodebase;
   const skipRegurgitation =
+    fastDiscovery &&
     Boolean(stopFilter || stopPhase) &&
     (targetsImplementation || targetsSearch) &&
     !targetsRegurgitation;
   const skipSearch =
+    fastDiscovery &&
     Boolean(stopFilter || stopPhase) &&
     targetsImplementation &&
     !targetsSearch;

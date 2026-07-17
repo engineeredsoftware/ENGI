@@ -144,7 +144,9 @@ const debugEnv: Record<string, string> = {
   BITCODE_LLM_CALL_DEBUG: '1',
   BITCODE_DEBUG_FORCE_CLONE_PTRR:
     process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '0',
-  BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
+  // Progressive call-by-call: default stop on. Full e2e: set to 0.
+  BITCODE_DEBUG_STOP_AFTER_FIRST_REASON:
+    process.env.BITCODE_DEBUG_STOP_AFTER_FIRST_REASON || '1',
   // Discovery closed (1.D14–1.D-Discovery): Implementation first LLM.
   BITCODE_DEBUG_STOP_PHASE:
     process.env.BITCODE_DEBUG_STOP_PHASE || 'implementation',

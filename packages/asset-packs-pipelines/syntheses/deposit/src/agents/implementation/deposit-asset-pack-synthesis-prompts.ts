@@ -58,9 +58,12 @@ const DEPOSIT_TRY = part(
     'absolute volumes or needinesses.',
 );
 const DEPOSIT_REFINE = part(
-  'Refine: ensure each option is distinct, source-safe, obfuscation- and ' +
-    'exclusion-honoring, and legible to a future buyer; verify the patch descriptor ' +
-    'names only sourceCheckoutCatalog paths (no code/contents).',
+  'Refine: polish the prior Try/Retry candidates — NEVER return an empty options ' +
+    'array. Keep 2–4 DISTINCT options. Prefer PrepareConciseContext keys in exact ' +
+    'form "#namespace:key" or "path#namespace:key" (colon before the key name; do not ' +
+    'use "#namespace#key"). Ground coveredSourcePaths and patch.fileChanges ONLY in ' +
+    'sourceCheckoutCatalog paths. Ensure each option is source-safe, obfuscation- and ' +
+    'exclusion-honoring, and legible to a future buyer (no code/contents).',
 );
 const DEPOSIT_RETRY = part(
   'Retry: complete any missing option as a minimal valid source-safe patch ' +

@@ -131,6 +131,35 @@ describe('resolveExecutionStateKeyPath', () => {
     });
   });
 
+  it('resolves leading-# and multi-# selection malformations (deposit Refine live)', () => {
+    const root = buildTree();
+
+    // '#deposit#obfuscations' class: leading hash + ns#key
+    expect(resolveExecutionStateKeyPath(root, '#repository#owner')).toEqual({
+      found: true,
+      value: 'acme',
+    });
+    expect(resolveExecutionStateKeyPath(root, '#repository:owner')).toEqual({
+      found: true,
+      value: 'acme',
+    });
+
+    // '#seq-3#phase:discovery#discovery#codebaseComprehension' class:
+    // path hashes then namespace#key without colon on the last join.
+    expect(
+      resolveExecutionStateKeyPath(
+        root,
+        '#seq-1#agent:discovery#discovery#comprehension',
+      ),
+    ).toEqual({ found: true, value: 'SECRET-AGENT-VALUE' });
+    expect(
+      resolveExecutionStateKeyPath(
+        root,
+        'seq-1#phase:discovery#discovery#comprehension',
+      ),
+    ).toEqual({ found: true, value: 'SECRET-AGENT-VALUE' });
+  });
+
   it('is fail-soft on every miss shape', () => {
     const root = buildTree();
 
