@@ -55,10 +55,11 @@ export function BTDTracker({
     isLoading && btdBalance === 0 && !hasWalletIdentity;
   const shouldShowWalletNow = isHovered && !isBalanceLoading;
   const assetPackCount = recentBtdAssetPacks.length;
+  // Chrome tokens share "# LABEL" order (e.g. "0 BTD | 0 APs").
   const btdBalanceLabel = `${displayedBtdBalance.toLocaleString()} BTD`;
-  const assetPacksLabel = `AssetPacks ${assetPackCount.toLocaleString()}`;
+  const assetPacksLabel = `${assetPackCount.toLocaleString()} APs`;
   const balanceLabel = isBalanceLoading
-    ? 'Reading BTD and AssetPacks posture'
+    ? 'Reading BTD and APs posture'
     : `${btdBalanceLabel}; ${assetPacksLabel}`;
   const walletActionLabel = useMemo(() => {
     const explicitLabel = walletLabel?.trim();
@@ -71,9 +72,9 @@ export function BTDTracker({
       .map(formatAssetPackSummary)
       .filter((label): label is string => Boolean(label));
 
-    if (labels.length === 0) return `${assetPacksLabel}`;
-    return `AssetPacks ${assetPackCount}: ${labels.join(', ')}`;
-  }, [assetPackCount, assetPacksLabel, recentBtdAssetPacks]);
+    if (labels.length === 0) return assetPacksLabel;
+    return `${assetPacksLabel}: ${labels.join(', ')}`;
+  }, [assetPacksLabel, recentBtdAssetPacks]);
 
   // Measure the widest hover/rest posture so the tracker does not resize on hover.
   const walletActionRef = useRef<HTMLSpanElement>(null);
