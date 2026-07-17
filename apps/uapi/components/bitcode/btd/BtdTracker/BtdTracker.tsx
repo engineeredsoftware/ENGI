@@ -28,29 +28,6 @@ interface BTDTrackerProps {
   onOpenBtdAuxillary?: () => void;
 }
 
-function formatBtcFeeBalance(balance: number | null | undefined) {
-  if (typeof balance !== 'number' || !Number.isFinite(balance)) return '0 BTC';
-  return `${balance.toLocaleString(undefined, {
-    maximumFractionDigits: balance >= 1 ? 4 : 8,
-  })} BTC`;
-}
-
-function readNumericField(source: unknown, ...keys: string[]) {
-  if (!source || typeof source !== 'object') return null;
-  const record = source as Record<string, unknown>;
-
-  for (const key of keys) {
-    const value = record[key];
-    if (typeof value === 'number' && Number.isFinite(value)) return value;
-    if (typeof value === 'string' && value.trim()) {
-      const parsed = Number(value);
-      if (Number.isFinite(parsed)) return parsed;
-    }
-  }
-
-  return null;
-}
-
 function formatAssetPackSummary(assetPack: BtdAssetPackSummary) {
   const label = assetPack.label?.trim() || assetPack.assetPackId.trim();
   if (!label) return null;
@@ -69,18 +46,20 @@ export function BTDTracker({
   onOpenBtdAuxillary,
 }: BTDTrackerProps) {
   const [displayedBtdBalance, setDisplayedBtdBalance] = useState(btdBalance);
-  const [displayedBtcFeeBalance, setDisplayedBtcFeeBalance] = useState<number | null>(btcFeeBalance);
   const [isHovered, setIsHovered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [actionState, setActionState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   // Once wallet identity is known, keep balances visible during background revalidation
   // (product routes remount shell providers and re-fetch without re-connecting).
   const isBalanceLoading =
-    isLoading && btdBalance === 0 && btcFeeBalance === null && !hasWalletIdentity;
+    isLoading && btdBalance === 0 && !hasWalletIdentity;
   const shouldShowWalletNow = isHovered && !isBalanceLoading;
-  const btcBalanceLabel = formatBtcFeeBalance(displayedBtcFeeBalance);
+  const assetPackCount = recentBtdAssetPacks.length;
   const btdBalanceLabel = `${displayedBtdBalance.toLocaleString()} BTD`;
-  const balanceLabel = isBalanceLoading ? 'Reading BTC and BTD wallet posture' : `${btcBalanceLabel}; ${btdBalanceLabel}`;
+  const assetPacksLabel = `AssetPacks ${assetPackCount.toLocaleString()}`;
+  const balanceLabel = isBalanceLoading
+    ? 'Reading BTD and AssetPacks posture'
+    : `${btdBalanceLabel}; ${assetPacksLabel}`;
   const walletActionLabel = useMemo(() => {
     const explicitLabel = walletLabel?.trim();
     if (explicitLabel) return explicitLabel;
@@ -92,9 +71,9 @@ export function BTDTracker({
       .map(formatAssetPackSummary)
       .filter((label): label is string => Boolean(label));
 
-    if (labels.length === 0) return undefined;
-    return `Recent BTD AssetPacks: ${labels.join(', ')}`;
-  }, [recentBtdAssetPacks]);
+    if (labels.length === 0) return `${assetPacksLabel}`;
+    return `AssetPacks ${assetPackCount}: ${labels.join(', ')}`;
+  }, [assetPackCount, assetPacksLabel, recentBtdAssetPacks]);
 
   // Measure the widest hover/rest posture so the tracker does not resize on hover.
   const walletActionRef = useRef<HTMLSpanElement>(null);
@@ -108,22 +87,19 @@ export function BTDTracker({
       const loadingW = loadingRef.current.offsetWidth;
       setTextWidth(Math.ceil(Math.max(walletActionW, btdW, loadingW)));
     }
-  }, [displayedBtcFeeBalance, displayedBtdBalance, isBalanceLoading, walletActionLabel]);
+  }, [assetPackCount, displayedBtdBalance, isBalanceLoading, walletActionLabel]);
   // Compute static container min-width: icon + gap + text + horizontal paddings
   const paddingPx = 24; // px-6
   const iconWidthPx = 16; // w-4
   const gapPx = 14; // gap-x-3.5
   const minWidth = iconWidthPx + gapPx + textWidth + paddingPx * 2;
 
-  // Animate balance posture changes
+  // Animate BTD balance changes (BTC fee balance is not shown in chrome).
   useEffect(() => {
     if (btdBalance !== displayedBtdBalance) {
       setDisplayedBtdBalance(btdBalance);
     }
-    if (btcFeeBalance !== displayedBtcFeeBalance) {
-      setDisplayedBtcFeeBalance(typeof btcFeeBalance === 'number' ? btcFeeBalance : null);
-    }
-  }, [btdBalance, btcFeeBalance, displayedBtdBalance, displayedBtcFeeBalance]);
+  }, [btdBalance, displayedBtdBalance]);
 
   // Ref to manage hover-end timeout
   const hoverEndTimeoutRef = useRef<number>();
@@ -242,7 +218,10 @@ export function BTDTracker({
       walletProvider,
       walletAddress: compactBitcodeAddress(walletAddress),
       btdBalance: displayedBtdBalance,
-      btcFeeBalance: displayedBtcFeeBalance,
+      assetPackCount,
+      // BTC fee balance remains available on the wallet auxillary surface.
+      btcFeeBalance:
+        typeof btcFeeBalance === 'number' ? btcFeeBalance : null,
     });
 
     // Refresh displayed BTD balance from server
@@ -255,16 +234,10 @@ export function BTDTracker({
         if (typeof nextBalance === 'number') {
           setDisplayedBtdBalance(nextBalance);
         }
-        const nextBtcFeeBalance =
-          typeof data.btcFeeBalance === 'number'
-            ? data.btcFeeBalance
-            : readNumericField(data.profile, 'btcFeeBalance', 'btc_fee_balance', 'btc_balance');
-        if (typeof nextBtcFeeBalance === 'number') {
-          setDisplayedBtcFeeBalance(nextBtcFeeBalance);
-        }
+        // Chrome only displays BTD + AssetPacks count; BTC fee lives on wallet auxillary.
       }
     } catch (err) {
-      console.error('Error fetching user BTC/BTD balance posture:', err);
+      console.error('Error fetching user BTD/AssetPacks posture:', err);
       bitcodeQaTelemetry('warn', 'btd-tracker', 'balance-refresh-failed', {
         message: err instanceof Error ? err.message : 'unknown',
       });
@@ -363,12 +336,12 @@ export function BTDTracker({
             <span ref={walletActionRef} className="whitespace-nowrap font-normal tracking-wide text-sm">{walletActionLabel}</span>
             <span ref={loadingRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Reading wallet</span>
             <span ref={btdRef} className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm">
-              <span>{btcBalanceLabel}</span>
+              <span>{btdBalanceLabel}</span>
               <span
                 aria-hidden="true"
                 className="mx-3 inline-block h-4 w-[2px] shrink-0 rounded-full"
               />
-              <span>{btdBalanceLabel}</span>
+              <span>{assetPacksLabel}</span>
             </span>
           </div>
           {/* Icon slot */}
@@ -455,12 +428,12 @@ export function BTDTracker({
                 exit={{ opacity: 0, rotateX: 90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                <span>{btcBalanceLabel}</span>
+                <span>{btdBalanceLabel}</span>
                 <span
                   aria-hidden="true"
                   className="mx-3 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
                 />
-                <span>{btdBalanceLabel}</span>
+                <span>{assetPacksLabel}</span>
               </motion.span>
             )}
           </AnimatePresence>

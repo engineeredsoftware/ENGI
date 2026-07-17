@@ -19,26 +19,38 @@ jest.mock('@/components/bitcode/branding/Logo/Logo', () => ({
 }));
 
 describe('BTDTracker loading posture', () => {
-  it('uses an integrated wallet-reading state before BTC and BTD values hydrate', () => {
+  it('uses an integrated wallet-reading state before BTD and AssetPacks hydrate', () => {
     render(<BTDTracker btdBalance={0} btcFeeBalance={null} isLoading />);
 
     expect(
-      screen.getByLabelText(/Reading BTC and BTD wallet posture/i),
+      screen.getByLabelText(/Reading BTD and AssetPacks posture/i),
     ).toBeInTheDocument();
     expect(screen.getAllByText('Reading wallet').length).toBeGreaterThan(0);
   });
 
-  it('renders hydrated BTC and BTD values after user data resolves', () => {
+  it('renders hydrated BTD and AssetPacks count (not BTC) after user data resolves', () => {
     render(
       <BTDTracker
         btdBalance={1200}
         btcFeeBalance={0.042}
+        recentBtdAssetPacks={[
+          { assetPackId: 'pack-a', label: 'Alpha' },
+          { assetPackId: 'pack-b', label: 'Beta' },
+        ]}
         isLoading={false}
         walletAddress="tb1qbitcodemockoperator0000000000000000000000"
         walletProvider="leather"
       />,
     );
 
-    expect(screen.getByLabelText(/0.042 BTC; 1,200 BTD\. Open BTD wallet auxillary for leather/i)).toBeInTheDocument();
+    expect(
+      screen.getByLabelText(
+        /1,200 BTD; AssetPacks 2\. Open BTD wallet auxillary for leather/i,
+      ),
+    ).toBeInTheDocument();
+    // Hidden measurement spans also render the same tokens.
+    expect(screen.getAllByText('1,200 BTD').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('AssetPacks 2').length).toBeGreaterThan(0);
+    expect(screen.queryByText(/\bBTC\b/)).not.toBeInTheDocument();
   });
 });
