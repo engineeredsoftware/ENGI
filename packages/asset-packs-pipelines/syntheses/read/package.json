@@ -17,7 +17,9 @@
     "./reading-pipeline-contract": "./src/reading-pipeline-contract.ts",
     "./reading-pipeline-observability": "./src/reading-pipeline-observability.ts",
     "./phases/read-phases": "./src/phases/read-phases.ts",
-    "./tools/BitcodeReadMeasurementComputerUseTool": "./src/tools/BitcodeReadMeasurementComputerUseTool.ts"
+    "./tools/BitcodeReadMeasurementComputerUseTool": "./src/tools/BitcodeReadMeasurementComputerUseTool.ts",
+    "./agents/setup/read-fits-finding-synthesis-setup-plan-agent": "./src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
+    "./agents/setup/read-fits-finding-synthesis-read-comprehension-agent": "./src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts"
   },
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
@@ -29,6 +31,7 @@
     "@bitcode/generic-pipelines-execution-pipeline-sdivf": "workspace:*",
     "@bitcode/asset-packs-pipelines-domain": "workspace:*",
     "@bitcode/asset-packs-pipelines-syntheses-domain": "workspace:*",
+    "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/btd": "workspace:*",
     "@bitcode/generic-agents-read-comprehension": "workspace:*",

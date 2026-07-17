@@ -13,13 +13,13 @@
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import { AssetPackPatchWriteTool } from './asset-pack-patch-write-tool';
+import { AssetPackPatchWriteTool } from '../../../../domain/src/agents/implementation/asset-pack-patch-write-tool';
 import {
   DEPOSIT_OPTION_KINDS,
   depositCandidateSetSchema,
   type DepositSynthesisOptions,
-} from './deposit-asset-pack-synthesis-schema';
-import { createDepositSynthesisPrompt } from './deposit-asset-pack-synthesis-prompts';
+} from '../../../../deposit/src/agents/implementation/deposit-asset-pack-synthesis-schema';
+import { createDepositSynthesisPrompt } from '../../../../deposit/src/agents/implementation/deposit-asset-pack-synthesis-prompts';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
@@ -80,7 +80,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
   const needText = findValue(execution, 'read', 'need') ?? input?.need ?? '';
 
   const { ensureDepositCheckoutSourceFiles } = await import(
-    '../../ensure-deposit-checkout-source-files'
+    '../../../../deposit/src/ensure-deposit-checkout-source-files'
   );
   const { resolveSourceCheckoutCatalog } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog');
   const sourceCheckoutCatalog = await ensureDepositCheckoutSourceFiles(
@@ -123,7 +123,9 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
         .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
         .map((s: any) => ({ path: s.path as string, content: s.content as string }))
     : [];
-  const { measureAssetPackAbsolutes } = await import('../validation/agent-measure-absolutes');
+  const { measureAssetPackAbsolutes } = await import(
+    '../../../../domain/src/agents/validation/agent-measure-absolutes'
+  );
   const { attachNestedAbsolutes } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements');
   const { measureReadNeedinesses, computeNeedFitVolume } = await import(
     '../../read-neediness-measurements'

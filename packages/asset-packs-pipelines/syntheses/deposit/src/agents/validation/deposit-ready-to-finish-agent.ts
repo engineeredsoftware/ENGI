@@ -13,7 +13,7 @@ import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-synthese
 import {
   analyzeStaticSource,
   computeAbsolutesFromReport,
-} from './agent-measure-absolutes';
+} from '../../../../domain/src/agents/validation/agent-measure-absolutes';
 import {
   DepositValidationOutputSchema,
   type DepositValidationResult,

@@ -57,7 +57,10 @@
     "./agents/finish/deposit-ledgerize-agent": "./src/agents/finish/deposit-ledgerize-agent.ts",
     "./deposit-source-safe-utils": "./src/deposit-source-safe-utils.ts",
     "./prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts": "./src/prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts.ts",
-    "./agents/discovery/codebase-analysis-helpers": "./src/agents/discovery/codebase-analysis-helpers.ts"
+    "./agents/discovery/codebase-analysis-helpers": "./src/agents/discovery/codebase-analysis-helpers.ts",
+    "./agents/validation/agent-measure-absolutes": "./src/agents/validation/agent-measure-absolutes.ts",
+    "./agents/validation/source-static-analysis-tool": "./src/agents/validation/source-static-analysis-tool.ts",
+    "./agents/implementation/asset-pack-patch-write-tool": "./src/agents/implementation/asset-pack-patch-write-tool.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",

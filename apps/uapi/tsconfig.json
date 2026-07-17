@@ -154,6 +154,12 @@
       "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-policy": [
         "../../packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy.ts"
       ],
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission": [
+        "../../packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-admission.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/depositor-earning-supply-intelligence": [
+        "../../packages/asset-packs-pipelines/syntheses/deposit/src/depositor-earning-supply-intelligence.ts"
+      ],
       "@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis": [
         "../../packages/asset-packs-pipelines/syntheses/domain/src/asset-packs-synthesis.ts"
       ],

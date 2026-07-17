@@ -143,11 +143,19 @@ export async function initializeAssetPackPipeline(execution: ExecutionPipeline) 
     execution.agents.registerAgent('setup:asset-pack-clone-vcs-repository-agent', cloneAgent);
   } catch {}
   try {
-    const setupPlan = (await import('./agents/setup/read-fits-finding-synthesis-setup-plan-agent')).default as any;
+    // Read-product setup agents live under syntheses/read (co-located).
+    // Path is relative to this file (domain/src/), not phases/.
+    const setupPlan = (
+      await import('../../read/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent')
+    ).default as any;
     execution.agents.registerAgent('setup:ReadFitsFindingSynthesisSetupPlanAgent', setupPlan);
   } catch {}
   try {
-    const comprehendAgent = (await import('./agents/setup/read-fits-finding-synthesis-read-comprehension-agent')).default as any;
+    const comprehendAgent = (
+      await import(
+        '../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent'
+      )
+    ).default as any;
     execution.agents.registerAgent('setup:ReadFitsFindingSynthesisReadComprehensionAgent', comprehendAgent);
     execution.agents.registerAgent('setup:asset-pack-comprehend-read-definition-agent', comprehendAgent);
   } catch {}

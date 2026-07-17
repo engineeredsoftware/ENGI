@@ -1330,6 +1330,9 @@ importers:
       '@bitcode/asset-packs-pipelines-domain':
         specifier: workspace:*
         version: link:../../domain
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs':
+        specifier: workspace:*
+        version: link:../deposit
       '@bitcode/asset-packs-pipelines-syntheses-domain':
         specifier: workspace:*
         version: link:../domain
@@ -26419,7 +26422,7 @@ snapshots:
     dependencies:
       '@vue/compiler-ssr': 3.5.18
       '@vue/shared': 3.5.18
-      vue: 3.5.18(typescript@6.0.3)
+      vue: 3.5.18(typescript@5.8.3)
 
   '@vue/server-renderer@3.5.18(vue@3.5.18(typescript@5.9.3))':
     dependencies:
@@ -26427,6 +26430,12 @@ snapshots:
       '@vue/shared': 3.5.18
       vue: 3.5.18(typescript@5.9.3)
     optional: true
+
+  '@vue/server-renderer@3.5.18(vue@3.5.18(typescript@6.0.3))':
+    dependencies:
+      '@vue/compiler-ssr': 3.5.18
+      '@vue/shared': 3.5.18
+      vue: 3.5.18(typescript@6.0.3)
 
   '@vue/shared@3.5.18': {}
 
@@ -29593,7 +29602,7 @@ snapshots:
       vscode-languageserver: 8.1.0
       vscode-languageserver-types: 3.17.5
       vscode-uri: 3.1.0
-      vue: 3.5.18(typescript@6.0.3)
+      vue: 3.5.18(typescript@5.8.3)
     transitivePeerDependencies:
       - '@fastify/websocket'
       - '@types/node'
@@ -36338,7 +36347,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.18
       '@vue/compiler-sfc': 3.5.18
       '@vue/runtime-dom': 3.5.18
-      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@5.8.3))
+      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@6.0.3))
       '@vue/shared': 3.5.18
     optionalDependencies:
       typescript: 6.0.3

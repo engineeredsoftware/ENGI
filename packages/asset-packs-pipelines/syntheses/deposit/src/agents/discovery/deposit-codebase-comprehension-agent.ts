@@ -241,7 +241,9 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
       analyzeStaticSource,
       computeAbsolutesFromReport,
       computeDeterministicAbsolutes,
-    } = await import('../validation/agent-measure-absolutes');
+    } = await import(
+      '../../../../domain/src/agents/validation/agent-measure-absolutes'
+    );
     const measurePaths =
       bodies.length > 0
         ? bodies.slice(0, 40).map((f) => f.path)

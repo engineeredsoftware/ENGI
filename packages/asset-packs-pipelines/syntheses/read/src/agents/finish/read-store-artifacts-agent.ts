@@ -3,7 +3,7 @@
  */
 
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import runDepositStore from './deposit-store-artifacts-agent';
+import runDepositStore from '../../../../deposit/src/agents/finish/deposit-store-artifacts-agent';
 
 export default async function runReadStoreArtifactsAgent(input: any, execution: any) {
   const out = await runDepositStore(input, execution);

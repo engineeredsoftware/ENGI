@@ -22,7 +22,13 @@
     "./depositor-earning-supply-intelligence-types": "./src/depositor-earning-supply-intelligence-types.ts",
     "./depositor-earning-supply-intelligence": "./src/depositor-earning-supply-intelligence.ts",
     "./ensure-deposit-checkout-source-files": "./src/ensure-deposit-checkout-source-files.ts",
-    "./phases/deposit-phases": "./src/phases/deposit-phases.ts"
+    "./phases/deposit-phases": "./src/phases/deposit-phases.ts",
+    "./agents/finish/deposit-store-artifacts-agent": "./src/agents/finish/deposit-store-artifacts-agent.ts",
+    "./agents/implementation/deposit-asset-pack-synthesis-schema": "./src/agents/implementation/deposit-asset-pack-synthesis-schema.ts",
+    "./agents/implementation/deposit-asset-pack-synthesis-prompts": "./src/agents/implementation/deposit-asset-pack-synthesis-prompts.ts",
+    "./agents/validation/deposit-validation-schema": "./src/agents/validation/deposit-validation-schema.ts",
+    "./agents/validation/deposit-validation-prompts": "./src/agents/validation/deposit-validation-prompts.ts",
+    "./agents/validation/deposit-validation-checks": "./src/agents/validation/deposit-validation-checks.ts"
   },
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",

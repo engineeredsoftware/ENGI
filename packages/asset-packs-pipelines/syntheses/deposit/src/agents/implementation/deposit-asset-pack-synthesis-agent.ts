@@ -13,7 +13,7 @@
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import { AssetPackPatchWriteTool } from './asset-pack-patch-write-tool';
+import { AssetPackPatchWriteTool } from '../../../../domain/src/agents/implementation/asset-pack-patch-write-tool';
 import {
   depositCandidateSetSchema,
   type DepositSynthesisOptions,
@@ -135,7 +135,9 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     analyzeStaticSource,
     computeAbsolutesFromReport,
     computeDeterministicAbsolutes,
-  } = await import('../validation/agent-measure-absolutes');
+  } = await import(
+    '../../../../domain/src/agents/validation/agent-measure-absolutes'
+  );
 
   const { attachNestedAbsolutes, resolvePackAbsolutes } = await import(
     '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements'

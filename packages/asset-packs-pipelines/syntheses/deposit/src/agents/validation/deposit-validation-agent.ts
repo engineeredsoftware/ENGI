@@ -13,7 +13,7 @@
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import { measureAssetPackAbsolutes } from './agent-measure-absolutes';
+import { measureAssetPackAbsolutes } from '../../../../domain/src/agents/validation/agent-measure-absolutes';
 import {
   DepositValidationOutputSchema,
   type DepositValidationInput,

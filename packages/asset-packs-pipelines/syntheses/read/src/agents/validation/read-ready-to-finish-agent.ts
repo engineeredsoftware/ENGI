@@ -11,18 +11,18 @@ import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-synthese
 import {
   DepositValidationOutputSchema,
   type DepositValidationResult,
-} from './deposit-validation-schema';
-import { createDepositValidationPrompt } from './deposit-validation-prompts';
+} from '../../../../deposit/src/agents/validation/deposit-validation-schema';
+import { createDepositValidationPrompt } from '../../../../deposit/src/agents/validation/deposit-validation-prompts';
 import {
   asPathList,
   mergeDepositValidationVerdict,
   smokeCheckAssetPacks,
-} from './deposit-validation-checks';
+} from '../../../../deposit/src/agents/validation/deposit-validation-checks';
 import { hasRequiredAbsolutes, resolvePackAbsolutes, resolvePackNeedinesses } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
 import { assertNeedinessKindSuffix } from '../../read-neediness-measurements';
 import { resolveSourceCheckoutCatalog } from '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog';
 import { projectInventoryForPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
-import { ensureDepositCheckoutSourceFiles } from '../../ensure-deposit-checkout-source-files';
+import { ensureDepositCheckoutSourceFiles } from '../../../../deposit/src/ensure-deposit-checkout-source-files';
 
 const prompt = createDepositValidationPrompt();
 

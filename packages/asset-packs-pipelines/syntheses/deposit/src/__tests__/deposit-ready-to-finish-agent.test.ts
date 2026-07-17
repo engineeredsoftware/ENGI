@@ -4,7 +4,9 @@
  * Lightweight unit tests for the single deposit Validation ready-to-finish gate.
  * Heavy PTRR / measure / catalog graph is mocked so A/B/C merge logic is isolated.
  */
-jest.mock('../agents/validation/agent-measure-absolutes', () => ({
+jest.mock(
+  '../../../../domain/src/agents/validation/agent-measure-absolutes',
+  () => ({
   analyzeStaticSource: jest.fn(() => ({
     measuredFromSamples: true,
     estimatedFunctionCount: 4,
