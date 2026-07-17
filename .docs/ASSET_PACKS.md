@@ -252,7 +252,7 @@ Finish:
   )
 ```
 
-Implementation lives in `packages/asset-packs-pipelines/domain/src/phases/deposit-phases.ts`.
+Implementation lives in `packages/asset-packs-pipelines/syntheses/domain/src/phases/deposit-phases.ts`.
 
 ---
 
@@ -628,7 +628,7 @@ Registry keys are set with `prompt.set('agent:identity', …)` etc. The composed
 | `deposit:persistArtifacts` (hook) | Finish | Durable DB write |
 | `deposit:ledgerWrite` (hook) | Finish | Journal binding |
 
-Tools map (roster keys) lives under `packages/asset-packs-pipelines/domain/src/tools/index.ts`.
+Tools map (roster keys) lives under `packages/asset-packs-pipelines/syntheses/domain/src/tools/index.ts`.
 
 ---
 
@@ -692,7 +692,7 @@ ship AssetPack patch PR → journal PackActivity. Package:
 
 | Concern | Location |
 |---------|----------|
-| Deposit phase roster | `packages/asset-packs-pipelines/domain/src/phases/deposit-phases.ts` |
+| Deposit phase roster | `packages/asset-packs-pipelines/syntheses/domain/src/phases/deposit-phases.ts` |
 | Discovery registration | `…/phases/discovery.ts` |
 | Absolutes catalog | `packages/generic-asset-packs/synthesis/src/measurement-catalogs.ts` |
 | Measured patch type | `packages/generic-asset-packs/synthesis/` |

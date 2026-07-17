@@ -141,7 +141,7 @@ uapi → HTTP + React adapters only
  ↑
 @bitcode/generic-agents/* Base agents (VCS, danger-wall, code-editor, …)
  ↑
-@bitcode/asset-packs-pipelines-domain Deposit/read SDIVF agents (setup/discovery/…)
+@bitcode/asset-packs-pipelines-syntheses-domain Shared synth SDIVF agents/tools; product agents co-located under syntheses/{deposit,read}
 ```
 
 ### 3.1.1 Measurements
@@ -155,7 +155,7 @@ uapi → HTTP + React adapters only
  ↑
 @bitcode/generic-asset-packs-synthesis SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
 @bitcode/ ↑
-@bitcode/asset-packs-pipelines-domain SDIVF pipeline host (static-analysis tools, phases)
+@bitcode/asset-packs-pipelines-syntheses-domain Shared synth phases/tools; product packages wire deposit/read rosters
 ```
 
 Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`
@@ -240,7 +240,7 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 @bitcode/generic-asset-packs-synthesis Synthesize measurement catalogs / Absolutes agent
 @bitcode/ ↑
 @bitcode/asset-packs-pipelines-* synthesize-deposits / -reads / settle-reads
-@bitcode/asset-packs-pipelines-domain agents, tools, deposit options helpers
+@bitcode/asset-packs-pipelines-syntheses-domain shared agents/tools; deposit/read packages hold product-only helpers
 ```
 
 Package paths: `packages/asset-packs-generics/`, `packages/generic-asset-packs/*`.
@@ -569,7 +569,7 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 | Package | Responsibility |
 | --- | --- |
 | `asset-packs-pipelines/domain` | **All-3** shared: commodity, disclosure, settlement-rights library, BTD helpers, org-policy |
-| `asset-packs-pipelines/syntheses/domain` | **Both synths**: agents/phases/tools, deposit options, depository, reading contracts |
+| `asset-packs-pipelines/syntheses/domain` | **Both synths**: agents/phases/tools, depository, synthesis helpers |
 | `asset-packs-pipelines/*` | Product ExecutionPipeline packages (SDIVF synthesize deposits/reads, Simple settle) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
@@ -862,7 +862,7 @@ as if they were source of product law.
 ### 9.1 “How does deposit synthesis work?”
 
 1. `BITCODE_SPEC_V48.md` §G3-1…G3-15
-2. `packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts` (barrel)
+2. `packages/asset-packs-pipelines/syntheses/domain/src/asset-packs-synthesis.ts` (barrel)
 3. `.../agents/{setup,discovery,implementation,validation}/deposit-*.ts`
 4. `packages/pipeline-hosts/src/asset-pack-host.ts`
 5. `apps/uapi/app/api/deposit/synthesize-options/route.ts` + `dispatch-deposit-synthesis.ts`

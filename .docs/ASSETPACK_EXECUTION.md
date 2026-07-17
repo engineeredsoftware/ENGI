@@ -18,7 +18,7 @@ The operator-facing product meaning is:
 
 - `apps/uapi/app/executions/*` remains a compatibility execution surface used by the Bitcode.
 - `packages/api/src/routes/shippables.ts` remains the main server execution route while its product meaning is AssetPack execution and PR Shippables.
-- `packages/asset-packs-pipelines/domain/*` is the live package path for AssetPack and connected-interface written-asset synthesis; the predecessor package path is no longer an active filesystem owner.
+- `packages/asset-packs-pipelines/{domain,syntheses/domain,syntheses/deposit,syntheses/read,settle}` is the live layout for AssetPack pipelines (all-3 / both-synths / product co-location); the predecessor package path is no longer an active filesystem owner.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/agent-generics/*`, and `packages/prompts/*` provide the reusable execution, registry, and prompt substrate.
 
 Storage-edge compatibility names are not product vocabulary. Any later SPEC promotion should describe the product as Bitcode Read measurement, fit review, AssetPack synthesis, Finish, and delivery mechanisms.

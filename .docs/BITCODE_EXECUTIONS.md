@@ -26,7 +26,10 @@ Current source routes and components include:
 - `apps/uapi/app/executions/*`
 - `apps/uapi/app/api/executions/*`
 - `packages/api/src/routes/shippables.ts`
-- `packages/asset-packs-pipelines/domain/*`
+- `packages/asset-packs-pipelines/domain/*` (all-3)
+- `packages/asset-packs-pipelines/syntheses/domain/*` (both synths)
+- `packages/asset-packs-pipelines/syntheses/{deposit,read}/*` (product)
+- `packages/asset-packs-pipelines/settle/*`
 - execution history and event readers in `apps/uapi/app/api/executions/history/*`
 
 Storage-edge compatibility names may remain behind explicit translation, but internal docs and SPEC promotion should use Bitcode execution, AssetPack execution, Read measurement, fit review, and Finish.

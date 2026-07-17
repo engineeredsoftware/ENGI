@@ -20,11 +20,17 @@ always the single current Bitcode system under the active canon.
 
 ## What Bitcode is
 
-| Role | Surface |
-| --- | --- |
-| **Depositors** | Connect source → synthesize measured AssetPack options → review → admit to Depository |
-| **Readers** | Connect target → Need → synthesize options → select → settle (BTC-testnet) → BTD rights → delivery |
-| **Operators** | Packs activity, Auxillaries (wallet / GitHub / org), public docs |
+Both commercial roles share one spine — only the **state** field and the **terminal** step differ:
+
+**Connect source → State → synthesize options → review options → terminal**
+
+| Role | State | Terminal |
+| --- | --- | --- |
+| **Depositors** | **Obfuscations** (what to withhold / steer supply) | **Deposit** — admit measured options into the Depository |
+| **Readers** | **Need** (what the target repo should satisfy) | **Settle** — select option(s) → BTC-testnet → BTD rights → delivery |
+| **Operators** | — | Packs activity, Auxillaries (wallet / GitHub / org), public docs |
+
+Same connected repository package, same option-synthesis / review UX; deposit admits supply, read settles demand.
 
 **Product run language** is **Pipeline**. **BTD ledger language** is **journal**.
 Product routes are `/packs`, `/deposits`, `/reads`, and `/docs`.
@@ -33,8 +39,8 @@ Product routes are `/packs`, `/deposits`, `/reads`, and `/docs`.
 
 | Route | Purpose |
 | --- | --- |
-| `/deposits` | Deposit MVP — source, SDIVF synthesis, review, admission |
-| `/reads` | Read MVP — Need, fit synthesis, select → SettleAssetPack |
+| `/deposits` | Connect source → Obfuscations → synthesize options → review → admit |
+| `/reads` | Connect source → Need → synthesize options → review → settle |
 | `/packs` | Master-detail PackActivity (admitted / settled packs) |
 | Auxillaries | Wallet identity, GitHub App, organization panes |
 | `/` · `/docs` | Marketing and public docs |
