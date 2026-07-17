@@ -12,7 +12,7 @@ import {
   getProcessRootFields,
   serializeProcessRootFields,
 } from '@bitcode/generic-executions';
-import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-domain';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 import { factoryExecutionPipeline } from '@bitcode/pipelines-generics';
 import { log } from '@bitcode/logger';
 import { saveArtifact } from '@bitcode/generic-artifacts-compose';

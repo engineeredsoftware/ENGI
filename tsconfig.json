@@ -53,6 +53,8 @@
       "@bitcode/generic-attachments-external": ["packages/generic-attachments/external/src/index.ts"],
       "@bitcode/attachments-generics": ["packages/attachments-generics/src/index.ts"],
       "@bitcode/asset-packs-pipelines-domain": ["packages/asset-packs-pipelines/domain/src/index.ts"],
+      "@bitcode/asset-packs-pipelines-syntheses-domain": ["packages/asset-packs-pipelines/syntheses/domain/src/index.ts"],
+      "@bitcode/asset-packs-pipelines-syntheses-domain/*": ["packages/asset-packs-pipelines/syntheses/domain/src/*"],
       "@bitcode/asset-packs-pipelines-domain": ["packages/asset-packs-pipelines/domain/src/index.ts"],
       "@bitcode/asset-packs-pipelines-domain/*": ["packages/asset-packs-pipelines/domain/src/*"],
       "@bitcode/pipeline-hosts": ["packages/pipeline-hosts/src/index.ts"],
@@ -218,7 +220,7 @@
       "@bitcode/engine/pipeline/pipelineDiscoveryPhaseWrapper": ["packages/pipelines-generics/src/phases/discovery/index.ts"],
       "@bitcode/engine/pipeline/pipelineImplementationPhaseWrapper": ["packages/pipelines-generics/src/phases/implementation/index.ts"],
       "@bitcode/engine/pipeline/pipelineValidationPhaseWrapper": ["packages/pipelines-generics/src/phases/validation/index.ts"],
-      "@bitcode/engine/pipeline/pipelineSDIVF": ["packages/asset-packs-pipelines/domain/src/run.ts"],
+      "@bitcode/engine/pipeline/pipelineSDIVF": ["packages/asset-packs-pipelines/syntheses/domain/src/run.ts"],
       "@bitcode/engine/pipeline/pipelineMeasureSDIVS": ["packages/pipelines/measure/src/run.ts"],
       "@bitcode/engine/pipeline/pipelineObfuscateSDIVS": ["packages/pipelines/obfuscate/src/run.ts"],
 
@@ -307,7 +309,7 @@
       "@/lib/engine/pipeline/pipelineDiscoveryPhaseWrapper": ["packages/pipelines-generics/src/phases/discovery/index.ts"],
     "@/lib/engine/pipeline/pipelineImplementationPhaseWrapper": ["packages/pipelines-generics/src/phases/implementation/index.ts"],
     "@/lib/engine/pipeline/pipelineValidationPhaseWrapper": ["packages/pipelines-generics/src/phases/validation/index.ts"],
-    "@/lib/engine/pipeline/pipelineSDIVF": ["packages/asset-packs-pipelines/domain/src/run.ts"],
+    "@/lib/engine/pipeline/pipelineSDIVF": ["packages/asset-packs-pipelines/syntheses/domain/src/run.ts"],
       "@/lib/engine/pipeline/pipelineMeasureSDIVS": ["packages/pipelines/measure/src/run.ts"],
       "@/lib/engine/pipeline/pipelineObfuscateSDIVS": ["packages/pipelines/obfuscate/src/run.ts"],
 

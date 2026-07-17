@@ -17,18 +17,18 @@ export async function POST(request: Request) {
     const body = await readJsonBody(request);
     const action = readNeedAction(body);
     if (action === 'synthesize_read_need' || action === 'resynthesize_read_need') {
-      const { synthesizeReadNeedForPipelineInputWithInference } = await import('@bitcode/asset-packs-pipelines-domain/read-need');
+      const { synthesizeReadNeedForPipelineInputWithInference } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need');
       const {
         buildReadNeedReviewResynthesisRuntime,
         persistReadNeedReviewResynthesisRuntime,
         summarizeReadNeedReviewResynthesisRuntime,
-      } = await import('@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis');
+      } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need-review-resynthesis');
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
         listReadingPipelineTelemetryTrace,
         summarizeReadingPipelineContract,
-      } = await import('@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract');
+      } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/reading-pipeline-contract');
       const inferenceCapture = createRouteInferenceCapture();
       const readNeed = await synthesizeReadNeedForPipelineInputWithInference(
         readNeedPipelineInput(body),
@@ -113,19 +113,19 @@ export async function POST(request: Request) {
     }
 
     if (action === 'accept_read_need') {
-      const { acceptReadNeed, admitReadFitsFinding } = await import('@bitcode/asset-packs-pipelines-domain/read-need');
+      const { acceptReadNeed, admitReadFitsFinding } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need');
       const {
         buildReadNeedReviewResynthesisRuntime,
         persistReadNeedReviewResynthesisRuntime,
         summarizeReadNeedReviewResynthesisRuntime,
-      } = await import('@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis');
+      } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need-review-resynthesis');
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
         READ_FITS_FINDING_SYNTHESIS,
         listReadingPipelineTelemetryTrace,
         summarizeReadingPipelineContract,
-      } = await import('@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract');
+      } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/reading-pipeline-contract');
       const readNeed = objectValue(body.readNeed) || objectValue(body.acceptedReadNeed);
       if (!readNeed || readNeed.schema !== 'bitcode.read.need') {
         return NextResponse.json({ error: 'readNeed is required' }, { status: 400 });
@@ -187,19 +187,19 @@ export async function POST(request: Request) {
     }
 
     if (action === 'reject_read_need') {
-      const { rejectReadNeed, admitReadFitsFinding } = await import('@bitcode/asset-packs-pipelines-domain/read-need');
+      const { rejectReadNeed, admitReadFitsFinding } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need');
       const {
         buildReadNeedReviewResynthesisRuntime,
         persistReadNeedReviewResynthesisRuntime,
         summarizeReadNeedReviewResynthesisRuntime,
-      } = await import('@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis');
+      } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need-review-resynthesis');
       const {
         READ_NEED_COMPREHENSION_SYNTHESIS,
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT,
         READ_FITS_FINDING_SYNTHESIS,
         listReadingPipelineTelemetryTrace,
         summarizeReadingPipelineContract,
-      } = await import('@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract');
+      } = await import('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/reading-pipeline-contract');
       const readNeed = objectValue(body.readNeed);
       if (!readNeed || readNeed.schema !== 'bitcode.read.need') {
         return NextResponse.json({ error: 'readNeed is required' }, { status: 400 });

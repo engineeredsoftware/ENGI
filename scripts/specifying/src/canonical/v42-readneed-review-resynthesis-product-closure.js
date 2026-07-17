@@ -35,14 +35,14 @@ export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ROW_IDS = Object.fr
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
-  readNeedRuntime: 'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
-  readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  readNeed: 'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+  readNeedRuntime: 'packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts',
+  readingPipelineContract: 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
   packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   packageJson: 'packages/asset-packs-pipelines/domain/package.json',
-  readNeedTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
-  runtimeTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
-  readingContractTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
+  readNeedTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
+  runtimeTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+  readingContractTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-contract.test.ts',
   readReviewRoute: 'apps/uapi/app/api/read-review/route.ts',
   readReviewRouteTest: 'apps/uapi/tests/api/readReviewRoute.test.ts',
   readReviewProtocolParityTest: 'apps/uapi/tests/api/readReviewProtocolParity.test.ts',

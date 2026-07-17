@@ -4,7 +4,7 @@ import path from 'path';
 
 const repoRoot = process.cwd();
 const assetPackPromptDirs = [
-  'packages/asset-packs-pipelines/domain/src/agents/prompts',
+  'packages/asset-packs-pipelines/syntheses/domain/src/agents/prompts',
   'packages/asset-packs-pipelines/domain/src/tools'
 ].map((relativePath) => path.join(repoRoot, relativePath));
 const assetPackPromptpartsDir = path.join(repoRoot, 'packages/prompts/src/raw_promptparts/specific');

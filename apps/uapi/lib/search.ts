@@ -4,7 +4,7 @@ import {
   normalizeAssetPackEmbeddingVector,
   resolveAssetPackEmbeddingConfig,
   type OpenAIEmbeddingCreateParams,
-} from '@bitcode/asset-packs-pipelines-domain/src/embedding-config';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/src/embedding-config';
 let supabaseModulePromise: Promise<typeof import('@bitcode/supabase')> | null = null;
 
 async function getSupabaseAdmin() {

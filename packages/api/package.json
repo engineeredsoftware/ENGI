@@ -42,7 +42,10 @@
     "zod": "^3.21.4",
     "@bitcode/pipeline-hosts": "workspace:*",
     "@bitcode/generic-llms": "workspace:*",
-    "@bitcode/notifications": "workspace:*"
+    "@bitcode/notifications": "workspace:*",
+    "@bitcode/asset-packs-pipelines-syntheses-domain": "workspace:*",
+    "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": "workspace:*",
+    "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs": "workspace:*"
   },
   "devDependencies": {
     "@types/express": "^4.17.0",

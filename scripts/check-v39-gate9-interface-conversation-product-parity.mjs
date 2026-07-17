@@ -107,9 +107,9 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts',
-    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-interface-product-parity.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-interface-product-parity.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',

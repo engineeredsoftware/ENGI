@@ -5,7 +5,7 @@
  * depositor-supplied permitted-source list used for pattern warnings.
  */
 
-import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
+import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-policy";
 
 const SENSITIVE_PATH_PATTERN =
   /secret|credential|wallet|auth|key|payment|settlement/iu;

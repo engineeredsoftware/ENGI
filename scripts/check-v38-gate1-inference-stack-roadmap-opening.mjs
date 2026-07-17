@@ -109,10 +109,10 @@ function main() {
     'packages/tools-generics/src/Tool.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
-    'packages/asset-packs-pipelines/domain/src/read-need.ts',
-    'packages/asset-packs-pipelines/domain/src/depository-search.ts',
-    'packages/asset-packs-pipelines/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/tools/AssetPackLexicalDepositorySearchTool.ts',
   ];
 
   for (const relativePath of requiredFiles) {
@@ -139,9 +139,9 @@ function main() {
   const agentFactorySource = read(root, 'packages/agent-generics/src/agents/factories.ts');
   const toolPromptSource = read(root, 'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts');
   const usableToolsSource = read(root, 'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts');
-  const readingContractSource = read(root, 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts');
-  const embeddingConfigSource = read(root, 'packages/asset-packs-pipelines/domain/src/embedding-config.ts');
-  const searchSource = read(root, 'packages/asset-packs-pipelines/domain/src/depository-search.ts');
+  const readingContractSource = read(root, 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts');
+  const embeddingConfigSource = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts');
+  const searchSource = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts');
 
   for (const [label, content] of [
     ['V38 SPEC', spec],

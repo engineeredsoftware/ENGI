@@ -56,7 +56,7 @@ module.exports = {
 import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';
 
 // ✓  Allowed inside an implementation-phase agent
-// path: packages/asset-packs-pipelines/domain/src/agents/implementation/asset-pack-synthesize-artifacts-agent.ts
+// path: packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/asset-pack-synthesize-artifacts-agent.ts
 import { textEditorTool } from '@bitcode/generic-tools-files-maintaining';
 ```
 

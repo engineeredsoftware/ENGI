@@ -88,8 +88,8 @@ const SOURCE_PATHS = Object.freeze({
   btdBtcFeeOperation: 'packages/btd/src/btc-fee-operation.ts',
   settlementBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
   settlementBoundaryTest:
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-  localStagingRehearsal: 'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+  localStagingRehearsal: 'packages/asset-packs-pipelines/syntheses/read/src/reading-local-staging-rehearsal.ts',
   uapiLedgerStorageSync: 'apps/uapi/app/bitcode-ledger-storage-sync.ts',
   uapiLedgerStorageSyncTest: 'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
 });

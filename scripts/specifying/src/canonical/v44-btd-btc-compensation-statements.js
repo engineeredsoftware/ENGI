@@ -93,7 +93,7 @@ const SOURCE_ROOTS = Object.freeze({
   economicModel: 'scripts/specifying/src/canonical/v44-economic-domain-model.js',
   settlementBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
   accountingStatements: 'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
-  accountingStatementsTest: 'packages/asset-packs-pipelines/domain/src/__tests__/btd-btc-compensation-statements.test.ts',
+  accountingStatementsTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-btc-compensation-statements.test.ts',
   sourceToShares: 'packages/btd/src/source-to-shares.ts',
   btdSettlement: 'packages/btd/src/settlement.ts',
   btdReceipts: 'packages/btd/src/receipts.ts',

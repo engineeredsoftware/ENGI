@@ -49,7 +49,7 @@ const coverageRows = Object.freeze([
     surfaceId: 'reading',
     promotedBehavior: 'Read Request to reviewed Need, Finding Fits, source-safe AssetPack preview, settlement boundary, and paid PR delivery.',
     owner: 'packages/pipelines/asset-pack',
-    fixture: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts; packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts',
+    fixture: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-contract.test.ts; packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-observability.test.ts; packages/asset-packs-pipelines/syntheses/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts; packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts; packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts',
     replayCommand: 'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts src/__tests__/read-need.test.ts src/__tests__/asset-pack-disclosure.test.ts --runInBand && pnpm run check:v32-reading-pipeline-proof-coverage',
     expectedArtifact: '.proofs/v32/reading-pipeline-proof-coverage.json',
     sourceSafetyClass: 'protected-source-locked',

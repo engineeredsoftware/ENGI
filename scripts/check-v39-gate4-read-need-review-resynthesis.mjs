@@ -106,11 +106,11 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/asset-packs-pipelines/domain/src/read-need.ts',
-    'packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need-review-resynthesis.test.ts',
     'apps/uapi/app/api/read-review/route.ts',
     'apps/uapi/tests/api/readReviewRoute.test.ts',
     'apps/uapi/tests/api/readReviewProtocolParity.test.ts',

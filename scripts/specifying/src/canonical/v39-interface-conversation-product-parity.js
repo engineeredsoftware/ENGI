@@ -59,9 +59,9 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  parity: 'packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts',
-  parityTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts',
-  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  parity: 'packages/asset-packs-pipelines/syntheses/read/src/reading-interface-product-parity.ts',
+  parityTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-interface-product-parity.test.ts',
+  postprocess: 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
   packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   packageJson: 'packages/asset-packs-pipelines/domain/package.json',
   conversationTest: 'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',

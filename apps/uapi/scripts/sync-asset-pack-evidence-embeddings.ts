@@ -15,7 +15,7 @@ const {
   buildOpenAIEmbeddingCreateParams,
   normalizeAssetPackEmbeddingVector,
   resolveAssetPackEmbeddingConfig,
-} = require('@bitcode/asset-packs-pipelines-domain/src/embedding-config');
+} = require('@bitcode/asset-packs-pipelines-syntheses-domain/src/embedding-config');
 
 // Retained Exchange storage identifiers; this script owns AssetPack evidence semantics.
 const ASSET_PACK_EVIDENCE_TABLE = 'deliverables';

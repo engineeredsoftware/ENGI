@@ -12,7 +12,7 @@ import { waitUntil } from '@vercel/functions';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
-import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
+import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-syntheses-domain/runtime-inference-policy';
 import { runReadOptionSynthesis } from './dispatch-read-synthesis';
 
 export const runtime = 'nodejs';

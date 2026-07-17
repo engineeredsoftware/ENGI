@@ -79,7 +79,7 @@ function printHelp() {
 function runIntegrationSmoke(root, failures) {
   const commands = [
     ['pnpm', ['--filter', '@bitcode/specifying', 'exec', 'node', '--test', '--test-force-exit', 'test/v40-reading-pipeline-integration-coverage.test.js']],
-    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
+    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
       'src/__tests__/reading-pipeline-integration-coverage.test.ts',
       'src/__tests__/reading-pipeline-contract.test.ts',
       'src/__tests__/reading-pipeline-observability.test.ts',
@@ -140,7 +140,7 @@ function main() {
     'scripts/specifying/test/v40-reading-pipeline-integration-coverage.test.js',
     'scripts/generate-v40-reading-pipeline-integration-coverage.mjs',
     'scripts/check-v40-gate5-reading-pipeline-integration.mjs',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-integration-coverage.test.ts',
     '.specifications/BITCODE_SPEC_V40.md',
     '.specifications/BITCODE_SPEC_V40_DELTA.md',
     '.specifications/BITCODE_SPEC_V40_NOTES.md',

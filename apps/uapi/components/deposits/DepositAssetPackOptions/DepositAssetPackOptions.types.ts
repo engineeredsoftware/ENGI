@@ -2,7 +2,7 @@
  * Props for the AssetPack options review panel (list shell + batch deposit).
  */
 
-import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
+import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
 import type { DepositRouteSession } from "@/components/deposits/models/deposit-route-model";
 import type { DepositSettledDemandEstimate } from "@/components/deposits/models/deposit-settled-demand";
 import type {

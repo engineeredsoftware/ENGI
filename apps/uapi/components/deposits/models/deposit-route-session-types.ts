@@ -5,13 +5,13 @@
  * Import types from either file — deposit-route-model re-exports these.
  */
 
-import type { DepositAssetPackOptionSynthesis } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options";
-import type { DepositAssetPackOptionPolicyReport } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
+import type { DepositAssetPackOptionSynthesis } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
+import type { DepositAssetPackOptionPolicyReport } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-policy";
 import type {
   DepositAssetPackOptionAdmissionReport,
   DepositOptionReviewDecision,
-} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
-import type { DepositorEarningSupplyIntelligence } from "@bitcode/asset-packs-pipelines-domain/depositor-earning-supply-intelligence";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
+import type { DepositorEarningSupplyIntelligence } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/depositor-earning-supply-intelligence";
 import type {
   OrganizationPolicyWalletAuthority,
   OrganizationPolicyWalletAuthorityInput,
@@ -19,8 +19,8 @@ import type {
 import type {
   DepositOptionDemandSignal,
   DepositOptionSynthesisRequest,
-} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options";
-import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
+import type { DepositOptionCriticalitySignal } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-policy";
 
 export type DepositRouteStepId =
   | "connect-source"

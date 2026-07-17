@@ -133,10 +133,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
     'packages/asset-packs-pipelines/domain/src/index.ts',
-    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/README.md',
     'scripts/specifying/src/canonical/v39-local-staging-reading-rehearsal.js',

@@ -86,8 +86,8 @@ function main() {
     'apps/uapi/app/deposit/page.tsx',
     'apps/uapi/app/deposit/DepositPageClient.tsx',
     'apps/uapi/app/ (removed cockpit tree) terminal-routes.ts',
-    'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/deposit-asset-pack-options.test.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-options.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/deposit-asset-pack-options.test.ts',
     'apps/uapi/tests/depositRouteModel.test.ts',
     'apps/uapi/tests/depositPageClient.test.tsx',
     'scripts/specifying/src/canonical/v43-deposit-route-options.js',
@@ -143,7 +143,7 @@ function main() {
 
   if (!args.skipPackageTests) {
     try {
-      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', 'deposit-asset-pack-options.test.ts', '--runInBand']);
+      run(root, 'pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', 'exec', 'jest', 'deposit-asset-pack-options.test.ts', '--runInBand']);
     } catch {
       failures.push('asset-pack deposit-asset-pack-options.test.ts must pass.');
     }

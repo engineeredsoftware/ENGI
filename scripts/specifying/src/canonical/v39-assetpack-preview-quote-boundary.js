@@ -41,14 +41,14 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  boundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
-  boundaryTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
+  boundary: 'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+  boundaryTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
   disclosure: 'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts',
-  disclosureTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts',
-  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
-  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
-  postprocessTest: 'packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts',
-  readFitsRuntime: 'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
+  disclosureTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts',
+  readNeed: 'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+  postprocess: 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+  postprocessTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts',
+  readFitsRuntime: 'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
   packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   packageJson: 'packages/asset-packs-pipelines/domain/package.json',
   assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',

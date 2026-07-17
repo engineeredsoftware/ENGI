@@ -108,7 +108,7 @@ function runFocusedTests(root, failures, args) {
 
   if (!args.skipPackageTests && commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 
@@ -161,8 +161,8 @@ function main() {
     'scripts/check-v42-gate8-local-staging-mvp-rehearsal.mjs',
     'scripts/specifying/src/canonical/v42-local-staging-mvp-rehearsal.js',
     'scripts/specifying/test/v42-local-staging-mvp-rehearsal.test.js',
-    'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-local-staging-rehearsal.test.ts',
     'apps/uapi/app/api/pipeline-host/asset-pack/preflight.ts',
     'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',

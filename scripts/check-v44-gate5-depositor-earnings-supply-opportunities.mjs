@@ -87,9 +87,9 @@ function main() {
 
   for (const relativePath of [
     V44_DEPOSITOR_EARNINGS_SUPPLY_OPPORTUNITIES_ARTIFACT_PATH,
-    'packages/asset-packs-pipelines/domain/src/depositor-earning-supply-intelligence.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts',
-    'packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/depositor-earning-supply-intelligence.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depositor-earning-supply-intelligence.test.ts',
+    'packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy.ts',
     'apps/uapi/app/deposit/deposit-route-model.ts',
     'apps/uapi/app/deposit/DepositPageClient.tsx',
     'apps/uapi/tests/depositRouteModel.test.ts',

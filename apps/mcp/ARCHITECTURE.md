@@ -337,7 +337,7 @@ Client Response
 
 ```typescript
 // Direct integration with current Bitcode pipeline runners
-import { runAssetPackPipeline } from '@bitcode/asset-packs-pipelines-domain';
+import { runAssetPackPipeline } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 
 // MCP tools wrap pipeline execution with:
 // - Authentication and authorization

@@ -58,10 +58,10 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readback: 'packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts',
-  readbackTest: 'packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
-  readingContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
-  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  readback: 'packages/asset-packs-pipelines/syntheses/read/src/reading-operational-telemetry-repair-readback.ts',
+  readbackTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
+  readingContract: 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+  postprocess: 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
   packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   packageJson: 'packages/asset-packs-pipelines/domain/package.json',
   pipelineLog: 'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',

@@ -106,8 +106,8 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-supply-index.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-supply-index.test.ts',
     'packages/asset-packs-pipelines/domain/README.md',
     'scripts/specifying/src/canonical/v42-depositing-shortest-path.js',
     'scripts/specifying/test/v42-depositing-shortest-path.test.js',

@@ -136,32 +136,35 @@
       "@bitcode/asset-packs-pipelines-domain": [
         "../../packages/asset-packs-pipelines/domain/src/index.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/read-need": [
-        "../../packages/asset-packs-pipelines/domain/src/read-need.ts"
+      "@bitcode/asset-packs-pipelines-syntheses-domain": [
+        "../../packages/asset-packs-pipelines/syntheses/domain/src/index.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis": [
-        "../../packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need": [
+        "../../packages/asset-packs-pipelines/syntheses/read/src/read-need.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract": [
-        "../../packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need-review-resynthesis": [
+        "../../packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options": [
-        "../../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-options.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/reading-pipeline-contract": [
+        "../../packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy": [
-        "../../packages/asset-packs-pipelines/domain/src/deposit-asset-pack-option-policy.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options": [
+        "../../packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-options.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis": [
-        "../../packages/asset-packs-pipelines/domain/src/asset-packs-synthesis.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-policy": [
+        "../../packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis": [
-        "../../packages/asset-packs-pipelines/domain/src/deposit-option-real-synthesis.ts"
+      "@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis": [
+        "../../packages/asset-packs-pipelines/syntheses/domain/src/asset-packs-synthesis.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/depository-settled-demand-estimate": [
-        "../../packages/asset-packs-pipelines/domain/src/depository-settled-demand-estimate.ts"
+      "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-option-real-synthesis": [
+        "../../packages/asset-packs-pipelines/syntheses/deposit/src/deposit-option-real-synthesis.ts"
       ],
-      "@bitcode/asset-packs-pipelines-domain/runtime-inference-policy": [
-        "../../packages/asset-packs-pipelines/domain/src/runtime-inference-policy.ts"
+      "@bitcode/asset-packs-pipelines-syntheses-domain/depository-settled-demand-estimate": [
+        "../../packages/asset-packs-pipelines/syntheses/domain/src/depository-settled-demand-estimate.ts"
+      ],
+      "@bitcode/asset-packs-pipelines-syntheses-domain/runtime-inference-policy": [
+        "../../packages/asset-packs-pipelines/syntheses/domain/src/runtime-inference-policy.ts"
       ],
       "@bitcode/*": [
         "../../packages/*/src",
@@ -230,7 +233,7 @@
         "../../packages/pipelines-generics/src/phases/validation/index.ts"
       ],
       "@/lib/engine/pipeline/pipelineSDIVF": [
-        "../../packages/asset-packs-pipelines/domain/src/run.ts"
+        "../../packages/asset-packs-pipelines/syntheses/domain/src/run.ts"
       ],
       "@/lib/engine/pipeline/pipelineMeasureSDIVS": [
         "../../packages/pipelines/measure/src/run.ts"

@@ -41,13 +41,13 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  runtime: 'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
-  runtimeTest: 'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
-  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
-  depositorySearchTest: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
-  depositorySupplyIndex: 'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
-  embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
-  readingPipelineContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  runtime: 'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+  runtimeTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+  depositorySearchTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-search.test.ts',
+  depositorySupplyIndex: 'packages/asset-packs-pipelines/syntheses/domain/src/depository-supply-index.ts',
+  embeddingConfig: 'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts',
+  readingPipelineContract: 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
   packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   packageJson: 'packages/asset-packs-pipelines/domain/package.json',
   assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',

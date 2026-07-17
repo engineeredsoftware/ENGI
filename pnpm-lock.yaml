@@ -121,6 +121,15 @@ importers:
       '@bitcode/asset-packs-pipelines-domain':
         specifier: workspace:*
         version: link:../../packages/asset-packs-pipelines/domain
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs':
+        specifier: workspace:*
+        version: link:../../packages/asset-packs-pipelines/syntheses/deposit
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs':
+        specifier: workspace:*
+        version: link:../../packages/asset-packs-pipelines/syntheses/read
+      '@bitcode/asset-packs-pipelines-syntheses-domain':
+        specifier: workspace:*
+        version: link:../../packages/asset-packs-pipelines/syntheses/domain
       '@bitcode/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -239,6 +248,9 @@ importers:
       '@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack':
         specifier: workspace:*
         version: link:../../packages/asset-packs-pipelines/settle
+      '@bitcode/asset-packs-pipelines-syntheses-domain':
+        specifier: workspace:*
+        version: link:../../packages/asset-packs-pipelines/syntheses/domain
       '@bitcode/btd':
         specifier: workspace:*
         version: link:../../packages/btd
@@ -685,6 +697,15 @@ importers:
       '@bitcode/asset-packs-pipelines-domain':
         specifier: workspace:*
         version: link:../asset-packs-pipelines/domain
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs':
+        specifier: workspace:*
+        version: link:../asset-packs-pipelines/syntheses/deposit
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs':
+        specifier: workspace:*
+        version: link:../asset-packs-pipelines/syntheses/read
+      '@bitcode/asset-packs-pipelines-syntheses-domain':
+        specifier: workspace:*
+        version: link:../asset-packs-pipelines/syntheses/domain
       '@bitcode/attachments-generics':
         specifier: workspace:*
         version: link:../attachments-generics
@@ -1088,18 +1109,66 @@ importers:
 
   packages/asset-packs-pipelines/syntheses/deposit:
     dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../../agent-generics
+      '@bitcode/asset-packs-generics':
+        specifier: workspace:*
+        version: link:../../../asset-packs-generics
       '@bitcode/asset-packs-pipelines-domain':
         specifier: workspace:*
         version: link:../../domain
       '@bitcode/asset-packs-pipelines-syntheses-domain':
         specifier: workspace:*
         version: link:../domain
+      '@bitcode/btd':
+        specifier: workspace:*
+        version: link:../../../btd
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../../execution-generics
+      '@bitcode/generic-asset-packs-synthesis':
+        specifier: workspace:*
+        version: link:../../../generic-asset-packs/synthesis
+      '@bitcode/generic-llms':
+        specifier: workspace:*
+        version: link:../../../generic-llms/registry
+      '@bitcode/generic-measurements-absolutes':
+        specifier: workspace:*
+        version: link:../../../generic-measurements/absolutes
+      '@bitcode/generic-measurements-needinesses':
+        specifier: workspace:*
+        version: link:../../../generic-measurements/needinesses
       '@bitcode/generic-pipelines-execution-pipeline-sdivf':
         specifier: workspace:*
         version: link:../../../generic-pipelines/execution-pipeline-sdivf
+      '@bitcode/llm-generics':
+        specifier: workspace:*
+        version: link:../../../llm-generics
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../../logger
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+      '@bitcode/parsing':
+        specifier: workspace:*
+        version: link:../../../parsing
+      '@bitcode/pipelines-generics':
+        specifier: workspace:*
+        version: link:../../../pipelines-generics
+      '@bitcode/prompts':
+        specifier: workspace:*
+        version: link:../../../prompts
+      '@bitcode/registry':
+        specifier: workspace:*
+        version: link:../../../registry
+      '@bitcode/supabase':
+        specifier: workspace:*
+        version: link:../../../supabase
+      '@bitcode/tools-generics':
+        specifier: workspace:*
+        version: link:../../../tools-generics
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -1243,18 +1312,66 @@ importers:
 
   packages/asset-packs-pipelines/syntheses/read:
     dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../../agent-generics
+      '@bitcode/asset-packs-generics':
+        specifier: workspace:*
+        version: link:../../../asset-packs-generics
       '@bitcode/asset-packs-pipelines-domain':
         specifier: workspace:*
         version: link:../../domain
       '@bitcode/asset-packs-pipelines-syntheses-domain':
         specifier: workspace:*
         version: link:../domain
+      '@bitcode/btd':
+        specifier: workspace:*
+        version: link:../../../btd
       '@bitcode/execution-generics':
         specifier: workspace:*
         version: link:../../../execution-generics
+      '@bitcode/generic-agents-read-comprehension':
+        specifier: workspace:*
+        version: link:../../../generic-agents/read-comprehension
+      '@bitcode/generic-asset-packs-synthesis':
+        specifier: workspace:*
+        version: link:../../../generic-asset-packs/synthesis
+      '@bitcode/generic-llms':
+        specifier: workspace:*
+        version: link:../../../generic-llms/registry
+      '@bitcode/generic-measurements-needinesses':
+        specifier: workspace:*
+        version: link:../../../generic-measurements/needinesses
       '@bitcode/generic-pipelines-execution-pipeline-sdivf':
         specifier: workspace:*
         version: link:../../../generic-pipelines/execution-pipeline-sdivf
+      '@bitcode/llm-generics':
+        specifier: workspace:*
+        version: link:../../../llm-generics
+      '@bitcode/logger':
+        specifier: workspace:*
+        version: link:../../../logger
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+      '@bitcode/parsing':
+        specifier: workspace:*
+        version: link:../../../parsing
+      '@bitcode/pipelines-generics':
+        specifier: workspace:*
+        version: link:../../../pipelines-generics
+      '@bitcode/prompts':
+        specifier: workspace:*
+        version: link:../../../prompts
+      '@bitcode/registry':
+        specifier: workspace:*
+        version: link:../../../registry
+      '@bitcode/supabase':
+        specifier: workspace:*
+        version: link:../../../supabase
+      '@bitcode/tools-generics':
+        specifier: workspace:*
+        version: link:../../../tools-generics
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
@@ -26066,6 +26183,21 @@ snapshots:
       - supports-color
       - ts-node
 
+  create-jest@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0):
+    dependencies:
+      '@jest/types': 29.6.3
+      chalk: 4.1.2
+      exit: 0.1.2
+      graceful-fs: 4.2.11
+      jest-config: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
+      jest-util: 29.7.0
+      prompts: 2.4.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - babel-plugin-macros
+      - supports-color
+      - ts-node
+
   create-jest@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3)):
     dependencies:
       '@jest/types': 29.6.3
@@ -28189,7 +28321,7 @@ snapshots:
 
   jest-cli@29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
@@ -28208,7 +28340,7 @@ snapshots:
 
   jest-cli@29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
@@ -28246,7 +28378,7 @@ snapshots:
 
   jest-cli@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
@@ -28284,14 +28416,14 @@ snapshots:
 
   jest-cli@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      create-jest: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)
       exit: 0.1.2
       import-local: 3.2.0
-      jest-config: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      jest-config: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       jest-util: 29.7.0
       jest-validate: 29.7.0
       yargs: 17.7.2
@@ -28322,7 +28454,7 @@ snapshots:
 
   jest-cli@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
@@ -28855,7 +28987,7 @@ snapshots:
 
   jest@29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
       jest-cli: 29.7.0(@types/node@18.19.113)(babel-plugin-macros@3.1.0)
@@ -28867,7 +28999,7 @@ snapshots:
 
   jest@29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
       jest-cli: 29.7.0(@types/node@20.19.2)(babel-plugin-macros@3.1.0)
@@ -28891,7 +29023,7 @@ snapshots:
 
   jest@29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
       jest-cli: 29.7.0(@types/node@20.19.41)(babel-plugin-macros@3.1.0)
@@ -28915,7 +29047,7 @@ snapshots:
 
   jest@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
       jest-cli: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)
@@ -28939,7 +29071,7 @@ snapshots:
 
   jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0):
     dependencies:
-      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
+      '@jest/core': 29.7.0(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.41)(typescript@5.8.3))
       '@jest/types': 29.6.3
       import-local: 3.2.0
       jest-cli: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)

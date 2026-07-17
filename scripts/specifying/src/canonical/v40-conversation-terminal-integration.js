@@ -348,14 +348,14 @@ export const V40_CONVERSATION_TERMINAL_INTEGRATION_ROWS = Object.freeze([
       'apps/uapi/components/bitcode/routes/ProductRoutes/product-routes.ts',
       'apps/uapi/components/bitcode/pipeline/models/pipeline-run-data.ts',
       'apps/uapi/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane.tsx',
-      'packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts',
+      'packages/asset-packs-pipelines/syntheses/read/src/reading-interface-product-parity.ts',
     ],
     testPaths: [
       'apps/uapi/tests/terminalInterfaceIntegrationRegression.test.ts',
       'apps/uapi/tests/terminalTransactionReadModel.test.ts',
       'apps/uapi/tests/terminalWalletBtcOperation.test.ts',
       'apps/uapi/tests/api/conversationReadingInterfaceParity.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/reading-interface-product-parity.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-interface-product-parity.test.ts',
     ],
     commandIds: [
       'pnpm --dir apps/uapi exec jest tests/terminalInterfaceIntegrationRegression.test.ts tests/terminalTransactionReadModel.test.ts tests/terminalWalletBtcOperation.test.ts tests/api/conversationReadingInterfaceParity.test.ts --runInBand',

@@ -49,7 +49,7 @@ const SOURCE_ROOTS = Object.freeze({
   failsafeSequence: 'packages/agent-generics/src/steps/failsafe-sequence.ts',
   thricifiedGeneration: 'packages/agent-generics/src/steps/thinkings-generation.ts',
   generationFactories: 'packages/agent-generics/src/generations/llm-bound-factories.ts',
-  readingContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  readingContract: 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
   gate2Inventory: 'scripts/specifying/src/canonical/inference-surface-inventory.js',
 });
 

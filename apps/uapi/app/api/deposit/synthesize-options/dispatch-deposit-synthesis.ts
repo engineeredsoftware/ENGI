@@ -19,10 +19,10 @@ import {
   validateDepositSynthesisOptions,
   type AssetPacksSynthesisResult,
   type AssetPacksSynthesisSourceInventory,
-} from '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis';
-import { groundOptionNeedinessFromSettledDepository } from '@bitcode/asset-packs-pipelines-domain';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
+import { groundOptionNeedinessFromSettledDepository } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 import { executionPipelineSDIVFSynthesizeDepositAssetPacks } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs';
-import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis';
+import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-option-real-synthesis';
 import {
   createDepositLocalHostCloneForRun,
   resolveDepositPipelineHost,

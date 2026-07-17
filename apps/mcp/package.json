@@ -46,7 +46,10 @@
     "uuid": "^9.0.1",
     "dotenv": "^16.3.1",
     "tsx": "^4.6.0",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "@bitcode/asset-packs-pipelines-syntheses-domain": "workspace:*",
+    "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": "workspace:*",
+    "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

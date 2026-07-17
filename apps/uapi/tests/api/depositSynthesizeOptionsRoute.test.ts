@@ -39,7 +39,7 @@ jest.mock('@vercel/functions', () => ({
   waitUntil: jest.fn((promise: Promise<unknown>) => promise),
 }));
 
-jest.mock('@bitcode/asset-packs-pipelines-domain/runtime-inference-policy', () => ({
+jest.mock('@bitcode/asset-packs-pipelines-syntheses-domain/runtime-inference-policy', () => ({
   isAssetPackRealInferenceEnabled: jest.fn(() => true),
 }));
 
@@ -50,7 +50,7 @@ jest.mock('@bitcode/asset-packs-pipelines-domain/runtime-inference-policy', () =
 jest.mock('@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs', () => ({
   executionPipelineSDIVFSynthesizeDepositAssetPacks: jest.fn(async () => undefined),
 }));
-jest.mock('@bitcode/asset-packs-pipelines-domain', () => ({
+jest.mock('@bitcode/asset-packs-pipelines-syntheses-domain', () => ({
   runExecutionPipelineSDIVFSynthesizeAssetPacks: jest.fn(async () => undefined),
   // re-exports / shared helpers still imported from pipeline-asset-pack
   groundOptionNeedinessFromSettledDepository: jest.fn((options: unknown[]) => options),
@@ -98,7 +98,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
 import { executionPipelineSDIVFSynthesizeDepositAssetPacks } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs';
-import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy';
+import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-syntheses-domain/runtime-inference-policy';
 import {
   createDepositLocalHostCloneForRun,
   runDepositInBoxHost,

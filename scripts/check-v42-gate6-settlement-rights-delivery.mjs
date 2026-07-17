@@ -108,7 +108,7 @@ function main() {
   const requiredFiles = [
     ARTIFACT_PATH,
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',

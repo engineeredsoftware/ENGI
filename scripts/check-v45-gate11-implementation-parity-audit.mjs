@@ -131,12 +131,12 @@ function main() {
   }
 
   for (const sourcePath of [
-    'packages/asset-packs-pipelines/domain/src/read-need.ts',
-    'packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts',
-    'packages/asset-packs-pipelines/domain/src/depository-search.ts',
-    'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-interface-product-parity.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-interface-product-parity.ts',
     'apps/uapi/app/deposit/deposit-route-model.ts',
     'apps/uapi/app/read/read-route-model.ts',
     'apps/uapi/app/packs/PacksPageClient.tsx',

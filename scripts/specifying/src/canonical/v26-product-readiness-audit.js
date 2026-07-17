@@ -102,8 +102,8 @@ const PRODUCT_READINESS_AUDIT_ROWS = [
     baselineReadiness: 'materially-implemented-open',
     parityMatrixAnchor: 'AssetPack pipeline corridor',
     requiredEvidence: [
-      ['packages/asset-packs-pipelines/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
-      ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
+      ['packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
+      ['packages/asset-packs-pipelines/syntheses/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
       ['packages/pipelines-generics/src/phases/sdivf-factory.ts', 'SDIVF'],
       ['protocol-demonstration/test/v26-pipeline-finish-reform.test.js', 'SDIVF'],
       ['.specifications/BITCODE_SPEC_V26_PARITY_MATRIX.md', 'retained execution/AssetPack readers no longer teach generic developer-platform meaning']
@@ -230,8 +230,8 @@ const PRODUCT_MVP_EVIDENCE_BY_ID = {
     ['protocol-demonstration/test/v26-read-review-source-to-shares.test.js', 'V26 settlement review and receipts show quantized source-to-shares fit qualities']
   ],
   'assetpack-execution': [
-    ['packages/asset-packs-pipelines/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
-    ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
+    ['packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
+    ['packages/asset-packs-pipelines/syntheses/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack'],
     ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates']
   ],
   'conversations-rich-input': [
@@ -279,8 +279,8 @@ const PRODUCT_LAUNCH_EVIDENCE_BY_ID = {
   ],
   'assetpack-execution': [
     ['protocol-demonstration/test/v26-shippable-reform.test.js', 'implementation, validation, and Finish carriers separate AssetPack kind from delivery templates'],
-    ['packages/asset-packs-pipelines/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
-    ['packages/asset-packs-pipelines/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack-create-pull-request-delivery-agent']
+    ['packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts', 'assetPackSynthesisArtifacts'],
+    ['packages/asset-packs-pipelines/syntheses/domain/src/agents/finish-delivery-agents.ts', 'finish:asset-pack-create-pull-request-delivery-agent']
   ],
   'conversations-rich-input': [
     ['apps/uapi/components/conversations/ConversationsOverlay/ConversationsOverlay.tsx', 'Multiple view modes (floating, sidebar, fullscreen, split-screen)'],

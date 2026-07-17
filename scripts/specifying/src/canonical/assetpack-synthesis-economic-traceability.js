@@ -64,11 +64,11 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  readNeed: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
-  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  readNeed: 'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
+  postprocess: 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
   disclosure: 'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts',
-  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
-  readingContract: 'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+  readingContract: 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
   harness: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
   harnessTest: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
   btdReceipts: 'packages/btd/src/receipts.ts',
@@ -79,8 +79,8 @@ const SOURCE_ROOTS = Object.freeze({
   btdSourceToSharesTest: 'packages/btd/__tests__/source-to-shares.test.ts',
   btdReconciliationTest: 'packages/btd/__tests__/reconciliation.test.ts',
   btdSettlementTest: 'packages/btd/__tests__/btd.test.ts',
-  assetPackPostprocessTest: 'packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts',
-  assetPackDisclosureTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts',
+  assetPackPostprocessTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts',
+  assetPackDisclosureTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts',
   gate5Disclosure: 'scripts/specifying/src/canonical/inference-telemetry-disclosure-report.js',
   gate6ReadNeed: 'scripts/specifying/src/canonical/read-need-comprehension-inference-hardening.js',
   gate7Search: 'scripts/specifying/src/canonical/read-fits-finding-search-embeddings.js',

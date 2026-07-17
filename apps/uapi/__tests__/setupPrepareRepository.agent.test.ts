@@ -3,7 +3,7 @@ import { jest } from '@jest/globals';
 import { initializeProcessRoot } from '@bitcode/generic-executions';
 import { executeAgentSteps } from '@bitcode/steps/runner';
 import { resolveTool } from '@bitcode/generic-tools-registry';
-import { AssetPackCloneVCSRepositoryAgent as AGENT } from '@bitcode/asset-packs-pipelines-domain';
+import { AssetPackCloneVCSRepositoryAgent as AGENT } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 
 
 // ---------------------------------------------------------------------------

@@ -86,7 +86,7 @@ function main() {
     '.specifications/BITCODE_SPEC.txt',
     'package.json',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
   ];
 
@@ -95,7 +95,7 @@ function main() {
   }
 
   const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts');
-  const test = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts');
+  const test = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts');
   const packageJson = read(root, 'package.json');
   const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
 
@@ -142,7 +142,7 @@ function main() {
   assertIncludesAll(failures, parity, [
     'Gate 14 implementation readback',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'check:v45-gate14',
   ], 'V45 parity matrix Gate 14 readback');
 

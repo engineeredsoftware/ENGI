@@ -166,7 +166,7 @@ function main() {
     'scripts/check-v38-gate5-inference-telemetry-disclosure-report.mjs',
     'packages/execution-generics/src/storage/ExecutionStreamAdapter.ts',
     'packages/agent-generics/src/diagnostics/instrumentation.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts',
     'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
     'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',
     '.specifications/BITCODE_SPEC_V38.md',

@@ -86,10 +86,10 @@ function main() {
     '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
     'scripts/check-v29-gate5-assetpack-disclosure-rights.mjs',
     'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts',
-    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts',
-    'packages/asset-packs-pipelines/domain/src/read-need.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'packages/btd/src/access.ts',
@@ -114,9 +114,9 @@ function main() {
   const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
   const disclosure = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-disclosure.ts');
-  const disclosureTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-disclosure.test.ts');
-  const postprocess = read(root, 'packages/asset-packs-pipelines/domain/src/postprocess.ts');
-  const postprocessTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts');
+  const disclosureTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-disclosure.test.ts');
+  const postprocess = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts');
+  const postprocessTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const btdTest = read(root, 'packages/btd/__tests__/btd.test.ts');

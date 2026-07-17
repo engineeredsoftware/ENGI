@@ -148,7 +148,7 @@ function main() {
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-commodity-state.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-commodity-state.test.ts',
     'apps/uapi/components/bitcode/activity/pack-activity-model.ts',
     'apps/uapi/tests/packActivityModel.test.ts',
     'apps/uapi/jest.config.cjs',
@@ -159,7 +159,7 @@ function main() {
   }
 
   const commodityState = read(root, 'packages/asset-packs-pipelines/domain/src/asset-pack-commodity-state.ts');
-  const commodityStateTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-commodity-state.test.ts');
+  const commodityStateTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-commodity-state.test.ts');
   const packActivityModel = read(root, 'apps/uapi/components/bitcode/activity/pack-activity-model.ts');
   const packActivityTest = read(root, 'apps/uapi/tests/packActivityModel.test.ts');
   const assetPackPackageJson = read(root, 'packages/asset-packs-pipelines/domain/package.json');

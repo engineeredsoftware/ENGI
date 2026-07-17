@@ -107,10 +107,10 @@ function main() {
 
   const requiredFiles = [
     ARTIFACT_PATH,
-    'packages/asset-packs-pipelines/domain/src/reading-operational-telemetry-repair-readback.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
-    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-operational-telemetry-repair-readback.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-operational-telemetry-repair-readback.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'apps/uapi/components/bitcode/pipeline/pipeline-execution-log.tsx',

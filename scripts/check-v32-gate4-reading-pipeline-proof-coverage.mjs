@@ -87,11 +87,11 @@ function main() {
   const requiredFiles = [
     READING_ARTIFACT,
     'packages/asset-packs-pipelines/domain/scripts/v32-reading-pipeline-proof-coverage.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-contract.test.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-contract.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-observability.test.ts',
     'scripts/check-v32-gate4-reading-pipeline-proof-coverage.mjs',
     '.specifications/BITCODE_SPEC_V32.md',
     '.specifications/BITCODE_SPEC_V32_DELTA.md',
@@ -142,7 +142,7 @@ function main() {
   const roadmap = read(root, '.specifications/SPECIFICATIONS_ROADMAP.md');
   const packageJson = read(root, 'package.json');
   const workflow = read(root, '.github/workflows/bitcode-gate-quality.yml');
-  const test = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts');
+  const test = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/v32-reading-pipeline-proof-coverage.test.ts');
 
   for (const phrase of [
     READING_ARTIFACT,

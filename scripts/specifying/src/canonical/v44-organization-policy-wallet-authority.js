@@ -97,7 +97,7 @@ const SOURCE_ROOTS = Object.freeze({
   btdAuthority: 'packages/btd/src/authority.ts',
   btdAuthorityTest: 'packages/btd/__tests__/btd.test.ts',
   packageHelper: 'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
-  packageHelperTest: 'packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
+  packageHelperTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
   assetPackPackageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   assetPackPackageManifest: 'packages/asset-packs-pipelines/domain/package.json',
   readRouteModel: 'apps/uapi/components/reads/models/read-route-model.ts',

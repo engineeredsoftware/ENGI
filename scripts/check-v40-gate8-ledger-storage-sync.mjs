@@ -98,7 +98,7 @@ function runFocusedTests(root, failures, skipIntegrationTests) {
 
   if (commandExists(root, 'pnpm')) {
     commands.push(
-      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-settlement-rights-delivery.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-settlement-rights-delivery.test.ts', '--runInBand', '--forceExit']],
       ['pnpm', ['--filter', '@bitcode/btd', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', '__tests__/btc-fee-operation.test.ts', '__tests__/reconciliation.test.ts', '__tests__/source-to-shares.test.ts', '--runInBand', '--forceExit']],
     );
 
@@ -157,7 +157,7 @@ function main() {
     'apps/uapi/app/bitcode-ledger-storage-sync.ts',
     'apps/uapi/tests/bitcodeLedgerStorageSync.test.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
     'packages/btd/src/btc-fee-operation.ts',
     'packages/btd/src/wallet.ts',
     'packages/btd/src/reconciliation.ts',

@@ -91,8 +91,8 @@ function main() {
     '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md',
     '.specifications/BITCODE_SPEC.txt',
     'package.json',
-    'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/interface-disclosure-boundary.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/interface-disclosure-boundary.test.ts',
     'apps/uapi/app/page.tsx',
     'apps/uapi/app/exchange/README.md',
     'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx',
@@ -112,8 +112,8 @@ function main() {
     assertCheck(failures, exists(root, relativePath), `Missing required V45 Gate 15 file: ${relativePath}`);
   }
 
-  const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts');
-  const implementationTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts');
+  const implementation = read(root, 'packages/asset-packs-pipelines/syntheses/read/src/interface-disclosure-boundary.ts');
+  const implementationTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/interface-disclosure-boundary.test.ts');
   const packageJson = read(root, 'package.json');
   const parity = read(root, '.specifications/BITCODE_SPEC_V45_PARITY_MATRIX.md');
   const publicDocs = [
@@ -238,7 +238,7 @@ function main() {
 
   assertIncludesAll(failures, parity, [
     'Gate 15 implementation readback',
-    'packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/interface-disclosure-boundary.ts',
     'apps/uapi/app/exchange/README.md',
     'apps/uapi/app/(root)/components/PublicDocsPageContent.tsx',
     'check:v45-gate15',

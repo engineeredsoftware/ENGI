@@ -84,9 +84,9 @@ function main() {
     '.specifications/BITCODE_SPEC_V29_DELTA.md',
     '.specifications/BITCODE_SPEC_V29_NOTES.md',
     '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-observability.test.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
     'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',
     'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts',
@@ -109,8 +109,8 @@ function main() {
   const delta = read(root, '.specifications/BITCODE_SPEC_V29_DELTA.md');
   const notes = read(root, '.specifications/BITCODE_SPEC_V29_NOTES.md');
   const parity = read(root, '.specifications/BITCODE_SPEC_V29_PARITY_MATRIX.md');
-  const observability = read(root, 'packages/asset-packs-pipelines/domain/src/reading-pipeline-observability.ts');
-  const observabilityTest = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/reading-pipeline-observability.test.ts');
+  const observability = read(root, 'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-observability.ts');
+  const observabilityTest = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/reading-pipeline-observability.test.ts');
   const harness = read(root, 'packages/pipeline-hosts/src/asset-pack-host-plan.ts');
   const harnessTest = read(root, 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts');
   const terminalClient = read(root, 'apps/uapi/app/ (removed cockpit tree) terminal-pipeline-host-client.ts');

@@ -8,19 +8,19 @@
 import {
   assertDepositAssetPackOptionSynthesisSourceSafe,
   buildDepositAssetPackOptionSynthesis,
-} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-options";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
 import {
   assertDepositAssetPackOptionPolicyReportSourceSafe,
   buildDepositAssetPackOptionPolicyReport,
-} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-policy";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-policy";
 import {
   assertDepositAssetPackOptionAdmissionReportSourceSafe,
   buildDepositAssetPackOptionAdmissionReport,
-} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
 import {
   assertDepositorEarningSupplyIntelligenceSourceSafe,
   buildDepositorEarningSupplyIntelligence,
-} from "@bitcode/asset-packs-pipelines-domain/depositor-earning-supply-intelligence";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/depositor-earning-supply-intelligence";
 import {
   assertOrganizationPolicyWalletAuthoritySourceSafe,
   buildOrganizationPolicyWalletAuthority,

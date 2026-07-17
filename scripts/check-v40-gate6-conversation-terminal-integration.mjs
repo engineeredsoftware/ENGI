@@ -103,7 +103,7 @@ function runIntegrationSmoke(root, failures) {
       'tests/pipelineExecutionLogHeader.test.tsx',
       '--runInBand',
     ]],
-    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
+    ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-syntheses-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath',
       'src/__tests__/reading-interface-product-parity.test.ts',
       '--runInBand',
       '--forceExit',

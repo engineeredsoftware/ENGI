@@ -88,7 +88,7 @@ function main() {
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
     'packages/btd/src/source-to-shares.ts',
   ];
 
@@ -97,7 +97,7 @@ function main() {
   }
 
   const implementation = read(root, 'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts');
-  const test = read(root, 'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts');
+  const test = read(root, 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts');
   const packageJson = read(root, 'package.json');
   const assetPackPackageJson = read(root, 'packages/asset-packs-pipelines/domain/package.json');
   const assetPackIndex = read(root, 'packages/asset-packs-pipelines/domain/src/index.ts');
@@ -167,7 +167,7 @@ function main() {
   assertIncludesAll(failures, parity, [
     'Gate 13 implementation readback',
     'packages/asset-packs-pipelines/domain/src/btd-scalar-volume-quote.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
     'check:v45-gate13',
   ], 'V45 parity matrix Gate 13 readback');
 

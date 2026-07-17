@@ -21,7 +21,7 @@ import {
   ExecutionPipeline,
   inferExecutionPipelineLineage
 } from '@bitcode/pipelines-generics';
-import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-domain';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 import { factoryLLMRegistryWithProviders } from '@bitcode/generic-llms';
 import { sendServerEvent } from '@bitcode/external-telemetry-google';
 import { BitcodeError, reportError } from '@bitcode/errors';

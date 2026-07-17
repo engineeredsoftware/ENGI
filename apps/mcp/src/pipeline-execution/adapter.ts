@@ -19,7 +19,7 @@ import {
   PipelineExecutionsModel,
   ExecutionEventsModel
 } from '@bitcode/orm';
-import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-domain';
+import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 import {
   ExecutionPipeline,
   inferExecutionPipelineLineage

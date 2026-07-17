@@ -63,7 +63,7 @@ import {
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
-} from "@bitcode/asset-packs-pipelines-domain/deposit-asset-pack-option-admission";
+} from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
 
 import {
   DEPOSIT_OPTION_PIPELINE_ID,

@@ -23,7 +23,7 @@ import {
   type SettleBtcPaymentObservationInput,
   type SettleRepositoryRef,
 } from '@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack';
-import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-domain';
+import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 
 export const runtime = 'nodejs';
 export const maxDuration = 120;

@@ -90,7 +90,7 @@ function main() {
     'packages/btd/src/authority.ts',
     'packages/btd/__tests__/btd.test.ts',
     'packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
     'apps/uapi/app/read/read-route-model.ts',
     'apps/uapi/tests/readRouteModel.test.ts',
     'apps/uapi/app/read/ReadPageClient.tsx',

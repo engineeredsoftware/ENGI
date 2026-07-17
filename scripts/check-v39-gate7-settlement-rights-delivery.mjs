@@ -106,9 +106,9 @@ function main() {
   const requiredFiles = [
     ARTIFACT_PATH,
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-    'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
-    'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
     'packages/asset-packs-pipelines/domain/src/index.ts',
     'packages/asset-packs-pipelines/domain/package.json',
     'packages/asset-packs-pipelines/domain/README.md',

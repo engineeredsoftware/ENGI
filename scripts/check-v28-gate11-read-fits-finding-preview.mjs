@@ -38,7 +38,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', 'findingFitsAdmission'],
   },
   {
-    file: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
     needles: [
       'READ_FITS_FINDING_SYNTHESIS_TOOL_IDS',
       'ReadFitsFindingSynthesis.tool.lexical-depository-search',
@@ -51,7 +51,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis', "tool: 'bitcode.depository.search'"],
   },
   {
-    file: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
     needles: [
       'ensureAssetPackSourceSafePreview',
       'buildAssetPackSourceSafePreview',
@@ -62,7 +62,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
-    file: 'packages/asset-packs-pipelines/domain/src/read-need.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/read/src/read-need.ts',
     needles: [
       'export interface AssetPackSourceSafePreview',
       'buildAssetPackSourceSafePreview',
@@ -74,7 +74,7 @@ const checks = [
     forbidden: ['ReadFindingFitsSynthesis'],
   },
   {
-    file: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-search.test.ts',
     needles: [
       'discovers every qualifying fit deposit above the configured thresholds for implementation context',
       'ReadFitsFindingSynthesis.tool.lexical-depository-search',
@@ -83,7 +83,7 @@ const checks = [
     ],
   },
   {
-    file: 'packages/asset-packs-pipelines/domain/src/__tests__/postprocess.test.ts',
+    file: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/postprocess.test.ts',
     needles: [
       'derives and stores source-safe preview evidence from an accepted Need and Finding Fits result',
       'sourceSafePreview',

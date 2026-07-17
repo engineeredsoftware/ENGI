@@ -88,7 +88,7 @@ function main() {
   for (const relativePath of [
     V44_BTD_BTC_COMPENSATION_STATEMENTS_ARTIFACT_PATH,
     'packages/asset-packs-pipelines/domain/src/btd-btc-compensation-statements.ts',
-    'packages/asset-packs-pipelines/domain/src/__tests__/btd-btc-compensation-statements.test.ts',
+    'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-btc-compensation-statements.test.ts',
     'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
     'packages/btd/src/source-to-shares.ts',
     'packages/btd/src/settlement.ts',

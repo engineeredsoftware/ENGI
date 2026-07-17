@@ -5,7 +5,7 @@
 import {
   buildReadingInterfaceProductParity,
   type ReadingInterfaceProductParity,
-} from '@bitcode/asset-packs-pipelines-domain/reading-interface-product-parity';
+} from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/reading-interface-product-parity';
 
 describe('Conversation Reading interface parity', () => {
   it('keeps Conversation as a source-safe product handoff for ReadingInterfaceProductParity', () => {

@@ -1413,7 +1413,7 @@ try {
   ] = await Promise.all([
     // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
     // Relative extensionless imports fail under plain node in the Pipeliner image.
-    import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
+    import(pkgImport('packages/asset-packs-pipelines/syntheses/domain/src/index.ts')),
     import(pkgImport('packages/asset-packs-pipelines/syntheses/deposit/src/index.ts')),
     import(pkgImport('packages/pipelines-generics/src/index.ts')),
     import(pkgImport('packages/btd/src/settlement.ts')),

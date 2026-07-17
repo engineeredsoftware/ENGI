@@ -34,9 +34,9 @@ export const V42_SETTLEMENT_RIGHTS_DELIVERY_ROW_IDS = Object.freeze([
 
 const SOURCE_ROOTS = Object.freeze({
   boundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-settlement-rights-delivery.ts',
-  boundaryTest: 'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
-  previewBoundary: 'packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts',
-  postprocess: 'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+  boundaryTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+  previewBoundary: 'packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts',
+  postprocess: 'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
   packageIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   pipelineHostHarness: 'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
   pipelineHostHarnessTest: 'packages/pipeline-hosts/src/__tests__/asset-pack-host-plan.test.ts',

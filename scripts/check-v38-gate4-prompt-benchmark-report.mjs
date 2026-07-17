@@ -141,7 +141,7 @@ function main() {
     'packages/prompts/src/benchmarking/types.ts',
     'packages/prompts/src/benchmarking/README.md',
     'packages/prompts/src/developing/doc-comment-developing.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts',
     'packages/conversations/src/prompts/BitcodeConversationSystemPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts',
     'packages/tools-generics/src/doc-code-tool/formatUsableTools.ts',

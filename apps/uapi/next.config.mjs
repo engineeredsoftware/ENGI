@@ -411,7 +411,7 @@ let nextConfig = {
         'src',
         'index.ts'
       ),
-      '@bitcode/asset-packs-pipelines-domain/read-need': path.resolve(
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -420,7 +420,7 @@ let nextConfig = {
         'src',
         'read-need.ts'
       ),
-      '@bitcode/asset-packs-pipelines-domain/asset-packs-synthesis': path.resolve(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -429,7 +429,7 @@ let nextConfig = {
         'src',
         'asset-packs-synthesis.ts'
       ),
-      '@bitcode/asset-packs-pipelines-domain/deposit-option-real-synthesis': path.resolve(
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-option-real-synthesis': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -438,7 +438,7 @@ let nextConfig = {
         'src',
         'deposit-option-real-synthesis.ts'
       ),
-      '@bitcode/asset-packs-pipelines-domain/runtime-inference-policy': path.resolve(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/runtime-inference-policy': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -447,7 +447,7 @@ let nextConfig = {
         'src',
         'runtime-inference-policy.ts'
       ),
-      '@bitcode/asset-packs-pipelines-domain/read-need-review-resynthesis': path.resolve(
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-need-review-resynthesis': path.resolve(
         __dirname,
         '..',
         'packages',
@@ -456,7 +456,7 @@ let nextConfig = {
         'src',
         'read-need-review-resynthesis.ts'
       ),
-      '@bitcode/asset-packs-pipelines-domain/reading-pipeline-contract': path.resolve(
+      '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/reading-pipeline-contract': path.resolve(
         __dirname,
         '..',
         'packages',

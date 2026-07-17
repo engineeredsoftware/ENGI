@@ -371,8 +371,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     canonicalRead: 'Operate Bitcode AssetPack pipeline machinery as asset-pack written-asset synthesis plus delivery-mechanism compatibility.',
     promptImplementation: {
       owners: [
-        'packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/prompts/comprehend-read-prompt.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/prompts/asset-pack-comprehend-read-agent-prompts.ts',
         'packages/asset-packs-pipelines/domain/scripts/render-prompts.ts',
         'packages/generic-agents/text-searcher/src/prompts/agent-prompt-text-searcher.ts',
         'packages/generic-agents/text-searcher/src/prompts/system-prompt-text-searcher.ts',
@@ -389,8 +389,8 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     toolImplementation: {
       owners: [
-        'packages/asset-packs-pipelines/domain/src/tools/AssetPackCloneVCSRepositoryTool.ts',
-        'packages/asset-packs-pipelines/domain/src/tools/search.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/tools/AssetPackCloneVCSRepositoryTool.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/tools/search.ts',
         'packages/host-commands/grep/src/index.ts',
         'packages/generic-tools/simple-system-text-search/src/index.ts',
         'packages/generic-tools/files-maintaining/src/index.ts',
@@ -404,20 +404,20 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     },
     agentImplementation: {
       owners: [
-        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
         'packages/generic-agents/text-searcher/src/index.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
-        'packages/asset-packs-pipelines/domain/src/phases/index.ts',
-        'packages/asset-packs-pipelines/domain/src/phases/finish.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/finish/asset-pack-completion-agent.ts'
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-ready-to-iterate-agent.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/phases/index.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/phases/finish.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/finish/deliver-asset-pack-to-destination-agent.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/finish/asset-pack-completion-agent.ts'
       ],
       contract: 'Setup, iteration, validation, and Finish agents must resolve semantic read and writtenAsset fields before bounded storage compatibility fields; Delivering is only the third-party AssetPack/partial handoff inside Finish.'
     },
     executionImplementation: {
       owners: [
         'packages/asset-packs-pipelines/domain/src/index.ts',
-        'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
         'packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts'
       ],
       carriers: ['ExecutionPipeline compatibility entry', 'postprocess read model', 'execution history projections']
@@ -441,12 +441,12 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'scripts/specifying/test/v26-simple-system-text-search-compatibility.test.js',
       'scripts/specifying/test/v26-text-searcher-agent-compatibility.test.js',
       'packages/asset-packs-pipelines/domain/src/index.ts',
-      'packages/asset-packs-pipelines/domain/src/phases/index.ts',
-      'packages/asset-packs-pipelines/domain/src/phases/finish.ts',
-      'packages/asset-packs-pipelines/domain/src/postprocess.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/phases/index.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/phases/finish.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/postprocess.ts',
       'packages/asset-packs-pipelines/domain/src/types/PipelineSchemas.ts',
-      'packages/asset-packs-pipelines/domain/src/agents/prompts/comprehend-read-prompt.ts',
-      'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/agents/prompts/comprehend-read-prompt.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
       'packages/generic-agents/text-searcher/README.md',
       'packages/generic-agents/text-searcher/package.json',
       'packages/generic-agents/text-searcher/src/index.ts',
@@ -521,9 +521,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     agentImplementation: {
       owners: [
         'packages/generic-agents/read-comprehension/src/index.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
-        'packages/asset-packs-pipelines/domain/src/phases/setup.ts'
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/phases/setup.ts'
       ],
       contract: 'bitcodeSetupReadComprehensionAgent is the setup/pre-danger-wall PTRR agent. It composes the generic-tools Read-comprehension toolset, emits semantic Read, source-to-shares service-question, commercial-accountability, and AssetPack evidence, and hands bounded riskAdmissionInput to bitcodeReadRiskAdmissionAgent.'
     },
@@ -534,7 +534,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
         'packages/generic-tools/read-comprehension/tsconfig.json',
         'packages/generic-tools/read-comprehension/src/index.ts',
         'packages/generic-tools/read-comprehension/src/types/tools-generics.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts'
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts'
       ],
       carriers: ['AgentExecution for bitcode-setup-read-comprehension', 'ToolExecution evidence for composed tools', 'setup/read-comprehension execution-store mirrors']
     },
@@ -579,9 +579,9 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_refine_assessment.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_retry_errorhandling.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_tool_analyzeneedsemantics_doccodetoolpurpose.ts',
-      'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
-      'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
-      'packages/asset-packs-pipelines/domain/src/phases/setup.ts'
+      'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-comprehend-read-agent.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/phases/setup.ts'
     ]
   },
   {
@@ -769,7 +769,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
     executionImplementation: {
       owners: [
         'packages/generic-agents/danger-wall/src/index.ts',
-        'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
+        'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
         'packages/agent-generics/src/execution/AgentExecution.ts'
       ],
       carriers: ['AgentExecution compatibility entry', 'setup risk-admission short-circuit signal', 'parent pipeline execution evidence']
@@ -804,7 +804,7 @@ export const V26_INFERENCE_IMPLEMENTATION_RECORDS = Object.freeze([
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_identity.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_instructions.ts',
       'packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_dangerwall_system_role.ts',
-      'packages/asset-packs-pipelines/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/agents/setup/asset-pack-danger-wall-agent.ts',
       'scripts/specifying/test/v26-danger-wall-agent-compatibility.test.js'
     ]
   },

@@ -172,30 +172,30 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       '.proofs/v41/promptpart-prompt-inventory.json',
     ],
     sourceEvidence: [
-      source('packages/asset-packs-pipelines/domain/src/read-need.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/read-need.ts', [
         'ReadNeedComprehensionSynthesisSchema',
         'buildReadNeedComprehensionSynthesisInferenceReceipt',
         'promptTemplateRoot',
         'telemetryTraceRoot',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/read-need.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/read-need.ts', [
         'runReadNeedComprehensionInference',
         'ThinkingsGeneration stage 1/3: reason',
         'ThinkingsGeneration stage 2/3: judge',
         'ThinkingsGeneration stage 3/3: structured output',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/depository-search.ts', [
+      source('packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts', [
         'ReadFitsFindingSynthesisSearchReceipt',
         'ReadFitsFindingSynthesis.discovery',
         'lexicalDepositorySearch',
         'vectorDepositorySearch',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts', [
+      source('packages/asset-packs-pipelines/syntheses/domain/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts', [
         'ReadFitsFindingSynthesisAssetPackSynthesisAgent',
         'factoryPTRRAgent',
         'finalOutput',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/reading-pipeline-contract.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/reading-pipeline-contract.ts', [
         'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
       ]),
     ],
@@ -216,9 +216,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
     ],
     generatedArtifactAndTestBindings: [
       'scripts/specifying/test/v45-proof-family-artifacts.test.js',
-      'packages/asset-packs-pipelines/domain/src/__tests__/read-need.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-fits-finding-synthesis-asset-pack-synthesis-agent.test.ts',
     ],
     failClosedConditions: [
       'missing prompt',
@@ -389,13 +389,13 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       '.proofs/v44/organization-policy-wallet-authority.json',
     ],
     sourceEvidence: [
-      source('packages/asset-packs-pipelines/domain/src/read-need-review-resynthesis.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/read-need-review-resynthesis.ts', [
         'ReadNeedReviewResynthesisRuntime',
         'findingFitsAdmission',
         'telemetryReceipts',
         'rejected_need_posture',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts', [
+      source('packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts', [
         'AssetPackPreviewBoundary',
         'quoteRoot',
         'selectedFitProvenanceRoot',
@@ -428,9 +428,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'blocker',
     ],
     generatedArtifactAndTestBindings: [
-      'packages/asset-packs-pipelines/domain/src/__tests__/read-need-review-resynthesis.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-need-review-resynthesis.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-preview-boundary.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
       'scripts/specifying/test/v45-proof-family-artifacts.test.js',
     ],
     failClosedConditions: [
@@ -463,19 +463,19 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       '.proofs/v42/settlement-rights-delivery.json',
     ],
     sourceEvidence: [
-      source('packages/asset-packs-pipelines/domain/src/depository-search.ts', [
+      source('packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts', [
         'candidateRanking',
         'rankingRoot',
         'selectedFitProvenanceRoot',
         'thresholds',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/read-fits-finding-runtime.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/read-fits-finding-runtime.ts', [
         'storageProjection',
         'telemetryReceipts',
         'replayReceipt',
         'sourceSafety',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/asset-pack-preview-boundary.ts', [
+      source('packages/asset-packs-pipelines/syntheses/domain/src/asset-pack-preview-boundary.ts', [
         'sourceSafePreview',
         'withheldBeforeSettlement',
         'deliveryPosture',
@@ -501,9 +501,9 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'delivery id',
     ],
     generatedArtifactAndTestBindings: [
-      'packages/asset-packs-pipelines/domain/src/__tests__/depository-search.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/read-fits-finding-runtime.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/finish-delivery.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-search.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/read-fits-finding-runtime.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/finish-delivery.test.ts',
       'scripts/specifying/test/v45-proof-family-artifacts.test.js',
     ],
     failClosedConditions: [
@@ -539,7 +539,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
         'spendLimit',
         'sourceCriticality',
       ]),
-      source('packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/interface-disclosure-boundary.ts', [
         'INTERFACE_DISCLOSURE_BOUNDARY_SURFACES',
         'walletPrivateMaterialVisible: false',
         'settlementPrivatePayloadVisible: false',
@@ -571,8 +571,8 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'blocker',
     ],
     generatedArtifactAndTestBindings: [
-      'packages/asset-packs-pipelines/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/organization-policy-wallet-authority.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/interface-disclosure-boundary.test.ts',
       'packages/btd/__tests__/interface-authorization-policy.test.ts',
       'scripts/specifying/test/v45-proof-family-artifacts.test.js',
     ],
@@ -661,8 +661,8 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'allocation',
     ],
     generatedArtifactAndTestBindings: [
-      'packages/asset-packs-pipelines/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
-      'packages/asset-packs-pipelines/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/btd-scalar-volume-quote.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/asset-pack-settlement-rights-delivery.test.ts',
       'packages/btd/__tests__/source-to-shares.test.ts',
       'scripts/specifying/test/v45-proof-family-artifacts.test.js',
     ],
@@ -700,7 +700,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       '.proofs/v43/packs-activity-master-detail.json',
     ],
     sourceEvidence: [
-      source('packages/asset-packs-pipelines/domain/src/interface-disclosure-boundary.ts', [
+      source('packages/asset-packs-pipelines/syntheses/read/src/interface-disclosure-boundary.ts', [
         'INTERFACE_DISCLOSURE_BOUNDARY_SURFACES',
         'INTERFACE_DISCLOSURE_BOUNDARY_STAGES',
         'sourceBearingAssetPackVisibleToReader',
@@ -738,7 +738,7 @@ const PROOF_FAMILY_DEFINITIONS = Object.freeze([
       'redactions',
     ],
     generatedArtifactAndTestBindings: [
-      'packages/asset-packs-pipelines/domain/src/__tests__/interface-disclosure-boundary.test.ts',
+      'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/interface-disclosure-boundary.test.ts',
       'apps/uapi/tests/readPageClient.test.tsx',
       'apps/uapi/tests/depositPageClient.test.tsx',
       'apps/uapi/tests/packsPageClient.test.tsx',

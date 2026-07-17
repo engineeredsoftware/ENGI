@@ -106,7 +106,7 @@ function runFocusedTests(root, failures) {
   if (commandExists(root, 'pnpm')) {
     commands.push(
       ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/asset-pack-host-plan.test.ts', '--runInBand', '--forceExit']],
-      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-domain', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs', 'exec', 'jest', '--config', 'jest.config.cjs', '--runTestsByPath', 'src/__tests__/reading-local-staging-rehearsal.test.ts', '--runInBand', '--forceExit']],
     );
   }
 
@@ -153,7 +153,7 @@ function main() {
     'scripts/specifying/src/index.d.ts',
     'packages/pipeline-hosts/src/dev/run-asset-pack-sandbox-host.ts',
     'packages/pipeline-hosts/src/asset-pack-host-plan.ts',
-    'packages/asset-packs-pipelines/domain/src/reading-local-staging-rehearsal.ts',
+    'packages/asset-packs-pipelines/syntheses/read/src/reading-local-staging-rehearsal.ts',
     'apps/uapi/app/api/pipeline-host/asset-pack/preflight.ts',
     'apps/uapi/app/api/pipeline-host/asset-pack/runner.ts',
     '.specifications/BITCODE_SPEC_V40.md',

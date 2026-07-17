@@ -40,10 +40,10 @@ const FORBIDDEN_PAYLOAD_CLASSES = Object.freeze([
 ]);
 
 const SOURCE_ROOTS = Object.freeze({
-  depositorySupplyIndex: 'packages/asset-packs-pipelines/domain/src/depository-supply-index.ts',
-  depositorySupplyIndexTest: 'packages/asset-packs-pipelines/domain/src/__tests__/depository-supply-index.test.ts',
-  depositorySearch: 'packages/asset-packs-pipelines/domain/src/depository-search.ts',
-  embeddingConfig: 'packages/asset-packs-pipelines/domain/src/embedding-config.ts',
+  depositorySupplyIndex: 'packages/asset-packs-pipelines/syntheses/domain/src/depository-supply-index.ts',
+  depositorySupplyIndexTest: 'packages/asset-packs-pipelines/syntheses/domain/src/__tests__/depository-supply-index.test.ts',
+  depositorySearch: 'packages/asset-packs-pipelines/syntheses/domain/src/depository-search.ts',
+  embeddingConfig: 'packages/asset-packs-pipelines/syntheses/domain/src/embedding-config.ts',
   assetPackPackage: 'packages/asset-packs-pipelines/domain/package.json',
   assetPackIndex: 'packages/asset-packs-pipelines/domain/src/index.ts',
   assetPackReadme: 'packages/asset-packs-pipelines/domain/README.md',
