@@ -38,12 +38,15 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
     registerDiscoveryAgents((execution as any).agents, 'deposit');
   } catch {}
 
-  // Progressive Discovery QA: skip earlier wave-1 agents when filter targets a later agent.
+  // Progressive Discovery QA: skip earlier agents when stop targets a later
+  // Discovery agent or Implementation (Discovery closed → Implementation first LLM).
   const stopFilter = String(
     process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || '',
   ).toLowerCase();
+  const stopPhase = String(
+    process.env.BITCODE_DEBUG_STOP_PHASE || '',
+  ).toLowerCase();
   const targetsCodebase =
-    !stopFilter ||
     stopFilter.includes('codebasecomprehension') ||
     stopFilter.includes('comprehend-codebase');
   const targetsRegurgitation =
@@ -54,8 +57,26 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
     stopFilter.includes('depository') ||
     stopFilter.includes('search-depository') ||
     stopFilter.includes('searchforrelevants');
+  const targetsImplementation =
+    stopPhase === 'implementation' ||
+    stopFilter.includes('assetpack') ||
+    stopFilter.includes('asset-pack-synthesis') ||
+    stopFilter.includes('depositassetpack');
+  // Empty filter + discovery phase: run full Discovery (legacy first-agent QA).
+  const skipCodebase =
+    Boolean(stopFilter || stopPhase) &&
+    (targetsImplementation || targetsRegurgitation || targetsSearch) &&
+    !targetsCodebase;
+  const skipRegurgitation =
+    Boolean(stopFilter || stopPhase) &&
+    (targetsImplementation || targetsSearch) &&
+    !targetsRegurgitation;
+  const skipSearch =
+    Boolean(stopFilter || stopPhase) &&
+    targetsImplementation &&
+    !targetsSearch;
 
-  if (stopFilter && !targetsCodebase) {
+  if (skipCodebase) {
     (execution as any).agents?.registerAgent?.(
       DISCOVERY_COMPREHEND_CODEBASE,
       async (passthroughInput: any, exec: any) => {
@@ -75,17 +96,40 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
       },
     );
   }
-  if (stopFilter && targetsSearch && !targetsRegurgitation) {
+  if (skipRegurgitation) {
     (execution as any).agents?.registerAgent?.(
       DISCOVERY_INHERENT_REGURGITATION,
       async (passthroughInput: any, exec: any) => {
         storeCrossPhaseArtifact(exec, 'discovery', 'inherentRegurgitation', {
           schema: 'bitcode.debug.fast-discovery.regurgitation',
           summary:
-            'Fast Discovery: InherentRegurgitation skipped for depository-search progressive QA.',
+            'Fast Discovery: InherentRegurgitation skipped (agent Accepted / progressive QA).',
           relevantKnowledge: [],
           patterns: [],
           references: [],
+        });
+        return passthroughInput;
+      },
+    );
+  }
+  if (skipSearch) {
+    (execution as any).agents?.registerAgent?.(
+      DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
+      async (passthroughInput: any, exec: any) => {
+        storeCrossPhaseArtifact(exec, 'discovery', 'depositorySearch', {
+          schema: 'bitcode.debug.fast-discovery.depository-search',
+          summary:
+            'Fast Discovery: DepositorySearchForRelevants skipped (agent Accepted; Discovery closed).',
+          guidance: {
+            summary: 'Discovery closed under progressive QA (fast skip).',
+            likelyReadTopics: [] as string[],
+            demandAlignment: [] as string[],
+            underservedTopics: [] as string[],
+            readabilityNotes: [] as string[],
+          },
+          searchQueries: [] as string[],
+          hits: [] as unknown[],
+          skipped: true,
         });
         return passthroughInput;
       },

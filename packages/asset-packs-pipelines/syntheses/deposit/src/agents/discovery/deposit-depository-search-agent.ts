@@ -41,11 +41,23 @@ const ReadDemandGuidanceSchema = z.object({
   searchQueries: z.array(z.string()).optional(),
 });
 
-const DepositorySearchOutputSchema = z.object({
-  guidance: ReadDemandGuidanceSchema,
-  /** Optional explicit query plan when model emits it at top level. */
-  searchQueries: z.array(z.string()).optional(),
+const UseToolSelectionSchema = z.object({
+  name: z.string(),
+  input: z.any(),
+  reason: z.string().optional(),
 });
+
+const DepositorySearchOutputSchema = z
+  .object({
+    guidance: ReadDemandGuidanceSchema,
+    /** Optional explicit query plan when model emits it at top level. */
+    searchQueries: z.array(z.string()).optional(),
+    // Try/Retry: select depository-asset-pack-search (possibly multiple queries).
+    useTools: z.array(UseToolSelectionSchema).optional(),
+  })
+  .describe(
+    '{ "guidance": { "summary": string, "likelyReadTopics"?: string[], "demandAlignment"?: string[], "underservedTopics"?: string[], "readabilityNotes"?: string[], "searchQueries"?: string[] }, "searchQueries"?: string[], "useTools"?: [{ "name": string, "input": any, "reason"?: string }] }',
+  );
 
 export type DepositReadDemandGuidance = z.infer<typeof ReadDemandGuidanceSchema>;
 
@@ -73,12 +85,17 @@ const PLAN = part(
     'Depository search queries that retrieve AssetPacks **relevant** to high-demand deposit synthesis.',
 );
 const TRY = part(
-  'Try: produce demand guidance and the searchQueries list the Depository search tool will run.',
+  'Try: emit useTools with depository-asset-pack-search (one or more calls with distinct ' +
+    'queryTerms batches from searchQueries), then produce demand guidance grounded in hits. ' +
+    'Plan omits useTools; Try/Retry may include useTools.',
 );
 const REFINE = part(
-  'Refine: ensure queries and guidance are grounded in sourceCheckoutCatalog evidence, demand-aligned, and source-safe.',
+  'Refine (no tools): ensure queries and guidance are grounded in sourceCheckoutCatalog evidence, demand-aligned, and source-safe. Omit useTools.',
 );
-const RETRY = part('Retry: return minimal demand guidance and broad searchQueries rather than failing.');
+const RETRY = part(
+  'Retry: if prior search was thin, select additional depository-asset-pack-search useTools with ' +
+    'broader queryTerms, then return minimal demand guidance rather than failing.',
+);
 
 function createPrompt(): Prompt {
   const prompt = new Prompt();

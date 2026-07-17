@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery codebase **agent closed** 1.D14–1.D-Agent; next inherent-regurgitation) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup closed; first Discovery agent closed) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery **phase closed** 1.D14–1.D-Discovery; marker → Implementation first LLM) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup + Discovery closed; Implementation marker) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -74,15 +74,15 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_LLM_CALL_DEBUG` | `1` | Wire ledger on |
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
-| `BITCODE_DEBUG_STOP_PHASE` | **`discovery`** | Setup closed |
-| `BITCODE_DEBUG_STOP_STEP` | **`plan`** | next agent Plan PCC reason |
+| `BITCODE_DEBUG_STOP_PHASE` | **`implementation`** | Discovery closed |
+| `BITCODE_DEBUG_STOP_STEP` | **`plan`** | Implementation agent Plan PCC reason |
 | `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | PCC |
 | `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | first Thinkings |
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | **`0`** | clone PTRR closed at 1.D9; host-adopt |
 | `BITCODE_DEBUG_SETUP_SERIAL` | **`1`** | serial Setup wave-1 |
-| `BITCODE_DEBUG_FAST_SETUP` | **`1`** | Discovery QA: skip re-PTRR obfuscations/LSP |
-| `BITCODE_DEBUG_DISCOVERY_SERIAL` | **`1`** | serial Discovery wave-1 (no parallel race) |
-| `BITCODE_DEBUG_STOP_AGENT_FILTER` | **`DepositInherentRegurgitation`** | second wave-1 agent |
+| `BITCODE_DEBUG_FAST_SETUP` | **`1`** | post-Setup QA: skip re-PTRR obfuscations/LSP |
+| `BITCODE_DEBUG_DISCOVERY_SERIAL` | **`1`** | serial Discovery wave-1 (when not fast-skipped) |
+| `BITCODE_DEBUG_STOP_AGENT_FILTER` | **`DepositAssetPackSynthesis`** | Implementation first agent |
 | `BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS` | `900000` | full Plan+Try+Retry+Refine budget |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -1791,14 +1791,60 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
   - Retry added **12** more tool selections
   - Refine polished without tools
   - Host tools registry + `workspacePath` alias; full LSP suite registered for agent
-- **next progressive marker:** Discovery wave-1 sibling **`DepositInherentRegurgitationAgent`** Plan PCC reason  
-  (then wave-2 **search-depository-for-deposit-relevants**)
+- **next progressive marker:** (advanced) inherent-regurgitation → depository search → Implementation
+
+### 1.D44–1.D-IR-Agent · **DepositInherentRegurgitationAgent closed**
+
+- **status:** **Closed** (2026-07-17)
+- **marker proof:** agent-end stop at **refine / chunk_then_sum / structured_output**  
+  - abort: `0049-abort-discovery-depositinherentregurgitationagent-refine-chunk_then_sum-structured_output`  
+  - response: `0048-response-…refine-chunk_then_sum-structured_output`  
+  - usage: ~10.2k in / 1.1k out; `callCount` **49**; `debugStop: true`
+- **Refine CS SO (substance):** source-safe regurgitation of is-plain-obj (micro-library type-check utility; prototype/symbol plain-object detection; ES modules / type guards / tests)
+- **roster:** Plan→Try→Retry→Refine PCC+CS (Stitch zero-LLM); progressive skip of codebase agent when filter targets IR
+- **stability_confidence:** **0.90**
+- **commit_tag:** QA Deposit Discovery Inherent-Regurgitation Agent Closed
+
+### 1.D-DepSearch-Agent · **DepositDepositorySearchForRelevantsAgent closed**
+
+- **status:** **Closed** (2026-07-17)
+- **marker proof:** agent-end stop at **refine / chunk_then_sum / structured_output**  
+  - log: `/tmp/deposit-d-dep-search-end.log`  
+  - abort: `0049-abort-discovery-depositdepositorysearchforrelevantsagent-refine-chunk_then_sum-structured_output`  
+  - response: `0048-response-…refine-chunk_then_sum-structured_output`  
+  - usage: ~12.8k in / 505 out; `callCount` **49**; `debugStop: true`
+- **Try/Retry tools:** `depository-asset-pack-search` selected on Try CS SO and Retry CS SO; live tool returned **zero hits** across expanded query sets (undersupply / empty depository for fixture topics — valid Discovery signal, not a tool-path failure)
+- **Refine CS SO (substance):** demand guidance + searchQueries for plain-object / type-guard / validation topics; library-api + type-safety alignment
+- **impl:** deposit depository-search agent schema/prompts allow **useTools** on Try/Retry (parity with codebase agent multi-tool law)
+- **progressive skip:** when filter targets depository search, wave-1 codebase+IR stubbed; when stop phase is **implementation**, **all three** Discovery agents stubbed
+- **stability_confidence:** **0.90**
+- **commit_tag:** QA Deposit Discovery Depository-Search Agent Closed
+
+### 1.D-Discovery · **Discovery phase closed** (deposit)
+
+- **status:** **Closed** (2026-07-17)
+- **roster:**  
+  - wave-1: `DepositCodebaseComprehensionAgent` (1.D14–1.D-Agent)  
+  - wave-1: `DepositInherentRegurgitationAgent` (1.D44–1.D-IR-Agent)  
+  - wave-2: `DepositDepositorySearchForRelevantsAgent` (1.D-DepSearch-Agent)
+- **next progressive marker:** **Implementation** · `DepositAssetPackSynthesisAgent` · Plan · prepare_concise_context · **reason**  
+  (harness defaults: `BITCODE_DEBUG_STOP_PHASE=implementation`, `AGENT_FILTER=DepositAssetPackSynthesis`)
+
+### 1.I0 · Implementation marker placed (first LLM)
+
+- **status:** **Marker placed** (2026-07-17) — not yet Accepted as call-site substance row  
+- **live proof:** `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm`  
+  (defaults: phase=`implementation`, step=`plan`, failsafe=`prepare_concise_context`, generation=`reason`, agent=`DepositAssetPackSynthesis`)  
+  - `debugStop: true`, `callCount: 3`  
+  - abort: `0003-abort-implementation-depositassetpacksynthesisagent-plan-prepare_concise_context-reason`  
+  - response: `0002-response-…plan-prepare_concise_context-reason` (~9.3k in / 798 out)  
+  - Fast Setup + **all Discovery agents skipped** (codebase / IR / depository-search stubs)
+- **next:** formal **1.I1** Accept on this Plan PCC reason (substance + stability), then advance generation/step as usual
 
 ### 1.2+ Read next / Deposit next
 
-- **1.D44** Discovery · inherent-regurgitation · Plan · PCC · reason  
+- **1.I1** Implementation · deposit-asset-pack-synthesis · Plan · PCC · **reason** (marker is here)  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
-- **later** Discovery wave-2 · search-depository (deposit relevants / read Need-fits) live tool proof  
 
 ---
 
@@ -1808,8 +1854,8 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** Setup closed; Discovery **codebase comprehension agent closed** (1.D14–1.D-Agent).  
-  Multi-tool Try proven (18 useTools). Harness: fast Setup + serial Discovery.
+- **proof (current):** Setup closed; Discovery **phase closed** (1.D14–1.D-Discovery).  
+  Multi-tool Try proven on codebase agent; depository search tool path exercised (zero hits). Harness: fast Setup + Discovery skip when Implementation marker.
 
 ### §3 SDIVF read pipeline production-like accept
 
@@ -1881,3 +1927,6 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 | 2026-07-17 | **1.D14** Discovery codebase Plan PCC reason Accepted. Fast Setup + Discovery serial harness; Need-first depository search query plan. Marker → 1.D15 judge. |
 | 2026-07-17 | **1.D15–1.D22** Plan step closed (PCC R/J/SO, CS R/J/SO, Stitch zero-LLM fence). Marker → Try PCC reason 1.D23. |
 | 2026-07-17 | **1.D23–1.D-Agent** Codebase agent closed (Try 18 tools, Retry 12, Refine). Marker → inherent-regurgitation. |
+| 2026-07-17 | **1.D44–1.D-IR-Agent** Inherent regurgitation agent closed (refine CS SO, callCount 49). |
+| 2026-07-17 | **1.D-DepSearch-Agent** Depository search agent closed (refine CS SO; useTools depository-asset-pack-search; zero hits). |
+| 2026-07-17 | **1.D-Discovery** Discovery phase closed. Marker → Implementation Plan PCC reason (`DepositAssetPackSynthesis`). Fast Discovery skip-all when phase=implementation. |

@@ -145,8 +145,9 @@ const debugEnv: Record<string, string> = {
   BITCODE_DEBUG_FORCE_CLONE_PTRR:
     process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '0',
   BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
-  BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'discovery',
-  // After codebase agent closed: next wave-1 = inherent regurgitation Plan PCC.
+  // Discovery closed (1.D14–1.D-Discovery): Implementation first LLM.
+  BITCODE_DEBUG_STOP_PHASE:
+    process.env.BITCODE_DEBUG_STOP_PHASE || 'implementation',
   BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'plan',
   BITCODE_DEBUG_STOP_FAILSAFE:
     process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
@@ -155,8 +156,7 @@ const debugEnv: Record<string, string> = {
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
   BITCODE_DEBUG_STOP_AGENT_FILTER:
-    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER ||
-    'DepositInherentRegurgitation',
+    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || 'DepositAssetPackSynthesis',
   BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
     process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '900000',
   // 0 = disable per-call bound for progressive QA (Judge can exceed 180s)
@@ -184,15 +184,16 @@ writeFileSync(
     '## Abort marker (this pass)',
     '',
     '```',
-    'phase: setup',
-    'agent: DepositCodebaseComprehensionAgent (discovery:comprehend-codebase)',
+    'phase: implementation',
+    'agent: DepositAssetPackSynthesisAgent (implementation:deposit-asset-pack-synthesis)',
     'step: plan',
     'failsafe: prepare_concise_context',
     'generation: reason',
     'BITCODE_DEBUG_FORCE_CLONE_PTRR=0 (clone PTRR closed at 1.D9)',
+    'BITCODE_DEBUG_FAST_SETUP=1 (Setup closed)',
     '```',
     '',
-    'Progressive: stop at obfuscations Plan PCC judge (1.D11).',
+    'Progressive: Discovery closed; stop at Implementation first Plan PCC reason.',
     'Clone uses Host short-circuit; re-enable FORCE_CLONE only to re-test clone.',
     '',
     '## Artifacts',
@@ -220,12 +221,15 @@ const env = {
   // Serialize Setup wave-1 so progressive agent filter stops do not race LSP PTRR.
   BITCODE_DEBUG_SETUP_SERIAL:
     process.env.BITCODE_DEBUG_SETUP_SERIAL || '1',
-  // Discovery+ progressive QA: skip re-running full obfuscations/LSP PTRR
-  // (Setup closed 1.D-W). Set BITCODE_DEBUG_FAST_SETUP=0 to force full Setup.
+  // Discovery/Implementation progressive QA: skip re-running full obfuscations/LSP
+  // PTRR (Setup closed 1.D-W). Set BITCODE_DEBUG_FAST_SETUP=0 to force full Setup.
   BITCODE_DEBUG_FAST_SETUP:
     process.env.BITCODE_DEBUG_FAST_SETUP ||
-    (String(process.env.BITCODE_DEBUG_STOP_PHASE || 'discovery').toLowerCase() ===
-    'discovery'
+    (['discovery', 'implementation', 'validation', 'finish'].includes(
+      String(
+        process.env.BITCODE_DEBUG_STOP_PHASE || 'implementation',
+      ).toLowerCase(),
+    )
       ? '1'
       : '0'),
   BITCODE_HOST_CLONE_URL: repoUrl,
@@ -455,8 +459,8 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: env.BITCODE_DEBUG_FORCE_CLONE_PTRR === '1',
   expectedAbort:
-    'Discovery → DepositCodebaseComprehension Plan → prepare_concise_context → reason',
-  ptrrOrder: 'Setup complete → Discovery first PCC reason',
+    'Implementation → DepositAssetPackSynthesis Plan → prepare_concise_context → reason',
+  ptrrOrder: 'Discovery closed → Implementation first PCC reason',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,
   stopStep: env.BITCODE_DEBUG_STOP_STEP,
