@@ -4,26 +4,19 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define VCS agent purpose"
- * current_version: "V26.50.0"
+ * current_version: "V48.1.0"
  * versions: [
- *   {
- *     version: "V26.00.0",
- *     score: 0.15,
- *     content: "Execute Git operations using libgit2 bindings, manage repository workflows via git commands",
- *     reason: "Non-industrial: used system commands instead of API operations"
- *   },
  *   {
  *     version: "V26.47.0",
  *     score: 0.47,
- *     content: "Execute version control operations through provider APIs, manage repository workflows via GitHub/GitLab/Bitbucket REST interfaces, implement merge conflict resolution through API endpoints, and automate branch management using provider-specific authentication protocols",
- *     reason: "Industrial language with API-only operations"
+ *     content: "Long merge/branch-automation purpose (pre-thin)",
+ *     reason: "Over-broad for Setup clone-centric call-sites"
  *   }
  * ]
  * benchmarks: [
- *   { "name": "technical_accuracy", "test": "Uses concrete API operations?", "score": 0.47 },
- *   { "name": "implementation_ready", "test": "Can developers implement directly?", "score": 0.46 },
- *   { "name": "api_focus", "test": "Exclusively uses provider APIs?", "score": 0.48 }
+ *   { "name": "technical_accuracy", "test": "Uses concrete API operations?", "score": 0.70 },
+ *   { "name": "call_site_brevity", "test": "Short enough for every hierarchy call-site?", "score": 0.75 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_VCS_PURPOSE_CORESTATEMENT: PromptPart = 
-  'Execute version control operations through provider APIs, manage repository workflows via GitHub/GitLab/Bitbucket REST interfaces, implement merge conflict resolution through API endpoints, and automate branch management using provider-specific authentication protocols' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_VCS_PURPOSE_CORESTATEMENT: PromptPart =
+  'Provide Host repository working trees via provider APIs (clone/checkout at the requested ref) and surface coordinates for later pipeline phases.' as PromptPart;

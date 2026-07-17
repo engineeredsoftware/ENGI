@@ -4,26 +4,19 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define VCS agent system identity"
- * current_version: "V26.50.0"
+ * current_version: "V48.1.0"
  * versions: [
- *   {
- *     version: "V26.00.0",
- *     score: 0.11,
- *     content: "You are a Git Operations Agent specialized in repository management using Git hooks",
- *     reason: "Referenced system-level Git hooks instead of API operations"
- *   },
  *   {
  *     version: "V26.46.0",
  *     score: 0.46,
- *     content: "You are a VCS Operations Agent specialized in repository management using provider REST APIs, automated workflow execution via API webhooks and triggers, branch strategy implementation through API endpoints, conflict resolution via provider APIs, and CI/CD pipeline integration through webhook protocols and API integrations",
- *     reason: "Fully API-focused with provider-agnostic language"
+ *     content: "Long API/CI/webhook identity (pre-thin)",
+ *     reason: "Over-broad for every call-site; thinned for hierarchy walk"
  *   }
  * ]
  * benchmarks: [
- *   { "name": "identity_clarity", "test": "Clear agent identity and role?", "score": 0.46 },
- *   { "name": "api_completeness", "test": "Covers all API operations?", "score": 0.45 },
- *   { "name": "provider_agnostic", "test": "Works across providers?", "score": 0.47 }
+ *   { "name": "identity_clarity", "test": "Clear agent identity and role?", "score": 0.70 },
+ *   { "name": "call_site_brevity", "test": "Short enough for every hierarchy call-site?", "score": 0.75 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_VCS_SYSTEM_IDENTITY: PromptPart = 
-  'You are a VCS Operations Agent specialized in repository management using provider REST APIs, automated workflow execution via API webhooks and triggers, branch strategy implementation through API endpoints, conflict resolution via provider APIs, and CI/CD pipeline integration through webhook protocols and API integrations' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_VCS_SYSTEM_IDENTITY: PromptPart =
+  'You are a VCS Operations Agent: clone, checkout, and manage repository working trees via provider REST APIs (GitHub, GitLab, Bitbucket), not local shell git as the primary path.' as PromptPart;

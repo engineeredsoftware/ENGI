@@ -725,7 +725,10 @@ Harness: `qa:deposit:debug-first-llm` · stopGeneration=`structured_output` · `
 **SO selectedKeys (verbatim this run):**
 `#deposit:repository`, `#deposit:obfuscations`, `#deposit:permissibleSources`, `#deposit:impermissibleSources`, `#host:manifestRoot`, `#host:sourceRevision`, `#pipeline:input`, `#pipeline:userId`
 
-**Residual authoring (not walk errors):** Plan step still doubles “PLAN: Repository clone strategy”; agent VCS capability walls remain (authored on agent promptparts — correct node, optional future thin authoring).
+**Authoring thin (2026-07-16, done):** VCS identity/role/instructions/capabilities/tools
+shortened; VCS Plan no longer re-lists capabilities; DP clone step sets `step:purpose`
+once (no label+details double). Residual: generic VCS still broader than pure clone
+product if further specialization desired.
 
 #### decision
 

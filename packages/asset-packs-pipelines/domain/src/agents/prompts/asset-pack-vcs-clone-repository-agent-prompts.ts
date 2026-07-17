@@ -34,6 +34,10 @@ import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_D
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_retry_label';
 import { PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_DETAILS } from '@bitcode/prompts/raw_promptparts/specific/promptpart_specific_agent_assetpackpipeline_clonevcsrepository_retry_details';
 
+/**
+ * Single step purpose path — do not also set step:label + step:details with the
+ * same strings (that doubled "PLAN: …" / details on the wire).
+ */
 function stepPurpose(label: unknown, details: unknown) {
   return `${String(label)}\n${String(details)}` as any;
 }
@@ -50,9 +54,6 @@ export const DP_CLONE_VCS_SYSTEM_PROMPT: Prompt = (() => {
 
 export const DP_CLONE_VCS_PLAN_PROMPT: Prompt = (() => {
   const p = new Prompt();
-  p.set('step:label:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_PLAN_LABEL as any);
-  p.set('step:details:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_PLAN_DETAILS as any);
-  // Prefer step:purpose so formatStepPromptCarrier stays Plan-only (no gen soup).
   p.set(
     'step:purpose',
     stepPurpose(
@@ -67,8 +68,6 @@ export const DP_CLONE_VCS_PLAN_PROMPT: Prompt = (() => {
 
 export const DP_CLONE_VCS_TRY_PROMPT: Prompt = (() => {
   const p = new Prompt();
-  p.set('step:label:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_TRY_LABEL as any);
-  p.set('step:details:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_TRY_DETAILS as any);
   p.set(
     'step:purpose',
     stepPurpose(
@@ -83,8 +82,6 @@ export const DP_CLONE_VCS_TRY_PROMPT: Prompt = (() => {
 
 export const DP_CLONE_VCS_REFINE_PROMPT: Prompt = (() => {
   const p = new Prompt();
-  p.set('step:label:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_LABEL as any);
-  p.set('step:details:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_DETAILS as any);
   p.set(
     'step:purpose',
     stepPurpose(
@@ -99,8 +96,6 @@ export const DP_CLONE_VCS_REFINE_PROMPT: Prompt = (() => {
 
 export const DP_CLONE_VCS_RETRY_PROMPT: Prompt = (() => {
   const p = new Prompt();
-  p.set('step:label:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_LABEL as any);
-  p.set('step:details:asset-pack:addendum', PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_RETRY_DETAILS as any);
   p.set(
     'step:purpose',
     stepPurpose(
