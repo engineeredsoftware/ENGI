@@ -44,7 +44,7 @@ export * from './embedding-config';
 export * from './resolve-source-checkout-catalog';
 
 // Phase builders shared by both products (setup/discovery helpers).
-// Product rosters (executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators / executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators) live on the product packages —
+// Product rosters (executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks / executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks) live on the product packages —
 // do not re-export them here (package cycle).
 export * from './phases/setup';
 export * from './phases/discovery';

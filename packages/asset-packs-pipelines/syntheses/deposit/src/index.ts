@@ -26,7 +26,7 @@ import {
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain';
-import { executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators } from './phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators';
+import { executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks } from './phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs';
 import {
   EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_DEPOSITS_ASSET_PACKS_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_SETUP_PROMPT,
@@ -45,11 +45,11 @@ export function factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks(
   const maxIterations = 1;
   const sdivf = factoryExecutionPipelineSDIVFFromExecutors(pipelineName, {
     preprocess: factoryPreprocessDepositOnly() as any,
-    setup: executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators.setup as any,
-    discovery: executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators.discovery as any,
-    implementation: executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators.implementation as any,
-    validation: executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators.validation as any,
-    finish: executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators.finish as any,
+    setup: executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks.setup as any,
+    discovery: executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks.discovery as any,
+    implementation: executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks.implementation as any,
+    validation: executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks.validation as any,
+    finish: executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks.finish as any,
     maxIterations,
     pipelinePromptSpecific: EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_DEPOSITS_ASSET_PACKS_PROMPT,
     phasePromptSpecific: {
@@ -83,4 +83,4 @@ export * from './deposit-asset-pack-option-policy';
 export * from './deposit-asset-pack-option-admission';
 export * from './deposit-option-real-synthesis';
 export * from './depositor-earning-supply-intelligence';
-export * from './phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators';
+export * from './phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs';

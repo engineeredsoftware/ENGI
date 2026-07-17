@@ -1,9 +1,9 @@
 /**
- * ExecutionPipelineSDIVFSynthesizeReadAssetPacks — SDIVF ExecutionPhase delegators.
+ * ExecutionPipelineSDIVFSynthesizeReadAssetPacks — product-specific ExecutionPipelineSDIVFExecutionPhase implementations.
  *
  * Hierarchy: Execution → Pipeline → SDIVF → SynthesizeReadAssetPacks → ExecutionPhase*.
- * Phases are exclusively SDIVF concepts. This module is product-specific *delegators*
- * for those SDIVF phases — not a separate "read phase" system.
+ * Phases are exclusively SDIVF concepts. These are read product specializations of the SDIVF ExecutionPhase base
+ * (ExecutionPipelineSDIVFExecutionPhaseDelegator), one per SDIVF phase.
  *
  * Shape mirrors deposit (same agents/roles; instruction = Need, not Obfuscations):
  * Setup: clone alone → parallel {LSP, MCP, comprehend-needs} → danger-wall alone.
@@ -32,7 +32,7 @@ type DiscoveryOutput = AssetPackInput;
 type ImplementationOutput = AssetPackOutput;
 type ValidationOutput = AssetPackOutput;
 
-function registerExecutionPipelineSDIVFSynthesizeReadAssetPacksSetupAgents(agentRegistry: any): void {
+function registerExecutionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacksAgents(agentRegistry: any): void {
   agentRegistry.registerAgent(
     'setup:clone-vcs-repository',
     () =>
@@ -57,12 +57,12 @@ function registerExecutionPipelineSDIVFSynthesizeReadAssetPacksSetupAgents(agent
   );
 }
 
-export const executionPipelineSDIVFSynthesizeReadAssetPacksSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
+export const executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
   try {
-    registerExecutionPipelineSDIVFSynthesizeReadAssetPacksSetupAgents((execution as any).agents);
+    registerExecutionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacksAgents((execution as any).agents);
   } catch {}
 
   const exec: Executor<any, any> = sequential(
@@ -90,7 +90,7 @@ export const executionPipelineSDIVFSynthesizeReadAssetPacksSetupPhase: Execution
   }
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
 
-export const executionPipelineSDIVFSynthesizeReadAssetPacksDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
+export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -112,7 +112,7 @@ export const executionPipelineSDIVFSynthesizeReadAssetPacksDiscoveryPhase: Execu
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
 
-export const executionPipelineSDIVFSynthesizeReadAssetPacksImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
+export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
@@ -125,7 +125,7 @@ export const executionPipelineSDIVFSynthesizeReadAssetPacksImplementationPhase: 
   return await createAgentExecutor('implementation:read-asset-pack-synthesis')(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
-export const executionPipelineSDIVFSynthesizeReadAssetPacksValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
+export const executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
@@ -140,7 +140,7 @@ export const executionPipelineSDIVFSynthesizeReadAssetPacksValidationPhase: Exec
   )(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
 
-export const executionPipelineSDIVFSynthesizeReadAssetPacksFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
+export const executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
@@ -167,10 +167,10 @@ export const executionPipelineSDIVFSynthesizeReadAssetPacksFinishPhase: Executio
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
 
-export const executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators = {
-  setup: executionPipelineSDIVFSynthesizeReadAssetPacksSetupPhase,
-  discovery: executionPipelineSDIVFSynthesizeReadAssetPacksDiscoveryPhase,
-  implementation: executionPipelineSDIVFSynthesizeReadAssetPacksImplementationPhase,
-  validation: executionPipelineSDIVFSynthesizeReadAssetPacksValidationPhase,
-  finish: executionPipelineSDIVFSynthesizeReadAssetPacksFinishPhase,
+export const executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks = {
+  setup: executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks,
+  discovery: executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks,
+  implementation: executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks,
+  validation: executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks,
+  finish: executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks,
 };

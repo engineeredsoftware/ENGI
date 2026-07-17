@@ -3,8 +3,8 @@
  * Deposit / read SDIVF phase rosters (V48).
  *
  * Separate product pipelines (no unified lensed roster):
- *   - executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators from phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators
- *   - executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators from phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators
+ *   - executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks from phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs
+ *   - executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks from phases/execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs
  *
  * These tests pin:
  *  1. per-phase agent ROSTER each product registers (keys + modules), and
@@ -25,17 +25,17 @@ import { registerImplementationAgents } from '../phases/implementation';
 import { registerValidationAgentsForType } from '../phases/validation';
 import { registerFinishAgentsForType } from '../phases/finish';
 import {
-  executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase,
-  executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhase,
-  executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase,
-  executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase,
-} from '../../../deposit/src/phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators';
+  executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetPacks,
+  executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks,
+  executionPipelineSDIVFExecutionPhaseValidationSynthesisDepositAssetPacks,
+  executionPipelineSDIVFExecutionPhaseFinishSynthesisDepositAssetPacks,
+} from '../../../deposit/src/phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs';
 import {
-  executionPipelineSDIVFSynthesizeReadAssetPacksDiscoveryPhase,
-  executionPipelineSDIVFSynthesizeReadAssetPacksImplementationPhase,
-  executionPipelineSDIVFSynthesizeReadAssetPacksValidationPhase,
-  executionPipelineSDIVFSynthesizeReadAssetPacksFinishPhase,
-} from '../../../read/src/phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators';
+  executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks,
+} from '../../../read/src/phases/execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs';
 
 import depositCodebaseComprehensionAgent from '../../../deposit/src/agents/discovery/deposit-codebase-comprehension-agent';
 import depositDepositorySearchAgent from '../../../deposit/src/agents/discovery/deposit-depository-search-agent';
@@ -268,7 +268,7 @@ describe('product phase delegators execute the roster (execution-tree walk)', ()
     const { calls, root } = harness(DEPOSIT_DISCOVERY_KEYS);
     const phaseExec = root.child('seq-2');
 
-    await executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase({ seed: true }, phaseExec);
+    await executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetPacks({ seed: true }, phaseExec);
 
     expect(calls).toHaveLength(3);
     // Wave 1 (either order) then wave 2 search last.
@@ -281,7 +281,7 @@ describe('product phase delegators execute the roster (execution-tree walk)', ()
   it('read discovery: parallel(comprehend, regurgitation) then read-need-fits search', async () => {
     const { calls, root } = harness(READ_DISCOVERY_KEYS);
 
-    await executionPipelineSDIVFSynthesizeReadAssetPacksDiscoveryPhase({ seed: true }, root.child('seq-2'));
+    await executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks({ seed: true }, root.child('seq-2'));
 
     expect(calls).toHaveLength(3);
     expect(new Set(calls.slice(0, 2))).toEqual(
@@ -292,39 +292,39 @@ describe('product phase delegators execute the roster (execution-tree walk)', ()
 
   it('deposit implementation resolves deposit-asset-pack-synthesis', async () => {
     const { calls, root } = harness([DEPOSIT_IMPLEMENTATION_KEY]);
-    const output = await executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhase({ seed: true }, root.child('seq-2'));
+    const output = await executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks({ seed: true }, root.child('seq-2'));
     expect(calls).toEqual([DEPOSIT_IMPLEMENTATION_KEY]);
     expect(output[`ran:${DEPOSIT_IMPLEMENTATION_KEY}`]).toBe(true);
   });
 
   it('read implementation resolves read-asset-pack-synthesis', async () => {
     const { calls, root } = harness([READ_IMPLEMENTATION_KEY]);
-    const output = await executionPipelineSDIVFSynthesizeReadAssetPacksImplementationPhase({ seed: true }, root.child('seq-2'));
+    const output = await executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks({ seed: true }, root.child('seq-2'));
     expect(calls).toEqual([READ_IMPLEMENTATION_KEY]);
     expect(output[`ran:${READ_IMPLEMENTATION_KEY}`]).toBe(true);
   });
 
   it('deposit validation runs the single ready-to-finish deposit gate', async () => {
     const { calls, root } = harness([DEPOSIT_VALIDATION_KEY]);
-    await executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase({ seed: true }, root.child('seq-2'));
+    await executionPipelineSDIVFExecutionPhaseValidationSynthesisDepositAssetPacks({ seed: true }, root.child('seq-2'));
     expect(calls).toEqual([DEPOSIT_VALIDATION_KEY]);
   });
 
   it('read validation runs the single ready-to-finish read gate', async () => {
     const { calls, root } = harness([READ_VALIDATION_KEY]);
-    await executionPipelineSDIVFSynthesizeReadAssetPacksValidationPhase({ seed: true }, root.child('seq-2'));
+    await executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks({ seed: true }, root.child('seq-2'));
     expect(calls).toEqual([READ_VALIDATION_KEY]);
   });
 
   it('deposit finish runs store → ledgerize → finish-synthesize-deposit-run', async () => {
     const { calls, root } = harness(DEPOSIT_FINISH_KEYS);
-    await executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase({ seed: true }, root.child('seq-3'));
+    await executionPipelineSDIVFExecutionPhaseFinishSynthesisDepositAssetPacks({ seed: true }, root.child('seq-3'));
     expect(calls).toEqual(DEPOSIT_FINISH_KEYS);
   });
 
   it('read finish runs store → ledgerize → finish-synthesize-read-run', async () => {
     const { calls, root } = harness(READ_FINISH_KEYS);
-    await executionPipelineSDIVFSynthesizeReadAssetPacksFinishPhase({ seed: true }, root.child('seq-3'));
+    await executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks({ seed: true }, root.child('seq-3'));
     expect(calls).toEqual(READ_FINISH_KEYS);
   });
 });

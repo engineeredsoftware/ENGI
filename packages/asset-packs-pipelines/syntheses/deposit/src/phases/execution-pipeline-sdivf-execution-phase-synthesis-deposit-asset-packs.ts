@@ -1,10 +1,10 @@
 /**
- * ExecutionPipelineSDIVFSynthesizeDepositAssetPacks — SDIVF ExecutionPhase delegators.
+ * ExecutionPipelineSDIVFSynthesizeDepositAssetPacks — product-specific ExecutionPipelineSDIVFExecutionPhase implementations.
  *
  * Hierarchy: Execution → Pipeline → SDIVF → SynthesizeDepositAssetPacks → ExecutionPhase*.
  * Phases are exclusively SDIVF concepts (Setup / Discovery / Implementation / Validation / Finish).
- * This module is product-specific *delegators* for those SDIVF phases — not a separate
- * "deposit phase" system.
+ * These are deposit product specializations of the SDIVF ExecutionPhase base
+ * (ExecutionPipelineSDIVFExecutionPhaseDelegator), one per SDIVF phase.
  *
  * Setup: clone alone → parallel {LSP, MCP, obfuscations} → danger wall alone.
  * Discovery: parallel {comprehend-codebase, inherent-regurgitation}
@@ -30,8 +30,8 @@ type DiscoveryOutput = AssetPackInput;
 type ImplementationOutput = AssetPackOutput;
 type ValidationOutput = AssetPackOutput;
 
-function registerExecutionPipelineSDIVFSynthesizeDepositAssetPacksSetupAgents(agentRegistry: any): void {
-  // One roster key per Setup agent (matches executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase executors).
+function registerExecutionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacksAgents(agentRegistry: any): void {
+  // One roster key per Setup agent (matches executionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacks executors).
   agentRegistry.registerAgent(
     'setup:clone-vcs-repository',
     () =>
@@ -56,12 +56,12 @@ function registerExecutionPipelineSDIVFSynthesizeDepositAssetPacksSetupAgents(ag
   );
 }
 
-export const executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
+export const executionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
   try {
-    registerExecutionPipelineSDIVFSynthesizeDepositAssetPacksSetupAgents((execution as any).agents);
+    registerExecutionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacksAgents((execution as any).agents);
   } catch {}
 
   // Progressive deposit QA: BITCODE_DEBUG_SETUP_SERIAL=1 runs wave-1 agents
@@ -141,7 +141,7 @@ export const executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase: Execut
   }
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
 
-export const executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
+export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
   input: AssetPackInput,
   execution: any,
 ) => {
@@ -237,7 +237,7 @@ export const executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase: Ex
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
 
-export const executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
+export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
@@ -251,7 +251,7 @@ export const executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhas
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
 
 /** Single Validation agent: prior phases + pack quality + obfuscations. */
-export const executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<
+export const executionPipelineSDIVFExecutionPhaseValidationSynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   ImplementationOutput,
   ValidationOutput
 > = (async (input: any, execution: any) => {
@@ -269,7 +269,7 @@ export const executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase: E
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
 
 /** Finish: store-artifacts → ledgerize → finish-synthesize-deposit-run. */
-export const executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
+export const executionPipelineSDIVFExecutionPhaseFinishSynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
   input: any,
   execution: any,
 ) => {
@@ -297,10 +297,10 @@ export const executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase: Execu
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
 
-export const executionPipelineSDIVFSynthesizeDepositAssetPacksPhaseDelegators = {
-  setup: executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase,
-  discovery: executionPipelineSDIVFSynthesizeDepositAssetPacksDiscoveryPhase,
-  implementation: executionPipelineSDIVFSynthesizeDepositAssetPacksImplementationPhase,
-  validation: executionPipelineSDIVFSynthesizeDepositAssetPacksValidationPhase,
-  finish: executionPipelineSDIVFSynthesizeDepositAssetPacksFinishPhase,
+export const executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks = {
+  setup: executionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacks,
+  discovery: executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetPacks,
+  implementation: executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks,
+  validation: executionPipelineSDIVFExecutionPhaseValidationSynthesisDepositAssetPacks,
+  finish: executionPipelineSDIVFExecutionPhaseFinishSynthesisDepositAssetPacks,
 };

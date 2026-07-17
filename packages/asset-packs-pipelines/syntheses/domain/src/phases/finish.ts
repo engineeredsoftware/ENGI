@@ -2,8 +2,8 @@
  * Shared Finish helpers for AssetPack synthesis product SDIVF pipelines.
  *
  * Base SDIVF only defines the Finish phase slot (close run / hand off result).
- * Product deposit/read Finish rosters live in execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators.ts and
- * execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators.ts (store-artifacts → ledgerize → finish-synthesize-run).
+ * Product deposit/read Finish rosters live in execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs.ts and
+ * execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs.ts (store-artifacts → ledgerize → finish-synthesize-run).
  *
  * This module only registers the optional Bitcode review-upload path used by
  * residual shared configs. Buyer-repo PR shipping is not this phase: it is

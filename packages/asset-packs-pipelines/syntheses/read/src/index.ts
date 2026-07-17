@@ -24,7 +24,7 @@ import {
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain';
-import { executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators } from './phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators';
+import { executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks } from './phases/execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs';
 import {
   EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
@@ -43,11 +43,11 @@ export function factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks(
   const maxIterations = 1;
   const sdivf = factoryExecutionPipelineSDIVFFromExecutors(pipelineName, {
     preprocess: factoryPreprocessReadOnly() as any,
-    setup: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.setup as any,
-    discovery: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.discovery as any,
-    implementation: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.implementation as any,
-    validation: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.validation as any,
-    finish: executionPipelineSDIVFSynthesizeReadAssetPacksPhaseDelegators.finish as any,
+    setup: executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks.setup as any,
+    discovery: executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks.discovery as any,
+    implementation: executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks.implementation as any,
+    validation: executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks.validation as any,
+    finish: executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks.finish as any,
     maxIterations,
     pipelinePromptSpecific: EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
     phasePromptSpecific: {
@@ -86,4 +86,4 @@ export * from './reading-local-staging-rehearsal';
 export * from './reading-operational-telemetry-repair-readback';
 export * from './interface-disclosure-boundary';
 export * from './read-neediness-measurements';
-export * from './phases/execution-pipeline-sdivf-synthesize-read-asset-packs-phase-delegators';
+export * from './phases/execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs';

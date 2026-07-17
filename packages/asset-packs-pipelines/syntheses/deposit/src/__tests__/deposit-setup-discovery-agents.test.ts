@@ -26,7 +26,7 @@ import runDepositCodebaseComprehensionAgent from '../agents/discovery/deposit-co
 import runDepositDepositorySearchAgent from '../agents/discovery/deposit-depository-search-agent';
 import runDepositInherentRegurgitationAgent from '../agents/discovery/deposit-inherent-regurgitation-agent';
 import runDepositAssetPackSynthesisAgent from '../agents/implementation/deposit-asset-pack-synthesis-agent';
-import { executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase } from '../phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators';
+import { executionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacks } from '../phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs';
 import { registerDiscoveryAgents } from '../phases/discovery';
 import {
   setBoundaryLLMOutput,
@@ -309,7 +309,7 @@ describe('deposit Setup native sequence (clone → parallel bootstrap → danger
       return originalRegister(name, agent);
     };
 
-    await executionPipelineSDIVFSynthesizeDepositAssetPacksSetupPhase(DEPOSIT_INPUT as any, exec);
+    await executionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacks(DEPOSIT_INPUT as any, exec);
 
     expect(invoked[0]).toBe('setup:clone-vcs-repository');
     expect(invoked[invoked.length - 1]).toBe('setup:danger-wall');

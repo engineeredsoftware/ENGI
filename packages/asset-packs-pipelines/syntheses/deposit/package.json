@@ -22,7 +22,7 @@
     "./depositor-earning-supply-intelligence-types": "./src/depositor-earning-supply-intelligence-types.ts",
     "./depositor-earning-supply-intelligence": "./src/depositor-earning-supply-intelligence.ts",
     "./ensure-deposit-checkout-source-files": "./src/ensure-deposit-checkout-source-files.ts",
-    "./phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators": "./src/phases/execution-pipeline-sdivf-synthesize-deposit-asset-packs-phase-delegators.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs.ts",
     "./agents/finish/deposit-store-artifacts-agent": "./src/agents/finish/deposit-store-artifacts-agent.ts",
     "./agents/implementation/deposit-asset-pack-synthesis-schema": "./src/agents/implementation/deposit-asset-pack-synthesis-schema.ts",
     "./agents/implementation/deposit-asset-pack-synthesis-prompts": "./src/agents/implementation/deposit-asset-pack-synthesis-prompts.ts",
