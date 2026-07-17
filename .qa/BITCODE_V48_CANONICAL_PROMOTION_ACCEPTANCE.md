@@ -687,29 +687,26 @@ User body correctly forces: JSON schema for Reason; PCC key-selection only; path
 - **0.94** that this call-site is fully successful and PCC **selection** Thinkings can close.  
 - Residual (not SO call-site failures): post-SO value read-in; chunk_then_sum/stitch; Plan Try tool execution. Judge `approved:false` did not block a legal minimal key set.
 
-#### prompt hygiene (post-1.D3 lean pass, 2026-07-16)
+#### prompt hygiene (post-1.D3; corrected 2026-07-16)
 
-Lean PCC Thinkings applied for **Reason, Judge, and StructuredOutput** under prepare_concise_context:
+**Hierarchy law (corrected):** every call-site system walk still includes full ancestry
+(Execution once → Pipeline → Phase → **Agent** → **Step** → active Failsafe → active Thinking).
+Agent was **not** “wrongly on the path.” Capability prose like “three-way merge” is authored
+on VCS agent promptparts; if too heavy, thin **authoring**, not drop Agent from the walk.
+
+**Real hygiene fixes (kept):**
 
 | Change | Effect |
 | --- | --- |
-| Lean `task` / preparation | Short identity (product/phase/agent/step) — **not** full hierarchy re-copy |
-| System under PCC | Pipeline+phase call_sites (trimmed) + lean task + PCC law **once** + active thinking; **no** agent VCS capability walls / Plan bullet dumps |
-| SO instruction | No unconditional `useTools`; PCC: “Never include useTools” |
-| User JSON envelope | Schema / “Respond ONLY…” **once** (SO double-wrap removed) |
-| Judge user | Prior `reasoning` + keys only (no fat preparation dump) |
+| Lean `task` / preparation (**user** field only) | Short task identity — **not** a second full hierarchy copy in user JSON |
+| Omit duplicate `system` essay in Reason user | PCC law already on hierarchical system |
+| Judge user | Prior `reasoning` + keys (+ lean task) — no hierarchy re-dump |
+| SO user | reason + judgment + keys; schema envelope **once** |
+| SO instruction | No unconditional `useTools` on PCC (selectedKeys only) |
+| Removed | Brittle keyword `trimHeavySystemProse`; temporary skip of Agent/Step nodes |
 
-**Wire sizes after lean pass (SO stop re-run):**
-
-| Gen | system chars | user chars | total |
-| --- | --- | --- | --- |
-| reason | ~6293 | ~3840 | ~10.1k |
-| judge | ~5848 | ~5679 | ~11.5k |
-| structured_output | ~5942 | ~7396 | ~13.3k |
-
-(Pre-lean SO was ~8.7k system + ~15k user ≈ 24k.)
-
-**Post-lean SO completion still legal:** 5 path-form deposit/host/pipeline keys; `debugStop: true`.
+**PCC-specific adjustments (slight, not hierarchy amputation):** keys-only tree (no values);
+generation schemas (Reasoning / Judgment / selectedKeys); SO never useTools under PCC.
 
 #### decision
 

@@ -37,7 +37,6 @@ import {
   walkExecutionStateKeys,
   resolveExecutionStateKeyPath,
   buildExecutionHierarchySystemPrompt,
-  EXECUTION_HIERARCHY_PROMPT_NODE_SEPARATOR,
   type ExecutionStateKeysTree
 } from '@bitcode/execution-generics';
 import type { Executor } from '@bitcode/execution-generics';
@@ -1040,7 +1039,8 @@ export function factoryStructuredOutput<T, TSchema>(
           (typedInput.reasoning !== undefined || typedInput.preparation !== undefined);
 
         if (isPccSelection) {
-          // Lean SO payload: reason + judgment + keys. No hierarchy re-copy, no useTools.
+          // User payload is keys + prior Thinkings only. Full hierarchy is on system.
+          // PCC SO never includes useTools (schema is selectedKeys only).
           return [
             'Emit ONLY { "selectedKeys": string[] } for PrepareConciseContext.',
             'Slot from prior reasoning and judgment; do not re-reason.',
@@ -1699,8 +1699,10 @@ function buildPccLeanTaskPreparation(execution: Execution): string {
     }
   } catch { /* ignore */ }
 
+  // Short task carrier for the PCC *user* JSON only (not a substitute for
+  // hierarchical system ancestry — agent/phase/pipeline still walk the system).
   const lines = [
-    'Task identity for PrepareConciseContext key selection (not the full agent capability dump).',
+    'PrepareConciseContext selection task (keys only — values are not shown).',
     product ? `Product/pipeline: ${product}.` : '',
     phase ? `Phase: ${phase}.` : '',
     agent ? `Agent: ${agent}.` : '',
@@ -1714,76 +1716,24 @@ function buildPccLeanTaskPreparation(execution: Execution): string {
 }
 
 /**
- * Lean system prompt for PCC selection Thinkings (reason | judge | structured_output).
- * Keeps Execution+pipeline identity (short), phase, lean task, full PCC law, active thinking.
- * Drops fat agent/step capability call_site blocks.
- */
-function buildPccSelectionSystemPrompt(
-  execution: Execution,
-  role: HierarchicalPromptRole,
-): string {
-  const blocks: string[] = [];
-
-  // Pipeline + phase only (Execution-once on pipeline call_site). Skip agent/step
-  // (fat), failsafe/thinkings (we inject PCC + active thinking once below).
-  const hierarchy = buildExecutionHierarchySystemPrompt(execution, {
-    pathFilter: (path) => shouldIncludePromptPath(path, role),
-    nodeFilter: (exec) => {
-      const id = String((exec as any).id || '').toLowerCase();
-      if (id.includes('agent:')) return false;
-      if (['plan', 'try', 'retry', 'refine'].includes(id)) return false;
-      if (id.includes('failsafe:')) return false;
-      if (id.includes('thinkings:') || id.includes('selection') || id.startsWith('seq-')) {
-        // keep nothing under selection/seq shells
-        if (id.includes('selection') || id.includes('thinkings:')) return false;
-        if (/^seq-\d+$/.test(id)) return false;
-      }
-      return true;
-    },
-  });
-
-  // Structural lean only: agent/step/failsafe/thinkings nodes already excluded.
-  // Do not post-filter prose with brittle keyword lists — capability walls live
-  // on the agent call_site and never enter this walk.
-  if (hierarchy) {
-    blocks.push(hierarchy);
-  }
-
-  blocks.push(buildPccLeanTaskPreparation(execution));
-  // PCC law once (not also via failsafe node walk).
-  blocks.push(String(PROMPTPART_GENERIC_AGENT_FAILSAFE_PREPARE_CONTEXT));
-
-  if (role.thinking === 'reason') {
-    blocks.push(String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON));
-  } else if (role.thinking === 'judge') {
-    blocks.push(String(PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE));
-  } else if (role.thinking === 'structured_output') {
-    blocks.push(String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT));
-    blocks.push('PCC selection: emit only { "selectedKeys": string[] }. Never include useTools.');
-  }
-
-  return blocks.filter((b) => b && b.trim()).join(EXECUTION_HIERARCHY_PROMPT_NODE_SEPARATOR);
-}
-
-/**
- * Agent call-site system prompt: generic EE tree walk
- * (`buildExecutionHierarchySystemPrompt` in execution-generics) +
- * agent-specific failsafe/thinking role path filter.
+ * Agent call-site system prompt: full EE hierarchy walk root→leaf
+ * (`buildExecutionHierarchySystemPrompt`) + role path filter.
  *
- * PCC selection Thinkings use a lean system path (no fat agent/Plan dumps).
+ * Hierarchy law: every call-site includes Execution (once on pipeline),
+ * Pipeline, Phase, Agent, Step, active Failsafe, active Thinking — with only
+ * slight role adjustments (e.g. pathFilter keeps active failsafe/thinking
+ * only; PCC user payload is keys-only and does not re-embed this system text).
+ *
+ * Do not skip Agent/Step nodes to "thin" the walk — that is wrong. Fat agent
+ * capability prose is an authoring issue on agent promptparts if too heavy,
+ * not a reason to drop ancestry from the walk.
+ *
+ * `forPreparation` builds the short *user* task field only (not system).
  */
 function buildHierarchicalPrompt(execution: Execution): string {
   const role = detectHierarchicalPromptRole(execution);
   if (role.forPreparation) {
     return buildPccLeanTaskPreparation(execution);
-  }
-  if (
-    role.failsafe === 'prepare_concise_context' &&
-    (role.thinking === 'reason' ||
-      role.thinking === 'judge' ||
-      role.thinking === 'structured_output')
-  ) {
-    return buildPccSelectionSystemPrompt(execution, role);
   }
   return buildExecutionHierarchySystemPrompt(execution, {
     pathFilter: (path) => shouldIncludePromptPath(path, role),
