@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -75,25 +75,6 @@ export function BTDTracker({
     if (labels.length === 0) return assetPacksLabel;
     return `${assetPacksLabel}: ${labels.join(', ')}`;
   }, [assetPacksLabel, recentBtdAssetPacks]);
-
-  // Measure the widest hover/rest posture so the tracker does not resize on hover.
-  const walletActionRef = useRef<HTMLSpanElement>(null);
-  const btdRef = useRef<HTMLSpanElement>(null);
-  const loadingRef = useRef<HTMLSpanElement>(null);
-  const [textWidth, setTextWidth] = useState(0);
-  useLayoutEffect(() => {
-    if (walletActionRef.current && btdRef.current && loadingRef.current) {
-      const walletActionW = walletActionRef.current.offsetWidth;
-      const btdW = btdRef.current.offsetWidth;
-      const loadingW = loadingRef.current.offsetWidth;
-      setTextWidth(Math.ceil(Math.max(walletActionW, btdW, loadingW)));
-    }
-  }, [assetPackCount, displayedBtdBalance, isBalanceLoading, walletActionLabel]);
-  // Compute static container min-width: icon + gap + text + horizontal paddings
-  const paddingPx = 24; // px-6
-  const iconWidthPx = 16; // w-4
-  const gapPx = 14; // gap-x-3.5
-  const minWidth = iconWidthPx + gapPx + textWidth + paddingPx * 2;
 
   // Animate BTD balance changes (BTC fee balance is not shown in chrome).
   useEffect(() => {
@@ -276,7 +257,7 @@ export function BTDTracker({
 
   return (
     <motion.div
-      className={`relative group inline-flex h-8 max-h-8 min-h-8 shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
+      className={`relative group inline-flex h-8 max-h-8 min-h-8 w-max max-w-full shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       onClick={canOpenBtdWallet ? handleOpenBtdWallet : undefined}
@@ -285,15 +266,17 @@ export function BTDTracker({
       title={recentAssetPackTitle}
     >
       {/*
-        Fixed 32px chrome box (matches Profile / Connect Wallet nav siblings).
-        Glow layers stay absolute so they do not inflate layout height.
+        Height-fixed 32px chrome (nav sibling). Width is content-driven so
+        digit length ("0 BTD" → "1,200 BTD") and APs count expand the box
+        naturally — no measured minWidth lock.
+        Glow layers stay absolute so they do not inflate layout size.
       */}
       <motion.div
-        className="relative box-border inline-flex h-8 max-h-8 min-h-8 items-center justify-between gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-6 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
-        style={{ backfaceVisibility: 'hidden', minWidth: `${minWidth}px` }}
+        className="relative box-border inline-flex h-8 max-h-8 min-h-8 w-max max-w-full items-center gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
+        style={{ backfaceVisibility: 'hidden' }}
       >
         {/* Quantum field effect */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/[0.07] to-emerald-500/0 animate-shimmer" />
           <div className="absolute inset-0 bg-gradient-radial from-emerald-500/[0.07] to-transparent" />
         </div>
@@ -302,7 +285,7 @@ export function BTDTracker({
         {isAnimating && [...Array(3)].map((_, i) => (
           <div
             key={i}
-            className="absolute inset-0 rounded-none border border-emerald-400/20 transition-all duration-1000"
+            className="pointer-events-none absolute inset-0 rounded-none border border-emerald-400/20 transition-all duration-1000"
             style={{
               animation: `orbitRotation${i + 1} 3s infinite linear`,
               opacity: isHovered ? 0.4 : 0,
@@ -315,7 +298,7 @@ export function BTDTracker({
         {particles.map(particle => (
           <div
             key={`ct-particle-${particle.id}`}
-            className="absolute rounded-full bg-emerald-400 quantum-particle-button"
+            className="pointer-events-none absolute rounded-full bg-emerald-400 quantum-particle-button"
             style={{
               left: `${particle.x}%`,
               top: `${particle.y}%`,
@@ -327,37 +310,20 @@ export function BTDTracker({
           />
         ))}
 
-        {/* Icon + Text fixed layout */}
-        <div
-          className="absolute inset-y-0 left-6 right-6 grid items-center gap-x-3.5 pointer-events-none"
-          style={{ gridTemplateColumns: `auto ${textWidth}px` }}
-        >
-          {/* Hidden measurement spans */}
-          <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
-            <span ref={walletActionRef} className="whitespace-nowrap font-normal tracking-wide text-sm">{walletActionLabel}</span>
-            <span ref={loadingRef} className="whitespace-nowrap font-normal tracking-wide text-sm">Reading wallet</span>
-            <span ref={btdRef} className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm">
-              <span>{btdBalanceLabel}</span>
-              <span
-                aria-hidden="true"
-                className="mx-3 inline-block h-4 w-[2px] shrink-0 rounded-full"
-              />
-              <span>{assetPacksLabel}</span>
-            </span>
-          </div>
-          {/* Icon slot */}
+        {/* Icon + text in normal flow so width tracks label length. */}
+        <div className="relative z-[1] inline-flex min-w-0 items-center gap-x-2.5">
           <AnimatePresence initial={false} mode="wait">
             {actionState === 'loading' ? (
               <motion.div
                 key="spinner"
-                className="flex items-center justify-center w-4 h-4"
+                className="flex h-4 w-4 shrink-0 items-center justify-center"
                 initial={{ opacity: 0, rotateX: 90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: -90 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
                 <svg
-                  className="animate-spin h-4 w-4 text-emerald-400/90"
+                  className="h-4 w-4 animate-spin text-emerald-400/90"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -369,7 +335,7 @@ export function BTDTracker({
             ) : (
               <motion.div
                 key="logo"
-                className="relative w-4 h-4"
+                className="relative h-4 w-4 shrink-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -385,12 +351,11 @@ export function BTDTracker({
               </motion.div>
             )}
           </AnimatePresence>
-          {/* Text slot */}
           <AnimatePresence initial={false} mode="wait">
             {actionState === 'loading' ? (
               <motion.span
                 key="loading"
-                className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
+                className="whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
@@ -399,7 +364,7 @@ export function BTDTracker({
             ) : isBalanceLoading ? (
               <motion.span
                 key="wallet-loading"
-                className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm text-emerald-200/78"
+                className="inline-flex items-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm text-emerald-200/78"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
@@ -407,14 +372,14 @@ export function BTDTracker({
               >
                 <span
                   aria-hidden="true"
-                  className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-200/80 shadow-[0_0_10px_rgba(103,254,183,0.45)]"
+                  className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-200/80 shadow-[0_0_10px_rgba(103,254,183,0.45)]"
                 />
                 <span>Reading wallet</span>
               </motion.span>
             ) : actionState === 'idle' && shouldShowWalletNow ? (
               <motion.span
                 key="wallet"
-                className="w-full text-center whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
+                className="whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
@@ -423,7 +388,7 @@ export function BTDTracker({
             ) : (
               <motion.span
                 key="btd"
-                className="inline-flex w-full items-center justify-center whitespace-nowrap font-medium tracking-wide text-sm text-emerald-400/90 leading-none"
+                className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm leading-none text-emerald-400/90"
                 initial={{ opacity: 0, rotateX: -90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: 90 }}
@@ -432,7 +397,7 @@ export function BTDTracker({
                 <span>{btdBalanceLabel}</span>
                 <span
                   aria-hidden="true"
-                  className="mx-3 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
+                  className="mx-2.5 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
                 />
                 <span>{assetPacksLabel}</span>
               </motion.span>
@@ -441,7 +406,7 @@ export function BTDTracker({
         </div>
 
         {/* Enhanced ambient glow effects */}
-        <div className="absolute inset-0 -z-10 transition-all duration-500">
+        <div className="pointer-events-none absolute inset-0 -z-10 transition-all duration-500">
           {/* Base ambient glow */}
           <div className="absolute inset-[-1px] rounded-none bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0" />
           <div className="absolute inset-[-1px] rounded-none bg-gradient-radial from-emerald-500/10 to-transparent blur-sm" />
@@ -450,7 +415,7 @@ export function BTDTracker({
 
           {/* Hover state enhancements */}
           <motion.div
-            className="absolute inset-[-2px] rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            className="absolute inset-[-2px] rounded-none opacity-0 transition-opacity duration-700 group-hover:opacity-100"
             animate={isHovered ? {
               scale: [1, 1.05, 1],
             } : {}}
@@ -467,8 +432,8 @@ export function BTDTracker({
         </div>
 
         {/* Click effect ripple */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 rounded-none group-active:bg-emerald-500/10 transition-colors duration-150" />
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 rounded-none transition-colors duration-150 group-active:bg-emerald-500/10" />
         </div>
       </motion.div>
     </motion.div>

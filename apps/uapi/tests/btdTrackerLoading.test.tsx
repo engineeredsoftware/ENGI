@@ -48,9 +48,9 @@ describe('BTDTracker loading posture', () => {
         /1,200 BTD; 2 APs\. Open BTD wallet auxillary for leather/i,
       ),
     ).toBeInTheDocument();
-    // Hidden measurement spans also render the same tokens.
-    expect(screen.getAllByText('1,200 BTD').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('2 APs').length).toBeGreaterThan(0);
+    // Content-sized chrome: one visible label pair (no hidden measurement spans).
+    expect(screen.getByText('1,200 BTD')).toBeInTheDocument();
+    expect(screen.getByText('2 APs')).toBeInTheDocument();
     expect(screen.queryByText(/\bBTC\b/)).not.toBeInTheDocument();
   });
 });
