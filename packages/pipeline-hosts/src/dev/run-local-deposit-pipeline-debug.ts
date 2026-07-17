@@ -3,9 +3,9 @@
  *
  * Abort target (advance only after current call accepted in
  * `.qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md` §1):
- *   Setup → clone-vcs PTRR agent → Plan → prepare_concise_context
- *   → structured_output
- *   (reason + judge accepted; marker at PCC structured_output)
+ *   Setup → clone-vcs (full PTRR) → parallel wave →
+ *   DepositInputComprehensionAgent Plan → prepare_concise_context → reason
+ *   (1.D10 progressive marker)
  *
  * Forces the real Setup clone agent (BITCODE_DEBUG_FORCE_CLONE_PTRR) so host
  * short-circuits do not skip Plan→Try→Retry→Refine + clone-repository tool.
@@ -136,27 +136,31 @@ writeFileSync(
 );
 
 // --- Debug abort marker (advance only after §1 acceptance) ---
-// Target: Setup clone-vcs → Refine → CS → structured_output
-// End of clone-vcs agent after Plan+Try(+tools)+Retry+Refine task SO.
-// FORCE_CLONE_PTRR skips host clone/env/workspace short-circuits so the real
-// factoryPTRRAgent (Plan→Try→Retry→Refine) + clone tool path runs.
+// After 1.D9 clone-vcs agent end Accepted: do NOT re-force full clone PTRR
+// (timeout + cost). Host adopt/clone-for-run short-circuit is sufficient so
+// Setup wave-1 product agents can be QA'd 1-by-1.
+// Default marker: DepositInputComprehension agent end (after Plan PCC closed).
 const debugEnv: Record<string, string> = {
   BITCODE_LLM_CALL_DEBUG: '1',
-  BITCODE_DEBUG_FORCE_CLONE_PTRR: '1',
+  BITCODE_DEBUG_FORCE_CLONE_PTRR:
+    process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '0',
   BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
-  BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'setup',
-  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'refine',
+  BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'discovery',
+  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'plan',
   BITCODE_DEBUG_STOP_FAILSAFE:
-    process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'chunk_then_sum',
+    process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'structured_output',
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'reason',
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
+  // First Discovery LLM proves Setup (MCP + danger-wall) completed.
   BITCODE_DEBUG_STOP_AGENT_FILTER:
-    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || 'clone-vcs',
-  // Longer budget: full Plan+Try+Retry+Refine on clone agent
+    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || 'DepositCodebaseComprehension',
   BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
     process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '900000',
+  // 0 = disable per-call bound for progressive QA (Judge can exceed 180s)
+  BITCODE_LLM_CALL_TIMEOUT_MS:
+    process.env.BITCODE_LLM_CALL_TIMEOUT_MS || '0',
   BITCODE_EXECUTION_DEBUG: 'true',
   BITCODE_LOG_FULL_PROMPTS: '1',
   BITCODE_LOG_TRACES: '1',
@@ -180,15 +184,15 @@ writeFileSync(
     '',
     '```',
     'phase: setup',
-    'agent: clone-vcs (asset-pack-clone-vcs-repository-agent)',
-    'step: refine',
-    'failsafe: chunk_then_sum',
-    'generation: structured_output',
-    'BITCODE_DEBUG_FORCE_CLONE_PTRR=1',
+    'agent: DepositCodebaseComprehensionAgent (discovery:comprehend-codebase)',
+    'step: plan',
+    'failsafe: prepare_concise_context',
+    'generation: reason',
+    'BITCODE_DEBUG_FORCE_CLONE_PTRR=0 (clone PTRR closed at 1.D9)',
     '```',
     '',
-    'PTRR order under test: Plan → Try → Retry → Refine (end of clone-vcs agent).',
-    'After accept: next Setup agent or Discovery.',
+    'Progressive: stop at obfuscations Plan PCC judge (1.D11).',
+    'Clone uses Host short-circuit; re-enable FORCE_CLONE only to re-test clone.',
     '',
     '## Artifacts',
     '',
@@ -209,7 +213,12 @@ const env = {
   BITCODE_PIPELINE_HOST_MODE: 'asset_pack_pipeline',
   BITCODE_PIPELINE_STREAM_TO_DATABASE: '0',
   BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
-    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '600000',
+    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS ||
+    debugEnv.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS ||
+    '900000',
+  // Serialize Setup wave-1 so progressive agent filter stops do not race LSP PTRR.
+  BITCODE_DEBUG_SETUP_SERIAL:
+    process.env.BITCODE_DEBUG_SETUP_SERIAL || '1',
   BITCODE_HOST_CLONE_URL: repoUrl,
   BITCODE_HOST_CLONE_BRANCH: branch,
   BITCODE_HOST_CLONE_COMMIT: commit,
@@ -435,18 +444,19 @@ const summary = {
   llmCallDebugRuns: debugDirs,
   latestRunDir,
   callCount: latestCalls.length,
-  forceClonePtrr: true,
+  forceClonePtrr: env.BITCODE_DEBUG_FORCE_CLONE_PTRR === '1',
   expectedAbort:
-    'Setup → clone-vcs → Refine → chunk_then_sum → structured_output (agent end)',
-  ptrrOrder: 'Plan → Try → Retry → Refine',
+    'Discovery → DepositCodebaseComprehension Plan → prepare_concise_context → reason',
+  ptrrOrder: 'Setup complete → Discovery first PCC reason',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,
   stopStep: env.BITCODE_DEBUG_STOP_STEP,
+  stopAgent: env.BITCODE_DEBUG_STOP_AGENT_FILTER,
 };
 
 writeFileSync(join(workRoot, 'debug-summary.json'), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 
-// Success: hard stop after clone-vcs Refine CS SO (agent terminal task gen).
+// Success: hard stop at progressive §1 marker.
 if (debugStop) process.exit(0);
 process.exit(run.status === 0 ? 0 : 1);

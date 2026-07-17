@@ -1403,8 +1403,10 @@ try {
   const synthesizeMode = manifest.synthesizeMode === 'deposit' ? 'deposit' : 'read';
   const isDepositMode = synthesizeMode === 'deposit';
   const [
-    domainExports,
+    synthDomainExports,
+    all3DomainExports,
     depositPipelineExports,
+    readPipelineExports,
     { enablePipelineStreaming, factoryExecutionPipeline },
     { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
     { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
@@ -1414,32 +1416,37 @@ try {
     // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
     // Relative extensionless imports fail under plain node in the Pipeliner image.
     import(pkgImport('packages/asset-packs-pipelines/syntheses/domain/src/index.ts')),
+    import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
     import(pkgImport('packages/asset-packs-pipelines/syntheses/deposit/src/index.ts')),
+    import(pkgImport('packages/asset-packs-pipelines/syntheses/read/src/index.ts')),
     import(pkgImport('packages/pipelines-generics/src/index.ts')),
     import(pkgImport('packages/btd/src/settlement.ts')),
     import(pkgImport('packages/btd/src/reconciliation.ts')),
     import(pkgImport('packages/btd/src/authority.ts')),
     import(pkgImport('packages/btd/src/receipts.ts')),
   ]);
+  // Layout law: all-3 domain vs syntheses-domain vs product packages.
+  const {
+    buildAssetPackPreviewBoundary,
+    persistAssetPackPreviewBoundary,
+  } = synthDomainExports;
+  const {
+    buildAssetPackDisclosureReview,
+    assertAssetPackDisclosureSourceSafe,
+    buildAssetPackSettlementRightsDeliveryBoundary,
+    persistAssetPackSettlementRightsDeliveryBoundary,
+  } = all3DomainExports;
   const {
     acceptReadNeed,
-    buildAssetPackDisclosureReview,
-    buildAssetPackPreviewBoundary,
-    buildAssetPackSettlementRightsDeliveryBoundary,
     buildAssetPackSourceSafePreview,
     buildReadingPipelineObservabilityInventory,
-    assertAssetPackDisclosureSourceSafe,
     isAcceptedReadNeed,
-    persistAssetPackPreviewBoundary,
-    persistAssetPackSettlementRightsDeliveryBoundary,
     resolveReadingPipelineTelemetryProjection,
     summarizeReadingPipelineObservabilityCoverage,
     synthesizeReadNeedForPipelineInput,
-  } = domainExports;
+    factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks,
+  } = readPipelineExports;
   const { factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks } = depositPipelineExports;
-  const { factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks } = await import(
-    pkgImport('packages/asset-packs-pipelines/syntheses/read/src/index.ts')
-  );
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
   buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;
   buildBtdRightsTransferReceiptFn = btdReceiptBuilders.buildBtdRightsTransferReceipt;

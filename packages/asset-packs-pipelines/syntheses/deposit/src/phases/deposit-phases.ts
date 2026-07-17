@@ -58,13 +58,26 @@ export const depositSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<As
     registerDepositSetupAgents((execution as any).agents);
   } catch {}
 
+  // Progressive deposit QA: BITCODE_DEBUG_SETUP_SERIAL=1 runs wave-1 agents
+  // sequentially (clone → MCP → obfuscations → LSP) so agent-filter hard-stops
+  // do not race a full initialize-lsp PTRR in parallel. Production stays parallel.
+  const serialSetup =
+    String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() === '1' ||
+    String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() === 'true';
+  const wave1 = serialSetup
+    ? sequential(
+        createAgentExecutor('setup:initialize-mcps-tools'),
+        createAgentExecutor('setup:comprehend-obfuscations'),
+        createAgentExecutor('setup:initialize-lsp'),
+      )
+    : parallel(
+        createAgentExecutor('setup:initialize-lsp'),
+        createAgentExecutor('setup:initialize-mcps-tools'),
+        createAgentExecutor('setup:comprehend-obfuscations'),
+      );
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('setup:clone-vcs-repository'),
-    parallel(
-      createAgentExecutor('setup:initialize-lsp'),
-      createAgentExecutor('setup:initialize-mcps-tools'),
-      createAgentExecutor('setup:comprehend-obfuscations'),
-    ),
+    wave1,
     createAgentExecutor('setup:danger-wall'),
   );
 
@@ -88,7 +101,9 @@ export const depositDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegato
   execution: any,
 ) => {
   try {
-    const { registerDiscoveryAgents } = await import('./discovery');
+    const { registerDiscoveryAgents } = await import(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/phases/discovery'
+    );
     registerDiscoveryAgents((execution as any).agents, 'deposit');
   } catch {}
 
@@ -108,7 +123,9 @@ export const depositImplementationPhase: ExecutionPipelineSDIVFExecutionPhaseDel
   ImplementationOutput
 > = (async (input: any, execution: any) => {
   try {
-    const { registerImplementationAgents } = await import('./implementation');
+    const { registerImplementationAgents } = await import(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/phases/implementation'
+    );
     registerImplementationAgents((execution as any).agents, 'deposit');
   } catch {}
   return await createAgentExecutor('implementation:deposit-asset-pack-synthesis')(input, execution);

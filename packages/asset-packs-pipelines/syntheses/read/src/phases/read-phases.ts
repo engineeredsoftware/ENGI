@@ -91,7 +91,9 @@ export const readDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<S
   execution: any,
 ) => {
   try {
-    const { registerDiscoveryAgents } = await import('./discovery');
+    const { registerDiscoveryAgents } = await import(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/phases/discovery'
+    );
     registerDiscoveryAgents((execution as any).agents, 'read');
   } catch {}
 

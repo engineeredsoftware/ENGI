@@ -24,7 +24,7 @@ import {
   pickKeySourceFiles,
   type FileTreeStructure,
   type KeySourceFileRead,
-} from './codebase-analysis-helpers';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/discovery/codebase-analysis-helpers';
 
 const part = (content: string): PromptPart => content as PromptPart;
 

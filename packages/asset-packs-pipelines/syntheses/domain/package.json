@@ -55,7 +55,8 @@
     "./agents/setup/asset-pack-initialize-mcps-tools-agent": "./src/agents/setup/asset-pack-initialize-mcps-tools-agent.ts",
     "./agents/finish/deposit-ledgerize-agent": "./src/agents/finish/deposit-ledgerize-agent.ts",
     "./deposit-source-safe-utils": "./src/deposit-source-safe-utils.ts",
-    "./prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts": "./src/prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts.ts"
+    "./prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts": "./src/prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts.ts",
+    "./agents/discovery/codebase-analysis-helpers": "./src/agents/discovery/codebase-analysis-helpers.ts"
   },
   "scripts": {
     "build": "tsc --noEmit",

@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D9; **clone-vcs agent end**) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (clone-vcs Plan→Try→Retry→Refine closed at agent end) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (deposit **Setup closed** 1.D1–1.D-W; next Discovery 1.D14) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup closed; Discovery open) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -74,11 +74,13 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_LLM_CALL_DEBUG` | `1` | Wire ledger on |
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
-| `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
-| `BITCODE_DEBUG_STOP_STEP` | **`refine`** | end of clone-vcs agent (after 1.D9) |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | **`chunk_then_sum`** | Refine CS task SO |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`structured_output`** | agent terminal task gen |
-| `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
+| `BITCODE_DEBUG_STOP_PHASE` | **`discovery`** | Setup closed |
+| `BITCODE_DEBUG_STOP_STEP` | **`plan`** | 1.D14 Discovery first call |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | Plan PCC |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | first Discovery Thinkings |
+| `BITCODE_DEBUG_FORCE_CLONE_PTRR` | **`0`** | clone PTRR closed at 1.D9; host-adopt |
+| `BITCODE_DEBUG_SETUP_SERIAL` | **`1`** | serial wave-1 for progressive stops |
+| `BITCODE_DEBUG_STOP_AGENT_FILTER` | **`DepositCodebaseComprehension`** | first Discovery agent |
 | `BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS` | `900000` | full Plan+Try+Retry+Refine budget |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -1417,9 +1419,149 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 
 ---
 
+### 1.D10 Deposit · Setup · comprehend-obfuscations · Plan · PCC · reason
+
+- **status:** **Accepted**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Obfuscations Step Plan Failsafe Prepare-Concise-Context Thinking Reason Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **pipeline_mode:** deposit
+- **phase:** setup
+- **agent:** `DepositInputComprehensionAgent` (`setup:comprehend-obfuscations`)
+- **step / failsafe / thinking:** **plan** / **prepare_concise_context** / **reason**
+- **provider / model:** anthropic / `claude-haiku-4-5`
+- **harness:** `ok: true`, `debugStop: true`, stopAgent=`DepositInputComprehension`
+- **abort:** `0052-abort-…-depositinputcomprehensionagent-plan-prepare_concise_context-reason.json`
+- **usage:** inputTokens≈9893, outputTokens≈488
+
+#### coverage
+
+| Axis | Result |
+| --- | --- |
+| **hierarchy** | **Pass** — Execution → Pipeline → SDIVF → deposit product → Setup → agent → Plan → PCC → Reason. Settlement ban present (synth only). |
+| **dual law** | **Pass** — user is keys-only selection task + `pipeline_execution_keys`; values not shown. |
+| **useTools law** | **Pass** — PCC reason omits `useTools`; user forbids tool selection. |
+| **product identity** | **Pass** — deposit Obfuscations steering; not read Need dual. |
+| **key selection** | **Pass** — 8 keys: deposit obfuscations/permissible/impermissible/reference/repository + host manifestRoot/sourceRevision + pipeline input. Confidence 0.95. |
+
+#### critique
+
+| Finding | Severity | Disposition |
+| --- | --- | --- |
+| Parallel Setup wave continues after agent-filter hard-stop (LSP ran full PTRR to call ~99 while abort was call 52) | medium | Note: parallel sibling leakage; stop is per-agent not whole pipeline |
+| `pipeline_execution_keys.deposit` lacks `sourceCheckoutCatalog` (agent needs catalog paths for Try) | medium | Residual — Host/deposit preprocess must surface catalog keys before CS |
+| One “Need or …” string residue in hierarchy walk | low | Non-blocking hygiene |
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted** |
+| **next marker** | Obfuscations Plan PCC **judge** (1.D11), then finish this agent |
+| **not yet** | LSP agent formal accept; MCP; danger-wall; Discovery |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| Request | `…/0050-request-…-depositinputcomprehensionagent-plan-prepare_concise_context-reason.json` |
+| Response | `…/0051-response-…-depositinputcomprehensionagent-plan-prepare_concise_context-reason.json` |
+| Abort | `…/0052-abort-…` |
+
+---
+
+### 1.D11 Deposit · Setup · comprehend-obfuscations · Plan · PCC · judge
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Obfuscations Step Plan Failsafe Prepare-Concise-Context Thinking Judge Call-Site`
+- **agent:** `DepositInputComprehensionAgent`
+- **step / failsafe / thinking:** plan / prepare_concise_context / **judge**
+- **harness:** host-adopt clone (`FORCE_CLONE_PTRR=0`), `BITCODE_DEBUG_SETUP_SERIAL=1`, `callCount: 5`, `debugStop: true`
+- **usage:** judge completion present; `approved: false` with grounded issues (expected Judge posture)
+
+#### coverage
+
+| Axis | Result |
+| --- | --- |
+| **hierarchy** | **Pass** — same deposit Setup Plan PCC stack as 1.D10 |
+| **dual law** | **Pass** — Judge conditions on prior reason + keys tree |
+| **grounding** | **Pass** — flags over-select (`#repository:provider`, weak `#pipeline:synthesizeMode`), missing `#host:sourceRevision`, optional catalog body loaders |
+| **useTools** | **Pass** — Judge does not select tools |
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted** (Judge may disapprove; call-site is valid) |
+| **next marker** | Plan PCC **structured_output** (1.D12) |
+| **harness note** | After 1.D9 keep `FORCE_CLONE_PTRR=0` + `SETUP_SERIAL=1` for Setup wave-1 |
+
+---
+
+### 1.D12 Deposit · Setup · comprehend-obfuscations · Plan · PCC · structured_output
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Obfuscations Step Plan Failsafe Prepare-Concise-Context Thinking Structured-Output Call-Site`
+- **selectedKeys (actual):** `#deposit:obfuscations`, `#deposit:sourceCheckoutCatalog`, `#deposit:permissibleSources`, `#deposit:impermissibleSources`, `#host:sourceRevision`, `#repository:workspacePath`
+- **callCount:** 7 · `debugStop: true`
+- **decision:** **Accepted** — Plan PCC closed; residual key polish absorbed at CS/Try
+
+---
+
+### 1.D13 Deposit · Setup · comprehend-obfuscations · **Agent end**
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Obfuscations Agent End`
+- **harness:** host-adopt + serial Setup; `callCount: 49`; stop refine/CS/SO
+- **terminal SO:** comprehension maps secrets redaction → `.npmrc` + credential concepts; honorNotes present
+- **PTRR:** Plan→Try→Retry→Refine observed (tools empty; correct — no tools on this agent)
+- **decision:** **Accepted — obfuscations agent complete**
+- **next:** initialize-lsp agent end (1.D-L)
+
+---
+
+### 1.D-L Deposit · Setup · initialize-lsp · **Agent end**
+
+- **status:** **Accepted with residual**
+- **date:** 2026-07-17
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Initialize-Lsp Agent End`
+- **agent:** `asset-pack-initialize-lsp-agent`
+- **stop:** refine / chunk_then_sum / structured_output · `callCount` ~97 (includes prior Setup agents)
+- **terminal SO:** `initialized: false` with workspace rootUri set (host checkout path present); capabilities empty
+- **residual:** LSP tools not actually bringing up a language server in local debug (measurement stub posture). Non-blocking for Setup admission; re-open under Discovery if measurement needs real LSP.
+- **decision:** **Accepted for Setup progression** (agent completes PTRR; tools residual tracked)
+
+### 1.D-M Deposit · Setup · initialize-mcps-tools · deterministic
+
+- **status:** **Accepted**
+- **agent:** `setup:asset-pack-initialize-mcps-tools-agent` (single-step, no LLM)
+- **evidence:** serial Setup order runs MCP before obfuscations/LSP; pipeline reaches Discovery without MCP throw when no route mcpConfig
+- **decision:** **Accepted** (no-op normalize path is valid for deposit debug fixture)
+
+### 1.D-W Deposit · Setup · danger-wall · deterministic
+
+- **status:** **Accepted**
+- **agent:** `setup:danger-wall` (deterministic admission)
+- **evidence:** with fixture obfuscations text + successful DepositInputComprehension guidance store, phase advances past danger-wall into Discovery (agents registered and LLM-called)
+- **decision:** **Accepted**
+
+### 1.D-Setup · **Setup phase closed**
+
+- **status:** **Closed** (2026-07-17)
+- **roster:** clone-vcs (1.D1–1.D9) → MCP (1.D-M) → obfuscations (1.D10–1.D13) → LSP (1.D-L) → danger-wall (1.D-W)
+- **harness law for continuation:**
+  - `BITCODE_DEBUG_FORCE_CLONE_PTRR=0` after 1.D9
+  - `BITCODE_DEBUG_SETUP_SERIAL=1` for progressive stops
+  - `BITCODE_LLM_CALL_TIMEOUT_MS=0` when Judge/CS can exceed 180s
+- **layout fixes during Setup QA:** host import split (all-3 / synth / product); zod on read package; serial Setup debug flag; discovery registration import path; codebase-analysis-helpers package export
+- **next progressive marker:** Discovery · `DepositCodebaseComprehensionAgent` Plan PCC reason (phase=`discovery`)
+
 ### 1.2+ Read next / Deposit next
 
-- **1.D10** next Setup agent (or Discovery) — progressive marker  
+- **1.D14** Discovery · comprehend-codebase · Plan · PCC · reason  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
 
 ---
@@ -1430,7 +1572,7 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1–1.D9 **clone-vcs agent complete** (Plan→Try→Retry→Refine, tools postprocess, callCount=49).  
+- **proof (current):** §1.D1–1.D-W **Setup phase closed** (clone-vcs agent end; obfuscations agent end; LSP agent end with residual; MCP + danger-wall deterministic; Discovery registration reached).  
   `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopStep=`refine`, stopFailsafe=`chunk_then_sum`, stopGeneration=`structured_output`.
 
 ### §3 SDIVF read pipeline production-like accept
@@ -1498,3 +1640,5 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 | 2026-07-16 | Document created. §1 method + entry **1.1** (read clone Plan PCC reason) filled from live `pnpm run debug:read:first-llm` after commits retiring substeps, PTRR order, and PCC prompt work. |
 | 2026-07-16 | §7 retitled: Host selection (API/dispatch) **vs** SDIVF Setup phase — naming clarification only; no host-selection bug found in read synthesize path from this audit. |
 | 2026-07-16 | **1.D9** clone-vcs agent end Accepted: marker refine/CS/SO; useTools hoist + clone tool registration/git-https; tools postprocess merges workspacePath. |
+| 2026-07-17 | **1.D10–1.D13** obfuscations Plan PCC R/J/SO + agent end; host-adopt after clone; `BITCODE_DEBUG_SETUP_SERIAL`; layout host import + zod + discovery register path fixes. |
+| 2026-07-17 | **1.D-L / 1.D-M / 1.D-W** LSP agent end (residual uninitialized), MCP + danger-wall Accepted; **Setup phase closed**. Marker → Discovery 1.D14. |

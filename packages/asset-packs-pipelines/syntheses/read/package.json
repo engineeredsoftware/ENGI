@@ -44,7 +44,8 @@
     "@bitcode/generic-asset-packs-synthesis": "workspace:*",
     "@bitcode/asset-packs-generics": "workspace:*",
     "@bitcode/registry": "workspace:*",
-    "@bitcode/supabase": "workspace:*"
+    "@bitcode/supabase": "workspace:*",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
