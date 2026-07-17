@@ -23,11 +23,11 @@ jest.mock('../agents/setup/asset-pack-clone-vcs-repository-agent', () => ({
   __esModule: true,
   default: jest.fn(async (input: any) => ({ ...(input ?? {}), cloned: true })),
 }));
-jest.mock('../agents/setup/read-fits-finding-synthesis-setup-plan-agent', () => ({
+jest.mock('../../../read/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent', () => ({
   __esModule: true,
   default: jest.fn(async (input: any) => ({ ...(input ?? {}), plan: 'read setup plan' })),
 }));
-jest.mock('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent', () => ({
+jest.mock('../../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent', () => ({
   __esModule: true,
   default: jest.fn(async (input: any) => ({ ...(input ?? {}), readComprehension: true })),
 }));
@@ -35,7 +35,7 @@ jest.mock('../agents/setup/asset-pack-danger-wall-agent', () => ({
   __esModule: true,
   default: jest.fn(async (input: any) => ({ ...(input ?? {}), admission: 'read risk admission ran' })),
 }));
-jest.mock('../agents/setup/deposit-input-comprehension-agent', () => ({
+jest.mock('../../../deposit/src/agents/setup/deposit-input-comprehension-agent', () => ({
   __esModule: true,
   default: jest.fn(async (input: any) => ({ ...(input ?? {}), depositComprehension: true })),
 }));
@@ -49,10 +49,10 @@ import { assetPackSetupPhaseExecutor } from '../phases/setup';
 import { storeSynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 import cloneAgent from '../agents/setup/asset-pack-clone-vcs-repository-agent';
-import readSetupPlanAgent from '../agents/setup/read-fits-finding-synthesis-setup-plan-agent';
-import readComprehensionAgent from '../agents/setup/read-fits-finding-synthesis-read-comprehension-agent';
+import readSetupPlanAgent from '../../../read/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent';
+import readComprehensionAgent from '../../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent';
 import readDangerWallAgent from '../agents/setup/asset-pack-danger-wall-agent';
-import depositInputComprehensionAgent from '../agents/setup/deposit-input-comprehension-agent';
+import depositInputComprehensionAgent from '../../../deposit/src/agents/setup/deposit-input-comprehension-agent';
 import initializeMcpsToolsAgent from '../agents/setup/asset-pack-initialize-mcps-tools-agent';
 
 const cloneMock = cloneAgent as jest.Mock;

@@ -1,7 +1,8 @@
 // @ts-nocheck
-import assetPack, {
+import {
   normalizePipelineDepositoryAssets,
   searchDepositoryAssetSpace,
+  factoryPreprocess,
   type DepositoryAsset,
   type DepositorySearchRead,
 } from '../index';
@@ -331,8 +332,13 @@ describe('AssetPack depository search', () => {
   it('stores depository search and fit result evidence during pipeline preprocess', async () => {
     const exec = new Execution('asset-pack:depository-search-test');
 
-    const output = await assetPack(
+    // Exercise the dual-mode preprocess (full read-lens depository search path),
+    // not the product SDIVF runner (which uses light factoryPreprocessReadOnly).
+    const preprocess = factoryPreprocess();
+    const output = await preprocess(
       {
+        synthesizeMode: 'read',
+        mode: 'read',
         read: read.prompt,
         definitionOfRead: read.prompt,
         repository: {
@@ -460,10 +466,11 @@ describe('AssetPack depository search', () => {
       unitId: 'asset_repository-revision-deposit-octocat-engi:supply-index-source-safe-unit',
       unitKind: 'depository-supply-index',
     });
-    expect(output.depositorySearch.selectedCandidateAssetIds).toEqual([
+    const depositorySearch = output.depositorySearchResult ?? output.depositorySearch;
+    expect(depositorySearch.selectedCandidateAssetIds).toEqual([
       'asset_repository-revision-deposit-octocat-engi',
     ]);
-    expect(output.depositorySearch.fitDepositAssetIds).toEqual([
+    expect(depositorySearch.fitDepositAssetIds).toEqual([
       'asset_repository-revision-deposit-octocat-engi',
     ]);
   });

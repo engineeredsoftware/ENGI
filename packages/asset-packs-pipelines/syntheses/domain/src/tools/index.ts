@@ -12,7 +12,7 @@ import { Tool } from '@bitcode/tools-generics';
 
 // VCS and Repository Tools (always available)
 import { assetPackCloneVCSRepositoryTool } from './AssetPackCloneVCSRepositoryTool';
-import { bitcodeReadMeasurementComputerUseTool } from './BitcodeReadMeasurementComputerUseTool';
+import { bitcodeReadMeasurementComputerUseTool } from '../../../read/src/tools/BitcodeReadMeasurementComputerUseTool';
 import { lexicalDepositorySearchTool } from './AssetPackLexicalDepositorySearchTool';
 import { depositDepositoryAssetPackSearchTool } from './DepositDepositoryAssetPackSearchTool';
 import { assetPackVerificationEvidenceTool } from './AssetPackVerificationEvidenceTool';

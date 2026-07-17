@@ -98,7 +98,7 @@ describe('registerValidationAgentsForType (mode-conditional Validation registry)
     );
     const resolved = await loader();
     const readyToFinish = (
-      await import('../agents/validation/deposit-ready-to-finish-agent')
+      await import('../../../deposit/src/agents/validation/deposit-ready-to-finish-agent')
     ).default;
     expect(resolved).toBe(readyToFinish);
   });

@@ -21,8 +21,8 @@ import {
   type LedgerObservedFact,
   type ObjectStorageArtifactFact,
 } from '@bitcode/btd/reconciliation';
-import type { AssetPackPreviewBoundary } from './asset-pack-preview-boundary';
-import type { AssetPackSourceSafePreview } from './read-need';
+import type { AssetPackPreviewBoundary } from '../../syntheses/domain/src/asset-pack-preview-boundary';
+import type { AssetPackSourceSafePreview } from '../../syntheses/read/src/read-need';
 
 export type AssetPackSettlementRightsDeliveryState =
   | 'settlement_delivered'

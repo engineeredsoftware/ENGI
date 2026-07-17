@@ -29,27 +29,27 @@ import {
   depositImplementationPhase,
   depositValidationPhase,
   depositFinishPhase,
-} from '../phases/deposit-phases';
+} from '../../../deposit/src/phases/deposit-phases';
 import {
   readDiscoveryPhase,
   readImplementationPhase,
   readValidationPhase,
   readFinishPhase,
-} from '../phases/read-phases';
+} from '../../../read/src/phases/read-phases';
 
-import depositCodebaseComprehensionAgent from '../agents/discovery/deposit-codebase-comprehension-agent';
-import depositDepositorySearchAgent from '../agents/discovery/deposit-depository-search-agent';
-import readDepositorySearchForNeedFitsAgent from '../agents/discovery/read-depository-search-for-need-fits-agent';
-import depositInherentRegurgitationAgent from '../agents/discovery/deposit-inherent-regurgitation-agent';
-import depositAssetPackSynthesisAgent from '../agents/implementation/deposit-asset-pack-synthesis-agent';
-import readAssetPackSynthesisAgent from '../agents/implementation/read-asset-pack-synthesis-agent';
-import depositReadyToFinishAgent from '../agents/validation/deposit-ready-to-finish-agent';
-import readReadyToFinishAgent from '../agents/validation/read-ready-to-finish-agent';
-import depositStoreArtifactsAgent from '../agents/finish/deposit-store-artifacts-agent';
+import depositCodebaseComprehensionAgent from '../../../deposit/src/agents/discovery/deposit-codebase-comprehension-agent';
+import depositDepositorySearchAgent from '../../../deposit/src/agents/discovery/deposit-depository-search-agent';
+import readDepositorySearchForNeedFitsAgent from '../../../read/src/agents/discovery/read-depository-search-for-need-fits-agent';
+import depositInherentRegurgitationAgent from '../../../deposit/src/agents/discovery/deposit-inherent-regurgitation-agent';
+import depositAssetPackSynthesisAgent from '../../../deposit/src/agents/implementation/deposit-asset-pack-synthesis-agent';
+import readAssetPackSynthesisAgent from '../../../read/src/agents/implementation/read-asset-pack-synthesis-agent';
+import depositReadyToFinishAgent from '../../../deposit/src/agents/validation/deposit-ready-to-finish-agent';
+import readReadyToFinishAgent from '../../../read/src/agents/validation/read-ready-to-finish-agent';
+import depositStoreArtifactsAgent from '../../../deposit/src/agents/finish/deposit-store-artifacts-agent';
 import depositLedgerizeAgent from '../agents/finish/deposit-ledgerize-agent';
-import depositFinishSynthesizeRunAgent from '../agents/finish/deposit-finish-synthesize-run-agent';
-import readStoreArtifactsAgent from '../agents/finish/read-store-artifacts-agent';
-import readFinishSynthesizeRunAgent from '../agents/finish/read-finish-synthesize-run-agent';
+import depositFinishSynthesizeRunAgent from '../../../deposit/src/agents/finish/deposit-finish-synthesize-run-agent';
+import readStoreArtifactsAgent from '../../../read/src/agents/finish/read-store-artifacts-agent';
+import readFinishSynthesizeRunAgent from '../../../read/src/agents/finish/read-finish-synthesize-run-agent';
 
 // ---------- roster harness: a recording registry + lazy-loader resolution ----------
 

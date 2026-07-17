@@ -6,7 +6,7 @@ import {
   isAcceptedReadNeed,
   readNeedToDepositorySearchRead,
   resolveReadNeedFromPipelineInput,
-} from './read-need';
+} from '../../read/src/read-need';
 import {
   depositorySupplyAssetsFromIndex,
   type DepositorySupplyIndex,

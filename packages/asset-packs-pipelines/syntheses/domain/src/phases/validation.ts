@@ -34,7 +34,7 @@ export function registerValidationAgentsForType(
     agentRegistry.registerAgent(
       'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline',
       () =>
-        import('../agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
+        import('../../../deposit/src/agents/validation/deposit-ready-to-finish-agent').then((m) => m.default),
     );
     return;
   }

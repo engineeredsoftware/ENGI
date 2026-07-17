@@ -11,8 +11,8 @@ import {
   type AssetPackSourceSafePreview,
   type ReadNeed,
   type ReadNeedMeasurementDimension,
-} from '../read-need';
-import type { DepositoryFitResultEvidence } from '../depository-search';
+} from '../../../syntheses/read/src/read-need';
+import type { DepositoryFitResultEvidence } from '../../../syntheses/domain/src/depository-search';
 
 const input = {
   read: {

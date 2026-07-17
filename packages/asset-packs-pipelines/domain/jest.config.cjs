@@ -69,6 +69,15 @@ module.exports = {
     '^@bitcode/doc-comment-generics$': '<rootDir>/../../doc-comment-generics/src/index.ts',
     '^@bitcode/doc-comment-generics/(.*)$': '<rootDir>/../../doc-comment-generics/src/$1',
     '^@bitcode/btd/(.*)$': '<rootDir>/../../btd/src/$1.ts',
+
+    '^@bitcode/asset-packs-pipelines-domain$': '<rootDir>/src/index.ts',
+    '^@bitcode/asset-packs-pipelines-domain/(.*)$': '<rootDir>/src/$1',
+    '^@bitcode/asset-packs-pipelines-syntheses-domain$': '<rootDir>/../syntheses/domain/src/index.ts',
+    '^@bitcode/asset-packs-pipelines-syntheses-domain/(.*)$': '<rootDir>/../syntheses/domain/src/$1',
+    '^@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs$': '<rootDir>/../syntheses/read/src/index.ts',
+    '^@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/(.*)$': '<rootDir>/../syntheses/read/src/$1',
+    '^@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs$': '<rootDir>/../syntheses/deposit/src/index.ts',
+    '^@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/(.*)$': '<rootDir>/../syntheses/deposit/src/$1',
     '^@bitcode/btd$': '<rootDir>/../../btd/src/index.ts',
   },
 };

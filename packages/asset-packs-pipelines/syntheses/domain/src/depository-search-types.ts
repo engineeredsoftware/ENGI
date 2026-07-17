@@ -3,7 +3,7 @@
  * Shared contract surface for ranking, evidence, normalize, and run modules.
  */
 import type { buildAssetPackEmbeddingPolicy } from './embedding-config';
-import { READ_FITS_FINDING_SYNTHESIS } from './reading-pipeline-contract';
+import { READ_FITS_FINDING_SYNTHESIS } from '../../read/src/reading-pipeline-contract';
 import type { DepositorySupplyIndex } from './depository-supply-index';
 
 export type AssetPackFitResultState =

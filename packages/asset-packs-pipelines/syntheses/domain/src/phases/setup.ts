@@ -35,7 +35,7 @@ export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, exe
   const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   if (mode === 'deposit') {
     try {
-      const depositComprehend = (await import('../agents/setup/deposit-input-comprehension-agent')).default as any;
+      const depositComprehend = (await import('../../../deposit/src/agents/setup/deposit-input-comprehension-agent')).default as any;
       (execution as any).agents?.registerAgent?.(
         'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
         depositComprehend,
@@ -102,15 +102,15 @@ export function registerSetupAgents(agentRegistry: any): void {
   );
   agentRegistry.registerAgent(
     'setup:ReadFitsFindingSynthesisSetupPlanAgent',
-    () => import('../agents/setup/read-fits-finding-synthesis-setup-plan-agent').then(m => m.default)
+    () => import('../../../read/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
-    () => import('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent').then(m => m.default)
+    () => import('../../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:asset-pack-comprehend-read-definition-agent',
-    () => import('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent').then(m => m.default)
+    () => import('../../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent').then(m => m.default)
   );
   agentRegistry.registerAgent(
     'setup:asset-pack-danger-wall-agent',

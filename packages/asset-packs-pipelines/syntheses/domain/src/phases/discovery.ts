@@ -42,21 +42,21 @@ export function registerDiscoveryAgents(
   mode?: 'deposit' | 'read' | string,
 ): void {
   agentRegistry.registerAgent(DISCOVERY_COMPREHEND_CODEBASE, () =>
-    import('../agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default),
+    import('../../../deposit/src/agents/discovery/deposit-codebase-comprehension-agent').then((m) => m.default),
   );
   agentRegistry.registerAgent(DISCOVERY_INHERENT_REGURGITATION, () =>
-    import('../agents/discovery/deposit-inherent-regurgitation-agent').then((m) => m.default),
+    import('../../../deposit/src/agents/discovery/deposit-inherent-regurgitation-agent').then((m) => m.default),
   );
 
   const isRead = mode === 'read';
   if (isRead) {
     agentRegistry.registerAgent(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS, () =>
-      import('../agents/discovery/read-depository-search-for-need-fits-agent').then((m) => m.default),
+      import('../../../read/src/agents/discovery/read-depository-search-for-need-fits-agent').then((m) => m.default),
     );
   } else {
     // deposit (default) and any non-read product path
     agentRegistry.registerAgent(DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS, () =>
-      import('../agents/discovery/deposit-depository-search-agent').then((m) => m.default),
+      import('../../../deposit/src/agents/discovery/deposit-depository-search-agent').then((m) => m.default),
     );
   }
 }

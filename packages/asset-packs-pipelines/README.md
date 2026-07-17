@@ -17,9 +17,9 @@ asset-packs-pipelines/
 | Path | Package name | Scope |
 | --- | --- | --- |
 | `domain/` | `@bitcode/asset-packs-pipelines-domain` | **All 3** pipelines: commodity, disclosure, settlement-rights library, BTD quote helpers, org-policy wallet authority |
-| `syntheses/domain/` | `@bitcode/asset-packs-pipelines-syntheses-domain` | **Both synths**: SDIVF agents/phases/tools, preprocess/postprocess, deposit options, depository search, reading pipeline contracts |
-| `syntheses/deposit/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs` | Deposit product factory only |
-| `syntheses/read/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs` | Read product factory only |
+| `syntheses/domain/` | `@bitcode/asset-packs-pipelines-syntheses-domain` | **Both synths**: SDIVF agents/phases/tools, preprocess/postprocess, depository search, synthesis helpers |
+| `syntheses/deposit/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs` | Deposit product + co-located deposit options/admission/policy/agents |
+| `syntheses/read/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs` | Read product + co-located Need/fits-finding/reading contracts/agents |
 | `settle/` | `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack` | Settle Simple product factory only |
 
 **Rules**
@@ -29,9 +29,10 @@ asset-packs-pipelines/
 3. Code specific to one product pipeline → co-locate under that pipeline package (`syntheses/deposit`, `syntheses/read`, or `settle`).
 4. Do not grow a kitchen-sink `domain/` with synthesis agents/phases — those belong under `syntheses/`.
 
-Compatibility: deep exports that previously lived on `@bitcode/asset-packs-pipelines-domain`
-and are now synthesis-shared re-export from relative shims under `domain/src/*` (prefer
-importing `@bitcode/asset-packs-pipelines-syntheses-domain` for new code).
+**Import law (no shims):** all-3 libraries from `@bitcode/asset-packs-pipelines-domain`;
+shared synth helpers from `@bitcode/asset-packs-pipelines-syntheses-domain`; deposit-only
+and read-only modules from the deposit/read product packages. Package **names** stay stable
+for workspace BC; only filesystem co-location changed.
 
 ## Product pipelines
 

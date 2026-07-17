@@ -8,12 +8,12 @@ import {
   buildOpenAIEmbeddingCreateParams,
   normalizeAssetPackEmbeddingVector,
   resolveAssetPackEmbeddingConfig,
-} from '../embedding-config';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/embedding-config';
 import {
   searchDepositoryAssetSpace,
   type DepositoryAsset,
   type DepositorySearchResult,
-} from '../depository-search';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-search';
 
 export type DepositDepositorySearchToolInput = {
   queryTerms: string[];

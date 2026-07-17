@@ -1,7 +1,7 @@
 import { Execution } from '@bitcode/execution-generics';
 import {
   buildAssetPackPreviewBoundary,
-} from '../asset-pack-preview-boundary';
+} from '../../../syntheses/domain/src/asset-pack-preview-boundary';
 import {
   buildAssetPackSettlementRightsDeliveryBoundary,
   persistAssetPackSettlementRightsDeliveryBoundary,
@@ -10,7 +10,7 @@ import {
 import {
   acceptReadNeed,
   synthesizeReadNeedForPipelineInput,
-} from '../read-need';
+} from '../../../syntheses/read/src/read-need';
 
 function acceptedNeed() {
   return acceptReadNeed(

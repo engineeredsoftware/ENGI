@@ -377,7 +377,7 @@ export function buildV32ReadingPipelineProofCoverage(): ReadingPipelineProofCove
     toolCoverage,
     boundaryCoverage,
     validationCommands: [
-      'pnpm --filter @bitcode/asset-packs-pipelines-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand',
+      'pnpm --filter @bitcode/asset-packs-pipelines-syntheses-domain exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-contract.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand',
       'pnpm run check:v32-reading-pipeline-proof-coverage',
       'pnpm run check:v32-gate4',
     ],

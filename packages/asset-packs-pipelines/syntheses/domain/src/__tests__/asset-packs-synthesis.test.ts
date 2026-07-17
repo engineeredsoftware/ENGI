@@ -16,8 +16,8 @@ import {
   validateDepositSynthesisOptions,
   DEPOSIT_MEASUREMENT_CATALOG,
 } from '../asset-packs-synthesis';
-import { buildRealDepositAssetPackOptionSynthesis } from '../deposit-option-real-synthesis';
-import { assertDepositAssetPackOptionSynthesisSourceSafe } from '../deposit-asset-pack-options';
+import { buildRealDepositAssetPackOptionSynthesis } from '../../../deposit/src/deposit-option-real-synthesis';
+import { assertDepositAssetPackOptionSynthesisSourceSafe } from '../../../deposit/src/deposit-asset-pack-options';
 
 // The formal pipeline (ExecutionPipeline → factoryAgent → Failsafe ∘ Thinkings)
 // is mocked here; its own correctness is covered by the agent-generics suites.

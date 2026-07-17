@@ -8,7 +8,7 @@ import {
   buildAssetPackSourceSafePreview,
   isAcceptedReadNeed,
   type AssetPackSourceSafePreview,
-} from './read-need';
+} from '../../read/src/read-need';
 import {
   assertAssetPackDisclosureSourceSafe,
   buildAssetPackDisclosureReview,
@@ -26,17 +26,17 @@ import {
   buildReadingOperationalTelemetryRepairReadback,
   persistReadingOperationalTelemetryRepairReadback,
   type ReadingOperationalTelemetryRepairReadback,
-} from './reading-operational-telemetry-repair-readback';
+} from '../../read/src/reading-operational-telemetry-repair-readback';
 import {
   buildReadingInterfaceProductParity,
   persistReadingInterfaceProductParity,
   type ReadingInterfaceProductParity,
-} from './reading-interface-product-parity';
+} from '../../read/src/reading-interface-product-parity';
 import {
   buildReadingLocalStagingRehearsal,
   persistReadingLocalStagingRehearsal,
   type ReadingLocalStagingRehearsal,
-} from './reading-local-staging-rehearsal';
+} from '../../read/src/reading-local-staging-rehearsal';
 
 /**
  * Normalize *synthesis* pipeline output (deposit/read SDIVF).

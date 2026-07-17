@@ -1,4 +1,4 @@
-import { buildAssetPackPreviewBoundary } from '../asset-pack-preview-boundary';
+import { buildAssetPackPreviewBoundary } from '../../../syntheses/domain/src/asset-pack-preview-boundary';
 import {
   buildAssetPackSettlementRightsDeliveryBoundary,
 } from '../asset-pack-settlement-rights-delivery';
@@ -9,7 +9,7 @@ import {
 import {
   acceptReadNeed,
   synthesizeReadNeedForPipelineInput,
-} from '../read-need';
+} from '../../../syntheses/read/src/read-need';
 
 function acceptedNeed() {
   return acceptReadNeed(

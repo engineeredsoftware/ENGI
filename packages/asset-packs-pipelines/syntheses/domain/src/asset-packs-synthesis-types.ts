@@ -11,7 +11,7 @@
 import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
 import type { AssetPackPatchDescriptor } from '@bitcode/asset-packs-generics';
-import type { DepositDemandEstimate } from './deposit-asset-pack-options-types';
+import type { DepositDemandEstimate } from '../../deposit/src/deposit-asset-pack-options-types';
 
 export type SynthesizeAssetPacksMode = 'deposit' | 'read';
 

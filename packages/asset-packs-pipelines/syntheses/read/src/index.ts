@@ -18,13 +18,13 @@ import {
   type ExecutionPipelineSDIVF,
 } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import {
-  readPhases,
   initializeAssetPackPipeline,
+  factoryPreprocessReadOnly,
   storeCrossPhaseArtifact,
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
-  factoryPreprocessReadOnly,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain';
+import { readPhases } from './phases/read-phases';
 import {
   EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
@@ -32,7 +32,7 @@ import {
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_IMPLEMENTATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_VALIDATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_FINISH_PROMPT,
-} from '@bitcode/asset-packs-pipelines-syntheses-domain';
+} from './prompts/execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts';
 
 /** Full hierarchy name: ExecutionPipelineSDIVFSynthesizeReadAssetPacks. */
 export type ExecutionPipelineSDIVFSynthesizeReadAssetPacks = ExecutionPipelineSDIVF<any, any>;
@@ -74,3 +74,16 @@ export const executionPipelineSDIVFSynthesizeReadAssetPacks: ExecutionPipelineSD
   factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks();
 
 export const runExecutionPipelineSDIVFSynthesizeReadAssetPacks = executionPipelineSDIVFSynthesizeReadAssetPacks;
+
+// Co-located read domain (moved from syntheses/domain)
+export * from './read-need';
+export * from './read-need-review-resynthesis';
+export * from './read-fits-finding-runtime';
+export * from './reading-pipeline-contract';
+export * from './reading-pipeline-observability';
+export * from './reading-interface-product-parity';
+export * from './reading-local-staging-rehearsal';
+export * from './reading-operational-telemetry-repair-readback';
+export * from './interface-disclosure-boundary';
+export * from './read-neediness-measurements';
+export * from './phases/read-phases';

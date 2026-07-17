@@ -7,7 +7,7 @@ import {
   READ_FITS_FINDING_SYNTHESIS,
   READ_FITS_FINDING_SYNTHESIS_CONTRACT,
   listReadingPipelineTelemetryTrace,
-} from './reading-pipeline-contract';
+} from '../../read/src/reading-pipeline-contract';
 import {
   measurementRootFor,
   proofRootFor,

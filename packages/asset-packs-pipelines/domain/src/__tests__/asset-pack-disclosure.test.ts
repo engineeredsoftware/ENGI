@@ -8,7 +8,7 @@ import {
   acceptReadNeed,
   buildAssetPackSourceSafePreview,
   synthesizeReadNeedForPipelineInput,
-} from '../read-need';
+} from '../../../syntheses/read/src/read-need';
 
 const acceptedNeed = acceptReadNeed(
   synthesizeReadNeedForPipelineInput({

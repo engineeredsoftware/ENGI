@@ -1,7 +1,7 @@
 import type {
   AssetPackReadRightState,
   AssetPackSourceSafePreview,
-} from './read-need';
+} from '../../syntheses/read/src/read-need';
 
 export type AssetPackSourceVisibility =
   | 'withheld_before_settlement'

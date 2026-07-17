@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { buildAssetPackPostprocessedResult, normalizeAssetPackOutput } from '../postprocess';
 import { Execution } from '@bitcode/execution-generics';
-import { acceptReadNeed, synthesizeReadNeedForPipelineInput } from '../read-need';
+import { acceptReadNeed, synthesizeReadNeedForPipelineInput } from '../../../read/src/read-need';
 
 describe('normalizeAssetPackOutput', () => {
   it('backfills filesModified and summary; PR only from settle shippable, never finish/*', () => {

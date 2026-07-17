@@ -8,7 +8,7 @@ import {
   acceptReadNeed,
   buildAssetPackSourceSafePreview,
   synthesizeReadNeedForPipelineInput,
-} from '../read-need';
+} from '../../../read/src/read-need';
 
 function acceptedNeed() {
   return acceptReadNeed(

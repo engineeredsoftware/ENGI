@@ -40,14 +40,14 @@ export function registerImplementationAgents(
 ): void {
   if (mode === 'deposit') {
     agentRegistry.registerAgent('implementation:deposit-asset-pack-synthesis', () =>
-      import('../agents/implementation/deposit-asset-pack-synthesis-agent').then(m => m.default),
+      import('../../../deposit/src/agents/implementation/deposit-asset-pack-synthesis-agent').then(m => m.default),
     );
     return;
   }
   agentRegistry.registerAgent(
     'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
     () =>
-      import('../agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(
+      import('../../../read/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(
         (m) => m.default,
       ),
   );

@@ -12,7 +12,7 @@ import {
   type AssetPackSourceSafePreview,
   type ReadNeed,
   type ShareToFeeQuote,
-} from './read-need';
+} from '../../read/src/read-need';
 
 export type AssetPackPreviewStorageRecordKind =
   | 'source_safe_preview'

@@ -12,7 +12,7 @@
  * this agent ledgerizes **synthesis outputs** so stored APs are ledger-addressable.
  */
 
-import { storeCrossPhaseArtifact } from '../../synthesize-asset-packs';
+import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
 
 function findValue(execution: any, namespace: string, key: string): any {
   const local = execution?.get?.(namespace, key);

@@ -77,8 +77,8 @@ jest.mock('@bitcode/generic-agents-danger-wall', () => {
 });
 
 import cloneRepositoryAgent from '../agents/setup/asset-pack-clone-vcs-repository-agent';
-import runReadFitsFindingSynthesisSetupPlanAgent from '../agents/setup/read-fits-finding-synthesis-setup-plan-agent';
-import runReadFitsFindingSynthesisReadComprehensionAgent from '../agents/setup/read-fits-finding-synthesis-read-comprehension-agent';
+import runReadFitsFindingSynthesisSetupPlanAgent from '../../../read/src/agents/setup/read-fits-finding-synthesis-setup-plan-agent';
+import runReadFitsFindingSynthesisReadComprehensionAgent from '../../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent';
 import dangerWallAgent, {
   normalizeRiskAdmissionResult,
 } from '../agents/setup/asset-pack-danger-wall-agent';

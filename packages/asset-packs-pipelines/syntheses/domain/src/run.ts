@@ -3,13 +3,11 @@
  *
  * Callers should use runExecutionPipelineSDIVFSynthesizeAssetPacks (or the product
  * deposit/read packages) and treat Finish as the final phase.
+ *
+ * Re-exports dual-entry from the package index (no circular import of factories).
  */
 
 export {
+  default,
   runExecutionPipelineSDIVFSynthesizeAssetPacks,
-  executionPipelineSDIVFSynthesizeAssetPacks,
-  factoryExecutionPipelineSDIVFSynthesizeAssetPacks,
 } from './index';
-
-import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from './index';
-export default runExecutionPipelineSDIVFSynthesizeAssetPacks;

@@ -20,19 +20,21 @@ import {
   type ExecutionPipelineSDIVF,
 } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import {
-  depositPhases,
   initializeAssetPackPipeline,
   factoryPreprocessDepositOnly,
   storeCrossPhaseArtifact,
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain';
+import { depositPhases } from './phases/deposit-phases';
+import {
   EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_DEPOSITS_ASSET_PACKS_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_SETUP_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_DISCOVERY_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_IMPLEMENTATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_VALIDATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_FINISH_PROMPT,
-} from '@bitcode/asset-packs-pipelines-syntheses-domain';
+} from './prompts/execution-pipeline-sdivf-synthesize-deposits-asset-packs-prompts';
 
 /** Full hierarchy name: ExecutionPipelineSDIVFSynthesizeDepositAssetPacks. */
 export type ExecutionPipelineSDIVFSynthesizeDepositAssetPacks = ExecutionPipelineSDIVF<any, any>;
@@ -74,3 +76,11 @@ export const executionPipelineSDIVFSynthesizeDepositAssetPacks: ExecutionPipelin
   factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks();
 
 export const runExecutionPipelineSDIVFSynthesizeDepositAssetPacks = executionPipelineSDIVFSynthesizeDepositAssetPacks;
+
+// Co-located deposit domain (moved from syntheses/domain)
+export * from './deposit-asset-pack-options';
+export * from './deposit-asset-pack-option-policy';
+export * from './deposit-asset-pack-option-admission';
+export * from './deposit-option-real-synthesis';
+export * from './depositor-earning-supply-intelligence';
+export * from './phases/deposit-phases';

@@ -4,7 +4,7 @@ import {
 } from './AssetPackWrittenAssetType';
 import type { AssetPackFitResultState, DepositorySearchResult } from '../depository-search';
 import type { AssetPackDisclosureReview } from '../asset-pack-disclosure';
-import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
+import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../../../read/src/read-need';
 
 /**
  * AssetPack *synthesis* output schemas (deposit/read SDIVF).

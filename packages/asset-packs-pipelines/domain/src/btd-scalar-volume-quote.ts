@@ -9,7 +9,7 @@ import type {
   ReadNeed,
   ReadNeedMeasurementDimension,
   ShareToFeeQuote,
-} from './read-need';
+} from '../../syntheses/read/src/read-need';
 
 export const BTD_SCALAR_VOLUME_QUOTE_SCHEMA = 'bitcode.btd.scalar-volume.quote-conservation' as const;
 

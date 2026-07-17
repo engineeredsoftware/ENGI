@@ -23,11 +23,11 @@ jest.mock('../agents/setup/asset-pack-initialize-mcps-tools-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({ success: true, active: {}, initialized: [] }),
 }));
-jest.mock('../agents/setup/read-need-comprehension-agent', () => ({
+jest.mock('../../../read/src/agents/setup/read-need-comprehension-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({ success: true, summary: 'test need' }),
 }));
-jest.mock('../agents/setup/read-danger-wall-agent', () => ({
+jest.mock('../../../read/src/agents/setup/read-danger-wall-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({
     finalAssessment: {
@@ -38,7 +38,7 @@ jest.mock('../agents/setup/read-danger-wall-agent', () => ({
     },
   }),
 }));
-jest.mock('../agents/setup/deposit-danger-wall-agent', () => ({
+jest.mock('../../../deposit/src/agents/setup/deposit-danger-wall-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({
     finalAssessment: {
@@ -49,7 +49,7 @@ jest.mock('../agents/setup/deposit-danger-wall-agent', () => ({
     },
   }),
 }));
-jest.mock('../agents/setup/read-fits-finding-synthesis-read-comprehension-agent', () => ({
+jest.mock('../../../read/src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent', () => ({
   __esModule: true,
   default: jest.fn().mockResolvedValue({ success: true }),
 }));

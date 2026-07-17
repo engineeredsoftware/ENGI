@@ -5,7 +5,7 @@
 import { buildAssetPackEmbeddingPolicy } from './embedding-config';
 import {
   admitReadFitsFinding,
-} from './read-need';
+} from '../../read/src/read-need';
 import {
   buildDepositorySupplyIndex,
   type DepositorySupplyIndex,
