@@ -341,14 +341,6 @@ export default function ReadPageClient() {
                 error={synthesis.error}
                 runId={synthesis.runId}
                 onSynthesize={() => void synthesis.synthesize()}
-                onCancel={
-                  showCancel
-                    ? () => {
-                        void synthesis.cancel();
-                      }
-                    : undefined
-                }
-                isCancelling={synthesis.isCancelling}
                 canSynthesize={Boolean(
                   repositoryContext?.selectedRepository?.fullName &&
                     repositoryContext?.selectedCommit,

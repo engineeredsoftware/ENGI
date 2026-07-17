@@ -2,6 +2,7 @@
  * Read Need compose + option synthesis/review (deposit Obfuscations twin).
  * Free-text Need + Relevant / Irrelevant path pickers + synthesize CTA.
  * Options list and settle live in the parent detail grid (deposit parity).
+ * Cancel lives only on ReadsPipelineTelemetry (header right) — not here.
  */
 "use client";
 
@@ -25,9 +26,6 @@ export function ReadsNeedComposePanel(props: {
   error: string | null;
   runId: string | null;
   onSynthesize: () => void;
-  /** Cooperative cancel while synthesis is running (deposit twin). */
-  onCancel?: () => void;
-  isCancelling?: boolean;
   canSynthesize: boolean;
   isConfigLocked?: boolean;
 }) {
@@ -43,8 +41,6 @@ export function ReadsNeedComposePanel(props: {
     error,
     runId,
     onSynthesize,
-    onCancel,
-    isCancelling = false,
     canSynthesize,
     isConfigLocked = false,
   } = props;
@@ -92,42 +88,26 @@ export function ReadsNeedComposePanel(props: {
         repositoryContext={repositoryContext}
       />
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <ProductSynthesizeAssetPackOptionsButton
-          data-testid="reads-synthesize-options"
-          onClick={onSynthesize}
-          disabled={!canSynthesize || !need.trim() || running}
-          running={running && status === "running"}
-        />
-        {running && onCancel ? (
-          <button
-            type="button"
-            data-testid="reads-cancel-synthesis"
-            aria-label="Cancel read synthesis run"
-            disabled={isCancelling}
-            onClick={() => {
-              onCancel();
-            }}
-            className="border border-rose-300/30 bg-rose-300/10 px-3 py-2 text-[0.62rem] font-medium uppercase tracking-[0.14em] text-rose-100 transition hover:border-rose-200/45 hover:bg-rose-300/18 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {isCancelling ? "Cancelling…" : "Cancel run"}
-          </button>
-        ) : null}
-        {status === "cancelled" ? (
-          <span
-            data-testid="reads-synthesis-cancelled-badge"
-            className="border border-rose-300/25 bg-rose-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-rose-100"
-          >
-            Cancelled
-          </span>
-        ) : null}
-      </div>
+      <ProductSynthesizeAssetPackOptionsButton
+        data-testid="reads-synthesize-options"
+        onClick={onSynthesize}
+        disabled={!canSynthesize || !need.trim() || running}
+        running={running && status === "running"}
+      />
       {runId || status !== "idle" ? (
         <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-neutral-500">
           {runId ? (
             <span className="font-mono text-[0.65rem]">{runId}</span>
           ) : null}
           <span className="uppercase tracking-wide">status: {status}</span>
+          {status === "cancelled" ? (
+            <span
+              data-testid="reads-synthesis-cancelled-badge"
+              className="border border-rose-300/25 bg-rose-300/10 px-2 py-0.5 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-rose-100"
+            >
+              Cancelled
+            </span>
+          ) : null}
         </div>
       ) : null}
 
