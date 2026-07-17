@@ -15,9 +15,10 @@
  *             include `useTools`; tools postprocess runs when selected.
  *  - Retry  → the agent's output schema (re-attempt Try using prior errors /
  *             usedTools; tools postprocess when selected).
- *  - Refine → the agent's output schema (LAST step — final agent return;
- *             same type as the agent; no tools postprocess / no useTools
- *             execution).
+ *  - Refine → agent domain fields only (LAST step — final return). Same
+ *             domain type as the agent, but **useTools is always omitted**
+ *             from the Refine SO schema (no tools postprocess; inventing
+ *             useTools / pending-tool statuses is a defect).
  *
  * PCC selection SO (first failsafe) is never the step schema: always
  * `{ selectedKeys }` only — never useTools — on every PTRR step.
@@ -41,3 +42,80 @@ export const PlanStepOutputSchema = z.object({
 }).describe('{ "approach": string, "steps": string[], "considerations"?: string[] }');
 
 export type PlanStepOutput = z.infer<typeof PlanStepOutputSchema>;
+
+/**
+ * Strip optional `useTools` from a Zod object schema for Plan/Refine SO.
+ * Identity when the schema has no useTools key (preserves reference equality).
+ */
+export function omitUseToolsFromSchema<T extends z.ZodTypeAny>(schema: T): T {
+  try {
+    const def = (schema as any)?._def;
+    const rawShape =
+      typeof def?.shape === 'function'
+        ? def.shape()
+        : def?.shape ?? (schema as any)?.shape;
+    if (!rawShape || typeof rawShape !== 'object' || !('useTools' in rawShape)) {
+      return schema;
+    }
+    const nextShape: Record<string, z.ZodTypeAny> = {};
+    for (const [k, v] of Object.entries(rawShape)) {
+      if (k === 'useTools') continue;
+      nextShape[k] = v as z.ZodTypeAny;
+    }
+    let next: z.ZodTypeAny = z.object(nextShape);
+    const desc = typeof (schema as any).description === 'string' ? (schema as any).description : '';
+    if (desc) {
+      // Drop useTools clause from schema hint string if present.
+      const cleaned = desc
+        .replace(/,?\s*"useTools"\s*\?:?\s*\[[^\]]*\]/g, '')
+        .replace(/,?\s*"useTools"\s*\?:?\s*[^,}\]]+/g, '')
+        .replace(/,\s*}/g, ' }')
+        .replace(/\{\s*,/g, '{ ');
+      next = next.describe(cleaned);
+    }
+    return next as T;
+  } catch {
+    return schema;
+  }
+}
+
+/**
+ * Refine final-return hygiene: never keep useTools; collapse invented
+ * "waiting on tools" statuses when tools cannot run on this step.
+ */
+export function sanitizeRefineStepOutput<T>(output: T): T {
+  if (!output || typeof output !== 'object' || Array.isArray(output)) return output;
+  const bag = { ...(output as Record<string, unknown>) };
+  delete bag.useTools;
+
+  const status = typeof bag.status === 'string' ? bag.status : '';
+  const statusL = status.toLowerCase();
+  const looksPendingTool =
+    /pending|scheduled|blocked|awaiting.?tool|tool.?execution|clone_scheduled|missing.?connection/i.test(
+      statusL,
+    );
+  const path =
+    (typeof bag.workspacePath === 'string' && bag.workspacePath.trim()) ||
+    (typeof bag.path === 'string' && bag.path.trim()) ||
+    '';
+
+  if (looksPendingTool) {
+    if (path) {
+      // Evidence already has a path — do not claim tools are still pending.
+      bag.status = bag.success === false ? status : 'cloned';
+      if (bag.success !== false) bag.success = true;
+    } else {
+      bag.success = false;
+      bag.status = 'incomplete-no-tool-proof';
+      bag.workspacePath = bag.workspacePath ?? null;
+    }
+  }
+
+  // Fabricated success without a path is not a valid Refine final return.
+  if (bag.success === true && !path && 'workspacePath' in bag) {
+    bag.success = false;
+    if (!status || looksPendingTool) bag.status = 'incomplete-no-tool-proof';
+  }
+
+  return bag as T;
+}

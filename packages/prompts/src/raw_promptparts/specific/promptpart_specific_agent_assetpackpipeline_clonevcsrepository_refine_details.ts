@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKPIPELINE_CLONEVCSREPOSITORY_REFINE_DETAILS: PromptPart =
-  'Final step only (no tools, no useTools): synthesize Plan+Try+Retry into { success, repository, workspacePath, status?, metadata? }. Prefer real tool/host clone evidence; if Try/Retry left workspacePath empty or success false, keep success false — never invent paths or fabricate checkoutMethod/operationTimestamp' as PromptPart;
+  'Final step only (no tools, no useTools, never invent tool names): synthesize Plan+Try+Retry into { success, repository, workspacePath, status?, metadata? }. Copy workspacePath only from prior usedTools / Try-Retry proof. If no path in evidence: success false, status incomplete-no-tool-proof — never pending-tool-execution, never cloneRepositoryTool / VCS_API_WORKFLOW' as PromptPart;

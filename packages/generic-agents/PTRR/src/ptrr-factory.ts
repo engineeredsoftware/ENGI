@@ -168,7 +168,10 @@ export function factoryPTRRAgent<TInput, TOutput>(
     factoryRefineStep,
     factoryRetryStep,
   } = require('@bitcode/agent-generics/steps/factories');
-  const { PlanStepOutputSchema } = require('@bitcode/agent-generics/steps/step-schemas');
+  const {
+    PlanStepOutputSchema,
+    omitUseToolsFromSchema,
+  } = require('@bitcode/agent-generics/steps/step-schemas');
   const { AgentVariationStep } = require('@bitcode/agent-generics/types');
   const { AgentExecution } = require('@bitcode/agent-generics/execution');
 
@@ -182,13 +185,15 @@ export function factoryPTRRAgent<TInput, TOutput>(
   };
   const onlyStepEnv = String(process?.env?.BITCODE_DEBUG_ONLY_STEP || '').toLowerCase();
 
-  // Try + Retry produce agent-shaped attempts; Refine is last and returns the
-  // agent contract (same default schema). Plan uses the canonical plan shape.
+  // Try + Retry produce agent-shaped attempts (may include useTools).
+  // Refine is last: same domain fields, but useTools is always omitted from the
+  // SO schema so the model cannot invent tool selection / pending-tool statuses
+  // (no tools postprocess on Refine). Plan uses the canonical plan shape.
   const stepSchemas = {
     plan: config.plan?.outputSchema ?? PlanStepOutputSchema,
     try: config.try?.outputSchema ?? config.outputSchema,
     retry: config.retry?.outputSchema ?? config.outputSchema,
-    refine: config.refine?.outputSchema ?? config.outputSchema
+    refine: omitUseToolsFromSchema(config.refine?.outputSchema ?? config.outputSchema),
   };
 
   // Agent catalog vs per-step tool surfaces:

@@ -92,8 +92,34 @@ describe('PTRR per-step output schemas', () => {
 
     expect(factoryPlanStep.mock.calls[0][0]).toBe(planOverride);
     expect(factoryTryStep.mock.calls[0][0]).toBe(tryOverride);
+    // Refine override with no useTools is identity after omit.
     expect(factoryRefineStep.mock.calls[0][0]).toBe(refineOverride);
     expect(factoryRetryStep.mock.calls[0][0]).toBe(retryOverride);
+  });
+
+  it('Refine SO schema omits useTools when agent schema includes it', () => {
+    const AgentWithTools = z.object({
+      success: z.boolean(),
+      useTools: z.array(z.object({ name: z.string(), input: z.any() })).optional(),
+    });
+
+    factoryPTRRAgent({
+      name: 'refine-no-use-tools',
+      outputSchema: AgentWithTools,
+      enforceLLM: false,
+      ...carrier(),
+    });
+
+    expect(factoryTryStep.mock.calls[0][0]).toBe(AgentWithTools);
+    expect(factoryRetryStep.mock.calls[0][0]).toBe(AgentWithTools);
+    const refineSchema = factoryRefineStep.mock.calls[0][0];
+    expect(refineSchema).not.toBe(AgentWithTools);
+    const shape =
+      typeof refineSchema._def?.shape === 'function'
+        ? refineSchema._def.shape()
+        : refineSchema.shape;
+    expect(shape.useTools).toBeUndefined();
+    expect(shape.success).toBeDefined();
   });
 
   it('the canonical plan-step schema is small, universally satisfiable, and hint-described', () => {

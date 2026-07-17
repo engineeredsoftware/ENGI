@@ -1146,7 +1146,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
             'Apply logical reasoning to the agent/step task using prepared context only.',
             'Prefer selectedContext values. Do not re-select keys. Do not invent facts absent from selectedContext.',
             'Plan: omit useTools (strategy only). Try/Retry: emit useTools when the catalog tool must run; prefer host sourceRevision when deposit.repository shells are null.',
-            'Refine: omit useTools; finalize return from Plan/Try/Retry evidence only — never invent workspacePath or success without tool/host proof.',
+            'Refine: FORBIDDEN useTools / inventing tool names / status pending|scheduled|blocked for tools. Finalize from Plan/Try/Retry evidence only (usedTools results, prior workspacePath). Never invent workspacePath or success without that proof; if proof missing set success false.',
             typedInput.priorChunkCompletions
               ? 'Chunk pass: incorporate priorChunkCompletions from earlier slices; reason about this selectedContext slice in that light.'
               : '',
@@ -1230,6 +1230,9 @@ export function factoryStructuredOutput<T, TSchema>(
           return [
             keysHint,
             'Generate structured output for the step schema from prior reasoning/judgment and prepared context only.',
+            allowsUseTools
+              ? 'Try/Retry only: useTools may appear when the catalog tool must run.'
+              : 'This step schema has no useTools — never emit useTools, invent tool names, or claim pending/scheduled tool execution.',
             typedInput.priorChunkCompletions
               ? 'Chunk pass: priorChunkCompletions are earlier slices; emit output for this slice consistent with them when relevant.'
               : '',

@@ -45,6 +45,7 @@ import { logStepTrace, logStepStart, logStepError } from '../diagnostics/instrum
 import { createFailsafeGenerationSequence } from './failsafe-sequence';
 import { PlanStepOutputSchema } from './step-schemas';
 import { applyStepToolSurface } from '../execution';
+import { sanitizeRefineStepOutput } from './step-schemas';
 import { applyComposedCallSiteNodePrompt } from '@bitcode/execution-generics';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
@@ -485,8 +486,24 @@ export function factoryRefineStep<TInput, TOutput>(
         const usable = Object.keys(stepExec.tools.getUsableTools?.() || {});
         stepExec.store('tools', 'usable', usable);
       } catch {}
-      const out = await (core as Executor<any, any>)(input, stepExec);
-      try { stepExec.store('tools', 'use', (out as any)?.output?.useTools || []); } catch {}
+      let out = await (core as Executor<any, any>)(input, stepExec);
+      // Mechanical hygiene: strip inventable useTools / pending-tool statuses.
+      // Refine never runs tools postprocess — SO must not claim otherwise.
+      if (out && typeof out === 'object') {
+        const sanitizedOutput = sanitizeRefineStepOutput((out as any).output);
+        const reasoning = (out as any).reasoning;
+        let sanitizedReasoning = reasoning;
+        if (reasoning && typeof reasoning === 'object' && Array.isArray(reasoning.useTools)) {
+          const { useTools: _drop, ...rest } = reasoning;
+          sanitizedReasoning = rest;
+        }
+        out = {
+          ...out,
+          output: sanitizedOutput,
+          ...(sanitizedReasoning !== undefined ? { reasoning: sanitizedReasoning } : {}),
+        };
+      }
+      try { stepExec.store('tools', 'use', []); } catch {}
       try { stepExec.store('tools', 'used', []); } catch {}
       try {
         publishAgentStepWorkUpdate(
