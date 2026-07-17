@@ -42,11 +42,23 @@ describe('multi-language Language Client', () => {
     expect(langs.length).toBeGreaterThan(30);
   });
 
-  it('resolves bundled typescript-language-server', () => {
-    const resolved = resolveLanguageServer('typescript');
-    expect(resolved).not.toBeNull();
-    expect(resolved!.id).toBe('typescript-language-server');
-    expect(resolved!.resolvedCommand).toBeTruthy();
+  it('resolves bundled npm language servers (not PATH-only)', () => {
+    const expectResolved = (languageId: string, serverId: string) => {
+      const resolved = resolveLanguageServer(languageId);
+      expect(resolved).not.toBeNull();
+      expect(resolved!.id).toBe(serverId);
+      expect(resolved!.resolvedCommand).toBeTruthy();
+    };
+    expectResolved('typescript', 'typescript-language-server');
+    expectResolved('python', 'pyright');
+    expectResolved('shellscript', 'bash-language-server');
+    expectResolved('yaml', 'yaml-language-server');
+    expectResolved('html', 'vscode-html-language-server');
+    expectResolved('json', 'vscode-json-language-server');
+    expectResolved('vue', 'vue-language-server');
+    expectResolved('svelte', 'svelteserver');
+    expectResolved('php', 'intelephense');
+    expectResolved('toml', 'taplo');
   });
 
   it('detectLanguage is multi-language', () => {

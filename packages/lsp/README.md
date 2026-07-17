@@ -15,12 +15,41 @@ Real multi-language LSP **client** for Bitcode measurement and AssetPack Setup/D
 2. Discovery `useTools` (`lsp-document-symbols`, `lsp-definition`, …) open files on the matching server and return real analysis when the binary is available.
 3. Missing servers (e.g. `gopls` not installed) are reported as `unavailableServers` — not silent TS-only pretend.
 
-## Bundled vs PATH
+## Bundled vs Pipeliner / PATH
 
-| Server | Source |
-|--------|--------|
-| `typescript-language-server` | npm dependency of `@bitcode/lsp` (always available in monorepo) |
-| `pyright` / `gopls` / `rust-analyzer` / `clangd` / … | Host `PATH` when installed |
+### Always bundled (npm deps of `@bitcode/lsp`)
+
+| Server | Languages |
+|--------|-----------|
+| `typescript-language-server` | TypeScript, JavaScript, TSX/JSX |
+| `pyright` | Python |
+| `bash-language-server` | shell |
+| `yaml-language-server` | YAML |
+| `dockerfile-language-server-nodejs` | Dockerfile |
+| `vscode-langservers-extracted` | HTML, CSS, JSON, ESLint |
+| `@vue/language-server` | Vue |
+| `svelte-language-server` | Svelte |
+| `graphql-language-service-cli` | GraphQL |
+| `intelephense` | PHP |
+| `@taplo/cli` | TOML |
+
+### Pipeliner image (`containers/images/pipeliner`)
+
+Native binaries installed by `scripts/install-language-servers.sh`:
+
+| Binary | Languages |
+|--------|-----------|
+| `gopls` (+ Go toolchain) | Go |
+| `rust-analyzer` | Rust |
+| `clangd` | C / C++ / ObjC |
+| `marksman` | Markdown |
+| `terraform-ls` | Terraform |
+| `lua-language-server` | Lua |
+| `sqls` | SQL |
+
+### Optional PATH only (not image-default)
+
+Java/Kotlin/C#/Ruby/Dart/Haskell/Scala/Swift/etc. — too heavy or platform-specific for the default appliance; map still resolves when present on PATH.
 
 ## API highlights
 

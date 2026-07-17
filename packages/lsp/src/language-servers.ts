@@ -32,8 +32,18 @@ export type ResolvedLanguageServer = LanguageServerSpec & {
   languages: string[];
 };
 
-/** Languages served by each server id (inverse of LANGUAGE_TO_SERVER). */
+/**
+ * Language server specs.
+ *
+ * **Bundled (npm deps of @bitcode/lsp)** — resolved via node_modules; always
+ * available after pnpm install (local host + Pipeliner image monorepo install).
+ *
+ * **Image / PATH (native)** — installed into Pipeliner OCI image under
+ * /usr/local/bin (or Go bin); also used when present on developer PATH.
+ * See containers/images/pipeliner/scripts/install-language-servers.sh.
+ */
 const SERVER_SPECS: Record<string, LanguageServerSpec> = {
+  // --- npm-bundled (always with @bitcode/lsp) ---
   'typescript-language-server': {
     id: 'typescript-language-server',
     command: 'typescript-language-server',
@@ -46,8 +56,108 @@ const SERVER_SPECS: Record<string, LanguageServerSpec> = {
     id: 'pyright',
     command: 'pyright-langserver',
     args: ['--stdio'],
+    npmPackage: 'pyright',
+    npmBin: 'pyright-langserver',
     commandCandidates: ['pyright-langserver', 'pyright', 'basedpyright-langserver', 'pylsp'],
   },
+  'bash-language-server': {
+    id: 'bash-language-server',
+    command: 'bash-language-server',
+    args: ['start'],
+    npmPackage: 'bash-language-server',
+    npmBin: 'bash-language-server',
+    commandCandidates: ['bash-language-server'],
+  },
+  'yaml-language-server': {
+    id: 'yaml-language-server',
+    command: 'yaml-language-server',
+    args: ['--stdio'],
+    npmPackage: 'yaml-language-server',
+    npmBin: 'yaml-language-server',
+    commandCandidates: ['yaml-language-server'],
+  },
+  'dockerfile-language-server': {
+    id: 'dockerfile-language-server',
+    command: 'docker-langserver',
+    args: ['--stdio'],
+    npmPackage: 'dockerfile-language-server-nodejs',
+    npmBin: 'docker-langserver',
+    commandCandidates: ['docker-langserver'],
+  },
+  'vscode-html-language-server': {
+    id: 'vscode-html-language-server',
+    command: 'vscode-html-language-server',
+    args: ['--stdio'],
+    npmPackage: 'vscode-langservers-extracted',
+    npmBin: 'vscode-html-language-server',
+    commandCandidates: ['vscode-html-language-server', 'html-languageserver'],
+  },
+  'vscode-css-language-server': {
+    id: 'vscode-css-language-server',
+    command: 'vscode-css-language-server',
+    args: ['--stdio'],
+    npmPackage: 'vscode-langservers-extracted',
+    npmBin: 'vscode-css-language-server',
+    commandCandidates: ['vscode-css-language-server', 'css-languageserver'],
+  },
+  'vscode-json-language-server': {
+    id: 'vscode-json-language-server',
+    command: 'vscode-json-language-server',
+    args: ['--stdio'],
+    npmPackage: 'vscode-langservers-extracted',
+    npmBin: 'vscode-json-language-server',
+    commandCandidates: ['vscode-json-language-server', 'vscode-json-languageserver'],
+  },
+  'vscode-eslint-language-server': {
+    id: 'vscode-eslint-language-server',
+    command: 'vscode-eslint-language-server',
+    args: ['--stdio'],
+    npmPackage: 'vscode-langservers-extracted',
+    npmBin: 'vscode-eslint-language-server',
+    commandCandidates: ['vscode-eslint-language-server'],
+  },
+  'vue-language-server': {
+    id: 'vue-language-server',
+    command: 'vue-language-server',
+    args: ['--stdio'],
+    npmPackage: '@vue/language-server',
+    npmBin: 'vue-language-server',
+    commandCandidates: ['vue-language-server', 'vls'],
+  },
+  svelteserver: {
+    id: 'svelteserver',
+    command: 'svelteserver',
+    args: ['--stdio'],
+    npmPackage: 'svelte-language-server',
+    npmBin: 'svelteserver',
+    commandCandidates: ['svelteserver', 'svelte-language-server'],
+  },
+  'graphql-lsp': {
+    id: 'graphql-lsp',
+    command: 'graphql-lsp',
+    args: ['server', '-m', 'stream'],
+    npmPackage: 'graphql-language-service-cli',
+    npmBin: 'graphql-lsp',
+    commandCandidates: ['graphql-lsp'],
+  },
+  intelephense: {
+    id: 'intelephense',
+    command: 'intelephense',
+    args: ['--stdio'],
+    npmPackage: 'intelephense',
+    npmBin: 'intelephense',
+    commandCandidates: ['intelephense', 'phpactor'],
+  },
+  taplo: {
+    id: 'taplo',
+    command: 'taplo',
+    args: ['lsp', 'stdio'],
+    npmPackage: '@taplo/cli',
+    npmBin: 'taplo',
+    commandCandidates: ['taplo'],
+  },
+
+  // --- Pipeliner image / host PATH (native binaries) ---
   gopls: {
     id: 'gopls',
     command: 'gopls',
@@ -66,6 +176,31 @@ const SERVER_SPECS: Record<string, LanguageServerSpec> = {
     args: ['--background-index'],
     commandCandidates: ['clangd'],
   },
+  marksman: {
+    id: 'marksman',
+    command: 'marksman',
+    args: ['server'],
+    commandCandidates: ['marksman'],
+  },
+  'terraform-ls': {
+    id: 'terraform-ls',
+    command: 'terraform-ls',
+    args: ['serve'],
+    commandCandidates: ['terraform-ls'],
+  },
+  'lua-language-server': {
+    id: 'lua-language-server',
+    command: 'lua-language-server',
+    args: [],
+    commandCandidates: ['lua-language-server'],
+  },
+  sqls: {
+    id: 'sqls',
+    command: 'sqls',
+    args: [],
+    commandCandidates: ['sqls'],
+  },
+  // Optional / heavy — image may omit; PATH when present
   jdtls: {
     id: 'jdtls',
     command: 'jdtls',
@@ -89,60 +224,6 @@ const SERVER_SPECS: Record<string, LanguageServerSpec> = {
     command: 'ruby-lsp',
     args: [],
     commandCandidates: ['ruby-lsp', 'solargraph'],
-  },
-  intelephense: {
-    id: 'intelephense',
-    command: 'intelephense',
-    args: ['--stdio'],
-    commandCandidates: ['intelephense', 'phpactor'],
-  },
-  'lua-language-server': {
-    id: 'lua-language-server',
-    command: 'lua-language-server',
-    args: [],
-    commandCandidates: ['lua-language-server'],
-  },
-  'bash-language-server': {
-    id: 'bash-language-server',
-    command: 'bash-language-server',
-    args: ['start'],
-    commandCandidates: ['bash-language-server'],
-  },
-  'yaml-language-server': {
-    id: 'yaml-language-server',
-    command: 'yaml-language-server',
-    args: ['--stdio'],
-    commandCandidates: ['yaml-language-server'],
-  },
-  'vscode-html-language-server': {
-    id: 'vscode-html-language-server',
-    command: 'vscode-html-language-server',
-    args: ['--stdio'],
-    commandCandidates: ['vscode-html-language-server', 'html-languageserver'],
-  },
-  'vscode-css-language-server': {
-    id: 'vscode-css-language-server',
-    command: 'vscode-css-language-server',
-    args: ['--stdio'],
-    commandCandidates: ['vscode-css-language-server', 'css-languageserver'],
-  },
-  'vscode-json-language-server': {
-    id: 'vscode-json-language-server',
-    command: 'vscode-json-language-server',
-    args: ['--stdio'],
-    commandCandidates: ['vscode-json-language-server', 'vscode-json-languageserver'],
-  },
-  'vue-language-server': {
-    id: 'vue-language-server',
-    command: 'vue-language-server',
-    args: ['--stdio'],
-    commandCandidates: ['vue-language-server', 'vls'],
-  },
-  svelteserver: {
-    id: 'svelteserver',
-    command: 'svelteserver',
-    args: ['--stdio'],
-    commandCandidates: ['svelteserver', 'svelte-language-server'],
   },
   dart: {
     id: 'dart',
@@ -180,55 +261,13 @@ const SERVER_SPECS: Record<string, LanguageServerSpec> = {
     args: [],
     commandCandidates: ['sourcekit-lsp'],
   },
-  'terraform-ls': {
-    id: 'terraform-ls',
-    command: 'terraform-ls',
-    args: ['serve'],
-    commandCandidates: ['terraform-ls'],
-  },
-  marksman: {
-    id: 'marksman',
-    command: 'marksman',
-    args: ['server'],
-    commandCandidates: ['marksman'],
-  },
-  taplo: {
-    id: 'taplo',
-    command: 'taplo',
-    args: ['lsp', 'stdio'],
-    commandCandidates: ['taplo'],
-  },
-  sqls: {
-    id: 'sqls',
-    command: 'sqls',
-    args: [],
-    commandCandidates: ['sqls'],
-  },
-  'graphql-lsp': {
-    id: 'graphql-lsp',
-    command: 'graphql-lsp',
-    args: ['server', '-m', 'stream'],
-    commandCandidates: ['graphql-lsp'],
-  },
-  'dockerfile-language-server': {
-    id: 'dockerfile-language-server',
-    command: 'docker-langserver',
-    args: ['--stdio'],
-    commandCandidates: ['docker-langserver'],
-  },
-  'vscode-eslint-language-server': {
-    id: 'vscode-eslint-language-server',
-    command: 'vscode-eslint-language-server',
-    args: ['--stdio'],
-    commandCandidates: ['vscode-eslint-language-server'],
-  },
   protols: {
     id: 'protols',
     command: 'protols',
     args: [],
     commandCandidates: ['protols', 'bufls'],
   },
-  'nimlsp': {
+  nimlsp: {
     id: 'nimlsp',
     command: 'nimlsp',
     args: [],
@@ -290,13 +329,42 @@ const SERVER_SPECS: Record<string, LanguageServerSpec> = {
     ],
     commandCandidates: ['pwsh', 'powershell'],
   },
-  'fsautocomplete': {
+  fsautocomplete: {
     id: 'fsautocomplete',
     command: 'fsautocomplete',
     args: [],
     commandCandidates: ['fsautocomplete'],
   },
 };
+
+/** Server ids expected from npm bundle of @bitcode/lsp (not PATH-only). */
+export const BUNDLED_NPM_SERVER_IDS = [
+  'typescript-language-server',
+  'pyright',
+  'bash-language-server',
+  'yaml-language-server',
+  'dockerfile-language-server',
+  'vscode-html-language-server',
+  'vscode-css-language-server',
+  'vscode-json-language-server',
+  'vscode-eslint-language-server',
+  'vue-language-server',
+  'svelteserver',
+  'graphql-lsp',
+  'intelephense',
+  'taplo',
+] as const;
+
+/** Server ids installed into Pipeliner image (native). */
+export const PIPELINER_IMAGE_SERVER_IDS = [
+  'gopls',
+  'rust-analyzer',
+  'clangd',
+  'marksman',
+  'terraform-ls',
+  'lua-language-server',
+  'sqls',
+] as const;
 
 /**
  * LSP language id → server id. Multiple languages share one server process
@@ -391,7 +459,18 @@ function resolveNpmPackageBin(
   npmBin: string,
   fromPaths: string[],
 ): string | null {
-  for (const from of fromPaths) {
+  const roots = [
+    ...fromPaths,
+    // Prefer package-local then monorepo root (pnpm layout).
+    path.resolve(__dirname, '..'),
+    path.resolve(__dirname, '../../..'),
+    process.cwd(),
+  ];
+  const seen = new Set<string>();
+  for (const from of roots) {
+    const key = path.resolve(from);
+    if (seen.has(key)) continue;
+    seen.add(key);
     try {
       const requireFrom = createRequire(path.join(from, 'package.json'));
       const pkgJsonPath = requireFrom.resolve(`${npmPackage}/package.json`);
@@ -562,4 +641,27 @@ export function resolveServersForLanguages(
 /** True when at least typescript-language-server (bundled dep) can run. */
 export function isBundledTypescriptServerAvailable(workspaceRoot?: string): boolean {
   return Boolean(resolveLanguageServer('typescript', { workspaceRoot }));
+}
+
+/**
+ * Resolve status of all bundled npm servers (for Setup readiness / diagnostics).
+ */
+export function listBundledServerResolution(workspaceRoot?: string): Array<{
+  serverId: string;
+  available: boolean;
+  resolvedCommand?: string;
+}> {
+  return BUNDLED_NPM_SERVER_IDS.map((serverId) => {
+    const lang =
+      Object.entries(LANGUAGE_TO_SERVER_ID).find(([, id]) => id === serverId)?.[0] ||
+      'typescript';
+    const r = resolveLanguageServer(lang, { workspaceRoot });
+    return {
+      serverId,
+      available: Boolean(r),
+      resolvedCommand: r
+        ? `${r.resolvedCommand} ${r.args.join(' ')}`.trim()
+        : undefined,
+    };
+  });
 }

@@ -37,6 +37,22 @@ is Setup’s job inside the sandbox.
 | `/opt/bitcode/pipeline/run-pipeline.mjs` | Dispatcher (`host_smoke` \| `asset_pack_pipeline`) |
 | `/opt/bitcode/.proofs/pipeline-host/*.mjs` | Host-smoke + live runners |
 | `/vercel/sandbox` | Customer git checkout + run artifacts |
+| `/usr/local/bin/*` | Native language servers (gopls, rust-analyzer, clangd, …) |
+
+## Multi-language LSP (Setup / Discovery)
+
+Pipeliner must support language-intelligence for customer checkouts:
+
+1. **npm-bundled** with `@bitcode/lsp` (installed via `pnpm` in the image): TypeScript/JS,
+   Python (pyright), bash, YAML, Dockerfile, HTML/CSS/JSON, Vue, Svelte, GraphQL, PHP,
+   TOML, …
+2. **Native binaries** installed by
+   [`scripts/install-language-servers.sh`](./scripts/install-language-servers.sh):
+   `gopls` (+ Go), `rust-analyzer`, `clangd`, `marksman`, `terraform-ls`,
+   `lua-language-server`, `sqls`.
+
+Setup primes every resolvable server for languages present in the checkout; Discovery
+uses `lsp-*` tools against those live sessions.
 
 ## Production env
 

@@ -2,7 +2,7 @@
 # Repository: vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner
 #
 # Purpose: deposit/read AssetPack synthesis inside Sandbox microVMs with
-# Bitcode packages + runners preinstalled (not stock node24 + monorepo install).
+# Bitcode packages + runners + multi-language LSP servers preinstalled.
 #
 # Build from monorepo root (materialize first):
 #   pnpm --filter @bitcode/pipeline-image run materialize
@@ -13,10 +13,17 @@ FROM node:24-bookworm-slim AS base
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 WORKDIR /opt/bitcode
 
-# Minimal system deps for git clone of customer sources inside the sandbox.
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends git ca-certificates \
-  && rm -rf /var/lib/apt/lists/*
+# git for customer clone + native language servers (non-npm).
+# npm language servers ship as deps of @bitcode/lsp (see package.json).
+COPY containers/images/pipeliner/scripts/install-language-servers.sh \
+  /tmp/install-language-servers.sh
+RUN chmod +x /tmp/install-language-servers.sh \
+  && /tmp/install-language-servers.sh \
+  && rm -f /tmp/install-language-servers.sh
+
+ENV PATH="/usr/local/go/bin:/usr/local/bin:${PATH}"
+ENV GOPATH=/opt/go
+ENV GOBIN=/usr/local/bin
 
 # Workspace manifests + packages + pipeliner image package
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc* ./
@@ -24,10 +31,13 @@ COPY packages ./packages
 COPY containers/images/pipeliner ./containers/images/pipeliner
 
 # Install workspace (filter when possible; full install fallback).
+# Explicit @bitcode/lsp pulls bundled npm language servers into the image.
 RUN pnpm install --frozen-lockfile \
   --filter @bitcode/pipeline-hosts... \
   --filter @bitcode/pipeline-image... \
   --filter @bitcode/asset-packs-pipelines-domain... \
+  --filter @bitcode/asset-packs-pipelines-syntheses-domain... \
+  --filter @bitcode/lsp... \
   --filter @bitcode/pipelines-generics... \
   --filter @bitcode/btd... \
   --filter @bitcode/supabase... \

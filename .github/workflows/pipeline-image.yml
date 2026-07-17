@@ -8,10 +8,11 @@ on:
       - version/**
       - main
     paths:
-      - 'images/pipeliner/**'
+      - 'containers/images/pipeliner/**'
       - 'packages/pipeline-hosts/**'
       - 'packages/host-generics/**'
       - 'packages/asset-packs-pipelines/**'
+      - 'packages/lsp/**'
       - 'packages/pipelines-generics/**'
       - 'packages/btd/**'
       - 'pnpm-lock.yaml'
@@ -66,7 +67,7 @@ jobs:
         run: |
           SHORT_SHA="$(echo "$GITHUB_SHA" | cut -c1-7)"
           docker build \
-            -f images/pipeliner/Dockerfile \
+            -f containers/images/pipeliner/Dockerfile \
             -t "${PIPELINER}:ci-${SHORT_SHA}" \
             -t "${PIPELINER}:latest" \
             .

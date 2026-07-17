@@ -67,7 +67,10 @@ export {
   getServerIdForLanguage,
   listServerSpecs,
   isBundledTypescriptServerAvailable,
+  listBundledServerResolution,
   LANGUAGE_TO_SERVER_ID,
+  BUNDLED_NPM_SERVER_IDS,
+  PIPELINER_IMAGE_SERVER_IDS,
 } from './language-servers';
 export type { LanguageServerSpec, ResolvedLanguageServer } from './language-servers';
 
@@ -250,6 +253,9 @@ const LANGUAGE_EXTENSIONS = new Map<string, string>([
   ['.nim', 'nim'],
   ['.v', 'v'],
   ['.sol', 'solidity'],
+  // Containers
+  ['.dockerfile', 'dockerfile'],
+  // no extension Dockerfile handled via basename in detectLanguage when needed
 ]);
 
 /** @deprecated alias — prefer LANGUAGE_EXTENSIONS */
@@ -260,6 +266,10 @@ const SUPPORTED_EXTENSIONS = LANGUAGE_EXTENSIONS;
  * product measurement must work across all checkout languages.
  */
 export function detectLanguage(filePath: string): string {
+  const base = path.basename(filePath);
+  if (/^Dockerfile(\.|$)/i.test(base) || base === 'dockerfile') {
+    return 'dockerfile';
+  }
   const ext = path.extname(filePath).toLowerCase();
   if (!ext) return 'plaintext';
   return LANGUAGE_EXTENSIONS.get(ext) || 'plaintext';
