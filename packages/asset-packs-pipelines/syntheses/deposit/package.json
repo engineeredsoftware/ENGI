@@ -15,7 +15,8 @@
   "dependencies": {
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/generic-pipelines-execution-pipeline-sdivf": "workspace:*",
-    "@bitcode/asset-packs-pipelines-domain": "workspace:*"
+    "@bitcode/asset-packs-pipelines-domain": "workspace:*",
+    "@bitcode/asset-packs-pipelines-syntheses-domain": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

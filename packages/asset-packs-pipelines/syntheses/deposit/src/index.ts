@@ -32,7 +32,7 @@ import {
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_IMPLEMENTATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_VALIDATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_DEPOSITS_FINISH_PROMPT,
-} from '@bitcode/asset-packs-pipelines-domain';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain';
 
 /** Full hierarchy name: ExecutionPipelineSDIVFSynthesizeDepositAssetPacks. */
 export type ExecutionPipelineSDIVFSynthesizeDepositAssetPacks = ExecutionPipelineSDIVF<any, any>;

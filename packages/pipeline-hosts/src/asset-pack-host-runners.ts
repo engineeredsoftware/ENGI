@@ -1414,7 +1414,7 @@ try {
     // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
     // Relative extensionless imports fail under plain node in the Pipeliner image.
     import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
-    import(pkgImport('packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-deposits-asset-packs/src/index.ts')),
+    import(pkgImport('packages/asset-packs-pipelines/syntheses/deposit/src/index.ts')),
     import(pkgImport('packages/pipelines-generics/src/index.ts')),
     import(pkgImport('packages/btd/src/settlement.ts')),
     import(pkgImport('packages/btd/src/reconciliation.ts')),
@@ -1438,7 +1438,7 @@ try {
   } = domainExports;
   const { factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks } = depositPipelineExports;
   const { factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks } = await import(
-    pkgImport('packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-reads-asset-packs/src/index.ts')
+    pkgImport('packages/asset-packs-pipelines/syntheses/read/src/index.ts')
   );
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
   buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;

@@ -375,10 +375,11 @@ packages under `packages/asset-packs-pipelines/*`.
 @bitcode/generic-pipelines-execution-pipeline-sdivf ExecutionPipelineSDIVF base (Setup-[DIV]*-Finish)
 @bitcode/generic-pipelines-execution-pipeline-simple ExecutionPipelineSimple base (linear stages)
  ↑
-@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs
-@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs
-@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack # validate → BTC/BTD/rights → PR ship
-@bitcode/asset-packs-pipelines-domain agents/tools/domain
+@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs  # packages/.../syntheses/deposit
+@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs     # packages/.../syntheses/read
+@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack               # packages/.../settle
+@bitcode/asset-packs-pipelines-domain              # all-3 shared
+@bitcode/asset-packs-pipelines-syntheses-domain    # both synths (agents/phases/tools)
 @bitcode/pipeline-hosts Local host + Vercel Sandbox host
 ```
 
@@ -567,7 +568,8 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 
 | Package | Responsibility |
 | --- | --- |
-| `asset-packs-pipelines/domain` (`@bitcode/asset-packs-pipelines-domain`) | **SynthesizeAssetPacks**, deposit options/policy/admission/earnings, depository search/supply, settlement/rights contracts, deposit agents |
+| `asset-packs-pipelines/domain` | **All-3** shared: commodity, disclosure, settlement-rights library, BTD helpers, org-policy |
+| `asset-packs-pipelines/syntheses/domain` | **Both synths**: agents/phases/tools, deposit options, depository, reading contracts |
 | `asset-packs-pipelines/*` | Product ExecutionPipeline packages (SDIVF synthesize deposits/reads, Simple settle) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |

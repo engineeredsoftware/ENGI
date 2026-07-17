@@ -241,7 +241,8 @@ packages/generic-<family>/ # README only (no package.json)
 | `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `files-maintaining/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `execution-pipeline-sdivf/`, `execution-pipeline-simple/` | `@bitcode/generic-pipelines-execution-pipeline-sdivf`, `-simple` |
-| `asset-packs-pipelines/` | `domain/`, `execution-pipeline-sdivf-synthesize-deposits-asset-packs/`, `execution-pipeline-sdivf-synthesize-reads-asset-packs/`, `execution-pipeline-simple-settle-asset-pack/` | domain + product pipelines (no `packages/pipelines/`) |
+| `asset-packs-pipelines/` | `domain/` (all 3), `syntheses/domain/` (both synths), `syntheses/deposit/`, `syntheses/read/`, `settle/` | co-located product pipelines + tiered domain |
+
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/`, `models/` | `@bitcode/generic-llms-*` (+ aggregator) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-*` |
 | `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
@@ -295,8 +296,12 @@ packages/
  auth/ # wallet, OAuth, auth redirect helpers
  asset-packs-generics/ # AssetPack protocol primitive
  generic-asset-packs/ # synthesis, deposit/read/settled-read, settle
- asset-packs-pipelines/ # product SDIVF / Simple pipelines
- asset-packs-pipelines/ # domain + SynthesizeDeposit/Read + SettleAssetPack pipelines
+ asset-packs-pipelines/
+   domain/              # shared by all 3 product pipelines
+   syntheses/domain/    # shared by deposit + read synth only
+   syntheses/deposit/   # deposit product package
+   syntheses/read/      # read product package
+   settle/              # settle product package
  pipelines-generics/ # Pipeline primitive
  generic-pipelines/execution-pipeline-sdivf/ # SDIVF base
  generic-llms/{xAI,OpenAI,…}/ # LLM providers + models/

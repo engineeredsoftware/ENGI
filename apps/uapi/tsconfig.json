@@ -28,13 +28,13 @@
         "../../constants/global-constants.ts"
       ],
       "@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack": [
-        "../../packages/asset-packs-pipelines/execution-pipeline-simple-settle-asset-pack/src/index.ts"
+        "../../packages/asset-packs-pipelines/settle/src/index.ts"
       ],
       "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs": [
-        "../../packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-reads-asset-packs/src/index.ts"
+        "../../packages/asset-packs-pipelines/syntheses/read/src/index.ts"
       ],
       "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": [
-        "../../packages/asset-packs-pipelines/execution-pipeline-sdivf-synthesize-deposits-asset-packs/src/index.ts"
+        "../../packages/asset-packs-pipelines/syntheses/deposit/src/index.ts"
       ],
       "@bitcode/generic-artifacts-compose": [
         "../../packages/generic-artifacts/compose/src/index.ts"

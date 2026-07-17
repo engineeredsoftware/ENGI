@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// Resolve repo root: this file is at packages/asset-packs-pipelines/domain/scripts/
+// Resolve repo root: this file is at packages/asset-packs-pipelines/syntheses/domain/scripts/
 const repoRoot = path.resolve(__dirname, '../../..', '..'); // go to repo root from package
 
 // Import the public prompt formatter boundary rather than reaching into

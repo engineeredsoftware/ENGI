@@ -1,24 +1,45 @@
 # asset-packs-pipelines
 
-Commercial AssetPack product pipelines. Domain agents/tools live in `domain/`;
-each product pipeline package is a thin factory over SDIVF or Simple.
+Commercial AssetPack product pipelines and their domain libraries.
 
-## Product pipelines (folder = inheritance left→right)
-
-| Product run id (store) | Directory | Package | Base | Factory |
-| --- | --- | --- | --- | --- |
-| `synthesize-deposits-asset-packs-pipeline` | `execution-pipeline-sdivf-synthesize-deposits-asset-packs/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs` | SDIVF | `factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks` |
-| `synthesize-reads-asset-packs-pipeline` | `execution-pipeline-sdivf-synthesize-reads-asset-packs/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs` | SDIVF | `factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks` |
-| `settle-asset-pack-pipeline` | `execution-pipeline-simple-settle-asset-pack/` | `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack` | Simple | `factoryExecutionPipelineSimpleSettleAssetPack` |
+## Layout law (absolute)
 
 ```
-Pipeline (pipelines-generics)
-  → ExecutionPipelineSDIVF
-      → ExecutionPipelineSDIVFSynthesizeDepositAssetPacks
-      → ExecutionPipelineSDIVFSynthesizeReadAssetPacks
-  → ExecutionPipelineSimple
-      → ExecutionPipelineSimpleSettleAssetPack   # 1:1 AssetPack
+asset-packs-pipelines/
+  domain/                 # shared by ALL THREE product pipelines (+ host library)
+  syntheses/
+    domain/               # shared by BOTH synthesis pipelines only (deposit + read)
+    deposit/              # deposit synthesis product package (co-located)
+    read/                 # read synthesis product package (co-located)
+  settle/                 # settle product package (co-located)
 ```
+
+| Path | Package name | Scope |
+| --- | --- | --- |
+| `domain/` | `@bitcode/asset-packs-pipelines-domain` | **All 3** pipelines: commodity, disclosure, settlement-rights library, BTD quote helpers, org-policy wallet authority |
+| `syntheses/domain/` | `@bitcode/asset-packs-pipelines-syntheses-domain` | **Both synths**: SDIVF agents/phases/tools, preprocess/postprocess, deposit options, depository search, reading pipeline contracts |
+| `syntheses/deposit/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs` | Deposit product factory only |
+| `syntheses/read/` | `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs` | Read product factory only |
+| `settle/` | `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack` | Settle Simple product factory only |
+
+**Rules**
+
+1. Code used by deposit synth **and** read synth **and** settle → `domain/`.
+2. Code used by both synths but **not** settle → `syntheses/domain/`.
+3. Code specific to one product pipeline → co-locate under that pipeline package (`syntheses/deposit`, `syntheses/read`, or `settle`).
+4. Do not grow a kitchen-sink `domain/` with synthesis agents/phases — those belong under `syntheses/`.
+
+Compatibility: deep exports that previously lived on `@bitcode/asset-packs-pipelines-domain`
+and are now synthesis-shared re-export from relative shims under `domain/src/*` (prefer
+importing `@bitcode/asset-packs-pipelines-syntheses-domain` for new code).
+
+## Product pipelines
+
+| Product run id (store) | Directory | Base | Factory |
+| --- | --- | --- | --- |
+| `synthesize-deposits-asset-packs-pipeline` | `syntheses/deposit/` | SDIVF | `factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks` |
+| `synthesize-reads-asset-packs-pipeline` | `syntheses/read/` | SDIVF | `factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks` |
+| `settle-asset-pack-pipeline` | `settle/` | Simple | `factoryExecutionPipelineSimpleSettleAssetPack` |
 
 ```ts
 import { factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs';

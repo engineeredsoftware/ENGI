@@ -24,7 +24,7 @@ import {
   normalizeAssetPackOutput,
   buildAssetPackPostprocessedResult,
   factoryPreprocessReadOnly,
-} from '@bitcode/asset-packs-pipelines-domain';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain';
 import {
   EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_READS_ASSET_PACKS_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_SETUP_PROMPT,
@@ -32,7 +32,7 @@ import {
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_IMPLEMENTATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_VALIDATION_PROMPT,
   EXECUTION_PHASE_SDIVF_SYNTHESIZE_READS_FINISH_PROMPT,
-} from '@bitcode/asset-packs-pipelines-domain';
+} from '@bitcode/asset-packs-pipelines-syntheses-domain';
 
 /** Full hierarchy name: ExecutionPipelineSDIVFSynthesizeReadAssetPacks. */
 export type ExecutionPipelineSDIVFSynthesizeReadAssetPacks = ExecutionPipelineSDIVF<any, any>;
