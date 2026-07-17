@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit **Plan step complete** 1.D1–1.D7; Try fence) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (clone-vcs **Plan step closed**; Try not yet) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D8; **Try PCC reason**) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (clone-vcs Plan closed; Try PCC started) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -75,9 +75,9 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
 | `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
-| `BITCODE_DEBUG_STOP_STEP` | **`try`** (Plan-complete fence; was plan) | +1 after 1.D6 / Plan close |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** (Try PCC; Plan used CS SO) | fence after Plan |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** (Try PCC reason fence) | first LLM after Plan |
+| `BITCODE_DEBUG_STOP_STEP` | **`try`** | progressive Try (after 1.D7 Plan close) |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | Try PCC selection |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | Try PCC reason (1.D8) |
 | `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -1254,11 +1254,94 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 
 ---
 
+### 1.D8 Deposit · Setup · clone-vcs · **Try** · PCC · reason
+
+- **status:** **Accepted (fully successful call-site; Try PCC selection reason)**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Try Failsafe Prepare-Concise-Context Thinking Reason Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **step:** **try**
+- **failsafe:** prepare_concise_context
+- **thinking:** reason
+- **execution_path:**
+  `…/agent:asset-pack-clone-vcs-repository-agent → try → … → failsafe:prepare_concise_context → selection → seq-0 → thinkings:reason`
+- **provider / model:** anthropic / `claude-haiku-4-5-20251001`
+- **usage:** 4480 in / 465 out / 4945 total (Try PCC reason)
+- **harness:** `ok: true`, `debugStop: true`, `callCount: 15`, stopStep=`try`, stopFailsafe=`prepare_concise_context`, stopGeneration=`reason`
+- **abort:** `hard-stop after try/prepare_concise_context/reason agent=asset-pack-clone-vcs-repository-agent`
+
+#### expected_schemas
+
+| Layer | Schema | Notes |
+| --- | --- | --- |
+| **thinking_return** | ReasoningSchema | PCC selection only — **not** clone task |
+| **PCC terminal** | later SO `{ selectedKeys }` | Not this call |
+
+#### tools
+
+| | |
+| --- | --- |
+| **usable (Try step)** | clone tool on try node (system documents Try execution) |
+| **this call useTools** | **omitted** (correct — PCC reason never selects tools) |
+| **executed** | none |
+
+#### contextful_inputs
+
+- Lean PCC user: task identity (phase setup, agent clone-vcs, **PTRR step: try**) + `pipeline_execution_keys` (keys only).
+- Full hierarchy system: Execution once + Setup + Agent VCS + **TRY** purpose + PCC law + Reason.
+- Plan already complete (1.D1–1.D7); Try must select keys for **execution** of clone.
+
+#### completion (summary)
+
+Valid Reasoning: analysis + reasoningItems + conclusion + confidence **0.92**; **no selectedKeys**; **no useTools**.  
+Candidates for SO: deposit repository + source-safety triad, host manifestRoot/sourceRevision, pipeline input/userId/synthesizeMode.  
+Explicit: “No tools are invoked in this Reason generation.”
+
+#### excellence
+
+| Axis | Result |
+| --- | --- |
+| **schema_parse** | **Pass** |
+| **role** | **Pass** — PCC key selection under **Try**, not Plan strategy, not clone execution |
+| **task_quality** | **Pass** — deposit/host coords + safety for clone; omits lineage/debug |
+| **prompt_hygiene** | **Pass** — 6-block hierarchy; keys-only user; no settleDelivery |
+| **tools law** | **Pass** — PCC omits useTools; Try tool surface reserved for later CS task SO |
+
+#### residual
+
+- Conclusion text says “7 keys” while listing more namespaces (count soft inconsistency — SO will normalize).  
+- Prefer `#host:sourceRevision` over empty `#deposit:repository` coordinates when SO runs (same as Plan PCC residual).
+
+#### stability_confidence
+
+- **0.93** that this Try PCC reason call-site is successful; marker may advance to **Try PCC judge**.
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted** |
+| **next marker** | Try · prepare_concise_context · **judge** |
+| **not yet** | Try PCC SO → CS → useTools → clone tool; remaining Setup |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| Request | `.tmp/llm-call-debug/…/0013-request-…-try-prepare_concise_context-reason.json` |
+| Response | `.tmp/llm-call-debug/…/0014-response-…-try-prepare_concise_context-reason.json` |
+| Abort | `.tmp/llm-call-debug/…/0015-abort-…-try-…-reason.json` |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
 ### 1.2+ Read next / Deposit next
 
-- **1.D8** Deposit · Setup · clone-vcs · **Try** · PCC · judge (or progressive Try Thinkings)  
+- **1.D9** Deposit · Setup · clone-vcs · **Try** · PCC · **judge**  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
-- **1.D9+** Try CS / tools / clone; remaining Setup; Discovery · … · settle  
+- **1.D10+** Try PCC SO → CS → tools/clone; remaining Setup; Discovery · …  
 
 ---
 
@@ -1268,8 +1351,8 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1–1.D7 clone-vcs **Plan step complete** (PCC+CS Thinkings; Stitch stitchCount=0); Try fenced at first PCC reason.  
-  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopStep=`try`, callCount=15.
+- **proof (current):** §1.D1–1.D7 Plan complete; §1.D8 Try PCC reason Accepted.  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopStep=`try`, stopGeneration=`reason`, callCount=15.
 
 ### §3 SDIVF read pipeline production-like accept
 

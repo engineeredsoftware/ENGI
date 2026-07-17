@@ -136,9 +136,8 @@ writeFileSync(
 );
 
 // --- Debug abort marker (advance only after §1 acceptance) ---
-// Target: first LLM *after* Plan completes — Try · PCC · reason.
-// Proves Plan failsafe triple (PCC → CS → Stitch pass-through or stitch LLM)
-// finished; stitch is often zero-LLM when CS SO is schema-valid.
+// Target: Setup clone-vcs → Try → prepare_concise_context → reason
+// (§1.D8 progressive Try PCC after Plan closed at 1.D7).
 // FORCE_CLONE_PTRR skips host clone/env/workspace short-circuits so the real
 // factoryPTRRAgent (Plan→Try→Retry→Refine) + clone tool path runs.
 // Note: BITCODE_DEBUG_STOP_AFTER_FIRST_REASON is the hard-stop *flag* name;
@@ -183,15 +182,14 @@ writeFileSync(
     '```',
     'phase: setup',
     'agent: clone-vcs (asset-pack-clone-vcs-repository-agent)',
-    'step: try  (fence after Plan complete)',
+    'step: try',
     'failsafe: prepare_concise_context',
     'generation: reason',
     'BITCODE_DEBUG_FORCE_CLONE_PTRR=1',
     '```',
     '',
     'PTRR order under test: Plan → Try → Retry → Refine.',
-    'This stop fences Plan completion (PCC+CS+Stitch). After §1 accepts Plan close,',
-    'continue progressive Try validation (judge / SO / tools).',
+    'After this call is accepted in §1, advance to Try PCC judge.',
     '',
     '## Artifacts',
     '',
@@ -440,7 +438,7 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: true,
   expectedAbort:
-    'Setup → clone-vcs → Try → prepare_concise_context → reason (Plan complete fence)',
+    'Setup → clone-vcs → Try → prepare_concise_context → reason',
   ptrrOrder: 'Plan → Try → Retry → Refine',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,
@@ -450,7 +448,7 @@ const summary = {
 writeFileSync(join(workRoot, 'debug-summary.json'), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 
-// Success for this pass: hard stop after first Try PCC reason (Plan finished).
+// Success for this pass: hard stop after Try PCC reason.
 // Exit may be non-zero because of the intentional throw.
 if (debugStop) process.exit(0);
 process.exit(run.status === 0 ? 0 : 1);
