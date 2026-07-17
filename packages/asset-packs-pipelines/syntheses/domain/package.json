@@ -49,6 +49,7 @@
     "./tools/DepositDepositoryAssetPackSearchTool": "./src/tools/DepositDepositoryAssetPackSearchTool.ts",
     "./tools/AssetPackCloneVCSRepositoryTool": "./src/tools/AssetPackCloneVCSRepositoryTool.ts",
     "./tools/lsp-setup-tools": "./src/tools/lsp-setup-tools.ts",
+    "./tools/discovery-host-workspace-tools": "./src/tools/discovery-host-workspace-tools.ts",
     "./types/PipelineSchemas": "./src/types/PipelineSchemas.ts",
     "./types/AssetPackWrittenAssetType": "./src/types/AssetPackWrittenAssetType.ts",
     "./agents/finish/upload-asset-packs-for-review-agent": "./src/agents/finish/upload-asset-packs-for-review-agent.ts",

@@ -123,8 +123,8 @@ const SPECS: DepositAgentPromptSpec[] = [
     agent: DepositCodebaseComprehensionAgent,
     identity:
       'You are the SynthesizeAssetPacks Discovery agent that comprehends the depositor Host checkout (sourceCheckoutCatalog).',
-    requirements: 'You receive: repository coordinates, sourceCheckoutCatalog paths, fileTree structure,',
-    wrapper: 'Return ONLY {"comprehension": {...}}',
+    requirements: 'Inputs may include: repository coordinates, sourceCheckoutCatalog paths, fileTree,',
+    wrapper: 'comprehension + optional useTools on Try/Retry',
     schemaFields: [
       'summary',
       'capabilities',
@@ -134,10 +134,10 @@ const SPECS: DepositAgentPromptSpec[] = [
       'structureInsights',
     ],
     ptrr: [
-      'Plan: combine absolute measurements, LSP signals, file-tree structure, and key file',
-      'Try: synthesize the codebase knowledge map — capabilities, knowledge areas, notable',
-      'Refine: ensure the map is source-safe, grounded in provided sourceCheckoutCatalog evidence',
-      'Retry: return a minimal source-safe knowledge map grounded in path list and measurements',
+      'Plan (no tools): design a multi-tool Host checkout exploration strategy',
+      'Try: EXECUTE rich multi-tool exploration then synthesize the knowledge map.',
+      'Refine (no tools): ensure the map is source-safe, grounded in tool results',
+      'Retry: if prior Try missed tools or evidence, select additional useTools',
     ],
     boundaryOutput: {
       comprehension: {

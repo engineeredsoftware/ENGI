@@ -39,6 +39,7 @@ import {
   lspReferencesTool,
   lspHoverTool,
 } from './lsp-setup-tools';
+import { DISCOVERY_HOST_WORKSPACE_TOOLS } from './discovery-host-workspace-tools';
 
 export const BITCODE_COMPUTER_USE_READ_MEASUREMENT_FLAG =
   'BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT' as const;
@@ -87,6 +88,17 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
   depositDepositoryAssetPackSearchTool,
   assetPackVerificationEvidenceTool,
   ...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS,
+  ...DISCOVERY_HOST_WORKSPACE_TOOLS,
+].filter(present);
+
+/**
+ * Full tool surface for Discovery codebase comprehension Try/Retry:
+ * full multi-language LSP suite + Host workspace read/list/run-command.
+ * Prefer calling tools many times with different parameters (not one-shot).
+ */
+export const DISCOVERY_CODEBASE_COMPREHENSION_TOOLS: Tool[] = [
+  ...ALL_LSP_QUERY_TOOLS,
+  ...DISCOVERY_HOST_WORKSPACE_TOOLS,
 ].filter(present);
 
 /**
@@ -151,12 +163,12 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
       assetPackVerificationEvidenceTool,
     ],
 
-    // Discovery Phase — codebase comprehension uses LSP extensively
+    // Discovery Phase — codebase comprehension: many tools, multi-call Try
     'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
-    'asset-pack-digest-codebase-agent': [...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS],
+    'asset-pack-digest-codebase-agent': [...DISCOVERY_CODEBASE_COMPREHENSION_TOOLS],
     'asset-pack-research-web-agent': [],
-    'DepositCodebaseComprehensionAgent': [...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS],
-    'discovery:comprehend-codebase': [...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS],
+    'DepositCodebaseComprehensionAgent': [...DISCOVERY_CODEBASE_COMPREHENSION_TOOLS],
+    'discovery:comprehend-codebase': [...DISCOVERY_CODEBASE_COMPREHENSION_TOOLS],
     'DepositDepositorySearchForRelevantsAgent': [
       depositDepositoryAssetPackSearchTool,
       lexicalDepositorySearchTool,

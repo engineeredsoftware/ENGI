@@ -3,7 +3,6 @@
  */
 import {
   ALL_LSP_QUERY_TOOLS,
-  DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS,
   SETUP_LSP_INITIALIZE_TOOLS,
   LSP_TOOL_NAMES,
   setupLspForWorkspace,
@@ -40,12 +39,22 @@ describe('Setup LSP tools for subsequent phases', () => {
     expect(initTools.length).toBeGreaterThan(0);
   });
 
-  it('binds Discovery codebase comprehension to the full LSP suite', () => {
+  it('binds Discovery codebase comprehension to LSP suite + host workspace tools', () => {
     const discovery = getAssetPackPipelineToolsForAgent('DepositCodebaseComprehensionAgent');
-    expect(discovery.map((t) => (t as any).name)).toEqual(
-      DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS.map((t) => (t as any).name),
+    const names = discovery.map((t) => (t as any).name);
+    expect(names).toEqual(
+      expect.arrayContaining([
+        LSP_TOOL_NAMES.workspaceSymbols,
+        LSP_TOOL_NAMES.documentSymbols,
+        LSP_TOOL_NAMES.definition,
+        LSP_TOOL_NAMES.references,
+        'host-workspace-read-file',
+        'host-workspace-list-dir',
+        'host-workspace-run-command',
+      ]),
     );
-    expect(discovery.length).toBeGreaterThanOrEqual(5);
+    // Full LSP suite + 3 host tools
+    expect(discovery.length).toBeGreaterThanOrEqual(ALL_LSP_QUERY_TOOLS.length + 3);
   });
 
   it('setupLspForWorkspace registers tools and marks readiness for later phases', async () => {

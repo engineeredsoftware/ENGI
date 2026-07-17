@@ -3,13 +3,16 @@
  *
  * Precise contract for this run’s Host checkout analysis:
  * 1. Absolute measurements (static-analysis / measure-agent) of checkout material
- * 2. LSP tools Setup primed (lsp-workspace-symbols, lsp-document-symbols, lsp-definition, …)
- * 3. Full file-tree structure (dirs + file names) from sourceCheckoutCatalog.paths
- * 4. Key file full reads (bounded set) via Host-loaded file bodies
- * 5. PTRR synthesis of a source-safe knowledge map grounded in (1)–(4)
+ * 2. LSP tools Setup primed (lsp-workspace-symbols, lsp-document-symbols, …)
+ * 3. Full file-tree structure from sourceCheckoutCatalog.paths
+ * 4. Host workspace tools: read-file, list-dir, allowlisted run-command
+ * 5. PTRR: Plan (strategy, no tools) → Try (many tool calls) → Retry/Refine
  *
- * Stores `discovery:codebaseAnalysis` (rich) and `discovery:codebaseComprehension` (map).
- * Source-safe: never quote secrets; prompts may use key-file excerpts under policy.
+ * Try MUST select many tools via useTools, including the same tool multiple
+ * times with different parameters (several file reads, several LSP queries,
+ * list-dir, rg/find via run-command).
+ *
+ * Stores `discovery:codebaseAnalysis` and `discovery:codebaseComprehension`.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -25,23 +28,41 @@ import {
   type FileTreeStructure,
   type KeySourceFileRead,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/discovery/codebase-analysis-helpers';
-import { getAssetPackPipelineToolsForAgent } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/index';
+import {
+  DISCOVERY_CODEBASE_COMPREHENSION_TOOLS,
+  getAssetPackPipelineToolsForAgent,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/index';
+import { HOST_WORKSPACE_TOOL_NAMES } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/discovery-host-workspace-tools';
+import { LSP_TOOL_NAMES } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/lsp-setup-tools';
 
 const part = (content: string): PromptPart => content as PromptPart;
+
+const UseToolSelectionSchema = z.object({
+  name: z.string(),
+  input: z.any(),
+  reason: z.string().optional(),
+});
 
 const CodebaseKnowledgeMapSchema = z.object({
   summary: z.string(),
   capabilities: z.array(z.string()).optional(),
   knowledgeAreas: z.array(z.string()).optional(),
   notableModules: z.array(z.string()).optional(),
-  /** Source-safe notes derived from measurements / tree / LSP (no raw secrets). */
   measurementInsights: z.array(z.string()).optional(),
   structureInsights: z.array(z.string()).optional(),
+  /** Optional notes on which tools were used (names only). */
+  toolsUsed: z.array(z.string()).optional(),
 });
 
-const CodebaseComprehensionOutputSchema = z.object({
-  comprehension: CodebaseKnowledgeMapSchema,
-});
+const CodebaseComprehensionOutputSchema = z
+  .object({
+    comprehension: CodebaseKnowledgeMapSchema,
+    // Try/Retry: select many tools here (or on reason; hoist merges into postprocess).
+    useTools: z.array(UseToolSelectionSchema).optional(),
+  })
+  .describe(
+    '{ "comprehension": { "summary": string, "capabilities"?: string[], "knowledgeAreas"?: string[], "notableModules"?: string[], "measurementInsights"?: string[], "structureInsights"?: string[], "toolsUsed"?: string[] }, "useTools"?: [{ "name": string, "input": any, "reason"?: string }] }',
+  );
 
 export type DepositCodebaseComprehension = z.infer<typeof CodebaseKnowledgeMapSchema>;
 
@@ -60,49 +81,70 @@ export type DepositCodebaseAnalysis = {
   sourceMeasurements: unknown[];
   lsp: {
     initialized: boolean;
-    queries: Array<{ op: string; ok: boolean; resultSummary: string }>;
+    registeredToolNames: string[];
+    usableToolNames: string[];
   };
   comprehension: DepositCodebaseComprehension;
 };
 
 const IDENTITY = part(
   'You are the SynthesizeAssetPacks Discovery agent that comprehends the depositor ' +
-    'Host checkout (sourceCheckoutCatalog). You MUST ground analysis in: absolute ' +
-    'measurements of the source material, LSP query results when available, the full ' +
-    'file-tree structure (directories and file names), and key file contents provided ' +
-    'to you. Produce a source-safe knowledge map for AssetPack synthesis. Describe ' +
-    'knowledge and capability — never quote secrets, credentials, or private keys.',
+    'Host checkout (sourceCheckoutCatalog). You MUST ground analysis in absolute ' +
+    'measurements, multi-call LSP queries, Host workspace tools (read-file, list-dir, ' +
+    'allowlisted run-command), the file-tree, and key file contents. Produce a ' +
+    'source-safe knowledge map for AssetPack synthesis. Never quote secrets, ' +
+    'credentials, or private keys.',
 );
 
 const REQUIREMENTS = part(
   [
-    'You receive: repository coordinates, sourceCheckoutCatalog paths, fileTree structure,',
-    'keyFileReads (selected full/excerpt file bodies), sourceMeasurements (absolute property',
-    'volumes/magnitudes), and lspQueryResults.',
-    'Derive comprehension:',
-    '- summary: source-safe overview of what the codebase knows and can do',
-    '- capabilities: distinct things the repository can do or enable',
-    '- knowledgeAreas: domains/topics embodied',
-    '- notableModules: significant paths from the provided path list only',
-    '- measurementInsights: source-safe takeaways from absolute measurements',
-    '- structureInsights: source-safe takeaways from the file-tree structure',
-    'Stay at knowledge level. Do not invent paths. Return ONLY {"comprehension": {...}}.',
+    'Inputs may include: repository coordinates, sourceCheckoutCatalog paths, fileTree,',
+    'keyFileReads (seed excerpts), sourceMeasurements, workspacePath/workspaceRoot, and',
+    'usable tool docs (LSP + host-workspace-*).',
+    'Derive comprehension.summary / capabilities / knowledgeAreas / notableModules /',
+    'measurementInsights / structureInsights from evidence — invent nothing.',
+    'On Try/Retry task Thinkings: include useTools with MANY entries when tools can improve',
+    'grounding. Prefer diversity: several host-workspace-read-file (different paths),',
+    'host-workspace-list-dir (different dirs), host-workspace-run-command (rg/find/ls/git status),',
+    'and multiple LSP ops (workspace-symbols, document-symbols, definition, references, hover)',
+    'with different path/query/position parameters. Calling the same tool 3–8 times with',
+    'different inputs is expected and correct. Plan omits useTools. Return JSON matching',
+    'the active schema (comprehension + optional useTools on Try/Retry).',
   ].join(' '),
 );
 
 const PLAN = part(
-  'Plan: combine absolute measurements, LSP signals, file-tree structure, and key file ' +
-    'reads from the sourceCheckoutCatalog to map capability, structure, and synthesis opportunities.',
+  'Plan (no tools): design a multi-tool Host checkout exploration strategy — which files ' +
+    'to read, which directories to list, which allowlisted shell inspections (rg/find/ls), ' +
+    'and which LSP queries (symbols/definition/references/hover) with distinct parameters. ' +
+    'Do not execute tools in Plan; omit useTools on Plan SO.',
 );
+
 const TRY = part(
-  'Try: synthesize the codebase knowledge map — capabilities, knowledge areas, notable ' +
-    'modules, measurementInsights, structureInsights — from measurements + LSP + tree + key files.',
+  [
+    'Try: EXECUTE rich multi-tool exploration then synthesize the knowledge map.',
+    'REQUIRED: emit useTools with many tool calls (typically 8–20), including:',
+    `(1) ${HOST_WORKSPACE_TOOL_NAMES.readFile} several times for different source paths under workspaceRoot;`,
+    `(2) ${HOST_WORKSPACE_TOOL_NAMES.listDir} for root and important subdirs;`,
+    `(3) ${HOST_WORKSPACE_TOOL_NAMES.runCommand} for inspection only (rg/find/ls/git status/log — never mutate);`,
+    `(4) LSP tools (${LSP_TOOL_NAMES.workspaceSymbols}, ${LSP_TOOL_NAMES.documentSymbols},`,
+    `${LSP_TOOL_NAMES.definition}, ${LSP_TOOL_NAMES.references}, ${LSP_TOOL_NAMES.hover})`,
+    'with DIFFERENT path/query/line/character inputs — not a single token call.',
+    'Always pass workspaceRoot/workspacePath from selected context into host tools.',
+    'After tools postprocess, produce comprehension grounded in tool results + seed measurements.',
+    'Source-safe: never dump secrets; paths only from catalog or tool results.',
+  ].join(' '),
 );
+
 const REFINE = part(
-  'Refine: ensure the map is source-safe, grounded in provided sourceCheckoutCatalog evidence, and useful for pack synthesis.',
+  'Refine (no tools): ensure the map is source-safe, grounded in tool results and ' +
+    'sourceCheckoutCatalog evidence, and useful for pack synthesis. Omit useTools.',
 );
+
 const RETRY = part(
-  'Retry: return a minimal source-safe knowledge map grounded in path list and measurements rather than failing comprehension.',
+  'Retry: if prior Try missed tools or evidence, select additional useTools with new ' +
+    'parameters (different files, queries, dirs) then return a minimal source-safe map. ' +
+    'Prefer more tool diversity over inventing structure.',
 );
 
 function createPrompt(): Prompt {
@@ -121,16 +163,17 @@ function createPrompt(): Prompt {
 
 const prompt = createPrompt();
 
+const agentTools = getAssetPackPipelineToolsForAgent('DepositCodebaseComprehensionAgent');
+
 export const DepositCodebaseComprehensionAgent = factoryPTRRAgent<
   any,
   z.infer<typeof CodebaseComprehensionOutputSchema>
 >({
   name: 'DepositCodebaseComprehensionAgent',
   description:
-    'Rich Host-checkout analysis: absolute measurements, LSP, file-tree, key files → source-safe knowledge map.',
+    'Rich Host-checkout analysis via multi-tool Try (LSP + file read + list + shell) → source-safe knowledge map.',
   outputSchema: CodebaseComprehensionOutputSchema,
-  // Setup primes these tools; Discovery must use them extensively for comprehension.
-  tools: getAssetPackPipelineToolsForAgent('DepositCodebaseComprehensionAgent'),
+  tools: agentTools,
   prompt,
   stepPrompts: {
     plan: () => prompt,
@@ -139,7 +182,7 @@ export const DepositCodebaseComprehensionAgent = factoryPTRRAgent<
     retry: () => prompt,
   },
   plan: { chunkThreshold: 2500 },
-  try: { chunkThreshold: 6000 },
+  try: { chunkThreshold: 8000 },
   refine: { maxAttempts: 2 },
   retry: { maxAttempts: 1 },
 });
@@ -150,54 +193,22 @@ function findValue(execution: any, namespace: string, key: string): any {
   return execution?.findUp?.(namespace, key);
 }
 
-async function runLspQueries(
-  execution: any,
-  workspacePath: string | null,
-  samplePaths: string[],
-): Promise<Array<{ op: string; ok: boolean; resultSummary: string }>> {
-  const queries: Array<{ op: string; ok: boolean; resultSummary: string }> = [];
-  const tool =
-    execution?.tools?.getTool?.('lsp-query') ||
-    (execution?.tools as any)?.tools?.get?.('lsp-query');
-  if (!tool || typeof tool.execute !== 'function') {
-    return [
-      {
-        op: 'availability',
-        ok: false,
-        resultSummary: 'lsp-query tool not registered on Host execution',
-      },
-    ];
-  }
-  const ops: Array<{ op: string; input: Record<string, unknown> }> = [
-    { op: 'workspaceSymbols', input: { op: 'workspaceSymbols', query: '', workspacePath } },
-    {
-      op: 'documentSymbols',
-      input: {
-        op: 'documentSymbols',
-        path: samplePaths[0] || '',
-        workspacePath,
-      },
-    },
-  ];
-  for (const { op, input } of ops) {
+/** Ensure every product tool is on the execution registry before PTRR Try. */
+function ensureDiscoveryToolsRegistered(execution: any): string[] {
+  const names: string[] = [];
+  const tools =
+    agentTools.length > 0 ? agentTools : DISCOVERY_CODEBASE_COMPREHENSION_TOOLS;
+  for (const tool of tools) {
+    const key = (tool as any)?.name || tool?.constructor?.name;
+    if (!key) continue;
     try {
-      const result = await tool.execute(input);
-      const resultSummary =
-        result == null
-          ? 'null'
-          : typeof result === 'object'
-            ? `keys=${Object.keys(result as object).join(',')}`
-            : String(result).slice(0, 80);
-      queries.push({ op, ok: true, resultSummary });
-    } catch (err) {
-      queries.push({
-        op,
-        ok: false,
-        resultSummary: err instanceof Error ? err.message : String(err),
-      });
+      execution?.tools?.registerTool?.(key, tool as any);
+      names.push(key);
+    } catch {
+      /* ignore */
     }
   }
-  return queries;
+  return names;
 }
 
 export default async function runDepositCodebaseComprehensionAgent(input: any, execution: any) {
@@ -205,14 +216,12 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
   const workspacePath =
     findValue(execution, 'repository', 'workspacePath') ||
     findValue(execution, 'setup/lsp', 'workspacePath') ||
+    findValue(execution, 'setup', 'lsp')?.workspacePath ||
     null;
 
   const sourceCheckoutCatalog = await ensureDepositCheckoutSourceFiles(
     execution,
-    resolveSourceCheckoutCatalog(
-      execution,
-      input?.sourceCheckoutCatalog,
-    ),
+    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
   if (sourceCheckoutCatalog) {
     storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', sourceCheckoutCatalog);
@@ -226,15 +235,10 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     ? sourceCheckoutCatalog!.samples
     : [];
 
-  // 1) File-tree structure (dirs + names)
   const fileTree = buildFileTreeStructure(paths);
-
-  // 2) Key file full/bounded reads
   const keyFileReads = pickKeySourceFiles(bodies, samples, paths);
 
-  // 3) Absolute measurements of the Host checkout (static analysis — full catalog).
-  // Discovery must not burn host budget on measure-agent PTRR; Implementation
-  // attaches per-option path-scoped absolutes for depositor selection.
+  // Seed absolutes (offline) — Try tools deepen; do not replace multi-tool Try.
   let sourceMeasurements: unknown[] = [];
   try {
     const {
@@ -253,7 +257,7 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
       summary:
         'Absolute measurements of the depositor Host checkout for codebase comprehension.',
       coveredSourcePaths: measurePaths,
-      fileChanges: measurePaths.map((path) => ({ path, op: 'modify' as const })),
+      fileChanges: measurePaths.map((p) => ({ path: p, op: 'modify' as const })),
       patchSummary: 'Discovery codebase absolute measurements.',
     };
     if (measurePaths.length > 0) {
@@ -272,19 +276,20 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
   }
   storeCrossPhaseArtifact(execution, 'discovery', 'sourceMeasurements', sourceMeasurements);
 
-  // 4) LSP queries (when available)
-  const lspInitialized = Boolean(findValue(execution, 'setup/lsp', 'initialized'));
-  const lspQueries = await runLspQueries(
-    execution,
-    workspacePath,
-    keyFileReads.map((k) => k.path),
+  const registeredToolNames = ensureDiscoveryToolsRegistered(execution);
+  const setupLsp = findValue(execution, 'setup', 'lsp') || findValue(execution, 'setup/lsp', 'initialized');
+  const lspInitialized = Boolean(
+    findValue(execution, 'setup/lsp', 'initialized') ??
+      (typeof setupLsp === 'object' && setupLsp ? (setupLsp as any).initialized : false),
   );
+  storeCrossPhaseArtifact(execution, 'discovery', 'usableToolNames', registeredToolNames);
 
-  // 5) PTRR knowledge map grounded in gathered analysis
   const raw = await DepositCodebaseComprehensionAgent(
     {
       ...input,
       repository,
+      workspacePath,
+      workspaceRoot: workspacePath,
       sourceCheckoutCatalog: {
         paths,
         pathCount: paths.length,
@@ -295,13 +300,18 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
       fileTree,
       keyFileReads: keyFileReads.map((k) => ({
         path: k.path,
-        // Bounded for prompt budget; full content already measured offline.
-        content: k.content.slice(0, 6000),
+        content: k.content.slice(0, 4000),
         truncated: k.truncated,
       })),
       sourceMeasurements,
       lspInitialized,
-      lspQueryResults: lspQueries,
+      usableToolNames: registeredToolNames,
+      toolHints: {
+        hostWorkspace: Object.values(HOST_WORKSPACE_TOOL_NAMES),
+        lsp: Object.values(LSP_TOOL_NAMES),
+        multiCallLaw:
+          'Call tools many times with different parameters on Try/Retry; Plan omits useTools.',
+      },
     },
     execution,
   );
@@ -334,7 +344,11 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     fileTree,
     keyFileReads,
     sourceMeasurements,
-    lsp: { initialized: lspInitialized, queries: lspQueries },
+    lsp: {
+      initialized: lspInitialized,
+      registeredToolNames,
+      usableToolNames: registeredToolNames,
+    },
     comprehension,
   };
 
