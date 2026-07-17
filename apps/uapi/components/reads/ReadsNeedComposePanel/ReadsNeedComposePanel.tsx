@@ -1,6 +1,7 @@
 /**
  * Read Need compose + option synthesis/review (deposit Obfuscations twin).
  * Free-text Need + Relevant / Irrelevant path pickers + synthesize CTA.
+ * Anchor controls mirror DepositObfuscationsAnchorControls (save/load/clear).
  * Options list and settle live in the parent detail grid (deposit parity).
  * Cancel lives only on ReadsPipelineTelemetry (header right) — not here.
  */
@@ -13,6 +14,8 @@ import type {
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import { ProductSynthesizeAssetPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeAssetPackOptionsButton/ProductSynthesizeAssetPackOptionsButton";
 import { ReadsNeedPathPickers } from "@/components/reads/ReadsNeedPathPickers/ReadsNeedPathPickers";
+import { ReadsNeedAnchorControls } from "@/components/reads/ReadsNeedAnchorControls/ReadsNeedAnchorControls";
+import type { ReadNeedAnchor } from "@/components/reads/models/read-activity-ledger";
 
 export function ReadsNeedComposePanel(props: {
   need: string;
@@ -28,6 +31,15 @@ export function ReadsNeedComposePanel(props: {
   onSynthesize: () => void;
   canSynthesize: boolean;
   isConfigLocked?: boolean;
+  needAnchors?: readonly ReadNeedAnchor[];
+  needAnchorName?: string;
+  onNeedAnchorNameChange?: (value: string) => void;
+  isNeedAnchorPopoverOpen?: boolean;
+  onNeedAnchorPopoverOpenChange?: (open: boolean) => void;
+  isAnchoringNeed?: boolean;
+  needAnchorMessage?: string | null;
+  onAnchorNeed?: () => void | Promise<void>;
+  onDeleteNeedAnchor?: (id: string) => void | Promise<void>;
 }) {
   const {
     need,
@@ -43,9 +55,19 @@ export function ReadsNeedComposePanel(props: {
     onSynthesize,
     canSynthesize,
     isConfigLocked = false,
+    needAnchors = [],
+    needAnchorName = "",
+    onNeedAnchorNameChange,
+    isNeedAnchorPopoverOpen = false,
+    onNeedAnchorPopoverOpenChange,
+    isAnchoringNeed = false,
+    needAnchorMessage = null,
+    onAnchorNeed,
+    onDeleteNeedAnchor,
   } = props;
 
   const running = status === "running" || isConfigLocked;
+  const anchorsEnabled = Boolean(onAnchorNeed && onNeedAnchorNameChange);
 
   return (
     <section
@@ -56,10 +78,47 @@ export function ReadsNeedComposePanel(props: {
       aria-label="Read Need and path steering"
       aria-disabled={isConfigLocked ? true : undefined}
     >
-      <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
-        Option synthesis
-      </p>
-      <h2 className="mt-2 text-lg font-semibold text-white">Need</h2>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-orange-200/80">
+            Option synthesis
+          </p>
+          <h2 className="mt-2 text-lg font-semibold text-white">Need</h2>
+        </div>
+        {anchorsEnabled ? (
+          <ReadsNeedAnchorControls
+            isConfigLocked={running}
+            need={need}
+            needAnchors={needAnchors}
+            needAnchorName={needAnchorName}
+            onNeedAnchorNameChange={onNeedAnchorNameChange!}
+            isNeedAnchorPopoverOpen={isNeedAnchorPopoverOpen}
+            onNeedAnchorPopoverOpenChange={(open) =>
+              onNeedAnchorPopoverOpenChange?.(open)
+            }
+            isAnchoringNeed={isAnchoringNeed}
+            onAnchorNeed={onAnchorNeed!}
+            onDeleteNeedAnchor={(id) => {
+              void onDeleteNeedAnchor?.(id);
+            }}
+            onLoadAnchor={(anchor) => {
+              onNeedChange(anchor.text);
+              onNeedAnchorNameChange?.(anchor.name || "");
+              onRelevantPathsChange(anchor.relevantPaths);
+              onIrrelevantPathsChange(anchor.irrelevantPaths);
+            }}
+            onClear={() => {
+              onNeedChange("");
+              onNeedAnchorNameChange?.("");
+              onRelevantPathsChange([]);
+              onIrrelevantPathsChange([]);
+              onNeedAnchorPopoverOpenChange?.(false);
+            }}
+            relevantPathsLength={relevantPaths.length}
+            irrelevantPathsLength={irrelevantPaths.length}
+          />
+        ) : null}
+      </div>
       <p className="mt-2 text-sm leading-6 text-neutral-400">
         Select a repository and commit, describe the Need, optionally steer with
         Relevant and Irrelevant paths, then synthesize measured AssetPack options.
@@ -78,6 +137,14 @@ export function ReadsNeedComposePanel(props: {
         className="mt-2 w-full resize-y border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-neutral-600"
         disabled={running}
       />
+      {needAnchorMessage ? (
+        <p
+          data-testid="reads-need-anchor-message"
+          className="mt-2 text-xs leading-5 text-neutral-400"
+        >
+          {needAnchorMessage}
+        </p>
+      ) : null}
 
       <ReadsNeedPathPickers
         isConfigLocked={running}

@@ -2,6 +2,8 @@
  * Pipeline activity history helpers (relocated from product).
  */
 import {
+  buildProductNeedAnchorDraft,
+  normalizeNeedAnchorPaths,
   normalizeObfuscationsAnchorPaths,
   upsertWorkspaceRun,
 } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
@@ -10,6 +12,24 @@ import { MOCK_RUNS, type WorkspaceRun } from "@/components/bitcode/pipeline/mode
 describe("pipeline-activity-history", () => {
   it("normalizes obfuscations path anchors", () => {
     expect(normalizeObfuscationsAnchorPaths(["  a/b  ", "", "a/b", "c"])).toEqual(["a/b", "c"]);
+  });
+
+  it("normalizes need path anchors", () => {
+    expect(normalizeNeedAnchorPaths(["  a/b  ", "", "a/b", "c"])).toEqual([
+      "a/b",
+      "c",
+    ]);
+  });
+
+  it("builds need anchor drafts with read-need-anchor source", () => {
+    const draft = buildProductNeedAnchorDraft({
+      need: "add retries",
+      name: "Resilience",
+      relevantPaths: ["src/http.ts"],
+      irrelevantPaths: [],
+    });
+    expect(draft.context?.source).toBe("read-need-anchor");
+    expect(draft.selectAfterRecord).toBe(false);
   });
 
   it("upserts workspace runs by id", () => {

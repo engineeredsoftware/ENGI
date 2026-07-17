@@ -621,6 +621,87 @@ export function buildProductObfuscationsAnchorDraft(input: {
   };
 }
 
+/** Normalize path selections for Need anchors (same rules as Obfuscations). */
+export const normalizeNeedAnchorPaths = normalizeObfuscationsAnchorPaths;
+
+/**
+ * Plain-text dropdown sub-text for a Need anchor (search / a11y / tests):
+ * `[Clipped Need Text] | [# relevant paths] | [# irrelevant paths]`.
+ */
+export function formatNeedAnchorDescription(input: {
+  text: string;
+  relevantPaths?: string[] | null;
+  irrelevantPaths?: string[] | null;
+  textClipLength?: number;
+}): string {
+  const clipAt = Math.max(8, input.textClipLength ?? 40);
+  const raw = typeof input.text === 'string' ? input.text.trim().replace(/\s+/g, ' ') : '';
+  const clipped =
+    raw.length > clipAt ? `${raw.slice(0, clipAt).trimEnd()}…` : raw || '(empty)';
+  const relevantCount = normalizeNeedAnchorPaths(input.relevantPaths).length;
+  const irrelevantCount = normalizeNeedAnchorPaths(input.irrelevantPaths).length;
+  const relevantLabel = `${relevantCount} relevant ${
+    relevantCount === 1 ? 'path' : 'paths'
+  }`;
+  const irrelevantLabel = `${irrelevantCount} irrelevant ${
+    irrelevantCount === 1 ? 'path' : 'paths'
+  }`;
+  return `${clipped} | ${relevantLabel} | ${irrelevantLabel}`;
+}
+
+/**
+ * Need anchoring — deposit Obfuscations twin. Saves Need text + Relevant /
+ * Irrelevant path selections into the activity ledger so a reader can reload
+ * a previous Need configuration on a later compose.
+ */
+export function buildProductNeedAnchorDraft(input: {
+  need: string;
+  /** Optional human label for the anchor (shown in the Load-anchor dropdown). */
+  name?: string | null;
+  repositoryFullName?: string | null;
+  relevantPaths?: string[] | null;
+  irrelevantPaths?: string[] | null;
+}): ProductActivityRecordDraft {
+  const text = input.need.trim();
+  const name =
+    typeof input.name === 'string' && input.name.trim()
+      ? input.name.trim().slice(0, 80)
+      : null;
+  const relevantPaths = normalizeNeedAnchorPaths(input.relevantPaths);
+  const irrelevantPaths = normalizeNeedAnchorPaths(input.irrelevantPaths);
+  const namedPrefix = name ? `"${name}" ` : '';
+  const repoSuffix = input.repositoryFullName
+    ? ` (last used with ${input.repositoryFullName})`
+    : '';
+  return {
+    type: 'agentic-execution:asset-pack',
+    detailSection: 'transaction',
+    // Stay on Need compose after save — reads has no activity-ledger detail pane.
+    selectAfterRecord: false,
+    summary: `Anchored ${namedPrefix}Need configuration${repoSuffix}.`,
+    output: {
+      needAnchor: {
+        text,
+        name,
+        relevantPaths,
+        irrelevantPaths,
+        relevantPathCount: relevantPaths.length,
+        irrelevantPathCount: irrelevantPaths.length,
+        repositoryFullName: input.repositoryFullName || null,
+        anchoredAt: new Date().toISOString(),
+      },
+    },
+    context: {
+      source: 'read-need-anchor',
+      repositoryFullName: input.repositoryFullName || null,
+      // Source-safe label + counts only — never the full Need body.
+      needAnchorName: name,
+      relevantPathCount: relevantPaths.length,
+      irrelevantPathCount: irrelevantPaths.length,
+    },
+  };
+}
+
 
 function readExecutionErrorMessage(error: unknown): string | null {
   if (typeof error === 'string' && error.trim()) return error.trim();
@@ -707,6 +788,18 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
             'protectedIpExclusions',
           ]);
     })(),
+    needAnchorText: readNestedString(run.output, ['needAnchor', 'text']),
+    needAnchorName:
+      readNestedString(run.output, ['needAnchor', 'name']) ||
+      contextString('needAnchorName'),
+    needAnchorRelevantPaths: readNestedStringArray(run.output, [
+      'needAnchor',
+      'relevantPaths',
+    ]),
+    needAnchorIrrelevantPaths: readNestedStringArray(run.output, [
+      'needAnchor',
+      'irrelevantPaths',
+    ]),
     depositProofRoot:
       contextString('depositProofRoot') || readNestedString(run.output, ['depositoryEvidence', 'proofRoot']),
     depositMeasurementRoot:

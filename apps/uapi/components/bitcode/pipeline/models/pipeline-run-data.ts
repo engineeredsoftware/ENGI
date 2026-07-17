@@ -50,6 +50,12 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   obfuscationsAnchorName?: string | null;
   obfuscationsAnchorPermissibleSources?: string[] | null;
   obfuscationsAnchorImpermissibleSources?: string[] | null;
+  // Need anchors (read twin of Obfuscations anchors) — contextSource
+  // 'read-need-anchor'. Saves Need body + Relevant / Irrelevant paths.
+  needAnchorText?: string | null;
+  needAnchorName?: string | null;
+  needAnchorRelevantPaths?: string[] | null;
+  needAnchorIrrelevantPaths?: string[] | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [

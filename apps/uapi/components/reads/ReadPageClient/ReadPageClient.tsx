@@ -23,6 +23,10 @@ import { ProductRouteShell } from "@/components/bitcode/routes/ProductRouteShell
 import { ProductDetailStage } from "@/components/bitcode/routes/ProductRouteEntrance/ProductRouteEntrance";
 import DepositSourceSelection from "@/components/deposits/DepositSourceSelection/DepositSourceSelection";
 import { deriveRepositoryAnchors } from "@/components/deposits/models/deposit-activity-ledger";
+import {
+  deriveNeedAnchors,
+  filterReadPipelineTableRuns,
+} from "@/components/reads/models/read-activity-ledger";
 import { ReadsNeedComposePanel } from "@/components/reads/ReadsNeedComposePanel/ReadsNeedComposePanel";
 import { ReadsAssetPackOptions } from "@/components/reads/ReadsAssetPackOptions/ReadsAssetPackOptions";
 import { ReadsPipelinesMaster } from "@/components/reads/ReadsPipelinesMaster/ReadsPipelinesMaster";
@@ -66,6 +70,12 @@ export default function ReadPageClient() {
   const [need, setNeed] = useState("");
   const [relevantPaths, setRelevantPaths] = useState<string[]>([]);
   const [irrelevantPaths, setIrrelevantPaths] = useState<string[]>([]);
+  const [needAnchorName, setNeedAnchorName] = useState("");
+  const [isNeedAnchorPopoverOpen, setIsNeedAnchorPopoverOpen] = useState(false);
+  const [isAnchoringNeed, setIsAnchoringNeed] = useState(false);
+  const [needAnchorMessage, setNeedAnchorMessage] = useState<string | null>(
+    null,
+  );
   const [isComposeOpen, setIsComposeOpen] = useState(false);
   const [settleBusy, setSettleBusy] = useState(false);
   const [settleError, setSettleError] = useState<string | null>(null);
@@ -173,6 +183,11 @@ export default function ReadPageClient() {
     () => deriveRepositoryAnchors(liveRuns),
     [liveRuns],
   );
+  const needAnchors = useMemo(() => deriveNeedAnchors(liveRuns), [liveRuns]);
+  const pipelineTableRuns = useMemo(
+    () => filterReadPipelineTableRuns(liveRuns),
+    [liveRuns],
+  );
 
   const isReadDetailOpen =
     Boolean(selectedTransactionId) || isComposeOpen || Boolean(synthesis.runId);
@@ -214,12 +229,24 @@ export default function ReadPageClient() {
     selectedRun,
     routeReadingStage,
   });
-  const { handleRecordActivity } = useReadActivityRecording({
+  const {
+    handleRecordActivity,
+    handleAnchorNeed,
+    handleDeleteNeedAnchor,
+  } = useReadActivityRecording({
     repositoryContext,
     selectedRun,
+    liveRuns,
     setLiveRuns,
     refreshLiveRuns,
     openReadRouteTransaction: openReadRouteTransaction,
+    need,
+    needAnchorName,
+    relevantPaths,
+    irrelevantPaths,
+    setIsAnchoringNeed,
+    setNeedAnchorMessage,
+    setIsNeedAnchorPopoverOpen,
   });
 
   const sessionRows = buildReadSessionRows(readRouteSession);
@@ -256,7 +283,7 @@ export default function ReadPageClient() {
             label: "Rows",
             description:
               "How many Read runs appear in the pipelines table for this account.",
-            value: String(liveRuns.length),
+            value: String(pipelineTableRuns.length),
           },
           {
             label: "Options",
@@ -280,7 +307,7 @@ export default function ReadPageClient() {
           onRefresh={() => {
             void refreshLiveRuns();
           }}
-          runs={liveRuns}
+          runs={pipelineTableRuns}
           selectedTransactionId={selectedRun?.id ?? null}
           onSelectTransaction={(id) => {
             if (id) {
@@ -346,6 +373,19 @@ export default function ReadPageClient() {
                     repositoryContext?.selectedCommit,
                 )}
                 isConfigLocked={isConfigLocked}
+                needAnchors={needAnchors}
+                needAnchorName={needAnchorName}
+                onNeedAnchorNameChange={setNeedAnchorName}
+                isNeedAnchorPopoverOpen={isNeedAnchorPopoverOpen}
+                onNeedAnchorPopoverOpenChange={setIsNeedAnchorPopoverOpen}
+                isAnchoringNeed={isAnchoringNeed}
+                needAnchorMessage={needAnchorMessage}
+                onAnchorNeed={() => {
+                  void handleAnchorNeed();
+                }}
+                onDeleteNeedAnchor={(id) => {
+                  void handleDeleteNeedAnchor(id);
+                }}
               />
             </div>
 
