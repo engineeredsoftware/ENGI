@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D5) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through CS judge) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D6) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through CS SO; Plan CS Thinkings complete) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -77,7 +77,7 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
 | `BITCODE_DEBUG_STOP_STEP` | `plan` | |
 | `BITCODE_DEBUG_STOP_FAILSAFE` | **`chunk_then_sum`** (was prepare_concise_context) | +1 after 1.D3 Accepted |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`judge`** (CS task judge; was CS reason) | +1 after 1.D4 Accepted |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`structured_output`** (CS task SO; was CS judge) | +1 after 1.D5 Accepted |
 | `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -1006,9 +1006,9 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 | | |
 | --- | --- |
 | **this stop** | **Accepted — fully successful** |
-| **next marker** | Prefer **chunk_then_sum** / **structured_output** |
+| **next marker** | advanced → **chunk_then_sum** / **structured_output** (see 1.D6) |
 | **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Structured-Output Call-Site` |
-| **not yet** | CS SO; Stitch; Try/clone tool; remaining Setup; Discovery+ |
+| **not yet** | CS SO live (now 1.D6); Stitch; Try/clone tool; remaining Setup; Discovery+ |
 
 #### artifacts
 
@@ -1022,13 +1022,132 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 
 ---
 
+### 1.D6 Deposit · Setup · clone-vcs · Plan · ChunkThenSum · structured_output
+
+- **status:** **Accepted (fully successful call-site; CS Plan Thinkings complete)**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Structured-Output Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **pipeline_mode:** deposit
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **step:** plan
+- **failsafe:** chunk_then_sum
+- **thinking:** structured_output
+- **execution_path:**
+  `pipeline:synthesize_deposit_asset_packs → seq-2 → phase:setup → seq-0 → agent:asset-pack-clone-vcs-repository-agent → plan → seq-1 → failsafe:chunk_then_sum → gen-0 → seq-2 → thinkings:structured_output`
+- **provider / model:** anthropic / `claude-haiku-4-5-20251001`
+- **usage:** 4305 in / 617 out / 4922 total tokens (CS SO call)
+- **harness result:** `ok: true`, `debugStop: true`, `callCount: 13`, `stopFailsafe: chunk_then_sum`, `stopGeneration: structured_output`
+- **abort_marker:**
+  generation=**structured_output** + failsafe=**chunk_then_sum** + phase=setup + step=plan + agent filter `clone-vcs`  
+  → `hard-stop after plan/chunk_then_sum/structured_output agent=asset-pack-clone-vcs-repository-agent`
+
+#### expected_schemas (CS structured_output)
+
+| Layer | Schema | Notes |
+| --- | --- | --- |
+| **thinking_return / step Plan** | `PlanStepOutputSchema` `{ approach, steps, considerations? }` | **This call.** Not PCC `{ selectedKeys }`. |
+| **prior** | Reasoning + Judgment from CS reason/judge | User conditioning |
+
+#### tools
+
+| | |
+| --- | --- |
+| **usable** | clone tool on plan node |
+| **selected / executed** | **none** (Plan SO must not emit useTools; schema has no useTools) |
+
+#### contextful_inputs
+
+- User wire keys: **`selectedKeys` + `selectedContext` + `reasoning` + `judgment`** only.
+- Prior reason confidence ~0.95; judge quality ~0.92 **approved: true** with depth/auth/retry critiques.
+- SO instructed to format plan schema from prior Thinkings + prepared context (not re-select keys).
+
+#### completion_response (summary)
+
+```json
+{
+  "approach": "Clone sindresorhus/is-plain-obj from GitHub via REST API at commit hash, fallback main, shallow clone; persist workspacePath/sourceRevision; source-safety post-checkout.",
+  "steps": [
+    "Resolve provider coords from #host:sourceRevision…",
+    "Primary ref=commit; fallback=branch main…",
+    "Prepare asset-pack-clone-vcs-repository-tool params…",
+    "Retry: up to 2× exponential backoff; then branch main…",
+    "Record workspacePath + sourceRevision metadata…",
+    "Document impermissibleSources Host post-checkout filtering…"
+  ],
+  "considerations": [
+    "Shallow vs full clone for measurement…",
+    "Auth / Host token assumption…",
+    "Optional HEAD validation…",
+    "Idempotent adopt/re-clone…",
+    "Plan only — Try executes clone…"
+  ]
+}
+```
+
+#### prompt_excellence_breakdown (CS SO)
+
+| Dimension | Why correct / excellent |
+| --- | --- |
+| **Hierarchy** | 6 blocks: Execution+Pipeline → Phase → Agent → Plan → CS law → **SO** (“Format reasoning and judgment…”). |
+| **Role** | SO formatter, not new free-form plan-from-scratch; not PCC selectedKeys. |
+| **User prepared-only** | Wire keys exactly selectedKeys, selectedContext, reasoning, judgment. |
+| **Path** | `gen-0/seq-2` after reason seq-0 + judge seq-1; full CS Thinkings triple complete. |
+| **Schema pin** | PlanStepOutputSchema approach/steps/considerations — matches step law. |
+
+#### completion_excellence_breakdown (CS SO)
+
+| Dimension | Why correct / excellent |
+| --- | --- |
+| **Schema** | Valid PlanStepOutput; no selectedKeys, no useTools, no judgment fields. |
+| **Judge incorporation** | Steps/considerations address auth, retry parameterization, shallow-clone tradeoff, source-safety handoff. |
+| **Task quality** | Actionable Try strategy: GitHub, owner/name, commit primary, tool name, metadata persist. |
+| **Plan-only** | Explicitly defers execution to Try; no tool invocation. |
+
+#### stability_analysis (CS SO)
+
+| Axis | Result |
+| --- | --- |
+| **schema_parse** | **Pass** — PlanStepOutputSchema |
+| **role_correctness** | **Pass** — CS task SO, not PCC SO |
+| **task_quality** | **Pass** — deposit clone plan ready for Try |
+| **prompt_hygiene** | **Pass** — prepared user + full hierarchy |
+| **regression_vs_prior** | **Pass** — first complete CS Thinkings triple on deposit Plan |
+
+#### stability_confidence
+
+- **0.94** that this call-site is fully successful and Plan **CS selection→task Thinkings** can close.  
+- Residual: Stitch if schema incomplete (this run schema-complete); Plan step return materialization; Try tool execution.
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted — fully successful** (CS Plan Thinkings complete) |
+| **next marker** | Prefer **stitch_until_complete** if exercised, else **Plan Try** / next agent, or document skip when stitch non-triggering |
+| **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Stitch Thinking Reason Call-Site` or Try stop |
+| **not yet** | Stitch live (if any); Try/clone tool; remaining Setup; Discovery+ |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| CS SO request | `.tmp/llm-call-debug/…/0011-request-…-chunk_then_sum-structured_output.json` |
+| CS SO response | `.tmp/llm-call-debug/…/0012-response-…-chunk_then_sum-structured_output.json` (4305/617/4922) |
+| Abort | `.tmp/llm-call-debug/…/0013-abort-…-chunk_then_sum-structured_output.json` |
+| Summary | `.tmp/local-deposit-debug/debug-summary.json` |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
 ### 1.2+ Read next / Deposit next
 
 _Template ready. Expected fills:_
 
-- **1.D6** Deposit · Setup · clone-vcs · Plan · **chunk_then_sum** · **structured_output**  
+- **1.D7** Deposit · Setup · clone-vcs · Plan · **stitch** (if triggered) or **Try**  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge** (read harness still at reason)  
-- **1.D7+** Stitch · Try · Retry · Refine · remaining Setup · Discovery · … · settle  
+- **1.D8+** remaining Setup · Discovery · … · settle  
 
 ---
 
@@ -1038,8 +1157,8 @@ _Template ready. Expected fills:_
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1–1.D3 PCC; §1.D4 CS reason; §1.D5 CS judge Accepted.  
-  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopFailsafe=`chunk_then_sum`, stopGeneration=`judge`, callCount=11.
+- **proof (current):** §1.D1–1.D3 PCC; §1.D4–1.D6 CS Plan Thinkings (reason→judge→SO) Accepted.  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopFailsafe=`chunk_then_sum`, stopGeneration=`structured_output`, callCount=13.
 
 ### §3 SDIVF read pipeline production-like accept
 

@@ -136,12 +136,12 @@ writeFileSync(
 );
 
 // --- Debug abort marker (advance only after §1 acceptance) ---
-// Target: Setup clone-vcs → Plan → chunk_then_sum → judge
-// (after §1.D4 CS reason Accepted).
+// Target: Setup clone-vcs → Plan → chunk_then_sum → structured_output
+// (after §1.D5 CS judge Accepted).
 // FORCE_CLONE_PTRR skips host clone/env/workspace short-circuits so the real
 // factoryPTRRAgent (Plan→Try→Retry→Refine) + clone tool path runs.
 // Note: BITCODE_DEBUG_STOP_AFTER_FIRST_REASON is the hard-stop *flag* name;
-// the generation pin is BITCODE_DEBUG_STOP_GENERATION (now judge under CS).
+// the generation pin is BITCODE_DEBUG_STOP_GENERATION (now SO under CS).
 const debugEnv: Record<string, string> = {
   BITCODE_LLM_CALL_DEBUG: '1',
   BITCODE_DEBUG_FORCE_CLONE_PTRR: '1',
@@ -151,7 +151,7 @@ const debugEnv: Record<string, string> = {
   BITCODE_DEBUG_STOP_FAILSAFE:
     process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'chunk_then_sum',
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'judge',
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'structured_output',
   // chunk_then_sum task Thinkings typically use gen-0 (default require when not prepare)
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
@@ -184,13 +184,13 @@ writeFileSync(
     'agent: clone-vcs (asset-pack-clone-vcs-repository-agent)',
     'step: plan',
     'failsafe: chunk_then_sum',
-    'generation: judge',
+    'generation: structured_output',
     'BITCODE_DEBUG_FORCE_CLONE_PTRR=1',
     '```',
     '',
     'PTRR order under test: Plan → Try → Retry → Refine.',
     'After this call is accepted in .qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md §1,',
-    'move the marker to the next Thinkings gen (structured_output) or next failsafe.',
+    'move the marker to the next failsafe (stitch) or Plan Try.',
     '',
     '## Artifacts',
     '',
@@ -439,7 +439,7 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: true,
   expectedAbort:
-    'Setup → clone-vcs → Plan → chunk_then_sum → judge',
+    'Setup → clone-vcs → Plan → chunk_then_sum → structured_output',
   ptrrOrder: 'Plan → Try → Retry → Refine',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,
@@ -448,7 +448,7 @@ const summary = {
 writeFileSync(join(workRoot, 'debug-summary.json'), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 
-// Success for this pass: hard stop after the pinned generation (CS judge).
+// Success for this pass: hard stop after the pinned generation (CS SO).
 // Exit may be non-zero because of the intentional throw.
 if (debugStop) process.exit(0);
 process.exit(run.status === 0 ? 0 : 1);
