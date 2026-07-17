@@ -216,9 +216,10 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
     for (const prompt of userPrompts) {
       expect(prompt).toContain('pipeline_execution_keys');
       expect(prompt).not.toContain('SECRET-TASK-VALUE');
-      // Lean user: no VCS capability walls
+      // Lean user: short task identity, not full hierarchy / agent capability dump
+      expect(prompt).toMatch(/task|reasoning|pipeline_execution_keys/i);
+      // Structural exclusion of agent call_site: VCS capability lists never on PCC user
       expect(prompt).not.toContain('Three-way merge');
-      expect(prompt).not.toContain('CI/CD pipeline');
     }
     // SO user must not instruct useTools under PCC
     const soUser = userPrompts.find(

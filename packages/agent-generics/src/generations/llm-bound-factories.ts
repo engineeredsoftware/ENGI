@@ -1742,8 +1742,11 @@ function buildPccSelectionSystemPrompt(
     },
   });
 
+  // Structural lean only: agent/step/failsafe/thinkings nodes already excluded.
+  // Do not post-filter prose with brittle keyword lists — capability walls live
+  // on the agent call_site and never enter this walk.
   if (hierarchy) {
-    blocks.push(trimHeavySystemProse(hierarchy));
+    blocks.push(hierarchy);
   }
 
   blocks.push(buildPccLeanTaskPreparation(execution));
@@ -1760,53 +1763,6 @@ function buildPccSelectionSystemPrompt(
   }
 
   return blocks.filter((b) => b && b.trim()).join(EXECUTION_HIERARCHY_PROMPT_NODE_SEPARATOR);
-}
-
-/** Drop known heavy capability / measurement dumps from composed hierarchy text. */
-function trimHeavySystemProse(text: string): string {
-  const dropLineIf = [
-    /three-way merge/i,
-    /ci\/cd pipeline/i,
-    /cherry-pick/i,
-    /pull request validation/i,
-    /branch strategy implementation/i,
-    /repository maintenance via provider api/i,
-    /workflow automation through provider webhooks/i,
-    /measurement law:\s*absolutes/i,
-    /models do not invent absolute btd/i,
-    /^PLAN:\s*/i,
-  ];
-  const lines = text.split('\n');
-  const kept: string[] = [];
-  let prevBlank = false;
-  for (const line of lines) {
-    if (dropLineIf.some((re) => re.test(line))) continue;
-    // Collapse runs of capability bullet walls: drop bullets that look like VCS API catalogs
-    if (/^-\s+VCS operations via provider/i.test(line)) continue;
-    if (/^-\s+Three-way merge/i.test(line)) continue;
-    if (/^-\s+Repository analysis via provider/i.test(line)) continue;
-    if (/^-\s+Workflow automation through provider/i.test(line)) continue;
-    if (/^-\s+Code review via API/i.test(line)) continue;
-    if (/^-\s+Branch strategy implementation/i.test(line)) continue;
-    if (/^-\s+Commit message standardization/i.test(line)) continue;
-    if (/^-\s+Repository maintenance via provider/i.test(line)) continue;
-    const blank = !line.trim();
-    if (blank && prevBlank) continue;
-    kept.push(line);
-    prevBlank = blank;
-  }
-  // Collapse duplicate "Plan the Try only" lines
-  const out: string[] = [];
-  const seenPlanTry = new Set<string>();
-  for (const line of kept) {
-    const t = line.trim();
-    if (/Plan the Try only/i.test(t)) {
-      if (seenPlanTry.has('plan-try')) continue;
-      seenPlanTry.add('plan-try');
-    }
-    out.push(line);
-  }
-  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
 /**
