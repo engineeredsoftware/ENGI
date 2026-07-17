@@ -155,6 +155,21 @@ StructuredOutput) use:
 
 After SO: host **read-in** of values for selected keys → ChunkThenSum / Stitch / task Try.
 
+### Tools / `useTools` law (PTRR steps + PCC)
+
+Three different layers — do not conflate them:
+
+| Layer | Tools surface | Task SO `useTools` | Why |
+| --- | --- | --- | --- |
+| **PCC selection SO** (any step) | N/A (not the task) | **Never** — schema is only `{ selectedKeys }` | Key filter, not agent work |
+| **Plan** task Thinkings/SO | Default **empty** usable tools | **Never** — `PlanStepOutputSchema` has no `useTools`; no tools postprocess | Strategy only |
+| **Refine** task Thinkings/SO | Default **empty** usable tools | **Never** — no tools postprocess | Final return, not execution |
+| **Try** task Thinkings/SO | Agent catalog (usable tools) | **Required capability** — step schema may include `useTools`; tools postprocess runs when selected | Execute the plan |
+| **Retry** task Thinkings/SO | Same as Try (+ prior usedTools results) | **Required capability** — same as Try | Re-attempt with tools |
+
+**Correct slogan:** tools / `useTools` are disallowed on **Plan** and **Refine** only.  
+**Incorrect slogan:** “SO never useTools” (that applies only to **PCC SO** and to **Plan/Refine task SO**, not Try/Retry).
+
 ### ChunkThenSum (CS) task Thinkings
 
 After PCC value read-in, task Thinkings (Reason → Judge → StructuredOutput against the
@@ -172,6 +187,9 @@ without priors are non-canonical.)
 
 Empty `selectedContext` stays prepared-only (lean empty bag) — do not re-dump the envelope
 as fail-soft.
+
+CS Reason/SO for **Try/Retry** may include `useTools` when the step schema allows it; for
+**Plan/Refine** omit `useTools` entirely.
 
 ---
 
@@ -235,4 +253,5 @@ Expect on **system**: Execution **once** + Pipeline + SDIVF + product + Phase + 
 **Plan** + PCC + active Thinking (Reason | Judge | SO).
 
 Expect on **user** (PCC selection): lean task + keys-only tree; **no** full hierarchy re-paste;
-SO = `{ selectedKeys }` only (no useTools).
+PCC SO = `{ selectedKeys }` only (no useTools). Plan/Refine task SO also omit useTools;
+Try/Retry task SO may include useTools.

@@ -1041,17 +1041,30 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
             writtenAssets ||
             undefined;
-          // Buyer-repo PR surface for completion: finish settleDelivery, else
-          // settle Simple shippable artifact, else deliveryMechanism projection.
-          // Pre-production: no shippables completion alias.
-          const settleDelivery =
-            (execution as any).get?.('finish/asset_pack_completion', 'settleDelivery') ||
+          // Buyer-repo PR: settle Simple shippable only (or settlePassThrough
+          // after settle on same EE). Synthesis Finish must not invent settleDelivery.
+          const settleShippable =
             (execution as any).get?.('settle-asset-pack-pipeline', 'shippable') ||
-            (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             undefined;
+          const settlePassThrough =
+            (execution as any).get?.('finish/asset_pack_completion', 'settlePassThrough') ||
+            undefined;
+          const settleDelivery =
+            settleShippable?.prUrl
+              ? {
+                  pullRequest: {
+                    url: settleShippable.prUrl,
+                    title: settleShippable.optionTitle || undefined,
+                  },
+                  summary:
+                    (execution as any).get?.('finish/asset_pack_completion', 'summary') ||
+                    undefined,
+                }
+              : settlePassThrough?.pullRequest?.url
+                ? settlePassThrough
+                : undefined;
           const deliveryMechanism =
             (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
-            settleDelivery ||
             undefined;
           const read =
             (execution as any).get?.('finish/asset_pack_completion', 'read') ||
@@ -1107,9 +1120,8 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
           if (!assetPackCompletion.summary && assetPackCompletion.deliveryMechanism?.summary) {
             assetPackCompletion.summary = assetPackCompletion.deliveryMechanism.summary;
           }
-          if (!assetPackCompletion.summary && assetPackCompletion.settleDelivery?.summary) {
-            assetPackCompletion.summary = assetPackCompletion.settleDelivery.summary;
-          }
+          // Do not prefer settleDelivery.summary for synthesis completion —
+          // settle is a separate pipeline; summary lives on finish/summary + artifacts.
           try {
             const supa = getAdminSupabase();
             const { data: tokenRows, error: tokenErr } = await (supa as any)

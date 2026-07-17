@@ -9,7 +9,9 @@ import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
 /**
  * AssetPack synthesis output schemas.
  * writtenAssets / assetPackSynthesisArtifacts = synthesis evidence (SDIVF).
- * settleDelivery = buyer-repo PR surface after settle Simple.
+ * settleDelivery = buyer-repo PR surface **after settle Simple only**
+ *   (ExecutionPipelineSimpleSettleAssetPack). Synthesis deposit/read pipelines
+ *   must not author this field; they emit selection envelopes / options.
  * deliveryMechanism = connected-interface projection of delivery readiness.
  * shippable (singular) = settle-stage PR receipt with prUrl (not Finish shipping).
  */
@@ -90,19 +92,33 @@ export type AssetPackWrittenAssetTypeValue =
 export type WrittenAssetTypeValue = AssetPackWrittenAssetTypeValue;
 export type AssetPackDeliveryMechanismTemplateValue = AssetPackDeliveryMechanismTemplate;
 
+export type AssetPackPostprocessedKind =
+  /** Deposit synthesis: options for /deposits selection (not settle). */
+  | 'deposit_options'
+  /** Read synthesis: options for /reads → later settle-asset-pack-pipeline. */
+  | 'read_options'
+  /** Generic synthesis completion evidence (no settle PR). */
+  | 'asset_pack_synthesis'
+  /** Only when settle Simple already produced a buyer-repo PR on this EE. */
+  | 'settle_delivery';
+
 export interface AssetPackPostprocessed {
   executionId: string;
-  kind: 'settle_delivery';
+  kind: AssetPackPostprocessedKind;
   semanticKind?: 'asset-pack-written-asset';
   title: string;
   repository?: string;
   summary?: string;
   shippable?: ShippableMeta;
   /**
-   * Buyer-repo delivery after settle Simple (PR URL/summary). Sole field name
-   * for that surface (pre-production: no shippables alias).
+   * Buyer-repo delivery after settle Simple only. Absent on pure deposit/read
+   * synthesis runs. Do not invent from synthesis finish stores.
    */
   settleDelivery?: AssetPackSynthesisArtifactsMeta | null;
+  /** Deposit/read Finish selection envelope when present. */
+  selectionEnvelope?: Record<string, unknown> | null;
+  options?: unknown[];
+  depositOptions?: unknown[];
   deliveryMechanism?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
   writtenAssets?: AssetPackSynthesisArtifactsMeta | null;

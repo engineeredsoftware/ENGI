@@ -76,7 +76,9 @@ describe('normalizeAssetPackOutput', () => {
     } as any);
 
     expect(result.semanticKind).toBe('asset-pack-written-asset');
-    expect(result.kind).toBe('shippable');
+    // Pure synthesis: not settle_delivery (settle-pipeline exclusive).
+    expect(result.kind).toBe('asset_pack_synthesis');
+    expect(result.settleDelivery).toBeUndefined();
     expect(result.read).toBe('Read a review-ready written asset');
     expect(result.writtenAssetType).toBe('read-satisfaction-asset-pack');
     expect(result.deliveryMechanismTemplate).toBe('pull-request');
@@ -90,6 +92,55 @@ describe('normalizeAssetPackOutput', () => {
       writtenAssetType: 'read-satisfaction-asset-pack',
       deliveryMechanismTemplate: 'pull-request',
     });
+  });
+
+  it('uses deposit_options kind when productPipeline is deposit synthesis', () => {
+    const exec = new Execution('pipeline:synthesize_deposit_asset_packs');
+    exec.store('execution', 'id', 'exec-deposit');
+    exec.store('pipeline', 'productPipeline', 'synthesize-deposits-asset-packs-pipeline');
+    exec.store('finish', 'selectionEnvelope', {
+      schema: 'bitcode.deposit.synthesize-asset-packs.selection-envelope',
+      options: [{ title: 'opt-a' }],
+    });
+    exec.store('implementation', 'assetPackSynthesisArtifacts', {
+      summary: 'Deposit options ready for selection.',
+    });
+
+    const result = buildAssetPackPostprocessedResult(exec, {
+      success: true,
+      summary: '',
+      options: [{ title: 'opt-a' }],
+      selectionEnvelope: {
+        schema: 'bitcode.deposit.synthesize-asset-packs.selection-envelope',
+        options: [{ title: 'opt-a' }],
+      },
+    } as any);
+
+    expect(result.kind).toBe('deposit_options');
+    expect(result.settleDelivery).toBeUndefined();
+    expect(result.selectionEnvelope?.options).toHaveLength(1);
+    expect(result.summary).toBe('Deposit options ready for selection.');
+  });
+
+  it('never prefers finish settleDelivery summary for synthesis (settle-exclusive surface)', () => {
+    const exec = new Execution('pipeline:asset-pack');
+    exec.store('implementation', 'assetPackSynthesisArtifacts', {
+      summary: 'Authoritative synthesis summary.',
+    });
+    // Misnamed residual store must not win summary authority.
+    exec.store('finish/asset_pack_completion', 'settleDelivery', {
+      summary: 'Wrong settle-shaped summary from synthesis Finish.',
+      pullRequest: null,
+    });
+
+    const result = buildAssetPackPostprocessedResult(exec, {
+      success: true,
+      summary: '',
+    } as any);
+
+    expect(result.summary).toBe('Authoritative synthesis summary.');
+    expect(result.kind).not.toBe('settle_delivery');
+    expect(result.settleDelivery).toBeUndefined();
   });
 
   it('preserves implementation artifacts when postprocess runs from a sibling execution node', () => {
@@ -118,32 +169,49 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['sibling-implementation-read']);
   });
 
-  it('uses pull-request delivery mechanisms as canonical shippable evidence for the written asset', () => {
+  it('surfaces settleDelivery only when settle Simple shippable exists on the EE', () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-2');
+    exec.store('settle-asset-pack-pipeline', 'shippable', {
+      prUrl: 'https://github.com/acme/repo/pull/26',
+      optionTitle: 'AssetPack PR',
+    });
 
     const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
-      summary: 'Written asset delivered through PR.',
+      summary: 'Settled delivery complete.',
       writtenAsset: {
         title: 'Read satisfaction summary',
-      },
-      deliveryMechanism: {
-        title: 'AssetPack PR',
-        prUrl: 'https://github.com/acme/repo/pull/26',
       },
       semanticKind: 'asset-pack-written-asset',
     } as any);
 
     expect(result.title).toBe('Read satisfaction summary');
-    expect(result.deliveryMechanism).toEqual({
-      title: 'AssetPack PR',
-      prUrl: 'https://github.com/acme/repo/pull/26',
+    expect(result.kind).toBe('settle_delivery');
+    expect(result.settleDelivery?.pullRequest).toMatchObject({
+      url: 'https://github.com/acme/repo/pull/26',
     });
-    expect(result.shippable).toEqual({
-      title: 'AssetPack PR',
-      prUrl: 'https://github.com/acme/repo/pull/26',
-    });
+  });
+
+  it('does not invent settleDelivery from synthesis deliveryMechanism alone', () => {
+    const exec = new Execution('pipeline:asset-pack');
+    exec.store('execution', 'id', 'exec-2b');
+
+    const result = buildAssetPackPostprocessedResult(exec, {
+      success: true,
+      summary: 'Synthesis only — no settle.',
+      writtenAsset: { title: 'Option set' },
+      deliveryMechanism: {
+        title: 'Not a settle PR',
+        prUrl: 'https://github.com/acme/repo/pull/26',
+      },
+      semanticKind: 'asset-pack-written-asset',
+    } as any);
+
+    expect(result.kind).toBe('asset_pack_synthesis');
+    expect(result.settleDelivery).toBeUndefined();
+    // deliveryMechanism may still carry readiness-shaped data from the input
+    expect(result.deliveryMechanism?.prUrl).toBe('https://github.com/acme/repo/pull/26');
   });
 
   it('derives and stores source-safe preview evidence from an accepted Need and Finding Fits result', () => {

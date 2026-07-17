@@ -230,12 +230,17 @@ export function buildAssetPackPostprocessedResult(
         ? repoFull
         : undefined) || undefined;
 
+  // Synthesis summary authority: implementation/finish synthesis artifacts only.
+  // Never prefer settleDelivery — that surface is settle-pipeline exclusive.
   const finalSummary =
     findStoredExecutionValue(execution, 'implementation', 'assetPackSynthesisArtifacts')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'writtenAssets')?.summary ||
-    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'settleDelivery')?.summary ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'summary') ||
+    findStoredExecutionValue(execution, 'finish', 'summary')?.message ||
+    (typeof findStoredExecutionValue(execution, 'finish', 'summary') === 'string'
+      ? findStoredExecutionValue(execution, 'finish', 'summary')
+      : undefined) ||
     normalized.assetPackSynthesisArtifacts?.summary ||
     normalized.summary ||
     undefined;
@@ -304,26 +309,36 @@ export function buildAssetPackPostprocessedResult(
   const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
   const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
-  // Resolve settleDelivery for the postprocessed view (sole completion field).
-  // Sources: finish store settleDelivery → settle Simple shippable artifact →
-  // pipeline output settleDelivery → shippable.prUrl shape from settle result.
-  const settleDeliveryFromStore =
-    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'settleDelivery') ||
-    findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') ||
-    null;
-  const settleDelivery =
-    (normalized as any).settleDelivery ||
-    settleDeliveryFromStore ||
-    (shippable
+  // settleDelivery is settle-pipeline exclusive. Only surface when settle Simple
+  // already recorded a shippable on this EE (cross-pipeline handoff), never invent
+  // a settle-shaped bag from synthesis finish or deliveryMechanism alone.
+  const settleShippable =
+    findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') as
+      | { prUrl?: string; optionTitle?: string }
+      | null;
+  const settleDeliveryFromSettleOnly =
+    settleShippable?.prUrl
       ? {
-          ...(shippable.prUrl ? { pullRequest: { url: shippable.prUrl, title: shippable.title } } : {}),
+          pullRequest: {
+            url: settleShippable.prUrl,
+            title: settleShippable.optionTitle || finalSummary || 'AssetPack delivery',
+          },
           summary: finalSummary || normalized.summary || null,
         }
-      : null);
+      : (normalized as any).settleDelivery?.pullRequest?.url
+        ? (normalized as any).settleDelivery
+        : null;
+
+  const productPipeline = resolveSynthesisProductPipeline(execution);
+  const selectionEnvelope =
+    findStoredExecutionValue(execution, 'finish', 'selectionEnvelope') ||
+    (normalized as any).selectionEnvelope ||
+    null;
+  const kind = resolveSynthesisPostprocessKind(productPipeline, !!settleDeliveryFromSettleOnly);
 
   return {
     executionId,
-    kind: 'settle_delivery',
+    kind,
     semanticKind: 'asset-pack-written-asset',
     title:
       normalized.writtenAsset?.title ||
@@ -331,12 +346,28 @@ export function buildAssetPackPostprocessedResult(
       normalized.deliveryMechanism?.title ||
       finalSummary ||
       normalized.summary ||
-      'Written Asset',
+      (kind === 'deposit_options' || kind === 'read_options'
+        ? 'AssetPack options'
+        : 'Written Asset'),
     repository,
     summary: finalSummary,
-    shippable,
-    settleDelivery: settleDelivery as any,
-    deliveryMechanism: normalized.deliveryMechanism || shippable,
+    shippable: settleDeliveryFromSettleOnly
+      ? shippable
+      : kind === 'deposit_options' || kind === 'read_options'
+        ? undefined
+        : shippable,
+    // Only attach when settle actually produced a PR — never synthesis-authored.
+    ...(settleDeliveryFromSettleOnly
+      ? { settleDelivery: settleDeliveryFromSettleOnly as any }
+      : {}),
+    deliveryMechanism: normalized.deliveryMechanism || (settleDeliveryFromSettleOnly ? shippable : undefined),
+    ...(selectionEnvelope ? { selectionEnvelope } : {}),
+    ...((normalized as any).options || (normalized as any).depositOptions
+      ? {
+          options: (normalized as any).options || (normalized as any).depositOptions,
+          depositOptions: (normalized as any).depositOptions || (normalized as any).options,
+        }
+      : {}),
     assetPackSynthesisArtifacts: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     writtenAssets: (finishArtifacts || normalized.assetPackSynthesisArtifacts || null) as any,
     artifacts,
@@ -742,6 +773,46 @@ function firstString(...values: unknown[]): string | null {
     if (typeof value === 'string' && value.trim()) return value.trim();
   }
   return null;
+}
+
+/**
+ * Product pipeline identity for postprocess branching.
+ * Deposit/read synthesis must not emit settle_delivery kinds.
+ */
+function resolveSynthesisProductPipeline(execution: Execution): string {
+  const raw =
+    firstString(
+      findStoredExecutionValue(execution, 'pipeline', 'productPipeline'),
+      findStoredExecutionValue(execution, 'pipeline', 'synthesizeMode'),
+      findStoredExecutionValue(execution, 'pipeline', 'name'),
+    ) || '';
+  return raw.toLowerCase();
+}
+
+/**
+ * Postprocess kind for synthesis product runs.
+ * - deposit_options / read_options: selection envelopes for UI
+ * - asset_pack_synthesis: generic synthesis completion evidence
+ * - settle_delivery: only when settle Simple already produced a shippable PR
+ */
+function resolveSynthesisPostprocessKind(
+  productPipeline: string,
+  hasSettleDelivery: boolean,
+): AssetPackPostprocessed['kind'] {
+  if (hasSettleDelivery) return 'settle_delivery';
+  if (
+    productPipeline.includes('deposit') ||
+    productPipeline === 'deposit'
+  ) {
+    return 'deposit_options';
+  }
+  if (
+    productPipeline.includes('read') ||
+    productPipeline === 'read'
+  ) {
+    return 'read_options';
+  }
+  return 'asset_pack_synthesis';
 }
 
 function findStoredExecutionValue(execution: Execution, namespace: string, key: string): any {

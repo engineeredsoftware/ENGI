@@ -706,7 +706,7 @@ on VCS agent promptparts; if too heavy, thin **authoring**, not drop Agent from 
 | Removed | Brittle keyword `trimHeavySystemProse`; temporary skip of Agent/Step nodes |
 
 **PCC-specific adjustments (slight, not hierarchy amputation):** keys-only tree (no values);
-generation schemas (Reasoning / Judgment / selectedKeys); SO never useTools under PCC.
+generation schemas (Reasoning / Judgment / selectedKeys); **PCC SO** never useTools (not Plan/Try task SO — Try/Retry task SO may include useTools).
 
 #### re-validation (2026-07-16, post hierarchy-walk restore)
 
@@ -1243,7 +1243,7 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 
 1. **Hierarchy law restored** — full walk Execution→…→Failsafe→Thinking (never amputate Agent/Step).  
 2. **Dual system/user law** — system = ancestry; user = generation payload only.  
-3. **PCC lean user** — keys-only tree; lean task; SO never useTools.  
+3. **PCC lean user** — keys-only tree; lean task; **PCC SO** never useTools (`selectedKeys` only). Plan/Refine task SO also omit useTools; **Try/Retry task SO must allow useTools**.  
 4. **CS failsafe law attach** + **forPreparation PCC-only** (budget measure correct).  
 5. **CS prepared-only user** — `selectedKeys`+`selectedContext` (+ prior Thinkings); no envelope dual-dump.  
 6. **CS sequential chunk loop** — slice + `priorChunkCompletions` → sum (parallel opt-in).  

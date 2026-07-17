@@ -127,12 +127,17 @@ export const EXECUTION_NAMESPACES = {
     'evidence_documents',  // object — route preprocess snapshot
   ],
   'finish/asset_pack_completion': [
-    'summary',          // string | object
+    'summary',          // string | object — synthesis Finish evidence
     'processingStats',  // { time, tokens?, measuredBtd?, feeAsset?, btcFeesPaid? }
     'repoSnapshot',     // { org, repo, branch, commit }
     'writtenAssets',    // semantic written-asset rollups
+    'assetPackSynthesisArtifacts', // implementation/finish synthesis artifacts
+    'deliveryMechanism', // readiness projection (not buyer-repo settle PR)
     'read',             // semantic expressed read
     'writtenAssetType', // semantic written-asset type
+    // settlePassThrough only when settle Simple already stored shippable on EE
+    'settlePassThrough',
+    // settleDelivery is settle-pipeline exclusive — do not author from synthesis Finish
   ],
   postprocessed: [
     'result',       // normalized postprocessed AssetPack or measurement result

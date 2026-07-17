@@ -48,9 +48,21 @@ Store tools.use / tools.used; publish agent-step work update
 Next PTRR step sees usedTools via results interpolation (not Plan's useTools)
 ```
 
-**Plan** = strategy only (empty tool surface by default; no tools postprocess).
-**Try/Retry** each select their own `useTools` and postprocess.
-**Refine** = final agent return (empty tool surface; no postprocess).
+**Plan** = strategy only (empty tool surface by default; `PlanStepOutputSchema` has
+**no** `useTools`; no tools postprocess).
+**Try/Retry** each select their own `useTools` on **task** StructuredOutput and
+postprocess — **fundamental** to those steps (not optional philosophy).
+**Refine** = final agent return (empty tool surface; no `useTools` postprocess).
+
+**PCC StructuredOutput** (first failsafe on every step) is unrelated: it emits only
+`{ selectedKeys }` and **never** `useTools`, even under Try/Retry. Task SO after PCC
+read-in is where Try/Retry `useTools` appears.
+
+| | Plan | Try | Retry | Refine | PCC SO (any step) |
+| --- | --- | --- | --- | --- | --- |
+| Usable tools | `[]` | agent catalog | agent catalog | `[]` | n/a |
+| Task SO may include `useTools` | **no** | **yes** | **yes** | **no** | n/a (`selectedKeys` only) |
+| Tools postprocess | no | yes if selected | yes if selected | no | no |
 
 ---
 

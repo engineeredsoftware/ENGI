@@ -141,16 +141,13 @@ function requiresPullRequestDelivery(output, input) {
 }
 
 function findPullRequestUrl(output) {
+  // Buyer-repo PR only from settle surfaces — not synthesis writtenAssets bags.
   return (
-    output?.deliveryMechanism?.pullRequest?.url ||
-    output?.deliveryMechanism?.prUrl ||
-    // Buyer-repo PR URL: settleDelivery (completion surface) or settle
-    // Simple shippable.prUrl / deliveryMechanism projection. Pre-production:
-    // no shippables completion alias.
     output?.settleDelivery?.pullRequest?.url ||
+    output?.settlePassThrough?.pullRequest?.url ||
     output?.shippable?.prUrl ||
-    output?.writtenAssets?.pullRequest?.url ||
-    output?.assetPackSynthesisArtifacts?.pullRequest?.url ||
+    // deliveryMechanism.prUrl only after settle normalized it onto the result
+    (output?.kind === 'settle_delivery' ? output?.deliveryMechanism?.prUrl : null) ||
     null
   );
 }
@@ -1994,9 +1991,9 @@ try {
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,
     deliveryMechanism: output?.deliveryMechanism || null,
-    // Project settle delivery onto the host result (settleDelivery only).
-    settleDelivery:
-      output?.settleDelivery || output?.deliveryMechanism || null,
+    // settleDelivery only when settle Simple produced a PR (or postprocess
+    // already attached settle pass-through). Never alias deliveryMechanism.
+    settleDelivery: output?.settleDelivery || null,
     ledgerSettlement: output.ledgerSettlement,
     organizationAuthority,
     ledgerDatabaseReconciliation,
