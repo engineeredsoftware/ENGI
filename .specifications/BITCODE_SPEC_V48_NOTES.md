@@ -471,19 +471,20 @@ thinking generations (reason and judge[-reasoning]) that precede the typed outpu
  The pipeline's full execution context accumulates without bound (every phase,
  agent, step, and generation stores state below the root), so inference quality
  demands state-cleaning: PCC is the FILTER that reduces noisy context to exactly
- what the task at hand needs. Its contract:
- - INPUT: `{ preparation, system, pipeline_execution_keys }` where
- `preparation` = the composed task prompt(s) it is preparing for (pipeline system
- prompt + agent system prompt + step prompt — e.g.
- `Implement-WriteAssetPacksDiffs-Refine`), `system` = PCC's own instructions
- (what is PCC requesting to be inferred?), and `pipeline_execution_keys` = the
- FULL root execution state tree rendered as **keys only**
- (`{ phase1: { agent1: { step1: ... } ... } ... }`) — never the values.
- - OUTPUT: the selected KEYS. PCC's inference is a Thinkings generation against the
- key-selection schema — NOT the step's output schema (PCC never attempts the task).
- - READ-IN: the host then reads the VALUES of exactly the selected keys from the
- execution state and provides them as the task context to the subsequent
- generations (CS, SC).
+ what the task at hand needs. Its contract (living law also in `.docs/PROMPTING.md`):
+ - **System (hierarchical walk):** full ancestry every Thinkings call-site —
+   Pipeline (Execution **once**) → Phase → **Agent** → **Step** → PCC failsafe →
+   active Thinking (Reason | Judge | StructuredOutput). Do **not** drop Agent/Step
+   from the walk to thin prompts; thin agent promptparts if capability prose is heavy.
+ - **User selection payload:** short **task** identity (product/phase/agent/step —
+   not a second paste of the full system hierarchy) + `pipeline_execution_keys` =
+   FULL root execution state as **keys only** (never values). PCC law may live on
+   hierarchical system only (do not re-embed a second full `system` essay in user).
+ - **Thinkings:** Reason → Judge → StructuredOutput against the **key-selection**
+   schema `{ selectedKeys: string[] }` on SO — NOT the step's task output schema.
+   PCC never attempts the agent task; SO under PCC never emits `useTools`.
+ - **READ-IN:** host reads VALUES of exactly the selected keys and supplies them to
+   subsequent failsafes (CS, SC) / task path.
 2. **ChunkThenSum (CS — the input failsafe; trigger = the composed request exceeds the
  request/context limit).** Non-triggering (the composed prompt — hierarchical system
  prompt + task input including the PCC-selected values — fits the request limit):
@@ -503,10 +504,16 @@ Testing law: CS and SC are each tested on BOTH paths — triggering (input excee
 request limit; response missing expected schema keys) and non-triggering (input fits;
 response schema-complete) — with deterministic boundary LLM mocks.
 
-AUDIT (2026-07-02, of the shipped implementation vs this contract): SC conforms after
-the stitch corrections (schema-incomplete trigger, error-carrying repairs, bounded with
-final-attempt validation). PCC and CS do NOT yet conform: PCC snapshots a FIXED set of
-root namespaces (repository/source/read/config/attachments/instructions/
+**PCC status (updated 2026-07-16):** PCC selection is keys-only Thinkings + value
+read-in under prepare_concise_context (Reason → Judge → SO `{ selectedKeys }`).
+System walk is full hierarchy (Execution once + Agent/Step on path). User payload is
+lean task + keys (no hierarchy re-paste). Live progressive proof:
+`.qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md` §1.D1–1.D3 and
+`qa:deposit:debug-first-llm`.
+
+AUDIT (2026-07-02, historical — **superseded for PCC** by the 2026-07-16 status above):
+SC conformed after stitch corrections. At that date PCC and CS did NOT yet conform: PCC
+snapshots a FIXED set of root namespaces (repository/source/read/config/attachments/instructions/
 evidence_documents/pipeline.input) with full VALUES — no keys-only tree, no selection
 inference (its generation runs the step's output schema, producing a discarded full
 task attempt), and the deterministic size-based `prepareConciseContext` chunker stands

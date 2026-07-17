@@ -115,6 +115,46 @@ composed blocks (layered audit paths may still be registered for tooling).
 | Child nodes | Override/augment **their kind only** |
 | Anti-pattern | Emitting Execution identity on root **and** again on every child |
 
+“You are in an Execution…” appears **once on the system walk** (pipeline block). Nested
+system blocks (phase / agent / step / failsafe / thinking) must **not** re-emit it.
+That is **not** the same as “Execution text must be absent from the call-site overall.”
+
+### Full ancestry on every call-site (do not amputate nodes)
+
+Every LLM **system** string walks **full** ancestry root→leaf, including **Agent** and
+**Step**. Do **not** drop Agent/Step from the walk to “thin” prompts. If agent capability
+prose is too heavy for all call-sites, thin **authored promptparts** on the agent node —
+never skip the node.
+
+Slight role adjustments (allowed):
+
+- `pathFilter`: only the **active** failsafe + **active** thinking (Reason | Judge | SO)
+- Plan vs Try tool surface (Plan defaults no usable tools)
+
+### System vs user (two laws)
+
+| Channel | Optimal |
+| --- | --- |
+| **System** | Full hierarchy walk (Execution once on pipeline + Phase + Agent + Step + Failsafe + Thinking) |
+| **User** | Task / schema / structured inputs for **this** generation — **do not re-paste** the full system hierarchy |
+
+Anti-pattern: stuffing `preparation` with a second copy of the hierarchical system string
+while system already carries the walk.
+
+### PrepareConciseContext (PCC) selection Thinkings
+
+PCC always runs as the first failsafe under a step. Selection Thinkings (Reason → Judge →
+StructuredOutput) use:
+
+| Channel | Content |
+| --- | --- |
+| **System** | Full hierarchy walk as above (Agent/Step included) + PCC failsafe law + active thinking |
+| **User (Reason)** | Lean **task** identity (product/phase/agent/step one-liner) + `pipeline_execution_keys` (keys only). PCC law is **not** re-embedded as a second `system` essay when already on hierarchical system. Schema: Reasoning (`analysis`, `reasoningItems`, `conclusion`, `confidence`) — **not** `steps` (reserved for PTRR Step). |
+| **User (Judge)** | Prior `reasoning` + keys (+ lean task). No hierarchy re-dump. Schema: Judgment. |
+| **User (StructuredOutput)** | Prior `reasoning` + `judgment` + keys (+ lean task). Schema: `{ "selectedKeys": string[] }` only. **Never** instruct `useTools` under PCC selection. JSON/schema envelope appears **once**. |
+
+After SO: host **read-in** of values for selected keys → ChunkThenSum / Stitch / task Try.
+
 ---
 
 ## Naming (types)
@@ -163,5 +203,18 @@ Catalog at pipeline/agent; **step allowlist** via `applyStepToolSurface`
 
 ## Proof
 
-`pnpm run debug:read:first-llm` — marker Plan / prepare_concise_context / reason.
-Expect Execution once + Pipeline + SDIVF + product + phase + agent + Plan + PCC + Reason.
+Living progressive markers (see `.qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md` §1):
+
+```bash
+# Deposit (current marker often Plan / prepare_concise_context / structured_output)
+pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm
+
+# Read (first-reason entry still available)
+pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
+```
+
+Expect on **system**: Execution **once** + Pipeline + SDIVF + product + Phase + **Agent** +
+**Plan** + PCC + active Thinking (Reason | Judge | SO).
+
+Expect on **user** (PCC selection): lean task + keys-only tree; **no** full hierarchy re-paste;
+SO = `{ selectedKeys }` only (no useTools).

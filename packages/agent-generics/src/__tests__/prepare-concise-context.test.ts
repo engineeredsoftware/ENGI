@@ -12,6 +12,7 @@
  */
 import { z } from 'zod';
 import { Execution } from '@bitcode/execution-generics';
+import { ExecutionPrompt } from '@bitcode/execution-generics/prompts/ExecutionPrompt';
 import { StepExecution } from '../execution';
 import { factoryPrepareConciseContext, PCC_KEY_SELECTION_SCHEMA } from '../generations/llm-bound-factories';
 
@@ -178,15 +179,18 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
 
   it('the DEFAULT selection Thinkings runs under the PCC failsafe (labels + keys-only prompts)', async () => {
     const userPrompts: string[] = [];
+    const systemPrompts: string[] = [];
     const llm = async (llmInput: any) => {
       const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
+      const system = (llmInput.messages || []).find((m: any) => m.role === 'system')?.content ?? '';
       userPrompts.push(user);
+      systemPrompts.push(system);
       let payload: any = { analysis: 'a', reasoningItems: ['s'], conclusion: 'c', confidence: 0.9 };
       if (
         user.includes('Structured output input:') ||
         user.includes('Generate structured output for:')
       ) {
-        payload = { selectedKeys: ['agent-root#read:description'] };
+        payload = { selectedKeys: ['pipeline:test#read:description'] };
       } else if (
         user.includes('Judge ONLY the prior PrepareConciseContext') ||
         user.includes('Evaluate the quality and correctness of:') ||
@@ -201,26 +205,70 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
       };
     };
 
-    const root = new Execution('agent-root') as any;
-    root.llms = { getDefaultLLM: () => llm, getDefaultConfig: () => ({ maxTokens: 4000 }) };
-    root.tools = { getTool: () => undefined };
-    root.agents = {};
-    root.store('read', 'description', 'SECRET-TASK-VALUE');
-    const step = new StepExecution('plan', root);
+    // Full ancestry chain with call_site blocks (hierarchy law on system).
+    const blank = () => {
+      const p = new ExecutionPrompt();
+      p.set('generic_system', ' ' as any);
+      p.set('specific_execution', ' ' as any);
+      return p;
+    };
+    const pipeline: any = new Execution('pipeline:test');
+    pipeline.prompt = blank();
+    pipeline.prompt.set(
+      'specific_execution:call_site:pipeline',
+      'You are in an Execution: TEST_EXECUTION_ONCE. You are in a Pipeline: TEST_PIPELINE.' as any,
+    );
+    pipeline.llms = { getDefaultLLM: () => llm, getDefaultConfig: () => ({ maxTokens: 4000 }) };
+    pipeline.tools = { getTool: () => undefined };
+    pipeline.agents = { getAgent: () => null };
+    pipeline.store('read', 'description', 'SECRET-TASK-VALUE');
+
+    const phase: any = pipeline.child('phase:setup');
+    phase.prompt = blank();
+    phase.prompt.set(
+      'specific_execution:call_site:phase:setup',
+      'You are in a Phase: TEST_PHASE_SETUP.' as any,
+    );
+
+    const agent: any = phase.child('agent:asset-pack-clone-vcs-repository-agent');
+    agent.prompt = blank();
+    agent.prompt.set(
+      'specific_execution:call_site:agent',
+      'You are the TEST_CLONE_AGENT. Capability note: Three-way merge on agent call_site is allowed on system.' as any,
+    );
+
+    const step = new StepExecution('plan', agent);
+    step.prompt.set(
+      'specific_execution:call_site:step',
+      'PTRR step: plan. Plan the Try only (do not execute tools).' as any,
+    );
 
     const out = await factoryPrepareConciseContext()({ read: 'task' }, step);
 
     // Three selection generations (Reason -> Judge -> StructuredOutput).
     expect(userPrompts).toHaveLength(3);
-    // Keys-only law on the wire: no stored value in any selection prompt.
+    expect(systemPrompts).toHaveLength(3);
+
+    // System: full hierarchy + Execution once (not re-emitted as nested identity spam).
+    for (const system of systemPrompts) {
+      const execHits = (system.match(/You are in an Execution/gi) || []).length;
+      expect(execHits).toBe(1);
+      expect(system).toContain('TEST_EXECUTION_ONCE');
+      expect(system).toContain('TEST_PIPELINE');
+      expect(system).toContain('TEST_PHASE_SETUP');
+      expect(system).toContain('TEST_CLONE_AGENT'); // Agent stays on the walk
+      expect(system).toMatch(/PrepareConciseContext|CONTEXT FILTER/i);
+    }
+
+    // User: keys-only; no hierarchy re-paste; lean task — Agent capability may be on system only.
     for (const prompt of userPrompts) {
       expect(prompt).toContain('pipeline_execution_keys');
       expect(prompt).not.toContain('SECRET-TASK-VALUE');
-      // Lean user: short task identity, not full hierarchy / agent capability dump
+      expect(prompt).not.toMatch(/You are in an Execution/i);
+      expect(prompt).not.toContain('TEST_EXECUTION_ONCE');
       expect(prompt).toMatch(/task|reasoning|pipeline_execution_keys/i);
-      // Structural exclusion of agent call_site: VCS capability lists never on PCC user
-      expect(prompt).not.toContain('Three-way merge');
     }
+
     // SO user must not instruct useTools under PCC
     const soUser = userPrompts.find(
       (p) => p.includes('Structured output input:') || p.includes('Generate structured output for:'),
@@ -233,10 +281,10 @@ describe('PrepareConciseContext stores and telemetry labels', () => {
     expect(soOnlyCount).toBeLessThanOrEqual(1);
 
     // The selected key's VALUE is read in AFTER selection.
-    expect(out.selectedContext).toEqual({ 'agent-root#read:description': 'SECRET-TASK-VALUE' });
+    expect(out.selectedContext).toEqual({ 'pipeline:test#read:description': 'SECRET-TASK-VALUE' });
 
     // Every selection generation node labels as PCC via findUp.
-    const nodes = collectNodes(root);
+    const nodes = collectNodes(pipeline);
     const generationNodes = nodes.filter(n => n?.get?.('ptrr', 'generation'));
     expect(generationNodes.length).toBe(3);
     for (const node of generationNodes) {
