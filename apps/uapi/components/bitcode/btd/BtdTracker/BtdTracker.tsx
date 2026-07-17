@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useLayoutEffect } from 'react';
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -75,6 +75,34 @@ export function BTDTracker({
     if (labels.length === 0) return assetPacksLabel;
     return `${assetPacksLabel}: ${labels.join(', ')}`;
   }, [assetPacksLabel, recentBtdAssetPacks]);
+
+  /**
+   * Stable chrome width:
+   * - Text slot = max width of *default* content variants only (BTD|APs at current
+   *   #s, "Reading wallet", "Opening BTD…").
+   * - Hover/alt wallet address is NOT measured — it truncates inside the slot so
+   *   flip states never resize the box.
+   * - Slot grows only when BTD/APs digit length exceeds that floor.
+   */
+  const btdMeasureRef = useRef<HTMLSpanElement>(null);
+  const readingMeasureRef = useRef<HTMLSpanElement>(null);
+  const openingMeasureRef = useRef<HTMLSpanElement>(null);
+  const [textSlotWidth, setTextSlotWidth] = useState(0);
+  useLayoutEffect(() => {
+    const widths = [
+      btdMeasureRef.current?.offsetWidth ?? 0,
+      readingMeasureRef.current?.offsetWidth ?? 0,
+      openingMeasureRef.current?.offsetWidth ?? 0,
+    ];
+    setTextSlotWidth(Math.ceil(Math.max(0, ...widths)));
+  }, [assetPackCount, displayedBtdBalance]);
+
+  // Icon + gap + text slot + horizontal padding (px-3 = 12px each side).
+  const paddingPx = 12;
+  const iconWidthPx = 16;
+  const gapPx = 10; // gap-x-2.5
+  const chromeMinWidth =
+    iconWidthPx + gapPx + textSlotWidth + paddingPx * 2;
 
   // Animate BTD balance changes (BTC fee balance is not shown in chrome).
   useEffect(() => {
@@ -257,7 +285,7 @@ export function BTDTracker({
 
   return (
     <motion.div
-      className={`relative group inline-flex h-8 max-h-8 min-h-8 w-max max-w-full shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
+      className={`relative group inline-flex h-8 max-h-8 min-h-8 shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       onClick={canOpenBtdWallet ? handleOpenBtdWallet : undefined}
@@ -266,14 +294,17 @@ export function BTDTracker({
       title={recentAssetPackTitle}
     >
       {/*
-        Height-fixed 32px chrome (nav sibling). Width is content-driven so
-        digit length ("0 BTD" → "1,200 BTD") and APs count expand the box
-        naturally — no measured minWidth lock.
-        Glow layers stay absolute so they do not inflate layout size.
+        Height-fixed 32px chrome. Width is stable across hover/loading flips:
+        text slot = widest *default* variant; BTD/APs digit growth expands it;
+        wallet alt text truncates inside the slot (never resizes the box).
       */}
       <motion.div
-        className="relative box-border inline-flex h-8 max-h-8 min-h-8 w-max max-w-full items-center gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
-        style={{ backfaceVisibility: 'hidden' }}
+        className="relative box-border inline-flex h-8 max-h-8 min-h-8 items-center gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
+        style={{
+          backfaceVisibility: 'hidden',
+          width: textSlotWidth > 0 ? `${chromeMinWidth}px` : undefined,
+          minWidth: textSlotWidth > 0 ? `${chromeMinWidth}px` : undefined,
+        }}
       >
         {/* Quantum field effect */}
         <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100">
@@ -310,8 +341,42 @@ export function BTDTracker({
           />
         ))}
 
-        {/* Icon + text in normal flow so width tracks label length. */}
-        <div className="relative z-[1] inline-flex min-w-0 items-center gap-x-2.5">
+        {/* Fixed icon + text-slot grid — flip states swap inside the slot. */}
+        <div
+          className="relative z-[1] grid min-w-0 items-center gap-x-2.5"
+          style={{
+            gridTemplateColumns:
+              textSlotWidth > 0 ? `auto ${textSlotWidth}px` : 'auto auto',
+          }}
+        >
+          {/* Hidden measures: default content only (not hover wallet). */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 -z-10 whitespace-nowrap opacity-0"
+          >
+            <span
+              ref={btdMeasureRef}
+              className="inline-flex items-center font-medium tracking-wide text-sm leading-none"
+            >
+              <span>{btdBalanceLabel}</span>
+              <span className="mx-2.5 inline-block h-4 w-[2px] shrink-0 rounded-full" />
+              <span>{assetPacksLabel}</span>
+            </span>
+            <span
+              ref={readingMeasureRef}
+              className="inline-flex items-center gap-2 font-normal tracking-wide text-sm"
+            >
+              <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full" />
+              <span>Reading wallet</span>
+            </span>
+            <span
+              ref={openingMeasureRef}
+              className="font-normal tracking-wide text-sm"
+            >
+              Opening BTD...
+            </span>
+          </div>
+
           <AnimatePresence initial={false} mode="wait">
             {actionState === 'loading' ? (
               <motion.div
@@ -351,58 +416,61 @@ export function BTDTracker({
               </motion.div>
             )}
           </AnimatePresence>
-          <AnimatePresence initial={false} mode="wait">
-            {actionState === 'loading' ? (
-              <motion.span
-                key="loading"
-                className="whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
-                initial={{ opacity: 0, rotateX: -90 }}
-                animate={{ opacity: 1, rotateX: 0 }}
-                exit={{ opacity: 0, rotateX: 90 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >Opening BTD...</motion.span>
-            ) : isBalanceLoading ? (
-              <motion.span
-                key="wallet-loading"
-                className="inline-flex items-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm text-emerald-200/78"
-                initial={{ opacity: 0, rotateX: -90 }}
-                animate={{ opacity: 1, rotateX: 0 }}
-                exit={{ opacity: 0, rotateX: 90 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >
-                <span
-                  aria-hidden="true"
-                  className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-200/80 shadow-[0_0_10px_rgba(103,254,183,0.45)]"
-                />
-                <span>Reading wallet</span>
-              </motion.span>
-            ) : actionState === 'idle' && shouldShowWalletNow ? (
-              <motion.span
-                key="wallet"
-                className="whitespace-nowrap font-normal tracking-wide text-sm text-emerald-400/90"
-                initial={{ opacity: 0, rotateX: -90 }}
-                animate={{ opacity: 1, rotateX: 0 }}
-                exit={{ opacity: 0, rotateX: 90 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >{walletActionLabel}</motion.span>
-            ) : (
-              <motion.span
-                key="btd"
-                className="inline-flex items-center whitespace-nowrap font-medium tracking-wide text-sm leading-none text-emerald-400/90"
-                initial={{ opacity: 0, rotateX: -90 }}
-                animate={{ opacity: 1, rotateX: 0 }}
-                exit={{ opacity: 0, rotateX: 90 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-              >
-                <span>{btdBalanceLabel}</span>
-                <span
-                  aria-hidden="true"
-                  className="mx-2.5 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
-                />
-                <span>{assetPacksLabel}</span>
-              </motion.span>
-            )}
-          </AnimatePresence>
+          <div className="min-w-0 overflow-hidden">
+            <AnimatePresence initial={false} mode="wait">
+              {actionState === 'loading' ? (
+                <motion.span
+                  key="loading"
+                  className="block w-full truncate text-center font-normal tracking-wide text-sm text-emerald-400/90"
+                  initial={{ opacity: 0, rotateX: -90 }}
+                  animate={{ opacity: 1, rotateX: 0 }}
+                  exit={{ opacity: 0, rotateX: 90 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >Opening BTD...</motion.span>
+              ) : isBalanceLoading ? (
+                <motion.span
+                  key="wallet-loading"
+                  className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm text-emerald-200/78"
+                  initial={{ opacity: 0, rotateX: -90 }}
+                  animate={{ opacity: 1, rotateX: 0 }}
+                  exit={{ opacity: 0, rotateX: 90 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  <span
+                    aria-hidden="true"
+                    className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-200/80 shadow-[0_0_10px_rgba(103,254,183,0.45)]"
+                  />
+                  <span className="truncate">Reading wallet</span>
+                </motion.span>
+              ) : actionState === 'idle' && shouldShowWalletNow ? (
+                <motion.span
+                  key="wallet"
+                  className="block w-full truncate text-center font-normal tracking-wide text-sm text-emerald-400/90"
+                  title={walletActionLabel}
+                  initial={{ opacity: 0, rotateX: -90 }}
+                  animate={{ opacity: 1, rotateX: 0 }}
+                  exit={{ opacity: 0, rotateX: 90 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >{walletActionLabel}</motion.span>
+              ) : (
+                <motion.span
+                  key="btd"
+                  className="inline-flex w-full items-center justify-center whitespace-nowrap font-medium tracking-wide text-sm leading-none text-emerald-400/90"
+                  initial={{ opacity: 0, rotateX: -90 }}
+                  animate={{ opacity: 1, rotateX: 0 }}
+                  exit={{ opacity: 0, rotateX: 90 }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                >
+                  <span>{btdBalanceLabel}</span>
+                  <span
+                    aria-hidden="true"
+                    className="mx-2.5 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
+                  />
+                  <span>{assetPacksLabel}</span>
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Enhanced ambient glow effects */}
