@@ -16,7 +16,7 @@ ExecutionPipeline **primitives** only (based on Execution).
 - **NOT phases** — `ExecutionPipelineSDIVFExecutionPhase*` live in
   `@bitcode/generic-pipelines-execution-pipeline-sdivf`
 - **NOT SDIVF / Simple base loops** — those live under `generic-pipelines/`
-- **NOT product pipelines** — `asset-packs-pipelines/execution-pipeline-*`
+- **NOT product pipelines** — `asset-packs-pipelines/syntheses/{deposit,read} and settle/`
 - **NOT agents / tools** — `agent-generics` / `tools-generics` + `generic-*`
 
 ## Hierarchy
