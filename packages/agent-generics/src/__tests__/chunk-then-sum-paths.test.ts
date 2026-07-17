@@ -5,9 +5,9 @@
  *   task input INCLUDING the PCC-selected values) exceeds the request-token
  *   budget (BITCODE_LLM_MAX_REQUEST_TOKENS / llms config maxRequestTokens)
  * - non-triggering: exactly ONE task generation pass, no chunk/sum passes
- * - triggering: the SELECTED CONTEXT VALUES are chunked — each chunk call
- *   receives the task input + ONLY its chunk (never the full accumulated
- *   input) — then ONE summing pass over the chunk results
+ * - triggering: the SELECTED CONTEXT VALUES are chunked — sequential loop:
+ *   each call gets its selectedContext slice + prior chunk completions;
+ *   then ONE summing pass over all completions
  * - oversized but unsplittable (no selected values): fail-soft single pass
  * - full failsafe sequence stays BOUNDED: 3 (selection) + 3*(chunkCount+1)
  *   (task) + 0 (stitch) LLM calls
@@ -57,9 +57,14 @@ describe('factoryChunkThenSum non-triggering path (request fits)', () => {
     expect(seen).toHaveLength(1);
     expect(seen[0].chunk).toBeUndefined();
     expect(seen[0].chunkResults).toBeUndefined();
-    // The single pass consumes the task input INCLUDING the selected values.
+    // Single pass still threads full executor input (including original keys);
+    // LLM user lean is covered in prepared-task-user-payload.test.ts.
     expect(seen[0].read).toBe('small task');
     expect(seen[0].selectedContext).toEqual(selectedContext);
+    // Measure uses prepared size when selectedContext present.
+    const nodesEarly = collectNodes(root);
+    const chunkNodeEarly = nodesEarly.find(n => String(n.id).includes('failsafe:chunk_then_sum'));
+    expect(chunkNodeEarly.get('chunking', 'measurement').preparedMeasure).toBe(true);
 
     // Input keys thread through; processedResult mirrors the final gen result.
     expect(result.read).toBe('small task');
@@ -77,7 +82,7 @@ describe('factoryChunkThenSum non-triggering path (request fits)', () => {
 });
 
 describe('factoryChunkThenSum triggering path (composed request exceeds the budget)', () => {
-  it('chunks ONLY the selected values: N chunk passes (each with just its chunk) + 1 sum pass', async () => {
+  it('sequential: N slice passes (slice + priors) + 1 sum pass', async () => {
     // 50-token budget => 200-char request budget; per-chunk floor is 1000
     // chars, so three ~600-char values pack one-per-chunk.
     process.env.BITCODE_LLM_MAX_REQUEST_TOKENS = '50';
@@ -96,8 +101,12 @@ describe('factoryChunkThenSum triggering path (composed request exceeds the budg
     };
     const { root, step } = makeRootAndStep();
 
-    const chunkThenSum = factoryChunkThenSum([gen], { parallel: true });
-    const result = await chunkThenSum({ read: 'big task', selectedContext }, step);
+    // Default sequential with prior completions (not parallel).
+    const chunkThenSum = factoryChunkThenSum([gen]);
+    const result = await chunkThenSum(
+      { read: 'big task', selectedKeys: Object.keys(selectedContext), selectedContext },
+      step
+    );
 
     // Bounded accounting: one pass per chunk plus exactly one sum pass.
     expect(seen).toHaveLength(4);
@@ -105,12 +114,17 @@ describe('factoryChunkThenSum triggering path (composed request exceeds the budg
     const chunkInputs = seen.filter(i => i.chunk);
     expect(chunkInputs).toHaveLength(3);
     for (const chunkInput of chunkInputs) {
-      // Each chunk call gets the task input + ONLY its chunk.
-      expect(chunkInput.read).toBe('big task');
+      // Lean prepared base: no pre-PCC envelope; only this selectedContext slice.
+      expect(chunkInput.read).toBeUndefined();
       expect(Object.keys(chunkInput.selectedContext)).toHaveLength(1);
       expect(chunkInput.chunk.count).toBe(3);
       expect(chunkInput.chunkResults).toBeUndefined();
     }
+    // Sequential priors: first empty, later accumulate.
+    expect(chunkInputs[0].priorChunkCompletions).toBeUndefined();
+    expect(chunkInputs[1].priorChunkCompletions).toHaveLength(1);
+    expect(chunkInputs[2].priorChunkCompletions).toHaveLength(2);
+
     // The chunks partition the selected values (order preserved).
     expect(chunkInputs.map(i => Object.keys(i.selectedContext)[0])).toEqual([
       'agent-root#source:one',
@@ -118,10 +132,8 @@ describe('factoryChunkThenSum triggering path (composed request exceeds the budg
       'agent-root#source:three',
     ]);
 
-    // ONE summing pass over the chunk results; the sum input carries the task
-    // input WITHOUT the full selected context (it was consumed by the chunks).
+    // ONE summing pass over the chunk results (lean base, no full selectedContext).
     const sumInput = seen.find(i => i.chunkResults);
-    expect(sumInput.read).toBe('big task');
     expect(sumInput.selectedContext).toBeUndefined();
     expect(sumInput.chunkResults.map((r: any) => r.processedChunk)).toEqual([
       'agent-root#source:one',
@@ -131,10 +143,39 @@ describe('factoryChunkThenSum triggering path (composed request exceeds the budg
 
     expect(result.summed).toBe(true);
     expect(result.processedResult).toEqual(expect.objectContaining({ summed: true }));
+    // Original envelope preserved on return for threading.
+    expect(result.read).toBe('big task');
 
     const nodes = collectNodes(root);
     const chunkNode = nodes.find(n => String(n.id).includes('failsafe:chunk_then_sum'));
     expect(chunkNode.get('chunking', 'required')).toBe(true);
+    expect(chunkNode.get('chunking', 'mode')).toBe('sequential_with_priors');
+  });
+
+  it('opt-in parallel: independent slices without priors', async () => {
+    process.env.BITCODE_LLM_MAX_REQUEST_TOKENS = '50';
+    const selectedContext = {
+      'agent-root#source:one': 'A'.repeat(600),
+      'agent-root#source:two': 'B'.repeat(600),
+    };
+    const seen: any[] = [];
+    const gen = async (input: any) => {
+      seen.push(input);
+      if (input.chunkResults) return { ...input, summed: true };
+      return { ...input, output: { processedChunk: Object.keys(input.selectedContext)[0] } };
+    };
+    const { root, step } = makeRootAndStep();
+    await factoryChunkThenSum([gen], { parallel: true })(
+      { selectedKeys: Object.keys(selectedContext), selectedContext },
+      step
+    );
+    const chunkInputs = seen.filter(i => i.chunk);
+    expect(chunkInputs).toHaveLength(2);
+    for (const c of chunkInputs) {
+      expect(c.priorChunkCompletions).toBeUndefined();
+    }
+    const chunkNode = collectNodes(root).find(n => String(n.id).includes('failsafe:chunk_then_sum'));
+    expect(chunkNode.get('chunking', 'mode')).toBe('parallel');
   });
 
   it('an oversized request with NO selected values runs the fail-soft single pass', async () => {

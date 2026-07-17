@@ -164,6 +164,8 @@ export {
   factoryAgentToolGenerationExecution,
   projectPromptSafeValue,
   safePromptJson,
+  isPreparedTaskInput,
+  buildPreparedTaskLlmPayload,
 } from './generations/factories';
 export { createThinkingsGeneration } from './steps/thinkings-generation';
 export {

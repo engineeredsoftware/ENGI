@@ -155,6 +155,24 @@ StructuredOutput) use:
 
 After SO: host **read-in** of values for selected keys → ChunkThenSum / Stitch / task Try.
 
+### ChunkThenSum (CS) task Thinkings
+
+After PCC value read-in, task Thinkings (Reason → Judge → StructuredOutput against the
+**step** output schema) use:
+
+| Channel | Content |
+| --- | --- |
+| **System** | Full hierarchy walk + **ChunkThenSum failsafe law** + active thinking |
+| **User** | **Prepared only:** `selectedKeys` + `selectedContext` (+ `reasoning` / `judgment` as gens advance). **Do not** re-dump the pre-PCC step input envelope (`read` / `host` / `depositoryAssets` / …). |
+
+**Chunked path (canonical):** host **sequentially** loops selectedContext slices. Each LLM
+pass receives **this slice** plus **`priorChunkCompletions`** from earlier slices. After all
+slices complete, **one** summing Thinkings pass over all completions. (Opt-in parallel slices
+without priors are non-canonical.)
+
+Empty `selectedContext` stays prepared-only (lean empty bag) — do not re-dump the envelope
+as fail-soft.
+
 ---
 
 ## Naming (types)

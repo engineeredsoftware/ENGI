@@ -486,11 +486,13 @@ thinking generations (reason and judge[-reasoning]) that precede the typed outpu
  - **READ-IN:** host reads VALUES of exactly the selected keys and supplies them to
    subsequent failsafes (CS, SC) / task path.
 2. **ChunkThenSum (CS — the input failsafe; trigger = the composed request exceeds the
- request/context limit).** Non-triggering (the composed prompt — hierarchical system
- prompt + task input including the PCC-selected values — fits the request limit):
- exactly ONE Thinkings task generation, no chunking. Triggering: split the selected
- context values into chunks that each fit, run the task generation per chunk, then
- ONE summing generation over the chunk results.
+ request/context limit).** Composed request task side = hierarchical system + **prepared**
+ payload (`selectedKeys` + `selectedContext`), not the pre-PCC step envelope re-dumped.
+ Non-triggering (fits the request limit): exactly ONE Thinkings task generation, no
+ chunking. Triggering (canonical): **sequential** loop over selectedContext slices —
+ each call gets this slice + **prior chunk completions**; after all slices, ONE summing
+ Thinkings pass over all completions. (Opt-in parallel independent slices without priors
+ is non-canonical.)
 3. **StitchComplete (SC, `factoryStitchUntilComplete` — the output failsafe; trigger =
  the response is schema-INCOMPLETE, i.e. missing expected keys of the output schema,
  or truncated).** Non-triggering (the response parses complete against the expected

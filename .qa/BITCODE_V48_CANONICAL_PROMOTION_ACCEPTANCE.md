@@ -851,13 +851,36 @@ product if further specialization desired.
 | **schema_parse** | **Pass** |
 | **role_correctness** | **Pass** — Plan task reason under CS, not PCC selection |
 | **task_quality** | **Pass** — actionable clone plan for is-plain-obj |
-| **prompt_hygiene** | **Pass** after failsafe-law attach; residual full-task+selectedContext user dump |
+| **prompt_hygiene** | **Pass** after failsafe-law attach; **user prepared-only lean closed** (see re-validation below) |
 | **regression_vs_prior** | **Pass** — first deposit CS reason stop with full hierarchy incl. failsafe |
+
+#### prompt hygiene (post-1.D4; CS prepared-only user)
+
+| Change | Effect |
+| --- | --- |
+| CS Reason/Judge/SO user | `selectedKeys` + `selectedContext` (+ prior Thinkings) only — no pre-PCC envelope dump |
+| CS measure + chunk base | Same lean prepared shape (measure matches wire) |
+| Chunked path (canonical) | **Sequential** loop: slice + `priorChunkCompletions` → final sum over all completions |
+| Empty selection | Still lean empty bag (no envelope fail-soft) |
+
+#### re-validation (2026-07-16, prepared-only user + sequential CS law)
+
+Harness: `qa:deposit:debug-first-llm` · stopFailsafe=`chunk_then_sum` · stopGeneration=`reason` · `debugStop: true` · callCount=9.
+
+| Metric | Pre-lean CS reason | Post-lean |
+| --- | --- | --- |
+| system chars | ~6733 | ~6791 (CS law still present) |
+| user chars | ~8953 | **~5777** |
+| user wire keys | full envelope + selected* | **`selectedKeys` + `selectedContext` only** |
+| usage (in/out/tot) | 4498 / 788 / 5286 | **3404 / 715 / 4119** |
+| completion | Plan clone; conf 0.92 | Plan clone from selectedContext; conf **0.95**; useTools omitted |
+
+Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAssets) may still appear inside `selectedContext` — that is correct preparation, not envelope dual-dump.
 
 #### stability_confidence
 
 - **0.93** that this call-site is fully successful and the marker may advance to **CS judge**.  
-- Residual (not blockers): optional lean user for CS (drop redundant host dump when selectedContext covers facts); CS judge/SO; Stitch; Plan Try tool execution.
+- Residual (not blockers): CS judge/SO live proof; Stitch; Plan Try tool execution.
 
 #### decision
 

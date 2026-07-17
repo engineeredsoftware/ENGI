@@ -189,7 +189,8 @@ export function factoryPlanStep<TInput, TOutput>(
   // Plan: strategy only (no tools postprocess). Default step tool surface is [].
   const core = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: true
+    // CS default: sequential slices + prior completions (not parallel).
+    enableParallelChunks: false,
   });
 
   const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {
@@ -268,7 +269,7 @@ export function factoryTryStep<TInput, TOutput>(
 ): AgentStep<TInput, TOutput> {
   const core = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: options?.enableParallelChunks ?? true
+    enableParallelChunks: options?.enableParallelChunks === true,
   });
   const withTools: Executor<any, any> = sequential(
     core as Executor<any, any>,
@@ -353,7 +354,7 @@ export function factoryRetryStep<TInput, TOutput>(
   // The core retry logic using failsafe architecture
   const retryCore = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: true
+    enableParallelChunks: false,
   });
   
   // Wrap in retry combinator
@@ -443,7 +444,7 @@ export function factoryRefineStep<TInput, TOutput>(
 ): AgentStep<TInput, TOutput> {
   const core = createFailsafeGenerationSequence<TInput, TOutput>({
     outputSchema,
-    enableParallelChunks: true
+    enableParallelChunks: false,
   });
 
   const wrapped: StepExecutor<TInput, TOutput> = async (input, execution) => {

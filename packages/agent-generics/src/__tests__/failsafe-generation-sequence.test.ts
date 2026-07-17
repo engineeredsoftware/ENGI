@@ -24,11 +24,26 @@ function makeScriptedLLM(counter: { calls: number }) {
     counter.calls++;
     const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
     let payload: any = reasoningPayload;
-    if (user.includes('Generate structured output for:')) {
-      // Selection structured calls render the key-selection schema shape.
-      payload = user.includes('"selectedKeys": string[]') ? selectionPayload : structuredPayload;
+    // PCC SO (lean) vs task SO (step schema)
+    if (
+      user.includes('Emit ONLY { "selectedKeys"') ||
+      user.includes('Structured output input:') ||
+      (user.includes('"selectedKeys": string[]') && user.includes('PrepareConciseContext'))
+    ) {
+      payload = selectionPayload;
+    } else if (
+      user.includes('Generate structured output for the step schema') ||
+      user.includes('Generate structured output for:')
+    ) {
+      payload = structuredPayload;
+    } else if (
+      user.includes('Judge ONLY the prior PrepareConciseContext') ||
+      user.includes('Judge the prior task reasoning') ||
+      user.includes('Evaluate the quality and correctness of:') ||
+      user.includes('Judge the quality')
+    ) {
+      payload = judgmentPayload;
     }
-    else if (user.includes('Evaluate the quality and correctness of:') || user.includes('Judge the quality')) payload = judgmentPayload;
     return {
       content: JSON.stringify(payload),
       usage: { totalTokens: 5 },

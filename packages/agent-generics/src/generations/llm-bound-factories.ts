@@ -569,6 +569,75 @@ function resolveMaxRequestTokens(execution: Execution): number {
 }
 
 /**
+ * Post-PCC CS task input (not PCC selection, not stitch, not sum).
+ * `selectedContext: {}` still counts — prepared path, lean empty bag.
+ */
+export function isPreparedTaskInput(input: unknown): boolean {
+  if (!input || typeof input !== 'object') return false;
+  const o = input as any;
+  if (o.pipeline_execution_keys !== undefined) return false;
+  if (o.partialOutput !== undefined) return false;
+  if (o.chunkResults !== undefined) return false;
+  return (
+    Object.prototype.hasOwnProperty.call(o, 'selectedContext') &&
+    o.selectedContext !== null &&
+    typeof o.selectedContext === 'object' &&
+    !Array.isArray(o.selectedContext)
+  );
+}
+
+export type PreparedTaskLlmMode =
+  | 'reason'
+  | 'judge'
+  | 'structured_output'
+  | 'measure'
+  | 'chunk_base';
+
+/**
+ * Lean wire/measure payload for CS task Thinkings: prepared bag only.
+ * Does not include pre-PCC step envelope (read/host/depositoryAssets/…).
+ * Executor objects may still carry the full spread input for threading.
+ */
+export function buildPreparedTaskLlmPayload(
+  input: any,
+  mode: PreparedTaskLlmMode
+): Record<string, unknown> {
+  const selectedKeys = Array.isArray(input?.selectedKeys) ? input.selectedKeys : [];
+  const selectedContext =
+    input?.selectedContext && typeof input.selectedContext === 'object' && !Array.isArray(input.selectedContext)
+      ? input.selectedContext
+      : {};
+
+  if (mode === 'chunk_base') {
+    return { selectedKeys };
+  }
+  if (mode === 'measure') {
+    return { selectedKeys, selectedContext };
+  }
+
+  const base: Record<string, unknown> = { selectedKeys, selectedContext };
+  if (input?.chunk !== undefined) base.chunk = input.chunk;
+  if (input?.priorChunkCompletions !== undefined) {
+    base.priorChunkCompletions = input.priorChunkCompletions;
+  }
+  if (mode === 'judge' || mode === 'structured_output') {
+    if (input?.reasoning !== undefined) base.reasoning = input.reasoning;
+  }
+  if (mode === 'structured_output' && input?.judgment !== undefined) {
+    base.judgment = input.judgment;
+  }
+  return base;
+}
+
+/** Typed output (or whole result) from a chunk Thinkings pass — for priors / sum. */
+function extractChunkCompletion(result: any): unknown {
+  if (result && typeof result === 'object' && (result as any).output !== undefined) {
+    return (result as any).output;
+  }
+  return result;
+}
+
+/**
  * Greedily pack the selected-context entries into chunks that each fit the
  * per-chunk character budget. An entry that alone exceeds the budget gets its
  * own chunk (recursive intra-value splitting is a later-gate precision).
@@ -601,12 +670,14 @@ function chunkSelectedContextEntries(
  * the request limit)
  *
  * CRITICAL: This is a PARENT execution that:
- * 1. Measures the ACTUAL composed request: the rendered hierarchical system
- *    prompt + the serialized task input INCLUDING the PCC-selected values
- * 2. Non-triggering (fits the request budget): exactly ONE task generation
- * 3. Triggering: chunks ONLY the selected context values — each chunk call
- *    gets the task input + ONLY its chunk (never the full accumulated input) —
- *    then ONE summing generation over the chunk results
+ * 1. Measures the ACTUAL composed request: hierarchical system + **prepared**
+ *    task payload (selectedKeys + selectedContext) — not the pre-PCC envelope
+ * 2. Non-triggering: exactly ONE task Thinkings pass
+ * 3. Triggering (canonical): **sequential** loop over selectedContext slices —
+ *    each call gets this slice + **prior chunk completions**; after all slices,
+ *    ONE summing Thinkings pass over all completions
+ * 4. Opt-in parallel (`options.parallel`): independent slices (no priors) — for
+ *    experiments only; cannot carry prior completions
  */
 export function factoryChunkThenSum<T extends { selectedContext?: Record<string, unknown> }>(
   thinkingsGenerations: Executor<any, any>[],
@@ -641,9 +712,12 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
       );
     } catch { /* ignore */ }
 
-    // TRIGGER MEASUREMENT: the composed request the task generation would send.
+    // TRIGGER MEASUREMENT: prepared task payload when post-PCC (matches LLM wire).
     const systemPrompt = buildHierarchicalPrompt(failsafeExec);
-    const inputChars = estimateSerializedSize(input);
+    const measurePayload = isPreparedTaskInput(input)
+      ? buildPreparedTaskLlmPayload(input, 'measure')
+      : input;
+    const inputChars = estimateSerializedSize(measurePayload);
     const composedRequestChars = systemPrompt.length + inputChars;
     const maxRequestTokens = resolveMaxRequestTokens(failsafeExec);
     const requestBudgetChars = maxRequestTokens * APPROX_CHARS_PER_TOKEN;
@@ -667,7 +741,8 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
         maxRequestTokens,
         systemPromptChars: systemPrompt.length,
         inputChars,
-        selectedEntryCount: selectedEntries.length
+        selectedEntryCount: selectedEntries.length,
+        preparedMeasure: isPreparedTaskInput(input),
       } as any);
     } catch {}
     try {
@@ -681,51 +756,73 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
     } catch { }
 
     if (isChunked) {
-      // The task input WITHOUT the selected values — each chunk call receives
-      // the task input + ONLY its own chunk of the selected context.
-      const { selectedContext: _allSelected, ...taskInput } = input as any;
+      // Lean base: selectedKeys only — not the pre-PCC envelope.
+      // Legacy (no prepared shape): strip selectedContext from full input.
+      const taskInput = isPreparedTaskInput(input)
+        ? buildPreparedTaskLlmPayload(input, 'chunk_base')
+        : (() => {
+            const { selectedContext: _all, ...rest } = input as any;
+            return rest;
+          })();
       const baseChars = systemPrompt.length + estimateSerializedSize(taskInput);
       const perChunkBudget = Math.max(1000, requestBudgetChars - baseChars);
       const chunks = chunkSelectedContextEntries(selectedEntries, perChunkBudget);
-      // The count of chunk task-generations (the sum generation excluded) —
-      // rich telemetry renders it so a real chunk-handling case (>1) is
-      // visible per step.
       failsafeExec.store('chunking', 'count', chunks.length);
 
-      const chunkExecutors = chunks.map((chunk, idx) =>
-        sequential(
-          (async (_ignored: any) => ({
-            ...taskInput,
-            selectedContext: chunk,
-            chunk: { index: idx + 1, count: chunks.length }
-          })) as Executor<any, any>,
-          ...thinkingsGenerations
-        )
-      );
+      // Canonical CS: sequential loop — each slice + prior completions, then sum.
+      // parallel: true is opt-in independent slices (no priors).
+      const doParallel = options?.parallel === true;
+      failsafeExec.store('chunking', 'mode', doParallel ? 'parallel' : 'sequential_with_priors');
 
-      // Run chunks in parallel or sequential
-      const doParallel = options?.parallel ?? true;
-      let chunkResults: any[];
+      const chunksExec = failsafeExec.child('chunks');
+      const chunkResults: any[] = [];
+      const priorCompletions: unknown[] = [];
+
       if (doParallel) {
-        chunkResults = await parallel(...chunkExecutors)(input, failsafeExec.child('chunks'));
+        const chunkExecutors = chunks.map((chunk, idx) =>
+          sequential(
+            (async (_ignored: any) => ({
+              ...taskInput,
+              selectedContext: chunk,
+              chunk: { index: idx + 1, count: chunks.length },
+            })) as Executor<any, any>,
+            ...thinkingsGenerations
+          )
+        );
+        const parallelResults = await parallel(...chunkExecutors)(input, chunksExec);
+        for (const r of parallelResults) {
+          chunkResults.push(r);
+          priorCompletions.push(extractChunkCompletion(r));
+        }
       } else {
-        chunkResults = [];
-        const chunksExec = failsafeExec.child('chunks');
-        for (let i = 0; i < chunkExecutors.length; i++) {
-          chunkResults.push(await chunkExecutors[i](input, chunksExec.child(`seq-${i}`)));
+        for (let i = 0; i < chunks.length; i++) {
+          const chunkInput: any = {
+            ...taskInput,
+            selectedContext: chunks[i],
+            chunk: { index: i + 1, count: chunks.length },
+          };
+          if (priorCompletions.length > 0) {
+            chunkInput.priorChunkCompletions = [...priorCompletions];
+          }
+          let result: any = chunkInput;
+          for (let g = 0; g < thinkingsGenerations.length; g++) {
+            result = await thinkingsGenerations[g](
+              result,
+              chunksExec.child(`seq-${i}`).child(`gen-${g}`)
+            );
+          }
+          chunkResults.push(result);
+          priorCompletions.push(extractChunkCompletion(result));
         }
       }
 
-      // Keep the summing request bounded: each chunk contributes its typed
-      // output when present, not the whole accumulated generation envelope.
-      const chunkOutputs = chunkResults.map((result) =>
-        result && typeof result === 'object' && (result as any).output !== undefined
-          ? (result as any).output
-          : result
-      );
+      const chunkOutputs = chunkResults.map(extractChunkCompletion);
 
-      // Sum the results using ONE summing generation over the chunk results
-      let sumResult: any = { ...taskInput, chunkResults: chunkOutputs };
+      // ONE summing generation over all chunk completions (not full envelopes).
+      let sumResult: any = {
+        ...taskInput,
+        chunkResults: chunkOutputs,
+      };
       for (let i = 0; i < thinkingsGenerations.length; i++) {
         sumResult = await thinkingsGenerations[i](
           sumResult,
@@ -733,8 +830,9 @@ export function factoryChunkThenSum<T extends { selectedContext?: Record<string,
         );
       }
 
-      try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: 'chunked', chunkCount: chunks.length }); } catch { }
-      return { ...sumResult, processedResult: sumResult };
+      // Preserve original step input fields for threading (tools / step return).
+      try { logFailsafeEvent(execution, 'chunk-then-sum', { complete: true, mode: doParallel ? 'chunked_parallel' : 'chunked_sequential', chunkCount: chunks.length }); } catch { }
+      return { ...(input as any), ...sumResult, processedResult: sumResult };
     } else {
       if (overBudget) {
         // Oversized but no selected values to split — log and run single.
@@ -965,6 +1063,18 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
             }),
           ].join('\n');
         }
+        // CS prepared task: prior reasoning + selectedContext only (no envelope dump).
+        if (isPreparedTaskInput(typedInput)) {
+          return [
+            'Judge the prior task reasoning against prepared context and the step objective (in system).',
+            typedInput.priorChunkCompletions
+              ? 'This is a chunk pass: priorChunkCompletions are earlier slices; score coherence with them when relevant.'
+              : '',
+            '',
+            'Judgment input:',
+            safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'judge')),
+          ].filter(Boolean).join('\n');
+        }
         return `Evaluate the quality and correctness of:\n\n${safePromptJson(input)}`;
       },
 
@@ -1029,6 +1139,23 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
               pipeline_execution_keys: typedInput.pipeline_execution_keys,
             }),
           ].join('\n');
+        }
+        // CS prepared task: selectedKeys + selectedContext (+ chunk priors) only.
+        if (isPreparedTaskInput(typedInput)) {
+          return [
+            'Apply logical reasoning to the agent/step task using prepared context only.',
+            'Prefer selectedContext values. Do not re-select keys. Do not invent facts absent from selectedContext.',
+            'Plan: omit useTools. Try/Retry: useTools only when tools are usable for this step.',
+            typedInput.priorChunkCompletions
+              ? 'Chunk pass: incorporate priorChunkCompletions from earlier slices; reason about this selectedContext slice in that light.'
+              : '',
+            typedInput.chunk
+              ? `This is chunk ${typedInput.chunk.index} of ${typedInput.chunk.count}.`
+              : '',
+            '',
+            'Task input (prepared):',
+            safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'reason')),
+          ].filter(Boolean).join('\n');
         }
         return `Apply logical reasoning to solve:\n\n${safePromptJson(input ?? null)}`;
       },
@@ -1098,6 +1225,16 @@ export function factoryStructuredOutput<T, TSchema>(
         const keysHint = topKeys.length
           ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT)} ${topKeys.join(', ')}`
           : '';
+        if (isPreparedTaskInput(typedInput)) {
+          return [
+            keysHint,
+            'Generate structured output for the step schema from prior reasoning/judgment and prepared context only.',
+            typedInput.priorChunkCompletions
+              ? 'Chunk pass: priorChunkCompletions are earlier slices; emit output for this slice consistent with them when relevant.'
+              : '',
+            safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'structured_output')),
+          ].filter(Boolean).join('\n');
+        }
         return [
           keysHint,
           'Generate structured output for:',

@@ -28,7 +28,8 @@ export type FailsafeGenerationSequence<TIn = any, TOut = any> = Executor<TIn, TO
 
 export interface FailsafeGenerationOptions<TOut> {
   outputSchema: z.ZodType<TOut>;
-  enableParallelChunks?: boolean;  // chunking strategy
+  /** Opt-in independent chunk Thinkings (no prior completions). Canonical CS is sequential with priors. */
+  enableParallelChunks?: boolean;
   // Debug env slicing (honors BITCODE_DEBUG_* environment variables)
   onlyGenerations?: string[];      // ['reason','judge','structured_output']
   onlyFailsafes?: string[];        // ['prepare','chunk','stitch']
@@ -64,7 +65,9 @@ export function createFailsafeGenerationSequence<TIn, TOut>(
   }
   if (!onlyFails.length || onlyFails.includes('chunk')) {
     failsafeExecutors.push(
-      factoryChunkThenSum(taskGenerations, { parallel: options.enableParallelChunks ?? true }) as Executor<any, any>
+      factoryChunkThenSum(taskGenerations, {
+        parallel: options.enableParallelChunks === true,
+      }) as Executor<any, any>
     );
   }
   if (!onlyFails.length || onlyFails.includes('stitch')) {

@@ -27,6 +27,8 @@ export {
   // Prompt-safe helpers
   projectPromptSafeValue,
   safePromptJson,
+  isPreparedTaskInput,
+  buildPreparedTaskLlmPayload,
   // Execution node factories
   factoryAgentFailsafeGenerationExecution,
   factoryAgentThinkingsGenerationExecution,
