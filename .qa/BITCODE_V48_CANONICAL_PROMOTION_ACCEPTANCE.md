@@ -708,6 +708,25 @@ on VCS agent promptparts; if too heavy, thin **authoring**, not drop Agent from 
 **PCC-specific adjustments (slight, not hierarchy amputation):** keys-only tree (no values);
 generation schemas (Reasoning / Judgment / selectedKeys); SO never useTools under PCC.
 
+#### re-validation (2026-07-16, post hierarchy-walk restore)
+
+Harness: `qa:deposit:debug-first-llm` · stopGeneration=`structured_output` · `debugStop: true` · callCount=7.
+
+| Gen | system | user | usage (in/out/tot) | Completion |
+| --- | --- | --- | --- | --- |
+| reason | ~9020 | ~3821 | 3125 / 676 / 3801 | Valid Reasoning + `reasoningItems`; deposit/host keys |
+| judge | ~8575 | ~6126 | 3543 / 357 / 3900 | Valid Judgment; quality 0.85; **approved: true** |
+| structured_output | ~8640 | ~7735 | 3935 / 92 / 4027 | Valid `{ selectedKeys }` (8 path-form keys) |
+
+**System walk (all 3 gens, 6 blocks):** Execution+Pipeline → Phase Setup → **Agent VCS** → **PTRR Plan** → PCC failsafe → active Thinking. Execution once. Agent/Step restored on path (hierarchy law).
+
+**User hygiene (all 3):** lean `task` only (no hierarchy re-paste); `pipeline_execution_keys` present; no SECRET values; JSON-only once; SO never instructs useTools include-array.
+
+**SO selectedKeys (verbatim this run):**
+`#deposit:repository`, `#deposit:obfuscations`, `#deposit:permissibleSources`, `#deposit:impermissibleSources`, `#host:manifestRoot`, `#host:sourceRevision`, `#pipeline:input`, `#pipeline:userId`
+
+**Residual authoring (not walk errors):** Plan step still doubles “PLAN: Repository clone strategy”; agent VCS capability walls remain (authored on agent promptparts — correct node, optional future thin authoring).
+
 #### decision
 
 | | |
