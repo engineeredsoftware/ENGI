@@ -57,25 +57,9 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (execution as any).findUp?.('depository/search', 'result') ||
     (execution as any).get?.('depository/search', 'result');
 
-  // PR URLs come from settle Simple (ship-asset-pack-patch-pr), not from the
-  // Deposit/Read SDIVF Finish phase. Only surface a PR when settle already
-  // recorded a shippable (or the result object was produced by settle).
-  // Never invent a PR from finish/* store keys alone.
-  const settleShippable = findStoredExecutionValue(
-    execution,
-    'settle-asset-pack-pipeline',
-    'shippable',
-  ) as { prUrl?: string } | null;
-  const prUrl =
-    settleShippable?.prUrl ||
-    enhanced.writtenAsset?.prUrl ||
-    deliveryMechanism?.prUrl ||
-    enhanced.shippable?.prUrl ||
-    null;
-  if (prUrl) {
-    enhanced.deliveryMechanism = { ...(deliveryMechanism || {}), prUrl } as any;
-    enhanced.shippable = { ...(enhanced.shippable || enhanced.deliveryMechanism || {}), prUrl } as any;
-  }
+  // Asset-pack *synthesis* postprocess never projects settle/PR shippables.
+  // Buyer-repo PR / settleDelivery live exclusively on settle-asset-pack-pipeline.
+  // Do not read settle-asset-pack-pipeline.shippable or invent prUrl here.
 
   // 2) Backfill artifacts from execution if missing
   const filesModified = enhanced.artifacts?.filesModified?.length
@@ -88,11 +72,10 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     } as any;
   }
 
-  // 3) Ensure a human-readable summary exists
+  // 3) Ensure a human-readable summary exists (no settle/PR narrative).
   if (!enhanced.summary || !enhanced.summary.trim()) {
     const parts: string[] = [];
     parts.push(enhanced.success ? 'AssetPack synthesis artifacts completed.' : 'AssetPack synthesis artifacts finished with issues.');
-    if (prUrl) parts.push(`PR: ${prUrl}`);
     if (filesModified?.length) parts.push(`Files modified: ${filesModified.length}`);
     enhanced.summary = parts.join(' ');
   }
@@ -117,7 +100,8 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   if (depositorySearch) {
     (enhanced as any).depositorySearch = depositorySearch;
   }
-  const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, prUrl);
+  // No settle PR target in synthesis postprocess.
+  const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, null);
   if (sourceSafePreview) {
     const assetPackDisclosureReview = ensureAssetPackDisclosureReview(execution, sourceSafePreview);
     const assetPackPreviewBoundary = ensureAssetPackPreviewBoundary(
@@ -308,33 +292,16 @@ export function buildAssetPackPostprocessedResult(
     ensureReadingOperationalTelemetryRepairReadback(execution, normalized);
   const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
   const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
-  const shippable = normalized.shippable || normalized.deliveryMechanism;
-  // settleDelivery is settle-pipeline exclusive. Only surface when settle Simple
-  // already recorded a shippable on this EE (cross-pipeline handoff), never invent
-  // a settle-shaped bag from synthesis finish or deliveryMechanism alone.
-  const settleShippable =
-    findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') as
-      | { prUrl?: string; optionTitle?: string }
-      | null;
-  const settleDeliveryFromSettleOnly =
-    settleShippable?.prUrl
-      ? {
-          pullRequest: {
-            url: settleShippable.prUrl,
-            title: settleShippable.optionTitle || finalSummary || 'AssetPack delivery',
-          },
-          summary: finalSummary || normalized.summary || null,
-        }
-      : (normalized as any).settleDelivery?.pullRequest?.url
-        ? (normalized as any).settleDelivery
-        : null;
 
+  // Synthesis postprocess never emits settle_delivery / settleDelivery / settle
+  // shippables — even if settle keys exist on a shared EE. Settlement is a
+  // different pipeline (ExecutionPipelineSimpleSettleAssetPack).
   const productPipeline = resolveSynthesisProductPipeline(execution);
   const selectionEnvelope =
     findStoredExecutionValue(execution, 'finish', 'selectionEnvelope') ||
     (normalized as any).selectionEnvelope ||
     null;
-  const kind = resolveSynthesisPostprocessKind(productPipeline, !!settleDeliveryFromSettleOnly);
+  const kind = resolveSynthesisPostprocessKind(productPipeline);
 
   return {
     executionId,
@@ -342,8 +309,6 @@ export function buildAssetPackPostprocessedResult(
     semanticKind: 'asset-pack-written-asset',
     title:
       normalized.writtenAsset?.title ||
-      normalized.shippable?.title ||
-      normalized.deliveryMechanism?.title ||
       finalSummary ||
       normalized.summary ||
       (kind === 'deposit_options' || kind === 'read_options'
@@ -351,16 +316,15 @@ export function buildAssetPackPostprocessedResult(
         : 'Written Asset'),
     repository,
     summary: finalSummary,
-    shippable: settleDeliveryFromSettleOnly
-      ? shippable
-      : kind === 'deposit_options' || kind === 'read_options'
-        ? undefined
-        : shippable,
-    // Only attach when settle actually produced a PR — never synthesis-authored.
-    ...(settleDeliveryFromSettleOnly
-      ? { settleDelivery: settleDeliveryFromSettleOnly as any }
-      : {}),
-    deliveryMechanism: normalized.deliveryMechanism || (settleDeliveryFromSettleOnly ? shippable : undefined),
+    // No shippable / settleDelivery on synthesis results.
+    deliveryMechanism: normalized.deliveryMechanism
+      ? {
+          // Strip any PR projection that may have leaked onto deliveryMechanism.
+          ...normalized.deliveryMechanism,
+          prUrl: undefined,
+          pullRequest: undefined,
+        }
+      : undefined,
     ...(selectionEnvelope ? { selectionEnvelope } : {}),
     ...((normalized as any).options || (normalized as any).depositOptions
       ? {
@@ -790,16 +754,12 @@ function resolveSynthesisProductPipeline(execution: Execution): string {
 }
 
 /**
- * Postprocess kind for synthesis product runs.
- * - deposit_options / read_options: selection envelopes for UI
- * - asset_pack_synthesis: generic synthesis completion evidence
- * - settle_delivery: only when settle Simple already produced a shippable PR
+ * Postprocess kind for synthesis product runs only.
+ * Never settle_delivery — that kind is exclusive to settle-asset-pack-pipeline.
  */
 function resolveSynthesisPostprocessKind(
   productPipeline: string,
-  hasSettleDelivery: boolean,
 ): AssetPackPostprocessed['kind'] {
-  if (hasSettleDelivery) return 'settle_delivery';
   if (
     productPipeline.includes('deposit') ||
     productPipeline === 'deposit'

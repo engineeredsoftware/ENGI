@@ -52,30 +52,16 @@ const DeliveryMechanismSchema = z.object({
     .optional(),
 });
 
-/**
- * Settle pass-through only — present when settle Simple already stored a
- * shippable on this EE. Synthesis Finish must not author this as a fake PR bag.
- */
-const SettlePassThroughSchema = z.object({
-  pullRequest: ShippableSchema.nullable().optional(),
-  fileChanges: FileChangesSchema.nullable().optional(),
-  summary: z.string().nullable().optional(),
-});
-
 export const AssetPackCompletionOutputSchema = z.object({
   /**
    * Synthesis completion summary (markdown). Primary Finish evidence for SDIVF.
-   * Not settleDelivery — settlement is settle-asset-pack-pipeline exclusive.
+   * Settlement (settleDelivery / buyer PR) is exclusive to settle-asset-pack-pipeline
+   * and is never authored or passed through by synthesis Finish.
    */
   summary: z.string().optional(),
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: WrittenAssetsSchema.optional(),
   deliveryMechanism: DeliveryMechanismSchema.optional(),
-  /**
-   * Only when settle Simple already ran on this execution (cross-pipeline
-   * handoff). Omitted on pure deposit/read synthesis Finish.
-   */
-  settlePassThrough: SettlePassThroughSchema.optional(),
   read: z.string().optional(),
   writtenAssetType: z.string().optional(),
   processingStats: z.object({
@@ -125,7 +111,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: summary, assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, deliveryMechanism{summary,readiness}, processingStats{…}, repoSnapshot{org,repo,branch,commit}. Optional settlePassThrough only if settle Simple already stored a shippable PR on this execution. SDIVF Finish closes synthesis evidence; buyer-repo PR shipping is settle-asset-pack-pipeline only.'
+          'Output JSON with keys: summary, assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, deliveryMechanism{summary,readiness}, processingStats{…}, repoSnapshot{org,repo,branch,commit}. Never settleDelivery / settlePassThrough / buyer-repo PR — those are settle-asset-pack-pipeline only. SDIVF Finish closes synthesis evidence only.'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -225,25 +211,9 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     }
     const summary = lines.join('\n');
 
-    // PR shipping is settle-only. Pass through only when settle Simple already
-    // stored a shippable on this EE — never author settleDelivery on synthesis Finish.
-    let settlePassThrough: AssetPackCompletionOutput['settlePassThrough'] | undefined;
+    // Settlement / buyer-repo PR is never part of synthesis Finish — even if
+    // settle keys exist on a shared EE. That surface is settle-asset-pack-pipeline only.
     const dtype = resolveWrittenAssetTypeFromExecution(execution);
-    try {
-      const settleShippable =
-        findStoredExecutionValue(execution, 'settle-asset-pack-pipeline', 'shippable') || null;
-      if (settleShippable?.prUrl) {
-        settlePassThrough = {
-          pullRequest: {
-            url: settleShippable.prUrl,
-            title: settleShippable.optionTitle || read || 'AssetPack delivery',
-            number: undefined,
-          },
-          fileChanges: undefined,
-          summary,
-        };
-      }
-    } catch {}
 
     const writtenAssets = {
       fileChanges: undefined,
@@ -264,9 +234,9 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
         : {
             ...writtenAssets,
           };
-    // Delivery readiness for review surfaces — not a buyer-repo PR unless settle ran.
+    // Review readiness only — never pullRequest / settleDelivery.
     const deliveryMechanism = {
-      pullRequest: settlePassThrough?.pullRequest ?? null,
+      pullRequest: null,
       summary,
       readiness: deliveryReadiness,
     };
@@ -276,7 +246,6 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       assetPackSynthesisArtifacts,
       writtenAssets,
       deliveryMechanism,
-      ...(settlePassThrough ? { settlePassThrough } : {}),
       read: read || undefined,
       writtenAssetType: dtype || undefined,
       processingStats,
@@ -286,7 +255,6 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
     const output: AssetPackCompletionOutput = validated;
 
     try {
-      // Synthesis evidence only — do not store settleDelivery from Finish.
       (execution as any).store?.('finish/asset_pack_completion', 'summary', summary as any);
       (execution as any).store?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssets', writtenAssets as any);
@@ -295,13 +263,6 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssetType', dtype || undefined);
       (execution as any).store?.('finish/asset_pack_completion', 'processingStats', processingStats as any);
       (execution as any).store?.('finish/asset_pack_completion', 'repoSnapshot', repoSnapshot as any);
-      if (settlePassThrough) {
-        (execution as any).store?.(
-          'finish/asset_pack_completion',
-          'settlePassThrough',
-          settlePassThrough as any,
-        );
-      }
     } catch {}
 
     return output;

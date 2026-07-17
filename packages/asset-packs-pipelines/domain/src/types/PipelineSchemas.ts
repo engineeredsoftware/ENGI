@@ -98,9 +98,9 @@ export type AssetPackPostprocessedKind =
   /** Read synthesis: options for /reads → later settle-asset-pack-pipeline. */
   | 'read_options'
   /** Generic synthesis completion evidence (no settle PR). */
-  | 'asset_pack_synthesis'
-  /** Only when settle Simple already produced a buyer-repo PR on this EE. */
-  | 'settle_delivery';
+  | 'asset_pack_synthesis';
+// Note: settle_delivery is never a synthesis postprocess kind — that result
+// shape is produced only by settle-asset-pack-pipeline.
 
 export interface AssetPackPostprocessed {
   executionId: string;
@@ -109,10 +109,13 @@ export interface AssetPackPostprocessed {
   title: string;
   repository?: string;
   summary?: string;
+  /**
+   * Not used by synthesis postprocess. Settle pipeline owns shippable / settleDelivery.
+   * Left optional only for type compatibility with older consumers reading host output.
+   */
   shippable?: ShippableMeta;
   /**
-   * Buyer-repo delivery after settle Simple only. Absent on pure deposit/read
-   * synthesis runs. Do not invent from synthesis finish stores.
+   * Never set by synthesis deposit/read postprocess — settle-pipeline exclusive.
    */
   settleDelivery?: AssetPackSynthesisArtifactsMeta | null;
   /** Deposit/read Finish selection envelope when present. */

@@ -1041,31 +1041,12 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
             writtenAssets ||
             undefined;
-          // Buyer-repo PR: settle Simple shippable only (or settlePassThrough
-          // after settle on same EE). Synthesis Finish must not invent settleDelivery.
-          const settleShippable =
-            (execution as any).get?.('settle-asset-pack-pipeline', 'shippable') ||
-            undefined;
-          const settlePassThrough =
-            (execution as any).get?.('finish/asset_pack_completion', 'settlePassThrough') ||
-            undefined;
-          const settleDelivery =
-            settleShippable?.prUrl
-              ? {
-                  pullRequest: {
-                    url: settleShippable.prUrl,
-                    title: settleShippable.optionTitle || undefined,
-                  },
-                  summary:
-                    (execution as any).get?.('finish/asset_pack_completion', 'summary') ||
-                    undefined,
-                }
-              : settlePassThrough?.pullRequest?.url
-                ? settlePassThrough
-                : undefined;
+          // Synthesis completion path: never project settleDelivery / settle PR.
+          // Buyer-repo settle surfaces come only from settle-asset-pack-pipeline runs.
           const deliveryMechanism =
             (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
             undefined;
+          const settleDelivery = undefined;
           const read =
             (execution as any).get?.('finish/asset_pack_completion', 'read') ||
             (execution as any).get?.('pipeline', 'expressedRead') ||

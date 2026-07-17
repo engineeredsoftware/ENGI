@@ -42,11 +42,13 @@ describe('normalizeAssetPackOutput', () => {
     expect(typeof normalized.summary).toBe('string');
     expect(normalized.summary.length).toBeGreaterThan(0);
 
+    // Settle shippable on EE must not project into synthesis normalize.
     exec.store('settle-asset-pack-pipeline', 'shippable', {
       prUrl: 'https://github.com/acme/repo/pull/123',
     });
-    const withSettle = normalizeAssetPackOutput(output, exec);
-    expect(withSettle.shippable.prUrl).toContain('/pull/123');
+    const withSettleKeysPresent = normalizeAssetPackOutput(output, exec);
+    expect(withSettleKeysPresent.shippable?.prUrl).toBeUndefined();
+    expect(withSettleKeysPresent.deliveryMechanism?.prUrl).toBeUndefined();
   });
 
   it('builds asset-pack semantic mirrors into the postprocessed result', () => {
@@ -169,7 +171,7 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.assetPackSynthesisArtifacts?.proofEvidence).toEqual(['sibling-implementation-read']);
   });
 
-  it('surfaces settleDelivery only when settle Simple shippable exists on the EE', () => {
+  it('never emits settle_delivery / settleDelivery even when settle shippable exists on EE', () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-2');
     exec.store('settle-asset-pack-pipeline', 'shippable', {
@@ -179,7 +181,7 @@ describe('normalizeAssetPackOutput', () => {
 
     const result = buildAssetPackPostprocessedResult(exec, {
       success: true,
-      summary: 'Settled delivery complete.',
+      summary: 'Synthesis complete.',
       writtenAsset: {
         title: 'Read satisfaction summary',
       },
@@ -187,13 +189,13 @@ describe('normalizeAssetPackOutput', () => {
     } as any);
 
     expect(result.title).toBe('Read satisfaction summary');
-    expect(result.kind).toBe('settle_delivery');
-    expect(result.settleDelivery?.pullRequest).toMatchObject({
-      url: 'https://github.com/acme/repo/pull/26',
-    });
+    expect(result.kind).toBe('asset_pack_synthesis');
+    expect(result.kind).not.toBe('settle_delivery' as any);
+    expect(result.settleDelivery).toBeUndefined();
+    expect(result.shippable).toBeUndefined();
   });
 
-  it('does not invent settleDelivery from synthesis deliveryMechanism alone', () => {
+  it('strips PR fields from deliveryMechanism on synthesis postprocess', () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('execution', 'id', 'exec-2b');
 
@@ -210,8 +212,8 @@ describe('normalizeAssetPackOutput', () => {
 
     expect(result.kind).toBe('asset_pack_synthesis');
     expect(result.settleDelivery).toBeUndefined();
-    // deliveryMechanism may still carry readiness-shaped data from the input
-    expect(result.deliveryMechanism?.prUrl).toBe('https://github.com/acme/repo/pull/26');
+    expect(result.deliveryMechanism?.prUrl).toBeUndefined();
+    expect((result.deliveryMechanism as any)?.pullRequest).toBeUndefined();
   });
 
   it('derives and stores source-safe preview evidence from an accepted Need and Finding Fits result', () => {

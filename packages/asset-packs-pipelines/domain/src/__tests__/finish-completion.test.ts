@@ -1,9 +1,8 @@
 // @ts-nocheck
 /**
  * Finish AssetPack completion evidence (product SDIVF Finish phase).
- * Buyer-repo PR URL is only present when settle Simple already stored a
- * shippable on the shared execution — Finish itself does not open PRs and
- * does not author settleDelivery (settlement-exclusive surface).
+ * Synthesis Finish never opens PRs and never surfaces settleDelivery /
+ * settlePassThrough — even if settle keys exist on a shared EE.
  */
 import { Execution } from '@bitcode/execution-generics';
 import AssetPackCompletionAgent from '../agents/finish/asset-pack-completion-agent';
@@ -32,8 +31,9 @@ describe('finish AssetPack completion evidence', () => {
       branch: 'main',
       commit: '272b5b1586b28363b57676603a1990bb10df319c',
     });
-    expect(result.settlePassThrough).toBeUndefined();
+    expect((result as any).settlePassThrough).toBeUndefined();
     expect((result as any).settleDelivery).toBeUndefined();
+    expect(result.deliveryMechanism?.pullRequest).toBeNull();
     expect(result.summary).toContain('octocat/Spoon-Knife');
     expect(result.deliveryMechanism?.readiness).toMatchObject({
       status: 'pending-user-review',
@@ -42,7 +42,7 @@ describe('finish AssetPack completion evidence', () => {
     expect(result.assetPackSynthesisArtifacts?.summary).toContain('octocat/Spoon-Knife');
   });
 
-  it('passes through settle shippable PR only as settlePassThrough when settle already ran', async () => {
+  it('ignores settle shippable on the EE — synthesis never emits settle surfaces', async () => {
     const exec = new Execution('pipeline:asset-pack');
     exec.store('pipeline', 'expressedRead', 'Need: type-safe plain object check');
     exec.store('harness', 'sourceRevision', {
@@ -56,9 +56,8 @@ describe('finish AssetPack completion evidence', () => {
     });
 
     const result = await AssetPackCompletionAgent({}, exec);
-    expect(result.settlePassThrough?.pullRequest).toMatchObject({
-      url: 'https://github.com/octocat/Spoon-Knife/pull/123',
-    });
+    expect((result as any).settlePassThrough).toBeUndefined();
     expect((result as any).settleDelivery).toBeUndefined();
+    expect(result.deliveryMechanism?.pullRequest).toBeNull();
   });
 });

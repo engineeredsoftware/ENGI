@@ -135,9 +135,8 @@ export const EXECUTION_NAMESPACES = {
     'deliveryMechanism', // readiness projection (not buyer-repo settle PR)
     'read',             // semantic expressed read
     'writtenAssetType', // semantic written-asset type
-    // settlePassThrough only when settle Simple already stored shippable on EE
-    'settlePassThrough',
-    // settleDelivery is settle-pipeline exclusive — do not author from synthesis Finish
+    // settleDelivery / settlePassThrough are settle-pipeline exclusive —
+    // never keys of synthesis Finish
   ],
   postprocessed: [
     'result',       // normalized postprocessed AssetPack or measurement result
