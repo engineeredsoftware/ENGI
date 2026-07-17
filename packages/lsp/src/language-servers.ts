@@ -213,11 +213,18 @@ const SERVER_SPECS: Record<string, LanguageServerSpec> = {
     args: [],
     commandCandidates: ['kotlin-language-server', 'kotlin-ls'],
   },
+  /** OmniSharp is the primary C# server on Pipeliner full profile. */
+  omnisharp: {
+    id: 'omnisharp',
+    command: 'OmniSharp',
+    args: ['-lsp'],
+    commandCandidates: ['OmniSharp', 'omnisharp', 'csharp-ls'],
+  },
   'csharp-ls': {
     id: 'csharp-ls',
     command: 'csharp-ls',
     args: [],
-    commandCandidates: ['csharp-ls', 'OmniSharp'],
+    commandCandidates: ['OmniSharp', 'omnisharp', 'csharp-ls'],
   },
   'ruby-lsp': {
     id: 'ruby-lsp',
@@ -355,8 +362,8 @@ export const BUNDLED_NPM_SERVER_IDS = [
   'taplo',
 ] as const;
 
-/** Server ids installed into Pipeliner image (native). */
-export const PIPELINER_IMAGE_SERVER_IDS = [
+/** Server ids installed into Pipeliner image (native) — default profile. */
+export const PIPELINER_IMAGE_SERVER_IDS_DEFAULT = [
   'gopls',
   'rust-analyzer',
   'clangd',
@@ -365,6 +372,39 @@ export const PIPELINER_IMAGE_SERVER_IDS = [
   'lua-language-server',
   'sqls',
 ] as const;
+
+/**
+ * Extra server ids on Pipeliner `full` profile
+ * (BITCODE_PIPELINE_LSP_PROFILE=full — JVM, jdtls, kotlin, .NET, OmniSharp).
+ */
+export const PIPELINER_IMAGE_SERVER_IDS_FULL_EXTRA = [
+  'jdtls',
+  'kotlin-language-server',
+  'omnisharp',
+  'csharp-ls',
+] as const;
+
+/** Union of default + full-profile natives (what a full image advertises). */
+export const PIPELINER_IMAGE_SERVER_IDS = [
+  ...PIPELINER_IMAGE_SERVER_IDS_DEFAULT,
+  ...PIPELINER_IMAGE_SERVER_IDS_FULL_EXTRA,
+] as const;
+
+export type PipelineLspProfile = 'default' | 'full';
+
+export function resolvePipelineLspProfile(
+  env: NodeJS.ProcessEnv = process.env,
+): PipelineLspProfile {
+  const raw = String(env.BITCODE_PIPELINE_LSP_PROFILE || 'full').toLowerCase();
+  return raw === 'default' ? 'default' : 'full';
+}
+
+export function pipelinerServerIdsForProfile(
+  profile: PipelineLspProfile = resolvePipelineLspProfile(),
+): readonly string[] {
+  if (profile === 'full') return PIPELINER_IMAGE_SERVER_IDS;
+  return PIPELINER_IMAGE_SERVER_IDS_DEFAULT;
+}
 
 /**
  * LSP language id → server id. Multiple languages share one server process
@@ -388,7 +428,8 @@ export const LANGUAGE_TO_SERVER_ID: Record<string, string> = {
   'objective-cpp': 'clangd',
   java: 'jdtls',
   kotlin: 'kotlin-language-server',
-  csharp: 'csharp-ls',
+  // Prefer OmniSharp (Pipeliner full); csharp-ls remains a PATH candidate alias.
+  csharp: 'omnisharp',
   fsharp: 'fsautocomplete',
   ruby: 'ruby-lsp',
   php: 'intelephense',

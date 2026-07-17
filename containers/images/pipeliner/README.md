@@ -47,12 +47,27 @@ Pipeliner must support language-intelligence for customer checkouts:
    Python (pyright), bash, YAML, Dockerfile, HTML/CSS/JSON, Vue, Svelte, GraphQL, PHP,
    TOML, …
 2. **Native binaries** installed by
-   [`scripts/install-language-servers.sh`](./scripts/install-language-servers.sh):
-   `gopls` (+ Go), `rust-analyzer`, `clangd`, `marksman`, `terraform-ls`,
-   `lua-language-server`, `sqls`.
+   [`scripts/install-language-servers.sh`](./scripts/install-language-servers.sh).
+
+### `BITCODE_PIPELINE_LSP_PROFILE`
+
+| Value | Contents |
+|-------|----------|
+| `full` (**default**) | default natives **+** OpenJDK, **jdtls**, **kotlin-language-server**, **.NET**, **OmniSharp** |
+| `default` | `gopls`, `rust-analyzer`, `clangd`, `marksman`, `terraform-ls`, `lua-language-server`, `sqls` |
+
+Build with a lean image:
+
+```bash
+docker build \
+  -f containers/images/pipeliner/Dockerfile \
+  --build-arg BITCODE_PIPELINE_LSP_PROFILE=default \
+  -t vcr.vercel.com/gerald-davis-projects/bitcode/pipeliner:lean \
+  .
+```
 
 Setup primes every resolvable server for languages present in the checkout; Discovery
-uses `lsp-*` tools against those live sessions.
+uses `lsp-*` tools against those live sessions. PATH is last-resort for unmapped hosts.
 
 ## Production env
 

@@ -35,21 +35,25 @@ Real multi-language LSP **client** for Bitcode measurement and AssetPack Setup/D
 
 ### Pipeliner image (`containers/images/pipeliner`)
 
-Native binaries installed by `scripts/install-language-servers.sh`:
+Native binaries from `scripts/install-language-servers.sh`.  
+Profile: `BITCODE_PIPELINE_LSP_PROFILE` (`full` default, or `default`).
 
-| Binary | Languages |
-|--------|-----------|
-| `gopls` (+ Go toolchain) | Go |
-| `rust-analyzer` | Rust |
-| `clangd` | C / C++ / ObjC |
-| `marksman` | Markdown |
-| `terraform-ls` | Terraform |
-| `lua-language-server` | Lua |
-| `sqls` | SQL |
+| Binary | Languages | Profile |
+|--------|-----------|---------|
+| `gopls` (+ Go) | Go | default/full |
+| `rust-analyzer` | Rust | default/full |
+| `clangd` | C / C++ / ObjC | default/full |
+| `marksman` | Markdown | default/full |
+| `terraform-ls` | Terraform | default/full |
+| `lua-language-server` | Lua | default/full |
+| `sqls` | SQL | default/full |
+| `jdtls` (+ JVM) | Java | full |
+| `kotlin-language-server` | Kotlin | full |
+| `OmniSharp` (+ .NET) | C# | full |
 
-### Optional PATH only (not image-default)
+### Optional PATH only (last resort)
 
-Java/Kotlin/C#/Ruby/Dart/Haskell/Scala/Swift/etc. — too heavy or platform-specific for the default appliance; map still resolves when present on PATH.
+Ruby, Dart, Haskell, Metals, SourceKit, Elixir, etc. — still mapped; resolve when present on PATH.
 
 ## API highlights
 

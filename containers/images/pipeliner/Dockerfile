@@ -15,15 +15,20 @@ WORKDIR /opt/bitcode
 
 # git for customer clone + native language servers (non-npm).
 # npm language servers ship as deps of @bitcode/lsp (see package.json).
+# BITCODE_PIPELINE_LSP_PROFILE=full (default) installs JVM/jdtls/kotlin/.NET/OmniSharp.
+ARG BITCODE_PIPELINE_LSP_PROFILE=full
+ENV BITCODE_PIPELINE_LSP_PROFILE=${BITCODE_PIPELINE_LSP_PROFILE}
 COPY containers/images/pipeliner/scripts/install-language-servers.sh \
   /tmp/install-language-servers.sh
 RUN chmod +x /tmp/install-language-servers.sh \
   && /tmp/install-language-servers.sh \
   && rm -f /tmp/install-language-servers.sh
 
-ENV PATH="/usr/local/go/bin:/usr/local/bin:${PATH}"
+ENV PATH="/usr/local/go/bin:/opt/dotnet:/usr/local/bin:${PATH}"
 ENV GOPATH=/opt/go
 ENV GOBIN=/usr/local/bin
+ENV DOTNET_ROOT=/opt/dotnet
+ENV JDTLS_HOME=/opt/jdtls
 
 # Workspace manifests + packages + pipeliner image package
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc* ./

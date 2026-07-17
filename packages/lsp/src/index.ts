@@ -71,8 +71,16 @@ export {
   LANGUAGE_TO_SERVER_ID,
   BUNDLED_NPM_SERVER_IDS,
   PIPELINER_IMAGE_SERVER_IDS,
+  PIPELINER_IMAGE_SERVER_IDS_DEFAULT,
+  PIPELINER_IMAGE_SERVER_IDS_FULL_EXTRA,
+  resolvePipelineLspProfile,
+  pipelinerServerIdsForProfile,
 } from './language-servers';
-export type { LanguageServerSpec, ResolvedLanguageServer } from './language-servers';
+export type {
+  LanguageServerSpec,
+  ResolvedLanguageServer,
+  PipelineLspProfile,
+} from './language-servers';
 
 // ---------------------------------------------------------------------------
 // Error types and validation schemas
