@@ -9,6 +9,9 @@
  *
  * Depositor supplies a repository; pipeline synthesizes DepositSynthesizedAssetPack
  * options for Depository review/admission. Not mode/lens-parameterized.
+ *
+ * Settlement / buyer-repo delivery / settleDelivery are **not** this pipeline —
+ * see settle-asset-pack-pipeline (ExecutionPipelineSimpleSettleAssetPack).
  */
 
 import type { Execution } from '@bitcode/execution-generics';

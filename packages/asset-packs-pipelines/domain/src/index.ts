@@ -1,10 +1,12 @@
 /**
- * AssetPack Pipeline
+ * AssetPack domain library for **synthesis** SDIVF product pipelines
+ * (deposit + read) and shared measurement/selection primitives.
  *
- * Bitcode SDIVF pipeline runs (Setup → Discovery → Implementation → Validation
- * → Finish) that satisfy Reads, synthesize AssetPack artifacts and Exchange
- * evidence, and use Finish-phase Delivering only for connected-interface
- * delivery.
+ * Settlement / buyer-repo delivery / shippable PR are **not** synthesis work.
+ * They are exclusive to `execution-pipeline-simple-settle-asset-pack`.
+ * Modules such as `asset-pack-settlement-rights-delivery` remain in this package
+ * only as a library for the settle pipeline / host settle path — synthesis
+ * preprocess/postprocess/Finish must never invoke or project them.
  */
 
 import { Executor, Execution } from '@bitcode/execution-generics';
@@ -34,10 +36,7 @@ import {
   buildAssetPackPreviewBoundary,
   persistAssetPackPreviewBoundary,
 } from './asset-pack-preview-boundary';
-import {
-  buildAssetPackSettlementRightsDeliveryBoundary,
-  persistAssetPackSettlementRightsDeliveryBoundary,
-} from './asset-pack-settlement-rights-delivery';
+// Intentionally no settlement-rights import for synthesis preprocess.
 import {
   buildReadingOperationalTelemetryRepairReadback,
   persistReadingOperationalTelemetryRepairReadback,
@@ -306,29 +305,15 @@ function factoryPreprocess(): Executor<any, any> {
         processedInput.sourceSafePreview = assetPackPreviewBoundary.sourceSafePreview;
         processedInput.assetPackPreviewBoundary = assetPackPreviewBoundary;
         processedInput.assetPackQuoteReceipt = assetPackPreviewBoundary.quoteReceipt;
-        const suppliedSettlement =
-          processedInput?.settlementObservation ||
-          processedInput?.paymentObservation ||
-          processedInput?.btcPaymentObservation ||
-          null;
-        if (suppliedSettlement) {
-          const settlementBoundary = buildAssetPackSettlementRightsDeliveryBoundary({
-            previewBoundary: assetPackPreviewBoundary,
-            paymentObservation: suppliedSettlement,
-            finality: processedInput?.settlementFinality || processedInput?.btcFinality || undefined,
-            readerWalletId: processedInput?.readerWalletId || null,
-            depositorWalletId: processedInput?.depositorWalletId || null,
-            pullRequestTarget: processedInput?.deliveryTarget || null,
-          });
-          persistAssetPackSettlementRightsDeliveryBoundary(execution, settlementBoundary);
-          persistAssetPackSettlementRightsDeliveryBoundary(execution.parent as any, settlementBoundary);
-          processedInput.assetPackSettlementRightsDeliveryBoundary = settlementBoundary;
-          processedInput.assetPackSettlementReplayReceipt = settlementBoundary.replayReceipt;
-          processedInput.assetPackDeliveryUnlock = settlementBoundary.deliveryUnlock;
-        }
+        // Never build settlement rights / delivery unlock during synthesis preprocess.
+        // Payment observation + PR unlock belong exclusively to settle-asset-pack-pipeline.
+        delete processedInput.assetPackSettlementRightsDeliveryBoundary;
+        delete processedInput.assetPackSettlementReplayReceipt;
+        delete processedInput.assetPackDeliveryUnlock;
       }
     } catch {}
     try {
+      // settlementBoundary always null on synthesis preprocess path.
       const operationalReadback = buildReadingOperationalTelemetryRepairReadback({
         runId: String(execution.id || processedInput?.transactionId || processedInput?.id || ''),
         readNeedRuntime:
@@ -346,11 +331,7 @@ function factoryPreprocess(): Executor<any, any> {
           (execution.get('asset-pack/preview', 'boundary') as any) ||
           ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
           null,
-        settlementBoundary:
-          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
-          (execution.get('asset-pack/settlement', 'boundary') as any) ||
-          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
-          null,
+        settlementBoundary: null,
         createdAt: new Date().toISOString(),
       });
       persistReadingOperationalTelemetryRepairReadback(execution, operationalReadback);
@@ -375,11 +356,7 @@ function factoryPreprocess(): Executor<any, any> {
           (execution.get('asset-pack/preview', 'boundary') as any) ||
           ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
           null,
-        settlementBoundary:
-          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
-          (execution.get('asset-pack/settlement', 'boundary') as any) ||
-          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
-          null,
+        settlementBoundary: null,
         operationalReadback,
       });
       persistReadingInterfaceProductParity(execution, interfaceParity);
@@ -409,11 +386,7 @@ function factoryPreprocess(): Executor<any, any> {
           (execution.get('asset-pack/preview', 'boundary') as any) ||
           ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
           null,
-        settlementBoundary:
-          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
-          (execution.get('asset-pack/settlement', 'boundary') as any) ||
-          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
-          null,
+        settlementBoundary: null,
         operationalReadback,
         interfaceParity,
       });
@@ -664,6 +637,10 @@ export * from './depository-search';
 export * from './depository-supply-index';
 export * from './read-fits-finding-runtime';
 export * from './asset-pack-preview-boundary';
+/**
+ * Settle-pipeline library only (rights unlock / delivery after payment).
+ * Synthesis deposit/read SDIVF must not call these builders or project their results.
+ */
 export * from './asset-pack-settlement-rights-delivery';
 export * from './reading-operational-telemetry-repair-readback';
 export * from './reading-interface-product-parity';

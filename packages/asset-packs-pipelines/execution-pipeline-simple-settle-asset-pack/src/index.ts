@@ -3,6 +3,10 @@
  *
  * Product pipeline name: **settle-asset-pack-pipeline** (singular AssetPack).
  *
+ * **Exclusive owner** of settlement and buyer-repo delivery: BTC payment,
+ * BTD rights, shippable PR, settleDelivery. Synthesis deposit/read SDIVF
+ * pipelines must not author those surfaces (see domain SETTLEMENT_BOUNDARY.md).
+ *
  * Hierarchy (left→right): Execution → Pipeline → Simple → SettleAssetPack
  *   factoryExecutionPipelineSimpleSettleAssetPack
  *     → ExecutionPipelineSimpleSettleAssetPack

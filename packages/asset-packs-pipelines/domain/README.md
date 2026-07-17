@@ -1,14 +1,17 @@
-# AssetPack Pipeline
+# AssetPack Pipeline Domain
 
-Canonical package owner for the Bitcode phased pipeline corridor.
-This package turns a measured Bitcode Read into AssetPack synthesis artifacts,
-Exchange-stored AssetPack evidence, and optional connected-interface
-delivery-mechanism artifacts.
+Canonical package owner for **AssetPack synthesis** (deposit + read SDIVF) and
+shared measurement/selection primitives.
+
+**Settlement and buyer-repo delivery are not this package’s product algorithm.**
+They are exclusive to `execution-pipeline-simple-settle-asset-pack`. See
+[`src/SETTLEMENT_BOUNDARY.md`](src/SETTLEMENT_BOUNDARY.md).
+
+Synthesis terminals: **selection envelopes / options** for `/deposits` or
+`/reads` — never `settleDelivery` / shippable PR.
 
 Active route and payload seams use Bitcode nouns: `definitionOfRead`, `read`,
-`writtenAssetType`, `writtenAssets`, `Finish`, `Delivering`, and `SDIVF`.
-Compatibility payload keys are subordinate mirrors and do not define product
-semantics.
+`writtenAssetType`, `writtenAssets`, `selectionEnvelope`, and `SDIVF`.
 
 ## SDIVF Shape
 
@@ -17,7 +20,7 @@ semantics.
 3. **Discovery** - source-grounded research, codebase search, file selection, and approach planning.
 4. **Implementation** - AssetPack synthesis artifacts using Divide, Apply, and Correct agents.
 5. **Validation** - Read satisfaction, proof posture, and readiness-to-Finish checks.
-6. **Finish** - save result state, summarize AssetPack evidence, and run Delivering when requested.
+6. **Finish** - store artifacts, ledgerize, emit selection envelope (options for deposit or read UI). **No settle / no buyer-repo PR.**
 
 The `Discovery -> Implementation -> Validation` loop may iterate up to the
 configured limit before Finish.
@@ -42,8 +45,8 @@ AssetPackPipeline (SDIVF with DIV iteration)
 │ └── Validation
 └── Finish
  ├── Save AssetPack synthesis artifacts and Exchange evidence
- ├── Produce AssetPack completion summary
- └── Deliver AssetPacks or AssetPackPartials to connected destinations
+ ├── Produce selection envelope / options for UI
+ └── (Settlement + buyer PR only on settle-asset-pack-pipeline — separate run)
 ```
 
 ## Usage
