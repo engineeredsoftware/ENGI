@@ -18,6 +18,7 @@ import {
   DISCOVERY_INHERENT_REGURGITATION,
   DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/phases/discovery';
+import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
 
 type SetupOutput = AssetPackInput;
 type DiscoveryOutput = AssetPackInput;
@@ -61,6 +62,45 @@ export const depositSetupPhase: ExecutionPipelineSDIVFExecutionPhaseDelegator<As
   // Progressive deposit QA: BITCODE_DEBUG_SETUP_SERIAL=1 runs wave-1 agents
   // sequentially (clone → MCP → obfuscations → LSP) so agent-filter hard-stops
   // do not race a full initialize-lsp PTRR in parallel. Production stays parallel.
+  //
+  // BITCODE_DEBUG_FAST_SETUP=1 (Discovery QA): Setup phase already Accepted
+  // (1.D1–1.D-W). Skip full obfuscations/LSP PTRR so progressive Discovery
+  // call-sites are reachable without re-burning ~80 Setup LLM calls each stop.
+  // Clone still host-adopts; MCP normalize + danger-wall still run.
+  const fastSetup =
+    String(process.env.BITCODE_DEBUG_FAST_SETUP || '').toLowerCase() === '1' ||
+    String(process.env.BITCODE_DEBUG_FAST_SETUP || '').toLowerCase() === 'true';
+  if (fastSetup) {
+    (execution as any).agents?.registerAgent?.(
+      'setup:comprehend-obfuscations',
+      async (passthroughInput: any, exec: any) => {
+        // Danger-wall + deposit agents read setup.inputComprehension via
+        // storeCrossPhaseArtifact (shared synthesis execution).
+        const guidance = {
+          schema: 'bitcode.debug.fast-setup.obfuscations',
+          summary:
+            'Fast Setup: obfuscations PTRR skipped (Setup Accepted 1.D10–1.D13).',
+          obfuscatedPaths: [] as string[],
+          obfuscatedConcepts: [] as string[],
+        };
+        storeCrossPhaseArtifact(exec, 'setup', 'inputComprehension', guidance);
+        storeCrossPhaseArtifact(exec, 'setup', 'obfuscationComprehension', guidance);
+        storeCrossPhaseArtifact(exec, 'setup', 'obfuscationGuidance', guidance);
+        return passthroughInput;
+      },
+    );
+    (execution as any).agents?.registerAgent?.(
+      'setup:initialize-lsp',
+      async (passthroughInput: any, exec: any) => {
+        storeCrossPhaseArtifact(exec, 'setup', 'lsp', {
+          initialized: false,
+          residual:
+            'fast-setup: LSP PTRR skipped (1.D-L residual still open for live sessions)',
+        });
+        return passthroughInput;
+      },
+    );
+  }
   const serialSetup =
     String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() === '1' ||
     String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() === 'true';
@@ -108,11 +148,29 @@ export const depositDiscoveryPhase: ExecutionPipelineSDIVFExecutionPhaseDelegato
   } catch {}
 
   // Wave 1 parallel → wave 2 depository relevants search (uses comprehension).
+  // Progressive Discovery QA: BITCODE_DEBUG_DISCOVERY_SERIAL=1 (or SETUP_SERIAL)
+  // runs wave-1 agents sequentially so agent-filter hard-stops do not race the
+  // sibling parallel agent past the abort marker.
+  const serialDiscovery =
+    String(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '').toLowerCase() ===
+      '1' ||
+    String(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '').toLowerCase() ===
+      'true' ||
+    String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() ===
+      '1' ||
+    String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() ===
+      'true';
+  const wave1 = serialDiscovery
+    ? sequential(
+        createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),
+        createAgentExecutor(DISCOVERY_INHERENT_REGURGITATION),
+      )
+    : parallel(
+        createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),
+        createAgentExecutor(DISCOVERY_INHERENT_REGURGITATION),
+      );
   const exec: Executor<any, any> = sequential(
-    parallel(
-      createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),
-      createAgentExecutor(DISCOVERY_INHERENT_REGURGITATION),
-    ),
+    wave1,
     createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS),
   );
   return await exec(input, execution);

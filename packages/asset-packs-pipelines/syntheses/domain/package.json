@@ -45,6 +45,7 @@
     "./phases/index": "./src/phases/index.ts",
     "./tools/index": "./src/tools/index.ts",
     "./tools/deposit-depository-asset-pack-search": "./src/tools/deposit-depository-asset-pack-search.ts",
+    "./tools/depository-search-query-plan": "./src/tools/depository-search-query-plan.ts",
     "./tools/DepositDepositoryAssetPackSearchTool": "./src/tools/DepositDepositoryAssetPackSearchTool.ts",
     "./tools/AssetPackCloneVCSRepositoryTool": "./src/tools/AssetPackCloneVCSRepositoryTool.ts",
     "./tools/lsp-setup-tools": "./src/tools/lsp-setup-tools.ts",

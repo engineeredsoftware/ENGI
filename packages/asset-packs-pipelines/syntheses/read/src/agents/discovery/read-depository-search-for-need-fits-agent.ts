@@ -20,6 +20,7 @@ import { z } from 'zod';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
 import { resolveSourceCheckoutCatalog } from '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog';
 import { runDepositDepositoryAssetPackSearch } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/deposit-depository-asset-pack-search';
+import { buildDepositorySearchQueryPlan } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/depository-search-query-plan';
 import { depositDepositoryAssetPackSearchTool } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/DepositDepositoryAssetPackSearchTool';
 
 const part = (content: string): PromptPart => content as PromptPart;
@@ -139,44 +140,41 @@ function resolveNeed(execution: any, input: any): unknown {
   );
 }
 
+function needToText(need: unknown): string {
+  if (typeof need === 'string') return need;
+  if (need && typeof need === 'object') {
+    return [
+      (need as any).summary,
+      (need as any).title,
+      (need as any).text,
+      (need as any).expressedRead,
+      (need as any).need,
+    ]
+      .filter(Boolean)
+      .join(' ');
+  }
+  return '';
+}
+
+/** Need-first query plan — full phrase + tokens; paths secondary. */
 function defaultQueriesFromNeed(input: {
   catalog?: any;
   need?: unknown;
   expressedRead?: string | null;
   repository?: any;
 }): string[] {
-  const terms: string[] = [];
-  const needText =
-    typeof input.need === 'string'
-      ? input.need
-      : input.need && typeof input.need === 'object'
-        ? [
-            (input.need as any).summary,
-            (input.need as any).title,
-            (input.need as any).text,
-            (input.need as any).expressedRead,
-          ]
-            .filter(Boolean)
-            .join(' ')
-        : '';
-  const blob = `${needText} ${input.expressedRead || ''}`.trim();
-  if (blob) {
-    terms.push(
-      ...blob
-        .split(/\W+/)
-        .filter((t) => t.length > 3)
-        .slice(0, 10),
-    );
-  }
-  const fullName = input.repository?.fullName || input.repository?.name;
-  if (fullName) terms.push(String(fullName).split('/').pop() || String(fullName));
-  const paths = Array.isArray(input.catalog?.paths) ? input.catalog.paths : [];
-  for (const p of paths.slice(0, 8)) {
-    const base = String(p).split('/').filter(Boolean).pop();
-    if (base && !base.startsWith('.')) terms.push(base.replace(/\.[^.]+$/, ''));
-  }
-  terms.push('need-fit', 'source-safe-asset-pack');
-  return [...new Set(terms.map((t) => t.trim()).filter((t) => t.length > 2))].slice(0, 12);
+  return buildDepositorySearchQueryPlan({
+    needText: needToText(input.need),
+    expressedRead: input.expressedRead,
+    repositoryFullName:
+      input.repository?.fullName ||
+      input.repository?.repositoryFullName ||
+      input.repository?.name ||
+      null,
+    paths: Array.isArray(input.catalog?.paths) ? input.catalog.paths : [],
+    product: 'read-need-fits',
+    maxTerms: 12,
+  });
 }
 
 export default async function runReadDepositorySearchForNeedFitsAgent(input: any, execution: any) {
@@ -252,6 +250,10 @@ export default async function runReadDepositorySearchForNeedFitsAgent(input: any
       undefined;
     toolResult = await runDepositDepositoryAssetPackSearch({
       queryTerms: searchQueries,
+      needText: needToText(need),
+      expressedRead: typeof expressedRead === 'string' ? expressedRead : null,
+      product: 'read-need-fits',
+      paths: catalogForPrompt?.paths ?? catalog?.paths ?? [],
       assets: Array.isArray(settledAssets) ? settledAssets : [],
       maxResults: 12,
       repositoryFullName: repository.fullName || repository.repositoryFullName,

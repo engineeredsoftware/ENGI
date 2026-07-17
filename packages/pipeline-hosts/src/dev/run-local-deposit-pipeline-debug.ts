@@ -149,8 +149,9 @@ const debugEnv: Record<string, string> = {
   BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'plan',
   BITCODE_DEBUG_STOP_FAILSAFE:
     process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
+  // After 1.D14 Accepted default next is Plan PCC judge; override for other sites.
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'reason',
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'judge',
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
   // First Discovery LLM proves Setup (MCP + danger-wall) completed.
@@ -219,6 +220,14 @@ const env = {
   // Serialize Setup wave-1 so progressive agent filter stops do not race LSP PTRR.
   BITCODE_DEBUG_SETUP_SERIAL:
     process.env.BITCODE_DEBUG_SETUP_SERIAL || '1',
+  // Discovery+ progressive QA: skip re-running full obfuscations/LSP PTRR
+  // (Setup closed 1.D-W). Set BITCODE_DEBUG_FAST_SETUP=0 to force full Setup.
+  BITCODE_DEBUG_FAST_SETUP:
+    process.env.BITCODE_DEBUG_FAST_SETUP ||
+    (String(process.env.BITCODE_DEBUG_STOP_PHASE || 'discovery').toLowerCase() ===
+    'discovery'
+      ? '1'
+      : '0'),
   BITCODE_HOST_CLONE_URL: repoUrl,
   BITCODE_HOST_CLONE_BRANCH: branch,
   BITCODE_HOST_CLONE_COMMIT: commit,

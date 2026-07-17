@@ -2,6 +2,30 @@
  * @jest-environment node
  */
 import { runDepositDepositoryAssetPackSearch } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/deposit-depository-asset-pack-search';
+import {
+  buildDepositorySearchQueryPlan,
+  extractNeedPrimaryPhrase,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/depository-search-query-plan';
+
+describe('buildDepositorySearchQueryPlan (Need-first)', () => {
+  it('keeps the full Need phrase and de-prioritizes path stems for read-need-fits', () => {
+    const plan = buildDepositorySearchQueryPlan({
+      needText: 'Add retries to payment webhooks when Stripe returns 429',
+      paths: ['src/payments/stripe.ts', 'vendor/long-name-library/index.js'],
+      product: 'read-need-fits',
+      maxTerms: 12,
+    });
+    expect(plan[0]).toContain('retries');
+    expect(plan[0]).toContain('payment');
+    expect(plan.some((t) => t.includes('Stripe') || t.toLowerCase().includes('stripe'))).toBe(
+      true,
+    );
+    // Path stems appear but must not be the only anchors
+    const pathHeavy = plan.filter((t) => t === 'stripe' || t === 'index');
+    expect(pathHeavy.length).toBeLessThanOrEqual(3);
+    expect(extractNeedPrimaryPhrase('  fix auth  ')).toBe('fix auth');
+  });
+});
 
 describe('runDepositDepositoryAssetPackSearch', () => {
   it('returns policy-declared status with empty corpus', async () => {
@@ -16,6 +40,40 @@ describe('runDepositDepositoryAssetPackSearch', () => {
     expect(result.vectorStore.status).toBe('policy-declared');
     expect(result.embeddingPolicy.vectorStore.rpc).toBe('match_deliverable_vectors');
     expect(result.underservedTopics).toEqual(['auth', 'billing']);
+  });
+
+  it('builds Need-first terms and ranks phrase matches for read-need-fits', async () => {
+    const need = 'Add retries to payment webhooks when Stripe returns 429';
+    const result = await runDepositDepositoryAssetPackSearch({
+      needText: need,
+      product: 'read-need-fits',
+      paths: ['src/unrelated/foo.ts'],
+      assets: [
+        {
+          assetId: 'ap-need',
+          title: 'Stripe webhook retry pack',
+          contentUnits: [
+            {
+              unitId: 'u1',
+              unitKind: 'summary',
+              text: 'Add retries to payment webhooks when Stripe returns 429 with backoff',
+            },
+          ],
+        } as any,
+        {
+          assetId: 'ap-path',
+          title: 'foo utility',
+          contentUnits: [{ unitId: 'u2', unitKind: 'summary', text: 'foo helper' }],
+        } as any,
+      ],
+      env: {},
+    });
+    expect(result.success).toBe(true);
+    expect(result.queryTerms[0]).toContain('payment');
+    expect(result.hits[0]?.assetId).toBe('ap-need');
+    expect(result.hits[0]?.matchedTerms.some((t) => t.includes('retries') || t.length > 20)).toBe(
+      true,
+    );
   });
 
   it('lexically ranks provided settled assets', async () => {

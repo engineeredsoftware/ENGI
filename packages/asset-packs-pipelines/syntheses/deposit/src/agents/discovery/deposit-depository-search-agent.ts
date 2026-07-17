@@ -218,6 +218,8 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
     const embedQuery = findValue(execution, 'deposit', 'embedQuery') || undefined;
     toolResult = await runDepositDepositoryAssetPackSearch({
       queryTerms: searchQueries,
+      product: 'deposit-relevants',
+      paths: catalogForPrompt?.paths ?? catalog?.paths ?? [],
       assets: Array.isArray(settledAssets) ? settledAssets : [],
       maxResults: 12,
       repositoryFullName: repository.fullName || repository.repositoryFullName,
@@ -230,6 +232,7 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
       queryTerms: toolResult?.queryTerms,
       vectorStore: toolResult?.vectorStore,
       embeddingPolicy: toolResult?.embeddingPolicy,
+      product: 'deposit-relevants',
     });
 
     if (toolResult?.underservedTopics?.length) {
