@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D2) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through PCC judge) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D3) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through PCC structured_output) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -77,7 +77,7 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
 | `BITCODE_DEBUG_STOP_STEP` | `plan` | |
 | `BITCODE_DEBUG_STOP_FAILSAFE` | `prepare_concise_context` | |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`judge`** (was `reason`) | +1 Thinkings generation after 1.D1 accepted |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`structured_output`** (was `judge`) | +1 after 1.D2 Accepted |
 | `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -576,20 +576,137 @@ User body correctly forces: JSON schema for Reason; PCC key-selection only; path
 
 | | |
 | --- | --- |
-| **this stop** | **Accepted — fully successful** |
-| **next marker** | `BITCODE_DEBUG_STOP_GENERATION=structured_output` (PCC `{ selectedKeys }` only) |
-| **next commit_tag** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Prepare-Concise-Context Thinking Structured-Output Call-Site` |
+| **this stop** | **Accepted — fully successful** (historical; marker advanced past Judge) |
+| **next marker** | advanced → structured_output (see 1.D3) |
 | **not yet** | Plan chunk/stitch; Try/clone tool; remaining Setup agents; Discovery+; full deposit accept |
+
+#### artifacts (judge-stop era; superseded by SO-stop ledger)
+
+| Kind | Path |
+| --- | --- |
+| Judge-era ledger | prior runs under `.tmp/llm-call-debug/` (wiped each harness re-run) |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
+### 1.D3 Deposit · Setup · clone-vcs · Plan · PCC · structured_output
+
+- **status:** **Accepted (fully successful call-site; PCC selection Thinkings complete)**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Prepare-Concise-Context Thinking Structured-Output Call-Site`
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **pipeline_mode:** deposit
+- **phase:** setup
+- **agent:** `asset-pack-clone-vcs-repository-agent`
+- **agent_registry_key:** `setup:clone-vcs-repository`
+- **step:** plan
+- **failsafe:** prepare_concise_context
+- **thinking:** structured_output
+- **execution_path:**
+  `pipeline:synthesize_deposit_asset_packs → seq-2 → phase:setup → seq-0 → agent:asset-pack-clone-vcs-repository-agent → plan → seq-0 → failsafe:prepare_concise_context → selection → seq-2 → thinkings:structured_output`
+- **provider / model:** anthropic / `claude-haiku-4-5-20251001`
+- **usage:** 5729 in / 85 out / 5814 total tokens (structured_output call)
+- **duration_ms:** ~1083 (SO call); ~22092 (plan step until abort)
+- **harness result:** `ok: true`, `debugStop: true`, `callCount: 7`, `stopGeneration: structured_output`
+- **abort_marker:**
+  `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON=1` + generation=**structured_output** + phase=setup + step=plan + failsafe=prepare_concise_context + agent filter `clone-vcs`  
+  → `hard-stop after plan/prepare_concise_context/structured_output agent=asset-pack-clone-vcs-repository-agent`  
+  throw: `__BITCODE_DEBUG_STOP_AFTER_FIRST_REASON__`
+
+#### expected_schemas (structured_output)
+
+| Layer | Schema | Notes |
+| --- | --- | --- |
+| **thinking_return / failsafe terminal (selection)** | `PCC_KEY_SELECTION_SCHEMA` `{ selectedKeys: string[] }` | **This call.** Only place `selectedKeys` is legal under PCC. |
+| **step_return** | `PlanStepOutputSchema` | Still later (after chunk/stitch if any, end of Plan). |
+
+#### tools
+
+| | |
+| --- | --- |
+| **usable** | clone tool on plan node keys |
+| **selected (useTools)** | **none** (correct — SO is key list only) |
+| **executed** | **none** |
+
+#### contextful_inputs
+
+- Prior **`reasoning`** + **`judgment`** both present in user Selection input (Judge approved:false still feeds SO).
+- Same `pipeline_execution_keys` keys-only tree.
+- SO instructed to emit exactly `{ selectedKeys: string[] }` in path form `#namespace:key` / `#path#ns:key`.
+
+#### completion_response (verbatim)
+
+```json
+{
+  "selectedKeys": [
+    "#deposit:repository",
+    "#deposit:obfuscations",
+    "#deposit:permissibleSources",
+    "#deposit:impermissibleSources",
+    "#host:manifestRoot",
+    "#host:sourceRevision",
+    "#host:userId"
+  ]
+}
+```
+
+#### prompt_excellence_breakdown (structured_output)
+
+| Dimension | Why correct / excellent |
+| --- | --- |
+| **Hierarchy** | Same deposit EE walk; Execution once; phase no re-emit; product identity deposit-only. |
+| **SO role** | Prompt pins SO as formatter of prior reason+judge into **selectedKeys only** — not a new free-form analysis, not clone. |
+| **Conditioning** | User includes preparation + PCC law + keys tree + **reasoning** + **judgment** (including approved:false critiques). SO can incorporate Judge feedback. |
+| **Schema pin** | User/system require single JSON object with `selectedKeys` path-form keys present on the tree. |
+| **Path correctness** | Marker stop lands on `selection/seq-2` + `thinkings:structured_output` after reason (seq-0) and judge (seq-1). Full Thinkings triple complete. |
+
+#### completion_excellence_breakdown (structured_output)
+
+| Dimension | Why correct / excellent |
+| --- | --- |
+| **Schema** | Exactly `{ selectedKeys: string[] }` — no analysis, no issues, no useTools. |
+| **Key presence** | All seven keys exist on the keys tree (`deposit.*`, `host.*`). No invented namespaces. |
+| **Path form** | Uses law form `#namespace:key` (e.g. `#deposit:repository`), not bare shorthand only. |
+| **Deposit correctness** | Prefers `#deposit:repository` over ambiguous `#read:request` (Judge critique addressed). |
+| **Task coverage** | Repository coords + source-safety triad + host workspace + sourceRevision + host userId for auth binding — sufficient for Plan/Try clone without lineage/debug. |
+| **Minimality** | 7 keys (within 3–8 guidance). Includes both permissible and impermissible Sources (Judge had asked to audit; SO kept explicit gates — defensible for deposit source-safety). |
+| **Judge incorporation** | Resolved deposit vs read ambiguity toward deposit; used `#host:userId` (auth on host) rather than soft optional pipeline userId alone. |
+
+#### stability_analysis (structured_output)
+
+| Axis | Result |
+| --- | --- |
+| **schema_parse** | **Pass** — PCC_KEY_SELECTION_SCHEMA shape. |
+| **role_correctness** | **Pass** — SO only; no task execution. |
+| **task_quality** | **Pass** — deposit-grounded, path-form keys, usable for value materialization next. |
+| **prompt_hygiene** | **Pass** — full hierarchy + reason/judge continuity. |
+| **regression_vs_prior** | **Pass** — first complete PCC Thinkings triple (reason→judge→SO) on deposit clone Plan. |
+
+#### stability_confidence
+
+- **0.94** that this call-site is fully successful and PCC **selection** Thinkings can close.  
+- Residual (not SO call-site failures): post-SO value read-in; chunk_then_sum/stitch; Plan Try tool execution. Judge `approved:false` did not block a legal minimal key set.
+
+#### decision
+
+| | |
+| --- | --- |
+| **this stop** | **Accepted — fully successful** |
+| **next marker** | Next failsafe or Plan stack (likely **chunk_then_sum** reason, or document explicit next). Prefer advancing failsafe to `chunk_then_sum` / generation `reason` once selection keys are accepted. |
+| **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Chunk-Then-Sum Thinking Reason Call-Site` |
+| **not yet** | Chunk/stitch value materialization proof; Try/clone tool; remaining Setup; Discovery+ |
 
 #### artifacts
 
 | Kind | Path |
 | --- | --- |
 | Reason request | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0001-request-…-reason.json` |
-| Reason response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0002-response-…-reason.json` |
+| Reason response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0002-response-…-reason.json` (4502/812/5314) |
 | Judge request | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0003-request-…-judge.json` |
-| Judge response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0004-response-…-judge.json` |
-| Abort | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0005-abort-…-judge.json` |
+| Judge response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0004-response-…-judge.json` (5001/676/5677) |
+| SO request | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0005-request-…-structured_output.json` |
+| SO response | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0006-response-…-structured_output.json` (5729/85/5814) |
+| Abort | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0007-abort-…-structured_output.json` |
 | Ledger | `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/ledger.jsonl` |
 | Verbatim report | `.tmp/local-deposit-debug/VERBATIM_WIRE_REPORT.md` |
 | Summary | `.tmp/local-deposit-debug/debug-summary.json` |
@@ -601,9 +718,9 @@ User body correctly forces: JSON schema for Reason; PCC key-selection only; path
 
 _Template ready. Expected fills:_
 
-- **1.D3** Deposit · Setup · clone-vcs · Plan · PCC · **structured_output**  
+- **1.D4** Deposit · Setup · clone-vcs · Plan · **chunk_then_sum** (or next failsafe after PCC selection)  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge** (read harness still at reason)  
-- **1.D4+** Plan chunk / stitch · Try · Retry · Refine · remaining Setup · Discovery · … · settle  
+- **1.D5+** Stitch · Try · Retry · Refine · remaining Setup · Discovery · … · settle  
 
 ---
 
@@ -613,8 +730,8 @@ _Template ready. Expected fills:_
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1 reason Accepted; §1.D2 judge Accepted (marker at judge; next SO).  
-  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopGeneration=`judge`.
+- **proof (current):** §1.D1 reason Accepted; §1.D2 judge Accepted; §1.D3 structured_output Accepted (PCC selection Thinkings complete).  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopGeneration=`structured_output`, `selectedKeys` length 7.
 
 ### §3 SDIVF read pipeline production-like accept
 

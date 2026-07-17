@@ -3,8 +3,9 @@
  *
  * Abort target (advance only after current call accepted in
  * `.qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md` §1):
- *   Setup → clone-vcs PTRR agent → Plan → prepare_concise_context → judge
- *   (reason accepted; marker moved +1 generation to judge)
+ *   Setup → clone-vcs PTRR agent → Plan → prepare_concise_context
+ *   → structured_output
+ *   (reason + judge accepted; marker at PCC structured_output)
  *
  * Forces the real Setup clone agent (BITCODE_DEBUG_FORCE_CLONE_PTRR) so host
  * short-circuits do not skip Plan→Try→Retry→Refine + clone-repository tool.
@@ -135,11 +136,11 @@ writeFileSync(
 );
 
 // --- Debug abort marker (advance only after §1 acceptance) ---
-// Target: Setup clone-vcs PTRR agent → Plan → prepare_concise_context → judge.
+// Target: Setup clone-vcs → Plan → prepare_concise_context → structured_output.
 // FORCE_CLONE_PTRR skips host clone/env/workspace short-circuits so the real
 // factoryPTRRAgent (Plan→Try→Retry→Refine) + clone tool path runs.
 // Note: BITCODE_DEBUG_STOP_AFTER_FIRST_REASON is the hard-stop *flag* name;
-// the generation pin is BITCODE_DEBUG_STOP_GENERATION (now judge).
+// the generation pin is BITCODE_DEBUG_STOP_GENERATION (now structured_output).
 const debugEnv: Record<string, string> = {
   BITCODE_LLM_CALL_DEBUG: '1',
   BITCODE_DEBUG_FORCE_CLONE_PTRR: '1',
@@ -149,7 +150,7 @@ const debugEnv: Record<string, string> = {
   BITCODE_DEBUG_STOP_FAILSAFE:
     process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'judge',
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'structured_output',
   // prepare selection path uses selection/seq-0 (not gen-0)
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
@@ -182,13 +183,13 @@ writeFileSync(
     'agent: clone-vcs (asset-pack-clone-vcs-repository-agent)',
     'step: plan',
     'failsafe: prepare_concise_context',
-    'generation: judge',
+    'generation: structured_output',
     'BITCODE_DEBUG_FORCE_CLONE_PTRR=1',
     '```',
     '',
     'PTRR order under test: Plan → Try → Retry → Refine.',
     'After this call is accepted in .qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md §1,',
-    'move BITCODE_DEBUG_STOP_GENERATION to the next Thinkings generation (structured_output).',
+    'move the marker to the next stack (e.g. chunk_then_sum or Plan Try).',
     '',
     '## Artifacts',
     '',
@@ -437,7 +438,7 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: true,
   expectedAbort:
-    'Setup → clone-vcs → Plan → prepare_concise_context → judge',
+    'Setup → clone-vcs → Plan → prepare_concise_context → structured_output',
   ptrrOrder: 'Plan → Try → Retry → Refine',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
 };
@@ -445,7 +446,7 @@ const summary = {
 writeFileSync(join(workRoot, 'debug-summary.json'), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 
-// Success for this pass: hard stop after the pinned generation (judge).
+// Success for this pass: hard stop after the pinned generation (structured_output).
 // Exit may be non-zero because of the intentional throw.
 if (debugStop) process.exit(0);
 process.exit(run.status === 0 ? 0 : 1);
