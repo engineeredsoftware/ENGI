@@ -26,6 +26,7 @@ import {
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 const TITLE_HIGHLIGHTS = [
+  // Title order: Bitcodes ⇄ Bitcoins (see BITCODE_PUBLIC_COPY.testnetLaunch.title).
   { text: 'Bitcodes', tone: 'green' as const },
   { text: 'Bitcoins', tone: 'orange' as const },
 ];
@@ -98,7 +99,8 @@ export function MarketingLandingTestnetSection() {
       <div className="relative overflow-visible rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         {/*
           Absolute so the larger exchange mark never expands card layout.
-          Bitcode (green) ⇄ Bitcoin (orange) — opposite of title word order.
+          Title is Bitcodes ⇄ Bitcoins; corner stack matches title order
+          (Bitcode green, then Bitcoin orange).
         */}
         <div
           className="pointer-events-none absolute right-2 top-2 z-10 inline-flex items-center gap-1.5 phone:right-3 phone:top-3"
