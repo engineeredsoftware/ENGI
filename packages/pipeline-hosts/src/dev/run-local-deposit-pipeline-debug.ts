@@ -136,23 +136,24 @@ writeFileSync(
 );
 
 // --- Debug abort marker (advance only after §1 acceptance) ---
-// Target: Setup clone-vcs → Plan → chunk_then_sum → structured_output
-// (after §1.D5 CS judge Accepted).
+// Target: first LLM *after* Plan completes — Try · PCC · reason.
+// Proves Plan failsafe triple (PCC → CS → Stitch pass-through or stitch LLM)
+// finished; stitch is often zero-LLM when CS SO is schema-valid.
 // FORCE_CLONE_PTRR skips host clone/env/workspace short-circuits so the real
 // factoryPTRRAgent (Plan→Try→Retry→Refine) + clone tool path runs.
 // Note: BITCODE_DEBUG_STOP_AFTER_FIRST_REASON is the hard-stop *flag* name;
-// the generation pin is BITCODE_DEBUG_STOP_GENERATION (now SO under CS).
+// the generation pin is BITCODE_DEBUG_STOP_GENERATION.
 const debugEnv: Record<string, string> = {
   BITCODE_LLM_CALL_DEBUG: '1',
   BITCODE_DEBUG_FORCE_CLONE_PTRR: '1',
   BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
   BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'setup',
-  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'plan',
+  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'try',
   BITCODE_DEBUG_STOP_FAILSAFE:
-    process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'chunk_then_sum',
+    process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'structured_output',
-  // chunk_then_sum task Thinkings typically use gen-0 (default require when not prepare)
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'reason',
+  // PCC selection uses selection/seq-N (not gen-0)
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
   // Prefer clone agent for the stop filter (override via env if needed)
@@ -182,15 +183,15 @@ writeFileSync(
     '```',
     'phase: setup',
     'agent: clone-vcs (asset-pack-clone-vcs-repository-agent)',
-    'step: plan',
-    'failsafe: chunk_then_sum',
-    'generation: structured_output',
+    'step: try  (fence after Plan complete)',
+    'failsafe: prepare_concise_context',
+    'generation: reason',
     'BITCODE_DEBUG_FORCE_CLONE_PTRR=1',
     '```',
     '',
     'PTRR order under test: Plan → Try → Retry → Refine.',
-    'After this call is accepted in .qa/BITCODE_V48_CANONICAL_PROMOTION_ACCEPTANCE.md §1,',
-    'move the marker to the next failsafe (stitch) or Plan Try.',
+    'This stop fences Plan completion (PCC+CS+Stitch). After §1 accepts Plan close,',
+    'continue progressive Try validation (judge / SO / tools).',
     '',
     '## Artifacts',
     '',
@@ -439,16 +440,17 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: true,
   expectedAbort:
-    'Setup → clone-vcs → Plan → chunk_then_sum → structured_output',
+    'Setup → clone-vcs → Try → prepare_concise_context → reason (Plan complete fence)',
   ptrrOrder: 'Plan → Try → Retry → Refine',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,
+  stopStep: env.BITCODE_DEBUG_STOP_STEP,
 };
 
 writeFileSync(join(workRoot, 'debug-summary.json'), JSON.stringify(summary, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 
-// Success for this pass: hard stop after the pinned generation (CS SO).
+// Success for this pass: hard stop after first Try PCC reason (Plan finished).
 // Exit may be non-zero because of the intentional throw.
 if (debugStop) process.exit(0);
 process.exit(run.status === 0 ? 0 : 1);

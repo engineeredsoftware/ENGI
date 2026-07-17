@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit 1.D1–1.D6) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup first-LLM through CS SO; Plan CS Thinkings complete) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (read 1.1; deposit **Plan step complete** 1.D1–1.D7; Try fence) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (clone-vcs **Plan step closed**; Try not yet) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -75,9 +75,9 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
 | `BITCODE_DEBUG_STOP_PHASE` | `setup` | |
-| `BITCODE_DEBUG_STOP_STEP` | `plan` | |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | **`chunk_then_sum`** (was prepare_concise_context) | +1 after 1.D3 Accepted |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`structured_output`** (CS task SO; was CS judge) | +1 after 1.D5 Accepted |
+| `BITCODE_DEBUG_STOP_STEP` | **`try`** (Plan-complete fence; was plan) | +1 after 1.D6 / Plan close |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** (Try PCC; Plan used CS SO) | fence after Plan |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** (Try PCC reason fence) | first LLM after Plan |
 | `BITCODE_DEBUG_STOP_AGENT_FILTER` | `clone-vcs` | |
 | `BITCODE_LLM_PROVIDER` / `BITCODE_LLM_MODEL` | anthropic / `claude-haiku-4-5` | |
 
@@ -1125,9 +1125,9 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 | | |
 | --- | --- |
 | **this stop** | **Accepted — fully successful** (CS Plan Thinkings complete) |
-| **next marker** | Prefer **stitch_until_complete** if exercised, else **Plan Try** / next agent, or document skip when stitch non-triggering |
-| **next commit_tag (example)** | `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Failsafe Stitch Thinking Reason Call-Site` or Try stop |
-| **not yet** | Stitch live (if any); Try/clone tool; remaining Setup; Discovery+ |
+| **next marker** | advanced → Plan close via stitch pass-through + Try fence (see **1.D7**) |
+| **next commit_tag (example)** | Plan-complete / Try fence tag |
+| **not yet** | (superseded by 1.D7) |
 
 #### artifacts
 
@@ -1141,13 +1141,124 @@ Nested bulk under a **selected** key (e.g. `#pipeline:input` → depositoryAsset
 
 ---
 
+### 1.D7 Deposit · Setup · clone-vcs · **Plan step complete** (Stitch non-trigger + Try fence)
+
+- **status:** **Accepted — Plan step fully complete**
+- **date:** 2026-07-16
+- **commit_tag:** `QA Pipeline Deposit Phase Setup Agent Clone-Vcs Step Plan Complete`
+- **proof method:** After §1.D1–1.D6 (Plan PCC + CS Thinkings), Stitch is often **zero-LLM**. Marker moved to first post-Plan LLM: **Try · prepare_concise_context · reason** as a **completion fence** (not full Try call-site acceptance).
+- **pipeline:** `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`
+- **phase:** setup · **agent:** `asset-pack-clone-vcs-repository-agent`
+- **Plan step closed:** yes
+- **Stitch:** `stitch_until_complete` ran · **`stitchCount: 0`** (schema-valid PlanStepOutput from CS SO — non-triggering pass-through, **no stitch LLM**)
+- **harness result:** `ok: true`, `debugStop: true`, `callCount: 15`, `stopStep: try`, `stopFailsafe: prepare_concise_context`, `stopGeneration: reason`
+- **abort:** `hard-stop after try/prepare_concise_context/reason agent=asset-pack-clone-vcs-repository-agent`
+
+#### Plan LLM inventory (this run — complete)
+
+| # | Failsafe | Thinking | Role |
+| --- | --- | --- | --- |
+| 1–2 | prepare_concise_context | reason | PCC key selection |
+| 3–4 | prepare_concise_context | judge | PCC quality |
+| 5–6 | prepare_concise_context | structured_output | `{ selectedKeys }` |
+| 7–8 | chunk_then_sum | reason | task plan reasoning (prepared user) |
+| 9–10 | chunk_then_sum | judge | task judgment |
+| 11–12 | chunk_then_sum | structured_output | **PlanStepOutputSchema** |
+| — | stitch_until_complete | _(none)_ | **stitchCount=0** pass-through |
+| 13–14 | try / PCC | reason | **fence only** (Plan already closed) |
+| 15 | abort | — | hard-stop |
+
+**Plan request/response count:** 12 · **Stitch LLM count:** 0 · **Tools on Plan:** none (correct)
+
+#### Plan terminal output (CS SO — schema-valid)
+
+```json
+{
+  "approach": "Execute GitHub API-based clone of sindresorhus/is-plain-obj at commit …",
+  "steps": ["… 9 actionable Try steps …"],
+  "considerations": ["…"]
+}
+```
+
+`PlanStepOutputSchema` parse: **Pass** → Stitch non-trigger is **correct law**, not a skip.
+
+#### Stitch excellence (non-trigger path)
+
+| Dimension | Result |
+| --- | --- |
+| **Trigger law** | Stitch only when truncated or schema-incomplete |
+| **This run** | CS SO emitted complete `approach` + `steps` (+ considerations) → **0 stitch gens** |
+| **Telemetry** | stdout: `failsafe: stitch_until_complete`, `stitchCount: 0` |
+| **Regression risk avoided** | No infinite stitch; no discarded valid final output |
+
+#### Plan step stability_confidence
+
+- **0.95** that clone-vcs **Plan** is fully successful end-to-end under deposit debug force-PTRR.  
+- Residual for **pipeline** (not Plan): Try tool execution, Retry/Refine, other Setup agents, Discovery+.
+
+#### Try fence (not full Try accept)
+
+| | |
+| --- | --- |
+| **status** | **Fence only** — proves Plan returned control to PTRR Try |
+| **call** | Try · PCC · reason (selection Thinkings start) |
+| **usage** | 4480 / 697 / 5177 · conf 0.92 · selects clone keys |
+| **next progressive** | §1.D8+ Try PCC judge/SO → CS → tools |
+
+#### decision
+
+| | |
+| --- | --- |
+| **Plan step** | **Closed / Accepted** |
+| **next marker** | Remain on **Try · PCC · reason** for progressive Try accept, or advance Try Thinkings |
+| **not yet** | Try tools/clone; remaining Setup; Discovery+ |
+
+#### artifacts
+
+| Kind | Path |
+| --- | --- |
+| Plan CS SO | `.tmp/llm-call-debug/…/0012-response-…-plan-chunk_then_sum-structured_output.json` |
+| Try fence request | `.tmp/llm-call-debug/…/0013-request-…-try-prepare_concise_context-reason.json` |
+| Try fence response | `.tmp/llm-call-debug/…/0014-response-…-try-prepare_concise_context-reason.json` |
+| Abort | `.tmp/llm-call-debug/…/0015-abort-…-try-…-reason.json` |
+| Stitch telemetry | `.tmp/local-deposit-debug/pipeline.stdout.log` (`stitchCount: 0`) |
+| Summary | `.tmp/local-deposit-debug/debug-summary.json` |
+| Re-run | `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` |
+
+---
+
+### Plan step rollup (1.D1–1.D7) — excellence & improvements
+
+| ID | Call-site | Confidence | Headline excellence |
+| --- | --- | --- | --- |
+| **1.D1** | PCC reason | ~0.92 | Keys-only selection reasoning; deposit-grounded |
+| **1.D2** | PCC judge | ~0.95 | Judgment on minimality/coverage |
+| **1.D3** | PCC SO | ~0.94 | `{ selectedKeys }` path-form only; no useTools |
+| **1.D4** | CS reason | ~0.93 | Task plan from values; later **prepared-only user** |
+| **1.D5** | CS judge | ~0.94 | Task critique; approved with constructive issues |
+| **1.D6** | CS SO | ~0.94 | **PlanStepOutputSchema**; no selectedKeys leak |
+| **1.D7** | Stitch 0 + Plan close | **0.95** | Schema-valid → zero stitch LLM; Try fence |
+
+**Cross-cutting improvements landed during Plan progressive QA:**
+
+1. **Hierarchy law restored** — full walk Execution→…→Failsafe→Thinking (never amputate Agent/Step).  
+2. **Dual system/user law** — system = ancestry; user = generation payload only.  
+3. **PCC lean user** — keys-only tree; lean task; SO never useTools.  
+4. **CS failsafe law attach** + **forPreparation PCC-only** (budget measure correct).  
+5. **CS prepared-only user** — `selectedKeys`+`selectedContext` (+ prior Thinkings); no envelope dual-dump.  
+6. **CS sequential chunk loop** — slice + `priorChunkCompletions` → sum (parallel opt-in).  
+7. **Thin VCS/Plan authoring** — no three-way merge soup.  
+8. **Stitch non-trigger proven live** — `stitchCount: 0` after valid Plan SO.
+
+**QA clarity:** Deposit marker is movable and ledger-backed; Plan closed by fencing first Try LLM rather than inventing a zero-call stitch stop.
+
+---
+
 ### 1.2+ Read next / Deposit next
 
-_Template ready. Expected fills:_
-
-- **1.D7** Deposit · Setup · clone-vcs · Plan · **stitch** (if triggered) or **Try**  
-- **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge** (read harness still at reason)  
-- **1.D8+** remaining Setup · Discovery · … · settle  
+- **1.D8** Deposit · Setup · clone-vcs · **Try** · PCC · judge (or progressive Try Thinkings)  
+- **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
+- **1.D9+** Try CS / tools / clone; remaining Setup; Discovery · … · settle  
 
 ---
 
@@ -1157,8 +1268,8 @@ _Template ready. Expected fills:_
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** §1.D1–1.D3 PCC; §1.D4–1.D6 CS Plan Thinkings (reason→judge→SO) Accepted.  
-  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopFailsafe=`chunk_then_sum`, stopGeneration=`structured_output`, callCount=13.
+- **proof (current):** §1.D1–1.D7 clone-vcs **Plan step complete** (PCC+CS Thinkings; Stitch stitchCount=0); Try fenced at first PCC reason.  
+  `pnpm --filter @bitcode/pipeline-hosts run qa:deposit:debug-first-llm` → `debugStop: true`, stopStep=`try`, callCount=15.
 
 ### §3 SDIVF read pipeline production-like accept
 
