@@ -146,12 +146,12 @@ const debugEnv: Record<string, string> = {
     process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '0',
   BITCODE_DEBUG_STOP_AFTER_FIRST_REASON: '1',
   BITCODE_DEBUG_STOP_PHASE: process.env.BITCODE_DEBUG_STOP_PHASE || 'discovery',
-  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'plan',
+  // After Plan step closed (1.D14–1.D22): default next is Try PCC reason.
+  BITCODE_DEBUG_STOP_STEP: process.env.BITCODE_DEBUG_STOP_STEP || 'try',
   BITCODE_DEBUG_STOP_FAILSAFE:
     process.env.BITCODE_DEBUG_STOP_FAILSAFE || 'prepare_concise_context',
-  // After 1.D14 Accepted default next is Plan PCC judge; override for other sites.
   BITCODE_DEBUG_STOP_GENERATION:
-    process.env.BITCODE_DEBUG_STOP_GENERATION || 'judge',
+    process.env.BITCODE_DEBUG_STOP_GENERATION || 'reason',
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
   // First Discovery LLM proves Setup (MCP + danger-wall) completed.

@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery Plan PCC reason **1.D14 Accepted**; next 1.D15 judge) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup closed; Discovery Plan started) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery codebase **Plan step closed** 1.D14–1.D22; next Try 1.D23) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup closed; Discovery Plan step closed) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -75,9 +75,9 @@ pnpm --filter @bitcode/pipeline-hosts run qa:read:debug-first-llm
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | `1` | Force real clone PTRR agent |
 | `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON` | `1` | Hard-stop **flag** name (historical); generation pin is separate |
 | `BITCODE_DEBUG_STOP_PHASE` | **`discovery`** | Setup closed |
-| `BITCODE_DEBUG_STOP_STEP` | **`plan`** | Plan step (9 call-sites) |
-| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | next: 1.D15 PCC **judge** |
-| `BITCODE_DEBUG_STOP_GENERATION` | **`judge`** | after 1.D14 Accepted |
+| `BITCODE_DEBUG_STOP_STEP` | **`try`** | Plan closed; next Try PCC reason |
+| `BITCODE_DEBUG_STOP_FAILSAFE` | **`prepare_concise_context`** | Try PCC |
+| `BITCODE_DEBUG_STOP_GENERATION` | **`reason`** | 1.D23 Try PCC reason |
 | `BITCODE_DEBUG_FORCE_CLONE_PTRR` | **`0`** | clone PTRR closed at 1.D9; host-adopt |
 | `BITCODE_DEBUG_SETUP_SERIAL` | **`1`** | serial Setup wave-1 |
 | `BITCODE_DEBUG_FAST_SETUP` | **`1`** | Discovery QA: skip re-PTRR obfuscations/LSP |
@@ -1559,7 +1559,7 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
   - `BITCODE_DEBUG_SETUP_SERIAL=1` for progressive stops
   - `BITCODE_LLM_CALL_TIMEOUT_MS=0` when Judge/CS can exceed 180s
 - **layout fixes during Setup QA:** host import split (all-3 / synth / product); zod on read package; serial Setup debug flag; discovery registration import path; codebase-analysis-helpers package export
-- **next progressive marker:** Discovery · `DepositCodebaseComprehensionAgent` Plan PCC **judge** (1.D15)
+- **next progressive marker:** Discovery · `DepositCodebaseComprehensionAgent` **Try** PCC reason (1.D23)
 
 ### 1.D14 Deposit · Discovery · comprehend-codebase · Plan · PCC · reason
 
@@ -1611,16 +1611,6 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 - **decision:** move marker to Plan PCC **judge** (1.D15)
 - **artifacts:** `.tmp/llm-call-debug/pipeline-synthesize_deposit_asset_packs/0002-request-…codebase…reason.json`, `0005-response-…`, `0006-abort-…`
 - **commit_tag:** QA Deposit Discovery Codebase Plan Pcc Reason Call-Site
-- **Plan step roadmap (9 call-sites for this first step):**
-  1. **1.D14** PCC reason — **Accepted**
-  2. **1.D15** PCC judge
-  3. **1.D16** PCC structured_output
-  4. **1.D17** CS reason
-  5. **1.D18** CS judge
-  6. **1.D19** CS structured_output
-  7. **1.D20** Stitch reason *(or zero-LLM fence)*
-  8. **1.D21** Stitch judge *(or zero-LLM fence)*
-  9. **1.D22** Stitch structured_output *(or zero-LLM fence)*
 - **harness fixes landed with this stop:**
   - `BITCODE_DEBUG_FAST_SETUP=1` — skip re-PTRR obfuscations/LSP after Setup closed (stores admissible guidance for danger-wall)
   - Discovery wave-1 serial when `BITCODE_DEBUG_SETUP_SERIAL` / `BITCODE_DEBUG_DISCOVERY_SERIAL` — prevents parallel regurgitation racing past abort
@@ -1629,9 +1619,85 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
   - Phrase-weighted lexical scoring; tool accepts `needText` / `product`
   - Read Need-fits agent uses shared planner; unit tests green
 
+### 1.D15 Deposit · Discovery · comprehend-codebase · Plan · PCC · judge
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **usage:** ~9.1k in / ~565 out (live stop; serial fast Setup)
+- **abort:** hard-stop after plan/prepare_concise_context/judge
+- **thinking_return:** JudgmentSchema — `approved: false` with count/hygiene critiques (valid call-site; same law as Setup 1.D2)
+- **role:** Pass — PCC quality judge on prior reason; no selectedKeys/useTools
+- **stability_confidence:** **0.93**
+- **decision:** advance to 1.D16 SO
+- **commit_tag:** QA Deposit Discovery Codebase Plan Pcc Judge Call-Site
+
+### 1.D16 Deposit · Discovery · comprehend-codebase · Plan · PCC · structured_output
+
+- **status:** **Accepted** (PCC selection Thinkings complete)
+- **date:** 2026-07-17
+- **usage:** 9486 in / 120 out
+- **completion:** `{ selectedKeys: [ #host:sourceRevision, #host:manifestRoot, #deposit:obfuscations, #deposit:permissibleSources, #deposit:impermissibleSources, #seq-2#…#setup:asset-pack-initialize-mcps-tools-agent#agent#output, #discovery:sourceMeasurements ] }` — 7 keys; **no useTools**
+- **residuals:** MCP agent-output path is odd (fast-setup empty MCP); `sourceCheckoutCatalog` not in selectedKeys this stop — CS still received catalog via host/deposit resolution (verified in CS reason grounding)
+- **stability_confidence:** **0.90**
+- **decision:** advance to CS reason (1.D17)
+- **commit_tag:** QA Deposit Discovery Codebase Plan Pcc Structured-Output Call-Site
+
+### 1.D17 Deposit · Discovery · comprehend-codebase · Plan · CS · reason
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **failsafe:** chunk_then_sum
+- **usage:** ~10.0–10.4k in / ~890–1052 out
+- **role:** Pass — Plan **task** reason (strategy for knowledge map), not PCC selection; **useTools omitted** (Plan)
+- **task quality:** Grounded in is-plain-obj checkout (15 paths, samples, measurements, obfuscations); deposit-correct
+- **stability_confidence:** **0.92**
+- **decision:** advance to CS judge
+- **commit_tag:** QA Deposit Discovery Codebase Plan Cs Reason Call-Site
+
+### 1.D18 Deposit · Discovery · comprehend-codebase · Plan · CS · judge
+
+- **status:** **Accepted**
+- **date:** 2026-07-17
+- **usage:** ~11.2–11.5k in / ~388–463 out
+- **completion:** Judgment quality ~0.88–0.92; issues about emitting comprehension schema early (correctly deferred to Plan SO / later Try) — call-site valid
+- **stability_confidence:** **0.93**
+- **decision:** advance to CS SO
+- **commit_tag:** QA Deposit Discovery Codebase Plan Cs Judge Call-Site
+
+### 1.D19 Deposit · Discovery · comprehend-codebase · Plan · CS · structured_output
+
+- **status:** **Accepted** (Plan CS Thinkings complete)
+- **date:** 2026-07-17
+- **usage:** 11903 in / 983 out
+- **thinking_return / step Plan:** `PlanStepOutputSchema` `{ approach, steps[] }` — strategy for knowledge-map synthesis; **not** PCC selectedKeys
+- **role:** Pass — Plan task SO; no tools
+- **stability_confidence:** **0.93**
+- **decision:** Stitch next (often zero-LLM)
+- **commit_tag:** QA Deposit Discovery Codebase Plan Cs Structured-Output Call-Site
+
+### 1.D20–1.D22 Deposit · Discovery · comprehend-codebase · Plan · Stitch · (reason/judge/SO)
+
+- **status:** **Accepted (zero-LLM fence)** — same pattern as Setup 1.D7
+- **date:** 2026-07-17
+- **evidence:** stop `failsafe=stitch_until_complete` `generation=reason` produced **no** stitch wire files; pipeline advanced to **Try** PCC (and beyond when unstopped). Single-pass CS composed request fit host budget → Stitch not required.
+- **decision:** Plan step **closed**. Marker → **Try · PCC · reason** (1.D23)
+- **commit_tag:** QA Deposit Discovery Codebase Plan Stitch Fence Call-Site
+
+### 1.D-Plan · **Plan step closed** (comprehend-codebase first step, 9 sites)
+
+| # | ID | Site | Status |
+|---|-----|------|--------|
+| 1 | 1.D14 | PCC reason | Accepted |
+| 2 | 1.D15 | PCC judge | Accepted |
+| 3 | 1.D16 | PCC SO | Accepted |
+| 4 | 1.D17 | CS reason | Accepted |
+| 5 | 1.D18 | CS judge | Accepted |
+| 6 | 1.D19 | CS SO | Accepted |
+| 7–9 | 1.D20–22 | Stitch | Zero-LLM fence Accepted |
+
 ### 1.2+ Read next / Deposit next
 
-- **1.D15** Discovery · comprehend-codebase · Plan · PCC · **judge**  
+- **1.D23** Discovery · comprehend-codebase · **Try** · PCC · reason  
 - **1.2** Read · Setup · clone-vcs · Plan · PCC · **judge**  
 - **later** Discovery wave-2 · search-depository (deposit relevants / read Need-fits) + low-level tool live proof  
 
@@ -1643,8 +1709,8 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
-- **proof (current):** Setup closed; Discovery started — **1.D14** Plan PCC reason Accepted.  
-  Harness: `BITCODE_DEBUG_FAST_SETUP=1` + serial Setup/Discovery for progressive stops.
+- **proof (current):** Setup closed; Discovery codebase **Plan step closed** (1.D14–1.D22).  
+  Harness: `BITCODE_DEBUG_FAST_SETUP=1` + serial Setup/Discovery.
 
 ### §3 SDIVF read pipeline production-like accept
 
@@ -1714,3 +1780,4 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 | 2026-07-17 | **1.D10–1.D13** obfuscations Plan PCC R/J/SO + agent end; host-adopt after clone; `BITCODE_DEBUG_SETUP_SERIAL`; layout host import + zod + discovery register path fixes. |
 | 2026-07-17 | **1.D-L / 1.D-M / 1.D-W** LSP agent end (residual uninitialized), MCP + danger-wall Accepted; **Setup phase closed**. Marker → Discovery 1.D14. |
 | 2026-07-17 | **1.D14** Discovery codebase Plan PCC reason Accepted. Fast Setup + Discovery serial harness; Need-first depository search query plan. Marker → 1.D15 judge. |
+| 2026-07-17 | **1.D15–1.D22** Plan step closed (PCC R/J/SO, CS R/J/SO, Stitch zero-LLM fence). Marker → Try PCC reason 1.D23. |
