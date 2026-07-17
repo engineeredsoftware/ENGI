@@ -70,13 +70,28 @@ install -d /usr/local/bin /opt/go /opt/jdtls /opt/kotlin-language-server /opt/om
 # Go toolchain + gopls + sqls
 # ---------------------------------------------------------------------------
 GO_VERSION="${BITCODE_GO_VERSION:-1.24.2}"
+GOPLS_VERSION="${BITCODE_GOPLS_VERSION:-v0.18.1}"
 curl -fsSL "https://go.dev/dl/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz" \
   | tar -C /usr/local -xz
 export PATH="/usr/local/go/bin:${PATH}"
 export GOPATH=/opt/go
 export GOBIN=/usr/local/bin
-go install golang.org/x/tools/gopls@latest
-go install github.com/sqls-server/sqls@latest
+# Pin gopls — avoid bleeding-edge breakages on image rebuilds.
+go install "golang.org/x/tools/gopls@${GOPLS_VERSION}"
+# sqls: prebuilt binary (go install @latest pulls godror and fails without Oracle CGO).
+SQLS_VERSION="${BITCODE_SQLS_VERSION:-0.2.48}"
+curl -fsSL \
+  "https://github.com/sqls-server/sqls/releases/download/v${SQLS_VERSION}/sqls-linux-${SQLS_VERSION}.zip" \
+  -o /tmp/sqls.zip
+unzip -o /tmp/sqls.zip -d /tmp/sqls-extract
+# Asset is a single binary at zip root or named sqls
+if [ -x /tmp/sqls-extract/sqls ]; then
+  install -m 0755 /tmp/sqls-extract/sqls /usr/local/bin/sqls
+else
+  found="$(find /tmp/sqls-extract -type f -name 'sqls' | head -1)"
+  install -m 0755 "${found}" /usr/local/bin/sqls
+fi
+rm -rf /tmp/sqls.zip /tmp/sqls-extract
 
 # ---------------------------------------------------------------------------
 # rust-analyzer
