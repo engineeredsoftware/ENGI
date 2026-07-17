@@ -132,11 +132,10 @@ export const EXECUTION_NAMESPACES = {
     'repoSnapshot',     // { org, repo, branch, commit }
     'writtenAssets',    // semantic written-asset rollups
     'assetPackSynthesisArtifacts', // implementation/finish synthesis artifacts
-    'deliveryMechanism', // readiness projection (not buyer-repo settle PR)
+    'reviewReadiness',  // user-review posture (not Delivery)
     'read',             // semantic expressed read
     'writtenAssetType', // semantic written-asset type
-    // settleDelivery / settlePassThrough are settle-pipeline exclusive —
-    // never keys of synthesis Finish
+    // Settlement/Delivery surfaces are settle-pipeline exclusive
   ],
   postprocessed: [
     'result',       // normalized postprocessed AssetPack or measurement result

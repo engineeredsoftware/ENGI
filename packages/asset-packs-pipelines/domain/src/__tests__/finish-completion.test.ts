@@ -36,11 +36,12 @@ describe('finish AssetPack completion evidence', () => {
     expect((result as any).shippable).toBeUndefined();
     expect((result.deliveryMechanism as any)?.pullRequest).toBeUndefined();
     expect(result.summary).toContain('octocat/Spoon-Knife');
-    expect(result.deliveryMechanism?.readiness).toMatchObject({
+    expect(result.reviewReadiness?.readiness).toMatchObject({
       status: 'pending-user-review',
     });
-    expect(result.deliveryMechanism?.summary).toContain('octocat/Spoon-Knife');
+    expect(result.reviewReadiness?.summary).toContain('octocat/Spoon-Knife');
     expect(result.assetPackSynthesisArtifacts?.summary).toContain('octocat/Spoon-Knife');
+    expect((result as any).deliveryMechanism).toBeUndefined();
   });
 
   it('ignores settle shippable on the EE — synthesis never emits settle surfaces', async () => {

@@ -27,8 +27,8 @@ const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema.extend({
   reviewNotes: z.array(z.string()).optional(),
 });
 
-/** Review readiness only — no pullRequest (settle exclusive). */
-const DeliveryMechanismSchema = z.object({
+/** User-review readiness only — never pullRequest / delivery (settle exclusive). */
+const ReviewReadinessSchema = z.object({
   summary: z.string().nullable().optional(),
   readiness: z
     .object({
@@ -44,13 +44,13 @@ const DeliveryMechanismSchema = z.object({
 export const AssetPackCompletionOutputSchema = z.object({
   /**
    * Synthesis completion summary (markdown). Primary Finish evidence for SDIVF.
-   * Settlement (settleDelivery / buyer PR) is exclusive to settle-asset-pack-pipeline
-   * and is never authored or passed through by synthesis Finish.
+   * Settlement = BTD-BTC + Bitcode System finalities (settle pipeline only).
+   * Delivery = settled read AssetPack PR ship (settle pipeline only).
    */
   summary: z.string().optional(),
   assetPackSynthesisArtifacts: AssetPackSynthesisArtifactsSchema.optional(),
   writtenAssets: WrittenAssetsSchema.optional(),
-  deliveryMechanism: DeliveryMechanismSchema.optional(),
+  reviewReadiness: ReviewReadinessSchema.optional(),
   read: z.string().optional(),
   writtenAssetType: z.string().optional(),
   processingStats: z.object({
@@ -100,7 +100,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).prompt?.setSpecificExecution(
         'specific_execution:output:shape',
         (
-          'Output JSON with keys: summary, assetPackSynthesisArtifacts{fileChanges,summary,proofEvidence?,reviewNotes?}, writtenAssets{fileChanges,summary}, deliveryMechanism{summary,readiness}, processingStats{…}, repoSnapshot{org,repo,branch,commit}. Never settleDelivery / settlePassThrough / buyer-repo PR — those are settle-asset-pack-pipeline only. SDIVF Finish closes synthesis evidence only.'
+          'Output JSON with keys: summary, assetPackSynthesisArtifacts{…}, writtenAssets{…}, reviewReadiness{summary,readiness}, processingStats{…}, repoSnapshot{…}. Never settlement, delivery, settleDelivery, or buyer-repo PR — those are settle-asset-pack-pipeline only (BTD-BTC finality + PR ship of settled read packs).'
         ) as unknown as PromptPart
       );
     } catch {}
@@ -223,8 +223,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
         : {
             ...writtenAssets,
           };
-    // Review readiness only — never pullRequest / settleDelivery / shippable.
-    const deliveryMechanism = {
+    // User-review readiness only — never pullRequest / settleDelivery / shippable / Delivery.
+    const reviewReadiness = {
       summary,
       readiness: deliveryReadiness,
     };
@@ -233,7 +233,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       summary,
       assetPackSynthesisArtifacts,
       writtenAssets,
-      deliveryMechanism,
+      reviewReadiness,
       read: read || undefined,
       writtenAssetType: dtype || undefined,
       processingStats,
@@ -246,7 +246,7 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
       (execution as any).store?.('finish/asset_pack_completion', 'summary', summary as any);
       (execution as any).store?.('finish/asset_pack_completion', 'assetPackSynthesisArtifacts', assetPackSynthesisArtifacts as any);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssets', writtenAssets as any);
-      (execution as any).store?.('finish/asset_pack_completion', 'deliveryMechanism', deliveryMechanism as any);
+      (execution as any).store?.('finish/asset_pack_completion', 'reviewReadiness', reviewReadiness as any);
       (execution as any).store?.('finish/asset_pack_completion', 'read', read || undefined);
       (execution as any).store?.('finish/asset_pack_completion', 'writtenAssetType', dtype || undefined);
       (execution as any).store?.('finish/asset_pack_completion', 'processingStats', processingStats as any);

@@ -1041,11 +1041,11 @@ export const POST = traceRoute('/executions', async (request: NextRequest) => {
             (execution as any).get?.('implementation', 'assetPackSynthesisArtifacts') ||
             writtenAssets ||
             undefined;
-          // Synthesis completion path: never project settleDelivery / settle PR.
-          // Buyer-repo settle surfaces come only from settle-asset-pack-pipeline runs.
-          const deliveryMechanism =
-            (execution as any).get?.('finish/asset_pack_completion', 'deliveryMechanism') ||
+          // Synthesis completion path: review readiness only — never Delivery/Settlement.
+          const reviewReadiness =
+            (execution as any).get?.('finish/asset_pack_completion', 'reviewReadiness') ||
             undefined;
+          const deliveryMechanism = reviewReadiness; // legacy alias for older readers
           const settleDelivery = undefined;
           const read =
             (execution as any).get?.('finish/asset_pack_completion', 'read') ||

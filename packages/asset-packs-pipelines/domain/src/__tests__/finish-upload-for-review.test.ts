@@ -1,15 +1,7 @@
 // @ts-nocheck
 /**
- * Finish law (V48 Gate 3): BOTH synthesis modes finish by uploading the
- * synthesized AssetPack artifacts to Bitcode for USER review — deposit before
- * Depository admission, read before purchase. Opening a pull request is NOT
- * part of synthesis (PR/settlement delivery is reserved for the future Gate-6
- * SettleAssetPack pipeline).
- *
- * Pins the upload-for-review agent's behavior: mode-appropriate review surface,
- * 'bitcode-review-upload' delivery mechanism (never a PR shape), resolution of
- * the Implementation stores from ANCESTOR nodes (node-local get + ancestors-only
- * findUp), input spreading, and the finish stores it writes.
+ * Finish: store synthesized artifacts for USER review (not Delivery).
+ * Delivery = settle PR ship of settled read packs only.
  */
 import { Execution } from '@bitcode/execution-generics';
 import runUploadAssetPacksForReviewAgent from '../agents/finish/upload-asset-packs-for-review-agent';
@@ -21,21 +13,20 @@ const DEPOSIT_OPTIONS = [
 ];
 
 describe('upload-asset-packs-for-review Finish agent', () => {
-  it('deposit: uploads the synthesized options for /deposits admission review (no PR fields)', async () => {
+  it('deposit: stores synthesized options for /deposits review (no Delivery/PR)', async () => {
     const root = new Execution('pipeline:finish-upload-deposit');
     storeSynthesizeAssetPacksMode(root, 'deposit');
     root.store('implementation', 'options', DEPOSIT_OPTIONS);
     root.store('implementation', 'summary', 'Two measured deposit options.');
 
-    // Finish runs on a descendant node; the stores resolve via the upward walk.
     const finishNode = root.child('seq-3').child('seq-0');
     const input = { carried: 'from-validation' };
     const result = await runUploadAssetPacksForReviewAgent(input, finishNode);
 
     expect(result).toMatchObject({
       success: true,
-      carried: 'from-validation', // input is spread through
-      deliveryMechanism: 'bitcode-review-upload',
+      carried: 'from-validation',
+      kind: 'bitcode-review-upload',
       review: {
         surface: '/deposits',
         reviewFor: 'deposit-admission',
@@ -43,25 +34,24 @@ describe('upload-asset-packs-for-review Finish agent', () => {
       },
       options: DEPOSIT_OPTIONS,
       sourceSummary: 'Two measured deposit options.',
-      summary: 'Synthesized AssetPacks uploaded to Bitcode for deposit review.',
+      summary: 'Synthesized AssetPacks stored for deposit review on Bitcode.',
     });
 
-    // Never a pull-request shippable.
     expect(result).not.toHaveProperty('prUrl');
     expect(result).not.toHaveProperty('pullRequest');
+    expect(result).not.toHaveProperty('deliveryMechanism');
+    expect(result).not.toHaveProperty('settleDelivery');
 
-    // The upload is recorded on the SHARED (root) execution for downstream
-    // completion (cross-phase store-visibility law) — the finish node still
-    // resolves it via the upward walk.
     expect(root.get('finish', 'uploadForReview')).toMatchObject({
-      deliveryMechanism: 'bitcode-review-upload',
+      kind: 'bitcode-review-upload',
       review: { reviewFor: 'deposit-admission' },
     });
-    expect(root.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
-    expect(finishNode.findUp('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(root.get('finish', 'reviewUpload')).toBe('bitcode-review-upload');
+    expect(finishNode.findUp('finish', 'reviewUpload')).toBe('bitcode-review-upload');
+    expect(root.get('finish', 'deliveryMechanism')).toBeUndefined();
   });
 
-  it('read: uploads the synthesis artifacts for /reads purchase review', async () => {
+  it('read: stores synthesis artifacts for /reads review (not Delivery)', async () => {
     const root = new Execution('pipeline:finish-upload-read');
     storeSynthesizeAssetPacksMode(root, 'read');
     const artifacts = {
@@ -73,15 +63,16 @@ describe('upload-asset-packs-for-review Finish agent', () => {
     const result = await runUploadAssetPacksForReviewAgent({}, root.child('seq-3'));
 
     expect(result).toMatchObject({
-      deliveryMechanism: 'bitcode-review-upload',
+      kind: 'bitcode-review-upload',
       review: {
         surface: '/reads',
         reviewFor: 'purchase',
         decision: 'pending-user-review',
       },
       artifacts,
-      summary: 'Synthesized AssetPacks uploaded to Bitcode for read review.',
+      summary: 'Synthesized AssetPacks stored for read review on Bitcode.',
     });
+    expect(result).not.toHaveProperty('deliveryMechanism');
   });
 
   it('defaults to the read lens when no mode was stored', async () => {

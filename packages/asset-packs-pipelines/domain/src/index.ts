@@ -331,7 +331,7 @@ function factoryPreprocess(): Executor<any, any> {
           (execution.get('asset-pack/preview', 'boundary') as any) ||
           ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
           null,
-        settlementBoundary: null,
+        // No settlement/delivery args on synthesis path (omit key entirely).
         createdAt: new Date().toISOString(),
       });
       persistReadingOperationalTelemetryRepairReadback(execution, operationalReadback);
@@ -356,7 +356,6 @@ function factoryPreprocess(): Executor<any, any> {
           (execution.get('asset-pack/preview', 'boundary') as any) ||
           ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
           null,
-        settlementBoundary: null,
         operationalReadback,
       });
       persistReadingInterfaceProductParity(execution, interfaceParity);
@@ -386,7 +385,6 @@ function factoryPreprocess(): Executor<any, any> {
           (execution.get('asset-pack/preview', 'boundary') as any) ||
           ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
           null,
-        settlementBoundary: null,
         operationalReadback,
         interfaceParity,
       });
@@ -604,7 +602,7 @@ function factoryExecutionPipelineSDIVFSynthesizeAssetPacks(
           },
           metrics: { duration: 0, tokensUsed: 0, measuredBtd: 0, confidence: 1, phases: {} },
           summary: 'test',
-          deliveryMechanism: 'bitcode-review-upload',
+          kind: 'bitcode-review-upload',
         };
       }
       const phases = resolvePhases(input, execution);

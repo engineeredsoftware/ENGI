@@ -124,11 +124,10 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
   };
 
   storeCrossPhaseArtifact(execution, 'finish', 'storedArtifacts', artifactBundle);
-  // Review-admission upload only — not SettleAssetPacks destination delivery
-  // (PR/settlement deliver agents run during settlement procedures).
+  // User-review store only — not Delivery (PR ship is settle-pipeline exclusive).
   storeCrossPhaseArtifact(execution, 'finish', 'uploadForReview', {
     success: true,
-    deliveryMechanism: 'bitcode-review-upload',
+    kind: 'bitcode-review-upload',
     review: {
       surface: '/deposits',
       reviewFor: 'deposit-admission',
@@ -138,7 +137,7 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
     artifacts: artifactBundle,
     summary: `Stored ${assetPacks.length} AssetPack artifact(s) for deposit review.`,
   });
-  storeCrossPhaseArtifact(execution, 'finish', 'deliveryMechanism', 'bitcode-review-upload');
+  storeCrossPhaseArtifact(execution, 'finish', 'reviewUpload', 'bitcode-review-upload');
 
   // Durable write hook (Supabase / DB) — Host/dispatch injects deposit:persistArtifacts.
   let persistResult: { ok: boolean; mode: string; detail?: string } = {

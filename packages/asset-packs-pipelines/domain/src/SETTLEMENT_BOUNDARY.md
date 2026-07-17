@@ -1,42 +1,39 @@
-# Settlement / delivery ownership law
+# Settlement & Delivery ownership law
 
-## Exclusive owner
+## Exclusive definitions (settle-asset-pack-pipeline only)
 
-**`execution-pipeline-simple-settle-asset-pack`** (settle-asset-pack-pipeline) is the
-**only** product pipeline that may:
+| Term | Meaning | Owner |
+| --- | --- | --- |
+| **Settlement** | BTD–BTC payment observation + Bitcode System finalities (rights, ledger, read licenses) | **settle-asset-pack-pipeline only** |
+| **Delivery** | **Settled** Synthesized **Read** AssetPack(s) shipped as **buyer-repo PRs** | **settle-asset-pack-pipeline only** |
 
-- Observe BTC payment / finality
-- Build settlement rights / BTD unlock
-- Open or record buyer-repo **shippable** PRs
-- Emit **`settleDelivery`**, **`shippable`**, delivery unlock, settlement replay
+Neither word, nor their result surfaces (`settleDelivery`, `shippable`, delivery unlock, settlement rights boundary), may appear as synthesis algorithm outputs or Finish review-store names.
 
 ## Synthesis (deposit + read SDIVF)
 
-`execution-pipeline-sdivf-synthesize-deposits-asset-packs` and
-`execution-pipeline-sdivf-synthesize-reads-asset-packs` (and shared synthesis
-postprocess/Finish) **must not**:
+**May** produce:
 
-| Forbidden on synthesis | OK on synthesis |
+- Selection envelopes / options for `/deposits` or `/reads`
+- Synthesis artifacts (`assetPackSynthesisArtifacts`, measurements, patches)
+- Source-safe **preview** + fee quote for selection UI
+- Finish **review upload** / **review readiness** (user review on Bitcode — not Delivery)
+
+**Must not** produce or project:
+
+| Forbidden | Why |
 | --- | --- |
-| `settleDelivery` | `selectionEnvelope` / `options` |
-| `shippable` / buyer PR URL | `assetPackSynthesisArtifacts` |
-| Settlement rights delivery boundary | Source-safe **preview** / fee quote (selection UI) |
-| Delivery unlock after payment | `deliveryMechanismTemplate` (catalog only) |
-| Kind `settle_delivery` | Kind `deposit_options` / `read_options` / `asset_pack_synthesis` |
-
-## Shared library modules
-
-`asset-pack-settlement-rights-delivery.ts` (and related BTD/BTC statement helpers)
-live under `domain` as a **library** for the settle pipeline and host settle
-staging. They are **not** part of the synthesis algorithm.
-
-- **May import:** settle pipeline, host settle path after purchase
-- **Must not import/call from:** synthesis preprocess, synthesis postprocess,
-  deposit/read Finish agents, deposit/read phase runners
+| `settlementBoundary` args (including `null`) on reading telemetry/parity/rehearsal | Even null is a concept leak into synthesis |
+| `settleDelivery`, `shippable`, PR URL | Delivery = settle only |
+| Settlement rights unlock / delivery unlock | Settlement + Delivery = settle only |
+| Finish fields named “delivery” for review upload | Use `reviewUpload` / `reviewReadiness` |
 
 ## Hand-off
 
-Read synthesis finishes with options for `/reads` selection and
-`nextPipeline: settle-asset-pack-pipeline`.  
-Deposit synthesis finishes with options for `/deposits` review.  
-**A separate settle run** performs payment + delivery.
+1. **Deposit synthesis** → options for depositor review → (later) deposit admission  
+2. **Read synthesis** → options for reader review → purchase → **separate settle run**  
+3. **Settle run** → Settlement (BTD-BTC + system finalities) → Delivery (PR of settled read pack)
+
+## Library modules
+
+`asset-pack-settlement-rights-delivery.ts` remains under domain as a **settle-pipeline library**.  
+Synthesis preprocess/postprocess/Finish must never call or project it.

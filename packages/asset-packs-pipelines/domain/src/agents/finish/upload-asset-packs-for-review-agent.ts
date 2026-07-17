@@ -1,14 +1,15 @@
 /**
- * Upload AssetPacks for review — Finish phase (V48 Gate 3).
+ * Finish: store synthesized AssetPack artifacts for Bitcode **user review**.
  *
- * Both synthesis modes finish by uploading the synthesized AssetPack artifacts
- * to Bitcode for the USER to review: deposit → review before admitting into the
- * Depository as supply; read → review before purchase. Opening a pull request
- * is NOT part of synthesis (that moves to the future Gate-6 SettleAssetPacks
- * pipeline: confirm BTC payment, mint BTD, transfer rights).
+ * Both synthesis modes (deposit + read) Finish by recording synthesized artifacts
+ * for review — deposit → /deposits admission; read → /reads before purchase.
  *
- * A simple (non-PTRR) finalization agent: it reads the synthesized artifacts
- * from the Implementation phase stores and records them as a reviewable upload.
+ * This is **not** Delivery. Delivery is exclusive to settle-asset-pack-pipeline:
+ * settled Synthesized Read AssetPack(s) shipped as buyer-repo PRs after BTD-BTC
+ * and Bitcode System finalities.
+ *
+ * This is **not** Settlement. Settlement is exclusive to settle-asset-pack-pipeline:
+ * BTD-BTC payment + Bitcode System finalities.
  */
 
 import {
@@ -24,8 +25,6 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runUploadAssetPacksForReviewAgent(input: any, execution: any) {
   const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
-  // Deposit Implementation stores measured candidate options; read stores
-  // synthesis artifacts. Upload whichever the active mode produced.
   const options = findValue(execution, 'implementation', 'options') ?? null;
   const artifacts =
     findValue(execution, 'implementation', 'assetPackSynthesisArtifacts') ??
@@ -35,9 +34,10 @@ export default async function runUploadAssetPacksForReviewAgent(input: any, exec
   const sourceSummary =
     findValue(execution, 'implementation', 'summary') ?? 'Synthesized AssetPacks.';
 
-  const upload = {
+  const reviewUpload = {
     success: true,
-    deliveryMechanism: 'bitcode-review-upload' as const,
+    /** Review-store kind — never "delivery" (delivery = settle PR ship). */
+    kind: 'bitcode-review-upload' as const,
     review: {
       surface: mode === 'deposit' ? '/deposits' : '/reads',
       reviewFor: mode === 'deposit' ? ('deposit-admission' as const) : ('purchase' as const),
@@ -46,14 +46,12 @@ export default async function runUploadAssetPacksForReviewAgent(input: any, exec
     assetPack,
     artifacts,
     options,
-    summary: `Synthesized AssetPacks uploaded to Bitcode for ${mode} review.`,
+    summary: `Synthesized AssetPacks stored for ${mode} review on Bitcode.`,
     sourceSummary,
   };
 
-  // Cross-phase artifacts: postprocess and the run-level surfaces read the
-  // upload record from outside the Finish sibling (cross-phase law).
-  storeCrossPhaseArtifact(execution, 'finish', 'uploadForReview', upload);
-  storeCrossPhaseArtifact(execution, 'finish', 'deliveryMechanism', 'bitcode-review-upload');
+  storeCrossPhaseArtifact(execution, 'finish', 'uploadForReview', reviewUpload);
+  storeCrossPhaseArtifact(execution, 'finish', 'reviewUpload', reviewUpload.kind);
 
-  return { ...(input || {}), ...upload };
+  return { ...(input || {}), ...reviewUpload };
 }

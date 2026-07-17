@@ -11,11 +11,14 @@ import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
  *
  * writtenAssets / assetPackSynthesisArtifacts = synthesis evidence.
  * selectionEnvelope / options = product selection for /deposits or /reads.
+ * reviewReadiness = Finish user-review posture (not Delivery).
  *
- * NEVER part of synthesis (settle-asset-pack-pipeline exclusive):
- *   settleDelivery, shippable, buyer-repo PR, settlement rights unlock, delivery.
- * deliveryMechanismTemplate = catalog template only (e.g. pack will eventually
- * be PR-shaped after settle) — not settle execution.
+ * Exclusive settle-pipeline vocabulary (never on synthesis results):
+ *   - Settlement = BTD-BTC payment + Bitcode System finalities
+ *   - Delivery = settled Synthesized Read AssetPack(s) shipped as buyer-repo PRs
+ *   - settleDelivery, shippable, delivery unlock, settlement rights boundary
+ *
+ * deliveryMechanismTemplate = catalog shape hint only (not Delivery execution).
  */
 
 export interface AssetPackArtifacts {
@@ -57,17 +60,15 @@ export interface AssetPackSynthesisArtifactsMeta {
 export interface AssetPackOutput {
   success: boolean;
   summary?: string;
-  /**
-   * Review readiness only. Must not carry buyer-repo PR / settle delivery.
-   */
-  deliveryMechanism?: DeliveryMechanismMeta;
+  /** Finish user-review posture — not Delivery (PR ship). */
+  reviewReadiness?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta;
   writtenAssets?: AssetPackSynthesisArtifactsMeta;
   artifacts?: Partial<AssetPackArtifacts>;
   metrics?: Partial<AssetPackMetrics>;
   writtenAssetType?: AssetPackWrittenAssetType;
-  /** Catalog template (future pack shape) — not settle execution. */
+  /** Catalog shape hint only — not Delivery execution. */
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   read?: string;
   semanticKind?: 'asset-pack-written-asset';
@@ -117,8 +118,8 @@ export interface AssetPackPostprocessed {
   selectionEnvelope?: Record<string, unknown> | null;
   options?: unknown[];
   depositOptions?: unknown[];
-  /** Review readiness only — no PR/shippable/settleDelivery. */
-  deliveryMechanism?: DeliveryMechanismMeta;
+  /** User-review posture — never Delivery (PR) or Settlement. */
+  reviewReadiness?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
   writtenAssets?: AssetPackSynthesisArtifactsMeta | null;
   artifacts?: Partial<AssetPackArtifacts> | null;

@@ -501,11 +501,11 @@ describe('deposit agent context/store contract', () => {
       // The exact Finish store keys — on the SHARED execution (cross-phase law),
       // where postprocess and the run-level surfaces resolve them.
       expect(shared.get('finish', 'uploadForReview')).toMatchObject({
-        deliveryMechanism: 'bitcode-review-upload',
+        kind: 'bitcode-review-upload',
         review: { surface: '/deposits', reviewFor: 'deposit-admission' },
         options,
       });
-      expect(shared.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+      expect(shared.get('finish', 'reviewUpload')).toBe('bitcode-review-upload');
     });
 
     it('read mode: uploads the implementation synthesis artifacts for /reads purchase review', async () => {

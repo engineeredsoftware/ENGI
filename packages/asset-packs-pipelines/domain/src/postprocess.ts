@@ -97,11 +97,9 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   enhanced.writtenAssetType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
 
-  // Never keep settle-shaped deliveryMechanism on synthesis normalize.
-  if (enhanced.deliveryMechanism) {
-    const { prUrl: _pr, pullRequest: _p, ...rest } = enhanced.deliveryMechanism as any;
-    enhanced.deliveryMechanism = Object.keys(rest).length ? (rest as any) : undefined;
-  }
+  // Never keep settle/PR-shaped fields on synthesis normalize.
+  delete (enhanced as any).deliveryMechanism;
+  delete (enhanced as any).delivery;
 
   if (fitResult) {
     (enhanced as any).fitResult = fitResult;
@@ -246,12 +244,11 @@ export function buildAssetPackPostprocessedResult(
     null;
   const kind = resolveSynthesisPostprocessKind(productPipeline);
 
-  const reviewDeliveryMechanism = normalized.deliveryMechanism
-    ? (() => {
-        const { prUrl: _p, pullRequest: _pr, ...rest } = normalized.deliveryMechanism as any;
-        return Object.keys(rest).length ? rest : undefined;
-      })()
-    : undefined;
+  const reviewReadiness =
+    (normalized as any).reviewReadiness ||
+    findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'reviewReadiness') ||
+    findStoredExecutionValue(execution, 'finish', 'uploadForReview')?.review ||
+    undefined;
 
   return {
     executionId,
@@ -266,7 +263,8 @@ export function buildAssetPackPostprocessedResult(
         : 'Written Asset'),
     repository,
     summary: finalSummary,
-    ...(reviewDeliveryMechanism ? { deliveryMechanism: reviewDeliveryMechanism as any } : {}),
+    // Never deliveryMechanism / settleDelivery — Delivery is settle PR ship only.
+    ...(reviewReadiness ? { reviewReadiness } : {}),
     ...(selectionEnvelope ? { selectionEnvelope } : {}),
     ...((normalized as any).options || (normalized as any).depositOptions
       ? {
@@ -482,6 +480,7 @@ function ensureReadingOperationalTelemetryRepairReadback(
     return storedReadback as ReadingOperationalTelemetryRepairReadback;
   }
 
+  // Synthesis-only: never load settlement/delivery stores into telemetry.
   const readNeedRuntime =
     (output as any).readNeedReviewRuntime ||
     findStoredExecutionValue(execution, 'read-need-review', 'runtime');
@@ -491,11 +490,8 @@ function ensureReadingOperationalTelemetryRepairReadback(
   const previewBoundary =
     (output as any).assetPackPreviewBoundary ||
     findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
-  const settlementBoundary =
-    (output as any).assetPackSettlementRightsDeliveryBoundary ||
-    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
 
-  if (!readNeedRuntime && !readFitsRuntime && !previewBoundary && !settlementBoundary) {
+  if (!readNeedRuntime && !readFitsRuntime && !previewBoundary) {
     return null;
   }
 
@@ -509,7 +505,7 @@ function ensureReadingOperationalTelemetryRepairReadback(
     readNeedRuntime,
     readFitsRuntime,
     previewBoundary,
-    settlementBoundary,
+    // settlementBoundary omitted — settle-pipeline exclusive
     createdAt:
       firstString(
         (output as any).createdAt,
@@ -532,6 +528,7 @@ function ensureReadingInterfaceProductParity(
     return storedParity as ReadingInterfaceProductParity;
   }
 
+  // Synthesis-only: never load settlement/delivery stores into parity.
   const readNeedRuntime =
     (output as any).readNeedReviewRuntime ||
     findStoredExecutionValue(execution, 'read-need-review', 'runtime');
@@ -541,15 +538,12 @@ function ensureReadingInterfaceProductParity(
   const previewBoundary =
     (output as any).assetPackPreviewBoundary ||
     findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
-  const settlementBoundary =
-    (output as any).assetPackSettlementRightsDeliveryBoundary ||
-    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
   const operationalReadback =
     (output as any).readingOperationalTelemetryRepairReadback ||
     findStoredExecutionValue(execution, 'reading/operational', 'readback');
 
   const hasReadingContext =
-    readNeedRuntime || readFitsRuntime || previewBoundary || settlementBoundary || operationalReadback;
+    readNeedRuntime || readFitsRuntime || previewBoundary || operationalReadback;
   if (!hasReadingContext) {
     return null;
   }
@@ -558,7 +552,6 @@ function ensureReadingInterfaceProductParity(
     readNeedRuntime,
     readFitsRuntime,
     previewBoundary,
-    settlementBoundary,
     operationalReadback,
   });
   persistReadingInterfaceProductParity(execution, parity);
@@ -576,6 +569,7 @@ function ensureReadingLocalStagingRehearsal(
     return storedRehearsal as ReadingLocalStagingRehearsal;
   }
 
+  // Synthesis-only: never load settlement/delivery stores into rehearsal.
   const readNeedRuntime =
     (output as any).readNeedReviewRuntime ||
     findStoredExecutionValue(execution, 'read-need-review', 'runtime');
@@ -585,9 +579,6 @@ function ensureReadingLocalStagingRehearsal(
   const previewBoundary =
     (output as any).assetPackPreviewBoundary ||
     findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
-  const settlementBoundary =
-    (output as any).assetPackSettlementRightsDeliveryBoundary ||
-    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
   const operationalReadback =
     (output as any).readingOperationalTelemetryRepairReadback ||
     findStoredExecutionValue(execution, 'reading/operational', 'readback');
@@ -596,7 +587,7 @@ function ensureReadingLocalStagingRehearsal(
     findStoredExecutionValue(execution, 'reading/interfaces', 'productParity');
 
   const hasReadingContext =
-    readNeedRuntime || readFitsRuntime || previewBoundary || settlementBoundary || operationalReadback || interfaceParity;
+    readNeedRuntime || readFitsRuntime || previewBoundary || operationalReadback || interfaceParity;
   if (!hasReadingContext) {
     return null;
   }
@@ -611,7 +602,6 @@ function ensureReadingLocalStagingRehearsal(
     readNeedRuntime,
     readFitsRuntime,
     previewBoundary,
-    settlementBoundary,
     operationalReadback,
     interfaceParity,
   });

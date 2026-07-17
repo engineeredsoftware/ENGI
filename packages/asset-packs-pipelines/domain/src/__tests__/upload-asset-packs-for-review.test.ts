@@ -36,7 +36,8 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     const result = await runUploadAssetPacksForReviewAgent({ runId: 'run-1' }, finishExec);
 
     expect(result.success).toBe(true);
-    expect(result.deliveryMechanism).toBe('bitcode-review-upload');
+    expect(result.kind).toBe('bitcode-review-upload');
+    expect(result).not.toHaveProperty('deliveryMechanism');
     expect(result.review).toEqual({
       surface: '/deposits',
       reviewFor: 'deposit-admission',
@@ -45,7 +46,7 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     expect(result.options).toBe(OPTIONS); // the synthesized options ride in the upload record
     expect(result.assetPack).toEqual({ repository: { fullName: 'org/repo' } });
     expect(result.sourceSummary).toBe('Synthesized 1 measured deposit AssetPack patch(es).');
-    expect(result.summary).toBe('Synthesized AssetPacks uploaded to Bitcode for deposit review.');
+    expect(result.summary).toBe('Synthesized AssetPacks stored for deposit review on Bitcode.');
     // The runner spreads its input into its result (Finish output chain).
     expect(result.runId).toBe('run-1');
 
@@ -53,12 +54,12 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     // execution — where postprocess and the run-level surfaces resolve it —
     // not on the isolated Finish sibling.
     expect(outer.get('finish', 'uploadForReview')).toMatchObject({
-      deliveryMechanism: 'bitcode-review-upload',
+      kind: 'bitcode-review-upload',
       review: { surface: '/deposits', reviewFor: 'deposit-admission' },
     });
-    expect(outer.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(outer.get('finish', 'reviewUpload')).toBe('bitcode-review-upload');
     // Still resolvable from the Finish subtree via the upward walk.
-    expect(finishExec.findUp('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(finishExec.findUp('finish', 'reviewUpload')).toBe('bitcode-review-upload');
   });
 
   it('read mode: uploads for /reads purchase review and carries the synthesis artifacts', async () => {
@@ -76,7 +77,8 @@ describe('runUploadAssetPacksForReviewAgent', () => {
       decision: 'pending-user-review',
     });
     expect(result.artifacts).toBe(artifacts);
-    expect(result.summary).toBe('Synthesized AssetPacks uploaded to Bitcode for read review.');
+    expect(result.kind).toBe('bitcode-review-upload');
+    expect(result.summary).toBe('Synthesized AssetPacks stored for read review on Bitcode.');
   });
 
   it('defaults to read review when no mode was stored', async () => {
@@ -105,7 +107,7 @@ describe('runUploadAssetPacksForReviewAgent', () => {
     }
     // The upload decision is the user's, pending — never an auto-opened PR.
     expect(stored.review.decision).toBe('pending-user-review');
-    expect(outer.get('finish', 'deliveryMechanism')).toBe('bitcode-review-upload');
+    expect(outer.get('finish', 'reviewUpload')).toBe('bitcode-review-upload');
   });
 });
 
