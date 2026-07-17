@@ -11,5 +11,7 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "accuracy", "test": "Correct tool purposes?", "score": 0.94 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_TOOLS_LIST: PromptPart = 
-  'lsp-initialize for measurement server startup, lsp-configure for evidence capability registration, lsp-query for proofable validation, file-system for workspace detection' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_INITIALIZELSP_TOOLS_LIST: PromptPart =
+  'lsp-workspace-symbols, lsp-document-symbols, lsp-definition, lsp-hover (Setup Try/Retry); ' +
+  'full suite registered for later phases: lsp-references, lsp-completion, lsp-signature-help, ' +
+  'lsp-code-actions, lsp-format-document' as PromptPart;

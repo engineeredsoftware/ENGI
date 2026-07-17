@@ -22,5 +22,8 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "capabilities_list_clarity", "test": "Clear capabilities list?", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_CAPABILITIES_LIST: PromptPart = 
-  'Capabilities: detect measurement-relevant languages, configure LSP evidence capture, validate Read and AssetPack measurement inputs, preserve provenance, handle edge cases, and maintain execution state' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_CAPABILITIES_LIST: PromptPart =
+  'Capabilities: prime Host TypeScript/JavaScript LSP for this checkout workspacePath; ' +
+  'register named query tools on the pipeline tool registry for Discovery and Validation; ' +
+  'validate readiness via workspace/document symbol tools; store setup/lsp readiness for later phases; ' +
+  'never invent Host capabilities or skip source-safety.' as PromptPart;

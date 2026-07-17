@@ -1531,8 +1531,8 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 - **agent:** `asset-pack-initialize-lsp-agent`
 - **stop:** refine / chunk_then_sum / structured_output · `callCount` ~97 (includes prior Setup agents)
 - **terminal SO:** `initialized: false` with workspace rootUri set (host checkout path present); capabilities empty
-- **residual:** LSP tools not actually bringing up a language server in local debug (measurement stub posture). Non-blocking for Setup admission; re-open under Discovery if measurement needs real LSP.
-- **decision:** **Accepted for Setup progression** (agent completes PTRR; tools residual tracked)
+- **residual (pre-fix):** agent map was empty / phantom tool names. **Post-fix (2026-07-17):** Setup registers named LSP suite (`lsp-workspace-symbols`, …), primes registry for Discovery, initialize-lsp agent binds real tools. `@bitcode/lsp` in-process `createConnection` still lacks transport (session start may error); tools remain registered for subsequent phases — re-open under Discovery when live symbol queries must succeed end-to-end.
+- **decision:** **Accepted for Setup progression** (tool plane wired for subsequent phases)
 
 ### 1.D-M Deposit · Setup · initialize-mcps-tools · deterministic
 

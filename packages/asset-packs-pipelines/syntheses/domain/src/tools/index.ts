@@ -27,7 +27,18 @@ import { assetPackVideoComprehensionTool } from './AssetPackVideoComprehensionTo
 // AssetPack tool policy:
 // - MCP tool wrappers are disabled pending future pipeline configuration.
 // - Computer use is internal, server-flagged, and limited to Read measurement.
-// - LSP tools are ALWAYS available (not env-gated).
+// - LSP tools: registered at preprocess and primed in Setup for Discovery+.
+
+import {
+  ALL_LSP_QUERY_TOOLS,
+  DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS,
+  SETUP_LSP_INITIALIZE_TOOLS,
+  lspDocumentSymbolsTool,
+  lspWorkspaceSymbolsTool,
+  lspDefinitionTool,
+  lspReferencesTool,
+  lspHoverTool,
+} from './lsp-setup-tools';
 
 export const BITCODE_COMPUTER_USE_READ_MEASUREMENT_FLAG =
   'BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT' as const;
@@ -38,23 +49,10 @@ export function isComputerUseReadMeasurementEnabled(
   return env.BITCODE_ENABLE_COMPUTER_USE_READ_MEASUREMENT === 'true';
 }
 
-let lspSemanticAnalysisEngine: Tool | undefined;
-let lspCodeIntelligenceEngine: Tool | undefined;
-let lspWorkspaceNavigationEngine: Tool | undefined;
-
 // Disable provider MCP tool arrays until pipeline configuration enables them.
 const awsTools: Tool[] = [];
 const supabaseTools: Tool[] = [];
 const vercelTools: Tool[] = [];
-
-try {
-  // Load LSP query tools unconditionally (best-effort)
-  const m = require('@bitcode/generic-tools-lsp-query');
-  // Map common LSP operations to semantic/code intelligence slots
-  lspSemanticAnalysisEngine = m.documentSymbolsTool || m.referencesTool || m.hoverInfoTool;
-  lspCodeIntelligenceEngine = m.codeActionsTool || m.completionTool || m.signatureHelpTool;
-  lspWorkspaceNavigationEngine = m.workspaceSymbolsTool || m.definitionTool;
-} catch { }
 
 const present = (t: Tool | undefined): t is Tool => Boolean(t);
 const optionalTools = (...tools: Array<Tool | undefined>): Tool[] => tools.filter(present);
@@ -66,8 +64,7 @@ const optionalTools = (...tools: Array<Tool | undefined>): Tool[] => tools.filte
  * VCS operations, LSP initialization, security scanning
  */
 export const SETUP_PHASE_TOOLS: Tool[] = [
-  // VCS Operations
-  // Use AssetPack wrapper for clone (merged doc-code prompt)
+  // VCS Operations — Host checkout for all subsequent measurement
   assetPackCloneVCSRepositoryTool,
   // Multimodal comprehension (images, pdf, audio, video)
   assetPackMultimodalProcessingTool,
@@ -77,12 +74,8 @@ export const SETUP_PHASE_TOOLS: Tool[] = [
   assetPackVideoComprehensionTool,
   lexicalDepositorySearchTool,
   assetPackVerificationEvidenceTool,
-  // Provider MCP tools disabled for GA‑1
-  // LSP and Code Intelligence
-  //lspSemanticAnalysisEngine,
-  //lspCodeIntelligenceEngine,
-  //lspWorkspaceNavigationEngine,
-  // Additional providers appended later (post-GA‑1)
+  // LSP query suite — Setup primes session; Discovery uses extensively
+  ...ALL_LSP_QUERY_TOOLS,
 ].filter(present);
 
 /**
@@ -93,11 +86,7 @@ export const DISCOVERY_PHASE_TOOLS: Tool[] = [
   lexicalDepositorySearchTool,
   depositDepositoryAssetPackSearchTool,
   assetPackVerificationEvidenceTool,
-  ...optionalTools(
-    lspSemanticAnalysisEngine,
-    lspCodeIntelligenceEngine,
-    lspWorkspaceNavigationEngine,
-  ),
+  ...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS,
 ].filter(present);
 
 /**
@@ -145,8 +134,10 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     // Setup Phase
     'asset-pack-clone-vcs-repository-tools': [assetPackCloneVCSRepositoryTool],
     'asset-pack-clone-vcs-repository-agent': [assetPackCloneVCSRepositoryTool],
-    //'initialize-lsp': [lspSemanticAnalysisEngine, lspCodeIntelligenceEngine, lspWorkspaceNavigationEngine],
-    //'danger-wall': [],
+    // Setup must prime LSP for Discovery+; tools match SETUP_LSP_INITIALIZE_TOOLS
+    'initialize-lsp': [...SETUP_LSP_INITIALIZE_TOOLS],
+    'asset-pack-initialize-lsp-agent': [...SETUP_LSP_INITIALIZE_TOOLS],
+    'setup:initialize-lsp': [...SETUP_LSP_INITIALIZE_TOOLS],
     'asset-pack-comprehend-read-definition-agent': [
       assetPackMultimodalProcessingTool,
       assetPackImageComprehensionTool,
@@ -160,21 +151,12 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
       assetPackVerificationEvidenceTool,
     ],
 
-    // Discovery Phase
-                'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
-    'asset-pack-digest-codebase-agent': [],
+    // Discovery Phase — codebase comprehension uses LSP extensively
+    'asset-pack-plan-implementation-agent': [lexicalDepositorySearchTool],
+    'asset-pack-digest-codebase-agent': [...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS],
     'asset-pack-research-web-agent': [],
-    // Deposit Discovery roster keys (one entry each; factory names only if tools resolve by agent class).
-    'DepositCodebaseComprehensionAgent': optionalTools(
-      lspSemanticAnalysisEngine,
-      lspCodeIntelligenceEngine,
-      lspWorkspaceNavigationEngine,
-    ),
-    'discovery:comprehend-codebase': optionalTools(
-      lspSemanticAnalysisEngine,
-      lspCodeIntelligenceEngine,
-      lspWorkspaceNavigationEngine,
-    ),
+    'DepositCodebaseComprehensionAgent': [...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS],
+    'discovery:comprehend-codebase': [...DISCOVERY_CODEBASE_COMPREHENSION_LSP_TOOLS],
     'DepositDepositorySearchForRelevantsAgent': [
       depositDepositoryAssetPackSearchTool,
       lexicalDepositorySearchTool,
@@ -201,10 +183,20 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'implementation:deposit-asset-pack-synthesis': [],
     'DepositAssetPackSynthesisAgent': [],
 
-    // Validation Phase
-    'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(lspSemanticAnalysisEngine),
-    'asset-pack-validate-discovery-phase-agent': optionalTools(lspSemanticAnalysisEngine),
-    'asset-pack-validate-synthesis-artifacts-agent': optionalTools(lspSemanticAnalysisEngine),
+    // Validation Phase — symbol/definition checks via LSP
+    'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(
+      lspDocumentSymbolsTool,
+      lspDefinitionTool,
+      lspReferencesTool,
+    ),
+    'asset-pack-validate-discovery-phase-agent': optionalTools(
+      lspWorkspaceSymbolsTool,
+      lspDocumentSymbolsTool,
+    ),
+    'asset-pack-validate-synthesis-artifacts-agent': optionalTools(
+      lspDocumentSymbolsTool,
+      lspHoverTool,
+    ),
     'asset-pack-validation-ready-to-finish-agent': [],
     'asset-pack-ready-to-finish-agent': [],
     'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline': [],

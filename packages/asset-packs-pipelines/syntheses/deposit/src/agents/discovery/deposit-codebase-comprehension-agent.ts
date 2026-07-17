@@ -3,7 +3,7 @@
  *
  * Precise contract for this run’s Host checkout analysis:
  * 1. Absolute measurements (static-analysis / measure-agent) of checkout material
- * 2. LSP queries when Setup registered `lsp-query` on the Host
+ * 2. LSP tools Setup primed (lsp-workspace-symbols, lsp-document-symbols, lsp-definition, …)
  * 3. Full file-tree structure (dirs + file names) from sourceCheckoutCatalog.paths
  * 4. Key file full reads (bounded set) via Host-loaded file bodies
  * 5. PTRR synthesis of a source-safe knowledge map grounded in (1)–(4)
@@ -25,6 +25,7 @@ import {
   type FileTreeStructure,
   type KeySourceFileRead,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/discovery/codebase-analysis-helpers';
+import { getAssetPackPipelineToolsForAgent } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/index';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -128,7 +129,8 @@ export const DepositCodebaseComprehensionAgent = factoryPTRRAgent<
   description:
     'Rich Host-checkout analysis: absolute measurements, LSP, file-tree, key files → source-safe knowledge map.',
   outputSchema: CodebaseComprehensionOutputSchema,
-  tools: ['lsp-query'],
+  // Setup primes these tools; Discovery must use them extensively for comprehension.
+  tools: getAssetPackPipelineToolsForAgent('DepositCodebaseComprehensionAgent'),
   prompt,
   stepPrompts: {
     plan: () => prompt,

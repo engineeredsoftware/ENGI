@@ -22,5 +22,9 @@ import { PromptPart } from '../../parts/PromptPart';
  *   { "name": "tools_available_clarity", "test": "Clear tools available?", "score": 0.95 }
  * ]
  */
-export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_TOOLS_AVAILABLE: PromptPart = 
-  'Available tools: file system measurement inputs, LSP static measurement tools, repository context utilities, validation utilities, parallel execution framework, state management, and recovery with provenance' as PromptPart;
+export const PROMPTPART_SPECIFIC_AGENT_ASSETPACKSETUPINITIALIZELSP_TOOLS_AVAILABLE: PromptPart =
+  'Available tools (useTools names): lsp-workspace-symbols (probe workspace readiness), ' +
+  'lsp-document-symbols (per-file symbol evidence), lsp-definition, lsp-hover. ' +
+  'Host Setup also primes the full LSP suite for Discovery: lsp-references, ' +
+  'lsp-completion, lsp-signature-help, lsp-code-actions, lsp-format-document. ' +
+  'Pass workspacePath/filePath from the Host checkout; do not invent tools or server names.' as PromptPart;

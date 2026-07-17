@@ -6,7 +6,9 @@
   "dependencies": {
     "@bitcode/lsp": "workspace:*",
     "ai": "*",
-    "zod": "^3.22.0"
+    "zod": "^3.22.0",
+    "@bitcode/tools-generics": "workspace:*",
+    "@bitcode/prompts": "workspace:*"
   },
   "scripts": {
     "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
