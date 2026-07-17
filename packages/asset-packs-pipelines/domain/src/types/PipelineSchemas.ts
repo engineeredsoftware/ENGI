@@ -7,13 +7,15 @@ import type { AssetPackDisclosureReview } from '../asset-pack-disclosure';
 import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../read-need';
 
 /**
- * AssetPack synthesis output schemas.
- * writtenAssets / assetPackSynthesisArtifacts = synthesis evidence (SDIVF).
- * settleDelivery = buyer-repo PR surface **after settle Simple only**
- *   (ExecutionPipelineSimpleSettleAssetPack). Synthesis deposit/read pipelines
- *   must not author this field; they emit selection envelopes / options.
- * deliveryMechanism = connected-interface projection of delivery readiness.
- * shippable (singular) = settle-stage PR receipt with prUrl (not Finish shipping).
+ * AssetPack *synthesis* output schemas (deposit/read SDIVF).
+ *
+ * writtenAssets / assetPackSynthesisArtifacts = synthesis evidence.
+ * selectionEnvelope / options = product selection for /deposits or /reads.
+ *
+ * NEVER part of synthesis (settle-asset-pack-pipeline exclusive):
+ *   settleDelivery, shippable, buyer-repo PR, settlement rights unlock, delivery.
+ * deliveryMechanismTemplate = catalog template only (e.g. pack will eventually
+ * be PR-shaped after settle) — not settle execution.
  */
 
 export interface AssetPackArtifacts {
@@ -31,16 +33,17 @@ export interface AssetPackMetrics {
   confidence: number;
 }
 
+/** Review / readiness projection only — no prUrl (settle exclusive). */
 export interface AssetPackResultMeta {
-  prUrl?: string;
   branch?: string;
   title?: string;
   mechanism?: AssetPackDeliveryMechanismTemplate;
   payload?: Record<string, unknown>;
+  /** @deprecated settle-only; synthesis must not set prUrl */
+  prUrl?: string;
 }
 
-export type ShippableMeta = AssetPackResultMeta;
-export type DeliveryMechanismMeta = ShippableMeta;
+export type DeliveryMechanismMeta = AssetPackResultMeta;
 export type WrittenAssetResultMeta = AssetPackResultMeta;
 
 export interface AssetPackSynthesisArtifactsMeta {
@@ -54,12 +57,9 @@ export interface AssetPackSynthesisArtifactsMeta {
 export interface AssetPackOutput {
   success: boolean;
   summary?: string;
-  shippable?: ShippableMeta;
   /**
-   * Buyer-repo delivery after settle Simple (PR URL/summary). Sole field name
-   * for that surface (pre-production: no shippables alias).
+   * Review readiness only. Must not carry buyer-repo PR / settle delivery.
    */
-  settleDelivery?: AssetPackSynthesisArtifactsMeta;
   deliveryMechanism?: DeliveryMechanismMeta;
   writtenAsset?: WrittenAssetResultMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta;
@@ -67,6 +67,7 @@ export interface AssetPackOutput {
   artifacts?: Partial<AssetPackArtifacts>;
   metrics?: Partial<AssetPackMetrics>;
   writtenAssetType?: AssetPackWrittenAssetType;
+  /** Catalog template (future pack shape) — not settle execution. */
   deliveryMechanismTemplate?: AssetPackDeliveryMechanismTemplate;
   read?: string;
   semanticKind?: 'asset-pack-written-asset';
@@ -85,6 +86,9 @@ export interface AssetPackOutput {
   sourceSafePreview?: AssetPackSourceSafePreview;
   assetPackDisclosureReview?: AssetPackDisclosureReview;
   feeQuote?: ShareToFeeQuote;
+  selectionEnvelope?: Record<string, unknown>;
+  options?: unknown[];
+  depositOptions?: unknown[];
 }
 
 export type AssetPackWrittenAssetTypeValue =
@@ -109,19 +113,11 @@ export interface AssetPackPostprocessed {
   title: string;
   repository?: string;
   summary?: string;
-  /**
-   * Not used by synthesis postprocess. Settle pipeline owns shippable / settleDelivery.
-   * Left optional only for type compatibility with older consumers reading host output.
-   */
-  shippable?: ShippableMeta;
-  /**
-   * Never set by synthesis deposit/read postprocess — settle-pipeline exclusive.
-   */
-  settleDelivery?: AssetPackSynthesisArtifactsMeta | null;
   /** Deposit/read Finish selection envelope when present. */
   selectionEnvelope?: Record<string, unknown> | null;
   options?: unknown[];
   depositOptions?: unknown[];
+  /** Review readiness only — no PR/shippable/settleDelivery. */
   deliveryMechanism?: DeliveryMechanismMeta;
   assetPackSynthesisArtifacts?: AssetPackSynthesisArtifactsMeta | null;
   writtenAssets?: AssetPackSynthesisArtifactsMeta | null;

@@ -19,11 +19,9 @@ import {
   persistAssetPackPreviewBoundary,
   type AssetPackPreviewBoundary,
 } from './asset-pack-preview-boundary';
-import {
-  buildAssetPackSettlementRightsDeliveryBoundary,
-  persistAssetPackSettlementRightsDeliveryBoundary,
-  type AssetPackSettlementRightsDeliveryBoundary,
-} from './asset-pack-settlement-rights-delivery';
+// Settlement / buyer-repo delivery / shippable PR are exclusive to
+// settle-asset-pack-pipeline. This module is shared by deposit/read *synthesis*
+// postprocess only — do not import or project settle rights/delivery unlocks here.
 import {
   buildReadingOperationalTelemetryRepairReadback,
   persistReadingOperationalTelemetryRepairReadback,
@@ -40,15 +38,27 @@ import {
   type ReadingLocalStagingRehearsal,
 } from './reading-local-staging-rehearsal';
 
+/**
+ * Normalize *synthesis* pipeline output (deposit/read SDIVF).
+ *
+ * Hard law: settlement and buyer-repo delivery are exclusive to
+ * settle-asset-pack-pipeline. This function never projects settleDelivery,
+ * shippable PR, settlement rights unlock, or delivery-after-pay surfaces.
+ */
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
-  const deliveryMechanism = enhanced.deliveryMechanism || enhanced.shippable;
+  // Drop settle/delivery-only fields if callers leaked them onto synthesis output.
+  delete (enhanced as any).settleDelivery;
+  delete (enhanced as any).shippable;
+  delete (enhanced as any).settlePassThrough;
+
   const assetPackSynthesisArtifacts =
     enhanced.assetPackSynthesisArtifacts ||
     findStoredExecutionValue(execution, 'implementation', 'assetPackSynthesisArtifacts') ||
     findStoredExecutionValue(execution, 'finish/asset_pack_completion', 'assetPackSynthesisArtifacts') ||
     enhanced.writtenAssets;
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
+  // Catalog template only (e.g. future PR-shaped pack) — not settle execution.
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
   const fitResult =
     (execution as any).findUp?.('fit', 'result') ||
@@ -57,11 +67,6 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (execution as any).findUp?.('depository/search', 'result') ||
     (execution as any).get?.('depository/search', 'result');
 
-  // Asset-pack *synthesis* postprocess never projects settle/PR shippables.
-  // Buyer-repo PR / settleDelivery live exclusively on settle-asset-pack-pipeline.
-  // Do not read settle-asset-pack-pipeline.shippable or invent prUrl here.
-
-  // 2) Backfill artifacts from execution if missing
   const filesModified = enhanced.artifacts?.filesModified?.length
     ? enhanced.artifacts.filesModified
     : ((findStoredExecutionValue(execution, 'implementation', 'filesChanged') as string[]) || []);
@@ -72,7 +77,6 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     } as any;
   }
 
-  // 3) Ensure a human-readable summary exists (no settle/PR narrative).
   if (!enhanced.summary || !enhanced.summary.trim()) {
     const parts: string[] = [];
     parts.push(enhanced.success ? 'AssetPack synthesis artifacts completed.' : 'AssetPack synthesis artifacts finished with issues.');
@@ -92,6 +96,13 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     undefined;
   enhanced.writtenAssetType = writtenAssetType;
   enhanced.deliveryMechanismTemplate = deliveryMechanismTemplate;
+
+  // Never keep settle-shaped deliveryMechanism on synthesis normalize.
+  if (enhanced.deliveryMechanism) {
+    const { prUrl: _pr, pullRequest: _p, ...rest } = enhanced.deliveryMechanism as any;
+    enhanced.deliveryMechanism = Object.keys(rest).length ? (rest as any) : undefined;
+  }
+
   if (fitResult) {
     (enhanced as any).fitResult = fitResult;
     (enhanced as any).fit = fitResult;
@@ -100,7 +111,8 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   if (depositorySearch) {
     (enhanced as any).depositorySearch = depositorySearch;
   }
-  // No settle PR target in synthesis postprocess.
+
+  // Source-safe option preview / fee quote for selection UI — not settle/delivery.
   const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, null);
   if (sourceSafePreview) {
     const assetPackDisclosureReview = ensureAssetPackDisclosureReview(execution, sourceSafePreview);
@@ -113,72 +125,12 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
     (enhanced as any).assetPackDisclosureReview = assetPackDisclosureReview;
     (enhanced as any).assetPackPreviewBoundary = assetPackPreviewBoundary;
     (enhanced as any).assetPackQuoteReceipt = assetPackPreviewBoundary?.quoteReceipt;
-    (enhanced as any).assetPackSettlementInstructions = assetPackPreviewBoundary?.settlementInstructions;
-    (enhanced as any).assetPackDeliveryPosture = assetPackPreviewBoundary?.deliveryPosture;
-    const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
-      ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, enhanced)
-      : null;
-    if (assetPackSettlementRightsDeliveryBoundary) {
-      (enhanced as any).assetPackSettlementRightsDeliveryBoundary = assetPackSettlementRightsDeliveryBoundary;
-      (enhanced as any).assetPackSettlementReplayReceipt = assetPackSettlementRightsDeliveryBoundary.replayReceipt;
-      (enhanced as any).assetPackDeliveryUnlock = assetPackSettlementRightsDeliveryBoundary.deliveryUnlock;
-      (enhanced as any).assetPackLedgerDatabaseStorageReconciliation =
-        assetPackSettlementRightsDeliveryBoundary.reconciliationReport;
-    }
-    const operationalReadback = ensureReadingOperationalTelemetryRepairReadback(execution, enhanced);
-    if (operationalReadback) {
-      (enhanced as any).readingOperationalTelemetryRepairReadback = operationalReadback;
-      (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
-      (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
-      (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
-    }
-    const interfaceParity = ensureReadingInterfaceProductParity(execution, enhanced);
-    if (interfaceParity) {
-      (enhanced as any).readingInterfaceProductParity = interfaceParity;
-      (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
-      (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
-    }
-    const localStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, enhanced);
-    if (localStagingRehearsal) {
-      (enhanced as any).readingLocalStagingRehearsal = localStagingRehearsal;
-      (enhanced as any).readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
-      (enhanced as any).readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
-    }
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
-  }
-  if (!(enhanced as any).readingOperationalTelemetryRepairReadback) {
-    const operationalReadback = ensureReadingOperationalTelemetryRepairReadback(execution, enhanced);
-    if (operationalReadback) {
-      (enhanced as any).readingOperationalTelemetryRepairReadback = operationalReadback;
-      (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
-      (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
-      (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
-    }
-  }
-  if (!(enhanced as any).readingInterfaceProductParity) {
-    const interfaceParity = ensureReadingInterfaceProductParity(execution, enhanced);
-    if (interfaceParity) {
-      (enhanced as any).readingInterfaceProductParity = interfaceParity;
-      (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
-      (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
-    }
-  }
-  if (!(enhanced as any).readingLocalStagingRehearsal) {
-    const localStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, enhanced);
-    if (localStagingRehearsal) {
-      (enhanced as any).readingLocalStagingRehearsal = localStagingRehearsal;
-      (enhanced as any).readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
-      (enhanced as any).readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
-    }
-  }
-  if (!enhanced.deliveryMechanism && enhanced.shippable) {
-    enhanced.deliveryMechanism = { ...enhanced.shippable };
-  }
-  if (!enhanced.shippable && enhanced.deliveryMechanism) {
-    enhanced.shippable = { ...enhanced.deliveryMechanism };
+    // Do NOT project settlementInstructions / deliveryPosture / settlement rights
+    // unlock — those are settle-pipeline introductions.
   }
 
-  // Deposit synthesis: lift measured options for depositor selection surfaces.
+  // Deposit/read options for selection surfaces.
   const depositOptions =
     (enhanced as any).options ||
     (enhanced as any).depositOptions ||
@@ -274,34 +226,32 @@ export function buildAssetPackPostprocessedResult(
     (normalized as any).depositorySearch;
   const sourceSafePreview =
     ((normalized as any).sourceSafePreview as AssetPackSourceSafePreview | undefined) ||
-    ensureAssetPackSourceSafePreview(
-      execution,
-      normalized,
-      normalized.deliveryMechanism?.prUrl || normalized.shippable?.prUrl
-    );
+    ensureAssetPackSourceSafePreview(execution, normalized, null);
   const assetPackDisclosureReview = sourceSafePreview
     ? ensureAssetPackDisclosureReview(execution, sourceSafePreview)
     : undefined;
   const assetPackPreviewBoundary = sourceSafePreview
     ? ensureAssetPackPreviewBoundary(execution, sourceSafePreview, normalized)
     : undefined;
-  const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
-    ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, normalized)
-    : null;
+  // No settlement rights / delivery unlock on synthesis postprocess.
   const readingOperationalTelemetryRepairReadback =
     ensureReadingOperationalTelemetryRepairReadback(execution, normalized);
   const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
   const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
 
-  // Synthesis postprocess never emits settle_delivery / settleDelivery / settle
-  // shippables — even if settle keys exist on a shared EE. Settlement is a
-  // different pipeline (ExecutionPipelineSimpleSettleAssetPack).
   const productPipeline = resolveSynthesisProductPipeline(execution);
   const selectionEnvelope =
     findStoredExecutionValue(execution, 'finish', 'selectionEnvelope') ||
     (normalized as any).selectionEnvelope ||
     null;
   const kind = resolveSynthesisPostprocessKind(productPipeline);
+
+  const reviewDeliveryMechanism = normalized.deliveryMechanism
+    ? (() => {
+        const { prUrl: _p, pullRequest: _pr, ...rest } = normalized.deliveryMechanism as any;
+        return Object.keys(rest).length ? rest : undefined;
+      })()
+    : undefined;
 
   return {
     executionId,
@@ -316,15 +266,7 @@ export function buildAssetPackPostprocessedResult(
         : 'Written Asset'),
     repository,
     summary: finalSummary,
-    // No shippable / settleDelivery on synthesis results.
-    deliveryMechanism: normalized.deliveryMechanism
-      ? {
-          // Strip any PR projection that may have leaked onto deliveryMechanism.
-          ...normalized.deliveryMechanism,
-          prUrl: undefined,
-          pullRequest: undefined,
-        }
-      : undefined,
+    ...(reviewDeliveryMechanism ? { deliveryMechanism: reviewDeliveryMechanism as any } : {}),
     ...(selectionEnvelope ? { selectionEnvelope } : {}),
     ...((normalized as any).options || (normalized as any).depositOptions
       ? {
@@ -351,17 +293,9 @@ export function buildAssetPackPostprocessedResult(
           assetPackDisclosureReview,
           assetPackPreviewBoundary,
           assetPackQuoteReceipt: assetPackPreviewBoundary?.quoteReceipt,
-          assetPackSettlementInstructions: assetPackPreviewBoundary?.settlementInstructions,
-          assetPackDeliveryPosture: assetPackPreviewBoundary?.deliveryPosture,
-          ...(assetPackSettlementRightsDeliveryBoundary
-            ? {
-                assetPackSettlementRightsDeliveryBoundary,
-                assetPackSettlementReplayReceipt: assetPackSettlementRightsDeliveryBoundary.replayReceipt,
-                assetPackDeliveryUnlock: assetPackSettlementRightsDeliveryBoundary.deliveryUnlock,
-                assetPackLedgerDatabaseStorageReconciliation:
-                  assetPackSettlementRightsDeliveryBoundary.reconciliationReport,
-              }
-            : {}),
+          feeQuote: sourceSafePreview.feeQuote,
+          // Settlement instructions / delivery posture / rights unlock are
+          // settle-pipeline exclusive — not projected from synthesis.
           ...(readingOperationalTelemetryRepairReadback
             ? {
                 readingOperationalTelemetryRepairReadback,
@@ -384,7 +318,6 @@ export function buildAssetPackPostprocessedResult(
                 readingLocalStagingRehearsalStageReadback: readingLocalStagingRehearsal.stageReadback,
               }
             : {}),
-          feeQuote: sourceSafePreview.feeQuote,
         }
       : {}),
     ...(!sourceSafePreview && readingOperationalTelemetryRepairReadback
@@ -476,7 +409,8 @@ function ensureAssetPackSourceSafePreview(
     need: acceptedNeed,
     fitResult,
     assetPackId,
-    pullRequestTarget: firstString(pullRequestTarget, output.deliveryMechanism?.prUrl, output.shippable?.prUrl),
+    // Synthesis never binds a settle/buyer PR target.
+    pullRequestTarget: firstString(pullRequestTarget) || null,
   });
 
   try {
@@ -530,57 +464,10 @@ function ensureAssetPackPreviewBoundary(
     need: isAcceptedReadNeed(acceptedNeed) ? acceptedNeed : null,
     fitResult,
     sourceSafePreview,
-    pullRequestTarget: firstString(
-      sourceSafePreview.delivery.pullRequestTarget,
-      output.deliveryMechanism?.prUrl,
-      output.shippable?.prUrl,
-    ),
+    // Synthesis: no buyer-repo PR target (settle pipeline only).
+    pullRequestTarget: null,
   });
   persistAssetPackPreviewBoundary(execution, boundary);
-  return boundary;
-}
-
-function ensureAssetPackSettlementRightsDeliveryBoundary(
-  execution: Execution,
-  previewBoundary: AssetPackPreviewBoundary,
-  output: AssetPackOutput,
-): AssetPackSettlementRightsDeliveryBoundary | null {
-  const storedBoundary =
-    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary') ||
-    findStoredExecutionValue(execution, 'asset-pack', 'settlementRightsDeliveryBoundary');
-  if (storedBoundary?.schema === 'bitcode.asset-pack.settlement-rights-delivery-boundary') {
-    return storedBoundary as AssetPackSettlementRightsDeliveryBoundary;
-  }
-
-  const paymentObservation =
-    (output as any).settlementObservation ||
-    (output as any).paymentObservation ||
-    (output as any).btcPaymentObservation ||
-    findStoredExecutionValue(execution, 'asset-pack/settlement', 'paymentObservation') ||
-    findStoredExecutionValue(execution, 'btc/fee', 'paymentObservation');
-  if (!paymentObservation) {
-    return null;
-  }
-
-  const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
-    previewBoundary,
-    paymentObservation,
-    finality:
-      (output as any).settlementFinality ||
-      (output as any).btcFinality ||
-      findStoredExecutionValue(execution, 'asset-pack/settlement', 'finalityReceipt') ||
-      undefined,
-    readerWalletId:
-      firstString((output as any).readerWalletId, findStoredExecutionValue(execution, 'reader', 'walletId')),
-    depositorWalletId:
-      firstString((output as any).depositorWalletId, findStoredExecutionValue(execution, 'depositor', 'walletId')),
-    pullRequestTarget: firstString(
-      previewBoundary.sourceSafePreview.delivery.pullRequestTarget,
-      output.deliveryMechanism?.prUrl,
-      output.shippable?.prUrl,
-    ),
-  });
-  persistAssetPackSettlementRightsDeliveryBoundary(execution, boundary);
   return boundary;
 }
 

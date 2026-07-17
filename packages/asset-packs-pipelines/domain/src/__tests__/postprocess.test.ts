@@ -47,7 +47,8 @@ describe('normalizeAssetPackOutput', () => {
       prUrl: 'https://github.com/acme/repo/pull/123',
     });
     const withSettleKeysPresent = normalizeAssetPackOutput(output, exec);
-    expect(withSettleKeysPresent.shippable?.prUrl).toBeUndefined();
+    expect((withSettleKeysPresent as any).shippable).toBeUndefined();
+    expect((withSettleKeysPresent as any).settleDelivery).toBeUndefined();
     expect(withSettleKeysPresent.deliveryMechanism?.prUrl).toBeUndefined();
   });
 
@@ -191,8 +192,10 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.title).toBe('Read satisfaction summary');
     expect(result.kind).toBe('asset_pack_synthesis');
     expect(result.kind).not.toBe('settle_delivery' as any);
-    expect(result.settleDelivery).toBeUndefined();
-    expect(result.shippable).toBeUndefined();
+    expect((result as any).settleDelivery).toBeUndefined();
+    expect((result as any).shippable).toBeUndefined();
+    expect((result as any).assetPackSettlementRightsDeliveryBoundary).toBeUndefined();
+    expect((result as any).assetPackDeliveryUnlock).toBeUndefined();
   });
 
   it('strips PR fields from deliveryMechanism on synthesis postprocess', () => {
@@ -264,6 +267,7 @@ describe('normalizeAssetPackOutput', () => {
     const normalized = normalizeAssetPackOutput({
       success: true,
       summary: 'Measured AssetPack preview ready.',
+      // prUrl on deliveryMechanism must not become a settle PR target.
       deliveryMechanism: {
         prUrl: 'https://github.com/octocat/Spoon-Knife/pull/28',
       },
@@ -281,55 +285,30 @@ describe('normalizeAssetPackOutput', () => {
         fitDepositAssetIds: ['fit-deposit-1'],
         scoreBand: 'high',
       },
-      disclosurePolicy: {
-        protectedSourceDisclosure: 'forbidden_before_settlement',
-      },
-      settlementBoundary: {
-        payer: 'reader',
-        payee: 'depositor',
-        serverCustody: false,
-      },
-      unlock: {
-        state: 'pending_settlement',
-        sourceAvailable: false,
-      },
     });
-    expect(normalized.sourceSafePreview.delivery.pullRequestTarget).toBe(
-      'https://github.com/octocat/Spoon-Knife/pull/28'
-    );
+    // Synthesis never binds buyer-repo PR targets (settle exclusive).
+    expect(normalized.sourceSafePreview.delivery.pullRequestTarget).toBeNull();
+    expect((normalized as any).settleDelivery).toBeUndefined();
+    expect((normalized as any).shippable).toBeUndefined();
     expect(normalized.feeQuote.quoteRoot).toMatch(/^sha256:/);
     expect(normalized.assetPackDisclosureReview).toMatchObject({
       schema: 'bitcode.asset-pack.disclosure-review',
-      access: {
-        readRightState: 'pending_settlement',
-        sourceVisibility: 'withheld_before_settlement',
-        readerAction: 'pay_to_unlock',
-      },
-      sourceLeakage: {
-        protectedSourceDetected: false,
-      },
     });
     expect(result.sourceSafePreview?.roots.previewRoot).toMatch(/^sha256:/);
     expect(result.assetPackDisclosureReview?.roots.reviewRoot).toMatch(/^sha256:/);
     expect(result.feeQuote?.finalityState).toBe('preview_not_paid');
     expect(result.assetPackPreviewBoundary?.schema).toBe('bitcode.asset-pack.preview-boundary');
     expect(result.assetPackQuoteReceipt?.quoteRoot).toBe(result.feeQuote?.quoteRoot);
-    expect(result.assetPackSettlementInstructions).toMatchObject({
-      payer: 'reader',
-      payee: 'depositor',
-      serverCustody: false,
-      settlementRequiredBeforeUnlock: true,
-    });
-    expect(result.assetPackDeliveryPosture).toMatchObject({
-      state: 'withheld_until_settlement',
-      sourceBearingDeliveryVisible: false,
-      availableAfterSettlement: true,
-    });
+    // Settlement instructions / delivery posture / rights unlock not projected.
+    expect((result as any).assetPackSettlementInstructions).toBeUndefined();
+    expect((result as any).assetPackDeliveryPosture).toBeUndefined();
+    expect((result as any).assetPackSettlementRightsDeliveryBoundary).toBeUndefined();
+    expect((result as any).assetPackDeliveryUnlock).toBeUndefined();
     expect(exec.get('asset-pack/preview', 'sourceSafe')?.previewId).toBe(
       normalized.sourceSafePreview.previewId
     );
     expect(exec.get('asset-pack/preview', 'boundary')?.boundaryId).toBe(
-      normalized.assetPackPreviewBoundary.boundaryId
+      (normalized as any).assetPackPreviewBoundary?.boundaryId
     );
     expect(JSON.stringify(normalized.sourceSafePreview)).not.toContain('diff --git');
   });

@@ -7,16 +7,6 @@ import {
 } from '../../semantic-resolution';
 
 // Header-expected shapes for settle delivery + synthesis evidence surfaces.
-export const ShippableSchema = z.object({
-  url: z.string(),
-  number: z.number().optional(),
-  title: z.string().optional(),
-  description: z.string().optional(),
-  content: z.string().optional(),
-  status: z.enum(['open', 'closed', 'merged', 'draft']).optional(),
-  createdAt: z.string().optional(),
-});
-
 export const FileChangesSchema = z.object({
   edited: z.number().optional(),
   created: z.number().optional(),
@@ -28,7 +18,6 @@ export const FileChangesSchema = z.object({
 });
 
 const WrittenAssetsSchema = z.object({
-  pullRequest: ShippableSchema.nullable().optional(),
   fileChanges: FileChangesSchema.nullable().optional(),
   summary: z.string().nullable().optional(),
 });
@@ -38,8 +27,8 @@ const AssetPackSynthesisArtifactsSchema = WrittenAssetsSchema.extend({
   reviewNotes: z.array(z.string()).optional(),
 });
 
+/** Review readiness only — no pullRequest (settle exclusive). */
 const DeliveryMechanismSchema = z.object({
-  pullRequest: ShippableSchema.nullable().optional(),
   summary: z.string().nullable().optional(),
   readiness: z
     .object({
@@ -234,9 +223,8 @@ const AssetPackCompletionAgent = factoryAgentWithSingleStep<any, AssetPackComple
         : {
             ...writtenAssets,
           };
-    // Review readiness only — never pullRequest / settleDelivery.
+    // Review readiness only — never pullRequest / settleDelivery / shippable.
     const deliveryMechanism = {
-      pullRequest: null,
       summary,
       readiness: deliveryReadiness,
     };

@@ -33,7 +33,8 @@ describe('finish AssetPack completion evidence', () => {
     });
     expect((result as any).settlePassThrough).toBeUndefined();
     expect((result as any).settleDelivery).toBeUndefined();
-    expect(result.deliveryMechanism?.pullRequest).toBeNull();
+    expect((result as any).shippable).toBeUndefined();
+    expect((result.deliveryMechanism as any)?.pullRequest).toBeUndefined();
     expect(result.summary).toContain('octocat/Spoon-Knife');
     expect(result.deliveryMechanism?.readiness).toMatchObject({
       status: 'pending-user-review',
@@ -58,6 +59,7 @@ describe('finish AssetPack completion evidence', () => {
     const result = await AssetPackCompletionAgent({}, exec);
     expect((result as any).settlePassThrough).toBeUndefined();
     expect((result as any).settleDelivery).toBeUndefined();
-    expect(result.deliveryMechanism?.pullRequest).toBeNull();
+    expect((result as any).shippable).toBeUndefined();
+    expect((result.deliveryMechanism as any)?.pullRequest).toBeUndefined();
   });
 });
