@@ -28,7 +28,12 @@
     "./agents/implementation/deposit-asset-pack-synthesis-prompts": "./src/agents/implementation/deposit-asset-pack-synthesis-prompts.ts",
     "./agents/validation/deposit-validation-schema": "./src/agents/validation/deposit-validation-schema.ts",
     "./agents/validation/deposit-validation-prompts": "./src/agents/validation/deposit-validation-prompts.ts",
-    "./agents/validation/deposit-validation-checks": "./src/agents/validation/deposit-validation-checks.ts"
+    "./agents/validation/deposit-validation-checks": "./src/agents/validation/deposit-validation-checks.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-setup-synthesis-deposit-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-setup-synthesis-deposit-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-discovery-synthesis-deposit-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-discovery-synthesis-deposit-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-implementation-synthesis-deposit-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-implementation-synthesis-deposit-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-validation-synthesis-deposit-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-validation-synthesis-deposit-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-finish-synthesis-deposit-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-finish-synthesis-deposit-asset-packs.ts"
   },
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",

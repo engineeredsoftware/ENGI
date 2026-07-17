@@ -1,176 +1,44 @@
 /**
- * ExecutionPipelineSDIVFSynthesizeReadAssetPacks — product-specific ExecutionPipelineSDIVFExecutionPhase implementations.
+ * Product roster of SDIVF ExecutionPhase specializations for
+ * ExecutionPipelineSDIVFSynthesizeReadAssetPacks.
  *
- * Hierarchy: Execution → Pipeline → SDIVF → SynthesizeReadAssetPacks → ExecutionPhase*.
- * Phases are exclusively SDIVF concepts. These are read product specializations of the SDIVF ExecutionPhase base
- * (ExecutionPipelineSDIVFExecutionPhaseDelegator), one per SDIVF phase.
+ * Hierarchy bag (no phase role): Execution → Pipeline → SDIVF → ExecutionPhase →
+ * SynthesisReadAssetPacks. Holds the five product phase implementations —
+ * composition only, not the type parent of Setup/Discovery/….
  *
- * Shape mirrors deposit (same agents/roles; instruction = Need, not Obfuscations):
- * Setup: clone alone → parallel {LSP, MCP, comprehend-needs} → danger-wall alone.
- * Discovery: parallel {comprehend-codebase, inherent-regurgitation}
- *            → search-depository-for-read-need-fits (after wave 1; fits-finding).
- * Implementation: synthesize read AssetPacks (patch + absolutes + needinesses).
- * Validation: single ready-to-finish read gate (A/B/C + needinesses).
- * Finish: store-artifacts → ledgerize → finish-synthesize-read-run (selection envelope).
- *
- * BTC settle / BTD mint / rights / PR ship are **not** this pipeline —
- * they are ExecutionPipelineSimpleSettleAssetPack after the reader pays for options.
+ * Each role file: execution-pipeline-sdivf-execution-phase-{role}-synthesis-read-asset-packs.ts
  */
 
-import { createAgentExecutor } from '@bitcode/pipelines-generics';
-import { type ExecutionPipelineSDIVFExecutionPhaseDelegator } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
-import { Executor, sequential, parallel } from '@bitcode/execution-generics';
+import type { ExecutionPipelineSDIVFExecutionPhaseDelegator } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import type { AssetPackInput, AssetPackOutput } from '@bitcode/asset-packs-pipelines-syntheses-domain/types/PipelineSchemas';
-import {
-  DISCOVERY_COMPREHEND_CODEBASE,
-  DISCOVERY_INHERENT_REGURGITATION,
-  DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
-} from '@bitcode/asset-packs-pipelines-syntheses-domain/phases/discovery';
+import { executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks } from './execution-pipeline-sdivf-execution-phase-setup-synthesis-read-asset-packs';
+import { executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks } from './execution-pipeline-sdivf-execution-phase-discovery-synthesis-read-asset-packs';
+import { executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks } from './execution-pipeline-sdivf-execution-phase-implementation-synthesis-read-asset-packs';
+import { executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks } from './execution-pipeline-sdivf-execution-phase-validation-synthesis-read-asset-packs';
+import { executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks } from './execution-pipeline-sdivf-execution-phase-finish-synthesis-read-asset-packs';
 
-type SetupOutput = AssetPackInput;
-type DiscoveryOutput = AssetPackInput;
-type ImplementationOutput = AssetPackOutput;
-type ValidationOutput = AssetPackOutput;
+export type ExecutionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks = {
+  setup: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, AssetPackInput>;
+  discovery: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, AssetPackInput>;
+  implementation: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, AssetPackOutput>;
+  validation: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackOutput, AssetPackOutput>;
+  finish: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackOutput, AssetPackOutput>;
+};
 
-function registerExecutionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacksAgents(agentRegistry: any): void {
-  agentRegistry.registerAgent(
-    'setup:clone-vcs-repository',
-    () =>
-      import('@bitcode/asset-packs-pipelines-syntheses-domain/agents/setup/asset-pack-clone-vcs-repository-agent').then((m) => m.default),
-  );
-  agentRegistry.registerAgent(
-    'setup:initialize-lsp',
-    () => import('@bitcode/asset-packs-pipelines-syntheses-domain/agents/setup/asset-pack-initialize-lsp-agent').then((m) => m.default),
-  );
-  agentRegistry.registerAgent(
-    'setup:initialize-mcps-tools',
-    () =>
-      import('@bitcode/asset-packs-pipelines-syntheses-domain/agents/setup/asset-pack-initialize-mcps-tools-agent').then((m) => m.default),
-  );
-  agentRegistry.registerAgent(
-    'setup:comprehend-needs',
-    () => import('../agents/setup/read-need-comprehension-agent').then((m) => m.default),
-  );
-  agentRegistry.registerAgent(
-    'setup:danger-wall',
-    () => import('../agents/setup/read-danger-wall-agent').then((m) => m.default),
-  );
-}
+export const executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks =
+  {
+    setup: executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks,
+    discovery: executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks,
+    implementation:
+      executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks,
+    validation: executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks,
+    finish: executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks,
+  };
 
-export const executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput> = (async (
-  input: AssetPackInput,
-  execution: any,
-) => {
-  try {
-    registerExecutionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacksAgents((execution as any).agents);
-  } catch {}
-
-  const exec: Executor<any, any> = sequential(
-    createAgentExecutor('setup:clone-vcs-repository'),
-    parallel(
-      createAgentExecutor('setup:initialize-lsp'),
-      createAgentExecutor('setup:initialize-mcps-tools'),
-      createAgentExecutor('setup:comprehend-needs'),
-    ),
-    createAgentExecutor('setup:danger-wall'),
-  );
-
-  try {
-    return await exec(input, execution);
-  } catch (error: any) {
-    const message = error?.message || String(error);
-    try {
-      (execution as any).store?.('pipeline', 'terminalError', {
-        phase: 'setup',
-        shortCircuited: true,
-        reason: message,
-      });
-    } catch {}
-    throw error;
-  }
-}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<AssetPackInput, SetupOutput>;
-
-export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput> = (async (
-  input: AssetPackInput,
-  execution: any,
-) => {
-  try {
-    const { registerDiscoveryAgents } = await import(
-      '@bitcode/asset-packs-pipelines-syntheses-domain/phases/discovery'
-    );
-    registerDiscoveryAgents((execution as any).agents, 'read');
-  } catch {}
-
-  // Wave 1 parallel → wave 2 depository Need-fits search (uses comprehension).
-  const exec: Executor<any, any> = sequential(
-    parallel(
-      createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),
-      createAgentExecutor(DISCOVERY_INHERENT_REGURGITATION),
-    ),
-    createAgentExecutor(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS),
-  );
-  return await exec(input, execution);
-}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<SetupOutput, DiscoveryOutput>;
-
-export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
-  DiscoveryOutput,
-  ImplementationOutput
-> = (async (input: any, execution: any) => {
-  try {
-    (execution as any).agents?.registerAgent?.(
-      'implementation:read-asset-pack-synthesis',
-      () => import('../agents/implementation/read-asset-pack-synthesis-agent').then((m) => m.default),
-    );
-  } catch {}
-  return await createAgentExecutor('implementation:read-asset-pack-synthesis')(input, execution);
-}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<DiscoveryOutput, ImplementationOutput>;
-
-export const executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
-  ImplementationOutput,
-  ValidationOutput
-> = (async (input: any, execution: any) => {
-  try {
-    (execution as any).agents?.registerAgent?.(
-      'validation:ready-to-finish-asset-packs-synthesis-read-pipeline',
-      () => import('../agents/validation/read-ready-to-finish-agent').then((m) => m.default),
-    );
-  } catch {}
-  return await createAgentExecutor(
-    'validation:ready-to-finish-asset-packs-synthesis-read-pipeline',
-  )(input, execution);
-}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ImplementationOutput, ValidationOutput>;
-
-export const executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput> = (async (
-  input: any,
-  execution: any,
-) => {
-  try {
-    (execution as any).agents?.registerAgent?.(
-      'finish:store-artifacts',
-      () => import('../agents/finish/read-store-artifacts-agent').then((m) => m.default),
-    );
-    (execution as any).agents?.registerAgent?.(
-      'finish:ledgerize',
-      () => import('@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/deposit-ledgerize-agent').then((m) => m.default),
-    );
-    (execution as any).agents?.registerAgent?.(
-      'finish:finish-synthesize-asset-packs-for-read-run',
-      () => import('../agents/finish/read-finish-synthesize-run-agent').then((m) => m.default),
-    );
-  } catch {}
-
-  const exec: Executor<any, any> = sequential(
-    createAgentExecutor('finish:store-artifacts'),
-    createAgentExecutor('finish:ledgerize'),
-    createAgentExecutor('finish:finish-synthesize-asset-packs-for-read-run'),
-  );
-  return await exec(input, execution);
-}) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<ValidationOutput, AssetPackOutput>;
-
-export const executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks = {
-  setup: executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks,
-  discovery: executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks,
-  implementation: executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks,
-  validation: executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks,
-  finish: executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks,
+export {
+  executionPipelineSDIVFExecutionPhaseSetupSynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseDiscoverySynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseValidationSynthesisReadAssetPacks,
+  executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks,
 };

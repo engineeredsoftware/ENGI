@@ -19,7 +19,12 @@
     "./phases/execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-synthesis-read-asset-packs.ts",
     "./tools/BitcodeReadMeasurementComputerUseTool": "./src/tools/BitcodeReadMeasurementComputerUseTool.ts",
     "./agents/setup/read-fits-finding-synthesis-setup-plan-agent": "./src/agents/setup/read-fits-finding-synthesis-setup-plan-agent.ts",
-    "./agents/setup/read-fits-finding-synthesis-read-comprehension-agent": "./src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts"
+    "./agents/setup/read-fits-finding-synthesis-read-comprehension-agent": "./src/agents/setup/read-fits-finding-synthesis-read-comprehension-agent.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-setup-synthesis-read-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-setup-synthesis-read-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-discovery-synthesis-read-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-discovery-synthesis-read-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-implementation-synthesis-read-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-implementation-synthesis-read-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-validation-synthesis-read-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-validation-synthesis-read-asset-packs.ts",
+    "./phases/execution-pipeline-sdivf-execution-phase-finish-synthesis-read-asset-packs": "./src/phases/execution-pipeline-sdivf-execution-phase-finish-synthesis-read-asset-packs.ts"
   },
   "scripts": {
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
