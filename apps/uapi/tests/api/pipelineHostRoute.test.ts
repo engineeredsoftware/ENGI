@@ -506,7 +506,8 @@ describe('POST /api/pipeline-host/asset-pack', () => {
 
   it('streams a local strict preflight failure before sandbox creation', async () => {
     process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
-    delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+    // Explicit opt-out (unset now means on). Host must not override 0.
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '0';
 
     const events: Array<{ event: string; data: any }> = [];
     await runAssetPackHostRoute(

@@ -35,6 +35,12 @@ jest.mock('server-only', () => ({}), { virtual: true });
 // Enable dry run mode for tests
 process.env.DRY_RUN_MODE = 'true';
 
+// Unit tests stay deterministic: product default is real-inference-on when
+// unset, so opt out here unless a test explicitly re-enables it.
+if (process.env.BITCODE_ASSET_PACK_REAL_INFERENCE === undefined) {
+  process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '0';
+}
+
 // Provide a stub for the `ai` package which is referenced by observability
 // helpers but is not installed in the test environment.  Only the
 // `generateText` function is needed for the affected unit tests.
