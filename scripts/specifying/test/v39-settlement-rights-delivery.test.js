@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test from './era-pinned-superseded-routes.js';
 
 import {
   V39_SETTLEMENT_RIGHTS_DELIVERY_ARTIFACT_PATH,

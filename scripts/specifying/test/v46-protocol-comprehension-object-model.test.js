@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V46_PROTOCOL_CLAIM_AUTHORITY_IDS,
   V46_PROTOCOL_CLAIM_CATEGORY_IDS,

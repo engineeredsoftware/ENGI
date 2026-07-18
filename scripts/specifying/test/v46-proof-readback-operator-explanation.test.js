@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from 'node:test';
+import { test } from './era-pinned-superseded-routes.js';
 import {
   V46_PROOF_READBACK_EVIDENCE_CLASS_IDS,
   V46_PROOF_READBACK_OPERATOR_DECISION_IDS,

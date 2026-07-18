@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test from './era-pinned-superseded-routes.js';
 
 import {
   V39_READ_NEED_REVIEW_RESYNTHESIS_ARTIFACT_PATH,
