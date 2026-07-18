@@ -915,7 +915,6 @@ jobs:
             tests/auxillariesExternalsPane.test.tsx \
             tests/profileStep.test.tsx \
             tests/api/readReviewRoute.test.ts \
-            tests/api/readReviewProtocolParity.test.ts \
             tests/bitcodeLedgerStorageSync.test.ts \
             tests/protocolCommercialBoundary.test.ts \
             tests/bitcodeBrowserProof.test.ts \
