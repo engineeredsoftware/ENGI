@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import test from './era-pinned-superseded-routes.js';
+import test from 'node:test';
 
 import {
   V42_AI_READING_DEMONSTRATION_ARTIFACT_PATH,

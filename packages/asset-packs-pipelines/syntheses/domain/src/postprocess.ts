@@ -395,14 +395,13 @@ function ensureAssetPackSourceSafePreview(
     return null;
   }
 
+  // Synthesis evidence only — never Delivery/settle residual fields.
   const assetPackId =
     firstString(
       (output as any).assetPackId,
       output.assetPackSynthesisArtifacts?.assetPackId,
       output.writtenAssets?.assetPackId,
       output.writtenAsset?.payload?.assetPackId,
-      // Legacy residual only — Delivery is settle-exclusive; not on AssetPackOutput.
-      (output as any).deliveryMechanism?.payload?.assetPackId,
     ) || undefined;
   const preview = buildAssetPackSourceSafePreview({
     need: acceptedNeed,

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { test } from './era-pinned-superseded-routes.js';
+import { test } from 'node:test';
 
 import {
   PROVEN_GENERATOR_ID,

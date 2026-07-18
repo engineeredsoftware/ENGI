@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { test } from './era-pinned-superseded-routes.js';
+import { test } from 'node:test';
 
 import {
   V41_READNEED_PROMPT_HARDENING_ARTIFACT_PATH,

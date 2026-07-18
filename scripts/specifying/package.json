@@ -11,7 +11,8 @@
     "./src/*": "./src/*"
   },
   "scripts": {
-    "test": "node --test --test-force-exit test/*.test.js",
+    "test": "node --test --test-force-exit test/specifying-package-boundary.test.js test/spec-family-promotion-posture.test.js test/v47-*.test.js",
+    "test:historical": "node --test --test-force-exit test/*.test.js",
     "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "type-check": "pnpm run typecheck"
   },

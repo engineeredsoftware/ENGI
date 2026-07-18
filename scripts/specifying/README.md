@@ -58,6 +58,10 @@ tooling under `scripts/`**, not product packages.
 ## Tests
 
 ```bash
+# Living required suite (active canon V47 + package boundary)
 pnpm --filter @bitcode/specifying test
 pnpm --filter @bitcode/specifying typecheck
+
+# Optional: full disk suite including historical era proofs (not CI-required)
+pnpm --filter @bitcode/specifying run test:historical
 ```

@@ -36,6 +36,19 @@
       "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": [
         "../../packages/asset-packs-pipelines/syntheses/deposit/src/index.ts"
       ],
+      // Nested hierarchy packages (not matched by flat @bitcode/* → packages/*).
+      "@bitcode/generic-pipelines-execution-pipeline-sdivf": [
+        "../../packages/generic-pipelines/execution-pipeline-sdivf/src/index.ts"
+      ],
+      "@bitcode/generic-pipelines-execution-pipeline-sdivf/*": [
+        "../../packages/generic-pipelines/execution-pipeline-sdivf/src/*"
+      ],
+      "@bitcode/generic-pipelines-execution-pipeline-simple": [
+        "../../packages/generic-pipelines/execution-pipeline-simple/src/index.ts"
+      ],
+      "@bitcode/generic-pipelines-execution-pipeline-simple/*": [
+        "../../packages/generic-pipelines/execution-pipeline-simple/src/*"
+      ],
       "@bitcode/generic-artifacts-compose": [
         "../../packages/generic-artifacts/compose/src/index.ts"
       ],
