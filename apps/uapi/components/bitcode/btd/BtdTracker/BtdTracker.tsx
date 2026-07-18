@@ -7,6 +7,7 @@ import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { motion, AnimatePresence } from 'framer-motion';
 import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 import { buildAuxillariesRoutePath } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
+import { prefetchAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 
 interface BtdAssetPackSummary {
   assetPackId: string;
@@ -121,6 +122,8 @@ export function BTDTracker({
     }
     setIsHovered(true);
     setIsAnimating(true);
+    // Warm Auxillaries chunks before click so the overlay mounts quickly.
+    prefetchAuxillaries();
   };
 
   const handleHoverEnd = () => {
@@ -214,10 +217,10 @@ export function BTDTracker({
   }, [isHovered]);
 
   /**
-   * Handle BTD wallet click: check identity, refresh the displayed balance,
-   * then take the operator into the BTD auxillary wallet posture.
+   * Open Auxillaries immediately; balance refresh is background-only so the
+   * wallet click is not blocked on /api/auxillaries/data.
    */
-  const handleOpenBtdWallet = async () => {
+  const handleOpenBtdWallet = () => {
     if (actionState !== 'idle') return;
     if (!canOpenBtdWallet) {
       window.dispatchEvent(new Event('start-onboarding'));
@@ -229,29 +232,9 @@ export function BTDTracker({
       walletAddress: compactBitcodeAddress(walletAddress),
       btdBalance: displayedBtdBalance,
       assetPackCount,
-      // BTC fee balance remains available on the wallet auxillary surface.
       btcFeeBalance:
         typeof btcFeeBalance === 'number' ? btcFeeBalance : null,
     });
-
-    // Refresh displayed BTD balance from server
-    try {
-      const res = await fetch('/api/auxillaries/data');
-      if (res.ok) {
-        const data = await res.json();
-        const nextBalance =
-          typeof data.btdBalance === 'number' ? data.btdBalance : null;
-        if (typeof nextBalance === 'number') {
-          setDisplayedBtdBalance(nextBalance);
-        }
-        // Chrome only displays BTD + AssetPacks count; BTC fee lives on wallet auxillary.
-      }
-    } catch (err) {
-      console.error('Error fetching user BTD/AssetPacks posture:', err);
-      bitcodeQaTelemetry('warn', 'btd-tracker', 'balance-refresh-failed', {
-        message: err instanceof Error ? err.message : 'unknown',
-      });
-    }
 
     try {
       window.sessionStorage.setItem(
@@ -266,13 +249,14 @@ export function BTDTracker({
           createdAt: new Date().toISOString(),
         })
       );
-      setActionState('success');
+      // Open first — never await network before showing the surface.
       if (onOpenBtdAuxillary) {
         onOpenBtdAuxillary();
       } else {
         window.location.assign(buildAuxillariesRoutePath('wallet'));
       }
-      window.setTimeout(() => setActionState('idle'), 600);
+      setActionState('success');
+      window.setTimeout(() => setActionState('idle'), 400);
     } catch (err) {
       console.error('Error opening BTD auxillary surface:', err);
       bitcodeQaTelemetry('error', 'btd-tracker', 'open-btd-wallet-failed', {
@@ -280,7 +264,26 @@ export function BTDTracker({
       });
       setActionState('error');
       setTimeout(() => setActionState('idle'), 2000);
+      return;
     }
+
+    // Background posture refresh (chrome labels only; Auxillaries loads its own data).
+    void fetch('/api/auxillaries/data')
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = await res.json();
+        const nextBalance =
+          typeof data.btdBalance === 'number' ? data.btdBalance : null;
+        if (typeof nextBalance === 'number') {
+          setDisplayedBtdBalance(nextBalance);
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching user BTD/AssetPacks posture:', err);
+        bitcodeQaTelemetry('warn', 'btd-tracker', 'balance-refresh-failed', {
+          message: err instanceof Error ? err.message : 'unknown',
+        });
+      });
   };
 
   return (

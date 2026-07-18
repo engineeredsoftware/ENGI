@@ -3,23 +3,18 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { BTDTracker } from "@/components/bitcode/btd/BtdTracker/BtdTracker";
-import {
-  clearSharedAuthUser,
-  useAuth,
-} from '@/components/bitcode/auth/AuthProvider/AuthProvider';
-import { clearUserDataIdentity, useUserData } from '@/hooks/useUserData';
+import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
+import { useUserData } from '@/hooks/useUserData';
 import { openAuxillaries, prefetchAuxillaries } from '@/components/auxillaries/AuxillariesProvider/AuxillariesProvider';
 import { NotificationsWidget } from "@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget"
 import { AuxillariesUseButton } from "@/components/bitcode/nav/AuxillariesUseButton/AuxillariesUseButton";
 import { FEATURE_FLAGS } from "@/config/features"
-import { UserMenu } from "@/components/bitcode/layout/UserMenu/UserMenu";
 import NavBrand, { type NavSurface } from "@/components/bitcode/layout/NavBrand/NavBrand";
 import { usePathname, useRouter } from 'next/navigation';
 import { DisabledTooltipWrapper } from "@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper";
 import { BITCODE_PUBLIC_COPY } from "@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy";
 import { getPublicShellSurface, getWorkspaceSurface, usesPublicShellChrome } from "@/components/bitcode/layout/WorkspaceSurface/workspace-surface";
 import { bitcodeQaTelemetry, compactBitcodeAddress } from "@bitcode/auth/qa-telemetry";
-import { clearLocalBitcodeWalletIdentity } from "@bitcode/auth/wallet-local";
 import BitcodeQuantumChromeButton from "@/components/bitcode/layout/BitcodeQuantumChromeButton/BitcodeQuantumChromeButton";
 
 const MemoBTDTracker = React.memo(BTDTracker);
@@ -582,6 +577,11 @@ export default function Nav() {
               publicGuestActions
             ) : hasChromeWalletIdentity ? (
               <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end gap-3.5`}>
+                {/* Notifications left of wallet; wallet alone opens Auxillaries. */}
+                {FEATURE_FLAGS.NOTIFICATIONS && (
+                  <MemoNotificationsWidget />
+                )}
+
                 {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
                   <MemoBTDTracker
                     btdBalance={btdBalance}
@@ -595,45 +595,6 @@ export default function Nav() {
                     walletProvider={chromeWalletProvider}
                     onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'wallet')}
                   />
-                )}
-
-                {FEATURE_FLAGS.NOTIFICATIONS && (
-                  <MemoNotificationsWidget />
-                )}
-
-                {user ? (
-                  <UserMenu
-                    user={user}
-                    onOpenAuxillaries={() => openAuxillaries('auxillaries', 'profile')}
-                    onDisconnect={() => {
-                      import('@bitcode/supabase/ssr/client').then(({ createClient }) => {
-                        const client = createClient();
-                        client.auth.signOut({ scope: 'local' }).finally(() => {
-                          clearSharedAuthUser();
-                          clearLocalBitcodeWalletIdentity();
-                          clearUserDataIdentity();
-                          // Show connect pane after disconnect
-                          openAuxillaries('connect');
-                          // Redirect from authenticated pages
-                          if (pathname && pathname.startsWith('/upgrades')) {
-                            router.replace('/');
-                          }
-                        });
-                      });
-                    }}
-                  />
-                ) : (
-                  // Wallet-connected without a Supabase user still gets the same
-                  // squared account icon — never a text "Profile" button.
-                  <button
-                    type="button"
-                    aria-label="User menu"
-                    onMouseEnter={() => prefetchAuxillaries()}
-                    onClick={() => openAuxillaries('auxillaries', 'profile')}
-                    className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-none border border-emerald-400/30 text-sm font-semibold text-neutral-300 shadow-[0_0_6px_rgba(101,254,183,0.2)] transition-colors transition-shadow duration-300 ease-out hover:border-emerald-400/50 hover:text-white hover:shadow-[0_0_10px_rgba(101,254,183,0.3)] focus:outline-none focus:ring-0 focus-visible:outline-none"
-                  >
-                    {(chromeWalletLabel || chromeWalletAddress || 'W').charAt(0).toUpperCase()}
-                  </button>
                 )}
               </div>
             ) : (

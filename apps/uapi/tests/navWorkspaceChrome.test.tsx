@@ -49,23 +49,23 @@ jest.mock('@/components/bitcode/layout/NavBrand/NavBrand', () => ({
 }));
 
 jest.mock('@/components/bitcode/btd/BtdTracker/BtdTracker', () => ({
-  BTDTracker: () => <div>BTD</div>,
+  BTDTracker: ({
+    onOpenBtdAuxillary,
+  }: {
+    onOpenBtdAuxillary?: () => void;
+  }) => (
+    <button
+      type="button"
+      aria-label="0 BTD; 0 APs. Open BTD wallet auxillary."
+      onClick={() => onOpenBtdAuxillary?.()}
+    >
+      BTD
+    </button>
+  ),
 }));
 
 jest.mock('@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget', () => ({
   NotificationsWidget: () => <div>Notifications</div>,
-}));
-
-jest.mock('@/components/bitcode/layout/UserMenu/UserMenu', () => ({
-  UserMenu: ({
-    onOpenAuxillaries,
-  }: {
-    onOpenAuxillaries: () => void;
-  }) => (
-    <button type="button" onClick={onOpenAuxillaries}>
-      User menu
-    </button>
-  ),
 }));
 
 jest.mock('@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper', () => ({
@@ -132,7 +132,7 @@ describe('Nav product chrome', () => {
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
   });
 
-  it('keeps product-route links visible while reopening auxillaries from the signed-in menu', () => {
+  it('keeps product-route links visible; wallet opens Auxillaries (no right-side account menu)', () => {
     mockUseAuth.mockReturnValue({
       user: {
         id: 'user-1',
@@ -148,9 +148,10 @@ describe('Nav product chrome', () => {
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'User menu' })).toBeNull();
 
-    fireEvent.click(screen.getByRole('button', { name: 'User menu' }));
+    fireEvent.click(screen.getByLabelText(/Open BTD wallet auxillary/i));
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'profile');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'wallet');
   });
 });

@@ -56,23 +56,23 @@ jest.mock('@/components/bitcode/layout/NavBrand/NavBrand', () => ({
 }));
 
 jest.mock('@/components/bitcode/btd/BtdTracker/BtdTracker', () => ({
-  BTDTracker: () => <div>BTD</div>,
+  BTDTracker: ({
+    onOpenBtdAuxillary,
+  }: {
+    onOpenBtdAuxillary?: () => void;
+  }) => (
+    <button
+      type="button"
+      aria-label="0 BTD; 0 APs. Open BTD wallet auxillary."
+      onClick={() => onOpenBtdAuxillary?.()}
+    >
+      BTD
+    </button>
+  ),
 }));
 
 jest.mock('@/components/bitcode/notifications/NotificationsWidget/NotificationsWidget', () => ({
   NotificationsWidget: () => <div>Notifications</div>,
-}));
-
-jest.mock('@/components/bitcode/layout/UserMenu/UserMenu', () => ({
-  UserMenu: ({
-    onOpenAuxillaries,
-  }: {
-    onOpenAuxillaries: () => void;
-  }) => (
-    <button type="button" onClick={onOpenAuxillaries}>
-      User menu
-    </button>
-  ),
 }));
 
 jest.mock('@/components/bitcode/overlays/DisabledTooltipWrapper/DisabledTooltipWrapper', () => ({
@@ -155,7 +155,7 @@ describe('Nav public shell', () => {
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
   });
 
-  it('keeps public-route links visible while preserving signed-in menu and notifications', () => {
+  it('keeps public-route links visible; wallet (not a right-side menu) opens Auxillaries', () => {
     mockUseAuth.mockReturnValue({
       user: {
         id: 'user-1',
@@ -170,10 +170,12 @@ describe('Nav public shell', () => {
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'User menu' })).toBeNull();
 
-    fireEvent.click(screen.getByRole('button', { name: 'User menu' }));
+    const wallet = screen.getByLabelText(/Open BTD wallet auxillary/i);
+    fireEvent.click(wallet);
 
-    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'profile');
+    expect(mockOpenOrbital).toHaveBeenCalledWith('auxillaries', 'wallet');
   });
 
   it('renders docs brand surface on docs routes without a main-nav Docs link', () => {
