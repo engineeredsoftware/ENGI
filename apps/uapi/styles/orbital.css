@@ -126,12 +126,13 @@
   padding: clamp(1.5rem, 2.5vw, 2.5rem);
   border-radius: 1.75rem;
   border-color: rgba(101, 254, 183, 0.14);
+  /* Match left nav glass; Bitcode surface re-asserts via .auxillaries-column-shell. */
   background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 30%),
-    linear-gradient(180deg, rgba(9, 15, 28, 0.98), rgba(5, 9, 18, 0.98));
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28));
   box-shadow:
-    0 28px 80px rgba(0, 0, 0, 0.42),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
   animation: none;
   overflow-y: auto;
 }
@@ -215,13 +216,14 @@
   gap: 1rem;
   border-radius: 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Fill owned by auxillaries-bitcode .auxillaries-column-shell when Bitcode surface is active. */
   background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 30%),
-    rgba(4, 8, 18, 0.84);
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28));
   padding: 1.2rem;
   box-shadow:
-    0 18px 48px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
 }
 
 :is(.orbital-system-application, .orbital-system-route) .orbital-workspace-kicker {
@@ -1017,6 +1019,7 @@
   height: 94vh;
   max-height: 94vh;
   overflow-y: auto;
+  /* Default onboarding density; Bitcode Auxillaries overrides via .auxillaries-column-shell. */
   background: rgba(10, 20, 35, 0.95);
   background-image:
     radial-gradient(circle at 20% 20%, rgba(103, 254, 183, 0.05) 0%, transparent 70%),

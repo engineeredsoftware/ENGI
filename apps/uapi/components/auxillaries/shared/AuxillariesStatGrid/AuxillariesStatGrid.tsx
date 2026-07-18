@@ -51,7 +51,7 @@ export default function AuxillariesStatGrid({
         return (
         <article
           key={`${item.label}-${item.value}`}
-          className="min-w-0 rounded-none border border-white/8 bg-black/20 p-4"
+          className="auxillaries-glass-nested min-w-0 rounded-none border border-white/8 p-4"
           title={tooltip}
           aria-label={`${item.label}: ${tooltip}`}
         >

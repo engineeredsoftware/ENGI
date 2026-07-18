@@ -8,12 +8,13 @@ import { cn } from "@bitcode/styling";
 
 type AuxillariesWorkspaceTone = "default" | "emerald" | "sky" | "violet" | "amber";
 
+/** Borders keep hue; fills use glass tokens so right column matches left opacity. */
 const TONE_STYLES: Record<AuxillariesWorkspaceTone, string> = {
-  default: "border-white/10 bg-black/20",
-  emerald: "border-emerald-300/18 bg-emerald-400/8",
-  sky: "border-sky-300/18 bg-sky-400/8",
-  violet: "border-violet-300/18 bg-violet-400/8",
-  amber: "border-amber-300/18 bg-amber-400/8",
+  default: "auxillaries-glass-card border-white/10",
+  emerald: "auxillaries-glass-card border-emerald-300/18",
+  sky: "auxillaries-glass-card border-sky-300/18",
+  violet: "auxillaries-glass-card border-violet-300/18",
+  amber: "auxillaries-glass-card border-amber-300/18",
 };
 
 interface AuxillariesWorkspaceSectionProps {
@@ -38,7 +39,7 @@ export default function AuxillariesWorkspaceSection({
   return (
     <section
       className={cn(
-        "rounded-none border p-5 shadow-[0_20px_45px_rgba(0,0,0,0.2)]",
+        "rounded-none border p-5",
         TONE_STYLES[tone],
         className,
       )}

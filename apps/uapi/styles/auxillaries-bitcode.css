@@ -6,6 +6,48 @@
   --aux-bc-line: rgba(255, 255, 255, 0.1);
   --aux-bc-green: rgba(101, 254, 183, 0.9);
   --aux-bc-panel: rgba(5, 11, 21, 0.9);
+  /*
+   * Glass tokens — left selector is source of truth for orbital visibility.
+   * Right column must not stack denser fills (shell + section + bg-black/18 tiles).
+   */
+  --aux-bc-shell-border: rgba(101, 254, 183, 0.12);
+  /*
+   * Shell alpha kept low so orbitals read through BOTH columns.
+   * Hardcoded on .auxillaries-column-shell so left/right cannot diverge.
+   */
+  --aux-bc-shell-bg:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28));
+  --aux-bc-shell-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --aux-bc-card-bg: rgba(255, 255, 255, 0.035);
+  --aux-bc-card-border: rgba(255, 255, 255, 0.08);
+  --aux-bc-card-hover-bg: rgba(101, 254, 183, 0.07);
+  /* Nested tiles under a section: nearly clear so only one glass layer densifies. */
+  --aux-bc-card-nested-bg: rgba(255, 255, 255, 0.02);
+  /* Active selector card wash (green) — template for tinted sections. */
+  --aux-bc-card-current-bg:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.16), transparent 42%),
+    linear-gradient(180deg, rgba(101, 254, 183, 0.12), rgba(101, 254, 183, 0.05));
+  /*
+   * Wallet / GitHub = selector-card opacity + hue wash (same alpha band as left cards).
+   */
+  --aux-bc-wallet-section-bg:
+    radial-gradient(circle at top left, rgba(251, 146, 60, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(251, 146, 60, 0.09), rgba(251, 146, 60, 0.035));
+  --aux-bc-wallet-section-border: rgba(251, 146, 60, 0.36);
+  --aux-bc-github-section-bg:
+    radial-gradient(circle at top left, rgba(167, 139, 250, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.09), rgba(167, 139, 250, 0.035));
+  --aux-bc-github-section-border: rgba(167, 139, 250, 0.36);
+  --aux-bc-github-card-bg:
+    radial-gradient(circle at top left, rgba(167, 139, 250, 0.12), transparent 48%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.08), rgba(167, 139, 250, 0.03));
+  --aux-bc-github-card-border: rgba(167, 139, 250, 0.32);
+  --aux-bc-github-soft-bg:
+    radial-gradient(circle at top left, rgba(167, 139, 250, 0.08), transparent 50%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.05), rgba(167, 139, 250, 0.02));
   position: relative !important;
   display: block !important;
   width: 100% !important;
@@ -62,12 +104,130 @@
   margin: auto;
 }
 
-.auxillaries-bitcode-surface .orbital-system-background,
+/* Interactive ring navigation stays off for the Bitcode workspace shell;
+   decorative full-bleed menu solar system stays on as ambient backdrop. */
 .auxillaries-bitcode-surface .orbital-rings-container,
 .auxillaries-bitcode-surface .clickable-ring,
 .auxillaries-bitcode-surface .auxillaries-label,
 .auxillaries-bitcode-surface .orbital-pane-tabs {
   display: none !important;
+}
+
+/*
+ * Menu solar system (AuxillariesSolarIcon variant=backdrop) as edge-aware field.
+ * ~20px from each edge of the Auxillaries surface; shape is free to go elliptical
+ * (wide screens) while planets/star stay circular via counter-scale in the glyph.
+ */
+.orbital-system .auxillaries-solar-backdrop-host,
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host {
+  position: absolute !important;
+  inset: 20px !important;
+  z-index: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+  transform-origin: center center;
+  will-change: opacity, transform;
+}
+
+/* Ensure the solar glyph fills the edge-inset host (not the menu 1.85rem box). */
+.orbital-system .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'],
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  display: block !important;
+}
+
+/*
+ * Solar field reveal — after left/right content settles.
+ *
+ * Cosmic settle (not a pop): arrive from slight overscale + deep blur,
+ * bloom through mid-brightness, then ease to sharp focus.
+ * Host-only so continuous motion (orbits, flare, core pulse) is never replaced.
+ */
+@keyframes auxillaries-solar-field-enter {
+  0% {
+    opacity: 0;
+    transform: scale(1.12);
+    filter: blur(24px) brightness(0.4) saturate(0.5);
+  }
+
+  14% {
+    opacity: 0.12;
+    transform: scale(1.08);
+    filter: blur(16px) brightness(0.55) saturate(0.65);
+  }
+
+  32% {
+    opacity: 0.38;
+    transform: scale(1.045);
+    filter: blur(9px) brightness(0.75) saturate(0.82);
+  }
+
+  52% {
+    opacity: 0.68;
+    transform: scale(1.015);
+    filter: blur(3.5px) brightness(0.95) saturate(0.98);
+  }
+
+  72% {
+    opacity: 0.9;
+    transform: scale(1.002);
+    filter: blur(1px) brightness(1.08) saturate(1.06);
+  }
+
+  88% {
+    opacity: 0.98;
+    transform: scale(0.999);
+    filter: blur(0.2px) brightness(1.02) saturate(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) brightness(1) saturate(1);
+  }
+}
+
+.orbital-system .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter {
+  animation: auxillaries-solar-field-enter 2.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: 50% 50%;
+  /* Isolate filter so blur doesn’t dirty the glass UI above. */
+  isolation: isolate;
+  contain: layout style;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-system .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
+  .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Keep solar motion even when surface defers other animations. */
+.orbital-system.animations-disabled .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'],
+.orbital-system.animations-disabled .auxillaries-solar-backdrop-host [data-testid='auxillaries-solar-icon'] * {
+  animation-play-state: running !important;
+}
+
+/*
+ * Keep-alive dormant: only pause the solar field (not entrance/one-shot CSS).
+ * Pausing * re-triggers fill-mode cascades when the portal reopens.
+ */
+.auxillaries-portal-dormant .auxillaries-solar-backdrop-host,
+.auxillaries-portal-dormant .auxillaries-solar-backdrop-host * {
+  animation-play-state: paused !important;
 }
 
 .auxillaries-bitcode-route-surface .orbital-header-buttons {
@@ -93,7 +253,7 @@
   min-height: min(58rem, calc(100vh - 14rem)) !important;
   height: 100%;
   padding-top: 0 !important;
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 /* Close / Disconnect sit above the left selector column (left-aligned). */
@@ -240,14 +400,62 @@
   overflow: auto !important;
   overscroll-behavior: contain !important;
   scrollbar-gutter: stable !important;
-  border: 1px solid var(--aux-bc-line) !important;
   border-radius: 0;
+  /* Same shell glass as left selector / right pane. */
+  border: 1px solid var(--aux-bc-shell-border) !important;
+  background: var(--aux-bc-shell-bg) !important;
+  box-shadow: var(--aux-bc-shell-shadow) !important;
+}
+
+/*
+ * COLUMN SHELL — left nav and right content MUST share this exact fill.
+ * Beats orbital.css `.orbital-workspace-nav` (0.84) and `.orbital-content-container` (0.98).
+ */
+.auxillaries-bitcode-surface .auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-application .orbital-workspace-nav.auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-application .orbital-workspace-stage .orbital-content-container.auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-route .orbital-workspace-nav.auxillaries-column-shell,
+.auxillaries-bitcode-surface.orbital-system-route .orbital-workspace-stage .orbital-content-container.auxillaries-column-shell,
+.auxillaries-bitcode-surface .orbital-workspace-nav.auxillaries-bitcode-selector,
+.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container) {
+  border: 1px solid var(--aux-bc-shell-border) !important;
+  border-radius: 0 !important;
+  /* Explicit identical stack — left nav and right content must match byte-for-byte. */
   background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 32%),
-    linear-gradient(180deg, rgba(8, 16, 30, 0.94), rgba(4, 9, 18, 0.95)) !important;
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28)) !important;
+  background-color: transparent !important;
+  background-image:
+    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 40%),
+    linear-gradient(180deg, rgba(7, 15, 28, 0.30), rgba(3, 8, 17, 0.28)) !important;
   box-shadow:
-    0 26px 80px rgba(0, 0, 0, 0.26),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+    0 16px 40px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+  /* Blur frosts the solar field and makes the right pane look denser than the left. */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/*
+ * Right content only: kill the green right border so it does not sit against the
+ * green scrollbar (reads as double bar beside Mainnet readiness). Left selector
+ * keeps a full four-side border.
+ */
+.auxillaries-bitcode-surface .orbital-workspace-stage .orbital-content-container.auxillaries-column-shell,
+.auxillaries-bitcode-surface .orbital-content-container.auxillaries-column-shell:not(.orbital-auth-container) {
+  border-right-color: transparent !important;
+}
+
+/* Stage wrapper must never add a second fill or scroll under the content shell. */
+.auxillaries-bitcode-surface .orbital-workspace-stage.auxillaries-bitcode-pane,
+.auxillaries-bitcode-surface .auxillaries-active-pane-region {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
 .auxillaries-bitcode-selector {
@@ -261,14 +469,6 @@
   /* Visible overflow so 1px card borders are not clipped at the panel edge. */
   overflow-x: visible;
   overflow-y: hidden;
-  border: 1px solid rgba(101, 254, 183, 0.12) !important;
-  border-radius: 0;
-  background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.1), transparent 36%),
-    linear-gradient(180deg, rgba(7, 15, 28, 0.92), rgba(3, 8, 17, 0.9)) !important;
-  box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
   /* Extra horizontal inset so card L/R borders paint fully inside the panel. */
   padding: clamp(0.7rem, 1.2vw, 0.95rem) clamp(0.85rem, 1.4vw, 1.15rem) !important;
 }
@@ -328,8 +528,8 @@
   /* Tighter internal y-stack (topline / label / copy). */
   gap: 0.28rem !important;
   border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  background: rgba(255, 255, 255, 0.035) !important;
+  border: 1px solid var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
   color: var(--aux-bc-ink) !important;
   /* Slightly tighter vertical padding; keep horizontal so copy does not crowd edges. */
   padding: 0.65rem 0.85rem !important;
@@ -365,9 +565,7 @@
 
 .auxillaries-bitcode-selector-card-current {
   border-color: rgba(101, 254, 183, 0.42) !important;
-  background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.16), transparent 42%),
-    linear-gradient(180deg, rgba(101, 254, 183, 0.12), rgba(101, 254, 183, 0.05)) !important;
+  background: var(--aux-bc-card-current-bg) !important;
   box-shadow: none !important;
 }
 
@@ -535,19 +733,20 @@
 }
 
 /*
- * Connect / GitHub attention hosts also set the CSS `animation` property.
- * Exclude them from entrance so attention settle never re-fires rise.
+ * Attention hosts set CSS `animation` for spotlight. They sit inside entrance
+ * wrappers (wallet/externals) — if they ever are direct stagger targets while
+ * attention is active, skip rise so attention owns the animation property.
  */
-.auxillaries-pane-enter .space-y-5 > .wallet-required-section:not(.wallet-connect-attention-section),
-.auxillaries-pane-enter .space-y-5 > .repository-connection-section:not(.github-connect-attention-section),
-.auxillaries-pane-enter .space-y-4 > .wallet-required-section:not(.wallet-connect-attention-section),
-.auxillaries-pane-enter .space-y-4 > .repository-connection-section:not(.github-connect-attention-section),
-.auxillaries-pane-enter .space-y-6 > .wallet-required-section:not(.wallet-connect-attention-section),
-.auxillaries-pane-enter .space-y-6 > .repository-connection-section:not(.github-connect-attention-section),
-.auxillaries-pane-enter .space-y-3 > .wallet-required-section:not(.wallet-connect-attention-section),
-.auxillaries-pane-enter .space-y-3 > .repository-connection-section:not(.github-connect-attention-section),
-.auxillaries-pane-enter .step-form > .wallet-required-section:not(.wallet-connect-attention-section),
-.auxillaries-pane-enter .step-form > .repository-connection-section:not(.github-connect-attention-section) {
+.auxillaries-pane-enter .space-y-5 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-5 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .space-y-4 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-4 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .space-y-6 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-6 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .space-y-3 > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .space-y-3 > .repository-connection-section.github-connect-attention-section,
+.auxillaries-pane-enter .step-form > .wallet-required-section.wallet-connect-attention-section,
+.auxillaries-pane-enter .step-form > .repository-connection-section.github-connect-attention-section {
   animation: none;
   opacity: 1;
   transform: none;
@@ -632,16 +831,45 @@
 .auxillaries-bitcode-pane {
   display: flex !important;
   flex-direction: column;
-  gap: clamp(0.85rem, 1.3vw, 1.1rem);
+  gap: 0 !important;
   min-width: 0;
   min-height: 0 !important;
-  height: auto !important;
-  max-height: 100%;
+  height: 100% !important;
+  max-height: 100% !important;
   align-self: stretch;
-  overflow: auto;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
-  padding-right: 0.15rem;
+  /*
+   * Stage is a pure frame — never a scrollport.
+   * Sole scroller: child .orbital-content-container (audit lives inside it).
+   */
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  scrollbar-gutter: auto !important;
+  padding-right: 0;
+}
+
+/* Explicit glass card token (selector cards + neutral right-pane cards). */
+.auxillaries-bitcode-surface .auxillaries-glass-card {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  box-shadow: none !important;
+}
+
+/* Nested tiles inside a section — lighter than a full card so stacks match left. */
+.auxillaries-bitcode-surface .auxillaries-glass-nested {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-nested-bg) !important;
+  box-shadow: none !important;
+}
+
+/* GitHub section/card keep purple tint glass even if also marked neutral glass. */
+.auxillaries-bitcode-surface .github-connection-card.auxillaries-glass-card {
+  border-color: var(--aux-bc-github-card-border) !important;
+  background: var(--aux-bc-github-card-bg) !important;
+}
+
+.auxillaries-bitcode-surface .repository-connection-section.auxillaries-glass-card {
+  border-color: var(--aux-bc-github-section-border) !important;
+  background: var(--aux-bc-github-section-bg) !important;
 }
 
 .auxillaries-active-pane-summary {
@@ -651,7 +879,7 @@
   gap: clamp(0.85rem, 1.4vw, 1.2rem);
   border: 1px solid rgba(101, 254, 183, 0.12);
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--aux-bc-card-bg);
   padding: clamp(0.9rem, 1.35vw, 1.15rem);
 }
 
@@ -788,31 +1016,193 @@
   overflow-wrap: anywhere;
 }
 
+/*
+ * Right pane layout only — fill/border/shadow come from the shared shell rule
+ * with .auxillaries-bitcode-selector above (left = source of truth).
+ *
+ * Sole vertical scroller in the right column. height:auto + flex fill so we
+ * never stack pane+content scrollports when audit or Mainnet readiness grows.
+ */
 .auxillaries-bitcode-pane > .orbital-content-container,
-.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container) {
+.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container),
+.orbital-system-application.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container),
+.orbital-system-route.auxillaries-bitcode-surface .orbital-content-container:not(.orbital-auth-container) {
   position: relative !important;
   inset: auto !important;
-  flex: 1 1 auto !important;
+  flex: 1 1 0 !important;
   box-sizing: border-box !important;
   width: 100% !important;
   max-width: none !important;
-  height: 100% !important;
+  /* Flex child — do NOT use height:100% (fights siblings / creates dual bars). */
+  height: auto !important;
   max-height: 100% !important;
   min-height: 0 !important;
   margin: 0 !important;
-  overflow: auto !important;
+  overflow-x: hidden !important;
+  /* Always reserve one track — avoids auto appear/disappear flicker on load. */
+  overflow-y: scroll !important;
   overscroll-behavior: contain;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: stable !important;
   -webkit-overflow-scrolling: touch;
   padding-bottom: clamp(1.4rem, 2vw, 2.1rem) !important;
-  border: 1px solid var(--aux-bc-line) !important;
+  border-right-color: transparent !important;
+}
+
+/*
+ * No nested scrollports inside the active pane — parent owns scrolling.
+ * Explicitly includes Mainnet readiness (right column of Externals grid).
+ */
+.auxillaries-bitcode-surface .orbital-content-container .max-h-72,
+.auxillaries-bitcode-surface .orbital-content-container .max-h-56,
+.auxillaries-bitcode-surface .orbital-content-container [class*='overflow-y-auto'],
+.auxillaries-bitcode-surface .orbital-content-container [class*='overflow-auto'],
+.auxillaries-bitcode-surface .orbital-content-container .mainnet-readiness-column,
+.auxillaries-bitcode-surface .orbital-content-container .mainnet-readiness-section,
+.auxillaries-bitcode-surface .orbital-content-container [data-testid='mainnet-readiness-section'] {
+  max-height: none !important;
+  overflow: visible !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  scrollbar-gutter: auto !important;
+}
+
+/* Kill scrollbars on any descendant of the content shell (except the shell itself). */
+.auxillaries-bitcode-surface .orbital-content-container *:not(html):not(body) {
+  scrollbar-width: none;
+}
+.auxillaries-bitcode-surface .orbital-content-container *::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+}
+
+/* One styled scrollbar only on the content shell. */
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar {
+  width: 10px;
+  display: block !important;
+}
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar-track {
+  background: rgba(101, 254, 183, 0.04);
+  border-left: 1px solid rgba(101, 254, 183, 0.12);
+}
+.auxillaries-bitcode-surface .orbital-content-container::-webkit-scrollbar-thumb {
+  background: rgba(101, 254, 183, 0.4);
   border-radius: 0;
-  background:
-    radial-gradient(circle at top left, rgba(101, 254, 183, 0.08), transparent 32%),
-    linear-gradient(180deg, rgba(8, 16, 30, 0.94), rgba(4, 9, 18, 0.95)) !important;
-  box-shadow:
-    0 26px 80px rgba(0, 0, 0, 0.26),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.auxillaries-bitcode-surface .orbital-content-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(101, 254, 183, 0.4) rgba(101, 254, 183, 0.04);
+}
+
+/* Animated body inside the stable scroll shell — never its own scrollport. */
+.auxillaries-bitcode-surface .orbital-content-container > .auxillaries-pane-body {
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible !important;
+}
+
+/* Audit sits at the end of the scrollport — not a sticky dual-bar footer. */
+.auxillaries-bitcode-surface .orbital-content-container > .auxillaries-audit-detail {
+  margin-top: clamp(1.25rem, 2vw, 1.75rem);
+  flex-shrink: 0;
+}
+
+/*
+ * Right-pane surfaces → left selector card glass.
+ * Profile/etc. use Tailwind bg-black/18–24 which stack denser than the left;
+ * force them to card / nested tokens so orbital rings match left visibility.
+ */
+.auxillaries-bitcode-surface .orbital-content-container :is(
+  .auxillaries-glass-card,
+  .orbital-section:not(.wallet-required-section):not(.repository-connection-section),
+  .orbitals-users-input-container,
+  .onboarding-info,
+  .github-connection-summary,
+  .account-creation-section,
+  .bg-card,
+  [class*='bg-black'],
+  [class*='bg-white'],
+  [class*='bg-slate'],
+  [class*='bg-emerald'],
+  [class*='bg-sky'],
+  [class*='bg-violet'],
+  [class*='bg-cyan'],
+  [class*='bg-amber'],
+  [class*='bg-orange']
+):not(button):not([role='button']):not(.github-install-button):not(.wallet-section-secondary-button):not(.wallet-connect-provider-button):not(a):not(.github-connection-card):not(.repository-connection-section):not(.wallet-required-section):not(.github-vcs-panel [role='tablist']):not(.github-vcs-panel [role='alert']) {
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  background: var(--aux-bc-card-bg) !important;
+  box-shadow: none !important;
+}
+
+/* Nested tiles inside a glass section: even lighter so shell+section≈left card. */
+.auxillaries-bitcode-surface .orbital-content-container :is(
+  section,
+  .orbital-section,
+  .auxillaries-glass-card,
+  [data-testid='auxillaries-profile-readiness'],
+  [data-testid='auxillaries-organization-authority']
+) :is(
+  [class*='bg-black'],
+  [class*='bg-white'],
+  [class*='bg-slate']
+):not(button):not([role='button']):not(a) {
+  background: var(--aux-bc-card-nested-bg) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/*
+ * Wallet / GitHub sections — same opacity as left selector cards, hue only.
+ * (Previous dark 0.5 alpha fills made the right column denser than the left.)
+ */
+.auxillaries-bitcode-surface .orbital-content-container .wallet-required-section {
+  --wallet-section-rest-border: var(--aux-bc-wallet-section-border);
+  --wallet-section-rest-shadow: none;
+  --wallet-section-rest-bg: var(--aux-bc-wallet-section-bg);
+  border-color: var(--aux-bc-wallet-section-border) !important;
+  background: var(--aux-bc-wallet-section-bg) !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .repository-connection-section {
+  --github-section-rest-border: var(--aux-bc-github-section-border);
+  --github-section-rest-shadow: none;
+  --github-section-rest-bg: var(--aux-bc-github-section-bg);
+  border-color: var(--aux-bc-github-section-border) !important;
+  background: var(--aux-bc-github-section-bg) !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .github-connection-card {
+  border-color: var(--aux-bc-github-card-border) !important;
+  background: var(--aux-bc-github-card-bg) !important;
+  box-shadow: none !important;
+  color: rgba(245, 243, 255, 0.96) !important;
+}
+
+/* Nested chrome: light tint like selector pills, not opaque wells. */
+.auxillaries-bitcode-surface .orbital-content-container .github-vcs-panel [role='tablist'] {
+  border-color: rgba(167, 139, 250, 0.28) !important;
+  background: rgba(167, 139, 250, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .github-vcs-panel [role='alert'] {
+  border-color: rgba(167, 139, 250, 0.24) !important;
+  background: rgba(167, 139, 250, 0.07) !important;
+  box-shadow: none !important;
+  color: rgba(245, 243, 255, 0.94) !important;
+}
+
+.auxillaries-bitcode-surface .orbital-content-container .github-vcs-panel [data-state='active'] {
+  background: rgba(167, 139, 250, 0.14) !important;
+  color: rgba(245, 243, 255, 0.96) !important;
 }
 
 .auxillaries-bitcode-surface .orbital-step-content {
@@ -860,9 +1250,9 @@
 /* Exclude wallet-required-section: it owns border/glow for Connect attention. */
 .auxillaries-bitcode-surface .orbital-section:not(.wallet-required-section),
 .auxillaries-bitcode-surface .orbitals-users-input-container {
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  background: rgba(255, 255, 255, 0.045) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025) !important;
+  border-color: var(--aux-bc-card-border) !important;
+  background: var(--aux-bc-card-bg) !important;
+  box-shadow: none !important;
 }
 
 @media (max-width: 1023px) {
@@ -1017,13 +1407,9 @@
  */
 .auxillaries-bitcode-surface .wallet-required-section,
 .wallet-required-section {
-  --wallet-section-rest-border: rgba(251, 146, 60, 0.36);
-  --wallet-section-rest-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
-  --wallet-section-rest-bg: linear-gradient(
-    145deg,
-    rgba(42, 25, 11, 0.86),
-    rgba(14, 22, 36, 0.86)
-  );
+  --wallet-section-rest-border: var(--aux-bc-wallet-section-border, rgba(251, 146, 60, 0.38));
+  --wallet-section-rest-shadow: none;
+  --wallet-section-rest-bg: var(--aux-bc-wallet-section-bg);
   position: relative;
   border-style: solid;
   border-width: 1px;
@@ -1055,17 +1441,18 @@
 .auxillaries-bitcode-surface .wallet-required-section .orbitals-users-input-container.enterprise,
 .wallet-required-section .orbitals-users-input-container,
 .wallet-required-section .orbitals-users-input-container.enterprise {
-  background: rgba(28, 18, 12, 0.88) !important;
-  border: 1px solid rgba(251, 146, 60, 0.48) !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22) !important;
+  /* Nested well: still lighter than old 0.88 walls so orbitals show through. */
+  background: rgba(251, 146, 60, 0.08) !important;
+  border: 1px solid rgba(251, 146, 60, 0.32) !important;
+  box-shadow: none !important;
   border-radius: 0 !important;
   overflow: hidden;
 }
 
 .auxillaries-bitcode-surface .wallet-required-section .form-input,
 .wallet-required-section .form-input {
-  background: rgba(22, 14, 10, 0.92) !important;
-  border: 1px solid rgba(251, 146, 60, 0.42) !important;
+  background: rgba(251, 146, 60, 0.06) !important;
+  border: 1px solid rgba(251, 146, 60, 0.34) !important;
   border-radius: 0 !important;
   color: rgba(255, 247, 237, 0.94) !important;
   caret-color: rgba(251, 146, 60, 0.95);
@@ -1079,12 +1466,12 @@
 
 .auxillaries-bitcode-surface .wallet-required-section .form-input:focus,
 .wallet-required-section .form-input:focus {
-  background: rgba(32, 18, 10, 0.96) !important;
+  background: rgba(251, 146, 60, 0.1) !important;
   border-color: rgba(253, 186, 116, 0.72) !important;
   outline: none !important;
   box-shadow:
-    0 0 0 1px rgba(251, 146, 60, 0.35),
-    0 0 16px rgba(251, 146, 60, 0.18) !important;
+    0 0 0 1px rgba(251, 146, 60, 0.28),
+    0 0 12px rgba(251, 146, 60, 0.14) !important;
 }
 
 .auxillaries-bitcode-surface .wallet-required-section .input-focus-indicator,
@@ -1120,12 +1507,12 @@
 
 .wallet-required-section .wallet-section-meta-panel {
   border-color: rgba(251, 146, 60, 0.22);
-  background: rgba(20, 12, 8, 0.55);
+  background: rgba(251, 146, 60, 0.06);
 }
 
 .wallet-required-section .wallet-section-state-panel {
   border-color: rgba(251, 146, 60, 0.26);
-  background: rgba(22, 14, 10, 0.62);
+  background: rgba(251, 146, 60, 0.07);
 }
 
 .wallet-required-section .wallet-section-state-kicker {
@@ -1150,30 +1537,23 @@
   }
   12%,
   40% {
-    /* Peak: border + glow + wash together (no size growth). */
-    border-color: rgba(254, 215, 170, 0.95);
-    background: linear-gradient(
-      145deg,
-      rgba(92, 42, 10, 0.94),
-      rgba(28, 18, 12, 0.9)
-    );
+    /* Peak: brighter orange wash (stay translucent like selector glass). */
+    border-color: rgba(254, 215, 170, 0.9);
+    background:
+      radial-gradient(circle at top left, rgba(251, 146, 60, 0.28), transparent 42%),
+      linear-gradient(180deg, rgba(251, 146, 60, 0.2), rgba(251, 146, 60, 0.1));
     box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.28),
-      0 0 0 2px rgba(251, 146, 60, 0.8),
-      0 0 36px rgba(251, 146, 60, 0.58),
-      0 0 0 1px rgba(251, 146, 60, 0.28) inset;
+      0 0 0 2px rgba(251, 146, 60, 0.55),
+      0 0 28px rgba(251, 146, 60, 0.35);
   }
   48% {
-    border-color: rgba(253, 186, 116, 0.72);
-    background: linear-gradient(
-      145deg,
-      rgba(64, 32, 10, 0.9),
-      rgba(18, 16, 20, 0.88)
-    );
+    border-color: rgba(253, 186, 116, 0.65);
+    background:
+      radial-gradient(circle at top left, rgba(251, 146, 60, 0.2), transparent 42%),
+      linear-gradient(180deg, rgba(251, 146, 60, 0.14), rgba(251, 146, 60, 0.06));
     box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.24),
-      0 0 0 1px rgba(251, 146, 60, 0.5),
-      0 0 20px rgba(251, 146, 60, 0.35);
+      0 0 0 1px rgba(251, 146, 60, 0.4),
+      0 0 16px rgba(251, 146, 60, 0.22);
   }
 }
 
@@ -1262,13 +1642,9 @@
  */
 .auxillaries-bitcode-surface .repository-connection-section,
 .repository-connection-section {
-  --github-section-rest-border: rgba(167, 139, 250, 0.42);
-  --github-section-rest-shadow: 0 18px 44px rgba(0, 0, 0, 0.2);
-  --github-section-rest-bg: linear-gradient(
-    145deg,
-    rgba(36, 22, 62, 0.9),
-    rgba(14, 12, 28, 0.9)
-  );
+  --github-section-rest-border: var(--aux-bc-github-section-border, rgba(167, 139, 250, 0.38));
+  --github-section-rest-shadow: none;
+  --github-section-rest-bg: var(--aux-bc-github-section-bg);
   border-style: solid;
   border-width: 1px;
   border-color: var(--github-section-rest-border);
@@ -1287,29 +1663,19 @@
   }
   12%,
   40% {
-    border-color: rgba(221, 214, 254, 0.95);
-    background: linear-gradient(
-      145deg,
-      rgba(76, 29, 149, 0.94),
-      rgba(30, 20, 56, 0.92)
-    );
+    /* Glow via border/shadow only — keep glass fill (no opaque violet wall). */
+    border-color: rgba(221, 214, 254, 0.85);
+    background: var(--github-section-rest-bg);
     box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.28),
-      0 0 0 2px rgba(167, 139, 250, 0.8),
-      0 0 36px rgba(139, 92, 246, 0.55),
-      0 0 0 1px rgba(167, 139, 250, 0.28) inset;
+      0 0 0 2px rgba(167, 139, 250, 0.55),
+      0 0 28px rgba(139, 92, 246, 0.35);
   }
   48% {
-    border-color: rgba(196, 181, 253, 0.78);
-    background: linear-gradient(
-      145deg,
-      rgba(55, 28, 110, 0.9),
-      rgba(22, 16, 42, 0.88)
-    );
+    border-color: rgba(196, 181, 253, 0.65);
+    background: var(--github-section-rest-bg);
     box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.24),
-      0 0 0 1px rgba(167, 139, 250, 0.5),
-      0 0 20px rgba(139, 92, 246, 0.35);
+      0 0 0 1px rgba(167, 139, 250, 0.4),
+      0 0 16px rgba(139, 92, 246, 0.22);
   }
 }
 

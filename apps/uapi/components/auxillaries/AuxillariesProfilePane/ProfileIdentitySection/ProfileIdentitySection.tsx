@@ -35,7 +35,7 @@ export default function ProfileIdentitySection({
 }: ProfileIdentitySectionProps) {
   return (
     <>
-      <section className="rounded-none border border-white/10 bg-black/20 p-5">
+      <section className="auxillaries-glass-card rounded-none border border-white/10 p-5">
         <div className="mb-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/62">
             Account profile
@@ -133,7 +133,7 @@ export default function ProfileIdentitySection({
         </div>
       </section>
 
-      <section className="mt-5 rounded-none border border-white/10 bg-white/[0.04] p-5">
+      <section className="auxillaries-glass-card mt-5 rounded-none border border-white/10 p-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/62">
           Organization role posture
         </p>

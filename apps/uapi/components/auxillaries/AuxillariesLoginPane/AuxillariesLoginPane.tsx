@@ -49,7 +49,7 @@ export default function AuxillariesLoginPane({
               </p>
             </div>
 
-            <div className="orbital-auth-support-card rounded-none border border-white/10 bg-black/20 px-4 py-4">
+            <div className="orbital-auth-support-card rounded-none border border-white/10 auxillaries-glass-card px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Required providers
               </p>
@@ -59,7 +59,7 @@ export default function AuxillariesLoginPane({
               </p>
             </div>
 
-            <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-none border border-white/10 bg-black/20 px-4 py-4">
+            <div className="orbital-auth-support-card orbital-auth-support-card-wide rounded-none border border-white/10 auxillaries-glass-card px-4 py-4">
               <p className="text-[0.62rem] uppercase tracking-[0.18em] text-white/72">
                 Auxillaries after connect
               </p>

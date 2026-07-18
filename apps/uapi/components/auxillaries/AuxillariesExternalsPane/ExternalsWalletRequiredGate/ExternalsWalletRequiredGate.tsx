@@ -7,7 +7,7 @@ import React from 'react';
 
 export default function ExternalsWalletRequiredGate() {
   return (
-    <div className="space-y-4 rounded-none border border-white/10 bg-black/20 p-5 text-white/80">
+    <div className="space-y-4 rounded-none border border-white/10 auxillaries-glass-card p-5 text-white/80">
       <div className="space-y-2">
         <h3 className="text-lg font-semibold text-white">Connect Bitcoin wallet first</h3>
         <p className="text-sm leading-7 text-white/68">

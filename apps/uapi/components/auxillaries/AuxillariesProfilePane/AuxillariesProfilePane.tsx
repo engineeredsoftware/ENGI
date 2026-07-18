@@ -82,7 +82,7 @@ export default function AuxillariesProfilePane({
 
           {!isOnboardingComplete ? (
             <div
-              className="onboarding-info rounded-none border border-emerald-300/22 bg-[linear-gradient(145deg,rgba(15,30,50,0.7),rgba(10,20,35,0.7))] px-5 py-5 shadow-[0_8px_25px_rgba(0,0,0,0.2)]"
+              className="onboarding-info auxillaries-glass-card rounded-none border border-emerald-300/22 px-5 py-5"
             >
               <strong className="text-base text-white/95">
                 Step 3: Optional profile
@@ -125,7 +125,7 @@ export default function AuxillariesProfilePane({
             teamMembers={form.teamMembers}
           />
 
-          <div className="rounded-none border border-white/10 bg-black/20 px-5 py-4">
+          <div className="auxillaries-glass-card rounded-none border border-white/10 px-5 py-4">
             <p className="text-sm leading-7 text-white/68">
               Profile changes save automatically. Wallet connection and GitHub installation are managed in their own auxillaries.
             </p>

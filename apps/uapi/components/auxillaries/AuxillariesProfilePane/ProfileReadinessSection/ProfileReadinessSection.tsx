@@ -19,7 +19,7 @@ export default function ProfileReadinessSection({ profileState = null }: Profile
   return (
     <section
       data-testid="auxillaries-profile-readiness"
-      className="mb-6 rounded-none border border-emerald-300/16 bg-emerald-300/[0.055] p-5"
+      className="auxillaries-glass-card mb-6 rounded-none border border-emerald-300/16 p-5"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -30,12 +30,12 @@ export default function ProfileReadinessSection({ profileState = null }: Profile
             {readProfileReadinessLabel(profileState)}
           </h3>
         </div>
-        <div className="rounded-none border border-white/10 bg-black/24 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/72">
+        <div className="auxillaries-glass-nested rounded-none border border-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/72">
           {profileState?.accountReadiness ?? 'loading'}
         </div>
       </div>
       <div className="mt-4 grid gap-3 tablet:grid-cols-3">
-        <div className="rounded-none border border-white/10 bg-black/18 p-3">
+        <div className="auxillaries-glass-nested rounded-none border border-white/10 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Wallet
           </p>
@@ -43,7 +43,7 @@ export default function ProfileReadinessSection({ profileState = null }: Profile
             {profileState?.walletBinding?.address ? 'Binding present' : 'Binding repairable'}
           </p>
         </div>
-        <div className="rounded-none border border-white/10 bg-black/18 p-3">
+        <div className="auxillaries-glass-nested rounded-none border border-white/10 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Notifications
           </p>
@@ -53,7 +53,7 @@ export default function ProfileReadinessSection({ profileState = null }: Profile
               : 'Loading'}
           </p>
         </div>
-        <div className="rounded-none border border-white/10 bg-black/18 p-3">
+        <div className="auxillaries-glass-nested rounded-none border border-white/10 p-3">
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/48">
             Data sharing
           </p>
@@ -69,7 +69,7 @@ export default function ProfileReadinessSection({ profileState = null }: Profile
           {profileReadinessIssues.slice(0, 5).map((issue) => (
             <div
               key={issue.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-none border border-white/10 bg-black/18 px-3 py-2"
+              className="auxillaries-glass-nested flex flex-wrap items-center justify-between gap-2 rounded-none border border-white/10 px-3 py-2"
             >
               <div>
                 <p className="text-sm font-semibold text-white/84">{issue.summary}</p>

@@ -146,7 +146,7 @@ export default function AuxillariesInterfacesPane({
               />
             </AuxillariesWorkspaceSection>
 
-            <div className="rounded-none border border-white/10 bg-black/20 px-5 py-4">
+            <div className="rounded-none border border-white/10 auxillaries-glass-card px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
                 Changes save automatically so product transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same interface defaults. Ledgerized Reading pipelines keep protocol-owned model configuration.
               </p>

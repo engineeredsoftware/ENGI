@@ -18,6 +18,7 @@ const AUX_PANE_EASE = [0.16, 1, 0.3, 1] as const;
 /**
  * Last CSS stagger delay (0.17s) + rise duration (0.28s) + buffer.
  * Keep the enter class mounted through the full cascade, then strip once.
+ * (Do not shorten for open-path perf — open latency is prefetch/keep-alive.)
  */
 const INNER_ENTER_MS = 560;
 
@@ -143,9 +144,8 @@ function AuxillariesContent(props: AuxillariesContentProps) {
     return { pos, currentIdx, lastCompletedIdx };
   }, [steps, currentStep, completedSteps]);
 
-  // Snappy shell motion — no enter delay; exit faster than enter so the next
-  // pane feels immediate after a tab click. Inner CSS stagger is owned by
-  // AuxillariesPaneEnterHost (remounts with the pane key).
+  // Pane shell motion (original timings). Inner CSS stagger is owned by
+  // AuxillariesPaneEnterHost — do not speed these for open-path perf.
   const paneMotion = reduceMotion
     ? {
         initial: false as const,
@@ -218,6 +218,93 @@ function AuxillariesContent(props: AuxillariesContentProps) {
     usesContainedLayout,
   ]);
 
+  /*
+   * Audit + pane body share one STABLE scroll shell.
+   * Never put overflow-y on the AnimatePresence/motion host — remounting that
+   * host on step change (or Externals readiness load) flashes a second bar
+   * along the right edge beside Mainnet readiness.
+   */
+  const auditDetail = (
+    <details
+      className="auxillaries-audit-detail"
+      data-auxillaries-testid="auxillaries-audit-detail"
+      data-testid="auxillaries-audit-detail"
+    >
+      <summary>Audit detail</summary>
+      <dl className="auxillaries-audit-detail-grid">
+        <div>
+          <dt>Active pane</dt>
+          <dd>{activePaneLabel}</dd>
+        </div>
+        <div>
+          <dt>Available panes</dt>
+          <dd>{availableStepLabels.length ? availableStepLabels.join(', ') : 'none'}</dd>
+        </div>
+        <div>
+          <dt>Blocked panes</dt>
+          <dd>{blockedStepLabels.length ? blockedStepLabels.join(', ') : 'none'}</dd>
+        </div>
+        <div>
+          <dt>Completed panes</dt>
+          <dd>
+            {completedSteps.length
+              ? completedSteps.map((step) => labelForAuxillaryPane(step)).join(', ')
+              : 'none'}
+          </dd>
+        </div>
+        <div>
+          <dt>Surface</dt>
+          <dd>{mode === 'auxillaries' ? 'Auxillaries support plane' : 'onboarding support plane'}</dd>
+        </div>
+        <div>
+          <dt>State</dt>
+          <dd>{showContent ? 'ready' : 'loading'}</dd>
+        </div>
+        <div>
+          <dt>Source safety</dt>
+          <dd>source-safe summary only</dd>
+        </div>
+      </dl>
+    </details>
+  );
+
+  const paneBody =
+    showContent && currentStep ? (
+      <AnimatePresence mode="wait" initial={!reduceMotion}>
+        <motion.div
+          key={currentStep}
+          className="auxillaries-pane-body"
+          initial={paneMotion.initial}
+          animate={paneMotion.animate}
+          exit={{
+            ...paneMotion.exit,
+            transition: reduceMotion
+              ? { duration: 0 }
+              : { duration: 0.2, ease: AUX_PANE_EASE },
+          }}
+          transition={paneMotion.transition}
+          style={
+            reduceMotion
+              ? undefined
+              : {
+                  willChange: 'transform, opacity',
+                  transform: 'translateZ(0)',
+                  backfaceVisibility: 'hidden',
+                }
+          }
+        >
+          <AuxillariesPaneEnterHost reduceMotion={reduceMotion}>
+            {renderStepContent(currentStep)}
+          </AuxillariesPaneEnterHost>
+        </motion.div>
+      </AnimatePresence>
+    ) : (
+      <div className="auxillaries-active-pane-loading" role="status" aria-live="polite">
+        Loading active pane.
+      </div>
+    );
+
+  /* Legacy orbital (non-contained) keeps content class on the motion host. */
   const contentPanel =
     showContent && currentStep ? (
       <AnimatePresence mode="wait" initial={!reduceMotion}>
@@ -230,7 +317,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
             ...paneMotion.exit,
             transition: reduceMotion
               ? { duration: 0 }
-              : { duration: 0.16, ease: AUX_PANE_EASE },
+              : { duration: 0.2, ease: AUX_PANE_EASE },
           }}
           transition={paneMotion.transition}
           style={
@@ -354,7 +441,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
             </div>
           ) : null}
           <aside
-            className={`orbital-workspace-nav auxillaries-bitcode-selector${chromeActions ? ' auxillaries-bitcode-selector-with-chrome' : ''}`}
+            className={`orbital-workspace-nav auxillaries-bitcode-selector auxillaries-column-shell${chromeActions ? ' auxillaries-bitcode-selector-with-chrome' : ''}`}
             role="navigation"
             aria-label="Auxillaries pane navigation"
             data-auxillaries-testid="auxillaries-pane-navigation"
@@ -380,57 +467,13 @@ function AuxillariesContent(props: AuxillariesContentProps) {
             data-auxillaries-pane-state={showContent ? 'ready' : 'loading'}
           >
             {/*
-              No redundant "Active support pane" banner — readiness lives in the
-              left selector + audit detail; content starts at the same top edge
-              as the selector column.
+              Stable scroll shell — never remounts with the pane key.
+              AnimatePresence only owns the body inside; audit always stays put.
             */}
-            {contentPanel ?? (
-              <div className="auxillaries-active-pane-loading" role="status" aria-live="polite">
-                Loading active pane.
-              </div>
-            )}
-
-            <details
-              className="auxillaries-audit-detail"
-              data-auxillaries-testid="auxillaries-audit-detail"
-              data-testid="auxillaries-audit-detail"
-            >
-              <summary>Audit detail</summary>
-              <dl className="auxillaries-audit-detail-grid">
-                <div>
-                  <dt>Active pane</dt>
-                  <dd>{activePaneLabel}</dd>
-                </div>
-                <div>
-                  <dt>Available panes</dt>
-                  <dd>{availableStepLabels.length ? availableStepLabels.join(', ') : 'none'}</dd>
-                </div>
-                <div>
-                  <dt>Blocked panes</dt>
-                  <dd>{blockedStepLabels.length ? blockedStepLabels.join(', ') : 'none'}</dd>
-                </div>
-                <div>
-                  <dt>Completed panes</dt>
-                  <dd>
-                    {completedSteps.length
-                      ? completedSteps.map((step) => labelForAuxillaryPane(step)).join(', ')
-                      : 'none'}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Surface</dt>
-                  <dd>{mode === 'auxillaries' ? 'Auxillaries support plane' : 'onboarding support plane'}</dd>
-                </div>
-                <div>
-                  <dt>State</dt>
-                  <dd>{showContent ? 'ready' : 'loading'}</dd>
-                </div>
-                <div>
-                  <dt>Source safety</dt>
-                  <dd>source-safe summary only</dd>
-                </div>
-              </dl>
-            </details>
+            <div className="orbital-content-container auxillaries-column-shell">
+              {paneBody}
+              {auditDetail}
+            </div>
           </section>
         </main>
       ) : (

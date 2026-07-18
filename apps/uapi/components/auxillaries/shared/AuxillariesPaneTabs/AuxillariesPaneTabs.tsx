@@ -32,7 +32,7 @@ export default function AuxillariesPaneTabs({
   const isAuxillariesMode = mode === 'auxillaries';
 
   return (
-    <div className="orbital-pane-tabs mb-4 rounded-none border border-white/8 bg-black/20 px-3 py-3 phone:mb-6 phone:px-4 phone:py-4">
+    <div className="orbital-pane-tabs mb-4 rounded-none border border-white/8 auxillaries-glass-card px-3 py-3 phone:mb-6 phone:px-4 phone:py-4">
       <div className="flex flex-col gap-3 tablet:flex-row tablet:items-end tablet:justify-between">
         <div className="min-w-0">
           <p className="text-[0.66rem] uppercase tracking-[0.22em] text-emerald-300/80">

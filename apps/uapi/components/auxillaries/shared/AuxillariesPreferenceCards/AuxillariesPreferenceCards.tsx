@@ -31,7 +31,7 @@ export default function AuxillariesPreferenceCards({
       {items.map((item) => (
         <article
           key={item.id}
-          className="rounded-none border border-white/8 bg-black/20 p-4"
+          className="auxillaries-glass-card rounded-none border border-white/8 p-4"
         >
           <h4 className="text-sm font-semibold text-white">{item.title}</h4>
           <p className="mt-2 text-sm leading-6 text-white/64">{item.description}</p>
