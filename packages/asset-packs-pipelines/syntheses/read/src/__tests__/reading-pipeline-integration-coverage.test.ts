@@ -1,5 +1,5 @@
-import { buildAssetPackPreviewBoundary } from '../asset-pack-preview-boundary';
-import { buildAssetPackSettlementRightsDeliveryBoundary } from '../asset-pack-settlement-rights-delivery';
+import { buildAssetPackPreviewBoundary } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-preview-boundary';
+import { buildAssetPackSettlementRightsDeliveryBoundary } from '@bitcode/asset-packs-pipelines-domain/asset-pack-settlement-rights-delivery';
 import {
   buildDepositoryFitResultEvidence,
   runDepositorySearchForPipelineInput,

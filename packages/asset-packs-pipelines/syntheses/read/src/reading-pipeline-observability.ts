@@ -465,7 +465,7 @@ function inferPipelineName(source: ProjectionSource): ReadingPipelineName | null
 
 function stepNameFromId(value: unknown): ReadingPipelinePtrrStepName | null {
   const text = String(value || '').split('.').pop() || '';
-  return ['plan', 'try', 'refine', 'retry'].includes(text)
+  return ['plan', 'try', 'retry', 'refine'].includes(text)
     ? (text as ReadingPipelinePtrrStepName)
     : null;
 }

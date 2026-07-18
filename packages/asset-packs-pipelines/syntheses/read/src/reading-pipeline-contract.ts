@@ -5,7 +5,7 @@ export type ReadingPipelineName =
   | typeof READ_NEED_COMPREHENSION_SYNTHESIS
   | typeof READ_FITS_FINDING_SYNTHESIS;
 
-export type ReadingPipelinePtrrStepName = 'plan' | 'try' | 'refine' | 'retry';
+export type ReadingPipelinePtrrStepName = 'plan' | 'try' | 'retry' | 'refine';
 
 export type ReadingPipelineThinkingsFailsafe =
   | 'prepare-concise-context'
@@ -141,7 +141,8 @@ const READ_FITS_FINDING_PROMPT_TEMPLATE = [
 const readNeedTelemetry = (suffix: string) => `${READ_NEED_COMPREHENSION_SYNTHESIS}.telemetry.${suffix}`;
 const readFitsFindingTelemetry = (suffix: string) => `${READ_FITS_FINDING_SYNTHESIS}.telemetry.${suffix}`;
 
-const PTRR_STEP_NAMES: ReadingPipelinePtrrStepName[] = ['plan', 'try', 'refine', 'retry'];
+// Canonical PTRR runtime order: Plan → Try → Retry → Refine.
+const PTRR_STEP_NAMES: ReadingPipelinePtrrStepName[] = ['plan', 'try', 'retry', 'refine'];
 const THINKINGS_FAILSAFES: ReadingPipelineThinkingsFailsafe[] = [
   'prepare-concise-context',
   'chunk-then-sum',
@@ -183,8 +184,8 @@ function ptrrPromptRegistry(
     ptrrStepPromptIds: {
       plan: `${promptPrefix}.plan`,
       try: `${promptPrefix}.try`,
-      refine: `${promptPrefix}.refine`,
       retry: `${promptPrefix}.retry`,
+      refine: `${promptPrefix}.refine`,
     },
     promptPartNamespaces: {
       agent: 'agent/*',

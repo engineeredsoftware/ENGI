@@ -58,10 +58,13 @@ function createJestConfig(pkgDir, overrides = {}) {
       ]
     },
     moduleNameMapper: {
-      // Hierarchy package names first (nested paths), then tsconfig paths, then overrides
+      // Jest uses first-matching pattern. Put package overrides first so nested
+      // subpath maps (e.g. @bitcode/generic-llms-models/src/*) beat the flat
+      // tsconfig catch-all (@bitcode/* → packages/*). Hierarchy package entries
+      // next, then shared tsconfig-derived paths.
+      ...(overrides.moduleNameMapper || {}),
       ...hierarchyPackageMapper,
       ...sharedModuleNameMapper,
-      ...(overrides.moduleNameMapper || {})
     },
     setupFiles: overrides.setupFiles || [],
     setupFilesAfterEnv: [
