@@ -1,7 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   isAuxillariesCompatPath,
   isAuxillariesPath,
@@ -11,8 +18,12 @@ import {
 import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 
-/** Matches marketing landing entranceEase. */
-const AUX_ENTRANCE_EASE = [0.16, 1, 0.3, 1] as const;
+/**
+ * Overlay fade only (surface keeps original internal entrance motion).
+ * Open latency is solved via prefetch + keep-alive, not by shortening these.
+ */
+const OPEN_MS = 280;
+const OPEN_EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
 function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined') return false;
@@ -23,29 +34,97 @@ function prefersReducedMotion(): boolean {
   }
 }
 
-const AuxillariesSurface = dynamic(() => import('@/components/auxillaries/AuxillariesSurface/AuxillariesSurface'), { ssr: false });
+const AuxillariesSurface = dynamic(
+  () => import('@/components/auxillaries/AuxillariesSurface/AuxillariesSurface'),
+  { ssr: false, loading: () => null },
+);
 
+/** Warm the dynamic shell as soon as the provider module evaluates on the client. */
 if (typeof window !== 'undefined') {
   (AuxillariesSurface as typeof AuxillariesSurface & { preload?: () => void }).preload?.();
 }
 
-const prefetchAuxillaries = () => {
-  if (typeof window !== 'undefined' && !(window as any).__auxillariesPrefetched) {
-    (window as any).__auxillariesPrefetched = true;
-    import('@/components/auxillaries/AuxillariesSurface/AuxillariesSurface').catch(() => {});
-    import('@/components/auxillaries/AuxillariesLoginPane/AuxillariesLoginPane').catch(() => {});
-    import('@/components/auxillaries/AuxillariesContent/AuxillariesContent').catch(() => {});
-    import('@/hooks/use-auth-query').catch(() => {});
-    if (typeof fetch !== 'undefined') {
-      fetch('/api/auxillaries/data', { method: 'HEAD', credentials: 'same-origin' }).catch(() => {});
+type PrefetchOptions = {
+  /**
+   * When true (default), fetch immediately (hover / open / click).
+   * When false, schedule via requestIdleCallback for background warm.
+   */
+  urgent?: boolean;
+};
+
+/**
+ * Prefetch Auxillaries chunks + default wallet pane so open is JS-warm.
+ * Idempotent; urgent wins over a pending idle schedule.
+ */
+const prefetchAuxillaries = (options: PrefetchOptions = {}) => {
+  if (typeof window === 'undefined') return;
+  const urgent = options.urgent !== false;
+
+  const w = window as Window & {
+    __auxillariesPrefetched?: boolean;
+    __auxillariesPrefetchIdle?: number;
+  };
+
+  const warm = () => {
+    if (w.__auxillariesPrefetched) return;
+    w.__auxillariesPrefetched = true;
+    if (w.__auxillariesPrefetchIdle != null) {
+      if (typeof window.cancelIdleCallback === 'function') {
+        try {
+          window.cancelIdleCallback(w.__auxillariesPrefetchIdle);
+        } catch {
+          window.clearTimeout(w.__auxillariesPrefetchIdle);
+        }
+      } else {
+        window.clearTimeout(w.__auxillariesPrefetchIdle);
+      }
+      w.__auxillariesPrefetchIdle = undefined;
     }
+
+    // Surface shell first (critical path), then content + default wallet pane.
+    void import('@/components/auxillaries/AuxillariesSurface/AuxillariesSurface');
+    void import('@/components/auxillaries/AuxillariesContent/AuxillariesContent');
+    void import('@/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane');
+    void import('@/components/auxillaries/AuxillariesLoginPane/AuxillariesLoginPane');
+    // Secondary panes — still warm so tab switches stay instant.
+    void import('@/components/auxillaries/AuxillariesExternalsPane/AuxillariesExternalsPane');
+    void import('@/components/auxillaries/AuxillariesProfilePane/AuxillariesProfilePane');
+    void import('@/components/auxillaries/AuxillariesInterfacesPane/AuxillariesInterfacesPane');
+    void import('@/hooks/use-auth-query');
+    (AuxillariesSurface as typeof AuxillariesSurface & { preload?: () => void }).preload?.();
+
+    // HEAD warms the connection; GET is owned by useUserData cache when present.
+    if (typeof fetch !== 'undefined') {
+      fetch('/api/auxillaries/data', { method: 'HEAD', credentials: 'same-origin' }).catch(
+        () => {},
+      );
+    }
+  };
+
+  if (w.__auxillariesPrefetched) return;
+
+  if (urgent) {
+    warm();
+    return;
+  }
+
+  if (w.__auxillariesPrefetchIdle != null) return;
+
+  if (typeof window.requestIdleCallback === 'function') {
+    w.__auxillariesPrefetchIdle = window.requestIdleCallback(() => warm(), {
+      timeout: 900,
+    });
+  } else {
+    w.__auxillariesPrefetchIdle = window.setTimeout(warm, 200) as unknown as number;
   }
 };
 
 type AuxillaryWindow = 'ConnectWindow' | 'AuxillariesWindow';
 type AuxillaryOpenMode = AuxillaryWindow | 'connect' | 'account' | 'auxillaries';
 
-function normalizeAuxillaryWindow(requestedWindow: AuxillaryOpenMode = 'AuxillariesWindow'): AuxillaryWindow {
+function normalizeAuxillaryWindow(
+  requestedWindow: AuxillaryOpenMode = 'AuxillariesWindow',
+): AuxillaryWindow {
   if (requestedWindow === 'connect') {
     return 'ConnectWindow';
   }
@@ -78,28 +157,42 @@ const AuxillariesContext = createContext<AuxillariesContextType | null>(null);
 
 export default function AuxillariesProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  /** After first open, keep the surface mounted (hidden) so re-open skips remount cost. */
+  const [hasOpened, setHasOpened] = useState(false);
   const [windowState, setWindowState] = useState<AuxillaryWindow>('AuxillariesWindow');
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
   const [deepLinkStep, setDeepLinkStep] = useState<AuxillaryPane | null>(null);
-  const reduceMotion = prefersReducedMotion();
+  const reduceMotionRef = useRef(prefersReducedMotion());
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = document.createElement('div');
     el.id = 'auxillaries-portal';
     document.body.appendChild(el);
     setPortalContainer(el);
+    // Idle-warm chunks while the user is still on product chrome.
+    prefetchAuxillaries({ urgent: false });
     return () => {
       if (el.parentNode) el.parentNode.removeChild(el);
       setPortalContainer(null);
     };
   }, []);
 
+  useLayoutEffect(() => {
+    if (isOpen) {
+      document.documentElement.classList.add('auxillaries-open', 'overflow-hidden');
+    } else {
+      document.documentElement.classList.remove('auxillaries-open', 'overflow-hidden');
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const openFromLocation = () => {
       const step = readAuxillaryOverlayStep(new URLSearchParams(window.location.search));
       if (!step || isDedicatedAuxillariesLocation()) return;
+      prefetchAuxillaries({ urgent: true });
       setWindowState('AuxillariesWindow');
       setDeepLinkStep(step);
+      setHasOpened(true);
       setIsOpen(true);
     };
 
@@ -111,20 +204,14 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      document.documentElement.classList.add('auxillaries-open', 'overflow-hidden');
-    } else {
-      document.documentElement.classList.remove('auxillaries-open', 'overflow-hidden');
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
     const onOpen = (e: Event) => {
-      const detail = (e as CustomEvent)?.detail as {
-        window?: AuxillaryWindow;
-        mode?: 'connect' | 'account' | 'auxillaries';
-        step?: AuxillaryPane;
-      } | undefined;
+      const detail = (e as CustomEvent)?.detail as
+        | {
+            window?: AuxillaryWindow;
+            mode?: 'connect' | 'account' | 'auxillaries';
+            step?: AuxillaryPane;
+          }
+        | undefined;
 
       if (isDedicatedAuxillariesLocation()) {
         setIsOpen(false);
@@ -132,9 +219,11 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
         return;
       }
 
+      prefetchAuxillaries({ urgent: true });
       if (detail?.window) setWindowState(detail.window);
       else if (detail?.mode) setWindowState(normalizeAuxillaryWindow(detail.mode));
       setDeepLinkStep(detail?.step ?? null);
+      setHasOpened(true);
       setIsOpen(true);
     };
 
@@ -159,7 +248,9 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
       return;
     }
 
+    prefetchAuxillaries({ urgent: true });
     setWindowState(win);
+    setHasOpened(true);
     setIsOpen(true);
   }, []);
 
@@ -178,7 +269,10 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     if (typeof win !== 'undefined') setWindowState(win);
     setIsOpen((prev) => {
       const next = !prev;
-      if (!next) {
+      if (next) {
+        prefetchAuxillaries({ urgent: true });
+        setHasOpened(true);
+      } else {
         setDeepLinkStep(null);
       }
       return next;
@@ -193,49 +287,43 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     toggleAuxillaries,
   };
 
+  const showSurface = hasOpened || isOpen;
+  const reduceMotion = reduceMotionRef.current;
+
   return (
     <AuxillariesContext.Provider value={ctx}>
       {children}
-      {portalContainer
+      {portalContainer && showSurface
         ? createPortal(
-            <AnimatePresence>
-              {isOpen ? (
-                <motion.div
-                  key="auxillaries-overlay"
-                  className="auxillaries-portal auxillaries-open"
-                  initial={reduceMotion ? false : { opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={reduceMotion ? undefined : { opacity: 0 }}
-                  transition={{
-                    duration: reduceMotion ? 0 : 0.38,
-                    ease: AUX_ENTRANCE_EASE,
-                  }}
-                >
-                  <motion.div
-                    className="h-full w-full"
-                    initial={
-                      reduceMotion ? false : { opacity: 0, y: 22, scale: 0.985 }
-                    }
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={reduceMotion ? undefined : { opacity: 0, y: 12, scale: 0.99 }}
-                    transition={{
-                      duration: reduceMotion ? 0 : 0.55,
-                      ease: AUX_ENTRANCE_EASE,
-                    }}
-                    style={{
-                      willChange: reduceMotion ? undefined : 'transform, opacity',
-                      transformOrigin: 'center top',
-                    }}
-                  >
-                    <AuxillariesSurface
-                      window={windowState}
-                      onClose={closeAuxillaries}
-                      initialStep={deepLinkStep ?? undefined}
-                    />
-                  </motion.div>
-                </motion.div>
-              ) : null}
-            </AnimatePresence>,
+            <div
+              className={`auxillaries-portal${isOpen ? ' auxillaries-open' : ' auxillaries-portal-dormant'}`}
+              data-testid="auxillaries-overlay-root"
+              data-auxillaries-open={isOpen ? 'true' : 'false'}
+              aria-hidden={!isOpen}
+              {...(!isOpen
+                ? ({
+                    // React 18 types omit inert; browsers treat presence as true.
+                    inert: '',
+                  } as React.HTMLAttributes<HTMLDivElement>)
+                : null)}
+              style={{
+                opacity: isOpen ? 1 : 0,
+                visibility: isOpen ? 'visible' : 'hidden',
+                pointerEvents: isOpen ? 'auto' : 'none',
+                transition: reduceMotion
+                  ? undefined
+                  : `opacity ${OPEN_MS}ms ${OPEN_EASE}`,
+                willChange: isOpen && !reduceMotion ? 'opacity' : undefined,
+              }}
+            >
+              <div className="h-full w-full">
+                <AuxillariesSurface
+                  window={windowState}
+                  onClose={closeAuxillaries}
+                  initialStep={deepLinkStep ?? undefined}
+                />
+              </div>
+            </div>,
             portalContainer,
           )
         : null}
@@ -249,8 +337,11 @@ export function useAuxillaries() {
   return ctx;
 }
 
-export function openAuxillaries(requestedWindow: AuxillaryOpenMode = 'AuxillariesWindow', step?: AuxillaryPane) {
-  prefetchAuxillaries();
+export function openAuxillaries(
+  requestedWindow: AuxillaryOpenMode = 'AuxillariesWindow',
+  step?: AuxillaryPane,
+) {
+  prefetchAuxillaries({ urgent: true });
   const win = normalizeAuxillaryWindow(requestedWindow);
   const ev = new CustomEvent('open-auxillaries', { detail: { window: win, step } });
   window.dispatchEvent(ev);

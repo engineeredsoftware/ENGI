@@ -6,7 +6,6 @@
 import {
   startTransition,
   useCallback,
-  useDeferredValue,
   useEffect,
   useMemo,
   useRef,
@@ -49,8 +48,13 @@ export function useAuxillariesSurface({
   onClose,
   initialStep = null,
 }: UseAuxillariesSurfaceArgs) {
-  const [animationsEnabled, setAnimationsEnabled] = useState(false);
-  const deferredAnimationsEnabled = useDeferredValue(animationsEnabled);
+  /*
+   * Start enabled. Gating entrance behind rAF + useDeferredValue delayed CSS
+   * cascade until after framer pane motion finished — looked like a double
+   * entrance. Open latency is prefetch/keep-alive, not deferred animation.
+   */
+  const [animationsEnabled, setAnimationsEnabled] = useState(true);
+  const deferredAnimationsEnabled = animationsEnabled;
   const containerRef = useRef<HTMLDivElement>(null);
 
   const queryClient = useQueryClient();
@@ -88,9 +92,16 @@ export function useAuxillariesSurface({
   const treatsContainedSurfaceAsAuxillaries = usesContainedAuxillariesSurface;
 
   const [activeWindow, setActiveWindow] = useState<'ConnectWindow' | 'AuxillariesWindow'>(windowProp);
+  /** Explicit open target (deep link / chrome) — never override with GitHub auto-cue. */
+  const explicitOpenStep = normalizeAuxillaryPane(initialStep) ?? routeStep ?? null;
   const [currentStep, setCurrentStep] = useState<ConcreteAuxillaryPane>(
-    normalizeAuxillaryPane(initialStep) ?? routeStep ?? 'wallet',
+    explicitOpenStep ?? 'wallet',
   );
+  /**
+   * Hold workspace pane paint until auth + auto-cue step are resolved so we do
+   * not entrance-animate Wallet then immediately remount Externals (double trip).
+   */
+  const [workspaceStepResolved, setWorkspaceStepResolved] = useState(Boolean(explicitOpenStep));
   const [completedSteps, setCompletedSteps] = useState<ConcreteAuxillaryPane[]>([]);
   const [stepCompletionStates, setStepCompletionStates] = useState<Record<ConcreteAuxillaryPane, boolean>>({
     wallet: false,
@@ -110,7 +121,8 @@ export function useAuxillariesSurface({
 
   useEffect(() => {
     requestAnimationFrame(() => {
-      containerRef.current?.focus();
+      containerRef.current?.focus({ preventScroll: true });
+      // Keep true; only re-assert if a caller flipped it off.
       setAnimationsEnabled(true);
     });
   }, []);
@@ -363,22 +375,31 @@ export function useAuxillariesSurface({
     if (walletJustConnected && needsGitHubConnectAttention) {
       focusExternalsGitHubConnect();
       githubCueOnOpenRef.current = true;
+      setWorkspaceStepResolved(true);
       return;
     }
 
     // Opening Auxillaries with wallet already bound and no GitHub attachment:
-    // cue Externals once per surface session (not on every pane switch).
+    // land on Externals *before* first content paint (workspaceStepResolved gate)
+    // so Wallet never entrance-animates then gets replaced (double trip).
+    // Honor explicit open targets (e.g. BTD → wallet) without hijacking.
     if (
       !githubCueOnOpenRef.current &&
       hasWalletConnection &&
       needsGitHubConnectAttention &&
-      treatsContainedSurfaceAsAuxillaries
+      treatsContainedSurfaceAsAuxillaries &&
+      !explicitOpenStep
     ) {
       githubCueOnOpenRef.current = true;
-      focusExternalsGitHubConnect();
+      setCurrentStep('externals');
+      requestGitHubConnectAttention();
+      trackEvent('auxillaries_connect_focus_github');
     }
+
+    setWorkspaceStepResolved(true);
   }, [
     authLoaded,
+    explicitOpenStep,
     focusExternalsGitHubConnect,
     hasWalletConnection,
     needsGitHubConnectAttention,
@@ -411,15 +432,18 @@ export function useAuxillariesSurface({
   }, [canonicalOnboardingComplete]);
 
   const showConnectPane = activeWindow === 'ConnectWindow' && !sessionUser && !usesContainedAuxillariesSurface;
+  /** Wait for auth/cue resolution before mounting pane content (single entrance). */
+  const showWorkspacePanes = !showConnectPane && workspaceStepResolved;
   const usesBitcodeAuxillariesSurface = usesContainedAuxillariesSurface;
   const auxillariesSurfaceClass = isDedicatedAuxillariesRoute ? 'orbital-system-route' : 'orbital-system-overlay';
-  const auxillariesBackgroundClass = usesContainedAuxillariesSurface
-    ? 'orbital-product-background'
-    : showConnectPane
-      ? 'login-background-glow'
-      : 'account-background-highlight';
-  const auxillariesBackgroundAnimationClass =
-    !usesContainedAuxillariesSurface && deferredAnimationsEnabled ? 'animations-enabled' : '';
+  // Decorative full-bleed field under Auxillaries chrome (wallet product surface
+  // and classic overlay both use the same ring language).
+  const auxillariesBackgroundClass = showConnectPane
+    ? 'login-background-glow'
+    : 'account-background-highlight';
+  const auxillariesBackgroundAnimationClass = deferredAnimationsEnabled
+    ? 'animations-enabled'
+    : '';
 
   return {
     containerRef,
@@ -446,6 +470,7 @@ export function useAuxillariesSurface({
     canonicalOnboardingComplete,
     activeWindow,
     showConnectPane,
+    showWorkspacePanes,
     usesBitcodeAuxillariesSurface,
     auxillariesSurfaceClass,
     auxillariesBackgroundClass,

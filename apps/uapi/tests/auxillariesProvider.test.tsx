@@ -62,12 +62,20 @@ describe('AuxillariesProvider', () => {
 
     expect(document.documentElement.classList.contains('auxillaries-open')).toBe(true);
     expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('AuxillariesWindow:externals');
+    expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
+      'true',
+    );
 
     act(() => {
       closeAuxillaries();
     });
 
-    expect(screen.queryByTestId('auxillaries-overlay')).toBeNull();
+    // Keep-alive: surface stays mounted (hidden) so re-open skips remount cost.
+    expect(document.documentElement.classList.contains('auxillaries-open')).toBe(false);
+    expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
+      'false',
+    );
+    expect(screen.getByTestId('auxillaries-overlay')).toBeTruthy();
   });
 
   it('clears deep-linked pane state after close so later opens do not reuse a stale auxillaries pane', () => {
@@ -104,5 +112,34 @@ describe('AuxillariesProvider', () => {
     );
 
     expect(screen.getByTestId('auxillaries-overlay').textContent).toContain('AuxillariesWindow:wallet');
+  });
+
+  it('re-opens instantly from keep-alive without dropping the warm surface mount', () => {
+    render(
+      <AuxillariesProvider>
+        <div>product</div>
+      </AuxillariesProvider>,
+    );
+
+    act(() => {
+      openAuxillaries('auxillaries', 'wallet');
+    });
+    const firstRoot = screen.getByTestId('auxillaries-overlay-root');
+
+    act(() => {
+      closeAuxillaries();
+    });
+    act(() => {
+      openAuxillaries('auxillaries', 'profile');
+    });
+
+    // Same portal root node — keep-alive path (not unmount/remount).
+    expect(screen.getByTestId('auxillaries-overlay-root')).toBe(firstRoot);
+    expect(screen.getByTestId('auxillaries-overlay').textContent).toContain(
+      'AuxillariesWindow:profile',
+    );
+    expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
+      'true',
+    );
   });
 });

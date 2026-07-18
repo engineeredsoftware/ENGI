@@ -5,13 +5,13 @@
  * State/mutations live in hooks/; dynamic pane imports in auxillaries-surface-dynamic.
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-import OrbitalRings from '@/components/bitcode/orbitals/OrbitalRings/OrbitalRings';
+import { AuxillariesSolarIcon } from '@/components/bitcode/layout/AuxillariesSolarIcon/AuxillariesSolarIcon';
 import { GPUAcceleration } from '@/components/bitcode/perf/GPUAcceleration/GPUAcceleration';
 import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
-import { getAuxillaryRingIndex, type AuxillaryPane } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
+import type { AuxillaryPane } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
 import {
   AuxillariesContent,
@@ -48,6 +48,27 @@ export default function AuxillariesSurface({
     updateProfileMutation: surface.updateProfileMutation,
     queryClient: surface.queryClient,
   });
+
+  /*
+   * Solar field enters after left selector + right pane entrance motion,
+   * then runs a long multi-phase bloom (see auxillaries-solar-field-enter).
+   */
+  const SOLAR_ENTER_AFTER_CONTENT_MS = 820;
+  const [showSolarBackdrop, setShowSolarBackdrop] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const delay = reduceMotion ? 0 : SOLAR_ENTER_AFTER_CONTENT_MS;
+    const timeoutId = window.setTimeout(() => {
+      if (!cancelled) setShowSolarBackdrop(true);
+    }, delay);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Contained workspace: mount Close / Disconnect above the left selector column.
   // Connect + non-contained shells keep the surface-level header chrome.
@@ -122,30 +143,33 @@ export default function AuxillariesSurface({
       tabIndex={0}
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
+      {/*
+        Full-bleed solar system — mounts only after left/right content entrance
+        finishes, then fades/scales in (auxillaries-solar-backdrop-enter).
+      */}
+      {showSolarBackdrop ? (
+        <div
+          className="auxillaries-solar-backdrop-host auxillaries-solar-backdrop-enter pointer-events-none absolute z-0"
+          aria-hidden="true"
+        >
+          <GPUAcceleration className="absolute inset-0 h-full w-full">
+            <AuxillariesSolarIcon variant="backdrop" />
+          </GPUAcceleration>
+        </div>
+      ) : null}
+
       {!placeChromeAboveLeftPane ? (
-        <div className="orbital-header-buttons">{chromeActions}</div>
+        <div className="orbital-header-buttons relative z-[2]">{chromeActions}</div>
       ) : null}
 
-      {!surface.usesContainedAuxillariesSurface ? (
-        <GPUAcceleration>
-          <OrbitalRings
-            count={4}
-            baseSize={30}
-            sizeIncrement={15}
-            activeIndex={surface.showConnectPane ? 0 : getAuxillaryRingIndex(surface.currentStep)}
-            className={`${surface.auxillariesBackgroundClass} ${surface.auxillariesBackgroundAnimationClass}`.trim()}
-          />
-        </GPUAcceleration>
-      ) : null}
-
-      <ContentVisibility containSize="600px 400px">
+      <ContentVisibility containSize="600px 400px" className="relative z-[2] h-full min-h-0 w-full">
         {surface.showConnectPane ? (
           <motion.div
             key="login"
             className="orbital-content-container orbital-auth-container"
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           >
             <AuxillariesLoginPane
               onClose={onClose}
@@ -153,13 +177,13 @@ export default function AuxillariesSurface({
               surfaceVariant={surface.usesContainedAuxillariesSurface ? 'contained' : 'default'}
             />
           </motion.div>
-        ) : (
+        ) : surface.showWorkspacePanes ? (
           <motion.div
             key="auxillaries-workspace"
-            className="h-full min-h-0 w-full"
-            initial={{ opacity: 0, y: 14 }}
+            className="relative z-[2] h-full min-h-0 w-full"
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.06 }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
           >
             <AuxillariesContent
               mode={surface.treatsContainedSurfaceAsAuxillaries ? 'auxillaries' : 'onboarding'}
@@ -177,6 +201,9 @@ export default function AuxillariesSurface({
               isOnboardingComplete={surface.canonicalOnboardingComplete}
             />
           </motion.div>
+        ) : (
+          /* Auth/cue gate: avoid mounting Wallet then remounting Externals. */
+          <div className="relative z-[2] h-full min-h-0 w-full" aria-hidden="true" />
         )}
       </ContentVisibility>
     </div>

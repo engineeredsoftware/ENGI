@@ -98,6 +98,409 @@
   filter: drop-shadow(0 0 9px rgba(101, 254, 183, 0.22));
 }
 
+/*
+ * Full-bleed Auxillaries ambient field (host is rectangular, ~20px edge inset).
+ *
+ * Elliptical tracks: ring box is width% × height% of the rectangular host with
+ * border-radius 50% — wide viewports get real ellipses; square stays circular.
+ *
+ * Planets: parametric orbit via cos/sin on a shared --orbit-angle (not child of
+ * a non-uniform scale/rotate). Equal width/height → always circular/spherical,
+ * seated on the same rx/ry as the matching ring.
+ */
+@property --orbit-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.auxillariesSolarIconBackdrop {
+  /* Shared diameters (fraction of host). Rings + planets read the same tokens. */
+  --solar-outer-d: 1;
+  --solar-middle-d: 0.72;
+  --solar-inner-d: 0.44;
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  flex: none !important;
+  pointer-events: none;
+  border-radius: 0;
+  overflow: visible;
+  filter:
+    drop-shadow(0 0 28px rgba(101, 254, 183, 0.22))
+    drop-shadow(0 0 64px rgba(56, 189, 248, 0.1));
+  opacity: 0.94;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarHalo {
+  inset: 4%;
+  opacity: 0.88;
+  transform: none;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at center, rgba(101, 254, 183, 0.16), transparent 58%),
+    radial-gradient(ellipse at 60% 44%, rgba(56, 189, 248, 0.1), transparent 62%);
+}
+
+/*
+ * Quantum-orb–inspired square energy field (homepage / pipeline loader language).
+ * Soft square plate + rotating frames sit UNDER the circular star — additive only.
+ */
+.auxillariesSolarIconBackdrop .auxillariesSolarQuantumPlate {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(5.5rem, 16vmin, 12.5rem);
+  height: clamp(5.5rem, 16vmin, 12.5rem);
+  border-radius: 0;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(167, 243, 208, 0.42) 18%,
+      rgba(101, 254, 183, 0.28) 38%,
+      rgba(52, 211, 153, 0.12) 58%,
+      transparent 72%
+    );
+  filter: blur(10px);
+  opacity: 0.9;
+  animation: auxillariesSolarQuantumBreathe 3.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarQuantumFrame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 0;
+  border: 1px solid rgba(101, 254, 183, 0.28);
+  box-shadow:
+    0 0 18px rgba(101, 254, 183, 0.2),
+    inset 0 0 14px rgba(101, 254, 183, 0.12);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarQuantumFrame[data-frame='outer'] {
+  width: clamp(3.6rem, 11vmin, 8.5rem);
+  height: clamp(3.6rem, 11vmin, 8.5rem);
+  animation: auxillariesSolarQuantumFrameSpin 28s linear infinite;
+  border-color: rgba(101, 254, 183, 0.32);
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarQuantumFrame[data-frame='inner'] {
+  width: clamp(2.5rem, 7.5vmin, 5.8rem);
+  height: clamp(2.5rem, 7.5vmin, 5.8rem);
+  animation: auxillariesSolarQuantumFrameSpin 18s linear infinite reverse;
+  border-color: rgba(167, 243, 208, 0.38);
+  box-shadow:
+    0 0 14px rgba(167, 243, 208, 0.28),
+    inset 0 0 12px rgba(101, 254, 183, 0.16);
+}
+
+/*
+ * Epic center star — multi-layer corona + rotating flare + pulsing core.
+ * Circular layers stay circular; square plate/frames are separate (above).
+ */
+.auxillariesSolarIconBackdrop .auxillariesSolarCorona {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(4.5rem, 14vmin, 11rem);
+  height: clamp(4.5rem, 14vmin, 11rem);
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(
+      circle at 42% 38%,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(167, 243, 208, 0.35) 12%,
+      rgba(101, 254, 183, 0.22) 28%,
+      rgba(56, 189, 248, 0.1) 48%,
+      transparent 70%
+    );
+  box-shadow:
+    0 0 40px rgba(101, 254, 183, 0.45),
+    0 0 90px rgba(101, 254, 183, 0.28),
+    0 0 160px rgba(56, 189, 248, 0.18),
+    0 0 220px rgba(101, 254, 183, 0.1);
+  animation: auxillariesSolarCoronaPulse 4.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarFlare {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(2.4rem, 7.5vmin, 5.8rem);
+  height: clamp(2.4rem, 7.5vmin, 5.8rem);
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background:
+    conic-gradient(
+      from 0deg,
+      rgba(255, 255, 255, 0.55),
+      rgba(101, 254, 183, 0.15) 40deg,
+      transparent 70deg,
+      rgba(167, 243, 208, 0.45) 110deg,
+      transparent 150deg,
+      rgba(56, 189, 248, 0.35) 200deg,
+      transparent 240deg,
+      rgba(255, 255, 255, 0.4) 290deg,
+      transparent 330deg,
+      rgba(255, 255, 255, 0.55)
+    );
+  mask-image: radial-gradient(circle, transparent 28%, black 42%, black 62%, transparent 78%);
+  -webkit-mask-image: radial-gradient(circle, transparent 28%, black 42%, black 62%, transparent 78%);
+  opacity: 0.85;
+  animation: auxillariesSolarFlareSpin 18s linear infinite;
+  filter: blur(0.4px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarCore {
+  left: 50%;
+  top: 50%;
+  width: clamp(1.15rem, 3.4vmin, 2.75rem);
+  height: clamp(1.15rem, 3.4vmin, 2.75rem);
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffffff 0%,
+      #eafff7 18%,
+      #a7f3d0 42%,
+      #67feb7 68%,
+      #34d399 100%
+    );
+  animation: auxillariesSolarPulseBackdrop 2800ms ease-in-out infinite;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 0 0 6px rgba(101, 254, 183, 0.2),
+    0 0 28px rgba(255, 255, 255, 0.65),
+    0 0 56px rgba(101, 254, 183, 0.85),
+    0 0 100px rgba(101, 254, 183, 0.55),
+    0 0 160px rgba(56, 189, 248, 0.28),
+    0 0 220px rgba(101, 254, 183, 0.16);
+  z-index: 3;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarCore::before {
+  content: '';
+  position: absolute;
+  inset: 18%;
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, 0.95), transparent 65%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarCore::after {
+  content: '';
+  position: absolute;
+  inset: -45%;
+  border-radius: 999px;
+  border: 1px solid rgba(167, 243, 208, 0.35);
+  box-shadow:
+    0 0 20px rgba(101, 254, 183, 0.4),
+    inset 0 0 16px rgba(101, 254, 183, 0.25);
+  animation: auxillariesSolarCoreRing 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/*
+ * Static elliptical rings (no spin — spin would tumble the ellipse axes).
+ * box-sizing:border-box so the stroke sits on the same path as the planet math.
+ */
+.auxillariesSolarIconBackdrop .auxillariesSolarRing {
+  box-sizing: border-box !important;
+  width: calc(var(--solar-ring-d, 1) * 100%) !important;
+  height: calc(var(--solar-ring-d, 1) * 100%) !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-width: 1.5px;
+  border-style: solid;
+  border-radius: 50% !important;
+  animation: none !important;
+  transform: translate(-50%, -50%) !important;
+  box-shadow:
+    0 0 28px rgba(101, 254, 183, 0.14),
+    inset 0 0 36px rgba(56, 189, 248, 0.07);
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarRing::after {
+  content: none !important;
+  display: none !important;
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarRing[data-ring='outer'] {
+  --solar-ring-d: var(--solar-outer-d);
+  border-color: rgba(101, 254, 183, 0.42);
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarRing[data-ring='middle'] {
+  --solar-ring-d: var(--solar-middle-d);
+  border-color: rgba(34, 211, 238, 0.4);
+}
+
+.auxillariesSolarIconBackdrop .auxillariesSolarRing[data-ring='inner'] {
+  --solar-ring-d: var(--solar-inner-d);
+  border-color: rgba(251, 191, 36, 0.38);
+}
+
+/*
+ * Circular planets on parametric ellipses:
+ *   x = 50% + cos(θ) * (d/2) * width
+ *   y = 50% + sin(θ) * (d/2) * height
+ * Matches ring half-axes (d is diameter fraction of host).
+ */
+.auxillariesSolarPlanet {
+  --solar-ring-d: var(--solar-outer-d);
+  --solar-orbit-duration: 48s;
+  --solar-planet-size: clamp(0.4rem, 1.1vmin, 0.9rem);
+  --orbit-angle: 0deg;
+  position: absolute;
+  /* Center of disc on the ellipse (not top-left of the disc). */
+  left: calc(
+    50% + cos(var(--orbit-angle)) * (var(--solar-ring-d) * 50%) -
+      (var(--solar-planet-size) / 2)
+  );
+  top: calc(
+    50% + sin(var(--orbit-angle)) * (var(--solar-ring-d) * 50%) -
+      (var(--solar-planet-size) / 2)
+  );
+  width: var(--solar-planet-size);
+  height: var(--solar-planet-size);
+  border-radius: 999px;
+  background: #eafff7;
+  box-shadow:
+    0 0 14px rgba(101, 254, 183, 0.9),
+    0 0 28px rgba(56, 189, 248, 0.35);
+  animation: auxillariesSolarParamOrbit var(--solar-orbit-duration) linear infinite;
+  will-change: left, top;
+}
+
+.auxillariesSolarPlanet[data-ring='outer'] {
+  --solar-ring-d: var(--solar-outer-d);
+  --solar-orbit-duration: 48s;
+  --solar-planet-size: clamp(0.4rem, 1.1vmin, 0.9rem);
+  background: #eafff7;
+}
+
+.auxillariesSolarPlanet[data-ring='middle'] {
+  --solar-ring-d: var(--solar-middle-d);
+  --solar-orbit-duration: 34s;
+  --solar-planet-size: clamp(0.32rem, 0.9vmin, 0.75rem);
+  background: #a7f3d0;
+  animation-direction: reverse;
+  box-shadow:
+    0 0 12px rgba(101, 254, 183, 0.75),
+    0 0 22px rgba(34, 211, 238, 0.3);
+}
+
+.auxillariesSolarPlanet[data-ring='inner'] {
+  --solar-ring-d: var(--solar-inner-d);
+  --solar-orbit-duration: 22s;
+  --solar-planet-size: clamp(0.28rem, 0.75vmin, 0.62rem);
+  background: #f9c855;
+  box-shadow:
+    0 0 12px rgba(249, 200, 85, 0.78),
+    0 0 22px rgba(101, 254, 183, 0.28);
+}
+
+@keyframes auxillariesSolarParamOrbit {
+  to {
+    --orbit-angle: 360deg;
+  }
+}
+
+/* Uniform scale only — star stays circular (epic core). */
+@keyframes auxillariesSolarPulseBackdrop {
+  0%,
+  100% {
+    opacity: 0.92;
+    transform: translate(-50%, -50%) scale(0.96);
+    filter: brightness(0.95);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.12);
+    filter: brightness(1.15);
+  }
+}
+
+@keyframes auxillariesSolarCoronaPulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+@keyframes auxillariesSolarFlareSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes auxillariesSolarCoreRing {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes auxillariesSolarQuantumBreathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+@keyframes auxillariesSolarQuantumFrameSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 .auxillariesSolarHalo {
   position: absolute;
   inset: 0.24rem;
@@ -278,7 +681,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .auxillariesSolarRing,
-  .auxillariesSolarCore {
+  .auxillariesSolarCore,
+  .auxillariesSolarIconBackdrop .auxillariesSolarCore,
+  .auxillariesSolarIconBackdrop .auxillariesSolarCorona,
+  .auxillariesSolarIconBackdrop .auxillariesSolarFlare,
+  .auxillariesSolarIconBackdrop .auxillariesSolarCore::after,
+  .auxillariesSolarIconBackdrop .auxillariesSolarQuantumPlate,
+  .auxillariesSolarIconBackdrop .auxillariesSolarQuantumFrame,
+  .auxillariesSolarPlanet {
     animation: none;
   }
 }

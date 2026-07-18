@@ -177,6 +177,7 @@ module.exports = {
     '<rootDir>/tests/bitcoinWalletClient.test.ts',
     '<rootDir>/tests/supabaseAuthRedirect.test.ts',
     '<rootDir>/tests/auxillariesContent.access.test.tsx',
+    '<rootDir>/tests/auxillariesProvider.test.tsx',
     '<rootDir>/tests/auxillariesWorkspacePanels.access.test.tsx',
     '<rootDir>/tests/auxillariesWorkspacePanels.test.tsx',
     '<rootDir>/tests/auxillariesExternalsPane.test.tsx',

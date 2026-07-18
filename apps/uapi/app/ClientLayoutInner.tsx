@@ -74,7 +74,15 @@ const prefetchHeavyComponents = () => {
   if (typeof window !== 'undefined') {
     const conversationsEnabled = !FEATURE_FLAGS.DISABLE_CONVERSATIONS_ROUTE && FEATURE_FLAGS.CONVERSATIONS_WIDGET;
 
-    // Prefetch Conversations after 2 seconds (lower priority than Orbital)
+    // Auxillaries is the primary product overlay — warm chunks soon after paint
+    // (provider also idle-warms; this is a second path if provider is late).
+    setTimeout(() => {
+      import('@/components/auxillaries/AuxillariesProvider/AuxillariesProvider')
+        .then((m) => m.prefetchAuxillaries?.({ urgent: false }))
+        .catch(() => {});
+    }, 400);
+
+    // Prefetch Conversations after 2 seconds (lower priority than Auxillaries)
     setTimeout(() => {
       if (conversationsEnabled && !(window as any).__conversationsPrefetched) {
         (window as any).__conversationsPrefetched = true;
