@@ -64,9 +64,13 @@ jest.mock('@bitcode/execution-generics', () => ({
   ExecutionStreamAdapter: jest.fn(),
   NS_EXEC_ASSET_PACK_VALIDATION_READY_TO_FINISH: 'validation-rts',
 }));
-jest.mock('@bitcode/pipelines-generics/src/execution/PipelineExecution', () => ({
-  PipelineExecution: jest.fn().mockImplementation(() => ({})),
-}));
+jest.mock(
+  '@bitcode/pipelines-generics/src/execution/PipelineExecution',
+  () => ({
+    PipelineExecution: jest.fn().mockImplementation(() => ({})),
+  }),
+  { virtual: true },
+);
 jest.mock('@bitcode/errors', () => ({
   BitcodeError: class BitcodeError extends Error {},
   reportError: jest.fn((error: unknown) =>

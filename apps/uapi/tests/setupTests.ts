@@ -11,6 +11,24 @@
 process.env.GITHUB_APP_ID = process.env.GITHUB_APP_ID || 'test-app-id';
 process.env.GITHUB_PRIVATE_KEY = process.env.GITHUB_PRIVATE_KEY || 'private\\nkey';
 
+// jsdom does not implement matchMedia (QuantumOrb, marketing landing, etc.).
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }),
+  });
+}
+
 // Stub the Next.js "server-only" module to a no-op so that API route files
 // importing it don’t fail under Jest’s node environment.
 jest.mock('server-only', () => ({}), { virtual: true });

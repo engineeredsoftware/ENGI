@@ -148,8 +148,9 @@ describe('MarketingLandingPage', () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/Measured/u)).toBeInTheDocument();
-    expect(screen.getByText(/AssetPacks/u)).toBeInTheDocument();
-    expect(screen.getByText(/delightful applications/i)).toBeInTheDocument();
+    // "AssetPacks" appears in multiple marketing spans/paragraphs.
+    expect(screen.getAllByText(/AssetPacks/u).length).toBeGreaterThan(0);
+    expect(screen.getByText(/delightful user applications/i)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByText('Website Application')).toBeInTheDocument();

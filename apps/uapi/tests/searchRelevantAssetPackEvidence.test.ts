@@ -1,4 +1,4 @@
-import { searchRelevantAssetPackEvidence } from '@bitcode/asset-packs-pipelines-syntheses-domain/src/tools/search';
+import { searchRelevantAssetPackEvidence } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/search';
 import { supabaseAdmin } from '@bitcode/supabase';
 
 jest.mock('exa-js', () => {
