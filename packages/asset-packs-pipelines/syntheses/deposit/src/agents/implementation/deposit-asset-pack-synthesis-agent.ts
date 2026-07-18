@@ -46,7 +46,9 @@ export const DepositAssetPackSynthesisAgent = factoryPTRRAgent<any, DepositSynth
   },
   plan: { chunkThreshold: 2000 },
   try: { chunkThreshold: 5000 },
-  refine: { maxAttempts: 2 },
+  // Bound refine: multi-attempt + stitch death-spirals were emptying Try's
+  // excellent packs when schema repair lost selectedContext (2026-07-17).
+  refine: { maxAttempts: 1 },
   retry: { maxAttempts: 1 },
 });
 
@@ -121,17 +123,34 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
   let options = Array.isArray((result as any)?.options) ? (result as any).options : [];
   // Host salvage: empty/invalid Refine stitch must not ship zero packs when the
   // model clearly synthesized candidates earlier (schema-valid path lists).
-  const usableOptions = options.filter(
-    (opt: any) =>
-      opt &&
-      typeof opt.title === 'string' &&
-      opt.title.length >= 8 &&
-      Array.isArray(opt.coveredSourcePaths) &&
-      opt.coveredSourcePaths.length > 0 &&
-      opt.patch?.fileChanges?.length > 0 &&
-      typeof opt.patch?.patchSummary === 'string' &&
-      opt.patch.patchSummary.length > 0,
-  );
+  // Reject key-path-looking "paths" (e.g. "#host:sourceRevision") from stitch
+  // death-spirals that lost selectedContext.
+  const isCatalogPath = (p: unknown): p is string =>
+    typeof p === 'string' &&
+    p.length > 0 &&
+    !p.startsWith('#') &&
+    !p.includes(':') &&
+    !p.includes('//');
+  const usableOptions = options.filter((opt: any) => {
+    if (!opt || typeof opt.title !== 'string' || opt.title.length < 8) return false;
+    if (typeof opt.patch?.patchSummary !== 'string' || opt.patch.patchSummary.length === 0) {
+      return false;
+    }
+    const covered = Array.isArray(opt.coveredSourcePaths)
+      ? opt.coveredSourcePaths.filter(isCatalogPath)
+      : [];
+    const fileChanges = Array.isArray(opt.patch?.fileChanges)
+      ? opt.patch.fileChanges.filter((fc: any) => isCatalogPath(fc?.path))
+      : [];
+    if (covered.length === 0 || fileChanges.length === 0) return false;
+    // Normalize to catalog-only paths.
+    opt.coveredSourcePaths = covered;
+    opt.patch.fileChanges = fileChanges.map((fc: any) => ({
+      path: fc.path,
+      op: fc.op === 'create' || fc.op === 'delete' ? fc.op : 'modify',
+    }));
+    return true;
+  });
   if (usableOptions.length === 0) {
     // Last resort: deterministic minimal packs from checkout paths so Finish
     // still receives measured AssetPacks rather than empty options.
