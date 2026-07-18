@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import { AuxillariesSolarIcon } from '@/components/bitcode/layout/AuxillariesSolarIcon/AuxillariesSolarIcon';
-import { GPUAcceleration } from '@/components/bitcode/perf/GPUAcceleration/GPUAcceleration';
 import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
 import type { AuxillaryPane } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
 
@@ -50,25 +49,41 @@ export default function AuxillariesSurface({
   });
 
   /*
-   * Solar field enters after left selector + right pane entrance motion,
-   * then runs a long multi-phase bloom (see auxillaries-solar-field-enter).
+   * Solar starts almost with the surface — tiny delay so chrome paints first,
+   * then a slightly slower opacity enter; live clears will-change.
    */
-  const SOLAR_ENTER_AFTER_CONTENT_MS = 820;
-  const [showSolarBackdrop, setShowSolarBackdrop] = useState(false);
+  const SOLAR_ENTER_DELAY_MS = 180;
+  const SOLAR_ENTER_MS = 1040;
+  type SolarPhase = 'pending' | 'enter' | 'live';
+  const [solarPhase, setSolarPhase] = useState<SolarPhase>(() => {
+    if (typeof window === 'undefined') return 'pending';
+    try {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'live'
+        : 'pending';
+    } catch {
+      return 'pending';
+    }
+  });
   useEffect(() => {
-    let cancelled = false;
-    const reduceMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const delay = reduceMotion ? 0 : SOLAR_ENTER_AFTER_CONTENT_MS;
-    const timeoutId = window.setTimeout(() => {
-      if (!cancelled) setShowSolarBackdrop(true);
-    }, delay);
+    if (solarPhase === 'live') return;
+
+    if (solarPhase === 'pending') {
+      const enterTimeout = window.setTimeout(() => {
+        setSolarPhase('enter');
+      }, SOLAR_ENTER_DELAY_MS);
+      return () => {
+        window.clearTimeout(enterTimeout);
+      };
+    }
+
+    const liveTimeout = window.setTimeout(() => {
+      setSolarPhase('live');
+    }, SOLAR_ENTER_MS);
     return () => {
-      cancelled = true;
-      window.clearTimeout(timeoutId);
+      window.clearTimeout(liveTimeout);
     };
-  }, []);
+  }, [solarPhase]);
 
   // Contained workspace: mount Close / Disconnect above the left selector column.
   // Connect + non-contained shells keep the surface-level header chrome.
@@ -144,17 +159,21 @@ export default function AuxillariesSurface({
       onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
     >
       {/*
-        Full-bleed solar system — mounts only after left/right content entrance
-        finishes, then fades/scales in (auxillaries-solar-backdrop-enter).
+        Full-bleed solar — short delay (~180ms), then ~1040ms opacity enter.
+        Hidden while pending so it does not flash early.
       */}
-      {showSolarBackdrop ? (
+      {solarPhase !== 'pending' ? (
         <div
-          className="auxillaries-solar-backdrop-host auxillaries-solar-backdrop-enter pointer-events-none absolute z-0"
+          className={[
+            'auxillaries-solar-backdrop-host pointer-events-none absolute z-0',
+            solarPhase === 'enter' ? 'auxillaries-solar-backdrop-enter' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          data-solar-phase={solarPhase}
           aria-hidden="true"
         >
-          <GPUAcceleration className="absolute inset-0 h-full w-full">
-            <AuxillariesSolarIcon variant="backdrop" />
-          </GPUAcceleration>
+          <AuxillariesSolarIcon variant="backdrop" />
         </div>
       ) : null}
 

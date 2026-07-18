@@ -389,7 +389,10 @@
     0 0 14px rgba(101, 254, 183, 0.9),
     0 0 28px rgba(56, 189, 248, 0.35);
   animation: auxillariesSolarParamOrbit var(--solar-orbit-duration) linear infinite;
-  will-change: left, top;
+  /*
+   * Do not will-change left/top: that promotes 3 full-field layers and thrash
+   * layout. @property --orbit-angle already drives position cheaply enough.
+   */
 }
 
 .auxillariesSolarPlanet[data-ring='outer'] {

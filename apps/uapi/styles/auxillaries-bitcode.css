@@ -127,8 +127,11 @@
   height: auto !important;
   pointer-events: none !important;
   overflow: visible !important;
-  transform-origin: center center;
-  will-change: opacity, transform;
+  isolation: isolate;
+  contain: layout style;
+  /* Promote once; avoid permanent will-change (memory tax after settle). */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Ensure the solar glyph fills the edge-inset host (not the menu 1.85rem box). */
@@ -146,72 +149,45 @@
 }
 
 /*
- * Solar field reveal — after left/right content settles.
- *
- * Cosmic settle (not a pop): arrive from slight overscale + deep blur,
- * bloom through mid-brightness, then ease to sharp focus.
- * Host-only so continuous motion (orbits, flare, core pulse) is never replaced.
+ * Solar field reveal with the rest of the surface (opacity only, no filter/scale).
+ * Slightly slower than the portal open so the field eases in under chrome.
+ * Host-only so continuous orbit/flare animations are never replaced.
  */
 @keyframes auxillaries-solar-field-enter {
   0% {
     opacity: 0;
-    transform: scale(1.12);
-    filter: blur(24px) brightness(0.4) saturate(0.5);
-  }
-
-  14% {
-    opacity: 0.12;
-    transform: scale(1.08);
-    filter: blur(16px) brightness(0.55) saturate(0.65);
-  }
-
-  32% {
-    opacity: 0.38;
-    transform: scale(1.045);
-    filter: blur(9px) brightness(0.75) saturate(0.82);
-  }
-
-  52% {
-    opacity: 0.68;
-    transform: scale(1.015);
-    filter: blur(3.5px) brightness(0.95) saturate(0.98);
-  }
-
-  72% {
-    opacity: 0.9;
-    transform: scale(1.002);
-    filter: blur(1px) brightness(1.08) saturate(1.06);
-  }
-
-  88% {
-    opacity: 0.98;
-    transform: scale(0.999);
-    filter: blur(0.2px) brightness(1.02) saturate(1.02);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1);
-    filter: blur(0) brightness(1) saturate(1);
   }
 }
 
 .orbital-system .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
 .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter {
-  animation: auxillaries-solar-field-enter 2.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transform-origin: 50% 50%;
-  /* Isolate filter so blur doesn’t dirty the glass UI above. */
-  isolation: isolate;
-  contain: layout style;
+  visibility: visible;
+  animation: auxillaries-solar-field-enter 1040ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity;
+}
+
+/* After enter: drop will-change so the live field doesn’t keep a permanent layer tax. */
+.orbital-system .auxillaries-solar-backdrop-host[data-solar-phase='live'],
+.auxillaries-bitcode-surface .auxillaries-solar-backdrop-host[data-solar-phase='live'] {
+  opacity: 1;
+  visibility: visible;
+  will-change: auto;
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .orbital-system .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
-  .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter {
-    animation: none;
-    opacity: 1;
-    transform: none;
-    filter: none;
+  .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host.auxillaries-solar-backdrop-enter,
+  .orbital-system .auxillaries-solar-backdrop-host[data-solar-phase='live'],
+  .auxillaries-bitcode-surface .auxillaries-solar-backdrop-host[data-solar-phase='live'] {
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    will-change: auto;
   }
 }
 
