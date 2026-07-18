@@ -36,12 +36,14 @@ export const depositMeasurementsByKindSchema = z.object({
 });
 
 /**
- * of residual model output (never product law for deposit packs).
+ * Residual model noise only — never deposit product law (neediness is READ-only).
+ * Lenient so empty/partial emissions do not fail Refine schema and force stitch
+ * death-spirals (live 2026-07-17: rationale "" → options Required).
  */
 export const depositNeedinessSignalSchema = z.object({
-  demand: z.coerce.number().min(0).max(1),
-  saturation: z.coerce.number().min(0).max(1),
-  rationale: z.string().min(10).max(400),
+  demand: z.coerce.number().min(0).max(1).optional(),
+  saturation: z.coerce.number().min(0).max(1).optional(),
+  rationale: z.string().max(400).optional(),
 });
 
 export const depositCandidateSchema = z.object({
@@ -51,16 +53,14 @@ export const depositCandidateSchema = z.object({
   coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
   /**
    * Nested kinds object (canonical) OR legacy flat 0..1 record (ignored when
-   * nested absolutes are present).
+   * nested absolutes are present). Host overwrites absolutes after PTRR.
    */
   measurements: z.union([depositMeasurementsByKindSchema, z.record(z.string(), z.coerce.number().min(0).max(1))]).optional(),
   measurementRationale: z.string().max(700).optional(),
   absolutes: z.array(z.record(z.any())).optional(),
   confidence: z.coerce.number().min(0).max(1),
   patch: depositPatchSchema,
-  /**
-     * stripped by Implementation host if model still emits.
-   */
+  /** Residual — stripped by Implementation host if model still emits. */
   needinessSignal: depositNeedinessSignalSchema.optional(),
 });
 

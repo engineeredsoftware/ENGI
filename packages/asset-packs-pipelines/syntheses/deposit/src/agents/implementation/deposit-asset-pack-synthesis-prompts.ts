@@ -39,9 +39,10 @@ const DEPOSIT_REQUIREMENTS = part(
     '- patch: SOURCE-SAFE descriptor of the digital material you synthesize:',
     '    - fileChanges: non-empty { path, op } list (create|modify|delete); path+op ONLY — never code/diffs.',
     '    - patchSummary: source-safe natural-language summary of the knowledge the patch encodes.',
-    'Do NOT emit measurements, absolutes, or needinesses — the Implementation host attaches',
-    'measurements: { absolutes: [...], needinesses: [] } so each deposit AssetPack leaves',
-    'Implementation as patch + absolute measurements + metadata.',
+    'Do NOT emit measurements, absolutes, needinesses, or needinessSignal — the Implementation',
+    'host attaches measurements: { absolutes: [...], needinesses: [] } so each deposit AssetPack',
+    'leaves Implementation as patch + absolute measurements + metadata. Emitting empty',
+    'needinessSignal.rationale fails schema and triggers stitch repair — omit those keys.',
     'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
   ].join('\n'),
 );
