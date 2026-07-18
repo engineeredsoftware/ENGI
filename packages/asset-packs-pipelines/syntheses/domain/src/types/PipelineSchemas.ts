@@ -3,7 +3,7 @@ import {
   AssetPackWrittenAssetType,
 } from './AssetPackWrittenAssetType';
 import type { AssetPackFitResultState, DepositorySearchResult } from '../depository-search';
-import type { AssetPackDisclosureReview } from '../asset-pack-disclosure';
+import type { AssetPackDisclosureReview } from '@bitcode/asset-packs-pipelines-domain/asset-pack-disclosure';
 import type { AssetPackSourceSafePreview, ShareToFeeQuote } from '../../../read/src/read-need';
 
 /**

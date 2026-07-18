@@ -24,8 +24,8 @@ import {
   ASSET_PACK_ABSOLUTES_CATALOG,
   type AssetPackAbsoluteSpec,
   type AssetPackCandidateMeasurement,
-  type SynthesizeAssetPacksMode,
 } from '../../asset-packs-synthesis';
+import type { SynthesizeAssetPacksMode } from '../../synthesize-asset-packs';
 import { isAssetPackRealInferenceEnabled } from '../../runtime-inference-policy';
 import {
   analyzeStaticSource,

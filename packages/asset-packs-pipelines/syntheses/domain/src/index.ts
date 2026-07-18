@@ -25,13 +25,31 @@ export { normalizeAssetPackOutput, buildAssetPackPostprocessedResult } from './p
 
 export { EXECUTION_PIPELINE_SDIVF_SYNTHESIZE_ASSET_PACKS_PROMPT } from './prompts/execution-pipeline-sdivf-synthesize-asset-packs-prompts';
 
-// Shared synthesis helpers still used by product packages and hosts
+// Shared synthesis helpers still used by product packages and hosts.
+// asset-packs-synthesis re-exports SynthesizeAssetPacksMode from
+// synthesize-asset-packs — do not also export * types that re-export mode.
 export * from './asset-packs-synthesis';
 export * from './asset-packs-synthesis-catalogs';
 export * from './asset-packs-synthesis-inventory';
 export * from './asset-packs-synthesis-neediness';
 export * from './asset-packs-synthesis-pipeline';
-export * from './asset-packs-synthesis-types';
+// Types only (SynthesizeAssetPacksMode is not re-exported from here).
+export type {
+  AbsolutePropertyClass,
+  AssetPackAbsoluteSpec,
+  AssetPackCandidate,
+  AssetPackCandidateMeasurement,
+  AssetPackMeasurementSpec,
+  AssetPackNeediness,
+  AssetPacksSynthesisInferenceAccounting,
+  AssetPacksSynthesisRequest,
+  AssetPacksSynthesisResult,
+  AssetPacksSynthesisSourceFile,
+  AssetPacksSynthesisSourceInventory,
+  AssetPacksSynthesisSourceSample,
+  AssetPacksSynthesisSteering,
+  DepositSynthesisRawOption,
+} from './asset-packs-synthesis-types';
 export * from './asset-packs-synthesis-validate';
 export * from './asset-pack-measurements';
 export * from './asset-pack-preview-boundary';

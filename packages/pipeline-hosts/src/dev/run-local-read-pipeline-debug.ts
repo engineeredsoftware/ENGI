@@ -195,7 +195,7 @@ writeFileSync(
   ].join('\n'),
 );
 
-const env = {
+const env: NodeJS.ProcessEnv = {
   ...process.env,
   ...debugEnv,
   BITCODE_MONOREPO_ROOT: monorepoRoot,

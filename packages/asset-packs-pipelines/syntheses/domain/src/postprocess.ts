@@ -401,7 +401,8 @@ function ensureAssetPackSourceSafePreview(
       output.assetPackSynthesisArtifacts?.assetPackId,
       output.writtenAssets?.assetPackId,
       output.writtenAsset?.payload?.assetPackId,
-      output.deliveryMechanism?.payload?.assetPackId
+      // Legacy residual only — Delivery is settle-exclusive; not on AssetPackOutput.
+      (output as any).deliveryMechanism?.payload?.assetPackId,
     ) || undefined;
   const preview = buildAssetPackSourceSafePreview({
     need: acceptedNeed,

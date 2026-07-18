@@ -139,10 +139,12 @@ DEFAULT_BINS=(gopls rust-analyzer clangd marksman terraform-ls lua-language-serv
 # full profile: JVM + jdtls + kotlin-language-server + .NET + OmniSharp
 # ---------------------------------------------------------------------------
 if [ "${PROFILE}" = "full" ]; then
+  # Debian bookworm main ships OpenJDK 17; 21 is not in main (CI/image fail).
+  # JDTLS and kotlin-language-server run on 17 for Pipeliner full profile.
   apt-get update
   apt-get install -y --no-install-recommends \
-    openjdk-21-jre-headless \
-    openjdk-21-jdk-headless
+    openjdk-17-jre-headless \
+    openjdk-17-jdk-headless
   rm -rf /var/lib/apt/lists/*
 
   # Eclipse JDT Language Server (launcher script on PATH as jdtls)

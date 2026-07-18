@@ -10,10 +10,10 @@ import type {
   AssetPackCandidate,
   AssetPackCandidateMeasurement,
   AssetPackPatchDescriptor,
-  SynthesizeAssetPacksMode,
   AssetPacksSynthesisSourceInventory,
   DepositSynthesisRawOption,
 } from './asset-packs-synthesis-types';
+import type { SynthesizeAssetPacksMode } from './synthesize-asset-packs';
 import { isPathImpermissible } from './asset-packs-synthesis-inventory';
 import { buildNeedinessFromSignal, clampVolume } from './asset-packs-synthesis-neediness';
 

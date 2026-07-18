@@ -33,11 +33,11 @@ import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
 import { applyInventoryScope } from './asset-packs-synthesis-inventory';
 import type {
   AssetPackMeasurementSpec,
-  SynthesizeAssetPacksMode,
   AssetPacksSynthesisSourceInventory,
   AssetPacksSynthesisSourceSample,
   AssetPacksSynthesisSteering,
 } from './asset-packs-synthesis-types';
+import type { SynthesizeAssetPacksMode } from './synthesize-asset-packs';
 
 const part = (content: string): PromptPart => content as PromptPart;
 

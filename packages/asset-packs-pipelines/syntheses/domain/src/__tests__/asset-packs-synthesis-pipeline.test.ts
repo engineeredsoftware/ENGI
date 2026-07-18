@@ -6,7 +6,8 @@ import {
   buildSynthesisPromptLayers,
   sumLlmTokensFromExecutionTree,
 } from '../asset-packs-synthesis-pipeline';
-import { measurementCatalogForLens, type SynthesizeAssetPacksMode } from '../asset-packs-synthesis';
+import { measurementCatalogForLens } from '../asset-packs-synthesis';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 // Satisfy the ExecutionPrompt root requirements exactly as AgentExecution does
 // at runtime (generic_system + specific_execution set to a blank PromptPart).
