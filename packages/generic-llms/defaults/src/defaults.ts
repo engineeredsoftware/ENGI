@@ -4,11 +4,12 @@ export function resolveDefaultLLMProvider(env: BitcodeLLMEnvironment = process.e
   const configured = normalizeEnvValue(env.BITCODE_LLM_PROVIDER);
   if (configured) return configured.toLowerCase();
 
-  // Product default: Anthropic Claude when its key is present.
-  if (normalizeEnvValue(env.ANTHROPIC_API_KEY)) return 'anthropic';
+  // When BITCODE_LLM_PROVIDER is unset, pick by available credential.
+  // Provider selection is orthogonal to pipeline telemetry.
   if (normalizeEnvValue(env.XAI_API_KEY) || normalizeEnvValue(env.GROK_API_KEY)) {
     return 'xai';
   }
+  if (normalizeEnvValue(env.ANTHROPIC_API_KEY)) return 'anthropic';
   if (normalizeEnvValue(env.OPENAI_API_KEY)) return 'openai';
   if (
     normalizeEnvValue(env.GOOGLE_GENERATIVE_AI_API_KEY) ||
@@ -18,8 +19,8 @@ export function resolveDefaultLLMProvider(env: BitcodeLLMEnvironment = process.e
     return 'google';
   }
 
-  // Ultimate default without keys / overrides: Anthropic Claude.
-  return 'anthropic';
+  // Ultimate default without keys / overrides (credential still required at call).
+  return 'xai';
 }
 
 export function resolveDefaultLLMModel(
@@ -32,15 +33,16 @@ export function resolveDefaultLLMModel(
   switch (provider.toLowerCase()) {
     case 'xai':
     case 'grok':
-      return 'grok-build-0.1';
+      // Default xAI model (overridable via BITCODE_LLM_MODEL).
+      return 'grok-3-mini';
     case 'google':
       return 'gemini-2.5-flash';
     case 'openai':
       return 'gpt-4.1-mini';
     case 'anthropic':
-    default:
-      // Product default: Claude Haiku 4.5 (overridable via BITCODE_LLM_MODEL).
       return 'claude-haiku-4-5';
+    default:
+      return 'grok-3-mini';
   }
 }
 

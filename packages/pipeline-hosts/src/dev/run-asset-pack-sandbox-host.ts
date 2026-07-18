@@ -207,7 +207,13 @@ function normalizeModelEnvironment(env: Record<string, string>): void {
     delete env.BITCODE_LLM_MODEL;
   }
 
-  if (!env.BITCODE_LLM_PROVIDER && env.ANTHROPIC_API_KEY) {
+  // Prefer xAI when credential present and provider unset (deploy posture only).
+  if (!env.BITCODE_LLM_PROVIDER && (env.XAI_API_KEY || env.GROK_API_KEY)) {
+    env.BITCODE_LLM_PROVIDER = 'xai';
+    if (!env.BITCODE_LLM_MODEL) {
+      env.BITCODE_LLM_MODEL = 'grok-3-mini';
+    }
+  } else if (!env.BITCODE_LLM_PROVIDER && env.ANTHROPIC_API_KEY) {
     env.BITCODE_LLM_PROVIDER = 'anthropic';
     if (!env.BITCODE_LLM_MODEL) {
       env.BITCODE_LLM_MODEL = 'claude-haiku-4-5';
@@ -223,6 +229,9 @@ function hasModelProviderCredential(provider: string, env: Record<string, string
       return Boolean(env.OPENAI_API_KEY);
     case 'anthropic':
       return Boolean(env.ANTHROPIC_API_KEY);
+    case 'xai':
+    case 'grok':
+      return Boolean(env.XAI_API_KEY || env.GROK_API_KEY);
     case 'google':
       return Boolean(env.GOOGLE_GENERATIVE_AI_API_KEY || env.GEMINI_API_KEY || env.GOOGLE_API_KEY);
     default:

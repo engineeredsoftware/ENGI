@@ -171,8 +171,9 @@ const debugEnv: Record<string, string> = {
   BITCODE_WRITE_PROMPT_IO: '1',
   BITCODE_WRITE_STEP_TRACES: '1',
   LOG_LEVEL: process.env.LOG_LEVEL || 'debug',
-  BITCODE_LLM_PROVIDER: process.env.BITCODE_LLM_PROVIDER || 'anthropic',
-  BITCODE_LLM_MODEL: process.env.BITCODE_LLM_MODEL || 'claude-haiku-4-5',
+  // Default LLM provider for this harness (override via env; not a telemetry concern).
+  BITCODE_LLM_PROVIDER: process.env.BITCODE_LLM_PROVIDER || 'xai',
+  BITCODE_LLM_MODEL: process.env.BITCODE_LLM_MODEL || 'grok-3-mini',
   BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
   BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE:
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE || 'bounded',

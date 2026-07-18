@@ -271,7 +271,10 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
 
   // B) Qualitative PTRR over a compact pack projection (avoids multi-MB context thrash).
   // When structure is already ready (options + required absolutes + no hard issues),
-  // skip qualitative PTRR so Finish is not blocked by host-budget thrash.
+  // skip qualitative PTRR so Finish is not blocked by host-budget thrash — but always
+  // emit an auditable validation decision for pipeline run telemetry.
+  let qualitativePtrrRan = false;
+  let qualitativePtrrError: string | null = null;
   let agentOutput: any = {
     issues: [],
     qualityScore: structureReady ? 0.82 : 0.4,
@@ -280,6 +283,7 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
   };
   if (!structureReady) {
     try {
+      qualitativePtrrRan = true;
       const raw = await DepositReadyToFinishCore(
         {
           assetPacks: compactPacksForPrompt(packs),
@@ -307,8 +311,9 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
         execution,
       );
       agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
-    } catch {
+    } catch (err: any) {
       // Deterministic gate remains authoritative when qualitative PTRR fails/times out.
+      qualitativePtrrError = err?.message || String(err);
     }
   }
 
@@ -348,6 +353,26 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
       ? 'Deposit synthesis ready to finish.'
       : `Deposit synthesis not ready: ${result.issues.slice(0, 5).join('; ')}`,
     issues: result.issues,
+  });
+  // Always record whether qualitative PTRR ran or was short-circuited (every run).
+  storeCrossPhaseArtifact(execution, 'validation', 'gateDecision', {
+    schema: 'bitcode.deposit.validation.gate-decision',
+    at: new Date().toISOString(),
+    structureReady,
+    hardIssueCount: hardIssues.length,
+    priorIssueCount: priorIssues.length,
+    complianceIssueCount: complianceIssues.length,
+    smokeIssueCount: smokeIssues.length,
+    packCount: packs.length,
+    qualitativePtrrRan,
+    qualitativePtrrSkipped: structureReady,
+    qualitativePtrrSkipReason: structureReady
+      ? 'structureReady: options + required absolutes + no hard issues (deterministic admit)'
+      : null,
+    qualitativePtrrError,
+    recommendation: result.recommendation,
+    readyToFinish: result.readyToFinish,
+    qualityScore: result.qualityScore ?? agentOutput?.qualityScore ?? null,
   });
   storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);
   storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', packs);

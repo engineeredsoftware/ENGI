@@ -54,17 +54,21 @@ const DEPOSIT_PLAN = part(
 );
 const DEPOSIT_TRY = part(
   'Try: synthesize each candidate as digital material — kind, title, source-safe ' +
-    'summary, covered source paths from sourceCheckoutCatalog, confidence, and the ' +
-    'source-safe patch descriptor (fileChanges path+op + patchSummary). Do not invent ' +
-    'absolute volumes or needinesses.',
+    'summary (min ~40 chars of real product language), covered source paths from ' +
+    'sourceCheckoutCatalog exactly as written, confidence, and the source-safe patch ' +
+    'descriptor (fileChanges path+op + patchSummary). Prefer modify over create when ' +
+    'the path already exists in the catalog. Omit measurements, absolutes, needinesses, ' +
+    'and needinessSignal entirely.',
 );
 const DEPOSIT_REFINE = part(
   'Refine: polish the prior Try/Retry candidates — NEVER return an empty options ' +
-    'array. Keep 2–4 DISTINCT options. Prefer PrepareConciseContext keys in exact ' +
-    'form "#namespace:key" or "path#namespace:key" (colon before the key name; do not ' +
-    'use "#namespace#key"). Ground coveredSourcePaths and patch.fileChanges ONLY in ' +
-    'sourceCheckoutCatalog paths. Ensure each option is source-safe, obfuscation- and ' +
-    'exclusion-honoring, and legible to a future buyer (no code/contents).',
+    'array. Keep 2–4 DISTINCT options with non-overlapping primary value (do not rename ' +
+    'the same slice three ways). Prefer PrepareConciseContext keys in exact form ' +
+    '"#namespace:key" or "path#namespace:key" (colon before the key name; never ' +
+    '"#namespace#key"). Ground coveredSourcePaths and patch.fileChanges ONLY in ' +
+    'sourceCheckoutCatalog paths (repo-relative file paths — never "#host:…" keys). ' +
+    'Ensure each option is source-safe, obfuscation- and exclusion-honoring, and ' +
+    'legible to a future buyer (no code/contents). Omit needinessSignal.',
 );
 const DEPOSIT_RETRY = part(
   'Retry: complete any missing option as a minimal valid source-safe patch ' +

@@ -57,6 +57,8 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
   const measurements = findValue(execution, 'discovery', 'sourceMeasurements');
   const admission = findValue(execution, 'setup', 'admission');
   const validation = findValue(execution, 'validation', 'readyToFinish');
+  const validationGate = findValue(execution, 'validation', 'gateDecision');
+  const depositQuality = findValue(execution, 'validation', 'depositQuality');
   const repository = findValue(execution, 'deposit', 'repository') ?? {};
   const runId =
     findValue(execution, 'host', 'runId') ||
@@ -112,7 +114,13 @@ export default async function runDepositStoreArtifactsAgent(input: any, executio
       sourceMeasurements: measurements,
     },
     setup: { admission },
-    validation,
+    validation: {
+      readyToFinish: validation,
+      gateDecision: validationGate || null,
+      qualityScore:
+        typeof depositQuality?.qualityScore === 'number' ? depositQuality.qualityScore : null,
+      issueCount: Array.isArray(depositQuality?.issues) ? depositQuality.issues.length : null,
+    },
     sourceCheckoutCatalog: catalog
       ? {
           pathCount: Array.isArray(catalog.paths) ? catalog.paths.length : 0,

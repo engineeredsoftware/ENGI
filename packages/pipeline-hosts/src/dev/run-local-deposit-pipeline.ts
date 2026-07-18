@@ -13,14 +13,17 @@
  *   BITCODE_DEPOSIT_REPO_URL   (default: https://github.com/sindresorhus/is-plain-obj.git)
  *   BITCODE_DEPOSIT_OBFUSCATIONS
  *   BITCODE_ASSET_PACK_REAL_INFERENCE=1
- *   ANTHROPIC_API_KEY / BITCODE_LLM_*
+ *   BITCODE_LLM_PROVIDER / BITCODE_LLM_MODEL (default: xai / grok-3-mini)
+ *   XAI_API_KEY (or ANTHROPIC_API_KEY / OPENAI_API_KEY when overriding provider)
  *   BITCODE_DEPOSIT_WORK_DIR   (default: .tmp/local-deposit-run)
+ *   BITCODE_LLM_CALL_DEBUG=1   (default on — wire ledger under .tmp/llm-call-debug)
  */
 import { spawnSync } from 'node:child_process';
 import {
   existsSync,
   mkdirSync,
   mkdtempSync,
+  readdirSync,
   readFileSync,
   rmSync,
   writeFileSync,
@@ -138,6 +141,19 @@ const env = {
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE || '1',
   BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE:
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE || 'bounded',
+  // Default LLM provider for this harness (override via env; not a telemetry concern).
+  BITCODE_LLM_PROVIDER: process.env.BITCODE_LLM_PROVIDER || 'xai',
+  BITCODE_LLM_MODEL: process.env.BITCODE_LLM_MODEL || 'grok-3-mini',
+  // Pipeline run wire telemetry (provider-agnostic).
+  BITCODE_LLM_CALL_DEBUG: process.env.BITCODE_LLM_CALL_DEBUG || '1',
+  BITCODE_LOG_TRACES: process.env.BITCODE_LOG_TRACES || '1',
+  BITCODE_WRITE_RAW_LLM_IO: process.env.BITCODE_WRITE_RAW_LLM_IO || '1',
+  BITCODE_WRITE_PROMPT_IO: process.env.BITCODE_WRITE_PROMPT_IO || '1',
+  BITCODE_WRITE_STEP_TRACES: process.env.BITCODE_WRITE_STEP_TRACES || '1',
+  BITCODE_EXECUTION_DEBUG: process.env.BITCODE_EXECUTION_DEBUG || 'true',
+  // Bound hung providers (0 = unbounded; prefer 3–5 min for live).
+  BITCODE_LLM_CALL_TIMEOUT_MS:
+    process.env.BITCODE_LLM_CALL_TIMEOUT_MS || '180000',
   // Public clone via Setup BITCODE_HOST_CLONE_* (same path as sandbox deposit).
   BITCODE_HOST_CLONE_URL: repoUrl,
   BITCODE_HOST_CLONE_BRANCH: branch,
@@ -148,7 +164,17 @@ const env = {
   BITCODE_PIPELINE_STREAM_TO_DATABASE:
     process.env.BITCODE_PIPELINE_STREAM_TO_DATABASE || '0',
   BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
-    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '1200000',
+    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '7200000',
+  BITCODE_DEBUG_SETUP_SERIAL: process.env.BITCODE_DEBUG_SETUP_SERIAL || '1',
+  BITCODE_DEBUG_DISCOVERY_SERIAL:
+    process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '1',
+  BITCODE_DEBUG_FAST_SETUP: process.env.BITCODE_DEBUG_FAST_SETUP || '1',
+  BITCODE_DEBUG_FAST_DISCOVERY: process.env.BITCODE_DEBUG_FAST_DISCOVERY || '0',
+  BITCODE_DEBUG_FORCE_CLONE_PTRR:
+    process.env.BITCODE_DEBUG_FORCE_CLONE_PTRR || '0',
+  // Full pipeline (no progressive stop) unless caller sets stop flags.
+  BITCODE_DEBUG_STOP_AFTER_FIRST_REASON:
+    process.env.BITCODE_DEBUG_STOP_AFTER_FIRST_REASON || '0',
 };
 
 console.log('[local-deposit] running live runner', {
@@ -157,6 +183,10 @@ console.log('[local-deposit] running live runner', {
   commit: commit.slice(0, 12),
   workspaceDir,
   realInference: env.BITCODE_ASSET_PACK_REAL_INFERENCE,
+  provider: env.BITCODE_LLM_PROVIDER,
+  model: env.BITCODE_LLM_MODEL,
+  llmCallDebug: env.BITCODE_LLM_CALL_DEBUG,
+  llmTimeoutMs: env.BITCODE_LLM_CALL_TIMEOUT_MS,
   obfuscations: obfuscations.slice(0, 80),
 });
 
@@ -295,23 +325,151 @@ writeFileSync(
 const fullCatalog =
   options.length > 0 && measurementReport.every((o) => o.hasFullAbsoluteCatalog);
 
-console.log(
-  JSON.stringify(
-    {
-      ok: run.status === 0 && options.length > 0 && fullCatalog,
-      exitCode: run.status,
-      resultState: evidence?.resultState ?? null,
-      optionCount: options.length,
-      absoluteCatalogPresent: measurementReport.some(
-        (o) => o.absoluteKeys.length > 0,
-      ),
-      fullAbsoluteCatalog: fullCatalog,
-      options: measurementReport,
-      workRoot,
-    },
-    null,
-    2,
+// LLM wire-ledger summary (BITCODE_LLM_CALL_DEBUG=1 → .tmp/llm-call-debug/…).
+const llmDebugRoot = join(monorepoRoot, '.tmp/llm-call-debug');
+let llmCallSummary = {
+  runDir: null,
+  responseCount: 0,
+  agents: {},
+  stitchCount: 0,
+  hasAbort: false,
+};
+try {
+  if (existsSync(llmDebugRoot)) {
+    const runs = readdirSync(llmDebugRoot).filter((name) =>
+      name.includes('synthesize_deposit') || name.includes('deposit'),
+    );
+    const preferred =
+      runs.find((n) => n === 'pipeline-synthesize_deposit_asset_packs') ||
+      runs[runs.length - 1];
+    if (preferred) {
+      const runDir = join(llmDebugRoot, preferred);
+      llmCallSummary.runDir = runDir;
+      const files = readdirSync(runDir);
+      const responses = files.filter((f) => f.includes('-response-'));
+      llmCallSummary.responseCount = responses.length;
+      llmCallSummary.hasAbort = files.some((f) => f.includes('-abort-'));
+      llmCallSummary.stitchCount = files.filter((f) => f.includes('stitch')).length;
+      const agents = {};
+      for (const f of responses) {
+        const m = /^(\d+)-response-([a-z]+)-(.+?)-(plan|try|retry|refine)-/.exec(f);
+        if (!m) continue;
+        const key = `${m[2]}/${m[3]}`;
+        agents[key] = (agents[key] || 0) + 1;
+      }
+      llmCallSummary.agents = agents;
+    }
+  }
+} catch {
+  /* ignore */
+}
+
+const summaryPayload = {
+  ok: run.status === 0 && options.length > 0 && fullCatalog,
+  exitCode: run.status,
+  resultState: evidence?.resultState ?? null,
+  optionCount: options.length,
+  absoluteCatalogPresent: measurementReport.some(
+    (o) => o.absoluteKeys.length > 0,
   ),
+  fullAbsoluteCatalog: fullCatalog,
+  provider: env.BITCODE_LLM_PROVIDER,
+  model: env.BITCODE_LLM_MODEL,
+  options: measurementReport,
+  workRoot,
+  llmCallSummary,
+  evidencePath: existsSync(evidencePath) ? evidencePath : null,
+  telemetryPath: existsSync(telemetryPath) ? telemetryPath : null,
+};
+
+console.log(JSON.stringify(summaryPayload, null, 2));
+
+// Human-readable run report for deploy / live QA audit.
+const optionLines = options
+  .map((opt, i) => {
+    const m = measurementReport[i];
+    const paths = Array.isArray(opt?.coveredSourcePaths)
+      ? opt.coveredSourcePaths.join(', ')
+      : '';
+    const patchPaths = Array.isArray(opt?.patch?.fileChanges)
+      ? opt.patch.fileChanges.map((c) => `${c?.op}:${c?.path}`).join(', ')
+      : '';
+    return [
+      `### ${i + 1}. ${opt?.title || m?.title || 'untitled'}`,
+      `- kind: ${opt?.kind || m?.kind || '?'}`,
+      `- confidence: ${opt?.confidence ?? '?'}`,
+      `- coveredSourcePaths: ${paths}`,
+      `- patch.fileChanges: ${patchPaths}`,
+      `- patchSummary: ${(opt?.patch?.patchSummary || '').slice(0, 240)}`,
+      `- absolutes: ${(m?.absoluteKeys || []).join(', ') || 'none'}`,
+      `- fullAbsoluteCatalog: ${m?.hasFullAbsoluteCatalog ?? false}`,
+      '',
+    ].join('\n');
+  })
+  .join('\n');
+
+const agentLines = Object.entries(llmCallSummary.agents || {})
+  .map(([k, v]) => `- ${k}: ${v} responses`)
+  .join('\n');
+
+writeFileSync(
+  join(workRoot, 'RUN_REPORT.md'),
+  [
+    '# Deposit pipeline live run report',
+    '',
+    `Generated: ${new Date().toISOString()}`,
+    '',
+    '## Outcome',
+    '',
+    `- ok: ${summaryPayload.ok}`,
+    `- exitCode: ${run.status}`,
+    `- resultState: ${evidence?.resultState ?? 'null'}`,
+    `- optionCount: ${options.length}`,
+    `- fullAbsoluteCatalog: ${fullCatalog}`,
+    `- provider/model: ${env.BITCODE_LLM_PROVIDER} / ${env.BITCODE_LLM_MODEL}`,
+    `- repository: ${fullName}@${commit.slice(0, 12)} (${branch})`,
+    '',
+    '## Reasons',
+    '',
+    ...((evidence?.resultReasons || []).map((r) => `- ${r}`) || ['- (none)']),
+    '',
+    '## Telemetry artifacts',
+    '',
+    `- workRoot: ${workRoot}`,
+    `- evidence: ${existsSync(evidencePath) ? evidencePath : 'missing'}`,
+    `- telemetry.jsonl: ${existsSync(telemetryPath) ? telemetryPath : 'missing'}`,
+    `- options-measurements.json: ${join(workRoot, 'options-measurements.json')}`,
+    `- llm-call-debug: ${llmCallSummary.runDir || 'missing (set BITCODE_LLM_CALL_DEBUG=1)'}`,
+    `- responseCount: ${llmCallSummary.responseCount}`,
+    `- stitch file count: ${llmCallSummary.stitchCount}`,
+    `- abort marker: ${llmCallSummary.hasAbort}`,
+    '',
+    '## LLM agents (wire ledger)',
+    '',
+    agentLines || '- (no response files)',
+    '',
+    '## AssetPack options',
+    '',
+    optionLines || '_No options synthesized._',
+    '',
+    '## Config snapshot',
+    '',
+    '```',
+    `BITCODE_LLM_PROVIDER=${env.BITCODE_LLM_PROVIDER}`,
+    `BITCODE_LLM_MODEL=${env.BITCODE_LLM_MODEL}`,
+    `BITCODE_LLM_CALL_DEBUG=${env.BITCODE_LLM_CALL_DEBUG}`,
+    `BITCODE_LLM_CALL_TIMEOUT_MS=${env.BITCODE_LLM_CALL_TIMEOUT_MS}`,
+    `BITCODE_DEBUG_FAST_SETUP=${env.BITCODE_DEBUG_FAST_SETUP}`,
+    `BITCODE_DEBUG_FAST_DISCOVERY=${env.BITCODE_DEBUG_FAST_DISCOVERY}`,
+    `BITCODE_DEBUG_STOP_AFTER_FIRST_REASON=${env.BITCODE_DEBUG_STOP_AFTER_FIRST_REASON}`,
+    '```',
+    '',
+  ].join('\n'),
+);
+
+writeFileSync(
+  join(workRoot, 'run-summary.json'),
+  JSON.stringify(summaryPayload, null, 2),
 );
 
 // Success: measured options with full absolute catalog for depositor selection.

@@ -60,6 +60,8 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
     validationSummary: ready?.summary ?? null,
   };
 
+  const validationGate = findValue(execution, 'validation', 'gateDecision');
+  const depositQuality = findValue(execution, 'validation', 'depositQuality');
   const completion = {
     schema: 'bitcode.deposit.synthesize-asset-packs.completion',
     completedAt: new Date().toISOString(),
@@ -70,6 +72,19 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
       ? { status: ledgerize.status, assetPackCount: ledgerize.assetPackCount }
       : null,
     admission: admission ? { safe: admission.safe, flags: admission.flags } : null,
+    // Validation admit path for run telemetry (deterministic short-circuit vs PTRR).
+    validation: {
+      ready: ready
+        ? {
+            recommendation: ready.recommendation ?? null,
+            summary: ready.summary ?? null,
+            issueCount: Array.isArray(ready.issues) ? ready.issues.length : 0,
+          }
+        : null,
+      gateDecision: validationGate || null,
+      qualityScore:
+        typeof depositQuality?.qualityScore === 'number' ? depositQuality.qualityScore : null,
+    },
     cleanup: {
       hostWorkspacePath: workspacePath || null,
       disposeRecommended: Boolean(workspacePath),
@@ -79,6 +94,8 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
       // Tokens rolled at dispatch from execution tree when available.
       phase: 'finish',
       productPipeline: 'synthesize-deposits-asset-packs-pipeline',
+      optionCount: selectionEnvelope.options.length,
+      readyToPresent: selectionEnvelope.readyToPresent,
     },
   };
 
