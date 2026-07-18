@@ -100,7 +100,8 @@ describe('ExternalsPane data-share flow', () => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
     });
 
-    expect(screen.getAllByText('Read-space knowledge sharing').length).toBeGreaterThan(0);
+    // Single section kicker — panel intro is collapsed into the subtitle above.
+    expect(screen.getByText('Read-space knowledge sharing')).toBeInTheDocument();
     expect(screen.getByText('engineeredsoftware/bitcode')).toBeInTheDocument();
 
     const [toggle] = screen.getAllByRole('checkbox');

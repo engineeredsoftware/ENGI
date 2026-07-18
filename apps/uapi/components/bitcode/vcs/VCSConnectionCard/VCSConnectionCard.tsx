@@ -42,7 +42,8 @@ const providerConfig = {
   github: {
     icon: GitHubLogoIcon,
     label: 'GitHub',
-    description: 'Install the Bitcode GitHub App to grant repository scope for Read and Deposit work.',
+    // Install/Installed copy lives on Mainnet readiness (Externals) — card is controls-only.
+    description: '',
     color: 'bg-violet-950/80',
     features: ['Installation-scoped repository access', 'Source inventory reads', 'Pull requests', 'Webhooks']
   },
@@ -325,7 +326,8 @@ export function VCSConnectionCard({
     <Card
       className={
         isGitHubCard
-          ? 'github-connection-card min-w-0 rounded-none border-violet-300/28 bg-violet-950/40 text-violet-50'
+          ? /* Purple glass fill owned by auxillaries-bitcode --aux-bc-github-card-bg. */
+            'github-connection-card min-w-0 rounded-none border-violet-300/34 text-violet-50'
           : undefined
       }
     >
@@ -356,9 +358,11 @@ export function VCSConnectionCard({
             </div>
           )}
         </div>
-        <CardDescription className={isGitHubCard ? 'text-violet-100/72' : undefined}>
-          {config.description}
-        </CardDescription>
+        {config.description ? (
+          <CardDescription className={isGitHubCard ? 'text-violet-100/72' : undefined}>
+            {config.description}
+          </CardDescription>
+        ) : null}
       </CardHeader>
       <CardContent>
         {status.connected ? (

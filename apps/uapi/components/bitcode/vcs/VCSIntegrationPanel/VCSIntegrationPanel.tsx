@@ -86,16 +86,13 @@ export function VCSIntegrationPanel({
   
   return (
     <div className="github-vcs-panel min-w-0 space-y-6">
-      <div>
-        <h3 className="text-lg font-medium text-violet-50">Version Control System Integrations</h3>
-        <p className="text-sm text-violet-100/68">
-          Install the Bitcode GitHub App so Bitcode can read permitted repository
-          context for Read, Deposit, and proof follow-through.
-        </p>
-      </div>
-      
+      {/*
+        Intro lives on the Externals Repository connection subtitle so this
+        panel is controls-only (no second "Version Control System Integrations"
+        heading stacked under the section copy).
+      */}
       <Tabs defaultValue="oauth" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 rounded-none border border-violet-300/22 bg-violet-950/40">
+        <TabsList className="grid w-full grid-cols-2 rounded-none border border-violet-300/28 bg-transparent">
           <TabsTrigger
             value="oauth"
             className="rounded-none data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-50"
@@ -111,7 +108,7 @@ export function VCSIntegrationPanel({
         </TabsList>
         
         <TabsContent value="oauth" className="space-y-4">
-          <Alert className="rounded-none border-violet-300/24 bg-violet-500/10 text-violet-50">
+          <Alert className="rounded-none border-violet-300/28 bg-transparent text-violet-50">
             <Info className="h-4 w-4 text-violet-200" />
             <AlertTitle className="text-violet-50">Recommended</AlertTitle>
             <AlertDescription className="text-violet-100/78">

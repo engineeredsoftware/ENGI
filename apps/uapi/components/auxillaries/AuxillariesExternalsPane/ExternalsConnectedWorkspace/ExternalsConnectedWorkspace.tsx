@@ -6,7 +6,7 @@
  */
 
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { VCSIntegrationPanel } from '@/components/bitcode/vcs/VCSIntegrationPanel/VCSIntegrationPanel';
 import { getRepositoryInventorySourceLabel } from '@/components/bitcode/pipeline/models/repository-context';
@@ -20,6 +20,14 @@ import {
   hasPendingGitHubConnectAttention,
 } from '../models/github-connect-attention';
 import { compactRoot, formatProviderClass } from '../models/externals-pane-format';
+
+/** Connected-scope chip list page size. */
+const CONNECTED_REPOS_PAGE_SIZE = 20;
+
+function repositoryLabel(repository: any): string {
+  if (typeof repository === 'string') return repository;
+  return repository?.fullName || repository?.full_name || repository?.name || 'repository';
+}
 
 export interface ExternalsConnectedWorkspaceProps {
   isOnboardingComplete: boolean;
@@ -50,8 +58,8 @@ export interface ExternalsConnectedWorkspaceProps {
 
 export default function ExternalsConnectedWorkspace({
   isOnboardingComplete,
-  isLoading,
-  transactionReadiness,
+  isLoading: _isLoading,
+  transactionReadiness: _transactionReadiness,
   hasGitHubConnection,
   hasValidGitHubConnection,
   hasWalletConnection,
@@ -74,6 +82,24 @@ export default function ExternalsConnectedWorkspace({
   const [attentionActive, setAttentionActive] = useState(false);
   const attentionTimerRef = useRef<number | null>(null);
   const [attentionKey, setAttentionKey] = useState(0);
+  const [reposPage, setReposPage] = useState(0);
+
+  const repoLabels = useMemo(
+    () => repositories.map((repository) => repositoryLabel(repository)),
+    [repositories],
+  );
+  const reposPageCount = Math.max(1, Math.ceil(repoLabels.length / CONNECTED_REPOS_PAGE_SIZE));
+  const safeReposPage = Math.min(reposPage, reposPageCount - 1);
+  const pagedRepoLabels = useMemo(() => {
+    const start = safeReposPage * CONNECTED_REPOS_PAGE_SIZE;
+    return repoLabels.slice(start, start + CONNECTED_REPOS_PAGE_SIZE);
+  }, [repoLabels, safeReposPage]);
+
+  useEffect(() => {
+    if (reposPage > reposPageCount - 1) {
+      setReposPage(Math.max(0, reposPageCount - 1));
+    }
+  }, [reposPage, reposPageCount]);
 
   useEffect(() => {
     const runAttention = () => {
@@ -106,7 +132,13 @@ export default function ExternalsConnectedWorkspace({
   }, []);
 
   return (
-    <div className="min-w-0 space-y-5 overflow-x-hidden">
+    <div className="min-w-0 space-y-5 overflow-visible">
+      {/*
+        Entrance stagger targets the grid host (space-y-5 > *). Repository
+        connection owns GitHub attention on the section node — same pattern as
+        wallet (wrapper vs attention host) so attention never re-fires rise.
+      */}
+      <div className="min-w-0">
       <div className="grid min-w-0 gap-4 tablet:grid-cols-[1.15fr_0.85fr]">
         <section
           ref={repositorySectionRef}
@@ -125,7 +157,10 @@ export default function ExternalsConnectedWorkspace({
             </p>
             <h3 className="text-lg font-semibold text-white">Connect GitHub for source-bearing input</h3>
             <p className="text-sm leading-7 text-white/68">
-              Manage the repository attachment that Bitcode reuses across read measurement, asset-pack synthesis, and settlement follow-through.
+              Manage the repository attachment that Bitcode reuses across read measurement,
+              asset-pack synthesis, and settlement follow-through. Install the Bitcode GitHub
+              App so Bitcode can read permitted repository context for Read, Deposit, and proof
+              follow-through.
             </p>
           </div>
 
@@ -142,47 +177,127 @@ export default function ExternalsConnectedWorkspace({
               }
             }}
           />
+
+          {(organizations.length > 0 || repositories.length > 0) && (
+            <div className="github-connection-summary mt-5 rounded-none border border-white/10 bg-white/5 p-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
+                Connected scope
+              </p>
+              <p className="mt-3 text-sm leading-7 text-white/68">
+                These repository attachments define the live scope Bitcode can read when it
+                measures read, synthesizes asset packs, and prepares settlement follow-through.
+                The current source of truth is {getRepositoryInventorySourceLabel(repositoryInventorySource)}.
+              </p>
+
+              {organizations.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  <p className="text-sm font-medium text-white">Organizations</p>
+                  <div className="flex flex-wrap gap-2">
+                    {organizations.map((organization: string) => (
+                      <span
+                        key={organization}
+                        className="rounded-none border border-emerald-300/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-100"
+                      >
+                        {organization}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {repositories.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  <p className="text-sm font-medium text-white">
+                    Connected Repositories ({repositories.length})
+                  </p>
+                  <div
+                    className="flex flex-wrap gap-2 overflow-visible"
+                    data-testid="connected-repositories-list"
+                  >
+                    {pagedRepoLabels.map((label) => (
+                      <span
+                        key={label}
+                        className="auxillaries-glass-nested rounded-none border border-white/10 px-3 py-1 text-xs text-white/74"
+                      >
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                  {repoLabels.length > CONNECTED_REPOS_PAGE_SIZE ? (
+                    <div
+                      className="flex flex-wrap items-center justify-between gap-3 pt-1 text-xs text-white/55"
+                      data-testid="connected-repositories-pagination"
+                    >
+                      <p>
+                        Showing {safeReposPage * CONNECTED_REPOS_PAGE_SIZE + 1}–
+                        {Math.min((safeReposPage + 1) * CONNECTED_REPOS_PAGE_SIZE, repoLabels.length)}{' '}
+                        of {repoLabels.length}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          className="rounded-none border border-white/12 bg-white/5 px-3 py-1.5 font-semibold uppercase tracking-[0.14em] text-white/78 transition-colors hover:border-white/22 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+                          onClick={() => setReposPage((p) => Math.max(0, p - 1))}
+                          disabled={safeReposPage <= 0}
+                          aria-label="Previous connected repositories page"
+                        >
+                          Previous
+                        </button>
+                        <span className="min-w-[4.5rem] text-center tabular-nums text-white/70">
+                          {safeReposPage + 1} / {reposPageCount}
+                        </span>
+                        <button
+                          type="button"
+                          className="rounded-none border border-white/12 bg-white/5 px-3 py-1.5 font-semibold uppercase tracking-[0.14em] text-white/78 transition-colors hover:border-white/22 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+                          onClick={() => setReposPage((p) => Math.min(reposPageCount - 1, p + 1))}
+                          disabled={safeReposPage >= reposPageCount - 1}
+                          aria-label="Next connected repositories page"
+                        >
+                          Next
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              )}
+            </div>
+          )}
         </section>
 
-        <aside className="min-w-0 space-y-4 overflow-x-hidden">
-          <div className="min-w-0 rounded-none border border-violet-300/18 bg-violet-950/25 p-5">
+        {/*
+          Mainnet readiness column — never a nested scrollport. The pane's
+          .orbital-content-container is the only vertical scroller; nested
+          max-h + overflow-y here reads as a second bar flush to this card.
+        */}
+        <aside className="mainnet-readiness-column min-w-0 space-y-4 overflow-visible">
+          <div
+            data-testid="mainnet-readiness-section"
+            className="auxillaries-glass-card mainnet-readiness-section min-w-0 overflow-visible rounded-none border p-5"
+          >
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-violet-200/78">
               Mainnet readiness
             </p>
-            <div className="mt-3 rounded-none border border-white/8 bg-black/20 p-4">
-              <p className="text-sm font-medium text-white">
-                {isLoading
-                  ? 'Checking GitHub and wallet posture...'
-                  : transactionReadiness.canSettle
-                    ? 'GitHub and verified wallet are ready'
-                    : transactionReadiness.canTransact
-                      ? 'GitHub and wallet identity are ready'
-                      : 'GitHub and wallet are not both ready yet'}
-              </p>
-              <p className="mt-2 text-sm leading-7 text-white/68">
-                {transactionReadiness.canSettle
-                  ? 'Bitcode can now reuse live repository context and verified wallet posture across read measurement, asset-pack synthesis, and signed settlement follow-through.'
-                  : transactionReadiness.canTransact
-                    ? 'Bitcode can now reuse live repository context and Wallet-owned identity across read measurement, asset-pack synthesis, and transaction drafting. Signed settlement still waits on verified wallet-provider access.'
-                    : `${transactionReadiness.summary} Bitcode may stay in review, but settlement requires both a live GitHub connection here and a wallet binding in Wallet before it should move from evaluation into asset-pack delivery.`}
-              </p>
-              {hasGitHubConnection && !hasValidGitHubConnection ? (
-                <p className="mt-2 text-xs leading-6 text-amber-200/82">
-                  Externals found a saved repository-provider attachment, but the live provider
-                  session is no longer valid. Reconnect before Bitcode writes, settles, or
-                  signs source-to-shares activity.
-                </p>
-              ) : null}
-              {hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection ? (
-                <p className="mt-2 text-xs leading-6 text-amber-200/82">
-                  Wallet has saved verified wallet-provider signer posture, but the live
-                  signer session is no longer available. Reconnect the wallet provider before
-                  signed settlement resumes.
-                </p>
-              ) : null}
-            </div>
+            {(hasGitHubConnection && !hasValidGitHubConnection) ||
+            (hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection) ? (
+              <div className="auxillaries-glass-card mt-3 space-y-2 rounded-none border p-4">
+                {hasGitHubConnection && !hasValidGitHubConnection ? (
+                  <p className="text-xs leading-6 text-amber-200/82">
+                    Externals found a saved repository-provider attachment, but the live provider
+                    session is no longer valid. Reconnect before Bitcode writes, settles, or
+                    signs source-to-shares activity.
+                  </p>
+                ) : null}
+                {hasStoredVerifiedWalletConnection && !hasVerifiedWalletConnection ? (
+                  <p className="text-xs leading-6 text-amber-200/82">
+                    Wallet has saved verified wallet-provider signer posture, but the live
+                    signer session is no longer available. Reconnect the wallet provider before
+                    signed settlement resumes.
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
             <div className="mt-3 grid gap-3 tablet:grid-cols-3">
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="auxillaries-glass-card rounded-none border p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                   GitHub
                 </p>
@@ -194,7 +309,7 @@ export default function ExternalsConnectedWorkspace({
                       : 'Reconnect required'}
                 </p>
               </div>
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="auxillaries-glass-card rounded-none border p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                   Wallet
                 </p>
@@ -218,7 +333,7 @@ export default function ExternalsConnectedWorkspace({
                   </p>
                 ) : null}
               </div>
-              <div className="rounded-none border border-white/8 bg-white/5 p-4">
+              <div className="auxillaries-glass-card rounded-none border p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/64">
                   Inventory source
                 </p>
@@ -249,7 +364,7 @@ export default function ExternalsConnectedWorkspace({
                       {formatProviderClass(providerReadiness.lastReadbackStatus)}
                     </p>
                   </div>
-                  <span className="rounded-none border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                  <span className="auxillaries-glass-nested rounded-none border border-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
                     {compactRoot(providerReadiness.providerReadinessRoot)}
                   </span>
                 </div>
@@ -288,7 +403,7 @@ export default function ExternalsConnectedWorkspace({
                       {telemetryProofHooks.length === 1 ? 'hook' : 'hooks'} available
                     </p>
                   </div>
-                  <span className="shrink-0 rounded-none border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
+                  <span className="auxillaries-glass-nested shrink-0 rounded-none border border-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/72">
                     {formatProviderClass(latestTelemetryProofHook?.sourceSafetyClass)}
                   </span>
                 </div>
@@ -328,71 +443,25 @@ export default function ExternalsConnectedWorkspace({
             )}
           </div>
 
-          {(organizations.length > 0 || repositories.length > 0) && (
-            <div className="github-connection-summary rounded-none border border-white/10 bg-white/5 p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
-                Connected scope
-              </p>
-              <p className="mt-3 text-sm leading-7 text-white/68">
-                These repository attachments define the live scope Bitcode can read when it
-                measures read, synthesizes asset packs, and prepares settlement follow-through.
-                The current source of truth is {getRepositoryInventorySourceLabel(repositoryInventorySource)}.
-              </p>
-
-              {organizations.length > 0 && (
-                <div className="mt-4 space-y-2">
-                  <p className="text-sm font-medium text-white">Organizations</p>
-                  <div className="flex flex-wrap gap-2">
-                    {organizations.map((organization: string) => (
-                      <span
-                        key={organization}
-                        className="rounded-none border border-emerald-300/20 bg-emerald-400/10 px-3 py-1 text-xs font-medium text-emerald-100"
-                      >
-                        {organization}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {repositories.length > 0 && (
-                <div className="mt-4 space-y-2">
-                  <p className="text-sm font-medium text-white">
-                    Connected Repositories ({repositories.length})
-                  </p>
-                  <div className="flex max-h-72 flex-wrap gap-2 overflow-y-auto">
-                    {repositories.map((repository: any) => {
-                      const label =
-                        typeof repository === 'string'
-                          ? repository
-                          : repository?.fullName || repository?.full_name || repository?.name || 'repository';
-                      return (
-                        <span
-                          key={label}
-                          className="rounded-none border border-white/10 bg-black/20 px-3 py-1 text-xs text-white/74"
-                        >
-                          {label}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
           <div className="rounded-none border border-white/10 bg-white/5 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">
               Read-space knowledge sharing
             </p>
             <div className="mt-3 space-y-3 text-sm leading-7 text-white/68">
               <p>
-                Externals owns the consent setting for connected source context. Wallet identity stays in Wallet, while GitHub scope becomes source-bearing inputability for Read and Deposit.
+                Externals owns the consent setting for connected source context. Wallet identity
+                stays in Wallet, while GitHub scope becomes source-bearing inputability for Read
+                and Deposit. Set once whether Externals-approved repositories should keep
+                contributing synchronized repository knowledge into Bitcode read-space — the
+                larger <span className="font-semibold text-teal-300">$BTD</span> setting that
+                governs ongoing connected-knowledge contribution after repository access is
+                already approved.
               </p>
               <AuxillariesDataSharingPanel overlayed={!isOnboardingComplete} />
             </div>
           </div>
         </aside>
+      </div>
       </div>
     </div>
   );

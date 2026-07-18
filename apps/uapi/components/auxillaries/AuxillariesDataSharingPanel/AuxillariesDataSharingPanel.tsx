@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AfterOnboardingOverlay } from '@/components/auxillaries/shared/AfterOnboardingOverlay/AfterOnboardingOverlay';
 
 // Re-use the existing repository data-sharing shape across Externals and Wallet-adjacent reads.
@@ -18,6 +18,9 @@ export interface DataShareRepo {
   }[];
 }
 
+/** Per-page limit for the per-repo share table (not “enable all”). */
+const REPO_PAGE_SIZE = 10;
+
 interface AuxillariesDataSharingPanelProps {
   className?: string;
   /** When true, the panel is visually disabled/blurred for onboarding */
@@ -29,6 +32,7 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
   const [loading, setLoading] = useState(true);
   const [enableAll, setEnableAll] = useState(false);
   const [updatingAll, setUpdatingAll] = useState(false);
+  const [page, setPage] = useState(0);
 
   // Fetch on mount
   useEffect(() => {
@@ -54,6 +58,23 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
       cancelled = true;
     };
   }, []);
+
+  const pageCount = Math.max(1, Math.ceil(repos.length / REPO_PAGE_SIZE));
+  const safePage = Math.min(page, pageCount - 1);
+  const pageRepos = useMemo(() => {
+    const start = safePage * REPO_PAGE_SIZE;
+    return repos.slice(start, start + REPO_PAGE_SIZE).map((repo, offset) => ({
+      repo,
+      absoluteIndex: start + offset,
+    }));
+  }, [repos, safePage]);
+
+  // Keep page in range when inventory shrinks (disconnect / filter).
+  useEffect(() => {
+    if (page > pageCount - 1) {
+      setPage(Math.max(0, pageCount - 1));
+    }
+  }, [page, pageCount]);
 
   // Toggle all repos
   const handleToggleAll = async () => {
@@ -122,21 +143,14 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
   return (
     <AfterOnboardingOverlay disabled={overlayed} className={className}>
       <div className="relative w-full">
-        <h3 className="text-lg font-heading mb-2 text-white flex items-center gap-2">
-          Read-space knowledge sharing
-          {loading && <span className="text-sm text-slate-400">loading…</span>}
-        </h3>
-        <p className="text-sm text-slate-400 mb-4">
-          Set once whether Externals-approved repositories should keep contributing synchronized repository knowledge into Bitcode read-space.
-          This is the larger
-          <span className="text-teal-300 font-semibold mx-1">$BTD</span>
-          setting that governs ongoing connected-knowledge contribution after repository access is already approved.
-        </p>
-
+        {/*
+          Section title/copy live on the Externals card subtitle so this panel
+          is controls-only (no second "Read-space knowledge sharing" heading).
+        */}
       {/* Enable All toggle */}
-      <div className="flex items-center mb-6">
-        <span className="mr-3 font-medium text-slate-200">Set it and forget it</span>
-        <label className="relative inline-flex items-center cursor-pointer select-none">
+      <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className="font-medium text-slate-200">Set it and forget it</span>
+        <label className="relative inline-flex cursor-pointer select-none items-center">
           <input
             type="checkbox"
             className="sr-only peer"
@@ -145,12 +159,13 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
             disabled={loading || updatingAll}
           />
           <div
-            className="w-11 h-6 rounded-none border border-slate-600 peer bg-slate-700 peer-checked:bg-[#F9C855] transition-colors duration-200"
+            className="h-6 w-11 rounded-none border border-slate-600 bg-slate-700 peer-checked:bg-[#F9C855] transition-colors duration-200 peer"
           ></div>
           <span
-            className="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-none shadow transform peer-checked:translate-x-5 transition-transform duration-200"
+            className="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-none bg-white shadow transition-transform duration-200 peer-checked:translate-x-5"
           ></span>
         </label>
+        {loading ? <span className="text-sm text-slate-400">loading…</span> : null}
       </div>
 
         {enableAll ? (
@@ -158,55 +173,92 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
           All current and future Externals-approved repositories will sync into read-space automatically.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-none border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
-          <table className="min-w-full text-sm whitespace-nowrap" data-testid="externals-data-share-repositories">
-            <thead className="text-slate-300 font-semibold">
-              <tr>
-                <th className="py-3 px-4 text-left">Repository</th>
-                <th className="py-3 px-4 text-left hidden laptop:table-cell">Branch</th>
-                <th className="py-3 px-4 text-left hidden laptop:table-cell">Commit</th>
-                <th className="py-3 px-4 text-center">Share</th>
-              </tr>
-            </thead>
-            <tbody>
-              {repos.map((repo, idx) => (
-                <tr
-                  key={repo.fullName + repo.commit}
-                  data-testid="externals-data-share-repo-row"
-                  data-repo-full-name={repo.fullName}
-                  className="border-t border-slate-700/60 hover:bg-[#1A2335] group transition-colors"
-                >
-                  <td className="py-3 px-4 font-medium text-slate-200 flex items-center gap-2">
-                    {repo.fullName}
-                  </td>
-                  <td className="py-3 px-4 hidden laptop:table-cell text-slate-300">{repo.branch}</td>
-                  <td className="py-3 px-4 hidden laptop:table-cell text-slate-400 font-mono text-xs">
-                    {repo.commit.slice(0, 7)}
-                  </td>
-                  <td className="py-3 px-4 text-center">
-                    <label className="relative inline-flex items-center cursor-pointer select-none">
-                      <input
-                        type="checkbox"
-                        className="sr-only peer"
-                        checked={repo.enabled}
-                        onChange={() => toggleRepo(idx)}
-                        disabled={loading}
-                      />
-                      <div className="w-9 h-5 rounded-none border border-slate-600 peer bg-slate-700 peer-checked:bg-teal-400 transition-colors" />
-                      <span className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-none shadow transform peer-checked:translate-x-4 transition-transform" />
-                    </label>
-                  </td>
-                </tr>
-              ))}
-              {!loading && repos.length === 0 && (
+        <div className="space-y-3">
+          <div className="overflow-x-auto rounded-none border border-slate-700/60 bg-slate-800/40 backdrop-blur-md [mask-image:linear-gradient(black,black)]">
+            <table className="min-w-full text-sm whitespace-nowrap" data-testid="externals-data-share-repositories">
+              <thead className="text-slate-300 font-semibold">
                 <tr>
-                  <td colSpan={4} className="py-6 px-4 text-center text-slate-400">
-                    No eligible repositories found.
-                  </td>
+                  <th className="py-3 px-4 text-left">Repository</th>
+                  <th className="py-3 px-4 text-left hidden laptop:table-cell">Branch</th>
+                  <th className="py-3 px-4 text-left hidden laptop:table-cell">Commit</th>
+                  <th className="py-3 px-4 text-center">Share</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {pageRepos.map(({ repo, absoluteIndex }) => (
+                  <tr
+                    key={repo.fullName + repo.commit}
+                    data-testid="externals-data-share-repo-row"
+                    data-repo-full-name={repo.fullName}
+                    className="border-t border-slate-700/60 hover:bg-[#1A2335] group transition-colors"
+                  >
+                    <td className="py-3 px-4 font-medium text-slate-200 flex items-center gap-2">
+                      {repo.fullName}
+                    </td>
+                    <td className="py-3 px-4 hidden laptop:table-cell text-slate-300">{repo.branch}</td>
+                    <td className="py-3 px-4 hidden laptop:table-cell text-slate-400 font-mono text-xs">
+                      {repo.commit.slice(0, 7)}
+                    </td>
+                    <td className="py-3 px-4 text-center">
+                      <label className="relative inline-flex items-center cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          className="sr-only peer"
+                          checked={repo.enabled}
+                          onChange={() => toggleRepo(absoluteIndex)}
+                          disabled={loading}
+                        />
+                        <div className="w-9 h-5 rounded-none border border-slate-600 peer bg-slate-700 peer-checked:bg-teal-400 transition-colors" />
+                        <span className="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-none shadow transform peer-checked:translate-x-4 transition-transform" />
+                      </label>
+                    </td>
+                  </tr>
+                ))}
+                {!loading && repos.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="py-6 px-4 text-center text-slate-400">
+                      No eligible repositories found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {repos.length > REPO_PAGE_SIZE ? (
+            <div
+              className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400"
+              data-testid="externals-data-share-pagination"
+            >
+              <p>
+                Showing {safePage * REPO_PAGE_SIZE + 1}–
+                {Math.min((safePage + 1) * REPO_PAGE_SIZE, repos.length)} of {repos.length}
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="rounded-none border border-slate-600/80 bg-slate-800/60 px-3 py-1.5 font-semibold uppercase tracking-[0.14em] text-slate-200 transition-colors hover:border-slate-500 hover:bg-slate-700/70 disabled:cursor-not-allowed disabled:opacity-40"
+                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                  disabled={safePage <= 0 || loading}
+                  aria-label="Previous repository page"
+                >
+                  Previous
+                </button>
+                <span className="min-w-[4.5rem] text-center tabular-nums text-slate-300">
+                  {safePage + 1} / {pageCount}
+                </span>
+                <button
+                  type="button"
+                  className="rounded-none border border-slate-600/80 bg-slate-800/60 px-3 py-1.5 font-semibold uppercase tracking-[0.14em] text-slate-200 transition-colors hover:border-slate-500 hover:bg-slate-700/70 disabled:cursor-not-allowed disabled:opacity-40"
+                  onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
+                  disabled={safePage >= pageCount - 1 || loading}
+                  aria-label="Next repository page"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
         )}
       </div>

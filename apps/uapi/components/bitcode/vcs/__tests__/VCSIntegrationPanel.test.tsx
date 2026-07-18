@@ -33,9 +33,10 @@ describe('VCSIntegrationPanel', () => {
     test('renders GitHub by default', () => {
       render(<VCSIntegrationPanel />);
 
-      expect(screen.getByText('Version Control System Integrations')).toBeInTheDocument();
-      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toBeInTheDocument();
-      
+      // Section intro is owned by Externals Repository connection subtitle.
+      expect(screen.queryByText('Version Control System Integrations')).not.toBeInTheDocument();
+      expect(screen.getByText(/GitHub App/i)).toBeInTheDocument();
+
       expect(screen.getByTestId('vcs-card-github')).toBeInTheDocument();
       expect(screen.queryByTestId('vcs-card-gitlab')).not.toBeInTheDocument();
       expect(screen.queryByTestId('vcs-card-bitbucket')).not.toBeInTheDocument();
@@ -182,9 +183,6 @@ describe('VCSIntegrationPanel', () => {
       const panel = container.firstChild;
       expect(panel).toHaveClass('space-y-6');
 
-      const header = screen.getByText('Version Control System Integrations').parentElement;
-      expect(header).not.toBeNull();
-
       const cardsContainer = screen.getByTestId('vcs-card-github').parentElement;
       expect(cardsContainer).toHaveClass('grid', 'gap-4');
     });
@@ -198,11 +196,11 @@ describe('VCSIntegrationPanel', () => {
       expect(within(alert!).getByTestId('info-icon')).toBeInTheDocument();
     });
 
-    test('renders description text', () => {
+    test('is controls-only without a stacked VCSI heading', () => {
       render(<VCSIntegrationPanel />);
 
-      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toBeInTheDocument();
-      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toHaveClass('text-muted-foreground');
+      expect(screen.queryByText('Version Control System Integrations')).not.toBeInTheDocument();
+      expect(screen.getByRole('tab', { name: /GitHub App/i })).toBeInTheDocument();
     });
   });
 
@@ -221,11 +219,8 @@ describe('VCSIntegrationPanel', () => {
     test('uses semantic HTML structure', () => {
       render(<VCSIntegrationPanel />);
 
-      // Check for heading
-      const heading = screen.getByRole('heading', { level: 3 });
-      expect(heading).toHaveTextContent('Version Control System Integrations');
-
-      // Check for buttons within cards
+      // Tabs + card actions — intro heading lives on the Externals section.
+      expect(screen.getByRole('tablist')).toBeInTheDocument();
       const buttons = screen.getAllByRole('button');
       expect(buttons.length).toBeGreaterThanOrEqual(1);
     });
@@ -233,8 +228,10 @@ describe('VCSIntegrationPanel', () => {
     test('provides descriptive text for screen readers', () => {
       render(<VCSIntegrationPanel />);
 
-      // Description should be associated with the panel
-      expect(screen.getByText(/Install the Bitcode GitHub App/i)).toBeInTheDocument();
+      expect(screen.getByText(/Recommended/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/installation-scoped connection needed for permitted repository reads/i),
+      ).toBeInTheDocument();
     });
   });
 
