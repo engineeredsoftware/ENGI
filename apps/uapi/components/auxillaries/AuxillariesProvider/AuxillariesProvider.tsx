@@ -300,12 +300,8 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
               data-testid="auxillaries-overlay-root"
               data-auxillaries-open={isOpen ? 'true' : 'false'}
               aria-hidden={!isOpen}
-              {...(!isOpen
-                ? ({
-                    // React 18 types omit inert; browsers treat presence as true.
-                    inert: '',
-                  } as React.HTMLAttributes<HTMLDivElement>)
-                : null)}
+              // Keep-alive dormant surface must not receive focus or input.
+              inert={!isOpen ? true : undefined}
               style={{
                 opacity: isOpen ? 1 : 0,
                 visibility: isOpen ? 'visible' : 'hidden',
