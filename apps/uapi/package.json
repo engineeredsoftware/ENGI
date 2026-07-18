@@ -31,7 +31,7 @@
     "test:e2e:onboarding-first-step": "START_STORYBOOK=false USE_API_MOCK=true playwright test tests/e2e/onboarding-first-step.spec.ts --timeout=120000",
     "sync-asset-pack-evidence-embeddings": "ts-node scripts/sync-asset-pack-evidence-embeddings.ts",
     "codemod:trace-routes": "node scripts/trace-route-codemod.js",
-    "dev:staging": "BITCODE_UAPI_ENV_FILE=../../.env.local BITCODE_ENABLE_PIPELINE_HOST_API=1 BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE=1 BITCODE_ASSET_PACK_REAL_INFERENCE=1 BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS=600000 next dev --hostname 127.0.0.1",
+    "dev:staging": "BITCODE_UAPI_ENV_FILE=../../.env.local BITCODE_ENABLE_PIPELINE_HOST_API=1 BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS=600000 next dev --hostname 127.0.0.1",
     "generate-doc-screenshot-stubs": "node ../../scripts/generate-doc-screenshot-stubs.js",
     "capture-doc-screenshots": "node ../../scripts/capture-doc-screenshots.js",
     "complete-doc-stories": "node ../../scripts/complete-doc-stories.js",

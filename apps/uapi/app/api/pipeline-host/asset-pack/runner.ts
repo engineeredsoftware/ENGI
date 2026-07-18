@@ -248,12 +248,14 @@ function selectedCommandEnvironment(userId: string): Record<string, string> {
   env.BITCODE_PIPELINE_USER_ID = userId;
   env.BITCODE_PIPELINE_STREAM_TO_DATABASE = '1';
   env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
+  // Inference is owned by the host/Pipeliner process — always inject real
+  // inference for product host runs (not configured via uapi .env).
+  env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+  env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE =
+    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE || 'bounded';
   const realInferenceRequired = isPipelineHostRealInferenceRequired();
   if (realInferenceRequired) {
     env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
-  }
-  if (realInferenceRequired && isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE) && !env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) {
-    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
   }
   assertDatabaseStreamingEnvironment(env, process.env);
   normalizeModelEnvironment(env);

@@ -34,11 +34,13 @@ export async function POST(request: Request) {
     );
   }
 
+  // Real inference is the product default (host/Pipeliner). Explicit opt-out
+  // BITCODE_ASSET_PACK_REAL_INFERENCE=0 remains for deterministic unit tests.
   if (!isAssetPackRealInferenceEnabled()) {
     return NextResponse.json(
       {
         error:
-          'Real read option synthesis requires BITCODE_ASSET_PACK_REAL_INFERENCE so options carry real measurements.',
+          'Read option synthesis requires real inference (unset BITCODE_ASSET_PACK_REAL_INFERENCE or set it to 1).',
         code: 'real_inference_required',
       },
       { status: 422 },
