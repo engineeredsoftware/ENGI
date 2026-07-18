@@ -149,7 +149,8 @@ describe('Interface consumer UX regression proof', () => {
     expect(() =>
       buildBtdInterfaceConsumerUxRegressionRow({
         ...row,
-        fixturePath: 'scripts/specifying/src/consumer-fixture.test.ts',
+        // Must match BRITTLE_DEMONSTRATION_PATTERNS (protocol-demonstration|demo-only|mock-only).
+        fixturePath: 'protocol-demonstration/consumer-fixture.test.ts',
       }),
     ).toThrow(/demonstration-only/);
   });
