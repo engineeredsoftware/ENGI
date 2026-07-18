@@ -29,8 +29,8 @@
 
 | § | Topic | Status |
 | --- | --- | --- |
-| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery **phase closed** 1.D14–1.D-Discovery; marker → Implementation first LLM) |
-| 2 | SDIVF deposit pipeline production-like accept | **Partial** (Setup + Discovery closed; Implementation marker) |
+| 1 | Every-call / every-pipeline LLM debug | **Partial** (Discovery closed; Implementation live e2e packs; progressive §1 still open for call-by-call) |
+| 2 | SDIVF deposit pipeline production-like accept | **Partial** (first full local e2e **worthy_deposit_candidates** with 3 measured packs — 2026-07-18) |
 | 3 | SDIVF read pipeline production-like accept | Open (partial offline via §1.1) |
 | 4 | Settle Simple pipeline production-like accept | Open |
 | 5 | Discovery law (wave-1 parallel → product search keys) | Open |
@@ -1855,7 +1855,10 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 - **status:** **Partial**  
 - **criterion:** full Setup→…→Finish deposit run under LocalHost / production-like accept with real inference; until then, §1 deposit call-by-call rows are the progressive proof.  
 - **proof (current):** Setup closed; Discovery **phase closed** (1.D14–1.D-Discovery).  
-  Multi-tool Try proven on codebase agent; depository search tool path exercised (zero hits). Harness: fast Setup + Discovery skip when Implementation marker.
+  Multi-tool Try proven on codebase agent; depository search tool path exercised.  
+  **2026-07-18 full local e2e** (`qa:deposit:local`, FAST_SETUP=1, full Discovery, provider **xai/grok-3-mini** after Anthropic/OpenAI quota exhaust):  
+  `resultState=worthy_deposit_candidates`, **3** measured AssetPacks (capability-slice / implementation-pattern / proof-operations-slice) with catalog paths, source-safe patches, full absolute catalogs (8 kinds each), `selectionEnvelope.readyToPresent=true`.  
+  Fixes that unblocked end-to-end: PCC multi-# key resolution; lenient residual `needinessSignal`; refine attempt bound; host path salvage.
 
 ### §3 SDIVF read pipeline production-like accept
 
@@ -1930,3 +1933,4 @@ Stitch: non-triggering (schema-valid CS SO; stitchCount=0).
 | 2026-07-17 | **1.D44–1.D-IR-Agent** Inherent regurgitation agent closed (refine CS SO, callCount 49). |
 | 2026-07-17 | **1.D-DepSearch-Agent** Depository search agent closed (refine CS SO; useTools depository-asset-pack-search; zero hits). |
 | 2026-07-17 | **1.D-Discovery** Discovery phase closed. Marker → Implementation Plan PCC reason (`DepositAssetPackSynthesis`). Fast Discovery skip-all when phase=implementation. |
+| 2026-07-18 | Full deposit e2e (xAI): `worthy_deposit_candidates` + 3 measured packs. Fixes: PCC key expand, neediness residual lenient, refine bound, host salvage. Anthropic/OpenAI quota blocked earlier retries. |
