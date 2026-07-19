@@ -1,8 +1,9 @@
 /**
- * Interfaces pane defaults, admission catalog projection, and debounced autosave.
+ * Interfaces pane defaults, admission catalog projection, and explicit
+ * system-prompt Save / Undo (no silent autosave on the prompt draft).
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useUserData } from '@/hooks/useUserData';
 import type { AuxillariesPreferenceCardItem } from '@/components/auxillaries/shared/AuxillariesPreferenceCards/AuxillariesPreferenceCards';
@@ -27,7 +28,6 @@ export function useInterfacesPaneState({
 }) {
   const { data, interfaceAdmissions } = useUserData();
   const hasCalledCompletionRef = useRef(false);
-  const lastInterfacesAutosaveSignatureRef = useRef<string | null>(null);
   const savedPreferences = (data?.modelPreferences as Record<string, any> | null) || null;
   const admissionRecords = Array.isArray(interfaceAdmissions)
     ? (interfaceAdmissions as InterfaceAdmissionRecord[])
@@ -44,12 +44,20 @@ export function useInterfacesPaneState({
     ...(savedPreferences?.workspaceDefaults || {}),
     ...(savedPreferences?.interfacesDefaults || {}),
   }));
-  const [globalSystemPrompt, setGlobalSystemPrompt] = useState(
-    String(savedPreferences?.globalSystemPrompt || ''),
-  );
+  const initialPrompt = String(savedPreferences?.globalSystemPrompt || '');
+  const [globalSystemPrompt, setGlobalSystemPrompt] = useState(initialPrompt);
+  /** Last committed value — Undo reverts to this; Save advances it. */
+  const [committedSystemPrompt, setCommittedSystemPrompt] = useState(initialPrompt);
   const [tokenCount, setTokenCount] = useState(
-    typeof savedPreferences?.tokenCount === 'number' ? savedPreferences.tokenCount : 0,
+    typeof savedPreferences?.tokenCount === 'number'
+      ? savedPreferences.tokenCount
+      : Math.ceil(initialPrompt.length / 4),
   );
+  const [isSavingPrompt, setIsSavingPrompt] = useState(false);
+  const globalSystemPromptRef = useRef(globalSystemPrompt);
+  const committedSystemPromptRef = useRef(committedSystemPrompt);
+  globalSystemPromptRef.current = globalSystemPrompt;
+  committedSystemPromptRef.current = committedSystemPrompt;
 
   useEffect(() => {
     if (onCompletionStatusChange && !hasCalledCompletionRef.current) {
@@ -68,13 +76,27 @@ export function useInterfacesPaneState({
       ...(savedPreferences.workspaceDefaults || {}),
       ...(savedPreferences.interfacesDefaults || {}),
     }));
-    setGlobalSystemPrompt(String(savedPreferences.globalSystemPrompt || ''));
-    setTokenCount(typeof savedPreferences.tokenCount === 'number' ? savedPreferences.tokenCount : 0);
+    // Only adopt remote prompt when the local draft is clean — otherwise a
+    // background refresh would wipe in-progress edits.
+    const remotePrompt = String(savedPreferences.globalSystemPrompt || '');
+    const dirty =
+      globalSystemPromptRef.current !== committedSystemPromptRef.current;
+    if (!dirty) {
+      setGlobalSystemPrompt(remotePrompt);
+      setCommittedSystemPrompt(remotePrompt);
+      setTokenCount(
+        typeof savedPreferences.tokenCount === 'number'
+          ? savedPreferences.tokenCount
+          : Math.ceil(remotePrompt.length / 4),
+      );
+    }
   }, [savedPreferences]);
 
   const updateTokenCounter = (value: string) => {
     setTokenCount(Math.ceil(value.length / 4));
   };
+
+  const isSystemPromptDirty = globalSystemPrompt !== committedSystemPrompt;
 
   const preferenceCards = useMemo<AuxillariesPreferenceCardItem[]>(
     () => [
@@ -244,28 +266,25 @@ export function useInterfacesPaneState({
     [defaults, globalSystemPrompt, savedPreferences, tokenCount],
   );
 
+  const handleSaveSystemPrompt = useCallback(() => {
+    setIsSavingPrompt(true);
+    try {
+      onSave(interfacesAutosavePayload);
+      setCommittedSystemPrompt(globalSystemPrompt);
+    } finally {
+      setIsSavingPrompt(false);
+    }
+  }, [globalSystemPrompt, interfacesAutosavePayload, onSave]);
+
+  const handleUndoSystemPrompt = useCallback(() => {
+    setGlobalSystemPrompt(committedSystemPrompt);
+    setTokenCount(Math.ceil(committedSystemPrompt.length / 4));
+  }, [committedSystemPrompt]);
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSave(interfacesAutosavePayload);
+    handleSaveSystemPrompt();
   };
-
-  useEffect(() => {
-    const signature = JSON.stringify(interfacesAutosavePayload);
-    if (lastInterfacesAutosaveSignatureRef.current === null) {
-      lastInterfacesAutosaveSignatureRef.current = signature;
-      return;
-    }
-    if (lastInterfacesAutosaveSignatureRef.current === signature) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      lastInterfacesAutosaveSignatureRef.current = signature;
-      onSave(interfacesAutosavePayload);
-    }, 550);
-
-    return () => window.clearTimeout(timer);
-  }, [interfacesAutosavePayload, onSave]);
 
   return {
     defaults,
@@ -279,5 +298,9 @@ export function useInterfacesPaneState({
     tokenCount,
     updateTokenCounter,
     handleSubmit,
+    isSystemPromptDirty,
+    isSavingPrompt,
+    handleSaveSystemPrompt,
+    handleUndoSystemPrompt,
   };
 }

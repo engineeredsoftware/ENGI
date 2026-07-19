@@ -45,6 +45,10 @@ export default function AuxillariesInterfacesPane({
     tokenCount,
     updateTokenCounter,
     handleSubmit,
+    isSystemPromptDirty,
+    isSavingPrompt,
+    handleSaveSystemPrompt,
+    handleUndoSystemPrompt,
   } = useInterfacesPaneState({ onSave, onCompletionStatusChange });
 
   return (
@@ -149,12 +153,18 @@ export default function AuxillariesInterfacesPane({
                 onChange={setGlobalSystemPrompt}
                 tokenCount={tokenCount}
                 updateTokenCounter={updateTokenCounter}
+                isDirty={isSystemPromptDirty}
+                isSaving={isSavingPrompt}
+                onSave={handleSaveSystemPrompt}
+                onUndo={handleUndoSystemPrompt}
               />
             </AuxillariesWorkspaceSection>
 
             <div className="rounded-none border border-white/10 auxillaries-glass-card px-5 py-4">
               <p className="text-sm leading-7 text-white/68">
-                Changes save automatically so product transactions, proofs, MCP API calls, and ChatGPT App work reopen with the same interface defaults. Ledgerized Reading pipelines keep protocol-owned model configuration.
+                Save the shared system prompt when you want product transactions, proofs, MCP API
+                calls, and ChatGPT App work to reopen with this baseline. Undo edits restores the
+                last saved text. Ledgerized Reading pipelines keep protocol-owned model configuration.
               </p>
             </div>
           </form>

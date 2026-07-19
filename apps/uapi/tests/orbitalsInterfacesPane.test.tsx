@@ -107,25 +107,43 @@ describe('AuxillariesInterfacesPane', () => {
       target: { value: 'Keep closure exact and user-facing.' },
     });
 
-    expect(screen.getByText(/Changes save automatically so product transactions, proofs, MCP API calls, and ChatGPT App work/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Save the shared system prompt when you want product transactions/i),
+    ).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument();
 
-    await waitFor(
-      () => {
-        expect(onSave).toHaveBeenCalledWith(
-          expect.objectContaining({
-            existingSetting: 'keep-me',
-            globalSystemPrompt: 'Keep closure exact and user-facing.',
-            ledgerizedPipelineModels: 'registry_deterministic',
-            modelSelectionScope: 'non_ledgerized_conversation_only',
-          }),
-        );
-        const payload = onSave.mock.calls.at(-1)?.[0] as Record<string, unknown>;
-        expect(payload.defaultModel).toBeUndefined();
-        expect(payload.defaultProvider).toBeUndefined();
-        expect(payload.preferred_model).toBeUndefined();
-      },
-      { timeout: 2000 },
+    const saveButton = screen.getByTestId('auxillaries-system-prompt-save');
+    const undoButton = screen.getByTestId('auxillaries-system-prompt-undo');
+    expect(saveButton).not.toBeDisabled();
+    expect(undoButton).not.toBeDisabled();
+
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      expect(onSave).toHaveBeenCalledWith(
+        expect.objectContaining({
+          existingSetting: 'keep-me',
+          globalSystemPrompt: 'Keep closure exact and user-facing.',
+          ledgerizedPipelineModels: 'registry_deterministic',
+          modelSelectionScope: 'non_ledgerized_conversation_only',
+        }),
+      );
+      const payload = onSave.mock.calls.at(-1)?.[0] as Record<string, unknown>;
+      expect(payload.defaultModel).toBeUndefined();
+      expect(payload.defaultProvider).toBeUndefined();
+      expect(payload.preferred_model).toBeUndefined();
+    });
+
+    // After save, actions disable until the next edit.
+    expect(saveButton).toBeDisabled();
+    expect(undoButton).toBeDisabled();
+
+    fireEvent.change(screen.getByLabelText(/Shared system prompt/i), {
+      target: { value: 'Draft that should not persist.' },
+    });
+    fireEvent.click(undoButton);
+    expect(screen.getByLabelText(/Shared system prompt/i)).toHaveValue(
+      'Keep closure exact and user-facing.',
     );
   });
 });
