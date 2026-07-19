@@ -37,13 +37,20 @@ COPY containers/images/pipeliner ./containers/images/pipeliner
 
 # Install workspace (filter when possible; full install fallback).
 # Explicit @bitcode/lsp pulls bundled npm language servers into the image.
+# Include synthesis product packages + tools-generics so live-runner file://
+# imports can resolve workspace deps under pnpm (not only TypeScript path maps).
 RUN pnpm install --frozen-lockfile \
   --filter @bitcode/pipeline-hosts... \
   --filter @bitcode/pipeline-image... \
   --filter @bitcode/asset-packs-pipelines-domain... \
   --filter @bitcode/asset-packs-pipelines-syntheses-domain... \
+  --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs... \
+  --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs... \
   --filter @bitcode/lsp... \
   --filter @bitcode/pipelines-generics... \
+  --filter @bitcode/tools-generics... \
+  --filter @bitcode/agent-generics... \
+  --filter @bitcode/execution-generics... \
   --filter @bitcode/btd... \
   --filter @bitcode/supabase... \
   || pnpm install --frozen-lockfile
@@ -70,8 +77,14 @@ RUN test -f packages/asset-packs-pipelines/syntheses/domain/src/index.ts \
   && test -f packages/asset-packs-pipelines/syntheses/read/src/index.ts \
   && test -f packages/asset-packs-pipelines/domain/src/index.ts \
   && test -f packages/pipelines-generics/src/index.ts \
+  && test -f packages/tools-generics/src/index.ts \
   && test -f packages/btd/src/settlement.ts \
   || (echo "pipeliner image missing live-runner monorepo sources (syntheses/ layout)" >&2 && exit 1)
+
+# Workspace package resolution must work under pnpm for file:// + tsx loads.
+RUN test -e packages/pipelines-generics/node_modules/@bitcode/tools-generics \
+  || test -e node_modules/@bitcode/tools-generics \
+  || (echo "pipeliner image missing @bitcode/tools-generics link for pipelines-generics" >&2 && exit 1)
 
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs

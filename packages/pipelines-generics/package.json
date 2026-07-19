@@ -5,10 +5,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@bitcode/agent-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/registry": "workspace:*",
-    "@bitcode/agent-generics": "workspace:*"
+    "@bitcode/tools-generics": "workspace:*"
   },
   "scripts": {
     "build": "tsc --noEmit",

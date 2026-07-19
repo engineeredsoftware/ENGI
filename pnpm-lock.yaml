@@ -3956,16 +3956,19 @@ importers:
       '@bitcode/registry':
         specifier: workspace:*
         version: link:../registry
+      '@bitcode/tools-generics':
+        specifier: workspace:*
+        version: link:../tools-generics
     devDependencies:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.14
       jest:
         specifier: ^29.7.0
-        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3))
+        version: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3))
       ts-jest:
         specifier: ^29.1.1
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.8.3)))(typescript@5.8.3)
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(esbuild@0.25.5)(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.8.3)))(typescript@5.8.3)
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -26418,12 +26421,6 @@ snapshots:
       '@vue/shared': 3.5.18
       csstype: 3.2.3
 
-  '@vue/server-renderer@3.5.18(vue@3.5.18(typescript@5.8.3))':
-    dependencies:
-      '@vue/compiler-ssr': 3.5.18
-      '@vue/shared': 3.5.18
-      vue: 3.5.18(typescript@5.8.3)
-
   '@vue/server-renderer@3.5.18(vue@3.5.18(typescript@5.9.3))':
     dependencies:
       '@vue/compiler-ssr': 3.5.18
@@ -26435,7 +26432,7 @@ snapshots:
     dependencies:
       '@vue/compiler-ssr': 3.5.18
       '@vue/shared': 3.5.18
-      vue: 3.5.18(typescript@6.0.3)
+      vue: 3.5.18(typescript@5.8.3)
 
   '@vue/shared@3.5.18': {}
 
@@ -36326,7 +36323,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.18
       '@vue/compiler-sfc': 3.5.18
       '@vue/runtime-dom': 3.5.18
-      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@5.8.3))
+      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@6.0.3))
       '@vue/shared': 3.5.18
     optionalDependencies:
       typescript: 5.8.3
