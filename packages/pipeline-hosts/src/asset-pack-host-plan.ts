@@ -32,10 +32,16 @@ import {
   PIPELINE_IMAGE_ENTRY_DEFAULT,
   PIPELINE_IMAGE_ENTRY_ENV,
   PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT,
+  PIPELINE_IMAGE_TSX_CLI_CANDIDATES,
+  PIPELINE_IMAGE_TSX_LOADER_CANDIDATES,
   PIPELINE_SANDBOX_IMAGE_ENV,
   PIPELINE_STDERR_PATH,
   PIPELINE_STDOUT_PATH,
+  SANDBOX_PIPELINE_EXIT_CODE_PATH,
+  SANDBOX_PIPELINE_STDERR_PATH,
+  SANDBOX_PIPELINE_STDOUT_PATH,
   SANDBOX_PNPM_VERSION,
+  SANDBOX_TELEMETRY_PATH,
   SANDBOX_WORKING_DIRECTORY,
   SOURCE_OVERLAY_PATCH_PATH,
   TELEMETRY_PATH,
@@ -293,33 +299,18 @@ function buildPipelineImageCommands(
 
   if (mode === 'asset_pack_pipeline') {
     // Prefer sandbox-uploaded runner (hot-fixed) over image-baked copy.
-    // tsx loads monorepo .ts package sources under BITCODE_MONOREPO_ROOT.
-    const sandboxLiveRunner = `${SANDBOX_WORKING_DIRECTORY}/${HOST_RUN_DIRECTORY}/run-live-asset-pack-pipeline.mjs`;
-    const monorepoRoot = PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT;
-    const pipelineRunScript = [
-      `cd ${shellQuote(monorepoRoot)}`,
-      // tsx loads monorepo .ts package sources (plain node cannot).
-      `if ! node --import tsx -e "process.exit(0)" >/dev/null 2>&1; then`,
-      `  npm install -g tsx@4.19.3 || npm install --no-save --prefix ${shellQuote(monorepoRoot)} tsx@4.19.3`,
-      `fi`,
-      `RUNNER=${shellQuote(sandboxLiveRunner)}`,
-      `if [ ! -f "$RUNNER" ]; then RUNNER=${shellQuote(`${monorepoRoot}/.proofs/pipeline-host/run-live-asset-pack-pipeline.mjs`)}; fi`,
-      `if [ ! -f "$RUNNER" ]; then echo "live runner missing; falling back to image dispatcher" >&2; node ${shellQuote(pipelineImageEntry)}; else node --import tsx "$RUNNER"; fi`,
-    ].join(' && ');
+    // Live runner imports monorepo .ts packages — needs tsx, resolved from the
+    // image workspace (pnpm does not hoist to monorepo root). Never hang on
+    // runtime npm install; fail closed with logs + exit-code for host poll.
+    const pipelineRunScript = buildPipelineImageRunShellScript(pipelineImageEntry);
     commands.push({
       label: 'asset-pack-pipeline-run',
       cmd: 'sh',
-      args: [
-        '-lc',
-        [
-          `( ${pipelineRunScript} ) > ${shellQuote(PIPELINE_STDOUT_PATH)} 2> ${shellQuote(PIPELINE_STDERR_PATH)}`,
-          'code=$?',
-          `printf "%s" "$code" > ${shellQuote(PIPELINE_EXIT_CODE_PATH)}`,
-          'exit "$code"',
-        ].join('; '),
-      ],
+      args: ['-lc', pipelineRunScript],
+      cwd: SANDBOX_WORKING_DIRECTORY,
       env: commandEnvironment,
       detached: true,
+      // Relative paths: Sandbox readFile is rooted at /vercel/sandbox.
       exitCodePath: PIPELINE_EXIT_CODE_PATH,
       stdoutPath: PIPELINE_STDOUT_PATH,
       stderrPath: PIPELINE_STDERR_PATH,
@@ -456,6 +447,7 @@ function buildCommands(
           'exit "$code"',
         ].join('; '),
       ],
+      cwd: SANDBOX_WORKING_DIRECTORY,
       env: commandEnvironment,
       detached: true,
       exitCodePath: PIPELINE_EXIT_CODE_PATH,
@@ -478,6 +470,96 @@ function buildCommands(
   });
 
   return commands;
+}
+
+/**
+ * Detached in-box shell for Pipeliner image mode.
+ *
+ * Guarantees (for host poll + operator debug):
+ * - Absolute stdout/stderr/exit-code under /vercel/sandbox/.proofs/pipeline-host
+ * - Early telemetry.jsonl line so UI is not stuck on bare command-started
+ * - tsx resolved from workspace install paths (no runtime npm install hang)
+ * - Always writes pipeline.exit-code so waitForDetachedCommand terminates
+ */
+export function buildPipelineImageRunShellScript(pipelineImageEntry: string): string {
+  const monorepoRoot = PIPELINE_IMAGE_MONOREPO_ROOT_DEFAULT;
+  const sandboxLiveRunner = `${SANDBOX_WORKING_DIRECTORY}/${HOST_RUN_DIRECTORY}/run-live-asset-pack-pipeline.mjs`;
+  const imageLiveRunner = `${monorepoRoot}/.proofs/pipeline-host/run-live-asset-pack-pipeline.mjs`;
+  const stdoutPath = SANDBOX_PIPELINE_STDOUT_PATH;
+  const stderrPath = SANDBOX_PIPELINE_STDERR_PATH;
+  const exitCodePath = SANDBOX_PIPELINE_EXIT_CODE_PATH;
+  const telemetryPath = SANDBOX_TELEMETRY_PATH;
+
+  const loaderCandidates = PIPELINE_IMAGE_TSX_LOADER_CANDIDATES.map(
+    (p) => shellQuote(p),
+  ).join(' ');
+  const cliCandidates = PIPELINE_IMAGE_TSX_CLI_CANDIDATES.map((p) => shellQuote(p)).join(' ');
+
+  // Single shell program: markers first, then resolve tsx, then run.
+  // Redirects use absolute paths so cwd surprises cannot hide artifacts.
+  return [
+    'set +e',
+    `HOST_DIR=${shellQuote(SANDBOX_WORKING_DIRECTORY + '/' + HOST_RUN_DIRECTORY)}`,
+    'mkdir -p "$HOST_DIR"',
+    `STDOUT=${shellQuote(stdoutPath)}`,
+    `STDERR=${shellQuote(stderrPath)}`,
+    `EXITF=${shellQuote(exitCodePath)}`,
+    `TELEM=${shellQuote(telemetryPath)}`,
+    // Truncate / create markers immediately (host + interactive debug).
+    ': > "$STDOUT"',
+    ': > "$STDERR"',
+    'TS=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo unknown)',
+    'echo "pipeline-shell: start ts=$TS monorepo=' +
+      monorepoRoot +
+      ' node=$(command -v node 2>/dev/null)" >> "$STDERR"',
+    'printf "%s\\n" "{\\"type\\":\\"pipeline-shell-start\\",\\"timestamp\\":\\"$TS\\",\\"cwd\\":\\"$(pwd)\\"}" >> "$TELEM"',
+    '(',
+    `  cd ${shellQuote(monorepoRoot)} || { echo "pipeline-shell: cd monorepo failed" >&2; exit 127; }`,
+    '  TSX_LOADER=""',
+    `  for c in ${loaderCandidates}; do`,
+    '    if [ -f "$c" ]; then TSX_LOADER=$c; break; fi',
+    '  done',
+    '  TSX_CLI=""',
+    `  for c in ${cliCandidates}; do`,
+    '    if [ -f "$c" ]; then TSX_CLI=$c; break; fi',
+    '  done',
+    '  if [ -z "$TSX_LOADER" ] && [ -z "$TSX_CLI" ]; then',
+    '    if node --import tsx -e "process.exit(0)" >/dev/null 2>&1; then',
+    '      TSX_MODE=package',
+    '    else',
+    '      echo "pipeline-shell: tsx not found under monorepo (loader/cli/package). Refusing runtime npm install." >&2',
+    '      echo "pipeline-shell: candidates checked; rebuild Pipeliner with pipeline-hosts tsx dep." >&2',
+    '      exit 127',
+    '    fi',
+    '  else',
+    '    TSX_MODE=path',
+    '  fi',
+    `  RUNNER=${shellQuote(sandboxLiveRunner)}`,
+    `  if [ ! -f "$RUNNER" ]; then RUNNER=${shellQuote(imageLiveRunner)}; fi`,
+    '  echo "pipeline-shell: tsx_mode=$TSX_MODE loader=${TSX_LOADER:-none} cli=${TSX_CLI:-none} runner=$RUNNER" >&2',
+    `  if [ ! -f "$RUNNER" ]; then`,
+    `    echo "pipeline-shell: live runner missing; falling back to image dispatcher" >&2`,
+    `    node ${shellQuote(pipelineImageEntry)}`,
+    '    exit $?',
+    '  fi',
+    '  if [ -n "$TSX_LOADER" ]; then',
+    '    node --import "$TSX_LOADER" "$RUNNER"',
+    '    exit $?',
+    '  fi',
+    '  if [ -n "$TSX_CLI" ]; then',
+    '    node "$TSX_CLI" "$RUNNER"',
+    '    exit $?',
+    '  fi',
+    '  node --import tsx "$RUNNER"',
+    '  exit $?',
+    ') > "$STDOUT" 2>> "$STDERR"',
+    'code=$?',
+    'TS2=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo unknown)',
+    'echo "pipeline-shell: finish ts=$TS2 exit=$code" >> "$STDERR"',
+    'printf "%s\\n" "{\\"type\\":\\"pipeline-shell-finish\\",\\"timestamp\\":\\"$TS2\\",\\"exitCode\\":$code}" >> "$TELEM"',
+    'printf "%s" "$code" > "$EXITF"',
+    'exit "$code"',
+  ].join('\n');
 }
 
 function shellQuote(value: string): string {

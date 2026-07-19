@@ -55,6 +55,13 @@ RUN mkdir -p /opt/bitcode/.proofs/pipeline-host /opt/bitcode/pipeline \
   && cp containers/images/pipeliner/dist/run-live-asset-pack-pipeline.mjs /opt/bitcode/.proofs/pipeline-host/ \
   && cp containers/images/pipeliner/dist/run-pipeline.mjs /opt/bitcode/pipeline/run-pipeline.mjs
 
+# tsx must be loadable for the live AssetPack runner (imports monorepo .ts).
+# pnpm keeps it under packages/pipeline-hosts; host plan resolves that path.
+# Assert at image build so a missing dep fails the image, not a stuck sandbox.
+RUN test -f packages/pipeline-hosts/node_modules/tsx/dist/loader.mjs \
+  || test -f node_modules/tsx/dist/loader.mjs \
+  || (echo "pipeliner image missing tsx loader (pipeline-hosts dep)" >&2 && exit 1)
+
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs
 WORKDIR /vercel/sandbox

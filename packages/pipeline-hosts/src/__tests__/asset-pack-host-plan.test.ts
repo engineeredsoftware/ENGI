@@ -107,9 +107,18 @@ describe('asset-pack sandbox host plan', () => {
     ]);
     const run = plan.commands.find((c) => c.label === 'asset-pack-pipeline-run');
     const runScript = run?.args?.join(' ') ?? '';
-    // Image path runs sandbox-uploaded runner with tsx (loads monorepo .ts packages).
+    // Image path: workspace tsx loader (pnpm does not hoist to monorepo root),
+    // absolute log/exit markers, cwd sandbox root — no runtime npm install hang.
+    expect(run?.cwd).toBe('/vercel/sandbox');
+    expect(run?.detached).toBe(true);
+    expect(run?.exitCodePath).toBe('.proofs/pipeline-host/pipeline.exit-code');
     expect(runScript).toContain('run-live-asset-pack-pipeline.mjs');
-    expect(runScript).toContain('tsx');
+    expect(runScript).toContain('/opt/bitcode/packages/pipeline-hosts/node_modules/tsx/dist/loader.mjs');
+    expect(runScript).toContain('/vercel/sandbox/.proofs/pipeline-host/pipeline.exit-code');
+    expect(runScript).toContain('/vercel/sandbox/.proofs/pipeline-host/telemetry.jsonl');
+    expect(runScript).toContain('pipeline-shell-start');
+    expect(runScript).toContain('Refusing runtime npm install');
+    expect(runScript).not.toContain('npm install -g tsx');
     expect(runScript).toContain('/opt/bitcode');
   });
 
