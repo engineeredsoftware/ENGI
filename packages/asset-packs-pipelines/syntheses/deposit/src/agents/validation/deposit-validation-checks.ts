@@ -21,9 +21,87 @@ export function asPathList(value: unknown): string[] {
 // it as a directory prefix. Source-safe: operates on paths only, never contents.
 export function pathViolates(path: string, entry: string): boolean {
   if (!path || !entry) return false;
-  if (path === entry) return true;
-  const dir = entry.endsWith('/') ? entry : `${entry}/`;
-  return path.startsWith(dir);
+  const p = path.replace(/^\.\//, '').toLowerCase();
+  const e = entry.replace(/^\.\//, '').toLowerCase();
+  if (!p || !e) return false;
+  if (p === e) return true;
+  const dir = e.endsWith('/') ? e : `${e}/`;
+  return p.startsWith(dir);
+}
+
+/**
+ * Drop empty / over-broad block tokens (e.g. bare "tests" from free-text
+ * "Tests.") that would substring-match every path under tests/.
+ */
+export function normalizeBlockedPathEntries(entries: string[]): string[] {
+  return asPathList(entries)
+    .map((e) => e.replace(/^\.\//, '').trim())
+    .filter((e) => {
+      if (e.length < 2) return false;
+      // Bare labels without a path separator or file extension are too broad.
+      if (!e.includes('/') && !e.includes('.')) return false;
+      return true;
+    });
+}
+
+export function pathHitsAnyBlock(path: string, blocked: string[]): boolean {
+  const normalized = normalizeBlockedPathEntries(blocked);
+  return normalized.some((entry) => pathViolates(path, entry));
+}
+
+/**
+ * When Setup maps vague obfuscations (e.g. "Tests.") onto every remaining
+ * catalog path, Validation would reject every pack even though that catalog
+ * is the admitted deposit surface. Drop those self-defeating path blocks.
+ */
+export function sanitizeObfuscatedPathsAgainstCatalog(
+  obfuscatedPaths: string[],
+  catalogPaths: string[],
+): string[] {
+  const catalog = asPathList(catalogPaths).map((p) => p.replace(/^\.\//, ''));
+  const obfuscated = normalizeBlockedPathEntries(obfuscatedPaths);
+  if (catalog.length === 0 || obfuscated.length === 0) return obfuscated;
+
+  const catalogLower = new Set(catalog.map((p) => p.toLowerCase()));
+  // Exact catalog-path blocks that cover the whole deposit surface.
+  const exactBlocks = obfuscated.filter((o) => catalogLower.has(o.toLowerCase()));
+  const nonExact = obfuscated.filter((o) => !catalogLower.has(o.toLowerCase()));
+  const everyCatalogBlocked =
+    catalog.length > 0 &&
+    catalog.every((path) => pathHitsAnyBlock(path, obfuscated));
+
+  if (everyCatalogBlocked && exactBlocks.length >= catalog.length) {
+    // Self-defeating: every catalog path was listed as obfuscated. Keep only
+    // non-catalog block entries (if any).
+    return nonExact;
+  }
+  if (everyCatalogBlocked && nonExact.length === 0) {
+    return [];
+  }
+  return obfuscated;
+}
+
+/**
+ * LLM ReadyToFinish often invents "missing Setup/Discovery/Implementation"
+ * when deterministic priorIssues is empty and packs already carry structure
+ * (run 49a2630b: priorIssueCount=0, packCount=3, structureReady false only
+ * due to self-defeating obfuscation path hits).
+ */
+export function isHallucinatedMissingEvidenceIssue(
+  issue: string,
+  opts: { priorIssuesEmpty: boolean; hasStructuredPacks: boolean },
+): boolean {
+  if (!opts.priorIssuesEmpty || !opts.hasStructuredPacks) return false;
+  const text = String(issue || '').toLowerCase();
+  if (!text) return false;
+  if (text.includes('missing setup') || text.includes('danger-wall admission')) return true;
+  if (text.includes('no discovery') || text.includes('missing codebasecomprehension')) return true;
+  if (text.includes('depositorysearch outputs present')) return true;
+  if (text.includes('implementation produced zero')) return true;
+  if (text.includes('zero assetpack options')) return true;
+  if (text.includes('no assetpacks contain measurements')) return true;
+  if (text.includes('no metadata (title, summary, kind')) return true;
+  return false;
 }
 
 export function dedupeIssues(values: string[]): string[] {
@@ -43,7 +121,10 @@ export function smokeCheckAssetPacks(
     issues.push('No AssetPacks were synthesized to validate.');
     return issues;
   }
-  const forbidden = [...impermissibleSources, ...obfuscatedPaths];
+  const forbidden = normalizeBlockedPathEntries([
+    ...impermissibleSources,
+    ...obfuscatedPaths,
+  ]);
   const seenTitles = new Map<string, number>();
 
   assetPacks.forEach((pack: any, index: number) => {

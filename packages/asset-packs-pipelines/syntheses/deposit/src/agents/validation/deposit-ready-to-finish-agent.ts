@@ -21,7 +21,10 @@ import {
 import { createDepositValidationPrompt } from './deposit-validation-prompts';
 import {
   asPathList,
+  isHallucinatedMissingEvidenceIssue,
   mergeDepositValidationVerdict,
+  pathHitsAnyBlock,
+  sanitizeObfuscatedPathsAgainstCatalog,
   smokeCheckAssetPacks,
 } from './deposit-validation-checks';
 import { resolveSourceCheckoutCatalog } from '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog';
@@ -103,7 +106,7 @@ function obfuscationComplianceIssues(
   obfuscatedPaths: string[],
 ): string[] {
   const issues: string[] = [];
-  const blocked = [...impermissibleSources, ...obfuscatedPaths].map((p) => p.toLowerCase());
+  const blocked = [...impermissibleSources, ...obfuscatedPaths];
   for (const pack of packs) {
     const paths = [
       ...asPathList(pack?.coveredSourcePaths),
@@ -112,8 +115,9 @@ function obfuscationComplianceIssues(
         : []),
     ].filter(Boolean);
     for (const path of paths) {
-      const lower = path.toLowerCase();
-      if (blocked.some((b) => b && lower.includes(b.replace(/^\.\//, '')))) {
+      // Prefix/exact path blocks only — never bare substring (e.g. "tests" in
+      // "tests/jest.setup.cjs" from free-text obfuscations "Tests.").
+      if (pathHitsAnyBlock(path, blocked)) {
         issues.push(
           `Obfuscation/exclusion violation: pack "${pack?.title || '?'}" covers path ${path}.`,
         );
@@ -198,7 +202,7 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
       findValue(execution, 'deposit', 'impermissibleSources') ??
       [],
   );
-  const obfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
+  const rawObfuscatedPaths = asPathList((obfuscationGuidance as any)?.obfuscatedPaths);
 
   // A) Prior phases
   const priorIssues = phaseSanityIssues(execution);
@@ -208,6 +212,16 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
     resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
   const catalogForPrompt = projectInventoryForPrompt(catalog);
+  // Run 49a2630b: free-text obfuscations "Tests." was mapped onto every remaining
+  // catalog path (only tests/* left after impermissible apps/packages). That
+  // self-defeats Validation (every pack "violates" the only deposit surface).
+  const catalogPaths = asPathList(
+    catalogForPrompt?.paths ?? catalog?.paths ?? findValue(execution, 'deposit', 'sourceCheckoutCatalog')?.paths,
+  );
+  const obfuscatedPaths = sanitizeObfuscatedPathsAgainstCatalog(
+    rawObfuscatedPaths,
+    catalogPaths,
+  );
 
   // Ensure nested measurements.absolutes on every pack (deposit needinesses = [])
   // BEFORE deterministic smoke / qualitative judgment.
@@ -317,22 +331,47 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
     }
   }
 
+  const hasStructuredPacks =
+    packs.length > 0 &&
+    packs.every(
+      (pack: any) =>
+        hasRequiredAbsolutes(pack) &&
+        Array.isArray(pack?.patch?.fileChanges) &&
+        pack.patch.fileChanges.length > 0 &&
+        typeof pack?.title === 'string' &&
+        pack.title.length > 0,
+    );
+
   if (agentOutput && typeof agentOutput === 'object' && Array.isArray(agentOutput.issues)) {
     agentOutput = {
       ...agentOutput,
       issues: agentOutput.issues.filter(
-        (issue: unknown) => typeof issue === 'string' && !isBenignMeasurementShapeIssue(issue),
+        (issue: unknown) =>
+          typeof issue === 'string' &&
+          !isBenignMeasurementShapeIssue(issue) &&
+          !isHallucinatedMissingEvidenceIssue(issue, {
+            priorIssuesEmpty: priorIssues.length === 0,
+            hasStructuredPacks,
+          }),
       ),
     };
   }
 
   const merged = mergeDepositValidationVerdict(agentOutput, hardIssues);
+  // Drop residual hallucinated "missing phase" strings from merged issues too.
+  const filteredMergedIssues = merged.issues.filter(
+    (issue) =>
+      !isHallucinatedMissingEvidenceIssue(issue, {
+        priorIssuesEmpty: priorIssues.length === 0,
+        hasStructuredPacks,
+      }),
+  );
 
   // Structural readiness admits Finish; residual qualitative notes become non-blocking.
   const recommendation =
     structureReady && hardIssues.length === 0
       ? 'complete'
-      : merged.issues.length > 0 || priorIssues.length > 0 || complianceIssues.length > 0
+      : filteredMergedIssues.length > 0 || priorIssues.length > 0 || complianceIssues.length > 0
         ? merged.recommendation === 'complete'
           ? 'iterate'
           : merged.recommendation
@@ -340,7 +379,7 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
 
   const result = {
     ...merged,
-    issues: structureReady ? hardIssues : merged.issues,
+    issues: structureReady ? hardIssues : filteredMergedIssues,
     recommendation,
     readyToFinish: recommendation === 'complete' && hardIssues.length === 0,
   };

@@ -17,6 +17,7 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { projectInventoryForPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
+import { sanitizeObfuscatedPathsAgainstCatalog } from '../validation/deposit-validation-checks';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -163,8 +164,35 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   // unwrap it to the agent's typed structured output (F27).
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
-  const comprehension: DepositObfuscationComprehension =
+  const rawComprehension: DepositObfuscationComprehension =
     (result as any)?.comprehension ?? EMPTY_OBFUSCATION_COMPREHENSION;
+
+  // Never mark every remaining catalog path as obfuscated (self-defeating).
+  // Free-text like "Tests." was mapping onto the only deposit surface after
+  // apps/packages exclusions (run 49a2630b).
+  let comprehension = rawComprehension;
+  const catalogPaths = Array.isArray(catalogForPrompt?.paths)
+    ? catalogForPrompt.paths
+    : Array.isArray(catalog?.paths)
+      ? catalog.paths
+      : [];
+  const sanitized = sanitizeObfuscatedPathsAgainstCatalog(
+    Array.isArray(rawComprehension?.obfuscatedPaths) ? rawComprehension.obfuscatedPaths : [],
+    catalogPaths.filter((p: unknown): p is string => typeof p === 'string'),
+  );
+  if (
+    sanitized.length !== (rawComprehension?.obfuscatedPaths || []).length ||
+    sanitized.some((p, i) => p !== (rawComprehension?.obfuscatedPaths || [])[i])
+  ) {
+    comprehension = {
+      ...rawComprehension,
+      obfuscatedPaths: sanitized,
+      honorNotes: [
+        ...(Array.isArray(rawComprehension?.honorNotes) ? rawComprehension.honorNotes : []),
+        'Sanitized self-defeating obfuscatedPaths that covered the entire sourceCheckoutCatalog deposit surface.',
+      ],
+    };
+  }
 
   // Cross-phase artifacts: Implementation and Validation read this guidance
   // from other phase siblings — shared execution (cross-phase store-visibility).
