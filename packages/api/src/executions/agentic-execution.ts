@@ -194,10 +194,12 @@ export function deriveAgenticExecutionProofStatus(
         normalizedStatus === 'completed_partial'));
 
   // Budget-recovered deposit options: usable packs, Validation/Finish not closed.
+  // DEFAULT_CANONICAL_TYPE is 'agentic-execution:asset-pack' — do not OR-compare
+  // both (TS2367: second comparison has no overlap after the first).
+  const isAssetPackExecution = canonicalType === 'agentic-execution:asset-pack';
   if (
     budgetPartial &&
-    (canonicalType === 'agentic-execution:asset-pack' ||
-      canonicalType === DEFAULT_CANONICAL_TYPE) &&
+    isAssetPackExecution &&
     (normalizedStatus === 'completed' ||
       normalizedStatus === 'partial' ||
       normalizedStatus === 'completed_partial' ||
@@ -206,10 +208,11 @@ export function deriveAgenticExecutionProofStatus(
     return 'AssetPack options recovered (host budget)';
   }
 
-  if (normalizedStatus === 'partial' || normalizedStatus === 'completed_partial') {
-    if (canonicalType === 'agentic-execution:asset-pack') {
-      return 'AssetPack options partial';
-    }
+  if (
+    isAssetPackExecution &&
+    (normalizedStatus === 'partial' || normalizedStatus === 'completed_partial')
+  ) {
+    return 'AssetPack options partial';
   }
 
   if (normalizedStatus === 'completed') {
