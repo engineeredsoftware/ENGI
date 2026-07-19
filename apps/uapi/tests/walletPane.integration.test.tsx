@@ -87,12 +87,6 @@ describe('WalletPane interactions', () => {
       }),
     );
     fireEvent.click(screen.getByRole('button', { name: /proofs/i }));
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: /decisive bias toward shorter, stronger default follow-through\./i,
-      }),
-    );
-    fireEvent.click(screen.getByRole('button', { name: /live/i }));
 
     await waitFor(() => {
       expect(onSave).toHaveBeenCalledWith(
@@ -102,8 +96,6 @@ describe('WalletPane interactions', () => {
             shareLens: 'organization',
             settlementView: 'replay',
             btdDetailView: 'proofs',
-            automationBias: 'decisive',
-            walletSync: 'live',
           }),
         }),
       );

@@ -67,23 +67,24 @@ export default function WalletBtdPostureSection({
     <AuxillariesWorkspaceSection
       kicker="Wallet posture"
       title="Keep BTC fees, BTD holdings, and wallet identity readable together"
-      description="$BTD is a non-fungible share and read-right posture, while BTC is the fee-liquidity posture that should be visible before you return to transactions or closure."
+      description="$BTD (green) is non-fungible share and read-right posture. BTC (orange) is fee-liquidity for settlement — both should be visible before you return to product work."
       explainer={auxillaryPaneExplainers.btdWallet}
-      tone="amber"
+      tone="emerald"
     >
       <div
-        className="auxillaries-glass-card rounded-none border border-amber-200/22 p-5"
+        className="auxillaries-glass-card rounded-none border border-emerald-300/28 p-5"
         title="BTD is the non-fungible source-share/read-right balance currently visible to this account."
+        data-testid="auxillaries-wallet-btd-balance"
       >
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-100/76">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200/78">
           BTD balance
         </p>
-        <p className="mt-3 break-words text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-none tracking-normal text-amber-50 drop-shadow-[0_0_26px_rgba(251,191,36,0.24)]">
+        <p className="mt-3 break-words text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-none tracking-normal text-emerald-50 drop-shadow-[0_0_26px_rgba(101,254,183,0.28)]">
           {formatBtdHoldings(displayBtdBalance)}
         </p>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-2 flex flex-col gap-px" data-testid="auxillaries-wallet-btd-readiness">
         <AuxillariesStatGrid
           items={[
             {
@@ -116,14 +117,12 @@ export default function WalletBtdPostureSection({
                 : walletBinding?.address
                     ? 'Wallet identity is present, but verified wallet-provider signing is still staged before live BTC posture should settle here.'
                     : 'Attach a wallet binding to surface live BTC posture here.',
-              tone: 'sky',
+              tone: 'amber',
             },
           ]}
           columns={2}
         />
-      </div>
 
-      <div className="mt-4">
         <AuxillariesStatGrid
           items={[
             {
@@ -165,9 +164,7 @@ export default function WalletBtdPostureSection({
           ]}
           columns={4}
         />
-      </div>
 
-      <div className="mt-4" data-testid="auxillaries-wallet-btd-readiness">
         <AuxillariesStatGrid
           items={[
             {
@@ -215,7 +212,7 @@ export default function WalletBtdPostureSection({
           ]}
           columns={3}
         />
-        <p className="mt-3 break-words text-xs leading-6 text-white/56">
+        <p className="mt-2 break-words text-xs leading-5 text-white/56">
           Support root {walletSupport?.btdSupportRoot ? formatPolicyHash(walletSupport.btdSupportRoot) : 'pending'}.
           Wallet root {supportWalletCapability?.walletCapabilityRoot ? ` ${formatPolicyHash(supportWalletCapability.walletCapabilityRoot)}` : ' pending'}.
         </p>

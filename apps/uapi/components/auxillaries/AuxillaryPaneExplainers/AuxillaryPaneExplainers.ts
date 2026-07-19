@@ -3,7 +3,7 @@
 import type { BitcodeExplainer } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
 
 export const auxillaryPaneExplainers: Record<
-  "interfacesDefaults" | "interfacesPrompt" | "interfacesModels" | "btdWallet" | "btdShares" | "btdAdvanced",
+  "interfacesDefaults" | "interfacesPrompt" | "interfacesModels" | "btdWallet" | "btdShares",
   BitcodeExplainer
 > = {
   interfacesDefaults: {
@@ -27,15 +27,15 @@ export const auxillaryPaneExplainers: Record<
   },
   interfacesPrompt: {
     kicker: "Interfaces auxillary",
-    title: "Instruction baseline",
+    title: "Read–Deposit system prompt",
     summary:
-      "The interface prompt baseline carries the user-visible posture Bitcode should keep when it summarizes or explains non-ledgerized reads.",
+      "A single shared system prompt used by both Read and Deposit AI work so operator posture stays aligned across those surfaces.",
     detail:
-      "Use a bounded baseline here when you want calmer, more exact interface behavior without rewriting every transaction or interface locally.",
+      "Set tone, exactness, and explanation style once. Read and Deposit reuse this baseline; ledgerized Reading pipelines keep protocol-owned model configuration.",
     points: [
-      "Keep formal or decisive tone consistent",
-      "Bias toward throughput, quality, or balanced review",
-      "Preserve one reusable non-ledgerized instruction surface",
+      "Shared by Read and Deposit — not per-surface forks",
+      "Optional; empty keeps product defaults",
+      "Does not override ledgerized / registry model config",
     ],
     references: {
       source: [
@@ -93,25 +93,6 @@ export const auxillaryPaneExplainers: Record<
       "Choose the share lens that matches the current operating context",
       "Keep settlement reading explicit before closure",
       "Control how BTD-specific detail re-enters product and interface surfaces",
-    ],
-    references: {
-      source: [
-        "apps/uapi/app/auxillaries/components/AuxillariesWalletPane.tsx",
-      ],
-      canon: ["BITCODE_SPEC_V48_NOTES.md — deposit/read product-surface presentation laws"],
-    },
-  },
-  btdAdvanced: {
-    kicker: "Wallet auxillary",
-    title: "Advanced defaults",
-    summary:
-      "Advanced $BTD defaults shape how the inner auxillary biases replay, automation, and settlement follow-through.",
-    detail:
-      "These controls are for the operator who wants BTD-specific behavior to stay explicit and reusable without breaking product or interface reading posture.",
-    points: [
-      "Bias toward review-first or more decisive settlement handling",
-      "Decide how BTD detail should open back into transaction views",
-      "Keep replay and closure posture aligned to one account preference",
     ],
     references: {
       source: [

@@ -44,24 +44,24 @@ export default function AuxillariesStatGrid({
         : "tablet:grid-cols-2";
 
   return (
-    <div className={`grid gap-3 ${gridClassName}`}>
+    <div className={`grid gap-px ${gridClassName}`}>
       {items.map((item) => {
         const tooltip = item.detail ? `${item.value} - ${item.detail}` : item.value;
 
         return (
         <article
           key={`${item.label}-${item.value}`}
-          className="auxillaries-glass-nested min-w-0 rounded-none border border-white/8 p-4"
+          className="auxillaries-glass-nested min-w-0 rounded-none border border-white/8 px-2.5 py-2"
           title={tooltip}
           aria-label={`${item.label}: ${tooltip}`}
         >
-          <div className="flex min-w-0 items-center justify-between gap-2">
-            <p className={`min-w-0 text-[11px] font-semibold uppercase tracking-[0.18em] ${TONE_ACCENTS[item.tone || "default"]}`}>
+          <div className="flex min-w-0 items-center justify-between gap-1.5">
+            <p className={`min-w-0 text-[10px] font-semibold uppercase tracking-[0.14em] leading-none ${TONE_ACCENTS[item.tone || "default"]}`}>
               {item.label}
             </p>
             {item.detail ? (
               <span
-                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 text-[11px] font-semibold text-white/58"
+                className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-none border border-white/10 bg-white/5 text-[10px] font-semibold leading-none text-white/58"
                 aria-hidden="true"
               >
                 i
@@ -69,7 +69,7 @@ export default function AuxillariesStatGrid({
             ) : null}
           </div>
           <p
-            className={`mt-3 min-w-0 break-words text-lg font-semibold leading-snug [overflow-wrap:anywhere] ${TONE_VALUE_ACCENTS[item.tone || "default"]}`}
+            className={`mt-1.5 min-w-0 break-words text-[15px] font-semibold leading-snug [overflow-wrap:anywhere] ${TONE_VALUE_ACCENTS[item.tone || "default"]}`}
             title={tooltip}
           >
             {item.value}

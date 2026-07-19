@@ -257,12 +257,6 @@ describe('AuxillariesWalletPane', () => {
       }),
     );
     fireEvent.click(screen.getByRole('button', { name: /proofs/i }));
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: /decisive bias toward shorter, stronger default follow-through\./i,
-      }),
-    );
-    fireEvent.click(screen.getByRole('button', { name: /live/i }));
 
     expect(screen.getByText(/Changes save automatically so the BTD posture/i)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument();
@@ -276,8 +270,6 @@ describe('AuxillariesWalletPane', () => {
               shareLens: 'organization',
               settlementView: 'replay',
               btdDetailView: 'proofs',
-              automationBias: 'decisive',
-              walletSync: 'live',
             }),
           }),
         );

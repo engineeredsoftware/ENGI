@@ -34,7 +34,7 @@ export interface BitcodePipelinesTableProps {
   isLoadingRuns: boolean;
   runsError: string | null;
   transactionDataMode: TransactionDataMode;
-  surface?: 'packs' | 'exchange' | 'pipelines';
+  surface?: 'packs' | 'exchange' | 'pipelines' | 'wallet';
   /** Optional refresh control pinned permanently on the active-filters row. */
   onRefresh?: () => void;
   refreshLabel?: string;

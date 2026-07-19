@@ -7,25 +7,83 @@ import { readBitcodeWalletBindingFromProfile } from '@bitcode/orm';
 
 import { MASTER_MOCK_MODE } from '@/config/featureFlags';
 import { MOCK_RUNS, type WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
+import { mapExecutionHistoryRunToWorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-activity-history';
 import {
   DEFAULT_TRANSACTION_FILTERS,
-  DEFAULT_TRANSACTION_PAGINATION,
   type TransactionFilters,
   type TransactionPagination,
 } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
 import { useUserData } from '@/hooks/useUserData';
+import { fetchPipelineExecutionHistory } from '@/networking/api-client';
 import type { AuxillariesPreferenceCardItem } from '@/components/auxillaries/shared/AuxillariesPreferenceCards/AuxillariesPreferenceCards';
 import type { AuxillariesWalletBtdPaneState } from '@/app/auxillaries/auxillary-onboarding-contract';
 
+/** Wallet activity default: all *my* rows, 20 per page. */
+const WALLET_ACTIVITY_PAGINATION: TransactionPagination = {
+  page: 1,
+  pageSize: 20,
+};
+
+const WALLET_ACTIVITY_FILTERS: TransactionFilters = {
+  ...DEFAULT_TRANSACTION_FILTERS,
+  ownership: 'mine',
+};
+
+function mapCreditLedgerRowToWorkspaceRun(row: {
+  id?: string;
+  created_at?: string;
+  description?: string;
+  change?: number;
+  balance?: number;
+}): WorkspaceRun {
+  const change = typeof row.change === 'number' ? row.change : 0;
+  const description =
+    typeof row.description === 'string' && row.description.trim()
+      ? row.description.trim()
+      : 'Ledger activity';
+  return {
+    id: row.id || `ledger-${row.created_at || Date.now()}`,
+    created_at: row.created_at || new Date().toISOString(),
+    type: 'agentic-execution:ledger',
+    status: 'completed',
+    summary: description,
+    participant: 'you',
+    sourceModel: 'execution-history',
+    isOwnTransaction: true,
+    transactionLens: change < 0 ? 'read' : 'deposit',
+    measuredBtd: Math.abs(change) || null,
+    tokenTotal: null,
+    proofStatus: 'ledger write',
+    closureFocus: 'Account ledger / state change',
+  };
+}
+
+function mergeOwnActivityRuns(
+  executionRuns: WorkspaceRun[],
+  ledgerRuns: WorkspaceRun[],
+): WorkspaceRun[] {
+  const byId = new Map<string, WorkspaceRun>();
+  for (const run of [...executionRuns, ...ledgerRuns]) {
+    if (!run?.id) continue;
+    byId.set(run.id, {
+      ...run,
+      isOwnTransaction: true,
+    });
+  }
+  return Array.from(byId.values()).sort((a, b) => {
+    const aTime = Date.parse(String(a.created_at || 0)) || 0;
+    const bTime = Date.parse(String(b.created_at || 0)) || 0;
+    return bTime - aTime;
+  });
+}
+
 import {
   DEFAULT_BTD_DEFAULTS,
-  type AutomationBias,
   type BtdDefaults,
   type BtdDetailView,
   type SettlementView,
   type ShareLens,
-  type WalletSync,
 } from '../models/wallet-pane-defaults';
 import { resolveBtdAccessDisclosure } from '../models/wallet-pane-format';
 
@@ -69,14 +127,17 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
     ...(savedPreferences?.btdDefaults || {}),
   }));
   const [activityFilters, setActivityFilters] = useState<TransactionFilters>({
-    ...DEFAULT_TRANSACTION_FILTERS,
+    ...WALLET_ACTIVITY_FILTERS,
   });
   const [activityPagination, setActivityPagination] = useState<TransactionPagination>({
-    ...DEFAULT_TRANSACTION_PAGINATION,
+    ...WALLET_ACTIVITY_PAGINATION,
   });
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(
     MASTER_MOCK_MODE ? MOCK_RUNS[0]?.id ?? null : null,
   );
+  const [liveActivityRuns, setLiveActivityRuns] = useState<WorkspaceRun[]>([]);
+  const [activityLoading, setActivityLoading] = useState(!MASTER_MOCK_MODE);
+  const [activityError, setActivityError] = useState<string | null>(null);
   const [liveBtcBalance, setLiveBtcBalance] = useState<{
     confirmedBtc: number;
     pendingBtc: number;
@@ -215,62 +276,6 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
           },
         ],
       },
-      {
-        id: 'automation-bias',
-        title: 'Automation bias',
-        description: 'Shape how decisive the inner auxillary should feel when it reintroduces BTD-side follow-through.',
-        value: defaults.automationBias,
-        onChange: (value) =>
-          setDefaults((current) => ({
-            ...current,
-            automationBias: value as AutomationBias,
-          })),
-        options: [
-          {
-            value: 'review-first',
-            label: 'Review-first',
-            hint: 'Require explicit operator review before decisive follow-through.',
-          },
-          {
-            value: 'guided',
-            label: 'Guided',
-            hint: 'Keep suggestions strong while preserving visible checkpoints.',
-          },
-          {
-            value: 'decisive',
-            label: 'Decisive',
-            hint: 'Bias toward shorter, stronger default follow-through.',
-          },
-        ],
-      },
-      {
-        id: 'wallet-sync',
-        title: 'Wallet sync posture',
-        description: 'Set how aggressively the auxillary should expect wallet-facing information to refresh.',
-        value: defaults.walletSync,
-        onChange: (value) =>
-          setDefaults((current) => ({
-            ...current,
-            walletSync: value as WalletSync,
-          })),
-        options: [
-          {
-            value: 'manual',
-            label: 'Manual',
-            hint: 'Refresh wallet-facing posture only when you ask for it.',
-          },
-          {
-            value: 'daily',
-            label: 'Daily',
-            hint: 'Expect slower, deliberate balance posture updates.',
-          },
-          {
-            value: 'live',
-            label: 'Live',
-            hint: 'Bias toward quicker reflected posture as bindings mature.',
-          },
-        ],
-      },
     ],
     [defaults],
   );
@@ -309,11 +314,66 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
     return () => window.clearTimeout(timer);
   }, [btdAutosavePayload, onSave, user]);
 
-  const btdActivityRuns = useMemo<WorkspaceRun[]>(
-    () => (MASTER_MOCK_MODE ? MOCK_RUNS : []),
-    [],
-  );
-  const resetActivityFilters = () => setActivityFilters({ ...DEFAULT_TRANSACTION_FILTERS });
+  useEffect(() => {
+    if (MASTER_MOCK_MODE) {
+      setLiveActivityRuns(MOCK_RUNS.map((run) => ({ ...run, isOwnTransaction: true })));
+      setActivityLoading(false);
+      setActivityError(null);
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      setActivityLoading(true);
+      setActivityError(null);
+      try {
+        const [history, ledgerResponse] = await Promise.all([
+          fetchPipelineExecutionHistory().catch(() => []),
+          fetch('/api/auxillaries/transactions?page=1&pageSize=100', {
+            credentials: 'same-origin',
+          })
+            .then(async (response) => {
+              if (!response.ok) return { transactions: [] as any[] };
+              return response.json().catch(() => ({ transactions: [] as any[] }));
+            })
+            .catch(() => ({ transactions: [] as any[] })),
+        ]);
+
+        if (cancelled) return;
+
+        const executionRuns = (Array.isArray(history) ? history : []).map((run) => ({
+          ...mapExecutionHistoryRunToWorkspaceRun(run),
+          isOwnTransaction: true,
+        }));
+        const ledgerRuns = (
+          Array.isArray(ledgerResponse?.transactions) ? ledgerResponse.transactions : []
+        ).map(mapCreditLedgerRowToWorkspaceRun);
+
+        const merged = mergeOwnActivityRuns(executionRuns, ledgerRuns);
+        setLiveActivityRuns(merged);
+        if (merged.length > 0) {
+          setSelectedActivityId((current) => current ?? merged[0]?.id ?? null);
+        }
+      } catch (error) {
+        if (cancelled) return;
+        setLiveActivityRuns([]);
+        setActivityError(
+          error instanceof Error
+            ? error.message
+            : 'Unable to load your activity history.',
+        );
+      } finally {
+        if (!cancelled) setActivityLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  const btdActivityRuns = liveActivityRuns;
+  const resetActivityFilters = () => setActivityFilters({ ...WALLET_ACTIVITY_FILTERS });
 
   return {
     user,
@@ -342,6 +402,8 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
     setSelectedActivityId,
     liveBtcBalance,
     btdActivityRuns,
+    activityLoading,
+    activityError,
     resetActivityFilters,
     onCompletionStatusChange,
   };

@@ -80,9 +80,9 @@ export default function AuxillariesWalletPane({
           />
 
           <AuxillariesWorkspaceSection
-            kicker="BTD activity"
-            title="Read your BTD-relevant activity from the shared activity table"
-            description="Owned AssetPacks, Deposits, Reads, proof closures, and range-bearing activity should be inspected through the same table grammar used by product."
+            kicker="My activity"
+            title="All activity for this account"
+            description="Every change that belongs to you: Reads, Deposits, Packs, anchors, ledger writes, and other account-state history — not the public market feed. Paginated 20 rows at a time."
             tone="emerald"
           >
             <BitcodePipelinesTable
@@ -90,18 +90,24 @@ export default function AuxillariesWalletPane({
               selectedTransactionId={state.selectedActivityId}
               onSelectTransaction={state.setSelectedActivityId}
               filters={state.activityFilters}
-              onFiltersChange={state.setActivityFilters}
+              onFiltersChange={(next) =>
+                state.setActivityFilters({
+                  ...next,
+                  // Wallet surface is always "mine" — no network/market feed.
+                  ownership: 'mine',
+                })
+              }
               onResetFilters={state.resetActivityFilters}
               pagination={state.activityPagination}
               onPaginationChange={state.setActivityPagination}
-              isLoadingRuns={false}
-              runsError={null}
+              isLoadingRuns={state.activityLoading}
+              runsError={state.activityError}
               transactionDataMode={MASTER_MOCK_MODE ? 'mock-review' : 'live'}
-              surface="exchange"
+              surface="wallet"
             />
-            {!MASTER_MOCK_MODE ? (
+            {!MASTER_MOCK_MODE && !state.activityLoading && state.btdActivityRuns.length === 0 ? (
               <p className="mt-3 text-xs leading-6 text-white/56">
-                Testnet-readiness shows an empty live activity table until ledger-derived BTD events are present.
+                No account activity yet. Runs, ledger writes, and state changes for this wallet/user will appear here as rows.
               </p>
             ) : null}
           </AuxillariesWorkspaceSection>
@@ -113,22 +119,12 @@ export default function AuxillariesWalletPane({
             explainer={auxillaryPaneExplainers.btdShares}
             tone="violet"
           >
-            <AuxillariesPreferenceCards items={state.preferenceCards.slice(0, 3)} />
-          </AuxillariesWorkspaceSection>
-
-          <AuxillariesWorkspaceSection
-            kicker="Advanced defaults"
-            title="Set the BTD follow-through posture"
-            description="These controls shape how review, replay, and wallet refresh should behave when BTD-specific detail re-enters the main operator surfaces."
-            explainer={auxillaryPaneExplainers.btdAdvanced}
-            tone="sky"
-          >
-            <AuxillariesPreferenceCards items={state.preferenceCards.slice(3)} />
+            <AuxillariesPreferenceCards items={state.preferenceCards} />
           </AuxillariesWorkspaceSection>
 
           <div className="rounded-none border border-white/10 auxillaries-glass-card px-5 py-4">
             <p className="text-sm leading-7 text-white/68">
-              Changes save automatically so the BTD posture reopens with the same share, replay, and wallet-facing defaults.
+              Changes save automatically so the BTD posture reopens with the same share and wallet-facing defaults.
             </p>
           </div>
         </div>
