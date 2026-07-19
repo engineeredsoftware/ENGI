@@ -101,38 +101,68 @@ export default async function initializeLSP(input: any, execution: any) {
   // 1) Host-side setup — subsequent phases depend on this, not on LLM invention.
   const readiness = await setupLspForWorkspace(execution, repoPath);
 
-  // 2) PTRR validates/extends readiness using registered LSP tools.
+  // 2) PTRR validates with real LSP tools — but only when a live session was
+  // primed. On large monorepos Setup defers tsserver to avoid sandbox OOM
+  // (exit 137 / navto during workspaceSymbols refine). Tools remain registered.
   let result: z.infer<typeof InitializeLSPOutputSchema> = readinessToAgentOutput(readiness);
-  try {
-    const raw = await initializeLSPAgent(
-      {
-        ...input,
-        repoPath,
-        workspacePath: repoPath,
-        language: readiness.language,
-      },
-      execution,
+  const skipPtrr =
+    readiness.deferredSession === true ||
+    readiness.sessionStarted === false ||
+    ['1', 'true', 'yes', 'on'].includes(
+      String(process.env.BITCODE_LSP_SKIP_PTRR || '')
+        .trim()
+        .toLowerCase(),
     );
-    const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
-    if (out && typeof out === 'object') {
-      // Prefer host readiness for initialized/tools; allow model to enrich notes.
-      result = {
-        ...result,
-        ...out,
-        initialized: readiness.initialized || Boolean(out.initialized),
-        registeredToolNames:
-          readiness.registeredToolNames.length > 0
-            ? readiness.registeredToolNames
-            : out.registeredToolNames,
-        serverInfo: readiness.initialized ? readiness.serverInfo : out.serverInfo || result.serverInfo,
-        workspaceInfo: readiness.workspaceInfo.rootUri
-          ? readiness.workspaceInfo
-          : out.workspaceInfo || result.workspaceInfo,
-      };
+
+  if (!skipPtrr) {
+    try {
+      const raw = await initializeLSPAgent(
+        {
+          ...input,
+          repoPath,
+          workspacePath: repoPath,
+          language: readiness.language,
+        },
+        execution,
+      );
+      const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
+      if (out && typeof out === 'object') {
+        // Prefer host readiness for initialized/tools; allow model to enrich notes.
+        result = {
+          ...result,
+          ...out,
+          initialized: readiness.initialized || Boolean(out.initialized),
+          registeredToolNames:
+            readiness.registeredToolNames.length > 0
+              ? readiness.registeredToolNames
+              : out.registeredToolNames,
+          serverInfo: readiness.initialized
+            ? readiness.serverInfo
+            : out.serverInfo || result.serverInfo,
+          workspaceInfo: readiness.workspaceInfo.rootUri
+            ? readiness.workspaceInfo
+            : out.workspaceInfo || result.workspaceInfo,
+        };
+      }
+    } catch {
+      // PTRR failure must not wipe host-side tool registration.
+      result = readinessToAgentOutput(readiness);
     }
-  } catch {
-    // PTRR failure must not wipe host-side tool registration.
-    result = readinessToAgentOutput(readiness);
+  } else {
+    try {
+      execution?.store?.('setup/lsp', 'ptrrSkipped', true);
+      execution?.store?.(
+        'setup/lsp',
+        'ptrrSkipReason',
+        readiness.deferredSession
+          ? 'deferred-large-workspace'
+          : readiness.sessionStarted === false
+            ? 'no-session'
+            : 'BITCODE_LSP_SKIP_PTRR',
+      );
+    } catch {
+      /* ignore */
+    }
   }
 
   try {

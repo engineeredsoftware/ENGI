@@ -261,10 +261,28 @@ class LanguageClientManager {
       args: resolved.args,
     });
 
+    // Cap language-server V8 heap so a monorepo tsserver OOM kills the child
+    // (and Setup can fail-open) instead of SIGKILL'ing the whole sandbox
+    // pipeline process (exit 137 on deposit run 113543ea).
+    const lspHeapMb = (() => {
+      const raw = Number(process.env.BITCODE_LSP_MAX_OLD_SPACE_MB);
+      if (Number.isFinite(raw) && raw >= 128 && raw <= 2048) return Math.floor(raw);
+      return 768;
+    })();
+    const parentNodeOptions = String(process.env.NODE_OPTIONS || '');
+    const childNodeOptions = [
+      parentNodeOptions.replace(/--max-old-space-size=\d+/g, '').trim(),
+      `--max-old-space-size=${lspHeapMb}`,
+    ]
+      .filter(Boolean)
+      .join(' ');
     const child = spawn(resolved.resolvedCommand, resolved.args, {
       cwd: workspaceRoot,
       stdio: ['pipe', 'pipe', 'pipe'],
-      env: { ...process.env },
+      env: {
+        ...process.env,
+        NODE_OPTIONS: childNodeOptions,
+      },
     });
 
     let stderrBuf = '';

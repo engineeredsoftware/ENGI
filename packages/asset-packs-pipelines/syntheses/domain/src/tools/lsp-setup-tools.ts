@@ -145,8 +145,168 @@ export type LspSetupReadiness = {
   registeredToolNames: string[];
   /** True when at least one real language-server session started. */
   sessionStarted?: boolean;
+  /**
+   * True when Setup skipped starting long-lived language servers because the
+   * checkout is too large for sandbox memory (tsserver OOM / exit 137).
+   * Tools remain registered for on-demand / host-file Discovery.
+   */
+  deferredSession?: boolean;
+  /** Scale sample that drove deferral (source-safe counts only). */
+  workspaceScale?: WorkspaceSourceScale;
   error?: string;
 };
+
+/** Bounded scan of checkout size for LSP deferral decisions. */
+export type WorkspaceSourceScale = {
+  sourceFiles: number;
+  packageJsonCount: number;
+  isLarge: boolean;
+  reason?: string;
+};
+
+/** Source-like extensions counted toward monorepo scale. */
+const SOURCE_SCALE_EXTENSIONS = new Set([
+  '.ts',
+  '.tsx',
+  '.js',
+  '.jsx',
+  '.mjs',
+  '.cjs',
+  '.py',
+  '.go',
+  '.rs',
+  '.java',
+  '.kt',
+  '.cs',
+  '.rb',
+  '.php',
+  '.swift',
+  '.vue',
+  '.svelte',
+]);
+
+/**
+ * Default caps: full Bitcode monorepo + tsserver workspace/symbol (navto)
+ * OOM-killed deposit Setup (run 113543ea exit 137). Prefer tools-only prime.
+ */
+function largeWorkspaceSourceFileThreshold(): number {
+  const raw = Number(process.env.BITCODE_LSP_LARGE_WORKSPACE_FILES);
+  return Number.isFinite(raw) && raw > 0 ? raw : 2500;
+}
+
+function largeWorkspacePackageJsonThreshold(): number {
+  const raw = Number(process.env.BITCODE_LSP_LARGE_PACKAGE_COUNT);
+  return Number.isFinite(raw) && raw > 0 ? raw : 15;
+}
+
+/**
+ * Estimate checkout scale without walking the whole tree forever.
+ * Used to decide whether starting tsserver (etc.) is safe in a sandbox.
+ *
+ * Also treats monorepo markers (pnpm-workspace.yaml / lerna.json / many
+ * package.json) as large even before the full source walk finishes — deposit
+ * on Bitcode monorepo OOMed at ~15 package workspaces under tsserver navto.
+ */
+export function estimateWorkspaceSourceScale(
+  workspaceRoot: string,
+  options?: { maxFiles?: number; maxDepth?: number },
+): WorkspaceSourceScale {
+  const maxFiles = options?.maxFiles ?? 8000;
+  const maxDepth = options?.maxDepth ?? 10;
+  const fileThreshold = largeWorkspaceSourceFileThreshold();
+  const packageThreshold = largeWorkspacePackageJsonThreshold();
+  let sourceFiles = 0;
+  let packageJsonCount = 0;
+  let seen = 0;
+  let monorepoMarker = false;
+
+  try {
+    const rootEntries = readdirSync(workspaceRoot);
+    if (
+      rootEntries.includes('pnpm-workspace.yaml') ||
+      rootEntries.includes('pnpm-workspace.yml') ||
+      rootEntries.includes('lerna.json') ||
+      rootEntries.includes('nx.json') ||
+      rootEntries.includes('turbo.json')
+    ) {
+      monorepoMarker = true;
+    }
+  } catch {
+    /* ignore */
+  }
+
+  const walk = (dir: string, depth: number) => {
+    if (seen >= maxFiles || depth > maxDepth) return;
+    // Early exit once package threshold alone proves large (or both hit).
+    if (packageJsonCount >= packageThreshold || sourceFiles >= fileThreshold) return;
+    let entries: string[] = [];
+    try {
+      entries = readdirSync(dir);
+    } catch {
+      return;
+    }
+    for (const name of entries) {
+      if (seen >= maxFiles) return;
+      if (packageJsonCount >= packageThreshold || sourceFiles >= fileThreshold) return;
+      if (
+        name === 'node_modules' ||
+        name === '.git' ||
+        name === 'dist' ||
+        name === 'build' ||
+        name === 'target' ||
+        name === 'vendor' ||
+        name === '.next' ||
+        name === 'coverage' ||
+        name === '.turbo' ||
+        name === 'out'
+      ) {
+        continue;
+      }
+      const full = path.join(dir, name);
+      let st;
+      try {
+        st = statSync(full);
+      } catch {
+        continue;
+      }
+      if (st.isDirectory()) {
+        walk(full, depth + 1);
+      } else if (st.isFile()) {
+        seen += 1;
+        if (name === 'package.json') packageJsonCount += 1;
+        const ext = path.extname(name).toLowerCase();
+        if (SOURCE_SCALE_EXTENSIONS.has(ext)) sourceFiles += 1;
+      }
+    }
+  };
+
+  try {
+    walk(workspaceRoot, 0);
+  } catch {
+    /* ignore */
+  }
+
+  const reasons: string[] = [];
+  if (sourceFiles >= fileThreshold) {
+    reasons.push(`sourceFiles=${sourceFiles}>=${fileThreshold}`);
+  }
+  if (packageJsonCount >= packageThreshold) {
+    reasons.push(`packageJsonCount=${packageJsonCount}>=${packageThreshold}`);
+  }
+  // pnpm/nx monorepo root with multiple packages is unsafe for full tsserver prime
+  // even if the walk was shallow (e.g. package-scoped cwd in unit tests).
+  if (monorepoMarker && packageJsonCount >= 2) {
+    reasons.push('monorepo-workspace-marker');
+  } else if (monorepoMarker && packageJsonCount >= 1 && sourceFiles >= 200) {
+    reasons.push('monorepo-workspace-marker');
+  }
+  return {
+    sourceFiles,
+    packageJsonCount,
+    isLarge: reasons.length > 0,
+    reason: reasons.length ? [...new Set(reasons)].join(', ') : undefined,
+  };
+}
 
 /**
  * Scan checkout for language ids (extension map). Caps depth for large monorepos.
@@ -259,12 +419,14 @@ export async function setupLspForWorkspace(
 
   const detectedLanguages = detectWorkspaceLanguages(root);
   const primaryLanguage = detectedLanguages[0] || 'plaintext';
+  const workspaceScale = estimateWorkspaceSourceScale(root);
 
   const baseReadiness = {
     workspacePath: root,
     workspaceRoot: root,
     language: primaryLanguage,
     detectedLanguages,
+    workspaceScale,
     workspaceInfo: {
       rootUri: root.startsWith('file://') ? root : `file://${root}`,
       workspaceFolders: [root],
@@ -273,6 +435,50 @@ export async function setupLspForWorkspace(
     },
     registeredToolNames,
   };
+
+  // Large monorepos: do not start long-lived tsserver/pyright/etc. Deposit Setup
+  // on advancedengineeredsoftware/Bitcode was OOM-killed (exit 137) during
+  // initialize-lsp PTRR workspace/symbol (navto) after priming a full session.
+  // Tools stay registered; Discovery uses host-workspace tools + on-demand spawn.
+  const forceDefer =
+    ['1', 'true', 'yes', 'on'].includes(
+      String(process.env.BITCODE_LSP_DEFER_SESSION || '')
+        .trim()
+        .toLowerCase(),
+    );
+  if (workspaceScale.isLarge || forceDefer) {
+    const readiness: LspSetupReadiness = {
+      ...baseReadiness,
+      initialized: registeredToolNames.length > 0,
+      sessionStarted: false,
+      deferredSession: true,
+      startedServers: [],
+      failedServers: [],
+      unavailableServers: [],
+      serverInfo: {
+        name: 'bitcode-lsp-deferred-large-workspace',
+        version: '1',
+        capabilities: [
+          ...registeredToolNames.slice(),
+          `languages:${detectedLanguages.join(',')}`,
+          `deferred:${forceDefer ? 'env' : workspaceScale.reason || 'scale'}`,
+        ],
+      },
+      error: `LSP long-lived session deferred (${
+        forceDefer ? 'BITCODE_LSP_DEFER_SESSION' : workspaceScale.reason || 'large workspace'
+      }); query tools registered for later phases without priming tsserver.`,
+    };
+    try {
+      execution?.store?.('setup/lsp', 'sessionStarted', false);
+      execution?.store?.('setup/lsp', 'deferredSession', true);
+      execution?.store?.('setup/lsp', 'workspaceScale', workspaceScale);
+      execution?.store?.('setup/lsp', 'detectedLanguages', detectedLanguages);
+    } catch {
+      /* ignore */
+    }
+    storeLspReadiness(execution, readiness);
+    return readiness;
+  }
 
   try {
     // Prefer languages actually present; always attempt TS/JS server (bundled dep)
@@ -383,6 +589,8 @@ function storeLspReadiness(execution: any, readiness: LspSetupReadiness): void {
     execution?.store?.('setup/lsp', 'detectedLanguages', readiness.detectedLanguages);
     execution?.store?.('setup/lsp', 'language', readiness.language);
     execution?.store?.('setup/lsp', 'sessionStarted', readiness.sessionStarted ?? false);
+    execution?.store?.('setup/lsp', 'deferredSession', readiness.deferredSession ?? false);
+    execution?.store?.('setup/lsp', 'workspaceScale', readiness.workspaceScale ?? null);
     execution?.store?.('setup/lsp', 'startedServers', readiness.startedServers ?? []);
     execution?.store?.('setup/lsp', 'readiness', readiness);
     if (readiness.error) {
