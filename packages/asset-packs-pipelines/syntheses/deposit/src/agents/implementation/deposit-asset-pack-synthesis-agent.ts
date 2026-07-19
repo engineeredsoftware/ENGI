@@ -117,7 +117,22 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
       sourceMeasurements,
     },
   };
-  const raw = await DepositAssetPackSynthesisAgent(agentInput, execution);
+  // StitchUntilComplete can throw after max attempts when schema never sees
+  // options (run 34837896). Catch and fall through to catalog salvage so the
+  // deposit host still returns measured packs instead of exit=1 empty evidence.
+  let raw: unknown;
+  let synthesisThrow: string | null = null;
+  try {
+    raw = await DepositAssetPackSynthesisAgent(agentInput, execution);
+  } catch (err) {
+    synthesisThrow = err instanceof Error ? err.message : String(err);
+    try {
+      execution?.store?.('implementation', 'synthesisError', synthesisThrow.slice(0, 900));
+    } catch {
+      /* ignore */
+    }
+    raw = { options: [] };
+  }
   const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   let options = Array.isArray((result as any)?.options) ? (result as any).options : [];

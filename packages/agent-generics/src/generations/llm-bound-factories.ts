@@ -968,35 +968,57 @@ export function factoryStitchUntilComplete<T>(
       }
     };
 
+    /** Prefer `.output` when the thinkings generation returns an envelope. */
+    const unwrapStructured = (candidate: any): any => {
+      if (candidate && typeof candidate === 'object' && !Array.isArray(candidate) && 'output' in candidate) {
+        return (candidate as any).output;
+      }
+      return candidate;
+    };
+
+    const parseAgainstSchema = (candidate: any): { ok: true; value: any } | { ok: false; error: string } => {
+      if (!outputSchema) return { ok: true, value: unwrapStructured(candidate) };
+      const primary = unwrapStructured(candidate);
+      try {
+        return { ok: true, value: outputSchema.parse(primary) };
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        // Second chance: some gens leave the payload on the envelope root.
+        if (primary !== candidate) {
+          try {
+            return { ok: true, value: outputSchema.parse(candidate) };
+          } catch (e2) {
+            return { ok: false, error: e2 instanceof Error ? e2.message : String(e2) };
+          }
+        }
+        return { ok: false, error: msg };
+      }
+    };
+
     while (stitchCount < maxStitches) {
       // If we already have a schema-valid structured output, stop early
       if (outputSchema) {
-        try {
-          const candidate = (currentResult && (currentResult as any).output !== undefined)
-            ? (currentResult as any).output
-            : currentResult;
-          outputSchema.parse(candidate);
-          break; // Valid complete output; no stitching required
-        } catch (e) {
-          // Fall through to truncation/stitching logic
-          lastValidationError = e instanceof Error ? e.message : String(e);
+        const parsed = parseAgainstSchema(currentResult);
+        if (parsed.ok) {
+          currentResult = { ...(typeof currentResult === 'object' && currentResult ? currentResult : {}), output: parsed.value };
+          break;
         }
+        lastValidationError = parsed.error;
+        try { failsafeExec.store('validation', 'error', lastValidationError); } catch { }
       }
 
-      // Check if we read to stitch due to apparent truncation/overflow
+      // Check if we need to stitch due to apparent truncation/overflow
       const needsStitching = checkTruncation(currentResult);
 
       if (!needsStitching) {
-        // Validate if we have complete output
         if (outputSchema) {
-          try {
-            outputSchema.parse(currentResult);
-            break; // Valid complete output
-          } catch (e) {
-            // Output incomplete, needs stitching
-            lastValidationError = e instanceof Error ? e.message : String(e);
-            failsafeExec.store('validation', 'error', lastValidationError);
+          const parsed = parseAgainstSchema(currentResult);
+          if (parsed.ok) {
+            currentResult = { ...(typeof currentResult === 'object' && currentResult ? currentResult : {}), output: parsed.value };
+            break;
           }
+          lastValidationError = parsed.error;
+          try { failsafeExec.store('validation', 'error', lastValidationError); } catch { }
         } else {
           break; // No schema to validate against
         }
@@ -1007,9 +1029,7 @@ export function factoryStitchUntilComplete<T>(
       // Live per-iteration marker: rich telemetry shows a real stitch-repair
       // case (>=1) as it happens, not only in the post-loop count.
       try { failsafeExec.store('stitching', 'iteration', stitchCount); } catch { }
-      const minimalPartial = (currentResult && (currentResult as any).output !== undefined)
-        ? (currentResult as any).output
-        : currentResult;
+      const minimalPartial = unwrapStructured(currentResult);
       const stitchInput = {
         context: buildStitchContext(input),
         partialOutput: minimalPartial,
@@ -1029,30 +1049,38 @@ export function factoryStitchUntilComplete<T>(
     // The iteration that reaches maxStitches exits the loop before the
     // top-of-loop validation can inspect its result, so re-validate here —
     // a schema-valid final stitch is a success, not an exceeded failure.
-    const finalStitchValid = (() => {
-      if (!outputSchema || stitchCount < maxStitches) return false;
-      const candidate = (currentResult && (currentResult as any).output !== undefined)
-        ? (currentResult as any).output
-        : currentResult;
-      try { outputSchema.parse(candidate); return true; } catch { }
-      try { outputSchema.parse(currentResult); return true; } catch { }
-      return false;
-    })();
+    const finalParsed = parseAgainstSchema(currentResult);
+    const finalStitchValid = Boolean(outputSchema && stitchCount >= maxStitches && finalParsed.ok);
+    if (finalParsed.ok) {
+      currentResult = { ...(typeof currentResult === 'object' && currentResult ? currentResult : {}), output: finalParsed.value };
+    } else if (finalParsed.error) {
+      lastValidationError = finalParsed.error;
+      try { failsafeExec.store('validation', 'error', lastValidationError); } catch { }
+    }
 
     failsafeExec.store('stitching', 'count', stitchCount);
-    try { logFailsafeEvent(execution, 'stitch-until-complete', { complete: true, stitchCount, exceeded: stitchCount >= maxStitches && !finalStitchValid }); } catch { }
+    try {
+      logFailsafeEvent(execution, 'stitch-until-complete', {
+        complete: true,
+        stitchCount,
+        exceeded: stitchCount >= maxStitches && !finalStitchValid,
+        lastValidationError: lastValidationError ? String(lastValidationError).slice(0, 400) : null,
+      });
+    } catch { }
 
     // Check if we exceeded max stitches without ending on a valid output
     if (stitchCount >= maxStitches && !finalStitchValid) {
+      // Prefer the concrete schema/truncation reason over the stock maxTokens
+      // advice — run 34837896 failed with options: Required while stopReason=stop.
+      const detail = lastValidationError
+        ? `Last validation.error: ${String(lastValidationError).replace(/\s+/g, ' ').slice(0, 500)}`
+        : 'Output still appeared truncated after all stitch attempts. Consider increasing maxTokens or breaking the operation into smaller chunks.';
       const error = new Error(
-        `StitchUntilComplete exceeded maximum stitch attempts (${maxStitches}). ` +
-        `Output may be incomplete or truncated. Consider increasing maxTokens or ` +
-        `breaking the operation into smaller chunks.`
+        `StitchUntilComplete exceeded maximum stitch attempts (${maxStitches}). ${detail}`,
       );
       failsafeExec.store('stitching', 'error', error.message);
+      try { failsafeExec.store('stitching', 'validationError', lastValidationError || null); } catch { }
 
-      // Optionally throw the error or return with a warning
-      // For now, we'll throw to ensure the issue is addressed
       throw error;
     }
 

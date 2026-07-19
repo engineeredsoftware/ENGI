@@ -77,7 +77,7 @@ describe('StitchUntilComplete truncation heuristic (no schema)', () => {
 
     const stitch = factoryStitchUntilComplete([gen]);
     await expect(stitch({ output: 'a'.repeat(TRUNCATION_THRESHOLD) }, step)).rejects.toThrow(
-      /exceeded maximum stitch attempts \(5\)/
+      /exceeded maximum stitch attempts \(5\)/,
     );
     // Hard bound: exactly maxStitches generation passes, then termination.
     expect(calls).toBe(5);
@@ -86,6 +86,8 @@ describe('StitchUntilComplete truncation heuristic (no schema)', () => {
     const stitchNode = nodes.find(n => String(n.id).includes('failsafe:stitch_until_complete'));
     expect(stitchNode.get('stitching', 'count')).toBe(5);
     expect(String(stitchNode.get('stitching', 'error'))).toContain('exceeded maximum stitch attempts');
+    // Truncation path (no schema) keeps the stock guidance, not a fake schema error.
+    expect(String(stitchNode.get('stitching', 'error'))).toMatch(/truncated|maxTokens/i);
   });
 });
 
@@ -123,5 +125,35 @@ describe('StitchUntilComplete completion predicate (with schema)', () => {
     expect(stitchInputs[0].partialOutput).toEqual({ wrong: true });
     expect(stitchInputs[0].instruction).toContain('failed schema validation');
     expect(result.finalOutput).toEqual({ title: 'repaired' });
+  });
+
+  it('surfaces last validation.error in the exceeded-stitch throw (not only maxTokens stock text)', async () => {
+    let calls = 0;
+    const gen = async () => {
+      calls++;
+      // Schema never satisfied — options Required style gap.
+      return { output: { wrong: true } };
+    };
+    const optionsSchema = z.object({ options: z.array(z.object({ title: z.string() })).min(1) });
+    const { root, step } = makeRootAndStep();
+    const stitch = factoryStitchUntilComplete([gen], optionsSchema);
+    let thrown: Error | null = null;
+    try {
+      await stitch({ output: {} }, step);
+    } catch (e) {
+      thrown = e as Error;
+    }
+    expect(thrown).toBeTruthy();
+    expect(String(thrown?.message)).toMatch(/exceeded maximum stitch attempts \(5\)/);
+    expect(String(thrown?.message)).toMatch(/Last validation\.error/);
+    expect(String(thrown?.message)).toMatch(/options|Required|invalid/i);
+    expect(String(thrown?.message)).not.toMatch(/Consider increasing maxTokens/);
+    expect(calls).toBe(5);
+
+    const nodes = collectNodes(root);
+    const stitchNode = nodes.find((n) => String(n.id).includes('failsafe:stitch_until_complete'));
+    expect(stitchNode.get('stitching', 'count')).toBe(5);
+    expect(String(stitchNode.get('validation', 'error') || '')).toMatch(/options|Required|invalid/i);
+    expect(String(stitchNode.get('stitching', 'error') || '')).toMatch(/Last validation\.error/);
   });
 });

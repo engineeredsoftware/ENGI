@@ -64,8 +64,62 @@ export const depositCandidateSchema = z.object({
   needinessSignal: depositNeedinessSignalSchema.optional(),
 });
 
-export const depositCandidateSetSchema = z.object({
+/**
+ * Normalize common model mis-shapes before strict parse (run 34837896: stitch
+ * loop never saw `options` because the model returned a bare array / alternate
+ * key / single candidate object). Coerce those into `{ options: [...] }`.
+ */
+export function normalizeDepositCandidateSetInput(raw: unknown): unknown {
+  if (raw == null) return raw;
+  // Bare array of candidates
+  if (Array.isArray(raw)) {
+    return { options: raw };
+  }
+  if (typeof raw !== 'object') return raw;
+  const obj = raw as Record<string, unknown>;
+  // Already has options (including empty — leave for min(1) to reject)
+  if (Array.isArray(obj.options)) {
+    return obj;
+  }
+  // Alternate keys models often emit
+  for (const key of ['assetPacks', 'candidates', 'packs', 'asset_packs', 'results'] as const) {
+    if (Array.isArray(obj[key])) {
+      return { ...obj, options: obj[key] };
+    }
+  }
+  // Nested under output / finalOutput (envelope leakage into stitch partial)
+  for (const key of ['output', 'finalOutput', 'result'] as const) {
+    const nested = obj[key];
+    if (nested && typeof nested === 'object') {
+      const normalized = normalizeDepositCandidateSetInput(nested);
+      if (
+        normalized &&
+        typeof normalized === 'object' &&
+        Array.isArray((normalized as { options?: unknown }).options)
+      ) {
+        return normalized;
+      }
+    }
+  }
+  // Single candidate at the top level (has title + patch)
+  if (
+    typeof obj.title === 'string' &&
+    obj.patch &&
+    typeof obj.patch === 'object' &&
+    !Array.isArray(obj.patch)
+  ) {
+    return { options: [obj] };
+  }
+  return obj;
+}
+
+const depositCandidateSetObjectSchema = z.object({
   options: z.array(depositCandidateSchema).min(1).max(4),
 });
 
-export type DepositSynthesisOptions = z.infer<typeof depositCandidateSetSchema>;
+export const depositCandidateSetSchema = z.preprocess(
+  normalizeDepositCandidateSetInput,
+  depositCandidateSetObjectSchema,
+);
+
+export type DepositSynthesisOptions = z.infer<typeof depositCandidateSetObjectSchema>;

@@ -43,7 +43,11 @@ const DEPOSIT_REQUIREMENTS = part(
     'host attaches measurements: { absolutes: [...], needinesses: [] } so each deposit AssetPack',
     'leaves Implementation as patch + absolute measurements + metadata. Emitting empty',
     'needinessSignal.rationale fails schema and triggers stitch repair — omit those keys.',
-    'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
+    'CRITICAL SHAPE: return ONLY a JSON object with top-level key "options" (array of 2–4',
+    'candidates). Never return a bare array, never use "candidates"/"assetPacks"/"packs" as the',
+    'top-level key, never wrap under "output". Example skeleton:',
+    '{"options":[{"kind":"capability-slice","title":"...at least 8 chars...","summary":"...at least ~40 chars of product language...","coveredSourcePaths":["path/from/catalog.ts"],"confidence":0.7,"patch":{"fileChanges":[{"path":"path/from/catalog.ts","op":"modify"}],"patchSummary":"..."}}]}',
+    'Missing options (or options: undefined) fails schema and forces stitch_until_complete repair.',
   ].join('\n'),
 );
 
@@ -61,11 +65,12 @@ const DEPOSIT_TRY = part(
     'and needinessSignal entirely.',
 );
 const DEPOSIT_REFINE = part(
-  'Refine: polish the prior Try/Retry candidates — NEVER return an empty options ' +
-    'array. Keep 2–4 DISTINCT options with non-overlapping primary value (do not rename ' +
-    'the same slice three ways). Prefer PrepareConciseContext keys in exact form ' +
-    '"#namespace:key" or "path#namespace:key" (colon before the key name; never ' +
-    '"#namespace#key"). Ground coveredSourcePaths and patch.fileChanges ONLY in ' +
+  'Refine: polish the prior Try/Retry candidates — return {"options":[...]} with the ' +
+    'same top-level key "options" (never empty, never omit the key, never rename to ' +
+    'candidates/assetPacks). Keep 2–4 DISTINCT options with non-overlapping primary ' +
+    'value (do not rename the same slice three ways). Prefer PrepareConciseContext keys ' +
+    'in exact form "#namespace:key" or "path#namespace:key" (colon before the key name; ' +
+    'never "#namespace#key"). Ground coveredSourcePaths and patch.fileChanges ONLY in ' +
     'sourceCheckoutCatalog paths (repo-relative file paths — never "#host:…" keys). ' +
     'Ensure each option is source-safe, obfuscation- and exclusion-honoring, and ' +
     'legible to a future buyer (no code/contents). Omit needinessSignal.',
