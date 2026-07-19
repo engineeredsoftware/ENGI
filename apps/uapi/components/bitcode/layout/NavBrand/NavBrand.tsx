@@ -4,7 +4,8 @@
  * Nav brand mark + logo-area secondary links.
  *
  * Bare logo icon + optional "BITCODE" supertext navigate home.
- * Whitepaper sits beside the wordmark; lower row is Docs | X | Deck.
+ * Whitepaper sits beside the wordmark and is grid-aligned over the deck icon
+ * so OS/browser wordmark metrics cannot shift that stack. Lower row is Docs | X | Deck.
  */
 
 import React from "react";
@@ -92,63 +93,68 @@ export default function NavBrand({
       </button>
 
       {showWordmark ? (
-        <div className="flex min-w-0 flex-col justify-center gap-1.5 self-center leading-none">
-          <div className="flex min-w-0 items-center gap-1.5 leading-none">
-            <button
-              type="button"
-              onClick={onClick}
-              className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-left leading-none"
-            >
-              <p className="text-[0.58rem] font-semibold uppercase leading-none tracking-[0.22em] text-emerald-200/90 sm:text-[0.64rem] sm:font-semibold">
-                Bitcode
-              </p>
-            </button>
-            <a
-              href={BITCODE_WHITEPAPER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Whitepaper"
-              title="Whitepaper"
-              className={logoAreaIconLinkClassName}
-            >
-              <FileText className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
-            </a>
-          </div>
+        /*
+          Shared two-column grid: whitepaper + deck share col 2 and stay centered
+          on each other even when "Bitcode" glyph width differs (OS/browser weight).
+          Lower nav uses subgrid so docs|X|deck remain one a11y group.
+        */
+        <div className="grid min-w-0 grid-cols-[auto_auto] items-center gap-x-1.5 gap-y-1.5 self-center leading-none">
+          <button
+            type="button"
+            onClick={onClick}
+            className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-left leading-none"
+          >
+            <p className="font-sans text-[0.625rem] font-medium uppercase leading-none tracking-[0.22em] text-emerald-200/90 antialiased [font-synthesis:none]">
+              Bitcode
+            </p>
+          </button>
+          <a
+            href={BITCODE_WHITEPAPER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Whitepaper"
+            title="Whitepaper"
+            className={`${logoAreaIconLinkClassName} justify-self-center`}
+          >
+            <FileText className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+          </a>
           <nav
-            className="flex min-w-0 items-center gap-1.5 leading-none"
+            className="col-span-2 grid grid-cols-subgrid items-center gap-x-1.5 leading-none"
             aria-label="Bitcode references"
           >
-            <Link
-              href={DOCS_HREF}
-              aria-label="Docs"
-              title="Docs"
-              className={logoAreaIconLinkClassName}
-            >
-              <Files className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
-            </Link>
-            <span className={logoAreaDividerClassName} aria-hidden="true">
-              |
-            </span>
-            <a
-              href={BITCODE_X_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Bitcode on X"
-              title="Bitcode on X"
-              className={logoAreaIconLinkClassName}
-            >
-              <XLogo className="h-3 w-3" />
-            </a>
-            <span className={logoAreaDividerClassName} aria-hidden="true">
-              |
-            </span>
+            <div className="flex min-w-0 items-center gap-1.5 leading-none">
+              <Link
+                href={DOCS_HREF}
+                aria-label="Docs"
+                title="Docs"
+                className={logoAreaIconLinkClassName}
+              >
+                <Files className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+              </Link>
+              <span className={logoAreaDividerClassName} aria-hidden="true">
+                |
+              </span>
+              <a
+                href={BITCODE_X_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Bitcode on X"
+                title="Bitcode on X"
+                className={logoAreaIconLinkClassName}
+              >
+                <XLogo className="h-3 w-3" />
+              </a>
+              <span className={logoAreaDividerClassName} aria-hidden="true">
+                |
+              </span>
+            </div>
             <a
               href={BITCODE_DECK_HREF}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Pitch deck"
               title="Pitch deck"
-              className={logoAreaIconLinkClassName}
+              className={`${logoAreaIconLinkClassName} justify-self-center`}
             >
               <Presentation className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
             </a>
