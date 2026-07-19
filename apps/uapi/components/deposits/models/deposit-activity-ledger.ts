@@ -59,18 +59,26 @@ export function isActivityLedgerContextSource(
 }
 
 /**
- * V48-Gate3-F17: previously anchored repositories, newest first, one per
- * distinct repository full name.
+ * V48-Gate3-F17: previously anchored full source packages (repository · branch
+ * · commit), newest first. One entry per distinct package so Load-anchor can
+ * restore a non-default branch/SHA — not just the newest repo name.
  */
 const REPOSITORY_ANCHOR_SOURCES = new Set([
   "terminal-repository-context-panel",
   "repository-context-panel",
 ]);
 
+function repositoryAnchorPackageKey(run: WorkspaceRun): string {
+  const repository = run.repository || "";
+  const branch = run.branch || "";
+  const commit = run.sourceCommit || "";
+  return `${repository}\u0000${branch}\u0000${commit}`;
+}
+
 export function deriveRepositoryAnchors(
   liveRuns: WorkspaceRun[],
 ): DepositRepositoryAnchor[] {
-  const newestByRepository = new Map<string, WorkspaceRun>();
+  const newestByPackage = new Map<string, WorkspaceRun>();
   for (const run of liveRuns) {
     if (
       !run.contextSource ||
@@ -79,12 +87,13 @@ export function deriveRepositoryAnchors(
     ) {
       continue;
     }
-    const existing = newestByRepository.get(run.repository);
+    const packageKey = repositoryAnchorPackageKey(run);
+    const existing = newestByPackage.get(packageKey);
     if (!existing || new Date(run.created_at) > new Date(existing.created_at)) {
-      newestByRepository.set(run.repository, run);
+      newestByPackage.set(packageKey, run);
     }
   }
-  return Array.from(newestByRepository.values())
+  return Array.from(newestByPackage.values())
     .sort(
       (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),

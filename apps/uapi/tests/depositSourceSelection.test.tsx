@@ -251,6 +251,99 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
     expect(lastHref).not.toContain("sourceCommit=");
   });
 
+  it("does not clobber Load-anchor branch+commit when derived selection is still the default", async () => {
+    // Reproduce: already on repo@main, load full package version/v48 · 41ff225.
+    // Prior URL-sync overwrote sourceBranch with main and deleted sourceCommit.
+    mockSearchParams = new URLSearchParams(
+      "provider=github&repo=acme%2FBitcode&sourceBranch=main&sourceCommit=latest",
+    );
+    mockVcsFetch({
+      repositories: [
+        {
+          fullName: "acme/Bitcode",
+          name: "Bitcode",
+          defaultBranch: "main",
+        },
+      ],
+      branches: [{ name: "main" }, { name: "version/v48" }],
+      commits: [
+        {
+          sha: "41ff225abcdef0123456789abcdef0123456789a",
+          message: "v48 tip",
+        },
+      ],
+    });
+
+    const { rerender } = render(
+      <DepositSourceSelection
+        routePath="/"
+        buildRouteHref={(params) => `/deposits?${params?.toString() ?? ""}`}
+        repositoryAnchors={[
+          {
+            id: "pkg-v48",
+            repositoryFullName: "acme/Bitcode",
+            branch: "version/v48",
+            commit: "41ff225",
+          },
+        ]}
+      />,
+    );
+
+    await screen.findByLabelText("Repository provider");
+    mockReplace.mockClear();
+
+    fireEvent.click(
+      await screen.findByRole("combobox", {
+        name: "Load a previously anchored repository",
+      }),
+    );
+    fireEvent.click(
+      within(await screen.findByRole("listbox")).getByText("acme/Bitcode"),
+    );
+
+    await waitFor(() =>
+      expect(mockReplace).toHaveBeenCalledWith(
+        expect.stringContaining("sourceBranch=version%2Fv48"),
+        { scroll: false },
+      ),
+    );
+    const anchorHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
+    expect(anchorHref).toContain("repo=acme%2FBitcode");
+    expect(anchorHref).toContain("sourceCommit=41ff225");
+
+    // Simulate Next applying the Load-anchor URL, then re-render so the
+    // route-sync effect runs against the anchored package.
+    mockSearchParams = new URLSearchParams(
+      "provider=github&repo=acme%2FBitcode&sourceBranch=version%2Fv48&sourceCommit=41ff225",
+    );
+    mockReplace.mockClear();
+    rerender(
+      <DepositSourceSelection
+        routePath="/"
+        buildRouteHref={(params) => `/deposits?${params?.toString() ?? ""}`}
+        repositoryAnchors={[
+          {
+            id: "pkg-v48",
+            repositoryFullName: "acme/Bitcode",
+            branch: "version/v48",
+            commit: "41ff225",
+          },
+        ]}
+      />,
+    );
+
+    await waitFor(() => {
+      // Branch list + commits load; effect may expand short SHA to full, but
+      // must never rewind branch to main or drop the pin.
+      const hrefs = mockReplace.mock.calls.map((call) => String(call[0] ?? ""));
+      for (const href of hrefs) {
+        expect(href).not.toMatch(/sourceBranch=main(?:&|$)/);
+        expect(href).toContain("sourceBranch=version%2Fv48");
+        expect(href).toMatch(/sourceCommit=(41ff225|41ff225abcdef)/);
+      }
+    });
+  });
+
   it("locks provider/repository controls when disabled (run-detail freeze)", async () => {
     mockVcsFetch();
     render(

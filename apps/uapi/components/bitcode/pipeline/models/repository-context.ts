@@ -84,13 +84,20 @@ export function deriveSelectedBranch(
   requestedBranch?: string | null,
   preferredBranch?: string | null,
 ) {
-  if (!branches.length) return null;
-
   const normalizedRequestedBranch = requestedBranch?.trim();
-  const byRequested =
-    normalizedRequestedBranch &&
-    branches.find((branch) => branch.name === normalizedRequestedBranch);
-  if (byRequested) return byRequested.name;
+  // Explicit URL / Load-anchor branch wins even before the branch list loads
+  // (or when the list is paginated). Falling back to default here used to let
+  // the route-sync effect rewrite sourceBranch + wipe sourceCommit.
+  if (normalizedRequestedBranch) {
+    if (!branches.length) return normalizedRequestedBranch;
+    const byRequested = branches.find(
+      (branch) => branch.name === normalizedRequestedBranch,
+    );
+    if (byRequested) return byRequested.name;
+    return normalizedRequestedBranch;
+  }
+
+  if (!branches.length) return null;
 
   const normalizedPreferredBranch = preferredBranch?.trim();
   const byPreferred =
@@ -113,7 +120,8 @@ export function isLatestCommitRef(value?: string | null): boolean {
 /**
  * Resolve the effective commit SHA for synthesis / checkout.
  * - `latest` / empty → head of the loaded commits list (`commits[0]`)
- * - explicit sha → that sha (even if the list has not loaded yet)
+ * - explicit sha (full or unique short prefix) → that sha, expanded to full
+ *   when the commits list is loaded so SearchableSelect keys match
  */
 export function deriveSelectedCommit(
   commits: VCSCommit[],
@@ -126,10 +134,18 @@ export function deriveSelectedCommit(
   const normalizedRequestedCommit = requestedCommit!.trim();
   if (!commits.length) return normalizedRequestedCommit;
 
-  const byRequested = commits.find(
-    (commit) => commit.sha === normalizedRequestedCommit,
-  );
-  if (byRequested) return byRequested.sha;
+  const exact = commits.find((commit) => commit.sha === normalizedRequestedCommit);
+  if (exact) return exact.sha;
+
+  // Load-anchor / ledger often surfaces short SHAs (7+) while the commit list
+  // keys are full object ids — prefix-match and expand so the picker paints.
+  if (normalizedRequestedCommit.length >= 7) {
+    const prefixMatches = commits.filter((commit) =>
+      commit.sha.startsWith(normalizedRequestedCommit),
+    );
+    if (prefixMatches.length === 1) return prefixMatches[0]!.sha;
+  }
+
   return normalizedRequestedCommit;
 }
 

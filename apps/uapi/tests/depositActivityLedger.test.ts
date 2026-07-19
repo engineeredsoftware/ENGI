@@ -41,7 +41,7 @@ describe("deposit-activity-ledger", () => {
     expect(DEPOSIT_ACTIVITY_LEDGER_SOURCES.size).toBe(3);
   });
 
-  it("derives one repository anchor per full name, newest first", () => {
+  it("derives full source-package anchors (repo·branch·commit), newest first", () => {
     const runs = [
       run({
         id: "old",
@@ -58,6 +58,15 @@ describe("deposit-activity-ledger", () => {
         branch: "dev",
         sourceCommit: "bbb",
         created_at: "2026-07-02T00:00:00.000Z",
+      }),
+      // Same full package as "new" but older — dedupe keeps newest id only.
+      run({
+        id: "new-duplicate",
+        contextSource: "terminal-repository-context-panel",
+        repository: "acme/app",
+        branch: "dev",
+        sourceCommit: "bbb",
+        created_at: "2026-06-30T00:00:00.000Z",
       }),
       run({
         id: "other",
@@ -76,11 +85,17 @@ describe("deposit-activity-ledger", () => {
       }),
     ];
     const anchors = deriveRepositoryAnchors(runs);
-    expect(anchors.map((a) => a.id)).toEqual(["legacy", "other", "new"]);
-    expect(anchors[2]).toMatchObject({
+    // Distinct packages for acme/app (main+aaa and dev+bbb) both remain.
+    expect(anchors.map((a) => a.id)).toEqual(["legacy", "other", "new", "old"]);
+    expect(anchors.find((a) => a.id === "new")).toMatchObject({
       repositoryFullName: "acme/app",
       branch: "dev",
       commit: "bbb",
+    });
+    expect(anchors.find((a) => a.id === "old")).toMatchObject({
+      repositoryFullName: "acme/app",
+      branch: "main",
+      commit: "aaa",
     });
   });
 

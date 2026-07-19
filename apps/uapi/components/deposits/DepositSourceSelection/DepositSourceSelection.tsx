@@ -157,6 +157,11 @@ export default function DepositSourceSelection({
   ]);
 
   // Keep the route-owned source params (repo/sourceBranch/sourceCommit) in sync.
+  //
+  // URL is source of truth for explicit choices (Load anchor, field pickers).
+  // Only *fill* missing defaults from derived selection — never clobber an
+  // explicit sourceBranch/sourceCommit with a fallback (that race left repo
+  // correct after Load anchor but rewound branch to default + cleared commit).
   useEffect(() => {
     const nextParams = new URLSearchParams(searchParams.toString());
     let changed = false;
@@ -164,32 +169,48 @@ export default function DepositSourceSelection({
       nextParams.set("provider", provider);
       changed = true;
     }
+
+    const urlRepo = nextParams.get("repo");
     if (selectedRepository) {
-      if (nextParams.get("repo") !== selectedRepository.fullName) {
+      if (!urlRepo) {
+        // Auto-selected first inventory row with no explicit URL — publish it.
         nextParams.set("repo", selectedRepository.fullName);
-        nextParams.delete("sourceBranch");
-        nextParams.delete("sourceCommit");
-        nextParams.delete("branch");
-        nextParams.delete("commit");
         changed = true;
       }
-    } else if (nextParams.has("repo")) {
-      nextParams.delete("repo");
-      changed = true;
+      // When URL already names a repo, do not rewrite it to a different
+      // selectedRepository (inventory still catching up after Load anchor) and
+      // do not strip branch/commit.
     }
+
     if (selectedRepository && selectedBranch && !isLoadingBranches) {
-      if (nextParams.get("sourceBranch") !== selectedBranch) {
+      const urlBranch =
+        nextParams.get("sourceBranch") || nextParams.get("branch");
+      if (!urlBranch) {
         nextParams.set("sourceBranch", selectedBranch);
         nextParams.delete("branch");
-        if (requestedBranch !== selectedBranch) {
-          nextParams.delete("sourceCommit");
-          nextParams.delete("commit");
-        }
+        changed = true;
+      } else if (!nextParams.get("sourceBranch") && nextParams.get("branch")) {
+        nextParams.set("sourceBranch", urlBranch);
+        nextParams.delete("branch");
         changed = true;
       }
+      // Explicit URL branch (incl. Load-anchor) is never overwritten by a
+      // derived default such as the repository default branch.
     }
+
     if (selectedRepository && selectedBranch && !isLoadingCommits) {
-      if (isLatestCommitMode) {
+      const urlCommit =
+        nextParams.get("sourceCommit") || nextParams.get("commit");
+      if (!urlCommit) {
+        // Nothing pinned yet — track branch head.
+        nextParams.set("sourceCommit", DEPOSIT_COMMIT_LATEST_REF);
+        nextParams.delete("commit");
+        changed = true;
+      } else if (!nextParams.get("sourceCommit") && nextParams.get("commit")) {
+        nextParams.set("sourceCommit", urlCommit);
+        nextParams.delete("commit");
+        changed = true;
+      } else if (isLatestCommitMode) {
         if (
           nextParams.get("sourceCommit") !== DEPOSIT_COMMIT_LATEST_REF ||
           nextParams.has("commit")
@@ -199,13 +220,21 @@ export default function DepositSourceSelection({
           changed = true;
         }
       } else if (selectedCommit) {
-        if (nextParams.get("sourceCommit") !== selectedCommit) {
+        const pinned = nextParams.get("sourceCommit") || urlCommit;
+        // Expand short SHA from ledger/anchor to full object id once resolved.
+        if (
+          pinned &&
+          pinned !== selectedCommit &&
+          selectedCommit.startsWith(pinned) &&
+          pinned.length >= 7
+        ) {
           nextParams.set("sourceCommit", selectedCommit);
           nextParams.delete("commit");
           changed = true;
         }
       }
     }
+
     if (!changed) return;
     if (typeof window !== "undefined" && window.location.pathname !== routePath)
       return;
@@ -216,7 +245,6 @@ export default function DepositSourceSelection({
     isLoadingBranches,
     isLoadingCommits,
     provider,
-    requestedBranch,
     router,
     searchParams,
     selectedBranch,

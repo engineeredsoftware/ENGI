@@ -42,4 +42,24 @@ describe('repository-context', () => {
     expect(deriveSelectedCommit(commits, 'latest')).toBe('aaa');
     expect(deriveSelectedCommit(commits, 'bbb')).toBe('bbb');
   });
+
+  it('honors explicit branch before the list loads (Load-anchor package)', () => {
+    expect(deriveSelectedBranch([], 'version/v48', 'main')).toBe('version/v48');
+    // Still honor an explicit request that is not in the loaded list rather
+    // than falling back to default (which used to wipe sourceCommit via URL sync).
+    expect(deriveSelectedBranch(branches, 'version/v48', 'main')).toBe(
+      'version/v48',
+    );
+  });
+
+  it('expands short commit SHAs from anchors to full object ids', () => {
+    const fullCommits = [
+      { sha: '41ff225abcdef0123456789abcdef0123456789a', message: 'v48' },
+      { sha: 'e6d93a6abcdef0123456789abcdef0123456789b', message: 'main' },
+    ] as VCSCommit[];
+    expect(deriveSelectedCommit(fullCommits, '41ff225')).toBe(
+      '41ff225abcdef0123456789abcdef0123456789a',
+    );
+    expect(deriveSelectedCommit([], '41ff225')).toBe('41ff225');
+  });
 });
