@@ -83,7 +83,8 @@ await writeFile(\`\${artifactDir}/evidence.json\`, JSON.stringify(evidence, null
 }
 
 export function createLiveAssetPackPipelineRunner(): string {
-  return `import { mkdir, readFile, writeFile } from 'node:fs/promises';
+  return `import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { constants as fsConstants } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -92,6 +93,39 @@ const monorepoRoot = (process.env.BITCODE_MONOREPO_ROOT || '/opt/bitcode').trim(
 /** Absolute file URL into monorepo TypeScript sources (loaded via tsx/ts-node). */
 function pkgImport(relPath) {
   return pathToFileURL(path.join(monorepoRoot, relPath)).href;
+}
+
+/**
+ * Resolve monorepo modules across Pipeliner image layouts:
+ * - current: packages/asset-packs-pipelines/syntheses/{domain,deposit,read}
+ * - legacy (v48-ee433ddc era): synthesize-*-asset-packs-pipeline + monolithic domain
+ * Prefer current paths; fall back so hot-uploaded runners still boot on older images.
+ */
+async function importMonorepoModule(label, candidates) {
+  const tried = [];
+  let lastError = null;
+  for (const rel of candidates) {
+    const abs = path.join(monorepoRoot, rel);
+    tried.push(abs);
+    try {
+      await access(abs, fsConstants.R_OK);
+      return await import(pathToFileURL(abs).href);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  const detail = lastError instanceof Error ? lastError.message : String(lastError || 'missing');
+  throw new Error(
+    'Cannot resolve ' +
+      label +
+      ' under ' +
+      monorepoRoot +
+      '. Tried: ' +
+      tried.join(' | ') +
+      '. Last error: ' +
+      detail +
+      '. Pipeliner image package layout is outdated relative to the host runner — rebuild/push Pipeliner and set BITCODE_PIPELINE_SANDBOX_IMAGE to the new tag (syntheses/ layout).',
+  );
 }
 
 const manifestPath = process.env.BITCODE_PIPELINE_HOST_MANIFEST || '${MANIFEST_PATH}';
@@ -1407,24 +1441,47 @@ try {
     all3DomainExports,
     depositPipelineExports,
     readPipelineExports,
-    { enablePipelineStreaming, factoryExecutionPipeline },
+    pipelinesGenericsExports,
     { applyAssetPackSettlementUnlockToPreview, buildAssetPackSettlementUnlock },
     { buildSupabaseStagingTestnetProjectionReadback, reconcileLedgerDatabaseProjection },
     { evaluateBtdOrganizationInterfaceAuthority },
     btdReceiptBuilders,
   ] = await Promise.all([
-    // Resolve monorepo packages by absolute file URL + .ts (tsx/ts-node loaders).
-    // Relative extensionless imports fail under plain node in the Pipeliner image.
-    import(pkgImport('packages/asset-packs-pipelines/syntheses/domain/src/index.ts')),
-    import(pkgImport('packages/asset-packs-pipelines/domain/src/index.ts')),
-    import(pkgImport('packages/asset-packs-pipelines/syntheses/deposit/src/index.ts')),
-    import(pkgImport('packages/asset-packs-pipelines/syntheses/read/src/index.ts')),
-    import(pkgImport('packages/pipelines-generics/src/index.ts')),
-    import(pkgImport('packages/btd/src/settlement.ts')),
-    import(pkgImport('packages/btd/src/reconciliation.ts')),
-    import(pkgImport('packages/btd/src/authority.ts')),
-    import(pkgImport('packages/btd/src/receipts.ts')),
+    // Absolute .ts paths + multi-layout candidates (tsx loads TypeScript sources).
+    importMonorepoModule('asset-packs-pipelines syntheses-domain', [
+      'packages/asset-packs-pipelines/syntheses/domain/src/index.ts',
+      // Legacy monolithic domain carried preview boundary before the split.
+      'packages/asset-packs-pipelines/domain/src/index.ts',
+    ]),
+    importMonorepoModule('asset-packs-pipelines domain (all-3)', [
+      'packages/asset-packs-pipelines/domain/src/index.ts',
+    ]),
+    importMonorepoModule('asset-packs-pipelines deposit synthesis', [
+      'packages/asset-packs-pipelines/syntheses/deposit/src/index.ts',
+      'packages/asset-packs-pipelines/synthesize-deposits-asset-packs-pipeline/src/index.ts',
+    ]),
+    importMonorepoModule('asset-packs-pipelines read synthesis', [
+      'packages/asset-packs-pipelines/syntheses/read/src/index.ts',
+      'packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/src/index.ts',
+    ]),
+    importMonorepoModule('pipelines-generics', [
+      'packages/pipelines-generics/src/index.ts',
+    ]),
+    importMonorepoModule('btd settlement', ['packages/btd/src/settlement.ts']),
+    importMonorepoModule('btd reconciliation', ['packages/btd/src/reconciliation.ts']),
+    importMonorepoModule('btd authority', ['packages/btd/src/authority.ts']),
+    importMonorepoModule('btd receipts', ['packages/btd/src/receipts.ts']),
   ]);
+  const { enablePipelineStreaming } = pipelinesGenericsExports;
+  // Current name + legacy alias from pre-ExecutionPipeline rename images.
+  const factoryExecutionPipeline =
+    pipelinesGenericsExports.factoryExecutionPipeline ||
+    pipelinesGenericsExports.factoryPipelineExecution;
+  if (typeof enablePipelineStreaming !== 'function' || typeof factoryExecutionPipeline !== 'function') {
+    throw new Error(
+      'pipelines-generics missing enablePipelineStreaming / factoryExecutionPipeline (or factoryPipelineExecution). Rebuild Pipeliner image.',
+    );
+  }
   // Layout law: all-3 domain vs syntheses-domain vs product packages.
   const {
     buildAssetPackPreviewBoundary,
@@ -1444,9 +1501,24 @@ try {
     resolveReadingPipelineTelemetryProjection,
     summarizeReadingPipelineObservabilityCoverage,
     synthesizeReadNeedForPipelineInput,
-    factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks,
   } = readPipelineExports;
-  const { factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks } = depositPipelineExports;
+  // Current hierarchy names + legacy factory aliases from pre-rename images.
+  const factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks =
+    readPipelineExports.factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks ||
+    readPipelineExports.factorySynthesizeReadAssetPacksSDIVFPipeline;
+  const factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks =
+    depositPipelineExports.factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks ||
+    depositPipelineExports.factorySynthesizeDepositAssetPacksSDIVFPipeline;
+  if (typeof factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks !== 'function') {
+    throw new Error(
+      'Read synthesis factory missing on resolved package (expected factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks or factorySynthesizeReadAssetPacksSDIVFPipeline). Rebuild Pipeliner image.',
+    );
+  }
+  if (typeof factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks !== 'function') {
+    throw new Error(
+      'Deposit synthesis factory missing on resolved package (expected factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks or factorySynthesizeDepositAssetPacksSDIVFPipeline). Rebuild Pipeliner image.',
+    );
+  }
   buildBtdAssetPackMintReceiptFn = btdReceiptBuilders.buildBtdAssetPackMintReceipt;
   buildBtdReadReceiptFn = btdReceiptBuilders.buildBtdReadReceipt;
   buildBtdRightsTransferReceiptFn = btdReceiptBuilders.buildBtdRightsTransferReceipt;
@@ -1471,7 +1543,9 @@ try {
 
   const databaseStreamingRequested = process.env.BITCODE_PIPELINE_STREAM_TO_DATABASE === '1';
   if (databaseStreamingRequested) {
-    const { supabaseAdmin } = await import(pkgImport('packages/supabase/src/index.ts'));
+    const { supabaseAdmin } = await importMonorepoModule('supabase', [
+      'packages/supabase/src/index.ts',
+    ]);
     supabase = supabaseAdmin;
     userId = await resolvePipelineUserId();
     execution.store('host', 'userId', userId);

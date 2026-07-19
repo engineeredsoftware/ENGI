@@ -62,6 +62,17 @@ RUN test -f packages/pipeline-hosts/node_modules/tsx/dist/loader.mjs \
   || test -f node_modules/tsx/dist/loader.mjs \
   || (echo "pipeliner image missing tsx loader (pipeline-hosts dep)" >&2 && exit 1)
 
+# Live runner imports these absolute .ts paths (current syntheses/ layout law).
+# Fail the image build if the tree is the pre-split layout — otherwise sandboxes
+# die at import with "Cannot find module .../syntheses/domain/...".
+RUN test -f packages/asset-packs-pipelines/syntheses/domain/src/index.ts \
+  && test -f packages/asset-packs-pipelines/syntheses/deposit/src/index.ts \
+  && test -f packages/asset-packs-pipelines/syntheses/read/src/index.ts \
+  && test -f packages/asset-packs-pipelines/domain/src/index.ts \
+  && test -f packages/pipelines-generics/src/index.ts \
+  && test -f packages/btd/src/settlement.ts \
+  || (echo "pipeliner image missing live-runner monorepo sources (syntheses/ layout)" >&2 && exit 1)
+
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs
 WORKDIR /vercel/sandbox
