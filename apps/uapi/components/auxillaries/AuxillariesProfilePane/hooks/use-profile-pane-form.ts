@@ -10,7 +10,10 @@ import type {
   ProfileTeamMember,
   SupabaseAuthSession,
 } from '../AuxillariesProfilePane.types';
-import { PROFILE_AVATAR_OPTIONS } from '../models/profile-pane-format';
+import {
+  PROFILE_AVATAR_OPTIONS,
+  readImageFileAsAvatarDataUrl,
+} from '../models/profile-pane-format';
 
 type ProfileFormArgs = Pick<
   AuxillariesProfilePaneProps,
@@ -213,9 +216,91 @@ export function useProfilePaneForm({
     return () => window.clearTimeout(timer);
   }, [isOnboardingComplete, loading, onSave, profileAutosavePayload]);
 
+  const currentTeamMember = useMemo(() => {
+    const handle = username.trim().toLowerCase();
+    return (
+      teamMembers.find((member) => member.username.trim().toLowerCase() === handle) ??
+      teamMembers[0] ??
+      null
+    );
+  }, [teamMembers, username]);
+
+  const currentRole: ProfileTeamMember['role'] = currentTeamMember?.role ?? 'admin';
+  const canManageTeam = currentRole === 'owner' || currentRole === 'admin';
+
+  const inviteTeamMember = (input: {
+    username: string;
+    displayName: string;
+    role: ProfileTeamMember['role'];
+  }): { ok: true } | { ok: false; error: string } => {
+    if (!canManageTeam) {
+      return { ok: false, error: 'Only owners and admins can invite team members.' };
+    }
+    const handle = input.username.trim().toLowerCase().replace(/^@/, '');
+    if (!handle) {
+      return { ok: false, error: 'Enter a handle or email to invite.' };
+    }
+    if (teamMembers.some((member) => member.username.trim().toLowerCase() === handle)) {
+      return { ok: false, error: 'That person is already on the team roster.' };
+    }
+    if (input.role === 'owner') {
+      return { ok: false, error: 'Owner role cannot be assigned via invite.' };
+    }
+    const displayName = input.displayName.trim() || handle;
+    setTeamMembers((members) => [
+      ...members,
+      {
+        id: `invite-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        username: handle,
+        displayName,
+        avatarUrl: PROFILE_AVATAR_OPTIONS[members.length % PROFILE_AVATAR_OPTIONS.length],
+        role: input.role,
+        status: 'invited',
+      },
+    ]);
+    return { ok: true };
+  };
+
+  const removeTeamMember = (
+    memberId: string,
+  ): { ok: true } | { ok: false; error: string } => {
+    if (!canManageTeam) {
+      return { ok: false, error: 'Only owners and admins can remove team members.' };
+    }
+    const target = teamMembers.find((member) => member.id === memberId);
+    if (!target) {
+      return { ok: false, error: 'Member not found.' };
+    }
+    if (target.role === 'owner') {
+      return { ok: false, error: 'The organization owner cannot be removed here.' };
+    }
+    if (currentRole === 'admin' && target.role === 'admin') {
+      return { ok: false, error: 'Admins cannot remove other admins.' };
+    }
+    const selfHandle = username.trim().toLowerCase();
+    if (target.username.trim().toLowerCase() === selfHandle || target.id === '1') {
+      return { ok: false, error: 'You cannot remove yourself from the team.' };
+    }
+    setTeamMembers((members) => members.filter((member) => member.id !== memberId));
+    return { ok: true };
+  };
+
   const selectAvatar = (index: number) => {
     setSelectedAvatar(index);
     setAvatarUrl(PROFILE_AVATAR_OPTIONS[index]);
+    setAuthError(null);
+  };
+
+  const uploadCustomAvatar = async (file: File | null | undefined) => {
+    if (!file) return;
+    try {
+      setAuthError(null);
+      const dataUrl = await readImageFileAsAvatarDataUrl(file);
+      setSelectedAvatar(-1);
+      setAvatarUrl(dataUrl);
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Could not upload avatar.');
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -247,9 +332,14 @@ export function useProfilePaneForm({
     selectedAvatar,
     avatarUrl,
     teamMembers,
+    currentRole,
+    canManageTeam,
     profileAutosavePayload,
     verifiedRef,
     selectAvatar,
+    uploadCustomAvatar,
+    inviteTeamMember,
+    removeTeamMember,
     handleSubmit,
   };
 }

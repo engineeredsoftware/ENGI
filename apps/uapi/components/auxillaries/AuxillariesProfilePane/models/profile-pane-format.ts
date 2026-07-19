@@ -8,6 +8,55 @@ import type {
   OrganizationPolicyAuthority,
 } from '@/app/auxillaries/auxillary-onboarding-contract';
 
+/** Max edge for custom avatar data URLs (keeps profile payload bounded). */
+export const CUSTOM_AVATAR_MAX_EDGE_PX = 256;
+export const CUSTOM_AVATAR_JPEG_QUALITY = 0.84;
+
+/**
+ * Read a File as a compressed square-friendly JPEG data URL for avatar_url.
+ */
+export function readImageFileAsAvatarDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) {
+      reject(new Error('Avatar must be an image file.'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Could not read avatar file.'));
+    reader.onload = () => {
+      const raw = typeof reader.result === 'string' ? reader.result : '';
+      if (!raw) {
+        reject(new Error('Empty avatar file.'));
+        return;
+      }
+      const image = new Image();
+      image.onerror = () => reject(new Error('Could not decode avatar image.'));
+      image.onload = () => {
+        const maxEdge = CUSTOM_AVATAR_MAX_EDGE_PX;
+        const scale = Math.min(1, maxEdge / Math.max(image.width, image.height, 1));
+        const width = Math.max(1, Math.round(image.width * scale));
+        const height = Math.max(1, Math.round(image.height * scale));
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('Could not process avatar image.'));
+          return;
+        }
+        ctx.drawImage(image, 0, 0, width, height);
+        try {
+          resolve(canvas.toDataURL('image/jpeg', CUSTOM_AVATAR_JPEG_QUALITY));
+        } catch (error) {
+          reject(error instanceof Error ? error : new Error('Could not encode avatar.'));
+        }
+      };
+      image.src = raw;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function buildAvatarDataUri(seed: string, background: string, accent: string) {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">

@@ -20,6 +20,7 @@ import OrganizationAuthoritySection from './OrganizationAuthoritySection/Organiz
 import ProfileEmailSection from './ProfileEmailSection/ProfileEmailSection';
 import ProfileIdentitySection from './ProfileIdentitySection/ProfileIdentitySection';
 import ProfileReadinessSection from './ProfileReadinessSection/ProfileReadinessSection';
+import ProfileTeamViewSection from './ProfileTeamViewSection/ProfileTeamViewSection';
 
 export type { AuxillariesProfilePaneProps } from './AuxillariesProfilePane.types';
 
@@ -121,8 +122,19 @@ export default function AuxillariesProfilePane({
             bio={form.bio}
             setBio={form.setBio}
             selectedAvatar={form.selectedAvatar}
+            avatarUrl={form.avatarUrl}
             selectAvatar={form.selectAvatar}
+            uploadCustomAvatar={form.uploadCustomAvatar}
+            avatarError={form.authError}
+          />
+
+          <ProfileTeamViewSection
             teamMembers={form.teamMembers}
+            currentUsername={form.username}
+            currentRole={form.currentRole}
+            canManageTeam={form.canManageTeam}
+            onInvite={form.inviteTeamMember}
+            onRemove={form.removeTeamMember}
           />
 
           <div className="auxillaries-glass-card rounded-none border border-white/10 px-5 py-4">
