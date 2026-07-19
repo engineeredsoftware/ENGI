@@ -60,6 +60,7 @@ RUN pnpm install --frozen-lockfile \
   --filter @bitcode/execution-generics... \
   --filter @bitcode/btd... \
   --filter @bitcode/supabase... \
+  --filter @bitcode/generic-tools-repository-setup... \
   || pnpm install --frozen-lockfile
 
 # Project-wide: expose every workspace package at root node_modules/@bitcode/*

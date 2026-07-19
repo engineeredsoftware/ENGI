@@ -96,6 +96,7 @@
     "@bitcode/supabase": "workspace:*",
     "@bitcode/tools-generics": "workspace:*",
     "@bitcode/generic-tools-vcs": "workspace:*",
+    "@bitcode/generic-tools-repository-setup": "workspace:*",
     "@bitcode/generic-tools-lsp-query": "workspace:*",
     "@bitcode/lsp": "workspace:*",
     "openai": "^4.0.0",

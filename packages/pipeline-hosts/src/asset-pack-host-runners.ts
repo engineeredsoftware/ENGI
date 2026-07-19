@@ -118,24 +118,33 @@ function unwrapModuleNamespace(mod) {
 async function importMonorepoModule(label, candidates) {
   const tried = [];
   let lastError = null;
+  // Prefer an import-time failure (module graph) over later ENOENT on a fallback path.
+  let preferredError = null;
   for (const rel of candidates) {
     const abs = path.join(monorepoRoot, rel);
     tried.push(abs);
     try {
       await access(abs, fsConstants.R_OK);
+    } catch (err) {
+      lastError = err;
+      continue;
+    }
+    try {
       const raw = await import(pathToFileURL(abs).href);
       return unwrapModuleNamespace(raw);
     } catch (err) {
       lastError = err;
+      if (!preferredError) preferredError = err;
     }
   }
-  const detail = lastError instanceof Error ? lastError.message : String(lastError || 'missing');
-  // Do NOT always claim "image outdated" — that string used to append to every
-  // failure and masked real causes (e.g. package.json exports → missing .js
-  // while only .ts is shipped; pnpm link gaps). Prefer the nested error.
+  const report = preferredError || lastError;
+  const detail = report instanceof Error ? report.message : String(report || 'missing');
+  // Prefer nested error; only hint at missing monorepo paths for path-shaped fails.
+  // RegExp() constructor (not slash-delimiters): this function body is embedded in
+  // an outer template string, so slash escapes collapse and can free-bind identifiers.
   const looksLikeMissingPath =
     /ENOENT|no such file|Cannot find module/i.test(detail) &&
-    /syntheses\/|asset-packs-pipelines\/domain/i.test(tried.join(' '));
+    new RegExp('syntheses/|asset-packs-pipelines/domain', 'i').test(tried.join(' '));
   const hint = looksLikeMissingPath
     ? ' Candidate monorepo paths are missing from the Pipeliner image — rebuild/push Pipeliner (syntheses/ layout) and set BITCODE_PIPELINE_SANDBOX_IMAGE.'
     : ' Nested import failed after the entry file was found (often package.json exports point at .js while only .ts is in the image, or a workspace link is missing).';
