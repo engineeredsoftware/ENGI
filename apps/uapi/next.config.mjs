@@ -84,6 +84,11 @@ let nextConfig = {
     // Monorepo root so workspace packages outside apps/uapi trace correctly
     // without falling back to over-broad project trees on Vercel.
     outputFileTracingRoot: path.join(__dirname, '../..'),
+    // Pitch deck SoT lives at monorepo `.bd/the-pitch.key` (not public/).
+    // Include it only for the deck route so NFT can stream the single file.
+    outputFileTracingIncludes: {
+      '/api/deck': ['./.bd/the-pitch.key', '../../.bd/the-pitch.key'],
+    },
     // Next 14.x: tracing excludes live under experimental (stable top-level
     // only in later majors). Specifying is repo metadevelopment only — never
     // product runtime. Tests/snapshots and other non-runtime trees must stay
