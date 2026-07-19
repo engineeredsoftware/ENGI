@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 
 jest.mock('@bitcode/orm', () => ({
@@ -97,5 +97,55 @@ describe('useUserData hydration posture', () => {
     const companion = require('../hooks/useUserData.js');
 
     expect(companion.resetUserDataCacheForTests).toEqual(expect.any(Function));
+  });
+
+  it('propagates mutateUserData revalidation to every mounted useUserData instance', async () => {
+    const fetchMock = jest
+      .fn()
+      .mockResolvedValueOnce(
+        jsonResponse({
+          btdBalance: 0,
+          repositories: [],
+          githubConnection: null,
+          repositoryConnectionStatus: { connected: false, valid: false, provider: 'github' },
+        }),
+      )
+      .mockResolvedValueOnce(
+        jsonResponse({
+          btdBalance: 0,
+          repositories: [{ fullName: 'acme/bitcode' }, { fullName: 'acme/engine' }],
+          githubConnection: { provider: 'github', username: 'acme' },
+          repositoryConnectionStatus: {
+            connected: true,
+            valid: true,
+            provider: 'github',
+            username: 'acme',
+          },
+        }),
+      );
+    global.fetch = fetchMock as jest.Mock;
+
+    // Surface chrome + Externals pane each call useUserData() independently.
+    const chrome = renderHook(() => useUserData());
+    const externals = renderHook(() => useUserData());
+
+    await waitFor(() => {
+      expect(chrome.result.current.hasGitHubConnection).toBe(false);
+      expect(externals.result.current.hasGitHubConnection).toBe(false);
+    });
+
+    // GitHub connect path refreshes only via one pane's refresh() today.
+    await act(async () => {
+      await externals.result.current.refresh();
+    });
+
+    await waitFor(() => {
+      expect(externals.result.current.hasGitHubConnection).toBe(true);
+      expect(externals.result.current.repositories).toHaveLength(2);
+      // Chrome must adopt the shared cache without a full page reload.
+      expect(chrome.result.current.hasGitHubConnection).toBe(true);
+      expect(chrome.result.current.hasValidGitHubConnection).toBe(true);
+      expect(chrome.result.current.repositories).toHaveLength(2);
+    });
   });
 });

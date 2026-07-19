@@ -294,12 +294,23 @@ async function fetchUserData(options: { revalidate?: boolean } = {}): Promise<Ag
 // Force refresh while keeping the previous snapshot until the new fetch lands
 // (stale-while-revalidate). Clearing `cached` first caused route remounts of
 // Nav to flash "Reading wallet" whenever mutateUserData ran mid-navigation.
+//
+// Each useUserData() call owns its own React state. After revalidate, broadcast
+// so every mounted instance adopts the new module cache (e.g. GitHub connect
+// refreshes Externals while Auxillaries chrome still needs Authorize GitHub).
 export async function mutateUserData(): Promise<AggregatedUserData> {
-  return fetchUserData({ revalidate: true });
+  const fresh = await fetchUserData({ revalidate: true });
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent(BITCODE_USER_DATA_UPDATED_EVENT));
+  }
+  return fresh;
 }
 
 /** Browser event: Disconnect / sign-out optimistically wiped shared user data. */
 export const BITCODE_USER_DATA_CLEARED_EVENT = 'bitcode-user-data-cleared';
+
+/** Browser event: shared user-data cache revalidated — all hook instances should adopt. */
+export const BITCODE_USER_DATA_UPDATED_EVENT = 'bitcode-user-data-updated';
 
 function buildAnonymousUserData(): AggregatedUserData {
   return {
@@ -416,14 +427,34 @@ export function useUserData() {
       setCachedBtdBalance(0);
       setError(null);
     };
+    const applyUpdatedIdentity = () => {
+      if (!cached) return;
+      bitcodeQaTelemetry('info', 'user-data', 'updated-applied', {
+        hasProfile: Boolean(cached.profile),
+        hasWallet: Boolean(cached.walletConnectionStatus?.connected),
+        hasGitHub: Boolean(
+          cached.githubConnection ||
+            cached.vcsConnections?.some((conn) => conn.provider === 'github'),
+        ),
+        repositoryCount: Array.isArray(cached.repositories) ? cached.repositories.length : 0,
+      });
+      setData(cached);
+      setError(null);
+      const balance = typeof cached.btdBalance === 'number' ? cached.btdBalance : null;
+      if (typeof balance === 'number') {
+        setCachedBtdBalance(balance);
+      }
+    };
 
     window.addEventListener(BITCODE_LOCAL_WALLET_EVENT, refreshAfterLocalWalletChange);
     window.addEventListener('storage', refreshAfterStorageChange);
     window.addEventListener(BITCODE_USER_DATA_CLEARED_EVENT, applyClearedIdentity);
+    window.addEventListener(BITCODE_USER_DATA_UPDATED_EVENT, applyUpdatedIdentity);
     return () => {
       window.removeEventListener(BITCODE_LOCAL_WALLET_EVENT, refreshAfterLocalWalletChange);
       window.removeEventListener('storage', refreshAfterStorageChange);
       window.removeEventListener(BITCODE_USER_DATA_CLEARED_EVENT, applyClearedIdentity);
+      window.removeEventListener(BITCODE_USER_DATA_UPDATED_EVENT, applyUpdatedIdentity);
     };
   }, [refresh]);
 
