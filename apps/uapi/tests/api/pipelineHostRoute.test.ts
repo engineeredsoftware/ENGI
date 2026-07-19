@@ -354,7 +354,15 @@ const ENV_KEYS = [
   'BITCODE_ASSET_PACK_REAL_INFERENCE',
   'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
   'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS',
+  'BITCODE_LLM_PROVIDER',
+  'BITCODE_LLM_MODEL',
   'OPENAI_API_KEY',
+  'XAI_API_KEY',
+  'GROK_API_KEY',
+  'ANTHROPIC_API_KEY',
+  'GOOGLE_GENERATIVE_AI_API_KEY',
+  'GEMINI_API_KEY',
+  'GOOGLE_API_KEY',
   'SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_URL',
   'SUPABASE_SERVICE_ROLE_KEY',
@@ -445,6 +453,15 @@ describe('POST /api/pipeline-host/asset-pack', () => {
     restoreEnv();
     delete process.env.VERCEL;
     delete process.env.VERCEL_ENV;
+    // Isolate provider credentials so host env selection is deterministic.
+    delete process.env.XAI_API_KEY;
+    delete process.env.GROK_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
+    delete process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    delete process.env.GEMINI_API_KEY;
+    delete process.env.GOOGLE_API_KEY;
+    delete process.env.BITCODE_LLM_PROVIDER;
+    delete process.env.BITCODE_LLM_MODEL;
     process.env.NODE_ENV = 'development';
     process.env.SUPABASE_URL = 'https://staging.example.test';
     process.env.SUPABASE_SERVICE_ROLE_KEY = adminCredential;

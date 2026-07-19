@@ -137,6 +137,18 @@ export function assertDatabaseStreamingEnvironment(
   }
 }
 
+export function hasAnyModelProviderCredential(env: Record<string, string>): boolean {
+  return Boolean(
+    env.XAI_API_KEY ||
+      env.GROK_API_KEY ||
+      env.OPENAI_API_KEY ||
+      env.ANTHROPIC_API_KEY ||
+      env.GOOGLE_GENERATIVE_AI_API_KEY ||
+      env.GEMINI_API_KEY ||
+      env.GOOGLE_API_KEY,
+  );
+}
+
 export function assertRealInferenceEnvironment(env: Record<string, string>): void {
   if (!isPipelineHostRealInferenceRequired(env)) return;
   if (!isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE)) {
@@ -144,9 +156,9 @@ export function assertRealInferenceEnvironment(env: Record<string, string>): voi
       'Staging pipeline host requires BITCODE_ASSET_PACK_REAL_INFERENCE=1 so Read/Fit QA cannot run deterministic bring-up branches.'
     );
   }
-  if (!env.OPENAI_API_KEY) {
+  if (!hasAnyModelProviderCredential(env)) {
     throw new Error(
-      'Staging pipeline host requires OPENAI_API_KEY for real AssetPack PTRR inference.'
+      'Staging pipeline host requires an LLM credential for real AssetPack PTRR inference (XAI_API_KEY preferred; or OPENAI_API_KEY / ANTHROPIC_API_KEY / Google).'
     );
   }
   if (readRealInferenceProfile(env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE) !== 'bounded') {
@@ -172,7 +184,15 @@ export function normalizeModelEnvironment(env: Record<string, string>): void {
     delete env.BITCODE_LLM_MODEL;
   }
 
-  if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
+  // Prefer xAI when its key is present (Bitcode deploy default), then Anthropic, then OpenAI.
+  if (!env.BITCODE_LLM_PROVIDER && (env.XAI_API_KEY || env.GROK_API_KEY)) {
+    env.BITCODE_LLM_PROVIDER = 'xai';
+    if (!env.BITCODE_LLM_MODEL) {
+      env.BITCODE_LLM_MODEL = 'grok-3-mini';
+    }
+  } else if (!env.BITCODE_LLM_PROVIDER && env.ANTHROPIC_API_KEY) {
+    env.BITCODE_LLM_PROVIDER = 'anthropic';
+  } else if (!env.BITCODE_LLM_PROVIDER && env.OPENAI_API_KEY) {
     env.BITCODE_LLM_PROVIDER = 'openai';
   }
 }
@@ -183,6 +203,9 @@ function hasModelProviderCredential(provider: string, env: Record<string, string
       return Boolean(env.OPENAI_API_KEY);
     case 'anthropic':
       return Boolean(env.ANTHROPIC_API_KEY);
+    case 'xai':
+    case 'grok':
+      return Boolean(env.XAI_API_KEY || env.GROK_API_KEY);
     case 'google':
       return Boolean(env.GOOGLE_GENERATIVE_AI_API_KEY || env.GEMINI_API_KEY || env.GOOGLE_API_KEY);
     default:
@@ -214,6 +237,12 @@ export function summarizeHostPreflight(
     realInferenceEnabled: isEnabled(env.BITCODE_ASSET_PACK_REAL_INFERENCE),
     realInferenceRequired,
     openaiCredentialProvided: isUsableSecretValue(env.OPENAI_API_KEY),
+    xaiCredentialProvided: isUsableSecretValue(env.XAI_API_KEY || env.GROK_API_KEY),
+    modelCredentialProvided: hasAnyModelProviderCredential(
+      Object.fromEntries(
+        Object.entries(env).filter((entry): entry is [string, string] => typeof entry[1] === 'string'),
+      ),
+    ),
     supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
     supabaseHost,
     supabaseDbHost,

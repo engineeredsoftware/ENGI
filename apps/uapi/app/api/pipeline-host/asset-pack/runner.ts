@@ -55,8 +55,15 @@ const DEFAULT_READ_PROMPT =
   'Read the deposited repository revision and determine whether it contains a complete non-mock product path through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.';
 
 const TRUSTED_COMMAND_ENV_KEYS = [
+  // LLM provider credentials — must reach the sandbox; product defaults to xAI.
+  'XAI_API_KEY',
+  'GROK_API_KEY',
   'OPENAI_API_KEY',
   'OPENAI_BASE_URL',
+  'ANTHROPIC_API_KEY',
+  'GOOGLE_GENERATIVE_AI_API_KEY',
+  'GEMINI_API_KEY',
+  'GOOGLE_API_KEY',
   'SUPABASE_URL',
   'NEXT_PUBLIC_SUPABASE_URL',
   'SUPABASE_SERVICE_ROLE_KEY',

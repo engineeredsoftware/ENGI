@@ -120,6 +120,31 @@ describe('pipeline host preflight', () => {
     expect(env.BITCODE_LLM_MODEL).toBeUndefined();
   });
 
+  it('prefers xAI when XAI_API_KEY is present without an explicit provider pin', () => {
+    const env = {
+      XAI_API_KEY: modelCredential,
+      OPENAI_API_KEY: modelCredential,
+    } as Record<string, string>;
+
+    normalizeModelEnvironment(env);
+
+    expect(env.BITCODE_LLM_PROVIDER).toBe('xai');
+    expect(env.BITCODE_LLM_MODEL).toBe('grok-3-mini');
+  });
+
+  it('accepts XAI_API_KEY alone for real-inference strict runs', () => {
+    const env = {
+      NODE_ENV: 'development',
+      BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
+      BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
+      BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '240000',
+      XAI_API_KEY: modelCredential,
+    } as Record<string, string>;
+
+    expect(() => assertRealInferenceEnvironment(env)).not.toThrow();
+  });
+
   it('selects an admin-capable Supabase key instead of an anon key', () => {
     const env = {
       SUPABASE_SERVICE_ROLE_KEY: anonCredential,
