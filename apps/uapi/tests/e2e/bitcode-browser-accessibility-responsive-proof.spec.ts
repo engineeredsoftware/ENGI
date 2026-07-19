@@ -91,7 +91,7 @@ test.describe('Bitcode browser accessibility responsive proof', () => {
       await openCommercialRoute(page, '/packs?auxillary-open-to=wallet', /Wallet Auxillary/i);
 
       await expect(page.getByRole('main', { name: 'Bitcode Auxillaries support plane' })).toBeVisible();
-      await expect(page.getByRole('link', { name: 'Skip to active support pane' })).toBeVisible();
+      await expect(page.getByRole('link', { name: /Skip to .+ content/i })).toBeVisible();
       await expect(page.getByRole('navigation', { name: 'Auxillaries pane navigation' })).toBeVisible();
       await expect(page.getByRole('region', { name: /Wallet active support pane/i })).toBeVisible();
       await expectNoHorizontalOverflow(page, `auxillaries-${viewport.id}-default`);

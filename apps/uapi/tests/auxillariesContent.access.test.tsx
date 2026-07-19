@@ -82,7 +82,7 @@ describe('AuxillariesContent contained accessibility shell', () => {
     );
 
     expect(screen.getByRole('main', { name: 'Bitcode Auxillaries support plane' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Skip to active support pane' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Skip to Interfaces content' })).toHaveAttribute(
       'href',
       '#auxillaries-active-pane',
     );

@@ -461,8 +461,18 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           data-auxillaries-testid="auxillaries-main-landmark"
           data-testid="auxillaries-main-landmark"
         >
-          <a className="auxillaries-skip-link" href="#auxillaries-active-pane">
-            Skip to active support pane
+          {/*
+            Focus-first skip link (WCAG 2.4.1). Hidden until Tab focuses it.
+            Jumps past chrome + left selector into the open pane region so
+            keyboard users need not tab through every nav card first.
+          */}
+          <a
+            className="auxillaries-skip-link"
+            href="#auxillaries-active-pane"
+            data-testid="auxillaries-skip-to-pane"
+            data-auxillaries-testid="auxillaries-skip-to-pane"
+          >
+            {`Skip to ${activePaneLabel} content`}
           </a>
           {chromeActions || chromeRightActions ? (
             <div
