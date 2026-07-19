@@ -242,40 +242,17 @@ describe('AuxillariesWalletPane', () => {
     expect(screen.getByText('policy-main')).toBeInTheDocument();
     expect(screen.getByText('policy-has...567890')).toBeInTheDocument();
     expect(screen.getByText('1,200-1,211')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /Choose how \$BTD detail should read back into transactions/i })).toBeTruthy();
-    expect(screen.getByText(/broader registry participation first/i)).toBeInTheDocument();
+    // Share posture preference cards stay in code but are hidden for now.
+    expect(
+      screen.queryByRole('heading', {
+        name: /Choose how \$BTD detail should read back into transactions/i,
+      }),
+    ).not.toBeInTheDocument();
     expect(screen.getByLabelText(/AssetPack source-share object is a contiguous range/i)).toBeInTheDocument();
-    expect(screen.getByText(/network registry posture should dominate/i)).toBeInTheDocument();
     expect(screen.queryByText(new RegExp(`market ${'participation'}`, 'i'))).not.toBeInTheDocument();
     expect(screen.queryByText(new RegExp(`com${'mercial'} source-share object`, 'i'))).not.toBeInTheDocument();
     expect(screen.queryByText(new RegExp(`network ${'share'} posture`, 'i'))).not.toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: /organization/i }));
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: /replay bias toward replayable accounting and witness detail\./i,
-      }),
-    );
-    fireEvent.click(screen.getByRole('button', { name: /proofs/i }));
-
-    expect(screen.getByText(/Changes save automatically so the BTD posture/i)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Continue' })).not.toBeInTheDocument();
-
-    await waitFor(
-      () => {
-        expect(onSave).toHaveBeenCalledWith(
-          expect.objectContaining({
-            existingSetting: 'keep-me',
-            btdDefaults: expect.objectContaining({
-              shareLens: 'organization',
-              settlementView: 'replay',
-              btdDetailView: 'proofs',
-            }),
-          }),
-        );
-      },
-      { timeout: 2000 },
-    );
   });
 
   it('surfaces reconnect-required copy when saved verified signer posture lacks a live wallet-provider session', async () => {

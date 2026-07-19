@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 
 import WalletPane from '@/components/auxillaries/AuxillariesWalletPane/AuxillariesWalletPane';
 import { useAuth } from '@/components/bitcode/auth/AuthProvider/AuthProvider';
@@ -64,7 +64,7 @@ describe('WalletPane interactions', () => {
     jest.restoreAllMocks();
   });
 
-  it('submits merged $BTD defaults through the auxillaries pane', async () => {
+  it('keeps share posture controls hidden while still marking the wallet step complete', async () => {
     const onSave = jest.fn();
     const onCompletionStatusChange = jest.fn();
 
@@ -80,26 +80,13 @@ describe('WalletPane interactions', () => {
       expect(screen.queryByText('loading…')).not.toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /organization/i }));
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: /replay bias toward replayable accounting and witness detail\./i,
+    // Share posture preference cards stay in code but are hidden for now.
+    expect(
+      screen.queryByRole('heading', {
+        name: /Choose how \$BTD detail should read back into transactions/i,
       }),
-    );
-    fireEvent.click(screen.getByRole('button', { name: /proofs/i }));
-
-    await waitFor(() => {
-      expect(onSave).toHaveBeenCalledWith(
-        expect.objectContaining({
-          existingSetting: 'keep-me',
-          btdDefaults: expect.objectContaining({
-            shareLens: 'organization',
-            settlementView: 'replay',
-            btdDetailView: 'proofs',
-          }),
-        }),
-      );
-    });
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /organization/i })).not.toBeInTheDocument();
     expect(onCompletionStatusChange).toHaveBeenCalledWith(true);
   });
 });

@@ -20,6 +20,9 @@ import AuxillariesWorkspaceSection from '@/components/auxillaries/shared/Auxilla
 import { useWalletPaneState } from './hooks/use-wallet-pane-state';
 import WalletBtdPostureSection from './WalletBtdPostureSection/WalletBtdPostureSection';
 
+/** Keep share-posture preference cards in code; hide the control set from the pane for now. */
+const SHOW_SHARE_POSTURE_SECTION = false;
+
 export interface AuxillariesWalletPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
@@ -112,21 +115,26 @@ export default function AuxillariesWalletPane({
             ) : null}
           </AuxillariesWorkspaceSection>
 
-          <AuxillariesWorkspaceSection
-            kicker="Share posture"
-            title="Choose how $BTD detail should read back into transactions"
-            description="Use the inner auxillary to decide whether account, organization, or network registry posture should dominate when you reopen main operator surfaces."
-            explainer={auxillaryPaneExplainers.btdShares}
-            tone="violet"
-          >
-            <AuxillariesPreferenceCards items={state.preferenceCards} />
-          </AuxillariesWorkspaceSection>
+          {/* Preference cards kept in code; UI hidden until product re-enables this control set. */}
+          {SHOW_SHARE_POSTURE_SECTION ? (
+            <AuxillariesWorkspaceSection
+              kicker="Share posture"
+              title="Choose how $BTD detail should read back into transactions"
+              description="Use the inner auxillary to decide whether account, organization, or network registry posture should dominate when you reopen main operator surfaces."
+              explainer={auxillaryPaneExplainers.btdShares}
+              tone="violet"
+            >
+              <AuxillariesPreferenceCards items={state.preferenceCards} />
+            </AuxillariesWorkspaceSection>
+          ) : null}
 
-          <div className="rounded-none border border-white/10 auxillaries-glass-card px-5 py-4">
-            <p className="text-sm leading-7 text-white/68">
-              Changes save automatically so the BTD posture reopens with the same share and wallet-facing defaults.
-            </p>
-          </div>
+          {SHOW_SHARE_POSTURE_SECTION ? (
+            <div className="rounded-none border border-white/10 auxillaries-glass-card px-5 py-4">
+              <p className="text-sm leading-7 text-white/68">
+                Changes save automatically so the BTD posture reopens with the same share and wallet-facing defaults.
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

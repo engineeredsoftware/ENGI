@@ -67,6 +67,7 @@ describe('WalletPane (SSR)', () => {
     expect(html).toContain('Keep BTC fees, BTD holdings, and wallet identity readable together');
     expect(html).toContain('250 BTD');
     expect(html).toContain('0.25 BTC');
-    expect(html).toContain('Choose how $BTD detail should read back into transactions');
+    // Share posture preference cards stay in code but are hidden for now.
+    expect(html).not.toContain('Choose how $BTD detail should read back into transactions');
   });
 });

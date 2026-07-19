@@ -89,7 +89,8 @@ describe('AuxillariesInterfacesPane', () => {
     );
 
     expect(screen.getAllByText('Auxillary step 4')).toHaveLength(2);
-    expect(screen.getByText(/Pack detail and interface defaults/i)).toBeTruthy();
+    // Interface defaults preference cards stay in code but are hidden for now.
+    expect(screen.queryByText(/Pack detail and interface defaults/i)).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Read–Deposit system prompt/i })).toBeTruthy();
     expect(screen.getByText(/Registry fixed/i)).toBeInTheDocument();
     expect(screen.getByTestId('auxillaries-interface-admission-catalog')).toBeInTheDocument();
@@ -101,13 +102,6 @@ describe('AuxillariesInterfacesPane', () => {
     expect(screen.getByText(/1\/3 ready/i)).toBeInTheDocument();
     expect(screen.queryByText(/Apply review model/i)).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /signal/i }));
-    fireEvent.click(screen.getByRole('button', { name: /chatgpt app/i }));
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: /raw bias toward exact payload reading first\./i,
-      }),
-    );
     fireEvent.change(screen.getByLabelText(/Shared system prompt/i), {
       target: { value: 'Keep closure exact and user-facing.' },
     });
@@ -123,16 +117,6 @@ describe('AuxillariesInterfacesPane', () => {
             globalSystemPrompt: 'Keep closure exact and user-facing.',
             ledgerizedPipelineModels: 'registry_deterministic',
             modelSelectionScope: 'non_ledgerized_conversation_only',
-            interfacesDefaults: expect.objectContaining({
-              productDetailDensity: 'signal',
-              externalInterfaceEntry: 'chatgpt',
-              proofMode: 'raw',
-            }),
-            workspaceDefaults: expect.objectContaining({
-              productDetailDensity: 'signal',
-              externalInterfaceEntry: 'chatgpt',
-              proofMode: 'raw',
-            }),
           }),
         );
         const payload = onSave.mock.calls.at(-1)?.[0] as Record<string, unknown>;

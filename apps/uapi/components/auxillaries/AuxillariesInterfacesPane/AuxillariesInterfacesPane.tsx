@@ -17,6 +17,9 @@ import AuxillariesWorkspaceSection from '@/components/auxillaries/shared/Auxilla
 import { useInterfacesPaneState } from './hooks/use-interfaces-pane-state';
 import InterfaceAdmissionCatalog from './InterfaceAdmissionCatalog/InterfaceAdmissionCatalog';
 
+/** Keep preference-card state/code; hide the control set from the pane for now. */
+const SHOW_INTERFACE_DEFAULTS_SECTION = false;
+
 export interface AuxillariesInterfacesPaneProps {
   onSave: (data: any) => void;
   loading: boolean;
@@ -122,14 +125,17 @@ export default function AuxillariesInterfacesPane({
           </AuxillariesWorkspaceSection>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <AuxillariesWorkspaceSection
-              kicker="Interface defaults"
-              title="Pack detail and interface defaults"
-              description="Set the opening behavior the operator should see when moving between product transactions, proofs, the MCP API, and the ChatGPT App."
-              explainer={auxillaryPaneExplainers.interfacesDefaults}
-            >
-              <AuxillariesPreferenceCards items={preferenceCards} />
-            </AuxillariesWorkspaceSection>
+            {/* Preference cards kept in code; UI hidden until product re-enables this control set. */}
+            {SHOW_INTERFACE_DEFAULTS_SECTION ? (
+              <AuxillariesWorkspaceSection
+                kicker="Interface defaults"
+                title="Pack detail and interface defaults"
+                description="Set the opening behavior the operator should see when moving between product transactions, proofs, the MCP API, and the ChatGPT App."
+                explainer={auxillaryPaneExplainers.interfacesDefaults}
+              >
+                <AuxillariesPreferenceCards items={preferenceCards} />
+              </AuxillariesWorkspaceSection>
+            ) : null}
 
             <AuxillariesWorkspaceSection
               kicker="Shared system prompt"
