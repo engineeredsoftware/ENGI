@@ -117,6 +117,57 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+/** Context may arrive as a JSON object or a stringified JSON blob from storage. */
+function parseExecutionContext(value: unknown): Record<string, unknown> | null {
+  if (isRecord(value)) return value;
+  if (typeof value === 'string' && value.trim()) {
+    try {
+      const parsed = JSON.parse(value) as unknown;
+      return isRecord(parsed) ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+/**
+ * Resolve activity-ledger context.source when the field is missing/renamed but
+ * the row is still clearly an anchor (summary / output payload).
+ */
+function resolveContextSource(
+  context: Record<string, unknown> | null,
+  run: PipelineExecution,
+  summary: string | null,
+): string | null {
+  const fromContext =
+    typeof context?.source === 'string' && context.source.trim()
+      ? context.source.trim()
+      : null;
+  if (fromContext) return fromContext;
+
+  const output = isRecord(run.output) ? run.output : null;
+  if (isRecord(output?.repositoryAnchor) || isRecord(output?.repository_anchor)) {
+    return 'terminal-repository-context-panel';
+  }
+  if (isRecord(output?.obfuscationsAnchor) || isRecord(output?.obfuscations_anchor)) {
+    return 'deposit-obfuscations-anchor';
+  }
+  if (isRecord(output?.needAnchor) || isRecord(output?.need_anchor)) {
+    return 'read-need-anchor';
+  }
+  if (summary && /recorded repository anchor/i.test(summary)) {
+    return 'terminal-repository-context-panel';
+  }
+  if (summary && /anchored .+obfuscations/i.test(summary)) {
+    return 'deposit-obfuscations-anchor';
+  }
+  if (summary && /anchored .+need/i.test(summary)) {
+    return 'read-need-anchor';
+  }
+  return null;
+}
+
 function readRowValue(rows: Array<{ label: string; value: string }>, label: string) {
   return rows.find((row) => row.label === label)?.value || '—';
 }
@@ -501,6 +552,12 @@ export function buildProductFitWorkbenchDraft(
   };
 }
 
+/**
+ * Canonical activity-ledger source for repository anchors.
+ * Must match deriveRepositoryAnchors / DEPOSIT_ACTIVITY_LEDGER_SOURCES.
+ */
+export const REPOSITORY_ANCHOR_CONTEXT_SOURCE = 'terminal-repository-context-panel';
+
 export function buildProductRepositoryAnchorDraft(
   repositoryContext: RepositoryContextState,
 ): ProductActivityRecordDraft {
@@ -514,6 +571,9 @@ export function buildProductRepositoryAnchorDraft(
   return {
     type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
+    // Stay on compose after save — opening the anchor row remounts ProductDetailStage
+    // and re-plays Need/Obfuscations entrance motion.
+    selectAfterRecord: false,
     summary: `Recorded repository anchor for ${selectedRepository?.fullName || 'the current Bitcode supply boundary'}.`,
     output: {
       repositoryAnchor: {
@@ -553,7 +613,7 @@ export function buildProductRepositoryAnchorDraft(
       },
     },
     context: {
-      source: 'repository-context-panel',
+      source: REPOSITORY_ANCHOR_CONTEXT_SOURCE,
       provider: repositoryContext.provider,
       providerAccount,
       inventorySource: repositoryContext.inventorySource || null,
@@ -597,6 +657,8 @@ export function buildProductObfuscationsAnchorDraft(input: {
   return {
     type: 'agentic-execution:asset-pack',
     detailSection: 'transaction',
+    // Stay on compose after save (same as Need / repository anchors).
+    selectAfterRecord: false,
     summary: `Anchored ${namedPrefix}Obfuscations configuration${repoSuffix}.`,
     output: {
       obfuscationsAnchor: {
@@ -722,7 +784,9 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       status: run.status,
     });
   const repoSnapshot = run.repo_snapshot || run.asset_pack_completion?.repoSnapshot || null;
-  const context = isRecord(run.context) ? run.context : null;
+  const context =
+    parseExecutionContext(run.context) ||
+    parseExecutionContext((run as { metadata?: unknown }).metadata);
   const contextString = (key: string) => {
     const value = context?.[key];
     return typeof value === 'string' && value.trim() ? value.trim() : null;
@@ -735,31 +799,72 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     statusLower === 'cancelled'
       ? errorMessage
       : null;
+  const summary =
+    run.summary ||
+    run.asset_pack_completion?.summary ||
+    run.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
+    run.asset_pack_completion?.writtenAssets?.summary ||
+    run.asset_pack_completion?.settleDelivery?.summary ||
+    run.asset_pack_completion?.deliveryMechanism?.summary ||
+    contextString('summary') ||
+    failureSummary ||
+    null;
+  const contextSource = resolveContextSource(context, run, summary);
+  const isLedgerAnchor =
+    contextSource === 'terminal-repository-context-panel' ||
+    contextSource === 'repository-context-panel' ||
+    contextSource === 'deposit-obfuscations-anchor' ||
+    contextSource === 'read-need-anchor';
+  // Anchors are completed history bookmarks — never present as "AssetPack bundle ready".
+  const proofStatus = isLedgerAnchor
+    ? contextSource === 'deposit-obfuscations-anchor'
+      ? 'Obfuscations anchor'
+      : contextSource === 'read-need-anchor'
+        ? 'Need anchor'
+        : 'Repository anchor'
+    : agenticExecution.proofStatus;
+  const closureFocus = isLedgerAnchor
+    ? 'Activity ledger bookmark'
+    : agenticExecution.closureFocus;
 
   return {
     id: run.id,
     created_at: run.created_at,
     status: run.status,
     type: agenticExecution.canonicalType,
-    agentic_execution: agenticExecution,
+    agentic_execution: isLedgerAnchor
+      ? {
+          ...agenticExecution,
+          proofStatus,
+          closureFocus,
+          label:
+            contextSource === 'deposit-obfuscations-anchor'
+              ? 'Obfuscations anchor'
+              : contextSource === 'read-need-anchor'
+                ? 'Need anchor'
+                : 'Repository anchor',
+        }
+      : agenticExecution,
     sourceModel: 'execution-history',
     errorMessage,
-    summary:
-      run.summary ||
-      run.asset_pack_completion?.summary ||
-      run.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
-      run.asset_pack_completion?.writtenAssets?.summary ||
-      run.asset_pack_completion?.settleDelivery?.summary ||
-      run.asset_pack_completion?.deliveryMechanism?.summary ||
-      failureSummary ||
-      null,
+    summary,
     repository:
       repoSnapshot
         ? `${repoSnapshot.org}/${repoSnapshot.repo}`
-        : contextString('repositoryFullName'),
-    branch: repoSnapshot?.branch || contextString('sourceBranch'),
-    sourceCommit: repoSnapshot?.commit || contextString('sourceCommit'),
-    contextSource: contextString('source'),
+        : contextString('repositoryFullName') ||
+          readNestedString(run.output, ['repositoryAnchor', 'repository', 'fullName']) ||
+          readNestedString(run.output, ['repositoryAnchor', 'sourceSelection', 'repository']),
+    branch:
+      repoSnapshot?.branch ||
+      contextString('sourceBranch') ||
+      readNestedString(run.output, ['repositoryAnchor', 'repository', 'selectedBranch']) ||
+      readNestedString(run.output, ['repositoryAnchor', 'sourceSelection', 'branch']),
+    sourceCommit:
+      repoSnapshot?.commit ||
+      contextString('sourceCommit') ||
+      readNestedString(run.output, ['repositoryAnchor', 'repository', 'selectedCommit']) ||
+      readNestedString(run.output, ['repositoryAnchor', 'sourceSelection', 'commit']),
+    contextSource,
     contextWorkbench: contextString('workbench'),
     candidateAssetId: contextString('candidateAssetId'),
     obfuscationsAnchorText: readNestedString(run.output, ['obfuscationsAnchor', 'text']),
@@ -843,11 +948,13 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     // context decides when present: deposit-option-synthesis rows are the
     // deposit lens; a synthesisMode of 'read' marks the read lens.
     transactionLens:
-      contextString('source') === 'deposit-option-synthesis'
+      contextSource === 'deposit-option-synthesis'
         ? 'deposit'
-        : contextString('synthesisMode') === 'read'
+        : contextString('synthesisMode') === 'read' || contextSource === 'read-need-anchor'
           ? 'read'
-          : agenticExecution.lens,
+          : isLedgerAnchor
+            ? 'deposit'
+            : agenticExecution.lens,
     itemCount: run.items?.length || 0,
     tokenTotal:
       run.processing_stats?.tokens?.total ?? run.asset_pack_completion?.processingStats?.tokens?.total ?? null,
@@ -855,8 +962,8 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     btcFeeUsdEquivalent: run.processing_stats?.btcFeeUsdEquivalent ?? run.asset_pack_completion?.processingStats?.btcFeeUsdEquivalent ?? null,
     averageLatencyMs:
       run.processing_stats?.averageLatencyMs ?? run.asset_pack_completion?.processingStats?.averageLatencyMs ?? null,
-    proofStatus: agenticExecution.proofStatus,
-    closureFocus: agenticExecution.closureFocus,
+    proofStatus,
+    closureFocus,
   };
 }
 

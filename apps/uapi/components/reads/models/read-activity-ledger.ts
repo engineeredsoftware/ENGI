@@ -12,6 +12,8 @@ import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline
 export const READ_ACTIVITY_LEDGER_SOURCES = new Set([
   "read-need-anchor",
   "terminal-repository-context-panel",
+  // Legacy alias written by older repository-anchor drafts.
+  "repository-context-panel",
 ]);
 
 export type ReadNeedAnchor = {
@@ -24,15 +26,31 @@ export type ReadNeedAnchor = {
   createdAt: string;
 };
 
+/** True when a workspace run is an activity-ledger bookmark (not a pipeline). */
+export function isReadActivityLedgerRun(
+  run: WorkspaceRun | null | undefined,
+): boolean {
+  if (!run) return false;
+  if (run.contextSource && READ_ACTIVITY_LEDGER_SOURCES.has(run.contextSource)) {
+    return true;
+  }
+  if (run.needAnchorText) return true;
+  if (run.summary && /recorded repository anchor/i.test(run.summary)) return true;
+  if (run.summary && /anchored .+need/i.test(run.summary)) return true;
+  if (
+    run.proofStatus === "Repository anchor" ||
+    run.proofStatus === "Need anchor"
+  ) {
+    return true;
+  }
+  return false;
+}
+
 /** Pipeline-table runs only — exclude activity-ledger anchor rows. */
 export function filterReadPipelineTableRuns(
   liveRuns: WorkspaceRun[],
 ): WorkspaceRun[] {
-  return liveRuns.filter(
-    (run) =>
-      !run.contextSource ||
-      !READ_ACTIVITY_LEDGER_SOURCES.has(run.contextSource),
-  );
+  return liveRuns.filter((run) => !isReadActivityLedgerRun(run));
 }
 
 export function isReadActivityLedgerContextSource(

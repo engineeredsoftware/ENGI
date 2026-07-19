@@ -13,6 +13,8 @@ import type { DepositRepositoryAnchor } from "@/components/deposits/models/depos
 export const DEPOSIT_ACTIVITY_LEDGER_SOURCES = new Set([
   "deposit-obfuscations-anchor",
   "terminal-repository-context-panel",
+  // Legacy alias written by older repository-anchor drafts.
+  "repository-context-panel",
 ]);
 
 export type DepositObfuscationsAnchor = {
@@ -25,13 +27,27 @@ export type DepositObfuscationsAnchor = {
   createdAt: string;
 };
 
+/**
+ * True when a workspace run is an activity-ledger bookmark (not a pipeline).
+ * Prefers contextSource; falls back to summary / anchor payload fields.
+ */
+export function isActivityLedgerRun(run: WorkspaceRun | null | undefined): boolean {
+  if (!run) return false;
+  if (run.contextSource && DEPOSIT_ACTIVITY_LEDGER_SOURCES.has(run.contextSource)) {
+    return true;
+  }
+  if (run.obfuscationsAnchorText || run.needAnchorText) return true;
+  if (run.summary && /recorded repository anchor/i.test(run.summary)) return true;
+  if (run.summary && /anchored .+obfuscations/i.test(run.summary)) return true;
+  if (run.proofStatus === 'Repository anchor' || run.proofStatus === 'Obfuscations anchor') {
+    return true;
+  }
+  return false;
+}
+
 /** Pipeline-table runs only — exclude activity-ledger anchor rows. */
 export function filterPipelineTableRuns(liveRuns: WorkspaceRun[]): WorkspaceRun[] {
-  return liveRuns.filter(
-    (run) =>
-      !run.contextSource ||
-      !DEPOSIT_ACTIVITY_LEDGER_SOURCES.has(run.contextSource),
-  );
+  return liveRuns.filter((run) => !isActivityLedgerRun(run));
 }
 
 export function isActivityLedgerContextSource(
@@ -46,13 +62,19 @@ export function isActivityLedgerContextSource(
  * V48-Gate3-F17: previously anchored repositories, newest first, one per
  * distinct repository full name.
  */
+const REPOSITORY_ANCHOR_SOURCES = new Set([
+  "terminal-repository-context-panel",
+  "repository-context-panel",
+]);
+
 export function deriveRepositoryAnchors(
   liveRuns: WorkspaceRun[],
 ): DepositRepositoryAnchor[] {
   const newestByRepository = new Map<string, WorkspaceRun>();
   for (const run of liveRuns) {
     if (
-      run.contextSource !== "terminal-repository-context-panel" ||
+      !run.contextSource ||
+      !REPOSITORY_ANCHOR_SOURCES.has(run.contextSource) ||
       !run.repository
     ) {
       continue;

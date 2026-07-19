@@ -42,7 +42,7 @@ export function useDepositSynthesisLifecycle(input: {
   readCurrentSearchParams: () => URLSearchParams;
   replaceDepositSearchParams: (p: URLSearchParams) => void;
   openDepositRouteTransaction: (id: string) => void;
-  refreshLiveRuns: () => void | Promise<unknown>;
+  refreshLiveRuns: (options?: { soft?: boolean }) => void | Promise<unknown>;
   obfuscations: string;
   permissibleSources: string[];
   impermissibleSources: string[];
@@ -162,7 +162,7 @@ export function useDepositSynthesisLifecycle(input: {
         replaceDepositSearchParams(
           writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
         );
-        void refreshLiveRuns();
+        void refreshLiveRuns({ soft: true });
       } catch (error) {
         if (cancelled) return;
         setSynthesisStatus("failed");
@@ -241,7 +241,7 @@ export function useDepositSynthesisLifecycle(input: {
   useEffect(() => {
     if (synthesisStatus !== "running" || !synthesisRunId) return;
     const interval = window.setInterval(() => {
-      void refreshLiveRuns();
+      void refreshLiveRuns({ soft: true });
     }, 15_000);
     return () => window.clearInterval(interval);
   }, [refreshLiveRuns, synthesisRunId, synthesisStatus]);
@@ -344,9 +344,11 @@ export function useDepositSynthesisLifecycle(input: {
               depositoryDemandSignals.length + readingDemandSignals.length,
           },
         });
-        void Promise.resolve(refreshLiveRuns() as unknown).then(() => {
-          openDepositRouteTransaction(runId);
-        });
+        void Promise.resolve(refreshLiveRuns({ soft: true }) as unknown).then(
+          () => {
+            openDepositRouteTransaction(runId);
+          },
+        );
       } catch (error) {
         setSynthesisStatus("failed");
         setSynthesisError(

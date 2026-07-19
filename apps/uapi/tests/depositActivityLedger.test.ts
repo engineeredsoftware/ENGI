@@ -27,6 +27,10 @@ describe("deposit-activity-ledger", () => {
       run({ id: "pipe-1", contextSource: "deposit-option-synthesis" }),
       run({ id: "anchor-1", contextSource: "deposit-obfuscations-anchor" }),
       run({ id: "anchor-2", contextSource: "terminal-repository-context-panel" }),
+      run({
+        id: "anchor-summary",
+        summary: "Recorded repository anchor for acme/app.",
+      }),
       run({ id: "pipe-2" }),
     ];
     const filtered = filterPipelineTableRuns(runs);
@@ -34,7 +38,7 @@ describe("deposit-activity-ledger", () => {
     expect(isActivityLedgerContextSource("deposit-obfuscations-anchor")).toBe(
       true,
     );
-    expect(DEPOSIT_ACTIVITY_LEDGER_SOURCES.size).toBe(2);
+    expect(DEPOSIT_ACTIVITY_LEDGER_SOURCES.size).toBe(3);
   });
 
   it("derives one repository anchor per full name, newest first", () => {
@@ -62,10 +66,18 @@ describe("deposit-activity-ledger", () => {
         branch: "main",
         created_at: "2026-07-03T00:00:00.000Z",
       }),
+      // Legacy source key still loads into the dropdown.
+      run({
+        id: "legacy",
+        contextSource: "repository-context-panel",
+        repository: "acme/legacy",
+        branch: "main",
+        created_at: "2026-07-04T00:00:00.000Z",
+      }),
     ];
     const anchors = deriveRepositoryAnchors(runs);
-    expect(anchors.map((a) => a.id)).toEqual(["other", "new"]);
-    expect(anchors[1]).toMatchObject({
+    expect(anchors.map((a) => a.id)).toEqual(["legacy", "other", "new"]);
+    expect(anchors[2]).toMatchObject({
       repositoryFullName: "acme/app",
       branch: "dev",
       commit: "bbb",

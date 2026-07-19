@@ -16,16 +16,30 @@ export function useReadLiveRuns() {
   const [isLoadingRuns, setIsLoadingRuns] = useState(true);
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
 
-  const refreshLiveRuns = useCallback(async () => {
-    setIsLoadingRuns(true);
+  const refreshLiveRuns = useCallback(async (options?: { soft?: boolean }) => {
+    const soft = Boolean(options?.soft);
+    if (!soft) {
+      setIsLoadingRuns(true);
+    }
     setRunsLoadError(null);
     try {
       const history = await fetchPipelineExecutionHistory();
       const nextRuns = history.map(mapExecutionHistoryRunToWorkspaceRun);
-      setLiveRuns(nextRuns);
+      setLiveRuns((current) => {
+        if (!soft || current.length === 0) return nextRuns;
+        let merged = nextRuns;
+        for (const run of current) {
+          if (!merged.some((entry) => entry.id === run.id)) {
+            merged = upsertWorkspaceRun(merged, run);
+          }
+        }
+        return merged;
+      });
       return nextRuns;
     } catch (error) {
-      setLiveRuns([]);
+      if (!soft) {
+        setLiveRuns([]);
+      }
       setRunsLoadError(
         error instanceof Error
           ? error.message
@@ -33,7 +47,9 @@ export function useReadLiveRuns() {
       );
       return [] as WorkspaceRun[];
     } finally {
-      setIsLoadingRuns(false);
+      if (!soft) {
+        setIsLoadingRuns(false);
+      }
     }
   }, []);
 

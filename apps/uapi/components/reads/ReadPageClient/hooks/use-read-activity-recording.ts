@@ -22,7 +22,7 @@ export function useReadActivityRecording(input: {
   selectedRun: WorkspaceRun | null;
   liveRuns: WorkspaceRun[];
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
-  refreshLiveRuns: () => void | Promise<unknown>;
+  refreshLiveRuns: (options?: { soft?: boolean }) => void | Promise<unknown>;
   openReadRouteTransaction: (id: string) => void;
   need: string;
   needAnchorName: string;
@@ -86,7 +86,7 @@ export function useReadActivityRecording(input: {
       if (draft.selectAfterRecord !== false) {
         openReadRouteTransaction(nextRun.id);
       }
-      void refreshLiveRuns();
+      void refreshLiveRuns({ soft: true });
       return nextRun;
     },
     [

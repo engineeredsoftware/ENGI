@@ -34,7 +34,7 @@ describe("read-activity-ledger", () => {
     const filtered = filterReadPipelineTableRuns(runs);
     expect(filtered.map((r) => r.id)).toEqual(["pipe-1", "pipe-2"]);
     expect(isReadActivityLedgerContextSource("read-need-anchor")).toBe(true);
-    expect(READ_ACTIVITY_LEDGER_SOURCES.size).toBe(2);
+    expect(READ_ACTIVITY_LEDGER_SOURCES.size).toBe(3);
   });
 
   it("derives need anchors with dedupe and path sets", () => {

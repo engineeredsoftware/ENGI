@@ -26,7 +26,7 @@ export function useDepositSynthesisActivity(input: {
   setSynthesisError: (error: string | null) => void;
   synthesisDispatchedAtMs: number | null;
   synthesisError: string | null;
-  refreshLiveRuns: () => void | Promise<unknown>;
+  refreshLiveRuns: (options?: { soft?: boolean }) => void | Promise<unknown>;
 }) {
   const {
     synthesisRunId,
@@ -101,7 +101,7 @@ export function useDepositSynthesisActivity(input: {
         name: "deposit_synthesis_cancelled",
         data: { durationMs },
       });
-      void refreshLiveRuns();
+      void refreshLiveRuns({ soft: true });
     } catch (error) {
       setSynthesisError(
         error instanceof Error

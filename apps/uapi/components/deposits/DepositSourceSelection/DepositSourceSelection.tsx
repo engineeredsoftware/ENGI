@@ -239,6 +239,7 @@ export default function DepositSourceSelection({
     setIsRecording(true);
     setRecordMessage(null);
     try {
+      // Pass full source package (branch + commit) so Load-anchor can restore it.
       await onRecordActivity(
         buildProductRepositoryAnchorDraft({
           provider,
@@ -246,6 +247,11 @@ export default function DepositSourceSelection({
           inventorySource,
           repositories,
           selectedRepository,
+          selectedBranch,
+          selectedCommit,
+          branches,
+          commits,
+          defaultBranch,
         }),
       );
       setRecordMessage("Repository anchored into the Bitcode activity ledger.");

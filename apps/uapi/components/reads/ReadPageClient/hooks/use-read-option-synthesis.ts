@@ -61,7 +61,7 @@ export function useReadOptionSynthesis(input: {
   activeRunId?: string | null;
   activeRunStatus?: string | null;
   onRunDispatched?: (runId: string) => void;
-  refreshLiveRuns?: () => void | Promise<unknown>;
+  refreshLiveRuns?: (options?: { soft?: boolean }) => void | Promise<unknown>;
 }) {
   const {
     repositoryContext,
@@ -104,7 +104,7 @@ export function useReadOptionSynthesis(input: {
             stopPoll();
             setStatus("cancelled");
             setError(null);
-            void Promise.resolve(refreshLiveRuns?.() as unknown);
+            void Promise.resolve(refreshLiveRuns?.({ soft: true }) as unknown);
             return;
           }
           if (st === "failed") {
@@ -138,7 +138,7 @@ export function useReadOptionSynthesis(input: {
             setEnvelope(nextEnvelope);
             setStatus("complete");
             setError(null);
-            void Promise.resolve(refreshLiveRuns?.() as unknown);
+            void Promise.resolve(refreshLiveRuns?.({ soft: true }) as unknown);
           }
         } catch {
           // keep polling until timeout via parent
@@ -199,7 +199,7 @@ export function useReadOptionSynthesis(input: {
         );
       }
       onRunDispatched?.(nextRunId);
-      void Promise.resolve(refreshLiveRuns?.() as unknown);
+      void Promise.resolve(refreshLiveRuns?.({ soft: true }) as unknown);
       pollForOptions(nextRunId);
     } catch (err) {
       stopPoll();
@@ -289,7 +289,7 @@ export function useReadOptionSynthesis(input: {
         name: "read_synthesis_cancelled",
         data: { durationMs },
       });
-      void Promise.resolve(refreshLiveRuns?.() as unknown);
+      void Promise.resolve(refreshLiveRuns?.({ soft: true }) as unknown);
     } catch (err) {
       setError(
         err instanceof Error

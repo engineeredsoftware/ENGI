@@ -77,7 +77,7 @@ import {
   filterPipelineTableRuns,
   hasDepositoryReadbackFromRuns,
   hasSubmittedDepositForSource,
-  isActivityLedgerContextSource,
+  isActivityLedgerRun,
 } from "@/components/deposits/models/deposit-activity-ledger";
 import { buildDepositSourceCriticalitySignals } from "@/components/deposits/models/deposit-source-criticality";
 import { buildDepositRouteInput } from "@/components/deposits/models/deposit-route-input-builder";
@@ -215,9 +215,7 @@ export default function DepositPageClient() {
         : null,
     [liveRuns, synthesisRunId],
   );
-  const isActivityLedgerDetail = isActivityLedgerContextSource(
-    selectedDetailRun?.contextSource,
-  );
+  const isActivityLedgerDetail = isActivityLedgerRun(selectedDetailRun);
 
   const selectedRun = useMemo(
     () => liveRuns.find((run) => run.id === selectedTransactionId) || null,
@@ -528,10 +526,17 @@ export default function DepositPageClient() {
 
         <ProductDetailStage
           open={isDepositDetailOpen}
+          /*
+           * Stable workbench key for compose + in-flight/completed synthesize.
+           * Keying by synthesisRunId remounts repository/obfuscations and replays
+           * ProductDetailStage entrance on every Synthesize click.
+           */
           stageKey={
-            isComposeOpen && !isRunReviewLocked
-              ? "deposit-compose"
-              : synthesisRunId || "deposit-detail"
+            isRunReviewLocked
+              ? "deposit-review"
+              : isComposeOpen || synthesisRunId
+                ? "deposit-workbench"
+                : "deposit-detail"
           }
           testId="deposit-run-configuration"
           // Full-width stack: repository + synthesis as full rows, then
@@ -604,10 +609,19 @@ export default function DepositPageClient() {
                 runId={synthesisRunId}
                 title={
                   selectedDetailRun?.contextSource ===
-                  "deposit-obfuscations-anchor"
+                    "deposit-obfuscations-anchor" ||
+                  selectedDetailRun?.proofStatus === "Obfuscations anchor"
                     ? "Obfuscations anchor"
                     : selectedDetailRun?.contextSource ===
-                        "terminal-repository-context-panel"
+                          "terminal-repository-context-panel" ||
+                        selectedDetailRun?.contextSource ===
+                          "repository-context-panel" ||
+                        selectedDetailRun?.proofStatus === "Repository anchor" ||
+                        (selectedDetailRun?.summary
+                          ? /recorded repository anchor/i.test(
+                              selectedDetailRun.summary,
+                            )
+                          : false)
                       ? "Repository anchor"
                       : "Activity record"
                 }

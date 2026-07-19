@@ -22,7 +22,7 @@ export function useDepositActivityRecording(input: {
   selectedRun: WorkspaceRun | null;
   liveRuns: WorkspaceRun[];
   setLiveRuns: Dispatch<SetStateAction<WorkspaceRun[]>>;
-  refreshLiveRuns: () => void | Promise<unknown>;
+  refreshLiveRuns: (options?: { soft?: boolean }) => void | Promise<unknown>;
   openDepositRouteTransaction: (id: string) => void;
   synthesizeOptionsRef: MutableRefObject<(() => Promise<void>) | null>;
   obfuscations: string;
@@ -86,7 +86,9 @@ export function useDepositActivityRecording(input: {
       if (draft.selectAfterRecord !== false) {
         openDepositRouteTransaction(nextRun.id);
       }
-      void refreshLiveRuns();
+      // Soft-refresh: keep optimistic upsert visible; avoid loading flicker /
+      // detail remount that re-plays Need/Obfuscations entrance motion.
+      void refreshLiveRuns({ soft: true });
       if (
         (draft.context as Record<string, unknown> | undefined)?.source ===
         "terminal-deposit-composer"

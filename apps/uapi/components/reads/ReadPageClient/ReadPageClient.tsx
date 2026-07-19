@@ -325,10 +325,16 @@ export default function ReadPageClient() {
 
         <ProductDetailStage
           open={isReadDetailOpen}
+          /*
+           * Stable workbench key for compose + synthesize. Do not key by run id —
+           * that remounts Need/source and replays entrance on every synthesize.
+           */
           stageKey={
-            isComposeOpen
-              ? "reads-compose"
-              : selectedPipelineRunId || "reads-detail"
+            isComposeOpen || synthesis.status === "running" || Boolean(synthesis.runId)
+              ? "reads-workbench"
+              : selectedPipelineRunId
+                ? "reads-review"
+                : "reads-detail"
           }
           testId="reads-run-configuration"
           // Full-width stack: repository + Need as full rows, then
