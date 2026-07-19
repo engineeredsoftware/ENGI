@@ -3,6 +3,7 @@
  * shape, and public pane props shared with extracted section components.
  */
 
+import type { BitcodeEmailNotificationPreferences } from '@bitcode/orm';
 import type {
   AuxillariesProfileState,
   OrganizationPolicyAuthority,
@@ -35,6 +36,7 @@ export interface AuxillariesProfilePaneProps {
   initialAvatarUrl?: string;
   initialEmail?: string;
   initialIsVerified?: boolean;
+  initialEmailNotificationPreferences?: BitcodeEmailNotificationPreferences | null;
   profileState?: AuxillariesProfileState | null;
   organizationAuthority?: OrganizationPolicyAuthority | null;
   isOnboardingComplete?: boolean;

@@ -48,15 +48,15 @@ describe('ProfileStep (SSR)', () => {
             blockers: [],
             issues: [
               {
-                id: 'preferences.templates_missing',
+                id: 'wallet.binding_missing',
                 severity: 'recoverable',
-                summary: 'Template preference is not configured.',
-                requiredAction: 'Configure shippable and evidence templates.',
+                summary: 'Wallet binding is missing.',
+                requiredAction: 'Connect a wallet when settlement-adjacent actions are needed.',
                 repairRoute: {
-                  issueId: 'preferences.templates_missing',
-                  pane: 'interfaces',
-                  route: '/packs?auxillary-open-to=interfaces',
-                  label: 'Configure Templates',
+                  issueId: 'wallet.binding_missing',
+                  pane: 'wallet',
+                  route: '/packs?auxillary-open-to=wallet',
+                  label: 'Open Wallet',
                   retryPolicy: 'after_repair',
                 },
               },
@@ -154,8 +154,9 @@ describe('ProfileStep (SSR)', () => {
     expect(html).toContain('team-platform');
     expect(html).toContain('settlement:pay_btc_fee');
     expect(html).toContain('Needs repair');
-    expect(html).toContain('Template preference is not configured.');
-    expect(html).toContain('/packs?auxillary-open-to=interfaces');
+    expect(html).toContain('Wallet binding is missing.');
+    expect(html).not.toContain('Template preference is not configured.');
+    expect(html).not.toContain('Model preference is not configured.');
     // Avatar choices render from the pane-owned generated palette.
     expect(html).toContain('Select avatar 1');
     // Team member table should include the member displayName and role

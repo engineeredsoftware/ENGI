@@ -808,26 +808,7 @@ export function buildAuxillariesProfileState(input: {
           label: 'Open Wallet',
         })
       : null,
-    !preferences.model.configured
-      ? buildProfileCompletenessIssue({
-          id: 'preferences.model_missing',
-          severity: 'recoverable',
-          summary: 'Model preference is not configured.',
-          requiredAction: 'Choose default model support for Auxillaries-driven actions.',
-          pane: 'interfaces',
-          label: 'Configure Models',
-        })
-      : null,
-    !preferences.templates.configured
-      ? buildProfileCompletenessIssue({
-          id: 'preferences.templates_missing',
-          severity: 'recoverable',
-          summary: 'Template preference is not configured.',
-          requiredAction: 'Configure delivery and evidence templates for support output.',
-          pane: 'interfaces',
-          label: 'Configure Templates',
-        })
-      : null,
+    // Model/template preference gaps are intentionally not profile readiness issues.
   ].filter((entry): entry is AuxillariesProfileCompletenessIssue => Boolean(entry));
   const blockers = issues
     .filter((issue) => issue.severity === 'blocking')

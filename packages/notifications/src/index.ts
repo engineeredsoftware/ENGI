@@ -67,6 +67,7 @@ export async function sendEmail(opts: EmailOptions): Promise<void> {
 export * from './types';
 export * from './events';
 export * from './processor';
+export * from './email-preferences';
 export { startNotificationWorker } from './worker';
 
 // Auto-start the worker in long-running server contexts when the env flag is

@@ -1,9 +1,10 @@
 /**
- * Optional email notification contact section (OTP send/verify).
+ * Optional email notification contact section (OTP send/verify) + delivery preferences.
  */
 
 import React from 'react';
 import LoadingSpinner from '@/components/bitcode/indicators/LoadingSpinner/LoadingSpinner';
+import type { BitcodeEmailNotificationPreferences } from '@bitcode/orm';
 
 export interface ProfileEmailSectionProps {
   email: string;
@@ -17,6 +18,10 @@ export interface ProfileEmailSectionProps {
   authError: string | null;
   onSendCode: () => void;
   onVerifyCode: () => void;
+  emailNotificationPreferences: BitcodeEmailNotificationPreferences;
+  setEmailNotificationPreferences: (
+    next: BitcodeEmailNotificationPreferences | ((current: BitcodeEmailNotificationPreferences) => BitcodeEmailNotificationPreferences),
+  ) => void;
 }
 
 export default function ProfileEmailSection({
@@ -31,7 +36,11 @@ export default function ProfileEmailSection({
   authError,
   onSendCode,
   onVerifyCode,
+  emailNotificationPreferences,
+  setEmailNotificationPreferences,
 }: ProfileEmailSectionProps) {
+  const showPreferences = Boolean(email.trim());
+
   return (
     <section className="account-creation-section mb-6 rounded-none border border-white/10 bg-white/[0.04] p-5">
       <div className="mb-4">
@@ -117,6 +126,81 @@ export default function ProfileEmailSection({
       {isVerified ? (
         <div className="rounded-none border border-emerald-300/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">
           Email verified: <span className="font-semibold">{email}</span>
+        </div>
+      ) : null}
+
+      {showPreferences ? (
+        <div
+          className="mt-5 space-y-3 rounded-none border border-white/10 bg-white/[0.03] p-4"
+          data-testid="profile-email-notification-preferences"
+        >
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55">
+            Email delivery
+          </p>
+          <p className="text-xs leading-5 text-white/52">
+            Choose what Bitcode may email to this address. Critical updates stay on.
+          </p>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-none border border-white/8 bg-black/10 px-3 py-3">
+            <input
+              type="checkbox"
+              data-testid="profile-pref-product-updates"
+              className="mt-1 h-4 w-4 shrink-0 rounded-none border border-emerald-300/40 bg-transparent accent-emerald-400"
+              checked={emailNotificationPreferences.receiveProductUpdates}
+              onChange={(event) =>
+                setEmailNotificationPreferences((current) => ({
+                  ...current,
+                  receiveProductUpdates: event.target.checked,
+                  receiveCriticalUpdates: true,
+                }))
+              }
+            />
+            <span>
+              <span className="block text-sm font-semibold text-white/90">Receive Product Updates</span>
+              <span className="mt-1 block text-xs leading-5 text-white/52">
+                Optional product news and release notes.
+              </span>
+            </span>
+          </label>
+
+          <label className="flex cursor-pointer items-start gap-3 rounded-none border border-white/8 bg-black/10 px-3 py-3">
+            <input
+              type="checkbox"
+              data-testid="profile-pref-your-notifications"
+              className="mt-1 h-4 w-4 shrink-0 rounded-none border border-emerald-300/40 bg-transparent accent-emerald-400"
+              checked={emailNotificationPreferences.receiveYourNotifications}
+              onChange={(event) =>
+                setEmailNotificationPreferences((current) => ({
+                  ...current,
+                  receiveYourNotifications: event.target.checked,
+                  receiveCriticalUpdates: true,
+                }))
+              }
+            />
+            <span>
+              <span className="block text-sm font-semibold text-white/90">Receive Your Notifications</span>
+              <span className="mt-1 block text-xs leading-5 text-white/52">
+                Optional personal run, transfer, and account activity email.
+              </span>
+            </span>
+          </label>
+
+          <label className="flex cursor-not-allowed items-start gap-3 rounded-none border border-emerald-300/22 bg-emerald-400/[0.06] px-3 py-3 opacity-95">
+            <input
+              type="checkbox"
+              data-testid="profile-pref-critical-updates"
+              className="mt-1 h-4 w-4 shrink-0 rounded-none border border-emerald-300/40 bg-transparent accent-emerald-400"
+              checked
+              disabled
+              readOnly
+            />
+            <span>
+              <span className="block text-sm font-semibold text-emerald-50">Receive Critical Updates</span>
+              <span className="mt-1 block text-xs leading-5 text-white/55">
+                Always on — security, recovery, and critical account alerts.
+              </span>
+            </span>
+          </label>
         </div>
       ) : null}
     </section>

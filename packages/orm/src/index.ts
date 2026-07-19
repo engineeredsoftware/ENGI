@@ -86,6 +86,7 @@ export type Conversation = Tables<'conversations'>;
 export type Message = Tables<'messages'>;
 export type MessageAttachment = Tables<'message_attachments'>;
 export {
+  DEFAULT_EMAIL_NOTIFICATION_PREFERENCES,
   hydrateBitcodeProfile,
   mergeBitcodeProfileSettings,
   profileHasWalletBinding,
@@ -95,6 +96,7 @@ export {
   readBitcodeWalletBindingFromProfile,
 } from './profile-contract';
 export type {
+  BitcodeEmailNotificationPreferences,
   BitcodeProfileSettings,
   BitcodeWalletCapability,
   BitcodeWalletBinding,

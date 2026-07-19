@@ -103,6 +103,54 @@ function readArrayField(
   return { provided: false, value: null, invalid: false };
 }
 
+function readEmailNotificationPreferencesField(
+  body: Record<string, unknown>,
+  ...keys: string[]
+): {
+  provided: boolean;
+  value: {
+    receiveProductUpdates: boolean;
+    receiveYourNotifications: boolean;
+    receiveCriticalUpdates: true;
+  } | null;
+  invalid: boolean;
+} {
+  for (const key of keys) {
+    if (!hasOwn(body, key)) {
+      continue;
+    }
+
+    const value = body[key];
+    if (value === null) {
+      return { provided: true, value: null, invalid: false };
+    }
+
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      return { provided: true, value: null, invalid: true };
+    }
+
+    const record = value as Record<string, unknown>;
+    const product = record.receiveProductUpdates ?? record.receive_product_updates;
+    const yours = record.receiveYourNotifications ?? record.receive_your_notifications;
+
+    if (typeof product !== 'boolean' || typeof yours !== 'boolean') {
+      return { provided: true, value: null, invalid: true };
+    }
+
+    return {
+      provided: true,
+      value: {
+        receiveProductUpdates: product,
+        receiveYourNotifications: yours,
+        receiveCriticalUpdates: true,
+      },
+      invalid: false,
+    };
+  }
+
+  return { provided: false, value: null, invalid: false };
+}
+
 function normalizeWalletBindingStatus(value: string | null): WalletBindingStatus | null {
   if (value === 'pending' || value === 'manual' || value === 'verified') {
     return value;
@@ -140,6 +188,11 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
   const walletProviderField = readStringField(body, 'walletProvider', 'wallet_provider');
   const walletStatusField = readStringField(body, 'walletBindingStatus', 'wallet_binding_status');
   const walletBoundAtField = readStringField(body, 'walletBoundAt', 'wallet_bound_at');
+  const emailPrefsField = readEmailNotificationPreferencesField(
+    body,
+    'emailNotificationPreferences',
+    'email_notification_preferences',
+  );
 
   const invalidField =
     displayNameField.invalid ||
@@ -152,7 +205,8 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
     walletAddressField.invalid ||
     walletProviderField.invalid ||
     walletStatusField.invalid ||
-    walletBoundAtField.invalid;
+    walletBoundAtField.invalid ||
+    emailPrefsField.invalid;
 
   const walletBindingStatus = normalizeWalletBindingStatus(walletStatusField.value);
 
@@ -182,6 +236,7 @@ function normalizeProfilePayload(body: Record<string, unknown>) {
     team_members: teamMembersField.provided ? teamMembersField.value : undefined,
     email: emailField.provided ? emailField.value : undefined,
     is_verified: isVerifiedField.provided ? isVerifiedField.value : undefined,
+    email_notification_preferences: emailPrefsField.provided ? emailPrefsField.value : undefined,
     wallet_address: walletAddressField.provided ? walletAddressField.value : undefined,
     wallet_address_provided: walletAddressField.provided,
     wallet_provider: walletProviderField.provided ? walletProviderField.value : undefined,
@@ -310,6 +365,7 @@ export async function POST(request: Request) {
     email: normalized.email,
     isVerified: normalized.is_verified,
     walletBinding: nextWalletBinding,
+    emailNotificationPreferences: normalized.email_notification_preferences as any,
   });
 
   const { error } = await supabaseAdmin.from('user_profiles').upsert(

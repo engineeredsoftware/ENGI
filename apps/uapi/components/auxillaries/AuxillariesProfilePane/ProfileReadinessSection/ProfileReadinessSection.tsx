@@ -86,7 +86,7 @@ export default function ProfileReadinessSection({ profileState = null }: Profile
         </div>
       ) : (
         <p className="mt-4 text-sm leading-7 text-white/64">
-          Profile, wallet support, preferences, notifications, and data-sharing posture are complete.
+          Profile, wallet support, notifications, and data-sharing posture are complete.
         </p>
       )}
     </section>

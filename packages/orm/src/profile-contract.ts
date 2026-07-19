@@ -19,12 +19,27 @@ export interface BitcodeWalletCapability {
   isVerifiedSigner: boolean;
 }
 
+/** Profile email fan-out categories. Critical is always on when email exists. */
+export interface BitcodeEmailNotificationPreferences {
+  receiveProductUpdates: boolean;
+  receiveYourNotifications: boolean;
+  /** Always true when persisted; cannot be disabled in product UI. */
+  receiveCriticalUpdates: boolean;
+}
+
+export const DEFAULT_EMAIL_NOTIFICATION_PREFERENCES: BitcodeEmailNotificationPreferences = {
+  receiveProductUpdates: false,
+  receiveYourNotifications: true,
+  receiveCriticalUpdates: true,
+};
+
 export interface BitcodeProfileSettings {
   companyName: string | null;
   teamMembers: Json[];
   email: string | null;
   isVerified: boolean | null;
   walletBinding: BitcodeWalletBinding | null;
+  emailNotificationPreferences: BitcodeEmailNotificationPreferences;
 }
 
 export interface HydratedBitcodeProfileFields {
@@ -37,6 +52,7 @@ export interface HydratedBitcodeProfileFields {
   wallet_binding_status: BitcodeWalletBindingStatus | null;
   wallet_bound_at: string | null;
   wallet_binding: BitcodeWalletBinding | null;
+  email_notification_preferences: BitcodeEmailNotificationPreferences;
 }
 
 function asRecord(value: unknown): UnknownRecord | null {
@@ -62,6 +78,24 @@ function normalizeBoolean(value: unknown): boolean | null {
 
 function normalizeTeamMembers(value: unknown): Json[] {
   return Array.isArray(value) ? (value as Json[]) : [];
+}
+
+function normalizeEmailNotificationPreferences(
+  value: unknown,
+): BitcodeEmailNotificationPreferences {
+  const record = asRecord(value);
+  return {
+    receiveProductUpdates:
+      normalizeBoolean(record?.receiveProductUpdates) ??
+      normalizeBoolean(record?.receive_product_updates) ??
+      DEFAULT_EMAIL_NOTIFICATION_PREFERENCES.receiveProductUpdates,
+    receiveYourNotifications:
+      normalizeBoolean(record?.receiveYourNotifications) ??
+      normalizeBoolean(record?.receive_your_notifications) ??
+      DEFAULT_EMAIL_NOTIFICATION_PREFERENCES.receiveYourNotifications,
+    // Critical is always enabled when preferences are read for product use.
+    receiveCriticalUpdates: true,
+  };
 }
 
 function readRecordString(
@@ -199,6 +233,12 @@ export function readBitcodeProfileSettings(settings: unknown): BitcodeProfileSet
       normalizeBoolean(settingsRecord?.isVerified) ??
       normalizeBoolean(settingsRecord?.is_verified),
     walletBinding,
+    emailNotificationPreferences: normalizeEmailNotificationPreferences(
+      source.emailNotificationPreferences ??
+        source.email_notification_preferences ??
+        settingsRecord?.emailNotificationPreferences ??
+        settingsRecord?.email_notification_preferences,
+    ),
   };
 }
 
@@ -210,6 +250,10 @@ export function mergeBitcodeProfileSettings(
   const existing = readBitcodeProfileSettings(existingSettings);
   const nextWalletBinding =
     patch.walletBinding === undefined ? existing.walletBinding : patch.walletBinding;
+  const nextEmailNotificationPreferences =
+    patch.emailNotificationPreferences === undefined
+      ? existing.emailNotificationPreferences
+      : normalizeEmailNotificationPreferences(patch.emailNotificationPreferences);
 
   return {
     ...existingRecord,
@@ -219,6 +263,7 @@ export function mergeBitcodeProfileSettings(
       email: patch.email === undefined ? existing.email : patch.email,
       isVerified: patch.isVerified === undefined ? existing.isVerified : patch.isVerified,
       walletBinding: nextWalletBinding,
+      emailNotificationPreferences: nextEmailNotificationPreferences,
     },
   };
 }
@@ -243,6 +288,7 @@ export function hydrateBitcodeProfile<T extends { settings?: unknown } & Unknown
     wallet_binding_status: settings.walletBinding?.status ?? null,
     wallet_bound_at: settings.walletBinding?.boundAt ?? null,
     wallet_binding: settings.walletBinding,
+    email_notification_preferences: settings.emailNotificationPreferences,
   };
 }
 

@@ -82,6 +82,10 @@ export function useProfileEmailVerification({
           username: username || email.split('@')[0],
           email,
           isVerified: true,
+          emailNotificationPreferences: {
+            ...(profileAutosavePayload.emailNotificationPreferences as Record<string, unknown> | undefined),
+            receiveCriticalUpdates: true,
+          },
         });
       }
     } catch (error: any) {

@@ -52,6 +52,11 @@ export function useAuxillariesStepContent({
             initialAvatarUrl={profileData?.avatar_url}
             initialTeamMembers={profileData?.team_members}
             initialIsVerified={profileData?.is_verified ?? !!sessionUser?.email_confirmed_at}
+            initialEmailNotificationPreferences={
+              profileData?.email_notification_preferences ??
+              profileData?.emailNotificationPreferences ??
+              null
+            }
             profileState={auxillaryData?.profileState ?? null}
             organizationAuthority={auxillaryData?.organizationAuthority ?? null}
             isOnboardingComplete={isUnlockedSurface}

@@ -395,10 +395,12 @@ describe('Auxillaries package route contracts', () => {
     expect(blockerIds).toEqual(expect.arrayContaining([
       'profile.missing',
       'profile.identity_missing',
-      'preferences.model_missing',
-      'preferences.templates_missing',
       'connects.github.connect_provider',
       'wallet.binding_missing',
+    ]));
+    expect(blockerIds).not.toEqual(expect.arrayContaining([
+      'preferences.model_missing',
+      'preferences.templates_missing',
     ]));
     expect(payload.auxillariesContract.contractRoot).toMatch(/^[0-9a-f]{64}$/);
   });
