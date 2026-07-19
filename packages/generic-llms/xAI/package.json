@@ -13,8 +13,9 @@
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {
+    "@ai-sdk/xai": "1.2.16",
     "@bitcode/llm-generics": "workspace:*",
-    "openai": "4.97.0"
+    "ai": "4.3.16"
   },
   "devDependencies": {
     "@types/jest": "^29.0.0",

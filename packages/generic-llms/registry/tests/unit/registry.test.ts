@@ -38,7 +38,7 @@ describe('factoryLLMRegistryWithProviders', () => {
     });
   });
 
-  test('selects Anthropic as product default when Anthropic key is present among others', () => {
+  test('prefers xAI when XAI_API_KEY is present among other provider keys', () => {
     const defaults = resolveDefaultLLMConfig({
       ANTHROPIC_API_KEY: 'sk-ant-test',
       XAI_API_KEY: 'xai-test',
@@ -46,8 +46,8 @@ describe('factoryLLMRegistryWithProviders', () => {
     });
 
     expect(defaults).toEqual({
-      provider: 'anthropic',
-      model: 'claude-haiku-4-5',
+      provider: 'xai',
+      model: 'grok-3-mini',
     });
   });
 
@@ -70,16 +70,16 @@ describe('factoryLLMRegistryWithProviders', () => {
 
     expect(defaults).toEqual({
       provider: 'xai',
-      model: 'grok-build-0.1',
+      model: 'grok-3-mini',
     });
   });
 
-  test('falls back to Anthropic product default with no keys', () => {
+  test('falls back to xAI product default with no keys', () => {
     const defaults = resolveDefaultLLMConfig({});
 
     expect(defaults).toEqual({
-      provider: 'anthropic',
-      model: 'claude-haiku-4-5',
+      provider: 'xai',
+      model: 'grok-3-mini',
     });
   });
 
