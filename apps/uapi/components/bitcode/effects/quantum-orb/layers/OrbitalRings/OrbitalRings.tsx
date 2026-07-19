@@ -10,6 +10,11 @@ interface OrbitalRingsProps {
   speed: number;
   state: QuantumOrbState;
   isAnimating?: boolean;
+  /**
+   * Telemetry-sized orbs: skip hard concentric borders (they read as a
+   * nested-frame stack at 24px). Soft rotating sheen only.
+   */
+  compact?: boolean;
 }
 
 export function OrbitalRings({
@@ -17,6 +22,7 @@ export function OrbitalRings({
   speed,
   state,
   isAnimating = true,
+  compact = false,
 }: OrbitalRingsProps) {
   // Get opacity based on state
   const getOpacity = (baseOpacity: number) => {
@@ -26,6 +32,35 @@ export function OrbitalRings({
       case 'active': return baseOpacity * 1.5;
     }
   };
+
+  if (compact) {
+    return (
+      <motion.div
+        className="quantum-orb-ring quantum-orb-ring-compact-sheen"
+        style={{
+          position: 'absolute',
+          inset: '4%',
+          borderRadius: 0,
+          background: `conic-gradient(from 0deg, transparent 0%, ${color}88 22%, transparent 48%, ${color}55 72%, transparent 100%)`,
+          opacity: getOpacity(0.55),
+          willChange: 'transform, opacity',
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
+        }}
+        animate={isAnimating ? { rotate: 360 } : undefined}
+        transition={
+          isAnimating
+            ? {
+                duration: Math.max(2.4, 40 / Math.max(speed, 1)),
+                ease: 'linear',
+                repeat: Infinity,
+                repeatType: 'loop',
+              }
+            : undefined
+        }
+      />
+    );
+  }
 
   return (
     <>

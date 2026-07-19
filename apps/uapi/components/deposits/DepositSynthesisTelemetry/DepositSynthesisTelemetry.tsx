@@ -123,7 +123,8 @@ export function DepositSynthesisTelemetry({
                       config={verifiedAccessOrbConfig}
                       initialState={synthesisRunning ? "active" : "rest"}
                       interactive={false}
-                      respectReducedMotion
+                      // Status loader: always animate when running (same as marketing mark).
+                      respectReducedMotion={false}
                       className="shrink-0"
                     />
                     <RunClock

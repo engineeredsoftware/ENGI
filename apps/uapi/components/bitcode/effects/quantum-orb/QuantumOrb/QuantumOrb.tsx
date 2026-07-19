@@ -200,6 +200,10 @@ function QuantumOrb({
   // instantly when they scroll back in.
   const renderDynamic = animationsEnabled && state !== 'rest' && isVisible;
 
+  // Geometry scales with `size`. Fixed-pixel outer frames dominate at
+  // telemetry sizes (e.g. 24px); marketing sizes keep the original ratio.
+  const isCompactTelemetrySize = size < 48;
+
   // ---------------------------------------------------------------------
   // Lazy-mount secondary, purely decorative layers after a short delay or
   // during idle time so the first paint is cheaper.  We only defer the
@@ -221,6 +225,15 @@ function QuantumOrb({
       if (!cancelled) setSecondaryReady(true);
     };
 
+    // Compact running loaders need glow/particles immediately — idle delay
+    // made the status orb look static for hundreds of ms.
+    if (isCompactTelemetrySize) {
+      mount();
+      return () => {
+        cancelled = true;
+      };
+    }
+
     if ('requestIdleCallback' in window) {
       const idleId = (window as any).requestIdleCallback(mount, { timeout: 300 });
       return () => {
@@ -234,17 +247,15 @@ function QuantumOrb({
         clearTimeout(t);
       };
     }
-  }, [renderDynamic]);
-
-  // Geometry scales with `size`. Fixed-pixel outer frames dominate at
-  // telemetry sizes (e.g. 24px); marketing sizes keep the original ratio.
-  const isCompactTelemetrySize = size < 48;
+  }, [renderDynamic, isCompactTelemetrySize]);
 
   // Dynamically reduce effects on low-end devices
   // Heavy canvas-based layers only mount when the orb is in the *active*
   // state.  Hover now keeps things lightweight (pure CSS + SVG) so just
   // moving the cursor over multiple orbs doesn’t spike paint time.
-  // Telemetry-sized orbs skip wavy blobs (they smear at 24px).
+  // Telemetry-sized orbs skip wavy blobs (they smear at 24px) but keep a
+  // small particle field + compact glow so the running loader has motion
+  // matching the marketing verified-access mark.
   const showWavyBlobs =
     renderDynamic &&
     !isCompactTelemetrySize &&
@@ -254,10 +265,8 @@ function QuantumOrb({
   const showParticles =
     renderDynamic &&
     orbConfig.showParticles &&
-    qualityMultiplier >= 0.6 &&
-    state === 'active' &&
-    // Fewer / none at compact sizes so the running loader stays a crisp square.
-    !(isCompactTelemetrySize && size <= 28);
+    qualityMultiplier >= 0.5 &&
+    state === 'active';
 
   // Handle mouse enter/leave
   const handleMouseEnter = () => {
@@ -316,21 +325,25 @@ function QuantumOrb({
 
   const stateProps = getStateProperties();
 
-  const coreInset = isCompactTelemetrySize ? '2%' : '8%';
-  // Compact (24px telemetry) must stay sharp — CSS blur on a tiny square
-  // reads as a mushy disk. Prefer solid core + soft gradient, not filter blur.
+  // Compact telemetry: fill most of the square (marketing-like soft tile),
+  // not a tiny core inside multi-frame chrome.
+  const coreInset = isCompactTelemetrySize ? '0%' : '8%';
   const coreBlurPx = isCompactTelemetrySize ? 0 : 2;
   const outerGlowInsetPx = isCompactTelemetrySize
-    ? -Math.max(1, Math.round(size * 0.08))
+    ? -Math.max(2, Math.round(size * 0.18))
     : -10;
   const activeFrameInsetPx = isCompactTelemetrySize
-    ? -Math.max(2, Math.round(size * 0.1))
+    ? -Math.max(1, Math.round(size * 0.06))
     : -15;
   const outerGlowBlurPx = isCompactTelemetrySize
     ? 0
     : state === 'active'
       ? 4
       : 6;
+  const compactParticleCount = Math.max(
+    5,
+    Math.round(8 * qualityMultiplier),
+  );
 
   // Skip heavy visual layers when animations disabled
   // (already computed earlier to feed the rAF loop)
@@ -394,9 +407,12 @@ function QuantumOrb({
               position: 'absolute',
               inset: coreInset,
               borderRadius: 0,
-              background: `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 46%, ${orbConfig.glowColor}22 72%, transparent 88%)`,
-              opacity: state === 'active' ? 0.95 : 0.8,
-              filter: `blur(${coreBlurPx}px)`,
+              // Compact: soft filled mint tile (landing mark). Large: lighter halo.
+              background: isCompactTelemetrySize
+                ? `radial-gradient(circle at 50% 40%, #ecfdf5 0%, ${orbConfig.glowColor} 42%, ${orbConfig.glowColor}bb 78%, ${orbConfig.glowColor}55 100%)`
+                : `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 46%, ${orbConfig.glowColor}22 72%, transparent 88%)`,
+              opacity: state === 'active' ? 0.98 : 0.82,
+              ...(coreBlurPx > 0 ? { filter: `blur(${coreBlurPx}px)` } : null),
               willChange: 'transform, opacity',
               transform: 'translateZ(0)',
               backfaceVisibility: 'hidden',
@@ -412,6 +428,7 @@ function QuantumOrb({
               speed={stateProps.ringSpeed * qualityMultiplier}
               state={state}
               isAnimating={isAnimating}
+              compact={isCompactTelemetrySize}
             />
 
             {/* Wavy blob layers */}
@@ -458,7 +475,14 @@ function QuantumOrb({
             {showParticles && secondaryReady && (
               <ParticleLayer
                 color={orbConfig.particleColor}
-                count={Math.round((state === 'active' ? 20 : state === 'hover' ? 15 : 10) * qualityMultiplier)}
+                count={
+                  isCompactTelemetrySize
+                    ? compactParticleCount
+                    : Math.round(
+                        (state === 'active' ? 20 : state === 'hover' ? 15 : 10) *
+                          qualityMultiplier,
+                      )
+                }
                 speed={stateProps.particleSpeed * qualityMultiplier}
                 state={state}
                 isAnimating={isAnimating}
@@ -475,20 +499,30 @@ function QuantumOrb({
           position: 'absolute',
           inset: outerGlowInsetPx,
           borderRadius: 0,
-          background: `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}${isCompactTelemetrySize ? '55' : '33'} 0%, transparent ${isCompactTelemetrySize ? '62%' : '70%'})`,
-          // Avoid CSS blur on compact telemetry orbs (reads as muddy).
+          background: isCompactTelemetrySize
+            ? `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}66 0%, ${orbConfig.glowColor}22 55%, transparent 78%)`
+            : `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}33 0%, transparent 70%)`,
           ...(outerGlowBlurPx > 0 ? { filter: `blur(${outerGlowBlurPx}px)` } : null),
           opacity: stateProps.glowOpacity,
           willChange: 'transform, opacity, background',
           transform: 'translateZ(0)',
           contain: 'paint',
         }}
-        animate={{
-          opacity: stateProps.glowOpacity,
-        }}
-        transition={{
-          duration: 0.3
-        }}
+        animate={
+          isAnimating && isCompactTelemetrySize
+            ? { opacity: [0.55, 1, 0.55], scale: [1, 1.08, 1] }
+            : { opacity: stateProps.glowOpacity }
+        }
+        transition={
+          isAnimating && isCompactTelemetrySize
+            ? {
+                duration: 1.8,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                repeatType: 'loop',
+              }
+            : { duration: 0.3 }
+        }
       />
 
       {/* Realistic shadow */}
@@ -523,36 +557,59 @@ function QuantumOrb({
         </>
       )}
 
-      {/* Square outline for depth — no blur at telemetry sizes (keeps edges sharp). */}
+      {/* Square outline for depth — compact: single soft edge (not nested frames). */}
       <div
         className="quantum-orb-outline"
         style={{
           position: 'absolute',
           inset: 0,
           borderRadius: 0,
-          boxShadow: `
-            inset 0 0 0 1px rgba(255, 255, 255, ${isCompactTelemetrySize ? 0.35 : 0.2}),
-            inset 0 0 0 2px rgba(255, 255, 255, ${isCompactTelemetrySize ? 0.12 : 0.1}),
-            0 0 0 1px rgba(255, 255, 255, ${isCompactTelemetrySize ? 0.18 : 0.1})
+          boxShadow: isCompactTelemetrySize
+            ? `
+            inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+            0 0 0 1px ${orbConfig.glowColor}33
+          `
+            : `
+            inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+            inset 0 0 0 2px rgba(255, 255, 255, 0.1),
+            0 0 0 1px rgba(255, 255, 255, 0.1)
           `,
           ...(isCompactTelemetrySize ? null : { filter: 'blur(1px)' }),
         }}
       />
 
-      {/* Active indicator — square frame (inset scales with size). */}
+      {/* Active indicator — soft outer halo at telemetry sizes (not a second frame). */}
       <AnimatePresence>
         {state === 'active' && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={
+              isCompactTelemetrySize
+                ? { opacity: [0.35, 0.75, 0.35], scale: [1, 1.05, 1] }
+                : { opacity: 1, scale: 1 }
+            }
             exit={{ opacity: 0, scale: 0.8 }}
+            transition={
+              isCompactTelemetrySize
+                ? {
+                    duration: 2,
+                    ease: 'easeInOut',
+                    repeat: Infinity,
+                    repeatType: 'loop',
+                  }
+                : undefined
+            }
             className="quantum-orb-active-indicator"
             style={{
               position: 'absolute',
               inset: activeFrameInsetPx,
               borderRadius: 0,
-              border: `1px solid ${orbConfig.glowColor}33`,
-              boxShadow: `0 0 ${isCompactTelemetrySize ? 6 : 15}px ${orbConfig.glowColor}33`,
+              border: isCompactTelemetrySize
+                ? 'none'
+                : `1px solid ${orbConfig.glowColor}33`,
+              boxShadow: isCompactTelemetrySize
+                ? `0 0 10px ${orbConfig.glowColor}44`
+                : `0 0 15px ${orbConfig.glowColor}33`,
               zIndex: -1,
             }}
           />

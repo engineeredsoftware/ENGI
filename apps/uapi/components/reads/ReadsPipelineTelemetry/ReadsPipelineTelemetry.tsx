@@ -97,7 +97,8 @@ export function ReadsPipelineTelemetry({
             config={verifiedAccessOrbConfig}
             initialState={readRunIsProcessing ? "active" : "rest"}
             interactive={false}
-            respectReducedMotion
+            // Status loader: always animate when running (same as marketing mark).
+            respectReducedMotion={false}
             className="shrink-0"
           />
           <RunClock
