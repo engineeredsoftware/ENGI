@@ -35,6 +35,7 @@ export default function AuxillariesProfilePane({
   initialAvatarUrl = '',
   initialEmail = '',
   initialIsVerified = false,
+  initialEmailNotificationPreferences = null,
   profileState = null,
   organizationAuthority = null,
   isOnboardingComplete = false,
@@ -51,6 +52,7 @@ export default function AuxillariesProfilePane({
     initialAvatarUrl,
     initialEmail,
     initialIsVerified,
+    initialEmailNotificationPreferences,
     isOnboardingComplete,
     onCompletionStatusChange,
   });
@@ -70,10 +72,10 @@ export default function AuxillariesProfilePane({
 
   return (
     <div data-testid="profile-step-container">
-      <div className="orbital-step-content profile-step">
+      <div className="orbital-step-content profile-step space-y-5">
         {/*
-          Single stagger host (space-y-5), same as Wallet/Interfaces — avoid
-          step-header + step-form nesting that double-applied pane-enter rise.
+          Single stagger host (space-y-5). Team invite stays *outside* the profile
+          form so Invite cannot nest-form submit and reload/close the auxillary.
         */}
         <form onSubmit={form.handleSubmit} className="space-y-5">
           <AuxillariesProfilePaneHeader
@@ -110,6 +112,8 @@ export default function AuxillariesProfilePane({
             authError={form.authError}
             onSendCode={handleSendCode}
             onVerifyCode={handleVerifyCode}
+            emailNotificationPreferences={form.emailNotificationPreferences}
+            setEmailNotificationPreferences={form.setEmailNotificationPreferences}
           />
 
           <ProfileIdentitySection
@@ -127,22 +131,22 @@ export default function AuxillariesProfilePane({
             uploadCustomAvatar={form.uploadCustomAvatar}
             avatarError={form.authError}
           />
-
-          <ProfileTeamViewSection
-            teamMembers={form.teamMembers}
-            currentUsername={form.username}
-            currentRole={form.currentRole}
-            canManageTeam={form.canManageTeam}
-            onInvite={form.inviteTeamMember}
-            onRemove={form.removeTeamMember}
-          />
-
-          <div className="auxillaries-glass-card rounded-none border border-white/10 px-5 py-4">
-            <p className="text-sm leading-7 text-white/68">
-              Profile changes save automatically. Wallet connection and GitHub installation are managed in their own auxillaries.
-            </p>
-          </div>
         </form>
+
+        <ProfileTeamViewSection
+          teamMembers={form.teamMembers}
+          currentUsername={form.username}
+          currentRole={form.currentRole}
+          canManageTeam={form.canManageTeam}
+          onInvite={form.inviteTeamMember}
+          onRemove={form.removeTeamMember}
+        />
+
+        <div className="auxillaries-glass-card rounded-none border border-white/10 px-5 py-4">
+          <p className="text-sm leading-7 text-white/68">
+            Profile changes save automatically. Wallet connection and GitHub installation are managed in their own auxillaries.
+          </p>
+        </div>
       </div>
     </div>
   );

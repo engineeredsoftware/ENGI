@@ -1,5 +1,8 @@
 /**
  * Organization team view — full roster for every member; invite/remove for admins.
+ *
+ * Invite uses type=button (not nested form submit) so the outer profile form cannot
+ * capture the click and navigate/close the auxillary surface.
  */
 
 'use client';
@@ -20,7 +23,10 @@ export interface ProfileTeamViewSectionProps {
     username: string;
     displayName: string;
     role: ProfileTeamMember['role'];
-  }) => { ok: true } | { ok: false; error: string };
+  }) => Promise<
+    | { ok: true; emailSent: boolean; emailSkippedReason: string | null; smtpConfigured: boolean }
+    | { ok: false; error: string }
+  >;
   onRemove: (memberId: string) => { ok: true } | { ok: false; error: string };
 }
 
@@ -44,6 +50,7 @@ export default function ProfileTeamViewSection({
   const [inviteHandle, setInviteHandle] = useState('');
   const [inviteDisplayName, setInviteDisplayName] = useState('');
   const [inviteRole, setInviteRole] = useState<ProfileTeamMember['role']>('dev');
+  const [inviteBusy, setInviteBusy] = useState(false);
   const [teamError, setTeamError] = useState<string | null>(null);
   const [teamNotice, setTeamNotice] = useState<string | null>(null);
 
@@ -61,23 +68,38 @@ export default function ProfileTeamViewSection({
     });
   }, [teamMembers]);
 
-  const handleInvite = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleInvite = async () => {
+    if (inviteBusy) return;
     setTeamError(null);
     setTeamNotice(null);
-    const result = onInvite({
-      username: inviteHandle,
-      displayName: inviteDisplayName,
-      role: inviteRole,
-    });
-    if (!result.ok) {
-      setTeamError(result.error);
-      return;
+    setInviteBusy(true);
+    try {
+      const result = await onInvite({
+        username: inviteHandle,
+        displayName: inviteDisplayName,
+        role: inviteRole,
+      });
+      if (!result.ok) {
+        setTeamError(result.error);
+        return;
+      }
+      setInviteHandle('');
+      setInviteDisplayName('');
+      setInviteRole('dev');
+      if (result.emailSent) {
+        setTeamNotice('Invite sent. They are on the roster as Invited.');
+      } else if (!result.smtpConfigured && inviteHandle.includes('@')) {
+        setTeamNotice(
+          'Invite saved to the roster, but email delivery is not configured (EMAIL_SMTP_URL). No message was sent.',
+        );
+      } else if (result.emailSkippedReason) {
+        setTeamNotice(`Invite saved to the roster. ${result.emailSkippedReason}`);
+      } else {
+        setTeamNotice('Invite saved to the team roster.');
+      }
+    } finally {
+      setInviteBusy(false);
     }
-    setInviteHandle('');
-    setInviteDisplayName('');
-    setInviteRole('dev');
-    setTeamNotice('Invite added to the team roster.');
   };
 
   return (
@@ -197,8 +219,7 @@ export default function ProfileTeamViewSection({
       </div>
 
       {canManageTeam ? (
-        <form
-          onSubmit={handleInvite}
+        <div
           className="mt-5 space-y-3 rounded-none border border-emerald-300/18 bg-emerald-400/[0.04] p-4"
           data-testid="auxillaries-team-invite-form"
         >
@@ -207,7 +228,8 @@ export default function ProfileTeamViewSection({
               Invite member
             </p>
             <p className="mt-1 text-xs leading-5 text-white/55">
-              Admins can invite by handle. Invites stay on this organization roster until accepted.
+              Use an email address to send an invite notification. Handle-only invites are rostered
+              without email.
             </p>
           </div>
           <div className="grid gap-3 tablet:grid-cols-[1.1fr_1.1fr_0.7fr_auto]">
@@ -215,24 +237,39 @@ export default function ProfileTeamViewSection({
               type="text"
               value={inviteHandle}
               onChange={(event) => setInviteHandle(event.target.value)}
-              placeholder="handle or email"
-              aria-label="Invite handle or email"
-              className="w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/38 focus:border-emerald-300/55"
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  void handleInvite();
+                }
+              }}
+              placeholder="email@company.com"
+              aria-label="Invite email or handle"
+              disabled={inviteBusy}
+              className="w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/38 focus:border-emerald-300/55 disabled:opacity-60"
               data-testid="auxillaries-team-invite-handle"
             />
             <input
               type="text"
               value={inviteDisplayName}
               onChange={(event) => setInviteDisplayName(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  void handleInvite();
+                }
+              }}
               placeholder="Display name (optional)"
               aria-label="Invite display name"
-              className="w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/38 focus:border-emerald-300/55"
+              disabled={inviteBusy}
+              className="w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/38 focus:border-emerald-300/55 disabled:opacity-60"
             />
             <select
               value={inviteRole}
               onChange={(event) => setInviteRole(event.target.value as ProfileTeamMember['role'])}
               aria-label="Invite role"
-              className="w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none focus:border-emerald-300/55"
+              disabled={inviteBusy}
+              className="w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none focus:border-emerald-300/55 disabled:opacity-60"
               data-testid="auxillaries-team-invite-role"
             >
               {INVITE_ROLES.map((role) => (
@@ -242,14 +279,16 @@ export default function ProfileTeamViewSection({
               ))}
             </select>
             <button
-              type="submit"
+              type="button"
               data-testid="auxillaries-team-invite-submit"
-              className="inline-flex items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-950/55 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-50 transition hover:border-emerald-200/50 hover:bg-emerald-900/60"
+              onClick={() => void handleInvite()}
+              disabled={inviteBusy}
+              className="inline-flex min-w-[6.5rem] items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-950/55 px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-50 transition hover:border-emerald-200/50 hover:bg-emerald-900/60 disabled:cursor-wait disabled:opacity-60"
             >
-              Invite
+              {inviteBusy ? 'Sending…' : 'Invite'}
             </button>
           </div>
-        </form>
+        </div>
       ) : (
         <p className="mt-4 text-xs leading-6 text-white/48">
           You can view the full team. Ask an owner or admin to invite or remove members.
@@ -257,12 +296,16 @@ export default function ProfileTeamViewSection({
       )}
 
       {teamError ? (
-        <p className="mt-3 text-xs text-red-300" data-testid="auxillaries-team-error">
+        <p className="mt-3 text-xs text-red-300" data-testid="auxillaries-team-error" role="alert">
           {teamError}
         </p>
       ) : null}
       {teamNotice ? (
-        <p className="mt-3 text-xs text-emerald-200/80" data-testid="auxillaries-team-notice">
+        <p
+          className="mt-3 text-xs text-emerald-200/80"
+          data-testid="auxillaries-team-notice"
+          role="status"
+        >
           {teamNotice}
         </p>
       ) : null}

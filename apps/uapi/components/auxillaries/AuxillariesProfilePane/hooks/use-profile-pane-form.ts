@@ -4,6 +4,10 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createClient } from '@bitcode/supabase/ssr/client';
+import {
+  DEFAULT_EMAIL_NOTIFICATION_PREFERENCES,
+  type BitcodeEmailNotificationPreferences,
+} from '@bitcode/orm';
 
 import type {
   AuxillariesProfilePaneProps,
@@ -27,6 +31,7 @@ type ProfileFormArgs = Pick<
   | 'initialAvatarUrl'
   | 'initialEmail'
   | 'initialIsVerified'
+  | 'initialEmailNotificationPreferences'
   | 'isOnboardingComplete'
   | 'onCompletionStatusChange'
 >;
@@ -42,6 +47,7 @@ export function useProfilePaneForm({
   initialAvatarUrl = '',
   initialEmail = '',
   initialIsVerified = false,
+  initialEmailNotificationPreferences,
   isOnboardingComplete = false,
   onCompletionStatusChange,
 }: ProfileFormArgs) {
@@ -72,6 +78,12 @@ export function useProfilePaneForm({
           },
         ],
   );
+  const [emailNotificationPreferences, setEmailNotificationPreferences] =
+    useState<BitcodeEmailNotificationPreferences>({
+      ...DEFAULT_EMAIL_NOTIFICATION_PREFERENCES,
+      ...initialEmailNotificationPreferences,
+      receiveCriticalUpdates: true,
+    });
   const lastProfileAutosaveSignatureRef = useRef<string | null>(null);
   const suppressProfileAutosaveRef = useRef(false);
   const verifiedRef = useRef<boolean>(initialIsVerified);
@@ -90,6 +102,15 @@ export function useProfilePaneForm({
     setIsVerified(initialIsVerified);
     verifiedRef.current = initialIsVerified;
   }, [initialIsVerified]);
+
+  useEffect(() => {
+    suppressProfileAutosaveRef.current = true;
+    setEmailNotificationPreferences({
+      ...DEFAULT_EMAIL_NOTIFICATION_PREFERENCES,
+      ...initialEmailNotificationPreferences,
+      receiveCriticalUpdates: true,
+    });
+  }, [initialEmailNotificationPreferences]);
 
   useEffect(() => {
     suppressProfileAutosaveRef.current = true;
@@ -189,8 +210,23 @@ export function useProfilePaneForm({
       teamMembers,
       isVerified,
       email: email || null,
+      emailNotificationPreferences: {
+        ...emailNotificationPreferences,
+        receiveCriticalUpdates: true,
+      },
     }),
-    [avatarUrl, bio, companyName, displayName, email, isVerified, selectedAvatar, teamMembers, username],
+    [
+      avatarUrl,
+      bio,
+      companyName,
+      displayName,
+      email,
+      emailNotificationPreferences,
+      isVerified,
+      selectedAvatar,
+      teamMembers,
+      username,
+    ],
   );
 
   useEffect(() => {
@@ -228,11 +264,14 @@ export function useProfilePaneForm({
   const currentRole: ProfileTeamMember['role'] = currentTeamMember?.role ?? 'admin';
   const canManageTeam = currentRole === 'owner' || currentRole === 'admin';
 
-  const inviteTeamMember = (input: {
+  const inviteTeamMember = async (input: {
     username: string;
     displayName: string;
     role: ProfileTeamMember['role'];
-  }): { ok: true } | { ok: false; error: string } => {
+  }): Promise<
+    | { ok: true; emailSent: boolean; emailSkippedReason: string | null; smtpConfigured: boolean }
+    | { ok: false; error: string }
+  > => {
     if (!canManageTeam) {
       return { ok: false, error: 'Only owners and admins can invite team members.' };
     }
@@ -246,19 +285,61 @@ export function useProfilePaneForm({
     if (input.role === 'owner') {
       return { ok: false, error: 'Owner role cannot be assigned via invite.' };
     }
-    const displayName = input.displayName.trim() || handle;
-    setTeamMembers((members) => [
-      ...members,
-      {
-        id: `invite-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        username: handle,
-        displayName,
-        avatarUrl: PROFILE_AVATAR_OPTIONS[members.length % PROFILE_AVATAR_OPTIONS.length],
-        role: input.role,
-        status: 'invited',
-      },
-    ]);
-    return { ok: true };
+
+    try {
+      const response = await fetch('/api/auxillaries/team/invite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: handle,
+          displayName: input.displayName.trim() || handle,
+          role: input.role,
+        }),
+      });
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        member?: ProfileTeamMember;
+        emailSent?: boolean;
+        emailSkippedReason?: string | null;
+        smtpConfigured?: boolean;
+      };
+
+      if (!response.ok) {
+        return { ok: false, error: data.error || 'Invite failed.' };
+      }
+
+      const member: ProfileTeamMember = data.member
+        ? {
+            ...data.member,
+            avatarUrl:
+              data.member.avatarUrl ||
+              PROFILE_AVATAR_OPTIONS[teamMembers.length % PROFILE_AVATAR_OPTIONS.length],
+          }
+        : {
+            id: `invite-${Date.now()}`,
+            username: handle,
+            displayName: input.displayName.trim() || handle,
+            avatarUrl: PROFILE_AVATAR_OPTIONS[teamMembers.length % PROFILE_AVATAR_OPTIONS.length],
+            role: input.role,
+            status: 'invited',
+          };
+
+      // Suppress one autosave cycle — server already persisted the roster.
+      suppressProfileAutosaveRef.current = true;
+      setTeamMembers((members) => [...members, member]);
+
+      return {
+        ok: true,
+        emailSent: Boolean(data.emailSent),
+        emailSkippedReason: data.emailSkippedReason ?? null,
+        smtpConfigured: Boolean(data.smtpConfigured),
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : 'Invite failed.',
+      };
+    }
   };
 
   const removeTeamMember = (
@@ -338,6 +419,8 @@ export function useProfilePaneForm({
     verifiedRef,
     selectAvatar,
     uploadCustomAvatar,
+    emailNotificationPreferences,
+    setEmailNotificationPreferences,
     inviteTeamMember,
     removeTeamMember,
     handleSubmit,
