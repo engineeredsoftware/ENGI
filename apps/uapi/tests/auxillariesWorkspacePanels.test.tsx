@@ -34,10 +34,15 @@ describe('AuxillariesWorkspacePanels', () => {
     );
 
     expect(screen.getByLabelText('Wallet key features')).toBeInTheDocument();
-    expect(screen.getByText('Providers')).toBeInTheDocument();
-    expect(screen.getByText('BTC')).toBeInTheDocument();
+    expect(screen.getByText('Wallets')).toBeInTheDocument();
+    expect(screen.getByText('Balances')).toBeInTheDocument();
+    expect(screen.getByText('Activity')).toBeInTheDocument();
+    expect(screen.getByText('Repositories')).toBeInTheDocument();
     expect(screen.getByText('GitHub')).toBeInTheDocument();
-    expect(screen.getByText('Identity')).toBeInTheDocument();
-    expect(screen.getByText('MCP')).toBeInTheDocument();
+    expect(screen.getByText('Email')).toBeInTheDocument();
+    expect(screen.getByText('Team management')).toBeInTheDocument();
+    expect(screen.getByText('Aesthetics')).toBeInTheDocument();
+    expect(screen.getByText('Apps customization')).toBeInTheDocument();
+    expect(screen.getByText('System prompt')).toBeInTheDocument();
   });
 });

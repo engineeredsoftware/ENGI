@@ -255,6 +255,13 @@ export function mergeBitcodeProfileSettings(
       ? existing.emailNotificationPreferences
       : normalizeEmailNotificationPreferences(patch.emailNotificationPreferences);
 
+  // Plain object form satisfies Json index signature (interface types do not).
+  const emailNotificationPreferencesJson: JsonRecord = {
+    receiveProductUpdates: nextEmailNotificationPreferences.receiveProductUpdates,
+    receiveYourNotifications: nextEmailNotificationPreferences.receiveYourNotifications,
+    receiveCriticalUpdates: true,
+  };
+
   return {
     ...existingRecord,
     bitcodeProfile: {
@@ -263,7 +270,7 @@ export function mergeBitcodeProfileSettings(
       email: patch.email === undefined ? existing.email : patch.email,
       isVerified: patch.isVerified === undefined ? existing.isVerified : patch.isVerified,
       walletBinding: nextWalletBinding,
-      emailNotificationPreferences: nextEmailNotificationPreferences,
+      emailNotificationPreferences: emailNotificationPreferencesJson,
     },
   };
 }

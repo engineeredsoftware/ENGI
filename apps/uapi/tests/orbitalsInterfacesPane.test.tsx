@@ -94,9 +94,10 @@ describe('AuxillariesInterfacesPane', () => {
     expect(screen.getByRole('heading', { name: /Read–Deposit system prompt/i })).toBeTruthy();
     expect(screen.getByText(/Registry fixed/i)).toBeInTheDocument();
     expect(screen.getByTestId('auxillaries-interface-admission-catalog')).toBeInTheDocument();
-    expect(screen.getAllByText(/packs/i).length).toBeGreaterThan(0);
+    // Admission catalog surfaces (preference-card "Packs" is hidden with interface defaults).
+    expect(screen.getAllByText(/product/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/mcp/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/exchange hook/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/exchange-hook|exchange/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/wallet binding required for delivery/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/exchange market depth deferred to future version/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/1\/3 ready/i)).toBeInTheDocument();
