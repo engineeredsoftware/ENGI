@@ -314,6 +314,7 @@ describe('runDepositInBoxHost (#25)', () => {
       XAI_API_KEY: 'xai-deposit-test-credential-value',
       BITCODE_LLM_PROVIDER: 'xai',
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
+      BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
       BITCODE_PIPELINE_USER_ID: 'user-deposit-test',
       BITCODE_PIPELINE_RUN_ID: 'run-deposit-test',
     });
@@ -324,6 +325,50 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(receivedPlan.createOptions.persistent).toBe(false);
     expect(typeof receivedPlan.createOptions.name).toBe('string');
     expect(receivedPlan.createOptions.name).toMatch(/^bitcode-deposit-/);
+  });
+
+  it('pins REAL_INFERENCE_PROFILE=bounded even when process.env says full', async () => {
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'full';
+    process.env.VERCEL = '1';
+    process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
+
+    let receivedPlan: any;
+    const fakeHost = {
+      runHostPlan: async (plan: any) => {
+        receivedPlan = plan;
+        return {
+          sandboxId: 'sbx_profile',
+          artifacts: {
+            evidence: { depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }] },
+            telemetry: null,
+          },
+          outcome: 'completed',
+          stopped: true,
+          manifest: plan.manifest,
+          commands: [],
+        };
+      },
+    };
+
+    await runDepositInBoxHost({
+      repositoryFullName: 'o/r',
+      revision: 'main',
+      branch: 'main',
+      commit: null,
+      userId: 'user-profile-pin',
+      obfuscations: null,
+      permissibleSources: [],
+      impermissibleSources: [],
+      demandContext: [],
+      hostFactory: async () => fakeHost,
+    });
+
+    expect(receivedPlan.createOptions.env).toMatchObject({
+      BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
+      BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
+      BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
+    });
   });
 
   it('throws a host/pipeline error (not Validation zero-options) when outcome is failed', async () => {

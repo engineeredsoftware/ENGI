@@ -94,14 +94,21 @@ export function selectedPipelineHostCommandEnvironment(
     env.BITCODE_ASSET_PACK_REAL_INFERENCE = String(realInferenceRaw).trim();
   } else {
     env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
-    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE =
-      env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE ||
-      process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE ||
-      'bounded';
+    // Product host routes (deposit + asset-pack API) only admit the bounded
+    // profile. Always pin it here — do not forward a Vercel/process value of
+    // `full` (or other) into create/command env; full runs belong to the
+    // later async sandbox completion gate, and preflight would otherwise
+    // throw BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded required.
+    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
   }
   const realInferenceRequired = isPipelineHostRealInferenceRequired();
   if (realInferenceRequired) {
     env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
+  }
+  // Default budget when unset so strict real-inference preflight has a
+  // finite positive ms value without requiring every deploy to set it.
+  if (!env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS) {
+    env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '240000';
   }
   assertDatabaseStreamingEnvironment(env, process.env);
   normalizeModelEnvironment(env);
