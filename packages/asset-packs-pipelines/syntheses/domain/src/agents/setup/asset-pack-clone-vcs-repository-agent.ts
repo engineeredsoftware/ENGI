@@ -412,26 +412,92 @@ async function recordDepositCatalogFromRunWorkspace(
     },
   );
   storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', catalog);
-  storeCrossPhaseArtifact(execution, 'deposit', 'loadSourceCheckoutFileBodies', async () => {
-    const allPaths = await workspace.listFiles();
-    const sources: { path: string; content: string }[] = [];
-    for (const path of allPaths) {
-      const content = await workspace.readFile(path);
-      if (content == null) continue;
-      sources.push({ path, content });
-    }
-    return sources;
-  });
-  storeCrossPhaseArtifact(execution, 'deposit', 'loadCheckoutSourceFiles', async () => {
-    const allPaths = await workspace.listFiles();
-    const sources: { path: string; content: string }[] = [];
-    for (const path of allPaths) {
-      const content = await workspace.readFile(path);
-      if (content == null) continue;
-      sources.push({ path, content });
-    }
-    return sources;
-  });
+  // Bound in-memory body load. Full monorepo materialization OOMed the sandbox
+  // (exit 137) at Discovery start on Bitcode (runs 9d8bcf0f / 04db5eda) after
+  // Setup closed — loading every file into `sources[]` is not viable in-box.
+  const bindBoundedBodyLoader = (key: string) => {
+    storeCrossPhaseArtifact(execution, 'deposit', key, async () => {
+      return loadBoundedCheckoutSourceBodies(workspace);
+    });
+  };
+  bindBoundedBodyLoader('loadSourceCheckoutFileBodies');
+  bindBoundedBodyLoader('loadCheckoutSourceFiles');
+}
+
+const BODY_LOAD_PRIORITY = [
+  /^readme/i,
+  /^package\.json$/i,
+  /^tsconfig/i,
+  /^pnpm-workspace\./i,
+  /^cargo\.toml$/i,
+  /^go\.mod$/i,
+  /^pyproject\.toml$/i,
+];
+
+const BODY_LOAD_SOURCE_EXT =
+  /\.(ts|tsx|js|jsx|mjs|cjs|py|rs|go|md|json|yml|yaml)$/i;
+
+/**
+ * Cap which checkout files are held as full bodies in RAM for Discovery.
+ * Paths catalog remains complete; bodies are a bounded seed for PTRR + tools
+ * can read more on demand via host-workspace-read-file.
+ */
+export async function loadBoundedCheckoutSourceBodies(workspace: {
+  listFiles: () => Promise<string[]>;
+  readFile: (path: string) => Promise<string | null>;
+}): Promise<{ path: string; content: string }[]> {
+  const maxFiles = (() => {
+    const raw = Number(process.env.BITCODE_DEPOSIT_MAX_SOURCE_BODIES);
+    return Number.isFinite(raw) && raw > 0 ? Math.min(200, Math.floor(raw)) : 48;
+  })();
+  const maxChars = (() => {
+    const raw = Number(process.env.BITCODE_DEPOSIT_MAX_SOURCE_BODY_CHARS);
+    return Number.isFinite(raw) && raw > 0
+      ? Math.min(200_000, Math.floor(raw))
+      : 16_000;
+  })();
+  const maxTotalChars = (() => {
+    const raw = Number(process.env.BITCODE_DEPOSIT_MAX_SOURCE_BODIES_TOTAL_CHARS);
+    return Number.isFinite(raw) && raw > 0
+      ? Math.min(4_000_000, Math.floor(raw))
+      : 400_000;
+  })();
+
+  const allPaths = await workspace.listFiles();
+  const prioritized = allPaths.filter((p) =>
+    BODY_LOAD_PRIORITY.some((re) => re.test(p.split('/').pop() || '')),
+  );
+  const shallowSource = allPaths.filter(
+    (p) =>
+      !prioritized.includes(p) &&
+      BODY_LOAD_SOURCE_EXT.test(p) &&
+      p.split('/').filter(Boolean).length <= 3 &&
+      !p.includes('node_modules/') &&
+      !p.includes('/dist/') &&
+      !p.includes('/.git/'),
+  );
+  const ordered = [...prioritized, ...shallowSource];
+  const unique: string[] = [];
+  for (const p of ordered) {
+    if (!unique.includes(p)) unique.push(p);
+    if (unique.length >= maxFiles) break;
+  }
+
+  const sources: { path: string; content: string }[] = [];
+  let totalChars = 0;
+  for (const path of unique) {
+    if (totalChars >= maxTotalChars) break;
+    const content = await workspace.readFile(path);
+    if (content == null) continue;
+    let slice =
+      content.length > maxChars ? content.slice(0, maxChars) : content;
+    const room = maxTotalChars - totalChars;
+    if (slice.length > room) slice = slice.slice(0, room);
+    if (slice.length === 0) break;
+    sources.push({ path, content: slice });
+    totalChars += slice.length;
+  }
+  return sources;
 }
 
 function forceClonePtrr(): boolean {

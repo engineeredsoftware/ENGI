@@ -19,8 +19,9 @@ export type KeySourceFileRead = {
   truncated: boolean;
 };
 
-const KEY_FILE_MAX = 16;
-const KEY_FILE_MAX_CHARS = 12000;
+// Tighter defaults for sandbox deposit on large monorepos (was 16×12k).
+const KEY_FILE_MAX = 12;
+const KEY_FILE_MAX_CHARS = 8000;
 
 const KEY_NAME_PATTERNS = [
   /^readme/i,

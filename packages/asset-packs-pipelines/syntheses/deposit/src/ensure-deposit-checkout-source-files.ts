@@ -55,18 +55,36 @@ export async function ensureDepositCheckoutSourceFiles(
     return sourceCatalog;
   }
 
+  // Cap path list kept on the catalog object (bodies already bounded by loader).
+  // Huge path arrays alone pressure sandbox heap on monorepo deposits.
+  const maxPaths = (() => {
+    const raw = Number(process.env.BITCODE_DEPOSIT_MAX_CATALOG_PATHS);
+    return Number.isFinite(raw) && raw > 0 ? Math.min(50_000, Math.floor(raw)) : 8_000;
+  })();
+  const rawPaths =
+    Array.isArray(sourceCatalog?.paths) && sourceCatalog!.paths.length > 0
+      ? sourceCatalog!.paths
+      : sources.map((file: { path: string }) => file.path);
+  const paths =
+    rawPaths.length > maxPaths ? rawPaths.slice(0, maxPaths) : rawPaths;
+
   sourceCatalog = {
-    paths:
-      Array.isArray(sourceCatalog?.paths) && sourceCatalog!.paths.length > 0
-        ? sourceCatalog!.paths
-        : sources.map((file: { path: string }) => file.path),
+    paths,
     samples: Array.isArray(sourceCatalog?.samples) ? sourceCatalog!.samples : [],
     sources,
-    totalPathCount: sourceCatalog?.totalPathCount ?? sources.length,
-    excludedPathCount: sourceCatalog?.excludedPathCount ?? 0,
+    totalPathCount: sourceCatalog?.totalPathCount ?? rawPaths.length,
+    excludedPathCount:
+      (sourceCatalog?.excludedPathCount ?? 0) +
+      Math.max(0, rawPaths.length - paths.length),
   };
 
   storeCrossPhaseArtifact(execution, 'deposit', 'sourceCheckoutCatalog', sourceCatalog);
+  try {
+    execution?.store?.('deposit', 'sourceBodiesBounded', true);
+    execution?.store?.('deposit', 'sourceBodiesCount', sources.length);
+  } catch {
+    /* ignore */
+  }
   return sourceCatalog;
 }
 

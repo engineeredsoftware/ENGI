@@ -515,6 +515,13 @@ export function buildPipelineImageRunShellScript(pipelineImageEntry: string): st
     'printf "%s\\n" "{\\"type\\":\\"pipeline-shell-start\\",\\"timestamp\\":\\"$TS\\",\\"cwd\\":\\"$(pwd)\\"}" >> "$TELEM"',
     '(',
     `  cd ${shellQuote(monorepoRoot)} || { echo "pipeline-shell: cd monorepo failed" >&2; exit 127; }`,
+    // Product sandbox defaults (env may already set these from uapi host plan).
+    // Serial Discovery + bounded Node heap reduce monorepo OOM (exit 137).
+    '  export BITCODE_DEBUG_DISCOVERY_SERIAL="${BITCODE_DEBUG_DISCOVERY_SERIAL:-1}"',
+    '  if [ -z "${NODE_OPTIONS:-}" ] || ! echo "$NODE_OPTIONS" | grep -q max-old-space-size; then',
+    '    export NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--max-old-space-size=${BITCODE_PIPELINE_MAX_OLD_SPACE_MB:-1536}"',
+    '  fi',
+    '  echo "pipeline-shell: discovery_serial=$BITCODE_DEBUG_DISCOVERY_SERIAL node_options=$NODE_OPTIONS" >&2',
     '  TSX_LOADER=""',
     `  for c in ${loaderCandidates}; do`,
     '    if [ -f "$c" ]; then TSX_LOADER=$c; break; fi',
