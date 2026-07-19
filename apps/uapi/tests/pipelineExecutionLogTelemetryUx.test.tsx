@@ -287,6 +287,59 @@ describe('buildPipelineRunActivityFromEvents — mode latch + latest context', (
     expect(Object.keys(snapshot.outputDetails)).toHaveLength(1);
   });
 
+  it('de-dupes legacy+bridge pairs that differ only by executionNodeId (run 8ecbd11a)', () => {
+    // LEGACY stream rows carry executionNodeId=`thinkings:reason`; the host
+    // telemetry bridge re-emits the same path ~1s later without nodeId.
+    const path = [
+      'pipeline:synthesize_deposit_asset_packs',
+      'seq-3',
+      'phase:validation',
+      'agent:DepositReadyToFinishAssetPacksSynthesisDepositPipeline',
+      'try',
+      'seq-0',
+      'failsafe:prepare_concise_context',
+      'selection',
+      'seq-0',
+      'thinkings:reason',
+    ];
+    const state = {
+      phase: 'validation',
+      agent: 'DepositReadyToFinishAssetPacksSynthesisDepositPipeline',
+      step: 'try',
+      failsafe: 'prepare_concise_context',
+      generation: 'reason',
+    };
+    const dual = [
+      {
+        id: 'legacy',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'output',
+          message: '[content withheld — source-safe]',
+          executionNodeId: 'thinkings:reason',
+          executionPath: path,
+          executionState: state,
+        },
+        created_at: '2026-07-19T21:37:50.803Z',
+      },
+      {
+        id: 'bridge',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'output',
+          message: '[content withheld — source-safe]',
+          executionPath: path,
+          executionState: state,
+        },
+        created_at: '2026-07-19T21:37:52.636Z',
+      },
+    ];
+    const snapshot = buildPipelineRunActivityFromEvents(dual, null, [], null);
+    expect(Object.keys(snapshot.outputDetails)).toHaveLength(1);
+  });
+
   it('never stamps DIV iter on Setup formal rows even after currentIteration=1', () => {
     // Late dual-write: Setup refine STRUCTURE after Discovery latched iter 1
     // used to paint "iter 1" on the last Setup log line (run 9d8bcf0f UX).

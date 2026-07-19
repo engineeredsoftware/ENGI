@@ -661,7 +661,7 @@ describe('POST /api/pipeline-host/asset-pack', () => {
     process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
-    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '600000';
+    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '720000';
 
     const events: Array<{ event: string; data: any }> = [];
     await runAssetPackHostRoute(
@@ -691,7 +691,7 @@ describe('POST /api/pipeline-host/asset-pack', () => {
       realInferenceRequired: true,
       realInferenceEnabled: true,
       realInferenceProfile: 'bounded',
-      runtimeBudgetMs: 600000,
+      runtimeBudgetMs: 720000,
       supabaseHost: 'staging.example.test',
     });
     expect(events[2].data).toMatchObject({
@@ -799,7 +799,7 @@ describe('POST /api/pipeline-host/asset-pack', () => {
           BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
           BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
           BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
-          BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '600000',
+          BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '720000',
           BITCODE_PIPELINE_USER_ID: 'user-local-route',
           BITCODE_PIPELINE_STREAM_TO_DATABASE: '1',
           BITCODE_PIPELINE_STRUCTURED_DB: '1',

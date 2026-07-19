@@ -282,6 +282,53 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   return null;
 }
 
+/**
+ * Stable identity for formal log-line de-dupe across dual-write paths.
+ *
+ * Sandbox LEGACY_EVENTS_DB emits full stream events (often with
+ * `executionNodeId=thinkings:reason`). The host telemetry.jsonl bridge re-emits
+ * the same completion ~1s later with the same `executionPath` but often without
+ * `executionNodeId` (run 8ecbd11a Validation ReadyToFinish pairs). Using raw
+ * nodeId in the identity doubled every thinking row in the UI.
+ */
+function formalLogLineIdentity(
+  kind: FormalLogLineKind,
+  payload: any,
+  rolling: ExecContext,
+  nodeId: string,
+  toolName = '',
+): string {
+  const path = Array.isArray(payload?.executionPath)
+    ? payload.executionPath.map(String).filter(Boolean).join('/')
+    : '';
+  if (path) {
+    return `${kind}|path|${path}|${String(payload?.key || '')}|${toolName}`;
+  }
+
+  const own = readEventExecutionState(payload);
+  const genFromNode =
+    nodeId.startsWith('thinkings:') ? nodeId.slice('thinkings:'.length) : '';
+  const generation = String(
+    own.generation ?? rolling.generation ?? genFromNode ?? '',
+  );
+  // Normalize empty vs `thinkings:<generation>` so bridge/legacy pairs match.
+  const normalizedNode =
+    nodeId ||
+    (kind === 'llm' && generation ? `thinkings:${generation}` : '');
+  return [
+    kind,
+    String(payload?.namespace || ''),
+    String(payload?.key || ''),
+    normalizedNode,
+    own.phase ?? rolling.phase ?? '',
+    own.agent ?? rolling.agent ?? '',
+    own.step ?? rolling.step ?? '',
+    own.failsafe ?? rolling.failsafe ?? '',
+    generation,
+    toolName,
+  ].join('|');
+}
+
 export function buildPipelineRunActivityFromEvents(
   events: ExecutionEvent[],
   latestWorkUpdate: any | null,
@@ -438,17 +485,35 @@ export function buildPipelineRunActivityFromEvents(
     const kind = classifyFormalLogLine(payload);
     if (!kind) continue;
 
-    const formalIdentity = [
+    // Resolve tool name early so dual-write de-dupe can include it.
+    let resolvedToolName = '';
+    if (kind === 'tool') {
+      const acc = toolByNode.get(nodeId) || {};
+      const nodeToolSegment = nodeId
+        .split('/')
+        .reverse()
+        .find((segment) => segment.startsWith('tool:'));
+      const toolNameFromNode = nodeToolSegment ? nodeToolSegment.slice('tool:'.length) : '';
+      resolvedToolName = String(
+        toolNameFromNode ||
+          acc.name ||
+          payload?.data?.tool ||
+          payload?.metadata?.toolName ||
+          (key === 'error' ? 'tool (failed)' : 'tool'),
+      );
+    }
+
+    // Dual-write identity: sandbox LEGACY_EVENTS_DB rows often carry
+    // executionNodeId=`thinkings:reason` while the host telemetry.jsonl bridge
+    // emits the same completion without nodeId (run 8ecbd11a). Prefer the
+    // shared executionPath; otherwise normalize nodeId from generation.
+    const formalIdentity = formalLogLineIdentity(
       kind,
-      ns,
-      key,
+      payload,
+      rollingContext,
       nodeId,
-      payload?.executionState?.phase ?? payload?.data?.phase ?? rollingContext.phase ?? '',
-      payload?.executionState?.agent ?? payload?.data?.agent ?? rollingContext.agent ?? '',
-      payload?.executionState?.step ?? payload?.data?.step ?? rollingContext.step ?? '',
-      payload?.executionState?.generation ?? payload?.data?.generation ?? '',
-      payload?.executionState?.failsafe ?? payload?.data?.failsafe ?? '',
-    ].join('|');
+      resolvedToolName,
+    );
     if (seenFormalIdentities.has(formalIdentity)) continue;
     seenFormalIdentities.add(formalIdentity);
 
@@ -475,21 +540,7 @@ export function buildPipelineRunActivityFromEvents(
 
     if (kind === 'tool') {
       const acc = toolByNode.get(nodeId) || {};
-      // The execution node id carries the tool identity ('…/tool:<Name>')
-      // deterministically; the name-store accumulator is only a fallback —
-      // same-millisecond event scrambling can deliver a call's 'name' store
-      // after its 'result', which used to leave rows named just 'tool'.
-      const nodeToolSegment = nodeId
-        .split('/')
-        .reverse()
-        .find((segment) => segment.startsWith('tool:'));
-      const toolNameFromNode = nodeToolSegment ? nodeToolSegment.slice('tool:'.length) : '';
-      const toolName =
-        toolNameFromNode ||
-        acc.name ||
-        payload?.data?.tool ||
-        payload?.metadata?.toolName ||
-        (key === 'error' ? 'tool (failed)' : 'tool');
+      const toolName = resolvedToolName || (key === 'error' ? 'tool (failed)' : 'tool');
       // Tool uses have Phase/Agent/Step but no Failsafe/Thinkings.
       const phase = rollingContext.phase ?? null;
       const merged: ExecContext = {
