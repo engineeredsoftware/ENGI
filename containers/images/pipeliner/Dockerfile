@@ -37,31 +37,19 @@ ENV GOBIN=/usr/local/bin
 ENV DOTNET_ROOT=/opt/dotnet
 ENV JDTLS_HOME=/opt/jdtls
 
-# Workspace manifests + packages + pipeliner image package
+# Workspace manifests + packages + pipeliner image package.
+# Root tsconfig is required: live tsx loads use path maps such as
+# @bitcode/generic-tools/use-computer (no package.json, only path alias).
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc* ./
+COPY tsconfig.json ./
 COPY packages ./packages
 COPY containers/images/pipeliner ./containers/images/pipeliner
 
-# Install workspace (filter when possible; full install fallback).
-# Explicit @bitcode/lsp pulls bundled npm language servers into the image.
-# Include synthesis product packages + tools-generics so live-runner file://
-# imports can resolve workspace deps under pnpm (not only TypeScript path maps).
-RUN pnpm install --frozen-lockfile \
-  --filter @bitcode/pipeline-hosts... \
-  --filter @bitcode/pipeline-image... \
-  --filter @bitcode/asset-packs-pipelines-domain... \
-  --filter @bitcode/asset-packs-pipelines-syntheses-domain... \
-  --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs... \
-  --filter @bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs... \
-  --filter @bitcode/lsp... \
-  --filter @bitcode/pipelines-generics... \
-  --filter @bitcode/tools-generics... \
-  --filter @bitcode/agent-generics... \
-  --filter @bitcode/execution-generics... \
-  --filter @bitcode/btd... \
-  --filter @bitcode/supabase... \
-  --filter @bitcode/generic-tools-repository-setup... \
-  || pnpm install --frozen-lockfile
+# Full workspace install — filtered installs repeatedly shipped images that
+# copied tool package sources without their pnpm-isolated deps (zod under
+# repository-setup / multimodal-processing, etc.) and failed deposit boot
+# in ~2s. Size cost is acceptable vs silent production breakage.
+RUN pnpm install --frozen-lockfile
 
 # Project-wide: expose every workspace package at root node_modules/@bitcode/*
 # (+ per-package self-links) so absolute .ts loads under tsx resolve package
@@ -112,23 +100,13 @@ RUN test -e node_modules/@bitcode/supabase \
   && test -e packages/supabase/node_modules/@bitcode/supabase \
   || (echo "pipeliner image missing root/self workspace links for supabase/btd" >&2 && exit 1)
 
-# Smoke: live runner path — domain + pipelines-generics (pulls tools/execution
-# graph that previously failed on Execution.js exports).
+# Production-path smoke: same monorepo modules the live runner Promise.alls at
+# deposit/read boot (deposit factory, read factory, btd, zod tool deps).
+# Weak smokes that only load domain/Execution shipped broken deposit images.
 RUN LOADER="packages/pipeline-hosts/node_modules/tsx/dist/loader.mjs" \
   && test -f "$LOADER" \
-  && node --import "./$LOADER" -e "\
-import { pathToFileURL } from 'url'; \
-const load = async (rel) => { \
-  const p = pathToFileURL(process.cwd() + '/' + rel).href; \
-  const mod = await import(p); \
-  if (!mod) throw new Error('empty import ' + rel); \
-  return mod; \
-}; \
-await load('packages/asset-packs-pipelines/domain/src/index.ts'); \
-await load('packages/pipelines-generics/src/index.ts'); \
-await load('packages/execution-generics/src/Execution.ts'); \
-console.log('pipeliner domain+pipelines-generics+Execution smoke ok'); \
-"
+  && node --import "./$LOADER" \
+    containers/images/pipeliner/scripts/smoke-live-runner-import-graph.mjs
 
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs
