@@ -25,6 +25,12 @@ interface TelemetryExplainerTriggerProps {
    * span wrapper would be invalid markup and break the row layout).
    */
   as?: 'span' | 'div';
+  /**
+   * When true, never show the tooltip and clear any open placement.
+   * Use while a nested popover/dialog owns the pointer (e.g. anchor name box)
+   * so a large portal tooltip cannot cover interactive content.
+   */
+  disabled?: boolean;
 }
 
 /**
@@ -42,6 +48,7 @@ export function TelemetryExplainerTrigger({
   className,
   side = 'bottom',
   as: Wrapper = 'span',
+  disabled = false,
 }: TelemetryExplainerTriggerProps) {
   const [placement, setPlacement] = useState<TooltipPlacement | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -65,6 +72,11 @@ export function TelemetryExplainerTrigger({
     cancelScheduledHide();
     setPlacement(null);
   }, [cancelScheduledHide]);
+
+  // Drop any open tooltip when a nested surface (popover/dialog) takes over.
+  useEffect(() => {
+    if (disabled) hideTooltipNow();
+  }, [disabled, hideTooltipNow]);
 
   useEffect(() => {
     if (!placement) return undefined;
@@ -91,10 +103,11 @@ export function TelemetryExplainerTrigger({
 
   const showTooltip = useCallback(
     (event: React.SyntheticEvent<HTMLElement>) => {
+      if (disabled) return;
       cancelScheduledHide();
       setPlacement(resolveExplainerPlacement(event.currentTarget, side));
     },
-    [cancelScheduledHide, side],
+    [cancelScheduledHide, disabled, side],
   );
 
   // Grace period so the pointer can travel from the trigger into the
@@ -105,7 +118,7 @@ export function TelemetryExplainerTrigger({
   }, [cancelScheduledHide]);
 
   const tooltipMarkup =
-    isMounted && placement
+    isMounted && placement && !disabled
       ? createPortal(
         <span
           role="tooltip"

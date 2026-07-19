@@ -414,112 +414,124 @@ export default function DepositSourceSelection({
               className="h-9"
             />
           </div>
-          <TelemetryExplainerTrigger
-            side="bottom"
-            explainer={toRichHoverExplainer(
-              DEPOSIT_SECTION_EXPLAINERS.repositoryAnchor,
-            )}
+          <Popover
+            open={isRepositoryAnchorPopoverOpen}
+            onOpenChange={(open) => {
+              if (disabled) return;
+              if (open && !selectedRepository) return;
+              if (isRecording) return;
+              setIsRepositoryAnchorPopoverOpen(open);
+            }}
           >
-            <span className="inline-flex">
-              <Popover
-                open={isRepositoryAnchorPopoverOpen}
-                onOpenChange={(open) => {
-                  if (disabled) return;
-                  if (open && !selectedRepository) return;
-                  if (isRecording) return;
-                  setIsRepositoryAnchorPopoverOpen(open);
-                }}
-              >
-                <PopoverTrigger asChild>
-                  <button
-                    type="button"
-                    aria-label="Anchor repository to the activity ledger"
-                    disabled={
-                      disabled ||
-                      !selectedRepository ||
-                      !selectedBranch ||
-                      isRecording
-                    }
-                    className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    {isRecording ? (
-                      <RefreshCw className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Anchor className="h-4 w-4" />
-                    )}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent
-                  align="end"
-                  sideOffset={6}
-                  className="w-64 border-white/10 bg-neutral-950 p-3 text-neutral-100 shadow-xl"
+            {/*
+              Explainer wraps only the icon trigger — not PopoverContent —
+              and is disabled while the name box is open so the large portal
+              tooltip cannot sit above the input (z-index) and steal hover.
+            */}
+            <TelemetryExplainerTrigger
+              side="bottom"
+              disabled={isRepositoryAnchorPopoverOpen}
+              explainer={toRichHoverExplainer(
+                DEPOSIT_SECTION_EXPLAINERS.repositoryAnchor,
+              )}
+            >
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Anchor repository to the activity ledger"
+                  disabled={
+                    disabled ||
+                    !selectedRepository ||
+                    !selectedBranch ||
+                    isRecording
+                  }
+                  className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
-                    Name this anchor
-                  </p>
-                  <input
-                    id="deposit-repository-anchor-name"
-                    type="text"
-                    value={repositoryAnchorName}
-                    onChange={(event) =>
-                      setRepositoryAnchorName(event.target.value.slice(0, 80))
-                    }
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter") {
-                        event.preventDefault();
-                        void handleAnchorRepository();
-                      }
-                      if (event.key === "Escape") {
-                        event.preventDefault();
-                        setIsRepositoryAnchorPopoverOpen(false);
-                      }
-                    }}
-                    placeholder="Optional name"
-                    maxLength={80}
-                    autoFocus
-                    aria-label="Repository anchor name"
-                    className="mt-2 h-9 w-full border border-white/10 bg-black/40 px-2.5 text-xs text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-emerald-300/35"
-                  />
-                  <p className="mt-1.5 text-[0.68rem] leading-4 text-neutral-500">
-                    Shown as the label when reloading. Leave blank to use the
-                    repository full name. Saves repo · branch · commit.
-                  </p>
-                  <div className="mt-3 flex items-center justify-end gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsRepositoryAnchorPopoverOpen(false)}
-                      disabled={isRecording}
-                      className="border border-white/10 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-white/25 disabled:opacity-40"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        void handleAnchorRepository();
-                      }}
-                      disabled={
-                        !selectedRepository ||
-                        !selectedBranch ||
-                        isRecording
-                      }
-                      className="inline-flex items-center gap-1.5 border border-emerald-300/30 bg-emerald-300/12 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                      {isRecording ? (
-                        <RefreshCw
-                          className="h-3 w-3 animate-spin"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <Anchor className="h-3 w-3" aria-hidden="true" />
-                      )}
-                      Save anchor
-                    </button>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </span>
-          </TelemetryExplainerTrigger>
+                  {isRecording ? (
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Anchor className="h-4 w-4" />
+                  )}
+                </button>
+              </PopoverTrigger>
+            </TelemetryExplainerTrigger>
+            <PopoverContent
+              align="end"
+              sideOffset={6}
+              className="z-[10200] w-64 border-white/10 bg-neutral-950 p-3 text-neutral-100 shadow-xl"
+              onOpenAutoFocus={(event) => {
+                // Keep focus on the name field without re-triggering the
+                // explainer (which listens for focus on its icon wrapper).
+                event.preventDefault();
+                const input = document.getElementById(
+                  "deposit-repository-anchor-name",
+                );
+                if (input instanceof HTMLInputElement) {
+                  input.focus();
+                }
+              }}
+            >
+              <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+                Name this anchor
+              </p>
+              <input
+                id="deposit-repository-anchor-name"
+                type="text"
+                value={repositoryAnchorName}
+                onChange={(event) =>
+                  setRepositoryAnchorName(event.target.value.slice(0, 80))
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    void handleAnchorRepository();
+                  }
+                  if (event.key === "Escape") {
+                    event.preventDefault();
+                    setIsRepositoryAnchorPopoverOpen(false);
+                  }
+                }}
+                placeholder="Optional name"
+                maxLength={80}
+                aria-label="Repository anchor name"
+                className="mt-2 h-9 w-full border border-white/10 bg-black/40 px-2.5 text-xs text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-emerald-300/35"
+              />
+              <p className="mt-1.5 text-[0.68rem] leading-4 text-neutral-500">
+                Shown as the label when reloading. Leave blank to use the
+                repository full name. Saves repo · branch · commit.
+              </p>
+              <div className="mt-3 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsRepositoryAnchorPopoverOpen(false)}
+                  disabled={isRecording}
+                  className="border border-white/10 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-white/25 disabled:opacity-40"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    void handleAnchorRepository();
+                  }}
+                  disabled={
+                    !selectedRepository || !selectedBranch || isRecording
+                  }
+                  className="inline-flex items-center gap-1.5 border border-emerald-300/30 bg-emerald-300/12 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {isRecording ? (
+                    <RefreshCw
+                      className="h-3 w-3 animate-spin"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <Anchor className="h-3 w-3" aria-hidden="true" />
+                  )}
+                  Save anchor
+                </button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
