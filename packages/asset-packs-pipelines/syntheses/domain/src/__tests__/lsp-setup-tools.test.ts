@@ -186,7 +186,11 @@ describe('Setup LSP tools for subsequent phases', () => {
     expect(readiness.deferredSession).toBe(true);
     expect(readiness.sessionStarted).toBe(false);
     expect(store['setup/lsp/deferredSession']).toBe(true);
-    expect(String(readiness.error || '')).toMatch(/deferred/i);
+    // Residual note only — never setup/lsp/error (that becomes a rose banner).
+    expect(String(readiness.residual || '')).toMatch(/deferred/i);
+    expect(readiness.error).toBeUndefined();
+    expect(store['setup/lsp/error']).toBeUndefined();
+    expect(store['setup/lsp/residual']).toMatch(/deferred/i);
     // Must not spawn language servers when deferred.
     expect(mockStartWorkspaceLanguageServers).not.toHaveBeenCalled();
   });

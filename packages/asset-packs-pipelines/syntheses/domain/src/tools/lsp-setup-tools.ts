@@ -153,6 +153,12 @@ export type LspSetupReadiness = {
   deferredSession?: boolean;
   /** Scale sample that drove deferral (source-safe counts only). */
   workspaceScale?: WorkspaceSourceScale;
+  /**
+   * Source-safe residual note when Setup intentionally skipped a live session.
+   * Not a failure — do not surface as pipeline error / rose banner.
+   */
+  residual?: string;
+  /** True failures only (missing workspace, unexpected start errors). */
   error?: string;
 };
 
@@ -447,6 +453,9 @@ export async function setupLspForWorkspace(
         .toLowerCase(),
     );
   if (workspaceScale.isLarge || forceDefer) {
+    const residual = `LSP long-lived session deferred (${
+      forceDefer ? 'BITCODE_LSP_DEFER_SESSION' : workspaceScale.reason || 'large workspace'
+    }); query tools registered for later phases without priming tsserver.`;
     const readiness: LspSetupReadiness = {
       ...baseReadiness,
       initialized: registeredToolNames.length > 0,
@@ -464,15 +473,15 @@ export async function setupLspForWorkspace(
           `deferred:${forceDefer ? 'env' : workspaceScale.reason || 'scale'}`,
         ],
       },
-      error: `LSP long-lived session deferred (${
-        forceDefer ? 'BITCODE_LSP_DEFER_SESSION' : workspaceScale.reason || 'large workspace'
-      }); query tools registered for later phases without priming tsserver.`,
+      // Residual posture only — never `error` (UI treats error as failed run).
+      residual,
     };
     try {
       execution?.store?.('setup/lsp', 'sessionStarted', false);
       execution?.store?.('setup/lsp', 'deferredSession', true);
       execution?.store?.('setup/lsp', 'workspaceScale', workspaceScale);
       execution?.store?.('setup/lsp', 'detectedLanguages', detectedLanguages);
+      execution?.store?.('setup/lsp', 'residual', residual);
     } catch {
       /* ignore */
     }
@@ -593,7 +602,12 @@ function storeLspReadiness(execution: any, readiness: LspSetupReadiness): void {
     execution?.store?.('setup/lsp', 'workspaceScale', readiness.workspaceScale ?? null);
     execution?.store?.('setup/lsp', 'startedServers', readiness.startedServers ?? []);
     execution?.store?.('setup/lsp', 'readiness', readiness);
-    if (readiness.error) {
+    if (readiness.residual) {
+      execution?.store?.('setup/lsp', 'residual', readiness.residual);
+    }
+    // Only true failures — deferred large-workspace notes must never land here
+    // or the deposit telemetry error banner treats Setup as failed.
+    if (readiness.error && !readiness.deferredSession) {
       execution?.store?.('setup/lsp', 'error', readiness.error);
     }
   } catch {
