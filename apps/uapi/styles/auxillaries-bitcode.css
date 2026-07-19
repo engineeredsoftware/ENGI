@@ -475,15 +475,31 @@
   min-width: 0;
   width: 100%;
   /*
-   * Vertical scroll only. Generous inline padding so 1px side borders are not
-   * clipped by overflow-x:hidden / scrollbar gutters (border cut-off on L/R).
+   * Scroll only when the list truly overflows (small viewports). Do not use
+   * scrollbar-gutter:stable — that reserves a track and flickers in while
+   * entrance transforms temporarily extend scrollHeight, even when the settled
+   * 4-card rail fits without scrolling.
    */
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-block: 0.15rem;
   padding-inline: 0.45rem;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: auto;
+  /* Prefer no chrome unless the rail actually overflows. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(101, 254, 183, 0.28) transparent;
+}
+
+.auxillaries-bitcode-selector-list::-webkit-scrollbar {
+  width: 6px;
+}
+.auxillaries-bitcode-selector-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.auxillaries-bitcode-selector-list::-webkit-scrollbar-thumb {
+  background: rgba(101, 254, 183, 0.28);
+  border-radius: 0;
 }
 
 .auxillaries-bitcode-selector-list > [role='listitem'] {
@@ -492,6 +508,8 @@
   /* Keep the full border box inside the scrollport. */
   padding-inline: 1px;
   box-sizing: border-box;
+  /* Entrance y-translate must not inflate scrollHeight / flash a scrollbar. */
+  overflow: clip;
 }
 
 .auxillaries-bitcode-selector-card {
@@ -1079,9 +1097,13 @@
   overflow: visible !important;
 }
 
-/* Audit sits at the end of the scrollport — not a sticky dual-bar footer. */
+/*
+ * Audit mounts only after pane enter settle (see AuxillariesContent auditReady).
+ * Tight gap under body — do not use margin-top:auto (that left a large empty
+ * band above the accordion when the pane filled the column).
+ */
 .auxillaries-bitcode-surface .orbital-content-container > .auxillaries-audit-detail {
-  margin-top: clamp(1.25rem, 2vw, 1.75rem);
+  margin-top: clamp(0.85rem, 1.4vw, 1.15rem);
   flex-shrink: 0;
 }
 

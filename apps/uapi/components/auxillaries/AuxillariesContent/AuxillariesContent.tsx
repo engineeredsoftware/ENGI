@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import {
@@ -21,6 +21,12 @@ const AUX_PANE_EASE = [0.16, 1, 0.3, 1] as const;
  * (Do not shorten for open-path perf — open latency is prefetch/keep-alive.)
  */
 const INNER_ENTER_MS = 560;
+
+/**
+ * Wait for pane shell motion (~0.26s) + inner stagger before showing audit.
+ * Prevents the accordion floating mid-column while body is opacity:0 / empty.
+ */
+const AUDIT_REVEAL_MS = INNER_ENTER_MS + 80;
 
 function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined') return false;
@@ -221,10 +227,36 @@ function AuxillariesContent(props: AuxillariesContentProps) {
   /*
    * Audit + pane body share one STABLE scroll shell.
    * Never put overflow-y on the AnimatePresence/motion host — remounting that
-   * host on step change (or Externals readiness load) flashes a second bar
-   * along the right edge beside Mainnet readiness.
+   * host on step change flashes a second bar.
+   *
+   * Audit is not in the DOM until the pane is ready (showContent + enter
+   * settle). No hidden/opacity placeholder — null until then.
    */
-  const auditDetail = (
+  const [auditReady, setAuditReady] = useState(false);
+  useEffect(() => {
+    if (!usesContainedLayout || !showContent || !currentStep) {
+      setAuditReady(false);
+      return;
+    }
+    if (reduceMotion) {
+      setAuditReady(true);
+      return;
+    }
+    // Hide immediately on pane switch; remount only after body entrance settles.
+    setAuditReady(false);
+    const timer = window.setTimeout(() => {
+      setAuditReady(true);
+    }, AUDIT_REVEAL_MS);
+    return () => {
+      window.clearTimeout(timer);
+      setAuditReady(false);
+    };
+  }, [usesContainedLayout, showContent, currentStep, reduceMotion]);
+
+  const showAudit =
+    usesContainedLayout && Boolean(showContent && currentStep && auditReady);
+
+  const auditDetail = showAudit ? (
     <details
       className="auxillaries-audit-detail"
       data-auxillaries-testid="auxillaries-audit-detail"
@@ -258,7 +290,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
         </div>
         <div>
           <dt>State</dt>
-          <dd>{showContent ? 'ready' : 'loading'}</dd>
+          <dd>ready</dd>
         </div>
         <div>
           <dt>Source safety</dt>
@@ -266,7 +298,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
         </div>
       </dl>
     </details>
-  );
+  ) : null;
 
   const paneBody =
     showContent && currentStep ? (
@@ -468,7 +500,8 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           >
             {/*
               Stable scroll shell — never remounts with the pane key.
-              AnimatePresence only owns the body inside; audit always stays put.
+              AnimatePresence owns the body; audit mounts only after enter settle
+              so it never floats mid-pane alone.
             */}
             <div className="orbital-content-container auxillaries-column-shell">
               {paneBody}

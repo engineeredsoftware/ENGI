@@ -64,11 +64,13 @@ export default function AuxillariesWorkspacePanels({
           <motion.div
             key={step}
             role="listitem"
-            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
+            /* Opacity-only enter — y translate inflated scrollHeight and
+               flashed a left-rail scrollbar even when 4 cards fit. */
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
-              duration: reduceMotion ? 0 : 0.45,
-              delay: reduceMotion ? 0 : 0.12 + index * 0.07,
+              duration: reduceMotion ? 0 : 0.35,
+              delay: reduceMotion ? 0 : 0.08 + index * 0.05,
               ease: PANEL_EASE,
             }}
           >

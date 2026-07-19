@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 
 import {
   AUXILLARIES_UX_ACCESSIBILITY_PROOF_CONTRACT,
@@ -25,7 +25,18 @@ jest.mock('framer-motion', () => {
   };
 });
 
+/** Matches AuxillariesContent AUDIT_REVEAL_MS (inner enter + buffer). */
+const AUDIT_REVEAL_MS = 560 + 80;
+
 describe('AuxillariesContent contained accessibility shell', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('exports the Auxillaries UX accessibility proof contract', () => {
     expect(summarizeAuxillariesUxAccessibilityProofContract()).toEqual({
       surface: 'Auxillaries support plane',
@@ -92,6 +103,13 @@ describe('AuxillariesContent contained accessibility shell', () => {
     expect(screen.getByRole('button', { name: 'Externals auxillary' })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Externals auxillary' })).toHaveAttribute('aria-disabled', 'true');
 
+    // Audit stays unmounted until pane enter settles (no mid-pane flash).
+    expect(screen.queryByTestId('auxillaries-audit-detail')).not.toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(AUDIT_REVEAL_MS);
+    });
+
     const auditDetail = screen.getByTestId('auxillaries-audit-detail');
     expect(auditDetail.tagName.toLowerCase()).toBe('details');
     expect(screen.getByText('Audit detail')).toBeInTheDocument();
@@ -123,7 +141,13 @@ describe('AuxillariesContent contained accessibility shell', () => {
     expect(activePane).toHaveAttribute('aria-busy', 'true');
     expect(activePane).toHaveAttribute('data-auxillaries-pane-state', 'loading');
     expect(within(activePane).getByRole('status')).toHaveTextContent('Loading active pane.');
-    expect(screen.getByTestId('auxillaries-audit-detail')).toHaveTextContent('source-safe summary only');
+    // Loading: no audit accordion (would float alone mid-column).
+    expect(screen.queryByTestId('auxillaries-audit-detail')).not.toBeInTheDocument();
     expect(screen.queryByText(/"currentStep"/)).not.toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(AUDIT_REVEAL_MS + 100);
+    });
+    expect(screen.queryByTestId('auxillaries-audit-detail')).not.toBeInTheDocument();
   });
 });
