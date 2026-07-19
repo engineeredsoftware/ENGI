@@ -236,14 +236,28 @@ function QuantumOrb({
     }
   }, [renderDynamic]);
 
+  // Geometry scales with `size`. Fixed-pixel outer frames dominate at
+  // telemetry sizes (e.g. 24px); marketing sizes keep the original ratio.
+  const isCompactTelemetrySize = size < 48;
+
   // Dynamically reduce effects on low-end devices
   // Heavy canvas-based layers only mount when the orb is in the *active*
   // state.  Hover now keeps things lightweight (pure CSS + SVG) so just
   // moving the cursor over multiple orbs doesn’t spike paint time.
+  // Telemetry-sized orbs skip wavy blobs (they smear at 24px).
   const showWavyBlobs =
-    renderDynamic && orbConfig.showWavyBlobs && qualityMultiplier >= 0.8 && state === 'active';
+    renderDynamic &&
+    !isCompactTelemetrySize &&
+    orbConfig.showWavyBlobs &&
+    qualityMultiplier >= 0.8 &&
+    state === 'active';
   const showParticles =
-    renderDynamic && orbConfig.showParticles && qualityMultiplier >= 0.6 && state === 'active';
+    renderDynamic &&
+    orbConfig.showParticles &&
+    qualityMultiplier >= 0.6 &&
+    state === 'active' &&
+    // Fewer / none at compact sizes so the running loader stays a crisp square.
+    !(isCompactTelemetrySize && size <= 28);
 
   // Handle mouse enter/leave
   const handleMouseEnter = () => {
@@ -302,22 +316,18 @@ function QuantumOrb({
 
   const stateProps = getStateProperties();
 
-  // Geometry scales with `size`. Fixed-pixel outer frames (-10 / -15) dominate
-  // at telemetry sizes (e.g. 24px) and leave a tiny core with huge whitespace;
-  // large marketing/landing sizes keep the original visual ratio.
-  const isCompactTelemetrySize = size < 48;
   const coreInset = isCompactTelemetrySize ? '2%' : '8%';
-  const coreBlurPx = isCompactTelemetrySize ? 0.5 : 2;
+  // Compact (24px telemetry) must stay sharp — CSS blur on a tiny square
+  // reads as a mushy disk. Prefer solid core + soft gradient, not filter blur.
+  const coreBlurPx = isCompactTelemetrySize ? 0 : 2;
   const outerGlowInsetPx = isCompactTelemetrySize
-    ? -Math.max(2, Math.round(size * 0.12))
+    ? -Math.max(1, Math.round(size * 0.08))
     : -10;
   const activeFrameInsetPx = isCompactTelemetrySize
-    ? -Math.max(3, Math.round(size * 0.14))
+    ? -Math.max(2, Math.round(size * 0.1))
     : -15;
   const outerGlowBlurPx = isCompactTelemetrySize
-    ? state === 'active'
-      ? 2
-      : 3
+    ? 0
     : state === 'active'
       ? 4
       : 6;
@@ -465,8 +475,9 @@ function QuantumOrb({
           position: 'absolute',
           inset: outerGlowInsetPx,
           borderRadius: 0,
-          background: `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}33 0%, transparent 70%)`,
-          filter: `blur(${outerGlowBlurPx}px)`,
+          background: `radial-gradient(circle at 50% 50%, ${orbConfig.glowColor}${isCompactTelemetrySize ? '55' : '33'} 0%, transparent ${isCompactTelemetrySize ? '62%' : '70%'})`,
+          // Avoid CSS blur on compact telemetry orbs (reads as muddy).
+          ...(outerGlowBlurPx > 0 ? { filter: `blur(${outerGlowBlurPx}px)` } : null),
           opacity: stateProps.glowOpacity,
           willChange: 'transform, opacity, background',
           transform: 'translateZ(0)',
@@ -512,7 +523,7 @@ function QuantumOrb({
         </>
       )}
 
-      {/* Square outline for depth */}
+      {/* Square outline for depth — no blur at telemetry sizes (keeps edges sharp). */}
       <div
         className="quantum-orb-outline"
         style={{
@@ -520,11 +531,11 @@ function QuantumOrb({
           inset: 0,
           borderRadius: 0,
           boxShadow: `
-            inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-            inset 0 0 0 2px rgba(255, 255, 255, 0.1),
-            0 0 0 1px rgba(255, 255, 255, 0.1)
+            inset 0 0 0 1px rgba(255, 255, 255, ${isCompactTelemetrySize ? 0.35 : 0.2}),
+            inset 0 0 0 2px rgba(255, 255, 255, ${isCompactTelemetrySize ? 0.12 : 0.1}),
+            0 0 0 1px rgba(255, 255, 255, ${isCompactTelemetrySize ? 0.18 : 0.1})
           `,
-          filter: 'blur(1px)',
+          ...(isCompactTelemetrySize ? null : { filter: 'blur(1px)' }),
         }}
       />
 

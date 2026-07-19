@@ -31,17 +31,9 @@ export function GlowLayer({
   // larger blurs are disproportionately expensive and the visual difference
   // is negligible once the orb brightens.  This tiny tweak shaves a few ms of
   // paint time on mid-range laptops without impacting perceived quality.
-  const getBlur = () => {
-    if (compact) {
-      switch (state) {
-        case 'rest':
-          return '2px';
-        case 'hover':
-          return '1.5px';
-        case 'active':
-          return '1px';
-      }
-    }
+  const getBlur = (): string | null => {
+    // Compact telemetry orbs: no CSS blur (soft gradient only).
+    if (compact) return null;
     switch (state) {
       case 'rest':
         return '8px';
@@ -51,6 +43,8 @@ export function GlowLayer({
         return '4px';
     }
   };
+
+  const blur = getBlur();
 
   return (
     <div className="glow-layer" style={{
@@ -66,9 +60,11 @@ export function GlowLayer({
           position: 'absolute',
           inset: 0,
           borderRadius: 0,
-          background: color,
-          filter: `blur(${getBlur()})`,
-          opacity: intensity * 0.8,
+          background: compact
+            ? `radial-gradient(circle at 50% 50%, ${color} 0%, ${color}cc 45%, transparent 72%)`
+            : color,
+          ...(blur ? { filter: `blur(${blur})` } : null),
+          opacity: intensity * (compact ? 0.95 : 0.8),
           willChange: 'transform, opacity',
           backfaceVisibility: 'hidden',
         }}
