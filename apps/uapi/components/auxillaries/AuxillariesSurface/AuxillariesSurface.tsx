@@ -5,12 +5,16 @@
  * State/mutations live in hooks/; dynamic pane imports in auxillaries-surface-dynamic.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 
+import { BTDTracker } from '@/components/bitcode/btd/BtdTracker/BtdTracker';
 import { AuxillariesSolarIcon } from '@/components/bitcode/layout/AuxillariesSolarIcon/AuxillariesSolarIcon';
 import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
+import AuxillariesChromeAvatar from '@/components/auxillaries/shared/AuxillariesChromeAvatar/AuxillariesChromeAvatar';
 import type { AuxillaryPane } from '@/components/auxillaries/AuxillaryPaneMeta/AuxillaryPaneMeta';
+import { FEATURE_FLAGS } from '@/config/features';
+import { compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 import {
   AuxillariesContent,
@@ -151,6 +155,58 @@ export default function AuxillariesSurface({
     </>
   );
 
+  /** Same row as Close/Disconnect, right side: avatar (vs notifications) + wallet. */
+  const chromeRightActions = useMemo(() => {
+    if (!placeChromeAboveLeftPane || !surface.authLoaded || !surface.hasConnectedIdentity) {
+      return null;
+    }
+
+    const walletLabel =
+      compactBitcodeAddress(surface.chromeWalletAddress, 6) ??
+      (surface.chromeWalletProvider
+        ? String(surface.chromeWalletProvider)
+        : null);
+
+    return (
+      <>
+        <AuxillariesChromeAvatar
+          avatarUrl={surface.chromeAvatarUrl}
+          displayName={surface.chromeDisplayName}
+          onOpenProfile={() => surface.handleStepClick('profile')}
+        />
+        {!FEATURE_FLAGS.HIDE_BTD_TRACKER ? (
+          <BTDTracker
+            btdBalance={typeof surface.btdBalance === 'number' ? surface.btdBalance : 0}
+            btcFeeBalance={
+              typeof surface.btcFeeBalance === 'number' ? surface.btcFeeBalance : null
+            }
+            recentBtdAssetPacks={surface.recentBtdAssetPacks ?? []}
+            isLoading={surface.isUserDataLoading && !surface.hasWalletConnection}
+            hasWalletIdentity={surface.hasWalletConnection}
+            walletLabel={walletLabel}
+            walletAddress={surface.chromeWalletAddress}
+            walletProvider={surface.chromeWalletProvider}
+            onOpenBtdAuxillary={() => surface.handleStepClick('wallet')}
+          />
+        ) : null}
+      </>
+    );
+  }, [
+    placeChromeAboveLeftPane,
+    surface.authLoaded,
+    surface.hasConnectedIdentity,
+    surface.chromeAvatarUrl,
+    surface.chromeDisplayName,
+    surface.chromeWalletAddress,
+    surface.chromeWalletProvider,
+    surface.btdBalance,
+    surface.btcFeeBalance,
+    surface.recentBtdAssetPacks,
+    surface.isUserDataLoading,
+    surface.hasWalletConnection,
+    surface.handleStepClick,
+  ]);
+
   return (
     <div
       ref={surface.containerRef}
@@ -215,6 +271,7 @@ export default function AuxillariesSurface({
               navigationMode="tabs"
               surfaceVariant={surface.usesContainedAuxillariesSurface ? 'contained' : 'default'}
               chromeActions={placeChromeAboveLeftPane ? chromeActions : null}
+              chromeRightActions={placeChromeAboveLeftPane ? chromeRightActions : null}
               onStepClick={surface.handleStepClick}
               renderStepContent={renderStepContent}
               isOnboardingComplete={surface.canonicalOnboardingComplete}

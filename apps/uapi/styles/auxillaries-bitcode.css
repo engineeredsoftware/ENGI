@@ -232,22 +232,44 @@
   overflow: hidden !important;
 }
 
-/* Close / Disconnect sit above the left selector column (left-aligned). */
-.auxillaries-left-chrome-actions {
-  grid-column: 1;
+/*
+ * Full-width chrome row above both columns: Close/Disconnect left,
+ * avatar + wallet right (same positions as page nav chrome).
+ */
+.auxillaries-chrome-row {
+  grid-column: 1 / -1;
   grid-row: 1;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.5rem;
+  width: 100%;
+  pointer-events: auto;
+}
+
+.auxillaries-left-chrome-actions {
   position: relative !important;
   inset: auto !important;
-  top: auto !important;
-  right: auto !important;
-  left: auto !important;
-  z-index: 6;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 0.65rem;
   min-height: 2.5rem;
-  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  pointer-events: auto;
+}
+
+.auxillaries-right-chrome-actions {
+  position: relative !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  min-height: 2.5rem;
+  flex: 0 0 auto;
   pointer-events: auto;
 }
 
@@ -1261,10 +1283,9 @@
     overflow: visible;
   }
 
-  .auxillaries-left-chrome-actions {
+  .auxillaries-chrome-row {
     grid-column: 1;
     grid-row: 1;
-    justify-content: flex-start;
   }
 
   .auxillaries-bitcode-selector,

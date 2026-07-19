@@ -107,6 +107,8 @@ export interface AuxillariesContentProps {
   surfaceVariant?: 'default' | 'contained';
   /** Close / disconnect (and similar) rendered above the left selector column. */
   chromeActions?: React.ReactNode;
+  /** Avatar + wallet (and similar) on the right of the same chrome row. */
+  chromeRightActions?: React.ReactNode;
   onStepClick: (step: AuxillaryPane) => void;
   renderStepContent: (step: AuxillaryPane) => React.ReactNode;
   isOnboardingComplete?: boolean;
@@ -124,6 +126,7 @@ function AuxillariesContent(props: AuxillariesContentProps) {
     surfaceVariant = 'default',
     mode = 'onboarding',
     chromeActions = null,
+    chromeRightActions = null,
     onStepClick = (_: AuxillaryPane) => {},
     renderStepContent = (_: AuxillaryPane) => null,
     isOnboardingComplete = false,
@@ -461,19 +464,42 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           <a className="auxillaries-skip-link" href="#auxillaries-active-pane">
             Skip to active support pane
           </a>
-          {chromeActions ? (
+          {chromeActions || chromeRightActions ? (
             <div
-              className="auxillaries-left-chrome-actions"
-              role="toolbar"
-              aria-label="Auxillaries session actions"
-              data-auxillaries-testid="auxillaries-left-chrome-actions"
-              data-testid="auxillaries-left-chrome-actions"
+              className="auxillaries-chrome-row"
+              data-auxillaries-testid="auxillaries-chrome-row"
+              data-testid="auxillaries-chrome-row"
             >
-              {chromeActions}
+              {chromeActions ? (
+                <div
+                  className="auxillaries-left-chrome-actions"
+                  role="toolbar"
+                  aria-label="Auxillaries session actions"
+                  data-auxillaries-testid="auxillaries-left-chrome-actions"
+                  data-testid="auxillaries-left-chrome-actions"
+                >
+                  {chromeActions}
+                </div>
+              ) : (
+                <div className="auxillaries-left-chrome-actions" aria-hidden="true" />
+              )}
+              {chromeRightActions ? (
+                <div
+                  className="auxillaries-right-chrome-actions"
+                  role="toolbar"
+                  aria-label="Auxillaries account chrome"
+                  data-auxillaries-testid="auxillaries-right-chrome-actions"
+                  data-testid="auxillaries-right-chrome-actions"
+                >
+                  {chromeRightActions}
+                </div>
+              ) : null}
             </div>
           ) : null}
           <aside
-            className={`orbital-workspace-nav auxillaries-bitcode-selector auxillaries-column-shell${chromeActions ? ' auxillaries-bitcode-selector-with-chrome' : ''}`}
+            className={`orbital-workspace-nav auxillaries-bitcode-selector auxillaries-column-shell${
+              chromeActions || chromeRightActions ? ' auxillaries-bitcode-selector-with-chrome' : ''
+            }`}
             role="navigation"
             aria-label="Auxillaries pane navigation"
             data-auxillaries-testid="auxillaries-pane-navigation"
@@ -488,7 +514,9 @@ function AuxillariesContent(props: AuxillariesContentProps) {
           </aside>
           <section
             id="auxillaries-active-pane"
-            className={`orbital-workspace-stage auxillaries-bitcode-pane auxillaries-active-pane-region${chromeActions ? ' auxillaries-bitcode-pane-with-chrome' : ''}`}
+            className={`orbital-workspace-stage auxillaries-bitcode-pane auxillaries-active-pane-region${
+              chromeActions || chromeRightActions ? ' auxillaries-bitcode-pane-with-chrome' : ''
+            }`}
             role="region"
             aria-label={`${activePaneLabel} active support pane`}
             aria-live="polite"

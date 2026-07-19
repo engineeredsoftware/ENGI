@@ -67,6 +67,11 @@ export function useAuxillariesSurface({
     hasGitHubConnection,
     hasValidGitHubConnection,
     repositories,
+    btdBalance,
+    btcFeeBalance,
+    recentBtdAssetPacks,
+    walletConnectionStatus,
+    isLoading: isUserDataLoading,
   } = useUserData();
 
   const authLoaded = !userLoading;
@@ -445,6 +450,21 @@ export function useAuxillariesSurface({
     ? 'animations-enabled'
     : '';
 
+  const chromeWalletAddress =
+    (walletConnectionStatus as { address?: string } | null | undefined)?.address ??
+    (typeof profileData?.wallet_address === 'string' ? profileData.wallet_address : null);
+  const chromeWalletProvider =
+    (walletConnectionStatus as { provider?: string } | null | undefined)?.provider ??
+    (typeof profileData?.wallet_provider === 'string' ? profileData.wallet_provider : null);
+  const chromeAvatarUrl =
+    typeof profileData?.avatar_url === 'string' && profileData.avatar_url.trim()
+      ? profileData.avatar_url
+      : null;
+  const chromeDisplayName =
+    typeof profileData?.display_name === 'string' && profileData.display_name.trim()
+      ? profileData.display_name
+      : null;
+
   return {
     containerRef,
     deferredAnimationsEnabled,
@@ -455,6 +475,14 @@ export function useAuxillariesSurface({
     profileData,
     profileLoading,
     auxillaryData,
+    btdBalance,
+    btcFeeBalance,
+    recentBtdAssetPacks,
+    isUserDataLoading,
+    chromeWalletAddress,
+    chromeWalletProvider,
+    chromeAvatarUrl,
+    chromeDisplayName,
     authLoaded,
     queryClient,
     currentStep,
