@@ -56,10 +56,15 @@
   overflow: visible !important;
   contain: layout style !important;
   border-radius: 0;
-  background:
+  /*
+   * Deepest layer must be fully opaque — 0.98 alpha let homepage copy
+   * bleed through the overlay. Tints ride on a solid base floor.
+   */
+  background-color: #02060d;
+  background-image:
     radial-gradient(circle at 14% 0%, rgba(101, 254, 183, 0.14), transparent 28%),
     radial-gradient(circle at 92% 12%, rgba(56, 189, 248, 0.1), transparent 22%),
-    linear-gradient(180deg, rgba(4, 10, 19, 0.98), rgba(2, 6, 13, 0.98));
+    linear-gradient(180deg, #040a13, #02060d);
 }
 
 .auxillaries-bitcode-route-surface {
@@ -78,6 +83,15 @@
   /* Equal inset including bottom — slight air under the auxiliary edge. */
   padding: var(--aux-bc-overlay-pad);
   overflow: hidden !important;
+  /* Re-assert opaque floor: overlay sits over live product routes. */
+  background-color: #02060d !important;
+  background-image:
+    radial-gradient(circle at 14% 0%, rgba(101, 254, 183, 0.14), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(56, 189, 248, 0.1), transparent 22%),
+    linear-gradient(180deg, #040a13, #02060d) !important;
+  /* Blur is unnecessary once the base is opaque; avoid see-through compositing. */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Login / non-workspace chrome: left-aligned surface header strip. */

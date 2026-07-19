@@ -40,12 +40,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, rgba(3, 8, 22, 1) 0%, rgba(8, 11, 35, 1) 100%);
+  /* Solid deepest layer — no alpha; page content must not show through. */
+  background-color: #030816;
+  background-image: linear-gradient(135deg, #030816 0%, #080b23 100%);
   z-index: 100;
 }
 
-/* Add backdrop filter after mount for performance */
-.animations-enabled.orbital-system-overlay {
+/*
+ * Backdrop blur only when the surface itself is intentionally translucent.
+ * Bitcode auxillary overlay disables this (opaque floor in auxillaries-bitcode.css).
+ */
+.animations-enabled.orbital-system-overlay:not(.auxillaries-bitcode-surface) {
   backdrop-filter: blur(16px);
 }
 
@@ -54,17 +59,19 @@
   display: block;
   min-height: min(56rem, calc(100vh - 14rem));
   border-radius: 1.9rem;
-  background:
+  background-color: #03060e;
+  background-image:
     radial-gradient(circle at top, rgba(101, 254, 183, 0.08), transparent 28%),
-    linear-gradient(180deg, rgba(4, 8, 18, 0.98), rgba(3, 6, 14, 0.98));
+    linear-gradient(180deg, #040812, #03060e);
   overflow: hidden;
 }
 
 .orbital-system-application {
   padding: clamp(1rem, 2vw, 2rem);
-  background:
+  background-color: #03060e;
+  background-image:
     radial-gradient(circle at top, rgba(101, 254, 183, 0.08), transparent 32%),
-    linear-gradient(180deg, rgba(4, 8, 18, 0.98), rgba(3, 6, 14, 0.98));
+    linear-gradient(180deg, #040812, #03060e);
 }
 
 .orbital-system-application .orbital-system-background {
