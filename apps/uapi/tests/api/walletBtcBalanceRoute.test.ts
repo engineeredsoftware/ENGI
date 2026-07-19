@@ -129,4 +129,55 @@ describe('GET /api/wallet/btc-balance', () => {
       expect.objectContaining({ ok: true, network: 'testnet3', confirmedSats: 99_000 }),
     );
   });
+
+  it('falls back to blockstream when mempool is unavailable', async () => {
+    installSupabaseMocks({
+      settings: {
+        bitcodeProfile: {
+          walletBinding: { address: QA_ADDRESS, network: 'testnet' },
+        },
+      },
+    });
+    global.fetch = jest.fn(async (url: string) => {
+      if (String(url).includes('blockstream.info')) {
+        return mempoolResponse(42_000, 0);
+      }
+      return { ok: false, status: 503, json: async () => ({ error: 'down' }) };
+    }) as jest.Mock;
+
+    const response = await GET();
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual(
+      expect.objectContaining({
+        ok: true,
+        provider: 'blockstream',
+        network: 'testnet3',
+        confirmedSats: 42_000,
+      }),
+    );
+  });
+
+  it('returns degraded 200 instead of 502 when every balance provider fails', async () => {
+    installSupabaseMocks({
+      settings: {
+        bitcodeProfile: {
+          walletBinding: { address: QA_ADDRESS, network: 'testnet4' },
+        },
+      },
+    });
+    global.fetch = jest.fn(async () => {
+      throw new Error('network blocked');
+    }) as jest.Mock;
+
+    const response = await GET();
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual(
+      expect.objectContaining({
+        ok: false,
+        degraded: true,
+        code: 'wallet_balance_source_unavailable',
+        confirmedBtc: null,
+      }),
+    );
+  });
 });
