@@ -17,11 +17,18 @@ interface BitcodeTransactionsFilterBarProps {
   proofStatusOptions: string[];
 }
 
-// The one rich searchable dropdown (SearchableSelect, extracted from the
-// repository picker) styled for the dark filter mosaic.
+// Dark filter mosaic chrome — full width, min-w-0 so 8-col grids do not blow out.
 const FILTER_TRIGGER_CLASS =
-  'mt-1.5 h-9 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-white/10 hover:text-white';
+  'mt-0 h-9 w-full min-w-0 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-white/10 hover:text-white';
 
+const FILTER_INPUT_CLASS =
+  'mt-0 h-9 w-full min-w-0 border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40';
+
+/**
+ * Label + control stack. Fixed single-line label height keeps every control
+ * on the same baseline across the mosaic (long labels like "Search
+ * transactions" must not push their field down relative to neighbors).
+ */
 function FilterCell({
   label,
   explainer,
@@ -34,12 +41,14 @@ function FilterCell({
   className?: string;
 }) {
   return (
-    <div className={className}>
-      <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
-        <span>{label}</span>
-        <BitcodeInlineExplainer explainer={explainer} />
+    <div className={['flex min-w-0 flex-col gap-1.5', className].filter(Boolean).join(' ')}>
+      <span className="flex h-4 min-w-0 items-center gap-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+        <span className="min-w-0 truncate" title={label}>
+          {label}
+        </span>
+        <BitcodeInlineExplainer explainer={explainer} side="bottom" className="shrink-0" />
       </span>
-      {children}
+      <div className="min-w-0 w-full">{children}</div>
     </div>
   );
 }
@@ -71,11 +80,15 @@ export default function BitcodeTransactionsFilterBar({
   return (
     // Compact mosaic: multi-column at every width (never a one-filter-per-row
     // stack) so the bar spends horizontal space instead of vertical. Search
-    // is the FIRST filter card in the flow, same size as the rest.
-    <div className="mt-4 grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-8">
+    // is the FIRST filter card in the flow; slightly wider on large screens.
+    <div
+      className="mt-4 grid grid-cols-2 items-start gap-x-2 gap-y-3 tablet:grid-cols-4 xl:grid-cols-8"
+      data-testid="bitcode-transactions-filter-bar"
+    >
       <FilterCell
-        label="Search transactions"
+        label="Search"
         explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search}
+        className="col-span-2 tablet:col-span-2 xl:col-span-1"
       >
         <input
           aria-label="Search transactions"
@@ -86,7 +99,7 @@ export default function BitcodeTransactionsFilterBar({
             updateFilter('searchTerm', nextValue);
           }}
           placeholder="Search ids, repos, branches, proof posture, participants…"
-          className="mt-1.5 h-9 w-full border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40"
+          className={FILTER_INPUT_CLASS}
         />
       </FilterCell>
 
