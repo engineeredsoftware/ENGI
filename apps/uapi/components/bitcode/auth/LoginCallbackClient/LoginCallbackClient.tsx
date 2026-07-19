@@ -1,9 +1,16 @@
 "use client";
 
+/**
+ * Auth callback shell — one fullscreen page after OAuth / OTP return.
+ *
+ * OAuth (wallet, social): single center phrase rotates through a 3-step
+ * sequence as session work progresses; no kicker/header/subtitle.
+ * OTP: large green code + copy only.
+ */
+
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { AnimatePresence, motion, useMotionValue } from 'framer-motion';
 import QuantumEffect from '@/components/bitcode/effects/QuantumEffect/QuantumEffect';
-import TypingAnimation from '@/components/bitcode/TypingAnimation/TypingAnimation';
 import { consumeAuthNextPath } from '@bitcode/auth/supabase-auth-redirect';
 
 interface LoginCallbackClientProps {
@@ -13,39 +20,38 @@ interface LoginCallbackClientProps {
   nextPath?: string;
 }
 
+/** Three center phrases — same style, one page; map to auth progress. */
+const OAUTH_STAGE_PHRASES = [
+  'Confirming proof…',
+  'Sealing session…',
+  'Opening workspace…',
+] as const;
+
+type OauthStageIndex = 0 | 1 | 2;
+
+const CENTER_PHRASE_CLASS =
+  'text-center text-5xl font-light tracking-tight text-[rgba(103,254,183,0.9)] super-shiny-text laptop:text-7xl';
+
 /**
  * Client-side interactive UI for the login callback route.
- * Includes animation effects and copy-to-clipboard.
  */
 export default function LoginCallbackClient({
   code,
   codeKind = 'none',
   nextPath = '/',
 }: LoginCallbackClientProps) {
-  const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
+  const [oauthStage, setOauthStage] = useState<OauthStageIndex>(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const callbackStartedRef = useRef(false);
 
-  // Determine if this is an OTP flow (magic-link) or an OAuth redirect
   const isOtpFlow = codeKind === 'token_hash' && Boolean(code && code.trim().length > 0);
 
-  // The post-auth destination travels via origin-local storage because the
-  // Supabase redirect_to must stay query-free (allow-list exact matching);
-  // an explicit `?next=` query param still wins when present.
   const resolveNextPath = () =>
     nextPath && nextPath !== '/' ? nextPath : consumeAuthNextPath() ?? nextPath ?? '/';
 
-  // Track mouse for subtle effect
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const mxPx = useMotionTemplate`${mx}px`;
-  const myPx = useMotionTemplate`${my}px`;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -59,56 +65,56 @@ export default function LoginCallbackClient({
     return () => node.removeEventListener('mousemove', handleMouse);
   }, [mx, my]);
 
-  /* Focus trap -------------------------------------------------- */
+  /* Focus trap */
   useEffect(() => {
     const root = containerRef.current;
     if (!root) return;
     const focusRoot = root;
-
-    // Focus the container so screen-readers announce it
     focusRoot.tabIndex = -1;
     focusRoot.focus({ preventScroll: true });
 
     function handleKey(e: KeyboardEvent) {
       if (e.key !== 'Tab') return;
       const focusable = focusRoot.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
       );
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (e.shiftKey) {
-        // Shift+Tab
         if (document.activeElement === first) {
           e.preventDefault();
           last.focus();
         }
-      } else {
-        // Tab
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
+      } else if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     }
     focusRoot.addEventListener('keydown', handleKey);
     return () => focusRoot.removeEventListener('keydown', handleKey);
   }, []);
 
-  /* ------------------------------------------------------------------
-   * Automatic redirect for OAuth flows
-   * ------------------------------------------------------------------
-   * Instead of a one-off poll we now listen for the `SIGNED_IN` auth event so
-   * we catch cases where Supabase needs a moment to finish exchanging the
-   * hash tokens for a session.  We still perform an immediate check in case
-   * the session is already ready, and add a 5-second safety timeout so users
-   * are never stranded on this screen.
-   */
+  /* OAuth: exchange / wait for session, then hand off */
   useEffect(() => {
+    if (isOtpFlow) return;
     if (callbackStartedRef.current) return;
     callbackStartedRef.current = true;
 
     let cleanup: (() => void) | undefined;
+    let stageEnteredAt = Date.now();
+    const STAGE_MIN_MS = 520;
+
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+    const enterStage = async (next: OauthStageIndex) => {
+      const elapsed = Date.now() - stageEnteredAt;
+      if (elapsed < STAGE_MIN_MS) {
+        await sleep(STAGE_MIN_MS - elapsed);
+      }
+      setOauthStage(next);
+      stageEnteredAt = Date.now();
+    };
 
     (async () => {
       const { createClient } = await import('@bitcode/supabase/ssr/client');
@@ -116,21 +122,21 @@ export default function LoginCallbackClient({
 
       let finished = false;
 
-      const complete = () => {
+      const complete = async () => {
         if (finished) return;
         finished = true;
-        setRedirecting(true);
-
-        setTimeout(() => {
-          try {
-            if (window.opener && !window.opener.closed) {
-              window.opener.postMessage({ type: 'oauth-connect-complete' }, '*');
-            }
-          } catch {}
-
-          window.close();
-          window.location.href = resolveNextPath();
-        }, 600);
+        await enterStage(2);
+        // Hold the final phrase long enough to read before leaving.
+        await sleep(900);
+        try {
+          if (window.opener && !window.opener.closed) {
+            window.opener.postMessage({ type: 'oauth-connect-complete' }, '*');
+          }
+        } catch {
+          /* ignore */
+        }
+        window.close();
+        window.location.href = resolveNextPath();
       };
 
       const callbackKey =
@@ -150,32 +156,35 @@ export default function LoginCallbackClient({
         if (callbackKey) {
           try {
             window.sessionStorage.setItem(callbackKey, '1');
-          } catch {}
+          } catch {
+            /* ignore */
+          }
         }
-        complete();
+        await complete();
         return true;
       };
 
-      // 1️⃣ First, attempt to capture the session from the URL fragment –
-      // this is required for implicit/#access_token flows used by Google.
-      // 1️⃣ Attempt to extract tokens from the URL hash (implicit flow
-      // `#access_token=…`).  Supabase doesn’t parse the hash automatically in
-      // the browser SDK, so we do it manually and call `setSession()`.
+      // Advance to "Sealing session…" once real work starts (min dwell on proof).
+      await enterStage(1);
+
       const hash = typeof window !== 'undefined' ? window.location.hash || '' : '';
       if (codeKind === 'oauth_code' && code) {
         if (callbackKey) {
           try {
-            if (window.sessionStorage.getItem(callbackKey) === '1' && await completeIfSessionExists()) {
+            if (
+              window.sessionStorage.getItem(callbackKey) === '1' &&
+              (await completeIfSessionExists())
+            ) {
               return;
             }
-          } catch {}
+          } catch {
+            /* ignore */
+          }
         }
 
         try {
           const { data: exchangeData, error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) {
-            // Surface provider exchange failures (wallet OIDC / OAuth) with full
-            // diagnostics in verbose QA telemetry — not just a root toast.
             const { bitcodeQaTelemetry } = await import('@bitcode/auth/qa-telemetry');
             bitcodeQaTelemetry('error', 'supabase-callback', 'exchange-code-failed', {
               message: error.message,
@@ -191,22 +200,23 @@ export default function LoginCallbackClient({
           if (callbackKey) {
             try {
               window.sessionStorage.setItem(callbackKey, '1');
-            } catch {}
+            } catch {
+              /* ignore */
+            }
           }
-          // Finish any GitHub App install staged while session was absent.
           try {
             await fetch('/api/vcs/github/connection', {
               method: 'GET',
               credentials: 'same-origin',
             });
           } catch {
-            // claim is best-effort; connection card will retry
+            /* claim is best-effort */
           }
-          complete();
+          await complete();
           return;
         } catch (exchangeError) {
           if (await completeIfSessionExists()) return;
-          await new Promise((resolve) => setTimeout(resolve, 300));
+          await sleep(300);
           if (await completeIfSessionExists()) return;
 
           const rawMessage =
@@ -222,7 +232,7 @@ export default function LoginCallbackClient({
               codeKind,
             });
           } catch {
-            // ignore telemetry load failure
+            /* ignore */
           }
           window.location.replace(
             `/?connectError=server_error&connectErrorDescription=${encodeURIComponent(message)}`,
@@ -234,30 +244,28 @@ export default function LoginCallbackClient({
       if (hash.startsWith('#')) {
         const p = new URLSearchParams(hash.slice(1));
         const access_token = p.get('access_token');
-        // Supabase names this key `refresh_token` (not provider_refresh_token)
         const refresh_token = p.get('refresh_token') || p.get('provider_refresh_token');
         if (access_token && refresh_token) {
           try {
             await supabase.auth.setSession({ access_token, refresh_token });
-          } catch {/* ignore – falls through to checks below */}
+          } catch {
+            /* fall through */
+          }
         }
       }
 
-      // 2️⃣ Immediate session check – handles fast flows or the manual set
-      // above.
       const { data } = await supabase.auth.getSession();
       if (data.session) {
-        complete();
+        await complete();
       }
 
-      // 3️⃣ Event listener – fires when Supabase processes the hash in the
-      // background (or when the user gets logged in via another tab).
       const { data: listener } = supabase.auth.onAuthStateChange((event: string) => {
-        if (event === 'SIGNED_IN') complete();
+        if (event === 'SIGNED_IN') void complete();
       });
 
-      // 4️⃣ Safety net – ensure we leave within 5 seconds regardless.
-      const timeout = setTimeout(complete, 5000);
+      const timeout = setTimeout(() => {
+        void complete();
+      }, 5000);
 
       cleanup = () => {
         listener.subscription.unsubscribe();
@@ -268,7 +276,7 @@ export default function LoginCallbackClient({
     return () => {
       cleanup?.();
     };
-  }, [code, codeKind, nextPath]);
+  }, [code, codeKind, nextPath, isOtpFlow]);
 
   const handleCopy = () => {
     if (!code) return;
@@ -276,7 +284,6 @@ export default function LoginCallbackClient({
     setCopied(true);
   };
 
-  // Allow users to dismiss with ESC
   useEffect(() => {
     const escHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -288,113 +295,67 @@ export default function LoginCallbackClient({
     return () => window.removeEventListener('keydown', escHandler);
   }, [nextPath]);
 
-  if (!mounted) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white">
-        <div className="text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-gray-400">
-            Bitcode authentication
-          </p>
-          <h1 className="mt-4 text-4xl font-light text-[rgba(103,254,183,0.9)]">
-            Verifying…
-          </h1>
-        </div>
-      </div>
-    );
-  }
+  const phrase = OAUTH_STAGE_PHRASES[oauthStage];
 
   return (
     <motion.div
       ref={containerRef}
       className="fixed inset-0 z-50 bg-black backdrop-blur-md pointer-events-auto"
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       tabIndex={-1}
+      role="status"
+      aria-live="polite"
+      aria-busy={!isOtpFlow && oauthStage < 2}
+      aria-label={isOtpFlow ? 'Account verification code' : phrase}
     >
       <QuantumEffect className="login-quantum-effect" />
-      {/* Close button (top-right) */}
+
       <button
         onClick={() => {
           window.close();
           window.location.href = nextPath || '/';
         }}
         aria-label="Close"
-        className="absolute top-4 right-4 text-gray-400 hover:text-white focus:outline-none"
+        className="absolute top-4 right-4 z-30 text-gray-400 hover:text-white focus:outline-none"
       >
         <span aria-hidden="true">×</span>
       </button>
-      {/* Top header/title */}
-      {!redirecting && (
-        <div className="login-header tracking-tighter text-white font-light select-none">
-          {isOtpFlow ? (
-            <TypingAnimation
-              text="account verification code"
-              highlightText="verification code"
-              highlightClass="super-shiny-text special-text"
-              showCursor={false}
-            />
-          ) : (
-            'Verifying your account…'
-          )}
-        </div>
-      )}
 
-      {/* Sub-text (OTP only) */}
-      {isOtpFlow && (
-        <div className="absolute inset-x-0 z-30 text-center top-6 text-sm text-gray-400 pointer-events-none select-none">
-          You can close this tab to return to onboarding after copying the code.
-        </div>
-      )}
-
-      {/* Success toast after copy (OTP only) */}
-      {isOtpFlow && copied && (
-        <div className="absolute inset-x-0 top-80 flex justify-center pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="text-center text-2xl tablet:text-3xl font-bold text-brand-emerald-bright super-shiny-text"
-          >
-            Code Copied Successfully!
-          </motion.div>
-        </div>
-      )}
-
-      {/* Centre large text */}
-      {!redirecting && (
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-auto select-none">
-          {isOtpFlow ? (
-            <div className="flex flex-col items-center space-y-6">
-              <h2
-                onClick={handleCopy}
-                className="text-6xl laptop:text-8xl font-bold tracking-wide text-[rgba(103,254,183,0.9)] super-shiny-text cursor-pointer select-none"
-              >
-                {code}
-              </h2>
-              <button
-                onClick={handleCopy}
-                className="px-6 py-3 bg-quantum-particle hover:bg-brand-emerald-bright text-black text-lg rounded-lg shadow-lg transition"
-              >
-                Copy Code
-              </button>
-            </div>
-          ) : (
-            <h2 className="text-5xl laptop:text-7xl font-light text-[rgba(103,254,183,0.9)] super-shiny-text">
-              Verifying…
+      <div className="absolute inset-0 z-20 flex items-center justify-center select-none px-6">
+        {isOtpFlow ? (
+          <div className="flex flex-col items-center space-y-6">
+            <h2
+              onClick={handleCopy}
+              className="cursor-pointer select-none text-6xl font-bold tracking-wide text-[rgba(103,254,183,0.9)] super-shiny-text laptop:text-8xl"
+            >
+              {code}
             </h2>
-          )}
-        </div>
-      )}
-
-      {/* Redirecting overlay */}
-      {redirecting && (
-        <div className="absolute inset-0 flex items-center justify-center select-none">
-          <h2 className="text-5xl laptop:text-7xl font-light text-[rgba(103,254,183,0.9)] super-shiny-text">
-            Connecting…
-          </h2>
-        </div>
-      )}
+            <button
+              onClick={handleCopy}
+              className="rounded-lg bg-quantum-particle px-6 py-3 text-lg text-black shadow-lg transition hover:bg-brand-emerald-bright"
+            >
+              {copied ? 'Copied' : 'Copy Code'}
+            </button>
+          </div>
+        ) : (
+          <div className="relative flex min-h-[1.2em] w-full max-w-4xl items-center justify-center">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.h1
+                key={phrase}
+                className={CENTER_PHRASE_CLASS}
+                initial={{ opacity: 0, y: 14, filter: 'blur(6px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -10, filter: 'blur(4px)' }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {phrase}
+              </motion.h1>
+            </AnimatePresence>
+          </div>
+        )}
+      </div>
     </motion.div>
   );
 }
