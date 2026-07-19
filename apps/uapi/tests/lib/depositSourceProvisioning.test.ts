@@ -315,6 +315,7 @@ describe('runDepositInBoxHost (#25)', () => {
       BITCODE_LLM_PROVIDER: 'xai',
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '600000',
       BITCODE_PIPELINE_USER_ID: 'user-deposit-test',
       BITCODE_PIPELINE_RUN_ID: 'run-deposit-test',
     });
@@ -367,8 +368,47 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(receivedPlan.createOptions.env).toMatchObject({
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '600000',
       BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
     });
+  });
+
+  it('raises a stale 240s host budget to the product 600s ceiling', async () => {
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
+    process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '240000';
+
+    let receivedPlan: any;
+    const fakeHost = {
+      runHostPlan: async (plan: any) => {
+        receivedPlan = plan;
+        return {
+          sandboxId: 'sbx_budget',
+          artifacts: {
+            evidence: { depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }] },
+            telemetry: null,
+          },
+          outcome: 'completed',
+          stopped: true,
+          manifest: plan.manifest,
+          commands: [],
+        };
+      },
+    };
+
+    await runDepositInBoxHost({
+      repositoryFullName: 'o/r',
+      revision: 'main',
+      branch: 'main',
+      commit: null,
+      userId: 'user-budget-pin',
+      obfuscations: null,
+      permissibleSources: [],
+      impermissibleSources: [],
+      demandContext: [],
+      hostFactory: async () => fakeHost,
+    });
+
+    expect(receivedPlan.createOptions.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS).toBe('600000');
   });
 
   it('throws a host/pipeline error (not Validation zero-options) when outcome is failed', async () => {

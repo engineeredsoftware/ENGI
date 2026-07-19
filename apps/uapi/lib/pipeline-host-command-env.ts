@@ -100,13 +100,19 @@ export function selectedPipelineHostCommandEnvironment(
     // later async sandbox completion gate, and preflight would otherwise
     // throw BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded required.
     env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
+    // Product preflight ceiling is 600000ms. Multi-phase deposit PTRR
+    // (setup+discovery+…) routinely exceeds the legacy 240s default — run
+    // 793f8be1 died mid-discovery on PipelineHostTimeoutError at 240000ms
+    // after healthy xAI inference. Pin the full product budget; do not
+    // honor a stale Vercel 240s value for product host creates.
+    env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '600000';
   }
   const realInferenceRequired = isPipelineHostRealInferenceRequired();
   if (realInferenceRequired) {
     env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
   }
-  // Default budget when unset so strict real-inference preflight has a
-  // finite positive ms value without requiring every deploy to set it.
+  // When real inference is off (unit tests / bring-up), still provide a
+  // finite budget if unset so callers do not inherit an empty env key.
   if (!env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS) {
     env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '240000';
   }
