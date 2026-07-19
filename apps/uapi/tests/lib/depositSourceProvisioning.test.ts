@@ -319,9 +319,13 @@ describe('runDepositInBoxHost (#25)', () => {
       BITCODE_PIPELINE_STREAM_TO_DATABASE: '1',
       BITCODE_PIPELINE_STRUCTURED_DB: '1',
       BITCODE_PIPELINE_LEGACY_EVENTS_DB: '1',
+      BITCODE_DEBUG_DISCOVERY_SERIAL: '1',
       BITCODE_PIPELINE_USER_ID: 'user-deposit-test',
       BITCODE_PIPELINE_RUN_ID: 'run-deposit-test',
     });
+    expect(receivedPlan.createOptions.env.NODE_OPTIONS || '').toMatch(
+      /max-old-space-size=/,
+    );
     expect(receivedPlan.manifest.sourceRevision).toMatchObject({
       branch: 'main',
       commit: 'abc123def456',

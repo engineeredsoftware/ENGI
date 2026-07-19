@@ -286,6 +286,88 @@ describe('buildPipelineRunActivityFromEvents — mode latch + latest context', (
     const snapshot = buildPipelineRunActivityFromEvents(duped, null, [], null);
     expect(Object.keys(snapshot.outputDetails)).toHaveLength(1);
   });
+
+  it('never stamps DIV iter on Setup formal rows even after currentIteration=1', () => {
+    // Late dual-write: Setup refine STRUCTURE after Discovery latched iter 1
+    // used to paint "iter 1" on the last Setup log line (run 9d8bcf0f UX).
+    const mixed = [
+      {
+        id: 's1',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'output',
+          message: '[content withheld — source-safe]',
+          executionState: {
+            phase: 'setup',
+            agent: 'DepositInputComprehensionAgent',
+            step: 'refine',
+            failsafe: 'prepare_concise_context',
+            generation: 'reason',
+          },
+        },
+        created_at: '2026-07-01T00:00:01.000Z',
+      },
+      {
+        id: 'iter',
+        event: {
+          type: 'status',
+          namespace: 'pipeline',
+          key: 'currentIteration',
+          data: 1,
+        },
+        created_at: '2026-07-01T00:00:02.000Z',
+      },
+      {
+        id: 's2-late',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'output',
+          message: '[content withheld — source-safe]',
+          executionState: {
+            phase: 'setup',
+            agent: 'DepositInputComprehensionAgent',
+            step: 'refine',
+            failsafe: 'handle_prompts',
+            generation: 'structured_output',
+          },
+        },
+        created_at: '2026-07-01T00:00:03.000Z',
+      },
+      {
+        id: 'd1',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'output',
+          message: '[content withheld — source-safe]',
+          executionState: {
+            phase: 'discovery',
+            agent: 'DepositCodebaseComprehensionAgent',
+            step: 'plan',
+            failsafe: 'prepare_concise_context',
+            generation: 'reason',
+          },
+        },
+        created_at: '2026-07-01T00:00:04.000Z',
+      },
+    ];
+    const snapshot = buildPipelineRunActivityFromEvents(mixed, null, [], null);
+    const rows = Object.values(snapshot.outputDetails) as any[];
+    const setupRows = rows.filter((r) =>
+      String(r?.executionState?.phase || '').toLowerCase().includes('setup'),
+    );
+    const discoveryRows = rows.filter((r) =>
+      String(r?.executionState?.phase || '').toLowerCase().includes('discovery'),
+    );
+    expect(setupRows.length).toBe(2);
+    for (const row of setupRows) {
+      expect(row.executionState.iteration ?? null).toBeNull();
+    }
+    expect(discoveryRows.length).toBe(1);
+    expect(discoveryRows[0].executionState.iteration).toBe(1);
+  });
 });
 
 // ---------------------------------------------------------------------------

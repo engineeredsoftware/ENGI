@@ -145,15 +145,33 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
     );
   }
 
-  const serialDiscovery =
-    String(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '').toLowerCase() ===
-      '1' ||
-    String(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '').toLowerCase() ===
-      'true' ||
-    String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() ===
-      '1' ||
-    String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '').toLowerCase() ===
-      'true';
+  // Product default: serial wave-1 Discovery. Parallel comprehend-codebase ∥
+  // inherent-regurgitation OOM-killed the sandbox (exit 137) on Bitcode monorepo
+  // right after Setup closed (run 9d8bcf0f). Opt into parallel only with
+  // BITCODE_DEBUG_DISCOVERY_PARALLEL=1 on small checkouts.
+  const forceParallel =
+    ['1', 'true', 'yes', 'on'].includes(
+      String(process.env.BITCODE_DEBUG_DISCOVERY_PARALLEL || '')
+        .trim()
+        .toLowerCase(),
+    );
+  const forceSerial =
+    ['1', 'true', 'yes', 'on'].includes(
+      String(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '')
+        .trim()
+        .toLowerCase(),
+    ) ||
+    ['1', 'true', 'yes', 'on'].includes(
+      String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '')
+        .trim()
+        .toLowerCase(),
+    );
+  const serialDiscovery = forceSerial || !forceParallel;
+  try {
+    (execution as any).store?.('discovery', 'wave1Serial', serialDiscovery);
+  } catch {
+    /* ignore */
+  }
   const wave1 = serialDiscovery
     ? sequential(
         createAgentExecutor(DISCOVERY_COMPREHEND_CODEBASE),

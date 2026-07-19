@@ -90,6 +90,26 @@ export function selectedPipelineHostCommandEnvironment(
   // left execution_events as status-only spam and the UI showed "No logs
   // available" despite healthy Setup/Discovery (run 793f8be1).
   env.BITCODE_PIPELINE_LEGACY_EVENTS_DB = '1';
+  // Cap the in-box Node heap so Discovery on large monorepos fails more
+  // gracefully (and sooner) than an unbounded V8 growth + host SIGKILL.
+  // Child language servers use BITCODE_LSP_MAX_OLD_SPACE_MB separately.
+  const pipelineHeapMb = (() => {
+    const raw = Number(process.env.BITCODE_PIPELINE_MAX_OLD_SPACE_MB);
+    if (Number.isFinite(raw) && raw >= 512 && raw <= 4096) return Math.floor(raw);
+    return 1536;
+  })();
+  const parentNodeOptions = String(process.env.NODE_OPTIONS || '');
+  env.NODE_OPTIONS = [
+    parentNodeOptions.replace(/--max-old-space-size=\d+/g, '').trim(),
+    `--max-old-space-size=${pipelineHeapMb}`,
+  ]
+    .filter(Boolean)
+    .join(' ');
+  // Prefer serial Discovery wave-1 inside the box even on older images that
+  // still default parallel (set before image rebuild lands).
+  if (!env.BITCODE_DEBUG_DISCOVERY_SERIAL && !process.env.BITCODE_DEBUG_DISCOVERY_PARALLEL) {
+    env.BITCODE_DEBUG_DISCOVERY_SERIAL = '1';
+  }
   // Inference is owned by the host/Pipeliner process. Product default is on
   // when unset; honor explicit opt-out (0/false/off) for unit tests.
   const realInferenceRaw = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;

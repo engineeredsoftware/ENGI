@@ -219,16 +219,40 @@ function updateRollingContext(ctx: ExecContext, payload: any): void {
   if (payload?.type === 'phase' && payload?.phase) ctx.phase = String(payload.phase);
   if (payload?.type === 'agent' && payload?.agent) ctx.agent = String(payload.agent);
 
-  // DIV-loop iteration (1-based): the SDIVF executor variant stores
-  // phase/iteration at each observed D/I/V phase start; the classic variant
-  // stores pipeline/currentIteration at the top of each pass. Setup precedes
-  // the first store and Finish runs outside the loop, so clear the latch once
-  // the finish phase starts.
+  // DIV-loop iteration (1-based): the SDIVF executor stores
+  // pipeline/currentIteration when the DIV loop starts (just before Discovery),
+  // and phase/iteration on D/I/V phase starts. Setup/Finish rows must not show
+  // "iter N" — that is enforced in iterationForPhase when stamping formal rows
+  // (not by clearing the latch here: currentIteration is written while phase
+  // is still "setup" for a beat, and clearing would drop iter before Discovery).
   if ((ns === 'phase' && key === 'iteration') || (ns === 'pipeline' && key === 'currentIteration')) {
     const iteration = Number(value);
     if (Number.isFinite(iteration) && iteration > 0) ctx.iteration = iteration;
   }
-  if (String(ctx.phase || '').toLowerCase().includes('finish')) ctx.iteration = null;
+  if (String(ctx.phase || '').toLowerCase().includes('finish')) {
+    ctx.iteration = null;
+  }
+}
+
+/** DIV-loop phases only — Setup/Finish must never carry an iteration badge. */
+function iterationForPhase(
+  phase: string | null | undefined,
+  rollingIteration: number | null | undefined,
+): number | null {
+  const p = String(phase || '').toLowerCase();
+  if (!p || p.includes('setup') || p.includes('finish')) return null;
+  const inDiv =
+    p.includes('discovery') ||
+    p.includes('implementation') ||
+    p.includes('validation') ||
+    // short product labels sometimes omit the full phase name
+    p === 'd' ||
+    p === 'i' ||
+    p === 'v';
+  if (!inDiv) return null;
+  return typeof rollingIteration === 'number' && rollingIteration > 0
+    ? rollingIteration
+    : null;
 }
 
 type FormalLogLineKind = 'llm' | 'tool';
@@ -432,13 +456,17 @@ export function buildPipelineRunActivityFromEvents(
       // The LLM call carries the full hierarchy itself; fall back to the rolling
       // context only for any field the event omits.
       const own = readEventExecutionState(payload);
+      const phase = own.phase ?? rollingContext.phase ?? null;
       const merged: ExecContext = {
-        phase: own.phase ?? rollingContext.phase ?? null,
+        phase,
         agent: own.agent ?? rollingContext.agent ?? null,
         step: own.step ?? rollingContext.step ?? null,
         failsafe: own.failsafe ?? null,
         generation: own.generation ?? null,
-        iteration: rollingContext.iteration ?? null,
+        // Never stamp DIV iter onto Setup rows (late dual-write after
+        // currentIteration=1 at Discovery start used to paint "iter 1" on the
+        // last Setup refine STRUCTURE line).
+        iteration: iterationForPhase(phase, rollingContext.iteration),
       };
       const text = String(payload?.message || payload?.status?.message || '[content withheld — source-safe]');
       pushRow(text, stampExecutionState(merged, { ...payload, type: 'generation' }, deriveFailsafeRepairMarkers(payload)));
@@ -463,11 +491,12 @@ export function buildPipelineRunActivityFromEvents(
         payload?.metadata?.toolName ||
         (key === 'error' ? 'tool (failed)' : 'tool');
       // Tool uses have Phase/Agent/Step but no Failsafe/Thinkings.
+      const phase = rollingContext.phase ?? null;
       const merged: ExecContext = {
-        phase: rollingContext.phase ?? null,
+        phase,
         agent: rollingContext.agent ?? null,
         step: rollingContext.step ?? null,
-        iteration: rollingContext.iteration ?? null,
+        iteration: iterationForPhase(phase, rollingContext.iteration),
       };
       const enriched = stampExecutionState(merged, { ...payload, type: 'tool-use' }, { tool: toolName });
       enriched.metadata = {
