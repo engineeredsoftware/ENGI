@@ -56,6 +56,8 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   needAnchorName?: string | null;
   needAnchorRelevantPaths?: string[] | null;
   needAnchorIrrelevantPaths?: string[] | null;
+  /** Optional label on repository·branch·commit anchors. */
+  repositoryAnchorName?: string | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [

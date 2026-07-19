@@ -91,12 +91,51 @@ describe("deposit-activity-ledger", () => {
       repositoryFullName: "acme/app",
       branch: "dev",
       commit: "bbb",
+      name: null,
     });
     expect(anchors.find((a) => a.id === "old")).toMatchObject({
       repositoryFullName: "acme/app",
       branch: "main",
       commit: "aaa",
+      name: null,
     });
+  });
+
+  it("keeps named repository anchors distinct and recovers summary-only rows", () => {
+    const runs = [
+      run({
+        id: "named",
+        contextSource: "terminal-repository-context-panel",
+        repository: "acme/app",
+        branch: "main",
+        sourceCommit: "aaa",
+        repositoryAnchorName: "Prod tip",
+        created_at: "2026-07-05T00:00:00.000Z",
+      }),
+      run({
+        id: "unnamed-same-package",
+        contextSource: "terminal-repository-context-panel",
+        repository: "acme/app",
+        branch: "main",
+        sourceCommit: "aaa",
+        created_at: "2026-07-04T00:00:00.000Z",
+      }),
+      run({
+        id: "summary-only",
+        summary: "Recorded repository anchor for acme/from-summary.",
+        repository: "acme/from-summary",
+        branch: "dev",
+        sourceCommit: "ccc",
+        created_at: "2026-07-06T00:00:00.000Z",
+      }),
+    ];
+    const anchors = deriveRepositoryAnchors(runs);
+    expect(anchors.map((a) => a.id)).toEqual([
+      "summary-only",
+      "named",
+      "unnamed-same-package",
+    ]);
+    expect(anchors.find((a) => a.id === "named")?.name).toBe("Prod tip");
   });
 
   it("derives obfuscations anchors with dedupe and path sets", () => {

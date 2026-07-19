@@ -33,6 +33,11 @@ import {
 } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRepositoryAnchor } from "@/components/deposits/models/deposit-repository-anchor";
 import { DepositSourceFieldGrid } from "@/components/deposits/DepositSourceFieldGrid/DepositSourceFieldGrid";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/shadcn/Popover/Popover";
 import { useDepositSourceVcs } from "./hooks/use-deposit-source-vcs";
 
 export type { DepositRepositoryAnchor };
@@ -121,6 +126,9 @@ export default function DepositSourceSelection({
 
   const [recordMessage, setRecordMessage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [repositoryAnchorName, setRepositoryAnchorName] = useState("");
+  const [isRepositoryAnchorPopoverOpen, setIsRepositoryAnchorPopoverOpen] =
+    useState(false);
 
   // Publish the selection context to the deposit page.
   useEffect(() => {
@@ -264,10 +272,23 @@ export default function DepositSourceSelection({
 
   const handleAnchorRepository = async () => {
     if (!selectedRepository || !onRecordActivity) return;
+    if (!selectedBranch) {
+      setRecordMessage("Select a branch before anchoring the repository package.");
+      return;
+    }
+    const resolvedCommit =
+      selectedCommit ||
+      (isLatestCommitMode ? headCommit?.sha || null : null);
+    if (!resolvedCommit) {
+      setRecordMessage(
+        "Wait for commits to load (or pin a SHA) before anchoring.",
+      );
+      return;
+    }
     setIsRecording(true);
     setRecordMessage(null);
     try {
-      // Pass full source package (branch + commit) so Load-anchor can restore it.
+      // Full source package (branch + resolved commit) so Load-anchor restores it.
       await onRecordActivity(
         buildProductRepositoryAnchorDraft({
           provider,
@@ -276,13 +297,21 @@ export default function DepositSourceSelection({
           repositories,
           selectedRepository,
           selectedBranch,
-          selectedCommit,
+          selectedCommit: resolvedCommit,
+          headCommitSha: headCommit?.sha || null,
+          name: repositoryAnchorName,
           branches,
           commits,
           defaultBranch,
         }),
       );
-      setRecordMessage("Repository anchored into the Bitcode activity ledger.");
+      setRecordMessage(
+        repositoryAnchorName.trim()
+          ? `Repository anchor "${repositoryAnchorName.trim()}" saved into the Bitcode activity ledger.`
+          : "Repository package anchored into the Bitcode activity ledger.",
+      );
+      setRepositoryAnchorName("");
+      setIsRepositoryAnchorPopoverOpen(false);
     } catch (nextError) {
       setRecordMessage(
         nextError instanceof Error
@@ -324,67 +353,172 @@ export default function DepositSourceSelection({
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {repositoryAnchors.length > 0 ? (
-            <div className="w-48">
-              <SearchableSelect
-                aria-label="Load a previously anchored repository"
-                items={repositoryAnchors.map((anchor) => ({
-                  key: anchor.id,
-                  label: anchor.repositoryFullName,
-                  description: anchor.branch
+          <div className="w-52">
+            <SearchableSelect
+              aria-label="Load a previously anchored repository"
+              items={repositoryAnchors.map((anchor) => ({
+                key: anchor.id,
+                label:
+                  anchor.name ||
+                  anchor.repositoryFullName ||
+                  "Repository anchor",
+                description: [
+                  anchor.name ? anchor.repositoryFullName : null,
+                  anchor.branch
                     ? `${anchor.branch}${
                         anchor.commit ? ` · ${anchor.commit.slice(0, 7)}` : ""
                       }`
                     : null,
-                }))}
-                value={null}
-                disabled={disabled}
-                onSelect={(key) => {
-                  if (disabled) return;
-                  const anchor = repositoryAnchors.find(
-                    (entry) => entry.id === key,
-                  );
-                  if (!anchor) return;
-                  updateSourceParams((params) => {
-                    params.set("repo", anchor.repositoryFullName);
-                    if (anchor.branch) params.set("sourceBranch", anchor.branch);
-                    else params.delete("sourceBranch");
-                    if (anchor.commit) params.set("sourceCommit", anchor.commit);
-                    else params.delete("sourceCommit");
-                    params.delete("branch");
-                    params.delete("commit");
-                  });
-                }}
-                // One-shot load-in (always placeholder) — no selection check.
-                showSelectionIndicator={false}
-                placeholder="Load anchor..."
-                searchPlaceholder="Search anchors..."
-                emptyMessage="No anchors yet."
-                className="h-9"
-              />
-            </div>
-          ) : null}
+                ]
+                  .filter(Boolean)
+                  .join(" · "),
+                searchText: [
+                  anchor.name,
+                  anchor.repositoryFullName,
+                  anchor.branch,
+                  anchor.commit,
+                ]
+                  .filter(Boolean)
+                  .join(" "),
+              }))}
+              value={null}
+              disabled={disabled}
+              onSelect={(key) => {
+                if (disabled) return;
+                const anchor = repositoryAnchors.find(
+                  (entry) => entry.id === key,
+                );
+                if (!anchor) return;
+                // Always set full package explicitly — pin SHA (not "latest")
+                // so branch+commit both restore for Load anchor.
+                updateSourceParams((params) => {
+                  params.set("repo", anchor.repositoryFullName);
+                  if (anchor.branch) {
+                    params.set("sourceBranch", anchor.branch);
+                  } else {
+                    params.delete("sourceBranch");
+                  }
+                  if (anchor.commit) {
+                    params.set("sourceCommit", anchor.commit);
+                  } else {
+                    params.delete("sourceCommit");
+                  }
+                  params.delete("branch");
+                  params.delete("commit");
+                });
+              }}
+              showSelectionIndicator={false}
+              placeholder="Load anchor..."
+              searchPlaceholder="Search anchors..."
+              emptyMessage="No anchors yet."
+              className="h-9"
+            />
+          </div>
           <TelemetryExplainerTrigger
             side="bottom"
             explainer={toRichHoverExplainer(
               DEPOSIT_SECTION_EXPLAINERS.repositoryAnchor,
             )}
           >
-            <button
-              type="button"
-              aria-label="Anchor repository to the activity ledger"
-              disabled={disabled || !selectedRepository || isRecording}
-              onClick={() => {
-                void handleAnchorRepository();
-              }}
-              className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {isRecording ? (
-                <RefreshCw className="h-4 w-4 animate-spin" />
-              ) : (
-                <Anchor className="h-4 w-4" />
-              )}
-            </button>
+            <span className="inline-flex">
+              <Popover
+                open={isRepositoryAnchorPopoverOpen}
+                onOpenChange={(open) => {
+                  if (disabled) return;
+                  if (open && !selectedRepository) return;
+                  if (isRecording) return;
+                  setIsRepositoryAnchorPopoverOpen(open);
+                }}
+              >
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label="Anchor repository to the activity ledger"
+                    disabled={
+                      disabled ||
+                      !selectedRepository ||
+                      !selectedBranch ||
+                      isRecording
+                    }
+                    className="flex h-9 w-9 items-center justify-center border border-white/10 bg-white/5 text-neutral-200 transition hover:border-emerald-300/35 hover:bg-emerald-300/10 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {isRecording ? (
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Anchor className="h-4 w-4" />
+                    )}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="end"
+                  sideOffset={6}
+                  className="w-64 border-white/10 bg-neutral-950 p-3 text-neutral-100 shadow-xl"
+                >
+                  <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+                    Name this anchor
+                  </p>
+                  <input
+                    id="deposit-repository-anchor-name"
+                    type="text"
+                    value={repositoryAnchorName}
+                    onChange={(event) =>
+                      setRepositoryAnchorName(event.target.value.slice(0, 80))
+                    }
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                        void handleAnchorRepository();
+                      }
+                      if (event.key === "Escape") {
+                        event.preventDefault();
+                        setIsRepositoryAnchorPopoverOpen(false);
+                      }
+                    }}
+                    placeholder="Optional name"
+                    maxLength={80}
+                    autoFocus
+                    aria-label="Repository anchor name"
+                    className="mt-2 h-9 w-full border border-white/10 bg-black/40 px-2.5 text-xs text-neutral-100 outline-none transition placeholder:text-neutral-500 focus:border-emerald-300/35"
+                  />
+                  <p className="mt-1.5 text-[0.68rem] leading-4 text-neutral-500">
+                    Shown as the label when reloading. Leave blank to use the
+                    repository full name. Saves repo · branch · commit.
+                  </p>
+                  <div className="mt-3 flex items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsRepositoryAnchorPopoverOpen(false)}
+                      disabled={isRecording}
+                      className="border border-white/10 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-300 transition hover:border-white/25 disabled:opacity-40"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void handleAnchorRepository();
+                      }}
+                      disabled={
+                        !selectedRepository ||
+                        !selectedBranch ||
+                        isRecording
+                      }
+                      className="inline-flex items-center gap-1.5 border border-emerald-300/30 bg-emerald-300/12 px-2.5 py-1.5 text-[0.62rem] uppercase tracking-[0.14em] text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      {isRecording ? (
+                        <RefreshCw
+                          className="h-3 w-3 animate-spin"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Anchor className="h-3 w-3" aria-hidden="true" />
+                      )}
+                      Save anchor
+                    </button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </span>
           </TelemetryExplainerTrigger>
         </div>
       </div>

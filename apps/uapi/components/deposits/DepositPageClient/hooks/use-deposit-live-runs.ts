@@ -27,12 +27,23 @@ export function useDepositLiveRuns() {
       const nextRuns = history.map(mapExecutionHistoryRunToWorkspaceRun);
       setLiveRuns((current) => {
         if (!soft || current.length === 0) return nextRuns;
-        // Soft refresh: merge so optimistic anchor upserts are not blanked if
-        // the server list races slightly behind the POST.
-        let merged = nextRuns;
+        // Soft refresh: keep optimistic anchor rows and prefer richer local
+        // branch/commit/name when the server list races thin.
+        let merged = [...nextRuns];
         for (const run of current) {
-          if (!merged.some((entry) => entry.id === run.id)) {
+          const idx = merged.findIndex((entry) => entry.id === run.id);
+          if (idx < 0) {
             merged = upsertWorkspaceRun(merged, run);
+            continue;
+          }
+          const server = merged[idx]!;
+          const localRicher =
+            (Boolean(run.branch) && !server.branch) ||
+            (Boolean(run.sourceCommit) && !server.sourceCommit) ||
+            (Boolean(run.repositoryAnchorName) && !server.repositoryAnchorName) ||
+            (Boolean(run.contextSource) && !server.contextSource);
+          if (localRicher) {
+            merged[idx] = { ...server, ...run };
           }
         }
         return merged;

@@ -60,8 +60,8 @@ export function isActivityLedgerContextSource(
 
 /**
  * V48-Gate3-F17: previously anchored full source packages (repository · branch
- * · commit), newest first. One entry per distinct package so Load-anchor can
- * restore a non-default branch/SHA — not just the newest repo name.
+ * · commit · optional name), newest first. Named anchors keep a separate slot
+ * even when the package matches an unnamed one.
  */
 const REPOSITORY_ANCHOR_SOURCES = new Set([
   "terminal-repository-context-panel",
@@ -72,7 +72,22 @@ function repositoryAnchorPackageKey(run: WorkspaceRun): string {
   const repository = run.repository || "";
   const branch = run.branch || "";
   const commit = run.sourceCommit || "";
-  return `${repository}\u0000${branch}\u0000${commit}`;
+  const name =
+    typeof run.repositoryAnchorName === "string"
+      ? run.repositoryAnchorName.trim()
+      : "";
+  return `${repository}\u0000${branch}\u0000${commit}\u0000${name}`;
+}
+
+function isRepositoryAnchorRun(run: WorkspaceRun): boolean {
+  if (run.contextSource && REPOSITORY_ANCHOR_SOURCES.has(run.contextSource)) {
+    return Boolean(run.repository);
+  }
+  // Recover rows that lost context.source but still look like repo anchors.
+  if (run.summary && /recorded repository anchor/i.test(run.summary)) {
+    return Boolean(run.repository);
+  }
+  return false;
 }
 
 export function deriveRepositoryAnchors(
@@ -80,13 +95,7 @@ export function deriveRepositoryAnchors(
 ): DepositRepositoryAnchor[] {
   const newestByPackage = new Map<string, WorkspaceRun>();
   for (const run of liveRuns) {
-    if (
-      !run.contextSource ||
-      !REPOSITORY_ANCHOR_SOURCES.has(run.contextSource) ||
-      !run.repository
-    ) {
-      continue;
-    }
+    if (!isRepositoryAnchorRun(run) || !run.repository) continue;
     const packageKey = repositoryAnchorPackageKey(run);
     const existing = newestByPackage.get(packageKey);
     if (!existing || new Date(run.created_at) > new Date(existing.created_at)) {
@@ -103,6 +112,11 @@ export function deriveRepositoryAnchors(
       repositoryFullName: run.repository as string,
       branch: run.branch || null,
       commit: run.sourceCommit || null,
+      name:
+        typeof run.repositoryAnchorName === "string" &&
+        run.repositoryAnchorName.trim()
+          ? run.repositoryAnchorName.trim()
+          : null,
     }));
 }
 

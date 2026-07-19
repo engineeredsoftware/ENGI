@@ -8,4 +8,6 @@ export interface DepositRepositoryAnchor {
   repositoryFullName: string;
   branch: string | null;
   commit: string | null;
+  /** Optional human label (Load-anchor dropdown primary label when set). */
+  name: string | null;
 }

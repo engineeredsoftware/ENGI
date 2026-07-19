@@ -53,14 +53,23 @@ describe("pipeline-activity-history", () => {
         language: null,
         topics: [],
       } as any,
-      selectedBranch: "main",
-      selectedCommit: "abcdef1",
+      selectedBranch: "version/v48",
+      selectedCommit: "abcdef1234567890",
+      name: "v48 tip",
     });
     expect(draft.context?.source).toBe(REPOSITORY_ANCHOR_CONTEXT_SOURCE);
     expect(draft.context?.source).toBe("terminal-repository-context-panel");
     expect(draft.selectAfterRecord).toBe(false);
     expect(draft.context?.repositoryFullName).toBe("acme/app");
-    expect(draft.context?.sourceCommit).toBe("abcdef1");
+    expect(draft.context?.sourceBranch).toBe("version/v48");
+    expect(draft.context?.sourceCommit).toBe("abcdef1234567890");
+    expect(draft.context?.repositoryAnchorName).toBe("v48 tip");
+    expect(draft.sourceRevision).toMatchObject({
+      repositoryFullName: "acme/app",
+      branch: "version/v48",
+      commit: "abcdef1234567890",
+    });
+    expect(draft.summary).toContain('"v48 tip"');
   });
 
   it("builds obfuscations anchors without selecting after record", () => {

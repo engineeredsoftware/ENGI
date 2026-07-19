@@ -559,14 +559,37 @@ export function buildProductFitWorkbenchDraft(
 export const REPOSITORY_ANCHOR_CONTEXT_SOURCE = 'terminal-repository-context-panel';
 
 export function buildProductRepositoryAnchorDraft(
-  repositoryContext: RepositoryContextState,
+  repositoryContext: RepositoryContextState & {
+    /** Optional human label for the Load-anchor dropdown. */
+    name?: string | null;
+    /** Explicit head SHA when the UI is tracking Latest. */
+    headCommitSha?: string | null;
+  },
 ): ProductActivityRecordDraft {
   const selectedRepository = repositoryContext.selectedRepository;
   const connectionStatus = repositoryContext.connectionStatus;
-  const selectedBranch = repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
-  const selectedCommit = repositoryContext.selectedCommit || '';
+  const selectedBranch =
+    repositoryContext.selectedBranch || selectedRepository?.defaultBranch || 'main';
+  // Prefer explicit selection, then latest-head resolution, never leave blank
+  // when a head SHA is known (empty commit made Load-anchor restore fail).
+  const selectedCommit =
+    (typeof repositoryContext.selectedCommit === 'string' &&
+    repositoryContext.selectedCommit.trim()
+      ? repositoryContext.selectedCommit.trim()
+      : '') ||
+    (typeof repositoryContext.headCommitSha === 'string' &&
+    repositoryContext.headCommitSha.trim()
+      ? repositoryContext.headCommitSha.trim()
+      : '') ||
+    '';
+  const name =
+    typeof repositoryContext.name === 'string' && repositoryContext.name.trim()
+      ? repositoryContext.name.trim().slice(0, 80)
+      : null;
   const providerAccount =
     connectionStatus?.username || connectionStatus?.metadata?.account || selectedRepository?.owner.username || 'connected account';
+  const repositoryFullName = selectedRepository?.fullName || null;
+  const namedPrefix = name ? `"${name}" ` : '';
 
   return {
     type: 'agentic-execution:asset-pack',
@@ -574,9 +597,18 @@ export function buildProductRepositoryAnchorDraft(
     // Stay on compose after save — opening the anchor row remounts ProductDetailStage
     // and re-plays Need/Obfuscations entrance motion.
     selectAfterRecord: false,
-    summary: `Recorded repository anchor for ${selectedRepository?.fullName || 'the current Bitcode supply boundary'}.`,
+    // Explicit source package for buildRepoSnapshot (authoritative for save).
+    sourceRevision: repositoryFullName
+      ? {
+          repositoryFullName,
+          branch: selectedBranch,
+          commit: selectedCommit || '',
+        }
+      : null,
+    summary: `Recorded repository anchor ${namedPrefix}for ${repositoryFullName || 'the current Bitcode supply boundary'}.`,
     output: {
       repositoryAnchor: {
+        name,
         provider: repositoryContext.provider,
         repository: selectedRepository
           ? {
@@ -617,9 +649,10 @@ export function buildProductRepositoryAnchorDraft(
       provider: repositoryContext.provider,
       providerAccount,
       inventorySource: repositoryContext.inventorySource || null,
-      repositoryFullName: selectedRepository?.fullName || null,
+      repositoryFullName,
       sourceBranch: selectedRepository ? selectedBranch : null,
       sourceCommit: selectedRepository ? selectedCommit || null : null,
+      repositoryAnchorName: name,
     },
   };
 }
@@ -864,6 +897,9 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       contextString('sourceCommit') ||
       readNestedString(run.output, ['repositoryAnchor', 'repository', 'selectedCommit']) ||
       readNestedString(run.output, ['repositoryAnchor', 'sourceSelection', 'commit']),
+    repositoryAnchorName:
+      contextString('repositoryAnchorName') ||
+      readNestedString(run.output, ['repositoryAnchor', 'name']),
     contextSource,
     contextWorkbench: contextString('workbench'),
     candidateAssetId: contextString('candidateAssetId'),

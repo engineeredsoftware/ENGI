@@ -171,11 +171,13 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
     );
 
     await screen.findByLabelText("Repository provider");
+    // Load-anchor control is always mounted so a just-saved anchor can appear
+    // without remounting the chrome (empty list until anchors exist).
     expect(
-      screen.queryByRole("combobox", {
+      screen.getByRole("combobox", {
         name: "Load a previously anchored repository",
       }),
-    ).not.toBeInTheDocument();
+    ).toBeInTheDocument();
   });
 
   it("offers previously anchored repositories and applies the selected one", async () => {
@@ -190,6 +192,7 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
             repositoryFullName: "octocat/OtherRepo",
             branch: "develop",
             commit: "abc1234567",
+            name: null,
           },
         ]}
       />,
@@ -227,6 +230,7 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
             repositoryFullName: "octocat/Bare",
             branch: null,
             commit: null,
+            name: null,
           },
         ]}
       />,
@@ -284,6 +288,7 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
             repositoryFullName: "acme/Bitcode",
             branch: "version/v48",
             commit: "41ff225",
+            name: null,
           },
         ]}
       />,
@@ -327,6 +332,7 @@ describe("DepositSourceSelection — V48-Gate3-F17 repository anchoring", () => 
             repositoryFullName: "acme/Bitcode",
             branch: "version/v48",
             commit: "41ff225",
+            name: null,
           },
         ]}
       />,
