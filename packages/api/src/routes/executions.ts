@@ -12,6 +12,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 
 import {
   buildAgenticExecutionSummary,
+  deriveDisplayExecutionStatus,
   normalizeAgenticExecutionStorageType,
   resolveAgenticExecutionQueryTypes,
 } from '../executions/agentic-execution';
@@ -499,13 +500,16 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     context: row.context,
     output,
   });
+  // Prefer display status so partial recovery never surfaces as green COMPLETED
+  // when context/output carry hostBudgetExceeded / validationNotReady / partial.
+  const displayStatus = deriveDisplayExecutionStatus(row.status, row.context, output);
 
   return {
     id: row.id,
     created_at: row.created_at || new Date().toISOString(),
     started_at: row.started_at,
     completed_at: row.completed_at,
-    status: row.status,
+    status: displayStatus,
     type: row.type,
     agentic_execution: agenticExecution,
     guide: buildGuide(row),

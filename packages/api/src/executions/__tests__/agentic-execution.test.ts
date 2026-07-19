@@ -1,6 +1,7 @@
 import {
   buildAgenticExecutionSummary,
   deriveAgenticExecutionProofStatus,
+  deriveDisplayExecutionStatus,
   readAgenticExecutionProofHints,
 } from '../agentic-execution';
 
@@ -65,5 +66,30 @@ describe('readAgenticExecutionProofHints + buildAgenticExecutionSummary', () => 
     });
     expect(summary.proofStatus).toBe('AssetPack options recovered (host budget)');
     expect(summary.lens).toBe('deposit');
+  });
+
+  it('demotes stored completed to partial when validationNotReady', () => {
+    expect(
+      deriveDisplayExecutionStatus(
+        'completed',
+        { partial: true, validationNotReady: true },
+        {
+          summary:
+            'Recovered 3 measured AssetPack options with Validation ReadyToFinish not ready.',
+        },
+      ),
+    ).toBe('partial');
+    expect(
+      buildAgenticExecutionSummary({
+        type: 'agentic-execution:asset-pack',
+        status: 'completed',
+        context: { partial: true, validationNotReady: true },
+        output: {
+          partial: true,
+          validationNotReady: true,
+          summary: 'Recovered 3 measured AssetPack options with Validation ReadyToFinish not ready.',
+        },
+      }).proofStatus,
+    ).toBe('AssetPack options (Validation not ready)');
   });
 });

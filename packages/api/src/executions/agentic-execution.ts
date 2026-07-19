@@ -137,6 +137,8 @@ export type AgenticExecutionProofHints = {
   partial?: boolean | null;
   hostRecoveredFromTimeout?: boolean | null;
   hostResultState?: string | null;
+  /** Validation ReadyToFinish did not approve (options may still exist). */
+  validationNotReady?: boolean | null;
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -156,16 +158,26 @@ export function readAgenticExecutionProofHints(
 ): AgenticExecutionProofHints {
   const ctx = asRecord(context);
   const out = asRecord(output);
+  const summary = String(out?.summary || ctx?.summary || '');
   const hostBudgetExceeded =
     asBoolean(ctx?.hostBudgetExceeded) ||
     asBoolean(out?.hostBudgetExceeded) ||
     asBoolean(ctx?.hostRecoveredFromTimeout) ||
-    asBoolean(out?.hostRecoveredFromTimeout);
+    asBoolean(out?.hostRecoveredFromTimeout) ||
+    /host budget|host runtime budget|PipelineHostTimeout/i.test(summary);
+  const validationNotReady =
+    asBoolean(ctx?.validationNotReady) ||
+    asBoolean(out?.validationNotReady) ||
+    ctx?.validationReadyToFinish === false ||
+    out?.validationReadyToFinish === false ||
+    /Validation ReadyToFinish not ready|Deposit synthesis not ready/i.test(summary);
   const partial =
     asBoolean(ctx?.partial) ||
     asBoolean(out?.partial) ||
     asBoolean(ctx?.hostPartial) ||
-    hostBudgetExceeded;
+    hostBudgetExceeded ||
+    validationNotReady ||
+    /recovered \d+ measured AssetPack options/i.test(summary);
   const hostResultState =
     (typeof ctx?.hostResultState === 'string' && ctx.hostResultState) ||
     (typeof out?.hostResultState === 'string' && out.hostResultState) ||
@@ -175,7 +187,35 @@ export function readAgenticExecutionProofHints(
     partial,
     hostRecoveredFromTimeout: hostBudgetExceeded,
     hostResultState,
+    validationNotReady,
   };
+}
+
+/**
+ * Display status for the transactions table. Demotes stored `completed` to
+ * `partial` when recovery/validation-not-ready hints are present so historical
+ * rows never wear a green COMPLETED costume after soft failure (8ecbd11a,
+ * 49a2630b).
+ */
+export function deriveDisplayExecutionStatus(
+  status?: string | null,
+  context?: unknown,
+  output?: unknown,
+  hints?: AgenticExecutionProofHints | null,
+): string {
+  const raw = normalizeWhitespace(status) || 'running';
+  const resolved = hints || readAgenticExecutionProofHints(context, output);
+  const lower = raw.toLowerCase();
+  if (
+    (lower === 'completed' || lower === 'complete') &&
+    (resolved.partial ||
+      resolved.hostBudgetExceeded ||
+      resolved.hostRecoveredFromTimeout ||
+      resolved.validationNotReady)
+  ) {
+    return 'partial';
+  }
+  return raw;
 }
 
 export function deriveAgenticExecutionProofStatus(
@@ -184,18 +224,17 @@ export function deriveAgenticExecutionProofStatus(
   hints?: AgenticExecutionProofHints | null,
 ) {
   const canonicalType = normalizeAgenticExecutionType(value);
-  const normalizedStatus = normalizeWhitespace(status).toLowerCase();
+  const displayStatus = deriveDisplayExecutionStatus(status, null, null, hints);
+  const normalizedStatus = normalizeWhitespace(displayStatus).toLowerCase();
   const budgetPartial =
-    Boolean(hints?.hostBudgetExceeded) ||
-    Boolean(hints?.hostRecoveredFromTimeout) ||
-    (Boolean(hints?.partial) &&
-      (normalizedStatus === 'completed' ||
-        normalizedStatus === 'partial' ||
-        normalizedStatus === 'completed_partial'));
+    Boolean(hints?.hostBudgetExceeded) || Boolean(hints?.hostRecoveredFromTimeout);
+  const isPartialStatus =
+    normalizedStatus === 'partial' ||
+    normalizedStatus === 'completed_partial' ||
+    Boolean(hints?.partial) ||
+    Boolean(hints?.validationNotReady);
 
   // Budget-recovered deposit options: usable packs, Validation/Finish not closed.
-  // DEFAULT_CANONICAL_TYPE is 'agentic-execution:asset-pack' — do not OR-compare
-  // both (TS2367: second comparison has no overlap after the first).
   const isAssetPackExecution = canonicalType === 'agentic-execution:asset-pack';
   if (
     budgetPartial &&
@@ -208,10 +247,11 @@ export function deriveAgenticExecutionProofStatus(
     return 'AssetPack options recovered (host budget)';
   }
 
-  if (
-    isAssetPackExecution &&
-    (normalizedStatus === 'partial' || normalizedStatus === 'completed_partial')
-  ) {
+  if (isAssetPackExecution && hints?.validationNotReady && isPartialStatus) {
+    return 'AssetPack options (Validation not ready)';
+  }
+
+  if (isAssetPackExecution && isPartialStatus) {
     return 'AssetPack options partial';
   }
 
@@ -256,13 +296,19 @@ export function buildAgenticExecutionSummary(input: {
   const canonicalType = normalizeAgenticExecutionType(input.type);
   const hints =
     input.hints || readAgenticExecutionProofHints(input.context, input.output);
+  const displayStatus = deriveDisplayExecutionStatus(
+    input.status,
+    input.context,
+    input.output,
+    hints,
+  );
 
   return {
     canonicalType,
     family: canonicalType.replace('agentic-execution:', '') as AgenticExecutionSummary['family'],
     label: formatAgenticExecutionLabel(canonicalType),
     lens: deriveAgenticExecutionLens(canonicalType),
-    proofStatus: deriveAgenticExecutionProofStatus(canonicalType, input.status, hints),
+    proofStatus: deriveAgenticExecutionProofStatus(canonicalType, displayStatus, hints),
     closureFocus: deriveAgenticExecutionClosureFocus(canonicalType),
   };
 }

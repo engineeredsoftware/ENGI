@@ -4,7 +4,10 @@
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
 
-import { buildAgenticExecutionSummary } from '@bitcode/api/src/executions/agentic-execution';
+import {
+  buildAgenticExecutionSummary,
+  deriveDisplayExecutionStatus,
+} from '@bitcode/api/src/executions/agentic-execution';
 
 import type { PipelineExecution } from '@/types/api';
 
@@ -816,9 +819,10 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     parseExecutionContext((run as { metadata?: unknown }).metadata);
   // Always rebuild proof from status+context+output so budget-partial recovery
   // never keeps a stale "AssetPack bundle ready" from a status-only summary.
+  const displayStatus = deriveDisplayExecutionStatus(run.status, context, run.output);
   const rebuiltAgentic = buildAgenticExecutionSummary({
     type: run.type,
-    status: run.status,
+    status: displayStatus,
     context,
     output: run.output,
   });
@@ -830,14 +834,21 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     return typeof value === 'string' && value.trim() ? value.trim() : null;
   };
   const errorMessage = readExecutionErrorMessage((run as { error?: unknown }).error);
-  const statusLower = String(run.status || '').toLowerCase();
+  const statusLower = String(displayStatus || '').toLowerCase();
   const failureSummary =
     statusLower === 'failed' ||
     statusLower === 'interrupted' ||
     statusLower === 'cancelled'
       ? errorMessage
       : null;
+  const outputSummary =
+    run.output && typeof run.output === 'object' && !Array.isArray(run.output)
+      ? typeof (run.output as { summary?: unknown }).summary === 'string'
+        ? (run.output as { summary: string }).summary
+        : null
+      : null;
   const summary =
+    outputSummary ||
     run.summary ||
     run.asset_pack_completion?.summary ||
     run.asset_pack_completion?.assetPackSynthesisArtifacts?.summary ||
@@ -868,7 +879,7 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
   return {
     id: run.id,
     created_at: run.created_at,
-    status: run.status,
+    status: displayStatus,
     type: agenticExecution.canonicalType,
     agentic_execution: isLedgerAnchor
       ? {
