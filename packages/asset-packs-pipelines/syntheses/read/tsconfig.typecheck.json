@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.typecheck.base.json",
+  "extends": "../../../../tsconfig.typecheck.base.json",
   "compilerOptions": {
     "noEmit": true,
     "skipLibCheck": true
@@ -7,7 +7,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "../../../packages/_typecheck-shims/ambient-modules.d.ts"
+    "../../../../packages/_typecheck-shims/ambient-modules.d.ts"
   ],
   "exclude": [
     "node_modules",
