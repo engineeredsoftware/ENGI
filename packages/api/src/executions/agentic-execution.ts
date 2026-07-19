@@ -127,9 +127,90 @@ export function deriveAgenticExecutionClosureFocus(value?: string | null) {
   }
 }
 
-export function deriveAgenticExecutionProofStatus(value?: string | null, status?: string | null) {
+/**
+ * Optional recovery / partial-completion hints from executions.context|output.
+ * Host budget recovery (run 8ecbd11a) used to leave status=completed so the
+ * table showed "AssetPack bundle ready" even when Validation was truncated.
+ */
+export type AgenticExecutionProofHints = {
+  hostBudgetExceeded?: boolean | null;
+  partial?: boolean | null;
+  hostRecoveredFromTimeout?: boolean | null;
+  hostResultState?: string | null;
+};
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function asBoolean(value: unknown): boolean {
+  return value === true || value === 'true' || value === 1 || value === '1';
+}
+
+/** Read partial/budget hints from execution context and/or output records. */
+export function readAgenticExecutionProofHints(
+  context?: unknown,
+  output?: unknown,
+): AgenticExecutionProofHints {
+  const ctx = asRecord(context);
+  const out = asRecord(output);
+  const hostBudgetExceeded =
+    asBoolean(ctx?.hostBudgetExceeded) ||
+    asBoolean(out?.hostBudgetExceeded) ||
+    asBoolean(ctx?.hostRecoveredFromTimeout) ||
+    asBoolean(out?.hostRecoveredFromTimeout);
+  const partial =
+    asBoolean(ctx?.partial) ||
+    asBoolean(out?.partial) ||
+    asBoolean(ctx?.hostPartial) ||
+    hostBudgetExceeded;
+  const hostResultState =
+    (typeof ctx?.hostResultState === 'string' && ctx.hostResultState) ||
+    (typeof out?.hostResultState === 'string' && out.hostResultState) ||
+    null;
+  return {
+    hostBudgetExceeded,
+    partial,
+    hostRecoveredFromTimeout: hostBudgetExceeded,
+    hostResultState,
+  };
+}
+
+export function deriveAgenticExecutionProofStatus(
+  value?: string | null,
+  status?: string | null,
+  hints?: AgenticExecutionProofHints | null,
+) {
   const canonicalType = normalizeAgenticExecutionType(value);
   const normalizedStatus = normalizeWhitespace(status).toLowerCase();
+  const budgetPartial =
+    Boolean(hints?.hostBudgetExceeded) ||
+    Boolean(hints?.hostRecoveredFromTimeout) ||
+    (Boolean(hints?.partial) &&
+      (normalizedStatus === 'completed' ||
+        normalizedStatus === 'partial' ||
+        normalizedStatus === 'completed_partial'));
+
+  // Budget-recovered deposit options: usable packs, Validation/Finish not closed.
+  if (
+    budgetPartial &&
+    (canonicalType === 'agentic-execution:asset-pack' ||
+      canonicalType === DEFAULT_CANONICAL_TYPE) &&
+    (normalizedStatus === 'completed' ||
+      normalizedStatus === 'partial' ||
+      normalizedStatus === 'completed_partial' ||
+      !normalizedStatus)
+  ) {
+    return 'AssetPack options recovered (host budget)';
+  }
+
+  if (normalizedStatus === 'partial' || normalizedStatus === 'completed_partial') {
+    if (canonicalType === 'agentic-execution:asset-pack') {
+      return 'AssetPack options partial';
+    }
+  }
 
   if (normalizedStatus === 'completed') {
     switch (canonicalType) {
@@ -165,15 +246,20 @@ export function deriveAgenticExecutionProofStatus(value?: string | null, status?
 export function buildAgenticExecutionSummary(input: {
   type?: string | null;
   status?: string | null;
+  context?: unknown;
+  output?: unknown;
+  hints?: AgenticExecutionProofHints | null;
 }): AgenticExecutionSummary {
   const canonicalType = normalizeAgenticExecutionType(input.type);
+  const hints =
+    input.hints || readAgenticExecutionProofHints(input.context, input.output);
 
   return {
     canonicalType,
     family: canonicalType.replace('agentic-execution:', '') as AgenticExecutionSummary['family'],
     label: formatAgenticExecutionLabel(canonicalType),
     lens: deriveAgenticExecutionLens(canonicalType),
-    proofStatus: deriveAgenticExecutionProofStatus(canonicalType, input.status),
+    proofStatus: deriveAgenticExecutionProofStatus(canonicalType, input.status, hints),
     closureFocus: deriveAgenticExecutionClosureFocus(canonicalType),
   };
 }

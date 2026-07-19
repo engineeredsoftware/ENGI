@@ -810,16 +810,21 @@ function readExecutionErrorMessage(error: unknown): string | null {
 }
 
 export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): WorkspaceRun {
-  const agenticExecution =
-    run.agentic_execution ||
-    buildAgenticExecutionSummary({
-      type: run.type,
-      status: run.status,
-    });
   const repoSnapshot = run.repo_snapshot || run.asset_pack_completion?.repoSnapshot || null;
   const context =
     parseExecutionContext(run.context) ||
     parseExecutionContext((run as { metadata?: unknown }).metadata);
+  // Always rebuild proof from status+context+output so budget-partial recovery
+  // never keeps a stale "AssetPack bundle ready" from a status-only summary.
+  const rebuiltAgentic = buildAgenticExecutionSummary({
+    type: run.type,
+    status: run.status,
+    context,
+    output: run.output,
+  });
+  const agenticExecution = run.agentic_execution
+    ? { ...run.agentic_execution, proofStatus: rebuiltAgentic.proofStatus }
+    : rebuiltAgentic;
   const contextString = (key: string) => {
     const value = context?.[key];
     return typeof value === 'string' && value.trim() ? value.trim() : null;

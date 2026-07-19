@@ -7,6 +7,7 @@ import {
   formatDepositHostFailure,
   provisionDepositCheckout,
   provisionDepositSourceInventory,
+  readDepositHostRecoveryFromEvidence,
   resolveDepositPipelineHost,
   runDepositInBoxHost,
   selectDepositHostKind,
@@ -380,7 +381,7 @@ describe('runDepositInBoxHost (#25)', () => {
     });
   });
 
-  it('raises a stale 240s host budget to the product 600s ceiling', async () => {
+  it('raises a stale 240s host budget to the product 720s ceiling', async () => {
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '240000';
 
@@ -482,6 +483,48 @@ describe('runDepositInBoxHost (#25)', () => {
       }),
     ).rejects.toThrow(/zero depositOptions/);
   });
+
+  it('returns options + recovery when host exit=0 but evidence has budget timeout', async () => {
+    const fakeHost = {
+      runHostPlan: async () => ({
+        sandboxId: 'sbx_budget',
+        artifacts: {
+          evidence: {
+            depositOptions: [
+              {
+                coveredSourcePaths: ['a.ts'],
+                measurements: { absolutes: new Array(8).fill({ key: 'k', value: 1 }) },
+              },
+            ],
+            resultState: 'worthy_deposit_candidates',
+            error: {
+              name: 'PipelineHostTimeoutError',
+              message: 'AssetPack pipeline exceeded host runtime budget of 600000ms.',
+            },
+          },
+          telemetry: null,
+        },
+        outcome: 'completed',
+        stopped: true,
+        manifest: {},
+        commands: [{ label: 'asset-pack-pipeline-run', exitCode: 0, stderr: '', stdout: '' }],
+      }),
+    };
+    const result = await runDepositInBoxHost({
+      repositoryFullName: 'o/r',
+      revision: 'main',
+      branch: 'main',
+      commit: null,
+      obfuscations: null,
+      permissibleSources: [],
+      impermissibleSources: [],
+      demandContext: [],
+      hostFactory: async () => fakeHost,
+    });
+    expect(result.options).toHaveLength(1);
+    expect(result.recovery?.hostBudgetExceeded).toBe(true);
+    expect(result.recovery?.partial).toBe(true);
+  });
 });
 
 describe('formatDepositHostFailure', () => {
@@ -503,3 +546,38 @@ describe('formatDepositHostFailure', () => {
     expect(msg).not.toMatch(/Validation absolutes/);
   });
 });
+
+describe('readDepositHostRecoveryFromEvidence', () => {
+  it('detects PipelineHostTimeoutError recovery with measured options (8ecbd11a)', () => {
+    const recovery = readDepositHostRecoveryFromEvidence(
+      {
+        resultState: 'worthy_deposit_candidates',
+        error: {
+          name: 'PipelineHostTimeoutError',
+          message: 'AssetPack pipeline exceeded host runtime budget of 600000ms.',
+        },
+        resultReasons: [
+          'Deposit AssetPack options with full absolute measurements were recovered after host budget pressure.',
+          'AssetPack pipeline exceeded host runtime budget of 600000ms.',
+        ],
+        depositOptions: [{ measurements: { absolutes: new Array(8).fill({}) } }],
+        output: { partial: false, depositOptions: [] },
+      },
+      1,
+    );
+    expect(recovery.hostBudgetExceeded).toBe(true);
+    expect(recovery.hostRecoveredFromTimeout).toBe(true);
+    expect(recovery.partial).toBe(true);
+    expect(recovery.hostResultState).toBe('worthy_deposit_candidates');
+  });
+
+  it('is clean when evidence has no budget error', () => {
+    const recovery = readDepositHostRecoveryFromEvidence(
+      { resultState: 'worthy_deposit_candidates', depositOptions: [{ id: 'a' }] },
+      1,
+    );
+    expect(recovery.hostBudgetExceeded).toBe(false);
+    expect(recovery.partial).toBe(false);
+  });
+});
+

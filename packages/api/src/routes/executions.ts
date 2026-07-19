@@ -492,9 +492,12 @@ function buildLedgerSettlement(row: ExecutionHistoryRow) {
 }
 
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
+  const output = readOutputRecord(row);
   const agenticExecution = buildAgenticExecutionSummary({
     type: row.type,
     status: row.status,
+    context: row.context,
+    output,
   });
 
   return {
@@ -506,7 +509,7 @@ export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
     type: row.type,
     agentic_execution: agenticExecution,
     guide: buildGuide(row),
-    output: readOutputRecord(row),
+    output,
     metadata: buildMetadata(row),
     context: row.context ?? null,
     items: asArray(row.items),

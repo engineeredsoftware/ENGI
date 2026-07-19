@@ -65,6 +65,10 @@ export function normalizeProductTransactions(runs: WorkspaceRun[]): ProductTrans
       buildAgenticExecutionSummary({
         type: run.type,
         status: run.status,
+        // WorkspaceRun may carry context/output on the history payload for
+        // budget-partial proof labels when agentic_execution was not prebuilt.
+        context: (run as { context?: unknown }).context,
+        output: (run as { output?: unknown }).output,
       });
     const repository = normalizeWhitespace(run.repository) || 'bitcode/bitcode';
     const branch = normalizeWhitespace(run.branch) || 'n/a';
@@ -77,6 +81,7 @@ export function normalizeProductTransactions(runs: WorkspaceRun[]): ProductTrans
       (status === 'failed' || status === 'cancelled' || status === 'interrupted'
         ? normalizeWhitespace(run.summary)
         : null);
+    // Prefer server agentic_execution.proofStatus (already hint-aware).
     const proofStatus = normalizeWhitespace(run.proofStatus) || agenticExecution.proofStatus;
     const closureFocus = normalizeWhitespace(run.closureFocus) || agenticExecution.closureFocus;
     const transactionLens = run.transactionLens || agenticExecution.lens;

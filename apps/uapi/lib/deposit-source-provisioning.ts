@@ -133,12 +133,88 @@ export interface DepositInBoxHost {
   runHostPlan(plan: unknown): Promise<PipelineHostRunResult>;
 }
 
+/**
+ * Host budget / partial recovery signals from in-box evidence.
+ * When the host hits PipelineHostTimeoutError but recovers measured deposit
+ * options, product must not claim full "AssetPack bundle ready" success.
+ */
+export interface DepositHostRecovery {
+  hostBudgetExceeded: boolean;
+  partial: boolean;
+  hostRecoveredFromTimeout: boolean;
+  hostResultState: string | null;
+  hostErrorName: string | null;
+  hostErrorMessage: string | null;
+}
+
 export interface DepositInBoxHostResult {
   options: unknown[];
   sandboxId: string | null;
   outcome: PipelineHostRunResult["outcome"];
   /** Operator-safe failure summary when outcome is failed (no secrets). */
   failureMessage?: string | null;
+  /** Present when the host recovered options under budget pressure or partial. */
+  recovery?: DepositHostRecovery | null;
+}
+
+const EMPTY_HOST_RECOVERY: DepositHostRecovery = {
+  hostBudgetExceeded: false,
+  partial: false,
+  hostRecoveredFromTimeout: false,
+  hostResultState: null,
+  hostErrorName: null,
+  hostErrorMessage: null,
+};
+
+/**
+ * Detect host budget timeout recovery from evidence.json (even when exit=0).
+ * Host path preserves measured Implementation options after
+ * PipelineHostTimeoutError and still writes error + resultReasons on evidence.
+ */
+export function readDepositHostRecoveryFromEvidence(
+  evidence: unknown,
+  optionCount: number,
+): DepositHostRecovery {
+  if (!evidence || typeof evidence !== "object" || Array.isArray(evidence)) {
+    return { ...EMPTY_HOST_RECOVERY };
+  }
+  const record = evidence as Record<string, unknown>;
+  const error =
+    record.error && typeof record.error === "object" && !Array.isArray(record.error)
+      ? (record.error as Record<string, unknown>)
+      : null;
+  const errorName = typeof error?.name === "string" ? error.name : null;
+  const errorMessage = typeof error?.message === "string" ? error.message : null;
+  const hostResultState =
+    typeof record.resultState === "string" ? record.resultState : null;
+  const output =
+    record.output && typeof record.output === "object" && !Array.isArray(record.output)
+      ? (record.output as Record<string, unknown>)
+      : null;
+  const outputPartial = output?.partial === true;
+  const hostBudgetExceeded =
+    errorName === "PipelineHostTimeoutError" ||
+    Boolean(errorMessage && /exceeded host runtime budget/i.test(errorMessage)) ||
+    Boolean(
+      Array.isArray(record.resultReasons) &&
+        record.resultReasons.some(
+          (reason) =>
+            typeof reason === "string" &&
+            (/host runtime budget/i.test(reason) ||
+              /PipelineHostTimeoutError/i.test(reason) ||
+              /host budget/i.test(reason)),
+        ),
+    );
+  const hostRecoveredFromTimeout = hostBudgetExceeded && optionCount > 0;
+  const partial = outputPartial || hostRecoveredFromTimeout;
+  return {
+    hostBudgetExceeded,
+    partial,
+    hostRecoveredFromTimeout,
+    hostResultState,
+    hostErrorName: errorName,
+    hostErrorMessage: errorMessage ? errorMessage.slice(0, 400) : null,
+  };
 }
 
 const HOST_FAILURE_SNIPPET = 800;
@@ -403,14 +479,20 @@ export async function runDepositInBoxHost(input: {
   }
   const evidenceRaw = result?.artifacts?.evidence as {
     depositOptions?: unknown;
-    error?: { message?: string } | null;
+    error?: { message?: string; name?: string } | null;
     resultState?: unknown;
+    output?: { partial?: unknown } | null;
+    resultReasons?: unknown;
   } | null;
   const optionCount = Array.isArray(evidenceRaw?.depositOptions)
     ? evidenceRaw!.depositOptions!.length
     : null;
   const failedCommands = (result?.commands || []).filter(
     (c) => c.exitCode != null && c.exitCode !== 0 && c.exitCode !== 130,
+  );
+  const recovery = readDepositHostRecoveryFromEvidence(
+    evidenceRaw,
+    optionCount ?? 0,
   );
 
   bitcodeServerTelemetry("info", "deposit-sandbox-host", "run-complete", {
@@ -424,6 +506,8 @@ export async function runDepositInBoxHost(input: {
     evidenceError: evidenceRaw?.error?.message
       ? String(evidenceRaw.error.message).slice(0, 300)
       : null,
+    hostBudgetExceeded: recovery.hostBudgetExceeded,
+    hostPartial: recovery.partial,
     hasEvidence: evidenceRaw != null,
     hasTelemetry: Boolean(result?.artifacts?.telemetry),
   });
@@ -433,20 +517,42 @@ export async function runDepositInBoxHost(input: {
       options: [],
       sandboxId: result.sandboxId ?? null,
       outcome: "cancelled",
+      recovery: null,
     };
   }
 
   if (result?.outcome === "failed") {
-    const failureMessage = formatDepositHostFailure(result);
-    bitcodeServerTelemetry("error", "deposit-sandbox-host", "host-outcome-failed", {
+    // Timeout recovery may still exit non-zero when packs lack full absolutes;
+    // only throw when there are no recoverable options at all.
+    const recoveredOptions =
+      evidenceRaw && Array.isArray(evidenceRaw.depositOptions)
+        ? evidenceRaw.depositOptions
+        : [];
+    if (recoveredOptions.length === 0 || !recovery.hostBudgetExceeded) {
+      const failureMessage = formatDepositHostFailure(result);
+      bitcodeServerTelemetry("error", "deposit-sandbox-host", "host-outcome-failed", {
+        ...createSummary,
+        sandboxId: result.sandboxId ?? null,
+        message: failureMessage.slice(0, 800),
+        failedCommandLabels: failedCommands.map((c) => c.label).slice(0, 8),
+      });
+      const err = new Error(failureMessage) as Error & { hostOutcome?: string };
+      err.hostOutcome = "failed";
+      throw err;
+    }
+    // Budget kill with some options: surface as partial recovery (not throw).
+    bitcodeServerTelemetry("warn", "deposit-sandbox-host", "host-budget-partial-options", {
       ...createSummary,
       sandboxId: result.sandboxId ?? null,
-      message: failureMessage.slice(0, 800),
-      failedCommandLabels: failedCommands.map((c) => c.label).slice(0, 8),
+      optionCount: recoveredOptions.length,
+      hostResultState: recovery.hostResultState,
     });
-    const err = new Error(failureMessage) as Error & { hostOutcome?: string };
-    err.hostOutcome = "failed";
-    throw err;
+    return {
+      options: recoveredOptions,
+      sandboxId: result.sandboxId ?? null,
+      outcome: result.outcome,
+      recovery: { ...recovery, partial: true, hostRecoveredFromTimeout: true },
+    };
   }
 
   const options =
@@ -478,6 +584,7 @@ export async function runDepositInBoxHost(input: {
     options,
     sandboxId: result.sandboxId ?? null,
     outcome: result?.outcome ?? "failed",
+    recovery: recovery.partial || recovery.hostBudgetExceeded ? recovery : null,
   };
 }
 

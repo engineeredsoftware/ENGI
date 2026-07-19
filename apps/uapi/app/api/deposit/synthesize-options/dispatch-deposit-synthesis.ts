@@ -28,6 +28,7 @@ import {
   resolveDepositPipelineHost,
   runDepositInBoxHost,
   selectDepositHostKind,
+  type DepositHostRecovery,
 } from '@/lib/deposit-source-provisioning';
 import type { BitcodeHostWorkspace } from '@bitcode/pipeline-hosts';
 import { loadSettledDepositoryPacks } from '@/lib/depository-settled-demand';
@@ -170,6 +171,8 @@ export async function runDepositOptionSynthesis(
      */
     let sourceCatalog: AssetPacksSynthesisSourceInventory;
     let boundSandboxId: string | null = null;
+    /** Host budget / partial recovery (sandbox only; null for local full runs). */
+    let hostRecovery: DepositHostRecovery | null = null;
 
     if (hostKind === 'sandbox') {
       await assertNotCancelled();
@@ -269,6 +272,7 @@ export async function runDepositOptionSynthesis(
         // Host failures throw from runDepositInBoxHost with the real command/pipeline
         // error — never fall through to Validation zero-options fail-closed.
         rawOptions = hostResult.options as Parameters<typeof validateDepositSynthesisOptions>[0];
+        hostRecovery = hostResult.recovery ?? null;
         inventoryPaths = [
           ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
         ] as string[];
@@ -279,9 +283,15 @@ export async function runDepositOptionSynthesis(
           totalPathCount: inventoryPaths.length,
           excludedPathCount: 0,
         };
-        await emitStatus(
-          `Sandbox host completed with ${Array.isArray(rawOptions) ? rawOptions.length : 0} depositOptions; running fail-closed validation…`,
-        );
+        if (hostRecovery?.hostBudgetExceeded || hostRecovery?.partial) {
+          await emitStatus(
+            `Sandbox host recovered ${Array.isArray(rawOptions) ? rawOptions.length : 0} depositOptions after host budget pressure (Validation incomplete); running fail-closed validation…`,
+          );
+        } else {
+          await emitStatus(
+            `Sandbox host completed with ${Array.isArray(rawOptions) ? rawOptions.length : 0} depositOptions; running fail-closed validation…`,
+          );
+        }
       } catch (sandboxError) {
         const message =
           sandboxError instanceof Error ? sandboxError.message : String(sandboxError);
@@ -472,15 +482,27 @@ export async function runDepositOptionSynthesis(
     };
 
     const durationMs = Date.now() - startedAt;
+    const isBudgetPartial = Boolean(
+      hostRecovery?.hostBudgetExceeded || hostRecovery?.partial || hostRecovery?.hostRecoveredFromTimeout,
+    );
+    // Budget recovery yields usable options but Validation/Finish did not close —
+    // never wear the full-success COMPLETED / "bundle ready" costume (8ecbd11a).
+    const finalStatus = isBudgetPartial ? 'partial' : 'completed';
+    const summary = isBudgetPartial
+      ? `Recovered ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} after host budget (Validation incomplete).`
+      : `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`;
     await emitStatus(
-      `Synthesized ${synthesis.optionCount} measured AssetPack options (${result.inference.totalTokens ?? 'n/a'} tokens, ${(durationMs / 1000).toFixed(1)}s).`,
+      isBudgetPartial
+        ? `Partial synthesis: ${synthesis.optionCount} measured options recovered after host budget (${(durationMs / 1000).toFixed(1)}s).`
+        : `Synthesized ${synthesis.optionCount} measured AssetPack options (${result.inference.totalTokens ?? 'n/a'} tokens, ${(durationMs / 1000).toFixed(1)}s).`,
     );
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
       optionCount: synthesis.optionCount,
+      partial: isBudgetPartial,
     });
 
     await finalizeExecutionRow({
-      status: 'completed',
+      status: finalStatus,
       completed_at: new Date().toISOString(),
       context: {
         source: 'deposit-option-synthesis',
@@ -500,13 +522,34 @@ export async function runDepositOptionSynthesis(
         inventoryPathCount: sourceCatalog.paths.length,
         inferenceProvider: result.inference.provider,
         inferenceModel: result.inference.model,
+        ...(isBudgetPartial
+          ? {
+              partial: true,
+              hostPartial: true,
+              hostBudgetExceeded: Boolean(hostRecovery?.hostBudgetExceeded),
+              hostRecoveredFromTimeout: Boolean(
+                hostRecovery?.hostRecoveredFromTimeout || hostRecovery?.hostBudgetExceeded,
+              ),
+              hostResultState: hostRecovery?.hostResultState ?? null,
+              hostErrorName: hostRecovery?.hostErrorName ?? null,
+              hostErrorMessage: hostRecovery?.hostErrorMessage ?? null,
+            }
+          : {}),
       },
       output: {
-        summary: `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`,
+        summary,
         depositOptionSynthesis: synthesis,
         reviewProjections,
         inference: { ...result.inference, durationMs },
         exclusionViolations: result.exclusionViolations,
+        ...(isBudgetPartial
+          ? {
+              partial: true,
+              hostBudgetExceeded: true,
+              hostRecoveredFromTimeout: true,
+              hostResultState: hostRecovery?.hostResultState ?? null,
+            }
+          : {}),
       },
       items: [],
       total_tokens: result.inference.totalTokens,
@@ -514,7 +557,9 @@ export async function runDepositOptionSynthesis(
     });
 
     await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
-      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
+      message: isBudgetPartial
+        ? `AssetPacksSynthesis partial: recovered ${synthesis.optionCount} measured options after host budget (Validation incomplete).`
+        : `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
       runId,
     });
 

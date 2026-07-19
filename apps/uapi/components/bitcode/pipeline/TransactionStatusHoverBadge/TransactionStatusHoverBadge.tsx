@@ -14,6 +14,10 @@ function statusTone(status: string) {
   if (normalized === 'completed') {
     return 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200';
   }
+  // Budget-recovered options: usable but Validation/Finish incomplete (not full success).
+  if (normalized === 'partial' || normalized === 'completed_partial') {
+    return 'border-amber-500/40 bg-amber-500/15 text-amber-100';
+  }
   if (normalized === 'error' || normalized === 'failed' || normalized === 'interrupted') {
     return 'border-red-500/30 bg-red-500/10 text-red-200';
   }
