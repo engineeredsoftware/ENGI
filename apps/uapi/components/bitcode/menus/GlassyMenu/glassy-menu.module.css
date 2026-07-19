@@ -362,23 +362,29 @@
 
 /*
  * Circular planets on parametric ellipses:
- *   x = 50% + cos(θ) * (d/2) * width
- *   y = 50% + sin(θ) * (d/2) * height
- * Matches ring half-axes (d is diameter fraction of host).
+ *   x = 50% + cos(θ) * (d/2 * host ± radial nudge)
+ *   y = 50% + sin(θ) * (d/2 * host ± radial nudge)
+ *
+ * Rings use border-box + 1.5px stroke; pure d/2 sits on the outer edge of the
+ * stroke, not the centerline. --solar-orbit-radius-nudge is a per-ring ~1px
+ * seat adjustment (middle sat slightly inside, inner slightly outside).
  */
 .auxillariesSolarPlanet {
   --solar-ring-d: var(--solar-outer-d);
   --solar-orbit-duration: 48s;
   --solar-planet-size: clamp(0.4rem, 1.1vmin, 0.9rem);
+  --solar-orbit-radius-nudge: 0px;
   --orbit-angle: 0deg;
   position: absolute;
   /* Center of disc on the ellipse (not top-left of the disc). */
   left: calc(
-    50% + cos(var(--orbit-angle)) * (var(--solar-ring-d) * 50%) -
+    50% + cos(var(--orbit-angle)) *
+      (var(--solar-ring-d) * 50% + var(--solar-orbit-radius-nudge)) -
       (var(--solar-planet-size) / 2)
   );
   top: calc(
-    50% + sin(var(--orbit-angle)) * (var(--solar-ring-d) * 50%) -
+    50% + sin(var(--orbit-angle)) *
+      (var(--solar-ring-d) * 50% + var(--solar-orbit-radius-nudge)) -
       (var(--solar-planet-size) / 2)
   );
   width: var(--solar-planet-size);
@@ -399,6 +405,8 @@
   --solar-ring-d: var(--solar-outer-d);
   --solar-orbit-duration: 48s;
   --solar-planet-size: clamp(0.4rem, 1.1vmin, 0.9rem);
+  /* Seat a hair inside the outer stroke (toward the star). */
+  --solar-orbit-radius-nudge: -0.5px;
   background: #eafff7;
 }
 
@@ -406,6 +414,8 @@
   --solar-ring-d: var(--solar-middle-d);
   --solar-orbit-duration: 34s;
   --solar-planet-size: clamp(0.32rem, 0.9vmin, 0.75rem);
+  /* Second ring — seat a hair closer to the star on the cyan track. */
+  --solar-orbit-radius-nudge: -0.5px;
   background: #a7f3d0;
   animation-direction: reverse;
   box-shadow:
@@ -417,6 +427,8 @@
   --solar-ring-d: var(--solar-inner-d);
   --solar-orbit-duration: 22s;
   --solar-planet-size: clamp(0.28rem, 0.75vmin, 0.62rem);
+  /* Was ~1px outside the gold track — pull inward onto the stroke. */
+  --solar-orbit-radius-nudge: -1px;
   background: #f9c855;
   box-shadow:
     0 0 12px rgba(249, 200, 85, 0.78),
