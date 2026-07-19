@@ -1,4 +1,7 @@
-import { supabaseAdmin } from '@bitcode/supabase';
+// Relative import — never `@bitcode/supabase` from inside this package.
+// Sandbox tsx loads file:// package entrypoints; pnpm does not self-link
+// packages/supabase, so the package name fails to resolve mid-load.
+import { supabaseAdmin } from './clients';
 
 export interface DataStreamLike {
   writeData(chunk: unknown): Promise<void>;

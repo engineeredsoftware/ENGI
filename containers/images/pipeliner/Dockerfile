@@ -86,6 +86,16 @@ RUN test -e packages/pipelines-generics/node_modules/@bitcode/tools-generics \
   || test -e node_modules/@bitcode/tools-generics \
   || (echo "pipeliner image missing @bitcode/tools-generics link for pipelines-generics" >&2 && exit 1)
 
+# btd → supabase is on the live deposit import path; assert the workspace link.
+RUN test -e packages/btd/node_modules/@bitcode/supabase \
+  || test -e node_modules/@bitcode/supabase \
+  || (echo "pipeliner image missing @bitcode/supabase link for btd" >&2 && exit 1)
+
+# In-package sources must not self-import the package name (pnpm has no self-link;
+# sandbox tsx file:// load of index.ts → streams.ts used to fail here).
+RUN ! grep -R --include='*.ts' -E "from ['\"]@bitcode/supabase['\"]" packages/supabase/src \
+  || (echo "packages/supabase must not self-import @bitcode/supabase (use relative ./clients)" >&2 && exit 1)
+
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs
 WORKDIR /vercel/sandbox
