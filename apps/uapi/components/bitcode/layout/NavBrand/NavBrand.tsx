@@ -4,12 +4,12 @@
  * Nav brand mark + logo-area secondary links.
  *
  * Bare logo icon + optional "BITCODE" supertext navigate home.
- * Subtext is three themed icon links: Whitepaper | Docs | X.
+ * Whitepaper sits beside the wordmark; lower row is Docs | X | Deck.
  */
 
 import React from "react";
 import Link from "next/link";
-import { FileText, Files } from "lucide-react";
+import { FileText, Files, Presentation } from "lucide-react";
 
 import Logo from "@/components/bitcode/branding/Logo/Logo";
 import XLogo from "@/components/bitcode/branding/XLogo/XLogo";
@@ -46,6 +46,11 @@ export const BITCODE_X_URL =
   process.env.NEXT_PUBLIC_BITCODE_X_URL?.trim() || GLOBAL_CONSTANT_BITCODE_X_URL;
 
 const DOCS_HREF = "/docs";
+
+/**
+ * Pitch deck — served from monorepo SoT `.bd/the-pitch.key` via API (no public copy).
+ */
+export const BITCODE_DECK_HREF = "/api/deck";
 
 /** Soft thematic green icons; un-soften + glow on hover. */
 const logoAreaIconLinkClassName =
@@ -88,19 +93,16 @@ export default function NavBrand({
 
       {showWordmark ? (
         <div className="flex min-w-0 flex-col justify-center gap-1.5 self-center leading-none">
-          <button
-            type="button"
-            onClick={onClick}
-            className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-left leading-none"
-          >
-            <p className="text-[0.58rem] font-semibold uppercase leading-none tracking-[0.22em] text-emerald-200/90 sm:text-[0.64rem] sm:font-semibold">
-              Bitcode
-            </p>
-          </button>
-          <nav
-            className="flex min-w-0 items-center gap-1.5 leading-none"
-            aria-label="Bitcode references"
-          >
+          <div className="flex min-w-0 items-center gap-1.5 leading-none">
+            <button
+              type="button"
+              onClick={onClick}
+              className="cursor-pointer appearance-none border-0 bg-transparent p-0 text-left leading-none"
+            >
+              <p className="text-[0.58rem] font-semibold uppercase leading-none tracking-[0.22em] text-emerald-200/90 sm:text-[0.64rem] sm:font-semibold">
+                Bitcode
+              </p>
+            </button>
             <a
               href={BITCODE_WHITEPAPER_URL}
               target="_blank"
@@ -111,9 +113,11 @@ export default function NavBrand({
             >
               <FileText className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
             </a>
-            <span className={logoAreaDividerClassName} aria-hidden="true">
-              |
-            </span>
+          </div>
+          <nav
+            className="flex min-w-0 items-center gap-1.5 leading-none"
+            aria-label="Bitcode references"
+          >
             <Link
               href={DOCS_HREF}
               aria-label="Docs"
@@ -134,6 +138,19 @@ export default function NavBrand({
               className={logoAreaIconLinkClassName}
             >
               <XLogo className="h-3 w-3" />
+            </a>
+            <span className={logoAreaDividerClassName} aria-hidden="true">
+              |
+            </span>
+            <a
+              href={BITCODE_DECK_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Pitch deck"
+              title="Pitch deck"
+              className={logoAreaIconLinkClassName}
+            >
+              <Presentation className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
             </a>
           </nav>
         </div>
