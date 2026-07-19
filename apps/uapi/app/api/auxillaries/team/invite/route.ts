@@ -168,6 +168,15 @@ export async function POST(request: Request) {
           : null) ||
         `${inviterName}'s team`;
 
+      const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
+      // Open product with Connect open; email is prefilled + locked via team_invite=1.
+      const inviteUrl = new URL('/packs', origin);
+      inviteUrl.searchParams.set('auxillary-open-to', 'connect');
+      inviteUrl.searchParams.set('email', handle);
+      inviteUrl.searchParams.set('team_invite', '1');
+      inviteUrl.searchParams.set('invite_role', role);
+      inviteUrl.searchParams.set('org', organizationName);
+
       await sendEmail({
         to: handle,
         subject: `You're invited to join ${organizationName} on Bitcode`,
@@ -176,7 +185,9 @@ export async function POST(request: Request) {
           inviterName,
           organizationName,
           role,
-          inviteUrl: `${origin}/`,
+          roleLabel,
+          inviteEmail: handle,
+          inviteUrl: inviteUrl.toString(),
           year: new Date().getFullYear(),
         },
       });

@@ -22,6 +22,11 @@ export interface ProfileIdentitySectionProps {
   selectAvatar: (index: number) => void;
   uploadCustomAvatar: (file: File | null | undefined) => void | Promise<void>;
   avatarError?: string | null;
+  /** True when identity (or form) draft differs from last save. */
+  isDirty?: boolean;
+  isSaving?: boolean;
+  onSave?: () => void;
+  onUndo?: () => void;
 }
 
 export default function ProfileIdentitySection({
@@ -38,10 +43,15 @@ export default function ProfileIdentitySection({
   selectAvatar,
   uploadCustomAvatar,
   avatarError = null,
+  isDirty = false,
+  isSaving = false,
+  onSave,
+  onUndo,
 }: ProfileIdentitySectionProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const isCustomAvatar =
     Boolean(avatarUrl) && !PROFILE_AVATAR_OPTIONS.includes(avatarUrl);
+  const showActions = Boolean(onSave || onUndo);
 
   return (
     <>
@@ -189,6 +199,42 @@ export default function ProfileIdentitySection({
             />
           </div>
         </div>
+
+        {showActions ? (
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-white/8 pt-4">
+            <p className="text-xs text-white/48">
+              {isDirty ? (
+                <span className="text-amber-200/80">Unsaved edits</span>
+              ) : (
+                <span>No unsaved identity changes</span>
+              )}
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              {onUndo ? (
+                <button
+                  type="button"
+                  data-testid="auxillaries-profile-undo"
+                  disabled={!isDirty || isSaving}
+                  onClick={onUndo}
+                  className="inline-flex h-9 items-center justify-center rounded-none border border-white/12 bg-white/[0.04] px-3 text-xs font-semibold uppercase tracking-[0.12em] text-white/78 transition hover:border-white/22 hover:bg-white/[0.07] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Undo edits
+                </button>
+              ) : null}
+              {onSave ? (
+                <button
+                  type="button"
+                  data-testid="auxillaries-profile-save"
+                  disabled={!isDirty || isSaving}
+                  onClick={onSave}
+                  className="inline-flex h-9 items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-950/70 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-50 transition hover:border-emerald-200/50 hover:bg-emerald-900/80 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {isSaving ? 'Saving…' : 'Save'}
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
       </section>
     </>
   );

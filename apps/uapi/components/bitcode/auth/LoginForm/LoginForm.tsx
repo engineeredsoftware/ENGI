@@ -209,9 +209,16 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
       ? nextParam
       : '/packs'
   
-  // Check for invite token in URL params
+  // Check for invite token / team-invite lock in URL params
   const inviteToken = searchParams.get('invite')
   const inviteEmail = searchParams.get('email')
+  const isTeamInvite =
+    searchParams.get('team_invite') === '1' || searchParams.get('team_invite') === 'true'
+  const teamInviteRole = searchParams.get('invite_role') || ''
+  const teamInviteOrg = searchParams.get('org') || ''
+  const lockedInviteEmail = Boolean(
+    (inviteEmail && isTeamInvite) || inviteToken,
+  )
 
   const [stage, setStage] = React.useState<'request' | 'verify' | 'success'>('request')
   // track if user navigated back from verify to show 'forward' arrow
@@ -457,16 +464,40 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                 {stage === 'request' && (
                   <div className="flex flex-col gap-4">
                     {inviteDetails && (
-                      <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-none">
-                        <div className="text-sm text-blue-400 mb-1">Team Invitation</div>
+                      <div className="mb-4 p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-none">
+                        <div className="text-sm text-emerald-300 mb-1">Team invitation</div>
                         <div className="text-white font-medium">{inviteDetails.organization.name}</div>
                         <div className="text-xs text-gray-400">
                           Role: {inviteDetails.role} • Invited by {inviteDetails.invitedBy.display_name || inviteDetails.invitedBy.username}
                         </div>
                       </div>
                     )}
+                    {isTeamInvite && !inviteDetails && (
+                      <div
+                        className="mb-2 rounded-none border border-emerald-400/25 bg-emerald-400/10 p-3"
+                        data-testid="login-team-invite-banner"
+                      >
+                        <div className="text-sm font-medium text-emerald-100">Team invitation</div>
+                        <div className="mt-1 text-xs leading-5 text-emerald-100/75">
+                          {teamInviteOrg ? (
+                            <>
+                              Join <span className="font-semibold text-white">{teamInviteOrg}</span>
+                              {teamInviteRole ? (
+                                <>
+                                  {' '}
+                                  as <span className="font-semibold text-white">{teamInviteRole}</span>
+                                </>
+                              ) : null}
+                              . Your email is locked for this invite.
+                            </>
+                          ) : (
+                            <>Create your Bitcode account with the locked invite email below.</>
+                          )}
+                        </div>
+                      </div>
+                    )}
                     <label htmlFor="email" className="form-label ml-[19px]">
-                      {inviteDetails ? 'Confirm Your Email' : 'Email Address'}
+                      {lockedInviteEmail ? 'Invite email (locked)' : 'Email Address'}
                     </label>
                     <input
                       data-testid="login-email-input"
@@ -475,12 +506,25 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
                       type="email"
                       required
                       className="form-input"
-                      placeholder={inviteDetails ? inviteDetails.email : "Enter your email"}
+                      placeholder={
+                        lockedInviteEmail
+                          ? inviteDetails?.email || inviteEmail || 'Invite email'
+                          : 'Enter your email'
+                      }
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      disabled={!!inviteDetails}
-                      autoFocus={!inviteDetails}
+                      onChange={(e) => {
+                        if (lockedInviteEmail) return
+                        setEmail(e.target.value)
+                      }}
+                      disabled={lockedInviteEmail}
+                      readOnly={lockedInviteEmail}
+                      autoFocus={!lockedInviteEmail}
                     />
+                    {lockedInviteEmail ? (
+                      <p className="text-xs text-white/50 ml-[19px]">
+                        This address was set by your team invite and cannot be changed during signup.
+                      </p>
+                    ) : null}
                   </div>
                 )}
                 {stage === 'verify' && (

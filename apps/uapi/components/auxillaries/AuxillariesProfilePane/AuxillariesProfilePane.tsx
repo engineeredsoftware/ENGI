@@ -68,6 +68,7 @@ export default function AuxillariesProfilePane({
     setIsVerified: form.setIsVerified,
     verifiedRef: form.verifiedRef,
     onSave,
+    markProfileCommitted: form.markProfileCommitted,
   });
 
   return (
@@ -130,6 +131,10 @@ export default function AuxillariesProfilePane({
             selectAvatar={form.selectAvatar}
             uploadCustomAvatar={form.uploadCustomAvatar}
             avatarError={form.authError}
+            isDirty={form.isProfileDirty}
+            isSaving={form.isSavingProfile}
+            onSave={form.handleSaveProfile}
+            onUndo={form.handleUndoProfile}
           />
         </form>
 
@@ -140,11 +145,14 @@ export default function AuxillariesProfilePane({
           canManageTeam={form.canManageTeam}
           onInvite={form.inviteTeamMember}
           onRemove={form.removeTeamMember}
+          onChangeRole={form.changeTeamMemberRole}
         />
 
         <div className="auxillaries-glass-card rounded-none border border-white/10 px-5 py-4">
           <p className="text-sm leading-7 text-white/68">
-            Profile changes save automatically. Wallet connection and GitHub installation are managed in their own auxillaries.
+            Save identity and preference edits when you want them to stick; Undo edits restores the
+            last saved profile. Wallet connection and GitHub installation are managed in their own
+            auxillaries.
           </p>
         </div>
       </div>

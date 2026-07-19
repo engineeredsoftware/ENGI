@@ -17,6 +17,12 @@ interface UseProfileEmailVerificationArgs {
   setIsVerified: (value: boolean) => void;
   verifiedRef: { current: boolean };
   onSave: (data: any) => void;
+  /** Align form commit snapshot after verification persists. */
+  markProfileCommitted?: (override?: {
+    isVerified?: boolean;
+    email?: string;
+    username?: string;
+  }) => void;
 }
 
 export function useProfileEmailVerification({
@@ -30,6 +36,7 @@ export function useProfileEmailVerification({
   setIsVerified,
   verifiedRef,
   onSave,
+  markProfileCommitted,
 }: UseProfileEmailVerificationArgs) {
   const handleSendCode = async () => {
     setAuthError(null);
@@ -76,6 +83,7 @@ export function useProfileEmailVerification({
       } else {
         setIsVerified(true);
         verifiedRef.current = true;
+        setIsVerifying(false);
         trackEvent('onboarding_profile_verified');
         onSave({
           ...profileAutosavePayload,
@@ -87,6 +95,21 @@ export function useProfileEmailVerification({
             receiveCriticalUpdates: true,
           },
         });
+        const verifiedUsername = username || email.split('@')[0] || '';
+        markProfileCommitted?.({
+          isVerified: true,
+          email,
+          username: verifiedUsername,
+        });
+        // Best-effort welcome mail — never block verification UX.
+        void fetch('/api/auxillaries/email/welcome', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            name: verifiedUsername,
+          }),
+        }).catch(() => {});
       }
     } catch (error: any) {
       reportError(error);

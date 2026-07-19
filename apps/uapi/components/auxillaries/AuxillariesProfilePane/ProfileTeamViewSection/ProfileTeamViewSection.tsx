@@ -28,6 +28,10 @@ export interface ProfileTeamViewSectionProps {
     | { ok: false; error: string }
   >;
   onRemove: (memberId: string) => { ok: true } | { ok: false; error: string };
+  onChangeRole: (
+    memberId: string,
+    role: ProfileTeamMember['role'],
+  ) => Promise<{ ok: true } | { ok: false; error: string }>;
 }
 
 function roleLabel(role: ProfileTeamMember['role']): string {
@@ -46,11 +50,13 @@ export default function ProfileTeamViewSection({
   canManageTeam,
   onInvite,
   onRemove,
+  onChangeRole,
 }: ProfileTeamViewSectionProps) {
   const [inviteHandle, setInviteHandle] = useState('');
   const [inviteDisplayName, setInviteDisplayName] = useState('');
   const [inviteRole, setInviteRole] = useState<ProfileTeamMember['role']>('dev');
   const [inviteBusy, setInviteBusy] = useState(false);
+  const [roleBusyId, setRoleBusyId] = useState<string | null>(null);
   const [teamError, setTeamError] = useState<string | null>(null);
   const [teamNotice, setTeamNotice] = useState<string | null>(null);
 
@@ -114,8 +120,8 @@ export default function ProfileTeamViewSection({
           </p>
           <h3 className="mt-2 text-xl font-semibold text-white">Organization team</h3>
           <p className="mt-2 max-w-2xl text-sm leading-7 text-white/64">
-            Every member can see the full team. Only owners and admins can invite or remove
-            people. Your role: <span className="text-white/88">{roleLabel(currentRole)}</span>
+            Every member can see the full team. Owners and admins can invite, change roles, or
+            remove people. Your role: <span className="text-white/88">{roleLabel(currentRole)}</span>
             {currentUsername ? (
               <>
                 {' '}
@@ -146,11 +152,12 @@ export default function ProfileTeamViewSection({
               const isSelf =
                 member.username.trim().toLowerCase() === currentUsername.trim().toLowerCase() ||
                 member.id === '1';
-              const canRemoveThis =
+              const canEditRole =
                 canManageTeam &&
                 !isSelf &&
                 member.role !== 'owner' &&
                 !(currentRole === 'admin' && member.role === 'admin');
+              const canRemoveThis = canEditRole;
 
               return (
                 <tr
@@ -184,9 +191,40 @@ export default function ProfileTeamViewSection({
                     </div>
                   </td>
                   <td className="px-3 py-3">
-                    <span className="rounded-none border border-white/12 bg-white/5 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/78">
-                      {roleLabel(member.role)}
-                    </span>
+                    {canEditRole ? (
+                      <select
+                        aria-label={`Role for ${member.displayName || member.username}`}
+                        data-testid="auxillaries-team-role-select"
+                        value={member.role === 'owner' ? 'admin' : member.role}
+                        disabled={roleBusyId === member.id}
+                        onChange={(event) => {
+                          const nextRole = event.target.value as ProfileTeamMember['role'];
+                          if (nextRole === member.role) return;
+                          setTeamError(null);
+                          setTeamNotice(null);
+                          setRoleBusyId(member.id);
+                          void onChangeRole(member.id, nextRole).then((result) => {
+                            setRoleBusyId(null);
+                            if (!result.ok) setTeamError(result.error);
+                            else
+                              setTeamNotice(
+                                `Updated ${member.displayName || member.username} to ${roleLabel(nextRole)}.`,
+                              );
+                          });
+                        }}
+                        className="rounded-none border border-emerald-300/28 bg-[rgba(7,15,28,0.75)] px-2 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white outline-none focus:border-emerald-300/50 disabled:opacity-50"
+                      >
+                        {INVITE_ROLES.map((role) => (
+                          <option key={role} value={role} className="bg-slate-900 text-white">
+                            {roleLabel(role)}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <span className="rounded-none border border-white/12 bg-white/5 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/78">
+                        {roleLabel(member.role)}
+                      </span>
+                    )}
                   </td>
                   <td className="px-3 py-3 text-white/70">{statusLabel(member.status)}</td>
                   {canManageTeam ? (

@@ -10,6 +10,7 @@ import React, {
   useState,
 } from 'react';
 import {
+  AUXILLARY_OPEN_QUERY_PARAM,
   isAuxillariesCompatPath,
   isAuxillariesPath,
   readAuxillaryOverlayStep,
@@ -187,8 +188,23 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
 
   useEffect(() => {
     const openFromLocation = () => {
-      const step = readAuxillaryOverlayStep(new URLSearchParams(window.location.search));
-      if (!step || isDedicatedAuxillariesLocation()) return;
+      if (isDedicatedAuxillariesLocation()) return;
+      const params = new URLSearchParams(window.location.search);
+      const openTo = params.get(AUXILLARY_OPEN_QUERY_PARAM);
+      const teamInvite = params.get('team_invite') === '1' || params.get('team_invite') === 'true';
+
+      // Team invite / explicit connect deep-link opens the Connect window (OTP signup).
+      if (openTo === 'connect' || teamInvite) {
+        prefetchAuxillaries({ urgent: true });
+        setWindowState('ConnectWindow');
+        setDeepLinkStep(null);
+        setHasOpened(true);
+        setIsOpen(true);
+        return;
+      }
+
+      const step = readAuxillaryOverlayStep(params);
+      if (!step) return;
       prefetchAuxillaries({ urgent: true });
       setWindowState('AuxillariesWindow');
       setDeepLinkStep(step);

@@ -57,26 +57,122 @@ export function readImageFileAsAvatarDataUrl(file: File): Promise<string> {
   });
 }
 
-function buildAvatarDataUri(seed: string, background: string, accent: string) {
+/**
+ * Bitcode default avatars — abstract operator glyphs (not people silhouettes).
+ * Each seed is a distinct protocol motif: orbit, mesh, crystal, ledger, pulse, twin-read.
+ */
+type AvatarGlyphId = 'orbit' | 'mesh' | 'crystal' | 'ledger' | 'pulse' | 'twin';
+
+function avatarBackdrop(background: string, glow: string) {
+  return `
+    <rect width="96" height="96" rx="10" fill="${background}"/>
+    <rect width="96" height="96" rx="10" fill="url(#bg-${glow.replace('#', '')})" opacity="0.95"/>
+    <defs>
+      <radialGradient id="bg-${glow.replace('#', '')}" cx="32%" cy="28%" r="78%">
+        <stop offset="0%" stop-color="${glow}" stop-opacity="0.38"/>
+        <stop offset="55%" stop-color="${glow}" stop-opacity="0.08"/>
+        <stop offset="100%" stop-color="${background}" stop-opacity="1"/>
+      </radialGradient>
+    </defs>
+  `;
+}
+
+function avatarGlyph(kind: AvatarGlyphId, accent: string, secondary: string) {
+  switch (kind) {
+    case 'orbit':
+      // Protocol core + orbital rings (Auxillaries solar field).
+      return `
+        <circle cx="48" cy="48" r="30" stroke="${accent}" stroke-opacity="0.22" stroke-width="1.25" fill="none"/>
+        <ellipse cx="48" cy="48" rx="38" ry="14" stroke="${accent}" stroke-opacity="0.55" stroke-width="1.5" fill="none" transform="rotate(-28 48 48)"/>
+        <ellipse cx="48" cy="48" rx="38" ry="14" stroke="${secondary}" stroke-opacity="0.35" stroke-width="1.25" fill="none" transform="rotate(38 48 48)"/>
+        <circle cx="48" cy="48" r="9" fill="${accent}" fill-opacity="0.95"/>
+        <circle cx="48" cy="48" r="4" fill="#041018"/>
+        <circle cx="78" cy="34" r="3.5" fill="${secondary}" fill-opacity="0.95"/>
+        <circle cx="22" cy="58" r="2.5" fill="${accent}" fill-opacity="0.75"/>
+      `;
+    case 'mesh':
+      // Connected repo / interface mesh.
+      return `
+        <path d="M24 30 L48 18 L72 30 L72 54 L48 66 L24 54 Z" stroke="${accent}" stroke-opacity="0.35" stroke-width="1.25" fill="none"/>
+        <circle cx="24" cy="30" r="4" fill="${accent}"/>
+        <circle cx="48" cy="18" r="4" fill="${secondary}"/>
+        <circle cx="72" cy="30" r="4" fill="${accent}"/>
+        <circle cx="72" cy="54" r="4" fill="${secondary}" fill-opacity="0.85"/>
+        <circle cx="48" cy="66" r="4" fill="${accent}"/>
+        <circle cx="24" cy="54" r="4" fill="${secondary}" fill-opacity="0.85"/>
+        <circle cx="48" cy="42" r="6" fill="${accent}" fill-opacity="0.9"/>
+        <path d="M24 30 L48 42 L72 30 M48 18 L48 42 L48 66 M24 54 L48 42 L72 54" stroke="${accent}" stroke-opacity="0.55" stroke-width="1.35"/>
+      `;
+    case 'crystal':
+      // Asset-pack polyhedron / commodity facet.
+      return `
+        <path d="M48 14 L78 36 L66 74 L30 74 L18 36 Z" fill="${accent}" fill-opacity="0.12" stroke="${accent}" stroke-opacity="0.7" stroke-width="1.5"/>
+        <path d="M48 14 L48 78 M18 36 L78 36 M30 74 L48 36 L66 74" stroke="${secondary}" stroke-opacity="0.55" stroke-width="1.2"/>
+        <path d="M48 36 L66 50 L48 64 L30 50 Z" fill="${accent}" fill-opacity="0.88"/>
+        <path d="M48 36 L66 50 L48 50 Z" fill="${secondary}" fill-opacity="0.55"/>
+        <circle cx="48" cy="50" r="2.5" fill="#041018"/>
+      `;
+    case 'ledger':
+      // Settlement / hash ledger ticks.
+      return `
+        <rect x="20" y="22" width="56" height="52" rx="4" stroke="${accent}" stroke-opacity="0.45" stroke-width="1.4" fill="${accent}" fill-opacity="0.06"/>
+        <path d="M28 34 H68 M28 46 H58 M28 58 H64" stroke="${accent}" stroke-opacity="0.85" stroke-width="2.4" stroke-linecap="square"/>
+        <path d="M28 34 H40 M28 46 H36 M28 58 H44" stroke="${secondary}" stroke-opacity="0.95" stroke-width="2.4" stroke-linecap="square"/>
+        <rect x="60" y="52" width="10" height="10" fill="${secondary}" fill-opacity="0.9"/>
+        <path d="M62 57 L65 60 L70 54" stroke="#041018" stroke-width="1.4" fill="none" stroke-linecap="square"/>
+      `;
+    case 'pulse':
+      // Signal / measurement pulse rings.
+      return `
+        <circle cx="48" cy="48" r="8" fill="${accent}"/>
+        <circle cx="48" cy="48" r="18" stroke="${accent}" stroke-opacity="0.75" stroke-width="1.6" fill="none"/>
+        <circle cx="48" cy="48" r="28" stroke="${secondary}" stroke-opacity="0.45" stroke-width="1.3" fill="none" stroke-dasharray="4 5"/>
+        <circle cx="48" cy="48" r="36" stroke="${accent}" stroke-opacity="0.28" stroke-width="1.1" fill="none" stroke-dasharray="2 6"/>
+        <path d="M48 12 V22 M48 74 V84 M12 48 H22 M74 48 H84" stroke="${secondary}" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="square"/>
+        <circle cx="48" cy="48" r="3" fill="#041018"/>
+      `;
+    case 'twin':
+      // Read + Deposit twin orbits (shared system prompt / dual surface).
+      return `
+        <circle cx="36" cy="48" r="18" stroke="${accent}" stroke-opacity="0.8" stroke-width="1.6" fill="${accent}" fill-opacity="0.1"/>
+        <circle cx="60" cy="48" r="18" stroke="${secondary}" stroke-opacity="0.8" stroke-width="1.6" fill="${secondary}" fill-opacity="0.1"/>
+        <circle cx="36" cy="48" r="6" fill="${accent}"/>
+        <circle cx="60" cy="48" r="6" fill="${secondary}"/>
+        <path d="M42 48 H54" stroke="#e2e8f0" stroke-opacity="0.55" stroke-width="1.5"/>
+        <path d="M48 28 C56 34 56 62 48 68 C40 62 40 34 48 28 Z" fill="none" stroke="#94a3b8" stroke-opacity="0.35" stroke-width="1.1"/>
+      `;
+    default:
+      return '';
+  }
+}
+
+function buildAvatarDataUri(
+  label: string,
+  kind: AvatarGlyphId,
+  background: string,
+  accent: string,
+  secondary: string,
+  glow: string,
+) {
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
-      <rect width="96" height="96" rx="28" fill="${background}"/>
-      <circle cx="48" cy="34" r="16" fill="${accent}" fill-opacity="0.94"/>
-      <path d="M20 80c3-18 16-28 28-28s25 10 28 28" fill="${accent}" fill-opacity="0.76"/>
-      <text x="48" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white" fill-opacity="0.72">${seed}</text>
+      ${avatarBackdrop(background, glow)}
+      ${avatarGlyph(kind, accent, secondary)}
+      <text x="48" y="90" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="8" letter-spacing="0.12em" fill="${accent}" fill-opacity="0.55">${label}</text>
     </svg>
   `;
 
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
+/** Six preset operator glyphs for profile / chrome (square Bitcode tile language). */
 export const PROFILE_AVATAR_OPTIONS = [
-  buildAvatarDataUri('A1', '#0f172a', '#67feb7'),
-  buildAvatarDataUri('A2', '#111827', '#38bdf8'),
-  buildAvatarDataUri('A3', '#1f2937', '#f9c855'),
-  buildAvatarDataUri('A4', '#172033', '#c084fc'),
-  buildAvatarDataUri('A5', '#0b1324', '#fb7185'),
-  buildAvatarDataUri('A6', '#112131', '#22d3ee'),
+  buildAvatarDataUri('A1', 'orbit', '#040a13', '#67feb7', '#34d399', '#067a4f'),
+  buildAvatarDataUri('A2', 'mesh', '#050d18', '#38bdf8', '#818cf8', '#0e4a6e'),
+  buildAvatarDataUri('A3', 'crystal', '#0a0c14', '#fbbf24', '#f97316', '#6b4a0a'),
+  buildAvatarDataUri('A4', 'ledger', '#080612', '#c084fc', '#e879f9', '#4c1d6b'),
+  buildAvatarDataUri('A5', 'pulse', '#0b0610', '#fb7185', '#f43f5e', '#6b1530'),
+  buildAvatarDataUri('A6', 'twin', '#041216', '#22d3ee', '#67feb7', '#0e5c5c'),
 ];
 
 export function readProfileReadinessLabel(state: AuxillariesProfileState | null | undefined) {
