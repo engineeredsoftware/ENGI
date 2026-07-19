@@ -3,111 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>$BTD Transferred</title>
+  <meta name="color-scheme" content="light" />
+  <title>$BTD received</title>
   <style>
-    body { 
-      margin: 0; 
-      padding: 0; 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
-      color: #1a1a1a;
-    }
-    .container { 
-      max-width: 600px; 
-      margin: 0 auto; 
-      padding: 40px 20px;
-    }
-    .logo {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .logo svg {
-      width: 48px;
-      height: 42px;
-      color: #BA54EC;
-    }
-    h1 {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 0 0 16px;
-      color: #1a1a1a;
-    }
-    p {
-      margin: 0 0 16px;
-      color: #4a4a4a;
-    }
-    .transfer-box {
-      background: #fafafa;
-      border-radius: 8px;
-      padding: 32px;
-      margin: 32px 0;
-      text-align: center;
-    }
-    .transfer-amount {
-      font-size: 36px;
-      font-weight: 700;
-      color: #BA54EC;
-      margin-bottom: 8px;
-    }
-    .transfer-label {
-      font-size: 14px;
-      color: #6a6a6a;
-      margin-bottom: 24px;
-    }
-    .balance {
-      padding-top: 24px;
-      border-top: 1px solid #e0e0e0;
-    }
-    .balance-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #6a6a6a;
-      margin-bottom: 4px;
-    }
-    .balance-amount {
-      font-size: 24px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-    .footer {
-      margin-top: 40px;
-      padding-top: 24px;
-      border-top: 1px solid #e0e0e0;
-      font-size: 12px;
-      color: #6a6a6a;
-      text-align: center;
-    }
+    body { margin:0; padding:0; background:#f1f5f9; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; line-height:1.55; color:#0f172a; }
+    .wrap { max-width:560px; margin:0 auto; padding:32px 16px 48px; }
+    .card { background:#ffffff; border:1px solid #e2e8f0; border-radius:0; overflow:hidden; box-shadow:0 12px 40px rgba(15,23,42,0.06); }
+    .header { padding:28px 28px 12px; text-align:center; border-bottom:1px solid #e2e8f0; background:linear-gradient(180deg,#f0fdf7 0%,#ffffff 70%); }
+    .brand { margin:10px 0 0; font-size:13px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#047857; }
+    .body { padding:28px; }
+    h1 { margin:0 0 12px; font-size:22px; font-weight:650; letter-spacing:-0.02em; color:#0f172a; }
+    p { margin:0 0 14px; font-size:15px; color:#334155; }
+    strong { color:#0f172a; }
+    a { color:#059669; }
+    .btn { display:inline-block; padding:13px 28px; background:#067a4f; color:#ecfdf5 !important; text-decoration:none; font-weight:600; font-size:14px; letter-spacing:0.02em; border-radius:0; border:1px solid #065f46; }
+    .btn:hover { background:#059669; }
+    .btn-row { text-align:center; margin:24px 0 8px; }
+    .token { margin:24px 0; padding:28px 16px; text-align:center; background:#f8fafc; border:1px solid #67FEB7; border-left:4px solid #67FEB7; }
+    .token-label { font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#047857; margin-bottom:10px; }
+    .token-code { font-size:36px; font-weight:700; letter-spacing:0.28em; color:#065f46; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; }
+    .panel { margin:20px 0; padding:16px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-left:3px solid #a78bfa; }
+    .panel-title { font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#64748b; margin:0 0 8px; }
+    .checks { margin:20px 0 0; padding:16px 18px; background:#ecfdf5; border:1px solid #a7f3d0; }
+    .check { font-size:13px; color:#065f46; margin:0 0 6px; }
+    .check:before { content:"✓"; color:#10b981; font-weight:700; margin-right:8px; }
+    .muted { font-size:13px; color:#64748b; margin-top:20px; }
+    .footer { padding:18px 28px 24px; border-top:1px solid #e2e8f0; text-align:center; font-size:12px; color:#94a3b8; background:#fafafa; }
+    .footer a { color:#64748b; }
+    .meta { margin:4px 0; font-size:14px; color:#475569; }
+    .meta strong { color:#0f172a; }
+    .amount { font-size:28px; font-weight:700; color:#047857; letter-spacing:-0.02em; }
+    .warn-panel { margin:20px 0; padding:16px 18px; background:#fff7ed; border:1px solid #fed7aa; border-left:3px solid #f59e0b; color:#9a3412; font-size:14px; }
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="logo">
-      <svg width="38" height="33" viewBox="0 0 38 33">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.986 27.9681C26.9054 27.9681 31.1307 24.9966 32.965 20.7505H37.288C35.2684 27.2825 29.1814 32.028 21.986 32.028C14.7906 32.028 8.70363 27.2825 6.68403 20.7505H11.007C12.8413 24.9966 17.0666 27.9681 21.986 27.9681ZM21.986 4.05989C17.0666 4.05989 12.8413 7.03142 11.007 11.2775H6.68403C8.70363 4.7455 14.7906 0 21.986 0C29.1814 0 35.2684 4.7455 37.288 11.2775H37.2899C37.9004 13.3956 38 15.0349 38 15.7885C38 16.9903 37.9004 17.8207 37.9004 17.8207H0L3.15769 13.8674H20.5947H29.3665H33.7498C33.7498 13.8674 33.489 12.4052 32.9657 11.2775H32.965C31.1307 7.03142 26.9054 4.05989 21.986 4.05989Z" fill="currentColor"/>
-      </svg>
-    </div>
-
-    <h1>$BTD Received</h1>
-    
-    <p>{{senderName}} has transferred $BTD to your account.</p>
-
-    <div class="transfer-box">
-      <div class="transfer-amount">+{{btdAmount}}</div>
-      <div class="transfer-label">$BTD Transferred</div>
-      
-      <div class="balance">
-        <div class="balance-label">New Balance</div>
-        <div class="balance-amount">{{newBtdBalance}} $BTD</div>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <svg width="40" height="48" viewBox="-8 -5 52 59" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bitcode">
+  <g transform="rotate(-17.5 18 24.5)">
+    <path fill="#67FEB7" d="M20.9262 0.00557962C22.7186 -0.00365183 24.5109 -0.00142826 26.3033 0.0122504L26.301 7.13711C29.2199 7.19741 32.1396 7.1956 35.0582 7.13172C35.0735 9.23777 35.019 11.3014 35.0654 13.4148C32.8421 13.4237 30.8565 13.0794 28.6954 12.9538C24.6601 12.7192 20.5565 12.3271 16.5144 12.5535C13.8897 12.7242 10.7929 12.8402 8.82294 14.8288C7.85472 15.8061 8.03881 18.0401 8.0413 19.3356L8.05013 23.8147L8.04137 28.7701C8.03382 29.6475 7.9973 30.5389 8.01388 31.4152C8.04582 33.1058 8.75206 33.1294 10.1354 33.5091C17.715 35.5903 25.9198 35.2789 33.6985 34.7352C33.9087 34.7062 34.0457 34.6719 34.2498 34.741C34.443 35.1731 34.9669 40.1367 35.0662 40.8648C34.3081 40.8464 33.3296 40.898 32.537 40.9008L26.2963 40.9131C26.3306 42.5059 26.2735 44.1532 26.2983 45.7504C26.3101 46.5124 26.2644 47.3958 26.3431 48.1421C24.6963 48.0705 22.6515 48.1751 20.9343 48.1358C20.9021 45.7572 20.9856 43.4533 20.9187 41.0442L18.4833 41.0473L18.4817 45.4707C18.4821 46.1741 18.4507 47.4648 18.5515 48.1228C16.7905 48.1981 14.7456 48.135 12.9797 48.1025C12.9888 45.7084 13.0754 43.1487 12.9646 40.7789C10.661 40.7644 8.89505 40.8158 6.75342 39.9388C2.29011 38.111 -0.0182864 35.6385 0.000109086 30.6912C0.00812764 27.0084 -0.0172092 23.1919 0.0362928 19.524C0.0846063 16.2095 -0.138295 11.5124 2.30554 8.97288C4.83826 6.34111 9.72075 7.35145 12.9654 7.26561C13.0788 4.81301 12.9602 2.44632 13.0083 0.00227813C14.8263 0.0191238 16.6444 0.0205381 18.4624 0.00652246C18.4183 0.618965 18.4564 1.67068 18.4631 2.31364L18.5055 6.87263C19.3099 6.92162 20.1157 6.94621 20.9217 6.94641C20.9298 4.70095 20.988 2.23083 20.9262 0.00557962Z"/>
+  </g>
+</svg>
+        <div class="brand">Bitcode</div>
       </div>
-    </div>
-
-    <p style="text-align: center; color: #6a6a6a; font-size: 14px;">
-      You can now use this $BTD to run Bitcode deliveries and agentic updates.
-    </p>
-
-    <div class="footer">
-      © {{year}} Advanced Engineered Software, Inc.
+      <div class="body">
+        <h1>You received $BTD</h1>
+        
+        <p><strong>{{senderName}}</strong> transferred $BTD to your account.</p>
+        <div class="token">
+          <div class="token-label">Transfer</div>
+          <div class="amount">+{{btdAmount}} $BTD</div>
+        </div>
+        <div class="meta">New balance: <strong>{{newBtdBalance}} $BTD</strong></div>
+  
+      </div>
+      <div class="footer">
+        © {{year}} Bitcode · Source-bearing value exchange<br />
+        You received this because of activity on your Bitcode account.
+      </div>
     </div>
   </div>
 </body>

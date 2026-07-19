@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light" />
-  <title>Contact request</title>
+  <title>Welcome to Bitcode</title>
   <style>
     body { margin:0; padding:0; background:#f1f5f9; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; line-height:1.55; color:#0f172a; }
     .wrap { max-width:560px; margin:0 auto; padding:32px 16px 48px; }
@@ -49,16 +49,21 @@
         <div class="brand">Bitcode</div>
       </div>
       <div class="body">
-        <h1>New contact request</h1>
+        <h1>Welcome to Bitcode</h1>
         
+        <p>Hello {{name}},</p>
+        <p>Your email <strong>{{email}}</strong> is verified. Bitcode can now send optional product and activity notices to this address.</p>
         <div class="panel">
-          <div class="panel-title">From</div>
-          <div class="meta"><strong>{{name}}</strong></div>
-          <div class="meta"><a href="mailto:{{email}}">{{email}}</a></div>
+          <div class="panel-title">Where to start</div>
+          <div class="meta">· Connect a wallet in <strong>Auxillaries → Wallet</strong></div>
+          <div class="meta">· Install the GitHub App in <strong>Auxillaries → Externals</strong></div>
+          <div class="meta">· Deposit measured source or Read licensed packs on the product surfaces</div>
         </div>
-        <div class="panel">
-          <div class="panel-title">Message</div>
-          <p style="margin:0;white-space:pre-wrap;">{{message}}</p>
+        <div class="btn-row"><a class="btn" href="{{appUrl}}">Open Bitcode</a></div>
+        <div class="checks">
+          <div class="check">Email is contact — not your root identity</div>
+          <div class="check">Critical security alerts stay enabled</div>
+          <div class="check">You control product and activity mail in Profile</div>
         </div>
   
       </div>
