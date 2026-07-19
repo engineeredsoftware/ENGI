@@ -237,6 +237,7 @@ describe('asset-pack sandbox host plan', () => {
     expect(diagnostics.filter((diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error)).toEqual([]);
     expect(source).toContain('pipeline-stream-event');
     expect(source).toContain('importMonorepoModule');
+    expect(source).toContain('unwrapModuleNamespace');
     expect(source).toContain('syntheses/domain/src/index.ts');
     expect(source).toContain('synthesize-deposits-asset-packs-pipeline/src/index.ts');
     expect(source).toContain('factorySynthesizeDepositAssetPacksSDIVFPipeline');

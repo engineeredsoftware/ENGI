@@ -100,7 +100,21 @@ function pkgImport(relPath) {
  * - current: packages/asset-packs-pipelines/syntheses/{domain,deposit,read}
  * - legacy (v48-ee433ddc era): synthesize-*-asset-packs-pipeline + monolithic domain
  * Prefer current paths; fall back so hot-uploaded runners still boot on older images.
+ *
+ * tsx dynamic import of CJS/TS packages often surfaces exports only on
+ * default / module.exports — unwrap so destructuring factories works.
  */
+function unwrapModuleNamespace(mod) {
+  if (!mod || typeof mod !== 'object') return mod;
+  const bags = [];
+  if (mod.default && typeof mod.default === 'object') bags.push(mod.default);
+  if (mod['module.exports'] && typeof mod['module.exports'] === 'object') {
+    bags.push(mod['module.exports']);
+  }
+  if (bags.length === 0) return mod;
+  return Object.assign({}, ...bags, mod);
+}
+
 async function importMonorepoModule(label, candidates) {
   const tried = [];
   let lastError = null;
@@ -109,7 +123,8 @@ async function importMonorepoModule(label, candidates) {
     tried.push(abs);
     try {
       await access(abs, fsConstants.R_OK);
-      return await import(pathToFileURL(abs).href);
+      const raw = await import(pathToFileURL(abs).href);
+      return unwrapModuleNamespace(raw);
     } catch (err) {
       lastError = err;
     }
