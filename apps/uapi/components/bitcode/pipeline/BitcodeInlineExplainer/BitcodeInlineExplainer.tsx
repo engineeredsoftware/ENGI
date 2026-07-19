@@ -224,7 +224,9 @@ export default function BitcodeInlineExplainer({
         onMouseEnter={cancelScheduledHide}
         onMouseLeave={hideTooltipNow}
         className={cn(
-          'pointer-events-auto fixed z-[90] overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
+          // Above auxillaries/orbital portals (z-index 100) and surface chrome
+          // (~10002) so rich hover tooltips paint on top of the workspace shell.
+          'pointer-events-auto fixed z-[10100] overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out',
         )}
         style={tooltipPositionStyle(placement)}
       >
