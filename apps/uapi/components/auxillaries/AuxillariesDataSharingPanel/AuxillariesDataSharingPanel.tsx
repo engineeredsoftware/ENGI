@@ -159,17 +159,17 @@ export default function AuxillariesDataSharingPanel({ className = "", overlayed 
             disabled={loading || updatingAll}
           />
           <div
-            className="h-6 w-11 rounded-none border border-slate-600 bg-slate-700 peer-checked:bg-[#F9C855] transition-colors duration-200 peer"
+            className="h-6 w-11 rounded-none border border-slate-600 bg-slate-700 transition-all duration-200 peer-checked:border-violet-300/55 peer-checked:bg-violet-500 peer-checked:shadow-[0_0_14px_rgba(167,139,250,0.45),0_0_0_1px_rgba(196,181,253,0.2)_inset]"
           ></div>
           <span
-            className="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-none bg-white shadow transition-transform duration-200 peer-checked:translate-x-5"
+            className="absolute left-0.5 top-0.5 h-5 w-5 transform rounded-none bg-white shadow transition-transform duration-200 peer-checked:translate-x-5 peer-checked:bg-violet-50"
           ></span>
         </label>
         {loading ? <span className="text-sm text-slate-400">loading…</span> : null}
       </div>
 
         {enableAll ? (
-        <div className="text-sm text-yellow-300/80 font-medium bg-yellow-300/10 border border-yellow-300/20 rounded-none px-4 py-3">
+        <div className="text-sm font-medium text-violet-200/90 bg-violet-400/10 border border-violet-300/25 rounded-none px-4 py-3">
           All current and future Externals-approved repositories will sync into read-space automatically.
         </div>
       ) : (

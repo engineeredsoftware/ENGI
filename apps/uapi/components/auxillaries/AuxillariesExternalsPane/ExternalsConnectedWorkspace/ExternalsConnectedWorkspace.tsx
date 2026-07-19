@@ -449,13 +449,10 @@ export default function ExternalsConnectedWorkspace({
             </p>
             <div className="mt-3 space-y-3 text-sm leading-7 text-white/68">
               <p>
-                Externals owns the consent setting for connected source context. Wallet identity
-                stays in Wallet, while GitHub scope becomes source-bearing inputability for Read
-                and Deposit. Set once whether Externals-approved repositories should keep
-                contributing synchronized repository knowledge into Bitcode read-space — the
-                larger <span className="font-semibold text-teal-300">$BTD</span> setting that
-                governs ongoing connected-knowledge contribution after repository access is
-                already approved.
+                Choose once whether approved GitHub repos keep syncing into Bitcode read-space
+                for Read and Deposit — the shared{' '}
+                <span className="font-semibold text-teal-300">$BTD</span> consent for ongoing
+                source knowledge after access is granted.
               </p>
               <AuxillariesDataSharingPanel overlayed={!isOnboardingComplete} />
             </div>
