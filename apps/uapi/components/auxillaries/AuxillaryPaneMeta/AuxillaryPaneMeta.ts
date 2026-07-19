@@ -74,7 +74,7 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'top',
     routeTitle: 'Wallet Auxillary',
     routeDescription:
-      'Connect your favorite crypto wallet from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
+      'Connect your crypto wallets from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
     featurePills: ['Wallets', 'Balances', 'Activity'],
   },
 };
