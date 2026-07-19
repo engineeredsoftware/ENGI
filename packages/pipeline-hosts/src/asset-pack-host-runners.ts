@@ -130,6 +130,15 @@ async function importMonorepoModule(label, candidates) {
     }
   }
   const detail = lastError instanceof Error ? lastError.message : String(lastError || 'missing');
+  // Do NOT always claim "image outdated" — that string used to append to every
+  // failure and masked real causes (e.g. package.json exports → missing .js
+  // while only .ts is shipped; pnpm link gaps). Prefer the nested error.
+  const looksLikeMissingPath =
+    /ENOENT|no such file|Cannot find module/i.test(detail) &&
+    /syntheses\/|asset-packs-pipelines\/domain/i.test(tried.join(' '));
+  const hint = looksLikeMissingPath
+    ? ' Candidate monorepo paths are missing from the Pipeliner image — rebuild/push Pipeliner (syntheses/ layout) and set BITCODE_PIPELINE_SANDBOX_IMAGE.'
+    : ' Nested import failed after the entry file was found (often package.json exports point at .js while only .ts is in the image, or a workspace link is missing).';
   throw new Error(
     'Cannot resolve ' +
       label +
@@ -139,7 +148,8 @@ async function importMonorepoModule(label, candidates) {
       tried.join(' | ') +
       '. Last error: ' +
       detail +
-      '. Pipeliner image package layout is outdated relative to the host runner — rebuild/push Pipeliner and set BITCODE_PIPELINE_SANDBOX_IMAGE to the new tag (syntheses/ layout).',
+      '.' +
+      hint,
   );
 }
 

@@ -2,24 +2,24 @@
   "name": "@bitcode/execution-generics",
   "version": "1.0.0",
   "description": "Execution primitive (state) + composition re-exports of Executor combinators and process-root helpers",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "default": "./src/index.js"
+      "default": "./src/index.ts"
     },
     "./Execution": {
       "types": "./src/Execution.ts",
-      "default": "./src/Execution.js"
+      "default": "./src/Execution.ts"
     },
     "./types": {
       "types": "./src/types.ts",
-      "default": "./src/types.js"
+      "default": "./src/types.ts"
     },
     "./prompts/ExecutionPrompt": {
       "types": "./src/prompts/ExecutionPrompt.ts",
-      "default": "./src/prompts/ExecutionPrompt.js"
+      "default": "./src/prompts/ExecutionPrompt.ts"
     },
     "./prompts/compose-prompt-layers": {
       "types": "./src/prompts/compose-prompt-layers.ts",
@@ -39,19 +39,19 @@
     },
     "./execution-registry": {
       "types": "./src/execution-registry.ts",
-      "default": "./src/execution-registry.js"
+      "default": "./src/execution-registry.ts"
     },
     "./store/registry": {
       "types": "./src/store/registry.ts",
-      "default": "./src/store/registry.js"
+      "default": "./src/store/registry.ts"
     },
     "./storage/StorageDestination": {
       "types": "./src/storage/StorageDestination.ts",
-      "default": "./src/storage/StorageDestination.js"
+      "default": "./src/storage/StorageDestination.ts"
     },
     "./signals/ShortCircuitSignal": {
       "types": "./src/signals/ShortCircuitSignal.ts",
-      "default": "./src/signals/ShortCircuitSignal.js"
+      "default": "./src/signals/ShortCircuitSignal.ts"
     },
     "./package.json": "./package.json"
   },

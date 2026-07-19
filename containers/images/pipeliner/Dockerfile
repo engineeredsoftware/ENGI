@@ -16,12 +16,19 @@ WORKDIR /opt/bitcode
 # git for customer clone + native language servers (non-npm).
 # npm language servers ship as deps of @bitcode/lsp (see package.json).
 # BITCODE_PIPELINE_LSP_PROFILE=full (default) installs JVM/jdtls/kotlin/.NET/OmniSharp.
+# Install is split across RUN layers so no single registry blob exceeds VCR's
+# per-blob limit (a monolithic install produced an ~885MB layer → 413).
 ARG BITCODE_PIPELINE_LSP_PROFILE=full
 ENV BITCODE_PIPELINE_LSP_PROFILE=${BITCODE_PIPELINE_LSP_PROFILE}
 COPY containers/images/pipeliner/scripts/install-language-servers.sh \
   /tmp/install-language-servers.sh
 RUN chmod +x /tmp/install-language-servers.sh \
-  && /tmp/install-language-servers.sh \
+  && BITCODE_LSP_INSTALL_PHASE=base /tmp/install-language-servers.sh
+RUN BITCODE_LSP_INSTALL_PHASE=go /tmp/install-language-servers.sh
+RUN BITCODE_LSP_INSTALL_PHASE=default-bins /tmp/install-language-servers.sh
+RUN BITCODE_LSP_INSTALL_PHASE=full-jvm /tmp/install-language-servers.sh
+RUN BITCODE_LSP_INSTALL_PHASE=full-dotnet /tmp/install-language-servers.sh
+RUN BITCODE_LSP_INSTALL_PHASE=smoke /tmp/install-language-servers.sh \
   && rm -f /tmp/install-language-servers.sh
 
 ENV PATH="/usr/local/go/bin:/opt/dotnet:/usr/local/bin:${PATH}"
@@ -55,6 +62,18 @@ RUN pnpm install --frozen-lockfile \
   --filter @bitcode/supabase... \
   || pnpm install --frozen-lockfile
 
+# Project-wide: expose every workspace package at root node_modules/@bitcode/*
+# (+ per-package self-links) so absolute .ts loads under tsx resolve package
+# names the same way a bundled app would. Relative-import hotfixes alone are
+# not enough — any package can import any @bitcode/* peer mid-graph.
+ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
+RUN node containers/images/pipeliner/scripts/link-workspace-packages.mjs
+
+# Source-only packages declare exports to .js that are gitignored / not in the
+# image. Rewrite missing .js targets to sibling .ts so tsx can load the graph
+# (execution-generics/Execution.js is the classic failure).
+RUN node containers/images/pipeliner/scripts/rewrite-package-exports-for-tsx.mjs
+
 # Pre-materialized runners (built on host/CI before docker build).
 # Layout preserves live-runner relative imports: ../../packages → monorepo packages.
 RUN mkdir -p /opt/bitcode/.proofs/pipeline-host /opt/bitcode/pipeline \
@@ -86,15 +105,29 @@ RUN test -e packages/pipelines-generics/node_modules/@bitcode/tools-generics \
   || test -e node_modules/@bitcode/tools-generics \
   || (echo "pipeliner image missing @bitcode/tools-generics link for pipelines-generics" >&2 && exit 1)
 
-# btd → supabase is on the live deposit import path; assert the workspace link.
-RUN test -e packages/btd/node_modules/@bitcode/supabase \
-  || test -e node_modules/@bitcode/supabase \
-  || (echo "pipeliner image missing @bitcode/supabase link for btd" >&2 && exit 1)
+# Root hoist + self-link for the deposit import chain (btd → supabase → streams).
+RUN test -e node_modules/@bitcode/supabase \
+  && test -e node_modules/@bitcode/btd \
+  && test -e packages/supabase/node_modules/@bitcode/supabase \
+  || (echo "pipeliner image missing root/self workspace links for supabase/btd" >&2 && exit 1)
 
-# In-package sources must not self-import the package name (pnpm has no self-link;
-# sandbox tsx file:// load of index.ts → streams.ts used to fail here).
-RUN ! grep -R --include='*.ts' -E "from ['\"]@bitcode/supabase['\"]" packages/supabase/src \
-  || (echo "packages/supabase must not self-import @bitcode/supabase (use relative ./clients)" >&2 && exit 1)
+# Smoke: live runner path — domain + pipelines-generics (pulls tools/execution
+# graph that previously failed on Execution.js exports).
+RUN LOADER="packages/pipeline-hosts/node_modules/tsx/dist/loader.mjs" \
+  && test -f "$LOADER" \
+  && node --import "./$LOADER" -e "\
+import { pathToFileURL } from 'url'; \
+const load = async (rel) => { \
+  const p = pathToFileURL(process.cwd() + '/' + rel).href; \
+  const mod = await import(p); \
+  if (!mod) throw new Error('empty import ' + rel); \
+  return mod; \
+}; \
+await load('packages/asset-packs-pipelines/domain/src/index.ts'); \
+await load('packages/pipelines-generics/src/index.ts'); \
+await load('packages/execution-generics/src/Execution.ts'); \
+console.log('pipeliner domain+pipelines-generics+Execution smoke ok'); \
+"
 
 ENV BITCODE_MONOREPO_ROOT=/opt/bitcode
 ENV BITCODE_PIPELINE_IMAGE_ENTRY=/opt/bitcode/pipeline/run-pipeline.mjs
