@@ -28,11 +28,12 @@ export interface AuxillaryPaneDescriptor {
   routeTitle: string;
   routeDescription: string;
   /**
-   * One-word feature pills rendered at the bottom of the selector card.
-   * Three to four short labels fill card height and reduce vertical dead space
-   * between Wallet / Externals / Profile / Interfaces in the left rail.
+   * Feature pills at the bottom of the selector card (two to four short labels).
    */
-  featurePills: readonly [string, string, string] | readonly [string, string, string, string];
+  featurePills:
+    | readonly [string, string]
+    | readonly [string, string, string]
+    | readonly [string, string, string, string];
 }
 
 export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneDescriptor> = {
@@ -43,8 +44,8 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'bottom',
     routeTitle: 'Profile Auxillary',
     routeDescription:
-      'Manage optional email, display identity, admin role, and organization membership without mixing in wallet or third-party connection controls.',
-    featurePills: ['Email', 'Identity', 'Role', 'Org'],
+      "Set up email, manage your organization's team members, authorities and budgets, and customize your profile.",
+    featurePills: ['Email', 'Team management', 'Aesthetics'],
   },
   externals: {
     label: 'Externals',
@@ -53,8 +54,8 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'right',
     routeTitle: 'Externals Auxillary',
     routeDescription:
-      'Attach GitHub and other non-wallet third-party bindings Bitcode reuses across read measurement, asset-pack synthesis, settlement follow-through, and external interface behavior.',
-    featurePills: ['GitHub', 'Source', 'Bindings', 'Scope'],
+      "Authorize repositories by installing Bitcode's GitHub Application. Configure 3rd-party integrations to provide more source material and to make authoring Needs and Obfuscations easier.",
+    featurePills: ['Repositories', 'GitHub', '3rd-parties'],
   },
   interfaces: {
     label: 'Interfaces',
@@ -63,8 +64,8 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'left',
     routeTitle: 'Interfaces Auxillary',
     routeDescription:
-      'Shape how Packs, Deposits, Reads, MCP API, ChatGPT App, proofs, and default Bitcode behavior read and operate through one focused auxillary.',
-    featurePills: ['Packs', 'Reads', 'MCP', 'Proofs'],
+      "Personalize Bitcode's Applications to your tastes. Author a Read+Deposit shared system prompt.",
+    featurePills: ['Apps customization', 'System prompt'],
   },
   wallet: {
     label: 'Wallet',
@@ -73,8 +74,8 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     labelPosition: 'top',
     routeTitle: 'Wallet Auxillary',
     routeDescription:
-      'Connect Bitcoin wallet providers, review BTC and BTD balances, and inspect wallet-bound source-share posture in one focused auxillary.',
-    featurePills: ['Providers', 'BTC', 'BTD', 'Posture'],
+      'Connect your favorite crypto wallet from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
+    featurePills: ['Wallets', 'Balances', 'Activity'],
   },
 };
 
