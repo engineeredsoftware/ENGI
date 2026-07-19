@@ -117,9 +117,14 @@ const depositCandidateSetObjectSchema = z.object({
   options: z.array(depositCandidateSchema).min(1).max(4),
 });
 
-export const depositCandidateSetSchema = z.preprocess(
+export type DepositSynthesisOptions = z.infer<typeof depositCandidateSetObjectSchema>;
+
+/**
+ * Preprocess mis-shapes then strict-parse. Cast to ZodType<Output> so PTRR
+ * factory (expects ZodType<TOutput>) accepts ZodEffects without _input=unknown
+ * conflicts (CI TS2322 on deposit/read synthesis agents).
+ */
+export const depositCandidateSetSchema: z.ZodType<DepositSynthesisOptions> = z.preprocess(
   normalizeDepositCandidateSetInput,
   depositCandidateSetObjectSchema,
-);
-
-export type DepositSynthesisOptions = z.infer<typeof depositCandidateSetObjectSchema>;
+) as z.ZodType<DepositSynthesisOptions>;

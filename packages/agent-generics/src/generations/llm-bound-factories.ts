@@ -943,7 +943,9 @@ export function factoryStitchUntilComplete<T>(
     const llmConfig = (failsafeExec as any).llms?.getDefaultConfig?.();
     const maxOutputTokens = llmConfig?.maxTokens || 4000;
 
-    let currentResult = input;
+    // Envelope mutates across stitch iterations (adds .output); keep loose so
+    // we can re-wrap without fighting generic T (TS2322 on `{ output: … }`).
+    let currentResult: any = input;
     let stitchCount = 0;
     const maxStitches = 5; // Prevent infinite loops
     // The most recent schema-validation failure. A stitch prompted only with
