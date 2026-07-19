@@ -1120,6 +1120,27 @@
 }
 
 /*
+ * Shared system prompt (Interfaces) — kill rounded orbital form shells so the
+ * field stays square glass like the rest of the auxillaries rail.
+ */
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section,
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section.primary-section {
+  border-radius: 0 !important;
+  background: var(--aux-bc-card-nested-bg) !important;
+  border-color: var(--aux-bc-card-border) !important;
+  box-shadow: none !important;
+  animation: none !important;
+  padding: 1rem !important;
+  gap: 0.75rem !important;
+  margin-bottom: 0 !important;
+}
+
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section .form-textarea,
+.auxillaries-bitcode-surface .interfaces-step .system-prompt-section textarea {
+  border-radius: 0 !important;
+}
+
+/*
  * Audit mounts only after pane enter settle (see AuxillariesContent auditReady).
  * Tight gap under body — do not use margin-top:auto (that left a large empty
  * band above the accordion when the pane filled the column).

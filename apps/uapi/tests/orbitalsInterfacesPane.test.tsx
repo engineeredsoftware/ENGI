@@ -90,7 +90,7 @@ describe('AuxillariesInterfacesPane', () => {
 
     expect(screen.getAllByText('Auxillary step 4')).toHaveLength(2);
     expect(screen.getByText(/Pack detail and interface defaults/i)).toBeTruthy();
-    expect(screen.getByRole('heading', { name: /Interface instruction baseline/i })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: /Read–Deposit system prompt/i })).toBeTruthy();
     expect(screen.getByText(/Registry fixed/i)).toBeInTheDocument();
     expect(screen.getByTestId('auxillaries-interface-admission-catalog')).toBeInTheDocument();
     expect(screen.getAllByText(/packs/i).length).toBeGreaterThan(0);
@@ -108,7 +108,7 @@ describe('AuxillariesInterfacesPane', () => {
         name: /raw bias toward exact payload reading first\./i,
       }),
     );
-    fireEvent.change(screen.getByLabelText(/Global System Prompt/i), {
+    fireEvent.change(screen.getByLabelText(/Shared system prompt/i), {
       target: { value: 'Keep closure exact and user-facing.' },
     });
 

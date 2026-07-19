@@ -132,9 +132,9 @@ export default function AuxillariesInterfacesPane({
             </AuxillariesWorkspaceSection>
 
             <AuxillariesWorkspaceSection
-              kicker="Prompt baseline"
-              title="Interface instruction baseline"
-              description="Keep a reusable operator instruction surface for how Bitcode should summarize and explain non-ledgerized interface reads."
+              kicker="Shared system prompt"
+              title="Read–Deposit system prompt"
+              description="One operator instruction baseline shared by Read and Deposit — how Bitcode should reason, summarize, and explain across both product surfaces. Ledgerized pipeline models stay protocol-owned."
               explainer={auxillaryPaneExplainers.interfacesPrompt}
               tone="sky"
             >
