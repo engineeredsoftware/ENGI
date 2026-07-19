@@ -261,6 +261,31 @@ describe('buildPipelineRunActivityFromEvents — mode latch + latest context', (
     expect(snapshot.mode).toBeNull();
     expect(snapshot.latestContext).toBeNull();
   });
+
+  it('de-dupes formal rows that arrive twice (sandbox legacy + host bridge)', () => {
+    const duped = [
+      ...events,
+      {
+        id: '3',
+        event: {
+          type: 'generation',
+          namespace: 'llm',
+          key: 'output',
+          message: '[content withheld — source-safe]',
+          executionState: {
+            phase: 'discovery',
+            agent: 'DepositDepositorySearchAgent',
+            step: 'try',
+            failsafe: 'prepare_concise_context',
+            generation: 'reason',
+          },
+        },
+        created_at: '2026-07-01T00:00:06.000Z',
+      },
+    ];
+    const snapshot = buildPipelineRunActivityFromEvents(duped, null, [], null);
+    expect(Object.keys(snapshot.outputDetails)).toHaveLength(1);
+  });
 });
 
 // ---------------------------------------------------------------------------

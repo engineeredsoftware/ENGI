@@ -235,6 +235,8 @@ type FormalLogLineKind = 'llm' | 'tool';
 
 function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   const type = String(payload?.type || '');
+  // Host telemetry.jsonl summaries keep the original stream type here.
+  const streamType = String(payload?.streamEventType || '');
   const ns = String(payload?.namespace || '');
   const key = String(payload?.key || '');
 
@@ -246,11 +248,11 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   // errors by the log's error banner, not by accordion rows.
 
   // Formal LLM call: the Thinkings substep output is canonical (full hierarchy).
-  if (type === 'generation') return 'llm';
+  if (type === 'generation' || streamType === 'generation') return 'llm';
   if (ns === 'llm' && key === 'output') return 'llm';
 
   // Formal tool use: one row per completed tool call (result | error).
-  if (type === 'tool-use') return 'tool';
+  if (type === 'tool-use' || streamType === 'tool-use') return 'tool';
   if ((ns === 'tool' || ns === 'tools') && (key === 'result' || key === 'error')) return 'tool';
 
   return null;
@@ -291,6 +293,9 @@ export function buildPipelineRunActivityFromEvents(
   const rollingContext: ExecContext = {};
   const toolByNode = new Map<string, { name?: string; input?: unknown }>();
   const readyToFinishVerdicts: ReadyToFinishVerdictView[] = [];
+  // De-dupe formal rows when both sandbox legacy execution_events and the
+  // host telemetry.jsonl bridge emit the same LLM/tool completion.
+  const seenFormalIdentities = new Set<string>();
   let rowSeq = 0;
   // Pipeline mode latched from the 'synthesize-asset-packs'/'mode' store —
   // stamped onto subsequent rows (the processing indicator's 'While
@@ -408,6 +413,20 @@ export function buildPipelineRunActivityFromEvents(
 
     const kind = classifyFormalLogLine(payload);
     if (!kind) continue;
+
+    const formalIdentity = [
+      kind,
+      ns,
+      key,
+      nodeId,
+      payload?.executionState?.phase ?? payload?.data?.phase ?? rollingContext.phase ?? '',
+      payload?.executionState?.agent ?? payload?.data?.agent ?? rollingContext.agent ?? '',
+      payload?.executionState?.step ?? payload?.data?.step ?? rollingContext.step ?? '',
+      payload?.executionState?.generation ?? payload?.data?.generation ?? '',
+      payload?.executionState?.failsafe ?? payload?.data?.failsafe ?? '',
+    ].join('|');
+    if (seenFormalIdentities.has(formalIdentity)) continue;
+    seenFormalIdentities.add(formalIdentity);
 
     if (kind === 'llm') {
       // The LLM call carries the full hierarchy itself; fall back to the rolling

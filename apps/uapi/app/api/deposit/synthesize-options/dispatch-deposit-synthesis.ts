@@ -41,6 +41,7 @@ import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
+import { bridgeHostTelemetryArtifactToExecutionStream } from '@/lib/deposit-host-telemetry-bridge';
 
 const DEPOSIT_OPTION_KINDS = [
   'capability-slice',
@@ -224,19 +225,28 @@ export async function runDepositOptionSynthesis(
                 `sandbox: artifacts-read evidence=${event.evidencePresent ? 'yes' : 'no'} telemetry=${event.telemetryPresent ? 'yes' : 'no'}`,
               );
             } else if (event.type === 'telemetry-artifact-event') {
-              // Surface in-box pipeline progress when the runner writes telemetry.jsonl
-              const te = event.telemetryEvent as {
-                type?: string;
-                stage?: string;
-                message?: string;
-                error?: { message?: string };
-              } | null;
-              const kind = te?.type || 'event';
-              const stage = te?.stage ? ` stage=${te.stage}` : '';
-              const msg = te?.error?.message || te?.message;
-              void emitStatus(
-                `pipeline: ${kind}${stage}${msg ? ` — ${String(msg).slice(0, 280)}` : ''}`,
+              // Re-emit F19 formal rows + hierarchy context from telemetry.jsonl
+              // summaries. Do not flatten every line to a status string — that
+              // produced thousands of "telemetry-readback — xai" fragments and
+              // zero rich log rows (run 793f8be1).
+              const bridged = bridgeHostTelemetryArtifactToExecutionStream(
+                execution.id,
+                event.telemetryEvent,
               );
+              if (!bridged) {
+                // Only surface errors from lines we could not classify.
+                const te = event.telemetryEvent as {
+                  error?: { message?: string };
+                  message?: string;
+                  stage?: string;
+                } | null;
+                const errMsg = te?.error?.message;
+                if (errMsg) {
+                  void emitStatus(
+                    `pipeline: error${te?.stage ? ` stage=${te.stage}` : ''} — ${String(errMsg).slice(0, 280)}`,
+                  );
+                }
+              }
             } else if (event.type === 'sandbox-cancelled') {
               void emitStatus(`sandbox: cancelled ${event.reason || ''}`.trim());
             } else {

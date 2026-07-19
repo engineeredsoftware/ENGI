@@ -147,8 +147,11 @@ export function useDepositSynthesisActivity(input: {
     });
   }, [synthesisEvents, synthesisRunning, synthesisExecution]);
 
-  const synthesisLiveContext =
-    synthesisRunning && !synthesisError ? synthesisActivity.latestContext : null;
+  // Keep the last latched call-chain after complete/fail so the rich telemetry
+  // panel still shows Phase/Agent/Step when reviewing a finished run (F19 UX).
+  // Previously gated on synthesisRunning && !error, which wiped pills the moment
+  // a host timeout landed even though Setup/Discovery had progressed.
+  const synthesisLiveContext = synthesisActivity.latestContext;
 
   return {
     synthesisExecution,

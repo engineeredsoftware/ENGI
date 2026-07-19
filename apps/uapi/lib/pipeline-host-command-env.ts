@@ -84,6 +84,12 @@ export function selectedPipelineHostCommandEnvironment(
   env.BITCODE_PIPELINE_USER_ID = userId;
   env.BITCODE_PIPELINE_STREAM_TO_DATABASE = '1';
   env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
+  // Structured DB alone writes deliverable_pipeline_* tables. The deposit
+  // telemetry UI tails execution_events and only renders F19 formal rows
+  // (llm/output + tool result). Without legacy dual-write, sandbox deposit
+  // left execution_events as status-only spam and the UI showed "No logs
+  // available" despite healthy Setup/Discovery (run 793f8be1).
+  env.BITCODE_PIPELINE_LEGACY_EVENTS_DB = '1';
   // Inference is owned by the host/Pipeliner process. Product default is on
   // when unset; honor explicit opt-out (0/false/off) for unit tests.
   const realInferenceRaw = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
