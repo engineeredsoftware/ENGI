@@ -42,6 +42,10 @@ import {
   pickDepositSourceSamples,
 } from "@/lib/deposit-source-samples";
 import { bitcodeServerTelemetry } from "@/lib/bitcode-server-telemetry";
+import {
+  selectedPipelineHostCommandEnvironment,
+  summarizeSelectedLlmCredentials,
+} from "@/lib/pipeline-host-command-env";
 
 /**
  * Path/sample catalog for the depositor checkout (scope + prompts).
@@ -288,6 +292,10 @@ export async function runDepositInBoxHost(input: {
   branch: string | null;
   commit: string | null;
   token?: string;
+  /** Product user id for BITCODE_PIPELINE_USER_ID + DB streaming attribution. */
+  userId?: string;
+  /** Run id for BITCODE_PIPELINE_RUN_ID correlation. */
+  runId?: string;
   obfuscations: string | null;
   permissibleSources: string[];
   impermissibleSources: string[];
@@ -308,6 +316,17 @@ export async function runDepositInBoxHost(input: {
     token: input.token,
     root: "/vercel/sandbox",
   });
+  // Same trusted host env as /api/pipeline-host/asset-pack: LLM keys (XAI_*),
+  // Supabase streaming, real-inference defaults. Clone env overlays last so
+  // BITCODE_HOST_CLONE_* always wins for Setup in-box clone.
+  const trustedHostEnv = selectedPipelineHostCommandEnvironment(
+    input.userId || "deposit-anonymous",
+  );
+  const commandEnvironment: Record<string, string> = {
+    ...trustedHostEnv,
+    ...hostCloneEnv,
+    ...(input.runId ? { BITCODE_PIPELINE_RUN_ID: input.runId } : {}),
+  };
 
   const plan = buildAssetPackSandboxHostPlan({
     mode: "asset_pack_pipeline",
@@ -329,7 +348,7 @@ export async function runDepositInBoxHost(input: {
     },
     // Never pass source: git here — that clones outside the pipeline and failed
     // production runs with bad_request: git clone failed.
-    commandEnvironment: hostCloneEnv,
+    commandEnvironment,
     depositSteering: {
       obfuscations: input.obfuscations,
       permissibleSources: input.permissibleSources,
@@ -360,6 +379,8 @@ export async function runDepositInBoxHost(input: {
     cloneLocation: "setup-in-box" as const,
     hasHostCloneEnv: Boolean(hostCloneEnv.BITCODE_HOST_CLONE_URL),
     hasHostCloneToken: Boolean(input.token),
+    ...summarizeSelectedLlmCredentials(commandEnvironment),
+    realInference: commandEnvironment.BITCODE_ASSET_PACK_REAL_INFERENCE ?? null,
     synthesizeMode: plan.manifest.synthesizeMode ?? null,
     repositoryFullName: input.repositoryFullName,
     gitRevisionStrategy: clonePlan.strategy,

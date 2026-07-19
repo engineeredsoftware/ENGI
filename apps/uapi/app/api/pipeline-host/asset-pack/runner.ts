@@ -10,12 +10,11 @@ import {
   type PipelineHostMode,
 } from '@bitcode/pipeline-hosts';
 import {
-  assertDatabaseStreamingEnvironment,
-  assertRealInferenceEnvironment,
-  isEnabled,
-  isPipelineHostRealInferenceRequired,
+  selectedPipelineHostCommandEnvironment,
+  TRUSTED_PIPELINE_HOST_COMMAND_ENV_KEYS,
+} from '@/lib/pipeline-host-command-env';
+import {
   listSupabaseAdminCredentials,
-  normalizeModelEnvironment,
   selectSupabaseAdminCredential,
   summarizeHostPreflight,
   type PipelineHostPreflightBody,
@@ -54,50 +53,8 @@ export type HostRouteOptions = {
 const DEFAULT_READ_PROMPT =
   'Read the deposited repository revision and determine whether it contains a complete non-mock product path through Deposit, Read/Fit, AssetPack evidence, proof/finality readback, and Supabase/ledger reconciliation.';
 
-const TRUSTED_COMMAND_ENV_KEYS = [
-  // LLM provider credentials — must reach the sandbox; product defaults to xAI.
-  'XAI_API_KEY',
-  'GROK_API_KEY',
-  'OPENAI_API_KEY',
-  'OPENAI_BASE_URL',
-  'ANTHROPIC_API_KEY',
-  'GOOGLE_GENERATIVE_AI_API_KEY',
-  'GEMINI_API_KEY',
-  'GOOGLE_API_KEY',
-  'SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'SUPABASE_SECRET_KEY',
-  'SUPABASE_ADMIN_KEY',
-  'SUPABASE_ANON_KEY',
-  'SUPABASE_PUBLISHABLE_KEY',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
-  'BITCODE_LLM_PROVIDER',
-  'BITCODE_LLM_MODEL',
-  'BITCODE_ASSET_PACK_REAL_INFERENCE',
-  'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
-  'BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR',
-  'BITCODE_ASSET_PACK_COMPREHEND_READ_USE_PTRR',
-  'BITCODE_ASSET_PACK_DANGER_WALL_USE_PTRR',
-  'BITCODE_ASSET_PACK_DISCOVERY_USE_PTRR',
-  'BITCODE_ASSET_PACK_SYNTHESIS_USE_PTRR',
-  'BITCODE_ASSET_PACK_VALIDATION_USE_PTRR',
-  'BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR',
-  'BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR',
-  'BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR',
-  'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS',
-  'BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE',
-  'BITCODE_PIPELINE_BTC_NETWORK',
-  'BITCODE_PIPELINE_BTC_FEE_SATS',
-  'BITCODE_PIPELINE_DEPOSITOR_WALLET_ID',
-  'BITCODE_PIPELINE_READER_WALLET_ID',
-  'BITCODE_PIPELINE_WALLET_SESSION_ID',
-  'BITCODE_PIPELINE_BTD_VOLUME',
-] as const;
-
 const REDACTED_OUTPUT_ENV_KEYS = [
-  ...TRUSTED_COMMAND_ENV_KEYS,
+  ...TRUSTED_PIPELINE_HOST_COMMAND_ENV_KEYS,
   'BITCODE_SANDBOX_SOURCE_GIT_PASSWORD',
   'GITHUB_TOKEN',
   'GITHUB_PAT',
@@ -142,7 +99,7 @@ export async function runAssetPackHostRoute(
     });
 
     const commandEnvironment = {
-      ...selectedCommandEnvironment(userId),
+      ...selectedPipelineHostCommandEnvironment(userId),
       BITCODE_PIPELINE_RUN_ID: routeRunId,
     };
     if (options.validateDatabaseAccess !== false) {
@@ -232,53 +189,6 @@ function recordValue(value: unknown): Record<string, unknown> | null {
   return value && typeof value === 'object' && !Array.isArray(value)
     ? value as Record<string, unknown>
     : null;
-}
-
-function selectedCommandEnvironment(userId: string): Record<string, string> {
-  const env: Record<string, string> = {};
-  for (const key of TRUSTED_COMMAND_ENV_KEYS) {
-    const value = process.env[key];
-    if (typeof value === 'string' && value.length > 0) {
-      env[key] = value;
-    }
-  }
-
-  if (!env.SUPABASE_URL && env.NEXT_PUBLIC_SUPABASE_URL) {
-    env.SUPABASE_URL = env.NEXT_PUBLIC_SUPABASE_URL;
-  }
-
-  const serviceRole = selectSupabaseAdminCredential(process.env);
-  if (serviceRole) {
-    env.SUPABASE_SERVICE_ROLE_KEY = serviceRole;
-  }
-
-  env.BITCODE_PIPELINE_USER_ID = userId;
-  env.BITCODE_PIPELINE_STREAM_TO_DATABASE = '1';
-  env.BITCODE_PIPELINE_STRUCTURED_DB = '1';
-  // Inference is owned by the host/Pipeliner process. Product default is on
-  // when unset; honor explicit opt-out (0/false/off) for unit tests.
-  const realInferenceRaw = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
-  const realInferenceExplicitlyOff = ['0', 'false', 'no', 'off'].includes(
-    String(realInferenceRaw ?? '').trim().toLowerCase(),
-  );
-  if (realInferenceExplicitlyOff) {
-    env.BITCODE_ASSET_PACK_REAL_INFERENCE = String(realInferenceRaw).trim();
-  } else {
-    env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
-    env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE =
-      env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE ||
-      process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE ||
-      'bounded';
-  }
-  const realInferenceRequired = isPipelineHostRealInferenceRequired();
-  if (realInferenceRequired) {
-    env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE = '1';
-  }
-  assertDatabaseStreamingEnvironment(env, process.env);
-  normalizeModelEnvironment(env);
-  assertRealInferenceEnvironment(env);
-
-  return env;
 }
 
 async function assertSupabaseRestReadbackAccess(

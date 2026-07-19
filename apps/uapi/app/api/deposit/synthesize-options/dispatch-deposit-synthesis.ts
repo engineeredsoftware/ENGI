@@ -193,6 +193,8 @@ export async function runDepositOptionSynthesis(
           branch: sourceBranch,
           commit: sourceCommit,
           token: auth.accessToken,
+          userId,
+          runId,
           obfuscations,
           permissibleSources,
           impermissibleSources,

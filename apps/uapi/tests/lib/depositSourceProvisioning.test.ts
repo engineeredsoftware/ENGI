@@ -199,6 +199,71 @@ describe('buildDepositSandboxGitSource (diagnostic only)', () => {
 });
 
 describe('runDepositInBoxHost (#25)', () => {
+  const HOST_ENV_KEYS = [
+    'XAI_API_KEY',
+    'OPENAI_API_KEY',
+    'ANTHROPIC_API_KEY',
+    'BITCODE_LLM_PROVIDER',
+    'BITCODE_LLM_MODEL',
+    'BITCODE_ASSET_PACK_REAL_INFERENCE',
+    'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
+    'BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE',
+    'SUPABASE_URL',
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'SUPABASE_SERVICE_ROLE_KEY',
+    'SUPABASE_SECRET_KEY',
+    'SUPABASE_ADMIN_KEY',
+    'NODE_ENV',
+    'VERCEL',
+    'VERCEL_ENV',
+  ] as const;
+
+  const originalHostEnv = Object.fromEntries(
+    HOST_ENV_KEYS.map((key) => [key, process.env[key]]),
+  ) as Record<(typeof HOST_ENV_KEYS)[number], string | undefined>;
+
+  function restoreHostEnv() {
+    for (const key of HOST_ENV_KEYS) {
+      const value = originalHostEnv[key];
+      if (value === undefined) {
+        delete process.env[key];
+      } else {
+        process.env[key] = value;
+      }
+    }
+  }
+
+  /** Minimal JWT-shaped service role so selectSupabaseAdminCredential admits it. */
+  function fakeServiceRoleJwt() {
+    return [
+      Buffer.from(JSON.stringify({ alg: 'none', typ: 'JWT' })).toString('base64url'),
+      Buffer.from(JSON.stringify({ role: 'service_role', ref: 'deposit-test' })).toString('base64url'),
+      'deposit-test-signature',
+    ].join('.');
+  }
+
+  beforeEach(() => {
+    restoreHostEnv();
+    delete process.env.VERCEL;
+    delete process.env.VERCEL_ENV;
+    process.env.NODE_ENV = 'development';
+    process.env.SUPABASE_URL = 'https://staging.example.test';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = fakeServiceRoleJwt();
+    process.env.XAI_API_KEY = 'xai-deposit-test-credential-value';
+    delete process.env.OPENAI_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
+    delete process.env.BITCODE_LLM_PROVIDER;
+    delete process.env.BITCODE_LLM_MODEL;
+    // Product default is real inference on when unset; clear host opt-outs from local env.
+    delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+    delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE;
+    delete process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE;
+  });
+
+  afterEach(() => {
+    restoreHostEnv();
+  });
+
   it('dispatches deposit host with image-only create + in-box clone env (Host law)', async () => {
     let receivedPlan: any;
     const fakeHost = {
@@ -220,7 +285,10 @@ describe('runDepositInBoxHost (#25)', () => {
       branch: 'main',
       commit: 'abc123def456',
       token: 'ghs_tok',
+      userId: 'user-deposit-test',
+      runId: 'run-deposit-test',
       obfuscations: 'hide internal names',
+      permissibleSources: [],
       impermissibleSources: ['secret/'],
       demandContext: ['auth'],
       hostFactory: async () => fakeHost,
@@ -240,6 +308,14 @@ describe('runDepositInBoxHost (#25)', () => {
       BITCODE_HOST_CLONE_COMMIT: 'abc123def456',
       BITCODE_HOST_CLONE_USERNAME: 'x-access-token',
       BITCODE_HOST_CLONE_PASSWORD: 'ghs_tok',
+    });
+    // Trusted host env (same as asset-pack runner) must reach the box — not clone-only.
+    expect(receivedPlan.createOptions.env).toMatchObject({
+      XAI_API_KEY: 'xai-deposit-test-credential-value',
+      BITCODE_LLM_PROVIDER: 'xai',
+      BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
+      BITCODE_PIPELINE_USER_ID: 'user-deposit-test',
+      BITCODE_PIPELINE_RUN_ID: 'run-deposit-test',
     });
     expect(receivedPlan.manifest.sourceRevision).toMatchObject({
       branch: 'main',
@@ -281,6 +357,7 @@ describe('runDepositInBoxHost (#25)', () => {
         branch: 'main',
         commit: null,
         obfuscations: null,
+        permissibleSources: [],
         impermissibleSources: [],
         demandContext: [],
         hostFactory: async () => fakeHost,
@@ -306,6 +383,7 @@ describe('runDepositInBoxHost (#25)', () => {
         branch: 'main',
         commit: null,
         obfuscations: null,
+        permissibleSources: [],
         impermissibleSources: [],
         demandContext: [],
         hostFactory: async () => fakeHost,
