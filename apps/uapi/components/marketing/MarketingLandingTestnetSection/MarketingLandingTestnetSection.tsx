@@ -40,12 +40,11 @@ const TITLE_HIGHLIGHT_CLASS: Record<'green' | 'orange', string> = {
 };
 
 /**
- * Code side (2 marks) larger than each chain mark; chain triangle keeps a
- * full optical size (do not shrink below the prior solo-mark half-size).
- * Cluster uses the empty left of the card corner rather than compressing 3-side.
+ * Code side (2 marks) fills the open corner left of the exchange glyph —
+ * substantially larger than the 3-chain triangle (left unchanged).
  */
 const CODE_MARK_SLOT =
-  'inline-flex h-11 w-11 shrink-0 items-center justify-center phone:h-12 phone:w-12';
+  'inline-flex h-14 w-14 shrink-0 items-center justify-center phone:h-16 phone:w-16';
 /**
  * Equal square slots for BTC / ETH / SOL.
  * Brand SVGs have very different frames (BTC logo has large empty margin;
@@ -133,24 +132,24 @@ export function MarketingLandingTestnetSection() {
           aria-hidden="true"
           title="Code for Coin exchange"
         >
-          {/* Bitcode side — currency C + AssetPack (larger; 2-size > 3-size). */}
-          <span className="inline-flex items-center gap-1 phone:gap-1.5">
+          {/* Bitcode side — C + AssetPack fill open space left of ⇄ (chain side unchanged). */}
+          <span className="inline-flex items-center gap-1.5 phone:gap-2">
             <span
-              className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.85))_drop-shadow(0_0_20px_rgba(52,211,153,0.5))]`}
+              className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
             >
               <Logo
-                height="h-11 phone:h-12"
-                width="w-11 phone:w-12"
+                height="h-14 phone:h-16"
+                width="w-14 phone:w-16"
                 fill="#65FEB7"
                 className="opacity-95"
               />
             </span>
             <span
-              className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.85))_drop-shadow(0_0_20px_rgba(52,211,153,0.5))]`}
+              className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
             >
               <AssetPackMark
-                height="h-11 phone:h-12"
-                width="w-11 phone:w-12"
+                height="h-14 phone:h-16"
+                width="w-14 phone:w-16"
                 className="opacity-95"
                 title={null}
               />
@@ -209,7 +208,7 @@ export function MarketingLandingTestnetSection() {
             </span>
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-2 pr-52 phone:pr-60">
+        <div className="flex flex-wrap items-center gap-2 pr-56 phone:pr-72">
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
             {copy.badge}
           </span>
