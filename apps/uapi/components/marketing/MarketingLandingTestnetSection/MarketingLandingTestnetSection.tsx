@@ -40,13 +40,14 @@ const TITLE_HIGHLIGHT_CLASS: Record<'green' | 'orange', string> = {
 };
 
 /**
- * Code side has 2 marks → larger each (2-size > 3-size).
- * Coin/chain side has 3 marks → smaller so the triangle stays compact.
+ * Code side (2 marks) larger than each chain mark; chain triangle keeps a
+ * full optical size (do not shrink below the prior solo-mark half-size).
+ * Cluster uses the empty left of the card corner rather than compressing 3-side.
  */
 const CODE_MARK_SLOT =
-  'inline-flex h-10 w-10 shrink-0 items-center justify-center phone:h-11 phone:w-11';
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center phone:h-12 phone:w-12';
 const CHAIN_MARK_SLOT =
-  'inline-flex h-6 w-6 shrink-0 items-center justify-center phone:h-7 phone:w-7';
+  'inline-flex h-8 w-8 shrink-0 items-center justify-center phone:h-9 phone:w-9';
 
 const FLOW_ICONS = {
   website: ComputerDesktopIcon,
@@ -113,18 +114,18 @@ export function MarketingLandingTestnetSection() {
           prior solo mark). Right: BTC / ETH / SOL triangle with brand-matched glows.
         */}
         <div
-          className="pointer-events-none absolute right-2 top-2 z-10 inline-flex items-center gap-1.5 phone:right-3 phone:top-3 phone:gap-2"
+          className="pointer-events-none absolute right-1.5 top-1.5 z-10 inline-flex items-center gap-2 phone:right-2.5 phone:top-2.5 phone:gap-2.5"
           aria-hidden="true"
           title="Code for Coin exchange"
         >
           {/* Bitcode side — currency C + AssetPack (larger; 2-size > 3-size). */}
-          <span className="inline-flex items-center gap-0.5 phone:gap-1">
+          <span className="inline-flex items-center gap-1 phone:gap-1.5">
             <span
               className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.85))_drop-shadow(0_0_20px_rgba(52,211,153,0.5))]`}
             >
               <Logo
-                height="h-10 phone:h-11"
-                width="w-10 phone:w-11"
+                height="h-11 phone:h-12"
+                width="w-11 phone:w-12"
                 fill="#65FEB7"
                 className="opacity-95"
               />
@@ -133,8 +134,8 @@ export function MarketingLandingTestnetSection() {
               className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_10px_rgba(103,254,183,0.85))_drop-shadow(0_0_20px_rgba(52,211,153,0.5))]`}
             >
               <AssetPackMark
-                height="h-10 phone:h-11"
-                width="w-10 phone:w-11"
+                height="h-11 phone:h-12"
+                width="w-11 phone:w-12"
                 className="opacity-95"
                 title={null}
               />
@@ -143,22 +144,22 @@ export function MarketingLandingTestnetSection() {
           {/* Purple exchange glyph — glow outside the stroke. */}
           <span className="inline-flex shrink-0 items-center justify-center [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.85))_drop-shadow(0_0_18px_rgba(192,132,252,0.55))]">
             <ArrowsRightLeftIcon
-              className="h-6 w-6 text-fuchsia-300 phone:h-7 phone:w-7"
+              className="h-7 w-7 text-fuchsia-300 phone:h-8 phone:w-8"
               strokeWidth={2}
             />
           </span>
           {/*
-            Settlement side — smaller triangle of chain money icons:
+            Settlement side — full-size triangle (not shrunk for space):
                  BTC
               ETH   SOL
             Shadows tinted to each logo’s brand color.
           */}
-          <span className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-0.5 gap-y-0.5">
+          <span className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1 gap-y-0.5">
             <span
               className={`${CHAIN_MARK_SLOT} col-span-2 justify-self-center [filter:drop-shadow(0_0_8px_rgba(251,146,60,0.85))_drop-shadow(0_0_16px_rgba(251,191,36,0.5))]`}
             >
               <span
-                className="inline-block h-6 w-6 origin-center scale-[1.28] bg-orange-300 phone:h-7 phone:w-7"
+                className="inline-block h-8 w-8 origin-center scale-[1.28] bg-orange-300 phone:h-9 phone:w-9"
                 style={{
                   maskImage: 'url(/bitcoin-logo.svg)',
                   WebkitMaskImage: 'url(/bitcoin-logo.svg)',
@@ -175,7 +176,7 @@ export function MarketingLandingTestnetSection() {
               <img
                 src="/ethereum-logo.svg"
                 alt=""
-                className="h-6 w-6 object-contain phone:h-7 phone:w-7"
+                className="h-8 w-8 object-contain phone:h-9 phone:w-9"
                 draggable={false}
               />
             </span>
@@ -186,13 +187,13 @@ export function MarketingLandingTestnetSection() {
               <img
                 src="/solana-logo.svg"
                 alt=""
-                className="h-5 w-6 object-contain phone:h-6 phone:w-7"
+                className="h-7 w-8 object-contain phone:h-8 phone:w-9"
                 draggable={false}
               />
             </span>
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-2 pr-44 phone:pr-52">
+        <div className="flex flex-wrap items-center gap-2 pr-52 phone:pr-60">
           <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
             {copy.badge}
           </span>
