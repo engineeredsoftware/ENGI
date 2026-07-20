@@ -86,3 +86,47 @@ Page shell: `apps/uapi/app/deposits/` (metadata + client mount only). App shims 
 - **Pipeline** for run surfaces (master table, telemetry log).
 - **Journal** for BTD ledger vocabulary.
 - No product surface.
+
+## Product terminal vs stream telemetry (do not regress)
+
+Deposit option cards hydrate from **`output.depositOptionSynthesis`** on the
+`executions` row (and/or the **product** completion SSE payload that carries
+the same envelope). They must **not** treat arbitrary stream `type: completion`
+as “options ready.”
+
+| Signal | Meaning | Options ready? |
+| --- | --- | --- |
+| SDIVF Finish agent store `finish` / `completion` | In-pipeline Finish artifact (cleanup / selection envelope in execution tree) | **No** — still mid-product-run |
+| Stream event inferred from `key === 'completion'` | **Illegal as terminal** (was a bug: closed UI too early) | **No** |
+| Row `status: completed` + `output.depositOptionSynthesis` | Dispatch finished host → built options → **finalized row** | **Yes** |
+| SSE `type: completion` with `depositOptionsReady: true` + `depositOptionSynthesis` | Product close after finalize (same data as row write) | **Yes** |
+
+### Correct order (dispatch)
+
+```
+SDIVF Finish (host) → raw options
+  → buildRealDepositAssetPackOptionSynthesis
+  → finalizeExecutionRow({ status, output: { depositOptionSynthesis, … } })
+  → emitEvent(completion, { depositOptionsReady, depositOptionSynthesis, … })
+  → UI renders cards from event payload and/or row.output
+```
+
+### Client hydrate order (`use-deposit-synthesis-lifecycle`)
+
+1. `synthesisExecution.output.depositOptionSynthesis` (history already loaded)
+2. Product completion event payload (`depositOptionsReady` / envelope)
+3. History GET with short retry — **fallback only**, not the contract
+
+### Stream adapter law
+
+`ExecutionStreamAdapter.inferEventType`: do **not** map bare `key === 'completion'`
+to terminal `completion`. Only `namespace === 'final'` (store path) or an
+explicit `emitEvent(..., 'completion')` from the product route. See
+`packages/execution-generics/src/storage/ExecutionStreamAdapter.ts` and
+`.docs/ASSET_PACKS.md` § Finish vs product close.
+
+### Symptom of regressing this
+
+Telemetry shows Finish / READY TO FINISH, then banner
+**“Synthesized options were not found for this run”** while DB already has
+options — false fail from early stream terminal + premature hydrate.

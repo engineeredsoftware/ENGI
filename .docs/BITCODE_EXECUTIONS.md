@@ -52,3 +52,22 @@ Operators should be able to:
 - Replace pre-Finish labels with Finish and delivery-mechanism labels.
 - Keep computer-use hidden unless the server admits it internally for Read measurement.
 - Ensure all execution UI reads from the same Exchange activity model as `/packs`.
+
+## Stream telemetry vs product terminal (synthesis runs)
+
+Pipeline SSE is **progress telemetry**, not the product close signal by itself.
+
+1. **In-band Finish** — SDIVF may store `finish/completion` (and similar keys)
+   while the host run is still owned by the route dispatcher. Those stores must
+   stream as ordinary status/progress events, **not** as terminal `completion`.
+2. **Product terminal** — After the route persists commercial output
+   (`depositOptionSynthesis` / read equivalent), it emits an explicit
+   `completion` event (e.g. `depositOptionsReady: true` + envelope). That is
+   when UIs may treat the run as closed for option cards.
+3. **Hydrate order** — Prefer `executions.output` or the product completion
+   payload; do not fail-closed on the first empty history read just because a
+   Finish-shaped stream event arrived. See deposits README and
+   `ASSET_PACKS.md` §8.3.
+
+**Regress symptom:** Finish / READY TO FINISH in the log, then false
+“Synthesized options were not found” while the row already has options.

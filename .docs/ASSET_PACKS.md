@@ -526,6 +526,15 @@ Presentation envelope for UI selection:
 
 Plus `finish:completion` (cleanup posture: Host dispose owned by **dispatch** after Finish).
 
+**Critical distinction — Finish store ≠ product close (do not regress):**
+
+| Layer | What happens | Stream / UI meaning |
+| --- | --- | --- |
+| **SDIVF Finish** | Agents store selection envelope + `finish/completion` artifact on the execution tree | Telemetry may show Finish / READY TO FINISH; **not** product-ready options on `/deposits` |
+| **Dispatch close** | Route builds `depositOptionSynthesis`, **`finalizeExecutionRow`** writes `executions.output`, **then** emits SSE `completion` with `depositOptionsReady` + envelope | **Only then** may the UI hydrate option cards |
+
+Never map execution **store** keys named `completion` (e.g. `finish`/`completion`) to stream type `completion` — that closes the client tail and hydrates before the row write (false “options not found”). Terminal product completion is **route-owned** `emitEvent(..., 'completion')` after finalize, or store namespace `final` only. Client hydrate order: row/event payload first; history GET retry is fallback. Law + UI map: `apps/uapi/components/deposits/README.md` § Product terminal vs stream telemetry.
+
 ### 8.4 What is ultimately stored / shipped / journaled
 
 | Layer | What |
