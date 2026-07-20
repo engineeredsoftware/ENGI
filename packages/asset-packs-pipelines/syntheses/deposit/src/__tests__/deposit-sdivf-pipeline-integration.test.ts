@@ -8,7 +8,7 @@
  * provider inference. Pins:
  *   - Setup → Discovery → Implementation → Validation → Finish all execute
  *   - implementation:options is produced on the shared execution
- *   - Validation attaches formal absolutes (deterministic measure path)
+ *   - Implementation attaches formal absolutes (deterministic measure path)
  *   - Finish records the upload-for-review artifact
  *
  * Clone/MCP setup agents that need live VCS are stubbed so the suite stays offline.
@@ -202,7 +202,7 @@ describe('deposit SDIVF pipeline integration (boundary-mocked LLMs)', () => {
       expect(options[0].title).toMatch(/auth/i);
       expect(options[0].patch?.fileChanges?.length).toBeGreaterThan(0);
 
-      // Validation measure-agent attaches formal absolutes in place (nested kinds).
+      // Implementation measure path attaches formal absolutes in place (nested kinds).
       const absolutes =
         options[0].measurements?.absolutes ?? options[0].absolutes ?? [];
       expect(Array.isArray(absolutes)).toBe(true);

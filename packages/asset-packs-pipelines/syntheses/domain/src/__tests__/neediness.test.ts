@@ -37,7 +37,7 @@ describe('neediness (deposit preview of read Need-fit, v0)', () => {
   });
 
   it('attaches neediness to deposit candidates and omits it for read', () => {
-    // Gate 3 Validation attaches formal absolutes; the validator fails closed without them.
+    // Gate 3 Implementation attaches formal absolutes; the projector fails closed without them.
     const formalAbsolutes = [
       {
         measurementKind: 'function-count',

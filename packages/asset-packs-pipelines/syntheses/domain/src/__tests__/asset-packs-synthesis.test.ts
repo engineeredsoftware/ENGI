@@ -255,7 +255,7 @@ describe('deposit lens adapter', () => {
           measurements: { 'source-coverage': 0.6, 'demand-alignment': 0.7, 'reuse-likelihood': 0.5 },
           measurementRationale: 'Covers the auth path.',
           confidence: 0.8,
-          // Formal absolutes (Validation measure-agent) are required — no
+          // Formal absolutes (Implementation measure path) are required — no
           // placeholder catalog fallback on the product projection path.
           absolutes: [
             {

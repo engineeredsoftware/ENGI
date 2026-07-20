@@ -150,7 +150,9 @@ describe('validateDepositSynthesisOptions absolutes wiring', () => {
     const out = validateDepositSynthesisOptions([baseOption], context);
     expect(out.candidates).toHaveLength(0);
     expect(out.droppedCandidateCount).toBe(1);
-    expect(out.exclusionViolations[0]).toMatch(/missing formal absolute measurements/i);
+    expect(out.exclusionViolations[0]).toMatch(
+      /missing formal absolute measurements \(Implementation measure path\)/i,
+    );
   });
 
   it('accepts formal absolutes nested under measurements.absolutes (Finish selectionEnvelope)', () => {

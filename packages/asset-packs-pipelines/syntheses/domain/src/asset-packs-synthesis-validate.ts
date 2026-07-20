@@ -48,9 +48,13 @@ export function assertSourceSafeCandidates(
 }
 
 /**
- * Validate raw synthesized candidate options into source-safe AssetPackCandidates.
- * Prefer formal absolutes from Validation; never silently project legacy
- * DEPOSIT_MEASUREMENT_CATALOG placeholders onto deposit cards.
+ * Fail-closed product projection of raw synthesized options into AssetPackCandidates.
+ *
+ * Formal absolute measurements are produced at the end of **Implementation**
+ * (measure-agent / measure-absolutes path) — not by Validation. Validation
+ * only gates readiness; this function is the route-side projection check.
+ * Prefer formal absolutes; never silently project legacy DEPOSIT_MEASUREMENT_CATALOG
+ * placeholders onto deposit cards.
  */
 export function validateDepositSynthesisOptions(
   rawOptions: DepositSynthesisRawOption[],
@@ -81,9 +85,9 @@ export function validateDepositSynthesisOptions(
       );
       continue;
     }
-    // Formal absolutes may sit at option.absolutes (Validation measure-agent)
-    // or nested under measurements.absolutes (Finish selectionEnvelope product
-    // shape — run 36858f68 dropped 3 measured packs by reading only top-level).
+    // Formal absolutes from Implementation measure path: top-level option.absolutes
+    // or nested measurements.absolutes (Finish selectionEnvelope product shape —
+    // run 36858f68 dropped 3 measured packs by reading only top-level).
     const nestedAbsolutes =
       option.measurements &&
       typeof option.measurements === 'object' &&
@@ -100,7 +104,7 @@ export function validateDepositSynthesisOptions(
           : null;
     if (!formalAbsolutes || formalAbsolutes.length === 0) {
       exclusionViolations.push(
-        `${option.title}: missing formal absolute measurements (Validation measure-agent)`,
+        `${option.title}: missing formal absolute measurements (Implementation measure path)`,
       );
       continue;
     }

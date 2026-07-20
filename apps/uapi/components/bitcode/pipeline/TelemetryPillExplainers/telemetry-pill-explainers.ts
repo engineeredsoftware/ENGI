@@ -190,9 +190,9 @@ const PHASE_SPECIFICS: Record<string, ModeVariants> = {
   },
   validation: {
     deposit:
-      "Validation Phase validates the candidates fail-closed (quality, distinctness, source-safety, obfuscation compliance), measures each pack's absolutes, and gates ready-to-finish.",
-    read: 'Validation Phase checks the synthesized artifacts and measures the absolutes before finish.',
-    any: 'Validation Phase checks the synthesized artifacts and measures the absolutes before finish.',
+      "Validation Phase validates candidates fail-closed (quality, distinctness, source-safety, obfuscation compliance) and gates ready-to-finish. Absolute measurements are produced at the end of Implementation, not here.",
+    read: 'Validation Phase checks the synthesized artifacts and gates ready-to-finish (absolutes were measured in Implementation).',
+    any: 'Validation Phase checks synthesized artifacts and gates ready-to-finish; absolute measurements belong to Implementation.',
   },
   finish: {
     deposit:

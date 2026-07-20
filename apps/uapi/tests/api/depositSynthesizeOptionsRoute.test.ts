@@ -124,7 +124,7 @@ const RAW_OPTIONS = [
     summary:
       'A source-safe slice describing the demo application capability, its entry points, and operational behavior for future reading demand.',
     coveredSourcePaths: ['README.md', 'src/app.py'],
-    // Formal absolutes (Validation measure-agent) are required by product projection.
+    // Formal absolutes (Implementation measure path) are required by product projection.
     absolutes: [
       {
         measurementKind: 'function-count',

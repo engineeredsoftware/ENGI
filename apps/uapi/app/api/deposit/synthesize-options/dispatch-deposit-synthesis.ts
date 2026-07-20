@@ -514,7 +514,7 @@ export async function runDepositOptionSynthesis(
       const detail =
         result.exclusionViolations.length > 0
           ? result.exclusionViolations.slice(0, 5).join('; ')
-          : 'no admissible measured candidates survived Validation absolutes / source-safety checks';
+          : 'no admissible measured candidates survived Implementation absolutes / source-safety projection checks';
       throw new Error(
         `AssetPacksSynthesis produced zero admissible options (fail-closed): ${detail}`,
       );

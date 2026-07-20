@@ -170,7 +170,7 @@ export interface DepositSynthesisRawOption {
     | null;
   measurementRationale?: string;
   confidence: number;
-  /** Formal absolutes from Validation measure-agent (preferred over measurements). */
+  /** Formal absolutes from Implementation measure path (preferred over scalar measurements). */
   absolutes?: AssetPackCandidateMeasurement[] | null;
   patch?: {
     fileChanges?: Array<{ path?: unknown; op?: unknown }>;
