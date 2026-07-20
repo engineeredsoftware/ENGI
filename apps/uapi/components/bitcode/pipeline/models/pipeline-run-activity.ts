@@ -531,16 +531,27 @@ export function buildPipelineRunActivityFromEvents(
     let resolvedToolName = '';
     if (kind === 'tool') {
       const acc = toolByNode.get(nodeId) || {};
-      const nodeToolSegment = nodeId
-        .split('/')
+      const pathSegments = Array.isArray(payload?.executionPath)
+        ? payload.executionPath.map((s: unknown) => String(s || ''))
+        : [];
+      const nodeToolSegment = [...pathSegments, ...nodeId.split('/')]
         .reverse()
-        .find((segment) => segment.startsWith('tool:'));
-      const toolNameFromNode = nodeToolSegment ? nodeToolSegment.slice('tool:'.length) : '';
+        .find((segment) => String(segment).startsWith('tool:') && String(segment).length > 5);
+      const toolNameFromNode = nodeToolSegment
+        ? String(nodeToolSegment).slice('tool:'.length)
+        : '';
+      const ownState =
+        payload?.executionState && typeof payload.executionState === 'object'
+          ? (payload.executionState as Record<string, unknown>)
+          : null;
       resolvedToolName = String(
         toolNameFromNode ||
           acc.name ||
-          payload?.data?.tool ||
-          payload?.metadata?.toolName ||
+          (typeof payload?.data?.tool === 'string' && payload.data.tool) ||
+          (typeof payload?.data?.toolName === 'string' && payload.data.toolName) ||
+          (typeof payload?.metadata?.toolName === 'string' && payload.metadata.toolName) ||
+          (typeof ownState?.tool === 'string' && ownState.tool) ||
+          (typeof payload?.tool === 'string' && payload.tool) ||
           (key === 'error' ? 'tool (failed)' : 'tool'),
       );
     }

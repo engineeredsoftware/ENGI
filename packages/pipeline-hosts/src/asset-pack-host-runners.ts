@@ -319,6 +319,22 @@ function summarizeExecutionNode(node, depth = 0) {
   };
 }
 
+/** Resolve tool constructor name from path / node id (`tool:Name` segment). */
+function toolNameFromExecutionPath(event) {
+  const segments = [
+    ...(Array.isArray(event?.executionPath) ? event.executionPath : []),
+    typeof event?.executionNodeId === 'string' ? event.executionNodeId : '',
+  ];
+  for (let i = segments.length - 1; i >= 0; i -= 1) {
+    const segment = String(segments[i] || '');
+    const leaf = segment.includes('/')
+      ? segment.split('/').filter(Boolean).pop() || segment
+      : segment;
+    if (leaf.startsWith('tool:') && leaf.length > 5) return leaf.slice(5);
+  }
+  return '';
+}
+
 function summarizeStreamEvent(event) {
   const data = event?.data && typeof event.data === 'object' && !Array.isArray(event.data)
     ? event.data
@@ -342,6 +358,18 @@ function summarizeStreamEvent(event) {
         },
       })
     : null;
+  const toolFromPath = toolNameFromExecutionPath(event);
+  const toolFromData =
+    (data && typeof data.tool === 'string' && data.tool) ||
+    (typeof event?.data === 'string' && event.namespace === 'tool' && event.key === 'name'
+      ? event.data
+      : null) ||
+    null;
+  const toolName =
+    toolFromData ||
+    (readingPipelineTelemetry?.toolId ? String(readingPipelineTelemetry.toolId) : null) ||
+    toolFromPath ||
+    null;
   return {
     type: 'pipeline-stream-event',
     stage: stageForStreamEvent(event),
@@ -349,10 +377,11 @@ function summarizeStreamEvent(event) {
     namespace: event?.namespace || null,
     key: event?.key || null,
     executionPath: Array.isArray(event?.executionPath) ? event.executionPath : [],
+    executionNodeId: event?.executionNodeId || null,
     executionState: event?.executionState || null,
     message: event?.message || null,
     dataKeys: data ? Object.keys(data).sort() : [],
-    tool: data?.tool ? String(data.tool) : null,
+    tool: toolName,
     toolOk: typeof data?.ok === 'boolean' ? data.ok : null,
     toolInputPresent: Boolean(data?.input),
     toolOutputPresent: Boolean(data?.output),

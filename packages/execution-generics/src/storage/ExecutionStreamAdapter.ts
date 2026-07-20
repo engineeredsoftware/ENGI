@@ -232,6 +232,7 @@ export class ExecutionStreamAdapter {
     // input/output when already redacted) so structured deliverable rows and
     // sourceSafeStreamEvent can still attribute the call without leaking
     // verbatim args/results.
+    const toolStub = this.extractToolMetadataStub(namespace, value, nodeInfo);
     const streamData = contentBearing
       ? {
           contentWithheld: true,
@@ -240,9 +241,25 @@ export class ExecutionStreamAdapter {
           namespace,
           contentChars: this.estimateSerializedChars(value),
           ...this.extractExecutionState(value),
-          ...this.extractToolMetadataStub(namespace, value),
+          ...toolStub,
         }
-      : this.sanitizeData(value);
+      : (() => {
+          const sanitized = this.sanitizeData(value);
+          // Surface tool name on non-content stores (tool/name string) for UI titles.
+          if (toolStub.tool && (typeof sanitized !== 'object' || sanitized === null)) {
+            return { tool: toolStub.tool, value: sanitized };
+          }
+          if (
+            toolStub.tool &&
+            sanitized &&
+            typeof sanitized === 'object' &&
+            !Array.isArray(sanitized) &&
+            !(sanitized as Record<string, unknown>).tool
+          ) {
+            return { ...(sanitized as Record<string, unknown>), tool: toolStub.tool };
+          }
+          return sanitized;
+        })();
 
     // Build stream message
     const message = {
@@ -293,10 +310,13 @@ export class ExecutionStreamAdapter {
       if (key === 'complete') return ExecutionStreamEventType.AGENT_COMPLETE;
     }
 
-    // Tool usage: prefer 'result' as primary event; treat 'invocation' as status
-    if (namespace === 'tools') {
-      if (key === 'result') return ExecutionStreamEventType.TOOL_USE;
-      if (key === 'invocation') return ExecutionStreamEventType.STATUS;
+    // Tool usage: prefer 'result' as primary event; treat 'invocation'/'name' as status.
+    // Pipeline tools store under namespace `tool` (singular); agent path uses `tools`.
+    if (namespace === 'tools' || namespace === 'tool') {
+      if (key === 'result' || key === 'error') return ExecutionStreamEventType.TOOL_USE;
+      if (key === 'invocation' || key === 'name' || key === 'input') {
+        return ExecutionStreamEventType.STATUS;
+      }
       return ExecutionStreamEventType.STATUS;
     }
 
@@ -359,12 +379,31 @@ export class ExecutionStreamAdapter {
    * Tool metadata that may ride on a content-withheld stream stub.
    * Prefer already shape-redacted input/output; otherwise omit payloads.
    */
+  /** Prefer `tool:ToolName` segment on the execution path / node id. */
+  private static toolNameFromNodeInfo(nodeInfo?: {
+    nodeId?: string;
+    path?: string[];
+  }): string {
+    const segments = [
+      ...(Array.isArray(nodeInfo?.path) ? nodeInfo!.path! : []),
+      typeof nodeInfo?.nodeId === 'string' ? nodeInfo.nodeId : '',
+    ];
+    for (let i = segments.length - 1; i >= 0; i -= 1) {
+      const segment = String(segments[i] || '');
+      const leaf = segment.includes('/')
+        ? segment.split('/').filter(Boolean).pop() || segment
+        : segment;
+      if (leaf.startsWith('tool:') && leaf.length > 5) return leaf.slice(5);
+    }
+    return '';
+  }
+
   private static extractToolMetadataStub(
     namespace: string,
     value: any,
+    nodeInfo?: { nodeId?: string; path?: string[] },
   ): Record<string, unknown> {
     if (namespace !== 'tools' && namespace !== 'tool') return {};
-    if (!value || typeof value !== 'object') return {};
 
     const isShapeOnly = (payload: unknown): payload is Record<string, unknown> => {
       if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return false;
@@ -377,17 +416,25 @@ export class ExecutionStreamAdapter {
     };
 
     const stub: Record<string, unknown> = {};
-    if (typeof value.tool === 'string') stub.tool = value.tool;
-    if (typeof value.ok === 'boolean') stub.ok = value.ok;
-    if (isShapeOnly(value.input)) stub.input = value.input;
-    if (isShapeOnly(value.output)) stub.output = value.output;
-    if (value.error != null && typeof value.error !== 'object') {
-      stub.error = String(value.error);
-    } else if (value.error && typeof value.error === 'object') {
-      const err = value.error as Record<string, unknown>;
-      stub.error =
-        typeof err.message === 'string' ? { message: err.message } : { message: 'tool error' };
+    const fromNode = this.toolNameFromNodeInfo(nodeInfo);
+    if (typeof value === 'string' && value.trim() && (namespace === 'tool' || namespace === 'tools')) {
+      // `tool`/`name` stores are plain strings of the constructor name.
+      if (!stub.tool) stub.tool = value.trim();
     }
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      if (typeof value.tool === 'string') stub.tool = value.tool;
+      if (typeof value.ok === 'boolean') stub.ok = value.ok;
+      if (isShapeOnly(value.input)) stub.input = value.input;
+      if (isShapeOnly(value.output)) stub.output = value.output;
+      if (value.error != null && typeof value.error !== 'object') {
+        stub.error = String(value.error);
+      } else if (value.error && typeof value.error === 'object') {
+        const err = value.error as Record<string, unknown>;
+        stub.error =
+          typeof err.message === 'string' ? { message: err.message } : { message: 'tool error' };
+      }
+    }
+    if (!stub.tool && fromNode) stub.tool = fromNode;
     return stub;
   }
 

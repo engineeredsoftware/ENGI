@@ -84,16 +84,47 @@ export function bridgeHostTelemetryArtifactToExecutionStream(
     ((ns === 'tool' || ns === 'tools') && (key === 'result' || key === 'error'))
   ) {
     const data = asRecord(te.data) || {};
+    // Prefer explicit tool fields, then tool:Name on path/node id (pipeline tools).
+    let toolName =
+      readString(te.tool) ||
+      readString(data.tool) ||
+      readString(data.toolName) ||
+      readString((te as { toolId?: unknown }).toolId) ||
+      '';
+    if (!toolName && Array.isArray(path)) {
+      for (let i = path.length - 1; i >= 0; i -= 1) {
+        const segment = String(path[i] || '');
+        const leaf = segment.includes('/')
+          ? segment.split('/').filter(Boolean).pop() || segment
+          : segment;
+        if (leaf.startsWith('tool:') && leaf.length > 5) {
+          toolName = leaf.slice(5);
+          break;
+        }
+      }
+    }
+    if (!toolName && nodeId) {
+      const leaf = nodeId.includes('/')
+        ? nodeId.split('/').filter(Boolean).pop() || nodeId
+        : nodeId;
+      if (leaf.startsWith('tool:') && leaf.length > 5) toolName = leaf.slice(5);
+    }
+    const title = toolName || (key === 'error' ? 'tool (failed)' : 'tool');
     void ExecutionStreamAdapter.emitEvent(executionId, 'tool-use' as never, {
       namespace: ns || 'tool',
       key: key || 'result',
-      message,
-      executionState: executionState || undefined,
+      // Product log title is the tool constructor name, not the word "tool".
+      message: title,
+      executionState: {
+        ...(executionState || {}),
+        ...(toolName ? { tool: toolName } : {}),
+      },
       executionPath: path,
       executionNodeId: nodeId,
+      metadata: toolName ? { toolName } : undefined,
       data: {
         ...data,
-        tool: readString(te.tool) || data.tool || null,
+        tool: toolName || data.tool || null,
         ok: typeof te.toolOk === 'boolean' ? te.toolOk : data.ok,
         contentWithheld: true,
         sourceSafetyClass: 'source_safe',

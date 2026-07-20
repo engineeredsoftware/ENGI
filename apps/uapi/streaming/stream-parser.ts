@@ -230,10 +230,18 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
           // Tool usage log: show tool name and context
           const ctx = data.executionState;
           const tag = formatExecutionTag(ctx);
-          const toolName = data.metadata?.toolName || 'tool';
+          const toolName =
+            data.metadata?.toolName ||
+            data.data?.tool ||
+            data.executionState?.tool ||
+            data.message ||
+            'tool';
           parsedData.text += `🛠 Tool Use: ${tag}${toolName}${data.detail ? ` (${toSingleLine(data.detail)})` : ''}\n`;
           parsedData.type = 'tool-use';
-          parsedData.executionState = ctx;
+          parsedData.executionState = {
+            ...(ctx && typeof ctx === 'object' ? ctx : {}),
+            ...(toolName && toolName !== 'tool' ? { tool: toolName } : {}),
+          };
           if (data.metadata) (parsedData as any).metadata = data.metadata;
           break;
         }

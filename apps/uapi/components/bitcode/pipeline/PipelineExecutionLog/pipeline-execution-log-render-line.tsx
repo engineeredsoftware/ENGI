@@ -155,7 +155,25 @@ export function renderLogLine(
     ? typeof logLine.tool === 'string'
       ? logLine.tool
       : logLine.tool.name || String(logLine.tool)
-    : null;
+    : typeof logLine.metadata?.toolName === 'string'
+      ? logLine.metadata.toolName
+      : typeof logLine.details?.data?.tool === 'string'
+        ? logLine.details.data.tool
+        : typeof logLine.details?.metadata?.toolName === 'string'
+          ? logLine.details.metadata.toolName
+          : null;
+  // Tool-use rows must title as the tool constructor name, never the bare word "tool".
+  const isGenericToolTitle =
+    !logLine.text ||
+    String(logLine.text).trim().toLowerCase() === 'tool' ||
+    String(logLine.text).trim().toLowerCase() === 'tool (failed)';
+  const displayTitle =
+    (logLine.type === 'tool-use' || Boolean(toolLabel)) &&
+    isGenericToolTitle &&
+    toolLabel &&
+    toolLabel.toLowerCase() !== 'tool'
+      ? toolLabel
+      : logLine.text;
   const rowMode = pipelineMode ?? (logLine.pipelineMode as SynthesisPipelineMode | undefined) ?? null;
   const rowIconExplainer = getTelemetryRowIconExplainer(
     logLine.type === 'tool-use' || logLine.tool ? 'tool' : 'llm',
@@ -250,10 +268,10 @@ export function renderLogLine(
           />
         )}
         <span
-          title={logLine.text}
+          title={displayTitle}
           className={`truncate min-w-0 text-[0.82rem] leading-none m-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
         >
-          {logLine.text}
+          {displayTitle}
         </span>
 
         {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
@@ -390,13 +408,13 @@ export function renderLogLine(
 
         {/* Desktop inline row */}
         <div className="hidden laptop:flex flex-1 items-center justify-between min-w-0">
-          {/* Main text */}
+          {/* Main text — tool-use titles prefer constructor name over bare "tool" */}
           <span
-            title={logLine.text}
+            title={displayTitle}
             className="select-text cursor-text truncate min-w-0 flex-1 pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
           >
             <Icon className="inline-block laptop:hidden w-4 h-4 text-current" />
-            {logLine.text}
+            {displayTitle}
           </span>
 
           {/* Meta cluster + timestamp: the pill row flows right of the title
@@ -444,10 +462,10 @@ export function renderLogLine(
             )}
 
             <span
-              title={logLine.text}
+              title={displayTitle}
               className={`text-xs font-medium truncate min-w-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
             >
-              {logLine.text}
+              {displayTitle}
             </span>
 
             {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}

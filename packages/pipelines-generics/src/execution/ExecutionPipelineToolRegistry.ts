@@ -57,7 +57,8 @@ export abstract class ExecutionTool<T extends (...args: any[]) => any = (...args
     try {
       const result = await this.use(...args);
       
-      // Track success
+      // Track success (raw result; tool name rides on the node id `tool:Name`
+      // and is lifted onto stream stubs by ExecutionStreamAdapter).
       toolExec.store('tool', 'result', result);
       toolExec.store('tool', 'status', 'success');
       toolExec.store('tool', 'endTime', Date.now());
