@@ -103,7 +103,9 @@ export function useDepositOptionActions(input: {
             : decision === "rejected-by-depositor"
               ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
               : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
-          selectAfterRecord: admitted,
+          // Stay on the synthesis detail so admitted cards disable in place;
+          // admission still lands in the ledger and /packs network query.
+          selectAfterRecord: false,
           output: {
             assetPackTitle: receipt.title,
             depositAdmission: nextSession.admission,
@@ -124,6 +126,7 @@ export function useDepositOptionActions(input: {
             packActivitySyncState: receipt.packsActivitySync.state,
             packActivityType: receipt.packsActivitySync.activityType,
             packsRoute: receipt.packsActivitySync.route,
+            synthesisRunId: depositRouteInput?.transactionId || null,
           },
         });
       } catch (error) {
@@ -212,33 +215,42 @@ export function useDepositOptionActions(input: {
     );
     if (admittedReceipts.length === 0) return;
 
+    // One ledger row per admitted option — /packs filters network scope on
+    // context.source=deposit-option-review-admission + admissionState=
+    // admitted-to-depository. A single "batch" source never appears there.
+    // Stay on the deposit-run detail (selectAfterRecord: false) so cards can
+    // flip to the admitted/disabled state without remounting another run.
     try {
-      await handleRecordActivity({
-        type: "pipeline:deposit-option-admission",
-        status: "completed",
-        summary: `Admitted ${admittedReceipts.length} AssetPack${
-          admittedReceipts.length === 1 ? "" : "s"
-        } to the Depository.`,
-        selectAfterRecord: true,
-        output: {
-          assetPackTitle: admittedReceipts
-            .map((entry) => entry.title)
-            .join("; "),
-          depositAdmission: nextSession.admission,
-          admittedCount: admittedReceipts.length,
-          depositoryAssetPackIds: admittedReceipts.map(
-            (entry) => entry.admission.depositoryAssetPackId,
-          ),
-          packsActivityRoot:
-            admittedReceipts[0]?.packsActivitySync.activityRoot ?? null,
-        },
-        context: {
-          source: "deposit-batch-admission",
-          workbench: "deposit-option-review",
-          admittedOptionIds: admittedReceipts.map((entry) => entry.optionId),
-          admittedCount: admittedReceipts.length,
-        },
-      });
+      for (const receipt of admittedReceipts) {
+        await handleRecordActivity({
+          type: "pipeline:deposit-option-admission",
+          status: "completed",
+          summary: `Admitted ${receipt.title} to the Depository.`,
+          selectAfterRecord: false,
+          output: {
+            assetPackTitle: receipt.title,
+            depositAdmission: nextSession.admission,
+            admissionState: receipt.admission.state,
+            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
+            compensationState: receipt.compensationPreview.state,
+            packActivitySyncState: receipt.packsActivitySync.state,
+            packsActivityRoot: receipt.packsActivitySync.activityRoot,
+          },
+          context: {
+            source: "deposit-option-review-admission",
+            workbench: "deposit-option-review",
+            optionId: receipt.optionId,
+            reviewDecision: "approved-for-admission",
+            admissionState: receipt.admission.state,
+            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
+            compensationState: receipt.compensationPreview.state,
+            packActivitySyncState: receipt.packsActivitySync.state,
+            packActivityType: receipt.packsActivitySync.activityType,
+            packsRoute: receipt.packsActivitySync.route,
+            synthesisRunId: depositRouteInput?.transactionId || null,
+          },
+        });
+      }
     } catch (error) {
       setRunsLoadError(
         error instanceof Error
