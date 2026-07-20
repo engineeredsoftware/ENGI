@@ -188,6 +188,10 @@ export default function DepositPageClient() {
     setSynthesisDispatchedAtMs(null);
   }, [clearDepositRouteTransaction]);
 
+  /**
+   * Fresh compose only: clear any selected run so synthesize is available.
+   * Synthesize is never offered on pipeline run detail (non-new).
+   */
   const openComposeDetail = useCallback(() => {
     clearDepositRouteTransaction();
     setSynthesisRunId(null);
@@ -198,11 +202,24 @@ export default function DepositPageClient() {
     setIsComposeOpen(true);
   }, [clearDepositRouteTransaction]);
 
+  /**
+   * Open an existing or just-dispatched run detail. Leaves compose so the
+   * synthesize CTA is hidden — re-synthesis only via Back → New compose.
+   */
+  const openRunDetail = useCallback(
+    (transactionId: string) => {
+      setIsComposeOpen(false);
+      openDepositRouteTransaction(transactionId);
+    },
+    [openDepositRouteTransaction],
+  );
+
   const isDepositDetailOpen = Boolean(synthesisRunId) || isComposeOpen;
+  // Fresh compose only may synthesize. Any pipeline run detail (selected
+  // transaction and/or synthesisRunId after leaving compose) locks config and
+  // hides the CTA — including in-flight runs after openRunDetail.
   const isRunReviewLocked =
-    Boolean(synthesisRunId) &&
-    !isComposeOpen &&
-    synthesisStatus !== "running";
+    !isComposeOpen && Boolean(selectedTransactionId || synthesisRunId);
   const isConfigLocked = synthesisStatus === "running" || isRunReviewLocked;
 
   const pipelineTableRuns = useMemo(
@@ -412,7 +429,7 @@ export default function DepositPageClient() {
     selectedRun,
     readCurrentSearchParams,
     replaceDepositSearchParams,
-    openDepositRouteTransaction: openDepositRouteTransaction,
+    openDepositRouteTransaction: openRunDetail,
     refreshLiveRuns,
     obfuscations,
     permissibleSources,
@@ -459,7 +476,7 @@ export default function DepositPageClient() {
     liveRuns,
     setLiveRuns,
     refreshLiveRuns,
-    openDepositRouteTransaction: openDepositRouteTransaction,
+    openDepositRouteTransaction: openRunDetail,
     synthesizeOptionsRef,
     obfuscations,
     obfuscationsAnchorName,
@@ -555,7 +572,9 @@ export default function DepositPageClient() {
           }}
           runs={pipelineTableRuns}
           selectedTransactionId={selectedRun?.id ?? null}
-          onSelectTransaction={(id) => { if (id) openDepositRouteTransaction(id); }}
+          onSelectTransaction={(id) => {
+            if (id) openRunDetail(id);
+          }}
           filters={pipelineFilters}
           onFiltersChange={setPipelineFilters}
           pagination={pipelinePagination}

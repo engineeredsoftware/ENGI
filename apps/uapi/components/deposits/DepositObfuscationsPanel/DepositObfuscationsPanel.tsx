@@ -155,15 +155,15 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
         repositoryContext={repositoryContext}
       />
       {isRunReviewLocked ? (
-        // Historical run detail freezes the configuration that produced that
-        // run. Compose (incl. post-failure re-edit) stays editable until the
-        // next synthesize.
+        // Pipeline run detail (non-new): never offer synthesize. Fresh runs only
+        // via compose (New / Back → configure → Synthesize).
         <p
           data-testid="deposit-obfuscations-run-loaded-note"
           className="mt-4 text-xs leading-5 text-neutral-500"
         >
-          Run configuration is locked for this pipeline detail. Select Back on
-          Deposit to start a new synthesis.
+          Run configuration is locked for this pipeline detail. Synthesis is only
+          available on a new compose — select Back, then open a fresh deposit
+          workbench.
         </p>
       ) : (
         <ProductSynthesizeAssetPackOptionsButton
