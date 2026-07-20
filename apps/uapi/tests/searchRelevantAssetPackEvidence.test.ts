@@ -18,7 +18,8 @@ const mockEmbeddingClient = {
     create: mockEmbeddingsCreate,
   },
 };
-const vector = (value: number) => Array(1536).fill(value);
+/** Product depository embed dims (gte-small). */
+const vector = (value: number) => Array(384).fill(value);
 
 jest.mock('@bitcode/supabase', () => ({
   supabaseAdmin: {
@@ -32,6 +33,10 @@ beforeEach(() => {
   (supabaseAdmin.rpc as jest.Mock).mockReset();
   delete process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL;
   delete process.env.BITCODE_DEFAULT_EMBEDDING_MODEL;
+  delete process.env.BITCODE_DEPOSITORY_EMBEDDING_MODEL;
+  delete process.env.BITCODE_DEPOSITORY_EMBEDDING_DIMENSIONS;
+  delete process.env.BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_DIMENSIONS;
+  delete process.env.BITCODE_DEFAULT_EMBEDDING_DIMENSIONS;
   process.env.OPENAI_API_KEY = 'fake';
 });
 
@@ -49,11 +54,11 @@ describe('searchRelevantAssetPackEvidence', () => {
     });
 
     expect(mockEmbeddingsCreate).toHaveBeenCalledWith({
-      model: 'text-embedding-3-small',
+      model: 'gte-small',
       input: expect.stringContaining('Repository: o/r'),
       encoding_format: 'float',
-      dimensions: 1536,
     });
+    // Physical RPC retained for Exchange-era storage; product vector policy is gte-small/384.
     expect(supabaseAdmin.rpc).toHaveBeenCalledWith('match_deliverable_vectors', { query_embedding: embedding, match_count: 5 });
     expect(results).toEqual([{
       assetPackEvidenceId: 'ape1',

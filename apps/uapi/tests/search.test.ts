@@ -2,12 +2,12 @@ import { searchRelevantEvidenceDocuments } from '../lib/search';
 import OpenAI from 'openai';
 import { supabaseAdmin } from '@bitcode/supabase';
 
-// Mock OpenAI embeddings
+// Mock OpenAI-compatible embeddings client (product dims = gte-small 384).
 jest.mock('openai', () => {
   return jest.fn().mockImplementation(() => ({
     embeddings: {
       create: jest.fn().mockResolvedValue({
-      data: [{ embedding: Array(1536).fill(0.1) }]
+      data: [{ embedding: Array(384).fill(0.1) }]
       })
     }
   }));
@@ -36,6 +36,10 @@ describe('searchRelevantEvidenceDocuments', () => {
     jest.clearAllMocks();
     delete process.env.BITCODE_EVIDENCE_DOCUMENT_EMBEDDING_MODEL;
     delete process.env.BITCODE_DEFAULT_EMBEDDING_MODEL;
+    delete process.env.BITCODE_DEPOSITORY_EMBEDDING_MODEL;
+    delete process.env.BITCODE_EVIDENCE_DOCUMENT_EMBEDDING_DIMENSIONS;
+    delete process.env.BITCODE_DEFAULT_EMBEDDING_DIMENSIONS;
+    delete process.env.BITCODE_DEPOSITORY_EMBEDDING_DIMENSIONS;
   });
 
   it('embeds the query and calls the Supabase RPC to return Evidence Document suggestions', async () => {
@@ -56,11 +60,11 @@ describe('searchRelevantEvidenceDocuments', () => {
       similarity: 0.123
     });
     expect(OpenAI).toHaveBeenCalledWith({ apiKey: 'fake' });
+    // Product embedding policy: gte-small / 384 (no OpenAI dimensions param).
     expect((OpenAI as unknown as jest.Mock).mock.results[0].value.embeddings.create).toHaveBeenCalledWith({
-      model: 'text-embedding-3-small',
+      model: 'gte-small',
       input: expect.stringContaining('Repository: owner/repo'),
       encoding_format: 'float',
-      dimensions: 1536,
     });
     expect(supabaseAdmin.rpc).toHaveBeenCalledWith(
       'match_ai_document_templates',
