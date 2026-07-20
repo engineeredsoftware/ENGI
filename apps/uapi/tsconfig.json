@@ -106,6 +106,9 @@
       "@bitcode/auth/bitcoin-wallet-client": [
         "../../packages/auth/src/bitcoin-wallet-client.ts"
       ],
+      "@bitcode/auth/ethereum-wallet-client": [
+        "../../packages/auth/src/ethereum-wallet-client.ts"
+      ],
       "@bitcode/auth/wallet-local": [
         "../../packages/auth/src/bitcode-wallet-local.ts"
       ],

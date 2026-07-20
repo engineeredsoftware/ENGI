@@ -70,6 +70,7 @@ import type {
   SettleValidationBoundary,
   SourceSafePackMeasurementRow,
   SettleBtdArtifact,
+  SettlePendingPayout,
 } from './settle-types';
 
 export type { SettleAssetPackInput, SettleAssetPackResult, SettleAssetPackOption };
@@ -571,8 +572,9 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
     rateMicro: rail.rateMicro,
     needFitMicro: Math.round((settlementBtd.needFitVolume || 0) * 1e6),
     decayMicro:
-      typeof (settlementBtd as { decayMicro?: number }).decayMicro === 'number'
-        ? (settlementBtd as { decayMicro: number }).decayMicro
+      typeof (settlementBtd as unknown as { decayMicro?: number }).decayMicro ===
+      'number'
+        ? (settlementBtd as unknown as { decayMicro: number }).decayMicro
         : 1_000_000,
     shares: [
       {
@@ -972,7 +974,11 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
     rights,
     pendingPayout:
       input.pendingPayout ||
-      getStored(execution, 'settle-asset-pack-pipeline', 'pendingPayout') ||
+      getStored<SettlePendingPayout>(
+        execution,
+        'settle-asset-pack-pipeline',
+        'pendingPayout',
+      ) ||
       null,
     entitledPatchSummary:
       typeof option.patch?.patchSummary === 'string' ? option.patch.patchSummary : null,

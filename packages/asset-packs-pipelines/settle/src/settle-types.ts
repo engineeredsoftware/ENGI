@@ -148,7 +148,8 @@ export interface MintBtdArtifact {
 }
 
 export interface SettleBtdReceiptWire {
-  kind: 'btd.erc1155.transfer';
+  /** BTD transfer receipt, or multi-rail pay observation (buyer pays ETH/BTC/SOL). */
+  kind: 'btd.erc1155.transfer' | 'settle.pay-rail';
   tokenId: string;
   from: string;
   to: string;
@@ -195,10 +196,13 @@ export interface SettleRightsArtifact {
   readerWalletId: string | null;
   depositorWalletId: string | null;
   buyerEthereumAddress: string;
-  btdMinted: true;
-  btdTransferred: true;
+  /** True once BTD volume is minted/escrowed for the settlement. */
+  btdMinted: boolean;
+  /** True once BTD (or rights) transfer to the buyer path is complete. */
+  btdTransferred: boolean;
   amountBaseUnits: string;
-  status: 'transferred';
+  /** pending-finalize while pay-rail / seller split still open. */
+  status: 'transferred' | 'pending-finalize';
 }
 
 export interface SettleShippableRepository {
@@ -377,6 +381,7 @@ export type SettleStoreValue =
   | SettleRightsArtifact
   | SettleShippable
   | SettlePackActivity
+  | SettlePendingPayout
   | SerializedBitcodeErc1155State
   | BitcodeErc1155State
   | NeedinessRowInput[]

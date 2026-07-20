@@ -187,7 +187,7 @@ export default function AuxillariesWalletConnectionPanel({
         <p className="mt-3 text-xs text-white/50">
           Detected:{' '}
           {walletProviderOptions
-            .filter((p) => p.available)
+            .filter((p) => ('available' in p ? p.available : true))
             .map((p) => p.label)
             .join(', ') || 'none'}
         </p>

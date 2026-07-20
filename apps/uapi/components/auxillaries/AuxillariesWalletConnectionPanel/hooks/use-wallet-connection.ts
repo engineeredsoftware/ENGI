@@ -147,7 +147,10 @@ export function useWalletConnection({
       // Ethereum first (product identity); BTC listed as transitional only.
       const providers = [...ethProviders, ...btcProviders];
       setWalletProviderOptions(providers);
-      setWalletProviderScanStatus(providers.some((p) => p.available) ? 'ready' : 'none');
+      // ETH summaries expose `available`; BTC summaries are only listed when present.
+      setWalletProviderScanStatus(
+        providers.some((p) => ('available' in p ? p.available : true)) ? 'ready' : 'none',
+      );
       bitcodeQaTelemetry('info', 'wallet-auxillary', 'provider-scan', {
         eth: ethProviders.length,
         btc: btcProviders.length,
