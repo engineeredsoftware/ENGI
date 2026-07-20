@@ -195,6 +195,7 @@ module.exports = {
     '<rootDir>/tests/packsPageClient.test.tsx',
     '<rootDir>/tests/packActivityModel.test.ts',
     '<rootDir>/tests/depositAdmissionActivity.test.ts',
+    '<rootDir>/tests/depositSynthesisOptionsHydrate.test.ts',
     '<rootDir>/tests/depositRouteModel.test.ts',
     '<rootDir>/tests/depositPageClient.test.tsx',
     '<rootDir>/tests/depositSourceSelection.test.tsx',

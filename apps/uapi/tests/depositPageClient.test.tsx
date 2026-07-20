@@ -537,7 +537,10 @@ describe("DepositPageClient", () => {
     // completion effect) and the route stage advances to review-options —
     // with NO dispatch call.
     await waitFor(() =>
-      expect(fetchMock).toHaveBeenCalledWith("/api/executions/history/resume-run-1"),
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/executions/history/resume-run-1",
+        expect.anything(),
+      ),
     );
     await waitFor(() =>
       expect(mockReplace).toHaveBeenCalledWith(
@@ -1096,7 +1099,13 @@ describe("DepositPageClient", () => {
         return {
           ok: true,
           json: async () => ({
-            run: { id: url.split("/").pop(), output: {} },
+            // status completed without depositOptionSynthesis after retries
+            run: {
+              id: url.split("/").pop(),
+              status: "completed",
+              context: { source: "deposit-option-synthesis" },
+              output: {},
+            },
             events: [
               { id: "c1", event: { type: "completion" }, created_at: "2026-07-01T22:00:05.000Z" },
             ],
@@ -1108,7 +1117,8 @@ describe("DepositPageClient", () => {
 
     await dispatchSynthesis();
 
-    const alert = await screen.findByRole("alert");
+    // Hydrate retries (test delayMs=0) then fail-closed — allow multi-attempt.
+    const alert = await screen.findByRole("alert", {}, { timeout: 5000 });
     expect(alert).toHaveTextContent(
       "Synthesized options were not found for this run.",
     );
@@ -1119,6 +1129,75 @@ describe("DepositPageClient", () => {
       name: "deposit_synthesis_failed",
       data: expect.objectContaining({ stage: "resume" }),
     });
+  });
+
+  it("recovers options when history first omits depositOptionSynthesis then lands it", async () => {
+    const synthesis = buildMeasuredSynthesisFixture();
+    let historyCalls = 0;
+    global.fetch = jest.fn(async (url: string) => {
+      if (url === "/api/deposit/synthesize-options") {
+        return {
+          ok: true,
+          json: async () => ({
+            ok: true,
+            runId: "late-options-run",
+            status: "dispatched",
+          }),
+        };
+      }
+      if (url.startsWith("/api/executions/history/")) {
+        historyCalls += 1;
+        if (historyCalls < 3) {
+          return {
+            ok: true,
+            json: async () => ({
+              run: {
+                id: "late-options-run",
+                status: "completed",
+                context: { source: "deposit-option-synthesis" },
+                output: { summary: "writing options" },
+              },
+              events: [
+                {
+                  id: "c1",
+                  event: { type: "completion" },
+                  created_at: "2026-07-01T22:00:05.000Z",
+                },
+              ],
+            }),
+          };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            run: {
+              id: "late-options-run",
+              status: "completed",
+              context: { source: "deposit-option-synthesis" },
+              output: {
+                depositOptionSynthesis: synthesis,
+                reviewProjections: [],
+              },
+            },
+            events: [
+              {
+                id: "c1",
+                event: { type: "completion" },
+                created_at: "2026-07-01T22:00:05.000Z",
+              },
+            ],
+          }),
+        };
+      }
+      return { ok: true, json: async () => ({}) };
+    }) as unknown as typeof fetch;
+
+    await dispatchSynthesis();
+
+    // Options land after retries — no permanent false error banner.
+    await screen.findByTestId("deposit-option-capability-slice", {}, { timeout: 5000 });
+    expect(screen.queryByText(/Synthesized options were not found/i)).toBeNull();
+    expect(historyCalls).toBeGreaterThanOrEqual(3);
   });
 
   it("fails the dispatch itself when the synthesize route rejects the request", async () => {
