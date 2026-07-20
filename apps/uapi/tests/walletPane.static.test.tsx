@@ -49,7 +49,8 @@ describe('WalletPane SSR Onboarding View', () => {
     );
 
     expect(html).toContain('Wallet Auxillary');
-    expect(html).toContain('Connect Bitcoin wallet');
-    expect(html).toContain('Stage Bitcoin address');
+    // Multi-rail identity: Ethereum is the primary connect surface (BTC remains transitional).
+    expect(html).toContain('Connect Ethereum wallet');
+    expect(html).toContain('Sepolia');
   });
 });

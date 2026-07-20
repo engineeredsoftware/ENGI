@@ -64,7 +64,9 @@ describe('WalletPane (SSR)', () => {
     );
 
     expect(html).toContain('Wallet Auxillary');
-    expect(html).toContain('Keep BTC fees, BTD holdings, and wallet identity readable together');
+    expect(html).toContain(
+      'Keep pay-rail fees, BTD holdings, and wallet identity readable together',
+    );
     expect(html).toContain('250 BTD');
     expect(html).toContain('0.25 BTC');
     // Share posture preference cards stay in code but are hidden for now.

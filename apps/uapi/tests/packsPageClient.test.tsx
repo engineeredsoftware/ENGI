@@ -378,10 +378,12 @@ describe("PacksPageClient", () => {
     render(<PacksPageClient />);
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
-    const requestedUrl = new URL(
-      String(fetchMock.mock.calls[0][0]),
-      "http://localhost",
+    const activityCall = fetchMock.mock.calls.find((call) =>
+      String(call[0]).includes("/api/packs/activity"),
     );
+    expect(activityCall).toBeDefined();
+    const requestedUrl = new URL(String(activityCall![0]), "http://localhost");
+    // /packs always forces network scope (Depository ledger), even if URL says personal.
     expect(requestedUrl.searchParams.get("scope")).toBe("network");
 
     expect(screen.queryByLabelText("Visibility scope")).not.toBeInTheDocument();
