@@ -5,7 +5,8 @@
  *
  * Law:
  * - Built from shared synthesis base (title, patch, absolutes, provenant paths).
- * - `measurements.needinesses` is always `[]` (needinesses are read-only).
+ * - Neediness is entirely a Read-pipeline concept — deposit forces empty needinesses
+ *   at the generic boundary (product Implementation attaches absolutes only).
  * - **Obfuscations are never stored** on the AssetPack (sensitive deposit input).
  * - Deposit-only commercial fields: kind, confidence, coveredSourcePaths, etc.
  *

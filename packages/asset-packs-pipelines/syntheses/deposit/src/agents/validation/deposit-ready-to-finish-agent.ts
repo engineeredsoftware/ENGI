@@ -4,16 +4,17 @@
  * `validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline`
  *
  * A) Prior phase / agent / tool sanity
- * B) Synthesized AssetPack quality (patch + measurements + metadata)
+ * B) Synthesized AssetPack quality (patch + absolute measurements + metadata)
  * C) Obfuscations / Impermissible sources respected vs patch paths
+ *
+ * Law: Validation ONLY validates. Never measures, never attaches absolutes,
+ * never repairs weak Implementation. Missing/weak patchfiles, measurements,
+ * Discovery, or salvaged packs → issues + recommendation iterate so DIV
+ * re-enters Discovery→Implementation.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import {
-  analyzeStaticSource,
-  computeAbsolutesFromReport,
-} from '../../../../domain/src/agents/validation/agent-measure-absolutes';
 import {
   DepositValidationOutputSchema,
   type DepositValidationResult,
@@ -30,7 +31,10 @@ import {
 import { resolveSourceCheckoutCatalog } from '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog';
 import { projectInventoryForPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
 import { ensureDepositCheckoutSourceFiles } from '../../ensure-deposit-checkout-source-files';
-import { hasRequiredAbsolutes } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
+import {
+  hasDepositAbsolutesOnlyShape,
+  hasRequiredAbsolutes,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
 
 const prompt = createDepositValidationPrompt();
 
@@ -97,6 +101,32 @@ function phaseSanityIssues(execution: any): string[] {
     issues.push('Implementation: no AssetPack options synthesized.');
   }
 
+  // Implementation must complete measurements (agent 2/2) before Validation can admit.
+  const measured = findValue(execution, 'implementation', 'measured');
+  if (Array.isArray(options) && options.length > 0 && measured !== true) {
+    issues.push(
+      'Implementation: measurements incomplete (implementation:measured !== true). Agent 2/2 must measure patchfiles before Validation can finish.',
+    );
+  }
+
+  // Host salvage is continuity only — never depositable supply.
+  const salvaged = findValue(execution, 'implementation', 'salvaged') === true;
+  const salvageCount = Number(findValue(execution, 'implementation', 'salvageCount') ?? 0) || 0;
+  if (salvaged || salvageCount > 0) {
+    issues.push(
+      `Implementation: ${salvageCount || 'some'} pack(s) are host-salvaged (not model-synthesized). Salvage is not presentable — iterate Implementation patchfile synthesis.`,
+    );
+  }
+  if (Array.isArray(options)) {
+    for (const pack of options) {
+      if (pack?.salvaged === true) {
+        issues.push(
+          `Implementation: pack "${pack?.title || '?'}" is salvaged=true (not presentable).`,
+        );
+      }
+    }
+  }
+
   return issues;
 }
 
@@ -128,7 +158,12 @@ function obfuscationComplianceIssues(
     }
     if (!hasRequiredAbsolutes(pack)) {
       issues.push(
-        `Pack "${pack?.title || '?'}" missing required measurements.absolutes (magnitude+volume).`,
+        `Pack "${pack?.title || '?'}" missing required measurements.absolutes (magnitude+volume) from Implementation measurements agent.`,
+      );
+    }
+    if (!hasDepositAbsolutesOnlyShape(pack)) {
+      issues.push(
+        `Pack "${pack?.title || '?'}" measurements must be exactly { absolutes } (deposit legal shape from Implementation).`,
       );
     }
   }
@@ -163,6 +198,7 @@ function compactPacksForPrompt(packs: any[]): any[] {
             : [],
         }
       : null,
+    // Deposit prompt projection: absolutes only (neediness is Read-pipeline).
     measurements: {
       absolutes: Array.isArray(pack?.measurements?.absolutes)
         ? pack.measurements.absolutes.map((row: any) => ({
@@ -179,7 +215,6 @@ function compactPacksForPrompt(packs: any[]): any[] {
               unit: row?.unit,
             }))
           : [],
-      needinesses: [],
     },
   }));
 }
@@ -223,57 +258,8 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
     catalogPaths,
   );
 
-  // Ensure nested measurements.absolutes on every pack (deposit needinesses = [])
-  // BEFORE deterministic smoke / qualitative judgment.
-  const { attachNestedAbsolutes, resolvePackAbsolutes, hasRequiredAbsolutes } = await import(
-    '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements'
-  );
-  const inventorySources = Array.isArray((catalog as any)?.sources)
-    ? (catalog as any).sources
-        .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
-        .map((s: any) => ({ path: s.path as string, content: s.content as string }))
-    : [];
-  await Promise.all(
-    packs.map(async (pack: any) => {
-      delete pack.needinessSignal;
-      delete pack.neediness;
-      if (resolvePackAbsolutes(pack).length > 0) {
-        attachNestedAbsolutes(pack, resolvePackAbsolutes(pack));
-        return;
-      }
-      try {
-        const coveredSourcePaths = asPathList(pack?.coveredSourcePaths);
-        const fileChanges = Array.isArray(pack?.patch?.fileChanges) ? pack.patch.fileChanges : [];
-        const pathScope = new Set<string>(
-          [
-            ...coveredSourcePaths,
-            ...fileChanges.map((c: any) => (typeof c?.path === 'string' ? c.path : '')),
-          ].filter(Boolean),
-        );
-        const scopedBodies =
-          pathScope.size > 0
-            ? inventorySources.filter((s: { path: string; content: string }) => pathScope.has(s.path))
-            : inventorySources;
-        const report = analyzeStaticSource({
-          files: scopedBodies,
-          targetPaths: coveredSourcePaths,
-        });
-        const absolutes = computeAbsolutesFromReport(report, {
-          title: String(pack?.title ?? ''),
-          summary: String(pack?.summary ?? ''),
-          coveredSourcePaths,
-          fileChanges,
-          confidence: typeof pack?.confidence === 'number' ? pack.confidence : undefined,
-          patchSummary:
-            typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
-        });
-        attachNestedAbsolutes(pack, absolutes);
-      } catch {
-        attachNestedAbsolutes(pack, []);
-      }
-    }),
-  );
-
+  // Validate only — never measure, attach, or rewrite Implementation packs.
+  // Weak Implementation (missing absolutes, salvage, incomplete measure) → iterate.
   const smokeIssues = smokeCheckAssetPacks(packs, impermissibleSources, obfuscatedPaths);
   // C) Obfuscations vs patches
   const complianceIssues = obfuscationComplianceIssues(packs, impermissibleSources, obfuscatedPaths);

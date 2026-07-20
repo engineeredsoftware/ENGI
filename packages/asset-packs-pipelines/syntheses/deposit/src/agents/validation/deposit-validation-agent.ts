@@ -2,18 +2,15 @@
  * Deposit-mode Validation agent (compat export).
  *
  * Prefer deposit-ready-to-finish-agent (validation:ready-to-finish-asset-packs-
- * synthesis-deposit-pipeline) — the single A/B/C gate. This module remains for
- * prompt-contract tests and older roster aliases; it shares
- * createDepositValidationPrompt and smoke/merge helpers.
+ * synthesis-deposit-pipeline) — the single A/B/C gate.
  *
- * Qualitative PTRR + deterministic smoke; may backfill missing absolutes so
- * packs leave Validation as patch + measurements + metadata when Implementation
- * did not attach them.
+ * Law: Validation ONLY validates. It never measures, never attaches absolutes,
+ * never repairs weak Implementation. Weak patchfiles / measurements / Discovery
+ * → issues + recommendation iterate (DIV re-enters Discovery→Implementation).
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import { measureAssetPackAbsolutes } from '../../../../domain/src/agents/validation/agent-measure-absolutes';
 import {
   DepositValidationOutputSchema,
   type DepositValidationInput,
@@ -48,7 +45,7 @@ export const DepositValidationAgent = factoryPTRRAgent<
 >({
   name: 'DepositValidationAgent',
   description:
-    'Validates deposit AssetPacks (patch + measurements + metadata) for quality, distinctness, source-safety, and obfuscation/exclusion compliance.',
+    'Validates deposit AssetPacks (patch + absolute measurements + metadata). Never measures or repairs — weak Implementation → iterate.',
   outputSchema: DepositValidationOutputSchema,
   tools: [],
   prompt,
@@ -89,17 +86,16 @@ export default async function runDepositValidationAgent(input: any, execution: a
   const { ensureDepositCheckoutSourceFiles } = await import(
     '../../ensure-deposit-checkout-source-files'
   );
-  const { resolveSourceCheckoutCatalog } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog');
-  const { projectInventoryForPrompt } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis');
+  const { resolveSourceCheckoutCatalog } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog'
+  );
+  const { projectInventoryForPrompt } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis'
+  );
   const catalog = await ensureDepositCheckoutSourceFiles(
     execution,
-    resolveSourceCheckoutCatalog(
-      execution,
-      input?.sourceCheckoutCatalog,
-    ),
+    resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
-  // LLM qualitative validation: paths only. Static-analysis measurement below
-  // still reads full catalog.sources from the shared store.
   const catalogForPrompt = projectInventoryForPrompt(catalog);
   const raw = await DepositValidationAgent(
     {
@@ -112,61 +108,14 @@ export default async function runDepositValidationAgent(input: any, execution: a
     },
     execution,
   );
-  // factoryPTRRAgent returns an envelope ({ context, output, finalOutput });
-  // unwrap to the agent's typed validation output (F27).
   const agentOutput = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const smokeIssues = smokeCheckAssetPacks(packs, impermissibleSources, obfuscatedPaths);
   const result = mergeDepositValidationVerdict(agentOutput, smokeIssues);
 
-  // Cross-phase artifacts: ReadyToFinish + /deposit surface read these keys.
+  // Validate only — never attach/measure/rewrite Implementation packs.
   storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
   storeCrossPhaseArtifact(execution, 'validation', 'depositQuality', result);
-
-  // Backfill nested measurements.absolutes when Implementation did not attach them.
-  if (packs.length > 0) {
-    const { attachNestedAbsolutes, resolvePackAbsolutes } = await import(
-      '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements'
-    );
-    const catalogSources = Array.isArray((catalog as any)?.sources)
-      ? (catalog as any).sources
-          .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
-          .map((s: any) => ({ path: s.path as string, content: s.content as string }))
-      : Array.isArray((catalog as any)?.samples)
-        ? (catalog as any).samples
-            .filter((s: any) => s && typeof s.path === 'string' && typeof s.excerpt === 'string')
-            .map((s: any) => ({ path: s.path as string, content: s.excerpt as string }))
-        : [];
-    await Promise.all(
-      packs.map(async (pack: any) => {
-        delete pack.needinessSignal;
-        delete pack.neediness;
-        if (resolvePackAbsolutes(pack).length > 0) {
-          attachNestedAbsolutes(pack, resolvePackAbsolutes(pack));
-          return;
-        }
-        try {
-          const absolutes = await measureAssetPackAbsolutes(
-            {
-              title: String(pack?.title ?? ''),
-              summary: String(pack?.summary ?? ''),
-              coveredSourcePaths: asPathList(pack?.coveredSourcePaths),
-              fileChanges: Array.isArray(pack?.patch?.fileChanges) ? pack.patch.fileChanges : undefined,
-              confidence: typeof pack?.confidence === 'number' ? pack.confidence : undefined,
-              patchSummary:
-                typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
-            },
-            { lens: 'deposit', execution, sources: catalogSources },
-          );
-          attachNestedAbsolutes(pack, absolutes);
-        } catch {
-          attachNestedAbsolutes(pack, []);
-        }
-      }),
-    );
-    storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);
-    storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', packs);
-  }
 
   return { ...(input || {}), ...result };
 }

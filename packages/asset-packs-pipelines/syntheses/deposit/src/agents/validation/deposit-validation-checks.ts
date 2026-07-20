@@ -134,7 +134,7 @@ export function smokeCheckAssetPacks(
       issues.push(`AssetPack ${label} has a missing or out-of-range confidence (expected 0..1).`);
     }
 
-    // Nested kinds: measurements.absolutes[] (deposit needinesses must be empty/absent).
+    // Deposit measurements: absolutes only. Neediness is a Read-pipeline concept.
     const nested = pack?.measurements;
     const absolutes = Array.isArray(nested?.absolutes)
       ? nested.absolutes
@@ -156,6 +156,21 @@ export function smokeCheckAssetPacks(
           );
         }
       }
+    }
+    // Deposit measurements must be exactly { absolutes } (allowlist shape).
+    if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+      const keys = Object.keys(nested);
+      const illegal = keys.filter((k) => k !== 'absolutes');
+      if (illegal.length > 0) {
+        issues.push(
+          `AssetPack ${label} measurements has non-deposit keys (${illegal.join(', ')}); deposit allows only absolutes.`,
+        );
+      }
+    }
+    if (pack?.salvaged === true) {
+      issues.push(
+        `AssetPack ${label} is host-salvaged (not model-synthesized); not presentable for deposit.`,
+      );
     }
     // Legacy flat 0..1 map (only when nested absolutes absent)
     if (

@@ -96,8 +96,10 @@ export interface DepositAssetPackOption {
     provenantSourcePaths: string[];
     provenantSourceCount: number;
   } | null;
-  // Deposit demand estimate (settled-depository grounded when available).
-  // Not a measurements.needinesses row — deposit needinesses are always [].
+  /**
+   * @deprecated Neediness is entirely a Read-pipeline concept.
+   * Demand guidance lives under demandAlignment; never a neediness measurement row.
+   */
   neediness?: DepositDemandEstimate | null;
   reviewBoundary: {
     state: DepositAssetPackOptionReviewState;
@@ -127,6 +129,7 @@ export interface DepositAssetPackOption {
     demandAlignmentRoot: string;
     measurementRoot: string;
     contentsRoot?: string | null;
+    /** @deprecated Neediness is Read-pipeline only. */
     needinessRoot?: string | null;
     reviewBoundaryRoot: string;
   };

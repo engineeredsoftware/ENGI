@@ -19,10 +19,13 @@ const part = (content: string): PromptPart => content as PromptPart;
 
 const IDENTITY = part(
   'You are the SynthesizeAssetPacks Validation ready-to-finish agent for deposit. ' +
-    'You gate whether synthesized AssetPacks may Finish. Each AssetPack must be ' +
-    'patch + measurements + metadata. You reason only over source-safe AssetPack ' +
-    'descriptors, sourceCheckoutCatalog paths, Setup obfuscation guidance, Impermissible ' + 'sources, and prior-phase signals. Never quote, reconstruct, or expose raw ' +
-    'source, code, secrets, or file contents. Your verdict drives iterate-vs-complete.',
+    'You ONLY validate — you never measure, never invent absolutes, never repair packs. ' +
+    'Each deposit AssetPack must already be patchfile + absolute measurements + metadata ' +
+    'from Implementation (agent 1/2 patchfile, agent 2/2 measurements). You reason only over ' +
+    'source-safe AssetPack descriptors, sourceCheckoutCatalog paths, Setup obfuscation ' +
+    'guidance, Impermissible sources, and prior-phase signals. Never quote raw source. ' +
+    'Weak Implementation or Discovery → recommendation iterate (DIV re-runs those phases). ' +
+    'Your verdict drives iterate-vs-complete.',
 );
 
 const REQUIREMENTS = part(
@@ -36,14 +39,15 @@ const REQUIREMENTS = part(
     '- Discovery: codebaseComprehension, depositorySearch, and inherent regurgitation posture.',
     '- Implementation: non-empty AssetPack options with patch descriptors.',
     '',
-    'B) AssetPack quality — each pack is patch + measurements + metadata:',
+    'B) AssetPack quality — each deposit pack is patch + absolute measurements + metadata:',
     '- Patch: non-empty fileChanges (path + op = create|modify|delete) and patchSummary; no raw code.',
-    '- Measurements KINDS: deposit packs must have measurements.absolutes (not needinesses).',
+    '- Measurements: deposit packs MUST be measurements: { absolutes: [...] } only (no other keys).',
     '  Absolutes kinds: ' +
       ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => spec.measurementKind).join(', ') +
-      '. Each absolute reading requires magnitude AND volume (0..1). Needinesses are READ-ONLY — flag if present on deposit.',
+      '. Each absolute reading requires magnitude AND volume (0..1).',
     '- Host dual-write is legal: pack.measurements.absolutes[] is canonical; a sibling pack.absolutes[]',
     '  array mirroring the same readings is expected migration dual-write — NOT a schema violation.',
+    '- Flag host-salvaged packs (salvaged:true) as not presentable.',
     '- Metadata: title, summary, kind, confidence in [0,1], coveredSourcePaths from sourceCheckoutCatalog only.',
     '- Distinctness: packs are complementary knowledge slices, not near-duplicates.',
     '- Source-safety: no raw source, secrets, or file contents in titles/summaries/patchSummary.',

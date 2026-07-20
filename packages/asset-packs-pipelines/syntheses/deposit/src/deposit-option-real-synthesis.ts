@@ -175,18 +175,9 @@ export function buildRealDepositAssetPackOptionSynthesis(
       btdMintBoundary: 'not-minted-by-deposit-option' as const,
       settlementBoundary: 'future-reader-settlement-required-for-source-bearing-assetpack' as const,
     };
-    // Deposit neediness preview (v0): carry the read-demand estimate produced for
-    // this candidate (validateDepositSynthesisOptions). Null when unestimated.
-    const neediness = candidate.neediness
-      ? {
-          volume: candidate.neediness.volume,
-          demand: candidate.neediness.demand,
-          saturation: candidate.neediness.saturation,
-          rationale: candidate.neediness.rationale,
-        }
-      : null;
     // Project through SynthesisAssetPack → deposit contents
     // (path+op patch + provenant paths; never raw source or obfuscations).
+    // Deposit measurements = absolutes only. Neediness is Read-pipeline only.
     const synthesisPack = buildSynthesisAssetPack({
       assetPackId: optionId,
       title: candidate.title,
@@ -213,7 +204,6 @@ export function buildRealDepositAssetPackOptionSynthesis(
           unit: typeof m.unit === 'string' && m.unit.length > 0 ? m.unit : 'normalized',
           evidenceRoot: m.evidenceRoot,
         })),
-        needinesses: [],
       },
       provenantSourcePaths: candidate.coveredSourcePaths,
     });
@@ -227,7 +217,6 @@ export function buildRealDepositAssetPackOptionSynthesis(
       demandAlignment,
       measurements,
       contents,
-      neediness,
       reviewBoundary,
     };
 
@@ -262,7 +251,6 @@ export function buildRealDepositAssetPackOptionSynthesis(
         demandAlignmentRoot: root('deposit-option-demand-alignment', demandAlignment),
         measurementRoot: root('deposit-option-measurements', measurements),
         contentsRoot: root('deposit-option-contents', contents),
-        needinessRoot: neediness ? root('deposit-option-neediness', neediness) : null,
         reviewBoundaryRoot: root('deposit-option-review-boundary', reviewBoundary),
       },
     };
