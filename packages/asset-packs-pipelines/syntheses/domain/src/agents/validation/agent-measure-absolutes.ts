@@ -27,7 +27,11 @@ import {
 } from '../../asset-packs-synthesis';
 import type { SynthesizeAssetPacksMode } from '../../synthesize-asset-packs';
 import { isAssetPackRealInferenceEnabled } from '../../runtime-inference-policy';
-import { buildSourceSafeAbsoluteDescriptor } from '../../source-safe-absolute-descriptor';
+import {
+  buildSourceSafeAbsoluteDescriptor,
+  buildSourceSafePackStructureProfile,
+  type SourceSafePackStructureProfile,
+} from '../../source-safe-absolute-descriptor';
 import {
   analyzeStaticSource,
   registerSourceStaticAnalysisTool,
@@ -203,6 +207,19 @@ export function computeAbsolutesFromReport(
     'computational-usage': computationalUsage,
   };
 
+  // Instance structure profile for this pack (path/lang/op + quantity shape).
+  const structure = buildSourceSafePackStructureProfile({
+    coveredSourcePaths: patch.coveredSourcePaths,
+    fileChanges: patch.fileChanges,
+    languages: Object.keys(report.targetLanguageBreakdown || {}),
+    functionCount,
+    typeCount,
+    fileSpan,
+    symbolCount,
+    moduleCount,
+    measuredFromSamples: measured,
+  });
+
   return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) =>
     buildMeasurement(
       spec,
@@ -211,6 +228,7 @@ export function computeAbsolutesFromReport(
         magnitude: magnitudeByKind[spec.measurementKind],
       },
       patch,
+      structure,
     ),
   );
 }
@@ -230,6 +248,7 @@ function buildMeasurement(
   spec: AssetPackAbsoluteSpec,
   reading: { volume: number; magnitude?: number },
   patch?: Pick<MeasurableAssetPackPatch, 'title'>,
+  structure?: SourceSafePackStructureProfile | null,
 ): AssetPackCandidateMeasurement {
   const volume = clamp01(reading.volume);
   // Absolute law: magnitude AND volume always present.
@@ -251,7 +270,7 @@ function buildMeasurement(
     category: 'absolute',
     unit: spec.unit,
   };
-  // Instance descriptor — generated when/after measurement for this AssetPack.
+  // Instance descriptor — this pack’s numbers + structure profile (source-safe).
   measurement.descriptor = buildSourceSafeAbsoluteDescriptor({
     measurementKind: spec.measurementKind,
     label: spec.label,
@@ -260,6 +279,7 @@ function buildMeasurement(
     volume,
     weight: spec.weight,
     packTitle: patch?.title,
+    structure: structure ?? null,
   });
   return measurement;
 }
@@ -282,6 +302,18 @@ export function mapReadingsToAbsoluteMeasurements(
   const deterministic = new Map(
     computeDeterministicAbsolutes(patch).map((m) => [m.measurementKind, m]),
   );
+  // Rebuild structure once from deterministic quantities + patch paths.
+  const det = [...deterministic.values()];
+  const structure = buildSourceSafePackStructureProfile({
+    coveredSourcePaths: patch.coveredSourcePaths,
+    fileChanges: patch.fileChanges,
+    functionCount: det.find((m) => m.measurementKind === 'function-count')?.magnitude ?? 0,
+    typeCount: det.find((m) => m.measurementKind === 'type-count')?.magnitude ?? 0,
+    fileSpan: det.find((m) => m.measurementKind === 'file-span')?.magnitude ?? 0,
+    symbolCount: det.find((m) => m.measurementKind === 'symbolic-richness')?.magnitude ?? 0,
+    moduleCount: det.find((m) => m.measurementKind === 'modularity')?.magnitude ?? 1,
+    measuredFromSamples: false,
+  });
   return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => {
     const reading = byKind.get(spec.measurementKind);
     const volumeNum = Number(reading?.volume);
@@ -296,6 +328,7 @@ export function mapReadingsToAbsoluteMeasurements(
         magnitude: spec.hasMagnitude ? Number(reading.magnitude) : undefined,
       },
       patch,
+      structure,
     );
   });
 }
@@ -319,16 +352,25 @@ export function mergeReportAndReadings(
     const volume = Number(reading?.volume);
     if (reading && Number.isFinite(volume)) {
       const nextVolume = clamp01(volume);
-      const magnitude =
-        typeof measurement.magnitude === 'number' ? measurement.magnitude : nextVolume;
-      // Quality volume changed — refresh instance descriptor for this pack reading.
+      // Quality volume changed — refresh instance descriptor; keep prior structure
+      // clause by re-parsing is not available here, so rebuild from sibling quantities.
+      const byKindAll = new Map(reportAbsolutes.map((m) => [m.measurementKind, m]));
+      const structure = buildSourceSafePackStructureProfile({
+        functionCount: byKindAll.get('function-count')?.magnitude ?? 0,
+        typeCount: byKindAll.get('type-count')?.magnitude ?? 0,
+        fileSpan: byKindAll.get('file-span')?.magnitude ?? 0,
+        symbolCount: byKindAll.get('symbolic-richness')?.magnitude ?? 0,
+        moduleCount: byKindAll.get('modularity')?.magnitude ?? 1,
+        measuredFromSamples: true,
+      });
       const descriptor = buildSourceSafeAbsoluteDescriptor({
         measurementKind: measurement.measurementKind,
         label: measurement.label,
         unit: measurement.unit,
-        magnitude: nextVolume, // quality: magnitude mirrors volume after agent path
+        magnitude: nextVolume,
         volume: nextVolume,
         weight: measurement.weight,
+        structure,
       });
       return {
         ...measurement,

@@ -210,12 +210,15 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
     expect(absolutes.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(2);
     expect(absolutes.find((m) => m.measurementKind === 'type-count')?.magnitude).toBe(1);
     expect(absolutes.find((m) => m.measurementKind === 'file-span')?.magnitude).toBe(1);
-    // Instance descriptors are attached at measure time for this pack (source-safe).
+    // Instance descriptors: this pack’s numbers + structure profile (not catalog glossary).
     const fn = absolutes.find((m) => m.measurementKind === 'function-count');
     expect(fn?.descriptor).toMatch(/Auth slice/);
     expect(fn?.descriptor).toMatch(/2 functions/);
-    expect(fn?.descriptor).toMatch(/Source-safe/);
-    expect(fn?.descriptor).not.toMatch(/protected|raw source/i);
+    expect(fn?.descriptor).toMatch(/Behavior surface of this pack is/);
+    expect(fn?.descriptor).toMatch(/covering areas of \[/);
+    expect(fn?.descriptor).not.toMatch(/transferable structure without protected bodies/i);
+    const symbols = absolutes.find((m) => m.measurementKind === 'symbolic-richness');
+    expect(symbols?.descriptor).toMatch(/Symbology of this pack is/);
   });
 
   it('computeAbsolutesFromReport prefers measured counts but degrades on no source', () => {
