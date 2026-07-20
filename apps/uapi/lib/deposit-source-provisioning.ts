@@ -517,14 +517,45 @@ export async function runDepositInBoxHost(input: {
       evidenceRaw?.output?.finishPresent === true ||
       hasEnvelopeOptions,
   );
-  // Presentable options: Finish envelope first; only then finish-gated depositOptions.
+  // Lift measurements.absolutes → top-level absolutes before dispatch
+  // validateDepositSynthesisOptions. Finish selectionEnvelope often nests
+  // formal absolutes only under measurements (run 1d760d82 / 36858f68): host
+  // may already lift on depositOptions, but envelope-first read previously
+  // discarded that and failed product projection with "missing formal absolute
+  // measurements". Always lift here so either source is projection-safe.
+  const liftFormalAbsolutes = (opts: unknown[]): unknown[] =>
+    opts.map((opt) => {
+      if (!opt || typeof opt !== "object" || Array.isArray(opt)) return opt;
+      const record = opt as Record<string, unknown>;
+      const measurements = record.measurements;
+      const nested =
+        measurements &&
+        typeof measurements === "object" &&
+        !Array.isArray(measurements) &&
+        Array.isArray((measurements as { absolutes?: unknown }).absolutes)
+          ? ((measurements as { absolutes: unknown[] }).absolutes as unknown[])
+          : null;
+      const top = Array.isArray(record.absolutes) ? (record.absolutes as unknown[]) : null;
+      const absolutes =
+        top && top.length > 0 ? top : nested && nested.length > 0 ? nested : top || nested || [];
+      return { ...record, absolutes };
+    });
+  // Prefer host-lifted depositOptions when present; else Finish envelope.
+  // Both paths run through liftFormalAbsolutes (idempotent when already lifted).
   const presentableOptions = (() => {
-    if (hasEnvelopeOptions) return envelopeOptions as unknown[];
-    if (finishPresent && Array.isArray(evidenceRaw?.depositOptions)) {
-      return evidenceRaw!.depositOptions!;
+    const hostDeposit =
+      (Array.isArray(evidenceRaw?.depositOptions) && evidenceRaw!.depositOptions!.length > 0
+        ? (evidenceRaw!.depositOptions as unknown[])
+        : null) ||
+      (Array.isArray(evidenceRaw?.output?.depositOptions) &&
+      (evidenceRaw!.output!.depositOptions as unknown[]).length > 0
+        ? (evidenceRaw!.output!.depositOptions as unknown[])
+        : null);
+    if (finishPresent && hostDeposit) {
+      return liftFormalAbsolutes(hostDeposit);
     }
-    if (finishPresent && Array.isArray(evidenceRaw?.output?.depositOptions)) {
-      return evidenceRaw!.output!.depositOptions as unknown[];
+    if (hasEnvelopeOptions) {
+      return liftFormalAbsolutes(envelopeOptions as unknown[]);
     }
     return [];
   })();

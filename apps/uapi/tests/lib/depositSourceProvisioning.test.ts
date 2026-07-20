@@ -303,7 +303,9 @@ describe('runDepositInBoxHost (#25)', () => {
       hostFactory: async () => fakeHost,
     });
 
-    expect(result.options).toEqual([finishOption]);
+    // Host read lifts nested/top-level formal absolutes onto each option
+    // (run 1d760d82: envelope-only shapes failed product projection without this).
+    expect(result.options).toEqual([{ ...finishOption, absolutes: [] }]);
     expect(result.finishPresent).toBe(true);
     expect(result.sandboxId).toBe('sbx_test_1');
     expect(result.outcome).toBe('completed');
@@ -630,6 +632,75 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(result.finishPresent).toBe(true);
     expect(result.recovery?.hostBudgetExceeded).toBe(true);
     expect(result.recovery?.partial).toBe(true);
+  });
+
+  it('lifts Finish nested measurements.absolutes to top-level (run 1d760d82)', async () => {
+    // Product projection fail-closed when only nested formal absolutes exist
+    // and host read returns the envelope shape without top-level absolutes.
+    const nestedAbsolutes = [
+      {
+        measurementKind: 'function-count',
+        label: 'Functions',
+        weight: 0.12,
+        volume: 0,
+        category: 'absolute',
+        magnitude: 0,
+        unit: 'functions',
+      },
+    ];
+    const envelopeOnly = {
+      kind: 'capability-slice',
+      index: 0,
+      title: 'Bitcode Documentation Structure',
+      summary: 'Docs slice',
+      coveredSourcePaths: ['.docs/README.md'],
+      confidence: 0.8,
+      selectable: true,
+      measurements: { absolutes: nestedAbsolutes, needinesses: [] },
+      patch: { fileChanges: [{ path: '.docs/README.md', op: 'modify' }], patchSummary: 'docs' },
+    };
+    const fakeHost = {
+      runHostPlan: async () => ({
+        sandboxId: 'sbx_nested_abs',
+        artifacts: {
+          evidence: {
+            finishPresent: true,
+            // Envelope-first shape (no top-level absolutes) — matches live fail runs.
+            selectionEnvelope: { options: [envelopeOnly], readyToPresent: true },
+            depositOptions: [envelopeOnly],
+            resultState: 'worthy_deposit_candidates',
+          },
+          telemetry: null,
+        },
+        outcome: 'completed',
+        stopped: true,
+        manifest: {},
+        commands: [{ label: 'asset-pack-pipeline-run', exitCode: 0, stderr: '', stdout: '' }],
+      }),
+    };
+    const result = await runDepositInBoxHost({
+      repositoryFullName: 'advancedengineeredsoftware/Bitcode',
+      revision: 'main',
+      branch: 'main',
+      commit: null,
+      obfuscations: null,
+      permissibleSources: [],
+      impermissibleSources: [],
+      demandContext: [],
+      hostFactory: async () => fakeHost,
+    });
+    expect(result.finishPresent).toBe(true);
+    expect(result.options).toHaveLength(1);
+    const option = result.options[0] as {
+      absolutes?: unknown[];
+      measurements?: { absolutes?: unknown[] };
+      title?: string;
+    };
+    expect(option.title).toBe('Bitcode Documentation Structure');
+    expect(Array.isArray(option.absolutes)).toBe(true);
+    expect(option.absolutes).toHaveLength(1);
+    expect(option.absolutes?.[0]).toMatchObject({ measurementKind: 'function-count' });
+    expect(option.measurements?.absolutes).toHaveLength(1);
   });
 });
 
