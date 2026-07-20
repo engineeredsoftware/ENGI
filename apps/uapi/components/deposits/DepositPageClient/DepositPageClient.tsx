@@ -82,6 +82,7 @@ import {
 import { buildDepositSourceCriticalitySignals } from "@/components/deposits/models/deposit-source-criticality";
 import { buildDepositRouteInput } from "@/components/deposits/models/deposit-route-input-builder";
 import { resolvePreferredSignerAddress } from "@/components/deposits/models/deposit-preferred-signer";
+import { hydrateOptionReviewDecisionsFromRuns } from "@/components/deposits/models/deposit-option-review-hydration";
 
 export default function DepositPageClient() {
   const { user } = useAuth();
@@ -263,6 +264,45 @@ export default function DepositPageClient() {
     () => deriveObfuscationsAnchors(liveRuns),
     [liveRuns],
   );
+
+  // Rehydrate already-deposited (disabled) cards when revisiting a synthesis
+  // run after admission was recorded to the ledger (React state is empty).
+  useEffect(() => {
+    const options = realSynthesis?.synthesis?.options;
+    if (!Array.isArray(options) || options.length === 0) return;
+    const optionIds = options
+      .map((option) =>
+        option && typeof option === "object" && "optionId" in option
+          ? String((option as { optionId?: unknown }).optionId || "")
+          : "",
+      )
+      .filter(Boolean);
+    if (optionIds.length === 0) return;
+    const fromLedger = hydrateOptionReviewDecisionsFromRuns({
+      optionIds,
+      liveRuns,
+      synthesisRunId,
+    });
+    if (Object.keys(fromLedger).length === 0) return;
+    setOptionReviewDecisions((current) => {
+      let changed = false;
+      const next = { ...current };
+      for (const [optionId, decision] of Object.entries(fromLedger)) {
+        // Never downgrade an in-session admitted decision.
+        if (current[optionId] === "approved-for-admission") continue;
+        if (current[optionId] === decision) continue;
+        // Prefer ledger admitted over empty / pending local state.
+        if (
+          decision === "approved-for-admission" ||
+          current[optionId] == null
+        ) {
+          next[optionId] = decision;
+          changed = true;
+        }
+      }
+      return changed ? next : current;
+    });
+  }, [liveRuns, realSynthesis, synthesisRunId]);
 
   const optionReviewDecisionRecords = useMemo<DepositOptionReviewDecision[]>(
     () =>

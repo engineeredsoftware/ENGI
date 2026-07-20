@@ -919,6 +919,10 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     contextSource,
     contextWorkbench: contextString('workbench'),
     candidateAssetId: contextString('candidateAssetId'),
+    admissionOptionId: contextString('optionId'),
+    admissionState: contextString('admissionState'),
+    reviewDecision: contextString('reviewDecision'),
+    synthesisRunId: contextString('synthesisRunId'),
     obfuscationsAnchorText: readNestedString(run.output, ['obfuscationsAnchor', 'text']),
     obfuscationsAnchorName:
       readNestedString(run.output, ['obfuscationsAnchor', 'name']) ||

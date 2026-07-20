@@ -4,6 +4,8 @@ import {
   readDepositRouteStage,
   writeDepositRouteStage,
 } from '@/components/deposits/models/deposit-route-model';
+import { hydrateOptionReviewDecisionsFromRuns } from '@/components/deposits/models/deposit-option-review-hydration';
+import type { WorkspaceRun } from '@/components/bitcode/pipeline/models/pipeline-run-data';
 
 /** Fixture: settled-Depository demand is estimatable (no invented placeholders). */
 const SETTLED_DEMAND_ESTIMATABLE = {
@@ -316,5 +318,69 @@ describe('deposit-route-model', () => {
     expect(readDepositRouteStage(withStage)).toBe('submit-deposit');
     expect(readDepositRouteStage(new URLSearchParams('depositStage=unsafe-stage'))).toBeNull();
     expect(writeDepositRouteStage(withStage, null).has('depositStage')).toBe(false);
+  });
+});
+
+describe('hydrateOptionReviewDecisionsFromRuns', () => {
+  function run(
+    partial: Partial<WorkspaceRun> & { id: string },
+  ): WorkspaceRun {
+    return {
+      created_at: '2026-07-19T12:00:00.000Z',
+      type: 'pipeline:deposit-option-admission',
+      status: 'completed',
+      ...partial,
+    };
+  }
+
+  it('marks options admitted-to-depository as approved-for-admission', () => {
+    const decisions = hydrateOptionReviewDecisionsFromRuns({
+      optionIds: ['opt-a', 'opt-b'],
+      synthesisRunId: 'synth-1',
+      liveRuns: [
+        run({
+          id: 'adm-1',
+          contextSource: 'deposit-option-review-admission',
+          admissionOptionId: 'opt-a',
+          admissionState: 'admitted-to-depository',
+          reviewDecision: 'approved-for-admission',
+          synthesisRunId: 'synth-1',
+        }),
+      ],
+    });
+    expect(decisions).toEqual({ 'opt-a': 'approved-for-admission' });
+  });
+
+  it('ignores admissions for other synthesis runs when stamped', () => {
+    const decisions = hydrateOptionReviewDecisionsFromRuns({
+      optionIds: ['opt-a'],
+      synthesisRunId: 'synth-1',
+      liveRuns: [
+        run({
+          id: 'adm-other',
+          contextSource: 'deposit-option-review-admission',
+          admissionOptionId: 'opt-a',
+          admissionState: 'admitted-to-depository',
+          synthesisRunId: 'synth-other',
+        }),
+      ],
+    });
+    expect(decisions).toEqual({});
+  });
+
+  it('accepts undated admission rows (pre-synthesisRunId stamp) by optionId', () => {
+    const decisions = hydrateOptionReviewDecisionsFromRuns({
+      optionIds: ['opt-a'],
+      synthesisRunId: 'synth-1',
+      liveRuns: [
+        run({
+          id: 'adm-legacy',
+          contextSource: 'deposit-option-review-admission',
+          admissionOptionId: 'opt-a',
+          admissionState: 'admitted-to-depository',
+        }),
+      ],
+    });
+    expect(decisions).toEqual({ 'opt-a': 'approved-for-admission' });
   });
 });

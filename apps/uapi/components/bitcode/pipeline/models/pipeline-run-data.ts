@@ -58,6 +58,15 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   needAnchorIrrelevantPaths?: string[] | null;
   /** Optional label on repository·branch·commit anchors. */
   repositoryAnchorName?: string | null;
+  /**
+   * Deposit option review / admission ledger fields — used to rehydrate
+   * already-deposited (disabled) option cards when revisiting a synthesis run.
+   */
+  admissionOptionId?: string | null;
+  admissionState?: string | null;
+  reviewDecision?: string | null;
+  /** Parent deposit synthesis execution id when this row admits an option. */
+  synthesisRunId?: string | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [
