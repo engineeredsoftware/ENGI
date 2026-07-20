@@ -198,7 +198,7 @@ export function MarketingLandingTestnetSection() {
             {copy.badge}
           </span>
         </div>
-        <h2 className="mt-3 text-lg font-semibold leading-snug text-white phone:text-xl">
+        <h2 className="mt-3 text-2xl font-semibold leading-snug tracking-tight text-white phone:text-3xl tablet:text-4xl">
           {renderTitleWithHighlights(copy.title)}
         </h2>
         <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">

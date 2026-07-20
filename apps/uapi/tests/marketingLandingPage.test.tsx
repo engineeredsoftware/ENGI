@@ -137,7 +137,7 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
-        return (node.textContent ?? '').includes('Exchange Code for Coin.');
+        return (node.textContent ?? '').includes('Code for Coin.');
       }),
     ).toBeInTheDocument();
     expect(screen.getByText('Code', { selector: 'h2 span' })).toBeInTheDocument();
