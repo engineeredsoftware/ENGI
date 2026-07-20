@@ -109,7 +109,7 @@ describe('MarketingLandingPage', () => {
         const text = node.textContent ?? '';
         return (
           text.includes('Deposit AssetPacks synthesized from source code') &&
-          text.includes('using Bitcoin') &&
+          text.includes('using Crypto') &&
           text.includes('completely auditable') &&
           text.includes('verifiable ledger')
         );
