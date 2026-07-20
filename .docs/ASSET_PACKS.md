@@ -367,9 +367,13 @@ Also stores `discovery:codebaseComprehension` (map alone) for Implementation.
 |--|--|
 | **Objective** | Plan Depository search queries; produce **read-demand guidance** so packs are buyer-aligned |
 | **Plan inputs** | Catalog paths/samples, obfuscations, checkout measurements, demandContext |
-| **Tool** | `depository-asset-pack-search` (lexical rank; optional vector RPC when `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` + credentials) |
+| **Tool** | `depository-asset-pack-search` — **multi-query hybrid**: lexical over preloaded supply assets + optional vector (`BITCODE_DEPOSITORY_VECTOR_SEARCH=1`); static filters (kind/repo/lifecycle); union-by-assetId rank |
+| **Index** | On admit: `POST /api/depository/index` upserts `depository_search_documents` + embeds into `depository_search_vectors` (`match_depository_asset_pack_vectors`) |
+| **Runtime** | Deposit + read dispatch **preload** settled/admitted assets onto execution before Discovery |
 | **Output** | `{ guidance: { summary, likelyReadTopics?, demandAlignment?, underservedTopics?, readabilityNotes?, searchQueries? }, searchQueries? }` |
 | **Stores** | `discovery:depositorySearch`, `discovery:depositorySearchQueries`, `discovery:depositorySearchToolResult` |
+
+**Read product** uses the same tool with `product: 'read-need-fits'` and explicit multi-query fan-out (3–12 Need-grounded queries) so finding fits is real retrieval, not guidance-only.
 
 ### 5.3 `discovery:inherent-regurgitation`
 

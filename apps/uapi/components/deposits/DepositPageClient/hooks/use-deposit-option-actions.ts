@@ -106,13 +106,40 @@ export function useDepositOptionActions(input: {
 
       try {
         if (admitted) {
+          const option = findOption(optionId);
           await handleRecordActivity(
             buildDepositOptionAdmissionActivityDraft({
               receipt,
-              option: findOption(optionId),
+              option,
               synthesisRunId: depositRouteInput?.transactionId || null,
             }),
           );
+          // Background: static search document + optional embed for depository search.
+          try {
+            const assetId =
+              receipt.admission?.depositoryAssetPackId ||
+              receipt.activityId ||
+              optionId;
+            void fetch('/api/depository/index', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                assetId,
+                title: receipt.title || option?.title || null,
+                summary: option?.summary || null,
+                kind: option?.kind || null,
+                repositoryFullName:
+                  depositRouteInput?.repositoryFullName || null,
+                lifecycle: 'admitted-to-depository',
+                topics: [],
+                coveredSourcePaths: option?.coveredSourcePaths || [],
+              }),
+            }).catch(() => {
+              /* index is best-effort; admission already succeeded */
+            });
+          } catch {
+            /* optional */
+          }
         } else {
           await handleRecordActivity({
             type: "pipeline:deposit-option-review",
