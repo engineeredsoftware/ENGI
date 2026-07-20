@@ -204,6 +204,9 @@ export function buildRealDepositAssetPackOptionSynthesis(
           unit: typeof m.unit === 'string' && m.unit.length > 0 ? m.unit : 'normalized',
           evidenceRoot: m.evidenceRoot,
         })),
+        // Deposit options are absolutes-only; neediness is Read-pipeline only.
+        // SynthesisMeasurementsByKind still requires the nested key present.
+        needinesses: [],
       },
       provenantSourcePaths: candidate.coveredSourcePaths,
     });
