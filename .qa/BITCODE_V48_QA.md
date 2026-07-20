@@ -18,9 +18,18 @@ fake measurements; reloading synthesis run
 
 **Live monitor (Gate 4 close):** deposit synthesis run
 `e359b78a-7c73-49bb-a54b-35e32dd1ef94` on staging-testnet
-(`tkpyosihuouusyaxtbau`) — backgrounded while closing admission/packs projection.
-Verify when terminal: optionCount ≥ 1 with absolute measurements; admit all
-selected → N packs rows with absolute chips only.
+(`tkpyosihuouusyaxtbau`).
+
+- **Terminal:** `completed` (~490s sandbox host, repo
+  `advancedengineeredsoftware/Bitcode` @ `version/v48`).
+- **Options:** 3 presentable packs, each with **8 absolute measurements** +
+  contents (path-op): Documentation Capability, Proof Artifacts Operations,
+  Application Manifest Patterns.
+- **Next operator step:** select all 3 → confirm deposit → expect **3**
+  `/packs` depository rows with absolute chips only (no session candidate
+  counts). Reload
+  `/deposits?transactionId=e359b78a-7c73-49bb-a54b-35e32dd1ef94` → options +
+  telemetry rehydrate.
 
 
 - Version: `V48`
