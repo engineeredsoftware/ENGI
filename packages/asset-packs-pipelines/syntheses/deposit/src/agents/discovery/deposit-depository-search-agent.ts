@@ -246,13 +246,32 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
       embedQuery,
     });
     storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearchToolResult', toolResult);
+    storeCrossPhaseArtifact(
+      execution,
+      'discovery',
+      'depositorySearchTelemetry',
+      toolResult?.telemetry || null,
+    );
     storeCrossPhaseArtifact(execution, 'tools', 'depository-asset-pack-search', {
       hitCount: toolResult?.hitCount,
       queryTerms: toolResult?.queryTerms,
+      queries: toolResult?.queries,
       vectorStore: toolResult?.vectorStore,
       embeddingPolicy: toolResult?.embeddingPolicy,
       product: 'deposit-relevants',
+      telemetry: toolResult?.telemetry || null,
     });
+    // Stream-friendly quality snapshot for operators debugging relevants search.
+    try {
+      const t = toolResult?.telemetry;
+      if (t && typeof (execution as any)?.emit === 'function') {
+        (execution as any).emit('status', {
+          message: `depository-search: product=${t.product} queries=${t.queryCount} hits=${t.hitCount} corpus=${t.assetCorpusAfterFilters} vector=${t.vector.status} ${t.durationMs}ms`,
+        });
+      }
+    } catch {
+      /* optional */
+    }
 
     if (toolResult?.underservedTopics?.length) {
       guidance = {

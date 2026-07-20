@@ -34,12 +34,13 @@ CREATE INDEX IF NOT EXISTS idx_depository_search_documents_topics
 CREATE INDEX IF NOT EXISTS idx_depository_search_documents_absolute_kinds
   ON public.depository_search_documents USING gin (absolute_kinds);
 
+-- Product embed: open-source gte-small (384d). Supabase pgvector store only.
 CREATE TABLE IF NOT EXISTS public.depository_search_vectors (
   asset_id uuid PRIMARY KEY
     REFERENCES public.depository_search_documents (asset_id) ON DELETE CASCADE,
-  embedding public.vector(1536),
-  model text NOT NULL DEFAULT 'text-embedding-3-small',
-  dimensions int NOT NULL DEFAULT 1536,
+  embedding public.vector(384),
+  model text NOT NULL DEFAULT 'gte-small',
+  dimensions int NOT NULL DEFAULT 384,
   embedding_state text NOT NULL DEFAULT 'pending',
   updated_at timestamptz NOT NULL DEFAULT now()
 );
@@ -51,7 +52,7 @@ CREATE INDEX IF NOT EXISTS idx_depository_search_vectors_embedding
   WITH (lists = 100);
 
 CREATE OR REPLACE FUNCTION public.match_depository_asset_pack_vectors(
-  query_embedding public.vector,
+  query_embedding public.vector(384),
   match_threshold double precision DEFAULT 0.5,
   match_count integer DEFAULT 12
 )

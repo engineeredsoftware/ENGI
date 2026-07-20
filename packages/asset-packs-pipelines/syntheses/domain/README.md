@@ -21,6 +21,8 @@ depository search/supply, reading pipeline contracts, synthesis helpers.
 
 **Runtime:** deposit and read dispatch preload admitted/settled packs into
 execution stores before Discovery. **Index:** uapi `POST /api/depository/index`
-on admit (documents + vectors tables).
+on admit (documents + pgvector vectors). **Embed:** Edge Function `embed`
+(gte-small 384) — store is always Supabase pgvector, never OpenAI vector DB.
 
 Product lenses only: `deposit-relevants` | `read-need-fits`.
+Search quality: tool returns `telemetry` stored as `discovery:depositorySearchTelemetry`.

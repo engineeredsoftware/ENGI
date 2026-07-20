@@ -241,8 +241,8 @@ AssetPack = **patch + measurements + metadata**.
 | D-05 | sourceCheckoutCatalog naming (not inventory) | closed | Canonical key + resolve helper; legacy `inventory` dual-write only for stream filters |
 | D-06 | Discovery agents parallel (3) | closed | `parallel(comprehend-codebase, search-depository, inherent-regurgitation)` |
 | D-07 | comprehend-codebase measures + LSP + tree + key files | closed | `codebase-analysis-helpers` + measure + LSP queries + keyFileReads + PTRR prompts require all evidence; stores `discovery:codebaseAnalysis` |
-| D-08 | Depository search tool (embeddings/vectors) + Plan queries | closed | Multi-query hybrid `runDepositDepositoryAssetPackSearch`: lexical + static filters; vector when `BITCODE_DEPOSITORY_VECTOR_SEARCH=1`; RPC prefers `match_depository_asset_pack_vectors`; agent Plan→queries[]→tool; dispatch preloads supply assets |
-| D-19 | Index on admit (static doc + embed) | closed | Migration `depository_search_*`; `POST /api/depository/index` + `indexDepositoryAssetPack`; fired from deposit option admission |
+| D-08 | Depository search tool (embeddings/vectors) + Plan queries | closed | Multi-query hybrid: keyword + pgvector; gte-small 384 Edge embed (not OpenAI); `match_depository_asset_pack_vectors`; search-quality telemetry; preload supply |
+| D-19 | Index on admit (static doc + embed) | closed | Migrations 384d; Edge `embed` (gte-small); `POST /api/depository/index` → documents + pgvector upsert; no OpenAI Embeddings API |
 | D-09 | AssetPack = patch + measurements + metadata (required) | closed | Implementation attaches absolutes; Validation fail-closes without them |
 | D-10 | Single validation ready-to-finish deposit agent | closed | A prior phases · B pack quality · C obfuscations vs patch |
 | D-11 | Finish store-artifacts | closed | Bundle + optional `deposit:persistArtifacts` hook; dispatch wires hook |

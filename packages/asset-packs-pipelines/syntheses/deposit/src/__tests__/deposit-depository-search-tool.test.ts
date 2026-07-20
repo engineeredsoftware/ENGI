@@ -38,7 +38,12 @@ describe('runDepositDepositoryAssetPackSearch', () => {
     expect(result.queryTerms).toEqual(['auth', 'billing']);
     expect(result.hitCount).toBe(0);
     expect(result.vectorStore.status).toBe('policy-declared');
-    expect(result.embeddingPolicy.vectorStore.rpc).toBe('match_deliverable_vectors');
+    expect(result.embeddingPolicy.vectorStore.rpc).toBe(
+      'match_depository_asset_pack_vectors',
+    );
+    expect(result.embeddingPolicy.model).toBe('gte-small');
+    expect(result.telemetry.schema).toBe('bitcode.depository.search-quality-telemetry');
+    expect(result.telemetry.hitCount).toBe(0);
     expect(result.underservedTopics).toEqual(['auth', 'billing']);
   });
 
@@ -99,8 +104,8 @@ describe('runDepositDepositoryAssetPackSearch', () => {
     expect(['lexical-only', 'hybrid', 'vector-matched']).toContain(result.vectorStore.status);
   });
 
-  it('hybrid merges vector RPC hits when enabled', async () => {
-    const embedQuery = jest.fn(async () => Array(1536).fill(0.01));
+  it('hybrid merges vector RPC hits when enabled (gte-small 384 / pgvector)', async () => {
+    const embedQuery = jest.fn(async () => Array(384).fill(0.01));
     const supabase = {
       rpc: jest.fn(async () => ({
         data: [{ asset_id: 'vec-9', title: 'Vector hit', similarity: 0.91 }],
@@ -127,6 +132,11 @@ describe('runDepositDepositoryAssetPackSearch', () => {
     );
     expect(result.hits.some((h) => h.assetId === 'vec-9')).toBe(true);
     expect(result.vectorStore.status).toBe('hybrid');
+    expect(result.embeddingPolicy.provider).toBe('supabase-gte-small');
+    expect(result.embeddingPolicy.dimensions).toBe(384);
+    expect(result.telemetry.vector.store).toBe('supabase-pgvector');
+    expect(result.telemetry.vector.queriesEmbedded).toBeGreaterThan(0);
+    expect(result.telemetry.hitCount).toBe(result.hitCount);
   });
 
   it('fans out multi-query and unions hits by assetId', async () => {

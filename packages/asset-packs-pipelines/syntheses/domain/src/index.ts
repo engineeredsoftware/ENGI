@@ -60,6 +60,7 @@ export * from './depository-settled-demand-estimate';
 export * from './runtime-inference-policy';
 export * from './semantic-resolution';
 export * from './embedding-config';
+export * from './depository-embed';
 export * from './resolve-source-checkout-catalog';
 
 // Phase builders shared by both products (setup/discovery helpers).

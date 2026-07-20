@@ -582,13 +582,13 @@ split into `*-types.ts`, `*-helpers.ts`, and builders. Shared source-safe hash/r
 helpers live in `deposit-source-safe-utils.ts`.
 
 **Depository search (finding APs):** low-level tool
-`runDepositDepositoryAssetPackSearch` (multi-query hybrid: static filters +
-lexical + optional vector). Deposit Discovery uses product `deposit-relevants`;
-read uses `read-need-fits`. Dispatch preloads supply assets before Discovery.
-On admit, uapi `POST /api/depository/index` fills `depository_search_documents`
-+ `depository_search_vectors` (`match_depository_asset_pack_vectors`).
-Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` + embedding API key. Law:
-`.docs/ASSET_PACKS.md` §5.2 and `BITCODE_SPEC_V48.md` depository search law.
+`runDepositDepositoryAssetPackSearch` (multi-query hybrid: keyword + semantic).
+**Store** = Supabase Postgres + **pgvector** only. **Embed** = open-source
+**gte-small (384d)** via Edge Function `embed` (`Supabase.ai.Session`) — not
+OpenAI Embeddings. Deposit Discovery uses `deposit-relevants`; read uses
+`read-need-fits`. Dispatch preloads supply before Discovery. Admit indexes via
+`POST /api/depository/index`. Search quality telemetry on
+`discovery:depositorySearchTelemetry`. Law: `.docs/ASSET_PACKS.md` §5.2.
 
 **Read needinesses:** static catalogue + dynamic plan
 (`dynamicNeedinesses[{measurementKind,label,guidance,weight}]`) from Need

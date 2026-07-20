@@ -373,11 +373,14 @@ Deposit and read Discovery share **`depository-asset-pack-search`**
 **Index on admit:** when a deposit option is admitted to the Depository, the
 product enqueues indexing:
 
-1. Upsert source-safe row in `depository_search_documents` (static fields + embed text).
-2. Embed `embed_text` (OpenAI `text-embedding-3-small`, 1536 dims) into
-   `depository_search_vectors`.
-3. Search uses `match_depository_asset_pack_vectors` (legacy `match_deliverable_vectors`
-   remains a fallback RPC only).
+1. Upsert source-safe row in `depository_search_documents` (structured metadata + embed text).
+2. Embed `embed_text` with open-source **gte-small (384 dims)** via Supabase Edge
+   Function (`Supabase.ai.Session`) — **not** the OpenAI Embeddings API.
+3. Upsert into `depository_search_vectors` (Postgres **pgvector** only).
+4. Search uses `match_depository_asset_pack_vectors` (cosine).
+
+**Store law:** depository vectors live only in Supabase Postgres/pgvector.
+OpenAI is not a vector database for Bitcode depository search.
 
 **Runtime preload:** both deposit and read synthesize dispatch load admitted /
 settled supply into execution stores (`depository.settledAssets` /

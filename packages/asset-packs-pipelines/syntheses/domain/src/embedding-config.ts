@@ -1,16 +1,31 @@
 /**
- * AssetPack / depository embedding policy constants.
+ * Depository / AssetPack embedding policy.
  *
- * Product Durable store (V48 Gate 5): depository_search_documents +
- * depository_search_vectors keyed by admitted AssetPack id.
- * Legacy Exchange deliverable_vectors remains for fallback RPC only.
+ * Product law (V48 Gate 5):
+ * - **Store / index / query** = Supabase Postgres + pgvector only
+ *   (`depository_search_documents` + `depository_search_vectors`)
+ * - **Embed generation** = open-source **gte-small** (384 dims) via Supabase
+ *   Edge Function (`Supabase.ai.Session`) — not OpenAI Embeddings API
+ * - OpenAI remains allowed only for product LLM synthesis, not depository vectors
+ *
+ * Legacy Exchange `deliverable_vectors` / 1536 OpenAI path is deprecated fallback.
  */
-export const ASSET_PACK_EMBEDDING_PROVIDER = 'openai' as const;
-export const DEFAULT_ASSET_PACK_EMBEDDING_MODEL = 'text-embedding-3-small' as const;
-export const ASSET_PACK_VECTOR_DIMENSIONS = 1536 as const;
-export const ASSET_PACK_EMBEDDING_INPUT_TOKEN_LIMIT = 8192 as const;
+
+/** Product embed provider id (open-source gte-small on Supabase). */
+export const ASSET_PACK_EMBEDDING_PROVIDER = 'supabase-gte-small' as const;
+
+/** Hugging Face / Supabase built-in model id. */
+export const DEFAULT_ASSET_PACK_EMBEDDING_MODEL = 'gte-small' as const;
+
+/** gte-small output dimensions (Supabase Edge AI + Transformers.js). */
+export const ASSET_PACK_VECTOR_DIMENSIONS = 384 as const;
+
+/** Soft cap on embed input characters (source-safe metadata only). */
+export const ASSET_PACK_EMBEDDING_INPUT_TOKEN_LIMIT = 512 as const;
+
 export const ASSET_PACK_EMBEDDING_ENCODING_FORMAT = 'float' as const;
-/** @deprecated Exchange-era table; prefer depository_search_vectors for APs. */
+
+/** @deprecated Exchange-era table; prefer depository_search_vectors. */
 export const ASSET_PACK_VECTOR_STORAGE_TABLE = 'deliverable_vectors' as const;
 export const ASSET_PACK_VECTOR_STORAGE_COLUMN = 'embedding' as const;
 /** @deprecated Prefer MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC. */
@@ -21,26 +36,32 @@ export const DEPOSITORY_SEARCH_DOCUMENTS_TABLE = 'depository_search_documents' a
 export const DEPOSITORY_SEARCH_VECTORS_TABLE = 'depository_search_vectors' as const;
 export const MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC =
   'match_depository_asset_pack_vectors' as const;
+
 export const ASSET_PACK_VECTOR_DISTANCE_METRIC = 'cosine' as const;
 export const ASSET_PACK_VECTOR_INDEX_METHOD = 'ivfflat' as const;
 export const ASSET_PACK_VECTOR_OPERATOR_CLASS = 'vector_cosine_ops' as const;
 
+export type AssetPackEmbeddingProviderId =
+  | typeof ASSET_PACK_EMBEDDING_PROVIDER
+  | 'openai'; // deprecated depository path only
+
 export interface AssetPackEmbeddingConfig {
-  provider: typeof ASSET_PACK_EMBEDDING_PROVIDER;
+  provider: AssetPackEmbeddingProviderId;
   model: string;
   dimensions: number;
   encodingFormat: typeof ASSET_PACK_EMBEDDING_ENCODING_FORMAT;
   inputTokenLimit: number;
   vectorStore: {
-    table: typeof ASSET_PACK_VECTOR_STORAGE_TABLE;
-    column: typeof ASSET_PACK_VECTOR_STORAGE_COLUMN;
-    rpc: typeof ASSET_PACK_VECTOR_MATCH_RPC;
+    table: string;
+    column: string;
+    rpc: string;
     distanceMetric: typeof ASSET_PACK_VECTOR_DISTANCE_METRIC;
     indexMethod: typeof ASSET_PACK_VECTOR_INDEX_METHOD;
     operatorClass: typeof ASSET_PACK_VECTOR_OPERATOR_CLASS;
   };
 }
 
+/** @deprecated OpenAI Embeddings API — not used for depository index/search. */
 export interface OpenAIEmbeddingCreateParams {
   model: string;
   input: string;
@@ -48,6 +69,7 @@ export interface OpenAIEmbeddingCreateParams {
   dimensions?: number;
 }
 
+/** @deprecated Prefer gte-small product path. */
 export function supportsOpenAIEmbeddingDimensions(model: string): boolean {
   return model.startsWith('text-embedding-3-');
 }
@@ -55,7 +77,7 @@ export function supportsOpenAIEmbeddingDimensions(model: string): boolean {
 function firstEnvString(
   env: NodeJS.ProcessEnv,
   keys: readonly string[],
-  fallback: string
+  fallback: string,
 ): string {
   for (const key of keys) {
     const value = env[key]?.trim();
@@ -67,7 +89,7 @@ function firstEnvString(
 function firstEnvInteger(
   env: NodeJS.ProcessEnv,
   keys: readonly string[],
-  fallback: number
+  fallback: number,
 ): number {
   for (const key of keys) {
     const parsed = Number.parseInt(env[key] ?? '', 10);
@@ -76,28 +98,34 @@ function firstEnvInteger(
   return fallback;
 }
 
+/**
+ * Resolve product embedding config for depository index + search.
+ * Defaults: supabase-gte-small / gte-small / 384 / product tables + RPC.
+ */
 export function resolveAssetPackEmbeddingConfig(
   env: NodeJS.ProcessEnv = process.env,
   options?: {
     modelEnvKeys?: readonly string[];
     dimensionsEnvKeys?: readonly string[];
-  }
+  },
 ): AssetPackEmbeddingConfig {
   const model = firstEnvString(
     env,
     options?.modelEnvKeys ?? [
+      'BITCODE_DEPOSITORY_EMBEDDING_MODEL',
       'BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_MODEL',
       'BITCODE_DEFAULT_EMBEDDING_MODEL',
     ],
-    DEFAULT_ASSET_PACK_EMBEDDING_MODEL
+    DEFAULT_ASSET_PACK_EMBEDDING_MODEL,
   );
   const dimensions = firstEnvInteger(
     env,
     options?.dimensionsEnvKeys ?? [
+      'BITCODE_DEPOSITORY_EMBEDDING_DIMENSIONS',
       'BITCODE_ASSET_PACK_EVIDENCE_EMBEDDING_DIMENSIONS',
       'BITCODE_DEFAULT_EMBEDDING_DIMENSIONS',
     ],
-    ASSET_PACK_VECTOR_DIMENSIONS
+    ASSET_PACK_VECTOR_DIMENSIONS,
   );
 
   return {
@@ -107,9 +135,9 @@ export function resolveAssetPackEmbeddingConfig(
     encodingFormat: ASSET_PACK_EMBEDDING_ENCODING_FORMAT,
     inputTokenLimit: ASSET_PACK_EMBEDDING_INPUT_TOKEN_LIMIT,
     vectorStore: {
-      table: ASSET_PACK_VECTOR_STORAGE_TABLE,
+      table: DEPOSITORY_SEARCH_VECTORS_TABLE,
       column: ASSET_PACK_VECTOR_STORAGE_COLUMN,
-      rpc: ASSET_PACK_VECTOR_MATCH_RPC,
+      rpc: MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
       distanceMetric: ASSET_PACK_VECTOR_DISTANCE_METRIC,
       indexMethod: ASSET_PACK_VECTOR_INDEX_METHOD,
       operatorClass: ASSET_PACK_VECTOR_OPERATOR_CLASS,
@@ -117,9 +145,13 @@ export function resolveAssetPackEmbeddingConfig(
   };
 }
 
+/**
+ * @deprecated OpenAI Embeddings request shape — not used for depository path.
+ * Retained for legacy evidence scripts only.
+ */
 export function buildOpenAIEmbeddingCreateParams(
   input: string,
-  config: AssetPackEmbeddingConfig = resolveAssetPackEmbeddingConfig()
+  config: AssetPackEmbeddingConfig = resolveAssetPackEmbeddingConfig(),
 ): OpenAIEmbeddingCreateParams {
   return {
     model: config.model,
@@ -133,7 +165,7 @@ export function buildOpenAIEmbeddingCreateParams(
 
 export function normalizeAssetPackEmbeddingVector(
   value: unknown,
-  config: AssetPackEmbeddingConfig = resolveAssetPackEmbeddingConfig()
+  config: AssetPackEmbeddingConfig = resolveAssetPackEmbeddingConfig(),
 ): number[] | null {
   if (!Array.isArray(value) || value.length !== config.dimensions) {
     return null;
@@ -144,7 +176,7 @@ export function normalizeAssetPackEmbeddingVector(
 }
 
 export function buildAssetPackEmbeddingPolicy(
-  config: AssetPackEmbeddingConfig = resolveAssetPackEmbeddingConfig()
+  config: AssetPackEmbeddingConfig = resolveAssetPackEmbeddingConfig(),
 ) {
   return {
     provider: config.provider,
@@ -153,5 +185,6 @@ export function buildAssetPackEmbeddingPolicy(
     encodingFormat: config.encodingFormat,
     inputTokenLimit: config.inputTokenLimit,
     vectorStore: config.vectorStore,
+    store: 'supabase-pgvector' as const,
   };
 }

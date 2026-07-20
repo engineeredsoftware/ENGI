@@ -1,24 +1,26 @@
 /**
  * Background depository search index job (V48 Gate 5).
  *
- * On AssetPack admission: upsert source-safe search document + embed text into
- * depository_search_vectors (OpenAI text-embedding-3-small, 1536 dims).
+ * On AssetPack admission:
+ * 1. Upsert source-safe structured row → depository_search_documents
+ * 2. Embed with open-source gte-small (384) via Supabase Edge Function
+ * 3. Upsert vector → depository_search_vectors (Postgres + pgvector)
  *
- * Called from POST /api/depository/index (and optionally fire-and-forget after
- * deposit option admission). Fail-soft: missing tables / API keys leave the
- * document in pending without throwing into the admission UX path.
+ * Does **not** call OpenAI Embeddings API. Fail-soft when Edge/embed unconfigured.
  *
- * Spec: BITCODE_SPEC_V48.md depository search law; migration
- * supabase/migrations/20260720120000_depository_search_index.sql.
+ * Spec: BITCODE_SPEC_V48.md depository search law;
+ * migrations 20260720120000 + 20260720140000 (gte-small 384).
  */
 
 import { createHash } from 'crypto';
 import { supabaseAdmin } from '@bitcode/supabase';
 import {
-  buildOpenAIEmbeddingCreateParams,
-  normalizeAssetPackEmbeddingVector,
+  ASSET_PACK_VECTOR_DIMENSIONS,
+  DEFAULT_ASSET_PACK_EMBEDDING_MODEL,
   resolveAssetPackEmbeddingConfig,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/embedding-config';
+import { embedDepositoryText } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-embed';
+import { bitcodeServerTelemetry } from '@/lib/bitcode-server-telemetry';
 
 export type DepositoryIndexPackInput = {
   assetId: string;
@@ -31,7 +33,7 @@ export type DepositoryIndexPackInput = {
   coveredSourcePaths?: string[] | null;
   absoluteKinds?: string[] | null;
   absoluteVolumes?: Record<string, number> | null;
-  /** When true, skip OpenAI embed and only upsert document (static index). */
+  /** When true, only upsert document (static index). */
   skipEmbed?: boolean;
 };
 
@@ -70,32 +72,8 @@ export function buildDepositoryEmbedText(input: DepositoryIndexPackInput): strin
   return parts.join(' ').slice(0, 8000);
 }
 
-async function embedText(text: string): Promise<{ vector: number[]; model: string; dimensions: number } | null> {
-  const key = process.env.OPENAI_API_KEY?.trim() || process.env.BITCODE_OPENAI_API_KEY?.trim();
-  if (!key || !text.trim()) return null;
-  const config = resolveAssetPackEmbeddingConfig();
-  const body = buildOpenAIEmbeddingCreateParams(text, config);
-  try {
-    const res = await fetch('https://api.openai.com/v1/embeddings', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${key}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) return null;
-    const json = (await res.json()) as { data?: Array<{ embedding?: unknown }> };
-    const vector = normalizeAssetPackEmbeddingVector(json?.data?.[0]?.embedding, config);
-    if (!vector) return null;
-    return { vector, model: config.model, dimensions: config.dimensions };
-  } catch {
-    return null;
-  }
-}
-
 /**
- * Upsert static search document and optional vector for one admitted AssetPack.
+ * Upsert static search document + optional gte-small vector for one admitted AP.
  */
 export async function indexDepositoryAssetPack(
   input: DepositoryIndexPackInput,
@@ -104,6 +82,7 @@ export async function indexDepositoryAssetPack(
   assetId: string;
   embeddingState: 'pending' | 'ready' | 'failed' | 'skipped';
   error?: string;
+  telemetry?: Record<string, unknown>;
 }> {
   const assetId = asString(input.assetId);
   if (!assetId) {
@@ -118,6 +97,7 @@ export async function indexDepositoryAssetPack(
     .map((p) => p.split('/').pop() || p)
     .filter(Boolean)
     .slice(0, 40);
+  const config = resolveAssetPackEmbeddingConfig();
 
   const documentRow = {
     asset_id: assetId,
@@ -142,7 +122,10 @@ export async function indexDepositoryAssetPack(
       .from('depository_search_documents')
       .upsert(documentRow, { onConflict: 'asset_id' });
     if (docError) {
-      // Table may not be migrated yet — fail soft.
+      bitcodeServerTelemetry('warn', 'depository-index', 'document-upsert-failed', {
+        assetId,
+        message: docError.message,
+      });
       return {
         ok: false,
         assetId,
@@ -151,34 +134,68 @@ export async function indexDepositoryAssetPack(
       };
     }
   } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    bitcodeServerTelemetry('warn', 'depository-index', 'document-upsert-error', {
+      assetId,
+      message,
+    });
     return {
       ok: false,
       assetId,
       embeddingState: 'failed',
-      error: err instanceof Error ? err.message : String(err),
+      error: message,
     };
   }
 
+  bitcodeServerTelemetry('info', 'depository-index', 'document-upserted', {
+    assetId,
+    embedTextRoot,
+    topicCount: topics.length,
+    pathTokenCount: pathTokens.length,
+    kind: input.kind || null,
+    repositoryFullName: input.repositoryFullName || null,
+  });
+
   if (input.skipEmbed) {
-    return { ok: true, assetId, embeddingState: 'skipped' };
+    return {
+      ok: true,
+      assetId,
+      embeddingState: 'skipped',
+      telemetry: { embedTextRoot, skipped: true },
+    };
   }
 
-  const embedded = await embedText(embedTextValue);
+  const embedded = await embedDepositoryText(embedTextValue);
   if (!embedded) {
     await supabaseAdmin
       .from('depository_search_documents')
       .update({ embedding_state: 'pending', updated_at: new Date().toISOString() })
       .eq('asset_id', assetId);
-    return { ok: true, assetId, embeddingState: 'pending' };
+    bitcodeServerTelemetry('info', 'depository-index', 'embed-pending', {
+      assetId,
+      reason: 'edge-embed-unavailable',
+      model: config.model,
+      dimensions: config.dimensions,
+    });
+    return {
+      ok: true,
+      assetId,
+      embeddingState: 'pending',
+      telemetry: {
+        embedTextRoot,
+        embedSource: null,
+        reason: 'edge-embed-unavailable',
+      },
+    };
   }
 
   try {
     const { error: vecError } = await supabaseAdmin.from('depository_search_vectors').upsert(
       {
         asset_id: assetId,
-        embedding: embedded.vector,
-        model: embedded.model,
-        dimensions: embedded.dimensions,
+        embedding: embedded.embedding,
+        model: embedded.model || DEFAULT_ASSET_PACK_EMBEDDING_MODEL,
+        dimensions: embedded.dimensions || ASSET_PACK_VECTOR_DIMENSIONS,
         embedding_state: 'ready',
         updated_at: new Date().toISOString(),
       },
@@ -189,19 +206,51 @@ export async function indexDepositoryAssetPack(
         .from('depository_search_documents')
         .update({ embedding_state: 'failed', updated_at: new Date().toISOString() })
         .eq('asset_id', assetId);
+      bitcodeServerTelemetry('warn', 'depository-index', 'vector-upsert-failed', {
+        assetId,
+        message: vecError.message,
+      });
       return { ok: false, assetId, embeddingState: 'failed', error: vecError.message };
     }
     await supabaseAdmin
       .from('depository_search_documents')
       .update({ embedding_state: 'ready', updated_at: new Date().toISOString() })
       .eq('asset_id', assetId);
-    return { ok: true, assetId, embeddingState: 'ready' };
+
+    bitcodeServerTelemetry('info', 'depository-index', 'vector-ready', {
+      assetId,
+      model: embedded.model,
+      dimensions: embedded.dimensions,
+      provider: embedded.provider,
+      embedSource: embedded.source,
+      embedTextRoot,
+      store: 'supabase-pgvector',
+    });
+
+    return {
+      ok: true,
+      assetId,
+      embeddingState: 'ready',
+      telemetry: {
+        embedTextRoot,
+        model: embedded.model,
+        dimensions: embedded.dimensions,
+        provider: embedded.provider,
+        embedSource: embedded.source,
+        store: 'supabase-pgvector',
+      },
+    };
   } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    bitcodeServerTelemetry('warn', 'depository-index', 'vector-upsert-error', {
+      assetId,
+      message,
+    });
     return {
       ok: false,
       assetId,
       embeddingState: 'failed',
-      error: err instanceof Error ? err.message : String(err),
+      error: message,
     };
   }
 }

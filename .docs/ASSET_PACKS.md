@@ -379,13 +379,23 @@ Also stores `discovery:codebaseComprehension` (map alone) for Implementation.
 
 | Variable | Role |
 | --- | --- |
-| `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` | Enable vector channel in search tool |
-| `OPENAI_API_KEY` / `BITCODE_OPENAI_API_KEY` | Embed queries + admit-time pack embeds |
-| Migration `20260720120000_depository_search_index.sql` | Creates documents + vectors + match RPC |
+| `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` | Enable semantic (pgvector) channel |
+| `BITCODE_DEPOSITORY_EMBED_URL` | Optional full URL to Edge Function `embed` |
+| `SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_URL` | Base for `/functions/v1/embed` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Auth for Edge Function + RPC |
+| `BITCODE_DEPOSITORY_EMBED_MODE=edge\|mock` | `mock`/`off` skips embed (lexical only) |
+| Migrations `20260720120000_*` + `20260720140000_*` | documents + vectors **vector(384)** + match RPC |
+| Edge Function `supabase/functions/embed` | gte-small via `Supabase.ai.Session` |
 
-**Tests:** `deposit-depository-search-tool.test.ts` (multi-query, static filters, hybrid);
-`read-neediness-measurements.test.ts` (labels, weight re-norm); `depositoryIndexJob.test.ts`
-(embed text + pack→asset map).
+**Store:** Supabase Postgres + **pgvector** only. **Embed:** open-source **gte-small (384)**.  
+Not OpenAI Embeddings API / not external vector DBs.
+
+**Telemetry:** each search returns `telemetry` (`bitcode.depository.search-quality-telemetry`)
+with queries, hit ranks/scores/channels, corpus size, vector embed success counts,
+duration — stored on execution as `discovery:depositorySearchTelemetry`.
+
+**Tests:** `deposit-depository-search-tool.test.ts` (multi-query, static filters, hybrid +
+telemetry); `embedding-config.test.ts` (384/gte-small); `depositoryIndexJob.test.ts`.
 
 ### 5.3 `discovery:inherent-regurgitation`
 

@@ -30,6 +30,7 @@
     "./depository-supply-index-types": "./src/depository-supply-index-types.ts",
     "./depository-supply-index": "./src/depository-supply-index.ts",
     "./embedding-config": "./src/embedding-config.ts",
+    "./depository-embed": "./src/depository-embed.ts",
     "./postprocess": "./src/postprocess.ts",
     "./preprocess": "./src/preprocess.ts",
     "./resolve-source-checkout-catalog": "./src/resolve-source-checkout-catalog.ts",

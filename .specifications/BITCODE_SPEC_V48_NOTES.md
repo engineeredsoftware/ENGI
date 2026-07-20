@@ -1273,12 +1273,14 @@ Finding APs is the critical path of read (Need → many queries → rank → syn
 
 | Piece | Location / behavior |
 | --- | --- |
-| Low-level tool | `runDepositDepositoryAssetPackSearch` — multi-query, static filters, lexical + optional vector |
+| Low-level tool | `runDepositDepositoryAssetPackSearch` — multi-query hybrid (keyword + semantic) |
 | Preload | `loadDepositorySearchAssets` in deposit + read dispatch before SDIVF Discovery |
-| Durable index | `depository_search_documents` + `depository_search_vectors` |
-| Match RPC | `match_depository_asset_pack_vectors` (primary); legacy deliverable RPC fallback |
-| Admit job | `POST /api/depository/index` → `indexDepositoryAssetPack` (document + embed) |
-| Env | `BITCODE_DEPOSITORY_VECTOR_SEARCH=1`, `OPENAI_API_KEY`, migration applied |
+| Durable index | `depository_search_documents` + `depository_search_vectors` (**pgvector**) |
+| Embed | open-source **gte-small / 384** via Edge Function `embed` — **not OpenAI** |
+| Match RPC | `match_depository_asset_pack_vectors` (cosine) |
+| Admit job | `POST /api/depository/index` → document + Edge embed + vector upsert |
+| Telemetry | `bitcode.depository.search-quality-telemetry` on tool result + execution store |
+| Env | `BITCODE_DEPOSITORY_VECTOR_SEARCH=1`, Supabase URL + service role, Edge deploy |
 
 ### Dynamic needinesses (three steps)
 

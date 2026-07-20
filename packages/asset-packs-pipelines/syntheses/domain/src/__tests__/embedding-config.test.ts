@@ -2,25 +2,28 @@ import {
   ASSET_PACK_VECTOR_DIMENSIONS,
   DEPOSITORY_SEARCH_DOCUMENTS_TABLE,
   DEPOSITORY_SEARCH_VECTORS_TABLE,
+  DEFAULT_ASSET_PACK_EMBEDDING_MODEL,
   MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
+  ASSET_PACK_EMBEDDING_PROVIDER,
   buildAssetPackEmbeddingPolicy,
-  buildOpenAIEmbeddingCreateParams,
   normalizeAssetPackEmbeddingVector,
   resolveAssetPackEmbeddingConfig,
 } from '../embedding-config';
 
-describe('AssetPack embedding configuration', () => {
-  it('uses the canonical OpenAI embedding model and 1536-dimension vector store contract', () => {
+describe('AssetPack embedding configuration (Supabase pgvector + gte-small)', () => {
+  it('defaults to supabase-gte-small / 384 / product store + RPC', () => {
     const config = resolveAssetPackEmbeddingConfig({});
 
-    expect(config.model).toBe('text-embedding-3-small');
+    expect(config.provider).toBe(ASSET_PACK_EMBEDDING_PROVIDER);
+    expect(config.provider).toBe('supabase-gte-small');
+    expect(config.model).toBe(DEFAULT_ASSET_PACK_EMBEDDING_MODEL);
+    expect(config.model).toBe('gte-small');
     expect(config.dimensions).toBe(ASSET_PACK_VECTOR_DIMENSIONS);
-    expect(config.encodingFormat).toBe('float');
-    expect(config.inputTokenLimit).toBe(8192);
+    expect(config.dimensions).toBe(384);
     expect(config.vectorStore).toEqual({
-      table: 'deliverable_vectors',
+      table: DEPOSITORY_SEARCH_VECTORS_TABLE,
       column: 'embedding',
-      rpc: 'match_deliverable_vectors',
+      rpc: MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
       distanceMetric: 'cosine',
       indexMethod: 'ivfflat',
       operatorClass: 'vector_cosine_ops',
@@ -35,29 +38,22 @@ describe('AssetPack embedding configuration', () => {
     );
   });
 
-  it('builds dimension-bound OpenAI embedding requests for third-generation models', () => {
-    expect(buildOpenAIEmbeddingCreateParams('query', resolveAssetPackEmbeddingConfig({}))).toEqual({
-      model: 'text-embedding-3-small',
-      input: 'query',
-      encoding_format: 'float',
-      dimensions: 1536,
-    });
-  });
-
-  it('validates vectors against the configured storage dimensions', () => {
+  it('validates vectors against 384-d gte-small dimensions', () => {
     const config = resolveAssetPackEmbeddingConfig({});
-    expect(normalizeAssetPackEmbeddingVector(Array(1536).fill(0.1), config)).toHaveLength(1536);
+    expect(normalizeAssetPackEmbeddingVector(Array(384).fill(0.1), config)).toHaveLength(384);
+    expect(normalizeAssetPackEmbeddingVector(Array(1536).fill(0.1), config)).toBeNull();
     expect(normalizeAssetPackEmbeddingVector([0.1], config)).toBeNull();
-    expect(normalizeAssetPackEmbeddingVector(Array(1536).fill(Number.NaN), config)).toBeNull();
   });
 
-  it('emits a serializable policy for search evidence', () => {
+  it('emits serializable policy with supabase-pgvector store marker', () => {
     expect(buildAssetPackEmbeddingPolicy(resolveAssetPackEmbeddingConfig({}))).toMatchObject({
-      provider: 'openai',
-      model: 'text-embedding-3-small',
-      dimensions: 1536,
+      provider: 'supabase-gte-small',
+      model: 'gte-small',
+      dimensions: 384,
+      store: 'supabase-pgvector',
       vectorStore: {
-        rpc: 'match_deliverable_vectors',
+        rpc: 'match_depository_asset_pack_vectors',
+        table: 'depository_search_vectors',
       },
     });
   });

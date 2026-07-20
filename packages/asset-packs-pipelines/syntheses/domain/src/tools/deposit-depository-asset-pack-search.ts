@@ -2,21 +2,21 @@
  * Pure Depository AssetPack search (no Tool base class).
  * Used by Deposit/Read Discovery search agents and unit tests.
  *
- * Multi-query hybrid:
- *  - Lexical (and optional static filters) over in-memory DepositoryAsset[]
- *  - Optional vector RPC when BITCODE_DEPOSITORY_VECTOR_SEARCH=1
- *  - Fan-out: each query runs independently; hits union by assetId (max score)
+ * Multi-query hybrid (Supabase toolkit shape):
+ *  - Keyword/lexical (+ optional static filters) over in-memory DepositoryAsset[]
+ *  - Semantic vector via Supabase pgvector RPC (gte-small 384 embeddings)
+ *  - Fan-out: each query independent; hits union by assetId (max score)
  *
+ * Embed generation: open-source gte-small via Edge (not OpenAI Embeddings API).
  * Products: deposit-relevants | read-need-fits (query plan framing only).
  */
 
 import {
   buildAssetPackEmbeddingPolicy,
-  buildOpenAIEmbeddingCreateParams,
   MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
-  normalizeAssetPackEmbeddingVector,
   resolveAssetPackEmbeddingConfig,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/embedding-config';
+import { embedDepositoryTextVector } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-embed';
 import {
   searchDepositoryAssetSpace,
   type DepositoryAsset,
@@ -75,6 +75,47 @@ export type DepositDepositorySearchHit = {
   matchedQueries?: string[];
 };
 
+/**
+ * Source-safe search quality telemetry for pipeline/stream debug
+ * (deposit relevants + read Need-fits). No raw source; scores + ids only.
+ */
+export type DepositorySearchQualityTelemetry = {
+  schema: 'bitcode.depository.search-quality-telemetry';
+  product: DepositorySearchProduct;
+  repositoryFullName: string | null;
+  queryCount: number;
+  queries: string[];
+  needTextPreview: string | null;
+  assetCorpusSize: number;
+  assetCorpusAfterFilters: number;
+  hitCount: number;
+  topHits: Array<{
+    assetId: string;
+    title: string | null;
+    finalScore: number | null;
+    semanticScore: number | null;
+    channel: string;
+    matchedQueries: string[];
+    matchedTerms: string[];
+  }>;
+  channelCounts: Record<string, number>;
+  underservedTopics: string[];
+  saturatedTopics: string[];
+  vector: {
+    enabled: boolean;
+    status: string;
+    rpc: string;
+    embedProvider: string;
+    embedModel: string;
+    embedDimensions: number;
+    queriesEmbedded: number;
+    queriesEmbedFailed: number;
+    store: 'supabase-pgvector';
+  };
+  durationMs: number;
+  resultState: string | null;
+};
+
 export type DepositDepositorySearchToolResult = {
   success: boolean;
   embeddingPolicy: ReturnType<typeof buildAssetPackEmbeddingPolicy>;
@@ -94,6 +135,8 @@ export type DepositDepositorySearchToolResult = {
     status: 'policy-declared' | 'lexical-only' | 'vector-matched' | 'hybrid';
   };
   searchResult: DepositorySearchResult | null;
+  /** Extensive search quality telemetry for real deposit/read debugging. */
+  telemetry: DepositorySearchQualityTelemetry;
 };
 
 function asTerms(value: unknown): string[] {
@@ -216,29 +259,12 @@ function mergeHit(
   }
 }
 
+/** Default embed: Supabase Edge gte-small (384) — never OpenAI Embeddings API. */
 async function defaultEmbedQuery(
   text: string,
   env: NodeJS.ProcessEnv,
 ): Promise<number[] | null> {
-  const key = env.OPENAI_API_KEY?.trim() || env.BITCODE_OPENAI_API_KEY?.trim();
-  if (!key) return null;
-  const config = resolveAssetPackEmbeddingConfig(env);
-  const body = buildOpenAIEmbeddingCreateParams(text.slice(0, 8000), config);
-  try {
-    const res = await fetch('https://api.openai.com/v1/embeddings', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${key}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) return null;
-    const json = (await res.json()) as { data?: Array<{ embedding?: unknown }> };
-    return normalizeAssetPackEmbeddingVector(json?.data?.[0]?.embedding, config);
-  } catch {
-    return null;
-  }
+  return embedDepositoryTextVector(text, env);
 }
 
 /**
@@ -259,6 +285,7 @@ function resolveQueries(input: DepositDepositorySearchToolInput, finalTerms: str
 export async function runDepositDepositoryAssetPackSearch(
   input: DepositDepositorySearchToolInput,
 ): Promise<DepositDepositorySearchToolResult> {
+  const startedAt = Date.now();
   const env = input.env || process.env;
   const product: DepositorySearchProduct =
     input.product ||
@@ -393,59 +420,60 @@ export async function runDepositDepositoryAssetPackSearch(
     }
   }
 
-  // ---- Vector multi-query (optional) ----
+  // ---- Vector multi-query (optional, Supabase pgvector) ----
   let vectorStatus: DepositDepositorySearchToolResult['vectorStore']['status'] =
     assets.length > 0 ? 'lexical-only' : 'policy-declared';
   const vectorEnabled = env.BITCODE_DEPOSITORY_VECTOR_SEARCH === '1';
+  let queriesEmbedded = 0;
+  let queriesEmbedFailed = 0;
   if (vectorEnabled && fanout.length > 0) {
     const embedFn = input.embedQuery || ((text: string) => defaultEmbedQuery(text, env));
-    // Prefer product depository RPC; fall back to legacy deliverable match.
-    const rpcCandidates = [
-      MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
-      embeddingPolicy.vectorStore.rpc,
-    ];
-    // Cap vector fan-out to control cost/latency.
+    // Product RPC only (gte-small 384); no legacy OpenAI deliverable path.
+    const rpcName =
+      embeddingPolicy.vectorStore.rpc || MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC;
     const vectorQueries = fanout.slice(0, 6);
     for (const query of vectorQueries) {
       const vector = await embedFn(query);
-      if (!vector || !input.supabase?.rpc) continue;
-      for (const rpcName of rpcCandidates) {
-        try {
-          const { data, error } = await input.supabase.rpc(rpcName, {
-            query_embedding: vector,
-            match_count: maxPerQuery,
-          });
-          if (error || !Array.isArray(data)) continue;
-          for (const row of data as any[]) {
-            const id = String(
-              row?.asset_id || row?.deliverable_id || row?.id || row?.assetId || '',
-            );
-            if (!id) continue;
-            const semanticScore =
-              typeof row?.similarity === 'number'
-                ? row.similarity
-                : typeof row?.score === 'number'
-                  ? row.score
-                  : null;
-            mergeHit(
-              hitMap,
-              {
-                assetId: id,
-                title: row?.title ?? null,
-                finalScore: semanticScore,
-                semanticScore,
-                matchedTerms: [query],
-                channel: 'vector',
-              },
-              query,
-            );
-          }
-          vectorStatus =
-            hitMap.size > 0 && assets.length > 0 ? 'hybrid' : 'vector-matched';
-          break; // success on first working RPC for this query
-        } catch {
-          /* try next RPC */
+      if (!vector) {
+        queriesEmbedFailed += 1;
+        continue;
+      }
+      queriesEmbedded += 1;
+      if (!input.supabase?.rpc) continue;
+      try {
+        const { data, error } = await input.supabase.rpc(rpcName, {
+          query_embedding: vector,
+          match_count: maxPerQuery,
+        });
+        if (error || !Array.isArray(data)) continue;
+        for (const row of data as any[]) {
+          const id = String(
+            row?.asset_id || row?.deliverable_id || row?.id || row?.assetId || '',
+          );
+          if (!id) continue;
+          const semanticScore =
+            typeof row?.similarity === 'number'
+              ? row.similarity
+              : typeof row?.score === 'number'
+                ? row.score
+                : null;
+          mergeHit(
+            hitMap,
+            {
+              assetId: id,
+              title: row?.title ?? null,
+              finalScore: semanticScore,
+              semanticScore,
+              matchedTerms: [query],
+              channel: 'vector',
+            },
+            query,
+          );
         }
+        vectorStatus =
+          hitMap.size > 0 && assets.length > 0 ? 'hybrid' : 'vector-matched';
+      } catch {
+        /* keep lexical */
       }
     }
   }
@@ -470,6 +498,60 @@ export async function runDepositDepositoryAssetPackSearch(
     hitBlob.includes(term.toLowerCase()),
   );
 
+  const channelCounts: Record<string, number> = {};
+  for (const h of hits) {
+    channelCounts[h.channel] = (channelCounts[h.channel] || 0) + 1;
+  }
+
+  const needPreview =
+    typeof input.needText === 'string' && input.needText.trim()
+      ? input.needText.trim().slice(0, 160)
+      : typeof input.expressedRead === 'string' && input.expressedRead.trim()
+        ? input.expressedRead.trim().slice(0, 160)
+        : null;
+
+  const telemetry: DepositorySearchQualityTelemetry = {
+    schema: 'bitcode.depository.search-quality-telemetry',
+    product,
+    repositoryFullName: input.repositoryFullName || null,
+    queryCount: fanout.length,
+    queries: fanout,
+    needTextPreview: needPreview,
+    assetCorpusSize: rawAssets.length,
+    assetCorpusAfterFilters: assets.length,
+    hitCount: hits.length,
+    topHits: hits.slice(0, 12).map((h) => ({
+      assetId: h.assetId,
+      title: h.title,
+      finalScore: h.finalScore,
+      semanticScore: h.semanticScore,
+      channel: h.channel,
+      matchedQueries: h.matchedQueries || [],
+      matchedTerms: h.matchedTerms.slice(0, 8),
+    })),
+    channelCounts,
+    underservedTopics,
+    saturatedTopics,
+    vector: {
+      enabled: vectorEnabled,
+      status: vectorStatus,
+      rpc: embeddingPolicy.vectorStore.rpc,
+      embedProvider: String(embeddingPolicy.provider),
+      embedModel: embeddingPolicy.model,
+      embedDimensions: embeddingPolicy.dimensions,
+      queriesEmbedded,
+      queriesEmbedFailed,
+      store: 'supabase-pgvector',
+    },
+    durationMs: Date.now() - startedAt,
+    resultState:
+      typeof (searchResult as { resultState?: string } | null)?.resultState === 'string'
+        ? (searchResult as { resultState: string }).resultState
+        : hits.length > 0
+          ? 'hits'
+          : 'no_hits',
+  };
+
   return {
     success: true,
     embeddingPolicy,
@@ -488,6 +570,7 @@ export async function runDepositDepositoryAssetPackSearch(
       status: vectorStatus,
     },
     searchResult,
+    telemetry,
   };
 }
 

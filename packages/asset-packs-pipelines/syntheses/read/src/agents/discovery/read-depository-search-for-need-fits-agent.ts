@@ -264,13 +264,33 @@ export default async function runReadDepositorySearchForNeedFitsAgent(input: any
       embedQuery,
     });
     storeCrossPhaseArtifact(execution, 'discovery', 'depositorySearchToolResult', toolResult);
+    storeCrossPhaseArtifact(
+      execution,
+      'discovery',
+      'depositorySearchTelemetry',
+      toolResult?.telemetry || null,
+    );
     storeCrossPhaseArtifact(execution, 'tools', 'depository-asset-pack-search', {
       hitCount: toolResult?.hitCount,
       queryTerms: toolResult?.queryTerms,
+      queries: toolResult?.queries,
       vectorStore: toolResult?.vectorStore,
       embeddingPolicy: toolResult?.embeddingPolicy,
       product: 'read-need-fits',
+      telemetry: toolResult?.telemetry || null,
     });
+    try {
+      const t = toolResult?.telemetry;
+      if (t && typeof (execution as any)?.emit === 'function') {
+        (execution as any).emit('status', {
+          message: `depository-search: product=${t.product} queries=${t.queryCount} hits=${t.hitCount} corpus=${t.assetCorpusAfterFilters} vector=${t.vector.status} top=${
+            t.topHits[0]?.title || t.topHits[0]?.assetId || 'none'
+          } ${t.durationMs}ms`,
+        });
+      }
+    } catch {
+      /* optional */
+    }
 
     if (toolResult?.underservedTopics?.length) {
       guidance = {
