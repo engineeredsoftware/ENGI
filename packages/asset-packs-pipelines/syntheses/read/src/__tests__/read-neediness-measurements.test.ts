@@ -5,6 +5,8 @@
 import {
   slugifyNeedinessKind,
   assertNeedinessKindSuffix,
+  humanizeNeedinessLabel,
+  planDynamicNeedinessesFromContext,
   measureReadNeedinesses,
   measureReadNeedinessesDeterministic,
   computeNeedFitVolume,
@@ -19,9 +21,28 @@ describe('read-neediness-measurements', () => {
     expect(assertNeedinessKindSuffix('domain')).toBe(false);
   });
 
+  it('humanizeNeedinessLabel title-cases stems', () => {
+    expect(humanizeNeedinessLabel('needs-session-refresh-fit')).toBe('Needs Session Refresh');
+  });
+
   it('static catalogue kinds all end with -fit', () => {
     for (const spec of ASSET_PACK_NEEDINESSES_CATALOG) {
       expect(spec.measurementKind.endsWith('-fit')).toBe(true);
+    }
+  });
+
+  it('planDynamicNeedinessesFromContext produces labeled *-fit rows from Need + paths', () => {
+    const plan = planDynamicNeedinessesFromContext({
+      needText: 'Add retries to payment webhooks',
+      needTopics: ['payment webhooks', 'retries'],
+      pathHints: ['src/payments/stripe.ts'],
+    });
+    expect(plan.length).toBeGreaterThanOrEqual(2);
+    for (const row of plan) {
+      expect(row.measurementKind.endsWith('-fit')).toBe(true);
+      expect(row.label.length).toBeGreaterThan(2);
+      expect(row.guidance.length).toBeGreaterThan(10);
+      expect(row.weight).toBeGreaterThan(0);
     }
   });
 
@@ -31,9 +52,28 @@ describe('read-neediness-measurements', () => {
       summary: 'Session refresh knowledge for the Need.',
       confidence: 0.8,
       needSummary: 'I need session refresh',
-      dynamicKinds: ['needs-session-refresh', 'auth-timeout'],
+      dynamicNeedinesses: [
+        {
+          measurementKind: 'needs-session-refresh-fit',
+          label: 'Session refresh fit',
+          guidance: 'How well session refresh is covered.',
+          weight: 1,
+        },
+        {
+          measurementKind: 'auth-timeout-fit',
+          label: 'Auth timeout fit',
+          guidance: 'Timeout handling for auth sessions.',
+          weight: 1,
+        },
+      ],
     });
     expect(rows.length).toBeGreaterThanOrEqual(ASSET_PACK_NEEDINESSES_CATALOG.length + 1);
+    const weightSum = rows.reduce((s, r) => s + r.weight, 0);
+    expect(weightSum).toBeGreaterThan(0.99);
+    expect(weightSum).toBeLessThan(1.01);
+    const dyn = rows.find((r) => r.measurementKind === 'needs-session-refresh-fit');
+    expect(dyn?.label).toBe('Session refresh fit');
+    expect(dyn?.propertyClass).toBe('dynamic-inferred');
     for (const row of rows) {
       expect(row.measurementKind.endsWith('-fit')).toBe(true);
       expect(row.category).toBe('neediness');
@@ -48,14 +88,20 @@ describe('read-neediness-measurements', () => {
 
   it('async measureReadNeedinesses falls back when real inference is off', async () => {
     const saved = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
-    delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
-    const rows = await measureReadNeedinesses({
-      title: 'Auth pack',
-      summary: 'Session refresh knowledge for the Need.',
-      confidence: 0.7,
-      dynamicKinds: ['needs-auth-fit'],
-    });
-    expect(rows.every((r) => r.measurementKind.endsWith('-fit'))).toBe(true);
-    if (saved !== undefined) process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = saved;
+    process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '0';
+    try {
+      const rows = await measureReadNeedinesses({
+        title: 'Auth pack',
+        summary: 'Session refresh knowledge for the Need.',
+        confidence: 0.7,
+        dynamicKinds: ['needs-auth-fit'],
+      });
+      expect(rows.every((r) => r.measurementKind.endsWith('-fit'))).toBe(true);
+      expect(rows.some((r) => r.measurementKind.includes('auth'))).toBe(true);
+    } finally {
+      if (saved !== undefined) process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = saved;
+      else delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
+    }
   });
 });
+

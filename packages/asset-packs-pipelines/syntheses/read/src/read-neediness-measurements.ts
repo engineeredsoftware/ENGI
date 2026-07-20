@@ -6,8 +6,11 @@
  *
  * Hybrid:
  *   - Static catalogue (language-fit, domain-fit, interface-fit)
- *   - Dynamic kinds planned from Need comprehension
+ *   - Dynamic plan from Need + codebase (kinds, labels, guidance, weights)
  *   - need-fit composite = weighted mean of all needinesses (not a raw row target)
+ *
+ * Weight law: static catalog weights + dynamic weights are re-normalized so the
+ * full set sums to 1 before need-fit.
  *
  * When BITCODE_ASSET_PACK_REAL_INFERENCE is on, volumes may come from
  * NeedinessesMeasureAgent; otherwise deterministic proxies (still real numbers).
@@ -49,6 +52,31 @@ export function assertNeedinessKindSuffix(kind: string): boolean {
   return typeof kind === 'string' && kind.endsWith(FIT_SUFFIX) && kind.length > FIT_SUFFIX.length;
 }
 
+/** Human label from a *-fit kind (title case words). */
+export function humanizeNeedinessLabel(kind: string): string {
+  const stem = String(kind || '')
+    .replace(/-fit$/i, '')
+    .replace(/[-_]+/g, ' ')
+    .trim();
+  if (!stem) return 'Need fit';
+  return stem
+    .split(/\s+/)
+    .map((w) => (w.length ? w[0]!.toUpperCase() + w.slice(1) : w))
+    .join(' ');
+}
+
+/**
+ * Dynamic neediness plan row — produced from Need + codebase comprehension.
+ * Labels/guidance are first-class (not slug-derived only).
+ */
+export type DynamicNeedinessPlanRow = {
+  measurementKind: string;
+  label: string;
+  guidance: string;
+  /** Relative weight among dynamic rows; re-normalized with static catalog. */
+  weight: number;
+};
+
 export type NeedinessReading = {
   measurementKind: string;
   label: string;
@@ -57,6 +85,7 @@ export type NeedinessReading = {
   magnitude: number;
   unit: string;
   category: 'neediness';
+  propertyClass?: 'static-catalog' | 'dynamic-inferred';
   rationale?: string;
 };
 
@@ -71,47 +100,221 @@ function hash(s: string): number {
   return Math.abs(h);
 }
 
+/**
+ * Normalize dynamic plan rows or bare kind strings into DynamicNeedinessPlanRow[].
+ */
+export function normalizeDynamicNeedinessPlan(
+  raw:
+    | Array<string | DynamicNeedinessPlanRow | Record<string, unknown>>
+    | string[]
+    | null
+    | undefined,
+  needSummary?: string | null,
+): DynamicNeedinessPlanRow[] {
+  if (!Array.isArray(raw) || raw.length === 0) return [];
+  const out: DynamicNeedinessPlanRow[] = [];
+  const seen = new Set<string>();
+  for (const entry of raw) {
+    if (typeof entry === 'string') {
+      const kind = slugifyNeedinessKind(entry);
+      if (!assertNeedinessKindSuffix(kind) || seen.has(kind)) continue;
+      seen.add(kind);
+      out.push({
+        measurementKind: kind,
+        label: humanizeNeedinessLabel(kind),
+        guidance: `How well the AssetPack fits the Need facet “${humanizeNeedinessLabel(kind)}”${
+          needSummary ? ` (${needSummary.slice(0, 120)})` : ''
+        }.`,
+        weight: 1,
+      });
+      continue;
+    }
+    if (!entry || typeof entry !== 'object') continue;
+    const rec = entry as Record<string, unknown>;
+    const kindRaw =
+      typeof rec.measurementKind === 'string'
+        ? rec.measurementKind
+        : typeof rec.kind === 'string'
+          ? rec.kind
+          : '';
+    const kind = slugifyNeedinessKind(kindRaw);
+    if (!assertNeedinessKindSuffix(kind) || seen.has(kind)) continue;
+    seen.add(kind);
+    const label =
+      typeof rec.label === 'string' && rec.label.trim()
+        ? rec.label.trim().slice(0, 80)
+        : humanizeNeedinessLabel(kind);
+    const guidance =
+      typeof rec.guidance === 'string' && rec.guidance.trim()
+        ? rec.guidance.trim().slice(0, 400)
+        : `How well the AssetPack fits “${label}” relative to the reader Need.`;
+    const weight =
+      typeof rec.weight === 'number' && Number.isFinite(rec.weight) && rec.weight > 0
+        ? rec.weight
+        : 1;
+    out.push({ measurementKind: kind, label, guidance, weight });
+  }
+  return out.slice(0, 8);
+}
+
+/**
+ * Ground dynamic plan from Need text + optional codebase topics/paths.
+ * Used when Setup LLM returns only kinds (or empty) so labels still quality.
+ */
+export function planDynamicNeedinessesFromContext(input: {
+  needText?: string | null;
+  needTopics?: string[] | null;
+  acceptanceCriteria?: string[] | null;
+  codebaseTopics?: string[] | null;
+  pathHints?: string[] | null;
+  existing?: Array<string | DynamicNeedinessPlanRow> | null;
+}): DynamicNeedinessPlanRow[] {
+  const fromExisting = normalizeDynamicNeedinessPlan(input.existing, input.needText);
+  if (fromExisting.length >= 3) return fromExisting;
+
+  const seeds: string[] = [];
+  for (const t of input.needTopics || []) {
+    if (typeof t === 'string' && t.trim()) seeds.push(t.trim());
+  }
+  for (const c of input.acceptanceCriteria || []) {
+    if (typeof c === 'string' && c.trim()) seeds.push(c.trim().slice(0, 48));
+  }
+  for (const t of input.codebaseTopics || []) {
+    if (typeof t === 'string' && t.trim()) seeds.push(`codebase ${t.trim()}`.slice(0, 48));
+  }
+  // Path basenames as weak hints only.
+  for (const p of input.pathHints || []) {
+    if (typeof p !== 'string') continue;
+    const base = p.split('/').pop()?.replace(/\.[^.]+$/, '') || '';
+    if (base.length > 3 && base.length < 32) seeds.push(base);
+  }
+  if (input.needText && seeds.length < 3) {
+    const words = String(input.needText)
+      .split(/\W+/)
+      .filter((w) => w.length > 4)
+      .slice(0, 6);
+    seeds.push(...words);
+  }
+
+  const planned: DynamicNeedinessPlanRow[] = [...fromExisting];
+  const seen = new Set(planned.map((r) => r.measurementKind));
+  for (const seed of seeds) {
+    if (planned.length >= 6) break;
+    const kind = slugifyNeedinessKind(
+      seed.toLowerCase().includes('fit') ? seed : `needs-${seed}`,
+    );
+    if (seen.has(kind) || ASSET_PACK_NEEDINESSES_CATALOG.some((c) => c.measurementKind === kind)) {
+      continue;
+    }
+    seen.add(kind);
+    const label = humanizeNeedinessLabel(kind);
+    planned.push({
+      measurementKind: kind,
+      label,
+      guidance: `Score how well the pack’s material satisfies “${label}” for Need: ${
+        (input.needText || '').slice(0, 160) || 'stated reader Need'
+      }.`,
+      weight: 1,
+    });
+  }
+  if (planned.length === 0 && input.needText) {
+    const kind = slugifyNeedinessKind(input.needText.slice(0, 40) || 'need');
+    planned.push({
+      measurementKind: kind,
+      label: humanizeNeedinessLabel(kind),
+      guidance: `Overall fit of the AssetPack to the Need: ${(input.needText || '').slice(0, 160)}.`,
+      weight: 1,
+    });
+  }
+  return planned.slice(0, 8);
+}
+
+type SpecBuild = {
+  specs: MeasurementSpec[];
+  weightByKind: Map<string, number>;
+  labelByKind: Map<string, string>;
+  classByKind: Map<string, 'static-catalog' | 'dynamic-inferred'>;
+};
+
+/**
+ * Build measurement specs with static + dynamic rows.
+ * Re-normalize all weights to sum to 1 (static mass 0.6, dynamic mass 0.4 when both present).
+ */
 function buildSpecs(
   catalog: AssetPackNeedinessSpec[],
-  dynamicKinds: string[],
-): { specs: MeasurementSpec[]; weightByKind: Map<string, number>; labelByKind: Map<string, string> } {
+  dynamic: DynamicNeedinessPlanRow[],
+): SpecBuild {
   const weightByKind = new Map<string, number>();
   const labelByKind = new Map<string, string>();
+  const classByKind = new Map<string, 'static-catalog' | 'dynamic-inferred'>();
   const specs: MeasurementSpec[] = [];
 
+  const staticRows: Array<{ kind: string; weight: number; label: string; guidance: string; unit: string }> =
+    [];
   for (const spec of catalog) {
     const kind = assertNeedinessKindSuffix(spec.measurementKind)
       ? spec.measurementKind
       : slugifyNeedinessKind(spec.measurementKind);
-    weightByKind.set(kind, spec.weight);
-    labelByKind.set(kind, spec.label);
-    specs.push({
-      measurementKind: kind,
+    staticRows.push({
+      kind,
+      weight: spec.weight > 0 ? spec.weight : 1,
       label: spec.label,
-      unit: spec.unit,
       guidance: spec.guidance,
-      hasMagnitude: true,
+      unit: spec.unit,
     });
   }
 
-  const uniqueDynamic = [...new Set(dynamicKinds.map(slugifyNeedinessKind).filter(assertNeedinessKindSuffix))].filter(
-    (k) => !weightByKind.has(k),
+  const dynamicRows = dynamic.filter(
+    (d) =>
+      assertNeedinessKindSuffix(d.measurementKind) &&
+      !staticRows.some((s) => s.kind === d.measurementKind),
   );
-  const dynWeight = uniqueDynamic.length > 0 ? 1 / uniqueDynamic.length : 0;
-  for (const kind of uniqueDynamic) {
-    weightByKind.set(kind, dynWeight);
-    const label = kind.replace(/-fit$/, '').replace(/-/g, ' ');
-    labelByKind.set(kind, label);
+
+  const staticMass = dynamicRows.length > 0 ? 0.6 : 1;
+  const dynamicMass = dynamicRows.length > 0 ? 0.4 : 0;
+  const staticSum = staticRows.reduce((s, r) => s + r.weight, 0) || 1;
+  const dynamicSum = dynamicRows.reduce((s, r) => s + (r.weight > 0 ? r.weight : 1), 0) || 1;
+
+  for (const row of staticRows) {
+    const w = (row.weight / staticSum) * staticMass;
+    weightByKind.set(row.kind, w);
+    labelByKind.set(row.kind, row.label);
+    classByKind.set(row.kind, 'static-catalog');
     specs.push({
-      measurementKind: kind,
-      label,
+      measurementKind: row.kind,
+      label: row.label,
+      unit: row.unit as MeasurementSpec['unit'],
+      guidance: row.guidance,
+      hasMagnitude: true,
+    });
+  }
+  for (const row of dynamicRows) {
+    const rawW = row.weight > 0 ? row.weight : 1;
+    const w = (rawW / dynamicSum) * dynamicMass;
+    weightByKind.set(row.measurementKind, w);
+    labelByKind.set(row.measurementKind, row.label);
+    classByKind.set(row.measurementKind, 'dynamic-inferred');
+    specs.push({
+      measurementKind: row.measurementKind,
+      label: row.label,
       unit: 'estimate',
-      guidance: `Dynamic Need-relative fit dimension: ${kind}`,
+      guidance: row.guidance,
       hasMagnitude: true,
     });
   }
 
-  return { specs, weightByKind, labelByKind };
+  return { specs, weightByKind, labelByKind, classByKind };
+}
+
+function resolveDynamicPlan(input: {
+  dynamicKinds?: string[];
+  dynamicNeedinesses?: Array<string | DynamicNeedinessPlanRow> | null;
+  needSummary?: string;
+}): DynamicNeedinessPlanRow[] {
+  if (Array.isArray(input.dynamicNeedinesses) && input.dynamicNeedinesses.length > 0) {
+    return normalizeDynamicNeedinessPlan(input.dynamicNeedinesses, input.needSummary);
+  }
+  return normalizeDynamicNeedinessPlan(input.dynamicKinds || [], input.needSummary);
 }
 
 /** Deterministic neediness volumes (proxy when agent unavailable). */
@@ -120,13 +323,16 @@ export function measureReadNeedinessesDeterministic(input: {
   summary: string;
   confidence?: number;
   needSummary?: string;
+  /** @deprecated Prefer dynamicNeedinesses with labels. */
   dynamicKinds?: string[];
+  dynamicNeedinesses?: Array<string | DynamicNeedinessPlanRow> | null;
   catalog?: AssetPackNeedinessSpec[];
 }): NeedinessReading[] {
   const catalog = input.catalog ?? ASSET_PACK_NEEDINESSES_CATALOG;
   const confidence = clamp01(input.confidence ?? 0.65);
   const seed = `${input.title}|${input.summary}|${input.needSummary || ''}`;
-  const { specs, weightByKind, labelByKind } = buildSpecs(catalog, input.dynamicKinds || []);
+  const dynamic = resolveDynamicPlan(input);
+  const { specs, weightByKind, labelByKind, classByKind } = buildSpecs(catalog, dynamic);
 
   return specs.map((spec, index) => {
     const wobble = ((hash(seed + spec.measurementKind) % 20) - 10) / 100;
@@ -139,6 +345,7 @@ export function measureReadNeedinessesDeterministic(input: {
       magnitude: volume,
       unit: String(spec.unit),
       category: 'neediness' as const,
+      propertyClass: classByKind.get(spec.measurementKind),
       rationale: `Need-relative ${spec.measurementKind} (deterministic measure path).`,
     };
   });
@@ -154,6 +361,7 @@ export async function measureReadNeedinesses(input: {
   confidence?: number;
   needSummary?: string;
   dynamicKinds?: string[];
+  dynamicNeedinesses?: Array<string | DynamicNeedinessPlanRow> | null;
   catalog?: AssetPackNeedinessSpec[];
   execution?: any;
 }): Promise<NeedinessReading[]> {
@@ -162,7 +370,8 @@ export async function measureReadNeedinesses(input: {
 
   try {
     const catalog = input.catalog ?? ASSET_PACK_NEEDINESSES_CATALOG;
-    const { specs, weightByKind, labelByKind } = buildSpecs(catalog, input.dynamicKinds || []);
+    const dynamic = resolveDynamicPlan(input);
+    const { specs, weightByKind, labelByKind } = buildSpecs(catalog, dynamic);
     if (specs.length === 0) return deterministic;
 
     const agent = factoryNeedinessesMeasureAgent({

@@ -13,9 +13,19 @@ import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
 import { projectInventoryForPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
-import { slugifyNeedinessKind } from '../../read-neediness-measurements';
+import {
+  planDynamicNeedinessesFromContext,
+  type DynamicNeedinessPlanRow,
+} from '../../read-neediness-measurements';
 
 const part = (content: string): PromptPart => content as PromptPart;
+
+const DynamicNeedinessRowSchema = z.object({
+  measurementKind: z.string(),
+  label: z.string().optional(),
+  guidance: z.string().optional(),
+  weight: z.number().optional(),
+});
 
 const NeedComprehensionSchema = z.object({
   summary: z.string(),
@@ -23,6 +33,11 @@ const NeedComprehensionSchema = z.object({
   acceptanceCriteria: z.array(z.string()).optional(),
   /** Dynamic neediness kinds to measure (each must end with -fit). */
   dynamicNeedinessKinds: z.array(z.string()).optional(),
+  /**
+   * Preferred: full dynamic plan with human labels + guidance grounded in Need
+   * and (when available) codebase topics.
+   */
+  dynamicNeedinesses: z.array(DynamicNeedinessRowSchema).optional(),
   honorNotes: z.array(z.string()).optional(),
 });
 
@@ -35,15 +50,18 @@ export type ReadNeedComprehension = z.infer<typeof NeedComprehensionSchema>;
 const IDENTITY = part(
   'You are the SynthesizeAssetPacks Setup agent that comprehends the reader NEED. ' +
     'Map free-text Need text against the Host sourceCheckoutCatalog (paths/samples only). ' +
-    'Produce structured Need guidance and a plan of DYNAMIC neediness measurement kinds ' +
-    'to run after synthesis. Every dynamic kind MUST end with the suffix "-fit" ' +
-    '(e.g. needs-session-refresh-fit). Never quote raw source or secrets.',
+    'Produce structured Need guidance and a DYNAMIC neediness measurement PLAN ' +
+    '(kinds + human labels + guidance + relative weights) to run after synthesis. ' +
+    'Every dynamic kind MUST end with the suffix "-fit" (e.g. needs-session-refresh-fit). ' +
+    'Labels are short product titles (e.g. "Session refresh fit"), not slugs. ' +
+    'Never quote raw source or secrets.',
 );
 
 const REQUIREMENTS = part(
   'From the Need text and sourceCheckoutCatalog, derive: summary, needTopics, ' +
-    'acceptanceCriteria, dynamicNeedinessKinds (3–8 short *-fit kinds grounded in the Need; ' +
-    'always suffix -fit), and honorNotes. Return ONLY {"comprehension": {...}}.',
+    'acceptanceCriteria, dynamicNeedinesses (3–8 objects: measurementKind ending -fit, ' +
+    'label, guidance how to score pack vs Need, weight), and honorNotes. ' +
+    'You may also emit dynamicNeedinessKinds as a fallback. Return ONLY {"comprehension": {...}}.',
 );
 
 const PLAN = part('Plan: parse the Need into topics, criteria, and fit dimensions to measure.');
@@ -95,16 +113,9 @@ function findValue(execution: any, namespace: string, key: string): any {
   return execution?.findUp?.(namespace, key);
 }
 
-function normalizeDynamicKinds(kinds: unknown, needText: string): string[] {
-  const raw = Array.isArray(kinds) ? kinds.map(String) : [];
-  const fromModel = raw
-    .map((k) => slugifyNeedinessKind(k))
-    .filter((k) => k.endsWith('-fit'));
-  if (fromModel.length > 0) return [...new Set(fromModel)].slice(0, 8);
-  // Fallback: derive one kind from Need text
-  const fallback = slugifyNeedinessKind(needText.slice(0, 48) || 'need');
-  return [fallback.endsWith('-fit') ? fallback : `${fallback}-fit`];
-}
+export type ReadNeedComprehensionEnriched = ReadNeedComprehension & {
+  dynamicNeedinesses: DynamicNeedinessPlanRow[];
+};
 
 export default async function runReadNeedComprehensionAgent(input: any, execution: any) {
   const needText =
@@ -123,11 +134,12 @@ export default async function runReadNeedComprehensionAgent(input: any, executio
 
   const text = typeof needText === 'string' ? needText.trim() : '';
   if (!text) {
-    const empty: ReadNeedComprehension = {
+    const empty: ReadNeedComprehensionEnriched = {
       summary: 'No Need text declared; reader must provide a Need to synthesize packs.',
       needTopics: [],
       acceptanceCriteria: [],
       dynamicNeedinessKinds: [],
+      dynamicNeedinesses: [],
       honorNotes: [],
     };
     storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', empty);
@@ -160,9 +172,29 @@ export default async function runReadNeedComprehensionAgent(input: any, executio
     dynamicNeedinessKinds: [],
     honorNotes: [],
   };
-  const comprehension: ReadNeedComprehension = {
+
+  // Prefer model dynamicNeedinesses; else kinds; ground labels from Need + paths.
+  const pathHints = Array.isArray(catalogForPrompt?.paths)
+    ? (catalogForPrompt.paths as string[]).slice(0, 24)
+    : Array.isArray(catalog?.paths)
+      ? (catalog.paths as string[]).slice(0, 24)
+      : [];
+  const existing =
+    Array.isArray(base.dynamicNeedinesses) && base.dynamicNeedinesses.length > 0
+      ? base.dynamicNeedinesses
+      : base.dynamicNeedinessKinds || [];
+  const dynamicNeedinesses = planDynamicNeedinessesFromContext({
+    needText: text,
+    needTopics: base.needTopics,
+    acceptanceCriteria: base.acceptanceCriteria,
+    pathHints,
+    existing: existing as Array<string | DynamicNeedinessPlanRow>,
+  });
+
+  const comprehension: ReadNeedComprehensionEnriched = {
     ...base,
-    dynamicNeedinessKinds: normalizeDynamicKinds(base.dynamicNeedinessKinds, text),
+    dynamicNeedinessKinds: dynamicNeedinesses.map((d) => d.measurementKind),
+    dynamicNeedinesses,
   };
 
   storeCrossPhaseArtifact(execution, 'setup', 'inputComprehension', comprehension);

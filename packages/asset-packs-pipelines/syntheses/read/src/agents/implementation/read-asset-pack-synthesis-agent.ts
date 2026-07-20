@@ -133,6 +133,9 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
   const dynamicKinds = Array.isArray(needComprehension?.dynamicNeedinessKinds)
     ? needComprehension.dynamicNeedinessKinds
     : [];
+  const dynamicNeedinesses = Array.isArray(needComprehension?.dynamicNeedinesses)
+    ? needComprehension.dynamicNeedinesses
+    : null;
 
   for (const option of options) {
     delete (option as any).needinessSignal;
@@ -150,35 +153,38 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
       } catch {}
     }
 
+    // Prefer per-option absolute measurements on patch+paths (deposit twin).
+    // Discovery checkout measurements are fallback only.
     let absolutes: any[] = [];
     try {
-      if (Array.isArray(sourceMeasurements) && sourceMeasurements.length > 0) {
-        absolutes = sourceMeasurements;
-      } else {
-        absolutes = await measureAssetPackAbsolutes(
-          {
-            title: String((option as any)?.title ?? ''),
-            summary: String((option as any)?.summary ?? ''),
-            coveredSourcePaths: Array.isArray((option as any)?.coveredSourcePaths)
-              ? (option as any).coveredSourcePaths
-              : [],
-            fileChanges: Array.isArray((option as any)?.patch?.fileChanges)
-              ? (option as any).patch.fileChanges
+      absolutes = await measureAssetPackAbsolutes(
+        {
+          title: String((option as any)?.title ?? ''),
+          summary: String((option as any)?.summary ?? ''),
+          coveredSourcePaths: Array.isArray((option as any)?.coveredSourcePaths)
+            ? (option as any).coveredSourcePaths
+            : [],
+          fileChanges: Array.isArray((option as any)?.patch?.fileChanges)
+            ? (option as any).patch.fileChanges
+            : undefined,
+          confidence:
+            typeof (option as any)?.confidence === 'number'
+              ? (option as any).confidence
               : undefined,
-            confidence:
-              typeof (option as any)?.confidence === 'number'
-                ? (option as any).confidence
-                : undefined,
-            patchSummary:
-              typeof (option as any)?.patch?.patchSummary === 'string'
-                ? (option as any).patch.patchSummary
-                : undefined,
-          },
-          { lens: 'read', execution, sources: bodies },
-        );
+          patchSummary:
+            typeof (option as any)?.patch?.patchSummary === 'string'
+              ? (option as any).patch.patchSummary
+              : undefined,
+        },
+        { lens: 'read', execution, sources: bodies },
+      );
+      if ((!Array.isArray(absolutes) || absolutes.length === 0) &&
+        Array.isArray(sourceMeasurements) &&
+        sourceMeasurements.length > 0) {
+        absolutes = sourceMeasurements;
       }
     } catch {
-      absolutes = [];
+      absolutes = Array.isArray(sourceMeasurements) ? sourceMeasurements : [];
     }
 
     const needinesses = await measureReadNeedinesses({
@@ -187,6 +193,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
       confidence: (option as any)?.confidence,
       needSummary: needComprehension?.summary || String(needText || ''),
       dynamicKinds,
+      dynamicNeedinesses,
       execution,
     });
     const needFit = computeNeedFitVolume(needinesses);
