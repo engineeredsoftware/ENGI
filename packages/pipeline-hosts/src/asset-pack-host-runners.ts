@@ -1682,38 +1682,69 @@ try {
     : rawOutput;
   await pipelineStreamer.flushStructuredWrites?.();
 
-  // Deposit synthesis: present measured AssetPack options to the depositor.
-  // Skip read-mode fee/preview/settlement (those require ReadNeed + PR delivery).
+  // Deposit synthesis: presentable options are Finish-only (selection envelope).
+  // Implementation may hold measured packs in-memory, but product UI must not
+  // read them until Finish packages selectionEnvelope (product law).
+  // Never treat bare output.options/depositOptions as presentable — those can
+  // be Implementation-era artifacts without a Finish gate.
   if (isDepositMode) {
-    const depositOptions =
-      findExecutionValueDown(execution, 'implementation', 'options') ||
-      findExecutionValueDown(execution, 'implementation', 'assetPacks') ||
-      output?.depositOptions ||
-      output?.options ||
-      output?.selectionEnvelope?.options ||
-      [];
     const selectionEnvelope =
       findExecutionValueDown(execution, 'finish', 'selectionEnvelope') ||
       output?.selectionEnvelope ||
       null;
+    const finishStoredOptions = findExecutionValueDown(execution, 'finish', 'depositOptions');
+    const envelopeOptions =
+      Array.isArray(selectionEnvelope?.options) && selectionEnvelope.options.length > 0
+        ? selectionEnvelope.options
+        : null;
+    const finishOptions =
+      envelopeOptions ||
+      (Array.isArray(finishStoredOptions) && finishStoredOptions.length > 0
+        ? finishStoredOptions
+        : null) ||
+      [];
+    // Implementation store is NOT presentable without Finish.
+    const implOnlyOptions =
+      findExecutionValueDown(execution, 'implementation', 'options') ||
+      findExecutionValueDown(execution, 'implementation', 'assetPacks') ||
+      null;
+    const finishPresent = Boolean(
+      (selectionEnvelope &&
+        Array.isArray(selectionEnvelope.options) &&
+        selectionEnvelope.options.length > 0) ||
+        (Array.isArray(finishStoredOptions) && finishStoredOptions.length > 0),
+    );
+    const depositOptions = finishPresent
+      ? (Array.isArray(finishOptions) ? finishOptions : [])
+      : [];
     const optionCount = Array.isArray(depositOptions) ? depositOptions.length : 0;
+    const implCount = Array.isArray(implOnlyOptions) ? implOnlyOptions.length : 0;
     // Deposit synthesis presents measured options — never "fit" (fit is post-read only).
     const depositResultState =
-      optionCount > 0 ? 'worthy_deposit_candidates' : 'no_worthy_deposit_candidates';
+      optionCount > 0
+        ? 'worthy_deposit_candidates'
+        : implCount > 0
+          ? 'blocked_readiness'
+          : 'no_worthy_deposit_candidates';
     output = {
       ...(output && typeof output === 'object' && !Array.isArray(output) ? output : {}),
-      success: optionCount > 0,
+      success: optionCount > 0 && finishPresent,
+      finishPresent,
       options: depositOptions,
       depositOptions,
       selectionEnvelope,
+      // Never publish Implementation-only packs as presentable options.
+      implementationOptionCount: implCount,
       resultState: depositResultState,
     };
     resultState = manifest.sourceOverlay ? 'blocked_readiness' : depositResultState;
     const resultReasons = [
       'Deposit synthesize-asset-packs pipeline entrypoint returned without throwing.',
-      optionCount > 0
-        ? 'Synthesized ' + optionCount + ' measured AssetPack option(s) for depositor selection.'
-        : 'Deposit pipeline completed without measurable AssetPack options.',
+      finishPresent && optionCount > 0
+        ? 'Finish packaged ' + optionCount + ' measured AssetPack option(s) for depositor selection.'
+        : implCount > 0
+          ? 'Implementation held ' + implCount + ' pack(s) but Finish selection envelope was not present — not presentable.'
+          : 'Deposit pipeline completed without Finish-presentable AssetPack options.',
       manifest.sourceOverlay
         ? 'Source overlay patch was applied for QA; this run cannot serve as source-revision settlement evidence.'
         : null,

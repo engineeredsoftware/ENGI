@@ -155,6 +155,12 @@ export interface DepositInBoxHostResult {
   failureMessage?: string | null;
   /** Present when the host recovered options under budget pressure or partial. */
   recovery?: DepositHostRecovery | null;
+  /**
+   * True only when Finish packaged a selection envelope (or finish depositOptions).
+   * Product UI must not show option cards when false — even if Implementation
+   * measured packs exist in the execution tree.
+   */
+  finishPresent?: boolean;
 }
 
 const EMPTY_HOST_RECOVERY: DepositHostRecovery = {
@@ -168,8 +174,8 @@ const EMPTY_HOST_RECOVERY: DepositHostRecovery = {
 
 /**
  * Detect host budget timeout recovery from evidence.json (even when exit=0).
- * Host path preserves measured Implementation options after
- * PipelineHostTimeoutError and still writes error + resultReasons on evidence.
+ * Budget pressure is always partial; Finish-presentable optionCount only
+ * decides whether product cards can be shown (separately).
  */
 export function readDepositHostRecoveryFromEvidence(
   evidence: unknown,
@@ -205,8 +211,11 @@ export function readDepositHostRecoveryFromEvidence(
               /host budget/i.test(reason)),
         ),
     );
-  const hostRecoveredFromTimeout = hostBudgetExceeded && optionCount > 0;
-  const partial = outputPartial || hostRecoveredFromTimeout;
+  // Budget kill is partial even with zero Finish-presentable options
+  // (Implementation may hold packs product law still withholds).
+  void optionCount;
+  const hostRecoveredFromTimeout = hostBudgetExceeded;
+  const partial = outputPartial || hostBudgetExceeded;
   return {
     hostBudgetExceeded,
     partial,
@@ -479,14 +488,47 @@ export async function runDepositInBoxHost(input: {
   }
   const evidenceRaw = result?.artifacts?.evidence as {
     depositOptions?: unknown;
+    selectionEnvelope?: { options?: unknown } | null;
     error?: { message?: string; name?: string } | null;
     resultState?: unknown;
-    output?: { partial?: unknown } | null;
+    output?: {
+      partial?: unknown;
+      finishPresent?: unknown;
+      selectionEnvelope?: { options?: unknown } | null;
+      depositOptions?: unknown;
+      options?: unknown;
+      implementationOptionCount?: unknown;
+    } | null;
     resultReasons?: unknown;
+    finishPresent?: unknown;
   } | null;
-  const optionCount = Array.isArray(evidenceRaw?.depositOptions)
-    ? evidenceRaw!.depositOptions!.length
-    : null;
+  const selectionEnvelope =
+    evidenceRaw?.selectionEnvelope ||
+    evidenceRaw?.output?.selectionEnvelope ||
+    null;
+  const envelopeOptions = (selectionEnvelope as { options?: unknown } | null)?.options;
+  const hasEnvelopeOptions =
+    Array.isArray(envelopeOptions) && envelopeOptions.length > 0;
+  // Finish-only product law: presentable when host explicitly marked finishPresent
+  // or Finish packaged a non-empty selection envelope. Bare depositOptions on
+  // evidence (Implementation recovery) are never presentable alone.
+  const finishPresent = Boolean(
+    evidenceRaw?.finishPresent === true ||
+      evidenceRaw?.output?.finishPresent === true ||
+      hasEnvelopeOptions,
+  );
+  // Presentable options: Finish envelope first; only then finish-gated depositOptions.
+  const presentableOptions = (() => {
+    if (hasEnvelopeOptions) return envelopeOptions as unknown[];
+    if (finishPresent && Array.isArray(evidenceRaw?.depositOptions)) {
+      return evidenceRaw!.depositOptions!;
+    }
+    if (finishPresent && Array.isArray(evidenceRaw?.output?.depositOptions)) {
+      return evidenceRaw!.output!.depositOptions as unknown[];
+    }
+    return [];
+  })();
+  const optionCount = presentableOptions.length;
   const failedCommands = (result?.commands || []).filter(
     (c) => c.exitCode != null && c.exitCode !== 0 && c.exitCode !== 130,
   );
@@ -522,13 +564,10 @@ export async function runDepositInBoxHost(input: {
   }
 
   if (result?.outcome === "failed") {
-    // Timeout recovery may still exit non-zero when packs lack full absolutes;
-    // only throw when there are no recoverable options at all.
-    const recoveredOptions =
-      evidenceRaw && Array.isArray(evidenceRaw.depositOptions)
-        ? evidenceRaw.depositOptions
-        : [];
-    if (recoveredOptions.length === 0 || !recovery.hostBudgetExceeded) {
+    // Timeout recovery may still exit non-zero. Implementation-only packs are
+    // never presentable (Finish-only product law) — surface as empty options
+    // + recovery flags so dispatch can mark partial without option cards.
+    if (!recovery.hostBudgetExceeded && presentableOptions.length === 0) {
       const failureMessage = formatDepositHostFailure(result);
       bitcodeServerTelemetry("error", "deposit-sandbox-host", "host-outcome-failed", {
         ...createSummary,
@@ -540,35 +579,41 @@ export async function runDepositInBoxHost(input: {
       err.hostOutcome = "failed";
       throw err;
     }
-    // Budget kill with some options: surface as partial recovery (not throw).
     bitcodeServerTelemetry("warn", "deposit-sandbox-host", "host-budget-partial-options", {
       ...createSummary,
       sandboxId: result.sandboxId ?? null,
-      optionCount: recoveredOptions.length,
+      optionCount: presentableOptions.length,
+      finishPresent,
       hostResultState: recovery.hostResultState,
     });
     return {
-      options: recoveredOptions,
+      // Never hand Implementation-only packs to product UI as presentable options.
+      options: finishPresent ? presentableOptions : [],
       sandboxId: result.sandboxId ?? null,
       outcome: result.outcome,
+      finishPresent,
       recovery: { ...recovery, partial: true, hostRecoveredFromTimeout: true },
     };
   }
 
-  const options =
-    evidenceRaw && Array.isArray(evidenceRaw.depositOptions)
-      ? evidenceRaw.depositOptions
-      : [];
-
-  // Completed host with no options is a pipeline/product miss — not Validation
-  // path-admission (that path only applies when options were produced).
-  if (options.length === 0) {
+  // Completed host with no Finish-presentable options: product miss unless
+  // budget recovery already flagged partial Implementation work.
+  if (presentableOptions.length === 0) {
+    if (recovery.hostBudgetExceeded || recovery.partial) {
+      return {
+        options: [],
+        sandboxId: result.sandboxId ?? null,
+        outcome: result?.outcome ?? "failed",
+        finishPresent: false,
+        recovery: { ...recovery, partial: true },
+      };
+    }
     const detail = formatDepositHostFailure({
       ...result,
       outcome: "completed-empty-options",
     });
     const message =
-      `Sandbox deposit pipeline completed with zero depositOptions. ${detail}`.slice(
+      `Sandbox deposit pipeline completed without Finish-presentable depositOptions. ${detail}`.slice(
         0,
         1800,
       );
@@ -576,14 +621,16 @@ export async function runDepositInBoxHost(input: {
       ...createSummary,
       sandboxId: result?.sandboxId ?? null,
       message: message.slice(0, 800),
+      finishPresent,
     });
     throw new Error(message);
   }
 
   return {
-    options,
+    options: presentableOptions,
     sandboxId: result.sandboxId ?? null,
     outcome: result?.outcome ?? "failed",
+    finishPresent: true,
     recovery: recovery.partial || recovery.hostBudgetExceeded ? recovery : null,
   };
 }

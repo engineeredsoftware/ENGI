@@ -283,13 +283,79 @@ export async function runDepositOptionSynthesis(
           totalPathCount: inventoryPaths.length,
           excludedPathCount: 0,
         };
+        if (
+          (hostResult.finishPresent !== true ||
+            !Array.isArray(rawOptions) ||
+            rawOptions.length === 0) &&
+          (hostRecovery?.hostBudgetExceeded || hostRecovery?.partial)
+        ) {
+          // Finish gate not met under budget pressure: partial row, no option cards.
+          const durationMs = Date.now() - startedAt;
+          await emitStatus(
+            `Sandbox host partial: no Finish-presentable depositOptions after host budget (${(durationMs / 1000).toFixed(1)}s).`,
+          );
+          await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
+            optionCount: 0,
+            partial: true,
+            finishPresent: false,
+          });
+          await finalizeExecutionRow({
+            status: 'partial',
+            completed_at: new Date().toISOString(),
+            context: {
+              source: 'deposit-option-synthesis',
+              workbench: 'deposit-option-synthesis',
+              route: '/deposits',
+              pipelineCore: 'AssetPacksSynthesis',
+              repositoryFullName,
+              sourceBranch,
+              sourceCommit,
+              optionCount: 0,
+              finishPresent: false,
+              partial: true,
+              hostPartial: true,
+              hostBudgetExceeded: Boolean(hostRecovery?.hostBudgetExceeded),
+              hostRecoveredFromTimeout: Boolean(
+                hostRecovery?.hostRecoveredFromTimeout || hostRecovery?.hostBudgetExceeded,
+              ),
+              hostResultState: hostRecovery?.hostResultState ?? null,
+              hostErrorName: hostRecovery?.hostErrorName ?? null,
+              hostErrorMessage: hostRecovery?.hostErrorMessage ?? null,
+            },
+            output: {
+              summary: `Partial synthesis for ${repositoryFullName}: Finish selection envelope not present after host budget.`,
+              depositOptionSynthesis: null,
+              reviewProjections: [],
+              partial: true,
+              finishPresent: false,
+              hostBudgetExceeded: true,
+              hostRecoveredFromTimeout: true,
+              hostResultState: hostRecovery?.hostResultState ?? null,
+            },
+            items: [],
+            total_tokens: null,
+            duration_ms: durationMs,
+          });
+          await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
+            message:
+              'AssetPacksSynthesis partial: Finish selection envelope not present after host budget (no option cards).',
+            runId,
+          });
+          bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'partial-no-finish', {
+            userId: compactBitcodeServerId(userId),
+            repositoryFullName,
+            runId,
+            durationMs,
+          });
+          return;
+        }
         if (hostRecovery?.hostBudgetExceeded || hostRecovery?.partial) {
           await emitStatus(
-            `Sandbox host recovered ${Array.isArray(rawOptions) ? rawOptions.length : 0} depositOptions after host budget pressure (Validation incomplete); running fail-closed validation…`,
+            `Sandbox host recovered ${Array.isArray(rawOptions) ? rawOptions.length : 0} Finish-presentable depositOptions after host budget pressure; running fail-closed validation…`,
           );
         } else {
           await emitStatus(
-            `Sandbox host completed with ${Array.isArray(rawOptions) ? rawOptions.length : 0} depositOptions; running fail-closed validation…`,
+            `Sandbox host completed with ${Array.isArray(rawOptions) ? rawOptions.length : 0} Finish-presentable depositOptions; running fail-closed validation…`,
           );
         }
       } catch (sandboxError) {

@@ -267,12 +267,20 @@ describe('runDepositInBoxHost (#25)', () => {
 
   it('dispatches deposit host with image-only create + in-box clone env (Host law)', async () => {
     let receivedPlan: any;
+    const finishOption = { title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] };
     const fakeHost = {
       runHostPlan: async (plan: any) => {
         receivedPlan = plan;
         return {
           sandboxId: 'sbx_test_1',
-          artifacts: { evidence: { depositOptions: [{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }] }, telemetry: null },
+          artifacts: {
+            evidence: {
+              finishPresent: true,
+              selectionEnvelope: { options: [finishOption] },
+              depositOptions: [finishOption],
+            },
+            telemetry: null,
+          },
           outcome: 'completed',
           stopped: true,
           manifest: plan.manifest,
@@ -295,7 +303,8 @@ describe('runDepositInBoxHost (#25)', () => {
       hostFactory: async () => fakeHost,
     });
 
-    expect(result.options).toEqual([{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }]);
+    expect(result.options).toEqual([finishOption]);
+    expect(result.finishPresent).toBe(true);
     expect(result.sandboxId).toBe('sbx_test_1');
     expect(result.outcome).toBe('completed');
     expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
@@ -349,7 +358,13 @@ describe('runDepositInBoxHost (#25)', () => {
         return {
           sandboxId: 'sbx_profile',
           artifacts: {
-            evidence: { depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }] },
+            evidence: {
+              finishPresent: true,
+              selectionEnvelope: {
+                options: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }],
+              },
+              depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }],
+            },
             telemetry: null,
           },
           outcome: 'completed',
@@ -392,7 +407,13 @@ describe('runDepositInBoxHost (#25)', () => {
         return {
           sandboxId: 'sbx_budget',
           artifacts: {
-            evidence: { depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }] },
+            evidence: {
+              finishPresent: true,
+              selectionEnvelope: {
+                options: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }],
+              },
+              depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }],
+            },
             telemetry: null,
           },
           outcome: 'completed',
@@ -458,7 +479,7 @@ describe('runDepositInBoxHost (#25)', () => {
     ).rejects.toThrow(/Sandbox deposit host failed|Setup clone failed|asset-pack-pipeline-run/);
   });
 
-  it('throws when host completed with zero depositOptions (distinct from Validation)', async () => {
+  it('throws when host completed without Finish-presentable options', async () => {
     const fakeHost = {
       runHostPlan: async () => ({
         sandboxId: 'sbx_empty',
@@ -481,15 +502,54 @@ describe('runDepositInBoxHost (#25)', () => {
         demandContext: [],
         hostFactory: async () => fakeHost,
       }),
-    ).rejects.toThrow(/zero depositOptions/);
+    ).rejects.toThrow(/Finish-presentable depositOptions/);
   });
 
-  it('returns options + recovery when host exit=0 but evidence has budget timeout', async () => {
+  it('does not present Implementation-only depositOptions without Finish', async () => {
+    const fakeHost = {
+      runHostPlan: async () => ({
+        sandboxId: 'sbx_impl_only',
+        artifacts: {
+          evidence: {
+            // Implementation measured packs — not Finish-gated.
+            depositOptions: [
+              {
+                coveredSourcePaths: ['a.ts'],
+                measurements: { absolutes: new Array(8).fill({ key: 'k', value: 1 }) },
+              },
+            ],
+            resultState: 'worthy_deposit_candidates',
+          },
+          telemetry: null,
+        },
+        outcome: 'completed',
+        stopped: true,
+        manifest: {},
+        commands: [],
+      }),
+    };
+    await expect(
+      runDepositInBoxHost({
+        repositoryFullName: 'o/r',
+        revision: 'main',
+        branch: 'main',
+        commit: null,
+        obfuscations: null,
+        permissibleSources: [],
+        impermissibleSources: [],
+        demandContext: [],
+        hostFactory: async () => fakeHost,
+      }),
+    ).rejects.toThrow(/Finish-presentable depositOptions/);
+  });
+
+  it('returns empty options + recovery on budget timeout without Finish', async () => {
     const fakeHost = {
       runHostPlan: async () => ({
         sandboxId: 'sbx_budget',
         artifacts: {
           evidence: {
+            // Implementation-only recovery under budget — not presentable.
             depositOptions: [
               {
                 coveredSourcePaths: ['a.ts'],
@@ -521,7 +581,52 @@ describe('runDepositInBoxHost (#25)', () => {
       demandContext: [],
       hostFactory: async () => fakeHost,
     });
+    expect(result.options).toHaveLength(0);
+    expect(result.finishPresent).toBe(false);
+    expect(result.recovery?.hostBudgetExceeded).toBe(true);
+    expect(result.recovery?.partial).toBe(true);
+  });
+
+  it('presents Finish selectionEnvelope options under budget recovery', async () => {
+    const finishOption = {
+      coveredSourcePaths: ['a.ts'],
+      measurements: { absolutes: new Array(8).fill({ key: 'k', value: 1 }) },
+    };
+    const fakeHost = {
+      runHostPlan: async () => ({
+        sandboxId: 'sbx_budget_finish',
+        artifacts: {
+          evidence: {
+            finishPresent: true,
+            selectionEnvelope: { options: [finishOption] },
+            depositOptions: [finishOption],
+            resultState: 'worthy_deposit_candidates',
+            error: {
+              name: 'PipelineHostTimeoutError',
+              message: 'AssetPack pipeline exceeded host runtime budget of 600000ms.',
+            },
+          },
+          telemetry: null,
+        },
+        outcome: 'completed',
+        stopped: true,
+        manifest: {},
+        commands: [{ label: 'asset-pack-pipeline-run', exitCode: 0, stderr: '', stdout: '' }],
+      }),
+    };
+    const result = await runDepositInBoxHost({
+      repositoryFullName: 'o/r',
+      revision: 'main',
+      branch: 'main',
+      commit: null,
+      obfuscations: null,
+      permissibleSources: [],
+      impermissibleSources: [],
+      demandContext: [],
+      hostFactory: async () => fakeHost,
+    });
     expect(result.options).toHaveLength(1);
+    expect(result.finishPresent).toBe(true);
     expect(result.recovery?.hostBudgetExceeded).toBe(true);
     expect(result.recovery?.partial).toBe(true);
   });
