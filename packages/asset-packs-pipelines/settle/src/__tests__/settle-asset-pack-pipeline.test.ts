@@ -96,9 +96,13 @@ describe('ExecutionPipelineSimpleSettleAssetPack', () => {
     expect(activity.measurements.some((m) => m.category === 'neediness')).toBe(true);
 
     const state = result.erc1155State;
-    // Depositor earns minted BTD; buyer does not receive fungible mint.
-    expect(balanceOf(state, '0xDepositorWallet', BITCODE_BTD_TOKEN_ID)).toBeGreaterThan(0n);
+    // Full BTD escrowed on master; buyer co-owns AP without fungible mint.
+    expect(balanceOf(state, '0xMasterTreasury', BITCODE_BTD_TOKEN_ID)).toBeGreaterThan(0n);
     expect(balanceOf(state, '0xBuyerWallet', BITCODE_BTD_TOKEN_ID)).toBe(0n);
+    expect(balanceOf(state, '0xDepositorWallet', BITCODE_BTD_TOKEN_ID)).toBe(0n);
+    expect((result as { pendingPayout?: { status?: string } }).pendingPayout?.status).toBe(
+      'pending-seller-review',
+    );
   });
 
   it('mint volume ignores absolutes entirely', () => {

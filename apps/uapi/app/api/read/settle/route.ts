@@ -2,8 +2,8 @@
  * POST /api/read/settle — spawn one ExecutionPipelineSimpleSettleAssetPack per bought option.
  *
  * 1:1 AssetPack : settle pipeline. SynthesizeRead may return multiple options;
- * each selected option gets its own settle run (BTC → mint-btd → settle-btd →
- * settle-asset-pack → PR → packs).
+ * each selected option gets its own settle run (pay ETH|BTC|SOL → BTD volume
+ * escrow mint → AP co-own → PR → packs). Seller finalizes BTD/pay split on /packs.
  *
  * Wire JSON is parsed into strongly typed SettleAssetPackOption at this boundary.
  */
@@ -56,7 +56,7 @@ function parsePaymentObservation(
 ): SettleBtcPaymentObservationInput {
   const base: SettleBtcPaymentObservationInput = {
     schema: 'bitcode.settle-asset-pack.payment-observation',
-    network: 'btc-testnet',
+    network: 'ethereum-sepolia',
     status: 'observed-projection',
     amountSats: typeof amountSats === 'number' ? amountSats : null,
     txId: typeof txId === 'string' ? txId : null,
@@ -191,11 +191,13 @@ async function runOneSettle(input: RunOneSettleInput) {
     const mintBtd = result.mintBtd;
     const settleBtd = result.settleBtd;
     const settleAssetPack = result.settleAssetPack;
+    const pendingPayout = result.pendingPayout || null;
     const summary = result.summary;
     const deliveryState = packActivity.deliveryState || shippable.status || 'projected';
     const rightsState = 'btd-rights-transferred' as const;
     const prUrl = packActivity.prUrl || shippable.prUrl || null;
     const measurementRows = packActivity.measurements;
+    const optionPatch = input.option.patch ?? null;
 
     await input.admin
       .from('executions')
@@ -218,16 +220,21 @@ async function runOneSettle(input: RunOneSettleInput) {
           mintBtd,
           settleBtd,
           settleAssetPack,
+          pendingPayout,
+          entitledPatch: optionPatch,
           selectedCount: 1,
           optionCount: 1,
           assetPackTitle: optionTitle || packActivity.assetPackTitle || null,
           measurements: measurementRows,
           settlementState: 'settled',
+          payoutState: pendingPayout?.status || 'pending-seller-review',
           rightsState,
           deliveryState,
           deliveryReference: prUrl,
           prUrl,
           amountSats: packActivity.paymentObservation?.amountSats ?? null,
+          buyerAccount: pendingPayout?.buyerAccount || settleBtd?.buyerAccount || null,
+          sellerAccount: pendingPayout?.sellerAccount || null,
           summary,
         },
         context: {
@@ -242,11 +249,15 @@ async function runOneSettle(input: RunOneSettleInput) {
           activityType: 'settled-assetpack',
           admissionState: 'settled',
           settlementState: 'settled',
+          payoutState: pendingPayout?.status || 'pending-seller-review',
           rightsState,
           deliveryState,
           deliveryReference: prUrl,
           prUrl,
           assetPackTitle: optionTitle || packActivity.assetPackTitle || null,
+          buyerAccount: pendingPayout?.buyerAccount || null,
+          sellerAccount: pendingPayout?.sellerAccount || null,
+          assetPackKey: pendingPayout?.assetPackKey || packActivity.assetPackKey || null,
         },
       })
       .eq('id', settleRunId)
@@ -256,6 +267,7 @@ async function runOneSettle(input: RunOneSettleInput) {
       ok: true as const,
       settleRunId,
       packActivity,
+      pendingPayout,
       shippable: {
         prUrl,
         status: deliveryState,

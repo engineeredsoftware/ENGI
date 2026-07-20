@@ -614,7 +614,7 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
     coOwners: [...receipt.coOwn.coOwners],
     removedPriorOwner: false,
     note:
-      'Finalize: depositor earned minted BTD (needinesses volume); buyer paid external rail; buyer co-own AP (add-only).',
+      'Finalize escrow: full BTD Volume minted to treasury escrow; buyer paid ETH/BTC/SOL; buyer co-own AP (add-only). Seller finalizes BTD/ETH split on /packs.',
   };
 
   const rights: SettleRightsArtifact = {
@@ -628,14 +628,37 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
     status: 'transferred',
   };
 
+  const pendingPayout = {
+    schema: 'bitcode.settle.pending-payout' as const,
+    status: 'pending-seller-review' as const,
+    assetPackKey,
+    sellerAccount: depositor,
+    buyerAccount: buyer,
+    masterAccount: master,
+    btdVolume: receipt.btdVolume.toString(),
+    payAmount: receipt.payAmount.toString(),
+    payAsset: receipt.payAsset,
+    needFitVolume: settlementBtd.needFitVolume,
+    quoteId: receipt.quoteId,
+    apTokenId: receipt.apTokenId.toString(),
+    patchSummary:
+      typeof option.patch?.patchSummary === 'string' ? option.patch.patchSummary : null,
+    sellerBtdBpsFinalized: null,
+    finalizedAt: null,
+    sellerBtd: null,
+    treasuryBtd: null,
+    sellerPay: null,
+    treasuryPay: null,
+  };
+
   const mintArtifact: MintBtdArtifact = {
     schema: 'bitcode.settle-asset-pack.mint-btd',
     agent: 'mint-btd',
     settlementBtd: settlementBtd as MintBtdArtifact['settlementBtd'],
     receipt: {
-      kind: 'btd.erc1155.earned',
+      kind: 'btd.erc1155.escrow-mint',
       tokenId: '0',
-      to: depositor,
+      to: master,
       amountBaseUnits: receipt.btdMintedTotal.toString(),
       needFitVolume: settlementBtd.needFitVolume,
       weightedNeedinessesSum: settlementBtd.weightedNeedinessesSum,
@@ -650,7 +673,7 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
     },
     masterAccount: master,
     masterBtdBalance: balanceOf(state, master, BITCODE_BTD_TOKEN_ID).toString(),
-    note: 'BTD minted to depositor earn slice(s) only.',
+    note: 'BTD Volume fully minted to escrow (master). Seller finalizes BTD vs pay-asset split.',
   };
 
   const settleBtdArtifact: SettleBtdArtifact = {
@@ -677,6 +700,7 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'mintBtd', mintArtifact);
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleBtd', settleBtdArtifact);
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'rights', rights);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'pendingPayout', pendingPayout);
   storeCrossPhaseArtifact(
     execution,
     'settle-asset-pack-pipeline',
@@ -690,6 +714,7 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
     mintBtd: mintArtifact,
     settleBtd: settleBtdArtifact,
     settlementFinalized: true,
+    pendingPayout,
   };
 };
 
@@ -945,6 +970,12 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
       : null,
     shippable: shippableSummary,
     rights,
+    pendingPayout:
+      input.pendingPayout ||
+      getStored(execution, 'settle-asset-pack-pipeline', 'pendingPayout') ||
+      null,
+    entitledPatchSummary:
+      typeof option.patch?.patchSummary === 'string' ? option.patch.patchSummary : null,
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'packActivity', activity);
   storeCrossPhaseArtifact(execution, 'finish', 'packActivity', activity);

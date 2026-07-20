@@ -266,6 +266,25 @@ async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivi
           packActivityType: 'settled-assetpack',
           assetPackTitle,
           measurements: output.measurements || packActivity.measurements || [],
+          pendingPayout: output.pendingPayout || packActivity.pendingPayout || null,
+          entitledPatchSummary:
+            (typeof packActivity.entitledPatchSummary === 'string' &&
+              packActivity.entitledPatchSummary) ||
+            (output.entitledPatch &&
+            typeof output.entitledPatch === 'object' &&
+            typeof (output.entitledPatch as { patchSummary?: string }).patchSummary ===
+              'string'
+              ? (output.entitledPatch as { patchSummary: string }).patchSummary
+              : null),
+          settleRunId: row.id,
+          payoutState:
+            context.payoutState ||
+            output.payoutState ||
+            (output.pendingPayout &&
+            typeof output.pendingPayout === 'object' &&
+            typeof (output.pendingPayout as { status?: string }).status === 'string'
+              ? (output.pendingPayout as { status: string }).status
+              : null),
         },
       } as never);
     });

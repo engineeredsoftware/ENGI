@@ -10,6 +10,7 @@
  */
 
 import { createHash } from 'crypto';
+import { computePayoutSplit } from './payout-split';
 import {
   BITCODE_ASSET_PACK_ID_START,
   BITCODE_BTD_TOKEN_ID,
@@ -183,9 +184,12 @@ function addCoOwner(
 }
 
 /**
- * Finalize settle (mirror of on-chain _finalizeSettle).
- * ETH path: caller must supply paymentObserved with matching payAmount (simulated receipt).
- * BTC/SOL path: pass railTxId; marks rail used.
+ * Settle escrow (mirror of on-chain settle):
+ * - Mint **100%** of V BTD to master (escrow) — seller finalizes split later
+ * - Record external payment (ETH/BTC/SOL)
+ * - Add buyer as AssetPack co-owner (entitled rights / patch)
+ *
+ * Seller payout distribution is `finalizeSellerPayout`.
  */
 export function finalizeSettle(
   state: BitcodeErc1155State,
@@ -225,54 +229,40 @@ export function finalizeSettle(
   const settlementSequence = state.settlementSequence + 1n;
   state.settlementSequence = settlementSequence;
 
-  let totalMinted = 0n;
-  const btdEarned: BtdEarnedReceipt[] = [];
-  const coinPaid: CoinPaidReceipt[] = [];
-  const feeBps = BigInt(state.config.coinFeeBps);
-
-  for (const s of quote.shares) {
-    const depositor = normalizeAddress(s.depositor, 'depositor');
-    const shareNotional = (quote.btdVolume * BigInt(s.weightBps)) / 10_000n;
-    const mint_i = (shareNotional * BigInt(s.btdBps)) / 10_000n;
-    const coinWeightBps = (BigInt(s.weightBps) * BigInt(s.coinBps)) / 10_000n;
-
-    if (mint_i > 0n) {
-      totalMinted += mint_i;
-      setBalance(
-        state,
-        depositor,
-        BITCODE_BTD_TOKEN_ID,
-        getBalance(state, depositor, BITCODE_BTD_TOKEN_ID) + mint_i,
-      );
-      btdEarned.push({
-        kind: 'btd.erc1155.earned',
-        depositor,
-        amountBaseUnits: mint_i,
-        assetPackKey: quote.assetPackKey,
-        needFitMicro: quote.needFitMicro,
-        settlementSequence,
-        issuedAt,
-      });
-    }
-
-    if (coinWeightBps > 0n) {
-      const coinGross = (quote.payAmount * coinWeightBps) / 10_000n;
-      const fee = (coinGross * feeBps) / 10_000n;
-      const coinNet = coinGross - fee;
-      coinPaid.push({
-        kind: 'settle.coin-paid',
-        depositor,
-        payAsset: quote.payAsset,
-        netAmount: coinNet,
-        feeAmount: fee,
-        settlementSequence,
-        issuedAt,
-      });
-    }
-  }
-
-  if (totalMinted > quote.btdVolume) throw new Error('SupplyExceeded');
+  // Always mint full V to master escrow (seller payout finalizes allocation).
+  const totalMinted = quote.btdVolume;
+  const master = state.config.masterAccount;
+  setBalance(
+    state,
+    master,
+    BITCODE_BTD_TOKEN_ID,
+    getBalance(state, master, BITCODE_BTD_TOKEN_ID) + totalMinted,
+  );
   state.btdTotalMinted += totalMinted;
+
+  const btdEarned: BtdEarnedReceipt[] = [
+    {
+      kind: 'btd.erc1155.earned',
+      depositor: master,
+      amountBaseUnits: totalMinted,
+      assetPackKey: quote.assetPackKey,
+      needFitMicro: quote.needFitMicro,
+      settlementSequence,
+      issuedAt,
+    },
+  ];
+  // Payment held as pending for seller finalize (accounting only in TS mirror).
+  const coinPaid: CoinPaidReceipt[] = [
+    {
+      kind: 'settle.coin-paid',
+      depositor: master,
+      payAsset: quote.payAsset,
+      netAmount: quote.payAmount,
+      feeAmount: 0n,
+      settlementSequence,
+      issuedAt,
+    },
+  ];
 
   const primaryDepositor = normalizeAddress(quote.shares[0].depositor, 'primaryDepositor');
   let tokenId = state.assetPackTokenByKey.get(quote.assetPackKey);
@@ -313,6 +303,88 @@ export function finalizeSettle(
   };
 
   return { state, receipt };
+}
+
+export interface SellerPayoutFinalizeInput {
+  sellerAccount: string;
+  sellerBtdBps: number;
+  btdVolume: bigint;
+  payAmount: bigint;
+  payAsset: PayAsset;
+  assetPackKey: string;
+  issuedAt?: string;
+}
+
+export interface SellerPayoutFinalizeReceipt {
+  kind: 'bitcode.erc1155.seller-payout-finalized';
+  assetPackKey: string;
+  sellerAccount: string;
+  sellerBtdBps: number;
+  sellerBtd: bigint;
+  treasuryBtd: bigint;
+  sellerPay: bigint;
+  treasuryPay: bigint;
+  payAsset: PayAsset;
+  settlementSequence: bigint;
+  issuedAt: string;
+}
+
+/**
+ * Seller finalizes payout from escrow (master holds full BTD + pay accounting).
+ * Inverse treasury split via computePayoutSplit.
+ */
+export function finalizeSellerPayout(
+  state: BitcodeErc1155State,
+  input: SellerPayoutFinalizeInput,
+): { state: BitcodeErc1155State; receipt: SellerPayoutFinalizeReceipt } {
+  const seller = normalizeAddress(input.sellerAccount, 'sellerAccount');
+  const master = state.config.masterAccount;
+  const split = computePayoutSplit({
+    btdVolume: input.btdVolume,
+    payAmount: input.payAmount,
+    payAsset: input.payAsset,
+    sellerBtdBps: input.sellerBtdBps,
+  });
+
+  const masterBtd = getBalance(state, master, BITCODE_BTD_TOKEN_ID);
+  if (masterBtd < split.sellerBtd + split.treasuryBtd) {
+    // Allow if master holds at least sellerBtd (treasury share already conceptually master).
+    if (masterBtd < split.sellerBtd) {
+      throw new Error('InsufficientBalance: escrow BTD for seller payout');
+    }
+  }
+
+  // Move seller BTD out of master; treasury share remains on master.
+  if (split.sellerBtd > 0n) {
+    setBalance(state, master, BITCODE_BTD_TOKEN_ID, masterBtd - split.sellerBtd);
+    setBalance(
+      state,
+      seller,
+      BITCODE_BTD_TOKEN_ID,
+      getBalance(state, seller, BITCODE_BTD_TOKEN_ID) + split.sellerBtd,
+    );
+  }
+
+  const settlementSequence = state.settlementSequence + 1n;
+  state.settlementSequence = settlementSequence;
+  const issuedAt = input.issuedAt || new Date().toISOString();
+
+  return {
+    state,
+    receipt: {
+      kind: 'bitcode.erc1155.seller-payout-finalized',
+      assetPackKey: input.assetPackKey,
+      sellerAccount: seller,
+      sellerBtdBps: split.sellerBtdBps,
+      sellerBtd: split.sellerBtd,
+      treasuryBtd: split.treasuryBtd,
+      sellerPay: split.sellerPay,
+      treasuryPay: split.treasuryPay,
+      payAsset: split.payAsset,
+      settlementSequence,
+      issuedAt,
+    },
+  };
 }
 
 /** AssetPack ownership can never be removed (V48+ law). */

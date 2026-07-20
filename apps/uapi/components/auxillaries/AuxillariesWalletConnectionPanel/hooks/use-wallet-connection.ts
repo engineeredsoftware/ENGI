@@ -1,6 +1,10 @@
 /**
- * Bitcoin wallet connection lifecycle: provider scan, OAuth session, local
- * staging, server persistence, and disconnect. UI stays in the panel entry.
+ * Wallet connection lifecycle for Auxillaries.
+ *
+ * Primary path (product law): Ethereum EIP-1193 (MetaMask, Coinbase, Brave,
+ * Rainbow) via @bitcode/auth/ethereum-wallet-client. Bitcoin Leather path is
+ * retained only as a transitional fallback until SIWE Supabase provider cutover
+ * completes — do not add new BTC identity UX here.
  */
 
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';

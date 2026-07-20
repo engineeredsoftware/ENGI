@@ -1087,9 +1087,24 @@ Unchosen BTD is not minted. Buyer receipt is **AssetPack co-own NFT + delivery**
 | 1 | `validate-settlement-readiness` | Exactly one `assetPackOption`; fail-closed if zero or many |
 | 2 | `settle-payment` | Observe / project pay rail (ETH on-chain; BTC/SOL attested) |
 | 3 | `quote-btd-volume` | Needinesses → rawV → residual-supply **decay** → V; multi-rail spot options |
-| 4 | `finalize-settle` | `BitcodeERC1155`: mint depositor BTD slices + add buyer co-owner; burn AP forbidden |
+| 4 | `finalize-settle` | `BitcodeERC1155`: mint **100% V BTD to escrow (master)**; add buyer co-owner; burn AP forbidden. Seller payout not yet distributed. |
 | 5 | `ship-asset-pack-patch-pr` | Open PR on **read** repo applying that option’s `.patch` |
-| 6 | `journal-and-pack-activity` | `/packs` settled-assetpack activity row |
+| 6 | `journal-and-pack-activity` | `/packs` settled-assetpack activity row + `pendingPayout` for seller review |
+
+#### Seller payout finalize (pack detail)
+
+After settle, the **seller** opens the settled AssetPack on `/packs` and sets
+`sellerBtdBps` with a slider (BTD % vs pay-asset %; **ETH for V0**):
+
+```
+seller receives:     sellerBtdBps/10000 of BTD + (10000-sellerBtdBps)/10000 of ETH
+treasury receives:   inverse remainder of each asset
+```
+
+Example: sellerBtdBps=1000 → seller 10% BTD + 90% ETH; treasury 90% BTD + 10% ETH.
+
+Buyer (entitled co-owner) may view the **patch summary** on pack detail after settle.
+`POST /api/packs/payout/finalize` persists the split.
 
 #### BTD (Bitcode) fungible token — volume and mint
 

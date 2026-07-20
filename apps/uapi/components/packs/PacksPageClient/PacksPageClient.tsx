@@ -20,8 +20,16 @@ import { usePacksRouteParams } from "./hooks/use-packs-route-params";
 import { PacksActivityMaster } from "@/components/packs/PacksActivityMaster/PacksActivityMaster";
 import { PacksActivityDetail } from "@/components/packs/PacksActivityDetail/PacksActivityDetail";
 import { PacksPortfolioStrip } from "@/components/packs/PacksPortfolioStrip/PacksPortfolioStrip";
+import { useUserData } from "@/hooks/useUserData";
 
 export default function PacksPageClient() {
+  const { walletConnectionStatus, data: userData } = useUserData();
+  const viewerEthereumAddress =
+    walletConnectionStatus?.address ||
+    (typeof (userData as { profile?: { wallet_address?: string } } | null)?.profile
+      ?.wallet_address === 'string'
+      ? (userData as { profile: { wallet_address: string } }).profile.wallet_address
+      : null);
   const {
     routeParams,
     search,
@@ -143,7 +151,12 @@ export default function PacksPageClient() {
         testId="packs-run-detail"
         className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
       >
-        <PacksActivityDetail detail={detail} layout="main" />
+        <PacksActivityDetail
+          detail={detail}
+          layout="main"
+          viewerEthereumAddress={viewerEthereumAddress}
+          onPayoutFinalized={() => void refresh()}
+        />
         <PacksActivityDetail detail={detail} layout="aside" />
       </ProductDetailStage>
     </ProductRouteShell>

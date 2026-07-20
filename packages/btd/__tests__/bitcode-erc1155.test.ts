@@ -10,9 +10,11 @@ import {
   BTD_MAX_SUPPLY_BASE_UNITS,
   buildMultiRailSpotQuote,
   burnAssetPackOwnership,
+  computePayoutSplit,
   computeSettlementBtdFromNeedinesses,
   createBitcodeErc1155State,
   createMockSpotBoard,
+  finalizeSellerPayout,
   finalizeSettle,
   isAssetPackCoOwner,
   needFitVolumeToBaseUnits,
@@ -125,7 +127,7 @@ describe('BitcodeERC1155 finalizeSettle', () => {
     };
   }
 
-  it('mints BTD to depositor on 100% BTD payout; buyer gets co-own only', () => {
+  it('mints full V BTD to master escrow; buyer gets co-own only', () => {
     let state = fresh();
     const quote = baseQuote();
     const { state: next, receipt } = finalizeSettle(state, quote, {
@@ -134,38 +136,44 @@ describe('BitcodeERC1155 finalizeSettle', () => {
     state = next;
 
     expect(receipt.btdMintedTotal).toBe(quote.btdVolume);
-    expect(balanceOf(state, depositor, BITCODE_BTD_TOKEN_ID)).toBe(quote.btdVolume);
+    expect(balanceOf(state, master, BITCODE_BTD_TOKEN_ID)).toBe(quote.btdVolume);
     expect(balanceOf(state, buyer, BITCODE_BTD_TOKEN_ID)).toBe(0n);
+    expect(balanceOf(state, depositor, BITCODE_BTD_TOKEN_ID)).toBe(0n);
     expect(isAssetPackCoOwner(state, 'ap-read-1', buyer)).toBe(true);
     expect(isAssetPackCoOwner(state, 'ap-read-1', depositor)).toBe(true);
     expect(state.btdTotalMinted).toBe(quote.btdVolume);
   });
 
-  it('mints nothing when depositor elects 100% coin; still co-owns buyer', () => {
+  it('seller payout 10% BTD / 90% ETH gives inverse to treasury', () => {
     let state = fresh();
-    const quote = baseQuote({
-      quoteId: 'quote-coin',
-      shares: [
-        {
-          depositor,
-          weightBps: 10_000,
-          btdBps: 0,
-          coinBps: 10_000,
-        },
-      ],
-    });
-    const { state: next, receipt } = finalizeSettle(state, quote, {
-      ethPaid: quote.payAmount,
-    });
-    state = next;
+    const quote = baseQuote({ quoteId: 'payout-1' });
+    const settled = finalizeSettle(state, quote, { ethPaid: quote.payAmount });
+    state = settled.state;
 
-    expect(receipt.btdMintedTotal).toBe(0n);
-    expect(balanceOf(state, depositor, BITCODE_BTD_TOKEN_ID)).toBe(0n);
-    expect(receipt.coinPaid).toHaveLength(1);
-    expect(receipt.coinPaid[0].netAmount + receipt.coinPaid[0].feeAmount).toBe(
-      quote.payAmount,
-    );
-    expect(isAssetPackCoOwner(state, 'ap-read-1', buyer)).toBe(true);
+    const split = computePayoutSplit({
+      btdVolume: quote.btdVolume,
+      payAmount: quote.payAmount,
+      payAsset: 'ETH',
+      sellerBtdBps: 1000,
+    });
+    expect(split.sellerBtdBps).toBe(1000);
+    expect(split.sellerEthBps).toBe(9000);
+    expect(split.treasuryBtdBps).toBe(9000);
+    expect(split.treasuryEthBps).toBe(1000);
+
+    const paid = finalizeSellerPayout(state, {
+      sellerAccount: depositor,
+      sellerBtdBps: 1000,
+      btdVolume: quote.btdVolume,
+      payAmount: quote.payAmount,
+      payAsset: 'ETH',
+      assetPackKey: quote.assetPackKey,
+    });
+    state = paid.state;
+    expect(balanceOf(state, depositor, BITCODE_BTD_TOKEN_ID)).toBe(split.sellerBtd);
+    expect(balanceOf(state, master, BITCODE_BTD_TOKEN_ID)).toBe(split.treasuryBtd);
+    expect(paid.receipt.sellerPay).toBe(split.sellerPay);
+    expect(paid.receipt.treasuryPay).toBe(split.treasuryPay);
   });
 
   it('rejects quote replay', () => {
@@ -200,13 +208,13 @@ describe('BitcodeERC1155 finalizeSettle', () => {
     expect(() => burnAssetPackOwnership()).toThrow(/burn/);
   });
 
-  it('allows BTD transfer after mint (market path)', () => {
+  it('allows BTD transfer after mint (market path from escrow)', () => {
     let state = fresh();
     const quote = baseQuote({ quoteId: 'xfer' });
     const settled = finalizeSettle(state, quote, { ethPaid: quote.payAmount });
     state = settled.state;
     state = transferBtd(state, {
-      from: depositor,
+      from: master,
       to: buyer,
       amountBaseUnits: 1n,
     });

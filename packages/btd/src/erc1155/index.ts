@@ -9,4 +9,5 @@ export * from './types';
 export * from './settlement-btd-from-needinesses';
 export * from './decay';
 export * from './spot-quote';
+export * from './payout-split';
 export * from './bitcode-erc1155';

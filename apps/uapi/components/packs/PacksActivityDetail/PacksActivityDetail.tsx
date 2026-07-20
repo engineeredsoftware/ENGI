@@ -21,11 +21,18 @@ import { PacksActivityDetailStates } from "@/components/packs/PacksActivityDetai
 import { PacksActivityDetailAccounting } from "@/components/packs/PacksActivityDetailAccounting/PacksActivityDetailAccounting";
 import { PacksActivityDetailGovernance } from "@/components/packs/PacksActivityDetailGovernance/PacksActivityDetailGovernance";
 import { PacksActivityDetailProofRoots } from "@/components/packs/PacksActivityDetailProofRoots/PacksActivityDetailProofRoots";
+import {
+  PacksActivityDetailPayout,
+  type PacksPendingPayout,
+} from "@/components/packs/PacksActivityDetailPayout/PacksActivityDetailPayout";
 
 export type PacksActivityDetailProps = {
   detail: PackActivityDetailProjection | null;
   /** Column role in the deposit/read-style detail grid. */
   layout?: "main" | "aside" | "full";
+  /** Current user ethereum address (lowercased) for seller/buyer role. */
+  viewerEthereumAddress?: string | null;
+  onPayoutFinalized?: () => void;
 };
 
 function DetailHeader({ detail }: { detail: PackActivityDetailProjection }) {
@@ -138,9 +145,56 @@ function OverviewAndMeasurements({
   );
 }
 
+function PayoutFromDetail({
+  detail,
+  viewerEthereumAddress,
+  onPayoutFinalized,
+}: {
+  detail: PackActivityDetailProjection;
+  viewerEthereumAddress?: string | null;
+  onPayoutFinalized?: () => void;
+}) {
+  const meta = detail.metadata || {};
+  const pending = (meta.pendingPayout || meta.payout) as PacksPendingPayout | undefined;
+  if (!pending || typeof pending !== "object") return null;
+
+  const viewer = (viewerEthereumAddress || "").toLowerCase();
+  const seller = String(pending.sellerAccount || "").toLowerCase();
+  const buyer = String(pending.buyerAccount || "").toLowerCase();
+  const canFinalize = Boolean(viewer && seller && viewer === seller);
+  const isBuyer = Boolean(viewer && buyer && viewer === buyer);
+  const settleRunId =
+    typeof meta.settleRunId === "string"
+      ? meta.settleRunId
+      : typeof detail.id === "string"
+        ? detail.id
+        : "";
+
+  if (!settleRunId) return null;
+
+  return (
+    <PacksActivityDetailPayout
+      settleRunId={settleRunId}
+      pendingPayout={pending}
+      canFinalize={canFinalize}
+      isBuyer={isBuyer}
+      entitledPatchSummary={
+        typeof meta.entitledPatchSummary === "string"
+          ? meta.entitledPatchSummary
+          : typeof pending.patchSummary === "string"
+            ? pending.patchSummary
+            : null
+      }
+      onFinalized={onPayoutFinalized}
+    />
+  );
+}
+
 export function PacksActivityDetail({
   detail,
   layout = "full",
+  viewerEthereumAddress = null,
+  onPayoutFinalized,
 }: PacksActivityDetailProps) {
   if (!detail) {
     return (
@@ -189,6 +243,11 @@ export function PacksActivityDetail({
         <div className="grid gap-5">
           <DetailHeader detail={detail} />
           <OverviewAndMeasurements detail={detail} />
+          <PayoutFromDetail
+            detail={detail}
+            viewerEthereumAddress={viewerEthereumAddress}
+            onPayoutFinalized={onPayoutFinalized}
+          />
           <PacksActivityDetailStates detail={detail} />
           {detail.accounting ? (
             <PacksActivityDetailAccounting accounting={detail.accounting} />

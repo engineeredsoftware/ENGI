@@ -97,7 +97,7 @@ export interface SettleValidationBoundary {
 }
 
 export interface MintBtdReceiptWire {
-  kind: 'btd.erc1155.mint';
+  kind: string;
   tokenId: string;
   to: string;
   amountBaseUnits: string;
@@ -111,6 +111,30 @@ export interface MintBtdReceiptWire {
   settlementSequence: string;
   proofRoot: string;
   issuedAt: string;
+}
+
+/** Seller must review and finalize BTD vs pay-asset split on /packs. */
+export interface SettlePendingPayout {
+  schema: 'bitcode.settle.pending-payout';
+  status: 'pending-seller-review' | 'finalized';
+  assetPackKey: string;
+  sellerAccount: string;
+  buyerAccount: string;
+  masterAccount: string;
+  btdVolume: string;
+  payAmount: string;
+  payAsset: 'ETH' | 'BTC' | 'SOL';
+  needFitVolume: number;
+  quoteId: string;
+  apTokenId: string;
+  /** Buyer-entitled source-safe patch summary (full patch when entitled). */
+  patchSummary?: string | null;
+  sellerBtdBpsFinalized?: number | null;
+  finalizedAt?: string | null;
+  sellerBtd?: string | null;
+  treasuryBtd?: string | null;
+  sellerPay?: string | null;
+  treasuryPay?: string | null;
 }
 
 export interface MintBtdArtifact {
@@ -265,6 +289,9 @@ export interface SettlePackActivity {
   } | null;
   shippable: PackActivityShippableSummary | null;
   rights: SettleRightsArtifact | null;
+  pendingPayout?: SettlePendingPayout | null;
+  /** Source-safe patch summary for entitled buyers (full patch at delivery). */
+  entitledPatchSummary?: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -301,6 +328,7 @@ export interface SettleAssetPackInput {
   shippable?: SettleShippable;
   packActivity?: SettlePackActivity;
   settlementFinalized?: boolean;
+  pendingPayout?: SettlePendingPayout | null;
   success?: boolean;
   summary?: string;
 }
@@ -318,6 +346,7 @@ export interface SettleAssetPackResult extends SettleAssetPackInput {
   settlementBtd: SettlementBtdFromNeedinessesResult;
   shippable: SettleShippable;
   paymentObservation: SettleBtcPaymentObservation;
+  pendingPayout?: SettlePendingPayout | null;
   /** Product AssetPack after settlement (ReadSynthesizedSettledAssetPack). */
   readSynthesizedSettledAssetPack?: import('@bitcode/generic-asset-packs-read-synthesized-settled').ReadSynthesizedSettledAssetPack;
 }
