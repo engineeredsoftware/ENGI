@@ -46,8 +46,23 @@ const TITLE_HIGHLIGHT_CLASS: Record<'green' | 'orange', string> = {
  */
 const CODE_MARK_SLOT =
   'inline-flex h-11 w-11 shrink-0 items-center justify-center phone:h-12 phone:w-12';
+/**
+ * Equal square slots for BTC / ETH / SOL.
+ * Brand SVGs have very different frames (BTC logo has large empty margin;
+ * ETH is tall; SOL is wide). Match *painted* mass via per-logo box size +
+ * scale — not a single % object-contain.
+ */
 const CHAIN_MARK_SLOT =
-  'inline-flex h-8 w-8 shrink-0 items-center justify-center phone:h-9 phone:w-9';
+  'inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-visible phone:h-11 phone:w-11';
+/**
+ * Explicit glyph boxes — BTC SVG frame is mostly empty so it needs a much
+ * larger box+scale to hit ~same painted height as ETH diamond / SOL bars.
+ */
+const CHAIN_GLYPH = {
+  btc: 'block h-12 w-12 origin-center scale-[1.55] phone:h-[3.25rem] phone:w-[3.25rem]',
+  eth: 'block h-10 w-10 origin-center object-contain phone:h-11 phone:w-11',
+  sol: 'block h-9 w-11 origin-center object-contain phone:h-10 phone:w-12',
+} as const;
 
 const FLOW_ICONS = {
   website: ComputerDesktopIcon,
@@ -149,9 +164,10 @@ export function MarketingLandingTestnetSection() {
             />
           </span>
           {/*
-            Settlement side — full-size triangle (not shrunk for space):
+            Settlement side — optical triangle (equal painted mass):
                  BTC
               ETH   SOL
+            Per-logo glyph boxes (BTC SVG has large empty frame → bigger box).
             Shadows tinted to each logo’s brand color.
           */}
           <span className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1 gap-y-0.5">
@@ -159,7 +175,7 @@ export function MarketingLandingTestnetSection() {
               className={`${CHAIN_MARK_SLOT} col-span-2 justify-self-center [filter:drop-shadow(0_0_8px_rgba(251,146,60,0.85))_drop-shadow(0_0_16px_rgba(251,191,36,0.5))]`}
             >
               <span
-                className="inline-block h-8 w-8 origin-center scale-[1.28] bg-orange-300 phone:h-9 phone:w-9"
+                className={`${CHAIN_GLYPH.btc} bg-orange-300`}
                 style={{
                   maskImage: 'url(/bitcoin-logo.svg)',
                   WebkitMaskImage: 'url(/bitcoin-logo.svg)',
@@ -176,7 +192,7 @@ export function MarketingLandingTestnetSection() {
               <img
                 src="/ethereum-logo.svg"
                 alt=""
-                className="h-8 w-8 object-contain phone:h-9 phone:w-9"
+                className={CHAIN_GLYPH.eth}
                 draggable={false}
               />
             </span>
@@ -187,7 +203,7 @@ export function MarketingLandingTestnetSection() {
               <img
                 src="/solana-logo.svg"
                 alt=""
-                className="h-7 w-8 object-contain phone:h-8 phone:w-9"
+                className={CHAIN_GLYPH.sol}
                 draggable={false}
               />
             </span>
