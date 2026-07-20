@@ -137,11 +137,11 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
-        return (node.textContent ?? '').includes('Exchange Bitcodes for Bitcoins.');
+        return (node.textContent ?? '').includes('Exchange Code for Coin.');
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Bitcodes', { selector: 'h2 span' })).toBeInTheDocument();
-    expect(screen.getByText('Bitcoins', { selector: 'h2 span' })).toBeInTheDocument();
+    expect(screen.getByText('Code', { selector: 'h2 span' })).toBeInTheDocument();
+    expect(screen.getByText('Coin', { selector: 'h2 span' })).toBeInTheDocument();
     expect(
       screen.getByText(
         /Bitcode's canonical, commercial deployments are its mainnet ERC-1155/u,

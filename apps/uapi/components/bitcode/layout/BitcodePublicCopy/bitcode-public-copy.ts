@@ -83,7 +83,8 @@ export const BITCODE_PUBLIC_COPY = {
   // Claim anchors in meaning: * ERC-1155 · ** Measured · *** AssetPacks (footnotes).
   testnetLaunch: {
     badge: 'Productionized Protocol',
-    title: 'Exchange Bitcodes for Bitcoins.',
+    // Marketing exchange strip: Code ⇄ Coin (AssetPacks/BTD ↔ multi-chain money).
+    title: 'Exchange Code for Coin.',
     meaning:
       "Bitcode's canonical, commercial deployments are its mainnet ERC-1155* tokens, tradable Measured** AssetPacks*** artifacts, and delightful user applications.",
     flow: [
