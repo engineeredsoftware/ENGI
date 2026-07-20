@@ -1,9 +1,8 @@
 "use client";
 
 /**
- * Bitcoin wallet connection panel — connect/disconnect/stage UI for the wallet
- * auxillary. Lifecycle and persistence live in hooks/use-wallet-connection.
- * Chrome Connect dispatches a brief attention cue on this section + CTAs.
+ * Wallet connection panel — Ethereum primary (Sepolia), BTC transitional.
+ * Lifecycle in hooks/use-wallet-connection.
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -51,8 +50,10 @@ export default function AuxillariesWalletConnectionPanel({
     walletReadout,
     hasWalletIdentity,
     hasProviderWalletIdentity,
+    refreshWalletProviders,
     refreshBitcoinWalletProviders,
     handleStageBitcoinAddress,
+    handleConnectEthereumWallet,
     handleConnectBitcoinWallet,
     handleDisconnectWallet,
     handleWalletAddressChange,
@@ -131,11 +132,11 @@ export default function AuxillariesWalletConnectionPanel({
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-orange-100/76">
             1. Required wallet
           </p>
-          <h3 className="mt-2 text-xl font-semibold text-white">Connect Bitcoin wallet</h3>
+          <h3 className="mt-2 text-xl font-semibold text-white">Connect Ethereum wallet</h3>
           <p className="mt-2 max-w-[48rem] text-sm leading-7 text-white/70">
-            Wallet connection is the first Bitcode identity action. It binds the operator address
-            for BTC fee readiness, BTD read-right posture, and signed proof continuity. Ethereum
-            account prompts are not used for this step.
+            Connect MetaMask, Coinbase, Brave, or Rainbow on <strong>Sepolia</strong>. This address
+            is used for BTD balances, AssetPack co-ownership, and testnet ETH settle. Sign a
+            message to prove control (no funds move on connect).
           </p>
         </div>
         <span
@@ -149,41 +150,22 @@ export default function AuxillariesWalletConnectionPanel({
         </span>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        {walletProviderOptions.length > 0 ? (
-          walletProviderOptions.map((provider) => (
-            <button
-              key={provider.id}
-              type="button"
-              data-testid={`wallet-connect-${provider.id}`}
-              onClick={() => handleConnectBitcoinWallet(provider.id)}
-              disabled={walletAuthStatus === 'requesting'}
-              className={connectButtonClassName}
-            >
-              {walletAuthStatus === 'requesting'
-                ? `Opening ${provider.label}`
-                : hasProviderWalletIdentity
-                  ? `Reconnect ${provider.label}`
-                  : `Connect ${provider.label}`}
-            </button>
-          ))
-        ) : (
-          <button
-            type="button"
-            data-testid="wallet-connect-bitcoin-wallet"
-            onClick={() => handleConnectBitcoinWallet()}
-            disabled={walletAuthStatus === 'requesting'}
-            className={connectButtonClassName}
-          >
-            {walletAuthStatus === 'requesting'
-              ? 'Opening Bitcoin wallet'
-              : hasProviderWalletIdentity
-                ? 'Reconnect Bitcoin wallet'
-                : 'Connect Bitcoin wallet'}
-          </button>
-        )}
         <button
           type="button"
-          onClick={refreshBitcoinWalletProviders}
+          data-testid="wallet-connect-ethereum"
+          onClick={() => void handleConnectEthereumWallet()}
+          disabled={walletAuthStatus === 'requesting'}
+          className={connectButtonClassName}
+        >
+          {walletAuthStatus === 'requesting'
+            ? 'Opening Ethereum wallet…'
+            : hasProviderWalletIdentity
+              ? 'Reconnect Ethereum wallet'
+              : 'Connect Ethereum wallet'}
+        </button>
+        <button
+          type="button"
+          onClick={() => void refreshWalletProviders()}
           disabled={walletAuthStatus === 'requesting'}
           className="wallet-section-secondary-button inline-flex items-center justify-center rounded-none border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition disabled:cursor-wait disabled:opacity-45"
         >
@@ -200,15 +182,16 @@ export default function AuxillariesWalletConnectionPanel({
             Disconnect wallet
           </button>
         ) : null}
-        <button
-          type="button"
-          onClick={handleStageBitcoinAddress}
-          disabled={walletAuthStatus === 'requesting' || !walletAddress.trim()}
-          className="wallet-section-secondary-button inline-flex items-center justify-center rounded-none border px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] transition disabled:cursor-not-allowed disabled:opacity-45"
-        >
-          Stage Bitcoin address
-        </button>
       </div>
+      {walletProviderOptions.length > 0 ? (
+        <p className="mt-3 text-xs text-white/50">
+          Detected:{' '}
+          {walletProviderOptions
+            .filter((p) => p.available)
+            .map((p) => p.label)
+            .join(', ') || 'none'}
+        </p>
+      ) : null}
       {walletAuthError ? (
         <div
           role="alert"

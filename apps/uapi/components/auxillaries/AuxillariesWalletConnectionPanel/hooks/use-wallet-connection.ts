@@ -22,6 +22,16 @@ import {
   type BitcoinWalletProviderSummary,
 } from '@bitcode/auth/bitcoin-wallet-client';
 import {
+  BITCODE_ETHEREUM_TESTNET_CHAIN_ID,
+  buildBitcodeEthereumAuthMessage,
+  connectEthereumWallet,
+  inspectEthereumWalletProviders,
+  isPlausibleEthereumAddress,
+  signEthereumAuthMessage,
+  switchEthereumChain,
+  type EthereumWalletProviderSummary,
+} from '@bitcode/auth/ethereum-wallet-client';
+import {
   clearLocalBitcodeWalletIdentity,
   isPlausibleBitcoinAddress,
   readLocalBitcodeWalletIdentity,
@@ -67,7 +77,9 @@ export function useWalletConnection({
     walletAuthStatusRef.current = walletAuthStatus;
   }, [walletAuthStatus]);
   const [pendingAuthorizeUrl, setPendingAuthorizeUrl] = useState<string | null>(null);
-  const [walletProviderOptions, setWalletProviderOptions] = useState<BitcoinWalletProviderSummary[]>([]);
+  const [walletProviderOptions, setWalletProviderOptions] = useState<
+    Array<BitcoinWalletProviderSummary | EthereumWalletProviderSummary>
+  >([]);
   const [walletProviderScanStatus, setWalletProviderScanStatus] = useState<'checking' | 'ready' | 'none'>('checking');
   const [walletIdentityDetails, setWalletIdentityDetails] = useState<LocalBitcodeWalletIdentity | null>(() =>
     readLocalBitcodeWalletIdentity(),
@@ -122,13 +134,24 @@ export function useWalletConnection({
     onWalletIdentityChange?.(hasWalletIdentity);
   }, [hasWalletIdentity, onWalletIdentityChange]);
 
-  const refreshBitcoinWalletProviders = useCallback(async () => {
+  const refreshWalletProviders = useCallback(async () => {
     setWalletProviderScanStatus('checking');
     try {
-      const providers = await inspectBitcoinWalletProviders();
+      const ethProviders = inspectEthereumWalletProviders();
+      let btcProviders: BitcoinWalletProviderSummary[] = [];
+      try {
+        btcProviders = await inspectBitcoinWalletProviders();
+      } catch {
+        btcProviders = [];
+      }
+      // Ethereum first (product identity); BTC listed as transitional only.
+      const providers = [...ethProviders, ...btcProviders];
       setWalletProviderOptions(providers);
-      setWalletProviderScanStatus(providers.length > 0 ? 'ready' : 'none');
-      bitcodeQaTelemetry('info', 'wallet-auxillary', 'provider-scan', providers);
+      setWalletProviderScanStatus(providers.some((p) => p.available) ? 'ready' : 'none');
+      bitcodeQaTelemetry('info', 'wallet-auxillary', 'provider-scan', {
+        eth: ethProviders.length,
+        btc: btcProviders.length,
+      });
     } catch {
       setWalletProviderOptions([]);
       setWalletProviderScanStatus('none');
@@ -137,8 +160,70 @@ export function useWalletConnection({
   }, []);
 
   useEffect(() => {
-    refreshBitcoinWalletProviders();
-  }, [refreshBitcoinWalletProviders]);
+    void refreshWalletProviders();
+  }, [refreshWalletProviders]);
+
+  const handleConnectEthereumWallet = useCallback(async () => {
+    setWalletAuthError(null);
+    setWalletAuthNotice(null);
+    setWalletAuthStatus('requesting');
+    try {
+      const connection = await connectEthereumWallet();
+      if (connection.chainId !== BITCODE_ETHEREUM_TESTNET_CHAIN_ID) {
+        setWalletAuthNotice('Switching wallet to Sepolia testnet…');
+        await switchEthereumChain(BITCODE_ETHEREUM_TESTNET_CHAIN_ID);
+      }
+      const nonce =
+        typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : `${Date.now()}`;
+      const message = buildBitcodeEthereumAuthMessage({
+        address: connection.address,
+        nonce,
+        chainId: BITCODE_ETHEREUM_TESTNET_CHAIN_ID,
+      });
+      const signature = await signEthereumAuthMessage(connection.address, message);
+      const connectedAt = new Date().toISOString();
+      writeLocalBitcodeWalletIdentity({
+        address: connection.address,
+        provider: connection.providerId,
+        network: 'sepolia',
+        status: 'verified',
+        connectedAt,
+        proofKind: 'ethereum_personal_sign',
+        paymentAddress: connection.address,
+        authAddress: connection.address,
+        addressType: 'ethereum',
+        message,
+        signature,
+        persistence: 'local',
+      });
+      setWalletIdentityDetails(readLocalBitcodeWalletIdentity());
+      setWalletAddress(connection.address);
+      setWalletProvider(connection.providerId);
+      setWalletBindingStatus('verified');
+      setWalletBoundAt(connectedAt);
+      setWalletAuthStatus('signed');
+      setWalletAuthNotice(
+        `${connection.providerId} connected on Sepolia. BTD settle readiness uses this address.`,
+      );
+      bitcodeQaTelemetry('info', 'wallet-auxillary', 'ethereum-connect', {
+        provider: connection.providerId,
+        address: compactBitcodeAddress(connection.address),
+        chainId: BITCODE_ETHEREUM_TESTNET_CHAIN_ID,
+      });
+      await mutateUserData();
+    } catch (error) {
+      setWalletAuthStatus('idle');
+      setWalletAuthError(
+        error instanceof Error ? error.message : 'Ethereum wallet connection failed.',
+      );
+      bitcodeQaTelemetry('warn', 'wallet-auxillary', 'ethereum-connect-failed', {
+        message: error instanceof Error ? error.message : 'unknown',
+      });
+      await refreshWalletProviders();
+    }
+  }, [refreshWalletProviders]);
 
   const applyPersistedConnection = async (
     connection: Parameters<typeof persistBitcoinWalletConnection>[0],
@@ -316,7 +401,7 @@ export function useWalletConnection({
         provider: providerId ?? 'first-available',
         message: error instanceof Error ? error.message : 'unknown',
       });
-      await refreshBitcoinWalletProviders();
+      await refreshWalletProviders();
     }
   };
 
@@ -385,10 +470,14 @@ export function useWalletConnection({
     walletReadout,
     hasWalletIdentity,
     hasProviderWalletIdentity,
-    refreshBitcoinWalletProviders,
+    refreshWalletProviders,
+    /** @deprecated use refreshWalletProviders */
+    refreshBitcoinWalletProviders: refreshWalletProviders,
     handleStageBitcoinAddress,
+    handleConnectEthereumWallet,
     handleConnectBitcoinWallet,
     handleDisconnectWallet,
     handleWalletAddressChange,
+    isPlausibleEthereumAddress,
   };
 }
