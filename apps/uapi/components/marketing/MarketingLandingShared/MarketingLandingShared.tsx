@@ -144,10 +144,10 @@ export const previewRows = [
   },
   {
     key: 'Settlement',
-    // 2×2: BTC | BTD / APs | Deliver — all single-line tokens.
-    valueParts: ['BTC', 'BTD', 'APs', 'Deliver'],
+    // 2×2: Crypto | BTD / APs | Deliver — pay rails are multi-chain Crypto.
+    valueParts: ['Crypto', 'BTD', 'APs', 'Deliver'],
     valueTones: {
-      BTC: 'orange',
+      Crypto: 'orange',
       BTD: 'green',
       APs: 'purple',
       Deliver: 'white',

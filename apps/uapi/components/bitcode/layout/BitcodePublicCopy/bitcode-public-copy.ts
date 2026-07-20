@@ -161,12 +161,13 @@ export const BITCODE_PUBLIC_COPY = {
   },
   // Bottom-right depot card — fills residual height beside Verified access.
   settlementLedger: {
-    title: 'BTC · BTD · AssetPacks',
+    title: 'Crypto · BTD · AssetPacks',
     subtitle: 'buy · mint · earn',
     rows: [
       {
-        label: 'Bitcoin',
-        detail: 'Buy and settle AssetPack reads in BTC.',
+        label: 'Crypto',
+        detail:
+          'Buy and settle AssetPack reads with ETH, BTC, SOL, and more pay rails.',
       },
       {
         label: 'BTD fungible',
@@ -174,11 +175,11 @@ export const BITCODE_PUBLIC_COPY = {
       },
       {
         label: 'AssetPack NFTs',
-        detail: 'Buy read-rights with BTC; earn BTC when packs sell.',
+        detail: 'Buy read-rights with Crypto; earn Crypto when packs sell.',
       },
       {
         label: 'On-chain',
-        detail: 'Open-source, proven, ledgerized settlement rails.',
+        detail: 'Open-source, proven, ledgerized multi-rail settlement.',
       },
     ],
   },
@@ -218,7 +219,7 @@ export const BITCODE_PUBLIC_COPY = {
     eyebrow: 'Bitcode docs',
     heading: 'Learn Bitcode from AssetPacks to proof.',
     body:
-      'Docs teach the system in operator order: AssetPacks, BTD volume and rights, Bitcoin settlement, proof readback, /deposits, /reads, /packs, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
+      'Docs teach the system in operator order: AssetPacks, BTD volume and rights, Crypto settlement, proof readback, /deposits, /reads, /packs, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

@@ -45,7 +45,7 @@ const specCoverageCards = [
   {
     eyebrow: 'Protocol',
     title: 'Commercial protocol map (V48)',
-    body: 'AssetPack lifecycle, BTD volume and rights, Bitcoin settlement, proof readback, interface disclosure, and promotion truth.',
+    body: 'AssetPack lifecycle, BTD volume and rights, Crypto settlement, proof readback, interface disclosure, and promotion truth.',
     href: '/docs/protocol',
   },
   {
@@ -56,7 +56,7 @@ const specCoverageCards = [
   },
   {
     eyebrow: 'Settlement',
-    title: 'BTD volume and Bitcoin settlement',
+    title: 'BTD volume and Crypto settlement',
     body: 'Needs-fits scores, volume and rights, finality receipts, delivery unlock, compensation, and /packs reread.',
     href: '/docs/settlement-btd',
   },
@@ -124,7 +124,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             </h1>
             <p className="mt-5 max-w-[58rem] text-[17px] leading-8 text-white/82">
               Bitcode docs teach the complete path: what an AssetPack commodity is,
-              how BTD measures scalar volume and rights, why BTC settlement money and
+              how BTD measures scalar volume and rights, why Crypto settlement money and
               proof readback authority matter, and how /deposits, /reads, /packs, MCP,
               ChatGPT App, and Bitcode Chat stay source-safe.
             </p>
@@ -251,7 +251,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             <p className="mt-3 text-sm leading-7 text-white/72">
               Protocol docs map back to active law. Public docs explain; proof readback decides.
               The public docs teach the current product routes in user order:
-              AssetPack commodity, BTD scalar volume and rights, BTC settlement money,
+              AssetPack commodity, BTD scalar volume and rights, Crypto settlement money,
               proof readback authority, /deposits, /reads, /packs, interfaces, and configuration.
             </p>
             <div className="mt-5 grid gap-3">

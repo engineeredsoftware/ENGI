@@ -245,7 +245,7 @@ export function MarketingLandingPillarCard({
                     {title}
                   </p>
                   <p className="mt-1 flex max-w-[16ch] items-center gap-1.5 text-[9px] uppercase leading-snug tracking-[0.16em] text-emerald-100/52 phone:text-[10px]">
-                    <span className="whitespace-nowrap">BTC</span>
+                    <span className="whitespace-nowrap">Crypto</span>
                     <ArrowLeftRight
                       className="h-3 w-3 shrink-0 text-violet-300/85"
                       strokeWidth={2}
@@ -272,7 +272,7 @@ export function MarketingLandingPillarCard({
               <div className="rounded-none border border-emerald-200/12 bg-black/25 px-3 py-2">
                 <ul className="space-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-50/76">
                   <li className="whitespace-nowrap">· buy BTD</li>
-                  <li className="whitespace-nowrap">· earn BTC</li>
+                  <li className="whitespace-nowrap">· earn Crypto</li>
                   <li className="whitespace-nowrap">· acquire data</li>
                 </ul>
               </div>
