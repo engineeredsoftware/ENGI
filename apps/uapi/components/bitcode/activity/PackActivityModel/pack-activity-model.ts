@@ -507,23 +507,34 @@ function collectNestedKindMeasurements(
   }
   const record = asRecord(source);
   // Settled packActivity.measurements[] rows: { kind, category, volume, magnitude }
+  // Prefer magnitude+unit for absolute size properties (functions/files/types);
+  // fall back to volume (0..1 weighted component) when magnitude absent.
   if (typeof record.kind === 'string' && (record.category === 'absolute' || record.category === 'neediness')) {
     const kind = record.kind;
     const id = `${record.category}:${kind}`;
     if (!seen.has(id)) {
       seen.add(id);
+      const magnitude = typeof record.magnitude === 'number' ? record.magnitude : null;
+      const volume = typeof record.volume === 'number' ? record.volume : null;
       const value =
-        typeof record.volume === 'number'
-          ? record.volume
-          : typeof record.magnitude === 'number'
-            ? record.magnitude
-            : null;
+        record.category === 'absolute' && magnitude !== null
+          ? magnitude
+          : volume !== null
+            ? volume
+            : magnitude;
       if (value !== null) {
         measurements.push({
           id,
-          label: normalizeLabel(kind),
+          label: typeof record.label === 'string' && record.label.trim()
+            ? record.label.trim()
+            : normalizeLabel(kind),
           value,
-          unit: typeof record.unit === 'string' ? record.unit : record.category === 'neediness' ? 'fit' : null,
+          unit:
+            typeof record.unit === 'string'
+              ? record.unit
+              : record.category === 'neediness'
+                ? 'fit'
+                : null,
           root: null,
         });
       }
@@ -539,12 +550,13 @@ function collectNestedKindMeasurements(
     const id = `absolute:${kind}`;
     if (seen.has(id)) continue;
     seen.add(id);
-    const value =
-      typeof a.volume === 'number' ? a.volume : typeof a.magnitude === 'number' ? a.magnitude : null;
+    const magnitude = typeof a.magnitude === 'number' ? a.magnitude : null;
+    const volume = typeof a.volume === 'number' ? a.volume : null;
+    const value = magnitude !== null ? magnitude : volume;
     if (value === null) continue;
     measurements.push({
       id,
-      label: normalizeLabel(kind),
+      label: typeof a.label === 'string' && a.label.trim() ? a.label.trim() : normalizeLabel(kind),
       value,
       unit: typeof a.unit === 'string' ? a.unit : null,
       root: null,
@@ -578,46 +590,78 @@ function collectNestedKindMeasurements(
 
 function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasurement[] {
   const payload = asRecord(record.payload);
+  const packType = inferPackActivityType(record);
+  const isDepositedOrSettledPack =
+    packType === 'depository-assetpack' || packType === 'settled-assetpack';
   const measurements: PackActivityMeasurement[] = [];
 
-  const candidates: Array<[string, string[], string | null]> = [
-    ['measured-btd', ['measuredBtd', 'measured_btd', 'btdVolume', 'weightedRequestedVolume'], 'BTD'],
-    ['token-total', ['total_tokens', 'tokenTotal', 'totalTokens'], 'tokens'],
-    ['duration', ['duration_ms', 'durationMs', 'runtimeMs'], 'ms'],
-    ['cost', ['total_cost', 'totalCost'], 'USD'],
-    ['candidate-count', ['candidateCount', 'fitCandidateCount', 'targetKindCount', 'optionCount'], 'count'],
-    ['admitted-count', ['admittedCount'], 'count'],
-    ['closure-criteria', ['closureCriteriaCount', 'closureCount'], 'count'],
-  ];
+  // Absolute / neediness kind rows first (commercial material properties).
+  collectNestedKindMeasurements(payload, measurements);
 
-  for (const [id, keys, unit] of candidates) {
-    const value = findFirstNumber(payload, keys);
-    if (value !== null) {
-      measurements.push({ id, label: normalizeLabel(id), value, unit, root: null });
+  // Session-aggregate counters are NOT pack measurements. A deposited AssetPack
+  // is one pack; "candidate count" / "admitted count" describe a synthesis
+  // session and must not appear on /packs detail for depository rows.
+  if (!isDepositedOrSettledPack) {
+    const sessionCandidates: Array<[string, string[], string | null]> = [
+      ['measured-btd', ['measuredBtd', 'measured_btd', 'btdVolume', 'weightedRequestedVolume'], 'BTD'],
+      ['token-total', ['total_tokens', 'tokenTotal', 'totalTokens'], 'tokens'],
+      ['duration', ['duration_ms', 'durationMs', 'runtimeMs'], 'ms'],
+      ['cost', ['total_cost', 'totalCost'], 'USD'],
+      ['candidate-count', ['candidateCount', 'fitCandidateCount', 'targetKindCount', 'optionCount'], 'count'],
+      ['admitted-count', ['admittedCount'], 'count'],
+      ['closure-criteria', ['closureCriteriaCount', 'closureCount'], 'count'],
+    ];
+    for (const [id, keys, unit] of sessionCandidates) {
+      const value = findFirstNumber(payload, keys);
+      if (value !== null) {
+        measurements.push({ id, label: normalizeLabel(id), value, unit, root: null });
+      }
+    }
+  } else {
+    // Commercial value scalar only when present (not session counts).
+    const measuredBtd = findFirstNumber(payload, [
+      'measuredBtd',
+      'measured_btd',
+      'btdVolume',
+      'weightedRequestedVolume',
+    ]);
+    if (measuredBtd !== null) {
+      measurements.push({
+        id: 'measured-btd',
+        label: normalizeLabel('measured-btd'),
+        value: measuredBtd,
+        unit: 'BTD',
+        root: null,
+      });
     }
   }
 
-  collectNestedKindMeasurements(payload, measurements);
+  // Prefer absolute:* rows at the front for table chips (deposit catalog order).
+  const absolutes = measurements.filter((m) => m.id.startsWith('absolute:'));
+  const rest = measurements.filter((m) => !m.id.startsWith('absolute:'));
+  const ordered = [...absolutes, ...rest];
 
-  const measurementRoot = findFirstString(payload, [
-    'measurementRoot',
-    'depositMeasurementRoot',
-    'assetPackMeasurementRoot',
-    'readNeedMeasurementRoot',
-    'admissionReportRoot',
-    'admissionRoot',
-  ]);
-  if (measurementRoot) {
-    measurements.push({
-      id: 'measurement-root',
-      label: 'Measurement root',
-      value: measurementRoot,
-      unit: null,
-      root: measurementRoot,
-    });
+  // Measurement *root proofs* live in proofRoots — never as a measurement chip
+  // labeled "Measurement root" on a deposited pack (confuses with catalog).
+  if (!isDepositedOrSettledPack) {
+    const measurementRoot = findFirstString(payload, [
+      'measurementRoot',
+      'depositMeasurementRoot',
+      'assetPackMeasurementRoot',
+      'readNeedMeasurementRoot',
+    ]);
+    if (measurementRoot) {
+      ordered.push({
+        id: 'measurement-root',
+        label: 'Measurement root',
+        value: measurementRoot,
+        unit: null,
+        root: measurementRoot,
+      });
+    }
   }
 
-  return measurements;
+  return ordered;
 }
 
 function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {

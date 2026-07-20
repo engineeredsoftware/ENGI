@@ -14,6 +14,7 @@ import type {
   DepositRealSynthesis,
   DepositRealSynthesisOption,
 } from "@/components/deposits/models/deposit-real-synthesis";
+import { buildDepositOptionPatchfileDownload } from "@/components/deposits/models/deposit-admission-activity";
 
 export type DepositOptionCardProps = {
   option: DepositRealSynthesisOption;
@@ -61,6 +62,22 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
   const admissionReceipt = depositRouteSession.admission.receipts.find(
     (receipt) => receipt.optionId === option.optionId,
   );
+  /** True only when the pack is actually in the Depository — not mere review decision. */
+  const admittedToDepository =
+    admissionReceipt?.admission.state === "admitted-to-depository";
+  const handleDownloadPatchfile = () => {
+    const file = buildDepositOptionPatchfileDownload(option);
+    const blob = new Blob([file.body], { type: file.mimeType });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = file.filename;
+    anchor.rel = "noopener";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  };
   const earningStatement =
     depositRouteSession.earningSupplyIntelligence.earningStatements.find(
       (statement) => statement.optionId === option.optionId,
@@ -176,6 +193,14 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 {projection.measurementRationale}
               </p>
             ) : null}
+            <button
+              type="button"
+              data-testid={`deposit-option-download-patch-${option.kind}`}
+              onClick={handleDownloadPatchfile}
+              className="mt-3 border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-100 transition hover:border-emerald-200/50 hover:bg-emerald-300/16"
+            >
+              Download patchfile
+            </button>
           </div>
         ) : projection ? (
           <details className="mt-2 text-xs leading-5 text-neutral-400">
@@ -356,9 +381,17 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
 
       <details className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-3">
         <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100/85">
-          Option roots
+          Option roots + full details
         </summary>
         <dl className="mt-2 grid gap-2">
+          <div>
+            <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
+              optionId
+            </dt>
+            <dd className="break-all font-mono text-[0.66rem] text-neutral-300">
+              {option.optionId}
+            </dd>
+          </div>
           {Object.entries(option.roots).map(([label, value]) => (
             <div key={label}>
               <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
@@ -370,14 +403,33 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
             </div>
           ))}
         </dl>
+        {!option.contents ? (
+          <button
+            type="button"
+            data-testid={`deposit-option-download-patch-fallback-${option.kind}`}
+            onClick={handleDownloadPatchfile}
+            className="mt-3 border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-100 transition hover:border-emerald-200/50 hover:bg-emerald-300/16"
+          >
+            Download patchfile
+          </button>
+        ) : null}
       </details>
 
       <div className="grid gap-2">
         {/* North-star step D: select packs to deposit; one batch action admits
             the selected set. Archive (re-depositable) and Resynthesize are secondary. */}
-        {reviewDecision === "approved-for-admission" ? (
+        {admittedToDepository ? (
           <p className="border border-emerald-300/30 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100">
             Admitted to Depository — permanent
+          </p>
+        ) : reviewDecision === "approved-for-admission" &&
+          admissionReceipt &&
+          admissionReceipt.admission.state !== "admitted-to-depository" ? (
+          <p className="border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
+            Not admitted
+            {admissionReceipt.admission.blockers.length
+              ? `: ${admissionReceipt.admission.blockers.join(", ")}`
+              : " — policy blocked."}
           </p>
         ) : (
           <>

@@ -1206,6 +1206,77 @@ option projection); real in-sandbox execution is verified against deployed sandb
 
 These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is green.
 
+## V48 Gate 4 open: Depositor website completion + Packs absolute measurements
+
+**Branch:** `v48/gate-4-depositor-packs-finalization`  
+**Canon surface:** Gate 4 completion artifact law in DELTA + depositor website
+completion proofs; this NOTES entry records live finishing work after Gate 3
+deposit SDIVF closed.
+
+### Gate 4 product objectives (binding for finish)
+
+1. **Batch admit reliability** — every selected presentable option that the
+   depositor confirms becomes one `admitted-to-depository` ledger row and one
+   `/packs` network `depository-assetpack` row. Soft compensation/ROI
+   incompleteness must not silently drop confirmed deposits; critical source
+   policy remains hard-block.
+2. **Per-pack admission payload** — never embed the full session admission
+   report (`candidateCount`, `admittedCount`, report roots) as pack
+   measurements. Each admitted pack carries **that option's absolute
+   measurements** + identity roots only.
+3. **Deposit detail reload** — revisiting a synthesis run
+   (`transactionId=<runId>`) rehydrates options, telemetry history, and
+   admission state from the execution row + ledger (not only live SSE).
+4. **Depositor review completeness** — option cards expose full absolutes,
+   roots, contents summary, and **Download patchfile** (path-op JSON
+   descriptor). "Admitted" UI requires receipt state
+   `admitted-to-depository`, not merely a review decision label.
+5. **Packs source-safety** — patch/fileChanges never projected on `/packs`
+   network detail. Patch is visible only to the depositor on `/deposits`
+   (owner) or, later, entitled buyers after settle (Gate 5). Absolute
+   measurement chips + detail are the commercial measurement surface on
+   `/packs`.
+6. **Then Gate 5** — Read experience parity with deposit, neediness as the
+   critical measurement difference.
+
+### Closure checklist
+
+- [ ] Admit N selected → N packs rows with absolute chips
+- [ ] Reload deposit synthesis detail → options + logs + admitted cards
+- [ ] Packs detail never shows candidate/admitted session counts as measurements
+- [ ] Unit tests: admission soft-block override, pack measurement projection,
+  admission activity draft
+- [ ] Gate 4 checker / depositor-website-completion artifact green
+
+## V48 Gate 5 plan: Reader website completion (neediness delta)
+
+**After Gate 4 packs/deposit solid.** Branch target:
+`v48/gate-5-reader-website-completion`.
+
+### Deposit ↔ Read parity map
+
+| Concern | Deposit | Read (delta) |
+| --- | --- | --- |
+| SDIVF product package | `syntheses/deposit` | `syntheses/read` |
+| Steering | Obfuscations + path pickers | Need text + Relevant/Irrelevant paths |
+| Measurements | **absolutes only** | **absolutes + needinesses (*-fit)** |
+| Option review | Select → batch admit | Select → settle quote |
+| Finish envelope | presentable deposit options | presentable read options |
+| Next pipeline | (none — Depository) | `ExecutionPipelineSimpleSettleAssetPack` |
+| Packs projection | depository-assetpack + absolutes | settled-assetpack + absolutes + needinesses |
+
+### Gate 5 objectives
+
+1. Cold reload of read synthesis run rehydrates Need, options, telemetry (mirror
+   deposit hydrate).
+2. Option cards show neediness catalog + download path-op patchfile for the
+   reader reviewing unpaid options (source-safe descriptor only until buy).
+3. Settle path journals one packs row per settled pack with neediness + absolute
+   chips; no session aggregate counts as measurements.
+4. Source-safety: patch never on `/packs` until rights transfer / delivery
+   entitlement.
+5. Five-step session law from DELTA Gate 5 remains binding.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.

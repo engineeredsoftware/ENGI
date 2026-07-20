@@ -39,6 +39,14 @@ export function policyByOption(policy: DepositAssetPackOptionPolicyReport) {
   return new Map(policy.evaluations.map((evaluation) => [evaluation.optionId, evaluation]));
 }
 
+/**
+ * Hard admission blockers vs soft policy warnings.
+ *
+ * Depositor-confirmed approval is sovereign for their own measured options:
+ * compensation/ROI soft incompleteness must not silently drop a confirmed
+ * deposit (V48 Gate 4 — batch admit reliability). Critical source policy and
+ * non-reviewable options remain hard blocks.
+ */
 export function blockerState(input: {
   option: DepositAssetPackOption;
   evaluation: DepositAssetPackOptionPolicyEvaluation | null;
@@ -46,6 +54,7 @@ export function blockerState(input: {
 }) {
   const blockers: string[] = [];
   const warnings: string[] = [];
+  const depositorApproved = input.decision === 'approved-for-admission';
 
   if (input.option.reviewBoundary.state !== 'reviewable-source-safe-option') {
     blockers.push(input.option.reviewBoundary.state);
@@ -54,15 +63,37 @@ export function blockerState(input: {
   if (!input.evaluation) {
     blockers.push('missing-policy-evaluation');
   } else {
+    // Critical-source blockers always hard-block.
     blockers.push(...input.evaluation.sourceCriticality.blockers);
-    blockers.push(...input.evaluation.compensation.blockers);
     warnings.push(...input.evaluation.sourceCriticality.warnings);
     warnings.push(...input.evaluation.compensation.warnings);
+    // Compensation incompleteness is informational once the depositor confirms;
+    // before confirm it remains a hard gate so "select" still surfaces repair.
+    if (input.evaluation.compensation.blockers.length) {
+      if (depositorApproved) {
+        warnings.push(...input.evaluation.compensation.blockers);
+      } else {
+        blockers.push(...input.evaluation.compensation.blockers);
+      }
+    }
     if (input.evaluation.policyDecision === 'blocked-before-admission') {
-      blockers.push('policy-blocked-before-admission');
+      // Only hard-block when criticality (or non-reviewable) actually fires —
+      // ROI/compensation soft blocks alone must not veto a confirmed deposit.
+      const criticalHard =
+        input.evaluation.sourceCriticality.blockers.length > 0 ||
+        input.option.reviewBoundary.state !== 'reviewable-source-safe-option';
+      if (criticalHard || !depositorApproved) {
+        blockers.push('policy-blocked-before-admission');
+      } else {
+        warnings.push('policy-soft-blocked-before-admission-overridden-by-depositor');
+      }
     }
     if (input.evaluation.compensation.state !== 'eligible-if-approved-and-selected') {
-      blockers.push('compensation-route-repair-required-before-admission');
+      if (depositorApproved) {
+        warnings.push('compensation-route-not-fully-eligible');
+      } else {
+        blockers.push('compensation-route-repair-required-before-admission');
+      }
     }
   }
 

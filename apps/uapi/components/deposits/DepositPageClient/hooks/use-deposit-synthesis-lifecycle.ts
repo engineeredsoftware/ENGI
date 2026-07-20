@@ -91,8 +91,12 @@ export function useDepositSynthesisLifecycle(input: {
   } = input;
 
   const lastAdoptedSelectionIdRef = useRef<string | null>(null);
+  /** Prevents duplicate concurrent history fetches for the same run. */
+  const optionsHydrateInFlightRef = useRef<string | null>(null);
 
-  // Resume synthesized options when a dispatched/adopted run completes.
+  // Resume synthesized options when a dispatched/adopted run completes OR when
+  // revisiting a historical deposit synthesis detail (cold reload). Do not
+  // require live SSE match — history row is enough for completed runs.
   useEffect(() => {
     if (
       (synthesisStatus !== "running" && synthesisStatus !== "complete") ||
@@ -103,7 +107,8 @@ export function useDepositSynthesisLifecycle(input: {
     }
     if (
       synthesisActivity.error &&
-      (synthesisExecutionMatchesRun || synthesisStreamError)
+      (synthesisExecutionMatchesRun || synthesisStreamError) &&
+      synthesisStatus === "running"
     ) {
       setSynthesisStatus("failed");
       setSynthesisError(synthesisActivity.error);
@@ -118,16 +123,45 @@ export function useDepositSynthesisLifecycle(input: {
       }
       return;
     }
-    if (!synthesisExecutionMatchesRun) return;
+
     const rowStatus = String(
-      (synthesisExecution as { status?: string } | null)?.status || "",
+      (synthesisExecution as { status?: string } | null)?.status ||
+        liveRuns.find((r) => r.id === synthesisRunId)?.status ||
+        "",
     ).toLowerCase();
     const rowTerminal = isDepositSynthesisTerminalStatus(rowStatus);
-    if (!synthesisActivity.isStreamingComplete && !rowTerminal) return;
-    if (!synthesisRunExpectsOptions) {
-      setSynthesisStatus("complete");
+    // Live runs wait for stream completion or terminal row; historical
+    // complete adoptions fetch immediately (row may not be in execution hook yet).
+    if (
+      synthesisStatus === "running" &&
+      !synthesisActivity.isStreamingComplete &&
+      !rowTerminal &&
+      !synthesisExecutionMatchesRun
+    ) {
       return;
     }
+    if (
+      synthesisStatus === "running" &&
+      !synthesisActivity.isStreamingComplete &&
+      !rowTerminal
+    ) {
+      return;
+    }
+    // Always attempt hydrate for deposit synthesis context. If the list row
+    // lacked contextSource, still try history — output presence decides.
+    if (
+      !synthesisRunExpectsOptions &&
+      synthesisStatus === "complete" &&
+      !rowTerminal &&
+      !synthesisExecutionMatchesRun
+    ) {
+      // Non-synthesis bookmark rows (anchors) stay complete without options.
+      return;
+    }
+
+    if (optionsHydrateInFlightRef.current === synthesisRunId) return;
+    optionsHydrateInFlightRef.current = synthesisRunId;
+
     let cancelled = false;
     void (async () => {
       try {
@@ -137,6 +171,7 @@ export function useDepositSynthesisLifecycle(input: {
           | {
               status?: string;
               summary?: string;
+              type?: string;
               error?: { message?: string } | string | null;
               context?: Record<string, unknown>;
               output?: {
@@ -155,10 +190,22 @@ export function useDepositSynthesisLifecycle(input: {
         if (!res.ok) {
           throw new Error("Unable to load synthesis history for this run.");
         }
+        const contextSource =
+          typeof run?.context?.source === "string" ? run.context.source : null;
+        const isDepositSynthesis =
+          contextSource === "deposit-option-synthesis" ||
+          String(run?.type || "").includes("deposit") ||
+          Boolean(synthesis);
+
         // Partial / budget / fail-closed: surface host or dispatch summary, not
         // a false "options were not found" when Finish actually packaged packs
         // that dispatch later dropped (run 36858f68).
         if (!synthesis) {
+          if (!isDepositSynthesis && !synthesisRunExpectsOptions) {
+            if (cancelled) return;
+            setSynthesisStatus("complete");
+            return;
+          }
           const hostErrorMessage =
             (typeof output?.hostErrorMessage === "string" &&
               output.hostErrorMessage) ||
@@ -193,8 +240,13 @@ export function useDepositSynthesisLifecycle(input: {
                   finishPresent: output?.finishPresent,
                 });
           if (cancelled) return;
-          setSynthesisStatus("failed");
-          setSynthesisError(message);
+          // Completed row without options is only a failure when we expected them.
+          if (synthesisRunExpectsOptions || isDepositSynthesis) {
+            setSynthesisStatus("failed");
+            setSynthesisError(message);
+          } else {
+            setSynthesisStatus("complete");
+          }
           if (synthesisDispatchedAtMs !== null) {
             trackProductEvent({
               name: "deposit_synthesis_failed",
@@ -222,7 +274,9 @@ export function useDepositSynthesisLifecycle(input: {
             : [],
         });
         setOptionsRequested(true);
+        setSynthesisRunExpectsOptions(true);
         setSynthesisStatus("complete");
+        setSynthesisError(null);
         if (synthesisDispatchedAtMs !== null) {
           const options = (synthesis as { options?: unknown[] }).options;
           trackProductEvent({
@@ -254,10 +308,17 @@ export function useDepositSynthesisLifecycle(input: {
             },
           });
         }
+      } finally {
+        if (optionsHydrateInFlightRef.current === synthesisRunId) {
+          optionsHydrateInFlightRef.current = null;
+        }
       }
     })();
     return () => {
       cancelled = true;
+      if (optionsHydrateInFlightRef.current === synthesisRunId) {
+        optionsHydrateInFlightRef.current = null;
+      }
     };
   }, [
     synthesisStatus,
@@ -270,12 +331,14 @@ export function useDepositSynthesisLifecycle(input: {
     synthesisExecution,
     synthesisExecutionMatchesRun,
     synthesisStreamError,
+    liveRuns,
     readCurrentSearchParams,
     refreshLiveRuns,
     replaceDepositSearchParams,
     setOptionsRequested,
     setRealSynthesis,
     setSynthesisError,
+    setSynthesisRunExpectsOptions,
     setSynthesisStatus,
   ]);
 
@@ -334,14 +397,19 @@ export function useDepositSynthesisLifecycle(input: {
       return;
     }
     setSynthesisRunId(run.id);
-    setSynthesisRunExpectsOptions(
-      run.contextSource === "deposit-option-synthesis",
-    );
+    // Expect options for deposit synthesis rows, deposit pipeline types, or
+    // any completed agentic deposit run — list context can be thin on reload.
+    const expectsOptions =
+      run.contextSource === "deposit-option-synthesis" ||
+      String(run.type || "").includes("deposit") ||
+      /deposit|asset.?pack|synthes/i.test(String(run.summary || ""));
+    setSynthesisRunExpectsOptions(expectsOptions);
     setSynthesisDispatchedAtMs(null);
     setSynthesisLogScrolled(false);
     setRealSynthesis(null);
     setSynthesisError(null);
     setOptionsRequested(false);
+    optionsHydrateInFlightRef.current = null;
     const mapped = adoptSelectionStatusFromRun(run);
     setSynthesisStatus(mapped.status);
     setSynthesisError(mapped.error);

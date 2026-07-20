@@ -215,25 +215,56 @@ describe('pack-activity-model', () => {
       payload: {
         type: 'pipeline:deposit-option-admission',
         assetPackTitle: 'Repository capability AssetPack option',
+        // Session aggregates must NOT become pack measurements.
         optionCount: 3,
         admittedCount: 1,
+        candidateCount: 2,
         admissionState: 'admitted-to-depository',
         compensationState: 'compensation-preview-ready',
         packActivitySyncState: 'synchronized-to-packs',
         admissionReportRoot: 'deposit-admission-report-root',
+        measurementRoot: 'deposit-option-measurements:abc',
+        measurements: [
+          {
+            kind: 'function-count',
+            category: 'absolute',
+            label: 'Function count',
+            volume: 0.42,
+            magnitude: 12,
+            unit: 'functions',
+            weight: 0.14,
+          },
+          {
+            kind: 'file-span',
+            category: 'absolute',
+            label: 'File span',
+            volume: 0.31,
+            magnitude: 4,
+            unit: 'files',
+            weight: 0.1,
+          },
+        ],
         protectedSource: 'protected source body',
         rawProviderResponse: 'raw provider response',
+        patch: 'should-not-leak-patch-body',
       },
     });
 
     expect(record.type).toBe('depository-assetpack');
     expect(record.assetPackTitle).toBe('Repository capability AssetPack option');
-    expect(record.measurements.some((measurement) => measurement.id === 'admitted-count')).toBe(true);
+    // Session counters are not pack measurements.
+    expect(record.measurements.some((m) => m.id === 'admitted-count')).toBe(false);
+    expect(record.measurements.some((m) => m.id === 'candidate-count')).toBe(false);
+    expect(record.measurements.some((m) => m.id === 'measurement-root')).toBe(false);
+    // Absolute catalog chips for commercial pack detail.
+    expect(record.measurements.some((m) => m.id === 'absolute:function-count')).toBe(true);
+    expect(record.measurements.some((m) => m.id === 'absolute:file-span')).toBe(true);
     expect(record.compensationState).toBe('compensation-preview-ready');
     expect(record.proofRoots.map((proofRoot) => proofRoot.root)).toContain('deposit-admission-report-root');
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
     expect(JSON.stringify(record)).not.toContain('raw provider response');
+    expect(JSON.stringify(record)).not.toContain('should-not-leak-patch-body');
   });
 
   it('fails malformed Pack commodity state closed into source-safe repair activity', () => {

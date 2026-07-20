@@ -1,5 +1,8 @@
 /**
  * Deposit option review, selection toggle, and batch admission handlers.
+ *
+ * Each confirmed deposit writes one ledger row per option with that option's
+ * absolute measurements — never the full session admission report.
  */
 "use client";
 
@@ -10,6 +13,7 @@ import {
   writeDepositRouteStage,
   type DepositRouteSession,
 } from "@/components/deposits/models/deposit-route-model";
+import { buildDepositOptionAdmissionActivityDraft } from "@/components/deposits/models/deposit-admission-activity";
 import type { DepositOptionReviewDecisionState } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
 import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 
@@ -49,6 +53,14 @@ export function useDepositOptionActions(input: {
     handleRecordActivity,
     setRunsLoadError,
   } = input;
+
+  const findOption = useCallback(
+    (optionId: string) =>
+      depositRouteInput?.precomputedOptionSynthesis?.options?.find(
+        (entry) => entry.optionId === optionId,
+      ) ?? null,
+    [depositRouteInput],
+  );
 
   const handleOptionReviewDecision = useCallback(
     async (optionId: string, decision: DepositOptionReviewDecisionState) => {
@@ -93,42 +105,39 @@ export function useDepositOptionActions(input: {
       if (!receipt) return;
 
       try {
-        await handleRecordActivity({
-          type: admitted
-            ? "pipeline:deposit-option-admission"
-            : "pipeline:deposit-option-review",
-          status: "completed",
-          summary: admitted
-            ? `Admitted ${receipt.title} to the Depository.`
-            : decision === "rejected-by-depositor"
-              ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
-              : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
-          // Stay on the synthesis detail so admitted cards disable in place;
-          // admission still lands in the ledger and /packs network query.
-          selectAfterRecord: false,
-          output: {
-            assetPackTitle: receipt.title,
-            depositAdmission: nextSession.admission,
-            admissionState: receipt.admission.state,
-            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
-            compensationState: receipt.compensationPreview.state,
-            packActivitySyncState: receipt.packsActivitySync.state,
-            packsActivityRoot: receipt.packsActivitySync.activityRoot,
-          },
-          context: {
-            source: "deposit-option-review-admission",
-            workbench: "deposit-option-review",
-            optionId,
-            reviewDecision: decision,
-            admissionState: receipt.admission.state,
-            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
-            compensationState: receipt.compensationPreview.state,
-            packActivitySyncState: receipt.packsActivitySync.state,
-            packActivityType: receipt.packsActivitySync.activityType,
-            packsRoute: receipt.packsActivitySync.route,
-            synthesisRunId: depositRouteInput?.transactionId || null,
-          },
-        });
+        if (admitted) {
+          await handleRecordActivity(
+            buildDepositOptionAdmissionActivityDraft({
+              receipt,
+              option: findOption(optionId),
+              synthesisRunId: depositRouteInput?.transactionId || null,
+            }),
+          );
+        } else {
+          await handleRecordActivity({
+            type: "pipeline:deposit-option-review",
+            status: "completed",
+            summary:
+              decision === "rejected-by-depositor"
+                ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
+                : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
+            selectAfterRecord: false,
+            output: {
+              assetPackTitle: receipt.title,
+              optionId,
+              admissionState: receipt.admission.state,
+              admissionBlockers: receipt.admission.blockers,
+            },
+            context: {
+              source: "deposit-option-review-admission",
+              workbench: "deposit-option-review",
+              optionId,
+              reviewDecision: decision,
+              admissionState: receipt.admission.state,
+              synthesisRunId: depositRouteInput?.transactionId || null,
+            },
+          });
+        }
       } catch (error) {
         setRunsLoadError(
           error instanceof Error
@@ -139,6 +148,7 @@ export function useDepositOptionActions(input: {
     },
     [
       depositRouteInput,
+      findOption,
       handleRecordActivity,
       optionReviewDecisions,
       preferredSignerAddress,
@@ -174,15 +184,13 @@ export function useDepositOptionActions(input: {
     }
     setConfirmingBatchDeposit(false);
 
-    const nextDecisions = { ...optionReviewDecisions };
+    // Preview session with all selected marked approved — then only persist
+    // decisions that actually admit (or archive-style non-admit).
+    const previewDecisions = { ...optionReviewDecisions };
     for (const id of idsToDeposit) {
-      nextDecisions[id] = "approved-for-admission";
+      previewDecisions[id] = "approved-for-admission";
     }
-    setOptionsRequested(true);
-    setOptionReviewDecisions(nextDecisions);
-    setSelectedPackIds([]);
-
-    const nextDecisionRecords = Object.entries(nextDecisions).map(
+    const previewRecords = Object.entries(previewDecisions).map(
       ([optionId, decision]) => ({
         optionId,
         decision,
@@ -193,13 +201,30 @@ export function useDepositOptionActions(input: {
       ...depositRouteInput,
       optionsRequested: true,
       hasReviewedOption: true,
-      optionReviewDecisions: nextDecisionRecords,
+      optionReviewDecisions: previewRecords,
     });
     const admittedReceipts = nextSession.admission.receipts.filter(
       (entry) =>
         idsToDeposit.includes(entry.optionId) &&
         entry.admission.state === "admitted-to-depository",
     );
+    const blockedReceipts = nextSession.admission.receipts.filter(
+      (entry) =>
+        idsToDeposit.includes(entry.optionId) &&
+        entry.admission.state !== "admitted-to-depository",
+    );
+
+    // Only flip React state to admitted for packs that actually admitted.
+    const nextDecisions = { ...optionReviewDecisions };
+    for (const receipt of admittedReceipts) {
+      nextDecisions[receipt.optionId] = "approved-for-admission";
+    }
+    setOptionsRequested(true);
+    setOptionReviewDecisions(nextDecisions);
+    setSelectedPackIds((current) =>
+      current.filter((id) => !admittedReceipts.some((r) => r.optionId === id)),
+    );
+
     trackProductEvent({
       name: "deposit_admission",
       data: {
@@ -213,43 +238,33 @@ export function useDepositOptionActions(input: {
         admittedReceipts.length ? "read-depository-state" : "review-options",
       ),
     );
+
+    if (blockedReceipts.length > 0) {
+      const titles = blockedReceipts.map((r) => r.title).join("; ");
+      const blockers = blockedReceipts
+        .flatMap((r) => r.admission.blockers)
+        .slice(0, 6)
+        .join(", ");
+      setRunsLoadError(
+        admittedReceipts.length
+          ? `Admitted ${admittedReceipts.length} of ${idsToDeposit.length}. Blocked: ${titles}${blockers ? ` (${blockers})` : ""}.`
+          : `No AssetPacks admitted. Blocked: ${titles}${blockers ? ` (${blockers})` : ""}.`,
+      );
+    }
+
     if (admittedReceipts.length === 0) return;
 
-    // One ledger row per admitted option — /packs filters network scope on
-    // context.source=deposit-option-review-admission + admissionState=
-    // admitted-to-depository. A single "batch" source never appears there.
-    // Stay on the deposit-run detail (selectAfterRecord: false) so cards can
-    // flip to the admitted/disabled state without remounting another run.
+    // One ledger row per admitted option — /packs network scope keys on
+    // context.source=deposit-option-review-admission + admitted-to-depository.
     try {
       for (const receipt of admittedReceipts) {
-        await handleRecordActivity({
-          type: "pipeline:deposit-option-admission",
-          status: "completed",
-          summary: `Admitted ${receipt.title} to the Depository.`,
-          selectAfterRecord: false,
-          output: {
-            assetPackTitle: receipt.title,
-            depositAdmission: nextSession.admission,
-            admissionState: receipt.admission.state,
-            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
-            compensationState: receipt.compensationPreview.state,
-            packActivitySyncState: receipt.packsActivitySync.state,
-            packsActivityRoot: receipt.packsActivitySync.activityRoot,
-          },
-          context: {
-            source: "deposit-option-review-admission",
-            workbench: "deposit-option-review",
-            optionId: receipt.optionId,
-            reviewDecision: "approved-for-admission",
-            admissionState: receipt.admission.state,
-            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
-            compensationState: receipt.compensationPreview.state,
-            packActivitySyncState: receipt.packsActivitySync.state,
-            packActivityType: receipt.packsActivitySync.activityType,
-            packsRoute: receipt.packsActivitySync.route,
+        await handleRecordActivity(
+          buildDepositOptionAdmissionActivityDraft({
+            receipt,
+            option: findOption(receipt.optionId),
             synthesisRunId: depositRouteInput?.transactionId || null,
-          },
-        });
+          }),
+        );
       }
     } catch (error) {
       setRunsLoadError(
@@ -261,6 +276,7 @@ export function useDepositOptionActions(input: {
   }, [
     confirmingBatchDeposit,
     depositRouteInput,
+    findOption,
     handleRecordActivity,
     optionReviewDecisions,
     preferredSignerAddress,

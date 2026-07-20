@@ -1,0 +1,160 @@
+/**
+ * Per-option deposit admission ledger payloads for /packs projection.
+ */
+import {
+  buildDepositOptionAdmissionActivityDraft,
+  buildDepositOptionPatchfileDownload,
+  projectOptionAbsoluteMeasurements,
+} from "@/components/deposits/models/deposit-admission-activity";
+import type { DepositOptionAdmissionReceipt } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
+import type { DepositAssetPackOption } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
+
+const option = {
+  schema: "bitcode.deposit.asset-pack-option",
+  optionId: "opt-1",
+  kind: "capability-slice",
+  title: "Auth middleware slice",
+  summary: "Extracts auth middleware.",
+  sourceBinding: {
+    repositoryFullName: "octocat/Spoon-Knife",
+    sourceBranch: "main",
+    sourceCommit: "abc",
+    sourcePathRoots: ["src/auth.ts"],
+    sourcePathCount: 1,
+    rawSourceStoredExternally: true as const,
+    protectedSourceVisibleInOption: false as const,
+  },
+  demandAlignment: {
+    posture: "source-safe-demand-signals-only" as const,
+    depositorySignalRoots: [],
+    readingSignalRoots: [],
+    existingDepositorySignalRoots: [],
+    confidence: 0.5,
+  },
+  measurements: [
+    {
+      id: "function-count",
+      label: "Function count",
+      measurementKind: "function-count",
+      weight: 0.14,
+      volume: 0.4,
+      category: "absolute" as const,
+      magnitude: 8,
+      unit: "functions",
+      evidenceRoot: "ev-fn",
+    },
+  ],
+  contents: {
+    patchSummary: "Add auth middleware helper",
+    fileChanges: [{ path: "src/auth.ts", op: "modify" }],
+    provenantSourcePaths: ["src/auth.ts"],
+    provenantSourceCount: 1,
+  },
+  reviewBoundary: {
+    state: "reviewable-source-safe-option" as const,
+    decision: "pending-depositor-review" as const,
+    depositAdmissionBoundary: "not-admitted-until-depositor-approval" as const,
+    btdMintBoundary: "not-minted-by-deposit-option" as const,
+    settlementBoundary:
+      "future-reader-settlement-required-for-source-bearing-assetpack" as const,
+  },
+  policyBoundary: {
+    sourceCriticalityPolicy: "deferred-to-gate6" as const,
+    demandRoiPolicy: "deferred-to-gate6" as const,
+    compensationPolicy: "deferred-to-gate6" as const,
+  },
+  visibility: {
+    sourceSafeMetadataOnly: true as const,
+    protectedSourceVisible: false as const,
+    rawSourceTextVisible: false as const,
+    unpaidAssetPackSourceVisible: false as const,
+    rawPromptVisible: false as const,
+    interpolatedPromptVisible: false as const,
+    rawProviderResponseVisible: false as const,
+    walletPrivateMaterialVisible: false as const,
+  },
+  roots: {
+    optionRoot: "option-root-1",
+    sourceBindingRoot: "src-root-1",
+    demandAlignmentRoot: "demand-root-1",
+    measurementRoot: "measurement-root-1",
+    contentsRoot: "contents-root-1",
+    reviewBoundaryRoot: "review-root-1",
+  },
+} as DepositAssetPackOption;
+
+const receipt = {
+  optionId: "opt-1",
+  optionKind: "capability-slice",
+  title: "Auth middleware slice",
+  admission: {
+    state: "admitted-to-depository",
+    depositoryAssetPackId: "depository-assetpack-abc",
+    blockers: [],
+    warnings: [],
+  },
+  compensationPreview: { state: "compensation-preview-ready" },
+  packsActivitySync: {
+    state: "synchronized-to-packs",
+    route: "/packs",
+    activityType: "depository-assetpack",
+    activityRoot: "packs-activity-root-1",
+  },
+  roots: {
+    admissionReceiptRoot: "admission-receipt-1",
+    packsActivityRoot: "packs-activity-root-1",
+  },
+} as unknown as DepositOptionAdmissionReceipt;
+
+describe("deposit-admission-activity", () => {
+  it("projects absolute measurements from the option", () => {
+    const rows = projectOptionAbsoluteMeasurements(option);
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({
+      kind: "function-count",
+      category: "absolute",
+      magnitude: 8,
+      unit: "functions",
+    });
+  });
+
+  it("builds per-option admission draft without session aggregates or patch body", () => {
+    const draft = buildDepositOptionAdmissionActivityDraft({
+      receipt,
+      option,
+      synthesisRunId: "synth-run-1",
+    });
+    expect(draft.type).toBe("pipeline:deposit-option-admission");
+    expect(draft.output).toMatchObject({
+      assetPackTitle: "Auth middleware slice",
+      optionId: "opt-1",
+      admissionState: "admitted-to-depository",
+    });
+    expect(draft.output).not.toHaveProperty("depositAdmission");
+    expect(draft.output).not.toHaveProperty("candidateCount");
+    expect(draft.output).not.toHaveProperty("admittedCount");
+    expect(draft.output).not.toHaveProperty("ownerContents");
+    expect(JSON.stringify(draft)).not.toContain("Add auth middleware helper");
+    const measurements = (draft.output as { measurements: unknown[] }).measurements;
+    expect(measurements).toHaveLength(1);
+    expect(draft.context).toMatchObject({
+      source: "deposit-option-review-admission",
+      optionId: "opt-1",
+      synthesisRunId: "synth-run-1",
+    });
+  });
+
+  it("builds a depositor patchfile download payload", () => {
+    const file = buildDepositOptionPatchfileDownload(option);
+    expect(file.filename).toMatch(/\.json$/);
+    expect(file.mimeType).toBe("application/json");
+    const parsed = JSON.parse(file.body) as {
+      schema: string;
+      fileChanges: unknown[];
+      measurements: unknown[];
+    };
+    expect(parsed.schema).toBe("bitcode.deposit.asset-pack-patchfile");
+    expect(parsed.fileChanges).toHaveLength(1);
+    expect(parsed.measurements).toHaveLength(1);
+  });
+});

@@ -8,6 +8,14 @@ with rebuild-alone canon in `BITCODE_SPEC_V48.md` §G3-1…G3-15. Optional live
 smoke remains in the Gate 3 runbook §6; it does not block version-branch merge
 when CI is green.
 
+**Gate 4 open** on `v48/gate-4-depositor-packs-finalization`: depositor website
+completion (batch admit → `/packs`, deposit detail reload, absolute
+measurements on packs, patchfile download on deposit review only). Live defect
+class (2026-07-20): selecting 2 options produced 1 packs row; packs detail
+showed session `Candidate count` / `Admitted count` / admission-report root as
+fake measurements; reloading synthesis run
+`e2f1f110-b6b6-43ce-a7b9-a3b80bcf891a` dropped options/logs.
+
 
 - Version: `V48`
 - Active canon during QA: `V47`

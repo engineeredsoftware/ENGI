@@ -1,6 +1,7 @@
 /**
  * Read AssetPack option card — richer deposit-style layout for source-safe review.
  * Shows patch summary, absolute + neediness (*-fit) measurements, need-fit composite.
+ * Patchfile download is path-op JSON only (never unpaid raw source).
  */
 "use client";
 
@@ -9,6 +10,7 @@ import type { ReadSynthesizedOption } from "@/components/reads/ReadPageClient/ho
 
 function asReadings(value: unknown): Array<{
   measurementKind?: string;
+  kind?: string;
   label?: string;
   volume?: number;
   magnitude?: number;
@@ -18,13 +20,45 @@ function asReadings(value: unknown): Array<{
   return Array.isArray(value) ? value : [];
 }
 
+function downloadReadOptionPatchfile(option: ReadSynthesizedOption) {
+  const safeTitle = String(option.title || `option-${option.index + 1}`)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 48);
+  const body = JSON.stringify(
+    {
+      schema: "bitcode.read.asset-pack-patchfile",
+      index: option.index,
+      kind: option.kind,
+      title: option.title,
+      summary: option.summary,
+      patch: option.patch ?? null,
+      coveredSourcePaths: option.coveredSourcePaths ?? [],
+      measurements: option.measurements ?? null,
+    },
+    null,
+    2,
+  );
+  const blob = new Blob([body], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `${safeTitle || "read-option"}-patchfile.json`;
+  anchor.rel = "noopener";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
 export function ReadsOptionCard(props: {
   option: ReadSynthesizedOption;
   selected: boolean;
   onToggleSelect: (index: number) => void;
 }) {
   const { option, selected, onToggleSelect } = props;
-  const [showMeasures, setShowMeasures] = useState(false);
+  const [showMeasures, setShowMeasures] = useState(true);
   const absolutes = asReadings(option.measurements?.absolutes);
   const needinesses = asReadings(option.measurements?.needinesses);
   const paths = Array.isArray(option.coveredSourcePaths) ? option.coveredSourcePaths : [];
@@ -71,12 +105,14 @@ export function ReadsOptionCard(props: {
         {option.summary || "No summary."}
       </p>
 
-      {patchSummary ? (
+      {patchSummary || fileChanges.length > 0 ? (
         <div className="border border-white/8 bg-white/[0.03] px-3 py-2">
           <p className="text-[0.6rem] uppercase tracking-wide text-neutral-500">
             Patch summary
           </p>
-          <p className="mt-1 text-xs leading-5 text-neutral-300">{patchSummary}</p>
+          {patchSummary ? (
+            <p className="mt-1 text-xs leading-5 text-neutral-300">{patchSummary}</p>
+          ) : null}
           {fileChanges.length > 0 ? (
             <p className="mt-2 font-mono text-[0.6rem] text-neutral-500">
               {fileChanges.length} file change(s)
@@ -87,8 +123,25 @@ export function ReadsOptionCard(props: {
               {fileChanges.length > 4 ? " · …" : ""}
             </p>
           ) : null}
+          <button
+            type="button"
+            data-testid={`reads-option-download-patch-${option.index}`}
+            onClick={() => downloadReadOptionPatchfile(option)}
+            className="mt-3 border border-orange-300/30 bg-orange-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-orange-100 transition hover:border-orange-200/50 hover:bg-orange-300/16"
+          >
+            Download patchfile
+          </button>
         </div>
-      ) : null}
+      ) : (
+        <button
+          type="button"
+          data-testid={`reads-option-download-patch-fallback-${option.index}`}
+          onClick={() => downloadReadOptionPatchfile(option)}
+          className="border border-orange-300/30 bg-orange-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-orange-100 transition hover:border-orange-200/50 hover:bg-orange-300/16"
+        >
+          Download patchfile
+        </button>
+      )}
 
       {paths.length > 0 ? (
         <p className="font-mono text-[0.6rem] leading-4 text-neutral-500">
@@ -135,20 +188,28 @@ export function ReadsOptionCard(props: {
               Absolutes
             </p>
             <ul className="mt-2 grid gap-1">
-              {absolutes.map((row) => (
-                <li
-                  key={row.measurementKind || row.label}
-                  className="flex justify-between gap-2 font-mono text-neutral-400"
-                >
-                  <span>{row.measurementKind || row.label}</span>
-                  <span>
-                    v={typeof row.volume === "number" ? row.volume.toFixed(2) : "—"}
-                    {typeof row.magnitude === "number"
-                      ? ` · m=${row.magnitude}`
-                      : ""}
-                  </span>
-                </li>
-              ))}
+              {absolutes.map((row) => {
+                const key = row.measurementKind || row.kind || row.label || "absolute";
+                return (
+                  <li
+                    key={key}
+                    className="flex justify-between gap-2 font-mono text-neutral-400"
+                  >
+                    <span>{row.label || row.measurementKind || row.kind}</span>
+                    <span>
+                      {typeof row.magnitude === "number"
+                        ? `${row.magnitude}${row.unit ? ` ${row.unit}` : ""}`
+                        : typeof row.volume === "number"
+                          ? row.volume.toFixed(2)
+                          : "—"}
+                      {typeof row.magnitude === "number" &&
+                      typeof row.volume === "number"
+                        ? ` · ${(row.volume * 100).toFixed(0)}%`
+                        : ""}
+                    </span>
+                  </li>
+                );
+              })}
               {absolutes.length === 0 ? (
                 <li className="text-neutral-500">None attached</li>
               ) : null}
@@ -156,22 +217,30 @@ export function ReadsOptionCard(props: {
           </div>
           <div>
             <p className="text-[0.6rem] uppercase tracking-wide text-orange-200/70">
-              Needinesses (*-fit)
+              Needinesses (*-fit) — reader-relative
             </p>
             <ul className="mt-2 grid gap-1">
-              {needinesses.map((row) => (
-                <li
-                  key={row.measurementKind || row.label}
-                  className="flex justify-between gap-2 font-mono text-neutral-400"
-                >
-                  <span>{row.measurementKind || row.label}</span>
-                  <span>
-                    v={typeof row.volume === "number" ? row.volume.toFixed(2) : "—"}
-                  </span>
-                </li>
-              ))}
+              {needinesses.map((row) => {
+                const key =
+                  row.measurementKind || row.kind || row.label || "neediness";
+                return (
+                  <li
+                    key={key}
+                    className="flex justify-between gap-2 font-mono text-neutral-400"
+                  >
+                    <span>{row.label || row.measurementKind || row.kind}</span>
+                    <span>
+                      {typeof row.volume === "number"
+                        ? `${(row.volume * 100).toFixed(0)}% fit`
+                        : "—"}
+                    </span>
+                  </li>
+                );
+              })}
               {needinesses.length === 0 ? (
-                <li className="text-neutral-500">None attached</li>
+                <li className="text-neutral-500">
+                  None attached — neediness is the Read measurement delta
+                </li>
               ) : null}
             </ul>
           </div>

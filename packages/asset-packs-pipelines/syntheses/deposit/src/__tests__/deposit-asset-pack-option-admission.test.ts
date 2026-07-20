@@ -109,4 +109,44 @@ describe('deposit-asset-pack-option-admission', () => {
     expect(report.receipts.every((receipt) => receipt.packsActivitySync.state === 'not-synchronized')).toBe(true);
     expect(assertDepositAssetPackOptionAdmissionReportSourceSafe(report).admitted).toBe(true);
   });
+
+  it('admits depositor-confirmed options even when compensation route is soft-incomplete', () => {
+    // Solo testnet depositors often lack org/wallet compensation eligibility.
+    // Soft compensation incompleteness must not silently drop a confirmed deposit.
+    const synthesis = buildDepositAssetPackOptionSynthesis({
+      repositoryFullName: 'octocat/Spoon-Knife',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      permissibleSources: ['apps/uapi/app/deposits/DepositPageClient.tsx'],
+      depositoryDemandSignals: [{ id: 'depository-demand', weight: 0.8 }],
+      readingDemandSignals: [{ id: 'reading-demand', weight: 0.86 }],
+    });
+    const policy = buildDepositAssetPackOptionPolicyReport({
+      synthesis,
+      sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.82 }],
+      developmentCostSats: 1200,
+      expectedSettlementSats: 6800,
+      // No depositorWalletId → compensation soft-incomplete
+    });
+
+    const report = buildDepositAssetPackOptionAdmissionReport({
+      synthesis,
+      policy,
+      reviewerId: 'depositor-1',
+      decisions: synthesis.options.map((option) => ({
+        optionId: option.optionId,
+        decision: 'approved-for-admission' as const,
+      })),
+    });
+
+    expect(report.admittedCount).toBe(synthesis.options.length);
+    expect(
+      report.receipts.every((receipt) => receipt.admission.state === 'admitted-to-depository'),
+    ).toBe(true);
+    expect(
+      report.receipts.every((receipt) =>
+        receipt.packsActivitySync.state === 'synchronized-to-packs',
+      ),
+    ).toBe(true);
+  });
 });
