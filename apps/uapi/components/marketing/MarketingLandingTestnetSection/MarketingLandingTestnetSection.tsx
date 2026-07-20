@@ -145,13 +145,14 @@ export function MarketingLandingTestnetSection() {
               />
             </span>
             <span
-              className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
+              className={`${CODE_MARK_SLOT} [filter:drop-shadow(0_0_10px_rgba(232,121,249,0.75))_drop-shadow(0_0_18px_rgba(251,146,60,0.55))]`}
             >
               <AssetPackMark
                 height="h-14 phone:h-16"
                 width="w-14 phone:w-16"
                 className="opacity-95"
                 title={null}
+                variant="dual"
               />
             </span>
           </span>
