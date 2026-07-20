@@ -13,6 +13,7 @@
     "./wallet-local": "./src/bitcode-wallet-local.ts",
     "./bitcoin-wallet-client": "./src/bitcoin-wallet-client.ts",
     "./bitcoin-wallet-oauth-provider": "./src/bitcoin-wallet-oauth-provider.ts",
+    "./ethereum-wallet-client": "./src/ethereum-wallet-client.ts",
     "./supabase-auth-redirect": "./src/supabase-auth-redirect.ts",
     "./qa-telemetry": "./src/qa-telemetry.ts"
   },
