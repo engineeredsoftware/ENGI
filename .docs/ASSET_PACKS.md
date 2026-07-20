@@ -528,12 +528,14 @@ Plus `finish:completion` (cleanup posture: Host dispose owned by **dispatch** af
 
 **Critical distinction — Finish store ≠ product close (do not regress):**
 
-| Layer | What happens | Stream / UI meaning |
-| --- | --- | --- |
-| **SDIVF Finish** | Agents store selection envelope + `finish/completion` artifact on the execution tree | Telemetry may show Finish / READY TO FINISH; **not** product-ready options on `/deposits` |
-| **Dispatch close** | Route builds `depositOptionSynthesis`, **`finalizeExecutionRow`** writes `executions.output`, **then** emits SSE `completion` with `depositOptionsReady` + envelope | **Only then** may the UI hydrate option cards |
+| Layer | Scope | What happens | Stream / UI meaning |
+| --- | --- | --- | --- |
+| **SDIVF Finish** | Shared substrate (deposit *and* read synth) | Agents store selection envelope + `finish/completion` on the execution tree | Telemetry may show Finish / READY TO FINISH; **not** product-ready option cards |
+| **Stream type inference** | **Shared** `ExecutionStreamAdapter` | Must not map store `key=completion` → terminal `completion` | Avoids early tail close for all synth pipelines |
+| **Deposit dispatch close** | **Deposit only** (`dispatch-deposit-synthesis`) | Builds `depositOptionSynthesis`, **`finalizeExecutionRow`**, **then** SSE `completion` with `depositOptionsReady` + envelope | **Only then** may `/deposits` hydrate option cards |
+| **Read dispatch close** | Read (mirror when implemented) | Same pattern with read envelope — do not assume deposit code covers it | `/reads` option hydrate |
 
-Never map execution **store** keys named `completion` (e.g. `finish`/`completion`) to stream type `completion` — that closes the client tail and hydrates before the row write (false “options not found”). Terminal product completion is **route-owned** `emitEvent(..., 'completion')` after finalize, or store namespace `final` only. Client hydrate order: row/event payload first; history GET retry is fallback. Law + UI map: `apps/uapi/components/deposits/README.md` § Product terminal vs stream telemetry.
+Never map execution **store** keys named `completion` (e.g. `finish`/`completion`) to stream type `completion` — that closes the client tail and hydrates before the row write (deposit false “options not found”). Terminal product completion is **route-owned** `emitEvent(..., 'completion')` after finalize, or store namespace `final` only. Deposit hydrate order: row/event payload first; history GET retry is fallback. Full map: `apps/uapi/components/deposits/README.md` § Product terminal vs stream telemetry.
 
 ### 8.4 What is ultimately stored / shipped / journaled
 

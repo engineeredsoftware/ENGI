@@ -57,17 +57,23 @@ Operators should be able to:
 
 Pipeline SSE is **progress telemetry**, not the product close signal by itself.
 
-1. **In-band Finish** — SDIVF may store `finish/completion` (and similar keys)
-   while the host run is still owned by the route dispatcher. Those stores must
-   stream as ordinary status/progress events, **not** as terminal `completion`.
-2. **Product terminal** — After the route persists commercial output
-   (`depositOptionSynthesis` / read equivalent), it emits an explicit
-   `completion` event (e.g. `depositOptionsReady: true` + envelope). That is
-   when UIs may treat the run as closed for option cards.
-3. **Hydrate order** — Prefer `executions.output` or the product completion
-   payload; do not fail-closed on the first empty history read just because a
-   Finish-shaped stream event arrived. See deposits README and
-   `ASSET_PACKS.md` §8.3.
+| Concern | Shared vs product-specific |
+| --- | --- |
+| SDIVF Finish stores (`finish/completion`) | Shared substrate (deposit + read) |
+| `ExecutionStreamAdapter` not mapping `key=completion` → terminal | Shared stream law |
+| Persist envelope + emit product `completion` | **Per product route** (deposit: `depositOptionSynthesis`; read: mirror when wired) |
+| Option-card hydrate | **Per experience** (`/deposits` today; `/reads` when parity lands) |
 
-**Regress symptom:** Finish / READY TO FINISH in the log, then false
+1. **In-band Finish** — SDIVF may store `finish/completion` while the host run is
+   still owned by the route dispatcher. Those stores must stream as ordinary
+   status/progress events, **not** as terminal `completion`.
+2. **Product terminal (deposit today)** — After
+   `dispatch-deposit-synthesis` persists `depositOptionSynthesis`, it emits
+   `completion` with `depositOptionsReady: true` + envelope. That is when
+   `/deposits` may treat the run as closed for option cards.
+3. **Hydrate order (deposit)** — Prefer `executions.output` or the product
+   completion payload; history GET retry is fallback only. See deposits README
+   and `ASSET_PACKS.md` §8.3.
+
+**Deposit regress symptom:** Finish / READY TO FINISH in the log, then false
 “Synthesized options were not found” while the row already has options.
