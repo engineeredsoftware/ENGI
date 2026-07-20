@@ -351,8 +351,14 @@ export class ExecutionStreamAdapter {
       return ExecutionStreamEventType.ERROR;
     }
 
-    // Completion
-    if (namespace === 'final' || key === 'completion') {
+    // Terminal completion is ONLY the product dispatcher's emitEvent(..., 'completion')
+    // (typed directly, not via this inferrer). Do NOT map key === 'completion':
+    // SDIVF Finish agents store cross-phase artifacts as finish/completion *during*
+    // the run — long before the route finalizes depositOptionSynthesis. Mapping
+    // that store to stream type 'completion' closed the client tail and hydrated
+    // options too early → false "Synthesized options were not found" (95bf1a4b).
+    // Namespace `final` remains the only store-path terminal signal.
+    if (namespace === 'final') {
       return ExecutionStreamEventType.COMPLETION;
     }
 

@@ -3,7 +3,10 @@
  */
 
 import {
+  extractDepositOptionSynthesisFromEvents,
+  extractDepositOptionSynthesisFromExecution,
   fetchDepositOptionSynthesisWithRetry,
+  isDepositProductTerminalForOptions,
   isRecoverableMissingOptionsError,
   shouldRetryMissingDepositOptions,
 } from "@/components/deposits/models/deposit-synthesis-options-hydrate";
@@ -111,5 +114,61 @@ describe("deposit-synthesis-options-hydrate", () => {
     expect(isRecoverableMissingOptionsError("host budget exceeded")).toBe(
       false,
     );
+  });
+
+  it("extracts synthesis from execution.output without network", () => {
+    const found = extractDepositOptionSynthesisFromExecution({
+      id: "r1",
+      output: {
+        depositOptionSynthesis: { options: [{ optionId: "a" }] },
+        reviewProjections: [{ optionId: "a" }],
+      },
+    });
+    expect(found?.synthesis).toEqual({ options: [{ optionId: "a" }] });
+    expect(found?.reviewProjections).toHaveLength(1);
+    expect(extractDepositOptionSynthesisFromExecution({ output: {} })).toBeNull();
+  });
+
+  it("extracts synthesis only from product-terminal completion events", () => {
+    const earlyNoise = extractDepositOptionSynthesisFromEvents([
+      { event: { type: "completion", message: "finish store noise" } },
+    ]);
+    expect(earlyNoise).toBeNull();
+
+    const product = extractDepositOptionSynthesisFromEvents([
+      { event: { type: "status", message: "working" } },
+      {
+        event: {
+          type: "completion",
+          depositOptionsReady: true,
+          depositOptionSynthesis: { options: [1, 2, 3] },
+          reviewProjections: [],
+        },
+      },
+    ]);
+    expect(product?.synthesis).toEqual({ options: [1, 2, 3] });
+  });
+
+  it("product terminal requires row status or depositOptionsReady completion", () => {
+    expect(
+      isDepositProductTerminalForOptions({
+        events: [{ event: { type: "completion", message: "noise" } }],
+      }),
+    ).toBe(false);
+    expect(
+      isDepositProductTerminalForOptions({
+        events: [
+          {
+            event: {
+              type: "completion",
+              depositOptionsReady: true,
+            },
+          },
+        ],
+      }),
+    ).toBe(true);
+    expect(
+      isDepositProductTerminalForOptions({ rowStatus: "completed" }),
+    ).toBe(true);
   });
 });

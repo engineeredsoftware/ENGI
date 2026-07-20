@@ -105,7 +105,9 @@ describe('ExecutionStreamAdapter — event type inference', () => {
     expect(await inferredType('error', 'anything')).toBe('error');
     expect(await inferredType('misc', 'error')).toBe('error');
     expect(await inferredType('final', 'result')).toBe('completion');
-    expect(await inferredType('misc', 'completion')).toBe('completion');
+    // Finish stores finish/completion mid-pipeline — must NOT terminal-close the stream.
+    expect(await inferredType('finish', 'completion')).toBe('status');
+    expect(await inferredType('misc', 'completion')).toBe('status');
     expect(await inferredType('misc', 'anything')).toBe('status');
   });
 

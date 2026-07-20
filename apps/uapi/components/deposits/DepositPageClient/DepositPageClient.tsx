@@ -429,6 +429,7 @@ export default function DepositPageClient() {
     synthesisExecutionMatchesRun,
     synthesisStreamError,
     synthesisExecution,
+    synthesisEvents,
     synthesisDispatchedAtMs,
     setSynthesisDispatchedAtMs,
     setSynthesisError,

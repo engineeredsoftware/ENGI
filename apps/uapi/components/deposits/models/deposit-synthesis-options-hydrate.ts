@@ -171,3 +171,80 @@ export function isRecoverableMissingOptionsError(
     /Unable to load synthesis history/i.test(message)
   );
 }
+
+function asReviewProjections(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : [];
+}
+
+/**
+ * Prefer in-memory execution.output already loaded by usePipelineExecution —
+ * no network when Finish/dispatch already wrote the selection envelope.
+ */
+export function extractDepositOptionSynthesisFromExecution(execution: unknown): {
+  synthesis: unknown;
+  reviewProjections: unknown[];
+} | null {
+  if (!execution || typeof execution !== "object") return null;
+  const output = (execution as { output?: Record<string, unknown> }).output;
+  if (!output || typeof output !== "object") return null;
+  const synthesis = output.depositOptionSynthesis;
+  if (!synthesis) return null;
+  return {
+    synthesis,
+    reviewProjections: asReviewProjections(output.reviewProjections),
+  };
+}
+
+/**
+ * Prefer product-terminal completion SSE payload (written after row finalize)
+ * so options render from the same signal that closes the stream — no GET.
+ */
+export function extractDepositOptionSynthesisFromEvents(
+  events: Array<{ event?: Record<string, unknown> | null } | null | undefined>,
+): {
+  synthesis: unknown;
+  reviewProjections: unknown[];
+} | null {
+  for (let i = events.length - 1; i >= 0; i -= 1) {
+    const ev = events[i]?.event;
+    if (!ev || typeof ev !== "object") continue;
+    if (ev.type !== "completion") continue;
+    // Product dispatcher stamps depositOptionsReady after finalize.
+    // Ignore bare completion-shaped noise if any remains.
+    const synthesis =
+      ev.depositOptionSynthesis ??
+      (ev.data && typeof ev.data === "object"
+        ? (ev.data as { depositOptionSynthesis?: unknown }).depositOptionSynthesis
+        : undefined);
+    if (!synthesis) continue;
+    const reviewProjections = asReviewProjections(
+      ev.reviewProjections ??
+        (ev.data && typeof ev.data === "object"
+          ? (ev.data as { reviewProjections?: unknown }).reviewProjections
+          : undefined),
+    );
+    return { synthesis, reviewProjections };
+  }
+  return null;
+}
+
+/**
+ * True when the stream may still be open — do not fail-closed hydrate yet.
+ * Product terminal is dispatch completion (depositOptionsReady) or row status.
+ */
+export function isDepositProductTerminalForOptions(input: {
+  rowStatus?: unknown;
+  events?: Array<{ event?: Record<string, unknown> | null } | null | undefined>;
+}): boolean {
+  if (isDepositSynthesisTerminalStatus(input.rowStatus)) return true;
+  const events = input.events || [];
+  for (let i = events.length - 1; i >= 0; i -= 1) {
+    const ev = events[i]?.event;
+    if (!ev || ev.type !== "completion") continue;
+    if (ev.depositOptionsReady === true || ev.productTerminal === true) {
+      return true;
+    }
+    if (ev.depositOptionSynthesis) return true;
+  }
+  return false;
+}

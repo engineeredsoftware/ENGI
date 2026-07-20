@@ -622,11 +622,20 @@ export async function runDepositOptionSynthesis(
       duration_ms: durationMs,
     });
 
+    // Terminal product signal AFTER row output is written. Carry the selection
+    // envelope on the event so the UI can render options from the same signal
+    // that closes the stream — no second GET race with finish/completion stores.
     await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
       message: isBudgetPartial
         ? `AssetPacksSynthesis partial: recovered ${synthesis.optionCount} measured options after host budget (Validation incomplete).`
         : `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
       runId,
+      productTerminal: true,
+      depositOptionsReady: true,
+      optionCount: synthesis.optionCount,
+      depositOptionSynthesis: synthesis,
+      reviewProjections,
+      partial: isBudgetPartial,
     });
 
     bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'synthesized', {

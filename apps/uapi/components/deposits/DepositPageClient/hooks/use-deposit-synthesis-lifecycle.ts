@@ -13,7 +13,12 @@ import {
   messageForMissingDepositOptions,
   synthesisStatusFromRunRow,
 } from "@/components/deposits/models/deposit-run-status";
-import { fetchDepositOptionSynthesisWithRetry } from "@/components/deposits/models/deposit-synthesis-options-hydrate";
+import {
+  extractDepositOptionSynthesisFromEvents,
+  extractDepositOptionSynthesisFromExecution,
+  fetchDepositOptionSynthesisWithRetry,
+  isDepositProductTerminalForOptions,
+} from "@/components/deposits/models/deposit-synthesis-options-hydrate";
 import type { DepositSynthesisStatus } from "./use-deposit-synthesis-activity";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
@@ -33,6 +38,8 @@ export function useDepositSynthesisLifecycle(input: {
   synthesisExecutionMatchesRun: boolean;
   synthesisStreamError: string | null;
   synthesisExecution: unknown;
+  /** Live/history events — product completion may carry depositOptionSynthesis. */
+  synthesisEvents?: Array<{ event?: Record<string, unknown> | null }>;
   synthesisDispatchedAtMs: number | null;
   setSynthesisDispatchedAtMs: (ms: number | null) => void;
   setSynthesisError: (error: string | null) => void;
@@ -67,6 +74,7 @@ export function useDepositSynthesisLifecycle(input: {
     synthesisExecutionMatchesRun,
     synthesisStreamError,
     synthesisExecution,
+    synthesisEvents = [],
     synthesisDispatchedAtMs,
     setSynthesisDispatchedAtMs,
     setSynthesisError,
@@ -149,21 +157,52 @@ export function useDepositSynthesisLifecycle(input: {
         "",
     ).toLowerCase();
     const rowTerminal = isDepositSynthesisTerminalStatus(rowStatus);
-    // Live runs wait for stream completion or terminal row; historical
-    // complete adoptions fetch immediately (row may not be in execution hook yet).
-    if (
-      synthesisStatus === "running" &&
-      !synthesisActivity.isStreamingComplete &&
-      !rowTerminal &&
-      !synthesisExecutionMatchesRun
-    ) {
+    const productTerminal = isDepositProductTerminalForOptions({
+      rowStatus,
+      events: synthesisEvents,
+    });
+
+    // In-memory sources first — no network when artifacts are already present.
+    const fromExecution =
+      synthesisExecutionMatchesRun
+        ? extractDepositOptionSynthesisFromExecution(synthesisExecution)
+        : null;
+    const fromEvents = extractDepositOptionSynthesisFromEvents(synthesisEvents);
+    const localReady = fromExecution || fromEvents;
+
+    if (localReady) {
+      hydrateExhaustedForRunRef.current = null;
+      setRealSynthesis({
+        synthesis: localReady.synthesis as NonNullable<
+          DepositRealSynthesis
+        >["synthesis"],
+        reviewProjections: localReady.reviewProjections as NonNullable<
+          DepositRealSynthesis
+        >["reviewProjections"],
+      });
+      setOptionsRequested(true);
+      setSynthesisRunExpectsOptions(true);
+      setSynthesisStatus("complete");
+      setSynthesisError(null);
+      if (synthesisDispatchedAtMs !== null) {
+        const options = (localReady.synthesis as { options?: unknown[] }).options;
+        trackProductEvent({
+          name: "deposit_synthesis_completed",
+          data: {
+            optionCount: Array.isArray(options) ? options.length : 0,
+            durationMs: Date.now() - synthesisDispatchedAtMs,
+          },
+        });
+      }
+      replaceDepositSearchParams(
+        writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
+      );
       return;
     }
-    if (
-      synthesisStatus === "running" &&
-      !synthesisActivity.isStreamingComplete &&
-      !rowTerminal
-    ) {
+
+    // Wait for product terminal (row status or dispatch completion event) —
+    // not for isStreamingComplete alone (Finish stores finish/completion mid-run).
+    if (synthesisStatus === "running" && !productTerminal && !rowTerminal) {
       return;
     }
     // Always attempt hydrate for deposit synthesis context. If the list row
@@ -185,11 +224,13 @@ export function useDepositSynthesisLifecycle(input: {
     let cancelled = false;
     void (async () => {
       try {
+        // Fallback only: single-flight history read with short retry if the
+        // product terminal signal races the row write (should be rare after
+        // finish/completion stream fix + completion payload).
         const result = await fetchDepositOptionSynthesisWithRetry({
           runId: synthesisRunId,
-          // Short delays in test so unit tests do not wall-clock wait 3s.
-          maxAttempts: process.env.NODE_ENV === "test" ? 4 : 6,
-          delayMs: process.env.NODE_ENV === "test" ? 0 : 500,
+          maxAttempts: process.env.NODE_ENV === "test" ? 4 : 4,
+          delayMs: process.env.NODE_ENV === "test" ? 0 : 400,
           signal: abort.signal,
         });
 
@@ -340,10 +381,10 @@ export function useDepositSynthesisLifecycle(input: {
     synthesisRunId,
     synthesisRunExpectsOptions,
     realSynthesis,
-    synthesisActivity.isStreamingComplete,
     synthesisActivity.error,
     synthesisDispatchedAtMs,
     synthesisExecution,
+    synthesisEvents,
     synthesisExecutionMatchesRun,
     synthesisStreamError,
     liveRuns,
