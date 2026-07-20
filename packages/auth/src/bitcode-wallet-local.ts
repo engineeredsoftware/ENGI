@@ -5,13 +5,19 @@ export const BITCODE_LOCAL_WALLET_EVENT = 'bitcode-wallet-identity-changed';
 
 export type BitcodeWalletBindingStatus = 'pending' | 'manual' | 'verified';
 
+export type LocalWalletProofKind =
+  | 'bitcoin_message_signature'
+  | 'provider_session'
+  | 'manual_address'
+  | 'ethereum_personal_sign';
+
 export interface LocalBitcodeWalletIdentity {
   address: string;
   provider: string;
   network: string | null;
   status: BitcodeWalletBindingStatus;
   connectedAt: string;
-  proofKind: 'bitcoin_message_signature' | 'provider_session' | 'manual_address';
+  proofKind: LocalWalletProofKind;
   paymentAddress?: string | null;
   authAddress?: string | null;
   addressType?: string | null;
@@ -39,6 +45,13 @@ export function isPlausibleBitcoinAddress(value: unknown): value is string {
   );
 }
 
+export function isPlausibleWalletAddress(value: unknown): value is string {
+  const address = readString(value);
+  if (!address) return false;
+  if (/^0x[a-fA-F0-9]{40}$/.test(address)) return true;
+  return isPlausibleBitcoinAddress(address);
+}
+
 export function readLocalBitcodeWalletIdentity(): LocalBitcodeWalletIdentity | null {
   if (typeof window === 'undefined') return null;
 
@@ -51,12 +64,13 @@ export function readLocalBitcodeWalletIdentity(): LocalBitcodeWalletIdentity | n
     const status = readString(parsed?.status);
     const proofKind = readString(parsed?.proofKind);
 
-    if (!isPlausibleBitcoinAddress(address) || !provider || !connectedAt) return null;
+    if (!isPlausibleWalletAddress(address) || !provider || !connectedAt) return null;
     if (status !== 'pending' && status !== 'manual' && status !== 'verified') return null;
     if (
       proofKind !== 'bitcoin_message_signature' &&
       proofKind !== 'provider_session' &&
-      proofKind !== 'manual_address'
+      proofKind !== 'manual_address' &&
+      proofKind !== 'ethereum_personal_sign'
     ) {
       return null;
     }
