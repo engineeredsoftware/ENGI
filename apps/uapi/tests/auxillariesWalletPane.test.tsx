@@ -229,7 +229,7 @@ describe('AuxillariesWalletPane', () => {
     });
 
     expect(screen.getByTestId('wallet-step-badge')).toHaveTextContent('Auxillary step 1');
-    expect(screen.getByText(/Keep BTC fees, BTD holdings, and wallet identity readable together/i)).toBeTruthy();
+    expect(screen.getByText(/Keep pay-rail fees, BTD holdings, and wallet identity readable together/i)).toBeTruthy();
     expect(screen.getByText('Access policy')).toBeInTheDocument();
     expect(screen.getByTestId('auxillaries-wallet-btd-readiness')).toBeInTheDocument();
     expect(screen.getByText('Signer posture')).toBeInTheDocument();

@@ -20,6 +20,16 @@ export interface WalletBtdPostureSectionProps {
   displayBtdBalance: number;
   ownedAssetPackSummary: string;
   liveBtcBalance: { confirmedBtc: number; pendingBtc: number; network: string } | null;
+  liveBtdBalance?: {
+    balanceBtd: number | null;
+    source: string;
+    settleReady: boolean;
+    configured: boolean;
+    contract: string | null;
+    chainId: number | null;
+    note: string | null;
+    address: string | null;
+  } | null;
   supportTreasury: AuxillariesWalletBtdPaneState['treasurySummary'] | null | undefined;
   btcFeeBalanceSource: unknown;
   hasReadableBtcFeeBalance: boolean;
@@ -47,6 +57,7 @@ export default function WalletBtdPostureSection({
   displayBtdBalance,
   ownedAssetPackSummary,
   liveBtcBalance,
+  liveBtdBalance,
   supportTreasury,
   btcFeeBalanceSource,
   hasReadableBtcFeeBalance,
@@ -63,17 +74,26 @@ export default function WalletBtdPostureSection({
   walletSupport,
   supportWalletCapability,
 }: WalletBtdPostureSectionProps) {
+  const btdSourceLabel =
+    liveBtdBalance?.source === 'erc1155-rpc'
+      ? 'On-chain ERC1155 (token id 0)'
+      : liveBtdBalance?.configured === false
+        ? 'Ledger / projected (contract not configured)'
+        : liveBtdBalance?.source === 'rpc-error'
+          ? 'Ledger fallback (RPC error)'
+          : 'Account BTD posture';
+
   return (
     <AuxillariesWorkspaceSection
       kicker="Wallet posture"
-      title="Keep BTC fees, BTD holdings, and wallet identity readable together"
-      description="$BTD (green) is non-fungible share and read-right posture. BTC (orange) is fee-liquidity for settlement — both should be visible before you return to product work."
+      title="Keep pay-rail fees, BTD holdings, and wallet identity readable together"
+      description="$BTD (green) is fungible earn balance (ERC1155 id 0, max 21M) plus AssetPack co-ownership rights. ETH is the P0 pay rail for buys; BTC fee liquidity remains for transitional tooling."
       explainer={auxillaryPaneExplainers.btdWallet}
       tone="emerald"
     >
       <div
         className="auxillaries-glass-card rounded-none border border-emerald-300/28 p-5"
-        title="BTD is the non-fungible source-share/read-right balance currently visible to this account."
+        title="Fungible BTD balance (ERC1155 token id 0) when RPC + contract are configured; otherwise account ledger posture."
         data-testid="auxillaries-wallet-btd-balance"
       >
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-200/78">
@@ -81,6 +101,17 @@ export default function WalletBtdPostureSection({
         </p>
         <p className="mt-3 break-words text-[clamp(3rem,7vw,6.5rem)] font-semibold leading-none tracking-normal text-emerald-50 drop-shadow-[0_0_26px_rgba(101,254,183,0.28)]">
           {formatBtdHoldings(displayBtdBalance)}
+        </p>
+        <p
+          className="mt-3 text-[0.7rem] text-emerald-100/70"
+          data-testid="auxillaries-wallet-btd-source"
+        >
+          {btdSourceLabel}
+          {liveBtdBalance?.settleReady
+            ? ' · settle ready'
+            : liveBtdBalance?.note
+              ? ` · ${liveBtdBalance.note}`
+              : ''}
         </p>
       </div>
 

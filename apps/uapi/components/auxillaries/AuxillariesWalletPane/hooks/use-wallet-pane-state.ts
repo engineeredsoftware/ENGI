@@ -118,7 +118,6 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
   const supportReadRights = walletSupport?.btdReadRightSummary ?? null;
   const supportTreasury = walletSupport?.treasurySummary ?? null;
   const supportSettlementReadiness = walletSupport?.settlementReadiness ?? null;
-  const displayBtdBalance = supportReadRights?.aggregateBtd ?? btdBalance;
   const hasReadableBtcFeeBalance =
     typeof btcFeeBalanceSource === 'number' ||
     (typeof btcFeeBalanceSource === 'string' && Number.isFinite(Number(btcFeeBalanceSource)));
@@ -143,6 +142,22 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
     pendingBtc: number;
     network: string;
   } | null>(null);
+  const [liveBtdBalance, setLiveBtdBalance] = useState<{
+    balanceBtd: number | null;
+    balanceBaseUnits: string | null;
+    source: string;
+    settleReady: boolean;
+    configured: boolean;
+    contract: string | null;
+    chainId: number | null;
+    note: string | null;
+    address: string | null;
+  } | null>(null);
+  // Prefer on-chain ERC1155 BTD when the Sepolia contract is configured and readable.
+  const displayBtdBalance =
+    typeof liveBtdBalance?.balanceBtd === 'number'
+      ? liveBtdBalance.balanceBtd
+      : (supportReadRights?.aggregateBtd ?? btdBalance);
 
   useEffect(() => {
     if (!walletBinding?.address) return;
@@ -165,6 +180,43 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
       cancelled = true;
     };
   }, [walletBinding?.address]);
+
+  // On-chain fungible BTD (ERC1155 id 0) when RPC + contract env are set.
+  useEffect(() => {
+    const address =
+      walletBinding?.address ||
+      (typeof profile?.wallet_address === 'string' ? profile.wallet_address : null);
+    if (!address) {
+      setLiveBtdBalance(null);
+      return;
+    }
+    let cancelled = false;
+    (async () => {
+      try {
+        const qs = new URLSearchParams({ address });
+        const response = await fetch(`/api/wallet/btd-balance?${qs.toString()}`);
+        const payload = await response.json().catch(() => null);
+        if (cancelled || !response.ok || !payload?.ok) return;
+        setLiveBtdBalance({
+          balanceBtd: typeof payload.balanceBtd === 'number' ? payload.balanceBtd : null,
+          balanceBaseUnits:
+            typeof payload.balanceBaseUnits === 'string' ? payload.balanceBaseUnits : null,
+          source: typeof payload.source === 'string' ? payload.source : 'unknown',
+          settleReady: Boolean(payload.settleReady),
+          configured: Boolean(payload.configured),
+          contract: typeof payload.contract === 'string' ? payload.contract : null,
+          chainId: typeof payload.chainId === 'number' ? payload.chainId : null,
+          note: typeof payload.note === 'string' ? payload.note : null,
+          address: typeof payload.address === 'string' ? payload.address : address,
+        });
+      } catch {
+        // Keep ledger/credits fallback on the posture card.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [profile?.wallet_address, walletBinding?.address]);
 
   useEffect(() => {
     if (onCompletionStatusChange && !hasCalledCompletionRef.current) {
@@ -389,6 +441,7 @@ export function useWalletPaneState({ onSave, onCompletionStatusChange }: UseWall
     supportTreasury,
     supportSettlementReadiness,
     displayBtdBalance,
+    liveBtdBalance,
     hasReadableBtcFeeBalance,
     hasStoredVerifiedWalletConnection,
     hasVerifiedWalletConnection,

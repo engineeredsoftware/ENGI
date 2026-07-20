@@ -65,6 +65,7 @@ export default function AuxillariesWalletPane({
             displayBtdBalance={state.displayBtdBalance}
             ownedAssetPackSummary={state.ownedAssetPackSummary}
             liveBtcBalance={state.liveBtcBalance}
+            liveBtdBalance={state.liveBtdBalance}
             supportTreasury={state.supportTreasury}
             btcFeeBalanceSource={state.btcFeeBalanceSource}
             hasReadableBtcFeeBalance={state.hasReadableBtcFeeBalance}
