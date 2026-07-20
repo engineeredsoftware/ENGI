@@ -273,11 +273,11 @@ function buildMeasurement(
   // Instance descriptor — this pack’s numbers + structure profile (source-safe).
   measurement.descriptor = buildSourceSafeAbsoluteDescriptor({
     measurementKind: spec.measurementKind,
-    label: spec.label,
-    unit: spec.unit,
+    label: measurement.label,
+    unit: measurement.unit || 'normalized',
     magnitude,
     volume,
-    weight: spec.weight,
+    weight: measurement.weight,
     packTitle: patch?.title,
     structure: structure ?? null,
   });
@@ -365,8 +365,8 @@ export function mergeReportAndReadings(
       });
       const descriptor = buildSourceSafeAbsoluteDescriptor({
         measurementKind: measurement.measurementKind,
-        label: measurement.label,
-        unit: measurement.unit,
+        label: measurement.label || measurement.measurementKind,
+        unit: measurement.unit || 'normalized',
         magnitude: nextVolume,
         volume: nextVolume,
         weight: measurement.weight,

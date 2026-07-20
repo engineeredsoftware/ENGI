@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   // Prefer background when embed may take seconds; still await for tests when sync=1.
   if (body.sync === true || body.sync === '1') {
     const result = await indexDepositoryAssetPack(input);
-    return NextResponse.json({ ok: result.ok, ...result });
+    return NextResponse.json({ ...result, ok: result.ok });
   }
 
   waitUntil(

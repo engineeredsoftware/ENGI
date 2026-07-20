@@ -111,6 +111,11 @@ export interface AssetPackCandidateMeasurement {
   magnitude?: number;
   /** The reading's unit: functions | types | files | estimate | normalized. */
   unit?: string;
+  /**
+   * Source-safe instance prose for **this** AssetPack reading
+   * (generated when/after measurement). Never raw source.
+   */
+  descriptor?: string;
 }
 
 /**

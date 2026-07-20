@@ -118,8 +118,12 @@ export function useDepositOptionActions(input: {
           try {
             const assetId =
               receipt.admission?.depositoryAssetPackId ||
-              receipt.activityId ||
+              receipt.packsActivitySync?.activityId ||
               optionId;
+            const coveredSourcePaths =
+              option?.contents?.provenantSourcePaths ||
+              option?.sourceBinding?.sourcePathRoots ||
+              [];
             void fetch('/api/depository/index', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -132,7 +136,7 @@ export function useDepositOptionActions(input: {
                   depositRouteInput?.repositoryFullName || null,
                 lifecycle: 'admitted-to-depository',
                 topics: [],
-                coveredSourcePaths: option?.coveredSourcePaths || [],
+                coveredSourcePaths,
               }),
             }).catch(() => {
               /* index is best-effort; admission already succeeded */

@@ -164,7 +164,8 @@ export interface DepositorySupplySearchDocument {
 
 export interface DepositorySupplyVectorProjection {
   schema: 'bitcode.depository.supply-vector-projection';
-  provider: 'openai';
+  /** Product: supabase-gte-small; openai retained as deprecated depository path. */
+  provider: import('./embedding-config').AssetPackEmbeddingProviderId;
   model: string;
   dimensions: number;
   distanceMetric: 'cosine';
