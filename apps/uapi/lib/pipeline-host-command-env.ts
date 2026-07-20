@@ -110,6 +110,17 @@ export function selectedPipelineHostCommandEnvironment(
   if (!env.BITCODE_DEBUG_DISCOVERY_SERIAL && !process.env.BITCODE_DEBUG_DISCOVERY_PARALLEL) {
     env.BITCODE_DEBUG_DISCOVERY_SERIAL = '1';
   }
+  // Deposit monorepo law: bound Discovery (codebase PTRR only) so Implementation
+  // can Finish within host budget (runs 936b7f16 / e7e5dd6f: full Discovery
+  // ~12m of 14m, zero packs). Opt into full three-agent Discovery with
+  // BITCODE_DEPOSIT_DISCOVERY_PROFILE=full.
+  if (!env.BITCODE_DEPOSIT_DISCOVERY_PROFILE && !process.env.BITCODE_DEPOSIT_DISCOVERY_PROFILE) {
+    env.BITCODE_DEPOSIT_DISCOVERY_PROFILE = 'bounded';
+  } else if (process.env.BITCODE_DEPOSIT_DISCOVERY_PROFILE && !env.BITCODE_DEPOSIT_DISCOVERY_PROFILE) {
+    env.BITCODE_DEPOSIT_DISCOVERY_PROFILE = String(
+      process.env.BITCODE_DEPOSIT_DISCOVERY_PROFILE,
+    ).trim();
+  }
   // Inference is owned by the host/Pipeliner process. Product default is on
   // when unset; honor explicit opt-out (0/false/off) for unit tests.
   const realInferenceRaw = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;

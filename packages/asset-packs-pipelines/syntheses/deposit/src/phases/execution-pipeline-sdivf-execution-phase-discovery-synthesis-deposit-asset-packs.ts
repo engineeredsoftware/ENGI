@@ -7,6 +7,12 @@
  *
  * Base type: ExecutionPipelineSDIVFExecutionPhaseDelegator (SDIVF phase base).
  * This file is one SDIVF phase role specializations for the deposit synthesis product.
+ *
+ * Discovery budget law (V48 monorepo): full three-agent PTRR Discovery spent
+ * ~12 of 14 minutes on Bitcode (runs 936b7f16, e7e5dd6f) and left Implementation
+ * without time to Finish. Product default is **bounded** Discovery: full PTRR
+ * codebase comprehension only; inherent-regurgitation + depository-search are
+ * deterministic stubs that still satisfy Validation store presence.
  */
 
 import { createAgentExecutor } from '@bitcode/pipelines-generics';
@@ -23,9 +29,58 @@ import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-synthese
 type SetupOutput = AssetPackInput;
 type DiscoveryOutput = AssetPackInput;
 
+function envTruthy(raw: string | undefined): boolean {
+  return ['1', 'true', 'yes', 'on'].includes(String(raw || '').trim().toLowerCase());
+}
+
+function envFalsy(raw: string | undefined): boolean {
+  return ['0', 'false', 'no', 'off'].includes(String(raw || '').trim().toLowerCase());
+}
+
+/**
+ * Resolve deposit Discovery profile.
+ * - bounded (default): codebase full PTRR; skip regurgitation + depository search
+ * - full: all three Discovery agents full PTRR
+ * BITCODE_DEBUG_FAST_DISCOVERY=0 forces full (review / repro full Discovery).
+ */
+export function resolveDepositDiscoveryProfile(env: NodeJS.ProcessEnv = process.env): {
+  profile: 'bounded' | 'full';
+  skipRegurgitation: boolean;
+  skipSearch: boolean;
+  reason: string;
+} {
+  if (envFalsy(env.BITCODE_DEBUG_FAST_DISCOVERY)) {
+    return {
+      profile: 'full',
+      skipRegurgitation: false,
+      skipSearch: false,
+      reason: 'BITCODE_DEBUG_FAST_DISCOVERY=0 forces full Discovery',
+    };
+  }
+  const raw = String(env.BITCODE_DEPOSIT_DISCOVERY_PROFILE || 'bounded')
+    .trim()
+    .toLowerCase();
+  if (raw === 'full' || raw === 'complete' || raw === 'all') {
+    return {
+      profile: 'full',
+      skipRegurgitation: false,
+      skipSearch: false,
+      reason: 'BITCODE_DEPOSIT_DISCOVERY_PROFILE=full',
+    };
+  }
+  return {
+    profile: 'bounded',
+    skipRegurgitation: true,
+    skipSearch: true,
+    reason:
+      'bounded deposit Discovery (codebase PTRR only) — leave host budget for Implementation/Validation/Finish',
+  };
+}
+
 /**
  * ExecutionPipelineSDIVFExecutionPhase Discovery specialization for deposit synthesis.
- * Wave 1: comprehend-codebase ∥ inherent-regurgitation → wave 2: depository relevants.
+ * Wave 1: comprehend-codebase [∥ inherent-regurgitation] → wave 2: depository relevants.
+ * Bounded profile stubs regurgitation + search for product monorepo host budgets.
  */
 export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   SetupOutput,
@@ -40,12 +95,6 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
 
   // Progressive Discovery QA: skip earlier agents when stop targets a later
   // Discovery agent or Implementation (Discovery closed → Implementation first LLM).
-  // BITCODE_DEBUG_FAST_DISCOVERY=0 forces full Discovery (no stubs) for review runs.
-  const fastDiscovery =
-    String(process.env.BITCODE_DEBUG_FAST_DISCOVERY || '1').toLowerCase() !==
-      '0' &&
-    String(process.env.BITCODE_DEBUG_FAST_DISCOVERY || '1').toLowerCase() !==
-      'false';
   const stopFilter = String(
     process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || '',
   ).toLowerCase();
@@ -68,22 +117,31 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
     stopFilter.includes('assetpack') ||
     stopFilter.includes('asset-pack-synthesis') ||
     stopFilter.includes('depositassetpack');
-  // Empty filter + discovery phase: run full Discovery (legacy first-agent QA).
-  const skipCodebase =
-    fastDiscovery &&
+
+  const productProfile = resolveDepositDiscoveryProfile(process.env);
+
+  // Progressive QA stop filters (when set) still skip earlier agents.
+  const progressiveSkipCodebase =
     Boolean(stopFilter || stopPhase) &&
     (targetsImplementation || targetsRegurgitation || targetsSearch) &&
     !targetsCodebase;
-  const skipRegurgitation =
-    fastDiscovery &&
+  const progressiveSkipRegurgitation =
     Boolean(stopFilter || stopPhase) &&
     (targetsImplementation || targetsSearch) &&
     !targetsRegurgitation;
-  const skipSearch =
-    fastDiscovery &&
+  const progressiveSkipSearch =
     Boolean(stopFilter || stopPhase) &&
     targetsImplementation &&
     !targetsSearch;
+
+  // Product bounded: skip regurgitation + search unless progressive QA forces
+  // them (target points at those agents) or profile is full.
+  const skipCodebase = progressiveSkipCodebase;
+  const skipRegurgitation =
+    progressiveSkipRegurgitation ||
+    (productProfile.skipRegurgitation && !targetsRegurgitation);
+  const skipSearch =
+    progressiveSkipSearch || (productProfile.skipSearch && !targetsSearch);
 
   if (skipCodebase) {
     (execution as any).agents?.registerAgent?.(
@@ -110,12 +168,14 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
       DISCOVERY_INHERENT_REGURGITATION,
       async (passthroughInput: any, exec: any) => {
         storeCrossPhaseArtifact(exec, 'discovery', 'inherentRegurgitation', {
-          schema: 'bitcode.debug.fast-discovery.regurgitation',
+          schema: 'bitcode.deposit.bounded-discovery.regurgitation',
           summary:
-            'Fast Discovery: InherentRegurgitation skipped (agent Accepted / progressive QA).',
+            'Bounded Discovery: InherentRegurgitation skipped (product profile) so Implementation can finish within host budget.',
           relevantKnowledge: [],
           patterns: [],
           references: [],
+          skipped: true,
+          profile: productProfile.profile,
         });
         return passthroughInput;
       },
@@ -126,11 +186,12 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
       DISCOVERY_SEARCH_DEPOSITORY_FOR_DEPOSIT_RELEVANTS,
       async (passthroughInput: any, exec: any) => {
         storeCrossPhaseArtifact(exec, 'discovery', 'depositorySearch', {
-          schema: 'bitcode.debug.fast-discovery.depository-search',
+          schema: 'bitcode.deposit.bounded-discovery.depository-search',
           summary:
-            'Fast Discovery: DepositorySearchForRelevants skipped (agent Accepted; Discovery closed).',
+            'Bounded Discovery: DepositorySearchForRelevants skipped (product profile); Implementation uses codebase comprehension only.',
           guidance: {
-            summary: 'Discovery closed under progressive QA (fast skip).',
+            summary:
+              'Depository demand search deferred under bounded Discovery — prioritize source-measured packs from codebase comprehension.',
             likelyReadTopics: [] as string[],
             demandAlignment: [] as string[],
             underservedTopics: [] as string[],
@@ -139,36 +200,41 @@ export const executionPipelineSDIVFExecutionPhaseDiscoverySynthesisDepositAssetP
           searchQueries: [] as string[],
           hits: [] as unknown[],
           skipped: true,
+          profile: productProfile.profile,
         });
         return passthroughInput;
       },
     );
   }
 
+  storeCrossPhaseArtifact(execution, 'discovery', 'phaseDecision', {
+    schema: 'bitcode.pipeline.phase-decision',
+    formalPhaseDecision: true,
+    phase: 'discovery',
+    agent: 'discovery-profile',
+    step: 'decide',
+    failsafe: productProfile.profile === 'bounded' ? 'bounded-discovery' : 'full-discovery',
+    generation: 'structure',
+    summary: `Discovery profile=${productProfile.profile}: ${productProfile.reason}. skipCodebase=${skipCodebase} skipRegurgitation=${skipRegurgitation} skipSearch=${skipSearch}.`,
+    message: `Discovery profile=${productProfile.profile}: ${productProfile.reason}. skipCodebase=${skipCodebase} skipRegurgitation=${skipRegurgitation} skipSearch=${skipSearch}.`,
+    profile: productProfile.profile,
+    skipCodebase,
+    skipRegurgitation,
+    skipSearch,
+  });
+
   // Product default: serial wave-1 Discovery. Parallel comprehend-codebase ∥
   // inherent-regurgitation OOM-killed the sandbox (exit 137) on Bitcode monorepo
   // right after Setup closed (run 9d8bcf0f). Opt into parallel only with
   // BITCODE_DEBUG_DISCOVERY_PARALLEL=1 on small checkouts.
-  const forceParallel =
-    ['1', 'true', 'yes', 'on'].includes(
-      String(process.env.BITCODE_DEBUG_DISCOVERY_PARALLEL || '')
-        .trim()
-        .toLowerCase(),
-    );
+  const forceParallel = envTruthy(process.env.BITCODE_DEBUG_DISCOVERY_PARALLEL);
   const forceSerial =
-    ['1', 'true', 'yes', 'on'].includes(
-      String(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL || '')
-        .trim()
-        .toLowerCase(),
-    ) ||
-    ['1', 'true', 'yes', 'on'].includes(
-      String(process.env.BITCODE_DEBUG_SETUP_SERIAL || '')
-        .trim()
-        .toLowerCase(),
-    );
+    envTruthy(process.env.BITCODE_DEBUG_DISCOVERY_SERIAL) ||
+    envTruthy(process.env.BITCODE_DEBUG_SETUP_SERIAL);
   const serialDiscovery = forceSerial || !forceParallel;
   try {
     (execution as any).store?.('discovery', 'wave1Serial', serialDiscovery);
+    (execution as any).store?.('discovery', 'profile', productProfile.profile);
   } catch {
     /* ignore */
   }

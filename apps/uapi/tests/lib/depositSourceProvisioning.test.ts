@@ -330,6 +330,7 @@ describe('runDepositInBoxHost (#25)', () => {
       BITCODE_PIPELINE_STRUCTURED_DB: '1',
       BITCODE_PIPELINE_LEGACY_EVENTS_DB: '1',
       BITCODE_DEBUG_DISCOVERY_SERIAL: '1',
+      BITCODE_DEPOSIT_DISCOVERY_PROFILE: 'bounded',
       BITCODE_PIPELINE_USER_ID: 'user-deposit-test',
       BITCODE_PIPELINE_RUN_ID: 'run-deposit-test',
     });
