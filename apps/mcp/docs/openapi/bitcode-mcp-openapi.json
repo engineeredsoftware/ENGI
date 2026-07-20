@@ -3,7 +3,7 @@
   "info": {
     "title": "Bitcode MCP Server API",
     "version": "1.0.0",
-    "description": "\n# Bitcode MCP Server API\n\nThe Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge exchange via standardized tools, resources, and prompts.\n\n## Features\n\n- Tools interface for AssetPack execution and optional Shippable delivery\n- Real‑time streaming (WebSocket)\n- Multi‑modal attachments (Figma, documents, images, audio, video)\n- BTC fee posture plus measured non-fungible $BTD AssetPack amount\n\n## Getting Started\n\n1. **Get API Key** in your Bitcode account\n2. **Connect an MCP Client** (e.g., Claude Desktop)\n3. **Call a Tool**: \n   - \n     name: `bitcode://pipelines/asset-pack/execute`\n     \n## Support\n\n- **Documentation**: https://docs.bitcode.dev/mcp\n- **Community**: https://discord.gg/bitcode-mcp\n- **Support**: mcp-support@bitcode.dev\n      ",
+    "description": "\n# Bitcode MCP Server API\n\nThe Model Context Protocol (MCP) server exposing Bitcode’s technical knowledge exchange via standardized tools, resources, and prompts.\n\n## Features\n\n- Tools interface for AssetPack execution and optional settle delivery\n- Real‑time streaming (WebSocket)\n- Multi‑modal attachments (Figma, documents, images, audio, video)\n- BTC fee posture plus measured non-fungible $BTD AssetPack amount\n\n## Getting Started\n\n1. **Get API Key** in your Bitcode account\n2. **Connect an MCP Client** (e.g., Claude Desktop)\n3. **Call a Tool**: \n   - \n     name: `bitcode://pipelines/asset-pack/execute`\n     \n## Support\n\n- **Documentation**: https://docs.bitcode.dev/mcp\n- **Community**: https://discord.gg/bitcode-mcp\n- **Support**: mcp-support@bitcode.dev\n      ",
     "contact": {
       "name": "Bitcode API Support",
       "url": "https://bitcode.dev/support",
@@ -195,7 +195,7 @@
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "External URL for the PR-backed Shippable",
+            "description": "External URL for the settle PR delivery",
             "example": "https://github.com/bitcode-labs/webapp/pull/123"
           },
           "content": {
@@ -231,7 +231,7 @@
             "enum": [
               "pull_request"
             ],
-            "description": "V26 Shippable type to create"
+            "description": "Delivery template type to create"
           },
           "attachments": {
             "type": "array",
@@ -293,7 +293,7 @@
             "items": {
               "$ref": "#/components/schemas/AssetPack"
             },
-            "description": "Generated AssetPack results and PR Shippables"
+            "description": "Generated AssetPack results and settle PR deliveries"
           },
           "metrics": {
             "$ref": "#/components/schemas/ExecutionMetrics"
