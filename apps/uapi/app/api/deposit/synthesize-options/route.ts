@@ -29,8 +29,10 @@ import { runDepositOptionSynthesis } from './dispatch-deposit-synthesis';
 
 export const runtime = 'nodejs';
 // Full-repo deposit synthesis regularly exceeds 5 minutes of LLM work.
-// Vercel waitUntil is capped by maxDuration — keep high for deposit.
-export const maxDuration = 800;
+// Vercel waitUntil is capped by maxDuration — keep high for deposit monorepos.
+// Host in-box budget is pinned below this (see pipeline-host-command-env) so
+// artifact read + sandbox teardown still fit after PipelineHostTimeoutError.
+export const maxDuration = 900;
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 

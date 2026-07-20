@@ -325,7 +325,7 @@ describe('runDepositInBoxHost (#25)', () => {
       BITCODE_LLM_PROVIDER: 'xai',
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
-      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '720000',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '840000',
       BITCODE_PIPELINE_STREAM_TO_DATABASE: '1',
       BITCODE_PIPELINE_STRUCTURED_DB: '1',
       BITCODE_PIPELINE_LEGACY_EVENTS_DB: '1',
@@ -391,12 +391,12 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(receivedPlan.createOptions.env).toMatchObject({
       BITCODE_ASSET_PACK_REAL_INFERENCE: '1',
       BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE: 'bounded',
-      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '720000',
+      BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS: '840000',
       BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE: '1',
     });
   });
 
-  it('raises a stale 240s host budget to the product 720s ceiling', async () => {
+  it('raises a stale 240s host budget to the product 840s ceiling', async () => {
     process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = '1';
     process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '240000';
 
@@ -437,7 +437,7 @@ describe('runDepositInBoxHost (#25)', () => {
       hostFactory: async () => fakeHost,
     });
 
-    expect(receivedPlan.createOptions.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS).toBe('720000');
+    expect(receivedPlan.createOptions.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS).toBe('840000');
   });
 
   it('throws a host/pipeline error (not Validation zero-options) when outcome is failed', async () => {

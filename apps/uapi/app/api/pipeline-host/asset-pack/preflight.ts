@@ -170,12 +170,12 @@ export function assertRealInferenceEnvironment(env: Record<string, string>): voi
   if (!Number.isFinite(budgetMs) || budgetMs <= 0) {
     throw new Error('BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS must be a positive millisecond budget.');
   }
-  // Deposit/pipeline-host routes export maxDuration=800s. Cap host budget so
-  // artifact collection + sandbox teardown still fit after the in-box stop
-  // (run 8ecbd11a: 600s killed Validation ReadyToFinish with ~200s of wait left).
-  if (budgetMs > 720000) {
+  // Deposit route maxDuration=900s. Cap host budget so artifact collection +
+  // sandbox teardown still fit after the in-box stop (run 936b7f16: 720s killed
+  // mid Implementation on monorepo Discovery cost; 840s leaves ~60s headroom).
+  if (budgetMs > 840000) {
     throw new Error(
-      'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS must be <= 720000 when real-inference route strictness is required so the caller can still collect artifacts within maxDuration=800s.'
+      'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS must be <= 840000 when real-inference route strictness is required so the caller can still collect artifacts within maxDuration=900s.',
     );
   }
 }

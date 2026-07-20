@@ -9,6 +9,8 @@ import { trackProductEvent } from "@/lib/product-analytics";
 import { writeDepositRouteStage } from "@/components/deposits/models/deposit-route-model";
 import {
   adoptSelectionStatusFromRun,
+  isDepositSynthesisTerminalStatus,
+  messageForMissingDepositOptions,
   synthesisStatusFromRunRow,
 } from "@/components/deposits/models/deposit-run-status";
 import type { DepositSynthesisStatus } from "./use-deposit-synthesis-activity";
@@ -117,11 +119,11 @@ export function useDepositSynthesisLifecycle(input: {
       return;
     }
     if (!synthesisExecutionMatchesRun) return;
-    const rowCompleted =
-      String(
-        (synthesisExecution as { status?: string } | null)?.status || "",
-      ).toLowerCase() === "completed";
-    if (!synthesisActivity.isStreamingComplete && !rowCompleted) return;
+    const rowStatus = String(
+      (synthesisExecution as { status?: string } | null)?.status || "",
+    ).toLowerCase();
+    const rowTerminal = isDepositSynthesisTerminalStatus(rowStatus);
+    if (!synthesisActivity.isStreamingComplete && !rowTerminal) return;
     if (!synthesisRunExpectsOptions) {
       setSynthesisStatus("complete");
       return;
@@ -131,12 +133,72 @@ export function useDepositSynthesisLifecycle(input: {
       try {
         const res = await fetch(`/api/executions/history/${synthesisRunId}`);
         const data = await res.json().catch(() => null);
-        const output = data?.run?.output as
-          | { depositOptionSynthesis?: unknown; reviewProjections?: unknown }
+        const run = data?.run as
+          | {
+              status?: string;
+              summary?: string;
+              error?: { message?: string } | string | null;
+              context?: Record<string, unknown>;
+              output?: {
+                depositOptionSynthesis?: unknown;
+                reviewProjections?: unknown;
+                summary?: string;
+                partial?: unknown;
+                finishPresent?: unknown;
+                hostBudgetExceeded?: unknown;
+                hostErrorMessage?: unknown;
+              };
+            }
           | undefined;
+        const output = run?.output;
         const synthesis = output?.depositOptionSynthesis;
-        if (!res.ok || !synthesis) {
-          throw new Error("Synthesized options were not found for this run.");
+        if (!res.ok) {
+          throw new Error("Unable to load synthesis history for this run.");
+        }
+        // Partial / budget / no-Finish: surface host summary, not a false miss.
+        if (!synthesis) {
+          const hostErrorMessage =
+            (typeof output?.hostErrorMessage === "string" &&
+              output.hostErrorMessage) ||
+            (typeof run?.context?.hostErrorMessage === "string" &&
+              String(run.context.hostErrorMessage)) ||
+            (typeof run?.error === "string" && run.error) ||
+            (run?.error &&
+            typeof run.error === "object" &&
+            typeof run.error.message === "string"
+              ? run.error.message
+              : null);
+          const message = messageForMissingDepositOptions({
+            status: run?.status || rowStatus,
+            summary:
+              (typeof output?.summary === "string" && output.summary) ||
+              (typeof run?.summary === "string" && run.summary) ||
+              null,
+            hostBudgetExceeded:
+              output?.hostBudgetExceeded === true ||
+              run?.context?.hostBudgetExceeded === true,
+            hostErrorMessage,
+            finishPresent: output?.finishPresent,
+          });
+          if (cancelled) return;
+          setSynthesisStatus("failed");
+          setSynthesisError(message);
+          if (synthesisDispatchedAtMs !== null) {
+            trackProductEvent({
+              name: "deposit_synthesis_failed",
+              data: {
+                stage: "resume",
+                partial: true,
+                hostBudgetExceeded: Boolean(
+                  output?.hostBudgetExceeded ||
+                    run?.context?.hostBudgetExceeded,
+                ),
+                durationMs: Date.now() - synthesisDispatchedAtMs,
+              },
+            });
+          }
+          void refreshLiveRuns({ soft: true });
+          return;
         }
         if (cancelled) return;
         setRealSynthesis({

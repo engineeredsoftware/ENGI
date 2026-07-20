@@ -4,6 +4,8 @@
 
 import {
   adoptSelectionStatusFromRun,
+  isDepositSynthesisTerminalStatus,
+  messageForMissingDepositOptions,
   synthesisStatusFromRunRow,
 } from "@/components/deposits/models/deposit-run-status";
 
@@ -33,5 +35,35 @@ describe("deposit-run-status", () => {
       errorMessage: "host timeout",
     });
     expect(result.error).toBe("Run failed — host timeout");
+  });
+
+  it("maps partial host-budget rows to failed with operator summary", () => {
+    const result = synthesisStatusFromRunRow({
+      status: "partial",
+      summary:
+        "Partial synthesis for org/repo: Finish selection envelope not present after host budget.",
+    });
+    expect(result.status).toBe("failed");
+    expect(result.error).toMatch(/Partial synthesis/i);
+    expect(result.error).toMatch(/host budget|Large repositories/i);
+    expect(result.error).not.toMatch(/options were not found/i);
+  });
+
+  it("treats partial as terminal", () => {
+    expect(isDepositSynthesisTerminalStatus("partial")).toBe(true);
+    expect(isDepositSynthesisTerminalStatus("completed")).toBe(true);
+    expect(isDepositSynthesisTerminalStatus("running")).toBe(false);
+  });
+
+  it("prefers host budget messaging over generic options miss", () => {
+    const msg = messageForMissingDepositOptions({
+      status: "partial",
+      summary: "Partial synthesis for advancedengineeredsoftware/Bitcode: Finish selection envelope not present after host budget.",
+      hostBudgetExceeded: true,
+      hostErrorMessage: "AssetPack pipeline exceeded host runtime budget of 720000ms.",
+    });
+    expect(msg).toMatch(/Partial synthesis/i);
+    expect(msg).toMatch(/720000ms|host budget|Large repositories/i);
+    expect(msg).not.toBe("Synthesized options were not found for this run.");
   });
 });

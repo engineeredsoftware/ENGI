@@ -126,13 +126,13 @@ export function selectedPipelineHostCommandEnvironment(
     // later async sandbox completion gate, and preflight would otherwise
     // throw BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded required.
     env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE = 'bounded';
-    // Product routes export maxDuration=800s. Host budget must leave headroom
+    // Product deposit route maxDuration=900s. Host budget must leave headroom
     // for artifact read + sandbox teardown after the in-box pipeline stops.
-    // 600s was the old ceiling; run 8ecbd11a hit PipelineHostTimeoutError at
-    // 600000ms mid Validation ReadyToFinish (after healthy S/D/I) while the
-    // Vercel wait still had ~200s free. Pin 720s so first-iter Validation can
-    // finish under real-bounded inference; do not honor a stale 240s Vercel value.
-    env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '720000';
+    // 720s still timed out large monorepos mid Implementation (run 936b7f16:
+    // Discovery ~9.5m on Bitcode, budget kill before Finish). Pin 840s so
+    // Implementation/Validation/Finish get ~4+ minutes after heavy Discovery;
+    // do not honor a stale 240s Vercel value.
+    env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS = '840000';
   }
   const realInferenceRequired = isPipelineHostRealInferenceRequired();
   if (realInferenceRequired) {
