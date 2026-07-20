@@ -30,6 +30,7 @@ packs/
   PacksActivityFilterBar/
   PacksActivityTable/
   PacksActivityDetail/                 # main + aside layouts for drill-in
+  PacksActivityDetailPayout/           # seller BTD/ETH slider + buyer patch summary
   PacksActivityDetailStates/
   PacksActivityDetailAccounting/
   PacksActivityDetailGovernance/
@@ -37,6 +38,13 @@ packs/
   PacksDetailSection/
   PacksStatusPill/
 ```
+
+## Type filters (ownership + payout)
+
+- **My AssetPacks** / reads bought / deposits unsettled|settled — ownership lenses
+- **Needs payout review** — settled rows with `pendingPayout.status === pending-seller-review`
+  (escrow still held; seller finalizes BTD% vs pay-asset% on detail)
+- Network depository / settled commodity cuts
 
 Page shell: `apps/uapi/app/packs/` (metadata + re-export only).
 

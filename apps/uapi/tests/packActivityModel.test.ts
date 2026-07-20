@@ -525,6 +525,80 @@ describe('pack-activity-model', () => {
     ).toEqual(['mine-deposit-sold']);
   });
 
+  it('supports Needs payout review filter from pendingPayout / payoutState', () => {
+    const pending = normalizePackActivityRecord({
+      id: 'payout-pending',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'Settled AssetPack',
+      summary: 'Settled AssetPack: Escrow mint complete',
+      timestamp: '2026-07-14T13:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        id: 'payout-pending',
+        context: {
+          source: 'read-settle-asset-pack',
+          packActivityType: 'settled-assetpack',
+          settlementState: 'settled',
+          payoutState: 'pending-seller-review',
+        },
+        output: {
+          packActivityType: 'settled-assetpack',
+          payoutState: 'pending-seller-review',
+          pendingPayout: {
+            status: 'pending-seller-review',
+            btdVolume: '1000000000000000000',
+            payAmount: '1000000000000000',
+            payAsset: 'ETH',
+            sellerAccount: '0xseller',
+            buyerAccount: '0xbuyer',
+            patchSummary: 'Source-safe patch summary for buyer',
+          },
+          entitledPatchSummary: 'Source-safe patch summary for buyer',
+          settleRunId: 'payout-pending',
+        },
+        packActivityType: 'settled-assetpack',
+      },
+    });
+    const finalized = normalizePackActivityRecord({
+      id: 'payout-done',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      label: 'Executions',
+      title: 'Settled AssetPack finalized',
+      summary: 'Seller finalized payout',
+      timestamp: '2026-07-14T14:00:00.000Z',
+      state: 'completed',
+      read: null,
+      payload: {
+        output: {
+          packActivityType: 'settled-assetpack',
+          payoutState: 'finalized',
+          pendingPayout: { status: 'finalized' },
+        },
+        packActivityType: 'settled-assetpack',
+      },
+    });
+
+    expect(pending.metadata.pendingPayout).toMatchObject({
+      status: 'pending-seller-review',
+    });
+    expect(pending.metadata.entitledPatchSummary).toBe(
+      'Source-safe patch summary for buyer',
+    );
+    expect(pending.metadata.payoutState).toBe('pending-seller-review');
+
+    expect(
+      queryPackActivityRecords([pending, finalized], {
+        filters: { type: 'needs-payout-review' },
+      }).records.map((row) => row.id),
+    ).toEqual(['payout-pending']);
+  });
+
   it('builds source-safe portfolio positions, saved filters, market signals, and facets', () => {
     const records = [
       normalizePackActivityRecord(baseRecord),

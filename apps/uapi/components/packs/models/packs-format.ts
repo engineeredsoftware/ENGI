@@ -18,7 +18,8 @@ export type PacksTypeFilter =
   | "my-assetpacks"
   | "my-read-bought"
   | "my-deposited-unsettled"
-  | "my-deposited-settled";
+  | "my-deposited-settled"
+  | "needs-payout-review";
 
 /** Commodity + ownership filters for the Packs type control. */
 export const PACKS_TYPE_OPTIONS: Array<{
@@ -30,6 +31,7 @@ export const PACKS_TYPE_OPTIONS: Array<{
   { value: "my-read-bought", label: "My reads (bought)" },
   { value: "my-deposited-unsettled", label: "My deposits (unsettled)" },
   { value: "my-deposited-settled", label: "My deposits (settled)" },
+  { value: "needs-payout-review", label: "Needs payout review" },
   { value: "depository-assetpack", label: "Depository AssetPacks" },
   { value: "settled-assetpack", label: "Settled AssetPacks" },
 ];
@@ -50,6 +52,33 @@ export function isPacksMyTypeFilter(
   | "my-deposited-unsettled"
   | "my-deposited-settled" {
   return Boolean(value && PACKS_MY_TYPE_FILTERS.has(value as PacksTypeFilter));
+}
+
+/** Settled packs awaiting seller BTD/pay-asset finalize. */
+export function packNeedsPayoutReview(record: {
+  type?: string | null;
+  metadata?: Record<string, unknown> | null;
+  compensationState?: string | null;
+  settlementState?: string | null;
+}): boolean {
+  if (record.type && record.type !== "settled-assetpack" && record.type !== "settlement") {
+    // Prefer settled commodity; still allow explicit payout metadata on other rows.
+  }
+  const meta = record.metadata || {};
+  const pending = meta.pendingPayout;
+  if (pending && typeof pending === "object" && !Array.isArray(pending)) {
+    const status = String((pending as { status?: string }).status || "").toLowerCase();
+    if (status === "pending-seller-review" || status === "pending") return true;
+    if (status === "finalized") return false;
+  }
+  const payoutState = String(
+    meta.payoutState || record.compensationState || "",
+  ).toLowerCase();
+  return (
+    payoutState === "pending-seller-review" ||
+    payoutState === "pending-payout" ||
+    payoutState === "awaiting-seller-finalize"
+  );
 }
 
 export const PACKS_SORT_OPTIONS: Array<{

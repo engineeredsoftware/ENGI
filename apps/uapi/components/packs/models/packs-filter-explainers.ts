@@ -44,12 +44,13 @@ export const PACKS_FILTER_EXPLAINERS = {
     kicker: 'Commodity lens',
     title: 'AssetPack type',
     summary:
-      'Limit the ledger to your packs, network depository supply, settled commodity, or keep the full window.',
+      'Limit the ledger to your packs, network depository supply, settled commodity, payouts awaiting seller finalize, or keep the full window.',
     detail:
-      '“My AssetPacks” is your ownership cut: reads you bought, deposits still unsettled in the depository, and deposits that have settled. Network Depository / Settled cuts show the public commodity ledger. “All AssetPacks” restores the unscoped window.',
+      '“My AssetPacks” is your ownership cut: reads you bought, deposits still unsettled in the depository, and deposits that have settled. “Needs payout review” is settled commodity still in escrow (pending-seller-review) until the seller finalizes BTD vs pay-asset split. Network Depository / Settled cuts show the public commodity ledger. “All AssetPacks” restores the unscoped window.',
     points: [
       'My AssetPacks = read (bought) + deposited (unsettled) + deposited (settled)',
       'My reads / My deposits subtypes narrow that ownership cut further',
+      'Needs payout review = settled rows still pending seller BTD/pay finalize',
       'Depository / Settled network cuts are market-wide commodity posture',
       'Does not replace settlement / compensation / delivery / repair facets',
     ],

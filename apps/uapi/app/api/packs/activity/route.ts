@@ -42,6 +42,7 @@ const PACK_TYPE_FILTERS = new Set<PackActivityTypeFilter>([
   'my-read-bought',
   'my-deposited-unsettled',
   'my-deposited-settled',
+  'needs-payout-review',
 ]);
 
 const PACK_ACTIVITY_SORT_KEYS = new Set<PackActivitySortKey>([

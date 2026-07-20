@@ -141,7 +141,8 @@ export type PackActivityTypeFilter =
   | 'my-assetpacks'
   | 'my-read-bought'
   | 'my-deposited-unsettled'
-  | 'my-deposited-settled';
+  | 'my-deposited-settled'
+  | 'needs-payout-review';
 
 export interface PackActivityFilters {
   type?: PackActivityTypeFilter;
@@ -924,9 +925,80 @@ function buildCommodityStateDisplay(payload: unknown): AssetPackCommodityStateDi
   }
 }
 
+/**
+ * Lift settle escrow / payout fields from nested execution row payload onto
+ * metadata root so Packs detail + filters can read them without deep scans.
+ */
+function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<string, unknown> {
+  const output = asRecord(metadata.output);
+  const context = asRecord(metadata.context);
+  const packActivity = asRecord(output.packActivity || context.packActivity || metadata.packActivity);
+  const pendingPayout =
+    output.pendingPayout ||
+    context.pendingPayout ||
+    packActivity.pendingPayout ||
+    metadata.pendingPayout ||
+    null;
+  const payoutState =
+    output.payoutState ||
+    context.payoutState ||
+    (pendingPayout && typeof pendingPayout === 'object'
+      ? (pendingPayout as { status?: string }).status
+      : null) ||
+    metadata.payoutState ||
+    null;
+  const entitledPatchSummary =
+    output.entitledPatchSummary ||
+    packActivity.entitledPatchSummary ||
+    (output.entitledPatch &&
+    typeof output.entitledPatch === 'object' &&
+    typeof (output.entitledPatch as { patchSummary?: string }).patchSummary === 'string'
+      ? (output.entitledPatch as { patchSummary: string }).patchSummary
+      : null) ||
+    (pendingPayout &&
+    typeof pendingPayout === 'object' &&
+    typeof (pendingPayout as { patchSummary?: string }).patchSummary === 'string'
+      ? (pendingPayout as { patchSummary: string }).patchSummary
+      : null) ||
+    metadata.entitledPatchSummary ||
+    null;
+  const settleRunId =
+    output.settleRunId ||
+    context.settleRunId ||
+    metadata.id ||
+    metadata.settleRunId ||
+    null;
+  const buyerAccount =
+    output.buyerAccount ||
+    context.buyerAccount ||
+    (pendingPayout && typeof pendingPayout === 'object'
+      ? (pendingPayout as { buyerAccount?: string }).buyerAccount
+      : null) ||
+    null;
+  const sellerAccount =
+    output.sellerAccount ||
+    context.sellerAccount ||
+    (pendingPayout && typeof pendingPayout === 'object'
+      ? (pendingPayout as { sellerAccount?: string }).sellerAccount
+      : null) ||
+    null;
+
+  return {
+    ...metadata,
+    ...(pendingPayout ? { pendingPayout } : {}),
+    ...(payoutState ? { payoutState } : {}),
+    ...(entitledPatchSummary ? { entitledPatchSummary } : {}),
+    ...(settleRunId ? { settleRunId } : {}),
+    ...(buyerAccount ? { buyerAccount } : {}),
+    ...(sellerAccount ? { sellerAccount } : {}),
+  };
+}
+
 export function normalizePackActivityRecord(record: BitcodeActivityRecord): PackActivityRecord {
   const type = inferPackActivityType(record);
-  const metadata = redactMetadata(record.payload) as Record<string, unknown>;
+  const metadata = promoteSettlePayoutMetadata(
+    redactMetadata(record.payload) as Record<string, unknown>,
+  );
   const commodityState = buildCommodityStateDisplay(record.payload);
   const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']) || commodityState.btcState;
   const rightsState =
@@ -1218,8 +1290,35 @@ export function matchesPackActivityTypeFilter(
   if (type === 'my-deposited-settled') {
     return record.type === 'depository-assetpack' && depositPackLooksSettled(record);
   }
+  if (type === 'needs-payout-review') {
+    return packActivityNeedsPayoutReview(record);
+  }
 
   return record.type === type;
+}
+
+/**
+ * Settled rows with pending seller BTD/pay finalize (escrow still held).
+ * Reads payoutState / pendingPayout from source-safe metadata.
+ */
+export function packActivityNeedsPayoutReview(record: PackActivityRecord): boolean {
+  const meta = record.metadata || {};
+  const pending = meta.pendingPayout;
+  if (pending && typeof pending === 'object' && !Array.isArray(pending)) {
+    const status = String((pending as { status?: string }).status || '').toLowerCase();
+    if (status === 'finalized') return false;
+    if (status === 'pending-seller-review' || status === 'pending') return true;
+  }
+  const payoutState = String(meta.payoutState || record.compensationState || '').toLowerCase();
+  if (
+    payoutState === 'pending-seller-review' ||
+    payoutState === 'pending-payout' ||
+    payoutState === 'awaiting-seller-finalize'
+  ) {
+    return true;
+  }
+  // Prefer settled commodity rows when only weak signals exist.
+  return false;
 }
 
 export function filterPackActivityRecords(
