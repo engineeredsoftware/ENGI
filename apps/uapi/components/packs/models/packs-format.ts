@@ -105,15 +105,60 @@ export function formatType(value: PacksTypeFilter | PackActivityType) {
   );
 }
 
+/** AssetPack product kind labels (capability / pattern / operations). */
+export function formatPackKind(kind: string | null | undefined): string {
+  if (!kind) return "—";
+  if (kind === "capability-slice") return "Capabilities";
+  if (kind === "implementation-pattern") return "Patterns";
+  if (kind === "proof-operations-slice") return "Operations";
+  return kind;
+}
+
+/**
+ * Commercial value cell for packs master.
+ * Unsettled depository packs: BTD estimate (honesty class). Never first size chip.
+ */
 export function formatActivityValue(record: {
-  values: Array<{ amount: number | string; unit: string }>;
+  type?: string;
+  values: Array<{ amount: number | string; unit: string; id?: string }>;
   measurements: Array<{ value: number | string; unit: string | null }>;
+  estimatedBtd?: number | null;
+  estimatedBtdCells?: number | null;
 }) {
+  if (
+    typeof record.estimatedBtd === "number" &&
+    Number.isFinite(record.estimatedBtd)
+  ) {
+    return `${record.estimatedBtd.toFixed(3)} BTD (est.)`;
+  }
+  if (
+    typeof record.estimatedBtdCells === "number" &&
+    Number.isFinite(record.estimatedBtdCells)
+  ) {
+    return `${record.estimatedBtdCells} BTD cells (est.)`;
+  }
+  const btdValue = record.values.find(
+    (v) =>
+      v.id === "estimated-btd" ||
+      v.id === "estimated-btd-cells" ||
+      /btd/i.test(v.unit) ||
+      /btd/i.test(v.id || ""),
+  );
+  if (btdValue) {
+    const amount =
+      typeof btdValue.amount === "number"
+        ? btdValue.amount < 10
+          ? btdValue.amount.toFixed(3)
+          : String(btdValue.amount)
+        : btdValue.amount;
+    return `${amount} ${btdValue.unit}`;
+  }
+  if (record.type === "depository-assetpack") {
+    return "BTD unestimated";
+  }
   if (record.values[0]) {
     return `${record.values[0].amount} ${record.values[0].unit}`;
   }
-  if (record.measurements[0]) {
-    return `${record.measurements[0].value} ${record.measurements[0].unit || ""}`;
-  }
+  // Do not fall back to function-count chips as "value" for commercial rows.
   return "not measured";
 }

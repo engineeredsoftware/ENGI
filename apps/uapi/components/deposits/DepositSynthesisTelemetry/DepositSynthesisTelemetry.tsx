@@ -133,14 +133,29 @@ export function DepositSynthesisTelemetry({
                       endedAtMs={synthesisRunEndMs}
                       className="font-mono text-[0.72rem] text-emerald-100/90"
                     />
-                    {typeof synthesisActivity.currentIteration === "number" && (
-                      <span
-                        title="DIV loop iteration (Discovery → Implementation → Validation)"
-                        className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100"
-                      >
-                        iter {synthesisActivity.currentIteration}
-                      </span>
-                    )}
+                    {(() => {
+                      // DIV loop only (Discovery → Implementation → Validation).
+                      // Hide badge on Setup/Finish; with maxIterations=1 label pass.
+                      const phase = String(
+                        synthesisLiveContext?.phase || "",
+                      ).toLowerCase();
+                      const inDiv =
+                        phase.includes("discovery") ||
+                        phase.includes("implementation") ||
+                        phase.includes("validation");
+                      const iter = synthesisActivity.currentIteration;
+                      if (!inDiv || typeof iter !== "number" || iter < 1) {
+                        return null;
+                      }
+                      return (
+                        <span
+                          title="DIV loop pass (Discovery → Implementation → Validation)"
+                          className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100"
+                        >
+                          DIV pass {iter}
+                        </span>
+                      );
+                    })()}
                     {synthesisRunning ? (
                       <button
                         type="button"

@@ -31,6 +31,17 @@ fake measurements; reloading synthesis run
   `/deposits?transactionId=e359b78a-7c73-49bb-a54b-35e32dd1ef94` → options +
   telemetry rehydrate.
 
+### Gate 4 follow-up fixes (post-e359 screenshots)
+
+- DIV header badge: phase-gated **DIV pass N** (not bare ITER on Setup/Finish).
+- Packs **Kind** column = capability/pattern/operations; **BTD** column =
+  unsettled absolute-derived estimate (not function-count).
+- Measurement detail rows carry buyer descriptors.
+- Patch download = `bitcode.artifact.patch` path-op-json (`.path-op.json`).
+- Pipeline master excludes admission receipts; openRunDetail redirects admit
+  rows to `synthesisRunId` so logs/options remain on the synthesis run.
+- Policy UI: admitted packs show admitted + soft-warning copy, not active block.
+
 
 - Version: `V48`
 - Active canon during QA: `V47`

@@ -9,6 +9,7 @@ import {
   toSourceSafeAssetPackCommodityStateDisplay,
   type AssetPackCommodityStateDisplay,
 } from '@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state';
+import { descriptorForAbsoluteKind } from '@/components/packs/models/packs-measurement-descriptors';
 
 export type PackActivityType =
   | 'deposit-option'
@@ -39,6 +40,12 @@ export interface PackActivityMeasurement {
   value: number | string;
   unit: string | null;
   root: string | null;
+  /** Buyer-facing source-safe descriptor paragraph (optional). */
+  descriptor?: string | null;
+  /** Absolute / neediness kind id when known. */
+  kind?: string | null;
+  weight?: number | null;
+  volume?: number | null;
 }
 
 export interface PackActivityValue {
@@ -99,6 +106,14 @@ export interface PackActivityRecord {
   state: string | null;
   repository: string | null;
   assetPackTitle: string | null;
+  /**
+   * AssetPack product kind (capability-slice | implementation-pattern |
+   * proof-operations-slice) — not activity taxonomy.
+   */
+  assetPackKind: string | null;
+  /** Unsettled absolute-derived BTD estimate (honesty class: estimate). */
+  estimatedBtd: number | null;
+  estimatedBtdCells: number | null;
   settlementState: string | null;
   rightsState: string | null;
   compensationState: string | null;
@@ -160,6 +175,9 @@ export interface PackActivityDetailProjection {
     scope: BitcodeActivityScope;
     repository: string | null;
     assetPackTitle: string | null;
+    assetPackKind: string | null;
+    estimatedBtd: number | null;
+    estimatedBtdCells: number | null;
   };
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
@@ -176,6 +194,9 @@ export interface PackActivityDetailProjection {
   };
   /** Live or projected PR URL for settled AssetPack delivery (source-safe). */
   deliveryReference: string | null;
+  assetPackKind: string | null;
+  estimatedBtd: number | null;
+  estimatedBtdCells: number | null;
   telemetry: {
     sourceEventId: string;
     sourceKind: string | null;
@@ -523,19 +544,28 @@ function collectNestedKindMeasurements(
             ? volume
             : magnitude;
       if (value !== null) {
+        const catalog = descriptorForAbsoluteKind(kind);
+        const explicitDescriptor =
+          typeof record.descriptor === 'string' && record.descriptor.trim()
+            ? record.descriptor.trim()
+            : null;
         measurements.push({
           id,
           label: typeof record.label === 'string' && record.label.trim()
             ? record.label.trim()
-            : normalizeLabel(kind),
+            : catalog?.label || normalizeLabel(kind),
           value,
           unit:
             typeof record.unit === 'string'
               ? record.unit
               : record.category === 'neediness'
                 ? 'fit'
-                : null,
+                : catalog?.unit || null,
           root: null,
+          kind,
+          weight: typeof record.weight === 'number' ? record.weight : null,
+          volume,
+          descriptor: explicitDescriptor || catalog?.descriptor || null,
         });
       }
     }
@@ -554,12 +584,19 @@ function collectNestedKindMeasurements(
     const volume = typeof a.volume === 'number' ? a.volume : null;
     const value = magnitude !== null ? magnitude : volume;
     if (value === null) continue;
+    const catalog = descriptorForAbsoluteKind(kind);
+    const explicitDescriptor =
+      typeof a.descriptor === 'string' && a.descriptor.trim() ? a.descriptor.trim() : null;
     measurements.push({
       id,
-      label: typeof a.label === 'string' && a.label.trim() ? a.label.trim() : normalizeLabel(kind),
+      label: typeof a.label === 'string' && a.label.trim() ? a.label.trim() : catalog?.label || normalizeLabel(kind),
       value,
-      unit: typeof a.unit === 'string' ? a.unit : null,
+      unit: typeof a.unit === 'string' ? a.unit : catalog?.unit || null,
       root: null,
+      kind,
+      weight: typeof a.weight === 'number' ? a.weight : null,
+      volume,
+      descriptor: explicitDescriptor || catalog?.descriptor || null,
     });
   }
   const needinesses = Array.isArray(record.needinesses) ? record.needinesses : [];
@@ -667,6 +704,36 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
 function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {
   const payload = asRecord(record.payload);
   const values: PackActivityValue[] = [];
+  const packType = inferPackActivityType(record);
+
+  // Unsettled depository packs: absolute-derived BTD estimate is the commercial value.
+  if (packType === 'depository-assetpack') {
+    const estimatedBtd = findFirstNumber(payload, [
+      'estimatedBtd',
+      'estimated_btd',
+      'estimatedKnowledgeVolume',
+    ]);
+    const estimatedBtdCells = findFirstNumber(payload, [
+      'estimatedBtdCells',
+      'estimated_btd_cells',
+    ]);
+    if (estimatedBtd !== null) {
+      values.push({
+        id: 'estimated-btd',
+        label: 'BTD (est.)',
+        amount: estimatedBtd,
+        unit: 'BTD (est.)',
+      });
+    } else if (estimatedBtdCells !== null) {
+      values.push({
+        id: 'estimated-btd-cells',
+        label: 'BTD (est.)',
+        amount: estimatedBtdCells,
+        unit: 'BTD cells (est.)',
+      });
+    }
+  }
+
   const candidates: Array<[string, string[], string]> = [
     ['btc-fee', ['btcFee', 'btc_fee', 'btcFeeSats', 'feeSats'], 'sats'],
     ['usd-equivalent', ['btcFeeUsdEquivalent', 'usdEquivalent', 'total_cost'], 'USD'],
@@ -675,11 +742,46 @@ function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {
   ];
 
   for (const [id, keys, unit] of candidates) {
+    if (values.some((v) => v.id === id || v.id.startsWith('estimated-btd'))) {
+      // Prefer estimated-btd for depository rows over measuredBtd fallbacks.
+      if (packType === 'depository-assetpack' && (id === 'btd-potential' || id === 'btc-fee')) {
+        continue;
+      }
+    }
     const value = findFirstNumber(payload, keys);
     if (value !== null) values.push({ id, label: normalizeLabel(id), amount: value, unit });
   }
 
   return values;
+}
+
+function inferAssetPackKind(record: BitcodeActivityRecord): string | null {
+  return (
+    findFirstString(record.payload, [
+      'assetPackKind',
+      'optionKind',
+      'kind',
+      'depositOptionKind',
+    ]) || null
+  );
+}
+
+function inferEstimatedBtd(record: BitcodeActivityRecord): {
+  estimatedBtd: number | null;
+  estimatedBtdCells: number | null;
+} {
+  const payload = asRecord(record.payload);
+  return {
+    estimatedBtd: findFirstNumber(payload, [
+      'estimatedBtd',
+      'estimated_btd',
+      'estimatedKnowledgeVolume',
+    ]),
+    estimatedBtdCells: findFirstNumber(payload, [
+      'estimatedBtdCells',
+      'estimated_btd_cells',
+    ]),
+  };
 }
 
 function buildAccountingReadback(record: BitcodeActivityRecord): PackActivityAccountingReadback | null {
@@ -848,7 +950,10 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     (commodityState.repairRequired ? 'repair-required' : null);
 
   const assetPackTitle = inferAssetPackTitle(record);
+  const assetPackKind = inferAssetPackKind(record);
+  const { estimatedBtd, estimatedBtdCells } = inferEstimatedBtd(record);
   // Prefer settle/deposit authored titles over generic execution-history labels.
+  // Prefer clean pack title (not "Depository AssetPack: Admitted …" noise).
   const title =
     (type === 'settled-assetpack' &&
       (assetPackTitle
@@ -857,7 +962,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
           ? record.summary.split('.')[0]
           : null)) ||
     (type === 'depository-assetpack' && assetPackTitle
-      ? `Depository AssetPack: ${assetPackTitle}`
+      ? assetPackTitle.replace(/^Admitted\s+/i, '').replace(/\s+to the Depository\.?$/i, '')
       : null) ||
     record.title ||
     normalizeLabel(type);
@@ -872,6 +977,15 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     state: record.state || commodityState.assetPackState,
     repository: inferRepository(record),
     assetPackTitle,
+    assetPackKind:
+      assetPackKind &&
+      (assetPackKind === 'capability-slice' ||
+        assetPackKind === 'implementation-pattern' ||
+        assetPackKind === 'proof-operations-slice')
+        ? assetPackKind
+        : assetPackKind,
+    estimatedBtd,
+    estimatedBtdCells,
     settlementState,
     rightsState,
     compensationState,
@@ -1192,6 +1306,9 @@ export function buildPackActivityDetailProjection(
       scope: record.scope,
       repository: record.repository,
       assetPackTitle: record.assetPackTitle,
+      assetPackKind: record.assetPackKind,
+      estimatedBtd: record.estimatedBtd,
+      estimatedBtdCells: record.estimatedBtdCells,
     },
     measurements: record.measurements,
     values: record.values,
@@ -1207,6 +1324,9 @@ export function buildPackActivityDetailProjection(
       repair: record.repairState,
     },
     deliveryReference: record.deliveryReference,
+    assetPackKind: record.assetPackKind,
+    estimatedBtd: record.estimatedBtd,
+    estimatedBtdCells: record.estimatedBtdCells,
     telemetry: {
       sourceEventId: record.id,
       sourceKind: String(record.metadata.kind || record.metadata.type || '') || null,

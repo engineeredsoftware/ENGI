@@ -17,6 +17,19 @@ export const DEPOSIT_ACTIVITY_LEDGER_SOURCES = new Set([
   "repository-context-panel",
 ]);
 
+/**
+ * Ledger rows that are not SDIVF synthesis pipelines. They must not replace
+ * the synthesis detail surface (telemetry + option cards) when selected.
+ * Admission receipts link back via context.synthesisRunId.
+ */
+export const DEPOSIT_NON_SYNTHESIS_SOURCES = new Set([
+  ...DEPOSIT_ACTIVITY_LEDGER_SOURCES,
+  "deposit-option-review-admission",
+  "deposit-batch-admission",
+  "deposit-option-anchor",
+  "deposit-option-review",
+]);
+
 export type DepositObfuscationsAnchor = {
   id: string;
   name: string | null;
@@ -45,9 +58,43 @@ export function isActivityLedgerRun(run: WorkspaceRun | null | undefined): boole
   return false;
 }
 
-/** Pipeline-table runs only — exclude activity-ledger anchor rows. */
+/** True when a row is a deposit synthesis SDIVF pipeline (not admit/anchor). */
+export function isDepositSynthesisPipelineRun(
+  run: WorkspaceRun | null | undefined,
+): boolean {
+  if (!run) return false;
+  if (isActivityLedgerRun(run)) return false;
+  const source = run.contextSource || "";
+  if (source && DEPOSIT_NON_SYNTHESIS_SOURCES.has(source)) return false;
+  if (source === "deposit-option-synthesis") return true;
+  // Legacy / thin rows: agentic deposit executions without explicit source.
+  if (String(run.type || "").includes("deposit") || String(run.type || "").includes("asset-pack")) {
+    // Exclude pure admission pipeline_type labels if present.
+    if (String(run.type || "").includes("admission")) return false;
+    return true;
+  }
+  return !source;
+}
+
+/** Pipeline-table runs only — exclude anchors and admission receipts. */
 export function filterPipelineTableRuns(liveRuns: WorkspaceRun[]): WorkspaceRun[] {
-  return liveRuns.filter((run) => !isActivityLedgerRun(run));
+  return liveRuns.filter((run) => isDepositSynthesisPipelineRun(run));
+}
+
+/**
+ * Resolve which run id should open the synthesis workbench.
+ * Admission rows redirect to their parent synthesisRunId when present.
+ */
+export function resolveDepositDetailRunId(run: WorkspaceRun | null | undefined): string | null {
+  if (!run?.id) return null;
+  if (
+    run.contextSource &&
+    DEPOSIT_NON_SYNTHESIS_SOURCES.has(run.contextSource) &&
+    run.synthesisRunId
+  ) {
+    return run.synthesisRunId;
+  }
+  return run.id;
 }
 
 export function isActivityLedgerContextSource(

@@ -209,9 +209,20 @@ export default function DepositPageClient() {
   const openRunDetail = useCallback(
     (transactionId: string) => {
       setIsComposeOpen(false);
-      openDepositRouteTransaction(transactionId);
+      // Admission ledger rows must not steal the synthesis detail surface
+      // (empty logs). Prefer parent synthesisRunId when present.
+      const row = liveRuns.find((run) => run.id === transactionId) || null;
+      const targetId =
+        row?.synthesisRunId &&
+        row.contextSource &&
+        (row.contextSource === "deposit-option-review-admission" ||
+          row.contextSource === "deposit-batch-admission" ||
+          row.contextSource === "deposit-option-review")
+          ? row.synthesisRunId
+          : transactionId;
+      openDepositRouteTransaction(targetId);
     },
-    [openDepositRouteTransaction],
+    [liveRuns, openDepositRouteTransaction],
   );
 
   const isDepositDetailOpen = Boolean(synthesisRunId) || isComposeOpen;

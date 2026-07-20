@@ -53,28 +53,28 @@ export const PACKS_COLUMN_EXPLAINERS = {
     references: refs,
   }),
   type: buildExplainer({
-    kicker: 'Commodity column',
-    title: 'Type column',
+    kicker: 'Kind column',
+    title: 'Kind column',
     summary:
-      'Shows the pack activity type (depository, settled, ownership lens, or commodity cut).',
+      'AssetPack product kind: Capabilities (capability-slice), Patterns (implementation-pattern), or Operations (proof-operations-slice).',
     detail:
-      'Type is the fastest way to read whether a row is network supply, settled commodity, or a personal ownership lens.',
+      'Kind is the three-way commercial taxonomy of synthesized deposit options — not activity taxonomy (depository vs settled).',
     points: [
-      'Maps to Packs type filters on the master bar',
-      'Supports quick commodity vs ownership triage',
+      'capability-slice · implementation-pattern · proof-operations-slice',
+      'Canonical value shown under the human label',
     ],
     references: refs,
   }),
   value: buildExplainer({
-    kicker: 'Economic column',
-    title: 'Value column',
+    kicker: 'BTD column',
+    title: 'BTD column',
     summary:
-      'Shows the surfaced economic value for the pack activity (sats / BTD posture as formatted for the row).',
+      'Unsettled packs show absolute-derived BTD estimates (honesty class: estimate). Settled packs show final BTD / sats after mint.',
     detail:
-      'Read this when comparing pack rows by economic weight without opening each detail card.',
+      'Never uses size chips (function-count) as value. Unsettled BTD is not minted rights — reader settlement finalizes BTD.',
     points: [
-      'Formats activity value for ledger scanning',
-      'Works with sort-by-value on the master filters',
+      'BTD (est.) for depository / unsettled rows',
+      'Final BTD or sats after settlement rights transfer',
     ],
     references: refs,
   }),

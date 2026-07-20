@@ -9,6 +9,10 @@
 import type { DepositOptionAdmissionReceipt } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
 import type { DepositAssetPackOption } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
 import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
+import {
+  ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS,
+  type AbsoluteMeasurementKind,
+} from "@/components/packs/models/packs-measurement-descriptors";
 
 /** Absolute measurement row projected onto pack activity (source-safe). */
 export type DepositAdmissionAbsoluteMeasurement = {
@@ -20,7 +24,32 @@ export type DepositAdmissionAbsoluteMeasurement = {
   unit: string | null;
   weight: number;
   evidenceRoot: string | null;
+  /** Buyer-facing source-safe descriptor (catalog prose; never raw source). */
+  descriptor: string | null;
 };
+
+/** Weighted absolute volume 0..1 used as unsettled BTD estimate basis. */
+export function optionAbsoluteKnowledgeVolume(
+  option: DepositAssetPackOption | null | undefined,
+): number {
+  if (!option?.measurements?.length) return 0;
+  const absolutes = option.measurements.filter(
+    (m) => (m.category || "absolute") === "absolute",
+  );
+  if (!absolutes.length) return 0;
+  const weighted = absolutes.reduce(
+    (sum, m) =>
+      sum +
+      Math.max(0, Math.min(1, Number(m.volume) || 0)) *
+        Math.max(0, Number(m.weight) || 0),
+    0,
+  );
+  const weights = absolutes.reduce(
+    (sum, m) => sum + Math.max(0, Number(m.weight) || 0),
+    0,
+  );
+  return Number((weights ? weighted / weights : 0).toFixed(4));
+}
 
 export function projectOptionAbsoluteMeasurements(
   option: DepositAssetPackOption | null | undefined,
@@ -28,21 +57,29 @@ export function projectOptionAbsoluteMeasurements(
   if (!option?.measurements?.length) return [];
   return option.measurements
     .filter((m) => (m.category || "absolute") === "absolute")
-    .map((m) => ({
-      kind: m.measurementKind || m.id,
-      category: "absolute" as const,
-      label: m.label,
-      volume: m.volume,
-      magnitude: typeof m.magnitude === "number" ? m.magnitude : null,
-      unit: typeof m.unit === "string" ? m.unit : null,
-      weight: m.weight,
-      evidenceRoot: m.evidenceRoot || null,
-    }));
+    .map((m) => {
+      const kind = m.measurementKind || m.id;
+      const catalog =
+        ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS[kind as AbsoluteMeasurementKind] ||
+        null;
+      return {
+        kind,
+        category: "absolute" as const,
+        label: m.label,
+        volume: m.volume,
+        magnitude: typeof m.magnitude === "number" ? m.magnitude : null,
+        unit: typeof m.unit === "string" ? m.unit : null,
+        weight: m.weight,
+        evidenceRoot: m.evidenceRoot || null,
+        descriptor: catalog?.descriptor ?? null,
+      };
+    });
 }
 
 /**
- * Path-op patch descriptor for depositor download on /deposits review.
- * Never projected onto /packs (source-safety: patch only for owner/buyer).
+ * Real AssetPack path-op patchfile for depositor download.
+ * Schema matches PatchArtifact envelope (`bitcode.artifact.patch` path-op-json).
+ * Source-safe: path+op only — never unpaid raw source bodies.
  */
 export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOption): {
   filename: string;
@@ -54,15 +91,29 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "")
     .slice(0, 48);
-  const body = JSON.stringify(
-    {
-      schema: "bitcode.deposit.asset-pack-patchfile",
+  const files = (option.contents?.fileChanges || []).map((fc) => ({
+    path: fc.path,
+    op: fc.op,
+  }));
+  const artifactId =
+    option.roots.contentsRoot ||
+    option.roots.optionRoot ||
+    `asset-pack-patch-${option.optionId}`;
+  // Protocol path-op envelope (PatchArtifact) — this IS the AssetPack patchfile.
+  const patchEnvelope = {
+    schema: "bitcode.artifact.patch",
+    artifactId,
+    format: "path-op-json",
+    patchSummary:
+      option.contents?.patchSummary || option.summary || "AssetPack patch",
+    files,
+    fileCount: files.length,
+    // Product binding (not raw source)
+    assetPack: {
       optionId: option.optionId,
       kind: option.kind,
       title: option.title,
       summary: option.summary,
-      patchSummary: option.contents?.patchSummary ?? null,
-      fileChanges: option.contents?.fileChanges ?? [],
       provenantSourcePaths: option.contents?.provenantSourcePaths ?? [],
       measurements: option.measurements,
       roots: option.roots,
@@ -73,13 +124,11 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
         sourcePathCount: option.sourceBinding.sourcePathCount,
       },
     },
-    null,
-    2,
-  );
+  };
   return {
-    filename: `${safeTitle || "asset-pack"}-patchfile.json`,
+    filename: `${safeTitle || "asset-pack"}.path-op.json`,
     mimeType: "application/json",
-    body,
+    body: JSON.stringify(patchEnvelope, null, 2),
   };
 }
 
@@ -90,6 +139,8 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
 }): ProductActivityRecordDraft {
   const { receipt, option, synthesisRunId } = input;
   const absolutes = projectOptionAbsoluteMeasurements(option);
+  const estimatedBtd = optionAbsoluteKnowledgeVolume(option);
+  const estimatedBtdCells = Math.max(0, Math.round(estimatedBtd * 1000));
 
   return {
     type: "pipeline:deposit-option-admission",
@@ -101,6 +152,8 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       assetPackTitle: receipt.title,
       optionId: receipt.optionId,
       optionKind: receipt.optionKind,
+      assetPackKind: receipt.optionKind,
+      kind: receipt.optionKind,
       admissionState: receipt.admission.state,
       depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
       compensationState: receipt.compensationPreview.state,
@@ -109,6 +162,11 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       // Absolute material-property catalog for /packs chips + detail
       measurements: absolutes,
       absolutes,
+      // Unsettled commercial value: absolute-derived BTD estimate (not minted)
+      estimatedBtd,
+      estimatedBtdCells,
+      btdHonesty: "estimate" as const,
+      btdMintState: "not-minted-until-reader-settlement" as const,
       measurementRoot: option?.roots.measurementRoot || null,
       optionRoot: option?.roots.optionRoot || null,
       contentsRoot: option?.roots.contentsRoot || null,
@@ -128,6 +186,8 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       source: "deposit-option-review-admission",
       workbench: "deposit-option-review",
       optionId: receipt.optionId,
+      optionKind: receipt.optionKind,
+      assetPackKind: receipt.optionKind,
       reviewDecision: "approved-for-admission",
       admissionState: receipt.admission.state,
       depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
@@ -137,6 +197,9 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       packsRoute: receipt.packsActivitySync.route,
       synthesisRunId,
       assetPackTitle: receipt.title,
+      estimatedBtd,
+      estimatedBtdCells,
+      btdHonesty: "estimate",
       // Per-pack only — never session optionCount/admittedCount
       measurementRoot: option?.roots.measurementRoot || null,
     },

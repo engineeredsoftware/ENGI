@@ -215,6 +215,10 @@ describe('pack-activity-model', () => {
       payload: {
         type: 'pipeline:deposit-option-admission',
         assetPackTitle: 'Repository capability AssetPack option',
+        optionKind: 'capability-slice',
+        assetPackKind: 'capability-slice',
+        estimatedBtd: 0.42,
+        estimatedBtdCells: 420,
         // Session aggregates must NOT become pack measurements.
         optionCount: 3,
         admittedCount: 1,
@@ -228,7 +232,7 @@ describe('pack-activity-model', () => {
           {
             kind: 'function-count',
             category: 'absolute',
-            label: 'Function count',
+            label: 'Functions',
             volume: 0.42,
             magnitude: 12,
             unit: 'functions',
@@ -252,6 +256,8 @@ describe('pack-activity-model', () => {
 
     expect(record.type).toBe('depository-assetpack');
     expect(record.assetPackTitle).toBe('Repository capability AssetPack option');
+    expect(record.assetPackKind).toBe('capability-slice');
+    expect(record.estimatedBtd).toBe(0.42);
     // Session counters are not pack measurements.
     expect(record.measurements.some((m) => m.id === 'admitted-count')).toBe(false);
     expect(record.measurements.some((m) => m.id === 'candidate-count')).toBe(false);
@@ -259,6 +265,10 @@ describe('pack-activity-model', () => {
     // Absolute catalog chips for commercial pack detail.
     expect(record.measurements.some((m) => m.id === 'absolute:function-count')).toBe(true);
     expect(record.measurements.some((m) => m.id === 'absolute:file-span')).toBe(true);
+    expect(
+      record.measurements.find((m) => m.id === 'absolute:function-count')?.descriptor,
+    ).toMatch(/behaviors/i);
+    expect(record.values.some((v) => v.id === 'estimated-btd')).toBe(true);
     expect(record.compensationState).toBe('compensation-preview-ready');
     expect(record.proofRoots.map((proofRoot) => proofRoot.root)).toContain('deposit-admission-report-root');
     expect(assertPackActivitySourceSafe(record)).toBe(true);

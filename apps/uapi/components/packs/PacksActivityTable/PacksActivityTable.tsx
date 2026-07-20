@@ -25,8 +25,8 @@ import {
 import type { BitcodeExplainer } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
 import {
   formatActivityValue,
+  formatPackKind,
   formatTimestamp,
-  formatType,
 } from "@/components/packs/models/packs-format";
 import {
   PACKS_COLUMN_EXPLAINERS,
@@ -94,8 +94,8 @@ export function PacksActivityTable({
           <tr>
             <PacksColumnHeader label="Pack" explainerKey="pack" />
             <PacksColumnHeader label="Measurements" explainerKey="measurements" />
-            <PacksColumnHeader label="Type" explainerKey="type" />
-            <PacksColumnHeader label="Value" explainerKey="value" />
+            <PacksColumnHeader label="Kind" explainerKey="type" />
+            <PacksColumnHeader label="BTD" explainerKey="value" />
             <PacksColumnHeader label="Settlement" explainerKey="settlement" />
             <PacksColumnHeader label="Delivery" explainerKey="delivery" />
             <PacksColumnHeader label="Time" explainerKey="time" />
@@ -181,7 +181,10 @@ export function PacksActivityTable({
                   <td
                     className={`${PRODUCT_DATA_TABLE_TD_CLASS} text-sm text-neutral-200`}
                   >
-                    {formatType(record.type)}
+                    <span className="block">{formatPackKind(record.assetPackKind)}</span>
+                    <span className="mt-0.5 block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-neutral-500">
+                      {record.assetPackKind || record.type}
+                    </span>
                   </td>
                   <td
                     className={`${PRODUCT_DATA_TABLE_TD_CLASS} text-sm text-neutral-200`}

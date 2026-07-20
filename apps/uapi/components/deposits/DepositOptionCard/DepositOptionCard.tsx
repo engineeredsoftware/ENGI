@@ -227,8 +227,17 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 Policy
               </dt>
               <dd className="mt-1 text-sm text-emerald-100">
-                {policyEvaluation.policyDecision}
+                {admittedToDepository
+                  ? "admitted-to-depository"
+                  : policyEvaluation.policyDecision}
               </dd>
+              {admittedToDepository &&
+              policyEvaluation.policyDecision === "blocked-before-admission" ? (
+                <p className="mt-1 text-[0.7rem] leading-5 text-amber-100/90">
+                  Depositor confirmed deposit. Soft policy signals (ROI / demand /
+                  compensation) remain estimates — not active blocks.
+                </p>
+              ) : null}
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div className="border border-white/8 bg-white/[0.035] px-3 py-2">

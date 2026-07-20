@@ -22,7 +22,7 @@ function run(partial: Partial<WorkspaceRun> & { id: string }): WorkspaceRun {
 }
 
 describe("deposit-activity-ledger", () => {
-  it("filters activity-ledger sources out of pipeline table runs", () => {
+  it("filters anchors and admission receipts out of pipeline table runs", () => {
     const runs = [
       run({ id: "pipe-1", contextSource: "deposit-option-synthesis" }),
       run({ id: "anchor-1", contextSource: "deposit-obfuscations-anchor" }),
@@ -30,6 +30,11 @@ describe("deposit-activity-ledger", () => {
       run({
         id: "anchor-summary",
         summary: "Recorded repository anchor for acme/app.",
+      }),
+      run({
+        id: "admit-1",
+        contextSource: "deposit-option-review-admission",
+        synthesisRunId: "pipe-1",
       }),
       run({ id: "pipe-2" }),
     ];

@@ -144,17 +144,19 @@ describe("deposit-admission-activity", () => {
     });
   });
 
-  it("builds a depositor patchfile download payload", () => {
+  it("builds a path-op AssetPack patchfile download payload", () => {
     const file = buildDepositOptionPatchfileDownload(option);
-    expect(file.filename).toMatch(/\.json$/);
+    expect(file.filename).toMatch(/\.path-op\.json$/);
     expect(file.mimeType).toBe("application/json");
     const parsed = JSON.parse(file.body) as {
       schema: string;
-      fileChanges: unknown[];
-      measurements: unknown[];
+      format: string;
+      files: unknown[];
+      assetPack: { measurements: unknown[] };
     };
-    expect(parsed.schema).toBe("bitcode.deposit.asset-pack-patchfile");
-    expect(parsed.fileChanges).toHaveLength(1);
-    expect(parsed.measurements).toHaveLength(1);
+    expect(parsed.schema).toBe("bitcode.artifact.patch");
+    expect(parsed.format).toBe("path-op-json");
+    expect(parsed.files).toHaveLength(1);
+    expect(parsed.assetPack.measurements).toHaveLength(1);
   });
 });

@@ -12,8 +12,9 @@ import { ShieldCheck } from "lucide-react";
 import { ProductRouteStatePanel } from "@/components/bitcode/routes/ProductRouteShell/ProductRouteShell";
 import type { PackActivityDetailProjection } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
 import {
+  formatActivityValue,
+  formatPackKind,
   formatTimestamp,
-  formatType,
 } from "@/components/packs/models/packs-format";
 import { PacksDetailSection } from "@/components/packs/PacksDetailSection/PacksDetailSection";
 import { PacksActivityDetailStates } from "@/components/packs/PacksActivityDetailStates/PacksActivityDetailStates";
@@ -54,8 +55,21 @@ function OverviewAndMeasurements({
       <PacksDetailSection title="Overview">
         <dl className="grid gap-3 text-sm tablet:grid-cols-2">
           <div>
-            <dt className="text-neutral-500">Type</dt>
-            <dd className="mt-1 text-neutral-100">{formatType(detail.type)}</dd>
+            <dt className="text-neutral-500">Kind</dt>
+            <dd className="mt-1 text-neutral-100">
+              {formatPackKind(detail.assetPackKind || detail.overview.assetPackKind)}
+              {(detail.assetPackKind || detail.overview.assetPackKind) ? (
+                <span className="mt-0.5 block font-mono text-[0.68rem] text-neutral-500">
+                  {detail.assetPackKind || detail.overview.assetPackKind}
+                </span>
+              ) : null}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-neutral-500">BTD (unsettled estimate)</dt>
+            <dd className="mt-1 font-mono text-neutral-100">
+              {formatActivityValue(detail)}
+            </dd>
           </div>
           <div>
             <dt className="text-neutral-500">State</dt>
@@ -75,21 +89,42 @@ function OverviewAndMeasurements({
               {formatTimestamp(detail.timestamp)}
             </dd>
           </div>
+          <div>
+            <dt className="text-neutral-500">Activity</dt>
+            <dd className="mt-1 text-neutral-500">{detail.type}</dd>
+          </div>
         </dl>
       </PacksDetailSection>
 
       <PacksDetailSection title="Measurements">
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           {detail.measurements.length ? (
             detail.measurements.map((measurement) => (
               <div
                 key={`${measurement.id}:${measurement.value}`}
-                className="flex items-center justify-between gap-3 border border-white/10 bg-black/18 px-3 py-2 text-sm"
+                className="grid gap-2 border border-white/10 bg-black/18 px-3 py-3 text-sm"
               >
-                <span className="text-neutral-400">{measurement.label}</span>
-                <span className="font-mono text-neutral-100">
-                  {measurement.value} {measurement.unit || ""}
-                </span>
+                <div className="flex items-start justify-between gap-3">
+                  <span className="font-medium text-neutral-200">
+                    {measurement.label}
+                  </span>
+                  <span className="shrink-0 font-mono text-neutral-100">
+                    {measurement.value} {measurement.unit || ""}
+                  </span>
+                </div>
+                {typeof measurement.weight === "number" ? (
+                  <p className="font-mono text-[0.68rem] text-neutral-500">
+                    weight {measurement.weight.toFixed(2)}
+                    {typeof measurement.volume === "number"
+                      ? ` · volume ${(measurement.volume * 100).toFixed(0)}%`
+                      : ""}
+                  </p>
+                ) : null}
+                {measurement.descriptor ? (
+                  <p className="text-xs leading-5 text-neutral-400">
+                    {measurement.descriptor}
+                  </p>
+                ) : null}
               </div>
             ))
           ) : (

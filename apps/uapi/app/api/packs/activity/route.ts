@@ -112,6 +112,25 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
         (typeof output.assetPackTitle === 'string' && output.assetPackTitle) ||
         (typeof context.assetPackTitle === 'string' && context.assetPackTitle) ||
         null;
+      const assetPackKind =
+        (typeof output.assetPackKind === 'string' && output.assetPackKind) ||
+        (typeof output.optionKind === 'string' && output.optionKind) ||
+        (typeof output.kind === 'string' && output.kind) ||
+        (typeof context.assetPackKind === 'string' && context.assetPackKind) ||
+        (typeof context.optionKind === 'string' && context.optionKind) ||
+        null;
+      const estimatedBtd =
+        typeof output.estimatedBtd === 'number'
+          ? output.estimatedBtd
+          : typeof context.estimatedBtd === 'number'
+            ? context.estimatedBtd
+            : null;
+      const estimatedBtdCells =
+        typeof output.estimatedBtdCells === 'number'
+          ? output.estimatedBtdCells
+          : typeof context.estimatedBtdCells === 'number'
+            ? context.estimatedBtdCells
+            : null;
       // Flatten per-pack absolute measurements onto context+output so pack
       // activity projection prefers catalog chips over any residual session
       // aggregates still present on older admission rows.
@@ -136,12 +155,18 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
           packActivityType: 'depository-assetpack',
           activityType: 'depository-assetpack',
           assetPackTitle,
+          assetPackKind,
+          optionKind: assetPackKind,
+          kind: assetPackKind,
           optionId: context.optionId || output.optionId || null,
           depositoryAssetPackId:
             context.depositoryAssetPackId || output.depositoryAssetPackId || null,
           compensationState:
             context.compensationState || output.compensationState || null,
           measurementRoot: context.measurementRoot || output.measurementRoot || null,
+          estimatedBtd,
+          estimatedBtdCells,
+          btdHonesty: 'estimate',
           // Source-safe absolute catalog only — never patch / fileChanges.
           measurements,
         },
@@ -149,6 +174,12 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
           ...output,
           packActivityType: 'depository-assetpack',
           assetPackTitle,
+          assetPackKind,
+          optionKind: assetPackKind,
+          kind: assetPackKind,
+          estimatedBtd,
+          estimatedBtdCells,
+          btdHonesty: 'estimate',
           measurements,
           // Strip session-aggregate noise if present on legacy rows.
           candidateCount: undefined,
