@@ -64,6 +64,8 @@ module.exports = {
     '^@bitcode/auth/wallet-local$': '<rootDir>/../../packages/auth/src/bitcode-wallet-local.ts',
     '^@bitcode/auth/bitcoin-wallet-client$': '<rootDir>/../../packages/auth/src/bitcoin-wallet-client.ts',
     '^@bitcode/auth/bitcoin-wallet-oauth-provider$': '<rootDir>/../../packages/auth/src/bitcoin-wallet-oauth-provider.ts',
+    '^@bitcode/auth/ethereum-wallet-client$': '<rootDir>/../../packages/auth/src/ethereum-wallet-client.ts',
+    '^@bitcode/auth/ethereum-auth-verify$': '<rootDir>/../../packages/auth/src/ethereum-auth-verify.ts',
     '^@bitcode/auth/supabase-auth-redirect$': '<rootDir>/../../packages/auth/src/supabase-auth-redirect.ts',
     '^@bitcode/auth/qa-telemetry$': '<rootDir>/../../packages/auth/src/qa-telemetry.ts',
     '^sats-connect$': '<rootDir>/tests/mocks/sats-connect.js',

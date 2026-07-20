@@ -39,12 +39,60 @@ declare module '@supabase/supabase-js' {
     error?: Error | null;
   }
 
+  export interface SupabaseAuthAdminApi {
+    createUser(attributes: Record<string, unknown>): Promise<{
+      data: { user: User | null };
+      error?: Error | null;
+    }>;
+    generateLink(params: {
+      type: string;
+      email: string;
+      options?: Record<string, unknown>;
+    }): Promise<{
+      data: {
+        user: User | null;
+        properties?: {
+          hashed_token?: string;
+          action_link?: string;
+          email_otp?: string;
+          verification_type?: string;
+          redirect_to?: string;
+        } | null;
+      };
+      error?: Error | null;
+    }>;
+    updateUserById(
+      id: string,
+      attributes: Record<string, unknown>,
+    ): Promise<{
+      data: { user: User | null };
+      error?: Error | null;
+    }>;
+    listUsers(params?: Record<string, unknown>): Promise<{
+      data: { users: User[] };
+      error?: Error | null;
+    }>;
+    getUserById(id: string): Promise<{
+      data: { user: User | null };
+      error?: Error | null;
+    }>;
+  }
+
   export interface SupabaseAuthClient {
     getSession(): Promise<AuthSessionResult>;
     getUser(): Promise<AuthUserResult>;
+    verifyOtp?(params: Record<string, unknown>): Promise<{
+      data: { session: Session | null; user: User | null };
+      error?: Error | null;
+    }>;
+    setSession?(params: {
+      access_token: string;
+      refresh_token: string;
+    }): Promise<AuthSessionResult>;
     onAuthStateChange(
       callback: (event: AuthChangeEvent, session: Session | null) => void,
     ): AuthChangeEventResult;
+    admin: SupabaseAuthAdminApi;
   }
 
   export interface SupabaseClient<T = unknown> {

@@ -2,9 +2,10 @@
  * Wallet connection lifecycle for Auxillaries.
  *
  * Primary path (product law): Ethereum EIP-1193 (MetaMask, Coinbase, Brave,
- * Rainbow) via @bitcode/auth/ethereum-wallet-client. Bitcoin Leather path is
- * retained only as a transitional fallback until SIWE Supabase provider cutover
- * completes — do not add new BTC identity UX here.
+ * Rainbow) via @bitcode/auth/ethereum-wallet-client. personal_sign mints a
+ * durable Bitcode/Supabase session (/api/wallet/session) so GitHub App claim
+ * and other session-gated routes work. Bitcoin Leather OAuth remains a
+ * transitional fallback — do not add new BTC identity UX here.
  */
 
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -41,7 +42,10 @@ import {
 import { bitcodeQaTelemetry, compactBitcodeAddress } from '@bitcode/auth/qa-telemetry';
 
 import { formatWalletProviderLabel, readSupabaseClientReadiness } from '../models/wallet-connection-format';
-import { persistBitcoinWalletConnection } from '../models/wallet-connection-persist';
+import {
+  persistBitcoinWalletConnection,
+  persistEthereumWalletSession,
+} from '../models/wallet-connection-persist';
 import { ensureWalletBackedSession } from '../models/wallet-connection-session';
 
 export interface UseWalletConnectionArgs {
@@ -171,6 +175,16 @@ export function useWalletConnection({
     setWalletAuthNotice(null);
     setWalletAuthStatus('requesting');
     try {
+      const readiness = readSupabaseClientReadiness();
+      if (!readiness.ready) {
+        setWalletAuthStatus('idle');
+        setWalletAuthError(
+          readiness.error ??
+            'Supabase is not configured; MetaMask cannot establish a Bitcode session.',
+        );
+        return;
+      }
+
       const connection = await connectEthereumWallet();
       if (connection.chainId !== BITCODE_ETHEREUM_TESTNET_CHAIN_ID) {
         setWalletAuthNotice('Switching wallet to Sepolia testnet…');
@@ -185,8 +199,11 @@ export function useWalletConnection({
         nonce,
         chainId: BITCODE_ETHEREUM_TESTNET_CHAIN_ID,
       });
+      setWalletAuthNotice('Sign the Bitcode message in your wallet to establish a session…');
       const signature = await signEthereumAuthMessage(connection.address, message);
       const connectedAt = new Date().toISOString();
+
+      // Stage local proof first so a network failure still shows the signed wallet.
       writeLocalBitcodeWalletIdentity({
         address: connection.address,
         provider: connection.providerId,
@@ -206,14 +223,70 @@ export function useWalletConnection({
       setWalletProvider(connection.providerId);
       setWalletBindingStatus('verified');
       setWalletBoundAt(connectedAt);
+
+      setWalletAuthNotice('Establishing Bitcode session and linking GitHub App install…');
+      const sessionResult = await persistEthereumWalletSession({
+        address: connection.address,
+        provider: connection.providerId,
+        network: 'sepolia',
+        message,
+        signature,
+        connectedAt,
+        chainId: BITCODE_ETHEREUM_TESTNET_CHAIN_ID,
+        paymentAddress: connection.address,
+        authAddress: connection.address,
+      });
+
+      if (!sessionResult.ok) {
+        setWalletAuthStatus('signed');
+        setWalletAuthError(
+          sessionResult.errorMessage ??
+            'Wallet signed, but Bitcode session was not established. GitHub repos will not list until session succeeds.',
+        );
+        setWalletAuthNotice(
+          `${formatWalletProviderLabel(connection.providerId)} signed on Sepolia (local only). Persistence: local — reconnect after fixing session errors.`,
+        );
+        bitcodeQaTelemetry('warn', 'wallet-auxillary', 'ethereum-connect-session-pending', {
+          provider: connection.providerId,
+          address: compactBitcodeAddress(connection.address),
+        });
+        await mutateUserData();
+        return;
+      }
+
+      setWalletIdentityDetails(sessionResult.identity ?? readLocalBitcodeWalletIdentity());
+      if (sessionResult.savedAddress) setWalletAddress(sessionResult.savedAddress);
+      if (sessionResult.savedStatus) setWalletBindingStatus(sessionResult.savedStatus);
+      if (sessionResult.savedAt) setWalletBoundAt(sessionResult.savedAt);
       setWalletAuthStatus('signed');
-      setWalletAuthNotice(
-        `${connection.providerId} connected on Sepolia. BTD settle readiness uses this address.`,
-      );
+
+      const claim = sessionResult.githubClaim;
+      if (claim?.claimed) {
+        setWalletAuthNotice(
+          claim.account
+            ? `${formatWalletProviderLabel(connection.providerId)} session ready on Sepolia. GitHub App linked for ${claim.account}.`
+            : `${formatWalletProviderLabel(connection.providerId)} session ready on Sepolia. GitHub App installation linked.`,
+        );
+      } else if (claim?.error === 'session_required') {
+        setWalletAuthNotice(
+          `${formatWalletProviderLabel(connection.providerId)} session ready, but GitHub claim still needs session cookies — open Externals and Refresh.`,
+        );
+      } else if (claim && !claim.claimed && claim.error) {
+        setWalletAuthNotice(
+          `${formatWalletProviderLabel(connection.providerId)} session ready on Sepolia. GitHub claim pending: ${claim.error}`,
+        );
+      } else {
+        setWalletAuthNotice(
+          `${formatWalletProviderLabel(connection.providerId)} session ready on Sepolia. Persistence: server. Open Externals to confirm authorized repositories.`,
+        );
+      }
+
       bitcodeQaTelemetry('info', 'wallet-auxillary', 'ethereum-connect', {
         provider: connection.providerId,
         address: compactBitcodeAddress(connection.address),
         chainId: BITCODE_ETHEREUM_TESTNET_CHAIN_ID,
+        sessionEstablished: sessionResult.sessionEstablished ?? false,
+        githubClaimed: claim?.claimed ?? false,
       });
       await mutateUserData();
     } catch (error) {

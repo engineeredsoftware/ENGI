@@ -7,6 +7,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { isPlausibleEthereumAddress } from '@bitcode/auth/ethereum-wallet-client';
+
 import {
   BITCODE_FOCUS_WALLET_CONNECT_EVENT,
   clearPendingWalletConnectAttention,
@@ -211,16 +213,22 @@ export default function AuxillariesWalletConnectionPanel({
       <div className="wallet-section-meta-panel mt-3 rounded-none border px-4 py-3 text-sm leading-6 text-orange-50/72">
         <span className="font-semibold text-orange-50/90">
           {walletProviderScanStatus === 'checking'
-            ? 'Checking installed Bitcoin wallets'
+            ? 'Checking installed wallets'
             : walletProviderOptions.length > 0
               ? `Detected ${walletProviderOptions.map((provider) => provider.label).join(', ')}`
-              : 'No compatible Bitcoin wallet detected'}
+              : 'No compatible Ethereum wallet detected'}
         </span>
         {walletAuthNotice ? (
           <span className="ml-2 text-orange-100/82">{walletAuthNotice}</span>
         ) : walletProviderScanStatus === 'none' ? (
           <span className="ml-2 text-orange-100/70">
-            Xverse or Leather must be unlocked, enabled on this site, and set to Testnet4 for this QA pass.
+            Install MetaMask (or Coinbase / Brave / Rainbow), unlock it, and enable this site. Connect
+            signs a Bitcode message to establish a server session for GitHub App claim.
+          </span>
+        ) : walletReadout.persistence === 'local' && hasProviderWalletIdentity ? (
+          <span className="ml-2 text-orange-100/70">
+            Wallet is local-only until a Bitcode session is established. Reconnect and sign so GitHub
+            authorized repositories can link.
           </span>
         ) : null}
       </div>
@@ -233,8 +241,8 @@ export default function AuxillariesWalletConnectionPanel({
             value={walletAddress}
             onChange={(e) => handleWalletAddressChange(e.target.value)}
             className="form-input"
-            placeholder="Connected Bitcoin wallets will be shown here"
-            aria-label="Bitcode Bitcoin wallet address"
+            placeholder="Connected Ethereum wallets will be shown here"
+            aria-label="Bitcode wallet address"
           />
           <div className="input-focus-indicator"></div>
         </div>
@@ -244,12 +252,22 @@ export default function AuxillariesWalletConnectionPanel({
           </p>
           <p className="mt-2 text-sm font-medium text-orange-50">
             {walletAddress
-              ? walletBindingStatus === 'verified'
-                ? 'Verified Bitcoin signer'
-                : walletBindingStatus === 'pending'
-                  ? 'Bitcoin provider connected'
-                  : 'Manual Bitcoin address staged'
-              : 'No Bitcoin wallet connected'}
+              ? walletReadout.proofKind === 'ethereum_personal_sign' ||
+                  walletReadout.addressType === 'ethereum' ||
+                  isPlausibleEthereumAddress(walletAddress)
+                ? walletBindingStatus === 'verified'
+                  ? walletReadout.persistence === 'server'
+                    ? 'Verified Ethereum signer (server session)'
+                    : 'Verified Ethereum signer (local only — session pending)'
+                  : walletBindingStatus === 'pending'
+                    ? 'Ethereum provider connected'
+                    : 'Ethereum address staged'
+                : walletBindingStatus === 'verified'
+                  ? 'Verified Bitcoin signer'
+                  : walletBindingStatus === 'pending'
+                    ? 'Bitcoin provider connected'
+                    : 'Manual Bitcoin address staged'
+              : 'No wallet connected'}
           </p>
           {walletBoundAt ? (
             <p className="mt-1 text-xs text-orange-100/55">

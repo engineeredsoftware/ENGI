@@ -6,6 +6,8 @@
   "types": "src/index.ts",
   "dependencies": {
     "@bitcode/supabase": "workspace:*",
+    "@noble/hashes": "^1.8.0",
+    "@noble/secp256k1": "^1.7.2",
     "sats-connect": "^4.2.1"
   },
   "exports": {
@@ -14,6 +16,7 @@
     "./bitcoin-wallet-client": "./src/bitcoin-wallet-client.ts",
     "./bitcoin-wallet-oauth-provider": "./src/bitcoin-wallet-oauth-provider.ts",
     "./ethereum-wallet-client": "./src/ethereum-wallet-client.ts",
+    "./ethereum-auth-verify": "./src/ethereum-auth-verify.ts",
     "./supabase-auth-redirect": "./src/supabase-auth-redirect.ts",
     "./qa-telemetry": "./src/qa-telemetry.ts"
   },

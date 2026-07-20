@@ -138,7 +138,7 @@ export function VCSConnectionCard({
         );
       } else if (data.claimedInstallation?.error === 'session_required') {
         toast.info(
-          'GitHub App is installed but Bitcode still needs a Connected identity to finish linking. Connect wallet/session, then Refresh.',
+          'GitHub App is installed but Bitcode still needs a server session. Connect MetaMask (sign the Bitcode message) or another wallet session, then Refresh.',
         );
       } else if (data.claimedInstallation?.error) {
         const errorClass =

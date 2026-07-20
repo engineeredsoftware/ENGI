@@ -18,7 +18,8 @@ function canPersistWalletIdentity(identity: LocalBitcodeWalletIdentity | null): 
   return Boolean(
     identity &&
       identity.persistence !== 'server' &&
-      identity.proofKind === 'bitcoin_message_signature' &&
+      (identity.proofKind === 'bitcoin_message_signature' ||
+        identity.proofKind === 'ethereum_personal_sign') &&
       identity.message &&
       identity.signature,
   );
@@ -125,6 +126,69 @@ export default function WalletSessionPersistenceBridge() {
       inFlightKeyRef.current = persistenceKey;
 
       try {
+        // Ethereum proofs can mint a session; Bitcoin still requires one first.
+        if (identity.proofKind === 'ethereum_personal_sign') {
+          bitcodeQaTelemetry('info', 'wallet-session', 'ethereum-persist-start', {
+            reason,
+            provider: identity.provider,
+            address: compactBitcodeAddress(identity.address),
+          });
+          const response = await fetch('/api/wallet/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+              address: identity.address,
+              provider: identity.provider,
+              network: identity.network ?? 'sepolia',
+              message: identity.message,
+              signature: identity.signature,
+              proofKind: 'ethereum_personal_sign',
+              paymentAddress: identity.paymentAddress ?? identity.address,
+              authAddress: identity.authAddress ?? identity.address,
+              addressType: 'ethereum',
+              connectedAt: identity.connectedAt,
+              issuedAt: identity.connectedAt,
+            }),
+          });
+          const payload = await response.json().catch(() => null);
+          if (!response.ok) {
+            inFlightKeyRef.current = null;
+            bitcodeQaTelemetry('warn', 'wallet-session', 'ethereum-persist-failed', {
+              status: response.status,
+              error: typeof payload?.error === 'string' ? payload.error : null,
+            });
+            return;
+          }
+          const session = payload?.session;
+          if (
+            session &&
+            typeof session.access_token === 'string' &&
+            typeof session.refresh_token === 'string'
+          ) {
+            const supabase = createClient();
+            await supabase.auth.setSession({
+              access_token: session.access_token,
+              refresh_token: session.refresh_token,
+            });
+          }
+          if (cancelled) return;
+          writeLocalBitcodeWalletIdentity({
+            ...identity,
+            status: readPersistedStatus(payload, identity.status),
+            connectedAt: readPersistedAt(payload, identity.connectedAt),
+            persistence: 'server',
+          });
+          await mutateUserData();
+          // Retry staged GitHub App claim once the session exists.
+          void fetch('/api/vcs/github/connection', { credentials: 'same-origin' }).catch(() => null);
+          bitcodeQaTelemetry('info', 'wallet-session', 'ethereum-persist-success', {
+            provider: identity.provider,
+            address: compactBitcodeAddress(identity.address),
+          });
+          return;
+        }
+
         const supabase = createClient();
         const existing = await supabase.auth.getUser();
         if (cancelled || !existing.data.user) {
