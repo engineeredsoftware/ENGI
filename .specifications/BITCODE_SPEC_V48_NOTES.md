@@ -1184,7 +1184,7 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 28 | Formal absolutes fail-closed (no placeholder catalog fallback) | `validateDepositSynthesisOptions` requires `absolutes[]` | agent-measure-absolutes.test, asset-packs-synthesis.test | ✅ |
 | 29 | Map-tree LLM token rollup | `sumLlmTokensFromExecutionTree` | asset-packs-synthesis-pipeline.test | ✅ |
 | 30 | Full deposit SDIVF integration under test (boundary LLM mock) | `BITCODE_ENABLE_ASSET_PACK_SDIVF_RUNTIME_IN_TEST` + deposit-sdivf-pipeline-integration.test | deposit-sdivf-pipeline-integration.test | ✅ |
-| 31 | Deposit implementation agent key (telemetry clarity) | `implementation:deposit-asset-pack-synthesis` | synthesize-asset-packs-phase-rosters.test | ✅ |
+| 31 | Deposit Implementation dual agents (patchfile then measurements) | `implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis` → `…-measurements-synthesis`; Validation validate-only | synthesize-asset-packs-phase-rosters; deposit-implementation-* |t | ✅ |
 
 ✅* = wired + unit-tested with a mocked host (host plan-building, the dispatch, the
 option projection); real in-sandbox execution is verified against deployed sandbox infra.
@@ -2026,7 +2026,9 @@ Accepted sequencing (must match SPEC):
 - Validation: one ready-to-finish deposit agent (A/B/C).
 - Finish: store-artifacts (`deposit:persistArtifacts` hook) → ledgerize (`deposit:ledgerWrite` hook) → finish-synthesize-deposit-run (selection envelope).
 - Naming: `sourceCheckoutCatalog` canonical; `inventory` dual-write only for legacy stream filters. No Fits Finding / lens language.
-- Implementation roster key: `implementation:deposit-asset-pack-synthesis`.
+- Implementation dual agents: `implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis`
+  then `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis`.
+  Validation validate-only (no re-measure); salvage never presentable.
 
 Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` enables embedding + Supabase match RPC when credentials present.
 

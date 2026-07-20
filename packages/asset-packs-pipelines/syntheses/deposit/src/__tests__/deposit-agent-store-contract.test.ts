@@ -44,7 +44,8 @@ import runDepositCodebaseComprehensionAgent, {
 } from '../agents/discovery/deposit-codebase-comprehension-agent';
 import runDepositDepositorySearchAgent from '../agents/discovery/deposit-depository-search-agent';
 import runDepositInherentRegurgitationAgent from '../agents/discovery/deposit-inherent-regurgitation-agent';
-import runDepositAssetPackSynthesisAgent from '../agents/implementation/deposit-asset-pack-synthesis-agent';
+import runDepositImplementationAgentAssetPacksPatchfileSynthesis from '../agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis';
+import runDepositImplementationAgentAssetPacksMeasurementsSynthesis from '../agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis';
 import runDepositValidationAgent from '../agents/validation/deposit-validation-agent';
 import runUploadAssetPacksForReviewAgent from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/upload-asset-packs-for-review-agent';
 
@@ -68,7 +69,7 @@ function depositSynthesisOption(overrides: Record<string, unknown> = {}) {
     summary:
       'A bounded, source-safe capability slice covering session authentication and token refresh flows.',
     coveredSourcePaths: ['src/auth/session.ts', 'src/auth/token.ts'],
-    // Nested kinds only (deposit: needinesses always empty; host fills absolutes).
+    // Deposit: absolutes only (neediness is Read-pipeline). Host overwrites with measure path.
     measurements: {
       absolutes: [
         {
@@ -99,7 +100,6 @@ function depositSynthesisOption(overrides: Record<string, unknown> = {}) {
           category: 'absolute' as const,
         },
       ],
-      needinesses: [],
     },
     measurementRationale: 'Covers both auth modules with moderate demand alignment.',
     confidence: 0.8,
@@ -265,8 +265,8 @@ describe('deposit agent context/store contract', () => {
     }, 60000);
   });
 
-  describe('Implementation — runDepositAssetPackSynthesisAgent', () => {
-    it('unwraps the envelope and stores the deposit AssetPack options under the EXACT keys the route, validation, and Finish read', async () => {
+  describe('Implementation — patchfile then measurements synthesis (sequential agents)', () => {
+    it('patchfile agent stores unmeasured packs; measurements agent attaches absolutes under the EXACT keys route/validation/Finish read', async () => {
       const options = [
         depositSynthesisOption(),
         depositSynthesisOption({
@@ -285,19 +285,39 @@ describe('deposit agent context/store contract', () => {
 
       const shared = new Execution('pipeline-root');
       const divExec = shared.child('seq-2');
-      const result = await runDepositAssetPackSynthesisAgent(
-        {
-          repository: REPOSITORY,
-          inventory: INVENTORY,
-          impermissibleSources: ['src/protected'],
-          demandContext: ['session auth reads'],
-        },
+      const input = {
+        repository: REPOSITORY,
+        inventory: INVENTORY,
+        impermissibleSources: ['src/protected'],
+        demandContext: ['session auth reads'],
+      };
+
+      const patched = await runDepositImplementationAgentAssetPacksPatchfileSynthesis(
+        input,
         divExec,
       );
+      expect(patched.success).toBe(true);
+      expect(patched.semanticKind).toBe('asset-pack-patchfile-synthesized');
+      expect(patched.measured).toBe(false);
+      expect(patched.options).toHaveLength(2);
+      for (const opt of patched.options) {
+        expect(opt.measurements).toBeUndefined();
+        expect(opt.absolutes).toBeUndefined();
+        expect(opt.patch).toMatchObject({
+          fileChanges: expect.any(Array),
+          patchSummary: expect.any(String),
+        });
+      }
+      expect(shared.get('implementation', 'patchedOptions')).toBe(patched.options);
+      expect(shared.get('implementation', 'measured')).toBe(false);
 
+      const result = await runDepositImplementationAgentAssetPacksMeasurementsSynthesis(
+        patched,
+        divExec,
+      );
       expect(result.success).toBe(true);
       expect(result.semanticKind).toBe('asset-pack-written-asset');
-      // AssetPack = patch + measurements + metadata: host attaches absolutes after PTRR.
+      // AssetPack = patch + measurements + metadata: measurements agent attaches absolutes.
       expect(result.options).toHaveLength(2);
       for (const opt of result.options) {
         expect(opt).toMatchObject({
@@ -310,9 +330,10 @@ describe('deposit agent context/store contract', () => {
         });
         expect(Array.isArray(opt.absolutes)).toBe(true);
         expect(opt.absolutes.length).toBeGreaterThan(0);
+        expect(Array.isArray(opt.measurements?.absolutes)).toBe(true);
       }
       expect(result.summary).toBe(
-        'Synthesized 2 measured deposit AssetPack(s) (patch + measurements + metadata).',
+        'Synthesized absolute measurements for 2 deposit AssetPack(s) (patch + absolutes + metadata).',
       );
       expect(result.assetPack).toEqual({ repository: REPOSITORY });
 
@@ -324,18 +345,19 @@ describe('deposit agent context/store contract', () => {
       expect(shared.get('implementation', 'options')).toBe(result.options);
       expect(shared.get('implementation', 'assetPacks')).toBe(result.options);
       expect(shared.get('implementation', 'options')).toBe(shared.get('implementation', 'assetPacks'));
+      expect(shared.get('implementation', 'measured')).toBe(true);
       // implementation:assetPack + implementation:summary — the stores Finish reads,
       // resolvable from the Finish sibling via the upward walk.
       expect(shared.get('implementation', 'assetPack')).toEqual({ repository: REPOSITORY });
       expect(shared.get('implementation', 'summary')).toBe(
-        'Synthesized 2 measured deposit AssetPack(s) (patch + measurements + metadata).',
+        'Synthesized absolute measurements for 2 deposit AssetPack(s) (patch + absolutes + metadata).',
       );
       expect(shared.child('seq-3').child('seq-0').findUp('implementation', 'options')).toBe(
         result.options,
       );
     }, 60000);
 
-    it('threads cross-phase stores written on the SHARED parent into the synthesis generation context (F20 law)', async () => {
+    it('threads cross-phase stores written on the SHARED parent into the patchfile-synthesis generation context (F20 law)', async () => {
       setBoundaryLLMOutput({ options: [depositSynthesisOption()] });
 
       const shared = new Execution('pipeline-root');
@@ -355,7 +377,7 @@ describe('deposit agent context/store contract', () => {
       shared.store('discovery', 'inherentRegurgitation', { summary: 'regurgitation-marker: JWT patterns' });
 
       const divExec = shared.child('seq-2');
-      const result = await runDepositAssetPackSynthesisAgent({}, divExec);
+      const result = await runDepositImplementationAgentAssetPacksPatchfileSynthesis({}, divExec);
       expect(result.success).toBe(true);
 
       // Every cross-phase store resolved from the shared parent must actually

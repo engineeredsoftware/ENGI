@@ -30,7 +30,7 @@ import { DepositInputComprehensionAgent } from '../agents/setup/deposit-input-co
 import { DepositCodebaseComprehensionAgent } from '../agents/discovery/deposit-codebase-comprehension-agent';
 import { DepositDepositorySearchAgent } from '../agents/discovery/deposit-depository-search-agent';
 import { DepositInherentRegurgitationAgent } from '../agents/discovery/deposit-inherent-regurgitation-agent';
-import { DepositAssetPackSynthesisAgent } from '../agents/implementation/deposit-asset-pack-synthesis-agent';
+import { DepositImplementationAgentAssetPacksPatchfileSynthesis } from '../agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis';
 import { DepositValidationAgent } from '../agents/validation/deposit-validation-agent';
 import {
   setBoundaryLLMOutput,
@@ -210,11 +210,12 @@ const SPECS: DepositAgentPromptSpec[] = [
     input: {},
   },
   {
-    title: 'DepositAssetPackSynthesisAgent (Implementation: patch + measurements + metadata)',
-    agent: DepositAssetPackSynthesisAgent,
-    identity: 'You are SynthesizeAssetPacks Implementation for deposit.',
-    requirements: 'Ground every candidate in Discovery comprehension',
-    wrapper: 'Return ONLY {"options":[ ... ]} — top-level key MUST be "options".',
+    title:
+      'DepositImplementationAgentAssetPacksPatchfileSynthesis (Implementation 1/2: patchfile + metadata)',
+    agent: DepositImplementationAgentAssetPacksPatchfileSynthesis,
+    identity: 'deposit-implementation-agent-asset-packs-patchfile-synthesis',
+    requirements: 'Ground every candidate in the Discovery packet',
+    wrapper: 'CRITICAL SHAPE: return ONLY a JSON object with top-level key "options"',
     schemaFields: [
       'kind',
       'title',
@@ -226,10 +227,10 @@ const SPECS: DepositAgentPromptSpec[] = [
       'patchSummary',
     ],
     ptrr: [
-      'Plan: from the sourceCheckoutCatalog, Discovery comprehension (including absolute',
-      'Try: synthesize each candidate as digital material',
-      'Refine: ensure each option is distinct, source-safe, obfuscation- and exclusion-honoring',
-      'Retry: complete any missing option as a minimal valid source-safe patch',
+      'Plan (strategy only',
+      'Try: emit the full candidate set from your Plan slice matrix',
+      'Refine: polish the prior Try/Retry candidates',
+      'Retry: recover discovery-grounded candidates',
     ],
     boundaryOutput: {
       options: [
@@ -363,7 +364,9 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
   it('Implementation synthesizes material; host attaches measurements; Validation names absolute kinds', async () => {
     // LLM does not invent absolute volumes; Implementation host attaches them.
     // Validation A/B/C requires absolutes and names the measure-agent catalog.
-    const synthesisSpec = SPECS.find((spec) => spec.agent === DepositAssetPackSynthesisAgent)!;
+    const synthesisSpec = SPECS.find(
+      (spec) => spec.agent === DepositImplementationAgentAssetPacksPatchfileSynthesis,
+    )!;
     const validationSpec = SPECS.find((spec) => spec.agent === DepositValidationAgent)!;
 
     const synthesisCalls = await runAgentAndCapture(synthesisSpec);
@@ -371,11 +374,11 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
     const validationCalls = await runAgentAndCapture(validationSpec);
     const validationSystem = validationCalls[0].system;
 
-    expect(synthesisSystem).toMatch(/patch \+ measurements \+ metadata/i);
+    expect(synthesisSystem).toMatch(/patchfile \+ absolute measurements \+ metadata/i);
     expect(synthesisSystem).toMatch(/do NOT invent absolute/i);
     expect(synthesisSystem).toMatch(/sourceCheckoutCatalog/i);
-    expect(synthesisSystem).toMatch(/needinesses/i);
-    expect(synthesisSystem).not.toMatch(/needinessSignal/i);
+    // Deposit patchfile agent: six product fields only; no neediness product language.
+    expect(synthesisSystem).not.toMatch(/neediness/i);
     expect(synthesisSystem).not.toMatch(/Validation measures those/i);
 
     expect(validationSystem).toMatch(/ready-to-finish gate \(A\/B\/C\)/i);

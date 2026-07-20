@@ -189,7 +189,7 @@ AssetPack = **patch + measurements + metadata**.
 | preprocess | deposit-only | Coords + steering; catalog may be empty until Setup clone |
 | Setup | (1) clone alone → (2) **parallel** {initialize-lsp, initialize-mcps-tools, comprehend-obfuscations} → (3) danger-wall alone | Clone first; danger wall last admits obfuscations |
 | Discovery | **parallel** {comprehend-codebase, search-depository, inherent-regurgitation} | Measure is **inside** comprehend-codebase (tools/objectives), not a separate agent |
-| Implementation | `implementation:deposit-asset-pack-synthesis` | Patch options; kinds: capability-slice \| implementation-pattern \| proof-operations-slice |
+| Implementation | sequential `…-patchfile-synthesis` then `…-measurements-synthesis` | Patchfile (6 fields) then measure into `measurements.absolutes` only; kinds: capability-slice \| implementation-pattern \| proof-operations-slice |
 | Validation | **one** agent: ready-to-finish-asset-packs-synthesis-deposit-pipeline | A prior phases/tools · B pack quality · C obfuscations vs patch |
 | Finish | (1) store-artifacts → (2) ledgerize → (3) finish-synthesize-asset-packs-for-deposit-run | Store (Supabase + patch artifacts) · on-chain ledger · envelope/cleanup last |
 | postprocess | normalize | Presentation-safe result |

@@ -45,7 +45,7 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
             category: 'absolute' as const,
           },
         ],
-        needinesses: [],
+
       },
     },
   ];
@@ -94,21 +94,61 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
 
   it('finish-synthesize builds selection envelope without new content', async () => {
     const exec = execStub({
-      implementation: { options },
-      validation: { readyToFinish: { recommendation: 'finish', summary: 'ok' } },
+      implementation: {
+        options,
+        measured: true,
+        presentable: true,
+        salvaged: false,
+        salvageCount: 0,
+      },
+      validation: {
+        readyToFinish: {
+          recommendation: 'finish',
+          summary: 'ok',
+          finalApproval: true,
+          readyToFinish: true,
+        },
+      },
       deposit: { repository: { fullName: 'o/r' } },
     });
     await runStore({}, exec);
     await runLedgerize({}, exec);
     const out = await runFinish({}, exec);
     expect(out.success).toBe(true);
-    // Fit is post-read only; deposit synthesis uses deposit-candidate states.
     expect(out.resultState).toBe('worthy_deposit_candidates');
+    expect(out.readyToPresent).toBe(true);
     const envelope = exec.get('finish', 'selectionEnvelope');
     expect(envelope.options).toHaveLength(1);
     expect(envelope.options[0].patch).toBeTruthy();
     expect(envelope.options[0].measurements?.absolutes).toHaveLength(1);
-    expect(envelope.options[0].measurements?.needinesses).toEqual([]);
+    expect(Object.keys(envelope.options[0].measurements)).toEqual(['absolutes']);
+    expect(envelope.options[0].selectable).toBe(true);
     expect(exec.get('finish', 'completion')?.cleanup?.disposeRecommended).toBeDefined();
+  });
+
+  it('finish refuses readyToPresent when packs are salvaged', async () => {
+    const salvaged = [
+      {
+        ...options[0],
+        salvaged: true,
+        salvageReason: 'host-salvage',
+      },
+    ];
+    const exec = execStub({
+      implementation: {
+        options: salvaged,
+        measured: true,
+        presentable: false,
+        salvaged: true,
+        salvageCount: 1,
+      },
+      validation: {
+        readyToFinish: { recommendation: 'finish', finalApproval: true, readyToFinish: true },
+      },
+      deposit: { repository: { fullName: 'o/r' } },
+    });
+    const out = await runFinish({}, exec);
+    expect(out.readyToPresent).toBe(false);
+    expect(out.selectionEnvelope.options[0].selectable).toBe(false);
   });
 });

@@ -25,7 +25,7 @@ import depositInputComprehensionDefault from '../agents/setup/deposit-input-comp
 import runDepositCodebaseComprehensionAgent from '../agents/discovery/deposit-codebase-comprehension-agent';
 import runDepositDepositorySearchAgent from '../agents/discovery/deposit-depository-search-agent';
 import runDepositInherentRegurgitationAgent from '../agents/discovery/deposit-inherent-regurgitation-agent';
-import runDepositAssetPackSynthesisAgent from '../agents/implementation/deposit-asset-pack-synthesis-agent';
+import runDepositImplementationAgentAssetPacksPatchfileSynthesis from '../agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis';
 import { executionPipelineSDIVFExecutionPhaseSetupSynthesisDepositAssetPacks } from '../phases/execution-pipeline-sdivf-execution-phase-synthesis-deposit-asset-packs';
 import { registerDiscoveryAgents } from '../phases/discovery';
 import {
@@ -259,11 +259,14 @@ describe('deposit Discovery lens agents (boundary-mocked PTRR)', () => {
       expect.arrayContaining(['idempotent invoice replay']),
     );
 
-    // ...and the Implementation agent, reading the same node, threads that
-    // guidance (summary + underservedTopics) into its synthesis prompt.
+    // ...and the Implementation patchfile agent, reading the same node, threads that
+    // guidance (summary + underservedTopics) into its patchfile-synthesis prompt.
     resetBoundaryLLMCalls();
     setBoundaryLLMOutput({ options: [MOCK_SYNTHESIS_OPTION] });
-    const out = await runDepositAssetPackSynthesisAgent(DEPOSIT_INPUT, exec);
+    const out = await runDepositImplementationAgentAssetPacksPatchfileSynthesis(
+      DEPOSIT_INPUT,
+      exec,
+    );
     expect(out.success).toBe(true);
     expect(out.options).toHaveLength(1);
 

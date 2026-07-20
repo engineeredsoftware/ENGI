@@ -47,6 +47,33 @@ describe('normalizeDepositCandidateSetInput / depositCandidateSetSchema', () => 
     expect(parsed.options[0].kind).toBe('capability-slice');
   });
 
+  it('projects allowlist only — non-product keys discarded (patchfile agent 1/2)', () => {
+    const noisy = {
+      ...validOption,
+      measurements: { absolutes: [{ volume: 0.9 }] },
+      absolutes: [{ volume: 0.9 }],
+      measurementRationale: 'should be discarded',
+      junk: true,
+    };
+    const parsed = depositCandidateSetSchema.parse({ options: [noisy] });
+    expect(parsed.options[0]).not.toHaveProperty('measurements');
+    expect(parsed.options[0]).not.toHaveProperty('absolutes');
+    expect(parsed.options[0]).not.toHaveProperty('measurementRationale');
+    expect(parsed.options[0]).not.toHaveProperty('junk');
+    expect(parsed.options[0].patch.fileChanges).toEqual(validOption.patch.fileChanges);
+  });
+
+  it('coerces unknown kind strings onto the three product kinds', () => {
+    const parsed = depositCandidateSetSchema.parse({
+      options: [{ ...validOption, kind: 'auth-capability-pack' }],
+    });
+    expect(parsed.options[0].kind).toBe('capability-slice');
+    const pattern = depositCandidateSetSchema.parse({
+      options: [{ ...validOption, kind: 'retry-pattern' }],
+    });
+    expect(pattern.options[0].kind).toBe('implementation-pattern');
+  });
+
   it('still rejects when options is truly missing / empty', () => {
     expect(() => depositCandidateSetSchema.parse({})).toThrow();
     expect(() => depositCandidateSetSchema.parse({ options: [] })).toThrow();
