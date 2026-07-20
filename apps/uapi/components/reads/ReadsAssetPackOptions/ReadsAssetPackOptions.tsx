@@ -1,6 +1,8 @@
 /**
- * Read AssetPack options list + settle footer (deposit AssetPackOptions twin).
+ * Read AssetPack options list + multi-rail settle checkout (deposit twin).
+ * Pay rails: ETH (P0 live path) | BTC | SOL. Never pay BTD.
  */
+
 "use client";
 
 import React from "react";
@@ -9,6 +11,32 @@ import type {
   ReadSynthesizedOption,
 } from "@/components/reads/ReadPageClient/hooks/use-read-option-synthesis";
 import { ReadsOptionCard } from "@/components/reads/ReadsOptionCard/ReadsOptionCard";
+
+export type ReadPayAsset = "ETH" | "BTC" | "SOL";
+
+export type ReadSettleQuoteOption = {
+  payAsset: ReadPayAsset;
+  payAmount: string;
+  payAmountDisplay: string;
+  rateMicro: number;
+  payAmountUsd: number;
+  rateUpdatedAt: string;
+  available: boolean;
+  unavailableReason?: string | null;
+  decimals: number;
+};
+
+export type ReadSettleQuote = {
+  provider: string;
+  needFitVolume: number;
+  rawVolumeBaseUnits: string;
+  btdVolume: string;
+  btdVolumeDisplay: string;
+  decay: number;
+  decayMicro: number;
+  expiresAt: string;
+  options: ReadSettleQuoteOption[];
+};
 
 export function ReadsAssetPackOptions(props: {
   options: ReadSynthesizedOption[];
@@ -19,6 +47,16 @@ export function ReadsAssetPackOptions(props: {
   settleBusy?: boolean;
   settleError?: string | null;
   settleMessage?: string | null;
+  /** Selected pay rail (ETH is P0). */
+  payAsset?: ReadPayAsset;
+  onPayAssetChange?: (asset: ReadPayAsset) => void;
+  /** Multi-rail quote for the current selection. */
+  quote?: ReadSettleQuote | null;
+  quoteBusy?: boolean;
+  quoteError?: string | null;
+  onRefreshQuote?: () => void;
+  /** Connected buyer Ethereum address (0x…). */
+  buyerEthereumAddress?: string | null;
 }) {
   const {
     options,
@@ -29,9 +67,45 @@ export function ReadsAssetPackOptions(props: {
     settleBusy,
     settleError,
     settleMessage,
+    payAsset = "ETH",
+    onPayAssetChange,
+    quote = null,
+    quoteBusy = false,
+    quoteError = null,
+    onRefreshQuote,
+    buyerEthereumAddress = null,
   } = props;
 
   const hasOptions = options.length > 0;
+  const hasSelection = selectedIndexes.length > 0;
+  const selectedRail = quote?.options.find((o) => o.payAsset === payAsset) ?? null;
+  const railAvailable = selectedRail?.available !== false;
+  // Projected multi-rail settle is allowed for all three rails (ETH P0 live path).
+  const canSettle =
+    hasSelection && !settleBusy && !quoteBusy && railAvailable;
+
+  const rails: Array<{
+    asset: ReadPayAsset;
+    label: string;
+    hint: string;
+    disabled?: boolean;
+  }> = [
+    {
+      asset: "ETH",
+      label: "Pay with Ethereum",
+      hint: "Sepolia · P0 working rail",
+    },
+    {
+      asset: "BTC",
+      label: "Pay with Bitcoin",
+      hint: "Mock / attestor later",
+    },
+    {
+      asset: "SOL",
+      label: "Pay with Solana",
+      hint: "Mock / attestor later",
+    },
+  ];
 
   return (
     <section
@@ -70,24 +144,169 @@ export function ReadsAssetPackOptions(props: {
       )}
 
       {hasOptions ? (
-        <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-white/10 pt-4">
-          <button
-            type="button"
-            data-testid="reads-settle-selected"
-            onClick={() => void onSettleSelected()}
-            disabled={selectedIndexes.length === 0 || settleBusy}
-            className="border border-emerald-300/40 bg-emerald-400/15 px-4 py-2 text-sm font-medium text-emerald-50 disabled:cursor-not-allowed disabled:opacity-40"
+        <div
+          className="mt-5 space-y-4 border-t border-white/10 pt-4"
+          data-testid="reads-settle-checkout"
+        >
+          <div>
+            <p className="text-[0.65rem] uppercase tracking-[0.18em] text-neutral-500">
+              Checkout · multi-rail spot
+            </p>
+            <p className="mt-1 text-xs text-neutral-400">
+              Never pay BTD. Buyers pay ETH (P0), later BTC/SOL. Sellers earn BTD on
+              settle (escrow mint → finalize on Packs).
+            </p>
+          </div>
+
+          <div
+            className="grid gap-2 tablet:grid-cols-3"
+            role="radiogroup"
+            aria-label="Pay rail"
+            data-testid="reads-pay-rail-group"
           >
-            {settleBusy
-              ? "Settling…"
-              : `Settle selected (${selectedIndexes.length})`}
-          </button>
-          {settleError ? (
-            <p className="text-sm text-rose-200">{settleError}</p>
-          ) : null}
-          {settleMessage ? (
-            <p className="text-sm text-emerald-100/90">{settleMessage}</p>
-          ) : null}
+            {rails.map((rail) => {
+              const option = quote?.options.find((o) => o.payAsset === rail.asset);
+              const selected = payAsset === rail.asset;
+              const unavailable = option ? option.available === false : false;
+              return (
+                <button
+                  key={rail.asset}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  data-testid={`reads-pay-rail-${rail.asset.toLowerCase()}`}
+                  disabled={settleBusy}
+                  onClick={() => onPayAssetChange?.(rail.asset)}
+                  className={`border px-3 py-3 text-left transition ${
+                    selected
+                      ? "border-emerald-300/50 bg-emerald-400/12 text-emerald-50"
+                      : "border-white/10 bg-black/20 text-neutral-200 hover:border-white/20"
+                  } ${unavailable ? "opacity-60" : ""}`}
+                >
+                  <span className="block text-sm font-medium">{rail.label}</span>
+                  <span className="mt-1 block text-[0.7rem] text-neutral-400">
+                    {rail.hint}
+                  </span>
+                  {option ? (
+                    <span className="mt-2 block font-mono text-xs text-white/90">
+                      {option.payAmountDisplay} {rail.asset}
+                      {typeof option.payAmountUsd === "number" ? (
+                        <span className="text-neutral-500">
+                          {" "}
+                          · ~${option.payAmountUsd.toFixed(2)}
+                        </span>
+                      ) : null}
+                    </span>
+                  ) : quoteBusy ? (
+                    <span className="mt-2 block text-[0.7rem] text-neutral-500">
+                      Quoting…
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+
+          <div
+            className="grid gap-3 border border-white/10 bg-black/25 px-3 py-3 tablet:grid-cols-3"
+            data-testid="reads-settle-quote-summary"
+          >
+            <div>
+              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                BTD volume (needinesses × decay)
+              </p>
+              <p className="mt-1 font-mono text-sm text-emerald-100">
+                {quoteBusy
+                  ? "…"
+                  : quote
+                    ? `${quote.btdVolumeDisplay} BTD`
+                    : hasSelection
+                      ? "Select options to quote"
+                      : "—"}
+              </p>
+              {quote ? (
+                <p className="mt-0.5 text-[0.7rem] text-neutral-500">
+                  needFit {quote.needFitVolume.toFixed(4)} · decay{" "}
+                  {(quote.decay * 100).toFixed(2)}% · {quote.provider}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                You pay ({payAsset})
+              </p>
+              <p className="mt-1 font-mono text-sm text-orange-100">
+                {selectedRail
+                  ? `${selectedRail.payAmountDisplay} ${payAsset}`
+                  : quoteBusy
+                    ? "…"
+                    : "—"}
+              </p>
+              {selectedRail?.unavailableReason ? (
+                <p className="mt-0.5 text-[0.7rem] text-rose-300">
+                  {selectedRail.unavailableReason}
+                </p>
+              ) : null}
+            </div>
+            <div>
+              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                Buyer wallet
+              </p>
+              <p
+                className="mt-1 break-all font-mono text-xs text-white/90"
+                data-testid="reads-buyer-address"
+              >
+                {buyerEthereumAddress || "Connect Ethereum in Auxillaries"}
+              </p>
+              {!buyerEthereumAddress ? (
+                <p className="mt-0.5 text-[0.7rem] text-amber-200/80">
+                  Projected settle still runs; live Sepolia needs a connected 0x address.
+                </p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              data-testid="reads-settle-selected"
+              onClick={() => void onSettleSelected()}
+              disabled={!canSettle}
+              className="border border-emerald-300/40 bg-emerald-400/15 px-4 py-2 text-sm font-medium text-emerald-50 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {settleBusy
+                ? "Settling…"
+                : payAsset === "ETH"
+                  ? `Buy with ETH · settle (${selectedIndexes.length})`
+                  : `Settle with ${payAsset} (${selectedIndexes.length})`}
+            </button>
+            {onRefreshQuote && hasSelection ? (
+              <button
+                type="button"
+                data-testid="reads-refresh-quote"
+                onClick={() => void onRefreshQuote()}
+                disabled={quoteBusy || settleBusy}
+                className="border border-white/15 bg-white/[0.04] px-3 py-2 text-xs text-neutral-200 disabled:opacity-40"
+              >
+                {quoteBusy ? "Quoting…" : "Refresh quote"}
+              </button>
+            ) : null}
+            {quoteError ? (
+              <p className="text-sm text-rose-200" data-testid="reads-quote-error">
+                {quoteError}
+              </p>
+            ) : null}
+            {settleError ? (
+              <p className="text-sm text-rose-200" data-testid="reads-settle-error">
+                {settleError}
+              </p>
+            ) : null}
+            {settleMessage ? (
+              <p className="text-sm text-emerald-100/90" data-testid="reads-settle-message">
+                {settleMessage}
+              </p>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </section>

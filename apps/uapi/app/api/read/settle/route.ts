@@ -352,8 +352,29 @@ export async function POST(request: Request) {
   const synthesisRunId =
     typeof body.synthesisRunId === 'string' ? body.synthesisRunId : null;
   const need = typeof body.need === 'string' ? body.need : null;
+  // Prefer explicit payAsset (ETH|BTC|SOL); map to observation network so the
+  // settle pipeline selects the correct multi-rail spot (never pay BTD).
+  const requestedPayAsset =
+    typeof body.payAsset === 'string' ? body.payAsset.toUpperCase() : null;
+  const payAssetNetwork =
+    requestedPayAsset === 'BTC'
+      ? 'btc-testnet'
+      : requestedPayAsset === 'SOL'
+        ? 'solana-devnet'
+        : requestedPayAsset === 'ETH'
+          ? 'ethereum-sepolia'
+          : null;
+  const rawObservation = isObject(body.paymentObservation)
+    ? { ...body.paymentObservation }
+    : {};
+  if (payAssetNetwork && typeof rawObservation.network !== 'string') {
+    rawObservation.network = payAssetNetwork;
+  }
+  if (requestedPayAsset && !rawObservation.payAsset) {
+    rawObservation.payAsset = requestedPayAsset;
+  }
   const paymentObservation = parsePaymentObservation(
-    body.paymentObservation,
+    Object.keys(rawObservation).length > 0 ? rawObservation : body.paymentObservation,
     body.amountSats,
     body.txId,
   );

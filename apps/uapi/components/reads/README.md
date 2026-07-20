@@ -33,7 +33,7 @@ reads/
     read-scenarios.ts                    # measurement draft types (activity history)
     read-format.ts
   ReadPageClient/
-    ReadPageClient.tsx                   # thin orchestration
+    ReadPageClient.tsx                   # thin orchestration + multi-rail settle
     hooks/
       use-read-route-params.ts
       use-read-live-runs.ts
@@ -46,10 +46,19 @@ reads/
   ReadsPipelineTelemetry/
   ReadsNeedComposePanel/                 # Need + path pickers + synthesize CTA
   ReadsNeedPathPickers/
-  ReadsAssetPackOptions/
+  ReadsAssetPackOptions/                 # options + ETH/BTC/SOL checkout + quote
   ReadsOptionCard/
   ReadsRouteStateAside/
 ```
+
+## Multi-rail settle checkout (Gate 5)
+
+1. Select synthesized option(s) with needinesses measurements.
+2. `POST /api/read/settle/quote` → BTD volume (needinesses × decay) + ETH/BTC/SOL pay amounts.
+3. Choose pay rail (ETH P0). Buyer `0x` from Auxillaries wallet when connected.
+4. `POST /api/read/settle` with `payAsset`, `buyerEthereumAddress`, payment observation.
+5. Escrow mint + AP co-own + pending seller payout → finalize on `/packs`.
+
 
 Source selection reuses `deposits/DepositSourceSelection` (same SHA element as
 deposit) with route-facing copy overrides.
