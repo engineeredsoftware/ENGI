@@ -1,9 +1,12 @@
 /**
- * @bitcode/btd ERC1155 settlement surface (V48).
+ * @bitcode/btd ERC1155 settlement surface.
  *
- * Fungible BTD + AssetPack co-ownership NFTs in one BitcodeERC1155.
+ * Fungible BTD (earn on settle) + AssetPack co-ownership NFTs.
+ * Pay rails: ETH | BTC | SOL (never BTD).
  */
 
 export * from './types';
 export * from './settlement-btd-from-needinesses';
+export * from './decay';
+export * from './spot-quote';
 export * from './bitcode-erc1155';

@@ -1,5 +1,5 @@
 /**
- * ExecutionPipelineSimpleSettleAssetPack — 1:1 option, needinesses BTD mint, ERC1155 co-own.
+ * ExecutionPipelineSimpleSettleAssetPack — 1:1 option, needinesses BTD mint to depositor, ERC1155 co-own.
  */
 
 import { Execution } from '@bitcode/execution-generics';
@@ -46,7 +46,7 @@ describe('ExecutionPipelineSimpleSettleAssetPack', () => {
     await expect(pipeline(input, exec)).rejects.toThrow(/1:1/);
   });
 
-  it('runs settle-btc → mint-btd → settle-btd → settle-asset-pack → ship → journal', async () => {
+  it('runs payment → BTD volume quote → finalize (mint to depositor + co-own) → ship → journal', async () => {
     const pipeline = factoryExecutionPipelineSimpleSettleAssetPack();
     const exec = new Execution('test:settle:happy');
     const input: SettleAssetPackInput = {
@@ -57,15 +57,17 @@ describe('ExecutionPipelineSimpleSettleAssetPack', () => {
       masterEthereumAddress: '0xMasterTreasury',
       userId: 'user-1',
       paymentObservation: {
-        network: 'btc-testnet',
+        network: 'ethereum-sepolia',
         amountSats: 12_000,
       },
     };
     const result = await pipeline(input, exec);
 
     expect(result.success).toBe(true);
-    expect(result.summary).toMatch(/settle-btc → mint-btd → settle-btd → settle-asset-pack/);
-    expect(result.readSynthesizedSettledAssetPack?.identity.schema).toMatch(/read-synthesized-settled/);
+    expect(result.summary).toMatch(/finalize-settle/);
+    expect(result.readSynthesizedSettledAssetPack?.identity.schema).toMatch(
+      /read-synthesized-settled/,
+    );
     expect(result.readSynthesizedSettledAssetPack?.btdRights.status).toBe('transferred');
     expect(result.readSynthesizedSettledAssetPack?.assetPackRights.removedPriorOwner).toBe(false);
     expect(result.readSynthesizedSettledAssetPack?.settleable).toBe(false);
@@ -75,15 +77,10 @@ describe('ExecutionPipelineSimpleSettleAssetPack', () => {
     expect(mint.settlementBtd.needinessesCount).toBe(3);
     expect(mint.settlementBtd.needFitVolume).toBeGreaterThan(0.7);
     expect(mint.settlementBtd.needFitVolume).toBeLessThan(1);
-    const onlyNeedinesses = computeSettlementBtdFromNeedinesses(option.measurements);
-    expect(String(mint.settlementBtd.amountBaseUnits)).toBe(
-      onlyNeedinesses.amountBaseUnits.toString(),
-    );
 
     const settleBtd = result.settleBtd;
     expect(settleBtd.agent).toBe('settle-btd');
     expect(settleBtd.buyerAccount.toLowerCase()).toBe('0xbuyerwallet');
-    expect(BigInt(settleBtd.buyerBtdBalance)).toBeGreaterThan(0n);
 
     const settleAp = result.settleAssetPack;
     expect(settleAp.agent).toBe('settle-asset-pack');
@@ -99,11 +96,12 @@ describe('ExecutionPipelineSimpleSettleAssetPack', () => {
     expect(activity.measurements.some((m) => m.category === 'neediness')).toBe(true);
 
     const state = result.erc1155State;
-    expect(balanceOf(state, '0xBuyerWallet', BITCODE_BTD_TOKEN_ID)).toBeGreaterThan(0n);
-    expect(balanceOf(state, '0xMasterTreasury', BITCODE_BTD_TOKEN_ID)).toBe(0n);
+    // Depositor earns minted BTD; buyer does not receive fungible mint.
+    expect(balanceOf(state, '0xDepositorWallet', BITCODE_BTD_TOKEN_ID)).toBeGreaterThan(0n);
+    expect(balanceOf(state, '0xBuyerWallet', BITCODE_BTD_TOKEN_ID)).toBe(0n);
   });
 
-  it('mint amount ignores absolutes entirely', () => {
+  it('mint volume ignores absolutes entirely', () => {
     const withAbs = computeSettlementBtdFromNeedinesses({
       absolutes: [{ kind: 'functions', volume: 1, magnitude: 999, weight: 1 }],
       needinesses: [{ kind: 'language-fit', volume: 0.5, weight: 1 }],

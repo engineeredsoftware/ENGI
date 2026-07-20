@@ -3,14 +3,17 @@
 Canonical `$BTD` / Bitcode registry, settlement token law, read-right, BTC-fee,
 and measureminting utilities for Bitcode.
 
-## V48 settlement token law (BitcodeERC1155)
+## Settlement token law (BitcodeERC1155)
 
-Commercial **read settle** uses a single ERC1155:
+Commercial **read settle** uses a single ERC1155 on Ethereum:
 
 | Token | ID | Kind | Cap / behavior |
 | --- | --- | --- | --- |
-| **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). Minted from **needinesses-only** weighted scalar after BTC settle → master, then transferred to buyer. |
+| **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). **Minted on settle** to depositor earn slices (needinesses volume + supply decay). Freely transferable. **Never the pay asset.** |
 | **AssetPack** | `≥ 1` | NFT co-ownership | Add-only co-owners; depositor retains; burn forbidden. |
+
+**Pay rails:** ETH (on-chain), BTC / SOL (attested). Spot vs BTD (mock default on testnet).  
+**Earn:** BTD mint to depositors (`btdBps`); coin leg optional with fee.
 
 ### Dual maintain: `contracts/` and `src/erc1155/` (not generated)
 

@@ -15,14 +15,13 @@
  * option starts its own settle pipeline (1:1 AssetPack : settle run) and yields
  * ReadSynthesizedSettledAssetPack commercial state.
  *
- * Stages (binding V48 law):
+ * Stages (multi-rail BTD earn law):
  *   1. validate-settlement-readiness
- *   2. settle-btc
- *   3. mint-btd
- *   4. settle-btd
- *   5. settle-asset-pack
- *   6. ship-asset-pack-patch-pr
- *   7. journal-and-pack-activity
+ *   2. settle-payment (ETH|BTC|SOL observation / projected)
+ *   3. quote-btd-volume (needinesses → rawV → decay)
+ *   4. finalize-settle (mint depositor BTD slices + AP co-own; never pay in BTD)
+ *   5. ship-asset-pack-patch-pr
+ *   6. journal-and-pack-activity
  *
  * All settle/contract surfaces are strongly typed (see settle-types.ts).
  */
@@ -34,16 +33,19 @@ import {
   type ExecutionPipelineSimple,
 } from '@bitcode/generic-pipelines-execution-pipeline-simple';
 import {
-  addAssetPackCoOwner,
+  applyBtdSupplyDecay,
   assertPositiveSettlementBtd,
   balanceOf,
   BITCODE_BTD_TOKEN_ID,
+  buildMultiRailSpotQuote,
   computeSettlementBtdFromNeedinesses,
   createBitcodeErc1155State,
-  mintBtdToMaster,
+  createMockSpotBoard,
+  finalizeSettle,
   serializeBitcodeErc1155State,
-  transferBtdFromMasterToBuyer,
   type BitcodeErc1155State,
+  type PayAsset,
+  type SettleQuote,
 } from '@bitcode/btd/erc1155';
 import { buildReadSynthesizedAssetPack } from '@bitcode/generic-asset-packs-read-synthesized';
 import {
@@ -370,13 +372,14 @@ const settleBtc: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
 };
 
 // ---------------------------------------------------------------------------
-// 3. mint-btd
+// 3. quote-btd-volume (needinesses → rawV → decay; multi-rail spot preview)
 // ---------------------------------------------------------------------------
 const mintBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'mint-btd');
+  // Agent name kept as mint-btd for journal continuity; law is volume quote + later mint-to-depositor.
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'quote-btd-volume');
   const option =
     getStored<SettleAssetPackOption>(execution, 'settle-asset-pack-pipeline', 'assetPackOption') ||
     resolveSingleOption(input);
@@ -384,46 +387,53 @@ const mintBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
     getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') ||
     assetPackKeyFor(option, input);
 
-  const settlementBtd = assertPositiveSettlementBtd(
+  const raw = assertPositiveSettlementBtd(
     computeSettlementBtdFromNeedinesses(option.measurements, { assetPackKey }),
   );
-
   const master = defaultMasterAddress(input);
   const state = ensureErc1155State(input, master);
-
-  const { state: nextState, receipt } = mintBtdToMaster(state, {
-    amountBaseUnits: settlementBtd.amountBaseUnits,
-    needFitVolume: settlementBtd.needFitVolume,
-    weightedNeedinessesSum: settlementBtd.weightedNeedinessesSum,
-    needinessesCount: settlementBtd.needinessesCount,
-    assetPackKey,
-    proofRoot: settlementBtd.proofRoot,
+  const decayed = applyBtdSupplyDecay({
+    rawVolumeBaseUnits: raw.amountBaseUnits,
+    btdTotalMinted: state.btdTotalMinted,
   });
+  if (decayed.btdVolume <= 0n) {
+    throw new Error('quote-btd-volume: decayed BTD volume is zero (supply exhausted or zero fit).');
+  }
+
+  const multiRail = buildMultiRailSpotQuote(decayed.btdVolume, createMockSpotBoard());
+  const settlementBtd = {
+    ...raw,
+    amountBaseUnits: decayed.btdVolume,
+    amountBtd: Number(decayed.btdVolume) / 1e18,
+    decay: decayed.decay,
+    decayMicro: decayed.decayMicro,
+    multiRailSpot: multiRail,
+  };
 
   const mintArtifact: MintBtdArtifact = {
     schema: 'bitcode.settle-asset-pack.mint-btd',
     agent: 'mint-btd',
-    settlementBtd,
+    settlementBtd: settlementBtd as MintBtdArtifact['settlementBtd'],
     receipt: {
-      kind: receipt.kind,
-      tokenId: receipt.tokenId.toString(),
-      to: receipt.to,
-      amountBaseUnits: receipt.amountBaseUnits.toString(),
-      needFitVolume: receipt.needFitVolume,
-      weightedNeedinessesSum: receipt.weightedNeedinessesSum,
-      needinessesCount: receipt.needinessesCount,
-      btdTotalMintedBefore: receipt.btdTotalMintedBefore.toString(),
-      btdTotalMintedAfter: receipt.btdTotalMintedAfter.toString(),
-      maxSupplyBaseUnits: receipt.maxSupplyBaseUnits.toString(),
-      assetPackKey: receipt.assetPackKey,
-      settlementSequence: receipt.settlementSequence.toString(),
-      proofRoot: receipt.proofRoot,
-      issuedAt: receipt.issuedAt,
+      kind: 'btd.erc1155.volume-quote',
+      tokenId: '0',
+      to: defaultDepositorAddress(input),
+      amountBaseUnits: decayed.btdVolume.toString(),
+      needFitVolume: raw.needFitVolume,
+      weightedNeedinessesSum: raw.weightedNeedinessesSum,
+      needinessesCount: raw.needinessesCount,
+      btdTotalMintedBefore: state.btdTotalMinted.toString(),
+      btdTotalMintedAfter: state.btdTotalMinted.toString(),
+      maxSupplyBaseUnits: decayed.remainingMintable.toString(),
+      assetPackKey,
+      settlementSequence: state.settlementSequence.toString(),
+      proofRoot: raw.proofRoot,
+      issuedAt: new Date().toISOString(),
     },
     masterAccount: master,
-    masterBtdBalance: balanceOf(nextState, master, BITCODE_BTD_TOKEN_ID).toString(),
+    masterBtdBalance: balanceOf(state, master, BITCODE_BTD_TOKEN_ID).toString(),
     note:
-      'BTD minted to master from needinesses-weighted scalar only (absolutes excluded). Finite 21M supply.',
+      'BTD Volume quoted from needinesses + supply decay. Mint occurs on finalize to depositor earn slices (never pay-in-BTD).',
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'mintBtd', mintArtifact);
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settlementBtd', settlementBtd);
@@ -431,24 +441,24 @@ const mintBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
     execution,
     'settle-asset-pack-pipeline',
     'erc1155State',
-    serializeBitcodeErc1155State(nextState),
+    serializeBitcodeErc1155State(state),
   );
   return {
     ...input,
-    erc1155State: nextState,
+    erc1155State: state,
     mintBtd: mintArtifact,
-    settlementBtd,
+    settlementBtd: settlementBtd as SettleAssetPackInput['settlementBtd'],
   };
 };
 
 // ---------------------------------------------------------------------------
-// 4. settle-btd
+// 4. settle-btd — record pay rail (not BTD transfer to buyer)
 // ---------------------------------------------------------------------------
 const settleBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'settle-btd');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'settle-pay-rail');
   const mintArtifact =
     input.mintBtd ||
     getStored<MintBtdArtifact>(execution, 'settle-asset-pack-pipeline', 'mintBtd');
@@ -457,87 +467,65 @@ const settleBtd: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
     getStored<MintBtdArtifact['settlementBtd']>(execution, 'settle-asset-pack-pipeline', 'settlementBtd') ||
     mintArtifact?.settlementBtd;
   if (!settlementBtd || settlementBtd.amountBaseUnits <= 0n) {
-    throw new Error('settle-btd requires prior mint-btd with positive amountBaseUnits.');
+    throw new Error('settle-pay-rail requires prior BTD volume quote with positive amountBaseUnits.');
   }
-  const amountBaseUnits = settlementBtd.amountBaseUnits;
 
   const buyer = defaultBuyerAddress(input);
-  const master = defaultMasterAddress(input);
-  const assetPackKey =
-    getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') || 'asset-pack';
-  let state = ensureErc1155State(input, master);
-
-  if (balanceOf(state, master, BITCODE_BTD_TOKEN_ID) < amountBaseUnits) {
-    const reMint = mintBtdToMaster(state, {
-      amountBaseUnits,
-      needFitVolume: settlementBtd.needFitVolume,
-      weightedNeedinessesSum: settlementBtd.weightedNeedinessesSum,
-      needinessesCount: settlementBtd.needinessesCount,
-      assetPackKey,
-      proofRoot: settlementBtd.proofRoot || 'btd-remint',
-    });
-    state = reMint.state;
-  }
-
-  const { state: nextState, receipt } = transferBtdFromMasterToBuyer(state, {
-    buyerAccount: buyer,
-    amountBaseUnits,
-    assetPackKey,
-  });
+  const prior = input.paymentObservation ?? {};
+  const payAsset: PayAsset =
+    typeof prior.network === 'string' && prior.network.toLowerCase().includes('sol')
+      ? 'SOL'
+      : typeof prior.network === 'string' && prior.network.toLowerCase().includes('btc')
+        ? 'BTC'
+        : 'ETH';
 
   const settleBtdArtifact: SettleBtdArtifact = {
     schema: 'bitcode.settle-asset-pack.settle-btd',
     agent: 'settle-btd',
     receipt: {
-      kind: receipt.kind,
-      tokenId: receipt.tokenId.toString(),
-      from: receipt.from,
-      to: receipt.to,
-      amountBaseUnits: receipt.amountBaseUnits.toString(),
-      assetPackKey: receipt.assetPackKey,
-      settlementSequence: receipt.settlementSequence.toString(),
-      proofRoot: receipt.proofRoot,
-      issuedAt: receipt.issuedAt,
+      kind: 'settle.pay-rail',
+      tokenId: '0',
+      from: buyer,
+      to: 'protocol',
+      amountBaseUnits: settlementBtd.amountBaseUnits.toString(),
+      assetPackKey:
+        getStored<string>(execution, 'settle-asset-pack-pipeline', 'assetPackKey') || 'asset-pack',
+      settlementSequence: '0',
+      proofRoot: `pay-rail:${payAsset}`,
+      issuedAt: new Date().toISOString(),
     },
     buyerAccount: buyer,
-    buyerBtdBalance: balanceOf(nextState, buyer, BITCODE_BTD_TOKEN_ID).toString(),
-    masterBtdBalance: balanceOf(nextState, master, BITCODE_BTD_TOKEN_ID).toString(),
-    note: 'BTD transferred from master treasury to buyer Ethereum wallet.',
+    buyerBtdBalance: '0',
+    masterBtdBalance: '0',
+    note: `Buyer pays ${payAsset} at spot for BTD Volume (never pays BTD). Depositor earns minted BTD on finalize.`,
   };
   const rights: SettleRightsArtifact = {
     schema: 'bitcode.settle-asset-pack.rights-transfer',
     readerWalletId: input.readerWalletId || null,
     depositorWalletId: input.depositorWalletId || null,
     buyerEthereumAddress: buyer,
-    btdMinted: true,
-    btdTransferred: true,
-    amountBaseUnits: amountBaseUnits.toString(),
-    status: 'transferred',
+    btdMinted: false,
+    btdTransferred: false,
+    amountBaseUnits: settlementBtd.amountBaseUnits.toString(),
+    status: 'pending-finalize',
   };
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleBtd', settleBtdArtifact);
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'rights', rights);
-  storeCrossPhaseArtifact(
-    execution,
-    'settle-asset-pack-pipeline',
-    'erc1155State',
-    serializeBitcodeErc1155State(nextState),
-  );
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'payAsset', payAsset);
   return {
     ...input,
-    erc1155State: nextState,
     settleBtd: settleBtdArtifact,
-    settlementFinalized: true,
   };
 };
 
 // ---------------------------------------------------------------------------
-// 5. settle-asset-pack
+// 5. settle-asset-pack — finalizeSettle (mint depositor BTD + co-own buyer)
 // ---------------------------------------------------------------------------
 const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = async (
   input,
   execution,
 ) => {
-  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'settle-asset-pack');
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'stage', 'finalize-settle');
   const option =
     getStored<SettleAssetPackOption>(execution, 'settle-asset-pack-pipeline', 'assetPackOption') ||
     resolveSingleOption(input);
@@ -547,50 +535,161 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
   const buyer = defaultBuyerAddress(input);
   const depositor = defaultDepositorAddress(input);
   const master = defaultMasterAddress(input);
-  const state = ensureErc1155State(input, master);
+  let state = ensureErc1155State(input, master);
+
+  const settlementBtd =
+    input.settlementBtd ||
+    getStored<MintBtdArtifact['settlementBtd']>(execution, 'settle-asset-pack-pipeline', 'settlementBtd');
+  if (!settlementBtd || settlementBtd.amountBaseUnits <= 0n) {
+    throw new Error('finalize-settle requires BTD volume quote.');
+  }
+
+  const payAsset =
+    (getStored<PayAsset>(execution, 'settle-asset-pack-pipeline', 'payAsset') as PayAsset | null) ||
+    'ETH';
+
+  const multiRail = buildMultiRailSpotQuote(
+    settlementBtd.amountBaseUnits,
+    createMockSpotBoard(),
+  );
+  const rail = multiRail.options.find((o) => o.payAsset === payAsset) || multiRail.options[0];
+  if (!rail?.available || rail.payAmount <= 0n) {
+    throw new Error(`finalize-settle: spot unavailable for ${payAsset}`);
+  }
 
   const metadataRoot =
     (typeof option.optionRoot === 'string' && option.optionRoot) ||
     (typeof option.measurementRoot === 'string' && option.measurementRoot) ||
     `ap-meta:${assetPackKey}`;
 
-  const { state: nextState, receipt } = addAssetPackCoOwner(state, {
+  const quote: SettleQuote = {
     assetPackKey,
-    buyerAccount: buyer,
-    depositorAccount: depositor,
+    buyer,
+    payAsset: rail.payAsset,
+    btdVolume: settlementBtd.amountBaseUnits,
+    payAmount: rail.payAmount,
+    rateMicro: rail.rateMicro,
+    needFitMicro: Math.round((settlementBtd.needFitVolume || 0) * 1e6),
+    decayMicro:
+      typeof (settlementBtd as { decayMicro?: number }).decayMicro === 'number'
+        ? (settlementBtd as { decayMicro: number }).decayMicro
+        : 1_000_000,
+    shares: [
+      {
+        depositor,
+        weightBps: 10_000,
+        btdBps: 10_000,
+        coinBps: 0,
+      },
+    ],
     metadataRoot,
+    deadline: Math.floor(Date.now() / 1000) + 600,
+    quoteId: `settle:${assetPackKey}:${Date.now().toString(36)}`,
+  };
+
+  const finalized = finalizeSettle(state, quote, {
+    ethPaid: payAsset === 'ETH' ? quote.payAmount : undefined,
+    railTxId:
+      payAsset !== 'ETH'
+        ? `rail:${payAsset}:${typeof input.paymentObservation?.txId === 'string' ? input.paymentObservation.txId : quote.quoteId}`
+        : undefined,
   });
+  state = finalized.state;
+  const receipt = finalized.receipt;
 
   const settleApArtifact: SettleAssetPackArtifact = {
     schema: 'bitcode.settle-asset-pack.settle-asset-pack',
     agent: 'settle-asset-pack',
     receipt: {
-      kind: receipt.kind,
-      tokenId: receipt.tokenId.toString(),
-      assetPackKey: receipt.assetPackKey,
-      addedAccount: receipt.addedAccount,
-      coOwners: [...receipt.coOwners],
+      kind: receipt.coOwn.kind,
+      tokenId: receipt.coOwn.tokenId.toString(),
+      assetPackKey: receipt.coOwn.assetPackKey,
+      addedAccount: receipt.coOwn.addedAccount,
+      coOwners: [...receipt.coOwn.coOwners],
       removedPriorOwner: false,
-      settlementSequence: receipt.settlementSequence.toString(),
-      proofRoot: receipt.proofRoot,
-      issuedAt: receipt.issuedAt,
+      settlementSequence: receipt.coOwn.settlementSequence.toString(),
+      proofRoot: receipt.coOwn.proofRoot,
+      issuedAt: receipt.coOwn.issuedAt,
     },
-    coOwners: [...receipt.coOwners],
+    coOwners: [...receipt.coOwn.coOwners],
     removedPriorOwner: false,
     note:
-      'Buyer added as equal AssetPack co-owner (ERC1155). Depositor retains ownership; burn/remove forbidden.',
+      'Finalize: depositor earned minted BTD (needinesses volume); buyer paid external rail; buyer co-own AP (add-only).',
   };
+
+  const rights: SettleRightsArtifact = {
+    schema: 'bitcode.settle-asset-pack.rights-transfer',
+    readerWalletId: input.readerWalletId || null,
+    depositorWalletId: input.depositorWalletId || null,
+    buyerEthereumAddress: buyer,
+    btdMinted: receipt.btdMintedTotal > 0n,
+    btdTransferred: false,
+    amountBaseUnits: receipt.btdMintedTotal.toString(),
+    status: 'transferred',
+  };
+
+  const mintArtifact: MintBtdArtifact = {
+    schema: 'bitcode.settle-asset-pack.mint-btd',
+    agent: 'mint-btd',
+    settlementBtd: settlementBtd as MintBtdArtifact['settlementBtd'],
+    receipt: {
+      kind: 'btd.erc1155.earned',
+      tokenId: '0',
+      to: depositor,
+      amountBaseUnits: receipt.btdMintedTotal.toString(),
+      needFitVolume: settlementBtd.needFitVolume,
+      weightedNeedinessesSum: settlementBtd.weightedNeedinessesSum,
+      needinessesCount: settlementBtd.needinessesCount,
+      btdTotalMintedBefore: (state.btdTotalMinted - receipt.btdMintedTotal).toString(),
+      btdTotalMintedAfter: state.btdTotalMinted.toString(),
+      maxSupplyBaseUnits: '0',
+      assetPackKey,
+      settlementSequence: receipt.settlementSequence.toString(),
+      proofRoot: receipt.coOwn.proofRoot,
+      issuedAt: receipt.issuedAt,
+    },
+    masterAccount: master,
+    masterBtdBalance: balanceOf(state, master, BITCODE_BTD_TOKEN_ID).toString(),
+    note: 'BTD minted to depositor earn slice(s) only.',
+  };
+
+  const settleBtdArtifact: SettleBtdArtifact = {
+    schema: 'bitcode.settle-asset-pack.settle-btd',
+    agent: 'settle-btd',
+    receipt: {
+      kind: 'settle.pay-rail',
+      tokenId: '0',
+      from: buyer,
+      to: depositor,
+      amountBaseUnits: quote.payAmount.toString(),
+      assetPackKey,
+      settlementSequence: receipt.settlementSequence.toString(),
+      proofRoot: `pay:${quote.payAsset}`,
+      issuedAt: receipt.issuedAt,
+    },
+    buyerAccount: buyer,
+    buyerBtdBalance: balanceOf(state, buyer, BITCODE_BTD_TOKEN_ID).toString(),
+    masterBtdBalance: balanceOf(state, master, BITCODE_BTD_TOKEN_ID).toString(),
+    note: `Paid ${quote.payAsset}; depositor BTD balance ${balanceOf(state, depositor, BITCODE_BTD_TOKEN_ID)}.`,
+  };
+
   storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleAssetPack', settleApArtifact);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'mintBtd', mintArtifact);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'settleBtd', settleBtdArtifact);
+  storeCrossPhaseArtifact(execution, 'settle-asset-pack-pipeline', 'rights', rights);
   storeCrossPhaseArtifact(
     execution,
     'settle-asset-pack-pipeline',
     'erc1155State',
-    serializeBitcodeErc1155State(nextState),
+    serializeBitcodeErc1155State(state),
   );
   return {
     ...input,
-    erc1155State: nextState,
+    erc1155State: state,
     settleAssetPack: settleApArtifact,
+    mintBtd: mintArtifact,
+    settleBtd: settleBtdArtifact,
+    settlementFinalized: true,
   };
 };
 
@@ -917,7 +1016,7 @@ const journalAndPackActivity: Executor<SettleAssetPackInput, SettleAssetPackResu
     selectedOptions: [option],
     success: true,
     packActivity: activity,
-    summary: `${summaryTitle}. settle-asset-pack-pipeline: validate → settle-btc → mint-btd → settle-btd → settle-asset-pack → ship PR → packs.`,
+    summary: `${summaryTitle}. settle-asset-pack-pipeline: validate → settle-payment → quote-btd-volume → finalize-settle → ship PR → packs.`,
     erc1155State: input.erc1155State,
     mintBtd: mintBtdArtifact,
     settleBtd: settleBtdArtifact,

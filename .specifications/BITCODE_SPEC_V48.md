@@ -1076,55 +1076,51 @@ Deposit: `needinesses: []` always. Read: fail-closed if needinesses empty or any
 one or more. **Each bought option starts its own** `SettleAssetPackSimplePipeline`
 run (1:1 AssetPack : settle pipeline). Never settle multiple packs inside one run.
 
+**Pay / earn law:** Buyers **never pay in BTD**. Buyers pay **ETH, BTC, or SOL**
+at spot vs BTD (mock spots allowed on testnet). Depositors **earn BTD** via mint
+on settle (needinesses volume after supply decay), split by source-to-shares and
+depositor `btdBps` / `coinBps` (coin leg takes protocol fee; BTD leg has no fee).
+Unchosen BTD is not minted. Buyer receipt is **AssetPack co-own NFT + delivery**.
+
 | # | Stage / agent | Law |
 |---|---|---|
 | 1 | `validate-settlement-readiness` | Exactly one `assetPackOption`; fail-closed if zero or many |
-| 2 | `settle-btc` | BTC-testnet payment observation / finality (live mempool when `txId` present; else projected) |
-| 3 | `mint-btd` | Mint **fungible BTD** to **master** contract account. Amount = needinesses-only weighted scalar (see below). Absolutes never mint BTD |
-| 4 | `settle-btd` | Transfer minted BTD from master → **buyer Ethereum wallet** |
-| 5 | `settle-asset-pack` | **BitcodeERC1155**: add buyer as equal AssetPack co-owner; depositor retains; **never remove/burn** AP ownership |
-| 6 | `ship-asset-pack-patch-pr` | Open PR on **read** repo applying that option’s `.patch` |
-| 7 | `journal-and-pack-activity` | `/packs` settled-assetpack activity row |
+| 2 | `settle-payment` | Observe / project pay rail (ETH on-chain; BTC/SOL attested) |
+| 3 | `quote-btd-volume` | Needinesses → rawV → residual-supply **decay** → V; multi-rail spot options |
+| 4 | `finalize-settle` | `BitcodeERC1155`: mint depositor BTD slices + add buyer co-owner; burn AP forbidden |
+| 5 | `ship-asset-pack-patch-pr` | Open PR on **read** repo applying that option’s `.patch` |
+| 6 | `journal-and-pack-activity` | `/packs` settled-assetpack activity row |
 
-#### BTD (Bitcode) fungible token — mint amount
+#### BTD (Bitcode) fungible token — volume and mint
 
 - **BTD** is a finite fungible token named Bitcode with max supply **21,000,000**
-  whole tokens (18 decimals base units). Introduced commercially on the **read /
-  settle** path (not deposit option synthesis).
-- **Mint only after** `settle-btc` finality (or testnet-projected finality when
-  productized with projected observation).
-- Amount uses **needinesses measurements only**:
+  whole tokens (18 decimals). Freely transferable for external markets.
+- **Volume uses needinesses only** (absolutes never set V):
 
 ```
 weightedNeedinessesSum = Σ (w_i × clamp01(volume_i))   // needinesses *-fit only
 needFitVolume          = weightedNeedinessesSum / Σ w_i   // ∈ [0,1]
-amountBaseUnits        = floor(needFitVolume × 10^18)
+rawV                   = floor(needFitVolume × 10^18)
+V                      = floor(rawV × decay)   // decay from residual 21M supply
 ```
 
-- `need-fit` composite rows are derived, not double-counted as mint inputs.
-- Absolutes and deposit-side estimates never mint settlement BTD.
-- Mint destination is the **master** treasury account on BitcodeERC1155; `settle-btd`
-  then transfers to the buyer.
+- Mint destination is **depositor share recipient(s)** per `btdBps`, only on finalize.
+- Buyers do **not** receive fungible BTD mint as purchase receipt.
 
 #### BitcodeERC1155 (single contract)
 
-One clean ERC1155 hosts both economic objects:
-
 | Token | ID | Kind | Behavior |
 |---|---|---|---|
-| BTD (Bitcode) | `0` | Fungible | Cap 21M; `mintBtdToMaster` then `settleBtdToBuyer` |
-| AssetPack | `≥ 1` | NFT co-ownership | `registerAssetPack` (depositor first); `addAssetPackCoOwner` **adds** buyer; burn/remove **forbidden** |
+| BTD (Bitcode) | `0` | Fungible | Cap 21M; mint on settle to depositor slices; free transfer |
+| AssetPack | `≥ 1` | NFT co-ownership | `registerAssetPack`; add-only co-own; burn **forbidden** |
 
-AssetPack “transfer” is **add-only co-ownership**: the depositor always retains
-(source remains theirs; they can re-synthesize the same pack). The buyer becomes
-an equal co-owner. Neither party may remove the other. Future re-list/resale is
-a later right for both co-owners; not V48 burn semantics.
+Pay entrypoints: `settleReadWithEth` (ETH); `settleReadWithExternalPay` (BTC/SOL + attestor).
 
 Sources of truth:
 
 - Solidity: `packages/btd/contracts/BitcodeERC1155.sol`
-- TS mirror + receipts: `packages/btd/src/erc1155/`
-- Pipeline: `packages/asset-packs-pipelines/settle-asset-pack-pipeline/`
+- TS mirror + decay + spot: `packages/btd/src/erc1155/`
+- Pipeline: `packages/asset-packs-pipelines/settle/`
 
 ### G4-6 `/packs` master-detail
 

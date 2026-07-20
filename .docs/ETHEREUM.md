@@ -1,149 +1,113 @@
 # Ethereum in Bitcode
 
-**Role:** EVM settlement **token law** for commercial read settle via a dual-maintained
-**BitcodeERC1155** (fungible BTD + AssetPack co-ownership NFTs), plus optional
-**ledger-anchor** commitment posture on Ethereum networks (e.g. Sepolia research /
-registry events). Bitcoin remains the fee rail; Ethereum is not the primary
-product UX host.
+**Role:** Primary chain for commercial settlement:
+
+- **BitcodeERC1155** — fungible **BTD** (earn on settle) + **AssetPack** co-ownership NFTs  
+- Buyers **pay ETH** (on-chain) or **BTC / SOL** (attested external rails) at **spot vs BTD**  
+- **Never pay in BTD**; depositors **earn BTD** via mint on settle  
 
 Related: [`packages/btd/README.md`](../packages/btd/README.md),
-[`ASSET_PACKS.md`](./ASSET_PACKS.md), active SPEC under `.specifications/`.
+[`packages/btd/contracts/README.md`](../packages/btd/contracts/README.md),
+active SPEC under `.specifications/`.
 
 ---
 
 ## 1. Settlement token law (BitcodeERC1155)
 
-Commercial **read settle** uses a **single ERC1155** contract family:
-
 | Token | ID | Kind | Cap / behavior |
 | --- | --- | --- | --- |
-| **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). Minted from **needinesses-only** weighted scalar after BTC settle → master, then transferred to buyer. |
+| **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). Minted on settle to depositor **btdBps** slices only. Freely transferable (external markets). |
 | **AssetPack** | `≥ 1` | NFT co-ownership | Add-only co-owners; depositor retains; burn forbidden. |
+
+### Pay rails
+
+| Rail | On-chain | Notes |
+| --- | --- | --- |
+| **ETH** | `settleReadWithEth{value}` | Atomic pay + mint + co-own |
+| **BTC** | `settleReadWithExternalPay` + attestor proof | Payment observed off-chain |
+| **SOL** | same | Payment observed off-chain |
+
+### BTD Volume
+
+```
+rawV = floor(needFitVolume × 10^18)     // needinesses *-fit only
+V    = floor(rawV × decay)              // residual 21M supply decay
+// Absolutes never set V
+```
+
+Depositor payout: `btdBps` (mint, 0 fee) + `coinBps` (external coin, `coinFeeBps` fee) = 10000.  
+Unchosen BTD is **not minted**.
 
 ### Dual maintain (not codegen)
 
 | Path | Language | Role |
 | --- | --- | --- |
-| `packages/btd/contracts/BitcodeERC1155.sol` | Solidity | On-chain deployable contract: supply cap, mint-to-master, settle-to-buyer, add-only co-own, burn ban |
-| `packages/btd/src/erc1155/` | TypeScript | Executable mirror + needinesses mint math for tests, receipts, pipelines without solc |
+| `packages/btd/contracts/BitcodeERC1155.sol` | Solidity | Deployable contract |
+| `packages/btd/src/erc1155/` | TypeScript | Mirror + needinesses + decay + spot math |
 
 **Package export:** `@bitcode/btd` / `@bitcode/btd/erc1155`
 
 | TS module | Role |
 | --- | --- |
-| `bitcode-erc1155.ts` | State machine: mint / transfer / co-own |
-| `settlement-btd-from-needinesses.ts` | Off-chain amount: needinesses-weighted scalar × 10¹⁸ |
-| `types.ts` | Token identity, event kinds (`btd.erc1155.*`, `asset-pack.erc1155.co-own`) |
-| `__tests__/bitcode-erc1155.test.ts` | Unit coverage of the mirror |
+| `bitcode-erc1155.ts` | `finalizeSettle`, co-own, BTD transfer |
+| `settlement-btd-from-needinesses.ts` | rawV from needinesses |
+| `decay.ts` | residual supply decay |
+| `spot-quote.ts` | ETH/BTC/SOL pay amounts (mock default) |
+| `types.ts` | Quote, SharePayout, PayAsset |
 
-**Why dual:** product runs in Node/Next; chain runs under EVM. Needinesses
-weighting is off-chain; Solidity enforces supply/transfers only. Do not treat
-`contracts/` as build output of `src/erc1155/`—edit both when token law changes.
-
-**Pipeline consumer:** `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack`
-(and related settle/read product paths).
+**Pipeline:** `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack`
 
 ---
 
-## 2. Ledger chain taxonomy
+## 2. Spot / FX quoting
 
-From `packages/btd/src/constants.ts`:
+Buy UI shows three options with **spot vs BTD**. Server signs `payAmount`; browser never authors rates.
 
-```ts
-LEDGER_CHAINS = ['bitcoin', 'ethereum', 'bitcode-internal-ledger']
-```
+| Mode | Env | Use |
+| --- | --- | --- |
+| **mock** | `BITCODE_SPOT_PROVIDER=mock` (default testnet/CI) | Deterministic fixtures; real EIP-712 path |
+| **http** | CoinGecko/CMC/exchange REST | Production-shaped adapter |
+| **chainlink** | Aggregator feeds + BTD reference/TWAP | Optional on-chain USD legs |
 
-Networks include research/staging labels such as **`sepolia`** among Bitcoin and
-internal ledger networks.
+Access checklist (testnet mock needs only RPC + deploy keys + operator signer):
 
-### Ledger anchors
+- Sepolia RPC, `BITCODE_ERC1155_ADDRESS`, quote signer / payment attestor keys  
+- Optional: spot HTTP API key, Chainlink feed addresses, BTD/WETH pool  
 
-`packages/btd/src/ledger-anchor.ts`:
-
-- `chain: 'ethereum'` requires / defaults commitment method when anchoring.
-- Commitment methods include **`ethereum_registry_event`** (alongside Bitcoin
-  methods and `internal_journal`).
-- ORM data-health checks validate `commitment_method` includes
-  `ethereum_registry_event`.
-
-Tests: `packages/btd/__tests__/v27-crypto-primitives.test.ts` (ethereum + sepolia
-+ `ethereum_registry_event` fixtures).
-
-**Important:** bridge-readiness research (Taproot, BitVM, BSC/opBNB, Web3
-wallets, etc.) is documented in BTD as **research-only** and must not become
-current `$BTD` chain-of-record without explicit future proof and policy.
+See plan section “Spot / FX quoting” and `spot-quote.ts` header for full env list.
 
 ---
 
-## 3. Product surfaces that consume ERC1155 law
+## 3. Wallets
 
-| Area | How Ethereum law appears |
-| --- | --- |
-| **Reads settle** | Settlement receipts / rights delivery project BTD mint + AssetPack co-own via TS mirror before/without live deploy |
-| **Packs** | Activity/detail may show settlement/token posture sourced from BTD packages |
-| **API** | BTD crypto routes under `packages/api` / `apps/uapi/app/api/btd/*` for journal, mint, rights—token math from `@bitcode/btd` |
-| **Journal** | BTD journal entries can reference proof/settlement roots tied to token ops |
-
-Live chain RPC deployment of `BitcodeERC1155.sol` is operationally separate from
-the always-on product path that uses the TypeScript mirror for fail-closed
-receipts.
+- **Product identity:** popular **Ethereum** wallets (MetaMask, WalletConnect, Coinbase, Rainbow) via Auxillaries Wallet  
+- **BTC / SOL:** pay rails only (not Auxillaries identity in P0)  
+- SIWE / domain message for Supabase session; no server custody  
 
 ---
 
-## 4. Wallet UI: do not confuse chains
-
-`apps/uapi/app/tps/README.md` (and wallet authorize flow):
-
-- Browser wallet proof returns an authorization code toward **Supabase** session.
-- **`window.ethereum` is never treated as a Bitcoin wallet.**
-
-Bitcoin fee/PSBT paths live in BTD wallet/BTC modules; Ethereum injection is
-out of band for BTC fee rails.
-
----
-
-## 5. What is **not** Ethereum usage
+## 4. What is **not** Ethereum usage
 
 | Topic | Owner |
 | --- | --- |
-| Postgres / auth / Storage | Supabase (`SUPABASE.md`) |
-| Next deploy / Sandbox VMs / Blob / Analytics | Vercel (`VERCEL.md`) |
-| BTC fees, PSBT, Taproot fee rails | `packages/btd` Bitcoin primitives |
-| Internal journal-only projection | `bitcode-internal-ledger` chain id |
+| Postgres / auth / Storage | Supabase |
+| Next deploy | Vercel |
+| Internal journal projection | `bitcode-internal-ledger` / BTD journal modules |
 
 ---
 
-## 6. Environment / deploy notes
+## 5. Maintenance checklist
 
-There is **no** single monorepo-wide “Ethereum RPC env” required for ordinary
-local product work—the TS mirror is enough for unit tests and projected settle.
-
-When deploying the Solidity contract (operator-owned):
-
-- Configure network RPC, deployer keys, and verification **outside** casual app
-  `.env` templates unless a dedicated deploy path is admitted.
-- Keep chain addresses / deployment receipts out of source-safe public proofs
-  unless SPEC explicitly allows them.
-- Align any on-chain address config with dual-maintain review of
-  `BitcodeERC1155.sol` ↔ `src/erc1155/`.
-
----
-
-## 7. Maintenance checklist
-
-When changing Ethereum settlement law:
-
-1. Update **both** `packages/btd/contracts/BitcodeERC1155.sol` and
-   `packages/btd/src/erc1155/*`.
-2. Keep needinesses → amount formula only in TS (+ SPEC).
-3. Extend unit tests (`bitcode-erc1155.test.ts`, crypto primitives).
-4. Revisit settle pipeline consumers and API serializers.
-5. Do not reintroduce product cockpit as the place to “view Ethereum”; use
-   Packs/Reads/BTD package surfaces.
+1. Update **both** `BitcodeERC1155.sol` and `src/erc1155/*`.  
+2. Needinesses → rawV only in TS; decay + spot off-chain; Solidity enforces signed quote + cap.  
+3. Extend unit tests (`bitcode-erc1155.test.ts`) and settle pipeline tests.  
+4. Revisit settle consumers and API serializers.  
+5. Keep Auxillaries Wallet Ethereum-first.
 
 ### Quick test
 
 ```bash
 pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand \
   __tests__/bitcode-erc1155.test.ts
+pnpm --filter @bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack test
 ```

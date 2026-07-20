@@ -1,12 +1,11 @@
 /**
- * Bitcode ERC1155 token identity (V48 settlement law).
+ * Bitcode ERC1155 token identity + multi-rail settle types.
  *
- * One contract hosts:
- * - **BTD** (token id 0): fungible Bitcode, finite max supply 21_000_000 whole tokens
- * - **AssetPack** (token ids ≥ 1): non-fungible commercial objects with **add-only
- *   co-ownership** (depositor retains; buyer is added; never removed)
- *
- * Settlement is 1:1 AssetPack : ExecutionPipelineSimpleSettleAssetPack run.
+ * Economics (locked):
+ * - BTD (id 0): fungible, max 21_000_000 * 10^18, freely transferable
+ * - AssetPack (ids ≥ 1): add-only co-ownership NFT; burn forbidden
+ * - Never pay in BTD; buyers pay ETH | BTC | SOL at spot
+ * - Mint BTD on settle only, to depositor BTD payout slices (needinesses volume)
  */
 
 import { BTD_MAX_MINTABLE_SUPPLY } from '../constants';
@@ -22,8 +21,7 @@ export const BTD_DECIMALS = 18;
 
 /**
  * 10^BTD_DECIMALS as bigint.
- * Avoid `10n ** n` — some Jest/ts-jest pipelines downlevel `**` to Math.pow,
- * which cannot accept bigint operands.
+ * Avoid `10n ** n` — some Jest/ts-jest pipelines downlevel `**` to Math.pow.
  */
 export const BTD_DECIMALS_SCALE: bigint = (() => {
   let scale = 1n;
@@ -35,70 +33,100 @@ export const BTD_DECIMALS_SCALE: bigint = (() => {
 export const BTD_MAX_SUPPLY_BASE_UNITS =
   BigInt(BTD_MAX_MINTABLE_SUPPLY) * BTD_DECIMALS_SCALE;
 
-export type BitcodeTokenKind = 'btd-fungible' | 'asset-pack-nft';
+/** Buyer payment asset. BTD is intentionally absent. */
+export type PayAsset = 'ETH' | 'BTC' | 'SOL';
+
+export const PAY_ASSET_DECIMALS: Record<PayAsset, number> = {
+  ETH: 18,
+  BTC: 8,
+  SOL: 9,
+};
 
 export interface BitcodeErc1155Config {
-  /** Master/treasury that receives minted BTD before settle-btd transfer. */
+  /** Protocol treasury (coin fees + residual external pay). */
   masterAccount: string;
-  /** Contract operator / minter authority. */
+  /** Quote / settlement operator authority. */
   operator: string;
+  /** BTC/SOL payment proof attestor (may equal operator on testnet). */
+  paymentAttestor?: string;
+  /** Fee on depositor coin legs (bps). Default 250 = 2.5%. */
+  coinFeeBps?: number;
   name?: string;
   symbol?: string;
+}
+
+/** One depositor share of a settle (source-to-shares + payout preference). */
+export interface SharePayout {
+  depositor: string;
+  /** Share of V / pay notional; all weights sum to 10_000. */
+  weightBps: number;
+  /** Of this share: mint BTD (no fee). btdBps + coinBps === 10000. */
+  btdBps: number;
+  /** Of this share: external coin leg (fee applies). */
+  coinBps: number;
+}
+
+/** Operator-signed commercial quote (TS mirror; signatures optional for projected mode). */
+export interface SettleQuote {
+  assetPackKey: string;
+  buyer: string;
+  payAsset: PayAsset;
+  /** V after needinesses + decay (max mintable notional). */
+  btdVolume: bigint;
+  /** Exact pay units (wei / sats / lamports). */
+  payAmount: bigint;
+  rateMicro: number;
+  needFitMicro: number;
+  decayMicro: number;
+  shares: SharePayout[];
+  metadataRoot: string;
+  deadline: number;
+  quoteId: string;
 }
 
 export interface AssetPackCoOwnership {
   tokenId: bigint;
   assetPackKey: string;
-  /** Ordered unique co-owners; first is typically the depositor/minter. */
   coOwners: string[];
-  /** Metadata root (source-safe); never protected source body. */
   metadataRoot: string;
   createdAt: string;
 }
 
 export interface BitcodeErc1155State {
   schema: 'bitcode.erc1155.state';
-  config: BitcodeErc1155Config;
-  /** Fungible BTD total minted (base units). */
+  config: Required<
+    Pick<BitcodeErc1155Config, 'masterAccount' | 'operator' | 'name' | 'symbol'>
+  > & {
+    paymentAttestor: string;
+    coinFeeBps: number;
+  };
   btdTotalMinted: bigint;
-  /** balances[account][tokenId] */
   balances: Map<string, Map<bigint, bigint>>;
-  /** next AssetPack token id to assign */
   nextAssetPackTokenId: bigint;
-  /** assetPackKey → tokenId */
   assetPackTokenByKey: Map<string, bigint>;
-  /** tokenId → co-ownership registry */
   assetPacks: Map<bigint, AssetPackCoOwnership>;
-  /** Sequential settlement nonce for receipts */
   settlementSequence: bigint;
+  quoteConsumed: Set<string>;
+  railTxUsed: Set<string>;
 }
 
-export interface BtdMintReceiptV48 {
-  kind: 'btd.erc1155.mint';
-  tokenId: typeof BITCODE_BTD_TOKEN_ID;
-  to: string;
+export interface BtdEarnedReceipt {
+  kind: 'btd.erc1155.earned';
+  depositor: string;
   amountBaseUnits: bigint;
-  needFitVolume: number;
-  weightedNeedinessesSum: number;
-  needinessesCount: number;
-  btdTotalMintedBefore: bigint;
-  btdTotalMintedAfter: bigint;
-  maxSupplyBaseUnits: bigint;
   assetPackKey: string;
+  needFitMicro: number;
   settlementSequence: bigint;
-  proofRoot: string;
   issuedAt: string;
 }
 
-export interface BtdTransferReceiptV48 {
-  kind: 'btd.erc1155.transfer';
-  tokenId: typeof BITCODE_BTD_TOKEN_ID;
-  from: string;
-  to: string;
-  amountBaseUnits: bigint;
-  assetPackKey: string;
+export interface CoinPaidReceipt {
+  kind: 'settle.coin-paid';
+  depositor: string;
+  payAsset: PayAsset;
+  netAmount: bigint;
+  feeAmount: bigint;
   settlementSequence: bigint;
-  proofRoot: string;
   issuedAt: string;
 }
 
@@ -108,10 +136,26 @@ export interface AssetPackCoOwnReceiptV48 {
   assetPackKey: string;
   addedAccount: string;
   coOwners: string[];
-  /** Always false — co-ownership is add-only; never removes prior owners. */
   removedPriorOwner: false;
   settlementSequence: bigint;
   proofRoot: string;
+  issuedAt: string;
+}
+
+export interface ReadSettledReceipt {
+  kind: 'bitcode.erc1155.read-settled';
+  quoteId: string;
+  assetPackKey: string;
+  buyer: string;
+  payAsset: PayAsset;
+  payAmount: bigint;
+  btdVolume: bigint;
+  btdMintedTotal: bigint;
+  apTokenId: bigint;
+  settlementSequence: bigint;
+  btdEarned: BtdEarnedReceipt[];
+  coinPaid: CoinPaidReceipt[];
+  coOwn: AssetPackCoOwnReceiptV48;
   issuedAt: string;
 }
 
@@ -121,7 +165,6 @@ export function normalizeAddress(address: string, label = 'address'): string {
   return value.toLowerCase();
 }
 
-/** JSON-safe serialization of BitcodeErc1155State (bigint → string). */
 export interface SerializedAssetPackCoOwnership {
   tokenId: string;
   assetPackKey: string;
@@ -132,11 +175,13 @@ export interface SerializedAssetPackCoOwnership {
 
 export interface SerializedBitcodeErc1155State {
   schema: 'bitcode.erc1155.state';
-  config: BitcodeErc1155Config;
+  config: BitcodeErc1155State['config'];
   btdTotalMinted: string;
   nextAssetPackTokenId: string;
   settlementSequence: string;
   balances: Record<string, Record<string, string>>;
   assetPackTokenByKey: Record<string, string>;
   assetPacks: Record<string, SerializedAssetPackCoOwnership>;
+  quoteConsumed: string[];
+  railTxUsed: string[];
 }

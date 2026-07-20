@@ -1,12 +1,12 @@
 /**
  * BitcodeERC1155 — TypeScript executable mirror of the settlement contract.
  *
- * One contract:
- * - token id 0 = fungible BTD (Bitcode), max 21_000_000 * 10^18 base units
- * - token ids ≥ 1 = AssetPack co-ownership units (add-only; never burn ownership)
+ * - token id 0 = fungible BTD (earn via settle mint; freely transferable)
+ * - token ids ≥ 1 = AssetPack co-ownership (add-only; never burn)
+ * - Pay rails: ETH | BTC | SOL (never BTD)
+ * - Mint on settle to depositor btdBps slices only
  *
- * Live chain deployment uses contracts/BitcodeERC1155.sol; this module is the
- * authoritative behavior for tests and projected settlement receipts.
+ * Live chain: packages/btd/contracts/BitcodeERC1155.sol
  */
 
 import { createHash } from 'crypto';
@@ -18,10 +18,14 @@ import {
   type AssetPackCoOwnership,
   type BitcodeErc1155Config,
   type BitcodeErc1155State,
-  type BtdMintReceiptV48,
-  type BtdTransferReceiptV48,
+  type BtdEarnedReceipt,
+  type CoinPaidReceipt,
+  type PayAsset,
+  type ReadSettledReceipt,
   type SerializedAssetPackCoOwnership,
   type SerializedBitcodeErc1155State,
+  type SettleQuote,
+  type SharePayout,
   normalizeAddress,
 } from './types';
 
@@ -55,11 +59,21 @@ function setBalance(
 }
 
 export function createBitcodeErc1155State(config: BitcodeErc1155Config): BitcodeErc1155State {
+  const master = normalizeAddress(config.masterAccount, 'masterAccount');
+  const operator = normalizeAddress(config.operator, 'operator');
   return {
     schema: 'bitcode.erc1155.state',
     config: {
-      masterAccount: normalizeAddress(config.masterAccount, 'masterAccount'),
-      operator: normalizeAddress(config.operator, 'operator'),
+      masterAccount: master,
+      operator,
+      paymentAttestor: normalizeAddress(
+        config.paymentAttestor || config.operator,
+        'paymentAttestor',
+      ),
+      coinFeeBps:
+        typeof config.coinFeeBps === 'number' && config.coinFeeBps >= 0
+          ? Math.min(5000, Math.floor(config.coinFeeBps))
+          : 250,
       name: config.name || 'Bitcode',
       symbol: config.symbol || 'BTD',
     },
@@ -69,6 +83,8 @@ export function createBitcodeErc1155State(config: BitcodeErc1155Config): Bitcode
     assetPackTokenByKey: new Map(),
     assetPacks: new Map(),
     settlementSequence: 0n,
+    quoteConsumed: new Set(),
+    railTxUsed: new Set(),
   };
 }
 
@@ -80,111 +96,26 @@ export function balanceOf(
   return getBalance(state, account, tokenId);
 }
 
-/**
- * mint-btd: mint fungible BTD to the **master** contract account after BTC settle.
- * Amount is needinesses-derived base units; capped by remaining 21M supply.
- */
-export function mintBtdToMaster(
-  state: BitcodeErc1155State,
-  input: {
-    amountBaseUnits: bigint;
-    needFitVolume: number;
-    weightedNeedinessesSum: number;
-    needinessesCount: number;
-    assetPackKey: string;
-    proofRoot: string;
-    issuedAt?: string;
-  },
-): { state: BitcodeErc1155State; receipt: BtdMintReceiptV48 } {
-  if (input.amountBaseUnits <= 0n) {
-    throw new Error('mintBtdToMaster: amountBaseUnits must be positive.');
-  }
-  const nextTotal = state.btdTotalMinted + input.amountBaseUnits;
-  if (nextTotal > BTD_MAX_SUPPLY_BASE_UNITS) {
-    throw new Error(
-      `mintBtdToMaster: exceeds max BTD supply of ${BTD_MAX_SUPPLY_BASE_UNITS.toString()} base units.`,
-    );
-  }
-  const master = state.config.masterAccount;
-  const before = getBalance(state, master, BITCODE_BTD_TOKEN_ID);
-  setBalance(state, master, BITCODE_BTD_TOKEN_ID, before + input.amountBaseUnits);
-  const settlementSequence = state.settlementSequence + 1n;
-  state.btdTotalMinted = nextTotal;
-  state.settlementSequence = settlementSequence;
-
-  const receipt: BtdMintReceiptV48 = {
-    kind: 'btd.erc1155.mint',
-    tokenId: BITCODE_BTD_TOKEN_ID,
-    to: master,
-    amountBaseUnits: input.amountBaseUnits,
-    needFitVolume: input.needFitVolume,
-    weightedNeedinessesSum: input.weightedNeedinessesSum,
-    needinessesCount: input.needinessesCount,
-    btdTotalMintedBefore: nextTotal - input.amountBaseUnits,
-    btdTotalMintedAfter: nextTotal,
-    maxSupplyBaseUnits: BTD_MAX_SUPPLY_BASE_UNITS,
-    assetPackKey: input.assetPackKey,
-    settlementSequence,
-    proofRoot: input.proofRoot,
-    issuedAt: input.issuedAt || new Date().toISOString(),
-  };
-  return { state, receipt };
+export function remainingMintable(state: BitcodeErc1155State): bigint {
+  return BTD_MAX_SUPPLY_BASE_UNITS - state.btdTotalMinted;
 }
 
-/**
- * settle-btd: transfer fungible BTD from master → buyer Ethereum wallet.
- */
-export function transferBtdFromMasterToBuyer(
-  state: BitcodeErc1155State,
-  input: {
-    buyerAccount: string;
-    amountBaseUnits: bigint;
-    assetPackKey: string;
-    proofRoot?: string;
-    issuedAt?: string;
-  },
-): { state: BitcodeErc1155State; receipt: BtdTransferReceiptV48 } {
-  const buyer = normalizeAddress(input.buyerAccount, 'buyerAccount');
-  const master = state.config.masterAccount;
-  if (input.amountBaseUnits <= 0n) {
-    throw new Error('transferBtdFromMasterToBuyer: amountBaseUnits must be positive.');
+function validateShares(shares: SharePayout[]): void {
+  if (!shares.length) throw new Error('InvalidShares: empty shares');
+  let weightSum = 0;
+  for (const s of shares) {
+    if (!s.depositor?.trim()) throw new Error('InvalidShares: zero depositor');
+    if (s.btdBps + s.coinBps !== 10_000) {
+      throw new Error('InvalidShares: btdBps + coinBps must equal 10000');
+    }
+    if (s.weightBps <= 0) throw new Error('InvalidShares: weightBps must be positive');
+    weightSum += s.weightBps;
   }
-  const masterBal = getBalance(state, master, BITCODE_BTD_TOKEN_ID);
-  if (masterBal < input.amountBaseUnits) {
-    throw new Error('transferBtdFromMasterToBuyer: master BTD balance insufficient.');
-  }
-  setBalance(state, master, BITCODE_BTD_TOKEN_ID, masterBal - input.amountBaseUnits);
-  setBalance(
-    state,
-    buyer,
-    BITCODE_BTD_TOKEN_ID,
-    getBalance(state, buyer, BITCODE_BTD_TOKEN_ID) + input.amountBaseUnits,
-  );
-  const settlementSequence = state.settlementSequence + 1n;
-  state.settlementSequence = settlementSequence;
-  const proofRoot =
-    input.proofRoot ||
-    `btd-transfer:${createHash('sha256')
-      .update(`${master}:${buyer}:${input.amountBaseUnits}:${input.assetPackKey}`)
-      .digest('hex')}`;
-
-  const receipt: BtdTransferReceiptV48 = {
-    kind: 'btd.erc1155.transfer',
-    tokenId: BITCODE_BTD_TOKEN_ID,
-    from: master,
-    to: buyer,
-    amountBaseUnits: input.amountBaseUnits,
-    assetPackKey: input.assetPackKey,
-    settlementSequence,
-    proofRoot,
-    issuedAt: input.issuedAt || new Date().toISOString(),
-  };
-  return { state, receipt };
+  if (weightSum !== 10_000) throw new Error('InvalidShares: weight sum must be 10000');
 }
 
 /**
  * Ensure AssetPack token exists with depositor as initial co-owner.
- * If already registered, returns existing token id without removing anyone.
  */
 export function ensureAssetPackRegistered(
   state: BitcodeErc1155State,
@@ -213,77 +144,181 @@ export function ensureAssetPackRegistered(
     createdAt: input.issuedAt || new Date().toISOString(),
   };
   state.assetPacks.set(tokenId, coOwnership);
-  // Mint co-ownership unit to depositor (balance 1).
   setBalance(state, depositor, tokenId, 1n);
   return { state, tokenId, created: true };
 }
 
-/**
- * settle-asset-pack: **add** buyer as equal co-owner. Never removes depositor
- * or any prior co-owner. AssetPacks cannot be burned/removed from ownership.
- */
-export function addAssetPackCoOwner(
+function addCoOwner(
   state: BitcodeErc1155State,
-  input: {
-    assetPackKey: string;
-    buyerAccount: string;
-    depositorAccount?: string;
-    metadataRoot?: string;
-    proofRoot?: string;
-    issuedAt?: string;
-  },
-): { state: BitcodeErc1155State; receipt: AssetPackCoOwnReceiptV48 } {
-  const buyer = normalizeAddress(input.buyerAccount, 'buyerAccount');
-  let tokenId = state.assetPackTokenByKey.get(input.assetPackKey);
-  if (tokenId === undefined) {
-    if (!input.depositorAccount) {
-      throw new Error(
-        'addAssetPackCoOwner: AssetPack not registered and depositorAccount missing for first mint.',
-      );
-    }
-    const registered = ensureAssetPackRegistered(state, {
-      assetPackKey: input.assetPackKey,
-      depositorAccount: input.depositorAccount,
-      metadataRoot: input.metadataRoot || `ap:${input.assetPackKey}`,
-      issuedAt: input.issuedAt,
-    });
-    tokenId = registered.tokenId;
-  }
+  tokenId: bigint,
+  assetPackKey: string,
+  account: string,
+  settlementSequence: bigint,
+  issuedAt: string,
+): AssetPackCoOwnReceiptV48 {
+  const buyer = normalizeAddress(account, 'buyer');
   const pack = state.assetPacks.get(tokenId);
-  if (!pack) throw new Error('addAssetPackCoOwner: missing co-ownership registry row.');
+  if (!pack) throw new Error('AssetPackMissing');
 
   if (!pack.coOwners.includes(buyer)) {
     pack.coOwners = [...pack.coOwners, buyer];
-    // Add-only: mint +1 ownership unit to buyer; never decrement others.
     setBalance(state, buyer, tokenId, getBalance(state, buyer, tokenId) + 1n);
   }
 
-  const settlementSequence = state.settlementSequence + 1n;
-  state.settlementSequence = settlementSequence;
-  const proofRoot =
-    input.proofRoot ||
-    `ap-co-own:${createHash('sha256')
-      .update(`${tokenId}:${buyer}:${pack.coOwners.join(',')}`)
-      .digest('hex')}`;
+  const proofRoot = `ap-co-own:${createHash('sha256')
+    .update(`${tokenId}:${buyer}:${pack.coOwners.join(',')}`)
+    .digest('hex')}`;
 
-  const receipt: AssetPackCoOwnReceiptV48 = {
+  return {
     kind: 'asset-pack.erc1155.co-own',
     tokenId,
-    assetPackKey: pack.assetPackKey,
+    assetPackKey,
     addedAccount: buyer,
     coOwners: [...pack.coOwners],
     removedPriorOwner: false,
     settlementSequence,
     proofRoot,
-    issuedAt: input.issuedAt || new Date().toISOString(),
+    issuedAt,
   };
+}
+
+/**
+ * Finalize settle (mirror of on-chain _finalizeSettle).
+ * ETH path: caller must supply paymentObserved with matching payAmount (simulated receipt).
+ * BTC/SOL path: pass railTxId; marks rail used.
+ */
+export function finalizeSettle(
+  state: BitcodeErc1155State,
+  quote: SettleQuote,
+  options?: {
+    /** Simulated ETH received (must equal quote.payAmount for ETH). */
+    ethPaid?: bigint;
+    railTxId?: string;
+    nowSec?: number;
+    issuedAt?: string;
+  },
+): { state: BitcodeErc1155State; receipt: ReadSettledReceipt } {
+  const nowSec = options?.nowSec ?? Math.floor(Date.now() / 1000);
+  const issuedAt = options?.issuedAt || new Date().toISOString();
+
+  if (nowSec > quote.deadline) throw new Error('QuoteExpired');
+  if (state.quoteConsumed.has(quote.quoteId)) throw new Error('QuoteConsumed');
+  if (quote.btdVolume <= 0n || quote.payAmount <= 0n) throw new Error('ZeroAmount');
+  if (!quote.assetPackKey?.trim()) throw new Error('InvalidShares: assetPackKey');
+  if (state.btdTotalMinted + quote.btdVolume > BTD_MAX_SUPPLY_BASE_UNITS) {
+    throw new Error('SupplyExceeded');
+  }
+
+  validateShares(quote.shares);
+
+  if (quote.payAsset === 'ETH') {
+    const ethPaid = options?.ethPaid ?? quote.payAmount;
+    if (ethPaid !== quote.payAmount) throw new Error('IncorrectPayment');
+  } else {
+    const railTxId = options?.railTxId;
+    if (!railTxId) throw new Error('railTxId required for BTC/SOL');
+    if (state.railTxUsed.has(railTxId)) throw new Error('RailTxAlreadyUsed');
+    state.railTxUsed.add(railTxId);
+  }
+
+  state.quoteConsumed.add(quote.quoteId);
+  const settlementSequence = state.settlementSequence + 1n;
+  state.settlementSequence = settlementSequence;
+
+  let totalMinted = 0n;
+  const btdEarned: BtdEarnedReceipt[] = [];
+  const coinPaid: CoinPaidReceipt[] = [];
+  const feeBps = BigInt(state.config.coinFeeBps);
+
+  for (const s of quote.shares) {
+    const depositor = normalizeAddress(s.depositor, 'depositor');
+    const shareNotional = (quote.btdVolume * BigInt(s.weightBps)) / 10_000n;
+    const mint_i = (shareNotional * BigInt(s.btdBps)) / 10_000n;
+    const coinWeightBps = (BigInt(s.weightBps) * BigInt(s.coinBps)) / 10_000n;
+
+    if (mint_i > 0n) {
+      totalMinted += mint_i;
+      setBalance(
+        state,
+        depositor,
+        BITCODE_BTD_TOKEN_ID,
+        getBalance(state, depositor, BITCODE_BTD_TOKEN_ID) + mint_i,
+      );
+      btdEarned.push({
+        kind: 'btd.erc1155.earned',
+        depositor,
+        amountBaseUnits: mint_i,
+        assetPackKey: quote.assetPackKey,
+        needFitMicro: quote.needFitMicro,
+        settlementSequence,
+        issuedAt,
+      });
+    }
+
+    if (coinWeightBps > 0n) {
+      const coinGross = (quote.payAmount * coinWeightBps) / 10_000n;
+      const fee = (coinGross * feeBps) / 10_000n;
+      const coinNet = coinGross - fee;
+      coinPaid.push({
+        kind: 'settle.coin-paid',
+        depositor,
+        payAsset: quote.payAsset,
+        netAmount: coinNet,
+        feeAmount: fee,
+        settlementSequence,
+        issuedAt,
+      });
+    }
+  }
+
+  if (totalMinted > quote.btdVolume) throw new Error('SupplyExceeded');
+  state.btdTotalMinted += totalMinted;
+
+  const primaryDepositor = normalizeAddress(quote.shares[0].depositor, 'primaryDepositor');
+  let tokenId = state.assetPackTokenByKey.get(quote.assetPackKey);
+  if (tokenId === undefined) {
+    const reg = ensureAssetPackRegistered(state, {
+      assetPackKey: quote.assetPackKey,
+      depositorAccount: primaryDepositor,
+      metadataRoot: quote.metadataRoot,
+      issuedAt,
+    });
+    tokenId = reg.tokenId;
+  }
+
+  const coOwn = addCoOwner(
+    state,
+    tokenId,
+    quote.assetPackKey,
+    quote.buyer,
+    settlementSequence,
+    issuedAt,
+  );
+
+  const receipt: ReadSettledReceipt = {
+    kind: 'bitcode.erc1155.read-settled',
+    quoteId: quote.quoteId,
+    assetPackKey: quote.assetPackKey,
+    buyer: normalizeAddress(quote.buyer),
+    payAsset: quote.payAsset,
+    payAmount: quote.payAmount,
+    btdVolume: quote.btdVolume,
+    btdMintedTotal: totalMinted,
+    apTokenId: tokenId,
+    settlementSequence,
+    btdEarned,
+    coinPaid,
+    coOwn,
+    issuedAt,
+  };
+
   return { state, receipt };
 }
 
-/** AssetPack ownership can never be removed (V48 law). */
+/** AssetPack ownership can never be removed (V48+ law). */
 export function burnAssetPackOwnership(): never {
   throw new Error(
-    'AssetPack co-ownership is add-only: burn/remove is forbidden (V48 BitcodeERC1155 law).',
+    'AssetPack co-ownership is add-only: burn/remove is forbidden (BitcodeERC1155 law).',
   );
 }
 
@@ -297,6 +332,26 @@ export function isAssetPackCoOwner(
   const pack = state.assetPacks.get(tokenId);
   if (!pack) return false;
   return pack.coOwners.includes(normalizeAddress(account));
+}
+
+/** Transfer fungible BTD only (market path). */
+export function transferBtd(
+  state: BitcodeErc1155State,
+  input: { from: string; to: string; amountBaseUnits: bigint },
+): BitcodeErc1155State {
+  if (input.amountBaseUnits <= 0n) throw new Error('ZeroAmount');
+  const from = normalizeAddress(input.from, 'from');
+  const to = normalizeAddress(input.to, 'to');
+  const bal = getBalance(state, from, BITCODE_BTD_TOKEN_ID);
+  if (bal < input.amountBaseUnits) throw new Error('InsufficientBalance');
+  setBalance(state, from, BITCODE_BTD_TOKEN_ID, bal - input.amountBaseUnits);
+  setBalance(
+    state,
+    to,
+    BITCODE_BTD_TOKEN_ID,
+    getBalance(state, to, BITCODE_BTD_TOKEN_ID) + input.amountBaseUnits,
+  );
+  return state;
 }
 
 export function serializeBitcodeErc1155State(
@@ -332,5 +387,67 @@ export function serializeBitcodeErc1155State(
     balances,
     assetPackTokenByKey,
     assetPacks,
+    quoteConsumed: [...state.quoteConsumed],
+    railTxUsed: [...state.railTxUsed],
   };
 }
+
+// ---------------------------------------------------------------------------
+// Legacy aliases (deprecated paths — kept so old imports fail clearly)
+// ---------------------------------------------------------------------------
+
+/** @deprecated Pay-with-BTD removed. Use finalizeSettle with external pay rails. */
+export function mintBtdToMaster(): never {
+  throw new Error(
+    'mintBtdToMaster removed: BTD mints only on settle to depositor earn slices (finalizeSettle).',
+  );
+}
+
+/** @deprecated Pay-with-BTD removed. */
+export function transferBtdFromMasterToBuyer(): never {
+  throw new Error(
+    'transferBtdFromMasterToBuyer removed: buyers pay ETH/BTC/SOL; depositors earn minted BTD.',
+  );
+}
+
+/** @deprecated Prefer finalizeSettle which adds co-owner after pay. */
+export function addAssetPackCoOwner(
+  state: BitcodeErc1155State,
+  input: {
+    assetPackKey: string;
+    buyerAccount: string;
+    depositorAccount?: string;
+    metadataRoot?: string;
+    proofRoot?: string;
+    issuedAt?: string;
+  },
+): { state: BitcodeErc1155State; receipt: AssetPackCoOwnReceiptV48 } {
+  let tokenId = state.assetPackTokenByKey.get(input.assetPackKey);
+  if (tokenId === undefined) {
+    if (!input.depositorAccount) {
+      throw new Error(
+        'addAssetPackCoOwner: AssetPack not registered and depositorAccount missing.',
+      );
+    }
+    const registered = ensureAssetPackRegistered(state, {
+      assetPackKey: input.assetPackKey,
+      depositorAccount: input.depositorAccount,
+      metadataRoot: input.metadataRoot || `ap:${input.assetPackKey}`,
+      issuedAt: input.issuedAt,
+    });
+    tokenId = registered.tokenId;
+  }
+  const settlementSequence = state.settlementSequence + 1n;
+  state.settlementSequence = settlementSequence;
+  const receipt = addCoOwner(
+    state,
+    tokenId,
+    input.assetPackKey,
+    input.buyerAccount,
+    settlementSequence,
+    input.issuedAt || new Date().toISOString(),
+  );
+  return { state, receipt };
+}
+
+export type { PayAsset, SettleQuote, SharePayout };

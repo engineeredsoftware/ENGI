@@ -1,15 +1,15 @@
 /**
- * Settlement BTD amount from **needinesses only** (V48 law).
+ * Raw BTD volume from **needinesses only** (product law).
  *
- * Absolutes never mint BTD. BTD is the normalized scalar of technical knowledge
- * FIT to an industrial paid-for Need, proven only by BTC settlement for an
- * AssetPack.
+ * Absolutes never drive BTD volume. Needinesses fits score → rawV base units.
+ * Apply `applyBtdSupplyDecay` for scarcity, then mint on settle to depositor
+ * BTD payout slices only. Buyers pay ETH|BTC|SOL at spot — never BTD.
  *
  * Formula:
  *   weightedNeedinessesSum = Σ (w_i * clamp01(v_i))
  *   weightSum              = Σ w_i
  *   needFitVolume          = weightSum > 0 ? weightedNeedinessesSum / weightSum : 0
- *   amountBaseUnits        = floor(needFitVolume * 10^BTD_DECIMALS)
+ *   amountBaseUnits (rawV) = floor(needFitVolume * 10^BTD_DECIMALS)
  *
  * All inputs are strongly typed. Boundary adapters that accept wire JSON live
  * in the settle API layer — this module never takes `unknown`.
