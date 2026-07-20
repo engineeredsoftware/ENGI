@@ -67,7 +67,7 @@ describe('Footer public shell', () => {
       'href',
       '/docs',
     );
-    expect(screen.getByRole('link', { name: 'Bitcode on GitHub' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Source' })).toHaveAttribute(
       'href',
       'https://github.com/advancedengineeredsoftware/Bitcode',
     );
@@ -75,10 +75,11 @@ describe('Footer public shell', () => {
     expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
-    expect(screen.getByText('Pack activity')).toBeInTheDocument();
-    expect(screen.getByText('Depositing flow')).toBeInTheDocument();
-    expect(screen.getByText('Reading flow')).toBeInTheDocument();
-    expect(screen.getByText('Docs hub')).toBeInTheDocument();
+    expect(screen.getByText('Trade the exchange')).toBeInTheDocument();
+    expect(screen.getByText('List your data')).toBeInTheDocument();
+    expect(screen.getByText('Buy data that fits')).toBeInTheDocument();
+    expect(screen.getByText('Learn to operate')).toBeInTheDocument();
+    expect(screen.getByText('Protocol, products')).toBeInTheDocument();
     expect(screen.getAllByText('Deposit').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Read').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);

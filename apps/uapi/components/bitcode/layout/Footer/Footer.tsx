@@ -130,11 +130,12 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   const footerCtaLabel = user
     ? BITCODE_PUBLIC_COPY.footer.userCta
     : BITCODE_PUBLIC_COPY.footer.guestCta;
+  const footerLinkMeta = BITCODE_PUBLIC_COPY.footer.linkMeta;
   const footerLinks = useMemo(() => [
     {
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.network,
       label: BITCODE_PUBLIC_COPY.footer.links.network,
-      meta: 'Pack activity',
+      meta: footerLinkMeta.network,
       href: PACKS_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
       hoverClassName:
@@ -168,7 +169,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     {
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.deposit,
       label: BITCODE_PUBLIC_COPY.footer.links.deposit,
-      meta: 'Depositing flow',
+      meta: footerLinkMeta.deposit,
       href: DEPOSIT_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.deposit,
       hoverClassName:
@@ -201,7 +202,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     {
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.read,
       label: BITCODE_PUBLIC_COPY.footer.links.read,
-      meta: 'Reading flow',
+      meta: footerLinkMeta.read,
       href: READ_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.read,
       hoverClassName:
@@ -233,9 +234,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      ariaLabel: 'Docs',
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.docs,
       label: BITCODE_PUBLIC_COPY.footer.links.docs,
-      meta: 'Docs hub',
+      meta: footerLinkMeta.docs,
       href: DEFAULT_OPERATOR_GUIDE_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.docs,
       // White tone needs higher border opacity than color accents or it vanishes on the dark card.
@@ -266,9 +267,9 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      ariaLabel: 'Bitcode on GitHub',
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.github,
       label: BITCODE_PUBLIC_COPY.footer.links.github,
-      meta: 'GitHub',
+      meta: footerLinkMeta.github,
       href: BITCODE_REPOSITORY_URL,
       hoverClassName:
         'hover:border-slate-300/25 hover:bg-slate-400/[0.08] hover:text-slate-100 dark:hover:text-slate-100',
@@ -291,7 +292,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
         </span>
       ),
     },
-  ], []);
+  ], [footerLinkMeta]);
   const isExternalHref = (href: string) => href.startsWith('http');
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
   const disablePacksLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
@@ -427,84 +428,94 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
 
           <div className={`${showPrimaryContent ? 'border-t' : ''} w-full py-4`}>
             <div className="flex w-full flex-col gap-4 tablet:gap-5">
-              {/* One row from laptop up (5 product/surface links). */}
+              {/* One row from laptop up (5 product/surface links). Full card is the hit target. */}
               <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-5">
                 {footerLinks.map((social) => {
                   const isDisabledRoute = social.href === PACKS_URL && disablePacksLink;
+                  const isExternal = isExternalHref(social.href);
                   const explainerButton = social.explainer ? (
-                    <BitcodeInlineExplainer
-                      explainer={social.explainer}
-                      side="top"
-                      triggerClassName="h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                    />
+                    <span
+                      className="relative z-20 shrink-0"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                      }}
+                      onKeyDown={(event) => event.stopPropagation()}
+                    >
+                      <BitcodeInlineExplainer
+                        explainer={social.explainer}
+                        side="top"
+                        triggerClassName="h-4.5 w-4.5 shrink-0 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                      />
+                    </span>
                   ) : null;
 
-                  const cardClassName = `group inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors dark:text-gray-400 ${social.hoverClassName}`;
-
-                  return isExternalHref(social.href) ? (
-                    <a
-                      key={social.ariaLabel}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.ariaLabel}
-                      className={cardClassName}
-                    >
-                      {social.icon}
-                      <span className="flex min-w-0 flex-1 flex-col">
-                        <span className="whitespace-nowrap">{social.label}</span>
-                        <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
-                          {social.meta}
-                        </span>
-                      </span>
-                    </a>
-                  ) : isDisabledRoute ? (
-                    <span key={social.ariaLabel} className="block w-full">
-                      <DisabledTooltipWrapper
-                        tooltip={DISABLED_FEATURE_TOOLTIPS.packs}
-                        className="w-full"
-                      >
-                        <span
-                          role="link"
-                          aria-disabled="true"
-                          aria-label={social.ariaLabel}
-                          className="group inline-flex min-h-[4.25rem] w-full cursor-not-allowed items-start gap-3 rounded-none border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
-                        >
-                          {social.icon}
-                          <span className="flex min-w-0 flex-1 flex-col">
-                            <span className="flex min-w-0 items-start justify-between gap-2">
-                              <span className="min-w-0 whitespace-nowrap">{social.label}</span>
-                              {explainerButton}
-                            </span>
-                            <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
-                              {social.meta}
-                            </span>
-                          </span>
-                        </span>
-                      </DisabledTooltipWrapper>
-                    </span>
-                  ) : (
-                    <span
-                      key={social.ariaLabel}
-                      className={cardClassName}
-                    >
+                  const cardClassName = `group relative inline-flex min-h-[4.25rem] w-full items-start gap-3 rounded-none border border-white/8 bg-white/[0.03] px-3.5 py-3 text-left text-sm text-gray-500 transition-colors dark:text-gray-400 ${social.hoverClassName}`;
+                  const metaClassName =
+                    'mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80';
+                  const cardBody = (
+                    <>
                       {social.icon}
                       <span className="flex min-w-0 flex-1 flex-col">
                         <span className="flex min-w-0 items-start justify-between gap-2">
-                          <Link
-                            href={social.href}
-                            aria-label={social.ariaLabel}
+                          <span
                             className={`min-w-0 whitespace-nowrap transition-colors ${social.labelHoverClassName}`}
                           >
                             {social.label}
-                          </Link>
+                          </span>
                           {explainerButton}
                         </span>
-                        <span aria-hidden="true" className="mt-1 text-[11px] uppercase tracking-[0.18em] text-gray-500/70 dark:text-gray-500/80">
+                        <span aria-hidden="true" className={metaClassName}>
                           {social.meta}
                         </span>
                       </span>
-                    </span>
+                    </>
+                  );
+
+                  if (isDisabledRoute) {
+                    return (
+                      <span key={social.ariaLabel} className="block w-full">
+                        <DisabledTooltipWrapper
+                          tooltip={DISABLED_FEATURE_TOOLTIPS.packs}
+                          className="w-full"
+                        >
+                          <span
+                            role="link"
+                            aria-disabled="true"
+                            aria-label={social.ariaLabel}
+                            className="group inline-flex min-h-[4.25rem] w-full cursor-not-allowed items-start gap-3 rounded-none border border-white/8 bg-white/[0.02] px-3.5 py-3 text-left text-sm text-gray-500 opacity-65 grayscale"
+                          >
+                            {cardBody}
+                          </span>
+                        </DisabledTooltipWrapper>
+                      </span>
+                    );
+                  }
+
+                  if (isExternal) {
+                    return (
+                      <a
+                        key={social.ariaLabel}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.ariaLabel}
+                        className={cardClassName}
+                      >
+                        {cardBody}
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={social.ariaLabel}
+                      href={social.href}
+                      aria-label={social.ariaLabel}
+                      className={cardClassName}
+                    >
+                      {cardBody}
+                    </Link>
                   );
                 })}
                 {/* FEATURE_FLAGS.FOOTER_MUSIC_PLAYER && (

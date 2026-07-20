@@ -191,7 +191,15 @@ export const BITCODE_PUBLIC_COPY = {
       read: 'Reads',
       transactions: 'Packs',
       docs: 'Docs',
-      github: 'Bitcode on GitHub',
+      github: 'Source',
+    },
+    /** Uppercase card subtitles under product nav titles. */
+    linkMeta: {
+      network: 'Trade the exchange',
+      deposit: 'List your data',
+      read: 'Buy data that fits',
+      docs: 'Learn to operate',
+      github: 'Protocol, products',
     },
   },
   publicNav: {
