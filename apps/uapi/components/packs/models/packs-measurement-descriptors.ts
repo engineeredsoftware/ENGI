@@ -1,6 +1,7 @@
 /**
  * Buyer-facing absolute measurement descriptors for /packs detail.
  * Source-safe catalog prose only — never raw source or provider payloads.
+ * Voice is **this AssetPack** (instance under review), not AssetPacks in general.
  * Aligned to ASSET_PACK_ABSOLUTES_CATALOG (generic-asset-packs-synthesis).
  */
 
@@ -18,7 +19,7 @@ export type AbsoluteMeasurementBuyerDescriptor = {
   kind: AbsoluteMeasurementKind;
   label: string;
   unit: string;
-  /** Short buyer-facing paragraph (obfuscated / non-source). */
+  /** Short buyer-facing paragraph (obfuscated / non-source) about this pack. */
   descriptor: string;
 };
 
@@ -31,56 +32,56 @@ export const ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS: Record<
     label: "Functions",
     unit: "functions",
     descriptor:
-      "How many distinct behaviors the AssetPack patch encodes. Higher counts mean denser operational knowledge in the slice — not raw repository size.",
+      "This AssetPack’s measured function-count: distinct behaviors encoded in its source-safe patch slice. The magnitude at right is this option’s reading — denser operational surface for this pack, not full-repository size.",
   },
   "type-count": {
     kind: "type-count",
     label: "Types",
     unit: "types",
     descriptor:
-      "How many distinct types, interfaces, or schemas the patch defines. Signals structural API surface a reader can reuse without seeing unpaid source.",
+      "This AssetPack’s measured type surface: distinct types, interfaces, or schemas defined in its patch. Structural reuse signal for this option without exposing unpaid source bodies.",
   },
   "file-span": {
     kind: "file-span",
     label: "File span",
     unit: "files",
     descriptor:
-      "How many files the patch creates or modifies. A compact span is easier to review and settle; broader span covers more of a capability boundary.",
+      "This AssetPack’s file span: how many files its patch creates or modifies. A compact span keeps this option easy to review and settle; a broader span covers a wider capability boundary for this pack only.",
   },
   "symbolic-richness": {
     kind: "symbolic-richness",
     label: "Symbolic richness",
     unit: "symbols",
     descriptor:
-      "Unique symbol density in the patch. Richer symbol graphs usually mean more transferable knowledge per file without disclosing protected bodies.",
+      "This AssetPack’s unique-symbol density in the patch graph. Higher richness on this option usually means more transferable structure per file, still without disclosing protected bodies.",
   },
   modularity: {
     kind: "modularity",
     label: "Modularity",
     unit: "modules",
     descriptor:
-      "How many coherent modules the patch spans. Multi-module packs can ship clearer seams; single-module packs stay tightly scoped.",
+      "This AssetPack’s module span: how many coherent modules this patch covers. Multi-module readings on this option imply clearer seams; a single module means a tightly scoped slice.",
   },
   "correctness-estimate": {
     kind: "correctness-estimate",
     label: "Correctness",
     unit: "estimate",
     descriptor:
-      "Estimated coherence and internal consistency of the synthesized patch (0..1 honesty class: estimate). Not a formal proof of runtime correctness.",
+      "This AssetPack’s estimated coherence and internal consistency (0..1 honesty class: estimate). Not a formal proof of runtime correctness — a source-safe quality reading for this option.",
   },
   "objectives-fidelity": {
     kind: "objectives-fidelity",
     label: "Objectives fidelity",
     unit: "estimate",
     descriptor:
-      "How well the pack serves deposit objectives while honoring exclusions and source-safety (0..1 estimate). Low scores mean steer or resynthesize before buying.",
+      "How well this AssetPack serves its deposit objectives while holding exclusions and source-safety (0..1 estimate). Low scores on this pack mean steer or resynthesize before settle.",
   },
   "computational-usage": {
     kind: "computational-usage",
     label: "Computational usage",
     unit: "estimate",
     descriptor:
-      "Estimated computational demand of applying or reasoning over this pack (0..1 estimate). Helps buyers plan settlement and delivery cost.",
+      "Estimated computational demand of applying or reasoning over this AssetPack (0..1 estimate). Use it to plan settlement and delivery cost for this option.",
   },
 };
 
