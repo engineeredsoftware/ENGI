@@ -16,6 +16,12 @@ showed session `Candidate count` / `Admitted count` / admission-report root as
 fake measurements; reloading synthesis run
 `e2f1f110-b6b6-43ce-a7b9-a3b80bcf891a` dropped options/logs.
 
+**Live monitor (Gate 4 close):** deposit synthesis run
+`e359b78a-7c73-49bb-a54b-35e32dd1ef94` on staging-testnet
+(`tkpyosihuouusyaxtbau`) — backgrounded while closing admission/packs projection.
+Verify when terminal: optionCount ≥ 1 with absolute measurements; admit all
+selected → N packs rows with absolute chips only.
+
 
 - Version: `V48`
 - Active canon during QA: `V47`

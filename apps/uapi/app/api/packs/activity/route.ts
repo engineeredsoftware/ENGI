@@ -105,15 +105,59 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
       .eq('context->>admissionState', 'admitted-to-depository')
       .order('created_at', { ascending: false })
       .limit(Math.min(limit, 50));
-    return (data || []).map((row: Record<string, unknown>) =>
-      buildBitcodeActivityRecordFromExecutionHistory({
+    return (data || []).map((row: Record<string, unknown>) => {
+      const output = (row.output as Record<string, unknown> | null) || {};
+      const context = (row.context as Record<string, unknown> | null) || {};
+      const assetPackTitle =
+        (typeof output.assetPackTitle === 'string' && output.assetPackTitle) ||
+        (typeof context.assetPackTitle === 'string' && context.assetPackTitle) ||
+        null;
+      // Flatten per-pack absolute measurements onto context+output so pack
+      // activity projection prefers catalog chips over any residual session
+      // aggregates still present on older admission rows.
+      const measurements =
+        (Array.isArray(output.measurements) && output.measurements) ||
+        (Array.isArray(output.absolutes) && output.absolutes) ||
+        (Array.isArray(context.measurements) && context.measurements) ||
+        [];
+      const summary =
+        typeof output.summary === 'string'
+          ? String(output.summary)
+          : assetPackTitle
+            ? `Admitted ${assetPackTitle} to the Depository.`
+            : null;
+      return buildBitcodeActivityRecordFromExecutionHistory({
         ...row,
-        summary:
-          typeof (row.output as Record<string, unknown> | null)?.summary === 'string'
-            ? String((row.output as Record<string, unknown>).summary)
-            : null,
-      } as never),
-    );
+        summary,
+        context: {
+          ...context,
+          source: 'deposit-option-review-admission',
+          admissionState: 'admitted-to-depository',
+          packActivityType: 'depository-assetpack',
+          activityType: 'depository-assetpack',
+          assetPackTitle,
+          optionId: context.optionId || output.optionId || null,
+          depositoryAssetPackId:
+            context.depositoryAssetPackId || output.depositoryAssetPackId || null,
+          compensationState:
+            context.compensationState || output.compensationState || null,
+          measurementRoot: context.measurementRoot || output.measurementRoot || null,
+          // Source-safe absolute catalog only — never patch / fileChanges.
+          measurements,
+        },
+        output: {
+          ...output,
+          packActivityType: 'depository-assetpack',
+          assetPackTitle,
+          measurements,
+          // Strip session-aggregate noise if present on legacy rows.
+          candidateCount: undefined,
+          admittedCount: undefined,
+          optionCount: undefined,
+          depositAdmission: undefined,
+        },
+      } as never);
+    });
   } catch {
     return [];
   }
