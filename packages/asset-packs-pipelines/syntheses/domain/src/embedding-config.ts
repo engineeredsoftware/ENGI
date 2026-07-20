@@ -1,3 +1,10 @@
+/**
+ * AssetPack / depository embedding policy constants.
+ *
+ * Product Durable store (V48 Gate 5): depository_search_documents +
+ * depository_search_vectors keyed by admitted AssetPack id.
+ * Legacy Exchange deliverable_vectors remains for fallback RPC only.
+ */
 export const ASSET_PACK_EMBEDDING_PROVIDER = 'openai' as const;
 export const DEFAULT_ASSET_PACK_EMBEDDING_MODEL = 'text-embedding-3-small' as const;
 export const ASSET_PACK_VECTOR_DIMENSIONS = 1536 as const;

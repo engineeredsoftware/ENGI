@@ -1,11 +1,15 @@
 /**
- * Background depository search index job.
+ * Background depository search index job (V48 Gate 5).
  *
  * On AssetPack admission: upsert source-safe search document + embed text into
  * depository_search_vectors (OpenAI text-embedding-3-small, 1536 dims).
  *
- * Fail-soft: missing tables / API keys leave document pending without throwing
- * into the admission UX path.
+ * Called from POST /api/depository/index (and optionally fire-and-forget after
+ * deposit option admission). Fail-soft: missing tables / API keys leave the
+ * document in pending without throwing into the admission UX path.
+ *
+ * Spec: BITCODE_SPEC_V48.md depository search law; migration
+ * supabase/migrations/20260720120000_depository_search_index.sql.
  */
 
 import { createHash } from 'crypto';

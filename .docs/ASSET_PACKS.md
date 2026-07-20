@@ -375,6 +375,18 @@ Also stores `discovery:codebaseComprehension` (map alone) for Implementation.
 
 **Read product** uses the same tool with `product: 'read-need-fits'` and explicit multi-query fan-out (3–12 Need-grounded queries) so finding fits is real retrieval, not guidance-only.
 
+**Env / ops**
+
+| Variable | Role |
+| --- | --- |
+| `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` | Enable vector channel in search tool |
+| `OPENAI_API_KEY` / `BITCODE_OPENAI_API_KEY` | Embed queries + admit-time pack embeds |
+| Migration `20260720120000_depository_search_index.sql` | Creates documents + vectors + match RPC |
+
+**Tests:** `deposit-depository-search-tool.test.ts` (multi-query, static filters, hybrid);
+`read-neediness-measurements.test.ts` (labels, weight re-norm); `depositoryIndexJob.test.ts`
+(embed text + pack→asset map).
+
 ### 5.3 `discovery:inherent-regurgitation`
 
 | | |

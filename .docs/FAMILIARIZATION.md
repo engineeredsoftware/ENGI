@@ -569,7 +569,7 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 | Package | Responsibility |
 | --- | --- |
 | `asset-packs-pipelines/domain` | **All-3** shared: commodity, disclosure, settlement-rights library, BTD helpers, org-policy |
-| `asset-packs-pipelines/syntheses/domain` | **Both synths**: agents/phases/tools, depository, synthesis helpers |
+| `asset-packs-pipelines/syntheses/domain` | **Both synths**: agents/phases/tools, depository multi-query search, supply index, synthesis helpers |
 | `asset-packs-pipelines/*` | Product ExecutionPipeline packages (SDIVF synthesize deposits/reads, Simple settle) |
 | `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
@@ -580,6 +580,20 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 (`./deposit-asset-pack-options`, `./depository-search`, …) while implementations
 split into `*-types.ts`, `*-helpers.ts`, and builders. Shared source-safe hash/root
 helpers live in `deposit-source-safe-utils.ts`.
+
+**Depository search (finding APs):** low-level tool
+`runDepositDepositoryAssetPackSearch` (multi-query hybrid: static filters +
+lexical + optional vector). Deposit Discovery uses product `deposit-relevants`;
+read uses `read-need-fits`. Dispatch preloads supply assets before Discovery.
+On admit, uapi `POST /api/depository/index` fills `depository_search_documents`
++ `depository_search_vectors` (`match_depository_asset_pack_vectors`).
+Env: `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` + embedding API key. Law:
+`.docs/ASSET_PACKS.md` §5.2 and `BITCODE_SPEC_V48.md` depository search law.
+
+**Read needinesses:** static catalogue + dynamic plan
+(`dynamicNeedinesses[{measurementKind,label,guidance,weight}]`) from Need
+comprehension; host attaches both `absolutes` and `needinesses` on read options;
+`need-fit` is weighted mean (static mass 0.6 / dynamic mass 0.4 when both present).
 
 ### 5.4 Auth, identity, VCS, externals
 

@@ -1250,20 +1250,44 @@ deposit SDIVF closed.
 
 ## V48 Gate 5 plan: Reader website completion (neediness delta)
 
-**After Gate 4 packs/deposit solid.** Branch target:
-`v48/gate-5-reader-website-completion`.
+**After Gate 4 packs/deposit solid.** Branch work also advanced on
+`v48/gate-4-btd-multirail-erc1155` (multirail + search/neediness).
 
 ### Deposit ↔ Read parity map
 
 | Concern | Deposit | Read (delta) |
 | --- | --- | --- |
 | SDIVF product package | `syntheses/deposit` | `syntheses/read` |
+| Dispatch / stream | early emit + host bridge + supply preload | **same shape** (read twin of deposit dispatch) |
 | Steering | Obfuscations + path pickers | Need text + Relevant/Irrelevant paths |
-| Measurements | **absolutes only** | **absolutes + needinesses (*-fit)** |
-| Option review | Select → batch admit | Select → settle quote |
+| Discovery search | `deposit-relevants` multi-query hybrid | `read-need-fits` multi-query hybrid |
+| Measurements | **absolutes only** (`needinesses: []`) | **absolutes + needinesses (*-fit)** static+dynamic |
+| Option review | Select → batch admit → **index job** | Select → settle quote |
 | Finish envelope | presentable deposit options | presentable read options |
-| Next pipeline | (none — Depository) | `ExecutionPipelineSimpleSettleAssetPack` |
+| Next pipeline | (none — Depository supply) | `ExecutionPipelineSimpleSettleAssetPack` |
 | Packs projection | depository-assetpack + absolutes | settled-assetpack + absolutes + needinesses |
+
+### Depository search + index (Gate 5 law, 2026-07-20)
+
+Finding APs is the critical path of read (Need → many queries → rank → synthesize).
+
+| Piece | Location / behavior |
+| --- | --- |
+| Low-level tool | `runDepositDepositoryAssetPackSearch` — multi-query, static filters, lexical + optional vector |
+| Preload | `loadDepositorySearchAssets` in deposit + read dispatch before SDIVF Discovery |
+| Durable index | `depository_search_documents` + `depository_search_vectors` |
+| Match RPC | `match_depository_asset_pack_vectors` (primary); legacy deliverable RPC fallback |
+| Admit job | `POST /api/depository/index` → `indexDepositoryAssetPack` (document + embed) |
+| Env | `BITCODE_DEPOSITORY_VECTOR_SEARCH=1`, `OPENAI_API_KEY`, migration applied |
+
+### Dynamic needinesses (three steps)
+
+1. **Plan labels** — Setup `comprehend-needs` → `dynamicNeedinesses[{kind,label,guidance,weight}]`
+   grounded in Need + path catalog (`planDynamicNeedinessesFromContext`).
+2. **Take measurements** — `measureReadNeedinesses` (agent when real inference; else
+   deterministic). Weights re-normalized static 0.6 / dynamic 0.4.
+3. **Attach** — Implementation host writes `measurements.absolutes` +
+   `measurements.needinesses` + `needFit` on every read option.
 
 ### Gate 5 objectives
 
@@ -1276,6 +1300,10 @@ deposit SDIVF closed.
 4. Source-safety: patch never on `/packs` until rights transfer / delivery
    entitlement.
 5. Five-step session law from DELTA Gate 5 remains binding.
+6. **Finding fits:** Discovery search returns ranked depository hits (non-empty
+   when supply exists); multi-query Need plan drives retrieval.
+7. **Dispatch parity:** first stream status latency deposit-class; continuous
+   phase events through Setup/Discovery.
 
 ## Non-goals during V48 opening
 

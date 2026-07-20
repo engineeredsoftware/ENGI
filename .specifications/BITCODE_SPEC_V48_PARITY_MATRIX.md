@@ -217,7 +217,7 @@ AssetPack = **patch + measurements + metadata**.
 | Key | Objective | Tools |
 | --- | --- | --- |
 | `discovery:comprehend-codebase` | Rich codebase analysis: **absolute measurements**, LSP queries, full file-tree structure, key file reads → stored analysis | LSP tools, measure/static-analysis, Host file reads |
-| `discovery:search-depository` | Plan queries from source+obfuscations+measurements+demand; search settled APs (embeddings/vectors) | `depository-asset-pack-search` (vector+lexical) |
+| `discovery:search-depository` | Plan multi-query list; hybrid search settled/admitted APs (static+lexical+optional vector); product lens relevants vs Need-fits | `depository-asset-pack-search` / `runDepositDepositoryAssetPackSearch` |
 | `discovery:inherent-regurgitation` | Model-inherent patterns for synthesis (source-safe) | none |
 
 ### Implementation / Validation / Finish (target)
@@ -241,7 +241,8 @@ AssetPack = **patch + measurements + metadata**.
 | D-05 | sourceCheckoutCatalog naming (not inventory) | closed | Canonical key + resolve helper; legacy `inventory` dual-write only for stream filters |
 | D-06 | Discovery agents parallel (3) | closed | `parallel(comprehend-codebase, search-depository, inherent-regurgitation)` |
 | D-07 | comprehend-codebase measures + LSP + tree + key files | closed | `codebase-analysis-helpers` + measure + LSP queries + keyFileReads + PTRR prompts require all evidence; stores `discovery:codebaseAnalysis` |
-| D-08 | Depository search tool (embeddings/vectors) + Plan queries | closed | Pure `runDepositDepositoryAssetPackSearch`: lexical always; vector when `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` + embed + supabase.rpc; agent Plan→queries→tool |
+| D-08 | Depository search tool (embeddings/vectors) + Plan queries | closed | Multi-query hybrid `runDepositDepositoryAssetPackSearch`: lexical + static filters; vector when `BITCODE_DEPOSITORY_VECTOR_SEARCH=1`; RPC prefers `match_depository_asset_pack_vectors`; agent Plan→queries[]→tool; dispatch preloads supply assets |
+| D-19 | Index on admit (static doc + embed) | closed | Migration `depository_search_*`; `POST /api/depository/index` + `indexDepositoryAssetPack`; fired from deposit option admission |
 | D-09 | AssetPack = patch + measurements + metadata (required) | closed | Implementation attaches absolutes; Validation fail-closes without them |
 | D-10 | Single validation ready-to-finish deposit agent | closed | A prior phases · B pack quality · C obfuscations vs patch |
 | D-11 | Finish store-artifacts | closed | Bundle + optional `deposit:persistArtifacts` hook; dispatch wires hook |
@@ -259,9 +260,11 @@ AssetPack = **patch + measurements + metadata**.
 | --- | --- | --- | --- |
 | R-01 | Read SDIVF mirrors deposit sequence | closed | `read-phases.ts` clone → parallel → danger-wall; Discovery ∥ 3; single validation; Finish triple |
 | R-02 | comprehend-needs + danger-wall (Need) | closed | `read-need-comprehension-agent`, `read-danger-wall-agent` |
-| R-03 | Needinesses all *-fit + static + dynamic | closed | `read-neediness-measurements.ts`, needinesses catalog |
-| R-04 | Read synthesis attaches absolutes + needinesses | closed | `read-asset-pack-synthesis-agent.ts` |
-| R-05 | Read API synthesize-options | closed | `apps/uapi/app/api/read/synthesize-options/` |
+| R-03 | Needinesses all *-fit + static + dynamic | closed | Catalog + `dynamicNeedinesses` plan (label/guidance/weight); weight re-norm 0.6/0.4; `planDynamicNeedinessesFromContext` |
+| R-04 | Read synthesis attaches absolutes + needinesses | closed | `read-asset-pack-synthesis-agent.ts` per-option absolutes + measured needinesses + needFit |
+| R-05 | Read API synthesize-options | closed | Deposit-parity dispatch: early stream, supply preload, host provision optional; `maxDuration` 900 |
+| R-19 | Read Need-fits multi-query search | closed | `read-depository-search-for-need-fits-agent` passes `queries[]`; product `read-need-fits` |
+| R-20 | Deposit/read stream parity | closed | Shared early emitStatus + depository preload before SDIVF |
 | R-06 | Settle Simple: pay → mint → rights → PR ship | closed | `settle-asset-pack-pipeline` stages |
 | R-07 | `/packs` master-detail | closed | PacksPageClient master-detail; settle executions projected as settled-assetpack with nested measurements + PR delivery reference |
 | R-08 | SPEC G4 rebuild law | closed | `BITCODE_SPEC_V48.md` Gate 4 |

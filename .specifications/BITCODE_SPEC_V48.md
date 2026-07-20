@@ -325,16 +325,63 @@ measurements: {
 no deposit neediness preview, no inventing read-demand as a measurement kind on
 deposit packs.
 
-**Read law (outline; full Gate 4/read SPEC when that gate is active):**
+**Read law (Gate 5 needinesses + depository search):**
 
 - Static **needinesses catalogue** includes fixed dimensions (e.g. `language-fit`,
-  `domain-fit`, `interface-fit`) with weights.
-- **Dynamic** needinesses may be inferred for the specific Read Request / Need
-  (additional named dimensions).
+  `domain-fit`, `interface-fit`) with weights (`ASSET_PACK_NEEDINESSES_CATALOG`).
+- **Dynamic** needinesses are planned per Need (and grounded in checkout paths /
+  topics) as first-class plan rows:
+
+  ```
+  dynamicNeedinesses: Array<{
+    measurementKind: string;  // MUST end with -fit
+    label: string;            // human title, not slug-only
+    guidance: string;         // how to score pack vs Need
+    weight: number;           // relative among dynamic; re-normalized with static
+  }>
+  ```
+
+- Setup `comprehend-needs` produces the plan; Implementation host-attaches
+  measured volumes for **static + dynamic** rows onto each option.
+- **Weight re-normalization:** when both static and dynamic rows are present,
+  static mass = 0.6 and dynamic mass = 0.4, each family re-normalized internally
+  so all neediness weights sum to 1 before composite.
 - **`need-fit` is a composite**, not a raw catalogue target:  
   `needFitVolume = weightedMean(needinesses[].volume)` using each row’s weight
-  (reading weight, else catalogue weight, else equal). BTD on read uses the
-  needinesses family / need-fit composite per settlement law.
+  (reading weight, else catalogue weight, else equal). BTD on settle uses the
+  needinesses family / need-fit composite only (never absolutes).
+- Final synthesized-read options **must** carry:
+
+  ```
+  measurements: { absolutes: AbsoluteReading[]; needinesses: NeedinessReading[] }
+  needFit: number
+  ```
+
+### Depository search law (shared low-level tool)
+
+Deposit and read Discovery share **`depository-asset-pack-search`**
+(`runDepositDepositoryAssetPackSearch`):
+
+| Channel | Law |
+| --- | --- |
+| **Static filters** | Optional kind / repository / lifecycle / absoluteKinds on supply rows |
+| **Lexical** | Phrase-weighted term match over source-safe asset text (always) |
+| **Vector** | Optional: embed query → cosine match when `BITCODE_DEPOSITORY_VECTOR_SEARCH=1` |
+| **Multi-query** | Explicit `queries[]` fan-out; union by `assetId` (max score + multi-query boost) |
+| **Product lens** | `deposit-relevants` vs `read-need-fits` (query framing only; same ranker) |
+
+**Index on admit:** when a deposit option is admitted to the Depository, the
+product enqueues indexing:
+
+1. Upsert source-safe row in `depository_search_documents` (static fields + embed text).
+2. Embed `embed_text` (OpenAI `text-embedding-3-small`, 1536 dims) into
+   `depository_search_vectors`.
+3. Search uses `match_depository_asset_pack_vectors` (legacy `match_deliverable_vectors`
+   remains a fallback RPC only).
+
+**Runtime preload:** both deposit and read synthesize dispatch load admitted /
+settled supply into execution stores (`depository.settledAssets` /
+`deposit.settledDepositoryAssets`) **before** Discovery so lexical search is not empty.
 
 ### Absolute material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`)
 

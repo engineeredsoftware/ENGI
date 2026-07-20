@@ -1,5 +1,8 @@
 import {
   ASSET_PACK_VECTOR_DIMENSIONS,
+  DEPOSITORY_SEARCH_DOCUMENTS_TABLE,
+  DEPOSITORY_SEARCH_VECTORS_TABLE,
+  MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC,
   buildAssetPackEmbeddingPolicy,
   buildOpenAIEmbeddingCreateParams,
   normalizeAssetPackEmbeddingVector,
@@ -22,6 +25,14 @@ describe('AssetPack embedding configuration', () => {
       indexMethod: 'ivfflat',
       operatorClass: 'vector_cosine_ops',
     });
+  });
+
+  it('declares product depository index table + match RPC constants', () => {
+    expect(DEPOSITORY_SEARCH_DOCUMENTS_TABLE).toBe('depository_search_documents');
+    expect(DEPOSITORY_SEARCH_VECTORS_TABLE).toBe('depository_search_vectors');
+    expect(MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC).toBe(
+      'match_depository_asset_pack_vectors',
+    );
   });
 
   it('builds dimension-bound OpenAI embedding requests for third-generation models', () => {
