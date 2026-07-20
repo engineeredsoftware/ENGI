@@ -41,10 +41,46 @@ const TITLE_HIGHLIGHT_CLASS: Record<'green' | 'orange', string> = {
 
 /**
  * Code side (2 marks) fills the open corner left of the exchange glyph —
- * substantially larger than the 3-chain triangle (left unchanged).
+ * substantially larger than the 3-chain triangle (chain side unchanged).
  */
 const CODE_MARK_SLOT =
-  'inline-flex h-14 w-14 shrink-0 items-center justify-center phone:h-16 phone:w-16';
+  'inline-flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center phone:h-[5.25rem] phone:w-[5.25rem]';
+
+/**
+ * Compact bond between Bitcode C and AssetPack — reads as one commercial
+ * package (not the purple exchange ⇄ on the settlement side).
+ */
+function CodePackBondMark({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 28 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Paired nodes — protocol + pack */}
+      <circle cx="7" cy="10" r="3.1" stroke="currentColor" strokeWidth="1.75" />
+      <circle cx="21" cy="10" r="3.1" stroke="currentColor" strokeWidth="1.75" />
+      {/* Primary bond */}
+      <path
+        d="M10.1 10h7.8"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      {/* Bundle hash — “package deal” weight without looking like ⇄ */}
+      <path
+        d="M12.4 7.15h3.2M12.4 12.85h3.2"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        opacity="0.55"
+      />
+    </svg>
+  );
+}
+
 /**
  * Equal square slots for BTC / ETH / SOL.
  * Brand SVGs have very different frames (BTC logo has large empty margin;
@@ -88,7 +124,7 @@ function renderTitleWithHighlights(title: string) {
       return (
         <span
           key={`title-exchange-${index}`}
-          className="mx-[0.2em] inline-flex translate-y-[-0.05em] items-center align-middle [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.65))]"
+          className="mx-[0.2em] inline-flex shrink-0 translate-y-[-0.05em] items-center align-middle [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.65))]"
           title="for"
         >
           <span className="sr-only">for</span>
@@ -123,40 +159,54 @@ export function MarketingLandingTestnetSection() {
     >
       <div className="relative overflow-visible rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         {/*
-          Absolute so the exchange mark never expands card layout.
-          Title is Code ⇄ Coin. Left: BTD C + AssetPack (both emerald, ~50/50 of
-          prior solo mark). Right: BTC / ETH / SOL triangle with brand-matched glows.
+          Icon stack is absolute top-right (does not crush text width).
+          Badge + title use max-width calc so they clear the stack; body is full width.
         */}
         <div
-          className="pointer-events-none absolute right-1.5 top-1.5 z-10 inline-flex items-center gap-2 phone:right-2.5 phone:top-2.5 phone:gap-2.5"
+          className="pointer-events-none absolute right-2 top-2 z-10 flex items-center gap-1.5 phone:right-2.5 phone:top-2.5 phone:gap-2 tablet:gap-2.5"
           aria-hidden="true"
           title="Code for Coin exchange"
         >
-          {/* Bitcode side — C + AssetPack fill open space left of ⇄ (chain side unchanged). */}
-          <span className="inline-flex items-center gap-1.5 phone:gap-2">
+          {/*
+            Bitcode package unit — C ⋈ AssetPack (bond = package deal),
+            then purple ⇄ to settlement rails (chain triangle).
+          */}
+          <span
+            className="inline-flex items-center"
+            title="Bitcode protocol + AssetPack (package deal)"
+          >
             <span
-              className={`${CODE_MARK_SLOT} text-[#65FEB7] [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
+              className={`${CODE_MARK_SLOT} translate-x-4 text-[#65FEB7] phone:translate-x-5 [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
             >
+              {/*
+                +16.5° CSS straighten (design tilt −17.5°). C shifts into its
+                open counter; bond −ml pulls in; −mr keeps AssetPack gap stable.
+              */}
               <Logo
-                height="h-14 phone:h-16"
-                width="w-14 phone:w-16"
+                height="h-[4.5rem] phone:h-[5.25rem]"
+                width="w-[4.5rem] phone:w-[5.25rem]"
                 fill="#65FEB7"
-                className="opacity-95"
+                className="origin-center rotate-[16.5deg] opacity-95"
               />
+            </span>
+            <span
+              className="relative z-10 -ml-5 -mr-1.5 translate-x-1.5 inline-flex shrink-0 items-center justify-center text-[#65FEB7] phone:-ml-6 phone:-mr-2 phone:translate-x-2 [filter:drop-shadow(0_0_8px_rgba(103,254,183,0.75))]"
+              aria-hidden="true"
+            >
+              <CodePackBondMark className="h-7 w-9 opacity-95 phone:h-8 phone:w-10" />
             </span>
             <span
               className={`${CODE_MARK_SLOT} [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
             >
               <AssetPackMark
-                height="h-14 phone:h-16"
-                width="w-14 phone:w-16"
+                height="h-[4.5rem] phone:h-[5.25rem]"
+                width="w-[4.5rem] phone:w-[5.25rem]"
                 className="opacity-95"
                 title={null}
                 variant="dual"
               />
             </span>
           </span>
-          {/* Purple exchange glyph — glow outside the stroke. */}
           <span className="inline-flex shrink-0 items-center justify-center [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.85))_drop-shadow(0_0_18px_rgba(192,132,252,0.55))]">
             <ArrowsRightLeftIcon
               className="h-7 w-7 text-fuchsia-300 phone:h-8 phone:w-8"
@@ -167,8 +217,6 @@ export function MarketingLandingTestnetSection() {
             Settlement side — optical triangle (equal painted mass):
                  BTC
               ETH   SOL
-            Per-logo glyph boxes (BTC SVG has large empty frame → bigger box).
-            Shadows tinted to each logo’s brand color.
           */}
           <span className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1 gap-y-0.5">
             <span
@@ -207,14 +255,20 @@ export function MarketingLandingTestnetSection() {
             </span>
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-2 pr-56 phone:pr-72">
-          <span className="rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
-            {copy.badge}
-          </span>
+
+        {/* Title block only — leaves a proportional clear zone for the absolute stack. */}
+        <div className="max-w-[calc(100%-11.5rem)] phone:max-w-[calc(100%-14rem)] tablet:max-w-[calc(100%-17rem)] desktop:max-w-[calc(100%-19rem)]">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="shrink-0 whitespace-nowrap rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
+              {copy.badge}
+            </span>
+          </div>
+          <h2 className="mt-3 whitespace-nowrap text-2xl font-semibold leading-none tracking-tight text-white phone:text-3xl tablet:text-4xl">
+            {renderTitleWithHighlights(copy.title)}
+          </h2>
         </div>
-        <h2 className="mt-3 text-2xl font-semibold leading-snug tracking-tight text-white phone:text-3xl tablet:text-4xl">
-          {renderTitleWithHighlights(copy.title)}
-        </h2>
+
+        {/* Full-width body under the header (icons only occupy the top-right). */}
         <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">
           {renderClaimAnchorMarkers(copy.meaning)}
         </p>
