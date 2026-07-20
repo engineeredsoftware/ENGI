@@ -10,7 +10,7 @@
 import React, { useMemo, useState } from 'react';
 
 import type { ProfileTeamMember } from '../AuxillariesProfilePane.types';
-import { PROFILE_AVATAR_OPTIONS } from '../models/profile-pane-format';
+import { PROFILE_AVATAR_OPTIONS, toCssBackgroundImage } from '../models/profile-pane-format';
 
 const INVITE_ROLES: Array<ProfileTeamMember['role']> = ['admin', 'lead', 'dev'];
 
@@ -171,7 +171,9 @@ export default function ProfileTeamViewSection({
                       <span
                         className="h-9 w-9 shrink-0 rounded-none border border-white/12 bg-cover bg-center"
                         style={{
-                          backgroundImage: `url(${member.avatarUrl || PROFILE_AVATAR_OPTIONS[0]})`,
+                          backgroundImage: toCssBackgroundImage(
+                            member.avatarUrl || PROFILE_AVATAR_OPTIONS[0],
+                          ),
                         }}
                         aria-hidden="true"
                       />

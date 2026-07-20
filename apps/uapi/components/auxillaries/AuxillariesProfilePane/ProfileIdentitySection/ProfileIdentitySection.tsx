@@ -3,7 +3,7 @@
  */
 
 import React, { useRef } from 'react';
-import { PROFILE_AVATAR_OPTIONS } from '../models/profile-pane-format';
+import { PROFILE_AVATAR_OPTIONS, toCssBackgroundImage } from '../models/profile-pane-format';
 
 const profileFieldClassName =
   'w-full rounded-none border border-emerald-300/25 bg-[rgba(7,15,28,0.55)] px-3 py-2.5 text-sm text-white outline-none transition-colors placeholder:text-white/38 focus:border-emerald-300/55 focus:bg-[rgba(7,15,28,0.72)]';
@@ -133,22 +133,23 @@ export default function ProfileIdentitySection({
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {PROFILE_AVATAR_OPTIONS.map((avatar, index) => (
                 <button
-                  key={avatar}
+                  key={`avatar-preset-${index}`}
                   type="button"
                   onClick={() => selectAvatar(index)}
-                  className={`h-12 w-12 rounded-none border bg-cover bg-center transition ${
+                  className={`h-12 w-12 shrink-0 rounded-none border bg-cover bg-center transition ${
                     selectedAvatar === index && !isCustomAvatar
-                      ? 'border-emerald-300/60'
+                      ? 'border-emerald-300/60 ring-1 ring-emerald-300/35'
                       : 'border-white/12'
                   }`}
-                  style={{ backgroundImage: `url(${avatar})` }}
+                  style={{ backgroundImage: toCssBackgroundImage(avatar) }}
                   aria-label={`Select avatar ${index + 1}`}
+                  aria-pressed={selectedAvatar === index && !isCustomAvatar}
                 />
               ))}
               {isCustomAvatar ? (
                 <span
-                  className="h-12 w-12 rounded-none border border-emerald-300/60 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${avatarUrl})` }}
+                  className="h-12 w-12 shrink-0 rounded-none border border-emerald-300/60 bg-cover bg-center"
+                  style={{ backgroundImage: toCssBackgroundImage(avatarUrl) }}
                   title="Custom avatar"
                   aria-label="Custom avatar selected"
                 />

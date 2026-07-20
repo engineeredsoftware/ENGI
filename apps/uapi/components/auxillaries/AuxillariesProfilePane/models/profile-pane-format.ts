@@ -64,16 +64,18 @@ export function readImageFileAsAvatarDataUrl(file: File): Promise<string> {
 type AvatarGlyphId = 'orbit' | 'mesh' | 'crystal' | 'ledger' | 'pulse' | 'twin';
 
 function avatarBackdrop(background: string, glow: string) {
+  // defs first so paint-server refs resolve in every SVG image host.
+  const gradientId = `bg-${glow.replace('#', '')}`;
   return `
-    <rect width="96" height="96" rx="10" fill="${background}"/>
-    <rect width="96" height="96" rx="10" fill="url(#bg-${glow.replace('#', '')})" opacity="0.95"/>
     <defs>
-      <radialGradient id="bg-${glow.replace('#', '')}" cx="32%" cy="28%" r="78%">
+      <radialGradient id="${gradientId}" cx="32%" cy="28%" r="78%">
         <stop offset="0%" stop-color="${glow}" stop-opacity="0.38"/>
         <stop offset="55%" stop-color="${glow}" stop-opacity="0.08"/>
         <stop offset="100%" stop-color="${background}" stop-opacity="1"/>
       </radialGradient>
     </defs>
+    <rect width="96" height="96" rx="10" fill="${background}"/>
+    <rect width="96" height="96" rx="10" fill="url(#${gradientId})" opacity="0.95"/>
   `;
 }
 
@@ -146,6 +148,31 @@ function avatarGlyph(kind: AvatarGlyphId, accent: string, secondary: string) {
   }
 }
 
+/**
+ * CSS `url(...)` must quote data URIs: encodeURIComponent leaves `()` unescaped,
+ * so unquoted `url(data:...url(%23id)...)` truncates at the first `)` and the
+ * preset glyphs render as empty tiles.
+ */
+export function toCssBackgroundImage(src: string): string {
+  const trimmed = typeof src === 'string' ? src.trim() : '';
+  if (!trimmed) return 'none';
+  const escaped = trimmed.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  return `url("${escaped}")`;
+}
+
+function utf8ToBase64(value: string): string {
+  if (typeof Buffer !== 'undefined') {
+    return Buffer.from(value, 'utf8').toString('base64');
+  }
+  // Browser path — TextEncoder avoids deprecated unescape/encodeURIComponent hacks.
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 1) {
+    binary += String.fromCharCode(bytes[i]!);
+  }
+  return btoa(binary);
+}
+
 function buildAvatarDataUri(
   label: string,
   kind: AvatarGlyphId,
@@ -154,15 +181,16 @@ function buildAvatarDataUri(
   secondary: string,
   glow: string,
 ) {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
-      ${avatarBackdrop(background, glow)}
-      ${avatarGlyph(kind, accent, secondary)}
-      <text x="48" y="90" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="8" letter-spacing="0.12em" fill="${accent}" fill-opacity="0.55">${label}</text>
-    </svg>
-  `;
+  const svg = [
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">',
+    avatarBackdrop(background, glow),
+    avatarGlyph(kind, accent, secondary),
+    `<text x="48" y="90" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="8" letter-spacing="0.12em" fill="${accent}" fill-opacity="0.55">${label}</text>`,
+    '</svg>',
+  ].join('');
 
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  // Base64 keeps CSS url() hosts free of raw `()` / `#` that break unquoted urls.
+  return `data:image/svg+xml;base64,${utf8ToBase64(svg)}`;
 }
 
 /** Six preset operator glyphs for profile / chrome (square Bitcode tile language). */
