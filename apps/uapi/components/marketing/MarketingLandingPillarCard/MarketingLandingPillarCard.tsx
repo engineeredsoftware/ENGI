@@ -233,10 +233,17 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/70 to-transparent" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.22),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(45,212,191,0.1),transparent_30%)]" />
           <div className="relative flex min-h-0 flex-1 flex-col">
-            <div className="relative pr-14 text-emerald-100 phone:pr-16">
-              {/* Logo slightly above title baseline; size matches Deposit/Read title row. */}
-              <div className="absolute right-0 -top-1">
-                <BitcodeSoftwareSvgLogo width="36px" softwareClassName="hidden" className="opacity-90" />
+            <div className="relative pr-12 text-emerald-100 phone:pr-14">
+              {/*
+                Settle mark: slightly smaller + up-right so longer “Crypto ⇄ BTD”
+                row doesn’t collide (was sized for “BTC ⇄ BTD”).
+              */}
+              <div className="absolute -right-1.5 -top-2.5">
+                <BitcodeSoftwareSvgLogo
+                  width="30px"
+                  softwareClassName="hidden"
+                  className="opacity-90"
+                />
               </div>
               <div className="flex min-w-0 items-start gap-2">
                 <Icon className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
@@ -244,7 +251,7 @@ export function MarketingLandingPillarCard({
                   <p className="bg-gradient-to-r from-emerald-200 via-emerald-300 to-teal-200 bg-clip-text text-[11px] font-semibold uppercase tracking-[0.18em] text-transparent">
                     {title}
                   </p>
-                  <p className="mt-1 flex max-w-[16ch] items-center gap-1.5 text-[9px] uppercase leading-snug tracking-[0.16em] text-emerald-100/52 phone:text-[10px]">
+                  <p className="mt-1 flex max-w-[18ch] items-center gap-1.5 text-[9px] uppercase leading-snug tracking-[0.16em] text-emerald-100/52 phone:text-[10px]">
                     <span className="whitespace-nowrap">Crypto</span>
                     <ArrowLeftRight
                       className="h-3 w-3 shrink-0 text-violet-300/85"
