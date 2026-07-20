@@ -319,7 +319,9 @@ function summarizeExecutionNode(node, depth = 0) {
   };
 }
 
-/** Resolve tool constructor name from path / node id (`tool:Name` segment). */
+// Resolve tool constructor name from path / node id (tool:Name segment).
+// Note: this file embeds runners in template strings — never use raw backticks
+// in comments inside createLiveAssetPackPipelineRunner.
 function toolNameFromExecutionPath(event) {
   const segments = [
     ...(Array.isArray(event?.executionPath) ? event.executionPath : []),
