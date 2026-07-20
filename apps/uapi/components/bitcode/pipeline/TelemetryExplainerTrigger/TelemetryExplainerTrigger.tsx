@@ -125,7 +125,9 @@ export function TelemetryExplainerTrigger({
           ref={tooltipRef}
           onMouseEnter={cancelScheduledHide}
           onMouseLeave={hideTooltipNow}
-          className="pointer-events-auto fixed z-[10100] overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out"
+          // Vertical scroll only when height-capped; never x-scroll — long
+          // source paths wrap (break-all on reference chips).
+          className="pointer-events-auto fixed z-[10100] min-w-0 overflow-x-hidden overflow-y-auto overscroll-contain border border-white/10 bg-[rgba(4,8,18,0.98)] px-4 py-4 text-left text-sm font-normal normal-case tracking-normal opacity-100 shadow-[0_24px_56px_rgba(0,0,0,0.42)] transition duration-150 ease-out"
           style={tooltipPositionStyle(placement)}
         >
           <span
@@ -135,14 +137,14 @@ export function TelemetryExplainerTrigger({
           <span className="relative block text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-300/80">
             {explainer.kicker}
           </span>
-          <strong className="relative mt-2 block text-sm font-semibold tracking-[0.01em] text-white">
+          <strong className="relative mt-2 block break-words text-sm font-semibold tracking-[0.01em] text-white">
             {explainer.title}
           </strong>
-          <span className="relative mt-2 block text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
+          <span className="relative mt-2 block break-words text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200">
             {explainer.specific}
           </span>
           {explainer.generic ? (
-            <span className="relative mt-3 block border-t border-white/8 pt-3 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-400">
+            <span className="relative mt-3 block break-words border-t border-white/8 pt-3 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-400">
               {explainer.generic}
             </span>
           ) : null}
@@ -158,7 +160,7 @@ export function TelemetryExplainerTrigger({
                     className="flex gap-2 text-sm font-normal normal-case tracking-normal leading-6 text-neutral-200"
                   >
                     <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 bg-emerald-300/70" />
-                    <span>{point}</span>
+                    <span className="min-w-0 break-words">{point}</span>
                   </span>
                 ))}
               </span>
@@ -166,17 +168,17 @@ export function TelemetryExplainerTrigger({
           ) : null}
           {explainer.references &&
           (explainer.references.source.length || explainer.references.canon.length) ? (
-            <span className="relative mt-3 block border-t border-white/8 pt-3">
+            <span className="relative mt-3 block min-w-0 border-t border-white/8 pt-3">
               {explainer.references.source.length ? (
-                <span className="block">
+                <span className="block min-w-0">
                   <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
                     Current source
                   </span>
-                  <span className="mt-2 flex flex-wrap gap-1.5">
+                  <span className="mt-2 flex min-w-0 flex-col gap-1.5">
                     {explainer.references.source.map((reference) => (
                       <span
                         key={reference}
-                        className="border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                        className="max-w-full min-w-0 break-all border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase leading-4 tracking-[0.14em] text-neutral-200"
                       >
                         {reference}
                       </span>
@@ -185,15 +187,15 @@ export function TelemetryExplainerTrigger({
                 </span>
               ) : null}
               {explainer.references.canon.length ? (
-                <span className="mt-2 block">
+                <span className="mt-2 block min-w-0">
                   <span className="block text-[0.62rem] uppercase tracking-[0.18em] text-emerald-300/75">
                     Current canon
                   </span>
-                  <span className="mt-2 flex flex-wrap gap-1.5">
+                  <span className="mt-2 flex min-w-0 flex-col gap-1.5">
                     {explainer.references.canon.map((reference) => (
                       <span
                         key={reference}
-                        className="border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-200"
+                        className="max-w-full min-w-0 break-all border border-white/10 bg-white/5 px-2 py-1 text-[0.58rem] uppercase leading-4 tracking-[0.14em] text-neutral-200"
                       >
                         {reference}
                       </span>
