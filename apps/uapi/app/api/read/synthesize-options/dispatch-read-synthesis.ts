@@ -1,23 +1,24 @@
 /**
  * Background read option synthesis (deposit dispatch twin).
- * Provisions Host when possible, runs ExecutionPipelineSDIVFSynthesizeReadAssetPacks,
- * persists selection envelope onto executions.output.
+ *
+ * Same host/stream/cancel shape as deposit: early emitStatus, preload depository
+ * supply for Discovery search, optional Host provision, then SDIVF read pipeline.
+ * Product deltas only: Need (not Obfuscations), need-fits search, needinesses.
  *
  * Cooperative cancel: polls executions.status between stages (same law as deposit).
- * POST /api/executions/[runId]/cancel marks the row; this worker stops and does not
- * overwrite cancelled → completed/failed.
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { Execution, ExecutionStreamAdapter } from '@bitcode/execution-generics';
+import { emitPhaseTransition } from '@bitcode/pipelines-generics';
 import { runExecutionPipelineSDIVFSynthesizeReadAssetPacks } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain';
 import {
   assertExecutionNotCancelled,
-  ExecutionCancelledError,
   isExecutionCancelled,
   isExecutionCancelledError,
 } from '@bitcode/api/pipelines/cancel';
+import { loadDepositorySearchAssets } from '@/lib/depository-settled-demand';
 
 export type ReadSynthesisDispatchInput = {
   runId: string;
@@ -30,26 +31,39 @@ export type ReadSynthesisDispatchInput = {
   relevantPaths?: string[];
   /** Deposit impermissibleSources twin. */
   irrelevantPaths?: string[];
+  /**
+   * Streaming execution handle from createStreamingExecution (deposit twin).
+   * When omitted, a new Execution is created bound to runId.
+   */
+  execution?: { id: string; get?: Function; findUp?: Function; store?: Function };
 };
 
 export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput): Promise<void> {
   const admin = supabaseAdmin;
   const { runId, userId } = input;
-  const exec = new Execution(`pipeline:read:${runId}`);
-  storeCrossPhaseArtifact(exec, 'host', 'runId', runId);
-  storeCrossPhaseArtifact(exec, 'pipeline', 'runId', runId);
-  storeCrossPhaseArtifact(exec, 'pipeline', 'productPipeline', 'synthesize-reads-asset-packs-pipeline');
-  storeCrossPhaseArtifact(exec, 'read', 'relevantPaths', input.relevantPaths || []);
-  storeCrossPhaseArtifact(exec, 'read', 'irrelevantPaths', input.irrelevantPaths || []);
+  const execution =
+    (input.execution as Execution | undefined) ||
+    new Execution(`pipeline:read:${runId}`);
+  // Ensure stream events key off the durable run id (deposit twin).
+  const streamRunId = (execution as { id?: string }).id || runId;
+
+  storeCrossPhaseArtifact(execution, 'host', 'runId', runId);
+  storeCrossPhaseArtifact(execution, 'pipeline', 'runId', runId);
+  storeCrossPhaseArtifact(execution, 'pipeline', 'productPipeline', 'synthesize-reads-asset-packs-pipeline');
+  storeCrossPhaseArtifact(execution, 'pipeline', 'supabase', admin);
+  storeCrossPhaseArtifact(execution, 'deposit', 'supabase', admin);
+  storeCrossPhaseArtifact(execution, 'read', 'relevantPaths', input.relevantPaths || []);
+  storeCrossPhaseArtifact(execution, 'read', 'irrelevantPaths', input.irrelevantPaths || []);
+  storeCrossPhaseArtifact(execution, 'read', 'need', input.need);
   // Deposit steering keys so shared discovery filters can reuse exclusion law.
-  storeCrossPhaseArtifact(exec, 'deposit', 'permissibleSources', input.relevantPaths || []);
-  storeCrossPhaseArtifact(exec, 'deposit', 'impermissibleSources', input.irrelevantPaths || []);
+  storeCrossPhaseArtifact(execution, 'deposit', 'permissibleSources', input.relevantPaths || []);
+  storeCrossPhaseArtifact(execution, 'deposit', 'impermissibleSources', input.irrelevantPaths || []);
 
   const assertNotCancelled = () => assertExecutionNotCancelled(admin, runId);
 
   const emitStatus = (message: string, extra: Record<string, unknown> = {}) => {
     try {
-      ExecutionStreamAdapter.emitEvent(runId, 'status' as never, { message, ...extra });
+      ExecutionStreamAdapter.emitEvent(streamRunId, 'status' as never, { message, ...extra });
     } catch {
       /* streaming optional */
     }
@@ -74,7 +88,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
   };
 
   const [owner, name] = input.repositoryFullName.split('/');
-  const pipelineInput = {
+  const pipelineInput: Record<string, unknown> = {
     mode: 'read',
     synthesizeMode: 'read',
     need: input.need,
@@ -95,12 +109,45 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
   };
 
   try {
+    // First stream event BEFORE any stall-prone await (deposit parity).
     await assertNotCancelled();
-    emitStatus(`Read option synthesis started for ${input.repositoryFullName}.`);
+    try {
+      await emitPhaseTransition(execution as never, 'read-option-synthesis', 'start', {
+        repositoryFullName: input.repositoryFullName,
+        sourceBranch: input.sourceBranch,
+        sourceCommit: input.sourceCommit,
+      });
+    } catch {
+      /* phase transition optional when adapter not registered */
+    }
+    emitStatus(
+      `AssetPacksSynthesis (read lens) started for ${input.repositoryFullName}.`,
+    );
+
+    // Preload depository supply so Discovery need-fits search has assets.
+    await assertNotCancelled();
+    try {
+      const searchAssets = await loadDepositorySearchAssets(80);
+      storeCrossPhaseArtifact(execution, 'depository', 'settledAssets', searchAssets);
+      storeCrossPhaseArtifact(execution, 'deposit', 'settledDepositoryAssets', searchAssets);
+      storeCrossPhaseArtifact(execution, 'pipeline', 'depositoryAssets', searchAssets);
+      emitStatus(
+        `depository: ${searchAssets.length} supply AssetPack(s) loaded for Need-fit search.`,
+      );
+    } catch {
+      storeCrossPhaseArtifact(execution, 'depository', 'settledAssets', []);
+      storeCrossPhaseArtifact(execution, 'deposit', 'settledDepositoryAssets', []);
+      emitStatus('depository: supply load failed (search will run empty / vector-only).');
+    }
 
     // Optional Host provision (same path as deposit when available).
     try {
       await assertNotCancelled();
+      emitStatus(
+        `Provisioning source checkout for ${input.repositoryFullName}@${
+          input.sourceCommit || input.sourceBranch || 'HEAD'
+        }…`,
+      );
       const { provisionDepositCheckout } = await import('@/lib/deposit-source-provisioning');
       const provisioned = await provisionDepositCheckout({
         repositoryFullName: input.repositoryFullName,
@@ -110,35 +157,59 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
       } as any);
       await assertNotCancelled();
       if (provisioned?.sourceCatalog) {
-        (pipelineInput as any).sourceCheckoutCatalog = provisioned.sourceCatalog;
-        (pipelineInput as any).inventory = provisioned.sourceCatalog;
+        pipelineInput.sourceCheckoutCatalog = provisioned.sourceCatalog;
+        pipelineInput.inventory = provisioned.sourceCatalog;
+        storeCrossPhaseArtifact(
+          execution,
+          'deposit',
+          'sourceCheckoutCatalog',
+          provisioned.sourceCatalog,
+        );
+        storeCrossPhaseArtifact(
+          execution,
+          'read',
+          'sourceCheckoutCatalog',
+          provisioned.sourceCatalog,
+        );
       }
       if (provisioned?.workspace?.workspacePath) {
         storeCrossPhaseArtifact(
-          exec,
+          execution,
           'repository',
           'workspacePath',
           provisioned.workspace.workspacePath,
         );
       }
+      emitStatus(
+        provisioned?.sourceCatalog
+          ? 'Source checkout catalog ready; starting SDIVF read pipeline…'
+          : 'Source checkout optional; starting SDIVF read pipeline…',
+      );
     } catch (provisionErr) {
       if (isExecutionCancelledError(provisionErr)) throw provisionErr;
-      // Host optional in constrained environments; pipeline may still run with empty catalog.
+      emitStatus(
+        'Host provision skipped (optional); continuing with empty catalog if needed.',
+      );
     }
 
     await assertNotCancelled();
-    emitStatus('Running synthesize-reads-asset-packs pipeline…');
+    emitStatus(
+      'Running SynthesizeAssetPacks (read mode): Setup (Need) → Discovery (Need-fits search) → Implementation → Validation → Finish…',
+    );
 
-    const result = await runExecutionPipelineSDIVFSynthesizeReadAssetPacks(pipelineInput, exec);
+    const result = await runExecutionPipelineSDIVFSynthesizeReadAssetPacks(
+      pipelineInput,
+      execution as never,
+    );
 
     await assertNotCancelled();
 
     const selectionEnvelope =
-      exec.get?.('finish', 'selectionEnvelope') ||
+      (execution as any).get?.('finish', 'selectionEnvelope') ||
       (result as any)?.selectionEnvelope ||
       null;
     const options =
-      exec.get?.('implementation', 'options') ||
+      (execution as any).get?.('implementation', 'options') ||
       (result as any)?.options ||
       selectionEnvelope?.options ||
       [];
@@ -162,13 +233,19 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
         optionCount: Array.isArray(options) ? options.length : 0,
       },
     });
+    try {
+      await emitPhaseTransition(execution as never, 'read-option-synthesis', 'complete', {
+        optionCount: Array.isArray(options) ? options.length : 0,
+      });
+    } catch {
+      /* optional */
+    }
     emitStatus(
-      `Read option synthesis completed with ${Array.isArray(options) ? options.length : 0} options.`,
+      `Synthesized ${Array.isArray(options) ? options.length : 0} measured read AssetPack option(s).`,
     );
   } catch (err) {
     if (isExecutionCancelledError(err) || (await isExecutionCancelled(admin, runId))) {
       emitStatus('Run cancelled — read synthesis stopped cooperatively.');
-      // Row is already cancelled by cancelUserExecution; do not overwrite.
       return;
     }
 
@@ -192,7 +269,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
     });
   } finally {
     try {
-      ExecutionStreamAdapter.unregisterStreamer?.(runId);
+      ExecutionStreamAdapter.unregisterStreamer?.(streamRunId);
     } catch {
       /* optional */
     }

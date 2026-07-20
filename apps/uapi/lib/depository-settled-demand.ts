@@ -1,6 +1,9 @@
 /**
  * Load settled / admitted Depository AssetPacks and estimate demand for deposit
  * earnings (source-safe metadata only).
+ *
+ * Also maps packs into DepositoryAsset shape for Discovery search (lexical +
+ * optional vector) on both deposit relevants and read need-fits.
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
@@ -10,6 +13,7 @@ import {
   type DepositorySettledDemandEstimate,
   type SettledDepositoryPackSummary,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain';
+import type { DepositoryAsset } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-search';
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
@@ -18,6 +22,13 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 
 function asString(value: unknown): string | null {
   return typeof value === 'string' && value.trim() ? value.trim() : null;
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .filter((entry): entry is string => typeof entry === 'string' && entry.trim().length > 0)
+    .map((entry) => entry.trim());
 }
 
 function packFromExecutionRow(row: Record<string, unknown>): SettledDepositoryPackSummary | null {
@@ -48,25 +59,41 @@ function packFromExecutionRow(row: Record<string, unknown>): SettledDepositoryPa
     asString(context.source) === 'deposit-option-review-admission';
   if (!admitted) return null;
 
+  const depositOption = asRecord(output.depositOption) || asRecord(output.option);
+  const assetPack = asRecord(output.assetPack);
   const title =
     asString(output.title) ||
-    asString(asRecord(output.depositOption)?.title) ||
-    asString(asRecord(output.assetPack)?.title) ||
+    asString(output.assetPackTitle) ||
+    asString(depositOption?.title) ||
+    asString(assetPack?.title) ||
     asString(row.summary);
   const summary =
     asString(output.summary) ||
-    asString(asRecord(output.depositOption)?.summary) ||
-    asString(asRecord(output.assetPack)?.summary);
+    asString(depositOption?.summary) ||
+    asString(assetPack?.summary);
   const kind =
     asString(output.kind) ||
-    asString(asRecord(output.depositOption)?.kind) ||
-    asString(asRecord(output.assetPack)?.kind) ||
-    asString(context.optionKind);
+    asString(output.assetPackKind) ||
+    asString(output.optionKind) ||
+    asString(depositOption?.kind) ||
+    asString(assetPack?.kind) ||
+    asString(context.optionKind) ||
+    asString(context.assetPackKind);
   const repositoryFullName =
     asString(context.repositoryFullName) ||
     asString(asRecord(output.sourceBinding)?.repositoryFullName) ||
-    asString(asRecord(output.depositOption)?.sourceBinding &&
-      asRecord(asRecord(output.depositOption)?.sourceBinding)?.repositoryFullName);
+    asString(asRecord(depositOption?.sourceBinding)?.repositoryFullName) ||
+    asString(asRecord(assetPack?.sourceBinding)?.repositoryFullName);
+  const topics = [
+    ...asStringArray(output.topics),
+    ...asStringArray(depositOption?.topics),
+    ...asStringArray(context.topics),
+  ];
+  const coveredSourcePaths = [
+    ...asStringArray(output.coveredSourcePaths),
+    ...asStringArray(depositOption?.coveredSourcePaths),
+    ...asStringArray(assetPack?.coveredSourcePaths),
+  ];
 
   return {
     id,
@@ -75,8 +102,72 @@ function packFromExecutionRow(row: Record<string, unknown>): SettledDepositoryPa
     kind,
     repositoryFullName,
     lifecycleState: lifecycle,
-    topics: [],
+    topics: [...new Set(topics)].slice(0, 24),
+    // Extra fields carried for search mapping (typed loosely on summary).
+    ...(coveredSourcePaths.length ? { coveredSourcePaths } : {}),
+  } as SettledDepositoryPackSummary & { coveredSourcePaths?: string[] };
+}
+
+/**
+ * Map a settled/admitted pack summary into a DepositoryAsset for lexical/vector
+ * search. Source-safe text only — no raw source bodies.
+ */
+export function settledPackToDepositoryAsset(
+  pack: SettledDepositoryPackSummary & {
+    coveredSourcePaths?: string[] | null;
+    absoluteKinds?: string[] | null;
+  },
+): DepositoryAsset {
+  const title = pack.title || pack.id;
+  const summary = pack.summary || '';
+  const topics = Array.isArray(pack.topics) ? pack.topics.filter(Boolean) : [];
+  const paths = Array.isArray(pack.coveredSourcePaths)
+    ? pack.coveredSourcePaths.filter(Boolean).slice(0, 40)
+    : [];
+  const embedParts = [
+    title,
+    summary,
+    pack.kind,
+    pack.repositoryFullName,
+    pack.lifecycleState,
+    ...topics,
+    ...paths,
+  ]
+    .filter((part): part is string => typeof part === 'string' && part.trim().length > 0)
+    .join(' ');
+
+  return {
+    assetId: pack.id,
+    title,
+    summary,
+    artifactKind: pack.kind || 'asset-pack',
+    repositoryFullName: pack.repositoryFullName || null,
+    contentUnits: [
+      {
+        unitId: `${pack.id}:summary`,
+        unitKind: 'summary',
+        text: embedParts || title,
+      },
+    ],
+    metadata: {
+      lifecycleState: pack.lifecycleState || null,
+      topics,
+      coveredSourcePaths: paths,
+      sourceSafe: true,
+    },
+    hasAssetMeasurementEvidence: true,
+    hasWalletOrAttestationProof: false,
   };
+}
+
+/** Load supply packs and map them for Discovery depository search. */
+export async function loadDepositorySearchAssets(limit = 80): Promise<DepositoryAsset[]> {
+  const packs = await loadSettledDepositoryPacks(limit);
+  return packs.map((pack) =>
+    settledPackToDepositoryAsset(
+      pack as SettledDepositoryPackSummary & { coveredSourcePaths?: string[] },
+    ),
+  );
 }
 
 /**

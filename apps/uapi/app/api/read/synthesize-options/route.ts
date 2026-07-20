@@ -16,7 +16,8 @@ import { isAssetPackRealInferenceEnabled } from '@bitcode/asset-packs-pipelines-
 import { runReadOptionSynthesis } from './dispatch-read-synthesis';
 
 export const runtime = 'nodejs';
-export const maxDuration = 800;
+// Align with deposit: long SDIVF + Host work; waitUntil is capped by maxDuration.
+export const maxDuration = 900;
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -132,16 +133,19 @@ export async function POST(request: Request) {
     );
   }
 
+  // Deposit twin: create streaming execution and pass the handle into the worker
+  // so first telemetry is keyed to the same run id without a silent miss.
+  let execution: { id: string } | null = null;
   try {
-    createStreamingExecution({
+    execution = createStreamingExecution({
       runId: requestedRunId,
       userId: user.id,
       supabase: admin,
       streamToDatabase: true,
       structuredToDatabase: false,
-    });
+    }) as { id: string };
   } catch {
-    // Streaming row optional if table path differs.
+    // Streaming row optional if table path differs; worker still creates Execution.
   }
 
   waitUntil(
@@ -154,6 +158,7 @@ export async function POST(request: Request) {
       need,
       relevantPaths,
       irrelevantPaths,
+      execution: execution || undefined,
     }),
   );
 

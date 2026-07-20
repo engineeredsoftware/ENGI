@@ -31,7 +31,10 @@ import {
   type DepositHostRecovery,
 } from '@/lib/deposit-source-provisioning';
 import type { BitcodeHostWorkspace } from '@bitcode/pipeline-hosts';
-import { loadSettledDepositoryPacks } from '@/lib/depository-settled-demand';
+import {
+  loadDepositorySearchAssets,
+  loadSettledDepositoryPacks,
+} from '@/lib/depository-settled-demand';
 import {
   assertExecutionNotCancelled,
   ExecutionCancelledError,
@@ -154,6 +157,25 @@ export async function runDepositOptionSynthesis(
       sourceCommit,
     });
     await emitStatus(`AssetPacksSynthesis (deposit lens) started for ${repositoryFullName}.`);
+
+    // Preload depository supply BEFORE Discovery so relevants search has assets.
+    try {
+      await assertNotCancelled();
+      const searchAssets = await loadDepositorySearchAssets(80);
+      try {
+        (execution as any).store?.('depository', 'settledAssets', searchAssets);
+        (execution as any).store?.('deposit', 'settledDepositoryAssets', searchAssets);
+        (execution as any).store?.('pipeline', 'depositoryAssets', searchAssets);
+        (execution as any).store?.('deposit', 'supabase', supabaseAdmin);
+      } catch {
+        /* store optional on mock executions */
+      }
+      await emitStatus(
+        `depository: ${searchAssets.length} supply AssetPack(s) loaded for relevants search.`,
+      );
+    } catch {
+      await emitStatus('depository: supply load failed (search will run empty / vector-only).');
+    }
 
     const auth = await GitHubService.getValidAuth(
       githubConnectionData as never,
