@@ -48,6 +48,18 @@ function projectOption(opt: any, index: number) {
     confidence: opt?.confidence ?? null,
     absolutes,
     patch: opt?.patch ?? null,
+    // 7th field: formal patchfile artifact handle (no bodies in selection envelope).
+    patchArtifact: opt?.patchArtifact
+      ? {
+          artifactId: opt.patchArtifact.artifactId,
+          assetPackId: opt.patchArtifact.assetPackId,
+          format: opt.patchArtifact.format,
+          fileCount: opt.patchArtifact.fileCount,
+          patchSummary: opt.patchArtifact.patchSummary,
+          files: opt.patchArtifact.files,
+          name: opt.patchArtifact.name,
+        }
+      : null,
     measurements: { absolutes },
     metadata: {
       measurementRationale: opt?.measurementRationale ?? null,

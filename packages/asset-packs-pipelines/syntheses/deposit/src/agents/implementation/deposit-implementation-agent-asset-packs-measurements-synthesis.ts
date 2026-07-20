@@ -25,9 +25,9 @@ import type {
 } from './deposit-implementation-pack-types';
 import {
   countSalvagedPacks,
+  hasPatchArtifact,
   isDepositPresentablePack,
   toDepositMeasuredPack,
-  toDepositPatchfilePack,
 } from './deposit-implementation-pack-types';
 
 function findValue(execution: any, namespace: string, key: string): any {
@@ -36,45 +36,41 @@ function findValue(execution: any, namespace: string, key: string): any {
   return execution?.findUp?.(namespace, key);
 }
 
+/** Prefer options that already have formal patchfile artifacts from write agent. */
 function resolvePatchfileOptions(input: any, execution: any): DepositPatchfilePack[] {
   const candidates =
     (Array.isArray(input?.options) && input.options) ||
-    findValue(execution, 'implementation', 'patchedOptions') ||
     findValue(execution, 'implementation', 'options') ||
     findValue(execution, 'implementation', 'assetPacks') ||
     [];
   if (!Array.isArray(candidates)) return [];
-  // Re-project through allowlist so agent 2/2 never inherits non-patchfile fields.
-  return candidates
-    .filter((o) => o && typeof o === 'object' && typeof o.title === 'string' && o.patch)
-    .map((o) =>
-      toDepositPatchfilePack({
-        kind: o.kind,
-        title: o.title,
-        summary: String(o.summary ?? ''),
-        coveredSourcePaths: Array.isArray(o.coveredSourcePaths) ? o.coveredSourcePaths : [],
-        confidence: typeof o.confidence === 'number' ? o.confidence : 0.5,
-        patch: {
-          fileChanges: Array.isArray(o.patch?.fileChanges) ? o.patch.fileChanges : [],
-          patchSummary: String(o.patch?.patchSummary ?? ''),
-        },
-        salvaged: o.salvaged === true ? true : undefined,
-        salvageReason: typeof o.salvageReason === 'string' ? o.salvageReason : undefined,
-      }),
-    );
+  return candidates.filter(
+    (o) =>
+      o &&
+      typeof o === 'object' &&
+      typeof o.title === 'string' &&
+      o.patch &&
+      hasPatchArtifact(o),
+  ) as DepositPatchfilePack[];
 }
 
 function toMeasurablePatch(option: DepositPatchfilePack): MeasurableAssetPackPatch {
+  // Prefer artifact files as path scope when present (single source of truth).
+  const artifactFiles = option.patchArtifact?.files;
+  const fileChanges =
+    Array.isArray(artifactFiles) && artifactFiles.length > 0
+      ? artifactFiles.map((c) => ({ path: String(c.path), op: String(c.op ?? 'modify') }))
+      : option.patch.fileChanges.map((c) => ({
+          path: String(c.path),
+          op: String(c.op ?? 'modify'),
+        }));
   return {
     title: option.title,
     summary: option.summary,
     coveredSourcePaths: option.coveredSourcePaths,
-    fileChanges: option.patch.fileChanges.map((c) => ({
-      path: String(c.path),
-      op: String(c.op ?? 'modify'),
-    })),
+    fileChanges,
     confidence: option.confidence,
-    patchSummary: option.patch.patchSummary,
+    patchSummary: option.patchArtifact?.patchSummary || option.patch.patchSummary,
   };
 }
 
@@ -164,13 +160,16 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     measuredOptions.push(pack);
 
     const shapeOk = hasDepositAbsolutesOnlyShape(pack);
-    const ok = hasRequiredAbsolutes(pack) && shapeOk;
+    const artOk = hasPatchArtifact(pack);
+    const ok = hasRequiredAbsolutes(pack) && shapeOk && artOk;
     measurementReports.push({
       title: patchfile.title.slice(0, 120),
       pathScopeSize: pathScope.size,
       absoluteCount: absolutes.length,
       measuredFromBodies: scopedBodies.length > 0,
       depositShapeOk: shapeOk,
+      hasPatchArtifact: artOk,
+      patchArtifactId: pack.patchArtifact?.artifactId,
       salvaged: pack.salvaged === true,
       ok,
     });
@@ -178,23 +177,25 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
 
   const salvageCount = countSalvagedPacks(measuredOptions);
   const allMeasured =
-    measuredOptions.length > 0 && measuredOptions.every((o) => hasRequiredAbsolutes(o));
+    measuredOptions.length > 0 &&
+    measuredOptions.every((o) => hasRequiredAbsolutes(o) && hasPatchArtifact(o));
   const presentable =
     allMeasured &&
     salvageCount === 0 &&
     measuredOptions.every((o) => isDepositPresentablePack(o));
 
   let summary: string;
-  if (measuredOptions.length === 0) {
-    summary = 'Measurements synthesis failed: no patchfile options from agent 1/2.';
+  if (patchfiles.length === 0) {
+    summary =
+      'Measurements synthesis failed: no packs with formal patchfile artifacts from write agent.';
   } else if (presentable) {
-    summary = `Synthesized absolute measurements for ${measuredOptions.length} presentable deposit AssetPack(s) (patch + absolutes + metadata).`;
+    summary = `Synthesized absolute measurements for ${measuredOptions.length} presentable deposit AssetPack(s) (patchfile artifact + absolutes + metadata).`;
   } else if (allMeasured && salvageCount > 0) {
-    summary = `Measured ${measuredOptions.length} deposit AssetPack(s) including ${salvageCount} salvaged (NOT presentable for deposit review).`;
+    summary = `Measured ${measuredOptions.length} deposit AssetPack(s) including ${salvageCount} salvaged (NOT presentable).`;
   } else if (allMeasured) {
     summary = `Measured ${measuredOptions.length} deposit AssetPack(s) but presentable gate failed.`;
   } else {
-    summary = `Measurements synthesis incomplete for ${measuredOptions.length} option(s); missing required absolutes.`;
+    summary = `Measurements incomplete for ${measuredOptions.length} option(s); missing absolutes or patch artifact.`;
   }
 
   const output: DepositMeasurementsPhaseOutput = {
@@ -203,7 +204,8 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     options: measuredOptions,
     summary,
     assetPack: { repository },
-    patchfilePhaseComplete: true,
+    patchPlanComplete: true,
+    patchfileWritten: measuredOptions.every((o) => hasPatchArtifact(o)),
     measured: allMeasured,
     presentable,
     salvaged: salvageCount > 0,
@@ -220,10 +222,7 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
   storeCrossPhaseArtifact(execution, 'implementation', 'salvaged', salvageCount > 0);
   storeCrossPhaseArtifact(execution, 'implementation', 'salvageCount', salvageCount);
   storeCrossPhaseArtifact(execution, 'implementation', 'measurementReports', measurementReports);
-
-  if (!findValue(execution, 'implementation', 'patchedOptions')) {
-    storeCrossPhaseArtifact(execution, 'implementation', 'patchedOptions', patchfiles);
-  }
+  storeCrossPhaseArtifact(execution, 'implementation', 'patchfileWritten', output.patchfileWritten);
 
   return output;
 }

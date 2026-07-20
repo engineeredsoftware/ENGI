@@ -193,10 +193,15 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     // Deposit: two sequential agents — patchfile synthesis then measurements synthesis.
     'ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
     'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
-    'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis': [],
+    'implementation:deposit-implementation-agent-asset-packs-patch-plan': [],
+    'implementation:deposit-implementation-agent-asset-packs-patchfile': [],
     'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis': [],
-    'DepositImplementationAgentAssetPacksPatchfileSynthesis': [],
+    'DepositImplementationAgentAssetPacksPatchPlan': [],
+    'DepositImplementationAgentAssetPacksPatchfile': [],
     'DepositImplementationAgentAssetPacksMeasurementsSynthesis': [],
+    // Compat aliases
+    'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis': [],
+    'DepositImplementationAgentAssetPacksPatchfileSynthesis': [],
 
     // Validation Phase — symbol/definition checks via LSP
     'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(

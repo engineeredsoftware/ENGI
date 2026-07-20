@@ -1,21 +1,9 @@
 /**
- * Product-specific ExecutionPipelineSDIVFExecutionPhase implementation for
- * SynthesisDepositAssetPacks.
+ * Deposit Implementation phase: three sequential agents on the same AssetPack(s).
  *
- * Hierarchy (left→right):
- *   Execution → Pipeline → SDIVF → ExecutionPhase → Implementation → SynthesisDepositAssetPacks
- *
- * Implementation is TWO sequential agents building the same AssetPack(s):
- *   1. deposit-implementation-agent-asset-packs-patchfile-synthesis
- *      — one source-safe patchfile + metadata per pack
- *   2. deposit-implementation-agent-asset-packs-measurements-synthesis
- *      — measure each patchfile; attach measurements.absolutes only
- *
- * Deposit AssetPack = patch + absolute measurements + metadata.
- * Neediness is Read-pipeline only.
- *
- * Registration failures are fail-closed (no silent catch): a missing agent
- * registry must not produce an opaque empty Implementation phase.
+ *   1. patch-plan — six-field source-safe descriptors
+ *   2. patchfile — write one AssetPackPatchArtifact per pack (7th field)
+ *   3. measurements — measure that patch; attach measurements.absolutes
  */
 
 import { createAgentExecutor } from '@bitcode/pipelines-generics';
@@ -26,12 +14,13 @@ import type { AssetPackInput, AssetPackOutput } from '@bitcode/asset-packs-pipel
 type DiscoveryOutput = AssetPackInput;
 type ImplementationOutput = AssetPackOutput;
 
+const PATCH_PLAN_KEY =
+  'implementation:deposit-implementation-agent-asset-packs-patch-plan';
 const PATCHFILE_KEY =
-  'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis';
+  'implementation:deposit-implementation-agent-asset-packs-patchfile';
 const MEASUREMENTS_KEY =
   'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis';
 
-/** ExecutionPipelineSDIVFExecutionPhase Implementation specialization for deposit synthesis. */
 export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
@@ -47,8 +36,8 @@ export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositA
   );
   registerImplementationAgents(agents, 'deposit');
 
-  // Sequential: patchfile first, then measurements on that patchfile.
   const exec: Executor<any, any> = sequential(
+    createAgentExecutor(PATCH_PLAN_KEY),
     createAgentExecutor(PATCHFILE_KEY),
     createAgentExecutor(MEASUREMENTS_KEY),
   );

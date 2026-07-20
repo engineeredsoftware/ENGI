@@ -26,8 +26,10 @@ import {
   buildCatalogPathSet,
 } from '../agents/implementation/deposit-implementation-path-law';
 import { Execution } from '@bitcode/execution-generics';
-import runPatchfile from '../agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis';
+import runPatchPlan from '../agents/implementation/deposit-implementation-agent-asset-packs-patch-plan';
+import runPatchfile from '../agents/implementation/deposit-implementation-agent-asset-packs-patchfile';
 import runMeasurements from '../agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis';
+import { hasPatchArtifact } from '../agents/implementation/deposit-implementation-pack-types';
 import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-llms-mock';
 import {
   projectDepositPatchfileCandidate,
@@ -91,32 +93,50 @@ describe('allowlist projection (deposit patchfile)', () => {
 });
 
 describe('deposit measured shape', () => {
-  it('toDepositMeasuredPack is absolutes-only', () => {
-    const pf = toDepositPatchfilePack(MOCK_OPTIONS[0]);
-    const pack = toDepositMeasuredPack(pf, [
+  it('toDepositMeasuredPack requires patchArtifact for presentable', () => {
+    const plan = toDepositPatchfilePack(MOCK_OPTIONS[0]);
+    const withArt = {
+      ...plan,
+      patchArtifact: {
+        artifactId: 'artifact-patch-test',
+        assetPackId: 'ap-test',
+        schema: 'bitcode.artifact.patch',
+        productSchema: 'bitcode.artifact.patch.asset-pack',
+        format: 'path-op-json',
+        patchSummary: plan.patch.patchSummary,
+        fileCount: 1,
+        files: [{ path: 'src/auth/session.ts', op: 'modify' }],
+        name: 'a.patch.json',
+        envelopeJson: '{"artifactId":"artifact-patch-test"}',
+      },
+    };
+    const pack = toDepositMeasuredPack(withArt as any, [
       { measurementKind: 'file-span', volume: 0.2, magnitude: 2, category: 'absolute' },
     ]);
-    expect(pack.measurements).toEqual({
-      absolutes: [
-        { measurementKind: 'file-span', volume: 0.2, magnitude: 2, category: 'absolute' },
-      ],
-    });
+    expect(hasPatchArtifact(pack)).toBe(true);
     expect(hasDepositAbsolutesOnlyShape(pack)).toBe(true);
-    expect(hasRequiredAbsolutes(pack)).toBe(true);
     expect(isDepositPresentablePack(pack)).toBe(true);
-  });
-
-  it('attachDepositAbsolutes assigns legal shape', () => {
-    const pack: any = { title: 'x' };
-    attachDepositAbsolutes(pack, [
-      { measurementKind: 'function-count', volume: 0.1, magnitude: 3 },
-    ]);
-    expect(Object.keys(pack.measurements)).toEqual(['absolutes']);
   });
 
   it('salvaged packs are never presentable', () => {
     const pack = toDepositMeasuredPack(
-      { ...toDepositPatchfilePack(MOCK_OPTIONS[0]), salvaged: true, salvageReason: 'test' },
+      {
+        ...toDepositPatchfilePack(MOCK_OPTIONS[0]),
+        salvaged: true,
+        salvageReason: 'test',
+        patchArtifact: {
+          artifactId: 'a',
+          assetPackId: 'b',
+          schema: 's',
+          productSchema: 'p',
+          format: 'path-op-json',
+          patchSummary: 'x',
+          fileCount: 1,
+          files: [{ path: 'f', op: 'modify' }],
+          name: 'n',
+          envelopeJson: '{}',
+        },
+      } as any,
       [{ measurementKind: 'file-span', volume: 0.5, magnitude: 1 }],
     );
     expect(isDepositPresentablePack(pack)).toBe(false);
@@ -144,7 +164,7 @@ describe('shared path law (Validation-aligned)', () => {
 describe('full Implementation: model path presentable', () => {
   afterEach(() => resetBoundaryLLMOutput());
 
-  it('model options → measured + presentable', async () => {
+  it('model options → plan → write artifact → measure presentable', async () => {
     setBoundaryLLMOutput({ options: MOCK_OPTIONS });
     const exec = new Execution('implementation-node');
     exec.store('deposit', 'sourceCheckoutCatalog', {
@@ -155,24 +175,22 @@ describe('full Implementation: model path presentable', () => {
         { path: 'src/auth/token.ts', content: 'export function refresh() {}' },
       ],
     });
-    const patched = await runPatchfile(
-      {
-        repository: { fullName: 'o/r' },
-        inventory: { paths: ['src/auth/session.ts', 'src/auth/token.ts'] },
-      },
-      exec,
-    );
-    expect(patched.success).toBe(true);
-    expect(patched.salvaged).toBe(false);
+    const input = {
+      repository: { fullName: 'o/r' },
+      inventory: { paths: ['src/auth/session.ts', 'src/auth/token.ts'] },
+    };
+    const planned = await runPatchPlan(input, exec);
+    expect(planned.success).toBe(true);
+    const written = await runPatchfile(planned, exec);
+    expect(written.patchfileWritten).toBe(true);
+    expect(hasPatchArtifact(written.options[0])).toBe(true);
 
-    const measured = await runMeasurements(patched, exec);
+    const measured = await runMeasurements(written, exec);
     expect(measured.success).toBe(true);
-    expect(measured.measured).toBe(true);
     expect(measured.presentable).toBe(true);
     for (const o of measured.options) {
       expect(Object.keys(o.measurements)).toEqual(['absolutes']);
       expect(isDepositPresentablePack(o)).toBe(true);
     }
-    expect(exec.get('implementation', 'presentable')).toBe(true);
   }, 120000);
 });

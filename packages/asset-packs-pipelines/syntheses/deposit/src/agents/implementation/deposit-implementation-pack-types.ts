@@ -1,9 +1,13 @@
 /**
- * Typed deposit Implementation handoff (agents 1/2 → 2/2 → Finish).
+ * Typed deposit Implementation handoff (plan → patchfile write → measurements).
  *
- * Deposit AssetPack = patchfile + measurements.absolutes + metadata.
- * Construction is allowlist-only: packs are built as these types, never
- * scrubbed from a dirty super-object.
+ * Deposit AssetPack =
+ *   metadata (kind, title, summary, coveredSourcePaths, confidence)
+ *   + patch descriptor { fileChanges, patchSummary }
+ *   + patchArtifact (ONE formal AssetPackPatchArtifact handle per pack)  // 7th
+ *   + measurements.absolutes
+ *
+ * Construction is allowlist-only.
  */
 
 import type { DepositOptionKind } from './deposit-asset-pack-synthesis-schema';
@@ -12,6 +16,25 @@ import type { DepositOptionKind } from './deposit-asset-pack-synthesis-schema';
 export type DepositPatchfileDescriptor = {
   fileChanges: Array<{ path: string; op: 'create' | 'modify' | 'delete' | string }>;
   patchSummary: string;
+};
+
+/**
+ * Review-safe handle for the singular written patchfile artifact (7th field).
+ * Built by the patchfile-write agent via buildAssetPackPatchArtifact (path-op-json).
+ * No file bodies in default product projection.
+ */
+export type DepositPatchArtifactHandle = {
+  artifactId: string;
+  assetPackId: string;
+  schema: string;
+  productSchema: string;
+  format: string;
+  patchSummary: string;
+  fileCount: number;
+  files: Array<{ path: string; op: string }>;
+  name: string;
+  /** Serialized path-op-json product envelope (source-safe). */
+  envelopeJson: string;
 };
 
 /** Absolute measurement row (host/tool-authored). */
@@ -26,46 +49,62 @@ export type DepositAbsoluteReading = {
 };
 
 /**
- * Agent 1/2 output element: one patchfile + metadata per AssetPack.
- * Allowlisted fields only — no measurements object yet.
+ * After patch-plan agent: six fields + optional salvage.
+ * No patchArtifact yet (write agent owns that).
  */
-export type DepositPatchfilePack = {
+export type DepositPatchPlanPack = {
   kind: DepositOptionKind | string;
   title: string;
   summary: string;
   coveredSourcePaths: string[];
   confidence: number;
   patch: DepositPatchfileDescriptor;
-  /**
-   * Host salvage after empty/invalid model Refine.
-   * May be measured for continuity; never presentable for deposit review.
-   */
   salvaged?: boolean;
   salvageReason?: string;
 };
 
 /**
- * Agent 2/2 output element: measured deposit AssetPack.
- * measurements = { absolutes } only — that is the entire measurements object.
+ * After patchfile-write agent: plan pack + formal patchfile artifact.
+ */
+export type DepositPatchfilePack = DepositPatchPlanPack & {
+  patchArtifact: DepositPatchArtifactHandle;
+};
+
+/**
+ * After measurements agent: measured deposit AssetPack.
  */
 export type DepositMeasuredPack = DepositPatchfilePack & {
   measurements: {
     absolutes: DepositAbsoluteReading[];
   };
-  /** Legacy dual-write for dispatch validateDepositSynthesisOptions. */
   absolutes?: DepositAbsoluteReading[];
 };
 
-export type DepositPatchfilePhaseOutput = {
+export type DepositPatchPlanPhaseOutput = {
   success: boolean;
-  semanticKind: 'asset-pack-patchfile-synthesized';
-  options: DepositPatchfilePack[];
+  semanticKind: 'asset-pack-patch-plan';
+  options: DepositPatchPlanPack[];
   summary: string;
   assetPack: { repository: unknown };
-  patchfilePhaseComplete: true;
+  patchPlanComplete: true;
+  patchfileWritten: false;
   measured: false;
   salvaged: boolean;
   salvageCount: number;
+};
+
+export type DepositPatchfileWritePhaseOutput = {
+  success: boolean;
+  semanticKind: 'asset-pack-patchfile-written';
+  options: DepositPatchfilePack[];
+  summary: string;
+  assetPack: { repository: unknown };
+  patchPlanComplete: true;
+  patchfileWritten: boolean;
+  measured: false;
+  salvaged: boolean;
+  salvageCount: number;
+  patchArtifacts: DepositPatchArtifactHandle[];
 };
 
 export type DepositMeasurementReportRow = {
@@ -74,6 +113,8 @@ export type DepositMeasurementReportRow = {
   absoluteCount: number;
   measuredFromBodies: boolean;
   depositShapeOk: boolean;
+  hasPatchArtifact: boolean;
+  patchArtifactId?: string;
   salvaged: boolean;
   ok: boolean;
 };
@@ -84,7 +125,8 @@ export type DepositMeasurementsPhaseOutput = {
   options: DepositMeasuredPack[];
   summary: string;
   assetPack: { repository: unknown };
-  patchfilePhaseComplete: true;
+  patchPlanComplete: true;
+  patchfileWritten: boolean;
   measured: boolean;
   presentable: boolean;
   salvaged: boolean;
@@ -92,8 +134,10 @@ export type DepositMeasurementsPhaseOutput = {
   measurementReports: DepositMeasurementReportRow[];
 };
 
-/** Allowlist-project a gated model row into DepositPatchfilePack. */
-export function toDepositPatchfilePack(raw: {
+/** @deprecated Use DepositPatchPlanPack — plan agent output before artifact write. */
+export type DepositPatchfilePhaseOutput = DepositPatchPlanPhaseOutput;
+
+export function toDepositPatchPlanPack(raw: {
   kind?: string;
   title: string;
   summary: string;
@@ -102,8 +146,8 @@ export function toDepositPatchfilePack(raw: {
   patch: DepositPatchfileDescriptor;
   salvaged?: boolean;
   salvageReason?: string;
-}): DepositPatchfilePack {
-  const pack: DepositPatchfilePack = {
+}): DepositPatchPlanPack {
+  const pack: DepositPatchPlanPack = {
     kind: raw.kind ?? 'capability-slice',
     title: raw.title,
     summary: raw.summary,
@@ -124,7 +168,9 @@ export function toDepositPatchfilePack(raw: {
   return pack;
 }
 
-/** Build a deposit measured pack (legal shape only). */
+/** @deprecated Use toDepositPatchPlanPack. */
+export const toDepositPatchfilePack = toDepositPatchPlanPack;
+
 export function toDepositMeasuredPack(
   patchfile: DepositPatchfilePack,
   absolutes: DepositAbsoluteReading[],
@@ -136,6 +182,7 @@ export function toDepositMeasuredPack(
     coveredSourcePaths: patchfile.coveredSourcePaths,
     confidence: patchfile.confidence,
     patch: patchfile.patch,
+    patchArtifact: patchfile.patchArtifact,
     ...(patchfile.salvaged === true
       ? { salvaged: true as const, salvageReason: patchfile.salvageReason }
       : {}),
@@ -144,14 +191,29 @@ export function toDepositMeasuredPack(
   };
 }
 
+export function hasPatchArtifact(pack: unknown): boolean {
+  if (!pack || typeof pack !== 'object') return false;
+  const a = (pack as { patchArtifact?: DepositPatchArtifactHandle }).patchArtifact;
+  return (
+    !!a &&
+    typeof a.artifactId === 'string' &&
+    a.artifactId.length > 0 &&
+    typeof a.envelopeJson === 'string' &&
+    a.envelopeJson.length > 0 &&
+    Array.isArray(a.files) &&
+    a.files.length > 0
+  );
+}
+
 /**
- * Finish / UI gate: presentable for depositor review.
- * Requires deposit legal measurements shape, required absolute volumes, not salvaged.
+ * Presentable for depositor review:
+ * patch artifact + measurements.absolutes only + not salvaged.
  */
 export function isDepositPresentablePack(pack: unknown): boolean {
   if (!pack || typeof pack !== 'object') return false;
   const p = pack as DepositMeasuredPack & { salvaged?: boolean };
   if (p.salvaged === true) return false;
+  if (!hasPatchArtifact(p)) return false;
   const nested = p.measurements;
   if (!nested || typeof nested !== 'object' || Array.isArray(nested)) return false;
   const keys = Object.keys(nested);

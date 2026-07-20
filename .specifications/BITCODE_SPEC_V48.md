@@ -495,7 +495,7 @@ keys for the same agent loader.
 | preprocess | deposit-only | Repository coords + steering; catalog may be empty until Host/Setup |
 | Setup | (1) **clone alone** → (2) **parallel** {initialize-lsp, initialize-mcps-tools, comprehend-obfuscations} → (3) **danger-wall alone** | Clone first; danger wall last admits obfuscations |
 | Discovery | **parallel** {comprehend-codebase, search-depository, inherent-regurgitation} | Measure is **inside** comprehend-codebase, not a separate agent |
-| Implementation | **sequential** (1) `implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis` → (2) `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis` | Same AssetPack(s): **patchfile first**, then **absolute measurements**; deposit = patch + `measurements.absolutes` + metadata only |
+| Implementation | **sequential** (1) `…-patch-plan` → (2) `…-patchfile` → (3) `…-measurements-synthesis` | Same AssetPack(s): **plan descriptors** → **write one path-op-json patchfile artifact per pack** → **measure**; deposit = descriptor + patchArtifact + `measurements.absolutes` + metadata |
 | Validation | **one** agent: `validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline` | A prior phases · B pack quality · C obfuscations vs patch. **Validate only** — never measure/repair; weak Implementation → **iterate** |
 | Finish | (1) store-artifacts → (2) ledgerize → (3) finish-synthesize-asset-packs-for-deposit-run | Persist · journal roots · selection envelope / cleanup |
 | postprocess | normalize | Presentation-safe result for route |
@@ -666,17 +666,18 @@ Stores: `discovery:depositorySearch`, `discovery:depositorySearchQueries`,
 `{ regurgitation: { summary, relevantKnowledge?, patterns?, references? } }` →
 `discovery:inherentRegurgitation`.
 
-#### Implementation (two sequential agents — same AssetPacks)
+#### Implementation (three sequential agents — same AssetPacks)
 
-Deposit AssetPack = **patchfile + absolute measurements + metadata**.  
+Deposit AssetPack = **patch descriptor + singular patchfile artifact + absolute measurements + metadata**.  
 Neediness is **Read-pipeline only** and is never a deposit Implementation product field.
 
 | Order | Registry key | Module | Objective |
 |---|---|---|---|
-| 1/2 | `implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis` | `agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis.ts` (+ schema/prompts) | 2–4 options; LLM synthesizes **six fields only** (kind, title, summary, coveredSourcePaths, confidence, patch); host catalog/exclusion gates; `asset-pack-patch-write` |
-| 2/2 | `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis` | `agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis.ts` | For each pack: register `SourceStaticAnalysisTool`; `measureAssetPackAbsolutes` (quantity tool-authoritative + quality inference into catalog); build `measurements: { absolutes }` via allowlist constructor |
+| 1 | `implementation:deposit-implementation-agent-asset-packs-patch-plan` | `…/deposit-implementation-agent-asset-packs-patch-plan.ts` (+ schema/prompts) | 2–4 options; LLM **six fields only**; host catalog/exclusion gates; **no artifact write** |
+| 2 | `implementation:deposit-implementation-agent-asset-packs-patchfile` | `…/deposit-implementation-agent-asset-packs-patchfile.ts` | For each planned pack: **write one** `AssetPackPatchArtifact` (`path-op-json`, no bodies) via `buildAssetPackPatchArtifact`; attach `patchArtifact` (7th field); telemetry path+op record |
+| 3 | `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis` | `…/deposit-implementation-agent-asset-packs-measurements-synthesis.ts` | Requires `patchArtifact`; static analysis + quality inference into catalog; `measurements: { absolutes }` |
 
-**Agent 1/2 LLM output (allowlist — no other keys):**
+**Agent 1 (patch-plan) LLM output (allowlist — no other keys):**
 
 ```
 {
@@ -694,23 +695,20 @@ Neediness is **Read-pipeline only** and is never a deposit Implementation produc
 }
 ```
 
-**Agent 2/2 host output (per pack):** same six fields +  
-`measurements: { absolutes: AbsoluteReading[] }` (catalog-complete; magnitude+volume) +  
-optional legacy dual-write `absolutes[]`. **No other measurement keys.**
+**Agent 2 (patchfile write) host output (per pack):** same six fields +  
+`patchArtifact: { artifactId, assetPackId, format:'path-op-json', files[{path,op}], envelopeJson, … }`  
+— **exactly one** formal artifact per pack; files ≡ `patch.fileChanges`.
 
-**Host salvage (patchfile agent only):** if model Refine empties usable options, host may build
-continuity packs with `salvaged: true`. Salvage is **never presentable**, never selectable,
-and Validation **must iterate** (not Finish). Prefer model-grounded packs; salvage is fail-open
-for pipeline continuity only.
+**Agent 3 (measurements) host output (per pack):** agent-2 pack +  
+`measurements: { absolutes: AbsoluteReading[] }` (catalog-complete; magnitude+volume).
 
-**Stores (after agent 2/2):**  
-`implementation:options` / `implementation:assetPacks` (measured packs),  
-`implementation:patchedOptions` (pre-measure snapshot),  
-`implementation:measured` (bool), `implementation:presentable` (bool),  
-`implementation:salvaged` / `salvageCount`, `implementation:measurementReports`,  
-`implementation:summary`, `implementation:assetPack`.
+**Host salvage (patch-plan only):** continuity packs with `salvaged: true` may be written as
+artifacts but are **never presentable**; Validation **must iterate**.
 
-**Compat shim:** `deposit-asset-pack-synthesis-agent.ts` re-exports patchfile agent 1/2 only.
+**Stores (after measurements):**  
+`implementation:options` / `assetPacks` (measured), `implementation:patchedPlans`,  
+`implementation:patchArtifacts`, `implementation:patchfileWritten`,  
+`implementation:measured`, `implementation:presentable`, salvage flags, measurementReports.
 
 #### Validation (single agent — validate only)
 

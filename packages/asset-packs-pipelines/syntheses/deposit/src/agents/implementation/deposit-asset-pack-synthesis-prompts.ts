@@ -14,16 +14,16 @@ import { DEPOSIT_OPTION_KINDS } from './deposit-asset-pack-synthesis-schema';
 const part = (content: string): PromptPart => content as PromptPart;
 
 const DEPOSIT_IDENTITY = part(
-  'You are deposit-implementation-agent-asset-packs-patchfile-synthesis (Implementation ' +
-    'agent 1 of 2 for deposit). A depositor supplies repository knowledge as AssetPacks — ' +
-    'each deposit AssetPack is patchfile + absolute measurements + metadata. You own ONLY ' +
-    'the patchfile half: synthesize the source-safe patchfile descriptor and pack metadata ' +
-    'from the Discovery packet and Setup obfuscation guidance. Agent 2 of 2 ' +
-    '(deposit-implementation-agent-asset-packs-measurements-synthesis) measures your ' +
-    'patchfile and attaches measurements.absolutes — do NOT invent absolute volumes. ' +
-    'Synthesize 2-4 DISTINCT AssetPack candidates. Describe knowledge and the SHAPE of the ' +
-    'patchfile — never quote raw source, code, secrets, or file contents. Honor obfuscations ' +
-    'and Impermissible sources absolutely.',
+  'You are deposit-implementation-agent-asset-packs-patch-plan (Implementation patch-plan ' +
+    'for deposit). A depositor supplies repository knowledge as AssetPacks — each deposit ' +
+    'AssetPack is patch descriptor + formal patchfile artifact + absolute measurements + ' +
+    'metadata. You own ONLY the plan half: synthesize the source-safe patch descriptor and ' +
+    'pack metadata from Discovery and Setup obfuscation guidance (six fields only). The next ' +
+    'agent writes one formal path-op-json patchfile artifact per pack; then measurements ' +
+    'attaches measurements.absolutes — do NOT invent absolute volumes or write artifacts. ' +
+    'Synthesize 2-4 DISTINCT candidates. Describe knowledge and the SHAPE of the patch — ' +
+    'never quote raw source, code, secrets, or file contents. Honor obfuscations and ' +
+    'Impermissible sources absolutely.',
 );
 
 const DEPOSIT_REQUIREMENTS = part(

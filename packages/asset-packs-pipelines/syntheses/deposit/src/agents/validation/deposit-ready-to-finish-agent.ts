@@ -101,12 +101,28 @@ function phaseSanityIssues(execution: any): string[] {
     issues.push('Implementation: no AssetPack options synthesized.');
   }
 
-  // Implementation must complete measurements (agent 2/2) before Validation can admit.
+  // Implementation must write formal patchfile artifacts then measure them.
+  const patchfileWritten = findValue(execution, 'implementation', 'patchfileWritten');
+  if (Array.isArray(options) && options.length > 0 && patchfileWritten !== true) {
+    issues.push(
+      'Implementation: patchfile artifacts incomplete (implementation:patchfileWritten !== true). Patchfile write agent must produce one AssetPackPatchArtifact per pack.',
+    );
+  }
   const measured = findValue(execution, 'implementation', 'measured');
   if (Array.isArray(options) && options.length > 0 && measured !== true) {
     issues.push(
-      'Implementation: measurements incomplete (implementation:measured !== true). Agent 2/2 must measure patchfiles before Validation can finish.',
+      'Implementation: measurements incomplete (implementation:measured !== true). Measurements agent must measure written patchfiles before Validation can finish.',
     );
+  }
+  if (Array.isArray(options)) {
+    for (const pack of options) {
+      const art = pack?.patchArtifact;
+      if (!art?.artifactId || !art?.envelopeJson) {
+        issues.push(
+          `Implementation: pack "${pack?.title || '?'}" missing formal patchArtifact (singular path-op-json AssetPackPatchArtifact).`,
+        );
+      }
+    }
   }
 
   // Host salvage is continuity only — never depositable supply.
