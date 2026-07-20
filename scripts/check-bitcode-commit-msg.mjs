@@ -81,6 +81,24 @@ const ILLEGAL_COMMIT_CATEGORY_LABELS = [
 const LEGAL_COMMIT_CATEGORY_LABELS = ['(spec-only)', '(impl-only)', '(spec-impl)'];
 
 /**
+ * Canonical gate commit subject prefix:
+ * `V[VERSION] Gate [GATE] ([IMPLSPECTYPE]): …`
+ * e.g. `V48 Gate 4 (impl-only): Update marketing page settlement card copy`
+ *
+ * The required prefix alone is ~24 characters, so the 50-character soft subject
+ * limit is not applied to subjects that already match this format (hard 72 still
+ * applies). See SPECIFYING §2.8 / CONTRIBUTING §2.3.
+ *
+ * @param {string} commitTitle
+ * @returns {boolean}
+ */
+export function isCanonicalGateCommitSubject(commitTitle) {
+  return /^\s*V\d+\s+Gate\s+\d+\s+\((?:spec-only|impl-only|spec-impl)\)\s*:\s+\S/iu.test(
+    commitTitle,
+  );
+}
+
+/**
  * Enforce abbreviated Spec/Impl category labels in commit subjects
  * (`BITCODE_SPECIFYING.md` §2.8, `AGENTS.md`).
  *
@@ -116,6 +134,8 @@ export function assertAbbreviatedCommitCategoryLabel(commitTitle) {
 /**
  * Enforce 50/72 commit message law (SPECIFYING §2.8).
  * - Subject ≤ 50 soft (warn); > 72 hard fail
+ * - Soft 50 is skipped for canonical gate subjects
+ *   `V[VERSION] Gate [GATE] ([IMPLSPECTYPE]): …` (prefix already consumes ~24 chars)
  * - Blank line after subject when body content follows
  * - Each body line ≤ 72 hard fail
  *
@@ -138,7 +158,9 @@ export function assertCommitMessageFiftySeventyTwo(parts, options = {}) {
     );
   }
 
-  if (subjectLen > COMMIT_SUBJECT_SOFT_MAX) {
+  // Gate-format subjects are valid at any length ≤ 72; soft 50 would fight the
+  // required `V[N] Gate [G] (impl-only|…): ` prefix.
+  if (subjectLen > COMMIT_SUBJECT_SOFT_MAX && !isCanonicalGateCommitSubject(subject)) {
     warn(
       `Bitcode 50/72: subject is ${subjectLen} characters (soft max ${COMMIT_SUBJECT_SOFT_MAX}). ` +
         `Prefer a shorter first line; put detail in the body (≤ ${COMMIT_BODY_LINE_MAX} per line).`,
