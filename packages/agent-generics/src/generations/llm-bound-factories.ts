@@ -978,22 +978,28 @@ export function factoryStitchUntilComplete<T>(
       return candidate;
     };
 
-    const parseAgainstSchema = (candidate: any): { ok: true; value: any } | { ok: false; error: string } => {
-      if (!outputSchema) return { ok: true, value: unwrapStructured(candidate) };
+    type SchemaParseResult =
+      | { ok: true; value: any }
+      | { ok: false; error: string };
+    const parseAgainstSchema = (candidate: any): SchemaParseResult => {
+      if (!outputSchema) return { ok: true as const, value: unwrapStructured(candidate) };
       const primary = unwrapStructured(candidate);
       try {
-        return { ok: true, value: outputSchema.parse(primary) };
+        return { ok: true as const, value: outputSchema.parse(primary) };
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         // Second chance: some gens leave the payload on the envelope root.
         if (primary !== candidate) {
           try {
-            return { ok: true, value: outputSchema.parse(candidate) };
+            return { ok: true as const, value: outputSchema.parse(candidate) };
           } catch (e2) {
-            return { ok: false, error: e2 instanceof Error ? e2.message : String(e2) };
+            return {
+              ok: false as const,
+              error: e2 instanceof Error ? e2.message : String(e2),
+            };
           }
         }
-        return { ok: false, error: msg };
+        return { ok: false as const, error: msg };
       }
     };
 
@@ -1001,11 +1007,11 @@ export function factoryStitchUntilComplete<T>(
       // If we already have a schema-valid structured output, stop early
       if (outputSchema) {
         const parsed = parseAgainstSchema(currentResult);
-        if (parsed.ok) {
+        if (parsed.ok === true) {
           currentResult = { ...(typeof currentResult === 'object' && currentResult ? currentResult : {}), output: parsed.value };
           break;
         }
-        lastValidationError = parsed.error;
+        lastValidationError = parsed.ok === false ? parsed.error : 'schema validation failed';
         try { failsafeExec.store('validation', 'error', lastValidationError); } catch { }
       }
 
@@ -1015,11 +1021,11 @@ export function factoryStitchUntilComplete<T>(
       if (!needsStitching) {
         if (outputSchema) {
           const parsed = parseAgainstSchema(currentResult);
-          if (parsed.ok) {
+          if (parsed.ok === true) {
             currentResult = { ...(typeof currentResult === 'object' && currentResult ? currentResult : {}), output: parsed.value };
             break;
           }
-          lastValidationError = parsed.error;
+          lastValidationError = parsed.ok === false ? parsed.error : 'schema validation failed';
           try { failsafeExec.store('validation', 'error', lastValidationError); } catch { }
         } else {
           break; // No schema to validate against
@@ -1052,10 +1058,10 @@ export function factoryStitchUntilComplete<T>(
     // top-of-loop validation can inspect its result, so re-validate here —
     // a schema-valid final stitch is a success, not an exceeded failure.
     const finalParsed = parseAgainstSchema(currentResult);
-    const finalStitchValid = Boolean(outputSchema && stitchCount >= maxStitches && finalParsed.ok);
-    if (finalParsed.ok) {
+    const finalStitchValid = Boolean(outputSchema && stitchCount >= maxStitches && finalParsed.ok === true);
+    if (finalParsed.ok === true) {
       currentResult = { ...(typeof currentResult === 'object' && currentResult ? currentResult : {}), output: finalParsed.value };
-    } else if (finalParsed.error) {
+    } else if (finalParsed.ok === false) {
       lastValidationError = finalParsed.error;
       try { failsafeExec.store('validation', 'error', lastValidationError); } catch { }
     }
