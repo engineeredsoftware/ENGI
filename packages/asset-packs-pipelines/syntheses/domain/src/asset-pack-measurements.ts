@@ -19,6 +19,9 @@ export type AbsoluteLike = {
   magnitude?: number;
   unit?: string;
   category?: string;
+  /** Source-safe instance prose for this reading (attached at measure time). */
+  descriptor?: string;
+  kind?: string;
 };
 
 /** Tool-authoritative quantity kinds (static analysis / path span). */

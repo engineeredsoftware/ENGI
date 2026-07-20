@@ -1,8 +1,8 @@
 /**
- * Buyer-facing absolute measurement descriptors for /packs detail.
- * Source-safe catalog prose only — never raw source or provider payloads.
- * Voice is **this AssetPack** (instance under review), not AssetPacks in general.
- * Aligned to ASSET_PACK_ABSOLUTES_CATALOG (generic-asset-packs-synthesis).
+ * Catalog fallback labels/units for absolute kinds when a stored reading has no
+ * measure-time `descriptor`. Prefer instance descriptors attached on the
+ * AssetPack absolute row (built by buildSourceSafeAbsoluteDescriptor at measure).
+ * Never raw source.
  */
 
 export type AbsoluteMeasurementKind =

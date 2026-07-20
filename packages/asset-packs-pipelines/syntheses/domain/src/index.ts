@@ -52,6 +52,7 @@ export type {
 } from './asset-packs-synthesis-types';
 export * from './asset-packs-synthesis-validate';
 export * from './asset-pack-measurements';
+export * from './source-safe-absolute-descriptor';
 export * from './asset-pack-preview-boundary';
 export * from './depository-search';
 export * from './depository-supply-index';

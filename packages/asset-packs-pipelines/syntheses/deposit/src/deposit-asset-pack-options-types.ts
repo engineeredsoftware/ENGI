@@ -58,6 +58,11 @@ export interface DepositAssetPackOptionMeasurement {
   magnitude?: number;
   /** functions | types | files | estimate | normalized. */
   unit?: string;
+  /**
+   * Source-safe instance prose for this reading (generated at measure time).
+   * Prefer over catalog fallback when projecting admission / packs activity.
+   */
+  descriptor?: string;
   evidenceRoot: string;
 }
 

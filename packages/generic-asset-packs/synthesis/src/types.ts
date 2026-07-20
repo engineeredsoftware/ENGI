@@ -40,6 +40,11 @@ export interface AssetPackCandidateMeasurement {
   unit: string;
   category: 'absolute';
   rationale?: string;
+  /**
+   * Source-safe, instance-facing prose for **this** AssetPack reading
+   * (generated when/after measurement). Never raw source.
+   */
+  descriptor?: string;
 }
 
 /** One neediness reading (read path only). Same numeric law as absolutes for fields. */
@@ -52,6 +57,8 @@ export interface AssetPackNeedinessMeasurement {
   unit: string;
   category: 'neediness';
   rationale?: string;
+  /** Source-safe instance prose for this reading (when attached). */
+  descriptor?: string;
 }
 
 /**

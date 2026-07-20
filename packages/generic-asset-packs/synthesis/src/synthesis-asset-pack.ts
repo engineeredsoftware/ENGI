@@ -36,6 +36,8 @@ export interface SynthesisMeasurementReading extends MeasurementReading {
   category?: 'absolute' | 'neediness';
   id?: string;
   evidenceRoot?: string;
+  /** Source-safe instance descriptor for this reading (attached at measure time). */
+  descriptor?: string;
 }
 
 /** Nested measurement kinds — only admitted shape on synthesis packs. */
@@ -97,6 +99,10 @@ function normalizeMeasurementRow(
     rationale: row.rationale,
     id: row.id,
     evidenceRoot: row.evidenceRoot,
+    descriptor:
+      typeof row.descriptor === 'string' && row.descriptor.trim()
+        ? row.descriptor.trim()
+        : undefined,
   };
 }
 

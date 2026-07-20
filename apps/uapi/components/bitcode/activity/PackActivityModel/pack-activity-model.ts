@@ -576,7 +576,14 @@ function collectNestedKindMeasurements(
   for (const raw of absolutes) {
     if (!raw || typeof raw !== 'object') continue;
     const a = raw as Record<string, unknown>;
-    const kind = typeof a.kind === 'string' ? a.kind : typeof a.id === 'string' ? a.id : null;
+    const kind =
+      typeof a.measurementKind === 'string'
+        ? a.measurementKind
+        : typeof a.kind === 'string'
+          ? a.kind
+          : typeof a.id === 'string'
+            ? a.id
+            : null;
     if (!kind) continue;
     const id = `absolute:${kind}`;
     if (seen.has(id)) continue;
@@ -586,6 +593,7 @@ function collectNestedKindMeasurements(
     const value = magnitude !== null ? magnitude : volume;
     if (value === null) continue;
     const catalog = descriptorForAbsoluteKind(kind);
+    // Prefer measure-time instance descriptor attached on the AssetPack reading.
     const explicitDescriptor =
       typeof a.descriptor === 'string' && a.descriptor.trim() ? a.descriptor.trim() : null;
     measurements.push({

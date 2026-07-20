@@ -27,6 +27,7 @@ import {
 } from '../../asset-packs-synthesis';
 import type { SynthesizeAssetPacksMode } from '../../synthesize-asset-packs';
 import { isAssetPackRealInferenceEnabled } from '../../runtime-inference-policy';
+import { buildSourceSafeAbsoluteDescriptor } from '../../source-safe-absolute-descriptor';
 import {
   analyzeStaticSource,
   registerSourceStaticAnalysisTool,
@@ -203,10 +204,14 @@ export function computeAbsolutesFromReport(
   };
 
   return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) =>
-    buildMeasurement(spec, {
-      volume: volumeByKind[spec.measurementKind] ?? 0,
-      magnitude: magnitudeByKind[spec.measurementKind],
-    }),
+    buildMeasurement(
+      spec,
+      {
+        volume: volumeByKind[spec.measurementKind] ?? 0,
+        magnitude: magnitudeByKind[spec.measurementKind],
+      },
+      patch,
+    ),
   );
 }
 
@@ -224,6 +229,7 @@ export function computeDeterministicAbsolutes(
 function buildMeasurement(
   spec: AssetPackAbsoluteSpec,
   reading: { volume: number; magnitude?: number },
+  patch?: Pick<MeasurableAssetPackPatch, 'title'>,
 ): AssetPackCandidateMeasurement {
   const volume = clamp01(reading.volume);
   // Absolute law: magnitude AND volume always present.
@@ -236,7 +242,7 @@ function buildMeasurement(
   } else {
     magnitude = volume;
   }
-  return {
+  const measurement: AssetPackCandidateMeasurement = {
     measurementKind: spec.measurementKind,
     label: spec.label,
     weight: spec.weight,
@@ -245,6 +251,17 @@ function buildMeasurement(
     category: 'absolute',
     unit: spec.unit,
   };
+  // Instance descriptor — generated when/after measurement for this AssetPack.
+  measurement.descriptor = buildSourceSafeAbsoluteDescriptor({
+    measurementKind: spec.measurementKind,
+    label: spec.label,
+    unit: spec.unit,
+    magnitude,
+    volume,
+    weight: spec.weight,
+    packTitle: patch?.title,
+  });
+  return measurement;
 }
 
 /**
@@ -272,10 +289,14 @@ export function mapReadingsToAbsoluteMeasurements(
       // Fall back to the deterministic reading for this measurement.
       return deterministic.get(spec.measurementKind)!;
     }
-    return buildMeasurement(spec, {
-      volume: volumeNum,
-      magnitude: spec.hasMagnitude ? Number(reading.magnitude) : undefined,
-    });
+    return buildMeasurement(
+      spec,
+      {
+        volume: volumeNum,
+        magnitude: spec.hasMagnitude ? Number(reading.magnitude) : undefined,
+      },
+      patch,
+    );
   });
 }
 
@@ -296,7 +317,26 @@ export function mergeReportAndReadings(
     if (QUANTITY_KINDS.has(measurement.measurementKind)) return measurement; // tool-authoritative
     const reading = byKind.get(measurement.measurementKind);
     const volume = Number(reading?.volume);
-    if (reading && Number.isFinite(volume)) return { ...measurement, volume: clamp01(volume) };
+    if (reading && Number.isFinite(volume)) {
+      const nextVolume = clamp01(volume);
+      const magnitude =
+        typeof measurement.magnitude === 'number' ? measurement.magnitude : nextVolume;
+      // Quality volume changed — refresh instance descriptor for this pack reading.
+      const descriptor = buildSourceSafeAbsoluteDescriptor({
+        measurementKind: measurement.measurementKind,
+        label: measurement.label,
+        unit: measurement.unit,
+        magnitude: nextVolume, // quality: magnitude mirrors volume after agent path
+        volume: nextVolume,
+        weight: measurement.weight,
+      });
+      return {
+        ...measurement,
+        volume: nextVolume,
+        magnitude: nextVolume,
+        descriptor,
+      };
+    }
     return measurement;
   });
 }

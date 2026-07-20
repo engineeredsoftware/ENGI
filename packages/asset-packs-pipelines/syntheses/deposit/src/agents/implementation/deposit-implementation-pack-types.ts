@@ -46,6 +46,8 @@ export type DepositAbsoluteReading = {
   magnitude?: number;
   unit?: string;
   category?: 'absolute' | string;
+  /** Source-safe instance prose for this reading (attached at measure time). */
+  descriptor?: string;
 };
 
 /**

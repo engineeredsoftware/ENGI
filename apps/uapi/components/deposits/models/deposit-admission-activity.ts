@@ -62,6 +62,12 @@ export function projectOptionAbsoluteMeasurements(
       const catalog =
         ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS[kind as AbsoluteMeasurementKind] ||
         null;
+      // Prefer measure-time instance descriptor attached on the reading.
+      const instanceDescriptor =
+        typeof (m as { descriptor?: unknown }).descriptor === "string" &&
+        String((m as { descriptor: string }).descriptor).trim()
+          ? String((m as { descriptor: string }).descriptor).trim()
+          : null;
       return {
         kind,
         category: "absolute" as const,
@@ -71,7 +77,7 @@ export function projectOptionAbsoluteMeasurements(
         unit: typeof m.unit === "string" ? m.unit : null,
         weight: m.weight,
         evidenceRoot: m.evidenceRoot || null,
-        descriptor: catalog?.descriptor ?? null,
+        descriptor: instanceDescriptor ?? catalog?.descriptor ?? null,
       };
     });
 }

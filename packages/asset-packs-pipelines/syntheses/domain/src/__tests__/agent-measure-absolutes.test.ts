@@ -210,6 +210,12 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
     expect(absolutes.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(2);
     expect(absolutes.find((m) => m.measurementKind === 'type-count')?.magnitude).toBe(1);
     expect(absolutes.find((m) => m.measurementKind === 'file-span')?.magnitude).toBe(1);
+    // Instance descriptors are attached at measure time for this pack (source-safe).
+    const fn = absolutes.find((m) => m.measurementKind === 'function-count');
+    expect(fn?.descriptor).toMatch(/Auth slice/);
+    expect(fn?.descriptor).toMatch(/2 functions/);
+    expect(fn?.descriptor).toMatch(/Source-safe/);
+    expect(fn?.descriptor).not.toMatch(/protected|raw source/i);
   });
 
   it('computeAbsolutesFromReport prefers measured counts but degrades on no source', () => {
