@@ -66,4 +66,15 @@ describe("deposit-run-status", () => {
     expect(msg).toMatch(/720000ms|host budget|Large repositories/i);
     expect(msg).not.toBe("Synthesized options were not found for this run.");
   });
+
+  it("surfaces fail-closed dispatch summary without Run failed prefix", () => {
+    const result = synthesisStatusFromRunRow({
+      status: "failed",
+      summary:
+        "AssetPacksSynthesis produced zero admissible options (fail-closed): missing formal absolute measurements",
+    });
+    expect(result.status).toBe("failed");
+    expect(result.error).toMatch(/zero admissible options/i);
+    expect(result.error).not.toMatch(/^Run failed —/);
+  });
 });

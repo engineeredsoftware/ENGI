@@ -155,7 +155,9 @@ export function useDepositSynthesisLifecycle(input: {
         if (!res.ok) {
           throw new Error("Unable to load synthesis history for this run.");
         }
-        // Partial / budget / no-Finish: surface host summary, not a false miss.
+        // Partial / budget / fail-closed: surface host or dispatch summary, not
+        // a false "options were not found" when Finish actually packaged packs
+        // that dispatch later dropped (run 36858f68).
         if (!synthesis) {
           const hostErrorMessage =
             (typeof output?.hostErrorMessage === "string" &&
@@ -168,18 +170,28 @@ export function useDepositSynthesisLifecycle(input: {
             typeof run.error.message === "string"
               ? run.error.message
               : null);
-          const message = messageForMissingDepositOptions({
-            status: run?.status || rowStatus,
-            summary:
-              (typeof output?.summary === "string" && output.summary) ||
-              (typeof run?.summary === "string" && run.summary) ||
-              null,
-            hostBudgetExceeded:
-              output?.hostBudgetExceeded === true ||
-              run?.context?.hostBudgetExceeded === true,
-            hostErrorMessage,
-            finishPresent: output?.finishPresent,
-          });
+          const summary =
+            (typeof output?.summary === "string" && output.summary) ||
+            (typeof run?.summary === "string" && run.summary) ||
+            hostErrorMessage ||
+            null;
+          const message =
+            summary &&
+            (String(run?.status || rowStatus).toLowerCase() === "failed" ||
+              String(run?.status || rowStatus).toLowerCase() === "partial" ||
+              /fail-closed|zero admissible|host budget|Partial synthesis/i.test(
+                summary,
+              ))
+              ? summary
+              : messageForMissingDepositOptions({
+                  status: run?.status || rowStatus,
+                  summary,
+                  hostBudgetExceeded:
+                    output?.hostBudgetExceeded === true ||
+                    run?.context?.hostBudgetExceeded === true,
+                  hostErrorMessage,
+                  finishPresent: output?.finishPresent,
+                });
           if (cancelled) return;
           setSynthesisStatus("failed");
           setSynthesisError(message);

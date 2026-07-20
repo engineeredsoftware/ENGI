@@ -157,8 +157,18 @@ export interface DepositSynthesisRawOption {
   title: string;
   summary: string;
   coveredSourcePaths: string[];
-  measurements: Record<string, number>;
-  measurementRationale: string;
+  /**
+   * Legacy scalar map or nested product shape
+   * `{ absolutes: [...], needinesses: [...] }` from Finish selectionEnvelope.
+   */
+  measurements?:
+    | Record<string, number>
+    | {
+        absolutes?: AssetPackCandidateMeasurement[] | null;
+        needinesses?: unknown;
+      }
+    | null;
+  measurementRationale?: string;
   confidence: number;
   /** Formal absolutes from Validation measure-agent (preferred over measurements). */
   absolutes?: AssetPackCandidateMeasurement[] | null;

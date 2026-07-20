@@ -81,7 +81,23 @@ export function validateDepositSynthesisOptions(
       );
       continue;
     }
-    const formalAbsolutes = Array.isArray(option.absolutes) ? option.absolutes : null;
+    // Formal absolutes may sit at option.absolutes (Validation measure-agent)
+    // or nested under measurements.absolutes (Finish selectionEnvelope product
+    // shape — run 36858f68 dropped 3 measured packs by reading only top-level).
+    const nestedAbsolutes =
+      option.measurements &&
+      typeof option.measurements === 'object' &&
+      !Array.isArray(option.measurements) &&
+      Array.isArray((option.measurements as { absolutes?: unknown }).absolutes)
+        ? ((option.measurements as { absolutes: NonNullable<DepositSynthesisRawOption['absolutes']> })
+            .absolutes as NonNullable<DepositSynthesisRawOption['absolutes']>)
+        : null;
+    const formalAbsolutes =
+      Array.isArray(option.absolutes) && option.absolutes.length > 0
+        ? option.absolutes
+        : nestedAbsolutes && nestedAbsolutes.length > 0
+          ? nestedAbsolutes
+          : null;
     if (!formalAbsolutes || formalAbsolutes.length === 0) {
       exclusionViolations.push(
         `${option.title}: missing formal absolute measurements (Validation measure-agent)`,
@@ -117,7 +133,7 @@ export function validateDepositSynthesisOptions(
       summary: String(option.summary).trim(),
       coveredSourcePaths,
       measurements,
-      measurementRationale: String(option.measurementRationale).trim(),
+      measurementRationale: String(option.measurementRationale ?? '').trim(),
       confidence: clampVolume(option.confidence),
       patch,
       neediness: context.lens === 'deposit' ? buildNeedinessFromSignal(option.needinessSignal) : undefined,

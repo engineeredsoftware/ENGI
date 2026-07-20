@@ -1714,8 +1714,26 @@ try {
         selectionEnvelope.options.length > 0) ||
         (Array.isArray(finishStoredOptions) && finishStoredOptions.length > 0),
     );
+    // Lift measurements.absolutes → top-level absolutes for dispatch
+    // validateDepositSynthesisOptions (Finish envelope nest-only broke 36858f68).
+    const liftAbsolutes = (opts) =>
+      (Array.isArray(opts) ? opts : []).map((opt) => {
+        if (!opt || typeof opt !== 'object') return opt;
+        const nested =
+          opt.measurements &&
+          typeof opt.measurements === 'object' &&
+          !Array.isArray(opt.measurements) &&
+          Array.isArray(opt.measurements.absolutes)
+            ? opt.measurements.absolutes
+            : null;
+        const absolutes =
+          Array.isArray(opt.absolutes) && opt.absolutes.length > 0
+            ? opt.absolutes
+            : nested || opt.absolutes || [];
+        return { ...opt, absolutes };
+      });
     const depositOptions = finishPresent
-      ? (Array.isArray(finishOptions) ? finishOptions : [])
+      ? liftAbsolutes(Array.isArray(finishOptions) ? finishOptions : [])
       : [];
     const optionCount = Array.isArray(depositOptions) ? depositOptions.length : 0;
     const implCount = Array.isArray(implOnlyOptions) ? implOnlyOptions.length : 0;

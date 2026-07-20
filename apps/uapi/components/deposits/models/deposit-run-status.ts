@@ -104,12 +104,19 @@ export function synthesisStatusFromRunRow(
     };
   }
   if (status === "failed" || status === "interrupted") {
+    // Prefer the persisted fail-closed / host summary (e.g. zero admissible
+    // options) over a generic miss — run 36858f68 finished 3 packs in-box then
+    // dispatch validation dropped them; UI must show that reason.
     return {
       status: "failed",
       error: detail
         ? detail.startsWith("Run ")
           ? detail
-          : `Run ${status} — ${detail}`
+          : detail.includes("zero admissible") ||
+              detail.includes("fail-closed") ||
+              detail.includes("Partial synthesis")
+            ? detail
+            : `Run ${status} — ${detail}`
         : status === "interrupted"
           ? "Run interrupted — host stopped mid-pipeline (restart, maxDuration, or crash). Check server logs."
           : "Run failed — no error message was persisted. The host may have been killed mid-pipeline.",

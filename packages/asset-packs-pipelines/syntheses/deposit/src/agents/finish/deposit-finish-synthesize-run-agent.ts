@@ -32,30 +32,45 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
     repositoryFullName:
       repository.fullName ||
       (repository.owner && repository.name ? `${repository.owner}/${repository.name}` : null),
-    options: (Array.isArray(options) ? options : []).map((opt: any, index: number) => ({
-      index,
-      kind: opt?.kind ?? null,
-      title: opt?.title ?? null,
-      summary: opt?.summary ?? null,
-      coveredSourcePaths: opt?.coveredSourcePaths ?? [],
-      confidence: opt?.confidence ?? null,
-      // patch + measurements + metadata (nested kinds; deposit needinesses empty)
-      patch: opt?.patch ?? null,
-      measurements:
-        opt?.measurements && typeof opt.measurements === 'object' && !Array.isArray(opt.measurements)
-          ? {
-              absolutes: opt.measurements.absolutes ?? opt?.absolutes ?? [],
-              needinesses: opt.measurements.needinesses ?? [],
-            }
-          : {
-              absolutes: opt?.absolutes ?? [],
-              needinesses: [],
-            },
-      metadata: {
-        measurementRationale: opt?.measurementRationale ?? null,
-      },
-      selectable: true,
-    })),
+    options: (Array.isArray(options) ? options : []).map((opt: any, index: number) => {
+      const nestedAbsolutes =
+        opt?.measurements &&
+        typeof opt.measurements === 'object' &&
+        !Array.isArray(opt.measurements) &&
+        Array.isArray(opt.measurements.absolutes)
+          ? opt.measurements.absolutes
+          : null;
+      const absolutes =
+        Array.isArray(opt?.absolutes) && opt.absolutes.length > 0
+          ? opt.absolutes
+          : nestedAbsolutes || [];
+      return {
+        index,
+        kind: opt?.kind ?? null,
+        title: opt?.title ?? null,
+        summary: opt?.summary ?? null,
+        coveredSourcePaths: opt?.coveredSourcePaths ?? [],
+        confidence: opt?.confidence ?? null,
+        // Dual shape: top-level absolutes for dispatch validateDepositSynthesisOptions
+        // + nested measurements for product cards (run 36858f68 fail-closed on nest-only).
+        absolutes,
+        patch: opt?.patch ?? null,
+        measurements:
+          opt?.measurements && typeof opt.measurements === 'object' && !Array.isArray(opt.measurements)
+            ? {
+                absolutes: absolutes,
+                needinesses: opt.measurements.needinesses ?? [],
+              }
+            : {
+                absolutes,
+                needinesses: [],
+              },
+        metadata: {
+          measurementRationale: opt?.measurementRationale ?? null,
+        },
+        selectable: true,
+      };
+    }),
     readyToPresent: Boolean(
       ready?.finalApproval === true ||
         ready?.readyToFinish === true ||

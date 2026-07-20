@@ -152,6 +152,43 @@ describe('validateDepositSynthesisOptions absolutes wiring', () => {
     expect(out.droppedCandidateCount).toBe(1);
     expect(out.exclusionViolations[0]).toMatch(/missing formal absolute measurements/i);
   });
+
+  it('accepts formal absolutes nested under measurements.absolutes (Finish selectionEnvelope)', () => {
+    const absolutes = [
+      {
+        measurementKind: 'function-count',
+        label: 'Functions',
+        weight: 0.12,
+        volume: 0.5,
+        category: 'absolute' as const,
+        magnitude: 12,
+        unit: 'functions',
+      },
+      {
+        measurementKind: 'correctness-estimate',
+        label: 'Correctness',
+        weight: 0.18,
+        volume: 0.66,
+        category: 'absolute' as const,
+        unit: 'estimate',
+      },
+    ];
+    const out = validateDepositSynthesisOptions(
+      [
+        {
+          ...baseOption,
+          // Finish envelope product shape (no top-level absolutes).
+          measurements: { absolutes, needinesses: [] },
+        },
+      ],
+      context,
+    );
+    expect(out.candidates).toHaveLength(1);
+    expect(out.candidates[0].measurements.map((m) => m.measurementKind)).toEqual([
+      'function-count',
+      'correctness-estimate',
+    ]);
+  });
 });
 
 describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
