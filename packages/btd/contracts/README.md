@@ -1,57 +1,74 @@
-# BitcodeERC1155
+# BitcodeERC1155 (Foundry)
 
-Single multi-token contract for commercial settle on Ethereum:
+On-chain multi-token for commercial settle:
 
-| Token | ID | Kind | Law |
-| --- | --- | --- | --- |
-| **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). **Minted only on settle** to depositor BTD payout slices. Freely transferable (external markets). |
-| **AssetPack** | `≥ 1` | NFT co-ownership | Depositor first; buyer **added** on settle; **burn forbidden**. |
+| Token | ID | Kind |
+| --- | --- | --- |
+| BTD | `0` | Fungible (21M cap, 18 decimals) |
+| AssetPack | `≥ 1` | Co-ownership NFT (add-only; burn forbidden) |
 
-## Economics
+## Layout
 
-- **Never pay in BTD.** Buyers pay **ETH** (on-chain) or **BTC / SOL** (attested external rails) at spot vs BTD.
-- **Always earn BTD** via mint on settle (depositors who elect `btdBps`).
-- **BTD Volume V** = needinesses fits → rawV → **supply decay** (residual 21M). Absolutes never set V.
-- Depositor split: `btdBps` (mint, 0 fee) + `coinBps` (external coin, `coinFeeBps` fee) = 10000.
-- Unchosen BTD slice is **not minted**.
-
-## Entry points
-
-| Function | Rail |
-| --- | --- |
-| `settleReadWithEth(quote, opSig)` payable | ETH — `msg.value == quote.payAmount` |
-| `settleReadWithExternalPay(quote, opSig, proof, payProofSig)` | BTC / SOL after attestor proof |
-| `registerAssetPack` | Supply-side AP id (no BTD mint) |
-| `safeTransferFrom` | **BTD only** (markets) |
-
-Quotes and payment proofs are **EIP-712** signed (`settlementOperator` / `paymentAttestor`).
-
-## Dual maintain (not generated)
-
-| Path | Role |
-| --- | --- |
-| `packages/btd/contracts/BitcodeERC1155.sol` | On-chain deployable law |
-| `packages/btd/src/erc1155/` | TS mirror + needinesses rawV + decay + spot math |
-
-Edit **both** when settlement token law changes.
-
-## Spot quotes (off-chain)
-
-Testnet/CI: `BITCODE_SPOT_PROVIDER=mock` via `@bitcode/btd/erc1155` `MockSpotQuoteProvider`.  
-Production-shaped: `http` / `chainlink` adapters + env (see plan / `.docs/ETHEREUM.md`).
-
-## Deploy (testnet)
-
-```text
-solc >= 0.8.20
-constructor(master, operator, attestor, coinFeeBps=250, "Bitcode", "BTD")
+```
+src/BitcodeERC1155.sol       # contract
+script/DeployBitcodeERC1155.s.sol
+test/BitcodeERC1155.t.sol
+foundry.toml
+DEPLOY.md                    # env + smoke checklist
 ```
 
-Env after deploy: `BITCODE_ERC1155_ADDRESS`, `BITCODE_ETHEREUM_RPC_URL`, `BITCODE_ETHEREUM_CHAIN_ID`.
+Dual-maintain TS mirror: `packages/btd/src/erc1155/`.
 
-## Tests
+## Setup (once)
 
 ```bash
-pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand \
-  __tests__/bitcode-erc1155.test.ts
+cd packages/btd/contracts
+forge install foundry-rs/forge-std --no-commit
 ```
+
+`lib/` is gitignored — each machine installs forge-std locally.
+
+## Build / test
+
+```bash
+cd packages/btd/contracts
+forge build
+forge test -vv
+```
+
+## Deploy Sepolia
+
+```bash
+export BITCODE_ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/<key>
+export PRIVATE_KEY=0x…                 # funded Sepolia deployer
+export BITCODE_MASTER_ACCOUNT=0x…      # treasury (payable)
+export BITCODE_SETTLEMENT_OPERATOR=0x… # quote signer address
+# optional:
+export BITCODE_PAYMENT_ATTESTOR=0x…   # defaults to operator
+export BITCODE_COIN_FEE_BPS=250
+export ETHERSCAN_API_KEY=…             # for --verify
+
+forge script script/DeployBitcodeERC1155.s.sol:DeployBitcodeERC1155 \
+  --rpc-url "$BITCODE_ETHEREUM_RPC_URL" \
+  --broadcast \
+  -vvvv
+# add --verify when ETHERSCAN_API_KEY is set
+```
+
+After deploy, set app env:
+
+```bash
+BITCODE_ERC1155_ADDRESS=0x…   # printed by script
+BITCODE_ETHEREUM_CHAIN_ID=11155111
+BITCODE_SPOT_PROVIDER=mock
+```
+
+Never commit private keys.
+
+## Smoke (post-deploy)
+
+1. `registerAssetPack` as operator  
+2. EIP-712 quote + `settleReadWithEth{value}` as buyer  
+3. Seller finalize payout (product API projected until on-chain finalize is wired)  
+
+See `DEPLOY.md`.

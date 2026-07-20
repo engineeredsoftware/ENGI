@@ -1,69 +1,106 @@
-# BitcodeERC1155 testnet deploy scaffolding
+# BitcodeERC1155 testnet deploy
 
 ## Prerequisites
 
-- `solc` ≥ 0.8.20 **or** Foundry (`forge`)
-- Funded Sepolia deployer key
-- Operator + payment attestor addresses (can be same on testnet)
-- Master/treasury payable address
+- Foundry (`forge`, `cast`) — installed at `~/.foundry/bin`
+- Funded **Sepolia** deployer key
+- Addresses:
+  - **master** — Bitcode treasury (receives residual ETH + escrow BTD until seller finalize)
+  - **settlementOperator** — signs EIP-712 settle quotes (can be a dedicated EO A; server holds key)
+  - **paymentAttestor** — BTC/SOL proofs later; set = operator on ETH-only testnet
 
-## Env (app)
-
-```bash
-BITCODE_ETHEREUM_CHAIN_ID=11155111
-BITCODE_ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/<key>
-BITCODE_ERC1155_ADDRESS=0x…          # after deploy
-BITCODE_QUOTE_SIGNER_KEY=0x…         # settlementOperator (server only)
-BITCODE_PAYMENT_ATTESTOR_KEY=0x…     # optional; defaults to operator
-BITCODE_SPOT_PROVIDER=mock           # testnet default
-BITCODE_MASTER_ACCOUNT=0x…           # treasury
-```
-
-## Constructor
-
-```text
-BitcodeERC1155(
-  payable masterAccount,
-  settlementOperator,
-  paymentAttestor,
-  uint16 coinFeeBps,   // 250 = 2.5% (legacy coin-leg fee; seller finalize uses inverse split)
-  "Bitcode",
-  "BTD"
-)
-```
-
-## Example (Foundry)
+## 1. Compile & unit test (local)
 
 ```bash
 cd packages/btd/contracts
-forge create BitcodeERC1155 \
-  --rpc-url "$BITCODE_ETHEREUM_RPC_URL" \
-  --private-key "$DEPLOYER_KEY" \
-  --constructor-args \
-    "$BITCODE_MASTER_ACCOUNT" \
-    "$OPERATOR_ADDRESS" \
-    "$ATTESTOR_ADDRESS" \
-    250 \
-    "Bitcode" \
-    "BTD"
+forge build
+forge test -vv
 ```
 
-## Example (solc + cast)
+## 2. Deploy Sepolia
 
 ```bash
-solc --bin --abi --optimize -o out BitcodeERC1155.sol
-# deploy with cast send --create …
+export BITCODE_ETHEREUM_RPC_URL="https://sepolia.infura.io/v3/<KEY>"   # or Alchemy
+export PRIVATE_KEY="0x…"                  # deployer; needs Sepolia ETH
+export BITCODE_MASTER_ACCOUNT="0x…"       # treasury
+export BITCODE_SETTLEMENT_OPERATOR="0x…"  # quote signer address
+export BITCODE_PAYMENT_ATTESTOR="$BITCODE_SETTLEMENT_OPERATOR"
+export BITCODE_COIN_FEE_BPS=250
+
+cd packages/btd/contracts
+forge script script/DeployBitcodeERC1155.s.sol:DeployBitcodeERC1155 \
+  --rpc-url "$BITCODE_ETHEREUM_RPC_URL" \
+  --broadcast \
+  -vvvv
 ```
 
-## Smoke
+Optional verify:
 
-1. Register AssetPack (operator): `registerAssetPack(key, depositor, metadataRoot)`
-2. Build EIP-712 quote off-chain (needinesses → V, mock spot → payAmount ETH)
-3. Buyer: `settleReadWithEth{value: payAmount}(quote, opSig)`
-4. Product: seller finalizes BTD/ETH split via `/api/packs/payout/finalize` (projected until on-chain finalize is wired)
+```bash
+export ETHERSCAN_API_KEY="…"
+forge script script/DeployBitcodeERC1155.s.sol:DeployBitcodeERC1155 \
+  --rpc-url "$BITCODE_ETHEREUM_RPC_URL" \
+  --broadcast --verify -vvvv
+```
 
-## Notes
+Script logs:
 
-- Testnet may run settle + payout as **projected** TS mirror while RPC is optional.
-- Live ETH path requires funded buyer wallet on Sepolia and correct chain id in wallet UI.
-- Do not commit private keys. Use Vercel/server env only.
+```text
+BitcodeERC1155: 0x…
+Set app env: BITCODE_ERC1155_ADDRESS=0x…
+```
+
+Broadcast artifacts: `broadcast/DeployBitcodeERC1155.s.sol/<chainId>/`.
+
+## 3. App / server env (after deploy)
+
+```bash
+BITCODE_ETHEREUM_CHAIN_ID=11155111
+BITCODE_ETHEREUM_RPC_URL=…
+BITCODE_ERC1155_ADDRESS=0x…          # from step 2
+BITCODE_MASTER_ACCOUNT=0x…
+BITCODE_QUOTE_SIGNER_KEY=0x…         # private key of settlementOperator (server only)
+BITCODE_PAYMENT_ATTESTOR_KEY=0x…    # optional
+BITCODE_SPOT_PROVIDER=mock
+```
+
+Wire into `apps/uapi` / Vercel env — **never commit keys**.
+
+## 4. On-chain smoke (cast)
+
+```bash
+export C=$BITCODE_ERC1155_ADDRESS
+export RPC=$BITCODE_ETHEREUM_RPC_URL
+
+# views
+cast call $C "name()(string)" --rpc-url $RPC
+cast call $C "symbol()(string)" --rpc-url $RPC
+cast call $C "BTD_MAX_SUPPLY()(uint256)" --rpc-url $RPC
+cast call $C "remainingMintable()(uint256)" --rpc-url $RPC
+
+# register AssetPack (as operator)
+cast send $C "registerAssetPack(bytes32,address,string)" \
+  $(cast --format-bytes32-string "demo-pack-1") \
+  $DEPOSITOR_ADDRESS \
+  "meta:demo" \
+  --rpc-url $RPC --private-key $OPERATOR_KEY
+```
+
+Full settle (`settleReadWithEth`) needs a correctly EIP-712-signed `Quote` from the TS dual-maintain / quote service — do not hand-roll hashes in cast without the same domain + typehash as the contract.
+
+## 5. Product path today
+
+| Step | Live chain | Projected (works without deploy) |
+| --- | --- | --- |
+| Needinesses → V + decay | off-chain | TS `erc1155` |
+| Spot ETH/BTC/SOL | off-chain mock | `spot-quote` |
+| Escrow mint + co-own | `settleReadWithEth` | settle pipeline `finalizeSettle` |
+| Seller BTD/ETH slider | future on-chain finalize | `POST /api/packs/payout/finalize` |
+
+Until the app builds and submits the signed quote + `eth_sendTransaction`, use **projected settle** for product QA; deploy still proves the contract is on Sepolia and register/views work.
+
+## Security
+
+- Deployer ≠ necessarily operator; operator key must stay off client bundles.
+- Buyer pays only via `settleReadWithEth` (bare ETH reverts).
+- Do not use mainnet keys/RPC for this scaffolding.

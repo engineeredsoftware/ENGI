@@ -22,7 +22,7 @@ the other. **Edit both when settlement token behavior changes.**
 
 | Path | Language | Role | Why it exists |
 | --- | --- | --- | --- |
-| `packages/btd/contracts/BitcodeERC1155.sol` | Solidity | On-chain deployable contract | Chain truth: supply cap, mint-to-master, settle-to-buyer, add-only co-ownership, burn forbidden |
+| `packages/btd/contracts/src/BitcodeERC1155.sol` | Solidity | On-chain deployable (Foundry) | Cap 21M, escrow mint, ETH/BTC/SOL settle, AP co-own; see `contracts/DEPLOY.md` |
 | `packages/btd/src/erc1155/` | TypeScript | Executable mirror + needinesses mint math | Tests, projected settlement receipts, pipeline stages, JSON-safe artifacts without requiring solc |
 
 **Why dual is optimal for Bitcode today**

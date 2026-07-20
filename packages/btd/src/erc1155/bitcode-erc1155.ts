@@ -6,7 +6,7 @@
  * - Pay rails: ETH | BTC | SOL (never BTD)
  * - Mint on settle to depositor btdBps slices only
  *
- * Live chain: packages/btd/contracts/BitcodeERC1155.sol
+ * Live chain: packages/btd/contracts/src/BitcodeERC1155.sol
  */
 
 import { createHash } from 'crypto';

@@ -42,7 +42,7 @@ Unchosen BTD is **not minted**.
 
 | Path | Language | Role |
 | --- | --- | --- |
-| `packages/btd/contracts/BitcodeERC1155.sol` | Solidity | Deployable contract |
+| `packages/btd/contracts/src/BitcodeERC1155.sol` | Solidity | Deployable (Foundry); see `contracts/DEPLOY.md` |
 | `packages/btd/src/erc1155/` | TypeScript | Mirror + needinesses + decay + spot math |
 
 **Package export:** `@bitcode/btd` / `@bitcode/btd/erc1155`
