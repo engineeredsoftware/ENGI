@@ -255,7 +255,27 @@ function iterationForPhase(
     : null;
 }
 
-type FormalLogLineKind = 'llm' | 'tool';
+type FormalLogLineKind = 'llm' | 'tool' | 'decision';
+
+function isPhaseDecisionPayload(payload: any, ns: string, key: string): boolean {
+  const data = payload?.data;
+  if (data && typeof data === 'object' && !Array.isArray(data)) {
+    if ((data as { formalPhaseDecision?: unknown }).formalPhaseDecision === true) {
+      return true;
+    }
+    if (
+      typeof (data as { schema?: unknown }).schema === 'string' &&
+      String((data as { schema: string }).schema).includes('phase-decision')
+    ) {
+      return true;
+    }
+  }
+  // Product gate + short-circuit decision stores (Setup/Validation/Finish).
+  if (key === 'phaseDecision') return true;
+  if (ns === 'validation' && key === 'readyToFinish') return true;
+  if (ns === 'setup' && (key === 'phaseDecision' || key === 'cloneDecision')) return true;
+  return false;
+}
 
 function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   const type = String(payload?.type || '');
@@ -264,12 +284,13 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   const ns = String(payload?.namespace || '');
   const key = String(payload?.key || '');
 
-  // The rich telemetry renders ONLY the ultimate LLM-call layer and Tool uses —
-  // each with its complete hierarchy (LLM: Phase/Agent/Step/Failsafe/Thinkings;
-  // Tool: Phase/Agent/Step + tool). Everything else (informational status, phase
-  // banners, completion/error notices) advances the rolling context but never
-  // becomes a row; run completion is surfaced by the processing indicator and
-  // errors by the log's error banner, not by accordion rows.
+  // Formal rows:
+  //   • LLM call  — Thinkings substep output (full hierarchy)
+  //   • Tool use  — tool result/error
+  //   • Decision  — phase gate / short-circuit agent completion when no LLM/tool
+  //     fired (Setup host-env clone, Validation deterministic ready-to-finish).
+  // Product law: Setup and Validation must remain visible even when conditionals
+  // skip PTRR agents.
 
   // Formal LLM call: the Thinkings substep output is canonical (full hierarchy).
   if (type === 'generation' || streamType === 'generation') return 'llm';
@@ -278,6 +299,9 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   // Formal tool use: one row per completed tool call (result | error).
   if (type === 'tool-use' || streamType === 'tool-use') return 'tool';
   if ((ns === 'tool' || ns === 'tools') && (key === 'result' || key === 'error')) return 'tool';
+
+  // Formal phase decision (deterministic short-circuit / gate).
+  if (isPhaseDecisionPayload(payload, ns, key)) return 'decision';
 
   return null;
 }
@@ -458,15 +482,33 @@ export function buildPipelineRunActivityFromEvents(
       !(payload.data as Record<string, unknown>).contentWithheld
     ) {
       const verdict = payload.data as Record<string, any>;
+      const recommendation =
+        typeof verdict.recommendation === 'string' ? verdict.recommendation : null;
+      // Normalize deposit admit: recommendation finish/complete ⇒ finalApproval.
+      const finalApproval =
+        typeof verdict.finalApproval === 'boolean'
+          ? verdict.finalApproval
+          : verdict.readyToFinish === true ||
+              verdict.ready === true ||
+              verdict.passed === true ||
+              String(recommendation || '').toLowerCase() === 'finish' ||
+              String(recommendation || '').toLowerCase() === 'complete'
+            ? true
+            : typeof verdict.finalApproval === 'boolean'
+              ? verdict.finalApproval
+              : null;
       readyToFinishVerdicts.push({
         iteration: rollingContext.iteration ?? null,
-        finalApproval: typeof verdict.finalApproval === 'boolean' ? verdict.finalApproval : null,
-        recommendation: typeof verdict.recommendation === 'string' ? verdict.recommendation : null,
+        finalApproval,
+        recommendation,
         qualityScore: typeof verdict.qualityScore === 'number' ? verdict.qualityScore : null,
         overallConfidence:
           typeof verdict.overallConfidence === 'number' ? verdict.overallConfidence : null,
         warningsCount: Array.isArray(verdict.finalWarnings) ? verdict.finalWarnings.length : 0,
-        reasons: inferReadyToFinishReasons(verdict),
+        reasons: inferReadyToFinishReasons({
+          ...verdict,
+          finalApproval: finalApproval === true,
+        }),
         summary: typeof verdict.summary === 'string' ? verdict.summary : null,
       });
     }
@@ -535,6 +577,51 @@ export function buildPipelineRunActivityFromEvents(
       };
       const text = String(payload?.message || payload?.status?.message || '[content withheld — source-safe]');
       pushRow(text, stampExecutionState(merged, { ...payload, type: 'generation' }, deriveFailsafeRepairMarkers(payload)));
+      continue;
+    }
+
+    if (kind === 'decision') {
+      // Deterministic Setup/Validation/Finish decisions (no LLM/tool). Surface
+      // as a generation-shaped row so existing pill rendering applies.
+      const data =
+        payload?.data && typeof payload.data === 'object' && !Array.isArray(payload.data)
+          ? (payload.data as Record<string, unknown>)
+          : {};
+      const own = readEventExecutionState(payload);
+      const phase = String(
+        data.phase || own.phase || rollingContext.phase || ns || 'setup',
+      );
+      const merged: ExecContext = {
+        phase,
+        agent: String(
+          data.agent || own.agent || rollingContext.agent || key || 'phase-decision',
+        ),
+        step: String(data.step || own.step || rollingContext.step || 'decide'),
+        failsafe: String(
+          data.failsafe || own.failsafe || 'deterministic-gate',
+        ),
+        generation: String(data.generation || own.generation || 'structure'),
+        iteration: iterationForPhase(phase, rollingContext.iteration),
+      };
+      const text = String(
+        data.summary ||
+          data.message ||
+          payload?.message ||
+          payload?.status?.message ||
+          'Phase decision recorded.',
+      );
+      // Advance rolling hierarchy so later rows inherit Validation/Setup.
+      rollingContext.phase = merged.phase;
+      rollingContext.agent = merged.agent;
+      rollingContext.step = merged.step;
+      pushRow(
+        text,
+        stampExecutionState(
+          merged,
+          { ...payload, type: 'generation', message: text },
+          { phaseDecision: true },
+        ),
+      );
       continue;
     }
 

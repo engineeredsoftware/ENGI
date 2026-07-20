@@ -173,7 +173,14 @@ export function DepositSynthesisTelemetry({
                     const verdicts = synthesisActivity.readyToFinishVerdicts;
                     const latest = verdicts[verdicts.length - 1];
                     const prior = verdicts.slice(0, -1);
-                    const approved = latest.finalApproval === true;
+                    // Deposit gate may stamp recommendation:'finish' without
+                    // finalApproval on older runs — treat both as admit.
+                    const approved =
+                      latest.finalApproval === true ||
+                      String(latest.recommendation || "").toLowerCase() ===
+                        "finish" ||
+                      String(latest.recommendation || "").toLowerCase() ===
+                        "complete";
                     return (
                       <div
                         data-testid="deposit-telemetry-readiness-verdict"

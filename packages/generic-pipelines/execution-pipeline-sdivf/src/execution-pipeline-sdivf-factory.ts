@@ -478,11 +478,31 @@ function executorValidationSignalsReadyToFinish(result: any, exec: any): boolean
     }
   };
   const readiness = readShared('validation', 'readyToFinish') as
-    | { finalApproval?: unknown }
+    | {
+        finalApproval?: unknown;
+        readyToFinish?: unknown;
+        ready?: unknown;
+        passed?: unknown;
+        recommendation?: unknown;
+      }
     | undefined;
-  if (readiness && (readiness as any).finalApproval === true) return true;
+  if (readiness) {
+    if (readiness.finalApproval === true) return true;
+    if (readiness.readyToFinish === true) return true;
+    if (readiness.ready === true || readiness.passed === true) return true;
+    // Deposit/read product stores often use recommendation:'finish' without
+    // finalApproval (historical shape). Treat as admit so Finish always runs.
+    if (String(readiness.recommendation || '').toLowerCase() === 'finish') return true;
+  }
   if (readShared('validation', 'passed') === true) return true;
-  return result?.passed === true || result?.ready === true || result?.finalApproval === true;
+  return (
+    result?.passed === true ||
+    result?.ready === true ||
+    result?.finalApproval === true ||
+    result?.readyToFinish === true ||
+    String(result?.recommendation || '').toLowerCase() === 'finish' ||
+    String(result?.recommendation || '').toLowerCase() === 'complete'
+  );
 }
 
 /**

@@ -618,6 +618,38 @@ export default async function runAssetPackCloneVCSRepositoryAgent(input: any, ex
   // Cross-phase store (shared root): Validation/Finish findUp must see workspacePath
   // after Setup ends. Plain execution.store only lands on the agent child node.
   const { storeCrossPhaseArtifact } = await import('../../synthesize-asset-packs');
+  // Formal Setup phase decision when host short-circuit clone runs (no PTRR LLM/
+  // tool rows). Product telemetry must show Setup even when agents are skipped.
+  const hostProvision =
+    out && typeof out === 'object' && out.metadata && typeof out.metadata === 'object'
+      ? String((out.metadata as { hostProvision?: unknown }).hostProvision || '')
+      : '';
+  const setupMessage = out?.workspacePath
+    ? hostProvision.startsWith('setup-in-box') || hostProvision === 'localhost-clone-for-run'
+      ? `Setup clone complete (${hostProvision || 'host'}): working tree ready at revision for this run.`
+      : hostProvision
+        ? `Setup repository ready (${hostProvision}).`
+        : 'Setup clone agent completed (PTRR path).'
+    : 'Setup clone did not produce a workspacePath.';
+  storeCrossPhaseArtifact(execution, 'setup', 'phaseDecision', {
+    schema: 'bitcode.pipeline.phase-decision',
+    formalPhaseDecision: true,
+    phase: 'setup',
+    agent: 'clone-vcs-repository',
+    step: forceClonePtrr() || !hostProvision || hostProvision === 'setup-clone-on-host'
+      ? 'try'
+      : 'decide',
+    failsafe:
+      hostProvision.startsWith('setup-in-box') || hostProvision === 'localhost-clone-for-run'
+        ? 'host-env-clone'
+        : 'prepare',
+    generation: 'structure',
+    summary: setupMessage,
+    message: setupMessage,
+    workspacePath: out?.workspacePath ?? null,
+    hostProvision: hostProvision || null,
+    status: out?.status ?? null,
+  });
   if (out?.workspacePath) {
     storeCrossPhaseArtifact(execution, 'repository', 'workspacePath', out.workspacePath);
     safeStore('repository', 'workspacePath', out.workspacePath);

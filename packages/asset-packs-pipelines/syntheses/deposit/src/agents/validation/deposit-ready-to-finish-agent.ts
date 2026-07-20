@@ -377,21 +377,51 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
           : merged.recommendation
         : merged.recommendation;
 
+  const readyToFinish =
+    recommendation === 'complete' && hardIssues.length === 0;
   const result = {
     ...merged,
     issues: structureReady ? hardIssues : filteredMergedIssues,
     recommendation,
-    readyToFinish: recommendation === 'complete' && hardIssues.length === 0,
+    readyToFinish,
+    // SDIVF DIV gate + deposit telemetry require finalApproval (not only
+    // recommendation:'finish'). Without this, UI paints ITERATE (FINISH) and
+    // the base loop never sees validation:readyToFinish.finalApproval.
+    finalApproval: readyToFinish,
+    ready: readyToFinish,
+    passed: readyToFinish,
   };
+
+  const readinessSummary = readyToFinish
+    ? qualitativePtrrRan
+      ? 'Deposit synthesis ready to finish.'
+      : 'Deposit synthesis ready to finish (Validation deterministic admit: measured options + required absolutes; qualitative PTRR skipped).'
+    : `Deposit synthesis not ready: ${result.issues.slice(0, 5).join('; ')}`;
 
   storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
   storeCrossPhaseArtifact(execution, 'validation', 'depositQuality', result);
+  // Cross-phase gate artifact — dual-written to stream; UI treats as formal
+  // phase decision when no qualitative PTRR rows exist (F19 extension).
   storeCrossPhaseArtifact(execution, 'validation', 'readyToFinish', {
-    recommendation: result.readyToFinish ? 'finish' : 'revise',
-    summary: result.readyToFinish
-      ? 'Deposit synthesis ready to finish.'
-      : `Deposit synthesis not ready: ${result.issues.slice(0, 5).join('; ')}`,
+    schema: 'bitcode.deposit.validation.ready-to-finish',
+    recommendation: readyToFinish ? 'finish' : 'revise',
+    finalApproval: readyToFinish,
+    ready: readyToFinish,
+    passed: readyToFinish,
+    readyToFinish,
+    summary: readinessSummary,
+    message: readinessSummary,
     issues: result.issues,
+    qualityScore: result.qualityScore ?? agentOutput?.qualityScore ?? null,
+    // Hierarchy for formal telemetry row when PTRR was skipped.
+    phase: 'validation',
+    agent: 'ready-to-finish-asset-packs-synthesis-deposit-pipeline',
+    step: qualitativePtrrRan ? 'try' : 'decide',
+    failsafe: qualitativePtrrRan ? 'prepare' : 'deterministic-gate',
+    generation: qualitativePtrrRan ? 'reason' : 'structure',
+    formalPhaseDecision: true,
+    qualitativePtrrRan,
+    qualitativePtrrSkipped: !qualitativePtrrRan && structureReady,
   });
   // Always record whether qualitative PTRR ran or was short-circuited (every run).
   storeCrossPhaseArtifact(execution, 'validation', 'gateDecision', {
@@ -411,7 +441,23 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
     qualitativePtrrError,
     recommendation: result.recommendation,
     readyToFinish: result.readyToFinish,
+    finalApproval: readyToFinish,
     qualityScore: result.qualityScore ?? agentOutput?.qualityScore ?? null,
+  });
+  // Explicit phase-decision store so Setup/Validation short-circuits always
+  // produce a formal telemetry row even when no LLM/tool fire.
+  storeCrossPhaseArtifact(execution, 'validation', 'phaseDecision', {
+    schema: 'bitcode.pipeline.phase-decision',
+    formalPhaseDecision: true,
+    phase: 'validation',
+    agent: 'ready-to-finish-asset-packs-synthesis-deposit-pipeline',
+    step: qualitativePtrrRan ? 'try' : 'decide',
+    failsafe: qualitativePtrrRan ? 'prepare' : 'deterministic-gate',
+    generation: 'structure',
+    summary: readinessSummary,
+    message: readinessSummary,
+    finalApproval: readyToFinish,
+    recommendation: readyToFinish ? 'finish' : 'revise',
   });
   storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);
   storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', packs);

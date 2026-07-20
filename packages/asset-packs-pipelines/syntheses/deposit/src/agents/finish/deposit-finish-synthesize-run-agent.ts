@@ -56,7 +56,13 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
       },
       selectable: true,
     })),
-    readyToPresent: Boolean(ready?.recommendation === 'finish' || ready?.readyToFinish !== false),
+    readyToPresent: Boolean(
+      ready?.finalApproval === true ||
+        ready?.readyToFinish === true ||
+        ready?.ready === true ||
+        ready?.recommendation === 'finish' ||
+        ready?.recommendation === 'complete',
+    ),
     validationSummary: ready?.summary ?? null,
   };
 
@@ -101,9 +107,25 @@ export default async function runDepositFinishSynthesizeRunAgent(input: any, exe
 
   storeCrossPhaseArtifact(execution, 'finish', 'completion', completion);
   storeCrossPhaseArtifact(execution, 'finish', 'selectionEnvelope', selectionEnvelope);
+  const finishMessage = `Synthesize deposit AssetPacks finished with ${selectionEnvelope.options.length} option(s) for selection.`;
   storeCrossPhaseArtifact(execution, 'finish', 'summary', {
     optionCount: selectionEnvelope.options.length,
-    message: `Synthesize deposit AssetPacks finished with ${selectionEnvelope.options.length} option(s) for selection.`,
+    message: finishMessage,
+  });
+  // Formal Finish phase decision so the log always shows Finish closed even when
+  // Finish agents are mostly deterministic packaging (no long LLM trail).
+  storeCrossPhaseArtifact(execution, 'finish', 'phaseDecision', {
+    schema: 'bitcode.pipeline.phase-decision',
+    formalPhaseDecision: true,
+    phase: 'finish',
+    agent: 'finish-synthesize-asset-packs-for-deposit-run',
+    step: 'decide',
+    failsafe: 'selection-envelope',
+    generation: 'structure',
+    summary: finishMessage,
+    message: finishMessage,
+    optionCount: selectionEnvelope.options.length,
+    readyToPresent: selectionEnvelope.readyToPresent,
   });
 
   return {

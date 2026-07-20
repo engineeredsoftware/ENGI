@@ -115,7 +115,17 @@ describe('deposit-ready-to-finish-agent', () => {
     const out = await runReady({}, exec);
     expect(Array.isArray(out.options?.[0]?.absolutes)).toBe(true);
     expect(out.options[0].absolutes.length).toBeGreaterThan(0);
-    expect(exec.get('validation', 'readyToFinish')).toBeTruthy();
+    expect(out.readyToFinish).toBe(true);
+    expect(out.finalApproval).toBe(true);
+    expect(exec.get('validation', 'readyToFinish')).toMatchObject({
+      finalApproval: true,
+      recommendation: 'finish',
+      formalPhaseDecision: true,
+    });
+    expect(exec.get('validation', 'phaseDecision')).toMatchObject({
+      phase: 'validation',
+      formalPhaseDecision: true,
+    });
   });
 
   it('flags obfuscation path violations', async () => {

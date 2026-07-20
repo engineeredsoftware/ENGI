@@ -262,6 +262,58 @@ describe('buildPipelineRunActivityFromEvents — mode latch + latest context', (
     expect(snapshot.latestContext).toBeNull();
   });
 
+  it('surfaces Setup/Validation phase decisions as formal rows (no LLM/tool)', () => {
+    const phaseEvents = [
+      {
+        id: 'setup-decision',
+        event: {
+          type: 'status',
+          namespace: 'setup',
+          key: 'phaseDecision',
+          data: {
+            formalPhaseDecision: true,
+            phase: 'setup',
+            agent: 'clone-vcs-repository',
+            step: 'decide',
+            failsafe: 'host-env-clone',
+            generation: 'structure',
+            summary:
+              'Setup clone complete (setup-in-box-branch-shallow): working tree ready at revision for this run.',
+            message:
+              'Setup clone complete (setup-in-box-branch-shallow): working tree ready at revision for this run.',
+          },
+        },
+        created_at: '2026-07-01T00:00:01.000Z',
+      },
+      {
+        id: 'validation-ready',
+        event: {
+          type: 'status',
+          namespace: 'validation',
+          key: 'readyToFinish',
+          data: {
+            formalPhaseDecision: true,
+            finalApproval: true,
+            recommendation: 'finish',
+            summary: 'Deposit synthesis ready to finish.',
+            message: 'Deposit synthesis ready to finish.',
+            phase: 'validation',
+            agent: 'ready-to-finish-asset-packs-synthesis-deposit-pipeline',
+            step: 'decide',
+          },
+        },
+        created_at: '2026-07-01T00:00:10.000Z',
+      },
+    ];
+    const snapshot = buildPipelineRunActivityFromEvents(phaseEvents, null, [], null);
+    const texts = Object.keys(snapshot.outputDetails);
+    expect(texts.some((t) => /Setup clone complete/i.test(t))).toBe(true);
+    expect(texts.some((t) => /ready to finish/i.test(t))).toBe(true);
+    expect(snapshot.readyToFinishVerdicts).toHaveLength(1);
+    expect(snapshot.readyToFinishVerdicts[0].finalApproval).toBe(true);
+    expect(snapshot.readyToFinishVerdicts[0].recommendation).toBe('finish');
+  });
+
   it('de-dupes formal rows that arrive twice (sandbox legacy + host bridge)', () => {
     const duped = [
       ...events,

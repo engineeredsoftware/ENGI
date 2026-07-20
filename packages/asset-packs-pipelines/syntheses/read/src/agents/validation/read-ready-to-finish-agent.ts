@@ -148,20 +148,52 @@ export default async function runReadReadyToFinishAgent(input: any, execution: a
         : merged.recommendation
       : merged.recommendation;
 
+  const readyToFinish =
+    recommendation === 'complete' && merged.issues.length === 0;
   const result = {
     ...merged,
     recommendation,
-    readyToFinish: recommendation === 'complete' && merged.issues.length === 0,
+    readyToFinish,
+    finalApproval: readyToFinish,
+    ready: readyToFinish,
+    passed: readyToFinish,
   };
+
+  const readinessSummary = readyToFinish
+    ? 'Read synthesis ready to finish (options for settle selection).'
+    : `Read synthesis not ready: ${result.issues.slice(0, 5).join('; ')}`;
 
   storeCrossPhaseArtifact(execution, 'validation/implementation', 'issues', result.issues);
   storeCrossPhaseArtifact(execution, 'validation', 'readQuality', result);
   storeCrossPhaseArtifact(execution, 'validation', 'readyToFinish', {
-    recommendation: result.readyToFinish ? 'finish' : 'revise',
-    summary: result.readyToFinish
-      ? 'Read synthesis ready to finish (options for settle selection).'
-      : `Read synthesis not ready: ${result.issues.slice(0, 5).join('; ')}`,
+    schema: 'bitcode.read.validation.ready-to-finish',
+    recommendation: readyToFinish ? 'finish' : 'revise',
+    finalApproval: readyToFinish,
+    ready: readyToFinish,
+    passed: readyToFinish,
+    readyToFinish,
+    summary: readinessSummary,
+    message: readinessSummary,
     issues: result.issues,
+    phase: 'validation',
+    agent: 'ready-to-finish-asset-packs-synthesis-read-pipeline',
+    step: 'decide',
+    failsafe: 'deterministic-gate',
+    generation: 'structure',
+    formalPhaseDecision: true,
+  });
+  storeCrossPhaseArtifact(execution, 'validation', 'phaseDecision', {
+    schema: 'bitcode.pipeline.phase-decision',
+    formalPhaseDecision: true,
+    phase: 'validation',
+    agent: 'ready-to-finish-asset-packs-synthesis-read-pipeline',
+    step: 'decide',
+    failsafe: 'deterministic-gate',
+    generation: 'structure',
+    summary: readinessSummary,
+    message: readinessSummary,
+    finalApproval: readyToFinish,
+    recommendation: readyToFinish ? 'finish' : 'revise',
   });
   storeCrossPhaseArtifact(execution, 'implementation', 'options', packs);
   storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', packs);
