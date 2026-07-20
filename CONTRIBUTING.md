@@ -390,7 +390,37 @@ Connected-services orientation: [`.docs/BITCODE_CONNECTED_SERVICES.md`](.docs/BI
 
 ## 8. Testing, documenting, and proving
 
-### 8.1 Expectations by change type
+### 8.1 REQUIRED: full green CI before every commit
+
+**Commits must always be fully green.** Do **not** commit (and do not push)
+until the living required CI surface is green on your tree.
+
+| Law | Detail |
+| --- | --- |
+| **When** | **Before every commit** that will land on a shared branch (`version/**`, gate PRs, `main` promotion) |
+| **What** | Run the same living checks promotion / gate / application CI expect — not a partial “only my test file” bar |
+| **Bar** | Lint, typecheck, build, and relevant unit/package suites must pass; leave no known red CI |
+| **Promotion** | Version → `main` additionally requires the version **promotion** workflow green |
+
+Minimum local mirror of application CI (`.github/workflows/ci.yml` lint-build):
+
+```bash
+pnpm install --frozen-lockfile   # when lockfile changed
+pnpm run build:eslint-plugin
+pnpm -C apps/uapi run lint
+pnpm -C apps/uapi exec tsc --noEmit
+pnpm -C apps/uapi run build
+# Plus focused Jest / package tests for the change set (see §8.3)
+```
+
+Gate / version work also needs the living **active + draft** quality surface
+(`bitcode-gate-quality` / `bitcode-canon-quality` — not frozen prior-era
+`check-vN-*` suites). See §8.4 CI surfaces and `.docs/AGENTS.md`.
+
+Partial local smoke (one Jest path only) is fine **during** iteration; it is
+**not** a substitute for full green before commit.
+
+### 8.2 Expectations by change type
 
 | Change | Minimum bar |
 | --- | --- |
@@ -399,8 +429,9 @@ Connected-services orientation: [`.docs/BITCODE_CONNECTED_SERVICES.md`](.docs/BI
 | Gate closure | Spec/parity/QA updates as required by gate; package + specifying checks |
 | Host / pipeline | Domain + pipeline-hosts tests; real inference opt-in only when intended |
 | Canon promotion | Version promotion workflow + PROVEN generation (not a casual PR) |
+| **Any commit** | **§8.1 full green** — living lint/typecheck/build (+ focused tests) before commit |
 
-### 8.2 Useful commands
+### 8.3 Useful commands
 
 ```bash
 # UAPI
@@ -435,14 +466,17 @@ bash scripts/find-uppercase-raw-promptparts.sh
 bash scripts/check-import-casing.sh
 ```
 
-### 8.3 CI surfaces
+### 8.4 CI surfaces
 
 | Workflow | Role |
 | --- | --- |
+| `ci.yml` | Application CI on every push/PR — **lint, typecheck, build**, mock Jest (E2E/DB heavier jobs may be gated) |
 | `bitcode-gate-quality.yml` | Gate PRs into `version/**` — **active + draft** canon posture/family, living packages, uapi, specifying (not prior-era `check-vN-*` matrices) |
 | `bitcode-canon-quality.yml` | Repository-wide living greenability during draft work (active + draft) |
-| `vN-canon-promotion.yml` | Historical/version promotion workflows on disk; pointer-gated — not current required gates after pointer advances |
-| Application CI | Root pnpm install + uapi lint/typecheck/build + Jest |
+| `vN-canon-promotion.yml` | Version → `main` **promotion** workflow (pointer + promotion-grade validations) |
+
+**Before commit:** run the application living checks in §8.1 until green. Do not
+treat “CI will catch it” as a substitute for local full green.
 
 **Historical freeze:** after promotion, version-bound checkers and era proofs are
 immutable. New drafts may break them; leave them untouched and unrequired.
@@ -453,7 +487,7 @@ exhaustive for present sole-canon. See `.specifications/BITCODE_SPECIFYING.md`
 Heavy suites (full browser E2E, Storybook, super-linter, advanced CodeQL) are
 **opt-in** via repository variables until maintained for required protection.
 
-### 8.4 Source-safety
+### 8.5 Source-safety
 
 Never product-expose:
 
@@ -465,7 +499,7 @@ Never product-expose:
 Stream telemetry through `sourceSafeStreamEvent`. Prefer **Unestimatable** over
 invented demand numbers.
 
-### 8.5 Documentation when structure moves
+### 8.6 Documentation when structure moves
 
 If you change package families, inheritance, experience entry paths, product
 routes, or other structure FAMILIARIZATION teaches, update
@@ -511,7 +545,7 @@ routes, or other structure FAMILIARIZATION teaches, update
 | How do components nest? | SOURCE_LAYOUT + `apps/uapi/components/README.md` |
 | Supabase / auth | SUPABASE.md, AUTH packages |
 | Deploy / sandbox | VERCEL.md, DEPLOYMENT.md |
-| Security / secrets / source-safety | [`.docs/SECURITY.md`](.docs/SECURITY.md), CONTRIBUTING §8.4 |
+| Security / secrets / source-safety | [`.docs/SECURITY.md`](.docs/SECURITY.md), CONTRIBUTING §8.5 |
 | Interactive QA steps | `.qa/BITCODE_V48_QA.md` (or current version ledger) |
 | Proof machine APIs | `scripts/specifying/README.md` |
 
