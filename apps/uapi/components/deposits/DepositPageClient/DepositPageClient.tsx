@@ -586,16 +586,19 @@ export default function DepositPageClient() {
         <ProductDetailStage
           open={isDepositDetailOpen}
           /*
-           * Stable workbench key for compose + in-flight/completed synthesize.
-           * Keying by synthesisRunId remounts repository/obfuscations and replays
-           * ProductDetailStage entrance on every Synthesize click.
+           * Stable workbench key for compose → synthesize → locked run detail.
+           * ProductDetailStage keys the motion.section: flipping the key remounts
+           * source pickers + replays entrance (was deposit-workbench → deposit-review
+           * when openRunDetail closed compose after Synthesize).
+           * Ledger bookmark detail is a different content tree — own key only then.
+           * Lock/hide-synthesize stays via isRunReviewLocked / data-locked, not remount.
            */
           stageKey={
-            isRunReviewLocked
-              ? "deposit-review"
-              : isComposeOpen || synthesisRunId
-                ? "deposit-workbench"
-                : "deposit-detail"
+            isActivityLedgerDetail &&
+            synthesisStatus !== "running" &&
+            !synthesisRunning
+              ? "deposit-ledger"
+              : "deposit-workbench"
           }
           testId="deposit-run-configuration"
           // Full-width stack: repository + synthesis as full rows, then
