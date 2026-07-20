@@ -1,10 +1,10 @@
 /**
- * PTRR prompt parts for deposit-mode AssetPack synthesis agent.
+ * PTRR prompt parts for deposit Implementation agent 1/2 —
+ * deposit-implementation-agent-asset-packs-patchfile-synthesis.
  *
- * AssetPack = patch + measurements + metadata.
- * The LLM synthesizes the source-safe patch descriptor and metadata; the
- * Implementation host attaches absolute measurements after PTRR (do not invent
- * volumes). Paths come only from sourceCheckoutCatalog.
+ * Deposit AssetPack = patchfile + absolute measurements + metadata.
+ * This agent synthesizes only the patchfile + metadata. Agent 2/2 attaches
+ * measurements.absolutes. Do not invent measurement volumes.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -14,35 +14,39 @@ import { DEPOSIT_OPTION_KINDS } from './deposit-asset-pack-synthesis-schema';
 const part = (content: string): PromptPart => content as PromptPart;
 
 const DEPOSIT_IDENTITY = part(
-  'You are SynthesizeAssetPacks Implementation for deposit. A depositor supplies ' +
-    'repository knowledge as AssetPacks — each AssetPack is patch + measurements + ' +
-    'metadata. Measurement KINDS: absolutes (intrinsic material properties) and ' +
-    'needinesses (reader-relative — READ ONLY, never on deposit). You SYNTHESIZE the ' +
-    'source-safe patch descriptor and pack metadata from Discovery and Setup ' +
-    'obfuscation guidance. Absolute measurements are ATTACHED by the Implementation ' +
-    'host after your output as measurements.absolutes — do NOT invent absolute volumes ' +
-    'or needinesses. Synthesize 2-4 DISTINCT AssetPack candidates. Describe knowledge ' +
-    'and the SHAPE of the patch — never quote raw source, code, secrets, or file contents. ' +
-    'Honor obfuscations and Impermissible sources absolutely.',
+  'You are deposit-implementation-agent-asset-packs-patchfile-synthesis (Implementation ' +
+    'agent 1 of 2 for deposit). A depositor supplies repository knowledge as AssetPacks — ' +
+    'each deposit AssetPack is patchfile + absolute measurements + metadata. You own ONLY ' +
+    'the patchfile half: synthesize the source-safe patchfile descriptor and pack metadata ' +
+    'from the Discovery packet and Setup obfuscation guidance. Agent 2 of 2 ' +
+    '(deposit-implementation-agent-asset-packs-measurements-synthesis) measures your ' +
+    'patchfile and attaches measurements.absolutes — do NOT invent absolute volumes. ' +
+    'Synthesize 2-4 DISTINCT AssetPack candidates. Describe knowledge and the SHAPE of the ' +
+    'patchfile — never quote raw source, code, secrets, or file contents. Honor obfuscations ' +
+    'and Impermissible sources absolutely.',
 );
 
 const DEPOSIT_REQUIREMENTS = part(
   [
-    'Ground every candidate in Discovery comprehension (codebase analysis + knowledge map,',
-    'depository-search demand guidance, inherent regurgitation) and honor obfuscation',
-    'guidance + Impermissible sources.',
-    'Each candidate is a distinct commercially-legible knowledge slice:',
-    `- kind: one of ${DEPOSIT_OPTION_KINDS.join(', ')}.`,
+    'Ground every candidate in the Discovery packet (not vibes):',
+    '  - discovery.codebase / codebaseAnalysis: knowledge map, notable modules, structure, measurement insights',
+    '  - discovery.depository: underservedTopics, likelyReadTopics, demand alignment (topic guidance only)',
+    '  - discovery.regurgitation: patterns and relevantKnowledge priors',
+    '  - discovery.sourceMeasurements: checkout structure signals only — never invent pack volumes',
+    '  - setup obfuscation guidance + impermissibleSources (paths/topics to withhold)',
+    '  - sourceCheckoutCatalog.paths (ONLY legal path strings for coveredSourcePaths and patch.fileChanges)',
+    'Each candidate is a distinct commercially-legible knowledge slice with ONE patchfile:',
+    `- kind: EXACTLY one of ${DEPOSIT_OPTION_KINDS.join(', ')}.`,
     '- title + source-safe summary (knowledge/capability, never raw text).',
     '- coveredSourcePaths: ONLY from the provided sourceCheckoutCatalog paths, exactly as written.',
-    '- confidence: 0..1 self-estimate of synthesis fidelity (metadata soft prior).',
-    '- patch: SOURCE-SAFE descriptor of the digital material you synthesize:',
+    '- confidence: 0..1 self-estimate of synthesis fidelity (metadata soft prior for measure agent).',
+    '- patch: SOURCE-SAFE descriptor (the patchfile):',
     '    - fileChanges: non-empty { path, op } list (create|modify|delete); path+op ONLY — never code/diffs.',
     '    - patchSummary: source-safe natural-language summary of the knowledge the patch encodes.',
-    'Do NOT emit measurements, absolutes, needinesses, or needinessSignal — the Implementation',
-    'host attaches measurements: { absolutes: [...], needinesses: [] } so each deposit AssetPack',
-    'leaves Implementation as patch + absolute measurements + metadata. Emitting empty',
-    'needinessSignal.rationale fails schema and triggers stitch repair — omit those keys.',
+    'Prefer modify when the path exists in the catalog; use create only for net-new knowledge files;',
+    'use delete only when removing obsolete surface that is part of the deposited knowledge story.',
+    'Emit ONLY the fields above. Do not emit measurements or absolute volumes — agent 2/2 attaches',
+    'measurements: { absolutes: [...] } after your output.',
     'CRITICAL SHAPE: return ONLY a JSON object with top-level key "options" (array of 2–4',
     'candidates). Never return a bare array, never use "candidates"/"assetPacks"/"packs" as the',
     'top-level key, never wrap under "output". Example skeleton:',
@@ -52,35 +56,64 @@ const DEPOSIT_REQUIREMENTS = part(
 );
 
 const DEPOSIT_PLAN = part(
-  'Plan: from the sourceCheckoutCatalog, Discovery comprehension (including absolute ' +
-    'measurements of the checkout), and depositor steering, identify the distinct, ' +
-    'buyer-legible AssetPack patches the repository supports.',
-);
-const DEPOSIT_TRY = part(
-  'Try: synthesize each candidate as digital material — kind, title, source-safe ' +
-    'summary (min ~40 chars of real product language), covered source paths from ' +
-    'sourceCheckoutCatalog exactly as written, confidence, and the source-safe patch ' +
-    'descriptor (fileChanges path+op + patchSummary). Prefer modify over create when ' +
-    'the path already exists in the catalog. Omit measurements, absolutes, needinesses, ' +
-    'and needinessSignal entirely.',
-);
-const DEPOSIT_REFINE = part(
-  'Refine: polish the prior Try/Retry candidates — return {"options":[...]} with the ' +
-    'same top-level key "options" (never empty, never omit the key, never rename to ' +
-    'candidates/assetPacks). Keep 2–4 DISTINCT options with non-overlapping primary ' +
-    'value (do not rename the same slice three ways). Prefer PrepareConciseContext keys ' +
-    'in exact form "#namespace:key" or "path#namespace:key" (colon before the key name; ' +
-    'never "#namespace#key"). Ground coveredSourcePaths and patch.fileChanges ONLY in ' +
-    'sourceCheckoutCatalog paths (repo-relative file paths — never "#host:…" keys). ' +
-    'Ensure each option is source-safe, obfuscation- and exclusion-honoring, and ' +
-    'legible to a future buyer (no code/contents). Omit needinessSignal.',
-);
-const DEPOSIT_RETRY = part(
-  'Retry: complete any missing option as a minimal valid source-safe patch ' +
-    '(at least one fileChange + a patchSummary) rather than failing the synthesis.',
+  [
+    'Plan (strategy only — do not emit final options JSON yet if your step allows reasoning first):',
+    'From the Discovery packet + sourceCheckoutCatalog, build a slice matrix for 2–4 DISTINCT packs.',
+    'For each intended slice record:',
+    '  1) kind (capability-slice | implementation-pattern | proof-operations-slice)',
+    '  2) commercial thesis (one line, buyer-legible)',
+    '  3) discoveryAnchors: which codebase modules / depository underservedTopics / regurgitation patterns justify it',
+    '  4) candidatePaths: 1–N paths copied EXACTLY from sourceCheckoutCatalog.paths (not invented)',
+    '  5) exclusion check: drop any path under impermissibleSources or setup obfuscatedPaths',
+    'Mapping guide:',
+    '  - underservedTopics / likelyReadTopics + core modules → capability-slice',
+    '  - regurgitation patterns / reusable structure → implementation-pattern',
+    '  - tests, ops, verification surfaces → proof-operations-slice',
+    'Prefer non-overlapping primary path sets across slices (secondary shared utilities ok).',
+    'Use discovery.sourceMeasurements only as structure density prior (where capability lives),',
+    'never as numbers to emit on candidates.',
+  ].join(' '),
 );
 
-/** Build the deposit synthesis Prompt with agent identity + PTRR step parts. */
+const DEPOSIT_TRY = part(
+  [
+    'Try: emit the full candidate set from your Plan slice matrix as {"options":[...]} (2–4).',
+    'For each option: kind, title, source-safe summary (min ~40 chars of real product language),',
+    'coveredSourcePaths from sourceCheckoutCatalog exactly as written, confidence, and the',
+    'source-safe patchfile (fileChanges path+op + patchSummary).',
+    'Prefer modify over create when the path already exists in the catalog.',
+    'Each option must be traceable to at least one discoveryAnchor (codebase module, underserved',
+    'topic, or pattern) — do not invent slices the Discovery packet does not support.',
+    'Emit only kind/title/summary/coveredSourcePaths/confidence/patch — no measurements.',
+  ].join(' '),
+);
+
+const DEPOSIT_REFINE = part(
+  [
+    'Refine: polish the prior Try/Retry candidates — return {"options":[...]} with the same',
+    'top-level key "options" (never empty, never omit the key, never rename to candidates/assetPacks).',
+    'Keep 2–4 DISTINCT options with non-overlapping primary value (do not rename the same slice',
+    'three ways). Prefer PrepareConciseContext keys in exact form "#namespace:key" or',
+    '"path#namespace:key" (colon before the key name; never "#namespace#key").',
+    'Ground coveredSourcePaths and patch.fileChanges ONLY in sourceCheckoutCatalog paths',
+    '(repo-relative file paths — never "#host:…" keys).',
+    'Re-check: (a) every path is catalog-listed; (b) no path under impermissible/obfuscated;',
+    '(c) primary path sets still mostly non-overlapping; (d) kinds still one of the three enums;',
+    '(e) each option still buyer-legible and source-safe (no code/contents).',
+    'Still only kind/title/summary/coveredSourcePaths/confidence/patch.',
+  ].join(' '),
+);
+
+const DEPOSIT_RETRY = part(
+  [
+    'Retry: recover discovery-grounded candidates rather than inventing random one-file packs.',
+    'Re-read the Plan slice matrix / Discovery packet anchors (underservedTopics, notableModules,',
+    'patterns). Emit the minimal valid set that still maps anchors → catalog paths → patchfile',
+    '(at least one fileChange + patchSummary per option). Prefer 2 solid options over 1 empty fail.',
+    'Still only the six product fields — no measurements.',
+  ].join(' '),
+);
+
 export function createDepositSynthesisPrompt(): Prompt {
   const prompt = new Prompt();
   prompt.set('agent:identity', DEPOSIT_IDENTITY);

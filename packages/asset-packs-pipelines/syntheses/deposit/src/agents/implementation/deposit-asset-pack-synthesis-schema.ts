@@ -1,11 +1,13 @@
 /**
- * Zod schemas for deposit-mode AssetPack synthesis agent output.
+ * Zod schemas for deposit Implementation agent 1/2 —
+ * deposit-implementation-agent-asset-packs-patchfile-synthesis.
  *
- * AssetPack = patch + measurements + metadata.
- * Nested measurement kinds:
- *   measurements: { absolutes: [...], needinesses: [] }
- * Deposit: needinesses always empty. LLM omits absolutes; Implementation host
- * MUST attach measurements.absolutes before Validation.
+ * Deposit patchfile candidate = allowlisted fields only:
+ *   kind, title, summary, coveredSourcePaths, confidence, patch
+ *
+ * Absolute measurements are agent 2/2. Deposit does not model Read measurement
+ * kinds. Unknown keys from the model are dropped by projection (allowlist),
+ * not scrubbed by name.
  */
 
 import { z } from 'zod';
@@ -16,78 +18,109 @@ export const DEPOSIT_OPTION_KINDS = [
   'proof-operations-slice',
 ] as const;
 
-// SOURCE-SAFE patch descriptor: path + op + summary only — never raw code.
+export type DepositOptionKind = (typeof DEPOSIT_OPTION_KINDS)[number];
+
+/** SOURCE-SAFE patch descriptor: path + op + summary only — never raw code. */
 export const depositPatchSchema = z.object({
   fileChanges: z
     .array(
       z.object({
-        path: z.string(),
+        path: z.string().min(1),
         op: z.enum(['create', 'modify', 'delete']),
       }),
     )
     .min(1),
-  patchSummary: z.string(),
+  patchSummary: z.string().min(1),
 });
 
-/** Nested measurement kinds (host-attached absolutes on deposit). */
-export const depositMeasurementsByKindSchema = z.object({
-  absolutes: z.array(z.record(z.any())).optional(),
-  needinesses: z.array(z.record(z.any())).optional(),
-});
+function coerceOptionKind(raw: unknown): DepositOptionKind {
+  const s = String(raw ?? '').trim();
+  if ((DEPOSIT_OPTION_KINDS as readonly string[]).includes(s)) {
+    return s as DepositOptionKind;
+  }
+  const lower = s.toLowerCase();
+  if (lower.includes('proof') || lower.includes('test') || lower.includes('ops')) {
+    return 'proof-operations-slice';
+  }
+  if (lower.includes('pattern') || lower.includes('implement')) {
+    return 'implementation-pattern';
+  }
+  return 'capability-slice';
+}
+
+/** Legal keys on a deposit patchfile candidate (agent 1/2). */
+export const DEPOSIT_PATCHFILE_CANDIDATE_KEYS = [
+  'kind',
+  'title',
+  'summary',
+  'coveredSourcePaths',
+  'confidence',
+  'patch',
+] as const;
 
 /**
- * Residual model noise only — never deposit product law (neediness is READ-only).
- * Lenient so empty/partial emissions do not fail Refine schema and force stitch
- * death-spirals (live 2026-07-17: rationale "" → options Required).
+ * Project an arbitrary model object onto the deposit patchfile allowlist.
+ * Unknown keys are discarded — deposit never carries non-patchfile product fields.
  */
-export const depositNeedinessSignalSchema = z.object({
-  demand: z.coerce.number().min(0).max(1).optional(),
-  saturation: z.coerce.number().min(0).max(1).optional(),
-  rationale: z.string().max(400).optional(),
-});
+export function projectDepositPatchfileCandidate(raw: unknown): unknown {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
+  const src = raw as Record<string, unknown>;
+  const out: Record<string, unknown> = {};
+  for (const key of DEPOSIT_PATCHFILE_CANDIDATE_KEYS) {
+    if (key in src) out[key] = src[key];
+  }
+  // Patch: allowlist path+op only inside fileChanges.
+  if (out.patch && typeof out.patch === 'object' && !Array.isArray(out.patch)) {
+    const patch = out.patch as Record<string, unknown>;
+    const fileChanges = Array.isArray(patch.fileChanges)
+      ? (patch.fileChanges as unknown[])
+          .filter((fc) => fc && typeof fc === 'object')
+          .map((fc) => {
+            const row = fc as Record<string, unknown>;
+            return { path: row.path, op: row.op };
+          })
+      : patch.fileChanges;
+    out.patch = {
+      fileChanges,
+      patchSummary: patch.patchSummary,
+    };
+  }
+  return out;
+}
 
+/** Patchfile candidate — LLM product shape for agent 1/2. */
 export const depositCandidateSchema = z.object({
-  kind: z.string().min(1),
+  kind: z.preprocess(coerceOptionKind, z.enum(DEPOSIT_OPTION_KINDS)),
   title: z.string().min(8).max(160),
   summary: z.string().min(40).max(900),
   coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
-  /**
-   * Nested kinds object (canonical) OR legacy flat 0..1 record (ignored when
-   * nested absolutes are present). Host overwrites absolutes after PTRR.
-   */
-  measurements: z.union([depositMeasurementsByKindSchema, z.record(z.string(), z.coerce.number().min(0).max(1))]).optional(),
-  measurementRationale: z.string().max(700).optional(),
-  absolutes: z.array(z.record(z.any())).optional(),
   confidence: z.coerce.number().min(0).max(1),
   patch: depositPatchSchema,
-  /** Residual — stripped by Implementation host if model still emits. */
-  needinessSignal: depositNeedinessSignalSchema.optional(),
 });
 
 /**
- * Normalize common model mis-shapes before strict parse (run 34837896: stitch
- * loop never saw `options` because the model returned a bare array / alternate
- * key / single candidate object). Coerce those into `{ options: [...] }`.
+ * Normalize common model mis-shapes then project each candidate to the allowlist.
  */
 export function normalizeDepositCandidateSetInput(raw: unknown): unknown {
   if (raw == null) return raw;
-  // Bare array of candidates
+
+  const projectArray = (arr: unknown[]): { options: unknown[] } => ({
+    options: arr.map(projectDepositPatchfileCandidate),
+  });
+
   if (Array.isArray(raw)) {
-    return { options: raw };
+    return projectArray(raw);
   }
   if (typeof raw !== 'object') return raw;
   const obj = raw as Record<string, unknown>;
-  // Already has options (including empty — leave for min(1) to reject)
   if (Array.isArray(obj.options)) {
-    return obj;
+    return { options: obj.options.map(projectDepositPatchfileCandidate) };
   }
-  // Alternate keys models often emit
   for (const key of ['assetPacks', 'candidates', 'packs', 'asset_packs', 'results'] as const) {
     if (Array.isArray(obj[key])) {
-      return { ...obj, options: obj[key] };
+      return projectArray(obj[key] as unknown[]);
     }
   }
-  // Nested under output / finalOutput (envelope leakage into stitch partial)
   for (const key of ['output', 'finalOutput', 'result'] as const) {
     const nested = obj[key];
     if (nested && typeof nested === 'object') {
@@ -101,14 +134,13 @@ export function normalizeDepositCandidateSetInput(raw: unknown): unknown {
       }
     }
   }
-  // Single candidate at the top level (has title + patch)
   if (
     typeof obj.title === 'string' &&
     obj.patch &&
     typeof obj.patch === 'object' &&
     !Array.isArray(obj.patch)
   ) {
-    return { options: [obj] };
+    return projectArray([obj]);
   }
   return obj;
 }
@@ -118,12 +150,8 @@ const depositCandidateSetObjectSchema = z.object({
 });
 
 export type DepositSynthesisOptions = z.infer<typeof depositCandidateSetObjectSchema>;
+export type DepositPatchfileOptionSet = DepositSynthesisOptions;
 
-/**
- * Preprocess mis-shapes then strict-parse. Cast to ZodType<Output> so PTRR
- * factory (expects ZodType<TOutput>) accepts ZodEffects without _input=unknown
- * conflicts (CI TS2322 on deposit/read synthesis agents).
- */
 export const depositCandidateSetSchema: z.ZodType<DepositSynthesisOptions> = z.preprocess(
   normalizeDepositCandidateSetInput,
   depositCandidateSetObjectSchema,

@@ -140,7 +140,8 @@ export function validateDepositSynthesisOptions(
       measurementRationale: String(option.measurementRationale ?? '').trim(),
       confidence: clampVolume(option.confidence),
       patch,
-      neediness: context.lens === 'deposit' ? buildNeedinessFromSignal(option.needinessSignal) : undefined,
+      // Neediness is entirely a Read-pipeline concept — never synthesize for deposit.
+      neediness: undefined,
     });
   }
   return {

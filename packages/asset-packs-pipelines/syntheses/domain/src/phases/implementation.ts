@@ -4,6 +4,10 @@
  * The live implementation orchestration now lives in `phases/index.ts`.
  * This helper exposes the same canonical Read-to-AssetPack synthesis sequence
  * for direct phase-runner imports.
+ *
+ * Deposit Implementation is two sequential agents building the same AssetPack(s):
+ *   1. implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis
+ *   2. implementation:deposit-implementation-agent-asset-packs-measurements-synthesis
  */
 
 import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, type AgentStep, type ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
@@ -34,13 +38,26 @@ export function registerImplementationAgentsForType(
 
 export function registerImplementationAgents(
   agentRegistry: any,
-  // Conditional runtime registry: deposit registers under a deposit-named key;
+  // Conditional runtime registry: deposit registers under deposit-named keys;
   // read keeps the historical ReadFitsFindingSynthesis implementation key.
   mode?: SynthesizeAssetPacksMode,
 ): void {
   if (mode === 'deposit') {
-    agentRegistry.registerAgent('implementation:deposit-asset-pack-synthesis', () =>
-      import('../../../deposit/src/agents/implementation/deposit-asset-pack-synthesis-agent').then(m => m.default),
+    // Two sequential Implementation agents — same AssetPack(s):
+    // patchfile synthesis first, then measurements synthesis.
+    agentRegistry.registerAgent(
+      'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis',
+      () =>
+        import(
+          '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis'
+        ).then((m) => m.default),
+    );
+    agentRegistry.registerAgent(
+      'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis',
+      () =>
+        import(
+          '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis'
+        ).then((m) => m.default),
     );
     return;
   }

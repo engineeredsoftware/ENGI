@@ -190,10 +190,13 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'DepositInherentRegurgitationAgent': [],
 
     // Implementation Phase (roster key + factory name when tools bind by either)
+    // Deposit: two sequential agents — patchfile synthesis then measurements synthesis.
     'ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
     'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
-    'implementation:deposit-asset-pack-synthesis': [],
-    'DepositAssetPackSynthesisAgent': [],
+    'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis': [],
+    'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis': [],
+    'DepositImplementationAgentAssetPacksPatchfileSynthesis': [],
+    'DepositImplementationAgentAssetPacksMeasurementsSynthesis': [],
 
     // Validation Phase — symbol/definition checks via LSP
     'asset-pack-validate-last-iterations-validation-phase-agent': optionalTools(

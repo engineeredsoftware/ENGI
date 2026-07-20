@@ -158,7 +158,8 @@ const debugEnv: Record<string, string> = {
   BITCODE_DEBUG_STOP_REQUIRE_GEN0:
     process.env.BITCODE_DEBUG_STOP_REQUIRE_GEN0 || '0',
   BITCODE_DEBUG_STOP_AGENT_FILTER:
-    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER || 'DepositAssetPackSynthesis',
+    process.env.BITCODE_DEBUG_STOP_AGENT_FILTER ||
+    'DepositImplementationAgentAssetPacksPatchfileSynthesis',
   BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS:
     process.env.BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS || '900000',
   // 0 = disable per-call bound for progressive QA (Judge can exceed 180s)
@@ -188,7 +189,7 @@ writeFileSync(
     '',
     '```',
     'phase: implementation',
-    'agent: DepositAssetPackSynthesisAgent (implementation:deposit-asset-pack-synthesis)',
+    'agent: DepositImplementationAgentAssetPacksPatchfileSynthesis (implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis)',
     'step: plan',
     'failsafe: prepare_concise_context',
     'generation: reason',
@@ -462,7 +463,7 @@ const summary = {
   callCount: latestCalls.length,
   forceClonePtrr: env.BITCODE_DEBUG_FORCE_CLONE_PTRR === '1',
   expectedAbort:
-    'Implementation → DepositAssetPackSynthesis Plan → prepare_concise_context → reason',
+    'Implementation → DepositImplementationAgentAssetPacksPatchfileSynthesis Plan → prepare_concise_context → reason',
   ptrrOrder: 'Discovery closed → Implementation first PCC reason',
   stopGeneration: env.BITCODE_DEBUG_STOP_GENERATION,
   stopFailsafe: env.BITCODE_DEBUG_STOP_FAILSAFE,

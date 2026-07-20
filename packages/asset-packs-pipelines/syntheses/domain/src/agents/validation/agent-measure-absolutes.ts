@@ -75,8 +75,13 @@ function clamp01(value: number): number {
 
 export { factorySynthesizeAssetPacksAbsolutesMeasureAgent } from '@bitcode/generic-asset-packs-synthesis';
 
-/** Static-analysis helpers used by deposit attach paths (re-export). */
-export { analyzeStaticSource } from './source-static-analysis-tool';
+/** Static-analysis helpers used by deposit measure paths (re-export). */
+export {
+  analyzeStaticSource,
+  registerSourceStaticAnalysisTool,
+  resolveSourceStaticAnalysisTool,
+  SourceStaticAnalysisTool,
+} from './source-static-analysis-tool';
 
 /** Build the source-safe descriptor the measure-agent reasons over (counts only). */
 function toDescriptor(patch: MeasurableAssetPackPatch, report: StaticAnalysisReport) {
@@ -323,12 +328,25 @@ async function measureStaticAnalysis(
  */
 export async function measureAssetPackAbsolutes(
   patch: MeasurableAssetPackPatch,
-  context: { lens: SynthesizeAssetPacksMode; execution?: any; sources?: StaticAnalysisSourceFile[] },
+  context: {
+    lens: SynthesizeAssetPacksMode;
+    execution?: any;
+    sources?: StaticAnalysisSourceFile[];
+    /**
+     * Deposit Implementation measurements agent: always attempt quality inference
+     * when execution is available (slots into ASSET_PACK_ABSOLUTES_CATALOG quality
+     * kinds). Quantity remains tool-authoritative from static analysis.
+     */
+    preferQualityInference?: boolean;
+  },
 ): Promise<AssetPackCandidateMeasurement[]> {
   const report = await measureStaticAnalysis(patch, context);
   const reportAbsolutes = computeAbsolutesFromReport(report, patch);
 
-  if (!isAssetPackRealInferenceEnabled() || !context.execution) {
+  const mayInfer =
+    Boolean(context.execution) &&
+    (context.preferQualityInference === true || isAssetPackRealInferenceEnabled());
+  if (!mayInfer) {
     return reportAbsolutes;
   }
   try {
@@ -338,6 +356,7 @@ export async function measureAssetPackAbsolutes(
     const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
     const readings = Array.isArray((result as any)?.measurements) ? (result as any).measurements : [];
     if (readings.length === 0) return reportAbsolutes;
+    // Quantity kinds stay tool-authoritative; quality kinds take inference volumes.
     return mergeReportAndReadings(reportAbsolutes, readings);
   } catch {
     return reportAbsolutes;

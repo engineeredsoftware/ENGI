@@ -10,5 +10,5 @@ import type { PromptPart } from '../../parts/PromptPart';
 import { createPromptPart } from '../../parts/PromptPart';
 
 export const PROMPTPART_SPECIFIC_PHASE_SYNTHESIZEDEPOSITS_IMPLEMENTATION_ROSTER_DETAILCONTENT: PromptPart = createPromptPart(
-  'Deposit Implementation roster (typical): deposit-asset-pack-synthesis agent.',
+  'Deposit Implementation roster (sequential agents): deposit-implementation-agent-asset-packs-patchfile-synthesis then deposit-implementation-agent-asset-packs-measurements-synthesis — same AssetPack(s); patchfile first, then measurements.absolutes.',
 );

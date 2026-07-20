@@ -41,7 +41,8 @@ import depositCodebaseComprehensionAgent from '../../../deposit/src/agents/disco
 import depositDepositorySearchAgent from '../../../deposit/src/agents/discovery/deposit-depository-search-agent';
 import readDepositorySearchForNeedFitsAgent from '../../../read/src/agents/discovery/read-depository-search-for-need-fits-agent';
 import depositInherentRegurgitationAgent from '../../../deposit/src/agents/discovery/deposit-inherent-regurgitation-agent';
-import depositAssetPackSynthesisAgent from '../../../deposit/src/agents/implementation/deposit-asset-pack-synthesis-agent';
+import depositImplementationAgentAssetPacksPatchfileSynthesis from '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-patchfile-synthesis';
+import depositImplementationAgentAssetPacksMeasurementsSynthesis from '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis';
 import readAssetPackSynthesisAgent from '../../../read/src/agents/implementation/read-asset-pack-synthesis-agent';
 import depositReadyToFinishAgent from '../../../deposit/src/agents/validation/deposit-ready-to-finish-agent';
 import readReadyToFinishAgent from '../../../read/src/agents/validation/read-ready-to-finish-agent';
@@ -118,15 +119,24 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
     );
   });
 
-  it('implementation registers deposit-named vs read synthesis keys by mode', async () => {
-    const depositKey = 'implementation:deposit-asset-pack-synthesis';
+  it('implementation registers deposit patchfile then measurements synthesis vs read keys by mode', async () => {
+    const depositPatchfileKey =
+      'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis';
+    const depositMeasurementsKey =
+      'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis';
     const readKey = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
 
     const depositRegistry = fakeRegistry();
     registerImplementationAgents(depositRegistry, 'deposit');
-    expect(Array.from(depositRegistry.entries.keys())).toEqual([depositKey]);
-    expect(await resolveEntry(depositRegistry.entries.get(depositKey))).toBe(
-      depositAssetPackSynthesisAgent,
+    expect(Array.from(depositRegistry.entries.keys())).toEqual([
+      depositPatchfileKey,
+      depositMeasurementsKey,
+    ]);
+    expect(await resolveEntry(depositRegistry.entries.get(depositPatchfileKey))).toBe(
+      depositImplementationAgentAssetPacksPatchfileSynthesis,
+    );
+    expect(await resolveEntry(depositRegistry.entries.get(depositMeasurementsKey))).toBe(
+      depositImplementationAgentAssetPacksMeasurementsSynthesis,
     );
 
     const readRegistry = fakeRegistry();
@@ -247,7 +257,10 @@ const READ_DISCOVERY_KEYS = [
   DISCOVERY_INHERENT_REGURGITATION,
   DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS,
 ];
-const DEPOSIT_IMPLEMENTATION_KEY = 'implementation:deposit-asset-pack-synthesis';
+const DEPOSIT_IMPLEMENTATION_KEYS = [
+  'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis',
+  'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis',
+];
 const DEPOSIT_VALIDATION_KEY =
   'validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline';
 const DEPOSIT_FINISH_KEYS = [
@@ -290,11 +303,14 @@ describe('product phase delegators execute the roster (execution-tree walk)', ()
     expect(calls[2]).toBe(DISCOVERY_SEARCH_DEPOSITORY_FOR_READ_NEED_FITS);
   });
 
-  it('deposit implementation resolves deposit-asset-pack-synthesis', async () => {
-    const { calls, root } = harness([DEPOSIT_IMPLEMENTATION_KEY]);
-    const output = await executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks({ seed: true }, root.child('seq-2'));
-    expect(calls).toEqual([DEPOSIT_IMPLEMENTATION_KEY]);
-    expect(output[`ran:${DEPOSIT_IMPLEMENTATION_KEY}`]).toBe(true);
+  it('deposit implementation runs patchfile then measurements synthesis sequentially', async () => {
+    const { calls, root } = harness(DEPOSIT_IMPLEMENTATION_KEYS);
+    const output = await executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks(
+      { seed: true },
+      root.child('seq-2'),
+    );
+    expect(calls).toEqual(DEPOSIT_IMPLEMENTATION_KEYS);
+    expect(output[`ran:${DEPOSIT_IMPLEMENTATION_KEYS[1]}`]).toBe(true);
   });
 
   it('read implementation resolves read-asset-pack-synthesis', async () => {
