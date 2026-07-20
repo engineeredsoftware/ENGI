@@ -3,9 +3,17 @@ export const DEFAULT_ASSET_PACK_EMBEDDING_MODEL = 'text-embedding-3-small' as co
 export const ASSET_PACK_VECTOR_DIMENSIONS = 1536 as const;
 export const ASSET_PACK_EMBEDDING_INPUT_TOKEN_LIMIT = 8192 as const;
 export const ASSET_PACK_EMBEDDING_ENCODING_FORMAT = 'float' as const;
+/** @deprecated Exchange-era table; prefer depository_search_vectors for APs. */
 export const ASSET_PACK_VECTOR_STORAGE_TABLE = 'deliverable_vectors' as const;
 export const ASSET_PACK_VECTOR_STORAGE_COLUMN = 'embedding' as const;
+/** @deprecated Prefer MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC. */
 export const ASSET_PACK_VECTOR_MATCH_RPC = 'match_deliverable_vectors' as const;
+
+/** Product depository index (admitted AssetPacks). */
+export const DEPOSITORY_SEARCH_DOCUMENTS_TABLE = 'depository_search_documents' as const;
+export const DEPOSITORY_SEARCH_VECTORS_TABLE = 'depository_search_vectors' as const;
+export const MATCH_DEPOSITORY_ASSET_PACK_VECTORS_RPC =
+  'match_depository_asset_pack_vectors' as const;
 export const ASSET_PACK_VECTOR_DISTANCE_METRIC = 'cosine' as const;
 export const ASSET_PACK_VECTOR_INDEX_METHOD = 'ivfflat' as const;
 export const ASSET_PACK_VECTOR_OPERATOR_CLASS = 'vector_cosine_ops' as const;

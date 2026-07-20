@@ -122,10 +122,72 @@ describe('runDepositDepositoryAssetPackSearch', () => {
     });
     expect(embedQuery).toHaveBeenCalled();
     expect(supabase.rpc).toHaveBeenCalledWith(
-      'match_deliverable_vectors',
+      'match_depository_asset_pack_vectors',
       expect.objectContaining({ match_count: expect.any(Number) }),
     );
     expect(result.hits.some((h) => h.assetId === 'vec-9')).toBe(true);
     expect(result.vectorStore.status).toBe('hybrid');
   });
+
+  it('fans out multi-query and unions hits by assetId', async () => {
+    const result = await runDepositDepositoryAssetPackSearch({
+      queries: ['stripe webhook retries', 'invoice billing'],
+      product: 'read-need-fits',
+      assets: [
+        {
+          assetId: 'ap-stripe',
+          title: 'Stripe webhook retry pack',
+          contentUnits: [
+            {
+              unitId: 'u1',
+              unitKind: 'summary',
+              text: 'stripe webhook retries with backoff',
+            },
+          ],
+        } as any,
+        {
+          assetId: 'ap-invoice',
+          title: 'Invoice reconciliation pack',
+          contentUnits: [
+            { unitId: 'u2', unitKind: 'summary', text: 'invoice billing replay' },
+          ],
+        } as any,
+        {
+          assetId: 'ap-noise',
+          title: 'Graphics pack',
+          contentUnits: [{ unitId: 'u3', unitKind: 'summary', text: 'shaders' }],
+        } as any,
+      ],
+      env: {},
+    });
+    expect(result.queryCount).toBe(2);
+    expect(result.queries).toEqual(['stripe webhook retries', 'invoice billing']);
+    expect(result.hits.some((h) => h.assetId === 'ap-stripe')).toBe(true);
+    expect(result.hits.some((h) => h.assetId === 'ap-invoice')).toBe(true);
+    expect(result.hits.some((h) => h.assetId === 'ap-noise')).toBe(false);
+  });
+
+  it('applies static kind filters', async () => {
+    const result = await runDepositDepositoryAssetPackSearch({
+      queryTerms: ['auth'],
+      staticFilters: { kinds: ['capability-slice'] },
+      assets: [
+        {
+          assetId: 'ap-cap',
+          title: 'Auth capability',
+          artifactKind: 'capability-slice',
+          contentUnits: [{ unitId: 'u1', unitKind: 'summary', text: 'auth oauth' }],
+        } as any,
+        {
+          assetId: 'ap-pat',
+          title: 'Auth pattern',
+          artifactKind: 'implementation-pattern',
+          contentUnits: [{ unitId: 'u2', unitKind: 'summary', text: 'auth oauth pattern' }],
+        } as any,
+      ],
+      env: {},
+    });
+    expect(result.hits.every((h) => h.assetId === 'ap-cap')).toBe(true);
+  });
 });
+

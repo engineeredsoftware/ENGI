@@ -250,12 +250,15 @@ export default async function runReadDepositorySearchForNeedFitsAgent(input: any
       undefined;
     toolResult = await runDepositDepositoryAssetPackSearch({
       queryTerms: searchQueries,
+      // Multi-query fan-out: each planned query retrieves independently, then union.
+      queries: searchQueries,
       needText: needToText(need),
       expressedRead: typeof expressedRead === 'string' ? expressedRead : null,
       product: 'read-need-fits',
       paths: catalogForPrompt?.paths ?? catalog?.paths ?? [],
       assets: Array.isArray(settledAssets) ? settledAssets : [],
-      maxResults: 12,
+      maxResults: 16,
+      maxPerQuery: 8,
       repositoryFullName: repository.fullName || repository.repositoryFullName,
       supabase,
       embedQuery,
