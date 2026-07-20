@@ -188,7 +188,6 @@ export function MarketingLandingTestnetSection() {
             <span
               className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(99,102,241,0.75))_drop-shadow(0_0_16px_rgba(167,139,250,0.55))]`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
               <img
                 src="/ethereum-logo.svg"
                 alt=""
@@ -199,7 +198,6 @@ export function MarketingLandingTestnetSection() {
             <span
               className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(153,69,255,0.75))_drop-shadow(0_0_16px_rgba(25,251,155,0.4))]`}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG */}
               <img
                 src="/solana-logo.svg"
                 alt=""
