@@ -144,13 +144,13 @@ export const previewRows = [
   },
   {
     key: 'Settlement',
-    // 2×2: Crypto | BTD / APs | Deliver — pay rails are multi-chain Crypto.
-    valueParts: ['Crypto', 'BTD', 'APs', 'Deliver'],
+    // 2×2: Crypto | BTD / Packs | Ship — pay rails are multi-chain Crypto.
+    valueParts: ['Crypto', 'BTD', 'Packs', 'Ship'],
     valueTones: {
       Crypto: 'orange',
       BTD: 'green',
-      APs: 'purple',
-      Deliver: 'white',
+      Packs: 'purple',
+      Ship: 'white',
     } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: CurrencyDollarIcon,
