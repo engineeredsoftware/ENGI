@@ -1,6 +1,7 @@
 /**
- * Serve the pitch deck from the monorepo SoT (`.bd/the-pitch.key`).
+ * Serve the pitch deck PDF from the monorepo SoT (`.bd/the-pitch.pdf`).
  * Does not copy into `public/` — one source of truth on disk.
+ * (Keynote source remains at `.bd/the-pitch.key` for authoring only.)
  */
 
 import { createReadStream, existsSync } from 'node:fs';
@@ -10,10 +11,10 @@ import { Readable } from 'node:stream';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const DECK_RELATIVE = path.join('.bd', 'the-pitch.key');
-const DECK_FILENAME = 'the-pitch.key';
+const DECK_RELATIVE = path.join('.bd', 'the-pitch.pdf');
+const DECK_FILENAME = 'the-pitch.pdf';
 
-/** Resolve monorepo-root `.bd/the-pitch.key` from app or repo cwd. */
+/** Resolve monorepo-root `.bd/the-pitch.pdf` from app or repo cwd. */
 function resolveDeckPath(): string | null {
   const cwd = process.cwd();
   const candidates = [
@@ -42,8 +43,7 @@ export async function GET() {
   return new Response(webStream, {
     status: 200,
     headers: {
-      // Keynote packages are zip-based; keep generic so clients download cleanly.
-      'Content-Type': 'application/octet-stream',
+      'Content-Type': 'application/pdf',
       'Content-Disposition': `inline; filename="${DECK_FILENAME}"`,
       'Cache-Control': 'public, max-age=300',
       'X-Bitcode-Deck-Source': DECK_RELATIVE,

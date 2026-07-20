@@ -49,7 +49,7 @@ export const BITCODE_X_URL =
 const DOCS_HREF = "/docs";
 
 /**
- * Pitch deck — served from monorepo SoT `.bd/the-pitch.key` via API (no public copy).
+ * Pitch deck — PDF from monorepo SoT `.bd/the-pitch.pdf` via API (no public copy).
  */
 export const BITCODE_DECK_HREF = "/api/deck";
 
