@@ -54,7 +54,13 @@ export type ProductEvent =
   /** A run dispatched in this session failed. */
   | {
       name: "deposit_synthesis_failed";
-      data: { stage: DepositSynthesisFailureStage; durationMs: number | null };
+      data: {
+        stage: DepositSynthesisFailureStage;
+        durationMs: number | null;
+        /** Host budget / incomplete Finish partial (no presentable options). */
+        partial?: boolean;
+        hostBudgetExceeded?: boolean;
+      };
     }
   /** A running synthesis was cancelled by the depositor (no identifiers). */
   | {
