@@ -15,11 +15,20 @@ import type {
 // AssetPack option (one settle run)
 // ---------------------------------------------------------------------------
 
+export interface SettleAssetPackPatchFileChange {
+  path: string;
+  op: 'create' | 'modify' | 'delete' | string;
+  /** Optional new file body for create/modify when shipping from request SHA. */
+  content?: string | null;
+  language?: string | null;
+}
+
 export interface SettleAssetPackPatch {
   patchSummary?: string;
   path?: string;
-  /** Source-safe patch descriptor fields only; raw diff bodies withheld at packs. */
+  /** Source-safe patch descriptor fields; fileChanges used for PR ship. */
   format?: string;
+  fileChanges?: SettleAssetPackPatchFileChange[];
 }
 
 export interface SettleAssetPackOption {

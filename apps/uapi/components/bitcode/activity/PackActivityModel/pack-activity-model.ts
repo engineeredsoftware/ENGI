@@ -963,12 +963,24 @@ function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<
     typeof (output.entitledPatch as { patchSummary?: string }).patchSummary === 'string'
       ? (output.entitledPatch as { patchSummary: string }).patchSummary
       : null) ||
+    (output.entitledPatch &&
+    typeof output.entitledPatch === 'object' &&
+    typeof (output.entitledPatch as { patch?: { patchSummary?: string } }).patch
+      ?.patchSummary === 'string'
+      ? (output.entitledPatch as { patch: { patchSummary: string } }).patch.patchSummary
+      : null) ||
     (pendingPayout &&
     typeof pendingPayout === 'object' &&
     typeof (pendingPayout as { patchSummary?: string }).patchSummary === 'string'
       ? (pendingPayout as { patchSummary: string }).patchSummary
       : null) ||
     metadata.entitledPatchSummary ||
+    null;
+  // R4: promote full entitled artifact for buyer/seller packs detail download.
+  const entitledPatch =
+    output.entitledPatch ||
+    packActivity.entitledPatch ||
+    metadata.entitledPatch ||
     null;
   const settleRunId =
     output.settleRunId ||
@@ -996,6 +1008,7 @@ function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<
     ...(pendingPayout ? { pendingPayout } : {}),
     ...(payoutState ? { payoutState } : {}),
     ...(entitledPatchSummary ? { entitledPatchSummary } : {}),
+    ...(entitledPatch ? { entitledPatch } : {}),
     ...(settleRunId ? { settleRunId } : {}),
     ...(buyerAccount ? { buyerAccount } : {}),
     ...(sellerAccount ? { sellerAccount } : {}),
@@ -1004,9 +1017,23 @@ function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<
 
 export function normalizePackActivityRecord(record: BitcodeActivityRecord): PackActivityRecord {
   const type = inferPackActivityType(record);
+  // Capture entitled artifact from raw payload before source-bearing key redact
+  // strips nested `patch` keys (R4). Packs rows are user-scoped; post-settle
+  // entitled download is legal for the entitled viewer.
+  const rawPayload = asRecord(record.payload);
+  const rawOutput = asRecord(rawPayload.output);
+  const rawPackActivity = asRecord(rawOutput.packActivity || rawPayload.packActivity);
+  const rawEntitledPatch =
+    rawOutput.entitledPatch ||
+    rawPackActivity.entitledPatch ||
+    rawPayload.entitledPatch ||
+    null;
   const metadata = promoteSettlePayoutMetadata(
     redactMetadata(record.payload) as Record<string, unknown>,
   );
+  if (rawEntitledPatch && type === 'settled-assetpack') {
+    (metadata as Record<string, unknown>).entitledPatch = rawEntitledPatch;
+  }
   const commodityState = buildCommodityStateDisplay(record.payload);
   const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']) || commodityState.btcState;
   const rightsState =

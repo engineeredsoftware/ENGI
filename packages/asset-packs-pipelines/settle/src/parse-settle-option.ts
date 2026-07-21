@@ -82,10 +82,21 @@ function parseMeasurements(raw: unknown): AssetPackMeasurementsForSettlement | n
 
 function parsePatch(raw: unknown): SettleAssetPackPatch | null {
   if (!isObject(raw)) return null;
+  const fileChanges = Array.isArray(raw.fileChanges)
+    ? raw.fileChanges
+        .filter((c): c is Record<string, unknown> => isObject(c) && typeof c.path === 'string')
+        .map((c) => ({
+          path: String(c.path),
+          op: typeof c.op === 'string' ? c.op : 'modify',
+          content: typeof c.content === 'string' ? c.content : null,
+          language: typeof c.language === 'string' ? c.language : null,
+        }))
+    : undefined;
   return {
     patchSummary: typeof raw.patchSummary === 'string' ? raw.patchSummary : undefined,
     path: typeof raw.path === 'string' ? raw.path : undefined,
     format: typeof raw.format === 'string' ? raw.format : undefined,
+    ...(fileChanges && fileChanges.length > 0 ? { fileChanges } : {}),
   };
 }
 

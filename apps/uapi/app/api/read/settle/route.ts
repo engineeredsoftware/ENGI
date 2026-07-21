@@ -18,7 +18,6 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import { Execution } from '@bitcode/execution-generics';
 import {
   parseSettleAssetPackOption,
-  parseSettleAssetPackOptions,
   runExecutionPipelineSimpleSettleAssetPack,
   type SettleAssetPackOption,
   type SettleAssetPackInput,
@@ -199,7 +198,26 @@ async function runOneSettle(input: RunOneSettleInput) {
     const rightsState = 'btd-rights-transferred' as const;
     const prUrl = packActivity.prUrl || shippable.prUrl || null;
     const measurementRows = packActivity.measurements;
-    const optionPatch = input.option.patch ?? null;
+    // R4: fully rich entitled artifact from rehydrated option (fileChanges etc.).
+    const optionPatch =
+      input.option.patch && typeof input.option.patch === 'object'
+        ? input.option.patch
+        : null;
+    const optionExtra = input.option as SettleAssetPackOption & {
+      coveredSourcePaths?: string[];
+    };
+    const entitledPatch =
+      optionPatch != null
+        ? {
+            schema: 'bitcode.packs.entitled-asset-pack-delivery',
+            title: optionTitle,
+            summary: input.option.summary ?? null,
+            patch: optionPatch,
+            coveredSourcePaths: Array.isArray(optionExtra.coveredSourcePaths)
+              ? optionExtra.coveredSourcePaths
+              : undefined,
+          }
+        : null;
 
     await input.admin
       .from('executions')
@@ -223,7 +241,7 @@ async function runOneSettle(input: RunOneSettleInput) {
           settleBtd,
           settleAssetPack,
           pendingPayout,
-          entitledPatch: optionPatch,
+          entitledPatch,
           selectedCount: 1,
           optionCount: 1,
           assetPackTitle: optionTitle || packActivity.assetPackTitle || null,
@@ -337,85 +355,76 @@ export async function POST(request: Request) {
 
   const admin = supabaseAdmin;
 
-  // Prefer server rehydrate from synthesis fullOptions by selectedIndexes.
-  let selectedOptions: SettleAssetPackOption[] = [];
+  // R3: fail-closed — require server rehydrate (no client selectedOptions).
   const selectedIndexes = Array.isArray(body.selectedIndexes)
     ? body.selectedIndexes
         .map((v) => (typeof v === 'number' ? v : Number(v)))
         .filter((n) => Number.isInteger(n) && n >= 0)
     : [];
 
-  if (synthesisRunId && selectedIndexes.length > 0) {
-    const { data: synthesisRun, error: synthesisError } = await admin
-      .from('executions')
-      .select('id, user_id, output, context')
-      .eq('id', synthesisRunId)
-      .maybeSingle();
-
-    if (synthesisError || !synthesisRun || synthesisRun.user_id !== user.id) {
-      return NextResponse.json(
-        {
-          error: 'Synthesis run not found or access denied for settle rehydrate.',
-          code: 'synthesis_run_required',
-        },
-        { status: 404 },
-      );
-    }
-
-    const output = isObject(synthesisRun.output) ? synthesisRun.output : {};
-    const fullOptions = Array.isArray(output.fullOptions)
-      ? output.fullOptions
-      : Array.isArray(output.options)
-        ? output.options
-        : [];
-
-    const rehydrated: SettleAssetPackOption[] = [];
-    for (const index of selectedIndexes) {
-      const raw = fullOptions[index];
-      if (!raw) {
-        return NextResponse.json(
-          {
-            error: `Selected option index ${index} missing from synthesis fullOptions.`,
-            code: 'option_index_missing',
-          },
-          { status: 400 },
-        );
-      }
-      const parsed = parseSettleAssetPackOption(raw);
-      if (!parsed) {
-        return NextResponse.json(
-          {
-            error: `Selected option index ${index} failed commercial parse after rehydrate.`,
-            code: 'option_rehydrate_invalid',
-          },
-          { status: 400 },
-        );
-      }
-      rehydrated.push(parsed);
-    }
-    selectedOptions = rehydrated;
-  } else {
-    // Legacy / transition: accept client options only if they parse (may lack
-    // patch for unpaid clients — rehydrate path is the commercial path).
-    selectedOptions = Array.isArray(body.selectedOptions)
-      ? parseSettleAssetPackOptions(body.selectedOptions)
-      : body.assetPackOption
-        ? (() => {
-            const one = parseSettleAssetPackOption(body.assetPackOption);
-            return one ? [one] : [];
-          })()
-        : [];
-  }
-
-  if (selectedOptions.length === 0) {
+  if (!synthesisRunId || selectedIndexes.length === 0) {
     return NextResponse.json(
       {
         error:
-          'synthesisRunId + selectedIndexes (preferred) or selectedOptions with measurements.needinesses is required — one settle pipeline per bought option.',
-        code: 'options_required',
+          'synthesisRunId + selectedIndexes is required — server rehydrates full commercial material; client options are not accepted.',
+        code: 'rehydrate_required',
       },
       { status: 400 },
     );
+  }
+
+  const { data: synthesisRun, error: synthesisError } = await admin
+    .from('executions')
+    .select('id, user_id, output, context')
+    .eq('id', synthesisRunId)
+    .maybeSingle();
+
+  if (synthesisError || !synthesisRun || synthesisRun.user_id !== user.id) {
+    return NextResponse.json(
+      {
+        error: 'Synthesis run not found or access denied for settle rehydrate.',
+        code: 'synthesis_run_required',
+      },
+      { status: 404 },
+    );
+  }
+
+  const output = isObject(synthesisRun.output) ? synthesisRun.output : {};
+  // Prefer fullOptions; legacy commercial options only if still patch-bearing.
+  const commercialPool = Array.isArray(output.fullOptions) && output.fullOptions.length > 0
+    ? output.fullOptions
+    : Array.isArray(output.options)
+      ? output.options
+      : [];
+
+  const selectedOptions: SettleAssetPackOption[] = [];
+  for (const index of selectedIndexes) {
+    const raw = commercialPool[index];
+    if (!raw) {
+      return NextResponse.json(
+        {
+          error: `Selected option index ${index} missing from synthesis fullOptions.`,
+          code: 'option_index_missing',
+        },
+        { status: 400 },
+      );
+    }
+    const parsed = parseSettleAssetPackOption(raw);
+    if (!parsed) {
+      return NextResponse.json(
+        {
+          error: `Selected option index ${index} failed commercial parse after rehydrate.`,
+          code: 'option_rehydrate_invalid',
+        },
+        { status: 400 },
+      );
+    }
+    // R4: reattach raw patch (incl. fileChanges) for entitled delivery + ship.
+    const rawObj = isObject(raw) ? raw : {};
+    if (rawObj.patch != null) {
+      parsed.patch = rawObj.patch as SettleAssetPackOption['patch'];
+    }
+    selectedOptions.push(parsed);
   }
   // Prefer explicit payAsset (ETH|BTC|SOL); map to observation network so the
   // settle pipeline selects the correct multi-rail spot (never pay BTD).
