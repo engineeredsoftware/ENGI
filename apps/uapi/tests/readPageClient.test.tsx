@@ -40,8 +40,10 @@ jest.mock("@/components/deposits/DepositSourceSelection/DepositSourceSelection",
   __esModule: true,
   default: ({
     onContextChange,
+    disabled,
   }: {
     onContextChange: (value: unknown) => void;
+    disabled?: boolean;
   }) => {
     React.useEffect(() => {
       onContextChange({
@@ -65,6 +67,7 @@ jest.mock("@/components/deposits/DepositSourceSelection/DepositSourceSelection",
       <section
         aria-label="Repository source selector"
         data-testid="deposit-source-selection"
+        data-disabled={disabled ? "true" : "false"}
       >
         Repository source selector
       </section>
@@ -220,6 +223,24 @@ describe("ReadPageClient", () => {
     const lastHref = String(mockReplace.mock.calls.at(-1)?.[0] ?? "");
     expect(lastHref).not.toContain("transactionId=");
     unmount();
+  });
+
+  it("locks Need/source and hides synthesize on pipeline run detail (deposit parity)", async () => {
+    mockQuery = "transactionId=read-admission-1";
+    render(<ReadPageClient />);
+
+    const detail = await screen.findByTestId("reads-run-configuration");
+    expect(detail).toHaveAttribute("data-locked", "true");
+    expect(detail).toHaveAttribute("data-compose", "false");
+
+    expect(screen.getByTestId("reads-need-compose")).toBeInTheDocument();
+    expect(screen.getByTestId("reads-need-input")).toBeDisabled();
+    expect(screen.getByTestId("reads-need-run-loaded-note")).toBeInTheDocument();
+    expect(screen.queryByTestId("reads-synthesize-options")).not.toBeInTheDocument();
+    expect(screen.getByTestId("deposit-source-selection")).toHaveAttribute(
+      "data-disabled",
+      "true",
+    );
   });
 
   it("shows route state aside and AssetPack options as the review area in detail", async () => {

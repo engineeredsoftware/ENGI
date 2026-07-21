@@ -138,9 +138,10 @@ export default function ReadPageClient() {
     activeRunId: selectedTransactionId,
     activeRunStatus: selectedRun?.status ?? null,
     onRunDispatched: (runId) => {
-      // Keep compose open (deposit stability). Attach run id via replace so
-      // Next searchParams updates do not feel like a full page reload.
-      setIsComposeOpen(true);
+      // Leave compose (deposit openRunDetail twin): hide synthesize CTA and
+      // lock Need/source for this run detail. Attach run id via replace so
+      // searchParams update without a full remount (stageKey stays workbench).
+      setIsComposeOpen(false);
       attachLiveReadRun(runId);
       void Promise.resolve(refreshLiveRuns() as unknown);
     },
@@ -371,7 +372,12 @@ export default function ReadPageClient() {
   const procurementRows = buildReadProcurementRows(readRouteSession);
   const authorityRows = buildReadAuthorityRows(readRouteSession);
 
-  const isConfigLocked = synthesis.synthesisRunning;
+  // Fresh compose only may synthesize. Any pipeline run detail (selected
+  // transaction and/or synthesis.runId after leaving compose) locks config and
+  // hides the CTA — including cancelled/complete runs after new → runId.
+  const isRunReviewLocked =
+    !isComposeOpen && Boolean(selectedTransactionId || synthesis.runId);
+  const isConfigLocked = synthesis.synthesisRunning || isRunReviewLocked;
   const selectedPipelineRunId =
     telemetry.selectedPipelineRunId || synthesis.runId;
   const showCancel =
@@ -459,7 +465,8 @@ export default function ReadPageClient() {
           // route-state panels as one 3-col row (never main|aside columns).
           className="grid min-w-0 gap-4 phone:gap-5"
           dataAttrs={{
-            "data-compose": isComposeOpen ? "true" : "false",
+            "data-compose":
+              isComposeOpen && !isRunReviewLocked ? "true" : "false",
             "data-locked": isConfigLocked ? "true" : "false",
           }}
         >
@@ -497,6 +504,7 @@ export default function ReadPageClient() {
                     repositoryContext?.selectedCommit,
                 )}
                 isConfigLocked={isConfigLocked}
+                isRunReviewLocked={isRunReviewLocked}
                 needAnchors={needAnchors}
                 needAnchorName={needAnchorName}
                 onNeedAnchorNameChange={setNeedAnchorName}

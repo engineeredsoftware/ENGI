@@ -4,6 +4,9 @@
  * Anchor controls mirror DepositObfuscationsAnchorControls (save/load/clear).
  * Options list and settle live in the parent detail grid (deposit parity).
  * Cancel lives only on ReadsPipelineTelemetry (header right) — not here.
+ *
+ * Run detail (non-new): hide synthesize and lock Need/paths — same law as
+ * DepositObfuscationsPanel + isRunReviewLocked.
  */
 "use client";
 
@@ -31,6 +34,8 @@ export function ReadsNeedComposePanel(props: {
   onSynthesize: () => void;
   canSynthesize: boolean;
   isConfigLocked?: boolean;
+  /** Pipeline run detail (not fresh compose) — hide synthesize CTA. */
+  isRunReviewLocked?: boolean;
   needAnchors?: readonly ReadNeedAnchor[];
   needAnchorName?: string;
   onNeedAnchorNameChange?: (value: string) => void;
@@ -55,6 +60,7 @@ export function ReadsNeedComposePanel(props: {
     onSynthesize,
     canSynthesize,
     isConfigLocked = false,
+    isRunReviewLocked = false,
     needAnchors = [],
     needAnchorName = "",
     onNeedAnchorNameChange,
@@ -66,8 +72,8 @@ export function ReadsNeedComposePanel(props: {
     onDeleteNeedAnchor,
   } = props;
 
-  const running = status === "running" || isConfigLocked;
   const anchorsEnabled = Boolean(onAnchorNeed && onNeedAnchorNameChange);
+  const synthesisRunning = status === "running";
 
   return (
     <section
@@ -87,7 +93,7 @@ export function ReadsNeedComposePanel(props: {
         </div>
         {anchorsEnabled ? (
           <ReadsNeedAnchorControls
-            isConfigLocked={running}
+            isConfigLocked={isConfigLocked}
             need={need}
             needAnchors={needAnchors}
             needAnchorName={needAnchorName}
@@ -120,8 +126,9 @@ export function ReadsNeedComposePanel(props: {
         ) : null}
       </div>
       <p className="mt-2 text-sm leading-6 text-neutral-400">
-        Select a repository and commit, describe the Need, optionally steer with
-        Relevant and Irrelevant paths, then synthesize measured AssetPack options.
+        {isRunReviewLocked
+          ? "Need and path steering for this pipeline run — locked while reviewing run detail."
+          : "Select a repository and commit, describe the Need, optionally steer with Relevant and Irrelevant paths, then synthesize measured AssetPack options."}
       </p>
 
       <label htmlFor="reads-need-input" className="mt-4 block text-xs text-neutral-300">
@@ -133,9 +140,10 @@ export function ReadsNeedComposePanel(props: {
         value={need}
         onChange={(e) => onNeedChange(e.target.value)}
         rows={5}
+        readOnly={isConfigLocked}
+        disabled={isConfigLocked}
         placeholder="Describe the Need this reading repository should satisfy…"
-        className="mt-2 w-full resize-y border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-neutral-600"
-        disabled={running}
+        className="mt-2 w-full resize-y border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-neutral-600 disabled:cursor-not-allowed disabled:opacity-70"
       />
       {needAnchorMessage ? (
         <p
@@ -147,7 +155,7 @@ export function ReadsNeedComposePanel(props: {
       ) : null}
 
       <ReadsNeedPathPickers
-        isConfigLocked={running}
+        isConfigLocked={isConfigLocked}
         relevantPaths={relevantPaths}
         onRelevantPathsChange={onRelevantPathsChange}
         irrelevantPaths={irrelevantPaths}
@@ -155,12 +163,25 @@ export function ReadsNeedComposePanel(props: {
         repositoryContext={repositoryContext}
       />
 
-      <ProductSynthesizeAssetPackOptionsButton
-        data-testid="reads-synthesize-options"
-        onClick={onSynthesize}
-        disabled={!canSynthesize || !need.trim() || running}
-        running={running && status === "running"}
-      />
+      {isRunReviewLocked ? (
+        // Pipeline run detail (non-new): never offer synthesize. Fresh runs only
+        // via compose (New / Back → configure → Synthesize).
+        <p
+          data-testid="reads-need-run-loaded-note"
+          className="mt-4 text-xs leading-5 text-neutral-500"
+        >
+          Run configuration is locked for this pipeline detail. Synthesis is only
+          available on a new compose — select Back, then open a fresh reading
+          workbench.
+        </p>
+      ) : (
+        <ProductSynthesizeAssetPackOptionsButton
+          data-testid="reads-synthesize-options"
+          onClick={onSynthesize}
+          disabled={!canSynthesize || !need.trim() || isConfigLocked}
+          running={synthesisRunning}
+        />
+      )}
       {runId || status !== "idle" ? (
         <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-neutral-500">
           {runId ? (
