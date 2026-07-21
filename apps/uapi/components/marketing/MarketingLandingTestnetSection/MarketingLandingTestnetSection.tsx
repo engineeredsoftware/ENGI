@@ -47,7 +47,7 @@ const CODE_MARK_SLOT =
   'inline-flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center phone:h-[5.25rem] phone:w-[5.25rem]';
 
 /**
- * Compact bond between Bitcode C and AssetPack — reads as one commercial
+ * Compact bond between Bitcode C and DataPack — reads as one commercial
  * package (not the purple exchange ⇄ on the settlement side).
  */
 function CodePackBondMark({ className = '' }: { className?: string }) {
@@ -276,19 +276,19 @@ export function MarketingLandingTestnetSection() {
           title="Code for Coin exchange"
         >
           {/*
-            Bitcode package unit — C ⋈ AssetPack (bond = package deal),
+            Bitcode package unit — C ⋈ DataPack (bond = package deal),
             then purple ⇄ to settlement rails (chain triangle).
           */}
           <span
             className="inline-flex items-center"
-            title="Bitcode protocol + AssetPack (package deal)"
+            title="Bitcode protocol + DataPack (package deal)"
           >
             <span
               className={`${CODE_MARK_SLOT} translate-x-4 text-[#65FEB7] phone:translate-x-5 [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
             >
               {/*
                 +16.5° CSS straighten (design tilt −17.5°). C shifts into its
-                open counter; bond −ml pulls in; −mr keeps AssetPack gap stable.
+                open counter; bond −ml pulls in; −mr keeps DataPack gap stable.
               */}
               <Logo
                 height="h-[4.5rem] phone:h-[5.25rem]"

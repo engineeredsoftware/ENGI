@@ -22,7 +22,10 @@ import {
 // Glowing underline claim markers (`glowing-underline` / `-always`).
 import '@/styles/bitcode-header-shiny-text.css';
 
-const NEON_HIGHLIGHT_CLASS: Record<'purple' | 'orange' | 'green' | 'greenUnderline', string> = {
+const NEON_HIGHLIGHT_CLASS: Record<
+  'purple' | 'orange' | 'green' | 'greenUnderline' | 'bold',
+  string
+> = {
   purple:
     'font-semibold text-fuchsia-200 [text-shadow:0_0_12px_rgba(232,121,249,0.75),0_0_28px_rgba(192,132,252,0.45)]',
   orange:
@@ -35,11 +38,16 @@ const NEON_HIGHLIGHT_CLASS: Record<'purple' | 'orange' | 'green' | 'greenUnderli
    * descender is gapped rather than crossed mid-stem or floated below.
    */
   greenUnderline: 'glowing-underline-baseline font-medium text-inherit',
+  /** Opening claim sentence — weight only, no neon tint. */
+  bold: 'font-bold text-white',
 };
 
 function renderNeonHighlights(
   body: string,
-  highlights: ReadonlyArray<{ text: string; tone: 'purple' | 'orange' | 'green' | 'greenUnderline' }>,
+  highlights: ReadonlyArray<{
+    text: string;
+    tone: 'purple' | 'orange' | 'green' | 'greenUnderline' | 'bold';
+  }>,
 ) {
   if (!highlights.length) return body;
 
@@ -115,7 +123,7 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
             />
           </div>
         </h1>
-        <p className="max-w-[42rem] text-[17px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[19px] tablet:text-[21px]">
+        <p className="max-w-[42rem] text-[19px] font-medium leading-[1.5] tracking-[-0.015em] text-white/90 [text-shadow:0_0_18px_rgba(103,254,183,0.05)] phone:text-[21px] tablet:text-[23px]">
           {renderNeonHighlights(
             BITCODE_PUBLIC_COPY.description,
             BITCODE_PUBLIC_COPY.descriptionHighlights,

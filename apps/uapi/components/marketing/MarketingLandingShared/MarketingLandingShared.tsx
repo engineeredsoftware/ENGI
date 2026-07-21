@@ -81,7 +81,7 @@ export const measurementFinalFit = {
   value: 431,
   /** Marketing bar fill only — volume is not a percentage axis. */
   barPercent: 86,
-  detail: 'BTD volume — weighted scalar over needinesses-fits for the settled AssetPack',
+  detail: 'BTD volume — weighted scalar over needinesses-fits for the settled DataPack',
 } as const;
 
 export const measureCardAxes = [
@@ -174,14 +174,14 @@ export const measuremintCandles = [
 export const verificationRows = [
   {
     label: 'Depositing',
-    detail: 'AssetPacks are securely measured; rights and payments are settled.',
+    detail: 'DataPacks are securely measured; rights and payments are settled.',
     status: 'public',
     Icon: CircleStackIcon,
   },
   {
     label: 'Reading',
     detail:
-      'Bitcode finds deposited AssetPacks to synthesize new AssetPacks to satisfy your needs.',
+      'Bitcode finds deposited DataPacks to synthesize new DataPacks to satisfy your needs.',
     status: 'private',
     Icon: LockClosedIcon,
   },
@@ -202,12 +202,12 @@ export const verificationRows = [
 export const compactPreviewCards = [
   {
     title: 'Packs',
-    body: 'Network ledger of AssetPack activity',
+    body: 'Network ledger of DataPack activity',
     detail: 'Audit supply, settlement, and delivery before you trade.',
   },
   {
     title: 'Deposit',
-    body: 'Sell measured AssetPack options',
+    body: 'Sell measured DataPack options',
     detail: 'Synthesize, review, and admit repository supply.',
   },
   {
@@ -313,7 +313,7 @@ export function renderTrailingOrangeAsterisk(value: string, asteriskClassName = 
 /**
  * Claim anchors in marketing body + footnotes.
  * - `*`   emerald — ERC-1155 / BTD token posture
- * - `**`  orange  — AssetPacks
+ * - `**`  orange  — DataPacks
  * - `***` cyan    — Measurements / source-safety
  * Parse longest markers first so `***` is not split into `*` + `**`.
  */

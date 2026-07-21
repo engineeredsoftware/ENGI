@@ -6,14 +6,19 @@ import {
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
   headline: "Trade technical data on the Bitcode exchange.",
+  /**
+   * Marketing landing uses DataPack(s) commodity language.
+   * Product UI / system identifiers still say AssetPack until a thorough rename.
+   */
   description:
-    'Deposit AssetPacks synthesized from source code, listing only your approved IP. Read the AssetPacks you need using Crypto. All settlements are completely auditable with the system\'s on-chain, open-source, verifiable ledger.',
+    'The stock market for data is here. Mint, find, and trade DataPacks in just a few clicks. Ironclad IP protection. A global, liquid market. Verifiable, on-chain settlement.',
   descriptionHighlights: [
-    { text: 'AssetPacks', tone: 'purple' as const },
-    { text: 'Bitcode', tone: 'green' as const },
-    { text: 'Crypto', tone: 'orange' as const },
-    // Settlement claim — green underline (distinct from neon word glow).
-    { text: 'completely auditable', tone: 'greenUnderline' as const },
+    { text: 'The stock market for data is here.', tone: 'bold' as const },
+    { text: 'DataPacks', tone: 'green' as const },
+    { text: 'Ironclad IP protection', tone: 'purple' as const },
+    { text: 'global', tone: 'orange' as const },
+    { text: 'liquid', tone: 'orange' as const },
+    { text: 'settlement', tone: 'orange' as const },
   ],
   capabilityChips: [
     'Synthesize Packs',
@@ -40,14 +45,14 @@ export const BITCODE_PUBLIC_COPY = {
         title: 'Developing an MVP',
         meta: 'May–July 2026',
         body:
-          'Early summer developed the Commercial MVP—most notably, Measurements. Key user-flows are materializing from Wallets to Settlements. Late summer will launch Bitcode V1. The launch will support the central experiences of trading AssetPacks, along with the very first mints of $BTD.',
+          'Early summer developed the Commercial MVP—most notably, Measurements. Key user-flows are materializing from Wallets to Settlements. Late summer will launch Bitcode V1. The launch will support the central experiences of trading DataPacks, along with the very first mints of $BTD.',
         highlights: [
           'Commercial MVP',
           'Measurements',
           'Wallets',
           'Settlements',
           'Bitcode V1',
-          'AssetPacks',
+          'DataPacks',
           '$BTD',
         ],
       },
@@ -75,18 +80,18 @@ export const BITCODE_PUBLIC_COPY = {
   },
   productPreview: {
     pill: 'Market',
-    kicker: 'AssetPack commerce',
+    kicker: 'DataPack commerce',
     // Single rail label (depot window chrome).
     rail: 'For Agents, Humans, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
-  // Claim anchors in meaning: * ERC-1155 · ** Measured · *** AssetPacks (footnotes).
+  // Claim anchors in meaning: * ERC-1155 · ** Measured · *** DataPacks (footnotes).
   testnetLaunch: {
     badge: 'Productionized Protocol',
     // Marketing exchange strip: Code ⇄ Coin (for → exchange glyph in the title).
     title: 'Code for Coin.',
     meaning:
-      "Bitcode's canonical, commercial deployments are its mainnet ERC-1155* tokens, tradable Measured** AssetPacks*** artifacts, and delightful user applications.",
+      "Bitcode's canonical, commercial deployments are its mainnet ERC-1155* tokens, tradable Measured** DataPacks*** artifacts, and delightful user applications.",
     flow: [
       {
         id: 'whitepaper',
@@ -106,7 +111,7 @@ export const BITCODE_PUBLIC_COPY = {
         href: null,
         status: 'live' as const,
         detail:
-          'Connect your wallets, data-sources, etc.; a GUI for viewing, synthesizing, and trading AssetPacks, managing account authorities, and more.',
+          'Connect your wallets, data-sources, etc.; a GUI for viewing, synthesizing, and trading DataPacks, managing account authorities, and more.',
       },
       {
         id: 'mcp',
@@ -140,7 +145,7 @@ export const BITCODE_PUBLIC_COPY = {
     sourceSafety: [
       '* Bitcode (BTD) tokens are an immutable, scarce, deflationary, data-backed digital asset.',
       '** Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
-      "*** An AssetPack's BTD volume is a protocol determination. The price of BTD is a market one.",
+      "*** A DataPack's BTD volume is a protocol determination. The price of BTD is a market one.",
     ],
   },
   operatorFrame: {
@@ -161,20 +166,20 @@ export const BITCODE_PUBLIC_COPY = {
   },
   // Bottom-right depot card — fills residual height beside Verified access.
   settlementLedger: {
-    title: 'Crypto · BTD · AssetPacks',
+    title: 'Crypto · BTD · DataPacks',
     subtitle: 'buy · mint · earn',
     rows: [
       {
         label: 'Crypto',
         detail:
-          'Buy and settle AssetPack reads with ETH, BTC, SOL, and more pay rails.',
+          'Buy and settle DataPack reads with ETH, BTC, SOL, and more pay rails.',
       },
       {
         label: 'BTD fungible',
         detail: "Mint volume from needinesses' normalized weighted sum.",
       },
       {
-        label: 'AssetPack NFTs',
+        label: 'DataPack NFTs',
         detail: 'Buy read-rights with Crypto; earn Crypto when packs sell.',
       },
       {
@@ -206,7 +211,7 @@ export const BITCODE_PUBLIC_COPY = {
   },
   publicNav: {
     // Product order: Read → Exchange → Deposit. Docs lives under the logo-area.
-    // Experience name is Exchange (retired: Packs). Commodity remains AssetPack.
+    // Experience name is Exchange (retired: Packs). Marketing: DataPack; system: AssetPack.
     links: [
       { href: '/reads', label: 'Read' },
       { href: '/exchange', label: 'Exchange' },
@@ -218,9 +223,9 @@ export const BITCODE_PUBLIC_COPY = {
   },
   guideRoute: {
     eyebrow: 'Bitcode docs',
-    heading: 'Learn Bitcode from AssetPacks to proof.',
+    heading: 'Learn Bitcode from DataPacks to proof.',
     body:
-      'Docs teach the system in operator order: AssetPacks, BTD volume and rights, Crypto settlement, proof readback, /deposits, /reads, /exchange, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
+      'Docs teach the system in operator order: DataPacks, BTD volume and rights, Crypto settlement, proof readback, /deposits, /reads, /exchange, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',

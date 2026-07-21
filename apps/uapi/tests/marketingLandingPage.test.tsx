@@ -100,7 +100,7 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText("Packs' BTD Volume")).toBeInTheDocument();
     expect(screen.getByText('431')).toBeInTheDocument();
     expect(screen.getByText('Source Safety')).toBeInTheDocument();
-    expect(screen.getByText('Crypto · BTD · AssetPacks')).toBeInTheDocument();
+    expect(screen.getByText('Crypto · BTD · DataPacks')).toBeInTheDocument();
     expect(screen.getByText(/Mint volume from needinesses/i)).toBeInTheDocument();
     expect(screen.getByText('On-chain')).toBeInTheDocument();
     expect(
@@ -108,10 +108,12 @@ describe('MarketingLandingPage', () => {
         if (node?.tagName !== 'P') return false;
         const text = node.textContent ?? '';
         return (
-          text.includes('Deposit AssetPacks synthesized from source code') &&
-          text.includes('using Crypto') &&
-          text.includes('completely auditable') &&
-          text.includes('verifiable ledger')
+          text.includes('The stock market for data is here') &&
+          text.includes('DataPacks') &&
+          text.includes('Ironclad IP protection') &&
+          text.includes('global') &&
+          text.includes('liquid') &&
+          text.includes('on-chain settlement')
         );
       }),
     ).toBeInTheDocument();
@@ -148,8 +150,8 @@ describe('MarketingLandingPage', () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/Measured/u)).toBeInTheDocument();
-    // "AssetPacks" appears in multiple marketing spans/paragraphs.
-    expect(screen.getAllByText(/AssetPacks/u).length).toBeGreaterThan(0);
+    // Marketing commodity language is DataPacks (system still AssetPack).
+    expect(screen.getAllByText(/DataPacks/u).length).toBeGreaterThan(0);
     expect(screen.getByText(/delightful user applications/i)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
@@ -197,11 +199,11 @@ describe('MarketingLandingPage', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /An AssetPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
+        /A DataPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
       ),
     ).toBeInTheDocument();
-    // Claim anchors: * after ERC-1155, ** after Measured, *** after AssetPacks
-    // Footnotes: * BTD · ** Measurements · *** AssetPack volume.
+    // Claim anchors: * after ERC-1155, ** after Measured, *** after DataPacks
+    // Footnotes: * BTD · ** Measurements · *** DataPack volume.
     expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);
