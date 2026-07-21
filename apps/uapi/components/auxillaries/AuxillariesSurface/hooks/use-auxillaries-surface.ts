@@ -88,7 +88,9 @@ export function useAuxillariesSurface({
   const router = useRouter();
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
-  const isProductRoute = Boolean(pathname?.startsWith('/packs'));
+  const isProductRoute = Boolean(
+    pathname?.startsWith('/exchange') || pathname?.startsWith('/packs'),
+  );
   const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
   const usesProductOverlay = isProductRoute;
   const usesPortalOverlay = Boolean(onClose);
@@ -377,6 +379,15 @@ export function useAuxillariesSurface({
     const walletJustConnected = hasWalletConnection && !prevWalletConnectedRef.current;
     prevWalletConnectedRef.current = hasWalletConnection;
 
+    // Explicit chrome/deep-link targets (BTD tracker → wallet) always win over
+    // GitHub auto-cue. Do not treat "wallet already bound on first surface
+    // mount" as a fresh connect that hijacks away from the requested pane.
+    // (initialStep effect applies the explicit pane; we only skip hijacks here.)
+    if (explicitOpenStep) {
+      setWorkspaceStepResolved(true);
+      return;
+    }
+
     if (walletJustConnected && needsGitHubConnectAttention) {
       focusExternalsGitHubConnect();
       githubCueOnOpenRef.current = true;
@@ -387,13 +398,11 @@ export function useAuxillariesSurface({
     // Opening Auxillaries with wallet already bound and no GitHub attachment:
     // land on Externals *before* first content paint (workspaceStepResolved gate)
     // so Wallet never entrance-animates then gets replaced (double trip).
-    // Honor explicit open targets (e.g. BTD → wallet) without hijacking.
     if (
       !githubCueOnOpenRef.current &&
       hasWalletConnection &&
       needsGitHubConnectAttention &&
-      treatsContainedSurfaceAsAuxillaries &&
-      !explicitOpenStep
+      treatsContainedSurfaceAsAuxillaries
     ) {
       githubCueOnOpenRef.current = true;
       setCurrentStep('externals');
