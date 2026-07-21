@@ -73,7 +73,15 @@ const PROOF_ROOT_TOOLTIP_SECTIONS = {
 };
 
 type ToneClasses = {
+  /**
+   * Full-page wash class kept for non-shell consumers / snapshots.
+   * Live shell paints linear + radial as separate layers (see page wash).
+   */
   page: string;
+  /** Solid page field under the top-left radial (identical for master/detail). */
+  pageLinear: string;
+  /** Top-left radial color stop only — size is driven by master/detail scale. */
+  pageRadialColor: string;
   headerBorder: string;
   eyebrow: string;
   activeStep: string;
@@ -82,9 +90,16 @@ type ToneClasses = {
   panelAccent: string;
 };
 
+/**
+ * Page wash SSOT per tone. Color tokens and transparent_30% stop match the
+ * historical single-layer `page` class; master/detail only change *scale*
+ * of that same radial (viewport-fixed) so content height cannot flicker size.
+ */
 const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
   emerald: {
     page: "bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.16),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
+    pageLinear: "linear-gradient(180deg,#050915 0%,#02050d 100%)",
+    pageRadialColor: "rgba(16,185,129,0.16)",
     headerBorder: "border-emerald-300/15",
     eyebrow: "text-emerald-200/80",
     activeStep:
@@ -97,6 +112,8 @@ const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
   },
   sky: {
     page: "bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.14),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
+    pageLinear: "linear-gradient(180deg,#050915 0%,#02050d 100%)",
+    pageRadialColor: "rgba(56,189,248,0.14)",
     headerBorder: "border-sky-300/15",
     eyebrow: "text-sky-200/80",
     activeStep:
@@ -108,6 +125,8 @@ const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
   },
   violet: {
     page: "bg-[radial-gradient(circle_at_top_left,rgba(167,139,250,0.16),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
+    pageLinear: "linear-gradient(180deg,#050915 0%,#02050d 100%)",
+    pageRadialColor: "rgba(167,139,250,0.16)",
     headerBorder: "border-violet-300/18",
     eyebrow: "text-violet-200/85",
     activeStep:
@@ -119,6 +138,8 @@ const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
   },
   orange: {
     page: "bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.16),transparent_30%),linear-gradient(180deg,#050915_0%,#02050d_100%)]",
+    pageLinear: "linear-gradient(180deg,#050915 0%,#02050d 100%)",
+    pageRadialColor: "rgba(251,146,60,0.16)",
     headerBorder: "border-orange-300/18",
     eyebrow: "text-orange-200/85",
     activeStep:
@@ -129,6 +150,15 @@ const TONE_CLASSES: Record<ProductRouteTone, ToneClasses> = {
     panelAccent: "border-orange-300/16 bg-orange-300/[0.05] text-orange-50/90",
   },
 };
+
+/** Master (list) top-left radial scale — larger wash. */
+const PAGE_WASH_SCALE_MASTER = 1.22;
+/** Detail (drill-in) top-left radial scale — tighter wash. */
+const PAGE_WASH_SCALE_DETAIL = 0.68;
+const PAGE_WASH_TRANSITION = {
+  duration: 0.55,
+  ease: productEntranceEase,
+} as const;
 
 export type ProductRouteMetric = {
   label: string;
@@ -158,6 +188,11 @@ type ProductRouteShellProps = {
    * only, never y-translate — so already-rendered title/body do not shift.
    */
   metricsReady?: boolean;
+  /**
+   * Master-detail page wash: false = large top-left radial (list), true = small
+   * radial (drill-in). Viewport-fixed so table remount cannot flicker size.
+   */
+  detailOpen?: boolean;
   children: React.ReactNode;
 };
 
@@ -261,16 +296,59 @@ export function ProductRouteShell({
   icon: Icon,
   metrics,
   metricsReady = true,
+  detailOpen = false,
   children,
 }: ProductRouteShellProps) {
   const toneClasses = TONE_CLASSES[tone];
+  const reduceWashMotion = shouldReduceMetricMotion(useReducedMotion());
+  const washScale = detailOpen
+    ? PAGE_WASH_SCALE_DETAIL
+    : PAGE_WASH_SCALE_MASTER;
+  const radialBackground = `radial-gradient(circle at top left, ${toneClasses.pageRadialColor}, transparent 30%)`;
 
   return (
     <main
       data-testid={testId}
-      className={`min-h-screen overflow-x-clip ${toneClasses.page} px-3 pb-20 pt-28 text-neutral-100 phone:px-4 phone:pb-24 phone:pt-32 tablet:px-6 laptop:px-8 desktop:px-8`}
+      data-detail-open={detailOpen ? "true" : "false"}
+      className="relative min-h-screen overflow-x-clip px-3 pb-20 pt-28 text-neutral-100 phone:px-4 phone:pb-24 phone:pt-32 tablet:px-6 laptop:px-8 desktop:px-8"
+      style={{ backgroundImage: toneClasses.pageLinear }}
     >
-      <ProductRouteEntrance className="mx-auto grid w-full min-w-0 max-w-[1800px] gap-4 phone:gap-5">
+      {/*
+        Viewport-fixed top-left radial. Master = large scale, detail = small.
+        Same color + transparent_30% stop as the historical page class — only
+        scale changes. Content height no longer drives wash size (no flicker
+        when the table remounts on Back).
+      */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      >
+        {reduceWashMotion ? (
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: radialBackground,
+              transform: `scale(${washScale})`,
+              transformOrigin: "0% 0%",
+            }}
+          />
+        ) : (
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: radialBackground,
+              transformOrigin: "0% 0%",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+            }}
+            initial={false}
+            animate={{ scale: washScale }}
+            transition={PAGE_WASH_TRANSITION}
+          />
+        )}
+      </div>
+
+      <ProductRouteEntrance className="relative z-10 mx-auto grid w-full min-w-0 max-w-[1800px] gap-4 phone:gap-5">
         {/* Title band: eyebrow, then title + metrics on one row (chips right),
             then summary. Chip value slots crossfade in place (no y-shift). */}
         <ProductEntranceItem

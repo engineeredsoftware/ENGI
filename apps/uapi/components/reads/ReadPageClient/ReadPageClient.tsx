@@ -393,6 +393,7 @@ export default function ReadPageClient() {
         title="Reading"
         summary="Reading from the Bitcode Depository means expressing a desired patch to your repository and reviewing synthesized options for purchase."
         icon={Workflow}
+        detailOpen={isReadDetailOpen}
         // Hold chips until run history loads so the set enters once with final values.
         metricsReady={!isLoadingRuns}
         metrics={[

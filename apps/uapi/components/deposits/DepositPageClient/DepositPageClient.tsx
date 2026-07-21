@@ -530,6 +530,7 @@ export default function DepositPageClient() {
         title="Depositing"
         summary="Depositing means stating your repository's impermissible IP and then reviewing synthesized options for deposit."
         icon={Boxes}
+        detailOpen={isDepositDetailOpen}
         // Hold chips until runs + network aggregate settle so the set enters once.
         metricsReady={!isLoadingRuns && networkDepositoryCount !== null}
         metrics={[
