@@ -45,6 +45,95 @@ export const OrbLoopContext = createContext<(fn: TickSubscriber) => () => void>(
 
 export type QuantumOrbState = 'rest' | 'hover' | 'active';
 
+/** One swallow-event’s three expanding square ripples. */
+function SwallowRippleBurst({
+  id,
+  phase,
+  color,
+  onDone,
+}: {
+  id: number;
+  phase: 'play' | 'fade';
+  color: string;
+  onDone: (id: number) => void;
+}) {
+  // Timers avoid onAnimationComplete races when phase flips mid-play.
+  useEffect(() => {
+    if (phase === 'play') {
+      // 1.85s growth + last ring delay 0.28s + small buffer
+      const t = window.setTimeout(() => onDone(id), 2200);
+      return () => window.clearTimeout(t);
+    }
+    // Quick interrupt fade (~0.28s)
+    const t = window.setTimeout(() => onDone(id), 320);
+    return () => window.clearTimeout(t);
+  }, [id, phase, onDone]);
+
+  return (
+    <div className="quantum-orb-swallow-ripple-burst">
+      {[0, 1, 2].map((ring) => (
+        <motion.div
+          key={`${id}-${ring}`}
+          className="quantum-orb-swallow-ripple"
+          initial={{ opacity: 0.55, scale: 0.08 }}
+          animate={
+            phase === 'fade'
+              ? { opacity: 0 }
+              : {
+                  scale: 0.8,
+                  // Hold early, then quick fade so end pose is fully invisible.
+                  opacity: [0.55, 0.55, 0, 0],
+                }
+          }
+          transition={
+            phase === 'fade'
+              ? {
+                  opacity: {
+                    duration: 0.28,
+                    ease: [0.4, 0, 1, 1],
+                  },
+                }
+              : {
+                  delay: ring * 0.14,
+                  duration: 1.85,
+                  ease: [0.16, 1, 0.3, 1],
+                  opacity: {
+                    delay: ring * 0.14,
+                    duration: 1.85,
+                    // Start fade earlier + finish faster so every ring is fully
+                    // gone before they stack at the end scale (incl. stagger).
+                    times: [0, 0.4, 0.58, 1],
+                    ease: ['linear', 'easeIn', 'linear'],
+                  },
+                  scale: {
+                    delay: ring * 0.14,
+                    duration: 1.85,
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                }
+          }
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            width: '100%',
+            height: '100%',
+            marginLeft: '-50%',
+            marginTop: '-50%',
+            borderRadius: 0,
+            border: `1px solid ${color}cc`,
+            boxShadow: `0 0 6px ${color}55`,
+            background: 'transparent',
+            transformOrigin: '50% 50%',
+            willChange: 'transform, opacity',
+            backfaceVisibility: 'hidden',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 interface QuantumOrbProps {
   size?: number;
   config?: Partial<QuantumOrbConfig>;
@@ -212,6 +301,23 @@ function QuantumOrb({
   // ---------------------------------------------------------------------
 
   const [secondaryReady, setSecondaryReady] = useState(false);
+  // Active swallow-ripple bursts. New swallows fade prior bursts out quickly
+  // instead of remounting (which looked like an abrupt cut).
+  type SwallowRippleBurst = { id: number; phase: 'play' | 'fade' };
+  const [swallowRipples, setSwallowRipples] = useState<SwallowRippleBurst[]>(
+    [],
+  );
+  const swallowRippleIdRef = useRef(0);
+  const handleParticleSwallowed = useCallback(() => {
+    const id = ++swallowRippleIdRef.current;
+    setSwallowRipples((prev) => [
+      ...prev.map((b) => (b.phase === 'play' ? { ...b, phase: 'fade' as const } : b)),
+      { id, phase: 'play' as const },
+    ]);
+  }, []);
+  const dismissSwallowRipple = useCallback((id: number) => {
+    setSwallowRipples((prev) => prev.filter((b) => b.id !== id));
+  }, []);
 
   useEffect(() => {
     if (!renderDynamic) {
@@ -499,7 +605,36 @@ function QuantumOrb({
                 speed={stateProps.particleSpeed * qualityMultiplier}
                 state={state}
                 isAnimating={isAnimating}
+                onSwallowed={handleParticleSwallowed}
               />
+            )}
+
+            {/* After a full swallow: three square ripples expand from center.
+                Clipped to the lava square. Mid-swallow interrupts fade prior
+                bursts out quickly (no hard remount cut). */}
+            {!isCompactTelemetrySize && swallowRipples.length > 0 && (
+              <div
+                className="quantum-orb-swallow-ripple-clip"
+                style={{
+                  position: 'absolute',
+                  // Match GlowLayer content box (padding: 8%).
+                  inset: '8%',
+                  overflow: 'hidden',
+                  borderRadius: 0,
+                  pointerEvents: 'none',
+                  zIndex: 24,
+                }}
+              >
+                {swallowRipples.map((burst) => (
+                  <SwallowRippleBurst
+                    key={burst.id}
+                    id={burst.id}
+                    phase={burst.phase}
+                    color={orbConfig.glowColor}
+                    onDone={dismissSwallowRipple}
+                  />
+                ))}
+              </div>
             )}
           </>
         )}

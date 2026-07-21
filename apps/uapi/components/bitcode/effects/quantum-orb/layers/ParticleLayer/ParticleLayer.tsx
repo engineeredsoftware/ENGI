@@ -10,6 +10,8 @@ interface ParticleLayerProps {
   speed: number;
   state: QuantumOrbState;
   isAnimating?: boolean;
+  /** Fired when a particle finishes being swallowed by the inner ring. */
+  onSwallowed?: () => void;
 }
 
 // Match the old Offscreen worker cadence (~60fps). The shared orb budget
@@ -23,6 +25,16 @@ const INNER_RING_HI = 0.64;
 const INNER_RING_HIT_PAD = 0.032;
 /** Swallow duration in particle frames (~0.5s at 60fps) — unhurried. */
 const SWALLOW_DURATION_FRAMES = 30;
+/**
+ * Spawn/despawn margin outside [0,1] so the full disc (radius up to ~10% of
+ * the orb) is off-screen before enter and after exit.
+ */
+const VIEW_OUT_MARGIN = 0.14;
+
+/** Unit-square radius for a particle size factor (matches draw formula). */
+function unitRadiusForSize(sizeFactor: number) {
+  return 0.03 + sizeFactor * 0.035;
+}
 // ---------------------------------------------------------------------------
 // Colour helpers – parse hex once and inject alpha in the hot draw loop.
 // ---------------------------------------------------------------------------
@@ -111,8 +123,13 @@ export function ParticleLayer({
   speed,
   state,
   isAnimating = true,
+  onSwallowed,
 }: ParticleLayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const onSwallowedRef = useRef(onSwallowed);
+  useEffect(() => {
+    onSwallowedRef.current = onSwallowed;
+  }, [onSwallowed]);
 
   // Struct-of-arrays for particle properties (locality, no per-dot objects).
   const positionsX = useRef<Float32Array | null>(null);
@@ -178,18 +195,21 @@ export function ParticleLayer({
     };
   };
 
-  /** Random point on one side of the unit square (slightly inset). */
-  const randomPointOnEdge = (edge: number, inset = 0.03) => {
-    const u = inset + Math.random() * (1 - 2 * inset);
+  /**
+   * Point fully outside one side of the unit square so the disc starts/ends
+   * off-screen (margin ≥ max particle radius).
+   */
+  const randomPointOutsideEdge = (edge: number, margin = VIEW_OUT_MARGIN) => {
+    const u = Math.random();
     switch (edge) {
       case 0:
-        return { x: u, y: inset }; // top
+        return { x: u, y: -margin }; // above top
       case 1:
-        return { x: 1 - inset, y: u }; // right
+        return { x: 1 + margin, y: u }; // right of right
       case 2:
-        return { x: u, y: 1 - inset }; // bottom
+        return { x: u, y: 1 + margin }; // below bottom
       default:
-        return { x: inset, y: u }; // left
+        return { x: -margin, y: u }; // left of left
     }
   };
 
@@ -211,14 +231,13 @@ export function ParticleLayer({
     } = buffers;
     const spd = speedRef.current;
 
-    // Chord across the square: independent entry + exit edges.
-    // (Old spawn was always on a diameter through the center → every path hit
-    // the inner ring, so misses never appeared.)
+    // Chord across the square: independent entry + exit *outside* the view.
+    // (Old center-diameter spawn forced every path through the inner ring.)
     const entryEdge = Math.floor(Math.random() * 4);
     let exitEdge = Math.floor(Math.random() * 3);
     if (exitEdge >= entryEdge) exitEdge += 1;
-    const start = randomPointOnEdge(entryEdge);
-    const end = randomPointOnEdge(exitEdge);
+    const start = randomPointOutsideEdge(entryEdge);
+    const end = randomPointOutsideEdge(exitEdge);
     let tdx = end.x - start.x;
     let tdy = end.y - start.y;
     const len = Math.hypot(tdx, tdy) || 1;
@@ -234,11 +253,12 @@ export function ParticleLayer({
     // ~0.018–0.063 × (spd/60) at marketing speeds.
     speedsData[i] = (0.018 + Math.random() * 0.045) * (spd / 60);
     anglesData[i] = Math.atan2(tdy, tdx);
-    // Visible immediately at the rim (slow fade-in made them "pop" mid-orb).
+    // Full opacity off-screen; disc is already out of view at spawn.
     opacitiesData[i] = 0.7;
     lifeData[i] = 0;
-    // Usually long enough to exit; sometimes expire in-view.
-    maxLifeData[i] = 55 + Math.floor(Math.random() * 100);
+    // Long enough to clear entry→exit including outer margin; some still
+    // expire mid-view by design.
+    maxLifeData[i] = 90 + Math.floor(Math.random() * 120);
     swallowData[i] = 0;
     // Geometric fate: chord over the inner ring → always swallow; else pass through.
     hitsRingData[i] = rayHitsSquare(
@@ -331,6 +351,7 @@ export function ParticleLayer({
         if (swallowT > 0) {
           swallowT += 1 / SWALLOW_DURATION_FRAMES;
           if (swallowT >= 1) {
+            onSwallowedRef.current?.();
             initParticle(i);
             continue;
           }
@@ -350,9 +371,10 @@ export function ParticleLayer({
           const o = 0.72 * (1 - ease * ease) * glowPulse;
           opacitiesData[i] = o;
 
-          const baseSz = (0.03 + sizesData[i] * 0.035) * minSide;
+          const baseSz = unitRadiusForSize(sizesData[i]) * minSide;
           const sz = Math.max(0.15, baseSz * sizeMul);
           if (sz < 0.35 && ease > 0.92) {
+            onSwallowedRef.current?.();
             initParticle(i);
             continue;
           }
@@ -375,12 +397,10 @@ export function ParticleLayer({
         const l = lifeData[i];
         const maxL = maxLifeData[i];
 
-        // Brief edge fade only — stay bright for almost the whole crossing so
-        // they read as streaks from rim→rim, not a center bloom.
+        // Steady opacity (spawn/exit are fully off-screen — no edge pop-in).
+        // Soft fade only near maxLife for mid-view expires.
         let o: number;
-        if (l < 4) {
-          o = 0.7 * (l / 4);
-        } else if (l > maxL * 0.88) {
+        if (l > maxL * 0.88) {
           o = 0.7 * (1 - (l - maxL * 0.88) / (maxL * 0.12));
         } else {
           o = 0.7;
@@ -393,13 +413,20 @@ export function ParticleLayer({
         positionsXData[i] = px;
         positionsYData[i] = py;
 
-        if (l >= maxL || px < 0 || px > 1 || py < 0 || py > 1) {
+        // Despawn only once the full disc is outside the view (not at the rim).
+        const unitR = unitRadiusForSize(sizesData[i]);
+        const outM = Math.max(VIEW_OUT_MARGIN, unitR + 0.02);
+        const fullyOut =
+          px < -outM || px > 1 + outM || py < -outM || py > 1 + outM;
+
+        if (l >= maxL || fullyOut) {
           initParticle(i);
           continue;
         }
 
         // Path over the inner ring → always swallow on contact. Misses never.
-        if (willHit) {
+        // Only arm swallow once the particle is in/near the visible square.
+        if (willHit && px > -unitR && px < 1 + unitR && py > -unitR && py < 1 + unitR) {
           const ringDist = distToSquarePerimeter(
             px,
             py,
@@ -413,7 +440,7 @@ export function ParticleLayer({
 
         const x = px * w;
         const y = py * h;
-        const sz = (0.03 + sizesData[i] * 0.035) * minSide;
+        const sz = unitRadiusForSize(sizesData[i]) * minSide;
 
         const rgba = rgbToRgbaString(rr, gg, bb, o);
 
