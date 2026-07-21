@@ -3,6 +3,7 @@
  */
 
 import {
+  indexOfProfileAvatar,
   PROFILE_AVATAR_OPTIONS,
   toCssBackgroundImage,
 } from '@/components/auxillaries/AuxillariesProfilePane/models/profile-pane-format';
@@ -15,6 +16,12 @@ describe('PROFILE_AVATAR_OPTIONS', () => {
       // Base64 alphabet must not reintroduce CSS url() breakers.
       expect(option).not.toMatch(/[()#\s]/);
     }
+  });
+
+  it('resolves preset index for selection / team-row mirror', () => {
+    expect(indexOfProfileAvatar(PROFILE_AVATAR_OPTIONS[2])).toBe(2);
+    expect(indexOfProfileAvatar('')).toBe(0);
+    expect(indexOfProfileAvatar('data:image/jpeg;base64,abc')).toBe(-1);
   });
 
   it('quotes CSS background urls so parentheses cannot truncate url()', () => {

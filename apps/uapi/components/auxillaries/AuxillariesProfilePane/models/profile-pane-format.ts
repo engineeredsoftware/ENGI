@@ -203,6 +203,15 @@ export const PROFILE_AVATAR_OPTIONS = [
   buildAvatarDataUri('A6', 'twin', '#041216', '#22d3ee', '#67feb7', '#0e5c5c'),
 ];
 
+/**
+ * Index of a preset avatar URL, or -1 when custom/unknown (upload data URL).
+ */
+export function indexOfProfileAvatar(avatarUrl: string | null | undefined): number {
+  const trimmed = typeof avatarUrl === 'string' ? avatarUrl.trim() : '';
+  if (!trimmed) return 0;
+  return PROFILE_AVATAR_OPTIONS.indexOf(trimmed);
+}
+
 export function readProfileReadinessLabel(state: AuxillariesProfileState | null | undefined) {
   if (!state) return 'Loading account state';
   if (state.accountReadiness === 'ready') return 'Ready';

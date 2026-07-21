@@ -16,6 +16,7 @@ import type {
   SupabaseAuthSession,
 } from '../AuxillariesProfilePane.types';
 import {
+  indexOfProfileAvatar,
   PROFILE_AVATAR_OPTIONS,
   readImageFileAsAvatarDataUrl,
 } from '../models/profile-pane-format';
@@ -106,6 +107,7 @@ export function useProfilePaneForm({
   const safeBio = asString(initialBio);
   const safeCompanyName = asString(initialCompanyName);
   const safeAvatarUrl = asString(initialAvatarUrl) || PROFILE_AVATAR_OPTIONS[0];
+  const safeSelectedAvatar = indexOfProfileAvatar(safeAvatarUrl);
   const safeEmail = asString(initialEmail);
   const defaultSelfMember: ProfileTeamMember = {
     id: '1',
@@ -127,7 +129,7 @@ export function useProfilePaneForm({
   const [displayName, setDisplayName] = useState(safeDisplayName);
   const [bio, setBio] = useState(safeBio);
   const [companyName, setCompanyName] = useState(safeCompanyName);
-  const [selectedAvatar, setSelectedAvatar] = useState(0);
+  const [selectedAvatar, setSelectedAvatar] = useState(safeSelectedAvatar);
   const [avatarUrl, setAvatarUrl] = useState(safeAvatarUrl);
   const [teamMembers, setTeamMembers] = useState<ProfileTeamMember[]>(() =>
     normalizeTeamMembers(initialTeamMembers, [defaultSelfMember]),
@@ -176,7 +178,7 @@ export function useProfilePaneForm({
     bio: safeBio,
     companyName: safeCompanyName,
     avatarUrl: safeAvatarUrl,
-    selectedAvatar: 0,
+    selectedAvatar: safeSelectedAvatar,
     emailNotificationPreferences: normalizeEmailPreferences(
       initialEmailNotificationPreferences,
     ),
@@ -204,7 +206,11 @@ export function useProfilePaneForm({
       if (typeof patch.bio === 'string') setBio(asString(patch.bio));
       if (typeof patch.companyName === 'string') setCompanyName(asString(patch.companyName));
       if (typeof patch.avatarUrl === 'string') {
-        setAvatarUrl(asString(patch.avatarUrl) || PROFILE_AVATAR_OPTIONS[0]);
+        const nextUrl = asString(patch.avatarUrl) || PROFILE_AVATAR_OPTIONS[0];
+        setAvatarUrl(nextUrl);
+        if (typeof patch.selectedAvatar !== 'number') {
+          setSelectedAvatar(indexOfProfileAvatar(nextUrl));
+        }
       }
       if (typeof patch.selectedAvatar === 'number') setSelectedAvatar(patch.selectedAvatar);
       if (patch.emailNotificationPreferences) {
@@ -329,30 +335,50 @@ export function useProfilePaneForm({
     };
   }, [adoptRemoteIfClean]);
 
+  // Mirror identity draft onto the self team row (any team size — was length===1 only).
   useEffect(() => {
-    if (teamMembers.length !== 1) return;
-    const member = teamMembers[0];
-    if (!member) return;
-    const nextUsername = username || member.username;
-    const nextDisplayName = displayName || member.displayName;
     const nextAvatar =
-      avatarUrl || PROFILE_AVATAR_OPTIONS[selectedAvatar] || member.avatarUrl;
-    if (
-      member.username === nextUsername &&
-      member.displayName === nextDisplayName &&
-      member.avatarUrl === nextAvatar
-    ) {
-      return;
-    }
-    setTeamMembers([
-      {
-        ...member,
-        username: nextUsername,
-        displayName: nextDisplayName,
-        avatarUrl: nextAvatar,
-      },
-    ]);
-  }, [avatarUrl, displayName, selectedAvatar, teamMembers, username]);
+      avatarUrl ||
+      (selectedAvatar >= 0 ? PROFILE_AVATAR_OPTIONS[selectedAvatar] : '') ||
+      PROFILE_AVATAR_OPTIONS[0];
+    const handle = asString(username).trim().toLowerCase();
+
+    setTeamMembers((prev) => {
+      if (prev.length === 0) return prev;
+      let changed = false;
+      const next = prev.map((member, index) => {
+        const isSelf =
+          member.id === '1' ||
+          (handle.length > 0 &&
+            asString(member.username).trim().toLowerCase() === handle) ||
+          (index === 0 &&
+            !prev.some(
+              (entry) =>
+                entry.id === '1' ||
+                (handle.length > 0 &&
+                  asString(entry.username).trim().toLowerCase() === handle),
+            ));
+        if (!isSelf) return member;
+        const nextUsername = username || member.username;
+        const nextDisplayName = displayName || member.displayName;
+        if (
+          member.username === nextUsername &&
+          member.displayName === nextDisplayName &&
+          member.avatarUrl === nextAvatar
+        ) {
+          return member;
+        }
+        changed = true;
+        return {
+          ...member,
+          username: nextUsername,
+          displayName: nextDisplayName,
+          avatarUrl: nextAvatar,
+        };
+      });
+      return changed ? next : prev;
+    });
+  }, [avatarUrl, displayName, selectedAvatar, username]);
 
   const profileAutosavePayload = useMemo(
     () => ({
