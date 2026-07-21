@@ -82,7 +82,10 @@ function CodePackBondMark({ className = '' }: { className?: string }) {
 }
 
 /**
- * Equal square slots for BTC / ETH / SOL.
+ * Equal square slots for settlement 2×2 (reading order):
+ *   fiat group · BTC
+ *   ETH        · SOL
+ * Fiat nest is a Bitcode “lattice” 2×2 ($ € ¥ ₽) with a center × bond.
  * Brand SVGs have very different frames (BTC logo has large empty margin;
  * ETH is tall; SOL is wide). Match *painted* mass via per-logo box size +
  * scale — not a single % object-contain.
@@ -97,7 +100,108 @@ const CHAIN_GLYPH = {
   btc: 'block h-12 w-12 origin-center scale-[1.55] phone:h-[3.25rem] phone:w-[3.25rem]',
   eth: 'block h-10 w-10 origin-center object-contain phone:h-11 phone:w-11',
   sol: 'block h-9 w-11 origin-center object-contain phone:h-10 phone:w-12',
+  /** Nested fiat mini-cells in the lattice group. */
+  fiat: 'relative z-[1] inline-flex h-[1.05rem] w-[1.05rem] shrink-0 items-center justify-center text-[0.88rem] font-semibold leading-none phone:h-[1.15rem] phone:w-[1.15rem] phone:text-[0.95rem]',
 } as const;
+
+/**
+ * Fiat rail group — four currency marks in a 2×2 with Bitcode lattice chrome:
+ * soft frame, diagonal × bond (protocol cross), emerald core node.
+ * Reads as one commercial “fiat package” beside BTC / ETH / SOL.
+ */
+function FiatRailGroupMark({ className = '' }: { className?: string }) {
+  return (
+    <span
+      className={`relative inline-grid h-10 w-10 shrink-0 grid-cols-2 grid-rows-2 place-items-center overflow-visible phone:h-11 phone:w-11 ${className}`}
+      aria-hidden="true"
+    >
+      {/* Lattice plate + × bond + core (under the glyphs). */}
+      <svg
+        viewBox="0 0 40 40"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <radialGradient id="fiat-lattice-glow" cx="50%" cy="50%" r="55%">
+            <stop offset="0%" stopColor="#67FEB7" stopOpacity="0.22" />
+            <stop offset="55%" stopColor="#34d399" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#67FEB7" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="fiat-x-stroke" x1="6" y1="6" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#a7f3d0" stopOpacity="0.55" />
+            <stop offset="0.5" stopColor="#c4b5fd" stopOpacity="0.75" />
+            <stop offset="1" stopColor="#7dd3fc" stopOpacity="0.55" />
+          </linearGradient>
+        </defs>
+        {/* Soft field */}
+        <circle cx="20" cy="20" r="18.5" fill="url(#fiat-lattice-glow)" />
+        {/* Square frame — Bitcode tile language */}
+        <rect
+          x="2.5"
+          y="2.5"
+          width="35"
+          height="35"
+          rx="1.5"
+          stroke="rgba(103,254,183,0.28)"
+          strokeWidth="0.9"
+        />
+        <rect
+          x="5"
+          y="5"
+          width="30"
+          height="30"
+          rx="1"
+          stroke="rgba(167,139,250,0.18)"
+          strokeWidth="0.7"
+          strokeDasharray="2.2 2.4"
+        />
+        {/* Diagonal × — exchange / multi-rail cross */}
+        <path
+          d="M9 9 L31 31 M31 9 L9 31"
+          stroke="url(#fiat-x-stroke)"
+          strokeWidth="1.15"
+          strokeLinecap="square"
+          opacity="0.9"
+        />
+        {/* Crosshair ticks at mid-edges */}
+        <path
+          d="M20 4.5 V8.5 M20 31.5 V35.5 M4.5 20 H8.5 M31.5 20 H35.5"
+          stroke="rgba(103,254,183,0.35)"
+          strokeWidth="0.85"
+          strokeLinecap="square"
+        />
+        {/* Protocol core */}
+        <circle cx="20" cy="20" r="2.6" fill="rgba(4,16,24,0.85)" stroke="rgba(103,254,183,0.85)" strokeWidth="1" />
+        <circle cx="20" cy="20" r="1.05" fill="#67FEB7" fillOpacity="0.95" />
+      </svg>
+      <span
+        className={`${CHAIN_GLYPH.fiat} text-emerald-200/95 [text-shadow:0_0_8px_rgba(110,231,183,0.95)] [filter:drop-shadow(0_0_3px_rgba(110,231,183,0.55))]`}
+        title="USD"
+      >
+        $
+      </span>
+      <span
+        className={`${CHAIN_GLYPH.fiat} text-sky-200/95 [text-shadow:0_0_8px_rgba(125,211,252,0.9)] [filter:drop-shadow(0_0_3px_rgba(125,211,252,0.5))]`}
+        title="EUR"
+      >
+        €
+      </span>
+      <span
+        className={`${CHAIN_GLYPH.fiat} text-rose-200/95 [text-shadow:0_0_8px_rgba(251,113,133,0.85)] [filter:drop-shadow(0_0_3px_rgba(251,113,133,0.45))]`}
+        title="CNY"
+      >
+        ¥
+      </span>
+      <span
+        className={`${CHAIN_GLYPH.fiat} text-violet-200/95 [text-shadow:0_0_8px_rgba(196,181,253,0.9)] [filter:drop-shadow(0_0_3px_rgba(167,139,250,0.5))]`}
+        title="RUB"
+      >
+        ₽
+      </span>
+    </span>
+  );
+}
 
 const FLOW_ICONS = {
   website: ComputerDesktopIcon,
@@ -214,13 +318,17 @@ export function MarketingLandingTestnetSection() {
             />
           </span>
           {/*
-            Settlement side — optical triangle (equal painted mass):
-                 BTC
-              ETH   SOL
+            Settlement side — four outer quadrants (reading order):
+              fiat lattice · BTC
+              ETH          · SOL
           */}
-          <span className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1 gap-y-0.5">
+          <span
+            className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1 gap-y-0.5"
+            aria-label="Settlement rails: fiat USD Euro Yuan and Ruble, Bitcoin, Ethereum, and Solana"
+          >
+            <FiatRailGroupMark />
             <span
-              className={`${CHAIN_MARK_SLOT} col-span-2 justify-self-center [filter:drop-shadow(0_0_8px_rgba(251,146,60,0.85))_drop-shadow(0_0_16px_rgba(251,191,36,0.5))]`}
+              className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(251,146,60,0.85))_drop-shadow(0_0_16px_rgba(251,191,36,0.5))]`}
             >
               <span
                 className={`${CHAIN_GLYPH.btc} bg-orange-300`}
@@ -231,6 +339,7 @@ export function MarketingLandingTestnetSection() {
                   maskRepeat: 'no-repeat',
                   maskPosition: 'center',
                 }}
+                aria-hidden="true"
               />
             </span>
             <span
