@@ -498,62 +498,106 @@ function buildLedgerSettlement(row: ExecutionHistoryRow) {
 
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
   const rawOutput = readOutputRecord(row);
-  // V48-Gate5-F01: unpaid READ synthesis — never ship fullOptions / patch /
-  // path lists to the browser. Deposit owner runs are not redacted here.
-  let output = rawOutput;
-  if (
-    isUnpaidReadSynthesisExecution({
-      context: row.context,
-      output: rawOutput,
-      type: row.type,
-    })
-  ) {
-    output = redactUnpaidReadExecutionOutput(rawOutput) || rawOutput;
-  }
-  const agenticExecution = buildAgenticExecutionSummary({
-    type: row.type,
-    status: row.status,
+  // V48-Gate5-F01 R1/R5: unpaid READ synthesis only — never settle.
+  // Sibling projections must use redacted output (not raw row.output).
+  const mustRedact = isUnpaidReadSynthesisExecution({
     context: row.context,
+    output: rawOutput,
+    type: row.type,
+  });
+  const output = mustRedact
+    ? redactUnpaidReadExecutionOutput(rawOutput) || rawOutput
+    : rawOutput;
+  // Clone row so builders that call readOutputRecord(row) see redacted output.
+  const safeRow: ExecutionHistoryRow = mustRedact
+    ? { ...row, output }
+    : row;
+
+  const agenticExecution = buildAgenticExecutionSummary({
+    type: safeRow.type,
+    status: safeRow.status,
+    context: safeRow.context,
     output,
   });
   // Prefer display status so partial recovery never surfaces as green COMPLETED
   // when context/output carry hostBudgetExceeded / validationNotReady / partial.
-  const displayStatus = deriveDisplayExecutionStatus(row.status, row.context, output);
+  const displayStatus = deriveDisplayExecutionStatus(
+    safeRow.status,
+    safeRow.context,
+    output,
+  );
 
   return {
-    id: row.id,
-    created_at: row.created_at || new Date().toISOString(),
-    started_at: row.started_at,
-    completed_at: row.completed_at,
+    id: safeRow.id,
+    created_at: safeRow.created_at || new Date().toISOString(),
+    started_at: safeRow.started_at,
+    completed_at: safeRow.completed_at,
     status: displayStatus,
-    type: row.type,
+    type: safeRow.type,
     agentic_execution: agenticExecution,
-    guide: buildGuide(row),
+    guide: buildGuide(safeRow),
     output,
-    metadata: buildMetadata(row),
-    context: row.context ?? null,
-    items: asArray(row.items),
-    summary: buildSummary(row),
-    processing_stats: buildProcessingStats(row),
-    repo_snapshot: buildRepoSnapshot(row),
-    asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(row),
-    written_assets: buildWrittenAssets(row),
-    settle_delivery: buildSettleDelivery(row),
-    delivery_mechanism: buildDeliveryMechanism(row),
-    read: buildRead(row),
-    written_asset_type: buildWrittenAssetType(row),
-    asset_pack: buildAssetPack(row),
-    asset_pack_completion: buildNormalizedAssetPackCompletion(row),
-    ledger_settlement: buildLedgerSettlement(row),
-    error: row.error ?? null,
+    metadata: buildMetadata(safeRow),
+    context: safeRow.context ?? null,
+    items: asArray(safeRow.items),
+    summary: buildSummary(safeRow),
+    processing_stats: buildProcessingStats(safeRow),
+    repo_snapshot: buildRepoSnapshot(safeRow),
+    asset_pack_synthesis_artifacts: buildAssetPackSynthesisArtifacts(safeRow),
+    written_assets: buildWrittenAssets(safeRow),
+    settle_delivery: buildSettleDelivery(safeRow),
+    delivery_mechanism: buildDeliveryMechanism(safeRow),
+    read: buildRead(safeRow),
+    written_asset_type: buildWrittenAssetType(safeRow),
+    asset_pack: buildAssetPack(safeRow),
+    asset_pack_completion: buildNormalizedAssetPackCompletion(safeRow),
+    ledger_settlement: buildLedgerSettlement(safeRow),
+    error: safeRow.error ?? null,
     // Wall-clock for run timers on refresh (not derived from truncated event windows).
-    duration_ms: row.duration_ms ?? null,
-    total_tokens: row.total_tokens ?? null,
+    duration_ms: safeRow.duration_ms ?? null,
+    total_tokens: safeRow.total_tokens ?? null,
   };
 }
 
-export function normalizeExecutionEventRow(row: ExecutionEventRow) {
-  const eventPayload = asRecord(row.event_data) || {
+function redactEventDataForUnpaidRead(eventData: unknown): unknown {
+  if (!isObjectish(eventData)) return eventData;
+  const next = { ...(eventData as Record<string, unknown>) };
+  for (const key of [
+    'patch',
+    'fileChanges',
+    'coveredSourcePaths',
+    'fullOptions',
+    'options',
+    'selectionEnvelope',
+    'entitledPatch',
+    'contents',
+    'rawSource',
+  ]) {
+    if (key in next) delete next[key];
+  }
+  // Nested data bags
+  if (isObjectish(next.data)) {
+    next.data = redactEventDataForUnpaidRead(next.data);
+  }
+  if (isObjectish(next.details)) {
+    next.details = redactEventDataForUnpaidRead(next.details);
+  }
+  return next;
+}
+
+function isObjectish(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+export function normalizeExecutionEventRow(
+  row: ExecutionEventRow,
+  opts?: { redactUnpaidRead?: boolean },
+) {
+  let eventData = row.event_data;
+  if (opts?.redactUnpaidRead) {
+    eventData = redactEventDataForUnpaidRead(eventData);
+  }
+  const eventPayload = asRecord(eventData) || {
     type: row.event_type,
     agent: row.agent_name,
     phase: row.phase,
@@ -564,7 +608,7 @@ export function normalizeExecutionEventRow(row: ExecutionEventRow) {
     id: row.id,
     run_id: row.run_id,
     event_type: row.event_type,
-    event_data: row.event_data,
+    event_data: eventData,
     created_at: row.created_at,
     agent_name: row.agent_name,
     phase: row.phase,
@@ -775,6 +819,11 @@ export async function getExecutionHistoryRunRoute(
   }
 
   const normalizedRun = normalizeExecutionHistoryRow(run);
+  const redactUnpaidReadEvents = isUnpaidReadSynthesisExecution({
+    context: run.context,
+    output: run.output,
+    type: run.type,
+  });
   // Skip heavy journal join for lightweight tail previews (table hover).
   const terminalJournal =
     tail !== null ? null : await fetchJournalReadback(run.id, normalizedRun);
@@ -784,7 +833,9 @@ export async function getExecutionHistoryRunRoute(
       ...normalizedRun,
       ...(terminalJournal ? { terminal_journal: terminalJournal } : {}),
     },
-    events: events.map(normalizeExecutionEventRow),
+    events: events.map((ev) =>
+      normalizeExecutionEventRow(ev, { redactUnpaidRead: redactUnpaidReadEvents }),
+    ),
     eventCount: events.length,
     eventsTruncated,
     tail,
