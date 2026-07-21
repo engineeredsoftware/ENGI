@@ -99,6 +99,8 @@ export function BTDTracker({
   }, [assetPackCount, displayedBtdBalance]);
 
   // Icon + gap + text slot + horizontal padding (px-3 = 12px each side).
+  // Layout icon column stays 16px + gap-x-2.5 (chrome width floor unchanged).
+  // Mark paints larger via transform scale only — does not grow the grid column.
   const paddingPx = 12;
   const iconWidthPx = 16;
   const gapPx = 10; // gap-x-2.5
@@ -288,7 +290,7 @@ export function BTDTracker({
 
   return (
     <motion.div
-      className={`relative group inline-flex h-8 max-h-8 min-h-8 shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
+      className={`relative group inline-flex h-9 max-h-9 min-h-9 shrink-0 items-stretch ${canOpenBtdWallet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 pointer-events-none'}`}
       onHoverStart={handleHoverStart}
       onHoverEnd={handleHoverEnd}
       onClick={canOpenBtdWallet ? handleOpenBtdWallet : undefined}
@@ -297,12 +299,13 @@ export function BTDTracker({
       title={recentAssetPackTitle}
     >
       {/*
-        Height-fixed 32px chrome. Width is stable across hover/loading flips:
-        text slot = widest *default* variant; BTD/APs digit growth expands it;
-        wallet alt text truncates inside the slot (never resizes the box).
+        Height-fixed 36px chrome — matches notifications-bell (36×36) in nav.
+        Width is stable across hover/loading flips: text slot = widest *default*
+        variant; BTD/APs digit growth expands it; wallet alt text truncates
+        inside the slot (never resizes the box).
       */}
       <motion.div
-        className="relative box-border inline-flex h-8 max-h-8 min-h-8 items-center gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
+        className="relative box-border inline-flex h-9 max-h-9 min-h-9 items-center gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
         style={{
           backfaceVisibility: 'hidden',
           width: textSlotWidth > 0 ? `${chromeMinWidth}px` : undefined,
@@ -361,9 +364,9 @@ export function BTDTracker({
               ref={btdMeasureRef}
               className="inline-flex items-center font-medium tracking-wide text-sm leading-none"
             >
-              <span>{btdBalanceLabel}</span>
-              <span className="mx-2.5 inline-block h-4 w-[2px] shrink-0 rounded-full" />
-              <span>{assetPacksLabel}</span>
+              <span className="inline-block -translate-y-px leading-none">{btdBalanceLabel}</span>
+              <span className="mx-2.5 inline-block h-3.5 w-[2px] shrink-0 self-center -translate-y-px rounded-full" />
+              <span className="inline-block -translate-y-px leading-none">{assetPacksLabel}</span>
             </span>
             <span
               ref={readingMeasureRef}
@@ -403,16 +406,24 @@ export function BTDTracker({
             ) : (
               <motion.div
                 key="logo"
-                className="relative h-4 w-4 shrink-0"
+                className="relative flex h-4 w-4 shrink-0 items-center justify-center overflow-visible"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
                 <div
-                  // Mark SSOT is tilted −17.5°. Hover +14.875° CSS (~upright, 2.625° under full cancel).
-                  className="tracker-logo relative h-4 w-4 origin-center transition-transform duration-300 ease-out group-hover:rotate-[14.875deg] group-hover:drop-shadow-[0_0_8px_rgba(103,254,183,0.8)]"
-                  style={{ backfaceVisibility: 'hidden' }}
+                  // Layout slot stays 16×16 (width + gap-x-2.5 unchanged). Scale
+                  // fills taller h-9 chrome; paint may slightly overspill the
+                  // slot without changing grid column or chrome min-width.
+                  // Mark SSOT tilt −17.5°; hover +14.875° CSS straighten.
+                  className="tracker-logo relative h-4 w-4 origin-center transition-transform duration-300 ease-out group-hover:drop-shadow-[0_0_8px_rgba(103,254,183,0.8)]"
+                  style={{
+                    backfaceVisibility: 'hidden',
+                    transform: isHovered
+                      ? 'rotate(14.875deg) scale(1.25)'
+                      : 'scale(1.25)',
+                  }}
                 >
                   <Logo height="h-4" width="w-4" fill={isHovered ? '#67feb7' : '#67feb780'} />
                 </div>
@@ -464,12 +475,12 @@ export function BTDTracker({
                   exit={{ opacity: 0, rotateX: 90 }}
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                 >
-                  <span>{btdBalanceLabel}</span>
+                  <span className="inline-block -translate-y-px leading-none">{btdBalanceLabel}</span>
                   <span
                     aria-hidden="true"
-                    className="mx-2.5 inline-block h-4 w-[2px] shrink-0 rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
+                    className="mx-2.5 inline-block h-3.5 w-[2px] shrink-0 self-center -translate-y-px rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
                   />
-                  <span>{assetPacksLabel}</span>
+                  <span className="inline-block -translate-y-px leading-none">{assetPacksLabel}</span>
                 </motion.span>
               )}
             </AnimatePresence>
