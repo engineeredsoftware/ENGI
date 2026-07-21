@@ -16,7 +16,7 @@ adapters, and React layers.
 | `/reads` | Read path (Need → Fits → settle → delivery) |
 | `/packs` | PackActivity / pipeline history master-detail |
 | `/docs` | Public documentation |
-| `/auxillaries/*` | Wallet, Externals, Profile, Interfaces |
+| `/auxillaries/*` | Wallet, Profile, Externals, Interfaces |
 | `/conversations` | Structure retained; full UX deferred post-V48 |
 
 Product surfaces: Packs, Deposits, Reads, Docs.

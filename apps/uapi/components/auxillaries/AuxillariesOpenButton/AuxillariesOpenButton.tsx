@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Opens Auxillaries panes (Wallet, Externals, Profile, …) from product surfaces.
+ * Opens Auxillaries panes (Wallet, Profile, Externals, …) from product surfaces.
  * Relocated from productOpenAuxillariesButton.
  * @see BITCODE_SPEC_V48.md § Frontend component and naming architecture
  */
@@ -33,7 +33,7 @@ export default function AuxillariesOpenButton({
   if (FEATURE_FLAGS.DISABLE_AUXILLARIES) {
     return (
       <DisabledTooltipWrapper
-        tooltip="Disabled for launch mode. When enabled, Auxillaries opens Wallet, Externals, Profile, and interface defaults."
+        tooltip="Disabled for launch mode. When enabled, Auxillaries opens Wallet, Profile, Externals, and interface defaults."
         className="block"
       >
         <button

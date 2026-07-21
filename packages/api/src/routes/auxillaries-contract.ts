@@ -5,7 +5,7 @@ import {
 } from '@bitcode/btd';
 import type { BtdOrganizationPolicyAuthority } from '@bitcode/btd';
 
-export const AUXILLARY_FLOW_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
+export const AUXILLARY_FLOW_STEPS = ['wallet', 'profile', 'externals', 'interfaces'] as const;
 export const AUXILLARIES_CONTRACT_VERSION = 'v31-draft-auxillaries-contracts' as const;
 
 export type ConcreteAuxillaryPane = (typeof AUXILLARY_FLOW_STEPS)[number];

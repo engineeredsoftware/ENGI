@@ -5,12 +5,12 @@ import {
   normalizeAuxillarySteps,
 } from '@bitcode/api/src/routes/auxillaries-contract';
 
-export const AUXILLARY_RING_STEPS = ['wallet', 'externals', 'profile', 'interfaces'] as const;
+export const AUXILLARY_RING_STEPS = ['wallet', 'profile', 'externals', 'interfaces'] as const;
 export const AUXILLARY_ROUTE_SEQUENCE = AUXILLARY_RING_STEPS;
 export const AUXILLARIES_ACCESS_LABEL = 'Auxillaries access';
 export const AUXILLARIES_LABEL = 'Auxillaries';
-export const AUXILLARIES_LIST_LABEL = 'Wallet, Externals, Profile, and Interfaces';
-export const AUXILLARIES_LIST_COMPACT_LABEL = 'Wallet, Externals, Profile, Interfaces';
+export const AUXILLARIES_LIST_LABEL = 'Wallet, Profile, Externals, and Interfaces';
+export const AUXILLARIES_LIST_COMPACT_LABEL = 'Wallet, Profile, Externals, Interfaces';
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
 export const OPEN_TRANSACTIONS_LABEL = 'Open Packs';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
@@ -37,11 +37,21 @@ export interface AuxillaryPaneDescriptor {
 }
 
 export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneDescriptor> = {
+  wallet: {
+    label: 'Wallet',
+    routeSegment: 'wallet',
+    ringIndex: 0,
+    labelPosition: 'top',
+    routeTitle: 'Wallet Auxillary',
+    routeDescription:
+      'Connect your crypto wallets from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
+    featurePills: ['Wallets', 'Balances', 'Activity'],
+  },
   profile: {
     label: 'Profile',
     routeSegment: 'profile',
-    ringIndex: 2,
-    labelPosition: 'bottom',
+    ringIndex: 1,
+    labelPosition: 'right',
     routeTitle: 'Profile Auxillary',
     routeDescription:
       "Set up email, manage your organization's team members, authorities and budgets, and customize your profile.",
@@ -50,8 +60,8 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
   externals: {
     label: 'Externals',
     routeSegment: 'externals',
-    ringIndex: 1,
-    labelPosition: 'right',
+    ringIndex: 2,
+    labelPosition: 'bottom',
     routeTitle: 'Externals Auxillary',
     routeDescription:
       "Authorize repositories by installing Bitcode's GitHub Application. Configure 3rd-party integrations to provide more source material and to make authoring Needs and Obfuscations easier.",
@@ -66,16 +76,6 @@ export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneD
     routeDescription:
       "Personalize Bitcode's Applications to your tastes. Author a Read+Deposit shared system prompt.",
     featurePills: ['Apps customization', 'System prompt'],
-  },
-  wallet: {
-    label: 'Wallet',
-    routeSegment: 'wallet',
-    ringIndex: 0,
-    labelPosition: 'top',
-    routeTitle: 'Wallet Auxillary',
-    routeDescription:
-      'Connect your crypto wallets from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
-    featurePills: ['Wallets', 'Balances', 'Activity'],
   },
 };
 
@@ -151,8 +151,8 @@ export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
-    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: wallet identity, external connections, optional profile data, interface defaults, and follow-through stay one click apart without changing the product context.'
-    : 'Open Bitcode access in a stable auxillary read, then move between Wallet, Externals, Profile, and Interfaces without losing the active pane or route context.';
+    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: wallet identity, optional profile data, external connections, interface defaults, and follow-through stay one click apart without changing the product context.'
+    : 'Open Bitcode access in a stable auxillary read, then move between Wallet, Profile, Externals, and Interfaces without losing the active pane or route context.';
 }
 
 export function getAuxillariesTabsDescription(mode: 'onboarding' | 'auxillaries') {

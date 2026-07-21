@@ -67,7 +67,7 @@ describe('AuxillariesContent contained accessibility shell', () => {
     render(
       <AuxillariesContent
         mode="auxillaries"
-        steps={['wallet', 'externals', 'profile', 'interfaces']}
+        steps={['wallet', 'profile', 'externals', 'interfaces']}
         currentStep="interfaces"
         completedSteps={['wallet']}
         availableSteps={['wallet', 'profile', 'interfaces']}
@@ -123,7 +123,7 @@ describe('AuxillariesContent contained accessibility shell', () => {
     render(
       <AuxillariesContent
         mode="auxillaries"
-        steps={['wallet', 'externals', 'profile', 'interfaces']}
+        steps={['wallet', 'profile', 'externals', 'interfaces']}
         currentStep="wallet"
         completedSteps={[]}
         availableSteps={['wallet']}

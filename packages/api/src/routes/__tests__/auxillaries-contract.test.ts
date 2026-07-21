@@ -118,7 +118,7 @@ describe('Auxillaries package route contracts', () => {
     });
 
     expect(payload.isOnboardingComplete).toBe(true);
-    expect(payload.onboardedPanes).toEqual(['wallet', 'externals', 'profile', 'interfaces']);
+    expect(payload.onboardedPanes).toEqual(['wallet', 'profile', 'externals', 'interfaces']);
     expect(payload.organizations).toEqual(['bitcode']);
     expect(payload.profileState.kind).toBe('AuxillariesProfileState');
     expect(payload.profileState.accountIdentity).toMatchObject({

@@ -26,9 +26,9 @@ describe('AuxillariesWorkspacePanels', () => {
   it('renders one-word feature pills on each selector card', () => {
     render(
       <AuxillariesWorkspacePanels
-        steps={['wallet', 'externals', 'profile', 'interfaces']}
+        steps={['wallet', 'profile', 'externals', 'interfaces']}
         currentStep="wallet"
-        availableSteps={['wallet', 'externals', 'profile', 'interfaces']}
+        availableSteps={['wallet', 'profile', 'externals', 'interfaces']}
         onStepClick={jest.fn()}
       />,
     );
