@@ -97,11 +97,14 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Source Measurements')).toBeInTheDocument();
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
     expect(screen.getByText('Needinesses')).toBeInTheDocument();
-    expect(screen.getByText("Exchange BTD Volume")).toBeInTheDocument();
+    expect(screen.getByText("Packs' BTD Volume")).toBeInTheDocument();
     expect(screen.getByText('431')).toBeInTheDocument();
     expect(screen.getByText('Source Safety')).toBeInTheDocument();
     expect(screen.getAllByText('Crypto').length).toBeGreaterThan(0);
     expect(screen.getAllByText('BTD').length).toBeGreaterThan(0);
+    // Settlement 2×2 short commodity chip (not expanded DataPacks).
+    expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
+    // Formal commodity still appears as DataPacks in hero/docs copy.
     expect(screen.getAllByText('DataPacks').length).toBeGreaterThan(0);
     expect(screen.getByText(/Mint volume from needinesses/i)).toBeInTheDocument();
     expect(screen.getByText('On-chain')).toBeInTheDocument();

@@ -166,7 +166,8 @@ export const BITCODE_PUBLIC_COPY = {
   },
   // Bottom-right depot card — fills residual height beside Verified access.
   settlementLedger: {
-    title: 'Crypto · BTD · DataPacks',
+    // Short triad matches Settlement 2×2 chips (Packs = commodity short form).
+    title: 'Crypto · BTD · Packs',
     subtitle: 'buy · mint · earn',
     rows: [
       {

@@ -56,7 +56,7 @@ deleting a codemod after its migration is merged and verified.
 | Prefix | Route / role | Component home |
 | --- | --- | --- |
 | `Marketing*` | `/` landing | `apps/uapi/components/marketing/` |
-| `Exchange*` (retired product name Packs; components under exchange/) | `/exchange` (`/exchange` redirects) | `apps/uapi/components/exchange/` |
+| `Exchange*` (retired product name Packs; components under exchange/) | `/exchange` (`/packs` redirects) | `apps/uapi/components/exchange/` |
 | `Reads*` | `/reads` | `apps/uapi/components/reads/` |
 | `Deposits*` | `/deposits` | `apps/uapi/components/deposits/` |
 | `Docs*` | `/docs` | `apps/uapi/components/docs/` |
@@ -67,6 +67,38 @@ deleting a codemod after its migration is merged and verified.
 
 Product run language is **Pipeline** (`BitcodePipeline*`, experience extensions).
 Ledger language is **journal**. Agent packages may still say `execution-generics`.
+
+### 2.1 Product naming law (Exchange vs DataPack vs Packs)
+
+| Term | Means | Product UI / copy | Backend (current) |
+| --- | --- | --- | --- |
+| **Exchange** | Experience / route (activity ledger) | Nav, `/exchange`, `Exchange*` components | Not a domain package name |
+| **DataPack(s)** | Full commodity name (was AssetPack) | Docs, CTAs, formal prose, filter labels | **Wire/package still AssetPack** (see §2.2) |
+| **Packs** | Short commodity chip only (same object as DataPacks) | Settlement 2×2, “Packs' BTD Volume”, short triads | Do not invent `packs` package renames for this short form |
+
+**Do not** expand short **Packs** → **DataPacks** in tight UI (chips already share the word *Packs*).  
+**Do** rename experience **Packs** → **Exchange**.  
+**Do** rename full commodity **AssetPack(s)** → **DataPack(s)** in user-facing product language.
+
+### 2.2 Backend / wire naming scope (AssetPack → DataPack)
+
+Backend rename is **not** the same pass as product UI. Inventory (order of magnitude):
+
+| Layer | Examples | Rename cost | This product pass |
+| --- | --- | --- | --- |
+| **npm packages** | `@bitcode/asset-packs-pipelines-*`, `generic-asset-packs/*` | High — workspace renames + all imports | **Hold** |
+| **TS exports** | `buildAssetPackSandboxHostPlan`, `AssetPackCommodityState*`, `DepositAssetPackOption` | High — dual export period | **Hold** (call sites keep package names) |
+| **HTTP routes** | `/api/packs/*`, `/api/pipeline-host/asset-pack`, `/api/btd/asset-pack-*` | Medium — dual routes + clients | **Hold** |
+| **Env** | `BITCODE_ASSET_PACK_*` | Medium — host/sandbox allowlists + deploy | **Hold** |
+| **DB / storage** | `asset_pack_*` tables/columns/buckets, migration history | **Very high** — dual-write/read migrations | **Hold** |
+| **Wire type ids** | `depository-assetpack`, `my-assetpacks`, `settled-assetpack` | High — stored activity + filters | **Hold** ids; **UI labels** already DataPacks |
+| **MCP / ChatGPT / BTD schemas** | `deliver_asset_pack`, `synthesize-asset-packs-for-deposit` | High — external contract | **Hold** |
+| **Prompts** | ~400 `AssetPack` hits under `packages/prompts` | Medium — generation quality | Follow-up with prompt versioning |
+| **Pipeline hosts / Pipeliner image** | materialize paths, host plan mode `asset_pack_pipeline` | Medium — image rebuild | With package rename |
+
+**Future backend migration (when chartered):** dual-read period → rename packages → dual HTTP aliases → env aliases → DB migration with dual columns or view mapping → drop AssetPack after QA. Never rewrite frozen migrations in place.
+
+**Product UI pass (this work):** labels and experience names only; adapters keep importing AssetPack package APIs.
 
 ---
 
