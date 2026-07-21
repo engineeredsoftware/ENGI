@@ -83,6 +83,11 @@ interface PipelineRunLogProps {
     failsafe: string | null;
     generation: string | null;
   } | null;
+  /**
+   * Run start epoch ms for elapsed log timestamps (+m:ss). When omitted,
+   * falls back to the earliest line timestamp in the rendered set.
+   */
+  startedAtMs?: number | null;
 }
 
 // Threshold (in px) below which we switch to compact layout automatically.
@@ -214,7 +219,8 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   compact: compactProp,
   copyData,
   pipelineMode,
-  liveContext
+  liveContext,
+  startedAtMs = null,
 }, ref) => {
   // Automatic compact detection via container width
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -704,8 +710,17 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
         {/* ---- Flat list view – each stream chunk renders as a single line ---- */}
 
-        {flatLines.map((logLine, idx) =>
-          renderLogLine(
+        {flatLines.map((logLine, idx) => {
+          // Elapsed from run start: explicit prop, else earliest line timestamp.
+          let runStart = startedAtMs;
+          if (runStart == null || !Number.isFinite(runStart)) {
+            const firstTs = flatLines.find((l) => l.timestamp)?.timestamp;
+            if (firstTs) {
+              const ms = new Date(firstTs).getTime();
+              runStart = Number.isFinite(ms) ? ms : null;
+            }
+          }
+          return renderLogLine(
             logLine,
             `line-${idx}`,
             idx,
@@ -715,8 +730,9 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             getLineClass as any,
             compact,
             pipelineMode,
-          ),
-        )}
+            runStart,
+          );
+        })}
 
         {/* Processing indicator — shows the last known Phase→Agent→Step→Failsafe→
             Thinkings context + elapsed time since the last streamed event, so a

@@ -36,17 +36,39 @@ import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/C
 // Structural log line type owned by the pipeline log UI.
 export type LogLine = Record<string, any>;
 
-export function formatTime(ts?: string) {
+/**
+ * Format a log timestamp as elapsed from run start (+m:ss / +h:mm:ss).
+ * V48-Gate5-F01: product logs use run clock, not wall-local clock.
+ */
+export function formatElapsedFromStart(
+  ts?: string,
+  startedAtMs?: number | null,
+): string {
   if (!ts) return '';
   try {
-    return new Date(ts).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    });
+    const eventMs = new Date(ts).getTime();
+    if (!Number.isFinite(eventMs)) return '';
+    const base =
+      typeof startedAtMs === 'number' && Number.isFinite(startedAtMs)
+        ? startedAtMs
+        : eventMs;
+    const elapsedMs = Math.max(0, eventMs - base);
+    const totalSeconds = Math.floor(elapsedMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    if (hours > 0) {
+      return `+${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+    return `+${minutes}:${String(seconds).padStart(2, '0')}`;
   } catch {
     return '';
   }
+}
+
+/** @deprecated Prefer formatElapsedFromStart — kept as alias for callers. */
+export function formatTime(ts?: string, startedAtMs?: number | null) {
+  return formatElapsedFromStart(ts, startedAtMs);
 }
 
 
@@ -138,6 +160,7 @@ export function renderLogLine(
   getLineClass: (logLine: LogLine) => string,
   compact: boolean,
   pipelineMode?: SynthesisPipelineMode | null,
+  startedAtMs?: number | null,
 ) {
   const style = TYPE_STYLES[logLine.type || ''] || {
     bg: 'bg-gray-800/40',
@@ -286,7 +309,7 @@ export function renderLogLine(
         )}
         {logLine.timestamp && (
           <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
-            {formatTime(logLine.timestamp)}
+            {formatTime(logLine.timestamp, startedAtMs)}
           </span>
         )}
       </div>
@@ -423,7 +446,7 @@ export function renderLogLine(
             {/* Timestamp */}
             {logLine.timestamp && (
               <span className="text-[11px] text-gray-500 ml-auto font-normal select-none">
-                {formatTime(logLine.timestamp)}
+                {formatTime(logLine.timestamp, startedAtMs)}
               </span>
             )}
 
@@ -472,7 +495,7 @@ export function renderLogLine(
 
             {logLine.timestamp && (
               <span className="text-[11px] text-gray-500 flex-shrink-0 select-none">
-                {formatTime(logLine.timestamp)}
+                {formatTime(logLine.timestamp, startedAtMs)}
               </span>
             )}
           </div>

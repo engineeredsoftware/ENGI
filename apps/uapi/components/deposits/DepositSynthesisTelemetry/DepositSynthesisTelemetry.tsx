@@ -259,6 +259,7 @@ export function DepositSynthesisTelemetry({
                     userHasScrolled={synthesisLogScrolled}
                     setUserHasScrolled={setSynthesisLogScrolled}
                     pipelineMode="deposit"
+                    startedAtMs={synthesisRunStartMs}
                     liveContext={
                       synthesisLiveContext
                         ? {
