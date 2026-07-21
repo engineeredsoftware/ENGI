@@ -15,6 +15,7 @@ import {
   buildProcessingStallLabel,
   copyTextToClipboard,
 } from '@/components/bitcode/pipeline/PipelineExecutionLog/PipelineExecutionLog';
+import { formatElapsedFromStart } from '@/components/bitcode/pipeline/PipelineExecutionLog/pipeline-execution-log-render-line';
 
 describe('PipelineExecutionLog — Copy raw logs (buildRawLogCopyText)', () => {
   it('copies the full copyData payload (all streamed logs + inputs) verbatim as JSON', () => {
@@ -316,5 +317,17 @@ describe('copyTextToClipboard — modern + insecure-context fallback', () => {
     Object.assign(navigator, { clipboard: undefined });
     (document as any).execCommand = jest.fn().mockReturnValue(false);
     expect(await copyTextToClipboard('x')).toBe(false);
+  });
+});
+
+describe('PipelineExecutionLog — elapsed timestamps (R7)', () => {
+  it('formats +m:ss from run start', () => {
+    const start = Date.parse('2026-07-20T12:00:00.000Z');
+    expect(formatElapsedFromStart('2026-07-20T12:01:05.000Z', start)).toBe('+1:05');
+  });
+
+  it('formats +h:mm:ss when over an hour', () => {
+    const start = Date.parse('2026-07-20T12:00:00.000Z');
+    expect(formatElapsedFromStart('2026-07-20T13:02:03.000Z', start)).toBe('+1:02:03');
   });
 });

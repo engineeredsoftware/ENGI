@@ -145,7 +145,8 @@ export function useReadOptionSynthesis(input: {
                   nextPipeline: "settle-asset-pack-pipeline",
                 }
               : null);
-          if (st === "completed" || nextEnvelope?.options?.length) {
+          // R7: only complete on terminal completed — not early options mid-run.
+          if (st === "completed") {
             stopPoll();
             setEnvelope(nextEnvelope);
             setStatus("complete");

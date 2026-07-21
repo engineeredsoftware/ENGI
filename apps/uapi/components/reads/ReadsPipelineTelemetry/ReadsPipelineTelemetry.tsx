@@ -220,12 +220,7 @@ export function ReadsPipelineTelemetry({
               </li>
             ))}
           </ul>
-          <Link
-            href={`/deposits?transactionId=${encodeURIComponent(selectedRunPacks.runId)}&depositStage=review-options`}
-            className="mt-3 inline-flex items-center border border-emerald-300/20 bg-emerald-300/10 px-3 py-2 text-xs font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
-          >
-            Review in Deposits
-          </Link>
+
         </div>
       ) : null}
     </section>

@@ -332,11 +332,6 @@ describe("ReadPageClient", () => {
     expect(text).toContain("Ledger reconciliation capability slice");
     expect(text).toContain("coverage 20%");
     expect(text).not.toContain("source paths");
-    expect(
-      screen.getByRole("link", { name: "Review in Deposits" }),
-    ).toHaveAttribute(
-      "href",
-      "/deposits?transactionId=synth-run-1&depositStage=review-options",
-    );
+    expect(text).not.toContain("Review in Deposits");
   });
 });
