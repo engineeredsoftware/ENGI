@@ -138,7 +138,9 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
           readOnly={isConfigLocked}
           disabled={isConfigLocked}
           placeholder={DEPOSIT_OBFUSCATIONS_PLACEHOLDER}
-          className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35 disabled:cursor-not-allowed disabled:opacity-70"
+          className={`mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35 disabled:cursor-not-allowed disabled:opacity-70 ${
+            isConfigLocked ? 'resize-none overflow-hidden' : 'resize-y'
+          }`}
         />
         {obfuscationsAnchorMessage ? (
           <p className="mt-2 text-xs leading-5 text-neutral-400">

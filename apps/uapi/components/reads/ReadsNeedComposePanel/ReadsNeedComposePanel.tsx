@@ -143,7 +143,9 @@ export function ReadsNeedComposePanel(props: {
         readOnly={isConfigLocked}
         disabled={isConfigLocked}
         placeholder="Describe the Need this reading repository should satisfy…"
-        className="mt-2 w-full resize-y border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-neutral-600 disabled:cursor-not-allowed disabled:opacity-70"
+        className={`mt-2 w-full border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-neutral-600 disabled:cursor-not-allowed disabled:opacity-70 ${
+          isConfigLocked ? 'resize-none overflow-hidden' : 'resize-y'
+        }`}
       />
       {needAnchorMessage ? (
         <p

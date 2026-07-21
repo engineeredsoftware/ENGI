@@ -32,7 +32,10 @@ interface VCSFileTreePickerProps {
   /** Why a conflicting row is disabled (e.g. 'Already a Permissible sources'). */
   conflictLabel?: string;
   emptyLabel?: string;
-  /** When true, selection is frozen (run-detail lock). Expand still works. */
+  /**
+   * When true (run-detail lock): freeze selection, block expand/collapse,
+   * and disable list scrolling so the picker is fully non-interactive.
+   */
   disabled?: boolean;
   'aria-label'?: string;
 }
@@ -104,6 +107,13 @@ export function VCSFileTreePicker({
     [conflictingPaths],
   );
   const selectedSet = useMemo(() => new Set(selectedPaths), [selectedPaths]);
+
+  // Collapse expanded dirs when the run locks so the tree cannot be scrolled
+  // through nested inventory on a frozen compose surface.
+  useEffect(() => {
+    if (!disabled) return;
+    setExpanded({});
+  }, [disabled]);
 
   const loadDirectory = useCallback(
     async (path: string, generation: number, signal: AbortSignal) => {
@@ -201,6 +211,7 @@ export function VCSFileTreePicker({
   }, [loadDirectory, owner, repo]);
 
   const toggleExpanded = (path: string) => {
+    if (disabled) return;
     setExpanded((previous) => {
       const next = { ...previous, [path]: !previous[path] };
       return next;
@@ -214,7 +225,7 @@ export function VCSFileTreePicker({
   };
 
   const toggleSelected = (selectionPath: string) => {
-    if (conflictSet.has(selectionPath)) return;
+    if (disabled || conflictSet.has(selectionPath)) return;
     onChange(
       selectedSet.has(selectionPath)
         ? selectedPaths.filter((path) => path !== selectionPath)
@@ -280,7 +291,8 @@ export function VCSFileTreePicker({
                 type="button"
                 aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${item.path}`}
                 onClick={() => toggleExpanded(item.path)}
-                className="flex h-5 w-5 shrink-0 items-center justify-center text-neutral-400 transition hover:text-emerald-200"
+                disabled={disabled}
+                className="flex h-5 w-5 shrink-0 items-center justify-center text-neutral-400 transition hover:text-emerald-200 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-neutral-400"
               >
                 {isExpanded ? (
                   <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
@@ -370,7 +382,15 @@ export function VCSFileTreePicker({
           ))}
         </div>
       ) : null}
-      <div className="max-h-56 overflow-y-auto overscroll-contain border border-white/10 bg-black/30 px-2 py-1.5">
+      <div
+        data-testid="vcs-file-tree-list"
+        data-scrollable={disabled ? 'false' : 'true'}
+        className={`max-h-56 border border-white/10 bg-black/30 px-2 py-1.5 ${
+          disabled
+            ? 'overflow-hidden overscroll-none'
+            : 'overflow-y-auto overscroll-contain'
+        }`}
+      >
         {!owner || !repo ? (
           <p className="py-1 text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
             {emptyLabel}

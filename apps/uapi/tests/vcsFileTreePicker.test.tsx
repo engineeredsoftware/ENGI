@@ -94,6 +94,34 @@ describe('VCSFileTreePicker', () => {
     expect(onChange).toHaveBeenCalledWith([]);
   });
 
+  it('freezes expand and list scroll when disabled (run-detail lock)', async () => {
+    mockTreeFetch();
+    const onChange = jest.fn();
+    render(
+      <VCSFileTreePicker
+        provider="github"
+        repositoryFullName="octocat/Spoon-Knife"
+        treeRef="31bbc0c5"
+        selectedPaths={[]}
+        onChange={onChange}
+        disabled
+      />,
+    );
+
+    await waitFor(() => expect(screen.getByText('src/')).toBeInTheDocument());
+    const list = screen.getByTestId('vcs-file-tree-list');
+    expect(list).toHaveAttribute('data-scrollable', 'false');
+    expect(list.className).toMatch(/overflow-hidden/);
+    expect(list.className).not.toMatch(/overflow-y-auto/);
+
+    const expand = screen.getByRole('button', { name: 'Expand src' });
+    expect(expand).toBeDisabled();
+    fireEvent.click(expand);
+    expect(screen.queryByText('engine.ts')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText('README.md'));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('disables paths selected by the counterpart picker (mutual exclusivity)', async () => {
     mockTreeFetch();
     const onChange = jest.fn();
