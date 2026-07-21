@@ -10,8 +10,8 @@ import { enablePipelineStreaming } from '@bitcode/pipelines-generics';
 import { runExecutionPipelineSDIVFSynthesizeAssetPacks } from '../index';
 
 async function main() {
-  process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
-  process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'reason';
+  process.env.BITCODE_DEBUG_SKIP_FAILSAFES = '1';
+  process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT = '1';
 
   const execution = new Execution('asset-pack:demo');
   const inserts: any[] = [];

@@ -6,8 +6,12 @@
  */
 
 export * from './factories';
-export { createThinkingsGeneration } from '../steps/thinkings-generation';
+export {
+  createThinkingsGeneration,
+  isSkipThinkingsJudgeAndStructuredOutput,
+} from '../steps/thinkings-generation';
 export {
   createFailsafeGenerationSequence,
   createContextfulFailsafedThinkingsGeneration,
+  isSkipFailsafes,
 } from '../steps/failsafe-sequence';

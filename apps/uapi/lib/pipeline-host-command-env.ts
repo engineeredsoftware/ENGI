@@ -54,6 +54,12 @@ export const TRUSTED_PIPELINE_HOST_COMMAND_ENV_KEYS = [
   'BITCODE_PIPELINE_READER_WALLET_ID',
   'BITCODE_PIPELINE_WALLET_SESSION_ID',
   'BITCODE_PIPELINE_BTD_VOLUME',
+  // Opt-in operator debug (default unset = false). Read inside the in-box
+  // pipeline process. Host-only process.env is a no-op without these keys.
+  // - SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT: Reason-only dual envelope
+  // - SKIP_FAILSAFES: bare task Thinkings (no prepare / chunk / stitch)
+  'BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT',
+  'BITCODE_DEBUG_SKIP_FAILSAFES',
 ] as const;
 
 /**

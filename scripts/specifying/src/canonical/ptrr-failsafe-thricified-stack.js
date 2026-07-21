@@ -379,10 +379,13 @@ function buildPredicateResults(repoRoot, index, gate2Inventory) {
     predicateResult(
       'failsafe.preserves-debug-slicing',
       SOURCE_ROOTS.failsafeSequence,
-      // Failsafe slicing lives in the sequence; generation slicing lives in
-      // the Thinkings generation the sequence delegates to.
+      // Failsafe whitelist + skip live on the sequence; Thinkings Judge/SO skip
+      // lives on createThinkingsGeneration the sequence delegates to.
       sourceText.failsafeSequence.includes('BITCODE_DEBUG_ONLY_FAILSAFES')
-        && sourceText.thricifiedGeneration.includes('BITCODE_DEBUG_ONLY_GENERATIONS'),
+        && sourceText.failsafeSequence.includes('BITCODE_DEBUG_SKIP_FAILSAFES')
+        && sourceText.thricifiedGeneration.includes(
+          'BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT',
+        ),
     ),
     predicateResult(
       'generation.constructs-reason',
@@ -402,9 +405,11 @@ function buildPredicateResults(repoRoot, index, gate2Inventory) {
     predicateResult(
       'generation.sequences-in-order',
       SOURCE_ROOTS.thricifiedGeneration,
-      sourceText.thricifiedGeneration.indexOf("include('reason')") < sourceText.thricifiedGeneration.indexOf("include('judge')")
-        && sourceText.thricifiedGeneration.indexOf("include('judge')") < sourceText.thricifiedGeneration.indexOf("include('structured_output')")
-        && sourceText.thricifiedGeneration.includes('sequential<any>(...seq)'),
+      sourceText.thricifiedGeneration.indexOf('factoryReason()') <
+        sourceText.thricifiedGeneration.indexOf('factoryJudge()')
+        && sourceText.thricifiedGeneration.indexOf('factoryJudge()') <
+          sourceText.thricifiedGeneration.indexOf('factoryStructuredOutput(outputSchema)')
+        && sourceText.thricifiedGeneration.includes('sequential<any>('),
     ),
     predicateResult(
       'generation.fallbacks-to-all-stages',

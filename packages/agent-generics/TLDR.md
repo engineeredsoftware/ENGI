@@ -85,7 +85,8 @@ These are pre‑enabled in `.env.local` for local development.
 - BITCODE_DEBUG_ONLY_AGENT: substring — execute only agents whose name includes this.
 - BITCODE_DEBUG_ONLY_STEP: plan|try|refine|retry — execute only that PTRR step.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — include only those parent failsafes.
-- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — include only those Thinkings generations under each parent.
+- BITCODE_DEBUG_SKIP_FAILSAFES: true/1 — bare task Thinkings (no prepare/chunk/stitch).
+- BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT: true/1 — Reason-only dual envelope (no Judge/SO).
 
 Markers
 - Failsafe events log `[failsafe] prepare-context|chunk-then-sum|stitch-until-complete` with start/complete payloads.

@@ -209,6 +209,8 @@ describe('runDepositInBoxHost (#25)', () => {
     'BITCODE_ASSET_PACK_REAL_INFERENCE',
     'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
     'BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE',
+    'BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT',
+    'BITCODE_DEBUG_SKIP_FAILSAFES',
     'SUPABASE_URL',
     'NEXT_PUBLIC_SUPABASE_URL',
     'SUPABASE_SERVICE_ROLE_KEY',
@@ -259,6 +261,8 @@ describe('runDepositInBoxHost (#25)', () => {
     delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
     delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE;
     delete process.env.BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE;
+    delete process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT;
+    delete process.env.BITCODE_DEBUG_SKIP_FAILSAFES;
   });
 
   afterEach(() => {
@@ -346,6 +350,59 @@ describe('runDepositInBoxHost (#25)', () => {
     expect(receivedPlan.createOptions.persistent).toBe(false);
     expect(typeof receivedPlan.createOptions.name).toBe('string');
     expect(receivedPlan.createOptions.name).toMatch(/^bitcode-deposit-/);
+  });
+
+  it('forwards Thinkings Judge/SO + failsafe skip debug env into the in-box command env', async () => {
+    process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT = 'true';
+    process.env.BITCODE_DEBUG_SKIP_FAILSAFES = 'true';
+
+    let receivedPlan: any;
+    const fakeHost = {
+      runHostPlan: async (plan: any) => {
+        receivedPlan = plan;
+        return {
+          sandboxId: 'sbx_skip_thinkings',
+          artifacts: {
+            evidence: {
+              finishPresent: true,
+              selectionEnvelope: {
+                options: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }],
+              },
+              depositOptions: [{ title: 'Slice', coveredSourcePaths: ['a.ts'] }],
+            },
+            telemetry: null,
+          },
+          outcome: 'completed',
+          stopped: true,
+          manifest: plan.manifest,
+          commands: [],
+        };
+      },
+    };
+
+    await runDepositInBoxHost({
+      repositoryFullName: 'o/r',
+      revision: 'main',
+      branch: 'main',
+      commit: null,
+      userId: 'user-skip-thinkings',
+      obfuscations: null,
+      permissibleSources: [],
+      impermissibleSources: [],
+      demandContext: [],
+      hostFactory: async () => fakeHost,
+    });
+
+    // createThinkingsGeneration / createFailsafeGenerationSequence read these
+    // on the *sandbox* process — host-only env is a no-op without forwarding.
+    // Unset / missing = default false (full failsafes + Reason→Judge→SO).
+    expect(receivedPlan.createOptions.env).toMatchObject({
+      BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT: 'true',
+      BITCODE_DEBUG_SKIP_FAILSAFES: 'true',
+    });
+    expect(
+      receivedPlan.createOptions.env.BITCODE_DEBUG_ONLY_GENERATIONS,
+    ).toBeUndefined();
   });
 
   it('pins REAL_INFERENCE_PROFILE=bounded even when process.env says full', async () => {

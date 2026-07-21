@@ -4,9 +4,10 @@
  * Minimal PTRR agent used in Setup phase to derive a concise plan for the
  * expressed read and AssetPack written-asset synthesis corridor.
  *
- * Env for bring-up:
- * - BITCODE_DEBUG_ONLY_FAILSAFES=prepare
- * - BITCODE_DEBUG_ONLY_GENERATIONS=reason
+ * Env for bring-up (opt-in debug; default unset = full failsafe + Thinkings):
+ * - BITCODE_DEBUG_SKIP_FAILSAFES=true
+ * - BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT=true
+ * - BITCODE_DEBUG_ONLY_FAILSAFES=prepare  (whitelist single failsafe stage)
  */
 
 import { z } from 'zod';
@@ -119,12 +120,11 @@ export const ReadFitsFindingSynthesisSetupPlanAgent = factoryPTRRAgent<any, z.in
 // tests never reach a live provider; real determinism comes from a boundary
 // LLM mock, never from an inference profile.
 export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: any, execution: any) {
-  const onlyFails = String(process?.env?.BITCODE_DEBUG_ONLY_FAILSAFES || '');
-  const onlyGens = String(process?.env?.BITCODE_DEBUG_ONLY_GENERATIONS || '');
   const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
   const emitStubLifecycle =
     process?.env?.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST === '1';
-  const useStub = isTest || (onlyFails.length > 0 && onlyGens.length > 0);
+  // Stub only under NODE_ENV=test — operator debug flags run the real PTRR path.
+  const useStub = isTest;
 
   let result: z.infer<typeof PlanSchema>;
   if (useStub) {

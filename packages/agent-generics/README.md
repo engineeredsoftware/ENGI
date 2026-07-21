@@ -140,7 +140,8 @@ Agent (name + identity)
 - BITCODE_DEBUG_ONLY_AGENT: substring match on agent name; non‑matching agents no‑op.
 - BITCODE_DEBUG_ONLY_STEP: one of plan|try|refine|retry — executes only that PTRR generation.
 - BITCODE_DEBUG_ONLY_FAILSAFES: comma list of prepare,chunk,stitch — runs only those parent failsafes.
-- BITCODE_DEBUG_ONLY_GENERATIONS: comma list of reason,judge,structured_output — runs only those child generations under each parent.
+- BITCODE_DEBUG_SKIP_FAILSAFES: when true/1, skips all failsafes and runs bare task Thinkings (envelope still { context, output, finalOutput }).
+- BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT: when true/1, each Thinkings sequence is Reason only (dual reasoning+output envelope; no Judge/SO LLM).
 
 Notes
 - Generations are child sub‑executions of failsafes. The hierarchy is: Generation → Failsafe (parent) → GenerationCall (child). Tools run after all failsafes.

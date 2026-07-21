@@ -69,7 +69,8 @@ function collectNodes(node: any, out: any[] = []): any[] {
 
 afterEach(() => {
   delete process.env.BITCODE_DEBUG_ONLY_FAILSAFES;
-  delete process.env.BITCODE_DEBUG_ONLY_GENERATIONS;
+  delete process.env.BITCODE_DEBUG_SKIP_FAILSAFES;
+  delete process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT;
 });
 
 describe('createFailsafeGenerationSequence composition', () => {
@@ -144,6 +145,71 @@ describe('createFailsafeGenerationSequence composition', () => {
     expect(nodes.some(n => String(n.id).includes('failsafe:prepare_concise_context'))).toBe(true);
     expect(nodes.some(n => String(n.id).includes('failsafe:chunk_then_sum'))).toBe(false);
     expect(nodes.some(n => String(n.id).includes('failsafe:stitch_until_complete'))).toBe(false);
+  });
+
+  it('BITCODE_DEBUG_SKIP_FAILSAFES runs bare task Thinkings with stitch-shaped envelope', async () => {
+    process.env.BITCODE_DEBUG_SKIP_FAILSAFES = '1';
+    const counter = { calls: 0 };
+    const { root, step } = makeRootAndStep(makeScriptedLLM(counter));
+    const sequence = createFailsafeGenerationSequence({ outputSchema });
+
+    const result = await sequence({ read: 'Fit this repository.' }, step);
+
+    // One task Thinkings only (reason + judge + SO) — no PCC selection Thinkings.
+    expect(counter.calls).toBe(3);
+    expect(Object.keys(result).sort()).toEqual(
+      expect.arrayContaining(['context', 'finalOutput', 'output']),
+    );
+    expect(result.finalOutput).toEqual(structuredPayload);
+    expect(result.output).toEqual(structuredPayload);
+    expect(result.context).toEqual({});
+
+    const nodes = collectNodes(root);
+    expect(nodes.some(n => String(n.id).includes('failsafe:prepare_concise_context'))).toBe(false);
+    expect(nodes.some(n => String(n.id).includes('failsafe:chunk_then_sum'))).toBe(false);
+    expect(nodes.some(n => String(n.id).includes('failsafe:stitch_until_complete'))).toBe(false);
+  });
+
+  it('BITCODE_DEBUG_SKIP_FAILSAFES wins over BITCODE_DEBUG_ONLY_FAILSAFES', async () => {
+    process.env.BITCODE_DEBUG_SKIP_FAILSAFES = 'true';
+    process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
+    const counter = { calls: 0 };
+    const { root, step } = makeRootAndStep(makeScriptedLLM(counter));
+    const sequence = createFailsafeGenerationSequence({ outputSchema });
+
+    const result = await sequence({ read: 'Fit this repository.' }, step);
+
+    expect(counter.calls).toBe(3); // task Thinkings, not selection-only prepare
+    expect(result.finalOutput).toEqual(structuredPayload);
+    const nodes = collectNodes(root);
+    expect(nodes.some(n => String(n.id).includes('failsafe:prepare_concise_context'))).toBe(false);
+  });
+
+  it('skip failsafes + skip Thinkings Judge/SO is a single dual-envelope Reason call', async () => {
+    process.env.BITCODE_DEBUG_SKIP_FAILSAFES = '1';
+    process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT = '1';
+    const dualPayload = {
+      ...reasoningPayload,
+      output: structuredPayload,
+    };
+    const counter = { calls: 0 };
+    const llm = async () => {
+      counter.calls++;
+      return {
+        content: JSON.stringify(dualPayload),
+        usage: { totalTokens: 5 },
+        metadata: { provider: 'test', model: 'test-model' },
+      };
+    };
+    const { step } = makeRootAndStep(llm);
+    const result = await createFailsafeGenerationSequence({ outputSchema })(
+      { read: 'Fit this repository.' },
+      step,
+    );
+
+    expect(counter.calls).toBe(1);
+    expect(result.finalOutput).toEqual(structuredPayload);
+    expect(result.output).toEqual(structuredPayload);
   });
 });
 

@@ -193,10 +193,16 @@ Package paths: `packages/generic-generations/{failsafes,thinkings}/`,
 3. **StitchUntilComplete** — repair schema-incomplete/truncated output
 
 Each FailsafeGeneration runs **ThinkingsGeneration**: Reason → Judge → StructuredOutput.
-Operator debug: `BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT=1` collapses
-each Thinkings sequence to **Reason only** (Judge + StructuredOutput skipped);
-Reason must still emit schema-shaped nested `output` so PTRR/failsafe return
-shape is unchanged. Opaque outside `createThinkingsGeneration`.
+Operator debug (default unset = full product path):
+- `BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT=1` collapses each
+  Thinkings sequence to **Reason only** (Judge + StructuredOutput skipped);
+  Reason must still emit schema-shaped nested `output` so PTRR/failsafe return
+  shape is unchanged. Opaque outside `createThinkingsGeneration`.
+- `BITCODE_DEBUG_SKIP_FAILSAFES=1` skips prepare/chunk/stitch and runs **bare
+  task Thinkings** once; return envelope still exposes
+  `{ context, output, finalOutput }`. Opaque outside
+  `createFailsafeGenerationSequence`.
+Both must reach the in-box pipeline process (host→sandbox allowlist).
 Tools run after failsafes (postprocess).
 
 **Legacy naming:** `ThricifiedGeneration` → prefer `ThinkingsGeneration`;

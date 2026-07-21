@@ -58,8 +58,8 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
   it(
     'streams phase/agent events and persists structured rows',
     async () => {
-      process.env.BITCODE_DEBUG_ONLY_FAILSAFES = 'prepare';
-      process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'reason';
+      process.env.BITCODE_DEBUG_SKIP_FAILSAFES = '1';
+      process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT = '1';
       process.env.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST = '1';
 
       try {
@@ -175,6 +175,8 @@ describe('AssetPack pipeline bring-up (setup + PTRR plan: prepare→reason)', ()
         ).toBe(true);
       } finally {
         delete process.env.BITCODE_ENABLE_ASSET_PACK_SETUP_PHASE_RUNTIME_IN_TEST;
+        delete process.env.BITCODE_DEBUG_SKIP_FAILSAFES;
+        delete process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT;
       }
     },
     30000,

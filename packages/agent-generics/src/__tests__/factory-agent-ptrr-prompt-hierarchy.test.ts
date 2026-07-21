@@ -40,7 +40,7 @@ describe('factoryPTRRAgent Bitcode prompt hierarchy', () => {
           plan: () => promptRegistry('plan')
         } as any
       })
-    ).toThrow(/missing try, refine, retry/u);
+    ).toThrow(/missing try, retry, refine/u);
   });
 
   it('accepts primary prompt + stepPrompts carrier', () => {
