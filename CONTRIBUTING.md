@@ -414,12 +414,30 @@ iteration only — not a commit bar.
 **All commits must be green for production deployment.** A red commit is
 undeployable debt. Do not rely on “CI will catch it after push.”
 
+### 8.1.1 REQUIRED: full green CI before any production redeploy
+
+**Never redeploy production** (Vercel Production promote, production domain cutover,
+or shipping a new production Pipeliner image tag) until living CI is **fully green**
+on the **exact commit SHA** you will ship.
+
+| Law | Detail |
+| --- | --- |
+| **When** | Before **every** production redeploy — not only first ship of a gate |
+| **SHA** | The deployed commit must match a tree that has passed the living bar **after the last edit** on that SHA |
+| **Local** | Re-run the full §8.1 mirror on that tree until every command exits 0 |
+| **GitHub** | Required application CI on that SHA / PR must be green (`ci.yml` lint-build; plus `test-mocks` or other required jobs when branch protection demands them) |
+| **Partial smoke** | Focused Jest alone is **not** a redeploy bar — same as it is not a commit bar |
+| **Pipeliner** | If production sandbox uses a sha-tagged image, rebuild/push that image from a commit that already satisfies this bar; do not tag production from a red tree |
+| **Ban** | Redeploying “while CI is still running,” redeploying a SHA that only had smoke green, or redeploying local-unpushed work that never hit required CI |
+
+Focused checks while iterating are fine. **Production redeploy requires full green.**
+
 | Law | Detail |
 | --- | --- |
 | **When** | **Before every `git commit`** that may land on a shared branch, gate PR, or production path |
 | **What** | Same living checks application CI expects — full `lint-build` mirror, not “only my test file” |
 | **Bar** | ESLint, TypeScript (`tsc --noEmit`), Next build, and **package/Jest suites for every package you touched** must pass with green exit codes |
-| **Deploy** | Only green commits are production-eligible; promotion to `main` also needs the version **promotion** workflow green |
+| **Deploy** | Only green commits are production-eligible; see **§8.1.1** — every production redeploy needs full green on the ship SHA; promotion to `main` also needs the version **promotion** workflow green |
 | **Ban** | Committing known red typecheck/lint/build, or committing without re-running checks after the last edit |
 
 Minimum local mirror of application CI (`.github/workflows/ci.yml` `lint-build`
@@ -510,6 +528,10 @@ bash scripts/check-import-casing.sh
 it,” “I’ll fix in the next commit,” or “only a package file changed so tsc is
 optional” as substitutes. Production deployment assumes every landed commit was
 commit-bar green.
+
+**Before every production redeploy:** re-confirm full green on the **ship SHA**
+(§8.1.1). A green commit from yesterday is not enough if later commits on the
+deployed branch are untested or red.
 
 **Historical freeze:** after promotion, version-bound checkers and era proofs are
 immutable. New drafts may break them; leave them untouched and unrequired.

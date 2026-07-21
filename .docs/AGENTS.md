@@ -57,8 +57,9 @@
   - **After lint-build is green**, if the branch is pushed and GitHub runs `test-mocks` / other required jobs, those must be green before treating the commit as deployable; prefer running the equivalent locally when the change can affect uapi Jest.
   - Gate / version work also requires living **active + draft** quality (gate-quality / canon-quality). Version → `main` requires the **promotion** workflow green.
   - Partial smoke (`jest path/to/one.test.ts` alone) is **iteration only** — **never** a commit bar. “I typechecked in my head,” “eslint passed last hour,” or “CI will catch it” are **not** substitutes.
+  - **REQUIRED — full green CI before any production redeploy.** Never promote/redeploy production (or ship a production Pipeliner image tag) unless the **exact ship SHA** has living CI fully green after the last edit on that SHA. Partial smoke is not a redeploy bar. See `CONTRIBUTING.md` §8.1.1 and `.docs/DEPLOYMENT.md` (production redeploy bar).
   - **Lesson:** shipping red typecheck (e.g. unrun `tsc --noEmit` after agent-generics edits) fails production CI (`Lint, Type-Check & Build`) and blocks deploy. Always re-run the full local mirror on the **final tree** immediately before `git commit`.
-  - Human guide: `CONTRIBUTING.md` §8.1.
+  - Human guide: `CONTRIBUTING.md` §8.1 and §8.1.1.
 - Keep CI greenable rather than ceremonial. Required application CI uses root pnpm workspace installation and maintained uapi lint/typecheck/build/Jest coverage. Do not "fix" promoted-era checkers so they pass against the present tree. Heavy legacy scans such as full DB/browser E2E, Storybook build, super-linter, and advanced CodeQL are opt-in by repository variables until their backing catalogs and service assumptions are maintained for required branch protection.
 
 ## The Bezalel Protocol: Sacred Craft for Coding Agents

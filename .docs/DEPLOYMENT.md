@@ -2,6 +2,25 @@
 
 See `.docs/BITCODE_CONNECTED_SERVICES.md` for connected-service notes. This guide focuses on environment variables and external settings (OAuth callbacks, webhooks, allowed return URLs) required to deploy Bitcode.
 
+## REQUIRED: full green CI before any production redeploy
+
+**Never redeploy production** until living CI is **fully green** on the **exact commit SHA** you will ship.
+
+This is absolute for:
+
+- Vercel **Production** deploys / promotes / domain cutovers
+- Shipping or retargeting a **production Pipeliner** image (`BITCODE_PIPELINE_SANDBOX_IMAGE=…:v48-<sha>` or production `:latest`)
+- Any other path that puts a new SHA on the commercial site or production sandbox host
+
+| Bar | Detail |
+| --- | --- |
+| **Local living mirror** | On the ship tree, run to **green exit codes**: `pnpm run build:eslint-plugin`, `pnpm -C apps/uapi run lint`, `pnpm -C apps/uapi exec tsc --noEmit`, `pnpm -C apps/uapi run build`, plus package/Jest suites for every package touched (see `CONTRIBUTING.md` §8.1) |
+| **GitHub required CI** | Required workflows on that SHA/PR must be green (application `ci.yml` lint-build; plus `test-mocks` / other branch-protection jobs when required) |
+| **Not enough** | Focused Jest alone, “lint was green earlier,” CI still running, or unpushed local commits that never hit required CI |
+| **Pipeliner** | Rebuild/push production image tags only from a SHA that already satisfies this bar |
+
+Commit law (every landed commit) and redeploy law (every production ship) are the same green bar, applied at different moments. Full detail: `CONTRIBUTING.md` §8.1 / §8.1.1; agents: `.docs/AGENTS.md`.
+
 ## V35 Testnet Rollout Readiness
 
 V35 Gate 7 adds `TestnetRolloutReadinessGuide` as the package-owned source of
