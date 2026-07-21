@@ -42,6 +42,7 @@ import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_PREPARED_TASK_CHUNK_PRIORS } 
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_SUM_PREFIX } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge_sum_prefix';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_JUDGE_GENERIC_EVALUATE_PREFIX } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_judge_generic_evaluate_prefix';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason';
+import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SKIP_JUDGE_AND_SO } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason_skip_judge_and_so';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PCC_SELECTION_USER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason_pcc_selection_user';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SELECTION_INPUT_LABEL } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason_selection_input_label';
 import { PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_USER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_generation_reason_prepared_task_user';
@@ -350,7 +351,12 @@ function factoryLLMGeneration<TInput, TOutput>(
 
     // Enforce strict JSON output for Thinkings generations (once — builders must not re-prefix).
     if (sequence === ThinkingsGeneration.REASON) {
-      const shape = (ReasoningSchema as any)?.description || '{ "analysis": string, "reasoningItems": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
+      // When structuredSchemaShape is set (Reason-only Thinkings), the envelope
+      // already includes nested output schema — do not use bare Reasoning shape.
+      const shape =
+        config.structuredSchemaShape ||
+        (ReasoningSchema as any)?.description ||
+        '{ "analysis": string, "reasoningItems": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }] }';
       userPrompt = [
         String(PROMPTPART_GENERIC_AGENT_GENERATION_JSON_ONLY_HEADER),
         shape,
@@ -1177,14 +1183,41 @@ export function factoryJudge<T>(): Executor<T, T & { judgment: Judgment }> {
   return Object.assign(exec, { __gen: 'judge' as const });
 }
 
+export type FactoryReasonOptions<TSchema = unknown> = {
+  /**
+   * When set by createThinkingsGeneration (skip Judge/SO mode only), Reason
+   * must also emit nested `output` matching this schema so the Thinkings
+   * return envelope still carries schema-shaped step output.
+   * factoryReason does not read env flags — callers opt in by passing schema.
+   */
+  structuredOutputSchema?: z.ZodType<TSchema>;
+};
+
 /**
- * Reason - Thinkings generation that applies logical reasoning  
+ * Reason - Thinkings generation that applies logical reasoning
  * CRITICAL: This is a CHILD execution that runs within failsafe parents
  */
-export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
+export function factoryReason<T, TSchema = unknown>(
+  options?: FactoryReasonOptions<TSchema>,
+): Executor<T, T & { reasoning: Reasoning; judgment?: Judgment; output?: TSchema }> {
+  const structuredOutputSchema = options?.structuredOutputSchema;
+  const dualEnvelope = Boolean(structuredOutputSchema);
+  const outputShape = dualEnvelope
+    ? (structuredOutputSchema as z.ZodTypeAny).description ||
+      inferSchemaShape(structuredOutputSchema as z.ZodTypeAny)
+    : null;
+  const dualShape = dualEnvelope
+    ? `{ "analysis": string, "reasoningItems": string[], "conclusion": string, "confidence": number (0..1), "useTools"?: [{ "name": string, "input": any, "reason": string }], "output": ${outputShape} }`
+    : undefined;
+  const topKeys = dualEnvelope
+    ? inferTopLevelKeys(structuredOutputSchema as z.ZodTypeAny)
+    : [];
+  const allowsUseTools = topKeys.includes('useTools');
+
   const exec = factoryLLMGeneration(
     ThinkingsGeneration.REASON,
     {
+      structuredSchemaShape: dualShape,
       buildUserPrompt: (input) => {
         const typedInput = input && typeof input === 'object' ? input as any : {};
         // Check context to provide appropriate reasoning prompt
@@ -1195,6 +1228,7 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
           typedInput.pipeline_execution_keys !== undefined &&
           typedInput.preparation !== undefined;
 
+        let body: string;
         if (isStitch) {
           const context = typedInput.context && Object.keys(typedInput.context).length
             ? [
@@ -1204,24 +1238,22 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
                 safePromptJson(typedInput.context),
               ].join('\n')
             : '';
-          return [
+          body = [
             String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_STITCH_CONTINUE_PREFIX),
             '',
             safePromptJson(typedInput.partialOutput),
             context,
           ].filter(Boolean).join('\n');
-        }
-        if (isSum) {
-          return [
+        } else if (isSum) {
+          body = [
             String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SUM_PREFIX),
             '',
             safePromptJson(typedInput.chunkResults),
           ].join('\n');
-        }
-        if (isPccSelection) {
+        } else if (isPccSelection) {
           // PCC law is already on the hierarchical system prompt; do not re-embed
           // it (or the full EE hierarchy) in the user JSON.
-          return [
+          body = [
             String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PCC_SELECTION_USER),
             '',
             String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SELECTION_INPUT_LABEL),
@@ -1230,10 +1262,9 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
               pipeline_execution_keys: typedInput.pipeline_execution_keys,
             }),
           ].join('\n');
-        }
-        // CS prepared task: selectedKeys + selectedContext (+ chunk priors) only.
-        if (isPreparedTaskInput(typedInput)) {
-          return [
+        } else if (isPreparedTaskInput(typedInput)) {
+          // CS prepared task: selectedKeys + selectedContext (+ chunk priors) only.
+          body = [
             String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_USER),
             typedInput.priorChunkCompletions
               ? String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_CHUNK_PRIORS)
@@ -1245,29 +1276,143 @@ export function factoryReason<T>(): Executor<T, T & { reasoning: Reasoning }> {
             String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_PREPARED_TASK_INPUT_LABEL),
             safePromptJson(buildPreparedTaskLlmPayload(typedInput, 'reason')),
           ].filter(Boolean).join('\n');
+        } else {
+          body = [
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_GENERIC_SOLVE_PREFIX),
+            '',
+            safePromptJson(input ?? null),
+          ].join('\n');
         }
-        return [
-          String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_GENERIC_SOLVE_PREFIX),
-          '',
-          safePromptJson(input ?? null),
-        ].join('\n');
+
+        // Dual envelope: Reason must also emit structured `output` (Judge/SO skipped).
+        if (dualEnvelope) {
+          const keysHint = topKeys.length
+            ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_TOP_LEVEL_KEYS_HINT)} ${topKeys.join(', ')}`
+            : '';
+          return [
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_REASON_SKIP_JUDGE_AND_SO),
+            keysHint,
+            dualShape ? `${String(PROMPTPART_GENERIC_AGENT_GENERATION_USE_THIS_STRUCTURED_SCHEMA)} ${dualShape}` : '',
+            allowsUseTools
+              ? String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_USETOOLS_ALLOWED)
+              : String(PROMPTPART_GENERIC_AGENT_GENERATION_STRUCTURED_OUTPUT_USETOOLS_FORBIDDEN),
+            String(PROMPTPART_GENERIC_AGENT_GENERATION_IF_UNKNOWN_EMPTY),
+            '',
+            body,
+          ].filter(Boolean).join('\n');
+        }
+        return body;
       },
 
       parseOutput: async (output, input) => {
-        const reasoning = await parseResponse(
-          output,
-          ReasoningSchema,
-          () => ({
-            analysis: 'Failed to reason',
-            reasoningItems: [],
-            conclusion: 'No conclusion',
-            confidence: 0
-          })
+        if (!dualEnvelope || !structuredOutputSchema) {
+          const reasoning = await parseResponse(
+            output,
+            ReasoningSchema,
+            () => ({
+              analysis: 'Failed to reason',
+              reasoningItems: [],
+              conclusion: 'No conclusion',
+              confidence: 0,
+            }),
+          );
+          return { ...(input as any), reasoning };
+        }
+
+        // Parse dual envelope: reasoning fields + nested (or top-level) structured output.
+        let raw: any = null;
+        try {
+          raw = typeof output === 'string' ? JSON.parse(output) : output;
+        } catch {
+          raw = null;
+        }
+        if (!raw || typeof raw !== 'object') {
+          try {
+            const recovered = await parseResponse(output, z.any(), () => ({}));
+            raw = recovered && typeof recovered === 'object' ? recovered : {};
+          } catch {
+            raw = {};
+          }
+        }
+
+        const reasoningFallback = {
+          analysis: 'Failed to reason',
+          reasoningItems: [] as string[],
+          conclusion: 'No conclusion',
+          confidence: 0,
+        };
+        let reasoning: Reasoning;
+        try {
+          reasoning = ReasoningSchema.parse({
+            analysis: raw.analysis ?? reasoningFallback.analysis,
+            reasoningItems: Array.isArray(raw.reasoningItems)
+              ? raw.reasoningItems
+              : reasoningFallback.reasoningItems,
+            conclusion: raw.conclusion ?? reasoningFallback.conclusion,
+            confidence:
+              typeof raw.confidence === 'number' ? raw.confidence : reasoningFallback.confidence,
+            useTools: raw.useTools,
+          });
+        } catch {
+          reasoning = await parseResponse(output, ReasoningSchema, () => reasoningFallback);
+        }
+
+        let structuredCandidate =
+          raw.output !== undefined
+            ? raw.output
+            : (() => {
+                const {
+                  analysis: _a,
+                  reasoningItems: _r,
+                  conclusion: _c,
+                  confidence: _conf,
+                  useTools: _u,
+                  ...rest
+                } = raw;
+                return Object.keys(rest).length ? rest : null;
+              })();
+
+        let structured = await parseResponse(
+          typeof structuredCandidate === 'string'
+            ? structuredCandidate
+            : JSON.stringify(structuredCandidate ?? {}),
+          structuredOutputSchema,
+          () => buildCoercedBySchema(structuredOutputSchema as z.ZodTypeAny),
         );
 
-        return { ...(input as any), reasoning };
-      }
-    }
+        // Match SO hoist: useTools on reasoning when schema allows tools.
+        if (allowsUseTools) {
+          const fromSo = (structured as any)?.useTools;
+          const fromReason = reasoning?.useTools;
+          if (
+            (!Array.isArray(fromSo) || fromSo.length === 0) &&
+            Array.isArray(fromReason) &&
+            fromReason.length > 0
+          ) {
+            structured = { ...(structured as any), useTools: fromReason };
+          }
+        }
+
+        // Synthetic judgment so PTRR Retry/Refine gates stay opaque (no Judge call).
+        const confidence =
+          typeof reasoning.confidence === 'number' && Number.isFinite(reasoning.confidence)
+            ? Math.min(1, Math.max(0, reasoning.confidence))
+            : 1;
+        const judgment: Judgment = {
+          quality: confidence,
+          issues: [],
+          suggestions: [],
+          approved: true,
+        };
+
+        return {
+          ...(input as any),
+          reasoning,
+          judgment,
+          output: structured,
+        };
+      },
+    },
   );
   return Object.assign(exec, { __gen: 'reason' as const });
 }

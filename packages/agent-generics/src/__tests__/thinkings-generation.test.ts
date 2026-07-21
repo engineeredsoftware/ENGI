@@ -80,6 +80,7 @@ function generationNodes(root: any): Map<string, any> {
 
 afterEach(() => {
   delete process.env.BITCODE_DEBUG_ONLY_GENERATIONS;
+  delete process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT;
 });
 
 describe('createThinkingsGeneration sequencing and payload threading', () => {
@@ -152,6 +153,62 @@ describe('createThinkingsGeneration sequencing and payload threading', () => {
     const result = await thinkings({ read: 'anything' }, step);
 
     expect(userPrompts).toHaveLength(3);
+    expect(result.output).toEqual(structuredPayload);
+  });
+
+  it('BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT runs Reason only with dual envelope', async () => {
+    process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT = '1';
+    const dualPayload = {
+      ...reasoningPayload,
+      output: structuredPayload,
+    };
+    const userPrompts: string[] = [];
+    const llm = async (llmInput: any) => {
+      const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
+      userPrompts.push(user);
+      return {
+        content: JSON.stringify(dualPayload),
+        usage: { ...usagePayload },
+        metadata: { provider: 'test', model: 'test-model', stopReason: 'end' },
+      };
+    };
+    const { step } = makeRootAndStep(llm);
+    const thinkings = createThinkingsGeneration(outputSchema);
+
+    const result = await thinkings({ read: 'Fit this repository.' }, step);
+
+    expect(userPrompts).toHaveLength(1);
+    expect(userPrompts[0]).toMatch(/Reason only|NO Judge|NO StructuredOutput/i);
+    expect(userPrompts[0]).toContain('output');
+    expect(result.reasoning).toMatchObject({
+      analysis: reasoningPayload.analysis,
+      conclusion: reasoningPayload.conclusion,
+    });
+    expect(result.output).toEqual(structuredPayload);
+    expect(result.judgment).toEqual(
+      expect.objectContaining({ approved: true, quality: reasoningPayload.confidence }),
+    );
+    expect(() => outputSchema.parse(result.output)).not.toThrow();
+  });
+
+  it('skip flag wins over BITCODE_DEBUG_ONLY_GENERATIONS incomplete reason-only', async () => {
+    process.env.BITCODE_DEBUG_SKIP_THINKINGS_JUDGE_AND_STRUCTURED_OUTPUT = '1';
+    process.env.BITCODE_DEBUG_ONLY_GENERATIONS = 'judge';
+    const dualPayload = { ...reasoningPayload, output: structuredPayload };
+    const userPrompts: string[] = [];
+    const llm = async (llmInput: any) => {
+      const user = (llmInput.messages || []).find((m: any) => m.role === 'user')?.content ?? '';
+      userPrompts.push(user);
+      return {
+        content: JSON.stringify(dualPayload),
+        usage: { ...usagePayload },
+        metadata: { provider: 'test', model: 'test-model', stopReason: 'end' },
+      };
+    };
+    const { step } = makeRootAndStep(llm);
+    const result = await createThinkingsGeneration(outputSchema)({ read: 'x' }, step);
+    // Reason-only path — not debug-only judge.
+    expect(userPrompts).toHaveLength(1);
     expect(result.output).toEqual(structuredPayload);
   });
 });
