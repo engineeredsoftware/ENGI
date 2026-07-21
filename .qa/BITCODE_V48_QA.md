@@ -753,7 +753,9 @@ completion event and the `/deposits` URL after dispatch.
 ### V48-Gate5-F01 — Unpaid READ source-safety (2026-07-20)
 
 **Class:** product law / source-safety / read experience  
-**Status:** open → implementing on gate branch  
+**Status:** implemented on gate branch (commits: Unpaid READ law, hard gate,
+Packs entitled download, elapsed logs, docs TODOs). Operator: scrub historical
+rows via `POST /api/admin/scrub-unpaid-read-outputs` when desired.  
 **Symptom:** unpaid reader could view path-ops, covered paths, and download
 patchfile before settle; history API returned full `options` with patch;
 settle trusted client-posted commercial material.
