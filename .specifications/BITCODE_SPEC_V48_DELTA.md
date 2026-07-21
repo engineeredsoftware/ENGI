@@ -167,7 +167,7 @@ responses, wallet private material, or value-bearing mainnet authority.
 ## Gate 5: Reader Website Completion
 
 Gate 5 completes Read Request, Need synthesis/review, Finding Fits, preview,
-quote, BTC-testnet settlement, BTD rights transfer, and PR delivery.
+quote, multi-rail settlement, BTD rights transfer, and PR delivery.
 
 Gate 5 owns `.proofs/v48/reader-website-completion.json`,
 `buildV48ReaderWebsiteCompletion`, and `check:v48-gate5`. The completion
@@ -176,14 +176,21 @@ binds the five-step `/reads` route session (`request-read`,
 `buy-asset-pack-settle`) to a source-safe fit measurement review rendering
 Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence,
 delivery readiness, selected Fit provenance, final BTD scalar, and the
-deterministic BTC-testnet quote basis before any payment; orders payment
-observation, BTC-testnet finality, BTD rights transfer receipt, and
-repository PR delivery as fail-closed readback with source-bearing delivery
-locked until rights transfer; keeps Reading activity and settled AssetPacks
-reachable through `/packs`; and exposes everything as source-safe metadata
-only, with no protected source, unpaid AssetPack source, raw prompts, raw
-provider responses, wallet private material, or value-bearing mainnet
-authority.
+deterministic multi-rail quote basis before any payment; orders payment
+observation, finality, BTD rights transfer receipt, and repository PR
+delivery as fail-closed readback with source-bearing delivery locked until
+rights transfer; keeps Reading activity and settled AssetPacks reachable
+through `/packs`; and exposes unpaid review as **title + summary +
+measurements only** (coverage % of request-SHA catalog; path tokens scrubbed;
+no path names, path-ops, patch bodies, or downloads). Full commercial material
+is server-rehydrated at settle by `synthesisRunId` + option indexes.
+Post-settle entitled buyers receive PR on `bitcode/…` from the request SHA
+plus fully rich Packs downloads. Depository finds are Discovery inputs only;
+options are always freshly synthesized. Depositor owners always see their own
+packs fully. MCP / ChatGPT / public API share the unpaid matrix as law (TODO
+implement). Pipeline log times are elapsed from run start. No protected
+source, unpaid AssetPack source, raw prompts, raw provider responses, wallet
+private material, or value-bearing mainnet authority.
 
 ## Gate 6: Packs And Auxillaries Commercial Dashboard
 

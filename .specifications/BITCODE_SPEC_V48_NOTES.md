@@ -1295,17 +1295,69 @@ Finding APs is the critical path of read (Need → many queries → rank → syn
 
 1. Cold reload of read synthesis run rehydrates Need, options, telemetry (mirror
    deposit hydrate).
-2. Option cards show neediness catalog + download path-op patchfile for the
-   reader reviewing unpaid options (source-safe descriptor only until buy).
+2. Unpaid READ options: title + summary + measurements only (see unpaid
+   disclosure law below) — never pre-settle patch download or path names.
 3. Settle path journals one packs row per settled pack with neediness + absolute
    chips; no session aggregate counts as measurements.
 4. Source-safety: patch never on `/packs` until rights transfer / delivery
-   entitlement.
+   entitlement; then fully rich entitled delivery for the buyer.
 5. Five-step session law from DELTA Gate 5 remains binding.
 6. **Finding fits:** Discovery search returns ranked depository hits (non-empty
-   when supply exists); multi-query Need plan drives retrieval.
+   when supply exists); multi-query Need plan drives retrieval. Hits are
+   Discovery **inputs** only — commercial options are always freshly
+   synthesized AssetPacks.
 7. **Dispatch parity:** first stream status latency deposit-class; continuous
    phase events through Setup/Discovery.
+
+### Unpaid READ disclosure law (Gate 5 source-safety, 2026-07-20)
+
+**Binding product law** for pre-settle READ option presentation and all browser-
+facing carriers of unpaid read synthesis (`selectionEnvelope`,
+`executions.output` via history, option cards).
+
+| Legal (unpaid) | Illegal (unpaid) |
+| --- | --- |
+| `title`, `summary` | Path **names**, path-ops, patch bodies, diffs |
+| `measurements.absolutes` / `needinesses` | Patch summary as commercial preview |
+| `needFit`, `confidence` | Any download of patch/material |
+| Coverage as **% of repository catalog** at request SHA | Raw file counts / “N covered paths” as substitute |
+| Path-like tokens in labels/rationale **stripped** | Host checkout / raw source |
+
+Coverage formula: `coveredSourcePaths.length / catalogSourcePathCount` where
+denominator is the product **source checkout catalog** at the request commit
+(same path universe as Relevant/Irrelevant; junk/deps excluded). If numerator
+or denominator is missing → **omit** coverage (never invent counts).
+
+**Enforcement (defense in depth):**
+
+1. Finish agent dual envelope: browser options unpaid-safe; `fullOptions`
+   server-only for settle rehydrate.
+2. History/API: redact unpaid forever (strip `fullOptions` and forbidden fields
+   on read); migrate/scrub stored historical rows.
+3. UI fail-closed if forbidden fields appear.
+4. Settle accepts `synthesisRunId` + selected **indexes**; server rehydrates
+   full commercial material — client never needs patch to buy.
+
+**Options identity:** commercial options are always freshly synthesized.
+Depository finds, need/codebase comprehension are Discovery inputs only — not
+buyable “found AP” option kinds.
+
+**Deposit / owner:** depositor may **always** see their own AssetPacks fully
+(paths, patch, download) pre-admit and after. Non-owners / buyers use the
+unpaid matrix until settle. Public/search projections for non-owners stay
+unpaid-strict.
+
+**Post-settle entitled buyer:** PR delivery on clean branch `bitcode/…` from
+the SHA submitted with the request; fully rich entitled delivery on Packs
+(downloads, summaries, etc.). Seller BTD inverse split slider only post-settle
+on Packs activity/detail.
+
+**Other apps (MCP / ChatGPT / public API):** same unpaid matrix is product law;
+document precise TODOs in specs — **do not implement those apps in this
+workstream**.
+
+**Pipeline logs:** timestamps are **elapsed from run start** (`+0:12`, `+1:03`),
+not wall-local clock.
 
 ## Non-goals during V48 opening
 

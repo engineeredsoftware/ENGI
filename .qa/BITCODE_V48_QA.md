@@ -746,9 +746,38 @@ completion event and the `/deposits` URL after dispatch.
 
 - [ ] Read request on /reads
 - [ ] Need synthesis + review
-- [ ] Finding Fits + fit measurement review + BTC-testnet quote
+- [ ] Finding Fits + fit measurement review + multi-rail quote
 - [ ] Settle (testnet) → observation → finality → BTD rights readback
 - [ ] Repository PR delivery readback
+
+### V48-Gate5-F01 — Unpaid READ source-safety (2026-07-20)
+
+**Class:** product law / source-safety / read experience  
+**Status:** open → implementing on gate branch  
+**Symptom:** unpaid reader could view path-ops, covered paths, and download
+patchfile before settle; history API returned full `options` with patch;
+settle trusted client-posted commercial material.
+
+**Locked law (see `BITCODE_SPEC_V48_NOTES.md` unpaid READ disclosure):**
+
+- Pre-settle legal: title, summary, absolutes/needinesses, needFit, confidence,
+  coverage % of request-SHA catalog only (omit if incomplete).
+- Pre-settle illegal: path names, path-ops, patch bodies/diffs/summaries,
+  downloads, host source; strip path-like tokens from measure labels/rationale.
+- Defense in depth: finish dual envelope + history redact forever + migrate
+  scrub + UI fail-closed.
+- Settle: `synthesisRunId` + indexes; server rehydrate `fullOptions`.
+- Options always freshly synthesized; depository finds = Discovery inputs.
+- Owner deposit: always full self-view; non-owners unpaid until settle.
+- Post-settle buyer: PR `bitcode/` from request SHA + rich Packs downloads.
+- Other apps: document TODO; do not implement this pass.
+- Logs: elapsed from run start.
+
+**Code anchors (implement):**
+`unpaid-option-disclosure`, read finish agent, read dispatch,
+`getExecutionHistoryRunRoute` / `normalizeExecutionHistoryRow`,
+`/api/read/settle` rehydrate, `ReadsOptionCard`, Packs entitled download,
+`formatTime` elapsed.
 
 ## Track 4 — Ledgerized Journaling
 
