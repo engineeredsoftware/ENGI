@@ -405,35 +405,50 @@ Connected-services orientation: [`.docs/BITCODE_CONNECTED_SERVICES.md`](.docs/BI
 
 ## 8. Testing, documenting, and proving
 
-### 8.1 REQUIRED: full green CI before every commit
+### 8.1 REQUIRED: never commit until full local CI is completely green
 
-**Commits must always be fully green.** Do **not** commit (and do not push)
-until the living required CI surface is green on your tree.
+**Never commit** (and **never push**) until the living required CI surface has
+been **run on the final tree** and is **completely green**. Partial smoke is
+iteration only — not a commit bar.
+
+**All commits must be green for production deployment.** A red commit is
+undeployable debt. Do not rely on “CI will catch it after push.”
 
 | Law | Detail |
 | --- | --- |
-| **When** | **Before every commit** that will land on a shared branch (`version/**`, gate PRs, `main` promotion) |
-| **What** | Run the same living checks promotion / gate / application CI expect — not a partial “only my test file” bar |
-| **Bar** | Lint, typecheck, build, and relevant unit/package suites must pass; leave no known red CI |
-| **Promotion** | Version → `main` additionally requires the version **promotion** workflow green |
+| **When** | **Before every `git commit`** that may land on a shared branch, gate PR, or production path |
+| **What** | Same living checks application CI expects — full `lint-build` mirror, not “only my test file” |
+| **Bar** | ESLint, TypeScript (`tsc --noEmit`), Next build, and **package/Jest suites for every package you touched** must pass with green exit codes |
+| **Deploy** | Only green commits are production-eligible; promotion to `main` also needs the version **promotion** workflow green |
+| **Ban** | Committing known red typecheck/lint/build, or committing without re-running checks after the last edit |
 
-Minimum local mirror of application CI (`.github/workflows/ci.yml` lint-build):
+Minimum local mirror of application CI (`.github/workflows/ci.yml` `lint-build`
+job — run **all** of these to completion):
 
 ```bash
 pnpm install --frozen-lockfile   # when lockfile changed
 pnpm run build:eslint-plugin
 pnpm -C apps/uapi run lint
-pnpm -C apps/uapi exec tsc --noEmit
+pnpm -C apps/uapi exec tsc --noEmit   # required even if “only packages/*” changed
 pnpm -C apps/uapi run build
-# Plus focused Jest / package tests for the change set (see §8.3)
+# Plus focused Jest / package tests for every package in the change set (§8.3)
+# e.g. pnpm -C packages/agent-generics test
 ```
+
+**Why uapi `tsc` even for package-only edits:** Next/uapi typecheck pulls
+workspace packages (e.g. `@bitcode/agent-generics`). CI failed red on
+`llm-bound-factories.ts` when package TS errors were not caught before commit
+because the full local mirror was not re-run on the final tree.
 
 Gate / version work also needs the living **active + draft** quality surface
 (`bitcode-gate-quality` / `bitcode-canon-quality` — not frozen prior-era
 `check-vN-*` suites). See §8.4 CI surfaces and `.docs/AGENTS.md`.
 
-Partial local smoke (one Jest path only) is fine **during** iteration; it is
-**not** a substitute for full green before commit.
+| Allowed | Not allowed as commit bar |
+| --- | --- |
+| One-test smoke **while iterating** | Committing after only that smoke |
+| Fixing red CI, then re-running full mirror | “Lint was green an hour ago” without re-run |
+| Amending after full green | Pushing red and hoping GitHub fails for you |
 
 ### 8.2 Expectations by change type
 
@@ -490,8 +505,11 @@ bash scripts/check-import-casing.sh
 | `bitcode-canon-quality.yml` | Repository-wide living greenability during draft work (active + draft) |
 | `vN-canon-promotion.yml` | Version → `main` **promotion** workflow (pointer + promotion-grade validations) |
 
-**Before commit:** run the application living checks in §8.1 until green. Do not
-treat “CI will catch it” as a substitute for local full green.
+**Before every commit:** run the application living checks in §8.1 on the
+**final tree** until every command exits green. Do **not** treat “CI will catch
+it,” “I’ll fix in the next commit,” or “only a package file changed so tsc is
+optional” as substitutes. Production deployment assumes every landed commit was
+commit-bar green.
 
 **Historical freeze:** after promotion, version-bound checkers and era proofs are
 immutable. New drafts may break them; leave them untouched and unrequired.

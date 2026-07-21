@@ -280,6 +280,13 @@ itself (`debug env`, `flag`, `config`, `opt-in`, `test`, `script`) even under
 the 50-character soft budget — drop filler nouns before dropping scope class.
 Body may name the full env key; the subject still carries the class.
 
+**Green commits only (production law):** do not commit until the living required
+application CI surface has been run **locally on the final tree** and is
+**completely green** (lint, typecheck, build, and package/Jest suites for
+touched packages — see `.docs/AGENTS.md` and `CONTRIBUTING.md` §8.1). All
+commits that may deploy to production must be green; “CI will catch it after
+push” is not Complete Implementation Derivability.
+
 | Misread subject (false system implication) | Truthful subject |
 | --- | --- |
 | `Skip Thinkings Judge/SO` | `Skip Judge/SO debug env` |

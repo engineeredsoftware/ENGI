@@ -1343,6 +1343,7 @@ export function factoryReason<T, TSchema = unknown>(
         };
         let reasoning: Reasoning;
         try {
+          // Cast: Zod useTools shape is looser than UseTool (input required on type).
           reasoning = ReasoningSchema.parse({
             analysis: raw.analysis ?? reasoningFallback.analysis,
             reasoningItems: Array.isArray(raw.reasoningItems)
@@ -1352,9 +1353,13 @@ export function factoryReason<T, TSchema = unknown>(
             confidence:
               typeof raw.confidence === 'number' ? raw.confidence : reasoningFallback.confidence,
             useTools: raw.useTools,
-          });
+          }) as Reasoning;
         } catch {
-          reasoning = await parseResponse(output, ReasoningSchema, () => reasoningFallback);
+          reasoning = (await parseResponse(
+            output,
+            ReasoningSchema,
+            () => reasoningFallback,
+          )) as Reasoning;
         }
 
         let structuredCandidate =
