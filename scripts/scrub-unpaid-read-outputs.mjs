@@ -10,8 +10,13 @@
  * Optional env:
  *   LIMIT=100 OFFSET=0
  *   DRY_RUN=1          — classify/report only, no writes
- *   VERBOSE=1          — per-row reasons
+ *   VERBOSE=1          — per-row reasons on stderr lines
  *   ALL_PAGES=1        — walk the table in LIMIT-sized pages until empty
+ *   FILTER_SOURCE=0    — scan raw pages (no PostgREST source filter)
+ *   REPORT_LIMIT=50    — max inventory rows in JSON (default 50; 0 = all)
+ *
+ * Always reports a read-synthesis inventory (status, option counts,
+ * fullOptions / rehydrate readiness, error summary) separate from scrub.
  *
  * Resolves @supabase/supabase-js via apps/uapi (pnpm workspace).
  */
@@ -43,6 +48,11 @@ const startOffset = Math.max(Number(process.env.OFFSET || 0), 0);
 const dryRun = process.env.DRY_RUN === '1' || process.env.DRY_RUN === 'true';
 const verbose = process.env.VERBOSE === '1' || process.env.VERBOSE === 'true';
 const allPages = process.env.ALL_PAGES === '1' || process.env.ALL_PAGES === 'true';
+const reportLimitRaw = process.env.REPORT_LIMIT;
+const reportLimit =
+  reportLimitRaw === undefined || reportLimitRaw === ''
+    ? 50
+    : Math.max(0, Number(reportLimitRaw) || 0);
 
 function isObj(v) {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -124,22 +134,20 @@ function scrubOutput(output) {
 }
 
 /** Why this read-synthesis row should or should not be rewritten. */
-function classifyNeeds(prev, next) {
+function classifyNeeds(prev) {
   const reasons = [];
   const prevOptions = Array.isArray(prev.options) ? prev.options : [];
-  const envOptions = isObj(prev.selectionEnvelope) && Array.isArray(prev.selectionEnvelope.options)
-    ? prev.selectionEnvelope.options
-    : [];
+  const envOptions =
+    isObj(prev.selectionEnvelope) && Array.isArray(prev.selectionEnvelope.options)
+      ? prev.selectionEnvelope.options
+      : [];
   if (optionBagHasCommercial(prevOptions)) {
     reasons.push('options_have_commercial');
   }
   if (optionBagHasCommercial(envOptions)) {
     reasons.push('selectionEnvelope_options_have_commercial');
   }
-  if (
-    optionBagHasCommercial(prevOptions) &&
-    !Array.isArray(prev.fullOptions)
-  ) {
+  if (optionBagHasCommercial(prevOptions) && !Array.isArray(prev.fullOptions)) {
     reasons.push('missing_fullOptions_while_options_commercial');
   }
   if (
@@ -149,9 +157,102 @@ function classifyNeeds(prev, next) {
   ) {
     reasons.push('options_still_commercial_despite_fullOptions');
   }
-  // Only rewrite when browser-facing carriers still leak commercial material.
-  const needs = reasons.length > 0;
-  return { needs, reasons };
+  return { needs: reasons.length > 0, reasons };
+}
+
+function truncate(str, max = 160) {
+  if (typeof str !== 'string') return null;
+  const t = str.trim();
+  if (!t) return null;
+  return t.length > max ? `${t.slice(0, max)}…` : t;
+}
+
+function errorSummary(row) {
+  const err = row.error;
+  if (typeof err === 'string') return truncate(err);
+  if (isObj(err)) {
+    if (typeof err.message === 'string') return truncate(err.message);
+    if (typeof err.error === 'string') return truncate(err.error);
+    try {
+      return truncate(JSON.stringify(err));
+    } catch {
+      return '[error object]';
+    }
+  }
+  const out = isObj(row.output) ? row.output : {};
+  if (typeof out.summary === 'string' && String(row.status || '').toLowerCase() === 'failed') {
+    return truncate(out.summary);
+  }
+  return null;
+}
+
+/**
+ * Inventory one matched read-synthesis row (product health, not only leak).
+ * Distinguishes empty synthesis vs rehydrate-ready vs leaky browser options.
+ */
+function inventoryReadSynthesisRow(row) {
+  const ctx = isObj(row.context) ? row.context : {};
+  const out = isObj(row.output) ? row.output : {};
+  const options = Array.isArray(out.options) ? out.options : [];
+  const fullOptions = Array.isArray(out.fullOptions) ? out.fullOptions : [];
+  const envOptions =
+    isObj(out.selectionEnvelope) && Array.isArray(out.selectionEnvelope.options)
+      ? out.selectionEnvelope.options
+      : [];
+  const declaredCount =
+    typeof out.optionCount === 'number'
+      ? out.optionCount
+      : typeof ctx.optionCount === 'number'
+        ? ctx.optionCount
+        : null;
+
+  const commercialOnOptions = optionBagHasCommercial(options);
+  const commercialOnEnvelope = optionBagHasCommercial(envOptions);
+  const commercialOnFull = optionBagHasCommercial(fullOptions);
+  const rehydrateReady = fullOptions.length > 0 && commercialOnFull;
+  const unpaidBrowserOnly =
+    options.length > 0 && !commercialOnOptions && !commercialOnEnvelope;
+  const emptyOptions =
+    options.length === 0 && fullOptions.length === 0 && envOptions.length === 0;
+
+  let posture = 'unknown';
+  if (emptyOptions) posture = 'empty';
+  else if (commercialOnOptions || commercialOnEnvelope) posture = 'leaky_browser';
+  else if (rehydrateReady && unpaidBrowserOnly) posture = 'dual_envelope_ok';
+  else if (rehydrateReady && options.length === 0) posture = 'fullOptions_only';
+  else if (unpaidBrowserOnly && fullOptions.length === 0) posture = 'unpaid_no_fullOptions';
+  else if (options.length > 0 || fullOptions.length > 0) posture = 'partial';
+
+  return {
+    id: row.id,
+    status: typeof row.status === 'string' ? row.status : null,
+    created_at: row.created_at || null,
+    completed_at: row.completed_at || null,
+    source: typeof ctx.source === 'string' ? ctx.source : null,
+    pipeline:
+      typeof out.productPipeline === 'string'
+        ? out.productPipeline
+        : typeof ctx.pipelineCore === 'string'
+          ? ctx.pipelineCore
+          : null,
+    repositoryFullName:
+      typeof ctx.repositoryFullName === 'string'
+        ? ctx.repositoryFullName
+        : typeof out.repositoryFullName === 'string'
+          ? out.repositoryFullName
+          : null,
+    optionCount: options.length,
+    envelopeOptionCount: envOptions.length,
+    fullOptionsCount: fullOptions.length,
+    declaredOptionCount: declaredCount,
+    hasFullOptions: fullOptions.length > 0,
+    rehydrateReady,
+    browserLeaksCommercial: commercialOnOptions || commercialOnEnvelope,
+    fullOptionsCommercial: commercialOnFull,
+    posture,
+    error: errorSummary(row),
+    success: out.success === true ? true : out.success === false ? false : null,
+  };
 }
 
 function rowSourceSummary(row) {
@@ -172,6 +273,9 @@ function rowSourceSummary(row) {
 
 const admin = createClient(url, key, { auth: { persistSession: false } });
 
+const inventory = [];
+const postureHistogram = {};
+
 const totals = {
   scanned: 0,
   matchedReadSynthesis: 0,
@@ -184,22 +288,32 @@ const totals = {
   startOffset,
   allPages,
   sourceHistogram: /** @type {Record<string, number>} */ ({}),
+  postureHistogram,
+  inventorySummary: {
+    empty: 0,
+    dual_envelope_ok: 0,
+    leaky_browser: 0,
+    unpaid_no_fullOptions: 0,
+    fullOptions_only: 0,
+    partial: 0,
+    unknown: 0,
+    rehydrateReady: 0,
+    withBrowserOptions: 0,
+    failedStatus: 0,
+  },
   skippedSamples: /** @type {unknown[]} */ ([]),
   needsSamples: /** @type {unknown[]} */ ([]),
-  cleanSamples: /** @type {unknown[]} */ ([]),
+  /** Full per-row inventory (capped by REPORT_LIMIT; 0 = all). */
+  readSynthesisInventory: /** @type {unknown[]} */ ([]),
 };
 
 async function fetchPage(offset) {
-  // Prefer filtering to read synthesis when PostgREST JSON filter is available.
-  // Fallback: broad page + classifier (context shape varies).
   let query = admin
     .from('executions')
-    .select('id, context, output, type, created_at')
+    .select('id, context, output, type, status, error, created_at, completed_at')
     .order('created_at', { ascending: false })
     .range(offset, offset + pageSize - 1);
 
-  // Optional: only rows that look like read synthesis (context.source).
-  // Use FILTER_SOURCE=0 to scan everything in the page.
   if (process.env.FILTER_SOURCE !== '0') {
     query = query.or(
       [
@@ -244,27 +358,49 @@ while (pages < maxPages) {
     }
 
     totals.matchedReadSynthesis += 1;
+
+    const inv = inventoryReadSynthesisRow(row);
+    inventory.push(inv);
+    postureHistogram[inv.posture] = (postureHistogram[inv.posture] || 0) + 1;
+    if (inv.posture in totals.inventorySummary) {
+      totals.inventorySummary[inv.posture] += 1;
+    } else {
+      totals.inventorySummary.unknown += 1;
+    }
+    if (inv.rehydrateReady) totals.inventorySummary.rehydrateReady += 1;
+    if (inv.optionCount > 0) totals.inventorySummary.withBrowserOptions += 1;
+    if (String(inv.status || '').toLowerCase() === 'failed') {
+      totals.inventorySummary.failedStatus += 1;
+    }
+
+    if (verbose) {
+      console.log(
+        'inventory',
+        inv.id,
+        inv.status,
+        inv.posture,
+        `opts=${inv.optionCount}`,
+        `full=${inv.fullOptionsCount}`,
+        inv.error ? `err=${inv.error}` : '',
+      );
+    }
+
     const next = scrubOutput(row.output);
     if (!next) {
       totals.alreadyClean += 1;
       continue;
     }
     const prev = isObj(row.output) ? row.output : {};
-    const { needs, reasons } = classifyNeeds(prev, next);
+    const { needs, reasons } = classifyNeeds(prev);
 
     if (!needs) {
       totals.alreadyClean += 1;
-      if (verbose) {
-        console.log('clean', row.id, reasons);
-      } else if (totals.cleanSamples.length < 5) {
-        totals.cleanSamples.push({ ...summary, reasons: ['already_unpaid_or_no_options'] });
-      }
       continue;
     }
 
     totals.needsScrub += 1;
     if (totals.needsSamples.length < 10) {
-      totals.needsSamples.push({ ...summary, reasons });
+      totals.needsSamples.push({ ...summary, reasons, posture: inv.posture });
     }
 
     if (dryRun) {
@@ -289,6 +425,11 @@ while (pages < maxPages) {
   offset += pageSize;
 }
 
+totals.readSynthesisInventory =
+  reportLimit === 0 ? inventory : inventory.slice(0, reportLimit);
+totals.inventoryReported = totals.readSynthesisInventory.length;
+totals.inventoryTotal = inventory.length;
+
 console.log(JSON.stringify(totals, null, 2));
 
 if (totals.matchedReadSynthesis === 0) {
@@ -305,15 +446,22 @@ if (totals.matchedReadSynthesis === 0) {
       'Examples:',
       '  DRY_RUN=1 VERBOSE=1 ALL_PAGES=1 node scripts/scrub-unpaid-read-outputs.mjs',
       '  FILTER_SOURCE=0 LIMIT=200 node scripts/scrub-unpaid-read-outputs.mjs',
+      '  REPORT_LIMIT=0  # include full inventory in JSON',
     ].join('\n'),
   );
-} else if (totals.needsScrub === 0) {
+} else {
+  const s = totals.inventorySummary;
   console.error(
     [
       '',
-      `Matched ${totals.matchedReadSynthesis} read-synthesis row(s); none still leak commercial fields on options.`,
-      'Browser-facing options already look unpaid (or empty). History redaction also covers unpaid forever.',
-      'Nothing to rewrite — this is a successful no-op.',
+      `Read-synthesis inventory: ${totals.matchedReadSynthesis} row(s).`,
+      `  posture: empty=${s.empty} dual_envelope_ok=${s.dual_envelope_ok} leaky_browser=${s.leaky_browser}`,
+      `           unpaid_no_fullOptions=${s.unpaid_no_fullOptions} fullOptions_only=${s.fullOptions_only} partial=${s.partial}`,
+      `  rehydrateReady=${s.rehydrateReady} withBrowserOptions=${s.withBrowserOptions} failedStatus=${s.failedStatus}`,
+      totals.needsScrub === 0
+        ? 'Scrub: nothing to rewrite (browser options not commercial-leaking).'
+        : `Scrub: needsScrub=${totals.needsScrub} updated=${totals.updated}.`,
+      'See readSynthesisInventory[] for per-id status/optionCount/fullOptions/error.',
     ].join('\n'),
   );
 }
