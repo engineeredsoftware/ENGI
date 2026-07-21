@@ -97,7 +97,11 @@ const CHAIN_MARK_SLOT =
  * larger box+scale to hit ~same painted height as ETH diamond / SOL bars.
  */
 const CHAIN_GLYPH = {
-  btc: 'block h-12 w-12 origin-center scale-[1.55] phone:h-[3.25rem] phone:w-[3.25rem]',
+  /**
+   * BTC SVG path is slightly design-tilted in the Pixelmator export; −10° CSS
+   * straightens the B upright next to ETH/SOL without overshoot (−15° was past vertical).
+   */
+  btc: 'block h-12 w-12 origin-center scale-[1.55] rotate-[-10deg] phone:h-[3.25rem] phone:w-[3.25rem]',
   eth: 'block h-10 w-10 origin-center object-contain phone:h-11 phone:w-11',
   sol: 'block h-9 w-11 origin-center object-contain phone:h-10 phone:w-12',
   /** Nested fiat mini-cells in the lattice group. */
