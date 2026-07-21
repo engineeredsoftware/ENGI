@@ -100,7 +100,7 @@ describe('GitHub App callback handling', () => {
     const location = readHeader(response, 'location') || '';
 
     expect(response.status).toBeGreaterThanOrEqual(300);
-    expect(location).toContain('/packs?auxillary-open-to=externals');
+    expect(location).toContain('/exchange?auxillary-open-to=externals');
     expect(location).toContain('vcsConnection=installation_connected');
     expect(location).toContain('installation_id=131722518');
     expect(mockGetInstallation).toHaveBeenCalledWith(131722518);
@@ -189,7 +189,7 @@ describe('GitHub App callback handling', () => {
       ) as any,
     );
     const location = readHeader(response, 'location') || '';
-    expect(location.startsWith('https://www.bitcode.exchange/packs?')).toBe(true);
+    expect(location.startsWith('https://www.bitcode.exchange/exchange?')).toBe(true);
     expect(location).toContain('vcsConnection=installation_connected');
   });
 

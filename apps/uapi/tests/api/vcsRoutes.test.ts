@@ -96,7 +96,7 @@ describe('/api/vcs routes (mock mode)', () => {
     const response = await GET(request as any, { params: { provider: 'github' } } as any);
 
     expect(response.status).toBeGreaterThanOrEqual(300);
-    expect(readHeader(response, 'location')).toContain('/packs?auxillary-open-to=externals');
+    expect(readHeader(response, 'location')).toContain('/exchange?auxillary-open-to=externals');
     expect(readHeader(response, 'location')).toContain('vcsConnection=mock_connected');
   });
 });
