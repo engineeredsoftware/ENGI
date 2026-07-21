@@ -12,7 +12,7 @@ import {
 const ROUTE_SMOKE_MATRIX = [
   {
     path: '/',
-    expected: /Trade technical data on the Bitcode marketplace/i,
+    expected: /Trade technical data on the Bitcode exchange/i,
     name: 'public home',
   },
   {
@@ -130,7 +130,7 @@ test.describe('commercial MVP route surfaces', () => {
     await page.goto('/');
     await expectCommercialRouteReady(
       page,
-      /Trade technical data on the Bitcode marketplace/i,
+      /Trade technical data on the Bitcode exchange/i,
     );
 
     // Product order: Read | Packs | Deposit; docs lives under the logo-area.

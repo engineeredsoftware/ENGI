@@ -1,6 +1,6 @@
 # Bitcode — Buy technical knowledge that makes agents better
 
-**Trade technical data on the Bitcode marketplace.**  
+**Trade technical data on the Bitcode exchange.**  
 When your agents need better code, context, and patterns—**Read** the AssetPacks that fit. Pay in **Bitcoin**. Keep IP source-safe.
 
 ---

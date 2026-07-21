@@ -68,7 +68,7 @@ describe('MarketingLandingPage', () => {
     render(<MarketingLandingPage />);
 
     expect(
-      screen.getByText('Trade technical data on the Bitcode marketplace.'),
+      screen.getByText('Trade technical data on the Bitcode exchange.'),
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Buy Packs' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Sell Source' })).toHaveAttribute(

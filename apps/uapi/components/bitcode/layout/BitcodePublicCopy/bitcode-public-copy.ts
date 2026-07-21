@@ -5,7 +5,7 @@ import {
 
 export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
-  headline: "Trade technical data on the Bitcode marketplace.",
+  headline: "Trade technical data on the Bitcode exchange.",
   description:
     'Deposit AssetPacks synthesized from source code, listing only your approved IP. Read the AssetPacks you need using Crypto. All settlements are completely auditable with the system\'s on-chain, open-source, verifiable ledger.',
   descriptionHighlights: [
