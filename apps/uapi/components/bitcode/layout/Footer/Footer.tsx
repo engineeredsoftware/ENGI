@@ -27,7 +27,7 @@ import {
   GLOBAL_CONSTANT_BITCODE_X_URL,
 } from '@bitcode/global-constants';
 
-const PACKS_URL = '/packs';
+const PACKS_URL = '/exchange';
 const DEPOSIT_URL = '/deposits';
 const READ_URL = '/reads';
 const DEFAULT_OPERATOR_GUIDE_URL =
@@ -43,7 +43,7 @@ const BITCODE_SUPPORT_EMAIL_ADDRESS = 'support@bitcode.exchange';
 const BITCODE_SUPPORT_MAILTO = `mailto:${BITCODE_SUPPORT_EMAIL_ADDRESS}`;
 const DISABLED_FEATURE_TOOLTIPS = {
   packs:
-    'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public activity and pack-reading surface.',
   auxillaries:
     'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
 } as const;

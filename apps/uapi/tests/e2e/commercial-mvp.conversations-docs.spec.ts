@@ -63,7 +63,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await expect(page.getByText(/Start with AssetPacks/i)).toBeVisible();
     await expect(
       page.getByText(
-        'Then learn /deposits, /reads, and /packs before opening value-bearing controls.',
+        'Then learn /deposits, /reads, and /exchange before opening value-bearing controls.',
       ),
     ).toBeVisible();
     await expect(page.getByText(/Action manual/i)).toBeVisible();
@@ -86,10 +86,10 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await openCommercialRoute(
       page,
       '/docs/exchange',
-      /Understand \/exchange compatibility and \/packs/i,
+      /Understand Exchange activity and \/packs compatibility/i,
     );
 
-    await expect(page.getByText(/\/exchange redirects to \/packs/i)).toBeVisible();
+    await expect(page.getByText(/\/packs remains a compatibility redirect/i)).toBeVisible();
     await page.getByRole('link', { name: /Orient inside the Bitcode/i }).click();
     await expect(page).toHaveURL(/\/docs\/product-workspace$/);
     await expectCommercialRouteReady(page, /Orient inside the Bitcode/i);

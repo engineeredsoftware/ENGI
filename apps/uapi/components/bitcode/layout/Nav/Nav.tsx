@@ -58,9 +58,9 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
-    'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public activity and AssetPack-reading surface.',
   packs:
-    'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public activity and AssetPack-reading surface.',
   auxillaries:
     'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
   createAccount:
@@ -76,7 +76,7 @@ const publicSecondaryActionClassName =
 /**
  * Fixed right-chrome band for product / workspace nav.
  * Reserves the wider of: Connect Wallet CTA, "Reading wallet", or
- * BTD tracker + notification + profile (h-8 siblings). Prevents center
+ * BTD tracker + notification (36px / h-9 siblings). Prevents center
  * route links from shifting when wallet readiness resolves.
  */
 const NAV_RIGHT_CHROME_SLOT_CLASS =
@@ -195,7 +195,7 @@ export default function Nav() {
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
   const usesProductChrome =
-    usesPublicChrome || navSurface === 'packs';
+    usesPublicChrome || navSurface === 'exchange' || navSurface === 'packs';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
   const profileRecord =
     userData?.profile && typeof userData.profile === 'object'
@@ -371,7 +371,7 @@ export default function Nav() {
     </div>
   ) : null;
 
-  // Product nav themes match pillar language: Read orange · Packs green · Deposit purple.
+  // Product nav themes match pillar language: Read orange · Exchange green · Deposit purple.
   // Idle hover border/glow strength is matched across all three (Deposit was the reference).
   const publicRouteLinkThemes = {
     read: {
@@ -382,7 +382,7 @@ export default function Nav() {
       disabledActive:
         'border-orange-300/20 bg-orange-400/[0.06] text-orange-100/55',
     },
-    packs: {
+    exchange: {
       active:
         'border-emerald-300/42 bg-emerald-400/16 text-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.20)]',
       idle:
@@ -404,16 +404,16 @@ export default function Nav() {
   const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full min-w-0 flex-wrap items-center gap-1.5 phone:gap-2 tablet:ml-6 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-3 laptop:ml-10 laptop:gap-5">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
-        const isPacksRoute = href === '/packs';
+        const isExchangeRoute = href === '/exchange' || href === '/packs';
         const isDepositRoute = href === '/deposits';
         const isReadRoute = href === '/reads';
         const routeTheme = isReadRoute
           ? publicRouteLinkThemes.read
           : isDepositRoute
             ? publicRouteLinkThemes.deposit
-            : publicRouteLinkThemes.packs;
-        const isDisabledRoute = isPacksRoute && disableExchangeLink;
-        const isActiveRoute = isPacksRoute
+            : publicRouteLinkThemes.exchange;
+        const isDisabledRoute = isExchangeRoute && disableExchangeLink;
+        const isActiveRoute = isExchangeRoute
           ? pathname === '/packs' ||
             pathname?.startsWith('/packs/') ||
             pathname === '/exchange' ||
@@ -501,12 +501,15 @@ export default function Nav() {
             {!usesProductChrome && hasChromeWalletIdentity && (
               <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
                 {[
-                  { href: '/packs', label: 'packs' },
+                  { href: '/exchange', label: 'exchange' },
                 ].map(({ href, label }, index) => {
-                  const isDisabled = disablePacksLink;
+                  const isDisabled = disablePacksLink || disableExchangeLink;
                   const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
                   const isActiveRoute =
+                    pathname === '/exchange' ||
+                    pathname?.startsWith('/exchange/') ||
                     pathname === '/packs' ||
+                    pathname?.startsWith('/packs/') ||
                     pathname?.startsWith('/executions') ||
                     pathname?.startsWith('/conversations');
                   return (

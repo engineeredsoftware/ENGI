@@ -1,17 +1,15 @@
-# /exchange compatibility redirect
+# /exchange — Exchange product experience
 
-`app/exchange/` exists only to preserve old links. It redirects to `/packs`.
+Canonical product route for Bitcode **Exchange** (retired product name: Packs).
 
-Current Bitcode product routes are:
+Current Bitcode product routes:
 
-- `/deposits`: create and review source-safe AssetPack supply options.
-- `/reads`: request Reading, review the synthesized Need, request Finding Fits, review the source-safe AssetPack preview, and settle.
-- `/packs`: reread activity, proof roots, BTD scalar volume and rights, BTC settlement money, compensation, delivery, and repair state.
+- `/reads` — demand: synthesize and settle AssetPack options.
+- `/deposits` — supply: synthesize and list AssetPack options.
+- `/exchange` — durable activity reread: measurements, proof, settlement, compensation, delivery.
 
-This directory must not contain current-product Exchange language, independent state ownership, or source-bearing detail rendering. It has no separate settlement authority, proof authority, or disclosure authority. `/packs` owns the current master-detail activity readback, and source-bearing AssetPack contents remain withheld until BTC finality, BTD rights transfer, and repository delivery to the entitled reader.
+`/packs` is a **compatibility redirect** into `/exchange` (query string preserved).
 
-The compatibility contract is intentionally narrow:
+Commodity language **AssetPack** is unchanged. This experience is the market/activity surface, not a rename of AssetPack.
 
-- `/exchange` redirects to `/packs`.
-- No protected source, unpaid AssetPack source, raw prompts, raw provider responses, wallet private material, private settlement payloads, credentials, or secrets are serialized here.
-- Public/operator docs must describe this path as compatibility only.
+Source-bearing AssetPack contents remain withheld until settlement and delivery rules are satisfied.

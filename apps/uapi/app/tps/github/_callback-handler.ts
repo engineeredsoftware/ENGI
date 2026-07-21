@@ -87,16 +87,15 @@ function buildConnectsRedirect(
   request: Request,
   params: Record<string, string | number | boolean | null | undefined>,
 ) {
-  // Land on /packs with the Auxillaries Externals overlay open (the
-  // AuxillariesProvider reads the open-to param on any route), not the
-  // Auxillaries overlay roots on product routes (e.g. /packs).
+  // Land on /exchange with the Auxillaries Externals overlay open (the
+  // AuxillariesProvider reads the open-to param on any route).
   // Canonical origin: prefer NEXT_PUBLIC_APP_URL so apex/www callbacks both
   // return to the operator-facing host and keep session + claim cookies aligned.
   // Pending install uses cookies().set (App Router merges Set-Cookie onto this
   // Response). Plain Response keeps Jest/node route tests constructible.
   const origin = resolveCanonicalAppOrigin(request);
   const redirectUrl = new URL(
-    `/packs?${AUXILLARY_OPEN_QUERY_PARAM}=externals`,
+    `/exchange?${AUXILLARY_OPEN_QUERY_PARAM}=externals`,
     origin.endsWith('/') ? origin : `${origin}/`,
   );
   redirectUrl.searchParams.set('pane', 'externals');

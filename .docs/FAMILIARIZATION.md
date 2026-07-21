@@ -67,7 +67,7 @@ receive **BTD** rights, then entitled delivery.
 | Journal | BTD ledger language |
 | product | **Deleted** product surface — do not reintroduce |
 
-Launch routes: `/deposits`, `/reads`, `/packs`, Auxillaries, `/`, `/docs`.
+Launch routes: `/deposits`, `/reads`, `/exchange` (`/packs` redirects), Auxillaries, `/`, `/docs`.
 
 AssetPack / deposit SDIVF orientation (non-canonical): [`.docs/ASSET_PACKS.md`](ASSET_PACKS.md).  
 Binding rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15.
@@ -767,7 +767,7 @@ in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
  + fitting review / scenario list units
 - Evidence rows: `deposit-read-evidence-*-rows.ts` facades under `models/`
 
-### 7.4 Packs (`/packs`)
+### 7.4 Exchange (`/exchange`, retired product name Packs)
 
 Network-scope PackActivity master-detail (ledgerized history).
 **Not** personal pipeline activity (that is `/deposits`).
@@ -802,7 +802,7 @@ under `apps/uapi/components/conversations/`. Overlay orchestration is a thin she
 (<500) composing header/main-content/side-panels plus send + view-mode hooks;
 rich-text input uses co-located serialize/render helpers; GitHub source selector
 cascade lives in `use-github-source-selection`; edge-case handler is a facade
-over network/data-integrity/performance/validation modules. Prefer `/packs` as
+over network/data-integrity/performance/validation modules. Prefer `/exchange` as
 post-auth landing, not product.
 
 ### 7.7 Auxillaries
@@ -1004,7 +1004,7 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Measurement** | Grounded basis of price: absolute on deposit; Need-relative fit on read. |
 | **Need** | Reader-side demand descriptor synthesized for finding fits. |
 | **Obfuscations** | Deposit input that withholds/transforms sensitive material; empty → skip Setup LLM (Gate 3). |
-| **Packs** | Master-detail portfolio / activity history experience (`/packs`, `Packs*`). |
+| **Exchange** | Master-detail portfolio / activity history experience (`/exchange`; UI components still under `packs/`; retired product name Packs). |
 | **Preview (source-safe)** | Show allowed AssetPack disclosure without leaking unpaid/protected source. |
 | **Read** | Buyer path: Need → Finding Fits → settle → delivery. Route `/reads`. |
 | **Reader** | Party who settles for AssetPack rights. |
@@ -1177,7 +1177,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | --- | --- |
 | “Context” as product run state | **Execution** (process-root Execution for process defaults) |
 | “Harness” for run boxes | **Host** (LocalHost / VercelSandboxHost) |
-| “product” product UI | Experiences on `/deposits`, `/reads`, `/packs`, … |
+| “product” product UI | Experiences on `/deposits`, `/reads`, `/exchange`, … |
 | “Pipeline” for BTD ledger rows | **Journal** |
 | Leaf-only type names or deprecated aliases for layered types | Full hierarchy names exclusively (`ExecutionPipelineSDIVF…`, `AbsolutesMeasureAgent…`) |
 | New `*-generics` without `generic-*` peers | Plain domain package name |

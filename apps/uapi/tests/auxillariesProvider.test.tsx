@@ -33,7 +33,7 @@ import AuxillariesProvider, {
 
 describe('AuxillariesProvider', () => {
   beforeEach(() => {
-    window.history.replaceState({}, '', '/packs');
+    window.history.replaceState({}, '', '/exchange');
     Object.defineProperty(window, '__auxillariesPrefetched', {
       configurable: true,
       value: true,

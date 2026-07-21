@@ -26,7 +26,7 @@ const firstReadingPath = [
   },
   {
     label: 'Learn the product surfaces',
-    body: 'Then learn /deposits, /reads, and /packs before opening value-bearing controls.',
+    body: 'Then learn /deposits, /reads, and /exchange before opening value-bearing controls.',
     href: '/docs/source-shares',
   },
   {
@@ -57,15 +57,15 @@ const specCoverageCards = [
   {
     eyebrow: 'Settlement',
     title: 'BTD volume and Crypto settlement',
-    body: 'Needs-fits scores, volume and rights, finality receipts, delivery unlock, compensation, and /packs reread.',
+    body: 'Needs-fits scores, volume and rights, finality receipts, delivery unlock, compensation, and /exchange reread.',
     href: '/docs/settlement-btd',
   },
 ] as const;
 
 const quickRouteCards = [
   {
-    href: '/packs',
-    eyebrow: 'Packs',
+    href: '/exchange',
+    eyebrow: 'Exchange',
     title: 'Read the activity frame',
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
   },
@@ -125,7 +125,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             <p className="mt-5 max-w-[58rem] text-[17px] leading-8 text-white/82">
               Bitcode docs teach the complete path: what an AssetPack commodity is,
               how BTD measures scalar volume and rights, why Crypto settlement money and
-              proof readback authority matter, and how /deposits, /reads, /packs, MCP,
+              proof readback authority matter, and how /deposits, /reads, /exchange, MCP,
               ChatGPT App, and Bitcode Chat stay source-safe.
             </p>
             <div className="mt-6 grid gap-3 tablet:grid-cols-3">
@@ -252,7 +252,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               Protocol docs map back to active law. Public docs explain; proof readback decides.
               The public docs teach the current product routes in user order:
               AssetPack commodity, BTD scalar volume and rights, Crypto settlement money,
-              proof readback authority, /deposits, /reads, /packs, interfaces, and configuration.
+              proof readback authority, /deposits, /reads, /exchange, interfaces, and configuration.
             </p>
             <div className="mt-5 grid gap-3">
               {specCoverageCards.map((card) => (

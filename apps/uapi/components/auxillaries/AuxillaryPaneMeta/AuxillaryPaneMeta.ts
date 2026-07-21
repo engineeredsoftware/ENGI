@@ -12,10 +12,11 @@ export const AUXILLARIES_LABEL = 'Auxillaries';
 export const AUXILLARIES_LIST_LABEL = 'Wallet, Profile, Externals, and Interfaces';
 export const AUXILLARIES_LIST_COMPACT_LABEL = 'Wallet, Profile, Externals, Interfaces';
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
-export const OPEN_TRANSACTIONS_LABEL = 'Open Packs';
+export const OPEN_TRANSACTIONS_LABEL = 'Open Exchange';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
 export const AUXILLARIES_COMPAT_ROUTE_ROOT = '/orbitals';
-export const AUXILLARY_OVERLAY_ROUTE_ROOT = '/packs';
+/** Product shell that hosts the Auxillaries overlay (Exchange experience). */
+export const AUXILLARY_OVERLAY_ROUTE_ROOT = '/exchange';
 export const AUXILLARY_OPEN_QUERY_PARAM = 'auxillary-open-to';
 
 export type AuxillaryPane = ConcreteAuxillaryPane | null;

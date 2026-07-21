@@ -56,7 +56,7 @@ deleting a codemod after its migration is merged and verified.
 | Prefix | Route / role | Component home |
 | --- | --- | --- |
 | `Marketing*` | `/` landing | `apps/uapi/components/marketing/` |
-| `Packs*` | `/packs` | `apps/uapi/components/packs/` |
+| `Exchange*` (retired product name Packs; components still under packs/) | `/exchange` (`/packs` redirects) | `apps/uapi/components/packs/` |
 | `Reads*` | `/reads` | `apps/uapi/components/reads/` |
 | `Deposits*` | `/deposits` | `apps/uapi/components/deposits/` |
 | `Docs*` | `/docs` | `apps/uapi/components/docs/` |
@@ -508,7 +508,7 @@ bitcode/
 
 ## 9. What is forbidden
 
-- `product experience components/` or new `/packs` product routes
+- `product experience components/` or new `/exchange` product routes
 - `index.tsx` as the primary component entry (use named file)
 - God clients that own models + UI + fetch + formatting in one file
 - Cross-experience imports

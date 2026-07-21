@@ -51,9 +51,9 @@ describe('Footer public shell', () => {
   it('renders third-gate public labels and opens orbitals access for guests', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute(
       'href',
-      '/packs',
+      '/exchange',
     );
     expect(screen.getByRole('link', { name: 'Deposits' })).toHaveAttribute(
       'href',

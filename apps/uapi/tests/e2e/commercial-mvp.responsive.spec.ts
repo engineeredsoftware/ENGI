@@ -1,6 +1,6 @@
 /**
  * Commercial MVP responsive route health for V48 product surfaces.
- * Uses /packs and packs?auxillary-open-to=* overlays.
+ * Uses /exchange and exchange?auxillary-open-to=* overlays.
  */
 import { expect, test } from '@playwright/test';
 
@@ -13,15 +13,15 @@ import {
 
 const RESPONSIVE_ROUTES = [
   {
-    path: '/packs',
-    expected: /Pack activity/i,
+    path: '/exchange',
+    expected: /Packs Market|Exchange/i,
   },
   {
-    path: '/packs?auxillary-open-to=wallet',
+    path: '/exchange?auxillary-open-to=wallet',
     expected: /Wallet Auxillary/i,
   },
   {
-    path: '/packs?auxillary-open-to=externals',
+    path: '/exchange?auxillary-open-to=externals',
     expected: /Externals Auxillary/i,
   },
 ] as const;
@@ -65,10 +65,10 @@ test.describe('commercial MVP responsive route health', () => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
     await page.setViewportSize({ width: 1024, height: 768 });
-    await openCommercialRoute(page, '/packs', /Pack activity/i);
+    await openCommercialRoute(page, '/exchange', /Packs Market|Exchange/i);
 
     await expect(page.getByRole('link', { name: /^Read$/ })).toBeVisible();
-    await expect(page.getByRole('link', { name: /^Packs$/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^Exchange$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Deposit$/ })).toBeVisible();
     await expect(page.getByRole('link', { name: /^Docs$/ })).toBeVisible();
     await expect(page.getByLabel(/Open BTD wallet auxillary/i)).toBeVisible();

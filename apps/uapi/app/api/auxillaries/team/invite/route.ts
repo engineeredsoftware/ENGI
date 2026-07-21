@@ -170,7 +170,7 @@ export async function POST(request: Request) {
 
       const roleLabel = role.charAt(0).toUpperCase() + role.slice(1);
       // Open product with Connect open; email is prefilled + locked via team_invite=1.
-      const inviteUrl = new URL('/packs', origin);
+      const inviteUrl = new URL('/exchange', origin);
       inviteUrl.searchParams.set('auxillary-open-to', 'connect');
       inviteUrl.searchParams.set('email', handle);
       inviteUrl.searchParams.set('team_invite', '1');

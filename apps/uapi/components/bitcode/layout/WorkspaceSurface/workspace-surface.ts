@@ -1,9 +1,10 @@
-export type WorkspaceSurface = 'packs' | 'conversations' | null;
+export type WorkspaceSurface = 'exchange' | 'packs' | 'conversations' | null;
 export type PublicShellSurface = 'home' | 'network' | 'deposit' | 'read' | 'docs' | null;
 
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
-  if (pathname.startsWith('/packs')) return 'packs';
+  // Canonical Exchange; /packs is a compat redirect into Exchange.
+  if (pathname.startsWith('/exchange') || pathname.startsWith('/packs')) return 'exchange';
   if (pathname.startsWith('/conversations')) return 'conversations';
   return null;
 }

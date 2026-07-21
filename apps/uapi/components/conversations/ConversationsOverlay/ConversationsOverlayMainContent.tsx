@@ -237,7 +237,7 @@ export function ConversationsOverlayMainContent(props: ConversationsOverlayMainC
               onNavigateToExecution={(id) => {
                 if (typeof window !== 'undefined') {
                   window.open(
-                    `/packs?transactionId=${id}&transactionDetail=activity`,
+                    `/exchange?transactionId=${id}&transactionDetail=activity`,
                     '_blank',
                     'noopener',
                   );

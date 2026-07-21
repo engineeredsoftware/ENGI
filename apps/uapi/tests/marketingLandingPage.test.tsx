@@ -77,7 +77,7 @@ describe('MarketingLandingPage', () => {
     );
     expect(screen.getByRole('link', { name: 'View Exchange' })).toHaveAttribute(
       'href',
-      '/packs',
+      '/exchange',
     );
     expect(screen.getByRole('button', { name: 'May–July' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'April' })).toBeInTheDocument();

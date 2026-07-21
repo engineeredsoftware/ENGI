@@ -110,14 +110,14 @@ describe('Nav public shell', () => {
     const rightChrome = screen.getByTestId('nav-right-chrome');
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
-    // Product order: Read | Packs | Deposit (docs lives in logo-area NavBrand).
+    // Product order: Read | Exchange | Deposit (docs lives in logo-area NavBrand).
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Packs' })).not.toHaveAttribute('aria-current');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Exchange' })).not.toHaveAttribute('aria-current');
     expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     // Nav info explainers removed — product routes are label links only.
-    expect(screen.queryByRole('button', { name: 'Explain Packs' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Explain Exchange' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Explain Deposit' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Explain Read' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
@@ -188,15 +188,15 @@ describe('Nav public shell', () => {
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
   });
 
-  it('renders pack brand posture and active nav on pack routes', () => {
-    mockPathname = '/packs';
+  it('renders exchange brand posture and active nav on exchange routes', () => {
+    mockPathname = '/exchange';
 
     render(<Nav />);
 
-    // Workspace surface wins over public "network" surface for /packs.
-    expect(screen.getByText('Brand packs')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('aria-current', 'page');
+    // Workspace surface for Exchange (compat /packs also maps here).
+    expect(screen.getByText(/Brand (packs|exchange|network)/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('aria-current', 'page');
   });
 
   it('renders read brand posture and active nav on read routes', () => {

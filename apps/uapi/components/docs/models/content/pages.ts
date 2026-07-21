@@ -90,28 +90,28 @@ export const BITCODE_DOCS_PAGES = [
   docsPage({
     slug: 'exchange',
     chapterId: 'experiences',
-    eyebrow: 'Compatibility',
-    title: 'Understand /exchange compatibility and /packs',
+    eyebrow: 'Exchange',
+    title: 'Understand Exchange activity and /packs compatibility',
     summary:
-      '/exchange is a compatibility redirect to /packs. /packs is the durable activity, persistence, proof, settlement, compensation, delivery, and repair readback surface.',
+      '/exchange is the durable activity, persistence, proof, settlement, compensation, delivery, and repair readback surface. /packs remains a compatibility redirect into Exchange.',
     detail:
       'Use this page after AssetPacks are clear. It explains why bounded actions must reread proof-backed activity before users trust the result.',
     learningOutcome:
-      'You can explain why /exchange survives only as compatibility and why rereadable /packs state is central to Bitcode.',
-    primaryCta: { href: '/packs', label: 'Open Packs' },
+      'You can explain why Exchange is the reread surface and why /packs only survives as a compatibility path into that state.',
+    primaryCta: { href: '/exchange', label: 'Open Exchange' },
     sections: exchangeSections,
     embeddedUi: [
       {
         id: 'exchange-ledger',
-        eyebrow: 'Embedded Packs card',
-        title: 'Packs activity master-detail',
+        eyebrow: 'Embedded Exchange card',
+        title: 'Exchange activity master-detail',
         summary:
-          '/packs uses a master-detail pattern: searchable activity rows as the master, selected AssetPack/proof/history state as detail.',
+          '/exchange uses a master-detail pattern: searchable activity rows as the master, selected AssetPack/proof/history state as detail.',
         explainer: PRODUCT_INLINE_EXPLAINERS.readWindow,
         signals: [
           { label: 'Search', value: 'Query-owned ledger', tone: 'default' },
           { label: 'Selected detail', value: 'Proof + history', tone: 'emerald' },
-          { label: 'Reread', value: 'Durable /packs state', tone: 'cyan' },
+          { label: 'Reread', value: 'Durable /exchange state', tone: 'cyan' },
         ],
       },
     ],
@@ -120,7 +120,7 @@ export const BITCODE_DOCS_PAGES = [
     slug: 'product-workspace',
     chapterId: 'experiences',
     eyebrow: 'Operator map',
-    title: 'Orient on Packs, Deposit, and Read',
+    title: 'Orient on Exchange, Deposit, and Read',
     summary:
       'Understand the commercial product as three focused routes: Deposit for supply, Read for demand and delivery, Packs for durable activity and proof readback.',
     detail:

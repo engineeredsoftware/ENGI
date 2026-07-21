@@ -6,7 +6,8 @@ import {
 
 describe('workspaceSurface helpers', () => {
   it('classifies operator workspace routes consistently', () => {
-    expect(getWorkspaceSurface('/packs')).toBe('packs');
+    expect(getWorkspaceSurface('/exchange')).toBe('exchange');
+    expect(getWorkspaceSurface('/packs')).toBe('exchange');
     expect(getWorkspaceSurface('/auxillaries/externals')).toBeNull();
     expect(getWorkspaceSurface('/conversations/thread')).toBe('conversations');
     expect(getWorkspaceSurface('/')).toBeNull();
@@ -14,10 +15,11 @@ describe('workspaceSurface helpers', () => {
   });
 
   it('marks workspace chrome and footer suppression together', () => {
+    expect(usesWorkspaceChrome('/exchange')).toBe(true);
     expect(usesWorkspaceChrome('/packs')).toBe(true);
     expect(usesWorkspaceChrome('/auxillaries')).toBe(false);
     expect(usesWorkspaceChrome('/conversations')).toBe(true);
-    expect(shouldHideWorkspaceFooter('/packs')).toBe(true);
+    expect(shouldHideWorkspaceFooter('/exchange')).toBe(true);
     expect(shouldHideWorkspaceFooter('/auxillaries')).toBe(false);
   });
 });

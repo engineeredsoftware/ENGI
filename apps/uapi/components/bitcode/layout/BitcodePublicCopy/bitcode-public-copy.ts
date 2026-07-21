@@ -29,7 +29,7 @@ export const BITCODE_PUBLIC_COPY = {
     label: 'Sell Source',
   },
   tertiaryCta: {
-    href: '/packs',
+    href: '/exchange',
     label: 'View Exchange',
   },
   guide: {
@@ -188,10 +188,10 @@ export const BITCODE_PUBLIC_COPY = {
     guestCta: 'Open Auxillaries',
     userCta: 'Open Auxillaries',
     links: {
-      network: 'Packs',
+      network: 'Exchange',
       deposit: 'Deposits',
       read: 'Reads',
-      transactions: 'Packs',
+      transactions: 'Exchange',
       docs: 'Docs',
       github: 'Source',
     },
@@ -205,10 +205,11 @@ export const BITCODE_PUBLIC_COPY = {
     },
   },
   publicNav: {
-    // Product order: Read → Packs → Deposit. Docs lives under the logo-area.
+    // Product order: Read → Exchange → Deposit. Docs lives under the logo-area.
+    // Experience name is Exchange (retired: Packs). Commodity remains AssetPack.
     links: [
       { href: '/reads', label: 'Read' },
-      { href: '/packs', label: 'Packs' },
+      { href: '/exchange', label: 'Exchange' },
       { href: '/deposits', label: 'Deposit' },
     ],
     // Guests only see Connect Wallet; Open Auxillaries is signed-in chrome.
@@ -219,16 +220,16 @@ export const BITCODE_PUBLIC_COPY = {
     eyebrow: 'Bitcode docs',
     heading: 'Learn Bitcode from AssetPacks to proof.',
     body:
-      'Docs teach the system in operator order: AssetPacks, BTD volume and rights, Crypto settlement, proof readback, /deposits, /reads, /packs, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
+      'Docs teach the system in operator order: AssetPacks, BTD volume and rights, Crypto settlement, proof readback, /deposits, /reads, /exchange, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',
     cardTitle: 'Recorded operator walkthrough',
     cardBody:
-      'Use the walkthrough when you want the commercial flow narrated before you open Deposit, Read, or Packs.',
+      'Use the walkthrough when you want the commercial flow narrated before you open Deposit, Read, or Exchange.',
     missingVideoTitle: 'Walkthrough',
     missingVideoBody:
-      'The recorded walkthrough is being refreshed. Use the docs chapters and the Packs activity ledger while the next capture is published.',
-    missingVideoCta: 'Open Packs',
+      'The recorded walkthrough is being refreshed. Use the docs chapters and the Exchange activity ledger while the next capture is published.',
+    missingVideoCta: 'Open Exchange',
   },
 } as const;

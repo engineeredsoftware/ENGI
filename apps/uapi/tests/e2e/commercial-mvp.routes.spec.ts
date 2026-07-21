@@ -7,8 +7,8 @@ import {
   openCommercialRoute,
 } from './commercial-mvp.helpers';
 
-// Product routes are /reads, /packs, /deposits. Auxillaries open as the packs
-// support plane via query or /auxillaries/* overlays.
+// Product routes are /reads, /exchange, /deposits. Auxillaries open as the
+// Exchange support plane via query or /auxillaries/* overlays.
 const ROUTE_SMOKE_MATRIX = [
   {
     path: '/',
@@ -16,27 +16,27 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'public home',
   },
   {
-    path: '/packs',
-    expected: /Pack activity/i,
-    name: 'Packs',
+    path: '/exchange',
+    expected: /Packs Market|Exchange/i,
+    name: 'Exchange',
   },
   {
-    path: '/packs?auxillary-open-to=wallet',
+    path: '/exchange?auxillary-open-to=wallet',
     expected: /Wallet Auxillary/i,
     name: 'Wallet auxillary',
   },
   {
-    path: '/packs?auxillary-open-to=profile',
+    path: '/exchange?auxillary-open-to=profile',
     expected: /Profile Auxillary/i,
     name: 'Profile auxillary',
   },
   {
-    path: '/packs?auxillary-open-to=externals',
+    path: '/exchange?auxillary-open-to=externals',
     expected: /Externals Auxillary/i,
     name: 'Externals auxillary',
   },
   {
-    path: '/packs?auxillary-open-to=interfaces',
+    path: '/exchange?auxillary-open-to=interfaces',
     expected: /Interfaces Auxillary/i,
     name: 'Interfaces auxillary',
   },
@@ -122,7 +122,7 @@ test.describe('commercial MVP route surfaces', () => {
     });
   }
 
-  test('public navigation keeps Read, Packs, Deposit, and logo-area docs as commercial routes', async ({
+  test('public navigation keeps Read, Exchange, Deposit, and logo-area docs as commercial routes', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -133,12 +133,12 @@ test.describe('commercial MVP route surfaces', () => {
       /Trade technical data on the Bitcode exchange/i,
     );
 
-    // Product order: Read | Packs | Deposit; docs lives under the logo-area.
+    // Product order: Read | Exchange | Deposit; docs lives under the logo-area.
     await page.getByRole('link', { name: 'Read' }).first().click();
     await expect(page).toHaveURL(/\/reads/);
 
-    await page.getByRole('link', { name: 'Packs' }).first().click();
-    await expect(page).toHaveURL(/\/packs/);
+    await page.getByRole('link', { name: 'Exchange' }).first().click();
+    await expect(page).toHaveURL(/\/exchange/);
 
     await page.getByRole('link', { name: 'Deposit' }).first().click();
     await expect(page).toHaveURL(/\/deposits/);

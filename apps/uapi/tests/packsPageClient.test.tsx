@@ -14,7 +14,7 @@ const mockReplace = jest.fn();
 let mockQuery = "q=rollback&type=read-need-fit-preview";
 
 jest.mock("next/navigation", () => ({
-  usePathname: () => "/packs",
+  usePathname: () => "/exchange",
   useRouter: () => ({ replace: mockReplace }),
   useSearchParams: () => new URLSearchParams(mockQuery),
 }));
@@ -203,7 +203,7 @@ describe("PacksPageClient", () => {
 
     expect(screen.getByTestId("route-shell-packs")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "Pack activity" }),
+      screen.getByRole("heading", { name: "Packs Market" }),
     ).toBeInTheDocument();
     expect(
       screen.queryByTestId("packs-enterprise-economic-summary"),
@@ -231,7 +231,7 @@ describe("PacksPageClient", () => {
     // Source-safe detail is drill-in only (deposit/read parity).
     expect(screen.queryByText("Source-safe detail")).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Back to Packs" }),
+      screen.queryByRole("button", { name: "Back to Exchange" }),
     ).not.toBeInTheDocument();
   });
 
@@ -248,7 +248,7 @@ describe("PacksPageClient", () => {
       screen.queryByTestId("packs-portfolio-strip"),
     ).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Back to Packs" }),
+      screen.getByRole("button", { name: "Back to Exchange" }),
     ).toBeInTheDocument();
 
     await waitFor(() =>
@@ -275,9 +275,9 @@ describe("PacksPageClient", () => {
     expect(screen.getByText("BTD rights not recorded")).toBeInTheDocument();
     expect(screen.queryByText("Repair surface")).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "Back to Packs" }));
+    fireEvent.click(screen.getByRole("button", { name: "Back to Exchange" }));
     expect(mockReplace).toHaveBeenCalledWith(
-      "/packs?q=rollback&type=read-need-fit-preview",
+      "/exchange?q=rollback&type=read-need-fit-preview",
       { scroll: false },
     );
   });
@@ -334,7 +334,7 @@ describe("PacksPageClient", () => {
       within(screen.getByRole("table")).getByText("Auth rollback proof pack"),
     );
     expect(mockReplace).toHaveBeenCalledWith(
-      "/packs?q=rollback&type=read-need-fit-preview&detailId=pack-activity-1",
+      "/exchange?q=rollback&type=read-need-fit-preview&detailId=pack-activity-1",
       { scroll: false },
     );
 
@@ -344,14 +344,14 @@ describe("PacksPageClient", () => {
       target: { value: "my-assetpacks" },
     });
     expect(mockReplace).toHaveBeenCalledWith(
-      "/packs?q=rollback&type=my-assetpacks",
+      "/exchange?q=rollback&type=my-assetpacks",
       { scroll: false },
     );
     fireEvent.change(screen.getByLabelText("Activity type"), {
       target: { value: "settled-assetpack" },
     });
     expect(mockReplace).toHaveBeenCalledWith(
-      "/packs?q=rollback&type=settled-assetpack",
+      "/exchange?q=rollback&type=settled-assetpack",
       { scroll: false },
     );
   });

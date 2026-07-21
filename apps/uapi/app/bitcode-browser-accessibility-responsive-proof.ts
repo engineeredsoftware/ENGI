@@ -33,12 +33,12 @@ export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES = [
   },
   {
     id: 'packs',
-    label: 'Bitcode Packs',
+    label: 'Bitcode Exchange',
     routes: [
-      { id: 'default', path: '/packs', state: 'default' },
+      { id: 'default', path: '/exchange', state: 'default' },
       {
         id: 'guided',
-        path: '/packs',
+        path: '/exchange',
         state: 'guided',
         selector: '[data-testid="route-shell-packs"]',
       },

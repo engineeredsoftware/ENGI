@@ -85,10 +85,10 @@ export default function BtdRangePage({ params, searchParams }: BtdRangePageProps
             </div>
             <div className="flex flex-wrap gap-3 laptop:justify-end">
               <Link
-                href={`/packs?assetPack=${encodeURIComponent(assetPackId)}&intent=buy-existing-btd`}
+                href={`/exchange?assetPack=${encodeURIComponent(assetPackId)}&intent=buy-existing-btd`}
                 className="inline-flex items-center justify-center rounded-full border border-emerald-300/35 bg-emerald-400/12 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-50 transition-colors hover:border-emerald-300/55 hover:bg-emerald-400/18"
               >
-                Open Packs
+                Open Exchange
               </Link>
               <Link
                 href="/reads?intent=submit-read-for-btd"

@@ -101,7 +101,7 @@ describe('Nav product chrome', () => {
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
     expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
@@ -143,7 +143,7 @@ describe('Nav product chrome', () => {
     render(<Nav />);
 
     expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
+    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
     expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposits');
     expect(screen.queryByRole('link', { name: 'Docs' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();

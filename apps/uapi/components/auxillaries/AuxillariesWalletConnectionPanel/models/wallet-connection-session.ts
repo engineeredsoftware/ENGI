@@ -1,6 +1,6 @@
 /**
  * Supabase session readiness and OAuth redirect for Bitcoin wallet auth.
- * Post-auth landing is /packs.
+ * Post-auth landing is /exchange.
  */
 
 import { createClient } from '@bitcode/supabase/ssr/client';
@@ -37,8 +37,8 @@ export async function ensureWalletBackedSession(providerId?: BitcoinWalletProvid
       return { ready: true as const };
     }
 
-    // Post-auth landing is /packs (ledgerized activity).
-    const redirectTo = buildSupabaseAuthCallbackRedirect('/packs');
+    // Post-auth landing is /exchange (ledgerized activity).
+    const redirectTo = buildSupabaseAuthCallbackRedirect('/exchange');
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: BITCODE_BITCOIN_SUPABASE_PROVIDER as any,
       options: {

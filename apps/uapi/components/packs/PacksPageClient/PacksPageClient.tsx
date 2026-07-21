@@ -1,7 +1,8 @@
 "use client";
 
 /**
- * Packs experience page client — thin orchestration for /packs.
+ * Exchange experience page client — thin orchestration for /exchange
+ * (retired product name Packs; component tree still under packs/).
  *
  * Deposit/Read parity: compact ProductRouteShell header metrics + drill-in
  * master-detail (table master → select AssetPack row → rich detail + Back).
@@ -74,8 +75,8 @@ export default function PacksPageClient() {
     <ProductRouteShell
       testId="route-shell-packs"
       tone="emerald"
-      label="Packs"
-      title="Pack activity"
+      label="Exchange"
+      title="Packs Market"
       summary="Network AssetPack ledger: select a row for source-safe proof, settlement, compensation, and delivery."
       icon={Package}
       // Hold chips until activity summary loads so the set enters once.
