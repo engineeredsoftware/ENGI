@@ -34,9 +34,38 @@ export type PacksActivityDetailPayoutProps = {
   canFinalize?: boolean;
   /** Buyer-entitled patch summary when current user is buyer. */
   entitledPatchSummary?: string | null;
+  /** Fully rich entitled patch artifact (post-settle only). */
+  entitledPatch?: unknown;
   isBuyer?: boolean;
   onFinalized?: () => void;
 };
+
+function downloadEntitledArtifact(input: {
+  settleRunId: string;
+  entitledPatch: unknown;
+  entitledPatchSummary?: string | null;
+}) {
+  const body = JSON.stringify(
+    {
+      schema: 'bitcode.packs.entitled-asset-pack-delivery',
+      settleRunId: input.settleRunId,
+      entitledPatch: input.entitledPatch ?? null,
+      patchSummary: input.entitledPatchSummary ?? null,
+    },
+    null,
+    2,
+  );
+  const blob = new Blob([body], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = `bitcode-entitled-${input.settleRunId.slice(0, 8)}.json`;
+  anchor.rel = 'noopener';
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
 
 function formatBaseUnits(value: string | undefined, decimals: number): string {
   if (!value) return '0';
@@ -59,6 +88,7 @@ export function PacksActivityDetailPayout({
   pendingPayout,
   canFinalize = false,
   entitledPatchSummary = null,
+  entitledPatch = null,
   isBuyer = false,
   onFinalized,
 }: PacksActivityDetailPayoutProps) {
@@ -152,14 +182,35 @@ export function PacksActivityDetailPayout({
           </div>
         </dl>
 
-        {isBuyer && (entitledPatchSummary || pendingPayout.patchSummary) ? (
+        {(isBuyer || canFinalize) &&
+        (entitledPatch || entitledPatchSummary || pendingPayout.patchSummary) ? (
           <div className="rounded-lg border border-emerald-500/30 bg-emerald-950/30 p-3">
             <p className="text-[0.68rem] uppercase tracking-[0.18em] text-emerald-200/80">
-              Entitled patch (buyer rights)
+              Entitled delivery (post-settle)
             </p>
             <p className="mt-2 font-mono text-xs text-emerald-50 whitespace-pre-wrap">
-              {entitledPatchSummary || pendingPayout.patchSummary}
+              {entitledPatchSummary || pendingPayout.patchSummary || 'Patch artifact ready.'}
             </p>
+            <p className="mt-2 text-[0.7rem] leading-5 text-neutral-400">
+              Delivered as a PR on a clean{' '}
+              <span className="font-mono text-neutral-300">bitcode/</span> branch from the
+              request SHA. Download the fully rich entitled artifact below.
+            </p>
+            <button
+              type="button"
+              data-testid="packs-entitled-download"
+              onClick={() =>
+                downloadEntitledArtifact({
+                  settleRunId,
+                  entitledPatch,
+                  entitledPatchSummary:
+                    entitledPatchSummary || pendingPayout.patchSummary || null,
+                })
+              }
+              className="mt-3 border border-emerald-300/40 bg-emerald-400/15 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-50 transition hover:border-emerald-200/50 hover:bg-emerald-400/25"
+            >
+              Download entitled AssetPack
+            </button>
           </div>
         ) : null}
 

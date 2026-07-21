@@ -277,6 +277,8 @@ async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivi
               'string'
               ? (output.entitledPatch as { patchSummary: string }).patchSummary
               : null),
+          // V48-Gate5-F01: fully rich entitled material for post-settle buyer/owner.
+          entitledPatch: output.entitledPatch || packActivity.entitledPatch || null,
           settleRunId: row.id,
           payoutState:
             context.payoutState ||

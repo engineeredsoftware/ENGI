@@ -185,6 +185,7 @@ function PayoutFromDetail({
             ? pending.patchSummary
             : null
       }
+      entitledPatch={meta.entitledPatch ?? null}
       onFinalized={onPayoutFinalized}
     />
   );
