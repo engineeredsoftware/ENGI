@@ -3,14 +3,25 @@
  * Operator scrub: rewrite historical unpaid READ synthesis executions.
  * Service-role only. No HTTP surface.
  *
- *   SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node scripts/scrub-unpaid-read-outputs.mjs
- *   Optional: LIMIT=100 OFFSET=0
+ * From monorepo root:
+ *   SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… \
+ *     node scripts/scrub-unpaid-read-outputs.mjs
  *
- * Loads uapi scrub helper via dynamic import when run from monorepo root with tsx,
- * or reimplements the SQL loop using @supabase/supabase-js.
+ * Optional: LIMIT=100 OFFSET=0
+ *
+ * Resolves @supabase/supabase-js via apps/uapi (pnpm workspace) — root node
+ * does not hoist that package for bare ESM imports.
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createRequire } from 'node:module';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const monorepoRoot = resolve(here, '..');
+// Resolve through apps/uapi which declares @supabase/supabase-js.
+const requireFromUapi = createRequire(resolve(monorepoRoot, 'apps/uapi/package.json'));
+const { createClient } = requireFromUapi('@supabase/supabase-js');
 
 const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const key =
@@ -20,23 +31,13 @@ const key =
 
 if (!url || !key) {
   console.error(
-    'Need SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (service role only).',
+    'Need SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) and SUPABASE_SERVICE_ROLE_KEY (service role only).',
   );
   process.exit(1);
 }
 
 const limit = Math.min(Math.max(Number(process.env.LIMIT || 100), 1), 500);
 const offset = Math.max(Number(process.env.OFFSET || 0), 0);
-
-const FORBIDDEN = new Set([
-  'patch',
-  'patchArtifact',
-  'fileChanges',
-  'contents',
-  'coveredSourcePaths',
-  'fullOptions',
-  'entitledPatch',
-]);
 
 function isObj(v) {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
