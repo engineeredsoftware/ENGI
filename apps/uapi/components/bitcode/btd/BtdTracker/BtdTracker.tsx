@@ -62,10 +62,11 @@ export function BTDTracker({
   const balanceLabel = isBalanceLoading
     ? 'Reading BTD and APs posture'
     : `${btdBalanceLabel}; ${assetPacksLabel}`;
-  const walletActionLabel = useMemo(() => {
+  /** Full hover identity for title/tooltip (never CSS mid-clipped). */
+  const walletFullLabel = useMemo(() => {
     const explicitLabel = walletLabel?.trim();
     if (explicitLabel) return explicitLabel;
-    return compactBitcodeAddress(walletAddress, 6) ?? 'BTD wallet';
+    return walletAddress?.trim() || 'BTD wallet';
   }, [walletAddress, walletLabel]);
   const recentAssetPackTitle = useMemo(() => {
     const labels = recentBtdAssetPacks
@@ -81,14 +82,17 @@ export function BTDTracker({
    * Stable chrome width:
    * - Text slot = max width of *default* content variants only (BTD|APs at current
    *   #s, "Reading wallet", "Opening BTD…").
-   * - Hover/alt wallet address is NOT measured — it truncates inside the slot so
-   *   flip states never resize the box.
+   * - Hover/alt wallet address is NOT measured into chrome width — it must fit
+   *   the existing slot via mid-ellipsis compact (or CSS end-ellipsis fallback)
+   *   so flip states never resize the box.
    * - Slot grows only when BTD/APs digit length exceeds that floor.
    */
   const btdMeasureRef = useRef<HTMLSpanElement>(null);
   const readingMeasureRef = useRef<HTMLSpanElement>(null);
   const openingMeasureRef = useRef<HTMLSpanElement>(null);
+  const walletFitMeasureRef = useRef<HTMLSpanElement>(null);
   const [textSlotWidth, setTextSlotWidth] = useState(0);
+  const [walletActionLabel, setWalletActionLabel] = useState('BTD wallet');
   useLayoutEffect(() => {
     const widths = [
       btdMeasureRef.current?.offsetWidth ?? 0,
@@ -97,6 +101,34 @@ export function BTDTracker({
     ];
     setTextSlotWidth(Math.ceil(Math.max(0, ...widths)));
   }, [assetPackCount, displayedBtdBalance]);
+
+  // Fit hover address into the fixed text slot: step mid-ellipsis edge down so
+  // the string is never hard-clipped by overflow (center+truncate cutoffs).
+  useLayoutEffect(() => {
+    const measureEl = walletFitMeasureRef.current;
+    const source = walletFullLabel;
+    if (!measureEl || !source) {
+      setWalletActionLabel('BTD wallet');
+      return;
+    }
+    const measure = (value: string) => {
+      measureEl.textContent = value;
+      return measureEl.offsetWidth;
+    };
+    const maxWidth = textSlotWidth > 0 ? textSlotWidth : Number.POSITIVE_INFINITY;
+    // Prefer address mid-compact when we have a chain address.
+    const addressSource = walletAddress?.trim() || source;
+    for (let edge = 6; edge >= 3; edge -= 1) {
+      const candidate = compactBitcodeAddress(addressSource, edge) ?? addressSource;
+      if (measure(candidate) <= maxWidth) {
+        setWalletActionLabel(candidate);
+        return;
+      }
+    }
+    // Nickname / last-resort: keep a short compact; CSS ellipsis handles remainder.
+    const fallback = compactBitcodeAddress(addressSource, 3) ?? addressSource;
+    setWalletActionLabel(fallback);
+  }, [textSlotWidth, walletAddress, walletFullLabel]);
 
   // Icon + gap + text slot + horizontal padding (px-3 = 12px each side).
   // Layout icon column stays 16px + gap-x-2.5 (chrome width floor unchanged).
@@ -305,7 +337,7 @@ export function BTDTracker({
         inside the slot (never resizes the box).
       */}
       <motion.div
-        className="relative box-border inline-flex h-9 max-h-9 min-h-9 items-center gap-x-2.5 overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
+        className="relative box-border inline-flex h-9 max-h-9 min-h-9 items-stretch overflow-hidden rounded-none border border-emerald-500/30 bg-emerald-500/5 px-3 shadow-[0_0_12px_rgba(103,254,183,0.15)] transition-colors transition-shadow duration-500 ease-out group-hover:border-emerald-400/50 group-hover:bg-emerald-500/10 group-hover:shadow-[0_0_18px_rgba(103,254,183,0.25)]"
         style={{
           backfaceVisibility: 'hidden',
           width: textSlotWidth > 0 ? `${chromeMinWidth}px` : undefined,
@@ -347,9 +379,9 @@ export function BTDTracker({
           />
         ))}
 
-        {/* Fixed icon + text-slot grid — flip states swap inside the slot. */}
+        {/* Fixed icon + text-slot grid — fills h-9; text cell flex-centers ink. */}
         <div
-          className="relative z-[1] grid min-w-0 items-center gap-x-2.5"
+          className="relative z-[1] grid h-full w-full min-h-0 min-w-0 items-center gap-x-2.5"
           style={{
             gridTemplateColumns:
               textSlotWidth > 0 ? `auto ${textSlotWidth}px` : 'auto auto',
@@ -364,30 +396,35 @@ export function BTDTracker({
               ref={btdMeasureRef}
               className="inline-flex items-center font-medium tracking-wide text-sm leading-none"
             >
-              <span className="inline-block -translate-y-px leading-none">{btdBalanceLabel}</span>
-              <span className="mx-2.5 inline-block h-3.5 w-[2px] shrink-0 self-center -translate-y-px rounded-full" />
-              <span className="inline-block -translate-y-px leading-none">{assetPacksLabel}</span>
+              <span className="inline-block leading-none">{btdBalanceLabel}</span>
+              <span className="mx-2.5 inline-block h-3.5 w-[2px] shrink-0 self-center rounded-full" />
+              <span className="inline-block leading-none">{assetPacksLabel}</span>
             </span>
             <span
               ref={readingMeasureRef}
-              className="inline-flex items-center gap-2 font-normal tracking-wide text-sm"
+              className="inline-flex items-center gap-2 font-normal tracking-wide text-sm leading-none"
             >
               <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full" />
-              <span>Reading wallet</span>
+              <span className="leading-none">Reading wallet</span>
             </span>
             <span
               ref={openingMeasureRef}
-              className="font-normal tracking-wide text-sm"
+              className="font-normal tracking-wide text-sm leading-none"
             >
               Opening BTD...
             </span>
+            {/* Same type metrics as hover wallet so fit measurement matches paint. */}
+            <span
+              ref={walletFitMeasureRef}
+              className="font-normal tracking-wide text-sm leading-none"
+            />
           </div>
 
           <AnimatePresence initial={false} mode="wait">
             {actionState === 'loading' ? (
               <motion.div
                 key="spinner"
-                className="flex h-4 w-4 shrink-0 items-center justify-center"
+                className="flex h-4 w-4 shrink-0 items-center justify-center self-center"
                 initial={{ opacity: 0, rotateX: 90 }}
                 animate={{ opacity: 1, rotateX: 0 }}
                 exit={{ opacity: 0, rotateX: -90 }}
@@ -406,7 +443,7 @@ export function BTDTracker({
             ) : (
               <motion.div
                 key="logo"
-                className="relative flex h-4 w-4 shrink-0 items-center justify-center overflow-visible"
+                className="relative flex h-4 w-4 shrink-0 items-center justify-center self-center overflow-visible"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -430,12 +467,17 @@ export function BTDTracker({
               </motion.div>
             )}
           </AnimatePresence>
-          <div className="min-w-0 overflow-hidden">
+          {/*
+            Non-icon content: stretch to chrome height and flex-center so
+            BTD/APs + wallet alt share true vertical middle of h-9 (no
+            translate hacks; leading-none kills default text-sm half-leading).
+          */}
+          <div className="flex h-full min-h-0 min-w-0 items-center justify-center overflow-hidden">
             <AnimatePresence initial={false} mode="wait">
               {actionState === 'loading' ? (
                 <motion.span
                   key="loading"
-                  className="block w-full truncate text-center font-normal tracking-wide text-sm text-emerald-400/90"
+                  className="flex w-full items-center justify-center truncate text-center font-normal tracking-wide text-sm leading-none text-emerald-400/90"
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
                   exit={{ opacity: 0, rotateX: 90 }}
@@ -444,7 +486,7 @@ export function BTDTracker({
               ) : isBalanceLoading ? (
                 <motion.span
                   key="wallet-loading"
-                  className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm text-emerald-200/78"
+                  className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm leading-none text-emerald-200/78"
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
                   exit={{ opacity: 0, rotateX: 90 }}
@@ -454,13 +496,15 @@ export function BTDTracker({
                     aria-hidden="true"
                     className="inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-200/80 shadow-[0_0_10px_rgba(103,254,183,0.45)]"
                   />
-                  <span className="truncate">Reading wallet</span>
+                  <span className="truncate leading-none">Reading wallet</span>
                 </motion.span>
               ) : actionState === 'idle' && shouldShowWalletNow ? (
                 <motion.span
                   key="wallet"
-                  className="block w-full truncate text-center font-normal tracking-wide text-sm text-emerald-400/90"
-                  title={walletActionLabel}
+                  // Block + min-w-0 ellipsis (not flex): center is fine when the
+                  // compact form fits; fallback end-ellipsis is clean if not.
+                  className="block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-center font-normal tracking-wide text-sm leading-none text-emerald-400/90"
+                  title={walletFullLabel}
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
                   exit={{ opacity: 0, rotateX: 90 }}
@@ -475,12 +519,12 @@ export function BTDTracker({
                   exit={{ opacity: 0, rotateX: 90 }}
                   transition={{ duration: 0.3, ease: 'easeInOut' }}
                 >
-                  <span className="inline-block -translate-y-px leading-none">{btdBalanceLabel}</span>
+                  <span className="inline-block leading-none">{btdBalanceLabel}</span>
                   <span
                     aria-hidden="true"
-                    className="mx-2.5 inline-block h-3.5 w-[2px] shrink-0 self-center -translate-y-px rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
+                    className="mx-2.5 inline-block h-3.5 w-[2px] shrink-0 self-center rounded-full bg-emerald-100/75 shadow-[0_0_8px_rgba(103,254,183,0.6)]"
                   />
-                  <span className="inline-block -translate-y-px leading-none">{assetPacksLabel}</span>
+                  <span className="inline-block leading-none">{assetPacksLabel}</span>
                 </motion.span>
               )}
             </AnimatePresence>
