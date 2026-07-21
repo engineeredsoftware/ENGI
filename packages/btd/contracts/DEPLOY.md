@@ -16,9 +16,12 @@
 
 ## 1. Compile & unit test
 
+Deps are **not** vendored: `foundry.lock` is tracked; `lib/` is gitignored (like `node_modules`).
+
 ```bash
 cd packages/btd/contracts
-forge install foundry-rs/forge-std   # once per clone
+# Restore forge-std to the pin in foundry.lock (currently v1.16.2)
+forge install foundry-rs/forge-std@v1.16.2 --no-git
 forge build
 forge test -vv
 ```

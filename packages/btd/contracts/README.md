@@ -19,19 +19,32 @@ DEPLOY.md
 
 Dual-maintain TS: `packages/btd/src/erc1155/`.
 
-## Setup (once per clone)
+## Dependencies (npm-like)
+
+| Track in git | Do not track |
+| --- | --- |
+| `foundry.toml` | `lib/` (installed packages) |
+| **`foundry.lock`** (exact pins) | `out/`, `cache/`, `broadcast/` |
+
+Current lock pins **forge-std @ v1.16.2** (`bf647bd…`).
+
+### Install / restore deps
 
 ```bash
 cd packages/btd/contracts
-forge install foundry-rs/forge-std
+# --no-git: install into lib/ without creating a git submodule
+forge install foundry-rs/forge-std@v1.16.2 --no-git
 ```
 
-`lib/` is local (see `.gitignore`).
+Use the tag/rev recorded in `foundry.lock` if the pin changes. After upgrading a dependency, **commit the updated `foundry.lock`**.
+
+Do **not** commit `lib/`.
 
 ## Build / test
 
 ```bash
 cd packages/btd/contracts
+forge install foundry-rs/forge-std@v1.16.2 --no-git   # if lib/ missing
 forge build
 forge test -vv
 ```

@@ -1,9 +1,14 @@
-# Foundry
+# Foundry build / local artifacts (regenerable)
 cache/
 out/
 broadcast/
+
+# Installed deps (like node_modules) — restore from foundry.lock
 lib/
 
 # Local env / keys (never commit)
 .env
 .env.*
+
+# Track the lockfile (like package-lock.json / pnpm-lock.yaml)
+# foundry.lock is NOT ignored
