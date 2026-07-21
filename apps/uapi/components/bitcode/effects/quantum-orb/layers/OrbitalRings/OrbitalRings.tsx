@@ -64,7 +64,7 @@ export function OrbitalRings({
 
   return (
     <>
-      {/* Concentric square frames (still rotate for motion). */}
+      {/* Soft fill glow may still spin — lava motion lives in Glow/Wavy layers. */}
       <motion.div
         className="quantum-orb-ring quantum-orb-ring-glow"
         style={{
@@ -91,70 +91,42 @@ export function OrbitalRings({
         }
       />
 
-      <motion.div
+      {/* Hard border-boxes stay axis-aligned (no rotation).
+          Outer 5.5%, middle 12%, inner 36% pure black + dark shadow.
+          Paint order unchanged: rings still sit under wavy + glow. */}
+      <div
         className="quantum-orb-ring quantum-orb-ring-outer"
         style={{
           position: 'absolute',
-          inset: '3%',
+          inset: '5.5%',
           borderRadius: 0,
           border: `1px solid ${color}`,
           opacity: getOpacity(0.2),
         }}
-        animate={isAnimating ? { rotate: 360 } : undefined}
-        transition={
-          isAnimating
-            ? {
-                duration: 60000 / (speed * 0.25),
-                ease: 'linear',
-                repeat: Infinity,
-                repeatType: 'loop',
-              }
-            : undefined
-        }
       />
 
-      <motion.div
+      <div
         className="quantum-orb-ring quantum-orb-ring-middle"
         style={{
           position: 'absolute',
-          inset: '15%',
+          inset: '12%',
           borderRadius: 0,
           border: `1px solid ${color}`,
           opacity: getOpacity(0.3),
         }}
-        animate={isAnimating ? { rotate: -360 } : undefined}
-        transition={
-          isAnimating
-            ? {
-                duration: 60000 / (speed * 0.5),
-                ease: 'linear',
-                repeat: Infinity,
-                repeatType: 'loop',
-              }
-            : undefined
-        }
       />
 
-      <motion.div
+      <div
         className="quantum-orb-ring quantum-orb-ring-inner"
         style={{
           position: 'absolute',
-          inset: '30%',
+          inset: '36%',
           borderRadius: 0,
-          border: `1px solid ${color}`,
-          opacity: getOpacity(0.4),
+          border: '1px solid #000000',
+          opacity: 0.5,
+          boxShadow:
+            '0 0 4px rgba(0, 0, 0, 0.85), 0 0 8px rgba(0, 0, 0, 0.55), inset 0 0 2px rgba(0, 0, 0, 0.9)',
         }}
-        animate={isAnimating ? { rotate: 360 } : undefined}
-        transition={
-          isAnimating
-            ? {
-                duration: 60000 / speed,
-                ease: 'linear',
-                repeat: Infinity,
-                repeatType: 'loop',
-              }
-            : undefined
-        }
       />
     </>
   );

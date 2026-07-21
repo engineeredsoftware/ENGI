@@ -1,9 +1,7 @@
-
 'use client';
 
 import React, { useEffect, useRef, useContext } from 'react';
 import { QuantumOrbState } from '@/components/bitcode/effects/quantum-orb/QuantumOrb/QuantumOrb';
-import { FRAME_BUDGET_MS } from '@/components/bitcode/effects/quantum-orb/QuantumOrbConfig/QuantumOrbConfig';
 import { OrbLoopContext } from '@/components/bitcode/effects/quantum-orb/QuantumOrb/QuantumOrb';
 
 interface ParticleLayerProps {
@@ -14,17 +12,19 @@ interface ParticleLayerProps {
   isAnimating?: boolean;
 }
 
-// ---------------------------------------------------------------------------
-// Utility helpers (kept outside the component so they are created once)
-// ---------------------------------------------------------------------------
+// Match the old Offscreen worker cadence (~60fps). The shared orb budget
+// (30fps) made particles advance half as often → visibly slower.
+const PARTICLE_FRAME_BUDGET_MS = 16;
 
-/**
- * Convert a 3/6-digit hex colour (e.g. "#67feb7") to an `rgba()` string with
- * the provided alpha.
- */
+// Innermost hard ring in OrbitalRings uses inset '36%' — keep in sync.
+const INNER_RING_LO = 0.36;
+const INNER_RING_HI = 0.64;
+/** How close (unit square) to the ring line before swallow begins. */
+const INNER_RING_HIT_PAD = 0.032;
+/** Swallow duration in particle frames (~0.5s at 60fps) — unhurried. */
+const SWALLOW_DURATION_FRAMES = 30;
 // ---------------------------------------------------------------------------
-// Colour helpers – we parse the hex once and later just inject the alpha
-// component, avoiding repeated hex-string parsing in the hot draw loop.
+// Colour helpers – parse hex once and inject alpha in the hot draw loop.
 // ---------------------------------------------------------------------------
 
 function parseHexRGB(hex: string): [number, number, number] {
@@ -43,12 +43,78 @@ function rgbToRgbaString(r: number, g: number, b: number, a: number) {
   return `rgba(${r},${g},${b},${a})`;
 }
 
-export function ParticleLayer({ color, count, speed, state, isAnimating = true }: ParticleLayerProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const workerRef = useRef<Worker | null>(null);
+/** Distance from (x,y) to the perimeter of axis-aligned square [lo, hi]². */
+function distToSquarePerimeter(x: number, y: number, lo: number, hi: number) {
+  const inside = x >= lo && x <= hi && y >= lo && y <= hi;
+  if (inside) {
+    return Math.min(x - lo, hi - x, y - lo, hi - y);
+  }
+  const cx = Math.min(hi, Math.max(lo, x));
+  const cy = Math.min(hi, Math.max(lo, y));
+  return Math.hypot(x - cx, y - cy);
+}
 
-  // Struct-of-arrays typed-array store for particle properties.  This improves
-  // memory locality and avoids per-particle JS object allocations.
+/**
+ * True if a ray from (ox,oy) in direction (dx,dy) intersects the filled
+ * square [lo,hi]² (hence must cross its ring/perimeter). Slab method.
+ */
+function rayHitsSquare(
+  ox: number,
+  oy: number,
+  dx: number,
+  dy: number,
+  lo: number,
+  hi: number,
+): boolean {
+  // Already inside → path is over the ring interior (must have crossed or is on it).
+  if (ox >= lo && ox <= hi && oy >= lo && oy <= hi) return true;
+
+  let tMin = 0;
+  let tMax = Infinity;
+
+  const slab = (o: number, d: number) => {
+    if (Math.abs(d) < 1e-8) {
+      if (o < lo || o > hi) {
+        tMax = -1; // parallel and outside
+      }
+      return;
+    }
+    let t1 = (lo - o) / d;
+    let t2 = (hi - o) / d;
+    if (t1 > t2) {
+      const tmp = t1;
+      t1 = t2;
+      t2 = tmp;
+    }
+    tMin = Math.max(tMin, t1);
+    tMax = Math.min(tMax, t2);
+  };
+
+  slab(ox, dx);
+  if (tMax < tMin) return false;
+  slab(oy, dy);
+  return tMax >= tMin && tMax >= 0;
+}
+
+/**
+ * Main-thread canvas particles only.
+ *
+ * An earlier OffscreenCanvas + Worker path transferred the canvas once and then
+ * failed under React Strict Mode (dev double-invoke): cleanup terminated the
+ * worker without clearing the ref, the re-run posted to a dead worker, and the
+ * main-thread path bailed because the ref was still set — so particles only
+ * appeared in production. With ~10–20 dots, main-thread draw is enough.
+ */
+export function ParticleLayer({
+  color,
+  count,
+  speed,
+  state,
+  isAnimating = true,
+}: ParticleLayerProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Struct-of-arrays for particle properties (locality, no per-dot objects).
   const positionsX = useRef<Float32Array | null>(null);
   const positionsY = useRef<Float32Array | null>(null);
   const sizes = useRef<Float32Array | null>(null);
@@ -57,19 +123,28 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
   const opacities = useRef<Float32Array | null>(null);
   const life = useRef<Uint16Array | null>(null);
   const maxLife = useRef<Uint16Array | null>(null);
+  /**
+   * 0 = free flight;
+   * (0,1] = swallow progress into the inner ring/center.
+   */
+  const swallow = useRef<Float32Array | null>(null);
+  /**
+   * 1 = trajectory hits the inner ring (always swallow on contact);
+   * 0 = geometric miss (cool red, never swallow).
+   */
+  const hitsRing = useRef<Float32Array | null>(null);
   const lastFrameRef = useRef<number>(0);
+  const speedRef = useRef(speed);
 
-  // Pre-parsed RGB so we can compose RGBA strings cheaply per frame.
   const rgbRef = useRef<[number, number, number]>(parseHexRGB(color));
 
-  // Update RGB cache if the colour prop changes
   useEffect(() => {
-    if (workerRef.current) {
-      // Worker path active, skip main-thread drawing logic.
-      return;
-    }
     rgbRef.current = parseHexRGB(color);
   }, [color]);
+
+  useEffect(() => {
+    speedRef.current = speed;
+  }, [speed]);
 
   const subscribe = useContext(OrbLoopContext);
 
@@ -82,7 +157,9 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
       !angles.current ||
       !opacities.current ||
       !life.current ||
-      !maxLife.current
+      !maxLife.current ||
+      !swallow.current ||
+      !hitsRing.current
     ) {
       return null;
     }
@@ -96,177 +173,26 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
       opacities: opacities.current,
       life: life.current,
       maxLife: maxLife.current,
+      swallow: swallow.current,
+      hitsRing: hitsRing.current,
     };
   };
 
-  /* --------------------------------------------------------------------- */
-  /* OffscreenCanvas fast-path (runs drawing in a dedicated worker)        */
-  /* --------------------------------------------------------------------- */
-
-  useEffect(() => {
-    const canvasEl = canvasRef.current;
-    if (!canvasEl) return;
-
-    const supportsOffscreen =
-      typeof (window as any).OffscreenCanvas !== 'undefined' &&
-      (canvasEl as any).transferControlToOffscreen;
-
-    if (!supportsOffscreen) return; // Fallback to main-thread path below
-
-    // If a worker already exists we merely forward updates and skip transfer
-    if (workerRef.current) {
-      workerRef.current.postMessage({
-        type: 'update',
-        color,
-        speed,
-      });
-      return;
+  /** Random point on one side of the unit square (slightly inset). */
+  const randomPointOnEdge = (edge: number, inset = 0.03) => {
+    const u = inset + Math.random() * (1 - 2 * inset);
+    switch (edge) {
+      case 0:
+        return { x: u, y: inset }; // top
+      case 1:
+        return { x: 1 - inset, y: u }; // right
+      case 2:
+        return { x: u, y: 1 - inset }; // bottom
+      default:
+        return { x: inset, y: u }; // left
     }
+  };
 
-    const offscreen = (canvasEl as any).transferControlToOffscreen();
-
-    // Inline worker code – keeps the bundle small and avoids separate file
-    const workerSrc = `
-      let canvas, ctx;
-      let w = 0, h = 0;
-      let positionsX, positionsY, sizes, speeds, angles, opacities, life, maxLife;
-      let count = 0, speed = 60, color = '#ffffff', rgb = [255,255,255];
-
-      const FRAME_BUDGET = 16;
-
-      function rgbFromHex(hex){
-        const c = hex.replace('#','');
-        const short = c.length === 3;
-        const num = parseInt(c,16);
-        const r = short ? ((num>>8)&0xf)*17 : (num>>16)&0xff;
-        const g = short ? ((num>>4)&0xf)*17 : (num>>8)&0xff;
-        const b = short ? (num&0xf)*17 : num&0xff;
-        return [r,g,b];
-      }
-
-      function rgbaStr(r,g,b,a){return 'rgba('+r+','+g+','+b+','+a+')';}
-
-      function initParticle(i){
-        const ang = Math.random()*Math.PI*2;
-        const dist = Math.random()*0.5;
-        positionsX[i] = 0.5 + Math.cos(ang)*dist;
-        positionsY[i] = 0.5 + Math.sin(ang)*dist;
-        sizes[i]=0.5+Math.random()*1.5;
-        speeds[i]=(0.01+Math.random()*0.02)*(speed/60);
-        angles[i]=Math.random()*Math.PI*2;
-        opacities[i]=0;
-        life[i]=0;
-        maxLife[i]=100+Math.floor(Math.random()*100);
-      }
-
-      function setupArrays(){
-        positionsX = new Float32Array(count);
-        positionsY = new Float32Array(count);
-        sizes = new Float32Array(count);
-        speeds = new Float32Array(count);
-        angles = new Float32Array(count);
-        opacities = new Float32Array(count);
-        life = new Uint16Array(count);
-        maxLife = new Uint16Array(count);
-        for(let i=0;i<count;i++) initParticle(i);
-      }
-
-      let last=0;
-      function draw(now){
-        if(now-last<FRAME_BUDGET){requestAnimationFrame(draw);return;}
-        last=now;
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        for(let i=0;i<count;i++){
-          life[i]++;
-          const l=life[i], maxL=maxLife[i];
-          let o;
-          if(l<maxL*0.2){o=(l/(maxL*0.2))*0.8;}else if(l>maxL*0.8){o=0.8*(1-(l-maxL*0.8)/(maxL*0.2));}else{o=0.8;}
-          opacities[i]=o;
-          positionsX[i]+=Math.cos(angles[i])*speeds[i];
-          positionsY[i]+=Math.sin(angles[i])*speeds[i];
-          if(l>=maxL || positionsX[i]<0 || positionsX[i]>1 || positionsY[i]<0 || positionsY[i]>1){initParticle(i);continue;}
-          const x=positionsX[i]*canvas.width;
-          const y=positionsY[i]*canvas.height;
-          const sz=sizes[i]*(canvas.width/100);
-          const rgba=rgbaStr(rgb[0],rgb[1],rgb[2],o);
-          ctx.save();
-          ctx.shadowBlur=sz*3;
-          ctx.shadowColor=rgba;
-          ctx.fillStyle=rgba;
-          ctx.beginPath();
-          ctx.arc(x,y,sz,0,Math.PI*2);
-          ctx.fill();
-          ctx.restore();
-        }
-        requestAnimationFrame(draw);
-      }
-
-      self.onmessage = function(e){
-        if(e.data.type==='init'){
-          canvas = e.data.canvas;
-          ctx = canvas.getContext('2d', {alpha:true, desynchronized:true});
-          w = canvas.width = e.data.width;
-          h = canvas.height = e.data.height;
-          count = e.data.count;
-          speed = e.data.speed;
-          color = e.data.color;
-          rgb = rgbFromHex(color);
-          setupArrays();
-          requestAnimationFrame(draw);
-        }else if(e.data.type==='resize'){
-          w = canvas.width = e.data.width;
-          h = canvas.height = e.data.height;
-        }else if(e.data.type==='update'){
-          if(e.data.color){color=e.data.color;rgb=rgbFromHex(color);} 
-        }
-      }
-    `;
-
-    const worker = new Worker(URL.createObjectURL(new Blob([workerSrc], { type: 'application/javascript' })));
-    workerRef.current = worker;
-
-    // Initial config
-    const deviceDpr = window.devicePixelRatio || 1;
-    const lowEnd = (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4;
-    const dynamicCap = state === 'active' ? 1 : 1.5;
-    const dprCap = lowEnd ? 1 : dynamicCap;
-    const dpr = Math.min(deviceDpr, dprCap);
-
-    const initMsg = {
-      type: 'init',
-      canvas: offscreen,
-      width: canvasEl.clientWidth * dpr,
-      height: canvasEl.clientHeight * dpr,
-      dpr,
-      count,
-      color,
-      speed,
-    } as any;
-    worker.postMessage(initMsg, [offscreen]);
-
-    // Handle resize
-    const ro = new ResizeObserver(() => {
-      if (!workerRef.current) return;
-      const deviceDpr = window.devicePixelRatio || 1;
-      const lowEnd = (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4;
-      const dynamicCap = state === 'active' ? 1 : 1.5;
-      const dprCap = lowEnd ? 1 : dynamicCap;
-      const dpr = Math.min(deviceDpr, dprCap);
-      workerRef.current.postMessage({
-        type: 'resize',
-        width: canvasEl.clientWidth * dpr,
-        height: canvasEl.clientHeight * dpr,
-      });
-    });
-    ro.observe(canvasEl.parentElement!);
-
-    return () => {
-      worker.terminate();
-      ro.disconnect();
-    };
-  }, [count, color, speed, state]);
-
-  // Fill a particle slot at index `i` with fresh randomised values.
   const initParticle = (i: number) => {
     const buffers = getParticleBuffers();
     if (!buffers) return;
@@ -280,24 +206,55 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
       opacities: opacitiesData,
       life: lifeData,
       maxLife: maxLifeData,
+      swallow: swallowData,
+      hitsRing: hitsRingData,
     } = buffers;
-    const ang = Math.random() * Math.PI * 2;
-    const dist = Math.random() * 0.5;
+    const spd = speedRef.current;
 
-    positionsXData[i] = 0.5 + Math.cos(ang) * dist;
-    positionsYData[i] = 0.5 + Math.sin(ang) * dist;
+    // Chord across the square: independent entry + exit edges.
+    // (Old spawn was always on a diameter through the center → every path hit
+    // the inner ring, so misses never appeared.)
+    const entryEdge = Math.floor(Math.random() * 4);
+    let exitEdge = Math.floor(Math.random() * 3);
+    if (exitEdge >= entryEdge) exitEdge += 1;
+    const start = randomPointOnEdge(entryEdge);
+    const end = randomPointOnEdge(exitEdge);
+    let tdx = end.x - start.x;
+    let tdy = end.y - start.y;
+    const len = Math.hypot(tdx, tdy) || 1;
+    tdx /= len;
+    tdy /= len;
+
+    positionsXData[i] = start.x;
+    positionsYData[i] = start.y;
+
     sizesData[i] = 0.5 + Math.random() * 1.5;
-    speedsData[i] = (0.01 + Math.random() * 0.02) * (speed / 60);
-    anglesData[i] = Math.random() * Math.PI * 2;
-    opacitiesData[i] = 0;
+    // Wide speed variance (~5× span), with a slightly higher floor so the
+    // slowest still clearly crosses (not a crawl).
+    // ~0.018–0.063 × (spd/60) at marketing speeds.
+    speedsData[i] = (0.018 + Math.random() * 0.045) * (spd / 60);
+    anglesData[i] = Math.atan2(tdy, tdx);
+    // Visible immediately at the rim (slow fade-in made them "pop" mid-orb).
+    opacitiesData[i] = 0.7;
     lifeData[i] = 0;
-    maxLifeData[i] = 100 + Math.floor(Math.random() * 100);
+    // Usually long enough to exit; sometimes expire in-view.
+    maxLifeData[i] = 55 + Math.floor(Math.random() * 100);
+    swallowData[i] = 0;
+    // Geometric fate: chord over the inner ring → always swallow; else pass through.
+    hitsRingData[i] = rayHitsSquare(
+      start.x,
+      start.y,
+      tdx,
+      tdy,
+      INNER_RING_LO,
+      INNER_RING_HI,
+    )
+      ? 1
+      : 0;
   };
 
-  // Allocate / reallocate typed arrays when the particle count or speed
-  // changes.
+  // Allocate / reallocate typed arrays when the particle count changes.
   useEffect(() => {
-    if (workerRef.current) return;
     positionsX.current = new Float32Array(count);
     positionsY.current = new Float32Array(count);
     sizes.current = new Float32Array(count);
@@ -306,18 +263,25 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
     opacities.current = new Float32Array(count);
     life.current = new Uint16Array(count);
     maxLife.current = new Uint16Array(count);
+    swallow.current = new Float32Array(count);
+    hitsRing.current = new Float32Array(count);
 
     for (let i = 0; i < count; i++) {
       initParticle(i);
+      // Stagger so they don't all launch together (sparse sequential streaks).
+      const buffers = getParticleBuffers();
+      if (buffers) {
+        const maxL = buffers.maxLife[i] || 100;
+        buffers.life[i] = Math.floor((i / Math.max(count, 1)) * maxL * 0.85);
+      }
     }
-  }, [count, speed]);
+  }, [count]);
 
   // Animation loop via shared rAF provided by OrbLoopContext
   useEffect(() => {
-    if (workerRef.current) return; // Worker path already set up context
     if (!canvasRef.current) return;
     const buffers = getParticleBuffers();
-    if (!buffers) return; // arrays not ready yet
+    if (!buffers) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d', {
       alpha: true,
@@ -333,64 +297,129 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
       opacities: opacitiesData,
       life: lifeData,
       maxLife: maxLifeData,
+      swallow: swallowData,
+      hitsRing: hitsRingData,
     } = buffers;
+
+    // Identity transform: device-pixel backing store, CSS box scales the bitmap.
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // Smoothing keeps large discs soft (hard edges + tiny radius → star spikes).
+    ctx.imageSmoothingEnabled = true;
 
     const drawFrame = () => {
       const now = performance.now();
-      if (now - lastFrameRef.current < FRAME_BUDGET_MS) return;
+      if (now - lastFrameRef.current < PARTICLE_FRAME_BUDGET_MS) return;
       lastFrameRef.current = now;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      if (w <= 0 || h <= 0) return;
+
+      ctx.clearRect(0, 0, w, h);
 
       const len = positionsXData.length;
       const [rr, gg, bb] = rgbRef.current;
-      const stateOpacityMultiplier =
-        state === 'active' ? 1 : state === 'hover' ? 0.8 : 0.6;
-
+      const minSide = Math.min(w, h);
+      // Soft discs: sizes ∈ [0.5, 2] → radius ≈ 4.5%–11% of the orb.
       for (let i = 0; i < len; i++) {
+        let px = positionsXData[i];
+        let py = positionsYData[i];
+        let swallowT = swallowData[i];
+        const willHit = hitsRingData[i] >= 0.5;
+
+        // --- Swallow: pulled into center of the inner square, shrinking ---
+        if (swallowT > 0) {
+          swallowT += 1 / SWALLOW_DURATION_FRAMES;
+          if (swallowT >= 1) {
+            initParticle(i);
+            continue;
+          }
+          swallowData[i] = swallowT;
+
+          // Smoothstep ease — slow capture, then decisive sink.
+          const ease = swallowT * swallowT * (3 - 2 * swallowT);
+          const pull = 0.1 + ease * 0.42;
+          px += (0.5 - px) * pull;
+          py += (0.5 - py) * pull;
+          positionsXData[i] = px;
+          positionsYData[i] = py;
+
+          // Shrink into a point; brief soft brightening mid-way, then vanish.
+          const sizeMul = Math.pow(1 - ease, 1.45);
+          const glowPulse = 1 + 0.35 * Math.sin(ease * Math.PI);
+          const o = 0.72 * (1 - ease * ease) * glowPulse;
+          opacitiesData[i] = o;
+
+          const baseSz = (0.03 + sizesData[i] * 0.035) * minSide;
+          const sz = Math.max(0.15, baseSz * sizeMul);
+          if (sz < 0.35 && ease > 0.92) {
+            initParticle(i);
+            continue;
+          }
+
+          const rgba = rgbToRgbaString(rr, gg, bb, Math.min(1, o));
+          ctx.save();
+          ctx.shadowBlur = sz * (1.1 + ease * 1.4);
+          ctx.shadowColor = rgba;
+          ctx.fillStyle = rgba;
+          ctx.beginPath();
+          ctx.arc(px * w, py * h, sz, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+          continue;
+        }
+
+        // --- Free flight ---
         lifeData[i]++;
 
-        // Calculate opacity easing based on life span
         const l = lifeData[i];
         const maxL = maxLifeData[i];
 
+        // Brief edge fade only — stay bright for almost the whole crossing so
+        // they read as streaks from rim→rim, not a center bloom.
         let o: number;
-        if (l < maxL * 0.2) {
-          o = (l / (maxL * 0.2)) * 0.8;
-        } else if (l > maxL * 0.8) {
-          o = 0.8 * (1 - (l - maxL * 0.8) / (maxL * 0.2));
+        if (l < 4) {
+          o = 0.7 * (l / 4);
+        } else if (l > maxL * 0.88) {
+          o = 0.7 * (1 - (l - maxL * 0.88) / (maxL * 0.12));
         } else {
-          o = 0.8;
+          o = 0.7;
         }
 
         opacitiesData[i] = o;
 
-        const finalOpacity = o * stateOpacityMultiplier;
+        px += Math.cos(anglesData[i]) * speedsData[i];
+        py += Math.sin(anglesData[i]) * speedsData[i];
+        positionsXData[i] = px;
+        positionsYData[i] = py;
 
-        // Update position
-        positionsXData[i] += Math.cos(anglesData[i]) * speedsData[i];
-        positionsYData[i] += Math.sin(anglesData[i]) * speedsData[i];
-
-        // Respawn if dead or out of bounds
-        if (
-          l >= maxL ||
-          positionsXData[i] < 0 ||
-          positionsXData[i] > 1 ||
-          positionsYData[i] < 0 ||
-          positionsYData[i] > 1
-        ) {
+        if (l >= maxL || px < 0 || px > 1 || py < 0 || py > 1) {
           initParticle(i);
           continue;
         }
 
-        const x = positionsXData[i] * canvas.width;
-        const y = positionsYData[i] * canvas.height;
-        const sz = sizesData[i] * (canvas.width / 100);
+        // Path over the inner ring → always swallow on contact. Misses never.
+        if (willHit) {
+          const ringDist = distToSquarePerimeter(
+            px,
+            py,
+            INNER_RING_LO,
+            INNER_RING_HI,
+          );
+          if (ringDist <= INNER_RING_HIT_PAD) {
+            swallowData[i] = 1 / SWALLOW_DURATION_FRAMES;
+          }
+        }
 
-        const rgba = rgbToRgbaString(rr, gg, bb, finalOpacity);
+        const x = px * w;
+        const y = py * h;
+        const sz = (0.03 + sizesData[i] * 0.035) * minSide;
+
+        const rgba = rgbToRgbaString(rr, gg, bb, o);
 
         ctx.save();
-        ctx.shadowBlur = sz * 3;
+        // Soft bloom; keep blur ≤ radius so we don't get cross-shaped spikes.
+        ctx.shadowBlur = sz * 1.25;
         ctx.shadowColor = rgba;
         ctx.fillStyle = rgba;
 
@@ -410,11 +439,10 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
     }
 
     return () => unsubscribe();
-  }, [color, speed, state, subscribe, isAnimating]);
+  }, [color, speed, state, subscribe, isAnimating, count]);
 
-  // Handle canvas resize using ResizeObserver (no global `resize` listener)
+  // Handle canvas resize using ResizeObserver
   useEffect(() => {
-    if (workerRef.current) return; // Offscreen/worker handles its own resize
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -422,9 +450,14 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
     if (!parent) return;
 
     const updateCanvasSize = () => {
-      const { width, height } = parent.getBoundingClientRect();
+      // Prefer clientWidth like the old worker (CSS box, not fractional rect).
+      const width = parent.clientWidth || parent.getBoundingClientRect().width;
+      const height = parent.clientHeight || parent.getBoundingClientRect().height;
+      if (width <= 0 || height <= 0) return;
+
       const deviceDpr = window.devicePixelRatio || 1;
-      const lowEnd = (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4;
+      const lowEnd =
+        (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4;
       const dynamicCap = state === 'active' ? 1 : 1.5;
       const dprCap = lowEnd ? 1 : dynamicCap;
       const dpr = Math.min(deviceDpr, dprCap);
@@ -434,9 +467,11 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
       } as any) as CanvasRenderingContext2D | null;
       if (!ctx2) return;
 
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      ctx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Device-pixel backing store; draw with identity transform (worker parity).
+      canvas.width = Math.max(1, Math.round(width * dpr));
+      canvas.height = Math.max(1, Math.round(height * dpr));
+      ctx2.setTransform(1, 0, 0, 1, 0, 0);
+      ctx2.imageSmoothingEnabled = false;
     };
 
     updateCanvasSize();
@@ -445,34 +480,6 @@ export function ParticleLayer({ color, count, speed, state, isAnimating = true }
     ro.observe(parent);
 
     return () => ro.disconnect();
-  }, [state]);
-
-  // Optimize canvas rendering
-  useEffect(() => {
-    if (workerRef.current) return; // Skip when using Offscreen worker
-    if (!canvasRef.current) return;
-
-    // Set devicePixelRatio for sharper rendering on high-DPI displays
-    const canvas = canvasRef.current;
-    const deviceDpr = window.devicePixelRatio || 1;
-    const lowEnd = (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4;
-    const dynamicCap = state === 'active' ? 1 : 2;
-    const dprCap = lowEnd ? 1 : dynamicCap;
-    const pixelRatio = Math.min(deviceDpr, dprCap);
-
-    const ctx = canvas.getContext('2d', {
-      alpha: true,
-      desynchronized: true,
-    } as any) as CanvasRenderingContext2D | null;
-    if (!ctx) return;
-
-    // Apply the new DPR
-    canvas.width = canvas.offsetWidth * pixelRatio;
-    canvas.height = canvas.offsetHeight * pixelRatio;
-    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-
-    // Disable image smoothing for particle rendering (better performance)
-    ctx.imageSmoothingEnabled = false;
   }, [state]);
 
   return (

@@ -324,8 +324,11 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
               <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-none border border-cyan-300/12 bg-[linear-gradient(135deg,rgba(6,13,24,0.96),rgba(4,22,31,0.92))] p-4 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.14),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(59,130,246,0.12),transparent_34%)]" />
                 <div className="absolute inset-0 opacity-15 [background-image:linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:28px_28px]" />
-                {/* Top-right fixed; size reduced so measures copy does not collide. */}
-                <div className="pointer-events-none absolute right-8 top-8 h-[56px] w-[56px] overflow-visible">
+                {/* Top-right fixed; size reduced so measures copy does not collide.
+                    right/top 26px (= 32px − 6px): keep the same margin to the card
+                    corner after QuantumOrb marketing outer chrome tightened from
+                    active inset −15 → −9 (inner 56px mark unchanged). */}
+                <div className="pointer-events-none absolute right-[26px] top-[26px] h-[56px] w-[56px] overflow-visible">
                   <QuantumOrb
                     size={56}
                     config={verifiedAccessOrbConfig}

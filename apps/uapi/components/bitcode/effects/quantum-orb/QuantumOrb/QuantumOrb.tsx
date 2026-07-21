@@ -253,9 +253,9 @@ function QuantumOrb({
   // Heavy canvas-based layers only mount when the orb is in the *active*
   // state.  Hover now keeps things lightweight (pure CSS + SVG) so just
   // moving the cursor over multiple orbs doesn’t spike paint time.
-  // Telemetry-sized orbs skip wavy blobs (they smear at 24px) but keep a
-  // small particle field + compact glow so the running loader has motion
-  // matching the marketing verified-access mark.
+  // Compact (size < 48) only: skip wavy blobs (they smear at 24px) and use a
+  // slightly lower particle quality floor so telemetry loaders still move on
+  // mid-spec devices. Marketing sizes (size ≥ 48) keep the pre-compact gates.
   const showWavyBlobs =
     renderDynamic &&
     !isCompactTelemetrySize &&
@@ -265,7 +265,7 @@ function QuantumOrb({
   const showParticles =
     renderDynamic &&
     orbConfig.showParticles &&
-    qualityMultiplier >= 0.5 &&
+    qualityMultiplier >= (isCompactTelemetrySize ? 0.5 : 0.6) &&
     state === 'active';
 
   // Handle mouse enter/leave
@@ -327,14 +327,16 @@ function QuantumOrb({
 
   // Compact telemetry: fill most of the square (marketing-like soft tile),
   // not a tiny core inside multi-frame chrome.
+  // Marketing outer chrome: slightly tighter than the old -10/-15 so the
+  // containing frame hugs the same-size inner mark with less empty pad.
   const coreInset = isCompactTelemetrySize ? '0%' : '8%';
   const coreBlurPx = isCompactTelemetrySize ? 0 : 2;
   const outerGlowInsetPx = isCompactTelemetrySize
     ? -Math.max(2, Math.round(size * 0.18))
-    : -10;
+    : -6;
   const activeFrameInsetPx = isCompactTelemetrySize
     ? -Math.max(1, Math.round(size * 0.06))
-    : -15;
+    : -9;
   const outerGlowBlurPx = isCompactTelemetrySize
     ? 0
     : state === 'active'
@@ -407,11 +409,18 @@ function QuantumOrb({
               position: 'absolute',
               inset: coreInset,
               borderRadius: 0,
-              // Compact: soft filled mint tile (landing mark). Large: lighter halo.
+              // Compact: soft filled mint tile. Marketing: pre-compact halo only.
               background: isCompactTelemetrySize
                 ? `radial-gradient(circle at 50% 40%, #ecfdf5 0%, ${orbConfig.glowColor} 42%, ${orbConfig.glowColor}bb 78%, ${orbConfig.glowColor}55 100%)`
                 : `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.18) 46%, ${orbConfig.glowColor}22 72%, transparent 88%)`,
-              opacity: state === 'active' ? 0.98 : 0.82,
+              // Compact densifies the tile; marketing keeps pre-compact opacities.
+              opacity: isCompactTelemetrySize
+                ? state === 'active'
+                  ? 0.98
+                  : 0.82
+                : state === 'active'
+                  ? 0.95
+                  : 0.8,
               ...(coreBlurPx > 0 ? { filter: `blur(${coreBlurPx}px)` } : null),
               willChange: 'transform, opacity',
               transform: 'translateZ(0)',
@@ -478,9 +487,13 @@ function QuantumOrb({
                 count={
                   isCompactTelemetrySize
                     ? compactParticleCount
-                    : Math.round(
-                        (state === 'active' ? 20 : state === 'hover' ? 15 : 10) *
-                          qualityMultiplier,
+                    : Math.max(
+                        1,
+                        Math.round(
+                          // Sparse shooting discs (deployed marketing look).
+                          (state === 'active' ? 3 : state === 'hover' ? 2 : 2) *
+                            qualityMultiplier,
+                        ),
                       )
                 }
                 speed={stateProps.particleSpeed * qualityMultiplier}
