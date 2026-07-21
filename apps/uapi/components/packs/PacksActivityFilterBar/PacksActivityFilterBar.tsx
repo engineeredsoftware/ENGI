@@ -81,8 +81,9 @@ export function PacksActivityFilterBar({
 }: PacksActivityFilterBarProps) {
   return (
     // Compact mosaic twin of BitcodeTransactionsFilterBar — no nested card.
+    // Parent list card owns vertical spacing (title chrome is a sibling card).
     <div
-      className="mt-4 grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-5"
+      className="grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-5"
       data-testid="packs-activity-filter-bar"
     >
       <FilterCell label="Search" explainerKey="search" className="col-span-2 tablet:col-span-2">
