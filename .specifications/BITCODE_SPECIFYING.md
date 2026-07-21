@@ -272,6 +272,22 @@ Put proof commands, file lists, and longer rationale in the **body**, wrapped at
 parentheticals or run-on clauses. Category labels (`(spec-only)` / `(impl-only)` /
 `(spec-impl)`) still apply on the subject.
 
+**Subject truthfulness (scope class):** the subject must state the **kind** of
+change so history readers do not misread **opt-in configuration**, **debug**,
+**env flags**, **operator-only**, or **test-only** work as a **default product
+or system behavior** change. Put the distinguishing class words in the subject
+itself (`debug env`, `flag`, `config`, `opt-in`, `test`, `script`) even under
+the 50-character soft budget — drop filler nouns before dropping scope class.
+Body may name the full env key; the subject still carries the class.
+
+| Misread subject (false system implication) | Truthful subject |
+| --- | --- |
+| `Skip Thinkings Judge/SO` | `Skip Judge/SO debug env` |
+| `Disable settle rehydrate` | `Gate settle rehydrate behind flag` |
+
+Agent craft expansion: `.docs/AGENTS.md` (commit subject truthfulness). Human
+orientation: `CONTRIBUTING.md` §2.3.
+
 A change that alters both kinds is committed as a single `(spec-impl)` commit,
 or split into a `(spec-only)` and an `(impl-only)` commit — never an unlabeled
 mix. An `(impl-only)` change that introduces behavior not yet derivable from the

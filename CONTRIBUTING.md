@@ -120,6 +120,21 @@ V48 Gate 4 (spec-only): Record read settle rows
 V48 Gate 4 (spec-impl): Close need panel parity
 ```
 
+**Subject truthfulness (scope class):** the subject must not imply a **default
+product or system** change when the work is **debug / opt-in config / env /
+flag / operator-only / test-only**. Name the scope class in the subject
+(`debug env`, `flag`, `test`, `script`, …). Prefer those words over filler
+under the 50-char soft budget.
+
+| Poor (false system implication) | Better (true scope) |
+| --- | --- |
+| `…: Skip Thinkings Judge/SO` | `…: Skip Judge/SO debug env` |
+| `…: Disable settle rehydrate` | `…: Gate settle rehydrate behind flag` |
+| `…: Always use mock LLM` | `…: Mock LLM via debug env` |
+
+Full lesson and table: [`.docs/AGENTS.md`](.docs/AGENTS.md) (commit subject
+truthfulness). Spec law: [`.specifications/BITCODE_SPECIFYING.md`](.specifications/BITCODE_SPECIFYING.md) §2.8.
+
 **Never** use expanded forms like `(specification-only)` in subjects. Put proof
 commands and file lists in the **body** (wrapped at 72).
 
