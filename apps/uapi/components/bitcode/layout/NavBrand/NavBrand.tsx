@@ -19,7 +19,8 @@ import {
   GLOBAL_CONSTANT_BITCODE_X_URL,
 } from "@bitcode/global-constants";
 
-export type NavSurface = "packs" | "auxillaries" | "conversations" | null;
+/** Workspace chrome surface; `exchange` is canonical (retired product name: packs). */
+export type NavSurface = "exchange" | "packs" | "auxillaries" | "conversations" | null;
 export type NavBrandSurface =
   | Exclude<NavSurface, null>
   | "home"

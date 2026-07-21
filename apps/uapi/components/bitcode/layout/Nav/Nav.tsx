@@ -194,8 +194,8 @@ export default function Nav() {
   const publicSurface = getPublicShellSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
-  const usesProductChrome =
-    usesPublicChrome || navSurface === 'exchange' || navSurface === 'packs';
+  // getWorkspaceSurface maps /exchange and /packs → 'exchange'.
+  const usesProductChrome = usesPublicChrome || navSurface === 'exchange';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
   const profileRecord =
     userData?.profile && typeof userData.profile === 'object'
@@ -404,7 +404,8 @@ export default function Nav() {
   const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full min-w-0 flex-wrap items-center gap-1.5 phone:gap-2 tablet:ml-6 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-3 laptop:ml-10 laptop:gap-5">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
-        const isExchangeRoute = href === '/exchange' || href === '/packs';
+        // Public nav SSOT uses /exchange only; /packs is compat path active state.
+        const isExchangeRoute = href === '/exchange';
         const isDepositRoute = href === '/deposits';
         const isReadRoute = href === '/reads';
         const routeTheme = isReadRoute
@@ -414,10 +415,10 @@ export default function Nav() {
             : publicRouteLinkThemes.exchange;
         const isDisabledRoute = isExchangeRoute && disableExchangeLink;
         const isActiveRoute = isExchangeRoute
-          ? pathname === '/packs' ||
-            pathname?.startsWith('/packs/') ||
-            pathname === '/exchange' ||
-            pathname?.startsWith('/exchange/')
+          ? pathname === '/exchange' ||
+            pathname?.startsWith('/exchange/') ||
+            pathname === '/packs' ||
+            pathname?.startsWith('/packs/')
           : pathname === href || pathname?.startsWith(`${href}/`);
 
         return (
