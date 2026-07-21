@@ -184,6 +184,7 @@ export function ReadsPipelineTelemetry({
           compact
           pipelineMode={readRunMode === "deposit" ? "deposit" : "read"}
           liveContext={readRunActivity.latestContext}
+          startedAtMs={readRunStartMs}
           copyData={{
             runId: selectedPipelineRunId,
             status: selectedRun?.status ?? null,
@@ -211,9 +212,9 @@ export function ReadsPipelineTelemetry({
                   {option.optionId}
                 </span>
                 <span>{option.title}</span>
-                {option.coveredSourcePathCount > 0 ? (
+                {typeof option.coveragePercent === "number" ? (
                   <span className="text-xs text-neutral-500">
-                    {option.coveredSourcePathCount} source paths
+                    coverage {option.coveragePercent}%
                   </span>
                 ) : null}
               </li>

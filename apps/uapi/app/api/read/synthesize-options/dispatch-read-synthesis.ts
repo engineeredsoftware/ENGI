@@ -204,15 +204,25 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
 
     await assertNotCancelled();
 
+    // V48-Gate5-F01: finish returns unpaid options for browser; fullOptions
+    // for settle rehydrate only (history API redacts fullOptions forever).
     const selectionEnvelope =
       (execution as any).get?.('finish', 'selectionEnvelope') ||
       (result as any)?.selectionEnvelope ||
       null;
-    const options =
-      (execution as any).get?.('implementation', 'options') ||
+    const unpaidOptions =
       (result as any)?.options ||
       selectionEnvelope?.options ||
       [];
+    const fullOptions =
+      (execution as any).get?.('finish', 'fullOptions') ||
+      (result as any)?.fullOptions ||
+      [];
+    const catalogSourcePathCount =
+      (execution as any).get?.('finish', 'catalogSourcePathCount') ||
+      (result as any)?.catalogSourcePathCount ||
+      null;
+    const optionCount = Array.isArray(unpaidOptions) ? unpaidOptions.length : 0;
 
     await finalizeIfStillRunning({
       status: 'completed',
@@ -220,9 +230,16 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
       output: {
         productPipeline: 'synthesize-reads-asset-packs-pipeline',
         selectionEnvelope,
-        optionCount: Array.isArray(options) ? options.length : 0,
-        options,
+        optionCount,
+        // Browser hydrate path — unpaid only.
+        options: unpaidOptions,
+        // Server rehydrate for settle — never returned by history redaction.
+        fullOptions: Array.isArray(fullOptions) ? fullOptions : [],
+        catalogSourcePathCount,
         success: true,
+        disclosure: {
+          class: 'unpaid-title-summary-measurements-only',
+        },
       },
       context: {
         source: 'read-synthesize-options',
@@ -230,18 +247,18 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
         pipelineCore: 'synthesize-reads-asset-packs-pipeline',
         synthesisMode: 'read',
         repositoryFullName: input.repositoryFullName,
-        optionCount: Array.isArray(options) ? options.length : 0,
+        optionCount,
       },
     });
     try {
       await emitPhaseTransition(execution as never, 'read-option-synthesis', 'complete', {
-        optionCount: Array.isArray(options) ? options.length : 0,
+        optionCount,
       });
     } catch {
       /* optional */
     }
     emitStatus(
-      `Synthesized ${Array.isArray(options) ? options.length : 0} measured read AssetPack option(s).`,
+      `Synthesized ${optionCount} measured read AssetPack option(s).`,
     );
   } catch (err) {
     if (isExecutionCancelledError(err) || (await isExecutionCancelled(admin, runId))) {

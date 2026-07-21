@@ -9,6 +9,10 @@
 import { createJsonResponse } from '@bitcode/api/responses';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
+import {
+  isUnpaidReadSynthesisExecution,
+  redactUnpaidReadExecutionOutput,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/unpaid-option-disclosure';
 
 import {
   buildAgenticExecutionSummary,
@@ -493,7 +497,19 @@ function buildLedgerSettlement(row: ExecutionHistoryRow) {
 }
 
 export function normalizeExecutionHistoryRow(row: ExecutionHistoryRow) {
-  const output = readOutputRecord(row);
+  const rawOutput = readOutputRecord(row);
+  // V48-Gate5-F01: unpaid READ synthesis — never ship fullOptions / patch /
+  // path lists to the browser. Deposit owner runs are not redacted here.
+  let output = rawOutput;
+  if (
+    isUnpaidReadSynthesisExecution({
+      context: row.context,
+      output: rawOutput,
+      type: row.type,
+    })
+  ) {
+    output = redactUnpaidReadExecutionOutput(rawOutput) || rawOutput;
+  }
   const agenticExecution = buildAgenticExecutionSummary({
     type: row.type,
     status: row.status,

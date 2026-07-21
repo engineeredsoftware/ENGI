@@ -213,12 +213,13 @@ export default function ReadPageClient() {
     setSettleMessage(null);
     try {
       const railQuote = quote?.options.find((o) => o.payAsset === payAsset);
+      // V48-Gate5-F01: send indexes only — server rehydrates fullOptions.
       const response = await fetch("/api/read/settle", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          selectedOptions,
           synthesisRunId: synthesis.runId,
+          selectedIndexes: synthesis.selectedIndexes,
           need: need.trim() || null,
           relevantPaths,
           irrelevantPaths,
@@ -284,7 +285,7 @@ export default function ReadPageClient() {
     repositoryContext?.selectedRepository?.fullName,
     repositoryContext?.selectedRepository?.name,
     repositoryContext?.selectedRepository?.owner,
-    selectedOptions,
+    synthesis.selectedIndexes,
     synthesis.runId,
   ]);
 

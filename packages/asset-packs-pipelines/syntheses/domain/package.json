@@ -31,6 +31,7 @@
     "./depository-supply-index": "./src/depository-supply-index.ts",
     "./embedding-config": "./src/embedding-config.ts",
     "./depository-embed": "./src/depository-embed.ts",
+    "./unpaid-option-disclosure": "./src/unpaid-option-disclosure.ts",
     "./postprocess": "./src/postprocess.ts",
     "./preprocess": "./src/preprocess.ts",
     "./resolve-source-checkout-catalog": "./src/resolve-source-checkout-catalog.ts",

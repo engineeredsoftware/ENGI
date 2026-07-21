@@ -62,6 +62,7 @@ export * from './semantic-resolution';
 export * from './embedding-config';
 export * from './depository-embed';
 export * from './resolve-source-checkout-catalog';
+export * from './unpaid-option-disclosure';
 
 // Phase builders shared by both products (setup/discovery helpers).
 // Product rosters (executionPipelineSDIVFExecutionPhaseSynthesisDepositAssetPacks / executionPipelineSDIVFExecutionPhaseSynthesisReadAssetPacks) live on the product packages —

@@ -304,7 +304,8 @@ describe("ReadPageClient", () => {
                   {
                     optionId: "option-1",
                     title: "Ledger reconciliation capability slice",
-                    coveredSourcePaths: ["src/ledger/reconcile.ts", "src/ledger/index.ts"],
+                    // Unpaid READ: coverage % only — no path names / counts.
+                    coveragePercent: 20,
                     measurementRationale: "measured",
                   },
                 ],
@@ -329,7 +330,8 @@ describe("ReadPageClient", () => {
     const text = (packs.textContent || "").replace(/\s+/g, " ");
     expect(text).toContain("Synthesized AssetPacks · 1");
     expect(text).toContain("Ledger reconciliation capability slice");
-    expect(text).toContain("2 source paths");
+    expect(text).toContain("coverage 20%");
+    expect(text).not.toContain("source paths");
     expect(
       screen.getByRole("link", { name: "Review in Deposits" }),
     ).toHaveAttribute(

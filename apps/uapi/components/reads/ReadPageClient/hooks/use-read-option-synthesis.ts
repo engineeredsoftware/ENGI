@@ -16,23 +16,35 @@ export type ReadSynthesisStatus =
   | "failed"
   | "cancelled";
 
+/**
+ * Browser-facing unpaid read option (V48-Gate5-F01).
+ * Never carries patch, path lists, or bodies — settle rehydrates server-side.
+ */
 export type ReadSynthesizedOption = {
   index: number;
   kind?: string | null;
   title?: string | null;
   summary?: string | null;
-  coveredSourcePaths?: string[];
   confidence?: number | null;
-  patch?: unknown;
   measurements?: {
     absolutes?: unknown[];
     needinesses?: unknown[];
   };
   needFit?: number | null;
+  /** 0–1 catalog coverage when catalog denominator is known; else omitted. */
+  coverageRatio?: number | null;
+  /** 0–100 convenience percent; omit when coverageRatio omitted. */
+  coveragePercent?: number | null;
   /** Aggregate BTD scalar when the selection envelope supplies it. */
   totalBtd?: number | null;
   selectable?: boolean;
   settleable?: boolean;
+  disclosure?: {
+    class?: string;
+    patchVisible?: boolean;
+    pathsVisible?: boolean;
+    downloadAllowed?: boolean;
+  };
 };
 
 export type ReadSelectionEnvelope = {

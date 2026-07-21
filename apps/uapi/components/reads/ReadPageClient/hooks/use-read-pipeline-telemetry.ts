@@ -13,7 +13,9 @@ export type SelectedRunPackSummary = {
   options: Array<{
     optionId: string;
     title: string;
+    /** Deprecated for unpaid READ — always 0; prefer coveragePercent. */
     coveredSourcePathCount: number;
+    coveragePercent?: number | null;
   }>;
 };
 
@@ -110,18 +112,29 @@ export function useReadPipelineTelemetry(selectedRun: WorkspaceRun | null) {
         const fallback = Array.isArray(output?.depositOptionSynthesis?.options)
           ? output.depositOptionSynthesis.options
           : [];
+        // Unpaid READ never exposes path names/counts; prefer coverage % when present.
         const options = (projections.length > 0 ? projections : fallback)
-          .map((option) => ({
-            optionId: String(option?.optionId || ""),
-            title: String(option?.title || "Untitled AssetPack option"),
-            coveredSourcePathCount: Array.isArray(
-              (option as { coveredSourcePaths?: string[] })?.coveredSourcePaths,
-            )
-              ? (option as { coveredSourcePaths: string[] }).coveredSourcePaths
-                  .length
-              : 0,
-          }))
-          .filter((option) => option.optionId);
+          .map((option, index) => {
+            const coveragePercent =
+              typeof (option as { coveragePercent?: number }).coveragePercent ===
+              "number"
+                ? (option as { coveragePercent: number }).coveragePercent
+                : null;
+            return {
+              optionId: String(
+                (option as { optionId?: string }).optionId ??
+                  (option as { index?: number }).index ??
+                  index,
+              ),
+              title: String(
+                (option as { title?: string }).title ||
+                  "Untitled AssetPack option",
+              ),
+              coveredSourcePathCount: 0,
+              coveragePercent,
+            };
+          })
+          .filter((option) => option.optionId !== "" && option.optionId != null);
         if (cancelled || options.length === 0) return;
         setSelectedRunPacks({ runId: selectedPipelineRunId, options });
       } catch {
