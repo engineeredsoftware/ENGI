@@ -471,18 +471,22 @@
 }
 
 .auxillaries-bitcode-selector {
+  /*
+   * Single inset token: shell edge → cards (top/right/bottom/left) and
+   * card-to-card gap all share the same rhythm.
+   */
+  --aux-selector-inset: 0.5rem;
   display: flex !important;
   box-sizing: border-box !important;
   min-width: 0;
   min-height: 0;
   flex-direction: column;
-  /* Tighter y-stack: less air between kicker/title and the card list. */
-  gap: 0.55rem !important;
+  gap: 0 !important;
   /* Visible overflow so 1px card borders are not clipped at the panel edge. */
   overflow-x: visible;
   overflow-y: hidden;
-  /* Extra horizontal inset so card L/R borders paint fully inside the panel. */
-  padding: clamp(0.7rem, 1.2vw, 0.95rem) clamp(0.85rem, 1.4vw, 1.15rem) !important;
+  /* Equal shell padding on all sides (was larger y than x). */
+  padding: var(--aux-selector-inset) !important;
 }
 
 .auxillaries-bitcode-kicker {
@@ -504,12 +508,16 @@
 .auxillaries-bitcode-selector-list {
   display: grid !important;
   box-sizing: border-box !important;
-  /* Reduce y-wise spacing between Wallet / Externals / Profile / Interfaces. */
-  gap: 0.4rem !important;
+  /* Four pane cards share the rail height equally. */
+  grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+  align-content: stretch !important;
+  /* Card-to-card gap = shell inset (equal air everywhere). */
+  gap: var(--aux-selector-inset, 0.5rem) !important;
   flex: 1 1 auto;
   min-height: 0;
   min-width: 0;
   width: 100%;
+  height: 100%;
   /*
    * Scroll only when the list truly overflows (small viewports). Do not use
    * scrollbar-gutter:stable — that reserves a track and flickers in while
@@ -519,8 +527,8 @@
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-block: 0.15rem;
-  padding-inline: 0.45rem;
+  /* No list padding — shell owns the only edge inset (avoids double x/y stack). */
+  padding: 0 !important;
   scrollbar-gutter: auto;
   /* Prefer no chrome unless the rail actually overflows. */
   scrollbar-width: thin;
@@ -539,10 +547,13 @@
 }
 
 .auxillaries-bitcode-selector-list > [role='listitem'] {
+  display: flex !important;
   min-width: 0;
+  min-height: 0;
   max-width: 100%;
-  /* Keep the full border box inside the scrollport. */
-  padding-inline: 1px;
+  height: 100%;
+  /* No extra L/R pad — would make x-margin larger than shell y-inset. */
+  padding: 0 !important;
   box-sizing: border-box;
   /* Entrance y-translate must not inflate scrollHeight / flash a scrollbar. */
   overflow: clip;
@@ -550,19 +561,26 @@
 
 .auxillaries-bitcode-selector-card {
   box-sizing: border-box !important;
+  position: relative !important;
   display: flex !important;
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0;
+  min-height: 0;
+  height: 100% !important;
+  flex: 1 1 auto !important;
   flex-direction: column !important;
+  /* Center title / copy / pills as a block inside the stretched card. */
+  justify-content: center !important;
+  align-items: center !important;
   /* Tighter internal y-stack (topline / label / copy). */
-  gap: 0.28rem !important;
+  gap: 0.35rem !important;
   border-radius: 0;
   border: 1px solid var(--aux-bc-card-border) !important;
   background: var(--aux-bc-card-bg) !important;
   color: var(--aux-bc-ink) !important;
-  /* Slightly tighter vertical padding; keep horizontal so copy does not crowd edges. */
-  padding: 0.65rem 0.85rem !important;
+  /* Equal inset on all sides so corner chrome and content share one rhythm. */
+  padding: 0.55rem !important;
   overflow: visible;
   overflow-wrap: anywhere;
   /* Prefer a single paint border; avoid inset rings that read as cut side edges. */
@@ -612,8 +630,15 @@
   display: flex !important;
   align-items: center !important;
   justify-content: flex-end !important;
-  gap: 0.7rem !important;
-  min-height: 0.78rem !important;
+  gap: 0 !important;
+  min-height: 0 !important;
+  width: auto;
+  /* Equal top/right inset (matches card padding) — was 0.55 / 0.65 and read as off. */
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  left: auto;
+  pointer-events: none;
 }
 
 .auxillaries-bitcode-selector-card-layer {
@@ -622,6 +647,7 @@
 
 .auxillaries-bitcode-selector-card-state {
   display: inline-flex !important;
+  /* Fixed size for all states so corner inset stays optically equal. */
   width: 0.55rem;
   height: 0.55rem;
   flex: 0 0 auto;
@@ -639,8 +665,8 @@
 }
 
 .auxillaries-bitcode-selector-card-state-active {
-  width: 0.72rem;
-  height: 0.72rem;
+  width: 0.55rem;
+  height: 0.55rem;
   border-color: rgba(101, 254, 183, 0.74);
   background: rgba(101, 254, 183, 0.95);
   box-shadow: none;
@@ -656,6 +682,8 @@
   color: var(--aux-bc-ink) !important;
   font-size: 0.98rem !important;
   text-align: center !important;
+  width: 100%;
+  margin: 0 !important;
 }
 
 .auxillaries-bitcode-selector-card-copy {
@@ -663,6 +691,9 @@
   font-size: 0.84rem !important;
   line-height: 1.4 !important;
   text-align: center !important;
+  width: 100%;
+  margin: 0 !important;
+  max-width: 22rem;
 }
 
 /* One-word feature pills: square chips that height the card and eat dead space. */
@@ -1339,6 +1370,9 @@
 
   .auxillaries-bitcode-selector-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* 2×2: two equal rows, equal gaps both axes. */
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+    min-height: 18rem;
   }
 
   .auxillaries-active-pane-summary {

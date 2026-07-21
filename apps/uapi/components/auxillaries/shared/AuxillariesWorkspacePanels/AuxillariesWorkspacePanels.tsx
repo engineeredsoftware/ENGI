@@ -64,6 +64,7 @@ export default function AuxillariesWorkspacePanels({
           <motion.div
             key={step}
             role="listitem"
+            className="h-full min-h-0 w-full"
             /* Opacity-only enter — y translate inflated scrollHeight and
                flashed a left-rail scrollbar even when 4 cards fit. */
             initial={reduceMotion ? false : { opacity: 0 }}
