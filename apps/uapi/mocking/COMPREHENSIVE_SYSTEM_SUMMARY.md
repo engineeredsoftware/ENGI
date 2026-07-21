@@ -9,7 +9,7 @@
 
 ### 🎯 CORE PIPELINE FEATURES (16 Features)
 
-**AssetPacks Pipeline (Main Creation Flow)**
+**DataPacks Pipeline (Main Creation Flow)**
 - `ASSET_PACKS` - Main assetPack interface
 - `ASSET_PACK_RUNS` - Execution tracking
 - `ASSET_PACK_HISTORY` - Run history
@@ -142,7 +142,7 @@
 
 ### 📋 TEMPLATES & PREFERENCES SYSTEM (4 Features)
 
-- `ASSET_PACK_TEMPLATES` - AssetPack templates
+- `ASSET_PACK_TEMPLATES` - DataPack templates
 - `UPGRADE_TEMPLATES` - Evidence Document templates
 - `TEMPLATE_PREFERENCES` - Template preferences
 - `TEMPLATE_CATEGORIES` - Template categories
@@ -192,7 +192,7 @@
 
 ### 🧠 VECTOR & AI INTELLIGENCE (5 Features)
 
-- `ASSET_PACK_VECTORS` - AssetPack embeddings
+- `ASSET_PACK_VECTORS` - DataPack embeddings
 - `UPGRADE_VECTORS` - Evidence Document embeddings
 - `USER_VECTORS` - User preference vectors
 - `PATTERN_RECOGNITION` - Pattern analysis

@@ -8,7 +8,7 @@ import {
 /**
  * V47 Gate 7 browser proof: selling IP into Bitcode on /deposits, buying
  * synthesized IP on /reads, and auditing settlement, BTD rights, delivery,
- * compensation, and repair readback on /packs — all in deterministic mock
+ * compensation, and repair readback on /exchange — all in deterministic mock
  * mode with source-safe assertions only.
  */
 
@@ -140,7 +140,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     await installCommercialMvpApiMocks(page);
   });
 
-  test('IP seller deposits an AssetPack: source connection, option synthesis, source-safe review, admission, compensation visibility', async ({
+  test('IP seller deposits a AssetPack: source connection, option synthesis, source-safe review, admission, compensation visibility', async ({
     page,
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
@@ -154,7 +154,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
     // Master-detail: open compose (New deposit) to replace the pipelines table
     // with configuration, then synthesize once the route session has a source.
     await page.getByRole('button', { name: 'New deposit' }).click();
-    const synthesizeButton = page.getByRole('button', { name: 'Synthesize AssetPack Options' });
+    const synthesizeButton = page.getByRole('button', { name: 'Synthesize DataPack Options' });
     await expect(synthesizeButton).toBeEnabled({ timeout: 30_000 });
 
     await synthesizeButton.click();
@@ -172,11 +172,11 @@ test.describe('commercial MVP IP exchange browser proof', () => {
       timeout: 30_000,
     });
 
-    // Compensation visibility and /packs synchronization remain reachable.
+    // Compensation visibility and /exchange synchronization remain reachable.
     await expect(page.getByRole('heading', { name: 'Deposit' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Open pack activity' })).toHaveAttribute(
       'href',
-      '/packs?type=depository-assetpack',
+      '/exchange?type=depository-assetpack',
     );
 
     // The deposit flow journaled source-safe execution rows: synthesis first,
@@ -336,7 +336,7 @@ test.describe('commercial MVP IP exchange browser proof', () => {
       });
     });
 
-    await page.goto('/packs?type=settled-assetpack');
+    await page.goto('/exchange?type=settled-assetpack');
     await expect(page.getByTestId('route-shell-packs')).toBeVisible({ timeout: 90_000 });
     await expect(page.getByText('Auth rollback proof pack').first()).toBeVisible({
       timeout: 30_000,

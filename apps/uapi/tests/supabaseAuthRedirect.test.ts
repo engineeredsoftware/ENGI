@@ -24,7 +24,7 @@ describe('supabase-auth-redirect', () => {
   });
 
   it('clears any stale destination when none is provided', () => {
-    rememberAuthNextPath('/packs');
+    rememberAuthNextPath('/exchange');
     buildSupabaseAuthCallbackRedirect();
 
     expect(consumeAuthNextPath()).toBeNull();

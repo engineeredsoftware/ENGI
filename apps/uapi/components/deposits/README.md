@@ -46,9 +46,9 @@ deposits/
   DepositObfuscationsAnchorControls/   # load/clear/name-anchor toolbar
   DepositObfuscationsPathPickers/      # Permissible sources / Exclusion trees
   DepositObfuscationsPathIcons/
-  DepositAssetPackOptions/             # list shell + batch deposit footer
-    DepositAssetPackOptions.tsx
-    DepositAssetPackOptions.types.ts
+  DepositDataPackOptions/             # list shell + batch deposit footer
+    DepositDataPackOptions.tsx
+    DepositDataPackOptions.types.ts
   DepositOptionCard/                   # per-option card body
   DepositPipelinesMaster/
   DepositSynthesisTelemetry/

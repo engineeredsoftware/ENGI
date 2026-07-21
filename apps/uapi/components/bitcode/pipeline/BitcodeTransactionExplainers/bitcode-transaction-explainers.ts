@@ -128,7 +128,7 @@ export const BITCODE_TRANSACTION_COLUMN_EXPLAINERS = {
     kicker: 'Principal column',
     title: 'Participant column',
     summary: 'Shows the surfaced principal plus whether the activity is yours or broader Exchange activity.',
-    detail: 'This is the quickest way to see who the row belongs to before reading proofs, history, or asset packs.',
+    detail: 'This is the quickest way to see who the row belongs to before reading proofs, history, or data packs.',
     points: ['Carries both label and mine/Exchange context'],
     references: { source: [...TRANSACTION_EXPLAINER_SOURCE_REFS], canon: [...TRANSACTION_EXPLAINER_CANON_REFS] },
   }),

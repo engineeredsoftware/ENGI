@@ -106,9 +106,9 @@ export const BITCODE_BROWSER_PROOF_SURFACES = [
     id: 'auxillaries',
     label: 'Bitcode Auxillaries',
     routes: [
-      { id: 'wallet', path: '/packs?auxillary-open-to=wallet', state: 'wallet support pane' },
-      { id: 'profile', path: '/packs?auxillary-open-to=profile', state: 'profile support pane' },
-      { id: 'interfaces', path: '/packs?auxillary-open-to=interfaces', state: 'interfaces support pane' },
+      { id: 'wallet', path: '/exchange?auxillary-open-to=wallet', state: 'wallet support pane' },
+      { id: 'profile', path: '/exchange?auxillary-open-to=profile', state: 'profile support pane' },
+      { id: 'interfaces', path: '/exchange?auxillary-open-to=interfaces', state: 'interfaces support pane' },
     ],
     landmarks: ['main', 'navigation', 'region', 'status'],
     interactionStates: ['skip-to-active-pane', 'pane-tabs', 'expandable-audit-detail'],

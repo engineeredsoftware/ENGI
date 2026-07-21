@@ -19,7 +19,7 @@ apps/uapi/components/shadcn → Shadcn* primitives
  ↑
 apps/uapi/components/bitcode → Bitcode* base (theme, pipeline, layout, auth)
  ↑
-apps/uapi/components/{marketing|packs|reads|deposits|docs|conversations|auxillaries}
+apps/uapi/components/{marketing|exchange|reads|deposits|docs|conversations|auxillaries}
  ↑
 apps/uapi/app/{page shells} → compose only; no heavy logic
 ```
@@ -56,7 +56,7 @@ deleting a codemod after its migration is merged and verified.
 | Prefix | Route / role | Component home |
 | --- | --- | --- |
 | `Marketing*` | `/` landing | `apps/uapi/components/marketing/` |
-| `Exchange*` (retired product name Packs; components still under packs/) | `/exchange` (`/packs` redirects) | `apps/uapi/components/packs/` |
+| `Exchange*` (retired product name Packs; components under exchange/) | `/exchange` (`/exchange` redirects) | `apps/uapi/components/exchange/` |
 | `Reads*` | `/reads` | `apps/uapi/components/reads/` |
 | `Deposits*` | `/deposits` | `apps/uapi/components/deposits/` |
 | `Docs*` | `/docs` | `apps/uapi/components/docs/` |
@@ -145,7 +145,7 @@ apps/uapi/components/deposits/
  hooks/ # live runs, demand, URL, synthesis activity, …
  DepositSourceSelection/
  DepositObfuscationsPanel/
- DepositAssetPackOptions/
+ DepositDataPackOptions/
  DepositPipelinesMaster/
  DepositSynthesisTelemetry/
  DepositActivityLedgerDetail/
@@ -155,20 +155,20 @@ apps/uapi/components/deposits/
 **Packs experience (V48 Phase 4):**
 
 ```
-apps/uapi/components/packs/
- models/ # pure: packs-format.ts, activity types
- PacksPageClient/ + hooks/ # use-packs-activity, use-packs-route-params
+apps/uapi/components/exchange/
+ models/ # pure: exchange-format.ts, activity types
+ ExchangePageClient/ + hooks/ # use-exchange-activity, use-exchange-route-params
  PacksPortfolioOverview/
- PacksActivityMaster/ # shell: filter bar + table + totals
- PacksActivityFilterBar/
- PacksActivityTable/
- PacksActivityDetail/ # shell: overview + measurements + sections
- PacksActivityDetailStates/
- PacksActivityDetailAccounting/
- PacksActivityDetailGovernance/
- PacksActivityDetailProofRoots/
- PacksDetailSection/
- PacksStatusPill/ # React status chip (not models/)
+ ExchangeActivityMaster/ # shell: filter bar + table + totals
+ ExchangeActivityFilterBar/
+ ExchangeActivityTable/
+ ExchangeActivityDetail/ # shell: overview + measurements + sections
+ ExchangeActivityDetailStates/
+ ExchangeActivityDetailAccounting/
+ ExchangeActivityDetailGovernance/
+ ExchangeActivityDetailProofRoots/
+ ExchangeDetailSection/
+ ExchangeStatusPill/ # React status chip (not models/)
 ```
 
 ---
@@ -205,21 +205,21 @@ ancestry** in **types, factories, exports, and file names** — left→right
 Anything based on the **Execution** primitive must include `Execution` in the
 name (e.g. `ExecutionPipeline`, `ExecutionPipelineSDIVF`,
 `ExecutionPipelineSDIVFExecutionPhaseDelegator`,
-`ExecutionPipelineSimpleSettleAssetPack`). Phases are exclusively an
+`ExecutionPipelineSimpleSettleDataPack`). Phases are exclusively an
 `ExecutionPipelineSDIVF` concept (`ExecutionPipelineSDIVFExecutionPhase*`) and
 live under `generic-pipelines/execution-pipeline-sdivf`, not `pipelines-generics`.
 
 ```
 ExecutionPipeline # primitive (based on Execution)
 ExecutionPipelineSDIVF # base + primitive
-ExecutionPipelineSDIVFSynthesizeAssetPacks # specific + base + primitive (left→right)
+ExecutionPipelineSDIVFSynthesizeDataPacks # specific + base + primitive (left→right)
 ```
 
 Files match the same order in kebab-case
 (`execution-pipeline-sdivf-factory.ts`,
 `execution-pipeline-sdivf-synthesize-reads-asset-packs-prompts.ts`).
 
-Do not introduce leaf-only names (e.g. avoid `AssetPackPipeline` when the type
+Do not introduce leaf-only names (e.g. avoid `DataPackPipeline` when the type
 is an `ExecutionPipelineSDIVF…`). The tree must use hierarchy names exclusively —
 no short aliases, dual exports, or back-compat shims for renamed types.
 
@@ -294,7 +294,7 @@ Security nests under `packages/security/*` with a thin composition barrel `@bitc
 packages/
  api/ # routes + responses/ + streams/ primitives
  auth/ # wallet, OAuth, auth redirect helpers
- asset-packs-generics/ # AssetPack protocol primitive
+ asset-packs-generics/ # DataPack protocol primitive
  generic-asset-packs/ # synthesis, deposit/read/settled-read, settle
  asset-packs-pipelines/
    domain/              # shared by all 3 product pipelines
@@ -382,10 +382,10 @@ bitcode/
 │ │ ├── absolutes/ # AbsolutesMeasureAgent
 │ │ └── needinesses/ # Needinesses surface (Gate 4)
 │ ├── asset-packs/
-│ │ ├── synthesis/ # SynthesizeAssetPacks measurements/catalogs
-│ │ └── settle/ # SettleAssetPack product surface
+│ │ ├── synthesis/ # SynthesizeDataPacks measurements/catalogs
+│ │ └── settle/ # SettleDataPack product surface
 │ ├── pipelines/
-│ │ └── asset-pack/ # SynthesizeAssetPacks (extends SDIVF)
+│ │ └── asset-pack/ # SynthesizeDataPacks (extends SDIVF)
 │ ├── agent-generics/
 │ ├── execution-generics/
 │ ├── prompts/
@@ -398,7 +398,7 @@ bitcode/
 │ │ ├── (root)/ # Marketing sections (migrate → components/marketing)
 │ │ ├── packs/
 │ │ │ ├── page.tsx
-│ │ │ └── PacksPageClient.tsx
+│ │ │ └── ExchangePageClient.tsx
 │ │ ├── deposits/
 │ │ │ ├── page.tsx
 │ │ │ └── DepositPageClient.tsx # orchestration only

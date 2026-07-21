@@ -15,7 +15,7 @@ const SETTLED_DEMAND_ESTIMATABLE = {
   settledPackCount: 10,
   matchedPackCount: 3,
   rationale:
-    'Estimated from 3 of 10 settled Depository AssetPacks with topic affinity (test fixture).',
+    'Estimated from 3 of 10 settled Depository DataPacks with topic affinity (test fixture).',
 };
 
 describe('deposit-route-model', () => {
@@ -172,7 +172,7 @@ describe('deposit-route-model', () => {
         settledPackCount: 12,
         matchedPackCount: 4,
         rationale:
-          'Estimated from 4 of 12 settled Depository AssetPacks with topic affinity (test fixture).',
+          'Estimated from 4 of 12 settled Depository DataPacks with topic affinity (test fixture).',
       },
       depositoryDemandSignals: [
         {

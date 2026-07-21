@@ -1,5 +1,5 @@
 /**
- * Docs: AssetPacks, BTD, and the activity ledger.
+ * Docs: DataPacks, BTD, and the activity ledger.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
 import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/BitcodePublicExplainers/bitcode-public-explainers';
@@ -7,14 +7,14 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/bitcode/layout/BitcodePu
 export const sourceSharesSections = [
   {
     id: 'share-object',
-    eyebrow: 'AssetPacks',
+    eyebrow: 'DataPacks',
     title: 'What Bitcode measures and what it withholds',
     summary:
       'Bitcode turns permitted technical source into tradable, measured intelligence — not inert file attachments and not unprotected source dumps.',
     detail:
-      'Code, files, designs, data, notes, and repository context enter as supply. Bitcode synthesizes AssetPacks, scores needs-fits, and exposes measurements and proof roots on the market path. Protected IP stays behind obfuscation and rights gates until settlement unlocks delivery. Seller view: permitted source, obfuscations, synthesized pack. Buyer view: measurements, needs-fits scores, knowledge volume.',
+      'Code, files, designs, data, notes, and repository context enter as supply. Bitcode synthesizes DataPacks, scores needs-fits, and exposes measurements and proof roots on the market path. Protected IP stays behind obfuscation and rights gates until settlement unlocks delivery. Seller view: permitted source, obfuscations, synthesized pack. Buyer view: measurements, needs-fits scores, knowledge volume.',
     reason:
-      'An AssetPack is only credible when source posture, demand measurement, proof, BTD volume/rights, and BTC settlement can be reread together without leaking unpaid source.',
+      'A DataPack is only credible when source posture, demand measurement, proof, BTD volume/rights, and BTC settlement can be reread together without leaking unpaid source.',
     points: [
       'Supply is deposited as measured, listed IP you approve.',
       'Demand is a Reading that becomes needs-fits scores and quotes.',
@@ -23,7 +23,7 @@ export const sourceSharesSections = [
   },
   {
     id: 'market-frame',
-    eyebrow: 'Packs',
+    eyebrow: 'Exchange',
     title: BITCODE_PUBLIC_EXPLAINERS.network.title,
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
     detail: BITCODE_PUBLIC_EXPLAINERS.network.detail ?? '',
@@ -38,7 +38,7 @@ export const sourceSharesSections = [
     summary:
       'For a new reader the market path is linear: list supply, measure need, compare fits, produce proofs, settle in BTC, transfer BTD rights, deliver knowledge.',
     detail:
-      '/deposits, /reads, and /packs each expose stages of that chain so operators can see both the write that changes state and the read surface that proves what happened next. Interfaces must preserve the same chain.',
+      '/deposits, /reads, and /exchange each expose stages of that chain so operators can see both the write that changes state and the read surface that proves what happened next. Interfaces must preserve the same chain.',
     reason:
       'The linear path is the teaching model. The underlying system is richer, but every advanced interface still has to honor this order of truth.',
     points: [

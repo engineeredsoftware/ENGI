@@ -17,7 +17,7 @@ yarn dev
 ```
 
 ### 2. Visit Any Page - Mocking is Now Active!
-- **AssetPacks:** Rich demo data automatically loads
+- **DataPacks:** Rich demo data automatically loads
 - **Conversations Chat:** Realistic conversation history
 - **User Profile:** Complete user data with `$BTD`, usage, etc.
 - **GitHub Integration:** Full repository, branch, and commit data
@@ -79,7 +79,7 @@ __bitcodeMockSystem.clearCache()
 
 ### Rich Demo Experience
 - **User Data:** Complete profiles with realistic usage history
-- **AssetPacks:** 5-10 completed runs with complex outputs
+- **DataPacks:** 5-10 completed runs with complex outputs
 - **Conversations:** Active conversations with AI responses
 - **GitHub:** Multiple repos with branches, commits, issues
 - **Organizations:** Teams with multiple members and roles

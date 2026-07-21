@@ -2835,19 +2835,19 @@ Format: `path -- <1 sentence TL;DR>`.
  setup.ts -- Source module in package `pipelines`.
  validation.ts -- Source module in package `pipelines`.
  tools/ -- Subfolder of package `pipelines`.
- AssetPackAudioComprehensionTool.ts -- Source module in package `pipelines`.
- AssetPackCloneVCSRepositoryTool.ts -- Source module in package `pipelines`.
- AssetPackImageComprehensionTool.ts -- Source module in package `pipelines`.
- AssetPackLexicalDepositorySearchTool.ts -- Source module in package `pipelines`.
- AssetPackMultimodalProcessingTool.ts -- Source module in package `pipelines`.
- AssetPackPDFComprehensionTool.ts -- Source module in package `pipelines`.
- AssetPackVerificationEvidenceTool.ts -- Source module in package `pipelines`.
- AssetPackVideoComprehensionTool.ts -- Source module in package `pipelines`.
+ DataPackAudioComprehensionTool.ts -- Source module in package `pipelines`.
+ DataPackCloneVCSRepositoryTool.ts -- Source module in package `pipelines`.
+ DataPackImageComprehensionTool.ts -- Source module in package `pipelines`.
+ DataPackLexicalDepositorySearchTool.ts -- Source module in package `pipelines`.
+ DataPackMultimodalProcessingTool.ts -- Source module in package `pipelines`.
+ DataPackPDFComprehensionTool.ts -- Source module in package `pipelines`.
+ DataPackVerificationEvidenceTool.ts -- Source module in package `pipelines`.
+ DataPackVideoComprehensionTool.ts -- Source module in package `pipelines`.
  BitcodeReadMeasurementComputerUseTool.ts -- Source module in package `pipelines`.
  index.ts -- Public package export surface.
  search.ts -- Source module in package `pipelines`.
  types/ -- Subfolder of package `pipelines`.
- AssetPackWrittenAssetType.ts -- Source module in package `pipelines`.
+ DataPackWrittenAssetType.ts -- Source module in package `pipelines`.
  PipelineSchemas.ts -- Source module in package `pipelines`.
  utils/ -- Subfolder of package `pipelines`.
  mcp-document.ts -- Source module in package `pipelines`.
@@ -7708,7 +7708,7 @@ Format: `path -- <1 sentence TL;DR>`.
  page.tsx -- Thin Next.js page shell (metadata + compose/re-export).
  README.md -- Human orientation for this directory.
  packs/ -- App route segment `packs`.
- PacksPageClient.tsx -- App Router shell or thin re-export.
+ ExchangePageClient.tsx -- App Router shell or thin re-export.
  page.tsx -- Thin Next.js page shell (metadata + compose/re-export).
  read/ -- App route segment `read`.
  page.tsx -- Thin Next.js page shell (metadata + compose/re-export).
@@ -10083,12 +10083,12 @@ Format: `path -- <1 sentence TL;DR>`.
  styles/ -- Local styles for the parent component unit.
  walkthrough-section.module.css -- Stylesheet.
  README.md -- Human orientation for this directory.
- packs/ -- Packs* AssetPack browsing experience units.
- PacksPageClient/ -- Component unit `PacksPageClient` (SRP entry + optional hooks/tests).
+ packs/ -- Packs* DataPack browsing experience units.
+ ExchangePageClient/ -- Component unit `ExchangePageClient` (SRP entry + optional hooks/tests).
  __tests__/ -- Co-located unit tests for the parent component unit.
  hooks/ -- Hooks owned by the parent component unit.
  styles/ -- Local styles for the parent component unit.
- PacksPageClient.tsx -- Primary entry for unit `PacksPageClient`.
+ ExchangePageClient.tsx -- Primary entry for unit `ExchangePageClient`.
  README.md -- Human orientation for this directory.
  reads/ -- Reads* demand/read workflow experience units.
  models/ -- Pure models/helpers for this experience or unit.
@@ -11075,7 +11075,7 @@ Format: `path -- <1 sentence TL;DR>`.
  orbitalsOnboardingRoute.test.ts -- App-level test suite.
  orbitalsPaneTabs.test.tsx -- App-level test suite.
  packActivityModel.test.ts -- App-level test suite.
- packsPageClient.test.tsx -- App-level test suite.
+ exchangePageClient.test.tsx -- App-level test suite.
  parseStructuredText.test.ts -- App-level test suite.
  pipelineActivityHistory.test.ts -- App-level test suite.
  pipelineExecutionLogCopy.test.tsx -- App-level test suite.
@@ -11098,7 +11098,7 @@ Format: `path -- <1 sentence TL;DR>`.
  runner.agent.test.ts -- App-level test suite.
  search.test.ts -- App-level test suite.
  searchableSelect.test.tsx -- App-level test suite.
- searchRelevantAssetPackEvidence.test.ts -- App-level test suite.
+ searchRelevantDataPackEvidence.test.ts -- App-level test suite.
  setupTests.ts -- UAPI source module.
  streamParser.completion.test.ts -- App-level test suite.
  structuredLLMCall.dryRun.test.ts -- App-level test suite.

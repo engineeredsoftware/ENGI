@@ -11,7 +11,7 @@ interface DocIconProps {
   className?: string;
 }
 
-// Toggle icon for Shippable/AssetPack document surfaces.
+// Toggle icon for Shippable/DataPack document surfaces.
 export const DocToggleIcon = ({ variant, className = 'w-4 h-4' }: DocIconProps) => (
   <svg
     viewBox="0 0 24 24"

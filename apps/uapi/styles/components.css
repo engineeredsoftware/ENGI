@@ -685,7 +685,7 @@ button.quantum-button[disabled]::before {
   z-index: 100;
 }
 
-/* AssetPack orbital ring spin animations */
+/* DataPack orbital ring spin animations */
 @keyframes spin-0 {
   from {
     transform: rotate(0deg);

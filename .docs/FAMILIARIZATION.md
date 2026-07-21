@@ -15,7 +15,7 @@ Companion docs (do not duplicate their contracts here):
 | `AGENTS.md` | Contributor / agent engineering law (gates, commits, freeze law, Bezalel craft) | No |
 | `README.md` | Product entry + quick start | No |
 | `CONTRIBUTING.md` | Developer guide (setup, canon, env, hosts, testing) | No |
-| `.docs/ASSET_PACKS.md` | AssetPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
+| `.docs/ASSET_PACKS.md` | DataPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
 | `.docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
 | `.docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
 | `apps/uapi/ARCHITECTURE.md` | Next app architecture notes | No |
@@ -49,15 +49,15 @@ Use **§12** whenever an acronym or hierarchy name is unfamiliar.
 
 ## 1. Product model (one paragraph, then precision)
 
-Bitcode **commoditizes technical knowledge as AssetPacks**: measured, source-safe
-artifacts. **Depositors** connect source, synthesize options (SynthesizeAssetPacks
+Bitcode **commoditizes technical knowledge as DataPacks**: measured, source-safe
+artifacts. **Depositors** connect source, synthesize options (SynthesizeDataPacks
 SDIVF), review, and admit packs to the **Depository**. **Readers** request a Read,
 synthesize a Need, Finding Fits, preview source-safely, settle in **BTC-testnet**,
 receive **BTD** rights, then entitled delivery.
 
 | Term | Meaning |
 | --- | --- |
-| AssetPack | Always a *synthesized* artifact (**patch + measurements + metadata**), not a raw source slice |
+| DataPack | Always a *synthesized* artifact (**patch + measurements + metadata**), not a raw source slice |
 | Absolutes | Formal material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`); required before Finish |
 | sourceCheckoutCatalog | This-run Host path/sample/source index (`deposit:sourceCheckoutCatalog`) |
 | BTD | Weighted scalar knowledge-volume; after settlement, rights-bearing receipt |
@@ -67,9 +67,9 @@ receive **BTD** rights, then entitled delivery.
 | Journal | BTD ledger language |
 | product | **Deleted** product surface — do not reintroduce |
 
-Launch routes: `/deposits`, `/reads`, `/exchange` (`/packs` redirects), Auxillaries, `/`, `/docs`.
+Launch routes: `/deposits`, `/reads`, `/exchange` (`/exchange` redirects), Auxillaries, `/`, `/docs`.
 
-AssetPack / deposit SDIVF orientation (non-canonical): [`.docs/ASSET_PACKS.md`](ASSET_PACKS.md).  
+DataPack / deposit SDIVF orientation (non-canonical): [`.docs/ASSET_PACKS.md`](ASSET_PACKS.md).  
 Binding rebuild law: `BITCODE_SPEC_V48.md` measurement law + §G3-1…G3-15.
 
 ---
@@ -153,7 +153,7 @@ uapi → HTTP + React adapters only
 @bitcode/generic-measurements-absolutes AbsolutesMeasureAgent
 @bitcode/generic-measurements-needinesses Needinesses surface (Gate 4)
  ↑
-@bitcode/generic-asset-packs-synthesis SynthesizeAssetPacksAbsolutesMeasureAgent + catalogs
+@bitcode/generic-asset-packs-synthesis SynthesizeDataPacksAbsolutesMeasureAgent + catalogs
 @bitcode/ ↑
 @bitcode/asset-packs-pipelines-syntheses-domain Shared synth phases/tools; product packages wire deposit/read rosters
 ```
@@ -162,7 +162,7 @@ Package paths: `packages/measurement-generics/`, `packages/generic-measurements/
 (incl. `tech-types/`), `packages/generic-asset-packs/{synthesis,synthesis,settle}/`.
 
 Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
-`SynthesizeAssetPacksAbsolutesMeasureAgent`.
+`SynthesizeDataPacksAbsolutesMeasureAgent`.
 
 ### 3.1.2 Generations (FailsafeGeneration + ThinkingsGeneration)
 
@@ -241,12 +241,12 @@ inside `agent-generics` until inverted onto pure Execution + LLM registry.
 | Base + primitive | `PTRRAgent` | `factoryPTRRAgent` |
 | Specific | product agents | specialized configs over `factoryPTRRAgent` |
 
-### 3.1.3 AssetPacks (primitive → synthesis → product)
+### 3.1.3 DataPacks (primitive → synthesis → product)
 
 ```
-@bitcode/asset-packs-generics AssetPack primitive (protocol minimum)
+@bitcode/asset-packs-generics DataPack primitive (protocol minimum)
  ↑
-@bitcode/generic-asset-packs-synthesis SynthesisAssetPack (only AP base)
+@bitcode/generic-asset-packs-synthesis SynthesisDataPack (only AP base)
 @bitcode/generic-asset-packs-synthesis Synthesize measurement catalogs / Absolutes agent
 @bitcode/ ↑
 @bitcode/asset-packs-pipelines-* synthesize-deposits / -reads / settle-reads
@@ -257,10 +257,10 @@ Package paths: `packages/asset-packs-generics/`, `packages/generic-asset-packs/*
 Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthesis`, `@bitcode/
 | Layer | Type | Role |
 | --- | --- | --- |
-| Primitive | `AssetPack` | identity + source binding + patch descriptor + delivery |
-| Base | `SynthesisAssetPack` | + measurements, neediness, provenant paths |
+| Primitive | `DataPack` | identity + source binding + patch descriptor + delivery |
+| Base | `SynthesisDataPack` | + measurements, neediness, provenant paths |
 | Product surfaces | synthesis / settle packages | catalogs + product measure agents |
-| Product pipelines | deposit options / pipeline outputs | project from SynthesisAssetPack |
+| Product pipelines | deposit options / pipeline outputs | project from SynthesisDataPack |
 
 ### 3.1.4 Artifacts (primitive → types + storage providers)
 
@@ -273,7 +273,7 @@ Packages: `@bitcode/asset-packs-generics`, `@bitcode/generic-asset-packs-synthes
 @bitcode/generic-artifacts-vercel-provider storage: Vercel Blob
  ↑
 @bitcode/generic-artifacts-compose compose providers (aws → supabase → vercel)
-@bitcode/generic-asset-packs-synthesis AssetPackPatchArtifact product
+@bitcode/generic-asset-packs-synthesis DataPackPatchArtifact product
 ```
 
 No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-aws`.
@@ -283,7 +283,7 @@ No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-
 | Primitive | `Artifact` / `ArtifactStorage` | identity + storage contract |
 | Type base | `PatchArtifact` | path+op patch envelope |
 | Storage bases | aws / supabase / vercel | provider implementations |
-| Product | `AssetPackPatchArtifact` | patch bound to `assetPackId` |
+| Product | `DataPackPatchArtifact` | patch bound to `assetPackId` |
 
 ### 3.1.5 Attachments (primitive → file | external)
 
@@ -328,7 +328,7 @@ are removed — use hierarchy packages only.
  ↑
 @bitcode/generic-tools/* Editing, VCS, web-search, LSP, multimodal, …
  ↑
-pipeline-local tools e.g. AssetPackLexicalDepositorySearchTool
+pipeline-local tools e.g. DataPackLexicalDepositorySearchTool
 ```
 
 ### 3.2.1 Hosts
@@ -372,9 +372,9 @@ factory **files** use the same order in kebab-case (e.g.
 | Primitive | `ExecutionPipeline` | `factoryExecutionPipeline` |
 | Base + primitive | `ExecutionPipelineSDIVF` | `factoryExecutionPipelineSDIVF`, `factoryExecutionPipelineSDIVFFromExecutors` |
 | Base + primitive | `ExecutionPipelineSimple` | `factoryExecutionPipelineSimple` (linear; like QuickAgent vs PTRR) |
-| Specific + SDIVF | `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks` | `factoryExecutionPipelineSDIVFSynthesizeDepositAssetPacks` |
-| Specific + SDIVF | `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` | `factoryExecutionPipelineSDIVFSynthesizeReadAssetPacks` |
-| Specific + Simple | `ExecutionPipelineSimpleSettleAssetPack` | `factoryExecutionPipelineSimpleSettleAssetPack` |
+| Specific + SDIVF | `ExecutionPipelineSDIVFSynthesizeDepositDataPacks` | `factoryExecutionPipelineSDIVFSynthesizeDepositDataPacks` |
+| Specific + SDIVF | `ExecutionPipelineSDIVFSynthesizeReadDataPacks` | `factoryExecutionPipelineSDIVFSynthesizeReadDataPacks` |
+| Specific + Simple | `ExecutionPipelineSimpleSettleDataPack` | `factoryExecutionPipelineSimpleSettleDataPack` |
 
 **No lens:** deposit synthesis, read synthesis, and settle-reads are separate
 packages under `packages/asset-packs-pipelines/*`.
@@ -524,7 +524,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-measurements-absolutes` | AbsolutesMeasureAgent base |
 | `generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
 | `generic-measurements-tech-types` | Tech/stack signals as absolute measurement vocabulary |
-| `asset-packs-generics` | AssetPack protocol primitive (`@bitcode/asset-packs-generics`) |
+| `asset-packs-generics` | DataPack protocol primitive (`@bitcode/asset-packs-generics`) |
 | `generic-asset-packs-synthesis` | Synthesize measurement catalogs + product AbsolutesMeasureAgent |
 | `| `llm-generics` | Pure LLM call contracts |
 | `generic-llms-models` | Model configs + USD pricing (`@bitcode/generic-llms-models`) |
@@ -574,14 +574,14 @@ homes, no compatibility package aliases, no “compatibility remains for callers
 (e.g. `vcs-generics` + `generic-vcs/*`). Plain domains use plain names
 (`obfuscation`, `conversations`, `file-editing`).
 
-### 5.3 Product domain (AssetPack / BTD / market)
+### 5.3 Product domain (DataPack / BTD / market)
 
 | Package | Responsibility |
 | --- | --- |
 | `asset-packs-pipelines/domain` | **All-3** shared: commodity, disclosure, settlement-rights library, BTD helpers, org-policy |
 | `asset-packs-pipelines/syntheses/domain` | **Both synths**: agents/phases/tools, depository multi-query search, supply index, synthesis helpers |
 | `asset-packs-pipelines/*` | Product ExecutionPipeline packages (SDIVF synthesize deposits/reads, Simple settle) |
-| `pipeline-hosts` | AssetPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
+| `pipeline-hosts` | DataPack host orchestration barrel over `host-generics` + `generic-hosts/*` |
 | `btd` | BTD measurement, journal, authority, settlement, interface contracts |
 | `specifying` (`@bitcode/specifying` under `scripts/specifying/`) | Metadevelopment specifying machine: gate proof generators, canon posture, promotion helpers. **Not** product core (that lives in `packages/*`); monorepo is protocol canon |
 | `api` | Route orchestration **and** API primitives: `src/responses/`, `src/streams/` |
@@ -592,7 +592,7 @@ split into `*-types.ts`, `*-helpers.ts`, and builders. Shared source-safe hash/r
 helpers live in `deposit-source-safe-utils.ts`.
 
 **Depository search (finding APs):** low-level tool
-`runDepositDepositoryAssetPackSearch` (multi-query hybrid: keyword + semantic).
+`runDepositDepositoryDataPackSearch` (multi-query hybrid: keyword + semantic).
 **Store** = Supabase Postgres + **pgvector** only. **Embed** = open-source
 **gte-small (384d)** via Edge Function `embed` (`Supabase.ai.Session`) — not
 OpenAI Embeddings. Deposit Discovery uses `deposit-relevants`; read uses
@@ -694,7 +694,7 @@ apps/uapi/app/* page shells only
 
 1. Browser: `DepositPageClient` → `POST /api/deposit/synthesize-options`
 2. Route validates + **dispatches** host (`dispatch-deposit-synthesis.ts`); returns `runId` immediately
-3. Host runs SynthesizeAssetPacks (inline Node or Vercel Sandbox)
+3. Host runs SynthesizeDataPacks (inline Node or Vercel Sandbox)
 4. Events stream to `execution_events` (source-safe filter)
 5. Client tails via `usePipelineExecution` / SSE and resumes options from history
 
@@ -782,17 +782,17 @@ in later V48 gates. Workbench panels under `Reads*` + `models/deposit-read-*`
 Network-scope PackActivity master-detail (ledgerized history).
 **Not** personal pipeline activity (that is `/deposits`).
 
-Home: `apps/uapi/components/packs/`.
+Home: `apps/uapi/components/exchange/`.
 
 | Concern | Location |
 | --- | --- |
-| Page client (orchestration only) | `PacksPageClient/` + `hooks/use-packs-activity`, `use-packs-route-params` |
-| Pure formatters / option catalogs | `models/packs-format.ts`, `models/packs-activity-types.ts` |
+| Page client (orchestration only) | `ExchangePageClient/` + `hooks/use-exchange-activity`, `use-exchange-route-params` |
+| Pure formatters / option catalogs | `models/exchange-format.ts`, `models/exchange-activity-types.ts` |
 | Portfolio positions + market signals | `PacksPortfolioOverview/` |
-| Master shell | `PacksActivityMaster/` composes filter bar + table + type totals |
-| Filter bar / data grid | `PacksActivityFilterBar/`, `PacksActivityTable/` |
-| Detail shell + sections | `PacksActivityDetail/` + `PacksActivityDetailStates/`, `…Accounting/`, `…Governance/`, `…ProofRoots/` |
-| Shared chrome | `PacksDetailSection/`, `PacksStatusPill/` |
+| Master shell | `ExchangeActivityMaster/` composes filter bar + table + type totals |
+| Filter bar / data grid | `ExchangeActivityFilterBar/`, `ExchangeActivityTable/` |
+| Detail shell + sections | `ExchangeActivityDetail/` + `ExchangeActivityDetailStates/`, `…Accounting/`, `…Governance/`, `…ProofRoots/` |
+| Shared chrome | `ExchangeDetailSection/`, `ExchangeStatusPill/` |
 | Cross-route activity projection | `bitcode/activity/PackActivityModel/pack-activity-model` (leave under Bitcode; not packs-only) |
 
 App shell: `apps/uapi/app/packs/` re-exports the page client. Layout contract:
@@ -902,11 +902,11 @@ as if they were source of product law.
 5. `generic-llms` provider
 6. Stream path: pipelines-generics streaming → source-safe filter → uapi log
 
-### 9.3 “How does /packs show ledger state?”
+### 9.3 “How does /exchange show ledger state?”
 
 1. `pack-activity-model`
 2. `GET /api/packs/activity` (api package / uapi route)
-3. `PacksPageClient` + master/detail units
+3. `ExchangePageClient` + master/detail units
 
 ### 9.4 “Where do I put new pure logic?”
 
@@ -999,15 +999,15 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 
 | Term | Meaning |
 | --- | --- |
-| **AssetPack** | Always a *synthesized* measured artifact (patch descriptor + measurements + metadata), never a raw source slice. |
-| **Admit / admission** | Accept a synthesized AssetPack option into the **Depository** (deposit path). |
+| **DataPack** | Always a *synthesized* measured artifact (patch descriptor + measurements + metadata), never a raw source slice. |
+| **Admit / admission** | Accept a synthesized DataPack option into the **Depository** (deposit path). |
 | **Auxillaries** | Side panes: wallet identity, GitHub/org connections, externals (experience prefix `Auxillaries*`). |
 | **BTC-testnet** | Settlement money rail in V48 — testnet value only; production-like protocol behavior. |
-| **Depository** | Market inventory of admitted AssetPacks available for reading/settlement. |
+| **Depository** | Market inventory of admitted DataPacks available for reading/settlement. |
 | **Depositor** | Party who connects source, synthesizes options, and admits packs. |
 | **Demand** | Reader-side need signal; may be **Unestimatable** when supply cannot ground a price. |
 | **Deposit** | IP-seller path: connect source → synthesize options → review → admit. Route `/deposits`. |
-| **Delivery** | Post-settlement entitled handoff of AssetPack material under rights. |
+| **Delivery** | Post-settlement entitled handoff of DataPack material under rights. |
 | **Finding Fits** | Read path step: match Need against Depository supply. |
 | **Permissible sources / Exclusions** | Deposit inputs that force path include/exclude sets (and secret exclusion). |
 | **Journal** | BTD ledger language (rows, reconciliation) — not “Pipeline”. |
@@ -1015,14 +1015,14 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | **Need** | Reader-side demand descriptor synthesized for finding fits. |
 | **Obfuscations** | Deposit input that withholds/transforms sensitive material; empty → skip Setup LLM (Gate 3). |
 | **Exchange** | Master-detail portfolio / activity history experience (`/exchange`; UI components still under `packs/`; retired product name Packs). |
-| **Preview (source-safe)** | Show allowed AssetPack disclosure without leaking unpaid/protected source. |
+| **Preview (source-safe)** | Show allowed DataPack disclosure without leaking unpaid/protected source. |
 | **Read** | Buyer path: Need → Finding Fits → settle → delivery. Route `/reads`. |
-| **Reader** | Party who settles for AssetPack rights. |
+| **Reader** | Party who settles for DataPack rights. |
 | **Rights** | Post-settlement BTD-backed entitlement to delivery/use under policy. |
 | **Settle / settlement** | BTC-testnet payment + rights issuance for a chosen fit. |
 | **Shippable** | Deliverable artifact shape (e.g. PR) — product template domain in `templates-generics`. |
 | **Source-safe** | Never product-expose protected/raw source, unpaid packs, raw prompts, credentials, private settlement payloads. |
-| **SynthesizeAssetPacks** | Deposit (and related) SDIVF product pipeline that produces measured AssetPack options. |
+| **SynthesizeDataPacks** | Deposit (and related) SDIVF product pipeline that produces measured DataPack options. |
 | **Product surfaces** | Packs, Deposits, Reads, Docs — no other product cockpit route. |
 | **Unestimatable** | Honest demand/price outcome when Depository supply cannot ground a figure (not invented %). |
 
@@ -1032,9 +1032,9 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 | --- | --- |
 | **`*-generics` package** | Primitive layer: types, contracts, factories, abstract bases (e.g. `vcs-generics`, `asset-packs-generics`). Use **only** when a matching `generic-*` implementor family exists. |
 | **`generic-*` family** | Folder of nested implementor packages (no root `package.json` on the family folder), e.g. `generic-vcs/{github,gitlab,…}`. |
-| **Hierarchy naming law** | Types, factories, exports, **and files** encode full ancestry left→right (primitive → base → specific). Execution-based types include `Execution` (e.g. `ExecutionPipelineSDIVFSynthesizeDepositAssetPacks`, `execution-pipeline-sdivf-factory.ts`). |
-| **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `AssetPack`, `FilePath`). |
-| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `SynthesisAssetPack`, `ExecutionPipelineSDIVF`, `LocalHost`). |
+| **Hierarchy naming law** | Types, factories, exports, **and files** encode full ancestry left→right (primitive → base → specific). Execution-based types include `Execution` (e.g. `ExecutionPipelineSDIVFSynthesizeDepositDataPacks`, `execution-pipeline-sdivf-factory.ts`). |
+| **Primitive** | Lowest shared vocabulary (e.g. `Pipeline`, `Execution`, `DataPack`, `FilePath`). |
+| **Base (implementor)** | Reusable middle layer in `generic-*/*` (e.g. `SynthesisDataPack`, `ExecutionPipelineSDIVF`, `LocalHost`). |
 | **Product / specific** | Bitcode product specialization (pipelines, agents, experience UI). |
 | **Family folder** | Directory that groups nested packages; itself is not a package (except rare composition barrels like `@bitcode/security`). |
 | **Workspace package** | A `package.json` with `@bitcode/…` (or `eslint-plugin-bitcode`) name in the pnpm workspace. |
@@ -1071,24 +1071,24 @@ in new code and docs. Deeper product law lives in the SPEC; packaging law in
 
 Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 
-### 12.5 Pipelines, hosts, measurements, AssetPack layers
+### 12.5 Pipelines, hosts, measurements, DataPack layers
 
 | Term | Meaning |
 | --- | --- |
 | **AbsolutesMeasureAgent** | Measurement base for absolute (deposit-side) categories. |
-| **AssetPackId** | Stable identity for an AssetPack primitive. |
+| **DataPackId** | Stable identity for a DataPack primitive. |
 | **Host** | Where a pipeline runs: Local (default) or Vercel Sandbox — **not** “Harness”. |
 | **InlineHost** | Legacy name; prefer **LocalHost** (`generic-hosts-local`; `inline` env alias). |
 | **LocalHost** | In-process default pipeline host. |
-| **SynthesisAssetPack** | Only AssetPack **base**: measured + source-safe patch over the AssetPack primitive. |
+| **SynthesisDataPack** | Only DataPack **base**: measured + source-safe patch over the DataPack primitive. |
 | **Needinesses** | Read-side measurement framing (relative to Need). |
 | **Pipeline** | Product run language (UI tables, logs, history) and/or `pipelines-generics` primitive. |
 | **PipelineHost / BitcodePipelineHost** | Host contract (`host-generics`). |
 | **ExecutionPipelineSimple** | Linear stage pipeline base (contrast SDIVF). |
 | **ExecutionPipelineSDIVF** | Pipeline base implementing Setup-[DIV]*-Finish. |
-| **ExecutionPipelineSDIVFSynthesizeDepositAssetPacks** | `synthesize-deposits-asset-packs-pipeline` |
-| **ExecutionPipelineSDIVFSynthesizeReadAssetPacks** | `synthesize-reads-asset-packs-pipeline` |
-| **ExecutionPipelineSimpleSettleAssetPack** | `settle-asset-pack-pipeline` (1:1 AssetPack) |
+| **ExecutionPipelineSDIVFSynthesizeDepositDataPacks** | `synthesize-deposits-asset-packs-pipeline` |
+| **ExecutionPipelineSDIVFSynthesizeReadDataPacks** | `synthesize-reads-asset-packs-pipeline` |
+| **ExecutionPipelineSimpleSettleDataPack** | `settle-asset-pack-pipeline` (1:1 DataPack) |
 | **VercelSandboxHost** | Decoupled Firecracker/sandbox host for pipeline boxes. |
 | **maxIterations** | SDIVF loop bound; Gate 3 deposit synthesis uses **1**. |
 
@@ -1126,7 +1126,7 @@ Guide: `packages/agent-generics/TOOLS-IN-PTRR.md`.
 | **Shadcn\*** | Root UI primitives (`apps/uapi/components/shadcn`). |
 | **Theme / layout / auth (Bitcode base)** | Shared chrome: nav, branding, auth panes, pipeline cards. |
 | **`apps/uapi/lib`, `networking`, `hooks`** | Thin Next/React adapters over packages. |
-| **DepositPageClient / PacksPageClient / …** | Experience page orchestrators. |
+| **DepositPageClient / ExchangePageClient / …** | Experience page orchestrators. |
 | **Master-detail** | UI pattern: list/master + detail pane (deposits options, packs activity). |
 | **NavBrand** | Top nav brand cluster (logo marks + BITCODE wordmark). |
 | **Product analytics** | Composed tracking via `observability` + `external-telemetry/*`. |

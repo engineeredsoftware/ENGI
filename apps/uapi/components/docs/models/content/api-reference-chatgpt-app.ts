@@ -84,7 +84,7 @@ export const chatGptAppApiReference = [
           'latest_design: full latest PRODUCT.md content.',
           'metadata.evidenceDocument, guidance, digestUsed, and prepared context stats.',
         ],
-        verifyInProduct: 'Treat this as design context until a later write creates /packs-readable activity.',
+        verifyInProduct: 'Treat this as design context until a later write creates /exchange-readable activity.',
       },
       {
         name: 'code_design',

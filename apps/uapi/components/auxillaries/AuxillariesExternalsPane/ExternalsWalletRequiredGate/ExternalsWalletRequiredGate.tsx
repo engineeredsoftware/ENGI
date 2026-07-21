@@ -24,7 +24,7 @@ export default function ExternalsWalletRequiredGate() {
           </p>
           <p className="mt-2 text-sm leading-7 text-white/74">
             GitHub plus a connected wallet are the minimum live prerequisites before Bitcode
-            should measure read, synthesize asset packs, settle, and deliver.
+            should measure read, synthesize data packs, settle, and deliver.
           </p>
         </div>
 

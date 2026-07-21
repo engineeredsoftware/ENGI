@@ -18,6 +18,6 @@ Examples:
 
 - Provider/model selection is execution infrastructure.
 - Prompt and tool registries remain separate from provider defaults.
-- Read measurement, fit review, AssetPack synthesis, and Finish semantics must not depend on provider-specific naming.
+- Read measurement, fit review, DataPack synthesis, and Finish semantics must not depend on provider-specific naming.
 - Cost and token accounting should be captured as proof/receipt metadata where available.
 

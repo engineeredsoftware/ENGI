@@ -11,12 +11,12 @@ export const commercialInterfaceSections = [
     summary:
       'GitHub, webhooks, ChatGPT App, MCP, storage, compute, and partner surfaces may admit inputs or deliver outputs — they must not become parallel product owners.',
     detail:
-      'An interface is healthy when write admission is explicit, results are rereadable in /packs, and boundary posture stays source-safe before settlement, BTD rights transfer, and delivery.',
+      'An interface is healthy when write admission is explicit, results are rereadable in /exchange, and boundary posture stays source-safe before settlement, BTD rights transfer, and delivery.',
     reason:
-      'Interface sprawl must not dilute the AssetPack contract or invent a second ledger.',
+      'Interface sprawl must not dilute the DataPack contract or invent a second ledger.',
     points: [
       'Ingress attaches permitted source, Reading, or destination context.',
-      'Delivery surfaces ship knowledge backed by AssetPack evidence.',
+      'Delivery surfaces ship knowledge backed by DataPack evidence.',
       'Every interface preserves proof, disclosure, and fail-closed boundaries.',
     ],
   },
@@ -25,7 +25,7 @@ export const commercialInterfaceSections = [
     eyebrow: 'GitHub + webhooks',
     title: 'GitHub and webhooks are connected-interface delivery and ingress surfaces',
     summary:
-      'GitHub can bind repository supply and deliver the Protocol-backed Shippable as a pull request. Webhooks can schedule AssetPack automation and record ingress basis.',
+      'GitHub can bind repository supply and deliver the Protocol-backed Shippable as a pull request. Webhooks can schedule DataPack automation and record ingress basis.',
     detail:
       'Neither GitHub nor webhooks own product canon. Their job is to feed or receive Bitcode-controlled state and leave evidence behind.',
     reason:

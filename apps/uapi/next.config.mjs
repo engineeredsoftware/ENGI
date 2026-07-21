@@ -237,12 +237,12 @@ let nextConfig = {
 
       {
         source: '/executions',
-        destination: '/packs',
+        destination: '/exchange',
         permanent: false,
       },
       {
         source: '/executions/:runId',
-        destination: '/packs?transactionId=:runId',
+        destination: '/exchange?transactionId=:runId',
         permanent: false,
       },
       {

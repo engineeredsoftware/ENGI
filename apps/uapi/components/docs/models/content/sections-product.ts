@@ -11,9 +11,9 @@ export const productSections = [
     eyebrow: 'Product map',
     title: 'Packs is the durable ledger; Deposit and Read are the write paths',
     summary:
-      'Treat /packs as the activity master-detail you reread after work, /deposits as supply synthesis and listing, and /reads as demand measurement and paid delivery.',
+      'Treat /exchange as the activity master-detail you reread after work, /deposits as supply synthesis and listing, and /reads as demand measurement and paid delivery.',
     detail:
-      'Deeper modes — Auxillaries and Conversations — support readiness and drafting. They must not invent a second ledger. Every bounded write should leave source-safe activity that /packs can reopen.',
+      'Deeper modes — Auxillaries and Conversations — support readiness and drafting. They must not invent a second ledger. Every bounded write should leave source-safe activity that /exchange can reopen.',
     reason:
       'One map keeps the product learnable: write on Deposit or Read, audit on Packs, configure in Auxillaries.',
     points: [
@@ -30,7 +30,7 @@ export const productSections = [
       'The read surfaces on product routes show whether a Bitcode action actually changed proof-bearing state.',
     detail:
       PRODUCT_INLINE_EXPLAINERS.readWindow.detail ??
-      'Prefer /packs selected detail and route-owned proof panels over ephemeral success toasts.',
+      'Prefer /exchange selected detail and route-owned proof panels over ephemeral success toasts.',
     reason:
       'Operators learn whether work completed by rereading evidence, not by button feedback alone.',
   },
@@ -49,7 +49,7 @@ export const productSections = [
     eyebrow: PRODUCT_WORKSPACE_EXPLAINERS.railModes.kicker ?? 'Modes',
     title: 'Auxillaries and Conversations must not erase pack activity context',
     summary:
-      'Mode changes are useful only when the reader never loses the active /packs activity or deposit/read work context.',
+      'Mode changes are useful only when the reader never loses the active /exchange activity or deposit/read work context.',
     detail: PRODUCT_WORKSPACE_EXPLAINERS.railModes.detail ?? '',
     reason:
       'Supporting modes exist to configure or draft — not to replace the ledger.',

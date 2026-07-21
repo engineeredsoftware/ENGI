@@ -110,10 +110,10 @@ describe('GET /api/executions/history', () => {
         input: {},
         output: {
           preprocessed: {
-            read: 'Materialize a branch-ready asset pack for settlement follow-through.',
+            read: 'Materialize a branch-ready data pack for settlement follow-through.',
             writtenAssetType: 'branch-artifact',
             assetPack: {
-              read: 'Materialize a branch-ready asset pack for settlement follow-through.',
+              read: 'Materialize a branch-ready data pack for settlement follow-through.',
               writtenAssetType: 'branch-artifact',
               deliveryTarget: 'pr',
             },
@@ -259,10 +259,10 @@ describe('GET /api/executions/history', () => {
           summary: 'Branch artifact persisted.',
         },
         settle_delivery: null,
-        read: 'Materialize a branch-ready asset pack for settlement follow-through.',
+        read: 'Materialize a branch-ready data pack for settlement follow-through.',
         written_asset_type: 'branch-artifact',
         asset_pack: {
-          read: 'Materialize a branch-ready asset pack for settlement follow-through.',
+          read: 'Materialize a branch-ready data pack for settlement follow-through.',
           writtenAssetType: 'branch-artifact',
           deliveryTarget: 'pr',
         },
@@ -279,10 +279,10 @@ describe('GET /api/executions/history', () => {
           deliveryMechanism: {
             summary: 'Branch artifact persisted.',
           },
-          read: 'Materialize a branch-ready asset pack for settlement follow-through.',
+          read: 'Materialize a branch-ready data pack for settlement follow-through.',
           writtenAssetType: 'branch-artifact',
           assetPack: {
-            read: 'Materialize a branch-ready asset pack for settlement follow-through.',
+            read: 'Materialize a branch-ready data pack for settlement follow-through.',
             writtenAssetType: 'branch-artifact',
             deliveryTarget: 'pr',
           },

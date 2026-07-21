@@ -1,6 +1,6 @@
 /**
  * Public-facing rich explainers for nav, docs, and product chrome.
- * Aligned to V48 product routes: /packs, /reads, /deposits — not product.
+ * Aligned to V48 product routes: /exchange, /reads, /deposits — not product.
  */
 import type { BitcodeExplainer } from '@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types';
 
@@ -16,18 +16,18 @@ const V48_CANON = [
 export const BITCODE_PUBLIC_EXPLAINERS = {
   network: buildExplainer({
     kicker: 'Network ledger',
-    title: 'Packs',
+    title: 'Exchange',
     summary:
-      'Inspect network AssetPack activity: measurements, needs-fits, settlement, compensation, delivery, and repair — without exposing unpaid source.',
+      'Inspect network DataPack activity: measurements, needs-fits, settlement, compensation, delivery, and repair — without exposing unpaid source.',
     detail:
-      'Open /packs when you need the master-detail ledger of deposited and settled AssetPacks. Search and filter source-safe activity; expand a row for proof roots, BTD volume/rights, BTC posture, and delivery state. Protected source stays withheld until paid rights unlock delivery.',
+      'Open /exchange when you need the master-detail ledger of deposited and settled DataPacks. Search and filter source-safe activity; expand a row for proof roots, BTD volume/rights, BTC posture, and delivery state. Protected source stays withheld until paid rights unlock delivery.',
     points: [
       'Master table of source-safe pack activity across the network',
       'Detail panels for proofs, settlement, compensation, delivery, and repair',
       'Never serializes protected IP before settlement and rights transfer',
     ],
     references: {
-      source: ['apps/uapi/app/packs/page.tsx', 'apps/uapi/components/packs/PacksPageClient/PacksPageClient.tsx'],
+      source: ['apps/uapi/app/packs/page.tsx', 'apps/uapi/components/exchange/ExchangePageClient/ExchangePageClient.tsx'],
       canon: [...V48_CANON],
     },
   }),
@@ -35,12 +35,12 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     kicker: 'Demand path',
     title: 'Read',
     summary:
-      'Express a Reading, review a synthesized Need, request needs-fits scores, inspect a source-safe AssetPack preview, and settle for knowledge delivery.',
+      'Express a Reading, review a synthesized Need, request needs-fits scores, inspect a source-safe DataPack preview, and settle for knowledge delivery.',
     detail:
       'Use /reads for the buyer path. You measure demand first, then compare fits and pack previews that expose measurements and proof roots — not protected source — until BTC settlement and BTD rights transfer unlock delivery.',
     points: [
       'Separates Need review from finding fits and settlement',
-      'AssetPack preview remains source-safe until paid read rights',
+      'DataPack preview remains source-safe until paid read rights',
       'Quotes and delivery posture stay tied to proof readback',
     ],
     references: {
@@ -52,11 +52,11 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     kicker: 'Supply path',
     title: 'Deposit',
     summary:
-      'Attach permitted source, synthesize AssetPack options, review measurements and obfuscations, and list only the IP you approve.',
+      'Attach permitted source, synthesize DataPack options, review measurements and obfuscations, and list only the IP you approve.',
     detail:
-      'Use /deposits for the seller path. Connected repositories and depositor instruction produce reviewable AssetPack options. You admit supply that is measured and source-safe — never raw unprotected dumps — with compensation and admission boundaries explicit before listing.',
+      'Use /deposits for the seller path. Connected repositories and depositor instruction produce reviewable DataPack options. You admit supply that is measured and source-safe — never raw unprotected dumps — with compensation and admission boundaries explicit before listing.',
     points: [
-      'Synthesize multiple AssetPack options from permitted source',
+      'Synthesize multiple DataPack options from permitted source',
       'Review measurements, obfuscations, and pack contents before admission',
       'List only approved IP into the Bitcode market path',
     ],
@@ -69,16 +69,16 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     kicker: 'Proof readback',
     title: 'Activity readback',
     summary:
-      'Reread pack activity for proofs, history, settlement, compensation, delivery, and repair detail on /packs.',
+      'Reread pack activity for proofs, history, settlement, compensation, delivery, and repair detail on /exchange.',
     detail:
-      'When you need the audit trail of a deposit, read, or settlement, open the matching /packs activity row. Proof roots, BTD volume and rights, and BTC finality are rereadable without exposing source-bearing contents before rights unlock.',
+      'When you need the audit trail of a deposit, read, or settlement, open the matching /exchange activity row. Proof roots, BTD volume and rights, and BTC finality are rereadable without exposing source-bearing contents before rights unlock.',
     points: [
       'Loads proofs, history, and closure posture for a selected activity',
-      'Keeps source-bearing AssetPack contents withheld until rights transfer',
+      'Keeps source-bearing DataPack contents withheld until rights transfer',
       'Same ledger MCP, ChatGPT App, and product routes must reread',
     ],
     references: {
-      source: ['apps/uapi/app/packs/page.tsx', 'apps/uapi/components/packs/'],
+      source: ['apps/uapi/app/packs/page.tsx', 'apps/uapi/components/exchange/'],
       canon: [...V48_CANON],
     },
   }),
@@ -88,9 +88,9 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     summary:
       'Public Bitcode documentation: product map, operator guides, protocol posture, and interface contracts in plain technical prose.',
     detail:
-      'Start here before /deposits, /reads, or /packs if you need the system model. Docs reuse the same explainers and card grammar as the product so the mental model transfers into live work.',
+      'Start here before /deposits, /reads, or /exchange if you need the system model. Docs reuse the same explainers and card grammar as the product so the mental model transfers into live work.',
     points: [
-      'Stepwise chapters from AssetPacks through settlement and interfaces',
+      'Stepwise chapters from DataPacks through settlement and interfaces',
       'Embedded specimens mirror product cards and proof signals',
       'Public docs teach; Protocol canon remains the law',
     ],
@@ -123,7 +123,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     kicker: 'Protocol reference',
     title: 'Protocol specification',
     summary:
-      'Canonical Bitcode protocol semantics: AssetPacks, BTD volume and rights, BTC settlement, proofs, and fail-closed promotion posture.',
+      'Canonical Bitcode protocol semantics: DataPacks, BTD volume and rights, BTC settlement, proofs, and fail-closed promotion posture.',
     detail:
       'Public docs teach the commercial path. Protocol canon is the operating contract product routes and admitted interfaces must satisfy. Prefer the active specification family over marketing or docs prose when they diverge.',
     points: [

@@ -1,7 +1,7 @@
 /**
  * Commercial MVP conversations + docs experiences for V48.
- * Product routes are /reads, /packs, /deposits — docs still teach product map
- * language for historical operator orientation, but CTAs land on /packs or /reads.
+ * Product routes are /reads, /exchange, /deposits — docs still teach product map
+ * language for historical operator orientation, but CTAs land on /exchange or /reads.
  */
 import { expect, test } from '@playwright/test';
 
@@ -86,10 +86,10 @@ test.describe('commercial MVP conversations and docs experiences', () => {
     await openCommercialRoute(
       page,
       '/docs/exchange',
-      /Understand Exchange activity and \/packs compatibility/i,
+      /Understand Exchange activity and \/exchange compatibility/i,
     );
 
-    await expect(page.getByText(/\/packs remains a compatibility redirect/i)).toBeVisible();
+    await expect(page.getByText(/\/exchange remains a compatibility redirect/i)).toBeVisible();
     await page.getByRole('link', { name: /Orient inside the Bitcode/i }).click();
     await expect(page).toHaveURL(/\/docs\/product-workspace$/);
     await expectCommercialRouteReady(page, /Orient inside the Bitcode/i);

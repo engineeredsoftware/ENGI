@@ -151,7 +151,7 @@ export function useInterfacesPaneState({
           },
           {
             value: 'packs',
-            label: 'Packs',
+            label: 'Exchange',
             hint: 'Return to the website Packs surface when the work should stay in-product.',
           },
         ],

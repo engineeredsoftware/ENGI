@@ -8,7 +8,7 @@ Detail filesystem contract: `BITCODE_SOURCE_LAYOUT.md`.
 | Experience | Route(s) | Component prefix | Directory |
 | --- | --- | --- | --- |
 | Marketing | `/` | `Marketing*` | `apps/uapi/components/marketing/` |
-| Packs | `/packs` | `Packs*` | `apps/uapi/components/packs/` |
+| Packs | `/exchange` | `Packs*` | `apps/uapi/components/exchange/` |
 | Reads | `/reads` | `Reads*` | `apps/uapi/components/reads/` |
 | Deposits | `/deposits` | `Deposits*` | `apps/uapi/components/deposits/` |
 | Docs | `/docs` | `Docs*` | `apps/uapi/components/docs/` |
@@ -51,12 +51,12 @@ Shared pure logic for an experience lives under that experience’s `models/`,
 
 ## Legacy product
 
-**Deleted.** No `/packs` route, page, or product module tree. Use `/packs`,
+**Deleted.** No `/exchange` route, page, or product module tree. Use `/exchange`,
 `/deposits`, `/reads`, Auxillaries.
 
 ## Interface rules
 
-- Launch entrypoints: `/deposits`, `/reads`, `/packs`, Auxillaries, Marketing, Docs.
+- Launch entrypoints: `/deposits`, `/reads`, `/exchange`, Auxillaries, Marketing, Docs.
 - Conversations structure may persist; full commercial UX is deferred post-V48.
 - Source-safety, measurement-before-price, proof-before-state bind UI the same
  way they bind protocol law.

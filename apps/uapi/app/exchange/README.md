@@ -8,7 +8,7 @@ Current Bitcode product routes:
 - `/deposits` — supply: synthesize and list AssetPack options.
 - `/exchange` — durable activity reread: measurements, proof, settlement, compensation, delivery.
 
-`/packs` is a **compatibility redirect** into `/exchange` (query string preserved).
+`/exchange` is a **compatibility redirect** into `/exchange` (query string preserved).
 
 Commodity language **AssetPack** is unchanged. This experience is the market/activity surface, not a rename of AssetPack.
 

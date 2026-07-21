@@ -4,7 +4,7 @@ Identity, wallet, connections, interfaces, and organization panes.
 Imports **Bitcode** only (never other experiences). Page shell: `apps/uapi/app/auxillaries/`.
 
 Product language: **Pipeline** for runs; **journal** for BTD ledger rows.
-Opens as an overlay over product routes (e.g. `/packs`); not a primary product experience route.
+Opens as an overlay over product routes (e.g. `/exchange`); not a primary product experience route.
 
 ## Layout (SOURCE_LAYOUT)
 

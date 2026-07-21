@@ -218,7 +218,7 @@ export const PRODUCT_SURFACE_EXPLAINERS = {
     summary:
       'Bitcode should show what is live, modeled, boundary-only, or blocked without making you infer that state from failures later in the flow.',
     detail:
-      'Use this read before trusting downstream asset packs or settlement. A healthy Bitcode keeps Bitcode Exchange boundary truth visible, makes third-party connections and attachments legible as ingress/input context, and stays aligned with Bitcode Protocol fail-closed rules.',
+      'Use this read before trusting downstream data packs or settlement. A healthy Bitcode keeps Bitcode Exchange boundary truth visible, makes third-party connections and attachments legible as ingress/input context, and stays aligned with Bitcode Protocol fail-closed rules.',
     points: [
       'Shows blocked interfaces early',
       'Keeps modeled and live states separate',

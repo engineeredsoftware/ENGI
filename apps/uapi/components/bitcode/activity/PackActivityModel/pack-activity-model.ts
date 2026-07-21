@@ -9,7 +9,7 @@ import {
   toSourceSafeAssetPackCommodityStateDisplay,
   type AssetPackCommodityStateDisplay,
 } from '@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state';
-import { descriptorForAbsoluteKind } from '@/components/packs/models/packs-measurement-descriptors';
+import { descriptorForAbsoluteKind } from '@/components/exchange/models/exchange-measurement-descriptors';
 
 export type PackActivityType =
   | 'deposit-option'
@@ -64,7 +64,7 @@ export interface PackActivityProofRoot {
 export interface PackActivitySourceSafety {
   sourceSafeMetadataOnly: true;
   protectedSourceVisible: false;
-  unpaidAssetPackSourceVisible: false;
+  unpaidDataPackSourceVisible: false;
   rawPromptVisible: false;
   interpolatedPromptVisible: false;
   rawProviderResponseVisible: false;
@@ -107,7 +107,7 @@ export interface PackActivityRecord {
   repository: string | null;
   assetPackTitle: string | null;
   /**
-   * AssetPack product kind (capability-slice | implementation-pattern |
+   * DataPack product kind (capability-slice | implementation-pattern |
    * proof-operations-slice) — not activity taxonomy.
    */
   assetPackKind: string | null;
@@ -133,7 +133,7 @@ export interface PackActivityRecord {
 
 /**
  * Type filter includes real PackActivityType values plus synthetic ownership
- * lenses used by /packs "My AssetPacks" (and its read/deposit subtypes).
+ * lenses used by /exchange "My DataPacks" (and its read/deposit subtypes).
  */
 export type PackActivityTypeFilter =
   | PackActivityType
@@ -193,7 +193,7 @@ export interface PackActivityDetailProjection {
     delivery: string | null;
     repair: string | null;
   };
-  /** Live or projected PR URL for settled AssetPack delivery (source-safe). */
+  /** Live or projected PR URL for settled DataPack delivery (source-safe). */
   deliveryReference: string | null;
   assetPackKind: string | null;
   estimatedBtd: number | null;
@@ -286,7 +286,7 @@ export interface PackPortfolioMarketIntelligence {
 const SOURCE_SAFETY: PackActivitySourceSafety = {
   sourceSafeMetadataOnly: true,
   protectedSourceVisible: false,
-  unpaidAssetPackSourceVisible: false,
+  unpaidDataPackSourceVisible: false,
   rawPromptVisible: false,
   interpolatedPromptVisible: false,
   rawProviderResponseVisible: false,
@@ -449,7 +449,7 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
   if (
     includesAny(haystack, [
       'depository assetpack',
-      'depository asset pack',
+      'depository data pack',
       'deposit admission',
       'deposit-option-admission',
       'admitted to the depository',
@@ -462,16 +462,16 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
   if (
     includesAny(haystack, [
       'settled assetpack',
-      'settled asset pack',
+      'settled data pack',
       'settled assetpack option',
       'settle-asset-pack-pipeline',
-      'settle asset packs',
+      'settle data packs',
       'rights transfer',
     ])
   ) {
     return 'settled-assetpack';
   }
-  // "Settled N AssetPack option(s)" — word-gap form from settle summary.
+  // "Settled N DataPack option(s)" — word-gap form from settle summary.
   if (/\bsettled\b/u.test(haystack) && /\basset\s*pack/u.test(haystack)) {
     return 'settled-assetpack';
   }
@@ -500,7 +500,7 @@ function inferRepository(record: BitcodeActivityRecord) {
   );
 }
 
-function inferAssetPackTitle(record: BitcodeActivityRecord) {
+function inferDataPackTitle(record: BitcodeActivityRecord) {
   return (
     findFirstString(record.payload, [
       'assetPackTitle',
@@ -513,7 +513,7 @@ function inferAssetPackTitle(record: BitcodeActivityRecord) {
 }
 
 /**
- * Project nested AssetPack measurement kinds (absolutes + needinesses *-fit)
+ * Project nested DataPack measurement kinds (absolutes + needinesses *-fit)
  * into flat source-safe PackActivity measurement rows.
  */
 function collectNestedKindMeasurements(
@@ -593,7 +593,7 @@ function collectNestedKindMeasurements(
     const value = magnitude !== null ? magnitude : volume;
     if (value === null) continue;
     const catalog = descriptorForAbsoluteKind(kind);
-    // Prefer measure-time instance descriptor attached on the AssetPack reading.
+    // Prefer measure-time instance descriptor attached on the DataPack reading.
     const explicitDescriptor =
       typeof a.descriptor === 'string' && a.descriptor.trim() ? a.descriptor.trim() : null;
     measurements.push({
@@ -644,9 +644,9 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
   // Absolute / neediness kind rows first (commercial material properties).
   collectNestedKindMeasurements(payload, measurements);
 
-  // Session-aggregate counters are NOT pack measurements. A deposited AssetPack
+  // Session-aggregate counters are NOT pack measurements. A deposited DataPack
   // is one pack; "candidate count" / "admitted count" describe a synthesis
-  // session and must not appear on /packs detail for depository rows.
+  // session and must not appear on /exchange detail for depository rows.
   if (!isDepositedOrSettledPack) {
     const sessionCandidates: Array<[string, string[], string | null]> = [
       ['measured-btd', ['measuredBtd', 'measured_btd', 'btdVolume', 'weightedRequestedVolume'], 'BTD'],
@@ -764,7 +764,7 @@ function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {
   return values;
 }
 
-function inferAssetPackKind(record: BitcodeActivityRecord): string | null {
+function inferDataPackKind(record: BitcodeActivityRecord): string | null {
   return (
     findFirstString(record.payload, [
       'assetPackKind',
@@ -1056,15 +1056,15 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     readState(record, ['repairState', 'repair_state', 'reconciliationState']) ||
     (commodityState.repairRequired ? 'repair-required' : null);
 
-  const assetPackTitle = inferAssetPackTitle(record);
-  const assetPackKind = inferAssetPackKind(record);
+  const assetPackTitle = inferDataPackTitle(record);
+  const assetPackKind = inferDataPackKind(record);
   const { estimatedBtd, estimatedBtdCells } = inferEstimatedBtd(record);
   // Prefer settle/deposit authored titles over generic execution-history labels.
-  // Prefer clean pack title (not "Depository AssetPack: Admitted …" noise).
+  // Prefer clean pack title (not "Depository DataPack: Admitted …" noise).
   const title =
     (type === 'settled-assetpack' &&
       (assetPackTitle
-        ? `Settled AssetPack: ${assetPackTitle}`
+        ? `Settled DataPack: ${assetPackTitle}`
         : record.summary?.startsWith('Settled')
           ? record.summary.split('.')[0]
           : null)) ||
@@ -1124,7 +1124,7 @@ export function assertPackActivitySourceSafe(record: PackActivityRecord | PackAc
   return (
     record.sourceSafety.sourceSafeMetadataOnly === true &&
     record.sourceSafety.protectedSourceVisible === false &&
-    record.sourceSafety.unpaidAssetPackSourceVisible === false &&
+    record.sourceSafety.unpaidDataPackSourceVisible === false &&
     record.sourceSafety.rawPromptVisible === false &&
     record.sourceSafety.interpolatedPromptVisible === false &&
     record.sourceSafety.rawProviderResponseVisible === false &&
@@ -1155,8 +1155,8 @@ function flattenMetadataSearchTokens(value: unknown, depth = 0): string[] {
 }
 
 /**
- * Full-text corpus for /packs search: every source-safe field buyers use to
- * find AssetPacks — titles, absolute/neediness measurements, values, proofs,
+ * Full-text corpus for /exchange search: every source-safe field buyers use to
+ * find DataPacks — titles, absolute/neediness measurements, values, proofs,
  * states, accounting/governance roots, and shallow metadata.
  */
 function buildSearchText(record: PackActivityRecord) {
@@ -1578,7 +1578,7 @@ export function buildPackPortfolioMarketIntelligence(
     savedFilters: [
       {
         id: 'my-assetpacks',
-        label: 'My AssetPacks',
+        label: 'My DataPacks',
         description:
           'Your reads (bought), deposits still unsettled, and deposits that have settled.',
         query: { type: 'my-assetpacks' },
@@ -1601,7 +1601,7 @@ export function buildPackPortfolioMarketIntelligence(
       {
         id: 'market-supply',
         label: 'Supply signals',
-        description: 'Deposit options and admitted Depository AssetPacks.',
+        description: 'Deposit options and admitted Depository DataPacks.',
         query: { type: 'depository-assetpack' },
         signalKind: 'supply',
       },

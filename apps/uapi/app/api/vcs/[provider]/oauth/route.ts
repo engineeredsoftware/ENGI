@@ -18,7 +18,7 @@ export const GET = createRouteWrapper(async (request: Request, context: Provider
   const provider = await resolveRouteProvider(context);
 
   if (isMockVcsMode()) {
-    return NextResponse.redirect(new URL('/packs?mockVcsOAuth=1', request.url));
+    return NextResponse.redirect(new URL('/exchange?mockVcsOAuth=1', request.url));
   }
 
   const instanceUrl = readInstanceUrl(request);

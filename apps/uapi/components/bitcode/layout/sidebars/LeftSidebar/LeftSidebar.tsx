@@ -30,7 +30,7 @@ import type {
 const sidebarOptions: [SidebarOption, SidebarOption] = [
   {
     id: 'asset-packs',
-    label: 'AssetPacks',
+    label: 'DataPacks',
     icon: renderDocToggleIcon(),
   },
   {
@@ -44,7 +44,7 @@ export default function LeftSidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeSidebar, setActiveSidebar] = useState<'asset-packs' | 'measure'>('asset-packs');
   // Items mode removed; show runs only
-  const [assetPackRuns, setAssetPackRuns] = useState<PipelineExecution[]>([]);
+  const [assetPackRuns, setDataPackRuns] = useState<PipelineExecution[]>([]);
 
   const router = useRouter();
 
@@ -66,7 +66,7 @@ export default function LeftSidebar() {
       .then(
         (results) => {
           const [runs] = results as any[];
-          setAssetPackRuns(runs || []);
+          setDataPackRuns(runs || []);
         },
       )
       .catch(console.error);
@@ -112,7 +112,7 @@ export default function LeftSidebar() {
               <div className="flex items-center gap-2">
                 {renderDocToggleIcon("w-4 h-4 text-gray-300 sidebar-text")}
                 <FlipText
-                  text={'AssetPack Executions'}
+                  text={'DataPack Executions'}
                   className="text-sm font-semibold text-emerald-300 sidebar-text"
                 />
               </div>

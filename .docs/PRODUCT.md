@@ -10,7 +10,7 @@ Bitcode V26 is the first commercial promotion of the source-to-shares system:
 - `scripts/specifying/` is metadevelopment specifying tooling (gate proofs, canon posture) — not product ownership.
 - `apps/uapi/` is the commercial Next.js application (routes, experiences, product API adapters).
 - `packages/api/*`, `apps/uapi/app/api/*`, `packages/orm/*`, and Supabase schemas carry exchange/runtime state.
-- `packages/asset-packs-pipelines/*` carries AssetPack synthesis/settle product pipelines and domain.
+- `packages/asset-packs-pipelines/*` carries DataPack synthesis/settle product pipelines and domain.
 - MCP, ChatGPT App, GitHub/VCS, webhooks, and other connections are admitted interfaces, not separate product owners.
 
 ## Terminal
@@ -36,12 +36,12 @@ The Exchange stores and rereads:
 - conversations, attachments, and normalized rich input,
 - execution rows, events, phases, and activity history,
 - Read review and fit-quality receipts,
-- AssetPack synthesis artifacts, written assets, Shippables, and delivery-mechanism evidence,
+- DataPack synthesis artifacts, written assets, Shippables, and delivery-mechanism evidence,
 - settlement, proof, and operational telemetry.
 
-Some storage table or column names still preserve compatibility vocabulary. Product language must read those rows as AssetPack evidence, Bitcode activity, BTD holding reads, or bounded storage carriers.
+Some storage table or column names still preserve compatibility vocabulary. Product language must read those rows as DataPack evidence, Bitcode activity, BTD holding reads, or bounded storage carriers.
 
-## AssetPack Pipeline
+## DataPack Pipeline
 
 The current phased pipeline is SDIVF:
 
@@ -55,7 +55,7 @@ Finish records evidence and can deliver the V26 Shippable through a GitHub pull 
 
 ## Economics
 
-BTC pays fees. `$BTD` is not a fungible checkout credit or spendable currency token. `$BTD` is a non-fungible AssetPack share/read-right and measured Bitcode content amount.
+BTC pays fees. `$BTD` is not a fungible checkout credit or spendable currency token. `$BTD` is a non-fungible DataPack share/read-right and measured Bitcode content amount.
 
 V26 reads `$BTD` holdings and BTC fee posture; V27 owns full `$BTD` tokenomics. V27+ issuance must respect the 21,000,000 `$BTD` mintable ceiling recorded in `packages/btd`.
 

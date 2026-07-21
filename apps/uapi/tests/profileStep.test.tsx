@@ -55,7 +55,7 @@ describe('ProfileStep (SSR)', () => {
                 repairRoute: {
                   issueId: 'wallet.binding_missing',
                   pane: 'wallet',
-                  route: '/packs?auxillary-open-to=wallet',
+                  route: '/exchange?auxillary-open-to=wallet',
                   label: 'Open Wallet',
                   retryPolicy: 'after_repair',
                 },
@@ -133,7 +133,7 @@ describe('ProfileStep (SSR)', () => {
           policyDecision: 'allowed',
           denialReason: null,
           denialReasons: [],
-          recoveryRoute: '/packs?auxillary-open-to=profile',
+          recoveryRoute: '/exchange?auxillary-open-to=profile',
           sourceVisibility: 'source_safe_preview',
           sourceSafetyClass: 'source_safe',
           authorityRoot: 'btd-proof-root:organization-policy-authority:def456',

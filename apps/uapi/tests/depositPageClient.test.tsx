@@ -371,7 +371,7 @@ describe("DepositPageClient", () => {
     expect(lastHref).not.toContain("transactionId=");
   });
 
-  it("hides the Synthesize AssetPack Options button while a run's detail owns the page", async () => {
+  it("hides the Synthesize DataPack Options button while a run's detail owns the page", async () => {
     // A run is adopted by default (mockQuery) — dispatching from here would
     // yank the viewer off the loaded run's telemetry/results mid-review.
     render(<DepositPageClient />);
@@ -379,7 +379,7 @@ describe("DepositPageClient", () => {
       await screen.findByTestId("deposit-synthesis-telemetry"),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("button", { name: "Synthesize AssetPack Options" }),
+      screen.queryByRole("button", { name: "Synthesize DataPack Options" }),
     ).not.toBeInTheDocument();
     expect(
       screen.getByTestId("deposit-obfuscations-run-loaded-note"),
@@ -419,7 +419,7 @@ describe("DepositPageClient", () => {
 
     await openComposeDetail();
     expect(
-      await screen.findByRole("button", { name: "Synthesize AssetPack Options" }),
+      await screen.findByRole("button", { name: "Synthesize DataPack Options" }),
     ).toBeInTheDocument();
     expect(
       screen.queryByTestId("deposit-obfuscations-run-loaded-note"),
@@ -752,7 +752,7 @@ describe("DepositPageClient", () => {
     fireEvent.click(secretEngineRow);
 
     const synthesizeButton = await screen.findByRole("button", {
-      name: "Synthesize AssetPack Options",
+      name: "Synthesize DataPack Options",
     });
     await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
     fireEvent.click(synthesizeButton);
@@ -962,7 +962,7 @@ describe("DepositPageClient", () => {
     );
     await openComposeDetail();
     const synthesizeButton = await screen.findByRole("button", {
-      name: "Synthesize AssetPack Options",
+      name: "Synthesize DataPack Options",
     });
     await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
     fireEvent.click(synthesizeButton);

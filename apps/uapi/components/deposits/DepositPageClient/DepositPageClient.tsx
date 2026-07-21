@@ -30,7 +30,7 @@ import { useDepositSynthesisLifecycle } from "./hooks/use-deposit-synthesis-life
 import { DepositRouteStateAside } from "@/components/deposits/DepositRouteStateAside/DepositRouteStateAside";
 import { DepositPipelinesMaster } from "@/components/deposits/DepositPipelinesMaster/DepositPipelinesMaster";
 import { DepositSynthesisTelemetry } from "@/components/deposits/DepositSynthesisTelemetry/DepositSynthesisTelemetry";
-import { DepositAssetPackOptions } from "@/components/deposits/DepositAssetPackOptions/DepositAssetPackOptions";
+import { DepositDataPackOptions } from "@/components/deposits/DepositDataPackOptions/DepositDataPackOptions";
 import { DepositObfuscationsPanel } from "@/components/deposits/DepositObfuscationsPanel/DepositObfuscationsPanel";
 import { DepositActivityLedgerDetail } from "@/components/deposits/DepositActivityLedgerDetail/DepositActivityLedgerDetail";
 import { Boxes } from "lucide-react";
@@ -734,7 +734,7 @@ export default function DepositPageClient() {
               />
             ) : null}
 
-            <DepositAssetPackOptions
+            <DepositDataPackOptions
               realSynthesis={realSynthesis}
               depositRouteSession={depositRouteSession}
               optionReviewDecisions={optionReviewDecisions}

@@ -1,5 +1,5 @@
 /**
- * Per-option deposit admission ledger payloads for /packs projection.
+ * Per-option deposit admission ledger payloads for /exchange projection.
  */
 import {
   buildDepositOptionAdmissionActivityDraft,
@@ -96,7 +96,7 @@ const receipt = {
   compensationPreview: { state: "compensation-preview-ready" },
   packsActivitySync: {
     state: "synchronized-to-packs",
-    route: "/packs",
+    route: "/exchange",
     activityType: "depository-assetpack",
     activityRoot: "packs-activity-root-1",
   },

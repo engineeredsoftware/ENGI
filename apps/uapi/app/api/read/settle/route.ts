@@ -3,7 +3,7 @@
  *
  * 1:1 AssetPack : settle pipeline. SynthesizeRead may return multiple options;
  * each selected option gets its own settle run (pay ETH|BTC|SOL → BTD volume
- * escrow mint → AP co-own → PR → packs). Seller finalizes BTD/pay split on /packs.
+ * escrow mint → AP co-own → PR → packs). Seller finalizes BTD/pay split on /exchange.
  *
  * V48-Gate5-F01: preferred client payload is synthesisRunId + selectedIndexes.
  * Server rehydrates full commercial material from the synthesis run (fullOptions).

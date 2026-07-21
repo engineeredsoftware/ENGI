@@ -194,7 +194,7 @@ module.exports = {
     '<rootDir>/tests/bitcodeDocsContent.test.tsx',
     '<rootDir>/tests/features.test.ts',
     '<rootDir>/tests/workspaceSurface.test.ts',
-    '<rootDir>/tests/packsPageClient.test.tsx',
+    '<rootDir>/tests/exchangePageClient.test.tsx',
     '<rootDir>/tests/packActivityModel.test.ts',
     '<rootDir>/tests/depositAdmissionActivity.test.ts',
     '<rootDir>/tests/depositSynthesisOptionsHydrate.test.ts',

@@ -11,7 +11,7 @@ API surfaces must:
 - accept source and attachment evidence,
 - expose measured Read review,
 - fail closed before fit search when Read review rejects or requests remeasurement,
-- write AssetPack, proof, and settlement outputs,
+- write DataPack, proof, and settlement outputs,
 - stream execution state to product and admitted interfaces,
 - support MCP and ChatGPT-style connected interfaces without letting those interfaces own Exchange state.
 
@@ -46,9 +46,9 @@ host are **deleted** and must not be reintroduced on `apps/uapi`:
 Those surfaces, if needed at all, belong only under `scripts/specifying` (repo
 metadevelopment), never in the Vercel product graph.
 
-## Execution and AssetPack Routes
+## Execution and DataPack Routes
 
-The current execution route corridor uses `agentic-execution:asset-pack` for AssetPack execution.
+The current execution route corridor uses `agentic-execution:asset-pack` for DataPack execution.
 
 Route behavior must preserve:
 - typed input normalization,
@@ -56,7 +56,7 @@ Route behavior must preserve:
 - execution id and correlation id storage,
 - SSE events for product reread,
 - Read-measurement evidence admission,
-- AssetPack written-asset snapshots,
+- DataPack written-asset snapshots,
 - Finish result summaries and delivery evidence.
 
 ## Read Review Boundary

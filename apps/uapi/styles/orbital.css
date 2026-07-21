@@ -2373,7 +2373,7 @@ to {
 }
 /* coming-soon-badge removed - using unified AfterOnboardingOverlay component */
 
-/* Improved AssetPack type styling */
+/* Improved DataPack type styling */
 .asset-pack-types-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2524,7 +2524,7 @@ to {
   border-left: 3px solid rgba(103, 254, 183, 0.5);
 }
 
-/* Improved vertical layout for the AssetPack evidence section */
+/* Improved vertical layout for the DataPack evidence section */
 .anchor-content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -4497,7 +4497,7 @@ to {
   background: rgba(103, 254, 183, 0.2);
   margin: 0 20px;
 }
-/* GitHub AssetPack Type Styling */
+/* GitHub DataPack Type Styling */
 .asset-pack-types-container {
   margin-top: 30px;
   padding-top: 24px;
@@ -4668,7 +4668,7 @@ to {
   font-size: 16px;
   line-height: 1.2;
 }
-/* Remove top margin from AssetPack badge inside pricing card */
+/* Remove top margin from DataPack badge inside pricing card */
 .pricing-glow-card .plan-asset-packs {
   margin-top: 0 !important;
 }

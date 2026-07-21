@@ -20,7 +20,7 @@ export const BITCODE_DOCS_CHAPTERS = [
     number: '00',
     title: 'Start Here',
     summary:
-      'What Bitcode is: AssetPacks, BTD volume and rights, BTC settlement, and the /deposits · /reads · /packs product map.',
+      'What Bitcode is: DataPacks, BTD volume and rights, BTC settlement, and the /deposits · /reads · /exchange product map.',
     pages: docsPagesFor(['what-is-bitcode', 'source-shares']),
   },
   {

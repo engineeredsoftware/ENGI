@@ -206,7 +206,7 @@ Product-first full ancestry with **Execution** as EE primitive where applicable
 | `ExecutionPipelineSDIVF` | SDIVF base |
 | `ExecutionPipelineSDIVFExecutionPhase` | SDIVF phase EE |
 | `ExecutionPipelineSDIVFExecutionPhaseDelegator` | SDIVF phase Executor |
-| `ExecutionPipelineSDIVFSynthesizeReadAssetPacks` | product pipeline |
+| `ExecutionPipelineSDIVFSynthesizeReadDataPacks` | product pipeline |
 | … | full ancestry left→right; phases are SDIVF-only |
 
 ---

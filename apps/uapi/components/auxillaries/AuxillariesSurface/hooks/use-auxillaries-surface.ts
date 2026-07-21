@@ -89,7 +89,7 @@ export function useAuxillariesSurface({
   const pathname = usePathname();
   const routeStep = useMemo(() => parseAuxillaryPath(pathname), [pathname]);
   const isProductRoute = Boolean(
-    pathname?.startsWith('/exchange') || pathname?.startsWith('/packs'),
+    pathname?.startsWith('/exchange') || pathname?.startsWith('/exchange'),
   );
   const isDedicatedAuxillariesRoute = isAuxillariesPath(pathname) || isAuxillariesCompatPath(pathname);
   const usesProductOverlay = isProductRoute;

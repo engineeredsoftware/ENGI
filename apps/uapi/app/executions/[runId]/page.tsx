@@ -5,5 +5,5 @@ type ExecutionsRunRedirectProps = {
 };
 
 export default function ExecutionsRunRedirectPage({ params }: ExecutionsRunRedirectProps) {
-  redirect(`/packs?transactionId=${encodeURIComponent(params.runId)}`);
+  redirect(`/exchange?transactionId=${encodeURIComponent(params.runId)}`);
 }

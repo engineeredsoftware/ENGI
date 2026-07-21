@@ -76,12 +76,12 @@ export const measurementNeedinessItems = [
 ] as const;
 
 export const measurementFinalFit = {
-  label: "Packs' BTD Volume",
+  label: "Exchange BTD Volume",
   /** Display volume (not a 0–100 score). */
   value: 431,
   /** Marketing bar fill only — volume is not a percentage axis. */
   barPercent: 86,
-  detail: 'BTD volume — weighted scalar over needinesses-fits for the settled DataPack',
+  detail: 'BTD volume — weighted scalar over needinesses-fits for the settled AssetPack',
 } as const;
 
 export const measureCardAxes = [
@@ -144,12 +144,12 @@ export const previewRows = [
   },
   {
     key: 'Settlement',
-    // 2×2: Crypto | BTD / Packs | Ship — pay rails are multi-chain Crypto.
-    valueParts: ['Crypto', 'BTD', 'Packs', 'Ship'],
+    // 2×2: Crypto | BTD / DataPacks | Ship — pay rails are multi-chain Crypto.
+    valueParts: ['Crypto', 'BTD', 'DataPacks', 'Ship'],
     valueTones: {
       Crypto: 'orange',
       BTD: 'green',
-      Packs: 'purple',
+      DataPacks: 'purple',
       Ship: 'white',
     } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
@@ -174,14 +174,14 @@ export const measuremintCandles = [
 export const verificationRows = [
   {
     label: 'Depositing',
-    detail: 'DataPacks are securely measured; rights and payments are settled.',
+    detail: 'AssetPacks are securely measured; rights and payments are settled.',
     status: 'public',
     Icon: CircleStackIcon,
   },
   {
     label: 'Reading',
     detail:
-      'Bitcode finds deposited DataPacks to synthesize new DataPacks to satisfy your needs.',
+      'Bitcode finds deposited AssetPacks to synthesize new AssetPacks to satisfy your needs.',
     status: 'private',
     Icon: LockClosedIcon,
   },
@@ -201,8 +201,8 @@ export const verificationRows = [
 
 export const compactPreviewCards = [
   {
-    title: 'Packs',
-    body: 'Network ledger of DataPack activity',
+    title: 'Exchange',
+    body: 'Network ledger of AssetPack activity',
     detail: 'Audit supply, settlement, and delivery before you trade.',
   },
   {
@@ -313,7 +313,7 @@ export function renderTrailingOrangeAsterisk(value: string, asteriskClassName = 
 /**
  * Claim anchors in marketing body + footnotes.
  * - `*`   emerald — ERC-1155 / BTD token posture
- * - `**`  orange  — DataPacks
+ * - `**`  orange  — AssetPacks
  * - `***` cyan    — Measurements / source-safety
  * Parse longest markers first so `***` is not split into `*` + `**`.
  */

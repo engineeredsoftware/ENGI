@@ -34,7 +34,7 @@ export const PRODUCT_ACTION_GUIDES = [
     action: 'Set branch mode',
     location: 'Command deck and closure controls',
     write:
-      'Select the AssetPack execution posture that branch materialization should use when closure runs.',
+      'Select the DataPack execution posture that branch materialization should use when closure runs.',
     expectedRead:
       'Branch, settlement, and proof panels should reflect the selected mode as an operator-visible Bitcode decision.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.branchMode.summary,
@@ -126,7 +126,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Record whether connections, attachments, repository scope, and boundary services are live, modeled, blocked, or review-only.',
     expectedRead:
-      'The product shows boundary truth before downstream AssetPacks or settlement are trusted.',
+      'The product shows boundary truth before downstream DataPacks or settlement are trusted.',
     proofSignal: PRODUCT_WORKSPACE_EXPLAINERS.boundaryRuntime.summary,
   },
   {
@@ -136,7 +136,7 @@ export const PRODUCT_ACTION_GUIDES = [
     write:
       'Run the closure path from Read review through verification, branch materialization, settlement, and proof.',
     expectedRead:
-      'Verification, branch artifacts, AssetPack settlement, ledger continuity, and history should read as one consequence chain.',
+      'Verification, branch artifacts, DataPack settlement, ledger continuity, and history should read as one consequence chain.',
     proofSignal: PRODUCT_INLINE_EXPLAINERS.closureAction.summary,
   },
   {

@@ -562,7 +562,7 @@ function DepositOptionNeedinessBlock({
           </dd>
         ) : (
           <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
-            Unestimatable: settled Depository AssetPack demand has not been
+            Unestimatable: settled Depository DataPack demand has not been
             measured for this option.
           </dd>
         )}

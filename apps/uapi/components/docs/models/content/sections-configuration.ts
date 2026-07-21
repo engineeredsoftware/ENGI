@@ -16,7 +16,7 @@ export const configurationSections = [
       'Honest configuration language is essential while the commercial product advances from review-only readiness toward full live connectivity.',
     points: [
       'Disabled controls remain visible with clear explainer copy.',
-      'Product routes (/packs, /reads, /deposits) are the active commercial center.',
+      'Product routes (/exchange, /reads, /deposits) are the active commercial center.',
       'Boundary truth should be readable before any proof or settlement trust decision.',
     ],
   },
@@ -29,7 +29,7 @@ export const configurationSections = [
     detail:
       'Each preference should explain the operational consequence: what it changes in route detail, settlement, delivery, or proof visibility.',
     reason:
-      'Configuration is not a settings dump; it is the control plane around AssetPacks.',
+      'Configuration is not a settings dump; it is the control plane around DataPacks.',
   },
   {
     id: 'fail-closed',

@@ -10,7 +10,7 @@ export const protocolSections = [
     eyebrow: 'Active canon',
     title: 'V48 is the draft-target commercial protocol; public docs teach, they do not legislate',
     summary:
-      'Product routes and public docs follow the V48 commercial protocol story: AssetPacks, BTD volume and rights, BTC settlement, source safety, and plural product routes. Formal law lives in the BITCODE_SPEC family, not in docs prose.',
+      'Product routes and public docs follow the V48 commercial protocol story: DataPacks, BTD volume and rights, BTC settlement, source safety, and plural product routes. Formal law lives in the BITCODE_SPEC family, not in docs prose.',
     detail:
       'When docs and specification disagree, specification wins. Docs exist so operators, partners, and interface authors can learn the system in product order without reading every formal gate first. Promotion of a version into BITCODE_SPEC.txt is a separate, proof-gated workflow.',
     reason:
@@ -26,7 +26,7 @@ export const protocolSections = [
     eyebrow: 'Domain model',
     title: 'Every subsystem is learnable from source supply to proof readback',
     summary:
-      'The protocol spans repository supply, deposit synthesis, Read measurement, fit and selection, AssetPacks, identity, disclosure, settlement, proof families, telemetry, persistence, and admitted interfaces.',
+      'The protocol spans repository supply, deposit synthesis, Read measurement, fit and selection, DataPacks, identity, disclosure, settlement, proof families, telemetry, persistence, and admitted interfaces.',
     detail:
       'A docs reader should be able to drop into any subsystem and answer: what it owns, what fails closed, and what evidence proves a state advance. Product routes surface the same objects without inventing parallel vocabularies.',
     reason:
@@ -39,7 +39,7 @@ export const protocolSections = [
     summary:
       'Bitcode does not end when a button returns OK. It reconciles telemetry, persistence, failure semantics, generated artifacts, and promotion posture so a later surface can audit what happened.',
     detail:
-      'That is why docs teach proof and settlement beside product actions. The commercial claim depends on operators being able to audit AssetPack paths after the fact, including when work started from Chat, MCP, or GitHub.',
+      'That is why docs teach proof and settlement beside product actions. The commercial claim depends on operators being able to audit DataPack paths after the fact, including when work started from Chat, MCP, or GitHub.',
     reason:
       'A protocol-backed product must teach both the experience and the proof system underneath it.',
   },

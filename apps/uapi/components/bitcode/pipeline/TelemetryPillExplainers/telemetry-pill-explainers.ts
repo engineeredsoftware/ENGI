@@ -184,7 +184,7 @@ const PHASE_SPECIFICS: Record<string, ModeVariants> = {
   },
   implementation: {
     deposit:
-      'Implementation Phase synthesizes 2-4 distinct, measured AssetPack patch options — each source-safe metadata plus a patch descriptor of file paths and change ops, never raw source.',
+      'Implementation Phase synthesizes 2-4 distinct, measured DataPack patch options — each source-safe metadata plus a patch descriptor of file paths and change ops, never raw source.',
     read: 'Implementation Phase synthesizes the Need-fitting AssetPack — a measured, source-safe patch.',
     any: 'Implementation Phase synthesizes the AssetPack itself — a measured, source-safe patch.',
   },
@@ -243,7 +243,7 @@ const AGENT_SPECIFICS: Array<[match: string, copy: ModeVariants]> = [
     'assetpacksynthesis',
     {
       deposit:
-        'Prompted to synthesize 2-4 distinct, measured AssetPack patch options from the Discovery comprehension, honoring obfuscations and protected-IP exclusions absolutely. Returns {options} where each option carries kind, title, summary, coveredSourcePaths, honest 0..1 measurements, confidence, a source-safe patch descriptor ({fileChanges: path+op, patchSummary}), and a needinessSignal.',
+        'Prompted to synthesize 2-4 distinct, measured DataPack patch options from the Discovery comprehension, honoring obfuscations and protected-IP exclusions absolutely. Returns {options} where each option carries kind, title, summary, coveredSourcePaths, honest 0..1 measurements, confidence, a source-safe patch descriptor ({fileChanges: path+op, patchSummary}), and a needinessSignal.',
       read: 'Prompted to synthesize the Need-fitting AssetPack artifacts from the explored sources. Returns the synthesis record ({assetPack, assetPackSynthesisArtifacts}) for validation and upload.',
       any: 'Prompted to synthesize the AssetPack itself — a measured, source-safe patch; returns the synthesized candidate options for review.',
     },

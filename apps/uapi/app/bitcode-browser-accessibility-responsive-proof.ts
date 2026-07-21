@@ -102,16 +102,16 @@ export const BITCODE_BROWSER_ACCESSIBILITY_RESPONSIVE_PROOF_SURFACES = [
     id: 'auxillaries',
     label: 'Bitcode Auxillaries',
     routes: [
-      { id: 'default', path: '/packs?auxillary-open-to=wallet', state: 'default' },
+      { id: 'default', path: '/exchange?auxillary-open-to=wallet', state: 'default' },
       {
         id: 'guided',
-        path: '/packs?auxillary-open-to=profile',
+        path: '/exchange?auxillary-open-to=profile',
         state: 'guided',
         selector: '[data-testid="auxillaries-pane-navigation"]',
       },
       {
         id: 'detail',
-        path: '/packs?auxillary-open-to=interfaces',
+        path: '/exchange?auxillary-open-to=interfaces',
         state: 'detail',
         selector: '[data-testid="auxillaries-active-pane-region"]',
       },

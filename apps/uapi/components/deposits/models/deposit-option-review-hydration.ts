@@ -12,7 +12,7 @@ import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline
 
 const ADMISSION_SOURCES = new Set([
   "deposit-option-review-admission",
-  // Pre-fix batch rows (never matched /packs); still rehydrate if present.
+  // Pre-fix batch rows (never matched /exchange); still rehydrate if present.
   "deposit-batch-admission",
 ]);
 

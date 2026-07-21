@@ -1,27 +1,27 @@
-# Bitcode AssetPack Execution Notes
+# Bitcode DataPack Execution Notes
 
 Status: non-canonical internal note. Canonical requirements live only in `BITCODE_SPEC_V26.md` and its V26 companion proof/specification family after promotion.
 
 ## Purpose
 
-AssetPack execution is the retained implementation corridor that turns a measured and accepted Read into source-to-shares outputs.
+DataPack execution is the retained implementation corridor that turns a measured and accepted Read into source-to-shares outputs.
 
 The operator-facing product meaning is:
 - Bitcode gathers source, repository scope, attachments, and output destination intent.
 - Bitcode Exchange measures a Read from that evidence.
 - The measured Read is reviewable before fitting.
 - Accepted Reads can search for source-to-shares fit.
-- Implementation produces AssetPack synthesis artifacts and stored AssetPack evidence.
+- Implementation produces DataPack synthesis artifacts and stored DataPack evidence.
 - Finish saves the result and delivers the V26 Shippable through a GitHub pull request.
 
 ## Current Source Carriers
 
 - `apps/uapi/app/executions/*` remains a compatibility execution surface used by the Bitcode.
-- `packages/api/src/routes/shippables.ts` remains the main server execution route while its product meaning is AssetPack execution and PR Shippables.
-- `packages/asset-packs-pipelines/{domain,syntheses/domain,syntheses/deposit,syntheses/read,settle}` is the live layout for AssetPack pipelines (all-3 / both-synths / product co-location); the predecessor package path is no longer an active filesystem owner.
+- `packages/api/src/routes/shippables.ts` remains the main server execution route while its product meaning is DataPack execution and PR Shippables.
+- `packages/asset-packs-pipelines/{domain,syntheses/domain,syntheses/deposit,syntheses/read,settle}` is the live layout for DataPack pipelines (all-3 / both-synths / product co-location); the predecessor package path is no longer an active filesystem owner.
 - `packages/execution-generics/*`, `packages/pipelines-generics/*`, `packages/agent-generics/*`, and `packages/prompts/*` provide the reusable execution, registry, and prompt substrate.
 
-Storage-edge compatibility names are not product vocabulary. Any later SPEC promotion should describe the product as Bitcode Read measurement, fit review, AssetPack synthesis, Finish, and delivery mechanisms.
+Storage-edge compatibility names are not product vocabulary. Any later SPEC promotion should describe the product as Bitcode Read measurement, fit review, DataPack synthesis, Finish, and delivery mechanisms.
 
 ## Product Flow
 
@@ -29,8 +29,8 @@ Storage-edge compatibility names are not product vocabulary. Any later SPEC prom
 2. Read measurement synthesizes a reviewable Read from source evidence.
 3. Read review emits accept, reject, or remeasure-with-feedback state before fitting is admitted.
 4. Fit search ranks candidates with quantized objective qualities visible at review time.
-5. AssetPack synthesis produces code diffs, written assets, proofs, receipts, and settlement metadata.
-6. Finish saves the AssetPack result and calls delivery-mechanism tools only after validation.
+5. DataPack synthesis produces code diffs, written assets, proofs, receipts, and settlement metadata.
+6. Finish saves the DataPack result and calls delivery-mechanism tools only after validation.
 7. Packs and Exchange history reread the same execution, proof, and settlement state.
 
 ## V26 Boundaries
@@ -44,8 +44,8 @@ Storage-edge compatibility names are not product vocabulary. Any later SPEC prom
 ## SPEC Promotion Obligations
 
 When these notes are lifted into canonical specification, the SPEC must state:
-- AssetPacks are the stable output unit.
-- Delivery mechanisms are wrappers over stable AssetPacks, not the stable product object.
+- DataPacks are the stable output unit.
+- Delivery mechanisms are wrappers over stable DataPacks, not the stable product object.
 - Read review is mandatory before fit search.
 - Fit-quality receipts shown at present-fit-for-settlement-review time must be persisted into settlement evidence.
 - Finish is the canonical final SDIVF phase.

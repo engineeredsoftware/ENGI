@@ -13,7 +13,7 @@ Summary types should describe:
 - fit review status,
 - implementation changes,
 - validation issues,
-- AssetPack output,
+- DataPack output,
 - delivery mechanism result,
 - settlement/proof references.
 

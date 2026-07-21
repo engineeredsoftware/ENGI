@@ -17,7 +17,7 @@ The operator supplies or selects:
 Bitcode returns:
 - a measured Read,
 - fit-quality evidence,
-- AssetPack outputs or partials,
+- DataPack outputs or partials,
 - proof and settlement receipts,
 - delivery-mechanism evidence,
 - rereadable Exchange activity.
@@ -30,7 +30,7 @@ Bitcode returns:
 4. Review the measured Read.
 5. Accept, reject, or remeasure with feedback.
 6. Review candidate fit qualities.
-7. Let Bitcode synthesize the AssetPack.
+7. Let Bitcode synthesize the DataPack.
 8. Inspect validation and proof receipts.
 9. Finish by saving and delivering the result through the selected mechanism.
 10. Reread the activity from product, Exchange, API, MCP, or admitted connected interfaces.
@@ -43,7 +43,7 @@ The product must make these boundaries visible:
 - Read review decision,
 - present-fit-for-settlement-review qualities,
 - validation and readiness status,
-- AssetPack contents,
+- DataPack contents,
 - settlement receipt references,
 - delivery destination and result.
 
@@ -54,7 +54,7 @@ Do not present removed compatibility controls as product features. V26 cuts publ
 Use:
 - operator, depositor, reader, producer,
 - Read, Deposit, source, fit, shares,
-- AssetPack, AssetPack partial, connected-interface written asset,
+- DataPack, DataPack partial, connected-interface written asset,
 - Finish, delivery mechanism, settlement evidence,
 - Bitcode, Bitcode Exchange, Bitcode Protocol.
 
@@ -73,5 +73,5 @@ Promote only statements that are implemented or accepted as V26 requirements:
 - fit-quality rows visible before settlement,
 - one Exchange activity ledger,
 - product reread after writes,
-- AssetPack output semantics,
+- DataPack output semantics,
 - server-owned readiness and fail-closed route behavior.

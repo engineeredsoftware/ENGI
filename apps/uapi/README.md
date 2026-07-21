@@ -14,7 +14,7 @@ adapters, and React layers.
 | `/` | Marketing |
 | `/deposits` | Deposit MVP (SynthesizeAssetPacks, option review, admit) |
 | `/reads` | Read path (Need → Fits → settle → delivery) |
-| `/packs` | PackActivity / pipeline history master-detail |
+| `/exchange` | PackActivity / pipeline history master-detail |
 | `/docs` | Public documentation |
 | `/auxillaries/*` | Wallet, Profile, Externals, Interfaces |
 | `/conversations` | Structure retained; full UX deferred post-V48 |

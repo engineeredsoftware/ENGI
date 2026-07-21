@@ -183,7 +183,7 @@ exports.fetchPostprocessed = fetchPostprocessed;
 // On-the-Fly Instructions
 // -----------------------------------------------------------------------------
 /**
- * Fetch on-the-fly instructions for an AssetPack/Shippable-producing run.
+ * Fetch on-the-fly instructions for a AssetPack/Shippable-producing run.
  */
 const fetchShippableInstructions = async (runId) => {
     const response = await fetch(`/api/executions/instructions?runId=${runId}`);
@@ -195,7 +195,7 @@ const fetchShippableInstructions = async (runId) => {
 };
 exports.fetchShippableInstructions = fetchShippableInstructions;
 /**
- * Submit an on-the-fly instruction for an AssetPack/Shippable-producing run.
+ * Submit an on-the-fly instruction for a AssetPack/Shippable-producing run.
  */
 const postShippableInstruction = async (runId, content, attachments) => {
     const response = await fetch('/api/executions/instructions', {

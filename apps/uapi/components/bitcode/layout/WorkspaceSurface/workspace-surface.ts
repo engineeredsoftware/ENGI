@@ -3,7 +3,7 @@ export type PublicShellSurface = 'home' | 'network' | 'deposit' | 'read' | 'docs
 
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
-  // Canonical Exchange; /packs is a compat redirect into Exchange.
+  // Canonical Exchange; /exchange is a compat redirect into Exchange.
   if (pathname.startsWith('/exchange') || pathname.startsWith('/packs')) return 'exchange';
   if (pathname.startsWith('/conversations')) return 'conversations';
   return null;

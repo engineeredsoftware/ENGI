@@ -3,7 +3,7 @@
  * experiences (Exchange, Reads, Deposits).
  *
  * V48 law: launch entrypoints are `/exchange`, `/reads`, `/deposits`.
- * `/packs` remains a compatibility redirect into Exchange (retired product name).
+ * `/exchange` remains a compatibility redirect into Exchange (retired product name).
  * Commodity language **AssetPack** is unchanged and is not a product route name.
  *
  * Shared selection/history models and page shells must import from here (or
@@ -18,9 +18,9 @@ export const EXCHANGE_ROUTE = '/exchange' as const;
 
 /**
  * @deprecated Product name is Exchange. Prefer {@link EXCHANGE_ROUTE}.
- * `/packs` is retained only as a compatibility redirect.
+ * `/exchange` is retained only as a compatibility redirect.
  */
-export const PACKS_ROUTE = '/packs' as const;
+export const PACKS_ROUTE = '/exchange' as const;
 
 /** Reads experience (plural product route). */
 export const READS_ROUTE = '/reads' as const;
@@ -43,7 +43,7 @@ export function buildExchangeHref(
 }
 
 /**
- * @deprecated Prefer {@link buildExchangeHref}. Builds `/packs` only for
+ * @deprecated Prefer {@link buildExchangeHref}. Builds `/exchange` only for
  * rare compat surfaces that must still emit the legacy path.
  */
 export function buildPacksHref(params?: URLSearchParams | string | null): string {

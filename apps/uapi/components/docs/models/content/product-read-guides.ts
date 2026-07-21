@@ -19,7 +19,7 @@ export const PRODUCT_READ_GUIDES = [
     read: 'Selected activity detail',
     location: 'Bitcode',
     tellsYou:
-      'The selected activity identity, source posture, AssetPacks, proof rows, closure state, and related history.',
+      'The selected activity identity, source posture, DataPacks, proof rows, closure state, and related history.',
     expectedResult:
       'You can decide whether to stay at summary level or open exact proof, branch, settlement, or ledger detail.',
   },
@@ -61,7 +61,7 @@ export const PRODUCT_READ_GUIDES = [
     location: 'Closure and provenance',
     tellsYou: PRODUCT_WORKSPACE_EXPLAINERS.closureMap.summary,
     expectedResult:
-      'Read review, verification, branch artifacts, AssetPack settlement, and ledger continuity read as one sequence.',
+      'Read review, verification, branch artifacts, DataPack settlement, and ledger continuity read as one sequence.',
   },
   {
     id: 'proof-runtime',

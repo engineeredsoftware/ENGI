@@ -135,16 +135,16 @@ function formatExecutionHistoryTitle(
   const packActivityType = String(
     context?.packActivityType || context?.activityType || '',
   ).toLowerCase();
-  if (packActivityType === 'settled-assetpack') return 'Settled AssetPack';
-  if (packActivityType === 'depository-assetpack') return 'Depository AssetPack';
+  if (packActivityType === 'settled-assetpack') return 'Settled DataPack';
+  if (packActivityType === 'depository-assetpack') return 'Depository DataPack';
   const source = String(context?.source || '').toLowerCase();
-  if (source === 'read-settle-asset-pack') return 'Settled AssetPack';
-  if (source === 'deposit-option-review-admission') return 'Depository AssetPack';
+  if (source === 'read-settle-asset-pack') return 'Settled DataPack';
+  if (source === 'deposit-option-review-admission') return 'Depository DataPack';
   const normalizedType = String(type || '').trim().toLowerCase();
   if (!normalizedType) return 'Execution activity';
   if (normalizedType.includes('measure')) return 'Read measurement execution';
   if (normalizedType.includes('proof')) return 'Proof execution';
-  if (normalizedType.includes('asset-pack') || normalizedType.includes('shippable')) return 'AssetPack execution';
+  if (normalizedType.includes('asset-pack') || normalizedType.includes('shippable')) return 'DataPack execution';
   if (normalizedType.includes('pipeline')) return 'Pipeline execution';
   return 'Execution activity';
 }
@@ -247,7 +247,7 @@ export function buildBitcodeActivityRecordFromExecutionEvent(
 
 /**
  * Scope taxonomy (V48 Gate 2 specification): globally visible commerce —
- * AssetPacks admitted to the Depository and settled/read AssetPacks — is
+ * DataPacks admitted to the Depository and settled/read DataPacks — is
  * 'network'; the depositor's own work — deposit requests, option syntheses,
  * review decisions including archived options, connected sources — is
  * 'personal'.

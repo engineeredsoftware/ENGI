@@ -49,7 +49,7 @@ const MOCK_CONVERSATIONS: MockConversationRow[] = [
     updated_at: '2026-04-16T12:07:00.000Z',
     message_count: 14,
     attachment_count: 3,
-    last_message: 'Bound the remaining V26 proof layers to conversations, runs, asset packs, and settlement evidence.',
+    last_message: 'Bound the remaining V26 proof layers to conversations, runs, data packs, and settlement evidence.',
   },
   {
     id: 'conv-terminal-convergence',
@@ -191,7 +191,7 @@ function buildMockAssistantReply(content: string) {
     return 'Bitcode mock mode is active. Ask for read measurement, AssetPack execution, source attachment, or settlement-bound output to inspect the fullscreen conversation flow.';
   }
 
-  return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode and can bind source attachments, asset packs, output destinations, and settlement-bound proofs as V26 converges.`;
+  return `Bitcode mock mode received "${normalized}". The conversation surface is now mounted inside the Bitcode and can bind source attachments, data packs, output destinations, and settlement-bound proofs as V26 converges.`;
 }
 
 function deriveConversationTitle(content: string) {

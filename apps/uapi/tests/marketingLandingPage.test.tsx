@@ -70,7 +70,7 @@ describe('MarketingLandingPage', () => {
     expect(
       screen.getByText('Trade technical data on the Bitcode exchange.'),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Buy Packs' })).toHaveAttribute('href', '/reads');
+    expect(screen.getByRole('link', { name: 'Buy DataPacks' })).toHaveAttribute('href', '/reads');
     expect(screen.getByRole('link', { name: 'Sell Source' })).toHaveAttribute(
       'href',
       '/deposits',
@@ -97,10 +97,12 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Source Measurements')).toBeInTheDocument();
     expect(screen.getByText('Absolutes')).toBeInTheDocument();
     expect(screen.getByText('Needinesses')).toBeInTheDocument();
-    expect(screen.getByText("Packs' BTD Volume")).toBeInTheDocument();
+    expect(screen.getByText("Exchange BTD Volume")).toBeInTheDocument();
     expect(screen.getByText('431')).toBeInTheDocument();
     expect(screen.getByText('Source Safety')).toBeInTheDocument();
-    expect(screen.getByText('Crypto · BTD · DataPacks')).toBeInTheDocument();
+    expect(screen.getAllByText('Crypto').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('BTD').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('DataPacks').length).toBeGreaterThan(0);
     expect(screen.getByText(/Mint volume from needinesses/i)).toBeInTheDocument();
     expect(screen.getByText('On-chain')).toBeInTheDocument();
     expect(
@@ -117,13 +119,13 @@ describe('MarketingLandingPage', () => {
         );
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Synthesize Packs')).toBeInTheDocument();
+    expect(screen.getByText('Synthesize DataPacks')).toBeInTheDocument();
     expect(screen.getByText('Review Options')).toBeInTheDocument();
     expect(screen.getByText('Buy Bitcodes')).toBeInTheDocument();
     expect(screen.getAllByText('Deposit').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Read').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Exchange').length).toBeGreaterThan(0);
     expect(document.querySelector('iframe')).toBeNull();
     expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
@@ -150,8 +152,8 @@ describe('MarketingLandingPage', () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText(/Measured/u)).toBeInTheDocument();
-    // Marketing commodity language is DataPacks (system still AssetPack).
-    expect(screen.getAllByText(/DataPacks/u).length).toBeGreaterThan(0);
+    // Marketing commodity language is AssetPacks (system still AssetPack).
+    expect(screen.getAllByText(/AssetPacks/u).length).toBeGreaterThan(0);
     expect(screen.getByText(/delightful user applications/i)).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
@@ -202,8 +204,8 @@ describe('MarketingLandingPage', () => {
         /A DataPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
       ),
     ).toBeInTheDocument();
-    // Claim anchors: * after ERC-1155, ** after Measured, *** after DataPacks
-    // Footnotes: * BTD · ** Measurements · *** DataPack volume.
+    // Claim anchors: * after ERC-1155, ** after Measured, *** after AssetPacks
+    // Footnotes: * BTD · ** Measurements · *** AssetPack volume.
     expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);

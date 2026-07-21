@@ -185,7 +185,7 @@ export default function ExternalsConnectedWorkspace({
               </p>
               <p className="mt-3 text-sm leading-7 text-white/68">
                 These repository attachments define the live scope Bitcode can read when it
-                measures read, synthesizes asset packs, and prepares settlement follow-through.
+                measures read, synthesizes data packs, and prepares settlement follow-through.
                 The current source of truth is {getRepositoryInventorySourceLabel(repositoryInventorySource)}.
               </p>
 

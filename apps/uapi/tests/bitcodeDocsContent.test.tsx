@@ -11,14 +11,14 @@ describe('Bitcode docs content model', () => {
     ];
     const serialized = JSON.stringify(pages);
 
-    expect(serialized).toContain('AssetPack');
+    expect(serialized).toContain('DataPack');
     expect(serialized).toMatch(/BTD.*(volume|rights)/i);
     expect(serialized).toMatch(/BTC settlement/i);
     expect(serialized).toMatch(/proof readback/i);
     expect(serialized).toContain('/deposits');
     expect(serialized).toContain('/reads');
-    expect(serialized).toContain('/packs');
-    expect(serialized).toMatch(/exchange.*compatibility|\/exchange.*\/packs/i);
+    expect(serialized).toContain('/exchange');
+    expect(serialized).toMatch(/exchange.*compatibility|\/exchange.*\/exchange/i);
     expect(serialized).not.toContain(['Source Shares', 'and the Bitcode Exchange'].join(' '));
     expect(serialized).not.toContain(['Map the V26', 'Protocol canon'].join(' '));
     expect(serialized).not.toContain(['V26', 'coverage'].join(' '));
@@ -61,7 +61,7 @@ describe('Bitcode docs content model', () => {
         'bitcode://measure',
         'bitcode://synthesize-asset-packs-for-deposit',
         'bitcode://synthesize-asset-packs-for-reads',
-        'bitcode://packs',
+        'bitcode://exchange',
         'bitcode://auxiliary-profile',
         'bitcode://auxiliary-wallet',
         'bitcode://auxiliary-interfaces',

@@ -24,7 +24,7 @@ export const productActionSections = [
     summary: PRODUCT_WORKSPACE_EXPLAINERS.supplyInventory.summary,
     detail: PRODUCT_WORKSPACE_EXPLAINERS.supplyInventory.detail ?? '',
     reason:
-      'Supply search is the first filter on what permitted source can become AssetPack commodity.',
+      'Supply search is the first filter on what permitted source can become DataPack commodity.',
     points: PRODUCT_WORKSPACE_EXPLAINERS.supplyInventory.points,
   },
   {
@@ -44,7 +44,7 @@ export const productActionSections = [
     summary: PRODUCT_WORKSPACE_EXPLAINERS.closureControls.summary,
     detail: PRODUCT_WORKSPACE_EXPLAINERS.closureControls.detail ?? '',
     reason:
-      'Closure is where reviewable Reading, verification, materialization, proof, and settlement become one consequence chain rereadable on /packs.',
+      'Closure is where reviewable Reading, verification, materialization, proof, and settlement become one consequence chain rereadable on /exchange.',
     points: PRODUCT_WORKSPACE_EXPLAINERS.closureControls.points,
   },
 ] as const satisfies readonly DocsGuideCard[];

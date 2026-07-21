@@ -58,9 +58,9 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
-    'Disabled for launch mode. When enabled, Exchange opens the public activity and AssetPack-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public activity and DataPack-reading surface.',
   packs:
-    'Disabled for launch mode. When enabled, Exchange opens the public activity and AssetPack-reading surface.',
+    'Disabled for launch mode. When enabled, Exchange opens the public activity and DataPack-reading surface.',
   auxillaries:
     'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
   createAccount:
@@ -194,7 +194,7 @@ export default function Nav() {
   const publicSurface = getPublicShellSurface(pathname);
   const usesWorkspaceChrome = navSurface !== null;
   const usesPublicChrome = usesPublicShellChrome(pathname);
-  // getWorkspaceSurface maps /exchange and /packs → 'exchange'.
+  // getWorkspaceSurface maps /exchange and /exchange → 'exchange'.
   const usesProductChrome = usesPublicChrome || navSurface === 'exchange';
   const usesWorkspaceOnlyChrome = usesWorkspaceChrome && !usesProductChrome;
   const profileRecord =
@@ -404,7 +404,7 @@ export default function Nav() {
   const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full min-w-0 flex-wrap items-center gap-1.5 phone:gap-2 tablet:ml-6 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-3 laptop:ml-10 laptop:gap-5">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
-        // Public nav SSOT uses /exchange only; /packs is compat path active state.
+        // Public nav SSOT uses /exchange only; /exchange is compat path active state.
         const isExchangeRoute = href === '/exchange';
         const isDepositRoute = href === '/deposits';
         const isReadRoute = href === '/reads';

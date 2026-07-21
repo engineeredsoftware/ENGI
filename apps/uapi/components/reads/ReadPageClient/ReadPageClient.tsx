@@ -3,7 +3,7 @@
  *
  * Compact header + pipelines table; New (+) opens compose/detail mode with
  * shared DepositSourceSelection (SHA), Need (+ relevant/irrelevant paths),
- * options, settle. Master-detail matches /deposits and /packs (table → detail + Back).
+ * options, settle. Master-detail matches /deposits and /exchange (table → detail + Back).
  */
 
 "use client";

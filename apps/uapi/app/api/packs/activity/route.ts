@@ -18,7 +18,7 @@ import {
   type PackActivityTypeFilter,
 } from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
 import type { BitcodeActivityRecord } from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
-import { isPacksMyTypeFilter } from '@/components/packs/models/packs-format';
+import { isPacksMyTypeFilter } from '@/components/exchange/models/exchange-format';
 
 export const runtime = 'nodejs';
 
@@ -93,7 +93,7 @@ async function readBaseActivity(request: Request, limit: number) {
 /**
  * Globally visible Depository commerce (V48 Gate 2 specification): AssetPacks
  * admitted to the Depository are network-scope rows every account can see on
- * /packs, regardless of which depositor admitted them. Source-safe execution
+ * /exchange, regardless of which depositor admitted them. Source-safe execution
  * projections only; the per-record source-safety assertion still gates the
  * response.
  */
@@ -195,7 +195,7 @@ async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivi
   }
 }
 
-/** Settled read deliveries (settle-asset-pack-pipeline) surface on /packs as settled-assetpack rows. */
+/** Settled read deliveries (settle-asset-pack-pipeline) surface on /exchange as settled-assetpack rows. */
 async function readSettledAssetPackRecords(limit: number): Promise<BitcodeActivityRecord[]> {
   try {
     const { data } = await supabaseAdmin

@@ -2,7 +2,7 @@
 
 Inline widgets for:
 
-`+`: this allows creation of an Evidence Document for live Bitcode feedback and AssetPack evidence review.
+`+`: this allows creation of an Evidence Document for live Bitcode feedback and DataPack evidence review.
 
 
 ## UI

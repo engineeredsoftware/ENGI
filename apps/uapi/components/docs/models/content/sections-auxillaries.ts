@@ -46,7 +46,7 @@ export const auxillariesSections = [
     eyebrow: 'Externals',
     title: 'Externals is source-bearing ingress — not a buried account setting',
     summary:
-      'Externals owns GitHub (and future providers) because repository scope becomes permitted source for measurement, AssetPack synthesis, proof follow-through, and settlement readiness.',
+      'Externals owns GitHub (and future providers) because repository scope becomes permitted source for measurement, DataPack synthesis, proof follow-through, and settlement readiness.',
     detail:
       'A healthy connection read shows pending, connected, reconnect-required, or inventory-only posture. Wallet identity stays in Wallet; repository attachment and provider scope stay in Externals. Read-space knowledge sharing is a separate opt-in after repositories are approved.',
     reason:

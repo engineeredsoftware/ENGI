@@ -99,7 +99,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
                     Compact depot view
                   </p>
                   <p className="mt-1 text-[11px] leading-5 text-emerald-100/62">
-                    The preview keeps DataPacks, source-safe measurements, and settlement posture legible before the full product route opens.
+                    The preview keeps AssetPacks, source-safe measurements, and settlement posture legible before the full product route opens.
                   </p>
                 </div>
                 <span className="inline-flex min-w-[92px] items-center justify-center rounded-none border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
@@ -478,7 +478,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
                   {BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle}
                 </p>
                 <p className="mt-3 text-[14px] leading-6 text-emerald-100/72">
-                  Obfuscated data material is measured, at deposit-time and read-time, to synthesize DataPacks.
+                  Obfuscated data material is measured, at deposit-time and read-time, to synthesize AssetPacks.
                 </p>
                 <div className="mt-4 rounded-none border border-emerald-300/12 bg-emerald-400/6 p-3">
                   <div className="grid gap-3">

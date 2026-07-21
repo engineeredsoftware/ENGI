@@ -12,7 +12,7 @@ The UI should distinguish:
 - Read review,
 - Auxillaries readiness,
 - fit qualities,
-- AssetPack contents,
+- DataPack contents,
 - validation,
 - Finish,
 - delivery mechanism,
@@ -31,11 +31,11 @@ The UI should distinguish:
 - Proof and settlement state must be scan-readable.
 - Disabled or unavailable actions must explain readiness preconditions.
 - Fit qualities must be visible where settlement is reviewed.
-- Delivery mechanisms must not be confused with AssetPack contents.
+- Delivery mechanisms must not be confused with DataPack contents.
 
 ## Style PR Checklist
 
 - Component names expose Bitcode product meaning.
-- Source, Read, fit, AssetPack, proof, and settlement states are visible where relevant.
+- Source, Read, fit, DataPack, proof, and settlement states are visible where relevant.
 - Styling supports Packs and Exchange comprehension instead of hiding execution state.
 - Compatibility component names are wrapped by Bitcode-facing boundaries.

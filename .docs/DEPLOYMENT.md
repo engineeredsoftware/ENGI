@@ -15,7 +15,7 @@ covers contributor onboarding, local development, operator use, enterprise
 reader flows, depositor flows, interface consumers, environment lanes,
 wallet/settlement caveats, known blockers, and rehearsal evidence without
 including secret values, wallet private material, protected source, raw
-protected prompts, or unpaid AssetPack source.
+protected prompts, or unpaid DataPack source.
 
 ## Case Sensitivity (Linux/Vercel) and Casing Fix Scripts
 

@@ -3,10 +3,10 @@ import { buildMockConversationStreamEnvelope } from '@/app/api/conversations/_sh
 describe('conversation mock stream shared helpers', () => {
   it('emits canonical AssetPack execution events and Bitcode write copy', () => {
     const envelope = buildMockConversationStreamEnvelope({
-      content: 'Attach the repository and synthesize the asset pack.',
+      content: 'Attach the repository and synthesize the data pack.',
       tokens: [
         { type: 'attachment', value: 'spec.pdf' },
-        { type: 'asset_pack', value: 'asset pack' },
+        { type: 'asset_pack', value: 'data pack' },
       ],
     });
 
@@ -14,7 +14,7 @@ describe('conversation mock stream shared helpers', () => {
     expect(JSON.stringify(envelope.pipeline?.events)).toMatch(/Mock Bitcode agentic execution/);
     expect(JSON.stringify(envelope.pipeline?.events)).toMatch(/AssetPack execution completed/i);
     expect(envelope.assistantReply).toMatch(
-      /source attachments, asset packs, output destinations, and settlement-bound proofs/i,
+      /source attachments, data packs, output destinations, and settlement-bound proofs/i,
     );
   });
 

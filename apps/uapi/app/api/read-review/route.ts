@@ -290,7 +290,7 @@ async function readJsonBody(request: Request): Promise<Record<string, unknown>> 
 
 function toRouteErrorResponse(error: unknown) {
   const resolved = error instanceof Error ? (error as StatusError) : (new Error('Unknown error.') as StatusError);
-  if (!resolved.statusCode && /No candidates survived into the asset pack/i.test(resolved.message || '')) {
+  if (!resolved.statusCode && /No candidates survived into the data pack/i.test(resolved.message || '')) {
     resolved.statusCode = 409;
   }
   if (!resolved.statusCode && /(Finding Fits|fit search) cannot proceed/i.test(resolved.message || '')) {

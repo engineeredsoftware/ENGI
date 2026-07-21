@@ -16,25 +16,25 @@ import {
 const AUXILLARY_ROUTES = [
   {
     step: 'wallet',
-    path: '/packs?auxillary-open-to=wallet',
+    path: '/exchange?auxillary-open-to=wallet',
     heading: /Wallet Auxillary/i,
     region: /Wallet active support pane/i,
   },
   {
     step: 'externals',
-    path: '/packs?auxillary-open-to=externals',
+    path: '/exchange?auxillary-open-to=externals',
     heading: /Externals Auxillary/i,
     region: /Externals active support pane/i,
   },
   {
     step: 'profile',
-    path: '/packs?auxillary-open-to=profile',
+    path: '/exchange?auxillary-open-to=profile',
     heading: /Profile Auxillary/i,
     region: /Profile active support pane/i,
   },
   {
     step: 'interfaces',
-    path: '/packs?auxillary-open-to=interfaces',
+    path: '/exchange?auxillary-open-to=interfaces',
     heading: /Interfaces Auxillary/i,
     region: /Interfaces active support pane/i,
   },
@@ -68,14 +68,14 @@ test.describe('commercial MVP Auxillaries experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/packs?auxillary-open-to=profile', /Profile Auxillary/i);
+    await openCommercialRoute(page, '/exchange?auxillary-open-to=profile', /Profile Auxillary/i);
     await expect(page.getByRole('region', { name: /Profile active support pane/i })).toBeVisible();
 
-    await openCommercialRoute(page, '/packs?auxillary-open-to=interfaces', /Interfaces Auxillary/i);
+    await openCommercialRoute(page, '/exchange?auxillary-open-to=interfaces', /Interfaces Auxillary/i);
     await expect(page.getByTestId('interfaces-pane-container')).toBeVisible();
     await expect(page.getByTestId('auxillaries-interface-admission-catalog')).toBeVisible();
 
-    await openCommercialRoute(page, '/packs?auxillary-open-to=wallet', /Wallet Auxillary/i);
+    await openCommercialRoute(page, '/exchange?auxillary-open-to=wallet', /Wallet Auxillary/i);
     await expect(page.getByRole('region', { name: /Wallet active support pane/i })).toBeVisible();
 
     await trap.assertClean();
@@ -86,7 +86,7 @@ test.describe('commercial MVP Auxillaries experience', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/packs?auxillary-open-to=profile', /Profile Auxillary/i);
+    await openCommercialRoute(page, '/exchange?auxillary-open-to=profile', /Profile Auxillary/i);
     await expect(page.getByRole('region', { name: /Profile active support pane/i })).toBeVisible();
     await expect(page.getByText('Audit detail')).toBeVisible();
 

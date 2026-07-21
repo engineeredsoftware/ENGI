@@ -7,7 +7,7 @@
 
 import React from "react";
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
-import { ProductSynthesizeAssetPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeAssetPackOptionsButton/ProductSynthesizeAssetPackOptionsButton";
+import { ProductSynthesizeDataPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeDataPackOptionsButton/ProductSynthesizeDataPackOptionsButton";
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import { DEPOSIT_OBFUSCATIONS_PLACEHOLDER } from "@/components/deposits/models/deposit-format";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
@@ -168,7 +168,7 @@ export function DepositObfuscationsPanel(props: DepositObfuscationsPanelProps) {
           workbench.
         </p>
       ) : (
-        <ProductSynthesizeAssetPackOptionsButton
+        <ProductSynthesizeDataPackOptionsButton
           onClick={onSynthesize}
           disabled={!repositoryFullName}
           running={synthesisStatus === "running"}

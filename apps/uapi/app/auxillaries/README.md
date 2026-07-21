@@ -1,14 +1,14 @@
 # Bitcode Auxillaries Overlay
 
 Auxillaries are an overlay, not an application page.
-The active product entry URL is `/packs?auxillary-open-to=<pane>`, which opens the requested pane in the global Auxillaries portal while leaving the product workspace as the application surface.
+The active product entry URL is `/exchange?auxillary-open-to=<pane>`, which opens the requested pane in the global Auxillaries portal while leaving the product workspace as the application surface.
 
 ## Canonical overlay targets
 
-- `/packs?auxillary-open-to=wallet`
-- `/packs?auxillary-open-to=externals`
-- `/packs?auxillary-open-to=interfaces`
-- `/packs?auxillary-open-to=profile`
+- `/exchange?auxillary-open-to=wallet`
+- `/exchange?auxillary-open-to=externals`
+- `/exchange?auxillary-open-to=interfaces`
+- `/exchange?auxillary-open-to=profile`
 
 The `/auxillaries/*` and `/orbitals/*` route families are redirect-only support paths.
 They must never render standalone Auxillaries HTML or the retired left-sidebar workspace chrome.
@@ -47,7 +47,7 @@ Legacy `/auxillaries/btd` and `/auxillaries/connects` aliases redirect into the 
 
 ## Canonical rule
 
-User-facing route and HTML posture should prefer `/packs?auxillary-open-to=<pane>`.
+User-facing route and HTML posture should prefer `/exchange?auxillary-open-to=<pane>`.
 Active product code should also prefer `/api/auxillaries/*`.
 `/auxillaries/*`, `/orbitals/*`, and `/api/orbitals/*` are redirect/support carriers only and should be retired entirely before fully commercial canon closure.
 

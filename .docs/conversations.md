@@ -20,7 +20,7 @@ numbers, redaction posture, and proof roots. `ConversationTelemetryProofHooks`
 bind those rows to source-safe dashboard panels, runbook ids, correlation ids,
 and telemetry roots. Expanded metadata is source-safe: raw protected prompts,
 raw provider responses, protected source payloads, provider tokens, wallet
-private material, settlement private payloads, and unpaid AssetPack source are
+private material, settlement private payloads, and unpaid DataPack source are
 never valid conversation telemetry payloads.
 
 ## Telemetry Proof Hooks
@@ -30,7 +30,7 @@ selector, product handoff, retry, error, and completion event families. Each
 hook may expose only source-safe ids, counts, state enums, proof roots,
 dashboard panel ids, runbook ids, and redacted error classes. Operators use
 the dashboard and runbook ids to debug health without seeing protected source,
-unpaid AssetPack source, wallet private material, provider tokens, or private
+unpaid DataPack source, wallet private material, provider tokens, or private
 settlement payloads.
 
 ## Local And Staging Rehearsal
@@ -50,7 +50,7 @@ roots, telemetry roots, source-safe screenshot/log roots, validation command
 names, and summary counts. It may not expose protected source, raw protected
 prompts, raw provider responses, provider tokens, wallet private material,
 settlement private payloads, ledger write authority, wallet signing authority,
-or unpaid AssetPack source.
+or unpaid DataPack source.
 
 ## Tools And Source Context
 
@@ -62,7 +62,7 @@ storage, export, or incident repair.
 ## Source Selection
 
 Source selectors may preview repositories, branches, commits, deposits, BTD
-ranges, AssetPack previews, documents, and prior conversations. Selectors carry
+ranges, DataPack previews, documents, and prior conversations. Selectors carry
 policy state, rights posture, and source-safe reference summaries only. They do
 not grant source visibility or BTD rights.
 

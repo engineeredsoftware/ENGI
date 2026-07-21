@@ -12,7 +12,7 @@ Fifth-gate remains focused on:
 - broad non-Bitcode reform baseline,
 - Read review before fit search,
 - fit-quality receipts,
-- AssetPack outputs,
+- DataPack outputs,
 - internal-only computer-use Read-measurement admission,
 - removal of orchestration and output-selection operator controls.
 

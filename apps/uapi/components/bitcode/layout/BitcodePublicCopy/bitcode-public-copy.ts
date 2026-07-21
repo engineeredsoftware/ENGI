@@ -7,8 +7,8 @@ export const BITCODE_PUBLIC_COPY = {
   eyebrow: 'Knowledge Exchange Made Possible',
   headline: "Trade technical data on the Bitcode exchange.",
   /**
-   * Marketing landing uses DataPack(s) commodity language.
-   * Product UI / system identifiers still say AssetPack until a thorough rename.
+   * Marketing + product chrome: DataPack commodity language.
+   * Domain packages / wire types may still use DataPack identifiers.
    */
   description:
     'The stock market for data is here. Mint, find, and trade DataPacks in just a few clicks. Ironclad IP protection. A global, liquid market. Verifiable, on-chain settlement.',
@@ -21,13 +21,13 @@ export const BITCODE_PUBLIC_COPY = {
     { text: 'settlement', tone: 'orange' as const },
   ],
   capabilityChips: [
-    'Synthesize Packs',
+    'Synthesize DataPacks',
     'Review Options',
     'Buy Bitcodes',
   ],
   primaryCta: {
     href: '/reads',
-    label: 'Buy Packs',
+    label: 'Buy DataPacks',
   },
   secondaryCta: {
     href: '/deposits',
@@ -64,7 +64,7 @@ export const BITCODE_PUBLIC_COPY = {
         meta: 'April 2026',
         body:
           'April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD product along with documentation on the internals and interfaces of the ecosystem.',
-        highlights: ['$BTD', 'Bitcode Protocol', 'Packs'],
+        highlights: ['$BTD', 'Bitcode Protocol', 'Exchange'],
       },
       {
         id: 'march-2026',
@@ -152,8 +152,8 @@ export const BITCODE_PUBLIC_COPY = {
     title: 'Marketplace',
     // Rendered as flex segments + middle-dot bullets (not claim-anchor *).
     subtitleParts: ['Sell Supplies', 'Buys Reads', 'Settle Proofs'] as const,
-    badge: 'Packs',
-    modes: ['Packs', 'Deposit', 'Read', 'Proofs'],
+    badge: 'Exchange',
+    modes: ['Exchange', 'Deposit', 'Read', 'Proofs'],
   },
   giveContribution: {
     title: 'Selling Knowledge',
@@ -211,7 +211,7 @@ export const BITCODE_PUBLIC_COPY = {
   },
   publicNav: {
     // Product order: Read → Exchange → Deposit. Docs lives under the logo-area.
-    // Experience name is Exchange (retired: Packs). Marketing: DataPack; system: AssetPack.
+    // Experience name is Exchange (retired: Packs). Marketing: DataPack; system: DataPack.
     links: [
       { href: '/reads', label: 'Read' },
       { href: '/exchange', label: 'Exchange' },

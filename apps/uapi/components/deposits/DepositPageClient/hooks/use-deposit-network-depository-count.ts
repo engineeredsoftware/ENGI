@@ -1,5 +1,5 @@
 /**
- * Network-visible Depository AssetPack count for the deposit header metric.
+ * Network-visible Depository DataPack count for the deposit header metric.
  * Source-safe aggregate only — never individual pack source content.
  */
 "use client";

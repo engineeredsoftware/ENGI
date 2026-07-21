@@ -193,7 +193,7 @@ describe('Nav public shell', () => {
 
     render(<Nav />);
 
-    // Workspace surface for Exchange (compat /packs also maps here).
+    // Workspace surface for Exchange (compat /exchange also maps here).
     expect(screen.getByText(/Brand (packs|exchange|network)/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
     expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('aria-current', 'page');

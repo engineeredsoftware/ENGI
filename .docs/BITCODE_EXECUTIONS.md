@@ -4,7 +4,7 @@ Status: non-canonical internal note.
 
 ## Meaning
 
-An execution is a proof-bearing Bitcode inference run. It may measure a Read, synthesize an AssetPack, deliver a connected-interface written asset, or perform another specified Bitcode action.
+An execution is a proof-bearing Bitcode inference run. It may measure a Read, synthesize a DataPack, deliver a connected-interface written asset, or perform another specified Bitcode action.
 
 Executions are not generic work items. They are source-to-shares procedures with explicit input, phase, state, output, and proof boundaries.
 
@@ -16,7 +16,7 @@ The product execution surface should show:
 - fit-review quality rows,
 - phase and agent progress,
 - validation and readiness decisions,
-- saved AssetPack output,
+- saved DataPack output,
 - delivery-mechanism evidence,
 - proof and settlement receipts.
 
@@ -32,7 +32,7 @@ Current source routes and components include:
 - `packages/asset-packs-pipelines/settle/*`
 - execution history and event readers in `apps/uapi/app/api/executions/history/*`
 
-Storage-edge compatibility names may remain behind explicit translation, but internal docs and SPEC promotion should use Bitcode execution, AssetPack execution, Read measurement, fit review, and Finish.
+Storage-edge compatibility names may remain behind explicit translation, but internal docs and SPEC promotion should use Bitcode execution, DataPack execution, Read measurement, fit review, and Finish.
 
 ## Operator Decisions
 
@@ -43,15 +43,15 @@ Operators should be able to:
 - review present fit qualities,
 - inspect settlement receipts,
 - choose or confirm delivery destinations where allowed,
-- reread the final AssetPack and delivery evidence.
+- reread the final DataPack and delivery evidence.
 
 ## Open Reform Requirements
 
 - Replace work-item-first labels with Read-first labels.
-- Replace output-object-first labels with AssetPack or written-asset labels.
+- Replace output-object-first labels with DataPack or written-asset labels.
 - Replace pre-Finish labels with Finish and delivery-mechanism labels.
 - Keep computer-use hidden unless the server admits it internally for Read measurement.
-- Ensure all execution UI reads from the same Exchange activity model as `/packs`.
+- Ensure all execution UI reads from the same Exchange activity model as `/exchange`.
 
 ## Stream telemetry vs product terminal (synthesis runs)
 

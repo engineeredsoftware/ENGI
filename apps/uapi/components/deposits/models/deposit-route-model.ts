@@ -228,7 +228,7 @@ export function buildDepositRouteSession(
     demandUnestimatable: settledDemand.estimatable === false,
     demandUnestimatableRationale:
       input.settledDemandEstimate?.rationale ||
-      "Unestimatable: settled Depository AssetPack demand has not been measured.",
+      "Unestimatable: settled Depository DataPack demand has not been measured.",
     settledDemand: settledDemand.demand,
     settledPackCount: input.settledDemandEstimate?.settledPackCount ?? null,
   });

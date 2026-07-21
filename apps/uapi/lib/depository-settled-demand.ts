@@ -1,5 +1,5 @@
 /**
- * Load settled / admitted Depository AssetPacks and estimate demand for deposit
+ * Load settled / admitted Depository DataPacks and estimate demand for deposit
  * earnings (source-safe metadata only).
  *
  * Also maps packs into DepositoryAsset shape for Discovery search (lexical +

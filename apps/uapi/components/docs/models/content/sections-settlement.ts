@@ -7,16 +7,16 @@ export const settlementSections = [
   {
     id: 'btd-accounting',
     eyebrow: 'BTD and BTC',
-    title: 'Settlement turns accepted AssetPack evidence into exact, rereadable accounting',
+    title: 'Settlement turns accepted DataPack evidence into exact, rereadable accounting',
     summary:
       'BTD records knowledge volume and rights from contribution, needs-fits measurement, participation, and proof posture. Bitcoin is settlement money: it pays the quote and unlocks rights transfer only after finality.',
     detail:
       'User-facing truth is simple: measured knowledge can become attributable pack value. Protocol truth is strict: volume conservation, fit-quality receipts, journals, finality, rights transfer, and policy-bound execution must agree. Settlement is proven on a fully open-source, decentralized, and auditable ledger — not by a UI success state alone.',
     reason:
-      'Settlement is where AssetPacks become economically meaningful instead of only technically interesting.',
+      'Settlement is where DataPacks become economically meaningful instead of only technically interesting.',
     points: [
       'Needs-fits quality affects BTD volume posture and BTC quote posture.',
-      'Journals and receipts make allocation rereadable on /packs.',
+      'Journals and receipts make allocation rereadable on /exchange.',
       'Wallet readiness, BTC finality, and BTD rights decide whether delivery may unlock.',
     ],
   },

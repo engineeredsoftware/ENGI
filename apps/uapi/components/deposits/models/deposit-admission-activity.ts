@@ -1,5 +1,5 @@
 /**
- * Build per-option deposit admission ledger payloads for /packs projection.
+ * Build per-option deposit admission ledger payloads for /exchange projection.
  *
  * One admitted AssetPack = one execution row. Never embed the full session
  * admission report (candidateCount / admittedCount / report roots) — those are
@@ -12,7 +12,7 @@ import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/m
 import {
   ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS,
   type AbsoluteMeasurementKind,
-} from "@/components/packs/models/packs-measurement-descriptors";
+} from "@/components/exchange/models/exchange-measurement-descriptors";
 
 /** Absolute measurement row projected onto pack activity (source-safe). */
 export type DepositAdmissionAbsoluteMeasurement = {
@@ -165,7 +165,7 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       compensationState: receipt.compensationPreview.state,
       packActivitySyncState: receipt.packsActivitySync.state,
       packsActivityRoot: receipt.packsActivitySync.activityRoot,
-      // Absolute material-property catalog for /packs chips + detail
+      // Absolute material-property catalog for /exchange chips + detail
       measurements: absolutes,
       absolutes,
       // Unsettled commercial value: absolute-derived BTD estimate (not minted)
@@ -178,7 +178,7 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       contentsRoot: option?.roots.contentsRoot || null,
       admissionReceiptRoot: receipt.roots.admissionReceiptRoot,
       packsActivityRootProof: receipt.roots.packsActivityRoot,
-      // No patch / fileChanges on network /packs projection (source-safety).
+      // No patch / fileChanges on network /exchange projection (source-safety).
       sourceBinding: option
         ? {
             repositoryFullName: option.sourceBinding.repositoryFullName,

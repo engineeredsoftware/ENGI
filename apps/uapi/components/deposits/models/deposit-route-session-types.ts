@@ -43,7 +43,7 @@ export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest 
   precomputedOptionSynthesis?: DepositAssetPackOptionSynthesis | null;
   sourceCriticalitySignals?: DepositOptionCriticalitySignal[] | null;
   unfitNeedOpportunitySignals?: DepositOptionDemandSignal[] | null;
-  /** Settled Depository AssetPack demand estimate (search-grounded). */
+  /** Settled Depository DataPack demand estimate (search-grounded). */
   settledDemandEstimate?: {
     estimatable: boolean;
     demand: number | null;
@@ -141,7 +141,7 @@ export const DEPOSIT_ROUTE_STEPS: Array<{
   },
   {
     id: "synthesize-options",
-    label: "Synthesize AssetPack options",
+    label: "Synthesize DataPack options",
     lowDetailGuidance:
       "Use source-safe repository context plus demand signals to propose multiple options.",
   },

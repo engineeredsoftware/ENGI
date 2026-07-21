@@ -1,4 +1,4 @@
-# AssetPacks
+# DataPacks
 
 **Status:** Non-canonical companion / orientation guide for humans and agents.  
 **Not rebuild law.** Complete Implementation Derivability lives **only** in the
@@ -11,13 +11,13 @@ diverge, **SPEC wins**.
 | File | Role |
 |------|------|
 | `BITCODE_SPEC.txt` | Active version pointer (promoted on `main`) |
-| `BITCODE_SPEC_V48.md` | Draft full-system SPEC — AssetPack + deposit SDIVF law in § measurement + § Gate 3 |
+| `BITCODE_SPEC_V48.md` | Draft full-system SPEC — DataPack + deposit SDIVF law in § measurement + § Gate 3 |
 | `BITCODE_SPEC_V48_NOTES.md` | Architecture intent / simplified reading (weaker than SPEC) |
 | `BITCODE_SPEC_V48_DELTA.md` | Version decisions |
 | `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ implementation ↔ test audit |
 | `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix |
 
-This document **summarizes** what an AssetPack is and how deposit options are
+This document **summarizes** what a DataPack is and how deposit options are
 synthesized for readability. Every normative claim must also appear in
 `BITCODE_SPEC_V48.md` (especially Gate 3 G3-1…G3-15 and measurement law).
 
@@ -29,14 +29,14 @@ synthesized for readability. Every normative claim must also appear in
 
 ---
 
-## 1. What an AssetPack is
+## 1. What a DataPack is
 
-An **AssetPack** is always a **completely synthesized artifact** — never a bare inventory slice and never raw source.
+An **DataPack** is always a **completely synthesized artifact** — never a bare inventory slice and never raw source.
 
 ### 1.1 Canonical product shape
 
 ```
-AssetPack = patch + measurements + metadata
+DataPack = patch + measurements + metadata
 ```
 
 | Element | Meaning | Deposit notes |
@@ -48,12 +48,12 @@ AssetPack = patch + measurements + metadata
 Hierarchy in code:
 
 ```
-AssetPack (primitive, @bitcode/asset-packs-generics)
-  └── SynthesisAssetPack (@bitcode/generic-asset-packs-synthesis)
+DataPack (primitive, @bitcode/asset-packs-generics)
+  └── SynthesisDataPack (@bitcode/generic-asset-packs-synthesis)
         └── Deposit option / selection-envelope row / durable artifact projection
 ```
 
-`SynthesisAssetPack` carries protocol identity, source binding, path+op patch, absolute (and optional neediness) measurements, and **provenant source paths** (depositor-owned path list — still no raw source blobs in the commercial object).
+`SynthesisDataPack` carries protocol identity, source binding, path+op patch, absolute (and optional neediness) measurements, and **provenant source paths** (depositor-owned path list — still no raw source blobs in the commercial object).
 
 ### 1.2 Deposit option kinds (v0)
 
@@ -78,9 +78,9 @@ These are commercially legible **knowledge groups**, not file dumps.
 | | **Deposit** (this document’s focus) | **Read** (later section outline) |
 |--|-------------------------------------|----------------------------------|
 | Input | Depositor repository + Obfuscations + Forced In/Exclusions + demand context | Reader Need + depository supply |
-| AssetPack base | Measured patch against the **depositing** repo | Measured patch against the **reading** repo, built from fitted deposited packs |
+| DataPack base | Measured patch against the **depositing** repo | Measured patch against the **reading** repo, built from fitted deposited packs |
 | Measurements | **Absolutes** (+ optional neediness **preview**) | Absolutes **+** fit/relative measurements (BTD from fit-only family) |
-| Finish | Store options for **/deposits** review selection | Settle / deliver for the Need (SettleAssetPack / shippables — later) |
+| Finish | Store options for **/deposits** review selection | Settle / deliver for the Need (SettleDataPack / shippables — later) |
 
 ---
 
@@ -160,14 +160,14 @@ Each formal absolute roughly:
 | Phase | Measurement role |
 |-------|------------------|
 | **Discovery `comprehend-codebase`** | Measures **Host checkout material** (checkout-wide absolutes → `discovery:sourceMeasurements`) to ground the knowledge map |
-| **Implementation** | After PTRR: attaches **per-option** `absolutes[]` (Discovery measurements and/or `measureAssetPackAbsolutes` on the pack descriptor + sources) |
+| **Implementation** | After PTRR: attaches **per-option** `absolutes[]` (Discovery measurements and/or `measureDataPackAbsolutes` on the pack descriptor + sources) |
 | **Validation ready-to-finish** | **Requires** absolutes; may backfill if missing; fails quality if still empty |
 | **LLM agents** | Never invent absolute volumes in options JSON |
 
 Stack:
 
 1. **`SourceStaticAnalysisTool`** — deterministic quantity signal from samples/sources.  
-2. **`measureAssetPackAbsolutes` / SynthesizeAssetPacksAbsolutesMeasureAgent** — quality volumes grounded in quantity + source-safe descriptor.  
+2. **`measureDataPackAbsolutes` / SynthesizeDataPacksAbsolutesMeasureAgent** — quality volumes grounded in quantity + source-safe descriptor.  
 3. Merge: quantity kinds tool-authoritative; quality from agent with deterministic fallback.
 
 ### 2.4 Needinesses (read-only measurement KIND)
@@ -179,9 +179,9 @@ measurement law and `@bitcode/generic-measurements-needinesses`.
 
 ---
 
-## 3. Depositing: synthesizing AssetPack **options**
+## 3. Depositing: synthesizing DataPack **options**
 
-Product pipeline name: **SynthesizeDepositAssetPacks** (SDIVF).
+Product pipeline name: **SynthesizeDepositDataPacks** (SDIVF).
 
 ```
 Host provision / preprocess
@@ -308,11 +308,11 @@ Three **distinct agents/procedures** — not “lenses.” Together they answer:
 
 ### 5.1 `discovery:comprehend-codebase` — confident codebase comprehension
 
-**Goal:** Build enough structure-aware, measured, source-safe understanding to **find the right knowledge groups** for AssetPacks.
+**Goal:** Build enough structure-aware, measured, source-safe understanding to **find the right knowledge groups** for DataPacks.
 
 #### Gathered evidence (host-side, before/around PTRR)
 
-1. **Absolute measurements** of checkout material (`measureAssetPackAbsolutes` over Host-loaded bodies) → `discovery:sourceMeasurements`  
+1. **Absolute measurements** of checkout material (`measureDataPackAbsolutes` over Host-loaded bodies) → `discovery:sourceMeasurements`  
 2. **LSP queries** when registered (`lsp-query`: workspace/document symbols, …)  
 3. **Full file-tree structure** from `sourceCheckoutCatalog.paths` (`buildFileTreeStructure`: top-level dirs/files, dir children, extension histogram)  
 4. **Key file reads** (bounded set: README, package manifests, config roots, high-signal paths; content capped for prompts)
@@ -413,9 +413,9 @@ telemetry); `embedding-config.test.ts` (384/gte-small); `depositoryIndexJob.test
 
 | | |
 |--|--|
-| **Objective** | Synthesize **2–4** distinct AssetPack candidates as digital material |
+| **Objective** | Synthesize **2–4** distinct DataPack candidates as digital material |
 | **LLM produces** | Patch descriptors + metadata + optional needinessSignal |
-| **Host attaches** | `absolutes[]` per option; materializes path+op via **AssetPackPatchWriteTool** |
+| **Host attaches** | `absolutes[]` per option; materializes path+op via **DataPackPatchWriteTool** |
 
 #### Prompt parts (`deposit-asset-pack-synthesis-prompts.ts`)
 
@@ -703,7 +703,7 @@ Depositor UI (/deposits)
 
 ---
 
-## 13. Reading: synthesizing AssetPack options (deposit twin)
+## 13. Reading: synthesizing DataPack options (deposit twin)
 
 **Canon:** `BITCODE_SPEC_V48.md` §G4. Product package:
 `@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs`.
@@ -715,12 +715,12 @@ Depositor UI (/deposits)
 | Measurements | `absolutes` + `needinesses` (every neediness kind ends with **`-fit`**; static catalogue + dynamic from Need; **need-fit** = weighted mean) |
 | API | `POST /api/read/synthesize-options` |
 | UI | `/reads` master-detail + option review (deposit twin) |
-| After select | **settle-asset-pack-pipeline** Simple (not SDIVF), **1:1 per bought option**: settle-btc → mint-btd (needinesses scalar → master) → settle-btd (master→buyer) → settle-asset-pack (ERC1155 co-own) → **PR** → `/packs` |
+| After select | **settle-asset-pack-pipeline** Simple (not SDIVF), **1:1 per bought option**: settle-btc → mint-btd (needinesses scalar → master) → settle-btd (master→buyer) → settle-asset-pack (ERC1155 co-own) → **PR** → `/exchange` |
 
-## 14. SettleAssetPack (not a synthesize pipeline)
+## 14. SettleDataPack (not a synthesize pipeline)
 
 Linear stages: validate → observe BTC finality → mint BTD / transfer rights →
-ship AssetPack patch PR → journal PackActivity. Package:
+ship DataPack patch PR → journal PackActivity. Package:
 `@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack`.
 
 ---
@@ -747,7 +747,7 @@ ship AssetPack patch PR → journal PackActivity. Package:
 
 | Term | Definition |
 |------|------------|
-| **AssetPack** | Completely synthesized artifact = patch + measurements + metadata |
+| **DataPack** | Completely synthesized artifact = patch + measurements + metadata |
 | **Absolute** | Intrinsic material property (quantity/quality); shared catalog |
 | **Neediness** | Deposit-side preview of read demand (not an absolute) |
 | **sourceCheckoutCatalog** | This-run Host path/sample/source material index |

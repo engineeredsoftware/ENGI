@@ -309,7 +309,7 @@ NEXT_PUBLIC_MASTER_MOCK_MODE=true
 NEXT_PUBLIC_MOCK_SCENARIO=demo
 ```
 
-### Step 2: Update Your Main AssetPacks Route
+### Step 2: Update Your Main DataPacks Route
 ```typescript
 // /api/assetPacks/route.ts
 import { mockAreas } from '@/mocking';

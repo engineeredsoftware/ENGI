@@ -12,7 +12,7 @@ messages, streams, tools, source selectors, product handoffs, retries,
 errors, and completions emit source-safe dashboard and runbook telemetry.
 Those hooks expose ids, counts, states, redacted error classes, and proof
 roots only; they do not expose protected prompts, protected source, unpaid
-AssetPack source, wallet private material, provider tokens, or settlement
+DataPack source, wallet private material, provider tokens, or settlement
 private payloads.
 V37 Gate 9 adds `ConversationRehearsal` so local and staging-testnet
 conversation flows are promotion-rehearsed before V37 closure. Local and
@@ -32,7 +32,7 @@ Conversations can:
 - attach files, URLs, repository references, and connected-interface context,
 - start or continue Bitcode executions,
 - show execution state and proof receipts,
-- route final AssetPacks to delivery mechanisms,
+- route final DataPacks to delivery mechanisms,
 - reread persisted state.
 
 Conversations must not:
@@ -46,7 +46,7 @@ Conversations must not:
 
 If conversation shortcuts exist, they should name Bitcode concepts:
 - `/read` for measured Read creation,
-- `/asset-pack` for AssetPack synthesis,
+- `/asset-pack` for DataPack synthesis,
 - `/fit-review` for fit-quality review,
 - `/delivery` for destination and delivery-mechanism state,
 - `/proof` for proof and settlement receipts.

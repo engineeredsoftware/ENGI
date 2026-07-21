@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import PublicShellFrame from '@/components/marketing/PublicShellFrame/PublicShellFrame';
-import PacksPageClient from '@/components/packs/PacksPageClient/PacksPageClient';
+import ExchangePageClient from '@/components/exchange/ExchangePageClient/ExchangePageClient';
 import { EXCHANGE_ROUTE } from '@/components/bitcode/routes/ProductRoutes/product-routes';
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default function ExchangePage() {
           </main>
         }
       >
-        <PacksPageClient />
+        <ExchangePageClient />
       </Suspense>
     </PublicShellFrame>
   );

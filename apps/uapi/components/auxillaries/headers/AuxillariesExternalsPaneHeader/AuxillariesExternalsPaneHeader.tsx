@@ -11,13 +11,13 @@ export default function AuxillariesExternalsPaneHeader({
       title="Externals Auxillary"
       completedTitle="Externals Auxillary"
       description={!isOnboardingComplete
-        ? 'Connect GitHub after wallet identity so Bitcode can measure read, synthesize asset packs, and settle against live repositories.'
+        ? 'Connect GitHub after wallet identity so Bitcode can measure read, synthesize data packs, and settle against live repositories.'
         : 'Manage GitHub and future non-wallet third-party connections from one auxillary.'}
       stepNumber={2}
       isOnboardingComplete={isOnboardingComplete}
       showInfoBox
       infoTitle="Connect external systems"
-      infoDescription="Attach GitHub and future VCS providers so Bitcode can read source context, measure read, synthesize asset packs, and stay aligned with your live workflow."
+      infoDescription="Attach GitHub and future VCS providers so Bitcode can read source context, measure read, synthesize data packs, and stay aligned with your live workflow."
     />
   );
 }

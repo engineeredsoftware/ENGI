@@ -30,23 +30,23 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Start here',
     title: 'What Bitcode is',
     summary:
-      'Begin with the map: what AssetPacks are, how BTD volume and rights work, why Bitcoin settles value, and where Packs, Deposit, Read, Protocol, and interfaces fit.',
+      'Begin with the map: what DataPacks are, how BTD volume and rights work, why Bitcoin settles value, and where Packs, Deposit, Read, Protocol, and interfaces fit.',
     detail:
-      'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before /deposits, /reads, /packs, proof, and interface pages.',
+      'This is the first page for readers who know nothing about Bitcode. It keeps the model plain before /deposits, /reads, /exchange, proof, and interface pages.',
     learningOutcome:
       'You can explain Bitcode as a market for measured technical knowledge and name the major product surfaces without reading implementation history.',
-    primaryCta: { href: '/docs/source-shares', label: 'Continue to AssetPacks' },
+    primaryCta: { href: '/docs/source-shares', label: 'Continue to DataPacks' },
     sections: whatIsBitcodeSections,
     embeddedUi: [
       {
         id: 'product-surfaces',
         eyebrow: 'Component vocabulary',
-        title: '/deposits, /reads, /packs, Protocol, interfaces',
+        title: '/deposits, /reads, /exchange, Protocol, interfaces',
         summary:
           'The docs use the same card and explainer pattern as the product routes so the mental model transfers into the commercial surfaces.',
         explainer: PRODUCT_WORKSPACE_EXPLAINERS.experienceMap,
         signals: [
-          { label: 'Packs', value: 'Activity and proof readback', tone: 'emerald' },
+          { label: 'Exchange', value: 'Activity and proof readback', tone: 'emerald' },
           { label: 'Read/Deposit', value: 'User paths', tone: 'cyan' },
           { label: 'Protocol', value: 'Rules and proofs', tone: 'amber' },
         ],
@@ -61,21 +61,21 @@ export const BITCODE_DOCS_PAGES = [
   docsPage({
     slug: 'source-shares',
     chapterId: 'start',
-    eyebrow: 'AssetPacks',
-    title: 'AssetPacks, BTD, and the Bitcode activity ledger',
+    eyebrow: 'DataPacks',
+    title: 'DataPacks, BTD, and the Bitcode activity ledger',
     summary:
-      'Learn the value model first: Bitcode measures technical source into AssetPacks, BTD scalar volume and rights, and BTC-settled delivery.',
+      'Learn the value model first: Bitcode measures technical source into DataPacks, BTD scalar volume and rights, and BTC-settled delivery.',
     detail:
       'This guide is for first-time readers who read the simple model before using the product routes: source supply comes in, demand is measured, fit and proofs decide what can move, and settlement makes attribution readable.',
     learningOutcome:
-      'You can describe an AssetPack, identify what gets measured, and understand why proof-backed BTC settlement and BTD rights matter.',
+      'You can describe a DataPack, identify what gets measured, and understand why proof-backed BTC settlement and BTD rights matter.',
     primaryCta: { href: '/docs/exchange', label: 'Read compatibility guide' },
     sections: sourceSharesSections,
     embeddedUi: [
       {
         id: 'source-share-flow',
         eyebrow: 'Product specimen',
-        title: 'AssetPack status card',
+        title: 'DataPack status card',
         summary:
           'This mirrors the compact status cards used on product routes: supply, Read, fit, and proof as related signals.',
         explainer: PRODUCT_WORKSPACE_EXPLAINERS.supplyFit,
@@ -91,13 +91,13 @@ export const BITCODE_DOCS_PAGES = [
     slug: 'exchange',
     chapterId: 'experiences',
     eyebrow: 'Exchange',
-    title: 'Understand Exchange activity and /packs compatibility',
+    title: 'Understand Exchange activity and /exchange compatibility',
     summary:
-      '/exchange is the durable activity, persistence, proof, settlement, compensation, delivery, and repair readback surface. /packs remains a compatibility redirect into Exchange.',
+      '/exchange is the durable activity, persistence, proof, settlement, compensation, delivery, and repair readback surface. /exchange remains a compatibility redirect into Exchange.',
     detail:
-      'Use this page after AssetPacks are clear. It explains why bounded actions must reread proof-backed activity before users trust the result.',
+      'Use this page after DataPacks are clear. It explains why bounded actions must reread proof-backed activity before users trust the result.',
     learningOutcome:
-      'You can explain why Exchange is the reread surface and why /packs only survives as a compatibility path into that state.',
+      'You can explain why Exchange is the reread surface and why /exchange only survives as a compatibility path into that state.',
     primaryCta: { href: '/exchange', label: 'Open Exchange' },
     sections: exchangeSections,
     embeddedUi: [
@@ -106,7 +106,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Embedded Exchange card',
         title: 'Exchange activity master-detail',
         summary:
-          '/exchange uses a master-detail pattern: searchable activity rows as the master, selected AssetPack/proof/history state as detail.',
+          '/exchange uses a master-detail pattern: searchable activity rows as the master, selected DataPack/proof/history state as detail.',
         explainer: PRODUCT_INLINE_EXPLAINERS.readWindow,
         signals: [
           { label: 'Search', value: 'Query-owned ledger', tone: 'default' },
@@ -140,7 +140,7 @@ export const BITCODE_DOCS_PAGES = [
         signals: [
           { label: 'Scenario', value: 'Read frame', tone: 'emerald' },
           { label: 'Projection', value: 'Read posture', tone: 'cyan' },
-          { label: 'Branch mode', value: 'AssetPack execution', tone: 'amber' },
+          { label: 'Branch mode', value: 'DataPack execution', tone: 'amber' },
         ],
         steps: [
           { label: 'Set', body: 'Choose the operating frame before closure.' },
@@ -185,7 +185,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Read guide',
     title: 'Reads, proofs, readiness, and expected results',
     summary:
-      'Know what each read surface is supposed to prove before you trust a Bitcode activity, AssetPack, settlement, or ledger state.',
+      'Know what each read surface is supposed to prove before you trust a Bitcode activity, DataPack, settlement, or ledger state.',
     detail:
       'This page is for experienced users auditing the result of Bitcode work. It separates quick operating signals from exact proof and closure follow-through.',
     learningOutcome:
@@ -243,11 +243,11 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Conversations',
     title: 'Use Conversations as a rich Bitcode write surface',
     summary:
-      'Conversations provide ChatGPT-like drafting and coordination while preserving route-backed source attachments, output destinations, AssetPack references, and Read-measurement intent.',
+      'Conversations provide ChatGPT-like drafting and coordination while preserving route-backed source attachments, output destinations, DataPack references, and Read-measurement intent.',
     detail:
-      'This page explains how natural-language work stays compatible with AssetPack proof instead of becoming untracked chat residue.',
+      'This page explains how natural-language work stays compatible with DataPack proof instead of becoming untracked chat residue.',
     learningOutcome:
-      'You can explain how conversation writes become /packs-readable evidence and why attachments must be structured.',
+      'You can explain how conversation writes become /exchange-readable evidence and why attachments must be structured.',
     primaryCta: { href: '/docs/chatgpt-app', label: 'Compare ChatGPT App interface' },
     sections: conversationsSections,
     embeddedUi: [
@@ -256,7 +256,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Rich input',
         title: 'Conversation input should become proof readback evidence',
         summary:
-          'Chat can be expressive, but Bitcode normalizes context so /packs can reread the outcome.',
+          'Chat can be expressive, but Bitcode normalizes context so /exchange can reread the outcome.',
         explainer: PRODUCT_INLINE_EXPLAINERS.writePosture,
         signals: [
           { label: 'Source', value: 'Attachment tokens', tone: 'emerald' },
@@ -286,7 +286,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Protocol',
     title: 'Map the active Protocol canon',
     summary:
-      'A guided map of protocol truth: AssetPack flow, BTD volume and rights, BTC settlement, claim authority, validation, and promotion posture.',
+      'A guided map of protocol truth: DataPack flow, BTD volume and rights, BTC settlement, claim authority, validation, and promotion posture.',
     detail:
       'Use this page to connect product docs to the specification without reading every formal section first. V48 is the commercial draft-target family; public docs teach and do not legislate.',
     learningOutcome:
@@ -303,7 +303,7 @@ export const BITCODE_DOCS_PAGES = [
         explainer: BITCODE_PUBLIC_EXPLAINERS.protocolSpec,
         signals: [
           { label: 'Gates', value: '1-8', tone: 'emerald' },
-          { label: 'Domain model', value: 'AssetPack to proof', tone: 'cyan' },
+          { label: 'Domain model', value: 'DataPack to proof', tone: 'cyan' },
           { label: 'Generated evidence', value: 'Fail-closed', tone: 'amber' },
         ],
       },
@@ -315,7 +315,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Proofs',
     title: 'Understand Bitcode proofs, witnesses, and replay',
     summary:
-      'Proof docs explain the families, witness artifacts, replay steps, projection rules, generated appendices, and fail-closed posture behind AssetPacks.',
+      'Proof docs explain the families, witness artifacts, replay steps, projection rules, generated appendices, and fail-closed posture behind DataPacks.',
     detail:
       'Use this page when you read to understand why product readback is proof-bearing and how canon prevents stale or missing evidence from becoming product truth.',
     learningOutcome:
@@ -344,9 +344,9 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: '$BTD',
     title: 'Read settlement, $BTD, and exact accounting',
     summary:
-      'Settlement docs connect AssetPacks to BTD volume and rights, Bitcoin settlement money, needs-fits receipts, journals, wallet readiness, finality, and delivery posture.',
+      'Settlement docs connect DataPacks to BTD volume and rights, Bitcoin settlement money, needs-fits receipts, journals, wallet readiness, finality, and delivery posture.',
     detail:
-      'Use this page to understand how accepted AssetPack evidence becomes attributable settlement rather than only a successful analysis run.',
+      'Use this page to understand how accepted DataPack evidence becomes attributable settlement rather than only a successful analysis run.',
     learningOutcome:
       'You can explain how Bitcode moves from measured source and fits into exact accounting, BTC finality, BTD rights transfer, and staged or live payment posture.',
     primaryCta: { href: '/docs/commercial-interfaces', label: 'Read interface guide' },
@@ -371,7 +371,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'Boundary specimen',
         title: 'Connected interfaces read admission and proof readback',
         summary:
-          'Interface cards should tell users what is connected, what is staged, and where to verify effects in /packs.',
+          'Interface cards should tell users what is connected, what is staged, and where to verify effects in /exchange.',
         explainer: PRODUCT_WORKSPACE_EXPLAINERS.boundaryRuntime,
         signals: [
           { label: 'GitHub', value: 'Ingress + delivery', tone: 'emerald' },
@@ -389,7 +389,7 @@ export const BITCODE_DOCS_PAGES = [
     summary:
       'MCP/API docs explain how programmable clients should attach context, write bounded intent, receive admission evidence, and reread proof-backed results.',
     detail:
-      'Use this page when building external tools, agentic clients, or automation around the same AssetPack state that product routes read.',
+      'Use this page when building external tools, agentic clients, or automation around the same DataPack state that product routes read.',
     learningOutcome:
       'You can design an MCP or API interaction that mirrors route write/read/proof discipline.',
     primaryCta: { href: '/docs/chatgpt-app', label: 'Read ChatGPT App guide' },
@@ -401,7 +401,7 @@ export const BITCODE_DOCS_PAGES = [
         eyebrow: 'API result',
         title: 'A good tool result points back to proof readback',
         summary:
-          'Programmable writes should never strand users in a tool transcript; the activity should be rereadable in /packs.',
+          'Programmable writes should never strand users in a tool transcript; the activity should be rereadable in /exchange.',
         explainer: PRODUCT_INLINE_EXPLAINERS.repositoryAnchor,
         signals: [
           { label: 'Write admission', value: 'Confirmed', tone: 'emerald' },
@@ -419,7 +419,7 @@ export const BITCODE_DOCS_PAGES = [
     summary:
       'ChatGPT App docs explain conversational Bitcode operation: expressing Reads, attaching source, confirming writes, returning proof readback links, and preserving proof boundaries.',
     detail:
-      'Use this page when the user experience is conversational but the outcome still has to be /packs-readable and Protocol-bound.',
+      'Use this page when the user experience is conversational but the outcome still has to be /exchange-readable and Protocol-bound.',
     learningOutcome:
       'You can explain how a ChatGPT App can feel natural while still preserving Bitcode write admission and proof reread.',
     primaryCta: { href: '/docs/what-is-bitcode', label: 'Restart from overview' },
@@ -436,7 +436,7 @@ export const BITCODE_DOCS_PAGES = [
         signals: [
           { label: 'Draft', value: 'Natural language', tone: 'default' },
           { label: 'Confirm', value: 'Bounded write', tone: 'amber' },
-          { label: 'Verify', value: '/packs reread', tone: 'emerald' },
+          { label: 'Verify', value: '/exchange reread', tone: 'emerald' },
         ],
       },
     ],

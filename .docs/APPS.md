@@ -10,7 +10,7 @@ launch-freeze. Domain packages live under `packages/`. Engineering craft:
 [`.docs/AGENTS.md`](./AGENTS.md). Package map:
 [`.docs/FAMILIARIZATION.md`](./FAMILIARIZATION.md). Layout:
 [`.docs/BITCODE_SOURCE_LAYOUT.md`](./BITCODE_SOURCE_LAYOUT.md). Security:
-[`.docs/SECURITY.md`](./SECURITY.md). AssetPack measurement orientation:
+[`.docs/SECURITY.md`](./SECURITY.md). DataPack measurement orientation:
 [`.docs/ASSET_PACKS.md`](./ASSET_PACKS.md).
 
 ---
@@ -21,7 +21,7 @@ launch-freeze. Domain packages live under `packages/`. Engineering craft:
 | --- | --- |
 | Launch surface | Generally available **website MVP** on **staging-testnet** |
 | Settlement money | **BTC-testnet** only; value-bearing **mainnet blocked** until future canon |
-| Sellable unit | **AssetPack** = synthesized **patch + measurements + metadata** (never raw unpaid source) |
+| Sellable unit | **DataPack** = synthesized **patch + measurements + metadata** (never raw unpaid source) |
 | Product language | **Pipeline** = product runs; **journal** = BTD ledger language |
 | Source-safety | No protected/raw source, unpaid pack source, raw prompts/provider bodies, credentials, or private settlement payloads on product surfaces |
 | Identity | Wallet (Bitcoin OAuth / Auxillaries), Supabase session, GitHub App for source connections |
@@ -93,16 +93,16 @@ page client → page client; **never** packages → apps.
 | Route / surface | Owner | V48 commercial role |
 | --- | --- | --- |
 | `/` | Marketing | Landing / public launch messaging |
-| `/deposits` | Deposits | **IP seller:** connect source → **SynthesizeDepositAssetPacks (SDIVF)** → source-safe option review → Depository admission → compensation readback |
+| `/deposits` | Deposits | **IP seller:** connect source → **SynthesizeDepositDataPacks (SDIVF)** → source-safe option review → Depository admission → compensation readback |
 | `/reads` | Reads | **IP buyer:** Read Request → Need comprehension/resynthesis → Fits finding → source-safe preview → quote → **BTC-testnet settle** → BTD rights → delivery |
-| `/packs` | Packs | Searchable **PackActivity** master-detail (deposits, reads, previews, quotes, settlements, rights, delivery, compensation, repairs, proof roots, history) |
+| `/exchange` | Packs | Searchable **PackActivity** master-detail (deposits, reads, previews, quotes, settlements, rights, delivery, compensation, repairs, proof roots, history) |
 | `/docs` | Docs | Public product documentation |
 | Auxillaries | Auxillaries | Identity, org/teams, **wallet**, GitHub/externals, interfaces, histories |
 | Conversations | Conversations | Structure retained; **full commercial UX deferred** post-V48 |
 
 **Compatibility (not product homes):**
 
-- Legacy `/exchange` (and similar cockpit paths) route into **`/packs`**.
+- Legacy `/exchange` (and similar cockpit paths) route into **`/exchange`**.
 - Dead cockpit-only modules are deleted; do not rebuild Terminal or exchange
   cockpit as product.
 
@@ -116,17 +116,17 @@ callback, GitHub App install/callback). Settlement money is **BTC-testnet**.
 ```
 Depositor (/deposits)
   connect source + Obfuscations
-  → SynthesizeDepositAssetPacks (SDIVF)
+  → SynthesizeDepositDataPacks (SDIVF)
   → source-safe option select / admit to Depository
-  → /packs activity + compensation expectation
+  → /exchange activity + compensation expectation
 
 Reader (/reads)
   Read Request → Need → Fits
   → source-safe preview → quote
   → BTC-testnet settlement → BTD rights → delivery
-  → /packs activity
+  → /exchange activity
 
-Operator (Auxillaries + /packs)
+Operator (Auxillaries + /exchange)
   wallet / GitHub authenticity, histories, portfolio readback
 ```
 
@@ -142,9 +142,9 @@ V48 product pipelines that the website drives:
 
 | Pipeline | Pattern | Purpose |
 | --- | --- | --- |
-| **SynthesizeDepositAssetPacks** | **SDIVF** | Depositor repo (+ Obfuscations) → measured AssetPack **options** on `/deposits` |
-| **SynthesizeReadAssetPacks** | **SDIVF** | Reader repo + **Need** → option path on `/reads` |
-| **settle-asset-pack** (and related) | Linear / simple | Post-buy: BTC settle → BTD mint/rights → delivery; **1:1 AssetPack : run** where SPEC requires |
+| **SynthesizeDepositDataPacks** | **SDIVF** | Depositor repo (+ Obfuscations) → measured DataPack **options** on `/deposits` |
+| **SynthesizeReadDataPacks** | **SDIVF** | Reader repo + **Need** → option path on `/reads` |
+| **settle-asset-pack** (and related) | Linear / simple | Post-buy: BTC settle → BTD mint/rights → delivery; **1:1 DataPack : run** where SPEC requires |
 
 **SDIVF** = Setup → Discovery → Implementation → Validation → Finish — the
 **phased corridor** for synthesis pipelines (`packages/asset-packs-pipelines`).
@@ -244,5 +244,5 @@ source-safety or auth boundaries while they remain in-tree.
 
 ---
 
-**V48 website launch entrypoints:** `/deposits`, `/reads`, `/packs`, Auxillaries  
-**Settlement:** BTC-testnet · **Rights:** BTD · **Unit:** AssetPack · **Safety:** source-safe always
+**V48 website launch entrypoints:** `/deposits`, `/reads`, `/exchange`, Auxillaries  
+**Settlement:** BTC-testnet · **Rights:** BTD · **Unit:** DataPack · **Safety:** source-safe always

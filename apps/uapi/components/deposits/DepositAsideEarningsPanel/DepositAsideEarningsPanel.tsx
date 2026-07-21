@@ -85,7 +85,7 @@ export function DepositAsideEarningsPanel({
                 {settledDemandEstimate?.estimatable ? (
                   <span className="mt-1 block text-[0.7rem] leading-5 text-neutral-400">
                     From {settledDemandEstimate.settledPackCount} settled
-                    Depository AssetPack
+                    Depository DataPack
                     {settledDemandEstimate.settledPackCount === 1 ? "" : "s"}
                     {settledDemandEstimate.matchedPackCount
                       ? ` · ${settledDemandEstimate.matchedPackCount} topic match${settledDemandEstimate.matchedPackCount === 1 ? "" : "es"}`

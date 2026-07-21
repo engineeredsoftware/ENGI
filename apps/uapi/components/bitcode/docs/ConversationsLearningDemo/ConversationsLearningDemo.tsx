@@ -205,7 +205,7 @@ export const ConversationLearningDemo: React.FC<Props> = ({
       response = {
         id: `assistant-${Date.now()}`,
         type: 'assistant',
-        content: `I'll help you add dark mode to your React app! Let me gather some context first.\n\n**Questions for you:**\n1. Are you using a specific UI library (Material-UI, Tailwind, etc.)?\n2. Do you want system preference detection?\n3. Should this persist user preference?\n\nI'm creating an AssetPack pipeline that will:\n• Set up theme context\n• Add toggle component\n• Update existing components\n• Add persistence logic`,
+        content: `I'll help you add dark mode to your React app! Let me gather some context first.\n\n**Questions for you:**\n1. Are you using a specific UI library (Material-UI, Tailwind, etc.)?\n2. Do you want system preference detection?\n3. Should this persist user preference?\n\nI'm creating a AssetPack pipeline that will:\n• Set up theme context\n• Add toggle component\n• Update existing components\n• Add persistence logic`,
         timestamp: new Date(),
         richResponse: {
           type: 'pipeline_logs',
@@ -227,9 +227,9 @@ export const ConversationLearningDemo: React.FC<Props> = ({
           data: {
             columns: ['Pipeline', 'Type', 'Status', 'Progress'],
             rows: [
-              ['Dark Mode Feature', 'AssetPack', 'Running', '45%'],
+              ['Dark Mode Feature', 'DataPack', 'Running', '45%'],
               ['Auth System Upgrade', 'Upgrade', 'Pending', '0%'],
-              ['Database Migration', 'AssetPack', 'Completed', '100%']
+              ['Database Migration', 'DataPack', 'Completed', '100%']
             ]
           }
         }

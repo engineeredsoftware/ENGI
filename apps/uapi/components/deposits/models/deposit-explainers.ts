@@ -298,7 +298,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
     kicker: 'Source-Safe Proposals',
     title: 'AssetPack Options',
     summary:
-      'Each card is one measured AssetPack option that SynthesizeAssetPacks produced from your connected source — a synthesized patch plus its absolute measurements, never a raw slice of your code.',
+      'Each card is one measured DataPack option that SynthesizeAssetPacks produced from your connected source — a synthesized patch plus its absolute measurements, never a raw slice of your code.',
     detail:
       'Proposals show the synthesized contents (file changes + a natural-language summary) and the provenant source paths that informed them, alongside tool-measured sizes and a correctness estimate. Select one to admit it permanently to the Depository, or archive it (re-depositable later; stale measurements resynthesize).',
     points: [

@@ -77,7 +77,7 @@ export const mcpApiReference = [
         method: 'tools/call',
         packagePath: 'apps/mcp/src/tools/product-tools.ts',
         useWhen:
-          'Synthesize Deposit AssetPack options from a repository with obfuscations — same law as /deposits.',
+          'Synthesize Deposit DataPack options from a repository with obfuscations — same law as /deposits.',
         howToUse:
           'Pass repository, obfuscations (empty allowed), optional permissible sources/exclusions, streaming. Requires confirmation (write).',
         inputs: [
@@ -86,7 +86,7 @@ export const mcpApiReference = [
           'permissibleSources, impermissibleSources, streaming, organizationId, connections, attachments.',
         ],
         outputs: [
-          'runId and assetPackEvidenceId for /packs reread.',
+          'runId and assetPackEvidenceId for /exchange reread.',
           'status, interfaceSurface: mcp, writeAdmission, outputMeaning.',
         ],
         requiresConfirmation: true,
@@ -96,7 +96,7 @@ export const mcpApiReference = [
         method: 'tools/call',
         packagePath: 'apps/mcp/src/tools/product-tools.ts',
         useWhen:
-          'Synthesize Read AssetPack options from Need configuration — same law as /reads.',
+          'Synthesize Read DataPack options from Need configuration — same law as /reads.',
         howToUse: 'Pass repository and need (prompt required). Requires confirmation (write).',
         inputs: [
           'repository: required target/source RepositoryContext.',
@@ -110,14 +110,14 @@ export const mcpApiReference = [
         requiresConfirmation: true,
       },
       {
-        name: 'bitcode://packs',
+        name: 'bitcode://exchange',
         method: 'tools/call',
         packagePath: 'apps/mcp/src/tools/product-tools.ts',
         useWhen: 'Reread Packs activity posture (source-safe options, measurements, settlement).',
         howToUse: 'Optionally pass activityId and limit.',
         inputs: ['activityId optional.', 'limit optional (1–50).', 'organizationId optional.'],
         outputs: [
-          'productRoute: /packs.',
+          'productRoute: /exchange.',
           'source-safe packs/activity posture and writeAdmission metadata.',
         ],
       },

@@ -3,13 +3,13 @@
 Commercial IP-buyer surface for `/reads`: master-detail pipelines, shared
 repository·branch·commit source package (`DepositSourceSelection`), Need +
 Relevant/Irrelevant path steering, SynthesizeReadAssetPacks (SDIVF), option
-select, SettleAssetPack → `/packs`.
+select, SettleAssetPack → `/exchange`.
 
 ## Master-detail (shared across product routes)
 
 | Route | Master | Detail | Back |
 | --- | --- | --- | --- |
-| `/packs` | Activity table | Selected AssetPack / proof detail | Via selection |
+| `/exchange` | Activity table | Selected AssetPack / proof detail | Via selection |
 | `/deposits` | Pipelines table | Source + Obfuscations + options | Back to Deposit |
 | `/reads` | Pipelines table | Source + Need + options | Back to Read |
 
@@ -57,7 +57,7 @@ reads/
 2. `POST /api/read/settle/quote` → BTD volume (needinesses × decay) + ETH/BTC/SOL pay amounts.
 3. Choose pay rail (ETH P0). Buyer `0x` from Auxillaries wallet when connected.
 4. `POST /api/read/settle` with `payAsset`, `buyerEthereumAddress`, payment observation.
-5. Escrow mint + AP co-own + pending seller payout → finalize on `/packs`.
+5. Escrow mint + AP co-own + pending seller payout → finalize on `/exchange`.
 
 
 Source selection reuses `deposits/DepositSourceSelection` (same SHA element as

@@ -11,7 +11,7 @@ V26 requires prompt implementations to be:
 - composed from raw PromptParts in `packages/prompts`,
 - registry-backed through Prompt and execution registries,
 - doc-commented with enough precision to prove purpose and implementation fit,
-- aligned to Bitcode Read, fit, AssetPack, proof, Finish, and delivery semantics.
+- aligned to Bitcode Read, fit, DataPack, proof, Finish, and delivery semantics.
 
 ## PromptPart Naming
 
@@ -52,4 +52,4 @@ Prompt reform should be checked with:
 - prompt-space completeness proof generation,
 - package-local TypeScript checks,
 - active product naming tests,
-- scans for Read-first, AssetPack-first, Finish-first, and Bitcode-only vocabulary.
+- scans for Read-first, DataPack-first, Finish-first, and Bitcode-only vocabulary.

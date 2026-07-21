@@ -1,7 +1,7 @@
 /**
  * Commercial MVP BTD + Packs (exchange compatibility) entry — V48.
  *
- * `/exchange` is a compatibility redirect into `/packs`. Assertions target
+ * `/exchange` is a compatibility redirect into `/exchange`. Assertions target
  * Pack activity, wallet auxillary, and BTD range disclosure rather than the
  * deleted Packs/Exchange master-detail market UI.
  */
@@ -35,7 +35,7 @@ test.describe('commercial MVP BTD and Packs entry', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/packs', /Pack activity/i);
+    await openCommercialRoute(page, '/exchange', /Pack activity/i);
 
     const tracker = page.getByLabel(/Open BTD wallet auxillary/i);
     await expect(tracker).toBeVisible();

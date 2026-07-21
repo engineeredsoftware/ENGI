@@ -20,7 +20,7 @@ describe('PublicDocsPageContent', () => {
   it('renders docs-owned public teaching surfaces', () => {
     render(<PublicDocsPageContent sourcePlayable={false} />);
 
-    expect(screen.getByText('Learn Bitcode from AssetPacks to proof.')).toBeInTheDocument();
+    expect(screen.getByText('Learn Bitcode from DataPacks to proof.')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Start reading' })).toHaveAttribute('href', '/docs/what-is-bitcode');
     expect(screen.getByText('Read in this order if Bitcode is new.')).toBeInTheDocument();
     expect(screen.getByText('Product docs map back to the active canon.')).toBeInTheDocument();
@@ -31,12 +31,12 @@ describe('PublicDocsPageContent', () => {
     );
     expect(
       screen.getByRole('link', {
-        name: /AssetPacks, BTD, and the Bitcode activity ledger/,
+        name: /DataPacks, BTD, and the Bitcode activity ledger/,
       }),
     ).toHaveAttribute('href', '/docs/source-shares');
     expect(
       screen.getByRole('link', {
-        name: /Understand Exchange activity and \/packs compatibility/,
+        name: /Understand Exchange activity and \/exchange compatibility/,
       }),
     ).toHaveAttribute('href', '/docs/exchange');
     expect(

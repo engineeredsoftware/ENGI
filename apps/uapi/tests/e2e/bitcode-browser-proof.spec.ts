@@ -110,7 +110,7 @@ test.describe('Bitcode browser proof across product surfaces', () => {
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await openCommercialRoute(page, '/packs?auxillary-open-to=wallet', /Wallet Auxillary/i);
+      await openCommercialRoute(page, '/exchange?auxillary-open-to=wallet', /Wallet Auxillary/i);
 
       await expect(page.getByRole('main', { name: 'Bitcode Auxillaries support plane' })).toBeVisible();
       await expect(page.getByRole('link', { name: /Skip to .+ content/i })).toBeVisible();

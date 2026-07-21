@@ -9,7 +9,7 @@ import { MARKETING_OPERATOR_GUIDE_SOURCE } from '@/components/marketing/Marketin
 export const metadata: Metadata = {
   title: 'Bitcode Docs',
   description:
-    'Learn Bitcode from AssetPacks, /packs, /reads, /deposits, proofs, settlement, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
+    'Learn Bitcode from AssetPacks, /exchange, /reads, /deposits, proofs, settlement, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
   alternates: {
     canonical: '/docs',
   },

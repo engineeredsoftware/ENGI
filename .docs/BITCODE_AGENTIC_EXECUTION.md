@@ -9,9 +9,9 @@ Bitcode agentic execution is source-to-shares inference over explicit phases, re
 The V26 execution baseline is:
 - Setup: bind source, repository, attachments, model/tool defaults, and execution state.
 - Discovery: gather source-grounded evidence, including web research when useful for Read synthesis.
-- Implementation: synthesize the AssetPack or connected-interface written asset.
+- Implementation: synthesize the DataPack or connected-interface written asset.
 - Validation: assess implementation, evidence, and readiness.
-- Finish: save results, write proof/state, and deliver AssetPack outputs through selected delivery mechanisms.
+- Finish: save results, write proof/state, and deliver DataPack outputs through selected delivery mechanisms.
 
 `SDIVF` is the canonical phased implementation name for the current Bitcode phase sequence. `Simple` remains the other admissible execution shape where a full phase loop is unnecessary.
 
@@ -49,7 +49,7 @@ The following old execution ideas are not live V26 product concepts:
 - pre-Finish final-phase naming,
 - work-item-first product naming.
 
-If compatibility code paths remain, they must read as AssetPack, Read, fit, settlement, Finish, and delivery-mechanism implementations.
+If compatibility code paths remain, they must read as DataPack, Read, fit, settlement, Finish, and delivery-mechanism implementations.
 
 ## State Namespaces
 
@@ -60,9 +60,9 @@ Preferred active namespaces:
 - `read`: measured and accepted Read state.
 - `config`: iteration count, MCP config, internal computer-use measurement flag.
 - `attachments`: source evidence.
-- `route/preprocessed`: route-owned snapshot and AssetPack written-asset snapshot.
-- `finish/asset_pack_completion`: saved AssetPack summary and PR Shippable evidence.
-- `postprocessed`: normalized AssetPack result.
+- `route/preprocessed`: route-owned snapshot and DataPack written-asset snapshot.
+- `finish/asset_pack_completion`: saved DataPack summary and PR Shippable evidence.
+- `postprocessed`: normalized DataPack result.
 
 Compatibility state names should be treated as corridors until renamed, removed, or bounded by explicit proof.
 

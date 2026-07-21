@@ -19,7 +19,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import Logo from '@/components/bitcode/branding/Logo/Logo';
-import AssetPackMark from '@/components/bitcode/branding/AssetPackMark/AssetPackMark';
+import DataPackMark from '@/components/bitcode/branding/DataPackMark/DataPackMark';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 import {
   renderClaimAnchorMarkers,
@@ -306,7 +306,7 @@ export function MarketingLandingTestnetSection() {
             <span
               className={`${CODE_MARK_SLOT} [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
             >
-              <AssetPackMark
+              <DataPackMark
                 height="h-[4.5rem] phone:h-[5.25rem]"
                 width="w-[4.5rem] phone:w-[5.25rem]"
                 className="opacity-95"

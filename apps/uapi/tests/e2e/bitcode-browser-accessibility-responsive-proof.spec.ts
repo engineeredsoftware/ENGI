@@ -44,7 +44,7 @@ test.describe('Bitcode browser accessibility responsive proof', () => {
       await expect(page.getByRole('navigation').or(page.locator('header')).first()).toBeVisible();
       await expectNoHorizontalOverflow(page, `marketing-${viewport.id}-default`);
 
-      await openCommercialRoute(page, '/packs', /Pack activity|Packs/i);
+      await openCommercialRoute(page, '/exchange', /Pack activity|Packs/i);
       await expect(page.getByTestId('route-shell-packs')).toBeVisible();
       await expectNoHorizontalOverflow(page, `packs-${viewport.id}-default`);
 
@@ -88,7 +88,7 @@ test.describe('Bitcode browser accessibility responsive proof', () => {
 
     for (const viewport of PROOF_VIEWPORTS) {
       await page.setViewportSize({ width: viewport.width, height: viewport.height });
-      await openCommercialRoute(page, '/packs?auxillary-open-to=wallet', /Wallet Auxillary/i);
+      await openCommercialRoute(page, '/exchange?auxillary-open-to=wallet', /Wallet Auxillary/i);
 
       await expect(page.getByRole('main', { name: 'Bitcode Auxillaries support plane' })).toBeVisible();
       await expect(page.getByRole('link', { name: /Skip to .+ content/i })).toBeVisible();
@@ -96,14 +96,14 @@ test.describe('Bitcode browser accessibility responsive proof', () => {
       await expect(page.getByRole('region', { name: /Wallet active support pane/i })).toBeVisible();
       await expectNoHorizontalOverflow(page, `auxillaries-${viewport.id}-default`);
 
-      await openCommercialRoute(page, '/packs?auxillary-open-to=profile', /Profile Auxillary/i);
+      await openCommercialRoute(page, '/exchange?auxillary-open-to=profile', /Profile Auxillary/i);
       const activePane = page.getByRole('region', { name: /Profile active support pane/i });
       await expect(activePane).toHaveAttribute('aria-live', 'polite');
       await expect(activePane).toHaveAttribute('aria-busy', 'false');
       await expect(page.getByText('Audit detail')).toBeVisible();
       await expectNoHorizontalOverflow(page, `auxillaries-${viewport.id}-guided`);
 
-      await openCommercialRoute(page, '/packs?auxillary-open-to=interfaces', /Interfaces Auxillary/i);
+      await openCommercialRoute(page, '/exchange?auxillary-open-to=interfaces', /Interfaces Auxillary/i);
       await expect(page.getByTestId('interfaces-pane-container')).toBeVisible();
       await expect(page.getByTestId('auxillaries-interface-admission-catalog')).toBeVisible();
       await expect(page.getByTestId('auxillaries-audit-detail')).toContainText('source-safe summary only');

@@ -285,7 +285,7 @@ export function useDepositOptionActions(input: {
 
     if (admittedReceipts.length === 0) return;
 
-    // One ledger row per admitted option — /packs network scope keys on
+    // One ledger row per admitted option — /exchange network scope keys on
     // context.source=deposit-option-review-admission + admitted-to-depository.
     try {
       for (const receipt of admittedReceipts) {

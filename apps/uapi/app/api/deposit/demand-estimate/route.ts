@@ -1,7 +1,7 @@
 /**
  * GET /api/deposit/demand-estimate
  *
- * Source-safe demand estimate grounded in settled Depository AssetPacks.
+ * Source-safe demand estimate grounded in settled Depository DataPacks.
  * Returns estimatable=false when the settled corpus is too thin.
  */
 

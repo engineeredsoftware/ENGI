@@ -1,5 +1,5 @@
 /**
- * Compatibility: retired product path `/packs` → canonical Exchange `/exchange`.
+ * Compatibility: retired product path `/exchange` → canonical Exchange `/exchange`.
  * Commodity language AssetPack is unchanged; only the product experience name moved.
  */
 

@@ -103,7 +103,7 @@ describe('AuxillariesProvider', () => {
   });
 
   it('opens the requested pane from the overlay query parameter without rendering a route page', () => {
-    window.history.replaceState({}, '', '/packs?auxillary-open-to=wallet');
+    window.history.replaceState({}, '', '/exchange?auxillary-open-to=wallet');
 
     render(
       <AuxillariesProvider>

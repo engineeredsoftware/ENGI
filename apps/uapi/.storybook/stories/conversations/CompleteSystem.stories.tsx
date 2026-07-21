@@ -105,7 +105,7 @@ const completeConversationData = {
     {
       id: 'msg-4',
       role: 'assistant' as const,
-      content: "Perfect! I've started three parallel shippable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Read + Asset Pack Catalog** (Pipeline #2) \n- Read CRUD operations\n- Advanced search with filters\n- Asset pack grouping\n- Evidence upload and optimization\n\n✅ **Wallet Settlement & Treasury Flow** (Pipeline #3)\n- Wallet state management\n- BTC settlement and issued $BTD flow\n- GitHub-before-transacting gating\n- Notification and receipt workflow\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
+      content: "Perfect! I've started three parallel shippable pipelines:\n\n✅ **User Authentication System** (Pipeline #1)\n- OAuth integration (Google, GitHub, Apple)\n- JWT token management\n- Role-based access control\n- User profile management\n\n✅ **Read + Asset Pack Catalog** (Pipeline #2) \n- Read CRUD operations\n- Advanced search with filters\n- Data pack grouping\n- Evidence upload and optimization\n\n✅ **Wallet Settlement & Treasury Flow** (Pipeline #3)\n- Wallet state management\n- BTC settlement and issued $BTD flow\n- GitHub-before-transacting gating\n- Notification and receipt workflow\n\nAll pipelines are running with full context from your repository and requirements. You can monitor progress in the sidebar!",
       created_at: '2024-01-15T08:07:00Z'
     },
     {
@@ -433,7 +433,7 @@ export const RealTimeStreamingDemo: Story = {
       props: {
         ...completeConversationData,
         isStreaming: true,
-        currentContent: "I'm analyzing your Bitcode transaction workspace requirements and creating a comprehensive implementation plan. This includes:\n\n1. **Database Schema Design**\n   - User tables with authentication\n   - Read and asset pack catalog tables\n   - Treasury and settlement tracking\n\n2. **API Architecture**\n   - RESTful endpoints for all operations\n   - Real-time activity updates\n   - Wallet settlement and issued $BTD flow\n\n3. **Frontend Components**\n   - Responsive read and asset pack surfaces\n   - Interactive transaction workspace\n   - Wallet and GitHub gating with validation\n\nI'm now implementing these features across multiple parallel pipelines to deliver your complete Bitcode solution efficiently.",
+        currentContent: "I'm analyzing your Bitcode transaction workspace requirements and creating a comprehensive implementation plan. This includes:\n\n1. **Database Schema Design**\n   - User tables with authentication\n   - Read and data pack catalog tables\n   - Treasury and settlement tracking\n\n2. **API Architecture**\n   - RESTful endpoints for all operations\n   - Real-time activity updates\n   - Wallet settlement and issued $BTD flow\n\n3. **Frontend Components**\n   - Responsive read and data pack surfaces\n   - Interactive transaction workspace\n   - Wallet and GitHub gating with validation\n\nI'm now implementing these features across multiple parallel pipelines to deliver your complete Bitcode solution efficiently.",
         activePipelines: new Set(['del-streaming'])
       }
     },

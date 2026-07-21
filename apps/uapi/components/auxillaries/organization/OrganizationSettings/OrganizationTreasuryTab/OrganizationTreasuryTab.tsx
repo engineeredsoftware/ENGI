@@ -89,7 +89,7 @@ export default function OrganizationTreasuryTab({
               GitHub before transacting
             </div>
             <p className="text-sm text-slate-600">
-              Reads, asset packs, and repository delivery stay blocked until GitHub posture is connected.
+              Reads, data packs, and repository delivery stay blocked until GitHub posture is connected.
             </p>
           </div>
           <div className="rounded-none border bg-slate-50 p-4">

@@ -21,7 +21,7 @@ describe('BitcodeDetailPanel', () => {
           { label: 'Repository', value: 'bitcode/bitcode' },
         ]}
         tagLabel="substructure"
-        actionLabel="Open Packs"
+        actionLabel="Open Exchange"
         onAction={onAction}
       />,
     );
@@ -34,7 +34,7 @@ describe('BitcodeDetailPanel', () => {
     expect(screen.getByText('Activity id')).toBeTruthy();
     expect(screen.getByText('tx-001')).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Open Packs' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Open Exchange' }));
 
     expect(onAction).toHaveBeenCalled();
   });

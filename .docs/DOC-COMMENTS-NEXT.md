@@ -23,7 +23,7 @@ Scripts in place now:
 - `scripts/enrich-doc-intents.mjs` – Replace placeholder intents with filename-derived titles.
 - `scripts/normalize-all-prompts.mjs` – Normalize PBV + benchmarks for Prompts.
 - `scripts/validate-doc-comments.mjs` – Validate coverage (PBV, benchmarks, intents) repo-wide.
-- `scripts/render-prompts.mjs` – Render Prompts (AssetPack compatibility execution/generic-agents/generic-tools) to master docs.
+- `scripts/render-prompts.mjs` – Render Prompts (DataPack compatibility execution/generic-agents/generic-tools) to master docs.
 
 Suggested implementation approach (Tx 1–2):
 - Build a simple AST walker to identify `Prompt.set('path', SYMBOL)` calls and map SYMBOL to its source file.

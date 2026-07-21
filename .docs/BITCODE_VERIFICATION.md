@@ -30,7 +30,7 @@ Required proof areas:
 Verification is insufficient if it only proves names. Fifth-gate proof must also show:
 - Packs and Exchange read/write coherence,
 - Read review before fit search,
-- AssetPack and settlement receipt persistence,
+- DataPack and settlement receipt persistence,
 - connected-interface write admission,
 - removed execution control proof,
 - internal-only computer-use admission.

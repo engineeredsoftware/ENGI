@@ -7,7 +7,7 @@ export const proofSections = [
   {
     id: 'proof-families',
     eyebrow: 'Proof families',
-    title: 'Proof families are the replayable evidence contracts behind AssetPacks',
+    title: 'Proof families are the replayable evidence contracts behind DataPacks',
     summary:
       'Protocol carries proof families for synthesis, analysis, verification, selection, authorization, settlement, disclosure, and contract closure — each with witnesses and fail-closed conditions.',
     detail:
@@ -29,7 +29,7 @@ export const proofSections = [
     detail:
       'Docs and product copy must never imply that public proofs contain licensed source by default. Measurements and needs-fits scores can be visible while protected IP stays withheld until rights transfer.',
     reason:
-      'An AssetPack market only works if value is measurable without casually disclosing the source that gives it value.',
+      'A DataPack market only works if value is measurable without casually disclosing the source that gives it value.',
   },
   {
     id: 'generated-appendix',

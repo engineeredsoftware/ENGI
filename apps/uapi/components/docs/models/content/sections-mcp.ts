@@ -11,9 +11,9 @@ export const mcpSections = [
     summary:
       'MCP exposes exactly eight product tools: measure, synthesize-asset-packs-for-deposit, synthesize-asset-packs-for-reads, packs, and four Auxillaries panes.',
     detail:
-      'Keep the MCP surface narrow and explicit. Deposit/Read synthesize mirror website Synthesize AssetPacks (obfuscations vs Need). Measure returns source-safe evidence. Packs and Auxillaries reread product posture.',
+      'Keep the MCP surface narrow and explicit. Deposit/Read synthesize mirror website Synthesize DataPacks (obfuscations vs Need). Measure returns source-safe evidence. Packs and Auxillaries reread product posture.',
     reason:
-      'Programmability only helps when it preserves AssetPack proof parity with product routes.',
+      'Programmability only helps when it preserves DataPack proof parity with product routes.',
     points: [
       'synthesize-asset-packs-for-deposit requires obfuscations configuration (empty allowed).',
       'synthesize-asset-packs-for-reads requires Need configuration.',
@@ -38,7 +38,7 @@ export const mcpSections = [
     eyebrow: 'Disclosure',
     title: 'Public docs expose guidance and proof posture, not protected source',
     summary:
-      'MCP and public docs may describe tool names, schemas, measurements, and proof roots. They must not serialize protected source, unpaid AssetPack source, credentials, or wallet private material.',
+      'MCP and public docs may describe tool names, schemas, measurements, and proof roots. They must not serialize protected source, unpaid DataPack source, credentials, or wallet private material.',
     detail:
       'When a measure or synthesize call returns roots and source-safe summaries, treat those as the admissible public surface.',
     reason: 'Source-safety is protocol law on every interface, including MCP.',

@@ -825,7 +825,7 @@ export default function ExecutionsPageHeader({
 function EducationBodyWithLogo() {
   return (
     <div>
-      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality asset pack and its delivery result. (<span className="font-normal">~200-500&nbsp;</span>
+      <span><span className="font-bold">This action costs <span className="text-green-primary font-black">$BTD</span>!</span> The source, attachments, and task will be iterated on until you receive a single high-quality data pack and its delivery result. (<span className="font-normal">~200-500&nbsp;</span>
         <Logo width="w-3.5" height="h-3.5" beta={false} className="inline-block align-middle relative -top-0.5" />
         <span className="font-normal">&nbsp;/&nbsp;Pipeline Run</span>)</span>
     </div>

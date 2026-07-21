@@ -577,12 +577,12 @@ export async function runDepositOptionSynthesis(
     // never wear the full-success COMPLETED / "bundle ready" costume (8ecbd11a).
     const finalStatus = isBudgetPartial ? 'partial' : 'completed';
     const summary = isBudgetPartial
-      ? `Recovered ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} after host budget (Validation incomplete).`
-      : `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`;
+      ? `Recovered ${synthesis.optionCount} measured DataPack options for ${repositoryFullName} after host budget (Validation incomplete).`
+      : `Synthesized ${synthesis.optionCount} measured DataPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`;
     await emitStatus(
       isBudgetPartial
         ? `Partial synthesis: ${synthesis.optionCount} measured options recovered after host budget (${(durationMs / 1000).toFixed(1)}s).`
-        : `Synthesized ${synthesis.optionCount} measured AssetPack options (${result.inference.totalTokens ?? 'n/a'} tokens, ${(durationMs / 1000).toFixed(1)}s).`,
+        : `Synthesized ${synthesis.optionCount} measured DataPack options (${result.inference.totalTokens ?? 'n/a'} tokens, ${(durationMs / 1000).toFixed(1)}s).`,
     );
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
       optionCount: synthesis.optionCount,

@@ -26,9 +26,9 @@ Related orientation (also non-canonical):
 
 | Topic | Current truth |
 | --- | --- |
-| Product surfaces | `apps/uapi` routes (`/deposits`, `/reads`, `/packs`, `/docs`, Auxillaries); product MCP tools in `apps/mcp` |
+| Product surfaces | `apps/uapi` routes (`/deposits`, `/reads`, `/exchange`, `/docs`, Auxillaries); product MCP tools in `apps/mcp` |
 | Settlement money | **BTC-testnet** (`NEXT_PUBLIC_BITCODE_BITCOIN_NETWORK=testnet4` by default). Value-bearing **mainnet is blocked** until future canon admits it (`packages/btd` migration / fee gates). |
-| Sellable unit | **AssetPack** = synthesized patch + measurements + metadata — never raw unpaid source as the product unit |
+| Sellable unit | **DataPack** = synthesized patch + measurements + metadata — never raw unpaid source as the product unit |
 | Source-safety | First-class: no protected/raw source, unpaid pack source, raw prompts/provider responses, credentials, wallet private material, or private settlement payloads on product surfaces or proof artifacts. **Unpaid READ** options are title+summary+measurements only (coverage % of request-SHA catalog; path tokens scrubbed); full material rehydrates server-side at settle; depositor owners always see their own packs fully. |
 | Pipeline host | **Serverless (Vercel) always sandbox** (`VERCEL=1` / Preview / Production). Local machine may use LocalHost; explicit `BITCODE_PIPELINE_HOST=local` is ignored on serverless |
 | Proof / QA artifacts | `.proofs/*` and PROVEN outputs are **source-safe metadata only** — never real secrets |
@@ -143,7 +143,7 @@ Source-safety is **not** optional polish; it is commercial law (SPEC + CONTRIBUT
 **Never product-expose:**
 
 - protected / raw source  
-- unpaid AssetPack source  
+- unpaid DataPack source  
 - raw prompts / raw provider responses  
 - credentials, wallet private material, private settlement payloads  
 

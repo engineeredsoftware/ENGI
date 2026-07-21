@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 /**
- * Minimal CLI to execute an AssetPack SDIVF pipeline outside the edge runtime.
+ * Minimal CLI to execute a AssetPack SDIVF pipeline outside the edge runtime.
  * Reads pipeline execution context from `executions`, streams output
  * via SupabaseStream, and records artifacts. Intended for containerized usage.
  */

@@ -2,7 +2,7 @@
 
 **Role:** Primary chain for commercial settlement:
 
-- **BitcodeERC1155** — fungible **BTD** (earn on settle) + **AssetPack** co-ownership NFTs  
+- **BitcodeERC1155** — fungible **BTD** (earn on settle) + **DataPack** co-ownership NFTs  
 - Buyers **pay ETH** (on-chain) or **BTC / SOL** (attested external rails) at **spot vs BTD**  
 - **Never pay in BTD**; depositors **earn BTD** via mint on settle  
 
@@ -17,7 +17,7 @@ active SPEC under `.specifications/`.
 | Token | ID | Kind | Cap / behavior |
 | --- | --- | --- | --- |
 | **BTD (Bitcode)** | `0` | Fungible | Max **21,000,000** whole tokens (18 decimals). Minted on settle to depositor **btdBps** slices only. Freely transferable (external markets). |
-| **AssetPack** | `≥ 1` | NFT co-ownership | Add-only co-owners; depositor retains; burn forbidden. |
+| **DataPack** | `≥ 1` | NFT co-ownership | Add-only co-owners; depositor retains; burn forbidden. |
 
 ### Pay rails
 

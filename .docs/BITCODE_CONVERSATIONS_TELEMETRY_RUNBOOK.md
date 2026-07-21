@@ -20,7 +20,7 @@ proof roots, dashboard panel ids, runbook ids, and redacted error classes.
 
 Conversation telemetry must not expose secret values, provider tokens, wallet
 private material, protected source payloads, raw protected prompts, raw model
-responses with protected source, unpaid AssetPack source, settlement private
+responses with protected source, unpaid DataPack source, settlement private
 payloads, private payment credentials, operator private notes, ledger write
 authority, or wallet signing authority.
 

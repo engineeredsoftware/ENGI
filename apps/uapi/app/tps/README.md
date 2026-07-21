@@ -7,7 +7,7 @@ experiences. Settlement money is **BTC-testnet** via wallet + BTD rights
 - All third-party UI pages live under `/tps/[service]/...`.
 - Prefer explicit service names (e.g., `supabase`, `github`, `twilio`, `wallet`).
 - Child paths describe the surface (`callback`, `app-install`, `sms/[runId]`, `wallet/[flow]`).
-- Keep Bitcode product pages under `/packs`, `/deposits`, `/reads`, Auxillaries —
+- Keep Bitcode product pages under `/exchange`, `/deposits`, `/reads`, Auxillaries —
   do not mix them with third-party service overlays.
 
 Examples

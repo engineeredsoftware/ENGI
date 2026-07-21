@@ -205,7 +205,7 @@ describe('pack-activity-model', () => {
     expect(commodityRights.rightsState).toBe('btd-rights-transferred');
   });
 
-  it('projects approved deposit admission receipts as Depository AssetPack activity', () => {
+  it('projects approved deposit admission receipts as Depository DataPack activity', () => {
     const record = normalizePackActivityRecord({
       ...baseRecord,
       id: 'pack-activity-deposit-admission',
@@ -433,7 +433,7 @@ describe('pack-activity-model', () => {
     expect(record.type).toBe('settled-assetpack');
   });
 
-  it('supports My AssetPacks ownership filters: bought, deposited unsettled, deposited settled', () => {
+  it('supports My DataPacks ownership filters: bought, deposited unsettled, deposited settled', () => {
     const bought = normalizePackActivityRecord({
       id: 'mine-bought',
       kind: 'execution',

@@ -206,7 +206,7 @@ function LoginFormInner({ onClose, onToggle, surfaceVariant = 'default' }: Login
   const nextWorkspacePath =
     nextParam.startsWith('/auxillaries') ||
     nextParam.startsWith('/exchange') ||
-    nextParam.startsWith('/packs')
+    nextParam.startsWith('/exchange')
       ? nextParam
       : '/exchange'
   

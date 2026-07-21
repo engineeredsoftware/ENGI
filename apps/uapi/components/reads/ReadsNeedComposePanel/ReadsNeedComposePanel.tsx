@@ -15,7 +15,7 @@ import type {
   ReadSynthesisStatus,
 } from "@/components/reads/ReadPageClient/hooks/use-read-option-synthesis";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
-import { ProductSynthesizeAssetPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeAssetPackOptionsButton/ProductSynthesizeAssetPackOptionsButton";
+import { ProductSynthesizeDataPackOptionsButton } from "@/components/bitcode/routes/ProductSynthesizeDataPackOptionsButton/ProductSynthesizeDataPackOptionsButton";
 import { ReadsNeedPathPickers } from "@/components/reads/ReadsNeedPathPickers/ReadsNeedPathPickers";
 import { ReadsNeedAnchorControls } from "@/components/reads/ReadsNeedAnchorControls/ReadsNeedAnchorControls";
 import type { ReadNeedAnchor } from "@/components/reads/models/read-activity-ledger";
@@ -128,7 +128,7 @@ export function ReadsNeedComposePanel(props: {
       <p className="mt-2 text-sm leading-6 text-neutral-400">
         {isRunReviewLocked
           ? "Need and path steering for this pipeline run — locked while reviewing run detail."
-          : "Select a repository and commit, describe the Need, optionally steer with Relevant and Irrelevant paths, then synthesize measured AssetPack options."}
+          : "Select a repository and commit, describe the Need, optionally steer with Relevant and Irrelevant paths, then synthesize measured DataPack options."}
       </p>
 
       <label htmlFor="reads-need-input" className="mt-4 block text-xs text-neutral-300">
@@ -177,7 +177,7 @@ export function ReadsNeedComposePanel(props: {
           workbench.
         </p>
       ) : (
-        <ProductSynthesizeAssetPackOptionsButton
+        <ProductSynthesizeDataPackOptionsButton
           data-testid="reads-synthesize-options"
           onClick={onSynthesize}
           disabled={!canSynthesize || !need.trim() || isConfigLocked}

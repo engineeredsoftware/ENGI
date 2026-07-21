@@ -10,7 +10,7 @@ The database supports Bitcode Exchange and Bitcode state:
 - conversations and attachments,
 - executions and event streams,
 - Read review state,
-- AssetPack outputs,
+- DataPack outputs,
 - proof and settlement receipts,
 - BTC fee accounting and non-fungible `$BTD` holding reads,
 - notifications and operational health.
@@ -33,14 +33,14 @@ Core V26 families:
 - BTC fee usage, measured `$BTD` amount, and payment idempotency records,
 - notifications, events, stream logs, and error logs.
 
-Some physical table names still preserve compatibility vocabulary at the storage boundary. In V26 product language these rows must be read as AssetPack templates, AssetPack results, execution records, or compatibility storage corridors. Canonical SPEC text must not teach those table names as product concepts.
+Some physical table names still preserve compatibility vocabulary at the storage boundary. In V26 product language these rows must be read as DataPack templates, DataPack results, execution records, or compatibility storage corridors. Canonical SPEC text must not teach those table names as product concepts.
 
 ## Exchange State Requirements
 
 The Exchange state model must support:
 - immediate reread of product writes,
 - one activity ledger for source-to-shares events,
-- selected-detail reconstruction of Read, fit, AssetPack, proof, history, and delivery evidence,
+- selected-detail reconstruction of Read, fit, DataPack, proof, history, and delivery evidence,
 - explicit accept/reject/remeasure decisions for measured Reads,
 - settlement receipts with quantized fit-quality rows,
 - fail-closed write admission when wallet, repository, provider, or accepted-Read readiness is absent.
@@ -49,7 +49,7 @@ The Exchange state model must support:
 
 Remaining database work should prioritize:
 - eliminating stale null-key drift,
-- naming new columns/tables after Read, AssetPack, fit, settlement, Finish, and Exchange activity,
+- naming new columns/tables after Read, DataPack, fit, settlement, Finish, and Exchange activity,
 - keeping storage-edge table names hidden behind ORM or route adapters,
 - generating proof artifacts that show schema, ORM, route, and UI all describe the same Bitcode state.
 
@@ -83,8 +83,8 @@ Required database truths:
 - `btd_supply_state.next_token_id` equals `total_minted` for the V27 contiguous allocator.
 - `btd_supply_state` carries cumulative admitted measurement, residual mint credit, hyperbolic saturation curve, curve parameter, and zero-cell/refit tail policy.
 - `btd_measure_mint_receipts` records the decayed issuance target before/after each admitted measurement and permits zero-cell receipts in the practical tail.
-- `btd_asset_pack_ranges` owns canonical AssetPack ranges and enforces non-empty ranges under the cap.
-- `btd_cells` owns token-level registry identity and points back to AssetPack ranges.
+- `btd_asset_pack_ranges` owns canonical DataPack ranges and enforces non-empty ranges under the cap.
+- `btd_cells` owns token-level registry identity and points back to DataPack ranges.
 - `btd_ownership_events` projects mint allocation and rights-transfer ownership movement from receipts and ledger anchors.
 - `btd_read_licenses` projects scoped licensed-read grants without implying `$BTD` ownership transfer.
 - `btd_contributor_allocations` preserves whole-cell allocation conservation for the minted range.
@@ -97,7 +97,7 @@ Required database truths:
 - `btd_protocol_upgrade_receipts` records deployment/migration state roots, approvals, rollback roots, and network scope.
 - `btd_crypto_telemetry_events` stores classified operational events from the deployment-readiness boundary; production alert sinks consume this projection and do not define tokenomics truth.
 - V27 registry tables enable row-level security without user-facing policies; writes are expected through service-role route/worker boundaries until a narrower policy set is specified.
-- `user_credits` and `user_credit_usages` are compatibility read corridors only. They are not canonical tokenomics truth, cannot mint `$BTD`, and cannot settle AssetPack rights.
+- `user_credits` and `user_credit_usages` are compatibility read corridors only. They are not canonical tokenomics truth, cannot mint `$BTD`, and cannot settle DataPack rights.
 
 `packages/orm/src/models/btd-registry.ts` is the V27 ORM boundary until generated Supabase types are refreshed from the migration.
-`packages/api/src/routes/btd-crypto.ts` reads registry snapshots, produces deterministic mint/access/settlement projections, and commit-gates V27 registry writes for revenue, ancestry, BTC fee transactions, AssetPack anchors, and minimal AssetPack Exchange receipts.
+`packages/api/src/routes/btd-crypto.ts` reads registry snapshots, produces deterministic mint/access/settlement projections, and commit-gates V27 registry writes for revenue, ancestry, BTC fee transactions, DataPack anchors, and minimal DataPack Exchange receipts.

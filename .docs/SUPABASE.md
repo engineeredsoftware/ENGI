@@ -37,7 +37,7 @@ pipeline run projection, connections, and related tables.
 | `@bitcode/supabase/ssr/client` | Browser SSR-aware client |
 | `@bitcode/supabase/ssr/middleware` | Session refresh middleware helpers |
 | `@bitcode/supabase/ssr/admin` | Elevated server admin helpers |
-| AssetPack evidence helpers | Typed AssetPack evidence / Evidence Document access |
+| DataPack evidence helpers | Typed DataPack evidence / Evidence Document access |
 | Streams / MCP-oriented tools | Query/insert helpers used by tool surfaces |
 
 Dependencies: `@supabase/supabase-js`, `@supabase/ssr`.
@@ -81,7 +81,7 @@ await supabaseAdmin.from('…').select('…');
 | --- | --- |
 | `packages/generic-artifacts/supabase-provider` | Supabase Storage `ArtifactStorage` implementation |
 | `packages/generic-artifacts/compose` | Provider order: **AWS S3 → Supabase → Vercel Blob** (first configured wins) |
-| Migrations | e.g. `20260705190000_asset_pack_artifacts_bucket.sql` for AssetPack artifact buckets |
+| Migrations | e.g. `20260705190000_asset_pack_artifacts_bucket.sql` for DataPack artifact buckets |
 
 ### 3.4 Email
 
@@ -146,7 +146,7 @@ Active family under `supabase/migrations/` includes (non-exhaustive):
 - `001_v26_production.sql`, `002_v27_btd_crypto_registry.sql`
 - Pipeline run / RLS enablement (`20260514*`, `20260515*`)
 - Deposit/read data contracts (`20260515143000_v28_*`)
-- AssetPack artifacts bucket (`20260705190000_*`)
+- DataPack artifacts bucket (`20260705190000_*`)
 
 Historical `supabase/migrations-archive/` was removed with the legacy cleanup;
 do not reintroduce archived trees.
@@ -158,7 +158,7 @@ do not reintroduce archived trees.
 - Not the Bitcoin fee rail or BTC wallet authority.
 - Not the Vercel Sandbox pipeline host (that is Vercel infrastructure; see `VERCEL.md`).
 - Not the on-chain ERC1155 settlement contract (that is Ethereum / dual TS mirror; see `ETHEREUM.md`).
-- Not a place for protected AssetPack source before settlement—use disclosure/storage law from SPEC.
+- Not a place for protected DataPack source before settlement—use disclosure/storage law from SPEC.
 
 ---
 

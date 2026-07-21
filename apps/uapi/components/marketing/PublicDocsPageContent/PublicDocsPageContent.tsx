@@ -21,7 +21,7 @@ type PublicDocsPageContentProps = {
 const firstReadingPath = [
   {
     label: 'Understand the object',
-    body: 'Start with AssetPacks so Bitcode reads as measured technical intelligence, not a generic app.',
+    body: 'Start with DataPacks so Bitcode reads as measured technical intelligence, not a generic app.',
     href: '/docs/what-is-bitcode',
   },
   {
@@ -45,7 +45,7 @@ const specCoverageCards = [
   {
     eyebrow: 'Protocol',
     title: 'Commercial protocol map (V48)',
-    body: 'AssetPack lifecycle, BTD volume and rights, Crypto settlement, proof readback, interface disclosure, and promotion truth.',
+    body: 'DataPack lifecycle, BTD volume and rights, Crypto settlement, proof readback, interface disclosure, and promotion truth.',
     href: '/docs/protocol',
   },
   {
@@ -120,10 +120,10 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               </span>
             </div>
             <h1 className="mt-5 max-w-[14ch] text-[2.5rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[3.15rem] tablet:text-[4.15rem]">
-              Learn Bitcode from AssetPacks to proof.
+              Learn Bitcode from DataPacks to proof.
             </h1>
             <p className="mt-5 max-w-[58rem] text-[17px] leading-8 text-white/82">
-              Bitcode docs teach the complete path: what an AssetPack commodity is,
+              Bitcode docs teach the complete path: what a DataPack commodity is,
               how BTD measures scalar volume and rights, why Crypto settlement money and
               proof readback authority matter, and how /deposits, /reads, /exchange, MCP,
               ChatGPT App, and Bitcode Chat stay source-safe.
@@ -132,7 +132,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               <div className="rounded-none border border-emerald-300/12 bg-emerald-400/[0.055] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/70">For new readers</p>
                 <p className="mt-2 text-sm leading-6 text-emerald-50/76">
-                  Start from the AssetPack before touching value-bearing controls.
+                  Start from the DataPack before touching value-bearing controls.
                 </p>
               </div>
               <div className="rounded-none border border-cyan-300/12 bg-cyan-400/[0.045] px-4 py-4">
@@ -251,7 +251,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
             <p className="mt-3 text-sm leading-7 text-white/72">
               Protocol docs map back to active law. Public docs explain; proof readback decides.
               The public docs teach the current product routes in user order:
-              AssetPack commodity, BTD scalar volume and rights, Crypto settlement money,
+              DataPack commodity, BTD scalar volume and rights, Crypto settlement money,
               proof readback authority, /deposits, /reads, /exchange, interfaces, and configuration.
             </p>
             <div className="mt-5 grid gap-3">
