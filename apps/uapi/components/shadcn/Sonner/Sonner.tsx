@@ -20,7 +20,9 @@ export const Toaster: React.FC<ToasterProps> = ({ position = 'bottom-right', cla
       richColors
       closeButton
       expand
-      className={`[--toaster-bg:theme(colors.slate.900/.92)] [--toaster-color:theme(colors.slate.100)] [--toaster-border:theme(colors.emerald.400/.25)] [--toaster-shadow:0_0_24px_rgba(101,254,183,0.22),0_0_48px_rgba(101,254,183,0.10)] ${className}`}
+      // Above Auxillaries/Orbitals full-screen portal (z-index 100) so errors
+      // from Disconnect/Refresh are not trapped under the shell.
+      className={`!z-[10200] [--toaster-bg:theme(colors.slate.900/.92)] [--toaster-color:theme(colors.slate.100)] [--toaster-border:theme(colors.emerald.400/.25)] [--toaster-shadow:0_0_24px_rgba(101,254,183,0.22),0_0_48px_rgba(101,254,183,0.10)] ${className}`}
       toastOptions={{
         duration: 4200,
         classNames: {

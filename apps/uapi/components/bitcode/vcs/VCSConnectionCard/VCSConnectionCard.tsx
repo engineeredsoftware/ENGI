@@ -102,7 +102,7 @@ export function VCSConnectionCard({
       const query = params.toString();
       const url = `/api/vcs/${provider}/connection${query ? `?${query}` : ''}`;
       
-      const response = await fetch(url);
+      const response = await fetch(url, { credentials: 'same-origin' });
       const data = await readJsonResponse(response);
 
       if (!response.ok) {
@@ -115,7 +115,16 @@ export function VCSConnectionCard({
         setStatus({ connected: false, valid: false });
         onConnectionChange?.(false);
         if (toastOutcome) {
-          toast.error(`Could not refresh ${config.label} connection`);
+          if (response.status === 401) {
+            toast.error(
+              'Bitcode session required. Connect MetaMask (sign the Bitcode message), then Refresh again.',
+            );
+          } else {
+            toast.error(
+              (data && typeof data.error === 'string' && data.error) ||
+                `Could not refresh ${config.label} connection`,
+            );
+          }
         }
         return;
       }
@@ -206,16 +215,22 @@ export function VCSConnectionCard({
       }
       
       const response = await fetch(url, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'same-origin',
       });
 
       const data = await readJsonResponse(response);
       
       if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error(
+            'Bitcode session required. Connect MetaMask (sign the Bitcode message), then Disconnect again.',
+          );
+        }
         throw new Error((data && typeof data.error === 'string' && data.error) || 'Failed to disconnect');
       }
       
-      setStatus({ connected: false });
+      setStatus({ connected: false, valid: false });
       toast.success(`Disconnected from ${config.label}`);
       onConnectionChange?.(false);
     } catch (error) {
@@ -230,6 +245,19 @@ export function VCSConnectionCard({
     // Force installation-token regeneration, then surface success/failure.
     void checkConnection({ forceRefresh: true, toastOutcome: true });
   };
+
+  const lastRegenError =
+    status.metadata && typeof status.metadata.last_regeneration_error === 'string'
+      ? status.metadata.last_regeneration_error
+      : null;
+  /** Dead/wrong-app install: Refresh cannot heal; clear Bitcode row without re-confirm. */
+  const isDeadInstallation =
+    Boolean(status.connected) &&
+    status.valid === false &&
+    Boolean(lastRegenError) &&
+    /\b40[134]\b|Integration not found|github_app_credentials_not_configured/i.test(
+      lastRegenError || '',
+    );
   
   useEffect(() => {
     checkConnection();
@@ -395,27 +423,32 @@ export function VCSConnectionCard({
                 (source-safe GitHub API text). A 404 usually means the
                 installation is gone or app credentials are wrong — Disconnect
                 then Install GitHub App again. */}
-            {!status.valid && status.metadata?.last_regeneration_error && (
-              <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
+            {!status.valid && lastRegenError && (
+              <div
+                className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive"
+                data-testid="vcs-connection-regen-error"
+              >
                 <p className="font-medium">Last reconnect attempt failed:</p>
                 <p className="mt-1 break-words">
-                  {status.metadata.last_regeneration_error === 'github_app_credentials_not_configured'
+                  {lastRegenError === 'github_app_credentials_not_configured'
                     ? 'The Bitcode GitHub App credentials are not configured on this deployment.'
-                    : String(status.metadata.last_regeneration_error)}
+                    : lastRegenError}
                 </p>
-                {/\b40[134]\b/.test(String(status.metadata.last_regeneration_error)) && (
+                {/\b40[134]\b|Integration not found/i.test(lastRegenError) && (
                   <p className="mt-1 text-destructive/80">
                     A 40x usually means the GitHub App installation is gone or
                     this deployment&apos;s App credentials are wrong. Bitcode
                     uses a single app (
                     <span className="font-mono">bitcode-github-auxiliary</span>
-                    ). Try Disconnect, then Install GitHub App again.
+                    ). Clear the dead connection, then Install GitHub App again
+                    while your Bitcode session is active. Refresh alone cannot
+                    resurrect a missing install.
                   </p>
                 )}
               </div>
             )}
 
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {/* V48-Gate3-F36: explicit type="button" — shadcn's Button doesn't
                   default one, so a bare <button> falls back to the browser's
                   native type="submit". No <form> ancestor was found for this
@@ -428,40 +461,56 @@ export function VCSConnectionCard({
                 variant="outline"
                 size="sm"
                 onClick={handleRefresh}
-                disabled={isRefreshing}
+                disabled={isRefreshing || isDisconnecting}
+                data-testid="vcs-connection-refresh"
               >
                 <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Refresh
               </Button>
 
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    disabled={isDisconnecting}
-                  >
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Disconnect
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Disconnect {config.label}?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This will remove your {config.label} connection. You'll read to reconnect
-                      to access your repositories again.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDisconnect}>
+              {isDeadInstallation ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => void handleDisconnect()}
+                  disabled={isDisconnecting || isRefreshing}
+                  data-testid="vcs-connection-clear-dead"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  {isDisconnecting ? 'Clearing…' : 'Clear dead connection'}
+                </Button>
+              ) : (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      disabled={isDisconnecting || isRefreshing}
+                      data-testid="vcs-connection-disconnect"
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
                       Disconnect
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Disconnect {config.label}?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will remove your {config.label} connection. You&apos;ll need to
+                        reconnect to access your repositories again.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+                      <AlertDialogAction type="button" onClick={() => void handleDisconnect()}>
+                        Disconnect
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
             </div>
           </div>
         ) : (

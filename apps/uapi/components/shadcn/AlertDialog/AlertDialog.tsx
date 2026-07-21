@@ -12,14 +12,23 @@ const AlertDialog = DialogPrimitive.Root
 const AlertDialogTrigger = DialogPrimitive.Trigger
 const AlertDialogPortal = DialogPrimitive.Portal
 
+/**
+ * Above `.auxillaries-portal` / `.orbital-portal` (z-index 100) so confirm
+ * dialogs are not trapped under the Auxillaries full-screen shell.
+ * Matches other product floating chrome (e.g. BitcodeInlineExplainer z-[10100]).
+ */
+const ALERT_DIALOG_LAYER = "z-[10100]";
+
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
+    data-testid="alert-dialog-overlay"
     className={cn(
-      "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      ALERT_DIALOG_LAYER,
       className
     )}
     {...props}
@@ -35,8 +44,10 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
+      data-testid="alert-dialog-content"
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-surface duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-none",
+        "fixed left-[50%] top-[50%] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-surface duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-none",
+        ALERT_DIALOG_LAYER,
         className
       )}
       {...props}

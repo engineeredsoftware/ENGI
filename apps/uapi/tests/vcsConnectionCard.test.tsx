@@ -58,11 +58,13 @@ describe("VCSConnectionCard — regeneration-failure diagnostic (V48-Gate3-F34)"
       screen.getByText(/bitcode-github-auxiliary/i),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Try Disconnect, then Install GitHub App again/i),
+      screen.getByText(/Clear the dead connection, then Install GitHub App again/i),
     ).toBeInTheDocument();
+    expect(screen.getByTestId("vcs-connection-clear-dead")).toBeInTheDocument();
+    expect(screen.queryByTestId("vcs-connection-disconnect")).not.toBeInTheDocument();
   });
 
-  it("maps the missing-credentials reason to a clear message without the reinstall hint", async () => {
+  it("maps the missing-credentials reason to a clear message and clear-dead CTA", async () => {
     mockConnectionFetch({
       connected: true,
       valid: false,
@@ -78,9 +80,7 @@ describe("VCSConnectionCard — regeneration-failure diagnostic (V48-Gate3-F34)"
     expect(
       screen.getByText(/GitHub App credentials are not configured/i),
     ).toBeInTheDocument();
-    expect(
-      screen.queryByText(/Try Disconnect, then Install GitHub App again/i),
-    ).not.toBeInTheDocument();
+    expect(screen.getByTestId("vcs-connection-clear-dead")).toBeInTheDocument();
   });
 
   it("shows nothing extra when invalid but no diagnostic has been recorded yet", async () => {
@@ -95,5 +95,38 @@ describe("VCSConnectionCard — regeneration-failure diagnostic (V48-Gate3-F34)"
 
     await waitFor(() => expect(screen.getByText("Invalid")).toBeInTheDocument());
     expect(screen.queryByText(/Last reconnect attempt failed/i)).not.toBeInTheDocument();
+    expect(screen.getByTestId("vcs-connection-disconnect")).toBeInTheDocument();
+  });
+
+  it("clears a dead installation without the confirm dialog", async () => {
+    mockConnectionFetch({
+      connected: true,
+      valid: false,
+      username: "advancedengineeredsoftware",
+      metadata: {
+        last_regeneration_error:
+          'Failed to generate installation token: 404 {"message":"Integration not found"}',
+      },
+    });
+
+    render(<VCSConnectionCard provider="github" />);
+    await screen.findByTestId("vcs-connection-clear-dead");
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      headers: { get: () => "application/json" },
+      json: async () => ({ success: true, disconnected: true }),
+    });
+
+    const { fireEvent } = await import("@testing-library/react");
+    fireEvent.click(screen.getByTestId("vcs-connection-clear-dead"));
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        "/api/vcs/github/connection",
+        expect.objectContaining({ method: "DELETE", credentials: "same-origin" }),
+      );
+    });
   });
 });
