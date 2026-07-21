@@ -52,13 +52,29 @@ Inference is the most powerful form of evaluation as it has all its internal kno
 
 To make a commodity, Bitcode implements materialization-by-measurement on a trustless architecture.
 
-Materialization means making AssetPacks, which are .patch files of the synthesized knowledge plus all the measurements, which include the calculated raw knowledge volume, $BTD.
-
-$BTD is Bitcode's fungible tradable token that are minted alongside AssetPacks, serving two critical functions: to establish the normalized scalar of all measurements and to maximumize incentives for buying and selling AssetPacks.
+Materialization means making AssetPacks: synthesized knowledge as .patch files, bound to measurements of the material they encode. AssetPacks are the commodity. Depositors supply them into the Depository. Readers buy those that fit a stated Need.
 
 Trustlessness is achieved by being open-source, fully auditable, immutable, provable, and on-chain.
 
 Bitcode's ledger stores the proofs of the deployed canon, the activity journal, and all system state.
+
+...
+
+## $BTD
+
+$BTD is Bitcode's knowledge-currency: a fungible, freely tradable token whose supply is tied to the industrial value of data that has been paid for.
+
+Sellers do not set prices. Bitcode measures the data—its quality and its quantity—and reduces those measurements into a single scalar: $BTD. One may think of $BTD as knowledge-backed currency.
+
+The most meaningful measurements for commercial value are made when buyers request the kind of knowledge they intend to buy. Those Need-relative measurements alone are summed. How much the deposited material satisfies the Need is the $BTD of the AssetPack: the knowledge volume of that data slice under that demand.
+
+Buyers do not pay in $BTD. They settle with other capital—such as ETH, or other admitted payment rails. After purchase settles, that measured amount of $BTD is minted. Minting after payment is what binds the supply of $BTD to the industrial value of data in the Depository: it has been paid for with real capital.
+
+The seller then chooses how to take their payout: a division between the payment currency used to buy the data and the $BTD minted for the transaction. If a buyer paid 1 ETH and 1 $BTD was the determined knowledge volume, the seller may take, for example, 0.5 ETH and 0.5 $BTD. Each asset keeps its own tokenomics—supply, security, markets—and both trade freely and globally. The Bitcode treasury receives the complementary remainder of the total settlement (here, 0.5 ETH and 0.5 $BTD).
+
+Like Bitcoin, $BTD has a finite supply under the same order of hard cap, and is minted under a supply-decay as issuance approaches that cap.
+
+That is the entirety of the tokenomics of $BTD.
 
 ...
 
