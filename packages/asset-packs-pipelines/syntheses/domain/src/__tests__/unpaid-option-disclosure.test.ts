@@ -102,7 +102,47 @@ describe('unpaid-option-disclosure', () => {
     ).toBe(true);
     expect(
       isUnpaidReadSynthesisExecution({
+        output: { productPipeline: 'synthesize-reads-asset-packs-pipeline' },
+      }),
+    ).toBe(true);
+    expect(
+      isUnpaidReadSynthesisExecution({
         context: { source: 'deposit-synthesize-options', synthesisMode: 'deposit' },
+      }),
+    ).toBe(false);
+  });
+
+  it('scrubs legacy options-only rows into fullOptions + unpaid options (R2)', () => {
+    // Inline scrub shape (matches apps/uapi lib) using domain projectors.
+    const commercial = [FULL_OPTION];
+    const unpaid = commercial.map((o, i) => toUnpaidReadOptionPresentation(o, i, 10));
+    const stored = {
+      options: unpaid,
+      fullOptions: commercial,
+    };
+    expect((stored.fullOptions[0] as { patch?: unknown }).patch).toBeTruthy();
+    expect(unpaidOptionContainsForbiddenFields(stored.options)).toBe(false);
+  });
+
+  it('never classifies settle runs as unpaid read synthesis (R1)', () => {
+    expect(
+      isUnpaidReadSynthesisExecution({
+        context: {
+          source: 'read-settle-asset-pack',
+          route: '/reads',
+          synthesisMode: 'read',
+          pipelineCore: 'settle-asset-pack-pipeline',
+        },
+        output: {
+          productPipeline: 'settle-asset-pack-pipeline',
+          entitledPatch: { patchSummary: 'secret commercial' },
+        },
+      }),
+    ).toBe(false);
+    // synthesisMode alone must not match
+    expect(
+      isUnpaidReadSynthesisExecution({
+        context: { synthesisMode: 'read', route: '/reads' },
       }),
     ).toBe(false);
   });

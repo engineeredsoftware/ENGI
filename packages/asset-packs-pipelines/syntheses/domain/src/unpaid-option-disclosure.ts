@@ -17,9 +17,11 @@
 const FORBIDDEN_OPTION_KEYS = new Set([
   'patch',
   'patchArtifact',
+  'patchfile',
   'fileChanges',
   'contents',
   'coveredSourcePaths',
+  'coveredSourcePathCount',
   'provenantSourcePaths',
   'provenantSourceCount',
   'sourcePaths',
@@ -32,6 +34,8 @@ const FORBIDDEN_OPTION_KEYS = new Set([
   'body',
   'fullOptions',
   'entitledPatch',
+  'measurementRationale',
+  'reviewProjections',
 ]);
 
 /** Path-like tokens scrubbed from measure labels / rationale (unpaid). */
@@ -131,7 +135,7 @@ export function toUnpaidReadOptionPresentation(
   const presentation: Record<string, unknown> = {
     index: typeof o.index === 'number' ? o.index : index,
     kind: typeof o.kind === 'string' ? o.kind : null,
-    title: typeof o.title === 'string' ? o.title : null,
+    title: typeof o.title === 'string' ? scrubPathTokens(o.title) : null,
     summary: typeof o.summary === 'string' ? scrubPathTokens(o.summary) : null,
     confidence: typeof o.confidence === 'number' ? o.confidence : null,
     measurements: { absolutes, needinesses },
@@ -272,7 +276,11 @@ export function redactUnpaidReadExecutionOutput(output: unknown): Record<string,
   return next;
 }
 
-/** True when an execution row is unpaid READ synthesis (must redact for history). */
+/**
+ * True when an execution row is unpaid READ **synthesis** (must redact for history).
+ * Never match settle rows: they also use route /reads and synthesisMode read.
+ * V48-Gate5-F01 remediation R1.
+ */
 export function isUnpaidReadSynthesisExecution(input: {
   context?: unknown;
   output?: unknown;
@@ -280,16 +288,29 @@ export function isUnpaidReadSynthesisExecution(input: {
 }): boolean {
   const ctx = isObject(input.context) ? input.context : {};
   const out = isObject(input.output) ? input.output : {};
-  if (ctx.synthesisMode === 'read') return true;
-  if (ctx.route === '/reads' && ctx.source === 'read-synthesize-options') return true;
-  if (ctx.source === 'read-synthesize-options') return true;
-  if (out.productPipeline === 'synthesize-reads-asset-packs-pipeline') return true;
-  if (
-    typeof out.productPipeline === 'string' &&
-    out.productPipeline.includes('synthesize-reads')
-  ) {
-    return true;
+  const source = typeof ctx.source === 'string' ? ctx.source : '';
+  const pipeline =
+    typeof out.productPipeline === 'string'
+      ? out.productPipeline
+      : typeof ctx.pipelineCore === 'string'
+        ? ctx.pipelineCore
+        : '';
+
+  // Explicit settle exclusions (settle shares route/synthesisMode with read).
+  if (source === 'read-settle-asset-pack' || source.includes('settle-asset-pack')) {
+    return false;
   }
+  if (
+    pipeline === 'settle-asset-pack-pipeline' ||
+    pipeline.includes('settle-asset-pack')
+  ) {
+    return false;
+  }
+
+  // Synthesis-only positive matches — never synthesisMode alone.
+  if (source === 'read-synthesize-options') return true;
+  if (pipeline === 'synthesize-reads-asset-packs-pipeline') return true;
+  if (pipeline.includes('synthesize-reads')) return true;
   return false;
 }
 

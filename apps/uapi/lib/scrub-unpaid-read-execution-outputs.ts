@@ -1,16 +1,16 @@
 /**
  * Migrate/scrub historical unpaid READ synthesis execution rows.
- * V48-Gate5-F01: store only unpaid browser carriers; keep fullOptions if
- * present for settle rehydrate — but rewrite options/selectionEnvelope to
- * unpaid form so raw DB dumps are safer. History API also redacts on read.
+ * V48-Gate5-F01 R2: always preserve commercial material as fullOptions
+ * (copy from legacy options when fullOptions missing), then unpaid-project
+ * browser carriers.
  *
- * Usage (server/admin only):
+ * Service-role / operator script only — no public HTTP route.
+ *
  *   await scrubUnpaidReadExecutionOutputs({ admin, limit: 200 })
  */
 
 import {
   isUnpaidReadSynthesisExecution,
-  scrubStoredUnpaidReadOutput,
   toUnpaidReadOptionsPresentation,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/unpaid-option-disclosure';
 
@@ -35,33 +35,79 @@ function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+function looksCommercialOption(opt: unknown): boolean {
+  if (!isObject(opt)) return false;
+  return (
+    'patch' in opt ||
+    'coveredSourcePaths' in opt ||
+    'fileChanges' in opt ||
+    isObject(opt.patch)
+  );
+}
+
 /**
- * Rewrite a single output: unpaid options + selectionEnvelope, but retain
- * fullOptions for server settle rehydrate when present.
+ * Rewrite a single output: promote commercial material to fullOptions, then
+ * unpaid-project options + selectionEnvelope for browser safety.
  */
 export function scrubReadOutputPreserveFullOptions(
   output: unknown,
 ): Record<string, unknown> | null {
   if (!isObject(output)) return null;
-  const redacted = scrubStoredUnpaidReadOutput(output);
-  if (!redacted) return null;
-  // Restore fullOptions for settle rehydrate when original had them.
-  if (Array.isArray(output.fullOptions) && output.fullOptions.length > 0) {
-    redacted.fullOptions = output.fullOptions;
-    // Ensure browser options stay unpaid even if fullOptions retained in DB.
-    const catalog =
-      typeof output.catalogSourcePathCount === 'number'
-        ? output.catalogSourcePathCount
+
+  const catalog =
+    typeof output.catalogSourcePathCount === 'number'
+      ? output.catalogSourcePathCount
+      : isObject(output.selectionEnvelope) &&
+          typeof output.selectionEnvelope.catalogSourcePathCount === 'number'
+        ? output.selectionEnvelope.catalogSourcePathCount
         : null;
-    redacted.options = toUnpaidReadOptionsPresentation(output.fullOptions, catalog);
-    if (isObject(redacted.selectionEnvelope)) {
-      redacted.selectionEnvelope = {
-        ...redacted.selectionEnvelope,
-        options: redacted.options,
-      };
-    }
+
+  // R2: commercial = existing fullOptions, else legacy options (pre-redact).
+  const commercialSource =
+    Array.isArray(output.fullOptions) && output.fullOptions.length > 0
+      ? output.fullOptions
+      : Array.isArray(output.options) && output.options.some(looksCommercialOption)
+        ? output.options
+        : Array.isArray(output.fullOptions)
+          ? output.fullOptions
+          : Array.isArray(output.options)
+            ? output.options
+            : [];
+
+  const unpaid = toUnpaidReadOptionsPresentation(commercialSource, catalog);
+  const next: Record<string, unknown> = { ...output };
+
+  if (commercialSource.length > 0) {
+    next.fullOptions = commercialSource;
+  } else {
+    delete next.fullOptions;
   }
-  return redacted;
+
+  next.options = unpaid;
+  if (isObject(next.selectionEnvelope)) {
+    next.selectionEnvelope = {
+      ...next.selectionEnvelope,
+      options: unpaid,
+      disclosure: {
+        class: 'unpaid-title-summary-measurements-only',
+        note: 'Patch paths and material unlock only after settle.',
+      },
+    };
+  } else if (unpaid.length > 0) {
+    next.selectionEnvelope = {
+      schema: 'bitcode.read.synthesize-asset-packs.selection-envelope',
+      options: unpaid,
+      disclosure: { class: 'unpaid-title-summary-measurements-only' },
+    };
+  }
+
+  next.disclosure = {
+    class: 'unpaid-title-summary-measurements-only',
+    redacted: true,
+    scrubbed: true,
+  };
+  // Do not delete entitledPatch here — settle rows are not scrubbed by classifier.
+  return next;
 }
 
 export async function scrubUnpaidReadExecutionOutputs(input: {
@@ -97,16 +143,19 @@ export async function scrubUnpaidReadExecutionOutputs(input: {
     }
     const next = scrubReadOutputPreserveFullOptions(row.output);
     if (!next) continue;
+
     const prev = isObject(row.output) ? row.output : {};
-    const first = Array.isArray(prev.options) ? prev.options[0] : null;
+    const prevOptions = Array.isArray(prev.options) ? prev.options : [];
     const needsScrub =
-      (isObject(first) &&
-        ('patch' in first ||
-          'coveredSourcePaths' in first ||
-          'fileChanges' in first)) ||
-      (Array.isArray(prev.options) &&
-        JSON.stringify(prev.options) !== JSON.stringify(next.options));
+      prevOptions.some(looksCommercialOption) ||
+      (!Array.isArray(prev.fullOptions) && prevOptions.some(looksCommercialOption)) ||
+      JSON.stringify(prev.options ?? null) !== JSON.stringify(next.options ?? null) ||
+      (Array.isArray(next.fullOptions) &&
+        !Array.isArray(prev.fullOptions) &&
+        next.fullOptions.length > 0);
+
     if (!needsScrub) continue;
+
     const { error: updateError } = await input.admin
       .from('executions')
       .update({ output: next })
