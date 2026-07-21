@@ -472,12 +472,12 @@ export function BTDTracker({
             BTD/APs + wallet alt share true vertical middle of h-9 (no
             translate hacks; leading-none kills default text-sm half-leading).
           */}
-          <div className="flex h-full min-h-0 min-w-0 items-center justify-center overflow-hidden">
+          <div className="flex h-full min-h-0 min-w-0 items-center justify-start overflow-hidden">
             <AnimatePresence initial={false} mode="wait">
               {actionState === 'loading' ? (
                 <motion.span
                   key="loading"
-                  className="flex w-full items-center justify-center truncate text-center font-normal tracking-wide text-sm leading-none text-emerald-400/90"
+                  className="flex w-full items-center justify-start truncate text-left font-normal tracking-wide text-sm leading-none text-emerald-400/90"
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
                   exit={{ opacity: 0, rotateX: 90 }}
@@ -486,7 +486,7 @@ export function BTDTracker({
               ) : isBalanceLoading ? (
                 <motion.span
                   key="wallet-loading"
-                  className="inline-flex w-full items-center justify-center gap-2 whitespace-nowrap font-normal tracking-wide text-sm leading-none text-emerald-200/78"
+                  className="inline-flex w-full items-center justify-start gap-2 whitespace-nowrap font-normal tracking-wide text-sm leading-none text-emerald-200/78"
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
                   exit={{ opacity: 0, rotateX: 90 }}
@@ -501,9 +501,10 @@ export function BTDTracker({
               ) : actionState === 'idle' && shouldShowWalletNow ? (
                 <motion.span
                   key="wallet"
-                  // Block + min-w-0 ellipsis (not flex): center is fine when the
-                  // compact form fits; fallback end-ellipsis is clean if not.
-                  className="block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-center font-normal tracking-wide text-sm leading-none text-emerald-400/90"
+                  // Left-align in the fixed text slot so short mid-compact
+                  // addresses keep the same logo→ink gap as BTD|APs (center
+                  // on a short string opened a false gap after the fit fix).
+                  className="block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-left font-normal tracking-wide text-sm leading-none text-emerald-400/90"
                   title={walletFullLabel}
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
@@ -513,7 +514,7 @@ export function BTDTracker({
               ) : (
                 <motion.span
                   key="btd"
-                  className="inline-flex w-full items-center justify-center whitespace-nowrap font-medium tracking-wide text-sm leading-none text-emerald-400/90"
+                  className="inline-flex w-full items-center justify-start whitespace-nowrap font-medium tracking-wide text-sm leading-none text-emerald-400/90"
                   initial={{ opacity: 0, rotateX: -90 }}
                   animate={{ opacity: 1, rotateX: 0 }}
                   exit={{ opacity: 0, rotateX: 90 }}
