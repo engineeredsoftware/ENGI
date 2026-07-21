@@ -34,6 +34,16 @@ Those monorepo apps may still exist as **compatibility / future-readiness**
 surfaces — they must not regress source-safe contracts, but they are **not** the
 V48 website launch path unless a later gate reopens them (SPEC goals/non-goals).
 
+### Unpaid READ disclosure (shared product law; website implemented)
+
+See `BITCODE_SPEC_V48_NOTES.md` unpaid READ disclosure law. Pre-settle: title +
+summary + measurements only; settle rehydrates by `synthesisRunId` + indexes;
+post-settle PR on `bitcode/` + rich Packs download; owner deposit always full.
+
+**TODO (document only — do not implement this pass):** apply the same unpaid
+matrix + redaction to MCP, ChatGPT App, Claude App, and public API machine
+surfaces before they become commercial primary paths.
+
 ---
 
 ## 2. Apps in this monorepo
