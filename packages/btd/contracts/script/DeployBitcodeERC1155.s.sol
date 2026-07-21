@@ -8,12 +8,12 @@ import {BitcodeERC1155} from "../src/BitcodeERC1155.sol";
  * @notice Deploy BitcodeERC1155 to Sepolia (or any RPC).
  *
  * Required env (export before forge script):
+ *   BITCODE_DEPLOYER_PRIVATE_KEY — deployer key (0x…); pays gas
  *   BITCODE_MASTER_ACCOUNT       — payable treasury
- *   BITCODE_SETTLEMENT_OPERATOR  — quote signer address
+ *   BITCODE_SETTLEMENT_OPERATOR  — quote signer address on-chain
  *   BITCODE_PAYMENT_ATTESTOR    — optional; defaults to operator
  *   BITCODE_COIN_FEE_BPS         — optional; default 250
- *   PRIVATE_KEY                  — deployer key (0x…)
- *   BITCODE_ETHEREUM_RPC_URL     — Sepolia RPC
+ *   BITCODE_ETHEREUM_RPC_URL     — Sepolia RPC (--rpc-url)
  *
  * Example:
  *   cd packages/btd/contracts
@@ -30,7 +30,7 @@ contract DeployBitcodeERC1155 is Script {
         uint256 feeBps = vm.envOr("BITCODE_COIN_FEE_BPS", uint256(250));
         require(feeBps <= 5_000, "coinFeeBps too high");
 
-        uint256 deployerKey = vm.envUint("PRIVATE_KEY");
+        uint256 deployerKey = vm.envUint("BITCODE_DEPLOYER_PRIVATE_KEY");
         address deployer = vm.addr(deployerKey);
 
         console2.log("Deployer:", deployer);
@@ -40,6 +40,8 @@ contract DeployBitcodeERC1155 is Script {
         console2.log("Fee bps: ", feeBps);
 
         vm.startBroadcast(deployerKey);
+        // casting to uint16 is safe: feeBps checked <= 5000 above
+        // forge-lint: disable-next-line(unsafe-typecast)
         deployed = new BitcodeERC1155(
             payable(master),
             operator,
