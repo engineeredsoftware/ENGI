@@ -50,7 +50,7 @@ export default function PacksPageClient() {
     isLoading,
     error,
     refresh,
-  } = usePacksActivity(routeParams);
+  } = usePacksActivity(routeParams, detailId);
 
   // Drill-in selection is URL-driven only (deposit/read twin) — do not
   // auto-open the first row into detail on list view.
@@ -79,6 +79,7 @@ export default function PacksPageClient() {
       title="Packs Market"
       summary="Network AssetPack ledger: select a row for source-safe proof, settlement, compensation, and delivery."
       icon={Package}
+      detailOpen={isDetailOpen}
       // Hold chips until activity summary loads so the set enters once.
       metricsReady={!isLoading}
       metrics={[
@@ -134,21 +135,28 @@ export default function PacksPageClient() {
         }}
       />
 
-      <ProductDetailStage
-        open={!isDetailOpen}
-        stageKey="packs-portfolio"
-        className="min-w-0"
-      >
-        <PacksPortfolioStrip
-          marketIntelligence={marketIntelligence}
-          isLoading={isLoading}
-          onWriteParams={writeParams}
-        />
-      </ProductDetailStage>
+      {/*
+        Portfolio strip is master-only chrome (not part of detail drill-in).
+        Conditional render without ProductDetailStage so it does not race the
+        detail entrance blur the way dual AnimatePresence stages did.
+      */}
+      {!isDetailOpen ? (
+        <div className="min-w-0">
+          <PacksPortfolioStrip
+            marketIntelligence={marketIntelligence}
+            isLoading={isLoading}
+            onWriteParams={writeParams}
+          />
+        </div>
+      ) : null}
 
       <ProductDetailStage
         open={isDetailOpen}
-        stageKey={selectedId || "packs-detail"}
+        /*
+         * Stable workbench key (deposit/read parity). Do not key by row id —
+         * that remounts the stage and replays entrance on every selection.
+         */
+        stageKey="exchange-detail"
         testId="packs-run-detail"
         className="grid min-w-0 gap-4 phone:gap-5 laptop:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.55fr)]"
       >

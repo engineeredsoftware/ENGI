@@ -285,15 +285,12 @@ describe("PacksPageClient", () => {
   it("renders the fail-closed repair surface for repair-required activity", async () => {
     mockQuery = "detailId=pack-activity-1";
     const payload = JSON.parse(JSON.stringify(basePackPayload)) as typeof basePackPayload;
-    const repairDetail = {
-      ...payload.detail,
-      states: {
-        settlement: "btc-payment-mismatch",
-        rights: null,
-        compensation: null,
-        delivery: null,
-        repair: "repair-required",
-      },
+    // Detail is client-projected from records (deposit/read parity — no list
+    // refetch on detailId). Repair state must live on the list row.
+    payload.records[0] = {
+      ...payload.records[0],
+      settlementState: "btc-payment-mismatch",
+      repairState: "repair-required",
       commodityState: {
         repairRequired: true,
         blockers: ["settlement finality evidence missing"],
@@ -301,10 +298,7 @@ describe("PacksPageClient", () => {
     };
     global.fetch = jest.fn(async () => ({
       ok: true,
-      json: async () => ({
-        ...payload,
-        detail: repairDetail,
-      }),
+      json: async () => payload,
     })) as jest.Mock;
 
     render(<PacksPageClient />);
