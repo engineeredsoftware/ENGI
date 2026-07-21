@@ -722,6 +722,7 @@ const settleAssetPack: Executor<SettleAssetPackInput, SettleAssetPackInput> = as
 
 // ---------------------------------------------------------------------------
 // 6. ship-asset-pack-patch-pr
+// R6: branch bitcode/… from request SHA; apply fileChanges; open PR.
 // ---------------------------------------------------------------------------
 interface CreatePullRequestResult {
   url?: string;
@@ -741,6 +742,7 @@ const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput>
   const title = typeof option.title === 'string' ? option.title : 'AssetPack delivery';
   const patch = option.patch ?? null;
   const measurements = option.measurements ?? null;
+  const fileChanges = Array.isArray(patch?.fileChanges) ? patch.fileChanges : [];
 
   const owner =
     (typeof repo.owner === 'string' && repo.owner) ||
@@ -749,48 +751,138 @@ const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput>
     (typeof repo.name === 'string' && repo.name) ||
     (typeof repo.fullName === 'string' ? repo.fullName.split('/')[1] : null);
   const baseBranch = (typeof repo.branch === 'string' && repo.branch) || 'main';
-  const headBranch = `bitcode/settle-asset-pack-${Date.now().toString(36)}`;
+  const requestSha =
+    (typeof repo.commit === 'string' && repo.commit.trim()) || null;
+  const headBranch = `bitcode/settle-${Date.now().toString(36)}`;
 
   let prUrl: string | null = null;
   let status: SettleShippable['status'] = 'projected';
   let note =
-    'Settle ships the AssetPack .patch against the reading repository; live PR when credentials allow.';
+    'Settle ships AssetPack path-ops from the request SHA on a bitcode/ branch; live when credentials allow.';
   let prError: string | null = null;
+  let appliedFileCount = 0;
 
   if (input.githubAccessToken && owner && name && patch) {
     try {
-      const { createPullRequest } = await import('@bitcode/generic-vcs-git');
-      const bodyLines = [
-        '## Bitcode SettleAssetPack delivery',
-        '',
-        '1:1 AssetPack settlement after BTC finality, BTD mint/transfer, and ERC1155 co-ownership.',
-        '',
-        `### ${title}`,
-        '',
-        typeof patch.patchSummary === 'string'
-          ? patch.patchSummary
-          : 'Patch descriptor attached.',
-      ];
-      const pr = (await createPullRequest({
-        provider: 'github',
+      const git = await import('@bitcode/generic-vcs-git');
+      const baseAuth = {
+        provider: 'github' as const,
         accessToken: input.githubAccessToken,
         owner,
         repo: name,
-        title: `Bitcode: ${title}`,
-        body: bodyLines.join('\n'),
-        sourceBranch: headBranch,
-        targetBranch: baseBranch,
-      })) as CreatePullRequestResult;
-      prUrl = pr.url || pr.html_url || pr.htmlUrl || null;
-      status = prUrl ? 'opened' : 'projected';
-      note = prUrl
-        ? 'Live GitHub pull request opened for AssetPack patch delivery.'
-        : 'Pull request API returned without URL; shippable recorded as projected.';
+      };
+
+      // Fail closed for live ship when request SHA is missing (law: PR from SHA).
+      if (!requestSha) {
+        status = 'projected';
+        note =
+          'Live ship deferred: repository.commit (request SHA) required to branch bitcode/ from the read request.';
+      } else {
+        await git.createReference({
+          ...baseAuth,
+          branch: headBranch,
+          fromSha: requestSha,
+          sha: requestSha,
+        });
+
+        for (const change of fileChanges) {
+          const path = typeof change.path === 'string' ? change.path : '';
+          if (!path) continue;
+          const op = String(change.op || 'modify').toLowerCase();
+          const message = `Bitcode settle: ${op} ${path}`;
+          if (op === 'delete') {
+            try {
+              const existing = await git.getFileContent({
+                ...baseAuth,
+                path,
+                ref: headBranch,
+                branch: headBranch,
+              });
+              const blobSha =
+                existing && typeof (existing as { sha?: string }).sha === 'string'
+                  ? (existing as { sha: string }).sha
+                  : null;
+              if (blobSha) {
+                await git.deleteFileContent({
+                  ...baseAuth,
+                  path,
+                  message,
+                  sha: blobSha,
+                  branch: headBranch,
+                });
+                appliedFileCount += 1;
+              }
+            } catch {
+              /* missing file on delete — skip */
+            }
+          } else if (typeof change.content === 'string') {
+            let blobSha: string | undefined;
+            try {
+              const existing = await git.getFileContent({
+                ...baseAuth,
+                path,
+                ref: headBranch,
+                branch: headBranch,
+              });
+              if (existing && typeof (existing as { sha?: string }).sha === 'string') {
+                blobSha = (existing as { sha: string }).sha;
+              }
+            } catch {
+              blobSha = undefined;
+            }
+            // createFileContent and updateFileContent share the same write path.
+            await git.updateFileContent({
+              ...baseAuth,
+              path,
+              content: change.content,
+              message,
+              branch: headBranch,
+              sha: blobSha,
+            });
+            appliedFileCount += 1;
+          }
+        }
+
+        const bodyLines = [
+          '## Bitcode SettleAssetPack delivery',
+          '',
+          '1:1 AssetPack settlement after payment finality, BTD mint/transfer, and ERC1155 co-ownership.',
+          '',
+          `Base commit (request SHA): \`${requestSha}\``,
+          `Head branch: \`${headBranch}\``,
+          '',
+          `### ${title}`,
+          '',
+          typeof patch.patchSummary === 'string'
+            ? patch.patchSummary
+            : 'AssetPack path-ops applied.',
+          '',
+          fileChanges.length
+            ? `Files: ${fileChanges.map((c) => `${c.op || 'modify'} ${c.path}`).join(', ')}`
+            : 'No fileChanges on patch descriptor (branch still opened from request SHA).',
+        ];
+        const pr = (await git.createPullRequest({
+          ...baseAuth,
+          title: `Bitcode: ${title}`,
+          body: bodyLines.join('\n'),
+          description: bodyLines.join('\n'),
+          sourceBranch: headBranch,
+          targetBranch: baseBranch,
+        })) as CreatePullRequestResult;
+        prUrl = pr.url || pr.html_url || pr.htmlUrl || null;
+        status = prUrl ? 'opened' : 'projected';
+        note = prUrl
+          ? `Live PR from request SHA ${requestSha.slice(0, 7)} on ${headBranch} (${appliedFileCount} file ops applied).`
+          : 'Pull request API returned without URL; shippable recorded as projected.';
+      }
     } catch (err) {
       status = 'failed';
       prError = err instanceof Error ? err.message : String(err);
       note = `Live PR open failed (${prError}); shippable recorded for repair.`;
     }
+  } else if (!requestSha) {
+    note =
+      'Projected ship: record intended bitcode/ branch from request SHA when commit is present; credentials required for live PR.';
   }
 
   const shippable: SettleShippable = {
@@ -801,12 +893,12 @@ const shipAssetPackPatchPr: Executor<SettleAssetPackInput, SettleAssetPackInput>
       owner: owner || null,
       name: name || null,
       branch: baseBranch,
-      commit: repo.commit || null,
+      commit: requestSha,
       fullName: repo.fullName || (owner && name ? `${owner}/${name}` : null),
     },
     headBranch,
     baseBranch,
-    patchCount: patch ? 1 : 0,
+    patchCount: fileChanges.length || (patch ? 1 : 0),
     optionTitle: title,
     measurements,
     prUrl,
