@@ -485,7 +485,9 @@ Gate / version work also needs the living **active + draft** quality surface
 # UAPI
 pnpm -C apps/uapi run typecheck
 pnpm -C apps/uapi run lint
+# Focused Jest — use `exec jest`; pass flags with no bare `--` separator
 pnpm -C apps/uapi exec jest --runInBand --testPathPattern='deposit'
+pnpm -C apps/uapi exec jest --testPathPattern='marketingLandingPage|navBrand'
 
 # Core packages (examples)
 pnpm --filter @bitcode/btd test
@@ -507,7 +509,29 @@ node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-
 
 # Spec quality helper (active + draft only)
 node scripts/run-bitcode-spec-quality.mjs --mode basic
+```
 
+**uapi Jest CLI pitfall (do not repeat):** never run
+
+```bash
+# BAD — bare `--` after `test` mangles flags into the path pattern
+pnpm -C apps/uapi test -- --testPathPattern='marketingLandingPage' --passWithNoTests=false
+```
+
+Jest then prints something like `Pattern: --testPathPattern=…|…` / **No tests found**
+and exits 1 even though the suite exists. That is a **false red**, not a missing
+test. Prefer:
+
+```bash
+# GOOD
+pnpm -C apps/uapi exec jest --testPathPattern='marketingLandingPage'
+# or, without a bare `--`:
+pnpm -C apps/uapi test --testPathPattern='marketingLandingPage'
+```
+
+Agents: same rule is mirrored in `.docs/AGENTS.md` (living CI block).
+
+```bash
 # UI SSOT + casing
 pnpm run verify:ui
 bash scripts/find-uppercase-raw-promptparts.sh

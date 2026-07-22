@@ -54,6 +54,15 @@
     pnpm -C apps/uapi run build
     ```
     Plus **focused Jest / package tests for every package touched** (not “only the happy path test file”). When the change set affects shared agent/pipeline packages, also run those package suites green.
+  - **uapi Jest CLI (required form):** invoke Jest via `exec`, pass flags **without** a bare `--` separator:
+    ```bash
+    # Correct
+    pnpm -C apps/uapi exec jest --testPathPattern='marketingLandingPage'
+    pnpm -C apps/uapi exec jest --runInBand --testPathPattern='deposit|readPage'
+    # Also OK: script name with flags glued (no bare --)
+    pnpm -C apps/uapi test --testPathPattern='marketingLandingPage'
+    ```
+    **Ban:** `pnpm -C apps/uapi test -- --testPathPattern=…` (and the same pattern with extra flags after a bare `--`). pnpm/Jest then treat the flag string as a path pattern (`Pattern: --testPathPattern=…|…`), report **“No tests found”** with exit 1, and fake a red suite even when tests exist. Prefer `exec jest` (see `CONTRIBUTING.md` §8.3).
   - **After lint-build is green**, if the branch is pushed and GitHub runs `test-mocks` / other required jobs, those must be green before treating the commit as deployable; prefer running the equivalent locally when the change can affect uapi Jest.
   - Gate / version work also requires living **active + draft** quality (gate-quality / canon-quality). Version → `main` requires the **promotion** workflow green.
   - Partial smoke (`jest path/to/one.test.ts` alone) is **iteration only** — **never** a commit bar. “I typechecked in my head,” “eslint passed last hour,” or “CI will catch it” are **not** substitutes.
