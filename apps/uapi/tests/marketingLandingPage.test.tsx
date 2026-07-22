@@ -191,7 +191,7 @@ describe('MarketingLandingPage', () => {
         );
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Synthesize DataPacks')).toBeInTheDocument();
+    expect(screen.getByText('Synthesize Packs')).toBeInTheDocument();
     expect(screen.getByText('Review Options')).toBeInTheDocument();
     expect(screen.getByText('Buy Bitcodes')).toBeInTheDocument();
     expect(screen.getAllByText('Deposit').length).toBeGreaterThan(0);
@@ -230,14 +230,16 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Code', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText('Coin', { selector: 'h2 span' })).toBeInTheDocument();
     expect(
-      screen.getByText(
-        /Bitcode's canonical, commercial deployments are its mainnet ERC-1155/u,
-      ),
-    ).toBeInTheDocument();
-    expect(screen.getAllByText(/Measured/u).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/DataPacks/u).length).toBeGreaterThan(0);
-    expect(
-      screen.getByText(/delightful user applications/i),
+      screen.getByText((_, node) => {
+        if (node?.tagName !== 'P') return false;
+        const text = node.textContent ?? '';
+        return (
+          text.includes("Bitcode's data-commerce") &&
+          text.includes('products are the Tokens') &&
+          text.includes('and Exchange') &&
+          text.includes('ledgers, and the applications')
+        );
+      }),
     ).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
@@ -283,12 +285,12 @@ describe('MarketingLandingPage', () => {
     expect(interfaceLabels[0]).toMatch(/Bitcode Whitepaper/u);
     expect(
       screen.getByText(
-        /Bitcode \(BTD\) tokens are an immutable, scarce, deflationary, data-backed digital asset/u,
+        /Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u,
       ),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        /Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u,
+        /Tokens \(BTD, DataPacks\) are an immutable, scarce, deflationary, data-backed digital asset/u,
       ),
     ).toBeInTheDocument();
     expect(

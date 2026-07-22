@@ -8,28 +8,18 @@
  */
 
 import React, { memo } from 'react';
-import { motion } from 'framer-motion';
 
 import DataPackMark from '@/components/bitcode/branding/DataPackMark/DataPackMark';
 import Logo from '@/components/bitcode/branding/Logo/Logo';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
-import {
-  animatedMotionStyle,
-  entranceEase,
-} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 export const MarketingLandingValueFlow = memo(function MarketingLandingValueFlow() {
   const { eyebrow, title, steps, rails } = BITCODE_PUBLIC_COPY.valueFlow;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.6, ease: entranceEase }}
+    <section
       data-testid="landing-value-flow"
       className="relative flex w-full shrink-0 flex-col overflow-visible rounded-none border border-emerald-300/16 bg-[linear-gradient(155deg,rgba(4,14,20,0.96),rgba(5,18,24,0.94)_48%,rgba(3,10,16,0.98))] px-3 pb-2.5 pt-2.5 shadow-[0_18px_48px_rgba(2,8,17,0.4),inset_0_1px_0_rgba(103,254,183,0.1)] tablet:px-3.5 tablet:pb-3 tablet:pt-3"
-      style={animatedMotionStyle}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.12),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.08),transparent_36%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-[0.1] [background-image:linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:22px_22px]" />
@@ -37,7 +27,7 @@ export const MarketingLandingValueFlow = memo(function MarketingLandingValueFlow
 
       <div className="relative flex flex-col">
         {/* Title row + chip lane share the top band (chips absolute into right whitespace). */}
-        <div className="relative min-w-0 pb-2.5">
+        <div className="relative min-w-0 pb-5">
           <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-emerald-200/68">
             {eyebrow}
           </p>
@@ -145,6 +135,6 @@ export const MarketingLandingValueFlow = memo(function MarketingLandingValueFlow
           })}
         </ol>
       </div>
-    </motion.section>
+    </section>
   );
 });

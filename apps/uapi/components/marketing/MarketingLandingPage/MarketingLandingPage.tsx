@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import Footer from '@/components/bitcode/layout/Footer/Footer';
 
 import { MarketingLandingAudienceSection } from '@/components/marketing/MarketingLandingAudienceSection/MarketingLandingAudienceSection';
@@ -10,6 +11,11 @@ import { MarketingLandingProductPreview } from '@/components/marketing/Marketing
 import { MarketingLandingScrollCue } from '@/components/marketing/MarketingLandingScrollCue/MarketingLandingScrollCue';
 import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
 import { MarketingLandingValueFlow } from '@/components/marketing/MarketingLandingValueFlow/MarketingLandingValueFlow';
+import {
+  animatedMotionStyle,
+  entranceEase,
+  landingProductionViewport,
+} from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 import '@/styles/marketing-landing-shell.css';
 import '@/styles/marketing-landing-glow.css';
 import '@/styles/particle-effect.css';
@@ -219,9 +225,18 @@ export default function MarketingLandingPage() {
 
             <MarketingLandingAudienceSection />
 
-            <div
+            {/*
+              One shared whileInView for the whole production band so Code ⇄ Coin
+              and Exchange Posture (plus value-flow / micro-blog) enter together.
+            */}
+            <motion.div
               data-testid="landing-production-band"
               className="grid w-full items-stretch gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={landingProductionViewport}
+              transition={{ duration: 0.85, ease: entranceEase }}
+              style={animatedMotionStyle}
             >
               {/*
                 min-h-0 on both columns: band height follows the lower depot;
@@ -246,7 +261,7 @@ export default function MarketingLandingPage() {
               <div className="h-full min-h-0">
                 <MarketingLandingProductPreview variant="lower" />
               </div>
-            </div>
+            </motion.div>
           </main>
 
           <div className="relative z-20 mt-auto w-full">

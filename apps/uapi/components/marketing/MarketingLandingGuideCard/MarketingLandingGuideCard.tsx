@@ -1,11 +1,8 @@
 'use client';
 
 import React, { memo, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
 
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
-
-import { animatedMotionStyle, entranceEase } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 function renderMicroBlogBody(body: string, highlights: readonly string[]) {
   if (!highlights.length) return body;
@@ -41,12 +38,8 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
   );
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.3, ease: entranceEase }}
+    <article
       className="relative w-full max-w-none overflow-visible rounded-none border border-emerald-300/12 bg-black/25 p-4 pt-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl phone:pt-6"
-      style={animatedMotionStyle}
     >
       <div className="absolute left-0 top-0 flex -translate-y-1/2 flex-wrap items-center gap-2">
         {posts.map((post) => {
@@ -89,6 +82,6 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
       <p className="mt-3 text-[13px] leading-6 text-emerald-100/72">
         {renderMicroBlogBody(activePost.body, activePost.highlights)}
       </p>
-    </motion.article>
+    </article>
   );
 });

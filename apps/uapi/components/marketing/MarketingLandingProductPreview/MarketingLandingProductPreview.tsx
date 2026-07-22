@@ -35,8 +35,9 @@ import {
  * - Body gap: mt-3 after subtitle / chips, mt-3.5 when title-only
  */
 const PANEL_TITLE =
-  'text-[14px] font-semibold leading-none tracking-tight';
-const PANEL_TITLE_GRADIENT = `${PANEL_TITLE} whitespace-nowrap pe-[0.12em] bg-clip-text text-transparent`;
+  'text-[14px] font-semibold leading-tight tracking-tight';
+/** pe/pb keep clipped-gradient titles from eating descenders (g, y, p). */
+const PANEL_TITLE_GRADIENT = `${PANEL_TITLE} whitespace-nowrap pe-[0.12em] pb-[0.14em] bg-clip-text text-transparent`;
 const PANEL_SUBTITLE =
   'mt-2 whitespace-nowrap text-[10px] font-medium uppercase leading-none tracking-[0.1em] text-emerald-100/58';
 const PANEL_SUBTITLE_STACK =
@@ -178,11 +179,11 @@ function PanelTitleRow({
 }) {
   const isGradient = gradient !== 'plain';
   return (
-    <div className={`flex items-center justify-between gap-2 ${className}`.trim()}>
+    <div className={`flex items-end justify-between gap-2 ${className}`.trim()}>
       <p
         className={
           isGradient
-            ? `min-w-0 flex-1 ${PANEL_TITLE_GRADIENT} ${TITLE_GRADIENT[gradient]}`
+            ? `min-w-0 flex-1 overflow-visible ${PANEL_TITLE_GRADIENT} ${TITLE_GRADIENT[gradient]}`
             : `min-w-0 flex-1 ${PANEL_TITLE} ${TITLE_GRADIENT.plain}`
         }
       >
@@ -210,26 +211,22 @@ function DepotChrome({
   testId,
   /**
    * `mount` — opening-band upper depot (animates with page load).
-   * `scroll` — production-band lower depot (matches Code ⇄ Coin whileInView).
+   * `static` — production-band lower depot (parent band owns whileInView).
    */
   entrance = 'mount',
 }: {
   children: React.ReactNode;
   testId?: string;
-  entrance?: 'mount' | 'scroll';
+  entrance?: 'mount' | 'static';
 }) {
-  const scrollInView = entrance === 'scroll';
+  const isStatic = entrance === 'static';
 
   return (
     <motion.aside
-      initial={{ opacity: 0, y: scrollInView ? 22 : 28 }}
-      {...(scrollInView
-        ? {
-            whileInView: { opacity: 1, y: 0 },
-            viewport: { once: true, margin: '-60px' },
-            transition: { duration: 0.85, ease: entranceEase },
-          }
+      {...(isStatic
+        ? {}
         : {
+            initial: { opacity: 0, y: 28 },
             animate: { opacity: 1, y: 0 },
             transition: { duration: 1, delay: 0.12, ease: entranceEase },
           })}
@@ -607,7 +604,7 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
 }) {
   if (variant === 'lower') {
     return (
-      <DepotChrome testId="landing-depot-lower" entrance="scroll">
+      <DepotChrome testId="landing-depot-lower" entrance="static">
         <div className="flex items-center justify-between gap-3">
           <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
             <CircleStackIcon className="h-3.5 w-3.5" />

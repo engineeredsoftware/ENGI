@@ -33,6 +33,17 @@ export const landingAudienceViewport = {
   amount: 0.01,
 } as const;
 
+/**
+ * Production band (Code ⇄ Coin + Exchange Posture + value flow + micro-blog).
+ * Mid gate between earlier “too early” (18% / low amount) and “too late”
+ * (6% + amount 0.12). Applied once on the band wrapper so both columns enter together.
+ */
+export const landingProductionViewport = {
+  once: true,
+  margin: '0px 0px 12% 0px',
+  amount: 0.06,
+} as const;
+
 /** True when audience has crossed the shared enter/exit scroll line. */
 export function isLandingAudienceInEnterBand(audienceEl: Element): boolean {
   if (typeof window === 'undefined') return false;
@@ -338,10 +349,11 @@ export function renderTrailingOrangeAsterisk(value: string, asteriskClassName = 
 
 /**
  * Claim anchors in marketing body + footnotes.
- * - `*`   emerald — ERC-1155 / BTD token posture
- * - `**`  orange  — DataPacks
- * - `***` cyan    — Measurements / source-safety
+ * - `*`   green (emerald) — Measurements / source-safety
+ * - `**`  orange          — Tokens (BTD, DataPacks)
+ * - `***` blue (cyan)     — Exchange / volume appendix
  * Parse longest markers first so `***` is not split into `*` + `**`.
+ * A bare `,` between markers is also superscripted.
  */
 export function renderClaimAnchorMarkers(value: string, markerClassName = '') {
   const parts = value.split(/(\*\*\*|\*\*|\*)/g);
@@ -376,6 +388,18 @@ export function renderClaimAnchorMarkers(value: string, markerClassName = '') {
           aria-hidden="true"
         >
           *
+        </span>
+      );
+    }
+    // Multi-anchor separator (e.g. *,**) — match marker superscript scale.
+    if (part === ',') {
+      return (
+        <span
+          key={`claim-anchor-sep-${index}`}
+          className={`inline-block align-super text-[0.72em] font-semibold leading-none text-emerald-100/72 ${markerClassName}`.trim()}
+          aria-hidden="true"
+        >
+          ,
         </span>
       );
     }

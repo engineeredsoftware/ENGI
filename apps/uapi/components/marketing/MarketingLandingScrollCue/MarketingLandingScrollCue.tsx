@@ -133,7 +133,7 @@ export const MarketingLandingScrollCue = memo(function MarketingLandingScrollCue
             ? { duration: 0.5, ease: entranceEase }
             : { duration: EXIT_MS, ease: 'linear' }
         }
-        className="pointer-events-auto group mt-5 inline-flex flex-col items-center gap-1.5 bg-transparent p-0"
+        className="pointer-events-auto group mt-7 inline-flex flex-col items-center gap-1.5 bg-transparent p-0 phone:mt-8"
         style={animatedMotionStyle}
       >
         <span className="text-[10px] font-medium uppercase tracking-[0.28em] text-white/55 transition-colors duration-300 group-hover:text-white/80">

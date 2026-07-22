@@ -21,7 +21,7 @@ export const BITCODE_PUBLIC_COPY = {
     { text: 'settlement', tone: 'orange' as const },
   ],
   capabilityChips: [
-    'Synthesize DataPacks',
+    'Synthesize Packs',
     'Review Options',
     'Buy Bitcodes',
   ],
@@ -85,13 +85,13 @@ export const BITCODE_PUBLIC_COPY = {
     rail: 'For Agents, Humans, Aliens...',
   },
   // Marketing presents the commercial product as production — no testnet language.
-  // Claim anchors in meaning: * ERC-1155 · ** Measured · *** DataPacks (footnotes).
+  // Claim anchors: data-commerce* · Tokens** · Exchange*** — see sourceSafety footnotes.
   testnetLaunch: {
     badge: 'Productionized Protocol',
     // Marketing exchange strip: Code ⇄ Coin (for → exchange glyph in the title).
     title: 'Code for Coin.',
     meaning:
-      "Bitcode's canonical, commercial deployments are its mainnet ERC-1155* tokens, tradable Measured** DataPacks*** artifacts, and delightful user applications.",
+      "Bitcode's data-commerce* products are the Tokens** and Exchange*** ledgers, and the applications.",
     flow: [
       {
         id: 'whitepaper',
@@ -143,8 +143,8 @@ export const BITCODE_PUBLIC_COPY = {
       },
     ],
     sourceSafety: [
-      '* Bitcode (BTD) tokens are an immutable, scarce, deflationary, data-backed digital asset.',
-      '** Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      '* Measurements are visible; IP is not. Bitcode is source-safe knowledge trading.',
+      '** Tokens (BTD, DataPacks) are an immutable, scarce, deflationary, data-backed digital asset.',
       "*** A DataPack's BTD volume is a protocol determination. The price of BTD is a market one.",
     ],
   },
