@@ -19,6 +19,17 @@ DEPLOY.md
 
 Dual-maintain TS: `packages/btd/src/erc1155/`.
 
+## Testnet readiness board
+
+From monorepo root:
+
+```bash
+./scripts/is-crypto-production-testnet-ready.sh
+pnpm run crypto:testnet-ready
+pnpm run crypto:testnet-ready:full      # forge + jest
+pnpm run crypto:testnet-ready:onchain   # cast after deploy
+```
+
 ## Dependencies (npm-like)
 
 | Track in git | Do not track |

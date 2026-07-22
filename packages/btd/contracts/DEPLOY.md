@@ -1,5 +1,18 @@
 # BitcodeERC1155 testnet deploy
 
+## Progress board
+
+From monorepo root (re-run as crypto work lands):
+
+```bash
+./scripts/is-crypto-production-testnet-ready.sh
+./scripts/is-crypto-production-testnet-ready.sh --full      # forge + jest
+./scripts/is-crypto-production-testnet-ready.sh --onchain   # cast RPC after deploy
+pnpm run crypto:testnet-ready
+```
+
+Does not print secrets. Loads `apps/uapi/.env.local` `BITCODE_*` keys when present.
+
 ## Prerequisites
 
 - Foundry (`forge`, `cast`) — e.g. `~/.foundry/bin` on PATH

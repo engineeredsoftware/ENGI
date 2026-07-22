@@ -59,6 +59,9 @@
     }
   },
   "scripts": {
+    "crypto:testnet-ready": "bash scripts/is-crypto-production-testnet-ready.sh",
+    "crypto:testnet-ready:full": "bash scripts/is-crypto-production-testnet-ready.sh --full",
+    "crypto:testnet-ready:onchain": "bash scripts/is-crypto-production-testnet-ready.sh --onchain",
     "docs:refresh": "npm --prefix apps/mcp run docs:generate && npm --prefix apps/mcp run docs:openapi",
     "verify:ui": "node scripts/verify-ui-ssot.mjs",
     "generate:proven": "node scripts/generate-bitcode-proven.mjs",
