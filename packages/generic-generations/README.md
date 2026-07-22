@@ -47,3 +47,20 @@ product # specialized agents (no reimplementation)
 `AgentExecution` registries inside `@bitcode/agent-generics`. Those factories
 are **logically** generic-generation bases; physical extraction continues as
 execution dependencies invert onto pure `Execution` + LLM registry.
+
+### Tests co-locate with the owning package
+
+| Unit | Package tests live in |
+| --- | --- |
+| PrepareConciseContext (PCC) + pure prepared-context helpers | `failsafes/src/__tests__/` |
+| Thinkings vocabulary (when suite lands) | `thinkings/src/__tests__/` |
+| Agent/PTRR *composition* that uses failsafes | implementing package (e.g. `agent-generics`) |
+
+Do **not** re-host PCC under `agent-generics` because the factory is temporarily
+hosted there. Implementer exception: specialization tests stay with the
+implementing package. Law: `.docs/AGENTS.md`, `CONTRIBUTING.md` §8.0.
+
+```bash
+pnpm --filter @bitcode/generic-generations-failsafes test
+```
+

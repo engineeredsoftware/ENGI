@@ -1,8 +1,13 @@
 const path = require('path');
 const { createJestConfig } = require('../../tests/jest.base.cjs');
 
+// Core vs edges: see .docs/AGENTS.md and CONTRIBUTING §8.0.
+// testMatch: core and edges globs only; both always required green.
 module.exports = createJestConfig(__dirname, {
-  testMatch: ['**/__tests__/**/*.test.(ts|tsx)'],
+  testMatch: [
+    '**/__tests__/core/**/*.core.test.(ts|tsx)',
+    '**/__tests__/edges/**/*.edges.test.(ts|tsx)',
+  ],
   moduleNameMapper: {
     '^@bitcode/logger$': path.join(__dirname, '../logger/src/logger.ts'),
     // Deep subpaths not covered by package root map
@@ -14,5 +19,5 @@ module.exports = createJestConfig(__dirname, {
     '^@bitcode/generic-artifacts-compose$': path.join(__dirname, '../generic-artifacts/compose/src/index.ts'),
     '^@bitcode/parsing$': path.join(__dirname, '../parsing/src/parsing.ts'),
   },
-  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/**/__tests__/**'],
 });

@@ -20,8 +20,8 @@ settle-asset-pack-pipeline → ReadSynthesizedSettledAssetPack
 
 | Path | Package | Role |
 | --- | --- | --- |
-| `measure-agent/` | `@bitcode/generic-measurements-measure-agent` | PTRR measure-agent base |
-| `absolutes/` | `@bitcode/generic-measurements-absolutes` | Absolutes category base |
+| `measure-agent/` | `@bitcode/generic-measurements-measure-agent` | PTRR measure-agent base; tests under `src/__tests__/{core,edges}/` |
+| `absolutes/` | `@bitcode/generic-measurements-absolutes` | Absolutes category base; co-located core tests |
 | `needinesses/` | `@bitcode/generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
 | `tech-types/` | `@bitcode/generic-measurements-tech-types` | Tech/stack signals |
 

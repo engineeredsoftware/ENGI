@@ -405,6 +405,52 @@ Connected-services orientation: [`.docs/BITCODE_CONNECTED_SERVICES.md`](.docs/BI
 
 ## 8. Testing, documenting, and proving
 
+### 8.0 Package co-location and core vs edges
+
+**Package co-location (required):** unit tests live in the package that **owns**
+the unit under test. Do not put package A’s suite under package B because B is a
+consumer (e.g. parsing tests belong in `packages/parsing/`, not
+`agent-generics`; PCC belongs in `packages/generic-generations/failsafes/`).
+
+**Implementer exception:** when package B *implements for itself* a base or
+specific class from a primitive/base in A, B’s specialization tests co-locate in
+B. A’s base tests stay in A. Do not re-host A’s base suite under B.
+
+Package tests (backend first; other packages migrate progressively) are also
+split so **core behavior stays obvious** while edge coverage can grow without
+burying it.
+
+| Category | Role | Growth |
+| --- | --- | --- |
+| **Core** | Default / happy-path behavior — a new reader should learn the package from these files alone | Stable unless core API/behavior changes |
+| **Edges** | Exhaustive edges: failures, bounds, debug env, odd inputs, regression pins | Grows continuously |
+
+**Physical law (folder + filename both required):**
+
+```text
+packages/<pkg>/src/__tests__/
+  core/<topic>.core.test.ts
+  edges/<topic>.edges.test.ts
+  support/                    # fixtures only
+```
+
+| Script | Meaning |
+| --- | --- |
+| `pnpm -C packages/<pkg> test` | **Both** core and edges (commit / CI bar) |
+| `test:core` / `test:edges` | Convenience filters — **not** a way to skip edges before commit |
+
+**Heuristic:** if it teaches “how this package works by default,” it is **core**.
+If it pins a corner, flag, failure, or bug, it is **edges**.
+
+When reorganizing a package, also **elevate** tests: clearer `describe`/`it`
+names, remove stale or redundant cases, keep core files short and didactic.
+
+**Pilots:** `@bitcode/agent-generics` (composition only); `@bitcode/parsing`;
+`@bitcode/generic-generations-failsafes` (PCC + prepared-context);
+`@bitcode/generic-measurements-measure-agent` / `absolutes`;
+`@bitcode/parsing`. Other packages adopt the same layout when next touched.
+Full agent law: `.docs/AGENTS.md`.
+
 ### 8.1 REQUIRED: never commit until full local CI is completely green
 
 **Never commit** (and **never push**) until the living required CI surface has

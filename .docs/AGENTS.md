@@ -53,6 +53,25 @@
 - Any inline code comment that cites an accepted QA finding shorthand must always carry the fully-qualified tag `[VERSION]-Gate[N]-F[ID]` (e.g. `V48-Gate3-F26-B`), never a bare `F26-B`-style tag. The same fully-qualified tag must always be discoverable in the specification/QA ledger file(s) (e.g. the finding's own `### V48-Gate3-F26` heading in `.qa/BITCODE_V48_QA.md`), so a reader can go from either direction — code comment to spec entry, or spec entry to every citing code comment — with a single grep. This keeps finding-to-fix traceability intact without requiring the surrounding file or commit to already establish which version/gate is active.
 - Once implementation starts on a gate branch, do not stop at partial progress unless blocked by missing external input or explicit user pause. A gate branch is ready to stop only when the gate's acceptance criteria are implemented, specified, tested, documented, committed, pushed, and pull-requested for closure into the version branch.
 - Treat gate and promotion workflow health as part of gate closure. Gate pull requests into version branches must be green through the **active + draft** gate-quality / canon-quality surface (not prior-era `check-vN-*` suites). Repository-wide living product CI (uapi lint/typecheck/build/Jest) must remain greenable during draft work. Version pull requests into `main` must pass the version promotion workflow, which performs promotion-grade validations and commits the standalone `BITCODE_SPEC.txt` pointer change only after those validations pass.
+- **Test co-location with package ownership (required):** unit tests live in the package that **owns** the unit under test — never under a consumer because it imports the unit. Examples: `@bitcode/parsing` tests under `packages/parsing/`; PrepareConciseContext (PCC) under `packages/generic-generations/failsafes/` even while an LLM-bound factory is still transitional in `@bitcode/agent-generics`. **Implementer exception:** when package B *implements for itself* a base/specific class from a primitive/base in package A, B's specialization tests co-locate in B; A's base tests stay in A. Do not re-host A's base suite under B.
+- **Tests co-locate with the owning package (required):** unit tests live in the package that **owns** the unit under test — not in a consumer, re-export host, or monorepo root. Law:
+  - **Primitive package** → primitive contracts  
+  - **Generic base package** → base contracts (even if an LLM factory is *temporarily hosted* in another package for execution coupling)  
+  - **Implementing package** → only tests that *compose/specialize* the base for that package  
+  - **Product package** → product-only behavior  
+  Anti-pattern: parking `@bitcode/parsing` or MeasureAgent base tests under `@bitcode/agent-generics` because factories re-export or host them. Pilot co-location: `packages/parsing`, `packages/generic-generations/failsafes` (PCC), `packages/generic-measurements/measure-agent`.
+- **Test organization: core vs edges (required for backend packages as they migrate):** package unit tests live under two categories so suites stay readable and useful:
+  | Category | Purpose | Growth |
+  | --- | --- | --- |
+  | **Core** | Extremely clear default / happy-path behavior of the package or subsystem | Stable — grows only when core API/behavior changes |
+  | **Edges** | Exhaustive edge cases, debug flags, failures, bounds, regression pins | Grows as edges are discovered |
+  **Layout (both folder and filename required):**
+  ```text
+  src/__tests__/core/<topic>.core.test.ts
+  src/__tests__/edges/<topic>.edges.test.ts
+  src/__tests__/support/   # shared fixtures only — not a third test class
+  ```
+  Default package `test` runs **both**; `test:core` / `test:edges` are convenience only — **edges are never optional** for commit/CI green. New tests go into the correct folder immediately; do not add flat `__tests__/*.test.ts` on opted-in packages. Pilot exemplars: `@bitcode/agent-generics` (core/edges), `@bitcode/generic-generations-failsafes` (PCC + prepared-context), `@bitcode/parsing`. When reorganizing, also **elevate**: clear descriptors, drop stale/clutter tests, make core files teach the product by reading alone. Human guide: `CONTRIBUTING.md` §8.0.
 - **REQUIRED — never commit until all living CI checks are run locally and completely green.** This is absolute for every commit that may land on a shared branch, gate PR, or production path. **All commits must be green for production deployment** — a red commit is undeployable product debt, not “CI will catch it later.”
   - **Hard ban:** do **not** `git commit` (and do **not** push) while lint, typecheck, build, or required package/Jest suites are red, skipped, or only partially run for the change set.
   - **Before every commit**, the living local CI mirror must be green. It is **enforced by `.githooks/pre-commit`** (`pnpm run hooks:install` once per clone):

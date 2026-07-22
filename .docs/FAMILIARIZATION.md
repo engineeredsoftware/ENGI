@@ -514,7 +514,7 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | Package | Responsibility |
 | --- | --- |
 | `execution-generics` | `Execution` state tree, `Executor`, sequential/parallel/pipe |
-| `agent-generics` | Agent = Executor + PTRR composition over generations |
+| `agent-generics` | Agent = Executor + PTRR composition over generations; tests under `__tests__/core|edges` (see CONTRIBUTING §8.0) |
 | `tools-generics` | `Tool` class, factories, MCP bridges |
 | `pipelines-generics` | ExecutionPipeline primitives / stream hooks (no phases; phases are SDIVF-only) |
 | `generic-pipelines-execution-pipeline-sdivf` | SDIVF base loop (`packages/generic-pipelines/execution-pipeline-sdivf`) |

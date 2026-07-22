@@ -2,6 +2,21 @@
 
 Industrial-grade parsing utilities for structured data extraction and validation with enterprise-level error handling and fallback mechanisms.
 
+## Tests (co-located; core vs edges)
+
+```text
+src/__tests__/core/*.core.test.ts
+src/__tests__/edges/*.edges.test.ts
+```
+
+```bash
+pnpm --filter @bitcode/parsing test          # both (required)
+pnpm --filter @bitcode/parsing test:core
+pnpm --filter @bitcode/parsing test:edges
+```
+
+Do not re-host these under `agent-generics` or monorepo root.
+
 ## Overview
 
 Comprehensive parsing framework designed for reliable extraction and validation of structured data from LLM responses and unstructured text. Implements advanced JSON extraction algorithms, schema validation with automatic fallback generation, and performance-optimized retry mechanisms.

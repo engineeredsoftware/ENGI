@@ -3,6 +3,27 @@
 Agent **primitives**: execution, registries, generation-layer factories,
 `factoryAgent` / `factoryQuickAgent`.
 
+## Tests (core vs edges)
+
+| Category | Path | Role |
+| --- | --- | --- |
+| **Core** | `src/__tests__/core/*.core.test.ts` | Default / happy-path package contracts |
+| **Edges** | `src/__tests__/edges/*.edges.test.ts` | Flags, failures, bounds, telemetry corners |
+
+```bash
+pnpm test              # both (required green)
+pnpm test:core         # convenience
+pnpm test:edges        # convenience — not a commit skip
+```
+
+Law: `.docs/AGENTS.md`, `CONTRIBUTING.md` §8.0. Core should teach Thinkings +
+failsafe *composition* + PTRR step tools without reading edges.
+
+**Not here:** PrepareConciseContext (PCC) base pins live in
+`@bitcode/generic-generations-failsafes` (`packages/generic-generations/failsafes/`).
+This package may still *host* the transitional LLM-bound factory and may test how
+agents *use* PCC; it must not re-host the PCC base suite.
+
 ## Hierarchy
 
 ```

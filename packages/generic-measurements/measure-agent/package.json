@@ -9,7 +9,9 @@
   },
   "scripts": {
     "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
-    "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
+    "test": "pnpm exec jest --config jest.config.cjs --runInBand",
+    "test:core": "pnpm exec jest --config jest.config.cjs --runInBand --testPathPattern=__tests__/core/",
+    "test:edges": "pnpm exec jest --config jest.config.cjs --runInBand --testPathPattern=__tests__/edges/",
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {

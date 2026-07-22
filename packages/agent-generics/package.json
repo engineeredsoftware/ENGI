@@ -8,6 +8,8 @@
     "build": "tsc --noEmit",
     "typecheck": "node ../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "test": "jest",
+    "test:core": "jest --testPathPattern=__tests__/core/",
+    "test:edges": "jest --testPathPattern=__tests__/edges/",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "type-check": "pnpm run typecheck"
