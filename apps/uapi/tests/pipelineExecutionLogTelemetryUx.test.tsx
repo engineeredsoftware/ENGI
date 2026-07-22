@@ -759,7 +759,7 @@ describe('PipelineExecutionLog — error banner (QA F19: errors live in telemetr
   });
 });
 
-describe('PipelineExecutionLog — pills inline with the title line', () => {
+describe('PipelineExecutionLog — compact rich telemetry containment', () => {
   const line = 'LLM call observed';
   const outputDetails = {
     [line]: {
@@ -778,7 +778,7 @@ describe('PipelineExecutionLog — pills inline with the title line', () => {
     },
   };
 
-  it('compact layout: title and pill row share ONE flex row, pills after the title', () => {
+  it('compact layout: title row then wrapping pills (no shared nowrap row)', () => {
     render(
       <PipelineExecutionLog
         output={`${line}\n`}
@@ -797,15 +797,20 @@ describe('PipelineExecutionLog — pills inline with the title line', () => {
     const pillRow = screen.getByText('DISCOVERY').closest('.flex-wrap') as HTMLElement;
     expect(pillRow).not.toBeNull();
 
-    // Same parent row — NOT a separate pill line above the title.
-    expect(pillRow.parentElement).toBe(title.parentElement);
-    const row = title.parentElement as HTMLElement;
-    expect(row.className).toContain('items-center');
-    expect(row.className).not.toContain('flex-col');
+    // Shell: title meta line + pill cluster as stacked children so long
+    // uppercase call-chain labels cannot page-x-overflow historical runs.
+    const shell = pillRow.parentElement as HTMLElement;
+    expect(shell.className).toContain('flex-col');
+    expect(shell.className).toContain('min-w-0');
+    expect(shell.contains(title)).toBe(true);
 
-    // Pills come AFTER the title in document order (to its right).
+    // Pills still follow the title in document order (below, not above).
     expect(
       title.compareDocumentPosition(pillRow) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
+
+    // Pill row itself wraps and is width-capped.
+    expect(pillRow.className).toMatch(/flex-wrap/);
+    expect(pillRow.className).toMatch(/max-w-full|w-full/);
   });
 });

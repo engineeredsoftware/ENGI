@@ -158,11 +158,14 @@ const ParticleEffect: FC<ParticleEffectProps> = ({
 
   if (typeof document === 'undefined') return null;
 
+  // Body portal so particles are not clipped by overflow parents. z-index lives
+  // in particle-effect.css (20) — below Auxillaries (10000). Do not kill/hide
+  // animations when Auxillaries opens; opaque overlay floor covers them.
   return createPortal(
     <div
       ref={containerRef}
       className="particle-effect-container pointer-events-none"
-      style={{ zIndex: 9999, overflow: 'visible' }}
+      style={{ overflow: 'visible' }}
     />,
     document.body,
   );

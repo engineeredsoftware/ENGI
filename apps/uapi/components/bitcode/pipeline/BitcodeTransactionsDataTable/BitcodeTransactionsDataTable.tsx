@@ -46,14 +46,18 @@ interface BitcodeTransactionsDataTableProps {
 
 const COL_COUNT = 7;
 
-/** Shared shell/table tokens — Packs activity grid mirrors these exactly. */
+/**
+ * Shared shell/table tokens — Packs activity grid mirrors these exactly.
+ * Shell is max-w-full + min-w-0 so wide tables scroll inside the card, not
+ * the page (iPhone). Table keeps a modest min-width for readable columns.
+ */
 export const PRODUCT_DATA_TABLE_SHELL_CLASS =
-  'mt-4 overflow-x-auto border border-white/8 bg-[rgba(4,8,18,0.84)] [scrollbar-gutter:stable]';
+  'mt-4 max-w-full min-w-0 overflow-x-auto overscroll-x-contain border border-white/8 bg-[rgba(4,8,18,0.84)] [-webkit-overflow-scrolling:touch] [scrollbar-width:thin]';
 export const PRODUCT_DATA_TABLE_CLASS =
-  'min-w-full border-collapse text-left';
+  'w-full min-w-[32rem] border-collapse text-left tablet:min-w-[40rem]';
 export const PRODUCT_DATA_TABLE_HEAD_CLASS =
   'border-b border-white/8 bg-white/5 text-[0.62rem] uppercase tracking-[0.18em] text-neutral-500';
-export const PRODUCT_DATA_TABLE_TH_CLASS = 'px-3 py-2.5 font-medium';
+export const PRODUCT_DATA_TABLE_TH_CLASS = 'whitespace-nowrap px-3 py-2.5 font-medium';
 export const PRODUCT_DATA_TABLE_TD_CLASS = 'px-3 py-3 align-top';
 
 export default function BitcodeTransactionsDataTable({

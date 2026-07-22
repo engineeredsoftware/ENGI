@@ -75,12 +75,15 @@ const publicSecondaryActionClassName =
 
 /**
  * Fixed right-chrome band for product / workspace nav.
- * Reserves the wider of: Connect Wallet CTA, "Reading wallet", or
- * BTD tracker + notification (36px / h-9 siblings). Prevents center
- * route links from shifting when wallet readiness resolves.
+ * Phone: content-sized (sits on brand row). Tablet+: reserved width so center
+ * route links do not shift when wallet readiness resolves.
+ */
+/**
+ * Clip — never overflow-x-auto. Auto created a 1px green scrollbar next to the
+ * BTD tracker on tight phone widths when content was slightly over the slot.
  */
 const NAV_RIGHT_CHROME_SLOT_CLASS =
-  'nav-right-chrome-slot flex w-full min-w-0 shrink-0 items-center justify-end overflow-x-auto tablet:w-[21rem] tablet:min-w-[21rem] tablet:max-w-[21rem] tablet:overflow-visible';
+  'nav-right-chrome-slot flex min-w-0 shrink-0 items-center justify-end overflow-x-hidden [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden tablet:w-[21rem] tablet:min-w-[21rem] tablet:max-w-[21rem] tablet:overflow-visible';
 
 const disabledActionClassName =
   'cursor-not-allowed border-white/10 bg-white/[0.025] text-neutral-400 opacity-65 grayscale hover:border-white/10 hover:bg-white/[0.025] hover:text-neutral-400';
@@ -315,7 +318,7 @@ export default function Nav() {
   const walletReadinessLoadingActions =
     (usesProductChrome || usesWorkspaceOnlyChrome) && isWalletReadinessLoading ? (
       <div
-        className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end`}
+        className={`${controlsEntranceClassName} flex h-8 items-center justify-end`}
         data-testid="nav-wallet-readiness-loading"
         aria-live="polite"
       >
@@ -348,7 +351,7 @@ export default function Nav() {
   );
 
   const workspaceGuestActions = usesWorkspaceOnlyChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
-    <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end`}>
+    <div className={`${controlsEntranceClassName} flex h-8 items-center justify-end`}>
       {disableCreateAccount ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount}>
           {renderConnectWalletCta()}
@@ -360,7 +363,7 @@ export default function Nav() {
   ) : null;
 
   const publicGuestActions = usesProductChrome && !hasChromeWalletIdentity && !isWalletReadinessLoading ? (
-    <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end`}>
+    <div className={`${controlsEntranceClassName} flex h-8 items-center justify-end`}>
       {disableCreateAccount ? (
         <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.createAccount}>
           {renderConnectWalletCta()}
@@ -370,6 +373,53 @@ export default function Nav() {
       )}
     </div>
   ) : null;
+
+  /** Right-chrome body (wallet / tracker) — shared phone brand-row + tablet slot. */
+  const productRightChromeBody = walletReadinessLoadingActions
+    ? walletReadinessLoadingActions
+    : workspaceGuestActions
+      ? workspaceGuestActions
+      : publicGuestActions
+        ? publicGuestActions
+        : hasChromeWalletIdentity
+          ? (
+            <div className={`${controlsEntranceClassName} flex h-8 items-center justify-end gap-2 phone:gap-3.5`}>
+              {FEATURE_FLAGS.NOTIFICATIONS && (
+                <MemoNotificationsWidget />
+              )}
+              {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
+                <MemoBTDTracker
+                  btdBalance={btdBalance}
+                  btcFeeBalance={btcFeeBalance}
+                  recentBtdAssetPacks={recentBtdAssetPacks}
+                  isLoading={isUserDataLoading && !hasChromeWalletIdentity}
+                  hasWalletIdentity={hasChromeWalletIdentity}
+                  walletLabel={chromeWalletLabel}
+                  walletAddress={chromeWalletAddress}
+                  walletProvider={chromeWalletProvider}
+                  onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'wallet')}
+                />
+              )}
+            </div>
+          )
+          : showNavUse
+            ? (
+              <div className={showNavEntrance ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
+                {FEATURE_FLAGS.DISABLE_USING ? (
+                  <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
+                    <AuxillariesUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
+                  </DisabledTooltipWrapper>
+                ) : (
+                  <AuxillariesUseButton
+                    onHoverPrefetch={() => prefetchAuxillaries()}
+                    onClick={() => openAuxillaries(user ? 'auxillaries' : 'connect')}
+                    auxillaries={orbitalElements}
+                    particles={particleElements}
+                  />
+                )}
+              </div>
+            )
+            : null;
 
   // Product nav themes match pillar language: Read orange · Exchange green · Deposit purple.
   // Idle hover border/glow strength is matched across all three (Deposit was the reference).
@@ -489,137 +539,165 @@ export default function Nav() {
           border: 'none',
         }}
       >
-        <div className={`mx-auto max-w-7xl px-3 phone:px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${usesProductChrome ? 'flex w-full min-w-0 flex-col gap-2.5 py-2 phone:gap-3 phone:py-2.5 tablet:flex-row tablet:items-center tablet:justify-between' : `flex w-full min-w-0 items-center justify-between ${usesWorkspaceOnlyChrome ? 'py-3.5' : 'py-4 pb-6'}`}`}>
-          <div className={usesProductChrome ? 'flex w-full min-w-0 flex-col items-stretch gap-2.5 phone:gap-3 tablet:min-w-0 tablet:flex-1 tablet:flex-row tablet:items-center' : 'flex w-full min-w-0 items-center'}>
-            <NavBrand
-              animated={showNavEntrance && shouldAnimateNavEntrance}
-              visible={showNavEntrance}
-              onClick={handleLogoClick}
-              surface={navSurface ?? publicSurface}
-            />
-            {usesProductChrome ? publicRouteLinks : null}
-            {!usesProductChrome && !hasChromeWalletIdentity && <div className="flex-1" />}
-            {!usesProductChrome && hasChromeWalletIdentity && (
-              <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
-                {[
-                  { href: '/exchange', label: 'exchange' },
-                ].map(({ href, label }, index) => {
-                  const isDisabled = disablePacksLink || disableExchangeLink;
-                  const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
-                  const isActiveRoute =
-                    pathname === '/exchange' ||
-                    pathname?.startsWith('/exchange/') ||
-                    pathname === '/packs' ||
-                    pathname?.startsWith('/packs/') ||
-                    pathname?.startsWith('/executions') ||
-                    pathname?.startsWith('/conversations');
-                  return (
-                    <li key={href}
-                      className={`${shouldAnimate ? 'nav-item-animated' : ''}`.trim()}
-                      style={{ '--item-index': index } as React.CSSProperties}
-                    >
-                      <div className="group relative">
-                        {isDisabled ? (
-                          <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.packs}>
-                            <span
-                              data-testid={`nav-${label}-link`}
-                              role="link"
-                              aria-disabled="true"
-                              className={`
+        <div
+          className={`mx-auto max-w-7xl px-3 phone:px-4 tablet:px-6 laptop:px-8 desktop:px-12 wide:px-16 ${
+            usesProductChrome
+              ? // Single DOM chrome: phone brand|wallet then links; tablet brand+links | wallet.
+                'flex w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-2.5 py-2 phone:gap-y-3 phone:py-2.5 tablet:flex-nowrap tablet:justify-between'
+              : `flex w-full min-w-0 items-center justify-between ${usesWorkspaceOnlyChrome ? 'py-3.5' : 'py-4 pb-6'}`
+          }`}
+        >
+          {usesProductChrome ? (
+            <>
+              <div className="order-1 min-w-0 shrink-0">
+                <NavBrand
+                  animated={showNavEntrance && shouldAnimateNavEntrance}
+                  visible={showNavEntrance}
+                  onClick={handleLogoClick}
+                  surface={navSurface ?? publicSurface}
+                />
+              </div>
+              <div className="order-3 w-full min-w-0 tablet:order-2 tablet:w-auto tablet:flex-1 tablet:px-0">
+                {publicRouteLinks}
+              </div>
+              <div
+                data-testid="nav-right-chrome"
+                className={`order-2 ml-auto shrink-0 tablet:order-3 tablet:ml-0 ${NAV_RIGHT_CHROME_SLOT_CLASS}`}
+              >
+                {productRightChromeBody}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex w-full min-w-0 items-center">
+                <NavBrand
+                  animated={showNavEntrance && shouldAnimateNavEntrance}
+                  visible={showNavEntrance}
+                  onClick={handleLogoClick}
+                  surface={navSurface ?? publicSurface}
+                />
+                {!hasChromeWalletIdentity && <div className="flex-1" />}
+                {hasChromeWalletIdentity && (
+                  <ul className={`flex items-center space-x-2 phone:space-x-4 tablet:space-x-6 text-sm phone:text-base tablet:text-lg w-full justify-center ${usesWorkspaceOnlyChrome ? 'tablet:ml-10' : 'tablet:ml-[130px]'}`}>
+                    {[
+                      { href: '/exchange', label: 'exchange' },
+                    ].map(({ href, label }, index) => {
+                      const isDisabled = disablePacksLink || disableExchangeLink;
+                      const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
+                      const isActiveRoute =
+                        pathname === '/exchange' ||
+                        pathname?.startsWith('/exchange/') ||
+                        pathname === '/packs' ||
+                        pathname?.startsWith('/packs/') ||
+                        pathname?.startsWith('/executions') ||
+                        pathname?.startsWith('/conversations');
+                      return (
+                        <li key={href}
+                          className={`${shouldAnimate ? 'nav-item-animated' : ''}`.trim()}
+                          style={{ '--item-index': index } as React.CSSProperties}
+                        >
+                          <div className="group relative">
+                            {isDisabled ? (
+                              <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.packs}>
+                                <span
+                                  data-testid={`nav-${label}-link`}
+                                  role="link"
+                                  aria-disabled="true"
+                                  className={`
                           text-xl font-light text-neutral-700 dark:text-neutral-300
                           relative transition-all duration-200 ease-in-out
                           px-1 py-2 inline-block origin-left
                           ${baseShadow} opacity-50 pointer-events-none
                         `}
-                            >
-                              <span className="inline-block">{label}</span>
-                            </span>
-                          </DisabledTooltipWrapper>
-                        ) : (
-                          <a
-                            data-testid={`nav-${label}-link`}
-                            aria-current={isActiveRoute ? 'page' : undefined}
-                            href={href}
-                            className={`
+                                >
+                                  <span className="inline-block">{label}</span>
+                                </span>
+                              </DisabledTooltipWrapper>
+                            ) : (
+                              <a
+                                data-testid={`nav-${label}-link`}
+                                aria-current={isActiveRoute ? 'page' : undefined}
+                                href={href}
+                                className={`
                           text-xl font-light relative transition-all duration-200 ease-in-out 
                           px-1 py-2 inline-block origin-left 
                           ${isActiveRoute
-                                ? 'nav-item-active !text-emerald-400'
-                                : `text-neutral-700 dark:text-neutral-300 nav-item-hover-effect ${hoverShadowClass}`}
+                                    ? 'nav-item-active !text-emerald-400'
+                                    : `text-neutral-700 dark:text-neutral-300 nav-item-hover-effect ${hoverShadowClass}`}
                           ${!isActiveRoute && baseShadow}
                         `}
-                          >
-                            <span className={`
+                              >
+                                <span className={`
                           inline-block transition-transform duration-200 ease-in-out
                           ${isActiveRoute ? 'nav-item-active-text' : ''}
                         `}>
-                              {label}
-                            </span>
-                          </a>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
-
-          <div
-            data-testid="nav-right-chrome"
-            className={
-              usesProductChrome || usesWorkspaceOnlyChrome
-                ? NAV_RIGHT_CHROME_SLOT_CLASS
-                : 'flex items-center justify-center space-x-4'
-            }
-          >
-            {walletReadinessLoadingActions ? (
-              walletReadinessLoadingActions
-            ) : workspaceGuestActions ? (
-              workspaceGuestActions
-            ) : publicGuestActions ? (
-              publicGuestActions
-            ) : hasChromeWalletIdentity ? (
-              <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end gap-3.5`}>
-                {/* Notifications left of wallet; wallet alone opens Auxillaries. */}
-                {FEATURE_FLAGS.NOTIFICATIONS && (
-                  <MemoNotificationsWidget />
-                )}
-
-                {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
-                  <MemoBTDTracker
-                    btdBalance={btdBalance}
-                    btcFeeBalance={btcFeeBalance}
-                    recentBtdAssetPacks={recentBtdAssetPacks}
-                    // Never treat background revalidation as a full wallet re-read.
-                    isLoading={isUserDataLoading && !hasChromeWalletIdentity}
-                    hasWalletIdentity={hasChromeWalletIdentity}
-                    walletLabel={chromeWalletLabel}
-                    walletAddress={chromeWalletAddress}
-                    walletProvider={chromeWalletProvider}
-                    onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'wallet')}
-                  />
+                                  {label}
+                                </span>
+                              </a>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 )}
               </div>
-            ) : (
-              showNavUse && (
-                <div className={showNavEntrance ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
-                  {FEATURE_FLAGS.DISABLE_USING ? (
-                    <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
-                      <AuxillariesUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
-                    </DisabledTooltipWrapper>
-                  ) : (
-                    <AuxillariesUseButton
-                      onHoverPrefetch={() => prefetchAuxillaries()}
-                      onClick={() => openAuxillaries(user ? 'auxillaries' : 'connect')}
-                      auxillaries={orbitalElements}
-                      particles={particleElements}
-                    />
-                  )}
-                </div>
-              )
-            )}
-          </div>
+              <div
+                data-testid="nav-right-chrome"
+                className={
+                  usesWorkspaceOnlyChrome
+                    ? NAV_RIGHT_CHROME_SLOT_CLASS
+                    : 'flex items-center justify-center space-x-4'
+                }
+              >
+                {walletReadinessLoadingActions
+                  ? walletReadinessLoadingActions
+                  : workspaceGuestActions
+                    ? workspaceGuestActions
+                    : publicGuestActions
+                      ? publicGuestActions
+                      : hasChromeWalletIdentity
+                        ? (
+                          <div className={`${controlsEntranceClassName} flex h-8 w-full items-center justify-end gap-3.5`}>
+                            {FEATURE_FLAGS.NOTIFICATIONS && (
+                              <MemoNotificationsWidget />
+                            )}
+                            {!FEATURE_FLAGS.HIDE_BTD_TRACKER && (
+                              <MemoBTDTracker
+                                btdBalance={btdBalance}
+                                btcFeeBalance={btcFeeBalance}
+                                recentBtdAssetPacks={recentBtdAssetPacks}
+                                isLoading={isUserDataLoading && !hasChromeWalletIdentity}
+                                hasWalletIdentity={hasChromeWalletIdentity}
+                                walletLabel={chromeWalletLabel}
+                                walletAddress={chromeWalletAddress}
+                                walletProvider={chromeWalletProvider}
+                                onOpenBtdAuxillary={() => openAuxillaries('auxillaries', 'wallet')}
+                              />
+                            )}
+                          </div>
+                        )
+                        : showNavUse
+                          ? (
+                            <div className={showNavEntrance ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}>
+                              {FEATURE_FLAGS.DISABLE_USING ? (
+                                <DisabledTooltipWrapper tooltip="Auxillaries access is refreshing" className="inline-block">
+                                  <AuxillariesUseButton isDisabled auxillaries={orbitalElements} particles={particleElements} />
+                                </DisabledTooltipWrapper>
+                              ) : (
+                                <AuxillariesUseButton
+                                  onHoverPrefetch={() => prefetchAuxillaries()}
+                                  onClick={() => openAuxillaries(user ? 'auxillaries' : 'connect')}
+                                  auxillaries={orbitalElements}
+                                  particles={particleElements}
+                                />
+                              )}
+                            </div>
+                          )
+                          : null}
+              </div>
+            </>
+          )}
         </div>
       </div>
 

@@ -11,6 +11,7 @@ import React from 'react';
 import Link from 'next/link';
 import {
   ArrowsRightLeftIcon,
+  ArrowsUpDownIcon,
   ChatBubbleLeftRightIcon,
   CodeBracketIcon,
   CodeBracketSquareIcon,
@@ -44,7 +45,7 @@ const TITLE_HIGHLIGHT_CLASS: Record<'green' | 'orange', string> = {
  * substantially larger than the 3-chain triangle (chain side unchanged).
  */
 const CODE_MARK_SLOT =
-  'inline-flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center phone:h-[5.25rem] phone:w-[5.25rem]';
+  'inline-flex h-14 w-14 shrink-0 items-center justify-center phone:h-16 phone:w-16 tablet:h-[4.5rem] tablet:w-[4.5rem] laptop:h-[5.25rem] laptop:w-[5.25rem]';
 
 /**
  * Compact bond between Bitcode C and DataPack — reads as one commercial
@@ -91,7 +92,7 @@ function CodePackBondMark({ className = '' }: { className?: string }) {
  * scale — not a single % object-contain.
  */
 const CHAIN_MARK_SLOT =
-  'inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-visible phone:h-11 phone:w-11';
+  'inline-flex h-11 w-11 shrink-0 items-center justify-center overflow-visible phone:h-12 phone:w-12 tablet:h-10 tablet:w-10 laptop:h-11 laptop:w-11';
 /**
  * Explicit glyph boxes — BTC SVG frame is mostly empty so it needs a much
  * larger box+scale to hit ~same painted height as ETH diamond / SOL bars.
@@ -101,11 +102,11 @@ const CHAIN_GLYPH = {
    * BTC SVG path is slightly design-tilted in the Pixelmator export; −10° CSS
    * straightens the B upright next to ETH/SOL without overshoot (−15° was past vertical).
    */
-  btc: 'block h-12 w-12 origin-center scale-[1.55] rotate-[-10deg] phone:h-[3.25rem] phone:w-[3.25rem]',
-  eth: 'block h-10 w-10 origin-center object-contain phone:h-11 phone:w-11',
-  sol: 'block h-9 w-11 origin-center object-contain phone:h-10 phone:w-12',
+  btc: 'block h-11 w-11 origin-center scale-[1.5] rotate-[-10deg] phone:h-12 phone:w-12 tablet:h-12 tablet:w-12 tablet:scale-[1.55] laptop:h-[3.25rem] laptop:w-[3.25rem]',
+  eth: 'block h-11 w-11 origin-center object-contain phone:h-12 phone:w-12 tablet:h-10 tablet:w-10 laptop:h-11 laptop:w-11',
+  sol: 'block h-9 w-11 origin-center object-contain phone:h-10 phone:w-12 tablet:h-9 tablet:w-11 laptop:h-10 laptop:w-12',
   /** Nested fiat mini-cells in the lattice group. */
-  fiat: 'relative z-[1] inline-flex h-[1.05rem] w-[1.05rem] shrink-0 items-center justify-center text-[0.88rem] font-semibold leading-none phone:h-[1.15rem] phone:w-[1.15rem] phone:text-[0.95rem]',
+  fiat: 'relative z-[1] inline-flex h-[1.1rem] w-[1.1rem] shrink-0 items-center justify-center text-[0.9rem] font-semibold leading-none phone:h-[1.2rem] phone:w-[1.2rem] phone:text-[0.95rem] tablet:h-[1.05rem] tablet:w-[1.05rem] tablet:text-[0.88rem] laptop:h-[1.15rem] laptop:w-[1.15rem] laptop:text-[0.95rem]',
 } as const;
 
 /**
@@ -116,7 +117,7 @@ const CHAIN_GLYPH = {
 function FiatRailGroupMark({ className = '' }: { className?: string }) {
   return (
     <span
-      className={`relative inline-grid h-10 w-10 shrink-0 grid-cols-2 grid-rows-2 place-items-center overflow-visible phone:h-11 phone:w-11 ${className}`}
+      className={`relative inline-grid h-11 w-11 shrink-0 grid-cols-2 grid-rows-2 place-items-center overflow-visible phone:h-12 phone:w-12 tablet:h-10 tablet:w-10 laptop:h-11 laptop:w-11 ${className}`}
       aria-hidden="true"
     >
       {/* Lattice plate + × bond + core (under the glyphs). */}
@@ -258,6 +259,10 @@ function renderTitleWithHighlights(title: string) {
 
 export function MarketingLandingTestnetSection() {
   const copy = BITCODE_PUBLIC_COPY.testnetLaunch;
+  // Phone badge: first word on line 1, remainder on line 2 (balanced wrap).
+  const badgeWords = copy.badge.trim().split(/\s+/);
+  const badgeLead = badgeWords[0] ?? copy.badge;
+  const badgeTrail = badgeWords.slice(1).join(' ');
 
   return (
     <section
@@ -265,124 +270,130 @@ export function MarketingLandingTestnetSection() {
       aria-label="Commercial product launch readiness"
       className="relative w-full shrink-0"
     >
-      <div className="relative overflow-visible rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
+      <div className="relative overflow-hidden rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:overflow-visible phone:px-5 phone:py-5 tablet:overflow-visible">
         {/*
-          Icon stack is absolute top-right (does not crush text width).
-          Badge + title use max-width calc so they clear the stack; body is full width.
+          Phone: badge | vertical icon column (package → ⇅ → rails), larger marks.
+          Tablet+: horizontal strip absolute top-right (row + ⇄), as before.
         */}
-        <div
-          className="pointer-events-none absolute right-2 top-2 z-10 flex items-center gap-1.5 phone:right-2.5 phone:top-2.5 phone:gap-2 tablet:gap-2.5"
-          aria-hidden="true"
-          title="Code for Coin exchange"
-        >
-          {/*
-            Bitcode package unit — C ⋈ DataPack (bond = package deal),
-            then purple ⇄ to settlement rails (chain triangle).
-          */}
-          <span
-            className="inline-flex items-center"
-            title="Bitcode protocol + DataPack (package deal)"
+        <div className="flex min-w-0 items-start justify-between gap-3 tablet:block">
+          <div className="min-w-0 flex-1 tablet:max-w-[calc(100%-17rem)] desktop:max-w-[calc(100%-19rem)]">
+            {/*
+              Intentional Productionized / Protocol break — balanced 2-line badge.
+            */}
+            <span className="inline-flex shrink-0 flex-col items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2 py-1.5 text-center text-[0.58rem] font-medium uppercase leading-[1.15] tracking-[0.12em] text-emerald-100 phone:px-2.5 phone:text-[0.62rem] phone:tracking-[0.14em] tablet:inline-block tablet:max-w-none tablet:px-2.5 tablet:py-1 tablet:text-left tablet:text-[0.62rem] tablet:tracking-[0.18em] tablet:leading-none">
+              <span className="block tablet:inline">{badgeLead}</span>
+              {badgeTrail ? (
+                <span className="block tablet:ml-1 tablet:inline">{badgeTrail}</span>
+              ) : null}
+            </span>
+            <h2 className="mt-2.5 text-2xl font-semibold leading-tight tracking-tight text-white phone:mt-3 phone:text-3xl phone:leading-none tablet:whitespace-nowrap tablet:text-4xl">
+              {renderTitleWithHighlights(copy.title)}
+            </h2>
+            {/*
+              Phone: meaning sits in the left column under the title (whitespace
+              beside the icon stack). Tablet+ is full-width under the header.
+            */}
+            <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px] tablet:hidden">
+              {renderClaimAnchorMarkers(copy.meaning)}
+            </p>
+          </div>
+
+          <div
+            className="pointer-events-none relative z-10 flex w-[38%] max-w-[9.5rem] shrink-0 flex-col items-center gap-1.5 phone:w-[40%] phone:max-w-[10.5rem] phone:gap-2 tablet:absolute tablet:right-2.5 tablet:top-2.5 tablet:w-auto tablet:max-w-none tablet:flex-row tablet:items-center tablet:gap-2 laptop:right-2.5 laptop:top-2.5 laptop:gap-2.5"
+            aria-hidden="true"
+            title="Code for Coin exchange"
           >
             <span
-              className={`${CODE_MARK_SLOT} translate-x-4 text-[#65FEB7] phone:translate-x-5 [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
-            >
-              {/*
-                +16.5° CSS straighten (design tilt −17.5°). C shifts into its
-                open counter; bond −ml pulls in; −mr keeps DataPack gap stable.
-              */}
-              <Logo
-                height="h-[4.5rem] phone:h-[5.25rem]"
-                width="w-[4.5rem] phone:w-[5.25rem]"
-                fill="#65FEB7"
-                className="origin-center rotate-[16.5deg] opacity-95"
-              />
-            </span>
-            <span
-              className="relative z-10 -ml-5 -mr-1.5 translate-x-1.5 inline-flex shrink-0 items-center justify-center text-[#65FEB7] phone:-ml-6 phone:-mr-2 phone:translate-x-2 [filter:drop-shadow(0_0_8px_rgba(103,254,183,0.75))]"
-              aria-hidden="true"
-            >
-              <CodePackBondMark className="h-7 w-9 opacity-95 phone:h-8 phone:w-10" />
-            </span>
-            <span
-              className={`${CODE_MARK_SLOT} [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
-            >
-              <DataPackMark
-                height="h-[4.5rem] phone:h-[5.25rem]"
-                width="w-[4.5rem] phone:w-[5.25rem]"
-                className="opacity-95"
-                title={null}
-                variant="dual"
-              />
-            </span>
-          </span>
-          <span className="inline-flex shrink-0 items-center justify-center [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.85))_drop-shadow(0_0_18px_rgba(192,132,252,0.55))]">
-            <ArrowsRightLeftIcon
-              className="h-7 w-7 text-fuchsia-300 phone:h-8 phone:w-8"
-              strokeWidth={2}
-            />
-          </span>
-          {/*
-            Settlement side — four outer quadrants (reading order):
-              fiat lattice · BTC
-              ETH          · SOL
-          */}
-          <span
-            className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1 gap-y-0.5"
-            aria-label="Settlement rails: fiat USD Euro Yuan and Ruble, Bitcoin, Ethereum, and Solana"
-          >
-            <FiatRailGroupMark />
-            <span
-              className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(251,146,60,0.85))_drop-shadow(0_0_16px_rgba(251,191,36,0.5))]`}
+              className="inline-flex items-center"
+              title="Bitcode protocol + DataPack (package deal)"
             >
               <span
-                className={`${CHAIN_GLYPH.btc} bg-orange-300`}
-                style={{
-                  maskImage: 'url(/bitcoin-logo.svg)',
-                  WebkitMaskImage: 'url(/bitcoin-logo.svg)',
-                  maskSize: 'contain',
-                  maskRepeat: 'no-repeat',
-                  maskPosition: 'center',
-                }}
+                className={`${CODE_MARK_SLOT} translate-x-2.5 text-[#65FEB7] phone:translate-x-3 tablet:translate-x-4 laptop:translate-x-5 [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
+              >
+                <Logo
+                  height="h-14 phone:h-16 tablet:h-[4.5rem] laptop:h-[5.25rem]"
+                  width="w-14 phone:w-16 tablet:w-[4.5rem] laptop:w-[5.25rem]"
+                  fill="#65FEB7"
+                  className="origin-center rotate-[16.5deg] opacity-95"
+                />
+              </span>
+              <span
+                className="relative z-10 -ml-3 -mr-1 translate-x-1 inline-flex shrink-0 items-center justify-center text-[#65FEB7] phone:-ml-3.5 phone:translate-x-1 tablet:-ml-5 tablet:-mr-1.5 tablet:translate-x-1.5 laptop:-ml-6 laptop:-mr-2 laptop:translate-x-2 [filter:drop-shadow(0_0_8px_rgba(103,254,183,0.75))]"
                 aria-hidden="true"
+              >
+                <CodePackBondMark className="h-6 w-8 opacity-95 phone:h-7 phone:w-9 tablet:h-7 tablet:w-9 laptop:h-8 laptop:w-10" />
+              </span>
+              <span
+                className={`${CODE_MARK_SLOT} [filter:drop-shadow(0_0_12px_rgba(103,254,183,0.9))_drop-shadow(0_0_24px_rgba(52,211,153,0.55))]`}
+              >
+                <DataPackMark
+                  height="h-14 phone:h-16 tablet:h-[4.5rem] laptop:h-[5.25rem]"
+                  width="w-14 phone:w-16 tablet:w-[4.5rem] laptop:w-[5.25rem]"
+                  className="opacity-95"
+                  title={null}
+                  variant="dual"
+                />
+              </span>
+            </span>
+            {/*
+              Phone column uses vertical ⇅; tablet+ row keeps horizontal ⇄.
+            */}
+            <span className="inline-flex shrink-0 items-center justify-center [filter:drop-shadow(0_0_8px_rgba(232,121,249,0.85))_drop-shadow(0_0_18px_rgba(192,132,252,0.55))]">
+              <ArrowsUpDownIcon
+                className="h-6 w-6 text-fuchsia-300 phone:h-7 phone:w-7 tablet:hidden"
+                strokeWidth={2}
+              />
+              <ArrowsRightLeftIcon
+                className="hidden h-7 w-7 text-fuchsia-300 tablet:block laptop:h-8 laptop:w-8"
+                strokeWidth={2}
               />
             </span>
             <span
-              className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(99,102,241,0.75))_drop-shadow(0_0_16px_rgba(167,139,250,0.55))]`}
+              className="grid shrink-0 grid-cols-2 grid-rows-2 place-items-center gap-x-1.5 gap-y-1"
+              aria-label="Settlement rails: fiat USD Euro Yuan and Ruble, Bitcoin, Ethereum, and Solana"
             >
-              <img
-                src="/ethereum-logo.svg"
-                alt=""
-                className={CHAIN_GLYPH.eth}
-                draggable={false}
-              />
-            </span>
-            <span
-              className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(153,69,255,0.75))_drop-shadow(0_0_16px_rgba(25,251,155,0.4))]`}
-            >
-              <img
-                src="/solana-logo.svg"
-                alt=""
-                className={CHAIN_GLYPH.sol}
-                draggable={false}
-              />
-            </span>
-          </span>
-        </div>
-
-        {/* Title block only — leaves a proportional clear zone for the absolute stack. */}
-        <div className="max-w-[calc(100%-11.5rem)] phone:max-w-[calc(100%-14rem)] tablet:max-w-[calc(100%-17rem)] desktop:max-w-[calc(100%-19rem)]">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="shrink-0 whitespace-nowrap rounded-none border border-emerald-300/35 bg-emerald-300/12 px-2.5 py-1 text-[0.62rem] font-medium uppercase tracking-[0.18em] text-emerald-100">
-              {copy.badge}
+              <FiatRailGroupMark />
+              <span
+                className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(251,146,60,0.85))_drop-shadow(0_0_16px_rgba(251,191,36,0.5))]`}
+              >
+                <span
+                  className={`${CHAIN_GLYPH.btc} bg-orange-300`}
+                  style={{
+                    maskImage: 'url(/bitcoin-logo.svg)',
+                    WebkitMaskImage: 'url(/bitcoin-logo.svg)',
+                    maskSize: 'contain',
+                    maskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                  }}
+                  aria-hidden="true"
+                />
+              </span>
+              <span
+                className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(99,102,241,0.75))_drop-shadow(0_0_16px_rgba(167,139,250,0.55))]`}
+              >
+                <img
+                  src="/ethereum-logo.svg"
+                  alt=""
+                  className={CHAIN_GLYPH.eth}
+                  draggable={false}
+                />
+              </span>
+              <span
+                className={`${CHAIN_MARK_SLOT} [filter:drop-shadow(0_0_8px_rgba(153,69,255,0.75))_drop-shadow(0_0_16px_rgba(25,251,155,0.4))]`}
+              >
+                <img
+                  src="/solana-logo.svg"
+                  alt=""
+                  className={CHAIN_GLYPH.sol}
+                  draggable={false}
+                />
+              </span>
             </span>
           </div>
-          <h2 className="mt-3 whitespace-nowrap text-2xl font-semibold leading-none tracking-tight text-white phone:text-3xl tablet:text-4xl">
-            {renderTitleWithHighlights(copy.title)}
-          </h2>
         </div>
 
-        {/* Full-width body under the header (icons only occupy the top-right). */}
-        <p className="mt-2 text-[14px] leading-6 text-neutral-300 phone:text-[15px]">
+        {/* Tablet+: full-width body under header (phone meaning is in the left column). */}
+        <p className="mt-2 hidden text-[14px] leading-6 text-neutral-300 phone:text-[15px] tablet:block">
           {renderClaimAnchorMarkers(copy.meaning)}
         </p>
         <ul className="mt-3 grid grid-cols-1 gap-2.5" aria-label="Product interfaces">

@@ -27,9 +27,13 @@ const DEFAULT_SPECS: ProductChipSkeletonSpec[] = [
   { labelWidthClass: 'w-14', valueWidthClass: 'w-10' },
 ];
 
-/** Shared with live route/table metric chips — one row, fixed chip height. */
+/**
+ * Shared with live route/table metric chips.
+ * Phone: wrap so chips never force page-level horizontal overflow.
+ * Tablet+: single nowrap row with hidden scrollbar (laptop geometry preserved).
+ */
 export const PRODUCT_METRIC_CHIP_ROW_CLASS =
-  'flex h-7 w-full max-w-full flex-nowrap items-center gap-1.5 overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+  'flex min-h-7 w-full max-w-full flex-wrap items-center gap-1.5 tablet:h-7 tablet:flex-nowrap tablet:overflow-x-auto tablet:overflow-y-hidden tablet:[scrollbar-width:none] tablet:[&::-webkit-scrollbar]:hidden';
 
 /** Label↔value pair; modest gap (not UA dd margin / space-between). */
 export const PRODUCT_METRIC_CHIP_SHELL_CLASS =

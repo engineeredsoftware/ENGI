@@ -1,6 +1,7 @@
 /**
- * Auxillaries left-rail selector: one card per pane with state chip, title,
- * description, and one-word feature pills that fill vertical card height.
+ * Auxillaries pane selector.
+ * Desktop: left-rail cards (state square, title, description, feature pills).
+ * Stacked ≤1023px: title-only horizontal tab strip (copy/pills/state hidden via CSS).
  */
 'use client';
 
@@ -104,6 +105,7 @@ export default function AuxillariesWorkspacePanels({
                   aria-label={stateLabel}
                   title={stateLabel}
                   data-state={state}
+                  data-testid={isActive ? `auxillaries-pane-selected-${step}` : undefined}
                 />
               </div>
               <p className="orbital-workspace-panel-label auxillaries-bitcode-selector-card-label">

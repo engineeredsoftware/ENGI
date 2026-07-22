@@ -103,8 +103,15 @@
 
 :is(.orbital-portal, .auxillaries-portal) {
   position: fixed;
-  inset: 0;
-  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: none;
+  height: auto;
+  z-index: 10000;
+  isolation: isolate;
+  outline: none !important;
 }
 
 :is(.orbital-close-button, .auxillaries-close-button),
@@ -870,11 +877,112 @@
   transition: none !important;
 }
 
-/* Full-page Auxillaries / orbital portal — fixed shell; entrance handled by framer-motion. */
+/*
+ * Auxillaries portal — one geometry for open and keep-alive dormant.
+ *
+ * Rules (do not re-layer hacks on top of this):
+ * - Always position:fixed; inset:0 (covers the layout viewport + stable gutter).
+ * - Never 100vw, never JS width/height, never padding-right compensation.
+ * - Open vs dormant differs only by opacity + pointer-events (+ inert in JS).
+ * - Page width is held by html { scrollbar-gutter: stable } (globals) while
+ *   html.auxillaries-open { overflow: hidden } locks scroll (orbital-global).
+ */
 :is(.orbital-portal, .auxillaries-portal) {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  /* Above body-portal ParticleEffect (z-20) and page chrome. */
+  z-index: 10000;
+  isolation: isolate;
+  outline: none !important;
+  box-shadow: none;
+}
+
+/* Floor + single opacity transition (same timing open and close). */
+.auxillaries-portal {
+  opacity: 0;
+  pointer-events: none;
+  background-color: #04101a;
+  background-image:
+    radial-gradient(circle at 14% 0%, rgba(101, 254, 183, 0.14), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(56, 189, 248, 0.1), transparent 22%),
+    linear-gradient(180deg, #040a13, #02060d);
+  transition: opacity 160ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auxillaries-portal.auxillaries-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*
+ * Keep-alive: stay full-bleed (geometry unchanged) so the exit is a pure fade.
+ * Kill hit-testing on the whole subtree — parent pointer-events:none is not
+ * enough when descendants set pointer-events:auto (!important).
+ */
+.auxillaries-portal.auxillaries-portal-dormant {
+  opacity: 0;
+  pointer-events: none !important;
+}
+
+.auxillaries-portal.auxillaries-portal-dormant,
+.auxillaries-portal.auxillaries-portal-dormant * {
+  pointer-events: none !important;
+}
+
+/* No browser focus ring on the full-screen portal / surface host. */
+.auxillaries-portal:focus,
+.auxillaries-portal:focus-visible,
+.auxillaries-bitcode-surface:focus,
+.auxillaries-bitcode-surface:focus-visible,
+.orbital-system.auxillaries-bitcode-surface:focus,
+.orbital-system.auxillaries-bitcode-surface:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auxillaries-portal {
+    transition: none;
+  }
+}
+
+/* First-open shell while the dynamic surface chunk mounts. */
+.auxillaries-portal-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: transparent;
+}
+
+.auxillaries-portal-loading-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid rgba(101, 254, 183, 0.18);
+  border-top-color: rgba(101, 254, 183, 0.55);
+  border-radius: 0;
+  animation: auxillaries-portal-loading-spin 0.9s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes auxillaries-portal-loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auxillaries-portal-loading-mark {
+    animation: none;
+    opacity: 0.45;
+    border-color: rgba(101, 254, 183, 0.28);
+  }
 }
 
 .orbital-closed {

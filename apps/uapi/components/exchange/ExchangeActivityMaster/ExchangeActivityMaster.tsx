@@ -109,7 +109,7 @@ export function ExchangeActivityMaster({
       {!isDetailOpen ? (
         // List chrome is its own card so the title card never grows/shrinks.
         <section
-          className="min-w-0 border border-white/10 bg-white/[0.035] px-4 py-4"
+          className="min-w-0 max-w-full overflow-x-clip border border-white/10 bg-white/[0.035] px-3 py-3 phone:px-4 phone:py-4"
           data-testid="packs-activity-table"
           aria-label="Exchange activity"
         >

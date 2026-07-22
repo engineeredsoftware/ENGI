@@ -361,11 +361,15 @@ export function ProductRouteShell({
             <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             {label}
           </p>
-          <div className="flex min-w-0 items-center justify-between gap-3">
-            <h1 className="min-w-0 shrink-0 text-lg font-semibold tracking-tight text-white phone:text-xl tablet:text-2xl">
+          {/*
+            Phone: title then metrics stack (wrap) so chips never clip the title.
+            Tablet+: original one-row title | chips alignment.
+          */}
+          <div className="flex min-w-0 flex-col gap-2 tablet:flex-row tablet:items-center tablet:justify-between tablet:gap-3">
+            <h1 className="min-w-0 text-lg font-semibold tracking-tight text-white phone:text-xl tablet:shrink-0 tablet:text-2xl">
               {title}
             </h1>
-            <div className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="min-w-0 w-full tablet:flex-1 tablet:overflow-x-auto tablet:[scrollbar-width:none] tablet:[&::-webkit-scrollbar]:hidden">
               <ProductRouteMetricChips metrics={metrics} ready={metricsReady} />
             </div>
           </div>

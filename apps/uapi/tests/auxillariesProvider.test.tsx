@@ -47,6 +47,31 @@ describe('AuxillariesProvider', () => {
     });
   });
 
+  it('closes on Escape even when focus is not inside the surface', () => {
+    render(
+      <AuxillariesProvider>
+        <div>product</div>
+      </AuxillariesProvider>,
+    );
+
+    act(() => {
+      openAuxillaries('auxillaries', 'externals');
+    });
+    expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
+      'true',
+    );
+
+    // Focus remains on body (typical after opening from a nav control).
+    act(() => {
+      document.body.focus();
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+
+    expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
+      'false',
+    );
+  });
+
   it('creates a portal container and renders auxillaries when opened through the shared event bridge', () => {
     render(
       <AuxillariesProvider>
@@ -65,17 +90,46 @@ describe('AuxillariesProvider', () => {
     expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
       'true',
     );
+    expect(screen.getByTestId('auxillaries-overlay-root').inert).toBe(false);
 
     act(() => {
       closeAuxillaries();
     });
 
-    // Keep-alive: surface stays mounted (hidden) so re-open skips remount cost.
-    expect(document.documentElement.classList.contains('auxillaries-open')).toBe(false);
-    expect(screen.getByTestId('auxillaries-overlay-root').getAttribute('data-auxillaries-open')).toBe(
-      'false',
-    );
+    // Overlay state + page scroll lock clear immediately (scrollbar at rest).
+    // Keep-alive surface stays mounted (hidden) so re-open skips remount cost.
+    const dormantRoot = screen.getByTestId('auxillaries-overlay-root');
+    expect(dormantRoot.getAttribute('data-auxillaries-open')).toBe('false');
     expect(screen.getByTestId('auxillaries-overlay')).toBeTruthy();
+    expect(document.documentElement.classList.contains('auxillaries-open')).toBe(false);
+    // Keep-alive must be inert so it cannot steal focus/hover from page chrome.
+    expect(dormantRoot.inert).toBe(true);
+    expect(dormantRoot.classList.contains('auxillaries-portal-dormant')).toBe(true);
+  });
+
+  it('blurs focus that remained inside the keep-alive portal on close', () => {
+    render(
+      <AuxillariesProvider>
+        <div>product</div>
+      </AuxillariesProvider>,
+    );
+
+    act(() => {
+      openAuxillaries('auxillaries', 'wallet');
+    });
+
+    const closeBtn = screen.getByRole('button', { name: 'Close auxillaries' });
+    act(() => {
+      closeBtn.focus();
+    });
+    expect(document.activeElement).toBe(closeBtn);
+
+    act(() => {
+      closeAuxillaries();
+    });
+
+    expect(document.activeElement === closeBtn).toBe(false);
+    expect(screen.getByTestId('auxillaries-overlay-root').inert).toBe(true);
   });
 
   it('clears deep-linked pane state after close so later opens do not reuse a stale auxillaries pane', () => {

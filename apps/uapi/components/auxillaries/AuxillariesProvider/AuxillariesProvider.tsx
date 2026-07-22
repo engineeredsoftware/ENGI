@@ -6,7 +6,6 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
 } from 'react';
 import {
@@ -21,23 +20,30 @@ import dynamic from 'next/dynamic';
 
 /**
  * Overlay fade only (surface keeps original internal entrance motion).
- * Open latency is solved via prefetch + keep-alive, not by shortening these.
+ * Open/close share one CSS transition (see orbital.css). Page scroll lock is
+ * NOT delayed for the fade — scrollbar must return immediately at rest.
  */
-const OPEN_MS = 280;
-const OPEN_EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-function prefersReducedMotion(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  } catch {
-    return false;
-  }
+/**
+ * First-open placeholder: sits on the portal field gradient (not pitch black)
+ * while the surface chunk mounts. Particles stay under the portal (z-index).
+ */
+function AuxillariesPortalLoading() {
+  return (
+    <div
+      className="auxillaries-portal-loading"
+      data-testid="auxillaries-portal-loading"
+      aria-busy="true"
+      aria-label="Loading Auxillaries"
+    >
+      <div className="auxillaries-portal-loading-mark" aria-hidden="true" />
+    </div>
+  );
 }
 
 const AuxillariesSurface = dynamic(
   () => import('@/components/auxillaries/AuxillariesSurface/AuxillariesSurface'),
-  { ssr: false, loading: () => null },
+  { ssr: false, loading: () => <AuxillariesPortalLoading /> },
 );
 
 /** Warm the dynamic shell as soon as the provider module evaluates on the client. */
@@ -163,7 +169,6 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
   const [windowState, setWindowState] = useState<AuxillaryWindow>('AuxillariesWindow');
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
   const [deepLinkStep, setDeepLinkStep] = useState<AuxillaryPane | null>(null);
-  const reduceMotionRef = useRef(prefersReducedMotion());
 
   useLayoutEffect(() => {
     const el = document.createElement('div');
@@ -178,12 +183,76 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     };
   }, []);
 
+  const showSurface = hasOpened || isOpen;
+
+  // Scroll lock + keep-alive teardown. Geometry is CSS-only (fixed inset:0);
+  // do not set width/height/padding here — that was the whack-a-mole source.
   useLayoutEffect(() => {
+    const root = document.documentElement;
+    // Clear any legacy compensation from earlier iterations.
+    root.style.removeProperty('--auxillaries-scrollbar-comp');
+    root.style.paddingRight = '';
+    document.body.style.paddingRight = '';
+
     if (isOpen) {
-      document.documentElement.classList.add('auxillaries-open', 'overflow-hidden');
+      root.classList.add('auxillaries-open');
     } else {
-      document.documentElement.classList.remove('auxillaries-open', 'overflow-hidden');
+      root.classList.remove('auxillaries-open');
     }
+
+    return () => {
+      root.classList.remove('auxillaries-open');
+      root.style.removeProperty('--auxillaries-scrollbar-comp');
+      root.style.paddingRight = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [isOpen]);
+
+  // React 18: force inert via DOM property; blur focus left inside keep-alive
+  // so nav hover works immediately after close.
+  useLayoutEffect(() => {
+    const shell = document.querySelector(
+      '[data-testid="auxillaries-overlay-root"]',
+    ) as HTMLElement | null;
+    if (!shell) return;
+
+    if (isOpen) {
+      shell.inert = false;
+      return;
+    }
+
+    shell.inert = true;
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && shell.contains(active)) {
+      active.blur();
+    }
+  }, [isOpen, showSurface]);
+
+  // Escape must work even when focus stayed on the page under the portal
+  // (surface onKeyDown only fires if the surface is in the bubble path).
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' && event.code !== 'Escape') return;
+      // Nested modal/popover already handling Escape (stopped bubble).
+      if (event.defaultPrevented) return;
+      // Prefer closing a focused nested dialog before the whole overlay.
+      const active = document.activeElement;
+      if (
+        active instanceof HTMLElement &&
+        active.closest('[role="dialog"]') &&
+        !active.closest('[data-testid="auxillaries-overlay-root"]')
+      ) {
+        return;
+      }
+      event.preventDefault();
+      setIsOpen(false);
+      setDeepLinkStep(null);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen]);
 
   useEffect(() => {
@@ -303,32 +372,25 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
     toggleAuxillaries,
   };
 
-  const showSurface = hasOpened || isOpen;
-  const reduceMotion = reduceMotionRef.current;
+  const portalMounted = Boolean(portalContainer && showSurface);
 
   return (
     <AuxillariesContext.Provider value={ctx}>
       {children}
-      {portalContainer && showSurface
+      {portalMounted
         ? createPortal(
             <div
-              className={`auxillaries-portal${isOpen ? ' auxillaries-open' : ' auxillaries-portal-dormant'}`}
+              // Geometry is CSS fixed inset:0. Only class toggles opacity /
+              // pointer-events. `inert` also forced via shell.inert (React 18).
+              className={`auxillaries-portal${
+                isOpen ? ' auxillaries-open' : ' auxillaries-portal-dormant'
+              }`}
               data-testid="auxillaries-overlay-root"
               data-auxillaries-open={isOpen ? 'true' : 'false'}
               aria-hidden={!isOpen}
-              // Keep-alive dormant surface must not receive focus or input.
               inert={!isOpen ? true : undefined}
-              style={{
-                opacity: isOpen ? 1 : 0,
-                visibility: isOpen ? 'visible' : 'hidden',
-                pointerEvents: isOpen ? 'auto' : 'none',
-                transition: reduceMotion
-                  ? undefined
-                  : `opacity ${OPEN_MS}ms ${OPEN_EASE}`,
-                willChange: isOpen && !reduceMotion ? 'opacity' : undefined,
-              }}
             >
-              <div className="h-full w-full">
+              <div className="h-full w-full min-h-0 min-w-0">
                 <AuxillariesSurface
                   window={windowState}
                   onClose={closeAuxillaries}
@@ -336,7 +398,7 @@ export default function AuxillariesProvider({ children }: { children: React.Reac
                 />
               </div>
             </div>,
-            portalContainer,
+            portalContainer!,
           )
         : null}
     </AuxillariesContext.Provider>

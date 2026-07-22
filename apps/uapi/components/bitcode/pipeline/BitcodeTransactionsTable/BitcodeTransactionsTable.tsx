@@ -95,7 +95,11 @@ export default function BitcodeTransactionsTable({
       data-testid="bitcode-transactions-table-shell"
       aria-labelledby={isPipelinesSurface ? undefined : "bitcodeTransactionsTableTitle"}
       aria-label={isPipelinesSurface ? tableTitle : undefined}
-      className={isPipelinesSurface ? "" : "border border-white/8 bg-black/20 px-4 py-4"}
+      className={
+        isPipelinesSurface
+          ? 'min-w-0 max-w-full overflow-x-hidden'
+          : 'min-w-0 max-w-full overflow-x-hidden border border-white/8 bg-black/20 px-3 py-3 phone:px-4 phone:py-4'
+      }
     >
       {isPipelinesSurface ? (
         <BitcodeTransactionsOverview

@@ -127,11 +127,11 @@ export function MarketingLandingPillarCard({
             />
             {/*
               Full-card sizing so wick/body % match the original visual scale.
-              Shifted so the cluster is vertically centered on the metrics band.
+              Anchored lower so wicks sit behind metrics, not the description.
             */}
             <div
               className="pointer-events-none absolute inset-0 overflow-hidden opacity-80"
-              style={{ transform: 'translateY(27%)' }}
+              style={{ transform: 'translateY(34%)' }}
               aria-hidden="true"
             >
               {measuremintCandles.map((candle, candleIndex) => (
@@ -162,7 +162,7 @@ export function MarketingLandingPillarCard({
           <div className="absolute inset-0 -z-10 opacity-10 [mask-image:linear-gradient(to_bottom,transparent,white,white,transparent)] bg-[repeating-linear-gradient(90deg,#ffffff0d_0_40px,transparent_40px_80px)] bg-[length:160px_160px]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.22),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(251,191,36,0.1),transparent_30%)]" />
           <div className="relative flex min-h-0 flex-1 flex-col">
-            <div className="relative text-orange-100">
+            <div className="relative z-[2] text-orange-100">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex min-w-0 items-start gap-2">
                   <Icon className="mt-0.5 h-4 w-4 shrink-0 text-orange-300" />
@@ -180,11 +180,14 @@ export function MarketingLandingPillarCard({
                 </span>
               </div>
             </div>
-            <p className="mt-1.5 text-[12px] leading-4 text-orange-50/88 phone:text-[14px] phone:leading-5">
+            {/*
+              Keep description out of the metrics band: no negative translate on
+              the metrics row (that was stacking copy over QUANTITY/QUALITY/FIT).
+            */}
+            <p className="relative z-[2] mt-1.5 shrink-0 text-[12px] leading-4 text-orange-50/88 phone:text-[14px] phone:leading-5">
               {description}
             </p>
-            {/* Metrics band lifted toward body copy (no divider). */}
-            <div className="relative z-[1] mt-auto -translate-y-3 pt-2">
+            <div className="relative z-[1] mt-auto shrink-0 pt-3">
               <div className="relative grid grid-cols-3">
                 {measureCardAxes.map((axis, axisIndex) => (
                   <div

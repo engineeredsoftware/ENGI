@@ -131,11 +131,13 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     ? BITCODE_PUBLIC_COPY.footer.userCta
     : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinkMeta = BITCODE_PUBLIC_COPY.footer.linkMeta;
+  const footerLinkMetaMobile = BITCODE_PUBLIC_COPY.footer.linkMetaMobile;
   const footerLinks = useMemo(() => [
     {
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.network,
       label: BITCODE_PUBLIC_COPY.footer.links.network,
       meta: footerLinkMeta.network,
+      metaMobile: footerLinkMetaMobile.network,
       href: PACKS_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
       hoverClassName:
@@ -170,6 +172,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.deposit,
       label: BITCODE_PUBLIC_COPY.footer.links.deposit,
       meta: footerLinkMeta.deposit,
+      metaMobile: footerLinkMetaMobile.deposit,
       href: DEPOSIT_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.deposit,
       hoverClassName:
@@ -203,6 +206,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.read,
       label: BITCODE_PUBLIC_COPY.footer.links.read,
       meta: footerLinkMeta.read,
+      metaMobile: footerLinkMetaMobile.read,
       href: READ_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.read,
       hoverClassName:
@@ -237,6 +241,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.docs,
       label: BITCODE_PUBLIC_COPY.footer.links.docs,
       meta: footerLinkMeta.docs,
+      metaMobile: footerLinkMetaMobile.docs,
       href: DEFAULT_OPERATOR_GUIDE_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.docs,
       // White tone needs higher border opacity than color accents or it vanishes on the dark card.
@@ -270,6 +275,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ariaLabel: BITCODE_PUBLIC_COPY.footer.links.github,
       label: BITCODE_PUBLIC_COPY.footer.links.github,
       meta: footerLinkMeta.github,
+      metaMobile: footerLinkMetaMobile.github,
       href: BITCODE_REPOSITORY_URL,
       hoverClassName:
         'hover:border-slate-300/25 hover:bg-slate-400/[0.08] hover:text-slate-100 dark:hover:text-slate-100',
@@ -292,7 +298,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
         </span>
       ),
     },
-  ], [footerLinkMeta]);
+  ], [footerLinkMeta, footerLinkMetaMobile]);
   const isExternalHref = (href: string) => href.startsWith('http');
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
   const disablePacksLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
@@ -429,8 +435,12 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
           <div className={`${showPrimaryContent ? 'border-t' : ''} w-full py-4`}>
             <div className="flex w-full flex-col gap-4 tablet:gap-5">
               {/* One row from laptop up (5 product/surface links). Full card is the hit target. */}
-              <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-5">
-                {footerLinks.map((social) => {
+              {/*
+                Phone/tablet: 2×2 for the first four product links; Source spans full width.
+                Laptop+: five equal columns (original).
+              */}
+              <div className="grid w-full grid-cols-2 gap-2 laptop:grid-cols-5">
+                {footerLinks.map((social, linkIndex) => {
                   const isDisabledRoute = social.href === PACKS_URL && disablePacksLink;
                   const isExternal = isExternalHref(social.href);
                   const explainerButton = social.explainer ? (
@@ -466,15 +476,23 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                           {explainerButton}
                         </span>
                         <span aria-hidden="true" className={metaClassName}>
-                          {social.meta}
+                          {/* Phone: one-word meta so 2×2 cards stay single-line. */}
+                          <span className="tablet:hidden">{social.metaMobile}</span>
+                          <span className="hidden tablet:inline">{social.meta}</span>
                         </span>
                       </span>
                     </>
                   );
 
+                  // Source is 5th: full-width under the 2×2 on phone/tablet.
+                  const spanClass =
+                    linkIndex === footerLinks.length - 1
+                      ? 'col-span-2 laptop:col-span-1'
+                      : '';
+
                   if (isDisabledRoute) {
                     return (
-                      <span key={social.ariaLabel} className="block w-full">
+                      <span key={social.ariaLabel} className={`block w-full ${spanClass}`.trim()}>
                         <DisabledTooltipWrapper
                           tooltip={DISABLED_FEATURE_TOOLTIPS.packs}
                           className="w-full"
@@ -500,7 +518,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={social.ariaLabel}
-                        className={cardClassName}
+                        className={`${cardClassName} ${spanClass}`.trim()}
                       >
                         {cardBody}
                       </a>
@@ -512,7 +530,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       key={social.ariaLabel}
                       href={social.href}
                       aria-label={social.ariaLabel}
-                      className={cardClassName}
+                      className={`${cardClassName} ${spanClass}`.trim()}
                     >
                       {cardBody}
                     </Link>
@@ -526,21 +544,22 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                 ) */}
               </div>
               {/*
-                Footer chrome rows:
-                1) copyright (left) + Bitcode mark (right)
-                2) X + email (left) + version + protocol spec (right)
+                Footer chrome: one horizontal row on every width —
+                logo · X · email … date · protocol.
+                Copyright sits above so the action strip never wraps to 2 rows.
               */}
-              <div className="flex w-full flex-col gap-3">
-                <div className="flex w-full items-center justify-between gap-4">
-                  <span className="flex min-w-0 items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="inline-block shrink-0 [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]">
-                      🧪
-                    </span>
-                    <span className="min-w-0">
-                      Bitcode by Advanced Engineered Software, Inc.{' '}
-                      <span className="font-light">{new Date().getFullYear()}</span>
-                    </span>
+              <div className="flex w-full min-w-0 flex-col gap-2">
+                <span className="flex min-w-0 items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="inline-block shrink-0 [filter:drop-shadow(0_0_6px_rgba(101,254,183,0.66))_drop-shadow(0_0_15px_rgba(101,254,183,0.33))]">
+                    🧪
                   </span>
+                  <span className="min-w-0 leading-snug">
+                    Bitcode by Advanced Engineered Software, Inc.{' '}
+                    <span className="font-light">{new Date().getFullYear()}</span>
+                  </span>
+                </span>
+
+                <div className="flex w-full min-w-0 flex-nowrap items-center gap-2">
                   <Link href="/" className="shrink-0 cursor-pointer">
                     <BitcodeSoftwareSvgLogo
                       width="50px"
@@ -550,83 +569,127 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                       softwareOffsetY="-2px"
                     />
                   </Link>
-                </div>
 
-                <div className="flex w-full items-center justify-between gap-4">
-                  <span className="inline-flex shrink-0 items-center gap-2 text-[12px]">
-                    <a
-                      href={BITCODE_X_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Bitcode on X"
-                      className="inline-flex items-center justify-center rounded-none border border-white/8 bg-white/[0.03] p-1.5 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
+                  <a
+                    href={BITCODE_X_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Bitcode on X"
+                    className="inline-flex shrink-0 items-center justify-center rounded-none border border-white/8 bg-white/[0.03] p-1.5 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5"
+                      fill="currentColor"
                     >
-                      <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5"
-                        fill="currentColor"
-                      >
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
-                      </svg>
-                    </a>
-                    <a
-                      href={BITCODE_SUPPORT_MAILTO}
-                      aria-label={`Email ${BITCODE_SUPPORT_EMAIL_ADDRESS}`}
-                      className="pointer-events-auto relative z-10 inline-flex cursor-pointer items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1 text-gray-400 underline-offset-2 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100 hover:underline"
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+                    </svg>
+                  </a>
+                  <a
+                    href={BITCODE_SUPPORT_MAILTO}
+                    aria-label={`Email ${BITCODE_SUPPORT_EMAIL_ADDRESS}`}
+                    title={BITCODE_SUPPORT_EMAIL_ADDRESS}
+                    className="pointer-events-auto relative z-10 inline-flex shrink-0 cursor-pointer items-center justify-center rounded-none border border-white/8 bg-white/[0.03] p-1.5 text-gray-400 transition-colors hover:border-emerald-300/25 hover:bg-emerald-400/[0.06] hover:text-emerald-100 tablet:gap-1.5 tablet:px-2.5 tablet:py-1 tablet:underline-offset-2 tablet:hover:underline"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      className="h-3.5 w-3.5 shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                        className="h-3.5 w-3.5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.7"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <rect x="3" y="5" width="18" height="14" rx="1.5" />
-                        <path d="m4 7 8 6 8-6" />
-                      </svg>
-                      <span>{BITCODE_SUPPORT_EMAIL_ADDRESS}</span>
-                    </a>
-                  </span>
+                      <rect x="3" y="5" width="18" height="14" rx="1.5" />
+                      <path d="m4 7 8 6 8-6" />
+                    </svg>
+                    <span className="hidden truncate tablet:inline">
+                      {BITCODE_SUPPORT_EMAIL_ADDRESS}
+                    </span>
+                  </a>
 
-                  <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 text-[11px] text-gray-400/80">
-                    {process.env.NEXT_PUBLIC_APP_VERSION && (
-                      <span className="select-none rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1">
-                        v{process.env.NEXT_PUBLIC_APP_VERSION}
-                        {process.env.NEXT_PUBLIC_APP_VERSION_DATE && (
+                  <div className="ml-auto flex min-w-0 shrink-0 flex-nowrap items-center gap-2 text-[11px] text-gray-400/80">
+                    {(process.env.NEXT_PUBLIC_APP_VERSION ||
+                      process.env.NEXT_PUBLIC_APP_VERSION_DATE) && (
+                      <span
+                        className="select-none truncate rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1"
+                        title={
+                          process.env.NEXT_PUBLIC_APP_VERSION
+                            ? `v${process.env.NEXT_PUBLIC_APP_VERSION}`
+                            : undefined
+                        }
+                      >
+                        {/* Phone: date only. Tablet+: v{sha} (date). */}
+                        {process.env.NEXT_PUBLIC_APP_VERSION_DATE ? (
                           <>
-                            {' '}
-                            (
-                            {new Date(process.env.NEXT_PUBLIC_APP_VERSION_DATE).toLocaleDateString(
-                              undefined,
-                              {
+                            <span className="tablet:hidden">
+                              {new Date(
+                                process.env.NEXT_PUBLIC_APP_VERSION_DATE,
+                              ).toLocaleDateString(undefined, {
                                 year: '2-digit',
                                 month: 'short',
                                 day: 'numeric',
-                              },
-                            )}
-                            )
+                              })}
+                            </span>
+                            <span className="hidden tablet:inline">
+                              {process.env.NEXT_PUBLIC_APP_VERSION
+                                ? `v${process.env.NEXT_PUBLIC_APP_VERSION}`
+                                : null}
+                              {process.env.NEXT_PUBLIC_APP_VERSION &&
+                              process.env.NEXT_PUBLIC_APP_VERSION_DATE
+                                ? ' '
+                                : null}
+                              {process.env.NEXT_PUBLIC_APP_VERSION_DATE
+                                ? `(${new Date(
+                                    process.env.NEXT_PUBLIC_APP_VERSION_DATE,
+                                  ).toLocaleDateString(undefined, {
+                                    year: '2-digit',
+                                    month: 'short',
+                                    day: 'numeric',
+                                  })})`
+                                : null}
+                            </span>
                           </>
-                        )}
+                        ) : process.env.NEXT_PUBLIC_APP_VERSION ? (
+                          <span>v{process.env.NEXT_PUBLIC_APP_VERSION}</span>
+                        ) : null}
                       </span>
                     )}
-                    <span className="inline-flex items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] px-2.5 py-1">
+                    <span className="inline-flex shrink-0 items-center gap-1.5 rounded-none border border-white/8 bg-white/[0.03] p-1.5 tablet:px-2.5 tablet:py-1">
                       <a
                         href={CURRENT_PROTOCOL_SPEC_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-300/90 transition-colors hover:text-white"
+                        aria-label="Protocol spec"
+                        title="Protocol spec"
+                        className="inline-flex items-center gap-1.5 text-gray-300/90 transition-colors hover:text-white"
                       >
-                        Protocol spec
+                        {/* Phone: document/spec icon only. Tablet+: label. */}
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                          className="h-3.5 w-3.5 shrink-0 tablet:hidden"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M7 3.5h7.5L19 8v12.5H7z" />
+                          <path d="M14.5 3.5V8H19" />
+                          <path d="M10 12h6M10 15.5h6M10 18.5h4" />
+                        </svg>
+                        <span className="hidden tablet:inline">Protocol spec</span>
                       </a>
-                      <BitcodeInlineExplainer
-                        explainer={BITCODE_PUBLIC_EXPLAINERS.protocolSpec}
-                        side="top"
-                        triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                      />
+                      <span className="hidden tablet:inline-flex">
+                        <BitcodeInlineExplainer
+                          explainer={BITCODE_PUBLIC_EXPLAINERS.protocolSpec}
+                          side="top"
+                          triggerClassName="h-4.5 w-4.5 border-white/8 bg-white/[0.03] text-[0.58rem] text-gray-400 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                        />
+                      </span>
                     </span>
                   </div>
                 </div>

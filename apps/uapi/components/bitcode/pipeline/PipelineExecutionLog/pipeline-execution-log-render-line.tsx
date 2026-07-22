@@ -245,9 +245,12 @@ export function renderLogLine(
   const hasDetails = Boolean(logLine.details);
 
   if (compact) {
+    // Title + meta on row 1; call-chain pills wrap on row 2. Never put
+    // unshrinkable pill clusters on the same nowrap flex as the title —
+    // that is what page-x-overflows historical deposit/read telemetry.
     const RowContent = (
       <div
-        className={`relative flex items-center gap-1 w-full pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex w-full min-w-0 flex-col gap-1.5 pl-7 pr-3 py-2 min-h-[34px] mb-4 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
         onClick={hasDetails ? () => toggleLine(lineId) : undefined}
         draggable
@@ -279,38 +282,41 @@ export function renderLogLine(
           </span>
         </TelemetryExplainerTrigger>
 
-        {/* ONE line: chevron (only when a detail payload exists), title, then
-            the inline pill row (phase, agent, step, failsafe, generation,
-            + tool) flowing right — wrapping onto following lines only when
-            out of width — then the DIV-loop iteration marker + timestamp. */}
-        {hasDetails && (
-          <ChevronRightIcon
-            className={`w-4 h-4 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
-              expandedLines[lineId] ? 'rotate-90' : ''
-            }`}
-          />
-        )}
-        <span
-          title={displayTitle}
-          className={`truncate min-w-0 text-[0.82rem] leading-none m-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
-        >
-          {displayTitle}
-        </span>
-
-        {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
-
-        {typeof logLine.iteration === 'number' && (
+        <div className="flex min-w-0 w-full items-center gap-1">
+          {hasDetails && (
+            <ChevronRightIcon
+              className={`h-4 w-4 shrink-0 text-current opacity-60 transition-transform duration-300 ${
+                expandedLines[lineId] ? 'rotate-90' : ''
+              }`}
+            />
+          )}
           <span
-            title={`DIV loop iteration ${logLine.iteration}`}
-            className="text-[10px] text-emerald-300/80 flex-shrink-0 select-none ml-1 font-mono"
+            title={displayTitle}
+            className="m-0 min-w-0 flex-1 truncate text-[0.82rem] leading-none"
           >
-            iter {logLine.iteration}
+            {displayTitle}
           </span>
-        )}
-        {logLine.timestamp && (
-          <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">
-            {formatTime(logLine.timestamp, startedAtMs)}
-          </span>
+
+          {typeof logLine.iteration === 'number' && (
+            <span
+              title={`DIV loop iteration ${logLine.iteration}`}
+              className="ml-1 shrink-0 select-none font-mono text-[10px] text-emerald-300/80"
+            >
+              iter {logLine.iteration}
+            </span>
+          )}
+          {logLine.timestamp && (
+            <span className="ml-1 shrink-0 select-none text-[10px] text-gray-500">
+              {formatTime(logLine.timestamp, startedAtMs)}
+            </span>
+          )}
+        </div>
+
+        {hasPills && (
+          <ExecutionContextPillRow
+            {...pillRowProps}
+            className="w-full max-w-full justify-start"
+          />
         )}
       </div>
     );
@@ -430,36 +436,38 @@ export function renderLogLine(
         </TelemetryExplainerTrigger>
 
         {/* Desktop inline row */}
-        <div className="hidden laptop:flex flex-1 items-center justify-between min-w-0">
+        <div className="hidden min-w-0 laptop:flex flex-1 items-center justify-between">
           {/* Main text — tool-use titles prefer constructor name over bare "tool" */}
           <span
             title={displayTitle}
-            className="select-text cursor-text truncate min-w-0 flex-1 pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
+            className="flex h-5 min-w-0 flex-1 cursor-text select-text items-center gap-1 truncate pr-3 text-xs font-medium leading-none tablet:text-sm laptop:text-[0.94rem] desktop:text-base"
           >
-            <Icon className="inline-block laptop:hidden w-4 h-4 text-current" />
+            <Icon className="inline-block h-4 w-4 text-current laptop:hidden" />
             {displayTitle}
           </span>
 
-          {/* Meta cluster + timestamp: the pill row flows right of the title
-              on the SAME line, wrapping only when out of width. */}
-          <div className="hidden laptop:flex items-center flex-wrap justify-end gap-1 laptop:max-w-[50%]">
-            {/* Timestamp */}
+          {/* Meta cluster + timestamp: pills wrap within max half-width. */}
+          <div className="hidden min-w-0 max-w-[50%] flex-wrap items-center justify-end gap-1 laptop:flex">
             {logLine.timestamp && (
-              <span className="text-[11px] text-gray-500 ml-auto font-normal select-none">
+              <span className="ml-auto select-none text-[11px] font-normal text-gray-500">
                 {formatTime(logLine.timestamp, startedAtMs)}
               </span>
             )}
 
-            {hasPills && <ExecutionContextPillRow {...pillRowProps} className="justify-end" />}
+            {hasPills && (
+              <ExecutionContextPillRow
+                {...pillRowProps}
+                className="max-w-full justify-end"
+              />
+            )}
           </div>
         </div>
 
-        {/* Mobile / narrow layout */}
-        <div className="laptop:hidden relative w-full pl-12 pr-3 py-2">
-          {/* Floating Type Icon (circular bubble) — rich-tooltip trigger */}
+        {/* Mobile / narrow layout — title row then wrapping pills (no x-overflow). */}
+        <div className="relative w-full min-w-0 pl-12 pr-3 py-2 laptop:hidden">
           <TelemetryExplainerTrigger
             explainer={rowIconExplainer}
-            className="absolute left-3 top-1/2 -translate-y-1/2"
+            className="absolute left-3 top-2"
           >
             <span
               className={`flex items-center justify-center ${style.text} shadow-md`}
@@ -469,34 +477,39 @@ export function renderLogLine(
                 backgroundColor: 'currentColor',
               }}
             >
-              <Icon className="w-3 h-3 text-gray-900 dark:text-gray-900/90" />
+              <Icon className="h-3 w-3 text-gray-900 dark:text-gray-900/90" />
             </span>
           </TelemetryExplainerTrigger>
 
-          {/* ONE line: chevron, title, then the inline pill row flowing right
-              (wrapping onto following lines only when out of width), timestamp. */}
-          <div className="flex items-center gap-1 w-full min-w-0">
-            {hasDetails && (
-              <ChevronRightIcon
-                className={`laptop:hidden w-3 h-3 flex-shrink-0 text-current opacity-60 transition-transform duration-300 ${
-                  expandedLines[lineId] ? 'rotate-90' : ''
-                }`}
-              />
-            )}
+          <div className="flex w-full min-w-0 flex-col gap-1.5">
+            <div className="flex w-full min-w-0 items-center gap-1">
+              {hasDetails && (
+                <ChevronRightIcon
+                  className={`h-3 w-3 shrink-0 text-current opacity-60 transition-transform duration-300 laptop:hidden ${
+                    expandedLines[lineId] ? 'rotate-90' : ''
+                  }`}
+                />
+              )}
 
-            <span
-              title={displayTitle}
-              className={`text-xs font-medium truncate min-w-0 ${hasPills ? 'max-w-[45%]' : 'flex-1'}`}
-            >
-              {displayTitle}
-            </span>
-
-            {hasPills && <ExecutionContextPillRow {...pillRowProps} className="flex-1 justify-end" />}
-
-            {logLine.timestamp && (
-              <span className="text-[11px] text-gray-500 flex-shrink-0 select-none">
-                {formatTime(logLine.timestamp, startedAtMs)}
+              <span
+                title={displayTitle}
+                className="min-w-0 flex-1 truncate text-xs font-medium"
+              >
+                {displayTitle}
               </span>
+
+              {logLine.timestamp && (
+                <span className="shrink-0 select-none text-[11px] text-gray-500">
+                  {formatTime(logLine.timestamp, startedAtMs)}
+                </span>
+              )}
+            </div>
+
+            {hasPills && (
+              <ExecutionContextPillRow
+                {...pillRowProps}
+                className="w-full max-w-full justify-start"
+              />
             )}
           </div>
         </div>

@@ -18,8 +18,10 @@ interface PathPillProps {
 
 // Utility class generator – keeps style footprint tiny while allowing
 // future token-based overrides.
+// max-w-full + min-w-0: long uppercase labels (e.g. ASSET PACK SYNTHESIS) must
+// never force page/log x-overflow — truncate inside the pill instead.
 const BASE =
-  'inline-flex items-center justify-center px-2 py-[1px] text-[0.67rem] font-medium uppercase tracking-wider ring-1 ring-inset flex-shrink-0 select-none shadow-[inset_0_0_4px_var(--tw-ring-color)]';
+  'inline-flex max-w-full min-w-0 items-center justify-center px-2 py-[1px] text-[0.67rem] font-medium uppercase tracking-wider ring-1 ring-inset select-none shadow-[inset_0_0_4px_var(--tw-ring-color)]';
 
 const typeToClasses: Record<PillType, string> = {
   phase: `${BASE} bg-gradient-to-r from-gray-600/30 to-gray-600/10 text-gray-100 ring-gray-500/40`,
@@ -127,11 +129,19 @@ function getIcon(type: PillType, label: string): IconComponent | null {
 export function PathPill({ label, type, className = '' }: PathPillProps) {
   const text = typeof label === 'string' ? label.toUpperCase() : label;
   const Icon = typeof label === 'string' ? getIcon(type, label) : null;
+  const title = typeof label === 'string' ? label : undefined;
 
   return (
-    <span className={`${typeToClasses[type]} flex gap-1 items-center ${className}`}>
-      {Icon && <Icon className="w-3 h-3" />}
-      {text}
+    <span
+      title={title}
+      className={`${typeToClasses[type]} flex gap-1 items-center ${className}`}
+    >
+      {Icon && <Icon className="h-3 w-3 shrink-0" />}
+      {typeof text === 'string' ? (
+        <span className="min-w-0 truncate">{text}</span>
+      ) : (
+        text
+      )}
     </span>
   );
 }

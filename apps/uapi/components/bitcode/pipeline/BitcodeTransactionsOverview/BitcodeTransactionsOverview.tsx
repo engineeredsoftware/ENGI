@@ -121,8 +121,9 @@ export default function BitcodeTransactionsOverview({
 
   // gap-0.5 from PRODUCT_METRIC_CHIP_SHELL_CLASS keeps label↔value tight.
   const statCardClass = `${PRODUCT_METRIC_CHIP_SHELL_CLASS} border-white/8 bg-white/5 px-2`;
+  // min-w-0 + truncate on children — long mode/source labels must not widen the page.
   const pillClass =
-    'cursor-default border border-white/8 bg-white/[0.035] px-2.5 py-1';
+    'inline-flex min-w-0 max-w-full cursor-default items-center border border-white/8 bg-white/[0.035] px-2 py-1';
   const statsRowClass = `${PRODUCT_METRIC_CHIP_ROW_CLASS} text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500`;
 
   const stats = [
@@ -149,13 +150,20 @@ export default function BitcodeTransactionsOverview({
     },
   ] as const;
 
+  const modeSourceMobile =
+    dataMode === 'mock-review'
+      ? 'mock'
+      : dataMode === 'review-fallback'
+        ? 'fallback'
+        : 'live history';
+
   return (
     <div
-      className="flex w-full min-w-0 flex-col gap-2"
+      className="flex w-full min-w-0 max-w-full flex-col gap-2 overflow-x-hidden"
       data-testid="bitcode-transactions-overview"
     >
       {/*
-        Row A — permanent three-chip shells (h-7 nowrap). Labels always present.
+        Row A — permanent three-chip shells. Labels always present.
         Values pulse until statsReady, then opacity-crossfade. No remount, no y.
       */}
       <div
@@ -188,9 +196,13 @@ export default function BitcodeTransactionsOverview({
         ))}
       </div>
 
-      {/* Row B — state pills (always present; not gated on row load). */}
-      <div className="flex w-full flex-wrap items-center gap-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+      {/*
+        Row B — 2-col grid on phone (never overflows viewport); free wrap from tablet.
+        Mobile labels stay short single-line chips.
+      */}
+      <div className="grid w-full min-w-0 max-w-full grid-cols-2 gap-1.5 text-[0.58rem] uppercase tracking-[0.12em] text-neutral-500 phone:text-[0.62rem] phone:tracking-[0.14em] tablet:flex tablet:flex-wrap tablet:tracking-[0.16em]">
         <TelemetryExplainerTrigger
+          className="min-w-0 max-w-full"
           explainer={{
             kicker: 'Table state',
             title: 'Selection',
@@ -200,11 +212,19 @@ export default function BitcodeTransactionsOverview({
             ...tableStateSections,
           }}
         >
-          <span className={pillClass}>
-            selected {selectedTransactionId ? 'activity active' : 'none'}
+          <span className={`${pillClass} w-full`}>
+            <span className="truncate">
+              <span className="tablet:hidden">
+                {selectedTransactionId ? 'selected' : 'none'}
+              </span>
+              <span className="hidden tablet:inline">
+                selected {selectedTransactionId ? 'activity active' : 'none'}
+              </span>
+            </span>
           </span>
         </TelemetryExplainerTrigger>
         <TelemetryExplainerTrigger
+          className="min-w-0 max-w-full"
           explainer={{
             kicker: 'Table state',
             title: `Mode ${modeLabel}`,
@@ -213,9 +233,12 @@ export default function BitcodeTransactionsOverview({
             ...tableStateSections,
           }}
         >
-          <span className={pillClass}>mode {modeLabel}</span>
+          <span className={`${pillClass} w-full`} title={`mode ${modeLabel}`}>
+            <span className="truncate">mode {modeLabel}</span>
+          </span>
         </TelemetryExplainerTrigger>
         <TelemetryExplainerTrigger
+          className="min-w-0 max-w-full"
           explainer={{
             kicker: 'Table state',
             title: 'Data source',
@@ -225,9 +248,13 @@ export default function BitcodeTransactionsOverview({
             ...tableStateSections,
           }}
         >
-          <span className={pillClass}>{modeDescription}</span>
+          <span className={`${pillClass} w-full`} title={modeDescription}>
+            <span className="truncate tablet:hidden">{modeSourceMobile}</span>
+            <span className="hidden truncate tablet:inline">{modeDescription}</span>
+          </span>
         </TelemetryExplainerTrigger>
         <TelemetryExplainerTrigger
+          className="min-w-0 max-w-full"
           explainer={{
             kicker: 'Table state',
             title: 'Search coverage',
@@ -237,8 +264,15 @@ export default function BitcodeTransactionsOverview({
             ...tableStateSections,
           }}
         >
-          <span className={pillClass}>
-            search spans ids, repos, branches, participants, proof posture, and summaries
+          <span
+            className={`${pillClass} w-full`}
+            title="search spans ids, repos, branches, participants, proof posture, and summaries"
+          >
+            <span className="truncate tablet:hidden">search ids…</span>
+            <span className="hidden truncate tablet:inline">
+              search spans ids, repos, branches, participants, proof posture, and
+              summaries
+            </span>
           </span>
         </TelemetryExplainerTrigger>
       </div>

@@ -78,12 +78,12 @@ export function DepositSynthesisTelemetry({
   return (
               <section
                 ref={telemetryRef as any}
-                className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
+                className="min-w-0 max-w-full overflow-x-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
                 aria-label="Asset Pack Synthesis telemetry"
                 data-testid="deposit-synthesis-telemetry"
               >
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="min-w-0">
+                <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-0 max-w-full">
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                       {synthesisRunExpectsOptions
                         ? "Asset Pack Synthesis"
@@ -95,7 +95,7 @@ export function DepositSynthesisTelemetry({
                     </h2>
                     {synthesisLiveContext ? (
                       <div
-                        className="mt-3"
+                        className="mt-3 min-w-0 max-w-full"
                         data-testid="deposit-telemetry-live-tracker"
                       >
                         <ExecutionContextPillRow
@@ -242,7 +242,7 @@ export function DepositSynthesisTelemetry({
                       </div>
                     );
                   })()}
-                <div className="mt-4 min-w-0">
+                <div className="mt-4 min-w-0 max-w-full overflow-x-hidden">
                   <PipelineExecutionLog
                     output={synthesisActivity.output}
                     outputDetails={synthesisActivity.outputDetails}

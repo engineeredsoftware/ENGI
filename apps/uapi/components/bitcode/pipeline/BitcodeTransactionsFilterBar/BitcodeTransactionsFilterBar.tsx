@@ -19,10 +19,10 @@ interface BitcodeTransactionsFilterBarProps {
 
 // Dark filter mosaic chrome — full width, min-w-0 so 8-col grids do not blow out.
 const FILTER_TRIGGER_CLASS =
-  'mt-0 h-9 w-full min-w-0 border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white hover:bg-white/10 hover:text-white';
+  'mt-0 h-9 w-full min-w-0 max-w-full overflow-hidden border-white/10 bg-[rgba(10,15,30,0.88)] px-2.5 text-sm text-white hover:bg-white/10 hover:text-white phone:px-3';
 
 const FILTER_INPUT_CLASS =
-  'mt-0 h-9 w-full min-w-0 border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40';
+  'mt-0 h-9 w-full min-w-0 max-w-full border border-white/10 bg-[rgba(10,15,30,0.88)] px-2.5 text-sm text-white outline-none transition placeholder:truncate placeholder:text-neutral-500 focus:border-emerald-400/40 phone:px-3';
 
 /**
  * Label + control stack. Fixed single-line label height keeps every control
@@ -78,17 +78,17 @@ export default function BitcodeTransactionsFilterBar({
   ];
 
   return (
-    // Compact mosaic: multi-column at every width (never a one-filter-per-row
-    // stack) so the bar spends horizontal space instead of vertical. Search
-    // is the FIRST filter card in the flow; slightly wider on large screens.
+    // Compact mosaic twin of Exchange packs filters: 2 cols from the base
+    // band (phones sit under the 480px `phone` breakpoint — never stack one
+    // filter per full row), denser at tablet/xl. Search spans the first row.
     <div
-      className="mt-4 grid grid-cols-2 items-start gap-x-2 gap-y-3 tablet:grid-cols-4 xl:grid-cols-8"
+      className="mt-4 grid w-full min-w-0 max-w-full grid-cols-2 items-start gap-2 tablet:grid-cols-4 xl:grid-cols-8"
       data-testid="bitcode-transactions-filter-bar"
     >
       <FilterCell
         label="Search"
         explainer={BITCODE_TRANSACTION_FILTER_EXPLAINERS.search}
-        className="col-span-2 tablet:col-span-2 xl:col-span-1"
+        className="col-span-2 tablet:col-span-2 xl:col-span-2"
       >
         <input
           aria-label="Search transactions"
@@ -98,7 +98,8 @@ export default function BitcodeTransactionsFilterBar({
             setSearchValue(nextValue);
             updateFilter('searchTerm', nextValue);
           }}
-          placeholder="Search ids, repos, branches, proof posture, participants…"
+          placeholder="Search ids, repos…"
+          title="Search ids, repos, branches, proof posture, participants…"
           className={FILTER_INPUT_CLASS}
         />
       </FilterCell>

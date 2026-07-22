@@ -102,7 +102,7 @@ export function DepositPipelinesMaster({
 
       {!isDepositDetailOpen ? (
         <section
-          className="border border-white/10 bg-white/[0.035] px-4 py-4"
+          className="min-w-0 max-w-full overflow-x-hidden border border-white/10 bg-white/[0.035] px-3 py-3 phone:px-4 phone:py-4"
           data-testid="deposits-pipelines-table"
           aria-label="Deposit pipelines"
         >

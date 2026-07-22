@@ -98,7 +98,13 @@ describe('MarketingLandingPage', () => {
 
     expect(screen.getByText('A Data Marketplace')).toBeInTheDocument();
     expect(
-      screen.getByText('A Knowledge Depot, An Endless Economy'),
+      screen.getByText((_, node) => {
+        const normalized = node?.textContent?.replace(/\s+/g, ' ').trim();
+        return (
+          normalized === 'A Knowledge Depot, An Endless Economy' &&
+          node?.tagName === 'P'
+        );
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(BITCODE_PUBLIC_COPY.productPreview.rail),

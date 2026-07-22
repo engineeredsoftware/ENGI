@@ -316,6 +316,17 @@ export const BITCODE_PUBLIC_COPY = {
       docs: 'Learn to operate',
       github: 'Protocol, products',
     },
+    /**
+     * Phone-only single-line subtitles (full linkMeta is too long in 2×2).
+     * Keep one word so footer cards never wrap the meta line.
+     */
+    linkMetaMobile: {
+      network: 'Trade',
+      deposit: 'Sell',
+      read: 'Buy',
+      docs: 'Learn',
+      github: 'Source',
+    },
   },
   publicNav: {
     // Product order: Read → Exchange → Deposit. Docs lives under the logo-area.

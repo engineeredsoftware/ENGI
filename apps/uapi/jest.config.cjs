@@ -192,6 +192,7 @@ module.exports = {
     '<rootDir>/tests/marketingOperatorGuideCard.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',
     '<rootDir>/tests/bitcodeDocsContent.test.tsx',
+    '<rootDir>/tests/docsPageRail.test.tsx',
     '<rootDir>/tests/features.test.ts',
     '<rootDir>/tests/workspaceSurface.test.ts',
     '<rootDir>/tests/exchangePageClient.test.tsx',

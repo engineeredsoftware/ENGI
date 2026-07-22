@@ -7,6 +7,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Github, LogOut, Unplug } from 'lucide-react';
 
 import { BTDTracker } from '@/components/bitcode/btd/BtdTracker/BtdTracker';
 import { AuxillariesSolarIcon } from '@/components/bitcode/layout/AuxillariesSolarIcon/AuxillariesSolarIcon';
@@ -122,10 +123,11 @@ export default function AuxillariesSurface({
           data-auxillaries-testid="auxillaries-connect-button"
           data-testid="auxillaries-connect-button"
           onClick={surface.handleConnectChrome}
-          className="auxillaries-action-button auxillaries-connect-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-emerald-300/35 bg-emerald-950/85 px-4 text-xs font-bold uppercase tracking-[0.12em] text-emerald-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.1)_inset] transition hover:-translate-y-px hover:border-emerald-200/50 hover:bg-emerald-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/50"
+          className="auxillaries-action-button auxillaries-connect-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-none border border-emerald-300/35 bg-emerald-950/85 px-0 text-xs font-bold uppercase tracking-[0.12em] text-emerald-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(101,254,183,0.1)_inset] transition hover:-translate-y-px hover:border-emerald-200/50 hover:bg-emerald-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/50 phone:min-w-[9.5rem] phone:px-4"
           aria-label="Connect"
         >
-          Connect
+          <Unplug className="auxillaries-action-icon h-4 w-4 shrink-0" aria-hidden="true" />
+          <span className="auxillaries-action-label">Connect</span>
         </button>
       )}
 
@@ -135,10 +137,11 @@ export default function AuxillariesSurface({
           data-auxillaries-testid="auxillaries-authorize-github-button"
           data-testid="auxillaries-authorize-github-button"
           onClick={surface.handleAuthorizeGitHubChrome}
-          className="auxillaries-action-button auxillaries-authorize-github-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-[11.5rem] items-center justify-center rounded-none border border-fuchsia-300/40 bg-fuchsia-950/85 px-4 text-xs font-bold uppercase tracking-[0.12em] text-fuchsia-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(232,121,249,0.12)_inset] transition hover:-translate-y-px hover:border-fuchsia-200/55 hover:bg-fuchsia-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300/50"
+          className="auxillaries-action-button auxillaries-authorize-github-button auxillaries-toggle-button orbital-toggle-button inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-none border border-fuchsia-300/40 bg-fuchsia-950/85 px-0 text-xs font-bold uppercase tracking-[0.12em] text-fuchsia-50 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(232,121,249,0.12)_inset] transition hover:-translate-y-px hover:border-fuchsia-200/55 hover:bg-fuchsia-900/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300/50 phone:min-w-[11.5rem] phone:px-4"
           aria-label="Authorize GitHub"
         >
-          Authorize GitHub
+          <Github className="auxillaries-action-icon h-4 w-4 shrink-0" aria-hidden="true" />
+          <span className="auxillaries-action-label">Authorize GitHub</span>
         </button>
       )}
 
@@ -146,10 +149,11 @@ export default function AuxillariesSurface({
         <button
           type="button"
           onClick={surface.handleSignOut}
-          className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-[9.5rem] items-center justify-center rounded-none border border-red-300/32 bg-red-950/80 px-4 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300/45"
+          className="auxillaries-action-button auxillaries-signout-button orbital-signout-button inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-none border border-red-300/32 bg-red-950/80 px-0 text-xs font-bold uppercase tracking-[0.12em] text-red-100 shadow-[0_14px_32px_rgba(0,0,0,0.24),0_0_0_1px_rgba(248,113,113,0.08)_inset] transition hover:-translate-y-px hover:border-red-200/45 hover:bg-red-900/84 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300/45 phone:min-w-[9.5rem] phone:px-4"
           aria-label="Disconnect"
         >
-          Disconnect
+          <LogOut className="auxillaries-action-icon h-4 w-4 shrink-0" aria-hidden="true" />
+          <span className="auxillaries-action-label">Disconnect</span>
         </button>
       )}
     </>
@@ -211,8 +215,9 @@ export default function AuxillariesSurface({
     <div
       ref={surface.containerRef}
       className={`orbital-system ${surface.auxillariesSurfaceClass} ${surface.usesBitcodeAuxillariesSurface ? 'auxillaries-bitcode-surface' : ''} ${surface.activeWindow === 'AuxillariesWindow' && !surface.isAuxillariesSurface && !surface.usesContainedAuxillariesSurface ? 'orbital-system-onboarding' : ''} ${surface.usesContainedAuxillariesSurface ? 'orbital-system-application' : ''} ${surface.isDedicatedAuxillariesRoute ? 'orbital-system-route-surface auxillaries-bitcode-route-surface' : ''} ${surface.deferredAnimationsEnabled ? '' : 'animations-disabled'} ${className}`}
-      tabIndex={0}
-      onKeyDown={(event) => event.key === 'Escape' && onClose?.()}
+      tabIndex={-1}
+      // Escape is handled globally in AuxillariesProvider (focus often stays on
+      // the opener under the portal; surface-local keydown was unreliable).
     >
       {/*
         Full-bleed solar — short delay (~180ms), then ~1040ms opacity enter.

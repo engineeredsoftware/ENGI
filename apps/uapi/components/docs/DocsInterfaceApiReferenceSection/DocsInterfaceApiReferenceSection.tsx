@@ -8,13 +8,13 @@ export function DocsInterfaceApiReferenceSection({ sections }: { sections: reado
   if (!sections.length) return null;
 
   return (
-    <section className="grid gap-5">
-      <div className="rounded-none border border-emerald-300/12 bg-emerald-400/[0.045] p-5">
+    <section className="grid min-w-0 max-w-full gap-5">
+      <div className="min-w-0 max-w-full rounded-none border border-emerald-300/12 bg-emerald-400/[0.045] p-4 phone:p-5">
         <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">API reference</p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
+        <h2 className="mt-3 break-words text-3xl font-semibold tracking-tight text-white">
           Usage features, inputs, and expected outputs
         </h2>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-emerald-50/72">
+        <p className="mt-3 max-w-3xl break-words text-sm leading-7 text-emerald-50/72">
           These references are grounded in the package code. Read them like API docs: when to call
           the feature, how to shape the payload, what should come back, and where product or
           Exchange should verify the result.
@@ -25,14 +25,14 @@ export function DocsInterfaceApiReferenceSection({ sections }: { sections: reado
         <article
           key={section.id}
           id={section.id}
-          className="scroll-mt-32 rounded-none border border-white/10 bg-black/24 p-5 backdrop-blur-xl"
+          className="min-w-0 max-w-full scroll-mt-32 overflow-x-clip rounded-none border border-white/10 bg-black/24 p-4 backdrop-blur-xl phone:p-5"
         >
-          <div className="flex flex-col gap-3 tablet:flex-row tablet:items-start tablet:justify-between">
-            <div className="max-w-3xl">
-              <h3 className="text-2xl font-semibold tracking-tight text-white">{section.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-white/70">{section.summary}</p>
+          <div className="flex min-w-0 flex-col gap-3 tablet:flex-row tablet:items-start tablet:justify-between">
+            <div className="min-w-0 max-w-3xl">
+              <h3 className="break-words text-2xl font-semibold tracking-tight text-white">{section.title}</h3>
+              <p className="mt-2 break-words text-sm leading-7 text-white/70">{section.summary}</p>
             </div>
-            <code className="rounded-none border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[0.68rem] text-emerald-100/74">
+            <code className="max-w-full break-all rounded-none border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[0.68rem] text-emerald-100/74">
               {section.packagePath}
             </code>
           </div>

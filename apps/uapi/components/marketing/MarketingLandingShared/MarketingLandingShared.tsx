@@ -236,24 +236,6 @@ export const verificationRows = [
   },
 ] as const;
 
-export const compactPreviewCards = [
-  {
-    title: 'Exchange',
-    body: 'Network ledger of DataPack activity',
-    detail: 'Audit supply, settlement, and delivery before you trade.',
-  },
-  {
-    title: 'Deposit',
-    body: 'Sell measured DataPack options',
-    detail: 'Synthesize, review, and admit repository supply.',
-  },
-  {
-    title: 'Read',
-    body: 'Buy against a Need',
-    detail: 'Compare fit, quote, and settle source-safe packs.',
-  },
-] as const;
-
 export const verifiedAccessOrbConfig = {
   ...minimalPreset,
   backgroundColors: ['#0d2f29', '#0f766e', '#6ee7b7'],

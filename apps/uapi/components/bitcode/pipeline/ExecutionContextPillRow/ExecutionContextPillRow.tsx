@@ -89,10 +89,13 @@ export function ExecutionContextPillRow({
   if (pills.length === 0) return null;
 
   return (
-    <div className={`flex min-w-0 flex-wrap items-center gap-1 ${className}`}>
+    <div className={`flex min-w-0 max-w-full flex-wrap items-center gap-1 ${className}`}>
       {pills.map((pill) => (
         <TelemetryExplainerTrigger
           key={pill.type}
+          // Cap each pill trigger so a long label cannot widen the log past
+          // the viewport; PathPill truncates the text inside.
+          className="max-w-full min-w-0"
           explainer={getTelemetryPillExplainer(pill.type, pill.raw, mode, { agent, step })}
         >
           <PathPill type={pill.type} label={pill.label} />

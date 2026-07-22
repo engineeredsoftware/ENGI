@@ -6,6 +6,12 @@
   /* No paint containment — that clips particles mid-flight. */
   contain: none;
   will-change: transform;
+  /*
+   * Stack under Auxillaries / modal portals (z-10000), not hide when they open.
+   * Body-portal particles previously used z-9999 and painted ON TOP of the overlay.
+   * Opaque overlay floor + lower z keeps bursts running under Auxillaries without blink.
+   */
+  z-index: 20;
 }
 
 /* Particle effect dot styling */
@@ -18,7 +24,7 @@
   box-shadow: 0 0 10px rgba(103, 254, 183, 0.7);
   opacity: 0;
   pointer-events: none;
-  z-index: 20;
+  z-index: 1;
   will-change: opacity, transform;
   animation: particle-effect-float 2s ease-out forwards;
 }

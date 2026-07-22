@@ -203,7 +203,7 @@ export default function MarketingLandingPage() {
             3) Production — Protocol + micro-blog | lower four depot panels.
             gap-4/5/6 matches column gutters so y-gaps equal x-gaps.
           */}
-          <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col items-stretch gap-4 px-4 pb-8 pt-28 phone:pb-10 tablet:gap-5 tablet:px-6 laptop:gap-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
+          <main className="relative z-20 mx-auto flex w-full min-w-0 max-w-7xl flex-1 flex-col items-stretch gap-4 overflow-x-clip px-4 pb-8 pt-24 phone:pb-10 phone:pt-28 tablet:gap-5 tablet:px-6 laptop:gap-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
             {/*
               items-end: depot can be taller than hero.
               Scroll cue Y = hero bottom (CTA void, on-screen); X = full band center.
@@ -215,8 +215,9 @@ export default function MarketingLandingPage() {
                 </div>
                 <MarketingLandingProductPreview variant="upper" />
               </div>
+              {/* Scroll cue is tablet+ only — cramped / overlaps depot chrome on phone. */}
               <div
-                className="pointer-events-none absolute inset-x-0 z-[1] flex justify-center"
+                className="pointer-events-none absolute inset-x-0 z-[1] hidden justify-center tablet:flex"
                 style={{ top: scrollCueTop > 0 ? scrollCueTop : undefined }}
               >
                 <MarketingLandingScrollCue targetId="landing-audience" />
@@ -229,37 +230,40 @@ export default function MarketingLandingPage() {
               One shared whileInView for the whole production band so Code ⇄ Coin
               and Exchange Posture (plus value-flow / micro-blog) enter together.
             */}
+            {/*
+              Production band as a flat grid so phone order can put micro-blog last
+              without duplicating nodes:
+                phone:  protocol → value-flow → exchange posture → micro-blog
+                laptop: left stack (protocol, value-flow, micro-blog) | lower depot
+            */}
             <motion.div
               data-testid="landing-production-band"
-              className="grid w-full items-stretch gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6"
+              className="grid w-full min-w-0 grid-cols-1 gap-4 tablet:gap-5 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] laptop:gap-6"
               initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={landingProductionViewport}
               transition={{ duration: 0.85, ease: entranceEase }}
               style={animatedMotionStyle}
             >
-              {/*
-                min-h-0 on both columns: band height follows the lower depot;
-                value-flow only consumes leftover under protocol + micro-blog.
-              */}
-              <div className="flex h-full min-h-0 flex-col gap-4 tablet:gap-5 laptop:gap-6">
-                <div className="shrink-0">
-                  <MarketingLandingTestnetSection />
-                </div>
-                <div className="shrink-0">
-                  <MarketingLandingValueFlow />
-                </div>
-                {/*
-                  Page-standard y-gap (gap-4/5/6) to the micro-blog *tab tops*:
-                  tabs use -translate-y-1/2, so add half tab height (~12px) on top of
-                  the column gap so the visual gap matches sections above.
-                */}
-                <div className="shrink-0 pt-3">
-                  <MarketingLandingGuideCard />
-                </div>
+              <div className="order-1 min-w-0 shrink-0 laptop:col-start-1 laptop:row-start-1">
+                <MarketingLandingTestnetSection />
               </div>
-              <div className="h-full min-h-0">
+              <div className="order-2 min-w-0 shrink-0 laptop:col-start-1 laptop:row-start-2">
+                <MarketingLandingValueFlow />
+              </div>
+              {/*
+                Exchange posture before micro-blog on phone; right column on laptop
+                spanning the full left stack height.
+              */}
+              <div className="order-3 min-w-0 laptop:col-start-2 laptop:row-span-3 laptop:row-start-1 laptop:h-full">
                 <MarketingLandingProductPreview variant="lower" />
+              </div>
+              {/*
+                Micro-blog last on phone. Tab tops use -translate-y-1/2 — pt-3
+                compensates so the visual gap matches sections above.
+              */}
+              <div className="order-4 min-w-0 shrink-0 pt-3 laptop:col-start-1 laptop:row-start-3">
+                <MarketingLandingGuideCard />
               </div>
             </motion.div>
           </main>

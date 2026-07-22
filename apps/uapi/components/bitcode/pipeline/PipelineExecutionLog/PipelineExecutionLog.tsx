@@ -621,7 +621,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full min-w-0">
       <div className="absolute top-2 right-2 z-30 flex items-center gap-1">
         <button
           type="button"
@@ -656,7 +656,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
           if (typeof ref === 'function') ref(node);
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }}
-        className="relative px-4 laptop:px-6 pb-3 laptop:pb-4 pt-11 overflow-auto custom-scrollbar group/logs w-full min-h-[240px] max-h-[min(65vh,600px)] focus:outline-none"
+        className="relative w-full min-w-0 min-h-[240px] max-h-[min(65vh,600px)] overflow-x-hidden overflow-y-auto px-4 pb-3 pt-11 custom-scrollbar group/logs focus:outline-none laptop:px-6 laptop:pb-4"
         onScroll={handleScroll}
         onKeyDown={handleKeyDown}
         tabIndex={0}
@@ -664,7 +664,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       <div className="absolute left-0 right-0 top-0 h-8 bg-gradient-to-b from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-up]/logs:opacity-60 z-10" />
       <div className="absolute left-0 right-0 bottom-0 h-8 bg-gradient-to-t from-black/20 to-transparent pointer-events-none opacity-0 transition-opacity duration-200 group-[.can-scroll-down]/logs:opacity-60 z-10" />
 
-      <div className="pb-4 w-full">
+      <div className="w-full min-w-0 pb-4">
         {/* The log's own error banner (QA F19): errors render here, not in a
             separate pane, so the telemetry surface is the single place a run's
             terminal failure is visible. Dismiss clears it; Retry re-dispatches

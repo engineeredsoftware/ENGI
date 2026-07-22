@@ -14,7 +14,6 @@ import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCo
 
 import {
   animatedMotionStyle,
-  compactPreviewCards,
   entranceEase,
   measurementAbsoluteItems,
   measurementFinalFit,
@@ -36,10 +35,11 @@ import {
  */
 const PANEL_TITLE =
   'text-[14px] font-semibold leading-tight tracking-tight';
-/** pe/pb keep clipped-gradient titles from eating descenders (g, y, p). */
-const PANEL_TITLE_GRADIENT = `${PANEL_TITLE} whitespace-nowrap pe-[0.12em] pb-[0.14em] bg-clip-text text-transparent`;
+/** pe/pb keep clipped-gradient titles from eating descenders (g, y, p).
+ *  Phone: allow wrap so panel titles never force page overflow. */
+const PANEL_TITLE_GRADIENT = `${PANEL_TITLE} pe-[0.12em] pb-[0.14em] bg-clip-text text-transparent tablet:whitespace-nowrap`;
 const PANEL_SUBTITLE =
-  'mt-2 whitespace-nowrap text-[10px] font-medium uppercase leading-none tracking-[0.1em] text-emerald-100/58';
+  'mt-2 text-[10px] font-medium uppercase leading-snug tracking-[0.1em] text-emerald-100/58 tablet:whitespace-nowrap tablet:leading-none';
 const PANEL_SUBTITLE_STACK =
   'mt-2 space-y-0.5 text-[10px] font-medium uppercase leading-none tracking-[0.12em] text-emerald-100/58';
 const PANEL_BADGE =
@@ -515,9 +515,9 @@ function SafetyPanel() {
             Safe on both sides
           </p>
           <div className={PANEL_SUBTITLE_STACK}>
-            <p className="whitespace-nowrap">Private Source</p>
-            <p className="whitespace-nowrap">Clean Rights</p>
-            <p className="whitespace-nowrap">Fail-Closed Settle</p>
+            <p className="leading-snug tablet:whitespace-nowrap">Private Source</p>
+            <p className="leading-snug tablet:whitespace-nowrap">Clean Rights</p>
+            <p className="leading-snug tablet:whitespace-nowrap">Fail-Closed Settle</p>
           </div>
           <div
             className={`${PANEL_CHIPS_AFTER_SUBTITLE} ${PANEL_CHIPS_ROW_Y} flex flex-nowrap items-center gap-1`}
@@ -605,25 +605,19 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
   if (variant === 'lower') {
     return (
       <DepotChrome testId="landing-depot-lower" entrance="static">
-        <div className="flex items-center justify-between gap-3">
-          <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
+        <div className="flex min-w-0 items-center justify-between gap-2 phone:gap-3">
+          <BitcodePill className="w-fit shrink-0 whitespace-nowrap border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
             <CircleStackIcon className="h-3.5 w-3.5" />
             Market · Token · Safety
           </BitcodePill>
-          <p className="whitespace-nowrap text-right text-[10px] uppercase tracking-[0.14em] text-emerald-200/58 phone:text-[11px] phone:tracking-[0.18em]">
+          <p className="min-w-0 shrink truncate text-right text-[10px] uppercase leading-snug tracking-[0.12em] text-emerald-200/58 phone:text-[11px] phone:tracking-[0.18em]">
             Exchange posture
           </p>
         </div>
 
         <div className="mt-4 rounded-none border border-white/10 bg-black/30">
-          <div className="grid gap-3 p-4 laptop:hidden">
-            <MarketPanel />
-            <TokenPanel />
-            <SafetyPanel />
-            <LedgerPanel />
-          </div>
-
-          <div className="hidden gap-3 p-4 laptop:grid laptop:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] laptop:items-stretch">
+          {/* Same panels at every width — stack on phone, two columns from laptop. */}
+          <div className="grid gap-3 p-4 laptop:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] laptop:items-stretch">
             <div className="flex h-full min-h-0 flex-col gap-3 self-stretch">
               <MarketPanel />
               <SafetyPanel />
@@ -640,13 +634,18 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
 
   return (
     <DepotChrome testId="landing-depot-upper">
-      <div className="flex items-center justify-between gap-3">
-        <BitcodePill className="border-emerald-300/30 bg-emerald-400/10 text-emerald-100">
+      <div className="flex min-w-0 items-center justify-between gap-2 phone:gap-3">
+        <BitcodePill className="w-fit shrink-0 whitespace-nowrap border-emerald-300/30 bg-emerald-400/10 text-[11px] text-emerald-100">
           <CircleStackIcon className="h-3.5 w-3.5" />
           A Data Marketplace
         </BitcodePill>
-        <p className="whitespace-nowrap text-right text-[10px] uppercase tracking-[0.14em] text-emerald-200/58 phone:text-[11px] phone:tracking-[0.18em]">
-          A Knowledge Depot, An Endless Economy
+        {/*
+          Laptop+: one line. Below laptop: break only at the comma
+          (“A Knowledge Depot,” / “An Endless Economy”).
+        */}
+        <p className="min-w-0 shrink text-right text-[10px] uppercase leading-snug tracking-[0.12em] text-emerald-200/58 phone:text-[11px] phone:tracking-[0.18em] laptop:whitespace-nowrap">
+          A Knowledge Depot,{' '}
+          <span className="block laptop:inline">An Endless Economy</span>
         </p>
       </div>
 
@@ -662,42 +661,8 @@ export const MarketingLandingProductPreview = memo(function MarketingLandingProd
           </p>
         </div>
 
-        <div className="grid gap-3 p-4 laptop:hidden">
-          <div className="rounded-none border border-white/8 bg-white/5 p-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200/72">
-                  Compact depot view
-                </p>
-                <p className="mt-1 text-[11px] leading-5 text-emerald-100/62">
-                  The preview keeps DataPacks, source-safe measurements, and settlement posture
-                  legible before the full product route opens.
-                </p>
-              </div>
-              <span className="inline-flex min-w-[92px] items-center justify-center rounded-none border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">
-                static preview
-              </span>
-            </div>
-            <div className="mt-4 grid gap-3">
-              {compactPreviewCards.map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-none border border-white/8 bg-black/20 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-                >
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-200/72">
-                    {card.title}
-                  </p>
-                  <p className="mt-2 text-[13px] font-medium leading-5 text-white/88">{card.body}</p>
-                  <p className="mt-2 text-[11px] leading-5 text-emerald-100/60">{card.detail}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <MeasuresPanel />
-          <SellingPanel />
-        </div>
-
-        <div className="hidden gap-3 p-4 laptop:grid laptop:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] laptop:items-stretch">
+        {/* Same panels at every width — stack on phone, two columns from laptop. */}
+        <div className="grid gap-3 p-4 laptop:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] laptop:items-stretch">
           <MeasuresPanel />
           <SellingPanel />
         </div>

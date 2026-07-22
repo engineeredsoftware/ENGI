@@ -39,9 +39,9 @@ export type ExchangeActivityFilterBarProps = {
   onWriteParams: (updates: Record<string, string | null>) => void;
 };
 
-/** Match BitcodeTransactionsFilterBar field chrome. */
+/** Match BitcodeTransactionsFilterBar field chrome (gap owned by FilterCell). */
 const FIELD_CLASS =
-  "mt-1.5 h-9 w-full min-w-0 border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 text-sm text-white outline-none transition placeholder:text-neutral-500 focus:border-emerald-400/40";
+  "h-9 w-full min-w-0 max-w-full overflow-hidden border border-white/10 bg-[rgba(10,15,30,0.88)] px-2.5 text-sm text-white outline-none transition placeholder:truncate placeholder:text-neutral-500 focus:border-emerald-400/40 phone:px-3";
 
 function FilterCell({
   label,
@@ -56,16 +56,19 @@ function FilterCell({
 }) {
   const explainer: BitcodeExplainer = PACKS_FILTER_EXPLAINERS[explainerKey];
   return (
-    <div className={className}>
-      <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
-        <span>{label}</span>
+    <div className={["flex min-w-0 max-w-full flex-col gap-1.5", className].filter(Boolean).join(" ")}>
+      <span className="flex h-4 min-w-0 items-center gap-1.5 text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+        <span className="min-w-0 truncate" title={label}>
+          {label}
+        </span>
         <BitcodeInlineExplainer
           explainer={explainer}
           side="bottom"
+          className="shrink-0"
           triggerAriaLabel={`More info about the ${label} filter`}
         />
       </span>
-      {children}
+      <div className="min-w-0 w-full">{children}</div>
     </div>
   );
 }
@@ -83,14 +86,14 @@ export function ExchangeActivityFilterBar({
     // Compact mosaic twin of BitcodeTransactionsFilterBar — no nested card.
     // Parent list card owns vertical spacing (title chrome is a sibling card).
     <div
-      className="grid grid-cols-2 gap-2 tablet:grid-cols-4 xl:grid-cols-5"
+      className="grid w-full min-w-0 max-w-full grid-cols-2 items-start gap-2 tablet:grid-cols-4 xl:grid-cols-5"
       data-testid="packs-activity-filter-bar"
     >
-      <FilterCell label="Search" explainerKey="search" className="col-span-2 tablet:col-span-2">
-        <label className="relative mt-1.5 block min-w-0">
+      <FilterCell label="Search" explainerKey="search" className="col-span-2">
+        <label className="relative mt-0 block min-w-0 max-w-full">
           <span className="sr-only">Search pack activity</span>
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500"
+            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500 phone:left-3"
             aria-hidden="true"
           />
           <input
@@ -98,8 +101,9 @@ export function ExchangeActivityFilterBar({
             onChange={(event) =>
               onWriteParams({ q: event.currentTarget.value })
             }
-            className={`${FIELD_CLASS} mt-0 pl-10 pr-3`}
-            placeholder="Search packs, measurements, absolutes, proofs, states…"
+            className={`${FIELD_CLASS} mt-0 pl-9 pr-2.5 phone:pl-10 phone:pr-3`}
+            placeholder="Search packs…"
+            title="Search packs, measurements, absolutes, proofs, states…"
           />
         </label>
       </FilterCell>
@@ -158,7 +162,7 @@ export function ExchangeActivityFilterBar({
               direction: direction === "asc" ? "desc" : "asc",
             })
           }
-          className="mt-1.5 inline-flex h-9 w-full items-center justify-center gap-2 border border-emerald-400/25 bg-emerald-400/10 px-3 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/16"
+          className="inline-flex h-9 w-full min-w-0 items-center justify-center gap-2 border border-emerald-400/25 bg-emerald-400/10 px-2.5 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/16 phone:px-3"
           aria-label={`Sort direction ${direction}`}
         >
           {direction === "asc" ? (
@@ -170,27 +174,31 @@ export function ExchangeActivityFilterBar({
         </button>
       </FilterCell>
 
-      {PACKS_FACET_FILTERS.map(([key, label]) => (
-        <FilterCell
-          key={key}
-          label={label.replace(/ facet$/i, "")}
-          explainerKey={key as PacksFilterExplainerKey}
-        >
-          <input
-            value={
-              readParam(routeParams, key, "all") === "all"
-                ? ""
-                : readParam(routeParams, key)
-            }
-            onChange={(event) =>
-              onWriteParams({ [key]: event.currentTarget.value || null })
-            }
-            className={FIELD_CLASS}
-            placeholder={label}
-            aria-label={label}
-          />
-        </FilterCell>
-      ))}
+      {PACKS_FACET_FILTERS.map(([key, label]) => {
+        const shortLabel = label.replace(/ facet$/i, "");
+        return (
+          <FilterCell
+            key={key}
+            label={shortLabel}
+            explainerKey={key as PacksFilterExplainerKey}
+          >
+            <input
+              value={
+                readParam(routeParams, key, "all") === "all"
+                  ? ""
+                  : readParam(routeParams, key)
+              }
+              onChange={(event) =>
+                onWriteParams({ [key]: event.currentTarget.value || null })
+              }
+              className={FIELD_CLASS}
+              placeholder={shortLabel}
+              title={label}
+              aria-label={label}
+            />
+          </FilterCell>
+        );
+      })}
     </div>
   );
 }

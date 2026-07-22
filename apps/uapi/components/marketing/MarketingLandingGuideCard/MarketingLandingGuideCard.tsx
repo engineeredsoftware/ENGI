@@ -63,17 +63,17 @@ export const MarketingLandingGuideCard = memo(function MarketingLandingGuideCard
         })}
       </div>
 
-      <div className="border-b border-emerald-300/10 pb-3 laptop:grid laptop:grid-cols-[minmax(0,1fr)_auto] laptop:items-center laptop:gap-2">
-        <div className="min-w-0">
-          {/* Tighter tracking + gap so longer titles (e.g. Source-to-Shares) stay one line. */}
-          <p className="whitespace-nowrap bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text pe-[0.12em] text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.12em] text-transparent phone:text-[12px] phone:tracking-[0.14em]">
+      <div className="flex min-w-0 items-center gap-2 border-b border-emerald-300/10 pb-3">
+        <div className="min-w-0 flex-1">
+          {/* Tighter tracking so longer titles stay one line beside the date chip. */}
+          <p className="truncate bg-gradient-to-r from-emerald-200 via-emerald-100 to-white bg-clip-text pe-[0.12em] text-[11px] font-semibold uppercase leading-[1.35] tracking-[0.12em] text-transparent phone:text-[12px] phone:tracking-[0.14em]">
             {activePost.title}
           </p>
         </div>
         <div
           aria-label={activePost.meta}
           data-testid="micro-blog-meta"
-          className="mt-3 inline-flex max-w-full flex-wrap items-center rounded-none border border-emerald-300/10 bg-emerald-400/[0.05] px-2 py-1 text-[9px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58 phone:text-[10px] laptop:mt-0 laptop:justify-self-start"
+          className="inline-flex shrink-0 items-center rounded-none border border-emerald-300/10 bg-emerald-400/[0.05] px-2 py-1 text-[9px] uppercase leading-4 tracking-[0.12em] text-emerald-100/58 phone:text-[10px]"
         >
           {renderMicroBlogMeta(activePost.meta)}
         </div>

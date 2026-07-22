@@ -157,21 +157,21 @@ const pillarCtas = [
     href: BITCODE_PUBLIC_COPY.secondaryCta.href,
     label: BITCODE_PUBLIC_COPY.secondaryCta.label,
     className:
-      'border-fuchsia-300/28 bg-fuchsia-500/12 text-fuchsia-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-fuchsia-300/80 hover:bg-fuchsia-500/28 hover:text-fuchsia-50 hover:shadow-[0_0_22px_rgba(232,121,249,0.28)] hover:[text-shadow:0_0_12px_rgba(232,121,249,0.55)]',
+      'border-fuchsia-300/28 bg-fuchsia-500/12 text-fuchsia-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-fuchsia-300/80 hover:bg-fuchsia-500/28 hover:text-fuchsia-50 hover:shadow-[0_0_22px_rgba(232,121,249,0.28)] hover:[text-shadow:0_0_12px_rgba(232,121,249,0.55)] active:border-fuchsia-300/80 active:bg-fuchsia-500/28 active:text-fuchsia-50 active:shadow-[0_0_22px_rgba(232,121,249,0.28)]',
   },
   {
     pillarTitle: 'Read',
     href: BITCODE_PUBLIC_COPY.primaryCta.href,
     label: BITCODE_PUBLIC_COPY.primaryCta.label,
     className:
-      'border-orange-300/28 bg-orange-400/12 text-orange-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-orange-300/80 hover:bg-orange-400/28 hover:text-orange-50 hover:shadow-[0_0_22px_rgba(251,146,60,0.28)] hover:[text-shadow:0_0_12px_rgba(251,146,60,0.55)]',
+      'border-orange-300/28 bg-orange-400/12 text-orange-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-orange-300/80 hover:bg-orange-400/28 hover:text-orange-50 hover:shadow-[0_0_22px_rgba(251,146,60,0.28)] hover:[text-shadow:0_0_12px_rgba(251,146,60,0.55)] active:border-orange-300/80 active:bg-orange-400/28 active:text-orange-50 active:shadow-[0_0_22px_rgba(251,146,60,0.28)]',
   },
   {
     pillarTitle: 'Settle',
     href: BITCODE_PUBLIC_COPY.tertiaryCta.href,
     label: BITCODE_PUBLIC_COPY.tertiaryCta.label,
     className:
-      'border-emerald-300/28 bg-emerald-400/12 text-emerald-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-emerald-300/80 hover:bg-emerald-400/28 hover:text-emerald-50 hover:shadow-[0_0_22px_rgba(103,254,183,0.28)] hover:[text-shadow:0_0_12px_rgba(103,254,183,0.55)]',
+      'border-emerald-300/28 bg-emerald-400/12 text-emerald-50/88 transition-[color,background-color,border-color,box-shadow,text-shadow] duration-200 hover:border-emerald-300/80 hover:bg-emerald-400/28 hover:text-emerald-50 hover:shadow-[0_0_22px_rgba(103,254,183,0.28)] hover:[text-shadow:0_0_12px_rgba(103,254,183,0.55)] active:border-emerald-300/80 active:bg-emerald-400/28 active:text-emerald-50 active:shadow-[0_0_22px_rgba(103,254,183,0.28)]',
   },
 ] as const;
 
