@@ -432,8 +432,16 @@ export function normalizeAuxillarySteps(value: unknown): ConcreteAuxillaryPane[]
     .map((entry) => normalizeAuxillaryPane(String(entry || '')))
     .filter((entry): entry is ConcreteAuxillaryPane => Boolean(entry));
 
-  // Stable ring order (not input order). Legacy aliases like btd/connects must
-  // not reorder wallet/profile/externals/interfaces relative to FLOW_STEPS.
+  /*
+   * LEGACY SMELL (cleanup when storage no longer emits pre-ring step ids):
+   * Historical onboarded_steps used btd/connects (and free-form order). Aliases
+   * map those to wallet/externals, but Set(input-order) scrambled the ring
+   * (wallet, externals, profile, interfaces). Always re-emit in FLOW_STEPS
+   * order so consumers and contract tests share one stable sequence.
+   * TODO: once all persisted onboarded_steps are already canonical ring ids
+   * in FLOW_STEPS order, drop alias-only paths and this reorder if still
+   * redundant — keep alias map until DB rows are fully migrated.
+   */
   const unique = new Set(normalized);
   return AUXILLARY_FLOW_STEPS.filter((step) => unique.has(step));
 }

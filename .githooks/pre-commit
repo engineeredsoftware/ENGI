@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
+# Bitcode pre-commit: living local CI must be completely green.
+# Spec-sensitive staged paths also run host-agnostic spec basics.
+# There is no skip flag — red local CI cannot land on a shared branch.
 set -eu
 
+node scripts/run-bitcode-local-ci.mjs --mode full
 node scripts/check-bitcode-pre-commit.mjs

@@ -41,19 +41,26 @@
   - **Good:** `V48 Gate 5 (impl-only): Skip Judge/SO debug env` — names **debug** + **env** (configuration), not default product law.  
   **General rule:** never let the subject imply a **default system or product behavior change** when the change is **opt-in configuration**, **debug**, **behind a flag**, or **operator-only**. Prefer the smallest true words that prevent that false implication (`debug`, `env`, `flag`, `opt-in`, `config`) even under the 50-char soft budget — drop filler nouns before dropping scope class. Body may expand (`BITCODE_…=1`, opaque to PTRR, etc.); the subject still carries the class.
 - Write quality commit messages that describe the grouped work, proof, or documentation change. Avoid generic messages such as `wip v28` unless the user explicitly asks for that exact temporary commit shape. The bullet above on scope class is mandatory quality, not optional polish.
+- **REQUIRED — human approval of every commit message (title and body) before `git commit`.** Agents must **not** invent and land a subject/body unilaterally.
+  - Draft the full proposed **subject** and **body** (50/72 law, `(spec-only)` / `(impl-only)` / `(spec-impl)`, scope class) and **present them to the user**.
+  - **Wait for explicit approval** of that title and body (or an edited version the user provides). “Commit this,” “looks good,” or approving an amended draft is consent for **that message only**.
+  - **Do not** run `git commit` until the user has approved the message text. Green `ci:local` is necessary but not sufficient without message approval.
+  - Amending a message still requires a fresh approval of the new title/body.
+- **REQUIRED — never push unless specifically and temporarily allowed.** Default is **no `git push`** (and no force-push, publish, or remote-updating equivalent).
+  - Push only when the user **explicitly authorizes a push for the current turn/task** (e.g. “push this,” “push the branch”). That permission is **temporary** and **scoped to that request** — it does **not** grant standing push rights for later commits or sessions.
+  - A prior push, a general “keep going,” or green CI is **not** push authorization.
+  - Still never push to `main`; gate/version branch flow and PR rules above still apply when a push is authorized.
 - Any inline code comment that cites an accepted QA finding shorthand must always carry the fully-qualified tag `[VERSION]-Gate[N]-F[ID]` (e.g. `V48-Gate3-F26-B`), never a bare `F26-B`-style tag. The same fully-qualified tag must always be discoverable in the specification/QA ledger file(s) (e.g. the finding's own `### V48-Gate3-F26` heading in `.qa/BITCODE_V48_QA.md`), so a reader can go from either direction — code comment to spec entry, or spec entry to every citing code comment — with a single grep. This keeps finding-to-fix traceability intact without requiring the surrounding file or commit to already establish which version/gate is active.
 - Once implementation starts on a gate branch, do not stop at partial progress unless blocked by missing external input or explicit user pause. A gate branch is ready to stop only when the gate's acceptance criteria are implemented, specified, tested, documented, committed, pushed, and pull-requested for closure into the version branch.
 - Treat gate and promotion workflow health as part of gate closure. Gate pull requests into version branches must be green through the **active + draft** gate-quality / canon-quality surface (not prior-era `check-vN-*` suites). Repository-wide living product CI (uapi lint/typecheck/build/Jest) must remain greenable during draft work. Version pull requests into `main` must pass the version promotion workflow, which performs promotion-grade validations and commits the standalone `BITCODE_SPEC.txt` pointer change only after those validations pass.
 - **REQUIRED — never commit until all living CI checks are run locally and completely green.** This is absolute for every commit that may land on a shared branch, gate PR, or production path. **All commits must be green for production deployment** — a red commit is undeployable product debt, not “CI will catch it later.”
   - **Hard ban:** do **not** `git commit` (and do **not** push) while lint, typecheck, build, or required package/Jest suites are red, skipped, or only partially run for the change set.
-  - **Before every commit**, run the full living application CI surface mirrored by `.github/workflows/ci.yml` `lint-build` **to completion and green exit codes**:
+  - **Before every commit**, the living local CI mirror must be green. It is **enforced by `.githooks/pre-commit`** (`pnpm run hooks:install` once per clone):
     ```bash
-    pnpm run build:eslint-plugin
-    pnpm -C apps/uapi run lint
-    pnpm -C apps/uapi exec tsc --noEmit
-    pnpm -C apps/uapi run build
+    pnpm run ci:local
+    # equivalent: node scripts/run-bitcode-local-ci.mjs --mode full
     ```
-    Plus **focused Jest / package tests for every package touched** (not “only the happy path test file”). When the change set affects shared agent/pipeline packages, also run those package suites green.
+    That covers casing-check, active+draft canon/gate quality, and `ci.yml` lint-build + test-mocks. There is no skip flag. Partial smoke (`ci:local:lint-build` or a single Jest file) is iteration only — never a commit bar.
   - **uapi Jest CLI (required form):** invoke Jest via `exec`, pass flags **without** a bare `--` separator:
     ```bash
     # Correct

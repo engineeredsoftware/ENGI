@@ -414,6 +414,19 @@ iteration only — not a commit bar.
 **All commits must be green for production deployment.** A red commit is
 undeployable debt. Do not rely on “CI will catch it after push.”
 
+### 8.1.0 REQUIRED: agents — commit messages and push permission
+
+Coding agents working in this repo must additionally obey:
+
+| Law | Detail |
+| --- | --- |
+| **Commit message approval** | Before every `git commit`, the agent must draft the **full subject and body**, present them to the human, and wait for **explicit approval** of that title and body (or a human-edited version). Do not invent and land a message unilaterally. |
+| **One approval = one message** | Approving a draft authorizes that message only. Amending or rewriting the subject/body needs a new approval. |
+| **No default push** | Agents must **never** `git push` (or force-push / publish) unless the human **specifically and temporarily** authorizes a push for the current task (e.g. “push this”). That consent does not carry to later commits or sessions. |
+| **Still after CI green** | Message approval and any authorized push still require green `pnpm run ci:local` (and the rest of §8.1 / §8.1.1). |
+
+Human contributors follow §8.1 CI law; the table above is agent-operator law (see also `.docs/AGENTS.md`).
+
 ### 8.1.1 REQUIRED: full green CI before any production redeploy
 
 **Never redeploy production** (Vercel Production promote, production domain cutover,
@@ -440,8 +453,25 @@ Focused checks while iterating are fine. **Production redeploy requires full gre
 | **Deploy** | Only green commits are production-eligible; see **§8.1.1** — every production redeploy needs full green on the ship SHA; promotion to `main` also needs the version **promotion** workflow green |
 | **Ban** | Committing known red typecheck/lint/build, or committing without re-running checks after the last edit |
 
-Minimum local mirror of application CI (`.github/workflows/ci.yml` `lint-build`
-job — run **all** of these to completion):
+**Required local mirror (enforced by `.githooks/pre-commit`):**
+
+```bash
+pnpm run hooks:install   # once per clone — sets core.hooksPath=.githooks
+pnpm run ci:local        # full living mirror; must exit 0 before every commit
+# Faster iteration only (not a commit bar):
+pnpm run ci:local:lint-build
+pnpm run ci:local:list   # print step ids without running
+```
+
+`pnpm run ci:local` mirrors casing-check, bitcode-canon-quality (active +
+draft), bitcode-gate-quality (typecheck + package tests + staged harness), and
+`ci.yml` lint-build + test-mocks. Opt-in surfaces (full DB E2E, CodeQL, Super
+Linter, Long-Runner ECR, gate browser-proof) stay optional.
+
+Pre-commit runs `node scripts/run-bitcode-local-ci.mjs --mode full` then
+spec-sensitive basics. There is **no skip flag** — a red mirror blocks commit.
+
+Manual lint-build fragment (subset of `ci:local`, not a substitute):
 
 ```bash
 pnpm install --frozen-lockfile   # when lockfile changed
@@ -449,8 +479,6 @@ pnpm run build:eslint-plugin
 pnpm -C apps/uapi run lint
 pnpm -C apps/uapi exec tsc --noEmit   # required even if “only packages/*” changed
 pnpm -C apps/uapi run build
-# Plus focused Jest / package tests for every package in the change set (§8.3)
-# e.g. pnpm -C packages/agent-generics test
 ```
 
 **Why uapi `tsc` even for package-only edits:** Next/uapi typecheck pulls

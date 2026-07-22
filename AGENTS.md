@@ -12,3 +12,8 @@ Supporting guides:
 - Specifying machine: [`scripts/specifying/`](scripts/specifying/)
 
 Always ground work in the current canon under `.specifications/` and obey `.docs/AGENTS.md`.
+
+**Agent git law (summary — full text in `.docs/AGENTS.md`):**
+- Living local CI must be green before commit (`pnpm run ci:local`; pre-commit enforces).
+- **Every commit subject and body needs explicit human approval** before `git commit`.
+- **Never push** unless the human specifically and temporarily allows a push for the current task.

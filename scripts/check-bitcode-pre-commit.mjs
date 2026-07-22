@@ -17,7 +17,7 @@ const SPEC_RELEVANT_PATHS = [
   /^specifications\/SPECIFICATIONS_ROADMAP\.md$/u,
   /^scripts\/specifying\//u,
   /^package\.json$/u,
-  /^scripts\/(?:check-bitcode-|check-v28-metadevelopment-readiness|check-v29-gate1-objectives-and-gating|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|setup-bitcode-git-hooks)/u,
+  /^scripts\/(?:check-bitcode-|check-v28-metadevelopment-readiness|check-v29-gate1-objectives-and-gating|prepare-bitcode-spec-family-promotion|prepare-bitcode-runtime-canon-promotion|promote-bitcode-canon|run-bitcode-spec-quality|run-bitcode-local-ci|setup-bitcode-git-hooks)/u,
   /^\.githooks\/(?:pre-commit|commit-msg)$/u,
   /^\.github\/workflows\/(?:bitcode-canon-quality|bitcode-gate-quality|v28-canon-promotion|v29-canon-promotion)\.yml$/u
 ];
