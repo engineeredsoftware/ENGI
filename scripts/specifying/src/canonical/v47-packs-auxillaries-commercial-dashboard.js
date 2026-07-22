@@ -74,12 +74,17 @@ const SOURCE_ROOTS = Object.freeze({
   notes: '.specifications/BITCODE_SPEC_V47_NOTES.md',
   parity: '.specifications/BITCODE_SPEC_V47_PARITY_MATRIX.md',
   roadmap: '.specifications/SPECIFICATIONS_ROADMAP.md',
-  packsClient: 'apps/uapi/components/packs/PacksPageClient/PacksPageClient.tsx',
-  packsActivityTable: 'apps/uapi/components/packs/PacksActivityTable/PacksActivityTable.tsx',
-  packsActivityFilterBar: 'apps/uapi/components/packs/PacksActivityFilterBar/PacksActivityFilterBar.tsx',
-  packsActivityDetailStates: 'apps/uapi/components/packs/PacksActivityDetailStates/PacksActivityDetailStates.tsx',
-  packsPortfolioOverview: 'apps/uapi/components/packs/PacksPortfolioStrip/PacksPortfolioStrip.tsx',
-  packsPage: 'apps/uapi/app/packs/page.tsx',
+  // V48 retired product name "Packs" → Exchange. Surfaces live under components/exchange;
+  // /packs remains a compatibility redirect. Predicate roots track the live client.
+  packsClient: 'apps/uapi/components/exchange/ExchangePageClient/ExchangePageClient.tsx',
+  packsActivityTable: 'apps/uapi/components/exchange/ExchangeActivityTable/ExchangeActivityTable.tsx',
+  packsActivityFilterBar:
+    'apps/uapi/components/exchange/ExchangeActivityFilterBar/ExchangeActivityFilterBar.tsx',
+  packsActivityDetailStates:
+    'apps/uapi/components/exchange/ExchangeActivityDetailStates/ExchangeActivityDetailStates.tsx',
+  packsPortfolioOverview:
+    'apps/uapi/components/exchange/ExchangePortfolioStrip/ExchangePortfolioStrip.tsx',
+  packsPage: 'apps/uapi/app/exchange/page.tsx',
   packActivityModel: 'apps/uapi/components/bitcode/activity/PackActivityModel/pack-activity-model.ts',
   packsActivityApi: 'apps/uapi/app/api/packs/activity/route.ts',
   auxillariesPage: 'apps/uapi/app/auxillaries/page.tsx',
@@ -94,7 +99,7 @@ const SOURCE_ROOTS = Object.freeze({
     'apps/uapi/components/auxillaries/headers/AuxillariesWalletPaneHeader/AuxillariesWalletPaneHeader.tsx',
   auxillariesExternalsPane: 'apps/uapi/components/auxillaries/AuxillariesExternalsPane/AuxillariesExternalsPane.tsx',
   packActivityModelTest: 'apps/uapi/tests/packActivityModel.test.ts',
-  packsClientTest: 'apps/uapi/tests/packsPageClient.test.tsx',
+  packsClientTest: 'apps/uapi/tests/exchangePageClient.test.tsx',
   auxillariesWalletPaneTest: 'apps/uapi/tests/auxillariesWalletPane.test.tsx',
   auxillariesWorkspaceTest: 'apps/uapi/tests/auxillariesWorkspacePanels.test.tsx',
   packageJson: 'package.json',

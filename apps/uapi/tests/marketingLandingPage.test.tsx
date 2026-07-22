@@ -224,9 +224,11 @@ describe('MarketingLandingPage', () => {
 
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
-    expect(
-      screen.getByText(BITCODE_PUBLIC_COPY.testnetLaunch.badge),
-    ).toBeInTheDocument();
+    // Badge splits across two spans on phone (Productionized / Protocol).
+    const badge = BITCODE_PUBLIC_COPY.testnetLaunch.badge;
+    expect(section.textContent ?? '').toMatch(
+      new RegExp(badge.split(/\s+/).join('\\s*'), 'u'),
+    );
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
@@ -235,8 +237,9 @@ describe('MarketingLandingPage', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('Code', { selector: 'h2 span' })).toBeInTheDocument();
     expect(screen.getByText('Coin', { selector: 'h2 span' })).toBeInTheDocument();
+    // Phone + tablet meaning copy both render; any match is enough.
     expect(
-      screen.getByText((_, node) => {
+      screen.getAllByText((_, node) => {
         if (node?.tagName !== 'P') return false;
         const text = node.textContent ?? '';
         return (
@@ -245,8 +248,8 @@ describe('MarketingLandingPage', () => {
           text.includes('and Exchange') &&
           text.includes('ledgers, and the applications')
         );
-      }),
-    ).toBeInTheDocument();
+      }).length,
+    ).toBeGreaterThan(0);
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByText('Website Application')).toBeInTheDocument();

@@ -85,7 +85,8 @@ describe('Footer public shell', () => {
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
     expect(screen.getAllByText('🧪').length).toBeGreaterThan(0);
     const protocolSpecLink = screen.getByRole('link', { name: 'Protocol spec' });
-    expect(protocolSpecLink).not.toHaveAttribute('title');
+    // Phone chrome is icon-only; title + aria-label keep the control named.
+    expect(protocolSpecLink).toHaveAttribute('title', 'Protocol spec');
     expect(protocolSpecLink).toHaveAttribute(
       'href',
       'https://github.com/advancedengineeredsoftware/Bitcode/blob/version/v48/Whitepaper.md',
