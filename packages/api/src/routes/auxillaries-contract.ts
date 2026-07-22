@@ -432,7 +432,10 @@ export function normalizeAuxillarySteps(value: unknown): ConcreteAuxillaryPane[]
     .map((entry) => normalizeAuxillaryPane(String(entry || '')))
     .filter((entry): entry is ConcreteAuxillaryPane => Boolean(entry));
 
-  return Array.from(new Set(normalized));
+  // Stable ring order (not input order). Legacy aliases like btd/connects must
+  // not reorder wallet/profile/externals/interfaces relative to FLOW_STEPS.
+  const unique = new Set(normalized);
+  return AUXILLARY_FLOW_STEPS.filter((step) => unique.has(step));
 }
 
 export function parseStoredAuxillarySteps(value: unknown): ConcreteAuxillaryPane[] {
