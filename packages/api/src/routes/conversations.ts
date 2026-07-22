@@ -8,8 +8,8 @@
 import * as crypto from 'crypto';
 
 import { createAdminClient } from '@bitcode/orm';
-import type { AttachmentReference } from '@bitcode/attachments-generics';
-import { validateAttachmentCategory } from '@bitcode/attachments-generics';
+import type { AttachmentReference } from '@bitcode/attachment-generics';
+import { validateAttachmentCategory } from '@bitcode/attachment-generics';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { traceRoute } from '@bitcode/observability';
 import { createJsonResponse } from '@bitcode/api/responses';

@@ -2,16 +2,21 @@
 
 **Attachment** primitive contracts — base identity, admitted categories, and references.
 
-## Hierarchy
+## Hierarchy (core pattern)
 
 ```
-@bitcode/attachment-generics # this package (Attachment primitive)
+@bitcode/attachment-generics              # this package (Attachment primitive)
  ↑
-@bitcode/generic-attachments-file # FileAttachment base
-@bitcode/generic-attachments-external # ExternalAttachment base (Externals auxillary)
+@bitcode/generic-attachments-file         # packages/generic-attachments/file
+@bitcode/generic-attachments-external     # packages/generic-attachments/external
  ↑
-product conversations / API / UI
+product (api, conversations, uapi)        # import primitive and/or leaf bases
 ```
+
+Leaf packages under `generic-attachments/` are the correct organizational pattern
+for file | external **base implementations**. Prefer leaf imports when you need
+`FileAttachment` / `ExternalAttachment`; use this package for
+`BaseAttachment`, `AttachmentReference`, and category guards.
 
 ## Admitted categories (only)
 
@@ -27,3 +32,4 @@ product conversations / API / UI
 - Primitive does not own file MIME tables or provider payloads.
 - Bases live under `packages/generic-attachments/{file,external}/`.
 - **External** vocabulary aligns with the Externals auxillary (not “integration”).
+- Do **not** reintroduce a plural composition barrel (`attachments-generics`); that twin name was retired in favor of primitive + leaves.

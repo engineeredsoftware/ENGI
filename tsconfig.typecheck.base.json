@@ -144,9 +144,6 @@
       "@bitcode/generic-attachments-external": [
         "packages/generic-attachments/external/src/index.ts"
       ],
-      "@bitcode/attachments-generics": [
-        "packages/attachments-generics/src/index.ts"
-      ],
       "@bitcode/asset-packs-pipelines-domain": [
         "packages/asset-packs-pipelines/domain/src/index.ts"
       ],

@@ -51,7 +51,6 @@
       "@bitcode/attachment-generics/*": ["packages/attachment-generics/src/*"],
       "@bitcode/generic-attachments-file": ["packages/generic-attachments/file/src/index.ts"],
       "@bitcode/generic-attachments-external": ["packages/generic-attachments/external/src/index.ts"],
-      "@bitcode/attachments-generics": ["packages/attachments-generics/src/index.ts"],
       "@bitcode/asset-packs-pipelines-domain": ["packages/asset-packs-pipelines/domain/src/index.ts"],
       "@bitcode/asset-packs-pipelines-syntheses-domain": ["packages/asset-packs-pipelines/syntheses/domain/src/index.ts"],
       "@bitcode/asset-packs-pipelines-syntheses-domain/*": ["packages/asset-packs-pipelines/syntheses/domain/src/*"],

@@ -7,7 +7,7 @@
  * Type: domain-types
  * Pattern: database-mirror
  */
-import { AttachmentReference } from '@bitcode/attachments-generics';
+import { AttachmentReference } from '@bitcode/attachment-generics';
 export type ConversationMessageRole = 'user' | 'assistant';
 /**
  * Conversations table - lightweight wrapper for organizing messages

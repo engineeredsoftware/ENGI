@@ -12,7 +12,7 @@
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {
-    "@bitcode/attachments-generics": "workspace:*",
+    "@bitcode/attachment-generics": "workspace:*",
     "@bitcode/auth": "workspace:*",
     "@bitcode/generic-vcs-bitbucket": "workspace:*",
     "@bitcode/conversations": "workspace:*",

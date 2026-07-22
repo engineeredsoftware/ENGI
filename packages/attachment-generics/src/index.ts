@@ -3,12 +3,14 @@
  *
  * Attachment **primitive** — base fields, categories file|external, references.
  *
- * Prefer:
- *   @bitcode/attachment-generics
- *   @bitcode/generic-attachments-file
- *   @bitcode/generic-attachments-external
+ * Hierarchy (core *generics + generic-* leaves pattern):
+ *   @bitcode/attachment-generics              # this package
+ *     → @bitcode/generic-attachments-file     # file leaf base
+ *     → @bitcode/generic-attachments-external # external leaf base
  *
- * Composition: @bitcode/attachments-generics re-exports this surface + bases.
+ * Product code imports this package for refs/categories, and leaf packages
+ * when specializing FileAttachment / ExternalAttachment. There is no plural
+ * composition barrel package.
  */
 
 export type {

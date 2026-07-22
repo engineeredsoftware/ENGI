@@ -285,15 +285,17 @@ No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-
 | Storage bases | aws / supabase / vercel | provider implementations |
 | Product | `DataPackPatchArtifact` | patch bound to `assetPackId` |
 
-### 3.1.5 Attachments (primitive → file | external)
+### 3.1.5 Attachments (primitive → file | external leaves)
+
+Core `*-generics` + `generic-*` leaf pattern (no plural composition barrel):
 
 ```
 @bitcode/attachment-generics BaseAttachment; categories file|external
  ↑
-@bitcode/generic-attachments-file FileAttachment
+@bitcode/generic-attachments-file FileAttachment   # packages/generic-attachments/file
 @bitcode/generic-attachments-external ExternalAttachment (Externals auxillary)
  ↑
-@bitcode/attachments-generics composition barrel
+product (api, conversations) imports primitive for refs/categories; leaves when specializing
 ```
 
 | Category | Role |
@@ -301,7 +303,7 @@ No standalone `@bitcode/aws` package — S3 for artifacts is `generic-artifacts-
 | `file` | Direct uploads |
 | `external` | Externals connections (GitHub, Jira, Notion, …) — not “integration” |
 
-Removed: `vcs`, `url`. VCS attaches as **external**.
+Removed: `vcs`, `url`. VCS attaches as **external**. Retired: `@bitcode/attachments-generics` twin-name barrel.
 
 ### 3.2.0 VCS
 

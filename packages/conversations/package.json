@@ -7,7 +7,7 @@
   "description": "Conversation domain types and models (packages/conversations)",
   "dependencies": {
     "@bitcode/agent-generics": "workspace:*",
-    "@bitcode/attachments-generics": "workspace:*",
+    "@bitcode/attachment-generics": "workspace:*",
     "@bitcode/execution-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "zod": "^3.24.1"

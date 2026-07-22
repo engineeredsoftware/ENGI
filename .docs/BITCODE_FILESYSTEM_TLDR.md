@@ -645,19 +645,13 @@ Format: `path -- <1 sentence TL;DR>`.
  artifacts.ts -- Source module in package `artifacts`.
  package.json -- Package/workspace manifest and dependency exports.
  README.md -- Human orientation for this directory.
- attachments-generics/ -- Domain package `attachments-generics` (pure reusable logic).
- src/ -- Subfolder of package `attachments-generics`.
- index.d.ts -- Public package export surface.
- index.js -- Package `attachments-generics` artifact.
+ attachment-generics/ -- Attachment primitive (`@bitcode/attachment-generics`).
+ src/ -- Subfolder of package `attachment-generics`.
  index.ts -- Public package export surface.
- types.d.ts -- Source module in package `attachments-generics`.
- types.js -- Package `attachments-generics` artifact.
- types.ts -- Source module in package `attachments-generics`.
- utils.d.ts -- Source module in package `attachments-generics`.
- utils.js -- Package `attachments-generics` artifact.
- utils.ts -- Source module in package `attachments-generics`.
+ types.ts -- Source module in package `attachment-generics`.
  package.json -- Package/workspace manifest and dependency exports.
  README.md -- Human orientation for this directory.
+ generic-attachments/ -- Leaf bases file|external (`@bitcode/generic-attachments-*`).
  aurora-postgres/ -- Domain package `aurora-postgres` (pure reusable logic).
  src/ -- Subfolder of package `aurora-postgres`.
  index.js -- Package `aurora-postgres` artifact.

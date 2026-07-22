@@ -305,8 +305,8 @@ packages/generic-<family>/ # README only (no package.json)
 | `generic-doc-comments/` | `doc-code/`, `doc-developing/` | `@bitcode/generic-doc-comments-*` |
 | `artifact-generics/` | (package root) | `@bitcode/artifact-generics` |
 | `generic-artifacts/` | `patch/`, `aws/`, `supabase/`, `vercel/` | type + storage providers |
-| `attachment-generics/` | (package root) | `@bitcode/attachment-generics` |
-| `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` |
+| `attachment-generics/` | (package root) | `@bitcode/attachment-generics` (primitive) |
+| `generic-attachments/` | `file/`, `external/` | `@bitcode/generic-attachments-*` (leaf bases) |
 | `files/` | (package root) | `@bitcode/files` |
 | `file-editing/` | (package root) | `@bitcode/file-editing` |
 | `file-refactoring/` | (package root) | `@bitcode/file-refactoring` |

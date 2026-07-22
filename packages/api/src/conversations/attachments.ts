@@ -4,7 +4,7 @@
  */
 
 import { supabaseAdmin } from '@bitcode/supabase';
-import { AttachmentReference, AttachmentCategory } from '@bitcode/attachments-generics';
+import { AttachmentReference, AttachmentCategory } from '@bitcode/attachment-generics';
 import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 

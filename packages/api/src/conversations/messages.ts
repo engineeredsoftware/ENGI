@@ -6,7 +6,7 @@
 import { supabaseAdmin } from '@bitcode/supabase';
 // Use DB table type for strong alignment with current schema
 import type { Message } from '@bitcode/orm';
-import { AttachmentReference } from '@bitcode/attachments-generics';
+import { AttachmentReference } from '@bitcode/attachment-generics';
 import { log } from '@bitcode/logger';
 import * as crypto from 'crypto';
 import {

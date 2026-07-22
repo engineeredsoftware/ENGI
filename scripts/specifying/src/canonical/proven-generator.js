@@ -615,7 +615,7 @@ const V26_DIRECT_PRODUCT_PACKAGE_NAMES = new Set([
 const V26_COMMERCIAL_INFRASTRUCTURE_PACKAGE_NAMES = new Set([
   '@bitcode/agent-generics',
   '@bitcode/artifacts',
-  '@bitcode/attachments-generics',
+  '@bitcode/attachment-generics',
   '@bitcode/auth',
   '@bitcode/browser-storage',
   '@bitcode/context-generics',
