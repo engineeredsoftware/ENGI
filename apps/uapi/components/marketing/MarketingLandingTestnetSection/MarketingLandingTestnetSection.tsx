@@ -9,6 +9,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import {
   ArrowsRightLeftIcon,
   ChatBubbleLeftRightIcon,
@@ -22,6 +23,8 @@ import Logo from '@/components/bitcode/branding/Logo/Logo';
 import DataPackMark from '@/components/bitcode/branding/DataPackMark/DataPackMark';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 import {
+  animatedMotionStyle,
+  entranceEase,
   renderClaimAnchorMarkers,
   renderLeadingClaimFootnote,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
@@ -260,10 +263,15 @@ export function MarketingLandingTestnetSection() {
   const copy = BITCODE_PUBLIC_COPY.testnetLaunch;
 
   return (
-    <section
+    <motion.section
       data-testid="landing-testnet-launch"
       aria-label="Commercial product launch readiness"
       className="relative w-full shrink-0"
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.85, ease: entranceEase }}
+      style={animatedMotionStyle}
     >
       <div className="relative overflow-visible rounded-none border border-emerald-300/16 bg-emerald-300/[0.045] px-4 py-4 backdrop-blur-sm phone:px-5 phone:py-5">
         {/*
@@ -420,7 +428,7 @@ export function MarketingLandingTestnetSection() {
                           : 'border-emerald-300/25 bg-emerald-400/10 text-emerald-200'
                       }`}
                     >
-                      {/* Mid size shared with Selling Knowledge squares (~34px square, 20px glyph). */}
+                      {/* Mid size shared with Exchanging Knowledge squares (~34px square, 20px glyph). */}
                       <Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
                     </span>
                     <span
@@ -488,6 +496,6 @@ export function MarketingLandingTestnetSection() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

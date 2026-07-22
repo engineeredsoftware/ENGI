@@ -19,6 +19,28 @@ import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCo
 
 export const entranceEase = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * Shared scroll gate for audience enter + scroll-cue exit.
+ * Same rootMargin as framer-motion `viewport.margin` / IntersectionObserver.
+ * Both fire when the audience band reaches this inset viewport.
+ */
+export const LANDING_AUDIENCE_VIEWPORT_MARGIN = '-80px';
+
+/** Framer `whileInView` viewport — keep in lockstep with the scroll cue. */
+export const landingAudienceViewport = {
+  once: true,
+  margin: LANDING_AUDIENCE_VIEWPORT_MARGIN,
+  amount: 0.01,
+} as const;
+
+/** True when audience has crossed the shared enter/exit scroll line. */
+export function isLandingAudienceInEnterBand(audienceEl: Element): boolean {
+  if (typeof window === 'undefined') return false;
+  // Matches rootMargin '-80px' on the bottom edge: enter when top < H − 80.
+  const leadPx = 80;
+  return audienceEl.getBoundingClientRect().top < window.innerHeight - leadPx;
+}
+
 export const animatedMotionStyle: React.CSSProperties = {
   willChange: 'transform, opacity',
   transform: 'translateZ(0)',
@@ -132,10 +154,10 @@ export const previewRows = [
   },
   {
     key: "Buyer's View",
-    valueParts: ['measurements', 'needs-fits scores', 'knowledge volume'],
+    valueParts: ['measurements', 'needs-fittings', 'knowledge volume'],
     bulletTone: 'orange' as PreviewValueTone,
     valueTones: {
-      'needs-fits scores': 'orange',
+      'needs-fittings': 'orange',
     } satisfies Partial<Record<string, PreviewValueTone>>,
     accentClassName: 'from-orange-400/18 via-amber-300/8 to-transparent',
     Icon: Squares2X2Icon,
@@ -174,29 +196,32 @@ export const measuremintCandles = [
 
 export const verificationRows = [
   {
-    label: 'Depositing',
-    detail: 'DataPacks are securely measured; rights and payments are settled.',
-    status: 'public',
-    Icon: CircleStackIcon,
-  },
-  {
-    label: 'Reading',
+    label: 'Sellers: secrets stay hidden',
     detail:
-      'Bitcode finds deposited DataPacks to synthesize new DataPacks to satisfy your needs.',
-    status: 'private',
+      'Obfuscate before you deposit. Only measured, permitted material is ever exposed — never your secret sauce.',
+    status: 'sellers',
     Icon: LockClosedIcon,
   },
   {
-    label: 'Proofs',
-    detail: 'Generated proofs of deployed protocol implementation to all live activity.',
-    status: 'verified',
+    label: 'Buyers: rights-clean',
+    detail:
+      'Every pack is provenance-tracked and audit-ready. No scraping risk, no training-corpus exposure.',
+    status: 'buyers',
     Icon: ShieldCheckIcon,
   },
   {
-    label: 'Immutable',
-    detail: 'The on-chain settlement ledger establishes an auditable knowledge-market.',
-    status: 'final',
+    label: 'Fail-closed',
+    detail:
+      'Money and rights settle before anything ships. No payment, no delivery.',
+    status: 'settle',
     Icon: CheckBadgeIcon,
+  },
+  {
+    label: 'Provable + immutable',
+    detail:
+      'Every deposit, read, and settlement is written to an decentralized ledger anyone can verify.',
+    status: 'ledger',
+    Icon: CircleStackIcon,
   },
 ] as const;
 

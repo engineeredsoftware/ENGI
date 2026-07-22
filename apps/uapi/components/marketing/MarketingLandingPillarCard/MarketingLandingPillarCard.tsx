@@ -89,7 +89,7 @@ export function MarketingLandingPillarCard({
                 </span>
               </div>
             </div>
-            <p className="mt-1.5 text-[11px] leading-4 text-violet-50/88 phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 text-[12px] leading-4 text-violet-50/88 phone:text-[14px] phone:leading-5">
               {description}
             </p>
             {/* mt-auto keeps lower chrome aligned with Read metrics + Settle list (no divider). */}
@@ -180,7 +180,7 @@ export function MarketingLandingPillarCard({
                 </span>
               </div>
             </div>
-            <p className="mt-1.5 text-[11px] leading-4 text-orange-50/88 phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 text-[12px] leading-4 text-orange-50/88 phone:text-[14px] phone:leading-5">
               {description}
             </p>
             {/* Metrics band lifted toward body copy (no divider). */}
@@ -263,7 +263,7 @@ export function MarketingLandingPillarCard({
                 </div>
               </div>
             </div>
-            <p className="mt-1.5 text-[11px] leading-4 text-emerald-50/88 phone:text-[13px] phone:leading-5">
+            <p className="mt-1.5 text-[12px] leading-4 text-emerald-50/88 phone:text-[14px] phone:leading-5">
               {hasBtdInDescription ? (
                 <>
                   {beforeBtd}

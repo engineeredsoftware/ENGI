@@ -4,10 +4,17 @@ import React, { useEffect, useRef, FC } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ParticleEffectProps {
-  targetRef: React.RefObject<HTMLElement>;
+  targetRef: React.RefObject<HTMLElement | null>;
   particleCount?: number;
   duration?: number;
   delay?: number;
+  /**
+   * Re-fire the same burst on a loop (typing highlight re-trigger).
+   * Interval is measured from each burst start.
+   */
+  loop?: boolean;
+  /** ms between burst starts when `loop` is true. Default: duration + 400. */
+  loopInterval?: number;
 }
 
 const ParticleEffect: FC<ParticleEffectProps> = ({
@@ -15,15 +22,33 @@ const ParticleEffect: FC<ParticleEffectProps> = ({
   particleCount = 20,
   duration = 1500,
   delay = 0,
+  loop = false,
+  loopInterval,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const intervalMs = loopInterval ?? duration + 400;
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     if (!targetRef.current || !containerRef.current) return;
 
-    const timer = setTimeout(() => {
-      const targetElement = targetRef.current!;
-      const container = containerRef.current!;
+    const container = containerRef.current;
+    const timers: number[] = [];
+    let rafId = 0;
+    let intervalId = 0;
+    let cancelled = false;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    /**
+     * Viewport-fixed box matching the highlight glyph bounds.
+     * `fixed` avoids scroll-offset drift; no vertical shift so the cloud
+     * is centered on the text rather than sitting below it.
+     */
+    const positionContainer = () => {
+      const targetElement = targetRef.current;
+      if (!targetElement) return null;
 
       const el = targetElement;
       const root = el.closest('.typing-animation');
@@ -33,30 +58,44 @@ const ParticleEffect: FC<ParticleEffectProps> = ({
           ? Array.from(root.querySelectorAll(`[data-particle-highlight="${highlightId}"]`))
           : [el];
       const rects = spans.map((s) => s.getBoundingClientRect());
+      if (!rects.length) return null;
+
       const left = Math.min(...rects.map((r) => r.left));
       const top = Math.min(...rects.map((r) => r.top));
       const right = Math.max(...rects.map((r) => r.right));
       const bottom = Math.max(...rects.map((r) => r.bottom));
-      const rect = { left, top, width: right - left, height: bottom - top };
+      const width = right - left;
+      const height = bottom - top;
+      if (width <= 0 || height <= 0) return null;
 
-      container.style.position = 'absolute';
+      container.style.position = 'fixed';
       container.style.bottom = 'auto';
       container.style.right = 'auto';
-      const verticalShift = 24;
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-      container.style.top = `${rect.top + scrollTop + verticalShift}px`;
-      container.style.left = `${rect.left + scrollLeft}px`;
-      container.style.width = `${rect.width}px`;
-      container.style.height = `${rect.height}px`;
+      container.style.top = `${top}px`;
+      container.style.left = `${left}px`;
+      container.style.width = `${width}px`;
+      container.style.height = `${height}px`;
       container.style.pointerEvents = 'none';
       container.style.overflow = 'visible';
+      container.style.margin = '0';
+      container.style.padding = '0';
+      container.style.transform = 'none';
+
+      return { left, top, width, height };
+    };
+
+    const fireBurst = () => {
+      if (cancelled) return;
+      const rect = positionContainer();
+      if (!rect) return;
 
       const createParticle = () => {
+        if (cancelled) return;
         const particle = document.createElement('div');
         particle.className = 'particle-effect-dot';
+        // Spawn across the full glyph box (aligned with the text).
         const x = Math.random() * rect.width;
-        const y = Math.random() * rect.height * 0.9 - rect.height * 0.1;
+        const y = Math.random() * rect.height;
         const directionX = Math.random() * 2 - 1;
         const directionY = Math.random() * 2 - 1.2;
         particle.style.setProperty('--x', directionX.toString());
@@ -71,30 +110,62 @@ const ParticleEffect: FC<ParticleEffectProps> = ({
         const animDelay = Math.random() * 10;
         particle.style.animationDelay = `${animDelay}ms`;
         container.appendChild(particle);
-        setTimeout(() => {
+        const removeId = window.setTimeout(() => {
           if (container.contains(particle)) container.removeChild(particle);
         }, animDuration + animDelay);
+        timers.push(removeId);
       };
 
       let nextIndex = 0;
       const batchSize = Math.max(1, Math.floor(particleCount / 5));
       const scheduleBatch = () => {
+        if (cancelled) return;
         const end = Math.min(nextIndex + batchSize, particleCount);
         for (let i = nextIndex; i < end; i++) createParticle();
         nextIndex = end;
-        if (nextIndex < particleCount) requestAnimationFrame(scheduleBatch);
+        if (nextIndex < particleCount) {
+          rafId = requestAnimationFrame(scheduleBatch);
+        }
       };
       scheduleBatch();
-    }, delay);
+    };
 
-    return () => clearTimeout(timer);
-  }, [targetRef, particleCount, duration, delay]);
+    const startId = window.setTimeout(() => {
+      fireBurst();
+      if (loop) {
+        intervalId = window.setInterval(fireBurst, intervalMs);
+      }
+    }, delay);
+    timers.push(startId);
+
+    // Keep the spawn box locked to the text if layout/scroll shifts mid-loop.
+    const onRelayout = () => {
+      if (!cancelled) positionContainer();
+    };
+    window.addEventListener('scroll', onRelayout, { passive: true });
+    window.addEventListener('resize', onRelayout);
+
+    return () => {
+      cancelled = true;
+      timers.forEach((id) => clearTimeout(id));
+      if (intervalId) clearInterval(intervalId);
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onRelayout);
+      window.removeEventListener('resize', onRelayout);
+      while (container.firstChild) container.removeChild(container.firstChild);
+    };
+  }, [targetRef, particleCount, duration, delay, loop, intervalMs]);
+
+  if (typeof document === 'undefined') return null;
 
   return createPortal(
-    <div ref={containerRef} className="particle-effect-container absolute pointer-events-none" style={{ zIndex: 9999 }} />,
+    <div
+      ref={containerRef}
+      className="particle-effect-container pointer-events-none"
+      style={{ zIndex: 9999, overflow: 'visible' }}
+    />,
     document.body,
   );
 };
 
 export default ParticleEffect;
- 

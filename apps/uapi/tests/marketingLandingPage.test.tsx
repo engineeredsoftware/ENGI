@@ -4,7 +4,9 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 import MarketingLandingPage from '@/components/marketing/MarketingLandingPage/MarketingLandingPage';
+import { verificationRows } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 jest.mock('framer-motion', () => {
   const makeComponent = () =>
@@ -67,19 +69,25 @@ describe('MarketingLandingPage', () => {
   it('renders Bitcode-facing landing CTAs and static depot preview', () => {
     render(<MarketingLandingPage />);
 
+    expect(screen.getByText(BITCODE_PUBLIC_COPY.headline)).toBeInTheDocument();
+    const buyLinks = screen.getAllByRole('link', {
+      name: BITCODE_PUBLIC_COPY.primaryCta.label,
+    });
+    expect(buyLinks.length).toBeGreaterThanOrEqual(1);
+    buyLinks.forEach((link) =>
+      expect(link).toHaveAttribute('href', BITCODE_PUBLIC_COPY.primaryCta.href),
+    );
     expect(
-      screen.getByText('Trade technical data on the Bitcode exchange.'),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Buy DataPacks' })).toHaveAttribute('href', '/reads');
-    expect(screen.getByRole('link', { name: 'Sell Source' })).toHaveAttribute(
-      'href',
-      '/deposits',
+      screen.getByRole('link', { name: BITCODE_PUBLIC_COPY.secondaryCta.label }),
+    ).toHaveAttribute('href', BITCODE_PUBLIC_COPY.secondaryCta.href);
+    expect(
+      screen.getByRole('link', { name: BITCODE_PUBLIC_COPY.tertiaryCta.label }),
+    ).toHaveAttribute('href', BITCODE_PUBLIC_COPY.tertiaryCta.href);
+
+    expect(screen.getByRole('button', { name: 'May–July' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
     );
-    expect(screen.getByRole('link', { name: 'View Exchange' })).toHaveAttribute(
-      'href',
-      '/exchange',
-    );
-    expect(screen.getByRole('button', { name: 'May–July' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'April' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'March' })).toBeInTheDocument();
     expect(screen.getByText('Developing an MVP')).toBeInTheDocument();
@@ -87,27 +95,88 @@ describe('MarketingLandingPage', () => {
       'aria-label',
       'May–July 2026',
     );
+
     expect(screen.getByText('A Data Marketplace')).toBeInTheDocument();
     expect(
       screen.getByText('A Knowledge Depot, An Endless Economy'),
     ).toBeInTheDocument();
     expect(
-      screen.getByText('For Agents, Humans, Aliens...'),
+      screen.getByText(BITCODE_PUBLIC_COPY.productPreview.rail),
     ).toBeInTheDocument();
-    expect(screen.getByText('Source Measurements')).toBeInTheDocument();
-    expect(screen.getByText('Absolutes')).toBeInTheDocument();
-    expect(screen.getByText('Needinesses')).toBeInTheDocument();
-    expect(screen.getByText("Packs' BTD Volume")).toBeInTheDocument();
-    expect(screen.getByText('431')).toBeInTheDocument();
-    expect(screen.getByText('Source Safety')).toBeInTheDocument();
-    expect(screen.getAllByText('Crypto').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('BTD').length).toBeGreaterThan(0);
-    // Settlement 2×2 short commodity chip (not expanded DataPacks).
-    expect(screen.getAllByText('Packs').length).toBeGreaterThan(0);
-    // Formal commodity still appears as DataPacks in hero/docs copy.
+    // Upper depot renders mobile + laptop trees (CSS-hidden), so labels can match more than once.
+    expect(screen.getAllByText('Source Measurements').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Absolutes').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Needinesses').length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Packs' BTD Volume").length).toBeGreaterThan(0);
+    expect(screen.getAllByText('431').length).toBeGreaterThan(0);
+    expect(screen.getByTestId('landing-depot-upper')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-depot-lower')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-production-band')).toBeInTheDocument();
+
+    // Depot panels (page copy is SSOT).
+    expect(
+      screen.getAllByText(BITCODE_PUBLIC_COPY.operatorFrame.title).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(BITCODE_PUBLIC_COPY.operatorFrame.subtitle).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(BITCODE_PUBLIC_COPY.sourceToSettlement.title).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(BITCODE_PUBLIC_COPY.sourceToSettlement.subtitle)
+        .length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(BITCODE_PUBLIC_COPY.settlementLedger.title).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(BITCODE_PUBLIC_COPY.settlementLedger.subtitle)
+        .length,
+    ).toBeGreaterThan(0);
+    expect(screen.getAllByText('Safe on both sides').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Private Source').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Clean Rights').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Fail-Closed Settle').length).toBeGreaterThan(0);
+
+    for (const row of BITCODE_PUBLIC_COPY.operatorFrame.rows) {
+      expect(screen.getAllByText(row.label).length).toBeGreaterThan(0);
+    }
+    for (const row of BITCODE_PUBLIC_COPY.sourceToSettlement.rows) {
+      expect(screen.getAllByText(row.label).length).toBeGreaterThan(0);
+    }
+    for (const row of BITCODE_PUBLIC_COPY.settlementLedger.rows) {
+      expect(screen.getAllByText(row.label).length).toBeGreaterThan(0);
+    }
+    for (const row of verificationRows) {
+      expect(screen.getAllByText(row.label).length).toBeGreaterThan(0);
+    }
+
     expect(screen.getAllByText('DataPacks').length).toBeGreaterThan(0);
-    expect(screen.getByText(/Mint volume from needinesses/i)).toBeInTheDocument();
-    expect(screen.getByText('On-chain')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-why-now')).toBeInTheDocument();
+    expect(screen.getByText('Why now')).toBeInTheDocument();
+    expect(
+      screen.getByText(/Buying the data that trains AI is broken/u),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/~\$100B/u)).toBeInTheDocument();
+    expect(screen.getByText(/~25%/u)).toBeInTheDocument();
+
+    expect(screen.getByTestId('landing-audience-sections')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-scroll-cue')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-value-flow')).toBeInTheDocument();
+    expect(screen.getByText(BITCODE_PUBLIC_COPY.valueFlow.title)).toBeInTheDocument();
+    expect(
+      screen.getByText(BITCODE_PUBLIC_COPY.audienceBuyers.headline),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(BITCODE_PUBLIC_COPY.audienceSellers.headline),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', {
+        name: BITCODE_PUBLIC_COPY.audienceSellers.cta.label,
+      }),
+    ).toHaveAttribute('href', BITCODE_PUBLIC_COPY.audienceSellers.cta.href);
+
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'P') return false;
@@ -130,9 +199,18 @@ describe('MarketingLandingPage', () => {
     expect(screen.getAllByText('Settle').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Exchange').length).toBeGreaterThan(0);
     expect(document.querySelector('iframe')).toBeNull();
-    expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass('hidden', 'laptop:block');
-    expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
-    expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');
+    expect(screen.getByTestId('landing-orbital-ambience')).toHaveClass(
+      'hidden',
+      'laptop:block',
+    );
+    expect(screen.getByTestId('landing-pointer-glow')).toHaveClass(
+      'hidden',
+      'laptop:block',
+    );
+    expect(screen.getByTestId('landing-ambient-glow')).toHaveClass(
+      'hidden',
+      'laptop:block',
+    );
   });
 
   it('explains commercial product launch readiness with core flows and source-safe trust messaging', () => {
@@ -140,7 +218,9 @@ describe('MarketingLandingPage', () => {
 
     const section = screen.getByTestId('landing-testnet-launch');
     expect(section).toBeInTheDocument();
-    expect(screen.getByText('Productionized Protocol')).toBeInTheDocument();
+    expect(
+      screen.getByText(BITCODE_PUBLIC_COPY.testnetLaunch.badge),
+    ).toBeInTheDocument();
     expect(
       screen.getByText((_, node) => {
         if (node?.tagName !== 'H2') return false;
@@ -154,10 +234,11 @@ describe('MarketingLandingPage', () => {
         /Bitcode's canonical, commercial deployments are its mainnet ERC-1155/u,
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Measured/u)).toBeInTheDocument();
-    // Marketing commodity language is AssetPacks (system still AssetPack).
-    expect(screen.getAllByText(/AssetPacks/u).length).toBeGreaterThan(0);
-    expect(screen.getByText(/delightful user applications/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Measured/u).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/DataPacks/u).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(/delightful user applications/i),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/testnet/i)).toBeNull();
     expect(screen.queryByText(/on Bitcoin/i)).toBeNull();
     expect(screen.getByText('Website Application')).toBeInTheDocument();
@@ -169,51 +250,54 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByText('Open-Source')).toBeInTheDocument();
     expect(screen.getByText('Canonical Specification')).toBeInTheDocument();
     expect(screen.getAllByText('Live').length).toBe(2);
-    // Whitepaper, MCP API, and repository are whole-row links; Website / Extensions are not.
-    expect(screen.queryByRole('link', { name: /Website Application/u })).toBeNull();
-    expect(screen.queryByRole('link', { name: /Conversational Extensions/u })).toBeNull();
-    const whitepaperLink = screen.getByRole('link', { name: /Bitcode Whitepaper/u });
+    expect(
+      screen.queryByRole('link', { name: /Website Application/u }),
+    ).toBeNull();
+    expect(
+      screen.queryByRole('link', { name: /Conversational Extensions/u }),
+    ).toBeNull();
+    const whitepaperLink = screen.getByRole('link', {
+      name: /Bitcode Whitepaper/u,
+    });
     expect(whitepaperLink).toHaveAttribute(
       'href',
       'https://github.com/advancedengineeredsoftware/Bitcode/blob/version/v48/Whitepaper.md',
     );
-    expect(screen.getByRole('link', { name: 'MCP API' })).toHaveAttribute('href', '/docs/mcp-api');
-    const repoLink = screen.getByRole('link', { name: /Contributable Repository/u });
+    expect(screen.getByRole('link', { name: 'MCP API' })).toHaveAttribute(
+      'href',
+      '/docs/mcp-api',
+    );
+    const repoLink = screen.getByRole('link', {
+      name: /Contributable Repository/u,
+    });
     expect(repoLink).toHaveAttribute(
       'href',
       'https://github.com/advancedengineeredsoftware/Bitcode',
     );
-    // Whitepaper is first in the product interfaces list.
-    const interfaceList = screen.getByRole('list', { name: 'Product interfaces' });
-    const interfaceLabels = Array.from(interfaceList.querySelectorAll('li')).map(
-      (li) => li.textContent ?? '',
-    );
+    const interfaceList = screen.getByRole('list', {
+      name: 'Product interfaces',
+    });
+    const interfaceLabels = Array.from(
+      interfaceList.querySelectorAll('li'),
+    ).map((li) => li.textContent ?? '');
     expect(interfaceLabels[0]).toMatch(/Bitcode Whitepaper/u);
-    expect(
-      screen.getByText(
-        /Bitcode's canonical, commercial deployments are its mainnet ERC-1155/u,
-      ),
-    ).toBeInTheDocument();
     expect(
       screen.getByText(
         /Bitcode \(BTD\) tokens are an immutable, scarce, deflationary, data-backed digital asset/u,
       ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(/Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u),
+      screen.getByText(
+        /Measurements are visible; IP is not\. Bitcode is source-safe knowledge trading/u,
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
         /A DataPack's BTD volume is a protocol determination\. The price of BTD is a market one/u,
       ),
     ).toBeInTheDocument();
-    // Claim anchors: * after ERC-1155, ** after Measured, *** after AssetPacks
-    // Footnotes: * BTD · ** Measurements · *** AssetPack volume.
     expect(screen.getAllByText('***').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('**').length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText('*').length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText('Public Measures')).toBeInTheDocument();
-    expect(screen.getByText('Private Source')).toBeInTheDocument();
-    expect(screen.getByText('Auditable Trade')).toBeInTheDocument();
   });
 });

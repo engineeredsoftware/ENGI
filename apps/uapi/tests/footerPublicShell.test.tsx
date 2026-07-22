@@ -71,7 +71,7 @@ describe('Footer public shell', () => {
       'href',
       'https://github.com/advancedengineeredsoftware/Bitcode',
     );
-    expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Exchange' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();

@@ -1,12 +1,11 @@
 /* Dedicated styles for the ParticleEffect component */
-/* .particle-effect-container styles are controlled via inline styles and portal */
+/* .particle-effect-container is sized to the highlight text; particles must fly past its box. */
 .particle-effect-container {
   pointer-events: none;
-  overflow: visible;
-  /* GPU layer for particle container: isolate paint and enable transform acceleration */
-  contain: paint;
+  overflow: visible !important;
+  /* No paint containment — that clips particles mid-flight. */
+  contain: none;
   will-change: transform;
-  transform: translateZ(0);
 }
 
 /* Particle effect dot styling */

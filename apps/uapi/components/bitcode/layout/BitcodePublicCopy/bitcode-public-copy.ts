@@ -149,45 +149,152 @@ export const BITCODE_PUBLIC_COPY = {
     ],
   },
   operatorFrame: {
-    title: 'Marketplace',
-    // Rendered as flex segments + middle-dot bullets (not claim-anchor *).
-    subtitleParts: ['Sell Supplies', 'Buys Reads', 'Settle Proofs'] as const,
+    title: 'A Liquid Market',
+    subtitle: 'Own · Trade · Compound',
     badge: 'Exchange',
-    modes: ['Exchange', 'Deposit', 'Read', 'Proofs'],
+    rows: [
+      {
+        label: 'Real ownership',
+        detail:
+          'Buyers get DataPacks as on-chain co-ownership — an asset you hold, not a scrape you rent. Sellers keep their stake and keep earning.',
+      },
+      {
+        label: 'Traded day one',
+        detail:
+          'DataPacks and $BTD both trade globally. Code IP becomes a liquid asset class.',
+      },
+      {
+        label: 'The flywheel',
+        detail:
+          'More deposits deepen the pool; sharper fits pull more buyers; every settlement mints $BTD and pays.',
+      },
+      {
+        label: 'Measurement is the moat',
+        detail:
+          "No one else prices code by measured need-fit. That's what makes this a market, not a listing.",
+      },
+    ],
   },
   giveContribution: {
-    title: 'Selling Knowledge',
+    title: 'Exchanging Knowledge',
   },
   sourceToSettlement: {
-    title: 'Source to Delivery',
-    subtitle: 'Seller → Deposits → Buyer → Fits → Settle',
-    badge: 'Steps',
-    stages: ['Deposit', 'Measure', 'Approve', 'Read', 'Fit', 'Settle'] as const,
+    title: '$BTD · Tokenomics',
+    subtitle: 'Knowledge-backed currency',
+    badge: 'Token',
+    rows: [
+      {
+        label: 'Measured, not priced',
+        detail:
+          "Sellers never set a price. Bitcode measures the data's quality and quantity into one scalar: $BTD.",
+      },
+      {
+        label: 'Need-relative',
+        detail:
+          "A pack's $BTD is how well it fits a buyer's stated Need — the knowledge volume of that data under that demand.",
+      },
+      {
+        label: 'Minted after payment',
+        detail:
+          'Buyers settle in ETH, BTC, or SOL; the measured $BTD is minted only afterward. Every token is backed by capital already spent.',
+      },
+      {
+        label: 'Seller-chosen split',
+        detail:
+          'Sellers take payout as any mix of payment currency + minted $BTD.',
+      },
+      {
+        label: 'Hard-capped, like Bitcoin',
+        detail: 'Finite supply, minted on a decaying curve as issuance nears the cap.',
+      },
+    ],
   },
   // Bottom-right depot card — fills residual height beside Verified access.
   settlementLedger: {
-    // Short triad matches Settlement 2×2 chips (Packs = commodity short form).
-    title: 'Crypto · BTD · Packs',
-    subtitle: 'buy · mint · earn',
+    title: 'Three things you hold on-chain',
+    subtitle: 'money · volume · commodity',
     rows: [
       {
-        label: 'Crypto',
+        label: 'Crypto — the money',
         detail:
-          'Buy and settle DataPack reads with ETH, BTC, SOL, and more pay rails.',
+          'Pay and settle in ETH, BTC, or SOL. The rails buyers already use.',
       },
       {
-        label: 'BTD fungible',
-        detail: "Mint volume from needinesses' normalized weighted sum.",
+        label: '$BTD — the volume',
+        detail:
+          'A scarce, knowledge-backed token, minted to you on purchase — your receipt of how much you bought.',
       },
       {
-        label: 'DataPack NFTs',
-        detail: 'Buy read-rights with Crypto; earn Crypto when packs sell.',
+        label: 'DataPacks — the commodity',
+        detail:
+          'Measured code IP as co-ownership NFTs. Own them, resell them, keep them.',
       },
       {
-        label: 'On-chain',
-        detail: 'Open-source, proven, ledgerized multi-rail settlement.',
+        label: 'On-chain, open-source',
+        detail:
+          "Every $BTD is backed by capital already spent and the measured data it represents.*",
       },
     ],
+    footnote:
+      '* Minted only after settlement — which is what binds $BTD\'s supply to data that has actually been paid for.',
+  },
+  whyNow: {
+    body:
+      "Buying the data that trains AI is broken — nine-month deals, lawsuits, or buying the whole company. It's a ~$100B market growing ~25% a year, with no real exchange. Until now.",
+  },
+  /** Scroll cue under the opening band until the audience panes enter view. */
+  scrollCue: {
+    label: 'Buyers, Sellers, Traders',
+    ariaLabel: 'Scroll to buyers, sellers, and traders',
+  },
+  /**
+   * Lower-left production-band filler (under micro-blog): how a trade closes.
+   * Fills residual height so the left column meets Safe / Three things.
+   */
+  valueFlow: {
+    eyebrow: 'How a trade closes',
+    title: 'Need → fit → settle → mint',
+    steps: [
+      { label: 'State a Need', detail: 'Buyer names what the data must do' },
+      { label: 'Score the fit', detail: 'Packs ranked by measured need-fit' },
+      { label: 'Pay the rails', detail: 'ETH · BTC · SOL — fail-closed' },
+      { label: 'Mint & hold', detail: '$BTD volume + DataPack co-ownership' },
+    ],
+    rails: ['ETH', 'BTC', 'SOL'],
+  },
+  audienceBuyers: {
+    eyebrow: 'FOR BUYERS · building AI, acquiring data',
+    headline: 'Stop buying data by hand.',
+    pain:
+      'License it and wait nine months for a deal that often collapses. Scrape it and inherit a lawsuit — one AI lab paid billions. Or buy the whole company for tens of billions. And the open web runs dry by the end of the decade.',
+    bullets: [
+      'See the fit before you pay — every pack scored against your exact Need.',
+      'Rights-clean, audit-ready — no scraping risk; legal signs off.',
+      'Own what you buy — settle in ETH, BTC, or SOL. Minutes, not months.',
+    ],
+    inPractice:
+      'A lab needs rare, high-assurance firmware patterns. It states the Need, Bitcode assembles the best-fitting DataPacks with measured scores, and one click buys them — clean, fast, no sourcing team.',
+    cta: {
+      href: '/reads',
+      label: 'Buy DataPacks',
+    },
+  },
+  audienceSellers: {
+    eyebrow: 'FOR SELLERS · STEM builders, IP-holders, data owners',
+    headline: 'If you have code, you have inventory.',
+    pain:
+      'Your best work sits idle — too small for a licensing deal, too niche for a marketplace, or trapped in a project that died. Dead code sells for ~5% of its value, if it ever sells at all.',
+    bullets: [
+      'Deposit it, hide the secrets — it becomes a measured, tradeable DataPack.',
+      'Earn on every Need it fits — no negotiation, no minimum, no NDA.',
+      'Keep ownership — sell knowledge without selling the company.',
+    ],
+    inPractice:
+      'A shut-down robotics startup deposits its whole codebase. Instead of ~11 months in bankruptcy court for pennies, the DataPacks are measured, listed, and price-discovered in clicks — value recovered.',
+    cta: {
+      href: '/deposits',
+      label: 'Sell your source',
+    },
   },
   footer: {
     steps: ['Deposit', 'Read', 'Settle'],

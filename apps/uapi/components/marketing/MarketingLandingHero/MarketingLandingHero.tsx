@@ -1,26 +1,33 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 import MultiLineTypingAnimation from '@/components/bitcode/MultiLineTypingAnimation/MultiLineTypingAnimation';
 
-import { MarketingLandingGuideCard } from '@/components/marketing/MarketingLandingGuideCard/MarketingLandingGuideCard';
 import { MarketingLandingPillarCard } from '@/components/marketing/MarketingLandingPillarCard/MarketingLandingPillarCard';
-import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
 import {
   animatedMotionStyle,
   entranceEase,
   headlineHighlights,
   headlineText,
+  heroHighlightClass,
   productPillars,
 } from '@/components/marketing/MarketingLandingShared/MarketingLandingShared';
 
 // Glowing underline claim markers (`glowing-underline` / `-always`).
 import '@/styles/bitcode-header-shiny-text.css';
+// Same super-shiny-text highlight chrome as MultiLineTypingAnimation.
+import '@/styles/shiny-text.css';
+
+const ParticleEffect = dynamic(
+  () => import('@/components/bitcode/ParticleEffect/ParticleEffect'),
+  { ssr: false, loading: () => null },
+);
 
 const NEON_HIGHLIGHT_CLASS: Record<
   'purple' | 'orange' | 'green' | 'greenUnderline' | 'bold',
@@ -71,6 +78,78 @@ function renderNeonHighlights(
   });
 }
 
+const WHY_NOW_HIGHLIGHTS = [
+  {
+    text: 'Buying the data that trains AI is broken',
+    tone: 'bold' as const,
+  },
+  { text: 'nine-month deals', tone: 'orange' as const },
+  { text: 'lawsuits', tone: 'orange' as const },
+  { text: 'buying the whole company', tone: 'orange' as const },
+  { text: '~$100B', tone: 'green' as const },
+  { text: '~25%', tone: 'green' as const },
+  { text: 'no real exchange', tone: 'purple' as const },
+  { text: 'Until now.', tone: 'green' as const },
+] as const;
+
+/** Why-now closer: same highlight particle burst as typing, looped. */
+function WhyNowBody() {
+  const untilNowRef = useRef<HTMLSpanElement>(null);
+  const [particlesReady, setParticlesReady] = useState(false);
+  const body = BITCODE_PUBLIC_COPY.whyNow.body;
+  const pattern = new RegExp(
+    `(${WHY_NOW_HIGHLIGHTS.map((entry) => entry.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`,
+    'g',
+  );
+  const toneByText = new Map<string, (typeof WHY_NOW_HIGHLIGHTS)[number]['tone']>(
+    WHY_NOW_HIGHLIGHTS.map((entry) => [entry.text, entry.tone]),
+  );
+
+  // Mount ParticleEffect only after the target span is painted (ref is set).
+  useEffect(() => {
+    setParticlesReady(Boolean(untilNowRef.current));
+  }, []);
+
+  return (
+    <>
+      {body.split(pattern).map((part, index) => {
+        if (!part) return null;
+        if (part === 'Until now.') {
+          return (
+            <span
+              key={`until-now-${index}`}
+              ref={untilNowRef}
+              data-particle-highlight="why-now-until"
+              className={`${heroHighlightClass} relative inline-block font-semibold`}
+            >
+              {part}
+            </span>
+          );
+        }
+        const tone = toneByText.get(part);
+        if (!tone) {
+          return <React.Fragment key={`why-now-${index}`}>{part}</React.Fragment>;
+        }
+        return (
+          <span key={`why-now-${part}-${index}`} className={NEON_HIGHLIGHT_CLASS[tone]}>
+            {part}
+          </span>
+        );
+      })}
+      {particlesReady ? (
+        <ParticleEffect
+          targetRef={untilNowRef}
+          particleCount={56}
+          duration={2200}
+          delay={400}
+          loop
+          loopInterval={2600}
+        />
+      ) : null}
+    </>
+  );
+}
+
 /** CTA under each pillar — purple Deposit · orange Read · green Settle. */
 const pillarCtas = [
   {
@@ -96,14 +175,17 @@ const pillarCtas = [
   },
 ] as const;
 
+/**
+ * Opening column only: eyebrow → CTAs.
+ * Protocol (Code⇄Coin) + micro-blog live in the lower production band on the page.
+ */
 export const MarketingLandingHero = memo(function MarketingLandingHero() {
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.9, ease: entranceEase }}
-      // Full column height so testnet can pin to the shared lower edge with Data Depot.
-      className="flex h-full min-h-0 flex-col justify-start self-stretch"
+      className="flex w-full min-h-0 flex-col justify-start self-stretch"
       style={animatedMotionStyle}
     >
       <div className="max-w-2xl space-y-4">
@@ -129,6 +211,37 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
             BITCODE_PUBLIC_COPY.descriptionHighlights,
           )}
         </p>
+        {/*
+          Outside: pt-3 (~half chip) so space-y gap to hero description is
+          measured to the chip top, not the card border.
+          Inside: card pt = base pad + half chip so body clears the lower half
+          of the absolute -translate-y-1/2 tab.
+        */}
+        <div className="max-w-[42rem] pt-3">
+          <div
+            data-testid="landing-why-now"
+            className="relative rounded-none border border-emerald-300/22 bg-[linear-gradient(145deg,rgba(4,14,22,0.98),rgba(6,28,36,0.92)_48%,rgba(3,12,20,0.98))] px-4 pb-3.5 pt-[calc(0.875rem+0.75rem)] shadow-[0_18px_48px_rgba(2,8,17,0.45),0_0_40px_rgba(103,254,183,0.08),inset_0_1px_0_rgba(103,254,183,0.14)] phone:px-5 phone:pb-4 phone:pt-[calc(1rem+0.75rem)]"
+          >
+            {/* Bitcode chrome: hairline, radials, micro-grid (clipped so tab can overhang) */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-none">
+              <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/75 to-transparent" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(103,254,183,0.16),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(56,189,248,0.1),transparent_36%)]" />
+              <div className="absolute inset-0 opacity-[0.14] [background-image:linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:22px_22px]" />
+              <div className="absolute inset-[1px] rounded-none border border-white/[0.06]" />
+            </div>
+
+            {/* Overhang like micro-blog tabs — half above the card border. */}
+            <div className="absolute left-3 top-0 z-10 flex -translate-y-1/2 items-center phone:left-4">
+              <span className="inline-flex items-center rounded-none border border-emerald-300/55 bg-[linear-gradient(135deg,rgba(8,36,32,0.98),rgba(12,52,44,0.96))] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-50 shadow-[0_10px_28px_rgba(2,8,17,0.55),0_0_28px_rgba(103,254,183,0.35),0_0_12px_rgba(103,254,183,0.45),inset_0_1px_0_rgba(103,254,183,0.28)] backdrop-blur-md [text-shadow:0_0_12px_rgba(103,254,183,0.65)]">
+                Why now
+              </span>
+            </div>
+
+            <p className="relative text-[15px] font-medium leading-[1.55] tracking-[-0.01em] text-white/92 [text-shadow:0_0_24px_rgba(103,254,183,0.12)] phone:text-[16px] phone:leading-[1.55]">
+              <WhyNowBody />
+            </p>
+          </div>
+        </div>
       </div>
 
       {/*
@@ -167,33 +280,6 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
             </div>
           );
         })}
-      </div>
-
-      {/*
-        Residual left-column height is split evenly:
-        (1) buttons → product card, (2) product card → micro-blog date pills.
-        Micro-blog tabs hang half their height above the card (-translate-y-1/2),
-        so a fixed half-pill reserve is added under the lower flex spacer —
-        visual gap is measured to pill tops, not the card border. Without it the
-        lower band reads tighter than the upper.
-        Micro-blog stays last (no trailing spacer) so its lower edge keeps
-        aligning with the Data Depot column.
-        Product stays content-height — no internal flex grow.
-      */}
-      <div className="flex min-h-0 w-full flex-1 flex-col">
-        <div className="min-h-0 flex-1 basis-0" aria-hidden="true" />
-        <div className="shrink-0">
-          <MarketingLandingTestnetSection />
-        </div>
-        <div className="min-h-0 flex-1 basis-0" aria-hidden="true" />
-        {/*
-          Half of micro-blog tab height (py-1 + text-[10px] ≈ 22–24px → ~12px).
-          Keeps product→pill-top optical spacing equal to buttons→product.
-        */}
-        <div className="h-3 shrink-0" aria-hidden="true" />
-        <div className="shrink-0">
-          <MarketingLandingGuideCard />
-        </div>
       </div>
     </motion.section>
   );

@@ -1,10 +1,15 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Footer from '@/components/bitcode/layout/Footer/Footer';
 
+import { MarketingLandingAudienceSection } from '@/components/marketing/MarketingLandingAudienceSection/MarketingLandingAudienceSection';
+import { MarketingLandingGuideCard } from '@/components/marketing/MarketingLandingGuideCard/MarketingLandingGuideCard';
 import { MarketingLandingHero } from '@/components/marketing/MarketingLandingHero/MarketingLandingHero';
 import { MarketingLandingProductPreview } from '@/components/marketing/MarketingLandingProductPreview/MarketingLandingProductPreview';
+import { MarketingLandingScrollCue } from '@/components/marketing/MarketingLandingScrollCue/MarketingLandingScrollCue';
+import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
+import { MarketingLandingValueFlow } from '@/components/marketing/MarketingLandingValueFlow/MarketingLandingValueFlow';
 import '@/styles/marketing-landing-shell.css';
 import '@/styles/marketing-landing-glow.css';
 import '@/styles/particle-effect.css';
@@ -33,6 +38,9 @@ const BACKGROUND_PARTICLES: readonly Particle[] = Array.from({ length: 14 }, (_,
 
 export default function MarketingLandingPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  /** Hero column height — scroll cue sits at this Y, but full-width centered (X). */
+  const heroColumnRef = useRef<HTMLDivElement>(null);
+  const [scrollCueTop, setScrollCueTop] = useState(0);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -88,6 +96,18 @@ export default function MarketingLandingPage() {
       container.removeEventListener('pointerleave', resetMousePosition);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    const el = heroColumnRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+
+    const sync = () => setScrollCueTop(el.offsetHeight);
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <>
       <svg width="0" height="0" style={{ position: 'absolute', top: '-9999px' }}>
@@ -169,12 +189,63 @@ export default function MarketingLandingPage() {
             className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl motion-reduce:hidden laptop:block"
           />
 
-          {/* Horizontal rhythm matches Nav max-w-7xl + gutters so hero left edge aligns under the brand mark.
-              items-stretch equalizes column height so left testnet and right depot lower edges meet. */}
-          <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 items-start px-4 pb-8 pt-28 phone:pb-10 tablet:px-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
-            <div className="grid w-full items-stretch gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
-              <MarketingLandingHero />
-              <MarketingLandingProductPreview />
+          {/*
+            Three-band layout:
+            1) Opening — hero (through CTAs) | Source Measurements + Exchanging Knowledge.
+               items-end so the upper depot bottom meets Sell Source / Buy DataPacks / View Exchange.
+            2) Audience — Stop buying… | If you have code…
+            3) Production — Protocol + micro-blog | lower four depot panels.
+            gap-4/5/6 matches column gutters so y-gaps equal x-gaps.
+          */}
+          <main className="relative z-20 mx-auto flex w-full max-w-7xl flex-1 flex-col items-stretch gap-4 px-4 pb-8 pt-28 phone:pb-10 tablet:gap-5 tablet:px-6 laptop:gap-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
+            {/*
+              items-end: depot can be taller than hero.
+              Scroll cue Y = hero bottom (CTA void, on-screen); X = full band center.
+            */}
+            <div className="relative w-full">
+              <div className="grid w-full items-end gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
+                <div ref={heroColumnRef} className="w-full min-w-0">
+                  <MarketingLandingHero />
+                </div>
+                <MarketingLandingProductPreview variant="upper" />
+              </div>
+              <div
+                className="pointer-events-none absolute inset-x-0 z-[1] flex justify-center"
+                style={{ top: scrollCueTop > 0 ? scrollCueTop : undefined }}
+              >
+                <MarketingLandingScrollCue targetId="landing-audience" />
+              </div>
+            </div>
+
+            <MarketingLandingAudienceSection />
+
+            <div
+              data-testid="landing-production-band"
+              className="grid w-full items-stretch gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6"
+            >
+              {/*
+                min-h-0 on both columns: band height follows the lower depot;
+                value-flow only consumes leftover under protocol + micro-blog.
+              */}
+              <div className="flex h-full min-h-0 flex-col gap-4 tablet:gap-5 laptop:gap-6">
+                <div className="shrink-0">
+                  <MarketingLandingTestnetSection />
+                </div>
+                <div className="shrink-0">
+                  <MarketingLandingValueFlow />
+                </div>
+                {/*
+                  Page-standard y-gap (gap-4/5/6) to the micro-blog *tab tops*:
+                  tabs use -translate-y-1/2, so add half tab height (~12px) on top of
+                  the column gap so the visual gap matches sections above.
+                */}
+                <div className="shrink-0 pt-3">
+                  <MarketingLandingGuideCard />
+                </div>
+              </div>
+              <div className="h-full min-h-0">
+                <MarketingLandingProductPreview variant="lower" />
+              </div>
             </div>
           </main>
 
