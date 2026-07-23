@@ -60,6 +60,8 @@ export interface MeasureAgentConfig {
 export type MeasureAgent = Agent<any, MeasurementOutput> & {
   measurementSpecs: MeasurementSpec[];
   measurementCategory: MeasurementKindCategory;
+  /** Registry-backed measure prompt (identity, requirements, ptrr:*). */
+  measurePrompt: Prompt;
 };
 
 function buildMeasureIdentity(config: MeasureAgentConfig): PromptPart {
@@ -111,7 +113,14 @@ const MEASURE_RETRY = part(
     'failing the measurement.',
 );
 
-function createMeasurePrompt(config: MeasureAgentConfig): Prompt {
+/**
+ * createMeasurePrompt — build the measure Prompt registry (testable / proof-bound later).
+ * Product agents normally go through factoryMeasureAgent; this is the pure prompt surface.
+ */
+export function createMeasurePrompt(config: MeasureAgentConfig): Prompt {
+  if (!config.measurements || config.measurements.length === 0) {
+    throw new Error('createMeasurePrompt requires at least one measurement spec.');
+  }
   const prompt = new Prompt();
   prompt.set('agent:identity', buildMeasureIdentity(config));
   prompt.set('agent:requirements', buildMeasureRequirements(config));
@@ -142,6 +151,8 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
       `Measures the ${config.category} measurements of ${config.subject}.`,
     // Zod preprocess widens _input; factory expects output-shaped ZodType.
     outputSchema: MeasurementOutputSchema as z.ZodType<MeasurementOutput>,
+    // Quantity/verification tools stay host-side today (merge-authoritative).
+    // Quality judges over source-safe descriptors only — tools: [] until tool surface lands.
     tools: [],
     prompt,
     stepPrompts: {
@@ -158,5 +169,6 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
   return Object.assign(agent, {
     measurementSpecs: config.measurements,
     measurementCategory: config.category,
+    measurePrompt: prompt,
   }) as MeasureAgent;
 }

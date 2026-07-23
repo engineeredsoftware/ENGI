@@ -1,48 +1,70 @@
 /**
  * CORE — MeasureAgent base (@bitcode/generic-agents-agent-measure).
  *
- * Teaches: factoryMeasureAgent builds a PTRR agent with specs + category;
- * empty catalogs are rejected; measurement output schema is honest-volume only.
+ * Teaches the default product surface by reading this file alone:
+ * - factoryMeasureAgent builds a PTRR executor with specs + category
+ * - measurePrompt carries identity, requirements, and ptrr:* steps
+ * - empty catalogs are rejected (models must not invent a catalog)
+ * - MeasurementOutputSchema is honest volume-only (0..1) with optional magnitude
  *
- * Specializations (Absolutes / Needinesses) live in their own packages.
+ * Edges (clamps, categories, null inputs): edges/measure-agent.edges.test.ts
+ * Specializations (Absolutes / Needinesses): their packages.
  */
 // @ts-nocheck
 import {
   factoryMeasureAgent,
+  createMeasurePrompt,
   MeasurementOutputSchema,
   MeasurementReadingSchema,
 } from '../../index';
-
-const SIZES = [
-  {
-    measurementKind: 'function-count',
-    label: 'Functions',
-    unit: 'functions',
-    guidance: 'How many functions.',
-    hasMagnitude: true,
-  },
-  {
-    measurementKind: 'correctness-estimate',
-    label: 'Correctness',
-    unit: 'estimate',
-    guidance: 'Fidelity estimate.',
-  },
-];
+import { QUANTITY_AND_QUALITY_SPECS } from '../support/measure-fixtures';
 
 describe('CORE: factoryMeasureAgent', () => {
-  it('builds a PTRR agent carrying measurement specs and category', () => {
+  it('builds a PTRR agent carrying measurement specs, category, and measurePrompt', () => {
     const agent = factoryMeasureAgent({
       name: 'test-measure-agent',
       subject: 'a synthesized artifact',
       category: 'absolute',
       categoryFraming: 'Absolutes are intrinsic.',
-      measurements: SIZES,
+      measurements: QUANTITY_AND_QUALITY_SPECS,
     });
+
     expect(typeof agent).toBe('function');
     expect(agent.name).toBe('test-measure-agent');
+    expect(agent.description).toMatch(/absolute measurements of a synthesized artifact/i);
     expect(agent.measurementCategory).toBe('absolute');
     expect(agent.measurementSpecs).toHaveLength(2);
     expect(agent.measurementSpecs[0].measurementKind).toBe('function-count');
+    expect(agent.measurePrompt).toBeDefined();
+    expect(agent.measurePrompt.get('agent:identity')).toBeTruthy();
+    expect(agent.measurePrompt.get('agent:requirements')).toBeTruthy();
+    expect(agent.measurePrompt.get('ptrr:plan')).toBeTruthy();
+    expect(agent.measurePrompt.get('ptrr:try')).toBeTruthy();
+    expect(agent.measurePrompt.get('ptrr:refine')).toBeTruthy();
+    expect(agent.measurePrompt.get('ptrr:retry')).toBeTruthy();
+  });
+
+  it('default description names category + subject; custom description wins', () => {
+    const defaulted = factoryMeasureAgent({
+      name: 'd',
+      subject: 'the deposit patch',
+      category: 'absolute',
+      categoryFraming: 'framing',
+      measurements: QUANTITY_AND_QUALITY_SPECS,
+    });
+    expect(defaulted.description).toBe(
+      'Measures the absolute measurements of the deposit patch.',
+    );
+
+    const custom = factoryMeasureAgent({
+      name: 'c',
+      description: 'Custom measure description',
+      subject: 'the deposit patch',
+      category: 'absolute',
+      categoryFraming: 'framing',
+      measurements: QUANTITY_AND_QUALITY_SPECS,
+    });
+    expect(custom.description).toBe('Custom measure description');
   });
 
   it('rejects an empty measurement catalog', () => {
@@ -56,8 +78,36 @@ describe('CORE: factoryMeasureAgent', () => {
       }),
     ).toThrow(/at least one measurement/i);
   });
+});
 
-  it('output schema accepts readings and rejects out-of-range volume', () => {
+describe('CORE: createMeasurePrompt', () => {
+  it('embeds subject, category framing, and each measurementKind in requirements', () => {
+    const prompt = createMeasurePrompt({
+      name: 'p',
+      subject: 'a synthesized source-safe AssetPack patch',
+      category: 'absolute',
+      categoryFraming: 'Absolutes depend ONLY on the artifact.',
+      measurements: QUANTITY_AND_QUALITY_SPECS,
+    });
+
+    const identity = String(prompt.get('agent:identity') ?? '');
+    const requirements = String(prompt.get('agent:requirements') ?? '');
+
+    expect(identity).toMatch(/MEASURE agent/i);
+    expect(identity).toMatch(/a synthesized source-safe AssetPack patch/);
+    expect(identity).toMatch(/Absolutes depend ONLY on the artifact/);
+    expect(identity).toMatch(/source-safe/i);
+    expect(identity).toMatch(/do NOT synthesize/i);
+
+    expect(requirements).toMatch(/function-count/);
+    expect(requirements).toMatch(/correctness-estimate/);
+    expect(requirements).toMatch(/volume/);
+    expect(requirements).toMatch(/Return ONLY/);
+  });
+});
+
+describe('CORE: MeasurementOutputSchema / MeasurementReadingSchema', () => {
+  it('accepts complete readings and rejects out-of-range volume', () => {
     const ok = MeasurementOutputSchema.safeParse({
       measurements: [
         {
@@ -77,10 +127,21 @@ describe('CORE: factoryMeasureAgent', () => {
     expect(ok.success).toBe(true);
 
     const bad = MeasurementReadingSchema.safeParse({
-      measurementKind: 'semantic-volume',
+      measurementKind: 'function-count',
       volume: 1.5,
       rationale: 'too big',
     });
     expect(bad.success).toBe(false);
+  });
+
+  it('accepts volume boundaries 0 and 1', () => {
+    for (const volume of [0, 1]) {
+      const parsed = MeasurementReadingSchema.safeParse({
+        measurementKind: 'file-span',
+        volume,
+        magnitude: 0,
+      });
+      expect(parsed.success).toBe(true);
+    }
   });
 });

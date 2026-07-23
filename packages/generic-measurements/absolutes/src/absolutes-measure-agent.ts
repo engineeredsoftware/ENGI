@@ -15,7 +15,8 @@ import {
   type MeasurementSpec,
 } from '@bitcode/generic-agents-agent-measure';
 
-const ABSOLUTES_FRAMING =
+/** Category framing injected into MeasureAgent identity (export for tests / prompt identity). */
+export const ABSOLUTES_CATEGORY_FRAMING =
   'You measure ABSOLUTES — INTRINSIC properties of digital material. Data is digital ' +
   'material; material has properties. QUANTITY properties include size, symbolic ' +
   'richness, modularity (often tool-measured counts). QUALITY properties include ' +
@@ -52,7 +53,7 @@ export function factoryAbsolutesMeasureAgent(
     description: config.description,
     subject: config.subject,
     category: 'absolute',
-    categoryFraming: ABSOLUTES_FRAMING,
+    categoryFraming: ABSOLUTES_CATEGORY_FRAMING,
     measurements: config.measurements,
     plan: config.plan,
     try: config.try,
