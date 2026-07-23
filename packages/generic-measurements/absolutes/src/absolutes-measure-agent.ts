@@ -13,7 +13,7 @@ import {
   factoryMeasureAgent,
   type MeasureAgent,
   type MeasurementSpec,
-} from '@bitcode/generic-measurements-measure-agent';
+} from '@bitcode/generic-agents-agent-measure';
 
 const ABSOLUTES_FRAMING =
   'You measure ABSOLUTES — INTRINSIC properties of digital material. Data is digital ' +

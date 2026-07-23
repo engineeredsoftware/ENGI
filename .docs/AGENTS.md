@@ -59,7 +59,7 @@
   - **Generic base package** → base contracts (even if an LLM factory is *temporarily hosted* in another package for execution coupling)  
   - **Implementing package** → only tests that *compose/specialize* the base for that package  
   - **Product package** → product-only behavior  
-  Anti-pattern: parking `@bitcode/parsing` or MeasureAgent base tests under `@bitcode/agent-generics` because factories re-export or host them. Pilot co-location: `packages/parsing`, `packages/generic-generations/failsafes` (PCC), `packages/generic-measurements/measure-agent`.
+  Anti-pattern: parking `@bitcode/parsing` or MeasureAgent base tests under `@bitcode/agent-generics` because factories re-export or host them. Pilot co-location: `packages/parsing`, `packages/generic-generations/failsafes` (PCC), `packages/generic-agents/agent-measure`.
 - **Test organization: core vs edges (required for backend packages as they migrate):** package unit tests live under two categories so suites stay readable and useful:
   | Category | Purpose | Growth |
   | --- | --- | --- |

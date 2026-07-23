@@ -270,14 +270,13 @@ packages/generic-<family>/ # README only (no package.json)
 
 | Family | Nested examples | Package names |
 | --- | --- | --- |
-| `generic-agents/` | `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
+| `generic-agents/` | `agent-measure/`, `PTRR/`, `vcs/`, `danger-wall/`, … | `@bitcode/generic-agents-agent-measure`, `@bitcode/generic-agents-ptrr`, `@bitcode/generic-agent-*` |
 | `generic-tools/` | `files-maintaining/`, `vcs/`, … | `@bitcode/generic-tools-*` |
 | `generic-pipelines/` | `execution-pipeline-sdivf/`, `execution-pipeline-simple/` | `@bitcode/generic-pipelines-execution-pipeline-sdivf`, `-simple` |
 | `asset-packs-pipelines/` | `domain/` (all 3), `syntheses/domain/` (both synths), `syntheses/deposit/`, `syntheses/read/`, `settle/` | co-located product pipelines + tiered domain |
-
 | `generic-llms/` | `xAI/`, `OpenAI/`, `Anthropic/`, `Google/`, `defaults/`, `registry/`, `models/` | `@bitcode/generic-llms-*` (+ aggregator) |
 | `generic-generations/` | `failsafes/`, `thinkings/` | `@bitcode/generic-generations-*` |
-| `generic-measurements/` | `measure-agent/`, `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
+| `generic-measurements/` | `absolutes/`, `needinesses/`, `tech-types/` | `@bitcode/generic-measurements-*` |
 | `generic-vcs/` | `github/`, `gitlab/`, `bitbucket/`, `git/` | `@bitcode/generic-vcs-*` |
 | `vcs-generics/` | (package root) | `@bitcode/vcs-generics` |
 | `host-generics/` | (package root) | `@bitcode/host-generics` |
@@ -409,9 +408,12 @@ bitcode/
 │ │ ├── failsafes/ # @bitcode/generic-generations-failsafes
 │ │ └── thinkings/ # @bitcode/generic-generations-thinkings
 │ ├── measurement-generics/ # Measurement primitive vocabulary
+│ ├── generic-agents/
+│ │ ├── agent-measure/ # MeasureAgent PTRR base (@bitcode/generic-agents-agent-measure)
+│ │ ├── PTRR/ # PTRRAgent base
+│ │ └── … # specialized agents
 │ ├── generic-measurements/
-│ │ ├── measure-agent/ # MeasureAgent PTRR base
-│ │ ├── absolutes/ # AbsolutesMeasureAgent
+│ │ ├── absolutes/ # AbsolutesMeasureAgent (category framing)
 │ │ └── needinesses/ # Needinesses surface (Gate 4)
 │ ├── asset-packs/
 │ │ ├── synthesis/ # SynthesizeDataPacks measurements/catalogs

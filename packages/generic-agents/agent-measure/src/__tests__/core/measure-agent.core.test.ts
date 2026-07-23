@@ -1,5 +1,5 @@
 /**
- * CORE — MeasureAgent base (@bitcode/generic-measurements-measure-agent).
+ * CORE — MeasureAgent base (@bitcode/generic-agents-agent-measure).
  *
  * Teaches: factoryMeasureAgent builds a PTRR agent with specs + category;
  * empty catalogs are rejected; measurement output schema is honest-volume only.

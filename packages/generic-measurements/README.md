@@ -1,15 +1,18 @@
 # generic-measurements
 
-Base measurement implementations extending `@bitcode/measurement-generics`.
+Measurement **domain** packages extending `@bitcode/measurement-generics`
+(catalogs, category framing). The PTRR **MeasureAgent implementer** lives under
+`packages/generic-agents/agent-measure` (`@bitcode/generic-agents-agent-measure`).
 
 ## Hierarchy (names encode full ancestry)
 
 ```
-Measurement # primitive vocabulary
+Measurement # primitive vocabulary (@bitcode/measurement-generics)
  ↑
-MeasureAgent # measure-agent/ PTRR base measurer
+MeasureAgent # generic-agents/agent-measure — PTRR base measurer
+ ↑
 AbsolutesMeasureAgent # absolutes/ absolute category base
-NeedinessesMeasureAgent # needinesses/ neediness category base (Gate 4)
+NeedinessesMeasureAgent # needinesses/ neediness category base
 tech-types # tech-types/ stack/signal absolute vocabulary
  ↑
 SynthesizeAssetPacksAbsolutesMeasureAgent # generic-asset-packs/synthesis
@@ -20,10 +23,15 @@ settle-asset-pack-pipeline → ReadSynthesizedSettledAssetPack
 
 | Path | Package | Role |
 | --- | --- | --- |
-| `measure-agent/` | `@bitcode/generic-measurements-measure-agent` | PTRR measure-agent base; tests under `src/__tests__/{core,edges}/` |
-| `absolutes/` | `@bitcode/generic-measurements-absolutes` | Absolutes category base; co-located core tests |
-| `needinesses/` | `@bitcode/generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
+| `absolutes/` | `@bitcode/generic-measurements-absolutes` | Absolutes category base + framing; co-located core tests |
+| `needinesses/` | `@bitcode/generic-measurements-needinesses` | Needinesses framing + `-fit` catalog surface |
 | `tech-types/` | `@bitcode/generic-measurements-tech-types` | Tech/stack signals |
+
+Measure agent implementer (not in this tree):
+
+| Path | Package | Role |
+| --- | --- | --- |
+| `../generic-agents/agent-measure/` | `@bitcode/generic-agents-agent-measure` | PTRR measure-agent base; tests under `src/__tests__/{core,edges}/` |
 
 Product measure agents and catalogs live under `packages/generic-asset-packs/{synthesis,settle}/`,
 not a separate `packages/asset-packs/` tree.

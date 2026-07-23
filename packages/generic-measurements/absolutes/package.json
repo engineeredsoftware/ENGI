@@ -15,7 +15,7 @@
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {
-    "@bitcode/generic-measurements-measure-agent": "workspace:*",
+    "@bitcode/generic-agents-agent-measure": "workspace:*",
     "@bitcode/measurement-generics": "workspace:*"
   },
   "devDependencies": {

@@ -447,7 +447,7 @@ names, remove stale or redundant cases, keep core files short and didactic.
 
 **Pilots:** `@bitcode/agent-generics` (composition only); `@bitcode/parsing`;
 `@bitcode/generic-generations-failsafes` (PCC + prepared-context);
-`@bitcode/generic-measurements-measure-agent` / `absolutes`;
+`@bitcode/generic-agents-agent-measure` / `absolutes`;
 `@bitcode/parsing`. Other packages adopt the same layout when next touched.
 Full agent law: `.docs/AGENTS.md`.
 

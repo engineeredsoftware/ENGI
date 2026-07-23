@@ -13,7 +13,7 @@ import {
   factoryMeasureAgent,
   type MeasureAgent,
   type MeasurementSpec,
-} from '@bitcode/generic-measurements-measure-agent';
+} from '@bitcode/generic-agents-agent-measure';
 import type { MeasurementKindCategory } from '@bitcode/measurement-generics';
 
 const NEEDINESSES_MEASUREMENT_CATEGORY: MeasurementKindCategory = 'neediness';

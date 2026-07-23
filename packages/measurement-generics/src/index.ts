@@ -1,10 +1,10 @@
 /**
  * @bitcode/measurement-generics
  *
- * Measurement primitive package. Base implementations:
- *   packages/generic-measurements/{measure-agent,absolutes,needinesses}/
- * Product:
- *   packages/asset-packs/{synthesis,settle}/
+ * Measurement primitive package.
+ * Agent implementer: packages/generic-agents/agent-measure/
+ * Category bases: packages/generic-measurements/{absolutes,needinesses}/
+ * Product: packages/generic-asset-packs/{synthesis,settle}/
  */
 
 export type {

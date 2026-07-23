@@ -48,7 +48,7 @@
     "openai": "^4.0.0",
     "zod": "^3.22.4",
     "@bitcode/measurement-generics": "workspace:*",
-    "@bitcode/generic-measurements-measure-agent": "workspace:*",
+    "@bitcode/generic-agents-agent-measure": "workspace:*",
     "@bitcode/generic-measurements-absolutes": "workspace:*",
     "@bitcode/generic-measurements-needinesses": "workspace:*",
     "@bitcode/asset-packs-generics": "workspace:*",

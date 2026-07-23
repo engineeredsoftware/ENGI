@@ -19,7 +19,7 @@
   "dependencies": {
     "@bitcode/measurement-generics": "workspace:*",
     "@bitcode/generic-measurements-absolutes": "workspace:*",
-    "@bitcode/generic-measurements-measure-agent": "workspace:*",
+    "@bitcode/generic-agents-agent-measure": "workspace:*",
     "@bitcode/artifact-generics": "workspace:*",
     "@bitcode/generic-artifacts-patch-kind": "workspace:*",
     "@bitcode/asset-packs-generics": "workspace:*"

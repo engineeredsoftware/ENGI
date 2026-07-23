@@ -92,7 +92,7 @@ export {
 //
 // Hierarchy (full ancestry naming at product layers):
 //   Measurement primitives     → @bitcode/measurement-generics
-//   MeasureAgent base          → @bitcode/generic-measurements-measure-agent
+//   MeasureAgent base          → @bitcode/generic-agents-agent-measure
 //   AbsolutesMeasureAgent      → @bitcode/generic-measurements-absolutes
 //   NeedinessesMeasureAgent    → @bitcode/generic-measurements-needinesses
 //   SynthesizeAssetPacks…      → @bitcode/generic-asset-packs-synthesis
@@ -112,7 +112,7 @@ export {
   factoryMeasureAgent,
   type MeasureAgent,
   type MeasureAgentConfig,
-} from '@bitcode/generic-measurements-measure-agent';
+} from '@bitcode/generic-agents-agent-measure';
 
 export {
   factoryAbsolutesMeasureAgent,

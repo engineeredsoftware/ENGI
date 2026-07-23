@@ -15,7 +15,7 @@
  * in those counts + the source-safe descriptor — never raw source in telemetry.
  */
 
-import type { MeasureAgent } from '@bitcode/generic-measurements-measure-agent';
+import type { MeasureAgent } from '@bitcode/generic-agents-agent-measure';
 import {
   factorySynthesizeAssetPacksAbsolutesMeasureAgent,
 } from '@bitcode/generic-asset-packs-synthesis';

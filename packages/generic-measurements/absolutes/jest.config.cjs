@@ -11,9 +11,9 @@ module.exports = createJestConfig(__dirname, {
   ],
   moduleNameMapper: {
     '^@bitcode/generic-measurements-absolutes$': path.join(__dirname, 'src/index.ts'),
-    '^@bitcode/generic-measurements-measure-agent$': path.join(
+    '^@bitcode/generic-agents-agent-measure$': path.join(
       __dirname,
-      '../measure-agent/src/index.ts',
+      '../../generic-agents/agent-measure/src/index.ts',
     ),
     '^@bitcode/measurement-generics$': path.join(
       __dirname,

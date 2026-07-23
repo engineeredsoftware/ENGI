@@ -1,11 +1,16 @@
 /**
- * MeasureAgent — generic-measurements PTRR base measurer.
+ * MeasureAgent — generic-agents PTRR base measurer.
  *
- * Hierarchy: MeasureAgent over Measurement primitives.
- *   MeasureAgent
- *     → AbsolutesMeasureAgent (generic-measurements/absolutes)
- *     → NeedinessesMeasureAgent (generic-measurements/needinesses, Gate 4)
- *       → SynthesizeAssetPacksAbsolutesMeasureAgent (asset-packs/synthesis)
+ * Location: packages/generic-agents/agent-measure (agent implementer).
+ * Measurement primitives: @bitcode/measurement-generics.
+ * Category bases (framing only):
+ *   → AbsolutesMeasureAgent (generic-measurements/absolutes)
+ *   → NeedinessesMeasureAgent (generic-measurements/needinesses)
+ * Product:
+ *   → SynthesizeAssetPacksAbsolutesMeasureAgent (generic-asset-packs/synthesis)
+ *
+ * Shared base is intentional: absolutes vs needinesses differ only by category,
+ * framing, and neediness `-fit` validation — not by PTRR/prompt plumbing.
  */
 
 import { z } from 'zod';

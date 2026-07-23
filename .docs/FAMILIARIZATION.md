@@ -16,6 +16,8 @@ Companion docs (do not duplicate their contracts here):
 | `README.md` | Product entry + quick start | No |
 | `CONTRIBUTING.md` | Developer guide (setup, canon, env, hosts, testing) | No |
 | `.docs/ASSET_PACKS.md` | DataPack / deposit-synthesis orientation summary | **No** — SPEC § measurement + G3 is law |
+| `.docs/ABSOLUTE_MEASUREMENTS.md` | Absolute measurement design, audit, catalog scaffold (deposit-first) | **No** — SPEC measurement law is rebuild truth |
+| `.docs/ABSOLUTE_MEASUREMENTS_CATALOG.md` | Exhaustive absolute catalog + mechanisms (BD companion) | **No** — SPEC measurement law is rebuild truth |
 | `.docs/BITCODE_SOURCE_LAYOUT.md` | Filesystem / component unit contract | No |
 | `.docs/TERMINOLOGY.md` | Product vs agent vocabulary | No |
 | `apps/uapi/ARCHITECTURE.md` | Next app architecture notes | No |
@@ -149,17 +151,16 @@ uapi → HTTP + React adapters only
 ```
 @bitcode/measurement-generics Measurement primitive vocabulary
  ↑
-@bitcode/generic-measurements-measure-agent MeasureAgent (PTRR base)
-@bitcode/generic-measurements-absolutes AbsolutesMeasureAgent
+@bitcode/generic-agents-agent-measure MeasureAgent (PTRR base; under generic-agents/)
+@bitcode/generic-measurements-absolutes AbsolutesMeasureAgent (category framing)
 @bitcode/generic-measurements-needinesses Needinesses surface (Gate 4)
  ↑
 @bitcode/generic-asset-packs-synthesis SynthesizeDataPacksAbsolutesMeasureAgent + catalogs
-@bitcode/ ↑
 @bitcode/asset-packs-pipelines-syntheses-domain Shared synth phases/tools; product packages wire deposit/read rosters
 ```
 
-Package paths: `packages/measurement-generics/`, `packages/generic-measurements/*`
-(incl. `tech-types/`), `packages/generic-asset-packs/{synthesis,synthesis,settle}/`.
+Package paths: `packages/measurement-generics/`, `packages/generic-agents/agent-measure/`,
+`packages/generic-measurements/*` (incl. `tech-types/`), `packages/generic-asset-packs/{synthesis,settle}/`.
 
 Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
 `SynthesizeDataPacksAbsolutesMeasureAgent`.
@@ -522,8 +523,8 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-generations-failsafes` | Failsafe base + prepared-context types |
 | `generic-generations-thinkings` | Thinkings base vocabulary surface |
 | `measurement-generics` | Measurement primitive (spec, reading, output schemas) |
-| `generic-measurements-measure-agent` | MeasureAgent PTRR base |
-| `generic-measurements-absolutes` | AbsolutesMeasureAgent base |
+| `generic-agents-agent-measure` | MeasureAgent PTRR base (`packages/generic-agents/agent-measure`) |
+| `generic-measurements-absolutes` | AbsolutesMeasureAgent base (category framing) |
 | `generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
 | `generic-measurements-tech-types` | Tech/stack signals as absolute measurement vocabulary |
 | `asset-packs-generics` | DataPack protocol primitive (`@bitcode/asset-packs-generics`) |
@@ -540,12 +541,12 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 
 | Package family | Responsibility |
 | --- | --- |
-| `generic-agents/*` | Nested base agents: VCS, danger-wall, code-editor, digester, web-research, … |
+| `generic-agents/*` | Nested base agents: `agent-measure`, PTRR, VCS, danger-wall, code-editor, digester, web-research, … |
 | `generic-tools/*` | Nested base tools: files-maintaining, git, VCS, LSP, web-search, … |
 | `generic-pipelines/*` | Nested base: `execution-pipeline-sdivf`, `execution-pipeline-simple` |
 | `generic-llms/*` | Nested providers (xAI, OpenAI, Anthropic, Google), defaults, registry, **models** |
 | `generic-generations/*` | Nested generation bases: failsafes, thinkings |
-| `generic-measurements/*` | Nested measurement bases: measure-agent, absolutes, needinesses, tech-types |
+| `generic-measurements/*` | Measurement domain: absolutes, needinesses, tech-types (agent implementer is `generic-agents/agent-measure`) |
 | `generic-asset-packs/*` | Measured-patch base + synthesis/settle product surfaces |
 | `generic-vcs/*` | github, gitlab, bitbucket, git (`@bitcode/generic-vcs-*`) |
 | `generic-hosts/*` | Local, VercelSandbox |
