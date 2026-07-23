@@ -86,6 +86,11 @@ These are commercially legible **knowledge groups**, not file dumps.
 
 ## 2. Measurement KINDS (absolutes + needinesses)
 
+**Absolute design / audit (living, non-canon):**
+[`.docs/ABSOLUTE_MEASUREMENTS.md`](./ABSOLUTE_MEASUREMENTS.md) (scaffold + stack audit) and
+[`.docs/ABSOLUTE_MEASUREMENTS_CATALOG.md`](./ABSOLUTE_MEASUREMENTS_CATALOG.md) (exhaustive
+catalog, mechanisms, v-next weights). SPEC measurement law remains rebuild truth.
+
 **Canonical carrier (nested):**
 
 ```
