@@ -4,6 +4,9 @@
  * Packs active-filter + trailing icon rail — Deposit/Read twin of
  * BitcodeTransactionsActiveFilters. Clear (left of refresh) when non-default
  * filters are set; refresh permanently right-aligned.
+ *
+ * Absolute clauses are listed one chip each (kind op volume) and clear
+ * individually by rewriting absoluteFilters.
  */
 
 import React from 'react';
@@ -13,10 +16,15 @@ import type {
   PackActivitySortKey,
 } from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
 import {
+  formatAbsoluteMeasurementFilterClause,
+  resolveAbsoluteMeasurementFiltersFromParams,
+  serializeAbsoluteMeasurementFilters,
+  type AbsoluteMeasurementFilterClause,
+} from '@/components/exchange/models/absolute-measurement-filters';
+import {
   PACKS_FACET_FILTERS,
   PACKS_SORT_OPTIONS,
   PACKS_TYPE_OPTIONS,
-  labelForDataPackAbsoluteKind,
   readParam,
   type PacksTypeFilter,
 } from '@/components/exchange/models/exchange-format';
@@ -36,7 +44,23 @@ export type ExchangeActivityActiveFiltersProps = {
 const ICON_BOX_CLASS =
   'inline-flex h-9 w-9 shrink-0 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10';
 
-type ActiveChip = { key: string; label: string; value: string };
+type ActiveChip = {
+  key: string;
+  label: string;
+  value: string;
+  /** When set, clear this absolute clause index instead of a simple param delete. */
+  absoluteClauseIndex?: number;
+};
+
+function readAbsoluteClauses(
+  routeParams: URLSearchParams,
+): AbsoluteMeasurementFilterClause[] {
+  return resolveAbsoluteMeasurementFiltersFromParams({
+    absoluteFilters: readParam(routeParams, 'absoluteFilters', '') || null,
+    absoluteKind: readParam(routeParams, 'absoluteKind', 'all') || null,
+    minAbsoluteVolume: readParam(routeParams, 'minAbsoluteVolume', '') || null,
+  });
+}
 
 function buildActiveChips(props: {
   routeParams: URLSearchParams;
@@ -76,18 +100,15 @@ function buildActiveChips(props: {
       });
     }
   }
-  const absoluteKind = readParam(props.routeParams, 'absoluteKind', 'all');
-  if (absoluteKind && absoluteKind !== 'all') {
+  const absoluteClauses = readAbsoluteClauses(props.routeParams);
+  absoluteClauses.forEach((clause, index) => {
     chips.push({
-      key: 'absoluteKind',
+      key: `absoluteFilters:${index}`,
       label: 'Absolute',
-      value: labelForDataPackAbsoluteKind(absoluteKind),
+      value: formatAbsoluteMeasurementFilterClause(clause),
+      absoluteClauseIndex: index,
     });
-  }
-  const minVol = readParam(props.routeParams, 'minAbsoluteVolume', '');
-  if (minVol) {
-    chips.push({ key: 'minAbsoluteVolume', label: 'Min volume', value: minVol });
-  }
+  });
   return chips;
 }
 
@@ -103,9 +124,28 @@ export function packsDefaultFilterUpdates(): Record<string, string | null> {
     compensationState: null,
     deliveryState: null,
     repairState: null,
+    absoluteFilters: null,
     absoluteKind: null,
     minAbsoluteVolume: null,
   };
+}
+
+function clearChip(
+  chip: ActiveChip,
+  routeParams: URLSearchParams,
+  onWriteParams: (updates: Record<string, string | null>) => void,
+) {
+  if (typeof chip.absoluteClauseIndex === 'number') {
+    const clauses = readAbsoluteClauses(routeParams);
+    const next = clauses.filter((_, i) => i !== chip.absoluteClauseIndex);
+    onWriteParams({
+      absoluteFilters: serializeAbsoluteMeasurementFilters(next),
+      absoluteKind: null,
+      minAbsoluteVolume: null,
+    });
+    return;
+  }
+  onWriteParams({ [chip.key]: null });
 }
 
 export function ExchangeActivityActiveFilters({
@@ -142,7 +182,7 @@ export function ExchangeActivityActiveFilters({
               <button
                 key={`${chip.key}-${chip.value}`}
                 type="button"
-                onClick={() => onWriteParams({ [chip.key]: null })}
+                onClick={() => clearChip(chip, routeParams, onWriteParams)}
                 className="border border-white/10 bg-black/20 px-2.5 py-1.5 text-left text-neutral-100 transition hover:border-emerald-300/35 hover:bg-emerald-400/10"
               >
                 {chip.label}: {chip.value} ×

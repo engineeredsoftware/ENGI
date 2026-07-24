@@ -153,19 +153,25 @@ export const PACKS_FILTER_EXPLAINERS = {
     references: refs,
   }),
   absoluteKind: buildExplainer({
-    kicker: 'Absolute measurement filter',
-    title: 'Absolute kind',
+    kicker: 'Absolute measurement filters',
+    title: 'Absolute volume clauses',
     summary:
-      'Keep only DataPacks that carry a host-measured absolute kind from the full 46-kind catalogue (structure, verification, hygiene, provenance, semantics, value).',
+      'Keep only DataPacks whose absolute measurements satisfy one or more kind · operator · volume clauses (AND). Operators: >, ≥, <, ≤, = against a 0–1 volume.',
     detail:
-      'Options are SSOT from DATA_PACK_ABSOLUTE_KIND_SPECS (not a hand list). Absolutes are attached at deposit, shown on Exchange chips, and indexed for Depository hybrid search. The filter never invents a volume. Optional URL minAbsoluteVolume=0.4 raises a volume floor for the selected kind.',
+      'Each clause picks a catalogue kind (SSOT DATA_PACK_ABSOLUTE_KIND_SPECS), a comparison operator, and a volume in [0,1]. Multiple clauses must all match. URL SSOT: absoluteFilters=kind:op:volume,kind:op:volume (legacy absoluteKind + minAbsoluteVolume still maps to a single ≥ clause). The filter never invents a volume — missing kind or volume fails the clause (except ≥ 0 presence).',
     points: [
-      'Matches absolute:* measurement rows (kind / id / volume)',
-      'Full catalogue (46 kinds) — weighted commercial + gates/targets/flags',
+      'Ops: gt, gte, lt, lte, eq on absolute volume 0..1',
+      'Multi-clause AND — stack several measurements',
+      'Full catalogue (46 kinds) — not a hand list',
       'Combines with free-text search and economic facets',
-      'Absence of the kind excludes the row (honest empty)',
     ],
-    references: refs,
+    references: {
+      source: [
+        ...SOURCE_REFS,
+        'apps/uapi/components/exchange/models/absolute-measurement-filters.ts',
+      ],
+      canon: [...CANON_REFS],
+    },
   }),
 } as const;
 

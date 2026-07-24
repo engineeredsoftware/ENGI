@@ -9,6 +9,8 @@ import {
   toSourceSafeAssetPackCommodityStateDisplay,
   type AssetPackCommodityStateDisplay,
 } from '@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state';
+import type { AbsoluteMeasurementFilterClause } from '@/components/exchange/models/absolute-measurement-filters';
+import { measurementsMatchAbsoluteFilters } from '@/components/exchange/models/absolute-measurement-filters';
 import { descriptorForAbsoluteKind } from '@/components/exchange/models/exchange-measurement-descriptors';
 import { expandAbsoluteMeasurementsToFullCatalog } from '@/components/exchange/models/expand-absolute-measurements';
 
@@ -155,11 +157,17 @@ export interface PackActivityFilters {
   repairState?: string | 'all';
   repository?: string | 'all';
   /**
-   * Absolute measurement kind filter (e.g. function-count, test-surface).
-   * Matches measurement.kind / measurement.id absolute:* rows.
+   * Multi-clause absolute measurement filters (AND).
+   * Each clause: kind + compare op (gt/gte/lt/lte/eq) + volume 0..1.
+   * Prefer this over legacy absoluteKind / minAbsoluteVolume.
+   */
+  absoluteFilters?: AbsoluteMeasurementFilterClause[] | null;
+  /**
+   * Legacy single absolute kind (e.g. function-count).
+   * Prefer absoluteFilters; still honored when absoluteFilters is empty.
    */
   absoluteKind?: string | 'all';
-  /** Minimum absolute volume 0..1 when absoluteKind is set. */
+  /** Legacy minimum absolute volume 0..1 when absoluteKind is set (gte). */
   minAbsoluteVolume?: number | null;
 }
 
@@ -1398,36 +1406,25 @@ export function packActivityNeedsPayoutReview(record: PackActivityRecord): boole
   return false;
 }
 
-function recordHasAbsoluteKind(
-  record: PackActivityRecord,
-  kind: string,
-  minVolume: number | null | undefined,
-): boolean {
-  const want = kind.toLowerCase().trim();
-  if (!want || want === 'all') return true;
-  const floor =
-    typeof minVolume === 'number' && Number.isFinite(minVolume)
-      ? Math.max(0, Math.min(1, minVolume))
-      : null;
-  return (record.measurements || []).some((m) => {
-    const id = String(m.id || '').toLowerCase();
-    const mk = String(m.kind || '').toLowerCase();
-    const hit =
-      mk === want ||
-      id === want ||
-      id === `absolute:${want}` ||
-      id.endsWith(`:${want}`);
-    if (!hit) return false;
-    if (floor === null) return true;
-    const vol =
-      typeof m.volume === 'number'
-        ? m.volume
-        : typeof m.value === 'number' && Number(m.value) <= 1
-          ? Number(m.value)
-          : null;
-    if (vol === null) return true; // kind present without volume still passes kind filter
-    return vol >= floor;
-  });
+/**
+ * Resolve absolute clauses: prefer multi absoluteFilters; else legacy kind+floor.
+ */
+function resolveAbsoluteFilterClauses(
+  filters: PackActivityFilters,
+): AbsoluteMeasurementFilterClause[] {
+  if (filters.absoluteFilters && filters.absoluteFilters.length > 0) {
+    return filters.absoluteFilters;
+  }
+  const kind = String(filters.absoluteKind || '')
+    .toLowerCase()
+    .trim();
+  if (!kind || kind === 'all') return [];
+  const min = filters.minAbsoluteVolume;
+  const volume =
+    typeof min === 'number' && Number.isFinite(min)
+      ? Math.max(0, Math.min(1, min))
+      : 0;
+  return [{ kind, op: 'gte', volume }];
 }
 
 export function filterPackActivityRecords(
@@ -1436,6 +1433,7 @@ export function filterPackActivityRecords(
   search?: string | null,
 ) {
   const normalizedSearch = String(search || '').trim().toLowerCase();
+  const absoluteClauses = resolveAbsoluteFilterClauses(filters);
   return records.filter((record) => {
     if (!matchesPackActivityTypeFilter(record, filters.type)) return false;
     if (filters.scope && filters.scope !== 'all' && record.scope !== filters.scope) return false;
@@ -1445,11 +1443,7 @@ export function filterPackActivityRecords(
     if (!matchesFilter(record.deliveryState, filters.deliveryState)) return false;
     if (!matchesFilter(record.repairState, filters.repairState)) return false;
     if (!matchesFilter(record.repository, filters.repository)) return false;
-    if (
-      filters.absoluteKind &&
-      filters.absoluteKind !== 'all' &&
-      !recordHasAbsoluteKind(record, filters.absoluteKind, filters.minAbsoluteVolume)
-    ) {
+    if (!measurementsMatchAbsoluteFilters(record.measurements, absoluteClauses)) {
       return false;
     }
     if (normalizedSearch) {

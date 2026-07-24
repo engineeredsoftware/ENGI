@@ -18,6 +18,7 @@ import {
   type PackActivityTypeFilter,
 } from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
 import type { BitcodeActivityRecord } from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
+import { resolveAbsoluteMeasurementFiltersFromParams } from '@/components/exchange/models/absolute-measurement-filters';
 import { isPacksMyTypeFilter } from '@/components/exchange/models/exchange-format';
 
 export const runtime = 'nodejs';
@@ -71,6 +72,12 @@ function buildFilters(params: URLSearchParams): PackActivityFilters {
     minVolRaw != null && minVolRaw !== '' && Number.isFinite(Number(minVolRaw))
       ? Math.max(0, Math.min(1, Number(minVolRaw)))
       : null;
+  // Multi-clause absolute filters (kind:op:volume,…). Prefer over legacy.
+  const absoluteFilters = resolveAbsoluteMeasurementFiltersFromParams({
+    absoluteFilters: params.get('absoluteFilters'),
+    absoluteKind: absoluteKind === 'all' ? null : absoluteKind,
+    minAbsoluteVolume: minVolRaw,
+  });
   const requestedType = readFilterParam(params, 'type');
   return {
     type:
@@ -84,6 +91,8 @@ function buildFilters(params: URLSearchParams): PackActivityFilters {
     deliveryState: readFilterParam(params, 'deliveryState'),
     repairState: readFilterParam(params, 'repairState'),
     repository: readFilterParam(params, 'repository'),
+    absoluteFilters: absoluteFilters.length > 0 ? absoluteFilters : null,
+    // Keep legacy fields for any dual-read callers; filter resolves multi first.
     absoluteKind: absoluteKind || 'all',
     minAbsoluteVolume,
   };
