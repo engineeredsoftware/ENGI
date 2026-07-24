@@ -25,7 +25,7 @@ measurement-generics
 | --- | --- | --- |
 | `absolutes/<kind>/` | `@bitcode/generic-measurements-absolutes-<kind>` | Bare pure measure for one absolute |
 | `shared/absolute-measure-input/` | `@bitcode/generic-measurements-shared-absolute-measure-input` | DP-facing input contracts |
-| `domain/data-pack-absolutes-catalog/` | `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog` | Full target + weighted Σ=1 catalogue |
+| `domain/data-pack-absolutes-catalog/` | `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog` | Commercial law: **46** kinds, each weighted, **Σ = 1** |
 | `needinesses/` | neediness packages (read) | Later |
 | `tech-types/` | tech signal vocabulary | Existing |
 
@@ -33,9 +33,10 @@ measurement-generics
 
 - Measure a **DataPack** (synthesized), not the repository as the commercial object.
 - Deposit: `needinesses` always `[]`.
-- Full absolute catalogue: 46 kinds (B1–B6; **no learning-gain** — BTD owns exchange value).
-- Weighted commercial subset: `DATA_PACK_ABSOLUTES_CATALOG` (11 kinds, weights sum to 1).
-- Hygiene kinds are first-class packages; product policy may gate/penalize without weighting.
+- Absolute catalogue law: **46 kinds** in `DATA_PACK_ABSOLUTES_CATALOG`, each weighted,
+  **Σ weights = 1** (no separate 11-kind subset — that is legacy).
+- **No learning-gain** — BTD / need-fit owns exchange value.
+- `policyRole` (gate / penalty / flag / weighted) is operational metadata; all kinds remain in Σ.
 
 ## Spec
 

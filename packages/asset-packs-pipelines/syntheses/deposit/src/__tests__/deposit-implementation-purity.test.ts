@@ -12,6 +12,20 @@ import {
   hasDepositAbsolutesOnlyShape,
   hasRequiredAbsolutes,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
+import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
+
+/** Full commercial catalogue stub (46) with finite volume+magnitude. */
+function fullCatalogAbsolutes(seedVolume = 0.2) {
+  return DATA_PACK_ABSOLUTES_CATALOG.map((spec) => ({
+    measurementKind: spec.measurementKind,
+    label: spec.label,
+    weight: spec.weight,
+    volume: seedVolume,
+    magnitude: seedVolume,
+    unit: spec.unit,
+    category: 'absolute' as const,
+  }));
+}
 import {
   isDepositPresentablePack,
   countSalvagedPacks,
@@ -110,11 +124,10 @@ describe('deposit measured shape', () => {
         envelopeJson: '{"artifactId":"artifact-patch-test"}',
       },
     };
-    const pack = toDepositMeasuredPack(withArt as any, [
-      { measurementKind: 'file-span', volume: 0.2, magnitude: 2, category: 'absolute' },
-    ]);
+    const pack = toDepositMeasuredPack(withArt as any, fullCatalogAbsolutes(0.2));
     expect(hasPatchArtifact(pack)).toBe(true);
     expect(hasDepositAbsolutesOnlyShape(pack)).toBe(true);
+    expect(hasRequiredAbsolutes(pack)).toBe(true);
     expect(isDepositPresentablePack(pack)).toBe(true);
   });
 

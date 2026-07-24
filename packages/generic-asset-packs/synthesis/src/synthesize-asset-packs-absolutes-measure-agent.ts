@@ -8,7 +8,7 @@
  *         → factoryDepositAbsolutesMeasureAgent
  *         → factoryReadAbsolutesMeasureAgent
  *
- * Bases the absolute tool-owning agent with the weighted DATA_PACK product catalog.
+ * Bases the absolute tool-owning agent with the full 46-kind DATA_PACK product catalog.
  * Tools register on invoke via the base agent wrapper.
  */
 
@@ -27,7 +27,7 @@ const MODE_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
 };
 
 /**
- * Product factory: deposit | read AbsolutesMeasureAgent with weighted catalog + tools.
+ * Product factory: deposit | read AbsolutesMeasureAgent with full 46-kind catalog + tools.
  */
 export function factorySynthesizeAssetPacksAbsolutesMeasureAgent(
   mode: SynthesizeAssetPacksMode,

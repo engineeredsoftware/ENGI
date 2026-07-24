@@ -1,9 +1,9 @@
 /**
  * DataPack synthesis catalogs.
  *
- * **Absolutes (law):** `DATA_PACK_ABSOLUTES_CATALOG` — weighted commercial subset (Σ=1).
- * Full absolute vocabulary:
- * `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`.
+ * **Absolutes (law):** `DATA_PACK_ABSOLUTES_CATALOG` — **all 46 kinds**, each weighted,
+ * **Σ weights = 1**. There is no separate 11-kind commercial subset (legacy).
+ * SSOT: `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`.
  *
  * Bare measures: `generic-measurements/absolutes/<kind>/`.
  * Tools: `generic-tools/tool-measure-<kind>/`.
@@ -33,17 +33,20 @@ export {
 
 import { DATA_PACK_ABSOLUTES_CATALOG as _CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 
-/** Weighted absolute rows with product AssetPackAbsoluteSpec shape (quantity|quality). */
+/**
+ * Product MeasureAgent specs for all 46 commercial absolute kinds.
+ * propertyClass maps non-quantity/quality families onto quantity|quality for the
+ * existing MeasureAgent schema (verification/provenance/hygiene/value → quantity
+ * for tool-grounded; quality stays quality).
+ */
 export const DATA_PACK_ABSOLUTES_PRODUCT_CATALOG: AssetPackAbsoluteSpec[] = _CATALOG.map((s) => ({
   measurementKind: s.measurementKind,
   label: s.label,
   unit: s.unit,
   guidance: s.guidance,
   hasMagnitude: true as const,
-  weight: s.weight!,
-  propertyClass: (s.propertyClass === 'quantity' || s.propertyClass === 'quality'
-    ? s.propertyClass
-    : 'quantity') as 'quantity' | 'quality',
+  weight: s.weight,
+  propertyClass: (s.propertyClass === 'quality' ? 'quality' : 'quantity') as 'quantity' | 'quality',
 }));
 
 export const DEPOSIT_SYNTHESIS_POLICY_CATALOG: AssetPackMeasurementSpec[] = [

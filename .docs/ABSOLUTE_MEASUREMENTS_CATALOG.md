@@ -6,9 +6,10 @@ If this document and `BITCODE_SPEC_*` diverge, **SPEC wins**.
 **Canon SSOT (code):**  
 `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`  
 → `DATA_PACK_ABSOLUTE_KIND_SPECS` (full target vocabulary, **46** kinds)  
-→ `DATA_PACK_ABSOLUTES_CATALOG` (commercial weighted subset, **11** kinds, **Σ weights = 1**)  
+→ `DATA_PACK_ABSOLUTES_CATALOG` (**all 46** kinds, each weighted, **Σ weights = 1** — full commercial law)  
 → `DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS` (UI filters: Any absolute + all 46 — never hand-list)  
-Exchange: `PACKS_ABSOLUTE_KIND_OPTIONS` re-exports that SSOT only.
+Exchange: `PACKS_ABSOLUTE_KIND_OPTIONS` re-exports that SSOT only.  
+Legacy: an 11-kind “weighted subset” no longer exists; `DATA_PACK_WEIGHTED_ABSOLUTE_KINDS` is an alias of all 46.
 
 **Stack (hierarchy):**
 
@@ -47,7 +48,7 @@ Laws (unchanged):
 1. **Measurement before price** — readings first, commercial projection second.  
 2. **Models do not invent volumes** — quantity/tool kinds are authoritative; quality is judgment over source-safe descriptors + measured counts.  
 3. **Source-safe** — only counts, scores, roots, descriptors leave the measure path.  
-4. **Weights sum to 1** over the commercial weighted catalog only. Hygiene gates/penalties sit **outside** Σ.
+4. **Weights sum to 1** over **all 46** commercial absolute kinds. `policyRole` (gate / penalty / flag) is operational and does **not** remove a kind from Σ.
 
 ---
 
@@ -60,8 +61,8 @@ Every kind below is described with the same fields:
 | **Kind** | Stable `measurementKind` string (SSOT in catalog package) |
 | **Family** | `structure` · `verification` · `hygiene` · `provenance` · `semantics` · `value` |
 | **Class** | `quantity` · `verification` · `hygiene` · `provenance` · `quality` · `value` |
-| **Policy** | `weighted` (Σ=1 commercial) · `target` (first-class, not in Σ) · `gate` · `penalty` · `flag` |
-| **Weight** | Commercial row weight if weighted; else — |
+| **Policy** | Operational role: `weighted` · `gate` · `penalty` · `flag` · `target` (all rows still in Σ) |
+| **Weight** | Commercial weight (positive; Σ across 46 = 1) |
 | **What it is** | Definition of the material property |
 | **Why readers care** | Buy/compare/search motivation |
 | **How (now)** | Current bare measure + tool path |
@@ -75,30 +76,33 @@ Every kind below is described with the same fields:
 
 ---
 
-## 3. Commercial weighted catalog (Σ = 1)
+## 3. Commercial catalog law — all 46 kinds (Σ = 1)
 
-These **11** kinds attach on every deposit option and drive commercial composite / browse sort / hybrid search boost.
+**Law:** every absolute kind is commercial. `DATA_PACK_ABSOLUTES_CATALOG` **is** the full 46-kind vocabulary; each row has a positive `weight` and **Σ = 1**.
 
-| Kind | Weight | Unit | Class | Volume normalizer (approx.) |
-| --- | ---: | --- | --- | --- |
-| `function-count` | 0.09 | functions | quantity | mag / 40 |
-| `type-count` | 0.07 | types | quantity | mag / 24 |
-| `file-span` | 0.05 | files | quantity | mag / 10 |
-| `symbolic-richness` | 0.09 | symbols | quantity | mag / 200 |
-| `modularity` | 0.05 | modules | quantity | mag / 12 |
-| `lang-span` | 0.06 | languages | quantity | mag / 4 |
-| `test-surface` | 0.07 | tests | quantity | mag / 30 |
-| `api-surface` | 0.07 | exports | quantity | mag / 16 |
-| `correctness-estimate` | 0.16 | estimate | quality | 0..1 |
-| `objectives-fidelity` | 0.15 | estimate | quality | 0..1 |
-| `computational-usage` | 0.14 | estimate | quality | 0..1 |
-| **Σ** | **1.00** | | | |
+There is **no** separate 11-kind subset. Older docs referring to “weighted 11” are legacy — use the SSOT package.
 
-Tool-authoritative quantity share: **0.55**; quality share: **0.45** today (quality stays grounded + may refine via MeasureAgent when inference is on). Target posture: raise verification/provenance into weight as sandbox/corpus land.
+Approximate family mass (exact weights live only in `DATA_PACK_ABSOLUTE_KIND_SPECS`):
 
-### 3.1 Structure (weighted quantity)
+| Family | Kinds | ≈ weight mass |
+| --- | ---: | ---: |
+| Structure | 14 | 0.30 |
+| Verification | 6 | 0.18 |
+| Hygiene | 7 | 0.10 |
+| Provenance | 6 | 0.12 |
+| Semantics | 7 | 0.18 |
+| Value | 6 | 0.12 |
+| **Σ** | **46** | **1.00** |
 
-#### `function-count` — Functions · weight 0.09
+`policyRole` (`gate` / `penalty` / `flag` / `weighted`) is **operational** (fail-closed, discount, disclose) — it does **not** remove a kind from Σ. Hygiene gates still fail-closed in Validation even while carrying catalogue weight.
+
+Every deposit option’s host measure path attaches **all 46** readings (missing host signals → honest `insufficient_evidence` / volume 0, still present).
+
+### 3.1 Structure (quantity)
+
+Exact per-kind weights live only in `DATA_PACK_ABSOLUTE_KIND_SPECS` (do not hand-copy).
+
+#### `function-count` — Functions
 
 | | |
 | --- | --- |
@@ -108,7 +112,7 @@ Tool-authoritative quantity share: **0.55**; quality share: **0.45** today (qual
 | **Status** | heuristic / tool-backed when static analysis runs |
 | **Scale path** | AST/LSP symbol counts (TS, Python, Go…); language-generic tree-sitter; never LOC alone. |
 
-#### `type-count` — Types · weight 0.07
+#### `type-count` — Types
 
 | | |
 | --- | --- |

@@ -75,25 +75,27 @@ describe('FEATURE_FLAGS', () => {
     expect(loadFeatureFlags('development', { pipelineDebugWidget: 'false' })?.PIPELINE_DEBUG_WIDGET).toBe(false);
   });
 
-  it('keeps Exchange and QA-entry surfaces open by default in development and testnet', () => {
+  it('keeps Exchange open by default in every environment (live product surface)', () => {
     expect(loadFeatureFlags('development')?.DISABLE_EXCHANGE_LINK).toBe(false);
     expect(loadFeatureFlags('development')?.DISABLE_EXCHANGE_ROUTE).toBe(false);
+    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_LINK).toBe(false);
+    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_ROUTE).toBe(false);
+    expect(loadFeatureFlags('production', { bitcodeEnv: 'testnet' })?.DISABLE_EXCHANGE_LINK).toBe(false);
+    expect(loadFeatureFlags('production', { bitcodeEnv: 'testnet' })?.DISABLE_EXCHANGE_ROUTE).toBe(false);
+
     expect(loadFeatureFlags('development')?.DISABLE_CONVERSATIONS_ROUTE).toBe(false);
     expect(loadFeatureFlags('development')?.DISABLE_AUXILLARIES).toBe(false);
     expect(loadFeatureFlags('development')?.DISABLE_CREATE_ACCOUNT).toBe(false);
-
-    expect(loadFeatureFlags('production', { bitcodeEnv: 'testnet' })?.DISABLE_EXCHANGE_LINK).toBe(false);
-    expect(loadFeatureFlags('production', { bitcodeEnv: 'testnet' })?.DISABLE_EXCHANGE_ROUTE).toBe(false);
   });
 
-  it('keeps launch-gated surfaces disabled by default in production unless explicitly opened', () => {
-    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_LINK).toBe(true);
-    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_ROUTE).toBe(true);
+  it('keeps auxillaries/create-account launch-gated in production; Exchange stays open unless opted out', () => {
     expect(loadFeatureFlags('production')?.DISABLE_AUXILLARIES).toBe(true);
     expect(loadFeatureFlags('production')?.DISABLE_CREATE_ACCOUNT).toBe(true);
+    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_LINK).toBe(false);
+    expect(loadFeatureFlags('production')?.DISABLE_EXCHANGE_ROUTE).toBe(false);
 
-    expect(loadFeatureFlags('production', { disableExchangeLink: 'false' })?.DISABLE_EXCHANGE_LINK).toBe(false);
-    expect(loadFeatureFlags('production', { disableExchangeRoute: 'false' })?.DISABLE_EXCHANGE_ROUTE).toBe(false);
+    expect(loadFeatureFlags('production', { disableExchangeLink: 'true' })?.DISABLE_EXCHANGE_LINK).toBe(true);
+    expect(loadFeatureFlags('production', { disableExchangeRoute: 'true' })?.DISABLE_EXCHANGE_ROUTE).toBe(true);
     expect(loadFeatureFlags('development', { disableConversationsRoute: 'true' })?.DISABLE_CONVERSATIONS_ROUTE).toBe(true);
   });
 

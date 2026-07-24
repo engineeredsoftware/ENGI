@@ -10,7 +10,6 @@
 import {
   DATA_PACK_ABSOLUTES_CATALOG,
   DATA_PACK_ABSOLUTE_KINDS,
-  DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
 } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 import type { DepositoryAsset } from './depository-search-types';
 
@@ -49,14 +48,15 @@ export type DepositoryAbsoluteFilters = {
 export type ExtractedAbsoluteFacets = {
   kinds: string[];
   volumes: Record<string, number>;
-  /** Weighted Σ(weight×volume) over commercial catalog; 0 when no weights apply. */
+  /** Weighted Σ(weight×volume) over full 46 commercial catalog; 0 when no volumes. */
   composite: number;
-  /** Count of weighted kinds with a finite volume. */
+  /** Count of catalogue kinds with a finite volume. */
   weightedMeasuredCount: number;
 };
 
-const WEIGHTED_WEIGHTS: Record<string, number> = Object.fromEntries(
-  DATA_PACK_ABSOLUTES_CATALOG.map((row) => [row.measurementKind, row.weight ?? 0]),
+/** Commercial weights for all 46 kinds (Σ = 1). */
+const CATALOG_WEIGHTS: Record<string, number> = Object.fromEntries(
+  DATA_PACK_ABSOLUTES_CATALOG.map((row) => [row.measurementKind, row.weight]),
 );
 
 const KNOWN_ABSOLUTE_KINDS = new Set(DATA_PACK_ABSOLUTE_KINDS);
@@ -134,7 +134,7 @@ export function extractAbsoluteFacets(asset: DepositoryAsset | null | undefined)
       if (k === 'absolutes' || k === 'source' || k === 'measurementRoot' || k === 'measurementProvenanceCount') {
         continue;
       }
-      if (KNOWN_ABSOLUTE_KINDS.has(k) || WEIGHTED_WEIGHTS[k] !== undefined) {
+      if (KNOWN_ABSOLUTE_KINDS.has(k) || CATALOG_WEIGHTS[k] !== undefined) {
         pushKind(kinds, k);
         if (typeof v === 'number' || typeof v === 'string') pushVolume(volumes, k, v);
       }
@@ -144,7 +144,7 @@ export function extractAbsoluteFacets(asset: DepositoryAsset | null | undefined)
   let weightedSum = 0;
   let weightMass = 0;
   let weightedMeasuredCount = 0;
-  for (const [kind, weight] of Object.entries(WEIGHTED_WEIGHTS)) {
+  for (const [kind, weight] of Object.entries(CATALOG_WEIGHTS)) {
     if (weight <= 0) continue;
     const vol = volumes[kind];
     if (vol === undefined) continue;
@@ -152,8 +152,8 @@ export function extractAbsoluteFacets(asset: DepositoryAsset | null | undefined)
     weightMass += weight;
     weightedMeasuredCount += 1;
   }
-  // When only a subset of weighted kinds are present, renormalize so partial
-  // packs are comparable (honest coverage, not zero-penalty for missing kinds).
+  // When only a subset of the 46 is present, renormalize so partial packs are
+  // comparable (honest coverage, not zero-penalty for missing kinds).
   const composite = weightMass > 0 ? clamp01(weightedSum / weightMass) : 0;
 
   return {
@@ -221,7 +221,7 @@ export function assetPassesAbsoluteFilters(
 
 /**
  * Measurement-channel score driven by absolute facets (0..1).
- * Blends commercial composite, coverage of weighted kinds, and optional
+ * Blends commercial composite, coverage of the 46 catalogue kinds, and optional
  * need-term overlap against absolute kind labels.
  */
 export function absoluteFacetScore(
@@ -232,8 +232,8 @@ export function absoluteFacetScore(
   if (!facets.kinds.length && facets.weightedMeasuredCount === 0) return 0;
 
   const coverage =
-    DATA_PACK_WEIGHTED_ABSOLUTE_KINDS.length > 0
-      ? facets.weightedMeasuredCount / DATA_PACK_WEIGHTED_ABSOLUTE_KINDS.length
+    DATA_PACK_ABSOLUTE_KINDS.length > 0
+      ? facets.weightedMeasuredCount / DATA_PACK_ABSOLUTE_KINDS.length
       : 0;
 
   const terms = (options?.queryTerms || [])
@@ -270,4 +270,4 @@ export function blendHybridScoreWithAbsolutes(
   return clamp01((1 - w) * base + w * Math.max(base, gatedAbs));
 }
 
-export { DATA_PACK_WEIGHTED_ABSOLUTE_KINDS, DATA_PACK_ABSOLUTE_KINDS };
+export { DATA_PACK_ABSOLUTE_KINDS };

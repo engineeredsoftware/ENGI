@@ -11,6 +11,8 @@
  * inference is enabled (see measureDataPackAbsolutes).
  */
 
+import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
+
 export type AbsoluteLike = {
   measurementKind: string;
   label?: string;
@@ -24,13 +26,22 @@ export type AbsoluteLike = {
   kind?: string;
 };
 
-/** Tool-authoritative quantity kinds (static analysis / path span). */
+/** Tool-authoritative structure quantity kinds (static analysis / path span). */
 export const DEPOSIT_QUANTITY_ABSOLUTE_KINDS = [
   'function-count',
   'type-count',
   'file-span',
   'symbolic-richness',
   'modularity',
+  'lang-span',
+  'test-surface',
+  'api-surface',
+  'dependency-span',
+  'doc-signal',
+  'data-flow-depth',
+  'symbol-connectivity',
+  'control-complexity',
+  'config-surface',
 ] as const;
 
 /** Judgment-grounded quality kinds (may use measure-agent under real inference). */
@@ -38,6 +49,10 @@ export const DEPOSIT_QUALITY_ABSOLUTE_KINDS = [
   'correctness-estimate',
   'objectives-fidelity',
   'computational-usage',
+  'coherence',
+  'completeness',
+  'capability-clarity',
+  'documentation-alignment',
 ] as const;
 
 export function resolvePackAbsolutes(pack: unknown): AbsoluteLike[] {
@@ -106,17 +121,20 @@ export function attachNestedAbsolutes(
   attachDepositAbsolutes(pack, absolutes);
 }
 
+/**
+ * Deposit/read finish readiness: full commercial catalogue present with finite
+ * volume + magnitude per reading. Law is **all 46** kinds (not legacy 11).
+ * Missing host signals must still attach volume 0 / magnitude 0, not omit rows.
+ */
 export function hasRequiredAbsolutes(pack: unknown): boolean {
   const abs = resolvePackAbsolutes(pack);
-  return (
-    abs.length > 0 &&
-    abs.every(
-      (m) =>
-        typeof m.volume === 'number' &&
-        Number.isFinite(m.volume) &&
-        typeof m.magnitude === 'number' &&
-        Number.isFinite(m.magnitude),
-    )
+  if (abs.length < DATA_PACK_ABSOLUTES_CATALOG.length) return false;
+  return abs.every(
+    (m) =>
+      typeof m.volume === 'number' &&
+      Number.isFinite(m.volume) &&
+      typeof m.magnitude === 'number' &&
+      Number.isFinite(m.magnitude),
   );
 }
 

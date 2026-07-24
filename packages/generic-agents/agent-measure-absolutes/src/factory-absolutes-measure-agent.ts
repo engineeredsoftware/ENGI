@@ -24,25 +24,27 @@ export const ABSOLUTES_CATEGORY_FRAMING =
   'Absolutes depend ONLY on the DataPack, never on any reader, demand, market, or buyer. ' +
   'Prefer tool-measured magnitudes for quantity; do not invent sizes that contradict measured counts.';
 
-/** Quantity kinds in the weighted commercial catalog — tool-authoritative. */
-export const ABSOLUTES_QUANTITY_TOOL_KINDS = [
-  'function-count',
-  'type-count',
-  'file-span',
-  'symbolic-richness',
-  'modularity',
-  'lang-span',
-  'test-surface',
-  'api-surface',
-] as const;
+/**
+ * Quantity kinds from commercial law (all 46 catalog rows with propertyClass quantity).
+ * Tool-authoritative; never hand-subset to the legacy 8/11.
+ */
+export const ABSOLUTES_QUANTITY_TOOL_KINDS: readonly string[] =
+  DATA_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quantity').map(
+    (s) => s.measurementKind,
+  );
 
 export function absoluteMeasureToolKeyForKind(kind: string): string {
   return `measure:absolute:${kind}`;
 }
 
-/** Try/Retry tool surface: quantity tools from the weighted catalog. */
-export function listWeightedQuantityAbsoluteMeasureToolKeys(): string[] {
+/** Try/Retry tool surface: all quantity measure:absolute:* keys (SSOT). */
+export function listQuantityAbsoluteMeasureToolKeys(): string[] {
   return ABSOLUTES_QUANTITY_TOOL_KINDS.map(absoluteMeasureToolKeyForKind);
+}
+
+/** @deprecated Prefer listQuantityAbsoluteMeasureToolKeys — name is legacy (11-era). */
+export function listWeightedQuantityAbsoluteMeasureToolKeys(): string[] {
+  return listQuantityAbsoluteMeasureToolKeys();
 }
 
 export interface AbsolutesMeasureAgentConfig {
@@ -51,7 +53,7 @@ export interface AbsolutesMeasureAgentConfig {
   subject: string;
   measurements?: MeasurementSpec[];
   /**
-   * Tool keys for Try/Retry. Default: weighted quantity measure:absolute:* keys.
+   * Tool keys for Try/Retry. Default: all quantity measure:absolute:* keys (SSOT).
    * Pass listAbsoluteMeasureToolKeys() to expose the full 46-tool surface.
    */
   tools?: string[];
@@ -71,6 +73,7 @@ export type AbsolutesMeasureAgent = MeasureAgent & {
 /**
  * Base AbsolutesMeasureAgent: category framing + absolute tool catalog.
  * Product deposit/read factories specialize name/subject/measurements.
+ * Default measurements = full 46 commercial catalogue (Σ weights = 1).
  */
 export function factoryAbsolutesMeasureAgent(
   config: AbsolutesMeasureAgentConfig,
@@ -89,7 +92,7 @@ export function factoryAbsolutesMeasureAgent(
   const toolKeys =
     config.tools && config.tools.length > 0
       ? config.tools
-      : listWeightedQuantityAbsoluteMeasureToolKeys();
+      : listQuantityAbsoluteMeasureToolKeys();
 
   const base = factoryMeasureAgent({
     name: config.name,

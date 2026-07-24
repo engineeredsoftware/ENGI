@@ -64,6 +64,7 @@ export {
   ABSOLUTES_CATEGORY_FRAMING,
   ABSOLUTES_QUANTITY_TOOL_KINDS,
   absoluteMeasureToolKeyForKind,
+  listQuantityAbsoluteMeasureToolKeys,
   listWeightedQuantityAbsoluteMeasureToolKeys,
 } from './factory-absolutes-measure-agent';
 
@@ -129,24 +130,20 @@ export function listAbsoluteMeasureKinds(): string[] {
   return ABSOLUTE_MEASURE_REGISTRY.map((e) => e.kind);
 }
 
+/** Run every bare absolute measure (registry = full 46-kind law). */
 export function measureDataPackAllAbsolutes(
   input: DataPackAbsoluteMeasureInput,
 ): AbsoluteMeasureResult[] {
   return ABSOLUTE_MEASURE_REGISTRY.map((e) => e.measure(input));
 }
 
-export function measureDataPackWeightedAbsolutes(
-  input: DataPackAbsoluteMeasureInput,
-): AbsoluteMeasureResult[] {
-  const weighted = new Set(DATA_PACK_ABSOLUTES_CATALOG.map((s) => s.measurementKind));
-  return ABSOLUTE_MEASURE_REGISTRY.filter((e) => weighted.has(e.kind)).map((e) => e.measure(input));
-}
-
-export function measureDataPackWeightedAbsoluteReadings(
-  input: DataPackAbsoluteMeasureInput,
-) {
+/**
+ * Commercial absolute readings for a DataPack — **all 46** kinds with catalogue weights.
+ * Missing host signals → volume 0 / insufficient_evidence, still present.
+ */
+export function measureDataPackAbsoluteReadings(input: DataPackAbsoluteMeasureInput) {
   assertDataPackAbsolutesCatalogWeights();
-  const byKind = new Map(measureDataPackWeightedAbsolutes(input).map((r) => [r.measurementKind, r]));
+  const byKind = new Map(measureDataPackAllAbsolutes(input).map((r) => [r.measurementKind, r]));
   return DATA_PACK_ABSOLUTES_CATALOG.map((spec) => {
     const reading = byKind.get(spec.measurementKind);
     const volume = reading?.volume ?? 0;
@@ -155,7 +152,7 @@ export function measureDataPackWeightedAbsoluteReadings(
     return {
       measurementKind: spec.measurementKind,
       label: spec.label,
-      weight: spec.weight ?? 0,
+      weight: spec.weight,
       volume,
       magnitude,
       unit: spec.unit,
@@ -164,6 +161,24 @@ export function measureDataPackWeightedAbsoluteReadings(
       status: reading?.status ?? 'insufficient_evidence',
     };
   });
+}
+
+/**
+ * @deprecated Alias of measureDataPackAllAbsolutes — "weighted" no longer subsets to 11.
+ */
+export function measureDataPackWeightedAbsolutes(
+  input: DataPackAbsoluteMeasureInput,
+): AbsoluteMeasureResult[] {
+  return measureDataPackAllAbsolutes(input);
+}
+
+/**
+ * @deprecated Prefer measureDataPackAbsoluteReadings — "weighted" no longer means 11.
+ */
+export function measureDataPackWeightedAbsoluteReadings(
+  input: DataPackAbsoluteMeasureInput,
+) {
+  return measureDataPackAbsoluteReadings(input);
 }
 
 

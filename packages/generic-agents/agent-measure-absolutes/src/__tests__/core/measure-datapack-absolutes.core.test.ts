@@ -20,10 +20,32 @@ describe('CORE: agent-measure-absolutes registry', () => {
   it('owns one tool key per bare absolute kind', () => {
     expect(listAbsoluteMeasureToolKeys()).toHaveLength(46);
     expect(listAbsoluteMeasureToolKeys()).toContain('measure:absolute:function-count');
-    expect(listWeightedQuantityAbsoluteMeasureToolKeys().length).toBeGreaterThanOrEqual(8);
+    // Quantity tools = all catalog quantity kinds (not legacy 8/11 subset).
+    expect(listWeightedQuantityAbsoluteMeasureToolKeys().length).toBeGreaterThanOrEqual(14);
     expect(listWeightedQuantityAbsoluteMeasureToolKeys()).toContain(
       'measure:absolute:function-count',
     );
+    expect(listWeightedQuantityAbsoluteMeasureToolKeys()).toContain(
+      'measure:absolute:dependency-span',
+    );
+  });
+
+  it('measures full commercial catalogue (46) with positive weights', () => {
+    const readings = measureDataPackWeightedAbsoluteReadings({
+      dataPack: {
+        title: 'Auth slice',
+        summary: 'A synthesized source-safe DataPack covering session authentication flows.',
+        coveredSourcePaths: ['src/auth/session.ts'],
+        confidence: 0.8,
+      },
+      sources: [
+        { path: 'src/auth/session.ts', content: 'export function login() { return true }\nexport type Session = {};' },
+      ],
+    });
+    expect(readings).toHaveLength(46);
+    expect(readings.every((r) => typeof r.weight === 'number' && r.weight > 0)).toBe(true);
+    const sum = readings.reduce((s, r) => s + r.weight, 0);
+    expect(Number(sum.toFixed(9))).toBe(1);
   });
 
   it('base AbsolutesMeasureAgent advertises quantity tools and can register them', () => {

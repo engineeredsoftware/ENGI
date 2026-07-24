@@ -110,8 +110,13 @@ export const FEATURE_FLAGS = {
   DISABLE_USING: process.env.NEXT_PUBLIC_DISABLE_USING === 'true',
   DISABLE_CREATE_ACCOUNT: envFlag('NEXT_PUBLIC_DISABLE_CREATE_ACCOUNT', !isQaOpenEnvironment),
   DISABLE_AUXILLARIES: envFlag('NEXT_PUBLIC_DISABLE_AUXILLARIES', !isQaOpenEnvironment),
-  DISABLE_EXCHANGE_LINK: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', !isQaOpenEnvironment),
-  DISABLE_EXCHANGE_ROUTE: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE', envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', !isQaOpenEnvironment)),
+  // Exchange is live product surface (browse/search/read DataPacks). Default open
+  // everywhere; only opt out with NEXT_PUBLIC_DISABLE_EXCHANGE_LINK/ROUTE=true.
+  DISABLE_EXCHANGE_LINK: envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', false),
+  DISABLE_EXCHANGE_ROUTE: envFlag(
+    'NEXT_PUBLIC_DISABLE_EXCHANGE_ROUTE',
+    envFlag('NEXT_PUBLIC_DISABLE_EXCHANGE_LINK', false),
+  ),
   DISABLE_CONVERSATIONS_ROUTE: disableConversationsRoute,
   DISABLE_PACKS_LINK: envFlag('DISABLE_PACKS_LINK', false),
   PIPELINE_DEBUG_WIDGET: envFlag('NEXT_PUBLIC_PIPELINE_DEBUG_WIDGET', process.env.NODE_ENV !== 'production'),

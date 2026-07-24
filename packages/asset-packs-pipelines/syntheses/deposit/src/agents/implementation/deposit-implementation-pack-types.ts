@@ -11,6 +11,10 @@
  */
 
 import type { DepositOptionKind } from './deposit-asset-pack-synthesis-schema';
+import {
+  hasDepositAbsolutesOnlyShape,
+  hasRequiredAbsolutes,
+} from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
 
 /** SOURCE-SAFE patch descriptor — path+op only; never code/diffs. */
 export type DepositPatchfileDescriptor = {
@@ -209,26 +213,17 @@ export function hasPatchArtifact(pack: unknown): boolean {
 
 /**
  * Presentable for depositor review:
- * patch artifact + measurements.absolutes only + not salvaged.
+ * patch artifact + measurements.absolutes only (full 46 commercial catalogue)
+ * + not salvaged.
  */
 export function isDepositPresentablePack(pack: unknown): boolean {
   if (!pack || typeof pack !== 'object') return false;
   const p = pack as DepositMeasuredPack & { salvaged?: boolean };
   if (p.salvaged === true) return false;
   if (!hasPatchArtifact(p)) return false;
-  const nested = p.measurements;
-  if (!nested || typeof nested !== 'object' || Array.isArray(nested)) return false;
-  const keys = Object.keys(nested);
-  if (keys.length !== 1 || keys[0] !== 'absolutes') return false;
-  const abs = nested.absolutes;
-  if (!Array.isArray(abs) || abs.length === 0) return false;
-  return abs.every(
-    (row) =>
-      typeof row?.volume === 'number' &&
-      Number.isFinite(row.volume) &&
-      typeof row?.magnitude === 'number' &&
-      Number.isFinite(row.magnitude),
-  );
+  // Same commercial law as finish readiness: all 46 with finite volume+magnitude.
+  if (!hasDepositAbsolutesOnlyShape(p)) return false;
+  return hasRequiredAbsolutes(p);
 }
 
 export function countSalvagedPacks(options: unknown[]): number {

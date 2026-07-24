@@ -2,7 +2,7 @@
   "name": "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog",
   "version": "0.1.0",
   "private": true,
-  "description": "DATA_PACK_ABSOLUTES catalogue: full target absolute kinds + weighted deposit subset (\u03a3=1)",
+  "description": "DATA_PACK_ABSOLUTES catalogue: commercial law — all 46 kinds weighted \u03a3=1",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {

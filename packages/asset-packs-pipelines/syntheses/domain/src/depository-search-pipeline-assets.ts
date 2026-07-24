@@ -5,10 +5,7 @@
 import { normalizeDepositoryAsset } from './depository-search-normalize';
 import type { DepositoryAsset } from './depository-search-types';
 import { extractAbsoluteFacets } from './depository-search-absolute-facets';
-import {
-  DATA_PACK_ABSOLUTE_KINDS,
-  DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
-} from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
+import { DATA_PACK_ABSOLUTE_KINDS } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 
 /**
  * Normalize raw depository payloads into DepositoryAsset[] with absolute
@@ -36,14 +33,9 @@ export function absoluteKindQueryHints(assets: DepositoryAsset[], max = 8): stri
       counts.set(kind, (counts.get(kind) || 0) + 1);
     }
   }
-  // Prefer commercial weighted kinds first when present, then remaining SSOT kinds.
-  const weighted = new Set(DATA_PACK_WEIGHTED_ABSOLUTE_KINDS);
+  // Frequency order among commercial catalogue kinds (all 46 are law).
   return [...counts.entries()]
-    .sort((a, b) => {
-      const aw = weighted.has(a[0]) ? 1 : 0;
-      const bw = weighted.has(b[0]) ? 1 : 0;
-      return bw - aw || b[1] - a[1] || a[0].localeCompare(b[0]);
-    })
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .map(([kind]) => kind)
     .slice(0, max);
 }
@@ -60,6 +52,5 @@ export function preferMeasuredAbsoluteFilters(
   const withAbs = assets.filter((a) => extractAbsoluteFacets(a).kinds.length > 0);
   // Only bias when most of the corpus is measured (avoid empty recall).
   if (withAbs.length < assets.length * 0.4) return null;
-  // Any SSOT kind presence — not only the weighted commercial subset.
   return { absoluteKinds: [...DATA_PACK_ABSOLUTE_KINDS] };
 }

@@ -1,7 +1,14 @@
 /**
  * DATA_PACK_ABSOLUTES catalogue (canon).
- * Full target absolute vocabulary for depositing DataPacks + weighted subset (Σ=1).
- * learning-gain is intentionally excluded (BTD / need-fit owns exchange value scalar).
+ *
+ * Law: the full absolute vocabulary is **46 kinds**, each with a commercial weight
+ * and **Σ weights = 1**. There is no separate 11-kind subset — that was legacy.
+ * `DATA_PACK_ABSOLUTES_CATALOG` is the full catalogue (all 46).
+ *
+ * `policyRole` remains operational metadata (gate / penalty / flag / weighted)
+ * and does **not** remove a kind from Σ. learning-gain is excluded (BTD / need-fit).
+ *
+ * SSOT for UI options: DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS.
  */
 import type { MeasurementSpec } from '@bitcode/measurement-generics';
 
@@ -21,15 +28,21 @@ export type AbsolutePropertyClass =
   | 'provenance'
   | 'value';
 
+/** Operational role — all kinds remain in the weighted commercial catalogue. */
 export type AbsolutePolicyRole = 'weighted' | 'gate' | 'penalty' | 'flag' | 'target';
 
 export interface DataPackAbsoluteKindSpec extends MeasurementSpec {
   family: AbsoluteFamily;
   propertyClass: AbsolutePropertyClass;
   policyRole: AbsolutePolicyRole;
-  weight?: number;
+  /** Commercial weight; required for every kind. Σ across catalogue = 1. */
+  weight: number;
   hasMagnitude: true;
-  inWeightedCatalog: boolean;
+  /**
+   * @deprecated Always true — full catalogue is commercial law.
+   * Kept so older filters still compile; do not use to subset the catalog.
+   */
+  inWeightedCatalog: true;
 }
 
 export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
@@ -43,7 +56,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.09
+    "weight": 0.035
   },
   {
     "measurementKind": "type-count",
@@ -55,7 +68,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.07
+    "weight": 0.025
   },
   {
     "measurementKind": "file-span",
@@ -67,7 +80,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.05
+    "weight": 0.02
   },
   {
     "measurementKind": "symbolic-richness",
@@ -79,7 +92,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.09
+    "weight": 0.035
   },
   {
     "measurementKind": "modularity",
@@ -91,7 +104,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.05
+    "weight": 0.02
   },
   {
     "measurementKind": "lang-span",
@@ -103,7 +116,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.06
+    "weight": 0.02
   },
   {
     "measurementKind": "test-surface",
@@ -115,7 +128,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.07
+    "weight": 0.03
   },
   {
     "measurementKind": "api-surface",
@@ -127,7 +140,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.07
+    "weight": 0.03
   },
   {
     "measurementKind": "dependency-span",
@@ -136,9 +149,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Dependency span (structure).",
     "family": "structure",
     "propertyClass": "quantity",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "doc-signal",
@@ -147,9 +161,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Doc signal (structure).",
     "family": "structure",
     "propertyClass": "quantity",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "data-flow-depth",
@@ -158,9 +173,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Data-flow depth (structure).",
     "family": "structure",
     "propertyClass": "quantity",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "symbol-connectivity",
@@ -169,9 +185,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Symbol connectivity (structure).",
     "family": "structure",
     "propertyClass": "quantity",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "control-complexity",
@@ -180,9 +197,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Control complexity (structure).",
     "family": "structure",
     "propertyClass": "quantity",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.01
   },
   {
     "measurementKind": "config-surface",
@@ -191,9 +209,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Config surface (structure).",
     "family": "structure",
     "propertyClass": "quantity",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.005
   },
   {
     "measurementKind": "buildability",
@@ -202,9 +221,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Buildability (verification).",
     "family": "verification",
     "propertyClass": "verification",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.03
   },
   {
     "measurementKind": "test-pass-rate",
@@ -213,9 +233,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Test pass rate (verification).",
     "family": "verification",
     "propertyClass": "verification",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.045
   },
   {
     "measurementKind": "test-coverage",
@@ -224,9 +245,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Test coverage (verification).",
     "family": "verification",
     "propertyClass": "verification",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.03
   },
   {
     "measurementKind": "test-strength",
@@ -235,9 +257,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Test strength (verification).",
     "family": "verification",
     "propertyClass": "verification",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.035
   },
   {
     "measurementKind": "runtime-cleanliness",
@@ -246,9 +269,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Runtime cleanliness (verification).",
     "family": "verification",
     "propertyClass": "verification",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "reproducibility",
@@ -257,9 +281,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Reproducibility (verification).",
     "family": "verification",
     "propertyClass": "verification",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "secret-safety",
@@ -270,7 +295,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "gate",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "pii-exposure",
@@ -281,7 +307,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "gate",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "security-cleanliness",
@@ -292,7 +319,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "penalty",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "dependency-health",
@@ -303,7 +331,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "penalty",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "license-cleanliness",
@@ -314,7 +343,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "gate",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.01
   },
   {
     "measurementKind": "duplication-internal",
@@ -325,7 +355,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "penalty",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.01
   },
   {
     "measurementKind": "dead-code-ratio",
@@ -336,7 +367,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "hygiene",
     "policyRole": "penalty",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.01
   },
   {
     "measurementKind": "originality",
@@ -345,9 +377,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Originality (provenance).",
     "family": "provenance",
     "propertyClass": "provenance",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.03
   },
   {
     "measurementKind": "semantic-novelty",
@@ -356,9 +389,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Semantic novelty (provenance).",
     "family": "provenance",
     "propertyClass": "provenance",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "contamination",
@@ -367,9 +401,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Contamination (provenance).",
     "family": "provenance",
     "propertyClass": "provenance",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "authorship-consistency",
@@ -378,9 +413,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Authorship consistency (provenance).",
     "family": "provenance",
     "propertyClass": "provenance",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "provenance-integrity",
@@ -389,9 +425,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Provenance integrity (provenance).",
     "family": "provenance",
     "propertyClass": "provenance",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "ai-generated-likelihood",
@@ -402,7 +439,8 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "propertyClass": "provenance",
     "policyRole": "flag",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "correctness-estimate",
@@ -414,7 +452,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.16
+    "weight": 0.05
   },
   {
     "measurementKind": "objectives-fidelity",
@@ -426,7 +464,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.15
+    "weight": 0.04
   },
   {
     "measurementKind": "computational-usage",
@@ -438,7 +476,7 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "policyRole": "weighted",
     "hasMagnitude": true,
     "inWeightedCatalog": true,
-    "weight": 0.14
+    "weight": 0.03
   },
   {
     "measurementKind": "coherence",
@@ -447,9 +485,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Coherence (semantics).",
     "family": "semantics",
     "propertyClass": "quality",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "completeness",
@@ -458,9 +497,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Completeness (semantics).",
     "family": "semantics",
     "propertyClass": "quality",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "capability-clarity",
@@ -469,9 +509,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Capability clarity (semantics).",
     "family": "semantics",
     "propertyClass": "quality",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.01
   },
   {
     "measurementKind": "documentation-alignment",
@@ -480,9 +521,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Documentation alignment (semantics).",
     "family": "semantics",
     "propertyClass": "quality",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.01
   },
   {
     "measurementKind": "difficulty",
@@ -491,9 +533,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Difficulty (value).",
     "family": "value",
     "propertyClass": "value",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.025
   },
   {
     "measurementKind": "irreducibility",
@@ -502,9 +545,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Irreducibility (value).",
     "family": "value",
     "propertyClass": "value",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.025
   },
   {
     "measurementKind": "information-content",
@@ -513,9 +557,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Information content (value).",
     "family": "value",
     "propertyClass": "value",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "rl-object-completeness",
@@ -524,9 +569,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: RL-object completeness (value).",
     "family": "value",
     "propertyClass": "value",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.02
   },
   {
     "measurementKind": "trajectory-richness",
@@ -535,9 +581,10 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Trajectory richness (value).",
     "family": "value",
     "propertyClass": "value",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   },
   {
     "measurementKind": "diversity-contribution",
@@ -546,34 +593,38 @@ export const DATA_PACK_ABSOLUTE_KIND_SPECS: DataPackAbsoluteKindSpec[] = [
     "guidance": "Absolute measure of a synthesized DataPack: Diversity contribution (value).",
     "family": "value",
     "propertyClass": "value",
-    "policyRole": "target",
+    "policyRole": "weighted",
     "hasMagnitude": true,
-    "inWeightedCatalog": false
+    "inWeightedCatalog": true,
+    "weight": 0.015
   }
 ] as DataPackAbsoluteKindSpec[];
 
+/** Commercial absolute catalogue — full 46 kinds, Σ weights = 1 (new law). */
 export const DATA_PACK_ABSOLUTES_CATALOG: DataPackAbsoluteKindSpec[] =
-  DATA_PACK_ABSOLUTE_KIND_SPECS.filter((s) => s.inWeightedCatalog && typeof s.weight === 'number');
+  DATA_PACK_ABSOLUTE_KIND_SPECS;
 
+/** All absolute kind ids (same as commercial catalogue). */
 export const DATA_PACK_ABSOLUTE_KINDS: string[] = DATA_PACK_ABSOLUTE_KIND_SPECS.map(
   (s) => s.measurementKind,
 );
 
-export const DATA_PACK_WEIGHTED_ABSOLUTE_KINDS: string[] = DATA_PACK_ABSOLUTES_CATALOG.map(
-  (s) => s.measurementKind,
-);
+/**
+ * @deprecated Alias of DATA_PACK_ABSOLUTE_KINDS — there is no 11-kind weighted subset.
+ * Prefer DATA_PACK_ABSOLUTE_KINDS or DATA_PACK_ABSOLUTES_CATALOG.
+ */
+export const DATA_PACK_WEIGHTED_ABSOLUTE_KINDS: string[] = DATA_PACK_ABSOLUTE_KINDS;
 
 /**
- * UI / filter option rows derived from the full target vocabulary (all 46 kinds).
- * Prefer this over hand-maintained option lists — SSOT is DATA_PACK_ABSOLUTE_KIND_SPECS.
+ * UI / filter option rows for every absolute kind (SSOT).
  */
 export type DataPackAbsoluteKindOption = {
   value: string;
   label: string;
   family: AbsoluteFamily;
   policyRole: AbsolutePolicyRole;
-  inWeightedCatalog: boolean;
-  weight?: number;
+  inWeightedCatalog: true;
+  weight: number;
 };
 
 export const DATA_PACK_ABSOLUTE_KIND_OPTIONS: DataPackAbsoluteKindOption[] =
@@ -582,8 +633,8 @@ export const DATA_PACK_ABSOLUTE_KIND_OPTIONS: DataPackAbsoluteKindOption[] =
     label: s.label,
     family: s.family,
     policyRole: s.policyRole,
-    inWeightedCatalog: s.inWeightedCatalog,
-    ...(typeof s.weight === 'number' ? { weight: s.weight } : {}),
+    inWeightedCatalog: true as const,
+    weight: s.weight,
   }));
 
 /** Select-control rows: "Any absolute" + every catalogue kind in SSOT order. */
@@ -605,11 +656,18 @@ export function labelForDataPackAbsoluteKind(kind: string | null | undefined): s
 }
 
 export function assertDataPackAbsolutesCatalogWeights(): void {
-  const sum = DATA_PACK_ABSOLUTES_CATALOG.reduce((s, row) => s + (row.weight ?? 0), 0);
+  if (DATA_PACK_ABSOLUTES_CATALOG.length !== 46) {
+    throw new Error(
+      `DATA_PACK_ABSOLUTES_CATALOG length ${DATA_PACK_ABSOLUTES_CATALOG.length}, expected 46`,
+    );
+  }
+  const sum = DATA_PACK_ABSOLUTES_CATALOG.reduce((s, row) => s + row.weight, 0);
   if (Math.abs(sum - 1) > 1e-9) {
     throw new Error(`DATA_PACK_ABSOLUTES_CATALOG weights sum to ${sum}, expected 1`);
   }
-  if (DATA_PACK_ABSOLUTE_KIND_SPECS.length !== DATA_PACK_ABSOLUTE_KIND_OPTIONS.length) {
-    throw new Error('DATA_PACK_ABSOLUTE_KIND_OPTIONS out of sync with KIND_SPECS');
+  for (const row of DATA_PACK_ABSOLUTES_CATALOG) {
+    if (!(row.weight > 0)) {
+      throw new Error(`Absolute kind ${row.measurementKind} missing positive weight`);
+    }
   }
 }

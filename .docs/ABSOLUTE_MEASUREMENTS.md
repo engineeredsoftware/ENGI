@@ -16,7 +16,7 @@ active/draft `BITCODE_SPEC_*` family. If this document and SPEC diverge,
 
 **Exhaustive catalogue companion (non-canon):**  
 [`.docs/ABSOLUTE_MEASUREMENTS_CATALOG.md`](./ABSOLUTE_MEASUREMENTS_CATALOG.md) —
-all **46** kinds with what/why/how/scale; weighted **11** (Σ=1); hygiene gates;
+all **46** kinds with what/why/how/scale; all **46** weighted (Σ=1); hygiene gates;
 hybrid search facets; package map. Expand that file when adding or redefining kinds.
 
 **Scope of this document**

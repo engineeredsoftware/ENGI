@@ -4,6 +4,7 @@
 import runStore from '../agents/finish/deposit-store-artifacts-agent';
 import runLedgerize from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/deposit-ledgerize-agent';
 import runFinish from '../agents/finish/deposit-finish-synthesize-run-agent';
+import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 
 function execStub(initial: Record<string, Record<string, unknown>> = {}) {
   const store = new Map<string, unknown>();
@@ -20,6 +21,17 @@ function execStub(initial: Record<string, Record<string, unknown>> = {}) {
   };
 }
 
+/** Full commercial catalogue (46) — finish presentability law. */
+const FULL_ABSOLUTES = DATA_PACK_ABSOLUTES_CATALOG.map((spec) => ({
+  measurementKind: spec.measurementKind,
+  label: spec.label,
+  weight: spec.weight,
+  volume: 0.5,
+  magnitude: 0.5,
+  unit: spec.unit,
+  category: 'absolute' as const,
+}));
+
 describe('deposit finish agents (store → ledgerize → finish)', () => {
   const options = [
     {
@@ -32,20 +44,22 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
         fileChanges: [{ path: 'src/bill.ts', op: 'modify' }],
         patchSummary: 'Encodes billing capability.',
       },
-      // Nested kinds only — AssetPack = patch + measurements + metadata.
+      // Formal patchfile handle required for presentable law.
+      patchArtifact: {
+        artifactId: 'artifact-patch-bill',
+        assetPackId: 'ap-bill',
+        schema: 'bitcode.artifact.patch',
+        productSchema: 'bitcode.artifact.patch.asset-pack',
+        format: 'path-op-json',
+        patchSummary: 'Encodes billing capability.',
+        fileCount: 1,
+        files: [{ path: 'src/bill.ts', op: 'modify' }],
+        name: 'bill.patch.json',
+        envelopeJson: '{"artifactId":"artifact-patch-bill"}',
+      },
+      // Nested kinds only — DataPack = patch + measurements + metadata.
       measurements: {
-        absolutes: [
-          {
-            measurementKind: 'function-count',
-            label: 'Functions',
-            weight: 0.12,
-            volume: 0.5,
-            magnitude: 0.5,
-            unit: 'normalized',
-            category: 'absolute' as const,
-          },
-        ],
-
+        absolutes: FULL_ABSOLUTES,
       },
     },
   ];
@@ -120,7 +134,7 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
     const envelope = exec.get('finish', 'selectionEnvelope');
     expect(envelope.options).toHaveLength(1);
     expect(envelope.options[0].patch).toBeTruthy();
-    expect(envelope.options[0].measurements?.absolutes).toHaveLength(1);
+    expect(envelope.options[0].measurements?.absolutes).toHaveLength(DATA_PACK_ABSOLUTES_CATALOG.length);
     expect(Object.keys(envelope.options[0].measurements)).toEqual(['absolutes']);
     expect(envelope.options[0].selectable).toBe(true);
     expect(exec.get('finish', 'completion')?.cleanup?.disposeRecommended).toBeDefined();

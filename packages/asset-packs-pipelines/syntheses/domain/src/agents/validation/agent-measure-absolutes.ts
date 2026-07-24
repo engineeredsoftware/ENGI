@@ -52,6 +52,7 @@ export interface MeasurableAssetPackPatch {
 }
 
 /** Quantity kinds — Tool-authoritative (static analysis + patch descriptor). */
+/** Tool / bare-count authoritative kinds (static analysis + structure heuristics). */
 const QUANTITY_KINDS = new Set([
   'function-count',
   'type-count',
@@ -61,6 +62,12 @@ const QUANTITY_KINDS = new Set([
   'lang-span',
   'test-surface',
   'api-surface',
+  'dependency-span',
+  'doc-signal',
+  'data-flow-depth',
+  'symbol-connectivity',
+  'control-complexity',
+  'config-surface',
 ]);
 const LENS_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   deposit:
@@ -78,6 +85,12 @@ const QUANTITY_NORMALIZER: Record<string, number> = {
   'lang-span': 4,
   'test-surface': 30,
   'api-surface': 16,
+  'dependency-span': 20,
+  'doc-signal': 1,
+  'data-flow-depth': 24,
+  'symbol-connectivity': 32,
+  'control-complexity': 60,
+  'config-surface': 24,
 };
 function clamp01(value: number): number {
   const n = Number.isFinite(value) ? value : 0;
@@ -437,7 +450,7 @@ async function measureStaticAnalysis(
  *
  * Canon path: bare packages under generic-measurements/absolutes/<kind>
  * via @bitcode/generic-agents-agent-measure-absolutes
- * (`measureDataPackWeightedAbsoluteReadings`).
+ * (`measureDataPackAbsoluteReadings` — all 46 commercial kinds).
  *
  * Static analysis still grounds quantity signals; optional LLM quality refine
  * remains available when inference is enabled.
@@ -456,12 +469,12 @@ export async function measureDataPackAbsolutes(
   },
 ): Promise<AssetPackCandidateMeasurement[]> {
   const report = await measureStaticAnalysis(patch, context);
-  // Primary: bare absolute packages (full weighted catalogue).
+  // Primary: bare absolute packages — full 46 commercial catalogue (Σ=1).
   try {
-    const { measureDataPackWeightedAbsoluteReadings } = await import(
+    const { measureDataPackAbsoluteReadings } = await import(
       '@bitcode/generic-agents-agent-measure-absolutes'
     );
-    const readings = measureDataPackWeightedAbsoluteReadings({
+    const readings = measureDataPackAbsoluteReadings({
       dataPack: {
         title: patch.title,
         summary: patch.summary,
