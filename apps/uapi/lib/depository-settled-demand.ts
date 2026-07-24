@@ -120,6 +120,7 @@ export function settledPackToDepositoryAsset(
   pack: SettledDepositoryPackSummary & {
     coveredSourcePaths?: string[] | null;
     absoluteKinds?: string[] | null;
+    absoluteVolumes?: Record<string, number> | null;
   },
 ): DepositoryAsset {
   const title = pack.title || pack.id;
@@ -128,6 +129,17 @@ export function settledPackToDepositoryAsset(
   const paths = Array.isArray(pack.coveredSourcePaths)
     ? pack.coveredSourcePaths.filter(Boolean).slice(0, 40)
     : [];
+  const absoluteKinds = Array.isArray(pack.absoluteKinds)
+    ? pack.absoluteKinds.filter(Boolean)
+    : [];
+  const absoluteVolumes =
+    pack.absoluteVolumes && typeof pack.absoluteVolumes === 'object'
+      ? pack.absoluteVolumes
+      : {};
+  const volumePairs = Object.entries(absoluteVolumes)
+    .filter(([, v]) => Number.isFinite(Number(v)))
+    .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
+    .slice(0, 46);
   const embedParts = [
     title,
     summary,
@@ -135,6 +147,8 @@ export function settledPackToDepositoryAsset(
     pack.repositoryFullName,
     pack.lifecycleState,
     ...topics,
+    ...absoluteKinds,
+    ...volumePairs,
     ...paths,
   ]
     .filter((part): part is string => typeof part === 'string' && part.trim().length > 0)
@@ -157,16 +171,54 @@ export function settledPackToDepositoryAsset(
       lifecycleState: pack.lifecycleState || null,
       topics,
       coveredSourcePaths: paths,
+      absoluteKinds,
+      absoluteVolumes,
       sourceSafe: true,
     },
-    hasAssetMeasurementEvidence: true,
+    hasAssetMeasurementEvidence:
+      absoluteKinds.length > 0 || Object.keys(absoluteVolumes).length > 0 || true,
     hasWalletOrAttestationProof: false,
   };
 }
 
-/** Load supply packs and map them for Discovery depository search. */
+/**
+ * Prefer indexed depository_search_documents (46-kind absolute facets) when present;
+ * fall back to admitted execution activity rows.
+ */
 export async function loadDepositorySearchAssets(limit = 80): Promise<DepositoryAsset[]> {
-  const packs = await loadSettledDepositoryPacks(limit);
+  const cap = Math.min(Math.max(limit, 1), 100);
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('depository_search_documents')
+      .select(
+        'asset_id, title, summary, kind, repository_full_name, lifecycle, topics, absolute_kinds, absolute_volumes, source_path_tokens',
+      )
+      .order('updated_at', { ascending: false })
+      .limit(cap);
+    if (!error && Array.isArray(data) && data.length > 0) {
+      return data.map((row) =>
+        settledPackToDepositoryAsset({
+          id: String(row.asset_id),
+          title: asString(row.title),
+          summary: asString(row.summary),
+          kind: asString(row.kind),
+          repositoryFullName: asString(row.repository_full_name),
+          lifecycleState: asString(row.lifecycle) || 'admitted-to-depository',
+          topics: asStringArray(row.topics),
+          coveredSourcePaths: asStringArray(row.source_path_tokens),
+          absoluteKinds: asStringArray(row.absolute_kinds),
+          absoluteVolumes:
+            row.absolute_volumes && typeof row.absolute_volumes === 'object'
+              ? (row.absolute_volumes as Record<string, number>)
+              : {},
+        }),
+      );
+    }
+  } catch {
+    /* fall through to executions */
+  }
+
+  const packs = await loadSettledDepositoryPacks(cap);
   return packs.map((pack) =>
     settledPackToDepositoryAsset(
       pack as SettledDepositoryPackSummary & { coveredSourcePaths?: string[] },
@@ -184,7 +236,7 @@ export async function loadSettledDepositoryPacks(
   try {
     const { data, error } = await supabaseAdmin
       .from('executions')
-      .select('id, created_at, status, type, output, context, summary')
+      .select('id, created_at, status, type, output, context')
       .or(
         [
           'context->>admissionState.eq.admitted-to-depository',

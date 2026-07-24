@@ -116,25 +116,43 @@ export function useDepositOptionActions(input: {
           );
           // Background: static search document + absolute facets + optional embed.
           try {
+            // depository_search_documents.asset_id is UUID — prefer activity/execution id.
             const assetId =
-              receipt.admission?.depositoryAssetPackId ||
               receipt.packsActivitySync?.activityId ||
+              receipt.admission?.depositoryAssetPackId ||
               optionId;
             const coveredSourcePaths =
               option?.contents?.provenantSourcePaths ||
               option?.sourceBinding?.sourcePathRoots ||
               [];
+            // Option measurements are a flat absolute array on the review model.
+            // Server index job expands to full 46 commercial kinds (do not import
+            // remeasure stack in the browser — it pulls Node-only measure agents).
             const measurements = Array.isArray(option?.measurements)
               ? option.measurements
               : [];
             const absoluteKinds = measurements
-              .map((m) => String(m.measurementKind || m.id || '').trim())
+              .map((m) =>
+                String(
+                  (m as { measurementKind?: string; kind?: string; id?: string })
+                    .measurementKind ||
+                    (m as { kind?: string }).kind ||
+                    (m as { id?: string }).id ||
+                    '',
+                ).trim(),
+              )
               .filter(Boolean);
             const absoluteVolumes: Record<string, number> = {};
             for (const m of measurements) {
-              const kind = String(m.measurementKind || m.id || '').trim();
+              const kind = String(
+                (m as { measurementKind?: string; kind?: string; id?: string })
+                  .measurementKind ||
+                  (m as { kind?: string }).kind ||
+                  (m as { id?: string }).id ||
+                  '',
+              ).trim();
               if (!kind) continue;
-              const vol = Number(m.volume);
+              const vol = Number((m as { volume?: number }).volume);
               if (Number.isFinite(vol)) absoluteVolumes[kind] = vol;
             }
             void fetch('/api/depository/index', {

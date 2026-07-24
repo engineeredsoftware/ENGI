@@ -55,6 +55,9 @@ export * from './asset-pack-measurements';
 export * from './source-safe-absolute-descriptor';
 export * from './asset-pack-preview-boundary';
 export * from './depository-search';
+export * from './depository-absolute-facets-expand';
+// Remeasure (measure-agent) is server/ops-only — import the dedicated path, not the barrel:
+// `@bitcode/asset-packs-pipelines-syntheses-domain/depository-absolute-remeasure`
 export * from './depository-supply-index';
 export * from './depository-settled-demand-estimate';
 export * from './runtime-inference-policy';

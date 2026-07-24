@@ -21,6 +21,10 @@
     "./depository-search-scoring": "./src/depository-search-scoring.ts",
     "./depository-search-types": "./src/depository-search-types.ts",
     "./depository-search": "./src/depository-search.ts",
+    "./depository-absolute-remeasure": "./src/depository-absolute-remeasure.ts",
+    "./depository-absolute-facets-expand": "./src/depository-absolute-facets-expand.ts",
+    "./depository-search-absolute-facets": "./src/depository-search-absolute-facets.ts",
+    "./depository-search-pipeline-assets": "./src/depository-search-pipeline-assets.ts",
     "./depository-settled-demand-estimate-helpers": "./src/depository-settled-demand-estimate-helpers.ts",
     "./depository-settled-demand-estimate-types": "./src/depository-settled-demand-estimate-types.ts",
     "./depository-settled-demand-estimate": "./src/depository-settled-demand-estimate.ts",
@@ -71,6 +75,7 @@
     "test": "pnpm exec jest --config jest.config.cjs --passWithNoTests",
     "typecheck": "node ../../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
     "demo:bringup": "ts-node src/dev/bringup-demo.ts",
+    "remeasure-reindex-depository-absolutes": "TS_NODE_TRANSPILE_ONLY=1 TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true,\"target\":\"ES2020\"}' ts-node --transpile-only --skip-project scripts/remeasure-reindex-depository-absolutes.ts",
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {

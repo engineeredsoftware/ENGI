@@ -20,6 +20,7 @@ import {
   resolveAssetPackEmbeddingConfig,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/embedding-config';
 import { embedDepositoryText } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-embed';
+import { expandAbsoluteVolumesToFullCatalog } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-absolute-facets-expand';
 import { bitcodeServerTelemetry } from '@/lib/bitcode-server-telemetry';
 
 export type DepositoryIndexPackInput = {
@@ -57,10 +58,11 @@ function sha256(text: string): string {
 }
 
 export function buildDepositoryEmbedText(input: DepositoryIndexPackInput): string {
+  // Full commercial catalogue is 46 kinds — include all finite volumes in embed text.
   const volumePairs = Object.entries(input.absoluteVolumes || {})
     .filter(([, v]) => Number.isFinite(Number(v)))
     .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
-    .slice(0, 24);
+    .slice(0, 46);
   const parts = [
     input.title,
     input.summary,
@@ -94,10 +96,19 @@ export async function indexDepositoryAssetPack(
     return { ok: false, assetId: '', embeddingState: 'failed', error: 'assetId required' };
   }
 
-  const embedTextValue = buildDepositoryEmbedText(input);
+  // Commercial law: always store full 46 kinds (missing volumes → 0).
+  const expanded = expandAbsoluteVolumesToFullCatalog(input.absoluteVolumes || {});
+  const absoluteKinds = expanded.absoluteKinds;
+  const absoluteVolumes = expanded.absoluteVolumes;
+
+  const embedInput: DepositoryIndexPackInput = {
+    ...input,
+    absoluteKinds,
+    absoluteVolumes,
+  };
+  const embedTextValue = buildDepositoryEmbedText(embedInput);
   const embedTextRoot = `sha256:${sha256(embedTextValue)}`;
   const topics = asStringArray(input.topics);
-  const absoluteKinds = asStringArray(input.absoluteKinds);
   const pathTokens = asStringArray(input.coveredSourcePaths)
     .map((p) => p.split('/').pop() || p)
     .filter(Boolean)
@@ -113,7 +124,7 @@ export async function indexDepositoryAssetPack(
     summary: input.summary || null,
     topics,
     absolute_kinds: absoluteKinds,
-    absolute_volumes: input.absoluteVolumes || {},
+    absolute_volumes: absoluteVolumes,
     neediness_kinds: [] as string[],
     source_path_tokens: pathTokens,
     embed_text: embedTextValue,
