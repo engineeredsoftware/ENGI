@@ -29,6 +29,7 @@ import { TelemetryExplainerTrigger } from '@/components/bitcode/pipeline/Telemet
 import {
   getTelemetryPillExplainer,
   getTelemetryRowIconExplainer,
+  TELEMETRY_PILL_CATALOG,
 } from '@/components/bitcode/pipeline/TelemetryPillExplainers/telemetry-pill-explainers';
 import { buildPipelineRunActivityFromEvents } from '@/components/bitcode/pipeline/models/pipeline-run-activity';
 
@@ -130,10 +131,12 @@ describe('normalizeStepName — PTRR step labels', () => {
     expect(screen.queryByText('TRY')).not.toBeInTheDocument();
   });
 
-  it("resolves the Retry step tooltip to the Retry specific copy, not Try's", () => {
+  it("resolves the Retry step tooltip to the Retry product copy, not Try's", () => {
     const explainer = getTelemetryPillExplainer('step', 'retry');
     expect(explainer.title).toBe('Retry');
-    expect(explainer.specific).toContain('Retry guidance');
+    expect(explainer.specific).toContain('is Retrying');
+    expect(explainer.specific).not.toContain('is Trying');
+    expect(explainer.generic).toContain('Retry is the last bounded re-run');
   });
 });
 
@@ -540,97 +543,306 @@ describe('ExecutionContextPillRow', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Tooltip content — the SPECIFIC section states what the exact element is
-// PROMPTED to do and what it RETURNS (output-schema shapes), summarized from
-// the real agent/step/failsafe sources; the generic type copy is separate.
+// Tooltip content — gold standard (Setup-approved product UX):
+//   (a) specific (TOP/white): product job on THIS pipeline (+ stack when known)
+//   (b) generic (GREY): kind + this value as a concept only — never mechanism-
+//       only tops, never sibling laundry lists as the only grey body.
 // ---------------------------------------------------------------------------
-describe('getTelemetryPillExplainer — prompt/return-concrete specific copy', () => {
-  it('failsafe PCC names its selection input/output shapes', () => {
-    const explainer = getTelemetryPillExplainer('failsafe', 'prepare_concise_context');
-    expect(explainer.specific).toContain('pipeline_execution_keys');
-    expect(explainer.specific).toContain('{selectedKeys}');
-    expect(explainer.generic).toContain('Failsafes are the guards');
+describe('getTelemetryPillExplainer — Setup gold standard product/concept copy', () => {
+  it('Setup phase is the gold-standard template for white product + grey concept', () => {
+    const deposit = getTelemetryPillExplainer('phase', 'setup', 'deposit');
+    expect(deposit.specific).toContain('On the Depositing Pipeline');
+    expect(deposit.specific).toContain('clones the selected repository');
+    expect(deposit.specific).toContain('Obfuscations');
+    expect(deposit.generic).toMatch(/^A phase is one stage/);
+    expect(deposit.generic).toContain('Setup is the opening stage');
+    // Grey is concept-only — not deposit-only product jobs.
+    expect(deposit.generic).not.toContain('clones the selected repository');
+    expect(deposit.generic).not.toContain('On the Depositing Pipeline');
+
+    const read = getTelemetryPillExplainer('phase', 'setup', 'read');
+    expect(read.specific).toContain('On the Reading Pipeline');
+    expect(read.specific).toContain('Need');
+    expect(read.generic).toBe(deposit.generic);
   });
 
-  it("failsafe PCC tooltip titles as the normalized 'Prepare Context'", () => {
-    const explainer = getTelemetryPillExplainer('failsafe', 'prepare_concise_context');
+  it("failsafe PCC titles as 'Prepare Context'; white is product focus, grey is concept", () => {
+    const explainer = getTelemetryPillExplainer('failsafe', 'prepare_concise_context', 'deposit', {
+      agent: 'DepositInputComprehensionAgent',
+      step: 'try',
+    });
     expect(explainer.title).toBe('Prepare Context');
+    expect(explainer.specific).toContain('On the Depositing Pipeline');
+    expect(explainer.specific).toContain('Input Comprehension Agent');
+    expect(explainer.specific).toContain('Trying');
+    expect(explainer.specific).toContain('source-safe');
+    // White is product purpose, not raw key/shape mechanism.
+    expect(explainer.specific).not.toContain('pipeline_execution_keys');
+    expect(explainer.specific).not.toContain('{selectedKeys}');
+    expect(explainer.generic).toMatch(/^A failsafe guards/);
+    expect(explainer.generic).toContain('Prepare Context');
   });
 
-  it('failsafe handle-large-inputs states the budget measurement + one-vs-chunked generations', () => {
-    const explainer = getTelemetryPillExplainer('failsafe', 'chunk_then_sum');
-    expect(explainer.specific).toContain('request budget');
-    expect(explainer.specific).toContain('ONE task generation');
+  it('Chunk Then Sum white names oversized product payloads; mechanism stays grey', () => {
+    const explainer = getTelemetryPillExplainer('failsafe', 'chunk_then_sum', 'deposit', {
+      agent: 'DepositAssetPackSynthesisAgent',
+      step: 'try',
+    });
+    expect(explainer.specific).toContain('On the Depositing Pipeline');
+    expect(explainer.specific).toContain('Asset Pack Synthesis Agent');
+    expect(explainer.specific).toContain('Trying');
+    expect(explainer.specific).toContain('oversized product payloads');
+    expect(explainer.specific).toContain('large synthesized pack content');
+    // Mechanism (fit → one pass; else chunk+sum) is concept/grey — not white top.
+    expect(explainer.specific).not.toContain('fit → one pass');
+    expect(explainer.specific).not.toContain('ONE task generation');
+    expect(explainer.generic).toContain('fit → one pass');
+    expect(explainer.generic).toContain('chunked task generations');
   });
 
-  it("failsafe handle-large-outputs validates against the STEP's schema, referencing the agent when context is passed", () => {
+  it('Stitch Until Complete white is product completion; stack names agent when known', () => {
     const explainer = getTelemetryPillExplainer('failsafe', 'stitch_until_complete', 'deposit', {
       agent: 'DepositValidationAgent',
       step: 'try',
     });
-    expect(explainer.specific).toContain("the running STEP's output schema");
-    expect(explainer.specific).toContain("the Validation Agent's full output schema");
-    expect(explainer.specific).toContain('the plan shape on Plan');
-    expect(explainer.specific).toContain('validation error');
+    expect(explainer.specific).toContain('On the Depositing Pipeline');
+    expect(explainer.specific).toContain('Validation Agent');
+    expect(explainer.specific).toContain('Trying');
+    expect(explainer.specific).toContain('structured product output');
+    // Not pure schema/error mechanism as the only white body.
+    expect(explainer.specific).not.toContain('validation error');
+    expect(explainer.specific).not.toContain('{approach, steps, considerations}');
+    expect(explainer.generic).toContain('schema-repair');
   });
 
-  it('deposit agent copy summarizes the prompt purpose + the zod return shape', () => {
+  it('deposit agent white is product job, not zod field laundry lists', () => {
     const search = getTelemetryPillExplainer('agent', 'DepositDepositorySearchAgent', 'deposit');
-    expect(search.specific).toContain('{guidance}');
-    expect(search.specific).toContain('likelyReadTopics');
+    expect(search.specific).toContain('On the Depositing Pipeline');
+    expect(search.specific).toContain('reading demand');
+    expect(search.specific).not.toContain('{guidance}');
+    expect(search.specific).not.toContain('likelyReadTopics');
+    expect(search.generic).toMatch(/^An agent is a worker/);
 
     const comprehension = getTelemetryPillExplainer('agent', 'DepositInputComprehensionAgent', 'deposit');
-    expect(comprehension.specific).toContain('{comprehension}');
-    expect(comprehension.specific).toContain('obfuscatedPaths');
+    expect(comprehension.specific).toContain('Obfuscations');
+    expect(comprehension.specific).not.toContain('{comprehension}');
+    expect(comprehension.specific).not.toContain('obfuscatedPaths');
 
     const synthesis = getTelemetryPillExplainer('agent', 'DepositAssetPackSynthesisAgent', 'deposit');
-    expect(synthesis.specific).toContain('{options}');
-    expect(synthesis.specific).toContain('patchSummary');
+    expect(synthesis.specific).toContain('2–4 distinct');
+    expect(synthesis.specific).toContain('DataPack');
+    expect(synthesis.specific).not.toContain('{options}');
+    expect(synthesis.specific).not.toContain('patchSummary');
   });
 
-  it("PTRR step copy references the agent's output schema, sharpened by row context", () => {
+  it('PTRR step white is product role on this stack; schema law stays grey', () => {
     const withContext = getTelemetryPillExplainer('step', 'try', 'deposit', {
       agent: 'DepositDepositorySearchAgent',
+      step: 'try',
     });
-    expect(withContext.specific).toContain("the Depository Search Agent's output schema");
+    // Agent lead only — no double "is Trying while … is Trying".
+    expect(withContext.specific).toBe(
+      'On the Depositing Pipeline, the Depository Search Agent is Trying: running the main attempt to produce this agent’s product result for the pipeline.',
+    );
+    expect(withContext.generic).toContain("agent’s output schema");
 
     const withoutContext = getTelemetryPillExplainer('step', 'try');
-    expect(withoutContext.specific).toContain("the agent's output schema");
+    expect(withoutContext.specific).toContain('this agent is Trying');
+    expect(withoutContext.generic).toContain('Try is the main generation attempt');
   });
 
-  it("Plan step copy states the step-schema law: a typed plan, not the agent's full output schema", () => {
+  it('Plan step white is drafting approach; plan shape stays grey', () => {
     const plan = getTelemetryPillExplainer('step', 'plan', 'deposit', {
       agent: 'DepositAssetPackSynthesisAgent',
+      step: 'plan',
     });
-    expect(plan.specific).toContain('{approach, steps, considerations}');
-    expect(plan.specific).toContain("not the Asset Pack Synthesis Agent's full output schema");
+    expect(plan.specific).toContain('Asset Pack Synthesis Agent is Planning');
+    expect(plan.specific).toContain('drafting how this agent will approach');
+    expect(plan.specific).not.toContain('{approach, steps, considerations}');
+    expect(plan.generic).toContain('plan shape');
   });
 
-  it('generation copy names the Thinkings return shapes', () => {
-    expect(getTelemetryPillExplainer('generation', 'reason').specific).toContain(
-      '{analysis, reasoningItems, conclusion, confidence}',
-    );
-    expect(getTelemetryPillExplainer('generation', 'judge').specific).toContain(
-      '{quality, issues, suggestions, approved}',
-    );
-    expect(getTelemetryPillExplainer('generation', 'structured_output').specific).toContain(
-      'zod output schema',
-    );
+  it('generation white is product Thinkings role; return shapes stay grey', () => {
+    const reason = getTelemetryPillExplainer('generation', 'reason', 'deposit', {
+      agent: 'DepositAssetPackSynthesisAgent',
+      step: 'try',
+    });
+    expect(reason.specific).toContain('On the Depositing Pipeline');
+    expect(reason.specific).toContain('Asset Pack Synthesis Agent');
+    expect(reason.specific).toContain('Trying');
+    expect(reason.specific).toContain('product problem');
+    expect(reason.specific).not.toContain('{analysis, reasoningItems');
+    expect(reason.generic).toContain('free-form analysis');
+
+    const judge = getTelemetryPillExplainer('generation', 'judge');
+    expect(judge.specific).toContain('product step');
+    expect(judge.specific).not.toContain('{quality, issues');
+    expect(judge.generic).toContain('advisory quality');
+
+    const structure = getTelemetryPillExplainer('generation', 'structured_output');
+    expect(structure.specific).toContain('typed product result');
+    expect(structure.specific).not.toContain('zod output schema');
+    expect(structure.generic).toContain('typed step result');
   });
 
-  it('deposit phase copy states the concrete per-phase SDIVF jobs', () => {
+  it('deposit phase white states concrete product SDIVF jobs', () => {
     const discovery = getTelemetryPillExplainer('phase', 'discovery', 'deposit');
-    expect(discovery.specific).toContain("The Depositing Pipeline's");
+    expect(discovery.specific).toContain('On the Depositing Pipeline');
     expect(discovery.specific).toContain('codebase comprehension');
     expect(discovery.specific).toContain('inherent regurgitation');
+    expect(discovery.generic).toMatch(/^A phase is one stage/);
 
     const finish = getTelemetryPillExplainer('phase', 'finish', 'deposit');
     expect(finish.specific).toContain('depositor review');
+    expect(finish.specific).toContain('Depository admission');
   });
 
-  it('row-icon explainer keeps the specific what-this-row-is copy on the specific field', () => {
-    expect(getTelemetryRowIconExplainer('llm').specific).toContain('This row is one LLM call');
-    expect(getTelemetryRowIconExplainer('tool').specific).toContain('This row is one Tool use');
+  it('row-icon explainer keeps product what-this-row-is on specific', () => {
+    expect(getTelemetryRowIconExplainer('llm', 'deposit').specific).toContain(
+      'On the Depositing Pipeline',
+    );
+    expect(getTelemetryRowIconExplainer('llm', 'deposit').specific).toContain(
+      'one model inference',
+    );
+    expect(getTelemetryRowIconExplainer('tool', 'read').specific).toContain(
+      'On the Reading Pipeline',
+    );
+    expect(getTelemetryRowIconExplainer('tool', 'read').specific).toContain('one tool invocation');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Catalog completeness — every legal chip value has distinct product white +
+// concept grey for both pipeline modes (Setup law applied throughout).
+// ---------------------------------------------------------------------------
+describe('TELEMETRY_PILL_CATALOG — completeness under Setup gold standard', () => {
+  const stackCtx = {
+    agent: 'DepositAssetPackSynthesisAgent',
+    step: 'try',
+  } as const;
+
+  /** Mechanism-ish tokens that must not own the white (specific) top alone. */
+  const MECHANISM_WHITE_BANS = [
+    'pipeline_execution_keys',
+    '{selectedKeys}',
+    '{guidance}',
+    '{comprehension}',
+    '{options}',
+    '{approach, steps, considerations}',
+    '{analysis, reasoningItems',
+    '{quality, issues',
+    'ONE task generation',
+    'fit → one pass',
+  ];
+
+  it('every catalog phase has mode-specific product white and shared concept grey', () => {
+    for (const phase of TELEMETRY_PILL_CATALOG.phases) {
+      for (const mode of TELEMETRY_PILL_CATALOG.modes) {
+        const e = getTelemetryPillExplainer('phase', phase, mode);
+        expect(e.specific.length).toBeGreaterThan(40);
+        expect(e.generic.length).toBeGreaterThan(40);
+        expect(e.generic).toMatch(/^A phase is one stage/);
+        if (mode === 'deposit') {
+          expect(e.specific).toContain('On the Depositing Pipeline');
+        } else {
+          expect(e.specific).toContain('On the Reading Pipeline');
+        }
+        // Deposit vs read white must differ for known product phases.
+        const other = getTelemetryPillExplainer(
+          'phase',
+          phase,
+          mode === 'deposit' ? 'read' : 'deposit',
+        );
+        expect(e.specific).not.toBe(other.specific);
+        expect(e.generic).toBe(other.generic);
+        for (const ban of MECHANISM_WHITE_BANS) {
+          expect(e.specific).not.toContain(ban);
+        }
+      }
+    }
+  });
+
+  it('every catalog step has product white with agent lead and concept grey', () => {
+    for (const step of TELEMETRY_PILL_CATALOG.steps) {
+      const e = getTelemetryPillExplainer('step', step, 'deposit', {
+        agent: 'DepositDepositorySearchAgent',
+        step,
+      });
+      expect(e.specific).toContain('On the Depositing Pipeline');
+      expect(e.specific).toContain('Depository Search Agent');
+      expect(e.generic).toMatch(/^A step is one ordered PTRR move/);
+      // No double gerund from stacking step into stackClause.
+      expect(e.specific).not.toMatch(/is Trying is Trying/);
+      expect(e.specific).not.toMatch(/is Planning is Planning/);
+      for (const ban of MECHANISM_WHITE_BANS) {
+        expect(e.specific).not.toContain(ban);
+      }
+    }
+  });
+
+  it('every catalog failsafe has product white + concept grey (mechanism in grey)', () => {
+    for (const failsafe of TELEMETRY_PILL_CATALOG.failsafes) {
+      for (const mode of TELEMETRY_PILL_CATALOG.modes) {
+        const e = getTelemetryPillExplainer('failsafe', failsafe, mode, stackCtx);
+        expect(e.specific).toMatch(/On the (Depositing|Reading) Pipeline/);
+        expect(e.specific).toContain('Asset Pack Synthesis Agent');
+        expect(e.specific).toContain('Trying');
+        expect(e.generic).toMatch(/^A failsafe guards/);
+        for (const ban of MECHANISM_WHITE_BANS) {
+          expect(e.specific).not.toContain(ban);
+        }
+      }
+    }
+    // Chunk Then Sum: product payload language in white; fit/chunk algorithm in grey.
+    const cts = getTelemetryPillExplainer('failsafe', 'chunk_then_sum', 'deposit', stackCtx);
+    expect(cts.specific).toContain('oversized product payloads');
+    expect(cts.generic).toContain('fit → one pass');
+  });
+
+  it('every catalog generation has product white + concept grey', () => {
+    for (const gen of TELEMETRY_PILL_CATALOG.generations) {
+      const e = getTelemetryPillExplainer('generation', gen, 'deposit', stackCtx);
+      expect(e.specific).toContain('On the Depositing Pipeline');
+      expect(e.specific).toContain('Asset Pack Synthesis Agent');
+      expect(e.generic).toMatch(/^A generation is one Thinkings pass/);
+      for (const ban of MECHANISM_WHITE_BANS) {
+        expect(e.specific).not.toContain(ban);
+      }
+    }
+  });
+
+  it('every catalog agent match key resolves product white for deposit and read', () => {
+    // Representative raw agent names that hit each match key.
+    const samples: Array<[string, string]> = [
+      ['inputcomprehension', 'DepositInputComprehensionAgent'],
+      ['clonevcsrepository', 'DepositCloneVCSRepositoryAgent'],
+      ['codebasecomprehension', 'DepositCodebaseComprehensionAgent'],
+      ['depositorysearch', 'DepositDepositorySearchAgent'],
+      ['inherentregurgitation', 'DepositInherentRegurgitationAgent'],
+      ['assetpacksynthesis', 'DepositAssetPackSynthesisAgent'],
+      ['measureabsolutes', 'AssetPackMeasureAbsolutesAgent:deposit'],
+      ['validation', 'DepositValidationAgent'],
+      ['uploadassetpacksforreview', 'DepositUploadAssetPacksForReviewAgent'],
+      ['uploadforreview', 'UploadForReviewAgent'],
+    ];
+    expect(samples.map(([k]) => k).sort()).toEqual(
+      [...TELEMETRY_PILL_CATALOG.agentMatchKeys].sort(),
+    );
+    for (const [, raw] of samples) {
+      for (const mode of TELEMETRY_PILL_CATALOG.modes) {
+        const e = getTelemetryPillExplainer('agent', raw, mode);
+        expect(e.specific.length).toBeGreaterThan(40);
+        expect(e.generic).toMatch(/^An agent is a worker/);
+        if (mode === 'deposit') {
+          expect(e.specific).toContain('On the Depositing Pipeline');
+        } else {
+          expect(e.specific).toContain('On the Reading Pipeline');
+        }
+        for (const ban of MECHANISM_WHITE_BANS) {
+          expect(e.specific).not.toContain(ban);
+        }
+      }
+    }
   });
 });
 
