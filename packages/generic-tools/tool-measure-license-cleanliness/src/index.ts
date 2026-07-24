@@ -1,7 +1,7 @@
 /**
  * tool-measure-license-cleanliness: wraps bare absolute measure for Execution tool registry.
  */
-import { ExecutionTool } from '@bitcode/agent-generics';
+import { ExecutionTool } from '@bitcode/agent-generics/execution';
 import { measureAbsoluteLicenseCleanliness } from '@bitcode/generic-measurements-absolutes-license-cleanliness';
 import type { DataPackAbsoluteMeasureInput, AbsoluteMeasureResult } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 

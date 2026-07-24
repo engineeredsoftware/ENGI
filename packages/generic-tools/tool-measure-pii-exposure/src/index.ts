@@ -1,7 +1,7 @@
 /**
  * tool-measure-pii-exposure: wraps bare absolute measure for Execution tool registry.
  */
-import { ExecutionTool } from '@bitcode/agent-generics';
+import { ExecutionTool } from '@bitcode/agent-generics/execution';
 import { measureAbsolutePiiExposure } from '@bitcode/generic-measurements-absolutes-pii-exposure';
 import type { DataPackAbsoluteMeasureInput, AbsoluteMeasureResult } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 

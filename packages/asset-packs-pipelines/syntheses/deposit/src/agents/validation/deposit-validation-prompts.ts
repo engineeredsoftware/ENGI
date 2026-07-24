@@ -13,7 +13,7 @@
 
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
-import { ASSET_PACK_ABSOLUTES_CATALOG } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
+import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -43,7 +43,7 @@ const REQUIREMENTS = part(
     '- Patch: non-empty fileChanges (path + op = create|modify|delete) and patchSummary; no raw code.',
     '- Measurements: deposit packs MUST be measurements: { absolutes: [...] } only (no other keys).',
     '  Absolutes kinds: ' +
-      ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => spec.measurementKind).join(', ') +
+      DATA_PACK_ABSOLUTES_CATALOG.map((spec) => spec.measurementKind).join(', ') +
       '. Each absolute reading requires magnitude AND volume (0..1).',
     '- Host dual-write is legal: pack.measurements.absolutes[] is canonical; a sibling pack.absolutes[]',
     '  array mirroring the same readings is expected migration dual-write — NOT a schema violation.',

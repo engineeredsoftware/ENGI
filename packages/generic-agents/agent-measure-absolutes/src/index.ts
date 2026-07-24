@@ -60,7 +60,12 @@ import { measureAbsoluteTypeCount } from '@bitcode/generic-measurements-absolute
 
 export { factoryAbsolutesMeasureAgentBase as factoryAbsolutesMeasureAgent };
 export type { AbsolutesMeasureAgent, AbsolutesMeasureAgentConfig } from './factory-absolutes-measure-agent';
-export { ABSOLUTES_CATEGORY_FRAMING } from './factory-absolutes-measure-agent';
+export {
+  ABSOLUTES_CATEGORY_FRAMING,
+  ABSOLUTES_QUANTITY_TOOL_KINDS,
+  absoluteMeasureToolKeyForKind,
+  listWeightedQuantityAbsoluteMeasureToolKeys,
+} from './factory-absolutes-measure-agent';
 
 export {
   DATA_PACK_ABSOLUTES_CATALOG,
@@ -160,3 +165,10 @@ export function measureDataPackWeightedAbsoluteReadings(
     };
   });
 }
+
+
+export {
+  registerAbsoluteMeasureTools,
+  listAbsoluteMeasureToolKeys,
+  type AbsoluteMeasureToolsHost,
+} from './register-absolute-measure-tools';

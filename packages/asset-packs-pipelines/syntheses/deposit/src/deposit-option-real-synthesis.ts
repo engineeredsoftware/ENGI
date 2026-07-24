@@ -140,7 +140,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
         ...(measurement.category ? { category: measurement.category } : {}),
         ...(typeof measurement.magnitude === 'number' ? { magnitude: measurement.magnitude } : {}),
         ...(measurement.unit ? { unit: measurement.unit } : {}),
-        // Instance descriptor generated when/after measureAssetPackAbsolutes.
+        // Instance descriptor generated when/after measureDataPackAbsolutes.
         ...(typeof measurement.descriptor === 'string' && measurement.descriptor.trim()
           ? { descriptor: measurement.descriptor.trim() }
           : {}),

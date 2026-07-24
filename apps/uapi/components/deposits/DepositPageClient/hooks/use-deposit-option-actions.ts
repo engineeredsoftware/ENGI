@@ -114,7 +114,7 @@ export function useDepositOptionActions(input: {
               synthesisRunId: depositRouteInput?.transactionId || null,
             }),
           );
-          // Background: static search document + optional embed for depository search.
+          // Background: static search document + absolute facets + optional embed.
           try {
             const assetId =
               receipt.admission?.depositoryAssetPackId ||
@@ -124,6 +124,19 @@ export function useDepositOptionActions(input: {
               option?.contents?.provenantSourcePaths ||
               option?.sourceBinding?.sourcePathRoots ||
               [];
+            const measurements = Array.isArray(option?.measurements)
+              ? option.measurements
+              : [];
+            const absoluteKinds = measurements
+              .map((m) => String(m.measurementKind || m.id || '').trim())
+              .filter(Boolean);
+            const absoluteVolumes: Record<string, number> = {};
+            for (const m of measurements) {
+              const kind = String(m.measurementKind || m.id || '').trim();
+              if (!kind) continue;
+              const vol = Number(m.volume);
+              if (Number.isFinite(vol)) absoluteVolumes[kind] = vol;
+            }
             void fetch('/api/depository/index', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -137,6 +150,8 @@ export function useDepositOptionActions(input: {
                 lifecycle: 'admitted-to-depository',
                 topics: [],
                 coveredSourcePaths,
+                absoluteKinds,
+                absoluteVolumes,
               }),
             }).catch(() => {
               /* index is best-effort; admission already succeeded */

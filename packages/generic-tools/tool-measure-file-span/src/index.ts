@@ -1,7 +1,7 @@
 /**
  * tool-measure-file-span: wraps bare absolute measure for Execution tool registry.
  */
-import { ExecutionTool } from '@bitcode/agent-generics';
+import { ExecutionTool } from '@bitcode/agent-generics/execution';
 import { measureAbsoluteFileSpan } from '@bitcode/generic-measurements-absolutes-file-span';
 import type { DataPackAbsoluteMeasureInput, AbsoluteMeasureResult } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 

@@ -1,6 +1,15 @@
 /**
  * Product AbsolutesMeasureAgent for DataPack synthesis (deposit | read).
- * Bases @bitcode/generic-agents-agent-measure-absolutes with weighted DATA_PACK catalog.
+ *
+ * Hierarchy:
+ *   factoryMeasureAgent (generic-agents/agent-measure)
+ *     → factoryAbsolutesMeasureAgent (generic-agents/agent-measure-absolutes)
+ *       → factorySynthesizeAssetPacksAbsolutesMeasureAgent (this package)
+ *         → factoryDepositAbsolutesMeasureAgent
+ *         → factoryReadAbsolutesMeasureAgent
+ *
+ * Bases the absolute tool-owning agent with the weighted DATA_PACK product catalog.
+ * Tools register on invoke via the base agent wrapper.
  */
 
 import {
@@ -17,6 +26,9 @@ const MODE_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   read: 'a synthesized source-safe Need-fitting DataPack the reader will review and buy',
 };
 
+/**
+ * Product factory: deposit | read AbsolutesMeasureAgent with weighted catalog + tools.
+ */
 export function factorySynthesizeAssetPacksAbsolutesMeasureAgent(
   mode: SynthesizeAssetPacksMode,
 ): AbsolutesMeasureAgent {
@@ -30,4 +42,14 @@ export function factorySynthesizeAssetPacksAbsolutesMeasureAgent(
     refine: { maxAttempts: 2 },
     retry: { maxAttempts: 1 },
   });
+}
+
+/** Deposit product specialization of the base AbsolutesMeasureAgent. */
+export function factoryDepositAbsolutesMeasureAgent(): AbsolutesMeasureAgent {
+  return factorySynthesizeAssetPacksAbsolutesMeasureAgent('deposit');
+}
+
+/** Read product specialization of the base AbsolutesMeasureAgent. */
+export function factoryReadAbsolutesMeasureAgent(): AbsolutesMeasureAgent {
+  return factorySynthesizeAssetPacksAbsolutesMeasureAgent('read');
 }

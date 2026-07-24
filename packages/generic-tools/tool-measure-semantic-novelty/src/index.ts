@@ -1,7 +1,7 @@
 /**
  * tool-measure-semantic-novelty: wraps bare absolute measure for Execution tool registry.
  */
-import { ExecutionTool } from '@bitcode/agent-generics';
+import { ExecutionTool } from '@bitcode/agent-generics/execution';
 import { measureAbsoluteSemanticNovelty } from '@bitcode/generic-measurements-absolutes-semantic-novelty';
 import type { DataPackAbsoluteMeasureInput, AbsoluteMeasureResult } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 

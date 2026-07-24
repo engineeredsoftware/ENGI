@@ -1,7 +1,7 @@
 /**
  * tool-measure-test-strength: wraps bare absolute measure for Execution tool registry.
  */
-import { ExecutionTool } from '@bitcode/agent-generics';
+import { ExecutionTool } from '@bitcode/agent-generics/execution';
 import { measureAbsoluteTestStrength } from '@bitcode/generic-measurements-absolutes-test-strength';
 import type { DataPackAbsoluteMeasureInput, AbsoluteMeasureResult } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 

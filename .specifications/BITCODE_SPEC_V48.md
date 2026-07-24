@@ -35,7 +35,7 @@ seller/buyer visualization without source leakage.
 Gate 3 product defaults that must appear in any rebuild: Anthropic model
 `claude-haiku-4-5`, deposit-native SDIVF roster (no lens), DIV `maxIterations=1`,
 LLM call timeout 180s, **sourceCheckoutCatalog** (not inventory), AssetPack =
-patch + measurements + metadata with formal **ASSET_PACK_ABSOLUTES_CATALOG**,
+patch + measurements + metadata with formal **DATA_PACK_ABSOLUTES_CATALOG**,
 empty Obfuscations skip Setup LLM, Permissible sources/Exclusions path scope,
 Unestimatable demand when settled Depository search cannot ground estimates.
 
@@ -460,7 +460,7 @@ Canonical weighted commercial subset in
 | Phase | Law |
 |---|---|
 | Discovery `comprehend-codebase` | Measures **Host checkout material** → `discovery:sourceMeasurements` to ground the knowledge map |
-| Implementation | After PTRR, host **must** attach `measurements: { absolutes, needinesses: [] }` (from Discovery measurements and/or `measureAssetPackAbsolutes`) |
+| Implementation | After PTRR, host **must** attach `measurements: { absolutes, needinesses: [] }` (from Discovery measurements and/or `measureDataPackAbsolutes`) |
 | Validation ready-to-finish | **Fail-closed** if any pack lacks non-empty `measurements.absolutes` with magnitude+volume; may backfill then re-check |
 | LLM agent JSON | **Must not** invent absolute or neediness volumes on deposit |
 
@@ -587,7 +587,7 @@ Bitcode optimizes **depositor-facing supply quality**, not a claimed global opti
 3. Demand alignment — depository search (underserved/likely topics) biases buyable slices (topic guidance only; **not** Read neediness).
 4. Pattern prior — inherent regurgitation avoids naive groupings.
 5. Multi-option synthesis — 2–4 **distinct** knowledge groups (patchfile agent).
-6. Tool-rich measurements — Implementation agent 2/2: static analysis (quantity) + quality inference into `ASSET_PACK_ABSOLUTES_CATALOG` only.
+6. Tool-rich measurements — Implementation agent 2/2: static analysis (quantity) + quality inference into `DATA_PACK_ABSOLUTES_CATALOG` only.
 7. Fail-closed Validation — **validate only** (no re-measure); missing absolutes, salvage, leakage, exclusion → **iterate**.
 8. DIV substrate — re-enter Discovery→Implementation when not ready and maxIterations > 1.
 9. Human selection — `/deposits` selection envelope only when `readyToPresent` (measured + presentable + Validation finish).
@@ -802,7 +802,7 @@ artifacts but are **never presentable**; Validation **must iterate**.
 
 Weak Implementation (missing absolutes, salvage, incomplete measure, empty options) →  
 `recommendation: iterate` so DIV re-enters Discovery→Implementation. Validation **must not**
-call `measureAssetPackAbsolutes` or `attachDepositAbsolutes`.
+call `measureDataPackAbsolutes` or `attachDepositAbsolutes`.
 
 **Qualitative PTRR schema:**
 `{ issues: string[]; qualityScore: number; coverageGaps: string[]; recommendation: 'complete'|'iterate' }`.

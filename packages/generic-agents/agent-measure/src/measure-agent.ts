@@ -60,10 +60,15 @@ export interface MeasureAgentConfig {
   categoryFraming: string;
   /** The measurements to read. */
   measurements: MeasurementSpec[];
-  plan?: { chunkThreshold?: number };
-  try?: { chunkThreshold?: number };
-  refine?: { maxAttempts?: number };
-  retry?: { maxAttempts?: number };
+  /**
+   * Execution tool registry keys available on Try/Retry (e.g. measure:absolute:*).
+   * Host must register matching tools before agent invoke when non-empty.
+   */
+  tools?: string[];
+  plan?: { chunkThreshold?: number; tools?: string[] };
+  try?: { chunkThreshold?: number; tools?: string[] };
+  refine?: { maxAttempts?: number; tools?: string[] };
+  retry?: { maxAttempts?: number; tools?: string[] };
 }
 
 /** MeasureAgent: PTRR agent plus the specs/category it measures. */
@@ -72,6 +77,8 @@ export type MeasureAgent = Agent<any, MeasurementOutput> & {
   measurementCategory: MeasurementKindCategory;
   /** Registry-backed measure prompt (identity, requirements, ptrr:*). */
   measurePrompt: Prompt;
+  /** Tool registry keys for this measurer (may be empty). */
+  measureToolKeys?: string[];
 };
 
 function buildMeasureIdentity(config: MeasureAgentConfig): PromptPart {
@@ -130,14 +137,17 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
     throw new Error('factoryMeasureAgent requires at least one measurement spec.');
   }
   const prompt = createMeasurePrompt(config);
+  const toolCatalog = Array.isArray(config.tools)
+    ? config.tools.map((t) => String(t).trim()).filter(Boolean)
+    : [];
   const agent = factoryPTRRAgent<any, MeasurementOutput>({
     name: config.name,
     description:
       config.description ??
       `Measures the ${config.category} measurements of ${config.subject}.`,
     outputSchema: MeasurementOutputSchema as z.ZodType<MeasurementOutput>,
-    // Quantity tools stay host-side (merge-authoritative). Quality judges over descriptors.
-    tools: [],
+    // Tool keys for Try/Retry (quantity tools preferred authoritative). Host registers instances.
+    tools: toolCatalog,
     prompt,
     stepPrompts: {
       plan: () => prompt,
@@ -145,14 +155,27 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
       refine: () => prompt,
       retry: () => prompt,
     },
-    plan: { chunkThreshold: config.plan?.chunkThreshold ?? 2000 },
-    try: { chunkThreshold: config.try?.chunkThreshold ?? 4000 },
-    refine: { maxAttempts: config.refine?.maxAttempts ?? 2 },
-    retry: { maxAttempts: config.retry?.maxAttempts ?? 1 },
+    plan: {
+      chunkThreshold: config.plan?.chunkThreshold ?? 2000,
+      tools: config.plan?.tools ?? [],
+    },
+    try: {
+      chunkThreshold: config.try?.chunkThreshold ?? 4000,
+      tools: config.try?.tools ?? toolCatalog,
+    },
+    refine: {
+      maxAttempts: config.refine?.maxAttempts ?? 2,
+      tools: config.refine?.tools ?? [],
+    },
+    retry: {
+      maxAttempts: config.retry?.maxAttempts ?? 1,
+      tools: config.retry?.tools ?? toolCatalog,
+    },
   });
   return Object.assign(agent, {
     measurementSpecs: config.measurements,
     measurementCategory: config.category,
     measurePrompt: prompt,
+    measureToolKeys: toolCatalog,
   }) as MeasureAgent;
 }

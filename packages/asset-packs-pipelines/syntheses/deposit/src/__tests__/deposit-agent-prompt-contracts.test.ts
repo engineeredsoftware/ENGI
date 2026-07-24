@@ -25,7 +25,7 @@ jest.mock('@bitcode/generic-llms', () =>
   require('./support/generic-llms-prompt-capture-mock').makeGenericLLMsMock());
 
 import { Execution } from '@bitcode/execution-generics';
-import { ASSET_PACK_ABSOLUTES_CATALOG } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
+import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
 import { DepositInputComprehensionAgent } from '../agents/setup/deposit-input-comprehension-agent';
 import { DepositCodebaseComprehensionAgent } from '../agents/discovery/deposit-codebase-comprehension-agent';
 import { DepositDepositorySearchAgent } from '../agents/discovery/deposit-depository-search-agent';
@@ -383,8 +383,8 @@ describe('Deposit SDIVF agent prompt contracts (boundary-mocked PTRR)', () => {
 
     expect(validationSystem).toMatch(/ready-to-finish gate \(A\/B\/C\)/i);
     expect(validationSystem).toMatch(/sourceCheckoutCatalog/i);
-    expect(ASSET_PACK_ABSOLUTES_CATALOG.length).toBeGreaterThan(0);
-    for (const measurementSpec of ASSET_PACK_ABSOLUTES_CATALOG) {
+    expect(DATA_PACK_ABSOLUTES_CATALOG.length).toBeGreaterThan(0);
+    for (const measurementSpec of DATA_PACK_ABSOLUTES_CATALOG) {
       expect(validationSystem).toContain(measurementSpec.measurementKind);
     }
     // Placeholder catalog kinds must not drive synthesis prompts.

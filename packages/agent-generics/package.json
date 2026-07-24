@@ -26,10 +26,7 @@
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/logger": "workspace:*",
     "zod": "^3.22.4",
-    "@bitcode/measurement-generics": "workspace:*",
-    "@bitcode/generic-agents-agent-measure": "workspace:*",
-    "@bitcode/generic-agents-agent-measure-absolutes": "workspace:*",
-    "@bitcode/generic-measurements-needinesses": "workspace:*"
+    "@bitcode/measurement-generics": "workspace:*"
   },
   "devDependencies": {
     "@jest/globals": "^29.0.0",

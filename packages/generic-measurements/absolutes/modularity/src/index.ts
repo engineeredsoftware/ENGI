@@ -3,7 +3,7 @@
  * Family: structure. Policy: weighted. Class: quantity.
  */
 import type { AbsoluteMeasureResult, DataPackAbsoluteMeasureInput } from '@bitcode/generic-measurements-shared-absolute-measure-input';
-import { clamp01, emptyInsufficient, notImplemented } from '@bitcode/generic-measurements-shared-absolute-measure-input';
+import { clamp01 } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 
 export const ABSOLUTE_MEASUREMENT_KIND = 'modularity' as const;
 export const ABSOLUTE_MEASUREMENT_LABEL = 'Modularity' as const;

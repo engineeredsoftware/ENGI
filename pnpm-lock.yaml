@@ -636,12 +636,6 @@ importers:
       '@bitcode/generation-generics':
         specifier: workspace:*
         version: link:../generation-generics
-      '@bitcode/generic-agents-agent-measure':
-        specifier: workspace:*
-        version: link:../generic-agents/agent-measure
-      '@bitcode/generic-agents-agent-measure-absolutes':
-        specifier: workspace:*
-        version: link:../generic-agents/agent-measure-absolutes
       '@bitcode/generic-agents-ptrr':
         specifier: workspace:*
         version: link:../generic-agents/PTRR
@@ -654,9 +648,6 @@ importers:
       '@bitcode/generic-llms':
         specifier: workspace:*
         version: link:../generic-llms/registry
-      '@bitcode/generic-measurements-needinesses':
-        specifier: workspace:*
-        version: link:../generic-measurements/needinesses
       '@bitcode/logger':
         specifier: workspace:*
         version: link:../logger

@@ -32,7 +32,7 @@ jest.mock(
       unit: 'functions',
     },
   ]),
-  measureAssetPackAbsolutes: jest.fn(async () => [
+  measureDataPackAbsolutes: jest.fn(async () => [
     {
       measurementKind: 'function-count',
       label: 'Functions',
@@ -46,7 +46,7 @@ jest.mock(
 }));
 
 jest.mock('@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis', () => ({
-  ASSET_PACK_ABSOLUTES_CATALOG: [
+  DATA_PACK_ABSOLUTES_CATALOG: [
     { measurementKind: 'function-count', label: 'Functions', weight: 0.12 },
   ],
   projectInventoryForPrompt: (catalog: unknown) => catalog,

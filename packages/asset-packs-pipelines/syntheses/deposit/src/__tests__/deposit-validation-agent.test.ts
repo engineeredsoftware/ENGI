@@ -2,12 +2,12 @@
 // Inference is non-configurable (F26-A): the deposit Validation agent ALWAYS runs
 // the formal PTRR hierarchy. Determinism comes from mocking the LLM provider at
 // the boundary. Real inference stays disabled for the absolutes measurement, so
-// measureAssetPackAbsolutes takes the deterministic static-analysis path.
+// measureDataPackAbsolutes takes the deterministic static-analysis path.
 jest.mock('@bitcode/generic-llms', () => require('./support/generic-llms-mock').makeGenericLLMsMock());
 
 import { Execution } from '@bitcode/execution-generics';
 import runDepositValidationAgent from '../agents/validation/deposit-validation-agent';
-import { ASSET_PACK_ABSOLUTES_CATALOG } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
+import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
 import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-llms-mock';
 
 const SIZE_KINDS = new Set(['function-count', 'type-count', 'file-span']);
@@ -109,7 +109,7 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
   it('accepts packs that already carry the full formal absolutes catalog', async () => {
     setCleanVerdict();
     const exec = new Execution('validation-node');
-    const absolutes = ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => ({
+    const absolutes = DATA_PACK_ABSOLUTES_CATALOG.map((spec) => ({
       measurementKind: spec.measurementKind,
       label: spec.label,
       weight: spec.weight,
@@ -123,7 +123,7 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
     const result = await runDepositValidationAgent({ assetPacks: packs }, exec);
 
     expect(result.recommendation).toBe('complete');
-    expect(packs[0].measurements.absolutes).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
+    expect(packs[0].measurements.absolutes).toHaveLength(DATA_PACK_ABSOLUTES_CATALOG.length);
     for (const measurement of packs[0].measurements.absolutes) {
       expect(measurement.category).toBe('absolute');
       if (SIZE_KINDS.has(measurement.measurementKind)) {

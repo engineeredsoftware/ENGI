@@ -15,14 +15,16 @@ import {
   computeAbsolutesFromReport,
   mapReadingsToAbsoluteMeasurements,
   mergeReportAndReadings,
-  measureAssetPackAbsolutes,
+  measureDataPackAbsolutes,
   factorySynthesizeAssetPacksAbsolutesMeasureAgent,
+  factoryDepositAbsolutesMeasureAgent,
+  factoryReadAbsolutesMeasureAgent,
   type MeasurableAssetPackPatch,
 } from '../agents/validation/agent-measure-absolutes';
 import { SourceStaticAnalysisTool } from '../agents/validation/source-static-analysis-tool';
 import {
-  ASSET_PACK_ABSOLUTES_CATALOG,
-  ASSET_PACK_ABSOLUTE_KINDS,
+  DATA_PACK_ABSOLUTES_CATALOG,
+  DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
   validateDepositSynthesisOptions,
 } from '../asset-packs-synthesis';
 import { setBoundaryLLMOutput, resetBoundaryLLMOutput } from './support/generic-llms-mock';
@@ -40,13 +42,13 @@ const PATCH: MeasurableAssetPackPatch = {
 
 describe('agent-measure-absolutes', () => {
   it('absolutes catalog weights sum to 1', () => {
-    const total = ASSET_PACK_ABSOLUTES_CATALOG.reduce((sum, spec) => sum + spec.weight, 0);
+    const total = DATA_PACK_ABSOLUTES_CATALOG.reduce((sum, spec) => sum + spec.weight, 0);
     expect(Number(total.toFixed(4))).toBe(1);
   });
 
   it('deterministic absolutes return the full catalog, category=absolute, sizes carry magnitudes', () => {
     const measurements = computeDeterministicAbsolutes(PATCH);
-    expect(measurements.map((m) => m.measurementKind).sort()).toEqual([...ASSET_PACK_ABSOLUTE_KINDS].sort());
+    expect(measurements.map((m) => m.measurementKind).sort()).toEqual([...DATA_PACK_WEIGHTED_ABSOLUTE_KINDS].sort());
     for (const m of measurements) {
       expect(m.category).toBe('absolute');
       expect(m.volume).toBeGreaterThanOrEqual(0);
@@ -68,7 +70,7 @@ describe('agent-measure-absolutes', () => {
       // other kinds omitted -> deterministic fallback
     ];
     const measurements = mapReadingsToAbsoluteMeasurements(readings, PATCH);
-    expect(measurements).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
+    expect(measurements).toHaveLength(DATA_PACK_ABSOLUTES_CATALOG.length);
     const fn = measurements.find((m) => m.measurementKind === 'function-count');
     expect(fn?.volume).toBe(0.5);
     expect(fn?.magnitude).toBe(20);
@@ -80,8 +82,8 @@ describe('agent-measure-absolutes', () => {
   });
 
   it('catalog splits quantity vs quality material properties', () => {
-    const quantity = ASSET_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quantity');
-    const quality = ASSET_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quality');
+    const quantity = DATA_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quantity');
+    const quality = DATA_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quality');
     expect(quantity.map((s) => s.measurementKind)).toEqual(
       expect.arrayContaining(['lang-span', 'test-surface', 'api-surface']),
     );
@@ -109,10 +111,14 @@ describe('agent-measure-absolutes', () => {
   it('builds a lens-parameterized measurer agent', () => {
     const deposit = factorySynthesizeAssetPacksAbsolutesMeasureAgent('deposit');
     const read = factorySynthesizeAssetPacksAbsolutesMeasureAgent('read');
+    expect(factoryDepositAbsolutesMeasureAgent().name).toContain('deposit');
+    expect(factoryReadAbsolutesMeasureAgent().name).toContain('read');
+    expect(deposit.measureToolKeys?.length).toBeGreaterThan(0);
+    expect(read.measureToolKeys?.length).toBeGreaterThan(0);
     expect(deposit.name).toBe('SynthesizeDataPacksAbsolutesMeasureAgent:deposit');
     expect(read.name).toBe('SynthesizeDataPacksAbsolutesMeasureAgent:read');
     expect(deposit.measurementCategory).toBe('absolute');
-    expect(deposit.measurementSpecs).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
+    expect(deposit.measurementSpecs).toHaveLength(DATA_PACK_ABSOLUTES_CATALOG.length);
   });
 });
 
@@ -206,7 +212,7 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
       confidence: 0.7,
     };
     // real inference is off in tests -> deterministic path returns report sizes
-    const absolutes = await measureAssetPackAbsolutes(patch, {
+    const absolutes = await measureDataPackAbsolutes(patch, {
       lens: 'deposit',
       sources: [{ path: 'a.ts', content: 'function f(){}\nfunction g(){}\ninterface T{ x: number }' }],
     });
@@ -286,7 +292,7 @@ describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
   });
 });
 
-describe('measureAssetPackAbsolutes real-inference path (boundary-mocked measure-agent)', () => {
+describe('measureDataPackAbsolutes real-inference path (boundary-mocked measure-agent)', () => {
   const PATCH: MeasurableAssetPackPatch = {
     title: 'Auth slice',
     summary: 'auth capability',
@@ -321,13 +327,13 @@ describe('measureAssetPackAbsolutes real-inference path (boundary-mocked measure
       summary: 'Measured the absolute material properties of the patch.',
     });
 
-    const absolutes = await measureAssetPackAbsolutes(PATCH, {
+    const absolutes = await measureDataPackAbsolutes(PATCH, {
       lens: 'deposit',
       execution: new Execution('validation-node'),
       sources: SOURCES,
     });
 
-    expect(absolutes.map((m) => m.measurementKind).sort()).toEqual([...ASSET_PACK_ABSOLUTE_KINDS].sort());
+    expect(absolutes.map((m) => m.measurementKind).sort()).toEqual([...DATA_PACK_WEIGHTED_ABSOLUTE_KINDS].sort());
     // Quantity stays tool-grounded (2 functions in the provided source, not the agent's 999).
     const fn = absolutes.find((m) => m.measurementKind === 'function-count');
     expect(fn?.magnitude).toBe(2);
@@ -349,7 +355,7 @@ describe('measureAssetPackAbsolutes real-inference path (boundary-mocked measure
       summary: 'Readings that ground nothing.',
     });
 
-    const absolutes = await measureAssetPackAbsolutes(PATCH, {
+    const absolutes = await measureDataPackAbsolutes(PATCH, {
       lens: 'deposit',
       execution: new Execution('validation-node'),
       sources: SOURCES,

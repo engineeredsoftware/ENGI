@@ -3,6 +3,8 @@
  * measure-time `descriptor`. Prefer instance descriptors attached on the
  * DataPack absolute row (built by buildSourceSafeAbsoluteDescriptor at measure).
  * Never raw source.
+ *
+ * Covers the full weighted DATA_PACK_ABSOLUTES commercial catalog (Σ weights = 1).
  */
 
 export type AbsoluteMeasurementKind =
@@ -11,6 +13,9 @@ export type AbsoluteMeasurementKind =
   | "file-span"
   | "symbolic-richness"
   | "modularity"
+  | "lang-span"
+  | "test-surface"
+  | "api-surface"
   | "correctness-estimate"
   | "objectives-fidelity"
   | "computational-usage";
@@ -61,6 +66,27 @@ export const ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS: Record<
     unit: "modules",
     descriptor:
       "This DataPack’s module span: how many coherent modules this patch covers. Multi-module readings on this option imply clearer seams; a single module means a tightly scoped slice.",
+  },
+  "lang-span": {
+    kind: "lang-span",
+    label: "Language span",
+    unit: "languages",
+    descriptor:
+      "How many distinct languages this DataPack’s patch touches. Multi-language span signals cross-stack capability; a single language keeps the slice tightly scoped.",
+  },
+  "test-surface": {
+    kind: "test-surface",
+    label: "Test surface",
+    unit: "tests",
+    descriptor:
+      "Measured test/assertion surface attached to this DataPack’s patch. Higher surface means more verification material travels with the knowledge—not a runtime pass rate.",
+  },
+  "api-surface": {
+    kind: "api-surface",
+    label: "API surface",
+    unit: "exports",
+    descriptor:
+      "Public export/entrypoint surface of this DataPack. Higher API surface usually means clearer integration seams for buyers without disclosing unpaid source bodies.",
   },
   "correctness-estimate": {
     kind: "correctness-estimate",

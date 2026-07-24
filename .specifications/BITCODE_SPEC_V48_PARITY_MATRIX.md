@@ -251,7 +251,7 @@ AssetPack = **patch + measurements + metadata**.
 | D-14 | Host-only clone (no pre-Setup clone; LocalHost this-run only) | closed | Host clone commits |
 | D-15 | Kinds capability-slice / implementation-pattern / proof-operations-slice | closed | deposit schemas |
 | D-16 | One roster key per agent (no synonym aliases) | closed | discovery/deposit-phases/validation register only canonical keys |
-| D-17 | Full absolute catalog on every pack before Finish | closed | Implementation attach + Validation fail-closed; ASSET_PACK_ABSOLUTES_CATALOG |
+| D-17 | Full absolute catalog on every pack before Finish | closed | Implementation attach + Validation fail-closed; DATA_PACK_ABSOLUTES_CATALOG |
 | D-18 | Execution store index + selection envelope schemas | closed | SPEC G3-6/G3-7 + finish agents; storeCrossPhaseArtifact law |
 
 ## Read / settle / packs parity (2026-07-14)

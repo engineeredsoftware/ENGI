@@ -4,7 +4,7 @@
  * not invented by the synthesis LLM.
  *
  * Deposit vs read variance: steering, synthesis policy guidance, candidate framing.
- * Formal absolute KINDs live in ASSET_PACK_ABSOLUTES_CATALOG only.
+ * Formal absolute KINDs live in DATA_PACK_ABSOLUTES_CATALOG only.
  *
  * Impermissible sources are fail-closed at both ends: inventory filter before
  * prompts; drop candidates that cover excluded/unknown paths after inference.
@@ -55,8 +55,6 @@ export {
   DATA_PACK_ABSOLUTES_CATALOG,
   DATA_PACK_ABSOLUTES_PRODUCT_CATALOG,
   DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
-  ASSET_PACK_ABSOLUTES_CATALOG,
-  ASSET_PACK_ABSOLUTE_KINDS,
   assertDataPackAbsolutesCatalogWeights,
   DEPOSIT_SYNTHESIS_POLICY_CATALOG,
   READ_SYNTHESIS_POLICY_CATALOG,
@@ -183,7 +181,7 @@ export async function synthesizeAssetPackCandidates(
       title: option.title.trim(),
       summary: option.summary.trim(),
       coveredSourcePaths,
-      // Empty until host measure stack attaches ASSET_PACK_ABSOLUTES_CATALOG rows.
+      // Empty until host measure stack attaches DATA_PACK_ABSOLUTES_CATALOG rows.
       measurements: [],
       measurementRationale: rationale,
       confidence: clampVolume(option.confidence),

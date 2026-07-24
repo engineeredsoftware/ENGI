@@ -137,7 +137,7 @@ describe('AssetPacksSynthesis core', () => {
 
     expect(result.candidates).toHaveLength(1);
     const [candidate] = result.candidates;
-    // Host measure stack attaches ASSET_PACK_ABSOLUTES_CATALOG; synthesis leaves empty.
+    // Host measure stack attaches DATA_PACK_ABSOLUTES_CATALOG; synthesis leaves empty.
     expect(candidate.measurements).toEqual([]);
     expect(candidate.measurementRationale).toMatch(/primary application path/i);
     expect(result.droppedCandidateCount).toBe(0);

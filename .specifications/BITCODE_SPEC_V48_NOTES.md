@@ -1035,10 +1035,10 @@ is named in spec for closure):
  `factoryMeasureAgentAbsolutes`; `MeasureAgentOutputSchema` (reading
  `{measurementKind, magnitude?, volume, rationale}`). `packages/pipelines/asset-pack`:
  `factoryAssetPackMeasureAbsolutesAgent(lens)` → `agent-measure-absolutes`;
- `measureAssetPackAbsolutes(patch, {lens, execution, sources})` (sizes authoritative
+ `measureDataPackAbsolutes(patch, {lens, execution, sources})` (sizes authoritative
  from the tool; correctness/semantic-volume the agent's grounded judgment;
  `computeAbsolutesFromReport` deterministic fallback; `mergeReportAndReadings`).
- `ASSET_PACK_ABSOLUTES_CATALOG` (function-count, type-count, file-span,
+ `DATA_PACK_ABSOLUTES_CATALOG` (function-count, type-count, file-span,
  correctness-estimate, semantic-volume; weights sum to 1).
  `AssetPackCandidateMeasurement {measurementKind, label, weight, volume, category, magnitude?, unit?}`.
 - **Measurement — static analysis.** `SourceStaticAnalysisTool`
@@ -1048,7 +1048,7 @@ is named in spec for closure):
  the covered set; `coverageRatio`). Registry: `registerSourceStaticAnalysisTool` /
  `resolveSourceStaticAnalysisTool` (priority add/replace, local-then-parent).
 - **Validation wiring.** `runDepositValidationAgent` measures each pack via
- `measureAssetPackAbsolutes` (sources = `inventory.sources`), attaches `pack.absolutes`
+ `measureDataPackAbsolutes` (sources = `inventory.sources`), attaches `pack.absolutes`
  in place, re-stores `implementation:options`/`implementation:assetPacks`.
  `validateDepositSynthesisOptions` PREFERS `option.absolutes` (else the legacy catalog)
  and carries `candidate.patch`.
@@ -1157,9 +1157,9 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 1 | measure-agent base | `agent-generics` `factoryMeasureAgent` | measure-agent.test | ✅ |
 | 2 | measure-agent-absolutes | `factoryMeasureAgentAbsolutes` | measure-agent.test | ✅ |
 | 3 | concrete absolutes measurer | `factoryAssetPackMeasureAbsolutesAgent(lens)` | agent-measure-absolutes.test | ✅ |
-| 4 | absolutes catalog (5 measures, Σweights=1) | `ASSET_PACK_ABSOLUTES_CATALOG` | agent-measure-absolutes.test | ✅ |
+| 4 | absolutes catalog (5 measures, Σweights=1) | `DATA_PACK_ABSOLUTES_CATALOG` | agent-measure-absolutes.test | ✅ |
 | 5 | measurement shape (category/magnitude/unit) | `AssetPackCandidateMeasurement` | agent-measure-absolutes.test | ✅ |
-| 6 | size-authoritative + judgment + fallback | `measureAssetPackAbsolutes` / `computeAbsolutesFromReport` / `mergeReportAndReadings` | agent-measure-absolutes.test | ✅ |
+| 6 | size-authoritative + judgment + fallback | `measureDataPackAbsolutes` / `computeAbsolutesFromReport` / `mergeReportAndReadings` | agent-measure-absolutes.test | ✅ |
 | 7 | static analysis (language-generic) | `SourceStaticAnalysisTool` / `analyzeStaticSource` | source-static-analysis-tool.test | ✅ |
 | 8 | tools registry add/replace | `register/resolveSourceStaticAnalysisTool` | source-static-analysis-tool.test | ✅ |
 | 9 | Validation measures + attaches absolutes | `runDepositValidationAgent` | asset-pack suite (validation) | ✅ |
@@ -1782,7 +1782,7 @@ Measurement # @bitcode/measurement-generics
  → pipeline-asset-pack # SDIVF host + static-analysis tools
 ```
 
-Prepared catalogs (`ASSET_PACK_ABSOLUTES_CATALOG`, lens catalogs) live in
+Prepared catalogs (`DATA_PACK_ABSOLUTES_CATALOG`, lens catalogs) live in
 `@bitcode/generic-asset-packs-synthesis`. `agent-generics` re-exports measure factories
 for compatibility; prefer package-direct imports in new code.
 
@@ -2175,7 +2175,7 @@ Accepted sequencing (must match SPEC):
 - Discovery: **parallel** comprehend-codebase, search-depository, inherent-regurgitation (one roster key each — no synonym aliases).
 - **comprehend-codebase** gathers: absolute measurements, LSP queries, full file-tree structure, key file bodies → stores `discovery:codebaseAnalysis` + knowledge map.
 - **search-depository** Plan queries from run evidence → `depository-asset-pack-search` (lexical + optional vector RPC).
-- AssetPack = **patch + measurements + metadata** (full `ASSET_PACK_ABSOLUTES_CATALOG` required before finish).
+- AssetPack = **patch + measurements + metadata** (full `DATA_PACK_ABSOLUTES_CATALOG` required before finish).
 - Validation: one ready-to-finish deposit agent (A/B/C).
 - Finish: store-artifacts (`deposit:persistArtifacts` hook) → ledgerize (`deposit:ledgerWrite` hook) → finish-synthesize-deposit-run (selection envelope).
 - Naming: `sourceCheckoutCatalog` canonical; `inventory` dual-write only for legacy stream filters. No Fits Finding / lens language.
@@ -2245,7 +2245,7 @@ generic-asset-packs three products over shared synthesis base:
 
 ## Absolute catalog P1 (2026-07)
 
-Expanded `ASSET_PACK_ABSOLUTES_CATALOG` quantity kinds: `lang-span`, `test-surface`,
+Expanded `DATA_PACK_ABSOLUTES_CATALOG` quantity kinds: `lang-span`, `test-surface`,
 `api-surface` (tool-authoritative via static analysis). Weights rebalanced so Σ = 1
 (quantity ≈ 0.55, quality ≈ 0.45). Synthesis LLM policy catalogs renamed
 (`DEPOSIT_SYNTHESIS_POLICY_CATALOG` / `READ_SYNTHESIS_POLICY_CATALOG`) and no longer

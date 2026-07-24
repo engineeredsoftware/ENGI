@@ -49,7 +49,7 @@ Measurement is the singular key to valuable IP commoditization on Bitcode.
 | **Models do not invent absolute volumes** | Hosts and tools measure quantity; agents may judge quality only over source-safe descriptors + measured counts |
 | **DataPack identity** | `DataPack = patch + measurements + metadata` |
 | **Deposit needinesses** | Always empty — reader-relative kinds are **not** deposit absolutes |
-| **Weights sum to 1** | `ASSET_PACK_ABSOLUTES_CATALOG` is the fixed product catalog for absolute kinds |
+| **Weights sum to 1** | `DATA_PACK_ABSOLUTES_CATALOG` is the fixed product catalog for absolute kinds |
 
 Commercial UI rows (criticality, ROI, earnings policy) are **not** absolute
 measurement kinds. They may project from absolutes; they must not replace them.
@@ -59,27 +59,36 @@ measurement kinds. They may project from absolutes; they must not replace them.
 ## 2. System map
 
 ```
-@bitcode/measurement-generics          # primitive: specs, readings, nested carrier
+@bitcode/measurement-generics
         ↑
-@bitcode/generic-agents-agent-measure  # MeasureAgent implementer (PTRR + measure prompts)
+@bitcode/generic-measurements/absolutes/<kind>   # bare pure measure (×46)
         ↑
-@bitcode/generic-measurements-absolutes  # category framing (absolute only)
+@bitcode/generic-tools/tool-measure-<kind>       # Execution tool (×46)
         ↑
-@bitcode/generic-asset-packs-synthesis   # product catalog + product factory
+@bitcode/generic-agents-agent-measure            # MeasureAgent PTRR base
         ↑
-asset-packs-pipelines/syntheses/domain   # host: static analysis tool + merge
+@bitcode/generic-agents-agent-measure-absolutes  # base: framing + tool registry
         ↑
-asset-packs-pipelines/syntheses/deposit  # Implementation attach; Validation fail-closed
+@bitcode/generic-asset-packs-synthesis           # product deposit|read factories
+        ↑
+asset-packs-pipelines/syntheses/domain           # host: static analysis + measureDataPackAbsolutes
+        ↑
+deposit Implementation / read Implementation     # attach measurements.absolutes
+        ↑
+depository_search_documents + /exchange UX       # absolute_kinds/volumes + buyer chips
 ```
 
 | Layer | Path / package | Responsibility |
 | --- | --- | --- |
-| Primitive | `packages/measurement-generics` | `MeasurementSpec`, `MeasurementReading`, `AssetPackMeasurements` |
-| Agent implementer | `packages/generic-agents/agent-measure` | `factoryMeasureAgent` — category-parameterized PTRR measurer |
-| Category | `packages/generic-measurements/absolutes` | `factoryAbsolutesMeasureAgent` — locks category + framing |
-| Product catalog + factory | `packages/generic-asset-packs/synthesis` | `ASSET_PACK_ABSOLUTES_CATALOG`, `factorySynthesizeAssetPacksAbsolutesMeasureAgent` |
-| Pipeline host | `…/domain/src/agents/validation/agent-measure-absolutes.ts` | `SourceStaticAnalysisTool`, `measureAssetPackAbsolutes`, merge |
-| Deposit product | `…/syntheses/deposit` | Phase wiring; host attaches `measurements.absolutes` |
+| Primitive | `packages/measurement-generics` | `MeasurementSpec`, `MeasurementReading`, nested carrier |
+| Bare measure | `packages/generic-measurements/absolutes/<kind>` | Pure DataPack absolute (×46; no learning-gain) |
+| Tool | `packages/generic-tools/tool-measure-<kind>` | `measure:absolute:<kind>` Execution tool (×46) |
+| Agent implementer | `packages/generic-agents/agent-measure` | `factoryMeasureAgent` — category-parameterized PTRR |
+| Base absolutes agent | `packages/generic-agents/agent-measure-absolutes` | Framing + tool catalog; bare registry |
+| Product factories | `packages/generic-asset-packs/synthesis` | `factoryDeposit|ReadAbsolutesMeasureAgent` + weighted catalog |
+| Pipeline host | `…/domain/…/agent-measure-absolutes.ts` | Static analysis + `measureDataPackAbsolutes` merge |
+| Deposit / read | `…/syntheses/deposit` + `…/read` | Implementation attaches absolutes; Validation fail-closed |
+| Index + UX | depository index + exchange descriptors | `absolute_kinds` / `absolute_volumes`; buyer chips |
 
 **Shared base decision:** keep one category-parameterized `MeasureAgent`. Absolutes
 and needinesses differ by framing and validation (`-fit` on needinesses), not by
@@ -105,7 +114,7 @@ category strings.
 
 | Gap | Severity | Detail |
 | --- | --- | --- |
-| **Dual catalogs** | High | `ASSET_PACK_ABSOLUTES_CATALOG` is law; `DEPOSIT_MEASUREMENT_CATALOG` / `READ_MEASUREMENT_CATALOG` (`source-coverage`, `demand-alignment`, `reuse-likelihood`, …) still feed synthesis prompts and tests — confuses absolute KIND taxonomy with commercial / lens-era rows |
+| **Dual catalogs** | High | `DATA_PACK_ABSOLUTES_CATALOG` is law; `DEPOSIT_MEASUREMENT_CATALOG` / `READ_MEASUREMENT_CATALOG` (`source-coverage`, `demand-alignment`, `reuse-likelihood`, …) still feed synthesis prompts and tests — confuses absolute KIND taxonomy with commercial / lens-era rows |
 | **Prompt identity** | High | SPEC measurement prompt rule wants named Prompt/PromptPart, digest, proof. MeasureAgent builds inline string parts — weak audit trail |
 | **Tools off the agent** | Medium | MeasureAgent `tools: []`. Static analysis is host-side only; quality path cannot re-query tools mid-PTRR |
 | **Discovery ↔ Implementation bridge** | Medium | SPEC: checkout-wide `discovery:sourceMeasurements` then per-pack Implementation absolutes — product bridge under-documented |
@@ -132,7 +141,7 @@ category strings.
 
 **Source of truth in code:**  
 `packages/generic-asset-packs/synthesis/src/measurement-catalogs.ts`  
-(`ASSET_PACK_ABSOLUTES_CATALOG`)
+(`DATA_PACK_ABSOLUTES_CATALOG`)
 
 **Quantity normalizers** (magnitude → volume, saturate at divisor) in  
 `agent-measure-absolutes.ts`:
@@ -322,7 +331,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 ### 4.3 Absolute composite (derived, not a catalog row)
 
 ```
-absoluteComposite = Σ (weight_i × volume_i)   // over ASSET_PACK_ABSOLUTES_CATALOG
+absoluteComposite = Σ (weight_i × volume_i)   // over DATA_PACK_ABSOLUTES_CATALOG
 ```
 
 - Used for **supply legibility** and depositor comparison.  
@@ -395,7 +404,7 @@ Exact weights deferred until candidate set is chosen with product (deposits UX +
 
 - Register measurement tools on the active Execution (or resolve parent).  
 - Prefer `tool.use(...)` with in-memory source-safe args over telemetry-persisting execute paths for raw source.  
-- Pass execution into `measureAssetPackAbsolutes` so tools and quality inference share root stores.
+- Pass execution into `measureDataPackAbsolutes` so tools and quality inference share root stores.
 
 ### 6.2 Tools
 
@@ -432,7 +441,7 @@ SPEC measurement prompt rule:
 | --- | --- | --- |
 | **Setup** | No absolute volumes on options yet | OK |
 | **Discovery `comprehend-codebase`** | Checkout-wide absolutes → `discovery:sourceMeasurements` ground knowledge map | Ensure product still writes this store; document shape in code |
-| **Implementation** | After patch plan + patchfile: host measures pack → `measurements.absolutes` | Primary path: `measureAssetPackAbsolutes` |
+| **Implementation** | After patch plan + patchfile: host measures pack → `measurements.absolutes` | Primary path: `measureDataPackAbsolutes` |
 | **Validation ready-to-finish** | Fail-closed if absolutes empty / missing magnitude+volume; may backfill | Keep tests green; no LLM invent |
 | **Finish** | Store selection envelope with measured options | Source-safe only |
 

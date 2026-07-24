@@ -22,8 +22,6 @@ export {
   DATA_PACK_ABSOLUTE_KINDS,
   DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
   assertDataPackAbsolutesCatalogWeights,
-  ASSET_PACK_ABSOLUTES_CATALOG,
-  ASSET_PACK_ABSOLUTE_KINDS,
   type DataPackAbsoluteKindSpec,
   type AbsoluteFamily,
   type AbsolutePolicyRole,

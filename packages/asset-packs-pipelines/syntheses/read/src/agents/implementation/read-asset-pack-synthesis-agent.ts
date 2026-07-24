@@ -123,7 +123,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
         .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
         .map((s: any) => ({ path: s.path as string, content: s.content as string }))
     : [];
-  const { measureAssetPackAbsolutes } = await import(
+  const { measureDataPackAbsolutes } = await import(
     '../../../../domain/src/agents/validation/agent-measure-absolutes'
   );
   const { attachNestedAbsolutes } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements');
@@ -157,7 +157,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
     // Discovery checkout measurements are fallback only.
     let absolutes: any[] = [];
     try {
-      absolutes = await measureAssetPackAbsolutes(
+      absolutes = await measureDataPackAbsolutes(
         {
           title: String((option as any)?.title ?? ''),
           summary: String((option as any)?.summary ?? ''),

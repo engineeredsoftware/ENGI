@@ -1,28 +1,27 @@
 /**
- * agent-measure-absolutes — pipeline host for SynthesizeAssetPacksAbsolutesMeasureAgent
- * (product factory in @bitcode/generic-asset-packs-synthesis) + static-analysis quantity tools.
+ * Pipeline host for product AbsolutesMeasureAgents (deposit | read).
  *
- * Bases factoryAbsolutesMeasureAgent with the asset-pack ABSOLUTES catalog —
- * material properties of digital material:
- *   quantity (Tool): function/type/file sizes, symbolic richness, modularity
- *   quality  (Agent): correctness, objectives fidelity, computational usage
+ * Hierarchy (canon):
+ *   bare: generic-measurements/absolutes/<kind>
+ *   tool: generic-tools/tool-measure-<kind>
+ *   base agent: generic-agents/agent-measure-absolutes (owns tool registry)
+ *   product: factoryDeposit|ReadAbsolutesMeasureAgent
+ *   host (this file): static analysis + measureDataPackAbsolutes merge law
  *
- * Lens-parameterized (deposit | read). Run in Validation over each synthesized
- * AssetPack patch: Implementation synthesizes the patch; this measurer MEASURES it.
- *
- * Quantity magnitudes are MEASURED by SourceStaticAnalysisTool (deterministic
- * static analysis). Quality volumes are judgment from the measure-agent, grounded
- * in those counts + the source-safe descriptor — never raw source in telemetry.
+ * Quantity magnitudes: tool/bare-measure authoritative (static analysis signals).
+ * Quality volumes: product measure-agent judgment over source-safe descriptors.
+ * Never invent volumes in synthesis LLMs; never emit raw source in telemetry.
  */
 
 import type { MeasureAgent } from '@bitcode/generic-agents-agent-measure';
 import {
+  factoryDepositAbsolutesMeasureAgent,
+  factoryReadAbsolutesMeasureAgent,
   factorySynthesizeAssetPacksAbsolutesMeasureAgent,
 } from '@bitcode/generic-asset-packs-synthesis';
 
 import {
   DATA_PACK_ABSOLUTES_PRODUCT_CATALOG,
-  ASSET_PACK_ABSOLUTES_CATALOG,
   type AssetPackAbsoluteSpec,
   type AssetPackCandidateMeasurement,
 } from '../../asset-packs-synthesis';
@@ -85,7 +84,11 @@ function clamp01(value: number): number {
   return Number(Math.max(0, Math.min(1, n)).toFixed(2));
 }
 
-export { factorySynthesizeAssetPacksAbsolutesMeasureAgent } from '@bitcode/generic-asset-packs-synthesis';
+export {
+  factorySynthesizeAssetPacksAbsolutesMeasureAgent,
+  factoryDepositAbsolutesMeasureAgent,
+  factoryReadAbsolutesMeasureAgent,
+} from '@bitcode/generic-asset-packs-synthesis';
 
 /** Static-analysis helpers used by deposit measure paths (re-export). */
 export {
@@ -438,10 +441,8 @@ async function measureStaticAnalysis(
  *
  * Static analysis still grounds quantity signals; optional LLM quality refine
  * remains available when inference is enabled.
- *
- * @deprecated Name measureAssetPackAbsolutes — prefer measureDataPackAbsolutes alias.
  */
-export async function measureAssetPackAbsolutes(
+export async function measureDataPackAbsolutes(
   patch: MeasurableAssetPackPatch,
   context: {
     lens: SynthesizeAssetPacksMode;
@@ -506,7 +507,19 @@ export async function measureAssetPackAbsolutes(
       return bareAbsolutes;
     }
     try {
-      const agent = factorySynthesizeAssetPacksAbsolutesMeasureAgent(context.lens);
+      // Product agent owns absolute tools; register before PTRR Try/Retry.
+      try {
+        const { registerAbsoluteMeasureTools } = await import(
+          '@bitcode/generic-agents-agent-measure-absolutes'
+        );
+        registerAbsoluteMeasureTools(context.execution);
+      } catch {
+        /* tools optional if package not resolvable in constrained hosts */
+      }
+      const agent =
+        context.lens === 'read'
+          ? factoryReadAbsolutesMeasureAgent()
+          : factoryDepositAbsolutesMeasureAgent();
       const raw = await agent(toDescriptor(patch, report) as any, context.execution);
       const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const agentReadings = Array.isArray((result as any)?.measurements)
@@ -522,6 +535,3 @@ export async function measureAssetPackAbsolutes(
     return computeAbsolutesFromReport(report, patch);
   }
 }
-
-/** Preferred name: measure a synthesized DataPack's weighted absolutes. */
-export const measureDataPackAbsolutes = measureAssetPackAbsolutes;

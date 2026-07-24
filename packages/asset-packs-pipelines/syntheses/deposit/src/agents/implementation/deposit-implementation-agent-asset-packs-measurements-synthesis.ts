@@ -1,14 +1,14 @@
 /**
- * Deposit Implementation agent 2/2 — AssetPacks measurements synthesis (V48).
+ * Deposit Implementation agent 2/2 — DataPack measurements synthesis (V48).
  *
- * Deposit AssetPack = patchfile + absolute measurements + metadata.
+ * Deposit DataPack = patchfile + absolute measurements + metadata.
  *
  * Tool-rich host agent (no free-form volume invention):
- *   1. Register SourceStaticAnalysisTool on the execution (telemetry spine)
- *   2. measureAssetPackAbsolutes(patch, { lens:'deposit', preferQualityInference:true })
- *      - QUANTITY kinds: static analysis tool-authoritative
+ *   1. Register SourceStaticAnalysisTool + absolute measure tools on execution
+ *   2. measureDataPackAbsolutes(patch, { lens:'deposit', preferQualityInference:true })
+ *      - QUANTITY kinds: static analysis + bare absolute packages (authoritative)
  *      - QUALITY kinds: measure-agent inference grounded in static report,
- *        still slotted into ASSET_PACK_ABSOLUTES_CATALOG only
+ *        slotted into DATA_PACK_ABSOLUTES weighted catalogue only
  *   3. Build DepositMeasuredPack via allowlist constructor
  *
  * Validation never re-measures. Weak measurements → Validation iterates Implementation.
@@ -105,7 +105,7 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     : [];
 
   const {
-    measureAssetPackAbsolutes,
+    measureDataPackAbsolutes,
     computeDeterministicAbsolutes,
     registerSourceStaticAnalysisTool,
   } = await import('../../../../domain/src/agents/validation/agent-measure-absolutes');
@@ -113,10 +113,14 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements'
   );
 
-  // Formal static-analysis tool on the execution registry (tool telemetry spine).
+  // Formal static-analysis + absolute measure tools on the execution registry.
   try {
     if (execution) {
       registerSourceStaticAnalysisTool(execution);
+      const { registerAbsoluteMeasureTools } = await import(
+        '@bitcode/generic-agents-agent-measure-absolutes'
+      );
+      registerAbsoluteMeasureTools(execution);
     }
   } catch {
     /* optional if execution has no tools registry */
@@ -140,8 +144,8 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
 
     let absolutes: DepositAbsoluteReading[] = [];
     try {
-      // Tool-rich measure: static analysis (quantity) + quality inference into catalog.
-      const measured = await measureAssetPackAbsolutes(patchDescriptor, {
+      // Tool-rich measure: bare absolutes + static analysis + quality inference.
+      const measured = await measureDataPackAbsolutes(patchDescriptor, {
         lens: 'deposit',
         execution,
         sources: scopedBodies,

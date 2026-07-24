@@ -115,7 +115,7 @@ Digital material has properties. Bitcode **measures** them; models **do not inve
 
 Digital material has properties. Bitcode **measures** them; models **do not invent** absolute volumes.
 
-### 2.1 Catalog: `ASSET_PACK_ABSOLUTES_CATALOG`
+### 2.1 Catalog: `DATA_PACK_ABSOLUTES_CATALOG`
 
 Defined in `@bitcode/generic-asset-packs-synthesis` (`measurement-catalogs.ts`). Weights **sum to 1**. Shared across deposit and read for absolute properties.
 
@@ -768,4 +768,4 @@ ship DataPack patch PR → journal PackActivity. Package:
 
 ---
 
-*Document owner: product + pipeline maintainers. Prefer updating this file when deposit agent roster keys, absolute catalog kinds, or Finish schemas change — keep it aligned with deposit/read `execution-pipeline-sdivf-execution-phase-*` product phase files and `ASSET_PACK_ABSOLUTES_CATALOG`.*
+*Document owner: product + pipeline maintainers. Prefer updating this file when deposit agent roster keys, absolute catalog kinds, or Finish schemas change — keep it aligned with deposit/read `execution-pipeline-sdivf-execution-phase-*` product phase files and `DATA_PACK_ABSOLUTES_CATALOG`.*

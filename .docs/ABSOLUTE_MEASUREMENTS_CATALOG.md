@@ -18,7 +18,7 @@ volume · evidence · deterministic fallback · measure owner · source-safety �
 - *DataPack = patch + measurements + metadata.* The unit of measurement is the patch + its
   source-safe descriptor, never raw source.
 - *Deposit needinesses = [].* Read-relative kinds stay out. Boundary noted in §7.
-- *Weights sum to 1* over `ASSET_PACK_ABSOLUTES_CATALOG`. §8 gives a rebalanced v-next that sums to 1.
+- *Weights sum to 1* over `DATA_PACK_ABSOLUTES_CATALOG`. §8 gives a rebalanced v-next that sums to 1.
 - *Absolutes are supply legibility, not settlement.* `absoluteComposite` ≠ BTD; read-side
   need-fit mints BTD and multiplies against this substrate (§7).
 
@@ -48,7 +48,7 @@ needs. This document is organized so those three become first-class.
 
 ## 2. The absolute / relative law — what qualifies as an absolute
 
-A reading is an **absolute** (belongs in `ASSET_PACK_ABSOLUTES_CATALOG`, computed at
+A reading is an **absolute** (belongs in `DATA_PACK_ABSOLUTES_CATALOG`, computed at
 deposit, carried on every DataPack) iff it is:
 
 1. **Buyer-independent** — no stated Need required to compute it.
@@ -344,7 +344,7 @@ quality grounding.
 | `CorpusProvenanceTool` *(new)* | fingerprints, similarities, corpus/ref versions | D, F |
 
 All four: raw source enters the tool (sandbox/index), **only measurements leave**. Register
-on the active Execution; pass Execution into `measureAssetPackAbsolutes` so tools + quality
+on the active Execution; pass Execution into `measureDataPackAbsolutes` so tools + quality
 inference share root stores (matches the audit's §6.1 direction).
 
 ### 5.2 The measurement pipeline (deposit)

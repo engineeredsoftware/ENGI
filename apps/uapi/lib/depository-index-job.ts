@@ -57,6 +57,10 @@ function sha256(text: string): string {
 }
 
 export function buildDepositoryEmbedText(input: DepositoryIndexPackInput): string {
+  const volumePairs = Object.entries(input.absoluteVolumes || {})
+    .filter(([, v]) => Number.isFinite(Number(v)))
+    .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
+    .slice(0, 24);
   const parts = [
     input.title,
     input.summary,
@@ -65,6 +69,7 @@ export function buildDepositoryEmbedText(input: DepositoryIndexPackInput): strin
     input.lifecycle,
     ...(input.topics || []),
     ...(input.absoluteKinds || []),
+    ...volumePairs,
     ...(input.coveredSourcePaths || []).slice(0, 40),
   ]
     .filter((p): p is string => typeof p === 'string' && p.trim().length > 0)

@@ -1,9 +1,10 @@
 /**
  * Bare absolute measure: `provenance-integrity` of a synthesized **DataPack**.
- * Family: provenance. Policy: target. Class: provenance.
+ * Family: provenance. Policy: target.
+ * Requires provenance chain proof; empty without host signal.
  */
 import type { AbsoluteMeasureResult, DataPackAbsoluteMeasureInput } from '@bitcode/generic-measurements-shared-absolute-measure-input';
-import { clamp01, emptyInsufficient, notImplemented } from '@bitcode/generic-measurements-shared-absolute-measure-input';
+import { clamp01, emptyInsufficient } from '@bitcode/generic-measurements-shared-absolute-measure-input';
 
 export const ABSOLUTE_MEASUREMENT_KIND = 'provenance-integrity' as const;
 export const ABSOLUTE_MEASUREMENT_LABEL = 'Provenance integrity' as const;
@@ -11,8 +12,26 @@ export const ABSOLUTE_MEASUREMENT_UNIT = 'ratio' as const;
 export const ABSOLUTE_MEASUREMENT_FAMILY = 'provenance' as const;
 export const ABSOLUTE_MEASUREMENT_POLICY_ROLE = 'target' as const;
 
-export function measureAbsoluteProvenanceIntegrity(_input: DataPackAbsoluteMeasureInput): AbsoluteMeasureResult {
-  return notImplemented('provenance-integrity');
+export function measureAbsoluteProvenanceIntegrity(input: DataPackAbsoluteMeasureInput): AbsoluteMeasureResult {
+  const raw = input.staticSignals?.['provenance-integrity'] ?? input.context?.['provenance-integrity'];
+  const n = Number(raw);
+  if (Number.isFinite(n) && n >= 0) {
+    const isRatio = true;
+    const magnitude = isRatio ? clamp01(n) : Math.round(n);
+    const volume = isRatio ? clamp01(n) : clamp01(magnitude / 1);
+    return {
+      measurementKind: 'provenance-integrity',
+      magnitude,
+      volume,
+      rationale: 'host staticSignals/context',
+      status: 'measured',
+      policyRole: 'target',
+    };
+  }
+  return emptyInsufficient(
+    'provenance-integrity',
+    'Requires provenance chain proof; empty without host signal.',
+  );
 }
 
 export default measureAbsoluteProvenanceIntegrity;

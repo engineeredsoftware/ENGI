@@ -8,7 +8,7 @@
  *
  * Quantity absolute kinds are tool-authoritative (static analysis).
  * Quality absolute kinds may be judgment grounded in tool counts when real
- * inference is enabled (see measureAssetPackAbsolutes).
+ * inference is enabled (see measureDataPackAbsolutes).
  */
 
 export type AbsoluteLike = {

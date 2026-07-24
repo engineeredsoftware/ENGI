@@ -60,7 +60,7 @@ receive **BTD** rights, then entitled delivery.
 | Term | Meaning |
 | --- | --- |
 | DataPack | Always a *synthesized* artifact (**patch + measurements + metadata**), not a raw source slice |
-| Absolutes | Formal material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`); required before Finish |
+| Absolutes | Formal material-property catalog (`DATA_PACK_ABSOLUTES_CATALOG`); required before Finish |
 | sourceCheckoutCatalog | This-run Host path/sample/source index (`deposit:sourceCheckoutCatalog`) |
 | BTD | Weighted scalar knowledge-volume; after settlement, rights-bearing receipt |
 | BTC | Settlement money; testnet-only value in V48 deployment |
@@ -151,19 +151,24 @@ uapi → HTTP + React adapters only
 ```
 @bitcode/measurement-generics Measurement primitive vocabulary
  ↑
-@bitcode/generic-agents-agent-measure MeasureAgent (PTRR base; under generic-agents/)
-@bitcode/generic-measurements-absolutes AbsolutesMeasureAgent (category framing)
+@bitcode/generic-measurements/absolutes/<kind> bare absolute (×46)
+@bitcode/generic-tools/tool-measure-<kind> Execution tool (×46)
+ ↑
+@bitcode/generic-agents-agent-measure MeasureAgent (PTRR base)
+@bitcode/generic-agents-agent-measure-absolutes AbsolutesMeasureAgent (tools + framing)
 @bitcode/generic-measurements-needinesses Needinesses surface (Gate 4)
  ↑
-@bitcode/generic-asset-packs-synthesis SynthesizeDataPacksAbsolutesMeasureAgent + catalogs
-@bitcode/asset-packs-pipelines-syntheses-domain Shared synth phases/tools; product packages wire deposit/read rosters
+@bitcode/generic-asset-packs-synthesis factoryDeposit|ReadAbsolutesMeasureAgent + catalogs
+@bitcode/asset-packs-pipelines-syntheses-domain measureDataPackAbsolutes host + deposit/read rosters
+ → depository index (absolute_kinds/volumes) + /exchange buyer chips
 ```
 
 Package paths: `packages/measurement-generics/`, `packages/generic-agents/agent-measure/`,
-`packages/generic-measurements/*` (incl. `tech-types/`), `packages/generic-asset-packs/{synthesis,settle}/`.
+`packages/generic-agents/agent-measure-absolutes/`, `packages/generic-measurements/*`,
+`packages/generic-tools/tool-measure-*/`, `packages/generic-asset-packs/{synthesis,settle}/`.
 
-Hierarchy names: `Measurement` → `AbsolutesMeasureAgent` →
-`SynthesizeDataPacksAbsolutesMeasureAgent`.
+Hierarchy names: `Measurement` → bare absolute → `tool-measure-*` →
+`AbsolutesMeasureAgent` → `Deposit|ReadAbsolutesMeasureAgent`.
 
 ### 3.1.2 Generations (FailsafeGeneration + ThinkingsGeneration)
 
@@ -524,12 +529,14 @@ Grouped by role. Names are `@bitcode/<name>` unless noted.
 | `generic-generations-thinkings` | Thinkings base vocabulary surface |
 | `measurement-generics` | Measurement primitive (spec, reading, output schemas) |
 | `generic-agents-agent-measure` | MeasureAgent PTRR base (`packages/generic-agents/agent-measure`) |
-| `generic-measurements-absolutes` | AbsolutesMeasureAgent base (category framing) |
+| `generic-agents-agent-measure-absolutes` | AbsolutesMeasureAgent base (framing + 46 measure tools) |
+| `generic-measurements-absolutes-*` | Bare absolute measure packages (one kind each) |
+| `generic-tools-tool-measure-*` | Execution tools wrapping bare absolutes |
 | `generic-measurements-needinesses` | Needinesses framing surface (Gate 4) |
 | `generic-measurements-tech-types` | Tech/stack signals as absolute measurement vocabulary |
 | `asset-packs-generics` | DataPack protocol primitive (`@bitcode/asset-packs-generics`) |
-| `generic-asset-packs-synthesis` | Synthesize measurement catalogs + product AbsolutesMeasureAgent |
-| `| `llm-generics` | Pure LLM call contracts |
+| `generic-asset-packs-synthesis` | Weighted catalog + `factoryDeposit|ReadAbsolutesMeasureAgent` |
+| `llm-generics` | Pure LLM call contracts |
 | `generic-llms-models` | Model configs + USD pricing (`@bitcode/generic-llms-models`) |
 | `registry` | Hierarchical registry (Prompt is a Registry) |
 | `prompts` | Prompt + PromptPart + **all** raw prompt parts |

@@ -569,8 +569,3 @@ export function assertDataPackAbsolutesCatalogWeights(): void {
     throw new Error(`DATA_PACK_ABSOLUTES_CATALOG weights sum to ${sum}, expected 1`);
   }
 }
-
-/** @deprecated Use DATA_PACK_ABSOLUTES_CATALOG */
-export const ASSET_PACK_ABSOLUTES_CATALOG = DATA_PACK_ABSOLUTES_CATALOG;
-/** @deprecated Use DATA_PACK_ABSOLUTE_KINDS */
-export const ASSET_PACK_ABSOLUTE_KINDS = DATA_PACK_WEIGHTED_ABSOLUTE_KINDS;

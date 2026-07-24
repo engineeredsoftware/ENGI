@@ -6,12 +6,15 @@ Bare measurement **implementations** (not tools, not agents). Commodity: **DataP
 
 ```
 measurement-generics
-  → generic-measurements/absolutes/<kind>     # one package per absolute
+  → generic-measurements/absolutes/<kind>     # one package per absolute (bare primitive)
   → generic-measurements/needinesses/<kind>   # later
   → generic-measurements/shared|domain
-  → generic-tools/tool-measure-<kind>
-  → generic-agents/agent-measure-absolutes
-  → deposit/read pipelines (after DP synthesis)
+  → generic-tools/tool-measure-<kind>         # one Execution tool per bare kind
+  → generic-agents/agent-measure-absolutes    # base agent owns tool registry
+      → factoryDepositAbsolutesMeasureAgent   # product (deposit)
+      → factoryReadAbsolutesMeasureAgent      # product (read)
+  → deposit/read pipelines host measureDataPackAbsolutes
+  → depository index (absolute_kinds / absolute_volumes) + exchange UX
 ```
 
 ## Layout
