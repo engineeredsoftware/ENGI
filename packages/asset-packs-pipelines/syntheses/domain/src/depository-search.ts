@@ -41,3 +41,17 @@ export {
   searchDepositoryAssetSpace,
   runDepositorySearchForPipelineInput,
 } from './depository-search-run';
+export {
+  extractAbsoluteFacets,
+  absoluteFacetScore,
+  absoluteFacetsCorpusText,
+  assetPassesAbsoluteFilters,
+  blendHybridScoreWithAbsolutes,
+  type DepositoryAbsoluteFilters,
+  type ExtractedAbsoluteFacets,
+} from './depository-search-absolute-facets';
+export {
+  prepareDepositoryAssetsForSearch,
+  absoluteKindQueryHints,
+  preferMeasuredAbsoluteFilters,
+} from './depository-search-pipeline-assets';

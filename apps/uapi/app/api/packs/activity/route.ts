@@ -65,6 +65,12 @@ function readFilterParam(params: URLSearchParams, key: string) {
 }
 
 function buildFilters(params: URLSearchParams): PackActivityFilters {
+  const absoluteKind = readFilterParam(params, 'absoluteKind');
+  const minVolRaw = params.get('minAbsoluteVolume');
+  const minAbsoluteVolume =
+    minVolRaw != null && minVolRaw !== '' && Number.isFinite(Number(minVolRaw))
+      ? Math.max(0, Math.min(1, Number(minVolRaw)))
+      : null;
   const requestedType = readFilterParam(params, 'type');
   return {
     type:
@@ -78,6 +84,8 @@ function buildFilters(params: URLSearchParams): PackActivityFilters {
     deliveryState: readFilterParam(params, 'deliveryState'),
     repairState: readFilterParam(params, 'repairState'),
     repository: readFilterParam(params, 'repository'),
+    absoluteKind: absoluteKind || 'all',
+    minAbsoluteVolume,
   };
 }
 

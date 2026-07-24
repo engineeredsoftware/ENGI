@@ -1,12 +1,20 @@
 /**
  * Pure formatters and shared option catalogs for the Packs experience.
  * React status presentation lives in ExchangeStatusPill (not here).
+ *
+ * Absolute kind options come from the measurement catalogue SSOT — never hand-lists.
  */
 
 import type {
   PackActivitySortKey,
   PackActivityType,
 } from "@/components/bitcode/activity/PackActivityModel/pack-activity-model";
+import {
+  DATA_PACK_ABSOLUTE_KIND_OPTIONS,
+  DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS,
+  DATA_PACK_ABSOLUTE_KINDS,
+  labelForDataPackAbsoluteKind,
+} from "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog";
 
 /**
  * Type filter values for /exchange master. Includes synthetic "My" ownership lenses
@@ -101,6 +109,21 @@ export const PACKS_FACET_FILTERS = [
   ["deliveryState", "Delivery facet"],
   ["repairState", "Repair facet"],
 ] as const;
+
+/**
+ * Absolute-kind filter options for Exchange — full target vocabulary (46 kinds).
+ * SSOT: DATA_PACK_ABSOLUTE_KIND_SPECS via DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS.
+ * Do not hand-maintain this list.
+ */
+export const PACKS_ABSOLUTE_KIND_OPTIONS = DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS;
+
+/** Full absolute kind ids (no "all") — SSOT DATA_PACK_ABSOLUTE_KINDS. */
+export const PACKS_ABSOLUTE_KINDS = DATA_PACK_ABSOLUTE_KINDS;
+
+/** Rich option metadata (family, policyRole, weighted flag) from SSOT. */
+export const PACKS_ABSOLUTE_KIND_META = DATA_PACK_ABSOLUTE_KIND_OPTIONS;
+
+export { labelForDataPackAbsoluteKind };
 
 export function readParam(params: URLSearchParams, key: string, fallback = "") {
   return String(params.get(key) || fallback);

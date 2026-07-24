@@ -248,15 +248,29 @@ export default async function runReadDepositorySearchForNeedFitsAgent(input: any
       findValue(execution, 'pipeline', 'embedQuery') ||
       findValue(execution, 'deposit', 'embedQuery') ||
       undefined;
+    const {
+      prepareDepositoryAssetsForSearch,
+      absoluteKindQueryHints,
+    } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/depository-search');
+    const assets = prepareDepositoryAssetsForSearch(
+      Array.isArray(settledAssets) ? settledAssets : [],
+    );
+    // Need-fit: do not hard-filter the corpus by absolute kinds (Need may not
+    // name them). Still normalize facets onto assets and enrich query terms so
+    // hybrid re-rank + lexical can exploit measured material.
+    const absHints = absoluteKindQueryHints(assets, 4);
+    const mergedQueries = [
+      ...new Set([...searchQueries, ...absHints.map((k) => `absolute ${k}`)]),
+    ].slice(0, 16);
     toolResult = await runDepositDepositoryAssetPackSearch({
-      queryTerms: searchQueries,
+      queryTerms: mergedQueries,
       // Multi-query fan-out: each planned query retrieves independently, then union.
-      queries: searchQueries,
+      queries: mergedQueries,
       needText: needToText(need),
       expressedRead: typeof expressedRead === 'string' ? expressedRead : null,
       product: 'read-need-fits',
       paths: catalogForPrompt?.paths ?? catalog?.paths ?? [],
-      assets: Array.isArray(settledAssets) ? settledAssets : [],
+      assets,
       maxResults: 16,
       maxPerQuery: 8,
       repositoryFullName: repository.fullName || repository.repositoryFullName,

@@ -563,9 +563,53 @@ export const DATA_PACK_WEIGHTED_ABSOLUTE_KINDS: string[] = DATA_PACK_ABSOLUTES_C
   (s) => s.measurementKind,
 );
 
+/**
+ * UI / filter option rows derived from the full target vocabulary (all 46 kinds).
+ * Prefer this over hand-maintained option lists — SSOT is DATA_PACK_ABSOLUTE_KIND_SPECS.
+ */
+export type DataPackAbsoluteKindOption = {
+  value: string;
+  label: string;
+  family: AbsoluteFamily;
+  policyRole: AbsolutePolicyRole;
+  inWeightedCatalog: boolean;
+  weight?: number;
+};
+
+export const DATA_PACK_ABSOLUTE_KIND_OPTIONS: DataPackAbsoluteKindOption[] =
+  DATA_PACK_ABSOLUTE_KIND_SPECS.map((s) => ({
+    value: s.measurementKind,
+    label: s.label,
+    family: s.family,
+    policyRole: s.policyRole,
+    inWeightedCatalog: s.inWeightedCatalog,
+    ...(typeof s.weight === 'number' ? { weight: s.weight } : {}),
+  }));
+
+/** Select-control rows: "Any absolute" + every catalogue kind in SSOT order. */
+export const DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS: Array<{
+  value: string;
+  label: string;
+}> = [
+  { value: 'all', label: 'Any absolute' },
+  ...DATA_PACK_ABSOLUTE_KIND_OPTIONS.map((o) => ({
+    value: o.value,
+    label: o.label,
+  })),
+];
+
+export function labelForDataPackAbsoluteKind(kind: string | null | undefined): string {
+  if (!kind) return '—';
+  const hit = DATA_PACK_ABSOLUTE_KIND_OPTIONS.find((o) => o.value === kind);
+  return hit?.label ?? kind;
+}
+
 export function assertDataPackAbsolutesCatalogWeights(): void {
   const sum = DATA_PACK_ABSOLUTES_CATALOG.reduce((s, row) => s + (row.weight ?? 0), 0);
   if (Math.abs(sum - 1) > 1e-9) {
     throw new Error(`DATA_PACK_ABSOLUTES_CATALOG weights sum to ${sum}, expected 1`);
+  }
+  if (DATA_PACK_ABSOLUTE_KIND_SPECS.length !== DATA_PACK_ABSOLUTE_KIND_OPTIONS.length) {
+    throw new Error('DATA_PACK_ABSOLUTE_KIND_OPTIONS out of sync with KIND_SPECS');
   }
 }

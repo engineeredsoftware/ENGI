@@ -462,6 +462,9 @@
       "@bitcode/file-refactoring": [
         "packages/file-refactoring/src/index.ts"
       ],
+      "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog": [
+        "../../packages/generic-measurements/domain/data-pack-absolutes-catalog/src/index.ts"
+      ],
       "@bitcode/generic-measurements-tech-types": [
         "packages/generic-measurements/tech-types/src/index.ts"
       ],

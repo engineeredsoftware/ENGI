@@ -18,6 +18,7 @@ import type {
 import BitcodeInlineExplainer from "@/components/bitcode/pipeline/BitcodeInlineExplainer/BitcodeInlineExplainer";
 import type { BitcodeExplainer } from "@/components/bitcode/pipeline/BitcodeTransactionTypes/bitcode-transaction-types";
 import {
+  PACKS_ABSOLUTE_KIND_OPTIONS,
   PACKS_FACET_FILTERS,
   PACKS_SORT_OPTIONS as SORT_OPTIONS,
   PACKS_TYPE_OPTIONS as TYPE_OPTIONS,
@@ -135,6 +136,32 @@ export function ExchangeActivityFilterBar({
           placeholder="State"
           aria-label="State filter"
         />
+      </FilterCell>
+
+      <FilterCell label="Absolute" explainerKey="absoluteKind">
+        <select
+          value={readParam(routeParams, "absoluteKind", "all") || "all"}
+          onChange={(event) => {
+            const next = event.currentTarget.value;
+            onWriteParams({
+              absoluteKind: !next || next === "all" ? null : next,
+              // Clear volume floor when kind is cleared.
+              minAbsoluteVolume:
+                !next || next === "all"
+                  ? null
+                  : readParam(routeParams, "minAbsoluteVolume", "") || null,
+            });
+          }}
+          className={FIELD_CLASS}
+          aria-label="Absolute measurement kind"
+          data-testid="packs-absolute-kind-filter"
+        >
+          {PACKS_ABSOLUTE_KIND_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </FilterCell>
 
       <FilterCell label="Sort" explainerKey="sort">

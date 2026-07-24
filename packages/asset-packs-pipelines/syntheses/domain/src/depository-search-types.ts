@@ -387,7 +387,8 @@ export const READ_FITS_FINDING_SYNTHESIS_SEARCH_CHANNELS: DepositorySearchQueryP
   {
     channelId: 'measurement',
     scoreField: 'channelScores.measurement',
-    sourceSafeEvidence: 'source-safe measurement and proof-readback root presence, never raw source',
+    sourceSafeEvidence:
+      'absolute measurement facets (kinds, volumes, weighted composite) plus proof-readback roots — never raw source',
   },
   {
     channelId: 'embedding-vector',

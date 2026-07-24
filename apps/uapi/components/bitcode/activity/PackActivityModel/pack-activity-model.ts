@@ -153,6 +153,13 @@ export interface PackActivityFilters {
   deliveryState?: string | 'all';
   repairState?: string | 'all';
   repository?: string | 'all';
+  /**
+   * Absolute measurement kind filter (e.g. function-count, test-surface).
+   * Matches measurement.kind / measurement.id absolute:* rows.
+   */
+  absoluteKind?: string | 'all';
+  /** Minimum absolute volume 0..1 when absoluteKind is set. */
+  minAbsoluteVolume?: number | null;
 }
 
 export interface PackActivityQuery {
@@ -1186,13 +1193,19 @@ function buildSearchText(record: PackActivityRecord) {
     ...record.measurements.flatMap((measurement) => [
       measurement.id,
       measurement.label,
+      measurement.kind,
       String(measurement.value),
       measurement.unit,
       measurement.root,
+      typeof measurement.volume === 'number' ? String(measurement.volume) : null,
+      typeof measurement.weight === 'number' ? String(measurement.weight) : null,
+      measurement.descriptor || null,
       // Common absolute / neediness phrasing so partial queries hit.
       'absolute',
       'measurement',
       'neediness',
+      measurement.kind ? `absolute ${measurement.kind}` : null,
+      measurement.kind ? `absolute:${measurement.kind}` : null,
       `${measurement.label} ${measurement.value}`,
       measurement.unit ? `${measurement.value} ${measurement.unit}` : null,
     ]),
@@ -1356,6 +1369,38 @@ export function packActivityNeedsPayoutReview(record: PackActivityRecord): boole
   return false;
 }
 
+function recordHasAbsoluteKind(
+  record: PackActivityRecord,
+  kind: string,
+  minVolume: number | null | undefined,
+): boolean {
+  const want = kind.toLowerCase().trim();
+  if (!want || want === 'all') return true;
+  const floor =
+    typeof minVolume === 'number' && Number.isFinite(minVolume)
+      ? Math.max(0, Math.min(1, minVolume))
+      : null;
+  return (record.measurements || []).some((m) => {
+    const id = String(m.id || '').toLowerCase();
+    const mk = String(m.kind || '').toLowerCase();
+    const hit =
+      mk === want ||
+      id === want ||
+      id === `absolute:${want}` ||
+      id.endsWith(`:${want}`);
+    if (!hit) return false;
+    if (floor === null) return true;
+    const vol =
+      typeof m.volume === 'number'
+        ? m.volume
+        : typeof m.value === 'number' && Number(m.value) <= 1
+          ? Number(m.value)
+          : null;
+    if (vol === null) return true; // kind present without volume still passes kind filter
+    return vol >= floor;
+  });
+}
+
 export function filterPackActivityRecords(
   records: PackActivityRecord[],
   filters: PackActivityFilters = {},
@@ -1371,6 +1416,13 @@ export function filterPackActivityRecords(
     if (!matchesFilter(record.deliveryState, filters.deliveryState)) return false;
     if (!matchesFilter(record.repairState, filters.repairState)) return false;
     if (!matchesFilter(record.repository, filters.repository)) return false;
+    if (
+      filters.absoluteKind &&
+      filters.absoluteKind !== 'all' &&
+      !recordHasAbsoluteKind(record, filters.absoluteKind, filters.minAbsoluteVolume)
+    ) {
+      return false;
+    }
     if (normalizedSearch) {
       // Multi-token AND: every whitespace-separated term must appear somewhere
       // in the pack corpus (measurements, absolutes, proofs, states, …).

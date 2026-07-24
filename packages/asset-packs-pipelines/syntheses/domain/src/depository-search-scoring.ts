@@ -5,6 +5,11 @@
  */
 import { createHash } from 'node:crypto';
 import {
+  absoluteFacetScore,
+  absoluteFacetsCorpusText,
+  extractAbsoluteFacets,
+} from './depository-search-absolute-facets';
+import {
   DEFAULT_THRESHOLDS,
   type DepositoryAsset,
   type DepositoryCandidate,
@@ -179,6 +184,7 @@ function assetMetadataText(asset: DepositoryAsset): string {
     ...(stringArray(asset.metadata?.declaredStacks)),
     ...(stringArray(asset.metadata?.declaredConstraints)),
     ...(stringArray(asset.metadata?.sourcePaths)),
+    absoluteFacetsCorpusText(extractAbsoluteFacets(asset)),
   ].join(' ');
 }
 
@@ -222,6 +228,8 @@ export function assetCorpus(asset: DepositoryAsset): string {
     ...(stringArray(asset.metadata?.declaredStacks)),
     ...(stringArray(asset.metadata?.declaredConstraints)),
     ...(stringArray(asset.metadata?.sourcePaths)),
+    // Absolute facets drive lexical + measurement channels (deposit/read search).
+    absoluteFacetsCorpusText(extractAbsoluteFacets(asset)),
   ].join(' ');
 }
 
@@ -263,12 +271,15 @@ function hasProofEvidence(asset: DepositoryAsset): boolean {
 }
 
 function hasMeasurementEvidence(asset: DepositoryAsset): boolean {
+  const facets = extractAbsoluteFacets(asset);
   return Boolean(
     asset.hasAssetMeasurementEvidence ||
       asset.assetMeasurement ||
       asset.measurementProvenance?.length ||
       asset.verificationEvidence?.measurementRoot ||
-      asset.verificationEvidence?.measurementLogs
+      asset.verificationEvidence?.measurementLogs ||
+      facets.kinds.length > 0 ||
+      facets.weightedMeasuredCount > 0
   );
 }
 
@@ -436,13 +447,17 @@ export function rankAsset(
   const revScore = revisionScore(read, asset);
   const proof = hasProofEvidence(asset);
   const measurement = hasMeasurementEvidence(asset);
+  const absoluteFacets = extractAbsoluteFacets(asset);
+  const absoluteScore = absoluteFacetScore(asset, { queryTerms: readTerms });
+  // Measurement channel: evidence presence stays strong (legacy fit thresholds);
+  // absolute facet richness boosts further without requiring facets for worthy_fit.
+  const measurementScore = clamp01((measurement ? 0.7 : 0) + 0.3 * absoluteScore);
   const proofRoot = proofRootFor(asset);
   const reconciliationReadbackRoot = reconciliationReadbackRootFor(asset);
   const proofRootRequired = readRequiresProofRoot(read);
   const reconciliationReadbackRequired = readRequiresReconciliationReadback(read);
   const providerScore = clamp01(Math.max(0, ...providerMatches.map((match) => match.score)));
   const proofScore = proof ? 1 : 0;
-  const measurementScore = measurement ? 1 : 0;
   const semanticScore = clamp01((0.55 * textScore) + (0.35 * unitScore) + (0.10 * artifactKindScore));
   const blockers = [
     ...detectMockOrFrontier(asset),
@@ -468,15 +483,17 @@ export function rankAsset(
       (blockers.includes('source_commit_mismatch') ? 0.34 : 0) +
       (blockers.some((blocker) => blocker.includes('mock') || blocker.includes('frontier')) ? 0.9 : 0)
   );
+  // Measurement weight raised: absolute facets are first-class commercial signal.
   const finalScore = clamp01(
-    (0.25 * textScore) +
-      (0.18 * unitScore) +
-      (0.17 * repoScore) +
-      (0.12 * revScore) +
-      (0.12 * artifactKindScore) +
+    (0.22 * textScore) +
+      (0.16 * unitScore) +
+      (0.15 * repoScore) +
+      (0.11 * revScore) +
+      (0.11 * artifactKindScore) +
       (0.07 * proofScore) +
-      (0.06 * measurementScore) +
-      (0.03 * providerScore) -
+      (0.12 * measurementScore) +
+      (0.03 * providerScore) +
+      (0.03 * embeddingVectorScore) -
       penaltyMass
   );
   const matchedTargetKinds = read.targetArtifactKinds.filter((kind) =>
@@ -501,6 +518,8 @@ export function rankAsset(
       path: pathScore,
       metadata: metadataScore,
       measurement: measurementScore,
+      absoluteFacets: absoluteScore,
+      absoluteComposite: absoluteFacets.composite,
       embeddingVector: embeddingVectorScore,
       providerSpecific: providerScore,
       text: textScore,
@@ -520,10 +539,15 @@ export function rankAsset(
         { label: 'artifactKindScore', value: artifactKindScore },
         { label: 'proofScore', value: proofScore },
         { label: 'measurementScore', value: measurementScore },
+        { label: 'absoluteFacetScore', value: absoluteScore },
+        { label: 'absoluteComposite', value: absoluteFacets.composite },
         { label: 'providerScore', value: providerScore },
       ].sort((a, b) => b.value - a.value || a.label.localeCompare(b.label)),
       penaltiesApplied: blockers,
-      matchedTerms,
+      matchedTerms: [
+        ...matchedTerms,
+        ...absoluteFacets.kinds.filter((k) => readTerms.some((t) => k.includes(t) || t.includes(k))),
+      ],
       matchedTargetKinds,
       providerMatches,
     },

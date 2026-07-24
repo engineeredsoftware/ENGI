@@ -263,6 +263,9 @@ importers:
       '@bitcode/external-telemetry-google':
         specifier: workspace:*
         version: link:../../packages/external-telemetry/google
+      '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog':
+        specifier: workspace:*
+        version: link:../../packages/generic-measurements/domain/data-pack-absolutes-catalog
       '@bitcode/generic-vcs-git':
         specifier: workspace:*
         version: link:../../packages/generic-vcs/git

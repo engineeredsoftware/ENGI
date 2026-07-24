@@ -21,8 +21,12 @@ export {
   DATA_PACK_ABSOLUTES_CATALOG,
   DATA_PACK_ABSOLUTE_KINDS,
   DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
+  DATA_PACK_ABSOLUTE_KIND_OPTIONS,
+  DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS,
   assertDataPackAbsolutesCatalogWeights,
+  labelForDataPackAbsoluteKind,
   type DataPackAbsoluteKindSpec,
+  type DataPackAbsoluteKindOption,
   type AbsoluteFamily,
   type AbsolutePolicyRole,
 } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';

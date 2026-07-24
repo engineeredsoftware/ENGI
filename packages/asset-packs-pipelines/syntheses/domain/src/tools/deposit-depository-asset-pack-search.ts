@@ -23,6 +23,12 @@ import {
   type DepositorySearchResult,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-search';
 import {
+  assetPassesAbsoluteFilters,
+  blendHybridScoreWithAbsolutes,
+  extractAbsoluteFacets,
+  type DepositoryAbsoluteFilters,
+} from '../depository-search-absolute-facets';
+import {
   buildDepositorySearchQueryPlan,
   type DepositorySearchProduct,
 } from './depository-search-query-plan';
@@ -31,7 +37,14 @@ export type DepositoryStaticFilters = {
   kinds?: string[] | null;
   repositories?: string[] | null;
   lifecycle?: string[] | null;
+  /** OR of absolute kinds present on the pack (see requireAllAbsoluteKinds). */
   absoluteKinds?: string[] | null;
+  /** AND of absolute kinds when true. */
+  requireAllAbsoluteKinds?: boolean;
+  /** Per-kind volume floors (0..1). */
+  minAbsoluteVolumes?: Record<string, number> | null;
+  /** Weighted absolute composite floor (0..1). */
+  minAbsoluteComposite?: number | null;
 };
 
 export type DepositDepositorySearchToolInput = {
@@ -181,8 +194,17 @@ function applyStaticFilters(
   const kinds = asTerms(filters.kinds).map((k) => k.toLowerCase());
   const repos = asTerms(filters.repositories).map((r) => r.toLowerCase());
   const lifecycles = asTerms(filters.lifecycle).map((l) => l.toLowerCase());
-  const absoluteKinds = asTerms(filters.absoluteKinds).map((k) => k.toLowerCase());
-  if (!kinds.length && !repos.length && !lifecycles.length && !absoluteKinds.length) {
+  const absoluteFilters: DepositoryAbsoluteFilters = {
+    absoluteKinds: filters.absoluteKinds,
+    requireAllAbsoluteKinds: filters.requireAllAbsoluteKinds,
+    minAbsoluteVolumes: filters.minAbsoluteVolumes,
+    minAbsoluteComposite: filters.minAbsoluteComposite,
+  };
+  const hasAbsoluteFilter =
+    asTerms(filters.absoluteKinds).length > 0 ||
+    (filters.minAbsoluteVolumes && Object.keys(filters.minAbsoluteVolumes).length > 0) ||
+    (typeof filters.minAbsoluteComposite === 'number' && Number.isFinite(filters.minAbsoluteComposite));
+  if (!kinds.length && !repos.length && !lifecycles.length && !hasAbsoluteFilter) {
     return assets;
   }
   return assets.filter((asset) => {
@@ -196,14 +218,11 @@ function applyStaticFilters(
       if (!repos.some((r) => repo.includes(r))) return false;
     }
     if (lifecycles.length) {
-      const life = String(meta.lifecycleState || '').toLowerCase();
+      const life = String(meta.lifecycleState || meta.lifecycle || '').toLowerCase();
       if (!lifecycles.some((l) => life.includes(l))) return false;
     }
-    if (absoluteKinds.length) {
-      const listed = Array.isArray(meta.absoluteKinds)
-        ? (meta.absoluteKinds as unknown[]).map((k) => String(k).toLowerCase())
-        : [];
-      if (!absoluteKinds.some((k) => listed.includes(k))) return false;
+    if (hasAbsoluteFilter && !assetPassesAbsoluteFilters(asset, absoluteFilters)) {
+      return false;
     }
     return true;
   });
@@ -441,16 +460,43 @@ export async function runDepositDepositoryAssetPackSearch(
       queriesEmbedded += 1;
       if (!input.supabase?.rpc) continue;
       try {
-        const { data, error } = await input.supabase.rpc(rpcName, {
+        const filterAbsoluteKinds = asTerms(input.staticFilters?.absoluteKinds);
+        const filterLifecycle = asTerms(input.staticFilters?.lifecycle)[0] || null;
+        const filterKind = asTerms(input.staticFilters?.kinds)[0] || null;
+        // Facet-aware RPC (defaults allow 3-arg-style callers). On error, retry bare.
+        let data: unknown = null;
+        let error: unknown = null;
+        const facetRpc = await input.supabase.rpc(rpcName, {
           query_embedding: vector,
           match_count: maxPerQuery,
+          filter_absolute_kinds: filterAbsoluteKinds.length ? filterAbsoluteKinds : null,
+          filter_lifecycle: filterLifecycle,
+          filter_kind: filterKind,
         });
+        if (!facetRpc.error && Array.isArray(facetRpc.data)) {
+          data = facetRpc.data;
+        } else {
+          const legacy = await input.supabase.rpc(rpcName, {
+            query_embedding: vector,
+            match_count: maxPerQuery,
+          });
+          data = legacy.data;
+          error = legacy.error;
+        }
         if (error || !Array.isArray(data)) continue;
         for (const row of data as any[]) {
           const id = String(
             row?.asset_id || row?.deliverable_id || row?.id || row?.assetId || '',
           );
           if (!id) continue;
+          // Client-side absolute filter for vector-only hits (no in-memory asset).
+          if (filterAbsoluteKinds.length && Array.isArray(row?.absolute_kinds)) {
+            const listed = (row.absolute_kinds as unknown[]).map((k) =>
+              String(k || '').toLowerCase(),
+            );
+            const ok = filterAbsoluteKinds.some((k) => listed.includes(k.toLowerCase()));
+            if (!ok) continue;
+          }
           const semanticScore =
             typeof row?.similarity === 'number'
               ? row.similarity
@@ -476,6 +522,38 @@ export async function runDepositDepositoryAssetPackSearch(
         /* keep lexical */
       }
     }
+  }
+
+  // Hybrid re-rank: blend lexical/vector scores with absolute facet richness.
+  const assetById = new Map(
+    assets.map((a) => [String((a as { assetId?: string }).assetId || ''), a] as const),
+  );
+  for (const [id, hit] of hitMap) {
+    const asset = assetById.get(id);
+    if (!asset) continue;
+    const blended = blendHybridScoreWithAbsolutes(hit.finalScore, asset, {
+      queryTerms: finalTerms,
+      absoluteWeight: product === 'read-need-fits' ? 0.24 : 0.18,
+    });
+    const facets = extractAbsoluteFacets(asset);
+    hitMap.set(id, {
+      ...hit,
+      finalScore: blended,
+      matchedTerms: [
+        ...new Set([
+          ...hit.matchedTerms,
+          ...facets.kinds.filter((k) =>
+            finalTerms.some((t) => k.includes(t.toLowerCase()) || t.toLowerCase().includes(k)),
+          ),
+        ]),
+      ],
+      channel:
+        hit.channel === 'vector' || hit.channel === 'hybrid'
+          ? facets.kinds.length
+            ? 'hybrid'
+            : hit.channel
+          : hit.channel,
+    });
   }
 
   const hits = [...hitMap.values()]

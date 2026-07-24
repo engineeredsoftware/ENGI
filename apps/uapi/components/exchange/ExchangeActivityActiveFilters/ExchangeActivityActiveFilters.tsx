@@ -16,6 +16,7 @@ import {
   PACKS_FACET_FILTERS,
   PACKS_SORT_OPTIONS,
   PACKS_TYPE_OPTIONS,
+  labelForDataPackAbsoluteKind,
   readParam,
   type PacksTypeFilter,
 } from '@/components/exchange/models/exchange-format';
@@ -75,6 +76,18 @@ function buildActiveChips(props: {
       });
     }
   }
+  const absoluteKind = readParam(props.routeParams, 'absoluteKind', 'all');
+  if (absoluteKind && absoluteKind !== 'all') {
+    chips.push({
+      key: 'absoluteKind',
+      label: 'Absolute',
+      value: labelForDataPackAbsoluteKind(absoluteKind),
+    });
+  }
+  const minVol = readParam(props.routeParams, 'minAbsoluteVolume', '');
+  if (minVol) {
+    chips.push({ key: 'minAbsoluteVolume', label: 'Min volume', value: minVol });
+  }
   return chips;
 }
 
@@ -90,6 +103,8 @@ export function packsDefaultFilterUpdates(): Record<string, string | null> {
     compensationState: null,
     deliveryState: null,
     repairState: null,
+    absoluteKind: null,
+    minAbsoluteVolume: null,
   };
 }
 

@@ -233,12 +233,26 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
   try {
     const supabase = findValue(execution, 'deposit', 'supabase') || undefined;
     const embedQuery = findValue(execution, 'deposit', 'embedQuery') || undefined;
+    const {
+      prepareDepositoryAssetsForSearch,
+      absoluteKindQueryHints,
+      preferMeasuredAbsoluteFilters,
+    } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/depository-search');
+    const assets = prepareDepositoryAssetsForSearch(
+      Array.isArray(settledAssets) ? settledAssets : [],
+    );
+    const absHints = absoluteKindQueryHints(assets);
+    const mergedQueries = [
+      ...new Set([...searchQueries, ...absHints.map((k) => `absolute ${k}`)]),
+    ].slice(0, 16);
+    const staticFilters = preferMeasuredAbsoluteFilters(assets) || undefined;
     toolResult = await runDepositDepositoryAssetPackSearch({
-      queryTerms: searchQueries,
-      queries: searchQueries,
+      queryTerms: mergedQueries,
+      queries: mergedQueries,
       product: 'deposit-relevants',
       paths: catalogForPrompt?.paths ?? catalog?.paths ?? [],
-      assets: Array.isArray(settledAssets) ? settledAssets : [],
+      assets,
+      staticFilters,
       maxResults: 16,
       maxPerQuery: 8,
       repositoryFullName: repository.fullName || repository.repositoryFullName,

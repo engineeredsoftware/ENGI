@@ -100,12 +100,12 @@ describe('AssetPack depository search', () => {
       result.thresholds.worthyScore
     );
     expect(result.embeddingPolicy).toMatchObject({
-      provider: 'openai',
-      model: 'text-embedding-3-small',
-      dimensions: 1536,
+      provider: 'supabase-gte-small',
+      model: 'gte-small',
+      dimensions: 384,
       vectorStore: {
-        table: 'deliverable_vectors',
-        rpc: 'match_deliverable_vectors',
+        table: 'depository_search_vectors',
+        rpc: 'match_depository_asset_pack_vectors',
         distanceMetric: 'cosine',
       },
     });
@@ -165,10 +165,12 @@ describe('AssetPack depository search', () => {
       symbolic: expect.any(Number),
       path: expect.any(Number),
       metadata: expect.any(Number),
-      measurement: 1,
+      // Evidence presence floors measurement; absolute facets raise it further.
+      measurement: expect.any(Number),
       embeddingVector: expect.any(Number),
       providerSpecific: expect.any(Number),
     });
+    expect(result.candidateRanking[0].ranking.channelScores.measurement).toBeGreaterThanOrEqual(0.7);
     expect(result.queryRoot).toMatch(/^sha256:/);
     expect(result.rankingRoot).toMatch(/^sha256:/);
   });
@@ -359,7 +361,7 @@ describe('AssetPack depository search', () => {
 
     expect(findStored(exec, 'fit', 'resultState')).toBe('worthy_fit');
     expect(findStored(exec, 'depository/search', 'result')?.resultState).toBe('worthy_fit');
-    expect(findStored(exec, 'depository/search', 'embeddingPolicy')?.dimensions).toBe(1536);
+    expect(findStored(exec, 'depository/search', 'embeddingPolicy')?.dimensions).toBe(384);
     expect(findStored(exec, 'depository/search', 'queryPlan')?.channelIds).toEqual([
       'lexical',
       'symbolic',
@@ -396,8 +398,8 @@ describe('AssetPack depository search', () => {
         output: expect.objectContaining({
           resultState: 'embedding_policy_declared',
           vectorStore: expect.objectContaining({
-            table: 'deliverable_vectors',
-            rpc: 'match_deliverable_vectors',
+            table: 'depository_search_vectors',
+            rpc: 'match_depository_asset_pack_vectors',
           }),
         }),
       }),
@@ -432,7 +434,7 @@ describe('AssetPack depository search', () => {
     expect(output.fitResult.selectionTrace.fitDeposits[0]).toMatchObject({
       assetId: 'asset_repository-revision-deposit-octocat-engi',
     });
-    expect(output.fitResult.embeddingPolicy.model).toBe('text-embedding-3-small');
+    expect(output.fitResult.embeddingPolicy.model).toBe('gte-small');
     expect(['settlement-eligible', 'patch-eligible']).toContain(
       output.fitResult.selectionTrace.selectedCandidates[0].useTier
     );
@@ -445,7 +447,8 @@ describe('AssetPack depository search', () => {
       },
       scores: {
         proofScore: 1,
-        measurementScore: 1,
+        // Evidence presence floors ≥0.7; absolute facets raise toward 1.
+        measurementScore: expect.any(Number),
       },
       proofEvidence: {
         hasWalletOrAttestationProof: true,

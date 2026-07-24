@@ -14,10 +14,10 @@ active/draft `BITCODE_SPEC_*` family. If this document and SPEC diverge,
 | `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ implementation ↔ test audit |
 | `.docs/ASSET_PACKS.md` | DataPack orientation (non-canon) |
 
-**Exhaustive design companion (non-canon):**  
+**Exhaustive catalogue companion (non-canon):**  
 [`.docs/ABSOLUTE_MEASUREMENTS_CATALOG.md`](./ABSOLUTE_MEASUREMENTS_CATALOG.md) —
-five-lens catalog, mechanisms/tools, verification + provenance classes, v-next weights
-(expands §5 of this doc).
+all **46** kinds with what/why/how/scale; weighted **11** (Σ=1); hygiene gates;
+hybrid search facets; package map. Expand that file when adding or redefining kinds.
 
 **Scope of this document**
 
@@ -35,7 +35,8 @@ Legacy code still uses `AssetPack*` / `asset-packs*` path and type names — ren
 **package-by-package as surfaces are touched** (full ancestry / hierarchy names).
 Do not leave half-renames that teach the wrong commodity name in prompts or docs.
 
-**Snapshot date:** 2026-07-24 (MeasureAgent under `packages/generic-agents/agent-measure`).
+**Snapshot date:** 2026-07-24 (MeasureAgent under `packages/generic-agents/agent-measure`;
+46 bare+tool kinds; hybrid depository search absolute facets).
 
 ---
 

@@ -170,6 +170,48 @@ export function normalizeDepositoryAsset(input: unknown): DepositoryAsset | null
         record.contentRoot,
       ].join(' '));
 
+  // Promote absolute facets onto metadata so hybrid search filters/scores see them.
+  const absoluteKinds = new Set<string>();
+  const absoluteVolumes: Record<string, number> = {};
+  const seedKinds = stringArray(metadata?.absoluteKinds);
+  for (const k of seedKinds) absoluteKinds.add(k.toLowerCase());
+  const seedVolumes = recordValue(metadata?.absoluteVolumes);
+  if (seedVolumes) {
+    for (const [k, v] of Object.entries(seedVolumes)) {
+      const n = Number(v);
+      if (Number.isFinite(n)) {
+        absoluteVolumes[k.toLowerCase()] = Math.max(0, Math.min(1, n));
+        absoluteKinds.add(k.toLowerCase());
+      }
+    }
+  }
+  const absoluteRows: unknown[] = [];
+  if (Array.isArray(record.absolutes)) absoluteRows.push(...record.absolutes);
+  if (Array.isArray(metadata?.absolutes)) absoluteRows.push(...(metadata!.absolutes as unknown[]));
+  const measurements = recordValue(record.measurements) || recordValue(metadata?.measurements);
+  if (measurements && Array.isArray(measurements.absolutes)) {
+    absoluteRows.push(...(measurements.absolutes as unknown[]));
+  }
+  for (const row of absoluteRows) {
+    const r = recordValue(row);
+    if (!r) continue;
+    const kind = firstString(r.measurementKind, r.kind, r.id);
+    if (!kind) continue;
+    absoluteKinds.add(kind.toLowerCase());
+    const vol = Number(r.volume);
+    if (Number.isFinite(vol)) {
+      absoluteVolumes[kind.toLowerCase()] = Math.max(0, Math.min(1, vol));
+    }
+  }
+
+  const enrichedMetadata: Record<string, unknown> = {
+    ...(metadata || {}),
+    absoluteKinds: [...absoluteKinds].sort(),
+    absoluteVolumes,
+  };
+
+  const hasAbsoluteFacets = absoluteKinds.size > 0;
+
   return {
     assetId,
     title,
@@ -181,7 +223,7 @@ export function normalizeDepositoryAsset(input: unknown): DepositoryAsset | null
     sourceCommit: firstString(record.sourceCommit, record.source_commit, sourceRevision?.commit, repoSnapshot?.commit),
     contentRoot: firstString(record.contentRoot, record.content_root),
     contentUnits,
-    metadata,
+    metadata: enrichedMetadata,
     provenanceBinding: recordValue(record.provenanceBinding),
     sourceMaterialBinding: recordValue(record.sourceMaterialBinding),
     artifactSelectionSurface: recordValue(record.artifactSelectionSurface),
@@ -195,7 +237,8 @@ export function normalizeDepositoryAsset(input: unknown): DepositoryAsset | null
     measurementProvenance: Array.isArray(record.measurementProvenance) ? record.measurementProvenance : [],
     verificationEvidence: recordValue(record.verificationEvidence),
     hasWalletOrAttestationProof: record.hasWalletOrAttestationProof === true,
-    hasAssetMeasurementEvidence: record.hasAssetMeasurementEvidence === true,
+    hasAssetMeasurementEvidence:
+      record.hasAssetMeasurementEvidence === true || hasAbsoluteFacets,
     createdAt: firstString(record.createdAt, record.created_at),
   };
 }

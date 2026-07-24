@@ -14,7 +14,9 @@ measurement-generics
       → factoryDepositAbsolutesMeasureAgent   # product (deposit)
       → factoryReadAbsolutesMeasureAgent      # product (read)
   → deposit/read pipelines host measureDataPackAbsolutes
-  → depository index (absolute_kinds / absolute_volumes) + exchange UX
+  → depository index (absolute_kinds / absolute_volumes)
+  → hybrid depository search (lexical + vector + absolute facets)
+  → exchange UX buyer chips
 ```
 
 ## Layout
