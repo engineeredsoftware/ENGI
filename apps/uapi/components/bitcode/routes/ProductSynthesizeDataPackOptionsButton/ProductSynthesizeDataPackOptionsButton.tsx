@@ -15,7 +15,7 @@ import BitcodeQuantumChromeButton from '@/components/bitcode/layout/BitcodeQuant
 
 export const SYNTHESIZE_ASSET_PACK_OPTIONS_LABEL = 'Synthesize DataPack Options';
 export const SYNTHESIZING_ASSET_PACK_OPTIONS_LABEL =
-  'Synthesizing with AssetPacksSynthesis…';
+  'Synthesizing DataPack options…';
 
 export type ProductSynthesizeDataPackOptionsButtonProps = {
   onClick: () => void | Promise<void>;

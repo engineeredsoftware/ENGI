@@ -307,9 +307,17 @@ describe('runDepositInBoxHost (#25)', () => {
       hostFactory: async () => fakeHost,
     });
 
-    // Host read lifts nested/top-level formal absolutes onto each option
-    // (run 1d760d82: envelope-only shapes failed product projection without this).
-    expect(result.options).toEqual([{ ...finishOption, absolutes: [] }]);
+    // Host expands formal absolutes to full commercial catalogue (46).
+    expect(result.options).toHaveLength(1);
+    const lifted = result.options[0] as {
+      absolutes?: unknown[];
+      measurements?: { absolutes?: unknown[] };
+      title?: string;
+    };
+    expect(lifted.title).toBe(finishOption.title);
+    expect(Array.isArray(lifted.absolutes)).toBe(true);
+    expect(lifted.absolutes).toHaveLength(46);
+    expect(lifted.measurements?.absolutes).toHaveLength(46);
     expect(result.finishPresent).toBe(true);
     expect(result.sandboxId).toBe('sbx_test_1');
     expect(result.outcome).toBe('completed');
@@ -755,9 +763,9 @@ describe('runDepositInBoxHost (#25)', () => {
     };
     expect(option.title).toBe('Bitcode Documentation Structure');
     expect(Array.isArray(option.absolutes)).toBe(true);
-    expect(option.absolutes).toHaveLength(1);
+    expect(option.absolutes).toHaveLength(46);
     expect(option.absolutes?.[0]).toMatchObject({ measurementKind: 'function-count' });
-    expect(option.measurements?.absolutes).toHaveLength(1);
+    expect(option.measurements?.absolutes).toHaveLength(46);
   });
 });
 

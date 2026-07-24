@@ -10,9 +10,9 @@ import type { DepositOptionAdmissionReceipt } from "@bitcode/asset-packs-pipelin
 import type { DepositAssetPackOption } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
 import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import {
-  ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS,
-  type AbsoluteMeasurementKind,
-} from "@/components/exchange/models/exchange-measurement-descriptors";
+  expandAbsoluteMeasurementsToFullCatalog,
+  type AbsoluteMeasurementLike,
+} from "@/components/exchange/models/expand-absolute-measurements";
 
 /** Absolute measurement row projected onto pack activity (source-safe). */
 export type DepositAdmissionAbsoluteMeasurement = {
@@ -32,9 +32,11 @@ export type DepositAdmissionAbsoluteMeasurement = {
 export function optionAbsoluteKnowledgeVolume(
   option: DepositAssetPackOption | null | undefined,
 ): number {
-  if (!option?.measurements?.length) return 0;
-  const absolutes = option.measurements.filter(
-    (m) => (m.category || "absolute") === "absolute",
+  // Composite over full 46-kind catalogue with SSOT weights (legacy partial bags expand first).
+  const absolutes = expandAbsoluteMeasurementsToFullCatalog(
+    ((option?.measurements || []).filter(
+      (m) => !m.category || m.category === "absolute",
+    ) as AbsoluteMeasurementLike[]),
   );
   if (!absolutes.length) return 0;
   const weighted = absolutes.reduce(
@@ -54,32 +56,24 @@ export function optionAbsoluteKnowledgeVolume(
 export function projectOptionAbsoluteMeasurements(
   option: DepositAssetPackOption | null | undefined,
 ): DepositAdmissionAbsoluteMeasurement[] {
-  if (!option?.measurements?.length) return [];
-  return option.measurements
-    .filter((m) => (m.category || "absolute") === "absolute")
-    .map((m) => {
-      const kind = m.measurementKind || m.id;
-      const catalog =
-        ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS[kind as AbsoluteMeasurementKind] ||
-        null;
-      // Prefer measure-time instance descriptor attached on the reading.
-      const instanceDescriptor =
-        typeof (m as { descriptor?: unknown }).descriptor === "string" &&
-        String((m as { descriptor: string }).descriptor).trim()
-          ? String((m as { descriptor: string }).descriptor).trim()
-          : null;
-      return {
-        kind,
-        category: "absolute" as const,
-        label: m.label,
-        volume: m.volume,
-        magnitude: typeof m.magnitude === "number" ? m.magnitude : null,
-        unit: typeof m.unit === "string" ? m.unit : null,
-        weight: m.weight,
-        evidenceRoot: m.evidenceRoot || null,
-        descriptor: instanceDescriptor ?? catalog?.descriptor ?? null,
-      };
-    });
+  // Always project full commercial catalogue (46) with SSOT weights.
+  const expanded = expandAbsoluteMeasurementsToFullCatalog(
+    ((option?.measurements || []).filter(
+      (m) => !m.category || m.category === "absolute",
+    ) as AbsoluteMeasurementLike[]),
+  );
+  return expanded.map((m) => ({
+    kind: m.measurementKind,
+    category: "absolute" as const,
+    label: m.label,
+    volume: m.volume,
+    magnitude: typeof m.magnitude === "number" ? m.magnitude : null,
+    unit: typeof m.unit === "string" ? m.unit : null,
+    weight: m.weight,
+    evidenceRoot:
+      typeof m.evidenceRoot === "string" ? m.evidenceRoot : null,
+    descriptor: m.descriptor,
+  }));
 }
 
 /**
@@ -92,7 +86,7 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
   mimeType: string;
   body: string;
 } {
-  const safeTitle = (option.title || "asset-pack")
+  const safeTitle = (option.title || "datapack")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "")
@@ -104,24 +98,26 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
   const artifactId =
     option.roots.contentsRoot ||
     option.roots.optionRoot ||
-    `asset-pack-patch-${option.optionId}`;
-  // Protocol path-op envelope (PatchArtifact) — this IS the AssetPack patchfile.
+    `datapack-patch-${option.optionId}`;
+  // Protocol path-op envelope (PatchArtifact) — DataPack patchfile (source-safe).
+  const fullAbsolutes = projectOptionAbsoluteMeasurements(option);
   const patchEnvelope = {
     schema: "bitcode.artifact.patch",
     artifactId,
     format: "path-op-json",
     patchSummary:
-      option.contents?.patchSummary || option.summary || "AssetPack patch",
+      option.contents?.patchSummary || option.summary || "DataPack patch",
     files,
     fileCount: files.length,
-    // Product binding (not raw source)
+    // Product binding (not raw source) — full 46 commercial absolutes.
     assetPack: {
       optionId: option.optionId,
       kind: option.kind,
       title: option.title,
       summary: option.summary,
       provenantSourcePaths: option.contents?.provenantSourcePaths ?? [],
-      measurements: option.measurements,
+      measurements: fullAbsolutes,
+      absolutes: fullAbsolutes,
       roots: option.roots,
       sourceBinding: {
         repositoryFullName: option.sourceBinding.repositoryFullName,
@@ -132,7 +128,7 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
     },
   };
   return {
-    filename: `${safeTitle || "asset-pack"}.path-op.json`,
+    filename: `${safeTitle || "datapack"}.path-op.json`,
     mimeType: "application/json",
     body: JSON.stringify(patchEnvelope, null, 2),
   };

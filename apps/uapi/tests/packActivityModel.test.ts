@@ -393,7 +393,11 @@ describe('pack-activity-model', () => {
     expect(settleRecord.deliveryReference).toBe(
       'https://github.com/octocat/Spoon-Knife/pull/42',
     );
-    expect(settleRecord.measurements.some((m) => m.id === 'absolute:functions')).toBe(true);
+    expect(settleRecord.measurements.some((m) => m.id === 'absolute:function-count')).toBe(true);
+    // Full commercial catalogue surfaced for settled packs.
+    expect(
+      settleRecord.measurements.filter((m) => m.id.startsWith('absolute:')).length,
+    ).toBe(46);
     expect(settleRecord.measurements.some((m) => m.id === 'neediness:language-fit')).toBe(true);
     expect(settleRecord.measurements.some((m) => m.id === 'neediness:need-fit')).toBe(true);
     expect(settleRecord.values.some((v) => v.id === 'settlement-price' && v.amount === 4500)).toBe(
@@ -409,7 +413,7 @@ describe('pack-activity-model', () => {
     );
     expect(detail.states.delivery).toBe('opened');
     expect(detail.states.settlement).toBe('settled');
-    expect(detail.measurements.length).toBeGreaterThanOrEqual(3);
+    expect(detail.measurements.length).toBeGreaterThanOrEqual(46);
   });
 
   it('infers settled-assetpack from summary word-gap form without explicit type', () => {

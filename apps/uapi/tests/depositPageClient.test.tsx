@@ -798,7 +798,10 @@ describe("DepositPageClient", () => {
     );
     expect(
       screen.getByTestId("deposit-synthesis-inference"),
-    ).toHaveTextContent("AssetPacksSynthesis");
+    ).toHaveTextContent("DataPack synthesis");
+    expect(
+      screen.getByTestId("deposit-synthesis-inference"),
+    ).toHaveTextContent("46 commercial absolutes");
     expect(
       screen.getByTestId("deposit-synthesis-inference"),
     ).toHaveTextContent("5,421 tokens");
@@ -1027,12 +1030,13 @@ describe("DepositPageClient", () => {
         text.includes("62% · demand 70% · saturation 20%"),
     ).toBe(true);
 
-    // Absolutes tiles: magnitude+unit rendering vs pure volume/weight rendering.
+    // Absolutes tiles: full commercial catalogue (46) with SSOT weights.
     expect(text).toContain("Function count");
-    expect(text).toContain("12 functions · 55% / weight 0.40");
-    expect(text).toContain("Semantic volume");
-    // unit "normalized" is suppressed — volume/weight only.
-    expect(text).toContain("48% / weight 0.25");
+    expect(text).toContain("12 functions · 55% / weight 0.035");
+    // Full catalogue kinds present (not legacy 2-tile subset).
+    expect(text).toContain("Secret safety");
+    expect(text).toContain("Difficulty");
+    expect(text).toContain("Correctness");
     expect(text).not.toContain("normalized");
 
     // The await-synthesis placeholder is gone once real options render.

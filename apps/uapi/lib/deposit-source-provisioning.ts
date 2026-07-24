@@ -536,9 +536,28 @@ export async function runDepositInBoxHost(input: {
           ? ((measurements as { absolutes: unknown[] }).absolutes as unknown[])
           : null;
       const top = Array.isArray(record.absolutes) ? (record.absolutes as unknown[]) : null;
-      const absolutes =
+      let absolutes =
         top && top.length > 0 ? top : nested && nested.length > 0 ? nested : top || nested || [];
-      return { ...record, absolutes };
+      // Expand to full 46 commercial catalogue (SSOT weights) before product projection.
+      try {
+        const {
+          expandAbsoluteMeasurementsToFullCatalog,
+        } = require("@/components/exchange/models/expand-absolute-measurements") as typeof import("@/components/exchange/models/expand-absolute-measurements");
+        absolutes = expandAbsoluteMeasurementsToFullCatalog(
+          (absolutes as Array<Record<string, unknown>>) || [],
+        );
+      } catch {
+        /* keep partial if expand unavailable in host */
+      }
+      // Keep flat measurements[] in sync for deposit UI cards.
+      const flatMeasurements = Array.isArray(absolutes) ? absolutes : [];
+      return {
+        ...record,
+        absolutes,
+        measurements: {
+          absolutes: flatMeasurements,
+        },
+      };
     });
   // Prefer host-lifted depositOptions when present; else Finish envelope.
   // Both paths run through liftFormalAbsolutes (idempotent when already lifted).

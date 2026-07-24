@@ -78,6 +78,7 @@
     "demo:bringup": "ts-node src/dev/bringup-demo.ts",
     "remeasure-reindex-depository-absolutes": "TS_NODE_TRANSPILE_ONLY=1 TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true,\"target\":\"ES2020\"}' ts-node --transpile-only --skip-project scripts/remeasure-reindex-depository-absolutes.ts",
     "reembed-depository-search-vectors": "TS_NODE_TRANSPILE_ONLY=1 TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true,\"target\":\"ES2020\"}' ts-node --transpile-only --skip-project scripts/reembed-depository-search-vectors.ts",
+    "backfill-execution-absolute-measurements": "TS_NODE_TRANSPILE_ONLY=1 TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\",\"moduleResolution\":\"node\",\"esModuleInterop\":true,\"target\":\"ES2020\"}' ts-node --transpile-only --skip-project scripts/backfill-execution-absolute-measurements.ts",
     "type-check": "pnpm run typecheck"
   },
   "dependencies": {

@@ -10,6 +10,7 @@ import {
   type AssetPackCommodityStateDisplay,
 } from '@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state';
 import { descriptorForAbsoluteKind } from '@/components/exchange/models/exchange-measurement-descriptors';
+import { expandAbsoluteMeasurementsToFullCatalog } from '@/components/exchange/models/expand-absolute-measurements';
 
 export type PackActivityType =
   | 'deposit-option'
@@ -690,8 +691,36 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
   }
 
   // Prefer absolute:* rows at the front for table chips (deposit catalog order).
-  const absolutes = measurements.filter((m) => m.id.startsWith('absolute:'));
+  // Expand to full commercial catalogue (46) so Exchange never shows legacy 8/11 alone.
+  let absolutes = measurements.filter((m) => m.id.startsWith('absolute:'));
   const rest = measurements.filter((m) => !m.id.startsWith('absolute:'));
+  if (isDepositedOrSettledPack || absolutes.length > 0) {
+    const expanded = expandAbsoluteMeasurementsToFullCatalog(
+      absolutes.map((m) => ({
+        measurementKind: m.kind || m.id.replace(/^absolute:/, ''),
+        kind: m.kind || m.id.replace(/^absolute:/, ''),
+        label: m.label,
+        weight: m.weight ?? undefined,
+        // Prefer stored 0..1 volume; magnitude is display size for quantity kinds.
+        volume: typeof m.volume === 'number' ? m.volume : undefined,
+        magnitude: typeof m.value === 'number' ? m.value : null,
+        unit: m.unit,
+        category: 'absolute',
+        descriptor: m.descriptor,
+      })),
+    );
+    absolutes = expanded.map((row) => ({
+      id: `absolute:${row.measurementKind}`,
+      label: row.label,
+      value: row.magnitude,
+      unit: row.unit,
+      root: null,
+      kind: row.measurementKind,
+      weight: row.weight,
+      volume: row.volume,
+      descriptor: row.descriptor,
+    }));
+  }
   const ordered = [...absolutes, ...rest];
 
   // Measurement *root proofs* live in proofRoots — never as a measurement chip

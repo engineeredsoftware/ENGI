@@ -296,7 +296,7 @@ export const DEPOSIT_SECTION_EXPLAINERS = {
   }),
   options: buildExplainer({
     kicker: 'Source-Safe Proposals',
-    title: 'AssetPack Options',
+    title: 'DataPack Options',
     summary:
       'Each card is one measured DataPack option that SynthesizeAssetPacks produced from your connected source — a synthesized patch plus its absolute measurements, never a raw slice of your code.',
     detail:

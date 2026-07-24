@@ -109,13 +109,21 @@ const receipt = {
 describe("deposit-admission-activity", () => {
   it("projects absolute measurements from the option", () => {
     const rows = projectOptionAbsoluteMeasurements(option);
-    expect(rows).toHaveLength(1);
-    expect(rows[0]).toMatchObject({
+    // Full commercial catalogue (46), not a partial hand list.
+    expect(rows).toHaveLength(46);
+    const fn = rows.find((r) => r.kind === "function-count");
+    expect(fn).toMatchObject({
       kind: "function-count",
       category: "absolute",
       magnitude: 8,
       unit: "functions",
+      volume: 0.4,
     });
+    // SSOT catalogue weight (not legacy 0.12).
+    expect(fn?.weight).toBe(0.035);
+    expect(rows.every((r) => typeof r.weight === "number" && r.weight > 0)).toBe(
+      true,
+    );
   });
 
   it("builds per-option admission draft without session aggregates or patch body", () => {
@@ -136,7 +144,7 @@ describe("deposit-admission-activity", () => {
     expect(draft.output).not.toHaveProperty("ownerContents");
     expect(JSON.stringify(draft)).not.toContain("Add auth middleware helper");
     const measurements = (draft.output as { measurements: unknown[] }).measurements;
-    expect(measurements).toHaveLength(1);
+    expect(measurements).toHaveLength(46);
     expect(draft.context).toMatchObject({
       source: "deposit-option-review-admission",
       optionId: "opt-1",
@@ -157,6 +165,6 @@ describe("deposit-admission-activity", () => {
     expect(parsed.schema).toBe("bitcode.artifact.patch");
     expect(parsed.format).toBe("path-op-json");
     expect(parsed.files).toHaveLength(1);
-    expect(parsed.assetPack.measurements).toHaveLength(1);
+    expect(parsed.assetPack.measurements).toHaveLength(46);
   });
 });

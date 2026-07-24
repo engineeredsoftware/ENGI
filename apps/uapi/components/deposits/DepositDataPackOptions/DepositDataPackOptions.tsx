@@ -43,7 +43,7 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
     <section
       id="deposit-section-review"
       className="border border-white/10 bg-white/[0.035] px-4 py-4"
-      aria-label="Deposit AssetPack options"
+      aria-label="Deposit DataPack options"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -51,7 +51,7 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
             Source-Safe Proposals
           </p>
           <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
-            <span>AssetPack Options</span>
+            <span>DataPack Options</span>
             <BitcodeInlineExplainer
               explainer={DEPOSIT_SECTION_EXPLAINERS.options}
             />
@@ -64,7 +64,7 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
           data-testid="deposit-synthesis-inference"
           className="mt-3 border border-emerald-300/12 bg-emerald-300/[0.05] px-3 py-2 text-xs leading-5 text-emerald-100/90"
         >
-          Measured by AssetPacksSynthesis (deposit lens):{" "}
+          Measured by DataPack synthesis (deposit lens):{" "}
           {realSynthesis.synthesis.inference.model || "configured model"}
           {typeof realSynthesis.synthesis.inference.totalTokens === "number"
             ? ` · ${realSynthesis.synthesis.inference.totalTokens.toLocaleString()} tokens`
@@ -75,6 +75,8 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
           {realSynthesis.synthesis.exclusionPosture
             ? ` · ${realSynthesis.synthesis.exclusionPosture.impermissibleSourceCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
             : ""}
+          {" · "}
+          46 commercial absolutes (Σ weights = 1)
         </p>
       ) : null}
 
@@ -83,7 +85,7 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
           data-testid="deposit-options-await-synthesis"
           className="mt-5 border border-white/10 bg-black/20 px-4 py-6 text-sm leading-6 text-neutral-400"
         >
-          Measured AssetPack options appear here after synthesis — select a
+          Measured DataPack options appear here after synthesis — select a
           repository, describe what to synthesize, then Synthesize.
         </div>
       ) : null}

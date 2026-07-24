@@ -15,6 +15,10 @@ import type {
   DepositRealSynthesisOption,
 } from "@/components/deposits/models/deposit-real-synthesis";
 import { buildDepositOptionPatchfileDownload } from "@/components/deposits/models/deposit-admission-activity";
+import {
+  expandAbsoluteMeasurementsToFullCatalog,
+  type AbsoluteMeasurementLike,
+} from "@/components/exchange/models/expand-absolute-measurements";
 
 export type DepositOptionCardProps = {
   option: DepositRealSynthesisOption;
@@ -354,9 +358,12 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
           policyDemandState={policyEvaluation?.demand.state}
           settledDemandEstimate={settledDemandEstimate}
         />
-        {option.measurements.map((measurement) => (
+        {/* Full commercial catalogue (46) — expand legacy partial bags at render. */}
+        {expandAbsoluteMeasurementsToFullCatalog(
+          option.measurements as AbsoluteMeasurementLike[],
+        ).map((measurement) => (
           <div
-            key={measurement.id}
+            key={measurement.measurementKind || measurement.id}
             className="border border-white/8 bg-white/[0.035] px-3 py-2"
           >
             <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -374,18 +381,19 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                   <span className="text-neutral-500">
                     {" "}
                     · {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                    {measurement.weight.toFixed(2)}
+                    {measurement.weight.toFixed(3)}
                   </span>
                 </>
               ) : (
                 <>
                   {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                  {measurement.weight.toFixed(2)}
+                  {measurement.weight.toFixed(3)}
                 </>
               )}
             </dd>
           </div>
-        ))}
+          ),
+        )}
       </dl>
 
       <details className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-3">

@@ -51,24 +51,16 @@ export interface MeasurableAssetPackPatch {
   patchSummary?: string;
 }
 
-/** Quantity kinds — Tool-authoritative (static analysis + patch descriptor). */
-/** Tool / bare-count authoritative kinds (static analysis + structure heuristics). */
-const QUANTITY_KINDS = new Set([
-  'function-count',
-  'type-count',
-  'file-span',
-  'symbolic-richness',
-  'modularity',
-  'lang-span',
-  'test-surface',
-  'api-surface',
-  'dependency-span',
-  'doc-signal',
-  'data-flow-depth',
-  'symbol-connectivity',
-  'control-complexity',
-  'config-surface',
-]);
+/**
+ * Quantity kinds — tool/bare-count authoritative.
+ * Derived from product catalog propertyClass so all structure quantities stay
+ * in the 46-kind law (never a legacy 8-kind hand list).
+ */
+const QUANTITY_KINDS = new Set(
+  DATA_PACK_ABSOLUTES_PRODUCT_CATALOG.filter((s) => s.propertyClass === 'quantity').map(
+    (s) => s.measurementKind,
+  ),
+);
 const LENS_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   deposit:
     'a synthesized source-safe deposit AssetPack patch the depositor will review and admit',
