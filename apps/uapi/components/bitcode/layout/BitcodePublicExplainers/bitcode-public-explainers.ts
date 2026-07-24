@@ -103,7 +103,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     kicker: 'Identity + configuration',
     title: 'Open Auxillaries',
     summary:
-      'Open Wallet, Profile, Externals, and Interfaces — the readiness shell beside Packs, Deposit, and Read.',
+      'Open Profile, Wallet, Externals, and Interfaces — the readiness shell beside Packs, Deposit, and Read.',
     detail:
       'Connect Wallet is the guest identity entry. After a Bitcoin wallet (and optional session) is bound, Auxillaries opens from signed-in chrome for repository scope, profile metadata, interface defaults, and BTD posture. It does not replace the product routes.',
     points: [

@@ -1,5 +1,5 @@
 /**
- * Docs: Auxillaries — Wallet, Profile, Externals, Interfaces.
+ * Docs: Auxillaries — Profile, Wallet, Externals, Interfaces.
  * Adjacent to product routes; not a replacement for Packs / Deposit / Read.
  */
 import type { DocsGuideCard } from '../bitcode-docs-types';
@@ -26,7 +26,7 @@ export const auxillariesSections = [
   {
     id: 'connects-profile-btd',
     eyebrow: 'Readiness',
-    title: 'Wallet, Profile, Externals, and Interfaces are readiness surfaces',
+    title: 'Profile, Wallet, Externals, and Interfaces are readiness surfaces',
     summary:
       'Wallet identity, repository scope, profile roles, interface defaults, and BTD controls determine which writes can leave review and enter signed or connected execution.',
     detail:

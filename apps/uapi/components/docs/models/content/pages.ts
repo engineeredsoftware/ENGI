@@ -214,7 +214,7 @@ export const BITCODE_DOCS_PAGES = [
     eyebrow: 'Auxillaries',
     title: 'Configure Auxillaries for wallet, externals, profile, and interfaces',
     summary:
-      'Auxillaries explain the configuration layer beside product routes: Wallet, Profile, Externals, and Interfaces.',
+      'Auxillaries explain the configuration layer beside product routes: Profile, Wallet, Externals, and Interfaces.',
     detail:
       'Use this page to understand what each auxillary pane changes and why Deposit, Read, or settlement may stay fail-closed until wallet, repository, or profile posture is complete.',
     learningOutcome:
@@ -225,7 +225,7 @@ export const BITCODE_DOCS_PAGES = [
       {
         id: 'auxillary-ring',
         eyebrow: 'Auxillary shell',
-        title: 'Wallet, Profile, Externals, Interfaces',
+        title: 'Profile, Wallet, Externals, Interfaces',
         summary:
           'The auxillary rail is configuration with product consequences: each pane changes readiness or defaults for Packs, Deposit, and Read.',
         explainer: BITCODE_PUBLIC_EXPLAINERS.openOrbitals,

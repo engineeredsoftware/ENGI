@@ -5,7 +5,8 @@ import {
 } from '@bitcode/btd';
 import type { BtdOrganizationPolicyAuthority } from '@bitcode/btd';
 
-export const AUXILLARY_FLOW_STEPS = ['wallet', 'profile', 'externals', 'interfaces'] as const;
+/** Selector / onboarding order: Profile first, then Wallet, Externals, Interfaces. */
+export const AUXILLARY_FLOW_STEPS = ['profile', 'wallet', 'externals', 'interfaces'] as const;
 export const AUXILLARIES_CONTRACT_VERSION = 'v31-draft-auxillaries-contracts' as const;
 
 export type ConcreteAuxillaryPane = (typeof AUXILLARY_FLOW_STEPS)[number];
@@ -436,7 +437,7 @@ export function normalizeAuxillarySteps(value: unknown): ConcreteAuxillaryPane[]
    * LEGACY SMELL (cleanup when storage no longer emits pre-ring step ids):
    * Historical onboarded_steps used btd/connects (and free-form order). Aliases
    * map those to wallet/externals, but Set(input-order) scrambled the ring
-   * (wallet, externals, profile, interfaces). Always re-emit in FLOW_STEPS
+   * (profile, wallet, externals, interfaces). Always re-emit in FLOW_STEPS
    * order so consumers and contract tests share one stable sequence.
    * TODO: once all persisted onboarded_steps are already canonical ring ids
    * in FLOW_STEPS order, drop alias-only paths and this reorder if still

@@ -5,12 +5,13 @@ import {
   normalizeAuxillarySteps,
 } from '@bitcode/api/src/routes/auxillaries-contract';
 
-export const AUXILLARY_RING_STEPS = ['wallet', 'profile', 'externals', 'interfaces'] as const;
+/** Selector order: Profile first (matches AUXILLARY_FLOW_STEPS SSOT). */
+export const AUXILLARY_RING_STEPS = ['profile', 'wallet', 'externals', 'interfaces'] as const;
 export const AUXILLARY_ROUTE_SEQUENCE = AUXILLARY_RING_STEPS;
 export const AUXILLARIES_ACCESS_LABEL = 'Auxillaries access';
 export const AUXILLARIES_LABEL = 'Auxillaries';
-export const AUXILLARIES_LIST_LABEL = 'Wallet, Profile, Externals, and Interfaces';
-export const AUXILLARIES_LIST_COMPACT_LABEL = 'Wallet, Profile, Externals, Interfaces';
+export const AUXILLARIES_LIST_LABEL = 'Profile, Wallet, Externals, and Interfaces';
+export const AUXILLARIES_LIST_COMPACT_LABEL = 'Profile, Wallet, Externals, Interfaces';
 export const OPEN_AUXILLARIES_FULLSCREEN_LABEL = 'Open Auxillaries fullscreen';
 export const OPEN_TRANSACTIONS_LABEL = 'Open Exchange';
 export const AUXILLARIES_ROUTE_ROOT = '/auxillaries';
@@ -38,25 +39,25 @@ export interface AuxillaryPaneDescriptor {
 }
 
 export const AUXILLARY_DESCRIPTORS: Record<ConcreteAuxillaryPane, AuxillaryPaneDescriptor> = {
-  wallet: {
-    label: 'Wallet',
-    routeSegment: 'wallet',
-    ringIndex: 0,
-    labelPosition: 'top',
-    routeTitle: 'Wallet Auxillary',
-    routeDescription:
-      'Connect your crypto wallets from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
-    featurePills: ['Wallets', 'Balances', 'Activity'],
-  },
   profile: {
     label: 'Profile',
     routeSegment: 'profile',
-    ringIndex: 1,
-    labelPosition: 'right',
+    ringIndex: 0,
+    labelPosition: 'top',
     routeTitle: 'Profile Auxillary',
     routeDescription:
       "Set up email, manage your organization's team members, authorities and budgets, and customize your profile.",
     featurePills: ['Email', 'Team management', 'Aesthetics'],
+  },
+  wallet: {
+    label: 'Wallet',
+    routeSegment: 'wallet',
+    ringIndex: 1,
+    labelPosition: 'right',
+    routeTitle: 'Wallet Auxillary',
+    routeDescription:
+      'Connect your crypto wallets from Bitcoin and Ethereum networks. See your $BTD balances and all of your system activity.',
+    featurePills: ['Wallets', 'Balances', 'Activity'],
   },
   externals: {
     label: 'Externals',
@@ -152,8 +153,8 @@ export function getAuxillariesWorkspaceHeading(mode: 'onboarding' | 'auxillaries
 
 export function getAuxillariesWorkspaceDescription(mode: 'onboarding' | 'auxillaries') {
   return mode === 'auxillaries'
-    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: wallet identity, optional profile data, external connections, interface defaults, and follow-through stay one click apart without changing the product context.'
-    : 'Open Bitcode access in a stable auxillary read, then move between Wallet, Profile, Externals, and Interfaces without losing the active pane or route context.';
+    ? 'Use the selector list to keep each auxillary attached to the same stable reading surface: profile, wallet identity, external connections, interface defaults, and follow-through stay one click apart without changing the product context.'
+    : 'Open Bitcode access in a stable auxillary read, then move between Profile, Wallet, Externals, and Interfaces without losing the active pane or route context.';
 }
 
 export function getAuxillariesTabsDescription(mode: 'onboarding' | 'auxillaries') {

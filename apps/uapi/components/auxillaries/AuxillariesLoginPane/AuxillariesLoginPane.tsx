@@ -66,7 +66,7 @@ export default function AuxillariesLoginPane({
               <ul className="mt-2 space-y-2 text-sm leading-7 text-white/74">
                 <li>Transactions and selected detail stay where you left them.</li>
                 <li>product stays focused while supporting panes remain one click away.</li>
-                <li>Wallet, Profile, Externals, and Interfaces stay available as the four auxillaries.</li>
+                <li>Profile, Wallet, Externals, and Interfaces stay available as the four auxillaries.</li>
               </ul>
             </div>
           </div>

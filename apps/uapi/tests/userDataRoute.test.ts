@@ -260,10 +260,10 @@ describe('GET /api/auxillaries/data', () => {
         repositoryCount: 1,
         enabledRepositoryCount: 1,
       }),
-      // Canonical FLOW_STEPS order (wallet → profile → externals → interfaces),
+      // Canonical FLOW_STEPS order (profile → wallet → externals → interfaces),
       // not storage input order.
-      onboardedPanes: ['wallet', 'profile', 'interfaces'],
-      onboarded_steps: ['wallet', 'profile', 'interfaces'],
+      onboardedPanes: ['profile', 'wallet', 'interfaces'],
+      onboarded_steps: ['profile', 'wallet', 'interfaces'],
       isOnboardingComplete: false,
       auxillariesContract: expect.objectContaining({
         kind: 'auxillaries_contract_snapshot',
