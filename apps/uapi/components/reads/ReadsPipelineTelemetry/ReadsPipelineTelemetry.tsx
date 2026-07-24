@@ -34,6 +34,8 @@ export type ReadsPipelineTelemetryProps = {
   onCancel?: () => void;
   isCancelling?: boolean;
   selectedRunPacks: SelectedRunPackSummary | null;
+  /** Deposit twin: host for scroll-into-view when synthesis is dispatched. */
+  telemetryRef?: React.Ref<HTMLElement | null> | React.RefObject<HTMLElement | null>;
 };
 
 export function ReadsPipelineTelemetry({
@@ -53,10 +55,13 @@ export function ReadsPipelineTelemetry({
   onCancel,
   isCancelling = false,
   selectedRunPacks,
+  telemetryRef,
 }: ReadsPipelineTelemetryProps) {
   return (
     <section
+      ref={telemetryRef as React.Ref<HTMLElement>}
       aria-label="Read pipeline telemetry"
+      data-testid="reads-synthesis-telemetry"
       className="mt-4 border border-white/10 bg-black/20 px-4 py-4"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">

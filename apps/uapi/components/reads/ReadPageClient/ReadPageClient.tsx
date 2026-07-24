@@ -9,7 +9,7 @@
 "use client";
 
 import { formatSats } from "@/components/reads/models/read-format";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Workflow } from "lucide-react";
 import { useReadRouteParams } from "./hooks/use-read-route-params";
 import { useReadLiveRuns } from "./hooks/use-read-live-runs";
@@ -128,6 +128,9 @@ export default function ReadPageClient() {
     [liveRuns, selectedTransactionId],
   );
 
+  /** Deposit twin: scroll rich telemetry into view on synthesize dispatch. */
+  const synthesisTelemetryRef = useRef<HTMLElement | null>(null);
+
   const synthesis = useReadOptionSynthesis({
     repositoryContext,
     need,
@@ -146,6 +149,14 @@ export default function ReadPageClient() {
       void Promise.resolve(refreshLiveRuns() as unknown);
     },
   });
+
+  useEffect(() => {
+    if (!synthesis.runId || synthesis.dispatchedAtMs === null) return;
+    synthesisTelemetryRef.current?.scrollIntoView?.({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [synthesis.dispatchedAtMs, synthesis.runId]);
 
   const selectedOptions = useMemo(
     () =>
@@ -525,6 +536,7 @@ export default function ReadPageClient() {
 
             {selectedPipelineRunId ? (
               <ReadsPipelineTelemetry
+                telemetryRef={synthesisTelemetryRef}
                 selectedRun={selectedRun}
                 selectedPipelineRunId={selectedPipelineRunId}
                 readRunActivity={telemetry.readRunActivity}

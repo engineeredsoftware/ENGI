@@ -91,6 +91,8 @@ export function useReadOptionSynthesis(input: {
   const [envelope, setEnvelope] = useState<ReadSelectionEnvelope | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isCancelling, setIsCancelling] = useState(false);
+  /** Set once per synthesize dispatch — drives scroll-to-telemetry (deposit twin). */
+  const [dispatchedAtMs, setDispatchedAtMs] = useState<number | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const dispatchedAtMsRef = useRef<number | null>(null);
 
@@ -179,7 +181,9 @@ export function useReadOptionSynthesis(input: {
     setEnvelope(null);
     setSelectedIndexes([]);
     setIsCancelling(false);
-    dispatchedAtMsRef.current = Date.now();
+    const dispatched = Date.now();
+    dispatchedAtMsRef.current = dispatched;
+    setDispatchedAtMs(dispatched);
     const nextRunId =
       typeof crypto !== "undefined" && "randomUUID" in crypto
         ? crypto.randomUUID()
@@ -332,6 +336,7 @@ export function useReadOptionSynthesis(input: {
     setSelectedIndexes([]);
     setIsCancelling(false);
     dispatchedAtMsRef.current = null;
+    setDispatchedAtMs(null);
   }, [stopPoll]);
 
   const synthesisRunning =
@@ -351,6 +356,8 @@ export function useReadOptionSynthesis(input: {
     cancel,
     isCancelling,
     synthesisRunning,
+    /** Non-null only after a fresh synthesize() — drives scroll-to-telemetry. */
+    dispatchedAtMs,
     reset,
   };
 }
