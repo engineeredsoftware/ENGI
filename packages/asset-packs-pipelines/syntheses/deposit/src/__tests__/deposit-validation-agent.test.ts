@@ -88,58 +88,48 @@ describe('runDepositValidationAgent (boundary-mocked PTRR + deterministic smoke 
     expect(result.assetPacks).toBe(packs);
   }, 120000);
 
-  it('attaches the full formal absolutes catalog to each pack in place and re-stores the packs', async () => {
+  it('does not attach absolutes (Implementation measures; Validation only validates)', async () => {
     setCleanVerdict();
     const exec = new Execution('validation-node');
-    // No pre-attached absolutes — host measure must fill the full catalog.
+    // No pre-attached absolutes — Validation must NOT invent/fill the catalog.
     const packs = [makePack({ measurements: undefined, absolutes: undefined })];
 
-    await runDepositValidationAgent({ assetPacks: packs }, exec);
+    const result = await runDepositValidationAgent({ assetPacks: packs }, exec);
 
-    const absolutes = packs[0].absolutes ?? packs[0].measurements?.absolutes;
-    expect(Array.isArray(absolutes)).toBe(true);
-    expect(absolutes.map((m: any) => m.measurementKind).sort()).toEqual(
-      ASSET_PACK_ABSOLUTES_CATALOG.map((s) => s.measurementKind).sort(),
+    expect(packs[0].absolutes).toBeUndefined();
+    expect(packs[0].measurements).toBeUndefined();
+    expect(result.recommendation).toBe('iterate');
+    expect(result.issues.some((i: string) => /measurements\.absolutes|missing measurements/i.test(i))).toBe(
+      true,
     );
-    for (const measurement of absolutes) {
+    // Must not re-write Implementation options as a side effect of measuring.
+    expect(exec.get('implementation', 'options')).toBeUndefined();
+  }, 120000);
+
+  it('accepts packs that already carry the full formal absolutes catalog', async () => {
+    setCleanVerdict();
+    const exec = new Execution('validation-node');
+    const absolutes = ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => ({
+      measurementKind: spec.measurementKind,
+      label: spec.label,
+      weight: spec.weight,
+      volume: 0.4,
+      magnitude: spec.propertyClass === 'quantity' ? 4 : 0.4,
+      unit: spec.unit,
+      category: 'absolute' as const,
+    }));
+    const packs = [makePack({ measurements: { absolutes }, absolutes })];
+
+    const result = await runDepositValidationAgent({ assetPacks: packs }, exec);
+
+    expect(result.recommendation).toBe('complete');
+    expect(packs[0].measurements.absolutes).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
+    for (const measurement of packs[0].measurements.absolutes) {
       expect(measurement.category).toBe('absolute');
-      expect(measurement.volume).toBeGreaterThanOrEqual(0);
-      expect(measurement.volume).toBeLessThanOrEqual(1);
       if (SIZE_KINDS.has(measurement.measurementKind)) {
         expect(Number.isInteger(measurement.magnitude)).toBe(true);
       }
     }
-    // The measured packs are re-stored under the exact keys the route + Finish read.
-    expect(exec.get('implementation', 'options')).toBe(packs);
-    expect(exec.get('implementation', 'assetPacks')).toBe(packs);
-  }, 120000);
-
-  it('prefers inventory.sources (full checkout) over inventory.samples for size measurement', async () => {
-    setCleanVerdict();
-    const exec = new Execution('validation-node');
-    const packs = [makePack({ measurements: undefined, absolutes: undefined })];
-    const inventory = {
-      paths: ['src/auth/session.ts'],
-      // Full checkout content: 2 functions.
-      sources: [{ path: 'src/auth/session.ts', content: 'function a(){}\nfunction b(){}' }],
-      // Bounded samples: 5 functions — must NOT be preferred when sources exist.
-      samples: [
-        {
-          path: 'src/auth/session.ts',
-          excerpt: 'function a(){}\nfunction b(){}\nfunction c(){}\nfunction d(){}\nfunction e(){}',
-        },
-      ],
-    };
-
-    await runDepositValidationAgent({ assetPacks: packs, inventory }, exec);
-
-    const abs = packs[0].absolutes ?? packs[0].measurements?.absolutes ?? [];
-    const fn = abs.find((m: any) => m.measurementKind === 'function-count');
-    // Prefer sources over samples: sources has 2 function decls; samples has 5.
-    // Static analyzer may count slightly more constructs than bare `function`
-    // keywords — assert it is closer to sources (2) than samples (5).
-    expect(fn?.magnitude).toBeGreaterThanOrEqual(2);
-    expect(fn?.magnitude).toBeLessThan(5);
   }, 120000);
 
   it('deterministic smoke issues force iterate even when the model says complete', async () => {

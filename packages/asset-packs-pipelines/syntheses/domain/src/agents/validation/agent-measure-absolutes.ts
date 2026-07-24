@@ -58,6 +58,9 @@ const QUANTITY_KINDS = new Set([
   'file-span',
   'symbolic-richness',
   'modularity',
+  'lang-span',
+  'test-surface',
+  'api-surface',
 ]);
 const LENS_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   deposit:
@@ -72,6 +75,9 @@ const QUANTITY_NORMALIZER: Record<string, number> = {
   'file-span': 10,
   'symbolic-richness': 200,
   modularity: 12,
+  'lang-span': 4,
+  'test-surface': 30,
+  'api-surface': 16,
 };
 function clamp01(value: number): number {
   const n = Number.isFinite(value) ? value : 0;
@@ -171,6 +177,18 @@ export function computeAbsolutesFromReport(
         ...(patch.fileChanges || []).map((c) => c.path),
       ]),
   );
+  const langSpan = Math.max(
+    0,
+    report.languageCount ||
+      Object.keys(report.targetLanguageBreakdown || {}).filter(Boolean).length ||
+      0,
+  );
+  // test-surface magnitude: path hits + test-like function counts.
+  const testSurface = Math.max(
+    0,
+    (report.testPathCount ?? 0) + Math.round((report.estimatedTestFunctionCount ?? 0) * 0.5),
+  );
+  const apiSurface = Math.max(0, report.estimatedExportCount ?? 0);
 
   // Quality defaults (deterministic path): grounded in confidence + quantities.
   const correctness = clamp01(patch.confidence ?? 0.6);
@@ -179,8 +197,11 @@ export function computeAbsolutesFromReport(
       typeCount / QUANTITY_NORMALIZER['type-count'] +
       fileSpan / QUANTITY_NORMALIZER['file-span'] +
       symbolCount / QUANTITY_NORMALIZER['symbolic-richness'] +
-      moduleCount / QUANTITY_NORMALIZER.modularity) /
-      5,
+      moduleCount / QUANTITY_NORMALIZER.modularity +
+      langSpan / QUANTITY_NORMALIZER['lang-span'] +
+      testSurface / QUANTITY_NORMALIZER['test-surface'] +
+      apiSurface / QUANTITY_NORMALIZER['api-surface']) /
+      8,
   );
   const objectivesFidelity = clamp01(0.55 * correctness + 0.45 * quantityComposite);
   const computationalUsage = clamp01(
@@ -195,6 +216,9 @@ export function computeAbsolutesFromReport(
     'file-span': fileSpan,
     'symbolic-richness': symbolCount,
     modularity: moduleCount,
+    'lang-span': langSpan,
+    'test-surface': testSurface,
+    'api-surface': apiSurface,
   };
   const volumeByKind: Record<string, number> = {
     'function-count': clamp01(functionCount / QUANTITY_NORMALIZER['function-count']),
@@ -202,6 +226,9 @@ export function computeAbsolutesFromReport(
     'file-span': clamp01(fileSpan / QUANTITY_NORMALIZER['file-span']),
     'symbolic-richness': clamp01(symbolCount / QUANTITY_NORMALIZER['symbolic-richness']),
     modularity: clamp01(moduleCount / QUANTITY_NORMALIZER.modularity),
+    'lang-span': clamp01(langSpan / QUANTITY_NORMALIZER['lang-span']),
+    'test-surface': clamp01(testSurface / QUANTITY_NORMALIZER['test-surface']),
+    'api-surface': clamp01(apiSurface / QUANTITY_NORMALIZER['api-surface']),
     'correctness-estimate': correctness,
     'objectives-fidelity': objectivesFidelity,
     'computational-usage': computationalUsage,

@@ -10,13 +10,20 @@ import type { MeasurementSpec } from '@bitcode/measurement-generics';
 /** Deposit | read synthesis mode (separate product pipelines; no lens). */
 export type SynthesizeAssetPacksMode = 'deposit' | 'read';
 
-/** Soft policy / legacy relative specs (not formal absolute or neediness kinds). */
+/**
+ * Synthesis **policy** row (steering language only).
+ * Not an absolute or neediness measurement reading — do not put volumes in
+ * `measurements.absolutes` / `measurements.needinesses` from these keys alone.
+ */
 export interface AssetPackMeasurementSpec {
   measurementKind: string;
   label: string;
   weight: number;
   guidance: string;
 }
+
+/** @deprecated Alias — policy rows, not formal measurements. */
+export type AssetPackSynthesisPolicySpec = AssetPackMeasurementSpec;
 
 export type AbsolutePropertyClass = 'quantity' | 'quality';
 

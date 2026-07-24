@@ -11,11 +11,21 @@
  *
  * Shared base is intentional: absolutes vs needinesses differ only by category,
  * framing, and neediness `-fit` validation — not by PTRR/prompt plumbing.
+ *
+ * Prompt identity: named raw PromptParts under @bitcode/prompts (measure_*).
  */
 
 import { z } from 'zod';
 import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_HONESTY_FOOTER } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_honesty_footer';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_IDENTITY_CORE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_identity_core';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_PLAN } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_ptrr_plan';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_REFINE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_ptrr_refine';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_RETRY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_ptrr_retry';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_TRY } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_ptrr_try';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_READING_CONTRACT } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_reading_contract';
+import { PROMPTPART_GENERIC_AGENT_MEASURE_SOURCE_SAFE_RULE } from '@bitcode/prompts/raw_promptparts/generic/promptpart_generic_agent_measure_source_safe_rule';
 import { factoryPTRRAgent } from '@bitcode/agent-generics/agents/factories';
 import type { Agent } from '@bitcode/agent-generics/types';
 import type {
@@ -66,55 +76,31 @@ export type MeasureAgent = Agent<any, MeasurementOutput> & {
 
 function buildMeasureIdentity(config: MeasureAgentConfig): PromptPart {
   return part(
-    `You are a MEASURE agent. You MEASURE ${config.subject} — an ALREADY-synthesized ` +
-      'artifact. You do NOT synthesize, author, alter, or re-create it; you read its ' +
-      `properties and report honest measurements. ${config.categoryFraming} Emit exactly ` +
-      'one reading per requested measurement, each with a short source-safe rationale. ' +
-      'Be source-safe: reason over the provided source-safe descriptor and metadata, ' +
-      'never quote raw source, code, secrets, or file contents.',
+    [
+      String(PROMPTPART_GENERIC_AGENT_MEASURE_IDENTITY_CORE),
+      `You MEASURE ${config.subject}.`,
+      config.categoryFraming,
+      'Emit exactly one reading per requested measurement, each with a short source-safe rationale.',
+      String(PROMPTPART_GENERIC_AGENT_MEASURE_SOURCE_SAFE_RULE),
+    ].join(' '),
   );
 }
 
 function buildMeasureRequirements(config: MeasureAgentConfig): PromptPart {
   const lines: string[] = [
     `Measure the ${config.category} measurements below over the artifact you are given.`,
-    'Return one reading per measurement, each with:',
-    '- measurementKind: EXACTLY the key named below.',
-    '- volume: a normalized 0..1 reading (the comparable measure).',
-    '- magnitude: for COUNT units (functions, types, files) the raw integer count;',
-    '  omit magnitude for estimate / normalized units (volume carries the measure).',
-    '- rationale: a short, source-safe justification.',
+    String(PROMPTPART_GENERIC_AGENT_MEASURE_READING_CONTRACT),
     'The measurements:',
     ...config.measurements.map(
       (spec) => `  ${spec.measurementKind} [${spec.unit}]: ${spec.guidance}`,
     ),
-    'Measure honestly — an empty or trivial artifact reads low; do not inflate.',
-    'summary: at most 700 characters (one short paragraph).',
-    'rationale: at most 700 characters each; prefer one sentence.',
-    'Return ONLY {"measurements":[ ... ],"summary":string}.',
+    String(PROMPTPART_GENERIC_AGENT_MEASURE_HONESTY_FOOTER),
   ];
   return part(lines.join('\n'));
 }
 
-const MEASURE_PLAN = part(
-  'Plan: identify, from the source-safe descriptor, the signal that grounds each ' +
-    'requested measurement (no raw source required).',
-);
-const MEASURE_TRY = part(
-  'Try: read each measurement — a normalized 0..1 volume (and a raw magnitude for ' +
-    'count units) with a source-safe rationale.',
-);
-const MEASURE_REFINE = part(
-  'Refine: ensure every requested measurement has exactly one honest reading, units ' +
-    'are respected (counts carry a magnitude), and no rationale leaks raw source.',
-);
-const MEASURE_RETRY = part(
-  'Retry: emit a minimal honest reading for any missing measurement rather than ' +
-    'failing the measurement.',
-);
-
 /**
- * createMeasurePrompt — build the measure Prompt registry (testable / proof-bound later).
+ * createMeasurePrompt — compose named measure PromptParts + dynamic catalog lines.
  * Product agents normally go through factoryMeasureAgent; this is the pure prompt surface.
  */
 export function createMeasurePrompt(config: MeasureAgentConfig): Prompt {
@@ -124,10 +110,10 @@ export function createMeasurePrompt(config: MeasureAgentConfig): Prompt {
   const prompt = new Prompt();
   prompt.set('agent:identity', buildMeasureIdentity(config));
   prompt.set('agent:requirements', buildMeasureRequirements(config));
-  prompt.set('ptrr:plan', MEASURE_PLAN);
-  prompt.set('ptrr:try', MEASURE_TRY);
-  prompt.set('ptrr:refine', MEASURE_REFINE);
-  prompt.set('ptrr:retry', MEASURE_RETRY);
+  prompt.set('ptrr:plan', PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_PLAN);
+  prompt.set('ptrr:try', PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_TRY);
+  prompt.set('ptrr:refine', PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_REFINE);
+  prompt.set('ptrr:retry', PROMPTPART_GENERIC_AGENT_MEASURE_PTRR_RETRY);
   prompt.require('agent:identity');
   prompt.require('agent:requirements');
   prompt.requirePattern('ptrr:*');
@@ -149,10 +135,8 @@ export function factoryMeasureAgent(config: MeasureAgentConfig): MeasureAgent {
     description:
       config.description ??
       `Measures the ${config.category} measurements of ${config.subject}.`,
-    // Zod preprocess widens _input; factory expects output-shaped ZodType.
     outputSchema: MeasurementOutputSchema as z.ZodType<MeasurementOutput>,
-    // Quantity/verification tools stay host-side today (merge-authoritative).
-    // Quality judges over source-safe descriptors only — tools: [] until tool surface lands.
+    // Quantity tools stay host-side (merge-authoritative). Quality judges over descriptors.
     tools: [],
     prompt,
     stepPrompts: {

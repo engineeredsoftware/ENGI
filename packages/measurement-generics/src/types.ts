@@ -28,7 +28,18 @@ export type MeasurementKindCategory = 'absolute' | 'neediness';
 export interface MeasurementSpec {
   measurementKind: string;
   label: string;
-  unit: 'functions' | 'types' | 'files' | 'symbols' | 'modules' | 'estimate' | 'normalized' | string;
+  unit:
+    | 'functions'
+    | 'types'
+    | 'files'
+    | 'symbols'
+    | 'modules'
+    | 'languages'
+    | 'tests'
+    | 'exports'
+    | 'estimate'
+    | 'normalized'
+    | string;
   guidance: string;
   /** When true the measurement carries a raw integer/quantity magnitude. */
   hasMagnitude?: boolean;

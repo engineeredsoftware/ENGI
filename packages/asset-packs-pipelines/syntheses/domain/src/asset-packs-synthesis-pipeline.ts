@@ -29,7 +29,7 @@ import {
 import { resolveDefaultLLMConfig } from '@bitcode/generic-llms';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 
-import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
+import { synthesisPolicyCatalogForMode } from './asset-packs-synthesis-catalogs';
 import { applyInventoryScope } from './asset-packs-synthesis-inventory';
 import type {
   AssetPackMeasurementSpec,
@@ -44,9 +44,9 @@ const part = (content: string): PromptPart => content as PromptPart;
 // ---- Layered system PromptParts (composed by buildHierarchicalPrompt) -------
 
 const PIPELINE_IDENTITY = part(
-  'You are AssetPacksSynthesis, the single Bitcode synthesis and measurement pipeline. ' +
-    'Depositing and Reading are the same operation at the core: measuring source knowledge ' +
-    'into commercially legible AssetPack candidates; the lens carries the variance.',
+  'You are AssetPacksSynthesis, the Bitcode synthesis pipeline for commercially legible ' +
+    'AssetPack candidates (patch + metadata). Absolute measurements are attached by the host ' +
+    'measure stack — you do NOT invent absolute volumes.',
 );
 
 const PIPELINE_SOURCE_SAFETY = part(
@@ -69,12 +69,16 @@ const PRODUCT_PIPELINE_ROLE: Record<SynthesizeAssetPacksMode, PromptPart> = {
   ),
 };
 
-function buildCatalogPart(catalog: AssetPackMeasurementSpec[]): PromptPart {
+/**
+ * Policy guidance for synthesis (NOT absolute volume keys).
+ * Absolute KINDs are measured by the host after patch synthesis.
+ */
+function buildPolicyPart(catalog: AssetPackMeasurementSpec[]): PromptPart {
   return part(
     [
-      'measurements is an object with EXACTLY these keys, each an honest 0..1 volume:',
-      ...catalog.map((spec) => `  ${spec.measurementKind}: ${spec.guidance}`),
-      'Justify every measurement in measurementRationale.',
+      'Synthesis policy (steering only — do NOT emit numeric measurement volumes):',
+      ...catalog.map((spec) => `  - ${spec.label}: ${spec.guidance}`),
+      'Host attaches formal measurements.absolutes after you propose patch + metadata.',
     ].join('\n'),
   );
 }
@@ -86,18 +90,18 @@ function buildRulesPart(candidateKinds: string[], maxCandidates: number): Prompt
       '- coveredSourcePaths must be chosen ONLY from the provided inventory paths, exactly as written.',
       '- Each candidate is a distinct knowledge slice (different kind and coverage), commercially legible to a buyer.',
       `- candidate kind must be one of: ${candidateKinds.join(', ')}.`,
+      '- Do NOT invent absolute measurement volumes, magnitudes, or neediness scores.',
     ].join('\n'),
   );
 }
 
-function buildShapePart(catalog: AssetPackMeasurementSpec[], maxCandidates: number): PromptPart {
+function buildShapePart(maxCandidates: number): PromptPart {
   return part(
     [
       'Return ONLY a JSON object with this EXACT top-level shape (no markdown, no prose, no other top-level key):',
-      `{"options":[{"kind":string,"title":string,"summary":string,"coveredSourcePaths":[string],"measurements":{${catalog
-        .map((spec) => `"${spec.measurementKind}":number`)
-        .join(',')}},"measurementRationale":string,"confidence":number}]}`,
+      '{"options":[{"kind":string,"title":string,"summary":string,"coveredSourcePaths":[string],"synthesisRationale":string,"confidence":number}]}',
       `The top-level key MUST be "options" — an array of 2-${maxCandidates} candidate objects. Never return a bare array or any other wrapper key.`,
+      'Optional legacy key measurementRationale is accepted as an alias of synthesisRationale.',
     ].join('\n'),
   );
 }
@@ -118,7 +122,7 @@ export interface SynthesisPromptLayer {
  * chunk F: PromptPart/Prompt sanity-check).
  */
 export function buildSynthesisPromptLayers(
-  lens: SynthesizeAssetPacksMode,
+  mode: SynthesizeAssetPacksMode,
   catalog: AssetPackMeasurementSpec[],
   candidateKinds: string[],
   maxCandidates: number,
@@ -126,10 +130,10 @@ export function buildSynthesisPromptLayers(
   return [
     { path: 'pipeline:asset-packs-synthesis:identity', part: PIPELINE_IDENTITY },
     { path: 'pipeline:asset-packs-synthesis:source-safety', part: PIPELINE_SOURCE_SAFETY },
-    { path: `phase:${lens}:role`, part: PRODUCT_PIPELINE_ROLE[lens] },
-    { path: 'agent:measure:catalog', part: buildCatalogPart(catalog) },
-    { path: 'agent:measure:rules', part: buildRulesPart(candidateKinds, maxCandidates) },
-    { path: 'step:candidate:shape', part: buildShapePart(catalog, maxCandidates) },
+    { path: `phase:${mode}:role`, part: PRODUCT_PIPELINE_ROLE[mode] },
+    { path: 'agent:synthesis:policy', part: buildPolicyPart(catalog) },
+    { path: 'agent:synthesis:rules', part: buildRulesPart(candidateKinds, maxCandidates) },
+    { path: 'step:candidate:shape', part: buildShapePart(maxCandidates) },
   ];
 }
 
@@ -174,8 +178,15 @@ export interface FormalSynthesisRawOption {
   title: string;
   summary: string;
   coveredSourcePaths: string[];
-  measurements: Record<string, number>;
-  measurementRationale: string;
+  /** Free-text synthesis rationale (not absolute measurement volumes). */
+  synthesisRationale?: string;
+  /** @deprecated Prefer synthesisRationale */
+  measurementRationale?: string;
+  /**
+   * @deprecated LLM must not invent volumes. Ignored when mapping candidates;
+   * host attaches measurements.absolutes.
+   */
+  measurements?: Record<string, number>;
   confidence: number;
 }
 
@@ -242,7 +253,7 @@ export async function synthesizeAssetPackCandidatesFormal(
   candidateSetSchema: z.ZodType<{ options: FormalSynthesisRawOption[] }>,
   execution: Execution,
 ): Promise<FormalSynthesisOutcome> {
-  const catalog = measurementCatalogForLens(request.lens);
+  const policyCatalog = synthesisPolicyCatalogForMode(request.lens);
 
   // Execution spine: Pipeline → Phase → Agent → Step → Generation (real nodes).
   const pipelineExec = new ExecutionPipeline(
@@ -288,7 +299,7 @@ export async function synthesizeAssetPackCandidatesFormal(
       if (p?.setSpecificExecution) {
         for (const layer of buildSynthesisPromptLayers(
           request.lens,
-          catalog,
+          policyCatalog,
           request.candidateKinds,
           request.maxCandidates,
         )) {
@@ -321,8 +332,9 @@ export async function synthesizeAssetPackCandidatesFormal(
   };
 
   const agent = factoryAgent<unknown, { options: FormalSynthesisRawOption[] }>({
-    name: 'asset-packs-measure',
-    description: 'Measure repository source into source-safe AssetPack candidates.',
+    name: 'asset-packs-synthesize',
+    description:
+      'Synthesize source-safe AssetPack candidates (patch + metadata); host measures absolutes.',
     steps: [measureStep as unknown as AgentStep<any, any>],
   });
 

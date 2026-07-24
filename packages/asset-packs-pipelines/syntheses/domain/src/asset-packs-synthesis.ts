@@ -1,23 +1,13 @@
 /**
- * AssetPacksSynthesis — the single Bitcode synthesis/measurement pipeline
- * (V48 architecture law, QA ledger F12).
+ * AssetPacksSynthesis — formal synthesis of AssetPack **candidates**
+ * (patch + metadata). Absolute measurements are host-attached (measure stack),
+ * not invented by the synthesis LLM.
  *
- * Depositing and Reading are the same operation at the core: measuring
- * source knowledge into commercially legible AssetPack candidates. The
- * variance between them is carried entirely by the lens:
- *   - steering (depositor instructions vs. read Need),
- *   - the available measurement catalog (deposit: source-coverage /
- *     demand-alignment / reuse-likelihood; read adds need-fit and friends),
- *   - candidate framing (deposit options vs. need-fitting packs).
+ * Deposit vs read variance: steering, synthesis policy guidance, candidate framing.
+ * Formal absolute KINDs live in ASSET_PACK_ABSOLUTES_CATALOG only.
  *
- * This file is the public barrel: re-exports types, catalogs, inventory helpers,
- * neediness, and fail-closed validation; owns synthesizeAssetPackCandidates
- * (formal pipeline registration + post-inference admission).
- *
- * Impermissible sources are honored fail-closed at BOTH ends: excluded
- * paths are removed from the inventory before any prompt is built, and any
- * candidate whose covered paths violate impermissible sources (or reference paths
- * outside the real inventory) is dropped after inference.
+ * Impermissible sources are fail-closed at both ends: inventory filter before
+ * prompts; drop candidates that cover excluded/unknown paths after inference.
  */
 
 import { z } from 'zod';
@@ -30,7 +20,6 @@ import {
   type FormalSynthesisRawOption,
 } from './asset-packs-synthesis-pipeline';
 import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
-import { measurementCatalogForLens } from './asset-packs-synthesis-catalogs';
 import { isPathImpermissible } from './asset-packs-synthesis-inventory';
 import { clampVolume } from './asset-packs-synthesis-neediness';
 import { assertSourceSafeCandidates } from './asset-packs-synthesis-validate';
@@ -65,9 +54,16 @@ export type {
 export {
   ASSET_PACK_ABSOLUTES_CATALOG,
   ASSET_PACK_ABSOLUTE_KINDS,
-  DEPOSIT_MEASUREMENT_CATALOG,
+  assertAbsolutesCatalogWeights,
+  DEPOSIT_SYNTHESIS_POLICY_CATALOG,
+  READ_SYNTHESIS_POLICY_CATALOG,
+  synthesisPolicyCatalogForMode,
   DEPOSIT_NEEDINESS_MEASUREMENT,
+  /** @deprecated Use DEPOSIT_SYNTHESIS_POLICY_CATALOG */
+  DEPOSIT_MEASUREMENT_CATALOG,
+  /** @deprecated Use READ_SYNTHESIS_POLICY_CATALOG */
   READ_MEASUREMENT_CATALOG,
+  /** @deprecated Use synthesisPolicyCatalogForMode */
   measurementCatalogForLens,
 } from './asset-packs-synthesis-catalogs';
 
@@ -110,19 +106,30 @@ export async function synthesizeAssetPackCandidates(
     throw new Error('Repository inventory is empty after impermissible sources; nothing to synthesize.');
   }
 
-  const catalog = measurementCatalogForLens(request.lens);
   const maxCandidates = Math.max(1, Math.min(4, request.maxCandidates ?? 4));
   const startedAt = Date.now();
 
-  const candidateSchema = z.object({
-    kind: z.string().min(1),
-    title: z.string().min(8).max(160),
-    summary: z.string().min(40).max(900),
-    coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
-    measurements: z.record(z.string(), z.coerce.number().min(0).max(1)),
-    measurementRationale: z.string().min(20).max(700),
-    confidence: z.coerce.number().min(0).max(1),
-  });
+  // Patch + metadata only. Absolute volumes are host-measured (not LLM-invented).
+  const candidateSchema = z
+    .object({
+      kind: z.string().min(1),
+      title: z.string().min(8).max(160),
+      summary: z.string().min(40).max(900),
+      coveredSourcePaths: z.array(z.string().min(1)).min(1).max(40),
+      synthesisRationale: z.string().min(20).max(700).optional(),
+      measurementRationale: z.string().min(20).max(700).optional(),
+      confidence: z.coerce.number().min(0).max(1),
+      // Accept but ignore legacy volume maps from older models.
+      measurements: z.record(z.string(), z.coerce.number().min(0).max(1)).optional(),
+    })
+    .refine(
+      (row) =>
+        Boolean(
+          (row.synthesisRationale && row.synthesisRationale.trim().length >= 20) ||
+            (row.measurementRationale && row.measurementRationale.trim().length >= 20),
+        ),
+      { message: 'synthesisRationale (or legacy measurementRationale) required' },
+    );
   const candidateSetSchema = z.object({
     options: z.array(candidateSchema).min(1).max(maxCandidates),
   });
@@ -164,20 +171,18 @@ export async function synthesizeAssetPackCandidates(
       continue;
     }
 
-    const measurements = catalog.map((spec) => ({
-      measurementKind: spec.measurementKind,
-      label: spec.label,
-      weight: spec.weight,
-      volume: clampVolume(option.measurements[spec.measurementKind] ?? 0),
-    }));
+    const rationale = String(
+      option.synthesisRationale ?? option.measurementRationale ?? '',
+    ).trim();
 
     candidates.push({
       kind: allowedKinds.has(option.kind) ? option.kind : request.candidateKinds[0],
       title: option.title.trim(),
       summary: option.summary.trim(),
       coveredSourcePaths,
-      measurements,
-      measurementRationale: option.measurementRationale.trim(),
+      // Empty until host measure stack attaches ASSET_PACK_ABSOLUTES_CATALOG rows.
+      measurements: [],
+      measurementRationale: rationale,
       confidence: clampVolume(option.confidence),
     });
   }

@@ -396,19 +396,22 @@ Canonical catalog in `@bitcode/generic-asset-packs-synthesis`
 
 | measurementKind | Label | Unit | Weight | Law |
 |---|---|---|---|---|
-| `function-count` | Functions | functions | 0.12 | Distinct functions/behaviors the patch encodes; magnitude = count |
-| `type-count` | Types | types | 0.10 | Distinct types/interfaces/schemas; magnitude = count |
-| `file-span` | File span | files | 0.08 | Files create/modify/delete in patch; magnitude = count |
-| `symbolic-richness` | Symbolic richness | symbols | 0.12 | Distinct symbols/identifiers; magnitude = unique symbol count |
-| `modularity` | Modularity | modules | 0.08 | Distinct path modules / top-level packages; magnitude = module count |
+| `function-count` | Functions | functions | 0.09 | Distinct functions/behaviors the patch encodes; magnitude = count |
+| `type-count` | Types | types | 0.07 | Distinct types/interfaces/schemas; magnitude = count |
+| `file-span` | File span | files | 0.05 | Files create/modify/delete in patch; magnitude = count |
+| `symbolic-richness` | Symbolic richness | symbols | 0.09 | Distinct symbols/identifiers; magnitude = unique symbol count |
+| `modularity` | Modularity | modules | 0.05 | Distinct path modules / top-level packages; magnitude = module count |
+| `lang-span` | Language span | languages | 0.06 | Distinct languages in covered set (path/ext); magnitude = language count |
+| `test-surface` | Test surface | tests | 0.07 | Test/proof paths + test-like function counts; magnitude = composite count |
+| `api-surface` | API surface | exports | 0.07 | Public/export entrypoints detected; magnitude = export count |
 
 #### Quality (measure-agent judgment grounded in quantities + source-safe descriptor)
 
 | measurementKind | Label | Unit | Weight | Law |
 |---|---|---|---|---|
-| `correctness-estimate` | Correctness | estimate | 0.18 | 0..1 fidelity/coherence of synthesized knowledge |
-| `objectives-fidelity` | Objectives fidelity | estimate | 0.16 | 0..1 serves deposit objectives; honors obfuscations/exclusions |
-| `computational-usage` | Computational usage | estimate | 0.16 | 0..1 estimated computational demand of the knowledge surface |
+| `correctness-estimate` | Correctness | estimate | 0.16 | 0..1 fidelity/coherence of synthesized knowledge |
+| `objectives-fidelity` | Objectives fidelity | estimate | 0.15 | 0..1 serves deposit objectives; honors obfuscations/exclusions |
+| `computational-usage` | Computational usage | estimate | 0.14 | 0..1 estimated computational demand of the knowledge surface |
 
 #### Absolute reading shape (rebuild type — all fields always required)
 

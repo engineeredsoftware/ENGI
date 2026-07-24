@@ -6,7 +6,7 @@ import {
   buildSynthesisPromptLayers,
   sumLlmTokensFromExecutionTree,
 } from '../asset-packs-synthesis-pipeline';
-import { measurementCatalogForLens } from '../asset-packs-synthesis';
+import { synthesisPolicyCatalogForMode } from '../asset-packs-synthesis';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 // Satisfy the ExecutionPrompt root requirements exactly as AgentExecution does
@@ -14,19 +14,17 @@ import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 const BLANK = ' ' as PromptPart;
 
 /**
- * Gate 3 chunk F — sanity-check that the synthesis PromptParts compose
- * correctly through the real registry build-up: each layer registers under a
- * valid ExecutionPrompt path and the hierarchical formatter renders every
- * layer's instruction content into the system prompt, lens-correctly.
+ * Gate 3 chunk F — synthesis PromptParts compose through registry build-up.
+ * Policy layers are steering only; LLM must not invent absolute volumes.
  */
 describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
-  function render(lens: SynthesizeAssetPacksMode): string {
+  function render(mode: SynthesizeAssetPacksMode): string {
     const prompt = new ExecutionPrompt();
     prompt.set('generic_system', BLANK);
     prompt.set('specific_execution', BLANK);
-    const catalog = measurementCatalogForLens(lens);
+    const catalog = synthesisPolicyCatalogForMode(mode);
     for (const { path, part } of buildSynthesisPromptLayers(
-      lens,
+      mode,
       catalog,
       ['capability-slice', 'implementation-pattern'],
       4,
@@ -39,7 +37,7 @@ describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
   it('registers six hierarchical layers under valid execution-prompt paths', () => {
     const layers = buildSynthesisPromptLayers(
       'deposit',
-      measurementCatalogForLens('deposit'),
+      synthesisPolicyCatalogForMode('deposit'),
       ['capability-slice'],
       4,
     );
@@ -47,11 +45,10 @@ describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
       'pipeline:asset-packs-synthesis:identity',
       'pipeline:asset-packs-synthesis:source-safety',
       'phase:deposit:role',
-      'agent:measure:catalog',
-      'agent:measure:rules',
+      'agent:synthesis:policy',
+      'agent:synthesis:rules',
       'step:candidate:shape',
     ]);
-    // Every part is non-empty and accepted by the ExecutionPrompt path hierarchy.
     const prompt = new ExecutionPrompt();
     for (const { path, part } of layers) {
       expect(part.trim().length).toBeGreaterThan(0);
@@ -61,25 +58,26 @@ describe('AssetPacksSynthesis formal prompt build-up (Gate 3 chunk F)', () => {
 
   it('composes every deposit layer into the formatted system prompt', () => {
     const rendered = render('deposit');
-    expect(rendered).toContain('single Bitcode synthesis and measurement pipeline'); // identity
-    expect(rendered).toContain('Source-safety law'); // source-safety
-    expect(rendered).toContain('Product pipeline: synthesize-deposits'); // product pipeline role
-    expect(rendered).toContain('source-coverage'); // agent catalog
-    expect(rendered).toContain('demand-alignment');
-    expect(rendered).toContain('DISTINCT candidates'); // agent rules
-    expect(rendered).toContain('"options"'); // step candidate-shape contract
-    expect(rendered).toContain('capability-slice'); // allowed kinds threaded into rules
+    expect(rendered).toMatch(/synthesis pipeline/i);
+    expect(rendered).toContain('Source-safety law');
+    expect(rendered).toContain('Product pipeline: synthesize-deposits');
+    expect(rendered).toContain('Synthesis policy');
+    expect(rendered).toMatch(/do NOT invent absolute/i);
+    expect(rendered).toContain('DISTINCT candidates');
+    expect(rendered).toContain('"options"');
+    expect(rendered).toContain('capability-slice');
+    expect(rendered).toContain('synthesisRationale');
+    expect(rendered).not.toMatch(/measurements is an object with EXACTLY these keys/i);
   });
 
-  it('carries product-pipeline role and measurement catalog (deposit vs read are separate)', () => {
+  it('carries product-pipeline role and policy (deposit vs read are separate)', () => {
     const deposit = render('deposit');
     const read = render('read');
     expect(deposit).toContain('Product pipeline: synthesize-deposits');
     expect(read).toContain('Product pipeline: synthesize-reads');
-    // Read catalog adds the Need-relative measurement; deposit uses demand-alignment.
-    expect(read).toContain('need-fit');
-    expect(deposit).not.toContain('need-fit');
-    expect(deposit).toContain('demand-alignment');
+    expect(read).toContain('Need fit');
+    expect(deposit).not.toContain('Need fit');
+    expect(deposit).toContain('Demand alignment');
   });
 });
 

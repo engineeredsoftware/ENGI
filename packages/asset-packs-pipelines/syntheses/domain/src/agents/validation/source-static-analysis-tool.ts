@@ -65,6 +65,14 @@ export interface StaticAnalysisReport {
   estimatedSymbolCount: number;
   /** Distinct top-level path modules among covered paths (modularity magnitude). */
   moduleCount: number;
+  /** Distinct languages (ext keys) in the covered set — lang-span magnitude. */
+  languageCount: number;
+  /** Covered paths that look like tests/proofs — test-surface path component. */
+  testPathCount: number;
+  /** Function-like counts under test paths (sampled) — test-surface signal. */
+  estimatedTestFunctionCount: number;
+  /** Export/public entrypoints estimated for covered set — api-surface magnitude. */
+  estimatedExportCount: number;
   /** Fraction of covered files that were directly sampled (0..1). */
   coverageRatio: number;
   /** False when no source was available (counts are zero / path-only). */
@@ -115,6 +123,29 @@ const GENERIC_TYPE: RegExp[] = [/\b(?:class|struct|interface|enum|trait|record)\
 // Specifying-harness-style fact regexes (scripts tooling only).
 const SYMBOL_RE = /\b[A-Z][A-Za-z0-9]+\b|\b[a-z]+(?:[A-Z][A-Za-z0-9]+)+\b/g;
 const CONFIG_KEY_RE = /\b[a-z][a-z0-9_-]*(?:\.[a-z0-9_-]+)+\b/g;
+/** Export / public surface heuristics (language-generic, deterministic). */
+const EXPORT_PATTERNS: RegExp[] = [
+  /\bexport\s+(?:default\s+)?(?:async\s+)?(?:function|class|const|let|var|type|interface|enum)\b/g,
+  /\bexport\s*\{/g,
+  /\bmodule\.exports\b/g,
+  /\bexports\.[A-Za-z_$]/g,
+  /^[ \t]*pub\s+(?:fn|struct|enum|trait|mod|use)\b/gm,
+  /^[ \t]*public\s+(?:static\s+)?(?:class|interface|enum|record)\b/gm,
+];
+
+/** Path looks like a test/proof/spec surface (deposit discoverability signal). */
+export function isTestLikePath(path: string): boolean {
+  const p = String(path || '').replace(/\\/g, '/').toLowerCase();
+  if (!p) return false;
+  if (/(^|\/)(__tests__|tests?|spec|specs|__mocks__)(\/|$)/.test(p)) return true;
+  if (/\.(test|spec|e2e|integration)\.[a-z0-9]+$/i.test(p)) return true;
+  if (/(^|\/)(test_|.*_test\.)/.test(p.split('/').pop() || '')) return true;
+  return false;
+}
+
+export function countExportSignals(content: string): number {
+  return countMatches(content || '', EXPORT_PATTERNS);
+}
 
 function countMatches(content: string, patterns: RegExp[]): number {
   let total = 0;
@@ -231,6 +262,27 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
     modules.add(slash === -1 ? normalized : normalized.slice(0, slash));
   }
 
+  const languageCount = Object.keys(targetLanguageBreakdown).filter(Boolean).length;
+  const testPaths = targetPaths.filter(isTestLikePath);
+  const testPathCount = testPaths.length;
+  let estTestFns = 0;
+  let estExports = 0;
+  for (const path of targetPaths) {
+    const sampled = byPath.get(path);
+    if (sampled) {
+      if (isTestLikePath(path)) estTestFns += sampled.functions;
+      const file = files.find((f) => f.path === path);
+      if (file) estExports += countExportSignals(file.content);
+    } else {
+      // Density fallback: exports scale with functions lightly; test fns only on test paths.
+      if (isTestLikePath(path)) {
+        const d = densityFor(extOf(path));
+        estTestFns += d.fn;
+      }
+      estExports += globalFnPerFile * 0.25;
+    }
+  }
+
   return {
     sampledFileCount: analyses.length,
     lineCount,
@@ -246,6 +298,10 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
     estimatedTypeCount: Math.round(estTypes),
     estimatedSymbolCount: Math.round(estSymbols),
     moduleCount: modules.size || targetPaths.length || 0,
+    languageCount,
+    testPathCount,
+    estimatedTestFunctionCount: Math.round(estTestFns),
+    estimatedExportCount: Math.round(estExports),
     coverageRatio: targetPaths.length ? Number((sampledTargets / targetPaths.length).toFixed(2)) : 0,
     measuredFromSamples: analyses.length > 0,
   };

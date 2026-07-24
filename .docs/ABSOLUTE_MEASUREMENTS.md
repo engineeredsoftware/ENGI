@@ -159,7 +159,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Functions |
 | Unit | `functions` |
-| Weight | 0.12 |
+| Weight | 0.09 |
 | propertyClass | quantity |
 | Magnitude | Distinct functions/behaviors encoded by the patch (static analysis estimate) |
 | Volume | `clamp01(magnitude / 40)` |
@@ -175,7 +175,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Types |
 | Unit | `types` |
-| Weight | 0.10 |
+| Weight | 0.07 |
 | propertyClass | quantity |
 | Magnitude | Distinct types/interfaces/schemas |
 | Volume | `clamp01(magnitude / 24)` |
@@ -190,7 +190,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | File span |
 | Unit | `files` |
-| Weight | 0.08 |
+| Weight | 0.05 |
 | propertyClass | quantity |
 | Magnitude | Files create/modify/delete in patch descriptor (or covered path count) |
 | Volume | `clamp01(magnitude / 10)` |
@@ -205,7 +205,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Symbolic richness |
 | Unit | `symbols` |
-| Weight | 0.12 |
+| Weight | 0.09 |
 | propertyClass | quantity |
 | Magnitude | Unique symbol estimate over covered set |
 | Volume | `clamp01(magnitude / 200)` |
@@ -220,7 +220,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Modularity |
 | Unit | `modules` |
-| Weight | 0.08 |
+| Weight | 0.05 |
 | propertyClass | quantity |
 | Magnitude | Distinct top-level path modules / packages touched |
 | Volume | `clamp01(magnitude / 12)` |
@@ -228,6 +228,42 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | Fallback | At least 1 module from paths |
 | Deposit UI | Cross-cutting vs local slice |
 | Search | Multi-module vs single-module packs |
+
+#### `lang-span` *(P1)*
+
+| Field | Value |
+| --- | --- |
+| Label | Language span |
+| Unit | `languages` |
+| Weight | 0.06 |
+| propertyClass | quantity |
+| Magnitude | Distinct languages (ext keys) in covered set |
+| Volume | `clamp01(magnitude / 4)` |
+| Evidence | Static report `languageCount` / `targetLanguageBreakdown` |
+
+#### `test-surface` *(P1)*
+
+| Field | Value |
+| --- | --- |
+| Label | Test surface |
+| Unit | `tests` |
+| Weight | 0.07 |
+| propertyClass | quantity |
+| Magnitude | Test-like paths + test function signal |
+| Volume | `clamp01(magnitude / 30)` |
+| Evidence | Path heuristics + static analysis |
+
+#### `api-surface` *(P1)*
+
+| Field | Value |
+| --- | --- |
+| Label | API surface |
+| Unit | `exports` |
+| Weight | 0.07 |
+| propertyClass | quantity |
+| Magnitude | Export/public entrypoint count |
+| Volume | `clamp01(magnitude / 16)` |
+| Evidence | Export regex heuristics on samples/sources |
 
 ---
 
@@ -239,7 +275,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Correctness |
 | Unit | `estimate` |
-| Weight | 0.18 |
+| Weight | 0.16 |
 | propertyClass | quality |
 | Magnitude | Mirrors volume (always required) |
 | Volume | 0..1 fidelity/coherence of synthesized knowledge |
@@ -254,7 +290,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Objectives fidelity |
 | Unit | `estimate` |
-| Weight | 0.16 |
+| Weight | 0.15 |
 | propertyClass | quality |
 | Magnitude | Mirrors volume |
 | Volume | Serves deposit objectives; honors obfuscations/exclusions |
@@ -268,7 +304,7 @@ Weights sum to **1.00** (quantity 0.50 + quality 0.50).
 | --- | --- |
 | Label | Computational usage |
 | Unit | `estimate` |
-| Weight | 0.16 |
+| Weight | 0.14 |
 | propertyClass | quality |
 | Magnitude | Mirrors volume |
 | Volume | Estimated computational demand of the knowledge surface |
@@ -452,7 +488,7 @@ Do not overload absolutes with market or Need-relative signal.
 | Q1 | Keep shared `agent-measure` base? | Shared vs split absolute/neediness packages | **Shared** — PTRR plumbing is identical |
 | Q2 | Should quality inference be default on deposit Implementation? | Always when execution present vs flag | Prefer always with deterministic fallback (align with `preferQualityInference`) |
 | Q3 | Retire `DEPOSIT_MEASUREMENT_CATALOG` when? | Immediate vs after prompt rewrite | After prompts no longer depend on it |
-| Q4 | Next quantity kinds priority? | test-surface / api-surface / lang-span | **TBD with product** — default lean: `lang-span` + `test-surface` first |
+| Q4 | Next quantity kinds priority? | test-surface / api-surface / lang-span | **Landed P1** — all three in catalog (2026-07) |
 | Q5 | SPEC promotion of catalog changes | Impl-only experiment vs SPEC delta first | Catalog law changes → SPEC gate; tooling/prompt hygiene can be impl-only |
 
 ---
@@ -468,7 +504,7 @@ Do not overload absolutes with market or Need-relative signal.
 | 4 | Quarantine/rename legacy deposit/read measurement catalogs | generic-asset-packs/synthesis, domain, deposit | No if behavior preserved |
 | 5 | Document Discovery `sourceMeasurements` shape in code + tests | deposit discovery | Align with SPEC |
 | 6 | Depository absolute facets (filter/sort) | depository search + index | Possibly parity row |
-| 7 | Candidate new quantity kinds (lang-span, test-surface) | catalog + tool + SPEC | **Yes** for law |
+| 7 | P1 quantity kinds (lang-span, test-surface, api-surface) | catalog + tool + SPEC | **Done** (2026-07) |
 | 8 | UI: absolute radar / measured-vs-estimated on deposits | apps/uapi deposits | Product |
 | 9 | Needinesses deep pass | later | Gate read |
 

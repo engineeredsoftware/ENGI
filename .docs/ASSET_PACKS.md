@@ -125,11 +125,14 @@ Static analysis + patch descriptor produce **magnitude** (raw count) and **volum
 
 | `measurementKind` | Label | Unit | Weight | What is measured |
 |-------------------|-------|------|--------|------------------|
-| `function-count` | Functions | functions | 0.12 | Distinct functions/behaviors the patch encodes |
-| `type-count` | Types | types | 0.10 | Distinct types/interfaces/schemas |
-| `file-span` | File span | files | 0.08 | Files create/modify/delete in the patch descriptor |
-| `symbolic-richness` | Symbolic richness | symbols | 0.12 | Density of distinct symbols/identifiers |
-| `modularity` | Modularity | modules | 0.08 | Distinct path modules / top-level packages touched |
+| `function-count` | Functions | functions | 0.09 | Distinct functions/behaviors the patch encodes |
+| `type-count` | Types | types | 0.07 | Distinct types/interfaces/schemas |
+| `file-span` | File span | files | 0.05 | Files create/modify/delete in the patch descriptor |
+| `symbolic-richness` | Symbolic richness | symbols | 0.09 | Density of distinct symbols/identifiers |
+| `modularity` | Modularity | modules | 0.05 | Distinct path modules / top-level packages touched |
+| `lang-span` | Language span | languages | 0.06 | Distinct languages in covered set |
+| `test-surface` | Test surface | tests | 0.07 | Test/proof paths + test-like function counts |
+| `api-surface` | API surface | exports | 0.07 | Public/export entrypoints |
 
 #### Quality (measure-agent judgment, grounded in quantities)
 
@@ -137,9 +140,9 @@ Volumes are 0..1 estimates; no free-form invention without the measure stack.
 
 | `measurementKind` | Label | Unit | Weight | What is judged |
 |-------------------|-------|------|--------|----------------|
-| `correctness-estimate` | Correctness | estimate | 0.18 | Internal coherence / fidelity of synthesized knowledge |
-| `objectives-fidelity` | Objectives fidelity | estimate | 0.16 | Serves deposit objectives; honors obfuscations/exclusions |
-| `computational-usage` | Computational usage | estimate | 0.16 | Estimated computational demand of the knowledge surface |
+| `correctness-estimate` | Correctness | estimate | 0.16 | Internal coherence / fidelity of synthesized knowledge |
+| `objectives-fidelity` | Objectives fidelity | estimate | 0.15 | Serves deposit objectives; honors obfuscations/exclusions |
+| `computational-usage` | Computational usage | estimate | 0.14 | Estimated computational demand of the knowledge surface |
 
 ### 2.2 Measurement reading shape
 

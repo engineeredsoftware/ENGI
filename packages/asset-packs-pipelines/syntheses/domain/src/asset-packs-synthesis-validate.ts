@@ -53,7 +53,7 @@ export function assertSourceSafeCandidates(
  * Formal absolute measurements are produced at the end of **Implementation**
  * (measure-agent / measure-absolutes path) — not by Validation. Validation
  * only gates readiness; this function is the route-side projection check.
- * Prefer formal absolutes; never silently project legacy DEPOSIT_MEASUREMENT_CATALOG
+ * Prefer formal absolutes; never silently project DEPOSIT_SYNTHESIS_POLICY_CATALOG
  * placeholders onto deposit cards.
  */
 export function validateDepositSynthesisOptions(

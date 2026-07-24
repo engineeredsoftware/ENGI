@@ -83,6 +83,9 @@ describe('agent-measure-absolutes', () => {
     const quantity = ASSET_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quantity');
     const quality = ASSET_PACK_ABSOLUTES_CATALOG.filter((s) => s.propertyClass === 'quality');
     expect(quantity.map((s) => s.measurementKind)).toEqual(
+      expect.arrayContaining(['lang-span', 'test-surface', 'api-surface']),
+    );
+    expect(quantity.map((s) => s.measurementKind)).toEqual(
       expect.arrayContaining([
         'function-count',
         'type-count',

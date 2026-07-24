@@ -14,7 +14,6 @@ import {
   projectInventoryForPrompt,
   synthesizeAssetPackCandidates,
   validateDepositSynthesisOptions,
-  DEPOSIT_MEASUREMENT_CATALOG,
 } from '../asset-packs-synthesis';
 import { buildRealDepositAssetPackOptionSynthesis } from '../../../deposit/src/deposit-option-real-synthesis';
 import { assertDepositAssetPackOptionSynthesisSourceSafe } from '../../../deposit/src/deposit-asset-pack-options';
@@ -45,12 +44,7 @@ function inferenceCandidate(overrides: Record<string, unknown> = {}) {
     summary:
       'A source-safe slice describing the demo application capability, its entry points, and operational behavior for future reading demand.',
     coveredSourcePaths: ['README.md', 'src/app.py'],
-    measurements: {
-      'source-coverage': 0.6,
-      'demand-alignment': 0.7,
-      'reuse-likelihood': 0.5,
-    },
-    measurementRationale:
+    synthesisRationale:
       'Covers the primary application path and documentation, aligning with demand for runnable demo knowledge.',
     confidence: 0.8,
     ...overrides,
@@ -128,7 +122,7 @@ describe('AssetPacksSynthesis core', () => {
     expect(scoped.samples.every((s) => s.path.startsWith('apps/uapi/'))).toBe(true);
   });
 
-  it('maps inference candidates through the lens measurement catalog', async () => {
+  it('admits candidates without inventing absolute measurement volumes', async () => {
     mockInference.mockResolvedValue(inferenceOutcome([inferenceCandidate()]));
 
     const result = await synthesizeAssetPackCandidates({
@@ -143,11 +137,9 @@ describe('AssetPacksSynthesis core', () => {
 
     expect(result.candidates).toHaveLength(1);
     const [candidate] = result.candidates;
-    expect(candidate.measurements.map((m) => m.measurementKind)).toEqual(
-      DEPOSIT_MEASUREMENT_CATALOG.map((spec) => spec.measurementKind),
-    );
-    expect(candidate.measurements.map((m) => m.weight)).toEqual([0.36, 0.4, 0.24]);
-    expect(candidate.measurements[0].volume).toBe(0.6);
+    // Host measure stack attaches ASSET_PACK_ABSOLUTES_CATALOG; synthesis leaves empty.
+    expect(candidate.measurements).toEqual([]);
+    expect(candidate.measurementRationale).toMatch(/primary application path/i);
     expect(result.droppedCandidateCount).toBe(0);
   });
 
@@ -230,7 +222,8 @@ describe('deposit lens adapter', () => {
     expect(synthesis.synthesisMode).toBe('real-bounded-inference');
     expect(synthesis.pipelineCore).toBe('AssetPacksSynthesis');
     expect(synthesis.optionCount).toBe(1);
-    expect(synthesis.options[0].measurements.map((m) => m.volume)).toEqual([0.6, 0.7, 0.5]);
+    // Formal synthesis no longer invents policy volumes; host measure stack attaches absolutes.
+    expect(synthesis.options[0].measurements).toEqual([]);
     expect(synthesis.options[0].roots.optionRoot).toMatch(/^deposit-asset-pack-option:[0-9a-f]{8}$/);
     expect(synthesis.exclusionPosture.impermissibleSourceCount).toBe(1);
     expect(synthesis.exclusionPosture.excludedPathCount).toBe(1);
@@ -252,7 +245,7 @@ describe('deposit lens adapter', () => {
           title: 'Auth capability slice',
           summary: 'A reusable authentication capability extracted from the source.',
           coveredSourcePaths: ['README.md', 'src/app.py'],
-          measurements: { 'source-coverage': 0.6, 'demand-alignment': 0.7, 'reuse-likelihood': 0.5 },
+          synthesisRationale: 'Covers the primary application path with source-safe summary.',
           measurementRationale: 'Covers the auth path.',
           confidence: 0.8,
           // Formal absolutes (Implementation measure path) are required — no

@@ -2242,3 +2242,13 @@ generic-asset-packs three products over shared synthesis base:
 - DepositSynthesizedAssetPack
 - ReadSynthesizedAssetPack
 - ReadSynthesizedSettledAssetPack (`read-synthesized-settled/`) — BTD rights, BTC finality, ERC1155 co-own, PR delivery after settle-asset-pack-pipeline
+
+## Absolute catalog P1 (2026-07)
+
+Expanded `ASSET_PACK_ABSOLUTES_CATALOG` quantity kinds: `lang-span`, `test-surface`,
+`api-surface` (tool-authoritative via static analysis). Weights rebalanced so Σ = 1
+(quantity ≈ 0.55, quality ≈ 0.45). Synthesis LLM policy catalogs renamed
+(`DEPOSIT_SYNTHESIS_POLICY_CATALOG` / `READ_SYNTHESIS_POLICY_CATALOG`) and no longer
+emit inventable volume maps — host attaches absolutes. Measure agent prompts use named
+`promptpart_generic_agent_measure_*` parts. See `.docs/ABSOLUTE_MEASUREMENTS.md` and
+`.docs/ABSOLUTE_MEASUREMENTS_CATALOG.md`.
