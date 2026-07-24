@@ -8,6 +8,7 @@ import {
   absoluteFacetScore,
   absoluteFacetsCorpusText,
   extractAbsoluteFacets,
+  materialIdentityCorpusText,
 } from './depository-search-absolute-facets';
 import {
   DEFAULT_THRESHOLDS,
@@ -185,6 +186,9 @@ function assetMetadataText(asset: DepositoryAsset): string {
     ...(stringArray(asset.metadata?.declaredConstraints)),
     ...(stringArray(asset.metadata?.sourcePaths)),
     absoluteFacetsCorpusText(extractAbsoluteFacets(asset)),
+    materialIdentityCorpusText(
+      asset.metadata?.materialIdentity || asset.metadata?.material_identity,
+    ),
   ].join(' ');
 }
 
@@ -228,8 +232,11 @@ export function assetCorpus(asset: DepositoryAsset): string {
     ...(stringArray(asset.metadata?.declaredStacks)),
     ...(stringArray(asset.metadata?.declaredConstraints)),
     ...(stringArray(asset.metadata?.sourcePaths)),
-    // Absolute facets drive lexical + measurement channels (deposit/read search).
+    // Absolute facets + material identity drive lexical + measurement channels.
     absoluteFacetsCorpusText(extractAbsoluteFacets(asset)),
+    materialIdentityCorpusText(
+      asset.metadata?.materialIdentity || asset.metadata?.material_identity,
+    ),
   ].join(' ');
 }
 

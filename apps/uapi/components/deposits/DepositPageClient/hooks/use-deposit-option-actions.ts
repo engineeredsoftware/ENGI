@@ -125,12 +125,28 @@ export function useDepositOptionActions(input: {
               option?.contents?.provenantSourcePaths ||
               option?.sourceBinding?.sourcePathRoots ||
               [];
-            // Option measurements are a flat absolute array on the review model.
-            // Server index job expands to full 46 commercial kinds (do not import
-            // remeasure stack in the browser — it pulls Node-only measure agents).
-            const measurements = Array.isArray(option?.measurements)
-              ? option.measurements
-              : [];
+            // Measurements may be nested { absolutes, materialIdentity } or flat.
+            // Server expands volumes to full commercial catalogue.
+            const rawMeasurements = option?.measurements as
+              | unknown[]
+              | { absolutes?: unknown[]; materialIdentity?: unknown }
+              | undefined;
+            const measurements = Array.isArray(rawMeasurements)
+              ? rawMeasurements
+              : Array.isArray((rawMeasurements as { absolutes?: unknown[] })?.absolutes)
+                ? ((rawMeasurements as { absolutes: unknown[] }).absolutes as unknown[])
+                : [];
+            const materialIdentity =
+              rawMeasurements &&
+              typeof rawMeasurements === 'object' &&
+              !Array.isArray(rawMeasurements) &&
+              (rawMeasurements as { materialIdentity?: unknown }).materialIdentity &&
+              typeof (rawMeasurements as { materialIdentity?: unknown }).materialIdentity ===
+                'object'
+                ? ((rawMeasurements as { materialIdentity: Record<string, unknown> })
+                    .materialIdentity)
+                : (option as { materialIdentity?: Record<string, unknown> })?.materialIdentity ||
+                  null;
             const absoluteKinds = measurements
               .map((m) =>
                 String(
@@ -170,6 +186,7 @@ export function useDepositOptionActions(input: {
                 coveredSourcePaths,
                 absoluteKinds,
                 absoluteVolumes,
+                materialIdentity,
               }),
             }).catch(() => {
               /* index is best-effort; admission already succeeded */

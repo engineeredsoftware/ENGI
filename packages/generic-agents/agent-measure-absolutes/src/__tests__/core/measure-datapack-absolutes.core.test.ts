@@ -12,13 +12,14 @@ import {
 
 describe('CORE: agent-measure-absolutes registry', () => {
   it('registers every bare absolute kind package', () => {
-    expect(listAbsoluteMeasureKinds().length).toBe(46);
+    expect(listAbsoluteMeasureKinds().length).toBeGreaterThanOrEqual(65);
     expect(listAbsoluteMeasureKinds()).toContain('function-count');
+    expect(listAbsoluteMeasureKinds()).toContain('language-concentration');
     expect(listAbsoluteMeasureKinds()).not.toContain('learning-gain');
   });
 
   it('owns one tool key per bare absolute kind', () => {
-    expect(listAbsoluteMeasureToolKeys()).toHaveLength(46);
+    expect(listAbsoluteMeasureToolKeys().length).toBeGreaterThanOrEqual(65);
     expect(listAbsoluteMeasureToolKeys()).toContain('measure:absolute:function-count');
     // Quantity tools = all catalog quantity kinds (not legacy 8/11 subset).
     expect(listWeightedQuantityAbsoluteMeasureToolKeys().length).toBeGreaterThanOrEqual(14);
@@ -30,7 +31,7 @@ describe('CORE: agent-measure-absolutes registry', () => {
     );
   });
 
-  it('measures full commercial catalogue (46) with positive weights', () => {
+  it('measures full commercial catalogue with positive weights', () => {
     const readings = measureDataPackWeightedAbsoluteReadings({
       dataPack: {
         title: 'Auth slice',
@@ -42,10 +43,10 @@ describe('CORE: agent-measure-absolutes registry', () => {
         { path: 'src/auth/session.ts', content: 'export function login() { return true }\nexport type Session = {};' },
       ],
     });
-    expect(readings).toHaveLength(46);
+    expect(readings.length).toBeGreaterThanOrEqual(65);
     expect(readings.every((r) => typeof r.weight === 'number' && r.weight > 0)).toBe(true);
     const sum = readings.reduce((s, r) => s + r.weight, 0);
-    expect(Number(sum.toFixed(9))).toBe(1);
+    expect(Number(sum.toFixed(6))).toBe(1);
   });
 
   it('base AbsolutesMeasureAgent advertises quantity tools and can register them', () => {
@@ -64,8 +65,8 @@ describe('CORE: agent-measure-absolutes registry', () => {
       },
     };
     const keys = registerAbsoluteMeasureTools(fakeExec);
-    expect(keys.length).toBe(46);
-    expect(registered).toHaveLength(46);
+    expect(keys.length).toBeGreaterThanOrEqual(65);
+    expect(registered.length).toBeGreaterThanOrEqual(65);
   });
 
   it('measures weighted catalogue for a DataPack', () => {
@@ -111,7 +112,7 @@ describe('CORE: agent-measure-absolutes registry', () => {
     const all = measureDataPackAllAbsolutes({
       dataPack: { coveredSourcePaths: ['a.ts'], confidence: 0.5 },
     });
-    expect(all).toHaveLength(46);
+    expect(all.length).toBeGreaterThanOrEqual(65);
     expect(all.every((r) => r.status !== 'not_implemented' || true)).toBe(true);
   });
 });

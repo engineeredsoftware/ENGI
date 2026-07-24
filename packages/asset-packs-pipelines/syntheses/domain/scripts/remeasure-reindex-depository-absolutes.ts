@@ -104,7 +104,16 @@ function buildEmbedText(input: {
   const volumePairs = Object.entries(input.absoluteVolumes || {})
     .filter(([, v]) => Number.isFinite(Number(v)))
     .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
-    .slice(0, 46);
+    .slice(0, 80);
+  const identityTokens = Array.isArray(
+    (input as { materialIdentity?: { corpusTokens?: unknown } }).materialIdentity
+      ?.corpusTokens,
+  )
+    ? (
+        (input as { materialIdentity?: { corpusTokens?: string[] } }).materialIdentity!
+          .corpusTokens || []
+      ).slice(0, 120)
+    : [];
   return [
     input.title,
     input.summary,
@@ -114,6 +123,7 @@ function buildEmbedText(input: {
     ...(input.topics || []),
     ...(input.absoluteKinds || []),
     ...volumePairs,
+    ...identityTokens,
     ...(input.coveredSourcePaths || []).slice(0, 40),
   ]
     .filter((p): p is string => typeof p === 'string' && p.trim().length > 0)
@@ -359,6 +369,9 @@ async function main() {
         absoluteKinds: facets.absoluteKinds,
         absoluteVolumes: facets.absoluteVolumes,
         coveredSourcePaths: item.coveredSourcePaths || [],
+        materialIdentity: facets.materialIdentity || undefined,
+      } as Parameters<typeof buildEmbedText>[0] & {
+        materialIdentity?: { corpusTokens?: string[] };
       });
       const embedTextRoot = `sha256:${sha256(embedText)}`;
 
@@ -372,6 +385,8 @@ async function main() {
         catalogSize: facets.catalogSize,
         remeasuredKindCount: facets.remeasuredKindCount,
         preservedPriorKindCount: facets.preservedPriorKindCount,
+        materialIdentityHonesty: facets.materialIdentity?.honesty || null,
+        materialIdentityTokens: facets.materialIdentity?.corpusTokens?.length || 0,
       };
       if (sample.length < 15) sample.push(row);
 
@@ -390,6 +405,7 @@ async function main() {
         topics: item.topics || [],
         absolute_kinds: facets.absoluteKinds,
         absolute_volumes: facets.absoluteVolumes,
+        material_identity: facets.materialIdentity || {},
         neediness_kinds: [] as string[],
         source_path_tokens: (item.coveredSourcePaths || [])
           .map((p) => p.split('/').pop() || p)

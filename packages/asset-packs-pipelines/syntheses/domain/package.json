@@ -119,7 +119,8 @@
     "@bitcode/generic-asset-packs-synthesis": "workspace:*",
     "@bitcode/host-generics": "workspace:*",
     "@bitcode/asset-packs-pipelines-domain": "workspace:*",
-    "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog": "workspace:*"
+    "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog": "workspace:*",
+    "@bitcode/generic-measurements-domain-data-pack-material-identity": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -69,6 +69,10 @@ export async function POST(request: Request) {
       isObject(body.absoluteVolumes)
         ? (body.absoluteVolumes as Record<string, number>)
         : {},
+    materialIdentity:
+      isObject(body.materialIdentity)
+        ? (body.materialIdentity as Record<string, unknown>)
+        : null,
     skipEmbed: body.skipEmbed === true,
   };
 

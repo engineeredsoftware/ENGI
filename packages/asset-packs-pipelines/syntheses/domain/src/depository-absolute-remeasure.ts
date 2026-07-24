@@ -1,11 +1,15 @@
 /**
- * Remeasure absolute facets to commercial law (all 46 kinds).
+ * Remeasure absolute facets to full commercial catalogue + material identity.
  *
  * Server/ops only — imports bare absolute measure registry (Node-safe host path).
  * Browser-safe expand lives in `./depository-absolute-facets-expand`.
  */
 
 import { measureDataPackAbsoluteReadings } from '@bitcode/generic-agents-agent-measure-absolutes';
+import {
+  measureDataPackMaterialIdentity,
+  type DataPackMaterialIdentity,
+} from '@bitcode/generic-measurements-domain-data-pack-material-identity';
 import {
   collectAbsoluteVolumesFromUnknown,
   expandAbsoluteVolumesToFullCatalog,
@@ -45,13 +49,16 @@ export type RemeasureDataPackAbsoluteFacetsResult = {
   remeasuredKindCount: number;
   preservedPriorKindCount: number;
   mode: 'remeasured' | 'expanded-only';
+  /** Buyer-visible multi-valued identity (always produced when paths/title exist). */
+  materialIdentity: DataPackMaterialIdentity | null;
 };
 
 /**
- * Remeasure a DataPack to full 46 commercial kinds, merging prior volumes.
+ * Remeasure a DataPack to full commercial catalogue + material identity.
  *
  * Merge law:
- * - Start from measureDataPackAbsoluteReadings (all 46).
+ * - Start from measureDataPackAbsoluteReadings (full catalogue).
+ * - Companion scalars prefer material-identity volumes when present.
  * - If remeasure volume is 0 and prior volume > 0 → keep prior.
  * - If remeasure volume > 0 → take max(remeasure, prior).
  */
@@ -69,6 +76,17 @@ export function remeasureDataPackAbsoluteFacets(
     coveredSourcePaths.length > 0 ||
     fileChanges.length > 0 ||
     Boolean(input.title || input.summary);
+
+  const materialIdentity = measureDataPackMaterialIdentity({
+    title: input.title,
+    summary: input.summary,
+    coveredSourcePaths:
+      coveredSourcePaths.length > 0
+        ? coveredSourcePaths
+        : fileChanges.map((f) => f.path),
+    fileChanges,
+    sources: Array.isArray(input.sources) ? input.sources : undefined,
+  });
 
   let remeasured: Record<string, number> = {};
   let remeasuredKindCount = 0;
@@ -92,16 +110,32 @@ export function remeasureDataPackAbsoluteFacets(
             : undefined,
       },
       sources: Array.isArray(input.sources) ? input.sources : undefined,
-      staticSignals: input.staticSignals,
+      staticSignals: {
+        ...(input.staticSignals || {}),
+        ...materialIdentity.scalarVolumes,
+      },
     });
     for (const r of readings) {
       const kind = String(r.measurementKind || '')
         .trim()
         .toLowerCase();
       if (!kind) continue;
-      const vol = clamp01(Number(r.volume) || 0);
+      let vol = clamp01(Number(r.volume) || 0);
+      // Prefer identity companion volumes when bare returned 0.
+      const idVol = materialIdentity.scalarVolumes[kind];
+      if (vol <= 0 && typeof idVol === 'number' && idVol > 0) {
+        vol = clamp01(idVol);
+      }
       remeasured[kind] = vol;
       if (vol > 0) remeasuredKindCount += 1;
+    }
+  } else {
+    // Still fold identity scalar volumes into expanded bag when available.
+    for (const [kind, vol] of Object.entries(materialIdentity.scalarVolumes)) {
+      if (typeof vol === 'number' && vol > 0) {
+        remeasured[kind] = clamp01(vol);
+        remeasuredKindCount += 1;
+      }
     }
   }
 
@@ -120,6 +154,11 @@ export function remeasureDataPackAbsoluteFacets(
   }
 
   const base = mode === 'remeasured' ? merged : prior;
+  // Fold remaining identity scalars into base before full-catalog expand.
+  for (const [kind, vol] of Object.entries(materialIdentity.scalarVolumes)) {
+    if (typeof vol !== 'number' || !(vol > 0)) continue;
+    base[kind] = Math.max(base[kind] ?? 0, clamp01(vol));
+  }
   const expanded = expandAbsoluteVolumesToFullCatalog(base);
 
   return {
@@ -127,5 +166,6 @@ export function remeasureDataPackAbsoluteFacets(
     remeasuredKindCount,
     preservedPriorKindCount,
     mode,
+    materialIdentity,
   };
 }

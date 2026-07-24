@@ -132,6 +132,11 @@ export interface PackActivityRecord {
   governance: PackActivityGovernanceReadback | null;
   sourceSafety: PackActivitySourceSafety;
   metadata: Record<string, unknown>;
+  /**
+   * Buyer-visible multi-valued material identity (compositions, inventories, tags).
+   * Source-safe; never raw IP. Attached at measure time on deposit/read.
+   */
+  materialIdentity?: Record<string, unknown> | null;
 }
 
 /**
@@ -220,6 +225,8 @@ export interface PackActivityDetailProjection {
     sourceChannel: string | null;
   };
   metadata: Record<string, unknown>;
+  /** Buyer-visible material identity bag (optional). */
+  materialIdentity?: Record<string, unknown> | null;
 }
 
 export interface PackActivitySummary {
@@ -699,7 +706,7 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
   }
 
   // Prefer absolute:* rows at the front for table chips (deposit catalog order).
-  // Expand to full commercial catalogue (46) so Exchange never shows legacy 8/11 alone.
+  // Expand to full commercial catalogue so Exchange never shows a partial subset alone.
   let absolutes = measurements.filter((m) => m.id.startsWith('absolute:'));
   const rest = measurements.filter((m) => !m.id.startsWith('absolute:'));
   if (isDepositedOrSettledPack || absolutes.length > 0) {
@@ -1103,6 +1110,24 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
   const assetPackTitle = inferDataPackTitle(record);
   const assetPackKind = inferDataPackKind(record);
   const { estimatedBtd, estimatedBtdCells } = inferEstimatedBtd(record);
+  // Material identity: measurements.materialIdentity or top-level (source-safe bag).
+  const materialIdentity = (() => {
+    const payload = asRecord(record.payload);
+    const nested = asRecord(payload.measurements);
+    const fromNested = nested.materialIdentity;
+    if (fromNested && typeof fromNested === 'object' && !Array.isArray(fromNested)) {
+      return fromNested as Record<string, unknown>;
+    }
+    const top = payload.materialIdentity;
+    if (top && typeof top === 'object' && !Array.isArray(top)) {
+      return top as Record<string, unknown>;
+    }
+    const metaMi = (metadata as Record<string, unknown>).materialIdentity;
+    if (metaMi && typeof metaMi === 'object' && !Array.isArray(metaMi)) {
+      return metaMi as Record<string, unknown>;
+    }
+    return null;
+  })();
   // Prefer settle/deposit authored titles over generic execution-history labels.
   // Prefer clean pack title (not "Depository DataPack: Admitted …" noise).
   const title =
@@ -1151,6 +1176,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     governance: buildGovernanceReadback(record),
     sourceSafety: SOURCE_SAFETY,
     metadata,
+    materialIdentity,
   };
 }
 
@@ -1536,6 +1562,7 @@ export function buildPackActivityDetailProjection(
     assetPackKind: record.assetPackKind,
     estimatedBtd: record.estimatedBtd,
     estimatedBtdCells: record.estimatedBtdCells,
+    materialIdentity: record.materialIdentity ?? null,
     telemetry: {
       sourceEventId: record.id,
       sourceKind: String(record.metadata.kind || record.metadata.type || '') || null,

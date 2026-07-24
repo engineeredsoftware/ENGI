@@ -1149,6 +1149,9 @@ importers:
       '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog':
         specifier: workspace:*
         version: link:../../../generic-measurements/domain/data-pack-absolutes-catalog
+      '@bitcode/generic-measurements-domain-data-pack-material-identity':
+        specifier: workspace:*
+        version: link:../../../generic-measurements/domain/data-pack-material-identity
       '@bitcode/generic-measurements-needinesses':
         specifier: workspace:*
         version: link:../../../generic-measurements/needinesses
@@ -1728,9 +1731,15 @@ importers:
       '@bitcode/generic-measurements-absolutes-ai-generated-likelihood':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/ai-generated-likelihood
+      '@bitcode/generic-measurements-absolutes-api-style-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/api-style-clarity
       '@bitcode/generic-measurements-absolutes-api-surface':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/api-surface
+      '@bitcode/generic-measurements-absolutes-architectural-pattern-density':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/architectural-pattern-density
       '@bitcode/generic-measurements-absolutes-authorship-consistency':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/authorship-consistency
@@ -1740,6 +1749,12 @@ importers:
       '@bitcode/generic-measurements-absolutes-capability-clarity':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/capability-clarity
+      '@bitcode/generic-measurements-absolutes-capability-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/capability-surface
+      '@bitcode/generic-measurements-absolutes-change-intent-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/change-intent-clarity
       '@bitcode/generic-measurements-absolutes-coherence':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/coherence
@@ -1749,24 +1764,39 @@ importers:
       '@bitcode/generic-measurements-absolutes-computational-usage':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/computational-usage
+      '@bitcode/generic-measurements-absolutes-concurrency-model-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/concurrency-model-clarity
       '@bitcode/generic-measurements-absolutes-config-surface':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/config-surface
       '@bitcode/generic-measurements-absolutes-contamination':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/contamination
+      '@bitcode/generic-measurements-absolutes-contract-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/contract-surface
       '@bitcode/generic-measurements-absolutes-control-complexity':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/control-complexity
+      '@bitcode/generic-measurements-absolutes-copyleft-risk-mass':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/copyleft-risk-mass
       '@bitcode/generic-measurements-absolutes-correctness-estimate':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/correctness-estimate
+      '@bitcode/generic-measurements-absolutes-data-architecture-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/data-architecture-clarity
       '@bitcode/generic-measurements-absolutes-data-flow-depth':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/data-flow-depth
       '@bitcode/generic-measurements-absolutes-dead-code-ratio':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/dead-code-ratio
+      '@bitcode/generic-measurements-absolutes-dependency-class-balance':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/dependency-class-balance
       '@bitcode/generic-measurements-absolutes-dependency-health':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/dependency-health
@@ -1788,12 +1818,21 @@ importers:
       '@bitcode/generic-measurements-absolutes-duplication-internal':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/duplication-internal
+      '@bitcode/generic-measurements-absolutes-external-service-coupling':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/external-service-coupling
       '@bitcode/generic-measurements-absolutes-file-span':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/file-span
+      '@bitcode/generic-measurements-absolutes-framework-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/framework-surface
       '@bitcode/generic-measurements-absolutes-function-count':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/function-count
+      '@bitcode/generic-measurements-absolutes-generated-code-mass':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/generated-code-mass
       '@bitcode/generic-measurements-absolutes-information-content':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/information-content
@@ -1803,6 +1842,9 @@ importers:
       '@bitcode/generic-measurements-absolutes-lang-span':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/lang-span
+      '@bitcode/generic-measurements-absolutes-language-concentration':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/language-concentration
       '@bitcode/generic-measurements-absolutes-license-cleanliness':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/license-cleanliness
@@ -1812,15 +1854,24 @@ importers:
       '@bitcode/generic-measurements-absolutes-objectives-fidelity':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/objectives-fidelity
+      '@bitcode/generic-measurements-absolutes-observability-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/observability-surface
       '@bitcode/generic-measurements-absolutes-originality':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/originality
       '@bitcode/generic-measurements-absolutes-pii-exposure':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/pii-exposure
+      '@bitcode/generic-measurements-absolutes-portability':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/portability
       '@bitcode/generic-measurements-absolutes-provenance-integrity':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/provenance-integrity
+      '@bitcode/generic-measurements-absolutes-purpose-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/purpose-clarity
       '@bitcode/generic-measurements-absolutes-reproducibility':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/reproducibility
@@ -1839,12 +1890,18 @@ importers:
       '@bitcode/generic-measurements-absolutes-semantic-novelty':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/semantic-novelty
+      '@bitcode/generic-measurements-absolutes-substitution-density':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/substitution-density
       '@bitcode/generic-measurements-absolutes-symbol-connectivity':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/symbol-connectivity
       '@bitcode/generic-measurements-absolutes-symbolic-richness':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/symbolic-richness
+      '@bitcode/generic-measurements-absolutes-test-as-spec':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/test-as-spec
       '@bitcode/generic-measurements-absolutes-test-coverage':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/test-coverage
@@ -1863,6 +1920,9 @@ importers:
       '@bitcode/generic-measurements-absolutes-type-count':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/type-count
+      '@bitcode/generic-measurements-absolutes-type-safety-pressure':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/type-safety-pressure
       '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog':
         specifier: workspace:*
         version: link:../../generic-measurements/domain/data-pack-absolutes-catalog
@@ -1884,10 +1944,10 @@ importers:
         version: 29.5.14
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+        version: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.9.3))
       ts-jest:
         specifier: ^29.0.0
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.9.3)))(typescript@5.9.3)
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -3103,7 +3163,51 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/api-style-clarity:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/api-surface:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/architectural-pattern-density:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
@@ -3191,6 +3295,50 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/capability-surface:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/change-intent-clarity:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/coherence:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3257,6 +3405,28 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/concurrency-model-clarity:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/config-surface:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3301,6 +3471,28 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/contract-surface:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/control-complexity:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3323,7 +3515,51 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/copyleft-risk-mass:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/correctness-estimate:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/data-architecture-clarity:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
@@ -3368,6 +3604,28 @@ importers:
         version: 5.9.3
 
   packages/generic-measurements/absolutes/dead-code-ratio:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/dependency-class-balance:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
@@ -3543,6 +3801,28 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/external-service-coupling:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/file-span:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3565,7 +3845,51 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/framework-surface:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/function-count:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/generated-code-mass:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
@@ -3653,6 +3977,28 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/language-concentration:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/license-cleanliness:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3719,6 +4065,28 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/observability-surface:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/originality:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3763,7 +4131,51 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/portability:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/provenance-integrity:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/purpose-clarity:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
@@ -3917,6 +4329,28 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/substitution-density:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/absolutes/symbol-connectivity:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
@@ -3940,6 +4374,28 @@ importers:
         version: 5.9.3
 
   packages/generic-measurements/absolutes/symbolic-richness:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/absolutes/test-as-spec:
     dependencies:
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
@@ -4093,11 +4549,48 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-measurements/absolutes/type-safety-pressure:
+    dependencies:
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../shared/absolute-measure-input
+      '@bitcode/measurement-generics':
+        specifier: workspace:*
+        version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-measurements/domain/data-pack-absolutes-catalog:
     dependencies:
       '@bitcode/measurement-generics':
         specifier: workspace:*
         version: link:../../../measurement-generics
+    devDependencies:
+      '@types/jest':
+        specifier: ^29.0.0
+        version: 29.5.14
+      jest:
+        specifier: ^29.0.0
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
+      ts-jest:
+        specifier: ^29.0.0
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-measurements/domain/data-pack-material-identity:
     devDependencies:
       '@types/jest':
         specifier: ^29.0.0
@@ -4593,6 +5086,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-api-style-clarity:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-api-style-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/api-style-clarity
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-api-surface:
     dependencies:
       '@bitcode/agent-generics':
@@ -4601,6 +5110,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-api-surface':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/api-surface
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-architectural-pattern-density:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-architectural-pattern-density':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/architectural-pattern-density
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -4657,6 +5182,38 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-capability-surface:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-capability-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/capability-surface
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-change-intent-clarity:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-change-intent-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/change-intent-clarity
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-coherence:
     dependencies:
       '@bitcode/agent-generics':
@@ -4705,6 +5262,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-concurrency-model-clarity:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-concurrency-model-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/concurrency-model-clarity
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-config-surface:
     dependencies:
       '@bitcode/agent-generics':
@@ -4737,6 +5310,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-contract-surface:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-contract-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/contract-surface
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-control-complexity:
     dependencies:
       '@bitcode/agent-generics':
@@ -4753,6 +5342,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-copyleft-risk-mass:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-copyleft-risk-mass':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/copyleft-risk-mass
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-correctness-estimate:
     dependencies:
       '@bitcode/agent-generics':
@@ -4761,6 +5366,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-correctness-estimate':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/correctness-estimate
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-data-architecture-clarity:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-data-architecture-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/data-architecture-clarity
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -4793,6 +5414,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-dead-code-ratio':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/dead-code-ratio
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-dependency-class-balance:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-dependency-class-balance':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/dependency-class-balance
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -4913,6 +5550,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-external-service-coupling:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-external-service-coupling':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/external-service-coupling
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-file-span:
     dependencies:
       '@bitcode/agent-generics':
@@ -4929,6 +5582,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-framework-surface:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-framework-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/framework-surface
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-function-count:
     dependencies:
       '@bitcode/agent-generics':
@@ -4937,6 +5606,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-function-count':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/function-count
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-generated-code-mass:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-generated-code-mass':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/generated-code-mass
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -4993,6 +5678,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-language-concentration:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-language-concentration':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/language-concentration
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-license-cleanliness:
     dependencies:
       '@bitcode/agent-generics':
@@ -5041,6 +5742,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-observability-surface:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-observability-surface':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/observability-surface
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-originality:
     dependencies:
       '@bitcode/agent-generics':
@@ -5073,6 +5790,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-portability:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-portability':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/portability
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-provenance-integrity:
     dependencies:
       '@bitcode/agent-generics':
@@ -5081,6 +5814,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-provenance-integrity':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/provenance-integrity
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-purpose-clarity:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-purpose-clarity':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/purpose-clarity
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -5185,6 +5934,22 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/generic-tools/tool-measure-substitution-density:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-substitution-density':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/substitution-density
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/generic-tools/tool-measure-symbol-connectivity:
     dependencies:
       '@bitcode/agent-generics':
@@ -5209,6 +5974,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-symbolic-richness':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/symbolic-richness
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-test-as-spec:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-test-as-spec':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/test-as-spec
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -5305,6 +6086,22 @@ importers:
       '@bitcode/generic-measurements-absolutes-type-count':
         specifier: workspace:*
         version: link:../../generic-measurements/absolutes/type-count
+      '@bitcode/generic-measurements-shared-absolute-measure-input':
+        specifier: workspace:*
+        version: link:../../generic-measurements/shared/absolute-measure-input
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/generic-tools/tool-measure-type-safety-pressure:
+    dependencies:
+      '@bitcode/agent-generics':
+        specifier: workspace:*
+        version: link:../../agent-generics
+      '@bitcode/generic-measurements-absolutes-type-safety-pressure':
+        specifier: workspace:*
+        version: link:../../generic-measurements/absolutes/type-safety-pressure
       '@bitcode/generic-measurements-shared-absolute-measure-input':
         specifier: workspace:*
         version: link:../../generic-measurements/shared/absolute-measure-input
@@ -28405,12 +29202,6 @@ snapshots:
       '@vue/shared': 3.5.18
       vue: 3.5.18(typescript@5.9.3)
 
-  '@vue/server-renderer@3.5.18(vue@3.5.18(typescript@6.0.3))':
-    dependencies:
-      '@vue/compiler-ssr': 3.5.18
-      '@vue/shared': 3.5.18
-      vue: 3.5.18(typescript@6.0.3)
-
   '@vue/shared@3.5.18': {}
 
   '@vue/typescript-plugin@3.3.7(typescript@6.0.3)':
@@ -38583,7 +39374,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.18
       '@vue/compiler-sfc': 3.5.18
       '@vue/runtime-dom': 3.5.18
-      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@6.0.3))
+      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@5.9.3))
       '@vue/shared': 3.5.18
     optionalDependencies:
       typescript: 6.0.3

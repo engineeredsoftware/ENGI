@@ -105,7 +105,7 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     : [];
 
   const {
-    measureDataPackAbsolutes,
+    measureDataPackAbsolutesAndIdentity,
     computeDeterministicAbsolutes,
     registerSourceStaticAnalysisTool,
   } = await import('../../../../domain/src/agents/validation/agent-measure-absolutes');
@@ -143,24 +143,29 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
         : bodies;
 
     let absolutes: DepositAbsoluteReading[] = [];
+    let materialIdentity: Record<string, unknown> | null = null;
     try {
-      // Tool-rich measure: bare absolutes + static analysis + quality inference.
-      const measured = await measureDataPackAbsolutes(patchDescriptor, {
+      // Tool-rich measure: bare absolutes + material identity + quality inference.
+      const measured = await measureDataPackAbsolutesAndIdentity(patchDescriptor, {
         lens: 'deposit',
         execution,
         sources: scopedBodies,
         preferQualityInference: true,
       });
       absolutes =
-        Array.isArray(measured) && measured.length > 0
-          ? (measured as DepositAbsoluteReading[])
+        Array.isArray(measured.absolutes) && measured.absolutes.length > 0
+          ? (measured.absolutes as DepositAbsoluteReading[])
           : (computeDeterministicAbsolutes(patchDescriptor) as DepositAbsoluteReading[]);
+      materialIdentity =
+        measured.materialIdentity && typeof measured.materialIdentity === 'object'
+          ? (measured.materialIdentity as Record<string, unknown>)
+          : null;
     } catch {
       absolutes = computeDeterministicAbsolutes(patchDescriptor) as DepositAbsoluteReading[];
     }
 
-    // Allowlist constructor — legal deposit shape only.
-    const pack = toDepositMeasuredPack(patchfile, absolutes);
+    // Allowlist constructor — legal deposit shape (absolutes + materialIdentity).
+    const pack = toDepositMeasuredPack(patchfile, absolutes, materialIdentity);
     measuredOptions.push(pack);
 
     const shapeOk = hasDepositAbsolutesOnlyShape(pack);

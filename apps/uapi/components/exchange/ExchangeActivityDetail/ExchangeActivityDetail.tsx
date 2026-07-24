@@ -285,12 +285,160 @@ function OverviewAndMeasurements({
         </dl>
       </ExchangeDetailSection>
 
+      <MaterialIdentityStrip materialIdentity={detail.materialIdentity} />
+
       <ExchangeDetailSection
         title={`Measurements · ${detail.measurements.length || 0}`}
       >
         <MeasurementsGrid measurements={detail.measurements} />
       </ExchangeDetailSection>
     </>
+  );
+}
+
+/**
+ * Buyer-visible material identity: purpose, languages, frameworks, patterns,
+ * runtimes, top deps — source-safe only (no IP).
+ */
+function MaterialIdentityStrip({
+  materialIdentity,
+}: {
+  materialIdentity?: Record<string, unknown> | null;
+}) {
+  if (!materialIdentity || typeof materialIdentity !== "object") return null;
+  const tagSets = Array.isArray(materialIdentity.tagSets)
+    ? (materialIdentity.tagSets as Array<{
+        kind?: string;
+        label?: string;
+        tags?: string[];
+        primary?: string | null;
+      }>)
+    : [];
+  const compositions = Array.isArray(materialIdentity.compositions)
+    ? (materialIdentity.compositions as Array<{
+        kind?: string;
+        label?: string;
+        shares?: Record<string, number>;
+        primary?: string | null;
+      }>)
+    : [];
+  const inventories = Array.isArray(materialIdentity.inventories)
+    ? (materialIdentity.inventories as Array<{
+        kind?: string;
+        label?: string;
+        items?: Array<{ id?: string; label?: string; usageShare?: number }>;
+        totalCount?: number;
+      }>)
+    : [];
+
+  const purpose = tagSets.find((t) => t.kind === "purpose");
+  const runtimes = tagSets.find((t) => t.kind === "runtimes");
+  const patterns = tagSets.find((t) => t.kind === "architectural-patterns");
+  const lang = compositions.find((c) => c.kind === "language-mix");
+  const frameworks = inventories.find((i) => i.kind === "frameworks");
+  const deps = inventories.find((i) => i.kind === "dependencies");
+
+  const hasAny =
+    (purpose?.tags?.length || 0) > 0 ||
+    (lang && Object.keys(lang.shares || {}).length > 0) ||
+    (frameworks?.items?.length || 0) > 0 ||
+    (runtimes?.tags?.length || 0) > 0;
+  if (!hasAny) return null;
+
+  const chip = (text: string, key: string) => (
+    <span
+      key={key}
+      className="inline-flex items-center border border-white/10 bg-white/[0.04] px-2 py-1 text-[0.68rem] text-neutral-200"
+    >
+      {text}
+    </span>
+  );
+
+  const langChips = Object.entries(lang?.shares || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([k, v]) => chip(`${k} ${Math.round(v * 100)}%`, `lang-${k}`));
+
+  return (
+    <ExchangeDetailSection title="Material identity">
+      <div
+        className="space-y-3 text-sm"
+        data-testid="exchange-material-identity"
+      >
+        {purpose?.primary || purpose?.tags?.length ? (
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+              Purpose
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {(purpose?.tags || [purpose?.primary]).filter(Boolean).map((t, i) =>
+                chip(String(t), `purpose-${i}`),
+              )}
+            </div>
+          </div>
+        ) : null}
+        {langChips.length ? (
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+              Languages
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">{langChips}</div>
+          </div>
+        ) : null}
+        {frameworks?.items?.length ? (
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+              Frameworks
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {frameworks.items.slice(0, 10).map((f) =>
+                chip(String(f.label || f.id), `fw-${f.id}`),
+              )}
+            </div>
+          </div>
+        ) : null}
+        {runtimes?.tags?.length ? (
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+              Runtimes
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {runtimes.tags.slice(0, 8).map((t, i) => chip(String(t), `rt-${i}`))}
+            </div>
+          </div>
+        ) : null}
+        {patterns?.tags?.length && patterns.tags[0] !== "unspecified" ? (
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+              Architecture
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {patterns.tags.slice(0, 8).map((t, i) => chip(String(t), `pat-${i}`))}
+            </div>
+          </div>
+        ) : null}
+        {deps?.items?.length ? (
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
+              Top dependencies
+              {typeof deps.totalCount === "number" && deps.totalCount > (deps.items?.length || 0)
+                ? ` · ${deps.totalCount} total`
+                : ""}
+            </p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              {deps.items.slice(0, 12).map((d) =>
+                chip(
+                  typeof d.usageShare === "number" && d.usageShare > 0
+                    ? `${d.label || d.id} ${Math.round(d.usageShare * 100)}%`
+                    : String(d.label || d.id),
+                  `dep-${d.id}`,
+                ),
+              )}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </ExchangeDetailSection>
   );
 }
 

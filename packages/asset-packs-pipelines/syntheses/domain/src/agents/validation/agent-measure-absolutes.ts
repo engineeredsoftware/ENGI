@@ -437,31 +437,55 @@ async function measureStaticAnalysis(
   }
 }
 
+export type MeasureDataPackAbsolutesContext = {
+  lens: SynthesizeAssetPacksMode;
+  execution?: any;
+  sources?: StaticAnalysisSourceFile[];
+  /**
+   * Deposit Implementation: attempt quality inference when execution is available.
+   * Quantity remains tool/bare-measure authoritative.
+   */
+  preferQualityInference?: boolean;
+  /** Optional corpus-relative substitution density (index-time). */
+  substitutionDensity?: number | null;
+};
+
+export type MeasureDataPackAbsolutesAndIdentityResult = {
+  absolutes: AssetPackCandidateMeasurement[];
+  materialIdentity: import('@bitcode/generic-measurements-domain-data-pack-material-identity').DataPackMaterialIdentity;
+};
+
 /**
- * Measure the absolutes of ONE synthesized **DataPack** patch.
+ * Measure ONE synthesized **DataPack** patch: full absolute catalogue +
+ * material identity (compositions, inventories, tags, companion scalars).
  *
- * Canon path: bare packages under generic-measurements/absolutes/<kind>
- * via @bitcode/generic-agents-agent-measure-absolutes
- * (`measureDataPackAbsoluteReadings` — all 46 commercial kinds).
- *
- * Static analysis still grounds quantity signals; optional LLM quality refine
- * remains available when inference is enabled.
+ * Hierarchy:
+ *   bare packages → agent-measure-absolutes registry
+ *   material-identity domain extract (host-authoritative for companion volumes)
+ *   optional product quality inference refine
  */
-export async function measureDataPackAbsolutes(
+export async function measureDataPackAbsolutesAndIdentity(
   patch: MeasurableAssetPackPatch,
-  context: {
-    lens: SynthesizeAssetPacksMode;
-    execution?: any;
-    sources?: StaticAnalysisSourceFile[];
-    /**
-     * Deposit Implementation: attempt quality inference when execution is available.
-     * Quantity remains tool/bare-measure authoritative.
-     */
-    preferQualityInference?: boolean;
-  },
-): Promise<AssetPackCandidateMeasurement[]> {
+  context: MeasureDataPackAbsolutesContext,
+): Promise<MeasureDataPackAbsolutesAndIdentityResult> {
   const report = await measureStaticAnalysis(patch, context);
-  // Primary: bare absolute packages — full 46 commercial catalogue (Σ=1).
+  const { measureDataPackMaterialIdentity } = await import(
+    '@bitcode/generic-measurements-domain-data-pack-material-identity'
+  );
+  const materialIdentity = measureDataPackMaterialIdentity({
+    title: patch.title,
+    summary: patch.summary,
+    coveredSourcePaths: patch.coveredSourcePaths,
+    fileChanges: patch.fileChanges,
+    sources: (context.sources || []).map((s) => ({ path: s.path, content: s.content })),
+    substitutionDensity: context.substitutionDensity,
+  });
+
+  // Companion scalar volumes from material identity ground bare packages.
+  const identitySignals: Record<string, number> = {
+    ...materialIdentity.scalarVolumes,
+  };
+
   try {
     const { measureDataPackAbsoluteReadings } = await import(
       '@bitcode/generic-agents-agent-measure-absolutes'
@@ -481,23 +505,39 @@ export async function measureDataPackAbsolutes(
         'type-count': report.estimatedTypeCount,
         'symbolic-richness': report.estimatedSymbolCount,
         'lang-span': report.languageCount,
-        'test-surface': (report.testPathCount ?? 0) + (report.estimatedTestFunctionCount ?? 0) * 0.5,
+        'test-surface':
+          (report.testPathCount ?? 0) + (report.estimatedTestFunctionCount ?? 0) * 0.5,
         'api-surface': report.estimatedExportCount,
         modularity: report.moduleCount,
+        ...identitySignals,
       },
     });
     const reportAbsolutes = computeAbsolutesFromReport(report, patch);
     const byKindReport = new Map(reportAbsolutes.map((m) => [m.measurementKind, m]));
-    // Prefer bare quantity magnitudes when staticSignals used; merge quality if inference later.
-    const bareAbsolutes: AssetPackCandidateMeasurement[] = readings.map((r) => {
+    // Prefer static-analysis quantities when present; material-identity companion
+    // volumes when provided; bare package otherwise.
+    let bareAbsolutes: AssetPackCandidateMeasurement[] = readings.map((r) => {
       const prior = byKindReport.get(r.measurementKind);
       const isQuantity = QUANTITY_KINDS.has(r.measurementKind);
+      const identityVol = identitySignals[r.measurementKind];
+      const hasIdentity =
+        typeof identityVol === 'number' && Number.isFinite(identityVol);
       return {
         measurementKind: r.measurementKind,
         label: r.label,
         weight: r.weight,
-        volume: isQuantity && prior ? prior.volume : r.volume,
-        magnitude: isQuantity && prior ? prior.magnitude : r.magnitude,
+        volume:
+          isQuantity && prior
+            ? prior.volume
+            : hasIdentity
+              ? clamp01(identityVol)
+              : r.volume,
+        magnitude:
+          isQuantity && prior
+            ? prior.magnitude
+            : hasIdentity
+              ? identityVol
+              : r.magnitude,
         unit: r.unit,
         category: 'absolute' as const,
         rationale: r.rationale,
@@ -505,21 +545,46 @@ export async function measureDataPackAbsolutes(
       };
     });
 
+    // Ensure companion kinds with identity volumes win even when quantity set misses them.
+    bareAbsolutes = bareAbsolutes.map((m) => {
+      const idVol = identitySignals[m.measurementKind];
+      if (typeof idVol !== 'number' || !Number.isFinite(idVol)) return m;
+      // Do not override classic structure quantities that static analysis owns.
+      if (
+        [
+          'function-count',
+          'type-count',
+          'file-span',
+          'symbolic-richness',
+          'modularity',
+          'lang-span',
+          'test-surface',
+          'api-surface',
+        ].includes(m.measurementKind)
+      ) {
+        return m;
+      }
+      return {
+        ...m,
+        volume: clamp01(idVol),
+        magnitude: idVol,
+      };
+    });
+
     const mayInfer =
       Boolean(context.execution) &&
       (context.preferQualityInference === true || isAssetPackRealInferenceEnabled());
     if (!mayInfer) {
-      return bareAbsolutes;
+      return { absolutes: bareAbsolutes, materialIdentity };
     }
     try {
-      // Product agent owns absolute tools; register before PTRR Try/Retry.
       try {
         const { registerAbsoluteMeasureTools } = await import(
           '@bitcode/generic-agents-agent-measure-absolutes'
         );
         registerAbsoluteMeasureTools(context.execution);
       } catch {
-        /* tools optional if package not resolvable in constrained hosts */
+        /* tools optional */
       }
       const agent =
         context.lens === 'read'
@@ -530,13 +595,57 @@ export async function measureDataPackAbsolutes(
       const agentReadings = Array.isArray((result as any)?.measurements)
         ? (result as any).measurements
         : [];
-      if (agentReadings.length === 0) return bareAbsolutes;
-      return mergeReportAndReadings(bareAbsolutes, agentReadings);
+      if (agentReadings.length === 0) {
+        return { absolutes: bareAbsolutes, materialIdentity };
+      }
+      return {
+        absolutes: mergeReportAndReadings(bareAbsolutes, agentReadings),
+        materialIdentity,
+      };
     } catch {
-      return bareAbsolutes;
+      return { absolutes: bareAbsolutes, materialIdentity };
     }
   } catch {
-    // Fallback: legacy report-only path if bare packages fail to load.
-    return computeAbsolutesFromReport(report, patch);
+    // Fallback: report + identity scalars only.
+    const reportOnly = computeAbsolutesFromReport(report, patch);
+    const byKind = new Map(reportOnly.map((m) => [m.measurementKind, m]));
+    const fallback = DATA_PACK_ABSOLUTES_PRODUCT_CATALOG.map((spec) => {
+      const prior = byKind.get(spec.measurementKind);
+      const idVol = identitySignals[spec.measurementKind];
+      if (prior) {
+        if (
+          typeof idVol === 'number' &&
+          Number.isFinite(idVol) &&
+          !QUANTITY_KINDS.has(spec.measurementKind)
+        ) {
+          return { ...prior, volume: clamp01(idVol), magnitude: idVol };
+        }
+        return prior;
+      }
+      const vol =
+        typeof idVol === 'number' && Number.isFinite(idVol) ? clamp01(idVol) : 0;
+      return {
+        measurementKind: spec.measurementKind,
+        label: spec.label,
+        weight: spec.weight,
+        volume: vol,
+        magnitude: vol,
+        unit: spec.unit,
+        category: 'absolute' as const,
+      };
+    });
+    return { absolutes: fallback, materialIdentity };
   }
+}
+
+/**
+ * Measure the absolutes of ONE synthesized **DataPack** patch.
+ * Prefer `measureDataPackAbsolutesAndIdentity` when the product needs the bag.
+ */
+export async function measureDataPackAbsolutes(
+  patch: MeasurableAssetPackPatch,
+  context: MeasureDataPackAbsolutesContext,
+): Promise<AssetPackCandidateMeasurement[]> {
+  const { absolutes } = await measureDataPackAbsolutesAndIdentity(patch, context);
+  return absolutes;
 }

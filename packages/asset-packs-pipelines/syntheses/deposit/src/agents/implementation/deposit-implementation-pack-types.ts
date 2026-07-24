@@ -77,13 +77,16 @@ export type DepositPatchfilePack = DepositPatchPlanPack & {
 };
 
 /**
- * After measurements agent: measured deposit AssetPack.
+ * After measurements agent: measured deposit DataPack.
+ * materialIdentity is buyer-visible multi-valued identity (domain bag).
  */
 export type DepositMeasuredPack = DepositPatchfilePack & {
   measurements: {
     absolutes: DepositAbsoluteReading[];
+    materialIdentity?: Record<string, unknown> | null;
   };
   absolutes?: DepositAbsoluteReading[];
+  materialIdentity?: Record<string, unknown> | null;
 };
 
 export type DepositPatchPlanPhaseOutput = {
@@ -180,6 +183,7 @@ export const toDepositPatchfilePack = toDepositPatchPlanPack;
 export function toDepositMeasuredPack(
   patchfile: DepositPatchfilePack,
   absolutes: DepositAbsoluteReading[],
+  materialIdentity?: Record<string, unknown> | null,
 ): DepositMeasuredPack {
   return {
     kind: patchfile.kind,
@@ -192,8 +196,11 @@ export function toDepositMeasuredPack(
     ...(patchfile.salvaged === true
       ? { salvaged: true as const, salvageReason: patchfile.salvageReason }
       : {}),
-    measurements: { absolutes },
+    measurements: materialIdentity
+      ? { absolutes, materialIdentity }
+      : { absolutes },
     absolutes,
+    ...(materialIdentity ? { materialIdentity } : {}),
   };
 }
 

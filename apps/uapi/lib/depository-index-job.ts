@@ -34,6 +34,11 @@ export type DepositoryIndexPackInput = {
   coveredSourcePaths?: string[] | null;
   absoluteKinds?: string[] | null;
   absoluteVolumes?: Record<string, number> | null;
+  /**
+   * Buyer-visible material identity bag (compositions, inventories, tags).
+   * Source-safe only; stored as jsonb + folded into embed/corpus.
+   */
+  materialIdentity?: Record<string, unknown> | null;
   /** When true, only upsert document (static index). */
   skipEmbed?: boolean;
 };
@@ -58,11 +63,12 @@ function sha256(text: string): string {
 }
 
 export function buildDepositoryEmbedText(input: DepositoryIndexPackInput): string {
-  // Full commercial catalogue is 46 kinds — include all finite volumes in embed text.
+  // Full commercial catalogue — include finite volumes + material identity tokens.
   const volumePairs = Object.entries(input.absoluteVolumes || {})
     .filter(([, v]) => Number.isFinite(Number(v)))
     .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
-    .slice(0, 46);
+    .slice(0, 80);
+  const identityTokens = extractMaterialIdentityCorpusTokens(input.materialIdentity);
   const parts = [
     input.title,
     input.summary,
@@ -72,11 +78,26 @@ export function buildDepositoryEmbedText(input: DepositoryIndexPackInput): strin
     ...(input.topics || []),
     ...(input.absoluteKinds || []),
     ...volumePairs,
+    ...identityTokens,
     ...(input.coveredSourcePaths || []).slice(0, 40),
   ]
     .filter((p): p is string => typeof p === 'string' && p.trim().length > 0)
     .map((p) => p.trim());
   return parts.join(' ').slice(0, 8000);
+}
+
+/** Pull source-safe corpus tokens from a material identity bag. */
+function extractMaterialIdentityCorpusTokens(
+  materialIdentity: Record<string, unknown> | null | undefined,
+): string[] {
+  if (!materialIdentity || typeof materialIdentity !== 'object') return [];
+  const tokens = materialIdentity.corpusTokens;
+  if (Array.isArray(tokens)) {
+    return tokens
+      .filter((t): t is string => typeof t === 'string' && t.trim().length > 0)
+      .slice(0, 120);
+  }
+  return [];
 }
 
 /**
@@ -96,15 +117,20 @@ export async function indexDepositoryAssetPack(
     return { ok: false, assetId: '', embeddingState: 'failed', error: 'assetId required' };
   }
 
-  // Commercial law: always store full 46 kinds (missing volumes → 0).
+  // Commercial law: always store full catalogue (missing volumes → 0).
   const expanded = expandAbsoluteVolumesToFullCatalog(input.absoluteVolumes || {});
   const absoluteKinds = expanded.absoluteKinds;
   const absoluteVolumes = expanded.absoluteVolumes;
+  const materialIdentity =
+    input.materialIdentity && typeof input.materialIdentity === 'object'
+      ? input.materialIdentity
+      : null;
 
   const embedInput: DepositoryIndexPackInput = {
     ...input,
     absoluteKinds,
     absoluteVolumes,
+    materialIdentity,
   };
   const embedTextValue = buildDepositoryEmbedText(embedInput);
   const embedTextRoot = `sha256:${sha256(embedTextValue)}`;
@@ -122,6 +148,7 @@ export async function indexDepositoryAssetPack(
     repository_full_name: input.repositoryFullName || null,
     title: input.title || null,
     summary: input.summary || null,
+    material_identity: materialIdentity,
     topics,
     absolute_kinds: absoluteKinds,
     absolute_volumes: absoluteVolumes,

@@ -1,24 +1,32 @@
 /**
- * Measurement primitives — vocabulary for measuring synthesized artifacts.
+ * Measurement primitives — vocabulary for measuring synthesized DataPacks.
  *
  * Hierarchy naming law (full ancestry always encoded at product layers):
  *   Measurement                              — primitive vocabulary
  *   AbsolutesMeasurement / MeasureAgent      — base implementations
  *   NeedinessesMeasurement / MeasureAgent    — reader-relative base
+ *   MaterialIdentity (domain)                — multi-valued buyer-visible identity
  *   SynthesizeAssetPacksAbsolutesMeasureAgent — product + base + agent
  *
- * Measurement KINDS (V48): **absolutes** | **needinesses** (more kinds later).
- * AssetPack carrier (nested kinds object):
- *   measurements: { absolutes: Reading[], needinesses: Reading[] }
+ * Measurement KINDS (V48+): **absolutes** | **needinesses** | **materialIdentity**.
+ * DataPack carrier (nested kinds object):
+ *   measurements: {
+ *     absolutes: Reading[],
+ *     needinesses: Reading[],          // deposit always []
+ *     materialIdentity?: bag           // compositions / inventories / tags (domain-typed)
+ *   }
  *
  * A Measurement is a source-safe reading of properties of digital material.
  * Measure-agents produce MeasurementOutput; they do not synthesize artifacts.
+ * Typed materialIdentity lives in
+ * `@bitcode/generic-measurements-domain-data-pack-material-identity` —
+ * this primitive only admits the optional bag on the carrier.
  */
 
 import { z } from 'zod';
 
 /** Formal measurement kinds (V48 taxonomy). More kinds may be added later. */
-export type MeasurementKindCategory = 'absolute' | 'neediness';
+export type MeasurementKindCategory = 'absolute' | 'neediness' | 'material-identity';
 
 /**
  * One measurement requested of a measurer.
@@ -74,16 +82,21 @@ export const MeasurementReadingSchema = z.object({
 });
 export type MeasurementReading = z.infer<typeof MeasurementReadingSchema>;
 
-/** Nested kinds object on AssetPacks (canonical carrier). */
+/**
+ * Nested kinds object on DataPacks (canonical carrier).
+ * materialIdentity is domain-typed at product layers; primitive keeps it open.
+ */
 export const AssetPackMeasurementsSchema = z.object({
   absolutes: z.array(MeasurementReadingSchema).default([]),
   needinesses: z.array(MeasurementReadingSchema).default([]),
+  /** Buyer-visible multi-valued identity (compositions, inventories, tags). */
+  materialIdentity: z.record(z.unknown()).optional().nullable(),
 });
 export type AssetPackMeasurements = z.infer<typeof AssetPackMeasurementsSchema>;
 
 /** Empty nested measurements bag (deposit starts with needinesses: []). */
 export function emptyAssetPackMeasurements(): AssetPackMeasurements {
-  return { absolutes: [], needinesses: [] };
+  return { absolutes: [], needinesses: [], materialIdentity: null };
 }
 
 /** Canonical measure-agent output shape (flat readings; host nests by kind). */

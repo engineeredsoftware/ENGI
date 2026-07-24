@@ -123,7 +123,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
         .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
         .map((s: any) => ({ path: s.path as string, content: s.content as string }))
     : [];
-  const { measureDataPackAbsolutes } = await import(
+  const { measureDataPackAbsolutesAndIdentity } = await import(
     '../../../../domain/src/agents/validation/agent-measure-absolutes'
   );
   const { attachNestedAbsolutes } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements');
@@ -153,11 +153,12 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
       } catch {}
     }
 
-    // Prefer per-option absolute measurements on patch+paths (deposit twin).
+    // Prefer per-option absolute + material identity on patch+paths (deposit twin).
     // Discovery checkout measurements are fallback only.
     let absolutes: any[] = [];
+    let materialIdentity: any = null;
     try {
-      absolutes = await measureDataPackAbsolutes(
+      const measured = await measureDataPackAbsolutesAndIdentity(
         {
           title: String((option as any)?.title ?? ''),
           summary: String((option as any)?.summary ?? ''),
@@ -178,6 +179,8 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
         },
         { lens: 'read', execution, sources: bodies },
       );
+      absolutes = measured.absolutes;
+      materialIdentity = measured.materialIdentity;
       if ((!Array.isArray(absolutes) || absolutes.length === 0) &&
         Array.isArray(sourceMeasurements) &&
         sourceMeasurements.length > 0) {
@@ -198,20 +201,18 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
     });
     const needFit = computeNeedFitVolume(needinesses);
 
-    attachNestedAbsolutes(option as any, absolutes);
-    (option as any).measurements = {
-      absolutes,
-      needinesses,
-    };
+    attachNestedAbsolutes(option as any, absolutes, {
+      withNeedinesses: needinesses,
+      materialIdentity,
+    });
     (option as any).needFit = needFit;
-    (option as any).absolutes = absolutes;
   }
 
   const output = {
     success: true,
     semanticKind: 'asset-pack-written-asset' as const,
     options,
-    summary: `Synthesized ${options.length} measured read AssetPack(s) (patch + absolutes + *-fit needinesses).`,
+    summary: `Synthesized ${options.length} measured read DataPack(s) (patch + absolutes + material identity + *-fit needinesses).`,
     assetPack: { repository },
   };
 

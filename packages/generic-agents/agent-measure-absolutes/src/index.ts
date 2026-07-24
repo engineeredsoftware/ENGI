@@ -11,55 +11,77 @@ import {
   assertDataPackAbsolutesCatalogWeights,
 } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 
-import { measureAbsoluteAiGeneratedLikelihood } from '@bitcode/generic-measurements-absolutes-ai-generated-likelihood';
+import { measureAbsoluteFunctionCount } from '@bitcode/generic-measurements-absolutes-function-count';
+import { measureAbsoluteTypeCount } from '@bitcode/generic-measurements-absolutes-type-count';
+import { measureAbsoluteFileSpan } from '@bitcode/generic-measurements-absolutes-file-span';
+import { measureAbsoluteSymbolicRichness } from '@bitcode/generic-measurements-absolutes-symbolic-richness';
+import { measureAbsoluteModularity } from '@bitcode/generic-measurements-absolutes-modularity';
+import { measureAbsoluteLangSpan } from '@bitcode/generic-measurements-absolutes-lang-span';
+import { measureAbsoluteTestSurface } from '@bitcode/generic-measurements-absolutes-test-surface';
 import { measureAbsoluteApiSurface } from '@bitcode/generic-measurements-absolutes-api-surface';
-import { measureAbsoluteAuthorshipConsistency } from '@bitcode/generic-measurements-absolutes-authorship-consistency';
+import { measureAbsoluteDependencySpan } from '@bitcode/generic-measurements-absolutes-dependency-span';
+import { measureAbsoluteDocSignal } from '@bitcode/generic-measurements-absolutes-doc-signal';
+import { measureAbsoluteDataFlowDepth } from '@bitcode/generic-measurements-absolutes-data-flow-depth';
+import { measureAbsoluteSymbolConnectivity } from '@bitcode/generic-measurements-absolutes-symbol-connectivity';
+import { measureAbsoluteControlComplexity } from '@bitcode/generic-measurements-absolutes-control-complexity';
+import { measureAbsoluteConfigSurface } from '@bitcode/generic-measurements-absolutes-config-surface';
 import { measureAbsoluteBuildability } from '@bitcode/generic-measurements-absolutes-buildability';
-import { measureAbsoluteCapabilityClarity } from '@bitcode/generic-measurements-absolutes-capability-clarity';
+import { measureAbsoluteTestPassRate } from '@bitcode/generic-measurements-absolutes-test-pass-rate';
+import { measureAbsoluteTestCoverage } from '@bitcode/generic-measurements-absolutes-test-coverage';
+import { measureAbsoluteTestStrength } from '@bitcode/generic-measurements-absolutes-test-strength';
+import { measureAbsoluteRuntimeCleanliness } from '@bitcode/generic-measurements-absolutes-runtime-cleanliness';
+import { measureAbsoluteReproducibility } from '@bitcode/generic-measurements-absolutes-reproducibility';
+import { measureAbsoluteSecretSafety } from '@bitcode/generic-measurements-absolutes-secret-safety';
+import { measureAbsolutePiiExposure } from '@bitcode/generic-measurements-absolutes-pii-exposure';
+import { measureAbsoluteSecurityCleanliness } from '@bitcode/generic-measurements-absolutes-security-cleanliness';
+import { measureAbsoluteDependencyHealth } from '@bitcode/generic-measurements-absolutes-dependency-health';
+import { measureAbsoluteLicenseCleanliness } from '@bitcode/generic-measurements-absolutes-license-cleanliness';
+import { measureAbsoluteDuplicationInternal } from '@bitcode/generic-measurements-absolutes-duplication-internal';
+import { measureAbsoluteDeadCodeRatio } from '@bitcode/generic-measurements-absolutes-dead-code-ratio';
+import { measureAbsoluteOriginality } from '@bitcode/generic-measurements-absolutes-originality';
+import { measureAbsoluteSemanticNovelty } from '@bitcode/generic-measurements-absolutes-semantic-novelty';
+import { measureAbsoluteContamination } from '@bitcode/generic-measurements-absolutes-contamination';
+import { measureAbsoluteAuthorshipConsistency } from '@bitcode/generic-measurements-absolutes-authorship-consistency';
+import { measureAbsoluteProvenanceIntegrity } from '@bitcode/generic-measurements-absolutes-provenance-integrity';
+import { measureAbsoluteAiGeneratedLikelihood } from '@bitcode/generic-measurements-absolutes-ai-generated-likelihood';
+import { measureAbsoluteCorrectnessEstimate } from '@bitcode/generic-measurements-absolutes-correctness-estimate';
+import { measureAbsoluteObjectivesFidelity } from '@bitcode/generic-measurements-absolutes-objectives-fidelity';
+import { measureAbsoluteComputationalUsage } from '@bitcode/generic-measurements-absolutes-computational-usage';
 import { measureAbsoluteCoherence } from '@bitcode/generic-measurements-absolutes-coherence';
 import { measureAbsoluteCompleteness } from '@bitcode/generic-measurements-absolutes-completeness';
-import { measureAbsoluteComputationalUsage } from '@bitcode/generic-measurements-absolutes-computational-usage';
-import { measureAbsoluteConfigSurface } from '@bitcode/generic-measurements-absolutes-config-surface';
-import { measureAbsoluteContamination } from '@bitcode/generic-measurements-absolutes-contamination';
-import { measureAbsoluteControlComplexity } from '@bitcode/generic-measurements-absolutes-control-complexity';
-import { measureAbsoluteCorrectnessEstimate } from '@bitcode/generic-measurements-absolutes-correctness-estimate';
-import { measureAbsoluteDataFlowDepth } from '@bitcode/generic-measurements-absolutes-data-flow-depth';
-import { measureAbsoluteDeadCodeRatio } from '@bitcode/generic-measurements-absolutes-dead-code-ratio';
-import { measureAbsoluteDependencyHealth } from '@bitcode/generic-measurements-absolutes-dependency-health';
-import { measureAbsoluteDependencySpan } from '@bitcode/generic-measurements-absolutes-dependency-span';
-import { measureAbsoluteDifficulty } from '@bitcode/generic-measurements-absolutes-difficulty';
-import { measureAbsoluteDiversityContribution } from '@bitcode/generic-measurements-absolutes-diversity-contribution';
-import { measureAbsoluteDocSignal } from '@bitcode/generic-measurements-absolutes-doc-signal';
+import { measureAbsoluteCapabilityClarity } from '@bitcode/generic-measurements-absolutes-capability-clarity';
 import { measureAbsoluteDocumentationAlignment } from '@bitcode/generic-measurements-absolutes-documentation-alignment';
-import { measureAbsoluteDuplicationInternal } from '@bitcode/generic-measurements-absolutes-duplication-internal';
-import { measureAbsoluteFileSpan } from '@bitcode/generic-measurements-absolutes-file-span';
-import { measureAbsoluteFunctionCount } from '@bitcode/generic-measurements-absolutes-function-count';
-import { measureAbsoluteInformationContent } from '@bitcode/generic-measurements-absolutes-information-content';
+import { measureAbsoluteDifficulty } from '@bitcode/generic-measurements-absolutes-difficulty';
 import { measureAbsoluteIrreducibility } from '@bitcode/generic-measurements-absolutes-irreducibility';
-import { measureAbsoluteLangSpan } from '@bitcode/generic-measurements-absolutes-lang-span';
-import { measureAbsoluteLicenseCleanliness } from '@bitcode/generic-measurements-absolutes-license-cleanliness';
-import { measureAbsoluteModularity } from '@bitcode/generic-measurements-absolutes-modularity';
-import { measureAbsoluteObjectivesFidelity } from '@bitcode/generic-measurements-absolutes-objectives-fidelity';
-import { measureAbsoluteOriginality } from '@bitcode/generic-measurements-absolutes-originality';
-import { measureAbsolutePiiExposure } from '@bitcode/generic-measurements-absolutes-pii-exposure';
-import { measureAbsoluteProvenanceIntegrity } from '@bitcode/generic-measurements-absolutes-provenance-integrity';
-import { measureAbsoluteReproducibility } from '@bitcode/generic-measurements-absolutes-reproducibility';
+import { measureAbsoluteInformationContent } from '@bitcode/generic-measurements-absolutes-information-content';
 import { measureAbsoluteRlObjectCompleteness } from '@bitcode/generic-measurements-absolutes-rl-object-completeness';
-import { measureAbsoluteRuntimeCleanliness } from '@bitcode/generic-measurements-absolutes-runtime-cleanliness';
-import { measureAbsoluteSecretSafety } from '@bitcode/generic-measurements-absolutes-secret-safety';
-import { measureAbsoluteSecurityCleanliness } from '@bitcode/generic-measurements-absolutes-security-cleanliness';
-import { measureAbsoluteSemanticNovelty } from '@bitcode/generic-measurements-absolutes-semantic-novelty';
-import { measureAbsoluteSymbolConnectivity } from '@bitcode/generic-measurements-absolutes-symbol-connectivity';
-import { measureAbsoluteSymbolicRichness } from '@bitcode/generic-measurements-absolutes-symbolic-richness';
-import { measureAbsoluteTestCoverage } from '@bitcode/generic-measurements-absolutes-test-coverage';
-import { measureAbsoluteTestPassRate } from '@bitcode/generic-measurements-absolutes-test-pass-rate';
-import { measureAbsoluteTestStrength } from '@bitcode/generic-measurements-absolutes-test-strength';
-import { measureAbsoluteTestSurface } from '@bitcode/generic-measurements-absolutes-test-surface';
 import { measureAbsoluteTrajectoryRichness } from '@bitcode/generic-measurements-absolutes-trajectory-richness';
-import { measureAbsoluteTypeCount } from '@bitcode/generic-measurements-absolutes-type-count';
+import { measureAbsoluteDiversityContribution } from '@bitcode/generic-measurements-absolutes-diversity-contribution';
+import { measureAbsoluteLanguageConcentration } from '@bitcode/generic-measurements-absolutes-language-concentration';
+import { measureAbsoluteFrameworkSurface } from '@bitcode/generic-measurements-absolutes-framework-surface';
+import { measureAbsolutePurposeClarity } from '@bitcode/generic-measurements-absolutes-purpose-clarity';
+import { measureAbsoluteDependencyClassBalance } from '@bitcode/generic-measurements-absolutes-dependency-class-balance';
+import { measureAbsoluteExternalServiceCoupling } from '@bitcode/generic-measurements-absolutes-external-service-coupling';
+import { measureAbsoluteContractSurface } from '@bitcode/generic-measurements-absolutes-contract-surface';
+import { measureAbsoluteTypeSafetyPressure } from '@bitcode/generic-measurements-absolutes-type-safety-pressure';
+import { measureAbsoluteObservabilitySurface } from '@bitcode/generic-measurements-absolutes-observability-surface';
+import { measureAbsoluteGeneratedCodeMass } from '@bitcode/generic-measurements-absolutes-generated-code-mass';
+import { measureAbsoluteTestAsSpec } from '@bitcode/generic-measurements-absolutes-test-as-spec';
+import { measureAbsolutePortability } from '@bitcode/generic-measurements-absolutes-portability';
+import { measureAbsoluteArchitecturalPatternDensity } from '@bitcode/generic-measurements-absolutes-architectural-pattern-density';
+import { measureAbsoluteCapabilitySurface } from '@bitcode/generic-measurements-absolutes-capability-surface';
+import { measureAbsoluteCopyleftRiskMass } from '@bitcode/generic-measurements-absolutes-copyleft-risk-mass';
+import { measureAbsoluteChangeIntentClarity } from '@bitcode/generic-measurements-absolutes-change-intent-clarity';
+import { measureAbsoluteDataArchitectureClarity } from '@bitcode/generic-measurements-absolutes-data-architecture-clarity';
+import { measureAbsoluteConcurrencyModelClarity } from '@bitcode/generic-measurements-absolutes-concurrency-model-clarity';
+import { measureAbsoluteApiStyleClarity } from '@bitcode/generic-measurements-absolutes-api-style-clarity';
+import { measureAbsoluteSubstitutionDensity } from '@bitcode/generic-measurements-absolutes-substitution-density';
 
 export { factoryAbsolutesMeasureAgentBase as factoryAbsolutesMeasureAgent };
-export type { AbsolutesMeasureAgent, AbsolutesMeasureAgentConfig } from './factory-absolutes-measure-agent';
+export type {
+  AbsolutesMeasureAgent,
+  AbsolutesMeasureAgentConfig,
+} from './factory-absolutes-measure-agent';
 export {
   ABSOLUTES_CATEGORY_FRAMING,
   ABSOLUTES_QUANTITY_TOOL_KINDS,
@@ -74,63 +96,83 @@ export {
   assertDataPackAbsolutesCatalogWeights,
 };
 
+/** Full commercial catalogue registry — length = DATA_PACK_ABSOLUTES_CATALOG. */
 export const ABSOLUTE_MEASURE_REGISTRY: Array<{
   kind: string;
   measure: (input: DataPackAbsoluteMeasureInput) => AbsoluteMeasureResult;
 }> = [
-  { kind: 'ai-generated-likelihood', measure: measureAbsoluteAiGeneratedLikelihood },
+  { kind: 'function-count', measure: measureAbsoluteFunctionCount },
+  { kind: 'type-count', measure: measureAbsoluteTypeCount },
+  { kind: 'file-span', measure: measureAbsoluteFileSpan },
+  { kind: 'symbolic-richness', measure: measureAbsoluteSymbolicRichness },
+  { kind: 'modularity', measure: measureAbsoluteModularity },
+  { kind: 'lang-span', measure: measureAbsoluteLangSpan },
+  { kind: 'test-surface', measure: measureAbsoluteTestSurface },
   { kind: 'api-surface', measure: measureAbsoluteApiSurface },
-  { kind: 'authorship-consistency', measure: measureAbsoluteAuthorshipConsistency },
+  { kind: 'dependency-span', measure: measureAbsoluteDependencySpan },
+  { kind: 'doc-signal', measure: measureAbsoluteDocSignal },
+  { kind: 'data-flow-depth', measure: measureAbsoluteDataFlowDepth },
+  { kind: 'symbol-connectivity', measure: measureAbsoluteSymbolConnectivity },
+  { kind: 'control-complexity', measure: measureAbsoluteControlComplexity },
+  { kind: 'config-surface', measure: measureAbsoluteConfigSurface },
   { kind: 'buildability', measure: measureAbsoluteBuildability },
-  { kind: 'capability-clarity', measure: measureAbsoluteCapabilityClarity },
+  { kind: 'test-pass-rate', measure: measureAbsoluteTestPassRate },
+  { kind: 'test-coverage', measure: measureAbsoluteTestCoverage },
+  { kind: 'test-strength', measure: measureAbsoluteTestStrength },
+  { kind: 'runtime-cleanliness', measure: measureAbsoluteRuntimeCleanliness },
+  { kind: 'reproducibility', measure: measureAbsoluteReproducibility },
+  { kind: 'secret-safety', measure: measureAbsoluteSecretSafety },
+  { kind: 'pii-exposure', measure: measureAbsolutePiiExposure },
+  { kind: 'security-cleanliness', measure: measureAbsoluteSecurityCleanliness },
+  { kind: 'dependency-health', measure: measureAbsoluteDependencyHealth },
+  { kind: 'license-cleanliness', measure: measureAbsoluteLicenseCleanliness },
+  { kind: 'duplication-internal', measure: measureAbsoluteDuplicationInternal },
+  { kind: 'dead-code-ratio', measure: measureAbsoluteDeadCodeRatio },
+  { kind: 'originality', measure: measureAbsoluteOriginality },
+  { kind: 'semantic-novelty', measure: measureAbsoluteSemanticNovelty },
+  { kind: 'contamination', measure: measureAbsoluteContamination },
+  { kind: 'authorship-consistency', measure: measureAbsoluteAuthorshipConsistency },
+  { kind: 'provenance-integrity', measure: measureAbsoluteProvenanceIntegrity },
+  { kind: 'ai-generated-likelihood', measure: measureAbsoluteAiGeneratedLikelihood },
+  { kind: 'correctness-estimate', measure: measureAbsoluteCorrectnessEstimate },
+  { kind: 'objectives-fidelity', measure: measureAbsoluteObjectivesFidelity },
+  { kind: 'computational-usage', measure: measureAbsoluteComputationalUsage },
   { kind: 'coherence', measure: measureAbsoluteCoherence },
   { kind: 'completeness', measure: measureAbsoluteCompleteness },
-  { kind: 'computational-usage', measure: measureAbsoluteComputationalUsage },
-  { kind: 'config-surface', measure: measureAbsoluteConfigSurface },
-  { kind: 'contamination', measure: measureAbsoluteContamination },
-  { kind: 'control-complexity', measure: measureAbsoluteControlComplexity },
-  { kind: 'correctness-estimate', measure: measureAbsoluteCorrectnessEstimate },
-  { kind: 'data-flow-depth', measure: measureAbsoluteDataFlowDepth },
-  { kind: 'dead-code-ratio', measure: measureAbsoluteDeadCodeRatio },
-  { kind: 'dependency-health', measure: measureAbsoluteDependencyHealth },
-  { kind: 'dependency-span', measure: measureAbsoluteDependencySpan },
-  { kind: 'difficulty', measure: measureAbsoluteDifficulty },
-  { kind: 'diversity-contribution', measure: measureAbsoluteDiversityContribution },
-  { kind: 'doc-signal', measure: measureAbsoluteDocSignal },
+  { kind: 'capability-clarity', measure: measureAbsoluteCapabilityClarity },
   { kind: 'documentation-alignment', measure: measureAbsoluteDocumentationAlignment },
-  { kind: 'duplication-internal', measure: measureAbsoluteDuplicationInternal },
-  { kind: 'file-span', measure: measureAbsoluteFileSpan },
-  { kind: 'function-count', measure: measureAbsoluteFunctionCount },
-  { kind: 'information-content', measure: measureAbsoluteInformationContent },
+  { kind: 'difficulty', measure: measureAbsoluteDifficulty },
   { kind: 'irreducibility', measure: measureAbsoluteIrreducibility },
-  { kind: 'lang-span', measure: measureAbsoluteLangSpan },
-  { kind: 'license-cleanliness', measure: measureAbsoluteLicenseCleanliness },
-  { kind: 'modularity', measure: measureAbsoluteModularity },
-  { kind: 'objectives-fidelity', measure: measureAbsoluteObjectivesFidelity },
-  { kind: 'originality', measure: measureAbsoluteOriginality },
-  { kind: 'pii-exposure', measure: measureAbsolutePiiExposure },
-  { kind: 'provenance-integrity', measure: measureAbsoluteProvenanceIntegrity },
-  { kind: 'reproducibility', measure: measureAbsoluteReproducibility },
+  { kind: 'information-content', measure: measureAbsoluteInformationContent },
   { kind: 'rl-object-completeness', measure: measureAbsoluteRlObjectCompleteness },
-  { kind: 'runtime-cleanliness', measure: measureAbsoluteRuntimeCleanliness },
-  { kind: 'secret-safety', measure: measureAbsoluteSecretSafety },
-  { kind: 'security-cleanliness', measure: measureAbsoluteSecurityCleanliness },
-  { kind: 'semantic-novelty', measure: measureAbsoluteSemanticNovelty },
-  { kind: 'symbol-connectivity', measure: measureAbsoluteSymbolConnectivity },
-  { kind: 'symbolic-richness', measure: measureAbsoluteSymbolicRichness },
-  { kind: 'test-coverage', measure: measureAbsoluteTestCoverage },
-  { kind: 'test-pass-rate', measure: measureAbsoluteTestPassRate },
-  { kind: 'test-strength', measure: measureAbsoluteTestStrength },
-  { kind: 'test-surface', measure: measureAbsoluteTestSurface },
   { kind: 'trajectory-richness', measure: measureAbsoluteTrajectoryRichness },
-  { kind: 'type-count', measure: measureAbsoluteTypeCount },
+  { kind: 'diversity-contribution', measure: measureAbsoluteDiversityContribution },
+  { kind: 'language-concentration', measure: measureAbsoluteLanguageConcentration },
+  { kind: 'framework-surface', measure: measureAbsoluteFrameworkSurface },
+  { kind: 'purpose-clarity', measure: measureAbsolutePurposeClarity },
+  { kind: 'dependency-class-balance', measure: measureAbsoluteDependencyClassBalance },
+  { kind: 'external-service-coupling', measure: measureAbsoluteExternalServiceCoupling },
+  { kind: 'contract-surface', measure: measureAbsoluteContractSurface },
+  { kind: 'type-safety-pressure', measure: measureAbsoluteTypeSafetyPressure },
+  { kind: 'observability-surface', measure: measureAbsoluteObservabilitySurface },
+  { kind: 'generated-code-mass', measure: measureAbsoluteGeneratedCodeMass },
+  { kind: 'test-as-spec', measure: measureAbsoluteTestAsSpec },
+  { kind: 'portability', measure: measureAbsolutePortability },
+  { kind: 'architectural-pattern-density', measure: measureAbsoluteArchitecturalPatternDensity },
+  { kind: 'capability-surface', measure: measureAbsoluteCapabilitySurface },
+  { kind: 'copyleft-risk-mass', measure: measureAbsoluteCopyleftRiskMass },
+  { kind: 'change-intent-clarity', measure: measureAbsoluteChangeIntentClarity },
+  { kind: 'data-architecture-clarity', measure: measureAbsoluteDataArchitectureClarity },
+  { kind: 'concurrency-model-clarity', measure: measureAbsoluteConcurrencyModelClarity },
+  { kind: 'api-style-clarity', measure: measureAbsoluteApiStyleClarity },
+  { kind: 'substitution-density', measure: measureAbsoluteSubstitutionDensity },
 ];
 
 export function listAbsoluteMeasureKinds(): string[] {
   return ABSOLUTE_MEASURE_REGISTRY.map((e) => e.kind);
 }
 
-/** Run every bare absolute measure (registry = full 46-kind law). */
+/** Run every bare absolute measure (registry = full commercial catalogue). */
 export function measureDataPackAllAbsolutes(
   input: DataPackAbsoluteMeasureInput,
 ): AbsoluteMeasureResult[] {
@@ -138,8 +180,9 @@ export function measureDataPackAllAbsolutes(
 }
 
 /**
- * Commercial absolute readings for a DataPack — **all 46** kinds with catalogue weights.
+ * Commercial absolute readings for a DataPack — full catalogue with weights.
  * Missing host signals → volume 0 / insufficient_evidence, still present.
+ * Companion identity scalars prefer staticSignals from material-identity host.
  */
 export function measureDataPackAbsoluteReadings(input: DataPackAbsoluteMeasureInput) {
   assertDataPackAbsolutesCatalogWeights();

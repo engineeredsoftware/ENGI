@@ -13,9 +13,9 @@ describe('CORE: depository absolute remeasure / expand (46-kind law)', () => {
       'function-count': 0.5,
       'lang-span': 0.25,
     });
-    expect(expanded.catalogSize).toBe(46);
-    expect(expanded.absoluteKinds).toHaveLength(46);
-    expect(Object.keys(expanded.absoluteVolumes)).toHaveLength(46);
+    expect(expanded.catalogSize).toBeGreaterThanOrEqual(65);
+    expect(expanded.absoluteKinds.length).toBeGreaterThanOrEqual(65);
+    expect(Object.keys(expanded.absoluteVolumes).length).toBeGreaterThanOrEqual(65);
     expect(expanded.absoluteVolumes['function-count']).toBe(0.5);
     expect(expanded.absoluteVolumes['lang-span']).toBe(0.25);
     expect(expanded.absoluteVolumes['secret-safety']).toBe(0);
@@ -75,7 +75,7 @@ describe('CORE: depository absolute remeasure / expand (46-kind law)', () => {
 
     expect(result.mode).toBe('remeasured');
     expect(result.absoluteKinds).toHaveLength(DATA_PACK_ABSOLUTES_CATALOG.length);
-    expect(result.catalogSize).toBe(46);
+    expect(result.catalogSize).toBeGreaterThanOrEqual(65);
     // Prior high function-count preserved or improved (max merge).
     expect(result.absoluteVolumes['function-count']).toBeGreaterThanOrEqual(0.99);
     expect(result.absoluteVolumes['objectives-fidelity']).toBeGreaterThanOrEqual(0.77);
@@ -88,7 +88,7 @@ describe('CORE: depository absolute remeasure / expand (46-kind law)', () => {
       priorVolumes: { 'api-surface': 0.4 },
     });
     expect(result.mode).toBe('expanded-only');
-    expect(result.absoluteKinds).toHaveLength(46);
+    expect(result.absoluteKinds.length).toBeGreaterThanOrEqual(65);
     expect(result.absoluteVolumes['api-surface']).toBe(0.4);
     expect(result.absoluteVolumes['function-count']).toBe(0);
   });

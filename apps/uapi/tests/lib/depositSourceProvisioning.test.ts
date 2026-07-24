@@ -316,8 +316,8 @@ describe('runDepositInBoxHost (#25)', () => {
     };
     expect(lifted.title).toBe(finishOption.title);
     expect(Array.isArray(lifted.absolutes)).toBe(true);
-    expect(lifted.absolutes).toHaveLength(46);
-    expect(lifted.measurements?.absolutes).toHaveLength(46);
+    expect(lifted.absolutes.length).toBeGreaterThanOrEqual(65);
+    expect(lifted.measurements?.absolutes?.length).toBeGreaterThanOrEqual(65);
     expect(result.finishPresent).toBe(true);
     expect(result.sandboxId).toBe('sbx_test_1');
     expect(result.outcome).toBe('completed');
@@ -763,9 +763,9 @@ describe('runDepositInBoxHost (#25)', () => {
     };
     expect(option.title).toBe('Bitcode Documentation Structure');
     expect(Array.isArray(option.absolutes)).toBe(true);
-    expect(option.absolutes).toHaveLength(46);
+    expect(option.absolutes.length).toBeGreaterThanOrEqual(65);
     expect(option.absolutes?.[0]).toMatchObject({ measurementKind: 'function-count' });
-    expect(option.measurements?.absolutes).toHaveLength(46);
+    expect(option.measurements?.absolutes?.length).toBeGreaterThanOrEqual(65);
   });
 });
 

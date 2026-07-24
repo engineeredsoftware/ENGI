@@ -177,6 +177,39 @@ export function absoluteFacetsCorpusText(facets: ExtractedAbsoluteFacets): strin
 }
 
 /**
+ * Source-safe material identity tokens for hybrid lexical/vector corpus.
+ * Accepts the domain bag or a partial { corpusTokens } shape from index/metadata.
+ */
+export function materialIdentityCorpusText(
+  materialIdentity: unknown,
+): string {
+  if (!materialIdentity || typeof materialIdentity !== 'object' || Array.isArray(materialIdentity)) {
+    return '';
+  }
+  const bag = materialIdentity as Record<string, unknown>;
+  const tokens = Array.isArray(bag.corpusTokens)
+    ? bag.corpusTokens.filter((t): t is string => typeof t === 'string' && t.trim().length > 0)
+    : [];
+  if (tokens.length) return tokens.slice(0, 120).join(' ');
+  // Fallback: tag primaries + framework ids when corpusTokens missing.
+  const parts: string[] = [];
+  if (Array.isArray(bag.tagSets)) {
+    for (const ts of bag.tagSets as Array<{ kind?: string; primary?: string; tags?: string[] }>) {
+      if (ts.primary) parts.push(String(ts.primary));
+      for (const t of ts.tags || []) parts.push(String(t));
+    }
+  }
+  if (Array.isArray(bag.inventories)) {
+    for (const inv of bag.inventories as Array<{ items?: Array<{ id?: string }> }>) {
+      for (const item of (inv.items || []).slice(0, 20)) {
+        if (item.id) parts.push(String(item.id));
+      }
+    }
+  }
+  return parts.slice(0, 80).join(' ');
+}
+
+/**
  * Does this asset pass absolute filters?
  * Empty filters → pass. Missing volumes for min floors → fail.
  */

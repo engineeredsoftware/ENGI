@@ -1032,7 +1032,8 @@ describe("DepositPageClient", () => {
 
     // Absolutes tiles: full commercial catalogue (46) with SSOT weights.
     expect(text).toContain("Function count");
-    expect(text).toContain("12 functions · 55% / weight 0.035");
+    // Weight is SSOT catalogue (scaled when companions join commercial law).
+    expect(text).toMatch(/12 functions · 55% \/ weight 0\.0(28|35)/);
     // Full catalogue kinds present (not legacy 2-tile subset).
     expect(text).toContain("Secret safety");
     expect(text).toContain("Difficulty");

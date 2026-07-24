@@ -251,6 +251,7 @@ export async function remeasureAndReindexDepositoryAbsolutes(
         coveredSourcePaths,
         absoluteKinds: facets.absoluteKinds,
         absoluteVolumes: facets.absoluteVolumes,
+        materialIdentity: facets.materialIdentity as Record<string, unknown> | null,
         skipEmbed,
       };
 

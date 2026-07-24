@@ -1,0 +1,867 @@
+/**
+ * Closed vocabularies for buyer-visible material identity.
+ * SSOT — never free-text invent tags in product UI or index.
+ *
+ * Coverage intent: thorough language / runtime / framework / pattern / capability
+ * catalogues for opaque-IP buyer legibility. Expand here; extractors only match
+ * against these lists (plus generic dep name capture).
+ */
+
+// ---------------------------------------------------------------------------
+// Languages (extension → canonical id)
+// ---------------------------------------------------------------------------
+
+/** Language ids used in composition (extension → id). Exhaustive common set. */
+export const LANGUAGE_EXT_MAP: Record<string, string> = {
+  // JS / TS family
+  ts: 'typescript',
+  tsx: 'typescript',
+  mts: 'typescript',
+  cts: 'typescript',
+  js: 'javascript',
+  jsx: 'javascript',
+  mjs: 'javascript',
+  cjs: 'javascript',
+  // Python
+  py: 'python',
+  pyi: 'python',
+  pyw: 'python',
+  ipynb: 'python',
+  // Systems
+  rs: 'rust',
+  go: 'go',
+  c: 'c',
+  h: 'c',
+  cpp: 'cpp',
+  cc: 'cpp',
+  cxx: 'cpp',
+  hpp: 'cpp',
+  hh: 'cpp',
+  hxx: 'cpp',
+  // JVM
+  java: 'java',
+  kt: 'kotlin',
+  kts: 'kotlin',
+  scala: 'scala',
+  sc: 'scala',
+  groovy: 'groovy',
+  gradle: 'groovy',
+  clj: 'clojure',
+  cljs: 'clojure',
+  cljc: 'clojure',
+  // .NET
+  cs: 'csharp',
+  fs: 'fsharp',
+  fsx: 'fsharp',
+  vb: 'vbnet',
+  // Apple
+  swift: 'swift',
+  m: 'objective-c',
+  mm: 'objective-c',
+  // Mobile / cross
+  dart: 'dart',
+  // Scripting
+  rb: 'ruby',
+  erb: 'ruby',
+  php: 'php',
+  phtml: 'php',
+  pl: 'perl',
+  pm: 'perl',
+  lua: 'lua',
+  r: 'r',
+  R: 'r',
+  jl: 'julia',
+  ex: 'elixir',
+  exs: 'elixir',
+  erl: 'erlang',
+  hrl: 'erlang',
+  hs: 'haskell',
+  lhs: 'haskell',
+  ml: 'ocaml',
+  mli: 'ocaml',
+  nim: 'nim',
+  cr: 'crystal',
+  zig: 'zig',
+  v: 'vlang',
+  // Functional / data
+  cl: 'common-lisp',
+  lisp: 'common-lisp',
+  scm: 'scheme',
+  racket: 'racket',
+  // Web markup / style (as material languages for packs)
+  html: 'html',
+  htm: 'html',
+  xhtml: 'html',
+  css: 'css',
+  scss: 'scss',
+  sass: 'sass',
+  less: 'less',
+  styl: 'stylus',
+  vue: 'vue',
+  svelte: 'svelte',
+  astro: 'astro',
+  // Data / query / contracts
+  sql: 'sql',
+  pgsql: 'sql',
+  mysql: 'sql',
+  graphql: 'graphql',
+  gql: 'graphql',
+  proto: 'protobuf',
+  thrift: 'thrift',
+  avdl: 'avro',
+  avsc: 'avro',
+  // Config / infra as languages
+  tf: 'hcl',
+  hcl: 'hcl',
+  tfvars: 'hcl',
+  yml: 'yaml',
+  yaml: 'yaml',
+  json: 'json',
+  jsonc: 'json',
+  json5: 'json',
+  toml: 'toml',
+  ini: 'ini',
+  cfg: 'ini',
+  conf: 'ini',
+  properties: 'properties',
+  env: 'dotenv',
+  // Shell / automation
+  sh: 'shell',
+  bash: 'shell',
+  zsh: 'shell',
+  fish: 'shell',
+  ksh: 'shell',
+  ps1: 'powershell',
+  psm1: 'powershell',
+  bat: 'batch',
+  cmd: 'batch',
+  // Docs
+  md: 'markdown',
+  mdx: 'markdown',
+  rst: 'restructuredtext',
+  adoc: 'asciidoc',
+  tex: 'latex',
+  // Blockchain / specialized
+  sol: 'solidity',
+  vy: 'vyper',
+  move: 'move',
+  cairo: 'cairo',
+  // WASM / assembly
+  wat: 'webassembly',
+  wast: 'webassembly',
+  wasm: 'webassembly',
+  s: 'assembly',
+  asm: 'assembly',
+  // Misc industrial
+  matlab: 'matlab',
+  f90: 'fortran',
+  f95: 'fortran',
+  for: 'fortran',
+  f: 'fortran',
+  cob: 'cobol',
+  cbl: 'cobol',
+  pas: 'pascal',
+  pp: 'pascal',
+  d: 'd',
+  elm: 'elm',
+  purescript: 'purescript',
+  purs: 'purescript',
+  res: 'rescript',
+  resi: 'rescript',
+  re: 'reason',
+  rei: 'reason',
+  coffee: 'coffeescript',
+  litcoffee: 'coffeescript',
+  // Build / makefile
+  mk: 'make',
+  makefile: 'make',
+  cmake: 'cmake',
+  // Protobuf / openapi siblings
+  openapi: 'openapi',
+  swagger: 'openapi',
+};
+
+/** Basename → language when extension is missing or multi-dot. */
+export const LANGUAGE_BASENAME_MAP: Record<string, string> = {
+  dockerfile: 'dockerfile',
+  containerfile: 'dockerfile',
+  makefile: 'make',
+  gnumakefile: 'make',
+  'cmakelists.txt': 'cmake',
+  'cargo.toml': 'rust',
+  'go.mod': 'go',
+  'go.sum': 'go',
+  gemfile: 'ruby',
+  rakefile: 'ruby',
+  podfile: 'ruby',
+  'package.json': 'javascript',
+  'tsconfig.json': 'typescript',
+  'pyproject.toml': 'python',
+  'requirements.txt': 'python',
+  'setup.py': 'python',
+  pipfile: 'python',
+  'composer.json': 'php',
+  'build.gradle': 'groovy',
+  'build.gradle.kts': 'kotlin',
+  'pom.xml': 'java',
+  'project.clj': 'clojure',
+  'mix.exs': 'elixir',
+  'package.swift': 'swift',
+  'pubspec.yaml': 'dart',
+  'stack.yaml': 'haskell',
+  'cabal.project': 'haskell',
+  'flake.nix': 'nix',
+  'default.nix': 'nix',
+  'shell.nix': 'nix',
+  earthfile: 'earthly',
+  procfile: 'procfile',
+  'vercel.json': 'json',
+  'netlify.toml': 'toml',
+  'wrangler.toml': 'toml',
+  'serverless.yml': 'yaml',
+  'serverless.yaml': 'yaml',
+  'docker-compose.yml': 'yaml',
+  'docker-compose.yaml': 'yaml',
+  'compose.yml': 'yaml',
+  'compose.yaml': 'yaml',
+  'kustomization.yaml': 'yaml',
+  'chart.yaml': 'yaml',
+  'values.yaml': 'yaml',
+};
+
+// ---------------------------------------------------------------------------
+// Runtimes / platforms
+// ---------------------------------------------------------------------------
+
+export const RUNTIME_TARGETS = [
+  'node',
+  'deno',
+  'bun',
+  'browser',
+  'edge-worker',
+  'jvm',
+  'android',
+  'dotnet',
+  'ios',
+  'macos',
+  'watchos',
+  'tvos',
+  'python',
+  'cpython',
+  'pypy',
+  'go',
+  'rust',
+  'wasm',
+  'ruby',
+  'php',
+  'perl',
+  'elixir-beam',
+  'erlang-beam',
+  'haskell-rts',
+  'lua',
+  'r',
+  'julia',
+  'dart-vm',
+  'flutter',
+  'react-native',
+  'electron',
+  'tauri',
+  'dotnet-maui',
+  'unity',
+  'unreal',
+  'docker',
+  'kubernetes',
+  'aws-lambda',
+  'cloudflare-workers',
+  'vercel-edge',
+  'gcp-functions',
+  'azure-functions',
+  'browser-extension',
+  'embedded',
+  'bare-metal',
+  'unspecified',
+] as const;
+export type RuntimeTarget = (typeof RUNTIME_TARGETS)[number];
+
+/** Path/basename/content cues → runtime (ordered; multiple may match). */
+export const RUNTIME_EVIDENCE: Array<{
+  runtime: RuntimeTarget;
+  pathPatterns?: RegExp[];
+  contentPatterns?: RegExp[];
+  basenamePatterns?: RegExp[];
+  extHints?: string[];
+  weight?: number;
+}> = [
+  { runtime: 'node', pathPatterns: [/package\.json$/i, /node_modules\//i], contentPatterns: [/\brequire\s*\(/, /from ['"]node:/, /process\.env/, /__dirname/, /module\.exports/], weight: 2 },
+  { runtime: 'deno', contentPatterns: [/deno\.land\//i, /from ['"]https:\/\/deno/i, /Deno\./], pathPatterns: [/deno\.json/i], weight: 3 },
+  { runtime: 'bun', contentPatterns: [/\bbun\b/i, /Bun\./], pathPatterns: [/bun\.lockb?/i, /bunfig/i], weight: 3 },
+  { runtime: 'browser', contentPatterns: [/\bdocument\./, /\bwindow\./, /\bHTMLElement\b/, /addEventListener\s*\(/, /localStorage/, /querySelector/], pathPatterns: [/\.html$/i, /public\//i, /static\//i], weight: 2 },
+  { runtime: 'edge-worker', contentPatterns: [/@cloudflare\/workers/i, /export\s+default\s*\{[^}]*fetch\s*\(/, /EdgeRuntime/], pathPatterns: [/wrangler\.toml$/i], weight: 3 },
+  { runtime: 'cloudflare-workers', contentPatterns: [/cloudflare:workers/i, /@cloudflare\/workers-types/i], pathPatterns: [/wrangler\.toml$/i], weight: 3 },
+  { runtime: 'vercel-edge', contentPatterns: [/export const (runtime|config).*=.*['"]edge['"]/, /@vercel\/edge/i], weight: 3 },
+  { runtime: 'aws-lambda', contentPatterns: [/aws-lambda/i, /exports\.handler\s*=/, /@aws-sdk\/client-lambda/i, /APIGatewayProxy/], pathPatterns: [/serverless\.ya?ml$/i, /template\.ya?ml$/i, /samconfig/i], weight: 3 },
+  { runtime: 'gcp-functions', contentPatterns: [/functions-framework/i, /@google-cloud\/functions/i, /cloudfunctions\.googleapis/i], weight: 3 },
+  { runtime: 'azure-functions', contentPatterns: [/@azure\/functions/i, /Azure Function/i], pathPatterns: [/host\.json$/i, /function\.json$/i], weight: 3 },
+  { runtime: 'jvm', extHints: ['java', 'kt', 'kts', 'scala', 'groovy'], pathPatterns: [/pom\.xml$/i, /build\.gradle/i, /\.jar$/i], contentPatterns: [/package\s+[\w.]+;/, /import\s+java\./, /fun\s+main\s*\(/], weight: 2 },
+  { runtime: 'android', pathPatterns: [/android\//i, /AndroidManifest\.xml$/i, /\.apk$/i], contentPatterns: [/androidx\./i, /android\./i, /Jetpack Compose/i], weight: 3 },
+  { runtime: 'dotnet', extHints: ['cs', 'fs', 'vb'], pathPatterns: [/\.csproj$/i, /\.fsproj$/i, /\.sln$/i], contentPatterns: [/using System/, /Microsoft\.AspNetCore/i, /namespace\s+\w+/], weight: 2 },
+  { runtime: 'ios', extHints: ['swift', 'm', 'mm'], pathPatterns: [/\.xcodeproj\//i, /\.xcworkspace\//i, /Info\.plist$/i, /ios\//i], contentPatterns: [/import UIKit/, /import SwiftUI/, /@UIApplicationMain/, /UIViewController/], weight: 3 },
+  { runtime: 'macos', contentPatterns: [/import AppKit/, /NSApplication/, /Mac Catalyst/i], pathPatterns: [/macos\//i], weight: 2 },
+  { runtime: 'watchos', contentPatterns: [/WatchKit/, /import WatchKit/], pathPatterns: [/watchos\//i], weight: 2 },
+  { runtime: 'tvos', contentPatterns: [/TVML|TVUIKit/], pathPatterns: [/tvos\//i], weight: 2 },
+  { runtime: 'python', extHints: ['py', 'pyi', 'ipynb'], pathPatterns: [/pyproject\.toml$/i, /requirements\.txt$/i, /setup\.py$/i], contentPatterns: [/^\s*def\s+\w+/m, /import\s+\w+/, /from\s+\w+\s+import/], weight: 2 },
+  { runtime: 'go', extHints: ['go'], pathPatterns: [/go\.mod$/i, /go\.sum$/i], contentPatterns: [/\bpackage\s+\w+/, /\bfunc\s+\w+\s*\(/, /"fmt"/], weight: 2 },
+  { runtime: 'rust', extHints: ['rs'], pathPatterns: [/Cargo\.toml$/i, /Cargo\.lock$/i], contentPatterns: [/\bfn\s+main\s*\(/, /\buse\s+\w+::/, /#\[derive/], weight: 2 },
+  { runtime: 'wasm', pathPatterns: [/\.wasm$/i, /\.wat$/i], contentPatterns: [/wasm-bindgen/i, /wasm32-unknown/i, /WebAssembly\./], weight: 3 },
+  { runtime: 'ruby', extHints: ['rb'], pathPatterns: [/Gemfile$/i, /\.gemspec$/i], contentPatterns: [/\brequire\s+['"]/, /\bdef\s+\w+/, /\bclass\s+\w+\s*</], weight: 2 },
+  { runtime: 'php', extHints: ['php'], pathPatterns: [/composer\.json$/i], contentPatterns: [/<\?php/, /namespace\s+\w+/, /use\s+\w+\\/], weight: 2 },
+  { runtime: 'elixir-beam', extHints: ['ex', 'exs'], pathPatterns: [/mix\.exs$/i], contentPatterns: [/defmodule\s+/, /def\s+\w+/, /use\s+Phoenix/], weight: 2 },
+  { runtime: 'erlang-beam', extHints: ['erl', 'hrl'], contentPatterns: [/-module\(/, /-export\(/], weight: 2 },
+  { runtime: 'haskell-rts', extHints: ['hs', 'lhs'], pathPatterns: [/stack\.yaml$/i, /\.cabal$/i], contentPatterns: [/module\s+\w+/, /main\s*::\s*IO/], weight: 2 },
+  { runtime: 'lua', extHints: ['lua'], contentPatterns: [/\blocal\s+function\b/, /require\s*\(/], weight: 2 },
+  { runtime: 'r', extHints: ['r', 'R'], contentPatterns: [/<-|library\s*\(|ggplot/], weight: 2 },
+  { runtime: 'julia', extHints: ['jl'], contentPatterns: [/using\s+\w+/, /function\s+\w+!/], weight: 2 },
+  { runtime: 'dart-vm', extHints: ['dart'], pathPatterns: [/pubspec\.ya?ml$/i], contentPatterns: [/void main\s*\(/, /import\s+'package:/], weight: 2 },
+  { runtime: 'flutter', contentPatterns: [/package:flutter\//i, /Flutter\./, /MaterialApp/], pathPatterns: [/pubspec\.ya?ml$/i], weight: 3 },
+  { runtime: 'react-native', contentPatterns: [/react-native/i, /@react-native/i, /AppRegistry/], weight: 3 },
+  { runtime: 'electron', contentPatterns: [/\belectron\b/i, /BrowserWindow/, /ipcMain/], weight: 3 },
+  { runtime: 'tauri', contentPatterns: [/\btauri\b/i, /@tauri-apps/i], pathPatterns: [/tauri\.conf/i], weight: 3 },
+  { runtime: 'dotnet-maui', contentPatterns: [/Microsoft\.Maui/i, /\.maui/i], weight: 3 },
+  { runtime: 'unity', contentPatterns: [/UnityEngine/i, /MonoBehaviour/], pathPatterns: [/Assets\//, /ProjectSettings\//], weight: 3 },
+  { runtime: 'unreal', contentPatterns: [/UCLASS\s*\(/, /Unreal Engine/i, /#include "CoreMinimal\.h"/], pathPatterns: [/\.uproject$/i], weight: 3 },
+  { runtime: 'docker', pathPatterns: [/^Dockerfile$/i, /Dockerfile\./i, /docker-compose\.ya?ml$/i, /compose\.ya?ml$/i], contentPatterns: [/^FROM\s+\S+/m, /docker\s+build/i], weight: 2 },
+  { runtime: 'kubernetes', pathPatterns: [/kustomization\.ya?ml$/i, /Chart\.ya?ml$/i, /values\.ya?ml$/i, /deploy(?:ment)?\.ya?ml$/i], contentPatterns: [/apiVersion:\s*apps\/v1/, /kind:\s*Deployment/, /helm/i], weight: 3 },
+  { runtime: 'browser-extension', contentPatterns: [/chrome\.runtime/, /browser\.runtime/, /manifest_version/i], pathPatterns: [/manifest\.json$/i], weight: 3 },
+  { runtime: 'embedded', contentPatterns: [/Arduino/, /ESP32/, /#include <avr\//, /zephyr/i, /FreeRTOS/], pathPatterns: [/\.ino$/i], weight: 2 },
+  { runtime: 'perl', extHints: ['pl', 'pm'], contentPatterns: [/use strict;/, /package\s+\w+;/], weight: 1 },
+];
+
+// ---------------------------------------------------------------------------
+// Purpose / architecture / API / data / concurrency / intent
+// ---------------------------------------------------------------------------
+
+export const PURPOSE_CLASSES = [
+  'system-backend',
+  'full-stack-web',
+  'frontend-spa',
+  'mobile-ios',
+  'mobile-android',
+  'mobile-cross',
+  'data-pipeline',
+  'data-warehouse',
+  'ml-training',
+  'ml-inference',
+  'ml-ops',
+  'developer-tooling',
+  'cli-tool',
+  'library-sdk',
+  'infra-iac',
+  'platform-sre',
+  'realtime-messaging',
+  'embedded-edge',
+  'desktop-app',
+  'game',
+  'blockchain-smart-contract',
+  'docs-only',
+  'test-harness',
+  'design-system',
+  'security-tooling',
+  'observability-tooling',
+  'unspecified',
+] as const;
+export type PurposeClass = (typeof PURPOSE_CLASSES)[number];
+
+export const ARCHITECTURAL_PATTERNS = [
+  'layered',
+  'hexagonal',
+  'clean-architecture',
+  'onion',
+  'event-driven',
+  'cqrs',
+  'event-sourcing',
+  'microservices',
+  'service-oriented',
+  'modular-monolith',
+  'monolith',
+  'plugin',
+  'mvc',
+  'mvp',
+  'mvvm',
+  'mvi',
+  'pipeline',
+  'pipes-and-filters',
+  'actor',
+  'serverless',
+  'jamstack',
+  'bff',
+  'api-gateway',
+  'strangler-fig',
+  'saga',
+  'outbox',
+  'repository-pattern',
+  'unit-of-work',
+  'domain-driven',
+  'feature-sliced',
+  'micro-frontend',
+  'sidecar',
+  'service-mesh',
+  'broker',
+  'pub-sub',
+  'client-server',
+  'peer-to-peer',
+  'master-worker',
+  'map-reduce',
+  'lambda-architecture',
+  'kappa-architecture',
+  'space-based',
+  'blackboard',
+  'interpreter',
+  'unspecified',
+] as const;
+export type ArchitecturalPattern = (typeof ARCHITECTURAL_PATTERNS)[number];
+
+/** Pattern detection evidence (path + content). */
+export const ARCHITECTURE_EVIDENCE: Array<{
+  pattern: ArchitecturalPattern;
+  pathPatterns?: RegExp[];
+  contentPatterns?: RegExp[];
+  weight?: number;
+}> = [
+  { pattern: 'hexagonal', contentPatterns: [/hexagonal/i, /ports?\s+and\s+adapters/i, /inbound\.port|outbound\.port/i, /driven\.adapter|driving\.adapter/i], pathPatterns: [/ports?\//i, /adapters?\//i], weight: 3 },
+  { pattern: 'clean-architecture', contentPatterns: [/clean architecture/i, /entities\/|use[_-]?cases?\//i, /interface[_-]?adapters/i], pathPatterns: [/use[_-]?cases?\//i, /entities\//i], weight: 3 },
+  { pattern: 'onion', contentPatterns: [/onion architecture/i, /domain\.core|application\.core/i], weight: 2 },
+  { pattern: 'cqrs', contentPatterns: [/\bcqrs\b/i, /command.?handler/i, /query.?handler/i, /ICommand|IQuery/], pathPatterns: [/commands?\//i, /queries?\//i], weight: 3 },
+  { pattern: 'event-sourcing', contentPatterns: [/event.?sourc/i, /aggregate.?root/i, /event.?store/i, /DomainEvent/], weight: 3 },
+  { pattern: 'event-driven', contentPatterns: [/event.?driven/i, /event.?bus/i, /domain.?event/i, /message.?broker/i, /\bkafka\b/i, /rabbitmq/i, /nats\.io|NATS/i, /pubsub/i], weight: 2 },
+  { pattern: 'pub-sub', contentPatterns: [/publish(?:er)?|subscribe(?:r)?/i, /EventEmitter/, /Subject\.next/], weight: 2 },
+  { pattern: 'microservices', contentPatterns: [/microservice/i, /service.?mesh/i], pathPatterns: [/services\/[\w-]+\/src/i], weight: 2 },
+  { pattern: 'service-oriented', contentPatterns: [/\bSOA\b/, /service.?contract/i], weight: 1 },
+  { pattern: 'modular-monolith', contentPatterns: [/modular.?monolith/i, /internal modules/i], pathPatterns: [/modules?\//i, /packages\//i], weight: 2 },
+  { pattern: 'monolith', contentPatterns: [/\bmonolith\b/i], weight: 1 },
+  { pattern: 'plugin', contentPatterns: [/\bplugin\b/i, /extension.?point/i, /hook.?system/i], pathPatterns: [/plugins?\//i, /extensions?\//i], weight: 2 },
+  { pattern: 'mvc', contentPatterns: [/\bmvc\b/i, /ViewController|ActionResult/], pathPatterns: [/controllers?\//i, /views?\//i, /models?\//i], weight: 2 },
+  { pattern: 'mvp', contentPatterns: [/\bmvp\b/i, /Presenter/], weight: 1 },
+  { pattern: 'mvvm', contentPatterns: [/\bmvvm\b/i, /ViewModel/, /ObservableObject/], weight: 2 },
+  { pattern: 'mvi', contentPatterns: [/\bmvi\b/i, /Intent\s*->\s*State/, /Reducer/], weight: 2 },
+  { pattern: 'pipeline', contentPatterns: [/pipeline/i, /stage\(|Step\.run|middleware chain/i], pathPatterns: [/pipeline/i, /stages?\//i], weight: 2 },
+  { pattern: 'pipes-and-filters', contentPatterns: [/pipes?\s+and\s+filters/i], weight: 2 },
+  { pattern: 'actor', contentPatterns: [/\bactor\b/i, /\bAkka\b/, /Orleans/, /proto\.actor/i], weight: 2 },
+  { pattern: 'serverless', contentPatterns: [/serverless/i, /lambda handler/i, /functions-framework/i], pathPatterns: [/serverless\.ya?ml$/i], weight: 2 },
+  { pattern: 'jamstack', contentPatterns: [/jamstack/i, /static site/i], weight: 1 },
+  { pattern: 'bff', contentPatterns: [/\bBFF\b/, /backend.?for.?frontend/i], pathPatterns: [/bff\//i], weight: 2 },
+  { pattern: 'api-gateway', contentPatterns: [/api.?gateway/i, /kong|tyk|ambassador/i], weight: 2 },
+  { pattern: 'strangler-fig', contentPatterns: [/strangler/i], weight: 1 },
+  { pattern: 'saga', contentPatterns: [/\bsaga\b/i, /compensat(?:e|ing)\s+transaction/i], weight: 2 },
+  { pattern: 'outbox', contentPatterns: [/transactional.?outbox/i, /outbox.?pattern/i], weight: 2 },
+  { pattern: 'repository-pattern', contentPatterns: [/IRepository|Repository</, /repository pattern/i], pathPatterns: [/repositories?\//i], weight: 2 },
+  { pattern: 'unit-of-work', contentPatterns: [/UnitOfWork|unit.?of.?work/i], weight: 2 },
+  { pattern: 'domain-driven', contentPatterns: [/\bDDD\b/, /domain.?driven/i, /bounded.?context/i, /aggregate/i], pathPatterns: [/domain\//i], weight: 2 },
+  { pattern: 'feature-sliced', contentPatterns: [/feature.?sliced/i, /FSD/], pathPatterns: [/entities\//i, /features\//i, /shared\//i, /widgets\//i], weight: 2 },
+  { pattern: 'micro-frontend', contentPatterns: [/micro.?frontend/i, /ModuleFederation/i, /single-spa/i], weight: 3 },
+  { pattern: 'sidecar', contentPatterns: [/\bsidecar\b/i], weight: 1 },
+  { pattern: 'service-mesh', contentPatterns: [/istio|linkerd|consul connect/i, /service.?mesh/i], weight: 2 },
+  { pattern: 'broker', contentPatterns: [/message.?broker/i, /ActiveMQ|RabbitMQ|SQS/i], weight: 1 },
+  { pattern: 'client-server', contentPatterns: [/client.?server/i], weight: 1 },
+  { pattern: 'peer-to-peer', contentPatterns: [/peer.?to.?peer|\bp2p\b/i, /libp2p/i], weight: 2 },
+  { pattern: 'master-worker', contentPatterns: [/master.?worker|worker.?pool/i], weight: 1 },
+  { pattern: 'map-reduce', contentPatterns: [/map.?reduce/i, /MapReduce/], weight: 2 },
+  { pattern: 'lambda-architecture', contentPatterns: [/lambda architecture/i], weight: 1 },
+  { pattern: 'kappa-architecture', contentPatterns: [/kappa architecture/i], weight: 1 },
+  { pattern: 'layered', pathPatterns: [/layers?\//i, /presentation\//i, /application\//i, /infrastructure\//i, /domain\//i], contentPatterns: [/layered architecture/i], weight: 2 },
+  { pattern: 'interpreter', contentPatterns: [/interpreter pattern/i, /AbstractSyntaxTree|AST visitor/i], weight: 1 },
+  { pattern: 'blackboard', contentPatterns: [/blackboard pattern/i], weight: 1 },
+  { pattern: 'space-based', contentPatterns: [/space.?based architecture/i], weight: 1 },
+];
+
+export const API_STYLES = [
+  'rest',
+  'graphql',
+  'grpc',
+  'rpc',
+  'trpc',
+  'soap',
+  'odata',
+  'json-rpc',
+  'cli',
+  'websocket',
+  'sse',
+  'webhook-consumer',
+  'webhook-producer',
+  'mqtt',
+  'amqp',
+  'none',
+  'unspecified',
+] as const;
+export type ApiStyle = (typeof API_STYLES)[number];
+
+export const DATA_ARCHITECTURES = [
+  'sql-centric',
+  'document',
+  'event-log',
+  'file-batch',
+  'kv-cache',
+  'graph',
+  'search-index',
+  'time-series',
+  'columnar',
+  'object-storage',
+  'multi-model',
+  'none',
+  'unspecified',
+] as const;
+export type DataArchitecture = (typeof DATA_ARCHITECTURES)[number];
+
+export const CONCURRENCY_MODELS = [
+  'sync-dominant',
+  'async',
+  'worker-queue',
+  'actor',
+  'reactive',
+  'csp-channels',
+  'threads',
+  'coroutines',
+  'gpu-parallel',
+  'unspecified',
+] as const;
+export type ConcurrencyModel = (typeof CONCURRENCY_MODELS)[number];
+
+export const CHANGE_INTENTS = [
+  'feature-add',
+  'bug-fix',
+  'refactor',
+  'hardening',
+  'docs',
+  'test-only',
+  'config',
+  'dependency-bump',
+  'performance',
+  'migration',
+  'unspecified',
+] as const;
+export type ChangeIntent = (typeof CHANGE_INTENTS)[number];
+
+export const CAPABILITY_TAGS = [
+  'authn',
+  'authz',
+  'rate-limit',
+  'caching',
+  'pagination',
+  'retries',
+  'i18n',
+  'a11y',
+  'validation',
+  'encryption',
+  'search',
+  'scheduling',
+  'observability',
+  'payments',
+  'webhooks',
+  'file-upload',
+  'streaming',
+  'migrations',
+  'feature-flags',
+  'multi-tenancy',
+  'audit-log',
+  'background-jobs',
+  'email',
+  'sms',
+  'push-notifications',
+  'geo',
+  'media-processing',
+  'llm-integration',
+  'vector-search',
+] as const;
+export type CapabilityTag = (typeof CAPABILITY_TAGS)[number];
+
+export const DEPENDENCY_CLASSES = [
+  'framework',
+  'utility',
+  'cloud-sdk',
+  'data',
+  'test',
+  'ui',
+  'build',
+  'security',
+  'observability',
+  'messaging',
+  'ml',
+  'other',
+] as const;
+export type DependencyClass = (typeof DEPENDENCY_CLASSES)[number];
+
+// ---------------------------------------------------------------------------
+// Frameworks / platforms (fingerprints)
+// ---------------------------------------------------------------------------
+
+export type FrameworkFingerprint = {
+  id: string;
+  label: string;
+  /** Match against deps blob + source (package names, imports, paths). */
+  patterns: RegExp[];
+  /** Optional exact package/module names (lowercased) for precise dep hits. */
+  packageNames?: string[];
+  purposeHints?: PurposeClass[];
+  runtimeHints?: RuntimeTarget[];
+  class?: DependencyClass;
+};
+
+/**
+ * Framework / major platform fingerprints.
+ * Prefer packageNames for lockfile precision; patterns for imports/paths.
+ */
+export const FRAMEWORK_FINGERPRINTS: FrameworkFingerprint[] = [
+  // --- Web frontend ---
+  { id: 'react', label: 'React', packageNames: ['react', 'react-dom'], patterns: [/\breact\b/i, /from ['"]react['"]/, /from ['"]react-dom/], purposeHints: ['frontend-spa', 'full-stack-web'], runtimeHints: ['browser', 'node'], class: 'framework' },
+  { id: 'nextjs', label: 'Next.js', packageNames: ['next'], patterns: [/\bnext\b/i, /from ['"]next\//, /next\.config/], purposeHints: ['full-stack-web'], runtimeHints: ['node', 'browser', 'vercel-edge'], class: 'framework' },
+  { id: 'remix', label: 'Remix', packageNames: ['@remix-run/node', '@remix-run/react', '@remix-run/cloudflare'], patterns: [/@remix-run\//i], purposeHints: ['full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  { id: 'nuxt', label: 'Nuxt', packageNames: ['nuxt'], patterns: [/\bnuxt\b/i], purposeHints: ['full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  { id: 'vue', label: 'Vue', packageNames: ['vue'], patterns: [/\bvue\b/i, /from ['"]vue['"]/], purposeHints: ['frontend-spa', 'full-stack-web'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'angular', label: 'Angular', packageNames: ['@angular/core', '@angular/common'], patterns: [/@angular\//i], purposeHints: ['frontend-spa', 'full-stack-web'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'svelte', label: 'Svelte', packageNames: ['svelte'], patterns: [/\bsvelte\b/i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'sveltekit', label: 'SvelteKit', packageNames: ['@sveltejs/kit'], patterns: [/@sveltejs\/kit/i], purposeHints: ['full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  { id: 'solid', label: 'SolidJS', packageNames: ['solid-js'], patterns: [/solid-js/i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'qwik', label: 'Qwik', packageNames: ['@builder.io/qwik'], patterns: [/@builder\.io\/qwik/i], purposeHints: ['full-stack-web'], runtimeHints: ['browser', 'node'], class: 'framework' },
+  { id: 'astro', label: 'Astro', packageNames: ['astro'], patterns: [/\bastro\b/i], purposeHints: ['full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  { id: 'gatsby', label: 'Gatsby', packageNames: ['gatsby'], patterns: [/\bgatsby\b/i], purposeHints: ['full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  { id: 'ember', label: 'Ember', packageNames: ['ember-source', 'ember-cli'], patterns: [/\bember\b/i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'backbone', label: 'Backbone', packageNames: ['backbone'], patterns: [/\bbackbone\b/i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'jquery', label: 'jQuery', packageNames: ['jquery'], patterns: [/\bjquery\b/i, /\$\(/], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'ui' },
+  // --- Node backends ---
+  { id: 'express', label: 'Express', packageNames: ['express'], patterns: [/\bexpress\b/i, /from ['"]express['"]/], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'fastify', label: 'Fastify', packageNames: ['fastify'], patterns: [/\bfastify\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'nestjs', label: 'NestJS', packageNames: ['@nestjs/core', '@nestjs/common'], patterns: [/@nestjs\//i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'koa', label: 'Koa', packageNames: ['koa'], patterns: [/\bkoa\b/i, /from ['"]koa['"]/], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'hapi', label: 'Hapi', packageNames: ['@hapi/hapi', 'hapi'], patterns: [/@hapi\//i, /\bhapi\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'hono', label: 'Hono', packageNames: ['hono'], patterns: [/\bhono\b/i], purposeHints: ['system-backend'], runtimeHints: ['node', 'edge-worker', 'cloudflare-workers'], class: 'framework' },
+  { id: 'elysia', label: 'Elysia', packageNames: ['elysia'], patterns: [/\belysia\b/i], purposeHints: ['system-backend'], runtimeHints: ['bun'], class: 'framework' },
+  { id: 'adonis', label: 'AdonisJS', packageNames: ['@adonisjs/core'], patterns: [/@adonisjs\//i], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'sails', label: 'Sails', packageNames: ['sails'], patterns: [/\bsails\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'loopback', label: 'LoopBack', packageNames: ['@loopback/core'], patterns: [/@loopback\//i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'feathers', label: 'Feathers', packageNames: ['@feathersjs/feathers'], patterns: [/@feathersjs\//i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'strapi', label: 'Strapi', packageNames: ['@strapi/strapi'], patterns: [/@strapi\//i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'trpc', label: 'tRPC', packageNames: ['@trpc/server', '@trpc/client'], patterns: [/@trpc\//i], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  // --- Python ---
+  { id: 'django', label: 'Django', packageNames: ['django'], patterns: [/\bdjango\b/i, /from django/], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'flask', label: 'Flask', packageNames: ['flask'], patterns: [/\bflask\b/i, /from flask/], purposeHints: ['system-backend'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'fastapi', label: 'FastAPI', packageNames: ['fastapi'], patterns: [/\bfastapi\b/i], purposeHints: ['system-backend'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'starlette', label: 'Starlette', packageNames: ['starlette'], patterns: [/\bstarlette\b/i], purposeHints: ['system-backend'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'tornado', label: 'Tornado', packageNames: ['tornado'], patterns: [/\btornado\b/i], purposeHints: ['system-backend'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'aiohttp', label: 'aiohttp', packageNames: ['aiohttp'], patterns: [/\baiohttp\b/i], purposeHints: ['system-backend'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'celery', label: 'Celery', packageNames: ['celery'], patterns: [/\bcelery\b/i], purposeHints: ['system-backend', 'data-pipeline'], runtimeHints: ['python'], class: 'messaging' },
+  { id: 'airflow', label: 'Airflow', packageNames: ['apache-airflow'], patterns: [/\bairflow\b/i], purposeHints: ['data-pipeline'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'prefect', label: 'Prefect', packageNames: ['prefect'], patterns: [/\bprefect\b/i], purposeHints: ['data-pipeline'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'dagster', label: 'Dagster', packageNames: ['dagster'], patterns: [/\bdagster\b/i], purposeHints: ['data-pipeline'], runtimeHints: ['python'], class: 'framework' },
+  { id: 'pandas', label: 'Pandas', packageNames: ['pandas'], patterns: [/\bpandas\b/i, /import pandas/], purposeHints: ['data-pipeline'], runtimeHints: ['python'], class: 'data' },
+  { id: 'numpy', label: 'NumPy', packageNames: ['numpy'], patterns: [/\bnumpy\b/i, /import numpy/], purposeHints: ['ml-training', 'data-pipeline'], runtimeHints: ['python'], class: 'ml' },
+  { id: 'scikit-learn', label: 'scikit-learn', packageNames: ['scikit-learn', 'sklearn'], patterns: [/sklearn|scikit-learn/i], purposeHints: ['ml-training', 'ml-inference'], runtimeHints: ['python'], class: 'ml' },
+  { id: 'tensorflow', label: 'TensorFlow', packageNames: ['tensorflow'], patterns: [/\btensorflow\b/i, /import tensorflow/], purposeHints: ['ml-training', 'ml-inference'], runtimeHints: ['python'], class: 'ml' },
+  { id: 'pytorch', label: 'PyTorch', packageNames: ['torch'], patterns: [/\btorch\b/i, /\bpytorch\b/i, /import torch/], purposeHints: ['ml-training', 'ml-inference'], runtimeHints: ['python'], class: 'ml' },
+  { id: 'huggingface', label: 'Hugging Face', packageNames: ['transformers', 'datasets', 'huggingface-hub'], patterns: [/transformers|huggingface/i], purposeHints: ['ml-training', 'ml-inference'], runtimeHints: ['python'], class: 'ml' },
+  { id: 'langchain', label: 'LangChain', packageNames: ['langchain', 'langchain-core'], patterns: [/\blangchain\b/i], purposeHints: ['ml-inference'], runtimeHints: ['python', 'node'], class: 'ml' },
+  { id: 'llama-index', label: 'LlamaIndex', packageNames: ['llama-index', 'llama_index'], patterns: [/llama[_-]?index/i], purposeHints: ['ml-inference'], runtimeHints: ['python'], class: 'ml' },
+  // --- JVM ---
+  { id: 'spring', label: 'Spring', packageNames: ['spring-boot', 'spring-core', 'spring-web'], patterns: [/\bspring\b/i, /org\.springframework/, /springframework/], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'spring-boot', label: 'Spring Boot', packageNames: ['spring-boot-starter', 'spring-boot'], patterns: [/spring-boot/i, /SpringBootApplication/], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'quarkus', label: 'Quarkus', packageNames: ['quarkus-core'], patterns: [/\bquarkus\b/i], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'micronaut', label: 'Micronaut', packageNames: ['micronaut-core'], patterns: [/\bmicronaut\b/i], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'vertx', label: 'Vert.x', packageNames: ['vertx-core'], patterns: [/\bvertx\b/i, /io\.vertx/], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'ktor', label: 'Ktor', packageNames: ['ktor-server-core', 'ktor-client-core'], patterns: [/\bktor\b/i], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'play', label: 'Play Framework', packageNames: ['play'], patterns: [/\bplay\.api\b/i, /play framework/i], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['jvm'], class: 'framework' },
+  { id: 'hibernate', label: 'Hibernate', packageNames: ['hibernate-core'], patterns: [/\bhibernate\b/i, /org\.hibernate/], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'data' },
+  // --- .NET ---
+  { id: 'aspnet-core', label: 'ASP.NET Core', packageNames: ['Microsoft.AspNetCore.App'], patterns: [/Microsoft\.AspNetCore/i, /ASP\.NET/i], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['dotnet'], class: 'framework' },
+  { id: 'blazor', label: 'Blazor', packageNames: [], patterns: [/\bBlazor\b/, /Microsoft\.AspNetCore\.Components/], purposeHints: ['full-stack-web'], runtimeHints: ['dotnet', 'browser'], class: 'framework' },
+  { id: 'entity-framework', label: 'Entity Framework', packageNames: [], patterns: [/EntityFramework|Microsoft\.EntityFrameworkCore/i], purposeHints: ['system-backend'], runtimeHints: ['dotnet'], class: 'data' },
+  // --- Ruby / PHP ---
+  { id: 'rails', label: 'Rails', packageNames: ['rails'], patterns: [/\brails\b/i, /ActiveRecord/, /ActionController/], purposeHints: ['full-stack-web'], runtimeHints: ['ruby'], class: 'framework' },
+  { id: 'sinatra', label: 'Sinatra', packageNames: ['sinatra'], patterns: [/\bsinatra\b/i], purposeHints: ['system-backend'], runtimeHints: ['ruby'], class: 'framework' },
+  { id: 'laravel', label: 'Laravel', packageNames: ['laravel/framework'], patterns: [/\blaravel\b/i, /Illuminate\\/], purposeHints: ['full-stack-web'], runtimeHints: ['php'], class: 'framework' },
+  { id: 'symfony', label: 'Symfony', packageNames: ['symfony/framework-bundle'], patterns: [/\bsymfony\b/i], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['php'], class: 'framework' },
+  { id: 'wordpress', label: 'WordPress', packageNames: [], patterns: [/wp-content|wordpress/i], purposeHints: ['full-stack-web'], runtimeHints: ['php'], class: 'framework' },
+  // --- Mobile ---
+  { id: 'swiftui', label: 'SwiftUI', packageNames: [], patterns: [/\bSwiftUI\b/, /import SwiftUI/], purposeHints: ['mobile-ios'], runtimeHints: ['ios'], class: 'framework' },
+  { id: 'uikit', label: 'UIKit', packageNames: [], patterns: [/\bUIKit\b/, /import UIKit/], purposeHints: ['mobile-ios'], runtimeHints: ['ios'], class: 'framework' },
+  { id: 'jetpack-compose', label: 'Jetpack Compose', packageNames: [], patterns: [/androidx\.compose/i, /Composable/], purposeHints: ['mobile-android'], runtimeHints: ['android', 'jvm'], class: 'framework' },
+  { id: 'react-native', label: 'React Native', packageNames: ['react-native'], patterns: [/react-native/i, /@react-native/], purposeHints: ['mobile-cross'], runtimeHints: ['react-native', 'ios', 'android'], class: 'framework' },
+  { id: 'flutter', label: 'Flutter', packageNames: ['flutter'], patterns: [/\bflutter\b/i, /package:flutter/], purposeHints: ['mobile-cross'], runtimeHints: ['flutter', 'dart-vm', 'ios', 'android'], class: 'framework' },
+  { id: 'expo', label: 'Expo', packageNames: ['expo'], patterns: [/\bexpo\b/i, /from ['"]expo/], purposeHints: ['mobile-cross'], runtimeHints: ['react-native'], class: 'framework' },
+  { id: 'ionic', label: 'Ionic', packageNames: ['@ionic/core', '@ionic/angular', '@ionic/react'], patterns: [/@ionic\//i], purposeHints: ['mobile-cross'], runtimeHints: ['browser'], class: 'framework' },
+  { id: 'xamarin', label: 'Xamarin', packageNames: [], patterns: [/\bXamarin\b/, /Xamarin\./], purposeHints: ['mobile-cross'], runtimeHints: ['dotnet', 'ios', 'android'], class: 'framework' },
+  // --- Desktop ---
+  { id: 'electron', label: 'Electron', packageNames: ['electron'], patterns: [/\belectron\b/i], purposeHints: ['desktop-app'], runtimeHints: ['electron', 'node', 'browser'], class: 'framework' },
+  { id: 'tauri', label: 'Tauri', packageNames: ['@tauri-apps/api'], patterns: [/\btauri\b/i, /@tauri-apps/], purposeHints: ['desktop-app'], runtimeHints: ['tauri', 'rust', 'browser'], class: 'framework' },
+  { id: 'wpf', label: 'WPF', packageNames: [], patterns: [/\bWPF\b/, /System\.Windows/], purposeHints: ['desktop-app'], runtimeHints: ['dotnet'], class: 'framework' },
+  // --- Go / Rust web ---
+  { id: 'gin', label: 'Gin', packageNames: ['github.com/gin-gonic/gin'], patterns: [/gin-gonic\/gin/i], purposeHints: ['system-backend'], runtimeHints: ['go'], class: 'framework' },
+  { id: 'echo', label: 'Echo', packageNames: ['github.com/labstack/echo'], patterns: [/labstack\/echo/i], purposeHints: ['system-backend'], runtimeHints: ['go'], class: 'framework' },
+  { id: 'fiber', label: 'Fiber', packageNames: ['github.com/gofiber/fiber'], patterns: [/gofiber\/fiber/i], purposeHints: ['system-backend'], runtimeHints: ['go'], class: 'framework' },
+  { id: 'chi', label: 'Chi', packageNames: ['github.com/go-chi/chi'], patterns: [/go-chi\/chi/i], purposeHints: ['system-backend'], runtimeHints: ['go'], class: 'framework' },
+  { id: 'axum', label: 'Axum', packageNames: ['axum'], patterns: [/\baxum\b/i], purposeHints: ['system-backend'], runtimeHints: ['rust'], class: 'framework' },
+  { id: 'actix-web', label: 'Actix Web', packageNames: ['actix-web'], patterns: [/actix-web/i], purposeHints: ['system-backend'], runtimeHints: ['rust'], class: 'framework' },
+  { id: 'rocket', label: 'Rocket', packageNames: ['rocket'], patterns: [/\brocket\b/i], purposeHints: ['system-backend'], runtimeHints: ['rust'], class: 'framework' },
+  // --- Data / ORM ---
+  { id: 'prisma', label: 'Prisma', packageNames: ['@prisma/client', 'prisma'], patterns: [/\bprisma\b/i, /@prisma\//], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'data' },
+  { id: 'typeorm', label: 'TypeORM', packageNames: ['typeorm'], patterns: [/\btypeorm\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'data' },
+  { id: 'sequelize', label: 'Sequelize', packageNames: ['sequelize'], patterns: [/\bsequelize\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'data' },
+  { id: 'drizzle', label: 'Drizzle', packageNames: ['drizzle-orm'], patterns: [/drizzle-orm/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'data' },
+  { id: 'knex', label: 'Knex', packageNames: ['knex'], patterns: [/\bknex\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'data' },
+  { id: 'mongoose', label: 'Mongoose', packageNames: ['mongoose'], patterns: [/\bmongoose\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'data' },
+  { id: 'sqlalchemy', label: 'SQLAlchemy', packageNames: ['sqlalchemy'], patterns: [/\bsqlalchemy\b/i], purposeHints: ['system-backend', 'data-pipeline'], runtimeHints: ['python'], class: 'data' },
+  { id: 'django-orm', label: 'Django ORM', packageNames: ['django'], patterns: [/django\.db|models\.Model/], purposeHints: ['system-backend'], runtimeHints: ['python'], class: 'data' },
+  { id: 'hibernate-jpa', label: 'JPA/Hibernate', packageNames: ['hibernate-core'], patterns: [/javax\.persistence|jakarta\.persistence|EntityManager/], purposeHints: ['system-backend'], runtimeHints: ['jvm'], class: 'data' },
+  // --- Infra / cloud ---
+  { id: 'kubernetes', label: 'Kubernetes', packageNames: ['@kubernetes/client-node', 'kubernetes'], patterns: [/\bkubernetes\b/i, /\bk8s\b/i, /apiVersion:\s*apps\/v1/], purposeHints: ['infra-iac', 'platform-sre'], runtimeHints: ['kubernetes'], class: 'cloud-sdk' },
+  { id: 'terraform', label: 'Terraform', packageNames: [], patterns: [/\bterraform\b/i, /provider\s+"[\w-]+"/], purposeHints: ['infra-iac'], runtimeHints: ['unspecified'], class: 'framework' },
+  { id: 'pulumi', label: 'Pulumi', packageNames: ['@pulumi/pulumi'], patterns: [/\bpulumi\b/i, /@pulumi\//], purposeHints: ['infra-iac'], runtimeHints: ['node', 'python', 'go'], class: 'framework' },
+  { id: 'aws-sdk', label: 'AWS SDK', packageNames: ['aws-sdk', '@aws-sdk/client-s3', 'boto3'], patterns: [/@aws-sdk\//i, /boto3/i, /aws-sdk/i], purposeHints: ['system-backend'], runtimeHints: ['node', 'python'], class: 'cloud-sdk' },
+  { id: 'azure-sdk', label: 'Azure SDK', packageNames: ['@azure/identity', 'azure-identity'], patterns: [/@azure\//i, /azure\./i], purposeHints: ['system-backend'], runtimeHints: ['node', 'python', 'dotnet'], class: 'cloud-sdk' },
+  { id: 'gcp-sdk', label: 'GCP SDK', packageNames: ['@google-cloud/storage', 'google-cloud-storage'], patterns: [/@google-cloud\//i, /google\.cloud/i], purposeHints: ['system-backend'], runtimeHints: ['node', 'python'], class: 'cloud-sdk' },
+  { id: 'stripe', label: 'Stripe', packageNames: ['stripe'], patterns: [/\bstripe\b/i], purposeHints: ['system-backend'], runtimeHints: ['node', 'python'], class: 'cloud-sdk' },
+  // --- API / realtime ---
+  { id: 'graphql', label: 'GraphQL', packageNames: ['graphql', '@apollo/client', '@apollo/server', 'graphql-yoga'], patterns: [/\bgraphql\b/i, /apollo/i, /gql`/], purposeHints: ['system-backend', 'full-stack-web'], runtimeHints: ['node', 'browser'], class: 'framework' },
+  { id: 'grpc', label: 'gRPC', packageNames: ['@grpc/grpc-js', 'grpcio'], patterns: [/\bgrpc\b/i, /@grpc\//, /\.proto\b/], purposeHints: ['system-backend'], runtimeHints: ['node', 'python', 'go', 'jvm'], class: 'framework' },
+  { id: 'socket-io', label: 'Socket.IO', packageNames: ['socket.io', 'socket.io-client'], patterns: [/socket\.io/i], purposeHints: ['realtime-messaging'], runtimeHints: ['node', 'browser'], class: 'messaging' },
+  { id: 'ws', label: 'ws', packageNames: ['ws'], patterns: [/\bfrom ['"]ws['"]/, /require\(['"]ws['"]\)/], purposeHints: ['realtime-messaging'], runtimeHints: ['node'], class: 'messaging' },
+  // --- UI / CSS ---
+  { id: 'tailwind', label: 'Tailwind', packageNames: ['tailwindcss'], patterns: [/tailwindcss/i], purposeHints: ['frontend-spa', 'full-stack-web'], runtimeHints: ['browser'], class: 'ui' },
+  { id: 'bootstrap', label: 'Bootstrap', packageNames: ['bootstrap'], patterns: [/\bbootstrap\b/i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'ui' },
+  { id: 'mui', label: 'MUI', packageNames: ['@mui/material'], patterns: [/@mui\//i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'ui' },
+  { id: 'chakra', label: 'Chakra UI', packageNames: ['@chakra-ui/react'], patterns: [/@chakra-ui\//i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'ui' },
+  { id: 'antd', label: 'Ant Design', packageNames: ['antd'], patterns: [/\bantd\b/i], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'ui' },
+  { id: 'shadcn', label: 'shadcn/ui', packageNames: [], patterns: [/shadcn/i, /components\/ui\//], purposeHints: ['frontend-spa'], runtimeHints: ['browser'], class: 'ui' },
+  // --- Build / test ---
+  { id: 'vite', label: 'Vite', packageNames: ['vite'], patterns: [/\bvite\b/i], purposeHints: ['developer-tooling', 'frontend-spa'], runtimeHints: ['node'], class: 'build' },
+  { id: 'webpack', label: 'Webpack', packageNames: ['webpack'], patterns: [/\bwebpack\b/i], purposeHints: ['developer-tooling'], runtimeHints: ['node'], class: 'build' },
+  { id: 'esbuild', label: 'esbuild', packageNames: ['esbuild'], patterns: [/\besbuild\b/i], purposeHints: ['developer-tooling'], runtimeHints: ['node'], class: 'build' },
+  { id: 'rollup', label: 'Rollup', packageNames: ['rollup'], patterns: [/\brollup\b/i], purposeHints: ['developer-tooling'], runtimeHints: ['node'], class: 'build' },
+  { id: 'turborepo', label: 'Turborepo', packageNames: ['turbo'], patterns: [/\bturbo\b/i, /turbo\.json/], purposeHints: ['developer-tooling'], runtimeHints: ['node'], class: 'build' },
+  { id: 'nx', label: 'Nx', packageNames: ['nx', '@nx/devkit'], patterns: [/\bnx\b/i, /nx\.json/], purposeHints: ['developer-tooling'], runtimeHints: ['node'], class: 'build' },
+  { id: 'jest', label: 'Jest', packageNames: ['jest', '@jest/core'], patterns: [/\bjest\b/i], purposeHints: ['test-harness'], runtimeHints: ['node'], class: 'test' },
+  { id: 'vitest', label: 'Vitest', packageNames: ['vitest'], patterns: [/\bvitest\b/i], purposeHints: ['test-harness'], runtimeHints: ['node'], class: 'test' },
+  { id: 'playwright', label: 'Playwright', packageNames: ['@playwright/test', 'playwright'], patterns: [/playwright/i], purposeHints: ['test-harness'], runtimeHints: ['node', 'browser'], class: 'test' },
+  { id: 'cypress', label: 'Cypress', packageNames: ['cypress'], patterns: [/\bcypress\b/i], purposeHints: ['test-harness'], runtimeHints: ['node', 'browser'], class: 'test' },
+  { id: 'pytest', label: 'pytest', packageNames: ['pytest'], patterns: [/\bpytest\b/i], purposeHints: ['test-harness'], runtimeHints: ['python'], class: 'test' },
+  { id: 'junit', label: 'JUnit', packageNames: ['junit', 'junit-jupiter'], patterns: [/\bjunit\b/i, /org\.junit/], purposeHints: ['test-harness'], runtimeHints: ['jvm'], class: 'test' },
+  // --- Elixir / Phoenix ---
+  { id: 'phoenix', label: 'Phoenix', packageNames: ['phoenix'], patterns: [/\bPhoenix\b/, /use Phoenix/], purposeHints: ['full-stack-web', 'system-backend'], runtimeHints: ['elixir-beam'], class: 'framework' },
+  // --- Observability ---
+  { id: 'opentelemetry', label: 'OpenTelemetry', packageNames: ['@opentelemetry/api', 'opentelemetry-api'], patterns: [/opentelemetry/i], purposeHints: ['observability-tooling', 'system-backend'], class: 'observability' },
+  { id: 'sentry', label: 'Sentry', packageNames: ['@sentry/node', '@sentry/react', 'sentry-sdk'], patterns: [/\bsentry\b/i], purposeHints: ['observability-tooling'], class: 'observability' },
+  { id: 'prometheus', label: 'Prometheus', packageNames: ['prom-client'], patterns: [/prometheus|prom-client/i], purposeHints: ['observability-tooling'], class: 'observability' },
+  // --- Auth ---
+  { id: 'passport', label: 'Passport', packageNames: ['passport'], patterns: [/\bpassport\b/i], purposeHints: ['system-backend'], runtimeHints: ['node'], class: 'security' },
+  { id: 'nextauth', label: 'Auth.js / NextAuth', packageNames: ['next-auth', '@auth/core'], patterns: [/next-auth|@auth\/core/i], purposeHints: ['full-stack-web'], runtimeHints: ['node'], class: 'security' },
+  { id: 'auth0', label: 'Auth0', packageNames: ['auth0', '@auth0/nextjs-auth0'], patterns: [/\bauth0\b/i], purposeHints: ['system-backend'], class: 'security' },
+  { id: 'clerk', label: 'Clerk', packageNames: ['@clerk/nextjs', '@clerk/clerk-sdk-node'], patterns: [/@clerk\//i], purposeHints: ['full-stack-web'], class: 'security' },
+  // --- Blockchain ---
+  { id: 'hardhat', label: 'Hardhat', packageNames: ['hardhat'], patterns: [/\bhardhat\b/i], purposeHints: ['blockchain-smart-contract'], runtimeHints: ['node'], class: 'framework' },
+  { id: 'foundry', label: 'Foundry', packageNames: [], patterns: [/\bforge\b/i, /foundry/i], purposeHints: ['blockchain-smart-contract'], class: 'framework' },
+  { id: 'ethers', label: 'Ethers.js', packageNames: ['ethers'], patterns: [/\bethers\b/i], purposeHints: ['blockchain-smart-contract'], runtimeHints: ['node', 'browser'], class: 'utility' },
+  { id: 'web3js', label: 'Web3.js', packageNames: ['web3'], patterns: [/\bweb3\b/i], purposeHints: ['blockchain-smart-contract'], runtimeHints: ['node', 'browser'], class: 'utility' },
+];
+
+/** Package name class heuristics (order matters — first match wins). */
+export const DEPENDENCY_CLASS_RULES: Array<{ class: DependencyClass; patterns: RegExp[] }> = [
+  { class: 'framework', patterns: [/react/, /next/, /vue/, /angular/, /svelte/, /django/, /flask/, /fastapi/, /express/, /nestjs/, /spring/, /rails/, /laravel/, /flutter/, /phoenix/, /axum/, /actix/, /gin-gonic/, /hono/, /remix/, /nuxt/, /astro/, /gatsby/, /quarkus/, /ktor/, /electron/, /tauri/] },
+  { class: 'ui', patterns: [/tailwind/, /styled-components/, /emotion/, /chakra/, /mui/, /bootstrap/, /antd/, /radix-ui/, /headlessui/, /framer-motion/] },
+  { class: 'data', patterns: [/prisma/, /typeorm/, /sequelize/, /mongoose/, /sqlalchemy/, /knex/, /drizzle/, /redis/, /postgres/, /mysql/, /mongodb/, /cassandra/, /elasticsearch/, /opensearch/, /clickhouse/, /snowflake/, /duckdb/] },
+  { class: 'cloud-sdk', patterns: [/@aws-sdk/, /boto3/, /@google-cloud/, /@azure\//, /aws-sdk/, /stripe/, /twilio/, /sendgrid/, /@supabase/] },
+  { class: 'messaging', patterns: [/kafka/, /rabbitmq/, /amqp/, /bullmq/, /bull\b/, /celery/, /sidekiq/, /nats/, /sqs/, /pubsub/, /socket\.io/, /\bws\b/] },
+  { class: 'ml', patterns: [/torch/, /tensorflow/, /sklearn/, /scikit/, /transformers/, /langchain/, /llama/, /openai/, /anthropic/, /numpy/, /pandas/, /scipy/] },
+  { class: 'security', patterns: [/passport/, /jsonwebtoken/, /jose/, /bcrypt/, /argon2/, /helmet/, /oauth/, /auth0/, /clerk/, /openid/, /samesite/] },
+  { class: 'observability', patterns: [/opentelemetry/, /sentry/, /datadog/, /prometheus/, /pino/, /winston/, /bunyan/, /logrus/, /zap/, /tracing/] },
+  { class: 'test', patterns: [/jest/, /mocha/, /vitest/, /pytest/, /cypress/, /playwright/, /testing-library/, /@types\/jest/, /junit/, /testng/, /rspec/, /phpunit/, /xunit/] },
+  { class: 'build', patterns: [/webpack/, /vite/, /esbuild/, /rollup/, /babel/, /typescript/, /eslint/, /prettier/, /turbo/, /nx\b/, /swc/, /parcel/, /gradle/, /maven/] },
+  { class: 'utility', patterns: [/lodash/, /ramda/, /date-fns/, /moment/, /dayjs/, /uuid/, /zod/, /yup/, /joi/, /axios/, /node-fetch/, /got\b/, /underscore/, /rxjs/] },
+];
+
+/** Capability evidence patterns over source-safe text. */
+export const CAPABILITY_EVIDENCE: Array<{ tag: CapabilityTag; patterns: RegExp[] }> = [
+  { tag: 'authn', patterns: [/\bauth(?:n|enticate|entication)?\b/i, /passport/i, /oauth/i, /jwt/i, /session/i, /signIn|sign-in/i, /login/i] },
+  { tag: 'authz', patterns: [/\bauthz\b/i, /rbac/i, /permission/i, /authorize/i, /acl/i, /casbin/i, /policy\.enforce/i] },
+  { tag: 'rate-limit', patterns: [/rate[-_]?limit/i, /throttl/i, /express-rate-limit/i] },
+  { tag: 'caching', patterns: [/\bcache\b/i, /redis/i, /memcached/i, /lru-cache/i] },
+  { tag: 'pagination', patterns: [/paginat/i, /cursor.*page/i, /pageSize/i, /limit\s*[,&]\s*offset/i] },
+  { tag: 'retries', patterns: [/\bretry\b/i, /backoff/i, /circuit.?breaker/i, /p-retry/i] },
+  { tag: 'i18n', patterns: [/\bi18n\b/i, /locale/i, /gettext/i, /intl\./i, /react-intl|i18next/i] },
+  { tag: 'a11y', patterns: [/\ba11y\b/i, /aria-/i, /accessibility/i, /axe-core/i] },
+  { tag: 'validation', patterns: [/\bzod\b/i, /yup/i, /joi/i, /validate/i, /schema\.parse/i, /class-validator/i, /pydantic/i] },
+  { tag: 'encryption', patterns: [/encrypt/i, /crypto\./i, /bcrypt/i, /argon2/i, /tls/i, /AES|RSA/] },
+  { tag: 'search', patterns: [/elasticsearch/i, /opensearch/i, /full.?text/i, /meilisearch|algolia|typesense/i] },
+  { tag: 'scheduling', patterns: [/cron/i, /schedule/i, /bullmq/i, /agenda/i, /node-cron/i, /APScheduler/i] },
+  { tag: 'observability', patterns: [/opentelemetry/i, /prometheus/i, /sentry/i, /datadog/i, /logger\./i, /metrics/i, /tracing/i] },
+  { tag: 'payments', patterns: [/stripe/i, /payment/i, /checkout/i, /billing/i, /braintree|adyen|paypal/i] },
+  { tag: 'webhooks', patterns: [/webhook/i] },
+  { tag: 'file-upload', patterns: [/multer/i, /upload/i, /multipart/i, /s3\.put|presigned/i, /busboy/i] },
+  { tag: 'streaming', patterns: [/ReadableStream/i, /sse/i, /websocket/i, /event.?stream/i, /ServerSentEvent/i] },
+  { tag: 'migrations', patterns: [/migration/i, /alembic/i, /flyway/i, /liquibase/i, /prisma migrate/i, /knex migrate/i] },
+  { tag: 'feature-flags', patterns: [/feature.?flag/i, /launchdarkly|unleash|flagsmith|split\.io/i, /statsig/i] },
+  { tag: 'multi-tenancy', patterns: [/multi[-_]?tenant/i, /tenant[_-]?id/i, /org[_-]?id/i] },
+  { tag: 'audit-log', patterns: [/audit[_-]?log/i, /activity[_-]?log/i], },
+  { tag: 'background-jobs', patterns: [/background.?job/i, /worker/i, /queue\.add/i, /sidekiq|bullmq|celery|resque/i] },
+  { tag: 'email', patterns: [/nodemailer|sendgrid|ses|mailgun|postmark|resend/i, /sendEmail|send_mail/i] },
+  { tag: 'sms', patterns: [/twilio|sns\.publish|vonage|messagebird/i, /\bsms\b/i] },
+  { tag: 'push-notifications', patterns: [/fcm|apns|web-push|expo-notifications|firebase-admin/i] },
+  { tag: 'geo', patterns: [/geolocation|geocode|postgis|maxmind|geoip/i, /latitude|longitude/i] },
+  { tag: 'media-processing', patterns: [/sharp|ffmpeg|imagemagick|pillow|opencv/i, /transcode/i] },
+  { tag: 'llm-integration', patterns: [/openai|anthropic|langchain|llama|completion|chat\.completions/i] },
+  { tag: 'vector-search', patterns: [/vector.?search|embedding|pinecone|weaviate|qdrant|pgvector|chroma/i] },
+];
+
+// ---------------------------------------------------------------------------
+// Companion scalar kinds (commercial absolute bag)
+// ---------------------------------------------------------------------------
+
+export const MATERIAL_IDENTITY_SCALAR_KINDS = [
+  'language-concentration',
+  'framework-surface',
+  'purpose-clarity',
+  'dependency-class-balance',
+  'external-service-coupling',
+  'contract-surface',
+  'type-safety-pressure',
+  'observability-surface',
+  'generated-code-mass',
+  'test-as-spec',
+  'portability',
+  'architectural-pattern-density',
+  'capability-surface',
+  'copyleft-risk-mass',
+  'change-intent-clarity',
+  'data-architecture-clarity',
+  'concurrency-model-clarity',
+  'api-style-clarity',
+  'substitution-density',
+] as const;
+
+export type MaterialIdentityScalarKind = (typeof MATERIAL_IDENTITY_SCALAR_KINDS)[number];
+
+export const MATERIAL_IDENTITY_SCALAR_KIND_SPECS: Array<{
+  measurementKind: MaterialIdentityScalarKind;
+  label: string;
+  unit: string;
+  family: 'structure' | 'verification' | 'hygiene' | 'semantics' | 'value';
+  propertyClass: 'quantity' | 'quality' | 'hygiene' | 'verification';
+  policyRole: 'weighted' | 'penalty' | 'flag';
+  companionWeightShare: number;
+}> = [
+  { measurementKind: 'language-concentration', label: 'Language concentration', unit: 'ratio', family: 'structure', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.07 },
+  { measurementKind: 'framework-surface', label: 'Framework surface', unit: 'frameworks', family: 'structure', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.07 },
+  { measurementKind: 'purpose-clarity', label: 'Purpose clarity', unit: 'estimate', family: 'semantics', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.07 },
+  { measurementKind: 'dependency-class-balance', label: 'Dependency class balance', unit: 'ratio', family: 'structure', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'external-service-coupling', label: 'External service coupling', unit: 'services', family: 'structure', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'contract-surface', label: 'Contract surface', unit: 'contracts', family: 'structure', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'type-safety-pressure', label: 'Type-safety pressure', unit: 'ratio', family: 'verification', propertyClass: 'verification', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'observability-surface', label: 'Observability surface', unit: 'ratio', family: 'structure', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.04 },
+  { measurementKind: 'generated-code-mass', label: 'Generated-code mass', unit: 'ratio', family: 'hygiene', propertyClass: 'hygiene', policyRole: 'penalty', companionWeightShare: 0.04 },
+  { measurementKind: 'test-as-spec', label: 'Test as specification', unit: 'ratio', family: 'verification', propertyClass: 'verification', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'portability', label: 'Portability', unit: 'ratio', family: 'structure', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'architectural-pattern-density', label: 'Architectural pattern density', unit: 'ratio', family: 'semantics', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'capability-surface', label: 'Capability surface', unit: 'capabilities', family: 'semantics', propertyClass: 'quantity', policyRole: 'weighted', companionWeightShare: 0.06 },
+  { measurementKind: 'copyleft-risk-mass', label: 'Copyleft risk mass', unit: 'ratio', family: 'hygiene', propertyClass: 'hygiene', policyRole: 'penalty', companionWeightShare: 0.04 },
+  { measurementKind: 'change-intent-clarity', label: 'Change-intent clarity', unit: 'estimate', family: 'semantics', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.04 },
+  { measurementKind: 'data-architecture-clarity', label: 'Data-architecture clarity', unit: 'estimate', family: 'semantics', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.04 },
+  { measurementKind: 'concurrency-model-clarity', label: 'Concurrency-model clarity', unit: 'estimate', family: 'semantics', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.04 },
+  { measurementKind: 'api-style-clarity', label: 'API-style clarity', unit: 'estimate', family: 'semantics', propertyClass: 'quality', policyRole: 'weighted', companionWeightShare: 0.05 },
+  { measurementKind: 'substitution-density', label: 'Substitution density', unit: 'ratio', family: 'value', propertyClass: 'quality', policyRole: 'flag', companionWeightShare: 0.04 },
+];

@@ -1,8 +1,8 @@
 /**
- * Expand any partial absolute measurement bag to commercial law: all 46 kinds.
+ * Expand any partial absolute measurement bag to commercial law: full catalogue.
  *
  * Used by deposit review cards, Exchange detail, admission projection, and
- * activity normalization so UX never shows the legacy 8/11 subset alone.
+ * activity normalization so UX never shows a partial kind subset alone.
  */
 
 import {

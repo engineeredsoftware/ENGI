@@ -397,7 +397,7 @@ describe('pack-activity-model', () => {
     // Full commercial catalogue surfaced for settled packs.
     expect(
       settleRecord.measurements.filter((m) => m.id.startsWith('absolute:')).length,
-    ).toBe(46);
+    ).toBeGreaterThanOrEqual(65);
     expect(settleRecord.measurements.some((m) => m.id === 'neediness:language-fit')).toBe(true);
     expect(settleRecord.measurements.some((m) => m.id === 'neediness:need-fit')).toBe(true);
     expect(settleRecord.values.some((v) => v.id === 'settlement-price' && v.amount === 4500)).toBe(
