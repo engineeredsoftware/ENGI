@@ -18,11 +18,12 @@
   },
   "dependencies": {
     "@bitcode/measurement-generics": "workspace:*",
-    "@bitcode/generic-measurements-absolutes": "workspace:*",
     "@bitcode/generic-agents-agent-measure": "workspace:*",
     "@bitcode/artifact-generics": "workspace:*",
     "@bitcode/generic-artifacts-patch-kind": "workspace:*",
-    "@bitcode/asset-packs-generics": "workspace:*"
+    "@bitcode/asset-packs-generics": "workspace:*",
+    "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog": "workspace:*",
+    "@bitcode/generic-agents-agent-measure-absolutes": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

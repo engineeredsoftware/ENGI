@@ -1,24 +1,49 @@
 /**
- * SynthesizeAssetPacks catalogs.
+ * DataPack synthesis catalogs.
  *
- * **Absolutes (law):** `ASSET_PACK_ABSOLUTES_CATALOG` — intrinsic material properties;
- * host/tools measure; weights sum to 1.
+ * **Absolutes (law):** `DATA_PACK_ABSOLUTES_CATALOG` — weighted commercial subset (Σ=1).
+ * Full absolute vocabulary:
+ * `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`.
  *
- * **Synthesis policy (not measurements):** optional depositor/reader guidance rows used
- * only for synthesis *prompts* / commercial steering language — never as
- * `measurements.absolutes[]` volumes. LLMs must not invent absolute volumes.
+ * Bare measures: `generic-measurements/absolutes/<kind>/`.
+ * Tools: `generic-tools/tool-measure-<kind>/`.
+ * Agent: `@bitcode/generic-agents-agent-measure-absolutes`.
  */
 
 import type {
-  AssetPackAbsoluteSpec,
   AssetPackMeasurementSpec,
   SynthesizeAssetPacksMode,
+  AssetPackAbsoluteSpec,
 } from './types';
 
-/**
- * Deposit synthesis **policy** rows (steering language only — not absolute KINDs).
- * Host attaches real absolutes via the measure stack.
- */
+export {
+  DATA_PACK_ABSOLUTE_KIND_SPECS,
+  DATA_PACK_ABSOLUTES_CATALOG,
+  DATA_PACK_ABSOLUTE_KINDS,
+  DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
+  assertDataPackAbsolutesCatalogWeights,
+  ASSET_PACK_ABSOLUTES_CATALOG,
+  ASSET_PACK_ABSOLUTE_KINDS,
+  type DataPackAbsoluteKindSpec,
+  type AbsoluteFamily,
+  type AbsolutePolicyRole,
+} from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
+
+import { DATA_PACK_ABSOLUTES_CATALOG as _CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
+
+/** Weighted absolute rows with product AssetPackAbsoluteSpec shape (quantity|quality). */
+export const DATA_PACK_ABSOLUTES_PRODUCT_CATALOG: AssetPackAbsoluteSpec[] = _CATALOG.map((s) => ({
+  measurementKind: s.measurementKind,
+  label: s.label,
+  unit: s.unit,
+  guidance: s.guidance,
+  hasMagnitude: true as const,
+  weight: s.weight!,
+  propertyClass: (s.propertyClass === 'quantity' || s.propertyClass === 'quality'
+    ? s.propertyClass
+    : 'quantity') as 'quantity' | 'quality',
+}));
+
 export const DEPOSIT_SYNTHESIS_POLICY_CATALOG: AssetPackMeasurementSpec[] = [
   {
     measurementKind: 'source-coverage',
@@ -43,10 +68,6 @@ export const DEPOSIT_SYNTHESIS_POLICY_CATALOG: AssetPackMeasurementSpec[] = [
   },
 ];
 
-/**
- * Read synthesis **policy** rows (steering language only — not neediness volumes).
- * Needinesses are measured on the read path under `measurements.needinesses`.
- */
 export const READ_SYNTHESIS_POLICY_CATALOG: AssetPackMeasurementSpec[] = [
   {
     measurementKind: 'need-fit',
@@ -71,161 +92,23 @@ export const READ_SYNTHESIS_POLICY_CATALOG: AssetPackMeasurementSpec[] = [
   },
 ];
 
-/** Resolve synthesis policy catalog by product mode (not absolute measurement law). */
 export function synthesisPolicyCatalogForMode(
   mode: SynthesizeAssetPacksMode,
 ): AssetPackMeasurementSpec[] {
   return mode === 'read' ? READ_SYNTHESIS_POLICY_CATALOG : DEPOSIT_SYNTHESIS_POLICY_CATALOG;
 }
 
-/** @deprecated Use DEPOSIT_SYNTHESIS_POLICY_CATALOG — not absolute measurements. */
+/** @deprecated Use DEPOSIT_SYNTHESIS_POLICY_CATALOG */
 export const DEPOSIT_MEASUREMENT_CATALOG = DEPOSIT_SYNTHESIS_POLICY_CATALOG;
-/** @deprecated Use READ_SYNTHESIS_POLICY_CATALOG — not absolute measurements. */
+/** @deprecated Use READ_SYNTHESIS_POLICY_CATALOG */
 export const READ_MEASUREMENT_CATALOG = READ_SYNTHESIS_POLICY_CATALOG;
-/** @deprecated Use synthesisPolicyCatalogForMode — not absolute measurements. */
+/** @deprecated Use synthesisPolicyCatalogForMode */
 export function measurementCatalogForLens(
   lens: SynthesizeAssetPacksMode,
 ): AssetPackMeasurementSpec[] {
   return synthesisPolicyCatalogForMode(lens);
 }
 
-/**
- * ABSOLUTES measurement KIND catalog (intrinsic digital-material properties).
- *
- * Quantity — tool-authoritative. Quality — measure-agent grounded judgment.
- * Weights sum to 1. Shared for deposit and read absolute readings.
- * P1 structure: lang-span, test-surface, api-surface (2026-07).
- */
-export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
-  // —— Quantity (tool-authoritative) — weight mass ≈ 0.55 ——
-  {
-    measurementKind: 'function-count',
-    label: 'Functions',
-    unit: 'functions',
-    hasMagnitude: true,
-    weight: 0.09,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · size: how many distinct functions/behaviors the synthesized patch encodes. magnitude = the count (static analysis); volume = normalized 0..1.',
-  },
-  {
-    measurementKind: 'type-count',
-    label: 'Types',
-    unit: 'types',
-    hasMagnitude: true,
-    weight: 0.07,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · size: how many distinct types/interfaces/schemas the patch defines. magnitude = the count; volume = normalized 0..1.',
-  },
-  {
-    measurementKind: 'file-span',
-    label: 'File span',
-    unit: 'files',
-    hasMagnitude: true,
-    weight: 0.05,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · size: how many files the patch creates/modifies. magnitude = the count; volume = normalized 0..1.',
-  },
-  {
-    measurementKind: 'symbolic-richness',
-    label: 'Symbolic richness',
-    unit: 'symbols',
-    hasMagnitude: true,
-    weight: 0.09,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · symbolic richness: magnitude = unique symbol count; volume normalizes richness per file.',
-  },
-  {
-    measurementKind: 'modularity',
-    label: 'Modularity',
-    unit: 'modules',
-    hasMagnitude: true,
-    weight: 0.05,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · modularity: magnitude = module count; volume rewards multi-module structure without sprawl.',
-  },
-  {
-    measurementKind: 'lang-span',
-    label: 'Language span',
-    unit: 'languages',
-    hasMagnitude: true,
-    weight: 0.06,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · languages: magnitude = distinct languages in the covered set (path/ext); volume = normalized 0..1.',
-  },
-  {
-    measurementKind: 'test-surface',
-    label: 'Test surface',
-    unit: 'tests',
-    hasMagnitude: true,
-    weight: 0.07,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · tests/proofs: magnitude = test paths + test-like functions under the patch; volume = normalized 0..1.',
-  },
-  {
-    measurementKind: 'api-surface',
-    label: 'API surface',
-    unit: 'exports',
-    hasMagnitude: true,
-    weight: 0.07,
-    propertyClass: 'quantity',
-    guidance:
-      'QUANTITY · exports: magnitude = public/export entrypoints detected in covered source; volume = normalized 0..1.',
-  },
-  // —— Quality (measure-agent judgment) — weight mass ≈ 0.45 ——
-  {
-    measurementKind: 'correctness-estimate',
-    label: 'Correctness',
-    unit: 'estimate',
-    hasMagnitude: true,
-    weight: 0.16,
-    propertyClass: 'quality',
-    guidance:
-      'QUALITY · correctness: volume 0..1 fidelity/coherence; magnitude mirrors volume (always required).',
-  },
-  {
-    measurementKind: 'objectives-fidelity',
-    label: 'Objectives fidelity',
-    unit: 'estimate',
-    hasMagnitude: true,
-    weight: 0.15,
-    propertyClass: 'quality',
-    guidance:
-      'QUALITY · objectives: volume 0..1 serves deposit/read objectives without leakage; magnitude mirrors volume.',
-  },
-  {
-    measurementKind: 'computational-usage',
-    label: 'Computational usage',
-    unit: 'estimate',
-    hasMagnitude: true,
-    weight: 0.14,
-    propertyClass: 'quality',
-    guidance:
-      'QUALITY · computational-usage: volume 0..1 estimated computational demand; magnitude mirrors volume.',
-  },
-];
-
-export const ASSET_PACK_ABSOLUTE_KINDS: string[] = ASSET_PACK_ABSOLUTES_CATALOG.map(
-  (spec) => spec.measurementKind,
-);
-
-/** Assert catalog weights sum to 1 (within float epsilon). */
-export function assertAbsolutesCatalogWeights(): void {
-  const sum = ASSET_PACK_ABSOLUTES_CATALOG.reduce((s, row) => s + row.weight, 0);
-  if (Math.abs(sum - 1) > 1e-9) {
-    throw new Error(`ASSET_PACK_ABSOLUTES_CATALOG weights sum to ${sum}, expected 1`);
-  }
-}
-
-/**
- * @deprecated Deposit needinesses are always []. Kept for re-export stability.
- */
 export const DEPOSIT_NEEDINESS_MEASUREMENT = {
   measurementKind: 'neediness',
   label: 'Neediness (REMOVED from deposit)',

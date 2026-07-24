@@ -95,6 +95,15 @@
       "@bitcode/generic-agents-agent-measure": [
         "packages/generic-agents/agent-measure/src/index.ts"
       ],
+      "@bitcode/generic-agents-agent-measure-absolutes": [
+        "packages/generic-agents/agent-measure-absolutes/src/index.ts"
+      ],
+      "@bitcode/generic-measurements-domain-data-pack-absolutes-catalog": [
+        "packages/generic-measurements/domain/data-pack-absolutes-catalog/src/index.ts"
+      ],
+      "@bitcode/generic-measurements-shared-absolute-measure-input": [
+        "packages/generic-measurements/shared/absolute-measure-input/src/index.ts"
+      ],
       "@bitcode/generic-measurements-absolutes": [
         "packages/generic-measurements/absolutes/src/index.ts"
       ],

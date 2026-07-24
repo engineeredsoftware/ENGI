@@ -1,0 +1,23 @@
+{
+  "name": "@bitcode/generic-tools-tool-measure-rl-object-completeness",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Execution tool wrapping bare absolute measure rl-object-completeness",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "node ../../../node_modules/typescript/bin/tsc -p tsconfig.typecheck.json --noEmit",
+    "type-check": "pnpm run typecheck"
+  },
+  "dependencies": {
+    "@bitcode/agent-generics": "workspace:*",
+    "@bitcode/generic-measurements-absolutes-rl-object-completeness": "workspace:*",
+    "@bitcode/generic-measurements-shared-absolute-measure-input": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

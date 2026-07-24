@@ -92,10 +92,11 @@ export {
 //
 // Hierarchy (full ancestry naming at product layers):
 //   Measurement primitives     → @bitcode/measurement-generics
+//   Bare absolute kinds        → @bitcode/generic-agents-agent-measure-absolutes-<kind>
 //   MeasureAgent base          → @bitcode/generic-agents-agent-measure
-//   AbsolutesMeasureAgent      → @bitcode/generic-measurements-absolutes
+//   AbsolutesMeasureAgent      → @bitcode/generic-agents-agent-measure-absolutes
 //   NeedinessesMeasureAgent    → @bitcode/generic-measurements-needinesses
-//   SynthesizeAssetPacks…      → @bitcode/generic-asset-packs-synthesis
+//   Product synthesis          → @bitcode/generic-asset-packs-synthesis
 //
 // Composition re-exports of the measurement hierarchy (leaf packages remain source of truth).
 
@@ -118,7 +119,10 @@ export {
   factoryAbsolutesMeasureAgent,
   type AbsolutesMeasureAgent,
   type AbsolutesMeasureAgentConfig,
-} from '@bitcode/generic-measurements-absolutes';
+  measureDataPackWeightedAbsoluteReadings,
+  measureDataPackAllAbsolutes,
+  listAbsoluteMeasureKinds,
+} from '@bitcode/generic-agents-agent-measure-absolutes';
 
 export {
   NEEDINESSES_MEASUREMENT_CATEGORY,

@@ -282,10 +282,10 @@ Every V48 sale or deposit decision must be grounded in source-safe measurement
 readback. **Models do not invent absolute volumes.** Hosts and tools measure;
 agents reason over source-safe descriptors and measured readings.
 
-### AssetPack identity (measurement-bound)
+### DataPack identity (measurement-bound)
 
 ```
-AssetPack = patch + measurements + metadata
+DataPack = patch + measurements + metadata
 ```
 
 - **Patch** — source-safe descriptor of digital material (`fileChanges[{path,op}]`,
@@ -295,11 +295,16 @@ AssetPack = patch + measurements + metadata
 - **Metadata** — commercially legible fields: `kind`, `title`, `summary`,
   `coveredSourcePaths`, `confidence`.
 
-An AssetPack is **always** a completely synthesized artifact — never a raw
-source slice and never a bare path list. Product hierarchy:
+A **DataPack** is **always** a completely synthesized artifact — never a raw
+source slice and never a bare path list. **Absolute measurements measure the
+DataPack** (after synthesis), not the depositor repository as the commercial object.
+Product hierarchy:
 
-`AssetPack` (primitive) → `SynthesisAssetPack` → deposit option / selection
+`DataPack` (primitive) → `SynthesisDataPack` → deposit option / selection
 envelope row / durable artifact projection.
+
+(Legacy code identifiers may still say AssetPack until package renames complete;
+product language and new packages use **DataPack**.)
 
 Deposit option `kind` (v0): `capability-slice` | `implementation-pattern` |
 `proof-operations-slice`. Implementation synthesizes **2–4** distinct options.
@@ -386,11 +391,32 @@ OpenAI is not a vector database for Bitcode depository search.
 settled supply into execution stores (`depository.settledAssets` /
 `deposit.settledDepositoryAssets`) **before** Discovery so lexical search is not empty.
 
-### Absolute material-property catalog (`ASSET_PACK_ABSOLUTES_CATALOG`)
+### Absolute measurement hierarchy (rebuild law)
 
-Canonical catalog in `@bitcode/generic-asset-packs-synthesis`
-(`measurement-catalogs.ts`). Weights **sum to 1**. Shared for deposit and read
-**absolute** properties. Rebuild implementations must emit one reading per kind.
+```
+measurement-generics
+  → generic-measurements/absolutes/<kind>     # bare pure measure (one package per kind)
+  → generic-tools/tool-measure-<kind>         # ExecutionTool wrapper
+  → generic-agents/agent-measure-absolutes    # registers all absolute tools / bare measures
+  → deposit|read pipelines                    # attach after DataPack synthesis
+```
+
+Full target absolute vocabulary (46 kinds; families structure, verification, hygiene,
+provenance, semantics, value) is enumerated in
+`BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md` and
+`@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`.
+**`learning-gain` is not an absolute** — exchange value scalar is BTD via needinesses /
+need-fit on read.
+
+Hygiene kinds are first-class absolute packages; product policy may treat them as
+hard gates or penalties rather than weighted composite rows.
+
+### Absolute weighted catalog (`DATA_PACK_ABSOLUTES_CATALOG`)
+
+Canonical weighted commercial subset in
+`@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`
+(re-exported by product synthesis). Weights **sum to 1**. Shared for deposit and read
+**absolute** properties. Rebuild implementations must emit one reading per **weighted** kind.
 
 #### Quantity (tool-authoritative: static analysis + patch descriptor)
 
@@ -438,11 +464,10 @@ Canonical catalog in `@bitcode/generic-asset-packs-synthesis`
 | Validation ready-to-finish | **Fail-closed** if any pack lacks non-empty `measurements.absolutes` with magnitude+volume; may backfill then re-check |
 | LLM agent JSON | **Must not** invent absolute or neediness volumes on deposit |
 
-Stack: `SourceStaticAnalysisTool` (quantity) → `measureAssetPackAbsolutes` /
-`SynthesizeAssetPacksAbsolutesMeasureAgent` (quality grounded in quantity) →
-merge (quantity tool-authoritative). Package map:
-`@bitcode/measurement-generics`, `@bitcode/generic-measurements-absolutes`,
-`@bitcode/generic-measurements-needinesses`, `@bitcode/generic-asset-packs-synthesis`.
+Stack: bare `generic-measurements/absolutes/<kind>` (+ static signals) →
+`measureDataPackAbsolutes` / `agent-measure-absolutes` → optional quality PTRR refine →
+merge (quantity tool/bare-authoritative). Package map: see absolute measurement
+parity matrix. Needinesses remain `@bitcode/generic-measurements-needinesses` (read).
 
 ### Needinesses (read-only measurement KIND)
 

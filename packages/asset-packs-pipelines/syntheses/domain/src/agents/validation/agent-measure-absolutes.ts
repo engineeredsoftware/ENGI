@@ -21,6 +21,7 @@ import {
 } from '@bitcode/generic-asset-packs-synthesis';
 
 import {
+  DATA_PACK_ABSOLUTES_PRODUCT_CATALOG,
   ASSET_PACK_ABSOLUTES_CATALOG,
   type AssetPackAbsoluteSpec,
   type AssetPackCandidateMeasurement,
@@ -247,7 +248,7 @@ export function computeAbsolutesFromReport(
     measuredFromSamples: measured,
   });
 
-  return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) =>
+  return DATA_PACK_ABSOLUTES_PRODUCT_CATALOG.map((spec) =>
     buildMeasurement(
       spec,
       {
@@ -341,7 +342,7 @@ export function mapReadingsToAbsoluteMeasurements(
     moduleCount: det.find((m) => m.measurementKind === 'modularity')?.magnitude ?? 1,
     measuredFromSamples: false,
   });
-  return ASSET_PACK_ABSOLUTES_CATALOG.map((spec) => {
+  return DATA_PACK_ABSOLUTES_PRODUCT_CATALOG.map((spec) => {
     const reading = byKind.get(spec.measurementKind);
     const volumeNum = Number(reading?.volume);
     if (!reading || !Number.isFinite(volumeNum)) {
@@ -429,11 +430,16 @@ async function measureStaticAnalysis(
 }
 
 /**
- * Measure the absolutes of ONE synthesized patch.
- * Quantity: SourceStaticAnalysisTool (+ patch descriptor).
- * Quality: measure-agent judgment grounded in those quantities (when real
- * inference is enabled); otherwise report-derived quality defaults.
- * Always returns the complete absolutes catalog.
+ * Measure the absolutes of ONE synthesized **DataPack** patch.
+ *
+ * Canon path: bare packages under generic-measurements/absolutes/<kind>
+ * via @bitcode/generic-agents-agent-measure-absolutes
+ * (`measureDataPackWeightedAbsoluteReadings`).
+ *
+ * Static analysis still grounds quantity signals; optional LLM quality refine
+ * remains available when inference is enabled.
+ *
+ * @deprecated Name measureAssetPackAbsolutes — prefer measureDataPackAbsolutes alias.
  */
 export async function measureAssetPackAbsolutes(
   patch: MeasurableAssetPackPatch,
@@ -442,32 +448,80 @@ export async function measureAssetPackAbsolutes(
     execution?: any;
     sources?: StaticAnalysisSourceFile[];
     /**
-     * Deposit Implementation measurements agent: always attempt quality inference
-     * when execution is available (slots into ASSET_PACK_ABSOLUTES_CATALOG quality
-     * kinds). Quantity remains tool-authoritative from static analysis.
+     * Deposit Implementation: attempt quality inference when execution is available.
+     * Quantity remains tool/bare-measure authoritative.
      */
     preferQualityInference?: boolean;
   },
 ): Promise<AssetPackCandidateMeasurement[]> {
   const report = await measureStaticAnalysis(patch, context);
-  const reportAbsolutes = computeAbsolutesFromReport(report, patch);
-
-  const mayInfer =
-    Boolean(context.execution) &&
-    (context.preferQualityInference === true || isAssetPackRealInferenceEnabled());
-  if (!mayInfer) {
-    return reportAbsolutes;
-  }
+  // Primary: bare absolute packages (full weighted catalogue).
   try {
-    const agent = factorySynthesizeAssetPacksAbsolutesMeasureAgent(context.lens);
-    const raw = await agent(toDescriptor(patch, report) as any, context.execution);
-    // factoryPTRRAgent returns an envelope ({ context, output, finalOutput }) — unwrap (F27).
-    const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
-    const readings = Array.isArray((result as any)?.measurements) ? (result as any).measurements : [];
-    if (readings.length === 0) return reportAbsolutes;
-    // Quantity kinds stay tool-authoritative; quality kinds take inference volumes.
-    return mergeReportAndReadings(reportAbsolutes, readings);
+    const { measureDataPackWeightedAbsoluteReadings } = await import(
+      '@bitcode/generic-agents-agent-measure-absolutes'
+    );
+    const readings = measureDataPackWeightedAbsoluteReadings({
+      dataPack: {
+        title: patch.title,
+        summary: patch.summary,
+        patchSummary: patch.patchSummary,
+        coveredSourcePaths: patch.coveredSourcePaths,
+        fileChanges: patch.fileChanges,
+        confidence: patch.confidence,
+      },
+      sources: (context.sources || []).map((s) => ({ path: s.path, content: s.content })),
+      staticSignals: {
+        'function-count': report.estimatedFunctionCount,
+        'type-count': report.estimatedTypeCount,
+        'symbolic-richness': report.estimatedSymbolCount,
+        'lang-span': report.languageCount,
+        'test-surface': (report.testPathCount ?? 0) + (report.estimatedTestFunctionCount ?? 0) * 0.5,
+        'api-surface': report.estimatedExportCount,
+        modularity: report.moduleCount,
+      },
+    });
+    const reportAbsolutes = computeAbsolutesFromReport(report, patch);
+    const byKindReport = new Map(reportAbsolutes.map((m) => [m.measurementKind, m]));
+    // Prefer bare quantity magnitudes when staticSignals used; merge quality if inference later.
+    const bareAbsolutes: AssetPackCandidateMeasurement[] = readings.map((r) => {
+      const prior = byKindReport.get(r.measurementKind);
+      const isQuantity = QUANTITY_KINDS.has(r.measurementKind);
+      return {
+        measurementKind: r.measurementKind,
+        label: r.label,
+        weight: r.weight,
+        volume: isQuantity && prior ? prior.volume : r.volume,
+        magnitude: isQuantity && prior ? prior.magnitude : r.magnitude,
+        unit: r.unit,
+        category: 'absolute' as const,
+        rationale: r.rationale,
+        descriptor: prior?.descriptor,
+      };
+    });
+
+    const mayInfer =
+      Boolean(context.execution) &&
+      (context.preferQualityInference === true || isAssetPackRealInferenceEnabled());
+    if (!mayInfer) {
+      return bareAbsolutes;
+    }
+    try {
+      const agent = factorySynthesizeAssetPacksAbsolutesMeasureAgent(context.lens);
+      const raw = await agent(toDescriptor(patch, report) as any, context.execution);
+      const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
+      const agentReadings = Array.isArray((result as any)?.measurements)
+        ? (result as any).measurements
+        : [];
+      if (agentReadings.length === 0) return bareAbsolutes;
+      return mergeReportAndReadings(bareAbsolutes, agentReadings);
+    } catch {
+      return bareAbsolutes;
+    }
   } catch {
-    return reportAbsolutes;
+    // Fallback: legacy report-only path if bare packages fail to load.
+    return computeAbsolutesFromReport(report, patch);
   }
 }
+
+/** Preferred name: measure a synthesized DataPack's weighted absolutes. */
+export const measureDataPackAbsolutes = measureAssetPackAbsolutes;

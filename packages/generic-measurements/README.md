@@ -1,37 +1,38 @@
 # generic-measurements
 
-Measurement **domain** packages extending `@bitcode/measurement-generics`
-(catalogs, category framing). The PTRR **MeasureAgent implementer** lives under
-`packages/generic-agents/agent-measure` (`@bitcode/generic-agents-agent-measure`).
+Bare measurement **implementations** (not tools, not agents). Commodity: **DataPack**.
 
-## Hierarchy (names encode full ancestry)
+## Hierarchy (canon)
 
 ```
-Measurement # primitive vocabulary (@bitcode/measurement-generics)
- ↑
-MeasureAgent # generic-agents/agent-measure — PTRR base measurer
- ↑
-AbsolutesMeasureAgent # absolutes/ absolute category base
-NeedinessesMeasureAgent # needinesses/ neediness category base
-tech-types # tech-types/ stack/signal absolute vocabulary
- ↑
-SynthesizeAssetPacksAbsolutesMeasureAgent # generic-asset-packs/synthesis
-settle-asset-pack-pipeline → ReadSynthesizedSettledAssetPack
+measurement-generics
+  → generic-measurements/absolutes/<kind>     # one package per absolute
+  → generic-measurements/needinesses/<kind>   # later
+  → generic-measurements/shared|domain
+  → generic-tools/tool-measure-<kind>
+  → generic-agents/agent-measure-absolutes
+  → deposit/read pipelines (after DP synthesis)
 ```
 
-## Packages
+## Layout
 
 | Path | Package | Role |
 | --- | --- | --- |
-| `absolutes/` | `@bitcode/generic-measurements-absolutes` | Absolutes category base + framing; co-located core tests |
-| `needinesses/` | `@bitcode/generic-measurements-needinesses` | Needinesses framing + `-fit` catalog surface |
-| `tech-types/` | `@bitcode/generic-measurements-tech-types` | Tech/stack signals |
+| `absolutes/<kind>/` | `@bitcode/generic-measurements-absolutes-<kind>` | Bare pure measure for one absolute |
+| `shared/absolute-measure-input/` | `@bitcode/generic-measurements-shared-absolute-measure-input` | DP-facing input contracts |
+| `domain/data-pack-absolutes-catalog/` | `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog` | Full target + weighted Σ=1 catalogue |
+| `needinesses/` | neediness packages (read) | Later |
+| `tech-types/` | tech signal vocabulary | Existing |
 
-Measure agent implementer (not in this tree):
+## Law
 
-| Path | Package | Role |
-| --- | --- | --- |
-| `../generic-agents/agent-measure/` | `@bitcode/generic-agents-agent-measure` | PTRR measure-agent base; tests under `src/__tests__/{core,edges}/` |
+- Measure a **DataPack** (synthesized), not the repository as the commercial object.
+- Deposit: `needinesses` always `[]`.
+- Full absolute catalogue: 46 kinds (B1–B6; **no learning-gain** — BTD owns exchange value).
+- Weighted commercial subset: `DATA_PACK_ABSOLUTES_CATALOG` (11 kinds, weights sum to 1).
+- Hygiene kinds are first-class packages; product policy may gate/penalize without weighting.
 
-Product measure agents and catalogs live under `packages/generic-asset-packs/{synthesis,settle}/`,
-not a separate `packages/asset-packs/` tree.
+## Spec
+
+- `.specifications/BITCODE_SPEC_V48.md` (measurement law + hierarchy)
+- `.specifications/BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`

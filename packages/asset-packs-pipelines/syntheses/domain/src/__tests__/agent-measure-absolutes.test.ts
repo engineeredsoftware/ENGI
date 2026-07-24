@@ -109,8 +109,8 @@ describe('agent-measure-absolutes', () => {
   it('builds a lens-parameterized measurer agent', () => {
     const deposit = factorySynthesizeAssetPacksAbsolutesMeasureAgent('deposit');
     const read = factorySynthesizeAssetPacksAbsolutesMeasureAgent('read');
-    expect(deposit.name).toBe('SynthesizeAssetPacksAbsolutesMeasureAgent:deposit');
-    expect(read.name).toBe('SynthesizeAssetPacksAbsolutesMeasureAgent:read');
+    expect(deposit.name).toBe('SynthesizeDataPacksAbsolutesMeasureAgent:deposit');
+    expect(read.name).toBe('SynthesizeDataPacksAbsolutesMeasureAgent:read');
     expect(deposit.measurementCategory).toBe('absolute');
     expect(deposit.measurementSpecs).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
   });

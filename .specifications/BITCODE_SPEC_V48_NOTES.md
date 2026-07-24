@@ -2252,3 +2252,19 @@ Expanded `ASSET_PACK_ABSOLUTES_CATALOG` quantity kinds: `lang-span`, `test-surfa
 emit inventable volume maps — host attaches absolutes. Measure agent prompts use named
 `promptpart_generic_agent_measure_*` parts. See `.docs/ABSOLUTE_MEASUREMENTS.md` and
 `.docs/ABSOLUTE_MEASUREMENTS_CATALOG.md`.
+
+## Absolute measurement system (2026-07-24)
+
+Specification-driven absolute measuring hierarchy landed as new canon:
+
+- Parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
+- Bare packages: `packages/generic-measurements/absolutes/<kind>/` (46 kinds, no learning-gain)
+- Shared input: `shared/absolute-measure-input`
+- Catalogue: `domain/data-pack-absolutes-catalog` (`DATA_PACK_ABSOLUTES_CATALOG` weighted Σ=1)
+- Tools: `packages/generic-tools/tool-measure-<kind>/`
+- Agent: `packages/generic-agents/agent-measure-absolutes`
+- Old monolithic `generic-measurements/absolutes` category package **deleted**
+- Measure the **DataPack** after synthesis; deposit needinesses always `[]`
+
+Progress: phases 1–5 scaffolded production structure; non-weighted kinds return
+`not_implemented` until sandbox/corpus mechanisms land; weighted path runs bare measures.

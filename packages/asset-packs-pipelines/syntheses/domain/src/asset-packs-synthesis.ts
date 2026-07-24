@@ -52,9 +52,12 @@ export type {
 
 // ---- Catalogs --------------------------------------------------------------
 export {
+  DATA_PACK_ABSOLUTES_CATALOG,
+  DATA_PACK_ABSOLUTES_PRODUCT_CATALOG,
+  DATA_PACK_WEIGHTED_ABSOLUTE_KINDS,
   ASSET_PACK_ABSOLUTES_CATALOG,
   ASSET_PACK_ABSOLUTE_KINDS,
-  assertAbsolutesCatalogWeights,
+  assertDataPackAbsolutesCatalogWeights,
   DEPOSIT_SYNTHESIS_POLICY_CATALOG,
   READ_SYNTHESIS_POLICY_CATALOG,
   synthesisPolicyCatalogForMode,
