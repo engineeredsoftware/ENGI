@@ -53,7 +53,7 @@ const part = (content: string): PromptPart => content as PromptPart;
 export interface MeasureAgentConfig {
   name: string;
   description?: string;
-  /** What is being measured, e.g. "a synthesized source-safe AssetPack patch". */
+  /** What is being measured, e.g. "a synthesized source-safe DataPack patch". */
   subject: string;
   category: MeasurementKindCategory;
   /** The category-specific framing line(s) (what this category means). */

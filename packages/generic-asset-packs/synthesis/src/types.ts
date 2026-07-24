@@ -1,7 +1,7 @@
 /**
  * SynthesizeAssetPacks measurement product types.
  *
- * Measurement KINDS: absolutes | needinesses (nested carrier on AssetPacks).
+ * Measurement KINDS: absolutes | needinesses (nested carrier on DataPacks).
  * Hierarchy: product measurement types over Measurement / MeasureAgent bases.
  */
 
@@ -48,7 +48,7 @@ export interface AssetPackCandidateMeasurement {
   category: 'absolute';
   rationale?: string;
   /**
-   * Source-safe, instance-facing prose for **this** AssetPack reading
+   * Source-safe, instance-facing prose for **this** DataPack reading
    * (generated when/after measurement). Never raw source.
    */
   descriptor?: string;
@@ -69,7 +69,7 @@ export interface AssetPackNeedinessMeasurement {
 }
 
 /**
- * Canonical nested measurement kinds object on an AssetPack / deposit option.
+ * Canonical nested measurement kinds object on a DataPack / deposit option.
  * Deposit: needinesses is always [].
  * Read: needinesses populated; need-fit composite derived separately.
  */

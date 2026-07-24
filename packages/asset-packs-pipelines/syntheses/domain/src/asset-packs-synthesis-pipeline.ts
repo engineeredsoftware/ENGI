@@ -45,7 +45,7 @@ const part = (content: string): PromptPart => content as PromptPart;
 
 const PIPELINE_IDENTITY = part(
   'You are AssetPacksSynthesis, the Bitcode synthesis pipeline for commercially legible ' +
-    'AssetPack candidates (patch + metadata). Absolute measurements are attached by the host ' +
+    'DataPack candidates (patch + metadata). Absolute measurements are attached by the host ' +
     'measure stack — you do NOT invent absolute volumes.',
 );
 
@@ -58,14 +58,14 @@ const PIPELINE_SOURCE_SAFETY = part(
 /** Product-pipeline role prose (deposit and read are separate pipelines, not dual lenses). */
 const PRODUCT_PIPELINE_ROLE: Record<SynthesizeAssetPacksMode, PromptPart> = {
   deposit: part(
-    'Product pipeline: synthesize-deposits. Depositors supply AssetPacks (bounded, source-safe ' +
+    'Product pipeline: synthesize-deposits. Depositors supply DataPacks (bounded, source-safe ' +
       'slices of repository knowledge) into a Depository where future buyers find Need-fitting ' +
-      'packs. Synthesize distinct deposit AssetPack options the depositor can review and admit.',
+      'packs. Synthesize distinct deposit DataPack options the depositor can review and admit.',
   ),
   read: part(
     'Product pipeline: synthesize-reads. Readers ask Bitcode to satisfy a reviewed Need by ' +
-      'finding and synthesizing Need-fitting AssetPacks from Depository source. Synthesize ' +
-      'distinct Need-fitting AssetPack candidates the reader can review and buy.',
+      'finding and synthesizing Need-fitting DataPacks from Depository source. Synthesize ' +
+      'distinct Need-fitting DataPack candidates the reader can review and buy.',
   ),
 };
 
@@ -334,7 +334,7 @@ export async function synthesizeAssetPackCandidatesFormal(
   const agent = factoryAgent<unknown, { options: FormalSynthesisRawOption[] }>({
     name: 'asset-packs-synthesize',
     description:
-      'Synthesize source-safe AssetPack candidates (patch + metadata); host measures absolutes.',
+      'Synthesize source-safe DataPack candidates (patch + metadata); host measures absolutes.',
     steps: [measureStep as unknown as AgentStep<any, any>],
   });
 

@@ -230,5 +230,5 @@ export const DEPOSIT_NEEDINESS_MEASUREMENT = {
   measurementKind: 'neediness',
   label: 'Neediness (REMOVED from deposit)',
   guidance:
-    'Deprecated. Deposit AssetPacks use measurements.absolutes only; needinesses are read-path only.',
+    'Deprecated. Deposit DataPacks use measurements.absolutes only; needinesses are read-path only.',
 } as const;

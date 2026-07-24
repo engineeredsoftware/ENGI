@@ -29,8 +29,13 @@ five-lens catalog, mechanisms/tools, verification + provenance classes, v-next w
 **Out of first pass:** needinesses redesign (read-side). Boundary only: deposit
 always carries `measurements.needinesses: []`.
 
-**Snapshot date:** 2026-07-22 (working tree may include relocate of MeasureAgent
-to `packages/generic-agents/agent-measure`).
+**Product language (required):** the commodity is a **DataPack** everywhere in
+product, design, and new identifiers (`DataPack = patch + measurements + metadata`).
+Legacy code still uses `AssetPack*` / `asset-packs*` path and type names — rename
+**package-by-package as surfaces are touched** (full ancestry / hierarchy names).
+Do not leave half-renames that teach the wrong commodity name in prompts or docs.
+
+**Snapshot date:** 2026-07-24 (MeasureAgent under `packages/generic-agents/agent-measure`).
 
 ---
 

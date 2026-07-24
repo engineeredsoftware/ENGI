@@ -1,5 +1,5 @@
 /**
- * AssetPacksSynthesis — formal synthesis of AssetPack **candidates**
+ * AssetPacksSynthesis — formal synthesis of DataPack **candidates**
  * (patch + metadata). Absolute measurements are host-attached (measure stack),
  * not invented by the synthesis LLM.
  *
