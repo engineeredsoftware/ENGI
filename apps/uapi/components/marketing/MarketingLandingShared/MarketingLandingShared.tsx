@@ -87,15 +87,13 @@ export const productPillars = [
  * Marketing depot measurements: per-metric Absolutes + Needinesses (small bars),
  * then Packs' BTD Volume as the standout summary axis (display value ≠ 0–100 bar).
  */
+/** Marketing upper-depot demo only — short set so hero | panel heights match production. */
 export const measurementAbsoluteItems = [
   { label: 'functions', value: 92 },
   { label: 'types', value: 88 },
   { label: 'file span', value: 76 },
   { label: 'symbolic richness', value: 90 },
   { label: 'modularity', value: 84 },
-  { label: 'lang span', value: 72 },
-  { label: 'test surface', value: 81 },
-  { label: 'api surface', value: 79 },
   { label: 'correctness', value: 96 },
   { label: 'objectives fidelity', value: 91 },
   { label: 'computational usage', value: 78 },

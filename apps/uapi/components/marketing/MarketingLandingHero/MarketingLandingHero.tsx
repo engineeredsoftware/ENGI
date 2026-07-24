@@ -246,7 +246,7 @@ export const MarketingLandingHero = memo(function MarketingLandingHero() {
 
       {/*
         Chip + pillar + CTA share one column so each chip aligns to its card
-        (same grid as the buttons below).
+        (same grid as the buttons below). Compact gap under Why now (production).
       */}
       <div className="mt-4 grid grid-cols-1 items-stretch gap-x-2 gap-y-3 phone:mt-5 phone:grid-cols-2 phone:gap-x-3 desktop:grid-cols-3">
         {productPillars.map((pillar, index) => {

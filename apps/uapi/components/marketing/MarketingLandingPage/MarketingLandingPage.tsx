@@ -198,18 +198,18 @@ export default function MarketingLandingPage() {
           {/*
             Three-band layout:
             1) Opening — hero (through CTAs) | Source Measurements + Exchanging Knowledge.
-               items-end so the upper depot bottom meets Sell Source / Buy DataPacks / View Exchange.
+               items-start so tops stay level (items-end sank the hero when the depot
+               was taller; stretch+mt-auto opened a mid-column gap under Why now).
             2) Audience — Stop buying… | If you have code…
             3) Production — Protocol + micro-blog | lower four depot panels.
             gap-4/5/6 matches column gutters so y-gaps equal x-gaps.
           */}
           <main className="relative z-20 mx-auto flex w-full min-w-0 max-w-7xl flex-1 flex-col items-stretch gap-4 overflow-x-clip px-4 pb-8 pt-24 phone:pb-10 phone:pt-28 tablet:gap-5 tablet:px-6 laptop:gap-6 laptop:px-8 laptop:pb-10 laptop:pt-32 desktop:px-12 wide:px-16">
             {/*
-              items-end: depot can be taller than hero.
-              Scroll cue Y = hero bottom (CTA void, on-screen); X = full band center.
+              items-start: tops align; hero height is natural stack (scroll cue at CTA bottom).
             */}
             <div className="relative w-full">
-              <div className="grid w-full items-end gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
+              <div className="grid w-full items-start gap-4 laptop:grid-cols-[minmax(0,1.02fr)_minmax(320px,0.98fr)] tablet:gap-5 laptop:gap-6">
                 <div ref={heroColumnRef} className="w-full min-w-0">
                   <MarketingLandingHero />
                 </div>
