@@ -1,7 +1,9 @@
 /**
- * AssetPack patch descriptor — path+op surface (no raw file contents).
+ * AssetPack patch descriptor — path+op surface; optional full-file content
+ * when product admits owner/settle material (depositor review, settle PR).
  *
  * File vocabulary primitives: @bitcode/files (FilePath, FileOp, FileChange).
+ * Unpaid Exchange surfaces must strip `content` before buyer projection.
  */
 
 import type { FileChange, FileOp, FilePath } from '@bitcode/files';
@@ -13,11 +15,16 @@ export type AssetPackFileOp = FileOp;
 export interface AssetPackPatchFileChange extends FileChange {
   path: FilePath;
   op: AssetPackFileOp;
+  /**
+   * Full file body for this path when bound (depositor-owned / settle-ready).
+   * Absent on unpaid commercial listings.
+   */
+  content?: string;
 }
 
 /**
- * Minimal protocol patch surface carried by every AssetPack.
- * Implementations may extend; primitives stay content-free.
+ * Protocol patch surface carried by every AssetPack.
+ * Path+op always; content optional for owner/settle materialization.
  */
 export interface AssetPackPatchDescriptor {
   patchSummary: string;

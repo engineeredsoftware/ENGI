@@ -55,6 +55,7 @@
     "@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack": "workspace:*",
     "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs": "workspace:*",
     "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs": "workspace:*",
+    "@bitcode/generic-artifacts-patch-kind": "workspace:*",
     "@bitcode/generic-vcs-git": "workspace:*",
     "@bitcode/pipeline-hosts": "workspace:*",
     "@bitcode/prompts": "workspace:*",

@@ -17,6 +17,7 @@ import type {
 import {
   buildDepositOptionPatchfileDownload,
   buildDepositOptionReviewArtifact,
+  buildDepositOptionSourcePatchDownload,
 } from "@/components/deposits/models/deposit-admission-activity";
 import {
   countExpandedFillAbsolutes,
@@ -209,6 +210,9 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
     anchor.remove();
     URL.revokeObjectURL(url);
   };
+  const handleDownloadSourcePatch = () => {
+    downloadJsonFile(buildDepositOptionSourcePatchDownload(option));
+  };
   const handleDownloadPatchfile = () => {
     downloadJsonFile(buildDepositOptionPatchfileDownload(option));
   };
@@ -333,19 +337,27 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
             <div className="mt-3 flex flex-wrap gap-2">
               <button
                 type="button"
+                data-testid={`deposit-option-download-source-patch-${option.kind}`}
+                onClick={handleDownloadSourcePatch}
+                className="border border-emerald-300/40 bg-emerald-300/14 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-50 transition hover:border-emerald-200/55 hover:bg-emerald-300/20"
+              >
+                Download .patch
+              </button>
+              <button
+                type="button"
                 data-testid={`deposit-option-download-review-${option.kind}`}
                 onClick={handleDownloadReviewArtifact}
                 className="border border-violet-300/35 bg-violet-300/12 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-violet-50 transition hover:border-violet-200/50 hover:bg-violet-300/18"
               >
-                Download DataPack artifact
+                Download DataPack metadata
               </button>
               <button
                 type="button"
                 data-testid={`deposit-option-download-patch-${option.kind}`}
                 onClick={handleDownloadPatchfile}
-                className="border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-100 transition hover:border-emerald-200/50 hover:bg-emerald-300/16"
+                className="border border-white/15 bg-white/[0.04] px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-neutral-300 transition hover:border-white/25 hover:bg-white/[0.07]"
               >
-                Download path-op patch
+                Download path-op JSON
               </button>
             </div>
           </div>

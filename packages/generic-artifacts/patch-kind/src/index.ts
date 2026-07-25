@@ -22,6 +22,11 @@ export {
   type BuildPatchArtifactInput,
 } from './builders';
 
+export {
+  buildUnifiedDiffFromPatchFiles,
+  patchFilesHaveBodies,
+} from './unified-diff';
+
 // Primitive re-exports for convenience
 export type {
   Artifact,

@@ -263,6 +263,9 @@ importers:
       '@bitcode/external-telemetry-google':
         specifier: workspace:*
         version: link:../../packages/external-telemetry/google
+      '@bitcode/generic-artifacts-patch-kind':
+        specifier: workspace:*
+        version: link:../../packages/generic-artifacts/patch-kind
       '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog':
         specifier: workspace:*
         version: link:../../packages/generic-measurements/domain/data-pack-absolutes-catalog
@@ -1031,6 +1034,9 @@ importers:
       '@bitcode/generic-agents-agent-measure-absolutes':
         specifier: workspace:*
         version: link:../../../generic-agents/agent-measure-absolutes
+      '@bitcode/generic-artifacts-patch-kind':
+        specifier: workspace:*
+        version: link:../../../generic-artifacts/patch-kind
       '@bitcode/generic-asset-packs-synthesis':
         specifier: workspace:*
         version: link:../../../generic-asset-packs/synthesis
@@ -1944,10 +1950,10 @@ importers:
         version: 29.5.14
       jest:
         specifier: ^29.0.0
-        version: 29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.9.3))
+        version: 29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3))
       ts-jest:
         specifier: ^29.0.0
-        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@20.19.43)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.19.43)(typescript@5.9.3)))(typescript@5.9.3)
+        version: 29.4.0(@babel/core@7.27.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.7))(jest-util@29.7.0)(jest@29.7.0(@types/node@25.6.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@25.6.0)(typescript@5.9.3)))(typescript@5.9.3)
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -29202,6 +29208,12 @@ snapshots:
       '@vue/shared': 3.5.18
       vue: 3.5.18(typescript@5.9.3)
 
+  '@vue/server-renderer@3.5.18(vue@3.5.18(typescript@6.0.3))':
+    dependencies:
+      '@vue/compiler-ssr': 3.5.18
+      '@vue/shared': 3.5.18
+      vue: 3.5.18(typescript@6.0.3)
+
   '@vue/shared@3.5.18': {}
 
   '@vue/typescript-plugin@3.3.7(typescript@6.0.3)':
@@ -39374,7 +39386,7 @@ snapshots:
       '@vue/compiler-dom': 3.5.18
       '@vue/compiler-sfc': 3.5.18
       '@vue/runtime-dom': 3.5.18
-      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@5.9.3))
+      '@vue/server-renderer': 3.5.18(vue@3.5.18(typescript@6.0.3))
       '@vue/shared': 3.5.18
     optionalDependencies:
       typescript: 6.0.3

@@ -198,6 +198,9 @@ export function buildRealDepositAssetPackOptionSynthesis(
       fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({
         path: fc.path,
         op: fc.op,
+        ...(typeof (fc as { content?: string }).content === 'string'
+          ? { content: (fc as { content: string }).content }
+          : {}),
       })),
       measurements: {
         absolutes: measurements.map((m) => ({
@@ -221,6 +224,14 @@ export function buildRealDepositAssetPackOptionSynthesis(
       provenantSourcePaths: candidate.coveredSourcePaths,
     });
     const contents = synthesisAssetPackToDepositContents(synthesisPack);
+    // Carry unified-diff from host when present on extended candidate rows.
+    const hostExtra = candidate as unknown as {
+      patchArtifact?: { unifiedDiff?: string };
+    };
+    if (typeof hostExtra.patchArtifact?.unifiedDiff === 'string') {
+      (contents as { unifiedDiff?: string }).unifiedDiff =
+        hostExtra.patchArtifact.unifiedDiff;
+    }
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),

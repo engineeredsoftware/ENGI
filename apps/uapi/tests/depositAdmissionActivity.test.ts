@@ -6,6 +6,7 @@ import {
   buildDepositOptionAdmissionActivityDraft,
   buildDepositOptionPatchfileDownload,
   buildDepositOptionReviewArtifact,
+  buildDepositOptionSourcePatchDownload,
   projectOptionAbsoluteMeasurements,
 } from "@/components/deposits/models/deposit-admission-activity";
 import type { DepositOptionAdmissionReceipt } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
@@ -48,7 +49,13 @@ const option = {
   ],
   contents: {
     patchSummary: "Add auth middleware helper",
-    fileChanges: [{ path: "src/auth.ts", op: "modify" }],
+    fileChanges: [
+      {
+        path: "src/auth.ts",
+        op: "modify",
+        content: "export function auth() { return true; }\n",
+      },
+    ],
     provenantSourcePaths: ["src/auth.ts"],
     provenantSourceCount: 1,
   },
@@ -171,6 +178,14 @@ describe("deposit-admission-activity", () => {
     });
   });
 
+  it("builds a unified-diff .patch download with full file bodies", () => {
+    const file = buildDepositOptionSourcePatchDownload(option);
+    expect(file.filename).toMatch(/\.patch$/);
+    expect(file.mimeType).toBe("text/x-diff");
+    expect(file.body).toContain("diff --git a/src/auth.ts b/src/auth.ts");
+    expect(file.body).toContain("+export function auth() { return true; }");
+  });
+
   it("builds a path-op AssetPack patchfile download payload", () => {
     const file = buildDepositOptionPatchfileDownload(option);
     expect(file.filename).toMatch(/\.path-op\.json$/);
@@ -182,7 +197,7 @@ describe("deposit-admission-activity", () => {
       assetPack: { measurements: unknown[] };
     };
     expect(parsed.schema).toBe("bitcode.artifact.patch");
-    expect(parsed.format).toBe("path-op-json");
+    expect(parsed.format).toBe("unified-diff");
     expect(parsed.files).toHaveLength(1);
     expect(parsed.assetPack.measurements.length).toBeGreaterThanOrEqual(65);
   });

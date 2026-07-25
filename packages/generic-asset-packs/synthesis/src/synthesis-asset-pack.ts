@@ -159,18 +159,25 @@ export function buildSynthesisAssetPack(
 }
 
 /**
- * Project a synthesis pack into deposit option `contents` (source-safe).
- * Never includes obfuscations.
+ * Project a synthesis pack into deposit option `contents`.
+ * Path+op always; optional full-file `content` for depositor-owned material
+ * (admit/settle). Never includes obfuscations. Unpaid surfaces must strip content.
  */
 export function synthesisAssetPackToDepositContents(pack: SynthesisAssetPack): {
   patchSummary: string;
-  fileChanges: Array<{ path: string; op: string }>;
+  fileChanges: Array<{ path: string; op: string; content?: string }>;
   provenantSourcePaths: string[];
   provenantSourceCount: number;
 } {
   return {
     patchSummary: pack.patch.patchSummary,
-    fileChanges: pack.patch.fileChanges.map((c) => ({ path: c.path, op: c.op })),
+    fileChanges: pack.patch.fileChanges.map((c) => ({
+      path: c.path,
+      op: c.op,
+      ...(typeof (c as { content?: string }).content === 'string'
+        ? { content: (c as { content: string }).content }
+        : {}),
+    })),
     provenantSourcePaths: pack.provenantSourcePaths,
     provenantSourceCount: pack.provenantSourceCount,
   };

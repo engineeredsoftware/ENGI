@@ -47,6 +47,7 @@
     "@bitcode/asset-packs-pipelines-syntheses-domain": "workspace:*",
     "@bitcode/agent-generics": "workspace:*",
     "@bitcode/generic-asset-packs-synthesis": "workspace:*",
+    "@bitcode/generic-artifacts-patch-kind": "workspace:*",
     "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/prompts": "workspace:*",
     "@bitcode/btd": "workspace:*",

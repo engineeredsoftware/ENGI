@@ -18,6 +18,7 @@ import {
   expandAbsoluteMeasurementsToFullCatalog,
   type AbsoluteMeasurementLike,
 } from "@/components/exchange/models/expand-absolute-measurements";
+import { buildUnifiedDiffFromPatchFiles } from "@bitcode/generic-artifacts-patch-kind";
 
 /** Absolute measurement row projected onto pack activity (source-safe). */
 export type DepositAdmissionAbsoluteMeasurement = {
@@ -165,6 +166,73 @@ export function projectOptionAbsoluteMeasurementsWithHonesty(
   }));
 }
 
+/**
+ * Depositor primary download: unified-diff `.patch` with full file bodies for
+ * the admitted/settled material. Prefer precomputed unifiedDiff; else build
+ * from fileChanges[].content.
+ */
+export function buildDepositOptionSourcePatchDownload(
+  option: DepositAssetPackOption,
+): {
+  filename: string;
+  mimeType: string;
+  body: string;
+} {
+  const safeTitle = optionSafeTitle(option);
+  const precomputed =
+    typeof option.contents?.unifiedDiff === "string" &&
+    option.contents.unifiedDiff.trim()
+      ? option.contents.unifiedDiff
+      : null;
+  const files = (option.contents?.fileChanges || []).map((fc) => ({
+    path: fc.path,
+    op: fc.op,
+    body: typeof fc.content === "string" ? fc.content : null,
+  }));
+  // Also accept patchArtifact on extended option rows from selection envelope.
+  const artifact = (
+    option as DepositAssetPackOption & {
+      patchArtifact?: {
+        unifiedDiff?: string;
+        files?: Array<{ path?: string; op?: string; body?: string }>;
+      };
+    }
+  ).patchArtifact;
+  const fromArtifact =
+    typeof artifact?.unifiedDiff === "string" && artifact.unifiedDiff.trim()
+      ? artifact.unifiedDiff
+      : null;
+  const artifactFiles = Array.isArray(artifact?.files)
+    ? artifact!.files!.map((f) => ({
+        path: String(f.path || ""),
+        op: String(f.op || "modify"),
+        body: typeof f.body === "string" ? f.body : null,
+      }))
+    : [];
+  const bodyText =
+    precomputed ||
+    fromArtifact ||
+    buildUnifiedDiffFromPatchFiles(
+      (files.some((f) => typeof f.body === "string") ? files : artifactFiles).map(
+        (f) => ({
+          path: f.path,
+          op: f.op,
+          body: f.body,
+        }),
+      ),
+      {
+        patchSummary:
+          option.contents?.patchSummary || option.summary || "DataPack patch",
+      },
+    );
+  return {
+    filename: `${safeTitle || "datapack"}.patch`,
+    mimeType: "text/x-diff",
+    body: bodyText,
+  };
+}
+
+/** Protocol path-op JSON envelope (metadata companion; not the primary .patch). */
 export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOption): {
   filename: string;
   mimeType: string;
@@ -174,22 +242,24 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
   const files = (option.contents?.fileChanges || []).map((fc) => ({
     path: fc.path,
     op: fc.op,
+    ...(typeof fc.content === "string" ? { body: fc.content } : {}),
   }));
   const artifactId =
     option.roots.contentsRoot ||
     option.roots.optionRoot ||
     `datapack-patch-${option.optionId}`;
-  // Protocol path-op envelope (PatchArtifact) — DataPack patchfile (source-safe).
   const fullAbsolutes = projectOptionAbsoluteMeasurements(option);
+  const hasBodies = files.some(
+    (f) => typeof (f as { body?: string }).body === "string",
+  );
   const patchEnvelope = {
     schema: "bitcode.artifact.patch",
     artifactId,
-    format: "path-op-json",
+    format: hasBodies ? "unified-diff" : "path-op-json",
     patchSummary:
       option.contents?.patchSummary || option.summary || "DataPack patch",
     files,
     fileCount: files.length,
-    // Product binding (not raw source) — full commercial absolutes.
     assetPack: {
       optionId: option.optionId,
       kind: option.kind,

@@ -16,16 +16,26 @@ import {
   hasRequiredAbsolutes,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
 
-/** SOURCE-SAFE patch descriptor — path+op only; never code/diffs. */
+/**
+ * Patch descriptor for deposit Implementation.
+ * path+op always; optional `content` is depositor-owned full file body for the
+ * admitted/settled material (bound from checkout at patchfile write).
+ * Never shown on unpaid Exchange surfaces.
+ */
 export type DepositPatchfileDescriptor = {
-  fileChanges: Array<{ path: string; op: 'create' | 'modify' | 'delete' | string }>;
+  fileChanges: Array<{
+    path: string;
+    op: 'create' | 'modify' | 'delete' | string;
+    /** Full file body when attached for depositor review / settle. */
+    content?: string;
+  }>;
   patchSummary: string;
 };
 
 /**
- * Review-safe handle for the singular written patchfile artifact (7th field).
- * Built by the patchfile-write agent via buildAssetPackPatchArtifact (path-op-json).
- * No file bodies in default product projection.
+ * Singular written patchfile artifact handle (7th field).
+ * Built by the patchfile-write agent. Carries path+op always; file bodies when
+ * checkout sources were available. `unifiedDiff` is the depositor .patch text.
  */
 export type DepositPatchArtifactHandle = {
   artifactId: string;
@@ -35,10 +45,17 @@ export type DepositPatchArtifactHandle = {
   format: string;
   patchSummary: string;
   fileCount: number;
-  files: Array<{ path: string; op: string }>;
+  files: Array<{ path: string; op: string; body?: string | null }>;
   name: string;
-  /** Serialized path-op-json product envelope (source-safe). */
+  /** JSON product envelope (may include bodies for owner persistence). */
   envelopeJson: string;
+  /**
+   * Unified-diff text of the full admitted material when bodies were bound.
+   * Download as `{title}.patch` for the depositor.
+   */
+  unifiedDiff?: string | null;
+  /** True when every non-delete path has a body (complete material). */
+  bodiesComplete?: boolean;
 };
 
 /** Absolute measurement row (host/tool-authored). */

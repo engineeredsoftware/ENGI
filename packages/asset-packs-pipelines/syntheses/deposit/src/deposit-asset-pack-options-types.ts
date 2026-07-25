@@ -101,17 +101,18 @@ export interface DepositAssetPackOption {
     confidence: number;
   };
   measurements: DepositAssetPackOptionMeasurement[];
-  // V48 Gate 3 — the deposit-decision payload: what Bitcode RECEIVES if this AP is
-  // deposited. The synthesized AP CONTENTS (source-safe patch descriptor) and the
-  // PROVENANT SOURCE (covered files that become available for future reader
-  // settlement). Shown to the depositor, who owns the source. Source-safe: path+op
-  // + summary + the depositor's own paths only — never raw source/code. Absent
-  // (null) on the deterministic blueprint synthesis.
+  // Deposit-decision payload: what Bitcode RECEIVES if this AP is deposited.
+  // Shown to the depositor (source owner). Path+op + summary + provenant paths;
+  // optional full-file `content` on fileChanges for the admitted/settled material
+  // and depositor `.patch` download. Exchange/unpaid must strip content.
+  // Absent (null) on deterministic blueprint synthesis without a real measure.
   contents?: {
     patchSummary: string;
-    fileChanges: Array<{ path: string; op: string }>;
+    fileChanges: Array<{ path: string; op: string; content?: string }>;
     provenantSourcePaths: string[];
     provenantSourceCount: number;
+    /** Unified-diff text when bodies were bound at patchfile write. */
+    unifiedDiff?: string | null;
   } | null;
   /**
    * @deprecated Neediness is entirely a Read-pipeline concept.

@@ -123,10 +123,21 @@ export function validateDepositSynthesisOptions(
     const patch: AssetPackPatchDescriptor | undefined = rawFileChanges.length
       ? {
           fileChanges: rawFileChanges
-            .map((fc) => ({
-              path: String((fc as { path?: unknown })?.path ?? '').trim(),
-              op: String((fc as { op?: unknown })?.op ?? '').trim(),
-            }))
+            .map((fc) => {
+              const path = String((fc as { path?: unknown })?.path ?? '').trim();
+              const op = String((fc as { op?: unknown })?.op ?? '').trim();
+              const content =
+                typeof (fc as { content?: unknown })?.content === 'string'
+                  ? String((fc as { content: string }).content)
+                  : typeof (fc as { body?: unknown })?.body === 'string'
+                    ? String((fc as { body: string }).body)
+                    : undefined;
+              return {
+                path,
+                op,
+                ...(content !== undefined ? { content } : {}),
+              };
+            })
             .filter((fc) => fc.path),
           patchSummary: String(option.patch?.patchSummary ?? '').trim(),
         }

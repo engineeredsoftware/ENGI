@@ -6,12 +6,13 @@
  * Sequence: patch-plan → THIS agent → measurements.
  *
  * For each planned option (descriptor + metadata), builds exactly one
- * AssetPackPatchArtifact (path-op-json, no bodies) via
- * @bitcode/generic-asset-packs-synthesis and attaches it as pack.patchArtifact
- * (the 7th product field). Does not invent paths; uses plan agent fileChanges.
+ * AssetPackPatchArtifact via @bitcode/generic-asset-packs-synthesis and attaches
+ * it as pack.patchArtifact (7th field). Binds full file bodies from the run
+ * checkout catalog when available — that material is what is admitted/settled.
+ * Also emits unified-diff text for depositor `.patch` download.
  *
- * Host agent (no PTRR). Workspace fs-apply of the patch is delivery-scope,
- * not this agent.
+ * Does not invent paths; uses plan agent fileChanges. Host agent (no PTRR).
+ * Workspace PR apply is settle delivery-scope, not this agent.
  */
 
 import { randomUUID } from 'crypto';
@@ -21,6 +22,10 @@ import {
   serializeAssetPackPatchArtifactJson,
   ASSET_PACK_PATCH_ARTIFACT_SCHEMA,
 } from '@bitcode/generic-asset-packs-synthesis';
+import {
+  buildUnifiedDiffFromPatchFiles,
+  patchFilesHaveBodies,
+} from '@bitcode/generic-artifacts-patch-kind';
 import type {
   DepositPatchArtifactHandle,
   DepositPatchfilePack,
@@ -77,36 +82,91 @@ function slugId(title: string): string {
   return slug || 'pack';
 }
 
+function normalizeRepoPath(p: string): string {
+  return String(p || '')
+    .replace(/\\/g, '/')
+    .replace(/^\.?\//, '')
+    .trim();
+}
+
+/** Index checkout bodies by normalized path. */
+export function indexCheckoutBodies(
+  sources: Array<{ path?: string; content?: string }> | null | undefined,
+): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const s of sources || []) {
+    if (!s || typeof s.path !== 'string' || typeof s.content !== 'string') continue;
+    const key = normalizeRepoPath(s.path);
+    if (key && !map.has(key)) map.set(key, s.content);
+  }
+  return map;
+}
+
 /**
- * Write one formal patchfile artifact for a planned pack (path-op-json, no bodies).
+ * Write one formal patchfile artifact for a planned pack.
+ * Binds full bodies from checkout when present → unified-diff for depositor.
  */
-export function writeDepositPatchfileArtifact(plan: DepositPatchPlanPack): DepositPatchArtifactHandle {
+export function writeDepositPatchfileArtifact(
+  plan: DepositPatchPlanPack,
+  bodiesByPath?: Map<string, string> | null,
+): DepositPatchArtifactHandle {
   const assetPackId = `ap-${slugId(plan.title)}-${randomUUID().slice(0, 8)}`;
   const artifactId = `artifact-patch-${randomUUID()}`;
+  const bodies = bodiesByPath || new Map<string, string>();
+  const bodiesRecord: Record<string, string> = {};
+  for (const fc of plan.patch.fileChanges) {
+    const path = normalizeRepoPath(String(fc.path));
+    if (!path) continue;
+    const op = String(fc.op || 'modify').toLowerCase();
+    if (op === 'delete') continue;
+    const body = bodies.get(path);
+    if (typeof body === 'string') bodiesRecord[path] = body;
+  }
   const built = buildAssetPackPatchArtifact({
     artifactId,
     assetPackId,
     patchSummary: plan.patch.patchSummary,
     fileChanges: plan.patch.fileChanges.map((fc) => ({
-      path: String(fc.path),
+      path: normalizeRepoPath(String(fc.path)),
       op: (fc.op === 'create' || fc.op === 'delete' || fc.op === 'modify'
         ? fc.op
         : 'modify') as 'create' | 'modify' | 'delete',
     })),
+    bodiesByPath: Object.keys(bodiesRecord).length > 0 ? bodiesRecord : null,
     name: `${artifactId}.patch.json`,
   });
-  const envelopeJson = serializeAssetPackPatchArtifactJson(built);
+  const files = built.files.map((f) => ({
+    path: f.path,
+    op: String(f.op),
+    ...(typeof f.body === 'string' ? { body: f.body } : {}),
+  }));
+  const hasBodies = patchFilesHaveBodies(files);
+  const nonDelete = files.filter((f) => String(f.op).toLowerCase() !== 'delete');
+  const bodiesComplete =
+    nonDelete.length === 0 ||
+    nonDelete.every((f) => typeof f.body === 'string' && f.body.length >= 0);
+  const unifiedDiff = hasBodies
+    ? buildUnifiedDiffFromPatchFiles(files, {
+        patchSummary: built.patchSummary,
+      })
+    : null;
+  const envelopeJson = serializeAssetPackPatchArtifactJson({
+    ...built,
+    format: hasBodies ? 'unified-diff' : built.format,
+  });
   return {
     artifactId: built.identity.artifactId,
     assetPackId: built.assetPackId,
     schema: String(built.identity.schema),
     productSchema: ASSET_PACK_PATCH_ARTIFACT_SCHEMA,
-    format: String(built.format || 'path-op-json'),
+    format: hasBodies ? 'unified-diff' : String(built.format || 'path-op-json'),
     patchSummary: built.patchSummary,
     fileCount: built.fileCount,
-    files: built.files.map((f) => ({ path: f.path, op: String(f.op) })),
-    name: built.name,
+    files,
+    name: hasBodies ? `${artifactId}.patch` : built.name,
     envelopeJson,
+    unifiedDiff,
+    bodiesComplete,
   };
 }
 
@@ -122,6 +182,26 @@ export default async function runDepositImplementationAgentAssetPacksPatchfile(
     {};
 
   const plans = resolvePlanOptions(input, execution);
+
+  // Bind full file bodies from this run's checkout (depositor-owned material).
+  let bodiesByPath = new Map<string, string>();
+  try {
+    const { ensureDepositCheckoutSourceFiles } = await import(
+      '../../ensure-deposit-checkout-source-files'
+    );
+    const { resolveSourceCheckoutCatalog } = await import(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/resolve-source-checkout-catalog'
+    );
+    const catalog = await ensureDepositCheckoutSourceFiles(
+      execution,
+      resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
+    );
+    bodiesByPath = indexCheckoutBodies(
+      Array.isArray((catalog as any)?.sources) ? (catalog as any).sources : [],
+    );
+  } catch {
+    bodiesByPath = new Map();
+  }
 
   // Telemetry spine: record path+op (descriptor) per pack — not a substitute for artifact write.
   try {
@@ -146,8 +226,8 @@ export default async function runDepositImplementationAgentAssetPacksPatchfile(
       /* telemetry optional */
     }
 
-    const patchArtifact = writeDepositPatchfileArtifact(plan);
-    // Keep descriptor fileChanges aligned with artifact files (single source of truth).
+    const patchArtifact = writeDepositPatchfileArtifact(plan, bodiesByPath);
+    // Descriptor carries content for settle/download (single source of truth).
     const pack: DepositPatchfilePack = {
       ...plan,
       patch: {
@@ -155,6 +235,7 @@ export default async function runDepositImplementationAgentAssetPacksPatchfile(
         fileChanges: patchArtifact.files.map((f) => ({
           path: f.path,
           op: f.op,
+          ...(typeof f.body === 'string' ? { content: f.body } : {}),
         })),
       },
       patchArtifact,

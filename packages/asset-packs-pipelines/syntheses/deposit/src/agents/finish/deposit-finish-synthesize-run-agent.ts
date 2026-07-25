@@ -66,8 +66,24 @@ function projectOption(opt: any, index: number) {
     coveredSourcePaths: opt?.coveredSourcePaths ?? [],
     confidence: opt?.confidence ?? null,
     absolutes,
-    patch: opt?.patch ?? null,
-    // 7th field: formal patchfile artifact handle (no bodies in selection envelope).
+    patch: opt?.patch
+      ? {
+          patchSummary: opt.patch.patchSummary ?? null,
+          fileChanges: Array.isArray(opt.patch.fileChanges)
+            ? opt.patch.fileChanges.map((c: any) => ({
+                path: c?.path,
+                op: c?.op,
+                // Depositor selection envelope may carry full bodies for .patch download + settle.
+                ...(typeof c?.content === 'string'
+                  ? { content: c.content }
+                  : typeof c?.body === 'string'
+                    ? { content: c.body }
+                    : {}),
+              }))
+            : [],
+        }
+      : null,
+    // 7th field: formal patchfile artifact (bodies + unifiedDiff when bound).
     patchArtifact: opt?.patchArtifact
       ? {
           artifactId: opt.patchArtifact.artifactId,
@@ -75,8 +91,23 @@ function projectOption(opt: any, index: number) {
           format: opt.patchArtifact.format,
           fileCount: opt.patchArtifact.fileCount,
           patchSummary: opt.patchArtifact.patchSummary,
-          files: opt.patchArtifact.files,
+          files: Array.isArray(opt.patchArtifact.files)
+            ? opt.patchArtifact.files.map((f: any) => ({
+                path: f?.path,
+                op: f?.op,
+                ...(typeof f?.body === 'string' ? { body: f.body } : {}),
+              }))
+            : [],
           name: opt.patchArtifact.name,
+          ...(typeof opt.patchArtifact.unifiedDiff === 'string'
+            ? { unifiedDiff: opt.patchArtifact.unifiedDiff }
+            : {}),
+          ...(typeof opt.patchArtifact.bodiesComplete === 'boolean'
+            ? { bodiesComplete: opt.patchArtifact.bodiesComplete }
+            : {}),
+          ...(typeof opt.patchArtifact.envelopeJson === 'string'
+            ? { envelopeJson: opt.patchArtifact.envelopeJson }
+            : {}),
         }
       : null,
     measurements: measurementsBag,
