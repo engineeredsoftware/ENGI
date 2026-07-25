@@ -45,5 +45,8 @@ export {
   factoryStructuredOutput,
   // Tools postprocess + validation
   factoryToolsExecution,
+  executeOneToolInvocation,
+  resolveToolWaves,
+  normalizeUseToolSelection,
   factoryValidation,
 } from './llm-bound-factories';

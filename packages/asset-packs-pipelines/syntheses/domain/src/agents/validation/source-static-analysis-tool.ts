@@ -73,6 +73,15 @@ export interface StaticAnalysisReport {
   estimatedTestFunctionCount: number;
   /** Export/public entrypoints estimated for covered set — api-surface magnitude. */
   estimatedExportCount: number;
+  /**
+   * Distinct external package/module refs from imports (dependency-span magnitude).
+   * Counted over provided measure bodies (source-safe names only).
+   */
+  estimatedDependencyCount: number;
+  /** Comment/doc line density 0..1 over sampled bodies — doc-signal volume. */
+  estimatedDocSignal: number;
+  /** Config key / path surface magnitude — config-surface. */
+  estimatedConfigSurface: number;
   /** Fraction of covered files that were directly sampled (0..1). */
   coverageRatio: number;
   /** False when no source was available (counts are zero / path-only). */
@@ -145,6 +154,78 @@ export function isTestLikePath(path: string): boolean {
 
 export function countExportSignals(content: string): number {
   return countMatches(content || '', EXPORT_PATTERNS);
+}
+
+/** Distinct external package specs from import/require/use (no relative paths). */
+export function collectExternalDependencyNames(content: string): string[] {
+  const hits: string[] = [];
+  const re =
+    /(?:from\s+['"]([^'"]+)['"]|require\s*\(\s*['"]([^'"]+)['"]\s*\)|import\s+['"]([^'"]+)['"]|use\s+([A-Za-z0-9_.:/-]+))/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(content || ''))) {
+    const spec = (m[1] || m[2] || m[3] || m[4] || '').trim();
+    if (!spec || spec.startsWith('.') || spec.startsWith('/') || spec.startsWith('#')) {
+      continue;
+    }
+    // npm scoped: @scope/pkg → @scope/pkg; unscoped → first segment
+    if (spec.startsWith('@')) {
+      const parts = spec.split('/');
+      hits.push(parts.slice(0, 2).join('/'));
+    } else {
+      hits.push(spec.split('/')[0]!);
+    }
+  }
+  return hits;
+}
+
+/** Comment / doc-line density 0..1 over body text. */
+export function estimateDocSignalDensity(content: string): number {
+  const lines = (content || '').split(/\n/);
+  let doc = 0;
+  let code = 0;
+  for (const line of lines) {
+    const t = line.trim();
+    if (!t) continue;
+    code += 1;
+    if (
+      t.startsWith('//') ||
+      t.startsWith('#') ||
+      t.startsWith('*') ||
+      t.startsWith('/**') ||
+      t.startsWith('/*') ||
+      t.startsWith('"""') ||
+      t.startsWith("'''")
+    ) {
+      doc += 1;
+    }
+  }
+  if (!code) return 0;
+  return Number(Math.max(0, Math.min(1, doc / code)).toFixed(4));
+}
+
+/** Config-like path or body key surface count. */
+export function countConfigSurfaceSignals(path: string, content: string): number {
+  const p = String(path || '');
+  let n = 0;
+  if (
+    /(\.(env|ya?ml|toml|ini|cfg|config)|config\.|settings\.|tsconfig|package\.json|Dockerfile|go\.mod|Cargo\.toml|pyproject)/i.test(
+      p,
+    )
+  ) {
+    n += 1;
+  }
+  const c = content || '';
+  n += (c.match(/^\s*["']?[A-Za-z_][\w.-]*["']?\s*[:=]/gm) || []).length;
+  // package.json top-level keys
+  if (/package\.json$/i.test(p)) {
+    try {
+      const j = JSON.parse(c);
+      if (j && typeof j === 'object') n += Object.keys(j).length;
+    } catch {
+      /* ignore */
+    }
+  }
+  return n;
 }
 
 function countMatches(content: string, patterns: RegExp[]): number {
@@ -283,6 +364,28 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
     }
   }
 
+  // Structure extras over ALL measure bodies (manifests + covered samples).
+  const depNames = new Set<string>();
+  let docMass = 0;
+  let docWeight = 0;
+  let configSurface = configKeyCount;
+  for (const file of files) {
+    for (const d of collectExternalDependencyNames(file.content || '')) {
+      depNames.add(d);
+    }
+    const dens = estimateDocSignalDensity(file.content || '');
+    const lines = (file.content || '').split(/\n/).filter((l) => l.trim()).length || 1;
+    docMass += dens * lines;
+    docWeight += lines;
+    configSurface += countConfigSurfaceSignals(file.path, file.content || '');
+  }
+  // Also scan target path basenames for config files not in bodies.
+  for (const path of targetPaths) {
+    if (!byPath.has(path)) {
+      configSurface += countConfigSurfaceSignals(path, '');
+    }
+  }
+
   return {
     sampledFileCount: analyses.length,
     lineCount,
@@ -302,6 +405,11 @@ export function analyzeStaticSource(args: StaticAnalysisArgs): StaticAnalysisRep
     testPathCount,
     estimatedTestFunctionCount: Math.round(estTestFns),
     estimatedExportCount: Math.round(estExports),
+    estimatedDependencyCount: depNames.size,
+    estimatedDocSignal: docWeight
+      ? Number(Math.max(0, Math.min(1, docMass / docWeight)).toFixed(4))
+      : 0,
+    estimatedConfigSurface: Math.round(configSurface),
     coverageRatio: targetPaths.length ? Number((sampledTargets / targetPaths.length).toFixed(2)) : 0,
     measuredFromSamples: analyses.length > 0,
   };

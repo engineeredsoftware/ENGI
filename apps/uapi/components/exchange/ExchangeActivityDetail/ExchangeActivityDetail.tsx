@@ -112,27 +112,89 @@ function formatMeasurementDisplayValue(m: PackActivityMeasurement): string {
   return `${m.value}${unit}`;
 }
 
+function statusBadgeClass(status: string | null | undefined): string {
+  switch (status) {
+    case "measured":
+      return "border-emerald-300/35 bg-emerald-300/12 text-emerald-100";
+    case "estimated":
+      return "border-sky-300/35 bg-sky-300/10 text-sky-100";
+    case "expanded-fill":
+      return "border-white/10 bg-white/[0.04] text-neutral-500";
+    case "not_run":
+    case "not_implemented":
+      return "border-amber-300/30 bg-amber-300/10 text-amber-100/90";
+    case "insufficient_evidence":
+      return "border-rose-300/25 bg-rose-300/8 text-rose-100/85";
+    default:
+      return "border-white/10 bg-white/[0.04] text-neutral-500";
+  }
+}
+
+function statusLabel(status: string | null | undefined): string {
+  switch (status) {
+    case "measured":
+      return "measured";
+    case "estimated":
+      return "estimated";
+    case "expanded-fill":
+      return "catalogue fill";
+    case "not_run":
+      return "not run";
+    case "not_implemented":
+      return "not implemented";
+    case "insufficient_evidence":
+      return "insufficient evidence";
+    default:
+      return "";
+  }
+}
+
 function MeasurementTile({ measurement }: { measurement: PackActivityMeasurement }) {
+  const status = measurement.status || null;
+  const isFill = status === "expanded-fill";
   return (
     <div
-      className="flex min-h-[5.5rem] flex-col gap-1.5 border border-white/10 bg-black/18 px-3 py-2.5 text-sm"
+      className={`flex min-h-[5.5rem] flex-col gap-1.5 border px-3 py-2.5 text-sm ${
+        isFill
+          ? "border-white/6 bg-black/10"
+          : "border-white/10 bg-black/18"
+      }`}
       data-testid="exchange-measurement-tile"
       data-kind={absoluteKindOf(measurement) || measurement.id}
+      data-status={status || "unknown"}
     >
       <div className="flex items-start justify-between gap-2">
-        <span className="min-w-0 text-[0.82rem] font-medium leading-snug text-neutral-100">
+        <span
+          className={`min-w-0 text-[0.82rem] font-medium leading-snug ${
+            isFill ? "text-neutral-500" : "text-neutral-100"
+          }`}
+        >
           {measurement.label}
         </span>
-        <span className="shrink-0 font-mono text-[0.78rem] tabular-nums text-emerald-100/90">
-          {formatMeasurementDisplayValue(measurement)}
+        <span
+          className={`shrink-0 font-mono text-[0.78rem] tabular-nums ${
+            isFill ? "text-neutral-600" : "text-emerald-100/90"
+          }`}
+        >
+          {isFill ? "—" : formatMeasurementDisplayValue(measurement)}
         </span>
       </div>
-      {typeof measurement.weight === "number" || typeof measurement.volume === "number" ? (
+      {status ? (
+        <span
+          className={`w-fit rounded-sm border px-1.5 py-0.5 text-[0.52rem] font-medium ${statusBadgeClass(status)}`}
+        >
+          {statusLabel(status)}
+        </span>
+      ) : null}
+      {!isFill &&
+      (typeof measurement.weight === "number" ||
+        typeof measurement.volume === "number") ? (
         <p className="font-mono text-[0.62rem] leading-4 text-neutral-500">
           {typeof measurement.weight === "number"
             ? `w ${measurement.weight.toFixed(3)}`
             : null}
-          {typeof measurement.weight === "number" && typeof measurement.volume === "number"
+          {typeof measurement.weight === "number" &&
+          typeof measurement.volume === "number"
             ? " · "
             : null}
           {typeof measurement.volume === "number"
@@ -140,7 +202,11 @@ function MeasurementTile({ measurement }: { measurement: PackActivityMeasurement
             : null}
         </p>
       ) : null}
-      {measurement.descriptor ? (
+      {isFill ? (
+        <p className="text-[0.68rem] leading-4 text-neutral-600">
+          Not measured — catalogue placeholder
+        </p>
+      ) : measurement.descriptor ? (
         <p className="line-clamp-3 text-[0.68rem] leading-4 text-neutral-500">
           {measurement.descriptor}
         </p>
@@ -285,6 +351,11 @@ function OverviewAndMeasurements({
         </dl>
       </ExchangeDetailSection>
 
+      <MeasureReportStrip
+        measureReport={detail.measureReport}
+        measurements={detail.measurements}
+      />
+
       <MaterialIdentityStrip materialIdentity={detail.materialIdentity} />
 
       <ExchangeDetailSection
@@ -293,6 +364,59 @@ function OverviewAndMeasurements({
         <MeasurementsGrid measurements={detail.measurements} />
       </ExchangeDetailSection>
     </>
+  );
+}
+
+/** Product-visible measure honesty strip (bodies / coverage / fill). */
+function MeasureReportStrip({
+  measureReport,
+  measurements,
+}: {
+  measureReport?: Record<string, unknown> | null;
+  measurements: PackActivityMeasurement[];
+}) {
+  const measuredCount = measurements.filter(
+    (m) => m.status === "measured" || m.status === "estimated",
+  ).length;
+  const fillCount = measurements.filter((m) => m.status === "expanded-fill").length;
+  const hasReport =
+    measureReport &&
+    typeof measureReport === "object" &&
+    typeof measureReport.measuredFromBodies === "number";
+  if (!hasReport && measuredCount === 0 && fillCount === 0) return null;
+  return (
+    <ExchangeDetailSection title="Measure report">
+      <p
+        className="text-sm leading-6 text-neutral-300"
+        data-testid="exchange-measure-report"
+      >
+        {hasReport ? (
+          <>
+            Measured from{" "}
+            <span className="text-violet-100">
+              {String(measureReport!.measuredFromBodies)}
+            </span>{" "}
+            file
+            {Number(measureReport!.measuredFromBodies) === 1 ? "" : "s"}
+            {typeof measureReport!.bodyCoverageRatio === "number"
+              ? ` · coverage ${Math.round(Number(measureReport!.bodyCoverageRatio) * 100)}%`
+              : ""}
+            {typeof measureReport!.mode === "string"
+              ? ` · mode ${String(measureReport!.mode)}`
+              : ""}
+            {" · "}
+            {measuredCount} measured / estimated · {fillCount} catalogue fill
+          </>
+        ) : (
+          <>
+            {measuredCount} measured / estimated · {fillCount} catalogue fill
+            {measurements.length
+              ? ` · ${measurements.length} catalogue rows`
+              : ""}
+          </>
+        )}
+      </p>
+    </ExchangeDetailSection>
   );
 }
 
@@ -342,7 +466,8 @@ function MaterialIdentityStrip({
     (purpose?.tags?.length || 0) > 0 ||
     (lang && Object.keys(lang.shares || {}).length > 0) ||
     (frameworks?.items?.length || 0) > 0 ||
-    (runtimes?.tags?.length || 0) > 0;
+    (runtimes?.tags?.length || 0) > 0 ||
+    (deps?.items?.length || 0) > 0;
   if (!hasAny) return null;
 
   const chip = (text: string, key: string) => (
@@ -418,23 +543,37 @@ function MaterialIdentityStrip({
           </div>
         ) : null}
         {deps?.items?.length ? (
-          <div>
+          <div data-testid="exchange-dependency-inventory">
             <p className="text-[0.62rem] uppercase tracking-[0.14em] text-neutral-500">
-              Top dependencies
-              {typeof deps.totalCount === "number" && deps.totalCount > (deps.items?.length || 0)
+              Dependencies by usage
+              {typeof deps.totalCount === "number" &&
+              deps.totalCount > (deps.items?.length || 0)
                 ? ` · ${deps.totalCount} total`
                 : ""}
             </p>
-            <div className="mt-1.5 flex flex-wrap gap-1.5">
-              {deps.items.slice(0, 12).map((d) =>
-                chip(
-                  typeof d.usageShare === "number" && d.usageShare > 0
-                    ? `${d.label || d.id} ${Math.round(d.usageShare * 100)}%`
-                    : String(d.label || d.id),
-                  `dep-${d.id}`,
-                ),
-              )}
-            </div>
+            <ul className="mt-1.5 max-h-40 space-y-0.5 overflow-y-auto font-mono text-[0.68rem]">
+              {[...deps.items]
+                .sort(
+                  (a, b) =>
+                    (Number(b.usageShare) || 0) - (Number(a.usageShare) || 0),
+                )
+                .slice(0, 14)
+                .map((d) => (
+                  <li
+                    key={String(d.id || d.label)}
+                    className="flex flex-wrap items-baseline gap-x-2 text-neutral-300"
+                  >
+                    <span className="text-neutral-100">
+                      {String(d.label || d.id)}
+                    </span>
+                    {typeof d.usageShare === "number" && d.usageShare > 0 ? (
+                      <span className="text-cyan-100/70">
+                        {Math.round(d.usageShare * 100)}% usage
+                      </span>
+                    ) : null}
+                  </li>
+                ))}
+            </ul>
           </div>
         ) : null}
       </div>

@@ -49,6 +49,11 @@ export interface PackActivityMeasurement {
   kind?: string | null;
   weight?: number | null;
   volume?: number | null;
+  /**
+   * Honesty: measured | estimated | insufficient_evidence | expanded-fill |
+   * not_run | not_implemented.
+   */
+  status?: string | null;
 }
 
 export interface PackActivityValue {
@@ -137,6 +142,8 @@ export interface PackActivityRecord {
    * Source-safe; never raw IP. Attached at measure time on deposit/read.
    */
   materialIdentity?: Record<string, unknown> | null;
+  /** Measure-session honesty telemetry (bodies, coverage, fill counts). */
+  measureReport?: Record<string, unknown> | null;
 }
 
 /**
@@ -227,6 +234,8 @@ export interface PackActivityDetailProjection {
   metadata: Record<string, unknown>;
   /** Buyer-visible material identity bag (optional). */
   materialIdentity?: Record<string, unknown> | null;
+  /** Measure-session honesty telemetry (optional). */
+  measureReport?: Record<string, unknown> | null;
 }
 
 export interface PackActivitySummary {
@@ -590,6 +599,7 @@ function collectNestedKindMeasurements(
           weight: typeof record.weight === 'number' ? record.weight : null,
           volume,
           descriptor: explicitDescriptor || catalog?.descriptor || null,
+          status: typeof record.status === 'string' ? record.status : null,
         });
       }
     }
@@ -629,6 +639,7 @@ function collectNestedKindMeasurements(
       weight: typeof a.weight === 'number' ? a.weight : null,
       volume,
       descriptor: explicitDescriptor || catalog?.descriptor || null,
+      status: typeof a.status === 'string' ? a.status : null,
     });
   }
   const needinesses = Array.isArray(record.needinesses) ? record.needinesses : [];
@@ -722,6 +733,7 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
         unit: m.unit,
         category: 'absolute',
         descriptor: m.descriptor,
+        status: m.status ?? undefined,
       })),
     );
     absolutes = expanded.map((row) => ({
@@ -734,6 +746,7 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
       weight: row.weight,
       volume: row.volume,
       descriptor: row.descriptor,
+      status: row.status ?? null,
     }));
   }
   const ordered = [...absolutes, ...rest];
@@ -1110,7 +1123,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
   const assetPackTitle = inferDataPackTitle(record);
   const assetPackKind = inferDataPackKind(record);
   const { estimatedBtd, estimatedBtdCells } = inferEstimatedBtd(record);
-  // Material identity: measurements.materialIdentity or top-level (source-safe bag).
+  // Material identity + measureReport: nested measurements bag or top-level.
   const materialIdentity = (() => {
     const payload = asRecord(record.payload);
     const nested = asRecord(payload.measurements);
@@ -1125,6 +1138,19 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     const metaMi = (metadata as Record<string, unknown>).materialIdentity;
     if (metaMi && typeof metaMi === 'object' && !Array.isArray(metaMi)) {
       return metaMi as Record<string, unknown>;
+    }
+    return null;
+  })();
+  const measureReport = (() => {
+    const payload = asRecord(record.payload);
+    const nested = asRecord(payload.measurements);
+    const fromNested = nested.measureReport;
+    if (fromNested && typeof fromNested === 'object' && !Array.isArray(fromNested)) {
+      return fromNested as Record<string, unknown>;
+    }
+    const top = payload.measureReport;
+    if (top && typeof top === 'object' && !Array.isArray(top)) {
+      return top as Record<string, unknown>;
     }
     return null;
   })();
@@ -1177,6 +1203,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     sourceSafety: SOURCE_SAFETY,
     metadata,
     materialIdentity,
+    measureReport,
   };
 }
 
@@ -1563,6 +1590,7 @@ export function buildPackActivityDetailProjection(
     estimatedBtd: record.estimatedBtd,
     estimatedBtdCells: record.estimatedBtdCells,
     materialIdentity: record.materialIdentity ?? null,
+    measureReport: record.measureReport ?? null,
     telemetry: {
       sourceEventId: record.id,
       sourceKind: String(record.metadata.kind || record.metadata.type || '') || null,

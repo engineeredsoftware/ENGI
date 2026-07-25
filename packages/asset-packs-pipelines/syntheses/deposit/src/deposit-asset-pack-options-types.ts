@@ -63,6 +63,18 @@ export interface DepositAssetPackOptionMeasurement {
    * Prefer over catalog fallback when projecting admission / packs activity.
    */
   descriptor?: string;
+  /**
+   * Honesty: measured | estimated | insufficient_evidence | expanded-fill |
+   * not_run | not_implemented. Fill zeros must not read as measured clean.
+   */
+  status?:
+    | 'measured'
+    | 'estimated'
+    | 'insufficient_evidence'
+    | 'expanded-fill'
+    | 'not_run'
+    | 'not_implemented'
+    | string;
   evidenceRoot: string;
 }
 

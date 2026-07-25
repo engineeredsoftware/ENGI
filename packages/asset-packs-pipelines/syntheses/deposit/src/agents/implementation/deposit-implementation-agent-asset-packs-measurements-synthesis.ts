@@ -19,6 +19,7 @@ import type { MeasurableAssetPackPatch } from '../../../../domain/src/agents/val
 import type {
   DepositAbsoluteReading,
   DepositMeasuredPack,
+  DepositMeasureReport,
   DepositMeasurementReportRow,
   DepositMeasurementsPhaseOutput,
   DepositPatchfilePack,
@@ -129,21 +130,24 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
   const measuredOptions: DepositMeasuredPack[] = [];
   const measurementReports: DepositMeasurementReportRow[] = [];
 
+  const { resolveMeasureSourceSet } = await import(
+    '../../../../domain/src/resolve-measure-source-set'
+  );
+
   for (const patchfile of patchfiles) {
     const patchDescriptor = toMeasurablePatch(patchfile);
-    const pathScope = new Set<string>(
-      [
-        ...patchDescriptor.coveredSourcePaths,
-        ...(patchDescriptor.fileChanges || []).map((c) => c.path),
-      ].filter(Boolean),
-    );
-    const scopedBodies =
-      pathScope.size > 0
-        ? bodies.filter((b: { path: string; content: string }) => pathScope.has(b.path))
-        : bodies;
+    // Deep measure source set: covered + patch paths + manifests + sibling tests.
+    const measureSet = resolveMeasureSourceSet({
+      coveredSourcePaths: patchDescriptor.coveredSourcePaths,
+      fileChanges: patchDescriptor.fileChanges,
+      availableBodies: bodies,
+    });
+    const scopedBodies = measureSet.sources;
+    const pathScopeSize = measureSet.pathScope.length;
 
     let absolutes: DepositAbsoluteReading[] = [];
     let materialIdentity: Record<string, unknown> | null = null;
+    let measureReport: DepositMeasureReport | null = null;
     try {
       // Tool-rich measure: bare absolutes + material identity + quality inference.
       const measured = await measureDataPackAbsolutesAndIdentity(patchDescriptor, {
@@ -160,12 +164,59 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
         measured.materialIdentity && typeof measured.materialIdentity === 'object'
           ? (measured.materialIdentity as Record<string, unknown>)
           : null;
+      measureReport =
+        measured.measureReport && typeof measured.measureReport === 'object'
+          ? (measured.measureReport as DepositMeasureReport)
+          : null;
+      // Prefer host measureReport; enrich with deep-set telemetry when host thin.
+      if (measureReport) {
+        measureReport = {
+          ...measureReport,
+          measuredFromBodies: Math.max(
+            measureReport.measuredFromBodies,
+            measureSet.measuredFromBodies,
+          ),
+          coveredPathCount: Math.max(
+            measureReport.coveredPathCount,
+            measureSet.coveredPathCount,
+          ),
+          mode:
+            measureSet.mode === 'deep' || measureReport.mode === 'deep'
+              ? 'deep'
+              : measureSet.mode === 'thin' || measureReport.mode === 'thin'
+                ? 'thin'
+                : 'path-only',
+        };
+      } else if (measureSet.measuredFromBodies > 0) {
+        measureReport = {
+          measuredFromBodies: measureSet.measuredFromBodies,
+          coveredPathCount: measureSet.coveredPathCount,
+          bodyCoverageRatio:
+            measureSet.coveredPathCount > 0
+              ? Number(
+                  (
+                    measureSet.measuredFromBodies / measureSet.coveredPathCount
+                  ).toFixed(4),
+                )
+              : 0,
+          expandedFillCount: 0,
+          mode: measureSet.mode,
+          measuredKindCount: absolutes.filter(
+            (a) => a.status === 'measured' || a.status === 'estimated',
+          ).length,
+        };
+      }
     } catch {
       absolutes = computeDeterministicAbsolutes(patchDescriptor) as DepositAbsoluteReading[];
     }
 
-    // Allowlist constructor — legal deposit shape (absolutes + materialIdentity).
-    const pack = toDepositMeasuredPack(patchfile, absolutes, materialIdentity);
+    // Allowlist constructor — legal deposit shape (absolutes + identity + report).
+    const pack = toDepositMeasuredPack(
+      patchfile,
+      absolutes,
+      materialIdentity,
+      measureReport,
+    );
     measuredOptions.push(pack);
 
     const shapeOk = hasDepositAbsolutesOnlyShape(pack);
@@ -173,7 +224,7 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     const ok = hasRequiredAbsolutes(pack) && shapeOk && artOk;
     measurementReports.push({
       title: patchfile.title.slice(0, 120),
-      pathScopeSize: pathScope.size,
+      pathScopeSize,
       absoluteCount: absolutes.length,
       measuredFromBodies: scopedBodies.length > 0,
       depositShapeOk: shapeOk,

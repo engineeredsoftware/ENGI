@@ -144,10 +144,14 @@ export function buildRealDepositAssetPackOptionSynthesis(
         ...(typeof measurement.descriptor === 'string' && measurement.descriptor.trim()
           ? { descriptor: measurement.descriptor.trim() }
           : {}),
+        ...(typeof measurement.status === 'string' && measurement.status.trim()
+          ? { status: measurement.status.trim() }
+          : {}),
         evidenceRoot: root('deposit-option-measurement', {
           measurementKind: measurement.measurementKind,
           weight: measurement.weight,
           volume: measurement.volume,
+          status: measurement.status ?? null,
           rationaleRoot: root('deposit-option-measurement-rationale', candidate.measurementRationale),
           coveredSourcePathRoots: sourcePathRoots,
         }),
@@ -208,6 +212,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
           unit: typeof m.unit === 'string' && m.unit.length > 0 ? m.unit : 'normalized',
           evidenceRoot: m.evidenceRoot,
           ...(m.descriptor ? { descriptor: m.descriptor } : {}),
+          ...(m.status ? { status: m.status } : {}),
         })),
         // Deposit options are absolutes-only; neediness is Read-pipeline only.
         // SynthesisMeasurementsByKind still requires the nested key present.

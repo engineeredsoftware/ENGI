@@ -40,6 +40,7 @@
     "./postprocess": "./src/postprocess.ts",
     "./preprocess": "./src/preprocess.ts",
     "./resolve-source-checkout-catalog": "./src/resolve-source-checkout-catalog.ts",
+    "./resolve-measure-source-set": "./src/resolve-measure-source-set.ts",
     "./run": "./src/run.ts",
     "./runtime-inference-policy": "./src/runtime-inference-policy.ts",
     "./semantic-resolution": "./src/semantic-resolution.ts",

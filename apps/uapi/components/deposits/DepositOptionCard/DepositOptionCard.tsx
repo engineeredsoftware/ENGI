@@ -14,11 +14,135 @@ import type {
   DepositRealSynthesis,
   DepositRealSynthesisOption,
 } from "@/components/deposits/models/deposit-real-synthesis";
-import { buildDepositOptionPatchfileDownload } from "@/components/deposits/models/deposit-admission-activity";
 import {
+  buildDepositOptionPatchfileDownload,
+  buildDepositOptionReviewArtifact,
+} from "@/components/deposits/models/deposit-admission-activity";
+import {
+  countExpandedFillAbsolutes,
+  countMeasuredAbsolutes,
   expandAbsoluteMeasurementsToFullCatalog,
   type AbsoluteMeasurementLike,
 } from "@/components/exchange/models/expand-absolute-measurements";
+
+function resolveOptionMeasureReport(option: DepositRealSynthesisOption): {
+  measuredFromBodies: number;
+  coveredPathCount: number;
+  bodyCoverageRatio: number;
+  expandedFillCount: number;
+  mode: string;
+  measuredKindCount?: number;
+} | null {
+  const o = option as unknown as Record<string, unknown>;
+  const nested = o.measurements;
+  const fromNested =
+    nested && typeof nested === "object" && !Array.isArray(nested)
+      ? (nested as { measureReport?: unknown }).measureReport
+      : null;
+  const raw = fromNested || o.measureReport;
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  if (typeof r.measuredFromBodies !== "number") return null;
+  return {
+    measuredFromBodies: r.measuredFromBodies,
+    coveredPathCount:
+      typeof r.coveredPathCount === "number" ? r.coveredPathCount : 0,
+    bodyCoverageRatio:
+      typeof r.bodyCoverageRatio === "number" ? r.bodyCoverageRatio : 0,
+    expandedFillCount:
+      typeof r.expandedFillCount === "number" ? r.expandedFillCount : 0,
+    mode: typeof r.mode === "string" ? r.mode : "path-only",
+    measuredKindCount:
+      typeof r.measuredKindCount === "number" ? r.measuredKindCount : undefined,
+  };
+}
+
+function resolveOptionMaterialIdentity(
+  option: DepositRealSynthesisOption,
+): {
+  inventories?: Array<{
+    kind?: string;
+    label?: string;
+    items?: Array<{
+      id?: string;
+      label?: string;
+      class?: string | null;
+      fileHitCount?: number;
+      usageShare?: number;
+      scope?: string;
+    }>;
+    totalCount?: number;
+  }>;
+  compositions?: Array<{ kind?: string; label?: string; primary?: string | null }>;
+  tagSets?: Array<{ kind?: string; tags?: string[]; primary?: string | null }>;
+} | null {
+  const o = option as unknown as Record<string, unknown>;
+  const nested = o.measurements;
+  const fromNested =
+    nested && typeof nested === "object" && !Array.isArray(nested)
+      ? (nested as { materialIdentity?: unknown }).materialIdentity
+      : null;
+  const raw = fromNested || o.materialIdentity;
+  if (!raw || typeof raw !== "object") return null;
+  return raw as {
+    inventories?: Array<{
+      kind?: string;
+      label?: string;
+      items?: Array<{
+        id?: string;
+        label?: string;
+        class?: string | null;
+        fileHitCount?: number;
+        usageShare?: number;
+        scope?: string;
+      }>;
+      totalCount?: number;
+    }>;
+    compositions?: Array<{
+      kind?: string;
+      label?: string;
+      primary?: string | null;
+    }>;
+    tagSets?: Array<{ kind?: string; tags?: string[]; primary?: string | null }>;
+  };
+}
+
+function statusBadgeClass(status: string | null | undefined): string {
+  switch (status) {
+    case "measured":
+      return "border-emerald-300/35 bg-emerald-300/12 text-emerald-100";
+    case "estimated":
+      return "border-sky-300/35 bg-sky-300/10 text-sky-100";
+    case "expanded-fill":
+      return "border-white/10 bg-white/[0.04] text-neutral-500";
+    case "not_run":
+    case "not_implemented":
+      return "border-amber-300/30 bg-amber-300/10 text-amber-100/90";
+    case "insufficient_evidence":
+      return "border-rose-300/25 bg-rose-300/8 text-rose-100/85";
+    default:
+      return "border-white/10 bg-white/[0.04] text-neutral-500";
+  }
+}
+
+function statusLabel(status: string | null | undefined): string {
+  switch (status) {
+    case "measured":
+      return "measured";
+    case "estimated":
+      return "estimated";
+    case "expanded-fill":
+      return "catalogue fill";
+    case "not_run":
+      return "not run";
+    case "not_implemented":
+      return "not implemented";
+    case "insufficient_evidence":
+      return "insufficient evidence";
+    default:
+      return "unknown";
+  }
+}
 
 export type DepositOptionCardProps = {
   option: DepositRealSynthesisOption;
@@ -69,8 +193,11 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
   /** True only when the pack is actually in the Depository — not mere review decision. */
   const admittedToDepository =
     admissionReceipt?.admission.state === "admitted-to-depository";
-  const handleDownloadPatchfile = () => {
-    const file = buildDepositOptionPatchfileDownload(option);
+  const downloadJsonFile = (file: {
+    filename: string;
+    mimeType: string;
+    body: string;
+  }) => {
     const blob = new Blob([file.body], { type: file.mimeType });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
@@ -81,6 +208,12 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
     anchor.click();
     anchor.remove();
     URL.revokeObjectURL(url);
+  };
+  const handleDownloadPatchfile = () => {
+    downloadJsonFile(buildDepositOptionPatchfileDownload(option));
+  };
+  const handleDownloadReviewArtifact = () => {
+    downloadJsonFile(buildDepositOptionReviewArtifact(option));
   };
   const earningStatement =
     depositRouteSession.earningSupplyIntelligence.earningStatements.find(
@@ -197,14 +330,24 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 {projection.measurementRationale}
               </p>
             ) : null}
-            <button
-              type="button"
-              data-testid={`deposit-option-download-patch-${option.kind}`}
-              onClick={handleDownloadPatchfile}
-              className="mt-3 border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-100 transition hover:border-emerald-200/50 hover:bg-emerald-300/16"
-            >
-              Download patchfile
-            </button>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                data-testid={`deposit-option-download-review-${option.kind}`}
+                onClick={handleDownloadReviewArtifact}
+                className="border border-violet-300/35 bg-violet-300/12 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-violet-50 transition hover:border-violet-200/50 hover:bg-violet-300/18"
+              >
+                Download DataPack artifact
+              </button>
+              <button
+                type="button"
+                data-testid={`deposit-option-download-patch-${option.kind}`}
+                onClick={handleDownloadPatchfile}
+                className="border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-100 transition hover:border-emerald-200/50 hover:bg-emerald-300/16"
+              >
+                Download path-op patch
+              </button>
+            </div>
           </div>
         ) : projection ? (
           <details className="mt-2 text-xs leading-5 text-neutral-400">
@@ -358,42 +501,238 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
           policyDemandState={policyEvaluation?.demand.state}
           settledDemandEstimate={settledDemandEstimate}
         />
-        {/* Full commercial catalogue (46) — expand legacy partial bags at render. */}
-        {expandAbsoluteMeasurementsToFullCatalog(
-          option.measurements as AbsoluteMeasurementLike[],
-        ).map((measurement) => (
-          <div
-            key={measurement.measurementKind || measurement.id}
-            className="border border-white/8 bg-white/[0.035] px-3 py-2"
-          >
-            <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
-              {measurement.label}
-            </dt>
-            <dd className="mt-1 text-sm text-neutral-200">
-              {typeof measurement.magnitude === "number" ? (
-                <>
-                  {measurement.magnitude}
-                  {measurement.unit &&
-                  measurement.unit !== "normalized" &&
-                  measurement.unit !== "estimate"
-                    ? ` ${measurement.unit}`
-                    : ""}
-                  <span className="text-neutral-500">
-                    {" "}
-                    · {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                    {measurement.weight.toFixed(3)}
-                  </span>
-                </>
-              ) : (
-                <>
-                  {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                  {measurement.weight.toFixed(3)}
-                </>
-              )}
-            </dd>
-          </div>
-          ),
-        )}
+        {(() => {
+          // Flat array (legacy UI) or nested { absolutes } from selection envelope.
+          const rawMeasurements = Array.isArray(option.measurements)
+            ? option.measurements
+            : Array.isArray(
+                  (option.measurements as { absolutes?: unknown } | undefined)
+                    ?.absolutes,
+                )
+              ? (option.measurements as { absolutes: AbsoluteMeasurementLike[] })
+                  .absolutes
+              : [];
+          const expanded = expandAbsoluteMeasurementsToFullCatalog(
+            rawMeasurements as AbsoluteMeasurementLike[],
+          );
+          const measureReport = resolveOptionMeasureReport(option);
+          const materialIdentity = resolveOptionMaterialIdentity(option);
+          const measuredCount =
+            measureReport?.measuredKindCount ?? countMeasuredAbsolutes(expanded);
+          const fillCount =
+            measureReport?.expandedFillCount ??
+            countExpandedFillAbsolutes(expanded);
+          const depInventory =
+            materialIdentity?.inventories?.find(
+              (inv) =>
+                inv.kind === "dependencies" ||
+                /depend/i.test(String(inv.label || "")),
+            ) || materialIdentity?.inventories?.[0];
+          const depItems = Array.isArray(depInventory?.items)
+            ? [...depInventory.items]
+                .sort(
+                  (a, b) =>
+                    (b.usageShare ?? 0) - (a.usageShare ?? 0) ||
+                    (b.fileHitCount ?? 0) - (a.fileHitCount ?? 0),
+                )
+                .slice(0, 12)
+            : [];
+
+          return (
+            <>
+              {/* Measure honesty strip — bodies / coverage / fill counts. */}
+              <div
+                data-testid="deposit-option-measure-report"
+                className="border border-violet-300/25 bg-violet-300/[0.06] px-3 py-2"
+              >
+                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-violet-100/80">
+                  Measure report
+                </dt>
+                <dd className="mt-1 text-xs leading-5 text-neutral-300">
+                  {measureReport ? (
+                    <>
+                      Measured from{" "}
+                      <span className="text-violet-100">
+                        {measureReport.measuredFromBodies}
+                      </span>{" "}
+                      file
+                      {measureReport.measuredFromBodies === 1 ? "" : "s"}
+                      {" · "}
+                      coverage{" "}
+                      {(measureReport.bodyCoverageRatio * 100).toFixed(0)}%
+                      {" · "}
+                      mode{" "}
+                      <span className="uppercase tracking-wide text-violet-100/90">
+                        {measureReport.mode}
+                      </span>
+                      {" · "}
+                      {measuredCount} measured / estimated
+                      {" · "}
+                      {fillCount} catalogue fill
+                    </>
+                  ) : (
+                    <>
+                      {measuredCount} measured / estimated · {fillCount}{" "}
+                      catalogue fill
+                      {expanded.length > 0
+                        ? ` · ${expanded.length} catalogue rows`
+                        : ""}
+                    </>
+                  )}
+                </dd>
+              </div>
+
+              {/* Material identity — languages / frameworks / deps by usage. */}
+              {materialIdentity ? (
+                <div
+                  data-testid="deposit-option-material-identity"
+                  className="border border-cyan-300/20 bg-cyan-300/[0.05] px-3 py-3"
+                >
+                  <p className="text-[0.58rem] uppercase tracking-[0.14em] text-cyan-100/85">
+                    Material identity
+                  </p>
+                  {Array.isArray(materialIdentity.compositions) &&
+                  materialIdentity.compositions.length > 0 ? (
+                    <ul className="mt-2 flex flex-wrap gap-1.5">
+                      {materialIdentity.compositions.slice(0, 6).map((c) => (
+                        <li
+                          key={String(c.kind || c.label)}
+                          className="border border-cyan-300/20 bg-cyan-300/10 px-2 py-0.5 text-[0.65rem] text-cyan-50/90"
+                        >
+                          {c.label || c.kind}
+                          {c.primary ? `: ${c.primary}` : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {depItems.length > 0 ? (
+                    <div className="mt-3">
+                      <p className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
+                        Dependencies by usage
+                        {typeof depInventory?.totalCount === "number"
+                          ? ` · ${depInventory.totalCount} total`
+                          : ""}
+                      </p>
+                      <ul className="mt-1 max-h-36 space-y-0.5 overflow-y-auto font-mono text-[0.68rem]">
+                        {depItems.map((item) => (
+                          <li
+                            key={String(item.id || item.label)}
+                            className="flex flex-wrap items-baseline gap-x-2 text-neutral-300"
+                          >
+                            <span className="text-neutral-100">
+                              {item.label || item.id}
+                            </span>
+                            {item.class ? (
+                              <span className="text-neutral-500">
+                                {item.class}
+                              </span>
+                            ) : null}
+                            {typeof item.fileHitCount === "number" ? (
+                              <span className="text-neutral-500">
+                                hits {item.fileHitCount}
+                              </span>
+                            ) : null}
+                            {typeof item.usageShare === "number" ? (
+                              <span className="text-cyan-100/70">
+                                {(item.usageShare * 100).toFixed(0)}% usage
+                              </span>
+                            ) : null}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="mt-2 text-[0.7rem] text-neutral-500">
+                      No dependency inventory on this measure (manifests may be
+                      outside pack scope).
+                    </p>
+                  )}
+                  {Array.isArray(materialIdentity.tagSets) &&
+                  materialIdentity.tagSets.some(
+                    (t) => Array.isArray(t.tags) && t.tags.length > 0,
+                  ) ? (
+                    <ul className="mt-2 flex flex-wrap gap-1">
+                      {materialIdentity.tagSets
+                        .flatMap((t) => t.tags || [])
+                        .slice(0, 10)
+                        .map((tag) => (
+                          <li
+                            key={tag}
+                            className="border border-white/10 bg-white/[0.04] px-1.5 py-0.5 text-[0.62rem] text-neutral-400"
+                          >
+                            {tag}
+                          </li>
+                        ))}
+                    </ul>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {/* Full commercial catalogue — honesty badge per row. */}
+              {expanded.map((measurement) => {
+                const status =
+                  typeof measurement.status === "string"
+                    ? measurement.status
+                    : null;
+                const isFill = status === "expanded-fill";
+                return (
+                  <div
+                    key={measurement.measurementKind || measurement.id}
+                    className={`border px-3 py-2 ${
+                      isFill
+                        ? "border-white/6 bg-white/[0.02]"
+                        : "border-white/8 bg-white/[0.035]"
+                    }`}
+                  >
+                    <dt className="flex flex-wrap items-center gap-2 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                      <span>{measurement.label}</span>
+                      <span
+                        className={`rounded-sm border px-1.5 py-0.5 text-[0.52rem] font-medium normal-case tracking-normal ${statusBadgeClass(status)}`}
+                      >
+                        {statusLabel(status)}
+                      </span>
+                    </dt>
+                    <dd
+                      className={`mt-1 text-sm ${isFill ? "text-neutral-500" : "text-neutral-200"}`}
+                    >
+                      {isFill ? (
+                        <span className="text-xs">
+                          Not measured — catalogue placeholder
+                        </span>
+                      ) : typeof measurement.magnitude === "number" ? (
+                        <>
+                          {measurement.magnitude}
+                          {measurement.unit &&
+                          measurement.unit !== "normalized" &&
+                          measurement.unit !== "estimate"
+                            ? ` ${measurement.unit}`
+                            : ""}
+                          <span className="text-neutral-500">
+                            {" "}
+                            · {(measurement.volume * 100).toFixed(0)}% / weight{" "}
+                            {measurement.weight.toFixed(3)}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          {(measurement.volume * 100).toFixed(0)}% / weight{" "}
+                          {measurement.weight.toFixed(3)}
+                        </>
+                      )}
+                    </dd>
+                    {!isFill &&
+                    typeof measurement.descriptor === "string" &&
+                    measurement.descriptor.trim() ? (
+                      <p className="mt-1 text-[0.68rem] leading-5 text-neutral-500">
+                        {measurement.descriptor.trim()}
+                      </p>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </>
+          );
+        })()}
       </dl>
 
       <details className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-3">

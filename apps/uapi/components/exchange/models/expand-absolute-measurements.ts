@@ -3,12 +3,18 @@
  *
  * Used by deposit review cards, Exchange detail, admission projection, and
  * activity normalization so UX never shows a partial kind subset alone.
+ *
+ * Honesty law:
+ * - Prior rows keep their status (measured | estimated | …).
+ * - Catalogue-fill rows for missing kinds are tagged `expanded-fill` with
+ *   volume/magnitude 0 — never claim a measured zero for unmeasured kinds.
  */
 
 import {
   DATA_PACK_ABSOLUTES_CATALOG,
   DATA_PACK_ABSOLUTE_KINDS,
 } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
+import type { AbsoluteReadingStatus } from '@bitcode/measurement-generics';
 import { descriptorForAbsoluteKind } from './exchange-measurement-descriptors';
 
 export type AbsoluteMeasurementLike = {
@@ -23,8 +29,32 @@ export type AbsoluteMeasurementLike = {
   category?: string;
   descriptor?: string | null;
   evidenceRoot?: string | null;
+  /** Honesty: measured vs catalogue fill vs insufficient evidence. */
+  status?: AbsoluteReadingStatus | string | null;
   [key: string]: unknown;
 };
+
+const VALID_STATUSES = new Set<string>([
+  'measured',
+  'estimated',
+  'insufficient_evidence',
+  'expanded-fill',
+  'not_run',
+  'not_implemented',
+]);
+
+function normalizeStatus(
+  raw: unknown,
+  opts: { isFill: boolean },
+): AbsoluteReadingStatus {
+  if (opts.isFill) return 'expanded-fill';
+  if (typeof raw === 'string' && VALID_STATUSES.has(raw)) {
+    return raw as AbsoluteReadingStatus;
+  }
+  // Prior row without status: treat as measured when volume/magnitude present,
+  // else insufficient_evidence (host should set status; this is fail-soft).
+  return 'measured';
+}
 
 function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;
@@ -62,7 +92,7 @@ function kindOf(row: AbsoluteMeasurementLike): string {
 
 /**
  * Expand readings to one row per catalogue kind (SSOT order).
- * Missing kinds → volume 0, magnitude 0, catalogue weight/label/unit.
+ * Missing kinds → volume 0, magnitude 0, status expanded-fill (honesty).
  * Prior non-zero volumes preserved; catalogue weight always wins over legacy weights.
  */
 export function expandAbsoluteMeasurementsToFullCatalog<T extends AbsoluteMeasurementLike>(
@@ -78,6 +108,7 @@ export function expandAbsoluteMeasurementsToFullCatalog<T extends AbsoluteMeasur
     unit: string;
     category: 'absolute';
     descriptor: string | null;
+    status: AbsoluteReadingStatus;
   }
 > {
   const byKind = new Map<string, AbsoluteMeasurementLike>();
@@ -107,18 +138,26 @@ export function expandAbsoluteMeasurementsToFullCatalog<T extends AbsoluteMeasur
 
   return DATA_PACK_ABSOLUTES_CATALOG.map((spec) => {
     const prior = byKind.get(spec.measurementKind);
+    const isFill = !prior;
     const catalog = descriptorForAbsoluteKind(spec.measurementKind);
-    const volume = clamp01(Number(prior?.volume));
+    const volume = isFill ? 0 : clamp01(Number(prior?.volume));
     let magnitude: number;
-    if (typeof prior?.magnitude === 'number' && Number.isFinite(prior.magnitude)) {
+    if (isFill) {
+      magnitude = 0;
+    } else if (typeof prior?.magnitude === 'number' && Number.isFinite(prior.magnitude)) {
       magnitude = prior.magnitude;
     } else {
       magnitude = volume;
     }
+    const status = normalizeStatus(prior?.status, { isFill });
     const explicitDescriptor =
       typeof prior?.descriptor === 'string' && prior.descriptor.trim()
         ? prior.descriptor.trim()
         : null;
+    // Fill rows: short honesty copy — do not spam catalogue template as if measured.
+    const descriptor = isFill
+      ? 'Not measured — catalogue placeholder (expanded-fill).'
+      : explicitDescriptor || catalog?.descriptor || null;
 
     return {
       ...(prior || {}),
@@ -131,7 +170,8 @@ export function expandAbsoluteMeasurementsToFullCatalog<T extends AbsoluteMeasur
       magnitude,
       unit: (typeof prior?.unit === 'string' && prior.unit) || catalog?.unit || spec.unit || 'normalized',
       category: 'absolute' as const,
-      descriptor: explicitDescriptor || catalog?.descriptor || null,
+      descriptor,
+      status,
       evidenceRoot:
         typeof prior?.evidenceRoot === 'string' ? prior.evidenceRoot : null,
     } as T & {
@@ -144,8 +184,27 @@ export function expandAbsoluteMeasurementsToFullCatalog<T extends AbsoluteMeasur
       unit: string;
       category: 'absolute';
       descriptor: string | null;
+      status: AbsoluteReadingStatus;
     };
   });
+}
+
+/** Count rows tagged expanded-fill (catalogue completeness only). */
+export function countExpandedFillAbsolutes(
+  rows: AbsoluteMeasurementLike[] | null | undefined,
+): number {
+  if (!Array.isArray(rows)) return 0;
+  return rows.filter((r) => r?.status === 'expanded-fill').length;
+}
+
+/** Count rows that were actually measured or estimated (not fill / not_run). */
+export function countMeasuredAbsolutes(
+  rows: AbsoluteMeasurementLike[] | null | undefined,
+): number {
+  if (!Array.isArray(rows)) return 0;
+  return rows.filter(
+    (r) => r?.status === 'measured' || r?.status === 'estimated',
+  ).length;
 }
 
 /** True when readings already cover the full commercial catalogue. */

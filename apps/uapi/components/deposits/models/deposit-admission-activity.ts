@@ -4,12 +4,17 @@
  * One admitted AssetPack = one execution row. Never embed the full session
  * admission report (candidateCount / admittedCount / report roots) — those are
  * synthesis-session metadata, not measurements of a deposited pack.
+ *
+ * Also builds depositor-facing DataPack review artifacts (patch + metadata +
+ * measurements + identity + honesty) — product object for deposit review UX.
  */
 
 import type { DepositOptionAdmissionReceipt } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
 import type { DepositAssetPackOption } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-options";
 import type { ProductActivityRecordDraft } from "@/components/bitcode/pipeline/models/pipeline-activity-history";
 import {
+  countExpandedFillAbsolutes,
+  countMeasuredAbsolutes,
   expandAbsoluteMeasurementsToFullCatalog,
   type AbsoluteMeasurementLike,
 } from "@/components/exchange/models/expand-absolute-measurements";
@@ -26,6 +31,8 @@ export type DepositAdmissionAbsoluteMeasurement = {
   evidenceRoot: string | null;
   /** Buyer-facing source-safe descriptor (catalog prose; never raw source). */
   descriptor: string | null;
+  /** Honesty: measured | estimated | expanded-fill | … */
+  status?: string | null;
 };
 
 /** Weighted absolute volume 0..1 used as unsettled BTD estimate basis. */
@@ -56,11 +63,93 @@ export function optionAbsoluteKnowledgeVolume(
 export function projectOptionAbsoluteMeasurements(
   option: DepositAssetPackOption | null | undefined,
 ): DepositAdmissionAbsoluteMeasurement[] {
-  // Always project full commercial catalogue (46) with SSOT weights.
+  // Always project full commercial catalogue with SSOT weights + honesty status.
+  return projectOptionAbsoluteMeasurementsWithHonesty(option).map((m) => ({
+    kind: m.kind,
+    category: "absolute" as const,
+    label: m.label,
+    volume: m.volume,
+    magnitude: m.magnitude,
+    unit: m.unit,
+    weight: m.weight,
+    evidenceRoot: m.evidenceRoot,
+    descriptor: m.descriptor,
+    status: m.status,
+  }));
+}
+
+/**
+ * Real AssetPack path-op patchfile for depositor download.
+ * Schema matches PatchArtifact envelope (`bitcode.artifact.patch` path-op-json).
+ * Source-safe: path+op only — never unpaid raw source bodies.
+ */
+function optionSafeTitle(option: DepositAssetPackOption): string {
+  return (option.title || "datapack")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 48);
+}
+
+function resolveOptionNestedBag(option: DepositAssetPackOption | null | undefined): {
+  materialIdentity: Record<string, unknown> | null;
+  measureReport: Record<string, unknown> | null;
+  rawAbsolutes: AbsoluteMeasurementLike[];
+} {
+  if (!option) {
+    return { materialIdentity: null, measureReport: null, rawAbsolutes: [] };
+  }
+  const o = option as DepositAssetPackOption & {
+    materialIdentity?: unknown;
+    measureReport?: unknown;
+    measurements?:
+      | AbsoluteMeasurementLike[]
+      | {
+          absolutes?: AbsoluteMeasurementLike[];
+          materialIdentity?: unknown;
+          measureReport?: unknown;
+        };
+  };
+  const nested =
+    o.measurements && typeof o.measurements === "object" && !Array.isArray(o.measurements)
+      ? (o.measurements as {
+          absolutes?: AbsoluteMeasurementLike[];
+          materialIdentity?: unknown;
+          measureReport?: unknown;
+        })
+      : null;
+  const rawAbsolutes = Array.isArray(o.measurements)
+    ? (o.measurements as AbsoluteMeasurementLike[])
+    : Array.isArray(nested?.absolutes)
+      ? nested!.absolutes!
+      : [];
+  const materialIdentity =
+    (nested?.materialIdentity && typeof nested.materialIdentity === "object"
+      ? (nested.materialIdentity as Record<string, unknown>)
+      : null) ||
+    (o.materialIdentity && typeof o.materialIdentity === "object"
+      ? (o.materialIdentity as Record<string, unknown>)
+      : null);
+  const measureReport =
+    (nested?.measureReport && typeof nested.measureReport === "object"
+      ? (nested.measureReport as Record<string, unknown>)
+      : null) ||
+    (o.measureReport && typeof o.measureReport === "object"
+      ? (o.measureReport as Record<string, unknown>)
+      : null);
+  return { materialIdentity, measureReport, rawAbsolutes };
+}
+
+/** Project absolutes with honesty status for depositor review / artifact. */
+export function projectOptionAbsoluteMeasurementsWithHonesty(
+  option: DepositAssetPackOption | null | undefined,
+): Array<DepositAdmissionAbsoluteMeasurement & { status: string | null }> {
+  const { rawAbsolutes } = resolveOptionNestedBag(option);
   const expanded = expandAbsoluteMeasurementsToFullCatalog(
-    ((option?.measurements || []).filter(
-      (m) => !m.category || m.category === "absolute",
-    ) as AbsoluteMeasurementLike[]),
+    (rawAbsolutes.length
+      ? rawAbsolutes
+      : ((option?.measurements || []) as AbsoluteMeasurementLike[])
+    ).filter((m) => !m.category || m.category === "absolute"),
   );
   return expanded.map((m) => ({
     kind: m.measurementKind,
@@ -70,27 +159,18 @@ export function projectOptionAbsoluteMeasurements(
     magnitude: typeof m.magnitude === "number" ? m.magnitude : null,
     unit: typeof m.unit === "string" ? m.unit : null,
     weight: m.weight,
-    evidenceRoot:
-      typeof m.evidenceRoot === "string" ? m.evidenceRoot : null,
+    evidenceRoot: typeof m.evidenceRoot === "string" ? m.evidenceRoot : null,
     descriptor: m.descriptor,
+    status: typeof m.status === "string" ? m.status : null,
   }));
 }
 
-/**
- * Real AssetPack path-op patchfile for depositor download.
- * Schema matches PatchArtifact envelope (`bitcode.artifact.patch` path-op-json).
- * Source-safe: path+op only — never unpaid raw source bodies.
- */
 export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOption): {
   filename: string;
   mimeType: string;
   body: string;
 } {
-  const safeTitle = (option.title || "datapack")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 48);
+  const safeTitle = optionSafeTitle(option);
   const files = (option.contents?.fileChanges || []).map((fc) => ({
     path: fc.path,
     op: fc.op,
@@ -109,7 +189,7 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
       option.contents?.patchSummary || option.summary || "DataPack patch",
     files,
     fileCount: files.length,
-    // Product binding (not raw source) — full 46 commercial absolutes.
+    // Product binding (not raw source) — full commercial absolutes.
     assetPack: {
       optionId: option.optionId,
       kind: option.kind,
@@ -134,6 +214,89 @@ export function buildDepositOptionPatchfileDownload(option: DepositAssetPackOpti
   };
 }
 
+/**
+ * Depositor-facing full DataPack review artifact.
+ * Elevated product object: path-op patch + metadata + absolutes (with honesty) +
+ * materialIdentity + measureReport. Source-safe (no unpaid raw source bodies).
+ */
+export function buildDepositOptionReviewArtifact(option: DepositAssetPackOption): {
+  filename: string;
+  mimeType: string;
+  body: string;
+} {
+  const safeTitle = optionSafeTitle(option);
+  const files = (option.contents?.fileChanges || []).map((fc) => ({
+    path: fc.path,
+    op: fc.op,
+  }));
+  const { materialIdentity, measureReport, rawAbsolutes } =
+    resolveOptionNestedBag(option);
+  const absolutes = projectOptionAbsoluteMeasurementsWithHonesty(option);
+  const expandedForCounts = expandAbsoluteMeasurementsToFullCatalog(
+    rawAbsolutes.length
+      ? rawAbsolutes
+      : ((option.measurements || []) as AbsoluteMeasurementLike[]),
+  );
+  const honesty = {
+    measuredKindCount: countMeasuredAbsolutes(expandedForCounts),
+    expandedFillCount: countExpandedFillAbsolutes(expandedForCounts),
+    mode:
+      (measureReport && typeof measureReport.mode === "string"
+        ? measureReport.mode
+        : null) || "path-only",
+    measuredFromBodies:
+      measureReport && typeof measureReport.measuredFromBodies === "number"
+        ? measureReport.measuredFromBodies
+        : 0,
+    bodyCoverageRatio:
+      measureReport && typeof measureReport.bodyCoverageRatio === "number"
+        ? measureReport.bodyCoverageRatio
+        : 0,
+  };
+  const artifactId =
+    option.roots.optionRoot ||
+    option.roots.contentsRoot ||
+    `datapack-review-${option.optionId}`;
+  const reviewArtifact = {
+    schema: "bitcode.datapack.review-artifact",
+    version: 1,
+    artifactId,
+    purpose: "depositor-review",
+    patch: {
+      format: "path-op-json",
+      patchSummary:
+        option.contents?.patchSummary || option.summary || "DataPack patch",
+      files,
+      fileCount: files.length,
+    },
+    metadata: {
+      optionId: option.optionId,
+      kind: option.kind,
+      title: option.title,
+      summary: option.summary,
+      sourceBinding: {
+        repositoryFullName: option.sourceBinding.repositoryFullName,
+        sourceBranch: option.sourceBinding.sourceBranch,
+        sourceCommit: option.sourceBinding.sourceCommit,
+        sourcePathCount: option.sourceBinding.sourcePathCount,
+      },
+      provenantSourcePaths: option.contents?.provenantSourcePaths ?? [],
+      roots: option.roots,
+    },
+    measurements: {
+      absolutes,
+      ...(materialIdentity ? { materialIdentity } : {}),
+      ...(measureReport ? { measureReport } : {}),
+    },
+    honesty,
+  };
+  return {
+    filename: `${safeTitle || "datapack"}.datapack.review.json`,
+    mimeType: "application/json",
+    body: JSON.stringify(reviewArtifact, null, 2),
+  };
+}
+
 export function buildDepositOptionAdmissionActivityDraft(input: {
   receipt: DepositOptionAdmissionReceipt;
   option: DepositAssetPackOption | null | undefined;
@@ -141,6 +304,7 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
 }): ProductActivityRecordDraft {
   const { receipt, option, synthesisRunId } = input;
   const absolutes = projectOptionAbsoluteMeasurements(option);
+  const { materialIdentity, measureReport } = resolveOptionNestedBag(option);
   const estimatedBtd = optionAbsoluteKnowledgeVolume(option);
   const estimatedBtdCells = Math.max(0, Math.round(estimatedBtd * 1000));
 
@@ -162,8 +326,14 @@ export function buildDepositOptionAdmissionActivityDraft(input: {
       packActivitySyncState: receipt.packsActivitySync.state,
       packsActivityRoot: receipt.packsActivitySync.activityRoot,
       // Absolute material-property catalog for /exchange chips + detail
-      measurements: absolutes,
+      measurements: {
+        absolutes,
+        ...(materialIdentity ? { materialIdentity } : {}),
+        ...(measureReport ? { measureReport } : {}),
+      },
       absolutes,
+      ...(materialIdentity ? { materialIdentity } : {}),
+      ...(measureReport ? { measureReport } : {}),
       // Unsettled commercial value: absolute-derived BTD estimate (not minted)
       estimatedBtd,
       estimatedBtdCells,

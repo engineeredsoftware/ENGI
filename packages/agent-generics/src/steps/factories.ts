@@ -277,7 +277,9 @@ export function factoryTryStep<TInput, TOutput>(
     conditional(
       (input: any) =>
         (input?.output?.useTools?.length > 0) ||
-        (input?.reasoning?.useTools?.length > 0),
+        (input?.reasoning?.useTools?.length > 0) ||
+        (input?.output?.toolPlan?.length > 0) ||
+        (input?.reasoning?.toolPlan?.length > 0),
       require('../generations/llm-bound-factories').factoryToolsExecution() as Executor<any, any>,
       (input) => Promise.resolve(input)
     ) as Executor<any, any>
@@ -402,7 +404,9 @@ export function factoryRetryStep<TInput, TOutput>(
       let out = await executorWithRetry(input, stepExec);
       const hasUseTools =
         ((out as any)?.output?.useTools?.length > 0) ||
-        ((out as any)?.reasoning?.useTools?.length > 0);
+        ((out as any)?.reasoning?.useTools?.length > 0) ||
+        ((out as any)?.output?.toolPlan?.length > 0) ||
+        ((out as any)?.reasoning?.toolPlan?.length > 0);
       if (hasUseTools) {
         const toolsExec = require('../generations/llm-bound-factories').factoryToolsExecution();
         out = await toolsExec(out, stepExec);
@@ -412,7 +416,11 @@ export function factoryRetryStep<TInput, TOutput>(
         stepExec.store(
           'tools',
           'use',
-          (out as any)?.output?.useTools || (out as any)?.reasoning?.useTools || [],
+          (out as any)?.output?.toolPlan ||
+            (out as any)?.output?.useTools ||
+            (out as any)?.reasoning?.toolPlan ||
+            (out as any)?.reasoning?.useTools ||
+            [],
         );
       } catch {}
       try { stepExec.store('tools', 'used', (out as any)?.usedTools || []); } catch {}

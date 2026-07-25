@@ -97,6 +97,8 @@ import {
   Chunk,
   Reasoning,
   UseTool,
+  ToolWave,
+  ToolPlan,
   Judgment,
   UsedTool
 } from '../types';
@@ -1675,157 +1677,317 @@ function buildStitchContext(input: unknown): Record<string, unknown> {
 
 // ==================== TOOL & VALIDATION GENERATIONS ====================
 
+/** Normalize one tool selection row to { name, input, reason }. */
+export function normalizeUseToolSelection(t: any): UseTool | null {
+  const name = String(
+    t?.name ??
+      (typeof t?.tool === 'string'
+        ? t.tool
+        : t?.tool?.name ?? t?.tool?.constructor?.name ?? ''),
+  ).trim();
+  if (!name) return null;
+  return {
+    name,
+    input: t?.input ?? t?.parameters ?? {},
+    reason: t?.reason,
+  };
+}
+
+/**
+ * Normalize flat useTools and/or sequenced toolPlan into waves.
+ * toolPlan wins when non-empty; else flat useTools → one sequential wave.
+ */
+export function resolveToolWaves(input: {
+  useTools?: unknown;
+  toolPlan?: unknown;
+  reasoning?: { useTools?: unknown; toolPlan?: unknown };
+}): ToolWave[] {
+  const outPlan =
+    (Array.isArray((input as any)?.toolPlan) && (input as any).toolPlan.length
+      ? (input as any).toolPlan
+      : null) ??
+    (Array.isArray(input.reasoning?.toolPlan) && input.reasoning!.toolPlan!.length
+      ? input.reasoning!.toolPlan
+      : null);
+  if (Array.isArray(outPlan) && outPlan.length > 0) {
+    return outPlan
+      .map((wave: any) => {
+        const sequential = Array.isArray(wave?.sequential)
+          ? wave.sequential.map(normalizeUseToolSelection).filter(Boolean)
+          : Array.isArray(wave?.tools) && wave?.mode !== 'parallel'
+            ? wave.tools.map(normalizeUseToolSelection).filter(Boolean)
+            : [];
+        const parallel = Array.isArray(wave?.parallel)
+          ? wave.parallel.map(normalizeUseToolSelection).filter(Boolean)
+          : Array.isArray(wave?.tools) && wave?.mode === 'parallel'
+            ? wave.tools.map(normalizeUseToolSelection).filter(Boolean)
+            : [];
+        // Bare wave as flat UseTool[] array element
+        if (!sequential.length && !parallel.length && (wave?.name || wave?.tool)) {
+          const one = normalizeUseToolSelection(wave);
+          return one ? { sequential: [one], label: wave?.label } : null;
+        }
+        if (!sequential.length && !parallel.length) return null;
+        return {
+          sequential: sequential as UseTool[],
+          parallel: parallel as UseTool[],
+          label: typeof wave?.label === 'string' ? wave.label : undefined,
+        } as ToolWave;
+      })
+      .filter(Boolean) as ToolWave[];
+  }
+
+  const rawUseTools =
+    (Array.isArray(input.useTools) && input.useTools.length ? input.useTools : null) ??
+    (Array.isArray(input.reasoning?.useTools) && input.reasoning!.useTools!.length
+      ? input.reasoning!.useTools
+      : null) ??
+    [];
+  const flat = (Array.isArray(rawUseTools) ? rawUseTools : [])
+    .map(normalizeUseToolSelection)
+    .filter(Boolean) as UseTool[];
+  if (!flat.length) return [];
+  return [{ sequential: flat }];
+}
+
+/**
+ * Execute one tool against the execution registry (shared by flat + wave plans).
+ */
+export async function executeOneToolInvocation(
+  execution: Execution,
+  toolsExec: any,
+  toolToUse: UseTool,
+  waveIndex?: number,
+): Promise<UsedTool> {
+  const tool = (execution as any).tools?.getTool?.(toolToUse.name);
+  let currentFailsafe: any;
+  let phase: any;
+  let agent: any;
+  let step: any;
+  try {
+    currentFailsafe = toolsExec?.findUp?.('ptrr', 'failsafe');
+  } catch {
+    currentFailsafe = undefined;
+  }
+  try {
+    phase = toolsExec?.findUp?.('phase', 'current');
+  } catch {
+    phase = undefined;
+  }
+  try {
+    agent = toolsExec?.findUp?.('agent', 'name');
+  } catch {
+    agent = undefined;
+  }
+  try {
+    step = toolsExec?.findUp?.('step', 'name');
+  } catch {
+    step = undefined;
+  }
+  const currentSub = 'tools_execution';
+
+  try {
+    toolsExec?.store?.('tools', 'invocation', {
+      tool: toolToUse.name,
+      input: summarize(toolToUse.input),
+      phase,
+      agent,
+      step,
+      failsafe: currentFailsafe,
+      generation: currentSub,
+      waveIndex,
+    } as any);
+  } catch {
+    /* store optional */
+  }
+
+  if (!tool) {
+    try {
+      logToolError(execution, toolToUse.name, new Error(`Tool not found: ${toolToUse.name}`));
+    } catch {
+      /* log optional */
+    }
+    const miss: UsedTool = {
+      tool: toolToUse.name,
+      error: `Tool not found: ${toolToUse.name}`,
+      ...(typeof waveIndex === 'number' ? { waveIndex } : {}),
+    };
+    try {
+      toolsExec?.store?.('tools', 'result', {
+        tool: toolToUse.name,
+        ok: false,
+        input: summarize(toolToUse.input),
+        error: miss.error,
+        phase,
+        agent,
+        step,
+        failsafe: currentFailsafe,
+        generation: currentSub,
+        waveIndex,
+      } as any);
+    } catch {
+      /* store optional */
+    }
+    return miss;
+  }
+
+  try {
+    try {
+      logToolStart(execution, toolToUse.name, summarize(toolToUse.input));
+    } catch {
+      /* log optional */
+    }
+    let output: any;
+    try {
+      const { executionContext } = await import(
+        '@bitcode/generic-tools-editing/execution-context'
+      );
+      output = await executionContext.run(execution, () => tool.execute(toolToUse.input));
+    } catch {
+      output = await tool.execute(toolToUse.input);
+    }
+    try {
+      logToolSuccess(execution, toolToUse.name, summarize(output));
+    } catch {
+      /* log optional */
+    }
+    const used: UsedTool = {
+      tool: toolToUse.name,
+      input: toolToUse.input,
+      output,
+      ...(typeof waveIndex === 'number' ? { waveIndex } : {}),
+    };
+    try {
+      toolsExec?.store?.('tools', 'result', {
+        tool: toolToUse.name,
+        ok: true,
+        input: summarize(toolToUse.input),
+        output: summarize(output),
+        phase,
+        agent,
+        step,
+        failsafe: currentFailsafe,
+        generation: currentSub,
+        waveIndex,
+      } as any);
+    } catch {
+      /* store optional */
+    }
+    return used;
+  } catch (error) {
+    try {
+      logToolError(execution, toolToUse.name, error);
+    } catch {
+      /* log optional */
+    }
+    const used: UsedTool = {
+      tool: toolToUse.name,
+      error: error instanceof Error ? error.message : String(error),
+      ...(typeof waveIndex === 'number' ? { waveIndex } : {}),
+    };
+    try {
+      toolsExec?.store?.('tools', 'result', {
+        tool: toolToUse.name,
+        ok: false,
+        input: summarize(toolToUse.input),
+        error: used.error,
+        phase,
+        agent,
+        step,
+        failsafe: currentFailsafe,
+        generation: currentSub,
+        waveIndex,
+      } as any);
+    } catch {
+      /* store optional */
+    }
+    return used;
+  }
+}
+
 /**
  * ToolsExecution — PTRR step **postprocess** after Failsafe×Thinkings.
  *
  * Contract (see packages/agent-generics/TOOLS-IN-PTRR.md):
- * - Input: `output.useTools: Array<{ name: string, input: any, reason?: string }>`
- *   (LLM structured selection; name keys AgentToolsRegistry).
+ * - Input: `output.useTools: Array<{ name, input, reason }>` **or**
+ *   `output.toolPlan: ToolWave[]` for sequenced / parallel waves.
+ * - Flat useTools ≡ one sequential wave (backward compatible).
  * - Lookup: `execution.tools.getTool(name)` (hierarchy + parent pipeline).
  * - Call: `tool.execute(input)` with optional editing executionContext.
- * - Output: `usedTools: Array<{ tool, input?, output?, error? }>` for telemetry
- *   and results interpolation on later generations.
+ * - Output: `usedTools` accumulated in wave order for telemetry + interpolation.
  *
  * Not a numbered Failsafe/Thinkings generation — runs once per step via
  * `sequential(core, conditional(hasUseTools, factoryToolsExecution()))`.
  */
-export function factoryToolsExecution<T extends { output?: { useTools?: UseTool[] } }>():
-  Executor<T, T & { usedTools: UsedTool[] }> {
-
+export function factoryToolsExecution<
+  T extends {
+    output?: { useTools?: UseTool[]; toolPlan?: ToolPlan };
+    reasoning?: { useTools?: UseTool[]; toolPlan?: ToolPlan };
+  },
+>(): Executor<T, T & { usedTools: UsedTool[] }> {
   return async (input: T, execution: Execution): Promise<T & { usedTools: UsedTool[] }> => {
-    // Ensure we have access to registries (AgentExecution or compatible)
     const hasRegistries = (() => {
-      try { return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents; } catch { return false; }
+      try {
+        return !!(execution as any).llms && !!(execution as any).tools && !!(execution as any).agents;
+      } catch {
+        return false;
+      }
     })();
-    // Allow proxy-based registries resolution without hard fail.
     void hasRegistries;
 
     const toolsExec = factoryAgentToolGenerationExecution(execution);
 
-    // Prefer task SO selection; fall back to Reason.useTools when SO omitted tools
-    // (common when agent schemas lagged optional useTools, or SO only re-emitted domain fields).
-    const rawUseTools =
-      (Array.isArray((input.output as any)?.useTools) && (input.output as any).useTools.length
-        ? (input.output as any).useTools
-        : null) ??
-      (Array.isArray((input as any)?.reasoning?.useTools) && (input as any).reasoning.useTools.length
-        ? (input as any).reasoning.useTools
-        : null) ??
-      [];
-    // Normalize selection shapes: { name, input, reason } (canonical) or { tool: string|Tool, input }
-    const useTools: Array<{ name: string; input: any; reason?: string }> = Array.isArray(rawUseTools)
-      ? rawUseTools.map((t: any) => ({
-          name: String(t?.name ?? (typeof t?.tool === 'string' ? t.tool : t?.tool?.name ?? t?.tool?.constructor?.name ?? '')),
-          input: t?.input ?? t?.parameters ?? {},
-          reason: t?.reason,
-        })).filter((t: any) => t.name)
-      : [];
+    const waves = resolveToolWaves({
+      useTools: (input.output as any)?.useTools,
+      toolPlan: (input.output as any)?.toolPlan,
+      reasoning: (input as any)?.reasoning,
+    });
 
-    if (!useTools?.length) {
+    if (!waves.length) {
       return { ...input, usedTools: [] };
     }
 
-    // Execute each selected tool
     const usedTools: UsedTool[] = [];
 
-    for (const toolToUse of useTools) {
-      // Get tool from execution's registry
-      const tool = (execution as any).tools?.getTool?.(toolToUse.name);
-      // Resolve current PTRR meta/sub context from step-level store
-      let currentFailsafe: any; let phase: any; let agent: any; let step: any;
-      try { currentFailsafe = (toolsExec as any).findUp?.('ptrr', 'failsafe'); } catch { currentFailsafe = undefined; }
-      try { phase = (toolsExec as any).findUp?.('phase', 'current'); } catch { phase = undefined; }
-      try { agent = (toolsExec as any).findUp?.('agent', 'name'); } catch { agent = undefined; }
-      try { step = (toolsExec as any).findUp?.('step', 'name'); } catch { step = undefined; }
-      const currentSub = 'tools_execution';
+    for (let waveIndex = 0; waveIndex < waves.length; waveIndex++) {
+      const wave = waves[waveIndex];
+      const sequentialList = Array.isArray(wave.sequential) ? wave.sequential : [];
+      const parallelList = Array.isArray(wave.parallel) ? wave.parallel : [];
 
-      // Emit a structured store for invocation (drives streaming executionState)
-      try {
-        toolsExec.store('tools', 'invocation', {
-          tool: toolToUse.name,
-          input: summarize(toolToUse.input),
-          phase,
-          agent,
-          step,
-          failsafe: currentFailsafe,
-          generation: currentSub
-        } as any);
-      } catch {}
-      if (!tool) {
-        try { logToolError(execution, toolToUse.name, new Error(`Tool not found: ${toolToUse.name}`)); } catch { }
-        usedTools.push({
-          tool: toolToUse.name,
-          error: `Tool not found: ${toolToUse.name}`
-        });
+      for (const toolToUse of sequentialList) {
+        // Later tools in later waves see prior usedTools via shared array (host may
+        // also re-read from step store tools.result / tools.used).
+        const used = await executeOneToolInvocation(
+          execution,
+          toolsExec,
+          toolToUse,
+          waveIndex,
+        );
+        usedTools.push(used);
         try {
-          toolsExec.store('tools', 'result', {
-            tool: toolToUse.name,
-            ok: false,
-            input: summarize(toolToUse.input),
-            error: `Tool not found: ${toolToUse.name}`,
-            phase,
-            agent,
-            step,
-            failsafe: currentFailsafe,
-            generation: currentSub
-          } as any);
-        } catch {}
-        continue;
+          toolsExec?.store?.('tools', 'used', usedTools as any);
+          toolsExec?.store?.(
+            'tools',
+            'priorWaveResults',
+            usedTools.filter((u) => (u.waveIndex ?? 0) < waveIndex) as any,
+          );
+        } catch {
+          /* store optional */
+        }
       }
 
-      try {
-        // Execute tool with its bound execution context
-        try { logToolStart(execution, toolToUse.name, summarize(toolToUse.input)); } catch { }
-
-        // Set execution context for gate-aware tools
-        let output: any;
+      if (parallelList.length > 0) {
+        const parallelResults = await Promise.all(
+          parallelList.map((toolToUse) =>
+            executeOneToolInvocation(execution, toolsExec, toolToUse, waveIndex),
+          ),
+        );
+        usedTools.push(...parallelResults);
         try {
-          const { executionContext } = await import('@bitcode/generic-tools-editing/execution-context');
-          output = await executionContext.run(execution, () => tool.execute(toolToUse.input));
-        } catch (importError) {
-          // Fallback if executionContext not available
-          output = await tool.execute(toolToUse.input);
+          toolsExec?.store?.('tools', 'used', usedTools as any);
+        } catch {
+          /* store optional */
         }
-
-        try { logToolSuccess(execution, toolToUse.name, summarize(output)); } catch { }
-
-        usedTools.push({
-          tool: toolToUse.name,
-          input: toolToUse.input,
-          output
-        });
-        try {
-          toolsExec.store('tools', 'result', {
-            tool: toolToUse.name,
-            ok: true,
-            input: summarize(toolToUse.input),
-            output: summarize(output),
-            phase,
-            agent,
-            step,
-            failsafe: currentFailsafe,
-            generation: currentSub
-          } as any);
-        } catch {}
-      } catch (error) {
-        try { logToolError(execution, toolToUse.name, error); } catch { }
-        usedTools.push({
-          tool: toolToUse.name,
-          error: error instanceof Error ? error.message : String(error)
-        });
-        try {
-          toolsExec.store('tools', 'result', {
-            tool: toolToUse.name,
-            ok: false,
-            input: summarize(toolToUse.input),
-            error: error instanceof Error ? error.message : String(error),
-            phase,
-            agent,
-            step,
-            failsafe: currentFailsafe,
-            generation: currentSub
-          } as any);
-        } catch {}
       }
     }
 

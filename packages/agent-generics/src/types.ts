@@ -180,6 +180,27 @@ export interface UseTool {
 export type UseTools = UseTool[];
 
 /**
+ * One wave of tool execution inside Try/Retry postprocess.
+ * - sequential: run tools one after another (later can see earlier usedTools)
+ * - parallel: run tools concurrently on the same prior usedTools snapshot
+ * Prefer one of sequential|parallel per wave; if both present, sequential runs
+ * first then parallel on the updated usedTools bag.
+ */
+export interface ToolWave {
+  sequential?: UseTool[];
+  parallel?: UseTool[];
+  /** Optional label for telemetry (e.g. static-analysis, material-identity). */
+  label?: string;
+}
+
+/**
+ * Sequenced multi-wave tool plan for aggressive Try/Retry tool orchestration.
+ * Flat `useTools[]` remains the default (one sequential wave).
+ * When `toolPlan` is present and non-empty it takes precedence over flat useTools.
+ */
+export type ToolPlan = ToolWave[];
+
+/**
  * Result of one tools_execution postprocess call (telemetry + results interpolation).
  * Written to step store as `tools.used` / `tools.result` and carried as `usedTools`
  * on the step output for Refine/Retry prompt interpolation (`auto:tools_results`).
@@ -189,5 +210,7 @@ export interface UsedTool {
   input?: any;
   output?: any;
   error?: string;
+  /** Wave index when executed via toolPlan (0-based). */
+  waveIndex?: number;
 }
 export type UsedTools = UsedTool[];

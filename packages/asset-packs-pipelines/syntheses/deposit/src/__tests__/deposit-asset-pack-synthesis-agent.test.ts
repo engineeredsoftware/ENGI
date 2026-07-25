@@ -116,7 +116,12 @@ describe('full Implementation: plan → write → measure', () => {
     expect(out.presentable).toBe(true);
     for (const o of out.options) {
       expect(hasPatchArtifact(o)).toBe(true);
-      expect(Object.keys(o.measurements)).toEqual(['absolutes']);
+      // Legal deposit bag: absolutes required; materialIdentity / measureReport optional.
+      expect(Object.keys(o.measurements)).toContain('absolutes');
+      expect(Array.isArray(o.measurements.absolutes)).toBe(true);
+      for (const k of Object.keys(o.measurements)) {
+        expect(['absolutes', 'materialIdentity', 'measureReport', 'needinesses']).toContain(k);
+      }
       expect(isDepositPresentablePack(o)).toBe(true);
     }
     expect(out.measurementReports.every((r) => r.hasPatchArtifact && r.ok)).toBe(true);

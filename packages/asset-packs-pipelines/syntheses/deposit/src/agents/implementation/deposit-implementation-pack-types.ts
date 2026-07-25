@@ -52,6 +52,26 @@ export type DepositAbsoluteReading = {
   category?: 'absolute' | string;
   /** Source-safe instance prose for this reading (attached at measure time). */
   descriptor?: string;
+  /** Honesty: measured vs expanded-fill vs insufficient_evidence, etc. */
+  status?:
+    | 'measured'
+    | 'estimated'
+    | 'insufficient_evidence'
+    | 'expanded-fill'
+    | 'not_run'
+    | 'not_implemented'
+    | string;
+};
+
+/** Measure-session honesty telemetry attached with absolutes. */
+export type DepositMeasureReport = {
+  measuredFromBodies: number;
+  coveredPathCount: number;
+  bodyCoverageRatio: number;
+  expandedFillCount: number;
+  mode: 'deep' | 'thin' | 'path-only';
+  toolInvocations?: number;
+  measuredKindCount?: number;
 };
 
 /**
@@ -79,14 +99,17 @@ export type DepositPatchfilePack = DepositPatchPlanPack & {
 /**
  * After measurements agent: measured deposit DataPack.
  * materialIdentity is buyer-visible multi-valued identity (domain bag).
+ * measureReport is honesty telemetry for the measure session.
  */
 export type DepositMeasuredPack = DepositPatchfilePack & {
   measurements: {
     absolutes: DepositAbsoluteReading[];
     materialIdentity?: Record<string, unknown> | null;
+    measureReport?: DepositMeasureReport | null;
   };
   absolutes?: DepositAbsoluteReading[];
   materialIdentity?: Record<string, unknown> | null;
+  measureReport?: DepositMeasureReport | null;
 };
 
 export type DepositPatchPlanPhaseOutput = {
@@ -184,7 +207,11 @@ export function toDepositMeasuredPack(
   patchfile: DepositPatchfilePack,
   absolutes: DepositAbsoluteReading[],
   materialIdentity?: Record<string, unknown> | null,
+  measureReport?: DepositMeasureReport | null,
 ): DepositMeasuredPack {
+  const bag: DepositMeasuredPack['measurements'] = { absolutes };
+  if (materialIdentity) bag.materialIdentity = materialIdentity;
+  if (measureReport) bag.measureReport = measureReport;
   return {
     kind: patchfile.kind,
     title: patchfile.title,
@@ -196,11 +223,10 @@ export function toDepositMeasuredPack(
     ...(patchfile.salvaged === true
       ? { salvaged: true as const, salvageReason: patchfile.salvageReason }
       : {}),
-    measurements: materialIdentity
-      ? { absolutes, materialIdentity }
-      : { absolutes },
+    measurements: bag,
     absolutes,
     ...(materialIdentity ? { materialIdentity } : {}),
+    ...(measureReport ? { measureReport } : {}),
   };
 }
 

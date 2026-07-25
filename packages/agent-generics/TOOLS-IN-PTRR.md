@@ -33,20 +33,28 @@ FailsafeGeneration ×3 (PCC → ChunkThenSum → Stitch)
   Results interpolation: auto:tools_results      ← prior usedTools (if any)
         ↓
 Try/Retry StructuredOutput may include:
-  useTools: [{ name, input, reason }, ...]   // that step's own selection
+  useTools: [{ name, input, reason }, ...]   // flat list = one sequential wave
+  OR toolPlan: [                             // sequenced waves (aggressive fan-out)
+    { sequential?: UseTool[], parallel?: UseTool[], label? },
+    …
+  ]
         ↓
 Step postprocess (Try/Retry only):
-  if useTools?.length → factoryToolsExecution()
+  if useTools?.length || toolPlan?.length → factoryToolsExecution()
         ↓
-For each selection:
-  tool = step.tools.getTool(name)  // step allowlist + hierarchy
-  output = tool.execute(input)
-  usedTools.push({ tool: name, input, output } | { tool, error })
+resolveToolWaves → for each wave:
+  sequential tools one-by-one (later waves see prior usedTools)
+  then parallel tools concurrently
+  usedTools.push({ tool, input, output, waveIndex } | { tool, error, waveIndex })
         ↓
 Store tools.use / tools.used; publish agent-step work update
         ↓
 Next PTRR step sees usedTools via results interpolation (not Plan's useTools)
 ```
+
+**Wave law:** flat `useTools[]` remains fully supported (≡ one sequential wave).
+`toolPlan` takes precedence when non-empty. Measure hosts may also run the same
+Executor graph deterministically (no LLM) for deep multi-tool measure.
 
 **Plan** = strategy only (empty tool surface by default; `PlanStepOutputSchema` has
 **no** `useTools`; no tools postprocess).

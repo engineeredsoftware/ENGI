@@ -60,8 +60,12 @@ export type {
   Chunk,
   Reasoning,
   UseTool,
+  UseTools,
+  ToolWave,
+  ToolPlan,
   Judgment,
-  UsedTool
+  UsedTool,
+  UsedTools,
 } from './types';
 
 // ==================== AGENT FACTORIES ====================

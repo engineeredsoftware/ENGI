@@ -550,13 +550,40 @@ export async function runDepositInBoxHost(input: {
         /* keep partial if expand unavailable in host */
       }
       // Keep flat measurements[] in sync for deposit UI cards.
+      // Preserve materialIdentity + measureReport (honesty / identity surfaces).
       const flatMeasurements = Array.isArray(absolutes) ? absolutes : [];
+      const priorBag =
+        measurements &&
+        typeof measurements === "object" &&
+        !Array.isArray(measurements)
+          ? (measurements as Record<string, unknown>)
+          : {};
+      const materialIdentity =
+        (priorBag.materialIdentity &&
+        typeof priorBag.materialIdentity === "object"
+          ? priorBag.materialIdentity
+          : null) ||
+        (record.materialIdentity && typeof record.materialIdentity === "object"
+          ? record.materialIdentity
+          : null);
+      const measureReport =
+        (priorBag.measureReport && typeof priorBag.measureReport === "object"
+          ? priorBag.measureReport
+          : null) ||
+        (record.measureReport && typeof record.measureReport === "object"
+          ? record.measureReport
+          : null);
+      const measurementsBag: Record<string, unknown> = {
+        absolutes: flatMeasurements,
+      };
+      if (materialIdentity) measurementsBag.materialIdentity = materialIdentity;
+      if (measureReport) measurementsBag.measureReport = measureReport;
       return {
         ...record,
         absolutes,
-        measurements: {
-          absolutes: flatMeasurements,
-        },
+        measurements: measurementsBag,
+        ...(materialIdentity ? { materialIdentity } : {}),
+        ...(measureReport ? { measureReport } : {}),
       };
     });
   // Prefer host-lifted depositOptions when present; else Finish envelope.

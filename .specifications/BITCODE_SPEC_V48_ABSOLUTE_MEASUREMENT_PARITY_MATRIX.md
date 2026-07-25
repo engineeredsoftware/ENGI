@@ -1,63 +1,96 @@
 # V48 Absolute Measurement Parity Matrix
 
-**Status:** Draft V48 measurement subsystem parity (spec ↔ implementation ↔ test).  
-**Canon:** `BITCODE_SPEC_V48.md` measurement law (DataPack identity + absolute hierarchy).  
+**Status:** Draft V48 measurement subsystem parity (spec ↔ implementation ↔ test).
+**Canon:** `BITCODE_SPEC_V48.md` measurement law (DataPack identity + absolute hierarchy + honesty).
 **Excluded:** `learning-gain` (BTD / need-fit family owns exchange value scalar).
 
 ## Hierarchy (rebuild law)
 
 | Layer | Package pattern | Role |
 | --- | --- | --- |
-| Primitive | `@bitcode/measurement-generics` | Specs, readings, carrier |
+| Primitive | `@bitcode/measurement-generics` | Readings, carrier, `AbsoluteReadingStatus`, `DataPackMeasureReport` |
+| Shared input | `@bitcode/generic-measurements-shared-absolute-measure-input` | DP-facing input + status enum |
 | Bare absolute | `@bitcode/generic-measurements-absolutes-<kind>` | Pure `measureAbsolute*` of a **DataPack** |
-| Shared input | `@bitcode/generic-measurements-shared-absolute-measure-input` | DP-facing input contracts |
-| Catalogue | `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog` | Full target + weighted Σ=1 subset |
+| Catalogue | `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog` | **Full commercial catalogue (65), Σ weights = 1** |
+| Material identity | `@bitcode/generic-measurements-domain-data-pack-material-identity` | Compositions, inventories (deps-by-usage), tags, companion scalars |
 | Tool | `@bitcode/generic-tools-tool-measure-<kind>` | ExecutionTool wrapper per kind |
-| Agent | `@bitcode/generic-agents-agent-measure-absolutes` | Registry + weighted runner + category PTRR factory |
+| Agent | `@bitcode/generic-agents-agent-measure-absolutes` | Registry + full-catalogue runner + category PTRR factory |
 | Product | `@bitcode/generic-asset-packs-synthesis` | Mode-parameterized product factory + re-exports |
-| Pipeline | `asset-packs-pipelines/syntheses/{deposit,read}` | After DP synthesis, attach absolutes |
+| Domain host | `asset-packs-pipelines/syntheses/domain` | `measureDataPackAbsolutesAndIdentity`, static analysis, `resolveMeasureSourceSet` |
+| Pipeline | `asset-packs-pipelines/syntheses/{deposit,read}` | After DP synthesis, attach absolutes + identity + measureReport |
+| Tools postprocess | `@bitcode/agent-generics` `factoryToolsExecution` | Flat `useTools` or sequenced `toolPlan` waves |
 
-**Unit under measure:** synthesized **DataPack** (patch + metadata), not the repository.
+**Unit under measure:** synthesized **DataPack** (patch + metadata), not the whole repository as commodity. Bodies may be read only via **measure source set** (covered + patch + manifests + optional sibling tests).
 
-## Weighted commercial catalogue (live, Σ=1)
+## Commercial catalogue law (live)
 
-| Kind | Weight | Bare package | Tool package | Agent registry | Pipeline host |
-| --- | --- | --- | --- | --- | --- |
-| function-count | 0.09 | yes | yes | yes | measureDataPackAbsolutes |
-| type-count | 0.07 | yes | yes | yes | measureDataPackAbsolutes |
-| file-span | 0.05 | yes | yes | yes | measureDataPackAbsolutes |
-| symbolic-richness | 0.09 | yes | yes | yes | measureDataPackAbsolutes |
-| modularity | 0.05 | yes | yes | yes | measureDataPackAbsolutes |
-| lang-span | 0.06 | yes | yes | yes | measureDataPackAbsolutes |
-| test-surface | 0.07 | yes | yes | yes | measureDataPackAbsolutes |
-| api-surface | 0.07 | yes | yes | yes | measureDataPackAbsolutes |
-| correctness-estimate | 0.16 | yes | yes | yes | measureDataPackAbsolutes |
-| objectives-fidelity | 0.15 | yes | yes | yes | measureDataPackAbsolutes |
-| computational-usage | 0.14 | yes | yes | yes | measureDataPackAbsolutes |
+| Law | Value |
+| --- | --- |
+| Kind count | **65** (SSOT package; not a 11- or 46-kind subset) |
+| Weight law | **Every kind has weight; Σ = 1** |
+| Completeness | Product bags expand to full catalogue; fill rows must be `status: expanded-fill` |
+| Honesty statuses | `measured` \| `estimated` \| `insufficient_evidence` \| `expanded-fill` \| `not_run` \| `not_implemented` |
+| measureReport | Required product telemetry when measure ran (bodies, coverage, mode, fill/measured counts) |
+| materialIdentity | Optional bag; required for excellent buyer legibility when manifests/bodies exist |
 
-## Full target catalogue (46 kinds — bare + tool packages)
+Policy roles (`weighted` \| `gate` \| `penalty` \| `flag` \| `target`) remain operational metadata; they do **not** remove kinds from the commercial catalogue.
 
-All kinds under B1–B6 (structure, verification, hygiene, provenance, semantics, value) have bare packages and tool wrappers. Non-weighted kinds return `not_implemented` or `insufficient_evidence` until mechanisms land. Policy roles: weighted | gate | penalty | flag | target.
+## Structure performance (report-owned)
 
-| Family | Kinds (count) | Status |
-| --- | --- | --- |
-| structure | 14 | 8 weighted + 6 target bare |
-| verification | 6 | target bare (sandbox later) |
-| hygiene | 7 | bare; gates/penalties |
-| provenance | 6 | bare; corpus later (ai-generated = flag) |
-| semantics | 7 | 3 weighted + 4 target bare |
-| value | 6 | target bare (no learning-gain) |
-| **Total** | **46** | packages scaffolded |
+Static analysis **report-owned** kinds (host prefers report magnitudes only for these):
+
+`function-count`, `type-count`, `file-span`, `symbolic-richness`, `modularity`,
+`lang-span`, `test-surface`, `api-surface`, `dependency-span`, `doc-signal`,
+`config-surface`.
+
+Expanding a report over the full catalogue to volume 0 **must not** override bare
+or material-identity readings for non-report-owned kinds.
+
+## Deep measure source set
+
+| Input | Rule |
+| --- | --- |
+| Covered + fileChanges | Always in path scope |
+| Manifests | Always force when present in checkout bodies (package.json, locks, go.mod, Cargo.toml, pyproject, requirements, pom, gradle, Gemfile, composer, Dockerfile, …) |
+| Sibling tests | Optional include for covered production paths |
+| Cap | `BITCODE_DEPOSIT_MAX_MEASURE_BODIES` (default 80) + truncate telemetry |
+| Lenses | Deposit **and** read Implementation |
+
+## ToolsExecution waves
+
+| Shape | Behavior |
+| --- | --- |
+| `useTools[]` | One sequential wave (backward compatible) |
+| `toolPlan: ToolWave[]` | Ordered waves; each wave `sequential` and/or `parallel` |
+| `usedTools` | Accumulated in wave order with `waveIndex` |
+| PTRR steps | Still only Try + Retry tool-capable — no new steps |
+
+## Product surfaces
+
+| Surface | Honesty / identity |
+| --- | --- |
+| Deposit option card | Measure report strip; material identity + deps-by-usage; status badges; review artifact download |
+| Exchange detail | Same measureReport + status + deps inventory (source-safe) |
+| Pack activity | Project `status`, `materialIdentity`, `measureReport` |
+| Review artifact | `bitcode.datapack.review-artifact` v1 (path-op + measurements + honesty) |
+| Path-op patch | `bitcode.artifact.patch` protocol export |
 
 ## Test bindings
 
 | Surface | Tests |
 | --- | --- |
-| Catalogue weights | `generic-measurements/domain/data-pack-absolutes-catalog` core |
+| Catalogue weights | `domain/data-pack-absolutes-catalog` core |
 | Bare kinds | each `absolutes/<kind>/src/__tests__/core` |
+| Material identity | `domain/data-pack-material-identity` core |
 | Agent registry | `generic-agents/agent-measure-absolutes` core |
-| Pipeline host | `agent-measure-absolutes.test.ts` (domain) |
+| Tool waves | `agent-generics` `tools-execution-waves.core` |
+| Source set | `resolve-measure-source-set.core` |
+| Host multi-file | `measure-datapack-multi-file.core` |
+| Fixture matrix | `measure-fixture-matrix.core` (TS multi-lang-service, python-api, go-module) |
+| Expand honesty | uapi `expandAbsoluteMeasurements` |
+| Deposit/Exchange UX | deposit admission, pack activity, exchange page |
 
 ## Progress notes
 
-- **2026-07-24:** Hierarchy packages scaffolded; weighted path uses bare measures; old monolithic `generic-measurements/absolutes` category package **removed**; agent home is `agent-measure-absolutes`. Bulk static analysis remains a signal feeder, not the sole measure owner.
+- **2026-07-24:** Hierarchy packages scaffolded; weighted path uses bare measures; old monolithic category package removed.
+- **2026-07-25:** Excellence pass — full 65-kind Σ=1 catalogue; honesty + measureReport + materialIdentity carrier; deep measure source set; report-owned merge fix; toolPlan waves; deposit/Exchange display; review artifact; multi-language fixtures.

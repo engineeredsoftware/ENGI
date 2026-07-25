@@ -13,6 +13,12 @@
 
 import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 import type { DataPackMaterialIdentity } from '@bitcode/generic-measurements-domain-data-pack-material-identity';
+import type {
+  AbsoluteReadingStatus,
+  DataPackMeasureReport,
+} from '@bitcode/measurement-generics';
+
+export type { AbsoluteReadingStatus, DataPackMeasureReport };
 
 export type AbsoluteLike = {
   measurementKind: string;
@@ -25,6 +31,8 @@ export type AbsoluteLike = {
   /** Source-safe instance prose for this reading (attached at measure time). */
   descriptor?: string;
   kind?: string;
+  /** Honesty class — never treat expanded-fill zeros as measured clean. */
+  status?: AbsoluteReadingStatus | string;
 };
 
 /** Tool-authoritative structure quantity kinds (static analysis / path span). */
@@ -127,33 +135,45 @@ export function resolvePackMaterialIdentity(
 export type AttachMeasurementsOpts = {
   withNeedinesses?: AbsoluteLike[];
   materialIdentity?: DataPackMaterialIdentity | null;
+  measureReport?: DataPackMeasureReport | null;
 };
 
 /**
- * Deposit measurements attach: legal shape { absolutes, materialIdentity? }.
+ * Deposit measurements attach: legal shape
+ * { absolutes, materialIdentity?, measureReport? }.
  * Does not scan for or delete foreign keys — callers must project deposit packs
  * onto deposit allowlists so illegal fields never land.
  */
 export function attachDepositAbsolutes(
   pack: Record<string, unknown>,
   absolutes: AbsoluteLike[],
-  opts?: { materialIdentity?: DataPackMaterialIdentity | null },
+  opts?: {
+    materialIdentity?: DataPackMaterialIdentity | null;
+    measureReport?: DataPackMeasureReport | null;
+  },
 ): void {
   const materialIdentity = opts?.materialIdentity ?? null;
-  pack.measurements = materialIdentity
-    ? { absolutes, materialIdentity }
-    : { absolutes };
+  const measureReport = opts?.measureReport ?? null;
+  const bag: Record<string, unknown> = { absolutes };
+  if (materialIdentity) bag.materialIdentity = materialIdentity;
+  if (measureReport) bag.measureReport = measureReport;
+  pack.measurements = bag;
   pack.absolutes = absolutes;
   if (materialIdentity) {
     pack.materialIdentity = materialIdentity;
   } else {
     delete pack.materialIdentity;
   }
+  if (measureReport) {
+    pack.measureReport = measureReport;
+  } else {
+    delete pack.measureReport;
+  }
 }
 
 /**
- * Attach nested absolutes (+ optional needinesses + material identity).
- * Default: deposit legal shape { absolutes, materialIdentity? }.
+ * Attach nested absolutes (+ optional needinesses + material identity + report).
+ * Default: deposit legal shape { absolutes, materialIdentity?, measureReport? }.
  * Read: pass `{ withNeedinesses: readings }` after measuring *-fit.
  */
 export function attachNestedAbsolutes(
@@ -162,18 +182,78 @@ export function attachNestedAbsolutes(
   opts?: AttachMeasurementsOpts,
 ): void {
   const materialIdentity = opts?.materialIdentity ?? null;
+  const measureReport = opts?.measureReport ?? null;
   if (opts?.withNeedinesses) {
     pack.measurements = {
       absolutes,
       needinesses: opts.withNeedinesses,
       ...(materialIdentity ? { materialIdentity } : {}),
+      ...(measureReport ? { measureReport } : {}),
     };
     pack.absolutes = absolutes;
     if (materialIdentity) pack.materialIdentity = materialIdentity;
     else delete pack.materialIdentity;
+    if (measureReport) pack.measureReport = measureReport;
+    else delete pack.measureReport;
     return;
   }
-  attachDepositAbsolutes(pack, absolutes, { materialIdentity });
+  attachDepositAbsolutes(pack, absolutes, { materialIdentity, measureReport });
+}
+
+/** Source-safe measure telemetry when attached. */
+export function resolvePackMeasureReport(
+  pack: unknown,
+): DataPackMeasureReport | null {
+  if (!pack || typeof pack !== 'object') return null;
+  const p = pack as Record<string, unknown>;
+  const nested = p.measurements;
+  if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+    const mr = (nested as { measureReport?: unknown }).measureReport;
+    if (mr && typeof mr === 'object' && !Array.isArray(mr)) {
+      return mr as DataPackMeasureReport;
+    }
+  }
+  if (p.measureReport && typeof p.measureReport === 'object') {
+    return p.measureReport as DataPackMeasureReport;
+  }
+  return null;
+}
+
+/** Build a measureReport from body/coverage signals + absolute honesty counts. */
+export function buildDataPackMeasureReport(input: {
+  measuredFromBodies: number;
+  coveredPathCount: number;
+  bodyCoverageRatio?: number;
+  absolutes?: AbsoluteLike[];
+  toolInvocations?: number;
+}): DataPackMeasureReport {
+  const abs = input.absolutes || [];
+  const expandedFillCount = abs.filter((a) => a.status === 'expanded-fill').length;
+  const measuredKindCount = abs.filter(
+    (a) => a.status === 'measured' || a.status === 'estimated',
+  ).length;
+  const bodies = Math.max(0, Math.floor(input.measuredFromBodies));
+  const covered = Math.max(0, Math.floor(input.coveredPathCount));
+  const ratio =
+    typeof input.bodyCoverageRatio === 'number' && Number.isFinite(input.bodyCoverageRatio)
+      ? Math.max(0, Math.min(1, input.bodyCoverageRatio))
+      : covered > 0
+        ? Math.max(0, Math.min(1, bodies / covered))
+        : 0;
+  let mode: DataPackMeasureReport['mode'] = 'path-only';
+  if (bodies >= 8 && ratio >= 0.5) mode = 'deep';
+  else if (bodies > 0) mode = 'thin';
+  return {
+    measuredFromBodies: bodies,
+    coveredPathCount: covered,
+    bodyCoverageRatio: Number(ratio.toFixed(4)),
+    expandedFillCount,
+    mode,
+    ...(typeof input.toolInvocations === 'number'
+      ? { toolInvocations: Math.max(0, Math.floor(input.toolInvocations)) }
+      : {}),
+    measuredKindCount,
+  };
 }
 
 /**
@@ -195,7 +275,7 @@ export function hasRequiredAbsolutes(pack: unknown): boolean {
 
 /**
  * True when measurements is the deposit legal shape: absolutes required;
- * materialIdentity optional; needinesses absent or empty.
+ * materialIdentity / measureReport optional; needinesses absent or empty.
  */
 export function hasDepositAbsolutesOnlyShape(pack: unknown): boolean {
   if (!pack || typeof pack !== 'object') return false;
@@ -205,7 +285,9 @@ export function hasDepositAbsolutesOnlyShape(pack: unknown): boolean {
   const keys = Object.keys(bag);
   if (!keys.includes('absolutes') || !Array.isArray(bag.absolutes)) return false;
   for (const k of keys) {
-    if (k === 'absolutes' || k === 'materialIdentity') continue;
+    if (k === 'absolutes' || k === 'materialIdentity' || k === 'measureReport') {
+      continue;
+    }
     if (k === 'needinesses') {
       const n = bag.needinesses;
       if (Array.isArray(n) && n.length > 0) return false;

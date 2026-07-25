@@ -13,11 +13,14 @@ export type {
   MeasurementReading,
   MeasurementOutput,
   AssetPackMeasurements,
+  AbsoluteReadingStatus,
+  DataPackMeasureReport,
 } from './types';
 
 export {
   MeasurementReadingSchema,
   MeasurementOutputSchema,
   AssetPackMeasurementsSchema,
+  DataPackMeasureReportSchema,
   emptyAssetPackMeasurements,
 } from './types';

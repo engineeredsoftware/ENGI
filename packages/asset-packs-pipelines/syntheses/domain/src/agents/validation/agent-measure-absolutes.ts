@@ -32,6 +32,7 @@ import {
   buildSourceSafePackStructureProfile,
   type SourceSafePackStructureProfile,
 } from '../../source-safe-absolute-descriptor';
+import { buildDataPackMeasureReport } from '../../asset-pack-measurements';
 import {
   analyzeStaticSource,
   registerSourceStaticAnalysisTool,
@@ -61,6 +62,24 @@ const QUANTITY_KINDS = new Set(
     (s) => s.measurementKind,
   ),
 );
+
+/**
+ * Quantity kinds the static-analysis report actually materializes.
+ * Full-catalog report rows with volume 0 must NOT override bare/identity measures.
+ */
+const REPORT_OWNED_QUANTITY_KINDS = new Set([
+  'function-count',
+  'type-count',
+  'file-span',
+  'symbolic-richness',
+  'modularity',
+  'lang-span',
+  'test-surface',
+  'api-surface',
+  'dependency-span',
+  'doc-signal',
+  'config-surface',
+]);
 const LENS_SUBJECT: Record<SynthesizeAssetPacksMode, string> = {
   deposit:
     'a synthesized source-safe deposit AssetPack patch the depositor will review and admit',
@@ -198,6 +217,9 @@ export function computeAbsolutesFromReport(
     (report.testPathCount ?? 0) + Math.round((report.estimatedTestFunctionCount ?? 0) * 0.5),
   );
   const apiSurface = Math.max(0, report.estimatedExportCount ?? 0);
+  const dependencySpan = Math.max(0, report.estimatedDependencyCount ?? 0);
+  const docSignal = clamp01(report.estimatedDocSignal ?? 0);
+  const configSurface = Math.max(0, report.estimatedConfigSurface ?? report.configKeyCount ?? 0);
 
   // Quality defaults (deterministic path): grounded in confidence + quantities.
   const correctness = clamp01(patch.confidence ?? 0.6);
@@ -228,6 +250,9 @@ export function computeAbsolutesFromReport(
     'lang-span': langSpan,
     'test-surface': testSurface,
     'api-surface': apiSurface,
+    'dependency-span': dependencySpan,
+    'doc-signal': docSignal,
+    'config-surface': configSurface,
   };
   const volumeByKind: Record<string, number> = {
     'function-count': clamp01(functionCount / QUANTITY_NORMALIZER['function-count']),
@@ -238,6 +263,9 @@ export function computeAbsolutesFromReport(
     'lang-span': clamp01(langSpan / QUANTITY_NORMALIZER['lang-span']),
     'test-surface': clamp01(testSurface / QUANTITY_NORMALIZER['test-surface']),
     'api-surface': clamp01(apiSurface / QUANTITY_NORMALIZER['api-surface']),
+    'dependency-span': clamp01(dependencySpan / QUANTITY_NORMALIZER['dependency-span']),
+    'doc-signal': docSignal,
+    'config-surface': clamp01(configSurface / QUANTITY_NORMALIZER['config-surface']),
     'correctness-estimate': correctness,
     'objectives-fidelity': objectivesFidelity,
     'computational-usage': computationalUsage,
@@ -282,7 +310,11 @@ export function computeDeterministicAbsolutes(
 
 function buildMeasurement(
   spec: AssetPackAbsoluteSpec,
-  reading: { volume: number; magnitude?: number },
+  reading: {
+    volume: number;
+    magnitude?: number;
+    status?: AssetPackCandidateMeasurement['status'];
+  },
   patch?: Pick<MeasurableAssetPackPatch, 'title'>,
   structure?: SourceSafePackStructureProfile | null,
 ): AssetPackCandidateMeasurement {
@@ -297,6 +329,18 @@ function buildMeasurement(
   } else {
     magnitude = volume;
   }
+  const measuredFromSamples = structure?.measuredFromSamples === true;
+  let status: AssetPackCandidateMeasurement['status'] = reading.status;
+  if (!status) {
+    // Structure quantities from samples → measured; path-only heuristic → estimated.
+    if (spec.propertyClass === 'quantity') {
+      status = measuredFromSamples ? 'measured' : 'estimated';
+    } else if (volume > 0) {
+      status = 'estimated';
+    } else {
+      status = 'insufficient_evidence';
+    }
+  }
   const measurement: AssetPackCandidateMeasurement = {
     measurementKind: spec.measurementKind,
     label: spec.label,
@@ -305,6 +349,7 @@ function buildMeasurement(
     magnitude,
     category: 'absolute',
     unit: spec.unit,
+    status,
   };
   // Instance descriptor — this pack’s numbers + structure profile (source-safe).
   measurement.descriptor = buildSourceSafeAbsoluteDescriptor({
@@ -413,6 +458,7 @@ export function mergeReportAndReadings(
         volume: nextVolume,
         magnitude: nextVolume,
         descriptor,
+        status: 'estimated' as const,
       };
     }
     return measurement;
@@ -453,6 +499,7 @@ export type MeasureDataPackAbsolutesContext = {
 export type MeasureDataPackAbsolutesAndIdentityResult = {
   absolutes: AssetPackCandidateMeasurement[];
   materialIdentity: import('@bitcode/generic-measurements-domain-data-pack-material-identity').DataPackMaterialIdentity;
+  measureReport: import('@bitcode/measurement-generics').DataPackMeasureReport;
 };
 
 /**
@@ -464,6 +511,26 @@ export type MeasureDataPackAbsolutesAndIdentityResult = {
  *   material-identity domain extract (host-authoritative for companion volumes)
  *   optional product quality inference refine
  */
+function finishMeasureResult(
+  absolutes: AssetPackCandidateMeasurement[],
+  materialIdentity: import('@bitcode/generic-measurements-domain-data-pack-material-identity').DataPackMaterialIdentity,
+  report: StaticAnalysisReport,
+  context: MeasureDataPackAbsolutesContext,
+): MeasureDataPackAbsolutesAndIdentityResult {
+  const bodyCount = Array.isArray(context.sources) ? context.sources.length : 0;
+  const covered =
+    report.targetFileCount ||
+    (Array.isArray(context.sources) ? context.sources.length : 0) ||
+    0;
+  const measureReport = buildDataPackMeasureReport({
+    measuredFromBodies: bodyCount,
+    coveredPathCount: covered,
+    bodyCoverageRatio: report.coverageRatio,
+    absolutes,
+  });
+  return { absolutes, materialIdentity, measureReport };
+}
+
 export async function measureDataPackAbsolutesAndIdentity(
   patch: MeasurableAssetPackPatch,
   context: MeasureDataPackAbsolutesContext,
@@ -509,39 +576,52 @@ export async function measureDataPackAbsolutesAndIdentity(
           (report.testPathCount ?? 0) + (report.estimatedTestFunctionCount ?? 0) * 0.5,
         'api-surface': report.estimatedExportCount,
         modularity: report.moduleCount,
+        'dependency-span': report.estimatedDependencyCount,
+        'doc-signal': report.estimatedDocSignal,
+        'config-surface': report.estimatedConfigSurface ?? report.configKeyCount,
         ...identitySignals,
       },
     });
     const reportAbsolutes = computeAbsolutesFromReport(report, patch);
     const byKindReport = new Map(reportAbsolutes.map((m) => [m.measurementKind, m]));
-    // Prefer static-analysis quantities when present; material-identity companion
-    // volumes when provided; bare package otherwise.
+    // Prefer static-analysis only for REPORT_OWNED quantity kinds (not every
+    // quantity catalog row expanded to volume 0). Material-identity companions
+    // and bare packages fill the rest. Always preserve honesty status.
     let bareAbsolutes: AssetPackCandidateMeasurement[] = readings.map((r) => {
       const prior = byKindReport.get(r.measurementKind);
-      const isQuantity = QUANTITY_KINDS.has(r.measurementKind);
+      const preferReport =
+        REPORT_OWNED_QUANTITY_KINDS.has(r.measurementKind) && Boolean(prior);
       const identityVol = identitySignals[r.measurementKind];
       const hasIdentity =
         typeof identityVol === 'number' && Number.isFinite(identityVol);
+      let status: AssetPackCandidateMeasurement['status'] =
+        (r.status as AssetPackCandidateMeasurement['status']) ||
+        prior?.status ||
+        'insufficient_evidence';
+      if (preferReport) {
+        status = prior?.status || (report.measuredFromSamples ? 'measured' : 'estimated');
+      } else if (hasIdentity) {
+        status = 'measured';
+      }
       return {
         measurementKind: r.measurementKind,
         label: r.label,
         weight: r.weight,
-        volume:
-          isQuantity && prior
-            ? prior.volume
-            : hasIdentity
-              ? clamp01(identityVol)
-              : r.volume,
-        magnitude:
-          isQuantity && prior
-            ? prior.magnitude
-            : hasIdentity
-              ? identityVol
-              : r.magnitude,
+        volume: preferReport
+          ? prior!.volume
+          : hasIdentity
+            ? clamp01(identityVol)
+            : r.volume,
+        magnitude: preferReport
+          ? prior!.magnitude
+          : hasIdentity
+            ? identityVol
+            : r.magnitude,
         unit: r.unit,
         category: 'absolute' as const,
         rationale: r.rationale,
-        descriptor: prior?.descriptor,
+        descriptor: preferReport ? prior?.descriptor : undefined,
+        status,
       };
     });
 
@@ -568,6 +648,7 @@ export async function measureDataPackAbsolutesAndIdentity(
         ...m,
         volume: clamp01(idVol),
         magnitude: idVol,
+        status: 'measured' as const,
       };
     });
 
@@ -575,7 +656,7 @@ export async function measureDataPackAbsolutesAndIdentity(
       Boolean(context.execution) &&
       (context.preferQualityInference === true || isAssetPackRealInferenceEnabled());
     if (!mayInfer) {
-      return { absolutes: bareAbsolutes, materialIdentity };
+      return finishMeasureResult(bareAbsolutes, materialIdentity, report, context);
     }
     try {
       try {
@@ -596,14 +677,16 @@ export async function measureDataPackAbsolutesAndIdentity(
         ? (result as any).measurements
         : [];
       if (agentReadings.length === 0) {
-        return { absolutes: bareAbsolutes, materialIdentity };
+        return finishMeasureResult(bareAbsolutes, materialIdentity, report, context);
       }
-      return {
-        absolutes: mergeReportAndReadings(bareAbsolutes, agentReadings),
+      return finishMeasureResult(
+        mergeReportAndReadings(bareAbsolutes, agentReadings),
         materialIdentity,
-      };
+        report,
+        context,
+      );
     } catch {
-      return { absolutes: bareAbsolutes, materialIdentity };
+      return finishMeasureResult(bareAbsolutes, materialIdentity, report, context);
     }
   } catch {
     // Fallback: report + identity scalars only.
@@ -618,7 +701,12 @@ export async function measureDataPackAbsolutesAndIdentity(
           Number.isFinite(idVol) &&
           !QUANTITY_KINDS.has(spec.measurementKind)
         ) {
-          return { ...prior, volume: clamp01(idVol), magnitude: idVol };
+          return {
+            ...prior,
+            volume: clamp01(idVol),
+            magnitude: idVol,
+            status: 'measured' as const,
+          };
         }
         return prior;
       }
@@ -632,9 +720,10 @@ export async function measureDataPackAbsolutesAndIdentity(
         magnitude: vol,
         unit: spec.unit,
         category: 'absolute' as const,
+        status: vol > 0 ? ('measured' as const) : ('insufficient_evidence' as const),
       };
     });
-    return { absolutes: fallback, materialIdentity };
+    return finishMeasureResult(fallback, materialIdentity, report, context);
   }
 }
 

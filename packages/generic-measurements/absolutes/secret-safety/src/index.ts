@@ -24,11 +24,12 @@ const SECRETS = [
 export function measureAbsoluteSecretSafety(input: DataPackAbsoluteMeasureInput): AbsoluteMeasureResult {
   const sources = input.sources || [];
   if (!sources.length) {
+    // Honesty: do not claim gate-clean (volume 1) without bodies to scan.
     return {
       measurementKind: 'secret-safety',
       magnitude: 0,
-      volume: 1,
-      rationale: 'no sources; no secret evidence',
+      volume: 0,
+      rationale: 'no sources; secret-safety not run (insufficient evidence)',
       status: 'insufficient_evidence',
       policyRole: 'gate',
     };

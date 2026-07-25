@@ -72,6 +72,7 @@ describe('factoryToolsExecution telemetry', () => {
       {
         tool: 'missing-tool',
         error: 'Tool not found: missing-tool',
+        waveIndex: 0,
       },
     ]);
     const toolsExecution = execution.children.get('tools:execution');

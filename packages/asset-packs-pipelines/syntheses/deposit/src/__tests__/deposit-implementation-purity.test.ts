@@ -202,7 +202,12 @@ describe('full Implementation: model path presentable', () => {
     expect(measured.success).toBe(true);
     expect(measured.presentable).toBe(true);
     for (const o of measured.options) {
-      expect(Object.keys(o.measurements)).toEqual(['absolutes']);
+      // Legal deposit bag: absolutes required; materialIdentity / measureReport optional.
+      expect(Object.keys(o.measurements)).toContain('absolutes');
+      expect(Array.isArray(o.measurements.absolutes)).toBe(true);
+      for (const k of Object.keys(o.measurements)) {
+        expect(['absolutes', 'materialIdentity', 'measureReport', 'needinesses']).toContain(k);
+      }
       expect(isDepositPresentablePack(o)).toBe(true);
     }
   }, 120000);

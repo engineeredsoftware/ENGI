@@ -1208,7 +1208,7 @@ These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is g
 
 ## V48 Gate 4 open: Depositor website completion + Packs absolute measurements
 
-**Branch:** `v48/gate-4-depositor-packs-finalization`  
+**Branch:** `v48/gate-4-depositor-packs-finalization`
 **Canon surface:** Gate 4 completion artifact law in DELTA + depositor website
 completion proofs; this NOTES entry records live finishing work after Gate 3
 deposit SDIVF closed.
@@ -2258,9 +2258,9 @@ emit inventable volume maps — host attaches absolutes. Measure agent prompts u
 Specification-driven absolute measuring hierarchy landed as new canon:
 
 - Parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
-- Bare packages: `packages/generic-measurements/absolutes/<kind>/` (46 kinds, no learning-gain)
+- Bare packages: `packages/generic-measurements/absolutes/<kind>/` (full catalogue, no learning-gain)
 - Shared input: `shared/absolute-measure-input`
-- Catalogue: `domain/data-pack-absolutes-catalog` (`DATA_PACK_ABSOLUTES_CATALOG` weighted Σ=1)
+- Catalogue: `domain/data-pack-absolutes-catalog` (`DATA_PACK_ABSOLUTES_CATALOG` **full** Σ=1)
 - Tools: `packages/generic-tools/tool-measure-<kind>/`
 - Agent: `packages/generic-agents/agent-measure-absolutes`
 - Old monolithic `generic-measurements/absolutes` category package **deleted**
@@ -2268,3 +2268,50 @@ Specification-driven absolute measuring hierarchy landed as new canon:
 
 Progress: phases 1–5 scaffolded production structure; non-weighted kinds return
 `not_implemented` until sandbox/corpus mechanisms land; weighted path runs bare measures.
+
+## Absolute measurement excellence (2026-07-25)
+
+Makes the commercial absolute catalogue **excellent to perform and display**
+without expanding kind count further. SPEC `BITCODE_SPEC_V48.md` measurement law
+restated; parity matrix updated.
+
+### Law additions
+
+1. **Honesty** — every absolute row carries `status`
+   (`measured` \| `estimated` \| `insufficient_evidence` \| `expanded-fill` \|
+   `not_run` \| `not_implemented`). Catalogue expand-fill never claims measured
+   clean zeros. Hygiene without bodies must not claim volume 1 clean.
+2. **measureReport** — product-visible measure telemetry on the carrier
+   (bodies, coverage, mode deep/thin/path-only, fill/measured counts).
+3. **materialIdentity** — multi-valued buyer-visible bag (deps by usage, languages,
+   frameworks, tags, companion scalars) attached with absolutes.
+4. **Deep measure source set** — `resolveMeasureSourceSet` (covered + patch +
+   manifests + sibling tests; body cap + truncate telemetry) on deposit **and** read.
+5. **Report-owned merge** — static-analysis full-catalogue zeros must not override
+   bare/identity quantities; only report-owned kinds prefer the report.
+6. **ToolsExecution waves** — Try/Retry postprocess: flat `useTools` or sequenced
+   `toolPlan` (sequential/parallel waves); no new PTRR steps.
+7. **Review artifact** — depositor `bitcode.datapack.review-artifact` (path-op +
+   measurements + identity + honesty); path-op patch remains protocol export.
+8. **Display parity** — deposit option cards and Exchange detail show measure
+   strip, identity/deps, honesty badges; pack activity projects status + report.
+
+### Implementation map
+
+| Concern | Location |
+| --- | --- |
+| Status + measureReport types | `measurement-generics`, absolute-measure-input |
+| Expand honesty | `apps/uapi/.../expand-absolute-measurements.ts` |
+| Host measure | `agent-measure-absolutes.ts` (`measureDataPackAbsolutesAndIdentity`) |
+| Source set | `resolve-measure-source-set.ts` |
+| Tool waves | `agent-generics` `factoryToolsExecution` / `toolPlan` |
+| Deposit measure agent | `deposit-implementation-agent-asset-packs-measurements-synthesis.ts` |
+| Read measure | `read-asset-pack-synthesis-agent.ts` |
+| Review artifact | `buildDepositOptionReviewArtifact` |
+| Fixtures | `measure-fixtures/{multi-lang-service,python-api,go-module}` |
+
+### Proof
+
+Multi-file host core test (≥12 T0 structure/identity kinds > 0); fixture matrix
+TS/Python/Go; tool-wave core tests; expand + admission + pack activity + exchange
+page tests.

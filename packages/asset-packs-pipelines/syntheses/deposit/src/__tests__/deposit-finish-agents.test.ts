@@ -135,7 +135,9 @@ describe('deposit finish agents (store → ledgerize → finish)', () => {
     expect(envelope.options).toHaveLength(1);
     expect(envelope.options[0].patch).toBeTruthy();
     expect(envelope.options[0].measurements?.absolutes).toHaveLength(DATA_PACK_ABSOLUTES_CATALOG.length);
-    expect(Object.keys(envelope.options[0].measurements)).toEqual(['absolutes']);
+    // Legal deposit bag: absolutes required; materialIdentity / measureReport optional.
+    expect(Object.keys(envelope.options[0].measurements)).toContain('absolutes');
+    expect(envelope.options[0].measurements.absolutes).toBeDefined();
     expect(envelope.options[0].selectable).toBe(true);
     expect(exec.get('finish', 'completion')?.cleanup?.disposeRecommended).toBeDefined();
   });

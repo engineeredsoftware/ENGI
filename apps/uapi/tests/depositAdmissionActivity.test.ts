@@ -5,6 +5,7 @@ import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domai
 import {
   buildDepositOptionAdmissionActivityDraft,
   buildDepositOptionPatchfileDownload,
+  buildDepositOptionReviewArtifact,
   projectOptionAbsoluteMeasurements,
 } from "@/components/deposits/models/deposit-admission-activity";
 import type { DepositOptionAdmissionReceipt } from "@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-deposits-asset-packs/deposit-asset-pack-option-admission";
@@ -146,8 +147,23 @@ describe("deposit-admission-activity", () => {
     expect(draft.output).not.toHaveProperty("admittedCount");
     expect(draft.output).not.toHaveProperty("ownerContents");
     expect(JSON.stringify(draft)).not.toContain("Add auth middleware helper");
-    const measurements = (draft.output as { measurements: unknown[] }).measurements;
-    expect(measurements.length).toBeGreaterThanOrEqual(65);
+    const measurements = (draft.output as { measurements: unknown }).measurements;
+    // Nested bag { absolutes, materialIdentity?, measureReport? } or legacy flat array.
+    const abs = Array.isArray(measurements)
+      ? measurements
+      : Array.isArray((measurements as { absolutes?: unknown[] })?.absolutes)
+        ? (measurements as { absolutes: unknown[] }).absolutes
+        : [];
+    expect(abs.length).toBeGreaterThanOrEqual(65);
+    expect(
+      abs.some(
+        (m) =>
+          m &&
+          typeof m === "object" &&
+          (m as { kind?: string }).kind === "function-count" &&
+          typeof (m as { status?: string }).status === "string",
+      ),
+    ).toBe(true);
     expect(draft.context).toMatchObject({
       source: "deposit-option-review-admission",
       optionId: "opt-1",
@@ -169,5 +185,30 @@ describe("deposit-admission-activity", () => {
     expect(parsed.format).toBe("path-op-json");
     expect(parsed.files).toHaveLength(1);
     expect(parsed.assetPack.measurements.length).toBeGreaterThanOrEqual(65);
+  });
+
+  it("builds depositor review artifact with honesty + full measurements", () => {
+    const file = buildDepositOptionReviewArtifact(option);
+    expect(file.filename).toMatch(/\.datapack\.review\.json$/);
+    const parsed = JSON.parse(file.body) as {
+      schema: string;
+      version: number;
+      patch: { files: unknown[]; format: string };
+      measurements: {
+        absolutes: Array<{ kind: string; status: string | null }>;
+      };
+      honesty: { measuredKindCount: number; expandedFillCount: number };
+      metadata: { optionId: string; title: string };
+    };
+    expect(parsed.schema).toBe("bitcode.datapack.review-artifact");
+    expect(parsed.version).toBe(1);
+    expect(parsed.patch.format).toBe("path-op-json");
+    expect(parsed.patch.files).toHaveLength(1);
+    expect(parsed.metadata.optionId).toBe("opt-1");
+    expect(parsed.measurements.absolutes.length).toBeGreaterThanOrEqual(65);
+    const fn = parsed.measurements.absolutes.find((a) => a.kind === "function-count");
+    expect(fn?.status).toBeTruthy();
+    expect(parsed.honesty.expandedFillCount).toBeGreaterThan(0);
+    expect(parsed.honesty.measuredKindCount).toBeGreaterThanOrEqual(1);
   });
 });

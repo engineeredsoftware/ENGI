@@ -67,6 +67,15 @@ and validate the website E2E.
   naming. Non-canonical companions (`ASSET_PACKS.md`, README, FAMILIARIZATION)
   may summarize only — SPEC must stand alone for Complete Implementation
   Derivability (`BITCODE_SPECIFYING.md`).
+- **Absolute measurement excellence (2026-07-25):** Full commercial catalogue
+  (65 kinds, Σ=1) is **honest and deep**, not merely present: absolute
+  `status` honesty, `measureReport`, `materialIdentity`, deep measure source set
+  (manifests + tests), report-owned quantity merge, Executor `toolPlan` waves on
+  Try/Retry, depositor review artifact, deposit/Exchange display parity. Spec
+  family: measurement law in `BITCODE_SPEC_V48.md`, parity matrix
+  `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`, NOTES excellence
+  section. Catalogue kind count is **not** expanded further in this change —
+  performance and display of existing kinds are the delta.
 
 ## Explicitly deferred
 

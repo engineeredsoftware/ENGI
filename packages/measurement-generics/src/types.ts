@@ -83,6 +83,43 @@ export const MeasurementReadingSchema = z.object({
 export type MeasurementReading = z.infer<typeof MeasurementReadingSchema>;
 
 /**
+ * Honesty for one absolute row on the product carrier.
+ * expanded-fill = catalogue completeness only (not a measured zero).
+ */
+export type AbsoluteReadingStatus =
+  | 'measured'
+  | 'estimated'
+  | 'insufficient_evidence'
+  | 'expanded-fill'
+  | 'not_run'
+  | 'not_implemented';
+
+/**
+ * Product-visible measure telemetry (deposit review / Exchange honesty strip).
+ * Not a substitute for absolute rows — explains how the bag was produced.
+ */
+export type DataPackMeasureReport = {
+  measuredFromBodies: number;
+  coveredPathCount: number;
+  bodyCoverageRatio: number;
+  expandedFillCount: number;
+  mode: 'deep' | 'thin' | 'path-only';
+  toolInvocations?: number;
+  /** Kinds with status measured | estimated (not fill / not_run). */
+  measuredKindCount?: number;
+};
+
+export const DataPackMeasureReportSchema = z.object({
+  measuredFromBodies: z.number().int().min(0),
+  coveredPathCount: z.number().int().min(0),
+  bodyCoverageRatio: z.number().min(0).max(1),
+  expandedFillCount: z.number().int().min(0),
+  mode: z.enum(['deep', 'thin', 'path-only']),
+  toolInvocations: z.number().int().min(0).optional(),
+  measuredKindCount: z.number().int().min(0).optional(),
+});
+
+/**
  * Nested kinds object on DataPacks (canonical carrier).
  * materialIdentity is domain-typed at product layers; primitive keeps it open.
  */
@@ -91,6 +128,8 @@ export const AssetPackMeasurementsSchema = z.object({
   needinesses: z.array(MeasurementReadingSchema).default([]),
   /** Buyer-visible multi-valued identity (compositions, inventories, tags). */
   materialIdentity: z.record(z.unknown()).optional().nullable(),
+  /** Measure-session honesty telemetry (bodies, coverage, fill count). */
+  measureReport: DataPackMeasureReportSchema.optional().nullable(),
 });
 export type AssetPackMeasurements = z.infer<typeof AssetPackMeasurementsSchema>;
 

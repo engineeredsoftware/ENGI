@@ -22,11 +22,12 @@ const PII = [
 export function measureAbsolutePiiExposure(input: DataPackAbsoluteMeasureInput): AbsoluteMeasureResult {
   const sources = input.sources || [];
   if (!sources.length) {
+    // Honesty: do not claim gate-clean (volume 1) without bodies to scan.
     return {
       measurementKind: 'pii-exposure',
       magnitude: 0,
-      volume: 1,
-      rationale: 'no sources; no PII evidence',
+      volume: 0,
+      rationale: 'no sources; pii-exposure not run (insufficient evidence)',
       status: 'insufficient_evidence',
       policyRole: 'gate',
     };

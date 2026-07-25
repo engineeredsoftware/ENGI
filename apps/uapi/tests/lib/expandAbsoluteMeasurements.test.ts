@@ -1,4 +1,6 @@
 import {
+  countExpandedFillAbsolutes,
+  countMeasuredAbsolutes,
   expandAbsoluteMeasurementsToFullCatalog,
   hasFullAbsoluteCatalog,
 } from '@/components/exchange/models/expand-absolute-measurements';
@@ -19,12 +21,14 @@ describe('expandAbsoluteMeasurementsToFullCatalog (full catalogue law)', () => {
         magnitude: 20,
         unit: 'functions',
         category: 'absolute',
+        status: 'measured',
       },
       {
         measurementKind: 'correctness-estimate',
         weight: 0.18,
         volume: 0.8,
         category: 'absolute',
+        status: 'estimated',
       },
     ]);
     expect(expanded.length).toBeGreaterThanOrEqual(65);
@@ -32,6 +36,7 @@ describe('expandAbsoluteMeasurementsToFullCatalog (full catalogue law)', () => {
     const fn = expanded.find((m) => m.measurementKind === 'function-count');
     expect(fn?.volume).toBe(0.5);
     expect(fn?.magnitude).toBe(20);
+    expect(fn?.status).toBe('measured');
     // Catalogue weight wins over legacy 0.12
     expect(fn?.weight).toBe(
       DATA_PACK_ABSOLUTES_CATALOG.find((r) => r.measurementKind === 'function-count')?.weight,
@@ -39,6 +44,27 @@ describe('expandAbsoluteMeasurementsToFullCatalog (full catalogue law)', () => {
     const secret = expanded.find((m) => m.measurementKind === 'secret-safety');
     expect(secret?.volume).toBe(0);
     expect(secret?.weight).toBeGreaterThan(0);
+    expect(secret?.status).toBe('expanded-fill');
+    expect(secret?.descriptor).toMatch(/Not measured|expanded-fill/i);
+    expect(countExpandedFillAbsolutes(expanded)).toBeGreaterThan(50);
+    expect(countMeasuredAbsolutes(expanded)).toBe(2);
+  });
+
+  it('preserves prior status and never claims measured zero for fill rows', () => {
+    const expanded = expandAbsoluteMeasurementsToFullCatalog([
+      {
+        measurementKind: 'secret-safety',
+        volume: 0,
+        magnitude: 0,
+        status: 'not_run',
+      },
+    ]);
+    const secret = expanded.find((m) => m.measurementKind === 'secret-safety');
+    expect(secret?.status).toBe('not_run');
+    expect(secret?.volume).toBe(0);
+    const missing = expanded.find((m) => m.measurementKind === 'function-count');
+    expect(missing?.status).toBe('expanded-fill');
+    expect(missing?.volume).toBe(0);
   });
 
   it('buyer descriptors cover full catalogue kinds', () => {

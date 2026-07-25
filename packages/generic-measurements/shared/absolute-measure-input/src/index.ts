@@ -35,11 +35,25 @@ export interface DataPackAbsoluteMeasureInput {
   context?: Record<string, unknown>;
 }
 
+/**
+ * Honesty class for one absolute reading.
+ * - measured: host/tool produced this reading from evidence
+ * - estimated: heuristic / soft estimate over partial evidence
+ * - insufficient_evidence: ran the kind but lack of bodies/signals
+ * - expanded-fill: catalogue completeness row only (never claim measured 0)
+ * - not_run: scanner/tool not invoked for this kind
+ * - not_implemented: package scaffold without mechanism (maps to not_run in UI)
+ */
 export type AbsoluteMeasureStatus =
   | 'measured'
   | 'estimated'
   | 'insufficient_evidence'
+  | 'expanded-fill'
+  | 'not_run'
   | 'not_implemented';
+
+/** Alias used on product carriers (same honesty law). */
+export type AbsoluteReadingStatus = AbsoluteMeasureStatus;
 
 export interface AbsoluteMeasureResult extends MeasurementReading {
   status: AbsoluteMeasureStatus;

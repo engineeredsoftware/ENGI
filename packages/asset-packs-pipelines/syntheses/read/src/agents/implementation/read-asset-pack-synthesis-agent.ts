@@ -126,6 +126,9 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
   const { measureDataPackAbsolutesAndIdentity } = await import(
     '../../../../domain/src/agents/validation/agent-measure-absolutes'
   );
+  const { resolveMeasureSourceSet } = await import(
+    '../../../../domain/src/resolve-measure-source-set'
+  );
   const { attachNestedAbsolutes } = await import('@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements');
   const { measureReadNeedinesses, computeNeedFitVolume } = await import(
     '../../read-neediness-measurements'
@@ -154,20 +157,30 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
     }
 
     // Prefer per-option absolute + material identity on patch+paths (deposit twin).
+    // Deep measure source set: covered + patch + manifests + sibling tests.
     // Discovery checkout measurements are fallback only.
     let absolutes: any[] = [];
     let materialIdentity: any = null;
+    let measureReport: any = null;
+    const coveredSourcePaths = Array.isArray((option as any)?.coveredSourcePaths)
+      ? (option as any).coveredSourcePaths
+      : [];
+    // Re-read after optional patch-write tool (may rewrite path+op list).
+    const measureFileChanges = Array.isArray((option as any)?.patch?.fileChanges)
+      ? (option as any).patch.fileChanges
+      : undefined;
     try {
+      const measureSet = resolveMeasureSourceSet({
+        coveredSourcePaths,
+        fileChanges: measureFileChanges,
+        availableBodies: bodies,
+      });
       const measured = await measureDataPackAbsolutesAndIdentity(
         {
           title: String((option as any)?.title ?? ''),
           summary: String((option as any)?.summary ?? ''),
-          coveredSourcePaths: Array.isArray((option as any)?.coveredSourcePaths)
-            ? (option as any).coveredSourcePaths
-            : [],
-          fileChanges: Array.isArray((option as any)?.patch?.fileChanges)
-            ? (option as any).patch.fileChanges
-            : undefined,
+          coveredSourcePaths,
+          fileChanges: measureFileChanges,
           confidence:
             typeof (option as any)?.confidence === 'number'
               ? (option as any).confidence
@@ -177,13 +190,16 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
               ? (option as any).patch.patchSummary
               : undefined,
         },
-        { lens: 'read', execution, sources: bodies },
+        { lens: 'read', execution, sources: measureSet.sources },
       );
       absolutes = measured.absolutes;
       materialIdentity = measured.materialIdentity;
-      if ((!Array.isArray(absolutes) || absolutes.length === 0) &&
+      measureReport = measured.measureReport ?? null;
+      if (
+        (!Array.isArray(absolutes) || absolutes.length === 0) &&
         Array.isArray(sourceMeasurements) &&
-        sourceMeasurements.length > 0) {
+        sourceMeasurements.length > 0
+      ) {
         absolutes = sourceMeasurements;
       }
     } catch {
@@ -204,6 +220,7 @@ export default async function runReadAssetPackSynthesisAgent(input: any, executi
     attachNestedAbsolutes(option as any, absolutes, {
       withNeedinesses: needinesses,
       materialIdentity,
+      measureReport,
     });
     (option as any).needFit = needFit;
   }

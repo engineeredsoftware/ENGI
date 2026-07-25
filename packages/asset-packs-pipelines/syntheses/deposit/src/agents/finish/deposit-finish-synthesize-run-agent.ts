@@ -24,20 +24,39 @@ function findValue(execution: any, namespace: string, key: string): any {
 }
 
 function projectOption(opt: any, index: number) {
-  const nestedAbsolutes =
+  const nested =
     opt?.measurements &&
     typeof opt.measurements === 'object' &&
-    !Array.isArray(opt.measurements) &&
-    Array.isArray(opt.measurements.absolutes)
-      ? opt.measurements.absolutes
+    !Array.isArray(opt.measurements)
+      ? opt.measurements
       : null;
+  const nestedAbsolutes =
+    nested && Array.isArray(nested.absolutes) ? nested.absolutes : null;
   const absolutes =
     Array.isArray(opt?.absolutes) && opt.absolutes.length > 0
       ? opt.absolutes
       : nestedAbsolutes || [];
+  const materialIdentity =
+    (nested?.materialIdentity && typeof nested.materialIdentity === 'object'
+      ? nested.materialIdentity
+      : null) ||
+    (opt?.materialIdentity && typeof opt.materialIdentity === 'object'
+      ? opt.materialIdentity
+      : null);
+  const measureReport =
+    (nested?.measureReport && typeof nested.measureReport === 'object'
+      ? nested.measureReport
+      : null) ||
+    (opt?.measureReport && typeof opt.measureReport === 'object'
+      ? opt.measureReport
+      : null);
 
   const presentable = isDepositPresentablePack(opt);
   const salvaged = opt?.salvaged === true;
+
+  const measurementsBag: Record<string, unknown> = { absolutes };
+  if (materialIdentity) measurementsBag.materialIdentity = materialIdentity;
+  if (measureReport) measurementsBag.measureReport = measureReport;
 
   return {
     index,
@@ -60,7 +79,9 @@ function projectOption(opt: any, index: number) {
           name: opt.patchArtifact.name,
         }
       : null,
-    measurements: { absolutes },
+    measurements: measurementsBag,
+    ...(materialIdentity ? { materialIdentity } : {}),
+    ...(measureReport ? { measureReport } : {}),
     metadata: {
       measurementRationale: opt?.measurementRationale ?? null,
       salvaged,

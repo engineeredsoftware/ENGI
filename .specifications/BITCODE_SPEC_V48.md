@@ -34,10 +34,12 @@ seller/buyer visualization without source leakage.
 
 Gate 3 product defaults that must appear in any rebuild: Anthropic model
 `claude-haiku-4-5`, deposit-native SDIVF roster (no lens), DIV `maxIterations=1`,
-LLM call timeout 180s, **sourceCheckoutCatalog** (not inventory), AssetPack =
-patch + measurements + metadata with formal **DATA_PACK_ABSOLUTES_CATALOG**,
-empty Obfuscations skip Setup LLM, Permissible sources/Exclusions path scope,
-Unestimatable demand when settled Depository search cannot ground estimates.
+LLM call timeout 180s, **sourceCheckoutCatalog** (not inventory), DataPack =
+patch + measurements + metadata with formal **DATA_PACK_ABSOLUTES_CATALOG**
+(65 kinds, Σ weights = 1, honesty `status` + optional materialIdentity +
+measureReport), empty Obfuscations skip Setup LLM, Permissible sources/Exclusions
+path scope, Unestimatable demand when settled Depository search cannot ground
+estimates.
 
 ## Canonical Bitcode executive summary
 
@@ -311,24 +313,29 @@ Deposit option `kind` (v0): `capability-slice` | `implementation-pattern` |
 
 ### Measurement KINDS (canonical carrier)
 
-V48 admits **two** measurement kinds (more may be added later). Both are
-**kinds of measurements**, not separate commercial objects:
+V48 admits **three** formal measurement surfaces on the DataPack carrier
+(kinds of measurements / identity bags — not separate commercial objects):
 
 ```
 measurements: {
-  absolutes: AbsoluteReading[];     // intrinsic digital-material properties
-  needinesses: NeedinessReading[];  // reader/Need-relative (READ ONLY)
+  absolutes: AbsoluteReading[];           // full commercial catalogue (Σ weights = 1)
+  needinesses: NeedinessReading[];        // reader/Need-relative (READ ONLY)
+  materialIdentity?: MaterialIdentityBag; // multi-valued buyer-visible identity
+  measureReport?: DataPackMeasureReport;  // measure-session honesty telemetry
 }
 ```
 
-| Kind | When used | Nature |
+| Surface | When used | Nature |
 |---|---|---|
-| **absolutes** | Deposit + read | Intrinsic properties of the patch/material; fixed product catalog |
+| **absolutes** | Deposit + read | Intrinsic properties of the DataPack; **full** product catalogue (all kinds, Σ weights = 1) |
 | **needinesses** | **Reading only** | Dynamic + static-catalogue reader-relative dimensions for a Need |
+| **materialIdentity** | Deposit + read + Exchange | Source-safe multi-valued compositions, inventories (deps by usage), tags, companion scalar volumes |
+| **measureReport** | Deposit + read + Exchange | Bodies measured, coverage ratio, expanded-fill count, mode (`deep` \| `thin` \| `path-only`) |
 
-**Deposit law:** `measurements.needinesses` is always `[]`. No `needinessSignal`,
-no deposit neediness preview, no inventing read-demand as a measurement kind on
-deposit packs.
+**Deposit law:** `measurements.needinesses` is always `[]` (or omitted). No
+`needinessSignal`, no deposit neediness preview, no inventing read-demand as a
+measurement kind on deposit packs. Legal deposit bag keys:
+`absolutes` (required), `materialIdentity?`, `measureReport?`, empty `needinesses?`.
 
 **Read law (Gate 5 needinesses + depository search):**
 
@@ -351,7 +358,7 @@ deposit packs.
 - **Weight re-normalization:** when both static and dynamic rows are present,
   static mass = 0.6 and dynamic mass = 0.4, each family re-normalized internally
   so all neediness weights sum to 1 before composite.
-- **`need-fit` is a composite**, not a raw catalogue target:  
+- **`need-fit` is a composite**, not a raw catalogue target:
   `needFitVolume = weightedMean(needinesses[].volume)` using each row’s weight
   (reading weight, else catalogue weight, else equal). BTD on settle uses the
   needinesses family / need-fit composite only (never absolutes).
@@ -394,79 +401,165 @@ settled supply into execution stores (`depository.settledAssets` /
 ### Absolute measurement hierarchy (rebuild law)
 
 ```
-measurement-generics
+measurement-generics                         # carrier + AbsoluteReadingStatus + measureReport
   → generic-measurements/absolutes/<kind>     # bare pure measure (one package per kind)
+  → generic-measurements/domain/
+       data-pack-absolutes-catalog            # full commercial catalogue Σ=1
+       data-pack-material-identity            # multi-valued identity extract
   → generic-tools/tool-measure-<kind>         # ExecutionTool wrapper
   → generic-agents/agent-measure-absolutes    # registers all absolute tools / bare measures
   → deposit|read pipelines                    # attach after DataPack synthesis
 ```
 
-Full target absolute vocabulary (46 kinds; families structure, verification, hygiene,
-provenance, semantics, value) is enumerated in
-`BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md` and
-`@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`.
-**`learning-gain` is not an absolute** — exchange value scalar is BTD via needinesses /
-need-fit on read.
+**Commercial catalogue size:** **65 kinds**, **Σ weights = 1** (single full
+catalogue — there is no smaller “weighted subset”). Enumerated in
+`@bitcode/generic-measurements-domain-data-pack-absolutes-catalog` and
+`BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`. Families: structure,
+verification, hygiene, provenance, semantics, value, plus material-identity
+companions. **`learning-gain` is not an absolute** — exchange value scalar is BTD
+via needinesses / need-fit on read.
 
 Hygiene kinds are first-class absolute packages; product policy may treat them as
-hard gates or penalties rather than weighted composite rows.
+hard gates or penalties. **Honesty law:** volume `1` (“clean”) is illegal without
+bodies or a real scan; empty evidence → `status: insufficient_evidence` (or
+`not_run`) with volume `0` — never claim measured-clean zeros from catalogue fill.
 
-### Absolute weighted catalog (`DATA_PACK_ABSOLUTES_CATALOG`)
+### Absolute commercial catalogue (`DATA_PACK_ABSOLUTES_CATALOG`)
 
-Canonical weighted commercial subset in
+Canonical **full** commercial catalogue in
 `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`
-(re-exported by product synthesis). Weights **sum to 1**. Shared for deposit and read
-**absolute** properties. Rebuild implementations must emit one reading per **weighted** kind.
+(re-exported by product synthesis). **Every kind has a commercial weight; Σ = 1.**
+Shared for deposit and read. Rebuild implementations must emit **one reading per
+catalogue kind** (catalog-complete bag) with finite `volume` + `magnitude`.
 
-#### Quantity (tool-authoritative: static analysis + patch descriptor)
+**Catalogue completeness ≠ measurement quality.** Expanding a partial bag to the
+full catalogue is legal UI/law fill only when each fill row is tagged
+`status: expanded-fill` (volume/magnitude 0). Models and hosts **must not** present
+expanded-fill zeros as measured cleanliness.
 
-| measurementKind | Label | Unit | Weight | Law |
-|---|---|---|---|---|
-| `function-count` | Functions | functions | 0.09 | Distinct functions/behaviors the patch encodes; magnitude = count |
-| `type-count` | Types | types | 0.07 | Distinct types/interfaces/schemas; magnitude = count |
-| `file-span` | File span | files | 0.05 | Files create/modify/delete in patch; magnitude = count |
-| `symbolic-richness` | Symbolic richness | symbols | 0.09 | Distinct symbols/identifiers; magnitude = unique symbol count |
-| `modularity` | Modularity | modules | 0.05 | Distinct path modules / top-level packages; magnitude = module count |
-| `lang-span` | Language span | languages | 0.06 | Distinct languages in covered set (path/ext); magnitude = language count |
-| `test-surface` | Test surface | tests | 0.07 | Test/proof paths + test-like function counts; magnitude = composite count |
-| `api-surface` | API surface | exports | 0.07 | Public/export entrypoints detected; magnitude = export count |
+Structure **quantity** kinds are tool/bare-authoritative when static analysis or
+identity extract supplies signals. Representative structure kinds (not exhaustive;
+full list is SSOT in the catalogue package):
 
-#### Quality (measure-agent judgment grounded in quantities + source-safe descriptor)
+| Family slice | Examples | Authority |
+|---|---|---|
+| Classic structure | `function-count`, `type-count`, `file-span`, `symbolic-richness`, `modularity`, `lang-span`, `test-surface`, `api-surface` | Static analysis report (report-owned) |
+| Extended structure | `dependency-span`, `doc-signal`, `config-surface`, data-flow / control / connectivity | Static analysis + bare heuristics |
+| Identity companions | `language-concentration`, `framework-surface`, `dependency-class-balance`, `capability-surface`, `purpose-clarity`, … | Material-identity extract → `scalarVolumes` |
+| Quality estimates | `correctness-estimate`, `objectives-fidelity`, `computational-usage`, … | Optional measure-agent refine; never invent in synthesis LLMs |
 
-| measurementKind | Label | Unit | Weight | Law |
-|---|---|---|---|---|
-| `correctness-estimate` | Correctness | estimate | 0.16 | 0..1 fidelity/coherence of synthesized knowledge |
-| `objectives-fidelity` | Objectives fidelity | estimate | 0.15 | 0..1 serves deposit objectives; honors obfuscations/exclusions |
-| `computational-usage` | Computational usage | estimate | 0.14 | 0..1 estimated computational demand of the knowledge surface |
-
-#### Absolute reading shape (rebuild type — all fields always required)
+#### Absolute reading shape (rebuild type)
 
 ```
 {
-  measurementKind: string;   // catalog key exactly (e.g. function-count)
+  measurementKind: string;   // catalogue key exactly (e.g. function-count)
   label: string;
-  weight: number;            // catalog weight
+  weight: number;            // catalogue weight (SSOT wins over legacy weights)
   volume: number;            // 0..1 normalized — ALWAYS
   magnitude: number;         // ALWAYS (quantity = raw count; quality = mirrors volume)
-  unit: string;              // functions|types|files|symbols|modules|estimate
+  unit: string;
   category: 'absolute';
+  status: AbsoluteReadingStatus;  // REQUIRED honesty class
+  descriptor?: string;       // instance prose when measured; short placeholder when fill
   rationale?: string;
   evidenceRoot?: string;
 }
+
+AbsoluteReadingStatus =
+  | 'measured'                 // host/tool produced this reading from evidence
+  | 'estimated'                // heuristic / soft estimate over partial evidence
+  | 'insufficient_evidence'    // kind ran but lacked bodies/signals
+  | 'expanded-fill'            // catalogue completeness only — NOT measured
+  | 'not_run'                  // scanner/tool not invoked
+  | 'not_implemented';         // package scaffold without mechanism
 ```
+
+#### measureReport (product-visible measure telemetry)
+
+```
+measureReport: {
+  measuredFromBodies: number;      // content-bearing files used
+  coveredPathCount: number;        // path scope size
+  bodyCoverageRatio: number;       // 0..1
+  expandedFillCount: number;       // rows with status expanded-fill
+  mode: 'deep' | 'thin' | 'path-only';
+  toolInvocations?: number;
+  measuredKindCount?: number;      // measured | estimated rows
+}
+```
+
+Mode law (host defaults): `deep` when bodies ≥ 8 and coverage ≥ 0.5; `thin` when
+bodies > 0; else `path-only`. Prefer fail-soft thin measure over silent zeros.
+
+#### materialIdentity (buyer-visible multi-valued bag)
+
+Schema `bitcode.data-pack.material-identity` v1. Source-safe only: compositions
+(language mix, …), inventories (dependencies ranked by **usageShare** /
+`fileHitCount`, frameworks, services), tag sets (purpose, runtimes, patterns,
+capabilities), and companion `scalarVolumes` for identity absolute kinds.
+**Models never invent dep lists.** Host extract is authoritative.
+
+#### Deep measure source set (`resolveMeasureSourceSet`)
+
+Measure unit remains the **DataPack**. Tools may read checkout bodies **only**
+for paths that ground that DP:
+
+1. All `coveredSourcePaths` + `fileChanges[].path` with bodies when available.
+2. Always include measure-critical manifests if present in the checkout catalog
+   (`package.json`, lockfiles, `go.mod`, `Cargo.toml`, `pyproject.toml`,
+   `requirements.txt`, `pom.xml`, Gradle/Gemfile/composer, Dockerfiles, …)
+   within obfuscation-allowed roots.
+3. Optionally include sibling test files for covered production paths.
+4. Cap by `BITCODE_DEPOSIT_MAX_MEASURE_BODIES` (default 80) with truncation
+   telemetry — never silent truncate.
+5. Never read paths outside run checkout / obfuscation allowlist.
+
+Deposit **and** read Implementation must call `resolveMeasureSourceSet` before
+`measureDataPackAbsolutesAndIdentity`.
+
+#### Host merge law (report-owned quantities)
+
+Static-analysis reports that expand the full catalogue to volume 0 **must not**
+override bare/identity measures. Prefer report magnitudes only for **report-owned**
+kinds: classic structure + `dependency-span` + `doc-signal` + `config-surface`
+(and any kind the analyzer explicitly materializes). Material-identity
+`scalarVolumes` win for companion kinds. Bare packages fill the rest.
+
+#### ToolsExecution waves (Try/Retry postprocess)
+
+PTRR still has only **Try** and **Retry** as tool-capable steps. Tool postprocess
+must support **sequenced Executor waves**:
+
+- Flat `useTools: [{ name, input, reason }]` ≡ one sequential wave (backward compat).
+- Optional `toolPlan: ToolWave[]` where each wave has `sequential?: UseTool[]`
+  and/or `parallel?: UseTool[]`. Waves run in order; `usedTools` accumulate with
+  `waveIndex`. Later waves may use prior results.
+- Host may run the same Executor graph **deterministically** (no LLM) for deep
+  measure fan-out.
+
+#### Absolute display and review artifact
+
+| Surface | Law |
+|---|---|
+| Deposit option card | Measure report strip; material identity + deps-by-usage; honesty badge per absolute; prefer instance descriptor; fill rows show “Not measured — catalogue placeholder” |
+| Exchange detail | Same honesty (status badges, measureReport strip, deps inventory); source-safe only |
+| Pack activity projection | Carry `status` on absolute rows; project `materialIdentity` + `measureReport` into detail |
+| Path-op patch download | `bitcode.artifact.patch` path-op-json (protocol) |
+| **DataPack review artifact** (depositor) | `bitcode.datapack.review-artifact` v1: path-op + metadata + absolutes (with status) + materialIdentity + measureReport + honesty counts — **no unpaid raw source bodies** |
 
 **Who measures when (deposit):**
 
 | Phase | Law |
 |---|---|
 | Discovery `comprehend-codebase` | Measures **Host checkout material** → `discovery:sourceMeasurements` to ground the knowledge map |
-| Implementation | After PTRR, host **must** attach `measurements: { absolutes, needinesses: [] }` (from Discovery measurements and/or `measureDataPackAbsolutes`) |
-| Validation ready-to-finish | **Fail-closed** if any pack lacks non-empty `measurements.absolutes` with magnitude+volume; may backfill then re-check |
-| LLM agent JSON | **Must not** invent absolute or neediness volumes on deposit |
+| Implementation measurements agent | `resolveMeasureSourceSet` → static analysis + material identity + bare registry → `measureReport`; attach `measurements: { absolutes, materialIdentity?, measureReport? }` |
+| Validation ready-to-finish | **Fail-closed** if pack lacks catalog-complete `measurements.absolutes` with magnitude+volume; **must not** re-measure |
+| LLM agent JSON | **Must not** invent absolute, neediness, or identity volumes |
 
-Stack: bare `generic-measurements/absolutes/<kind>` (+ static signals) →
-`measureDataPackAbsolutes` / `agent-measure-absolutes` → optional quality PTRR refine →
-merge (quantity tool/bare-authoritative). Package map: see absolute measurement
+Stack: `resolveMeasureSourceSet` → static analysis + material-identity extract →
+bare `generic-measurements/absolutes/<kind>` (+ staticSignals) →
+`measureDataPackAbsoluteReadings` / optional quality PTRR refine →
+merge (report-owned + identity + bare) → attach. Package map: absolute measurement
 parity matrix. Needinesses remain `@bitcode/generic-measurements-needinesses` (read).
 
 ### Needinesses (read-only measurement KIND)
@@ -746,14 +839,14 @@ Stores: `discovery:depositorySearch`, `discovery:depositorySearchQueries`,
 
 #### Implementation (three sequential agents — same AssetPacks)
 
-Deposit AssetPack = **patch descriptor + singular patchfile artifact + absolute measurements + metadata**.  
+Deposit AssetPack = **patch descriptor + singular patchfile artifact + absolute measurements + metadata**.
 Neediness is **Read-pipeline only** and is never a deposit Implementation product field.
 
 | Order | Registry key | Module | Objective |
 |---|---|---|---|
 | 1 | `implementation:deposit-implementation-agent-asset-packs-patch-plan` | `…/deposit-implementation-agent-asset-packs-patch-plan.ts` (+ schema/prompts) | 2–4 options; LLM **six fields only**; host catalog/exclusion gates; **no artifact write** |
 | 2 | `implementation:deposit-implementation-agent-asset-packs-patchfile` | `…/deposit-implementation-agent-asset-packs-patchfile.ts` | For each planned pack: **write one** `AssetPackPatchArtifact` (`path-op-json`, no bodies) via `buildAssetPackPatchArtifact`; attach `patchArtifact` (7th field); telemetry path+op record |
-| 3 | `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis` | `…/deposit-implementation-agent-asset-packs-measurements-synthesis.ts` | Requires `patchArtifact`; static analysis + quality inference into catalog; `measurements: { absolutes }` |
+| 3 | `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis` | `…/deposit-implementation-agent-asset-packs-measurements-synthesis.ts` | Requires `patchArtifact`; `resolveMeasureSourceSet` → host measure (absolutes + materialIdentity + measureReport); full catalogue + honesty |
 
 **Agent 1 (patch-plan) LLM output (allowlist — no other keys):**
 
@@ -773,19 +866,20 @@ Neediness is **Read-pipeline only** and is never a deposit Implementation produc
 }
 ```
 
-**Agent 2 (patchfile write) host output (per pack):** same six fields +  
-`patchArtifact: { artifactId, assetPackId, format:'path-op-json', files[{path,op}], envelopeJson, … }`  
+**Agent 2 (patchfile write) host output (per pack):** same six fields +
+`patchArtifact: { artifactId, assetPackId, format:'path-op-json', files[{path,op}], envelopeJson, … }`
 — **exactly one** formal artifact per pack; files ≡ `patch.fileChanges`.
 
-**Agent 3 (measurements) host output (per pack):** agent-2 pack +  
-`measurements: { absolutes: AbsoluteReading[] }` (catalog-complete; magnitude+volume).
+**Agent 3 (measurements) host output (per pack):** agent-2 pack +
+`measurements: { absolutes: AbsoluteReading[]; materialIdentity?; measureReport? }`
+(catalog-complete absolutes with `status` + magnitude+volume; identity optional; report optional but required when bodies were available).
 
 **Host salvage (patch-plan only):** continuity packs with `salvaged: true` may be written as
 artifacts but are **never presentable**; Validation **must iterate**.
 
-**Stores (after measurements):**  
-`implementation:options` / `assetPacks` (measured), `implementation:patchedPlans`,  
-`implementation:patchArtifacts`, `implementation:patchfileWritten`,  
+**Stores (after measurements):**
+`implementation:options` / `assetPacks` (measured), `implementation:patchedPlans`,
+`implementation:patchArtifacts`, `implementation:patchfileWritten`,
 `implementation:measured`, `implementation:presentable`, salvage flags, measurementReports.
 
 #### Validation (single agent — validate only)
@@ -797,10 +891,10 @@ artifacts but are **never presentable**; Validation **must iterate**.
 | Check | Law |
 |---|---|
 | A Prior phase / tool sanity | workspacePath; danger-wall; catalog.paths; Discovery products; non-empty options; `implementation:measured === true`; **no salvaged packs** |
-| B Pack quality | Each pack = patch + `measurements.absolutes` only + metadata; distinctness; source-safety; full absolute kinds; magnitude+volume |
+| B Pack quality | Each pack = patch + `measurements.absolutes` (+ optional materialIdentity/measureReport) + metadata; no non-empty needinesses; distinctness; source-safety; full catalogue kinds; magnitude+volume; honesty status preserved |
 | C Obfuscations / Impermissible sources | covered paths + patch paths vs blocked prefixes (shared path law) |
 
-Weak Implementation (missing absolutes, salvage, incomplete measure, empty options) →  
+Weak Implementation (missing absolutes, salvage, incomplete measure, empty options) →
 `recommendation: iterate` so DIV re-enters Discovery→Implementation. Validation **must not**
 call `measureDataPackAbsolutes` or `attachDepositAbsolutes`.
 
@@ -1118,7 +1212,7 @@ Synthesize-deposit and synthesize-read look like each other (multi-option). Sett
 | preprocess | Need + repository + sourceCheckoutCatalog on shared root (`read:*`) |
 | Setup | clone alone → parallel {initialize-lsp, initialize-mcps-tools, **comprehend-needs**} → **danger-wall** (admits Need + dynamic *-fit plan) |
 | Discovery | parallel {comprehend-codebase, search-depository, inherent-regurgitation} (shared with deposit) |
-| Implementation | `implementation:read-asset-pack-synthesis` — patch + host attaches absolutes + needinesses |
+| Implementation | `implementation:read-asset-pack-synthesis` — patch + `resolveMeasureSourceSet` + host attaches absolutes + materialIdentity + measureReport + needinesses |
 | Validation | `validation:ready-to-finish-asset-packs-synthesis-read-pipeline` — A/B/C + needinesses *-fit |
 | Finish | store-artifacts → ledgerize → finish-synthesize-read-run (selection envelope for settle) |
 
@@ -1126,8 +1220,10 @@ Synthesize-deposit and synthesize-read look like each other (multi-option). Sett
 
 ```
 measurements: {
-  absolutes: AbsoluteReading[];       // same catalog as deposit
+  absolutes: AbsoluteReading[];       // same full catalogue as deposit (+ status)
   needinesses: NeedinessReading[];    // all kinds end with "-fit"
+  materialIdentity?: MaterialIdentityBag;
+  measureReport?: DataPackMeasureReport;
 }
 ```
 
@@ -1138,6 +1234,7 @@ measurements: {
 | Composite | `need-fit` | **Not** a raw row — `weightedMean(needinesses)` |
 
 Deposit: `needinesses: []` always. Read: fail-closed if needinesses empty or any kind lacks `-fit` suffix.
+Read absolute measure path **must** share deposit deep source-set + honesty law.
 
 ### G4-4 User experience parity (`/reads` vs `/deposits`)
 

@@ -116,6 +116,17 @@ export interface AssetPackCandidateMeasurement {
    * (generated when/after measurement). Never raw source.
    */
   descriptor?: string;
+  /**
+   * Honesty: measured | estimated | insufficient_evidence | expanded-fill |
+   * not_run | not_implemented. Host must set; expand tags fill rows.
+   */
+  status?:
+    | 'measured'
+    | 'estimated'
+    | 'insufficient_evidence'
+    | 'expanded-fill'
+    | 'not_run'
+    | 'not_implemented';
 }
 
 /**
