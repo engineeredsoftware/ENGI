@@ -1,10 +1,11 @@
 /**
  * Implementation Phase - AssetPack Pipeline
  *
- * Deposit Implementation is three sequential agents building the same AssetPack(s):
+ * Deposit Implementation is four sequential agents building the same AssetPack(s):
  *   1. patch-plan — six-field descriptor + metadata
- *   2. patchfile — write one AssetPackPatchArtifact per pack (7th field)
+ *   2. patchfile — write one AssetPackPatchArtifact per pack (hybrid create|modify bodies)
  *   3. measurements — measure that patch; attach measurements.absolutes
+ *   4. commercial-nl — rich source-safe buyer title + description
  */
 
 import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, type AgentStep, type ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
@@ -57,6 +58,13 @@ export function registerImplementationAgents(
       () =>
         import(
           '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis'
+        ).then((m) => m.default),
+    );
+    agentRegistry.registerAgent(
+      'implementation:deposit-implementation-agent-asset-packs-commercial-nl',
+      () =>
+        import(
+          '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl'
         ).then((m) => m.default),
     );
     return;

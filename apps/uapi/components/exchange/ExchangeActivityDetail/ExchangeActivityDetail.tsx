@@ -28,6 +28,7 @@ import {
   ExchangeActivityDetailPayout,
   type PacksPendingPayout,
 } from "@/components/exchange/ExchangeActivityDetailPayout/ExchangeActivityDetailPayout";
+import { ExchangeActivityDetailPurchase } from "@/components/exchange/ExchangeActivityDetailPurchase/ExchangeActivityDetailPurchase";
 import {
   DATA_PACK_ABSOLUTES_CATALOG,
   type AbsoluteFamily,
@@ -680,6 +681,7 @@ export function ExchangeActivityDetail({
         <div className="grid gap-5">
           <DetailHeader detail={detail} />
           <OverviewAndMeasurements detail={detail} />
+          <PurchaseFromDetail detail={detail} />
           <PayoutFromDetail
             detail={detail}
             viewerEthereumAddress={viewerEthereumAddress}
@@ -702,6 +704,7 @@ export function ExchangeActivityDetail({
       <div className="grid gap-5">
         <DetailHeader detail={detail} />
         <OverviewAndMeasurements detail={detail} />
+        <PurchaseFromDetail detail={detail} />
         <ExchangeActivityDetailStates detail={detail} />
         {detail.accounting ? (
           <ExchangeActivityDetailAccounting accounting={detail.accounting} />
@@ -712,5 +715,41 @@ export function ExchangeActivityDetail({
         <ExchangeActivityDetailProofRoots detail={detail} />
       </div>
     </aside>
+  );
+}
+
+function PurchaseFromDetail({ detail }: { detail: PackActivityDetailProjection }) {
+  const meta = detail.metadata || {};
+  const commercialTitle =
+    typeof meta.commercialTitle === "string" ? meta.commercialTitle : null;
+  const commercialDescription =
+    typeof meta.commercialDescription === "string"
+      ? meta.commercialDescription
+      : null;
+  const synthesisRunId =
+    typeof meta.synthesisRunId === "string"
+      ? meta.synthesisRunId
+      : typeof meta.runId === "string"
+        ? meta.runId
+        : null;
+  const optionIndex =
+    typeof meta.optionIndex === "number"
+      ? meta.optionIndex
+      : typeof meta.selectedIndex === "number"
+        ? meta.selectedIndex
+        : null;
+
+  return (
+    <ExchangeActivityDetailPurchase
+      activityId={detail.id}
+      title={detail.title}
+      commercialTitle={commercialTitle}
+      commercialDescription={commercialDescription}
+      summary={detail.description}
+      settlementState={detail.states?.settlement || null}
+      rightsState={detail.states?.rights || null}
+      synthesisRunId={synthesisRunId}
+      optionIndex={optionIndex}
+    />
   );
 }

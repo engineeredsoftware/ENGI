@@ -12,6 +12,7 @@ import {
   isPathPermissible,
   normalizeSourcePathList,
   projectInventoryForPrompt,
+  projectInventoryForSynthesisProvider,
   synthesizeAssetPackCandidates,
   validateDepositSynthesisOptions,
 } from '../asset-packs-synthesis';
@@ -82,7 +83,7 @@ describe('AssetPacksSynthesis core', () => {
     expect(isPathPermissible('README.md', [])).toBe(true);
   });
 
-  it('projectInventoryForPrompt omits sources content for PTRR prompts', () => {
+  it('projectInventoryForPrompt is path/sample-only (lightweight)', () => {
     const withSources = {
       ...INVENTORY,
       sources: [
@@ -99,6 +100,24 @@ describe('AssetPacksSynthesis core', () => {
     });
     expect(forPrompt).not.toHaveProperty('sources');
     expect(JSON.stringify(forPrompt)).not.toContain('SECRET-');
+  });
+
+  it('projectInventoryForSynthesisProvider includes real file bodies for LLMs', () => {
+    const withSources = {
+      ...INVENTORY,
+      sources: [
+        { path: 'README.md', content: 'REAL-README-BODY' },
+        { path: 'src/app.py', content: 'REAL-APP-BODY' },
+      ],
+      totalPathCount: 4,
+      excludedPathCount: 0,
+    };
+    const forSynth = projectInventoryForSynthesisProvider(withSources);
+    expect(forSynth?.disclosureNote).toMatch(/SYNTHESIS_PROVIDER_INPUT/i);
+    expect(forSynth?.sources?.length).toBeGreaterThanOrEqual(2);
+    expect(JSON.stringify(forSynth)).toContain('REAL-README-BODY');
+    expect(JSON.stringify(forSynth)).toContain('REAL-APP-BODY');
+    expect(forSynth?.sourcesIncluded).toBeGreaterThanOrEqual(2);
   });
 
   it('re-samples prompt excerpts after Permissible sources empties pre-scope samples', () => {

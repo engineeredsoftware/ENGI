@@ -199,40 +199,110 @@ function isBenignMeasurementShapeIssue(issue: string): boolean {
   return false;
 }
 
-function compactPacksForPrompt(packs: any[]): any[] {
-  return (Array.isArray(packs) ? packs : []).map((pack) => ({
-    kind: pack?.kind ?? null,
-    title: pack?.title ?? null,
-    summary: pack?.summary ?? null,
-    confidence: pack?.confidence ?? null,
-    coveredSourcePaths: asPathList(pack?.coveredSourcePaths).slice(0, 20),
-    patch: pack?.patch
-      ? {
-          patchSummary: pack.patch.patchSummary ?? null,
-          fileChanges: Array.isArray(pack.patch.fileChanges)
-            ? pack.patch.fileChanges.map((c: any) => ({ path: c?.path, op: c?.op }))
-            : [],
-        }
-      : null,
-    // Deposit prompt projection: absolutes only (neediness is Read-pipeline).
-    measurements: {
-      absolutes: Array.isArray(pack?.measurements?.absolutes)
-        ? pack.measurements.absolutes.map((row: any) => ({
-            measurementKind: row?.measurementKind,
-            volume: row?.volume,
-            magnitude: row?.magnitude,
-            unit: row?.unit,
-          }))
-        : Array.isArray(pack?.absolutes)
-          ? pack.absolutes.map((row: any) => ({
-              measurementKind: row?.measurementKind,
-              volume: row?.volume,
-              magnitude: row?.magnitude,
-              unit: row?.unit,
-            }))
-          : [],
-    },
-  }));
+/**
+ * Qualitative Validation LLM input — includes REAL patch bodies so quality
+ * judgment is grounded in synthesized material. Not a product/API response.
+ * Per-file body cap avoids multi-MB thrash on huge packs.
+ */
+function compactPacksForPrompt(packs: any[], maxBodyChars = 24_000): any[] {
+  return (Array.isArray(packs) ? packs : []).map((pack) => {
+    const artifactFiles = Array.isArray(pack?.patchArtifact?.files)
+      ? pack.patchArtifact.files
+      : [];
+    const descriptorChanges = Array.isArray(pack?.patch?.fileChanges)
+      ? pack.patch.fileChanges
+      : [];
+    const fileChanges =
+      artifactFiles.length > 0
+        ? artifactFiles.map((f: any) => {
+            const body =
+              typeof f?.body === 'string'
+                ? f.body.length > maxBodyChars
+                  ? f.body.slice(0, maxBodyChars)
+                  : f.body
+                : null;
+            return {
+              path: f?.path,
+              op: f?.op,
+              ...(body != null
+                ? {
+                    body,
+                    bodyTruncated:
+                      typeof f?.body === 'string' && f.body.length > maxBodyChars,
+                  }
+                : {}),
+            };
+          })
+        : descriptorChanges.map((c: any) => {
+            const raw =
+              typeof c?.content === 'string'
+                ? c.content
+                : typeof c?.body === 'string'
+                  ? c.body
+                  : null;
+            const body =
+              raw != null && raw.length > maxBodyChars ? raw.slice(0, maxBodyChars) : raw;
+            return {
+              path: c?.path,
+              op: c?.op,
+              ...(body != null
+                ? { body, bodyTruncated: raw != null && raw.length > maxBodyChars }
+                : {}),
+            };
+          });
+    const unifiedDiff =
+      typeof pack?.patchArtifact?.unifiedDiff === 'string'
+        ? pack.patchArtifact.unifiedDiff.length > maxBodyChars * 2
+          ? pack.patchArtifact.unifiedDiff.slice(0, maxBodyChars * 2)
+          : pack.patchArtifact.unifiedDiff
+        : null;
+    const absolutes = Array.isArray(pack?.measurements?.absolutes)
+      ? pack.measurements.absolutes
+      : Array.isArray(pack?.absolutes)
+        ? pack.absolutes
+        : [];
+    return {
+      kind: pack?.kind ?? null,
+      title: pack?.title ?? null,
+      summary: pack?.summary ?? null,
+      commercialTitle: pack?.commercialTitle ?? null,
+      commercialDescription:
+        typeof pack?.commercialDescription === 'string'
+          ? pack.commercialDescription.slice(0, 4000)
+          : null,
+      confidence: pack?.confidence ?? null,
+      coveredSourcePaths: asPathList(pack?.coveredSourcePaths).slice(0, 40),
+      patch: {
+        patchSummary: pack?.patch?.patchSummary ?? pack?.patchArtifact?.patchSummary ?? null,
+        fileChanges,
+        bodiesComplete: pack?.patchArtifact?.bodiesComplete ?? null,
+        unifiedDiff,
+      },
+      patchArtifact: pack?.patchArtifact
+        ? {
+            artifactId: pack.patchArtifact.artifactId,
+            format: pack.patchArtifact.format,
+            fileCount: pack.patchArtifact.fileCount,
+            bodiesComplete: pack.patchArtifact.bodiesComplete,
+          }
+        : null,
+      measurements: {
+        absolutes: absolutes.map((row: any) => ({
+          measurementKind: row?.measurementKind,
+          volume: row?.volume,
+          magnitude: row?.magnitude,
+          unit: row?.unit,
+          status: row?.status,
+          descriptor: row?.descriptor,
+          label: row?.label,
+        })),
+        measureReport: pack?.measureReport || pack?.measurements?.measureReport || null,
+        materialIdentity:
+          pack?.materialIdentity || pack?.measurements?.materialIdentity || null,
+      },
+      salvaged: pack?.salvaged === true,
+    };
+  });
 }
 
 export default async function runDepositReadyToFinishAgent(input: any, execution: any) {
@@ -262,12 +332,14 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
     execution,
     resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
-  const catalogForPrompt = projectInventoryForPrompt(catalog);
+  const catalogPathsOnly = projectInventoryForPrompt(catalog);
   // Run 49a2630b: free-text obfuscations "Tests." was mapped onto every remaining
   // catalog path (only tests/* left after impermissible apps/packages). That
   // self-defeats Validation (every pack "violates" the only deposit surface).
   const catalogPaths = asPathList(
-    catalogForPrompt?.paths ?? catalog?.paths ?? findValue(execution, 'deposit', 'sourceCheckoutCatalog')?.paths,
+    catalogPathsOnly?.paths ??
+      catalog?.paths ??
+      findValue(execution, 'deposit', 'sourceCheckoutCatalog')?.paths,
   );
   const obfuscatedPaths = sanitizeObfuscatedPathsAgainstCatalog(
     rawObfuscatedPaths,
@@ -302,14 +374,16 @@ export default async function runDepositReadyToFinishAgent(input: any, execution
       qualitativePtrrRan = true;
       const raw = await DepositReadyToFinishCore(
         {
+          // Includes real patch bodies for quality judgment (synthesis provider input).
           assetPacks: compactPacksForPrompt(packs),
           sourceCheckoutCatalog: {
-            paths: catalogForPrompt?.paths ?? catalog?.paths ?? [],
+            paths: catalogPathsOnly?.paths ?? catalog?.paths ?? [],
             totalPathCount:
-              catalogForPrompt?.totalPathCount ??
+              catalogPathsOnly?.totalPathCount ??
               (Array.isArray(catalog?.paths) ? catalog.paths.length : 0),
+            sourceFileCount: catalogPathsOnly?.sourceFileCount ?? 0,
           },
-          inventoryPaths: catalogForPrompt?.paths ?? catalog?.paths,
+          inventoryPaths: catalogPathsOnly?.paths ?? catalog?.paths,
           obfuscationGuidance: obfuscationGuidance
             ? {
                 summary: (obfuscationGuidance as any)?.summary ?? null,

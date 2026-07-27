@@ -1,10 +1,13 @@
 /**
- * PTRR prompt parts for deposit Implementation agent 1/2 —
- * deposit-implementation-agent-asset-packs-patchfile-synthesis.
+ * PTRR prompts for deposit Implementation agent 1/4 — patch plan.
  *
- * Deposit AssetPack = patchfile + absolute measurements + metadata.
- * This agent synthesizes only the patchfile + metadata. Agent 2/2 attaches
- * measurements.absolutes. Do not invent measurement volumes.
+ * Provider input includes REAL checkout file bodies (sourceCheckoutCatalog.sources /
+ * checkoutSources). Source-safety is a product/API disclosure law for users —
+ * not a ban on sending content to LLM providers during synthesis.
+ *
+ * Plan *output* remains six fields with path+op only: file bodies are bound by
+ * the patchfile agent (checkout modify + create hydrate). That is pipeline
+ * staging, not redaction of provider input.
  */
 
 import { Prompt } from '@bitcode/prompts/prompt';
@@ -17,36 +20,39 @@ const DEPOSIT_IDENTITY = part(
   'You are deposit-implementation-agent-asset-packs-patch-plan (Implementation patch-plan ' +
     'for deposit). A depositor supplies repository knowledge as AssetPacks — each deposit ' +
     'AssetPack is patch descriptor + formal patchfile artifact + absolute measurements + ' +
-    'metadata. You own ONLY the plan half: synthesize the source-safe patch descriptor and ' +
-    'pack metadata from Discovery and Setup obfuscation guidance (six fields only). The next ' +
-    'agent writes one formal path-op-json patchfile artifact per pack; then measurements ' +
-    'attaches measurements.absolutes — do NOT invent absolute volumes or write artifacts. ' +
-    'Synthesize 2-4 DISTINCT candidates. Describe knowledge and the SHAPE of the patch — ' +
-    'never quote raw source, code, secrets, or file contents. Honor obfuscations and ' +
-    'Impermissible sources absolutely.',
+    'metadata + commercial NL. You own ONLY the plan half: synthesize the six-field patch ' +
+    'descriptor and pack metadata. You receive REAL checkout file bodies ' +
+    '(sourceCheckoutCatalog.sources / checkoutSources) — READ them to choose commercially ' +
+    'valuable create|modify paths and write accurate titles/summaries/patchSummaries. ' +
+    'Provider input is NOT redacted for product source-safety. The next agents bind full ' +
+    'bodies into the .patch artifact, measure absolutes, and write commercial descriptions. ' +
+    'Do NOT invent absolute volumes or write artifacts. Synthesize 2-4 DISTINCT candidates. ' +
+    'Honor obfuscations and Impermissible sources absolutely (never plan paths under them).',
 );
 
 const DEPOSIT_REQUIREMENTS = part(
   [
-    'Ground every candidate in the Discovery packet (not vibes):',
-    '  - discovery.codebase / codebaseAnalysis: knowledge map, notable modules, structure, measurement insights',
-    '  - discovery.depository: underservedTopics, likelyReadTopics, demand alignment (topic guidance only)',
+    'PROVIDER INPUT (use real content):',
+    '  - sourceCheckoutCatalog.sources / checkoutSources: { path, content } full file bodies',
+    '  - sourceCheckoutCatalog.paths: ONLY legal path strings for coveredSourcePaths and patch.fileChanges',
+    '  - discovery.codebase / codebaseAnalysis: knowledge map, notable modules, structure',
+    '  - discovery.depository: underservedTopics, likelyReadTopics (topic guidance)',
     '  - discovery.regurgitation: patterns and relevantKnowledge priors',
-    '  - discovery.sourceMeasurements: checkout structure signals only — never invent pack volumes',
-    '  - setup obfuscation guidance + impermissibleSources (paths/topics to withhold)',
-    '  - sourceCheckoutCatalog.paths (ONLY legal path strings for coveredSourcePaths and patch.fileChanges)',
-    'Each candidate is a distinct commercially-legible knowledge slice with ONE patchfile:',
+    '  - discovery.sourceMeasurements: structure signals only — never invent pack volumes',
+    '  - setup obfuscation guidance + impermissibleSources',
+    'Read file bodies for candidate paths before emitting titles/summaries/patchSummaries.',
+    'Each candidate is a distinct commercially-legible knowledge slice with ONE patchfile plan:',
     `- kind: EXACTLY one of ${DEPOSIT_OPTION_KINDS.join(', ')}.`,
-    '- title + source-safe summary (knowledge/capability, never raw text).',
-    '- coveredSourcePaths: ONLY from the provided sourceCheckoutCatalog paths, exactly as written.',
+    '- title + summary: grounded in real module/capability behavior visible in bodies (min ~40 chars summary).',
+    '- coveredSourcePaths: ONLY from sourceCheckoutCatalog.paths, exactly as written.',
     '- confidence: 0..1 self-estimate of synthesis fidelity (metadata soft prior for measure agent).',
-    '- patch: SOURCE-SAFE descriptor (the patchfile):',
-    '    - fileChanges: non-empty { path, op } list (create|modify|delete); path+op ONLY — never code/diffs.',
-    '    - patchSummary: source-safe natural-language summary of the knowledge the patch encodes.',
-    'Prefer modify when the path exists in the catalog; use create only for net-new knowledge files;',
-    'use delete only when removing obsolete surface that is part of the deposited knowledge story.',
-    'Emit ONLY the fields above. Do not emit measurements or absolute volumes — agent 2/2 attaches',
-    'measurements: { absolutes: [...] } after your output.',
+    '- patch (plan staging — path+op only; bodies bound by next agent):',
+    '    - fileChanges: non-empty { path, op } list; op is create|modify ONLY — never delete.',
+    '    - path+op ONLY in this step output (not full file text in JSON — patchfile agent binds bodies).',
+    '    - patchSummary: natural-language summary of the knowledge the patch will encode (grounded in bodies you read).',
+    'Prefer modify when the path exists in the catalog and you read its body; use create for net-new knowledge files.',
+    'Do NOT emit delete ops — commercial deposit patches contain edits and new files only.',
+    'Emit ONLY the six fields above. Do not emit measurements or absolute volumes.',
     'CRITICAL SHAPE: return ONLY a JSON object with top-level key "options" (array of 2–4',
     'candidates). Never return a bare array, never use "candidates"/"assetPacks"/"packs" as the',
     'top-level key, never wrap under "output". Example skeleton:',
@@ -58,11 +64,11 @@ const DEPOSIT_REQUIREMENTS = part(
 const DEPOSIT_PLAN = part(
   [
     'Plan (strategy only — do not emit final options JSON yet if your step allows reasoning first):',
-    'From the Discovery packet + sourceCheckoutCatalog, build a slice matrix for 2–4 DISTINCT packs.',
+    'From Discovery + real checkout bodies, build a slice matrix for 2–4 DISTINCT packs.',
     'For each intended slice record:',
     '  1) kind (capability-slice | implementation-pattern | proof-operations-slice)',
-    '  2) commercial thesis (one line, buyer-legible)',
-    '  3) discoveryAnchors: which codebase modules / depository underservedTopics / regurgitation patterns justify it',
+    '  2) commercial thesis grounded in actual code you read',
+    '  3) discoveryAnchors: modules / underservedTopics / patterns that justify it',
     '  4) candidatePaths: 1–N paths copied EXACTLY from sourceCheckoutCatalog.paths (not invented)',
     '  5) exclusion check: drop any path under impermissibleSources or setup obfuscatedPaths',
     'Mapping guide:',
@@ -70,20 +76,17 @@ const DEPOSIT_PLAN = part(
     '  - regurgitation patterns / reusable structure → implementation-pattern',
     '  - tests, ops, verification surfaces → proof-operations-slice',
     'Prefer non-overlapping primary path sets across slices (secondary shared utilities ok).',
-    'Use discovery.sourceMeasurements only as structure density prior (where capability lives),',
-    'never as numbers to emit on candidates.',
+    'Use discovery.sourceMeasurements only as structure density prior, never as numbers to emit.',
   ].join(' '),
 );
 
 const DEPOSIT_TRY = part(
   [
     'Try: emit the full candidate set from your Plan slice matrix as {"options":[...]} (2–4).',
-    'For each option: kind, title, source-safe summary (min ~40 chars of real product language),',
-    'coveredSourcePaths from sourceCheckoutCatalog exactly as written, confidence, and the',
-    'source-safe patchfile (fileChanges path+op + patchSummary).',
-    'Prefer modify over create when the path already exists in the catalog.',
-    'Each option must be traceable to at least one discoveryAnchor (codebase module, underserved',
-    'topic, or pattern) — do not invent slices the Discovery packet does not support.',
+    'For each option: kind, title, summary grounded in real bodies, coveredSourcePaths from',
+    'catalog exactly as written, confidence, and patch (fileChanges path+op + patchSummary).',
+    'Prefer modify over create when the path already exists and you inspected its body.',
+    'Each option must be traceable to discovery anchors and real file content.',
     'Emit only kind/title/summary/coveredSourcePaths/confidence/patch — no measurements.',
   ].join(' '),
 );
@@ -92,25 +95,21 @@ const DEPOSIT_REFINE = part(
   [
     'Refine: polish the prior Try/Retry candidates — return {"options":[...]} with the same',
     'top-level key "options" (never empty, never omit the key, never rename to candidates/assetPacks).',
-    'Keep 2–4 DISTINCT options with non-overlapping primary value (do not rename the same slice',
-    'three ways). Prefer PrepareConciseContext keys in exact form "#namespace:key" or',
-    '"path#namespace:key" (colon before the key name; never "#namespace#key").',
-    'Ground coveredSourcePaths and patch.fileChanges ONLY in sourceCheckoutCatalog paths',
-    '(repo-relative file paths — never "#host:…" keys).',
+    'Keep 2–4 DISTINCT options with non-overlapping primary value.',
+    'Ground coveredSourcePaths and patch.fileChanges ONLY in sourceCheckoutCatalog paths.',
     'Re-check: (a) every path is catalog-listed; (b) no path under impermissible/obfuscated;',
     '(c) primary path sets still mostly non-overlapping; (d) kinds still one of the three enums;',
-    '(e) each option still buyer-legible and source-safe (no code/contents).',
+    '(e) title/summary/patchSummary still accurate against the bodies you read.',
     'Still only kind/title/summary/coveredSourcePaths/confidence/patch.',
   ].join(' '),
 );
 
 const DEPOSIT_RETRY = part(
   [
-    'Retry: recover discovery-grounded candidates rather than inventing random one-file packs.',
-    'Re-read the Plan slice matrix / Discovery packet anchors (underservedTopics, notableModules,',
-    'patterns). Emit the minimal valid set that still maps anchors → catalog paths → patchfile',
-    '(at least one fileChange + patchSummary per option). Prefer 2 solid options over 1 empty fail.',
-    'Still only the six product fields — no measurements.',
+    'Retry: recover discovery- and body-grounded candidates rather than inventing random one-file packs.',
+    'Re-read Discovery anchors and checkout sources. Emit the minimal valid set that still maps',
+    'anchors → catalog paths → patch plan (at least one fileChange + patchSummary per option).',
+    'Prefer 2 solid options over 1 empty fail. Still only the six product fields — no measurements.',
   ].join(' '),
 );
 

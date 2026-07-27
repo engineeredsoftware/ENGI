@@ -1,9 +1,13 @@
 /**
- * Deposit Implementation phase: three sequential agents on the same AssetPack(s).
+ * Deposit Implementation phase: four sequential agents on the same AssetPack(s).
  *
- *   1. patch-plan — six-field source-safe descriptors
- *   2. patchfile — write one AssetPackPatchArtifact per pack (7th field)
- *   3. measurements — measure that patch; attach measurements.absolutes
+ *   1. patch-plan — six-field plan descriptors (LLM grounded in REAL checkout bodies)
+ *   2. patchfile — write one AssetPackPatchArtifact per pack (hybrid create|modify bodies)
+ *   3. measurements — measure that patch from real bodies; attach measurements.absolutes
+ *   4. commercial-nl — rich buyer title + description grounded in full .patch material
+ *
+ * LLM providers receive full source/patch content. Product source-safety is for
+ * unpaid user/API surfaces only.
  */
 
 import { createAgentExecutor } from '@bitcode/pipelines-generics';
@@ -20,6 +24,8 @@ const PATCHFILE_KEY =
   'implementation:deposit-implementation-agent-asset-packs-patchfile';
 const MEASUREMENTS_KEY =
   'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis';
+const COMMERCIAL_NL_KEY =
+  'implementation:deposit-implementation-agent-asset-packs-commercial-nl';
 
 export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
@@ -40,6 +46,7 @@ export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisDepositA
     createAgentExecutor(PATCH_PLAN_KEY),
     createAgentExecutor(PATCHFILE_KEY),
     createAgentExecutor(MEASUREMENTS_KEY),
+    createAgentExecutor(COMMERCIAL_NL_KEY),
   );
   return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<

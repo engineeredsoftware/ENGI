@@ -196,9 +196,11 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'implementation:deposit-implementation-agent-asset-packs-patch-plan': [],
     'implementation:deposit-implementation-agent-asset-packs-patchfile': [],
     'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis': [],
+    'implementation:deposit-implementation-agent-asset-packs-commercial-nl': [],
     'DepositImplementationAgentAssetPacksPatchPlan': [],
     'DepositImplementationAgentAssetPacksPatchfile': [],
     'DepositImplementationAgentAssetPacksMeasurementsSynthesis': [],
+    'DepositImplementationAgentAssetPacksCommercialNl': [],
     // Compat aliases
     'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis': [],
     'DepositImplementationAgentAssetPacksPatchfileSynthesis': [],

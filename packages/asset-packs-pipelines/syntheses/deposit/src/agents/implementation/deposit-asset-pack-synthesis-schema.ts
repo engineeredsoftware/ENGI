@@ -20,13 +20,20 @@ export const DEPOSIT_OPTION_KINDS = [
 
 export type DepositOptionKind = (typeof DEPOSIT_OPTION_KINDS)[number];
 
-/** SOURCE-SAFE patch descriptor: path + op + summary only — never raw code. */
+/**
+ * Plan-step patch *output* shape: path + op + summary only.
+ * File bodies are bound by the patchfile agent (checkout modify + create hydrate),
+ * not emitted in plan PTRR output. This is pipeline staging — not a ban on
+ * sending real source to LLM providers during measure/commercial/create steps.
+ * Commercial deposit packs: create|modify only (no delete).
+ */
 export const depositPatchSchema = z.object({
   fileChanges: z
     .array(
       z.object({
         path: z.string().min(1),
-        op: z.enum(['create', 'modify', 'delete']),
+        // Commercial deposit .patch: create|modify only — no deletions.
+        op: z.enum(['create', 'modify']),
       }),
     )
     .min(1),
@@ -77,8 +84,13 @@ export function projectDepositPatchfileCandidate(raw: unknown): unknown {
           .filter((fc) => fc && typeof fc === 'object')
           .map((fc) => {
             const row = fc as Record<string, unknown>;
-            return { path: row.path, op: row.op };
+            const opRaw = String(row.op ?? 'modify').toLowerCase();
+            // Drop delete; coerce unknown ops to modify (deposit commercial law).
+            if (opRaw === 'delete') return null;
+            const op = opRaw === 'create' ? 'create' : 'modify';
+            return { path: row.path, op };
           })
+          .filter(Boolean)
       : patch.fileChanges;
     out.patch = {
       fileChanges,

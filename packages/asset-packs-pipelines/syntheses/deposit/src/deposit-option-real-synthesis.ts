@@ -224,29 +224,80 @@ export function buildRealDepositAssetPackOptionSynthesis(
       provenantSourcePaths: candidate.coveredSourcePaths,
     });
     const contents = synthesisAssetPackToDepositContents(synthesisPack);
-    // Carry unified-diff from host when present on extended candidate rows.
+    // Carry unified-diff / completeness from host when present on extended rows.
     const hostExtra = candidate as unknown as {
-      patchArtifact?: { unifiedDiff?: string };
+      patchArtifact?: {
+        unifiedDiff?: string;
+        bodiesComplete?: boolean;
+        files?: Array<{ path?: string; op?: string; body?: string }>;
+      };
+      patch?: {
+        fileChanges?: Array<{ path?: string; op?: string; content?: string }>;
+      };
     };
     if (typeof hostExtra.patchArtifact?.unifiedDiff === 'string') {
-      (contents as { unifiedDiff?: string }).unifiedDiff =
+      (contents as { unifiedDiff?: string | null }).unifiedDiff =
         hostExtra.patchArtifact.unifiedDiff;
     }
+    // Prefer host file bodies on contents when validate dropped content.
+    if (
+      Array.isArray(hostExtra.patch?.fileChanges) &&
+      hostExtra.patch!.fileChanges!.some((c) => typeof c.content === 'string')
+    ) {
+      contents.fileChanges = hostExtra.patch!.fileChanges!.map((c) => ({
+        path: String(c.path || ''),
+        op: String(c.op || 'modify'),
+        ...(typeof c.content === 'string' ? { content: c.content } : {}),
+      }));
+    } else if (Array.isArray(hostExtra.patchArtifact?.files)) {
+      const withBodies = hostExtra.patchArtifact!.files!.filter(
+        (f) => typeof f.body === 'string',
+      );
+      if (withBodies.length > 0) {
+        contents.fileChanges = hostExtra.patchArtifact!.files!.map((f) => ({
+          path: String(f.path || ''),
+          op: String(f.op || 'modify'),
+          ...(typeof f.body === 'string' ? { content: f.body } : {}),
+        }));
+      }
+    }
+    // Prefer commercial-NL agent output when present (buyer-legible; source-safe).
+    const hostCommercial = candidate as unknown as {
+      commercialTitle?: string;
+      commercialDescription?: string;
+    };
+    const displayTitle =
+      typeof hostCommercial.commercialTitle === 'string' &&
+      hostCommercial.commercialTitle.trim().length >= 8
+        ? hostCommercial.commercialTitle.trim()
+        : candidate.title;
+    const displaySummary =
+      typeof hostCommercial.commercialDescription === 'string' &&
+      hostCommercial.commercialDescription.trim().length >= 40
+        ? hostCommercial.commercialDescription.trim()
+        : candidate.summary;
+
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),
-      title: candidate.title,
-      summary: candidate.summary,
+      title: displayTitle,
+      summary: displaySummary,
       sourceBinding,
       demandAlignment,
       measurements,
       contents,
       reviewBoundary,
+      ...(typeof hostCommercial.commercialTitle === 'string'
+        ? { commercialTitle: hostCommercial.commercialTitle }
+        : {}),
+      ...(typeof hostCommercial.commercialDescription === 'string'
+        ? { commercialDescription: hostCommercial.commercialDescription }
+        : {}),
     };
 
     reviewProjections.push({
       optionId,
-      title: candidate.title,
+      title: displayTitle,
       coveredSourcePaths: candidate.coveredSourcePaths,
       measurementRationale: candidate.measurementRationale,
     });

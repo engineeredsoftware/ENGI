@@ -84,6 +84,13 @@ export interface DepositAssetPackOption {
   kind: DepositAssetPackOptionKind;
   title: string;
   summary: string;
+  /** Rich commercial title from commercial-NL (grounded in full .patch at synthesis). */
+  commercialTitle?: string;
+  /**
+   * Exhaustive commercial description for purchase consideration.
+   * Pre-settle product surface; full .patch bodies remain rights-gated separately.
+   */
+  commercialDescription?: string;
   sourceBinding: {
     repositoryFullName: string | null;
     sourceBranch: string | null;

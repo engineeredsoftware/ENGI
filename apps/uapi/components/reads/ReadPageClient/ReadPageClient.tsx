@@ -78,7 +78,8 @@ function aggregateMeasurementsForQuote(
 }
 
 export default function ReadPageClient() {
-  const { selectedTransactionId, routeReadingStage } = useReadRouteParams();
+  const { selectedTransactionId, routeReadingStage, purchaseIntent } =
+    useReadRouteParams();
   const {
     liveRuns,
     setLiveRuns,
@@ -484,6 +485,26 @@ export default function ReadPageClient() {
           }}
         >
           <div className="grid min-w-0 gap-5">
+            {purchaseIntent.active ? (
+              <div
+                className="border border-emerald-300/30 bg-emerald-400/10 px-4 py-3"
+                data-testid="reads-purchase-intent-banner"
+              >
+                <p className="text-[0.58rem] font-medium uppercase tracking-[0.14em] text-emerald-100/90">
+                  Purchase flow
+                </p>
+                <p className="mt-1 text-sm leading-6 text-neutral-200">
+                  Continue from Exchange: quote multi-rail settlement, settle money,
+                  transfer BTD rights, then unlock entitled .patch delivery.
+                  {purchaseIntent.packTitle
+                    ? ` Target: ${purchaseIntent.packTitle}.`
+                    : ""}
+                  {purchaseIntent.synthesisRunId
+                    ? ` Synthesis run attached for rehydration.`
+                    : " Compose or select a fit, then settle selected options."}
+                </p>
+              </div>
+            ) : null}
             <div className="grid min-w-0 gap-4 phone:gap-5">
               <div id="reads-section-source" className="min-w-0">
                 <DepositSourceSelection

@@ -1,7 +1,7 @@
 /**
- * Deposit Implementation agent 2/2 — DataPack measurements synthesis (V48).
+ * Deposit Implementation agent 3/4 — DataPack measurements synthesis (V48).
  *
- * Deposit DataPack = patchfile + absolute measurements + metadata.
+ * Deposit DataPack = patchfile + absolute measurements + metadata (+ commercial NL next).
  *
  * Tool-rich host agent (no free-form volume invention):
  *   1. Register SourceStaticAnalysisTool + absolute measure tools on execution

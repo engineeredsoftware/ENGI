@@ -91,16 +91,20 @@ const IDENTITY = part(
   'You are the SynthesizeAssetPacks Discovery agent that comprehends the depositor ' +
     'Host checkout (sourceCheckoutCatalog). You MUST ground analysis in absolute ' +
     'measurements, multi-call LSP queries, Host workspace tools (read-file, list-dir, ' +
-    'allowlisted run-command), the file-tree, and key file contents. Produce a ' +
-    'source-safe knowledge map for AssetPack synthesis. Never quote secrets, ' +
-    'credentials, or private keys.',
+    'allowlisted run-command), the file-tree, and REAL file contents provided in ' +
+    'keyFileReads and checkoutSources. Produce a knowledge map for AssetPack synthesis. ' +
+    'Provider input includes full source bodies (not redacted for product source-safety). ' +
+    'Do not invent modules you did not observe. Avoid amplifying credentials/private keys ' +
+    'in the knowledge-map summary when present in source.',
 );
 
 const REQUIREMENTS = part(
   [
-    'Inputs may include: repository coordinates, sourceCheckoutCatalog paths, fileTree,',
-    'keyFileReads (seed excerpts), sourceMeasurements, workspacePath/workspaceRoot, and',
-    'usable tool docs (LSP + host-workspace-*).',
+    'Inputs may include: repository coordinates, sourceCheckoutCatalog (paths + sources with',
+    'REAL file bodies), checkoutSources, fileTree, keyFileReads (full/large file contents),',
+    'sourceMeasurements, workspacePath/workspaceRoot, and usable tool docs (LSP + host-workspace-*).',
+    'Provider input includes real source content — use it. Product source-safety is for user',
+    'API surfaces, not this synthesis step.',
     'Derive comprehension.summary / capabilities / knowledgeAreas / notableModules /',
     'measurementInsights / structureInsights from evidence — invent nothing.',
     'On Try/Retry task Thinkings: include useTools with MANY entries when tools can improve',
@@ -133,14 +137,14 @@ const TRY = part(
     `${LSP_TOOL_NAMES.hover}) only when a live session is available — avoid workspace-wide`,
     `${LSP_TOOL_NAMES.workspaceSymbols} on monorepos (OOM risk).`,
     'Always pass workspaceRoot (or workspacePath alias) from selected context into host tools.',
-    'After tools postprocess, produce comprehension grounded in tool results + seed measurements.',
-    'Source-safe: never dump secrets; paths only from catalog or tool results.',
+    'After tools postprocess, produce comprehension grounded in tool results + keyFileReads +',
+    'checkoutSources + seed measurements. Prefer catalog paths; avoid inventing paths.',
   ].join(' '),
 );
 
 const REFINE = part(
-  'Refine (no tools): ensure the map is source-safe, grounded in tool results and ' +
-    'sourceCheckoutCatalog evidence, and useful for pack synthesis. Omit useTools.',
+  'Refine (no tools): ensure the map is grounded in tool results, keyFileReads, checkoutSources, ' +
+    'and sourceCheckoutCatalog evidence, and useful for pack synthesis. Omit useTools.',
 );
 
 const RETRY = part(
@@ -238,7 +242,8 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     : [];
 
   const fileTree = buildFileTreeStructure(paths);
-  const keyFileReads = pickKeySourceFiles(bodies, samples, paths);
+  // Prefer large real reads for discovery grounding (not path-only samples).
+  const keyFileReads = pickKeySourceFiles(bodies, samples, paths, 80, 100_000);
 
   // Seed absolutes (offline) — Try tools deepen; do not replace multi-tool Try.
   let sourceMeasurements: unknown[] = [];
@@ -252,8 +257,8 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     );
     const measurePaths =
       bodies.length > 0
-        ? bodies.slice(0, 40).map((f) => f.path)
-        : paths.slice(0, 40);
+        ? bodies.slice(0, 120).map((f) => f.path)
+        : paths.slice(0, 120);
     const patchDescriptor = {
       title: 'Host checkout source measurement',
       summary:
@@ -264,7 +269,7 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
     };
     if (measurePaths.length > 0) {
       const report = analyzeStaticSource({
-        files: bodies.slice(0, 40),
+        files: bodies.slice(0, 120),
         targetPaths: measurePaths,
       });
       const measured = computeAbsolutesFromReport(report, patchDescriptor);
@@ -286,24 +291,38 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
   );
   storeCrossPhaseArtifact(execution, 'discovery', 'usableToolNames', registeredToolNames);
 
+  const { projectInventoryForSynthesisProvider } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis'
+  );
+  const synthesisCatalog = projectInventoryForSynthesisProvider(sourceCheckoutCatalog, {
+    maxSourceFiles: 200,
+    maxCharsPerFile: 100_000,
+    maxTotalChars: 2_500_000,
+  });
+
   const raw = await DepositCodebaseComprehensionAgent(
     {
       ...input,
       repository,
       workspacePath,
       workspaceRoot: workspacePath,
-      sourceCheckoutCatalog: {
+      // Full synthesis-provider catalog (real bodies) — not path-only projection.
+      sourceCheckoutCatalog: synthesisCatalog || {
         paths,
         pathCount: paths.length,
         samples,
         sampleCount: samples.length,
         fileBodyCount: bodies.length,
+        sources: bodies,
       },
+      checkoutSources: synthesisCatalog?.sources ?? bodies,
       fileTree,
+      // Full key-file bodies already bounded by pickKeySourceFiles (100k chars).
       keyFileReads: keyFileReads.map((k) => ({
         path: k.path,
-        content: k.content.slice(0, 4000),
+        content: k.content,
         truncated: k.truncated,
+        byteLength: k.byteLength,
       })),
       sourceMeasurements,
       lspInitialized,

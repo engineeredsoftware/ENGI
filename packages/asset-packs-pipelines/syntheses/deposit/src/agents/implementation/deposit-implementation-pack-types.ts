@@ -1,11 +1,13 @@
 /**
- * Typed deposit Implementation handoff (plan → patchfile write → measurements).
+ * Typed deposit Implementation handoff:
+ *   plan → patchfile write → measurements → commercial NL.
  *
  * Deposit AssetPack =
  *   metadata (kind, title, summary, coveredSourcePaths, confidence)
- *   + patch descriptor { fileChanges, patchSummary }
- *   + patchArtifact (ONE formal AssetPackPatchArtifact handle per pack)  // 7th
+ *   + patch descriptor { fileChanges, patchSummary }  // create|modify only
+ *   + patchArtifact (ONE formal AssetPackPatchArtifact handle per pack)
  *   + measurements.absolutes
+ *   + commercialTitle / commercialDescription (buyer product brief; grounded in full patch)
  *
  * Construction is allowlist-only.
  */
@@ -25,7 +27,8 @@ import {
 export type DepositPatchfileDescriptor = {
   fileChanges: Array<{
     path: string;
-    op: 'create' | 'modify' | 'delete' | string;
+    /** Commercial deposit .patch: create|modify only (no deletions). */
+    op: 'create' | 'modify' | string;
     /** Full file body when attached for depositor review / settle. */
     content?: string;
   }>;
@@ -117,6 +120,7 @@ export type DepositPatchfilePack = DepositPatchPlanPack & {
  * After measurements agent: measured deposit DataPack.
  * materialIdentity is buyer-visible multi-valued identity (domain bag).
  * measureReport is honesty telemetry for the measure session.
+ * commercialTitle / commercialDescription are attached by the commercial-NL agent.
  */
 export type DepositMeasuredPack = DepositPatchfilePack & {
   measurements: {
@@ -127,6 +131,19 @@ export type DepositMeasuredPack = DepositPatchfilePack & {
   absolutes?: DepositAbsoluteReading[];
   materialIdentity?: Record<string, unknown> | null;
   measureReport?: DepositMeasureReport | null;
+  /** Buyer product commercial title (grounded in real .patch material). */
+  commercialTitle?: string;
+  /**
+   * Rich buyer commercial description from full patch + measurements.
+   * Product surfaces may show this pre-settle; full file bodies stay rights-gated.
+   */
+  commercialDescription?: string;
+};
+
+/** After commercial-NL agent: measured pack + commercial prose. */
+export type DepositCommercialPack = DepositMeasuredPack & {
+  commercialTitle: string;
+  commercialDescription: string;
 };
 
 export type DepositPatchPlanPhaseOutput = {
@@ -181,6 +198,21 @@ export type DepositMeasurementsPhaseOutput = {
   salvaged: boolean;
   salvageCount: number;
   measurementReports: DepositMeasurementReportRow[];
+};
+
+export type DepositCommercialNlPhaseOutput = {
+  success: boolean;
+  semanticKind: 'asset-pack-commercial-nl';
+  options: DepositCommercialPack[];
+  summary: string;
+  assetPack: { repository: unknown };
+  patchPlanComplete: true;
+  patchfileWritten: boolean;
+  measured: boolean;
+  presentable: boolean;
+  salvaged: boolean;
+  salvageCount: number;
+  commercialNlComplete: boolean;
 };
 
 /** @deprecated Use DepositPatchPlanPack — plan agent output before artifact write. */
@@ -247,6 +279,33 @@ export function toDepositMeasuredPack(
   };
 }
 
+/** Attach commercial NL prose onto a measured pack (agent 4/4). */
+export function toDepositCommercialPack(
+  measured: DepositMeasuredPack,
+  commercial: { commercialTitle: string; commercialDescription: string },
+): DepositCommercialPack {
+  const title = String(commercial.commercialTitle || '').trim() || measured.title;
+  const description =
+    String(commercial.commercialDescription || '').trim() || measured.summary;
+  return {
+    ...measured,
+    commercialTitle: title,
+    commercialDescription: description,
+  };
+}
+
+/** True when commercial prose is present and non-trivial. */
+export function hasCommercialNl(pack: unknown): boolean {
+  if (!pack || typeof pack !== 'object') return false;
+  const p = pack as DepositCommercialPack;
+  return (
+    typeof p.commercialTitle === 'string' &&
+    p.commercialTitle.trim().length >= 8 &&
+    typeof p.commercialDescription === 'string' &&
+    p.commercialDescription.trim().length >= 80
+  );
+}
+
 export function hasPatchArtifact(pack: unknown): boolean {
   if (!pack || typeof pack !== 'object') return false;
   const a = (pack as { patchArtifact?: DepositPatchArtifactHandle }).patchArtifact;
@@ -263,17 +322,35 @@ export function hasPatchArtifact(pack: unknown): boolean {
 
 /**
  * Presentable for depositor review:
- * patch artifact + measurements.absolutes only (full 46 commercial catalogue)
- * + not salvaged.
+ * patch artifact + measurements.absolutes (full commercial catalogue)
+ * + not salvaged + no delete ops + bodies complete when claimed.
  */
 export function isDepositPresentablePack(pack: unknown): boolean {
   if (!pack || typeof pack !== 'object') return false;
-  const p = pack as DepositMeasuredPack & { salvaged?: boolean };
+  const p = pack as DepositMeasuredPack & {
+    salvaged?: boolean;
+    patch?: DepositPatchfileDescriptor;
+    patchArtifact?: DepositPatchArtifactHandle;
+  };
   if (p.salvaged === true) return false;
   if (!hasPatchArtifact(p)) return false;
-  // Same commercial law as finish readiness: all 46 with finite volume+magnitude.
   if (!hasDepositAbsolutesOnlyShape(p)) return false;
-  return hasRequiredAbsolutes(p);
+  if (!hasRequiredAbsolutes(p)) return false;
+  // No deletions in commercial deposit patch.
+  const changes =
+    p.patchArtifact?.files ||
+    p.patch?.fileChanges ||
+    [];
+  for (const c of changes) {
+    if (String((c as { op?: string }).op || '').toLowerCase() === 'delete') {
+      return false;
+    }
+  }
+  // When artifact claims body completeness, require true.
+  if (p.patchArtifact && p.patchArtifact.bodiesComplete === false) {
+    return false;
+  }
+  return true;
 }
 
 export function countSalvagedPacks(options: unknown[]): number {

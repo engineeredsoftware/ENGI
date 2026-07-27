@@ -83,6 +83,11 @@ export {
   normalizeSourcePathList,
   pickInventorySamples,
   projectInventoryForPrompt,
+  projectInventoryForSynthesisProvider,
+} from './asset-packs-synthesis-inventory';
+export type {
+  SynthesisProviderInventoryOptions,
+  SynthesisProviderInventoryProjection,
 } from './asset-packs-synthesis-inventory';
 
 // ---- Fail-closed validation ------------------------------------------------

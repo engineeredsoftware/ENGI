@@ -3,7 +3,7 @@
  *
  * Registry: implementation:deposit-implementation-agent-asset-packs-patch-plan
  *
- * Sequence: THIS (plan descriptors) → patchfile write (artifact) → measurements.
+ * Sequence: THIS (plan descriptors) → patchfile write → measurements → commercial-nl.
  *
  * Builds 2–4 planned packs via allowlist (six fields only). Does NOT write the
  * formal patchfile artifact — that is the next agent. PTRR tools: [].
@@ -52,7 +52,7 @@ export const DepositImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
 >({
   name: 'DepositImplementationAgentAssetPacksPatchPlan',
   description:
-    'Implementation patch-plan: source-safe descriptor + metadata per deposit AssetPack. Absolutes are agent 2/2.',
+    'Implementation patch-plan: source-safe descriptor + metadata per deposit AssetPack. Absolutes are agent 3/4; commercial NL is 4/4.',
   outputSchema: depositCandidateSetSchema,
   tools: [],
   prompt: depositPrompt,
@@ -92,13 +92,19 @@ function gateAndProject(
   const covered = Array.isArray(opt.coveredSourcePaths)
     ? opt.coveredSourcePaths.filter(allow).map(normalizeRepoPath)
     : [];
+  // Commercial deposit .patch: create|modify only — drop delete ops.
   const fileChanges = Array.isArray(opt.patch?.fileChanges)
     ? opt.patch.fileChanges
         .filter((fc: any) => allow(fc?.path))
-        .map((fc: any) => ({
-          path: normalizeRepoPath(fc.path),
-          op: fc.op === 'create' || fc.op === 'delete' ? fc.op : 'modify',
-        }))
+        .map((fc: any) => {
+          const opRaw = String(fc?.op || 'modify').toLowerCase();
+          if (opRaw === 'delete') return null;
+          return {
+            path: normalizeRepoPath(fc.path),
+            op: (opRaw === 'create' ? 'create' : 'modify') as 'create' | 'modify',
+          };
+        })
+        .filter(Boolean)
     : [];
 
   if (covered.length === 0 || fileChanges.length === 0) return null;
@@ -257,12 +263,24 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
     execution,
     resolveSourceCheckoutCatalog(execution, input?.sourceCheckoutCatalog),
   );
-  const { projectInventoryForPrompt } = await import(
+  const {
+    projectInventoryForPrompt,
+    projectInventoryForSynthesisProvider,
+  } = await import(
     '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis'
   );
-  const catalogForPrompt = projectInventoryForPrompt(sourceCheckoutCatalog);
+  // Paths-only projection for catalog membership gating (deterministic).
+  const catalogPathsOnly = projectInventoryForPrompt(sourceCheckoutCatalog);
+  // FULL bodies for the plan LLM — real synthesis grounding (not product disclosure).
+  const catalogForSynthesis = projectInventoryForSynthesisProvider(sourceCheckoutCatalog, {
+    preferPaths: Array.isArray(sourceCheckoutCatalog?.paths)
+      ? (sourceCheckoutCatalog!.paths as string[]).slice(0, 80)
+      : [],
+  });
   const discoveryPacket = buildDiscoveryPacket(execution, input);
-  const catalogSet = buildCatalogPathSet(catalogForPrompt?.paths ?? sourceCheckoutCatalog?.paths);
+  const catalogSet = buildCatalogPathSet(
+    catalogPathsOnly?.paths ?? sourceCheckoutCatalog?.paths,
+  );
   const exclusionPrefixes = collectExclusionPrefixes(impermissibleSources, obfuscationGuidance);
 
   const agentInput = {
@@ -272,9 +290,12 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
     permissibleSources,
     impermissibleSources,
     demandContext,
-    sourceCheckoutCatalog: catalogForPrompt,
-    inventoryPaths: catalogForPrompt?.paths ?? sourceCheckoutCatalog?.paths,
-    excerpts: catalogForPrompt?.samples ?? sourceCheckoutCatalog?.samples,
+    // Provider input includes real file bodies for grounded patch planning.
+    sourceCheckoutCatalog: catalogForSynthesis || catalogPathsOnly,
+    inventoryPaths: catalogPathsOnly?.paths ?? sourceCheckoutCatalog?.paths,
+    // Full bodies (synthesis provider projection) — not path-only samples.
+    checkoutSources: catalogForSynthesis?.sources ?? sourceCheckoutCatalog?.sources ?? [],
+    excerpts: catalogPathsOnly?.samples ?? sourceCheckoutCatalog?.samples,
     obfuscationGuidance,
     sourceMeasurements: discoveryPacket.sourceMeasurements,
     discovery: discoveryPacket,
@@ -301,8 +322,8 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
   let options: DepositPatchPlanPack[];
   let usedSalvage = false;
   if (usableOptions.length === 0) {
-    const catalogPaths = Array.isArray(catalogForPrompt?.paths)
-      ? (catalogForPrompt.paths as string[])
+    const catalogPaths = Array.isArray(catalogPathsOnly?.paths)
+      ? (catalogPathsOnly.paths as string[])
       : [];
     options = buildSalvagePacks(catalogPaths, exclusionPrefixes);
     usedSalvage = options.length > 0;

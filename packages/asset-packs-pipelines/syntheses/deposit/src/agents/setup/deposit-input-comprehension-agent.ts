@@ -146,9 +146,9 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
     };
   }
 
-  // Prompt path: paths + samples only. Full checkout file bodies stay on the
-  // shared execution store for measurement; never enter PTRR user prompts
-  // (JSON.stringify of monorepo sources → Invalid string length).
+  // Obfuscation mapping needs path list (+ samples). Full bodies live on the
+  // shared execution store for Implementation/Discovery synthesis LLMs.
+  // (Huge monorepo dumps can OOM; obfuscation text is the primary signal here.)
   const catalogForPrompt = projectInventoryForPrompt(catalog);
   const raw = await DepositInputComprehensionAgent(
     {

@@ -94,7 +94,8 @@ describe('patchfile write agent', () => {
     const ids = new Set();
     for (const o of written.options) {
       expect(hasPatchArtifact(o)).toBe(true);
-      expect(o.patchArtifact.format).toMatch(/path-op-json|json/i);
+      // With checkout bodies, format upgrades to unified-diff; else path-op-json.
+      expect(o.patchArtifact.format).toMatch(/path-op-json|json|unified-diff/i);
       expect(o.patchArtifact.files.length).toBe(o.patch.fileChanges.length);
       expect(o.patchArtifact.envelopeJson).toContain(o.patchArtifact.artifactId);
       ids.add(o.patchArtifact.artifactId);

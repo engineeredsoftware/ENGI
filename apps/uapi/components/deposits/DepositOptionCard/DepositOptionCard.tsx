@@ -19,6 +19,7 @@ import {
   buildDepositOptionReviewArtifact,
   buildDepositOptionSourcePatchDownload,
 } from "@/components/deposits/models/deposit-admission-activity";
+import { DataPackDownloads } from "@/components/datapacks/DataPackDownloads/DataPackDownloads";
 import {
   countExpandedFillAbsolutes,
   countMeasuredAbsolutes,
@@ -219,6 +220,13 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
   const handleDownloadReviewArtifact = () => {
     downloadJsonFile(buildDepositOptionReviewArtifact(option));
   };
+  const sourcePatch = React.useMemo(
+    () => buildDepositOptionSourcePatchDownload(option),
+    [option],
+  );
+  const patchHasBodies =
+    sourcePatch.body.includes("diff --git") &&
+    (sourcePatch.body.includes("\n+") || sourcePatch.body.includes("\n-"));
   const earningStatement =
     depositRouteSession.earningSupplyIntelligence.earningStatements.find(
       (statement) => statement.optionId === option.optionId,
@@ -334,31 +342,55 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 {projection.measurementRationale}
               </p>
             ) : null}
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button
-                type="button"
-                data-testid={`deposit-option-download-source-patch-${option.kind}`}
-                onClick={handleDownloadSourcePatch}
-                className="border border-emerald-300/40 bg-emerald-300/14 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-emerald-50 transition hover:border-emerald-200/55 hover:bg-emerald-300/20"
+            {/* Full commercial .patch — create|modify bodies; depositor-visible. */}
+            <div
+              className="mt-3 border border-emerald-300/25 bg-black/30"
+              data-testid={`deposit-option-patch-viewer-${option.kind}`}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-300/15 px-3 py-2">
+                <p className="text-[0.58rem] font-medium uppercase tracking-[0.14em] text-emerald-100/90">
+                  DataPack .patch
+                </p>
+                <p className="text-[0.62rem] text-neutral-500">
+                  {patchHasBodies
+                    ? "Full file contents (create + modify)"
+                    : "Path surface only — bodies not bound yet"}
+                </p>
+              </div>
+              {!patchHasBodies ? (
+                <p className="px-3 py-2 text-[0.7rem] leading-5 text-amber-100/90">
+                  Incomplete patch: file bodies were not attached for all create/modify
+                  paths. Re-run synthesis with checkout bodies, or ensure create
+                  paths receive content.
+                </p>
+              ) : null}
+              <pre
+                className="max-h-72 overflow-auto px-3 py-2 font-mono text-[0.65rem] leading-4 text-neutral-300"
+                tabIndex={0}
               >
-                Download .patch
-              </button>
-              <button
-                type="button"
-                data-testid={`deposit-option-download-review-${option.kind}`}
-                onClick={handleDownloadReviewArtifact}
-                className="border border-violet-300/35 bg-violet-300/12 px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-violet-50 transition hover:border-violet-200/50 hover:bg-violet-300/18"
-              >
-                Download DataPack metadata
-              </button>
-              <button
-                type="button"
-                data-testid={`deposit-option-download-patch-${option.kind}`}
-                onClick={handleDownloadPatchfile}
-                className="border border-white/15 bg-white/[0.04] px-3 py-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] text-neutral-300 transition hover:border-white/25 hover:bg-white/[0.07]"
-              >
-                Download path-op JSON
-              </button>
+                {sourcePatch.body}
+              </pre>
+            </div>
+            <div className="mt-3">
+              <DataPackDownloads
+                role="depositor"
+                optionId={option.optionId}
+                title={option.title}
+                summary={option.summary}
+                commercialTitle={
+                  (option as { commercialTitle?: string }).commercialTitle ||
+                  option.title
+                }
+                commercialDescription={
+                  (option as { commercialDescription?: string })
+                    .commercialDescription || option.summary
+                }
+                kind={option.kind}
+                testIdPrefix={`deposit-option-downloads-${option.kind}`}
+                onDownloadSourcePatch={handleDownloadSourcePatch}
+                onDownloadPathOpJson={handleDownloadPatchfile}
+                onDownloadMetadata={handleDownloadReviewArtifact}
+              />
             </div>
           </div>
         ) : projection ? (

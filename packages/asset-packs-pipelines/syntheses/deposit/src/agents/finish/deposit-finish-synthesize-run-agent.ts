@@ -63,6 +63,12 @@ function projectOption(opt: any, index: number) {
     kind: opt?.kind ?? null,
     title: opt?.title ?? null,
     summary: opt?.summary ?? null,
+    ...(typeof opt?.commercialTitle === 'string'
+      ? { commercialTitle: opt.commercialTitle }
+      : {}),
+    ...(typeof opt?.commercialDescription === 'string'
+      ? { commercialDescription: opt.commercialDescription }
+      : {}),
     coveredSourcePaths: opt?.coveredSourcePaths ?? [],
     confidence: opt?.confidence ?? null,
     absolutes,

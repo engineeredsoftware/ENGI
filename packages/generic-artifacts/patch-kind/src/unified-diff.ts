@@ -45,28 +45,12 @@ export function buildUnifiedDiffFromPatchFiles(
           ? asContent.content
           : null;
 
+    // Commercial deposit .patch: create|modify only. Skip delete entries.
     if (op === 'delete') {
-      lines.push(`diff --git a/${path} b/${path}`);
-      lines.push(`deleted file mode 100644`);
-      lines.push(`--- a/${path}`);
-      lines.push(`+++ /dev/null`);
-      if (body != null && body.length > 0) {
-        const oldLines = ensureTrailingNewline(normalizeNewlines(body)).split('\n');
-        // last split is empty when trailing newline
-        const count = Math.max(0, oldLines.length - (oldLines[oldLines.length - 1] === '' ? 1 : 0));
-        lines.push(`@@ -1,${count} +0,0 @@`);
-        for (let i = 0; i < oldLines.length; i++) {
-          if (i === oldLines.length - 1 && oldLines[i] === '') break;
-          lines.push(`-${oldLines[i]}`);
-        }
-      } else {
-        lines.push(`@@ -0,0 +0,0 @@`);
-      }
-      lines.push('');
       continue;
     }
 
-    // create / modify: full new contents (depositor review + settle material).
+    // create / modify: full file contents (depositor review + settle material).
     const content = body != null ? ensureTrailingNewline(normalizeNewlines(body)) : '\n';
     const newLines = content.split('\n');
     const count = Math.max(0, newLines.length - (newLines[newLines.length - 1] === '' ? 1 : 0));

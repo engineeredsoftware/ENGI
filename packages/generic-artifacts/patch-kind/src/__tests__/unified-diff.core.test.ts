@@ -24,11 +24,18 @@ describe('buildUnifiedDiffFromPatchFiles', () => {
     );
   });
 
-  it('emits delete headers without inventing bodies', () => {
+  it('skips delete ops (commercial deposit patches disallow deletions)', () => {
     const text = buildUnifiedDiffFromPatchFiles([
       { path: 'src/gone.ts', op: 'delete' },
+      {
+        path: 'src/keep.ts',
+        op: 'modify',
+        body: 'export const keep = 1;\n',
+      },
     ]);
-    expect(text).toContain('deleted file mode 100644');
-    expect(text).toContain('+++ /dev/null');
+    expect(text).not.toContain('deleted file mode');
+    expect(text).not.toContain('src/gone.ts');
+    expect(text).toContain('src/keep.ts');
+    expect(text).toContain('+export const keep = 1;');
   });
 });

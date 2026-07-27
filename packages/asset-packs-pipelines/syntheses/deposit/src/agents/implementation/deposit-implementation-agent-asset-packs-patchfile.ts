@@ -3,16 +3,18 @@
  *
  * Registry: implementation:deposit-implementation-agent-asset-packs-patchfile
  *
- * Sequence: patch-plan → THIS agent → measurements.
+ * Sequence: patch-plan → THIS agent → measurements → commercial-nl.
  *
  * For each planned option (descriptor + metadata), builds exactly one
  * AssetPackPatchArtifact via @bitcode/generic-asset-packs-synthesis and attaches
- * it as pack.patchArtifact (7th field). Binds full file bodies from the run
- * checkout catalog when available — that material is what is admitted/settled.
- * Also emits unified-diff text for depositor `.patch` download.
+ * it as pack.patchArtifact. Body bind hybrid:
+ *   - modify: depositor checkout full file body
+ *   - create: LLM (or deterministic fallback) full new-file body
+ * Commercial law: create|modify only — no deletions.
+ * Emits unified-diff text for depositor `.patch` download.
  *
- * Does not invent paths; uses plan agent fileChanges. Host agent (no PTRR).
- * Workspace PR apply is settle delivery-scope, not this agent.
+ * Does not invent paths; uses plan agent fileChanges. Host agent (create-body
+ * sub-agent is PTRR). Workspace PR apply is settle delivery-scope.
  */
 
 import { randomUUID } from 'crypto';
@@ -38,6 +40,7 @@ import {
   toDepositPatchPlanPack,
 } from './deposit-implementation-pack-types';
 import { AssetPackPatchWriteTool } from '../../../../domain/src/agents/implementation/asset-pack-patch-write-tool';
+import { hydrateMissingCreateBodies } from './deposit-create-body-hydrate';
 
 function findValue(execution: any, namespace: string, key: string): any {
   const local = execution?.get?.(namespace, key);
@@ -114,37 +117,41 @@ export function writeDepositPatchfileArtifact(
   const artifactId = `artifact-patch-${randomUUID()}`;
   const bodies = bodiesByPath || new Map<string, string>();
   const bodiesRecord: Record<string, string> = {};
-  for (const fc of plan.patch.fileChanges) {
-    const path = normalizeRepoPath(String(fc.path));
-    if (!path) continue;
-    const op = String(fc.op || 'modify').toLowerCase();
-    if (op === 'delete') continue;
-    const body = bodies.get(path);
-    if (typeof body === 'string') bodiesRecord[path] = body;
+  // Commercial law: create|modify only — drop delete ops entirely.
+  const legalChanges = plan.patch.fileChanges
+    .map((fc) => {
+      const path = normalizeRepoPath(String(fc.path));
+      if (!path) return null;
+      const opRaw = String(fc.op || 'modify').toLowerCase();
+      if (opRaw === 'delete') return null;
+      const op = (opRaw === 'create' ? 'create' : 'modify') as 'create' | 'modify';
+      return { path, op };
+    })
+    .filter(Boolean) as Array<{ path: string; op: 'create' | 'modify' }>;
+
+  for (const fc of legalChanges) {
+    // modify: checkout body; create: hydrated body (LLM or deterministic).
+    const body = bodies.get(fc.path);
+    if (typeof body === 'string') bodiesRecord[fc.path] = body;
   }
   const built = buildAssetPackPatchArtifact({
     artifactId,
     assetPackId,
     patchSummary: plan.patch.patchSummary,
-    fileChanges: plan.patch.fileChanges.map((fc) => ({
-      path: normalizeRepoPath(String(fc.path)),
-      op: (fc.op === 'create' || fc.op === 'delete' || fc.op === 'modify'
-        ? fc.op
-        : 'modify') as 'create' | 'modify' | 'delete',
-    })),
+    fileChanges: legalChanges,
     bodiesByPath: Object.keys(bodiesRecord).length > 0 ? bodiesRecord : null,
     name: `${artifactId}.patch.json`,
   });
-  const files = built.files.map((f) => ({
-    path: f.path,
-    op: String(f.op),
-    ...(typeof f.body === 'string' ? { body: f.body } : {}),
-  }));
+  const files = built.files
+    .filter((f) => String(f.op).toLowerCase() !== 'delete')
+    .map((f) => ({
+      path: f.path,
+      op: String(f.op).toLowerCase() === 'create' ? 'create' : 'modify',
+      ...(typeof f.body === 'string' ? { body: f.body } : {}),
+    }));
   const hasBodies = patchFilesHaveBodies(files);
-  const nonDelete = files.filter((f) => String(f.op).toLowerCase() !== 'delete');
   const bodiesComplete =
-    nonDelete.length === 0 ||
-    nonDelete.every((f) => typeof f.body === 'string' && f.body.length >= 0);
+    files.length > 0 && files.every((f) => typeof f.body === 'string');
   const unifiedDiff = hasBodies
     ? buildUnifiedDiffFromPatchFiles(files, {
         patchSummary: built.patchSummary,
@@ -226,7 +233,16 @@ export default async function runDepositImplementationAgentAssetPacksPatchfile(
       /* telemetry optional */
     }
 
-    const patchArtifact = writeDepositPatchfileArtifact(plan, bodiesByPath);
+    // Hybrid bodies: modify from checkout; create via LLM/deterministic fill.
+    // Clone map per pack so create fills do not leak across packs.
+    const packBodies = new Map(bodiesByPath);
+    try {
+      await hydrateMissingCreateBodies(plan, packBodies, execution);
+    } catch {
+      /* bodiesComplete may stay false; presentable gate enforces */
+    }
+
+    const patchArtifact = writeDepositPatchfileArtifact(plan, packBodies);
     // Descriptor carries content for settle/download (single source of truth).
     const pack: DepositPatchfilePack = {
       ...plan,
