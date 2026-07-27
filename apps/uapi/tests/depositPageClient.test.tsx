@@ -1030,15 +1030,21 @@ describe("DepositPageClient", () => {
         text.includes("62% · demand 70% · saturation 20%"),
     ).toBe(true);
 
-    // Absolutes tiles: full commercial catalogue (46) with SSOT weights.
+    // Absolutes tiles: compact multi-column catalogue (SSOT weights).
     expect(text).toContain("Function count");
-    // Weight is SSOT catalogue (scaled when companions join commercial law).
-    expect(text).toMatch(/12 functions · 55% \/ weight 0\.0(28|35)/);
+    // Compact card layout: magnitude line then "55% · w 0.028" (not legacy
+    // "12 functions · 55% / weight 0.028" single-line format).
+    expect(text).toContain("12 functions");
+    expect(text).toMatch(/55%\s*·\s*w\s*0\.0(28|35)/);
     // Full catalogue kinds present (not legacy 2-tile subset).
     expect(text).toContain("Secret safety");
     expect(text).toContain("Difficulty");
     expect(text).toContain("Correctness");
     expect(text).not.toContain("normalized");
+    // Commercial brief is on-page for deposit consideration.
+    expect(text).toContain("Commercial brief");
+    // Dense absolute grid is present.
+    expect(screen.getByTestId("deposit-option-absolute-grid")).toBeInTheDocument();
 
     // The await-synthesis placeholder is gone once real options render.
     expect(

@@ -16,6 +16,7 @@ import {
   buildSynthesisAssetPack,
   synthesisAssetPackToDepositContents,
 } from '@bitcode/generic-asset-packs-synthesis';
+import { buildUnifiedDiffFromPatchFiles } from '@bitcode/generic-artifacts-patch-kind';
 import {
   applyInventoryScope,
   isPathImpermissible,
@@ -183,9 +184,74 @@ export function buildRealDepositAssetPackOptionSynthesis(
       btdMintBoundary: 'not-minted-by-deposit-option' as const,
       settlementBoundary: 'future-reader-settlement-required-for-source-bearing-assetpack' as const,
     };
-    // Project through SynthesisAssetPack → deposit contents
-    // (path+op patch + provenant paths; never raw source or obfuscations).
+    // Project through SynthesisAssetPack → deposit contents.
     // Deposit measurements = absolutes only. Neediness is Read-pipeline only.
+    // Rehydrate modify bodies from checkout inventory when Implementation lost
+    // content through projection — depositor must see full .patch material.
+    const hostExtra = candidate as unknown as {
+      patchArtifact?: {
+        unifiedDiff?: string | null;
+        bodiesComplete?: boolean;
+        files?: Array<{ path?: string; op?: string; body?: string }>;
+      };
+      patch?: {
+        fileChanges?: Array<{ path?: string; op?: string; content?: string }>;
+      };
+      commercialTitle?: string;
+      commercialDescription?: string;
+      materialIdentity?: Record<string, unknown> | null;
+      measureReport?: Record<string, unknown> | null;
+    };
+    const inventoryBodies = new Map<string, string>();
+    for (const s of inventory.sources || []) {
+      if (s && typeof s.path === 'string' && typeof s.content === 'string') {
+        const key = s.path.replace(/\\/g, '/').replace(/^\.?\//, '').trim();
+        if (key && !inventoryBodies.has(key)) inventoryBodies.set(key, s.content);
+      }
+    }
+    const bodyByPath = new Map<string, string>();
+    // Priority: artifact files → patch content → checkout inventory (modify).
+    for (const f of hostExtra.patchArtifact?.files || []) {
+      if (typeof f?.path === 'string' && typeof f?.body === 'string') {
+        bodyByPath.set(
+          f.path.replace(/\\/g, '/').replace(/^\.?\//, '').trim(),
+          f.body,
+        );
+      }
+    }
+    for (const fc of hostExtra.patch?.fileChanges || candidate.patch?.fileChanges || []) {
+      const path = String(fc.path || '')
+        .replace(/\\/g, '/')
+        .replace(/^\.?\//, '')
+        .trim();
+      if (!path || bodyByPath.has(path)) continue;
+      if (typeof (fc as { content?: string }).content === 'string') {
+        bodyByPath.set(path, (fc as { content: string }).content);
+      }
+    }
+    const plannedChanges = (
+      candidate.patch?.fileChanges?.length
+        ? candidate.patch.fileChanges
+        : hostExtra.patchArtifact?.files || []
+    ).map((fc) => {
+      const path = String(fc.path || '')
+        .replace(/\\/g, '/')
+        .replace(/^\.?\//, '')
+        .trim();
+      const opRaw = String(fc.op || 'modify').toLowerCase();
+      const op = opRaw === 'create' ? 'create' : 'modify';
+      let content = path ? bodyByPath.get(path) : undefined;
+      // Rehydrate modify (and existing-path create) from depositor checkout.
+      if (path && content === undefined && inventoryBodies.has(path)) {
+        content = inventoryBodies.get(path);
+      }
+      return {
+        path,
+        op,
+        ...(typeof content === 'string' ? { content } : {}),
+      };
+    }).filter((fc) => fc.path);
+
     const synthesisPack = buildSynthesisAssetPack({
       assetPackId: optionId,
       title: candidate.title,
@@ -195,13 +261,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
       sourceCommit,
       sourcePathRoots: candidate.coveredSourcePaths,
       patchSummary: candidate.patch?.patchSummary ?? candidate.summary,
-      fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({
-        path: fc.path,
-        op: fc.op,
-        ...(typeof (fc as { content?: string }).content === 'string'
-          ? { content: (fc as { content: string }).content }
-          : {}),
-      })),
+      fileChanges: plannedChanges,
       measurements: {
         absolutes: measurements.map((m) => ({
           id: m.id,
@@ -224,58 +284,53 @@ export function buildRealDepositAssetPackOptionSynthesis(
       provenantSourcePaths: candidate.coveredSourcePaths,
     });
     const contents = synthesisAssetPackToDepositContents(synthesisPack);
-    // Carry unified-diff / completeness from host when present on extended rows.
-    const hostExtra = candidate as unknown as {
-      patchArtifact?: {
-        unifiedDiff?: string;
-        bodiesComplete?: boolean;
-        files?: Array<{ path?: string; op?: string; body?: string }>;
-      };
-      patch?: {
-        fileChanges?: Array<{ path?: string; op?: string; content?: string }>;
-      };
-    };
-    if (typeof hostExtra.patchArtifact?.unifiedDiff === 'string') {
+    // Always rebuild unifiedDiff from bound bodies (depositor primary .patch).
+    const boundFiles = contents.fileChanges.map((fc) => ({
+      path: fc.path,
+      op: fc.op,
+      body: typeof fc.content === 'string' ? fc.content : null,
+    }));
+    const hasBoundBodies = boundFiles.some((f) => typeof f.body === 'string');
+    if (hasBoundBodies) {
+      (contents as { unifiedDiff?: string | null }).unifiedDiff =
+        typeof hostExtra.patchArtifact?.unifiedDiff === 'string' &&
+        hostExtra.patchArtifact.unifiedDiff.includes('diff --git') &&
+        (hostExtra.patchArtifact.unifiedDiff.includes('\n+') ||
+          hostExtra.patchArtifact.unifiedDiff.includes('\n-'))
+          ? hostExtra.patchArtifact.unifiedDiff
+          : buildUnifiedDiffFromPatchFiles(boundFiles, {
+              patchSummary: contents.patchSummary,
+            });
+    } else if (typeof hostExtra.patchArtifact?.unifiedDiff === 'string') {
       (contents as { unifiedDiff?: string | null }).unifiedDiff =
         hostExtra.patchArtifact.unifiedDiff;
     }
-    // Prefer host file bodies on contents when validate dropped content.
-    if (
-      Array.isArray(hostExtra.patch?.fileChanges) &&
-      hostExtra.patch!.fileChanges!.some((c) => typeof c.content === 'string')
-    ) {
-      contents.fileChanges = hostExtra.patch!.fileChanges!.map((c) => ({
-        path: String(c.path || ''),
-        op: String(c.op || 'modify'),
-        ...(typeof c.content === 'string' ? { content: c.content } : {}),
-      }));
-    } else if (Array.isArray(hostExtra.patchArtifact?.files)) {
-      const withBodies = hostExtra.patchArtifact!.files!.filter(
-        (f) => typeof f.body === 'string',
-      );
-      if (withBodies.length > 0) {
-        contents.fileChanges = hostExtra.patchArtifact!.files!.map((f) => ({
-          path: String(f.path || ''),
-          op: String(f.op || 'modify'),
-          ...(typeof f.body === 'string' ? { content: f.body } : {}),
-        }));
-      }
-    }
-    // Prefer commercial-NL agent output when present (buyer-legible; source-safe).
-    const hostCommercial = candidate as unknown as {
-      commercialTitle?: string;
-      commercialDescription?: string;
-    };
-    const displayTitle =
-      typeof hostCommercial.commercialTitle === 'string' &&
-      hostCommercial.commercialTitle.trim().length >= 8
-        ? hostCommercial.commercialTitle.trim()
-        : candidate.title;
-    const displaySummary =
-      typeof hostCommercial.commercialDescription === 'string' &&
-      hostCommercial.commercialDescription.trim().length >= 40
-        ? hostCommercial.commercialDescription.trim()
-        : candidate.summary;
+    // Prefer commercial-NL agent output when present (buyer product brief).
+    const commercialTitle =
+      (typeof candidate.commercialTitle === 'string' &&
+      candidate.commercialTitle.trim().length >= 8
+        ? candidate.commercialTitle.trim()
+        : null) ||
+      (typeof hostExtra.commercialTitle === 'string' &&
+      hostExtra.commercialTitle.trim().length >= 8
+        ? hostExtra.commercialTitle.trim()
+        : null);
+    const commercialDescription =
+      (typeof candidate.commercialDescription === 'string' &&
+      candidate.commercialDescription.trim().length >= 40
+        ? candidate.commercialDescription.trim()
+        : null) ||
+      (typeof hostExtra.commercialDescription === 'string' &&
+      hostExtra.commercialDescription.trim().length >= 40
+        ? hostExtra.commercialDescription.trim()
+        : null);
+    const displayTitle = commercialTitle || candidate.title;
+    const displaySummary = commercialDescription || candidate.summary;
+
+    const materialIdentity =
+      candidate.materialIdentity || hostExtra.materialIdentity || null;
+    const measureReport =
+      candidate.measureReport || hostExtra.measureReport || null;
 
     const optionBase = {
       optionId,
@@ -287,11 +342,29 @@ export function buildRealDepositAssetPackOptionSynthesis(
       measurements,
       contents,
       reviewBoundary,
-      ...(typeof hostCommercial.commercialTitle === 'string'
-        ? { commercialTitle: hostCommercial.commercialTitle }
-        : {}),
-      ...(typeof hostCommercial.commercialDescription === 'string'
-        ? { commercialDescription: hostCommercial.commercialDescription }
+      ...(commercialTitle ? { commercialTitle } : {}),
+      ...(commercialDescription ? { commercialDescription } : {}),
+      ...(materialIdentity ? { materialIdentity } : {}),
+      ...(measureReport ? { measureReport } : {}),
+      ...(hostExtra.patchArtifact
+        ? {
+            patchArtifact: {
+              ...hostExtra.patchArtifact,
+              // Align artifact files with rehydrated contents for download builders.
+              files: contents.fileChanges.map((fc) => ({
+                path: fc.path,
+                op: fc.op,
+                ...(typeof fc.content === 'string' ? { body: fc.content } : {}),
+              })),
+              unifiedDiff:
+                (contents as { unifiedDiff?: string | null }).unifiedDiff ??
+                hostExtra.patchArtifact.unifiedDiff ??
+                null,
+              bodiesComplete: contents.fileChanges.every(
+                (fc) => typeof fc.content === 'string',
+              ),
+            },
+          }
         : {}),
     };
 

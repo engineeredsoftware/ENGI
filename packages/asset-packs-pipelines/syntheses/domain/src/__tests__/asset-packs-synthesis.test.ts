@@ -321,4 +321,98 @@ describe('deposit lens adapter', () => {
     // The contents are source-safe (path+op + summary + the depositor's own paths).
     expect(assertDepositAssetPackOptionSynthesisSourceSafe(synthesis).admitted).toBe(true);
   });
+
+  it('rehydrates modify bodies from checkout and preserves commercial + artifact bodies', () => {
+    const appBody = 'def main():\n    return "auth"\n';
+    const createBody = '# Auth notes\nSession lifecycle for deposit.\n';
+    const validated = validateDepositSynthesisOptions(
+      [
+        {
+          kind: 'capability-slice',
+          title: 'Auth capability slice',
+          summary: 'A reusable authentication capability extracted from the source.',
+          coveredSourcePaths: ['src/app.py'],
+          measurementRationale: 'Covers the auth path.',
+          confidence: 0.8,
+          commercialTitle: 'Session auth knowledge pack',
+          commercialDescription:
+            'Buyer-facing description of session auth capability with real module behavior and measurement posture for purchase consideration on the exchange.',
+          absolutes: [
+            {
+              measurementKind: 'function-count',
+              label: 'Functions',
+              weight: 0.12,
+              volume: 0.5,
+              category: 'absolute',
+              magnitude: 2,
+              unit: 'functions',
+              status: 'measured',
+              descriptor: 'Two functions in the auth surface.',
+            },
+          ],
+          // Path-only on patch (simulates lost content) — rehydrate from inventory + artifact.
+          patch: {
+            fileChanges: [
+              { path: 'src/app.py', op: 'modify' },
+              { path: 'docs/auth.md', op: 'create' },
+            ],
+            patchSummary: 'Auth capability patch.',
+          },
+          patchArtifact: {
+            artifactId: 'artifact-patch-test',
+            format: 'unified-diff',
+            bodiesComplete: true,
+            files: [
+              { path: 'src/app.py', op: 'modify', body: appBody },
+              { path: 'docs/auth.md', op: 'create', body: createBody },
+            ],
+            unifiedDiff: null,
+          },
+        },
+      ],
+      {
+        lens: 'deposit',
+        inventoryPaths: ['src/app.py', 'docs/auth.md'],
+        impermissibleSources: [],
+        candidateKinds: ['capability-slice'],
+      },
+    );
+    expect(validated.candidates[0].patch?.fileChanges?.[0]).toMatchObject({
+      path: 'src/app.py',
+      op: 'modify',
+      content: appBody,
+    });
+    expect(validated.candidates[0].commercialTitle).toBe('Session auth knowledge pack');
+    expect(validated.candidates[0].measurements[0].status).toBe('measured');
+
+    const { synthesis } = buildRealDepositAssetPackOptionSynthesis(
+      {
+        repositoryFullName: 'engineeredsoftware/demo-python',
+        sourceBranch: 'main',
+        sourceCommit: 'abc123',
+        createdAt: '2026-06-12T22:00:00.000Z',
+      },
+      {
+        lens: 'deposit',
+        candidates: validated.candidates,
+        droppedCandidateCount: 0,
+        exclusionViolations: [],
+        inference: { provider: null, model: null, totalTokens: null, durationMs: 1 },
+      },
+      {
+        paths: ['src/app.py', 'docs/auth.md'],
+        samples: [],
+        sources: [{ path: 'src/app.py', content: appBody }],
+        totalPathCount: 2,
+        excludedPathCount: 0,
+      },
+    );
+    const contents = synthesis.options[0].contents!;
+    expect(contents.fileChanges.find((f) => f.path === 'src/app.py')?.content).toBe(appBody);
+    expect(contents.fileChanges.find((f) => f.path === 'docs/auth.md')?.content).toBe(createBody);
+    expect(contents.unifiedDiff).toContain('diff --git');
+    expect(contents.unifiedDiff).toContain('+def main():');
+    expect(synthesis.options[0].title).toBe('Session auth knowledge pack');
+    expect(synthesis.options[0].summary).toContain('Buyer-facing description');
+  });
 });

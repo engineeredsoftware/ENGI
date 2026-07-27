@@ -146,8 +146,29 @@ export interface AssetPackCandidate {
   measurements: AssetPackCandidateMeasurement[];
   measurementRationale: string;
   confidence: number;
-  /** The synthesized AP contents (source-safe patch descriptor). */
+  /**
+   * Commercial .patch: path+op always; optional full-file content for
+   * depositor/settle (not unpaid Exchange).
+   */
   patch?: AssetPackPatchDescriptor;
+  /**
+   * Formal patch artifact from Implementation (bodies + unifiedDiff).
+   * Carried through product projection for depositor .patch review.
+   */
+  patchArtifact?: {
+    artifactId?: string;
+    format?: string;
+    fileCount?: number;
+    patchSummary?: string;
+    bodiesComplete?: boolean;
+    unifiedDiff?: string | null;
+    files?: Array<{ path?: string; op?: string; body?: string | null }>;
+    envelopeJson?: string;
+  } | null;
+  commercialTitle?: string;
+  commercialDescription?: string;
+  materialIdentity?: Record<string, unknown> | null;
+  measureReport?: Record<string, unknown> | null;
   /** Deposit lens only: the read-demand preview (v0). */
   neediness?: AssetPackNeediness;
 }
@@ -189,8 +210,28 @@ export interface DepositSynthesisRawOption {
   /** Formal absolutes from Implementation measure path (preferred over scalar measurements). */
   absolutes?: AssetPackCandidateMeasurement[] | null;
   patch?: {
-    fileChanges?: Array<{ path?: unknown; op?: unknown }>;
+    fileChanges?: Array<{
+      path?: unknown;
+      op?: unknown;
+      content?: unknown;
+      body?: unknown;
+    }>;
     patchSummary?: unknown;
   } | null;
+  /** Formal Implementation patchfile artifact (bodies + unifiedDiff). */
+  patchArtifact?: {
+    artifactId?: unknown;
+    format?: unknown;
+    fileCount?: unknown;
+    patchSummary?: unknown;
+    bodiesComplete?: unknown;
+    unifiedDiff?: unknown;
+    files?: Array<{ path?: unknown; op?: unknown; body?: unknown }>;
+    envelopeJson?: unknown;
+  } | null;
+  commercialTitle?: string | null;
+  commercialDescription?: string | null;
+  materialIdentity?: Record<string, unknown> | null;
+  measureReport?: Record<string, unknown> | null;
   needinessSignal?: { demand?: number; saturation?: number; rationale?: string } | null;
 }

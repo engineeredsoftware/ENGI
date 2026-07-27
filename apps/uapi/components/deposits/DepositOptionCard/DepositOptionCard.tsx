@@ -224,9 +224,25 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
     () => buildDepositOptionSourcePatchDownload(option),
     [option],
   );
+  // Real bodies: file content strings or unified-diff with non-empty hunks.
+  const boundBodyCount = (option.contents?.fileChanges || []).filter(
+    (fc) => typeof fc.content === "string" && fc.content.length > 0,
+  ).length;
+  const fileChangeCount = option.contents?.fileChanges?.length ?? 0;
   const patchHasBodies =
-    sourcePatch.body.includes("diff --git") &&
-    (sourcePatch.body.includes("\n+") || sourcePatch.body.includes("\n-"));
+    boundBodyCount > 0 ||
+    (typeof option.contents?.unifiedDiff === "string" &&
+      option.contents.unifiedDiff.includes("diff --git") &&
+      (option.contents.unifiedDiff.includes("\n+") ||
+        option.contents.unifiedDiff.includes("\n-"))) ||
+    (sourcePatch.body.includes("diff --git") &&
+      // Non-empty added lines (reject blank "+" only hunks).
+      /\n\+[^\n\r+]/.test(sourcePatch.body));
+  const commercialTitle =
+    (option as { commercialTitle?: string }).commercialTitle || option.title;
+  const commercialDescription =
+    (option as { commercialDescription?: string }).commercialDescription ||
+    option.summary;
   const earningStatement =
     depositRouteSession.earningSupplyIntelligence.earningStatements.find(
       (statement) => statement.optionId === option.optionId,
@@ -280,8 +296,21 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
             <Anchor className="h-3.5 w-3.5" />
           </button>
         </div>
-        <h3 className="mt-2 text-base font-semibold text-white">{option.title}</h3>
-        <p className="mt-2 text-sm leading-6 text-neutral-400">{option.summary}</p>
+        <h3 className="mt-2 text-base font-semibold text-white">
+          {commercialTitle}
+        </h3>
+        {/* Commercial brief — always visible for purchase/deposit consideration. */}
+        <div
+          className="mt-3 border border-sky-300/25 bg-sky-300/[0.06] px-3 py-3"
+          data-testid={`deposit-option-commercial-brief-${option.kind}`}
+        >
+          <p className="text-[0.58rem] font-medium uppercase tracking-[0.14em] text-sky-100/90">
+            Commercial brief
+          </p>
+          <p className="mt-2 max-h-56 overflow-y-auto whitespace-pre-wrap text-sm leading-6 text-neutral-200">
+            {commercialDescription}
+          </p>
+        </div>
         {option.contents ? (
           // The deposit/no-deposit decision payload: what Bitcode RECEIVES if
           // this AssetPack is deposited — synthesized AP contents + provenant
@@ -353,7 +382,9 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 </p>
                 <p className="text-[0.62rem] text-neutral-500">
                   {patchHasBodies
-                    ? "Full file contents (create + modify)"
+                    ? `Full file contents · ${boundBodyCount || fileChangeCount} bound path${
+                        (boundBodyCount || fileChangeCount) === 1 ? "" : "s"
+                      }`
                     : "Path surface only — bodies not bound yet"}
                 </p>
               </div>
@@ -377,14 +408,8 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 optionId={option.optionId}
                 title={option.title}
                 summary={option.summary}
-                commercialTitle={
-                  (option as { commercialTitle?: string }).commercialTitle ||
-                  option.title
-                }
-                commercialDescription={
-                  (option as { commercialDescription?: string })
-                    .commercialDescription || option.summary
-                }
+                commercialTitle={commercialTitle}
+                commercialDescription={commercialDescription}
                 kind={option.kind}
                 testIdPrefix={`deposit-option-downloads-${option.kind}`}
                 onDownloadSourcePatch={handleDownloadSourcePatch}
@@ -712,68 +737,70 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 </div>
               ) : null}
 
-              {/* Full commercial catalogue — honesty badge per row. */}
-              {expanded.map((measurement) => {
-                const status =
-                  typeof measurement.status === "string"
-                    ? measurement.status
-                    : null;
-                const isFill = status === "expanded-fill";
-                return (
-                  <div
-                    key={measurement.measurementKind || measurement.id}
-                    className={`border px-3 py-2 ${
-                      isFill
-                        ? "border-white/6 bg-white/[0.02]"
-                        : "border-white/8 bg-white/[0.035]"
-                    }`}
-                  >
-                    <dt className="flex flex-wrap items-center gap-2 text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
-                      <span>{measurement.label}</span>
-                      <span
-                        className={`rounded-sm border px-1.5 py-0.5 text-[0.52rem] font-medium normal-case tracking-normal ${statusBadgeClass(status)}`}
-                      >
-                        {statusLabel(status)}
-                      </span>
-                    </dt>
-                    <dd
-                      className={`mt-1 text-sm ${isFill ? "text-neutral-500" : "text-neutral-200"}`}
-                    >
-                      {isFill ? (
-                        <span className="text-xs">
-                          Not measured — catalogue placeholder
-                        </span>
-                      ) : typeof measurement.magnitude === "number" ? (
-                        <>
-                          {measurement.magnitude}
-                          {measurement.unit &&
-                          measurement.unit !== "normalized" &&
-                          measurement.unit !== "estimate"
-                            ? ` ${measurement.unit}`
-                            : ""}
-                          <span className="text-neutral-500">
-                            {" "}
-                            · {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                            {measurement.weight.toFixed(3)}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                          {measurement.weight.toFixed(3)}
-                        </>
-                      )}
-                    </dd>
-                    {!isFill &&
+              {/* Compact multi-column absolute catalogue — denser vertical real-estate. */}
+              <div
+                data-testid="deposit-option-absolute-grid"
+                className="grid grid-cols-2 gap-1.5 sm:grid-cols-3"
+              >
+                {expanded.map((measurement) => {
+                  const status =
+                    typeof measurement.status === "string"
+                      ? measurement.status
+                      : null;
+                  const isFill = status === "expanded-fill";
+                  const descriptor =
+                    !isFill &&
                     typeof measurement.descriptor === "string" &&
-                    measurement.descriptor.trim() ? (
-                      <p className="mt-1 text-[0.68rem] leading-5 text-neutral-500">
-                        {measurement.descriptor.trim()}
+                    measurement.descriptor.trim()
+                      ? measurement.descriptor.trim()
+                      : null;
+                  const primary =
+                    isFill
+                      ? "—"
+                      : typeof measurement.magnitude === "number"
+                        ? `${measurement.magnitude}${
+                            measurement.unit &&
+                            measurement.unit !== "normalized" &&
+                            measurement.unit !== "estimate"
+                              ? ` ${measurement.unit}`
+                              : ""
+                          }`
+                        : `${(measurement.volume * 100).toFixed(0)}%`;
+                  return (
+                    <div
+                      key={measurement.measurementKind || measurement.id}
+                      title={descriptor || measurement.label}
+                      className={`min-w-0 border px-2 py-1.5 ${
+                        isFill
+                          ? "border-white/6 bg-white/[0.02]"
+                          : "border-white/8 bg-white/[0.035]"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-1">
+                        <p className="truncate text-[0.52rem] font-medium uppercase tracking-[0.1em] text-neutral-500">
+                          {measurement.label}
+                        </p>
+                        <span
+                          className={`shrink-0 rounded-sm border px-1 py-px text-[0.48rem] font-medium ${statusBadgeClass(status)}`}
+                        >
+                          {statusLabel(status)}
+                        </span>
+                      </div>
+                      <p
+                        className={`mt-0.5 truncate text-[0.8rem] font-medium leading-5 ${
+                          isFill ? "text-neutral-600" : "text-neutral-100"
+                        }`}
+                      >
+                        {primary}
                       </p>
-                    ) : null}
-                  </div>
-                );
-              })}
+                      <p className="truncate text-[0.55rem] tabular-nums text-neutral-500">
+                        {(measurement.volume * 100).toFixed(0)}% · w{" "}
+                        {measurement.weight.toFixed(3)}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
             </>
           );
         })()}

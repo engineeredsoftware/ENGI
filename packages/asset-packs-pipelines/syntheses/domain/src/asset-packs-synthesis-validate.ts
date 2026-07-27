@@ -118,30 +118,110 @@ export function validateDepositSynthesisOptions(
         ? { magnitude: Math.max(0, Math.round(Number(m.magnitude))) }
         : {}),
       ...(m.unit ? { unit: String(m.unit) } : {}),
+      // Preserve honesty + commercial measure prose for depositor UI.
+      ...(typeof (m as { descriptor?: unknown }).descriptor === 'string'
+        ? { descriptor: String((m as { descriptor: string }).descriptor) }
+        : {}),
+      ...(typeof (m as { status?: unknown }).status === 'string'
+        ? {
+            status: String((m as { status: string }).status) as AssetPackCandidateMeasurement['status'],
+          }
+        : {}),
     }));
-    const rawFileChanges = Array.isArray(option.patch?.fileChanges) ? option.patch!.fileChanges! : [];
-    const patch: AssetPackPatchDescriptor | undefined = rawFileChanges.length
+    // Prefer formal patchArtifact.files (authoritative bodies) when descriptor lacks content.
+    const artifactFiles = Array.isArray(option.patchArtifact?.files)
+      ? option.patchArtifact!.files!
+      : [];
+    const rawFileChanges = Array.isArray(option.patch?.fileChanges)
+      ? option.patch!.fileChanges!
+      : [];
+    const bodyByPath = new Map<string, string>();
+    for (const f of artifactFiles) {
+      if (typeof f?.body === 'string' && typeof f?.path === 'string') {
+        bodyByPath.set(String(f.path).trim(), f.body);
+      }
+    }
+    for (const fc of rawFileChanges) {
+      const path = String((fc as { path?: unknown })?.path ?? '').trim();
+      if (!path || bodyByPath.has(path)) continue;
+      const content =
+        typeof (fc as { content?: unknown })?.content === 'string'
+          ? String((fc as { content: string }).content)
+          : typeof (fc as { body?: unknown })?.body === 'string'
+            ? String((fc as { body: string }).body)
+            : undefined;
+      if (content !== undefined) bodyByPath.set(path, content);
+    }
+    const changeSource =
+      rawFileChanges.length > 0
+        ? rawFileChanges
+        : artifactFiles.map((f) => ({
+            path: f?.path,
+            op: f?.op,
+            body: f?.body,
+          }));
+    const patch: AssetPackPatchDescriptor | undefined = changeSource.length
       ? {
-          fileChanges: rawFileChanges
+          fileChanges: changeSource
             .map((fc) => {
               const path = String((fc as { path?: unknown })?.path ?? '').trim();
-              const op = String((fc as { op?: unknown })?.op ?? '').trim();
-              const content =
-                typeof (fc as { content?: unknown })?.content === 'string'
-                  ? String((fc as { content: string }).content)
-                  : typeof (fc as { body?: unknown })?.body === 'string'
-                    ? String((fc as { body: string }).body)
-                    : undefined;
+              const opRaw = String((fc as { op?: unknown })?.op ?? 'modify')
+                .trim()
+                .toLowerCase();
+              const op = opRaw === 'create' ? 'create' : opRaw === 'delete' ? 'delete' : 'modify';
+              const content = bodyByPath.get(path);
               return {
                 path,
                 op,
-                ...(content !== undefined ? { content } : {}),
+                ...(typeof content === 'string' ? { content } : {}),
               };
             })
-            .filter((fc) => fc.path),
-          patchSummary: String(option.patch?.patchSummary ?? '').trim(),
+            .filter((fc) => fc.path && fc.op !== 'delete'),
+          patchSummary: String(
+            option.patch?.patchSummary ??
+              option.patchArtifact?.patchSummary ??
+              '',
+          ).trim(),
         }
       : undefined;
+    const patchArtifact =
+      option.patchArtifact && typeof option.patchArtifact === 'object'
+        ? {
+            artifactId:
+              typeof option.patchArtifact.artifactId === 'string'
+                ? option.patchArtifact.artifactId
+                : undefined,
+            format:
+              typeof option.patchArtifact.format === 'string'
+                ? option.patchArtifact.format
+                : undefined,
+            fileCount:
+              typeof option.patchArtifact.fileCount === 'number'
+                ? option.patchArtifact.fileCount
+                : undefined,
+            patchSummary:
+              typeof option.patchArtifact.patchSummary === 'string'
+                ? option.patchArtifact.patchSummary
+                : undefined,
+            bodiesComplete:
+              typeof option.patchArtifact.bodiesComplete === 'boolean'
+                ? option.patchArtifact.bodiesComplete
+                : undefined,
+            unifiedDiff:
+              typeof option.patchArtifact.unifiedDiff === 'string'
+                ? option.patchArtifact.unifiedDiff
+                : null,
+            files: artifactFiles.map((f) => ({
+              path: String(f?.path ?? ''),
+              op: String(f?.op ?? 'modify'),
+              ...(typeof f?.body === 'string' ? { body: f.body } : {}),
+            })),
+            envelopeJson:
+              typeof option.patchArtifact.envelopeJson === 'string'
+                ? option.patchArtifact.envelopeJson
+                : undefined,
+          }
+        : undefined;
     candidates.push({
       kind: allowedKinds.has(option.kind) ? option.kind : context.candidateKinds[0],
       title: String(option.title).trim(),
@@ -151,6 +231,42 @@ export function validateDepositSynthesisOptions(
       measurementRationale: String(option.measurementRationale ?? '').trim(),
       confidence: clampVolume(option.confidence),
       patch,
+      ...(patchArtifact ? { patchArtifact } : {}),
+      ...(typeof option.commercialTitle === 'string'
+        ? { commercialTitle: option.commercialTitle }
+        : {}),
+      ...(typeof option.commercialDescription === 'string'
+        ? { commercialDescription: option.commercialDescription }
+        : {}),
+      ...(() => {
+        const nested =
+          option.measurements &&
+          typeof option.measurements === 'object' &&
+          !Array.isArray(option.measurements)
+            ? (option.measurements as {
+                materialIdentity?: unknown;
+                measureReport?: unknown;
+              })
+            : null;
+        const materialIdentity =
+          (option.materialIdentity && typeof option.materialIdentity === 'object'
+            ? option.materialIdentity
+            : null) ||
+          (nested?.materialIdentity && typeof nested.materialIdentity === 'object'
+            ? (nested.materialIdentity as Record<string, unknown>)
+            : null);
+        const measureReport =
+          (option.measureReport && typeof option.measureReport === 'object'
+            ? option.measureReport
+            : null) ||
+          (nested?.measureReport && typeof nested.measureReport === 'object'
+            ? (nested.measureReport as Record<string, unknown>)
+            : null);
+        return {
+          ...(materialIdentity ? { materialIdentity } : {}),
+          ...(measureReport ? { measureReport } : {}),
+        };
+      })(),
       // Neediness is entirely a Read-pipeline concept — never synthesize for deposit.
       neediness: undefined,
     });
