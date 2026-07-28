@@ -3,33 +3,39 @@
 ## Status
 
 - Version: `V48`
-- V48 state: draft delta for Gate 3 synthesis pipeline correctness and full-stack single-canon rebuild authority
+- V48 state: draft delta for full-system sole-complete SPEC + commercial website
+  testnet readiness
 - Current canonical/latest target: `V47`
-- Prior canonical anchor: `BITCODE_SPEC_V47.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
-- Generated structured artifact inventory: draft V48 family reports and Gate 3 depositing evidence
-- Source parity state: V48 Gate 3 deltas over V47 commercial website law are specified for rebuild
+- Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only)
+- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical process only)
+- Generated structured artifact inventory: draft V48 family reports under
+  `.proofs/v48/` when regenerated
+- Source parity state: decisions in this DELTA are realized in
+  `BITCODE_SPEC_V48.md` as sole rebuild law
+- Spec companion: `BITCODE_SPEC_V48.md` (**sole rebuild law**)
 - Notes companion: `BITCODE_SPEC_V48_NOTES.md`
-- Spec companion: `BITCODE_SPEC_V48.md`
 - Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
+- Absolute measurement parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
+- Proven: `BITCODE_SPEC_V48_PROVEN.md`
 
 
 ## Why V48 exists
 
-V45 made Bitcode's knowledge commoditization law precise. V46 made that law
-commercially legible. V48 exists to make the website application commercially
-ready on staging-testnet: IP sellers can deposit AssetPacks, IP buyers can buy
-Need-fitting AssetPacks, and `/packs` plus Auxillaries make the whole exchange
-auditable, source-safe, and repairable.
+V48 exists to make the website application commercially ready on staging-testnet
+and to hold **Complete Implementation Derivability** in one SPEC family: IP
+sellers deposit **DataPacks**, IP buyers purchase Need-fitting DataPacks, and
+`/exchange` plus Auxillaries make the whole exchange auditable, disclosure-safe,
+and repairable.
 
 V48 is not a broad feature expansion. It is the first generally available MVP
 launch-readiness version and therefore must freeze scope, remove or defer
 feature excess, specify measurement law, prove seller and buyer state machines,
-and validate the website E2E.
+and validate the website E2E. The main SPEC restates full system law; this DELTA
+records decisions without requiring other version files for rebuild.
 
 ## Accepted V48 decisions
 
-- V48 focuses on the rich website application: `/deposits`, `/reads`, `/packs`,
+- V48 focuses on the rich website application: `/deposits`, `/reads`, `/exchange`,
   and Auxillaries.
 - In V48, testnet means BTC amounts and payment observations are testnet only;
   all other protocol behavior should be production-intended.
@@ -45,37 +51,19 @@ and validate the website E2E.
 - A dedicated E2E gate must prove selling and buying IP the Bitcode way.
 - A dedicated public launch messaging gate must refurbish the landing page for
   V48 commercial testnet readiness.
-- **Frontend component architecture (V48 implementation quality workstream on
-  `version/v48`):** three layers (`Shadcn*` → `Bitcode*` → seven experiences),
-  components under `apps/uapi/components/{shadcn,bitcode,marketing,packs,reads,
-  deposits,docs,conversations,auxillaries}`, Pipeline product naming over
-  Execution/product UI names, generalizable utilities package-first, legacy
-  `/packs` eradicated (deleted). Spec updates and implementation land
-  together as `(spec-impl)` commits.
-- **Deposit + Packs modularization (Phase 4 continue):** pure deposit models
-  (activity ledger, demand, criticality, route-input builder, run status) and
-  hooks (live runs, demand, URL nav, network count); Packs portfolio/master/
-  detail units; thin page shells. Rebuild law restated in SPEC G3-14 / G3-14a.
-  Continues until every deposit-touched module is SRP modular.
-- **Deposit SDIVF full rebuild law in SPEC (2026-07):** Gate 3 measurement law
-  and G3-1…G3-15 fully restate SynthesizeDepositAssetPacks (no lens): Setup
-  clone → parallel {LSP, MCP, obfuscations} → danger-wall; Discovery parallel
-  three agents with measure-inside-codebase; AssetPack = patch + measurements +
-  metadata; full `DATA_PACK_ABSOLUTES_CATALOG`; single Validation ready-to-finish
-  A/B/C; Finish store → ledgerize (journal) → selection envelope; complete
-  Execution store index and schemas; one roster key per agent; sourceCheckoutCatalog
-  naming. Non-canonical companions (`ASSET_PACKS.md`, README, FAMILIARIZATION)
-  may summarize only — SPEC must stand alone for Complete Implementation
-  Derivability (`BITCODE_SPECIFYING.md`).
-- **Absolute measurement excellence (2026-07-25):** Full commercial catalogue
-  (65 kinds, Σ=1) is **honest and deep**, not merely present: absolute
-  `status` honesty, `measureReport`, `materialIdentity`, deep measure source set
-  (manifests + tests), report-owned quantity merge, Executor `toolPlan` waves on
-  Try/Retry, depositor review artifact, deposit/Exchange display parity. Spec
-  family: measurement law in `BITCODE_SPEC_V48.md`, parity matrix
-  `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`, NOTES excellence
-  section. Catalogue kind count is **not** expanded further in this change —
-  performance and display of existing kinds are the delta.
+- **Frontend:** three layers (`Shadcn*` → `Bitcode*` → seven experiences) under
+  `apps/uapi/components/{shadcn,bitcode,marketing,exchange,reads,deposits,docs,
+  conversations,auxillaries,datapacks}`; Pipeline product naming; package-first
+  pure logic.
+- **Deposit SDIVF (binding in SPEC G3):** four Implementation agents —
+  patch-plan → patchfile (hybrid create|modify bodies, no delete) →
+  measurements → commercial-nl; synthesis LLM providers receive full material;
+  product/API disclosure rights-gates bodies.
+- **Absolute measurement excellence:** Full commercial catalogue (65 kinds, Σ=1)
+  with honesty `status`, `measureReport`, `materialIdentity`, deep source set,
+  report-owned quantity merge, toolPlan waves, depositor review + dense UI.
+- **Sole-completeness (2026-07-28):** SPEC restates full system law without
+  requiring other versioned SPEC files for semantic recovery.
 
 ## Explicitly deferred
 
@@ -85,7 +73,7 @@ and validate the website E2E.
   experience ships post-V48).
 - Deeper BTD mining cryptographic implementation beyond existing website
   launch contracts.
-- Advanced exchange/market mechanics beyond the MVP seller/buyer AssetPack
+- Advanced exchange/market mechanics beyond the MVP seller/buyer DataPack
   flows.
 - Source-bearing preview before BTC-testnet settlement and BTD rights transfer.
 - Blind rename of low-level `execution-generics` / PTRR executor packages
@@ -95,7 +83,7 @@ and validate the website E2E.
 
 ## Pre-Implementation Sequence
 
-1. Open the V48 draft spec family over active V46.
+1. Open the V48 draft SPEC family as sole rebuild authority.
 2. Specify testnet semantics, measurement law, launch freeze, user profiles,
    and gate plan.
 3. Audit feature excess and gate misalignment.

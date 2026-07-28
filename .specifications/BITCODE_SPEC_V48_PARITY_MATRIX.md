@@ -3,34 +3,34 @@
 ## Status
 
 - Version: `V48`
-- V48 state: draft parity matrix for Gate 3 full-stack single-canon rebuild
+- V48 state: draft parity matrix for full-system sole-complete SPEC + website
+  launch readiness
 - Current canonical/latest target: `V47`
-- Prior canonical anchor: `BITCODE_SPEC_V47.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
-- Generated structured artifact inventory: draft V48 family reports and Gate 3 depositing parity evidence
-- Source parity state: V48 Gate 3 implementation surfaces mapped to SPEC law for rebuild
+- Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only)
+- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical process only)
+- Generated structured artifact inventory: draft V48 family under `.proofs/v48/`
+  when regenerated
+- Source parity state: audit against `BITCODE_SPEC_V48.md` as sole rebuild law
+- Spec companion: `BITCODE_SPEC_V48.md` (sole rebuild law)
 - Notes companion: `BITCODE_SPEC_V48_NOTES.md`
-- Spec companion: `BITCODE_SPEC_V48.md`
 - Delta companion: `BITCODE_SPEC_V48_DELTA.md`
+- Absolute measurement parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
 
 
 ## Purpose
 
-This matrix records V48 launch-readiness parity work. V48 starts from promoted
-V46 and narrows the first generally available MVP to the website application:
-`/deposits`, `/reads`, `/packs`, and Auxillaries. The matrix names what must be
-specified, implemented, tested, documented, and proven before V48 promotion closure.
+This matrix records V48 launch-readiness parity work against the **V48 SPEC
+family alone**. MVP website surfaces: `/deposits`, `/reads`, `/exchange`, and
+Auxillaries. The matrix names what must be specified, implemented, tested,
+documented, and proven before V48 promotion closure.
 
 ## Audit basis
 
-Gate 1 audit inputs are `BITCODE_SPEC.txt`, `BITCODE_SPEC_V46.md`,
-`BITCODE_SPEC_V46_DELTA.md`, `BITCODE_SPEC_V46_NOTES.md`,
-`BITCODE_SPEC_V46_PARITY_MATRIX.md`, `BITCODE_SPEC_V46_PROVEN.md`,
-`BITCODE_SPEC_V48.md`, `BITCODE_SPEC_V48_DELTA.md`,
-`BITCODE_SPEC_V48_NOTES.md`, this parity matrix, `SPECIFICATIONS_ROADMAP.md`,
-`package.json`, gate/canon workflows, `/deposits`, `/reads`, `/packs`,
-Auxillaries, pipeline packages, prompt registries, proof roots, ledger/database
-storage readback, wallet/provider receipts, and repository delivery receipts.
+Audit inputs are the V48 SPEC family, living source under `apps/uapi` and
+`packages/`, gate/canon workflows, product routes `/deposits`, `/reads`,
+`/exchange`, Auxillaries, pipeline packages, prompt registries, proof roots,
+ledger/database storage readback, wallet/provider receipts, and repository
+delivery receipts.
 
 ## V48 implementation matrix
 
@@ -43,7 +43,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Feature excess audit | Remove, hide, flag off, or defer non-launch behavior | closed | `buildV48FeatureExcessAlignmentAudit` and `.proofs/v48/feature-excess-alignment-audit.json` classify launch/supporting/deferred surfaces and check launch CTAs, compatibility redirects, and feature flags. | Gate 2 |
 | Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | closed | `buildV48SellerBuyerStateMachineLaw` and `.proofs/v48/seller-buyer-state-machine-law.json` define seller states and guards; `buildV48DepositorWebsiteCompletion` and `.proofs/v48/depositor-website-completion.json` bind the `/deposits` route session, journaled synthesis/review/admission rows, and `/packs` sync. | Gate 3 and Gate 4 |
 | Buyer state machine | IP buyer can request Read, approve Need, Finding Fits, preview, settle, receive rights, and get PR delivery | closed | `buildV48SellerBuyerStateMachineLaw` and `.proofs/v48/seller-buyer-state-machine-law.json` define buyer states and guards; `buildV48ReaderWebsiteCompletion` and `.proofs/v48/reader-website-completion.json` bind the `/reads` route session, fit measurement review, settlement/rights/delivery ordering, and `/packs` sync. | Gate 3 and Gate 5 |
-| `/packs` dashboard | Master-detail PackActivity tracks deposits, reads, proofs, settlements, rights, delivery, compensation, repair | closed | `buildV48PacksAuxillariesCommercialDashboard` and `.proofs/v48/packs-auxillaries-commercial-dashboard.json` bind searchable master-detail rows, settlement/rights/compensation/delivery/repair state readback, proof roots, and the fail-closed repair surface validated by `check:v48-gate6`. | Gate 6 |
+| `/exchange` dashboard | Master-detail activity tracks deposits, reads, proofs, settlements, rights, delivery, compensation, repair | closed | Exchange page client + activity model; artifact may still be named `packs-auxillaries-commercial-dashboard.json`; product route is `/exchange`. | Gate 6 |
 | Auxillaries launch readiness | Identity, source connections, target repository connections, wallets, teams, histories are usable | closed | Auxillaries panes cover identity profile, external source connections, interfaces, wallet authority with BTD history readback, and organization team/treasury settings, recorded by the Gate 6 artifact. | Gate 6 |
 | E2E IP exchange tests | Browser tests prove selling and buying IP the Bitcode way | closed | `commercial-mvp.ip-exchange.spec.ts` proves the seller deposit flow, buyer measurement/quote/settlement/rights/delivery flow, and `/packs` repair-surface readback in deterministic mock mode, recorded by `buildV48E2eIpSellingBuyingTests` and `.proofs/v48/e2e-ip-selling-buying-tests.json` validated by `check:v48-gate7`. | Gate 7 |
 | Landing and public messaging | Landing page explains commercial testnet readiness and user flows | closed | The landing testnet section and docs testnet-meaning card state free BTC-testnet amounts with production-intended behavior, the deposit → read → packs flow, proof-backed trust, and source-safe positioning over preserved V46 claim boundaries, recorded by `buildV48LandingPublicLaunchMessaging` and `.proofs/v48/landing-public-launch-messaging.json` validated by `check:v48-gate8`. | Gate 8 |
@@ -54,24 +54,24 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 
 | Area | Required V48 result | Current judgment | Source-grounded finding | Closure gate |
 | --- | --- | --- | --- | --- |
-| Active pointer truth | `BITCODE_SPEC.txt` remains V46 during Gate 1 | accepted boundary | V48 is draft only. | Gate 1 |
-| Draft files | V48 SPEC, DELTA, NOTES, and PARITY files exist | closed | Gate 1 creates full draft family. | Gate 1 |
-| CI posture | Gate and canon workflows validate active V46 plus draft V48 | closed | Gate 1 wires `check:v48-gate1`. | Gate 1 |
+| Active pointer truth | `BITCODE_SPEC.txt` may name a non-V48 string until promotion | accepted boundary | V48 SPEC family is sole rebuild law regardless of pointer process fact. | Gate 1 / promotion |
+| Draft files | V48 SPEC, DELTA, NOTES, and PARITY files exist | closed | Full draft family present. | Gate 1 |
+| CI posture | Living CI validates draft V48 family + product tree | closed | Local/full CI + `check:v48-gate*` as wired. | Gate 1 |
 | Measurement prompt traceability | Every measurement points to prompt identity, typed output, weight, and proof | closed | Later gates must audit concrete prompt registry bindings. | Gate 3+ |
 | Seller visualization | Depositors see source-safe measurement and compensation basis | closed | `/deposits` renders measurements (honesty badges + measureReport + material identity/deps), criticality, demand, ROI, BTD potential, BTC source-to-shares preview, option roots, compensation estimates, review artifact download, and authority readback validated by `check:v48-gate4`. | Gate 4 |
 | Buyer visualization | Readers see source-safe fit measurements and quote basis before paying | closed | `/reads` renders Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence, delivery readiness, selected Fit provenance, final BTD scalar, quote basis, and settlement/rights/delivery readback validated by `check:v48-gate5`. | Gate 5 |
 | Website-only launch focus | API/MCP, ChatGPT App, and Bitcode Chat are deferred commercial surfaces | accepted boundary | V48 avoids scope sprawl. | Gate 1 and Gate 2 |
 | Mainnet block | Value-bearing mainnet remains blocked | accepted boundary | BTC amounts are testnet only in V48. | Gate 1+ |
-| Launch route discipline | Public navigation, landing CTAs, pricing acquisition, and BTD detail paths use `/deposits`, `/reads`, or `/packs` rather than `/packs` or `/exchange` | closed | Gate 2 rewrites launch-facing entrypoints and keeps `/exchange` redirect-only. | Gate 2 |
+| Launch route discipline | Public navigation, landing CTAs, pricing acquisition, and BTD detail paths use `/deposits`, `/reads`, or `/exchange` | closed | Product SSOT `EXCHANGE_ROUTE=/exchange`; residual packs paths are not launch CTAs. | Gate 2 |
 | State-machine guards | Measurement-before-price, proof-before-state, accepted Need before Finding Fits, finality before BTD rights, BTD rights before delivery, and repair fail closed | closed | Gate 3 source object binds the guards to Deposit, Read, Packs, BTD settlement, receipts, source-to-shares, and semantic volume sources. | Gate 3 |
-| Frontend component architecture | Three layers (`Shadcn*` → `Bitcode*` → seven experiences) under `apps/uapi/components/{shadcn,bitcode,marketing,packs,reads,deposits,docs,conversations,auxillaries}` with thin `apps/uapi/app` page shells | substantially advanced | Phase 1 moved shadcn/bitcode out of `components/base/`; experience dirs scaffolded; `Shadcn*` export renames and experience component relocation remain | version/v48 workstream |
+| Frontend component architecture | Three layers under `apps/uapi/components/{shadcn,bitcode,marketing,exchange,reads,deposits,docs,conversations,auxillaries,datapacks}` with thin page shells | substantially advanced | Experience dirs live; Exchange is market surface SSOT | version/v48 workstream |
 | Pipeline naming (product UI) | Product run surfaces use Pipeline names (`BitcodePipeline*`, experience extensions); Execution UI names retired; agent `execution-generics` retained as non-product primitive | substantially advanced | `BitcodePipelinesTable` + pipeline models landed; shared `bitcode/execution` → `pipeline/` directory rename and executions corridor remain Phases 2/6 | version/v48 workstream |
-| cockpit eradication | No live product imports from `apps/uapi/app/ (removed cockpit tree) `; `/packs` redirect-only or removed; nav/login not product CTAs | closed| product-routes, repository-context, run-data/activity/transactions, readiness, pipelines table, Auxillaries open button relocated; deposits/reads product pages no longer import app/terminal except conversations buildTerminalHref; residual product transitive deps inside relocated panels remain for later | version/v48 workstream |
+| cockpit eradication | Launch CTAs use `/deposits`, `/reads`, `/exchange` only | closed | product-routes SSOT; residual retired paths not launch CTAs | version/v48 workstream |
 | BTD journal / operational health naming | Package modules use `journal` and `operational-health` (non-product); temporary product aliases until callers migrate | substantially advanced | `packages/btd/src/journal.ts` + `operational-health.ts` canonical; `terminal-journal` / `terminal-operational-health` shims | version/v48 workstream |
 | Package-first utilities | Generalizable pure logic from uapi `lib/` and pure terminal models live in `packages/` or Bitcode models | substantially advanced| Law specified; wallet/cancel/analytics extractions planned Phase 7 | version/v48 workstream |
-| God-client modularization | Deposit/Read/Packs page clients thin; logic in experience subcomponents/hooks/models (SRP) | substantially advanced | Packs shell ~187 LOC; DepositPageClient ~677 LOC orchestration with models + hooks (live runs, demand, URL, VCS inventory, option actions, activity recording, synthesis lifecycle); DepositSourceSelection ~682 render + VCS hook; Read still pending | version/v48 workstream |
+| God-client modularization | Deposit/Read/Exchange page clients thin; logic in experience subcomponents/hooks/models (SRP) | substantially advanced | Exchange/Deposit modular; Read still thinning | version/v48 workstream |
 | Deposit modular units | Pure deposit projections + hooks unit-tested; G3-14 source map lists modular paths | substantially advanced | UAPI deposits+reads workbench modular; packages asset-pack depository-search/options/supply/synthesis + agents + harness split with stable exports; jest deposit/depository/synthesis green | version/v48 workstream |
-| Experience modularization (reads packs aux marketing docs conversations) | All seven experiences use named component units; page clients thin | substantially advanced | Packs/Reads/Auxillaries/Marketing/Docs/Conversations modularized on version/v48; FAMILIARIZATION.md maps packages+uapi | version/v48 workstream |
+| Experience modularization (reads exchange aux marketing docs conversations) | All seven experiences use named component units; page clients thin | substantially advanced | Exchange/Reads/Auxillaries/Marketing/Docs/Conversations modularized; FAMILIARIZATION maps packages+uapi | version/v48 workstream |
 
 ## Grouped closure gates
 
@@ -80,7 +80,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 3. Seller And Buyer State Machine Law.
 4. Depositor Website Completion.
 5. Reader Website Completion.
-6. Packs And Auxillaries Commercial Dashboard.
+6. Exchange And Auxillaries Commercial Dashboard.
 7. E2E IP Selling And Buying Tests.
 8. Landing Page And Public Launch Messaging.
 9. Staging-Testnet Deployment Rehearsal.
@@ -88,29 +88,30 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 
 ## V48 accepted boundaries
 
-- V48 is active canon; V46 is the prior promoted anchor.
-- Gate 1 is specification, roadmap, and checking only.
-- Testnet BTC does not weaken rights, proof, source-safety, authority, or
+- V48 SPEC family is sole rebuild law for the system described herein.
+- Formal promotion advances `BITCODE_SPEC.txt` only after Gate 10 readiness.
+- Testnet pay rails do not weaken rights, proof, disclosure, authority, or
   delivery boundaries.
-- Measurement is source-safe and visible; source remains protected until
-  entitlement.
-- Commercial launch scope is website-only.
+- Measurement and commercial brief are visible under disclosure law; file
+  bodies remain protected until entitlement.
+- Commercial launch scope is website-only (`/deposits`, `/reads`, `/exchange`,
+  Auxillaries).
 
 ## V48 completion condition
 
-V48 Gate 1 is complete when the V48 draft spec family, roadmap, package script,
-Gate 1 checker, and CI workflow hooks validate active V46 plus draft V48, and
-the gate branch is committed, pushed, and pull-requested into `version/v48`.
+V48 Gate 1 is complete when the V48 draft SPEC family, roadmap, package script,
+Gate 1 checker, and CI workflow hooks validate draft V48, and the gate branch
+is merged into `version/v48`.
 
 V48 Gate 2 is complete when the V48 feature-excess audit artifact is generated,
 its package object and tests pass, public launch entrypoints resolve to
-current routes, deferred surfaces are classified, `/exchange` remains
-compatibility-only, `/packs` and `/conversations` direct entry are flaggable
-or retained, and gate/canon workflows run `check:v48-gate2`.
+`/deposits`, `/reads`, and `/exchange`, deferred surfaces are classified,
+retired cockpit paths and `/conversations` full commercialization remain
+flaggable/deferred, and gate/canon workflows run `check:v48-gate2`.
 
 V48 Gate 3 is complete when the V48 seller/buyer state-machine law artifact is
 generated, its package object and tests pass, seller and buyer states are
-bound to `/deposits`, `/reads`, `/packs`, BTD receipts, settlement,
+bound to `/deposits`, `/reads`, `/exchange`, BTD receipts, settlement,
 source-to-shares, and semantic volume sources, transition guards preserve
 measurement-before-price and proof-before-state, source-safe fields and
 forbidden payload classes are explicit, and gate/canon workflows run
@@ -121,7 +122,7 @@ generated, its package object and tests pass, the `/deposits` route binds
 source connection before synthesis, journals option synthesis, review, and
 admission as source-safe execution rows, renders decision-quality measurement,
 BTD potential, BTC source-to-shares preview, compensation, and authority
-views, synchronizes admitted options to `/packs`, and gate/canon workflows run
+views, synchronizes admitted options to `/exchange`, and gate/canon workflows run
 `check:v48-gate4`.
 
 V48 Gate 5 is complete when the V48 reader website completion artifact is
@@ -129,11 +130,11 @@ generated, its package object and tests pass, the `/reads` route binds Read
 request initiation, Need review acceptance before Finding Fits, source-safe
 fit measurement review with final BTD scalar and deterministic BTC-testnet
 quote basis before payment, ordered payment observation, finality, BTD rights,
-and repository PR delivery readback, and `/packs` history synchronization, and
+and repository PR delivery readback, and `/exchange` history synchronization, and
 gate/canon workflows run `check:v48-gate5`.
 
 V48 Gate 6 is complete when the V48 packs/Auxillaries dashboard artifact is
-generated, its package object and tests pass, `/packs` renders searchable
+generated, its package object and tests pass, `/exchange` renders searchable
 master-detail PackActivity with settlement, BTD rights, compensation,
 delivery, and repair state readback, proof roots, and a fail-closed repair
 surface, Auxillaries panes cover identity, source connections, interfaces,
@@ -143,7 +144,7 @@ gate/canon workflows run `check:v48-gate6`.
 V48 Gate 7 is complete when the V48 E2E IP exchange artifact is generated,
 its package object and tests pass, the browser proof sells IP on `/deposits`,
 buys IP on `/reads` with measurement-before-price and ordered
-settlement/rights/delivery readback, audits `/packs` including the
+settlement/rights/delivery readback, audits `/exchange` including the
 fail-closed repair surface, runs in deterministic source-safe mock mode with
 a clean browser error trap, `uapi` exposes `test:e2e:ip-exchange`, and
 gate/canon workflows run `check:v48-gate7`.
@@ -152,7 +153,7 @@ V48 Gate 8 is complete when the V48 landing/public launch messaging artifact
 is generated, its package object and tests pass, the landing renders the
 commercial-testnet section with testnet meaning, core-flow links, and
 proof-backed source-safe positioning, public docs carry the testnet-meaning
-card, promoted V46 claim tokens and launch navigation remain intact, and
+card, claim-boundary tokens and launch navigation remain intact, and
 gate/canon workflows run `check:v48-gate8`.
 
 Gate 10 implementation readback: the promotion readiness report
@@ -267,7 +268,7 @@ AssetPack = **patch + measurements + metadata**.
 | R-19 | Read Need-fits multi-query search | closed | `read-depository-search-for-need-fits-agent` passes `queries[]`; product `read-need-fits` |
 | R-20 | Deposit/read stream parity | closed | Shared early emitStatus + depository preload before SDIVF |
 | R-06 | Settle Simple: pay → mint → rights → PR ship | closed | `settle-asset-pack-pipeline` stages |
-| R-07 | `/packs` master-detail | closed | PacksPageClient master-detail; settle executions projected as settled-assetpack with nested measurements + PR delivery reference |
+| R-07 | `/exchange` master-detail | closed | PacksPageClient master-detail; settle executions projected as settled-assetpack with nested measurements + PR delivery reference |
 | R-08 | SPEC G4 rebuild law | closed | `BITCODE_SPEC_V48.md` Gate 4 |
 | R-09 | `/reads` Need compose + synthesize dispatch + option select | closed | ReadsNeedComposePanel + use-read-option-synthesis + `/api/read/synthesize-options` |
 | R-10 | Settle API handoff from selected options | closed | `POST /api/read/settle` → SettleAssetPackSimplePipeline |

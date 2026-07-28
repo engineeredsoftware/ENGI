@@ -3,77 +3,77 @@
 ## Status
 
 - Version: `V48`
-- Canonical pointer on `main`: `BITCODE_SPEC.txt` -> `V47` until V48 promotion
-- Draft family anchor: `BITCODE_SPEC_V48.md` (single-canon rebuild authority for the full stack through Gate 3)
-- Draft generated proof appendix: `BITCODE_SPEC_V48_PROVEN.md`
+- V48 state: notes companion for sole-complete draft SPEC; weaker than SPEC
 - Current canonical/latest target: `V47`
-- Prior canonical anchor: `BITCODE_SPEC_V47.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
-- V48 state: draft full-stack single-canon family open; Gate 3 synthesis pipeline correctness closing
-- Generated structured artifact inventory: draft V48 family (`.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md`
-- Source parity state: V48 Gate 1–3 identity, deposit SDIVF synthesis, telemetry, demand honesty, organization/wallet authority, and commercial website surfaces are specified for rebuild from `BITCODE_SPEC_V48.md`; this notes companion records architecture decisions and the depositing parity matrix
-- Scope: V48 full-system draft notes companion for Complete Implementation Derivability through Gate 3
-- QA findings ledger: `BITCODE_V48_QA.md`
-- Spec companion: `BITCODE_SPEC_V48.md`
+- Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only)
+- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical process only)
+- Generated structured artifact inventory: draft V48 family under `.proofs/v48/`
+  when regenerated; `BITCODE_SPEC_V48_PROVEN.md`
+- Source parity state: binding law is `BITCODE_SPEC_V48.md`; notes are working memory
+- Companion role: **weaker than** `BITCODE_SPEC_V48.md` (architecture decisions,
+  QA intent — not sole rebuild law)
+- Spec companion: `BITCODE_SPEC_V48.md` (**sole Complete Implementation Derivability**)
 - Delta companion: `BITCODE_SPEC_V48_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
+- Proven: `BITCODE_SPEC_V48_PROVEN.md`
+- Absolute measurement parity: `BITCODE_SPEC_V48_ABSOLUTE_MEASUREMENT_PARITY_MATRIX.md`
+- QA findings ledger: `.qa/BITCODE_V48_QA.md` when present
+- Identity freeze (must match SPEC): commodity **DataPack**; routes
+  `/deposits`, `/reads`, **`/exchange`**
 
 ## Notes companion rule
 
-These notes accompany the V48 draft specification family. They are not stronger
-than `BITCODE_SPEC_V48.md`. Binding rebuild law for the entire Bitcode stack
-through Gate 3 lives in the single SPEC file. Notes record architecture
-decisions, Gate 3 SDIVF details, the depositing parity matrix, and QA-driven
-intent. Do not treat superseded version files as live V48 product law when
-implementing V48 gates.
+These notes accompany the V48 draft specification family. They are **not**
+stronger than `BITCODE_SPEC_V48.md`. Binding rebuild law for the entire Bitcode
+stack lives in the SPEC. Notes may record chronological decisions and QA
+narrative; where notes disagree with SPEC, **SPEC wins**. Do not recover system
+semantics from other versioned SPEC files when implementing V48.
+
+### Sole-completeness audit (2026-07-28)
+
+SPEC front matter, disclosure boundary (LLM vs product), deposit Implementation
+(four agents: plan → hybrid patchfile → measure → commercial-nl), routes, and
+operator chain were restated so implementers need not open other version SPECs
+for design/impl meaning. This NOTES file may still contain older chronological
+gate narrative using residual package names (`AssetPack*`); treat that as
+history of decisions, not current product law.
 
 ## Concise current-system reading
 
-V48 is the full-stack draft target: wallet/GitHub identity, `/deposits`
-SynthesizeAssetPacks SDIVF (maxIterations 1, anthropic claude-haiku-4-5 default, settled
-demand honesty), `/reads` reading contracts retained for later gates, `/packs`
-activity master-detail, Auxillaries, source-safe telemetry, and testnet-only
-value semantics. Gate 3 closes synthesis pipeline algorithmic + telemetric
-correctness and deposit full-stack option stats (roots, positive ROI,
-admission, required denials).
+V48 is the full-system commercial website testnet target:
+
+- **DataPack** = commercial `.patch` (create|modify bodies) + measurements +
+  metadata (+ commercialTitle/Description)
+- `/deposits` — deposit SDIVF (four Implementation agents), option review,
+  admit
+- `/reads` — Need, fit, multi-rail settle, entitled delivery
+- `/exchange` — network activity master-detail (purchase CTA may continue to
+  Read settle)
+- Auxillaries — identity, wallet, connections, org
+- Measurement excellence — full absolute catalogue with honesty; needinesses on
+  read only
+- Disclosure — product/API rights-gate file bodies; synthesis LLMs may receive
+  full material
+- Testnet-class pay rails; value-bearing mainnet blocked
 
 ## Simplified-spec reading rule
 
-If a surface does not help a depositor synthesize measured AssetPack options,
-review them source-safely, admit them, track authority/earnings honestly, or
-help a reader later settle Need-fit AssetPacks, it is out of Gate 3 scope.
-Unestimatable demand must say Unestimatable — never invent demand percentages.
+If a surface does not help a depositor synthesize measured DataPack options,
+review commercial brief + measurements (+ owner `.patch`), admit them, track
+authority/earnings honestly, or help a reader settle Need-fit DataPacks, it is
+out of launch MVP scope. Unestimatable demand must say Unestimatable — never
+invent demand percentages.
 
-## Deferred from V47
+## Launch MVP workstreams (current)
 
-V47 promoted commercial website testnet launch readiness. It launch-froze
-`/deposit`, `/read`, `/packs`, and Auxillaries, made measurement law and the
-IP seller/buyer state machines exact, completed the depositor and reader
-websites, the packs/Auxillaries commercial dashboard, browser-proven E2E IP
-selling and buying, landing/public launch messaging, the staging-testnet
-deployment rehearsal, and promotion readiness — all over the preserved
-Bitcoin/BTC settlement language, BTD scalar-volume and rights language,
-GitHub delivery boundaries, compute constraints, storage boundaries, and
-build/process validation carried from the promoted V46 comprehension canon.
-
-V48 begins from the remaining question: what does the first live commercial
-(testnet) experience still need before real users can walk every core step
-without friction. The opening posture is intentionally experiential: run the
-deployed staging-testnet system end to end, step by step, and fix what breaks.
-
-## Candidate V48 workstreams
-
-- Environment preparation: staging Supabase database readiness, wallet-fauceted
- testnet BTC, local telemetry expectations, and a step-by-step debugging
- experience that validates each core user step.
-- Identity and authentication: connect, and Auxillaries readiness for
- connecting GitHub, wallet(s), and other external surfaces.
-- Depositing: connecting knowledge, requesting AssetPack syntheses to review,
- reviewing, and depositing.
-- Reading: connecting knowledge, requesting a Read, reviewing the synthesized
- Need, reviewing potential Fits, and buying Fit(s).
-- Ledgerized journaling: replayability, auditability, `/packs` page UX/UI, and
- the personal (Auxillaries) history of work.
+- Environment preparation: staging database readiness, wallet-fauceted testnet
+  rails, local telemetry, step-by-step debugging of each core user step.
+- Identity and authentication: Auxillaries readiness for GitHub, wallet(s), and
+  other externals.
+- Depositing: connect source, synthesize DataPack options, review, deposit.
+- Reading: connect target repo, Read, Need, Fits, buy/settle.
+- Exchange journaling: replayability, auditability, `/exchange` UX, Auxillaries
+  personal history.
 
 ## V48 Gate 1 in progress: identity and authentication interactive QA
 

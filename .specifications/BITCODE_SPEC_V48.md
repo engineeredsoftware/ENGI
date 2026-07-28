@@ -3,90 +3,118 @@
 ## Status
 
 - Version: `V48`
-- V48 state: draft implementation pass in progress for Gate 3 synthesis pipeline correctness; full-stack single-canon draft family open for Complete Implementation Derivability
+- V48 state: full-system draft SPEC open for Complete Implementation Derivability
+  (sole rebuild law for the system described herein)
 - Current canonical/latest target: `V47`
-- Prior canonical anchor: `BITCODE_SPEC_V47.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
-- Generated structured artifact inventory: draft V48 family (`.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`, `.proofs/v48/canon-posture-drift-report.json` when regenerated), Gate 3 depositing parity evidence, and `BITCODE_SPEC_V48_PROVEN.md` as the draft generated proof appendix
-- Source parity state: V48 Gate 1–3 source-side identity, deposit SDIVF synthesis, telemetry, demand honesty, organization/wallet authority, and commercial website surfaces are specified for rebuild from this single SPEC; later gates extend reading/settlement without silent inheritance from superseded files
+- Prior canonical anchor: `BITCODE_SPEC_V47.md` (historical process only — not
+  required for V48 semantic recovery)
+- Prior generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md` (historical
+  process only — not required for V48 semantic recovery)
+- Generated structured artifact inventory: draft V48 family
+  (`.proofs/v48/spec-family-report.json`, `.proofs/v48/canonical-input-report.json`,
+  `.proofs/v48/canon-posture-drift-report.json` when regenerated) and
+  `BITCODE_SPEC_V48_PROVEN.md`
+- Source parity state: V48 product surfaces and pipelines are specified for
+  rebuild from this SPEC alone; living source under `apps/uapi` and
+  `packages/` implements that law
 - Notes companion: `BITCODE_SPEC_V48_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V48_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V48_PARITY_MATRIX.md`
-- Scope: V48 full-system Bitcode specification — single-canon rebuild authority for the entire stack through Gate 3 (SynthesizeAssetPacks SDIVF, deposit full-stack, source-safety, identity, packs, reading contracts retained for later gates)
-- Last fully realized canonical target preserved in source until promotion: `V47` (pointer on main); draft work targets `V48`
+- Scope: entire Bitcode stack described below — deposit SDIVF, read SDIVF,
+  settle Simple, Exchange activity, measurement, disclosure/rights, identity,
+  BTD/settlement, proofs, promotion
+- Posture: **sole-complete draft** — pointer may still name V47 until promotion;
+  **all V48 rebuild semantics live only in this family**
+
+### Identity freeze (binding)
+
+| Concept | Canonical term |
+|---|---|
+| Commodity | **DataPack** (product language). Residual code packages may still use
+  `AssetPack*` identifiers; product prose and this SPEC use **DataPack**. |
+| Seller route | `/deposits` |
+| Buyer route | `/reads` |
+| Market / activity route | **`/exchange`** (primary). Any `/packs` path is compatibility
+  redirect or retired cockpit — not a launch CTA. |
+| Experiences | Marketing, Exchange, Reads, Deposits, Docs, Conversations, Auxillaries |
+
+```
+DataPack =
+  commercial .patch   // create|modify file material (bodies for entitled viewers)
+  + measurements      // absolutes (+ needinesses on read); materialIdentity?; measureReport?
+  + metadata          // kind, title, summary, commercialTitle/Description, roots, …
+```
 
 
 ## Version executive summary
 
-V48 is the full-stack draft canon that advances Bitcode from promoted V47
-commercial website testnet launch law into a single rebuild-from-SPEC system
-through Gate 3: identity/wallet/GitHub authenticity, `/deposits`
-SynthesizeAssetPacks SDIVF (algorithmic + telemetric correctness), deposit
-full-stack option policy/admission/earnings/authority, settled-Depository demand
-honesty, and source-safe telemetry. Later V48 gates extend reading settlement
-and organization depth without silent inheritance from superseded version files.
+V48 is the **complete** Bitcode system specification for commercial website
+testnet readiness: identity/wallet/GitHub authenticity; `/deposits`
+SynthesizeDepositDataPacks SDIVF; deposit full-stack option
+policy/admission/earnings/authority; settled-Depository demand honesty;
+`/reads` synthesize + multi-rail settle; `/exchange` activity ledger; source-safe
+telemetry; measurement excellence (full absolute catalogue with honesty).
 
-V48 does not make mainnet value-bearing claims. "Testnet" means BTC amounts and
-settlement observations are testnet only while the rest of the system behaves as
-production-intended. Measurement remains the commercial primitive: absolutes on
-deposit, Need-relative fit on read, weighted BTD scalar for quote/rights, and
-seller/buyer visualization without source leakage.
+V48 does not make mainnet value-bearing claims. "Testnet" means BTC (and other
+pay-rail) amounts and settlement observations are testnet-class while the rest of
+the system behaves as production-intended. Measurement is the commercial
+primitive: absolutes on deposit, Need-relative fit on read, weighted BTD scalar
+for quote/rights, seller/buyer visualization without unpaid source leakage.
 
-Gate 3 product defaults that must appear in any rebuild: Anthropic model
-`claude-haiku-4-5`, deposit-native SDIVF roster (no lens), DIV `maxIterations=1`,
-LLM call timeout 180s, **sourceCheckoutCatalog** (not inventory), DataPack =
+Product defaults that must appear in any rebuild: Anthropic model
+`claude-haiku-4-5` (overridable), deposit-native SDIVF roster (no lens), DIV
+`maxIterations=1`, LLM call timeout 180s, **sourceCheckoutCatalog**, DataPack =
 patch + measurements + metadata with formal **DATA_PACK_ABSOLUTES_CATALOG**
 (65 kinds, Σ weights = 1, honesty `status` + optional materialIdentity +
 measureReport), empty Obfuscations skip Setup LLM, Permissible sources/Exclusions
 path scope, Unestimatable demand when settled Depository search cannot ground
-estimates.
+estimates, **four** deposit Implementation agents (plan → patchfile with hybrid
+bodies → measurements → commercial-nl).
 
 ## Canonical Bitcode executive summary
 
 Bitcode commoditizes knowledge by packaging source, documents, data, workflows,
-and other technical materials as AssetPacks. Depositors supply AssetPacks into
+and other technical materials as **DataPacks**. Depositors supply DataPacks into
 the Depository. Readers ask Bitcode to understand a Read Request, synthesize a
-Need, find fitting Depository AssetPacks, synthesize a Need-Fit AssetPack,
-preview source-safe measurements, settle in BTC, receive BTD rights, and receive
-entitled repository delivery.
+Need, find fitting Depository DataPacks, synthesize a Need-Fit DataPack,
+preview source-safe measurements and commercial prose, settle on a pay rail,
+receive BTD volume/rights, and receive entitled repository delivery (`.patch` /
+PR).
 
-BTD is the weighted scalar knowledge-volume measured from source bits, bytes,
-content, documents, code, and other knowledge-bearing material. BTD can be
-estimated for deposit-side AssetPack options, but final BTD size is
-Need-relative: it is computed from measurements against a reviewed Need and
-bound to settlement, rights, delivery, and source-to-shares compensation.
+BTD is the weighted scalar knowledge-volume measured from knowledge-bearing
+material. Deposit-side options may show estimated BTD; final commercial volume
+for settle is Need-relative (needinesses-weighted) and bound to settlement,
+rights, delivery, and source-to-shares compensation.
 
-V48 makes the website experience commercially demonstrable on staging-testnet
-by proving both sides of the exchange: IP sellers can deposit AssetPacks, and IP
-buyers can buy Need-fitting AssetPacks.
+V48 makes the website commercially demonstrable on staging-testnet by proving
+both sides of the exchange: IP sellers deposit DataPacks on `/deposits`; IP
+buyers purchase Need-fitting DataPacks on `/reads`; network activity rereads on
+`/exchange`.
 
 ## V48 source-of-truth hierarchy
 
-Until promotion, `BITCODE_SPEC.txt` on `main` still points to promoted `V47`.
-The V48 **draft** family is the sole rebuild authority for all V48 gate work:
+This V48 family is the **sole rebuild authority** for the system described here:
 
 | File | Role |
 |---|---|
-| `BITCODE_SPEC_V48.md` | **Single full-system SPEC** — Complete Implementation Derivability: the entire Bitcode stack through Gate 3 must be rebuildable from this file alone |
+| `BITCODE_SPEC_V48.md` | **Single full-system SPEC** — Complete Implementation Derivability |
 | `BITCODE_SPEC_V48_DELTA.md` | Why V48 / accepted decisions / deferred / commit direction |
-| `BITCODE_SPEC_V48_NOTES.md` | Architecture decisions, simplified reading, non-binding working memory (weaker than SPEC) |
+| `BITCODE_SPEC_V48_NOTES.md` | Architecture decisions, simplified reading (weaker than SPEC) |
 | `BITCODE_SPEC_V48_PARITY_MATRIX.md` | Spec ↔ implementation ↔ test audit |
 | `BITCODE_SPEC_V48_PROVEN.md` | Generated proof appendix (draft) |
 
-**Non-canonical companions** (`README.md`, `FAMILIARIZATION.md`, `ASSET_PACKS.md`,
-`AGENTS.md`, `internal-.docs/*` except when explicitly named by this SPEC):
+**Non-canonical companions** (README, FAMILIARIZATION, AGENTS, layout docs, etc.):
 orientation and craft only. They **must not** be required to supply omitted
 system semantics. Adjuncts may link SPEC; SPEC must not depend on them.
 
-**No silent inheritance.** Superseded version specs (`BITCODE_SPEC_V47.md` and
-earlier) are historical anchors only. V48 implementers must not require reading
-prior `BITCODE_SPEC_V*.md` files or non-canonical companions to rebuild deposit
-SDIVF, identity, packs, telemetry, or measurement law — those laws are restated
-in this SPEC.
+**Sole-completeness law.** This SPEC must restate all system meaning required
+to rebuild Bitcode. Readers must not need other versioned SPEC files to recover
+design or implementation law. Companions sharpen or evidence; they do not
+replace omitted chapters.
 
 Implementation remains unversioned in source paths. Routes, packages,
 components, tests, prompts, telemetry, schemas, APIs, and workflows move in place
-as the single current Bitcode system after V48 gates authorize their changes.
+as the single current Bitcode system.
 
 ## V48 full-system, re-implementation, and audit rule
 
@@ -95,21 +123,27 @@ artifacts, proof roots, workflow receipts, ledger journals, database
 projections, object-storage roots, wallet/provider receipts, repository
 delivery receipts, and source-safe telemetry.
 
-No V48 surface may disclose protected source, unpaid AssetPack source, raw
-prompts, raw model/provider responses, credentials, wallet private material,
-private settlement payloads, private repository access, or source-bearing
-delivery contents before entitlement.
+No **product/API/UI** surface may disclose protected source, unpaid DataPack
+file bodies, raw prompts, raw model/provider responses, credentials, wallet
+private material, private settlement payloads, private repository access, or
+source-bearing delivery contents before entitlement.
+
+**Disclosure boundary (binding):** source-safety is a **product and API
+projection** law (what users and unpaid clients may see). It is **not** a ban
+on sending full checkout or patch bodies to synthesis LLM providers. Pre-launch
+third-party providers and launch self-hosted models both receive real material
+for plan, measure, create, commercial-nl, and validation quality. Unpaid
+Exchange/read surfaces still withhold bodies until rights unlock.
 
 ## V48 totality and precision enforcement rule
 
-V48 must preserve V46 protocol comprehension while becoming operationally
-complete for the website launch. AssetPack is the commodity. BTD is weighted
-scalar knowledge-volume and, after settlement, a rights-bearing receipt. BTC is
-settlement money, testnet-only in V48 deployment. Source-to-shares is
-post-finality contributor allocation. Measurement is the basis for price.
-Preview is not source disclosure. Quote is not payment. Payment observation is
-not finality. Database projection is not ledger truth when stronger evidence
-conflicts.
+V48 is operationally complete for commercial website testnet launch. **DataPack**
+is the commodity. BTD is weighted scalar knowledge-volume and, after settlement,
+a rights-bearing receipt. Pay rails settle money (testnet-class in V48).
+Source-to-shares is post-finality contributor allocation. Measurement is the
+basis for price. Preview is not source disclosure. Quote is not payment.
+Payment observation is not finality. Database projection is not ledger truth
+when stronger evidence conflicts.
 
 Every user-visible state must name whether it is estimate, potential, preview,
 quote, observed testnet payment, final settlement, rights transfer, delivery,
@@ -120,18 +154,16 @@ contributor allocation, compensation, or repair.
 Goals:
 
 - Launch-freeze the first generally available website MVP scope.
-- Make `/deposits`, `/reads`, `/packs`, and Auxillaries commercially coherent on
-  staging-testnet.
+- Make `/deposits`, `/reads`, `/exchange`, and Auxillaries commercially coherent
+  on staging-testnet.
 - Specify seller and buyer user flows with exact state machines.
 - Specify measurement law: catalog, prompts, typed outputs, weights, BTD scalar
   formula, proof roots, and source-safe visualizations.
 - Audit feature excess and defer or flag anything that distracts from launch.
-- Treat `/deposits`, `/reads`, and `/packs` as the website launch entrypoints;
-  route `/exchange` compatibility into `/packs`; eradicate the legacy
-  `/packs` cockpit as a product surface (compatibility redirect only during
-  migration); keep full Conversations commercialization, API/MCP, ChatGPT App,
-  Bitcode Chat, value-bearing mainnet, and advanced market mechanics out of the
-  launch path unless a later gate explicitly reopens them.
+- Treat `/deposits`, `/reads`, and `/exchange` as website launch entrypoints;
+  keep full Conversations commercialization, API/MCP, ChatGPT App, Bitcode Chat,
+  value-bearing mainnet, and advanced market mechanics out of the launch path
+  unless a later gate explicitly reopens them.
 - Prove E2E IP selling and IP buying through browser-level commercial tests.
 - Refurbish the landing page and public launch messaging for V48 testnet
   readiness.
@@ -143,11 +175,12 @@ Non-goals:
   source-safe compatibility and future-readiness boundaries.
 - V48 does not finish deeper BTD mining cryptography beyond the website launch
   contract.
-- V48 does not expose unpaid source or source-bearing prompts.
+- V48 does not expose unpaid DataPack file bodies or source-bearing prompts on
+  product surfaces.
 - V48 does not add advanced market mechanics beyond MVP selling and buying.
 
 Design principles: measurement before price, price before settlement,
-settlement before source unlock, source safety before convenience, website
+settlement before source unlock, product disclosure before convenience, website
 clarity before advanced interfaces, proof-backed readback before projection,
 and testnet value semantics without weakening production-like system behavior.
 
@@ -157,18 +190,19 @@ V48 acts through the website application:
 
 - Auxillaries owns user identity, organizations, teams, wallets, source
   connections, target repository connections, and histories.
-- `/deposits` owns IP-seller source connection, deposit AssetPack option
-  synthesis, source-safe option review, Depository admission, and compensation
-  expectation readback.
-- `/reads` owns IP-buyer Read Request, ReadNeedComprehensionSynthesis,
-  Need review/resynthesis, ReadFitsFindingSynthesis, source-safe preview,
-  quote, BTC-testnet settlement, BTD rights transfer, and repository delivery.
-- `/packs` owns searchable master-detail PackActivity across deposits, reads,
-  previews, quotes, settlements, rights, delivery, compensation, repairs, proof
-  roots, and histories.
+- `/deposits` owns IP-seller source connection, deposit DataPack option
+  synthesis, commercial + measurement review, Depository admission, and
+  compensation expectation readback.
+- `/reads` owns IP-buyer Read Request, Need comprehension, Need
+  review/resynthesis, fit finding, source-safe preview, quote, multi-rail
+  settlement, BTD rights transfer, and repository delivery.
+- `/exchange` owns searchable master-detail network activity across deposits,
+  reads, previews, quotes, settlements, rights, delivery, compensation,
+  repairs, proof roots, and histories (purchase CTA may continue to `/reads`
+  settle with intent params).
 - Marketing (`/`), Docs (`/docs`), and Conversations (structure retained;
-  full commercial conversations experience deferred post-V48) complete the
-  website experience set.
+  full commercial conversations experience deferred) complete the website
+  experience set.
 - API/MCP, ChatGPT App, and Bitcode Chat remain deferred commercial surfaces in
   V48, though their source-safe contracts must not regress.
 
@@ -193,8 +227,9 @@ Canonical directories (under the Next app root `apps/uapi/`):
 
 - `apps/uapi/components/shadcn/`
 - `apps/uapi/components/bitcode/`
-- `apps/uapi/components/{marketing,packs,reads,deposits,docs,conversations,auxillaries}/`
-- Thin page shells under `apps/uapi/app/{packs,deposits,reads,docs,conversations,auxillaries}/` and marketing at `apps/uapi/app/page.tsx` / `(root)`
+- `apps/uapi/components/{marketing,exchange,reads,deposits,docs,conversations,auxillaries,datapacks}/`
+- Thin page shells under `apps/uapi/app/{exchange,deposits,reads,docs,conversations,auxillaries}/`
+  and marketing at `apps/uapi/app/page.tsx`
 
 Naming law (types, classes, files, functions, variables — not only components):
 
@@ -203,14 +238,12 @@ Naming law (types, classes, files, functions, variables — not only components)
   `BitcodeDepositPipeline*`, `BitcodeReadPipeline*`, and experience-local
   `Deposits*` / `Reads*` forms.
 - **Transaction / journal** remains ledger/journal vocabulary (BTD journal
-  entries, reconciliation), not the operator cockpit name.
+  entries, reconciliation), not a product cockpit name.
 - **Execution** as a product UI name is retired in favor of Pipeline. Low-level
   agent/executor packages (`execution-generics`, PTRR executor primitives) are
   not product Pipeline surfaces and are not blindly renamed.
-- **product** as a product surface name is eradicated. Live capabilities that
-  still live under `apps/uapi/app/ (removed cockpit tree) ` must relocate into Bitcode or the
-  owning experience; dead cockpit-only modules are deleted. `/packs` may
-  remain only as a compatibility redirect (default `/packs`) during migration.
+- Product route SSOT: `EXCHANGE_ROUTE = '/exchange'`, `DEPOSITS_ROUTE`,
+  `READS_ROUTE` under product-routes. Residual `/packs` is not a launch CTA.
 - HTTP paths under `/api/executions/*` may remain stable during rename waves;
   internal TypeScript modules and UI labels move to Pipeline first.
 
@@ -219,15 +252,13 @@ uapi holds Next routes, React, and thin adapters. Shareable pure models that
 leave product must land in packages or `components/bitcode` models — not
 remain under a product path.
 
-God-client modularization law (Phase 4, active on `version/v48`):
+God-client modularization law:
 
 - Experience page clients are **orchestration shells** only. Pure projections
   live under `apps/uapi/components/<experience>/models/`; stateful IO under
   co-located `hooks/`; render units under named `ComponentName/` directories.
 - `/deposits` rebuild index: `DepositPageClient` + deposit models/hooks/units
-  listed in G3-14. `/packs` uses `PacksPageClient` + portfolio/master/detail
-  units. Further thinning of deposit handlers and source-inventory loading
-  continues until no deposit-touched module violates SRP.
+  listed in G3-14. `/exchange` uses Exchange page client + master/detail units.
 - Unit tests for pure deposit models register under `apps/uapi/tests/` (and
   `apps/uapi/jest.config.cjs` testMatch) so CI proves modular projections.
 
@@ -235,78 +266,82 @@ God-client modularization law (Phase 4, active on `version/v48`):
 
 cockpit eradication is complete when:
 
-1. `apps/uapi/app/ (removed cockpit tree) ` does not exist.
-2. `/packs` is not a route (no page, no redirect) and is not a nav/login CTA.
+1. No live product cockpit tree under `apps/uapi/app/` for retired surfaces.
+2. Launch nav/login CTAs use `/deposits`, `/reads`, `/exchange` only.
 3. Shared pipeline selection, history, repository context, and readiness
-   models live under Bitcode/experience names without `product*` prefixes.
-4. Browser proofs and commercial E2E remain on `/deposits`, `/reads`, `/packs`,
-   and Auxillaries — never requiring the product cockpit.
+   models live under Bitcode/experience names without retired product prefixes.
+4. Browser proofs and commercial E2E remain on `/deposits`, `/reads`,
+   `/exchange`, and Auxillaries.
 5. BTD journal and operational-health packages use non-product names
-   (`journal`, `operational-health`), with temporary product aliases only
-   while callers migrate.
+   (`journal`, `operational-health`).
 
 ## V48 canonical domain model
 
 Canonical V48 launch objects:
 
-- IP seller, IP buyer, organization, team, wallet, BTC-testnet account,
-  source connection, target repository connection, deposit source bundle,
-  deposit AssetPack option, Depository AssetPack, Read Request, synthesized
-  Need, accepted Need, Fit candidate set, selected Fit set, Need-Fit AssetPack,
-  source-safe preview, measurement vector, measurement weight policy,
-  weighted BTD scalar, BTC-testnet quote, settlement receipt, BTD rights
-  receipt, repository delivery receipt, source-to-shares allocation,
-  compensation statement, PackActivity row, proof root, repair case, and
-  commercial rehearsal receipt.
+- IP seller, IP buyer, organization, team, wallet, testnet pay account,
+  source connection, target repository connection, deposit source bundle
+  (**sourceCheckoutCatalog**), deposit DataPack option, Depository DataPack,
+  Read Request, synthesized Need, accepted Need, Fit candidate set, selected
+  Fit set, Need-Fit DataPack, source-safe preview, commercial brief,
+  measurement vector, measurement weight policy, weighted BTD scalar,
+  multi-rail quote, settlement receipt, BTD rights receipt, repository
+  delivery receipt, source-to-shares allocation, compensation statement,
+  Exchange activity row, proof root, repair case, and commercial rehearsal
+  receipt.
 
 Canonical V48 states:
 
 - Seller states: `seller-connected`, `source-connected`,
   `deposit-options-synthesizing`, `deposit-option-synthesized`,
   `deposit-option-reviewed`, `deposit-option-approved`,
-  `depository-admission-submitted`, `depository-assetpack-admitted`,
+  `depository-admission-submitted`, `depository-datapack-admitted`,
   `compensation-eligible`, `seller-repair-required`.
 - Buyer states: `buyer-connected`, `target-repository-connected`,
   `read-requested`, `read-need-synthesizing`, `read-need-reviewing`,
   `read-need-accepted`, `finding-fits-running`, `fits-found`,
-  `need-fit-assetpack-synthesized`, `source-safe-preview-reviewing`,
-  `btc-testnet-quote-issued`, `btc-testnet-settlement-observed`,
-  `btd-rights-transferred`, `repository-delivery-created`,
-  `buyer-repair-required`.
-- Pack states: `pack-activity-created`, `measurement-visualized`,
+  `need-fit-datapack-synthesized`, `source-safe-preview-reviewing`,
+  `quote-issued`, `settlement-observed`, `btd-rights-transferred`,
+  `repository-delivery-created`, `buyer-repair-required`.
+- Exchange activity states: `activity-created`, `measurement-visualized`,
   `proof-root-bound`, `ledger-projected`, `database-synchronized`,
   `storage-root-bound`, `repair-opened`, `repair-closed`.
 
 ## V48 measurement law
 
 Measurement is the singular key to valuable IP commoditization and exchange.
-Every V48 sale or deposit decision must be grounded in source-safe measurement
-readback. **Models do not invent absolute volumes.** Hosts and tools measure;
-agents reason over source-safe descriptors and measured readings.
+Every V48 sale or deposit decision must be grounded in measured readback that
+product surfaces may show under disclosure law. **Models do not invent absolute
+volumes.** Hosts and tools measure; agents reason over measured readings and
+(when synthesizing) full patch material.
 
 ### DataPack identity (measurement-bound)
 
 ```
-DataPack = patch + measurements + metadata
+DataPack = commercial .patch + measurements + metadata
 ```
 
-- **Patch** — source-safe descriptor of digital material (`fileChanges[{path,op}]`,
-  `patchSummary`). Path+op only; never raw code in prompts or default review payloads.
+- **Patch** — commercial change set: plan descriptor
+  (`fileChanges[{path, op: create|modify}]`, `patchSummary`) plus formal
+  **patchArtifact** with full file **bodies** when bound, `unifiedDiff`
+  (depositor/entitled `.patch` text), and `bodiesComplete`. **No delete ops.**
 - **Measurements** — nested **measurement KINDS** object (see below). Measuring is
   the most critical Bitcode subsystem: models do not invent measured values.
 - **Metadata** — commercially legible fields: `kind`, `title`, `summary`,
-  `coveredSourcePaths`, `confidence`.
+  `coveredSourcePaths`, `confidence`, plus **`commercialTitle`** /
+  **`commercialDescription`** (buyer-facing brief grounded in real patch
+  material).
 
 A **DataPack** is **always** a completely synthesized artifact — never a raw
 source slice and never a bare path list. **Absolute measurements measure the
 DataPack** (after synthesis), not the depositor repository as the commercial object.
 Product hierarchy:
 
-`DataPack` (primitive) → `SynthesisDataPack` → deposit option / selection
+`DataPack` (primitive) → synthesis pack → deposit option / selection
 envelope row / durable artifact projection.
 
 (Legacy code identifiers may still say AssetPack until package renames complete;
-product language and new packages use **DataPack**.)
+product language and this SPEC use **DataPack**.)
 
 Deposit option `kind` (v0): `capability-slice` | `implementation-pattern` |
 `proof-operations-slice`. Implementation synthesizes **2–4** distinct options.
@@ -630,12 +665,10 @@ No measurement, no price. No price, no settlement. No settlement, no market.
 
 ## V48 Gate 3 SynthesizeDepositAssetPacks SDIVF and deposit full-stack law
 
-This section is **binding product law** for Gate 3. Together with the rest of
-this SPEC it is sufficient to **rebuild deposit synthesis and `/deposits` from
-zero** without consulting superseded version files, non-canonical companions
-(`ASSET_PACKS.md`, `README.md`, `FAMILIARIZATION.md`), `protocol-demonstration/`,
-or implementation tribal knowledge. Paths locate the living system; the **law**
-is this SPEC.
+This section is **binding product law** for deposit synthesis. Together with the
+rest of this SPEC it is sufficient to **rebuild deposit synthesis and `/deposits`
+from zero** without consulting non-canonical companions or implementation tribal
+knowledge. Paths locate the living system; the **law** is this SPEC.
 
 **Product law: no lens.** Deposit and read are **separate** SDIVF product
 pipelines (not one lensed pipeline). Deposit roster keys below are deposit-native
@@ -666,7 +699,7 @@ keys for the same agent loader.
 | preprocess | deposit-only | Repository coords + steering; catalog may be empty until Host/Setup |
 | Setup | (1) **clone alone** → (2) **parallel** {initialize-lsp, initialize-mcps-tools, comprehend-obfuscations} → (3) **danger-wall alone** | Clone first; danger wall last admits obfuscations |
 | Discovery | **parallel** {comprehend-codebase, search-depository, inherent-regurgitation} | Measure is **inside** comprehend-codebase, not a separate agent |
-| Implementation | **sequential** (1) `…-patch-plan` → (2) `…-patchfile` → (3) `…-measurements-synthesis` | Same AssetPack(s): **plan descriptors** → **write one path-op-json patchfile artifact per pack** → **measure**; deposit = descriptor + patchArtifact + `measurements.absolutes` + metadata |
+| Implementation | **sequential** (1) `…-patch-plan` → (2) `…-patchfile` → (3) `…-measurements-synthesis` → (4) `…-commercial-nl` | Same DataPack(s): **plan** → **write hybrid-body patch artifact** → **measure** → **commercial NL**; deposit = descriptor + patchArtifact (bodies) + absolutes + commercialTitle/Description |
 | Validation | **one** agent: `validation:ready-to-finish-asset-packs-synthesis-deposit-pipeline` | A prior phases · B pack quality · C obfuscations vs patch. **Validate only** — never measure/repair; weak Implementation → **iterate** |
 | Finish | (1) store-artifacts → (2) ledgerize → (3) finish-synthesize-asset-packs-for-deposit-run | Persist · journal roots · selection envelope / cleanup |
 | postprocess | normalize | Presentation-safe result for route |
@@ -837,16 +870,18 @@ Stores: `discovery:depositorySearch`, `discovery:depositorySearchQueries`,
 `{ regurgitation: { summary, relevantKnowledge?, patterns?, references? } }` →
 `discovery:inherentRegurgitation`.
 
-#### Implementation (three sequential agents — same AssetPacks)
+#### Implementation (four sequential agents — same DataPacks)
 
-Deposit AssetPack = **patch descriptor + singular patchfile artifact + absolute measurements + metadata**.
+Deposit DataPack =
+  **plan metadata + commercial .patch (bodies) + absolute measurements + commercial NL**.
 Neediness is **Read-pipeline only** and is never a deposit Implementation product field.
 
 | Order | Registry key | Module | Objective |
 |---|---|---|---|
-| 1 | `implementation:deposit-implementation-agent-asset-packs-patch-plan` | `…/deposit-implementation-agent-asset-packs-patch-plan.ts` (+ schema/prompts) | 2–4 options; LLM **six fields only**; host catalog/exclusion gates; **no artifact write** |
-| 2 | `implementation:deposit-implementation-agent-asset-packs-patchfile` | `…/deposit-implementation-agent-asset-packs-patchfile.ts` | For each planned pack: **write one** `AssetPackPatchArtifact` (`path-op-json`, no bodies) via `buildAssetPackPatchArtifact`; attach `patchArtifact` (7th field); telemetry path+op record |
+| 1 | `implementation:deposit-implementation-agent-asset-packs-patch-plan` | `…/deposit-implementation-agent-asset-packs-patch-plan.ts` (+ schema/prompts) | 2–4 options; LLM **six fields only**; host catalog/exclusion gates; **no artifact write**; LLM input may include **full checkout bodies** via synthesis-provider inventory projection |
+| 2 | `implementation:deposit-implementation-agent-asset-packs-patchfile` | `…/deposit-implementation-agent-asset-packs-patchfile.ts` (+ create-body hydrate) | For each planned pack: **write one** formal patch artifact; **hybrid bodies**: **modify** = depositor checkout full file; **create** = LLM (or deterministic) full new-file body; **no delete**; attach `patchArtifact` with `files[{path,op,body?}]`, `unifiedDiff`, `bodiesComplete` |
 | 3 | `implementation:deposit-implementation-agent-asset-packs-measurements-synthesis` | `…/deposit-implementation-agent-asset-packs-measurements-synthesis.ts` | Requires `patchArtifact`; `resolveMeasureSourceSet` → host measure (absolutes + materialIdentity + measureReport); full catalogue + honesty |
+| 4 | `implementation:deposit-implementation-agent-asset-packs-commercial-nl` | `…/deposit-implementation-agent-asset-packs-commercial-nl.ts` | **Full patch bodies + measurements** to LLM; emit `commercialTitle` + rich `commercialDescription` for purchase consideration; product surfaces may show commercial prose unpaid; bodies remain rights-gated |
 
 **Agent 1 (patch-plan) LLM output (allowlist — no other keys):**
 
@@ -855,32 +890,51 @@ Neediness is **Read-pipeline only** and is never a deposit Implementation produc
   options: [{
     kind: 'capability-slice'|'implementation-pattern'|'proof-operations-slice';
     title: string;                   // 8..160
-    summary: string;                 // 40..900 source-safe
+    summary: string;                 // 40..900 product language
     coveredSourcePaths: string[];    // 1..40 from catalog only
     confidence: number;              // 0..1
     patch: {
-      fileChanges: { path: string; op: 'create'|'modify'|'delete' }[];  // min 1
+      fileChanges: { path: string; op: 'create'|'modify' }[];  // min 1; NEVER delete
       patchSummary: string;
     };
   }]  // length 1..4
 }
 ```
 
-**Agent 2 (patchfile write) host output (per pack):** same six fields +
-`patchArtifact: { artifactId, assetPackId, format:'path-op-json', files[{path,op}], envelopeJson, … }`
-— **exactly one** formal artifact per pack; files ≡ `patch.fileChanges`.
+Plan step **output** is path+op only (staging). Plan step **input** includes real
+checkout file bodies so titles/summaries/path choices are grounded.
+
+**Agent 2 (patchfile write) host output (per pack):** same six fields with optional
+`fileChanges[].content` (full bodies) +
+`patchArtifact: { artifactId, assetPackId, format:'unified-diff'|'path-op-json',
+files[{path,op,body?}], unifiedDiff?, bodiesComplete, envelopeJson, … }`
+— **exactly one** formal artifact per pack; commercial law **create|modify only**.
 
 **Agent 3 (measurements) host output (per pack):** agent-2 pack +
 `measurements: { absolutes: AbsoluteReading[]; materialIdentity?; measureReport? }`
 (catalog-complete absolutes with `status` + magnitude+volume; identity optional; report optional but required when bodies were available).
 
+**Agent 4 (commercial-nl) host/LLM output (per pack):** agent-3 pack +
+`commercialTitle` (8..160) + `commercialDescription` (80..6000, exhaustive buyer brief
+grounded in real patch bodies and honesty telemetry). Deterministic fallback prose
+is allowed when LLM fails; preferred path is model grounded on full material.
+
+**Presentable gate (binding):** a pack is presentable only if not salvaged, has
+formal patchArtifact, has required catalog absolutes, has **no delete** ops, and
+when `bodiesComplete === false` it is **not** presentable.
+
 **Host salvage (patch-plan only):** continuity packs with `salvaged: true` may be written as
 artifacts but are **never presentable**; Validation **must iterate**.
 
-**Stores (after measurements):**
-`implementation:options` / `assetPacks` (measured), `implementation:patchedPlans`,
+**Product projection:** route validate must preserve file bodies, `patchArtifact`,
+commercial fields, and measure honesty; rehydrate modify bodies from checkout
+inventory when needed; rebuild `unifiedDiff` for depositor `.patch` download/view.
+
+**Stores (after commercial-nl):**
+`implementation:options` / `assetPacks` (commercial packs), `implementation:patchedPlans`,
 `implementation:patchArtifacts`, `implementation:patchfileWritten`,
-`implementation:measured`, `implementation:presentable`, salvage flags, measurementReports.
+`implementation:measured`, `implementation:presentable`,
+`implementation:commercialNlComplete`, salvage flags, measurementReports.
 
 #### Validation (single agent — validate only)
 
@@ -891,7 +945,7 @@ artifacts but are **never presentable**; Validation **must iterate**.
 | Check | Law |
 |---|---|
 | A Prior phase / tool sanity | workspacePath; danger-wall; catalog.paths; Discovery products; non-empty options; `implementation:measured === true`; **no salvaged packs** |
-| B Pack quality | Each pack = patch + `measurements.absolutes` (+ optional materialIdentity/measureReport) + metadata; no non-empty needinesses; distinctness; source-safety; full catalogue kinds; magnitude+volume; honesty status preserved |
+| B Pack quality | Each pack = commercial patch (bodies when claimed) + `measurements.absolutes` (+ optional materialIdentity/measureReport) + metadata + commercial NL when present; no non-empty needinesses; no delete ops; distinctness; full catalogue kinds; magnitude+volume; honesty status preserved; qualitative PTRR may read real patch bodies |
 | C Obfuscations / Impermissible sources | covered paths + patch paths vs blocked prefixes (shared path law) |
 
 Weak Implementation (missing absolutes, salvage, incomplete measure, empty options) →
@@ -1201,7 +1255,7 @@ include **needinesses** (all kinds end with `-fit`). BTC settle / PR ship are
 |---|---|---|
 | **SynthesizeDepositAssetPacks** | SDIVF | Depositor repo + Obfuscations → option selection on `/deposits` |
 | **SynthesizeReadAssetPacks** | SDIVF | Reader repo + **Need** → option selection on `/reads` |
-| **settle-asset-pack-pipeline** | **Simple** (linear) | **1:1 AssetPack : pipeline run** after buy: settle-btc → mint-btd → settle-btd → settle-asset-pack (ERC1155) → PR-ship → `/packs` |
+| **settle-asset-pack-pipeline** | **Simple** (linear) | **1:1 DataPack : pipeline run** after buy: pay → mint BTD → rights → PR-ship → `/exchange` activity |
 
 Synthesize-deposit and synthesize-read look like each other (multi-option). Settle does **not**: each bought option starts its own settle pipeline.
 
@@ -1264,11 +1318,11 @@ Unchosen BTD is not minted. Buyer receipt is **AssetPack co-own NFT + delivery**
 | 3 | `quote-btd-volume` | Needinesses → rawV → residual-supply **decay** → V; multi-rail spot options |
 | 4 | `finalize-settle` | `BitcodeERC1155`: mint **100% V BTD to escrow (master)**; add buyer co-owner; burn AP forbidden. Seller payout not yet distributed. |
 | 5 | `ship-asset-pack-patch-pr` | Open PR on **read** repo applying that option’s `.patch` |
-| 6 | `journal-and-pack-activity` | `/packs` settled-assetpack activity row + `pendingPayout` for seller review |
+| 6 | `journal-and-exchange-activity` | `/exchange` settled DataPack activity row + `pendingPayout` for seller review |
 
-#### Seller payout finalize (pack detail)
+#### Seller payout finalize (Exchange detail)
 
-After settle, the **seller** opens the settled AssetPack on `/packs` and sets
+After settle, the **seller** opens the settled DataPack on `/exchange` and sets
 `sellerBtdBps` with a slider (BTD % vs pay-asset %; **ETH for V0**):
 
 ```
@@ -1279,7 +1333,7 @@ treasury receives:   inverse remainder of each asset
 Example: sellerBtdBps=1000 → seller 10% BTD + 90% ETH; treasury 90% BTD + 10% ETH.
 
 Buyer (entitled co-owner) may view the **patch summary** on pack detail after settle.
-`POST /api/packs/payout/finalize` persists the split.
+`POST /api/exchange/payout/finalize` (or packs-compat payout route) persists the split.
 
 #### BTD (Bitcode) fungible token — volume and mint
 
@@ -1312,44 +1366,48 @@ Sources of truth:
 - TS mirror + decay + spot: `packages/btd/src/erc1155/`
 - Pipeline: `packages/asset-packs-pipelines/settle/`
 
-### G4-6 `/packs` master-detail
+### G4-6 `/exchange` master-detail
 
-Network-scope PackActivity: searchable master table + detail for a selected AssetPack
-(settled/admitted supply and settled read deliveries). Source-safe measurements +
-roots only; no raw source.
+Network-scope activity: searchable master table + detail for a selected DataPack
+(settled/admitted supply and settled read deliveries). Unpaid viewers see
+measurements + commercial prose + proof roots only; entitled viewers may download
+`.patch` bodies after rights. Purchase CTA may deep-link to `/reads?intent=purchase`.
 
-### G4-7 Implementation source map (read / settle / packs)
+### G4-7 Implementation source map (read / settle / exchange)
 
 | Area | Path |
 |---|---|
-| Read phases | `packages/asset-packs-pipelines/domain/src/phases/read-phases.ts` |
-| Read product package | `packages/asset-packs-pipelines/synthesize-reads-asset-packs-pipeline/` |
+| Read phases | `packages/asset-packs-pipelines/syntheses/domain` + read product package |
+| Read product package | `packages/asset-packs-pipelines/syntheses/read/` |
 | Need comprehension | `agents/setup/read-need-comprehension-agent.ts` |
-| Read synthesis | `agents/implementation/read-asset-pack-synthesis-agent.ts` |
-| Needinesses helpers | `read-neediness-measurements.ts`, `@bitcode/generic-measurements-needinesses` |
-| Settle package | `packages/asset-packs-pipelines/settle-asset-pack-pipeline/` |
+| Read synthesis | `agents/implementation/read-*-synthesis-agent.ts` |
+| Needinesses helpers | `@bitcode/generic-measurements-needinesses` |
+| Settle package | `packages/asset-packs-pipelines/` settle Simple pipeline |
 | BitcodeERC1155 | `packages/btd/contracts/BitcodeERC1155.sol`, `packages/btd/src/erc1155/` |
 | Needinesses → BTD | `computeSettlementBtdFromNeedinesses` (`@bitcode/btd/erc1155`) |
 | Read API | `apps/uapi/app/api/read/synthesize-options/`, `apps/uapi/app/api/read/settle/` |
-| UI | `apps/uapi/components/reads/*`, `apps/uapi/components/packs/*` |
+| UI | `apps/uapi/components/reads/*`, `apps/uapi/components/exchange/*` |
 
 ## V48 whole Bitcode operator chain
 
 1. Seller connects identity, wallet, organization, and source.
-2. Bitcode synthesizes source-safe deposit AssetPack options.
-3. Seller reviews measurements and approves an option for Depository admission.
-4. Depository indexes admitted AssetPack metadata, measurements, embeddings,
+2. Bitcode synthesizes deposit DataPack options (full `.patch` material +
+   absolutes + commercial brief).
+3. Seller reviews commercial brief, measurements, and full `.patch` (owner rights)
+   and approves an option for Depository admission.
+4. Depository indexes admitted DataPack metadata, measurements, embeddings,
    proof roots, and compensation posture.
 5. Buyer connects identity, wallet, organization, and target repository.
-6. Buyer requests a Read.
+6. Buyer requests a Read (or continues from `/exchange` purchase CTA).
 7. Bitcode synthesizes a Need and the buyer accepts or resynthesizes it.
 8. Bitcode runs Finding Fits against the Depository.
-9. Bitcode synthesizes a Need-Fit AssetPack and source-safe preview.
-10. Buyer reviews measurements, quote, and proof posture.
-11. Buyer settles with BTC-testnet (**one settle pipeline per bought option**).
-12. Bitcode runs settle-btc → mint-btd (needinesses scalar to master) →
-    settle-btd (BTD to buyer) → settle-asset-pack (ERC1155 co-ownership) →
-    PR delivery, journals compensation, and synchronizes `/packs`.
+9. Bitcode synthesizes a Need-Fit DataPack and unpaid-safe preview
+   (commercial + measurements; no file bodies).
+10. Buyer reviews commercial prose, measurements, quote, and proof posture.
+11. Buyer settles on a pay rail (**one settle pipeline per bought option**).
+12. Bitcode observes payment → mints BTD volume → transfers rights →
+    entitled delivery (PR / `.patch`), journals compensation, and synchronizes
+    `/exchange`.
 13. Operators repair only through proof-backed state transitions.
 
 ## V48 canonical subsystem surfaces
@@ -1464,22 +1522,33 @@ roots only; no raw source.
 
 ### Disclosure and projection
 
-- Current canonical objects and emitted artifacts: source-safe preview,
-  measurement visualization, proof-root projection, PackActivity projection,
-  denied-state projection, repair projection.
-- Current algorithms and derivation rules: expose only source-safe
-  measurements, summaries, states, proof roots, and repair guidance before
-  entitlement.
+- Current canonical objects and emitted artifacts: unpaid commercial brief,
+  measurement visualization, proof-root projection, Exchange activity
+  projection, rights-gated downloads, denied-state projection, repair projection.
+- **Viewer rights (binding per DataPack):**
+
+| Role | May see / download |
+|---|---|
+| **Depositor (owner)** | Full `.patch` bodies, path-op, metadata review, commercial brief |
+| **Pre-purchase buyer** | Commercial title/description, measurements, material identity, quote posture — **not** file bodies |
+| **Post-settled purchaser** | Entitled `.patch` / delivery artifact + commercial + measurements |
+| **Anonymous** | Commercial brief only (if listed) |
+
+- **LLM synthesis providers** may receive full checkout and patch bodies (see
+  totality disclosure boundary). That is not an unpaid UI disclosure.
+- Current algorithms and derivation rules: project by rights; rebuild
+  `unifiedDiff` for entitled viewers; strip bodies on unpaid API rows.
 - Current invariants and fail-closed conditions: public projection
-  overexposure blocks state advancement.
+  overexposure blocks state advancement; zero bodies on unpaid listings.
 - Current proof obligations: disclosure policy receipt, projection receipt,
-  no-source/no-secret scan, repair receipt.
-- Current source-bearing implementation basis: raw source and raw protected
-  prompts remain outside public projection.
-- Current validating commands and parity basis: V48 Gate 6, Gate 7, and Gate 8
-  tests must prove disclosure boundaries.
-- Current accepted boundaries: source-safe value explanation is allowed; source
-  transfer is not.
+  no-body/no-secret scan on unpaid paths, repair receipt.
+- Current source-bearing implementation basis: raw source, unpaid DataPack file
+  bodies, and raw protected prompts remain outside unpaid public projection;
+  synthesis LLM providers may still receive full material for rebuild quality.
+- Current validating commands and parity basis: living website and deposit
+  disclosure tests must prove rights gates.
+- Current accepted boundaries: commercial prose and measurements may be public;
+  file bodies unlock only after depositor ownership or post-settle rights.
 
 ### Settlement and exact accounting
 
@@ -1683,38 +1752,37 @@ roots only; no raw source.
 
 #### Inherited V19 reproducible-canon artifacts
 
-`.proofs/v19/contract-change-ledger.json`,
-`.proofs/v19/negative-proof-mutation-matrix.json`,
-`.proofs/v19/proof-member-semantic-matrix.json`,
-`.proofs/v19/theorem-evidence-matrix.json`,
-`.proofs/v19/state-machine-matrix.json`,
-`.proofs/v19/deterministic-replay-report.json`, and
-`.proofs/v19/volatility-inventory.json` remain historical reproducibility
-inputs.
+Historical reproducibility evidence inventories may exist under
+`.proofs/v19/*` (contract-change ledger, negative-proof mutation matrix,
+proof-member semantic matrix, theorem-evidence matrix, state-machine matrix,
+deterministic-replay report, volatility inventory). They are **optional
+historical evidence**, not a source of omitted V48 system semantics.
 
 #### Inherited V20 operator-quality artifacts
 
-`.proofs/v20/operator-acceptance-transcript.json`,
-`.proofs/v20/visual-regression-report.json`,
-`.proofs/v20/accessibility-report.json`,
-`.proofs/v20/performance-budget-report.json`,
-`.proofs/v20/projection-quality-smoke-matrix.json`,
-`.proofs/v20/quality-summary.json`, and `ENGI_SPEC_V20_PROVEN.md` remain
-historical operator-quality inputs.
+Historical operator-quality evidence inventories may exist under
+`.proofs/v20/*` (operator acceptance, visual regression, accessibility,
+performance budget, projection quality smoke, quality summary). They are
+**optional historical evidence**, not a source of omitted V48 system semantics.
 
 #### Exact generated-artifact inventory matrix
 
 | artifactPath | role | disclosability |
 | --- | --- | --- |
-| `.proofs/v48/spec-family-report.json` | V48 spec-family validation report | source-safe |
-| `.proofs/v48/canonical-input-report.json` | V48 canonical-input validation report | source-safe |
-| `BITCODE_SPEC_V48_PROVEN.md` | V48 generated proof appendix after promotion readiness | source-safe |
+| `.proofs/v48/spec-family-report.json` | V48 spec-family validation report | product-safe |
+| `.proofs/v48/canonical-input-report.json` | V48 canonical-input validation report | product-safe |
+| `.proofs/v48/canon-posture-drift-report.json` | Draft posture drift report (when regenerated) | product-safe |
+| `BITCODE_SPEC_V48_PROVEN.md` | V48 generated proof appendix | product-safe |
+| `.proofs/v48/*` launch/E2E/promotion reports | Gate closure evidence as generated | product-safe |
 
 #### V48 specifying generated artifacts
 
-V48 Gate 1 reserves `.proofs/v48/spec-family-report.json` and
-`.proofs/v48/canonical-input-report.json`. Later gates may add launch,
-measurement, route, and E2E rehearsal artifacts.
+V48 reserves `.proofs/v48/spec-family-report.json` and
+`.proofs/v48/canonical-input-report.json`. Launch, measurement, route, E2E
+rehearsal, and promotion-readiness artifacts under `.proofs/v48/` bind to the
+validation and promotion canons below. Each artifact must be regenerable from
+this SPEC's obligations without recovering missing meaning from other version
+SPEC files.
 
 #### Shared generated-artifact fields
 
@@ -1749,16 +1817,20 @@ matrices are stale, proof-source commit is missing, or source-safety scans fail.
 
 ## V48 validation canon
 
-V48 Gate 1 validation requires:
+V48 draft family validation (living checks; exact flags follow repository CI):
 
-- `node scripts/check-bitcode-spec-family.mjs --version V46 --mode promoted --current-target V46`
-- `node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V46`
-- `node scripts/check-bitcode-canonical-inputs.mjs --current-target V46`
-- `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V48`
-- `node scripts/check-v48-gate1-scope-measurement-launch-freeze.mjs --skip-branch-check`
+- Spec-family validation for **draft V48** (`check-bitcode-spec-family` / local
+  CI canon steps for the V48 draft family)
+- Canonical-input and posture-drift reports under `.proofs/v48/` when regenerated
+- Gate-focused checkers `check:v48-gate*` as bound by promotion readiness
+- Living product CI: monorepo typecheck/build/Jest for website + pipeline packages
 
-Later gates must add focused tests, browser E2E, proof generation, staging
-rehearsal, and promotion readiness checks.
+Promotion-time validation additionally advances the pointer file and regenerates
+`BITCODE_SPEC_V48_PROVEN.md`. Historical version-bound checkers for other
+version numbers remain immutable and are not required green for V48 draft work.
+
+Later gates add focused tests, browser E2E, proof generation, staging rehearsal,
+and promotion readiness checks as listed in the promotion canon.
 
 ## V48 promotion canon
 
@@ -1770,7 +1842,7 @@ seller and buyer E2E flows, and the maintained promotion workflow advances
 V48 promotion readiness canon: Gate 10 owns
 `.proofs/v48/promotion-readiness-report.json`, the
 `buildV48PromotionReadinessReport` package object, and `check:v48-gate10`
-(with `--promotion-mode` accepting V46 pre-promotion or V48 post-promotion
+(with `--promotion-mode` accepting pre-promotion pointer truth or post-promotion V48 pointer truth
 pointer truth). The readiness report binds every accepted V48 launch artifact
 (Gates 2 through 9), the generated `BITCODE_SPEC_V48_PROVEN.md` support, the
 V48 entries in `promote-bitcode-canon.mjs`,
@@ -1785,11 +1857,11 @@ source-unsafe, or while value-bearing mainnet admission is implied.
 
 ### Appendix A. Canonical type and surface catalog
 
-Canonical surfaces are `/deposits`, `/reads`, `/packs`, Auxillaries, Depository
-indexes, proof roots, workflow receipts, ledger journals, database projections,
-object-storage roots, wallet/provider receipts, and repository delivery
-receipts. API/MCP, ChatGPT App, and Bitcode Chat remain compatibility surfaces
-for V48, not commercial launch scope.
+Canonical surfaces are `/deposits`, `/reads`, `/exchange`, Auxillaries,
+Depository indexes, proof roots, workflow receipts, ledger journals, database
+projections, object-storage roots, wallet/provider receipts, and repository
+delivery receipts. API/MCP, ChatGPT App, and Bitcode Chat remain compatibility
+surfaces for V48, not commercial launch scope.
 
 ### Appendix B. Proof family closure catalog
 
@@ -1859,17 +1931,17 @@ states, IP buyer states, transition guards, measurement ids, source-safe field
 ids, forbidden payload classes, source-root digests, and predicate results.
 The law requires measurement-before-price, proof-before-state, accepted Need
 before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
-BTD rights before source delivery, `/packs` history projection after each
+BTD rights before source delivery, `/exchange` history projection after each
 transition, and fail-closed repair on missing evidence.
 
 V48 Gate 4 source-safe generated artifact:
 `.proofs/v48/depositor-website-completion.json`. It records the five-step
 `/deposits` route session steps, journaled pipeline and event ids, visible
 seller decision ids (measurement catalog, criticality, demand, ROI, BTD
-potential, BTC source-to-shares preview, admission, `/packs` activity sync,
+potential, BTC source-to-shares preview, admission, `/exchange` activity sync,
 and authority states), completion rows for source connection, option-synthesis
 journaling, source-safe measurement review, admission and repair actions,
-compensation/authority readback, and `/packs` history readback, forbidden
+compensation/authority readback, and `/exchange` history readback, forbidden
 payload classes, source-root digests, and predicate results without
 serializing protected source, unpaid AssetPack source, raw prompts, raw
 provider responses, wallet private material, or settlement private payloads.
@@ -1881,17 +1953,17 @@ V48 Gate 5 source-safe generated artifact:
 finality, BTD rights receipt, delivery receipt), visible buyer decision ids
 (Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence,
 delivery readiness, selected Fit provenance, final BTD scalar, quote basis,
-settlement/finality/rights/delivery states, `/packs` activity sync, and
+settlement/finality/rights/delivery states, `/exchange` activity sync, and
 authority states), completion rows for Read request initiation, Need review
 acceptance, fit measurement review, quote-before-settlement,
-settlement/finality/rights/delivery ordering, and `/packs` history readback,
+settlement/finality/rights/delivery ordering, and `/exchange` history readback,
 forbidden payload classes, source-root digests, and predicate results without
 serializing protected source, unpaid AssetPack source, raw prompts, raw
 provider responses, wallet private material, or settlement private payloads.
 
 V48 Gate 6 source-safe generated artifact:
 `.proofs/v48/packs-auxillaries-commercial-dashboard.json`. It records the
-`/packs` master-detail dashboard contract (searchable activity table,
+`/exchange` master-detail dashboard contract (searchable activity table,
 type/state facets, saved market-intelligence filters, and a row-owned detail
 surface covering overview, measurements, state readback, repair surface,
 accounting, governance, and proof roots), the tracked settlement, BTD rights,
@@ -1908,7 +1980,7 @@ V48 Gate 7 source-safe generated artifact:
 `.proofs/v48/e2e-ip-selling-buying-tests.json`. It records the browser-proof
 scenarios (IP seller deposits an AssetPack on `/deposits`; IP buyer reviews
 fit measurements, quote basis, settlement finality, BTD rights, and
-repository delivery on `/reads`; `/packs` reads back settlement, rights,
+repository delivery on `/reads`; `/exchange` reads back settlement, rights,
 compensation, delivery, and the fail-closed repair surface), the
 deterministic mock-mode host bindings (stateful execution-history
 journaling, VCS/auxillary mocks, browser error trap), the verification ids
@@ -1927,7 +1999,7 @@ settlement ordering, BTD rights, and repository delivery stay
 production-intended), the deposit → read → packs core-flow messaging with
 launch-route links, the proof-backed trust and source-safe IP exchange
 positioning, the public docs testnet-meaning card with the blocked
-value-bearing mainnet posture, the preserved promoted V46 claim-boundary
+value-bearing mainnet posture, the preserved claim-boundary
 tokens, surface ids, message ids, forbidden payload classes, source-root
 digests, and predicate results without serializing protected source, unpaid
 AssetPack source, raw prompts, raw provider responses, wallet private
@@ -2007,37 +2079,33 @@ entitlement; source-safe receipts may be projected.
 
 ## V48 accepted boundaries and reopen conditions
 
-- V48 replaced V46 as active canon through the promotion workflow.
-- V48 Gate 1 does not authorize runtime behavior changes.
-- V48 testnet means BTC amounts are testnet only; system behavior remains
+- V48 is the full-system draft SPEC for commercial website testnet readiness.
+- Formal promotion advances `BITCODE_SPEC.txt` only after promotion canon is
+  green (see promotion section).
+- V48 testnet means pay-rail amounts are testnet-class; system behavior remains
   production-intended.
-- Measurement must be visible and source-safe before a user decides to deposit
-  or buy.
-- Conversation surfaces, ChatGPT App commercialization, MCP/API
+- Measurement and commercial brief must be visible under disclosure law before
+  a user decides to deposit or buy; file bodies remain rights-gated.
+- Conversation full commercialization, ChatGPT App commercialization, MCP/API
   commercialization, deeper BTD mining cryptography, mainnet launch authority,
-  and advanced market mechanics are deferred to later versions.
-- Any source leakage, measurement ambiguity, quote/finality collapse, rights
-  ambiguity, or delivery ambiguity reopens the relevant gate.
+  and advanced market mechanics are deferred (compatibility surfaces must not
+  regress).
+- Any unpaid body leakage, measurement ambiguity, quote/finality collapse,
+  rights ambiguity, or delivery ambiguity reopens the relevant workstream.
 
 ## V48 completion condition
 
-V48 Gate 1 is complete when the V48 draft spec family exists over active V46,
-testnet semantics and measurement law are specified, the seller/buyer launch
-scope and ten-gate plan are recorded, the roadmap names V48 as active draft
-target, `check:v48-gate1` exists, gate/canon workflows validate active V46 plus
-draft V48, and the gate branch is committed, pushed, and pull-requested into
-`version/v48`.
+V48 Gate 1 is complete when the V48 draft SPEC family exists as sole rebuild
+law, testnet semantics and measurement law are specified, seller/buyer launch
+scope and gate plan are recorded, draft family checks exist, and the gate
+branch is merged into `version/v48`.
 
 V48 Gate 2 is complete when launch-facing entrypoints resolve to `/deposits`,
-`/reads`, and `/packs`; old `/exchange` entrypoints are compatibility redirects
-or rewritten into `/packs`; BTD acquisition and detail paths no longer send
-users to `/packs` or `/exchange`; `/packs` is not a launch CTA and is
-scheduled for eradication (compatibility redirect only); Conversations full
-commercial experience remains deferred while structure may persist; API/MCP,
-ChatGPT App, Bitcode Chat, value-bearing mainnet, source-bearing previews, and
-advanced market mechanics are explicitly deferred; `.proofs/v48/feature-excess-
-alignment-audit.json` is generated; `check:v48-gate2` validates the audit; and
-gate/canon workflows run the Gate 2 checker under promoted V48 canon.
+`/reads`, and `/exchange`; residual cockpit paths are not launch CTAs;
+Conversations full commercial experience remains deferred; API/MCP, ChatGPT
+App, Bitcode Chat, value-bearing mainnet, unpaid body previews, and advanced
+market mechanics are explicitly deferred; feature-excess audit evidence exists
+under `.proofs/v48/`; and Gate 2 checkers pass.
 
 V48 frontend component architecture and cockpit eradication (implementation
 quality workstream on `version/v48`, not a separate product gate number) is
@@ -2047,97 +2115,89 @@ Pipeline naming replaces Execution/product UI names, generalizable utilities
 prefer packages, and parity matrix rows for this workstream are closed.
 
 V48 Gate 3 is complete when the IP seller state machine covers source
-connection, deposit AssetPack option synthesis, source-safe measurement review,
+connection, deposit DataPack option synthesis, measurement + commercial review,
 Depository admission approval, and compensation/repair tracking; the IP buyer
-state machine covers Read request, Need review, Finding Fits, source-safe
-AssetPack preview, BTC-testnet settlement, BTD rights, and repository delivery;
+state machine covers Read request, Need review, Finding Fits, unpaid-safe
+DataPack preview, multi-rail settlement, BTD rights, and repository delivery;
 the guards enforce measurement-before-price, proof-before-state, accepted Need
-before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
-BTD rights before source delivery, `/packs` history projection, and
+before Finding Fits, quote-before-settlement, finality before BTD rights,
+BTD rights before source delivery, `/exchange` history projection, and
 fail-closed repair; `.proofs/v48/seller-buyer-state-machine-law.json` is
-generated; `check:v48-gate3` validates the law; and gate/canon workflows run
-the Gate 3 checker under promoted V48 canon.
+generated; and `check:v48-gate3` validates the law.
 
 V48 Gate 4 is complete when the `/deposits` route binds source connection
 before option synthesis; option synthesis, review, and admission decisions are
-journaled as source-safe execution rows; depositors review measurements,
-criticality, demand, ROI, BTD potential, BTC source-to-shares preview, and
-option roots before approval; approved policy-eligible options emit admission
-readback synchronized to `/packs`; compensation estimates, supply
-recommendations, and organization/wallet authority state are visible as
-source-safe metadata; `.proofs/v48/depositor-website-completion.json` is
-generated; `check:v48-gate4` validates the completion; and gate/canon
-workflows run the Gate 4 checker under promoted V48 canon.
+journaled as source-safe execution rows; depositors review commercial brief,
+measurements, criticality, demand, ROI, BTD potential, source-to-shares
+preview, option roots, and (as owner) full `.patch` material before approval;
+approved policy-eligible options emit admission readback synchronized to
+`/exchange`; compensation estimates, supply recommendations, and
+organization/wallet authority state are visible as disclosure-safe metadata;
+`.proofs/v48/depositor-website-completion.json` is generated; and
+`check:v48-gate4` validates the completion.
 
 V48 Gate 5 is complete when the `/reads` route binds Read request initiation
 from a connected repository source; a synthesized Need is reviewed and
-accepted before Finding Fits; readers review source-safe fit measurements,
-selected Fit provenance, final BTD scalar, and BTC-testnet quote basis before
-paying; the deterministic quote derives from weighted measurement
-contributions; payment observation, BTC-testnet finality, BTD rights transfer
+accepted before Finding Fits; readers review unpaid-safe fit measurements and
+commercial prose, selected Fit provenance, final BTD scalar, and multi-rail
+quote basis before paying; the deterministic quote derives from weighted
+measurement contributions; payment observation, finality, BTD rights transfer
 receipt, and repository PR delivery render as ordered fail-closed readback
 with delivery locked until rights transfer; Reading activity and settled
-AssetPacks remain reachable through `/packs`;
-`.proofs/v48/reader-website-completion.json` is generated; `check:v48-gate5`
-validates the completion; and gate/canon workflows run the Gate 5 checker
-under promoted V48 canon.
+DataPacks remain reachable through `/exchange`;
+`.proofs/v48/reader-website-completion.json` is generated; and
+`check:v48-gate5` validates the completion.
 
-V48 Gate 6 is complete when `/packs` renders searchable master-detail
-PackActivity with type, scope, repository, and settlement, compensation,
+V48 Gate 6 is complete when `/exchange` renders searchable master-detail
+activity with type, scope, repository, and settlement, compensation,
 delivery, and repair facets; the detail surface reads back overview,
 measurements, settlement, BTD rights, compensation, delivery, and repair
-states, accounting, governance, and proof roots; BTD rights states derive
+states, accounting, governance, and proof roots; rights-gated downloads
+respect depositor / pre-purchase / post-settle roles; BTD rights states derive
 only from finality-consistent commodity-state evidence; repair-required
-activity exposes a fail-closed repair surface listing commodity-state
-blockers; Auxillaries panes cover identity profile, external source
-connections, interfaces, wallet authority with BTD history readback, and
-organization team and treasury settings;
-`.proofs/v48/packs-auxillaries-commercial-dashboard.json` is generated;
-`check:v48-gate6` validates the completion; and gate/canon workflows run the
-Gate 6 checker under promoted V48 canon.
+activity exposes a fail-closed repair surface; Auxillaries panes cover identity
+profile, external source connections, interfaces, wallet authority with BTD
+history readback, and organization team and treasury settings;
+`.proofs/v48/packs-auxillaries-commercial-dashboard.json` (or successor exchange
+dashboard artifact) is generated; and `check:v48-gate6` validates the
+completion.
 
 V48 Gate 7 is complete when browser-level tests prove both sides of Bitcode
 in deterministic mock mode: depositing IP through source connection, option
-synthesis, source-safe measurement review, and Depository admission on
+synthesis, measurement + commercial review, and Depository admission on
 `/deposits` with journaled execution rows; buying synthesized IP through the
-five-step `/reads` session with the fit measurement review, final BTD scalar,
-and deterministic BTC-testnet quote basis rendered before payment and with
-payment observation, finality, BTD rights receipt, and repository PR delivery
-read back in order; auditing settlement, rights, compensation, delivery, and
-the fail-closed repair surface on `/packs`; the browser error trap stays
-clean; `uapi` exposes `test:e2e:ip-exchange`;
-`.proofs/v48/e2e-ip-selling-buying-tests.json` is generated;
-`check:v48-gate7` validates the coverage; and gate/canon workflows run the
-Gate 7 checker under promoted V48 canon.
+`/reads` session with fit measurement review, final BTD scalar, and
+deterministic quote basis rendered before payment and with payment observation,
+finality, BTD rights receipt, and repository PR delivery read back in order;
+auditing settlement, rights, compensation, delivery, and the fail-closed repair
+surface on `/exchange`; the browser error trap stays clean; `uapi` exposes
+`test:e2e:ip-exchange`; `.proofs/v48/e2e-ip-selling-buying-tests.json` is
+generated; and `check:v48-gate7` validates the coverage.
 
 V48 Gate 8 is complete when the landing page renders a commercial-testnet
-section explaining that BTC amounts are testnet and free while protocol
-behavior stays production-intended; the deposit → read → packs core flow is
-documented with launch-route links; proof-backed trust and source-safe IP
+section explaining that pay-rail amounts are testnet-class while protocol
+behavior stays production-intended; the deposit → read → exchange core flow is
+documented with launch-route links; proof-backed trust and disclosure-safe IP
 exchange positioning are stated; public docs carry the testnet-meaning card
-with blocked value-bearing mainnet posture; promoted V46 claim-boundary
-tokens and launch navigation remain intact;
-`.proofs/v48/landing-public-launch-messaging.json` is generated;
-`check:v48-gate8` validates the messaging; and gate/canon workflows run the
-Gate 8 checker under promoted V48 canon.
+with blocked value-bearing mainnet posture; claim-boundary tokens and launch
+navigation remain intact; `.proofs/v48/landing-public-launch-messaging.json` is
+generated; and `check:v48-gate8` validates the messaging.
 
 V48 Gate 9 is complete when the staging-testnet rehearsal law binds the
 deployment truth sources for every launch surface; the realistic-data
-contract minimums are satisfied by the rehearsed population; the BTC-testnet
-settlement observation lane preserves the production ordering law; the
-value-bearing mainnet lane rehearses as blocked; lane receipts remain dry-run
-with live execution operator opt-in and no serialized live credentials;
-`.proofs/v48/staging-testnet-deployment-rehearsal.json` is generated;
-`check:v48-gate9` validates the rehearsal; and gate/canon workflows run the
-Gate 9 checker under promoted V48 canon.
+contract minimums are satisfied by the rehearsed population; the settlement
+observation lane preserves production ordering law; the value-bearing mainnet
+lane rehearses as blocked; lane receipts remain dry-run with live execution
+operator opt-in and no serialized live credentials;
+`.proofs/v48/staging-testnet-deployment-rehearsal.json` is generated; and
+`check:v48-gate9` validates the rehearsal.
 
 V48 Gate 10 is complete when the promotion readiness report binds all accepted
-Gate 2-9 artifacts as present, parseable, and source-safe; the promotion
+Gate 2–9 artifacts as present, parseable, and product-safe; the promotion
 scripts, spec-family and runtime promotion preparation, proven generation, and
-`v48-canon-promotion.yml` support V48; gate/canon workflows validate both the
-V46 pre-promotion and V48 post-promotion pointer postures; a draft-preview
+`v48-canon-promotion.yml` support V48; gate/canon workflows validate both
+pre-promotion and post-promotion pointer postures; a draft-preview
 `BITCODE_SPEC_V48_PROVEN.md` is generated; the V48 promotion dry-run passes;
 `.proofs/v48/promotion-readiness-report.json` is generated; `check:v48-gate10`
-validates the readiness; and the prepared post-promotion posture is
-V48 active / draft V48 under promoted V48 canon until the promotion
-workflow advances `BITCODE_SPEC.txt`.
+validates the readiness; and the prepared post-promotion posture advances
+`BITCODE_SPEC.txt` to `V48` only through the promotion workflow.
