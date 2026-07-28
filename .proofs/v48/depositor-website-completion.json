@@ -1,0 +1,484 @@
+{
+  "artifactId": "v48-depositor-website-completion",
+  "schemaId": "bitcode.v48.depositorWebsiteCompletion.v1",
+  "version": "V48",
+  "currentTarget": "V47",
+  "artifactPath": ".proofs/v48/depositor-website-completion.json",
+  "sourceSafetyVerdict": "source-safe-depositor-website-completion",
+  "stepIds": [
+    "connect-source",
+    "synthesize-options",
+    "review-options",
+    "submit-deposit",
+    "read-depository-state"
+  ],
+  "pipelineIds": [
+    "DepositAssetPackOptionSynthesis",
+    "DepositAssetPackOptionPolicy",
+    "DepositAssetPackOptionAdmissionReport",
+    "DepositorEarningSupplyIntelligence",
+    "OrganizationPolicyWalletAuthority"
+  ],
+  "eventIds": [
+    "deposit-option-synthesis",
+    "pipeline:deposit-option-review",
+    "pipeline:deposit-option-admission"
+  ],
+  "visibleDecisionIds": [
+    "commercial-title",
+    "commercial-description",
+    "absolute-measurements",
+    "owner-patch-download",
+    "criticality-state",
+    "demand-state",
+    "roi-state",
+    "btd-potential-state",
+    "btc-source-to-shares-preview",
+    "admission-state",
+    "exchange-activity-sync-state",
+    "authority-state"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_datapack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload",
+    "mainnet_value_bearing_payment_secret"
+  ],
+  "completionRows": [
+    {
+      "rowId": "source-connection",
+      "owner": "apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx",
+      "route": "/deposits",
+      "contract": "Depositors connect a repository, branch, commit, and source scope through DepositSourceSelection before option synthesis is journaled.",
+      "requiredFields": [
+        "DepositSourceSelection",
+        "repositoryFullName",
+        "connect-source"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:975339e3af75d13cbb311337"
+    },
+    {
+      "rowId": "option-synthesis-journal",
+      "owner": "apps/uapi/components/deposits/DepositPageClient/hooks/use-deposit-synthesis-lifecycle.ts",
+      "route": "/deposits",
+      "contract": "Synthesize posts /api/deposit/synthesize-options and recovers depositOptionSynthesis (real four-agent Implementation) into the deposit route session.",
+      "requiredFields": [
+        "/api/deposit/synthesize-options",
+        "depositOptionSynthesis",
+        "handleSynthesizeOptions"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:f2233b11f3f5e18638e4c439"
+    },
+    {
+      "rowId": "commercial-measurement-review",
+      "owner": "apps/uapi/components/deposits/DepositOptionCard/DepositOptionCard.tsx",
+      "route": "/deposits",
+      "contract": "Depositors review commercial brief, absolute measurements, BTD potential, BTC source-to-shares preview, option roots, and owner patch download before approval.",
+      "requiredFields": [
+        "commercialTitle",
+        "BTD potential",
+        "BTC source-to-shares preview",
+        "Download patchfile"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:a77943a09a479f735d362054"
+    },
+    {
+      "rowId": "admission-and-exchange-sync",
+      "owner": "apps/uapi/components/deposits/DepositDataPackOptions/DepositDataPackOptions.tsx",
+      "route": "/deposits",
+      "contract": "Depositors select options, confirm deposit, emit admission receipts, and open /exchange depository activity; soft compensation incompleteness does not drop confirmed admits.",
+      "requiredFields": [
+        "Select for deposit",
+        "Deposit selected",
+        "/exchange?type=depository-assetpack",
+        "admitted-to-depository"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:205719cf9d85f1c48027f8b3"
+    },
+    {
+      "rowId": "compensation-authority-readback",
+      "owner": "apps/uapi/components/deposits/DepositAsideEarningsPanel/DepositAsideEarningsPanel.tsx",
+      "route": "/deposits",
+      "contract": "Route exposes expected compensation, opportunity roots, and organization/wallet authority as disclosure-safe metadata.",
+      "requiredFields": [
+        "Expected compensation",
+        "Opportunity roots",
+        "Organization authority",
+        "Authority root"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:2144dacd4c64b1c063eef181"
+    },
+    {
+      "rowId": "exchange-history-readback",
+      "owner": "apps/uapi/components/deposits/models/deposit-admission-activity.ts",
+      "route": "/exchange",
+      "contract": "One admitted DataPack becomes one activity draft with per-pack absolute measurements only (never session candidate/admitted counts as pack measurements); patch bodies stay off network projection.",
+      "requiredFields": [
+        "pipeline:deposit-option-admission",
+        "candidateCount",
+        "projectOptionAbsoluteMeasurements",
+        "depository-assetpack"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:785858107f2661a6ab13a8a4"
+    },
+    {
+      "rowId": "tradable-datapack-synthesis-law",
+      "owner": "packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl.ts",
+      "route": "/deposits",
+      "contract": "Implementation law packages code as tradable DataPacks: hybrid-body patch, absolute measurements, and commercialTitle/commercialDescription (create|modify commercial law).",
+      "requiredFields": [
+        "commercialTitle",
+        "commercialDescription",
+        "bodiesComplete",
+        "create|modify"
+      ],
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "rawSourceTextVisible": false,
+      "unpaidDataPackSourceVisible": false,
+      "rawPromptVisible": false,
+      "interpolatedPromptVisible": false,
+      "rawProviderResponseVisible": false,
+      "walletPrivateMaterialVisible": false,
+      "settlementPrivatePayloadVisible": false,
+      "valueBearingMainnetEnabled": false,
+      "forbiddenPayloadIds": [
+        "protected_source_payload",
+        "raw_source_text",
+        "unpaid_datapack_source",
+        "raw_protected_prompt",
+        "interpolated_prompt",
+        "raw_provider_response",
+        "wallet_private_material",
+        "settlement_private_payload",
+        "mainnet_value_bearing_payment_secret"
+      ],
+      "rowRoot": "v48-depositor-website-completion-row:09b9d2ea3143fd56ef1bf09b"
+    }
+  ],
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-supports-v48-draft",
+      "sourcePath": ".specifications/BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-records-gate4-depositor-website-completion",
+      "sourcePath": ".specifications/BITCODE_SPEC_V48.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate4-depositor-website-completion",
+      "sourcePath": ".specifications/BITCODE_SPEC_V48_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-record-gate4-depositor-website-completion",
+      "sourcePath": ".specifications/BITCODE_SPEC_V48_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate4-depositor-website-completion",
+      "sourcePath": ".specifications/BITCODE_SPEC_V48_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-v48-gate4",
+      "sourcePath": ".specifications/SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-model-binds-five-step-source-safe-session",
+      "sourcePath": "apps/uapi/components/deposits/models/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-binds-source-connection-before-synthesis",
+      "sourcePath": "apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-records-option-synthesis-execution",
+      "sourcePath": "apps/uapi/components/deposits/DepositPageClient/hooks/use-deposit-synthesis-lifecycle.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-commercial-measurement-review",
+      "sourcePath": "apps/uapi/components/deposits/DepositOptionCard/DepositOptionCard.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-records-review-admission-actions",
+      "sourcePath": "apps/uapi/components/deposits/DepositDataPackOptions/DepositDataPackOptions.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-compensation-authority-readback",
+      "sourcePath": "apps/uapi/components/deposits/DepositAsideEarningsPanel/DepositAsideEarningsPanel.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-links-exchange-history-readback",
+      "sourcePath": "apps/uapi/components/deposits/DepositDataPackOptions/DepositDataPackOptions.tsx",
+      "passed": true
+    },
+    {
+      "id": "admission-soft-block-override-and-batch-admit",
+      "sourcePath": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-admission-helpers.ts",
+      "passed": true
+    },
+    {
+      "id": "per-pack-admission-projection-excludes-session-aggregates",
+      "sourcePath": "apps/uapi/components/deposits/models/deposit-admission-activity.ts",
+      "passed": true
+    },
+    {
+      "id": "tradable-datapack-four-agent-commercial-law",
+      "sourcePath": "packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-page-test-covers-synthesis-journaling",
+      "sourcePath": "apps/uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-model-test-covers-admission-compensation",
+      "sourcePath": "apps/uapi/tests/depositRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "pipeline-models-bind-depositor-website-dependencies",
+      "sourcePath": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-options.ts",
+      "passed": true
+    },
+    {
+      "id": "pack-activity-model-supports-depository-datapack-sync",
+      "sourcePath": "apps/uapi/components/bitcode/activity/PackActivityModel/pack-activity-model.ts",
+      "passed": true
+    },
+    {
+      "id": "package-exports-gate4",
+      "sourcePath": "scripts/specifying/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate4",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "workflows-run-gate4-check",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-checker-test-exist",
+      "sourcePath": "scripts/generate-v48-depositor-website-completion.mjs",
+      "passed": true
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": ".specifications/BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": ".specifications/BITCODE_SPEC_V48.md:f254eac17b656b41c144f442",
+    "delta": ".specifications/BITCODE_SPEC_V48_DELTA.md:9b52fd9d49b83ec43b134223",
+    "notes": ".specifications/BITCODE_SPEC_V48_NOTES.md:065a3bf69c38b7271719eafa",
+    "parity": ".specifications/BITCODE_SPEC_V48_PARITY_MATRIX.md:9ce48c7f887883936eaa532d",
+    "roadmap": ".specifications/SPECIFICATIONS_ROADMAP.md:edf9916bbb69200a0bbd2605",
+    "depositRouteModel": "apps/uapi/components/deposits/models/deposit-route-model.ts:376bd9efce837052ef895eef",
+    "depositRouteSessionTypes": "apps/uapi/components/deposits/models/deposit-route-session-types.ts:5f3236159054d90ea17c713c",
+    "depositClient": "apps/uapi/components/deposits/DepositPageClient/DepositPageClient.tsx:b4e47a7717ede516e0dfed71",
+    "depositClientConstants": "apps/uapi/components/deposits/DepositPageClient/deposit-page-client.constants.ts:7c783a606d68a3a505f50c01",
+    "depositSynthesisLifecycle": "apps/uapi/components/deposits/DepositPageClient/hooks/use-deposit-synthesis-lifecycle.ts:4723e02434cdbe194fe119ae",
+    "depositOptionActions": "apps/uapi/components/deposits/DepositPageClient/hooks/use-deposit-option-actions.ts:63512420ff84f5f319e1aad7",
+    "depositOptionCard": "apps/uapi/components/deposits/DepositOptionCard/DepositOptionCard.tsx:0f65ab20c896e154753d447c",
+    "depositDataPackOptions": "apps/uapi/components/deposits/DepositDataPackOptions/DepositDataPackOptions.tsx:7497943eae01a4cd6d03e832",
+    "depositEarningsPanel": "apps/uapi/components/deposits/DepositAsideEarningsPanel/DepositAsideEarningsPanel.tsx:15b9e06420be6dcfabaf67ff",
+    "depositRouteStateAside": "apps/uapi/components/deposits/DepositRouteStateAside/DepositRouteStateAside.tsx:4182f1675a9be964ddd3ddef",
+    "depositAdmissionActivity": "apps/uapi/components/deposits/models/deposit-admission-activity.ts:bba10f201d15fe756cc141ec",
+    "depositExplainers": "apps/uapi/components/deposits/models/deposit-explainers.ts:ef462b4349c1bfcaa1c1f7b7",
+    "depositSourceSelection": "apps/uapi/components/deposits/DepositSourceSelection/DepositSourceSelection.tsx:40c7470f88d93398d5c7a82e",
+    "depositPage": "apps/uapi/app/deposits/page.tsx:277eff62bb6eb990a33ca6c9",
+    "depositPageTest": "apps/uapi/tests/depositPageClient.test.tsx:6f1138e3ca8dd95696c42d87",
+    "depositRouteModelTest": "apps/uapi/tests/depositRouteModel.test.ts:d444aaa490911c69ad13059d",
+    "depositAdmissionActivityTest": "apps/uapi/tests/depositAdmissionActivity.test.ts:b8bdec13c245db4c6fb24fae",
+    "packActivityModel": "apps/uapi/components/bitcode/activity/PackActivityModel/pack-activity-model.ts:957900589d9a421c605f0eaf",
+    "optionModel": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-options.ts:475779e411a93195fff41612",
+    "policyModel": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy.ts:d402d9f63d08b99fe25f4e0c",
+    "policyTypes": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-policy-types.ts:90363f7d9df3aaaf0097f719",
+    "admissionModel": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-admission.ts:9a063b0b46c32aa862680ed5",
+    "admissionHelpers": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-asset-pack-option-admission-helpers.ts:588228cf5b95ccbed4ce78af",
+    "admissionTest": "packages/asset-packs-pipelines/syntheses/deposit/src/__tests__/deposit-asset-pack-option-admission.test.ts:2348730b8c81e821e644c215",
+    "earningModel": "packages/asset-packs-pipelines/syntheses/deposit/src/depositor-earning-supply-intelligence.ts:506168de4373ee6694db8aec",
+    "authorityModel": "packages/asset-packs-pipelines/domain/src/organization-policy-wallet-authority.ts:bd46c6c27f5daa2ba777eae8",
+    "commercialNlAgent": "packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl.ts:4dfb00e02fd75eb16d15d8d7",
+    "realSynthesis": "packages/asset-packs-pipelines/syntheses/deposit/src/deposit-option-real-synthesis.ts:0f4f5515d02ecf052cdb144c",
+    "implementationPackTypes": "packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-implementation-pack-types.ts:3a50911818039eb282dff9ee",
+    "patchfileSchema": "packages/asset-packs-pipelines/syntheses/deposit/src/agents/implementation/deposit-asset-pack-synthesis-schema.ts:892c42c7598a62ad749f5f42",
+    "packageJson": "package.json:baf12550a66ef00649321f79",
+    "protocolIndex": "scripts/specifying/src/index.js:b1f10292ba5e158c825ff8a0",
+    "protocolTypes": "scripts/specifying/src/index.d.ts:7ee2c2e04d17d41c0f52bc2b",
+    "protocolSource": "scripts/specifying/src/canonical/v48-depositor-website-completion.js:3dcdae27825baaf684aaa262",
+    "protocolTest": "scripts/specifying/test/v48-depositor-website-completion.test.js:694dc1977238e539e5817817",
+    "generator": "scripts/generate-v48-depositor-website-completion.mjs:e6db8828c5a56ca6e9db9ecf",
+    "checker": "scripts/check-v48-gate4-depositor-website-completion.mjs:dda78a3f25f41bc1951afc92",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:befdbcaf0c6828e361191ce3",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:0a28bc0f2271a4c39f6230f2"
+  },
+  "artifactRoot": "v48-depositor-website-completion:5f37ab341efea81ec24b24e8",
+  "coverage": {
+    "requiredPredicateCount": 24,
+    "passedPredicateCount": 24,
+    "failedPredicateIds": [],
+    "sourceConnectionComplete": true,
+    "optionSynthesisJournaled": true,
+    "commercialMeasurementReviewComplete": true,
+    "admissionActionsComplete": true,
+    "compensationVisibilityComplete": true,
+    "authorityReadbackComplete": true,
+    "exchangeHistoryReadbackComplete": true,
+    "tradableDataPackLawComplete": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidDataPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "valueBearingMainnetEnabled": false
+  },
+  "passed": true
+}

@@ -41,7 +41,7 @@ delivery receipts.
 | Measurement law | Catalog measurements, prompts, typed outputs, weights, BTD scalar formula, seller/buyer visualization, and proof roots | closed | Gate 1 makes measurement the basis for price and settlement. | Gate 1 |
 | Absolute measurement excellence | Full catalogue (65, Σ=1) with honesty status, measureReport, materialIdentity, deep source set, report-owned merge, toolPlan waves, review artifact, deposit/Exchange display | substantially advanced | Spec restated 2026-07-25; impl + multi-lang fixtures + expand/pack-activity/exchange tests green; live remeasure optional | version/v48 workstream |
 | Feature excess audit | Remove, hide, flag off, or defer non-launch behavior | closed | `buildV48FeatureExcessAlignmentAudit` and `.proofs/v48/feature-excess-alignment-audit.json` classify launch/supporting/deferred surfaces and check launch CTAs, compatibility redirects, and feature flags. | Gate 2 |
-| Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | closed | `buildV48SellerBuyerStateMachineLaw` and `.proofs/v48/seller-buyer-state-machine-law.json` define seller states and guards; `buildV48DepositorWebsiteCompletion` and `.proofs/v48/depositor-website-completion.json` bind the `/deposits` route session, journaled synthesis/review/admission rows, and `/packs` sync. | Gate 3 and Gate 4 |
+| Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | closed | `buildV48SellerBuyerStateMachineLaw` and `.proofs/v48/seller-buyer-state-machine-law.json` define seller states and guards; `buildV48DepositorWebsiteCompletion` and `.proofs/v48/depositor-website-completion.json` bind the `/deposits` route session, journaled synthesis/review/admission rows, and `/exchange` sync. | Gate 3 and Gate 4 |
 | Buyer state machine | IP buyer can request Read, approve Need, Finding Fits, preview, settle, receive rights, and get PR delivery | closed | `buildV48SellerBuyerStateMachineLaw` and `.proofs/v48/seller-buyer-state-machine-law.json` define buyer states and guards; `buildV48ReaderWebsiteCompletion` and `.proofs/v48/reader-website-completion.json` bind the `/reads` route session, fit measurement review, settlement/rights/delivery ordering, and `/packs` sync. | Gate 3 and Gate 5 |
 | `/exchange` dashboard | Master-detail activity tracks deposits, reads, proofs, settlements, rights, delivery, compensation, repair | closed | Exchange page client + activity model; artifact may still be named `packs-auxillaries-commercial-dashboard.json`; product route is `/exchange`. | Gate 6 |
 | Auxillaries launch readiness | Identity, source connections, target repository connections, wallets, teams, histories are usable | closed | Auxillaries panes cover identity profile, external source connections, interfaces, wallet authority with BTD history readback, and organization team/treasury settings, recorded by the Gate 6 artifact. | Gate 6 |
@@ -58,7 +58,7 @@ delivery receipts.
 | Draft files | V48 SPEC, DELTA, NOTES, and PARITY files exist | closed | Full draft family present. | Gate 1 |
 | CI posture | Living CI validates draft V48 family + product tree | closed | Local/full CI + `check:v48-gate*` as wired. | Gate 1 |
 | Measurement prompt traceability | Every measurement points to prompt identity, typed output, weight, and proof | closed | Later gates must audit concrete prompt registry bindings. | Gate 3+ |
-| Seller visualization | Depositors see source-safe measurement and compensation basis | closed | `/deposits` renders measurements (honesty badges + measureReport + material identity/deps), criticality, demand, ROI, BTD potential, BTC source-to-shares preview, option roots, compensation estimates, review artifact download, and authority readback validated by `check:v48-gate4`. | Gate 4 |
+| Seller visualization | Depositors see commercial brief, full absolute catalogue, owner `.patch`, and compensation basis | closed | `/deposits` renders commercialTitle/Description, measurements (honesty + measureReport + material identity), criticality, demand, ROI, BTD potential, BTC source-to-shares preview, option roots, owner patch download, compensation estimates, and authority readback; batch admit + per-pack `/exchange` projection validated by `check:v48-gate4` and `.proofs/v48/depositor-website-completion.json`. | Gate 4 |
 | Buyer visualization | Readers see source-safe fit measurements and quote basis before paying | closed | `/reads` renders Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence, delivery readiness, selected Fit provenance, final BTD scalar, quote basis, and settlement/rights/delivery readback validated by `check:v48-gate5`. | Gate 5 |
 | Website-only launch focus | API/MCP, ChatGPT App, and Bitcode Chat are deferred commercial surfaces | accepted boundary | V48 avoids scope sprawl. | Gate 1 and Gate 2 |
 | Mainnet block | Value-bearing mainnet remains blocked | accepted boundary | BTC amounts are testnet only in V48. | Gate 1+ |
@@ -120,9 +120,10 @@ forbidden payload classes are explicit, and gate/canon workflows run
 V48 Gate 4 is complete when the V48 depositor website completion artifact is
 generated, its package object and tests pass, the `/deposits` route binds
 source connection before synthesis, journals option synthesis, review, and
-admission as source-safe execution rows, renders decision-quality measurement,
-BTD potential, BTC source-to-shares preview, compensation, and authority
-views, synchronizes admitted options to `/exchange`, and gate/canon workflows run
+admission as source-safe execution rows, renders commercial brief, absolute
+measurements, owner `.patch`, BTD potential, BTC source-to-shares preview,
+compensation, and authority views, batch-admits confirmed options to
+`/exchange` with per-pack measurements only, and gate/canon workflows run
 `check:v48-gate4`.
 
 V48 Gate 5 is complete when the V48 reader website completion artifact is

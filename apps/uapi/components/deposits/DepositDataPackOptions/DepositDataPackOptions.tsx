@@ -124,12 +124,12 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
       {realSynthesis ? (
         <div
           className="mt-4 border border-emerald-300/20 bg-emerald-300/[0.04] px-4 py-4"
-          aria-label="Deposit selected AssetPacks"
+          aria-label="Deposit selected DataPacks"
         >
           {depositRouteSession.admission.admittedCount > 0 ? (
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border border-emerald-300/35 bg-emerald-300/15 px-4 py-3">
               <p className="text-sm font-medium text-emerald-100">
-                ✓ {depositRouteSession.admission.admittedCount} AssetPack
+                ✓ {depositRouteSession.admission.admittedCount} DataPack
                 {depositRouteSession.admission.admittedCount === 1 ? "" : "s"}{" "}
                 deposited to the Depository — permanent.
               </p>
@@ -137,15 +137,15 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
                 href="/exchange?type=depository-assetpack"
                 className="inline-flex items-center border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-xs font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18"
               >
-                View in your packs
+                View on Exchange
               </Link>
             </div>
           ) : null}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-neutral-300">
               {selectedPackIds.length === 0
-                ? "Select the AssetPacks you want to deposit, then deposit the set in one step."
-                : `${selectedPackIds.length} AssetPack${
+                ? "Select the DataPacks you want to deposit, then deposit the set in one step."
+                : `${selectedPackIds.length} DataPack${
                     selectedPackIds.length === 1 ? "" : "s"
                   } selected for deposit.`}
             </p>
@@ -163,19 +163,19 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
               }`}
             >
               {confirmingBatchDeposit
-                ? `Confirm deposit of ${selectedPackIds.length} AssetPack${
+                ? `Confirm deposit of ${selectedPackIds.length} DataPack${
                     selectedPackIds.length === 1 ? "" : "s"
                   }`
                 : selectedPackIds.length
-                  ? `Deposit ${selectedPackIds.length} selected AssetPack${
+                  ? `Deposit ${selectedPackIds.length} selected DataPack${
                       selectedPackIds.length === 1 ? "" : "s"
                     }`
-                  : "Deposit selected AssetPacks"}
+                  : "Deposit selected DataPacks"}
             </button>
           </div>
           {confirmingBatchDeposit ? (
             <p className="mt-3 text-xs leading-5 text-amber-100/85">
-              Deposit is final: the selected AssetPacks are admitted to the
+              Deposit is final: the selected DataPacks are admitted to the
               Bitcode Depository permanently. Confirm to deposit, or change the
               selection to stand down.
             </p>

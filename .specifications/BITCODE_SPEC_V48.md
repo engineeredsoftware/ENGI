@@ -1242,7 +1242,12 @@ Gate 3 is closed when:
 5. Every Execution store, agent schema, tool, and UI expectation listed in G3-5…G3-11 is implemented or explicitly bounded as deferred with a SPEC reopen condition.
 
 
-## V48 Gate 4 SynthesizeReadAssetPacks SDIVF and commercial read full-stack law
+## SynthesizeRead DataPacks SDIVF and commercial read full-stack law (product Gate 5)
+
+> **Product gate numbering:** this chapter is **read/buyer pipeline law** and
+> belongs to product **Gate 5 (Reader Website Completion)**. Product **Gate 4**
+> is **Depositor Website Completion** only (seller deposit UX + tradable
+> DataPack packaging).
 
 Read synthesize is **nearly identical** to deposit synthesize (same SDIVF shape,
 many shared agents). Instruction input is **Need** (not Obfuscations). Measurements
@@ -1881,10 +1886,11 @@ V48 gates:
    `.proofs/v48/seller-buyer-state-machine-law.json`, the
    `buildV48SellerBuyerStateMachineLaw` package object, and
    `check:v48-gate3`.
-4. Depositor Website Completion. Gate 4 owns
+4. Depositor Website Completion (tradable DataPack seller UX). Gate 4 owns
    `.proofs/v48/depositor-website-completion.json`, the
    `buildV48DepositorWebsiteCompletion` package object, and
-   `check:v48-gate4`.
+   `check:v48-gate4`. This gate closes production-ready deposit packaging of
+   code as a measured, commercially narrated, rights-gated commodity.
 5. Reader Website Completion. Gate 5 owns
    `.proofs/v48/reader-website-completion.json`, the
    `buildV48ReaderWebsiteCompletion` package object, and
@@ -1937,14 +1943,16 @@ transition, and fail-closed repair on missing evidence.
 V48 Gate 4 source-safe generated artifact:
 `.proofs/v48/depositor-website-completion.json`. It records the five-step
 `/deposits` route session steps, journaled pipeline and event ids, visible
-seller decision ids (measurement catalog, criticality, demand, ROI, BTD
-potential, BTC source-to-shares preview, admission, `/exchange` activity sync,
-and authority states), completion rows for source connection, option-synthesis
-journaling, source-safe measurement review, admission and repair actions,
-compensation/authority readback, and `/exchange` history readback, forbidden
-payload classes, source-root digests, and predicate results without
-serializing protected source, unpaid AssetPack source, raw prompts, raw
-provider responses, wallet private material, or settlement private payloads.
+seller decision ids (commercial brief, absolute measurements, owner `.patch`
+download, criticality, demand, ROI, BTD potential, BTC source-to-shares
+preview, admission, `/exchange` activity sync, and authority states),
+completion rows for source connection, option-synthesis journaling (four-agent
+Implementation), commercial + measurement review, batch admission with
+per-pack measurement projection, compensation/authority readback, and
+`/exchange` history readback, forbidden payload classes, source-root digests,
+and predicate results without serializing protected source, unpaid DataPack
+file bodies, raw prompts, raw provider responses, wallet private material, or
+settlement private payloads.
 
 V48 Gate 5 source-safe generated artifact:
 `.proofs/v48/reader-website-completion.json`. It records the five-step
@@ -2126,13 +2134,16 @@ fail-closed repair; `.proofs/v48/seller-buyer-state-machine-law.json` is
 generated; and `check:v48-gate3` validates the law.
 
 V48 Gate 4 is complete when the `/deposits` route binds source connection
-before option synthesis; option synthesis, review, and admission decisions are
-journaled as source-safe execution rows; depositors review commercial brief,
-measurements, criticality, demand, ROI, BTD potential, source-to-shares
-preview, option roots, and (as owner) full `.patch` material before approval;
-approved policy-eligible options emit admission readback synchronized to
-`/exchange`; compensation estimates, supply recommendations, and
-organization/wallet authority state are visible as disclosure-safe metadata;
+before option synthesis; real deposit synthesis produces presentable DataPacks
+(plan → hybrid-body patchfile → measurements → commercial-nl); option
+synthesis, review, and admission decisions are journaled as source-safe
+execution rows; depositors review commercial brief, absolute measurements,
+criticality, demand, ROI, BTD potential, source-to-shares preview, option
+roots, and (as owner) full `.patch` material before approval; batch admission
+emits N receipts and N `/exchange` depository rows with per-pack absolutes
+only; soft compensation incompleteness does not drop confirmed deposits;
+compensation estimates, supply recommendations, and organization/wallet
+authority state are visible as disclosure-safe metadata;
 `.proofs/v48/depositor-website-completion.json` is generated; and
 `check:v48-gate4` validates the completion.
 

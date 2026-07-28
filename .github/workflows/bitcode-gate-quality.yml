@@ -624,6 +624,9 @@ jobs:
             node scripts/check-v47-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
             if [ -f .specifications/BITCODE_SPEC_V48.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V47
+              if [ -f scripts/check-v48-gate4-depositor-website-completion.mjs ]; then
+                node scripts/check-v48-gate4-depositor-website-completion.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

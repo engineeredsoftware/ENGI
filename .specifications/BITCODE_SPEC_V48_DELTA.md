@@ -143,23 +143,38 @@ source-safe fields that may be projected without source leakage.
 
 ## Gate 4: Depositor Website Completion
 
-Gate 4 completes source connection, deposit AssetPack option synthesis,
-source-safe review, Depository admission, and compensation visibility.
+Gate 4 is the **seller-side commercial completeness** of making **code
+tradable for the first time** as a measured, rights-gated **DataPack**
+commodity (commercial `.patch` create|modify only + absolute measurements +
+metadata + commercial NL) — not a raw repo dump.
+
+Gate 4 completes source connection, real deposit DataPack option synthesis
+(four sequential Implementation agents: plan → hybrid-body patchfile →
+measurements → commercial-nl), owner commercial + measurement + full `.patch`
+review, batch Depository admission (N selected → N receipts → N `/exchange`
+depository rows; soft compensation incompleteness does not drop confirmed
+admits), and compensation/authority visibility.
 
 Gate 4 owns `.proofs/v48/depositor-website-completion.json`,
 `buildV48DepositorWebsiteCompletion`, and `check:v48-gate4`. The completion
 binds the five-step `/deposits` route session (`connect-source`,
 `synthesize-options`, `review-options`, `submit-deposit`,
-`read-depository-state`) to journaled source-safe execution rows for
-`pipeline:deposit-option-synthesis`, `pipeline:deposit-option-review`, and
-`pipeline:deposit-option-admission`; renders seller visualization of the
-measurement catalog, criticality, demand, ROI, BTD potential, BTC
-source-to-shares preview, and option roots before approval; records approve,
-reject, and resynthesis decisions with admission readback synchronized to
-`/packs`; and exposes compensation estimates, supply recommendations, and
-organization/wallet authority state as source-safe metadata only, with no
-protected source, unpaid AssetPack source, raw prompts, raw provider
+`read-depository-state`) to journaled source-safe execution rows for deposit
+option synthesis (`deposit-option-synthesis` / `depositOptionSynthesis`),
+`pipeline:deposit-option-review`, and `pipeline:deposit-option-admission`;
+renders commercial brief, absolute catalogue (honesty), criticality, demand,
+ROI, BTD potential, BTC source-to-shares preview, option roots, and **owner
+full `.patch`** before approval; records approve, archive, and resynthesis
+decisions with admission readback synchronized to `/exchange`; projects
+**per-pack absolute measurements only** onto depository activity (never
+session candidate/admitted counts as pack measurements); and exposes
+compensation estimates, supply recommendations, and organization/wallet
+authority state as disclosure-safe metadata only, with no protected source,
+unpaid DataPack file bodies on network detail, raw prompts, raw provider
 responses, wallet private material, or value-bearing mainnet authority.
+
+**Gate 4 close thesis:** production-ready deposit UX is the first complete
+commercial packaging of tradable code. Reader purchase/settle is Gate 5.
 
 ## Gate 5: Reader Website Completion
 

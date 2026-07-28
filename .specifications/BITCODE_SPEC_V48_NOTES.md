@@ -1206,47 +1206,62 @@ option projection); real in-sandbox execution is verified against deployed sandb
 
 These ops items do **not** block Gate 3 PR merge into `version/v48` once CI is green.
 
-## V48 Gate 4 open: Depositor website completion + Packs absolute measurements
+## V48 Gate 4 close charter: Depositor website completion (tradable DataPacks)
 
-**Branch:** `v48/gate-4-depositor-packs-finalization`
-**Canon surface:** Gate 4 completion artifact law in DELTA + depositor website
-completion proofs; this NOTES entry records live finishing work after Gate 3
-deposit SDIVF closed.
+**Product gate:** Gate 4 = **Depositor Website Completion** (not the SPEC
+pipeline chapter formerly titled “Gate 4 SynthesizeRead” — that is product
+Gate 5 territory).
+**Branch:** `v48/gate-4-btd-multirail-erc1155` (Gate 4 close PR scope =
+depositor website + proof machinery; multirail/ERC1155 on the branch is
+**non-claiming payload**, not Gate 4 DoD).
+**Canon surface:** DELTA Gate 4, SPEC completion conditions, artifact
+`.proofs/v48/depositor-website-completion.json`, `buildV48DepositorWebsiteCompletion`,
+`check:v48-gate4`.
 
-### Gate 4 product objectives (binding for finish)
+### Novelty thesis (binding)
 
-1. **Batch admit reliability** — every selected presentable option that the
-   depositor confirms becomes one `admitted-to-depository` ledger row and one
-   `/packs` network `depository-assetpack` row. Soft compensation/ROI
-   incompleteness must not silently drop confirmed deposits; critical source
-   policy remains hard-block.
-2. **Per-pack admission payload** — never embed the full session admission
-   report (`candidateCount`, `admittedCount`, report roots) as pack
-   measurements. Each admitted pack carries **that option's absolute
-   measurements** + identity roots only.
-3. **Deposit detail reload** — revisiting a synthesis run
-   (`transactionId=<runId>`) rehydrates options, telemetry history, and
-   admission state from the execution row + ledger (not only live SSE).
-4. **Depositor review completeness** — option cards expose full absolutes,
-   roots, contents summary, and **Download patchfile** (path-op JSON
-   descriptor). "Admitted" UI requires receipt state
-   `admitted-to-depository`, not merely a review decision label.
-5. **Packs source-safety** — patch/fileChanges never projected on `/packs`
-   network detail. Patch is visible only to the depositor on `/deposits`
-   (owner) or, later, entitled buyers after settle (Gate 5). Absolute
-   measurement chips + detail are the commercial measurement surface on
-   `/packs`.
-6. **Then Gate 5** — Read experience parity with deposit, neediness as the
-   critical measurement difference.
+Bitcode makes **code tradable for the first time** as a production commercial
+unit: a **DataPack** = commercial `.patch` (create|modify only, hybrid bodies)
++ absolute measurements (honesty) + metadata + commercial NL — packaged on
+`/deposits`, admitted to the Depository, projected on `/exchange` with
+rights-gated bodies (owner full; network unpaid withhold).
+
+### Gate 4 product objectives (binding)
+
+1. **Batch admit reliability** — N selected presentable options → N
+   `admitted-to-depository` receipts → N `/exchange` `depository-assetpack`
+   rows. Soft compensation/ROI incompleteness must not drop confirmed
+   deposits; critical source policy remains hard-block.
+2. **Per-pack admission payload** — never embed session
+   `candidateCount` / `admittedCount` / report roots as pack measurements.
+3. **Deposit detail reload** — `transactionId=<runId>` rehydrates options,
+   telemetry, admission from execution + ledger.
+4. **Depositor review completeness** — commercial brief, dense absolutes,
+   owner full `.patch` + download; “Admitted” only when receipt is
+   `admitted-to-depository`.
+5. **Exchange source-safety** — patch/fileChanges never on network depository
+   detail; owner full on `/deposits`; entitled buyer unlock is Gate 5.
+6. **Then Gate 5** — Reader website (Need → fit → unpaid preview → settle).
 
 ### Closure checklist
 
-- [ ] Admit N selected → N packs rows with absolute chips
-- [ ] Reload deposit synthesis detail → options + logs + admitted cards
-- [ ] Packs detail never shows candidate/admitted session counts as measurements
-- [ ] Unit tests: admission soft-block override, pack measurement projection,
+- [x] Admit N selected → N exchange rows with absolute chips (unit:
+  soft-block batch admit + per-option admission drafts)
+- [x] Reload deposit synthesis detail → options + logs + admitted cards
+  (hydrate + depositPageClient recovery tests)
+- [x] Exchange detail never shows candidate/admitted session counts as
+  measurements (`depositAdmissionActivity` tests)
+- [x] Unit tests: admission soft-block override, pack measurement projection,
   admission activity draft
-- [ ] Gate 4 checker / depositor-website-completion artifact green
+- [x] Gate 4 checker / depositor-website-completion artifact green
+  (`pnpm run check:v48-gate4`)
+
+### Gate 4 closed (implementation + proof)
+
+Product law + proof stack landed for depositor website completion. Optional
+live operator re-smoke on staging-testnet remains recommended before Gate 5
+deep work but does **not** block Gate 4 PR merge into `version/v48` when CI
+and `check:v48-gate4` are green.
 
 ## V48 Gate 5 plan: Reader website completion (neediness delta)
 
