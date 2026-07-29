@@ -515,7 +515,18 @@ draft), bitcode-gate-quality (typecheck + package tests + staged harness), and
 Linter, Long-Runner ECR, gate browser-proof) stay optional.
 
 Pre-commit runs `node scripts/run-bitcode-local-ci.mjs --mode full` then
-spec-sensitive basics. There is **no skip flag** — a red mirror blocks commit.
+spec-sensitive basics. A red mirror blocks commit by default.
+
+**Operator escape hatch** (not a substitute for green CI on shared/production
+work; value must be exactly `1`):
+
+```bash
+# Skip only the living local CI validation suite (still runs spec basics)
+BITCODE_SKIP_PRE_COMMIT_CI=1 git commit -m "..."
+
+# Skip the entire pre-commit hook (CI + spec basics)
+BITCODE_SKIP_PRE_COMMIT=1 git commit -m "..."
+```
 
 Manual lint-build fragment (subset of `ci:local`, not a substitute):
 

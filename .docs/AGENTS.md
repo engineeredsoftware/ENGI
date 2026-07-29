@@ -79,7 +79,8 @@
     pnpm run ci:local
     # equivalent: node scripts/run-bitcode-local-ci.mjs --mode full
     ```
-    That covers casing-check, active+draft canon/gate quality, and `ci.yml` lint-build + test-mocks. There is no skip flag. Partial smoke (`ci:local:lint-build` or a single Jest file) is iteration only — never a commit bar.
+    That covers casing-check, active+draft canon/gate quality, and `ci.yml` lint-build + test-mocks. Partial smoke (`ci:local:lint-build` or a single Jest file) is iteration only — never a commit bar.
+    - **Operator pre-commit escape (humans only):** `.githooks/pre-commit` accepts `BITCODE_SKIP_PRE_COMMIT_CI=1` (skip living local CI only) or `BITCODE_SKIP_PRE_COMMIT=1` (skip entire hook). Value must be exactly `1`. This is **not** a green-commit substitute for shared branches or production. **Agents must not set these skips** unless the human explicitly requests a skipped-hook commit for that turn.
   - **uapi Jest CLI (required form):** invoke Jest via `exec`, pass flags **without** a bare `--` separator:
     ```bash
     # Correct

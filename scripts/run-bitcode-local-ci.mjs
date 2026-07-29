@@ -14,7 +14,9 @@
  *   BITCODE_ENABLE_GATE_BROWSER_PROOF Playwright proofs.
  *
  * Pre-commit (.githooks/pre-commit) runs this with default mode=full and
- * refuses the commit unless every step exits 0.
+ * refuses the commit unless every step exits 0. Operator escape hatch
+ * (not a green-commit substitute): BITCODE_SKIP_PRE_COMMIT_CI=1 skips this
+ * suite; BITCODE_SKIP_PRE_COMMIT=1 skips the entire pre-commit hook.
  *
  * Law: .docs/AGENTS.md (never commit until living CI green),
  * CONTRIBUTING.md §8.1.
@@ -58,7 +60,7 @@ function printHelp() {
       'Usage: node scripts/run-bitcode-local-ci.mjs [options]',
       '',
       'Living local CI mirror for the active + draft surface. Must be green',
-      'before every commit (enforced by .githooks/pre-commit).',
+      'before every commit (enforced by .githooks/pre-commit by default).',
       '',
       'Options:',
       '  --mode full         Full living mirror (default; pre-commit uses this)',
@@ -66,6 +68,10 @@ function printHelp() {
       '  --list              Print steps without running',
       '  --repo-root <path>  Override repo root',
       '  --help              Show this help',
+      '',
+      'Pre-commit skip (operator only; value must be exactly 1):',
+      '  BITCODE_SKIP_PRE_COMMIT_CI=1  Skip this suite in pre-commit',
+      '  BITCODE_SKIP_PRE_COMMIT=1     Skip entire pre-commit hook',
       '',
       'Package scripts:',
       '  pnpm run ci:local',
