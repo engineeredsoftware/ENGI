@@ -258,15 +258,15 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
   return (
     <article
       data-testid={`deposit-option-${option.kind}`}
-      className={`grid min-w-0 gap-4 border px-4 py-4 ${
+      className={`relative isolate grid min-w-0 max-w-full gap-4 overflow-hidden border px-4 py-4 ${
         reviewed
-          ? "border-violet-300/38 bg-violet-300/10"
-          : "border-white/10 bg-black/20"
+          ? "border-violet-300/38 bg-[rgba(12,10,24,0.97)]"
+          : "border-white/10 bg-[rgba(6,10,16,0.97)]"
       }`}
     >
-      <div>
-        <div className="flex items-start justify-between gap-2">
-          <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+      <div className="min-w-0 max-w-full">
+        <div className="flex min-w-0 items-start justify-between gap-2">
+          <p className="min-w-0 break-words text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
             {option.kind}
           </p>
           <button
@@ -296,18 +296,18 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
             <Anchor className="h-3.5 w-3.5" />
           </button>
         </div>
-        <h3 className="mt-2 text-base font-semibold text-white">
+        <h3 className="mt-2 min-w-0 break-words text-base font-semibold text-white">
           {commercialTitle}
         </h3>
         {/* Commercial brief — always visible for purchase/deposit consideration. */}
         <div
-          className="mt-3 border border-sky-300/25 bg-sky-300/[0.06] px-3 py-3"
+          className="mt-3 min-w-0 overflow-hidden border border-sky-300/25 bg-sky-300/[0.06] px-3 py-3"
           data-testid={`deposit-option-commercial-brief-${option.kind}`}
         >
           <p className="text-[0.58rem] font-medium uppercase tracking-[0.14em] text-sky-100/90">
             Commercial brief
           </p>
-          <p className="mt-2 max-h-56 overflow-y-auto whitespace-pre-wrap text-sm leading-6 text-neutral-200">
+          <p className="mt-2 max-h-56 min-w-0 overflow-y-auto overflow-x-hidden whitespace-pre-wrap break-words text-sm leading-6 text-neutral-200">
             {commercialDescription}
           </p>
         </div>
@@ -315,12 +315,12 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
           // The deposit/no-deposit decision payload: what Bitcode RECEIVES if
           // this AssetPack is deposited — synthesized AP contents + provenant
           // source files.
-          <div className="mt-3 border border-emerald-300/20 bg-emerald-300/[0.05] px-3 py-3">
+          <div className="mt-3 min-w-0 overflow-hidden border border-emerald-300/20 bg-emerald-300/[0.05] px-3 py-3">
             <p className="text-[0.58rem] font-medium uppercase tracking-[0.16em] text-emerald-200/85">
               If deposited, Bitcode receives
             </p>
             {option.contents.patchSummary ? (
-              <p className="mt-2 break-words text-xs leading-5 text-neutral-300">
+              <p className="mt-2 min-w-0 break-words text-xs leading-5 text-neutral-300">
                 {option.contents.patchSummary}
               </p>
             ) : null}
@@ -373,14 +373,14 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
             ) : null}
             {/* Full commercial .patch — create|modify bodies; depositor-visible. */}
             <div
-              className="mt-3 border border-emerald-300/25 bg-black/30"
+              className="mt-3 min-w-0 overflow-hidden border border-emerald-300/25 bg-black/40"
               data-testid={`deposit-option-patch-viewer-${option.kind}`}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-emerald-300/15 px-3 py-2">
-                <p className="text-[0.58rem] font-medium uppercase tracking-[0.14em] text-emerald-100/90">
+              <div className="flex min-w-0 flex-wrap items-center justify-between gap-2 border-b border-emerald-300/15 px-3 py-2">
+                <p className="shrink-0 text-[0.58rem] font-medium uppercase tracking-[0.14em] text-emerald-100/90">
                   DataPack .patch
                 </p>
-                <p className="text-[0.62rem] text-neutral-500">
+                <p className="min-w-0 break-words text-right text-[0.62rem] text-neutral-500">
                   {patchHasBodies
                     ? `Full file contents · ${boundBodyCount || fileChangeCount} bound path${
                         (boundBodyCount || fileChangeCount) === 1 ? "" : "s"
@@ -389,20 +389,20 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
                 </p>
               </div>
               {!patchHasBodies ? (
-                <p className="px-3 py-2 text-[0.7rem] leading-5 text-amber-100/90">
+                <p className="min-w-0 break-words px-3 py-2 text-[0.7rem] leading-5 text-amber-100/90">
                   Incomplete patch: file bodies were not attached for all create/modify
                   paths. Re-run synthesis with checkout bodies, or ensure create
                   paths receive content.
                 </p>
               ) : null}
               <pre
-                className="max-h-72 overflow-auto px-3 py-2 font-mono text-[0.65rem] leading-4 text-neutral-300"
+                className="max-h-72 max-w-full overflow-auto whitespace-pre-wrap break-words px-3 py-2 font-mono text-[0.65rem] leading-4 text-neutral-300"
                 tabIndex={0}
               >
                 {sourcePatch.body}
               </pre>
             </div>
-            <div className="mt-3">
+            <div className="mt-3 min-w-0 max-w-full overflow-hidden">
               <DataPackDownloads
                 role="depositor"
                 optionId={option.optionId}

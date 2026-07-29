@@ -42,7 +42,7 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
   return (
     <section
       id="deposit-section-review"
-      className="border border-white/10 bg-white/[0.035] px-4 py-4"
+      className="min-w-0 max-w-full overflow-x-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
       aria-label="Deposit DataPack options"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -90,32 +90,42 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
         </div>
       ) : null}
 
-      <div className="mt-5 grid min-w-0 gap-3 phone:grid-cols-2 laptop:grid-cols-3">
+      {/*
+        Each cell must min-w-0 + contain overflow so long commercial/patch text
+        cannot paint into neighboring columns (multi-card bleed).
+      */}
+      <div className="mt-5 grid min-w-0 grid-cols-1 gap-3 phone:grid-cols-2 laptop:grid-cols-3">
         {realSynthesis
           ? options.map((option) => {
               const reviewDecision =
                 optionReviewDecisions[option.optionId] ||
                 "pending-depositor-review";
               return (
-                <DepositOptionCard
+                <div
                   key={option.optionId}
-                  option={option}
-                  realSynthesis={realSynthesis}
-                  depositRouteSession={depositRouteSession}
-                  reviewDecision={reviewDecision}
-                  selected={selectedPackIds.includes(option.optionId)}
-                  resynthesisOpen={resynthesisForOptionId === option.optionId}
-                  resynthesisInstructions={resynthesisInstructions}
-                  settledDemandEstimate={settledDemandEstimate}
-                  onOptionReviewDecision={onOptionReviewDecision}
-                  onToggleSelect={onToggleSelect}
-                  onResynthesisForOptionIdChange={onResynthesisForOptionIdChange}
-                  onResynthesisInstructionsChange={
-                    onResynthesisInstructionsChange
-                  }
-                  onResynthesize={onResynthesize}
-                  onRecordActivity={onRecordActivity}
-                />
+                  className="min-w-0 max-w-full overflow-hidden"
+                >
+                  <DepositOptionCard
+                    option={option}
+                    realSynthesis={realSynthesis}
+                    depositRouteSession={depositRouteSession}
+                    reviewDecision={reviewDecision}
+                    selected={selectedPackIds.includes(option.optionId)}
+                    resynthesisOpen={resynthesisForOptionId === option.optionId}
+                    resynthesisInstructions={resynthesisInstructions}
+                    settledDemandEstimate={settledDemandEstimate}
+                    onOptionReviewDecision={onOptionReviewDecision}
+                    onToggleSelect={onToggleSelect}
+                    onResynthesisForOptionIdChange={
+                      onResynthesisForOptionIdChange
+                    }
+                    onResynthesisInstructionsChange={
+                      onResynthesisInstructionsChange
+                    }
+                    onResynthesize={onResynthesize}
+                    onRecordActivity={onRecordActivity}
+                  />
+                </div>
               );
             })
           : null}
