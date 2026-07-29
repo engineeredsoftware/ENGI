@@ -15,6 +15,11 @@ import { verifiedAccessOrbConfig } from "@/components/marketing/MarketingLanding
 import { DEPOSIT_SECTION_EXPLAINERS } from "@/components/deposits/models/deposit-explainers";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { PipelineRunActivitySnapshot } from "@/components/bitcode/pipeline/models/pipeline-run-activity";
+import { DepositQaTelemetryPanel } from "@/components/deposits/DepositQaTelemetryPanel/DepositQaTelemetryPanel";
+import {
+  buildDepositQaTelemetryReport,
+  formatDepositQaTelemetryMarkdown,
+} from "@/components/deposits/models/deposit-qa-telemetry";
 
 /** Live call-chain context for the telemetry pill row. */
 export type DepositSynthesisLiveContext = {
@@ -50,6 +55,17 @@ export type DepositSynthesisTelemetryProps = {
   permissibleSources: string[];
   impermissibleSources: string[];
   synthesisEvents: unknown[] | unknown;
+  /** Real synthesis options for materialization matrix (source-safe fields only). */
+  options?: unknown[] | null;
+  selectedOptionIds?: string[] | null;
+  admissionReceipts?: Array<{
+    optionId?: string;
+    admission?: {
+      state?: string;
+      blockers?: string[];
+      warnings?: string[];
+    };
+  }> | null;
 };
 
 export function DepositSynthesisTelemetry({
@@ -74,19 +90,43 @@ export function DepositSynthesisTelemetry({
   permissibleSources,
   impermissibleSources,
   synthesisEvents,
+  options = null,
+  selectedOptionIds = null,
+  admissionReceipts = null,
 }: DepositSynthesisTelemetryProps) {
+  const eventsList = Array.isArray(synthesisEvents) ? synthesisEvents : [];
+  const qaReport = buildDepositQaTelemetryReport({
+    runId: synthesisRunId,
+    status: synthesisStatus,
+    error: synthesisError,
+    expectsOptions: synthesisRunExpectsOptions,
+    runStartMs: synthesisRunStartMs,
+    runEndMs: synthesisRunEndMs,
+    activity: synthesisActivity,
+    events: eventsList,
+    repositoryFullName: repositoryContext?.selectedRepository?.fullName ?? null,
+    sourceBranch: repositoryContext?.selectedBranch ?? null,
+    sourceCommit: repositoryContext?.selectedCommit ?? null,
+    obfuscations,
+    permissibleSources,
+    impermissibleSources,
+    options,
+    selectedOptionIds,
+    admissionReceipts,
+  });
+
   return (
               <section
                 ref={telemetryRef as any}
                 className="min-w-0 max-w-full overflow-x-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
-                aria-label="Asset Pack Synthesis telemetry"
+                aria-label="DataPack synthesis telemetry"
                 data-testid="deposit-synthesis-telemetry"
               >
                 <div className="flex min-w-0 flex-wrap items-center justify-between gap-3">
                   <div className="min-w-0 max-w-full">
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                       {synthesisRunExpectsOptions
-                        ? "Asset Pack Synthesis"
+                        ? "DataPack Synthesis"
                         : "Pipeline run"}
                     </p>
                     <h2 className="mt-2 flex items-center gap-2 text-lg font-semibold text-white">
@@ -183,6 +223,28 @@ export function DepositSynthesisTelemetry({
                     </span>
                   </div>
                 </div>
+                <DepositQaTelemetryPanel
+                  runId={synthesisRunId}
+                  status={synthesisStatus}
+                  error={synthesisError}
+                  expectsOptions={synthesisRunExpectsOptions}
+                  runStartMs={synthesisRunStartMs}
+                  runEndMs={synthesisRunEndMs}
+                  activity={synthesisActivity}
+                  events={eventsList}
+                  repositoryFullName={
+                    repositoryContext?.selectedRepository?.fullName ?? null
+                  }
+                  sourceBranch={repositoryContext?.selectedBranch ?? null}
+                  sourceCommit={repositoryContext?.selectedCommit ?? null}
+                  obfuscations={obfuscations}
+                  permissibleSources={permissibleSources}
+                  impermissibleSources={impermissibleSources}
+                  options={options}
+                  selectedOptionIds={selectedOptionIds}
+                  admissionReceipts={admissionReceipts}
+                />
+
                 {synthesisActivity.readyToFinishVerdicts.length > 0 &&
                   (() => {
                     const verdicts = synthesisActivity.readyToFinishVerdicts;
@@ -290,6 +352,8 @@ export function DepositSynthesisTelemetry({
                         permissibleSources,
                         impermissibleSources,
                       },
+                      qaReport,
+                      qaMarkdown: formatDepositQaTelemetryMarkdown(qaReport),
                       outputDetails: synthesisActivity.outputDetails,
                       events: synthesisEvents,
                     }}

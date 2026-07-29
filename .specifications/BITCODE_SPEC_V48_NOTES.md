@@ -1263,6 +1263,22 @@ live operator re-smoke on staging-testnet remains recommended before Gate 5
 deep work but does **not** block Gate 4 PR merge into `version/v48` when CI
 and `check:v48-gate4` are green.
 
+### Gate 4 QA telemetry (product support)
+
+`/deposits` synthesis telemetry includes a **QA telemetry** panel
+(`DepositQaTelemetryPanel` + `buildDepositQaTelemetryReport`):
+
+- Phase continuum (setup → discovery → implementation → validation → finish)
+- Implementation agents (plan → patchfile → measurements → commercial-nl)
+- Per-option materialization matrix (presentable, commercial brief, absolutes,
+  unifiedDiff, bodies) — **source-safe counts/bools only**
+- Admission selected/admitted + **N→N** flag
+- **Copy QA MD** / **Copy QA JSON** for ledger paste
+- `qaReport` + `qaMarkdown` embedded in pipeline log **Copy raw** payload
+- Console trail when verbose: `?bitcode_verbose=true` or
+  `localStorage bitcode.qa.verbose=true` or
+  `NEXT_PUBLIC_BITCODE_QA_VERBOSE=true` → `[Bitcode QA] deposit-qa:…`
+
 ## V48 Gate 5 plan: Reader website completion (neediness delta)
 
 **After Gate 4 packs/deposit solid.** Branch work also advanced on

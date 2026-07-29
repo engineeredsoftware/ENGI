@@ -8,6 +8,7 @@
 
 import { useCallback, type Dispatch, type SetStateAction } from "react";
 import { trackProductEvent } from "@/lib/product-analytics";
+import { bitcodeQaTelemetry } from "@bitcode/auth/qa-telemetry";
 import {
   buildDepositRouteSession,
   writeDepositRouteStage,
@@ -312,6 +313,15 @@ export function useDepositOptionActions(input: {
         selectedCount: idsToDeposit.length,
         admittedCount: admittedReceipts.length,
       },
+    });
+    bitcodeQaTelemetry("info", "deposit-qa", "admission", {
+      selectedCount: idsToDeposit.length,
+      admittedCount: admittedReceipts.length,
+      blockedCount: blockedReceipts.length,
+      batchAdmitNtoN: admittedReceipts.length === idsToDeposit.length,
+      admittedOptionIds: admittedReceipts.map((r) => r.optionId),
+      blockedOptionIds: blockedReceipts.map((r) => r.optionId),
+      synthesisRunId: depositRouteInput?.transactionId || null,
     });
     replaceDepositSearchParams(
       writeDepositRouteStage(

@@ -23,6 +23,7 @@ import type { DepositSynthesisStatus } from "./use-deposit-synthesis-activity";
 import type { WorkspaceRun } from "@/components/bitcode/pipeline/models/pipeline-run-data";
 import type { RepositoryContextState } from "@/components/bitcode/pipeline/models/repository-context";
 import type { DepositRealSynthesis } from "@/components/deposits/models/deposit-real-synthesis";
+import { bitcodeQaTelemetry } from "@bitcode/auth/qa-telemetry";
 
 export function useDepositSynthesisLifecycle(input: {
   synthesisStatus: DepositSynthesisStatus;
@@ -545,6 +546,16 @@ export function useDepositSynthesisLifecycle(input: {
               depositoryDemandSignals.length + readingDemandSignals.length,
           },
         });
+        bitcodeQaTelemetry('info', 'deposit-qa', 'synthesis-dispatched', {
+          runId,
+          repositoryFullName:
+            repositoryContext?.selectedRepository?.fullName || null,
+          sourceBranch: repositoryContext?.selectedBranch || null,
+          sourceCommit: repositoryContext?.selectedCommit || null,
+          permissibleSourceCount: permissibleSources.length,
+          impermissibleSourceCount: impermissibleSources.length,
+          hasObfuscations: Boolean(effectiveInstructions.trim()),
+        });
         void Promise.resolve(refreshLiveRuns({ soft: true }) as unknown).then(
           () => {
             openDepositRouteTransaction(runId);
@@ -560,6 +571,13 @@ export function useDepositSynthesisLifecycle(input: {
         trackProductEvent({
           name: "deposit_synthesis_failed",
           data: { stage: "dispatch", durationMs: null },
+        });
+        bitcodeQaTelemetry('error', 'deposit-qa', 'synthesis-dispatch-failed', {
+          runId,
+          message:
+            error instanceof Error
+              ? error.message
+              : "Deposit option synthesis failed.",
         });
       }
     },

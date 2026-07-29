@@ -731,6 +731,18 @@ export default function DepositPageClient() {
                 permissibleSources={permissibleSources}
                 impermissibleSources={impermissibleSources}
                 synthesisEvents={synthesisEvents}
+                options={realSynthesis?.synthesis?.options ?? null}
+                selectedOptionIds={selectedPackIds}
+                admissionReceipts={
+                  depositRouteSession.admission.receipts as Array<{
+                    optionId?: string;
+                    admission?: {
+                      state?: string;
+                      blockers?: string[];
+                      warnings?: string[];
+                    };
+                  }>
+                }
               />
             ) : null}
 
