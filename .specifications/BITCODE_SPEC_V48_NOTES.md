@@ -1263,6 +1263,27 @@ live operator re-smoke on staging-testnet remains recommended before Gate 5
 deep work but does **not** block Gate 4 PR merge into `version/v48` when CI
 and `check:v48-gate4` are green.
 
+### Wallet Connect = authenticate (Ethereum session law)
+
+`POST /api/wallet/session` authenticates as the **canonical Bitcode user for
+the signed address**, not “bind wallet onto whoever is already signed in.”
+
+Resolution order:
+
+1. Deterministic wallet-email principal (`0x…@ethereum.wallet.bitcode.local`)
+2. Else oldest bound owner with active GitHub
+3. Else oldest bound owner
+
+Always returns session tokens; client **must** `setSession`. Orphan GitHub
+rows on other user_ids for the same address are re-homed onto the canonical
+user when safe. Fixes Externals showing different GitHub state for the same
+MetaMask address across sessions/identities.
+
+Local operator: use **one** GitHub App — `bitcode-github-auxiliary`
+(`NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL=https://github.com/apps/bitcode-github-auxiliary`
+and matching `GITHUB_APP_ID` / private key / client secrets). Stag-test app
+ids break claim/list even when wallet auth succeeds.
+
 ### Gate 4 QA telemetry (product support)
 
 `/deposits` synthesis telemetry includes a **QA telemetry** panel

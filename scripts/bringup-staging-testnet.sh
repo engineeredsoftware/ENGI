@@ -74,11 +74,10 @@ do_vercel_env() {
   push_var GITHUB_APP_CLIENT_ID "${STAGING_TESTNET_GITHUB_APP_CLIENT_ID:-}"
   push_var GITHUB_APP_CLIENT_SECRET "${STAGING_TESTNET_GITHUB_APP_CLIENT_SECRET:-}"
   push_var GITHUB_WEBHOOK_SECRET "${STAGING_TESTNET_GITHUB_WEBHOOK_SECRET:-}"
-  # Public install link — the code fallback names the PRODUCTION app
-  # (bitcode-github-auxillary), so staging must point its surfaces at the
-  # stag-test app explicitly.
+  # Public install link — ONE GitHub App for every environment:
+  # https://github.com/apps/bitcode-github-auxiliary
   push_var NEXT_PUBLIC_GITHUB_APP_PUBLIC_URL \
-    "${STAGING_TESTNET_GITHUB_APP_PUBLIC_URL:-https://github.com/apps/bitcode-github-auxillary-stag-test}"
+    "${STAGING_TESTNET_GITHUB_APP_PUBLIC_URL:-https://github.com/apps/bitcode-github-auxiliary}"
   if [[ -n "${STAGING_TESTNET_GITHUB_PRIVATE_KEY_PATH:-}" && -f "${STAGING_TESTNET_GITHUB_PRIVATE_KEY_PATH}" ]]; then
     push_var GITHUB_PRIVATE_KEY "$(cat "${STAGING_TESTNET_GITHUB_PRIVATE_KEY_PATH}")"
   else

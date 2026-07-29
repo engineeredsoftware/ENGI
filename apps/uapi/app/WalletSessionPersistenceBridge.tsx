@@ -162,15 +162,27 @@ export default function WalletSessionPersistenceBridge() {
           }
           const session = payload?.session;
           if (
-            session &&
-            typeof session.access_token === 'string' &&
-            typeof session.refresh_token === 'string'
+            !session ||
+            typeof session.access_token !== 'string' ||
+            typeof session.refresh_token !== 'string'
           ) {
-            const supabase = createClient();
-            await supabase.auth.setSession({
-              access_token: session.access_token,
-              refresh_token: session.refresh_token,
+            inFlightKeyRef.current = null;
+            bitcodeQaTelemetry('warn', 'wallet-session', 'ethereum-session-tokens-missing', {
+              sessionSwitched: payload?.sessionSwitched ?? null,
             });
+            return;
+          }
+          const supabase = createClient();
+          const { error: setError } = await supabase.auth.setSession({
+            access_token: session.access_token,
+            refresh_token: session.refresh_token,
+          });
+          if (setError) {
+            inFlightKeyRef.current = null;
+            bitcodeQaTelemetry('warn', 'wallet-session', 'ethereum-set-session-failed', {
+              message: setError.message,
+            });
+            return;
           }
           if (cancelled) return;
           writeLocalBitcodeWalletIdentity({
@@ -185,6 +197,11 @@ export default function WalletSessionPersistenceBridge() {
           bitcodeQaTelemetry('info', 'wallet-session', 'ethereum-persist-success', {
             provider: identity.provider,
             address: compactBitcodeAddress(identity.address),
+            sessionSwitched: payload?.sessionSwitched === true,
+            canonicalUserId:
+              typeof payload?.canonicalUserId === 'string'
+                ? payload.canonicalUserId.slice(0, 8)
+                : null,
           });
           return;
         }

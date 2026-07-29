@@ -159,34 +159,53 @@ export async function persistEthereumWalletSession(
     return { ok: false, errorMessage };
   }
 
+  // Connect = authenticate: server always returns session tokens for the
+  // canonical wallet user. Missing tokens is a hard failure (not "bind only").
   const session = payload?.session;
   if (
-    session &&
-    typeof session.access_token === 'string' &&
-    typeof session.refresh_token === 'string'
+    !session ||
+    typeof session.access_token !== 'string' ||
+    typeof session.refresh_token !== 'string'
   ) {
-    try {
-      const supabase = createClient();
-      const { error: setError } = await supabase.auth.setSession({
-        access_token: session.access_token,
-        refresh_token: session.refresh_token,
+    bitcodeQaTelemetry('warn', 'wallet-auxillary', 'ethereum-session-tokens-missing', {
+      sessionEstablished: payload?.sessionEstablished ?? null,
+      sessionSwitched: payload?.sessionSwitched ?? null,
+    });
+    return {
+      ok: false,
+      errorMessage:
+        'Ethereum wallet signed, but Bitcode did not return authentication tokens for that wallet user.',
+    };
+  }
+
+  try {
+    const supabase = createClient();
+    const { error: setError } = await supabase.auth.setSession({
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
+    });
+    if (setError) {
+      bitcodeQaTelemetry('warn', 'wallet-auxillary', 'ethereum-set-session-failed', {
+        message: setError.message,
       });
-      if (setError) {
-        bitcodeQaTelemetry('warn', 'wallet-auxillary', 'ethereum-set-session-failed', {
-          message: setError.message,
-        });
-        return {
-          ok: false,
-          errorMessage: `Bitcode session tokens issued but browser session failed: ${setError.message}`,
-        };
-      }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
       return {
         ok: false,
-        errorMessage: `Bitcode session tokens issued but browser session failed: ${message}`,
+        errorMessage: `Bitcode session tokens issued but browser session failed: ${setError.message}`,
       };
     }
+    bitcodeQaTelemetry('info', 'wallet-auxillary', 'ethereum-session-adopted', {
+      sessionSwitched: payload?.sessionSwitched === true,
+      canonicalUserId:
+        typeof payload?.canonicalUserId === 'string'
+          ? payload.canonicalUserId.slice(0, 8)
+          : null,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    return {
+      ok: false,
+      errorMessage: `Bitcode session tokens issued but browser session failed: ${message}`,
+    };
   }
 
   const savedAddress =
