@@ -36,14 +36,18 @@ const PACK_ACTIVITY_TYPES = new Set<PackActivityType>([
   'notification',
 ]);
 
-/** Synthetic My-ownership filters + real activity types. */
+/** Synthetic My-ownership filters + real activity types (+ dual-compat DataPack ids). */
 const PACK_TYPE_FILTERS = new Set<PackActivityTypeFilter>([
   ...PACK_ACTIVITY_TYPES,
   'my-assetpacks',
+  'my-datapacks',
   'my-read-bought',
   'my-deposited-unsettled',
   'my-deposited-settled',
   'needs-payout-review',
+  // dual-compat: canon DataPack wire filters normalize in matchesPackActivityTypeFilter
+  'depository-datapack',
+  'settled-datapack',
 ]);
 
 const PACK_ACTIVITY_SORT_KEYS = new Set<PackActivitySortKey>([

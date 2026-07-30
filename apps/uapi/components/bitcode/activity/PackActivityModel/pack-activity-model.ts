@@ -9,6 +9,14 @@ import {
   toSourceSafeAssetPackCommodityStateDisplay,
   type AssetPackCommodityStateDisplay,
 } from '@bitcode/asset-packs-pipelines-domain/asset-pack-commodity-state';
+import {
+  DATA_PACK_ACTIVITY_WIRE,
+  isDepositoryDataPackActivityType,
+  isMyDataPacksOwnershipFilter,
+  isSettledDataPackActivityType,
+  matchesDataPackWireId,
+  normalizeDataPackActivityTypeToLegacy,
+} from '@bitcode/asset-packs-pipelines-domain/data-pack-wire-aliases';
 import type { AbsoluteMeasurementFilterClause } from '@/components/exchange/models/absolute-measurement-filters';
 import { measurementsMatchAbsoluteFilters } from '@/components/exchange/models/absolute-measurement-filters';
 import { descriptorForAbsoluteKind } from '@/components/exchange/models/exchange-measurement-descriptors';
@@ -154,10 +162,15 @@ export type PackActivityTypeFilter =
   | PackActivityType
   | 'all'
   | 'my-assetpacks'
+  /** dual-compat: canon ownership filter (alias of my-assetpacks). */
+  | 'my-datapacks'
   | 'my-read-bought'
   | 'my-deposited-unsettled'
   | 'my-deposited-settled'
-  | 'needs-payout-review';
+  | 'needs-payout-review'
+  /** dual-compat: canon activity type filters (normalize to legacy types). */
+  | 'depository-datapack'
+  | 'settled-datapack';
 
 export interface PackActivityFilters {
   type?: PackActivityTypeFilter;
@@ -451,19 +464,34 @@ function includesAny(text: string, tokens: string[]) {
 function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType {
   const payload = asRecord(record.payload);
   // Explicit packActivityType / activityType (settle + depository writers set these).
+  // dual-compat: accept depository-datapack / settled-datapack and normalize to
+  // legacy PackActivityType surface until the symbol cutover.
   const explicitType = findFirstString(payload, [
     'packActivityType',
     'activityType',
     'pack_activity_type',
   ]);
   if (explicitType) {
-    const normalized = explicitType.toLowerCase().replace(/_/g, '-');
+    const normalized = normalizeDataPackActivityTypeToLegacy(
+      explicitType.toLowerCase().replace(/_/g, '-'),
+    );
     if (PACK_ACTIVITY_TYPES.includes(normalized as PackActivityType)) {
       return normalized as PackActivityType;
     }
+    if (isDepositoryDataPackActivityType(normalized)) {
+      return DATA_PACK_ACTIVITY_WIRE.depository.legacy as PackActivityType;
+    }
+    if (isSettledDataPackActivityType(normalized)) {
+      return DATA_PACK_ACTIVITY_WIRE.settled.legacy as PackActivityType;
+    }
   }
   const source = findFirstString(payload, ['source']);
-  if (source === 'read-settle-asset-pack') return 'settled-assetpack';
+  if (
+    source === 'read-settle-asset-pack' ||
+    source === 'read-settle-data-pack'
+  ) {
+    return 'settled-assetpack';
+  }
   if (source === 'deposit-option-review-admission') return 'depository-assetpack';
 
   const haystack = [
@@ -481,6 +509,7 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
   if (
     includesAny(haystack, [
       'depository assetpack',
+      'depository datapack',
       'depository data pack',
       'deposit admission',
       'deposit-option-admission',
@@ -490,13 +519,27 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
     return 'depository-assetpack';
   }
   if (includesAny(haystack, ['deposit option', 'deposit-option', 'option synthesis'])) return 'deposit-option';
-  if (includesAny(haystack, ['finding fits', 'fits finding', 'read-fits', 'fit preview', 'assetpack preview'])) return 'read-need-fit-preview';
+  if (
+    includesAny(haystack, [
+      'finding fits',
+      'fits finding',
+      'read-fits',
+      'fit preview',
+      'assetpack preview',
+      'datapack preview',
+      'data pack preview',
+    ])
+  ) {
+    return 'read-need-fit-preview';
+  }
   if (
     includesAny(haystack, [
       'settled assetpack',
+      'settled datapack',
       'settled data pack',
       'settled assetpack option',
       'settle-asset-pack-pipeline',
+      'settle-data-pack-pipeline',
       'settle data packs',
       'rights transfer',
     ])
@@ -504,7 +547,10 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
     return 'settled-assetpack';
   }
   // "Settled N DataPack option(s)" — word-gap form from settle summary.
-  if (/\bsettled\b/u.test(haystack) && /\basset\s*pack/u.test(haystack)) {
+  if (
+    /\bsettled\b/u.test(haystack) &&
+    (/\basset\s*pack/u.test(haystack) || /\bdata\s*pack/u.test(haystack))
+  ) {
     return 'settled-assetpack';
   }
   if (includesAny(haystack, ['settlement', 'btc', 'finality'])) return 'settlement';
@@ -1413,23 +1459,37 @@ export function matchesPackActivityTypeFilter(
 ): boolean {
   if (!type || type === 'all') return true;
 
-  if (type === 'my-assetpacks') {
+  // dual-compat: my-datapacks ≡ my-assetpacks ownership lens.
+  if (isMyDataPacksOwnershipFilter(type) || type === 'my-assetpacks') {
     // Union: read (bought) + deposited (unsettled) + deposited (settled).
     return (
-      record.type === 'settled-assetpack' || record.type === 'depository-assetpack'
+      isSettledDataPackActivityType(record.type) ||
+      isDepositoryDataPackActivityType(record.type)
     );
   }
   if (type === 'my-read-bought') {
-    return record.type === 'settled-assetpack';
+    return isSettledDataPackActivityType(record.type);
   }
   if (type === 'my-deposited-unsettled') {
-    return record.type === 'depository-assetpack' && !depositPackLooksSettled(record);
+    return (
+      isDepositoryDataPackActivityType(record.type) && !depositPackLooksSettled(record)
+    );
   }
   if (type === 'my-deposited-settled') {
-    return record.type === 'depository-assetpack' && depositPackLooksSettled(record);
+    return (
+      isDepositoryDataPackActivityType(record.type) && depositPackLooksSettled(record)
+    );
   }
   if (type === 'needs-payout-review') {
     return packActivityNeedsPayoutReview(record);
+  }
+
+  // dual-compat: filter type=settled-datapack matches stored settled-assetpack.
+  if (matchesDataPackWireId(type, DATA_PACK_ACTIVITY_WIRE.settled)) {
+    return isSettledDataPackActivityType(record.type);
+  }
+  if (matchesDataPackWireId(type, DATA_PACK_ACTIVITY_WIRE.depository)) {
+    return isDepositoryDataPackActivityType(record.type);
   }
 
   return record.type === type;

@@ -24,10 +24,15 @@ export type PacksTypeFilter =
   | PackActivityType
   | "all"
   | "my-assetpacks"
+  /** dual-compat: canon ownership filter. */
+  | "my-datapacks"
   | "my-read-bought"
   | "my-deposited-unsettled"
   | "my-deposited-settled"
-  | "needs-payout-review";
+  | "needs-payout-review"
+  /** dual-compat: canon activity type filters. */
+  | "depository-datapack"
+  | "settled-datapack";
 
 /** Commodity + ownership filters for the Packs type control. */
 export const PACKS_TYPE_OPTIONS: Array<{
@@ -47,6 +52,7 @@ export const PACKS_TYPE_OPTIONS: Array<{
 /** Synthetic ownership filters — matched against the signed-in account's packs. */
 export const PACKS_MY_TYPE_FILTERS = new Set<PacksTypeFilter>([
   "my-assetpacks",
+  "my-datapacks",
   "my-read-bought",
   "my-deposited-unsettled",
   "my-deposited-settled",
@@ -56,6 +62,7 @@ export function isPacksMyTypeFilter(
   value: string | null | undefined,
 ): value is
   | "my-assetpacks"
+  | "my-datapacks"
   | "my-read-bought"
   | "my-deposited-unsettled"
   | "my-deposited-settled" {
@@ -69,7 +76,12 @@ export function packNeedsPayoutReview(record: {
   compensationState?: string | null;
   settlementState?: string | null;
 }): boolean {
-  if (record.type && record.type !== "settled-assetpack" && record.type !== "settlement") {
+  if (
+    record.type &&
+    record.type !== "settled-assetpack" &&
+    record.type !== "settled-datapack" &&
+    record.type !== "settlement"
+  ) {
     // Prefer settled commodity; still allow explicit payout metadata on other rows.
   }
   const meta = record.metadata || {};

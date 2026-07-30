@@ -2,6 +2,7 @@ import {
   assertPackActivitySourceSafe,
   buildPackActivityDetailProjection,
   buildPackPortfolioMarketIntelligence,
+  matchesPackActivityTypeFilter,
   normalizePackActivityRecord,
   queryPackActivityRecords,
 } from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
@@ -435,6 +436,55 @@ describe('pack-activity-model', () => {
       },
     });
     expect(record.type).toBe('settled-assetpack');
+  });
+
+  it('dual-compat: canon DataPack wire ids normalize and filter like legacy AssetPack ids', () => {
+    const settledCanon = normalizePackActivityRecord({
+      id: 'exec-settle-canon',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      title: 'Settled DataPack',
+      summary: 'Settled DataPack option',
+      timestamp: '2026-07-01T00:00:00.000Z',
+      state: 'settled',
+      read: null,
+      payload: {
+        packActivityType: 'settled-datapack',
+        activityType: 'settled-datapack',
+        title: 'Canon settle pack',
+      },
+    });
+    const depositoryCanon = normalizePackActivityRecord({
+      id: 'exec-dep-canon',
+      kind: 'execution',
+      scope: 'network',
+      channel: 'system-surface',
+      title: 'Depository DataPack',
+      summary: 'Admitted to depository',
+      timestamp: '2026-07-01T00:00:00.000Z',
+      state: 'admitted',
+      read: null,
+      payload: {
+        packActivityType: 'depository-datapack',
+        activityType: 'depository-datapack',
+        title: 'Canon depository pack',
+      },
+    });
+    expect(settledCanon.type).toBe('settled-assetpack');
+    expect(depositoryCanon.type).toBe('depository-assetpack');
+    expect(
+      matchesPackActivityTypeFilter(settledCanon, 'settled-datapack'),
+    ).toBe(true);
+    expect(
+      matchesPackActivityTypeFilter(settledCanon, 'settled-assetpack'),
+    ).toBe(true);
+    expect(
+      matchesPackActivityTypeFilter(depositoryCanon, 'depository-datapack'),
+    ).toBe(true);
+    expect(
+      matchesPackActivityTypeFilter(depositoryCanon, 'my-datapacks'),
+    ).toBe(true);
   });
 
   it('supports My DataPacks ownership filters: bought, deposited unsettled, deposited settled', () => {

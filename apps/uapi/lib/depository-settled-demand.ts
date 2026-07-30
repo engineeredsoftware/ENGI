@@ -59,7 +59,9 @@ function packFromExecutionRow(row: Record<string, unknown>): SettledDepositoryPa
   const admitted =
     lifecycle === 'settled' ||
     lifecycle === 'admitted-to-depository' ||
+    // dual-compat: settled-assetpack | settled-datapack
     asString(row.type) === 'settled-assetpack' ||
+    asString(row.type) === 'settled-datapack' ||
     asString(context.source) === 'deposit-option-review-admission';
   if (!admitted) return null;
 
@@ -241,7 +243,9 @@ export async function loadSettledDepositoryPacks(
         [
           'context->>admissionState.eq.admitted-to-depository',
           'context->>source.eq.deposit-option-review-admission',
+          // dual-compat: AssetPack → DataPack activity type ids
           'type.eq.settled-assetpack',
+          'type.eq.settled-datapack',
           'context->>settlementState.eq.settled',
         ].join(','),
       )

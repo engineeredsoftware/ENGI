@@ -35,6 +35,7 @@ export const TRUSTED_PIPELINE_HOST_COMMAND_ENV_KEYS = [
   'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
   'BITCODE_LLM_PROVIDER',
   'BITCODE_LLM_MODEL',
+  // dual-compat: BITCODE_DATA_PACK_* (canon) + BITCODE_ASSET_PACK_* (legacy)
   'BITCODE_ASSET_PACK_REAL_INFERENCE',
   'BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE',
   'BITCODE_ASSET_PACK_SETUP_PLAN_USE_PTRR',
@@ -46,6 +47,17 @@ export const TRUSTED_PIPELINE_HOST_COMMAND_ENV_KEYS = [
   'BITCODE_ASSET_PACK_READY_TO_INSTRUCT_USE_PTRR',
   'BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR',
   'BITCODE_ASSET_PACK_FINISH_DELIVER_USE_PTRR',
+  'BITCODE_DATA_PACK_REAL_INFERENCE',
+  'BITCODE_DATA_PACK_REAL_INFERENCE_PROFILE',
+  'BITCODE_DATA_PACK_SETUP_PLAN_USE_PTRR',
+  'BITCODE_DATA_PACK_COMPREHEND_READ_USE_PTRR',
+  'BITCODE_DATA_PACK_DANGER_WALL_USE_PTRR',
+  'BITCODE_DATA_PACK_DISCOVERY_USE_PTRR',
+  'BITCODE_DATA_PACK_SYNTHESIS_USE_PTRR',
+  'BITCODE_DATA_PACK_VALIDATION_USE_PTRR',
+  'BITCODE_DATA_PACK_READY_TO_INSTRUCT_USE_PTRR',
+  'BITCODE_DATA_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR',
+  'BITCODE_DATA_PACK_FINISH_DELIVER_USE_PTRR',
   'BITCODE_PIPELINE_HOST_MAX_RUNTIME_MS',
   'BITCODE_PIPELINE_HOST_REQUIRE_REAL_INFERENCE',
   'BITCODE_PIPELINE_BTC_NETWORK',
@@ -67,6 +79,25 @@ export const TRUSTED_PIPELINE_HOST_COMMAND_ENV_KEYS = [
  * Applies product defaults (real inference on, xAI preferred) and production
  * preflight asserts for database streaming + real-inference credentials.
  */
+/**
+ * dual-compat: when only BITCODE_DATA_PACK_* is set, mirror onto legacy
+ * BITCODE_ASSET_PACK_* so in-box readers that still check legacy keys work.
+ */
+function mirrorDataPackEnvDualCompat(env: Record<string, string>): void {
+  const prefixCanon = 'BITCODE_DATA_PACK_';
+  const prefixLegacy = 'BITCODE_ASSET_PACK_';
+  for (const [key, value] of Object.entries(env)) {
+    if (!key.startsWith(prefixCanon) || !value) continue;
+    const legacyKey = `${prefixLegacy}${key.slice(prefixCanon.length)}`;
+    if (!env[legacyKey]) env[legacyKey] = value;
+  }
+  for (const [key, value] of Object.entries(env)) {
+    if (!key.startsWith(prefixLegacy) || !value) continue;
+    const canonKey = `${prefixCanon}${key.slice(prefixLegacy.length)}`;
+    if (!env[canonKey]) env[canonKey] = value;
+  }
+}
+
 export function selectedPipelineHostCommandEnvironment(
   userId: string,
 ): Record<string, string> {
@@ -77,6 +108,7 @@ export function selectedPipelineHostCommandEnvironment(
       env[key] = value;
     }
   }
+  mirrorDataPackEnvDualCompat(env);
 
   if (!env.SUPABASE_URL && env.NEXT_PUBLIC_SUPABASE_URL) {
     env.SUPABASE_URL = env.NEXT_PUBLIC_SUPABASE_URL;

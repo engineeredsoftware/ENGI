@@ -82,23 +82,30 @@ Ledger language is **journal**. Agent packages may still say `execution-generics
 
 ### 2.2 Backend / wire naming scope (AssetPack → DataPack)
 
-Backend rename is **not** the same pass as product UI. Inventory (order of magnitude):
+**Status (V48):** dual-compat migration **chartered and in progress**. Product
+language is DataPack; short UI **Packs** chips and `/api/packs/*` remain.
+On-chain Solidity ABI names and frozen SQL migrations are **not** rewritten.
 
-| Layer | Examples | Rename cost | This product pass |
+SSOT dual-read helpers: `@bitcode/asset-packs-pipelines-domain/data-pack-wire-aliases`
+(path will move with package rename).
+
+| Layer | Examples | Rename cost | Status |
 | --- | --- | --- | --- |
-| **npm packages** | `@bitcode/asset-packs-pipelines-*`, `generic-asset-packs/*` | High — workspace renames + all imports | **Hold** |
-| **TS exports** | `buildAssetPackSandboxHostPlan`, `AssetPackCommodityState*`, `DepositAssetPackOption` | High — dual export period | **Hold** (call sites keep package names) |
-| **HTTP routes** | `/api/packs/*`, `/api/pipeline-host/asset-pack`, `/api/btd/asset-pack-*` | Medium — dual routes + clients | **Hold** |
-| **Env** | `BITCODE_ASSET_PACK_*` | Medium — host/sandbox allowlists + deploy | **Hold** |
-| **DB / storage** | `asset_pack_*` tables/columns/buckets, migration history | **Very high** — dual-write/read migrations | **Hold** |
-| **Wire type ids** | `depository-assetpack`, `my-assetpacks`, `settled-assetpack` | High — stored activity + filters | **Hold** ids; **UI labels** already DataPacks |
-| **MCP / ChatGPT / BTD schemas** | `deliver_asset_pack`, `synthesize-asset-packs-for-deposit` | High — external contract | **Hold** |
-| **Prompts** | ~400 `AssetPack` hits under `packages/prompts` | Medium — generation quality | Follow-up with prompt versioning |
-| **Pipeline hosts / Pipeliner image** | materialize paths, host plan mode `asset_pack_pipeline` | Medium — image rebuild | With package rename |
+| **Wire type ids** | `depository-assetpack` ↔ `depository-datapack`, `settled-*`, `my-assetpacks` ↔ `my-datapacks` | High — stored activity | **Dual-read in progress** (write still legacy until cutover) |
+| **Env** | `BITCODE_ASSET_PACK_*` ↔ `BITCODE_DATA_PACK_*` | Medium — host/sandbox allowlists | **Dual-accept in progress** |
+| **npm packages** | `@bitcode/asset-packs-pipelines-*` → `@bitcode/data-packs-*` | High — workspace renames + all imports | **Next** (with monorepo consumer update) |
+| **TS exports / symbols** | `AssetPack*` → `DataPack*` | High | **Next** (after dual-read green) |
+| **HTTP routes** | `/api/packs/*` **keep**; dual `/api/pipeline-host/data-pack`, `/api/btd/data-pack-*`, optional `/api/exchange/activity` | Medium | **Planned dual** |
+| **DB / storage** | `btd_asset_pack_*` + new views `btd_data_pack_*`; never rewrite frozen migrations | Very high | **Planned** new migration only |
+| **MCP / ChatGPT / BTD schemas** | `deliver_asset_pack` + `deliver_data_pack` aliases | High — external contract | **Planned dual** |
+| **Prompts** | AssetPack prose/files → DataPack | Medium | **Planned** |
+| **Pipeline hosts / Pipeliner** | `asset_pack_pipeline` ↔ `data_pack_pipeline` | Medium | **Planned dual** |
+| **On-chain Solidity** | `registerAssetPack`, events | ABI permanent | **Hold** (TS wrappers may say DataPack) |
 
-**Future backend migration (when chartered):** dual-read period → rename packages → dual HTTP aliases → env aliases → DB migration with dual columns or view mapping → drop AssetPack after QA. Never rewrite frozen migrations in place.
-
-**Product UI pass (this work):** labels and experience names only; adapters keep importing AssetPack package APIs.
+**Migration sequence:** dual-read wire/UI → dual env → rename packages → symbol
+codemod → dual HTTP → DB views/dual-read → prompts → drop legacy after QA.
+Never rewrite frozen migrations in place. Never drop dual-read until staging
+Exchange historical filters are proven green.
 
 ---
 

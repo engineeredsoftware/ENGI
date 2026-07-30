@@ -135,16 +135,38 @@ function formatExecutionHistoryTitle(
   const packActivityType = String(
     context?.packActivityType || context?.activityType || '',
   ).toLowerCase();
-  if (packActivityType === 'settled-assetpack') return 'Settled DataPack';
-  if (packActivityType === 'depository-assetpack') return 'Depository DataPack';
+  // dual-compat: settled-assetpack | settled-datapack, depository-*.
+  if (
+    packActivityType === 'settled-assetpack' ||
+    packActivityType === 'settled-datapack'
+  ) {
+    return 'Settled DataPack';
+  }
+  if (
+    packActivityType === 'depository-assetpack' ||
+    packActivityType === 'depository-datapack'
+  ) {
+    return 'Depository DataPack';
+  }
   const source = String(context?.source || '').toLowerCase();
-  if (source === 'read-settle-asset-pack') return 'Settled DataPack';
+  if (
+    source === 'read-settle-asset-pack' ||
+    source === 'read-settle-data-pack'
+  ) {
+    return 'Settled DataPack';
+  }
   if (source === 'deposit-option-review-admission') return 'Depository DataPack';
   const normalizedType = String(type || '').trim().toLowerCase();
   if (!normalizedType) return 'Execution activity';
   if (normalizedType.includes('measure')) return 'Read measurement execution';
   if (normalizedType.includes('proof')) return 'Proof execution';
-  if (normalizedType.includes('asset-pack') || normalizedType.includes('shippable')) return 'DataPack execution';
+  if (
+    normalizedType.includes('asset-pack') ||
+    normalizedType.includes('data-pack') ||
+    normalizedType.includes('shippable')
+  ) {
+    return 'DataPack execution';
+  }
   if (normalizedType.includes('pipeline')) return 'Pipeline execution';
   return 'Execution activity';
 }
@@ -261,11 +283,21 @@ export function inferExecutionHistoryScope(
   const type = String(row.type || '');
   if (type.includes('settlement') || type.includes('settled')) return 'network';
   const source = String(context.source || '');
-  if (source === 'read-settle-asset-pack' || source === 'deposit-option-review-admission') {
+  if (
+    source === 'read-settle-asset-pack' ||
+    source === 'read-settle-data-pack' ||
+    source === 'deposit-option-review-admission'
+  ) {
     return 'network';
   }
   const packActivityType = String(context.packActivityType || context.activityType || '');
-  if (packActivityType === 'depository-assetpack' || packActivityType === 'settled-assetpack') {
+  // dual-compat: AssetPack + DataPack activity type ids
+  if (
+    packActivityType === 'depository-assetpack' ||
+    packActivityType === 'depository-datapack' ||
+    packActivityType === 'settled-assetpack' ||
+    packActivityType === 'settled-datapack'
+  ) {
     return 'network';
   }
   return 'personal';
