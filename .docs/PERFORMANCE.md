@@ -14,6 +14,21 @@ Never optimize based on assumptions. The bottleneck is rarely where you think it
 
 ## Critical Performance Patterns in Bitcode
 
+### Product surfaces (pipeline telemetry + deposit review, 2026)
+
+Living launch surfaces under `/deposits`, `/reads`, and shared pipeline chrome:
+
+| Hot path | Law | Primary files |
+| --- | --- | --- |
+| Pipeline log stall clock | 1s tick only re-renders stall chrome, not every completed row | `PipelineExecutionLog.tsx` → `PipelineProcessingStallChrome` |
+| Elapsed run-start | Compute once per `flatLines` / `startedAtMs` snapshot, not per row | `resolvedRunStartMs` useMemo |
+| Absolute expand (65 kinds) | Memoize by `option.measurements` (or pre-expand at hydrate) | `DepositOptionCard.tsx` |
+| QuantumOrb particles | Skip draw when tab hidden; honor reduced motion | `ParticleLayer.tsx` |
+| Marketing continuous paint | Mouse glow rAF-throttled; ambient particles `motion-reduce` / laptop+ gated | `MarketingLandingPage.tsx`, hero ParticleEffect |
+
+Spec/parity: `BITCODE_SPEC_V48_NOTES.md` § Client pipeline + deposit review
+performance law; parity matrix row **Client product surface performance**.
+
 ### Dynamic Import Prefetching
 
 **Pattern**: Prefetch heavy components during idle time

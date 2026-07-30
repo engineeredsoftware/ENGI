@@ -655,6 +655,32 @@ era-pinned via `era-pinned-v28-layout.js` (skip with reason under V48 layout —
 do not rewrite). When the next draft lands, era-pin V48 and add `test:v{N}-mvp-qa`
 as the sole living script.
 
+### Client pipeline + deposit review performance law (2026-07-30)
+
+Product law (impl-facing, launch readiness) for interactive client surfaces:
+
+1. **Telemetry log list** — The processing stall clock must not re-render every
+   completed LLM/tool row every second. Elapsed-from-run-start is computed once
+   per output snapshot, not scanned per row. Prefer list virtualization only if
+   tick isolation + memoization is insufficient for multi-hour runs.
+
+2. **Absolute catalogue expand** — Expanding partial measurements to the full
+   commercial catalogue (`DATA_PACK_ABSOLUTES_CATALOG`, Σ weights = 1) is pure
+   and expensive relative to paint; option cards must not re-expand on every
+   parent re-render. Memoize by measurements identity or precompute at hydrate.
+
+3. **Continuous effects** — QuantumOrb/ParticleLayer loops skip work when
+   `document.visibilityState === 'hidden'` and honor `prefers-reduced-motion`.
+   Marketing mouse-glow and ambient particles stay non-phone / reduced-motion
+   gated where already wired.
+
+4. **Proof** — Living unit tests for pipeline log UX + deposit option paths
+   remain green; full `pnpm run ci:local` before commit.
+
+Not a new product gate number: records launch UX quality alongside existing
+rich telemetry laws (QA F19 log contract, pill tooltips). Parity row:
+`Client product surface performance` in `BITCODE_SPEC_V48_PARITY_MATRIX.md`.
+
 ### Deposit/Read product-surface presentation laws (Garrett, 2026-07-04)
 
 The 2026-07-04 UI wave on the product surfaces (/deposits, /reads, and the
