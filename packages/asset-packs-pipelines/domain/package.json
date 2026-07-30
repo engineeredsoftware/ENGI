@@ -11,6 +11,7 @@
     "./btd-btc-compensation-statements": "./src/btd-btc-compensation-statements.ts",
     "./asset-pack-commodity-state": "./src/asset-pack-commodity-state.ts",
     "./btd-scalar-volume-quote": "./src/btd-scalar-volume-quote.ts",
+    "./data-pack-wire-aliases": "./src/data-pack-wire-aliases.ts",
     "./organization-policy-wallet-authority": "./src/organization-policy-wallet-authority.ts"
   },
   "scripts": {
