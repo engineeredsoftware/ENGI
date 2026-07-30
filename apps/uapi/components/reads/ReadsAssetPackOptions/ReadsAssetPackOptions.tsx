@@ -57,6 +57,14 @@ export function ReadsAssetPackOptions(props: {
   onRefreshQuote?: () => void;
   /** Connected buyer Ethereum address (0x…). */
   buyerEthereumAddress?: string | null;
+  /**
+   * Measurement-only buy gate (needinesses + absolute gates).
+   * When false, quote/settle must not proceed.
+   */
+  measurementGateAllowed?: boolean;
+  measurementGateCaution?: boolean;
+  measurementGateBlockers?: string[];
+  measurementGateCautions?: string[];
 }) {
   const {
     options,
@@ -74,6 +82,10 @@ export function ReadsAssetPackOptions(props: {
     quoteError = null,
     onRefreshQuote,
     buyerEthereumAddress = null,
+    measurementGateAllowed = true,
+    measurementGateCaution = false,
+    measurementGateBlockers = [],
+    measurementGateCautions = [],
   } = props;
 
   const hasOptions = options.length > 0;
@@ -81,8 +93,13 @@ export function ReadsAssetPackOptions(props: {
   const selectedRail = quote?.options.find((o) => o.payAsset === payAsset) ?? null;
   const railAvailable = selectedRail?.available !== false;
   // Projected multi-rail settle is allowed for all three rails (ETH P0 live path).
+  // Measurement-only buy gate: need-fit + safety (do_not_buy / cannot_assess block).
   const canSettle =
-    hasSelection && !settleBusy && !quoteBusy && railAvailable;
+    hasSelection &&
+    !settleBusy &&
+    !quoteBusy &&
+    railAvailable &&
+    measurementGateAllowed;
 
   const rails: Array<{
     asset: ReadPayAsset;
@@ -265,6 +282,46 @@ export function ReadsAssetPackOptions(props: {
               ) : null}
             </div>
           </div>
+
+          {hasSelection && !measurementGateAllowed ? (
+            <div
+              className="border border-rose-400/35 bg-rose-500/10 px-3 py-2 text-[0.75rem] leading-5 text-rose-50"
+              data-testid="reads-measurement-gate-block"
+              role="alert"
+            >
+              <p className="font-medium">
+                Settle blocked (measurement-only buy gate)
+              </p>
+              <ul className="mt-1 list-disc space-y-0.5 pl-4">
+                {(measurementGateBlockers.length
+                  ? measurementGateBlockers
+                  : ["Selected options fail need-fit or safety measurements."]
+                )
+                  .slice(0, 5)
+                  .map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+              </ul>
+              <p className="mt-1 text-[0.7rem] text-rose-100/80">
+                Needinesses (*-fit) price BTD volume; safety gates can hard-block.
+                Review option cards above.
+              </p>
+            </div>
+          ) : null}
+
+          {hasSelection && measurementGateAllowed && measurementGateCaution ? (
+            <div
+              className="border border-amber-400/35 bg-amber-500/10 px-3 py-2 text-[0.75rem] leading-5 text-amber-50"
+              data-testid="reads-measurement-gate-caution"
+            >
+              <p className="font-medium">Buy with caution</p>
+              <ul className="mt-1 list-disc space-y-0.5 pl-4">
+                {measurementGateCautions.slice(0, 4).map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
 
           <div className="flex flex-wrap items-center gap-3">
             <button

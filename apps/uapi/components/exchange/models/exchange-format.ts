@@ -123,7 +123,7 @@ export const PACKS_FACET_FILTERS = [
 ] as const;
 
 /**
- * Absolute-kind filter options for Exchange — full target vocabulary (46 kinds).
+ * Absolute-kind filter options for Exchange — full commercial catalogue (65 kinds).
  * SSOT: DATA_PACK_ABSOLUTE_KIND_SPECS via DATA_PACK_ABSOLUTE_KIND_SELECT_OPTIONS.
  * Do not hand-maintain this list.
  */

@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 /**
- * Backfill admitted execution activity measurements to full 46-kind catalogue.
+ * Backfill admitted execution activity measurements to full 65-kind catalogue.
  *
  * Sources volumes from depository_search_documents when present, else expands
  * partial measurements on the execution output with SSOT weights.

@@ -48,13 +48,13 @@ export type DepositoryAbsoluteFilters = {
 export type ExtractedAbsoluteFacets = {
   kinds: string[];
   volumes: Record<string, number>;
-  /** Weighted Σ(weight×volume) over full 46 commercial catalog; 0 when no volumes. */
+  /** Weighted Σ(weight×volume) over full 65 commercial catalog; 0 when no volumes. */
   composite: number;
   /** Count of catalogue kinds with a finite volume. */
   weightedMeasuredCount: number;
 };
 
-/** Commercial weights for all 46 kinds (Σ = 1). */
+/** Commercial weights for all 65 kinds (Σ = 1). */
 const CATALOG_WEIGHTS: Record<string, number> = Object.fromEntries(
   DATA_PACK_ABSOLUTES_CATALOG.map((row) => [row.measurementKind, row.weight]),
 );

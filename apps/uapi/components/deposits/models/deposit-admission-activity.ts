@@ -40,7 +40,7 @@ export type DepositAdmissionAbsoluteMeasurement = {
 export function optionAbsoluteKnowledgeVolume(
   option: DepositAssetPackOption | null | undefined,
 ): number {
-  // Composite over full 46-kind catalogue with SSOT weights (legacy partial bags expand first).
+  // Composite over full 65-kind catalogue with SSOT weights (legacy partial bags expand first).
   const absolutes = expandAbsoluteMeasurementsToFullCatalog(
     ((option?.measurements || []).filter(
       (m) => !m.category || m.category === "absolute",

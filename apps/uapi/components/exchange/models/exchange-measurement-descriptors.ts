@@ -1,6 +1,6 @@
 /**
  * Buyer-facing absolute labels/units/descriptors — SSOT from
- * DATA_PACK_ABSOLUTES_CATALOG (all 46 commercial kinds, Σ weights = 1).
+ * DATA_PACK_ABSOLUTES_CATALOG (all 65 commercial kinds, Σ weights = 1).
  *
  * Prefer measure-time instance `descriptor` on the reading when present.
  * Never raw source.
@@ -84,7 +84,7 @@ function rowFromSpec(spec: DataPackAbsoluteKindSpec): AbsoluteMeasurementBuyerDe
   };
 }
 
-/** Full 46-kind buyer descriptor map (SSOT order). */
+/** Full 65-kind buyer descriptor map (SSOT order). */
 export const ABSOLUTE_MEASUREMENT_BUYER_DESCRIPTORS: Record<
   string,
   AbsoluteMeasurementBuyerDescriptor

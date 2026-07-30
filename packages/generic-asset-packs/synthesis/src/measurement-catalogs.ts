@@ -1,7 +1,7 @@
 /**
  * DataPack synthesis catalogs.
  *
- * **Absolutes (law):** `DATA_PACK_ABSOLUTES_CATALOG` — **all 46 kinds**, each weighted,
+ * **Absolutes (law):** `DATA_PACK_ABSOLUTES_CATALOG` — **all 65 kinds**, each weighted,
  * **Σ weights = 1**. There is no separate 11-kind commercial subset (legacy).
  * SSOT: `@bitcode/generic-measurements-domain-data-pack-absolutes-catalog`.
  *
@@ -34,7 +34,7 @@ export {
 import { DATA_PACK_ABSOLUTES_CATALOG as _CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 
 /**
- * Product MeasureAgent specs for all 46 commercial absolute kinds.
+ * Product MeasureAgent specs for all 65 commercial absolute kinds.
  * propertyClass maps non-quantity/quality families onto quantity|quality for the
  * existing MeasureAgent schema (verification/provenance/hygiene/value → quantity
  * for tool-grounded; quality stays quality).

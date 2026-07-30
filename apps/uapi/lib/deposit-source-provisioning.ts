@@ -538,7 +538,7 @@ export async function runDepositInBoxHost(input: {
       const top = Array.isArray(record.absolutes) ? (record.absolutes as unknown[]) : null;
       let absolutes =
         top && top.length > 0 ? top : nested && nested.length > 0 ? nested : top || nested || [];
-      // Expand to full 46 commercial catalogue (SSOT weights) before product projection.
+      // Expand to full 65 commercial catalogue (SSOT weights) before product projection.
       try {
         const {
           expandAbsoluteMeasurementsToFullCatalog,

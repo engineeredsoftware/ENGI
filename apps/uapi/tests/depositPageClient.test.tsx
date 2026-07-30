@@ -801,7 +801,7 @@ describe("DepositPageClient", () => {
     ).toHaveTextContent("DataPack synthesis");
     expect(
       screen.getByTestId("deposit-synthesis-inference"),
-    ).toHaveTextContent("46 commercial absolutes");
+    ).toHaveTextContent("65 commercial absolutes");
     expect(
       screen.getByTestId("deposit-synthesis-inference"),
     ).toHaveTextContent("5,421 tokens");

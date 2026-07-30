@@ -1,5 +1,5 @@
 /**
- * Expand absolute volume maps to commercial catalogue law (all 46 kinds).
+ * Expand absolute volume maps to commercial catalogue law (all 65 kinds).
  * Browser-safe pure module — no measure-agent / Node imports.
  */
 
@@ -92,7 +92,7 @@ export function mergeAbsoluteVolumeMaps(
 }
 
 /**
- * Expand any partial volume map to the full commercial catalogue (46).
+ * Expand any partial volume map to the full commercial catalogue (65).
  * Missing kinds → volume 0 (honest insufficient evidence, still present).
  */
 export function expandAbsoluteVolumesToFullCatalog(

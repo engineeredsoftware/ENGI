@@ -1,5 +1,6 @@
 import {
   ABSOLUTE_FILTER_CLAUSE_LIMIT,
+  EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS,
   clampAbsoluteVolume,
   compareAbsoluteVolume,
   formatAbsoluteMeasurementFilterClause,
@@ -12,6 +13,23 @@ import { filterPackActivityRecords } from '@/components/bitcode/activity/PackAct
 import type { PackActivityRecord } from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
 
 describe('absolute-measurement-filters', () => {
+  it('exports commercial buy/no-buy facet presets for Exchange quick filters', () => {
+    expect(EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS.length).toBeGreaterThanOrEqual(6);
+    const kinds = EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS.map((p) => p.kind);
+    expect(kinds).toEqual(
+      expect.arrayContaining([
+        'secret-safety',
+        'license-cleanliness',
+        'correctness-estimate',
+        'copyleft-risk-mass',
+      ]),
+    );
+    for (const p of EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS) {
+      expect(p.volume).toBeGreaterThanOrEqual(0);
+      expect(p.volume).toBeLessThanOrEqual(1);
+    }
+  });
+
   it('parses multi-clause absoluteFilters URL segments', () => {
     const clauses = parseAbsoluteMeasurementFilters(
       'function-count:gte:0.4,test-surface:lt:0.2,file-span:eq:0.5',

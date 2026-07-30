@@ -162,7 +162,7 @@ export const PACKS_FILTER_EXPLAINERS = {
     points: [
       'Ops: gt, gte, lt, lte, eq on absolute volume 0..1',
       'Multi-clause AND — stack several measurements',
-      'Full catalogue (46 kinds) — not a hand list',
+      'Full catalogue (65 kinds) — not a hand list',
       'Combines with free-text search and economic facets',
     ],
     references: {

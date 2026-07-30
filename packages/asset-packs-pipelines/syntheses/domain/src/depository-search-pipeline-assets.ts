@@ -33,7 +33,7 @@ export function absoluteKindQueryHints(assets: DepositoryAsset[], max = 8): stri
       counts.set(kind, (counts.get(kind) || 0) + 1);
     }
   }
-  // Frequency order among commercial catalogue kinds (all 46 are law).
+  // Frequency order among commercial catalogue kinds (all 65 are law).
   return [...counts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .map(([kind]) => kind)

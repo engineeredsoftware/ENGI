@@ -53,6 +53,7 @@ import {
   buildReadProcurementRows,
   buildReadSessionRows,
 } from "@/components/reads/models/read-route-rows";
+import { assessSelectedOptionsForSettle } from "@/components/reads/models/read-buyer-measurement-projection";
 import { useUserData } from "@/hooks/useUserData";
 import { isPlausibleEthereumAddress } from "@bitcode/auth/ethereum-wallet-client";
 
@@ -167,10 +168,24 @@ export default function ReadPageClient() {
     [synthesis.options, synthesis.selectedIndexes],
   );
 
+  const settleMeasurementGate = useMemo(
+    () => assessSelectedOptionsForSettle(selectedOptions),
+    [selectedOptions],
+  );
+
   const fetchSettleQuote = useCallback(async () => {
     if (selectedOptions.length === 0) {
       setQuote(null);
       setQuoteError(null);
+      return;
+    }
+    const gate = assessSelectedOptionsForSettle(selectedOptions);
+    if (!gate.allowed) {
+      setQuote(null);
+      setQuoteError(
+        gate.blockers[0] ||
+          "Measurement-only buy gate blocked quote (need-fit / safety).",
+      );
       return;
     }
     setQuoteBusy(true);
@@ -220,6 +235,14 @@ export default function ReadPageClient() {
 
   const handleSettleSelected = useCallback(async () => {
     if (selectedOptions.length === 0) return;
+    const gate = assessSelectedOptionsForSettle(selectedOptions);
+    if (!gate.allowed) {
+      setSettleError(
+        gate.blockers[0] ||
+          "Measurement-only buy gate blocked settle (need-fit / safety).",
+      );
+      return;
+    }
     setSettleBusy(true);
     setSettleError(null);
     setSettleMessage(null);
@@ -297,6 +320,7 @@ export default function ReadPageClient() {
     repositoryContext?.selectedRepository?.fullName,
     repositoryContext?.selectedRepository?.name,
     repositoryContext?.selectedRepository?.owner,
+    selectedOptions,
     synthesis.selectedIndexes,
     synthesis.runId,
   ]);
@@ -609,6 +633,10 @@ export default function ReadPageClient() {
               quoteError={quoteError}
               onRefreshQuote={() => void fetchSettleQuote()}
               buyerEthereumAddress={buyerEthereumAddress}
+              measurementGateAllowed={settleMeasurementGate.allowed}
+              measurementGateCaution={settleMeasurementGate.caution}
+              measurementGateBlockers={settleMeasurementGate.blockers}
+              measurementGateCautions={settleMeasurementGate.cautions}
             />
           </div>
 

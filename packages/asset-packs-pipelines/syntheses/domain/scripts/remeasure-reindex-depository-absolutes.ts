@@ -455,7 +455,7 @@ async function main() {
         dryRun: opts.dryRun,
         depositorySearchDocumentsCount: verifyCount,
         note:
-          'absolute_kinds/volumes expanded to full 46 commercial catalogue; embeddings left pending (re-embed via index job when Edge embed is up).',
+          'absolute_kinds/volumes expanded to full 65 commercial catalogue; embeddings left pending (re-embed via index job when Edge embed is up).',
         sample,
       },
       null,

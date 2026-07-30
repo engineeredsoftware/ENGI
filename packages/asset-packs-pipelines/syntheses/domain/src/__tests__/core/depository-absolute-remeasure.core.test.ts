@@ -7,8 +7,8 @@ import {
 import { remeasureDataPackAbsoluteFacets } from '../../depository-absolute-remeasure';
 import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 
-describe('CORE: depository absolute remeasure / expand (46-kind law)', () => {
-  it('expands partial volumes to all 46 kinds (missing → 0)', () => {
+describe('CORE: depository absolute remeasure / expand (65-kind law)', () => {
+  it('expands partial volumes to all 65 kinds (missing → 0)', () => {
     const expanded = expandAbsoluteVolumesToFullCatalog({
       'function-count': 0.5,
       'lang-span': 0.25,
@@ -83,7 +83,7 @@ describe('CORE: depository absolute remeasure / expand (46-kind law)', () => {
     expect(result.absoluteVolumes['file-span']).toBeGreaterThan(0);
   });
 
-  it('expanded-only when no DataPack surface (still full 46)', () => {
+  it('expanded-only when no DataPack surface (still full 65)', () => {
     const result = remeasureDataPackAbsoluteFacets({
       priorVolumes: { 'api-surface': 0.4 },
     });

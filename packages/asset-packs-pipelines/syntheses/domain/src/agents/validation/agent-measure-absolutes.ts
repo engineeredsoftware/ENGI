@@ -332,9 +332,15 @@ function buildMeasurement(
   const measuredFromSamples = structure?.measuredFromSamples === true;
   let status: AssetPackCandidateMeasurement['status'] = reading.status;
   if (!status) {
-    // Structure quantities from samples → measured; path-only heuristic → estimated.
+    // Structure quantities from samples → measured (incl. true zeros).
+    // Path-only quantity heuristic → estimated only when volume > 0; else insufficient.
+    // Quality/other: never claim estimated with volume 0 (buyer honesty).
     if (spec.propertyClass === 'quantity') {
-      status = measuredFromSamples ? 'measured' : 'estimated';
+      if (measuredFromSamples) {
+        status = 'measured';
+      } else {
+        status = volume > 0 ? 'estimated' : 'insufficient_evidence';
+      }
     } else if (volume > 0) {
       status = 'estimated';
     } else {
@@ -458,10 +464,42 @@ export function mergeReportAndReadings(
         volume: nextVolume,
         magnitude: nextVolume,
         descriptor,
-        status: 'estimated' as const,
+        // Quality agent volumes are estimates; zero is not a measured clean score.
+        status: nextVolume > 0 ? ('estimated' as const) : ('insufficient_evidence' as const),
       };
     }
     return measurement;
+  });
+}
+
+/**
+ * Buyer-facing honesty pass: never leave volume-0 rows as `estimated`
+ * (looks like a soft quality claim). Prefer insufficient_evidence.
+ * Does not downgrade `measured` or rewrite non-zero estimated scores.
+ */
+export function normalizeAbsoluteHonestyStatuses(
+  absolutes: AssetPackCandidateMeasurement[],
+): AssetPackCandidateMeasurement[] {
+  return (absolutes || []).map((row) => {
+    const volume =
+      typeof row.volume === 'number' && Number.isFinite(row.volume) ? row.volume : 0;
+    const status = row.status;
+    if (status === 'measured' || status === 'expanded-fill') return row;
+    if (
+      status === 'insufficient_evidence' ||
+      status === 'not_run' ||
+      status === 'not_implemented'
+    ) {
+      return row;
+    }
+    // estimated | missing | unknown
+    if (volume <= 0) {
+      return { ...row, status: 'insufficient_evidence' as const };
+    }
+    if (!status) {
+      return { ...row, status: 'estimated' as const };
+    }
+    return row;
   });
 }
 
@@ -517,6 +555,7 @@ function finishMeasureResult(
   report: StaticAnalysisReport,
   context: MeasureDataPackAbsolutesContext,
 ): MeasureDataPackAbsolutesAndIdentityResult {
+  const honestAbsolutes = normalizeAbsoluteHonestyStatuses(absolutes);
   const bodyCount = Array.isArray(context.sources) ? context.sources.length : 0;
   const covered =
     report.targetFileCount ||
@@ -526,9 +565,9 @@ function finishMeasureResult(
     measuredFromBodies: bodyCount,
     coveredPathCount: covered,
     bodyCoverageRatio: report.coverageRatio,
-    absolutes,
+    absolutes: honestAbsolutes,
   });
-  return { absolutes, materialIdentity, measureReport };
+  return { absolutes: honestAbsolutes, materialIdentity, measureReport };
 }
 
 export async function measureDataPackAbsolutesAndIdentity(

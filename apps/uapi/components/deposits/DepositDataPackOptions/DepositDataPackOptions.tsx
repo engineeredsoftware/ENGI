@@ -76,7 +76,7 @@ export function DepositDataPackOptions(props: DepositDataPackOptionsProps) {
             ? ` · ${realSynthesis.synthesis.exclusionPosture.impermissibleSourceCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
             : ""}
           {" · "}
-          46 commercial absolutes (Σ weights = 1)
+          65 commercial absolutes (Σ weights = 1)
         </p>
       ) : null}
 

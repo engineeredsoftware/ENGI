@@ -25,6 +25,7 @@ import {
   type SettleRepositoryRef,
 } from '@bitcode/asset-packs-pipelines-execution-pipeline-simple-settle-asset-pack';
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain';
+import { assessSelectedOptionsForSettle } from '@/components/reads/models/read-buyer-measurement-projection';
 
 export const runtime = 'nodejs';
 export const maxDuration = 120;
@@ -426,6 +427,47 @@ export async function POST(request: Request) {
     }
     selectedOptions.push(parsed);
   }
+
+  // Measurement-only buy gate (needinesses + absolute safety) — fail closed server-side.
+  const measurementGate = assessSelectedOptionsForSettle(
+    selectedOptions.map((opt, i) => {
+      const rec = opt as SettleAssetPackOption & {
+        title?: string;
+        needFit?: number;
+        measurements?: {
+          needinesses?: unknown[];
+          absolutes?: unknown[];
+        };
+      };
+      return {
+        index: i,
+        title: typeof rec.title === 'string' ? rec.title : `Option ${i + 1}`,
+        needFit: typeof rec.needFit === 'number' ? rec.needFit : null,
+        measurements: {
+          needinesses: Array.isArray(rec.measurements?.needinesses)
+            ? (rec.measurements?.needinesses as never[])
+            : [],
+          absolutes: Array.isArray(rec.measurements?.absolutes)
+            ? (rec.measurements?.absolutes as never[])
+            : [],
+        },
+      };
+    }),
+  );
+  if (!measurementGate.allowed) {
+    return NextResponse.json(
+      {
+        error:
+          measurementGate.blockers[0] ||
+          'Measurement-only buy gate blocked settle (need-fit / safety).',
+        code: 'measurement_buy_gate_blocked',
+        blockers: measurementGate.blockers,
+        worstRecommendation: measurementGate.worstRecommendation,
+      },
+      { status: 400 },
+    );
+  }
+
   // Prefer explicit payAsset (ETH|BTC|SOL); map to observation network so the
   // settle pipeline selects the correct multi-rail spot (never pay BTD).
   const requestedPayAsset =

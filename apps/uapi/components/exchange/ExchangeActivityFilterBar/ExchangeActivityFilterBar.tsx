@@ -26,6 +26,7 @@ import {
   ABSOLUTE_FILTER_CLAUSE_LIMIT,
   ABSOLUTE_VOLUME_COMPARE_OPS,
   ABSOLUTE_VOLUME_COMPARE_OP_LABELS,
+  EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS,
   type AbsoluteMeasurementFilterClause,
   type AbsoluteVolumeCompareOp,
   clampAbsoluteVolume,
@@ -207,9 +208,13 @@ function AbsoluteFiltersEditor({
 
   const addClause = () => {
     if (!canAdd) return;
-    // Default first unused kind (or first catalogue kind) with gte 0 (presence).
+    // Prefer unused commercial preset kinds, then full catalogue.
     const used = new Set(clauses.map((c) => c.kind));
+    const commercialKind =
+      EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS.find((p) => !used.has(p.kind))
+        ?.kind || null;
     const nextKind =
+      commercialKind ||
       kindChoices.find((o) => !used.has(o.value))?.value ||
       kindChoices[0]?.value ||
       "";
@@ -220,12 +225,56 @@ function AbsoluteFiltersEditor({
     ]);
   };
 
+  const addCommercialPreset = (presetId: string) => {
+    if (!canAdd) return;
+    const preset = EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS.find(
+      (p) => p.id === presetId,
+    );
+    if (!preset) return;
+    // Replace existing clause for same kind, else append.
+    const without = clauses.filter((c) => c.kind !== preset.kind);
+    if (without.length >= ABSOLUTE_FILTER_CLAUSE_LIMIT) return;
+    writeAbsoluteFilters(onWriteParams, [
+      ...without,
+      { kind: preset.kind, op: preset.op, volume: preset.volume },
+    ]);
+  };
+
   return (
     <div className="flex flex-col gap-1.5" data-testid="packs-absolute-filters">
+      <div
+        className="flex flex-wrap gap-1.5"
+        data-testid="packs-absolute-commercial-presets"
+      >
+        <span className="w-full text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">
+          Commercial quick filters (buy/no-buy)
+        </span>
+        {EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS.map((preset) => {
+          const active = clauses.some((c) => c.kind === preset.kind);
+          return (
+            <button
+              key={preset.id}
+              type="button"
+              data-testid={`packs-absolute-preset-${preset.id}`}
+              disabled={!canAdd && !active}
+              onClick={() => addCommercialPreset(preset.id)}
+              className={`border px-2 py-1 text-[0.65rem] transition ${
+                active
+                  ? "border-emerald-300/40 bg-emerald-400/12 text-emerald-50"
+                  : "border-white/10 bg-white/[0.04] text-neutral-300 hover:border-white/20"
+              } disabled:cursor-not-allowed disabled:opacity-40`}
+              title={`${preset.kind} ${preset.op} ${preset.volume}`}
+            >
+              {preset.label}
+            </button>
+          );
+        })}
+      </div>
       {clauses.length === 0 ? (
         <p className="text-[0.7rem] leading-snug text-neutral-500">
-          No absolute volume constraints. Add one or more kind · operator · value
-          (0–1) clauses; all must match.
+          No absolute volume constraints. Use commercial quick filters (gates /
+          quality / risk) or add kind · operator · value (0–1) clauses; all must
+          match.
         </p>
       ) : (
         <ul className="flex flex-col gap-1.5" role="list">

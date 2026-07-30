@@ -58,6 +58,90 @@ const OP_SET = new Set<string>(ABSOLUTE_VOLUME_COMPARE_OPS);
 /** Max concurrent absolute clauses (keeps URL + UI bounded). */
 export const ABSOLUTE_FILTER_CLAUSE_LIMIT = 8;
 
+/**
+ * Commercial browse presets for Exchange — buy/no-buy relevant kinds first.
+ * Gates = safety/license; quality = top-weight commercial absolutes.
+ * Defaults: gates use high cleanliness (gte 0.5); risk mass uses low ceiling later via UI.
+ */
+export type CommercialAbsoluteFacetPreset = {
+  id: string;
+  label: string;
+  kind: string;
+  /** Default op when user one-clicks the preset. */
+  op: AbsoluteVolumeCompareOp;
+  volume: number;
+  group: 'gate' | 'quality' | 'risk';
+};
+
+/** Prefer these kinds in Exchange absolute filter pickers / quick-add. */
+export const EXCHANGE_COMMERCIAL_ABSOLUTE_FACET_PRESETS: readonly CommercialAbsoluteFacetPreset[] =
+  [
+    {
+      id: 'gate-secret-safety',
+      label: 'Secret safety high',
+      kind: 'secret-safety',
+      op: 'gte',
+      volume: 0.5,
+      group: 'gate',
+    },
+    {
+      id: 'gate-license-clean',
+      label: 'License clean',
+      kind: 'license-cleanliness',
+      op: 'gte',
+      volume: 0.5,
+      group: 'gate',
+    },
+    {
+      id: 'gate-pii-low',
+      label: 'PII exposure low',
+      kind: 'pii-exposure',
+      op: 'lte',
+      volume: 0.35,
+      group: 'gate',
+    },
+    {
+      id: 'quality-correctness',
+      label: 'Correctness ≥ 0.5',
+      kind: 'correctness-estimate',
+      op: 'gte',
+      volume: 0.5,
+      group: 'quality',
+    },
+    {
+      id: 'quality-test-pass',
+      label: 'Test pass ≥ 0.5',
+      kind: 'test-pass-rate',
+      op: 'gte',
+      volume: 0.5,
+      group: 'quality',
+    },
+    {
+      id: 'quality-objectives',
+      label: 'Objectives ≥ 0.5',
+      kind: 'objectives-fidelity',
+      op: 'gte',
+      volume: 0.5,
+      group: 'quality',
+    },
+    {
+      id: 'quality-buildability',
+      label: 'Buildable ≥ 0.5',
+      kind: 'buildability',
+      op: 'gte',
+      volume: 0.5,
+      group: 'quality',
+    },
+    {
+      id: 'risk-copyleft-low',
+      label: 'Copyleft risk ≤ 0.35',
+      kind: 'copyleft-risk-mass',
+      op: 'lte',
+      volume: 0.35,
+      group: 'risk',
+    },
+  ] as const;
+
 /** Equality tolerance for 0..1 volumes (catalog stores ~4 decimal places). */
 const VOLUME_EQ_EPSILON = 1e-4;
 
