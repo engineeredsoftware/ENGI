@@ -14,9 +14,10 @@ interface ParticleLayerProps {
   onSwallowed?: () => void;
 }
 
-// Match the old Offscreen worker cadence (~60fps). The shared orb budget
-// (30fps) made particles advance half as often → visibly slower.
-const PARTICLE_FRAME_BUDGET_MS = 16;
+// ~60fps when the tab is visible; drop to ~20fps when hidden (or skip entirely
+// via visibility gate below). Shared orb 30fps felt slow for active deposit runs.
+const PARTICLE_FRAME_BUDGET_MS_VISIBLE = 16;
+const PARTICLE_FRAME_BUDGET_MS_HIDDEN = 50;
 
 // Innermost hard ring in OrbitalRings uses inset '36%' — keep in sync.
 const INNER_RING_LO = 0.36;
@@ -300,6 +301,10 @@ export function ParticleLayer({
   // Animation loop via shared rAF provided by OrbLoopContext
   useEffect(() => {
     if (!canvasRef.current) return;
+    if (typeof window !== 'undefined') {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
+    }
     const buffers = getParticleBuffers();
     if (!buffers) return;
     const canvas = canvasRef.current;
@@ -327,8 +332,16 @@ export function ParticleLayer({
     ctx.imageSmoothingEnabled = true;
 
     const drawFrame = () => {
+      // Pause continuous paint when the tab is backgrounded.
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+        return;
+      }
       const now = performance.now();
-      if (now - lastFrameRef.current < PARTICLE_FRAME_BUDGET_MS) return;
+      const budget =
+        typeof document !== 'undefined' && document.visibilityState === 'visible'
+          ? PARTICLE_FRAME_BUDGET_MS_VISIBLE
+          : PARTICLE_FRAME_BUDGET_MS_HIDDEN;
+      if (now - lastFrameRef.current < budget) return;
       lastFrameRef.current = now;
 
       const w = canvas.width;
@@ -458,6 +471,14 @@ export function ParticleLayer({
     };
 
     let unsubscribe: () => void = () => {};
+    const onVisibility = () => {
+      // One paint when returning to the tab so the canvas is not blank.
+      if (document.visibilityState === 'visible') {
+        lastFrameRef.current = 0;
+        drawFrame();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
 
     if (isAnimating && state !== 'rest') {
       unsubscribe = subscribe(drawFrame);
@@ -465,7 +486,10 @@ export function ParticleLayer({
       drawFrame();
     }
 
-    return () => unsubscribe();
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      unsubscribe();
+    };
   }, [color, speed, state, subscribe, isAnimating, count]);
 
   // Handle canvas resize using ResizeObserver

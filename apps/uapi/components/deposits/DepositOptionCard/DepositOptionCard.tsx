@@ -224,6 +224,24 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
     () => buildDepositOptionSourcePatchDownload(option),
     [option],
   );
+
+  // Expand-to-full catalogue once per measurements identity (65 kinds) —
+  // do not re-expand on every parent re-render (telemetry ticks, selection).
+  const expandedAbsolutes = React.useMemo(() => {
+    const rawMeasurements = Array.isArray(option.measurements)
+      ? option.measurements
+      : Array.isArray(
+            (option.measurements as { absolutes?: unknown } | undefined)
+              ?.absolutes,
+          )
+        ? (option.measurements as { absolutes: AbsoluteMeasurementLike[] })
+            .absolutes
+        : [];
+    return expandAbsoluteMeasurementsToFullCatalog(
+      rawMeasurements as AbsoluteMeasurementLike[],
+    );
+  }, [option.measurements]);
+
   // Real bodies: file content strings or unified-diff with non-empty hunks.
   const boundBodyCount = (option.contents?.fileChanges || []).filter(
     (fc) => typeof fc.content === "string" && fc.content.length > 0,
@@ -571,19 +589,7 @@ export function DepositOptionCard(props: DepositOptionCardProps) {
           settledDemandEstimate={settledDemandEstimate}
         />
         {(() => {
-          // Flat array (legacy UI) or nested { absolutes } from selection envelope.
-          const rawMeasurements = Array.isArray(option.measurements)
-            ? option.measurements
-            : Array.isArray(
-                  (option.measurements as { absolutes?: unknown } | undefined)
-                    ?.absolutes,
-                )
-              ? (option.measurements as { absolutes: AbsoluteMeasurementLike[] })
-                  .absolutes
-              : [];
-          const expanded = expandAbsoluteMeasurementsToFullCatalog(
-            rawMeasurements as AbsoluteMeasurementLike[],
-          );
+          const expanded = expandedAbsolutes;
           const measureReport = resolveOptionMeasureReport(option);
           const materialIdentity = resolveOptionMaterialIdentity(option);
           const measuredCount =

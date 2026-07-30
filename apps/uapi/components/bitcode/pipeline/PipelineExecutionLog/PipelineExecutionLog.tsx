@@ -2,7 +2,15 @@
 
 /* eslint-disable react/no-multi-comp */
 
-import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 'react';
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  memo,
+  forwardRef,
+} from 'react';
 import { ContentVisibility } from '@/components/bitcode/perf/ContentVisibility/ContentVisibility';
 import { ProcessingIndicator } from '@/components/bitcode/indicators/ProcessingIndicator/ProcessingIndicator';
 import {
@@ -137,6 +145,45 @@ interface LogLine {
   type?: string;
 }
 
+/**
+ * Stall clock chrome only — owns the 1s tick so completed log rows do not
+ * re-render every second (V48 client product surface performance law).
+ */
+const PipelineProcessingStallChrome = memo(function PipelineProcessingStallChrome({
+  isProcessing,
+  lastLine,
+  liveContext,
+  pipelineMode,
+}: {
+  isProcessing: boolean;
+  lastLine: LogLine | undefined;
+  liveContext?: PipelineRunLogProps['liveContext'];
+  pipelineMode?: SynthesisPipelineMode | string | null;
+}) {
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  useEffect(() => {
+    if (!isProcessing) return;
+    const id = setInterval(() => setNowTick(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [isProcessing]);
+
+  if (!isProcessing) return null;
+
+  if (!lastLine && liveContext) {
+    const sentence = describeExecutionContext({
+      ...liveContext,
+      mode: pipelineMode ?? null,
+    });
+    if (sentence) return <ProcessingIndicator label={sentence} stalled={false} />;
+  }
+  const { label, likelyStalled } = buildProcessingStallLabel(
+    lastLine as any,
+    nowTick,
+    pipelineMode,
+  );
+  return <ProcessingIndicator label={label} stalled={likelyStalled} />;
+});
+
 // ---------------------------------------------------------------------------
 // Visual style mapping per canonical stream `type`
 // ---------------------------------------------------------------------------
@@ -226,19 +273,8 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [autoCompact, setAutoCompact] = useState(false);
 
-  // Live "stalled since" signal (QA debug aid, V48 Gate 3): while processing, tick
-  // once a second so the processing indicator can show elapsed time since the
-  // last streamed event. This does NOT add a new formal log-line kind (F19's
-  // "exactly LLM calls + Tool uses" contract is unchanged) — it only makes an
-  // in-flight call's silence visible in real time, so a genuine hang (e.g. past
-  // BITCODE_LLM_CALL_TIMEOUT_MS with no new row) is distinguishable from a slow
-  // but progressing run instead of an unexplained blank gap.
-  const [nowTick, setNowTick] = useState(() => Date.now());
-  useEffect(() => {
-    if (!isProcessing) return;
-    const id = setInterval(() => setNowTick(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, [isProcessing]);
+  // Stall 1s tick lives in PipelineProcessingStallChrome so completed rows
+  // are not re-rendered every second.
 
   // "Copy raw logs": copy this run's full information (all streamed logs + inputs).
   const [copiedRaw, setCopiedRaw] = useState(false);
@@ -583,6 +619,15 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     }));
   };
 
+  // Elapsed-from-run-start once per snapshot (not per row — was O(n) scan each map).
+  const resolvedRunStartMs = useMemo(() => {
+    if (startedAtMs != null && Number.isFinite(startedAtMs)) return startedAtMs;
+    const firstTs = flatLines.find((l) => l.timestamp)?.timestamp;
+    if (!firstTs) return null;
+    const ms = new Date(firstTs).getTime();
+    return Number.isFinite(ms) ? ms : null;
+  }, [startedAtMs, flatLines]);
+
   // Toggle line expansion
   const toggleLine = (lineId: string) => {
     setExpandedLines(prev => ({
@@ -710,17 +755,8 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
         {/* ---- Flat list view – each stream chunk renders as a single line ---- */}
 
-        {flatLines.map((logLine, idx) => {
-          // Elapsed from run start: explicit prop, else earliest line timestamp.
-          let runStart = startedAtMs;
-          if (runStart == null || !Number.isFinite(runStart)) {
-            const firstTs = flatLines.find((l) => l.timestamp)?.timestamp;
-            if (firstTs) {
-              const ms = new Date(firstTs).getTime();
-              runStart = Number.isFinite(ms) ? ms : null;
-            }
-          }
-          return renderLogLine(
+        {flatLines.map((logLine, idx) =>
+          renderLogLine(
             logLine,
             `line-${idx}`,
             idx,
@@ -730,25 +766,18 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             getLineClass as any,
             compact,
             pipelineMode,
-            runStart,
-          );
-        })}
+            resolvedRunStartMs,
+          ),
+        )}
 
-        {/* Processing indicator — shows the last known Phase→Agent→Step→Failsafe→
-            Thinkings context + elapsed time since the last streamed event, so a
-            genuine hang is visible live instead of an unexplained blank gap.
-            Before the FIRST row lands (rows are completed calls only), fall
-            back to the page's live call-chain context so this line and the
-            header pills tell one story instead of a bare 'Processing'. */}
-        {isProcessing && (() => {
-          const lastLine = flatLines[flatLines.length - 1];
-          if (!lastLine && liveContext) {
-            const sentence = describeExecutionContext({ ...liveContext, mode: pipelineMode ?? null });
-            if (sentence) return <ProcessingIndicator label={sentence} stalled={false} />;
-          }
-          const { label, likelyStalled } = buildProcessingStallLabel(lastLine as any, nowTick, pipelineMode);
-          return <ProcessingIndicator label={label} stalled={likelyStalled} />;
-        })()}
+        {/* Processing indicator — stall clock is isolated so 1s ticks do not
+            re-render every completed LLM/tool row. */}
+        <PipelineProcessingStallChrome
+          isProcessing={isProcessing}
+          lastLine={flatLines[flatLines.length - 1]}
+          liveContext={liveContext}
+          pipelineMode={pipelineMode}
+        />
       </div>
     </div>
     </div>
