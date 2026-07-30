@@ -923,6 +923,16 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
     admissionState: contextString('admissionState'),
     reviewDecision: contextString('reviewDecision'),
     synthesisRunId: contextString('synthesisRunId'),
+    // Deposit synthesis steering — full text/paths for locked run-detail UI.
+    depositObfuscations: contextString('obfuscations'),
+    depositPermissibleSources: (() => {
+      const fromContext = readNestedStringArray(context || {}, ['permissibleSources']);
+      return fromContext.length ? fromContext : null;
+    })(),
+    depositImpermissibleSources: (() => {
+      const fromContext = readNestedStringArray(context || {}, ['impermissibleSources']);
+      return fromContext.length ? fromContext : null;
+    })(),
     obfuscationsAnchorText: readNestedString(run.output, ['obfuscationsAnchor', 'text']),
     obfuscationsAnchorName:
       readNestedString(run.output, ['obfuscationsAnchor', 'name']) ||

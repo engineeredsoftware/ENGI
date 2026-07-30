@@ -163,6 +163,10 @@ export async function POST(request: Request) {
         repositoryFullName,
         sourceBranch,
         sourceCommit,
+        // Full steering for locked run-detail UI rehydrate (not counts only).
+        obfuscations: obfuscations || '',
+        permissibleSources,
+        impermissibleSources,
         permissibleSourceCount: permissibleSources.length,
         impermissibleSourceCount: impermissibleSources.length,
         hasObfuscations: Boolean(obfuscations),

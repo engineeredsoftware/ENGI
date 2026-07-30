@@ -251,6 +251,96 @@ export default function DepositPageClient() {
     [liveRuns, selectedTransactionId],
   );
 
+  /**
+   * When reviewing a locked pack/pipeline detail, rehydrate compose fields from
+   * that run’s stored selections (repo/branch/commit + obfuscations + paths).
+   * Without this, disabled controls show empty “new compose” defaults.
+   */
+  const configSourceRun = useMemo(() => {
+    if (selectedDetailRun) return selectedDetailRun;
+    if (
+      selectedRun?.contextSource === "deposit-option-synthesis" ||
+      selectedRun?.type?.includes("asset-pack")
+    ) {
+      return selectedRun;
+    }
+    return null;
+  }, [selectedDetailRun, selectedRun]);
+
+  const lastHydratedConfigKeyRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!isRunReviewLocked || !configSourceRun?.id) return;
+    // Include steering fingerprints so late history merge (counts → full paths)
+    // re-applies once context fields arrive.
+    const key = [
+      configSourceRun.id,
+      configSourceRun.repository || "",
+      configSourceRun.branch || "",
+      configSourceRun.sourceCommit || "",
+      configSourceRun.depositObfuscations ?? "",
+      (configSourceRun.depositPermissibleSources || []).join("\0"),
+      (configSourceRun.depositImpermissibleSources || []).join("\0"),
+    ].join("|");
+    if (lastHydratedConfigKeyRef.current === key) return;
+    lastHydratedConfigKeyRef.current = key;
+
+    // Obfuscations + path pickers from execution context (clear when absent so
+    // a prior compose’s values never stick on a different locked run).
+    setObfuscations(
+      typeof configSourceRun.depositObfuscations === "string"
+        ? configSourceRun.depositObfuscations
+        : "",
+    );
+    setPermissibleSources(
+      Array.isArray(configSourceRun.depositPermissibleSources)
+        ? [...configSourceRun.depositPermissibleSources]
+        : [],
+    );
+    setImpermissibleSources(
+      Array.isArray(configSourceRun.depositImpermissibleSources)
+        ? [...configSourceRun.depositImpermissibleSources]
+        : [],
+    );
+
+    // Sync source URL params so DepositSourceSelection shows the run’s package
+    // (not a fresh “Latest” compose).
+    const repo = String(configSourceRun.repository || "").trim();
+    const branch = String(configSourceRun.branch || "").trim();
+    const commit = String(configSourceRun.sourceCommit || "").trim();
+    if (!repo && !branch && !commit) return;
+
+    const next = readCurrentSearchParams();
+    let changed = false;
+    if (repo) {
+      if (next.get("repo") !== repo) {
+        next.set("repo", repo);
+        changed = true;
+      }
+      if (!next.get("provider")) {
+        next.set("provider", "github");
+        changed = true;
+      }
+    }
+    if (branch && next.get("sourceBranch") !== branch) {
+      next.set("sourceBranch", branch);
+      next.delete("branch");
+      changed = true;
+    }
+    if (commit && next.get("sourceCommit") !== commit) {
+      next.set("sourceCommit", commit);
+      next.delete("commit");
+      changed = true;
+    }
+    if (changed) {
+      replaceDepositSearchParams(next);
+    }
+  }, [
+    isRunReviewLocked,
+    configSourceRun,
+    readCurrentSearchParams,
+    replaceDepositSearchParams,
+  ]);
+
   const profileRecord =
     userData?.profile && typeof userData.profile === "object"
       ? (userData.profile as Record<string, unknown>)

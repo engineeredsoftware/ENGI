@@ -67,6 +67,13 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   reviewDecision?: string | null;
   /** Parent deposit synthesis execution id when this row admits an option. */
   synthesisRunId?: string | null;
+  /**
+   * Deposit synthesis steering (contextSource deposit-option-synthesis).
+   * Used to rehydrate locked repo / obfuscations / path pickers on pack detail.
+   */
+  depositObfuscations?: string | null;
+  depositPermissibleSources?: string[] | null;
+  depositImpermissibleSources?: string[] | null;
 };
 
 export const MOCK_RUNS: WorkspaceRun[] = [
