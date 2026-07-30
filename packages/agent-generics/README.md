@@ -301,7 +301,6 @@ export const myAgent = factoryAgent({
 - **Tools**: security-scanner, threat-detector, vulnerability-analyzer
 - **Variations**: comprehensive-security-analysis, quick-security-check
 
-### 📊 Digester
 - **Purpose**: Codebase analysis and digest generation
 - **Tools**: code-analyzer, metrics-extractor, pattern-detector
 - **Variations**: comprehensive-digest, quick-summary

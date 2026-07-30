@@ -61,9 +61,6 @@ importers:
       '@bitcode/btd':
         specifier: workspace:*
         version: link:../../packages/btd
-      '@bitcode/generic-agents-digesting':
-        specifier: workspace:*
-        version: link:../../packages/generic-agents/digester
       '@bitcode/generic-tools-mcps-aws':
         specifier: workspace:*
         version: link:../../packages/generic-tools/mcps-tools/aws
@@ -879,9 +876,6 @@ importers:
       '@bitcode/generic-agents-danger-wall':
         specifier: workspace:*
         version: link:../../generic-agents/danger-wall
-      '@bitcode/generic-agents-digesting':
-        specifier: workspace:*
-        version: link:../../generic-agents/digester
       '@bitcode/generic-agents-file-pick':
         specifier: workspace:*
         version: link:../../generic-agents/file-pick
@@ -1125,9 +1119,6 @@ importers:
       '@bitcode/generic-agents-danger-wall':
         specifier: workspace:*
         version: link:../../../generic-agents/danger-wall
-      '@bitcode/generic-agents-digesting':
-        specifier: workspace:*
-        version: link:../../../generic-agents/digester
       '@bitcode/generic-agents-file-pick':
         specifier: workspace:*
         version: link:../../../generic-agents/file-pick
@@ -2061,12 +2052,6 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.24.1
-
-  packages/generic-agents/digester:
-    dependencies:
-      '@bitcode/logger':
-        specifier: workspace:*
-        version: link:../../logger
 
   packages/generic-agents/document-processor:
     dependencies:

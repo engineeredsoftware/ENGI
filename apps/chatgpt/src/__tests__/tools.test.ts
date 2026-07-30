@@ -30,15 +30,10 @@ jest.mock('@bitcode/generic-tools-web-search', () => ({
   search: { execute: jest.fn() },
 }));
 
-jest.mock('@bitcode/generic-agents-digesting', () => ({
-  generateDigest: jest.fn(),
-}));
-
 const simpleSystemTextSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-simple-system-text-search').simpleSystemTextSearch.execute as jest.Mock);
 const webSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-web-search').search.execute as jest.Mock);
-const generateDigestMock = (jest.requireMock('@bitcode/generic-agents-digesting').generateDigest as jest.Mock);
 const READ_ACCESS = {
   assetPackId: 'asset-pack-1',
   walletId: 'wallet-reader',
@@ -64,38 +59,6 @@ describe('ChatGPT App tools', () => {
       results: [
         { title: 'Optimistic UI Patterns', url: 'https://example.com/optimistic', summary: 'Summary.' },
       ],
-    });
-    generateDigestMock.mockResolvedValue({
-      productDocument: `###### What is this document?
-
-# PRODUCT'S PURPOSE:
-This product delivers voice-first social conversations for builders.
-
-# PRODUCT'S FEATURES:
-## New or Planned Work
-- Implement live waveform previews linked to \`src/components/Recorder.tsx\`.
-## Existing Capabilities
-- Users can record 30s clips via \`src/index.ts\`.
-## Technical Foundations & Infrastructure
-- Next.js frontend backed by Supabase.
-## Defensive Programming & Reliability Focus
-- Validate audio length and storage quotas.
-## Complexity Hotspots / Areas to Watch
-- Real-time transcription accuracy tuning.
-
-# SOURCE FILES:
-- \`README.md\` — README outlines the voice-first social product purpose and target builders.
-- \`src/index.ts\` — Source implements the voice clip handler entry point.
-- \`config/audio.json\` — Configuration describing audio ingestion defaults.`,
-      agentDocument: `###### What is this document?
-
-# AGENTS' INSTRUCTIONS:
-- Confirm Supabase credentials before coding.
-- Narrate file references with paths.
-
-# AGENTS' SEEKING QUESTIONS:
-- What gaps exist in transcription accuracy?
-- Where can we simplify auth flows?`,
     });
   });
 
@@ -270,7 +233,6 @@ This product delivers voice-first social conversations for builders.
       ideas: 'Add optimistic UI to post composer.',
       currentProductMd: '# Existing PRODUCT.md',
     });
-    expect(generateDigestMock).not.toHaveBeenCalled();
     expect(result.latest_design).toContain('# Existing PRODUCT.md');
     expect(result.latest_design).toContain('- Add optimistic UI to post composer.');
     const headings = result.latest_design.match(/### Proposed Updates/g) ?? [];
@@ -278,33 +240,28 @@ This product delivers voice-first social conversations for builders.
     expect(result.metadata.digestUsed).toBeFalsy();
   });
 
-  it('design_code refreshes baseline via digest when requested', async () => {
+  it('design_code uses PRODUCT template when no baseline and digester is gone', async () => {
     const result = await runTool<{
       latest_design: string;
-      metadata: { digestUsed?: boolean };
+      metadata: { guidance?: string };
     }>('design_code', {
       ideas: 'Document optimistic UI workflow.',
       regenerateFromDigest: true,
     });
-    expect(generateDigestMock).toHaveBeenCalledTimes(1);
-    expect(result.metadata.digestUsed).toBe(true);
-    expect(result.latest_design).toContain('This product delivers voice-first social conversations for builders.');
+    expect(result.latest_design).toContain("# PRODUCT'S PURPOSE:");
     expect(result.latest_design).toContain('Document optimistic UI workflow.');
     const headings = result.latest_design.match(/### Proposed Updates/g) ?? [];
     expect(headings.length).toBe(1);
   });
 
-  it('improve_developing_behavior refreshes baseline via digest when requested', async () => {
+  it('improve_developing_behavior uses AGENTS template when no baseline and digester is gone', async () => {
     const result = await runTool<{
       latestBehavior: string;
-      metadata: { digestUsed?: boolean };
     }>('improve_developing_behavior', {
       behaviorImprovement: 'Always cite file paths with line numbers.',
       regenerateFromDigest: true,
     });
-    expect(generateDigestMock).toHaveBeenCalled();
-    expect(result.metadata.digestUsed).toBe(true);
-    expect(result.latestBehavior).toContain('Confirm Supabase credentials before coding.');
+    expect(result.latestBehavior).toContain("# AGENTS' INSTRUCTIONS:");
     expect(result.latestBehavior).toContain('Always cite file paths');
   });
 
@@ -497,39 +454,31 @@ This product delivers voice-first social conversations for builders.
     });
   });
 
-  it('design_code gracefully degrades when digest regeneration fails', async () => {
-    generateDigestMock.mockRejectedValueOnce(new Error('digest offline'));
+  it('design_code falls back to PRODUCT template without digester', async () => {
     const result = await runTool<{
       latest_design: string;
-      metadata: { digestUsed?: boolean; digestError?: string };
     }>('design_code', {
       ideas: 'Add fallback messaging to onboarding flow.',
       regenerateFromDigest: true,
     });
 
-    expect(result.metadata.digestUsed).toBe(false);
-    expect(result.metadata.digestError).toBe('digest offline');
     expect(result.latest_design).toContain('### Proposed Updates');
     expect(result.latest_design).toContain('- Add fallback messaging to onboarding flow.');
-    expect(result.latest_design).toContain('# PRODUCT\'S PURPOSE:\n\n[]');
+    expect(result.latest_design).toContain("# PRODUCT'S PURPOSE:");
     const headings = result.latest_design.match(/### Proposed Updates/g) ?? [];
     expect(headings.length).toBe(1);
   });
 
-  it('improve_developing_behavior reports digest errors and uses template baseline', async () => {
-    generateDigestMock.mockRejectedValueOnce(new Error('agents digest unavailable'));
+  it('improve_developing_behavior falls back to AGENTS template without digester', async () => {
     const result = await runTool<{
       latestBehavior: string;
-      metadata: { digestUsed?: boolean; digestError?: string };
     }>('improve_developing_behavior', {
       behaviorImprovement: 'Record when successors read live narration.',
       regenerateFromDigest: true,
     });
 
-    expect(result.metadata.digestUsed).toBe(false);
-    expect(result.metadata.digestError).toBe('agents digest unavailable');
     expect(result.latestBehavior).toContain('### Behavior Improvement');
     expect(result.latestBehavior).toContain('Record when successors read live narration.');
-    expect(result.latestBehavior).toContain('# AGENTS\' INSTRUCTIONS:\n\n- []');
+    expect(result.latestBehavior).toContain("# AGENTS' INSTRUCTIONS:");
   });
 });

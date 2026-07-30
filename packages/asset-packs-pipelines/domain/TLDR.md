@@ -11,7 +11,7 @@ The **AssetPack Pipeline** is the Bitcode phased pipeline corridor:
 
 ```
 AssetPackPipeline (Bitcode agentic pipeline run with SDIVF + DIV loop)
-├── Setup (vcs → digester → tech-types → danger-wall)
+├── Setup (vcs → tech-types → danger-wall)
 ├── [DIV Loop - up to 3 iterations]
 │   ├── Discovery (web-researcher → code-searcher → file-pick)
 │   ├── Implementation (Divide|Apply|Correct with code-editor)

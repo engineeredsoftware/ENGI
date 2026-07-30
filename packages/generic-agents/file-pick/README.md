@@ -35,7 +35,6 @@ The File Picker Agent provides smart file selection capabilities through task-co
 ## Technical Implementation
 
 ### Dependencies
-- `@bitcode/digest` - Repository file analysis and selection utilities
 - `@bitcode/agent-generics` - Base agent framework with PTRR methodology
 - `zod` - Schema validation for structured outputs
 - File system integration for repository structure analysis
@@ -100,7 +99,6 @@ const fileSelection = await filePickerAgent.execute(
 - Selection accuracy: >85% task-relevant file identification
 
 ## Integration Points
-- Integrates with `@bitcode/digest` pickRelevantFiles utility
 - Provides file list context for downstream processing agents
 - Compatible with artifact storage for selection audit trails
 - Saves selection results in JSON and plain text formats

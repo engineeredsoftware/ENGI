@@ -19,7 +19,6 @@
       "@bitcode/tools-generics": ["apps/chatgpt/src/__stubs__/tools-generics.ts"],
       "@bitcode/generic-tools-simple-system-text-search": ["apps/chatgpt/src/__stubs__/generic-tools-simple-system-text-search.ts"],
       "@bitcode/generic-tools-web-search": ["apps/chatgpt/src/__stubs__/generic-tools-web-search.ts"],
-      "@bitcode/generic-agents-digesting": ["apps/chatgpt/src/__stubs__/digest-run.ts"],
       "@bitcode/generic-tools-mcps-aws": ["apps/chatgpt/src/__stubs__/generic-tools-mcps-aws.ts"],
       "@bitcode/generic-tools-mcps-vercel": ["apps/chatgpt/src/__stubs__/generic-tools-mcps-vercel.ts"],
       "@bitcode/generic-vcs-github": ["apps/chatgpt/src/__stubs__/github.ts"],

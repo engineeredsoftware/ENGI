@@ -348,9 +348,6 @@
       "@bitcode/generic-agents-ready-to-short-circuit": [
         "../../packages/generic-agents/ready-to-short-circuit/src/index.ts"
       ],
-      "@bitcode/generic-agents-digesting": [
-        "../../packages/generic-agents/digester/src/index.ts"
-      ],
       "@bitcode/generic-agents-file-pick": [
         "../../packages/generic-agents/file-pick/src/index.ts"
       ],

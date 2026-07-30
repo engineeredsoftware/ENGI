@@ -2,14 +2,12 @@ import './env';
 
 import { Buffer } from 'node:buffer';
 import { createHash } from 'node:crypto';
-import path from 'node:path';
 
 import { prepareConciseContext } from '@bitcode/generic-generations-failsafes';
 import { Octokit } from '@octokit/rest';
 import { awsCloudWatchLogTool, awsDynamoGetItemTool, awsDynamoPutItemTool, awsLambdaInvokeTool, awsMcpTool, awsS3GetObjectTool, awsS3PutObjectTool } from '@bitcode/generic-tools-mcps-aws';
 import { simpleSystemTextSearch } from '@bitcode/generic-tools-simple-system-text-search';
 import { search as webSearch } from '@bitcode/generic-tools-web-search';
-import { generateDigest } from '@bitcode/generic-agents-digesting';
 import {
   evaluateBtdOrganizationInterfaceAuthority,
   type BtdOrganizationRole,
@@ -600,7 +598,8 @@ const DEPICT_ASSET_SCHEMA = {
 const DESIGN_CODE_VALIDATOR = z.object({
   ideas: z.string().min(1, 'ideas must be provided').describe('Raw ideas or requirements to incorporate into PRODUCT.md'),
   currentProductMd: z.string().optional().describe('Optional snapshot of the existing PRODUCT.md for contextual diffing'),
-  regenerateFromDigest: z.boolean().optional().describe('Regenerate the baseline PRODUCT.md from digest before applying ideas')
+  /** @deprecated Repository digester removed; ignored. Baseline is currentProductMd or the PRODUCT.md template. */
+  regenerateFromDigest: z.boolean().optional().describe('Deprecated no-op (digester removed). Uses currentProductMd or template.'),
 }).strict();
 
 async function executeDesignCode(args: z.infer<typeof DESIGN_CODE_VALIDATOR>) {
@@ -619,32 +618,6 @@ async function executeDesignCode(args: z.infer<typeof DESIGN_CODE_VALIDATOR>) {
   let baseDocument = args.currentProductMd && args.currentProductMd.trim().length > 0
     ? args.currentProductMd.trim()
     : '';
-  let digestUsed = false;
-  let digestError: string | undefined;
-
-  const shouldRegenerate = !baseDocument || args.regenerateFromDigest;
-  if (shouldRegenerate) {
-    try {
-      const repoName = path.basename(process.cwd());
-      const digestResult = await generateDigest({
-        owner: 'local',
-        repo: repoName,
-        commit: 'local',
-        correlationId: `product-md-${Date.now()}`,
-        usePreClonedRepo: true,
-        rootDir: process.cwd(),
-        forceRegenerate: args.regenerateFromDigest ?? false
-      });
-
-      if (digestResult.productDocument) {
-        baseDocument = digestResult.productDocument.trim();
-        digestUsed = true;
-      }
-    } catch (error) {
-      digestError = error instanceof Error ? error.message : String(error);
-      console.warn('[design_code] digest refresh failed:', digestError);
-    }
-  }
 
   if (!baseDocument) {
     baseDocument = PRODUCT_MD_TEMPLATE.trim();
@@ -688,11 +661,7 @@ async function executeDesignCode(args: z.infer<typeof DESIGN_CODE_VALIDATOR>) {
 
   const latestDesign = [cleanedDocument, updatesSection].filter(Boolean).join('\n\n').trim();
 
-  const guidance = digestUsed
-    ? `${baseGuidance} Refreshed PRODUCT.md via digest before applying updates.`
-    : digestError
-      ? `${baseGuidance} Digest refresh unavailable (${digestError}); using provided PRODUCT.md context.`
-      : baseGuidance;
+  const guidance = baseGuidance;
 
   const contextMetadata = buildPreparedContextMetadata({
     productDocument: latestDesign,
@@ -707,8 +676,6 @@ async function executeDesignCode(args: z.infer<typeof DESIGN_CODE_VALIDATOR>) {
       created: !args.currentProductMd,
       evidenceDocument: '.docs/PRODUCT.md',
       guidance,
-      digestUsed,
-      digestError,
       ...(contextMetadata ?? {})
     }
   };
@@ -728,7 +695,7 @@ const DESIGN_CODE_SCHEMA = {
     },
     regenerateFromDigest: {
       type: 'boolean',
-      description: 'Regenerate the baseline PRODUCT.md from digest before applying ideas'
+      description: 'Deprecated no-op (digester removed). Uses currentProductMd or template.'
     }
   },
   required: ['ideas']
@@ -1072,7 +1039,8 @@ const WRITE_CODE_CHANGES_SCHEMA = {
 const IMPROVE_BEHAVIOR_VALIDATOR = z.object({
   behaviorImprovement: z.string().optional().describe('Notes about desired development behavior changes'),
   currentAgentsMd: z.string().optional().describe('Optional current AGENTS.md for reference'),
-  regenerateFromDigest: z.boolean().optional().describe('Regenerate the baseline AGENTS.md from digest before applying updates')
+  /** @deprecated Repository digester removed; ignored. Baseline is currentAgentsMd or the AGENTS.md template. */
+  regenerateFromDigest: z.boolean().optional().describe('Deprecated no-op (digester removed). Uses currentAgentsMd or template.'),
 }).strict();
 
 async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEHAVIOR_VALIDATOR>) {
@@ -1082,45 +1050,15 @@ async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEH
   let baseDocument = args.currentAgentsMd && args.currentAgentsMd.trim().length > 0
     ? args.currentAgentsMd.trim()
     : '';
-  let digestUsed = false;
-  let digestError: string | undefined;
-
-  const shouldRegenerate = !baseDocument || args.regenerateFromDigest;
-  if (shouldRegenerate) {
-    try {
-      const repoName = path.basename(process.cwd());
-      const digestResult = await generateDigest({
-        owner: 'local',
-        repo: repoName,
-        commit: 'local',
-        correlationId: `agents-md-${Date.now()}`,
-        usePreClonedRepo: true,
-        rootDir: process.cwd(),
-        forceRegenerate: args.regenerateFromDigest ?? false
-      });
-
-      if (digestResult.agentDocument) {
-        baseDocument = digestResult.agentDocument.trim();
-        digestUsed = true;
-      }
-    } catch (error) {
-      digestError = error instanceof Error ? error.message : String(error);
-      console.warn('[improve_developing_behavior] digest refresh failed:', digestError);
-    }
-  }
 
   if (!baseDocument) {
     baseDocument = AGENTS_MD_TEMPLATE.trim();
   }
 
   const latestBehavior = [baseDocument, update].filter(Boolean).join('\n\n').trim();
-  const created = !(args.currentAgentsMd && args.currentAgentsMd.trim().length > 0) && !digestUsed;
+  const created = !(args.currentAgentsMd && args.currentAgentsMd.trim().length > 0);
 
-  const guidance = digestUsed
-    ? 'Updated AGENTS.md from digest before appending new behaviour notes.'
-    : digestError
-      ? `Digest refresh unavailable (${digestError}); using provided AGENTS.md context.`
-      : 'Appended behaviour notes to the provided AGENTS.md context.';
+  const guidance = 'Appended behaviour notes to the provided AGENTS.md context (or template when none provided).';
 
   const behaviorInsights = args.behaviorImprovement
     ? args.behaviorImprovement
@@ -1141,8 +1079,6 @@ async function executeImproveDevelopingBehavior(args: z.infer<typeof IMPROVE_BEH
       focus,
       created,
       evidenceDocument: '.docs/AGENTS.md',
-      digestUsed,
-      digestError,
       guidance,
       ...(behaviorContextMetadata ?? {})
     }
@@ -1163,7 +1099,7 @@ const IMPROVE_BEHAVIOR_SCHEMA = {
     },
     regenerateFromDigest: {
       type: 'boolean',
-      description: 'Regenerate the baseline AGENTS.md from digest before applying updates'
+      description: 'Deprecated no-op (digester removed). Uses currentAgentsMd or template.'
     }
   }
 };

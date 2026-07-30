@@ -175,7 +175,6 @@ const StepOutputSchema = z.object({
 - **audio-processor** - Audio transcription and analysis
 - **code-searcher** - LSP-powered semantic search
 - **danger-wall** - Security validation
-- **digester** - Codebase analysis
 - **document-processor** - Document extraction
 - **file-pick** - Intelligent file selection
 - **image-processor** - Computer vision analysis

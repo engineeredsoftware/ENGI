@@ -93,7 +93,6 @@
     "@bitcode/generic-agents-web-research": "workspace:*",
     "@bitcode/generic-agents-rag-snippets": "workspace:*",
     "@bitcode/generic-agents-vcs": "workspace:*",
-    "@bitcode/generic-agents-digesting": "workspace:*",
     "@bitcode/generic-agents-tech-types-identifier": "workspace:*",
     "@bitcode/generic-agents-file-pick": "workspace:*",
     "@bitcode/generic-agents-read-comprehension": "workspace:*",

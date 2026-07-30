@@ -17,15 +17,10 @@ jest.mock('@bitcode/generic-tools-web-search', () => ({
   search: { execute: jest.fn() },
 }));
 
-jest.mock('@bitcode/generic-agents-digesting', () => ({
-  generateDigest: jest.fn(),
-}));
-
 const simpleSystemTextSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-simple-system-text-search').simpleSystemTextSearch.execute as jest.Mock);
 const webSearchExecute =
   (jest.requireMock('@bitcode/generic-tools-web-search').search.execute as jest.Mock);
-const generateDigestMock = (jest.requireMock('@bitcode/generic-agents-digesting').generateDigest as jest.Mock);
 const READ_ACCESS = {
   assetPackId: 'asset-pack-yapper',
   walletId: 'wallet-yapper-reader',
@@ -66,39 +61,6 @@ describe('Yapper demo flow', () => {
         { title: 'Voice-first best practices', url: 'https://example.com/voice', summary: 'Summary of patterns.' },
       ],
     });
-
-    generateDigestMock.mockResolvedValue({
-      productDocument: `###### What is this document?
-
-# PRODUCT'S PURPOSE:
-This product delivers voice-first social conversations for builders.
-
-# PRODUCT'S FEATURES:
-## New or Planned Work
-- Implement live waveform previews linked to \`src/components/Recorder.tsx\`.
-## Existing Capabilities
-- Users can record 30s clips via \`src/index.ts\`.
-## Technical Foundations & Infrastructure
-- Next.js frontend backed by Supabase.
-## Defensive Programming & Reliability Focus
-- Validate audio length and storage quotas.
-## Complexity Hotspots / Areas to Watch
-- Real-time transcription accuracy tuning.
-
-# SOURCE FILES:
-- \`README.md\` — README outlines the voice-first social product purpose and target builders.
-- \`src/index.ts\` — Source implements the voice clip handler entry point.
-- \`config/audio.json\` — Configuration describing audio ingestion defaults.`,
-      agentDocument: `###### What is this document?
-
-# AGENTS' INSTRUCTIONS:
-- Confirm Supabase credentials before coding.
-- Narrate file references with paths.
-
-# AGENTS' SEEKING QUESTIONS:
-- What gaps exist in transcription accuracy?
-- Where can we simplify auth flows?`,
-    });
   });
 
   const tools = getBitcodeTools();
@@ -121,28 +83,24 @@ This product delivers voice-first social conversations for builders.
     expect(depiction.depiction).toContain('Timeline layout');
     expect(depiction.metadata.bytes).toBeGreaterThan(0);
 
-    // Step 1: Regenerate PRODUCT.md scaffold
+    // Step 1: PRODUCT.md scaffold (template baseline; digester removed)
     const designScaffold = await runTool<{
       latest_design: string;
-      metadata: { digestUsed?: boolean };
     }>('design_code', {
       ideas: 'Initial Yapper vision.',
       regenerateFromDigest: true,
     });
-    expect(designScaffold.latest_design).toContain('This product delivers voice-first social conversations for builders.');
+    expect(designScaffold.latest_design).toContain("# PRODUCT'S PURPOSE:");
     expect(designScaffold.latest_design).toContain('- Initial Yapper vision.');
     expect((designScaffold.latest_design.match(/### Proposed Updates/g) ?? []).length).toBe(1);
-    expect(designScaffold.metadata.digestUsed).toBe(true);
 
     // Step 2: Capture new idea without regenerating baseline
     const designUpdate = await runTool<{
       latest_design: string;
-      metadata: { digestUsed?: boolean };
     }>('design_code', {
       ideas: 'Add optimistic UI for sending yaps.',
       currentProductMd: designScaffold.latest_design,
     });
-    expect(generateDigestMock).toHaveBeenCalledTimes(1);
     expect(designUpdate.latest_design).toContain('Add optimistic UI for sending yaps.');
     expect(designUpdate.latest_design).toContain('- Initial Yapper vision.');
     expect((designUpdate.latest_design.match(/### Proposed Updates/g) ?? []).length).toBe(1);
@@ -233,16 +191,14 @@ This product delivers voice-first social conversations for builders.
       operation: 'deploy_to_vercel',
     });
 
-    // Step 11: Capture agent learnings, regenerating baseline
+    // Step 11: Capture agent learnings (template baseline; digester removed)
     const agentsUpdate = await runTool<{
       latestBehavior: string;
-      metadata: { digestUsed?: boolean };
     }>('improve_developing_behavior', {
       behaviorImprovement: 'Always cite file paths with numbers when summarising code.',
       regenerateFromDigest: true,
     });
-    expect(generateDigestMock).toHaveBeenCalledTimes(2);
-    expect(agentsUpdate.metadata.digestUsed).toBe(true);
+    expect(agentsUpdate.latestBehavior).toContain("# AGENTS' INSTRUCTIONS:");
     expect(agentsUpdate.latestBehavior).toContain('Always cite file paths');
   });
 });
