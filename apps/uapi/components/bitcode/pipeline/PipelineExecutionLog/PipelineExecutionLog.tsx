@@ -747,7 +747,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
             exactly like a collapsed log row (same bar, no chevron: there is
             no detail payload to expand). */}
         {isProcessing && flatLines.length === 0 && (
-          <div className="relative flex items-center gap-1 w-full pl-7 pr-3 py-2 min-h-[34px] mb-4 select-none text-[0.78rem] font-medium text-emerald-200 backdrop-blur-md bg-white/5 dark:bg-white/2 border-l-2 border-emerald-400/25">
+          <div className="relative mb-4 flex min-h-[34px] w-full select-none items-center gap-1 border-l-2 border-emerald-400/25 bg-white/5 py-2 pl-7 pr-3 text-[0.78rem] font-medium text-emerald-200 dark:bg-white/[0.03]">
             <span className="truncate min-w-0 text-[0.82rem] leading-none m-0 flex-1">Initializing</span>
             <span className="text-[10px] text-gray-500 flex-shrink-0 select-none ml-1">preparing</span>
           </div>

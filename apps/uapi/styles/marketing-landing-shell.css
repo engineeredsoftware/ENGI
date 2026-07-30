@@ -1,5 +1,31 @@
 /* Bitcode marketing landing shell - specific fixes */
 
+/* Measure bars: CSS scaleX once (replaces per-row framer motion). */
+@keyframes marketing-bar-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.marketing-bar-fill {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation-name: marketing-bar-fill;
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marketing-bar-fill {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
 /* Use normal document scrolling while keeping horizontal overflow clipped. */
 .marketing-landing-shell {
   position: relative;

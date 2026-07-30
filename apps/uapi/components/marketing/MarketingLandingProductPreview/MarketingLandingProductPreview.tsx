@@ -13,7 +13,6 @@ import { QuantumOrb } from '@/components/bitcode/effects/quantum-orb';
 import { BITCODE_PUBLIC_COPY } from '@/components/bitcode/layout/BitcodePublicCopy/bitcode-public-copy';
 
 import {
-  animatedMotionStyle,
   entranceEase,
   measurementAbsoluteItems,
   measurementFinalFit,
@@ -262,18 +261,14 @@ function MeasuresPanel() {
                   </span>
                 </div>
                 <div className="mt-1 h-1 overflow-hidden rounded-none bg-white/6">
-                  <div className="h-full origin-left" style={{ width: `${item.value}%` }}>
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{
-                        duration: 0.7,
-                        delay: 0.28 + index * 0.03,
-                        ease: entranceEase,
-                      }}
-                      className="h-full rounded-none bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80"
-                      style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
-                    />
+                  <div
+                    className="marketing-bar-fill h-full"
+                    style={{
+                      width: `${item.value}%`,
+                      animationDelay: `${0.28 + index * 0.03}s`,
+                    }}
+                  >
+                    <div className="h-full rounded-none bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80" />
                   </div>
                 </div>
               </li>
@@ -327,21 +322,19 @@ function MeasuresPanel() {
                     </span>
                   </div>
                   <div className="mt-1 h-1 overflow-hidden rounded-none bg-white/6">
-                    <div className="h-full origin-left" style={{ width: `${item.value}%` }}>
-                      <motion.div
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{
-                          duration: 0.7,
-                          delay: 0.48 + index * 0.04,
-                          ease: entranceEase,
-                        }}
+                    <div
+                      className="marketing-bar-fill h-full"
+                      style={{
+                        width: `${item.value}%`,
+                        animationDelay: `${0.48 + index * 0.04}s`,
+                      }}
+                    >
+                      <div
                         className={`h-full rounded-none ${
                           isDynamic
                             ? 'bg-gradient-to-r from-fuchsia-500/60 via-violet-400/70 to-orange-300/90 shadow-[0_0_10px_rgba(251,146,60,0.28)]'
                             : 'bg-gradient-to-r from-emerald-500/55 via-emerald-300/70 to-emerald-100/80'
                         }`}
-                        style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
                       />
                     </div>
                   </div>
@@ -361,16 +354,14 @@ function MeasuresPanel() {
           <div className="mt-2.5 flex items-center gap-2.5">
             <div className="h-2.5 min-w-0 flex-1 overflow-hidden rounded-none bg-black/30">
               <div
-                className="h-full origin-left"
-                style={{ width: `${measurementFinalFit.barPercent}%` }}
+                className="marketing-bar-fill h-full"
+                style={{
+                  width: `${measurementFinalFit.barPercent}%`,
+                  animationDuration: '1s',
+                  animationDelay: '0.55s',
+                }}
               >
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 1, delay: 0.55, ease: entranceEase }}
-                  className="h-full rounded-none bg-gradient-to-r from-emerald-500/80 via-emerald-300 to-white shadow-[0_0_14px_rgba(103,254,183,0.35)]"
-                  style={{ ...animatedMotionStyle, transformOrigin: 'left center' }}
-                />
+                <div className="h-full rounded-none bg-gradient-to-r from-emerald-500/80 via-emerald-300 to-white shadow-[0_0_14px_rgba(103,254,183,0.35)]" />
               </div>
             </div>
             <span className="shrink-0 font-mono text-[12px] font-semibold tabular-nums tracking-[0.08em] text-emerald-100">
