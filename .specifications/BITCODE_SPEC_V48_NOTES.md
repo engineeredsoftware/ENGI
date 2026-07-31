@@ -1595,6 +1595,7 @@ S4 mock settlement order · S5 unpaid source-safety fail-closed.
 - Path-only absolute honesty pin on every spine run (`neverMeasured`).
 - Handoff for crypto/UX: `.docs/MVP_CORE_E2E_HANDOFF.md` (payload contracts,
   honesty classes, test entrypoints).
+- Operator live lanes: `.docs/MVP_CORE_E2E_OPERATOR_RUNBOOK.md`.
 - L1 route auth still fail-closed (session/Need/repo) from E2E-1.
 - PARITY E2E-L5 → substantially advanced. Core MVP-E2E ladder closed for CI-fast
   contracts; live LLM/DB remain opt-in L2/L3 lanes.
@@ -1674,6 +1675,19 @@ pnpm run test:mvp-core-e2e
 Runs uapi L1/L3/L4/L5 contracts + deposit/read SDIVF + domain L2/L3 inventory
 and honesty/lexical/reembed cores. Not a substitute for full `ci:local`.
 See `.docs/MVP_CORE_E2E_HANDOFF.md`.
+
+#### MVP-E2E operator live runbook (2026-07-31)
+
+Opt-in live lanes documented in
+`.docs/MVP_CORE_E2E_OPERATOR_RUNBOOK.md`:
+
+- L0 / CI-fast MVP default commands
+- L2 live deposit/read host scripts + key env
+- L3 live Supabase index/search checklist
+- Out-of-scope (browser, wallet UX) + failure triage
+
+Closes the L5 “operator live spine runbook” residual. Live work remains
+opt-in; does not expand commit bar.
 
 ### Depository search + index (Gate 5 law, 2026-07-20)
 

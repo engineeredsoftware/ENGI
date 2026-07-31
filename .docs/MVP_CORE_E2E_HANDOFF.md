@@ -47,6 +47,10 @@ pnpm -C packages/asset-packs-pipelines/syntheses/deposit exec jest --testPathPat
 pnpm -C packages/asset-packs-pipelines/syntheses/read exec jest --testPathPattern=read-sdivf
 ```
 
+**Live LLM / live Supabase (opt-in):**  
+[`.docs/MVP_CORE_E2E_OPERATOR_RUNBOOK.md`](./MVP_CORE_E2E_OPERATOR_RUNBOOK.md)
+
+
 ## Deposit Discovery budget (STAB-C2)
 
 | Env | Effect |
