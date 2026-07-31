@@ -46,12 +46,13 @@ export const BITCODE_PUBLIC_COPY = {
     title: 'Get on the Bitcode waitlist',
     subcopy:
       'Be first to mint, find, and trade measured DataPacks when your lane opens.',
+    /** Second left-column line under subcopy (form has no privacy footer). */
+    subcopyLine2:
+      'Optional Seller, Buyer, or Builder tags help us open the right lane.',
     emailLabel: 'Email',
     emailPlaceholder: 'you@company.com',
     ctaLabel: 'Request access',
     ctaLoadingLabel: 'Submitting…',
-    privacy:
-      'Email only — no wallet, no source, no spam. Launch and priority access notes only.',
     successTitle: "You're on the list",
     successBody:
       'Check your inbox for a priority access email, then watch for launch notes.',

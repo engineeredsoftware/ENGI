@@ -171,6 +171,7 @@ export const MarketingLandingWaitlist = memo(function MarketingLandingWaitlist()
             {copy.title}
           </h2>
           <p className="mt-1.5 max-w-xl text-sm leading-6 text-neutral-300/95">{copy.subcopy}</p>
+          <p className="mt-1 max-w-xl text-sm leading-6 text-neutral-400/90">{copy.subcopyLine2}</p>
         </div>
 
         <form className="min-w-0 w-full" onSubmit={onSubmit} noValidate>
@@ -268,8 +269,6 @@ export const MarketingLandingWaitlist = memo(function MarketingLandingWaitlist()
               {errorMessage}
             </p>
           ) : null}
-
-          <p className="mt-2 text-[11px] leading-5 text-neutral-500">{copy.privacy}</p>
         </form>
       </div>
     </section>
