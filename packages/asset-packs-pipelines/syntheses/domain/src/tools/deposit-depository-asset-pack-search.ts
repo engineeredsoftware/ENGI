@@ -57,7 +57,7 @@ export type DepositDepositorySearchToolInput = {
   /** Free-text Need / demand — folded into query plan when present. */
   needText?: string | null;
   expressedRead?: string | null;
-  /** Product lens for query plan + read framing. */
+  /** Product query framing: deposit-relevants | read-need-fits (not dual-pipeline mode). */
   product?: DepositorySearchProduct;
   paths?: string[] | null;
   assets?: DepositoryAsset[];
@@ -160,32 +160,223 @@ function asTerms(value: unknown): string[] {
 }
 
 /**
- * Lexical score with phrase bonus: multi-word Need phrases weigh more than
- * single path-stem tokens so Need-fit ranking prefers semantic matches.
+ * Field weights for lexical match (STAB-C1 / search MVP law):
+ * commercial NL ≫ absolute fixtures ≫ title/summary ≫ topics ≫ paths.
+ * Never JSON.stringify the whole asset (keys/noise dominate false hits).
  */
+export const LEXICAL_FIELD_WEIGHTS = {
+  commercialNl: 1.0,
+  absoluteFixtures: 0.55,
+  titleSummary: 0.4,
+  topics: 0.3,
+  paths: 0.12,
+} as const;
+
+export type LexicalFieldId = keyof typeof LEXICAL_FIELD_WEIGHTS;
+
+type LexicalFieldCorpus = {
+  id: LexicalFieldId;
+  weight: number;
+  text: string;
+};
+
+function unitKindMatches(unitKind: string, patterns: RegExp[]): boolean {
+  const k = String(unitKind || '').toLowerCase();
+  return patterns.some((p) => p.test(k));
+}
+
+/**
+ * Source-safe field corpora for field-weighted lexical scoring.
+ * Prefers commercial-nl content units and metadata commercialTitle/Description.
+ */
+export function collectLexicalFieldCorpora(asset: DepositoryAsset): LexicalFieldCorpus[] {
+  const meta = (asset?.metadata || {}) as Record<string, unknown>;
+  const units = Array.isArray(asset?.contentUnits) ? asset.contentUnits : [];
+
+  const commercialUnitText = units
+    .filter((u) =>
+      unitKindMatches(u.unitKind, [/commercial/, /^nl$/, /buyer/, /purchase/]),
+    )
+    .map((u) => String(u.text || '').trim())
+    .filter(Boolean)
+    .join(' ');
+  const commercialMeta = [
+    typeof meta.commercialTitle === 'string' ? meta.commercialTitle : '',
+    typeof meta.commercialDescription === 'string' ? meta.commercialDescription : '',
+    typeof meta.commercial_title === 'string' ? meta.commercial_title : '',
+    typeof meta.commercial_description === 'string' ? meta.commercial_description : '',
+  ]
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .join(' ');
+  const commercial = commercialUnitText || commercialMeta;
+
+  const fixtureUnitText = units
+    .filter((u) =>
+      unitKindMatches(u.unitKind, [/absolute/, /fixture/, /measure/]),
+    )
+    .map((u) => String(u.text || '').trim())
+    .filter(Boolean)
+    .join(' ');
+  const fixturesMeta = Array.isArray(meta.absoluteFixtures)
+    ? meta.absoluteFixtures
+        .map((f) => {
+          if (!f || typeof f !== 'object') return '';
+          const row = f as Record<string, unknown>;
+          const head = String(row.label || row.measurementKind || '').trim();
+          const desc = String(row.descriptor || '').trim();
+          return [head, desc].filter(Boolean).join(' ');
+        })
+        .filter(Boolean)
+        .join(' ')
+    : '';
+  const absoluteKinds = Array.isArray(meta.absoluteKinds)
+    ? meta.absoluteKinds.map((k) => String(k || '').trim()).filter(Boolean).join(' ')
+    : '';
+  const fixtures = [fixtureUnitText, fixturesMeta, absoluteKinds].filter(Boolean).join(' ');
+
+  const titleSummary = [asset?.title, asset?.summary]
+    .map((s) => (typeof s === 'string' ? s.trim() : ''))
+    .filter(Boolean)
+    .join(' ');
+  // Summary content units that are not commercial/fixtures/paths.
+  const summaryUnits = units
+    .filter(
+      (u) =>
+        unitKindMatches(u.unitKind, [/summary/, /title/, /topic/]) &&
+        !unitKindMatches(u.unitKind, [/commercial/, /absolute/, /fixture/, /path/]),
+    )
+    .map((u) => String(u.text || '').trim())
+    .filter(Boolean)
+    .join(' ');
+  const titleSummaryBlob = [titleSummary, summaryUnits].filter(Boolean).join(' ');
+
+  const topics = [
+    ...(Array.isArray(meta.topics) ? meta.topics.map((t) => String(t || '')) : []),
+    ...(Array.isArray(meta.tags) ? meta.tags.map((t) => String(t || '')) : []),
+  ]
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .join(' ');
+
+  const pathUnits = units
+    .filter((u) => unitKindMatches(u.unitKind, [/path/]) || Boolean(u.path))
+    .map((u) => [u.text, u.path].filter(Boolean).join(' '))
+    .join(' ');
+  const pathMeta = [
+    ...(Array.isArray(meta.coveredSourcePaths)
+      ? meta.coveredSourcePaths.map((p) => String(p || ''))
+      : []),
+    ...(Array.isArray(meta.sourcePaths) ? meta.sourcePaths.map((p) => String(p || '')) : []),
+    ...(Array.isArray(meta.source_path_tokens)
+      ? meta.source_path_tokens.map((p) => String(p || ''))
+      : []),
+  ]
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .join(' ');
+  const paths = [pathUnits, pathMeta].filter(Boolean).join(' ');
+
+  const out: LexicalFieldCorpus[] = [];
+  if (commercial) {
+    out.push({
+      id: 'commercialNl',
+      weight: LEXICAL_FIELD_WEIGHTS.commercialNl,
+      text: commercial.toLowerCase(),
+    });
+  }
+  if (fixtures) {
+    out.push({
+      id: 'absoluteFixtures',
+      weight: LEXICAL_FIELD_WEIGHTS.absoluteFixtures,
+      text: fixtures.toLowerCase(),
+    });
+  }
+  if (titleSummaryBlob) {
+    out.push({
+      id: 'titleSummary',
+      weight: LEXICAL_FIELD_WEIGHTS.titleSummary,
+      text: titleSummaryBlob.toLowerCase(),
+    });
+  }
+  if (topics) {
+    out.push({
+      id: 'topics',
+      weight: LEXICAL_FIELD_WEIGHTS.topics,
+      text: topics.toLowerCase(),
+    });
+  }
+  if (paths) {
+    out.push({
+      id: 'paths',
+      weight: LEXICAL_FIELD_WEIGHTS.paths,
+      text: paths.toLowerCase(),
+    });
+  }
+  return out;
+}
+
+/**
+ * Field-weighted lexical score (STAB-C1).
+ * Multi-word Need phrases weigh more than single path-stem tokens.
+ * A term matching commercial NL contributes full weight; path-only matches
+ * contribute LEXICAL_FIELD_WEIGHTS.paths so path noise cannot rank like buyer prose.
+ */
+export function fieldWeightedLexicalScore(
+  asset: DepositoryAsset,
+  terms: string[],
+): {
+  score: number;
+  matched: string[];
+  fieldHits: Partial<Record<LexicalFieldId, string[]>>;
+} {
+  if (!terms.length) return { score: 0, matched: [], fieldHits: {} };
+  const fields = collectLexicalFieldCorpora(asset);
+  if (!fields.length) return { score: 0, matched: [], fieldHits: {} };
+
+  let weightSum = 0;
+  let matchedWeight = 0;
+  const matched: string[] = [];
+  const fieldHits: Partial<Record<LexicalFieldId, string[]>> = {};
+
+  for (const term of terms) {
+    const t = String(term || '').trim().toLowerCase();
+    if (!t) continue;
+    const isPhrase = /\s/.test(term) || t.length > 24;
+    const termW = isPhrase ? 2.5 : 1;
+    weightSum += termW;
+
+    let bestWeight = 0;
+    let bestField: LexicalFieldId | null = null;
+    for (const field of fields) {
+      if (field.text.includes(t) && field.weight > bestWeight) {
+        bestWeight = field.weight;
+        bestField = field.id;
+      }
+    }
+    if (bestWeight > 0 && bestField) {
+      matchedWeight += termW * bestWeight;
+      matched.push(term);
+      const list = fieldHits[bestField] || [];
+      list.push(term);
+      fieldHits[bestField] = list;
+    }
+  }
+
+  return {
+    score: weightSum > 0 ? matchedWeight / weightSum : 0,
+    matched,
+    fieldHits,
+  };
+}
+
+/** @deprecated Prefer fieldWeightedLexicalScore — kept as thin alias for local call sites. */
 function lexicalScore(
   asset: DepositoryAsset,
   terms: string[],
 ): { score: number; matched: string[] } {
-  if (!terms.length) return { score: 0, matched: [] };
-  const blob = JSON.stringify(asset || {}).toLowerCase();
-  let weightSum = 0;
-  let matchedWeight = 0;
-  const matched: string[] = [];
-  for (const term of terms) {
-    const t = term.toLowerCase();
-    const isPhrase = /\s/.test(term) || term.length > 24;
-    const w = isPhrase ? 2.5 : 1;
-    weightSum += w;
-    if (blob.includes(t)) {
-      matchedWeight += w;
-      matched.push(term);
-    }
-  }
-  return {
-    score: weightSum > 0 ? matchedWeight / weightSum : 0,
-    matched,
-  };
+  const { score, matched } = fieldWeightedLexicalScore(asset, terms);
+  return { score, matched };
 }
 
 function applyStaticFilters(

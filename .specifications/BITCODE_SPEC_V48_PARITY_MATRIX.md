@@ -88,7 +88,7 @@ importing each other.
 | STAB-D1 | Per-agent prompt context checklist (Need, hits, catalog, measurements) audited for both products | substantially advanced | Read plan/commercial requirements list Need, hits, catalog; deposit prompts list hits | STAB-impl-1 |
 | STAB-B1 | Absolute honesty: deterministic/path-only fallback never silently presents as full measured quality | substantially advanced | Host empty/catch uses `computeHonestPathOnlyAbsolutes` + `measureReport.mode=path-only`; no false `measured` on path-only | STAB-impl-2 |
 | STAB-B2 | When Need is present, neediness plan is non-empty; fit measure is pack-grounded | substantially advanced | Read shell re-plans when Setup empty; deterministic volumes blend pack↔Need material overlap | STAB-impl-2 |
-| STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | open | Lexical still uses JSON.stringify substring; impl handoff advanced in STAB-A2 | STAB-impl-3 |
+| STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | substantially advanced | `fieldWeightedLexicalScore` + `collectLexicalFieldCorpora` (NL≫fixtures≫paths); handoff STAB-A2; ops reembed script remains | STAB-impl-3 |
 | STAB-C2 | Deposit Discovery search budget law explicit (bounded default vs full opt-in) | open | Host seeds `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded`; tradeoff documented in NOTES | STAB-spec (done in NOTES) + optional product default review |
 
 **Iteration order:** NOTES audit (this row set) → STAB-impl-1 (prompts + hits) →

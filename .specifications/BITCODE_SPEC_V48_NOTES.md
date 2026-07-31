@@ -1472,6 +1472,22 @@ Landed on `version/v48` (working tree / next commit):
 - PARITY: STAB-B1, STAB-B2 → substantially advanced. Open next: STAB-C1
   (field-weighted lexical).
 
+#### STAB-impl-3 (2026-07-30) — field-weighted lexical
+
+- Replaced `JSON.stringify(asset)` substring lexical with
+  `fieldWeightedLexicalScore` / `collectLexicalFieldCorpora` in
+  `deposit-depository-asset-pack-search.ts`.
+- Weights (source-safe fields only): commercial NL (1.0) ≫ absolute fixtures
+  (0.55) ≫ title/summary (0.4) ≫ topics (0.3) ≫ paths (0.12). Phrase terms
+  still get a multi-word bonus; path-only hits cannot rank like buyer prose.
+- Search→impl handoff already advanced in STAB-A2 (`depositoryHits`).
+- Ops reembed (index lag): `scripts/reembed-depository-search-vectors.ts` /
+  `depository-reembed.ts` — operator path for commercial NL + fixtures embed
+  backfill (pgvector). Not dual-pipeline “lens”; product framing remains
+  `deposit-relevants` | `read-need-fits` only.
+- PARITY: STAB-C1 → substantially advanced. Open residual: STAB-C2 (budget law
+  already in NOTES), STAB-4 validation framing.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).
