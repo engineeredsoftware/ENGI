@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  *
- * MVP-E2E L4: CI-fast commercial spine (non-UI).
+ * MVP-E2E L4 spine + L5 fail-closed matrix (non-UI).
  */
 
 import { runMvpCoreE2eSpine } from '@/lib/mvp-core-e2e-spine';
@@ -12,9 +12,11 @@ describe('MVP-E2E L4 core spine', () => {
       repositoryFullName: 'octocat/Spoon-Knife',
       needText: 'I need session refresh and token rotation for OAuth clients.',
       includePathOnlyNoise: true,
+      failMode: 'none',
     });
 
     expect(result.schema).toBe('bitcode.mvp-core-e2e-spine');
+    expect(result.failMode).toBe('none');
     expect(result.errors).toEqual([]);
     expect(result.ok).toBe(true);
 
@@ -40,5 +42,34 @@ describe('MVP-E2E L4 core spine', () => {
 
     expect(result.steps.sourceSafety.admissionSourceSafe).toBe(true);
     expect(result.steps.sourceSafety.unpaidSearchHitsHaveNoFileBodies).toBe(true);
+    expect(result.steps.pathOnlyHonesty.neverMeasured).toBe(true);
+    expect(result.steps.pathOnlyHonesty.absoluteCount).toBeGreaterThan(0);
   }, 60000);
+});
+
+describe('MVP-E2E L5 fail-closed matrix', () => {
+  it('reject-admission: zero admissions and not ok', async () => {
+    const result = await runMvpCoreE2eSpine({ failMode: 'reject-admission' });
+    expect(result.ok).toBe(false);
+    expect(result.failMode).toBe('reject-admission');
+    expect(result.steps.admission.admittedCount).toBe(0);
+    expect(result.errors).toContain('no_admitted_options');
+    expect(result.steps.pathOnlyHonesty.neverMeasured).toBe(true);
+  });
+
+  it('empty-needinesses-quote: quote fails closed', async () => {
+    const result = await runMvpCoreE2eSpine({ failMode: 'empty-needinesses-quote' });
+    expect(result.ok).toBe(false);
+    expect(result.failMode).toBe('empty-needinesses-quote');
+    expect(result.steps.quote.ok).toBe(false);
+    expect(result.errors).toContain('quote_failed_empty_needinesses');
+  });
+
+  it('empty-search-corpus: thin depository yields zero hits', async () => {
+    const result = await runMvpCoreE2eSpine({ failMode: 'empty-search-corpus' });
+    expect(result.ok).toBe(false);
+    expect(result.failMode).toBe('empty-search-corpus');
+    expect(result.steps.search.hitCount).toBe(0);
+    expect(result.errors).toContain('empty_search_corpus');
+  });
 });

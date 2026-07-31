@@ -1586,6 +1586,17 @@ S4 mock settlement order · S5 unpaid source-safety fail-closed.
 - PARITY E2E-L4 → substantially advanced. Optional next: fail-closed matrix
   (empty Need, invalid VCS) + operator live spine runbook.
 
+#### MVP-E2E-5 (2026-07-31) — fail-closed matrix + handoff
+
+- Spine `failMode`: `reject-admission`, `empty-needinesses-quote`,
+  `empty-search-corpus` (plus happy `none`).
+- Path-only absolute honesty pin on every spine run (`neverMeasured`).
+- Handoff for crypto/UX: `.docs/MVP_CORE_E2E_HANDOFF.md` (payload contracts,
+  honesty classes, test entrypoints).
+- L1 route auth still fail-closed (session/Need/repo) from E2E-1.
+- PARITY E2E-L5 → substantially advanced. Core MVP-E2E ladder closed for CI-fast
+  contracts; live LLM/DB remain opt-in L2/L3 lanes.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

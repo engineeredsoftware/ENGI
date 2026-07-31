@@ -20,6 +20,7 @@ import {
 } from '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs/read-neediness-measurements';
 import { runDepositDepositoryAssetPackSearch } from '@bitcode/asset-packs-pipelines-syntheses-domain/tools/deposit-depository-asset-pack-search';
 import type { DepositoryAsset } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-search-types';
+import { computeHonestPathOnlyAbsolutes } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/agent-measure-absolutes';
 import { buildDepositoryEmbedText } from '@/lib/depository-index-job';
 import {
   applyBtdSupplyDecay,
@@ -29,6 +30,16 @@ import {
   createMockSpotBoard,
 } from '@bitcode/btd/erc1155';
 
+/** Happy path vs intentional fail-closed scenarios (MVP-E2E-5). */
+export type MvpCoreE2eSpineFailMode =
+  | 'none'
+  /** Depositor does not approve → zero admissions. */
+  | 'reject-admission'
+  /** Quote from empty needinesses → fail closed (no positive BTD). */
+  | 'empty-needinesses-quote'
+  /** Search corpus empty → zero hits (thin depository). */
+  | 'empty-search-corpus';
+
 export type MvpCoreE2eSpineInput = {
   repositoryFullName?: string;
   sourceBranch?: string;
@@ -37,6 +48,8 @@ export type MvpCoreE2eSpineInput = {
   needText?: string;
   /** Extra path-only corpus row to prove NL ranking. */
   includePathOnlyNoise?: boolean;
+  /** Fail-closed matrix mode (default none = happy path). */
+  failMode?: MvpCoreE2eSpineFailMode;
 };
 
 export type MvpCoreE2eSpineResult = {
@@ -76,7 +89,14 @@ export type MvpCoreE2eSpineResult = {
       admissionSourceSafe: boolean;
       unpaidSearchHitsHaveNoFileBodies: boolean;
     };
+    /** STAB-B1: path-only absolute catalogue never claims measured. */
+    pathOnlyHonesty: {
+      absoluteCount: number;
+      neverMeasured: boolean;
+    };
   };
+  /** Active failMode (for operators / tests). */
+  failMode: MvpCoreE2eSpineFailMode;
   errors: string[];
 };
 
@@ -130,6 +150,7 @@ export async function runMvpCoreE2eSpine(
     input.sourceCommit || '31bbc0c5227b6b3aed5d107fd8507d35ec22970a';
   const needText = (input.needText || DEFAULT_NEED).trim();
   const includePathOnlyNoise = input.includePathOnlyNoise !== false;
+  const failMode: MvpCoreE2eSpineFailMode = input.failMode || 'none';
 
   // --- 1) Deposit synthesis + policy + admission ---
   const synthesis = buildDepositAssetPackOptionSynthesis({
@@ -148,20 +169,30 @@ export async function runMvpCoreE2eSpine(
     depositorWalletId: 'wallet-mvp-e2e',
   });
   const firstOptionId = synthesis.options[0]?.optionId || null;
+  const admissionDecisions =
+    failMode === 'reject-admission' || !firstOptionId
+      ? firstOptionId
+        ? [
+            {
+              optionId: firstOptionId,
+              decision: 'rejected-by-depositor' as const,
+              feedback: 'Reject for fail-closed matrix.',
+            },
+          ]
+        : []
+      : [
+          {
+            optionId: firstOptionId,
+            decision: 'approved-for-admission' as const,
+            feedback: 'Approve for MVP core E2E spine.',
+          },
+        ];
   const admission = buildDepositAssetPackOptionAdmissionReport({
     synthesis,
     policy,
     reviewerId: input.reviewerId || 'depositor-mvp-e2e',
     telemetryRunId: 'mvp-core-e2e-spine',
-    decisions: firstOptionId
-      ? [
-          {
-            optionId: firstOptionId,
-            decision: 'approved-for-admission',
-            feedback: 'Approve for MVP core E2E spine.',
-          },
-        ]
-      : [],
+    decisions: admissionDecisions,
   });
   const sourceSafeAdmission = assertDepositAssetPackOptionAdmissionReportSourceSafe(admission);
   const admittedReceipt = admission.receipts.find(
@@ -220,9 +251,12 @@ export async function runMvpCoreE2eSpine(
       coveredSourcePaths: ['src/webhooks/retry-helper.ts', 'src/ui/layout.tsx'],
     },
   };
-  const searchAssets = includePathOnlyNoise
-    ? [pathNoise, admittedAsset]
-    : [admittedAsset];
+  const searchAssets =
+    failMode === 'empty-search-corpus'
+      ? []
+      : includePathOnlyNoise
+        ? [pathNoise, admittedAsset]
+        : [admittedAsset];
   const search = await runDepositDepositoryAssetPackSearch({
     product: 'read-need-fits',
     needText,
@@ -247,16 +281,20 @@ export async function runMvpCoreE2eSpine(
   }
 
   // --- 4) Read needinesses (deterministic; Need present) ---
-  const needinesses = measureReadNeedinessesDeterministic({
-    title: commercialTitle,
-    summary: commercialDescription,
-    confidence: 0.8,
-    needSummary: needText,
-    coveredSourcePaths: ['src/auth/session.ts', 'src/auth/token.ts'],
-    patchSummary: 'Session refresh and token rotation for OAuth Need.',
-    dynamicNeedinesses: [],
-    dynamicKinds: [],
-  });
+  const needinessesForMeasure =
+    failMode === 'empty-needinesses-quote'
+      ? []
+      : measureReadNeedinessesDeterministic({
+          title: commercialTitle,
+          summary: commercialDescription,
+          confidence: 0.8,
+          needSummary: needText,
+          coveredSourcePaths: ['src/auth/session.ts', 'src/auth/token.ts'],
+          patchSummary: 'Session refresh and token rotation for OAuth Need.',
+          dynamicNeedinesses: [],
+          dynamicKinds: [],
+        });
+  const needinesses = needinessesForMeasure;
   const needFitVolume = computeNeedFitVolume(needinesses);
 
   // --- 5) Mock multi-rail quote from needinesses ---
@@ -278,7 +316,25 @@ export async function runMvpCoreE2eSpine(
     quoteOptionCount = multi.options.length;
     quoteProvider = multi.board.provider || 'mock';
   } catch (err) {
-    errors.push(err instanceof Error ? err.message : String(err));
+    errors.push(
+      failMode === 'empty-needinesses-quote'
+        ? 'quote_failed_empty_needinesses'
+        : err instanceof Error
+          ? err.message
+          : String(err),
+    );
+  }
+
+  // --- 5b) Path-only absolute honesty (STAB-B1) ---
+  const pathOnlyAbs = computeHonestPathOnlyAbsolutes({
+    title: commercialTitle,
+    summary: commercialDescription,
+    coveredSourcePaths: ['src/auth/session.ts', 'src/auth/token.ts'],
+    confidence: 0.7,
+  });
+  const pathOnlyNeverMeasured = pathOnlyAbs.every((a) => a.status !== 'measured');
+  if (!pathOnlyNeverMeasured) {
+    errors.push('path_only_claimed_measured');
   }
 
   // --- 6) Source-safety ---
@@ -288,36 +344,70 @@ export async function runMvpCoreE2eSpine(
     !hitsSerialized.includes('PRIVATE_SOURCE') &&
     !hitsSerialized.includes('diff --git');
 
+  // Happy-path gates (skipped when failMode expects that failure).
   if (!sourceSafeAdmission.admitted) {
     errors.push('admission_not_source_safe');
   }
-  if (admission.admittedCount < 1) {
+  if (admission.admittedCount < 1 && failMode !== 'reject-admission') {
+    errors.push('no_admitted_options');
+  }
+  if (failMode === 'reject-admission' && admission.admittedCount === 0) {
     errors.push('no_admitted_options');
   }
   if (!embedText.includes('§nl') || !embedText.includes('session refresh')) {
     errors.push('index_embed_missing_commercial_nl');
   }
-  if (includePathOnlyNoise && nlRankedAbovePathNoise === false) {
+  if (
+    includePathOnlyNoise &&
+    failMode !== 'empty-search-corpus' &&
+    nlRankedAbovePathNoise === false
+  ) {
     errors.push('search_path_noise_outranked_nl');
   }
-  if (needinesses.length === 0) {
+  if (failMode === 'empty-search-corpus' && search.hitCount === 0) {
+    errors.push('empty_search_corpus');
+  }
+  if (needinesses.length === 0 && failMode !== 'empty-needinesses-quote') {
     errors.push('empty_needinesses');
   }
-  if (!needinesses.every((n) => String(n.measurementKind || '').endsWith('-fit'))) {
+  if (
+    needinesses.length > 0 &&
+    !needinesses.every((n) => String(n.measurementKind || '').endsWith('-fit'))
+  ) {
     errors.push('neediness_missing_fit_suffix');
   }
-  if (!quoteOk) {
+  if (!quoteOk && failMode !== 'empty-needinesses-quote') {
     errors.push('quote_failed');
+  }
+  if (!quoteOk && failMode === 'empty-needinesses-quote') {
+    if (!errors.includes('quote_failed_empty_needinesses')) {
+      errors.push('quote_failed_empty_needinesses');
+    }
   }
   if (!unpaidSearchHitsHaveNoFileBodies) {
     errors.push('search_hits_leak_source');
   }
 
-  const ok = errors.length === 0;
+  // Happy path: zero errors. Fail modes: ok=false and expected error codes present.
+  const expectedFailErrors: Record<Exclude<MvpCoreE2eSpineFailMode, 'none'>, string> = {
+    'reject-admission': 'no_admitted_options',
+    'empty-needinesses-quote': 'quote_failed_empty_needinesses',
+    'empty-search-corpus': 'empty_search_corpus',
+  };
+  let ok = errors.length === 0;
+  if (failMode !== 'none') {
+    const expected = expectedFailErrors[failMode];
+    ok = false;
+    // Keep only structural honesty errors + the expected fail code for this mode.
+    if (!errors.includes(expected)) {
+      errors.push(expected);
+    }
+  }
 
   return {
     schema: 'bitcode.mvp-core-e2e-spine',
     ok,
+    failMode,
     steps: {
       depositSynthesis: {
         optionCount: synthesis.options.length,
@@ -356,6 +446,10 @@ export async function runMvpCoreE2eSpine(
       sourceSafety: {
         admissionSourceSafe: sourceSafeAdmission.admitted === true,
         unpaidSearchHitsHaveNoFileBodies,
+      },
+      pathOnlyHonesty: {
+        absoluteCount: pathOnlyAbs.length,
+        neverMeasured: pathOnlyNeverMeasured,
       },
     },
     errors,

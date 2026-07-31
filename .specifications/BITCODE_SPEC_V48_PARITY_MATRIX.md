@@ -110,9 +110,10 @@ crypto UX. Layers L0–L4 per NOTES § MVP core E2E ladder.
 | E2E-L2 | CI-fast SDIVF deposit+read with STAB product laws (honesty, hits, needinesses, Need validation) | substantially advanced | Deposit SDIVF integration + honesty pins; read SDIVF integration (Need, *-fit, productLens, validation store); L2 inventory lock | MVP-E2E-2 |
 | E2E-L3 | Local/CI Supabase: index + hybrid search (NL ≫ paths) + reembed dry-run + RLS unpaid | substantially advanced | Mocked document upsert (commercial NL+fixtures); hybrid NL≫path ranking; reembed dry-run suite; unpaid scrub unit; live Supabase job still opt-in | MVP-E2E-3 |
 | E2E-L4 | Scripted deposit→admit→index→read→quote→mock settle→activity spine | substantially advanced | `runMvpCoreE2eSpine` CI-fast orchestrator + test: admit, index embed, NL search, needinesses, mock quote, source-safe | MVP-E2E-4 |
+| E2E-L5 | Fail-closed matrix + crypto/UX payload handoff | substantially advanced | Spine `failMode` reject-admission / empty-needinesses-quote / empty-search-corpus; path-only honesty; `.docs/MVP_CORE_E2E_HANDOFF.md` | MVP-E2E-5 |
 
 **Iteration order:** E2E-0 spec → E2E-1 API → E2E-2 pipeline CI-fast → E2E-3 DB
-→ E2E-4 spine → fail-closed hardening. Browser Gate 7 remains mock UI (joint).
+→ E2E-4 spine → E2E-5 fail-closed hardening. Browser Gate 7 remains mock UI (joint).
 
 ## Grouped closure gates
 
