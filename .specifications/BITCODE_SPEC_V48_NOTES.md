@@ -1542,6 +1542,19 @@ marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
 S1 deposit commercial option · S2 read Need-fit · S3 NL ≫ path ranking ·
 S4 mock settlement order · S5 unpaid source-safety fail-closed.
 
+#### MVP-E2E-2 (2026-07-31) — L2 CI-fast SDIVF
+
+- **L2-DEP:** `deposit-sdivf-pipeline-integration.test.ts` (boundary-mocked LLMs,
+  `BITCODE_ENABLE_ASSET_PACK_SDIVF_RUNTIME_IN_TEST=1`) + STAB-B1 honesty pins
+  (measureReport mode; no volume-0 estimated).
+- **L2-READ:** `read-sdivf-pipeline-integration.test.ts` — Need-first full SDIVF;
+  asserts `productLens=read`, needinesses `*-fit` non-empty, optional
+  depositoryHits projection when tool result seeded, validation ready store.
+- Inventory lock: `mvp-core-e2e-l2-inventory.core.test.ts`.
+- Live LLM lane remains operator `qa:deposit:local` / `qa:read:debug-first-llm`
+  (not every commit).
+- PARITY E2E-L2 → substantially advanced. Next: L3 DB / L4 spine.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

@@ -23,5 +23,22 @@ module.exports = createJestConfig(__dirname, {
       __dirname,
       '../../domain/src/$1',
     ),
+    // Package name is generic-tools-editing; on-disk folder is files-maintaining.
+    '^@bitcode/generic-tools-editing$': path.join(
+      __dirname,
+      '../../../generic-tools/files-maintaining/src/index.ts',
+    ),
+    '^@bitcode/generic-tools-editing/(.*)$': path.join(
+      __dirname,
+      '../../../generic-tools/files-maintaining/src/$1',
+    ),
+    '^@bitcode/generic-llms-models/src/(.*)$': path.join(
+      __dirname,
+      '../../../generic-llms/models/src/$1',
+    ),
+    '^@bitcode/generic-llms-models/(.*)$': path.join(
+      __dirname,
+      '../../../generic-llms/models/src/$1',
+    ),
   },
 });
