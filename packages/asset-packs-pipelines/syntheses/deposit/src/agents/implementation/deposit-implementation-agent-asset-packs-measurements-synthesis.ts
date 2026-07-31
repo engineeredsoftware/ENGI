@@ -150,8 +150,11 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     let measureReport: DepositMeasureReport | null = null;
     try {
       // Tool-rich measure: bare absolutes + material identity + quality inference.
+      // productLens=read when invoked from read Implementation twin; default deposit.
+      const productLens = findValue(execution, 'implementation', 'productLens');
+      const measureLens = productLens === 'read' ? 'read' : 'deposit';
       const measured = await measureDataPackAbsolutesAndIdentity(patchDescriptor, {
-        lens: 'deposit',
+        lens: measureLens,
         execution,
         sources: scopedBodies,
         preferQualityInference: true,

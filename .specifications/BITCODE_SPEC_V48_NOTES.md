@@ -1339,9 +1339,10 @@ ids break claim/list even when wallet auth succeeds.
 | Dispatch / stream | early emit + host bridge + supply preload | **same shape** (read twin of deposit dispatch) |
 | Steering | Obfuscations + path pickers | Need text + Relevant/Irrelevant paths |
 | Discovery search | `deposit-relevants` multi-query hybrid | `read-need-fits` multi-query hybrid |
-| Measurements | **absolutes only** (`needinesses: []`) | **absolutes + needinesses (*-fit)** static+dynamic |
+| **Implementation** | **Four sequential agents**: patch-plan → patchfile → measurements → commercial-nl | **Same four-agent sequence** (read keys); measurements also attach **needinesses (*-fit)** + needFit |
+| Measurements | **absolutes only** (legal deposit bag) | **absolutes + needinesses (*-fit)** static+dynamic |
 | Option review | Select → batch admit → **index job** | Select → settle quote |
-| Finish envelope | presentable deposit options | presentable read options |
+| Finish envelope | presentable deposit options | presentable read options (unpaid dual envelope) |
 | Next pipeline | (none — Depository supply) | `ExecutionPipelineSimpleSettleAssetPack` |
 | Packs projection | depository-assetpack + absolutes | settled-assetpack + absolutes + needinesses |
 

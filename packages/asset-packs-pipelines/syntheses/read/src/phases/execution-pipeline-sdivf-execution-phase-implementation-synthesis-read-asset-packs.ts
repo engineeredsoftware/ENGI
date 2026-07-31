@@ -1,39 +1,55 @@
 /**
- * Product-specific ExecutionPipelineSDIVFExecutionPhase implementation for
- * SynthesisReadAssetPacks.
+ * Read Implementation phase: four sequential agents on the same AssetPack(s)
+ * — deposit twin.
  *
- * Hierarchy (left→right):
- *   Execution → Pipeline → SDIVF → ExecutionPhase → Implementation → SynthesisReadAssetPacks
+ *   1. patch-plan — descriptors grounded in Need + Discovery
+ *   2. patchfile — write one AssetPackPatchArtifact per pack
+ *   3. measurements — absolutes + needinesses (*-fit) + needFit
+ *   4. commercial-nl — rich buyer title + description
  *
- * Base type: ExecutionPipelineSDIVFExecutionPhaseDelegator (SDIVF phase base).
- * This file is one SDIVF phase role specializations for the read synthesis product.
+ * LLM providers receive full source/patch content. Product source-safety is for
+ * unpaid user/API surfaces only.
  */
 
 import { createAgentExecutor } from '@bitcode/pipelines-generics';
 import { type ExecutionPipelineSDIVFExecutionPhaseDelegator } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
+import { Executor, sequential } from '@bitcode/execution-generics';
 import type { AssetPackInput, AssetPackOutput } from '@bitcode/asset-packs-pipelines-syntheses-domain/types/PipelineSchemas';
 
 type DiscoveryOutput = AssetPackInput;
 type ImplementationOutput = AssetPackOutput;
 
-/** ExecutionPipelineSDIVFExecutionPhase Implementation specialization for read synthesis. */
+const PATCH_PLAN_KEY =
+  'implementation:read-implementation-agent-asset-packs-patch-plan';
+const PATCHFILE_KEY =
+  'implementation:read-implementation-agent-asset-packs-patchfile';
+const MEASUREMENTS_KEY =
+  'implementation:read-implementation-agent-asset-packs-measurements-synthesis';
+const COMMERCIAL_NL_KEY =
+  'implementation:read-implementation-agent-asset-packs-commercial-nl';
+
 export const executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks: ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput
 > = (async (input: any, execution: any) => {
-  try {
-    (execution as any).agents?.registerAgent?.(
-      'implementation:read-asset-pack-synthesis',
-      () =>
-        import('../agents/implementation/read-asset-pack-synthesis-agent').then(
-          (m) => m.default,
-        ),
+  const agents = (execution as any)?.agents;
+  if (!agents?.registerAgent) {
+    throw new Error(
+      'Read Implementation phase requires execution.agents.registerAgent (fail-closed).',
     );
-  } catch {}
-  return await createAgentExecutor('implementation:read-asset-pack-synthesis')(
-    input,
-    execution,
+  }
+  const { registerImplementationAgents } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/phases/implementation'
   );
+  registerImplementationAgents(agents, 'read');
+
+  const exec: Executor<any, any> = sequential(
+    createAgentExecutor(PATCH_PLAN_KEY),
+    createAgentExecutor(PATCHFILE_KEY),
+    createAgentExecutor(MEASUREMENTS_KEY),
+    createAgentExecutor(COMMERCIAL_NL_KEY),
+  );
+  return await exec(input, execution);
 }) as unknown as ExecutionPipelineSDIVFExecutionPhaseDelegator<
   DiscoveryOutput,
   ImplementationOutput

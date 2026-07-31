@@ -1,0 +1,111 @@
+/**
+ * Read Implementation agent 3/4 — measurements (deposit absolutes + needinesses).
+ *
+ * Registry: implementation:read-implementation-agent-asset-packs-measurements-synthesis
+ * Sequence: patch-plan → patchfile → THIS → commercial-nl
+ *
+ * Runs deposit absolute measure host, then attaches needinesses (*-fit) + needFit
+ * (product delta vs deposit absolutes-only bag).
+ */
+
+import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
+import { attachNestedAbsolutes } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements';
+
+function findValue(execution: any, namespace: string, key: string): any {
+  const local = execution?.get?.(namespace, key);
+  if (local !== undefined) return local;
+  return execution?.findUp?.(namespace, key);
+}
+
+export default async function runReadImplementationAgentAssetPacksMeasurementsSynthesis(
+  input: any,
+  execution: any,
+) {
+  try {
+    execution?.store?.('implementation', 'productLens', 'read');
+  } catch {
+    /* optional */
+  }
+
+  // 1) Deposit twin: absolute measurements on each patchfile artifact.
+  const depositMeasure = await import(
+    '../../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis'
+  );
+  const measured = await depositMeasure.default(input, execution);
+
+  // 2) Read delta: needinesses + needFit on each option.
+  const options = Array.isArray((measured as any)?.options)
+    ? (measured as any).options
+    : Array.isArray(findValue(execution, 'implementation', 'options'))
+      ? findValue(execution, 'implementation', 'options')
+      : [];
+
+  const needText =
+    findValue(execution, 'read', 'need') ??
+    findValue(execution, 'implementation', 'need') ??
+    input?.need ??
+    '';
+  const needComprehension =
+    findValue(execution, 'setup', 'needComprehension') ??
+    findValue(execution, 'setup', 'inputComprehension');
+  const dynamicKinds = Array.isArray(needComprehension?.dynamicNeedinessKinds)
+    ? needComprehension.dynamicNeedinessKinds
+    : [];
+  const dynamicNeedinesses = Array.isArray(needComprehension?.dynamicNeedinesses)
+    ? needComprehension.dynamicNeedinesses
+    : null;
+
+  const { measureReadNeedinesses, computeNeedFitVolume } = await import(
+    '../../read-neediness-measurements'
+  );
+
+  for (const option of options) {
+    if (!option || typeof option !== 'object') continue;
+    delete (option as any).needinessSignal;
+
+    const existingAbsolutes = Array.isArray((option as any).measurements?.absolutes)
+      ? (option as any).measurements.absolutes
+      : Array.isArray((option as any).absolutes)
+        ? (option as any).absolutes
+        : [];
+    const materialIdentity =
+      (option as any).measurements?.materialIdentity ??
+      (option as any).materialIdentity ??
+      null;
+    const measureReport =
+      (option as any).measurements?.measureReport ??
+      (option as any).measureReport ??
+      null;
+
+    const needinesses = await measureReadNeedinesses({
+      title: String((option as any)?.title ?? ''),
+      summary: String((option as any)?.summary ?? ''),
+      confidence: (option as any)?.confidence,
+      needSummary: needComprehension?.summary || String(needText || ''),
+      dynamicKinds,
+      dynamicNeedinesses,
+      execution,
+    });
+    const needFit = computeNeedFitVolume(needinesses);
+
+    attachNestedAbsolutes(option as any, existingAbsolutes, {
+      withNeedinesses: needinesses,
+      materialIdentity,
+      measureReport,
+    });
+    (option as any).needFit = needFit;
+  }
+
+  const summary = `Measured ${options.length} read DataPack(s) (absolutes + *-fit needinesses + needFit).`;
+  storeCrossPhaseArtifact(execution, 'implementation', 'options', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'assetPacks', options);
+  storeCrossPhaseArtifact(execution, 'implementation', 'summary', summary);
+
+  return {
+    ...(typeof measured === 'object' && measured ? measured : {}),
+    success: true,
+    semanticKind: 'asset-pack-written-asset' as const,
+    options,
+    summary,
+  };
+}

@@ -121,7 +121,7 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
     );
   });
 
-  it('implementation registers deposit patch-plan, patchfile, measurements, commercial-nl vs read keys', async () => {
+  it('implementation registers deposit and read four-agent twin keys', async () => {
     const depositPlanKey =
       'implementation:deposit-implementation-agent-asset-packs-patch-plan';
     const depositPatchfileKey =
@@ -130,7 +130,14 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
       'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis';
     const depositCommercialNlKey =
       'implementation:deposit-implementation-agent-asset-packs-commercial-nl';
-    const readKey = 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent';
+    const readPlanKey =
+      'implementation:read-implementation-agent-asset-packs-patch-plan';
+    const readPatchfileKey =
+      'implementation:read-implementation-agent-asset-packs-patchfile';
+    const readMeasurementsKey =
+      'implementation:read-implementation-agent-asset-packs-measurements-synthesis';
+    const readCommercialNlKey =
+      'implementation:read-implementation-agent-asset-packs-commercial-nl';
 
     const depositRegistry = fakeRegistry();
     registerImplementationAgents(depositRegistry, 'deposit');
@@ -155,7 +162,12 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
 
     const readRegistry = fakeRegistry();
     registerImplementationAgents(readRegistry, 'read');
-    expect(Array.from(readRegistry.entries.keys())).toEqual([readKey]);
+    expect(Array.from(readRegistry.entries.keys())).toEqual([
+      readPlanKey,
+      readPatchfileKey,
+      readMeasurementsKey,
+      readCommercialNlKey,
+    ]);
   });
 
   it('deposit validation registers the single deposit ready-to-finish gate', async () => {
@@ -284,7 +296,12 @@ const DEPOSIT_FINISH_KEYS = [
   'finish:ledgerize',
   'finish:finish-synthesize-asset-packs-for-deposit-run',
 ];
-const READ_IMPLEMENTATION_KEY = 'implementation:read-asset-pack-synthesis';
+const READ_IMPLEMENTATION_KEYS = [
+  'implementation:read-implementation-agent-asset-packs-patch-plan',
+  'implementation:read-implementation-agent-asset-packs-patchfile',
+  'implementation:read-implementation-agent-asset-packs-measurements-synthesis',
+  'implementation:read-implementation-agent-asset-packs-commercial-nl',
+];
 const READ_VALIDATION_KEY = 'validation:ready-to-finish-asset-packs-synthesis-read-pipeline';
 const READ_FINISH_KEYS = [
   'finish:store-artifacts',
@@ -330,11 +347,15 @@ describe('product phase delegators execute the roster (execution-tree walk)', ()
     expect(output[`ran:${DEPOSIT_IMPLEMENTATION_KEYS[3]}`]).toBe(true);
   });
 
-  it('read implementation resolves read-asset-pack-synthesis', async () => {
-    const { calls, root } = harness([READ_IMPLEMENTATION_KEY]);
-    const output = await executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks({ seed: true }, root.child('seq-2'));
-    expect(calls).toEqual([READ_IMPLEMENTATION_KEY]);
-    expect(output[`ran:${READ_IMPLEMENTATION_KEY}`]).toBe(true);
+  it('read implementation runs patch-plan → patchfile → measurements → commercial-nl sequentially', async () => {
+    const { calls, root } = harness(READ_IMPLEMENTATION_KEYS);
+    const output = await executionPipelineSDIVFExecutionPhaseImplementationSynthesisReadAssetPacks(
+      { seed: true },
+      root.child('seq-2'),
+    );
+    expect(calls).toEqual(READ_IMPLEMENTATION_KEYS);
+    expect(output[`ran:${READ_IMPLEMENTATION_KEYS[2]}`]).toBe(true);
+    expect(output[`ran:${READ_IMPLEMENTATION_KEYS[3]}`]).toBe(true);
   });
 
   it('deposit validation runs the single ready-to-finish deposit gate', async () => {
