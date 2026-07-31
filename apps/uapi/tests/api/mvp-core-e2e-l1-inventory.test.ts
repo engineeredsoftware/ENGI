@@ -27,6 +27,7 @@ const L1_MATRIX: L1Row[] = [
     id: 'L1-D2',
     surface: 'Deposit admit → activity journal',
     coverage: 'lib-model',
+    // Unit: depositAdmissionActivity; spine also asserts activity source-safe (L4).
     proofPath: 'apps/uapi/tests/depositAdmissionActivity.test.ts',
   },
   {

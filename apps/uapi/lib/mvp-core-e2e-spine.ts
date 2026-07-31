@@ -22,6 +22,12 @@ import { runDepositDepositoryAssetPackSearch } from '@bitcode/asset-packs-pipeli
 import type { DepositoryAsset } from '@bitcode/asset-packs-pipelines-syntheses-domain/depository-search-types';
 import { computeHonestPathOnlyAbsolutes } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/agent-measure-absolutes';
 import { buildDepositoryEmbedText } from '@/lib/depository-index-job';
+import { buildDepositOptionAdmissionActivityDraft } from '@/components/deposits/models/deposit-admission-activity';
+import {
+  assertPackActivitySourceSafe,
+  normalizePackActivityRecord,
+} from '@/components/bitcode/activity/PackActivityModel/pack-activity-model';
+import type { BitcodeActivityRecord } from '@/components/bitcode/activity/BitcodeActivityModel/bitcode-activity-model';
 import {
   applyBtdSupplyDecay,
   assertPositiveSettlementBtd,
@@ -88,6 +94,8 @@ export type MvpCoreE2eSpineResult = {
     sourceSafety: {
       admissionSourceSafe: boolean;
       unpaidSearchHitsHaveNoFileBodies: boolean;
+      /** L1-D2: admission activity draft survives pack activity source-safe gate. */
+      admissionActivitySourceSafe: boolean | null;
     };
     /** STAB-B1: path-only absolute catalogue never claims measured. */
     pathOnlyHonesty: {
@@ -344,6 +352,65 @@ export async function runMvpCoreE2eSpine(
     !hitsSerialized.includes('PRIVATE_SOURCE') &&
     !hitsSerialized.includes('diff --git');
 
+  // L1-D2: admitted option → activity draft → pack activity source-safe normalize.
+  let admissionActivitySourceSafe: boolean | null = null;
+  if (admittedReceipt && failMode !== 'reject-admission') {
+    try {
+      const synthOption =
+        synthesis.options.find((o) => o.optionId === admittedReceipt.optionId) ||
+        synthesis.options[0] ||
+        null;
+      const draft = buildDepositOptionAdmissionActivityDraft({
+        receipt: admittedReceipt,
+        option: synthOption,
+        synthesisRunId: 'mvp-core-e2e-spine',
+      });
+      const bitcodeRecord = {
+        id: `admit-${admittedReceipt.optionId}`,
+        kind: 'execution',
+        scope: 'personal',
+        title: admittedReceipt.title,
+        summary: draft.summary,
+        timestamp: new Date().toISOString(),
+        status: 'completed',
+        payload: {
+          ...(draft.output || {}),
+          output: draft.output || {},
+          context: draft.context || {},
+        },
+        sourceSafety: {
+          sourceSafeMetadataOnly: true,
+          protectedSourceVisible: false,
+          unpaidDataPackSourceVisible: false,
+          rawPromptVisible: false,
+          interpolatedPromptVisible: false,
+          rawProviderResponseVisible: false,
+          sourceSnippetVisible: false,
+        },
+      } as BitcodeActivityRecord;
+      const normalized = normalizePackActivityRecord(bitcodeRecord);
+      admissionActivitySourceSafe = assertPackActivitySourceSafe(normalized);
+      if (!admissionActivitySourceSafe) {
+        errors.push('admission_activity_not_source_safe');
+      }
+      const draftJson = JSON.stringify(draft).toLowerCase();
+      if (
+        draftJson.includes('export function') ||
+        draftJson.includes('protected source body')
+      ) {
+        errors.push('admission_activity_leaks_source');
+        admissionActivitySourceSafe = false;
+      }
+    } catch (err) {
+      errors.push(
+        `admission_activity_projection_failed:${
+          err instanceof Error ? err.message : String(err)
+        }`,
+      );
+      admissionActivitySourceSafe = false;
+    }
+  }
+
   // Happy-path gates (skipped when failMode expects that failure).
   if (!sourceSafeAdmission.admitted) {
     errors.push('admission_not_source_safe');
@@ -446,6 +513,7 @@ export async function runMvpCoreE2eSpine(
       sourceSafety: {
         admissionSourceSafe: sourceSafeAdmission.admitted === true,
         unpaidSearchHitsHaveNoFileBodies,
+        admissionActivitySourceSafe,
       },
       pathOnlyHonesty: {
         absoluteCount: pathOnlyAbs.length,

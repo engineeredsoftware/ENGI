@@ -1521,7 +1521,7 @@ marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
 | ID | Route / surface | Prior coverage | MVP-E2E-1 action |
 | --- | --- | --- | --- |
 | L1-D1 | `POST /api/deposit/synthesize-options` | `depositSynthesizeOptionsRoute.test.ts` (session, inference, dispatch) | Keep; source of truth for deposit dispatch |
-| L1-D2 | Deposit admit → journal | `depositAdmissionActivity.test.ts` | Keep |
+| L1-D2 | Deposit admit → journal | `depositAdmissionActivity.test.ts` + spine activity source-safe | Keep + spine pin |
 | L1-R1 | `POST /api/read/synthesize-options` | thin / missing route suite | **Add** session + need + repository contracts |
 | L1-R2 | `POST /api/read/settle/quote` | missing route suite | **Add** session + needinesses → quote shape |
 | L1-R3 | `POST /api/read/settle` rehydrate + fail-closed | `readSettleRoute.test.ts` | **Add** session, rehydrate_required, ownership, index/parse, mock dispatch |

@@ -1047,15 +1047,19 @@ function buildCommodityStateDisplay(payload: unknown): AssetPackCommodityStateDi
  * Lift settle escrow / payout fields from nested execution row payload onto
  * metadata root so Packs detail + filters can read them without deep scans.
  */
-function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<string, unknown> {
-  const output = asRecord(metadata.output);
-  const context = asRecord(metadata.context);
-  const packActivity = asRecord(output.packActivity || context.packActivity || metadata.packActivity);
+function promoteSettlePayoutMetadata(
+  metadata: Record<string, unknown> | null | undefined,
+): Record<string, unknown> {
+  // Fail soft when payload was redacted to null/undefined (empty activity rows).
+  const base = asRecord(metadata);
+  const output = asRecord(base.output);
+  const context = asRecord(base.context);
+  const packActivity = asRecord(output.packActivity || context.packActivity || base.packActivity);
   const pendingPayout =
     output.pendingPayout ||
     context.pendingPayout ||
     packActivity.pendingPayout ||
-    metadata.pendingPayout ||
+    base.pendingPayout ||
     null;
   const payoutState =
     output.payoutState ||
@@ -1063,7 +1067,7 @@ function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<
     (pendingPayout && typeof pendingPayout === 'object'
       ? (pendingPayout as { status?: string }).status
       : null) ||
-    metadata.payoutState ||
+    base.payoutState ||
     null;
   const entitledPatchSummary =
     output.entitledPatchSummary ||
@@ -1084,19 +1088,19 @@ function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<
     typeof (pendingPayout as { patchSummary?: string }).patchSummary === 'string'
       ? (pendingPayout as { patchSummary: string }).patchSummary
       : null) ||
-    metadata.entitledPatchSummary ||
+    base.entitledPatchSummary ||
     null;
   // R4: promote full entitled artifact for buyer/seller packs detail download.
   const entitledPatch =
     output.entitledPatch ||
     packActivity.entitledPatch ||
-    metadata.entitledPatch ||
+    base.entitledPatch ||
     null;
   const settleRunId =
     output.settleRunId ||
     context.settleRunId ||
-    metadata.id ||
-    metadata.settleRunId ||
+    base.id ||
+    base.settleRunId ||
     null;
   const buyerAccount =
     output.buyerAccount ||
@@ -1114,7 +1118,7 @@ function promoteSettlePayoutMetadata(metadata: Record<string, unknown>): Record<
     null;
 
   return {
-    ...metadata,
+    ...base,
     ...(pendingPayout ? { pendingPayout } : {}),
     ...(payoutState ? { payoutState } : {}),
     ...(entitledPatchSummary ? { entitledPatchSummary } : {}),

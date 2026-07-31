@@ -42,6 +42,7 @@ describe('MVP-E2E L4 core spine', () => {
 
     expect(result.steps.sourceSafety.admissionSourceSafe).toBe(true);
     expect(result.steps.sourceSafety.unpaidSearchHitsHaveNoFileBodies).toBe(true);
+    expect(result.steps.sourceSafety.admissionActivitySourceSafe).toBe(true);
     expect(result.steps.pathOnlyHonesty.neverMeasured).toBe(true);
     expect(result.steps.pathOnlyHonesty.absoluteCount).toBeGreaterThan(0);
   }, 60000);
