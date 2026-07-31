@@ -1440,6 +1440,22 @@ Need + acceptanceCriteria + relevant/irrelevant paths + ranked depository hits
 when present. Shared hosts remain domain; product shells inject lens/prompts
 only — never import the sibling product package.
 
+#### STAB-impl-1 (2026-07-30) — prompts + hits handoff
+
+Landed on `version/v48` (working tree / next commit):
+
+- Domain read prompts: `asset-packs-synthesis-prompts-read.ts`,
+  `asset-packs-commercial-nl-prompts-read.ts` (Need-first identity/requirements).
+- Domain hosts select deposit vs read PTRR by `implementation.productLens`
+  (product shells set `productLens=read` before calling base).
+- `projectDepositoryHitsForImplementation` projects ranked
+  `depositorySearchToolResult.hits` into `discovery.depositoryHits` for plan +
+  commercial-nl packets (both products when Discovery search ran).
+- Deposit prompt requirements list `depositoryHits`; read lists Need + hits +
+  catalog. Core test: `asset-packs-product-prompts.core.test.ts`.
+- PARITY: STAB-A1, STAB-A2, STAB-D1 → substantially advanced. Open next:
+  STAB-B1/B2 (measurements), STAB-C1 (field-weighted lexical).
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

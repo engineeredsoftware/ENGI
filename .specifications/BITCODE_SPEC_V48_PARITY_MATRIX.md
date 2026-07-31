@@ -83,13 +83,13 @@ importing each other.
 
 | Row ID | Required V48 result | Current judgment | Source-grounded finding | Closure |
 | --- | --- | --- | --- | --- |
-| STAB-A1 | Product-specific Implementation prompts for deposit vs read (patch-plan + commercial-nl at minimum) | open | Shared domain prompts still deposit-identity; read shells only inject demandContext | STAB-impl-1 |
-| STAB-A2 | Implementation consumes ranked depository search hits as grounding when Discovery search ran | open | Patch-plan injects `depositorySearch` topics only, not `depositorySearchToolResult.hits` | STAB-impl-1 |
+| STAB-A1 | Product-specific Implementation prompts for deposit vs read (patch-plan + commercial-nl at minimum) | substantially advanced | Domain `asset-packs-synthesis-prompts-read` + `asset-packs-commercial-nl-prompts-read`; hosts select agent by `productLens` | STAB-impl-1 |
+| STAB-A2 | Implementation consumes ranked depository search hits as grounding when Discovery search ran | substantially advanced | `projectDepositoryHitsForImplementation` + discovery.depositoryHits in plan/commercial input | STAB-impl-1 |
+| STAB-D1 | Per-agent prompt context checklist (Need, hits, catalog, measurements) audited for both products | substantially advanced | Read plan/commercial requirements list Need, hits, catalog; deposit prompts list hits | STAB-impl-1 |
 | STAB-B1 | Absolute honesty: deterministic/path-only fallback never silently presents as full measured quality | open | Measurements host falls back to `computeDeterministicAbsolutes` on measure failure | STAB-impl-2 |
 | STAB-B2 | When Need is present, neediness plan is non-empty; fit measure is pack-grounded | open | Dynamic plan can empty on Setup miss; needinesses title/summary-heavy | STAB-impl-2 |
-| STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | open | Lexical uses JSON.stringify substring; hits not wired to plan | STAB-impl-3 |
+| STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | open | Lexical still uses JSON.stringify substring; impl handoff advanced in STAB-A2 | STAB-impl-3 |
 | STAB-C2 | Deposit Discovery search budget law explicit (bounded default vs full opt-in) | open | Host seeds `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded`; tradeoff documented in NOTES | STAB-spec (done in NOTES) + optional product default review |
-| STAB-D1 | Per-agent prompt context checklist (Need, hits, catalog, measurements) audited for both products | open | Requirements omit ranked hits / Need criteria / dynamic neediness plan | STAB-impl-1 |
 
 **Iteration order:** NOTES audit (this row set) → STAB-impl-1 (prompts + hits) →
 STAB-impl-2 (measurements) → STAB-impl-3 (lexical/search) → STAB-4 validation

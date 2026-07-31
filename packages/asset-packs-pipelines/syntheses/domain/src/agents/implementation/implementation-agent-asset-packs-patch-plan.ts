@@ -1,15 +1,12 @@
 /**
- * Deposit Implementation agent — AssetPacks patch plan (V48).
+ * Shared Implementation host 1/4 — AssetPacks patch plan.
  *
- * Registry: implementation:deposit-implementation-agent-asset-packs-patch-plan
+ * Product shells (deposit/read) set `implementation.productLens` and call this
+ * host. Prompts are product-specific (STAB-A1); depository hits are injected
+ * for grounding (STAB-A2). Never import product packages from here.
  *
- * Sequence: THIS (plan descriptors) → patchfile write → measurements → commercial-nl.
- *
- * Builds 2–4 planned packs via allowlist (six fields only). Does NOT write the
- * formal patchfile artifact — that is the next agent. PTRR tools: [].
- *
- * Host authority after PTRR: catalog membership + exclusion path law; salvage
- * flags (never presentable).
+ * Sequence: THIS (plan descriptors) → patchfile → measurements → commercial-nl.
+ * Host authority: catalog membership + exclusion path law; salvage flags.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -19,6 +16,7 @@ import {
   type DepositSynthesisOptions,
 } from './asset-packs-synthesis-schema';
 import { createDepositSynthesisPrompt } from './asset-packs-synthesis-prompts';
+import { createReadSynthesisPrompt } from './asset-packs-synthesis-prompts-read';
 import {
   buildCatalogPathSet,
   collectExclusionPrefixes,
@@ -45,6 +43,7 @@ export {
 } from './asset-packs-synthesis-schema';
 
 const depositPrompt = createDepositSynthesisPrompt();
+const readPrompt = createReadSynthesisPrompt();
 
 export const DepositImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
   any,
@@ -52,7 +51,7 @@ export const DepositImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
 >({
   name: 'DepositImplementationAgentAssetPacksPatchPlan',
   description:
-    'Implementation patch-plan: source-safe descriptor + metadata per deposit AssetPack. Absolutes are agent 3/4; commercial NL is 4/4.',
+    'Implementation patch-plan (deposit): source-safe descriptor + metadata. Absolutes 3/4; commercial NL 4/4.',
   outputSchema: depositCandidateSetSchema,
   tools: [],
   prompt: depositPrompt,
@@ -61,6 +60,29 @@ export const DepositImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
     try: () => depositPrompt,
     refine: () => depositPrompt,
     retry: () => depositPrompt,
+  },
+  plan: { chunkThreshold: 2000 },
+  try: { chunkThreshold: 5000 },
+  refine: { maxAttempts: 1 },
+  retry: { maxAttempts: 1 },
+});
+
+/** Read product twin — Need-first prompts; same schema. */
+export const ReadImplementationAgentAssetPacksPatchPlan = factoryPTRRAgent<
+  any,
+  DepositSynthesisOptions
+>({
+  name: 'ReadImplementationAgentAssetPacksPatchPlan',
+  description:
+    'Implementation patch-plan (read): Need-first descriptors grounded in checkout + depository hits.',
+  outputSchema: depositCandidateSetSchema,
+  tools: [],
+  prompt: readPrompt,
+  stepPrompts: {
+    plan: () => readPrompt,
+    try: () => readPrompt,
+    refine: () => readPrompt,
+    retry: () => readPrompt,
   },
   plan: { chunkThreshold: 2000 },
   try: { chunkThreshold: 5000 },
@@ -121,12 +143,62 @@ function gateAndProject(
   });
 }
 
+/** Source-safe projection of ranked depository hits for Implementation grounding (STAB-A2). */
+export function projectDepositoryHitsForImplementation(
+  toolResult: unknown,
+  maxHits = 12,
+): Array<{
+  assetId: string;
+  title: string | null;
+  finalScore: number | null;
+  channel: string | null;
+  matchedTerms: string[];
+}> {
+  const hits = Array.isArray((toolResult as { hits?: unknown })?.hits)
+    ? ((toolResult as { hits: unknown[] }).hits as unknown[])
+    : [];
+  const out: Array<{
+    assetId: string;
+    title: string | null;
+    finalScore: number | null;
+    channel: string | null;
+    matchedTerms: string[];
+  }> = [];
+  for (const h of hits) {
+    if (!h || typeof h !== 'object') continue;
+    const row = h as Record<string, unknown>;
+    const assetId = String(row.assetId || row.asset_id || '').trim();
+    if (!assetId) continue;
+    const matchedTerms = Array.isArray(row.matchedTerms)
+      ? row.matchedTerms.map((t) => String(t ?? '').trim()).filter(Boolean).slice(0, 8)
+      : [];
+    out.push({
+      assetId,
+      title: typeof row.title === 'string' ? row.title : null,
+      finalScore:
+        typeof row.finalScore === 'number' && Number.isFinite(row.finalScore)
+          ? row.finalScore
+          : typeof row.semanticScore === 'number' && Number.isFinite(row.semanticScore)
+            ? row.semanticScore
+            : null,
+      channel: typeof row.channel === 'string' ? row.channel : null,
+      matchedTerms,
+    });
+    if (out.length >= maxHits) break;
+  }
+  return out;
+}
+
 function buildDiscoveryPacket(execution: any, input: any) {
   const codebaseComprehension = findValue(execution, 'discovery', 'codebaseComprehension');
   const codebaseAnalysis = findValue(execution, 'discovery', 'codebaseAnalysis');
   const depositorySearch = findValue(execution, 'discovery', 'depositorySearch');
+  const depositorySearchToolResult =
+    findValue(execution, 'discovery', 'depositorySearchToolResult') ??
+    findValue(execution, 'tools', 'depository-asset-pack-search');
   const inherentRegurgitation = findValue(execution, 'discovery', 'inherentRegurgitation');
   const sourceMeasurements = findValue(execution, 'discovery', 'sourceMeasurements') ?? [];
+  const depositoryHits = projectDepositoryHitsForImplementation(depositorySearchToolResult);
 
   const analysisProjection =
     codebaseAnalysis && typeof codebaseAnalysis === 'object'
@@ -154,11 +226,21 @@ function buildDiscoveryPacket(execution: any, input: any) {
     codebase: codebaseComprehension,
     codebaseAnalysis: analysisProjection,
     depository: depositorySearch,
+    /** Ranked source-safe hits for plan grounding (both products when search ran). */
+    depositoryHits,
     regurgitation: inherentRegurgitation,
     sourceMeasurements,
     anchors: {
       underservedTopics: asStringArray((depositorySearch as any)?.underservedTopics),
-      likelyReadTopics: asStringArray((depositorySearch as any)?.likelyReadTopics),
+      likelyReadTopics: asStringArray(
+        (depositorySearch as any)?.likelyReadTopics ??
+          (depositorySearch as any)?.needFitTopics,
+      ),
+      gapTopics: asStringArray((depositorySearch as any)?.gapTopics),
+      depositoryHitTitles: depositoryHits
+        .map((h) => h.title)
+        .filter((t): t is string => typeof t === 'string' && t.length > 0)
+        .slice(0, 12),
       notableModules: asStringArray(
         (codebaseComprehension as any)?.notableModules ??
           (codebaseComprehension as any)?.knowledgeAreas,
@@ -172,6 +254,14 @@ function buildDiscoveryPacket(execution: any, input: any) {
 function asStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
   return value.map((v) => String(v ?? '').trim()).filter(Boolean).slice(0, 24);
+}
+
+function resolveProductLens(execution: any, input: any): 'deposit' | 'read' {
+  const lens =
+    input?.productLens ??
+    findValue(execution, 'implementation', 'productLens') ??
+    findValue(execution, 'pipeline', 'mode');
+  return lens === 'read' ? 'read' : 'deposit';
 }
 
 function buildSalvagePacks(
@@ -239,19 +329,35 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
   input: any,
   execution: any,
 ): Promise<DepositPatchPlanPhaseOutput> {
-  const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
+  const productLens = resolveProductLens(execution, input);
+  const repository =
+    input?.repository ??
+    findValue(execution, 'deposit', 'repository') ??
+    findValue(execution, 'read', 'repository') ??
+    {};
   const obfuscations = input?.instructions ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
   const impermissibleSources =
     input?.impermissibleSources ??
     findValue(execution, 'deposit', 'impermissibleSources') ??
+    findValue(execution, 'read', 'irrelevantPaths') ??
     [];
   const permissibleSources =
     input?.permissibleSources ??
     findValue(execution, 'deposit', 'permissibleSources') ??
+    findValue(execution, 'read', 'relevantPaths') ??
     [];
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
+  const needComprehension =
+    input?.needComprehension ??
+    findValue(execution, 'setup', 'needComprehension') ??
+    findValue(execution, 'read', 'needComprehension');
+  const needText =
+    input?.need ??
+    findValue(execution, 'implementation', 'need') ??
+    findValue(execution, 'read', 'need') ??
+    (typeof needComprehension?.summary === 'string' ? needComprehension.summary : null);
 
   const { ensureDepositCheckoutSourceFiles } = await import(
     '../../ensure-checkout-source-files'
@@ -285,8 +391,11 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
 
   const agentInput = {
     ...input,
+    productLens,
     repository,
-    instructions: obfuscations,
+    instructions: productLens === 'read' ? needText || obfuscations : obfuscations,
+    need: needText,
+    needComprehension: productLens === 'read' ? needComprehension : undefined,
     permissibleSources,
     impermissibleSources,
     demandContext,
@@ -296,14 +405,19 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
     // Full bodies (synthesis provider projection) — not path-only samples.
     checkoutSources: catalogForSynthesis?.sources ?? sourceCheckoutCatalog?.sources ?? [],
     excerpts: catalogPathsOnly?.samples ?? sourceCheckoutCatalog?.samples,
-    obfuscationGuidance,
+    obfuscationGuidance: productLens === 'deposit' ? obfuscationGuidance : undefined,
     sourceMeasurements: discoveryPacket.sourceMeasurements,
     discovery: discoveryPacket,
   };
 
+  const planAgent =
+    productLens === 'read'
+      ? ReadImplementationAgentAssetPacksPatchPlan
+      : DepositImplementationAgentAssetPacksPatchPlan;
+
   let raw: unknown;
   try {
-    raw = await DepositImplementationAgentAssetPacksPatchPlan(agentInput, execution);
+    raw = await planAgent(agentInput, execution);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     try {
@@ -333,9 +447,10 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
 
   const salvageCount = countSalvagedPacks(options);
   const modelSucceeded = usableOptions.length > 0 && !usedSalvage;
+  const productLabel = productLens === 'read' ? 'read' : 'deposit';
   const summary = usedSalvage
-    ? `Host-salvaged ${options.length} deposit patch plan(s) after empty Refine (salvaged=true; NOT presentable). Patchfile write + measurements deferred.`
-    : `Planned ${options.length} deposit AssetPack patch descriptor(s) (six fields; formal patchfile artifact write is next agent).`;
+    ? `Host-salvaged ${options.length} ${productLabel} patch plan(s) after empty Refine (salvaged=true; NOT presentable). Patchfile write + measurements deferred.`
+    : `Planned ${options.length} ${productLabel} AssetPack patch descriptor(s) (six fields; formal patchfile artifact write is next agent; depositoryHits=${discoveryPacket.depositoryHits.length}).`;
 
   const output: DepositPatchPlanPhaseOutput = {
     success: modelSucceeded,
@@ -363,6 +478,8 @@ export default async function runDepositImplementationAgentAssetPacksPatchPlan(
   storeCrossPhaseArtifact(execution, 'implementation', 'salvaged', output.salvaged);
   storeCrossPhaseArtifact(execution, 'implementation', 'salvageCount', salvageCount);
   storeCrossPhaseArtifact(execution, 'implementation', 'discoveryPacketAnchors', discoveryPacket.anchors);
+  storeCrossPhaseArtifact(execution, 'implementation', 'depositoryHits', discoveryPacket.depositoryHits);
+  storeCrossPhaseArtifact(execution, 'implementation', 'productLens', productLens);
 
   return output;
 }

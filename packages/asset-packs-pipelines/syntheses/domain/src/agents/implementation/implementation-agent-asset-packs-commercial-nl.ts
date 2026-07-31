@@ -30,6 +30,7 @@ import {
   type DepositCommercialNlSet,
 } from './asset-packs-commercial-nl-schema';
 import { createDepositCommercialNlPrompt } from './asset-packs-commercial-nl-prompts';
+import { createReadCommercialNlPrompt } from './asset-packs-commercial-nl-prompts-read';
 import type {
   DepositCommercialNlPhaseOutput,
   DepositCommercialPack,
@@ -41,8 +42,10 @@ import {
   isDepositPresentablePack,
   toDepositCommercialPack,
 } from './asset-packs-implementation-pack-types';
+import { projectDepositoryHitsForImplementation } from './implementation-agent-asset-packs-patch-plan';
 
 const commercialPrompt = createDepositCommercialNlPrompt();
+const readCommercialPrompt = createReadCommercialNlPrompt();
 
 export const DepositImplementationAgentAssetPacksCommercialNl = factoryPTRRAgent<
   any,
@@ -50,7 +53,7 @@ export const DepositImplementationAgentAssetPacksCommercialNl = factoryPTRRAgent
 >({
   name: 'DepositImplementationAgentAssetPacksCommercialNl',
   description:
-    'Implementation commercial-NL: rich buyer title + description grounded in full .patch bodies + measurements.',
+    'Implementation commercial-NL (deposit): buyer title + description grounded in full .patch + measurements.',
   outputSchema: depositCommercialNlSetSchemaNormalized,
   tools: [],
   prompt: commercialPrompt,
@@ -59,6 +62,28 @@ export const DepositImplementationAgentAssetPacksCommercialNl = factoryPTRRAgent
     try: () => commercialPrompt,
     refine: () => commercialPrompt,
     retry: () => commercialPrompt,
+  },
+  plan: { chunkThreshold: 3000 },
+  try: { chunkThreshold: 6000 },
+  refine: { maxAttempts: 1 },
+  retry: { maxAttempts: 1 },
+});
+
+export const ReadImplementationAgentAssetPacksCommercialNl = factoryPTRRAgent<
+  any,
+  DepositCommercialNlSet
+>({
+  name: 'ReadImplementationAgentAssetPacksCommercialNl',
+  description:
+    'Implementation commercial-NL (read): Need-first buyer brief grounded in patch + measurements + fit.',
+  outputSchema: depositCommercialNlSetSchemaNormalized,
+  tools: [],
+  prompt: readCommercialPrompt,
+  stepPrompts: {
+    plan: () => readCommercialPrompt,
+    try: () => readCommercialPrompt,
+    refine: () => readCommercialPrompt,
+    retry: () => readCommercialPrompt,
   },
   plan: { chunkThreshold: 3000 },
   try: { chunkThreshold: 6000 },
@@ -301,20 +326,63 @@ export default async function runDepositImplementationAgentAssetPacksCommercialN
   input: any,
   execution: any,
 ): Promise<DepositCommercialNlPhaseOutput> {
+  const productLens =
+    input?.productLens === 'read' ||
+    findValue(execution, 'implementation', 'productLens') === 'read'
+      ? 'read'
+      : 'deposit';
   const repository =
     input?.assetPack?.repository ??
     input?.repository ??
     findValue(execution, 'deposit', 'repository') ??
+    findValue(execution, 'read', 'repository') ??
     findValue(execution, 'implementation', 'assetPack')?.repository ??
     {};
 
   const measured = resolveMeasuredOptions(input, execution);
-  const packet = buildCommercialNlPacket(measured);
+  const basePacket = buildCommercialNlPacket(measured) as Record<string, unknown>;
+  const needComprehension =
+    input?.needComprehension ??
+    findValue(execution, 'setup', 'needComprehension') ??
+    findValue(execution, 'read', 'needComprehension');
+  const needText =
+    input?.need ??
+    findValue(execution, 'implementation', 'need') ??
+    findValue(execution, 'read', 'need') ??
+    (typeof needComprehension?.summary === 'string' ? needComprehension.summary : null);
+  const toolResult =
+    findValue(execution, 'discovery', 'depositorySearchToolResult') ??
+    findValue(execution, 'tools', 'depository-asset-pack-search');
+  const depositoryHits =
+    findValue(execution, 'implementation', 'depositoryHits') ??
+    projectDepositoryHitsForImplementation(toolResult);
+
+  const packet =
+    productLens === 'read'
+      ? {
+          ...basePacket,
+          productLens: 'read',
+          need: needText,
+          needComprehension: needComprehension
+            ? {
+                summary: needComprehension.summary,
+                needTopics: needComprehension.needTopics,
+                acceptanceCriteria: needComprehension.acceptanceCriteria,
+              }
+            : null,
+          depositoryHits,
+        }
+      : { ...basePacket, productLens: 'deposit', depositoryHits };
+
+  const commercialAgent =
+    productLens === 'read'
+      ? ReadImplementationAgentAssetPacksCommercialNl
+      : DepositImplementationAgentAssetPacksCommercialNl;
 
   let items: DepositCommercialNlItem[] = [];
   try {
-    const raw = await DepositImplementationAgentAssetPacksCommercialNl(
-      { commercialNlPacket: packet, packs: packet },
+    const raw = await commercialAgent(
+      { commercialNlPacket: packet, packs: packet, need: needText, productLens },
       execution,
     );
     items = unwrapCommercialSet(raw);
@@ -349,8 +417,9 @@ export default async function runDepositImplementationAgentAssetPacksCommercialN
     options.length > 0 &&
     options.every((o) => Array.isArray(o.measurements?.absolutes));
 
+  const productLabel = productLens === 'read' ? 'read' : 'deposit';
   const summary = commercialNlComplete
-    ? `Attached commercial title + description for ${options.length} deposit DataPack(s).`
+    ? `Attached commercial title + description for ${options.length} ${productLabel} DataPack(s).`
     : options.length === 0
       ? 'Commercial NL failed: no measured packs from measurements agent.'
       : `Commercial NL partial: ${options.filter((o) => hasCommercialNl(o)).length}/${options.length} packs have rich commercial prose.`;

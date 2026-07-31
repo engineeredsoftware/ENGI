@@ -37,6 +37,8 @@ const DEPOSIT_REQUIREMENTS = part(
     '  - sourceCheckoutCatalog.paths: ONLY legal path strings for coveredSourcePaths and patch.fileChanges',
     '  - discovery.codebase / codebaseAnalysis: knowledge map, notable modules, structure',
     '  - discovery.depository: underservedTopics, likelyReadTopics (topic guidance)',
+    '  - discovery.depositoryHits[]: ranked source-safe depository hits { title, score, channel }',
+    '    (supply/demand exemplars when Discovery search ran; do not copy asset ids into paths)',
     '  - discovery.regurgitation: patterns and relevantKnowledge priors',
     '  - discovery.sourceMeasurements: structure signals only — never invent pack volumes',
     '  - setup obfuscation guidance + impermissibleSources',

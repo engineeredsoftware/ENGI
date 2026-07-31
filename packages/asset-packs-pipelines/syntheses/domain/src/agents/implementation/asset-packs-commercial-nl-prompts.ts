@@ -33,6 +33,8 @@ const REQUIREMENTS = part(
     '  - measurements.absolutes (full catalogue rows + honesty status + descriptors)',
     '  - materialIdentity when present',
     '  - kind, title, summary, coveredSourcePaths, confidence',
+    '  - discovery.depositoryHits[] when present: ranked supply exemplars (context only;',
+    '    do not invent pack claims from hit titles alone)',
     'Read the real bodies/diff before writing. Commercial prose must reflect what the patch actually does.',
     '',
     'OUTPUT (product commercial brief for buyers — one entry per pack):',
