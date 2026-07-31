@@ -24,7 +24,7 @@ Living launch surfaces under `/deposits`, `/reads`, and shared pipeline chrome:
 | Elapsed run-start | Compute once per `flatLines` / `startedAtMs` snapshot, not per row | `resolvedRunStartMs` useMemo |
 | Absolute expand (65 kinds) | Memoize by `option.measurements` (or pre-expand at hydrate) | `DepositOptionCard.tsx` |
 | QuantumOrb particles | Skip draw when tab hidden; honor reduced motion | `ParticleLayer.tsx` |
-| Marketing continuous paint | Mouse glow rAF-throttled; ambient particles `motion-reduce` / laptop+ gated; measure bars use CSS `marketing-bar-fill` (not per-row framer) | `MarketingLandingPage.tsx`, hero ParticleEffect, `marketing-landing-shell.css` |
+| Marketing continuous paint | Mouse glow rAF-throttled; **cache shell geometry** (no per-move `getBoundingClientRect`); skip updates when tab hidden; **no `will-change:background`** on document-tall glow (waitlist height must not inflate a promoted layer); ambient particles `motion-reduce` / laptop+ gated; measure bars use CSS `marketing-bar-fill` (not per-row framer). Visual appearance unchanged — paint path only. | `MarketingLandingPage.tsx`, hero ParticleEffect, `marketing-landing-shell.css` |
 
 Spec/parity: `BITCODE_SPEC_V48_NOTES.md` § Client pipeline + deposit review
 performance law; parity matrix row **Client product surface performance**.

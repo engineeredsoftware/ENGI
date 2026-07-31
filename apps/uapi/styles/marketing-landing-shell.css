@@ -1,5 +1,11 @@
 /* Bitcode marketing landing shell - specific fixes */
 
+/*
+ * Continuous paint law (waitlist-safe): pointer glow / orbitals may cover a tall
+ * shell, but must not promote a full-document will-change layer. Geometry for
+ * --mouse-x/y is cached in JS (see MarketingLandingPage). Appearance unchanged.
+ */
+
 /* Measure bars: CSS scaleX once (replaces per-row framer motion). */
 @keyframes marketing-bar-fill {
   from {

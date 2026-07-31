@@ -64,9 +64,26 @@ export default function MarketingLandingPage() {
     let frameId: number | null = null;
     let nextX = 50;
     let nextY = 50;
+    // Cache geometry so pointermove does not force layout every event (same math).
+    let rectLeft = 0;
+    let rectTop = 0;
+    let rectWidth = 1;
+    let stageHeight = 1;
+
+    const refreshGeometry = () => {
+      const rect = container.getBoundingClientRect();
+      rectLeft = rect.left;
+      rectTop = rect.top;
+      rectWidth = rect.width || 1;
+      stageHeight = container.offsetHeight || container.scrollHeight || rect.height || 1;
+    };
 
     const commitMousePosition = () => {
       frameId = null;
+      // Skip style work when the tab is not visible (no perceptible change while active).
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+        return;
+      }
       container.style.setProperty('--mouse-x', `${nextX}%`);
       container.style.setProperty('--mouse-y', `${nextY}%`);
     };
@@ -79,10 +96,11 @@ export default function MarketingLandingPage() {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      const rect = container.getBoundingClientRect();
-      const stageHeight = container.offsetHeight || container.scrollHeight || rect.height;
-      nextX = ((event.clientX - rect.left) / rect.width) * 100;
-      nextY = ((event.clientY - rect.top) / stageHeight) * 100;
+      if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+        return;
+      }
+      nextX = ((event.clientX - rectLeft) / rectWidth) * 100;
+      nextY = ((event.clientY - rectTop) / stageHeight) * 100;
       scheduleCommit();
     };
 
@@ -92,8 +110,12 @@ export default function MarketingLandingPage() {
       scheduleCommit();
     };
 
+    refreshGeometry();
     container.addEventListener('pointermove', handlePointerMove, { passive: true });
     container.addEventListener('pointerleave', resetMousePosition);
+    window.addEventListener('resize', refreshGeometry, { passive: true });
+    window.addEventListener('scroll', refreshGeometry, { passive: true });
+    document.addEventListener('visibilitychange', refreshGeometry);
 
     return () => {
       if (frameId !== null) {
@@ -101,6 +123,9 @@ export default function MarketingLandingPage() {
       }
       container.removeEventListener('pointermove', handlePointerMove);
       container.removeEventListener('pointerleave', resetMousePosition);
+      window.removeEventListener('resize', refreshGeometry);
+      window.removeEventListener('scroll', refreshGeometry);
+      document.removeEventListener('visibilitychange', refreshGeometry);
     };
   }, []);
 
@@ -181,19 +206,24 @@ export default function MarketingLandingPage() {
             />
           ))}
 
+          {/*
+            Pointer glow: same radial as before. Avoid will-change:background on a
+            document-tall layer (promotes a huge composited surface after waitlist
+            lengthened the shell). Visual is unchanged; paint cost drops.
+          */}
           <div
             data-testid="landing-pointer-glow"
             className="pointer-events-none absolute inset-0 hidden transition-opacity duration-300 motion-reduce:hidden laptop:block"
             style={{
               background:
                 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(103, 254, 183, 0.16) 0%, rgba(103, 254, 183, 0.08) 16%, transparent 44%)',
-              willChange: 'background',
-              contain: 'paint',
+              contain: 'strict',
             }}
           />
           <div
             data-testid="landing-ambient-glow"
             className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300/10 blur-3xl motion-reduce:hidden laptop:block"
+            style={{ contain: 'paint' }}
           />
 
           {/*
