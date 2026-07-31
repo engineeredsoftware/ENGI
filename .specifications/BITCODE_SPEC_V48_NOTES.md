@@ -1488,6 +1488,18 @@ Landed on `version/v48` (working tree / next commit):
 - PARITY: STAB-C1 → substantially advanced. Open residual: STAB-C2 (budget law
   already in NOTES), STAB-4 validation framing.
 
+#### STAB-impl-4 (2026-07-30) — validation framing + residual naming
+
+- Read Validation uses `createReadValidationPrompt` (Need-first identity /
+  requirements: Need, hits, *-fit needinesses, relevant/irrelevant paths) —
+  not deposit validation identity.
+- Read shell injects need / needComprehension / depositoryHits / path law into
+  the ready-to-finish agent input.
+- Residual `setup:ReadFitsFinding*` registry keys kept as **compat aliases**
+  (not dual-pipeline “lens”); setup.ts comments cleaned to product language.
+- PARITY: STAB-D2, STAB-D3 → substantially advanced. STAB workstream A–D P0
+  closed except optional C2 product default review.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

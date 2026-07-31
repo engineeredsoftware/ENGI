@@ -90,6 +90,7 @@
     "./agents/finish/asset-packs-store-artifacts-agent": "./src/agents/finish/asset-packs-store-artifacts-agent.ts",
     "./agents/validation/asset-packs-validation-schema": "./src/agents/validation/asset-packs-validation-schema.ts",
     "./agents/validation/asset-packs-validation-prompts": "./src/agents/validation/asset-packs-validation-prompts.ts",
+    "./agents/validation/asset-packs-validation-prompts-read": "./src/agents/validation/asset-packs-validation-prompts-read.ts",
     "./agents/validation/asset-packs-validation-checks": "./src/agents/validation/asset-packs-validation-checks.ts",
     "./ensure-checkout-source-files": "./src/ensure-checkout-source-files.ts"
   },

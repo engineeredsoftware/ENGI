@@ -90,6 +90,8 @@ importing each other.
 | STAB-B2 | When Need is present, neediness plan is non-empty; fit measure is pack-grounded | substantially advanced | Read shell re-plans when Setup empty; deterministic volumes blend pack↔Need material overlap | STAB-impl-2 |
 | STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | substantially advanced | `fieldWeightedLexicalScore` + `collectLexicalFieldCorpora` (NL≫fixtures≫paths); handoff STAB-A2; ops reembed script remains | STAB-impl-3 |
 | STAB-C2 | Deposit Discovery search budget law explicit (bounded default vs full opt-in) | open | Host seeds `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded`; tradeoff documented in NOTES | STAB-spec (done in NOTES) + optional product default review |
+| STAB-D2 | Validation ready-to-finish product framing (deposit vs Need-first read) | substantially advanced | `asset-packs-validation-prompts-read`; read shell injects Need + hits + path law | STAB-impl-4 |
+| STAB-D3 | Residual `ReadFitsFinding*` setup registry keys documented (compat aliases, not dual-pipeline) | substantially advanced | setup.ts comments; keys retained for registration stability | STAB-impl-4 |
 
 **Iteration order:** NOTES audit (this row set) → STAB-impl-1 (prompts + hits) →
 STAB-impl-2 (measurements) → STAB-impl-3 (lexical/search) → STAB-4 validation

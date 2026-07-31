@@ -1,9 +1,12 @@
 /**
- * Read Validation ready-to-finish — deposit twin + needinesses *-fit checks.
+ * Read Validation ready-to-finish — product shell (STAB-4).
  *
+ * Uses Need-first domain validation prompts (not deposit identity).
  * A) Prior phases
  * B) Pack quality: patch + measurements.absolutes + measurements.needinesses (*-fit)
  * C) Need guidance honored (topics present; no empty needinesses)
+ *
+ * Never imports the deposit product package.
  */
 
 import { factoryPTRRAgent } from '@bitcode/agent-generics';
@@ -12,7 +15,7 @@ import {
   DepositValidationOutputSchema,
   type DepositValidationResult,
 } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/asset-packs-validation-schema';
-import { createDepositValidationPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/asset-packs-validation-prompts';
+import { createReadValidationPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/validation/asset-packs-validation-prompts-read';
 import {
   asPathList,
   mergeDepositValidationVerdict,
@@ -24,7 +27,7 @@ import { resolveSourceCheckoutCatalog } from '@bitcode/asset-packs-pipelines-syn
 import { projectInventoryForPrompt } from '@bitcode/asset-packs-pipelines-syntheses-domain/asset-packs-synthesis';
 import { ensureDepositCheckoutSourceFiles } from '@bitcode/asset-packs-pipelines-syntheses-domain/ensure-checkout-source-files';
 
-const prompt = createDepositValidationPrompt();
+const prompt = createReadValidationPrompt();
 
 const ReadReadyToFinishCore = factoryPTRRAgent<any, DepositValidationResult>({
   name: 'ReadReadyToFinishAssetPacksSynthesisReadPipeline',
@@ -122,12 +125,53 @@ export default async function runReadReadyToFinishAgent(input: any, execution: a
   );
   const catalogForPrompt = projectInventoryForPrompt(catalog);
 
+  const needComprehension =
+    findValue(execution, 'setup', 'needComprehension') ??
+    findValue(execution, 'setup', 'inputComprehension') ??
+    findValue(execution, 'read', 'needComprehension');
+  const needText =
+    findValue(execution, 'read', 'need') ??
+    findValue(execution, 'implementation', 'need') ??
+    input?.need ??
+    (typeof needComprehension?.summary === 'string' ? needComprehension.summary : null);
+  const depositoryHits =
+    findValue(execution, 'implementation', 'depositoryHits') ??
+    findValue(execution, 'discovery', 'depositoryHits') ??
+    null;
+  const relevantPaths =
+    findValue(execution, 'read', 'relevantPaths') ??
+    findValue(execution, 'deposit', 'permissibleSources') ??
+    input?.relevantPaths ??
+    [];
+  const irrelevantPaths =
+    findValue(execution, 'read', 'irrelevantPaths') ??
+    findValue(execution, 'deposit', 'impermissibleSources') ??
+    input?.irrelevantPaths ??
+    [];
+
   const raw = await ReadReadyToFinishCore(
     {
       ...input,
+      productLens: 'read',
       assetPacks: packs,
       sourceCheckoutCatalog: catalogForPrompt,
       priorPhaseIssues: priorIssues,
+      need: needText,
+      needComprehension: needComprehension
+        ? {
+            summary: needComprehension.summary,
+            needTopics: needComprehension.needTopics,
+            acceptanceCriteria: needComprehension.acceptanceCriteria,
+            dynamicNeedinesses: needComprehension.dynamicNeedinesses,
+          }
+        : null,
+      discovery: {
+        depositoryHits: Array.isArray(depositoryHits) ? depositoryHits : [],
+      },
+      relevantPaths: asPathList(relevantPaths),
+      irrelevantPaths: asPathList(irrelevantPaths),
+      permissibleSources: asPathList(relevantPaths),
+      impermissibleSources: asPathList(irrelevantPaths),
     },
     execution,
   );

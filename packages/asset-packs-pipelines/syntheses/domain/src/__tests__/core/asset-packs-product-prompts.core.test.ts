@@ -1,10 +1,13 @@
 /**
- * Core: deposit vs read Implementation prompt product identity (STAB-A1).
+ * Core: deposit vs read Implementation + Validation prompt product identity
+ * (STAB-A1 / STAB-4).
  */
 import { createDepositSynthesisPrompt } from '../../agents/implementation/asset-packs-synthesis-prompts';
 import { createReadSynthesisPrompt } from '../../agents/implementation/asset-packs-synthesis-prompts-read';
 import { createDepositCommercialNlPrompt } from '../../agents/implementation/asset-packs-commercial-nl-prompts';
 import { createReadCommercialNlPrompt } from '../../agents/implementation/asset-packs-commercial-nl-prompts-read';
+import { createDepositValidationPrompt } from '../../agents/validation/asset-packs-validation-prompts';
+import { createReadValidationPrompt } from '../../agents/validation/asset-packs-validation-prompts-read';
 import { projectDepositoryHitsForImplementation } from '../../agents/implementation/implementation-agent-asset-packs-patch-plan';
 
 function promptText(prompt: { get: (k: string) => unknown }, key: string): string {
@@ -34,6 +37,18 @@ describe('asset-packs product prompts (core)', () => {
     expect(d.toLowerCase()).toContain('deposit');
     expect(r.toLowerCase()).toContain('need');
     expect(r.toLowerCase()).toContain('read');
+  });
+
+  it('validation prompts split deposit vs Need-first read (STAB-4)', () => {
+    const d = promptText(createDepositValidationPrompt() as any, 'agent:identity');
+    const r = promptText(createReadValidationPrompt() as any, 'agent:identity');
+    const rReq = promptText(createReadValidationPrompt() as any, 'agent:requirements');
+    expect(d.toLowerCase()).toContain('deposit');
+    expect(r.toLowerCase()).toContain('read');
+    expect(r.toLowerCase()).toContain('need');
+    expect(r.toLowerCase()).not.toMatch(/obfuscation/);
+    expect(rReq).toMatch(/needinesses|-\*fit|\*-fit|need/i);
+    expect(rReq).toMatch(/depositoryHits|acceptanceCriteria/i);
   });
 
   it('projectDepositoryHitsForImplementation keeps source-safe hit fields', () => {
