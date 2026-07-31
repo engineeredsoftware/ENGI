@@ -1522,6 +1522,7 @@ marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
 | --- | --- | --- | --- |
 | L1-D1 | `POST /api/deposit/synthesize-options` | `depositSynthesizeOptionsRoute.test.ts` (session, inference, dispatch) | Keep; source of truth for deposit dispatch |
 | L1-D2 | Deposit admit → journal | `depositAdmissionActivity.test.ts` + spine activity source-safe | Keep + spine pin |
+| L1-D3 | `GET /api/deposit/demand-estimate` | missing route suite | **Add** session + thin-corpus `estimatable:false` fail-closed |
 | L1-R1 | `POST /api/read/synthesize-options` | thin / missing route suite | **Add** session + need + repository contracts |
 | L1-R2 | `POST /api/read/settle/quote` | missing route suite | **Add** session + needinesses → quote shape |
 | L1-R3 | `POST /api/read/settle` rehydrate + fail-closed | `readSettleRoute.test.ts` | **Add** session, rehydrate_required, ownership, index/parse, mock dispatch |
@@ -1631,6 +1632,20 @@ Inventory L1-X1 → route-suite; in `test:mvp-core-e2e`.
 - happy path: rehydrate fullOptions → mock settle pipeline → `settleRunIds`
 
 Wired into `pnpm run test:mvp-core-e2e`. Inventory L1-R3 → route-suite.
+
+#### MVP-E2E L1-D3 (2026-07-31) — deposit demand-estimate
+
+`GET /api/deposit/demand-estimate` (`depositDemandEstimateRoute.test.ts`):
+
+- session required → 401, no loader call
+- thin/empty settled corpus → `ok:true` + `estimate.estimatable:false`
+  (null demand/neediness; empty signals; Unestimatable rationale)
+- query focus (`repositoryFullName`, title, summary, kind) forwarded to loader
+- estimatable path returns `{ ok, estimate, signals }` envelope
+
+Domain pure estimator remains package unit
+(`depository-settled-demand-estimate.test.ts`). Inventory L1-D3 → route-suite;
+in `test:mvp-core-e2e`.
 
 #### MVP-E2E operator entrypoint (2026-07-31)
 

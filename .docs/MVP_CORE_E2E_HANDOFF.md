@@ -9,6 +9,7 @@
 | Surface | Core assertion | UX/crypto may rely on |
 | --- | --- | --- |
 | Deposit options / admit | Source-safe admission report; no protected bodies unpaid | Option cards show measurements honesty + commercial NL |
+| `GET /api/deposit/demand-estimate` | Session; thin corpus → `estimatable:false` (no invented %) | UI shows Unestimatable; never fabricate demand |
 | `POST /api/depository/index` | Session + assetId; commercial NL + fixtures on document | Index status toast only |
 | Read synthesize | Session + Need + repository; Need length only in journal input | Need form + path pickers |
 | `POST /api/read/settle/quote` | Needinesses `*-fit` → mock multi-rail quote; no mainnet finality | Quote rail picker UI |
