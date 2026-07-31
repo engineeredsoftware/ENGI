@@ -1525,7 +1525,7 @@ marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
 | L1-R1 | `POST /api/read/synthesize-options` | thin / missing route suite | **Add** session + need + repository contracts |
 | L1-R2 | `POST /api/read/settle/quote` | missing route suite | **Add** session + needinesses → quote shape |
 | L1-R3 | `POST /api/read/settle` rehydrate + fail-closed | `readSettleRoute.test.ts` | **Add** session, rehydrate_required, ownership, index/parse, mock dispatch |
-| L1-X1 | `GET /api/packs/activity` | `packActivityModel.test.ts` source-safe | Model-level OK; route later |
+| L1-X1 | `GET /api/packs/activity` | `packsActivityRoute.test.ts` + model unit | **Add** route source-safe envelope + mine-only merge skip |
 | L1-S1 | `POST /api/depository/index` | embed pure helpers only | **Add** session + assetId + sync index mock |
 | L1-S2 | Hybrid search hit shape | domain field-weighted lexical unit | L2/L3 |
 | L1-V1 | VCS connection | `vcsRoutes` / auxillaries github | Keep |
@@ -1607,6 +1607,18 @@ Finish within host `maxDuration`. Opt-in full three-agent Discovery:
 `selectedPipelineHostCommandEnvironment` seeds `bounded` when unset.
 Pins: `deposit-discovery-profile.test.ts`,
 `pipelineHostCommandEnv.discovery-budget.test.ts`. PARITY STAB-C2 advanced.
+
+#### MVP-E2E L1-X1 (2026-07-31) — packs activity route
+
+`GET /api/packs/activity` (`packsActivityRoute.test.ts`):
+
+- propagates base `/api/activity` failure status
+- empty base → `ok` + sourceSafety flags (no protected/unpaid source)
+- drops unsafe records (`assertPackActivitySourceSafe`)
+- `type=my-assetpacks` skips global depository admin merge
+- limit capped (≤100 forwarded to activity)
+
+Inventory L1-X1 → route-suite; in `test:mvp-core-e2e`.
 
 #### MVP-E2E L1-R3 (2026-07-31) — settle rehydrate contracts
 

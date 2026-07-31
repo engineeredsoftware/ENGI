@@ -2,8 +2,8 @@
  * @jest-environment node
  *
  * MVP-E2E-1 inventory lock: maps L1 core commercial API contracts to existing
- * suites / new route contracts. Update this table when filling gaps (L1-R3, L1-X1
- * route-level, L1-S2 integration). Not a substitute for route behavior tests.
+ * suites / new route contracts. Update this table when filling gaps
+ * (L1-S2 hybrid search still lib/package-level). Not a substitute for route behavior tests.
  */
 
 import { existsSync } from 'node:fs';
@@ -50,8 +50,8 @@ const L1_MATRIX: L1Row[] = [
   {
     id: 'L1-X1',
     surface: 'GET /api/packs/activity source-safe projection',
-    coverage: 'lib-model',
-    proofPath: 'apps/uapi/tests/packActivityModel.test.ts',
+    coverage: 'route-suite',
+    proofPath: 'apps/uapi/tests/api/packsActivityRoute.test.ts',
   },
   {
     id: 'L1-S1',
@@ -117,8 +117,11 @@ describe('MVP-E2E L1 inventory', () => {
   it('marks remaining non-route gaps explicitly', () => {
     const gaps = L1_MATRIX.filter((r) => r.coverage === 'gap' || r.coverage === 'partial');
     expect(gaps.map((g) => g.id)).not.toContain('L1-R3');
-    // Route-level packs/activity still model-covered only until L1-X1 route suite.
+    expect(gaps.map((g) => g.id)).not.toContain('L1-X1');
     const x1 = L1_MATRIX.find((r) => r.id === 'L1-X1');
-    expect(x1?.coverage).toBe('lib-model');
+    expect(x1?.coverage).toBe('route-suite');
+    // Hybrid search ranking remains package/lib coverage (L1-S2 / L3-Q).
+    const s2 = L1_MATRIX.find((r) => r.id === 'L1-S2');
+    expect(s2?.coverage).toBe('lib-model');
   });
 });
