@@ -109,7 +109,7 @@ crypto UX. Layers L0–L4 per NOTES § MVP core E2E ladder.
 | E2E-L1 | Critical commercial API contracts: deposit/read synthesize, depository index, packs activity, settle quote, auth fail-closed, source-safe envelopes | substantially advanced | Inventory + auth/validation contracts for depository/index, read synthesize, settle quote; deposit synthesize + pipeline-host + pack model already covered | MVP-E2E-1 |
 | E2E-L2 | CI-fast SDIVF deposit+read with STAB product laws (honesty, hits, needinesses, Need validation) | substantially advanced | Deposit SDIVF integration + honesty pins; read SDIVF integration (Need, *-fit, productLens, validation store); L2 inventory lock | MVP-E2E-2 |
 | E2E-L3 | Local/CI Supabase: index + hybrid search (NL ≫ paths) + reembed dry-run + RLS unpaid | substantially advanced | Mocked document upsert (commercial NL+fixtures); hybrid NL≫path ranking; reembed dry-run suite; unpaid scrub unit; live Supabase job still opt-in | MVP-E2E-3 |
-| E2E-L4 | Scripted deposit→admit→index→read→quote→mock settle→activity spine | open | Pieces exist; no single orchestrated core spine command | MVP-E2E-4 |
+| E2E-L4 | Scripted deposit→admit→index→read→quote→mock settle→activity spine | substantially advanced | `runMvpCoreE2eSpine` CI-fast orchestrator + test: admit, index embed, NL search, needinesses, mock quote, source-safe | MVP-E2E-4 |
 
 **Iteration order:** E2E-0 spec → E2E-1 API → E2E-2 pipeline CI-fast → E2E-3 DB
 → E2E-4 spine → fail-closed hardening. Browser Gate 7 remains mock UI (joint).

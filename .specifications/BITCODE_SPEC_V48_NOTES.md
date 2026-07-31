@@ -1571,6 +1571,21 @@ S4 mock settlement order · S5 unpaid source-safety fail-closed.
 - Inventory: `mvp-core-e2e-l3-inventory.core.test.ts`.
 - PARITY E2E-L3 → substantially advanced. Next: L4 spine script.
 
+#### MVP-E2E-4 (2026-07-31) — L4 core commercial spine (CI-fast)
+
+- **Orchestrator:** `apps/uapi/lib/mvp-core-e2e-spine.ts` → `runMvpCoreE2eSpine()`
+  steps (no browser, no live LLM/DB):
+  1. Deposit option synthesis + policy + admission (source-safe report)
+  2. Index **projection** (`buildDepositoryEmbedText` commercial NL first)
+  3. Hybrid lexical search with path-noise foil (NL ranks above paths)
+  4. Read needinesses deterministic (*-fit, Need present)
+  5. Mock multi-rail BTD quote from needinesses
+  6. Source-safety: admission assert + search hits lack file bodies
+- **Test:** `apps/uapi/tests/lib/mvp-core-e2e-spine.test.ts`
+- Live SDIVF remains L2; live Supabase index remains L3 opt-in.
+- PARITY E2E-L4 → substantially advanced. Optional next: fail-closed matrix
+  (empty Need, invalid VCS) + operator live spine runbook.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).
