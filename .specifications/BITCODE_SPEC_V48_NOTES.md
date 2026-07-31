@@ -1500,6 +1500,48 @@ Landed on `version/v48` (working tree / next commit):
 - PARITY: STAB-D2, STAB-D3 → substantially advanced. STAB workstream A–D P0
   closed except optional C2 product default review.
 
+### MVP core E2E ladder (post-STAB, 2026-07-31)
+
+**Owner:** core systems (packages, APIs, DB, pipeline hosts, depository, settle
+orchestration contracts). **Not owner:** browser chrome, crypto wallet UX,
+marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
+
+#### Layers
+
+| Layer | Scope | Lane |
+| --- | --- | --- |
+| L0 | Living `ci:local` | Always |
+| L1 | API route contracts (auth, validation, source-safe envelopes) | CI-fast |
+| L2 | SDIVF deposit+read (STAB laws) | CI-fast mocked + live opt-in |
+| L3 | Supabase depository index/search/reembed/RLS | CI service / local |
+| L4 | Spine: deposit→admit→index→read→quote→mock settle→activity | Opt-in / RC |
+
+#### L1 inventory (MVP-E2E-1)
+
+| ID | Route / surface | Prior coverage | MVP-E2E-1 action |
+| --- | --- | --- | --- |
+| L1-D1 | `POST /api/deposit/synthesize-options` | `depositSynthesizeOptionsRoute.test.ts` (session, inference, dispatch) | Keep; source of truth for deposit dispatch |
+| L1-D2 | Deposit admit → journal | `depositAdmissionActivity.test.ts` | Keep |
+| L1-R1 | `POST /api/read/synthesize-options` | thin / missing route suite | **Add** session + need + repository contracts |
+| L1-R2 | `POST /api/read/settle/quote` | missing route suite | **Add** session + needinesses → quote shape |
+| L1-R3 | Settle observe/finalize | partial BTD/exchange tests | Later L1/L4 |
+| L1-X1 | `GET /api/packs/activity` | `packActivityModel.test.ts` source-safe | Model-level OK; route later |
+| L1-S1 | `POST /api/depository/index` | embed pure helpers only | **Add** session + assetId + sync index mock |
+| L1-S2 | Hybrid search hit shape | domain field-weighted lexical unit | L2/L3 |
+| L1-V1 | VCS connection | `vcsRoutes` / auxillaries github | Keep |
+| L1-A1 | Auth gate commercial mutate | deposit + new routes assert 401 | Expand with each route |
+
+#### Defaults
+
+- L2 mocked SDIVF: flagged/separate job (not every `ci:local` by default).
+- L3: CI Supabase service + documented local.
+- Settle money: mock / existing BTD mocks first (crypto agent owns rail UX).
+
+#### Acceptance scenarios (spine)
+
+S1 deposit commercial option · S2 read Need-fit · S3 NL ≫ path ranking ·
+S4 mock settlement order · S5 unpaid source-safety fail-closed.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).
