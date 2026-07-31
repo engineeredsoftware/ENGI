@@ -310,11 +310,67 @@ function resolveDynamicPlan(input: {
   dynamicKinds?: string[];
   dynamicNeedinesses?: Array<string | DynamicNeedinessPlanRow> | null;
   needSummary?: string;
+  /** When Need is present but plan empty, re-ground from Need + path hints (STAB-B2). */
+  pathHints?: string[] | null;
+  needTopics?: string[] | null;
+  acceptanceCriteria?: string[] | null;
 }): DynamicNeedinessPlanRow[] {
   if (Array.isArray(input.dynamicNeedinesses) && input.dynamicNeedinesses.length > 0) {
     return normalizeDynamicNeedinessPlan(input.dynamicNeedinesses, input.needSummary);
   }
-  return normalizeDynamicNeedinessPlan(input.dynamicKinds || [], input.needSummary);
+  const fromKinds = normalizeDynamicNeedinessPlan(input.dynamicKinds || [], input.needSummary);
+  if (fromKinds.length > 0) return fromKinds;
+  // STAB-B2: Need present ⇒ non-empty dynamic plan (static catalog alone is not enough).
+  if (input.needSummary && String(input.needSummary).trim()) {
+    return planDynamicNeedinessesFromContext({
+      needText: input.needSummary,
+      needTopics: input.needTopics,
+      acceptanceCriteria: input.acceptanceCriteria,
+      pathHints: input.pathHints,
+    });
+  }
+  return [];
+}
+
+/** Tokenize for pack↔Need lexical grounding (source-safe strings only). */
+function tokenizePackMaterial(text: string): Set<string> {
+  const out = new Set<string>();
+  for (const w of String(text || '')
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)) {
+    if (w.length > 2) out.add(w);
+  }
+  return out;
+}
+
+/**
+ * Lexical overlap of Need tokens with pack material (title/summary/patch/paths).
+ * STAB-B2: deterministic fit must weight pack content, not title-only hash wobble.
+ */
+export function packNeedMaterialOverlap(input: {
+  needSummary?: string | null;
+  title?: string | null;
+  summary?: string | null;
+  patchSummary?: string | null;
+  coveredSourcePaths?: string[] | null;
+  commercialDescription?: string | null;
+}): number {
+  const needTokens = tokenizePackMaterial(input.needSummary || '');
+  if (needTokens.size === 0) return 0.35;
+  const packText = [
+    input.title || '',
+    input.summary || '',
+    input.patchSummary || '',
+    input.commercialDescription || '',
+    ...(Array.isArray(input.coveredSourcePaths) ? input.coveredSourcePaths : []),
+  ].join(' ');
+  const packTokens = tokenizePackMaterial(packText);
+  if (packTokens.size === 0) return 0.15;
+  let hits = 0;
+  for (const t of needTokens) {
+    if (packTokens.has(t)) hits += 1;
+  }
+  return clamp01(hits / Math.max(1, needTokens.size));
 }
 
 /** Deterministic neediness volumes (proxy when agent unavailable). */
@@ -327,16 +383,46 @@ export function measureReadNeedinessesDeterministic(input: {
   dynamicKinds?: string[];
   dynamicNeedinesses?: Array<string | DynamicNeedinessPlanRow> | null;
   catalog?: AssetPackNeedinessSpec[];
+  /** Pack material for STAB-B2 grounding (not title/summary alone). */
+  patchSummary?: string | null;
+  coveredSourcePaths?: string[] | null;
+  commercialDescription?: string | null;
+  needTopics?: string[] | null;
+  acceptanceCriteria?: string[] | null;
 }): NeedinessReading[] {
   const catalog = input.catalog ?? ASSET_PACK_NEEDINESSES_CATALOG;
   const confidence = clamp01(input.confidence ?? 0.65);
-  const seed = `${input.title}|${input.summary}|${input.needSummary || ''}`;
-  const dynamic = resolveDynamicPlan(input);
+  const materialOverlap = packNeedMaterialOverlap({
+    needSummary: input.needSummary,
+    title: input.title,
+    summary: input.summary,
+    patchSummary: input.patchSummary,
+    coveredSourcePaths: input.coveredSourcePaths,
+    commercialDescription: input.commercialDescription,
+  });
+  const seed = [
+    input.title,
+    input.summary,
+    input.patchSummary || '',
+    (input.coveredSourcePaths || []).slice(0, 12).join(','),
+    input.needSummary || '',
+  ].join('|');
+  const dynamic = resolveDynamicPlan({
+    dynamicKinds: input.dynamicKinds,
+    dynamicNeedinesses: input.dynamicNeedinesses,
+    needSummary: input.needSummary,
+    pathHints: input.coveredSourcePaths,
+    needTopics: input.needTopics,
+    acceptanceCriteria: input.acceptanceCriteria,
+  });
   const { specs, weightByKind, labelByKind, classByKind } = buildSpecs(catalog, dynamic);
 
   return specs.map((spec, index) => {
-    const wobble = ((hash(seed + spec.measurementKind) % 20) - 10) / 100;
-    const volume = clamp01(confidence * 0.85 + 0.1 + wobble + index * 0.01);
+    const wobble = ((hash(seed + spec.measurementKind) % 16) - 8) / 100;
+    // Blend: confidence (prior) + pack↔Need material overlap (primary) + small wobble.
+    const volume = clamp01(
+      confidence * 0.35 + materialOverlap * 0.55 + 0.08 + wobble + index * 0.005,
+    );
     return {
       measurementKind: spec.measurementKind,
       label: labelByKind.get(spec.measurementKind) || spec.label,
@@ -346,7 +432,7 @@ export function measureReadNeedinessesDeterministic(input: {
       unit: String(spec.unit),
       category: 'neediness' as const,
       propertyClass: classByKind.get(spec.measurementKind),
-      rationale: `Need-relative ${spec.measurementKind} (deterministic measure path).`,
+      rationale: `Need-relative ${spec.measurementKind} (deterministic; pack material overlap=${materialOverlap.toFixed(2)}).`,
     };
   });
 }
@@ -364,6 +450,11 @@ export async function measureReadNeedinesses(input: {
   dynamicNeedinesses?: Array<string | DynamicNeedinessPlanRow> | null;
   catalog?: AssetPackNeedinessSpec[];
   execution?: any;
+  patchSummary?: string | null;
+  coveredSourcePaths?: string[] | null;
+  commercialDescription?: string | null;
+  needTopics?: string[] | null;
+  acceptanceCriteria?: string[] | null;
 }): Promise<NeedinessReading[]> {
   const deterministic = measureReadNeedinessesDeterministic(input);
   if (!isAssetPackRealInferenceEnabled()) return deterministic;
@@ -386,9 +477,17 @@ export async function measureReadNeedinesses(input: {
           title: input.title,
           summary: input.summary,
           confidence: input.confidence,
+          // Pack material for grounded fit (STAB-B2) — source-safe fields only.
+          patchSummary: input.patchSummary || null,
+          coveredSourcePaths: Array.isArray(input.coveredSourcePaths)
+            ? input.coveredSourcePaths.slice(0, 24)
+            : [],
+          commercialDescription: input.commercialDescription || null,
         },
         need: {
           summary: input.needSummary || '',
+          topics: input.needTopics || [],
+          acceptanceCriteria: input.acceptanceCriteria || [],
         },
         measurementsRequested: specs.map((s) => s.measurementKind),
       },

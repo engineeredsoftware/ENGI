@@ -1456,6 +1456,22 @@ Landed on `version/v48` (working tree / next commit):
 - PARITY: STAB-A1, STAB-A2, STAB-D1 → substantially advanced. Open next:
   STAB-B1/B2 (measurements), STAB-C1 (field-weighted lexical).
 
+#### STAB-impl-2 (2026-07-30) — absolute honesty + neediness grounding
+
+- **B1 (product-agnostic absolutes):** domain measurements host never presents
+  path-only / empty / catch fallbacks as full measured quality.
+  `markPathOnlyAbsoluteHonesty` + `computeHonestPathOnlyAbsolutes`; always attach
+  `measureReport.mode=path-only` on fallback. Measure API still takes legacy
+  field name `lens` for deposit|read agent factory only — **not** dual-pipeline
+  mode (deposit and read remain separate product packages).
+- **B2 (read product only):** when Need is present and Setup dynamic plan empty,
+  read measurements shell + `resolveDynamicPlan` re-ground via
+  `planDynamicNeedinessesFromContext`. Deterministic neediness volumes blend
+  pack material (title/summary/patchSummary/paths) ↔ Need token overlap — not
+  title-only hash wobble. Deposit never gains needinesses.
+- PARITY: STAB-B1, STAB-B2 → substantially advanced. Open next: STAB-C1
+  (field-weighted lexical).
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

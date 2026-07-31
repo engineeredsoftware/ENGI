@@ -503,6 +503,38 @@ export function normalizeAbsoluteHonestyStatuses(
   });
 }
 
+/**
+ * Path-only / host-fallback honesty (STAB-B1): no sample bodies means no row may
+ * claim `measured`. Non-zero stays `estimated`; zeros → `insufficient_evidence`.
+ * Product-agnostic — deposit and read share this absolute honesty law.
+ * Does not invent a dual-pipeline "lens"; applies whenever evidence is path-only.
+ */
+export function markPathOnlyAbsoluteHonesty(
+  absolutes: AssetPackCandidateMeasurement[],
+): AssetPackCandidateMeasurement[] {
+  return normalizeAbsoluteHonestyStatuses(absolutes).map((row) => {
+    if (row.status !== 'measured') return row;
+    const volume =
+      typeof row.volume === 'number' && Number.isFinite(row.volume) ? row.volume : 0;
+    return {
+      ...row,
+      status: volume > 0 ? ('estimated' as const) : ('insufficient_evidence' as const),
+    };
+  });
+}
+
+/**
+ * Deterministic path-only absolute catalogue with honest statuses (STAB-B1).
+ * Prefer this over bare `computeDeterministicAbsolutes` when the host is in
+ * fallback after measure failure / empty readings — never present path heuristics
+ * as full measured quality.
+ */
+export function computeHonestPathOnlyAbsolutes(
+  patch: MeasurableAssetPackPatch,
+): AssetPackCandidateMeasurement[] {
+  return markPathOnlyAbsoluteHonesty(computeDeterministicAbsolutes(patch));
+}
+
 /** Resolve (or register) the static-analysis tool and measure the report. */
 async function measureStaticAnalysis(
   patch: MeasurableAssetPackPatch,

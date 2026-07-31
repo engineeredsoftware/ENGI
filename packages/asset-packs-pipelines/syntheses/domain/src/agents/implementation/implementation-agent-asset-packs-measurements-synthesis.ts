@@ -1,15 +1,18 @@
 /**
- * Deposit Implementation agent 3/4 — DataPack measurements synthesis (V48).
+ * Shared Implementation host 3/4 — DataPack absolute measurements (V48).
  *
- * Deposit DataPack = patchfile + absolute measurements + metadata (+ commercial NL next).
+ * Product shells (deposit/read packages) call this domain host. Absolutes law is
+ * product-agnostic; optional `implementation.productLens` only selects the
+ * measure-agent product factory when real inference runs (legacy measure API
+ * field name `lens` — not dual-pipeline mode). Never import product packages.
  *
- * Tool-rich host agent (no free-form volume invention):
+ * Tool-rich host (no free-form volume invention):
  *   1. Register SourceStaticAnalysisTool + absolute measure tools on execution
- *   2. measureDataPackAbsolutes(patch, { lens:'deposit', preferQualityInference:true })
- *      - QUANTITY kinds: static analysis + bare absolute packages (authoritative)
- *      - QUALITY kinds: measure-agent inference grounded in static report,
- *        slotted into DATA_PACK_ABSOLUTES weighted catalogue only
- *   3. Build DepositMeasuredPack via allowlist constructor
+ *   2. measureDataPackAbsolutesAndIdentity (quantity tool-authoritative; quality
+ *      inference when enabled)
+ *   3. STAB-B1: path-only / empty / catch fallbacks use honest statuses +
+ *      measureReport.mode=path-only — never present path heuristics as full measured
+ *   4. Build measured pack via allowlist constructor
  *
  * Validation never re-measures. Weak measurements → Validation iterates Implementation.
  */
@@ -107,10 +110,16 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
 
   const {
     measureDataPackAbsolutesAndIdentity,
-    computeDeterministicAbsolutes,
+    computeHonestPathOnlyAbsolutes,
+    markPathOnlyAbsoluteHonesty,
+    normalizeAbsoluteHonestyStatuses,
     registerSourceStaticAnalysisTool,
   } = await import('../validation/agent-measure-absolutes');
-  const { hasRequiredAbsolutes, hasDepositAbsolutesOnlyShape } = await import(
+  const {
+    hasRequiredAbsolutes,
+    hasDepositAbsolutesOnlyShape,
+    buildDataPackMeasureReport,
+  } = await import(
     '@bitcode/asset-packs-pipelines-syntheses-domain/asset-pack-measurements'
   );
 
@@ -148,21 +157,41 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
     let absolutes: DepositAbsoluteReading[] = [];
     let materialIdentity: Record<string, unknown> | null = null;
     let measureReport: DepositMeasureReport | null = null;
+    let usedPathOnlyFallback = false;
     try {
       // Tool-rich measure: bare absolutes + material identity + quality inference.
-      // productLens=read when invoked from read Implementation twin; default deposit.
-      const productLens = findValue(execution, 'implementation', 'productLens');
-      const measureLens = productLens === 'read' ? 'read' : 'deposit';
+      // productLens selects measure-agent product factory only (shell-set); default deposit.
+      const product =
+        findValue(execution, 'implementation', 'productLens') === 'read' ? 'read' : 'deposit';
       const measured = await measureDataPackAbsolutesAndIdentity(patchDescriptor, {
-        lens: measureLens,
+        // Legacy measure API field; deposit|read product — not dual-pipeline mode.
+        lens: product,
         execution,
         sources: scopedBodies,
         preferQualityInference: true,
       });
-      absolutes =
-        Array.isArray(measured.absolutes) && measured.absolutes.length > 0
-          ? (measured.absolutes as DepositAbsoluteReading[])
-          : (computeDeterministicAbsolutes(patchDescriptor) as DepositAbsoluteReading[]);
+      const emptyAbsolutes =
+        !Array.isArray(measured.absolutes) || measured.absolutes.length === 0;
+      if (emptyAbsolutes) {
+        // STAB-B1: empty measure must not look fully measured.
+        absolutes = computeHonestPathOnlyAbsolutes(
+          patchDescriptor,
+        ) as DepositAbsoluteReading[];
+        usedPathOnlyFallback = true;
+      } else {
+        absolutes = measured.absolutes as DepositAbsoluteReading[];
+        // No bodies in measure set → strip false "measured" claims.
+        if (measureSet.measuredFromBodies === 0 || measureSet.mode === 'path-only') {
+          absolutes = markPathOnlyAbsoluteHonesty(
+            absolutes as any,
+          ) as DepositAbsoluteReading[];
+          usedPathOnlyFallback = true;
+        } else {
+          absolutes = normalizeAbsoluteHonestyStatuses(
+            absolutes as any,
+          ) as DepositAbsoluteReading[];
+        }
+      }
       materialIdentity =
         measured.materialIdentity && typeof measured.materialIdentity === 'object'
           ? (measured.materialIdentity as Record<string, unknown>)
@@ -173,44 +202,58 @@ export default async function runDepositImplementationAgentAssetPacksMeasurement
           : null;
       // Prefer host measureReport; enrich with deep-set telemetry when host thin.
       if (measureReport) {
+        const mode: DepositMeasureReport['mode'] = usedPathOnlyFallback
+          ? 'path-only'
+          : measureSet.mode === 'deep' || measureReport.mode === 'deep'
+            ? 'deep'
+            : measureSet.mode === 'thin' || measureReport.mode === 'thin'
+              ? 'thin'
+              : 'path-only';
         measureReport = {
           ...measureReport,
-          measuredFromBodies: Math.max(
-            measureReport.measuredFromBodies,
-            measureSet.measuredFromBodies,
-          ),
+          measuredFromBodies: usedPathOnlyFallback
+            ? 0
+            : Math.max(measureReport.measuredFromBodies, measureSet.measuredFromBodies),
           coveredPathCount: Math.max(
             measureReport.coveredPathCount,
             measureSet.coveredPathCount,
           ),
-          mode:
-            measureSet.mode === 'deep' || measureReport.mode === 'deep'
-              ? 'deep'
-              : measureSet.mode === 'thin' || measureReport.mode === 'thin'
-                ? 'thin'
-                : 'path-only',
-        };
-      } else if (measureSet.measuredFromBodies > 0) {
-        measureReport = {
-          measuredFromBodies: measureSet.measuredFromBodies,
-          coveredPathCount: measureSet.coveredPathCount,
-          bodyCoverageRatio:
-            measureSet.coveredPathCount > 0
-              ? Number(
-                  (
-                    measureSet.measuredFromBodies / measureSet.coveredPathCount
-                  ).toFixed(4),
-                )
-              : 0,
-          expandedFillCount: 0,
-          mode: measureSet.mode,
+          mode,
           measuredKindCount: absolutes.filter(
             (a) => a.status === 'measured' || a.status === 'estimated',
           ).length,
+          expandedFillCount: absolutes.filter((a) => a.status === 'expanded-fill').length,
         };
+      } else {
+        measureReport = buildDataPackMeasureReport({
+          measuredFromBodies: usedPathOnlyFallback ? 0 : measureSet.measuredFromBodies,
+          coveredPathCount: measureSet.coveredPathCount,
+          bodyCoverageRatio:
+            usedPathOnlyFallback || measureSet.coveredPathCount === 0
+              ? 0
+              : Number(
+                  (measureSet.measuredFromBodies / measureSet.coveredPathCount).toFixed(4),
+                ),
+          absolutes: absolutes as any,
+        });
+        if (usedPathOnlyFallback) {
+          measureReport = { ...measureReport, mode: 'path-only' };
+        }
       }
     } catch {
-      absolutes = computeDeterministicAbsolutes(patchDescriptor) as DepositAbsoluteReading[];
+      // STAB-B1: catch path always honest path-only + report (never silent measured).
+      absolutes = computeHonestPathOnlyAbsolutes(patchDescriptor) as DepositAbsoluteReading[];
+      usedPathOnlyFallback = true;
+      measureReport = buildDataPackMeasureReport({
+        measuredFromBodies: 0,
+        coveredPathCount: Math.max(
+          measureSet.coveredPathCount,
+          patchDescriptor.coveredSourcePaths?.length ?? 0,
+        ),
+        bodyCoverageRatio: 0,
+        absolutes: absolutes as any,
+      });
+      measureReport = { ...measureReport, mode: 'path-only' };
     }
 
     // Allowlist constructor — legal deposit shape (absolutes + identity + report).

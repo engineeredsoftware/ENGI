@@ -9,6 +9,7 @@ import {
   planDynamicNeedinessesFromContext,
   measureReadNeedinesses,
   measureReadNeedinessesDeterministic,
+  packNeedMaterialOverlap,
   computeNeedFitVolume,
   ASSET_PACK_NEEDINESSES_CATALOG,
 } from '../read-neediness-measurements';
@@ -102,6 +103,40 @@ describe('read-neediness-measurements', () => {
       if (saved !== undefined) process.env.BITCODE_ASSET_PACK_REAL_INFERENCE = saved;
       else delete process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;
     }
+  });
+
+  it('STAB-B2: Need present with empty plan still yields dynamic *-fit rows', () => {
+    const rows = measureReadNeedinessesDeterministic({
+      title: 'Webhook pack',
+      summary: 'Retry helpers for payment webhooks',
+      confidence: 0.75,
+      needSummary: 'Add retries to payment webhooks',
+      dynamicNeedinesses: [],
+      dynamicKinds: [],
+      coveredSourcePaths: ['src/payments/stripe-webhook.ts'],
+      patchSummary: 'Adds exponential backoff on webhook delivery failures.',
+    });
+    const dynamic = rows.filter((r) => r.propertyClass === 'dynamic-inferred');
+    expect(dynamic.length).toBeGreaterThanOrEqual(1);
+    expect(rows.some((r) => r.rationale?.includes('pack material overlap'))).toBe(true);
+  });
+
+  it('STAB-B2: pack material overlap is higher when Need tokens match pack paths', () => {
+    const high = packNeedMaterialOverlap({
+      needSummary: 'session refresh tokens',
+      title: 'Session refresh pack',
+      summary: 'Refresh token rotation',
+      coveredSourcePaths: ['src/auth/session-refresh.ts'],
+      patchSummary: 'Implements session refresh token rotation.',
+    });
+    const low = packNeedMaterialOverlap({
+      needSummary: 'session refresh tokens',
+      title: 'Unrelated UI chrome',
+      summary: 'Buttons and layout only',
+      coveredSourcePaths: ['src/ui/layout.tsx'],
+      patchSummary: 'Tweaks margin utilities.',
+    });
+    expect(high).toBeGreaterThan(low);
   });
 });
 

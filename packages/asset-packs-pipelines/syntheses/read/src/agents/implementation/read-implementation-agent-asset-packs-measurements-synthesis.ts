@@ -52,10 +52,16 @@ export default async function runReadImplementationAgentAssetPacksMeasurementsSy
   const dynamicNeedinesses = Array.isArray(needComprehension?.dynamicNeedinesses)
     ? needComprehension.dynamicNeedinesses
     : null;
+  const needSummary = needComprehension?.summary || String(needText || '');
+  const needTopics = Array.isArray(needComprehension?.needTopics)
+    ? needComprehension.needTopics
+    : [];
+  const acceptanceCriteria = Array.isArray(needComprehension?.acceptanceCriteria)
+    ? needComprehension.acceptanceCriteria
+    : [];
 
-  const { measureReadNeedinesses, computeNeedFitVolume } = await import(
-    '../../read-neediness-measurements'
-  );
+  const { measureReadNeedinesses, computeNeedFitVolume, planDynamicNeedinessesFromContext } =
+    await import('../../read-neediness-measurements');
 
   for (const option of options) {
     if (!option || typeof option !== 'object') continue;
@@ -75,13 +81,45 @@ export default async function runReadImplementationAgentAssetPacksMeasurementsSy
       (option as any).measureReport ??
       null;
 
+    const coveredSourcePaths = Array.isArray((option as any).coveredSourcePaths)
+      ? ((option as any).coveredSourcePaths as string[])
+      : [];
+    const patchSummary =
+      (option as any).patchArtifact?.patchSummary ||
+      (option as any).patch?.patchSummary ||
+      null;
+    const commercialDescription =
+      typeof (option as any).commercialDescription === 'string'
+        ? (option as any).commercialDescription
+        : null;
+
+    // STAB-B2: when Need exists but Setup plan empty, ground dynamic plan here.
+    let planForOption = dynamicNeedinesses;
+    if (
+      needSummary &&
+      (!Array.isArray(planForOption) || planForOption.length === 0) &&
+      (!Array.isArray(dynamicKinds) || dynamicKinds.length === 0)
+    ) {
+      planForOption = planDynamicNeedinessesFromContext({
+        needText: needSummary,
+        needTopics,
+        acceptanceCriteria,
+        pathHints: coveredSourcePaths,
+      });
+    }
+
     const needinesses = await measureReadNeedinesses({
       title: String((option as any)?.title ?? ''),
       summary: String((option as any)?.summary ?? ''),
       confidence: (option as any)?.confidence,
-      needSummary: needComprehension?.summary || String(needText || ''),
+      needSummary,
       dynamicKinds,
-      dynamicNeedinesses,
+      dynamicNeedinesses: planForOption,
+      needTopics,
+      acceptanceCriteria,
+      patchSummary,
+      coveredSourcePaths,
+      commercialDescription,
       execution,
     });
     const needFit = computeNeedFitVolume(needinesses);
