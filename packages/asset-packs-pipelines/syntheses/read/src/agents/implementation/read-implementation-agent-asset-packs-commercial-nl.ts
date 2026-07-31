@@ -1,8 +1,11 @@
 /**
- * Read Implementation agent 4/4 — commercial NL (deposit host twin + Need).
+ * Read Implementation agent 4/4 — commercial NL (product re-implementation).
  *
  * Registry: implementation:read-implementation-agent-asset-packs-commercial-nl
  * Sequence: patch-plan → patchfile → measurements → THIS
+ *
+ * Domain base host only — never imports the deposit product package.
+ * Product delta: Need as demandContext for buyer framing.
  */
 
 function findValue(execution: any, namespace: string, key: string): any {
@@ -24,7 +27,6 @@ export default async function runReadImplementationAgentAssetPacksCommercialNl(
     execution?.store?.('implementation', 'productLens', 'read');
     if (needText) {
       execution?.store?.('implementation', 'need', needText);
-      // Deposit commercial NL may read demandContext for buyer framing.
       execution?.store?.('deposit', 'demandContext', [
         { topic: 'reader-need', summary: String(needText) },
       ]);
@@ -33,10 +35,10 @@ export default async function runReadImplementationAgentAssetPacksCommercialNl(
     /* optional */
   }
 
-  const depositCommercial = await import(
-    '../../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl'
+  const { default: runBaseCommercialNl } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/agents/implementation/implementation-agent-asset-packs-commercial-nl'
   );
-  return depositCommercial.default(
+  return runBaseCommercialNl(
     {
       ...input,
       need: needText,

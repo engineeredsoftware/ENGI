@@ -52,7 +52,7 @@ import readImplementationAgentAssetPacksCommercialNl from '../../../read/src/age
 import depositReadyToFinishAgent from '../../../deposit/src/agents/validation/deposit-ready-to-finish-agent';
 import readReadyToFinishAgent from '../../../read/src/agents/validation/read-ready-to-finish-agent';
 import depositStoreArtifactsAgent from '../../../deposit/src/agents/finish/deposit-store-artifacts-agent';
-import depositLedgerizeAgent from '../agents/finish/deposit-ledgerize-agent';
+import depositLedgerizeAgent from '../agents/finish/asset-packs-ledgerize-agent';
 import depositFinishSynthesizeRunAgent from '../../../deposit/src/agents/finish/deposit-finish-synthesize-run-agent';
 import readStoreArtifactsAgent from '../../../read/src/agents/finish/read-store-artifacts-agent';
 import readFinishSynthesizeRunAgent from '../../../read/src/agents/finish/read-finish-synthesize-run-agent';

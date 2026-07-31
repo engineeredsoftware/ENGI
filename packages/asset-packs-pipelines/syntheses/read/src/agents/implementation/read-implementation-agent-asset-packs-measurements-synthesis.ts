@@ -1,11 +1,11 @@
 /**
- * Read Implementation agent 3/4 — measurements (deposit absolutes + needinesses).
+ * Read Implementation agent 3/4 — measurements (product re-implementation).
  *
  * Registry: implementation:read-implementation-agent-asset-packs-measurements-synthesis
  * Sequence: patch-plan → patchfile → THIS → commercial-nl
  *
- * Runs deposit absolute measure host, then attaches needinesses (*-fit) + needFit
- * (product delta vs deposit absolutes-only bag).
+ * Domain base runs absolute measurements (productLens=read). Read then attaches
+ * needinesses (*-fit) + needFit. Never imports the deposit product package.
  */
 
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
@@ -27,13 +27,11 @@ export default async function runReadImplementationAgentAssetPacksMeasurementsSy
     /* optional */
   }
 
-  // 1) Deposit twin: absolute measurements on each patchfile artifact.
-  const depositMeasure = await import(
-    '../../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis'
+  const { default: runBaseMeasurements } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/agents/implementation/implementation-agent-asset-packs-measurements-synthesis'
   );
-  const measured = await depositMeasure.default(input, execution);
+  const measured = await runBaseMeasurements(input, execution);
 
-  // 2) Read delta: needinesses + needFit on each option.
   const options = Array.isArray((measured as any)?.options)
     ? (measured as any).options
     : Array.isArray(findValue(execution, 'implementation', 'options'))

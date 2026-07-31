@@ -1,13 +1,17 @@
 /**
- * finish:store-artifacts for read synthesis — deposit twin with needinesses.
+ * finish:store-artifacts for read synthesis — product re-implementation.
+ *
+ * Domain base store host only — never imports the deposit product package.
+ * Product delta: review surface → /reads settle handoff.
  */
 
 import { storeCrossPhaseArtifact } from '@bitcode/asset-packs-pipelines-syntheses-domain/synthesize-asset-packs';
-import runDepositStore from '../../../../deposit/src/agents/finish/deposit-store-artifacts-agent';
 
 export default async function runReadStoreArtifactsAgent(input: any, execution: any) {
-  const out = await runDepositStore(input, execution);
-  // Annotate product surface for read selection → settle handoff.
+  const { default: runBaseStore } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/asset-packs-store-artifacts-agent'
+  );
+  const out = await runBaseStore(input, execution);
   storeCrossPhaseArtifact(execution, 'finish', 'uploadForReview', {
     ...(execution?.get?.('finish', 'uploadForReview') || {}),
     review: {

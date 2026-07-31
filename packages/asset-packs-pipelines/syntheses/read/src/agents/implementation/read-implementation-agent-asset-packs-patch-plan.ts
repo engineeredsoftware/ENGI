@@ -1,11 +1,11 @@
 /**
- * Read Implementation agent 1/4 — patch plan (deposit host twin + Need steering).
+ * Read Implementation agent 1/4 — patch plan (product re-implementation).
  *
  * Registry: implementation:read-implementation-agent-asset-packs-patch-plan
  * Sequence: THIS → patchfile → measurements → commercial-nl
  *
- * Reuses deposit plan host (catalog gate, salvage, store contract). Injects Need
- * + Relevant/Irrelevant as demandContext / impermissibleSources.
+ * Uses domain base host only — never imports the deposit product package.
+ * Product deltas: Need + Relevant/Irrelevant paths as demand/impermissible steering.
  */
 
 function findValue(execution: any, namespace: string, key: string): any {
@@ -58,10 +58,10 @@ export default async function runReadImplementationAgentAssetPacksPatchPlan(
     /* store optional */
   }
 
-  const depositPlan = await import(
-    '../../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-patch-plan'
+  const { default: runBasePatchPlan } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/agents/implementation/implementation-agent-asset-packs-patch-plan'
   );
-  return depositPlan.default(
+  return runBasePatchPlan(
     {
       ...input,
       repository,

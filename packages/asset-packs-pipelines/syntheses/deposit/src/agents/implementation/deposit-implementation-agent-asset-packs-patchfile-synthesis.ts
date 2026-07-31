@@ -1,16 +1,5 @@
 /**
- * Compat shim: former "patchfile-synthesis" is now the **patch-plan** agent.
- * Formal patchfile artifact write is deposit-implementation-agent-asset-packs-patchfile.
+ * Deposit product shell — legacy alias for patch-plan base host.
  */
-
-export {
-  default,
-  DepositImplementationAgentAssetPacksPatchPlan,
-  DepositImplementationAgentAssetPacksPatchPlan as DepositImplementationAgentAssetPacksPatchfileSynthesis,
-  DEPOSIT_OPTION_KINDS,
-  depositCandidateSchema,
-  depositCandidateSetSchema,
-  depositPatchSchema,
-} from './deposit-implementation-agent-asset-packs-patch-plan';
-
-export type { DepositSynthesisOptions } from './deposit-implementation-agent-asset-packs-patch-plan';
+export * from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/implementation/implementation-agent-asset-packs-patchfile-synthesis';
+export { default } from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/implementation/implementation-agent-asset-packs-patchfile-synthesis';

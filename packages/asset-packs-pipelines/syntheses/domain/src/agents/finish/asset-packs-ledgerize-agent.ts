@@ -1,5 +1,5 @@
 /**
- * finish:ledgerize — update ledger posture from stored deposit synthesis data.
+ * Shared synthesis-domain finish:ledgerize host (deposit + read Finish both use it).
  *
  * Precise contract:
  * 1. Require finish:storedArtifacts (from store-artifacts).

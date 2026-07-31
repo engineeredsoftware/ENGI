@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import runStore from '../agents/finish/deposit-store-artifacts-agent';
-import runLedgerize from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/deposit-ledgerize-agent';
+import runLedgerize from '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/asset-packs-ledgerize-agent';
 import runFinish from '../agents/finish/deposit-finish-synthesize-run-agent';
 import { DATA_PACK_ABSOLUTES_CATALOG } from '@bitcode/generic-measurements-domain-data-pack-absolutes-catalog';
 

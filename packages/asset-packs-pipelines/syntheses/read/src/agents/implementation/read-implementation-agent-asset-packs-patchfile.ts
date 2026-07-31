@@ -1,8 +1,10 @@
 /**
- * Read Implementation agent 2/4 — patchfile write (deposit host twin).
+ * Read Implementation agent 2/4 — patchfile write (product re-implementation).
  *
  * Registry: implementation:read-implementation-agent-asset-packs-patchfile
  * Sequence: patch-plan → THIS → measurements → commercial-nl
+ *
+ * Domain base host only — never imports the deposit product package.
  */
 
 export default async function runReadImplementationAgentAssetPacksPatchfile(
@@ -14,8 +16,8 @@ export default async function runReadImplementationAgentAssetPacksPatchfile(
   } catch {
     /* optional */
   }
-  const depositPatchfile = await import(
-    '../../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-patchfile'
+  const { default: runBasePatchfile } = await import(
+    '@bitcode/asset-packs-pipelines-syntheses-domain/agents/implementation/implementation-agent-asset-packs-patchfile'
   );
-  return depositPatchfile.default(input, execution);
+  return runBasePatchfile(input, execution);
 }

@@ -644,7 +644,7 @@ let nextConfig = {
         'src',
         'ensure-deposit-checkout-source-files.ts'
       ),
-      '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/deposit-ledgerize-agent': path.resolve(
+      '@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/asset-packs-ledgerize-agent': path.resolve(
         __dirname,
         '..',
         '..',
@@ -655,7 +655,7 @@ let nextConfig = {
         'src',
         'agents',
         'finish',
-        'deposit-ledgerize-agent.ts'
+        'asset-packs-ledgerize-agent.ts'
       ),
       '@bitcode/asset-packs-pipelines-execution-pipeline-sdivf-synthesize-reads-asset-packs': path.resolve(
         __dirname,

@@ -29,7 +29,7 @@ export const executionPipelineSDIVFExecutionPhaseFinishSynthesisReadAssetPacks: 
     (execution as any).agents?.registerAgent?.(
       'finish:ledgerize',
       () =>
-        import('@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/deposit-ledgerize-agent').then(
+        import('@bitcode/asset-packs-pipelines-syntheses-domain/agents/finish/asset-packs-ledgerize-agent').then(
           (m) => m.default,
         ),
     );
