@@ -611,6 +611,7 @@
     "lint:uapi": "pnpm --filter bitcode-uapi run lint",
     "typecheck:uapi": "pnpm --filter bitcode-uapi run typecheck",
     "test:uapi": "pnpm --filter bitcode-uapi run test",
+    "test:mvp-core-e2e": "pnpm --filter bitcode-uapi run test:mvp-core-e2e && pnpm -C packages/asset-packs-pipelines/syntheses/deposit exec jest --config jest.config.cjs --testPathPattern='deposit-sdivf-pipeline-integration|deposit-discovery-profile' --passWithNoTests && pnpm -C packages/asset-packs-pipelines/syntheses/read exec jest --config jest.config.cjs --testPathPattern='read-sdivf-pipeline-integration' --passWithNoTests && pnpm -C packages/asset-packs-pipelines/syntheses/domain exec jest --config jest.config.cjs --testPathPattern='mvp-core-e2e-l2-inventory|mvp-core-e2e-l3|field-weighted-lexical|absolute-honesty-normalize|depository-reembed' --passWithNoTests",
     "start:uapi": "pnpm --filter bitcode-uapi run start"
   },
   "dependencies": {

@@ -33,10 +33,13 @@ Path-only must never present as full measured quality.
 ## Test entrypoints
 
 ```bash
-# L1–L4 + L5 fail matrix (uapi)
-pnpm -C apps/uapi exec jest --testPathPattern='mvp-core-e2e|depositoryIndex|readSynthesize|readSettleQuote'
+# Full CI-fast MVP core ladder (uapi L1/L3/L4/L5 + package L2/L3)
+pnpm run test:mvp-core-e2e
 
-# L2 SDIVF (packages)
+# UAPI-only slice
+pnpm --filter bitcode-uapi run test:mvp-core-e2e
+
+# L2 SDIVF only (packages)
 pnpm -C packages/asset-packs-pipelines/syntheses/deposit exec jest --testPathPattern=deposit-sdivf
 pnpm -C packages/asset-packs-pipelines/syntheses/read exec jest --testPathPattern=read-sdivf
 ```

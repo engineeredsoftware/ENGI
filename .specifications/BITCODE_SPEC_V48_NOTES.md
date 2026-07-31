@@ -1608,6 +1608,18 @@ Finish within host `maxDuration`. Opt-in full three-agent Discovery:
 Pins: `deposit-discovery-profile.test.ts`,
 `pipelineHostCommandEnv.discovery-budget.test.ts`. PARITY STAB-C2 advanced.
 
+#### MVP-E2E operator entrypoint (2026-07-31)
+
+Single CI-fast command for the closed core ladder:
+
+```bash
+pnpm run test:mvp-core-e2e
+```
+
+Runs uapi L1/L3/L4/L5 contracts + deposit/read SDIVF + domain L2/L3 inventory
+and honesty/lexical/reembed cores. Not a substitute for full `ci:local`.
+See `.docs/MVP_CORE_E2E_HANDOFF.md`.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).
