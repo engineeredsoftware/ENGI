@@ -1328,8 +1328,10 @@ ids break claim/list even when wallet auth succeeds.
 
 ## V48 Gate 5 plan: Reader website completion (neediness delta)
 
-**After Gate 4 packs/deposit solid.** Branch work also advanced on
-`v48/gate-4-btd-multirail-erc1155` (multirail + search/neediness).
+**After Gate 4 packs/deposit solid.** Gate-wise V48 development is closed:
+day-to-day work continues on `version/v48` (fast-forwarded with
+`v48/gate-4-btd-multirail-erc1155` + later Gate 5 product work). Historical
+gate branch names remain only as lineage labels in older commits.
 
 ### Deposit ↔ Read parity map
 
@@ -1338,13 +1340,21 @@ ids break claim/list even when wallet auth succeeds.
 | SDIVF product package | `syntheses/deposit` | `syntheses/read` |
 | Dispatch / stream | early emit + host bridge + supply preload | **same shape** (read twin of deposit dispatch) |
 | Steering | Obfuscations + path pickers | Need text + Relevant/Irrelevant paths |
-| Discovery search | `deposit-relevants` multi-query hybrid | `read-need-fits` multi-query hybrid |
+| Discovery topology | wave1 `comprehend ∥ regurgitation` → wave2 search | **same topology**; search agent is product-specific |
+| **Discovery budget** | **Default `bounded`**: full PTRR codebase only; regurgitation + depository-search are deterministic stubs (store keys still present for Validation). Reason: full three-agent Discovery blew host budget before Implementation/Finish. | **Default full**: all three agents real. **Need-fits search is product-critical** — must not skip as a product default. |
+| Discovery knobs | `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded\|full` (host seeds `bounded` when unset). `BITCODE_DEBUG_FAST_DISCOVERY=0` forces full. Progressive: `BITCODE_DEBUG_STOP_AGENT_FILTER`. | Progressive QA only (`BITCODE_DEBUG_STOP_AGENT_FILTER`, `BITCODE_DEBUG_DISCOVERY_SERIAL`). No deposit-style bounded product env. |
+| Discovery search | `deposit-relevants` multi-query hybrid (skipped under bounded) | `read-need-fits` multi-query hybrid (**always product path**) |
 | **Implementation** | **Four sequential agents**: patch-plan → patchfile → measurements → commercial-nl | **Same four-agent sequence** (read keys); measurements also attach **needinesses (*-fit)** + needFit |
-| Measurements | **absolutes only** (legal deposit bag) | **absolutes + needinesses (*-fit)** static+dynamic |
-| Option review | Select → batch admit → **index job** | Select → settle quote |
+| Measurements | **absolutes only** (legal deposit bag) | **absolutes + needinesses (*-fit)** static+dynamic; commercial buy/no-buy prioritizes needinesses then absolute gates |
+| Option review | Select → batch admit → **index job** | Select → settle quote (measurement buy gate may hard-block) |
 | Finish envelope | presentable deposit options | presentable read options (unpaid dual envelope) |
 | Next pipeline | (none — Depository supply) | `ExecutionPipelineSimpleSettleAssetPack` |
 | Packs projection | depository-assetpack + absolutes | settled-assetpack + absolutes + needinesses |
+
+**Discovery budget code pins:** deposit resolver `resolveDepositDiscoveryProfile` in
+`execution-pipeline-sdivf-execution-phase-discovery-synthesis-deposit-asset-packs.ts`;
+host seed `apps/uapi/lib/pipeline-host-command-env.ts`; shared registration comments in
+`syntheses/domain/src/phases/discovery.ts`.
 
 ### Depository search + index (Gate 5 law, 2026-07-20)
 

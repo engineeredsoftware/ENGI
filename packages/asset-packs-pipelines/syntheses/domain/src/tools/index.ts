@@ -189,10 +189,8 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'discovery:inherent-regurgitation': [],
     'DepositInherentRegurgitationAgent': [],
 
-    // Implementation Phase (roster key + factory name when tools bind by either)
-    // Deposit: two sequential agents — patchfile synthesis then measurements synthesis.
-    'ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
-    'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent': [],
+    // Implementation Phase — deposit/read four-agent twin (patch-plan → patchfile →
+    // measurements → commercial-nl). No residual single-agent ReadFitsFinding path.
     'implementation:deposit-implementation-agent-asset-packs-patch-plan': [],
     'implementation:deposit-implementation-agent-asset-packs-patchfile': [],
     'implementation:deposit-implementation-agent-asset-packs-measurements-synthesis': [],
@@ -201,6 +199,14 @@ export function getAssetPackPipelineToolsForAgent(agentName: string): Tool[] {
     'DepositImplementationAgentAssetPacksPatchfile': [],
     'DepositImplementationAgentAssetPacksMeasurementsSynthesis': [],
     'DepositImplementationAgentAssetPacksCommercialNl': [],
+    'implementation:read-implementation-agent-asset-packs-patch-plan': [],
+    'implementation:read-implementation-agent-asset-packs-patchfile': [],
+    'implementation:read-implementation-agent-asset-packs-measurements-synthesis': [],
+    'implementation:read-implementation-agent-asset-packs-commercial-nl': [],
+    'ReadImplementationAgentAssetPacksPatchPlan': [],
+    'ReadImplementationAgentAssetPacksPatchfile': [],
+    'ReadImplementationAgentAssetPacksMeasurementsSynthesis': [],
+    'ReadImplementationAgentAssetPacksCommercialNl': [],
     // Compat aliases
     'implementation:deposit-implementation-agent-asset-packs-patchfile-synthesis': [],
     'DepositImplementationAgentAssetPacksPatchfileSynthesis': [],

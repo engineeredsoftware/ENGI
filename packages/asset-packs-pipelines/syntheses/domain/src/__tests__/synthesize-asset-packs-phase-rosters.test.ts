@@ -45,7 +45,10 @@ import depositImplementationAgentAssetPacksPatchPlan from '../../../deposit/src/
 import depositImplementationAgentAssetPacksPatchfile from '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-patchfile';
 import depositImplementationAgentAssetPacksMeasurementsSynthesis from '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-measurements-synthesis';
 import depositImplementationAgentAssetPacksCommercialNl from '../../../deposit/src/agents/implementation/deposit-implementation-agent-asset-packs-commercial-nl';
-import readAssetPackSynthesisAgent from '../../../read/src/agents/implementation/read-asset-pack-synthesis-agent';
+import readImplementationAgentAssetPacksPatchPlan from '../../../read/src/agents/implementation/read-implementation-agent-asset-packs-patch-plan';
+import readImplementationAgentAssetPacksPatchfile from '../../../read/src/agents/implementation/read-implementation-agent-asset-packs-patchfile';
+import readImplementationAgentAssetPacksMeasurementsSynthesis from '../../../read/src/agents/implementation/read-implementation-agent-asset-packs-measurements-synthesis';
+import readImplementationAgentAssetPacksCommercialNl from '../../../read/src/agents/implementation/read-implementation-agent-asset-packs-commercial-nl';
 import depositReadyToFinishAgent from '../../../deposit/src/agents/validation/deposit-ready-to-finish-agent';
 import readReadyToFinishAgent from '../../../read/src/agents/validation/read-ready-to-finish-agent';
 import depositStoreArtifactsAgent from '../../../deposit/src/agents/finish/deposit-store-artifacts-agent';
@@ -168,6 +171,18 @@ describe('per-mode agent rosters (conditional runtime registries)', () => {
       readMeasurementsKey,
       readCommercialNlKey,
     ]);
+    expect(await resolveEntry(readRegistry.entries.get(readPlanKey))).toBe(
+      readImplementationAgentAssetPacksPatchPlan,
+    );
+    expect(await resolveEntry(readRegistry.entries.get(readPatchfileKey))).toBe(
+      readImplementationAgentAssetPacksPatchfile,
+    );
+    expect(await resolveEntry(readRegistry.entries.get(readMeasurementsKey))).toBe(
+      readImplementationAgentAssetPacksMeasurementsSynthesis,
+    );
+    expect(await resolveEntry(readRegistry.entries.get(readCommercialNlKey))).toBe(
+      readImplementationAgentAssetPacksCommercialNl,
+    );
   });
 
   it('deposit validation registers the single deposit ready-to-finish gate', async () => {
@@ -393,6 +408,7 @@ describe('product finish agent module identity', () => {
     expect(readStoreArtifactsAgent).toBeDefined();
     expect(readFinishSynthesizeRunAgent).toBeDefined();
     expect(readReadyToFinishAgent).toBeDefined();
-    expect(readAssetPackSynthesisAgent).toBeDefined();
+    expect(readImplementationAgentAssetPacksPatchPlan).toBeDefined();
+    expect(readImplementationAgentAssetPacksCommercialNl).toBeDefined();
   });
 });

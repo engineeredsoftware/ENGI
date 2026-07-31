@@ -8,14 +8,16 @@
  *   4. commercial-nl — rich source-safe buyer title + description
  *
  * Product packages are separate (deposit/ vs read/) but the sequential shape is twin.
+ * Callers always pass mode 'deposit' | 'read'. There is no residual single-agent path.
  */
 
 import { factoryExecutionPipelineSDIVFExecutionPhaseRunner, type AgentStep, type ExecutionPipelineSDIVFExecutionPhaseRunnerConfig } from '@bitcode/generic-pipelines-execution-pipeline-sdivf';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 function createImplementationSequence(_assetPackWrittenAssetType: string): AgentStep[] {
-  // Residual generic path (legacy). Product deposit/read phases register their own sequential keys.
-  return [{ agent: 'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent' }];
+  // Product deposit/read phase files own the four-agent sequences.
+  // This residual runner is not used by product SDIVF.
+  return [];
 }
 
 export function createImplementationPhaseConfig(assetPackWrittenAssetType: string): ExecutionPipelineSDIVFExecutionPhaseRunnerConfig {
@@ -32,9 +34,10 @@ export function runImplementationPhase(assetPackWrittenAssetType: string) {
 
 export function registerImplementationAgentsForType(
   _assetPackWrittenAssetType: string,
-  agentRegistry: any
+  agentRegistry: any,
+  mode?: SynthesizeAssetPacksMode,
 ): void {
-  registerImplementationAgents(agentRegistry);
+  registerImplementationAgents(agentRegistry, mode);
 }
 
 export function registerImplementationAgents(
@@ -106,12 +109,5 @@ export function registerImplementationAgents(
     return;
   }
 
-  // Legacy residual path (pre-split callers).
-  agentRegistry.registerAgent(
-    'implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent',
-    () =>
-      import('../../../read/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent').then(
-        (m) => m.default,
-      ),
-  );
+  // No mode / unknown: product SDIVF always registers via deposit|read phases.
 }

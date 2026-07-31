@@ -7,6 +7,12 @@
  *
  * Base type: ExecutionPipelineSDIVFExecutionPhaseDelegator (SDIVF phase base).
  * This file is one SDIVF phase role specializations for the read synthesis product.
+ *
+ * Discovery budget (read): product default is **full** three-agent Discovery.
+ * Need-fits depository search is critical path — unlike deposit, there is no
+ * `BITCODE_DEPOSIT_DISCOVERY_PROFILE`-style bounded skip of search. Only
+ * progressive QA (`BITCODE_DEBUG_STOP_AGENT_FILTER`) may stub earlier agents.
+ * See domain `phases/discovery.ts` header for deposit vs read budget law.
  */
 
 import { createAgentExecutor } from '@bitcode/pipelines-generics';

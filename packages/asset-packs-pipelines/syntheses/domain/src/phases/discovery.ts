@@ -18,6 +18,18 @@
  *   Deposit search: find **relevant** settled supply / demand alignment.
  *   Read search: find **fits to Need**.
  *
+ * ## Discovery budget (deposit vs read) — product law
+ *
+ * Topology is twin; **runtime budget is not**.
+ *
+ * | Product | Default budget | Knobs |
+ * | --- | --- | --- |
+ * | **Deposit** | **bounded**: full PTRR codebase comprehension only; inherent-regurgitation + depository-search are deterministic stubs (still write Validation-required store keys). Leaves host time for Implementation/Validation/Finish. | `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded\|full` (host default `bounded`). `BITCODE_DEBUG_FAST_DISCOVERY=0` forces **full** (all three agents real PTRR). Progressive QA: `BITCODE_DEBUG_STOP_AGENT_FILTER`. |
+ * | **Read** | **full three-agent Discovery** — need-fits depository search is product-critical (Need → multi-query hybrid → rank). No deposit-style bounded skip of search. | Progressive QA only (`BITCODE_DEBUG_STOP_AGENT_FILTER`, `BITCODE_DEBUG_DISCOVERY_SERIAL`). Do **not** mirror deposit bounded as a product default for read. |
+ *
+ * Host: `apps/uapi/lib/pipeline-host-command-env.ts` seeds deposit profile when unset.
+ * Resolver: `resolveDepositDiscoveryProfile` in deposit Discovery phase file.
+ *
  * The historical five-agent Engi sequence is deleted.
  */
 
