@@ -2,13 +2,19 @@
  * Public marketing waitlist intake.
  *
  * 1. Persists email + optional multi-select roles via service role.
- * 2. Sends welcome email through Supabase Edge Function `resend` (Resend API).
- *    Auth SMTP is not used — Resend owns delivery.
+ * 2. Renders `supabase/templates/waitlist.html` (app-mail {{var}} SSOT).
+ * 3. Sends via Supabase Edge Function `resend` (Resend API) with kind=waitlist
+ *    so From uses RESEND_WAITLIST_FROM_EMAIL.
  */
 
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { validateWaitlistSubmit } from '@/components/marketing/MarketingLandingWaitlist/marketing-waitlist-validate';
+import {
+  WAITLIST_EMAIL_SUBJECT,
+  buildWaitlistTemplateVars,
+  renderSupabaseEmailTemplate,
+} from '@/lib/render-supabase-email-template';
 
 export const runtime = 'nodejs';
 
@@ -37,7 +43,7 @@ function resolveServiceBearer(): string | null {
 }
 
 /**
- * POST Supabase Edge Function `resend` with waitlist template.
+ * Render waitlist.html then POST raw HTML to Edge Function `resend`.
  */
 async function sendWaitlistEmailViaResend(input: {
   email: string;
@@ -51,6 +57,22 @@ async function sendWaitlistEmailViaResend(input: {
     return { ok: false, error: 'resend_not_configured' };
   }
 
+  let html: string;
+  try {
+    html = await renderSupabaseEmailTemplate(
+      'waitlist',
+      buildWaitlistTemplateVars({
+        email: input.email,
+        roles: input.roles,
+        siteUrl: WAITLIST_SITE_URL,
+      }),
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error('waitlist template render failed', message);
+    return { ok: false, error: `template_render_failed: ${message}` };
+  }
+
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -60,14 +82,10 @@ async function sendWaitlistEmailViaResend(input: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        template: 'waitlist',
+        kind: 'waitlist',
         to: input.email,
-        vars: {
-          email: input.email,
-          roles: input.roles,
-          source: input.source,
-          siteUrl: WAITLIST_SITE_URL,
-        },
+        subject: WAITLIST_EMAIL_SUBJECT,
+        html,
       }),
       ...(typeof AbortSignal !== 'undefined' && 'timeout' in AbortSignal
         ? { signal: AbortSignal.timeout(20_000) }

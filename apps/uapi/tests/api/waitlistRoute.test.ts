@@ -1,5 +1,5 @@
 /**
- * Marketing waitlist API: store roles + Resend Edge Function email.
+ * Marketing waitlist API: store roles + render waitlist.html + Resend Edge.
  */
 
 jest.mock('@bitcode/supabase', () => ({
@@ -75,7 +75,7 @@ describe('POST /api/waitlist', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('inserts roles and invokes resend edge function', async () => {
+  it('renders waitlist.html and posts raw html to resend edge', async () => {
     const insert = jest.fn().mockResolvedValue({ error: null });
     mockFrom.mockReturnValue({ insert });
 
@@ -108,19 +108,17 @@ describe('POST /api/waitlist', () => {
           Authorization: 'Bearer service-role-test-key',
           apikey: 'service-role-test-key',
         }),
-        body: expect.stringContaining('"template":"waitlist"'),
       }),
     );
     const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
-    expect(body).toMatchObject({
-      template: 'waitlist',
-      to: 'you@company.com',
-      vars: expect.objectContaining({
-        email: 'you@company.com',
-        roles: ['seller', 'builder'],
-        source: 'landing',
-      }),
-    });
+    expect(body.kind).toBe('waitlist');
+    expect(body.to).toBe('you@company.com');
+    expect(body.subject).toBe('Welcome to the Bitcode waitlist');
+    expect(body.html).toContain('Welcome to the Bitcode waitlist');
+    expect(body.html).toContain('you@company.com');
+    expect(body.html).toContain('Seller · Builder');
+    expect(body.html).toContain("unless they're pair-connected");
+    expect(body.template).toBeUndefined();
   });
 
   it('returns alreadyJoined on unique email without re-sending', async () => {

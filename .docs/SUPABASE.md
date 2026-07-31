@@ -89,30 +89,35 @@ await supabaseAdmin.from('…').select('…');
 | --- | --- |
 | `packages/email/supabase` | Transactional / product email via Supabase-backed delivery |
 | `packages/notifications` | Depends on `@bitcode/supabase` for notification persistence/delivery glue |
-| `apps/uapi/app/api/waitlist` | Marketing waitlist → Edge Function **`resend`** → Resend API |
-| `supabase/functions/resend` | Deno Edge Function: waitlist template + raw `{ subject, html }` |
-| `supabase/templates/confirm.html` | Auth Confirm signup HTML (Auth events only — not waitlist) |
+| `apps/uapi/app/api/waitlist` | Renders `supabase/templates/waitlist.html` → Edge **`resend`** → Resend |
+| `apps/uapi/lib/render-supabase-email-template.ts` | Load + `{{var}}` interpolate app-mail HTML |
+| `supabase/functions/resend` | Thin Resend client: raw `{ subject, html, kind }` only |
+| `supabase/templates/waitlist.html` | Waitlist SSOT (app-mail vars — not Auth Go templates) |
+| `supabase/templates/confirm.html` | Auth Confirm signup only (not waitlist) |
 
 ### 3.4.1 Resend via Edge Function (waitlist + product mail)
 
-Landing **Request access** stores `marketing_waitlist`, then `POST /functions/v1/resend` with service role (not Auth SMTP / not `auth.signUp`).
+**Option A (current):** app renders HTML from `supabase/templates/`, Edge only delivers.
+
+1. Insert `marketing_waitlist`.
+2. `renderSupabaseEmailTemplate('waitlist', vars)`.
+3. `POST /functions/v1/resend` with service role: `{ kind: "waitlist", to, subject, html }`.
 
 | Secret / env | Where | Purpose |
 | --- | --- | --- |
 | `RESEND_API_KEY` | **Edge Function secrets** (required) | Resend API key `re_…` |
-| `RESEND_WAITLIST_FROM_EMAIL` | Edge secrets | **Waitlist-only** From (`waitlist@bitcode.exchange`) — not general mail |
-| `RESEND_FROM_EMAIL` | Edge secrets | **General/product** From (`noreply@…`) for raw/non-waitlist sends |
+| `RESEND_WAITLIST_FROM_EMAIL` | Edge secrets | **Waitlist-only** From (`waitlist@bitcode.exchange`) when `kind=waitlist` |
+| `RESEND_FROM_EMAIL` | Edge secrets | **General/product** From (`noreply@…`) when `kind` omitted/general |
 | `RESEND_FROM_NAME` | Edge secrets | Display name (`Bitcode`) |
 | `RESEND_*` | `apps/uapi/.env.local` | Local reference / future app-side API |
 | `EMAIL_SMTP_URL` | uapi env optional | Nodemailer for `@bitcode/notifications` |
 | `BITCODE_RESEND_FUNCTION_URL` | uapi env optional | Override function URL |
 
-Template `waitlist` always sends From `RESEND_WAITLIST_FROM_EMAIL`. Do not put `waitlist@` in `RESEND_FROM_EMAIL` — that key is general only.
+Do not put `waitlist@` in `RESEND_FROM_EMAIL` — that key is general only.
 
 **Deploy**
 
 ```bash
-# From monorepo root (linked project = staging tkpyosihuouusyaxtbau)
 supabase secrets set RESEND_API_KEY=re_... \
   RESEND_WAITLIST_FROM_EMAIL=waitlist@bitcode.exchange \
   RESEND_FROM_EMAIL=noreply@bitcode.exchange \
@@ -120,21 +125,20 @@ supabase secrets set RESEND_API_KEY=re_... \
 supabase functions deploy resend
 ```
 
-**Invoke body (waitlist)**
+**Invoke body (after app render)**
 
 ```json
 {
-  "template": "waitlist",
+  "kind": "waitlist",
   "to": "you@company.com",
-  "vars": { "email": "you@company.com", "roles": ["seller"], "siteUrl": "https://bitcode.exchange" }
+  "subject": "Welcome to the Bitcode waitlist",
+  "html": "<!DOCTYPE html>…"
 }
 ```
 
-**Raw body:** `{ "to", "subject", "html" }` (optional `text`, `from`, `reply_to`).
+**Test:** `pnpm -C apps/uapi dev:remote` → Request access → inbox / Resend dashboard.
 
-**Test:** `pnpm -C apps/uapi dev:remote` → Request access → Resend dashboard / inbox.
-
-**Auth email** (login confirm / recovery) is separate: still Dashboard Auth templates + optional custom SMTP. Waitlist does not use that path.
+**Auth email** (confirm / recovery) is separate — Dashboard Auth templates. Waitlist does not use that path.
 
 Guide: [Send emails with Supabase Edge Functions](https://resend.com/docs/send-with-supabase-edge-functions).
 
