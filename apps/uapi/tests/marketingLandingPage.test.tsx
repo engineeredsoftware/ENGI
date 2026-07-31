@@ -119,6 +119,16 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByTestId('landing-depot-lower')).toBeInTheDocument();
     expect(screen.getByTestId('landing-production-band')).toBeInTheDocument();
 
+    // Option 1: hero companion waitlist under pillar CTAs (soft gate).
+    expect(screen.getByTestId('landing-waitlist')).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: BITCODE_PUBLIC_COPY.waitlist.title }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('landing-waitlist-email')).toBeInTheDocument();
+    expect(screen.getByTestId('landing-waitlist-submit')).toHaveTextContent(
+      BITCODE_PUBLIC_COPY.waitlist.ctaLabel,
+    );
+
     // Depot panels (page copy is SSOT).
     expect(
       screen.getAllByText(BITCODE_PUBLIC_COPY.operatorFrame.title).length,

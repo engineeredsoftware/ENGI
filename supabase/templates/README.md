@@ -16,13 +16,17 @@ Copy the matching file body into each Auth email type:
 | Supabase type | File |
 | --- | --- |
 | Magic Link | `magic_link.html` |
-| Confirm signup | `confirm.html` |
+| Confirm signup | `confirm.html` (also used by marketing waitlist Request access) |
 | Invite user | `invite.html` |
 | Change email | `email_change.html` |
 | Reset password | `password_recovery.html` |
 | OTP / reauth | `otp.html` |
 
 Variables follow Supabase Go templates: `{{ .Email }}`, `{{ .Token }}`, `{{ .ConfirmationURL }}`, `{{ .Year }}`, `{{ .SiteURL }}`, `{{ index .Data "…" }}`.
+
+### Waitlist → Resend Edge Function
+
+`POST /api/waitlist` (Next.js) inserts `public.marketing_waitlist` (email + optional roles), then invokes Supabase Edge Function **`resend`** (`supabase/functions/resend`) with `{ template: "waitlist", to, vars }`. Delivery is Resend API (`RESEND_API_KEY` on function secrets). See `.docs/SUPABASE.md` §3.4.1. Auth `confirm.html` is **not** used for waitlist.
 
 ## App mail (`sendEmail({ template, vars })`)
 

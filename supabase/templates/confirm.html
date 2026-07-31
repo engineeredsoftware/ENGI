@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light" />
-  <title>Confirm your Bitcode email</title>
+  <title>Welcome to the Bitcode waitlist</title>
   <style>
     body { margin:0; padding:0; background:#f1f5f9; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; line-height:1.55; color:#0f172a; }
     .wrap { max-width:560px; margin:0 auto; padding:32px 16px 48px; }
@@ -49,8 +49,18 @@
         <div class="brand">Bitcode</div>
       </div>
       <div class="body">
+        {{ if index .Data "waitlist" }}
+        <h1>Welcome to the Bitcode waitlist</h1>
+        <p>You requested priority access for <strong>{{ .Email }}</strong>. Confirm this address to lock in launch and lane-open notes.</p>
+        <div class="token">
+          <div class="token-label">Confirmation code</div>
+          <div class="token-code">{{ .Token }}</div>
+        </div>
+        <p>Or confirm with one click:</p>
+        <div class="btn-row"><a class="btn" href="{{ .ConfirmationURL }}">Confirm priority access</a></div>
+        <p class="muted">Wallet identity remains the account root on Bitcode — this email is for waitlist and product notices only (unless they're pair-connected).</p>
+        {{ else }}
         <h1>Confirm your email</h1>
-        
         <p>Confirm <strong>{{ .Email }}</strong> so Bitcode can send account and pipeline notices to this address.</p>
         <div class="token">
           <div class="token-label">Confirmation code</div>
@@ -59,11 +69,15 @@
         <p>Or confirm with one click:</p>
         <div class="btn-row"><a class="btn" href="{{ .ConfirmationURL }}">Confirm email</a></div>
         <p class="muted">Email is optional contact on Bitcode — wallet identity remains the account root.</p>
-  
+        {{ end }}
       </div>
       <div class="footer">
         © {{ .Year }} Bitcode · Source-bearing value exchange<br />
+        {{ if index .Data "waitlist" }}
+        You received this because you requested Bitcode priority access.
+        {{ else }}
         You received this because of activity on your Bitcode account.
+        {{ end }}
       </div>
     </div>
   </div>

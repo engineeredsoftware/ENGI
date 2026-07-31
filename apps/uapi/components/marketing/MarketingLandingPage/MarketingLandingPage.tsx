@@ -11,6 +11,7 @@ import { MarketingLandingProductPreview } from '@/components/marketing/Marketing
 import { MarketingLandingScrollCue } from '@/components/marketing/MarketingLandingScrollCue/MarketingLandingScrollCue';
 import { MarketingLandingTestnetSection } from '@/components/marketing/MarketingLandingTestnetSection/MarketingLandingTestnetSection';
 import { MarketingLandingValueFlow } from '@/components/marketing/MarketingLandingValueFlow/MarketingLandingValueFlow';
+import { MarketingLandingWaitlist } from '@/components/marketing/MarketingLandingWaitlist/MarketingLandingWaitlist';
 import {
   animatedMotionStyle,
   entranceEase,
@@ -223,6 +224,12 @@ export default function MarketingLandingPage() {
                 <MarketingLandingScrollCue targetId="landing-audience" />
               </div>
             </div>
+
+            {/*
+              Full main width (both opening columns) so the waitlist email row
+              does not leave a height hole under the upper depot.
+            */}
+            <MarketingLandingWaitlist />
 
             <MarketingLandingAudienceSection />
 

@@ -37,6 +37,38 @@ export const BITCODE_PUBLIC_COPY = {
     href: '/exchange',
     label: 'View Exchange',
   },
+  /**
+   * Landing waitlist (hero companion under pillar CTAs).
+   * Soft gate: product CTAs stay live; waitlist is priority access.
+   */
+  waitlist: {
+    eyebrow: 'Priority access',
+    title: 'Get on the Bitcode waitlist',
+    subcopy:
+      'Be first to mint, find, and trade measured DataPacks when your lane opens.',
+    emailLabel: 'Email',
+    emailPlaceholder: 'you@company.com',
+    ctaLabel: 'Request access',
+    ctaLoadingLabel: 'Submitting…',
+    privacy:
+      'Email only — no wallet, no source, no spam. Launch and priority access notes only.',
+    successTitle: "You're on the list",
+    successBody:
+      'Check your inbox for a priority access email, then watch for launch notes.',
+    alreadyJoinedTitle: "You're already on the list",
+    alreadyJoinedBody: 'We have this email. Watch for launch and priority access notes.',
+    errorInvalidEmail: 'Enter a valid email address.',
+    errorGeneric: 'Something failed — try again.',
+    errorEmailSend:
+      'You may be on the list, but the confirmation email failed. Try again in a minute.',
+    roles: [
+      { id: 'seller', label: 'Seller' },
+      { id: 'buyer', label: 'Buyer' },
+      { id: 'builder', label: 'Builder' },
+    ],
+    /** Optional multi-select; default none — email alone joins. */
+    defaultRoles: [] as const,
+  },
   guide: {
     posts: [
       {

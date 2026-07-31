@@ -58,7 +58,10 @@ Run lifecycle notifications use Bitcode execution semantics:
 
 ## Configuration
 
-- **EMAIL_SMTP_URL**: SMTP server connection string
+- **RESEND_API_KEY** / **RESEND_FROM_NAME**: Resend (preferred); see `apps/uapi/.env.example` §10
+- **RESEND_WAITLIST_FROM_EMAIL**: waitlist-only From (`waitlist@…`) — not product mail
+- **RESEND_FROM_EMAIL**: general/product From (`noreply@…`) — not waitlist
+- **EMAIL_SMTP_URL**: SMTP connection string (Resend: `smtp://resend:<RESEND_API_KEY>@smtp.resend.com:587`)
 - **DISABLE_NOTIFICATIONS_WORKER**: Set to '1' to disable auto-start
 
 ## Architecture

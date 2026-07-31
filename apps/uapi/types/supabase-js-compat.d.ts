@@ -81,6 +81,22 @@ declare module '@supabase/supabase-js' {
   export interface SupabaseAuthClient {
     getSession(): Promise<AuthSessionResult>;
     getUser(): Promise<AuthUserResult>;
+    /**
+     * Public sign-up (Confirm signup email when confirmations are enabled).
+     * Used server-side for marketing waitlist with the anon key — no session cookies.
+     */
+    signUp(credentials: {
+      email: string;
+      password: string;
+      options?: {
+        emailRedirectTo?: string;
+        data?: Record<string, unknown>;
+        captchaToken?: string;
+      };
+    }): Promise<{
+      data: { user: User | null; session: Session | null };
+      error?: Error | null;
+    }>;
     verifyOtp?(params: Record<string, unknown>): Promise<{
       data: { session: Session | null; user: User | null };
       error?: Error | null;
