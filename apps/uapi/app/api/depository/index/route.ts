@@ -2,6 +2,8 @@
  * POST /api/depository/index
  * Index one admitted AssetPack into depository_search_documents (+ optional embed).
  * Called after deposit option admission; fail-soft for missing migration/API keys.
+ *
+ * Payload includes commercial NL + absolute fixtures when present (search MVP).
  */
 
 import { NextResponse } from 'next/server';
@@ -10,6 +12,7 @@ import { createClient } from '@bitcode/supabase/ssr/server';
 import {
   indexDepositoryAssetPack,
   type DepositoryIndexPackInput,
+  type DepositoryAbsoluteFixture,
 } from '@/lib/depository-index-job';
 
 export const runtime = 'nodejs';
@@ -17,6 +20,26 @@ export const maxDuration = 60;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function parseAbsoluteFixtures(raw: unknown): DepositoryAbsoluteFixture[] {
+  if (!Array.isArray(raw)) return [];
+  const out: DepositoryAbsoluteFixture[] = [];
+  for (const row of raw) {
+    if (!isObject(row)) continue;
+    const kind = typeof row.measurementKind === 'string' ? row.measurementKind.trim() : '';
+    if (!kind) continue;
+    const volume = Number(row.volume);
+    out.push({
+      measurementKind: kind,
+      label: typeof row.label === 'string' ? row.label : undefined,
+      descriptor: typeof row.descriptor === 'string' ? row.descriptor : undefined,
+      volume: Number.isFinite(volume) ? volume : 0,
+      status: typeof row.status === 'string' ? row.status : undefined,
+      category: typeof row.category === 'string' ? row.category : undefined,
+    });
+  }
+  return out;
 }
 
 export async function POST(request: Request) {
@@ -53,6 +76,12 @@ export async function POST(request: Request) {
     assetId,
     title: typeof body.title === 'string' ? body.title : null,
     summary: typeof body.summary === 'string' ? body.summary : null,
+    commercialTitle:
+      typeof body.commercialTitle === 'string' ? body.commercialTitle : null,
+    commercialDescription:
+      typeof body.commercialDescription === 'string'
+        ? body.commercialDescription
+        : null,
     kind: typeof body.kind === 'string' ? body.kind : null,
     repositoryFullName:
       typeof body.repositoryFullName === 'string' ? body.repositoryFullName : null,
@@ -69,6 +98,7 @@ export async function POST(request: Request) {
       isObject(body.absoluteVolumes)
         ? (body.absoluteVolumes as Record<string, number>)
         : {},
+    absoluteFixtures: parseAbsoluteFixtures(body.absoluteFixtures),
     materialIdentity:
       isObject(body.materialIdentity)
         ? (body.materialIdentity as Record<string, unknown>)

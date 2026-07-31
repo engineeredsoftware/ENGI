@@ -117,16 +117,34 @@ function packFromExecutionRow(row: Record<string, unknown>): SettledDepositoryPa
 /**
  * Map a settled/admitted pack summary into a DepositoryAsset for lexical/vector
  * search. Source-safe text only — no raw source bodies.
+ * Prefer commercial NL when present (primary search surface).
  */
 export function settledPackToDepositoryAsset(
   pack: SettledDepositoryPackSummary & {
     coveredSourcePaths?: string[] | null;
     absoluteKinds?: string[] | null;
     absoluteVolumes?: Record<string, number> | null;
+    commercialTitle?: string | null;
+    commercialDescription?: string | null;
+    absoluteFixtures?: Array<{
+      measurementKind: string;
+      label?: string;
+      descriptor?: string;
+      volume: number;
+      status?: string;
+    }> | null;
   },
 ): DepositoryAsset {
-  const title = pack.title || pack.id;
-  const summary = pack.summary || '';
+  const commercialTitle =
+    typeof pack.commercialTitle === 'string' && pack.commercialTitle.trim()
+      ? pack.commercialTitle.trim()
+      : '';
+  const commercialDescription =
+    typeof pack.commercialDescription === 'string' && pack.commercialDescription.trim()
+      ? pack.commercialDescription.trim()
+      : '';
+  const title = commercialTitle || pack.title || pack.id;
+  const summary = commercialDescription || pack.summary || '';
   const topics = Array.isArray(pack.topics) ? pack.topics.filter(Boolean) : [];
   const paths = Array.isArray(pack.coveredSourcePaths)
     ? pack.coveredSourcePaths.filter(Boolean).slice(0, 40)
@@ -138,23 +156,55 @@ export function settledPackToDepositoryAsset(
     pack.absoluteVolumes && typeof pack.absoluteVolumes === 'object'
       ? pack.absoluteVolumes
       : {};
-  const volumePairs = Object.entries(absoluteVolumes)
-    .filter(([, v]) => Number.isFinite(Number(v)))
-    .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
-    .slice(0, 46);
-  const embedParts = [
-    title,
-    summary,
-    pack.kind,
-    pack.repositoryFullName,
-    pack.lifecycleState,
-    ...topics,
-    ...absoluteKinds,
-    ...volumePairs,
-    ...paths,
-  ]
-    .filter((part): part is string => typeof part === 'string' && part.trim().length > 0)
+  const fixtures = Array.isArray(pack.absoluteFixtures) ? pack.absoluteFixtures : [];
+  const fixtureLines = fixtures
+    .slice(0, 32)
+    .map((f) => {
+      const head = f.label || f.measurementKind;
+      const vol = Number.isFinite(f.volume) ? f.volume.toFixed(3) : '0';
+      return f.descriptor ? `${head}: ${f.descriptor} (${vol})` : `${head}:${vol}`;
+    })
     .join(' ');
+  const volumePairs = Object.entries(absoluteVolumes)
+    .filter(([, v]) => Number.isFinite(Number(v)) && Number(v) > 0)
+    .map(([k, v]) => `${k}:${Number(v).toFixed(3)}`)
+    .slice(0, 40);
+  const contentUnits: DepositoryAsset['contentUnits'] = [];
+  if (commercialTitle || commercialDescription) {
+    contentUnits.push({
+      unitId: `${pack.id}:commercial`,
+      unitKind: 'commercial-nl',
+      text: [commercialTitle, commercialDescription].filter(Boolean).join(' '),
+    });
+  }
+  if (pack.summary && pack.summary !== commercialDescription) {
+    contentUnits.push({
+      unitId: `${pack.id}:summary`,
+      unitKind: 'summary',
+      text: pack.summary,
+    });
+  }
+  if (fixtureLines || volumePairs.length) {
+    contentUnits.push({
+      unitId: `${pack.id}:absolutes`,
+      unitKind: 'absolute-fixtures',
+      text: [fixtureLines, ...volumePairs].filter(Boolean).join(' '),
+    });
+  }
+  if (paths.length) {
+    contentUnits.push({
+      unitId: `${pack.id}:paths`,
+      unitKind: 'paths',
+      text: paths.join(' '),
+    });
+  }
+  if (contentUnits.length === 0) {
+    contentUnits.push({
+      unitId: `${pack.id}:summary`,
+      unitKind: 'summary',
+      text: title,
+    });
+  }
 
   return {
     assetId: pack.id,
@@ -162,23 +212,21 @@ export function settledPackToDepositoryAsset(
     summary,
     artifactKind: pack.kind || 'asset-pack',
     repositoryFullName: pack.repositoryFullName || null,
-    contentUnits: [
-      {
-        unitId: `${pack.id}:summary`,
-        unitKind: 'summary',
-        text: embedParts || title,
-      },
-    ],
+    contentUnits,
     metadata: {
       lifecycleState: pack.lifecycleState || null,
       topics,
       coveredSourcePaths: paths,
       absoluteKinds,
       absoluteVolumes,
+      absoluteFixtures: fixtures,
+      commercialTitle: commercialTitle || null,
+      commercialDescription: commercialDescription || null,
       sourceSafe: true,
     },
+    // Measurement evidence only when absolute facets are present — never force true.
     hasAssetMeasurementEvidence:
-      absoluteKinds.length > 0 || Object.keys(absoluteVolumes).length > 0 || true,
+      absoluteKinds.length > 0 || Object.keys(absoluteVolumes).length > 0,
     hasWalletOrAttestationProof: false,
   };
 }
@@ -187,13 +235,15 @@ export function settledPackToDepositoryAsset(
  * Prefer indexed depository_search_documents (46-kind absolute facets) when present;
  * fall back to admitted execution activity rows.
  */
-export async function loadDepositorySearchAssets(limit = 80): Promise<DepositoryAsset[]> {
-  const cap = Math.min(Math.max(limit, 1), 100);
+export async function loadDepositorySearchAssets(limit = 120): Promise<DepositoryAsset[]> {
+  // Cap raised (was 100) so lexical corpus better covers larger depositories while
+  // vector RPC can still surface ids beyond the preload for hybrid merge.
+  const cap = Math.min(Math.max(limit, 1), 200);
   try {
     const { data, error } = await supabaseAdmin
       .from('depository_search_documents')
       .select(
-        'asset_id, title, summary, kind, repository_full_name, lifecycle, topics, absolute_kinds, absolute_volumes, source_path_tokens',
+        'asset_id, title, summary, commercial_title, commercial_description, kind, repository_full_name, lifecycle, topics, absolute_kinds, absolute_volumes, absolute_fixtures, source_path_tokens',
       )
       .order('updated_at', { ascending: false })
       .limit(cap);
@@ -203,6 +253,8 @@ export async function loadDepositorySearchAssets(limit = 80): Promise<Depository
           id: String(row.asset_id),
           title: asString(row.title),
           summary: asString(row.summary),
+          commercialTitle: asString(row.commercial_title),
+          commercialDescription: asString(row.commercial_description),
           kind: asString(row.kind),
           repositoryFullName: asString(row.repository_full_name),
           lifecycleState: asString(row.lifecycle) || 'admitted-to-depository',
@@ -213,6 +265,15 @@ export async function loadDepositorySearchAssets(limit = 80): Promise<Depository
             row.absolute_volumes && typeof row.absolute_volumes === 'object'
               ? (row.absolute_volumes as Record<string, number>)
               : {},
+          absoluteFixtures: Array.isArray(row.absolute_fixtures)
+            ? (row.absolute_fixtures as Array<{
+                measurementKind: string;
+                label?: string;
+                descriptor?: string;
+                volume: number;
+                status?: string;
+              }>)
+            : [],
         }),
       );
     }

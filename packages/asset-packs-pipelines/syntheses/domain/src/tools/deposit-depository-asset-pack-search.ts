@@ -117,6 +117,8 @@ export type DepositorySearchQualityTelemetry = {
   vector: {
     enabled: boolean;
     status: string;
+    /** Why vector channel did not run (ops-visible; empty when hybrid/vector-matched). */
+    disabledReason: string | null;
     rpc: string;
     embedProvider: string;
     embedModel: string;
@@ -439,12 +441,20 @@ export async function runDepositDepositoryAssetPackSearch(
     }
   }
 
-  // ---- Vector multi-query (optional, Supabase pgvector) ----
+  // ---- Vector multi-query (Supabase pgvector + gte-small) ----
+  // Product default: on when BITCODE_DEPOSITORY_VECTOR_SEARCH is 1/true/yes/on
+  // (host seeds 1 when unset). Explicit 0/false/off → lexical-only.
   let vectorStatus: DepositDepositorySearchToolResult['vectorStore']['status'] =
     assets.length > 0 ? 'lexical-only' : 'policy-declared';
-  const vectorEnabled = env.BITCODE_DEPOSITORY_VECTOR_SEARCH === '1';
+  const vectorFlag = String(env.BITCODE_DEPOSITORY_VECTOR_SEARCH ?? '')
+    .trim()
+    .toLowerCase();
+  const vectorEnabled = ['1', 'true', 'yes', 'on'].includes(vectorFlag);
   let queriesEmbedded = 0;
   let queriesEmbedFailed = 0;
+  if (!vectorEnabled) {
+    vectorStatus = assets.length > 0 ? 'lexical-only' : 'policy-declared';
+  }
   if (vectorEnabled && fanout.length > 0) {
     const embedFn = input.embedQuery || ((text: string) => defaultEmbedQuery(text, env));
     // Product RPC only (gte-small 384); no legacy OpenAI deliverable path.
@@ -613,6 +623,15 @@ export async function runDepositDepositoryAssetPackSearch(
     vector: {
       enabled: vectorEnabled,
       status: vectorStatus,
+      disabledReason: !vectorEnabled
+        ? 'BITCODE_DEPOSITORY_VECTOR_SEARCH off (set 1 for gte-small+pgvector hybrid)'
+        : queriesEmbedded === 0 && queriesEmbedFailed > 0
+          ? 'embed failed for all vector queries (Edge gte-small / auth / URL)'
+          : vectorEnabled && !input.supabase?.rpc
+            ? 'supabase.rpc not injected on execution (pipeline|deposit.supabase)'
+            : vectorStatus === 'lexical-only' && vectorEnabled
+              ? 'vector path enabled but no vector hits merged (empty index or RPC miss)'
+              : null,
       rpc: embeddingPolicy.vectorStore.rpc,
       embedProvider: String(embeddingPolicy.provider),
       embedModel: embeddingPolicy.model,

@@ -159,6 +159,21 @@ export function selectedPipelineHostCommandEnvironment(
       process.env.BITCODE_DEPOSIT_DISCOVERY_PROFILE,
     ).trim();
   }
+  // Depository hybrid search: product default ON for real semantic (gte-small
+  // + pgvector). Explicit 0/false/off keeps lexical-only for tests/ops.
+  {
+    const raw =
+      env.BITCODE_DEPOSITORY_VECTOR_SEARCH ??
+      process.env.BITCODE_DEPOSITORY_VECTOR_SEARCH;
+    const off = ['0', 'false', 'no', 'off'].includes(
+      String(raw ?? '').trim().toLowerCase(),
+    );
+    if (!off && (raw === undefined || String(raw).trim() === '')) {
+      env.BITCODE_DEPOSITORY_VECTOR_SEARCH = '1';
+    } else if (raw !== undefined && String(raw).trim() !== '') {
+      env.BITCODE_DEPOSITORY_VECTOR_SEARCH = String(raw).trim();
+    }
+  }
   // Inference is owned by the host/Pipeliner process. Product default is on
   // when unset; honor explicit opt-out (0/false/off) for unit tests.
   const realInferenceRaw = process.env.BITCODE_ASSET_PACK_REAL_INFERENCE;

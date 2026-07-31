@@ -1,12 +1,17 @@
 /**
  * Depository / AssetPack embedding policy.
  *
- * Product law (V48 Gate 5):
- * - **Store / index / query** = Supabase Postgres + pgvector only
+ * Product law (V48):
+ * - **Store / index / query** = Supabase Postgres + **pgvector** only
  *   (`depository_search_documents` + `depository_search_vectors`)
  * - **Embed generation** = open-source **gte-small** (384 dims) via Supabase
  *   Edge Function (`Supabase.ai.Session`) — not OpenAI Embeddings API
  * - OpenAI remains allowed only for product LLM synthesis, not depository vectors
+ * - **Not** Supabase Storage Vector Buckets (S3) for product MVP — those suit
+ *   large-scale backend storage; pgvector is correct for user-facing Discovery
+ *   latency (Supabase comparison: buckets for scale/backend, pgvector for
+ *   quick response / front-end features). Revisit buckets only if depository
+ *   scale outgrows Postgres.
  *
  * Legacy Exchange `deliverable_vectors` / 1536 OpenAI path is deprecated fallback.
  */

@@ -127,7 +127,7 @@ export async function runReadOptionSynthesis(input: ReadSynthesisDispatchInput):
     // Preload depository supply so Discovery need-fits search has assets.
     await assertNotCancelled();
     try {
-      const searchAssets = await loadDepositorySearchAssets(80);
+      const searchAssets = await loadDepositorySearchAssets(120);
       storeCrossPhaseArtifact(execution, 'depository', 'settledAssets', searchAssets);
       storeCrossPhaseArtifact(execution, 'deposit', 'settledDepositoryAssets', searchAssets);
       storeCrossPhaseArtifact(execution, 'pipeline', 'depositoryAssets', searchAssets);

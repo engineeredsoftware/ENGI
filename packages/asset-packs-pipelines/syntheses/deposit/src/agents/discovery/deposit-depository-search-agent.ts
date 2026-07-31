@@ -231,8 +231,14 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
   // Always run Depository search tool (vector policy + lexical rank when assets present).
   let toolResult: any = null;
   try {
-    const supabase = findValue(execution, 'deposit', 'supabase') || undefined;
-    const embedQuery = findValue(execution, 'deposit', 'embedQuery') || undefined;
+    const supabase =
+      findValue(execution, 'pipeline', 'supabase') ||
+      findValue(execution, 'deposit', 'supabase') ||
+      undefined;
+    const embedQuery =
+      findValue(execution, 'pipeline', 'embedQuery') ||
+      findValue(execution, 'deposit', 'embedQuery') ||
+      undefined;
     const {
       prepareDepositoryAssetsForSearch,
       absoluteKindQueryHints,
@@ -280,7 +286,9 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
       const t = toolResult?.telemetry;
       if (t && typeof (execution as any)?.emit === 'function') {
         (execution as any).emit('status', {
-          message: `depository-search: product=${t.product} queries=${t.queryCount} hits=${t.hitCount} corpus=${t.assetCorpusAfterFilters} vector=${t.vector.status} ${t.durationMs}ms`,
+          message: `depository-search: product=${t.product} queries=${t.queryCount} hits=${t.hitCount} corpus=${t.assetCorpusAfterFilters} vector=${t.vector.status}${
+            t.vector.disabledReason ? ` (${t.vector.disabledReason})` : ''
+          } ${t.durationMs}ms`,
         });
       }
     } catch {

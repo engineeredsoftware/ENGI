@@ -297,7 +297,9 @@ export default async function runReadDepositorySearchForNeedFitsAgent(input: any
       const t = toolResult?.telemetry;
       if (t && typeof (execution as any)?.emit === 'function') {
         (execution as any).emit('status', {
-          message: `depository-search: product=${t.product} queries=${t.queryCount} hits=${t.hitCount} corpus=${t.assetCorpusAfterFilters} vector=${t.vector.status} top=${
+          message: `depository-search: product=${t.product} queries=${t.queryCount} hits=${t.hitCount} corpus=${t.assetCorpusAfterFilters} vector=${t.vector.status}${
+            t.vector.disabledReason ? ` (${t.vector.disabledReason})` : ''
+          } top=${
             t.topHits[0]?.title || t.topHits[0]?.assetId || 'none'
           } ${t.durationMs}ms`,
         });

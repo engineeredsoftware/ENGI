@@ -162,7 +162,7 @@ export async function remeasureAndReindexDepositoryAbsolutes(
   let query = supabaseAdmin
     .from('depository_search_documents')
     .select(
-      'asset_id, title, summary, kind, repository_full_name, lifecycle, topics, absolute_kinds, absolute_volumes, source_path_tokens, embed_text',
+      'asset_id, title, summary, commercial_title, commercial_description, kind, repository_full_name, lifecycle, topics, absolute_kinds, absolute_volumes, absolute_fixtures, source_path_tokens, embed_text',
     )
     .order('updated_at', { ascending: false })
     .limit(limit);
@@ -239,10 +239,31 @@ export async function remeasureAndReindexDepositoryAbsolutes(
         },
       });
 
+      // Preserve commercial NL + fixtures from existing doc (remeasure is absolute-only).
+      const commercialTitle =
+        asString((doc as { commercial_title?: unknown }).commercial_title) || null;
+      const commercialDescription =
+        asString((doc as { commercial_description?: unknown }).commercial_description) ||
+        null;
+      const priorFixtures = Array.isArray(
+        (doc as { absolute_fixtures?: unknown }).absolute_fixtures,
+      )
+        ? ((doc as { absolute_fixtures: unknown[] }).absolute_fixtures as Array<{
+            measurementKind: string;
+            label?: string;
+            descriptor?: string;
+            volume: number;
+            status?: string;
+            category?: string;
+          }>)
+        : [];
+
       const input: DepositoryIndexPackInput = {
         assetId,
         title: asString(doc.title) || execution.title || null,
         summary: asString(doc.summary) || execution.summary || null,
+        commercialTitle,
+        commercialDescription,
         kind: asString(doc.kind) || execution.kind || null,
         repositoryFullName:
           asString(doc.repository_full_name) || execution.repositoryFullName || null,
@@ -251,6 +272,7 @@ export async function remeasureAndReindexDepositoryAbsolutes(
         coveredSourcePaths,
         absoluteKinds: facets.absoluteKinds,
         absoluteVolumes: facets.absoluteVolumes,
+        absoluteFixtures: priorFixtures.length > 0 ? priorFixtures : undefined,
         materialIdentity: facets.materialIdentity as Record<string, unknown> | null,
         skipEmbed,
       };

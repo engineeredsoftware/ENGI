@@ -23,6 +23,7 @@
     "./depository-search": "./src/depository-search.ts",
     "./depository-absolute-remeasure": "./src/depository-absolute-remeasure.ts",
     "./depository-absolute-facets-expand": "./src/depository-absolute-facets-expand.ts",
+    "./depository-absolute-fixtures": "./src/depository-absolute-fixtures.ts",
     "./depository-search-absolute-facets": "./src/depository-search-absolute-facets.ts",
     "./depository-search-pipeline-assets": "./src/depository-search-pipeline-assets.ts",
     "./depository-settled-demand-estimate-helpers": "./src/depository-settled-demand-estimate-helpers.ts",

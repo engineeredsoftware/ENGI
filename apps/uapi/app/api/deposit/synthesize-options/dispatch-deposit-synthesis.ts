@@ -161,11 +161,13 @@ export async function runDepositOptionSynthesis(
     // Preload depository supply BEFORE Discovery so relevants search has assets.
     try {
       await assertNotCancelled();
-      const searchAssets = await loadDepositorySearchAssets(80);
+      const searchAssets = await loadDepositorySearchAssets(120);
       try {
         (execution as any).store?.('depository', 'settledAssets', searchAssets);
         (execution as any).store?.('deposit', 'settledDepositoryAssets', searchAssets);
         (execution as any).store?.('pipeline', 'depositoryAssets', searchAssets);
+        // Align with read dispatch: agents resolve pipeline|deposit.supabase.
+        (execution as any).store?.('pipeline', 'supabase', supabaseAdmin);
         (execution as any).store?.('deposit', 'supabase', supabaseAdmin);
       } catch {
         /* store optional on mock executions */

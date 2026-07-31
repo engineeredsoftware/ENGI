@@ -1356,6 +1356,27 @@ gate branch names remain only as lineage labels in older commits.
 host seed `apps/uapi/lib/pipeline-host-command-env.ts`; shared registration comments in
 `syntheses/domain/src/phases/discovery.ts`.
 
+### Depository search MVP (commercial NL + fixtures, 2026-07-30)
+
+Max-effective **index projection** (source-safe; never raw patch bodies):
+
+| Field | Role |
+| --- | --- |
+| `commercial_title` / `commercial_description` | **Primary** semantic + lexical surface |
+| `title` / `summary` | Fallback when commercial NL absent |
+| `absolute_volumes` | Full commercial catalogue (65; missing → 0) |
+| `absolute_fixtures` | Sparse kind/label/descriptor/volume/status for embed+lexical |
+| `material_identity` | corpusTokens / compositions |
+| `embed_text` | Sectioned `§nl §meta §abs §id §path` (NL first; ≤8k) |
+| Vectors | **Postgres pgvector** (`depository_search_vectors`, gte-small 384) |
+
+**Vector store law:** product = **pgvector** (user-facing Discovery latency). Supabase
+Storage **Vector Buckets** (S3) are a later large-scale backend option only — not MVP
+(Supabase: buckets for scale/backend; pgvector for quick response / front-end features).
+
+Admit → `POST /api/depository/index` sends commercial NL + fixtures. Preload
+(`loadDepositorySearchAssets`) maps commercial contentUnits for hybrid search.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

@@ -127,7 +127,7 @@ export function useDepositOptionActions(input: {
               option?.sourceBinding?.sourcePathRoots ||
               [];
             // Measurements may be nested { absolutes, materialIdentity } or flat.
-            // Server expands volumes to full commercial catalogue.
+            // Server expands volumes to full commercial catalogue + embeds commercial NL.
             const rawMeasurements = option?.measurements as
               | unknown[]
               | { absolutes?: unknown[]; materialIdentity?: unknown }
@@ -172,6 +172,62 @@ export function useDepositOptionActions(input: {
               const vol = Number((m as { volume?: number }).volume);
               if (Number.isFinite(vol)) absoluteVolumes[kind] = vol;
             }
+            // Sparse fixtures for semantic/lexical measurement language.
+            const absoluteFixtures = measurements
+              .map((m) => {
+                const row = m as {
+                  measurementKind?: string;
+                  kind?: string;
+                  id?: string;
+                  label?: string;
+                  descriptor?: string;
+                  description?: string;
+                  volume?: number;
+                  status?: string;
+                  category?: string;
+                };
+                const kind = String(
+                  row.measurementKind || row.kind || row.id || '',
+                ).trim();
+                if (!kind) return null;
+                const volume = Number(row.volume);
+                const status = String(row.status || '').trim().toLowerCase();
+                const descriptor = String(
+                  row.descriptor || row.description || '',
+                ).trim();
+                const isFill =
+                  status === 'expanded-fill' ||
+                  status === 'fill' ||
+                  status === 'insufficient';
+                if (isFill && !(volume > 0) && !descriptor) return null;
+                if (!(volume > 0) && !descriptor && !row.label) return null;
+                return {
+                  measurementKind: kind,
+                  label: row.label ? String(row.label).trim() : undefined,
+                  descriptor: descriptor
+                    ? descriptor.slice(0, 240)
+                    : undefined,
+                  volume: Number.isFinite(volume) ? volume : 0,
+                  status: status || undefined,
+                  category: row.category
+                    ? String(row.category).trim()
+                    : undefined,
+                };
+              })
+              .filter(Boolean);
+            const commercialTitle =
+              typeof (option as { commercialTitle?: string })?.commercialTitle ===
+              'string'
+                ? String((option as { commercialTitle: string }).commercialTitle).trim()
+                : null;
+            const commercialDescription =
+              typeof (option as { commercialDescription?: string })
+                ?.commercialDescription === 'string'
+                ? String(
+                    (option as { commercialDescription: string })
+                      .commercialDescription,
+                  ).trim()
+                : null;
             void fetch('/api/depository/index', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -179,6 +235,8 @@ export function useDepositOptionActions(input: {
                 assetId,
                 title: receipt.title || option?.title || null,
                 summary: option?.summary || null,
+                commercialTitle: commercialTitle || null,
+                commercialDescription: commercialDescription || null,
                 kind: option?.kind || null,
                 repositoryFullName:
                   depositRouteInput?.repositoryFullName || null,
@@ -187,6 +245,7 @@ export function useDepositOptionActions(input: {
                 coveredSourcePaths,
                 absoluteKinds,
                 absoluteVolumes,
+                absoluteFixtures,
                 materialIdentity,
               }),
             }).catch(() => {
