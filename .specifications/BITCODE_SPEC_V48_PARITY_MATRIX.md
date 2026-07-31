@@ -108,7 +108,7 @@ crypto UX. Layers L0–L4 per NOTES § MVP core E2E ladder.
 | E2E-L0 | Living `ci:local` remains green for core packages touched by E2E work | open | Pre-existing package/route unit coverage; full spine not yet laddered | MVP-E2E living |
 | E2E-L1 | Critical commercial API contracts: deposit/read synthesize, depository index, packs activity, settle quote, auth fail-closed, source-safe envelopes | substantially advanced | Inventory + auth/validation contracts for depository/index, read synthesize, settle quote; deposit synthesize + pipeline-host + pack model already covered | MVP-E2E-1 |
 | E2E-L2 | CI-fast SDIVF deposit+read with STAB product laws (honesty, hits, needinesses, Need validation) | substantially advanced | Deposit SDIVF integration + honesty pins; read SDIVF integration (Need, *-fit, productLens, validation store); L2 inventory lock | MVP-E2E-2 |
-| E2E-L3 | Local/CI Supabase: index + hybrid search (NL ≫ paths) + reembed dry-run + RLS unpaid | open | Migrations present; pure embed helpers unit-tested; no DB E2E job | MVP-E2E-3 |
+| E2E-L3 | Local/CI Supabase: index + hybrid search (NL ≫ paths) + reembed dry-run + RLS unpaid | substantially advanced | Mocked document upsert (commercial NL+fixtures); hybrid NL≫path ranking; reembed dry-run suite; unpaid scrub unit; live Supabase job still opt-in | MVP-E2E-3 |
 | E2E-L4 | Scripted deposit→admit→index→read→quote→mock settle→activity spine | open | Pieces exist; no single orchestrated core spine command | MVP-E2E-4 |
 
 **Iteration order:** E2E-0 spec → E2E-1 API → E2E-2 pipeline CI-fast → E2E-3 DB

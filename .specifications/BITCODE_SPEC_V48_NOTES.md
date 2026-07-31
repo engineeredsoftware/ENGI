@@ -1555,6 +1555,22 @@ S4 mock settlement order · S5 unpaid source-safety fail-closed.
   (not every commit).
 - PARITY E2E-L2 → substantially advanced. Next: L3 DB / L4 spine.
 
+#### MVP-E2E-3 (2026-07-31) — L3 depository index + hybrid search
+
+- **L3-IDX:** `depositoryIndexJob.upsert.contract.test.ts` — mocked Supabase
+  upsert asserts `commercial_title`/`commercial_description`/`absolute_fixtures`/
+  sectioned `embed_text` (NL first) on `depository_search_documents`.
+- **L3-Q:** `mvp-core-e2e-l3-hybrid-search.core.test.ts` — in-memory hybrid
+  search ranks commercial-NL pack above path-only for the same Need phrase;
+  JSON key noise does not hit.
+- **L3-RE:** existing `depository-reembed.core.test.ts` dry-run (no Edge call).
+- **L3-EMBED:** existing `buildDepositoryEmbedText` unit tests.
+- **L3-RLS / unpaid:** existing `scrubUnpaidReadExecutionOutputs` unit (source-safe
+  unpaid projection). Full local Supabase service container remains operator/CI
+  opt-in (not required on every developer machine).
+- Inventory: `mvp-core-e2e-l3-inventory.core.test.ts`.
+- PARITY E2E-L3 → substantially advanced. Next: L4 spine script.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).
