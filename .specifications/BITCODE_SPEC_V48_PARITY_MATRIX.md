@@ -74,6 +74,27 @@ delivery receipts.
 | Experience modularization (reads exchange aux marketing docs conversations) | All seven experiences use named component units; page clients thin | substantially advanced | Exchange/Reads/Auxillaries/Marketing/Docs/Conversations modularized; FAMILIARIZATION maps packages+uapi | version/v48 workstream |
 | Client product surface performance | Long pipeline telemetry and multi-option deposit/read review stay interactive: log list does not O(n) re-scan run-start per row or full-list re-render on 1s stall ticks; absolute catalogue expand (65) is memoized for option cards; continuous canvas particles pause when the tab is hidden and honor reduced motion | substantially advanced | 2026-07-30: `PipelineProcessingStallChrome` isolates nowTick; `resolvedRunStartMs` once per snapshot; `DepositOptionCard` memos `expandAbsoluteMeasurementsToFullCatalog`; ParticleLayer skips hidden tab + reduced-motion; NOTES + PERFORMANCE.md | version/v48 product-UX workstream |
 
+## Deposit↔Read stability workstream (version/v48)
+
+Living day-to-day workstream (not a new gate number). Audit frozen in
+`BITCODE_SPEC_V48_NOTES.md` § Deposit↔Read stability audit (critical gaps A–D).
+Close rows with source-grounded STAB-impl slices; keep product packages from
+importing each other.
+
+| Row ID | Required V48 result | Current judgment | Source-grounded finding | Closure |
+| --- | --- | --- | --- | --- |
+| STAB-A1 | Product-specific Implementation prompts for deposit vs read (patch-plan + commercial-nl at minimum) | open | Shared domain prompts still deposit-identity; read shells only inject demandContext | STAB-impl-1 |
+| STAB-A2 | Implementation consumes ranked depository search hits as grounding when Discovery search ran | open | Patch-plan injects `depositorySearch` topics only, not `depositorySearchToolResult.hits` | STAB-impl-1 |
+| STAB-B1 | Absolute honesty: deterministic/path-only fallback never silently presents as full measured quality | open | Measurements host falls back to `computeDeterministicAbsolutes` on measure failure | STAB-impl-2 |
+| STAB-B2 | When Need is present, neediness plan is non-empty; fit measure is pack-grounded | open | Dynamic plan can empty on Setup miss; needinesses title/summary-heavy | STAB-impl-2 |
+| STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | open | Lexical uses JSON.stringify substring; hits not wired to plan | STAB-impl-3 |
+| STAB-C2 | Deposit Discovery search budget law explicit (bounded default vs full opt-in) | open | Host seeds `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded`; tradeoff documented in NOTES | STAB-spec (done in NOTES) + optional product default review |
+| STAB-D1 | Per-agent prompt context checklist (Need, hits, catalog, measurements) audited for both products | open | Requirements omit ranked hits / Need criteria / dynamic neediness plan | STAB-impl-1 |
+
+**Iteration order:** NOTES audit (this row set) → STAB-impl-1 (prompts + hits) →
+STAB-impl-2 (measurements) → STAB-impl-3 (lexical/search) → STAB-4 validation
+framing. Each impl slice: green `pnpm run ci:local` before land.
+
 ## Grouped closure gates
 
 1. Scope, Testnet Semantics, Measurement Law, And Launch Freeze.

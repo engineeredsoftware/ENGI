@@ -1377,6 +1377,69 @@ Storage **Vector Buckets** (S3) are a later large-scale backend option only — 
 Admit → `POST /api/depository/index` sends commercial NL + fixtures. Preload
 (`loadDepositorySearchAssets`) maps commercial contentUnits for hybrid search.
 
+### Deposit↔Read stability audit (critical gaps A–D, 2026-07-30)
+
+Workstream on `version/v48` (gate-wise V48 process closed). Goal: stabilize
+**SynthesizeDeposit** and **SynthesizeRead** so commercial DataPack quality is
+not undermined by synthesis, measurement, search, or prompt-context failures.
+Process: this audit → PARITY STAB rows → iterative STAB-impl slices. Product
+packages still never import each other; shared hosts stay under domain
+product-neutral names.
+
+#### A — Poor DataPacks synthesized (both pipelines)
+
+| Sev | Gap | Pin / impact |
+| --- | --- | --- |
+| P0 | Shared **patch-plan prompts are deposit-only** (identity “deposit-…”, honor obfuscations; depository topics as underserved/likelyRead only). Read runs the same prompts. | `domain/.../asset-packs-synthesis-prompts.ts` — read options not Need-first. |
+| P0 | Read Implementation shell maps Need → `demandContext` / paths only; does **not** overlay Need-first plan law. | `read-implementation-agent-asset-packs-patch-plan.ts` |
+| P0 | **Depository search hits not Implementation grounding.** Host injects `discovery.depositorySearch` guidance topics, not ranked `depositorySearchToolResult.hits`. | patch-plan host inject ~`depositorySearch` only |
+| P1 | Host salvage packs (empty Refine) can noise review if presentable gates soft. | patch-plan salvage builders |
+| P1 | Deposit **bounded Discovery** stubs search by product default (budget law) — loses supply/demand anchors. | `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded` |
+| P2 | Commercial-nl prompt deposit-framed; read only swaps demandContext. | commercial-nl prompts / read shell |
+
+#### B — Faulty measurements (absolutes both; needinesses read)
+
+| Sev | Gap | Pin / impact |
+| --- | --- | --- |
+| P0 | Deterministic absolute **fallback** after measure failure can look “measured” (path-only / expanded-fill heavy). | measurements host → `computeDeterministicAbsolutes` |
+| P0 | **Neediness plan empty** when Need comprehension fails/skips; static *-fit alone may not match Need; volumes may be deterministic proxies when inference off. | `read-neediness-measurements.ts`, need comprehension agent |
+| P1 | Neediness measure underweights **pack material** (title/summary-heavy vs patch/commercial content). | read measurements shell |
+| P1 | Absolute quality depends on checkout bodies in measure set; thin bodies → path-only. | `resolveMeasureSourceSet` |
+| P2 | Deposit has no needinesses (law); do not confuse demand estimate with neediness. | NOTES parity map |
+
+#### C — Poor search for relevant DataPacks (both)
+
+| Sev | Gap | Pin / impact |
+| --- | --- | --- |
+| P0 | Deposit default **skips** search (bounded). | Discovery budget law |
+| P0 | Lexical channel weak (`JSON.stringify` substring; no field weights). | `lexicalScore` in depository search tool |
+| P1 | Index↔query lag until commercial NL/fixtures reembed/backfill. | index job + ops |
+| P1 | Search hits not fed to Implementation (see A). | discovery → plan |
+| P2 | Query quality variance when wave-1 thin; vector threshold/corpus coarse. | discovery agents / prior search plan |
+
+#### D — Prompts / missing critical context (both)
+
+| Sev | Gap | Pin / impact |
+| --- | --- | --- |
+| P0 | No product-specific Implementation prompt packs for **read** (plan + commercial-nl minimum). | domain prompts + thin read shells |
+| P0 | Requirements omit ranked hit packs, Need acceptanceCriteria, dynamic neediness plan. | synthesis prompt requirements |
+| P1 | Validation ready-to-finish identity still deposit-framed; read shares base. | `asset-packs-validation-prompts.ts` |
+| P1 | Read commercial-nl packet lacks hits + neediness scores. | read commercial shell |
+| P2 | Residual ReadFitsFinding setup key names. | domain `setup.ts` |
+
+#### STAB closure order (impl after this audit is recorded)
+
+1. **STAB-1** — Product prompts + Implementation consumes search hits (A+D P0).
+2. **STAB-2** — Absolute honesty + neediness plan/pack grounding (B).
+3. **STAB-3** — Field-weighted lexical + ops reembed (C).
+4. **STAB-4** — Validation framing + residual naming (D residual).
+
+**Prompt law (target after STAB-1):** deposit Implementation identity honors
+obfuscations + deposit commercial thesis; read Implementation identity honors
+Need + acceptanceCriteria + relevant/irrelevant paths + ranked depository hits
+when present. Shared hosts remain domain; product shells inject lens/prompts
+only — never import the sibling product package.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).
