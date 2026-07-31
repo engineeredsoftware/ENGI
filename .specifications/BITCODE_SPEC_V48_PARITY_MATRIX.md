@@ -89,7 +89,7 @@ importing each other.
 | STAB-B1 | Absolute honesty: deterministic/path-only fallback never silently presents as full measured quality | substantially advanced | Host empty/catch uses `computeHonestPathOnlyAbsolutes` + `measureReport.mode=path-only`; no false `measured` on path-only | STAB-impl-2 |
 | STAB-B2 | When Need is present, neediness plan is non-empty; fit measure is pack-grounded | substantially advanced | Read shell re-plans when Setup empty; deterministic volumes blend pack↔Need material overlap | STAB-impl-2 |
 | STAB-C1 | Field-weighted lexical search (commercial NL ≫ fixtures ≫ paths) + search→impl handoff | substantially advanced | `fieldWeightedLexicalScore` + `collectLexicalFieldCorpora` (NL≫fixtures≫paths); handoff STAB-A2; ops reembed script remains | STAB-impl-3 |
-| STAB-C2 | Deposit Discovery search budget law explicit (bounded default vs full opt-in) | open | Host seeds `BITCODE_DEPOSIT_DISCOVERY_PROFILE=bounded`; tradeoff documented in NOTES | STAB-spec (done in NOTES) + optional product default review |
+| STAB-C2 | Deposit Discovery search budget law explicit (bounded default vs full opt-in) | substantially advanced | `resolveDepositDiscoveryProfile` + host seed `bounded`; full via profile or FAST_DISCOVERY=0; deposit + host unit pins | STAB-impl + host |
 | STAB-D2 | Validation ready-to-finish product framing (deposit vs Need-first read) | substantially advanced | `asset-packs-validation-prompts-read`; read shell injects Need + hits + path law | STAB-impl-4 |
 | STAB-D3 | Residual `ReadFitsFinding*` setup registry keys documented (compat aliases, not dual-pipeline) | substantially advanced | setup.ts comments; keys retained for registration stability | STAB-impl-4 |
 
@@ -105,7 +105,7 @@ crypto UX. Layers L0–L4 per NOTES § MVP core E2E ladder.
 
 | Row ID | Required V48 result | Current judgment | Source-grounded finding | Closure |
 | --- | --- | --- | --- | --- |
-| E2E-L0 | Living `ci:local` remains green for core packages touched by E2E work | open | Pre-existing package/route unit coverage; full spine not yet laddered | MVP-E2E living |
+| E2E-L0 | Living `ci:local` remains green for core packages touched by E2E work | substantially advanced | L1–L5 suites + deposit/read SDIVF + depository contracts landable as package Jest; full monorepo `ci:local` remains operator pre-commit bar | MVP-E2E living |
 | E2E-L1 | Critical commercial API contracts: deposit/read synthesize, depository index, packs activity, settle quote, auth fail-closed, source-safe envelopes | substantially advanced | Inventory + auth/validation contracts for depository/index, read synthesize, settle quote; deposit synthesize + pipeline-host + pack model already covered | MVP-E2E-1 |
 | E2E-L2 | CI-fast SDIVF deposit+read with STAB product laws (honesty, hits, needinesses, Need validation) | substantially advanced | Deposit SDIVF integration + honesty pins; read SDIVF integration (Need, *-fit, productLens, validation store); L2 inventory lock | MVP-E2E-2 |
 | E2E-L3 | Local/CI Supabase: index + hybrid search (NL ≫ paths) + reembed dry-run + RLS unpaid | substantially advanced | Mocked document upsert (commercial NL+fixtures); hybrid NL≫path ranking; reembed dry-run suite; unpaid scrub unit; live Supabase job still opt-in | MVP-E2E-3 |

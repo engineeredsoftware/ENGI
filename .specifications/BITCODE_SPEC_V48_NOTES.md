@@ -1597,6 +1597,17 @@ S4 mock settlement order · S5 unpaid source-safety fail-closed.
 - PARITY E2E-L5 → substantially advanced. Core MVP-E2E ladder closed for CI-fast
   contracts; live LLM/DB remain opt-in L2/L3 lanes.
 
+#### STAB-C2 close (2026-07-31) — deposit Discovery budget
+
+Law (product default): **bounded** Discovery = codebase PTRR only; inherent
+regurgitation + depository search are deterministic stubs so Implementation can
+Finish within host `maxDuration`. Opt-in full three-agent Discovery:
+`BITCODE_DEPOSIT_DISCOVERY_PROFILE=full` (aliases complete|all) or
+`BITCODE_DEBUG_FAST_DISCOVERY=0`. Host
+`selectedPipelineHostCommandEnvironment` seeds `bounded` when unset.
+Pins: `deposit-discovery-profile.test.ts`,
+`pipelineHostCommandEnv.discovery-budget.test.ts`. PARITY STAB-C2 advanced.
+
 ### Depository search + index (Gate 5 law, 2026-07-20)
 
 Finding APs is the critical path of read (Need → many queries → rank → synthesize).

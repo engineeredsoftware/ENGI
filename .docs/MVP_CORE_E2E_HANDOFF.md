@@ -41,6 +41,16 @@ pnpm -C packages/asset-packs-pipelines/syntheses/deposit exec jest --testPathPat
 pnpm -C packages/asset-packs-pipelines/syntheses/read exec jest --testPathPattern=read-sdivf
 ```
 
+## Deposit Discovery budget (STAB-C2)
+
+| Env | Effect |
+| --- | --- |
+| *(unset)* / `bounded` | Product default: codebase Discovery only; search/regurgitation stubs |
+| `BITCODE_DEPOSIT_DISCOVERY_PROFILE=full` | Full three-agent Discovery |
+| `BITCODE_DEBUG_FAST_DISCOVERY=0` | Forces full Discovery |
+
+Host seeds `bounded` when unset. Tradeoff: full search costs host budget vs better depository anchors.
+
 ## Crypto agent handoff
 
 - Quote `options[]` shape: `payAsset`, `payAmount`, `payAmountDisplay`, advisory only.  
