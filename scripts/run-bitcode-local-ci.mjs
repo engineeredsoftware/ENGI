@@ -5,7 +5,9 @@
  *
  * Mirrors required GitHub surfaces that gate shared-branch work:
  *   - Casing and Import Consistency
- *   - Bitcode Canon Quality (active + draft)
+ *   - Bitcode Canon Quality / Spec Basics (active + draft family, posture,
+ *     promotion readiness, and every present scripts/check-v{N}-gate*.mjs for
+ *     the draft target — same skip flags as Spec Basics)
  *   - Bitcode Gate Quality (typecheck, package tests, staged harness)
  *   - CI lint-build + test-mocks
  *
@@ -23,7 +25,7 @@
  */
 
 import { execFileSync, execSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -133,6 +135,32 @@ function readPointer(repoRoot) {
 }
 
 /**
+ * Draft-target gate checkers that Spec Basics may run when present.
+ * Matches `scripts/check-v{N}-gate*.mjs` (numeric gate prefix only).
+ *
+ * @param {string} repoRoot
+ * @param {number} draftVersion e.g. 48 for V48
+ * @returns {string[]} basenames sorted (gate order)
+ */
+export function listDraftGateCheckScripts(repoRoot, draftVersion) {
+  const scriptsDir = path.join(repoRoot, 'scripts');
+  if (!existsSync(scriptsDir)) return [];
+  const prefix = `check-v${draftVersion}-gate`;
+  return readdirSync(scriptsDir)
+    .filter(
+      (name) =>
+        name.startsWith(prefix) &&
+        name.endsWith('.mjs') &&
+        /^check-v\d+-gate\d+/u.test(name),
+    )
+    .sort((left, right) => {
+      const leftN = Number(left.match(/gate(\d+)/u)?.[1] || 0);
+      const rightN = Number(right.match(/gate(\d+)/u)?.[1] || 0);
+      return leftN - rightN || left.localeCompare(right);
+    });
+}
+
+/**
  * @param {string} repoRoot
  * @param {'full' | 'lint-build'} mode
  * @returns {{ id: string, run: () => void }[]}
@@ -213,6 +241,21 @@ export function buildLocalCiSteps(repoRoot, mode) {
         'V47',
       ]),
     );
+    // Spec Basics (bitcode-canon-quality) runs present V48 draft gate checkers
+    // after the draft family. Local full mode must include them so stale proofs
+    // (e.g. Gate 4 depositor website completion) fail pre-commit, not only GH.
+    const v48GateScripts = listDraftGateCheckScripts(repoRoot, 48);
+    for (const scriptName of v48GateScripts) {
+      const gateId = scriptName.replace(/^check-v48-|\.mjs$/g, '');
+      add(`canon-v48-${gateId}`, () =>
+        runNodeScript(repoRoot, `Canon Spec Basics: V48 ${gateId}`, [
+          `scripts/${scriptName}`,
+          '--skip-branch-check',
+          '--skip-package-tests',
+          '--skip-uapi-tests',
+        ]),
+      );
+    }
   }
 
   add('gate-typecheck-btd', () =>

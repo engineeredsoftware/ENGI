@@ -492,9 +492,13 @@ jobs:
             node scripts/check-v47-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
             if [ -f .specifications/BITCODE_SPEC_V48.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V48 --mode draft --current-target V47
-              if [ -f scripts/check-v48-gate4-depositor-website-completion.mjs ]; then
-                node scripts/check-v48-gate4-depositor-website-completion.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
-              fi
+              # Run every present V48 draft gate checker (gateN prefix). Local
+              # ci:local discovers the same scripts/check-v48-gate*.mjs set.
+              # String anchors (proof freshness): keep these basenames listed:
+              #   scripts/check-v48-gate4-depositor-website-completion.mjs
+              for check in $(ls scripts/check-v48-gate*.mjs 2>/dev/null | sort -V); do
+                node "$check" --skip-branch-check --skip-package-tests --skip-uapi-tests
+              done
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

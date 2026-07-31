@@ -509,10 +509,12 @@ pnpm run ci:local:lint-build
 pnpm run ci:local:list   # print step ids without running
 ```
 
-`pnpm run ci:local` mirrors casing-check, bitcode-canon-quality (active +
-draft), bitcode-gate-quality (typecheck + package tests + staged harness), and
-`ci.yml` lint-build + test-mocks. Opt-in surfaces (full DB E2E, CodeQL, Super
-Linter, Long-Runner ECR, gate browser-proof) stay optional.
+`pnpm run ci:local` mirrors casing-check, bitcode-canon-quality **Spec Basics**
+(active + draft family/posture, promotion readiness, and every present
+`scripts/check-v{N}-gate*.mjs` for the draft target), bitcode-gate-quality
+(typecheck + package tests + staged harness), and `ci.yml` lint-build +
+test-mocks. Opt-in surfaces (full DB E2E, CodeQL, Super Linter, Long-Runner
+ECR, gate browser-proof) stay optional.
 
 Pre-commit runs `node scripts/run-bitcode-local-ci.mjs --mode full` then
 spec-sensitive basics. A red mirror blocks commit by default.
