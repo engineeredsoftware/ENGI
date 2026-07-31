@@ -1522,13 +1522,14 @@ marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
 | --- | --- | --- | --- |
 | L1-D1 | `POST /api/deposit/synthesize-options` | `depositSynthesizeOptionsRoute.test.ts` (session, inference, dispatch) | Keep; source of truth for deposit dispatch |
 | L1-D2 | Deposit admit → journal | `depositAdmissionActivity.test.ts` + spine activity source-safe | Keep + spine pin |
-| L1-D3 | `GET /api/deposit/demand-estimate` | missing route suite | **Add** session + thin-corpus `estimatable:false` fail-closed |
-| L1-R1 | `POST /api/read/synthesize-options` | thin / missing route suite | **Add** session + need + repository contracts |
-| L1-R2 | `POST /api/read/settle/quote` | missing route suite | **Add** session + needinesses → quote shape |
-| L1-R3 | `POST /api/read/settle` rehydrate + fail-closed | `readSettleRoute.test.ts` | **Add** session, rehydrate_required, ownership, index/parse, mock dispatch |
-| L1-X1 | `GET /api/packs/activity` | `packsActivityRoute.test.ts` + model unit | **Add** route source-safe envelope + mine-only merge skip |
-| L1-S1 | `POST /api/depository/index` | embed pure helpers only | **Add** session + assetId + sync index mock |
-| L1-S2 | Hybrid search hit shape | domain field-weighted lexical unit | L2/L3 |
+| L1-D3 | `GET /api/deposit/demand-estimate` | `depositDemandEstimateRoute.test.ts` | Keep; session + thin-corpus fail-closed |
+| L1-R1 | `POST /api/read/synthesize-options` | `readSynthesizeOptionsRoute.test.ts` | Keep; session + need + repository |
+| L1-R2 | `POST /api/read/settle/quote` | `readSettleQuoteRoute.test.ts` | Keep; needinesses → mock multi-rail quote |
+| L1-R3 | `POST /api/read/settle` rehydrate + fail-closed | `readSettleRoute.test.ts` | Keep; rehydrate + ownership + mock dispatch |
+| L1-X1 | `GET /api/packs/activity` | `packsActivityRoute.test.ts` + model unit | Keep; source-safe envelope + mine-only |
+| L1-P1 | `POST /api/packs/payout/finalize` | `packsPayoutFinalizeRoute.test.ts` | Keep; session + owner + pending state |
+| L1-S1 | `POST /api/depository/index` | `depositoryIndexRoute.test.ts` | Keep; session + assetId + sync mock |
+| L1-S2 | Hybrid search hit shape | domain field-weighted lexical unit | Keep lib-model (L3-Q) |
 | L1-V1 | VCS connection | `vcsRoutes` / auxillaries github | Keep |
 | L1-A1 | Auth gate commercial mutate | deposit + new routes assert 401 | Expand with each route |
 
@@ -1646,6 +1647,21 @@ Wired into `pnpm run test:mvp-core-e2e`. Inventory L1-R3 → route-suite.
 Domain pure estimator remains package unit
 (`depository-settled-demand-estimate.test.ts`). Inventory L1-D3 → route-suite;
 in `test:mvp-core-e2e`.
+
+#### MVP-E2E L1-P1 (2026-07-31) — packs payout finalize
+
+`POST /api/packs/payout/finalize` (`packsPayoutFinalizeRoute.test.ts`):
+
+- session required (`session_required`)
+- invalid JSON / missing `settleRunId` / `sellerBtdBps` out of 0..10000 → 400
+- missing settle run → 404
+- non-owner → 404 `settle_run_forbidden` (no existence leak)
+- incomplete / no pending / already finalized → 409
+- happy path: persist finalized pendingPayout + split preview
+- GET preview returns split without write
+
+Ownership fail-closed added on route (was select-only of `user_id`).
+Inventory L1-P1 → route-suite; in `test:mvp-core-e2e`.
 
 #### MVP-E2E operator entrypoint (2026-07-31)
 

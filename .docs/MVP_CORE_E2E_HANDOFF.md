@@ -14,6 +14,7 @@
 | Read synthesize | Session + Need + repository; Need length only in journal input | Need form + path pickers |
 | `POST /api/read/settle/quote` | Needinesses `*-fit` → mock multi-rail quote; no mainnet finality | Quote rail picker UI |
 | `POST /api/read/settle` | `synthesisRunId` + `selectedIndexes` rehydrate only; measurement buy gate; 1:1 settle runs | Settle CTA must not post full options |
+| `POST /api/packs/payout/finalize` | Session + settle owner; pending payout only; `sellerBtdBps` 0..10000 | Seller slider + finalize CTA; no mainnet claim |
 | Packs activity | Source-safe records only (`assertPackActivitySourceSafe`); mine-only skips network merge | Master-detail chrome |
 | Spine `runMvpCoreE2eSpine` | CI-fast loop + fail modes | Not for UI |
 

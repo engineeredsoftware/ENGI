@@ -62,11 +62,18 @@ const L1_MATRIX: L1Row[] = [
     proofPath: 'apps/uapi/tests/api/packsActivityRoute.test.ts',
   },
   {
+    id: 'L1-P1',
+    surface: 'POST /api/packs/payout/finalize session + ownership + pending state',
+    coverage: 'route-suite',
+    proofPath: 'apps/uapi/tests/api/packsPayoutFinalizeRoute.test.ts',
+  },
+  {
     id: 'L1-S1',
     surface: 'POST /api/depository/index',
     coverage: 'route-suite',
     proofPath: 'apps/uapi/tests/api/depositoryIndexRoute.test.ts',
   },
+
   {
     id: 'L1-S2',
     surface: 'Hybrid search hit shape (field-weighted lexical)',
@@ -108,6 +115,7 @@ describe('MVP-E2E L1 inventory', () => {
         'L1-R2',
         'L1-R3',
         'L1-X1',
+        'L1-P1',
         'L1-S1',
         'L1-S2',
         'L1-V1',
@@ -128,13 +136,17 @@ describe('MVP-E2E L1 inventory', () => {
     expect(gaps.map((g) => g.id)).not.toContain('L1-R3');
     expect(gaps.map((g) => g.id)).not.toContain('L1-X1');
     expect(gaps.map((g) => g.id)).not.toContain('L1-D3');
+    expect(gaps.map((g) => g.id)).not.toContain('L1-P1');
     const x1 = L1_MATRIX.find((r) => r.id === 'L1-X1');
     expect(x1?.coverage).toBe('route-suite');
     const d3 = L1_MATRIX.find((r) => r.id === 'L1-D3');
     expect(d3?.coverage).toBe('route-suite');
+    const p1 = L1_MATRIX.find((r) => r.id === 'L1-P1');
+    expect(p1?.coverage).toBe('route-suite');
     // Hybrid search ranking remains package/lib coverage (L1-S2 / L3-Q).
     const s2 = L1_MATRIX.find((r) => r.id === 'L1-S2');
     expect(s2?.coverage).toBe('lib-model');
   });
 });
+
 

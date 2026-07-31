@@ -73,6 +73,13 @@ export async function POST(request: Request) {
   if (error || !row) {
     return NextResponse.json({ ok: false, error: 'Settle run not found.' }, { status: 404 });
   }
+  // Fail-closed: only the settle-run owner may finalize seller payout.
+  if (String(row.user_id || '') !== String(user.id)) {
+    return NextResponse.json(
+      { ok: false, error: 'Settle run not found.', code: 'settle_run_forbidden' },
+      { status: 404 },
+    );
+  }
   if (row.status !== 'completed') {
     return NextResponse.json({ ok: false, error: 'Settle run is not completed.' }, { status: 409 });
   }

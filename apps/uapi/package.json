@@ -20,7 +20,7 @@
     "build-storybook": "storybook build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:mvp-core-e2e": "jest --config jest.config.cjs --testPathPattern='mvp-core-e2e|depositoryIndexRoute|depositoryIndexJob\\.(test|upsert)|depositDemandEstimateRoute|readSynthesizeOptionsRoute|readSettleQuoteRoute|readSettleRoute|packsActivityRoute|pipelineHostCommandEnv\\.discovery-budget|scrubUnpaidReadExecutionOutputs' --passWithNoTests",
+    "test:mvp-core-e2e": "jest --config jest.config.cjs --testPathPattern='mvp-core-e2e|depositoryIndexRoute|depositoryIndexJob\\.(test|upsert)|depositDemandEstimateRoute|readSynthesizeOptionsRoute|readSettleQuoteRoute|readSettleRoute|packsActivityRoute|packsPayoutFinalizeRoute|pipelineHostCommandEnv\\.discovery-budget|scrubUnpaidReadExecutionOutputs' --passWithNoTests",
     "test:e2e:api": "playwright test tests/e2e/api.e2e.test.ts",
     "test:e2e:ui": "playwright test",
     "test:e2e:commercial-mvp": "START_STORYBOOK=false NEXT_PUBLIC_MASTER_MOCK_MODE=true NEXT_PUBLIC_ENABLE_MOCKS=true NEXT_PUBLIC_MOCK_USER_AUXILLARIES=true NEXT_PUBLIC_MOCK_USER_AUXILLARIES_SCENARIO=demo NEXT_PUBLIC_MOCK_SCENARIO=demo NEXT_PUBLIC_MOCK_GITHUB_ACCOUNTS=true NEXT_PUBLIC_MOCK_GITHUB_REPOS=true NEXT_PUBLIC_MOCK_GITHUB_BRANCHES=true NEXT_PUBLIC_MOCK_GITHUB_COMMITS=true NEXT_PUBLIC_MOCK_CHAT_STREAM=true NEXT_PUBLIC_MOCK_CHAT_SCENARIO=demo playwright test tests/e2e/commercial-mvp*.spec.ts --project=laptop --workers=1",
