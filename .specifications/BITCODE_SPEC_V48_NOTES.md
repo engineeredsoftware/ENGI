@@ -1524,7 +1524,7 @@ marketing. Gate 7 mock browser E2E remains joint (API mock shapes only).
 | L1-D2 | Deposit admit → journal | `depositAdmissionActivity.test.ts` | Keep |
 | L1-R1 | `POST /api/read/synthesize-options` | thin / missing route suite | **Add** session + need + repository contracts |
 | L1-R2 | `POST /api/read/settle/quote` | missing route suite | **Add** session + needinesses → quote shape |
-| L1-R3 | Settle observe/finalize | partial BTD/exchange tests | Later L1/L4 |
+| L1-R3 | `POST /api/read/settle` rehydrate + fail-closed | `readSettleRoute.test.ts` | **Add** session, rehydrate_required, ownership, index/parse, mock dispatch |
 | L1-X1 | `GET /api/packs/activity` | `packActivityModel.test.ts` source-safe | Model-level OK; route later |
 | L1-S1 | `POST /api/depository/index` | embed pure helpers only | **Add** session + assetId + sync index mock |
 | L1-S2 | Hybrid search hit shape | domain field-weighted lexical unit | L2/L3 |
@@ -1607,6 +1607,18 @@ Finish within host `maxDuration`. Opt-in full three-agent Discovery:
 `selectedPipelineHostCommandEnvironment` seeds `bounded` when unset.
 Pins: `deposit-discovery-profile.test.ts`,
 `pipelineHostCommandEnv.discovery-budget.test.ts`. PARITY STAB-C2 advanced.
+
+#### MVP-E2E L1-R3 (2026-07-31) — settle rehydrate contracts
+
+`POST /api/read/settle` fail-closed suite (`readSettleRoute.test.ts`):
+
+- session required (`read_session_required`)
+- `synthesisRunId` + `selectedIndexes` required (`rehydrate_required`; no client options)
+- synthesis ownership 404 (`synthesis_run_required`)
+- missing index / invalid commercial parse 400
+- happy path: rehydrate fullOptions → mock settle pipeline → `settleRunIds`
+
+Wired into `pnpm run test:mvp-core-e2e`. Inventory L1-R3 → route-suite.
 
 #### MVP-E2E operator entrypoint (2026-07-31)
 

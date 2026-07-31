@@ -76,6 +76,11 @@ module.exports = {
     '^@bitcode/generic-artifacts-compose$': '<rootDir>/../../packages/generic-artifacts/compose/src/index.ts',
     '^@bitcode/btd/operational-health$': '<rootDir>/../../packages/btd/src/operational-health.ts',
     '^@bitcode/generic-tools-vcs$': '<rootDir>/../../packages/generic-tools/vcs/src/index.ts',
+    // Package name is generic-tools-editing; on-disk folder is files-maintaining.
+    '^@bitcode/generic-tools-editing$':
+      '<rootDir>/../../packages/generic-tools/files-maintaining/src/index.ts',
+    '^@bitcode/generic-tools-editing/(.*)$':
+      '<rootDir>/../../packages/generic-tools/files-maintaining/src/$1',
     '^@bitcode/specifying$': '<rootDir>/../../scripts/specifying/src/index.js',
     '^@bitcode/specifying/src/(.+)$': '<rootDir>/../../scripts/specifying/src/$1',
     '^@bitcode/generic-tools/(.+)/src/(.+)$': '<rootDir>/../../packages/generic-tools/$1/src/$2',
@@ -188,6 +193,7 @@ module.exports = {
     '<rootDir>/tests/auxillariesWalletPane.test.tsx',
     '<rootDir>/tests/orbitalsInterfacesPane.test.tsx',
     '<rootDir>/tests/marketingLandingPage.test.tsx',
+    '<rootDir>/tests/marketingWaitlistValidate.test.ts',
     '<rootDir>/tests/marketingOperatorGuideCard.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',
     '<rootDir>/tests/bitcodeDocsContent.test.tsx',

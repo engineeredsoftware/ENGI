@@ -43,9 +43,9 @@ const L1_MATRIX: L1Row[] = [
   },
   {
     id: 'L1-R3',
-    surface: 'Settle observe/finalize orchestration',
-    coverage: 'partial',
-    proofPath: 'apps/uapi/tests/api/transactionWriteReadinessRoutes.test.ts',
+    surface: 'POST /api/read/settle rehydrate + fail-closed',
+    coverage: 'route-suite',
+    proofPath: 'apps/uapi/tests/api/readSettleRoute.test.ts',
   },
   {
     id: 'L1-X1',
@@ -114,9 +114,9 @@ describe('MVP-E2E L1 inventory', () => {
     }
   });
 
-  it('marks remaining spine gaps explicitly (not route-suite yet)', () => {
+  it('marks remaining non-route gaps explicitly', () => {
     const gaps = L1_MATRIX.filter((r) => r.coverage === 'gap' || r.coverage === 'partial');
-    expect(gaps.map((g) => g.id)).toEqual(expect.arrayContaining(['L1-R3']));
+    expect(gaps.map((g) => g.id)).not.toContain('L1-R3');
     // Route-level packs/activity still model-covered only until L1-X1 route suite.
     const x1 = L1_MATRIX.find((r) => r.id === 'L1-X1');
     expect(x1?.coverage).toBe('lib-model');
